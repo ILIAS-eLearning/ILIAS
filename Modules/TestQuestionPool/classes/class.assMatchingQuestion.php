@@ -1242,7 +1242,7 @@ class assMatchingQuestion extends assQuestion
 		{
 			// duplicate matching values!!!
 			$result = false;
-			sendInfo($this->lng->txt("duplicate_matching_values_selected"), TRUE);
+			ilUtil::sendInfo($this->lng->txt("duplicate_matching_values_selected"), TRUE);
 		}
 		return $result;
 	}

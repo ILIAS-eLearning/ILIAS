@@ -118,7 +118,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 				return $this->__createObjectList();
 
 			default:
-				sendInfo('trac_pdf_error'. ' '.$this->getMode(),true);
+				ilUtil::sendInfo('trac_pdf_error'. ' '.$this->getMode(),true);
 		}
 
 		$this->ctrl->returnToParent($this);
@@ -133,7 +133,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 				return $this->__createObjectDetails();
 				
 			default:
-				sendInfo('trac_pdf_error'. ' '.$this->getMode(),true);
+				ilUtil::sendInfo('trac_pdf_error'. ' '.$this->getMode(),true);
 		}
 	}
 
@@ -308,7 +308,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 		if(!$pdf_base64)
 		{
-			sendInfo($this->lng->txt('trac_error_pdf',true));
+			ilUtil::sendInfo($this->lng->txt('trac_error_pdf',true));
 			$this->ctrl->returnToParent($this);
 		}
 		ilUtil::deliverData($pdf_base64,'learning_progress.pdf','application/pdf');
@@ -418,7 +418,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 		if(!$pdf_base64)
 		{
-			sendInfo($this->lng->txt('trac_error_pdf',true));
+			ilUtil::sendInfo($this->lng->txt('trac_error_pdf',true));
 			$this->ctrl->returnToParent($this);
 		}
 		ilUtil::deliverData($pdf_base64,'learning_progress.pdf','application/pdf');

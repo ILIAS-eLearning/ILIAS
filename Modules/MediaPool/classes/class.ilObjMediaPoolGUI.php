@@ -215,7 +215,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						break;
 
 					case "cancelObject":
-						sendInfo($this->lng->txt("action_aborted"), true);
+						ilUtil::sendInfo($this->lng->txt("action_aborted"), true);
 						if ($_GET["foldereditmode"])
 						{
 							$this->ctrl->setParameter($this, "obj_id", $this->getParentFolderId());
@@ -288,7 +288,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId());
@@ -339,7 +339,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -823,7 +823,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/MediaPool");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -907,7 +907,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		}
 		if (count($not_inserted) > 0)
 		{
-			sendInfo($this->lng->txt("mep_not_insert_already_exist")."<br>".
+			ilUtil::sendInfo($this->lng->txt("mep_not_insert_already_exist")."<br>".
 				implode($not_inserted,"<br>"), true);
 		}
 		$this->ctrl->redirect($this, "listMedia");
@@ -940,7 +940,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->object->deleteChild($obj_id);
 		}
 
-		sendInfo($this->lng->txt("cont_obj_removed"),true);
+		ilUtil::sendInfo($this->lng->txt("cont_obj_removed"),true);
 		session_unregister("ilMepRemove");
 		$this->ctrl->redirect($this, "listMedia");
 	}
@@ -977,7 +977,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$ilUser->addObjectToClipboard($obj_id, "mob", "");
 		}
 
-		sendInfo($this->lng->txt("copied_to_clipboard"),true);
+		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"),true);
 		$this->ctrl->redirect($this, "listMedia");
 	}
 

@@ -250,7 +250,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 		$this->update = $this->object->update();
 
-		sendInfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
 
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		exit();

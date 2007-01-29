@@ -70,7 +70,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		// put here object specific stuff
 			
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 	}
@@ -217,7 +217,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 
 		if(!$a_error)
 		{
-			sendInfo($this->lng->txt("info_delete_sure"));
+			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
 //		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",

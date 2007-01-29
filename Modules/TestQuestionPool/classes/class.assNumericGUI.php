@@ -437,13 +437,13 @@ class assNumericGUI extends assQuestionGUI
 		{
 			if ($this->writePostData())
 			{
-				sendInfo($this->getErrorMessage());
+				ilUtil::sendInfo($this->getErrorMessage());
 				$this->editQuestion();
 				return;
 			}
 			if (!$this->checkInput())
 			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 				$this->editQuestion();
 				return;
 			}

@@ -76,11 +76,11 @@ class ilObjectStatusGUI
 			if ($this->user === false or $this->user->getType() != 'usr')
 			{
 				$this->user =& $ilUser;
-				sendInfo($lng->txt('info_err_user_not_exist'));
+				ilUtil::sendInfo($lng->txt('info_err_user_not_exist'));
 			}
 			else
 			{
-				sendInfo($lng->txt('info_user_view_changed'));
+				ilUtil::sendInfo($lng->txt('info_user_view_changed'));
 			}
 		}
 		

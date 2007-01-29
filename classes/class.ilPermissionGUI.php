@@ -136,7 +136,7 @@ class ilPermissionGUI
 		// don't display table if no role in list
 		if ($this->num_roles < 1)
 		{
-			sendinfo($this->lng->txt("msg_no_roles_of_type"),false);
+			ilUtil::sendInfo($this->lng->txt("msg_no_roles_of_type"),false);
 			$this->__displayAddRoleForm();
 			return true;
 		}
@@ -320,7 +320,7 @@ class ilPermissionGUI
 			}
 		}
 		
-		sendinfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
 		
 		// redirect to default page if user revokes himself access to the permission panel
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
@@ -396,7 +396,7 @@ class ilPermissionGUI
 			$roleObj = $rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
 		}
 
-		sendInfo($this->lng->txt("role_added"),true);
+		ilUtil::sendInfo($this->lng->txt("role_added"),true);
 		
 		// in administration jump to deault perm settings screen
 		// alex, ILIAS 3.6.5, 1.9.2006: this does not work and leads to errors in
@@ -567,7 +567,7 @@ class ilPermissionGUI
 
 		if(!$user_id = ilObjUser::_lookupId($_POST['owner']))
 		{
-			sendInfo($this->lng->txt('user_not_known'));
+			ilUtil::sendInfo($this->lng->txt('user_not_known'));
 			$this->owner();
 			return true;
 		}
@@ -575,7 +575,7 @@ class ilPermissionGUI
 		$this->gui_obj->object->setOwner($user_id);
 		$this->gui_obj->object->updateOwner();
 		$ilObjDataCache->deleteCachedEntry($this->gui_obj->object->getId());
-		sendInfo($this->lng->txt('owner_updated'),true);
+		ilUtil::sendInfo($this->lng->txt('owner_updated'),true);
 
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
 		{

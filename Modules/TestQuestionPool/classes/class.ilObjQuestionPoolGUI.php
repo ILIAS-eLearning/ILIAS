@@ -123,7 +123,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					global $rbacsystem;
 					if ($rbacsystem->checkAccess("write", $this->ref_id))
 					{
-						sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+						ilUtil::sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
 					}
 				}
 				include_once("./Services/COPage/classes/class.ilPageObject.php");
@@ -170,7 +170,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					global $rbacsystem;
 					if ($rbacsystem->checkAccess("write", $this->ref_id))
 					{
-						sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+						ilUtil::sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
 					}
 				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
@@ -218,7 +218,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -232,7 +232,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if (strlen($qpl_online) == 0) $qpl_online = "0";
 		$this->object->setOnline($qpl_online);
 		$this->object->saveToDb();
-		sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 	
@@ -298,7 +298,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			sendInfo($this->lng->txt("error_upload"));
+			ilUtil::sendInfo($this->lng->txt("error_upload"));
 			$this->importObject();
 			return;
 		}
@@ -338,7 +338,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 
-			sendInfo($this->lng->txt("qpl_import_no_items"));
+			ilUtil::sendInfo($this->lng->txt("qpl_import_no_items"));
 			$this->importObject();
 			return;
 		}
@@ -362,7 +362,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 
-			sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
+			ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
 			$this->importObject();
 			return;
 		}
@@ -534,7 +534,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("object_imported"),true);
+			ilUtil::sendInfo($this->lng->txt("object_imported"),true);
 			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjQuestionPoolGUI");
 		}
@@ -635,7 +635,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$newObj = parent::saveObject();
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilObjQuestionPoolGUI");
@@ -660,7 +660,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$question_title = assQuestion::_getTitle($_GET["q_id"]);
@@ -718,7 +718,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// duplicate button was pressed
 		if (count($_POST["q_id"]) < 1)
 		{
-			sendInfo($this->lng->txt("qpl_delete_select_none"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		
@@ -788,7 +788,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function confirmDeleteQuestionsObject()
 	{
 		// delete questions after confirmation
-		if (count($_SESSION["ass_q_id"])) sendInfo($this->lng->txt("qpl_questions_deleted"), true);
+		if (count($_SESSION["ass_q_id"])) ilUtil::sendInfo($this->lng->txt("qpl_questions_deleted"), true);
 		foreach ($_SESSION["ass_q_id"] as $key => $value)
 		{
 			$this->object->deleteQuestion($value["question_id"]);
@@ -819,7 +819,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_duplicate_select_none"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_duplicate_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
@@ -843,7 +843,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_export_select_none"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
@@ -1246,7 +1246,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 //		$this->update = $this->object->updateMetaData();
 		$this->update = $this->object->update();
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
 	/**
@@ -1257,11 +1257,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if (array_key_exists("qpl_clipboard", $_SESSION))
 		{
 			$this->object->pasteFromClipboard();
-			sendInfo($this->lng->txt("qpl_paste_success"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_paste_success"), true);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_paste_no_objects"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_paste_no_objects"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
@@ -1277,11 +1277,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				$this->object->copyToClipboard($value);
 			}
-			sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_copy_select_none"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_copy_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
@@ -1297,11 +1297,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				$this->object->moveToClipboard($value);
 			}
-			sendInfo($this->lng->txt("qpl_move_insert_clipboard"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_move_insert_clipboard"), true);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_move_select_none"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_move_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
@@ -1435,7 +1435,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo("cannot_export_qpl", TRUE);
+			ilUtil::sendInfo("cannot_export_qpl", TRUE);
 			$this->ctrl->redirect($this, "export");
 		}
 	}
@@ -1447,13 +1447,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			sendInfo($this->lng->txt("cont_select_max_one_item"), true);
+			ilUtil::sendInfo($this->lng->txt("cont_select_max_one_item"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -1472,7 +1472,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -1481,7 +1481,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/TestQuestionPool");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -1649,12 +1649,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if ($_POST["qpl"] < 1)
 		{
-			sendInfo($this->lng->txt("tst_select_qpls"));
+			ilUtil::sendInfo($this->lng->txt("tst_select_qpls"));
 			$this->createObject();
 			return;
 		}
 		$ref_id = ilObjQuestionPool::_clone($_POST["qpl"]);
-		sendInfo($this->lng->txt("object_duplicated"),true);
+		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
 		ilUtil::redirect("ilias.php?ref_id=$ref_id&baseClass=ilObjQuestionPoolGUI");
 	}
 	
@@ -1665,7 +1665,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
-			sendInfo($this->lng->txt("qpl_select_file_for_import"));
+			ilUtil::sendInfo($this->lng->txt("qpl_select_file_for_import"));
 			$this->createObject();
 			return;
 		}

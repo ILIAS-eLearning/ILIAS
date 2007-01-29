@@ -74,7 +74,7 @@ class ilCourseItemAdministrationGUI
 		// Check if item id is given and valid
 		if(!$this->__checkItemId())
 		{
-			sendInfo($this->lng->txt("crs_no_item_id_given"),true);
+			ilUtil::sendInfo($this->lng->txt("crs_no_item_id_given"),true);
 			$this->ctrl->returnToParent($this);
 		}
 
@@ -262,13 +262,13 @@ class ilCourseItemAdministrationGUI
 
 		if(!$this->items_obj->validateActivation())
 		{
-			sendInfo($ilErr->getMessage());
+			ilUtil::sendInfo($ilErr->getMessage());
 			$this->edit();
 
 			return true;
 		}
 		$this->items_obj->update($this->getItemId());
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->edit();
 		#$this->ctrl->returnToParent($this);
 
@@ -285,7 +285,7 @@ class ilCourseItemAdministrationGUI
 		}
 
 		$this->items_obj->moveUp((int) $this->getItemId());
-		sendInfo($this->lng->txt("crs_moved_item"),true);
+		ilUtil::sendInfo($this->lng->txt("crs_moved_item"),true);
 
 		$this->ctrl->returnToParent($this);
 		return true;
@@ -301,7 +301,7 @@ class ilCourseItemAdministrationGUI
 		}
 
 		$this->items_obj->moveDown((int) $this->getItemId());
-		sendInfo($this->lng->txt("crs_moved_item"),true);
+		ilUtil::sendInfo($this->lng->txt("crs_moved_item"),true);
 
 		$this->ctrl->returnToParent($this);
 		return true;

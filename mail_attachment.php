@@ -75,12 +75,12 @@ if(isset($_POST["attachment"]["delete"]))
 {
 	if(!$_POST["filename"])
 	{
-		sendInfo($lng->txt("mail_select_one_file"));
+		ilUtil::sendInfo($lng->txt("mail_select_one_file"));
 		$error_delete = true;
 	}
 	else
 	{
-		sendInfo($lng->txt("mail_sure_delete_file"));
+		ilUtil::sendInfo($lng->txt("mail_sure_delete_file"));
 	}
 }
 // UPLOAD FILE
@@ -88,7 +88,7 @@ if(isset($_POST["cmd"]["upload"]))
 {
 	if($mfile->storeUploadedFile($_FILES['userfile']) == 1)
 	{
-		sendInfo($lng->txt("mail_maxsize_attachment_error")." ".$mfile->getUploadLimit()." K".$lng->txt("mail_byte"));
+		ilUtil::sendInfo($lng->txt("mail_maxsize_attachment_error")." ".$mfile->getUploadLimit()." K".$lng->txt("mail_byte"));
 	}
 }
 // CONFIRM CANCELED
@@ -102,15 +102,15 @@ if(isset($_POST["cmd"]["confirm"]))
 {
 	if(!$_POST["filename"])
 	{
-		sendInfo($lng->txt("mail_select_one_mail"));
+		ilUtil::sendInfo($lng->txt("mail_select_one_mail"));
 	}
 	else if($error = $mfile->unlinkFiles($_POST["filename"]))
 	{
-		sendInfo($lng->txt("mail_error_delete_file")." ".$error);
+		ilUtil::sendInfo($lng->txt("mail_error_delete_file")." ".$error);
 	}
 	else
 	{
-		sendInfo($lng->txt("mail_files_deleted"));
+		ilUtil::sendInfo($lng->txt("mail_files_deleted"));
 	}
 }
 

@@ -3113,7 +3113,7 @@ class ilLMPresentationGUI
 				// ONLY ONE EDITION
 				if(count($_POST["target"]) != 1)
 				{
-					sendInfo($this->lng->txt("cont_citation_err_one"));
+					ilUtil::sendInfo($this->lng->txt("cont_citation_err_one"));
 					$_POST["action"] = "";
 					$_POST["target"] = 0;
 					return false;

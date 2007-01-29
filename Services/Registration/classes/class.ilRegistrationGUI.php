@@ -377,7 +377,7 @@ class ilRegistrationGUI
 		//check, whether user-agreement has been accepted
 		if ($_POST["status"] != "accepted")
 		{
-			sendInfo($lng->txt("force_accept_usr_agreement"),true);
+			ilUtil::sendInfo($lng->txt("force_accept_usr_agreement"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -407,7 +407,7 @@ class ilRegistrationGUI
 			{
 				if (empty($_POST["user"][$val]))
 				{
-					sendInfo($lng->txt("fill_out_all_required_fields") . ": " . $lng->txt($val),true);
+					ilUtil::sendInfo($lng->txt("fill_out_all_required_fields") . ": " . $lng->txt($val),true);
 					$this->displayForm();
 					return false;
 				}
@@ -416,7 +416,7 @@ class ilRegistrationGUI
 
 		if(!$this->checkUserDefinedRequiredFields())
 		{
-			sendInfo($lng->txt("fill_out_all_required_fields"),true);
+			ilUtil::sendInfo($lng->txt("fill_out_all_required_fields"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -424,7 +424,7 @@ class ilRegistrationGUI
 		// validate username
 		if (!ilUtil::isLogin($_POST["user"]["login"]))
 		{
-			sendInfo($lng->txt("login_invalid"),true);
+			ilUtil::sendInfo($lng->txt("login_invalid"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -432,7 +432,7 @@ class ilRegistrationGUI
 		// check loginname
 		if (ilObjUser::_loginExists($_POST["user"]["login"]))
 		{
-			sendInfo($lng->txt("login_exists"),true);
+			ilUtil::sendInfo($lng->txt("login_exists"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -442,7 +442,7 @@ class ilRegistrationGUI
 			// check passwords
 			if ($_POST["user"]["passwd"] != $_POST["user"]["passwd2"])
 			{
-				sendInfo($lng->txt("passwd_not_match"),true);
+				ilUtil::sendInfo($lng->txt("passwd_not_match"),true);
 				$this->displayForm();
 				return false;
 			}
@@ -450,7 +450,7 @@ class ilRegistrationGUI
 			// validate password
 			if (!ilUtil::isPassword($_POST["user"]["passwd"]))
 			{
-				sendInfo($lng->txt("passwd_invalid"),true);
+				ilUtil::sendInfo($lng->txt("passwd_invalid"),true);
 				$this->displayForm();
 				return false;
 			}
@@ -468,7 +468,7 @@ class ilRegistrationGUI
 		// validate email
 		if (!ilUtil::is_email($_POST["user"]["email"]))
 		{
-			sendInfo($lng->txt("email_not_valid"),true);
+			ilUtil::sendInfo($lng->txt("email_not_valid"),true);
 			$this->displayForm();
 			return false;
 		}

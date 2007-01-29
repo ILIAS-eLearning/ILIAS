@@ -26,7 +26,7 @@ require_once "Modules/Chat/classes/class.ilObjChatGUI.php";
 * Class ilObjTest
 * 
 * @author Stefan Meyer 
-* @version $Id$
+* @version $Id:class.ilChatController.php 12853 2006-12-15 13:36:31 +0000 (Fr, 15 Dez 2006) smeyer $
 *
 */
 class ilChatController
@@ -54,7 +54,7 @@ class ilChatController
 		{
 			unset($_REQUEST["room_id"]);
 			unset($_REQUEST["message"]);
-			sendInfo("You are not entitled to view this room",true);
+			ilUtil::sendInfo("You are not entitled to view this room",true);
 		}
 		$this->gui_obj->object->server_comm->setRecipientId((int) $_GET["p_id"]);
 		$this->__getCommand();

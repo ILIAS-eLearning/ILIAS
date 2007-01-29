@@ -156,7 +156,7 @@ class ilUserFilter
 			}
 			if(!is_object($query_parser = $this->__parseQueryString($query_string)))
 			{
-				sendInfo($query_parser);
+				ilUtil::sendInfo($query_parser);
 				return false;
 			}
 			$user_search =& ilObjectSearchFactory::_getUserSearchInstance($query_parser);

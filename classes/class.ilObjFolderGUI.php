@@ -230,7 +230,7 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		$folderObj->putInTree($a_parent);
 			
-		sendInfo($this->lng->txt("fold_added"),true);
+		ilUtil::sendInfo($this->lng->txt("fold_added"),true);
 		$this->ctrl->returnToParent($this);
 		//$this->ctrl->redirect($this,"");
 	}
@@ -246,7 +246,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		if ($a_return_to_parent)
 		{
@@ -385,7 +385,7 @@ class ilObjFolderGUI extends ilContainerGUI
 					$_GET["cmd"] = "frameset";
 					$_GET["target"] = "";
 					$_GET["ref_id"] = ROOT_FOLDER_ID;
-					sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 					include("repository.php");
 					exit;

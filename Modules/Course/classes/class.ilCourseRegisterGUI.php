@@ -100,7 +100,7 @@ class ilCourseRegisterGUI
 
 	function cancel()
 	{
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 
 		ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 	}
@@ -170,13 +170,13 @@ class ilCourseRegisterGUI
 				$this->waiting_list->addToList($this->user_id);
 				
 				$info = sprintf($this->lng->txt('crs_added_to_list'),$this->waiting_list->getPosition($this->user_id));
-				sendInfo($info,true);
+				ilUtil::sendInfo($info,true);
 
 				ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 			}
 			else
 			{
-				sendInfo($this->lng->txt('crs_already_assigned_to_list'),true);
+				ilUtil::sendInfo($this->lng->txt('crs_already_assigned_to_list'),true);
 				ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 			}				
 		}
@@ -196,13 +196,13 @@ class ilCourseRegisterGUI
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilObjUser::updateActiveRoles($this->user_id);
-					sendInfo($this->lng->txt("crs_subscription_successful"),true);
+					ilUtil::sendInfo($this->lng->txt("crs_subscription_successful"),true);
 					
 					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 				}
 				else
 				{
-					sendInfo("err_unknown_error");
+					ilUtil::sendInfo("err_unknown_error");
 					$this->showRegistrationForm();
 				}
 				break;
@@ -213,14 +213,14 @@ class ilCourseRegisterGUI
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_SUBSCRIPTION_REQUEST,
 																	 $this->user_id);
-					sendInfo($this->lng->txt("crs_subscription_requested"),true);
+					ilUtil::sendInfo($this->lng->txt("crs_subscription_requested"),true);
 					$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->course_id));
 
 					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 				}
 				else
 				{
-					sendInfo("err_unknown_error");
+					ilUtil::sendInfo("err_unknown_error");
 					$this->showRegistrationForm();
 				}
 				break;
@@ -231,20 +231,20 @@ class ilCourseRegisterGUI
 
 				if($this->course_obj->getSubscriptionPassword() != $_POST["password"])
 				{
-					sendInfo($this->lng->txt("crs_password_not_valid"),true);
+					ilUtil::sendInfo($this->lng->txt("crs_password_not_valid"),true);
 					$this->showRegistrationForm();
 				}
 				else if($this->course_obj->members_obj->add($tmp_obj,$this->course_obj->members_obj->ROLE_MEMBER))
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilObjUser::updateActiveRoles($this->user_id);
-					sendInfo($this->lng->txt("crs_subscription_successful"),true);
+					ilUtil::sendInfo($this->lng->txt("crs_subscription_successful"),true);
 
 					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 				}
 				else
 				{
-					sendInfo("err_unknown_error");
+					ilUtil::sendInfo("err_unknown_error");
 					$this->showRegistrationForm();
 				}
 				break;
@@ -265,7 +265,7 @@ class ilCourseRegisterGUI
 
 		if($this->course_obj->getMessage())
 		{
-			sendInfo($this->course_obj->getMessage());
+			ilUtil::sendInfo($this->course_obj->getMessage());
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_subscription.html",'Modules/Course');

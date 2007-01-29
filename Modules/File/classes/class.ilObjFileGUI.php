@@ -194,7 +194,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->createDirectory();
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],ilUtil::stripSlashes($_FILES["Fobject"]["name"]["file"]));
 
-		sendInfo($this->lng->txt("file_added"),true);
+		ilUtil::sendInfo($this->lng->txt("file_added"),true);
 		
 		$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
 		if ($this->ctrl->getCmd() == "saveAndMeta")
@@ -256,7 +256,7 @@ class ilObjFileGUI extends ilObjectGUI
 
 		$this->update = $this->object->update();
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 //echo "-".$this->ctrl->getLinkTarget($this)."-";
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this, "edit")));
 	}
@@ -463,7 +463,7 @@ class ilObjFileGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

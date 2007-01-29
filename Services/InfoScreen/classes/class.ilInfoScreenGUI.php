@@ -718,7 +718,7 @@ class ilInfoScreenGUI
 		$lp_marks->update();
 
 		$this->lng->loadLanguageModule('trac');
-		sendInfo($this->lng->txt('trac_updated_status'));
+		ilUtil::sendInfo($this->lng->txt('trac_updated_status'));
 
 		$this->showSummary();
 	}

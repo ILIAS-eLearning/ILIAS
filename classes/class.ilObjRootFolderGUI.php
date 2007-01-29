@@ -63,7 +63,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	*/
 	function importCancelledObject()
 	{
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -132,7 +132,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			case "ilpageobjectgui":
 				$this->tpl->getStandardTemplate();
 				$this->setLocator();
-				sendInfo();
+				ilUtil::sendInfo();
 				infoPanel();
 				//$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
@@ -427,7 +427,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			$this->update = $this->object->update();
 		}
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 

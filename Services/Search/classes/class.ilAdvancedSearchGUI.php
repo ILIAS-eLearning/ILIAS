@@ -187,7 +187,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		if(!count($res->getResults()))
 		{
-			sendInfo($this->lng->txt('search_no_match'));
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}
 		else
 		{
@@ -197,7 +197,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		if($res->isLimitReached())
 		{
 			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 
 		$this->showSearch();
@@ -506,14 +506,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		if(!$_POST['folder'])
 		{
-			sendInfo($this->lng->txt('search_select_one'));
+			ilUtil::sendInfo($this->lng->txt('search_select_one'));
 			$this->showSavedResults();
 
 			return false;
 		}
 		if(!count($_POST['result']))
 		{
-			sendInfo($this->lng->txt('search_select_one_result'));
+			ilUtil::sendInfo($this->lng->txt('search_select_one_result'));
 			$this->showSavedResults();
 
 			return false;
@@ -535,7 +535,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$folder_obj->assignResult($search_res_obj);
 			unset($search_res_obj);
 		}
-		sendInfo($this->lng->txt('search_results_saved'));
+		ilUtil::sendInfo($this->lng->txt('search_results_saved'));
 		$this->showSavedResults();
 
 	}

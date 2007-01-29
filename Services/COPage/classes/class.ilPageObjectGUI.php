@@ -725,7 +725,7 @@ class ilPageObjectGUI
 
 		if(isset($_SESSION["citation_error"]))
 		{
-			sendInfo($this->lng->txt("cont_citation_selection_not_valid"));
+			ilUtil::sendInfo($this->lng->txt("cont_citation_selection_not_valid"));
 			session_unregister("citation_error");
 			unset($_SESSION["citation_error"]);
 		}

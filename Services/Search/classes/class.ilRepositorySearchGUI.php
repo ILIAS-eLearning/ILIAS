@@ -220,13 +220,13 @@ class ilRepositorySearchGUI
 
 		if(!count($this->result_obj->getResults()))
 		{
-			sendInfo($this->lng->txt('search_no_match'));
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}
 		$this->__updateResults();
 		if($this->result_obj->isLimitReached())
 		{
 			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 		// show results
 		$this->show();
@@ -250,7 +250,7 @@ class ilRepositorySearchGUI
 		
 			if(!is_object($query_parser = $this->__parseQueryString($query_string)))
 			{
-				sendInfo($query_parser);
+				ilUtil::sendInfo($query_parser);
 				return false;
 			}
 			switch($info['type'])
@@ -285,7 +285,7 @@ class ilRepositorySearchGUI
 		$query_string = $_SESSION['rep_query']['grp']['title'];
 		if(!is_object($query_parser = $this->__parseQueryString($query_string)))
 		{
-			sendInfo($query_parser,true);
+			ilUtil::sendInfo($query_parser,true);
 			return false;
 		}
 
@@ -304,7 +304,7 @@ class ilRepositorySearchGUI
 		$query_string = $_SESSION['rep_query']['role']['title'];
 		if(!is_object($query_parser = $this->__parseQueryString($query_string)))
 		{
-			sendInfo($query_parser,true);
+			ilUtil::sendInfo($query_parser,true);
 			return false;
 		}
 		
@@ -754,7 +754,7 @@ class ilRepositorySearchGUI
 
 		if(!is_array($_POST["group"]))
 		{
-			sendInfo($this->lng->txt("crs_no_groups_selected"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_groups_selected"));
 			$this->show();
 
 			return false;
@@ -789,7 +789,7 @@ class ilRepositorySearchGUI
 
 		if(!is_array($_POST["role"]))
 		{
-			sendInfo($this->lng->txt("crs_no_roles_selected"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_roles_selected"));
 			$this->show();
 
 			return false;

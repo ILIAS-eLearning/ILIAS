@@ -167,13 +167,13 @@ class ilObjCourseGroupingGUI
 
 		if(!count($_POST['grouping']))
 		{
-			sendInfo($this->lng->txt('crs_grouping_select_one'));
+			ilUtil::sendInfo($this->lng->txt('crs_grouping_select_one'));
 			$this->listGroupings();
 			
 			return false;
 		}
 
-		sendInfo($this->lng->txt('crs_grouping_delete_sure'));
+		ilUtil::sendInfo($this->lng->txt('crs_grouping_delete_sure'));
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_ask_delete_goupings.html",'Modules/Course');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -212,7 +212,7 @@ class ilObjCourseGroupingGUI
 
 		if(!count($_SESSION['crs_grouping_del']))
 		{
-			sendInfo('No grouping selected');
+			ilUtil::sendInfo('No grouping selected');
 			$this->listGroupings();
 
 			return false;
@@ -222,7 +222,7 @@ class ilObjCourseGroupingGUI
 			$tmp_obj =& new ilObjCourseGrouping((int) $grouping_id);
 			$tmp_obj->delete();
 		}
-		sendInfo($this->lng->txt('crs_grouping_deleted'));
+		ilUtil::sendInfo($this->lng->txt('crs_grouping_deleted'));
 		$this->listGroupings();
 		
 		unset($_SESSION['crs_grouping_del']);
@@ -270,7 +270,7 @@ class ilObjCourseGroupingGUI
 	{
 		if(!$_POST['title'])
 		{
-			sendInfo($this->lng->txt('crs_grp_enter_title'));
+			ilUtil::sendInfo($this->lng->txt('crs_grp_enter_title'));
 			$this->create();
 			
 			return false;
@@ -281,11 +281,11 @@ class ilObjCourseGroupingGUI
 		$this->grp_obj->setUniqueField($_POST['unique']);
 		if($this->grp_obj->create($this->content_obj->getRefId(),$this->content_obj->getId()))
 		{
-			sendInfo($this->lng->txt('crs_grp_added_grouping'));
+			ilUtil::sendInfo($this->lng->txt('crs_grp_added_grouping'));
 		}
 		else
 		{
-			sendInfo($this->lng->txt('crs_grp_err_adding_grouping'));
+			ilUtil::sendInfo($this->lng->txt('crs_grp_err_adding_grouping'));
 		}
 
 		$this->listGroupings();
@@ -306,7 +306,7 @@ class ilObjCourseGroupingGUI
 		}
 		elseif(count($_POST['grouping']) != 1)
 		{
-			sendInfo($this->lng->txt('grouping_select_exactly_one'));
+			ilUtil::sendInfo($this->lng->txt('grouping_select_exactly_one'));
 			$this->listGroupings();
 			return false;
 		}
@@ -376,13 +376,13 @@ class ilObjCourseGroupingGUI
 
 		if(!$_GET['obj_id'])
 		{
-			sendInfo($this->lng->txt('crs_grp_no_grouping_id_given'));
+			ilUtil::sendInfo($this->lng->txt('crs_grp_no_grouping_id_given'));
 			$this->listGroupings();
 			return false;
 		}
 		if(!$_POST['title'])
 		{
-			sendInfo($this->lng->txt('crs_grp_enter_title'));
+			ilUtil::sendInfo($this->lng->txt('crs_grp_enter_title'));
 			$this->edit((int) $_GET['obj_id']);
 			return false;
 		}
@@ -393,7 +393,7 @@ class ilObjCourseGroupingGUI
 		$tmp_grouping->setUniqueField($_POST['unique']);
 		$tmp_grouping->update();
 
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->listGroupings();
 
 		return true;
@@ -410,7 +410,7 @@ class ilObjCourseGroupingGUI
 
 		if(!$_GET['obj_id'])
 		{
-			sendInfo($this->lng->txt('crs_grp_no_grouping_id_given'));
+			ilUtil::sendInfo($this->lng->txt('crs_grp_no_grouping_id_given'));
 			$this->listGroupings();
 			return false;
 		}
@@ -474,7 +474,7 @@ class ilObjCourseGroupingGUI
 
 		if(!$_GET['obj_id'])
 		{
-			sendInfo($this->lng->txt('crs_grp_no_grouping_id_given'));
+			ilUtil::sendInfo($this->lng->txt('crs_grp_no_grouping_id_given'));
 			$this->listGroupings();
 			return false;
 		}

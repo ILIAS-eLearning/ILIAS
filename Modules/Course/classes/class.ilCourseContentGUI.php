@@ -546,7 +546,7 @@ class ilCourseContentGUI
 		// NO ITEMS FOUND
 		if(!count($this->cont_arr))
 		{
-			#sendInfo($this->lng->txt("crs_no_items_found"));
+			#ilUtil::sendInfo($this->lng->txt("crs_no_items_found"));
 			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", "");
@@ -841,7 +841,7 @@ class ilCourseContentGUI
 		$accept_obj->accept($_POST['accepted']);
 		$accept_obj->setVisible($_POST['tutor']);
 		$accept_obj->update();
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->editUserTimings();
 	}
 
@@ -887,7 +887,7 @@ class ilCourseContentGUI
 
 		if(!$_GET['member_id'])
 		{
-			sendInfo($this->lng->txt('no_checkbox'),true);
+			ilUtil::sendInfo($this->lng->txt('no_checkbox'),true);
 			$this->ctrl->returnToParent($this);
 		}
 
@@ -1436,7 +1436,7 @@ class ilCourseContentGUI
 			$message = $this->lng->txt('crs_timings_update_error');
 			$message .= ("<br />".$this->lng->txt('crs_materials').': ');
 			$message .= (implode(',',$this->invalid));
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 			$this->editUserTimings();
 			return false;
 		}
@@ -1444,7 +1444,7 @@ class ilCourseContentGUI
 		{
 			$new_item_obj->update();
 		}
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->editUserTimings();
 		return true;
 
@@ -1520,7 +1520,7 @@ class ilCourseContentGUI
 			$message = $this->lng->txt('crs_timings_update_error');
 			$message .= ("<br />".$this->lng->txt('crs_materials').': ');
 			$message .= (implode(',',$this->failed));
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 			$this->editTimings();
 			return false;
 		}
@@ -1530,7 +1530,7 @@ class ilCourseContentGUI
 		{
 			$item_obj_new->update($ref_id);
 		}
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->editTimings();
 		return false;
 	}

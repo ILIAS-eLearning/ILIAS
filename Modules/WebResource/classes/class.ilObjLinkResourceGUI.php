@@ -140,7 +140,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->object->initLinkResourceItemsObject();
 		if(!count($items = $this->object->items_obj->getActivatedItems()))
 		{
-			sendInfo($this->lng->txt('webr_no_items_created'));
+			ilUtil::sendInfo($this->lng->txt('webr_no_items_created'));
 
 			return true;
 		}
@@ -222,7 +222,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->object->initLinkResourceItemsObject();
 		if(!count($items = $this->object->items_obj->getAllItems()))
 		{
-			sendInfo($this->lng->txt('webr_no_items_created'));
+			ilUtil::sendInfo($this->lng->txt('webr_no_items_created'));
 
 			return true;
 		}
@@ -432,13 +432,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		if(!count($_POST['item_id']))
 		{
-			sendInfo($this->lng->txt('webr_select_one'));
+			ilUtil::sendInfo($this->lng->txt('webr_select_one'));
 			$this->editItemsObject();
 
 			return true;
 		}
 
-		sendInfo($this->lng->txt('webr_sure_delete_items'));
+		ilUtil::sendInfo($this->lng->txt('webr_sure_delete_items'));
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lnkr_ask_delete.html','Modules/WebResource');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -478,7 +478,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		if(!count($_SESSION['webr_item_ids']))
 		{
-			sendInfo($this->lng->txt('webr_select_one'));
+			ilUtil::sendInfo($this->lng->txt('webr_select_one'));
 			$this->editItemsObject();
 
 			return true;
@@ -489,7 +489,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		{
 			$this->object->items_obj->delete($id);
 		}
-		sendInfo($this->lng->txt('webr_deleted_items'));
+		ilUtil::sendInfo($this->lng->txt('webr_deleted_items'));
 
 		$this->editItemsObject();
 		return true;
@@ -526,7 +526,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			}
 		}
 
-		sendInfo($this->lng->txt('webr_modified_items'));
+		ilUtil::sendInfo($this->lng->txt('webr_modified_items'));
 		$this->editItemsObject();
 
 		return true;
@@ -650,7 +650,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	{
 		if(!((int) $_GET['param_id']))
 		{
-			sendInfo('No parameter id given');
+			ilUtil::sendInfo('No parameter id given');
 			$this->editItemObject();
 
 			return false;
@@ -661,7 +661,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$appender = new ilParameterAppender($this->object->getId());
 		$appender->delete((int) $_GET['param_id']);
 
-		sendInfo($this->lng->txt('links_parameter_deleted'));
+		ilUtil::sendInfo($this->lng->txt('links_parameter_deleted'));
 
 		$this->editItemObject();
 		return true;
@@ -681,7 +681,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		if(!$_POST['title'] or $_POST['target'] == 'http://')
 		{
-			sendInfo($this->lng->txt('webr_fillout_all'));
+			ilUtil::sendInfo($this->lng->txt('webr_fillout_all'));
 
 			$this->editItemObject();
 			return false;
@@ -697,12 +697,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				switch($appender->getErrorCode())
 				{
 					case LINKS_ERR_NO_NAME:
-						sendInfo($this->lng->txt('links_no_name_given'));
+						ilUtil::sendInfo($this->lng->txt('links_no_name_given'));
 						$this->editItemObject();
 						return false;
 
 					case LINKS_ERR_NO_VALUE:
-						sendInfo($this->lng->txt('links_no_value_given'));
+						ilUtil::sendInfo($this->lng->txt('links_no_value_given'));
 						$this->editItemObject();
 						return false;
 
@@ -730,7 +730,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 
 		unset($_SESSION['webr_item_id']);
-		sendInfo($this->lng->txt('webr_item_updated'));
+		ilUtil::sendInfo($this->lng->txt('webr_item_updated'));
 		$this->editItemsObject();
 		
 		return true;
@@ -811,7 +811,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		if(!$_POST['title'] or $_POST['target'] == 'http://')
 		{
-			sendInfo($this->lng->txt('webr_fillout_all'));
+			ilUtil::sendInfo($this->lng->txt('webr_fillout_all'));
 
 			$this->showAddItemObject();
 			return false;
@@ -827,12 +827,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				switch($appender->getErrorCode())
 				{
 					case LINKS_ERR_NO_NAME:
-						sendInfo($this->lng->txt('links_no_name_given'));
+						ilUtil::sendInfo($this->lng->txt('links_no_name_given'));
 						$this->showAddItemObject();
 						return false;
 
 					case LINKS_ERR_NO_VALUE:
-						sendInfo($this->lng->txt('links_no_name_given'));
+						ilUtil::sendInfo($this->lng->txt('links_no_name_given'));
 						$this->showAddItemObject();
 						return false;
 
@@ -933,7 +933,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		//sendInfo($this->lng->txt("object_added"),true);
+		//ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$newObj->getRefId().
 			"&cmd=showAddItem");
 		
@@ -1035,12 +1035,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		if($_POST['link_check_message'])
 		{
-			sendInfo($this->lng->txt('link_check_message_enabled'));
+			ilUtil::sendInfo($this->lng->txt('link_check_message_enabled'));
 			$link_check_notify->addNotifier();
 		}
 		else
 		{
-			sendInfo($this->lng->txt('link_check_message_disabled'));
+			ilUtil::sendInfo($this->lng->txt('link_check_message_disabled'));
 			$link_check_notify->deleteNotifier();
 		}
 		$this->linkCheckerObject();
@@ -1056,7 +1056,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		if(!$this->link_checker_obj->checkPear())
 		{
-			sendInfo($this->lng->txt('missing_pear_library'));
+			ilUtil::sendInfo($this->lng->txt('missing_pear_library'));
 			$this->linkCheckerObject();
 
 			return false;
@@ -1077,7 +1077,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		
 		$this->object->items_obj->updateLastCheck();
-		sendInfo($this->lng->txt('link_checker_refreshed'));
+		ilUtil::sendInfo($this->lng->txt('link_checker_refreshed'));
 
 		$this->linkCheckerObject();
 
@@ -1181,7 +1181,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// output message
 		if ($this->message)
 		{
-			sendInfo($this->message);
+			ilUtil::sendInfo($this->message);
 		}
 
 		// display infopanel if something happened
@@ -1281,7 +1281,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 					$_GET["cmd"] = "frameset";
 					$_GET["target"] = "";
 					$_GET["ref_id"] = ROOT_FOLDER_ID;
-					sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 					include("repository.php");
 					exit;

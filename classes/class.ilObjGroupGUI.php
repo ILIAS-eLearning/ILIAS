@@ -360,12 +360,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if(!count($_POST['file']))
 		{
-			sendInfo('grp_select_one_file');
+			ilUtil::sendInfo('grp_select_one_file');
 		}
 		else
 		{
 			$this->object->deleteExportFiles($_POST['file']);
-			sendInfo('grp_deleted_export_files');
+			ilUtil::sendInfo('grp_deleted_export_files');
 		}
 
 		$this->listExportFilesObject();
@@ -377,13 +377,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		if(!count($_POST['file']))
 		{
-			sendInfo('grp_select_one_file');
+			ilUtil::sendInfo('grp_select_one_file');
 			$this->listExportFilesObject();
 			return false;
 		}
 		if(count($_POST['file']) > 1)
 		{
-			sendInfo('grp_select_one_file_only');
+			ilUtil::sendInfo('grp_select_one_file_only');
 			$this->listExportFilesObject();
 			return false;
 		}
@@ -391,7 +391,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->downloadExportFile($_POST['file'][0]);
 		
 		// If file wasn't sent
-		sendInfo('grp_error_sending_file');
+		ilUtil::sendInfo('grp_error_sending_file');
 		
 		return true;
 	}
@@ -567,7 +567,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$return_location = "";
 		}
 
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$this->ctrl->redirect($this, $return_location);
 	}
 
@@ -580,7 +580,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		unset($_SESSION['grp_usr_search_result']);
 		$return_location = "members";
 		
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 	}
 	
@@ -627,7 +627,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
 		
 		// always send a message
-		sendInfo($this->lng->txt("grp_added"),true);
+		ilUtil::sendInfo($this->lng->txt("grp_added"),true);
 
 		$this->redirectToRefId($_GET["ref_id"]);
 	}
@@ -682,7 +682,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->update = $this->object->update();
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this,"")));
 	}
 
@@ -848,7 +848,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		infoPanel();
 
-		sendInfo($this->lng->txt($info));
+		ilUtil::sendInfo($this->lng->txt($info));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this)."&cmd_return_location=".$a_cmd_return_location);
 
@@ -941,7 +941,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		unset($_SESSION["saved_post"]);
 
-		sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
+		ilUtil::sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -959,7 +959,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			// TODO: jumps back to grp content. go back to last search result
 			#$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
-			sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
 		
 			return false;
 		}
@@ -982,7 +982,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		unset($_SESSION["saved_post"]);
 		unset($_SESSION['grp_usr_search_result']);
 
-		sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
+		ilUtil::sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -1044,7 +1044,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			if (strlen($err_msg) > 0)
 			{
-				sendInfo($this->lng->txt($err_msg),true);
+				ilUtil::sendInfo($this->lng->txt($err_msg),true);
 				ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 			}
 			
@@ -1065,7 +1065,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		unset($_SESSION["saved_post"]);
 
-		sendInfo($this->lng->txt("grp_msg_membership_annulled"),true);
+		ilUtil::sendInfo($this->lng->txt("grp_msg_membership_annulled"),true);
 		
 		if ($removed_self)
 		{
@@ -1535,7 +1535,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$this->object->getTitle(),"You have been assigned to the group as a member. You can now access all group specific objects like forums, learningmodules,etc..",array(),array('normal'));
 		}
 
-		sendInfo($this->lng->txt("grp_msg_applicants_assigned"),true);
+		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -1562,7 +1562,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$mail->sendMail($user->getLogin(),"","","Membership application refused: Group ".$this->object->getTitle(),"Your application has been refused.",array(),array('normal'));
 		}
 
-		sendInfo($this->lng->txt("grp_msg_applicants_removed"),true);
+		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_removed"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -1587,7 +1587,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 		}
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -1669,7 +1669,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if(!isset($_POST["search_for"]) or !isset($_POST["search_str"]))
 		{
-			sendInfo($this->lng->txt("grp_search_enter_search_string"));
+			ilUtil::sendInfo($this->lng->txt("grp_search_enter_search_string"));
 			$this->searchUserFormObject();
 			
 			return false;
@@ -1677,7 +1677,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"])))
 		{
-			sendInfo($this->lng->txt("grp_no_results_found"));
+			ilUtil::sendInfo($this->lng->txt("grp_no_results_found"));
 			$this->searchUserFormObject();
 
 			return false;
@@ -1778,7 +1778,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				
 				if(!count($f_result))
 				{
-					sendInfo($this->lng->txt("grp_no_results_found"));
+					ilUtil::sendInfo($this->lng->txt("grp_no_results_found"));
 					$this->searchUserFormObject();
 
 					return false;
@@ -1792,7 +1792,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function searchCancelledObject ()
 	{
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -1892,7 +1892,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		if(!is_array($_FILES['xmldoc']))
 		{
-			sendInfo($this->lng->txt("import_file_not_valid"));
+			ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
 			$this->createObject();
 			return false;
 		}
@@ -1902,11 +1902,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],(int) $_GET['ref_id']))
 		{
 			$this->ctrl->setParameter($this, "ref_id", $ref_id);
-			sendInfo($this->lng->txt("import_grp_finished"),true);
+			ilUtil::sendInfo($this->lng->txt("import_grp_finished"),true);
 			ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit'));
 		}
 		
-		sendInfo($this->lng->txt("import_file_not_valid"));
+		ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
 		$this->createObject();
 	}	
 
@@ -1940,7 +1940,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this,"searchUserForm");
 		}
 
@@ -2296,7 +2296,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if(!is_array($_POST["role"]))
 		{
-			sendInfo($this->lng->txt("grp_no_roles_selected"));
+			ilUtil::sendInfo($this->lng->txt("grp_no_roles_selected"));
 			$this->searchObject();
 
 			return false;
@@ -2377,7 +2377,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if(!is_array($_POST["group"]))
 		{
-			sendInfo($this->lng->txt("grp_no_groups_selected"));
+			ilUtil::sendInfo($this->lng->txt("grp_no_groups_selected"));
 			$this->searchObject();
 
 			return false;
@@ -2772,7 +2772,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					$_GET["cmd"] = "frameset";
 					$_GET["target"] = "";
 					$_GET["ref_id"] = ROOT_FOLDER_ID;
-					sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 					include("repository.php");
 					exit;

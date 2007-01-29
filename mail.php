@@ -69,7 +69,7 @@ if(!$_GET["mobj_id"])
 
 if(isset($_GET["sent"]))
 {
-	sendInfo($lng->txt("mail_message_send"));
+	ilUtil::sendInfo($lng->txt("mail_message_send"));
 }
 
 // IF REQUESTED FROM mail_read.php
@@ -92,7 +92,7 @@ if (isset($_POST["cmd"]["submit"]))
 			}
 			else
 			{
-				sendInfo($lng->txt("mail_select_one"));
+				ilUtil::sendInfo($lng->txt("mail_select_one"));
 			}
 			break;
 		case 'mark_unread':
@@ -102,7 +102,7 @@ if (isset($_POST["cmd"]["submit"]))
 			}
 			else
 			{
-				sendInfo($lng->txt("mail_select_one"));
+				ilUtil::sendInfo($lng->txt("mail_select_one"));
 			}
 			break;
 
@@ -112,12 +112,12 @@ if (isset($_POST["cmd"]["submit"]))
 			{
 				if(!is_array($_POST["mail_id"]))
 				{
-					sendInfo($lng->txt("mail_select_one"));
+					ilUtil::sendInfo($lng->txt("mail_select_one"));
 					$error_delete = true;
 				}
 				else
 				{
-					sendInfo($lng->txt("mail_sure_delete"));
+					ilUtil::sendInfo($lng->txt("mail_sure_delete"));
 				}
 			} // END IF MAILBOX IS TRASH FOLDER
 			else
@@ -125,16 +125,16 @@ if (isset($_POST["cmd"]["submit"]))
 				// MOVE MAILS TO TRASH
 				if(!is_array($_POST["mail_id"]))
 				{
-					sendInfo($lng->txt("mail_select_one"));
+					ilUtil::sendInfo($lng->txt("mail_select_one"));
 				}
 				else if($umail->moveMailsToFolder($_POST["mail_id"],$mbox->getTrashFolder()))
 				{
 					$_GET["offset"] = 0;
-					sendInfo($lng->txt("mail_moved_to_trash"));
+					ilUtil::sendInfo($lng->txt("mail_moved_to_trash"));
 				}
 				else
 				{
-					sendInfo($lng->txt("mail_move_error"));
+					ilUtil::sendInfo($lng->txt("mail_move_error"));
 				}
 			}
 			break;
@@ -146,15 +146,15 @@ if (isset($_POST["cmd"]["submit"]))
 		default:
 			if(!is_array($_POST["mail_id"]))
 			{
-				sendInfo($lng->txt("mail_select_one"));
+				ilUtil::sendInfo($lng->txt("mail_select_one"));
 			}
 			else if($umail->moveMailsToFolder($_POST["mail_id"],$_POST["action"]))
 			{
-				sendInfo($lng->txt("mail_moved"));
+				ilUtil::sendInfo($lng->txt("mail_moved"));
 			}
 			else
 			{
-				sendInfo($lng->txt("mail_move_error"));
+				ilUtil::sendInfo($lng->txt("mail_move_error"));
 			}
 			break;
 	}
@@ -166,16 +166,16 @@ if($mbox->getTrashFolder() == $_GET["mobj_id"])
 	{
 		if(!is_array($_POST["mail_id"]))
 		{
-			sendInfo($lng->txt("mail_select_one"));
+			ilUtil::sendInfo($lng->txt("mail_select_one"));
 		}
 		else if($umail->deleteMails($_POST["mail_id"]))
 		{
 			$_GET["offset"] = 0;
-			sendInfo($lng->txt("mail_deleted"));
+			ilUtil::sendInfo($lng->txt("mail_deleted"));
 		}
 		else
 		{
-			sendInfo($lng->txt("mail_delete_error"));
+			ilUtil::sendInfo($lng->txt("mail_delete_error"));
 		}
 	}
 	if(isset($_POST["cmd"]["cancel"]))

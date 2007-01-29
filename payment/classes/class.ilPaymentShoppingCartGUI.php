@@ -93,7 +93,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 		if (!($fp = $this->paypal_obj->openSocket()))
 		{
-			sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_unreachable')."<br />".$this->lng->txt('pay_paypal_error_info'));
+			ilUtil::sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_unreachable')."<br />".$this->lng->txt('pay_paypal_error_info'));
 			$this->showItems();
 		}
 		else
@@ -101,24 +101,24 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			$res = $this->paypal_obj->checkData($fp);
 			if ($res == SUCCESS)
 			{
-				sendInfo($this->lng->txt('pay_paypal_success'), true);
+				ilUtil::sendInfo($this->lng->txt('pay_paypal_success'), true);
 				$this->ctrl->redirectByClass('ilpaymentbuyedobjectsgui');
 			}
 			else
 			{
 				switch ($res)
 				{
-					case ERROR_WRONG_CUSTOMER	:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_customer')."<br />".$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_WRONG_CUSTOMER	:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_customer')."<br />".$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_NOT_COMPLETED	:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_not_completed')."<br />".$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_NOT_COMPLETED	:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_not_completed')."<br />".$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_PREV_TRANS_ID	:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_prev_trans_id')."<br />".$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_PREV_TRANS_ID	:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_prev_trans_id')."<br />".$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_WRONG_VENDOR		:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_vendor')."<br />".$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_WRONG_VENDOR		:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_vendor')."<br />".$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_WRONG_ITEMS		:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_items')."<br />".$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_WRONG_ITEMS		:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_items')."<br />".$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_FAIL				:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_fails')."<br />".$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_FAIL				:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_fails')."<br />".$this->lng->txt('pay_paypal_error_info'));
 													break;
 				}
 				$this->showItems();
@@ -129,7 +129,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 	function cancelPaypal()
 	{
-		sendInfo($this->lng->txt('pay_paypal_canceled'));
+		ilUtil::sendInfo($this->lng->txt('pay_paypal_canceled'));
 		$this->showItems();
 	}
 
@@ -258,7 +258,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		
 		if ($num_items == 0)
 		{
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 			return false;
 		}
@@ -368,7 +368,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 	{
 		if(!count($_POST['item']))
 		{
-			sendInfo($this->lng->txt('pay_select_one_item'));
+			ilUtil::sendInfo($this->lng->txt('pay_select_one_item'));
 
 			$this->showItems();
 			return true;
@@ -379,7 +379,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		{
 			$this->psc_obj->delete($id);
 		}
-		sendInfo($this->lng->txt('pay_deleted_items'));
+		ilUtil::sendInfo($this->lng->txt('pay_deleted_items'));
 		$this->showItems();
 
 		return true;

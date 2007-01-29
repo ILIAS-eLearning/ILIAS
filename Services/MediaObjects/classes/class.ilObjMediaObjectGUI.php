@@ -1914,7 +1914,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$area->update();
 		}
 
-		sendInfo($this->lng->txt("cont_saved_map_data"), true);
+		ilUtil::sendInfo($this->lng->txt("cont_saved_map_data"), true);
 		$this->ctrl->redirect($this, "editMapAreas");
 	}
 
@@ -1926,7 +1926,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		if (!isset($_POST["area"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->editMapAreasObject();
 			return;
 		}
@@ -1945,7 +1945,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 
 			$this->object->update();
-			sendInfo($this->lng->txt("cont_areas_deleted"), true);
+			ilUtil::sendInfo($this->lng->txt("cont_areas_deleted"), true);
 		}
 
 		$this->ctrl->redirect($this, "editMapAreas");
@@ -2029,7 +2029,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 
 		$this->initMapParameters();
-		sendInfo($this->lng->txt("cont_saved_map_area"), true);
+		ilUtil::sendInfo($this->lng->txt("cont_saved_map_area"), true);
 		$this->ctrl->redirect($this, "editMapAreas");
 	}
 
@@ -2061,7 +2061,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		if (!isset($_POST["area"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->editMapAreasObject();
 			return;
 		}
@@ -2069,7 +2069,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if (count($_POST["area"]) > 1)
 		{
 			//$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-			sendInfo($this->lng->txt("cont_select_max_one_item"), true);
+			ilUtil::sendInfo($this->lng->txt("cont_select_max_one_item"), true);
 			$this->editMapAreasObject();
 			return;
 		}
@@ -2131,7 +2131,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		if (!isset($_POST["area"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->editMapAreasObject();
 			return;
 		}
@@ -2139,7 +2139,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if (count($_POST["area"]) > 1)
 		{
 			//$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-			sendInfo($this->lng->txt("cont_select_max_one_item"), true);
+			ilUtil::sendInfo($this->lng->txt("cont_select_max_one_item"), true);
 			$this->editMapAreasObject();
 			return;			
 		}
@@ -2292,7 +2292,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function setAdminTabs()
 	{
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 		#include_once("classes/class.ilTabsGUI.php");
 		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($this->tabs_gui);

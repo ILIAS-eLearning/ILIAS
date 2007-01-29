@@ -173,7 +173,7 @@ class ilObjiLincUserGUI
 	{
 		session_unregister("saved_post");
 
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
@@ -212,7 +212,7 @@ class ilObjiLincUserGUI
 			$info_message = $this->lng->txt("ilinc_akuservalues_refreshed");
 		}
 		
-		sendInfo($info_message,true);
+		ilUtil::sendInfo($info_message,true);
 
 		$this->ctrl->redirectByClass("ilobjilincusergui", "view");
 	}

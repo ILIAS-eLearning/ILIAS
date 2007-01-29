@@ -93,7 +93,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 		if($this->pobject->getStatus() == $this->pobject->STATUS_EXPIRES)
 		{
-			sendInfo($this->lng->txt('pay_expires_info'));
+			ilUtil::sendInfo($this->lng->txt('pay_expires_info'));
 
 			return false;
 		}
@@ -106,11 +106,11 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 			if (is_array($prices) &&
 				count($prices) > 1)
 			{
-				sendInfo($this->lng->txt('pay_item_already_in_sc_choose_another'));
+				ilUtil::sendInfo($this->lng->txt('pay_item_already_in_sc_choose_another'));
 			}
 			else
 			{
-				sendInfo($this->lng->txt('pay_item_already_in_sc'));
+				ilUtil::sendInfo($this->lng->txt('pay_item_already_in_sc'));
 			}
 
 			$this->tpl->setCurrentBlock("shopping_cart");
@@ -241,7 +241,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 	{
 		if(!isset($_POST['price_id']))
 		{
-			sendInfo($this->lng->txt('pay_select_price'));
+			ilUtil::sendInfo($this->lng->txt('pay_select_price'));
 			$this->showDetails();
 
 			return true;
@@ -276,7 +276,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 #			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
 
-			sendInfo($this->lng->txt('pay_added_to_shopping_cart'));
+			ilUtil::sendInfo($this->lng->txt('pay_added_to_shopping_cart'));
 
 			return true;
 		}
@@ -337,7 +337,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		// CHECK for new mail and info
-		sendInfo();
+		ilUtil::sendInfo();
 
 		return true;
 	}

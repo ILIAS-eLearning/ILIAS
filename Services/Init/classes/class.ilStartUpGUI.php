@@ -692,7 +692,7 @@ class ilStartUpGUI
 		$tpl->addBlockFile("CONTENT", "content", "tpl.view_usr_agreement.html");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
-		sendInfo();
+		ilUtil::sendInfo();
 		// display infopanel if something happened
 		infoPanel();
 
@@ -890,7 +890,7 @@ class ilStartUpGUI
 					$tarr = explode("_", $_GET["target"]);
 					if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0)
 					{
-						sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+						ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 							ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
 					}
 				}

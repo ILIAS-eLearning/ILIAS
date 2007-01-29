@@ -132,7 +132,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -149,7 +149,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$newObj = parent::saveObject();
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilObjSurveyQuestionPoolGUI");
@@ -205,7 +205,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (strlen($qpl_online) == 0) $qpl_online = "0";
 		$this->object->setOnline($qpl_online);
 		$this->object->saveToDb();
-		sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 	
@@ -236,7 +236,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		} 
 		else if (count($checked_questions) == 0) 
 		{
-			sendInfo($this->lng->txt("qpl_copy_select_none"));
+			ilUtil::sendInfo($this->lng->txt("qpl_copy_select_none"));
 			$_SESSION["spl_copied_questions"] = "";
 		}
 		$this->questionsObject();
@@ -264,7 +264,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->object->duplicateQuestion($value);
 			}
 		} elseif (count($checked_questions) == 0) {
-			sendInfo($this->lng->txt("qpl_duplicate_select_none"));
+			ilUtil::sendInfo($this->lng->txt("qpl_duplicate_select_none"));
 		}
 		$this->questionsObject();
 	}
@@ -289,7 +289,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_export_select_none"));
+			ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"));
 			$this->questionsObject();
 		}
 	}
@@ -305,7 +305,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		sendInfo();
+		ilUtil::sendInfo();
     // create an array of all checked checkboxes
     $checked_questions = array();
     foreach ($_POST as $key => $value) {
@@ -316,14 +316,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		
 		if (count($checked_questions) > 0) {
 			if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-				sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
+				ilUtil::sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
 			} else {
-				sendInfo($this->lng->txt("qpl_delete_rbac_error"));
+				ilUtil::sendInfo($this->lng->txt("qpl_delete_rbac_error"));
 				$this->questionsObject();
 				return;
 			}
 		} elseif (count($checked_questions) == 0) {
-			sendInfo($this->lng->txt("qpl_delete_select_none"));
+			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"));
 			$this->questionsObject();
 			return;
 		}
@@ -374,7 +374,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function confirmDeleteQuestionsObject()
 	{
 		// delete questions after confirmation
-		sendInfo($this->lng->txt("qpl_questions_deleted"), true);
+		ilUtil::sendInfo($this->lng->txt("qpl_questions_deleted"), true);
 		$checked_questions = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/id_(\d+)/", $key, $matches)) {
@@ -406,7 +406,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 */
 	function pasteObject()
 	{
-		sendInfo();
+		ilUtil::sendInfo();
 
     // create an array of all checked checkboxes
     $checked_questions = array();
@@ -420,7 +420,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (strcmp($_SESSION["spl_copied_questions"], "") != 0)
 		{
 			$copied_questions = split("/,/", $_SESSION["spl_copied_questions"]);
-			sendInfo($this->lng->txt("qpl_past_questions_confirmation"));
+			ilUtil::sendInfo($this->lng->txt("qpl_past_questions_confirmation"));
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_paste_questions.html", "Modules/SurveyQuestionPool");
 		$questions_info =& $this->object->getQuestionsInfo($copied_questions);
@@ -460,7 +460,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function confirmPasteQuestionsObject()
 	{
 		// paste questions after confirmation
-		sendInfo($this->lng->txt("qpl_questions_pasted"), true);
+		ilUtil::sendInfo($this->lng->txt("qpl_questions_pasted"), true);
 		$checked_questions = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/id_(\d+)/", $key, $matches)) {
@@ -830,7 +830,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function updateObject() 
 	{
 		$this->update = $this->object->update();
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
 	/*
@@ -957,7 +957,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo("cannot_export_questionpool");
+			ilUtil::sendInfo("cannot_export_questionpool");
 		}
 	}
 	
@@ -968,13 +968,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			sendInfo($this->lng->txt("select_max_one_item"),true);
+			ilUtil::sendInfo($this->lng->txt("select_max_one_item"),true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -992,7 +992,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"),true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -1003,7 +1003,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/SurveyQuestionPool");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -1102,7 +1102,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			sendInfo($this->lng->txt("spl_select_file_for_import"));
+			ilUtil::sendInfo($this->lng->txt("spl_select_file_for_import"));
 			$this->importObject();
 			return;
 		}
@@ -1211,14 +1211,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
-			sendInfo($this->lng->txt("spl_select_file_for_import"));
+			ilUtil::sendInfo($this->lng->txt("spl_select_file_for_import"));
 			$this->createObject();
 			return;
 		}
 		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$ref_id = $this->uploadSplObject(false);
 		// always send a message
-		sendInfo($this->lng->txt("object_imported"),true);
+		ilUtil::sendInfo($this->lng->txt("object_imported"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
 			"&baseClass=ilObjSurveyQuestionPoolGUI");

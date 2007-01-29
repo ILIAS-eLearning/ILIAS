@@ -293,7 +293,7 @@ class ilMemberExportGUI
 	{
 	 	if(count($_POST['files']) != 1)
 	 	{
-	 		sendInfo($this->lng->txt('ps_select_one'));
+	 		ilUtil::sendInfo($this->lng->txt('ps_select_one'));
 	 		$this->show();
 	 		return true;
 	 	}
@@ -327,12 +327,12 @@ class ilMemberExportGUI
 	{
 	 	if(!count($_POST['files']))
 	 	{
-	 		sendInfo($this->lng->txt('ps_select_one'));
+	 		ilUtil::sendInfo($this->lng->txt('ps_select_one'));
 	 		$this->show();
 	 		return false;
 	 	}
 	 	$_SESSION['il_del_member_export'] = $_POST['files'];
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.member_export_confirm_delete.html','Modules/Course');
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
@@ -389,7 +389,7 @@ class ilMemberExportGUI
 			}
 			$this->file->deleteMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
 		}
-		sendInfo($this->lng->txt('ps_files_deleted'));
+		ilUtil::sendInfo($this->lng->txt('ps_files_deleted'));
 		$this->show();
 	}
 	

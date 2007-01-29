@@ -769,7 +769,7 @@ class ilNoteGUI
 		
 		if (!$_POST["note"])
 		{
-			sendinfo($lng->txt("no_checkbox"));
+			ilUtil::sendInfo($lng->txt("no_checkbox"));
 		}
 		else
 		{

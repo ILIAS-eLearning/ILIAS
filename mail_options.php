@@ -67,18 +67,18 @@ if(isset($_POST["cmd"]["rename"]))
 	{
 		if($mbox->renameFolder($_GET["mobj_id"],$_POST["folder_name"]))
 		{
-			sendInfo($lng->txt("mail_folder_name_changed"));
+			ilUtil::sendInfo($lng->txt("mail_folder_name_changed"));
 		}
 		else
 		{
-			sendInfo($lng->txt("mail_folder_exists"));
+			ilUtil::sendInfo($lng->txt("mail_folder_exists"));
 		}
 	}
 }
 // DELETE FOLDER ask for confirmation
 if(isset($_POST["cmd"]["delete"]))
 {
-	sendInfo($lng->txt("mail_sure_delete_folder"));
+	ilUtil::sendInfo($lng->txt("mail_sure_delete_folder"));
 }
 
 
@@ -86,7 +86,7 @@ if(isset($_POST["cmd"]["delete"]))
 if(isset($_POST["cmd"]["save"]))
 {
 	$umail->mail_options->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"]);
-	sendInfo($lng->txt("mail_options_saved"),true);
+	ilUtil::sendInfo($lng->txt("mail_options_saved"),true);
 	header("location: mail.php?mobj_id=$_GET[mobj_id]");
 	exit;
 }

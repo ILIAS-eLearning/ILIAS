@@ -173,7 +173,7 @@ class ilLPFilterGUI
 	{
 		if(!count($_POST['item_id']))
 		{
-			sendInfo($this->lng->txt('trac_select_one'),true);
+			ilUtil::sendInfo($this->lng->txt('trac_select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		foreach($_POST['item_id'] as $item_id)
@@ -181,7 +181,7 @@ class ilLPFilterGUI
 			$this->filter->addHidden((int) $item_id);
 		}
 		$this->filter->update();
-		sendInfo($this->lng->txt('trac_added_no_shown_list'),true);
+		ilUtil::sendInfo($this->lng->txt('trac_added_no_shown_list'),true);
 		$this->ctrl->returnToParent($this);
 	}			
 
@@ -190,7 +190,7 @@ class ilLPFilterGUI
 	{
 		$this->filter->addHidden((int) $_GET['hide']);
 		$this->filter->update();
-		sendInfo($this->lng->txt('trac_added_no_shown_list'),true);
+		ilUtil::sendInfo($this->lng->txt('trac_added_no_shown_list'),true);
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -198,12 +198,12 @@ class ilLPFilterGUI
 	{
 		if(!$_POST['hide'])
 		{
-			sendInfo($this->lng->txt('trac_select_one'),true);
+			ilUtil::sendInfo($this->lng->txt('trac_select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		$this->filter->removeHidden((int) $_POST['hide']);
 		$this->filter->update();
-		sendInfo($this->lng->txt('trac_modifications_saved'),true);
+		ilUtil::sendInfo($this->lng->txt('trac_modifications_saved'),true);
 		$this->ctrl->returnToParent($this);
 
 	}
@@ -226,7 +226,7 @@ class ilLPFilterGUI
 
 		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
 
-		sendInfo($this->lng->txt('search_area_info'));
+		ilUtil::sendInfo($this->lng->txt('search_area_info'));
 
 		$exp = new ilSearchRootSelector($this->ctrl->getLinkTargetByClass('illpfiltergui','selector'));
 		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
@@ -246,7 +246,7 @@ class ilLPFilterGUI
 	{
 		$this->filter->setRootNode((int) $_GET['root_id']);
 		$this->filter->update();
-		sendInfo($this->lng->txt('trac_modifications_saved'),true);
+		ilUtil::sendInfo($this->lng->txt('trac_modifications_saved'),true);
 		$this->ctrl->returnToParent($this);
 	}
 

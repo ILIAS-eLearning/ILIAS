@@ -156,7 +156,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->object->setCreditMode($_POST["credit_mode"]);
 		$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
 		$this->object->update();
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 

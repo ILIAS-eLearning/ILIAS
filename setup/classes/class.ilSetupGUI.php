@@ -798,7 +798,7 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}           
 			
-			sendInfo($this->lng->txt("settings_saved"),true);
+			ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 			
 			ilUtil::redirect("setup.php?cmd=startup");
 		}
@@ -1029,7 +1029,7 @@ class ilSetupGUI extends ilSetup
 
 		if (count($list) == 0)
 		{
-			sendInfo($this->lng->txt("no_clients_available"),true);
+			ilUtil::sendInfo($this->lng->txt("no_clients_available"),true);
 		}
 		
 		// prepare clientlist
@@ -1109,7 +1109,7 @@ class ilSetupGUI extends ilSetup
 		
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_list"));
 		
-		sendInfo();
+		ilUtil::sendInfo();
 
 		// load template for table
 		$this->tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
@@ -1234,7 +1234,7 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}
 
-			sendInfo($this->lng->txt("settings_saved"),true);
+			ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 			ilUtil::redirect("setup.php");
 		}
 
@@ -1468,13 +1468,13 @@ class ilSetupGUI extends ilSetup
 			{
 				if ($this->saveNewClient())
 				{
-					sendInfo($this->lng->txt("settings_saved"));
+					ilUtil::sendInfo($this->lng->txt("settings_saved"));
 					$this->client->status["ini"]["status"] = true;
 				}
 				else
 				{
 					$err = $this->getError();
-					sendInfo($this->lng->txt("save_error").": ".$err);
+					ilUtil::sendInfo($this->lng->txt("save_error").": ".$err);
 					$this->client->status["ini"]["status"] = false;
 					$this->client->status["ini"]["comment"] = $err;
 				}
@@ -1483,13 +1483,13 @@ class ilSetupGUI extends ilSetup
 			{
 				if ($this->client->ini->write())
 				{
-					sendInfo($this->lng->txt("settings_changed"));
+					ilUtil::sendInfo($this->lng->txt("settings_changed"));
 					$this->client->status["ini"]["status"] = true;
 				}
 				else
 				{
 					$err = $this->client->ini->getError();
-					sendInfo($this->lng->txt("save_error").": ".$err);
+					ilUtil::sendInfo($this->lng->txt("save_error").": ".$err);
 					$this->client->status["ini"]["status"] = false;
 					$this->client->status["ini"]["comment"] = $err;
 				}
@@ -1787,7 +1787,7 @@ class ilSetupGUI extends ilSetup
 			}
 		}
 
-		sendInfo($message);
+		ilUtil::sendInfo($message);
 
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html");
 		
@@ -1951,7 +1951,7 @@ class ilSetupGUI extends ilSetup
 		{
 			// program should never come to this place
 			$message = "No database found! Please install database first.";
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 	
 		// checkings
@@ -1996,7 +1996,7 @@ class ilSetupGUI extends ilSetup
 			{
 				$message .= "<br/>(".$this->lng->txt("langs_not_valid_not_installed").": ".$list.")";
 			}
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 
 		// output
@@ -2097,7 +2097,7 @@ class ilSetupGUI extends ilSetup
 				$form_valid = false;
 				$message = $this->lng->txt("fill_out_required_fields");
 				//$this->raiseError($message,$this->error_obj->MESSAGE);
-				sendInfo($message);
+				ilUtil::sendInfo($message);
 			}
 			
 			// admin email
@@ -2105,7 +2105,7 @@ class ilSetupGUI extends ilSetup
 			{
 				$form_valid = false;
 				$message = $this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid");
-				sendInfo($message);
+				ilUtil::sendInfo($message);
 				//$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 
@@ -2156,7 +2156,7 @@ class ilSetupGUI extends ilSetup
 				// reload settings
 				$settings = $this->client->getAllSettings();
 				// feedback
-				sendInfo($this->lng->txt("saved_successfully"));
+				ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 			}
 		}
 
@@ -2278,7 +2278,7 @@ class ilSetupGUI extends ilSetup
 				$message = $this->lng->txt("nic_reg_disabled");
 			}
 
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 		
 		// reload settings
@@ -2351,7 +2351,7 @@ class ilSetupGUI extends ilSetup
 		$this->checkDisplayMode();
 		
 		// output
-		sendInfo();
+		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_tools.html");
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_TOOLS", $this->lng->txt("tools"));
@@ -2386,7 +2386,7 @@ class ilSetupGUI extends ilSetup
 		
 		if (!$this->client->db_installed)
 		{
-			sendInfo($this->lng->txt("no_db"), true);
+			ilUtil::sendInfo($this->lng->txt("no_db"), true);
 			$this->displayTools();
 			return;
 		}
@@ -2394,7 +2394,7 @@ class ilSetupGUI extends ilSetup
 		// referencing does not work in dbupdate-script
 		$GLOBALS["ilDB"] = new ilDbx($this->client->dsn);
 		$ilCtrlStructureReader->readStructure(true);
-		sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
+		ilUtil::sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
 		$this->displayTools();
 	}
 
@@ -2450,7 +2450,7 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 
-			sendInfo($this->lng->txt("password_changed"),true);
+			ilUtil::sendInfo($this->lng->txt("password_changed"),true);
 			ilUtil::redirect("setup.php");
 		}
 		
@@ -2533,7 +2533,7 @@ class ilSetupGUI extends ilSetup
 			
 			$msg = $this->client->delete($ini,$db,$files);
 
-			sendInfo($this->lng->txt("client_deleted"),true);
+			ilUtil::sendInfo($this->lng->txt("client_deleted"),true);
 			ilUtil::redirect("setup.php");
 		}
 
@@ -2570,7 +2570,7 @@ class ilSetupGUI extends ilSetup
 			$message = "client_setup_not_finished";
 		}
 		
-		sendInfo($this->lng->txt($message),true);
+		ilUtil::sendInfo($this->lng->txt($message),true);
 		
 		ilUtil::redirect("setup.php?cmd=".$a_back);
 	}
@@ -2603,7 +2603,7 @@ class ilSetupGUI extends ilSetup
 			}
 		}
 		
-		sendInfo($this->lng->txt($message),true);
+		ilUtil::sendInfo($this->lng->txt($message),true);
 		
 		ilUtil::redirect("setup.php");
 	}
@@ -2648,31 +2648,31 @@ class ilSetupGUI extends ilSetup
 		if (!$this->client->status["db"]["status"])
 		{
 			$this->cmd = "db";
-			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayDatabase();
 		}
 		elseif (!$this->client->status["lang"]["status"])
 		{
 			$this->cmd = "lang";
-			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayLanguages();      
 		}
 		elseif (!$this->client->status["contact"]["status"])
 		{
 			$this->cmd = "contact";
-			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayContactData();        
 		}
 		elseif (!$this->client->status["nic"]["status"])
 		{
 			$this->cmd = "nic";
-			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayNIC();        
 		}
 		elseif (!$this->client->status["finish"]["status"])
 		{
 			$this->cmd = "finish";
-			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayFinishSetup();        
 		}
 		else
@@ -2690,13 +2690,13 @@ class ilSetupGUI extends ilSetup
 		{
 			$this->ini->setVariable("clients","list","0");
 			$this->ini->write();
-			sendInfo($this->lng->txt("list_disabled"),true);
+			ilUtil::sendInfo($this->lng->txt("list_disabled"),true);
 		}
 		else
 		{
 			$this->ini->setVariable("clients","list","1");
 			$this->ini->write();
-			sendInfo($this->lng->txt("list_enabled"),true);             
+			ilUtil::sendInfo($this->lng->txt("list_enabled"),true);             
 		}
 		
 		ilUtil::redirect("setup.php");

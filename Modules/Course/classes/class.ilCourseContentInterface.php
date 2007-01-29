@@ -212,7 +212,7 @@ class ilCourseContentInterface
 		// NO ITEMS FOUND
 		if(!count($items))
 		{
-			sendInfo($this->lng->txt("crs_no_items_found"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_items_found"));
 			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this->container));
 			$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", "");

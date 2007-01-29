@@ -220,11 +220,11 @@ class ilPaymentBillAdminGUI extends ilPaymentBaseGUI
 		if($this->bvd_obj->validate())
 		{
 			$this->bvd_obj->update();
-			sendInfo($this->lng->txt('paya_bill_data_updated'));
+			ilUtil::sendInfo($this->lng->txt('paya_bill_data_updated'));
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_pay_method_fill_out_required').$this->bvd_obj->getMessage());
+			ilUtil::sendInfo($this->lng->txt('paya_pay_method_fill_out_required').$this->bvd_obj->getMessage());
 		}
 		$this->showBillData();
 
@@ -262,7 +262,7 @@ class ilPaymentBillAdminGUI extends ilPaymentBaseGUI
 
 		if(!$this->bvd_obj->hasData())
 		{
-			sendInfo($this->lng->txt('paya_read_from_personal_profile'));
+			ilUtil::sendInfo($this->lng->txt('paya_read_from_personal_profile'));
 
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($this->pobject->getVendorId());
 

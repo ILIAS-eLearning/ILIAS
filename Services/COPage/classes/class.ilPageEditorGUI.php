@@ -552,7 +552,7 @@ class ilPageEditorGUI
 	{
 		global $ilUser;
 		
-		sendInfo($this->lng->txt("copied_to_clipboard"), true);
+		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"), true);
 		$ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
 		$this->ctrl->returnToParent($this);
 	}
@@ -577,7 +577,7 @@ class ilPageEditorGUI
 		ilHistory::_createEntry($this->page->getId(), "update",
 			"", $this->page->getParentType().":pg",
 			ilUtil::stripSlashes($_POST["change_comment"]), true);
-		sendInfo($this->lng->txt("cont_added_comment"), true);
+		ilUtil::sendInfo($this->lng->txt("cont_added_comment"), true);
 		$this->ctrl->returnToParent($this);
 	}
 	

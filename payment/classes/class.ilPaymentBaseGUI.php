@@ -176,7 +176,7 @@ class ilPaymentBaseGUI
 		}
 
 		// CHECK for new mail and info
-		sendInfo();
+		ilUtil::sendInfo();
 
 		return true;
 	}

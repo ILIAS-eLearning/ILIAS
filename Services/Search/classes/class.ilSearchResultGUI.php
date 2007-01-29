@@ -139,14 +139,14 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 	{
 		if(!strlen($_POST['title']))
 		{
-			sendInfo($this->lng->txt('search_enter_title'));
+			ilUtil::sendInfo($this->lng->txt('search_enter_title'));
 			$this->create();
 
 			return false;
 		}
 
 		$this->folder_obj->create(ilUtil::stripslashes($_POST["title"]));
-		sendInfo($this->lng->txt('search_added_new_folder'));
+		ilUtil::sendInfo($this->lng->txt('search_added_new_folder'));
 		$this->showResults();
 
 		return true;
@@ -156,7 +156,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 	{
 		if(!strlen($_POST['title']))
 		{
-			sendInfo($this->lng->txt('search_enter_title'));
+			ilUtil::sendInfo($this->lng->txt('search_enter_title'));
 			$this->showResults();
 
 			return false;
@@ -167,7 +167,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 		$tmp_obj = ilSearchItemFactory::getInstance($_SESSION['search_rename']);
 		$tmp_obj->updateTitle(ilUtil::stripslashes($_POST["title"]));
 
-		sendInfo($this->lng->txt("search_object_renamed"));
+		ilUtil::sendInfo($this->lng->txt("search_object_renamed"));
 		$this->showResults();
 		
 		return true;
@@ -183,7 +183,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 
 		if($a_confirm_delete)
 		{
-			sendInfo($this->lng->txt("search_delete_sure"));
+			ilUtil::sendInfo($this->lng->txt("search_delete_sure"));
 
 			$this->tpl->setCurrentBlock("CONFIRM_DELETE");
 			$this->tpl->setVariable("TXT_DELETE_CANCEL",$this->lng->txt("cancel"));
@@ -256,7 +256,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 	{
 		if(!count($_POST["del_id"]))
 		{
-			sendInfo($this->lng->txt("search_no_selection"));
+			ilUtil::sendInfo($this->lng->txt("search_no_selection"));
 			$this->showResults();
 
 			return false;
@@ -294,7 +294,7 @@ return;
 		// NO ITEM SELECTED
 		if(!count($_POST["del_id"]))
 		{
-			sendInfo($this->lng->txt("search_select_exactly_one_object"));
+			ilUtil::sendInfo($this->lng->txt("search_select_exactly_one_object"));
 			$this->showResults();
 
 			return false;
@@ -302,7 +302,7 @@ return;
 		// TOO MANY ITEMS SELECTED
 		if(count($_POST["del_id"]) > 1)
 		{
-			sendInfo($this->lng->txt("search_select_exactly_one_object"));
+			ilUtil::sendInfo($this->lng->txt("search_select_exactly_one_object"));
 			$this->showResults();
 
 			return false;
@@ -314,7 +314,7 @@ return;
 		
 		if($tmp_obj->getType() == 'sea')
 		{
-			sendInfo($this->lng->txt("search_select_folder"));
+			ilUtil::sendInfo($this->lng->txt("search_select_folder"));
 			$this->showResults();
 
 			return false;
@@ -356,7 +356,7 @@ return;
 
 			if($tmp_obj->getType() == "seaf")
 			{
-				sendInfo($this->lng->txt("search_move_folders_not_allowed"));
+				ilUtil::sendInfo($this->lng->txt("search_move_folders_not_allowed"));
 				$this->showResults();
 				return false;
 			}
@@ -382,7 +382,7 @@ return;
 			unset($search_res_obj);
 		}
 		unset($objects);
-		sendInfo($this->lng->txt("search_objects_moved"));
+		ilUtil::sendInfo($this->lng->txt("search_objects_moved"));
 		$this->showResults();
 
 		return true;

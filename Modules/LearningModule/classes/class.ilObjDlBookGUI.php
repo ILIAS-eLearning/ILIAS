@@ -239,7 +239,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		// SHOW MESSAGE
 		if($message)
 		{
-			sendInfo($message_text);
+			ilUtil::sendInfo($message_text);
 		}
 		$xsl = $tmp_tpl->get();
 		$xml = $this->object->bib_obj->getXML();
@@ -443,7 +443,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 						$this->object->addTranslation($id);
 					}
 				}
-				sendInfo($this->lng->txt("cont_translations_assigned"),true);
+				ilUtil::sendInfo($this->lng->txt("cont_translations_assigned"),true);
 				$this->ctrl->redirect($this, "properties");
 				exit;
 			}
@@ -461,12 +461,12 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			switch(count($result["meta"]))
 			{
 				case 0:
-					sendInfo($this->lng->txt("cont_no_object_found"));
+					ilUtil::sendInfo($this->lng->txt("cont_no_object_found"));
 					break;
 				case 1:
 					if($result["meta"][0]["id"] == $this->object->getRefId())
 					{
-						sendInfo($this->lng->txt("cont_no_assign_itself"));
+						ilUtil::sendInfo($this->lng->txt("cont_no_assign_itself"));
 						break;
 					}
 				default:
@@ -492,12 +492,12 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	{
 		if(!$_POST["id"])
 		{
-			sendInfo($this->lng->txt("cont_select_one_translation"));
+			ilUtil::sendInfo($this->lng->txt("cont_select_one_translation"));
 			$this->ctrl->redirect($this, "properties");
 			exit;
 		}
 		$this->object->deleteTranslations($_POST["id"]);
-		sendInfo($this->lng->txt("cont_assignments_deleted"));
+		ilUtil::sendInfo($this->lng->txt("cont_assignments_deleted"));
 		$this->ctrl->redirect($this, "properties");
 		exit;
 	}
@@ -553,7 +553,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this, "addTranslation");
 			exit;
 		}

@@ -136,7 +136,7 @@ class ilSurveyExecutionGUI
 				else
 				{
 					unset($_POST["cmd"]["resume"]);
-					sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
+					ilUtil::sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
 				}
 			}
 		}
@@ -151,7 +151,7 @@ class ilSurveyExecutionGUI
 			}
 			else
 			{
-				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
+				ilUtil::sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
 				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 			}
 		}
@@ -221,13 +221,13 @@ class ilSurveyExecutionGUI
 		$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"]);
 		if (!$canStart["result"])
 		{
-			sendInfo(implode("<br />", $canStart["messages"]), TRUE);
+			ilUtil::sendInfo(implode("<br />", $canStart["messages"]), TRUE);
 			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 		}
 		$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]);
 		if ($survey_started === FALSE)
 		{
-			sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
+			ilUtil::sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
 			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 		}
 
@@ -359,11 +359,11 @@ class ilSurveyExecutionGUI
 		{
 			if ($page_error == 1)
 			{
-				sendInfo($this->lng->txt("svy_page_error"));
+				ilUtil::sendInfo($this->lng->txt("svy_page_error"));
 			}
 			else
 			{
-				sendInfo($this->lng->txt("svy_page_errors"));
+				ilUtil::sendInfo($this->lng->txt("svy_page_errors"));
 			}
 		}
 

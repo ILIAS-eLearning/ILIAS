@@ -235,7 +235,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	
 	function cancelObject()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "authSettings");
 	}
 
@@ -255,7 +255,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		if ($_POST["auth_mode"] == AUTH_DEFAULT)
 		{
-			sendInfo($this->lng->txt("auth_mode").": ".$this->getAuthModeTitle()." ".$this->lng->txt("auth_mode_not_changed"),true);
+			ilUtil::sendInfo($this->lng->txt("auth_mode").": ".$this->getAuthModeTitle()." ".$this->lng->txt("auth_mode_not_changed"),true);
 			$this->ctrl->redirect($this,'authSettings');
 		}
 
@@ -268,7 +268,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				/*
 				if ($this->object->checkAuthLDAP() !== true)
 				{
-					sendInfo($this->lng->txt("auth_ldap_not_configured"),true);
+					ilUtil::sendInfo($this->lng->txt("auth_ldap_not_configured"),true);
 					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editLDAP")));
 				}
 				*/
@@ -277,7 +277,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				case AUTH_SHIB:
 				if ($this->object->checkAuthSHIB() !== true)
 				{
-					sendInfo($this->lng->txt("auth_shib_not_configured"),true);
+					ilUtil::sendInfo($this->lng->txt("auth_shib_not_configured"),true);
 					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editSHIB")));
 				}
 				break;
@@ -285,7 +285,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			case AUTH_RADIUS:
 				if ($this->object->checkAuthRADIUS() !== true)
 				{
-					sendInfo($this->lng->txt("auth_radius_not_configured"),true);
+					ilUtil::sendInfo($this->lng->txt("auth_radius_not_configured"),true);
 					$this->ctrl->redirect($this,'editRADIUS');
 				}
 				break;
@@ -293,7 +293,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			case AUTH_SCRIPT:
 				if ($this->object->checkAuthScript() !== true)
 				{
-					sendInfo($this->lng->txt("auth_script_not_configured"),true);
+					ilUtil::sendInfo($this->lng->txt("auth_script_not_configured"),true);
 					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editScript")));
 				}
 				break;
@@ -301,7 +301,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		$this->ilias->setSetting("auth_mode",$_POST["auth_mode"]);
 		
-		sendInfo($this->lng->txt("auth_default_mode_changed_to")." ".$this->getAuthModeTitle(),true);
+		ilUtil::sendInfo($this->lng->txt("auth_default_mode_changed_to")." ".$this->getAuthModeTitle(),true);
 		$this->ctrl->redirect($this,'authSettings');
 	}
 	
@@ -544,7 +544,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("ldap_objectclass", $_POST["ldap"]["objectclass"]);
 		$this->ilias->setSetting("ldap_active", $_POST["ldap"]["active"]);
 
-		sendInfo($this->lng->txt("auth_ldap_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("auth_ldap_settings_saved"),true);
 		$this->ctrl->redirect($this,'editLDAP');;
 	}
 
@@ -765,7 +765,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("shib_login_button", $_POST["shib"]["login_button"]);
 		$this->ilias->setSetting("shib_data_conv", $_POST["shib"]["data_conv"]);
 	
-		sendInfo($this->lng->txt("shib_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("shib_settings_saved"),true);
 
 		$this->ctrl->redirect($this,'editSHIB');
 	}
@@ -907,7 +907,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$ilSetting->set("cas_allow_local", $_POST["cas"]["allow_local"]);
 		$ilSetting->set("cas_active", $_POST["cas"]["active"]);
 		$ilSetting->set("cas_user_default_role", $_POST["cas"]["user_default_role"]);
-		sendInfo($this->lng->txt("auth_cas_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("auth_cas_settings_saved"),true);
 		
 		$this->ctrl->redirect($this,'editCAS');
 	}
@@ -1080,7 +1080,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$ilSetting->set("soap_auth_use_https", $_POST["soap"]["use_https"]);
 		$ilSetting->set("soap_auth_use_dotnet", $_POST["soap"]["use_dotnet"]);
 		$ilSetting->set("soap_auth_user_default_role", $_POST["soap"]["user_default_role"]);
-		sendInfo($this->lng->txt("auth_soap_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("auth_soap_settings_saved"),true);
 		
 		$this->ctrl->redirect($this,'editSOAP');
 	}
@@ -1153,7 +1153,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("auth_script_name", $_POST["auth_script"]["name"]);
 		$this->ilias->setSetting("auth_mode", AUTH_SCRIPT);
 
-		sendInfo($this->lng->txt("auth_mode_changed_to")." ".$this->getAuthModeTitle(),true);
+		ilUtil::sendInfo($this->lng->txt("auth_mode_changed_to")." ".$this->getAuthModeTitle(),true);
 		$this->ctrl->redirect($this,'editScript');
 	}
 	
@@ -1260,7 +1260,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("radius_port", $_POST["radius"]["port"]);
 		$this->ilias->setSetting("radius_active", $_POST["radius"]["active"]);
 
-		sendInfo($this->lng->txt("auth_radius_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("auth_radius_settings_saved"),true);
 		$this->ctrl->redirect($this,'editRADIUS');
 	}
 	
@@ -1312,7 +1312,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		include_once('classes/class.ilObjRole.php');
 		ilObjRole::_updateAuthMode($_POST['Fobject']);
 		
-		sendInfo($this->lng->txt("auth_mode_roles_changed"),true);
+		ilUtil::sendInfo($this->lng->txt("auth_mode_roles_changed"),true);
 		$this->ctrl->redirect($this,'authSettings');
 	}
 

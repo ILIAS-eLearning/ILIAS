@@ -348,7 +348,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	{
 		if ($this->object->getId() < 1) 
 		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"), true);
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"), true);
 			$this->ctrl->redirect($this, "editQuestion");
 		}
 		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
@@ -519,7 +519,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	{
 		if (strcmp($_POST["phrases"], "") == 0)
 		{
-			sendInfo($this->lng->txt("select_phrase_to_add"));
+			ilUtil::sendInfo($this->lng->txt("select_phrase_to_add"));
 			$this->addPhrase();
 		}
 		else
@@ -591,12 +591,12 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	{
 		if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
 		{
-			sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
+			ilUtil::sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
 			$this->addStandardNumbers();
 		}
 		else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
 		{
-			sendInfo($this->lng->txt("upper_limit_must_be_greater"));
+			ilUtil::sendInfo($this->lng->txt("upper_limit_must_be_greater"));
 			$this->addStandardNumbers();
 		}
 		else
@@ -651,7 +651,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($nothing_selected)
 		{
-			sendInfo($this->lng->txt("check_category_to_save_phrase"), true);
+			ilUtil::sendInfo($this->lng->txt("check_category_to_save_phrase"), true);
 			$this->ctrl->redirect($this, "categories");
 		}
 	}
@@ -679,20 +679,20 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	{
 		if (!$_POST["phrase_title"])
 		{
-			sendInfo($this->lng->txt("qpl_savephrase_empty"));
+			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_empty"));
 			$this->savePhrase();
 			return;
 		}
 		
 		if ($this->object->phraseExists($_POST["phrase_title"]))
 		{
-			sendInfo($this->lng->txt("qpl_savephrase_exists"));
+			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_exists"));
 			$this->savePhrase();
 			return;
 		}
 
 		$this->object->savePhrase($_POST["chb_category"], $_POST["phrase_title"]);
-		sendInfo($this->lng->txt("phrase_saved"), true);
+		ilUtil::sendInfo($this->lng->txt("phrase_saved"), true);
 		$this->ctrl->redirect($this, "categories");
 	}
 
@@ -709,7 +709,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		
 		$this->writeCategoryData(true);
 		$_SESSION["spl_modified"] = false;
-		sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
 		$originalexists = $this->object->_questionExists($this->object->original_id);
 		$_GET["q_id"] = $this->object->getId();
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
@@ -736,7 +736,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$result = $this->writeCategoryData();
 		if ($result == false)
 		{
-			sendInfo($this->lng->txt("fill_out_all_category_fields"));
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_category_fields"));
 		}
 		$_SESSION["spl_modified"] = true;
 		$this->categories($result);
@@ -794,7 +794,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 				$this->object->categories->removeCategories($_POST["chb_category"]);
 			}
 		}
-		if ($nothing_selected) sendInfo($this->lng->txt("category_delete_select_none"));
+		if ($nothing_selected) ilUtil::sendInfo($this->lng->txt("category_delete_select_none"));
 		$_SESSION["spl_modified"] = true;
 		$this->categories();
 	}
@@ -815,11 +815,11 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 			if (count($_POST["chb_category"]))
 			{
 				$nothing_selected = false;
-				sendInfo($this->lng->txt("select_target_position_for_move"));
+				ilUtil::sendInfo($this->lng->txt("select_target_position_for_move"));
 				$_SESSION["spl_move"] = $_POST["chb_category"];
 			}
 		}
-		if ($nothing_selected) sendInfo($this->lng->txt("no_category_selected_for_move"));
+		if ($nothing_selected) ilUtil::sendInfo($this->lng->txt("no_category_selected_for_move"));
 		$this->categories();
 	}
 	
@@ -852,7 +852,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 			}
 			else
 			{
-				sendInfo("wrong_categories_selected_for_insert");
+				ilUtil::sendInfo("wrong_categories_selected_for_insert");
 			}
 		}
 		$this->categories();
@@ -887,7 +887,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 			}
 			else
 			{
-				sendInfo("wrong_categories_selected_for_insert");
+				ilUtil::sendInfo("wrong_categories_selected_for_insert");
 			}
 		}
 		$this->categories();

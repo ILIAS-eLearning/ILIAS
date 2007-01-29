@@ -93,7 +93,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
@@ -105,7 +105,7 @@ class ilCourseObjectivesGUI
 		if(!count($this->__getAllLMs()))
 		{
 			$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
-			sendInfo($this->lng->txt('crs_no_lms_inside_course'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_lms_inside_course'));
 			
 			return true;
 		}
@@ -113,7 +113,7 @@ class ilCourseObjectivesGUI
 		$this->__initLMObject((int) $_GET['objective_id']);
 		if(!count($lms = $this->objectives_lm_obj->getLMs()))
 		{
-			sendInfo($this->lng->txt('crs_no_lms_assigned'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_lms_assigned'));
 			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 			$this->__showButton('assignLMSelect',$this->lng->txt('crs_objective_assign_lm'));
 
@@ -225,14 +225,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!count($_POST['lm']))
 		{
-			sendInfo($this->lng->txt('crs_lm_no_assignments_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_lm_no_assignments_selected'));
 			$this->listAssignedLM();
 
 			return false;
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
@@ -241,7 +241,7 @@ class ilCourseObjectivesGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_delete_lm.html",'Modules/Course');
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
 
-		sendInfo($this->lng->txt('crs_deassign_lm_sure'));
+		ilUtil::sendInfo($this->lng->txt('crs_deassign_lm_sure'));
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_lm_row.html",'Modules/Course');
@@ -342,14 +342,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!count($_SESSION['crs_delete_lm']))
 		{
-			sendInfo('No lm selected');
+			ilUtil::sendInfo('No lm selected');
 			$this->listAssignedLM();
 
 			return false;
@@ -361,7 +361,7 @@ class ilCourseObjectivesGUI
 		{
 			$this->objectives_lm_obj->delete($lm_ass_id);
 		}
-		sendInfo($this->lng->txt('crs_lm_assignment_deleted'));
+		ilUtil::sendInfo($this->lng->txt('crs_lm_assignment_deleted'));
 		$this->listAssignedLM();
 
 		return true;
@@ -380,14 +380,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!count($all_lms = $this->__getAllLMs()))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_lms_found'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_lms_found'));
 			$this->listAssignedLM();
 
 			return false;
@@ -486,7 +486,7 @@ class ilCourseObjectivesGUI
 		}
 		if(count($_POST['lm']) !== 1)
 		{
-			sendInfo($this->lng->txt('crs_select_exactly_one_lm'));
+			ilUtil::sendInfo($this->lng->txt('crs_select_exactly_one_lm'));
 			$this->assignLMSelect();
 
 			return false;
@@ -496,7 +496,7 @@ class ilCourseObjectivesGUI
 			$tmp_lm =& ilObjectFactory::getInstanceByRefId($lm_id);
 			if($tmp_lm->getType() != 'lm')
 			{
-				sendInfo($this->lng->txt('crs_select_native_lm'));
+				ilUtil::sendInfo($this->lng->txt('crs_select_native_lm'));
 				$this->assignLMSelect();
 				
 				return false;
@@ -591,7 +591,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
@@ -599,7 +599,7 @@ class ilCourseObjectivesGUI
 		if(!count($_POST['chapter']))
 		{
 			$_POST['lm'] = array((int) $_GET['lm_id']);
-			sendInfo($this->lng->txt('crs_no_chapter_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_chapter_selected'));
 			$this->assignChapterSelect();
 
 			return false;
@@ -627,12 +627,12 @@ class ilCourseObjectivesGUI
 
 		if($counter)
 		{
-			sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+			ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
 			$this->listAssignedLM();
 		}
 		else
 		{
-			sendInfo($this->lng->txt('crs_chapter_already_assigned'));
+			ilUtil::sendInfo($this->lng->txt('crs_chapter_already_assigned'));
 			$this->assignLMSelect();
 		}
 
@@ -650,14 +650,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!count($_POST['lm']))
 		{
-			sendInfo($this->lng->txt('crs_no_lm_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_lm_selected'));
 			$this->assignLMSelect();
 
 			return false;
@@ -685,12 +685,12 @@ class ilCourseObjectivesGUI
 
 		if($counter)
 		{
-			sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+			ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
 			$this->listAssignedLM();
 		}
 		else
 		{
-			sendInfo($this->lng->txt('crs_lms_already_assigned'));
+			ilUtil::sendInfo($this->lng->txt('crs_lms_already_assigned'));
 			$this->assignLMSelect();
 		}
 
@@ -711,7 +711,7 @@ class ilCourseObjectivesGUI
 		if(!count($objectives = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
 		{
 			$this->__showButton('addObjective',$this->lng->txt('crs_add_objective'));
-			sendInfo($this->lng->txt('crs_no_objectives_created'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objectives_created'));
 			
 			return true;
 		}
@@ -859,7 +859,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 			
 			return true;
@@ -867,7 +867,7 @@ class ilCourseObjectivesGUI
 		$objective_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
 
 		$objective_obj->moveUp((int) $_GET['objective_id']);
-		sendInfo($this->lng->txt('crs_moved_objective'));
+		ilUtil::sendInfo($this->lng->txt('crs_moved_objective'));
 
 		$this->listObjectives();
 
@@ -884,7 +884,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 			
 			return true;
@@ -892,7 +892,7 @@ class ilCourseObjectivesGUI
 		$objective_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
 
 		$objective_obj->moveDown((int) $_GET['objective_id']);
-		sendInfo($this->lng->txt('crs_moved_objective'));
+		ilUtil::sendInfo($this->lng->txt('crs_moved_objective'));
 
 		$this->listObjectives();
 
@@ -934,7 +934,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
@@ -971,14 +971,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{		
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!$_POST['objective']['title'])
 		{		
-			sendInfo($this->lng->txt('crs_objective_no_title_given'));
+			ilUtil::sendInfo($this->lng->txt('crs_objective_no_title_given'));
 			$this->editObjective();
 			
 			return false;
@@ -993,7 +993,7 @@ class ilCourseObjectivesGUI
 
 		$objective_obj->update();
 		
-		sendInfo($this->lng->txt('crs_objective_modified'));
+		ilUtil::sendInfo($this->lng->txt('crs_objective_modified'));
 		$this->listObjectives();
 
 		return true;
@@ -1011,7 +1011,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!count($_POST['objective']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 			
 			return true;
@@ -1019,7 +1019,7 @@ class ilCourseObjectivesGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html",'Modules/Course');
 
-		sendInfo($this->lng->txt('crs_delete_objectve_sure'));
+		ilUtil::sendInfo($this->lng->txt('crs_delete_objectve_sure'));
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html",'Modules/Course');
@@ -1101,7 +1101,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!count($_SESSION['crs_delete_objectives']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 			
 			return true;
@@ -1113,7 +1113,7 @@ class ilCourseObjectivesGUI
 			$objective_obj->delete();
 		}
 
-		sendInfo($this->lng->txt('crs_objectives_deleted'));
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_deleted'));
 		$this->listObjectives();
 
 		return true;
@@ -1131,7 +1131,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_POST['objective']['title'])
 		{
-			sendInfo('crs_no_title_given',true);
+			ilUtil::sendInfo('crs_no_title_given',true);
 
 			$this->addObjective();
 			return false;
@@ -1143,7 +1143,7 @@ class ilCourseObjectivesGUI
 		$objective_obj->setDescription(ilUtil::stripSlashes($_POST['objective']['description']));
 		$objective_obj->add();
 		
-		sendInfo($this->lng->txt('crs_added_objective'));
+		ilUtil::sendInfo($this->lng->txt('crs_added_objective'));
 		$this->listObjectives();
 
 		return true;
@@ -1161,7 +1161,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
@@ -1173,7 +1173,7 @@ class ilCourseObjectivesGUI
 		if(!count($this->__getAllTests()))
 		{
 			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
-			sendInfo($this->lng->txt('crs_no_tests_inside_crs'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_tests_inside_crs'));
 			
 			return true;
 		}
@@ -1181,7 +1181,7 @@ class ilCourseObjectivesGUI
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 		if(!count($questions = $this->objectives_qst_obj->getQuestions()))
 		{
-			sendInfo($this->lng->txt('crs_no_questions_assigned'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_questions_assigned'));
 			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 			$this->__showButton('assignTestSelect',$this->lng->txt('crs_objective_assign_question'));
 
@@ -1279,14 +1279,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!count($_POST['question']))
 		{
-			sendInfo($this->lng->txt('crs_objectives_no_question_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_objectives_no_question_selected'));
 			$this->listAssignedQuestions();
 
 			return false;
@@ -1302,7 +1302,7 @@ class ilCourseObjectivesGUI
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_deassign_qst_row.html",'Modules/Course');
 
 		// Send info
-		sendInfo($this->lng->txt('crs_objectives_deassign_question_sure'));
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_deassign_question_sure'));
 
 		$counter = 0;
 		foreach($_POST['question'] as $qid)
@@ -1390,14 +1390,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!count($_SESSION['crs_objectives_qst']))
 		{
-			sendInfo($this->lng->txt('crs_objectives_no_question_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_objectives_no_question_selected'));
 			$this->listAssignedQuestions();
 
 			return false;
@@ -1411,7 +1411,7 @@ class ilCourseObjectivesGUI
 		}
 		unset($_SESSION['crs_objectives_qst']);
 
-		sendInfo($this->lng->txt('crs_objectives_qst_deassigned'));
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_qst_deassigned'));
 		$this->listAssignedQuestions();
 
 		return true;
@@ -1430,14 +1430,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!count($all_tests = $this->__getAllTests()))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_tests_found'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_tests_found'));
 			$this->listAssignedQuestions();
 
 			return false;
@@ -1549,14 +1549,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!$_POST['test_id'])
 		{
-			sendInfo($this->lng->txt('crs_select_exactly_one_tst'));
+			ilUtil::sendInfo($this->lng->txt('crs_select_exactly_one_tst'));
 			$this->assignTestSelect();
 
 			return false;
@@ -1574,7 +1574,7 @@ class ilCourseObjectivesGUI
 
 		if(!$tmp_tst =& ilObjectFactory::getInstanceByRefId((int) $_POST['test_id'],false))
 		{
-			sendInfo('Error: Test does not exist');
+			ilUtil::sendInfo('Error: Test does not exist');
 			$this->assignTestSelect();
 
 			return false;
@@ -1690,14 +1690,14 @@ class ilCourseObjectivesGUI
 		}
 		if(!isset($_GET['objective_id']))
 		{
-			sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 
 			return false;
 		}
 		if(!$_GET['test_id'])
 		{
-			sendInfo($this->lng->txt('crs_no_test_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_test_selected'));
 			$this->assignTestSelect();
 
 			return false;
@@ -1705,7 +1705,7 @@ class ilCourseObjectivesGUI
 		if(!count($_POST['question']))
 		{
 			$_POST['test_id'] = $_GET['test_id'];
-			sendInfo($this->lng->txt('crs_no_question_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_question_selected'));
 			$this->assignQuestionSelect();
 
 			return false;
@@ -1735,14 +1735,14 @@ class ilCourseObjectivesGUI
 
 		if($added)
 		{
-			sendInfo($this->lng->txt('crs_objectives_assigned_new_questions'));
+			ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_new_questions'));
 			$this->listAssignedQuestions();
 
 			return true;
 		}
 		else
 		{
-			sendInfo($this->lng->txt('crs_objectives_questions_already_assigned'));
+			ilUtil::sendInfo($this->lng->txt('crs_objectives_questions_already_assigned'));
 			$this->assignQuestionSelect();
 
 			return false;
@@ -1863,7 +1863,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!is_array($_POST['test']))
 		{
-			sendInfo('Internal error: CRSM learning objectives');
+			ilUtil::sendInfo('Internal error: CRSM learning objectives');
 			$this->editQuestionAssignment();
 
 			return false;
@@ -1875,7 +1875,7 @@ class ilCourseObjectivesGUI
 			   $data['limit'] < 0 or 
 			   $data['limit'] > 100)
 			{
-				sendInfo($this->lng->txt('crs_objective_insert_percent'));
+				ilUtil::sendInfo($this->lng->txt('crs_objective_insert_percent'));
 				$this->editQuestionAssignment();
 
 				return false;
@@ -1893,7 +1893,7 @@ class ilCourseObjectivesGUI
 			$this->objectives_qst_obj->setTestSuggestedLimit($data['limit']);
 			$this->objectives_qst_obj->updateTest($test_obj_id);
 		}
-		sendInfo($this->lng->txt('crs_objective_updated_test'));
+		ilUtil::sendInfo($this->lng->txt('crs_objective_updated_test'));
 		$this->editQuestionAssignment();
 
 		return true;

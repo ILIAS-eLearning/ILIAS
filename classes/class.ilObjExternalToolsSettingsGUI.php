@@ -97,7 +97,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	
 	function cancelObject()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -303,7 +303,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("ilinc_akclassvalues_active", $_POST["ilinc"]["akclassvalues_active"]);
 		$this->ilias->setSetting("ilinc_akclassvalues_required", $_POST["ilinc"]["akclassvalues_required"]);
 
-		sendInfo($this->lng->txt("extt_ilinc_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("extt_ilinc_settings_saved"),true);
 		$this->ctrl->redirect($this,'editiLinc');
 	}
 	

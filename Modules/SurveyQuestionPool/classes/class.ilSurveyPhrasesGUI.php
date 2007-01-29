@@ -104,7 +104,7 @@ class ilSurveyPhrasesGUI
 */
 	function deletePhrase()
 	{
-		sendInfo();
+		ilUtil::sendInfo();
 
 		$checked_phrases = array();
 		foreach ($_POST as $key => $value)
@@ -116,13 +116,13 @@ class ilSurveyPhrasesGUI
 		}
 		if (count($checked_phrases))
 		{
-			sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
+			ilUtil::sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
 			$this->deletePhrasesForm($checked_phrases);
 			return;
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
+			ilUtil::sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
 			$this->phrases();
 			return;
 		}
@@ -194,7 +194,7 @@ class ilSurveyPhrasesGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("cannot_manage_phrases"));
+			ilUtil::sendInfo($this->lng->txt("cannot_manage_phrases"));
 		}
 	}
 
@@ -220,7 +220,7 @@ class ilSurveyPhrasesGUI
 			}
 		}
 		$this->object->deletePhrases($phrases);
-		sendInfo($this->lng->txt("qpl_phrases_deleted"), true);
+		ilUtil::sendInfo($this->lng->txt("qpl_phrases_deleted"), true);
 		$this->ctrl->redirect($this, "phrases");
 	}
 	
@@ -234,7 +234,7 @@ class ilSurveyPhrasesGUI
 */
 	function deletePhrasesForm($checked_phrases)
 	{
-		sendInfo();
+		ilUtil::sendInfo();
 		$phrases =& $this->object->_getAvailablePhrases(1);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_phrases.html", "Modules/SurveyQuestionPool");
 		$colors = array("tblrow1", "tblrow2");

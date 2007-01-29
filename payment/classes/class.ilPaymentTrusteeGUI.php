@@ -92,7 +92,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 
 		if($a_show_delete)
 		{
-			sendInfo($this->lng->txt('paya_sure_delete_selected_trustees'));
+			ilUtil::sendInfo($this->lng->txt('paya_sure_delete_selected_trustees'));
 			$this->tpl->setCurrentBlock("confirm_delete");
 			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
@@ -102,7 +102,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 
 		if(!count($this->trustee_obj->getTrustees()))
 		{
-			sendInfo($this->lng->txt('paya_no_trustees'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_trustees'));
 			
 			return true;
 		}
@@ -157,7 +157,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 	{
 		if(!is_array($_POST['trustee']))
 		{
-			sendInfo($this->lng->txt('crs_no_users_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_users_selected'));
 			$this->showTrustees();
 
 			return true;
@@ -179,7 +179,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 			}
 		}
 		unset($_SESSION['paya_delete_trustee']);
-		sendInfo($this->lng->txt('paya_delete_trustee_msg'));
+		ilUtil::sendInfo($this->lng->txt('paya_delete_trustee_msg'));
 		$this->showTrustees();
 
 		return true;
@@ -194,7 +194,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 			$this->trustee_obj->toggleObjectPermission($_POST['perm_obj']["$trustee[trustee_id]"]);
 			$this->trustee_obj->modify();
 		}
-		sendInfo($this->lng->txt('paya_updated_trustees'));
+		ilUtil::sendInfo($this->lng->txt('paya_updated_trustees'));
 		$this->showTrustees();
 
 		return true;
@@ -233,7 +233,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 
 		if(!$_POST["search_str"])
 		{
-			sendInfo($this->lng->txt("crs_search_enter_search_string"));
+			ilUtil::sendInfo($this->lng->txt("crs_search_enter_search_string"));
 #			$this->searchUser();
 			$this->showTrustees();
 
@@ -241,7 +241,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		}
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
 		{
-			sendInfo($this->lng->txt("crs_no_results_found"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_results_found"));
 #			$this->searchUser();
 			$this->showTrustees();
 
@@ -274,7 +274,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 	{
 		if(!is_array($_POST["user"]))
 		{
-			sendInfo($this->lng->txt("crs_no_users_selected"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_users_selected"));
 			$this->performSearch();
 #			$this->showTrustees();
 
@@ -282,7 +282,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		}
 		if(in_array($this->user_obj->getId(),$_POST['user']))
 		{
-			sendInfo($this->lng->txt('paya_not_assign_yourself'));
+			ilUtil::sendInfo($this->lng->txt('paya_not_assign_yourself'));
 #			$this->performSearch();
 			$this->showTrustees();
 
@@ -307,14 +307,14 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 
 		if($counter)
 		{
-			sendInfo($this->lng->txt('paya_added_trustee'));
+			ilUtil::sendInfo($this->lng->txt('paya_added_trustee'));
 			$this->showTrustees();
 
 			return true;
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_user_already_assigned'));
+			ilUtil::sendInfo($this->lng->txt('paya_user_already_assigned'));
 			$this->performSearch();
 
 			return false;
@@ -325,28 +325,28 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 	{
 		if(!$_POST['trustee_login'])
 		{
-			sendInfo($this->lng->txt('paya_enter_login'));
+			ilUtil::sendInfo($this->lng->txt('paya_enter_login'));
 			$this->showTrustees();
 			
 			return false;
 		}
 		if(!$user_id = ilObjUser::getUserIdByLogin($_POST['trustee_login']))
 		{
-			sendInfo($this->lng->txt('paya_no_valid_login'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_valid_login'));
 			$this->showTrustees();
 			
 			return false;
 		}
 		if($this->trustee_obj->isTrustee($user_id))
 		{
-			sendInfo($this->lng->txt('paya_user_already_assigned'));
+			ilUtil::sendInfo($this->lng->txt('paya_user_already_assigned'));
 			$this->showTrustees();
 			
 			return false;
 		}
 		if($user_id == $this->user_obj->getId())
 		{
-			sendInfo($this->lng->txt('paya_not_assign_yourself'));
+			ilUtil::sendInfo($this->lng->txt('paya_not_assign_yourself'));
 			$this->showTrustees();
 
 			return false;
@@ -358,7 +358,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$this->trustee_obj->toggleStatisticPermission(true);
 		$this->trustee_obj->add();
 
-		sendInfo($this->lng->txt('paya_added_trustee'));
+		ilUtil::sendInfo($this->lng->txt('paya_added_trustee'));
 		$this->showTrustees();
 
 		return true;
@@ -385,7 +385,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this,"searchUser");
 		}
 		return $search->getResultByType('usr');

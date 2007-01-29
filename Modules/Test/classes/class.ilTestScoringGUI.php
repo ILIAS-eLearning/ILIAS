@@ -70,7 +70,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
@@ -79,7 +79,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		if (count($scoring) == 0)
 		{
 			// allow only if question types are marked for manual scoring
-			sendInfo($this->lng->txt("manscoring_not_allowed"));
+			ilUtil::sendInfo($this->lng->txt("manscoring_not_allowed"));
 			return;
 		}
 		
@@ -100,7 +100,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$participants =& $this->object->getTestParticipants();
 		if (count($participants) == 0)	
 		{
-			sendInfo($this->lng->txt("tst_participants_no"));
+			ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
 			return;
 		}
 
@@ -164,11 +164,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$result = assQuestion::_setReachedPoints($_GET["active_id"], $question_id, $points, $maxpoints, $_GET["pass"]);
 			if ($result) 
 			{
-				sendInfo($this->lng->txt("tst_change_points_done"));
+				ilUtil::sendInfo($this->lng->txt("tst_change_points_done"));
 			}
 			else
 			{
-				sendInfo($this->lng->txt("tst_change_points_not_done"));
+				ilUtil::sendInfo($this->lng->txt("tst_change_points_not_done"));
 			}
 		}
 		$this->manscoring();

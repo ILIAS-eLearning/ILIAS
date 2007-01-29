@@ -173,7 +173,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if (mktime() > $this->object->getTimestamp())
 		{
-			sendInfo($this->lng->txt("exercise_time_over"));
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
 		else
 		{
@@ -185,7 +185,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}
 				else
 				{
-					sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
+					ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
 				}
 			}
 	
@@ -197,7 +197,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}
 				else
 				{
-					sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
+					ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
 				}
 			}
 	
@@ -261,7 +261,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
 		{
-			sendInfo($this->lng->txt("exc_upload_error"),true);
+			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
 		}
 		$this->deliverObject();
 	}
@@ -281,7 +281,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		if (!isset($file))
 		{
-			sendInfo($this->lng->txt("exc_select_one_file"),true);
+			ilUtil::sendInfo($this->lng->txt("exc_select_one_file"),true);
 			$this->ctrl->redirect($this, "view");
 		}
 		$files = $this->object->getFiles();
@@ -340,7 +340,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$newObj->saveData();
 	
 		// always send a message
-		sendInfo($this->lng->txt("exc_added"),true);
+		ilUtil::sendInfo($this->lng->txt("exc_added"),true);
 		ilUtil::redirect("ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
 	}
   
@@ -463,14 +463,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 	
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 	
 		$this->ctrl->redirect($this, "edit");	
 	}
   
 	function cancelEditObject()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -483,7 +483,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		if(!$this->object->addUploadedFile($_FILES["file"]))
 		{
-			sendInfo($this->lng->txt("exc_upload_error"),true);
+			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
 		}
 		$this->ctrl->redirect($this, "edit");
 	}
@@ -512,17 +512,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				case "save_status":
 					$this->__saveStatus();
-					sendInfo($this->lng->txt("exc_status_saved"),true);
+					ilUtil::sendInfo($this->lng->txt("exc_status_saved"),true);
 				break;
 				case "send_member":
 					if(!count($_POST["member"]))
 					{
-						sendInfo($this->lng->txt("select_one"),true);
+						ilUtil::sendInfo($this->lng->txt("select_one"),true);
 					}
 					else
 					{
 						$this->object->send($_POST["member"]);
-						sendInfo($this->lng->txt("exc_sent"),true);
+						ilUtil::sendInfo($this->lng->txt("exc_sent"),true);
 					}
 				break;
 				
@@ -533,7 +533,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 					if (!count($_POST["member"]))
 					{
-						sendInfo($this->lng->txt("select_one"),true);
+						ilUtil::sendInfo($this->lng->txt("select_one"),true);
 					}
 					else 
 					{
@@ -590,18 +590,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		if(!count($_POST['user']))
 		{
-			sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
 			return false;
 		}
 
 		if(!$this->object->members_obj->assignMembers($_POST["user"]))
 		{
-			sendInfo($this->lng->txt("exc_members_already_assigned"));
+			ilUtil::sendInfo($this->lng->txt("exc_members_already_assigned"));
 			return false;
 		}
 		else
 		{
-			sendInfo($this->lng->txt("exc_members_assigned"),true);
+			ilUtil::sendInfo($this->lng->txt("exc_members_assigned"),true);
 		}
 		$this->ctrl->redirect($this, "members");
 		return false;
@@ -660,7 +660,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 		if(!count($this->object->members_obj->getMembers()))
 		{
-			sendInfo($this->lng->txt("exc_no_members_assigned"));
+			ilUtil::sendInfo($this->lng->txt("exc_no_members_assigned"));
 		}
 		else	
 		{
@@ -1013,7 +1013,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::redirect("mail_new.php?type=new&rcp_to=".urlencode($logins));
 		}
 
-		sendInfo($this->lng->txt("select_one"),true);
+		ilUtil::sendInfo($this->lng->txt("select_one"),true);
 		$this->ctrl->redirect($this, "members");
 	}
 	
@@ -1060,11 +1060,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				if(!$this->object->members_obj->assignMembers($_POST["id"]))
 				{
-					sendInfo($this->lng->txt("exc_members_already_assigned"),true);
+					ilUtil::sendInfo($this->lng->txt("exc_members_already_assigned"),true);
 				}
 				else
 				{
-					sendInfo($this->lng->txt("exc_members_assigned"),true);
+					ilUtil::sendInfo($this->lng->txt("exc_members_assigned"),true);
 				}
 				$this->ctrl->redirect($this, "members");
 			}
@@ -1082,7 +1082,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 			case 0:
 				// SHOW ERROR MESSAGE
-				sendInfo($this->lng->txt("cont_no_object_found"));
+				ilUtil::sendInfo($this->lng->txt("cont_no_object_found"));
 			break;
 		
 			case 1:
@@ -1287,7 +1287,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this, "newMembers");
 		}
   		return $search->getResultByType($a_search_for);
@@ -1304,7 +1304,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
   		else
 		{
-			sendInfo($this->lng->txt("select_one"),true);
+			ilUtil::sendInfo($this->lng->txt("select_one"),true);
 			return false;
 		}
 	}
@@ -1319,7 +1319,7 @@ class ilObjExerciseGUI extends ilObjectGUI
   
 		$this->object->members_obj->setNoticeForMember($_GET["member_id"],
 			ilUtil::stripSlashes($_POST["comments_value"]));
-		sendInfo($this->lng->txt("exc_members_comments_saved"));
+		ilUtil::sendInfo($this->lng->txt("exc_members_comments_saved"));
 		$this->membersObject();
 	}
 
@@ -1701,7 +1701,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

@@ -104,7 +104,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$this->object->markAllThreadsRead($ilUser->getId());
 
-		sendInfo($this->lng->txt('forums_all_threads_marked_read'));
+		ilUtil::sendInfo($this->lng->txt('forums_all_threads_marked_read'));
 
 		$this->showThreadsObject();
 		return true;
@@ -430,7 +430,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
@@ -448,13 +448,13 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->object->setStatisticsEnabled((int) $_POST['statistics_enabled']);
 			$this->object->update();
 
-			sendInfo($this->lng->txt("msg_obj_modified"),true);
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 			// REDIRECT (UPDATE TITLE)
 			$this->ctrl->redirect($this,'edit');
 		}
 		// ERROR
-		sendInfo($this->lng->txt('frm_title_required'));
+		ilUtil::sendInfo($this->lng->txt('frm_title_required'));
 
 		return $this->editObject();
 	}
@@ -563,7 +563,7 @@ class ilObjForumGUI extends ilObjectGUI
 		// FINALLY CHECK ERROR
 		if(!$this->message)
 		{
-			sendInfo($this->lng->txt("import_forum_finished"),true);
+			ilUtil::sendInfo($this->lng->txt("import_forum_finished"),true);
 			$ref_id = $this->parser_obj->getRefId();
 			if ($ref_id > 0)
 			{
@@ -578,7 +578,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->message);
+			ilUtil::sendInfo($this->message);
 			$this->createObject();
 		}
 	}
@@ -634,7 +634,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->ilias->db->query($q);
 
 		// always send a message
-		sendInfo($this->lng->txt("frm_added"),true);
+		ilUtil::sendInfo($this->lng->txt("frm_added"),true);
 		
 		$this->ctrl->setParameter($this, "ref_id", $forumObj->getRefId());
 
@@ -826,7 +826,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;
@@ -853,7 +853,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if($_GET['mark_read'])
 		{
 			$forumObj->markThreadRead($ilUser->getId(),(int) $_GET['thr_pk']);
-			sendInfo($lng->txt('forums_thread_marked'),true);
+			ilUtil::sendInfo($lng->txt('forums_thread_marked'),true);
 		}
 		
 		
@@ -873,7 +873,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$frm->setWhereCondition("top_frm_fk = ".$forumObj->getId());
 				$topicData = $frm->getOneTopic();
 		
-				sendInfo($lng->txt("forums_post_deleted"),true);
+				ilUtil::sendInfo($lng->txt("forums_post_deleted"),true);
 				
 				if ($topicData["top_num_threads"] > 0)
 				{
@@ -884,7 +884,7 @@ class ilObjForumGUI extends ilObjectGUI
 					$this->ctrl->redirect($this, "createThread");
 				}
 			}
-			sendInfo($lng->txt("forums_post_deleted"));
+			ilUtil::sendInfo($lng->txt("forums_post_deleted"));
 		}
 		
 		
@@ -1003,7 +1003,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
 
 		$tpl->getStandardTemplate();
-		sendInfo();
+		ilUtil::sendInfo();
 		infoPanel();
 		
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_frm_b.gif"));
@@ -1089,14 +1089,14 @@ class ilObjForumGUI extends ilObjectGUI
 		if(isset($_POST["cmd"]["delete_file"]))
 		{
 			$file_obj->unlinkFiles($_POST["del_file"]);
-			sendInfo("File deleted");
+			ilUtil::sendInfo("File deleted");
 		}
 		// DOWNLOAD FILE
 		if($_GET["file"])
 		{
 			if(!$path = $file_obj->getAbsolutePath(urldecode($_GET["file"])))
 			{
-				sendInfo("Error reading file!");
+				ilUtil::sendInfo("Error reading file!");
 			}
 			else
 			{
@@ -1195,7 +1195,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 					if ($errors != "")
 					{
-						sendInfo($lng->txt("form_empty_fields")." ".$errors);
+						ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
 					}
 					else
 					{
@@ -1209,7 +1209,7 @@ class ilObjForumGUI extends ilObjectGUI
 														  $_POST["subject"]
 															? ilUtil::stripSlashes($_POST["subject"])
 															: $threadData["thr_subject"]);
-							sendInfo($lng->txt("forums_post_new_entry"));
+							ilUtil::sendInfo($lng->txt("forums_post_new_entry"));
 							if(isset($_FILES["userfile"]))
 							{
 								$tmp_file_obj =& new ilFileDataForum($forumObj->getId(),$newPost);
@@ -1225,7 +1225,7 @@ class ilObjForumGUI extends ilObjectGUI
 													? ilUtil::stripSlashes($_POST["subject"])
 													: $threadData["thr_subject"]))
 							{
-								sendInfo($lng->txt("forums_post_modified"));
+								ilUtil::sendInfo($lng->txt("forums_post_modified"));
 							}
 							if(isset($_FILES["userfile"]))
 							{
@@ -2147,7 +2147,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$errors = ilUtil::checkFormEmpty($checkEmptyFields);
 		if ($errors != "")
 		{
-			sendInfo($lng->txt("form_empty_fields")." ".$errors);
+			ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
 		}
 		else
 		{	
@@ -2267,7 +2267,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
 		
 		$frm->enableNotification($ilUser->getId(), $_GET["thr_pk"]);
-		sendInfo($lng->txt("forums_notification_enabled"));
+		ilUtil::sendInfo($lng->txt("forums_notification_enabled"));
 		
 		$this->showNotificationObject();
 	}
@@ -2287,7 +2287,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
 
 		$frm->disableNotification($ilUser->getId(), $_GET["thr_pk"]);
-		sendInfo($lng->txt("forums_notification_disabled"));
+		ilUtil::sendInfo($lng->txt("forums_notification_disabled"));
 		
 		$this->showNotificationObject();
 	}

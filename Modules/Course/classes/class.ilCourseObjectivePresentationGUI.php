@@ -140,7 +140,7 @@ class ilCourseObjectivePresentationGUI
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->reset($this->course_obj->getId());
 		
-		sendInfo($this->lng->txt('crs_objectives_reseted'));
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_reseted'));
 		$this->view();
 	}
 		

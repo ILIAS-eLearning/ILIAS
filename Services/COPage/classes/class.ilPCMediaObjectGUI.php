@@ -608,7 +608,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	{
 		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
 			, $this->content_obj->getTitle());
-		sendInfo($this->lng->txt("copied_to_clipboard"), true);
+		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"), true);
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 

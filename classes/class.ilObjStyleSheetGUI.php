@@ -511,7 +511,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 		if(!$a_error)
 		{
-			sendInfo($this->lng->txt("info_delete_sure"));
+			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -726,7 +726,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $lng;
 
-		sendInfo($lng->txt("msg_cancel"), true);
+		ilUtil::sendInfo($lng->txt("msg_cancel"), true);
 		$this->ctrl->returnToParent($this);
 	}
 	

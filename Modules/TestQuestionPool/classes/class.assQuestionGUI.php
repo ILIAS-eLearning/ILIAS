@@ -148,7 +148,7 @@ class assQuestionGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 
 		$total_of_answers = $this->object->getTotalAnswers();
 		$counter = 0;
@@ -451,11 +451,11 @@ class assQuestionGUI
 				$this->editQuestion();
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
-					sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
 				}
 				else
 				{
-					sendInfo($this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), false);
 				}
 				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 				$this->ctrl->redirectByClass("ilpageobjectgui", "view");
@@ -463,7 +463,7 @@ class assQuestionGUI
 		}
 		else
 		{
-      sendInfo($this->lng->txt("fill_out_all_required_fields"));
+      ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
 			$this->editQuestion();
 		}
 	}
@@ -510,16 +510,16 @@ class assQuestionGUI
 					// first save
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-					sendInfo($this->lng->txt("msg_obj_modified"), true);
+					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 					$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 				}
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
-					sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
 				}
 				else
 				{
-					sendInfo($this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), false);
 				}
 				$this->editQuestion();
 	//			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
@@ -528,7 +528,7 @@ class assQuestionGUI
 		}
 		else
 		{
-      sendInfo($this->getErrorMessage());
+      ilUtil::sendInfo($this->getErrorMessage());
 			$this->editQuestion();
 		}
 	}
@@ -589,7 +589,7 @@ class assQuestionGUI
 				break;
 		}
 
-		sendInfo($this->lng->txt("select_object_to_link"));
+		ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
 		
 		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this,'addSuggestedSolution'), get_class($this));
 
@@ -628,7 +628,7 @@ class assQuestionGUI
 		unset($_SESSION["subquestion_index"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		sendInfo($this->lng->txt("suggested_solution_added_successfully"));
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
 		$this->editQuestion();
 	}
 	
@@ -643,7 +643,7 @@ class assQuestionGUI
 		unset($_SESSION["subquestion_index"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		sendInfo($this->lng->txt("suggested_solution_added_successfully"));
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
 		$this->editQuestion();
 	}
 
@@ -658,7 +658,7 @@ class assQuestionGUI
 		unset($_SESSION["subquestion_index"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		sendInfo($this->lng->txt("suggested_solution_added_successfully"));
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
 		$this->editQuestion();
 	}
 	
@@ -764,7 +764,7 @@ class assQuestionGUI
 				unset($_SESSION["subquestion_index"]);
 				unset($_SESSION["link_new_type"]);
 				unset($_SESSION["search_link_type"]);
-				sendInfo($this->lng->txt("suggested_solution_added_successfully"));
+				ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
 				$this->editQuestion();
 				break;
 		}

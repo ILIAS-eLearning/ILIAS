@@ -54,7 +54,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		parent::ilTestServiceGUI($a_object);
 		if (!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id))
 		{
-			sendInfo($this->lng->txt("cannot_edit_test"), TRUE);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), TRUE);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 	}
@@ -154,7 +154,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if (!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) 
 		{
 			// allow only evaluation access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
@@ -388,7 +388,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$active_id = $_GET["active_id"];
 		if (strlen($active_id) == 0)
 		{
-			sendInfo($this->lng->txt("detailed_evaluation_missing_active_id"), TRUE);
+			ilUtil::sendInfo($this->lng->txt("detailed_evaluation_missing_active_id"), TRUE);
 			$this->ctrl->redirect($this, "outEvaluation");
 		}
 		
@@ -568,7 +568,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if (!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) 
 		{
 			// allow only evaluation access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 

@@ -86,7 +86,7 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 
 		if(!count($bookings = $this->bookings_obj->getBookingsOfCustomer($this->user_obj->getId())))
 		{
-			sendInfo($this->lng->txt('pay_not_buyed_any_object'));
+			ilUtil::sendInfo($this->lng->txt('pay_not_buyed_any_object'));
 
 			return true;
 		}
