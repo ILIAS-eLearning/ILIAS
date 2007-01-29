@@ -563,12 +563,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		} // end if local roles
 		
 		// now sort computed result
-		sort($rbac_objects);
+		//sort($rbac_objects);
 			
-		foreach ($rbac_objects as $key => $obj_data)
+		/*foreach ($rbac_objects as $key => $obj_data)
 		{
 			sort($rbac_objects[$key]["ops"]);
-		}
+		}*/
 		
 		// sort by (translated) name of object type
 		$rbac_objects = ilUtil::sortArray($rbac_objects,"name","asc");
