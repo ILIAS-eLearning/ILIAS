@@ -739,6 +739,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
 		$info->enableLearningProgress();
+		
+		$info->enableNews();
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$info->enableNewsEditing();
+		}
 
 		// add read / back button
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))

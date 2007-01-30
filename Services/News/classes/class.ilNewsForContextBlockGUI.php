@@ -46,7 +46,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
-$this->setEnableEdit(true);
 
 		$lng->loadLanguageModule("news");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -198,6 +197,12 @@ $this->setEnableEdit(true);
 		}
 		
 		if ($this->getCurrentDetailLevel() == 0)
+		{
+			return "";
+		}
+		
+		if (count($this->getData()) == 0 && !$this->getEnableEdit() &&
+			$this->getRepositoryMode())
 		{
 			return "";
 		}

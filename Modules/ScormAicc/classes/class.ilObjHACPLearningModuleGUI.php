@@ -31,6 +31,7 @@ require_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModule.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjHACPLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjHACPLearningModuleGUI: ilInfoScreenGUI
 *
 * @ingroup ModulesScormAicc
 */

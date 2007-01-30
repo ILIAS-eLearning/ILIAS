@@ -80,7 +80,8 @@ class ilColumnGUI
 
 		
 	protected $default_blocks = array(
-		"cat" => array(),
+		"cat" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
+		"crs" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"root" => array(),
 		"info" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT),
@@ -97,6 +98,7 @@ class ilColumnGUI
 
 	protected $custom_blocks = array(
 		"cat" => array("ilExternalFeedBlockGUI"),
+		"crs" => array(),
 		"root" => array("ilExternalFeedBlockGUI"),
 		"info" => array(),
 		"pd" => array("ilExternalFeedBlockGUI")
@@ -267,6 +269,7 @@ class ilColumnGUI
 				$ilCtrl->setParameter($this, "block_type", $cur_block_type);
 				$block_gui = new $gui_class();
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
+				$block_gui->setEnableEdit($this->getEnableEdit());
 
 				if (in_array($gui_class, $this->custom_blocks[$this->getColType()]))
 				{
@@ -332,6 +335,7 @@ class ilColumnGUI
 				"class.".$gui_class.".php");
 			$block_gui = new $gui_class();
 			$block_gui->setRepositoryMode($this->getRepositoryMode());
+			$block_gui->setEnableEdit($this->getEnableEdit());
 			if ($this->getSide() == IL_COL_LEFT)
 			{
 				$block_gui->setAllowMove("right");
@@ -504,6 +508,8 @@ class ilColumnGUI
 				
 				$block_gui = new $gui_class();
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
+				$block_gui->setEnableEdit($this->getEnableEdit());
+				
 				if ($this->getSide() == IL_COL_LEFT)
 				{
 					$block_gui->setAllowMove("right");
@@ -581,6 +587,7 @@ class ilColumnGUI
 		include_once("./".self::$locations[$class]."classes/class.".$class.".php");
 		$block_gui = new $class();
 		$block_gui->setRepositoryMode($this->getRepositoryMode());
+		$block_gui->setEnableEdit($this->getEnableEdit());
 		
 		$ilCtrl->setParameter($this, "block_type", $_POST["block_type"]);
 		$html = $ilCtrl->forwardCommand($block_gui);
