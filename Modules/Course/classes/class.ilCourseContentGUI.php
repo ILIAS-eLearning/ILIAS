@@ -1839,7 +1839,7 @@ class ilCourseContentGUI
 		if(!$_SESSION['crs_timings_panel'][$this->course_obj->getId()])
 		{
 			$this->tabs_gui->addSubTabTarget('crs_content',
-											 $this->ctrl->getLinkTarget($this,'view'));
+											 $this->ctrl->getLinkTargetByClass("ilobjcoursegui",'view'));
 		}
 		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		if(!$this->course_obj->enabledObjectiveView() and $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
