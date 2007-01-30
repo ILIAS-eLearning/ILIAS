@@ -58,6 +58,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilAccess;
+		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
 		{
@@ -104,6 +106,32 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 				break;
 
+			case "ilinfoscreengui":
+				include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+
+				$info = new ilInfoScreenGUI($this);
+				$info->enablePrivateNotes();
+				$info->enableLearningProgress();
+				
+				// add read / back button
+				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+				{
+					$info->addButton($this->lng->txt("view"),
+						"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
+						' target="ilContObj'.$this->object->getId().'" ');
+				}
+
+				$info->enableNews();
+				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+				{
+					$info->enableNewsEditing();
+				}
+				// show standard meta data section
+				$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+				// forward the command
+				$this->ctrl->forwardCommand($info);
+				break;
 
 			default:
 				$cmd = $this->ctrl->getCmd("frameset");
@@ -492,6 +520,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			return;
 		}
+
+		// info screen
+		$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
+			? true
+			: false;
+		$tabs_gui->addTarget("info_short",
+			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
+			"ilinfoscreengui", "", $force_active);
 
 		// properties
 		$tabs_gui->addTarget("properties",

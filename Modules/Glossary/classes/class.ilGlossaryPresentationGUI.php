@@ -196,7 +196,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTermByGiven($term_list, $filter ="")
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 		
 		$this->lng->loadLanguageModule("meta");
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
@@ -399,6 +399,25 @@ class ilGlossaryPresentationGUI
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		// edit link
+		if (!$this->offlineMode() && $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->tpl->setCurrentBlock("edit_glossary");
+			$this->tpl->setVariable("EDIT_TXT", $this->lng->txt("edit"));
+			$this->tpl->setVariable("EDIT_LINK",
+				"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("EDIT_TARGET", "_top");
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// permanent link
+		$this->tpl->setCurrentBlock("perma_link");
+		$this->tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
+			"/goto.php?target=glo_".$_GET["ref_id"]."&client_id=".CLIENT_ID);
+		$this->tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+		$this->tpl->setVariable("PERMA_TARGET", "_top");
+		$this->tpl->parseCurrentBlock();
 
 		if ($this->offlineMode())
 		{
@@ -1118,36 +1137,6 @@ class ilGlossaryPresentationGUI
 	{
 		global $ilBench, $ilAccess;
 
-		//$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
-
-		// set style sheets
-		/*
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
-		}
-		else
-		{
-			$style_name = $this->ilias->account->prefs["style"].".css";;
-			$this->tpl->setStyleSheetLocation("./".$style_name);
-		}*/
-
-		//$this->tpl->getStandardTemplate();
-		//$this->tpl->setTitle($this->lm->getTitle());
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
-		
-		// Full locator, if read permission is given
-		/*
-		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-		{
-			$this->ilLocator();
-		}
-		else
-		{
-			$ilLocator->addRepositoryItems();
-			$this->tpl->setLocator();
-		}*/
-		
 		$this->setTabs();
 		$this->lng->loadLanguageModule("meta");
 
@@ -1156,6 +1145,12 @@ class ilGlossaryPresentationGUI
 		$info = new ilInfoScreenGUI($this->glossary_gui);
 		$info->enablePrivateNotes();
 		//$info->enableLearningProgress();
+
+		$info->enableNews();
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$info->enableNewsEditing();
+		}
 
 		// add read / back button
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -1186,8 +1181,6 @@ class ilGlossaryPresentationGUI
 		{
 			// forward the command
 			$this->ctrl->forwardCommand($info);
-			//$this->tpl->setContent("aa");
-			//$this->tpl->show();
 		}
 	}
 

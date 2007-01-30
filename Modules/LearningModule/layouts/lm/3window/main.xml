@@ -8,6 +8,7 @@
 				<ilLocator/>
 				<ilMainMenu/>
 				<ilLMMenu />
+				<ilLMHead />
 				<ilLMSubMenu />
 				<ilLMNotes />
 			</StructureObject>
@@ -17,6 +18,7 @@
 				<ilLocator/>
 				<ilMainMenu/>
 				<ilLMMenu />
+				<ilLMHead />
 				<ilLMSubMenu />
 				<ilLMNotes />
 			</PageObject>

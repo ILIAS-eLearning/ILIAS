@@ -108,7 +108,8 @@ class ilTabsGUI
 	* @param	string		$a_frame		frame target
 	* @param	boolean		$a_activate		activate this menu item
 	*/
-	function addTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false)
+	function addTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false,
+		$a_dir_text = false)
 	{
 		
 		if(!$a_cmdClass)
@@ -124,7 +125,7 @@ class ilTabsGUI
 		}
 		$this->target[] = array("text" => $a_text, "link" => $a_link,
 			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame,
-			"activate" => $a_activate);
+			"activate" => $a_activate, "dir_text" => $a_dir_text);
 	}
 	
 	/**
@@ -151,8 +152,10 @@ class ilTabsGUI
 	* @param	string		$a_cmdClass		used for auto activation. String or array of cmd classes
 	* @param	string		$a_frame		frame target
 	* @param	boolean		$a_activate		activate this menu item
+	* @param	boolean		$a_dir_text		text is direct text, no language variable
 	*/
-	function addSubTabTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false)
+	function addSubTabTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false,
+		$a_dir_text = false)
 	{
 		
 		if(!$a_cmdClass)
@@ -168,7 +171,7 @@ class ilTabsGUI
 		}
 		$this->sub_target[] = array("text" => $a_text, "link" => $a_link,
 			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame,
-			"activate" => $a_activate);
+			"activate" => $a_activate, "dir_text" => $a_dir_text);
 	}
 
 	/**
@@ -318,7 +321,14 @@ class ilTabsGUI
 				$tpl->setCurrentBlock($pre."tab");
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);
 				$tpl->setVariable($pre2."TAB_LINK", $target["link"]);
-				$tpl->setVariable($pre2."TAB_TEXT", $lng->txt($target["text"]));
+				if ($target["dir_text"])
+				{
+					$tpl->setVariable($pre2."TAB_TEXT", $target["text"]);
+				}
+				else
+				{
+					$tpl->setVariable($pre2."TAB_TEXT", $lng->txt($target["text"]));
+				}
 				$tpl->setVariable($pre2."TAB_TARGET", $target["frame"]);
 				$tpl->parseCurrentBlock();
 			}

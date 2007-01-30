@@ -1876,6 +1876,14 @@ div.ilc_TableOfContents
 	margin-bottom: 0px;
 }
 
+h1.il_LMHead
+{
+	margin: 6px 15px 6px 15px;
+	font-size: 120%;
+	font-weight: normal;
+}
+
+
 /* --- Test & Assessment styles --- */
 
 .feedback

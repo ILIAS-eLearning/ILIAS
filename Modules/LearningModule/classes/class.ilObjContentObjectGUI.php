@@ -61,6 +61,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilAccess;
+		
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
 			$this->explorer();
@@ -183,6 +185,28 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			// infoscreen
+			case 'ilinfoscreengui':
+				$this->addLocations(true);
+				$this->setTabs();
+				include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+				$info = new ilInfoScreenGUI($this);
+				$info->enablePrivateNotes();
+				//$info->enableLearningProgress();
+		
+				$info->enableNews();
+				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+				{
+					$info->enableNewsEditing();
+				}
+				
+				// show standard meta data section
+				$info->addMetaDataSections($this->object->getId(), 0,
+					$this->object->getType());
+		
+				$ret =& $this->ctrl->forwardCommand($info);
 				break;
 
 			default:
@@ -2549,20 +2573,27 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	/**
 	* get lm menu html
 	*/
-	function setilLMMenu($a_offline = false, $a_export_format = "")
+	function setilLMMenu($a_offline = false, $a_export_format = "",
+		$a_active = "content", $a_use_global_tabs = false)
 	{
-		global $ilCtrl,$ilUser;
+		global $ilCtrl,$ilUser, $ilAccess, $ilTabs;
+		
+		$active[$a_active] = true;
 
 		if (!$this->object->isActiveLMMenu())
 		{
 			return "";
 		}
 
-		include_once("./classes/class.ilTemplate.php");
-
-		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, "Modules/LearningModule");
-		$tpl_menu->setCurrentBlock("lm_menu_btn");
-
+		if ($a_use_global_tabs)
+		{
+			$tabs_gui = $ilTabs;
+		}
+		else
+		{
+			$tabs_gui = new ilTabsGUI();
+		}
+		
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
@@ -2588,48 +2619,53 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			if (!$a_offline)
 			{
 				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
-				$tpl_menu->setVariable("BTN_LINK",
-					$this->ctrl->getLinkTargetByClass(
-						array("illmpresentationgui", "ilinfoscreengui"), "showSummary"));
+				$link = $this->ctrl->getLinkTargetByClass(
+						array("illmpresentationgui", "ilinfoscreengui"), "showSummary");
 			}
 			else
 			{
-				$tpl_menu->setVariable("BTN_LINK", "./info.html");
+				$link = "./info.html";
 			}
-			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("info_short"));
-			$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
-			$tpl_menu->parseCurrentBlock();
+			
+			$tabs_gui->addTarget("info_short", $link,
+					"", "", $buttonTarget, $active["info"]);
+		}
+
+		// content
+		if (!$a_offline && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
+			$tabs_gui->addTarget("content",
+				$ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"),
+				"", "", $buttonTarget,  $active["content"]);
 		}
 
 		// table of contents
-		if ($this->object->isActiveTOC())
+		if ($this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			if (!$a_offline)
 			{
 				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
-				$tpl_menu->setVariable("BTN_LINK",
-					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showTableOfContents"));
+				$link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showTableOfContents");
 			}
 			else
 			{
-				$tpl_menu->setVariable("BTN_LINK", "./table_of_contents.html");
+				$link = "./table_of_contents.html";
 			}
-			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_contents"));
-				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
-			$tpl_menu->parseCurrentBlock();
+			
+			$tabs_gui->addTarget("cont_toc", $link,
+					"", "", $buttonTarget, $active["toc"]);
 		}
 
 		// print view
-		if ($this->object->isActivePrintView())
+		if ($this->object->isActivePrintView() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			if (!$a_offline)		// has to be implemented for offline mode
 			{
 				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
-				$tpl_menu->setVariable("BTN_LINK",
-					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showPrintViewSelection"));
-				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
-				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
-				$tpl_menu->parseCurrentBlock();
+				$link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showPrintViewSelection");
+				$tabs_gui->addTarget("cont_print_view", $link,
+					"", "", $buttonTarget, $active["print"]);
 			}
 		}
 
@@ -2643,21 +2679,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$is_public = true;
 		}
 
-		if ($this->object->isActiveDownloads() && !$a_offline && $is_public)
+		if ($this->object->isActiveDownloads() && !$a_offline && $is_public &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
-			$tpl_menu->setVariable("BTN_LINK",
-				$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList"));
-			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("download"));
-				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
-			$tpl_menu->parseCurrentBlock();
+			$link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList");
+			$tabs_gui->addTarget("download", $link,
+				"", "", $buttonTarget, $active["download"]);
 		}
 
 		// get user defined menu entries
 		$this->__initLMMenuEditor();
 		$entries = $this->lmme_obj->getMenuEntries(true);
 
-		if (count($entries) > 0)
+		if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			foreach ($entries as $entry)
 			{
@@ -2672,32 +2707,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				{
 					$entry["link"] = "http://".$entry["link"];
 				}
-
-				$tpl_menu->setVariable("BTN_LINK", ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id));
-				$tpl_menu->setVariable("BTN_TXT", $entry["title"]);
-				//$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
-				$tpl_menu->setVariable("BTN_TARGET", "_blank");
-				$tpl_menu->parseCurrentBlock();
+				$tabs_gui->addTarget($entry["title"],
+					ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id),
+					"", "", "_blank", "", true);
 			}
 		}
 
-		// close button
-		if(!$showViewInFrameset and
-		   $this->object->isActiveLMMenu())
-		{
-			$tpl_menu->setCurrentBlock("js_close");
-			$tpl_menu->setVariable("JS_BTN_TXT",$this->lng->txt('close'));
-			$tpl_menu->parseCurrentBlock();
-		}
-
-		// Jump to...
-		/*
-		$tpl_menu->setCurrentBlock("jump");
-		$tpl_menu->setVariable("JUMP_TXT", $this->lng->txt("jump_to"));
-		$tpl_menu->parseCurrentBlock();
-		*/
-
-		return $tpl_menu->get();
+		return $tabs_gui->getHTML();
 	}
 
 	/**
@@ -2842,6 +2858,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// back to upper context
 		//$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
+
+		// info
+		$tabs_gui->addTarget("info_short",
+			$this->ctrl->getLinkTargetByClass("ilinfoscreengui",'showSummary'),
+			"", "ilinfoscreengui");
 
 		// properties
 		$tabs_gui->addTarget("properties",

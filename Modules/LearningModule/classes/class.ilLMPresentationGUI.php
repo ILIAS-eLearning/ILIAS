@@ -761,6 +761,10 @@ class ilLMPresentationGUI
 						$ilBench->stop("ContentPresentation", "layout_lmmenu");
 						break;
 
+					case "ilLMHead":
+						$this->ilLMHead();
+						break;
+						
 					case "ilLMSubMenu":
 						$ilBench->start("ContentPresentation", "layout_lmsubmenu");
 						$this->ilLMSubMenu();
@@ -990,6 +994,19 @@ class ilLMPresentationGUI
 	{
 		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat()));
+	}
+
+	/**
+	* output lm header
+	*/
+	function ilLMHead()
+	{
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.gif"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("lm_head");
+		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -2326,6 +2343,10 @@ class ilLMPresentationGUI
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 		$this->tpl->getStandardTemplate();
 		$this->ilLocator();
+		
+		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+			,$this->getExportFormat(), "toc", true));
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_toc.html", true);
 
 		// set title header
@@ -2333,6 +2354,7 @@ class ilLMPresentationGUI
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 
+		/*
 		if (!$this->offlineMode())
 		{
 			$this->tpl->setCurrentBlock("back_to_lm");
@@ -2341,7 +2363,7 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("LINK_BACK",
 				$this->ctrl->getLinkTarget($this, ""));
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
 		include_once ("./Modules/LearningModule/classes/class.ilLMTableOfContentsExplorer.php");
 		$exp = new ilTableOfContentsExplorer(
@@ -2412,7 +2434,7 @@ class ilLMPresentationGUI
 		global $ilBench, $ilLocator, $ilAccess;
 
 		$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
-
+		
 		// set style sheets
 		if (!$this->offlineMode())
 		{
@@ -2427,6 +2449,9 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+
+		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+			,$this->getExportFormat(), "info", true));
 		
 		// Full locator, if read permission is given
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -2447,7 +2472,14 @@ class ilLMPresentationGUI
 		$info->enablePrivateNotes();
 		$info->enableLearningProgress();
 
+		$info->enableNews();
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$info->enableNewsEditing();
+		}
+		
 		// add read / back button
+		/*
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			if ($_GET["obj_id"] > 0)
@@ -2461,7 +2493,7 @@ class ilLMPresentationGUI
 				$info->addButton($this->lng->txt("view"),
 					$this->ctrl->getLinkTarget($this, "layout"));
 			}
-		}
+		}*/
 		
 		// show standard meta data section
 		$info->addMetaDataSections($this->lm->getId(),0, $this->lm->getType());
@@ -2512,6 +2544,10 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->getStandardTemplate();
+		
+		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+			,$this->getExportFormat(), "print", true));
+			
 		$this->ilLocator();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
 			"tpl.lm_print_selection.html", true);
@@ -2520,10 +2556,11 @@ class ilLMPresentationGUI
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 		$this->tpl->setVariable("TXT_SHOW_PRINT", $this->lng->txt("cont_show_print_view"));
-		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		
+		/*$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 		$this->tpl->setVariable("LINK_BACK",
-			$this->ctrl->getLinkTargetByClass("illmpresentationgui", ""));
+			$this->ctrl->getLinkTargetByClass("illmpresentationgui", ""));*/
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this));
 
@@ -3189,17 +3226,23 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->getStandardTemplate();
+		
+		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+			,$this->getExportFormat(), "download", true));
+
 		$this->ilLocator();
-		$this->tpl->stopTitleFloating();
+		//$this->tpl->stopTitleFloating();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_download_list.html", "Modules/LearningModule");
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		
+		/*
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$this->tpl->setVariable("LINK_BACK",
-			$this->ctrl->getLinkTarget($this, ""));
+			$this->ctrl->getLinkTarget($this, "")); */
 
 		// output copyright information
 		include_once 'Services/MetaData/classes/class.ilMD.php';

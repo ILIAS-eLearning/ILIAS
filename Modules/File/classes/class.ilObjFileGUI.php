@@ -379,6 +379,11 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		$info->enablePrivateNotes();
 		$info->enableNews();
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$info->enableNewsEditing();
+		}
+
 		
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());

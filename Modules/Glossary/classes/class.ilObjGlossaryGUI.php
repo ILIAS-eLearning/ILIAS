@@ -37,6 +37,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -97,6 +98,24 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$term_gui->setGlossary($this->object);
 				//$ret =& $term_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($term_gui);
+				break;
+				
+			case "ilinfoscreengui":
+				$this->getTemplate();
+				$this->setTabs();
+				$this->setLocator();
+				$this->lng->loadLanguageModule("meta");
+				include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		
+				$info = new ilInfoScreenGUI($this);
+				$info->enablePrivateNotes();
+				$info->enableNews();
+				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+				{
+					$info->enableNewsEditing();
+				}
+				$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+				$this->ctrl->forwardCommand($info);
 				break;
 				
 			case 'ilpermissiongui':
@@ -1618,6 +1637,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tabs_gui->addTarget("cont_terms",
 			$this->ctrl->getLinkTarget($this, "listTerms"), array("listTerms", ""),
 			get_class($this), "", $force_active);
+			
+		$force_active = false;
+		if ($this->ctrl->getCmd() == "showSummary" ||
+			strtolower($this->ctrl->getNextClass()) == "ilinfoscreengui")
+		{
+			$force_active = true;
+		}
+		$tabs_gui->addTarget("information_abbr",
+			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
+			"ilInfoScreenGUI", "", $force_active);
+
 
 		// properties
 		$tabs_gui->addTarget("properties",

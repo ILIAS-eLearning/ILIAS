@@ -152,6 +152,14 @@ class ilInfoScreenGUI
 	}
 
 	/**
+	* enable news editing
+	*/
+	function enableNewsEditing($a_enable = true)
+	{
+		$this->news_editing = $a_enable;
+	}
+
+	/**
 	* add a new section
 	*/
 	function addSection($a_title)
@@ -407,6 +415,7 @@ class ilInfoScreenGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_CENTER);
+		$column_gui->setEnableEdit($this->news_editing);
 
 		if (!$ilCtrl->isAsynch())
 		{
@@ -416,12 +425,14 @@ class ilInfoScreenGUI
 				if ($column_gui->getCmdSide() == IL_COL_RIGHT)
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
+					$column_gui->setEnableEdit($this->news_editing);
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 				// left column wants center
 				if ($column_gui->getCmdSide() == IL_COL_LEFT)
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_LEFT);
+					$column_gui->setEnableEdit($this->news_editing);
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 			}
@@ -443,6 +454,7 @@ class ilInfoScreenGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
+		$column_gui->setEnableEdit($this->news_editing);
 
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
@@ -454,7 +466,10 @@ class ilInfoScreenGUI
 		{
 			if (!$ilCtrl->isAsynch())
 			{
-				$html = $ilCtrl->getHTML($column_gui);
+				if ($this->news_enabled)
+				{
+					$html = $ilCtrl->getHTML($column_gui);
+				}
 			}
 		}
 
