@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilCourseContentInterface, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilColumnGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI
 *
 * 
 * @extends ilContainerGUI
@@ -242,13 +242,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->viewObject();
 	}
 	
-	function viewObject()
-	{
-		$this->tpl->setRightContent($this->getRightColumnHTML());
-		$this->getCenterColumnHTML();
-	}
 	
-	function getCenterColumnHTML()
+	function viewObject()
 	{
 		global $rbacsystem, $ilUser, $ilCtrl;
 
@@ -256,11 +251,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		if ($ilCtrl->getNextClass() == "ilcolumngui")
-		{	
-			return parent::getCenterColumnHTML();
 		}
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
@@ -4094,7 +4084,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
-		global $rbacsystem,$ilUser,$ilAccess,$ilErr;
+		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -4264,10 +4254,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('export_members');
 				$export = new ilMemberExportGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($export);
-				break;
-				
-			case "ilcolumngui":
-				$this->viewObject();
 				break;
 				
 			case 'ilcourseagreementgui':

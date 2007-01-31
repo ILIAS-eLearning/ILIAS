@@ -567,16 +567,21 @@ class ilCtrl
 	*/
 	function saveParameter(&$a_obj, $a_parameter)
 	{
+		$this->saveParameterByClass(get_class($a_obj), $a_parameter);
+	}
+	
+	function saveParameterByClass($a_class, $a_parameter)
+	{
 		if (is_array($a_parameter))
 		{
 			foreach($a_parameter as $parameter)
 			{
-				$this->save_parameter[strtolower(get_class($a_obj))][] = $parameter;
+				$this->save_parameter[strtolower($a_class)][] = $parameter;
 			}
 		}
 		else
 		{
-			$this->save_parameter[strtolower(get_class($a_obj))][] = $a_parameter;
+			$this->save_parameter[strtolower($a_class)][] = $a_parameter;
 		}
 	}
 

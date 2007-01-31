@@ -413,7 +413,7 @@ class ilRepositoryExplorer extends ilExplorer
 					// check if lm is online
 					if ($a_type == "lm")
 					{
-						include_once("content/classes/class.ilObjLearningModule.php");
+						include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 						$lm_obj =& new ilObjLearningModule($a_ref_id);
 						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
@@ -423,7 +423,7 @@ class ilRepositoryExplorer extends ilExplorer
 					// check if fblm is online
 					if ($a_type == "htlm")
 					{
-						include_once("content/classes/class.ilObjFileBasedLM.php");
+						include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
 						$lm_obj =& new ilObjFileBasedLM($a_ref_id);
 						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
@@ -433,7 +433,7 @@ class ilRepositoryExplorer extends ilExplorer
 					// check if fblm is online
 					if ($a_type == "sahs")
 					{
-						include_once("content/classes/class.ilObjSAHSLearningModule.php");
+						include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 						$lm_obj =& new ilObjSAHSLearningModule($a_ref_id);
 						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
@@ -444,7 +444,7 @@ class ilRepositoryExplorer extends ilExplorer
 					if ($a_type == "glo")
 					{
 						$obj_id = ilObject::_lookupObjectId($a_ref_id);
-						include_once("content/classes/class.ilObjGlossary.php");
+						include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 						if((!ilObjGlossary::_lookupOnline($obj_id)) &&
 							(!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
