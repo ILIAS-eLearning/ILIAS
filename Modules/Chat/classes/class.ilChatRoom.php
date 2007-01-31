@@ -143,6 +143,15 @@ class ilChatRoom
 		$res = $this->ilias->db->query($query);
 	}
 
+	function visited($a_id)
+	{
+		$query = "UPDATE chat_invitations SET guest_informed = 1 ".
+			"WHERE room_id = '".$this->getRoomId()."' ".
+			"AND guest_id = '".$a_id."'";
+
+		$res = $this->ilias->db->query($query);
+	}
+	
 	function checkAccess()
 	{
 		if($this->getRoomId())
@@ -152,6 +161,8 @@ class ilChatRoom
 				$this->setRoomId(0);
 				return false;
 			}
+			
+			$this->visited($this->getUserId());
 		}
 		return true;
 	}

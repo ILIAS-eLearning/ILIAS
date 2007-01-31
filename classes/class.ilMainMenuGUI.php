@@ -64,7 +64,7 @@ class ilMainMenuGUI
 	}
 	
 	/**
-	* @param	string	$a_active	"desktop"|"repository"|"search"|"mail"|"administration"
+	* @param	string	$a_active	"desktop"|"repository"|"search"|"mail"|"chat_invitation"|"administration"
 	*/
 	function setActive($a_active)
 	{
@@ -106,7 +106,7 @@ class ilMainMenuGUI
 	*/
 	function setTemplateVars()
 	{
-		global $rbacsystem, $lng, $ilias, $tree;
+		global $rbacsystem, $lng, $ilias, $tree, $ilUser;
 
 		// administration button
 
@@ -202,6 +202,7 @@ class ilMainMenuGUI
 				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail").$add);
 				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget($link));
 				$this->tpl->setVariable("TARGET_MAIL", $this->target);
+
 				if ($this->active == "mail")
 				{
 					$this->tpl->setVariable("MM_CLASS", "MMActive");
@@ -211,6 +212,37 @@ class ilMainMenuGUI
 					$this->tpl->setVariable("MM_CLASS", "MMInactive");
 				}
 				$this->tpl->parseCurrentBlock();
+				
+				
+				// chat invitations
+				include_once "./Modules/Chat/classes/class.ilChatInvitations.php";
+
+
+				$link = "mail_frameset.php";
+				if ($invitation_count = ilChatInvitations::_countNewInvitations($_SESSION["AccountId"]))
+				{
+					$add = " ".sprintf($lng->txt("cnt_new"),$invitation_count);
+
+					// GET USERS LANGUAGE
+					$lng_chat =& new ilLanguage($ilUser->getLanguage());
+					$lng_chat->loadLanguageModule("chat");
+					
+					$this->tpl->setCurrentBlock("chatbutton");
+					$this->tpl->setVariable("TXT_CHAT", $lng_chat->txt("chat_invitation_subject").$add);
+					$this->tpl->setVariable("SCRIPT_CHAT", $this->getScriptTarget($link));
+					$this->tpl->setVariable("TARGET_CHAT", $this->target);
+					
+					if ($this->active == "chat_invitation")
+					{
+						$this->tpl->setVariable("MM_CLASS", "MMActive");
+					}
+					else
+					{
+						$this->tpl->setVariable("MM_CLASS", "MMInactive");
+					}
+
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 
