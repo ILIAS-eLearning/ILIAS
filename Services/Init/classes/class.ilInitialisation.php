@@ -924,21 +924,6 @@ class ilInitialisation
 			}
 		}
 		
-		// dirty hack for the saving of java applet questions in tests. Unfortunately
-		// some changes in this file for ILIAS 3.6 caused this script to stop at the
-		// following check (worked in ILIAS <= 3.5).
-		// So we return here, because it's only necessary to get the $ilias class for
-		// the database connection
-		// TODO: Find out what happens here. Talk to Alex Killing
-		// Alex: I don't know :-) Helmut should! Maybe this is not needed anymore
-		//       due to SOAP based handling of java applet quesions.
-		if (strpos($_SERVER["SCRIPT_FILENAME"], "save_java_question_result") !== FALSE)
-		{
-			$lng = new ilLanguage($_SESSION['lang']);
-			$GLOBALS['lng'] =& $lng;
-			return;
-		}
-		
 //echo $_POST; exit;
 		//
 		// SUCCESSFUL AUTHENTICATION

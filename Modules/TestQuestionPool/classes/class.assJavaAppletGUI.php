@@ -382,7 +382,7 @@ class assJavaAppletGUI extends assQuestionGUI
 
 	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE)
 	{
-		$userdata = $this->getActiveUserData($active_id);
+		$userdata = $this->object->getActiveUserData($active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -582,29 +582,11 @@ class assJavaAppletGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
-	function getActiveUserData($active_id)
-	{
-		global $ilDB;
-		$query = sprintf("SELECT * FROM tst_active WHERE active_id = %s",
-			$ilDB->quote($active_id . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			return array("user_id" => $row["user_fi"], "test_id" => $row["test_fi"]);
-		}
-		else
-		{
-			return array();
-		}
-	}
-	
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-		$userdata = $this->getActiveUserData($active_id);
+		$userdata = $this->object->getActiveUserData($active_id);
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -651,7 +633,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "post_url");
-		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
+		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_question_post_data.php");
 		$template->parseCurrentBlock();
 
 		if ($active_id)

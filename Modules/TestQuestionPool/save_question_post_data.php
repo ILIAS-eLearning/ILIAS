@@ -14,12 +14,10 @@ foreach ($_POST as $key => $value)
 $res = saveQuestionResult($_POST["session_id"]."::".$_POST["client"],$_POST["user_id"], $_POST["test_id"], $_POST["question_id"], $_POST["pass"], $results);
 if ($res === true)
 {
-	global $lng;
-	$lng->loadLanguageModule("assessment");
-	echo $lng->txt("javaapplet_successful_saved");
+	echo "save results was successful";
 }
 else
 {
-	echo $lng->txt("javaapplet_unsuccessful_saved");
+	echo "save results was not successful";
 }
 ?>

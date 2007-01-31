@@ -2619,6 +2619,31 @@ class assQuestion
 			return FALSE;
 		}
 	}
+
+	/**
+	* Returns the user id and the test id for a given active id
+	*
+	* @param integer $active_id Active id for a test/user
+	* @return array Result array containing the user_id and test_id
+	* @access public
+	*/
+	function getActiveUserData($active_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT * FROM tst_active WHERE active_id = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return array("user_id" => $row["user_fi"], "test_id" => $row["test_fi"]);
+		}
+		else
+		{
+			return array();
+		}
+	}
 }
 
 ?>
