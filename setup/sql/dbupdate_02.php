@@ -364,3 +364,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#905>
+ALTER TABLE `chat_invitations` ADD `guest_informed` BOOL NOT NULL DEFAULT '0';
