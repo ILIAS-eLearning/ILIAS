@@ -14,6 +14,11 @@
 			serverdate++;
 		}
 		var startd = new Date({YEAR}, {MONTH}, {DAY}, {HOUR}, {MINUTE}, {SECOND});
+		var enddtime = -1;
+<!-- BEGIN enddate -->		
+		var endd = new Date({ENDYEAR}, {ENDMONTH}, {ENDDAY}, {ENDHOUR}, {ENDMINUTE}, {ENDSECOND});
+		enddtime = endd.getTime() / 1000;
+<!-- END enddate -->		
 		var ptime_m = {PTIME_M};
 		var ptime_s = {PTIME_S};
 		var minute = "{STRING_MINUTE}";
@@ -31,6 +36,18 @@
 		if (avail < 0)
 		{
 			avail = 0;
+		}
+		if (enddtime > -1)
+		{
+			var diffToEnd = Math.floor(enddtime - now);
+			if ((diffToEnd > 0) && (diffToEnd < avail))
+			{
+				avail = diffToEnd;
+			}
+			else if (diffToEnd < 0)
+			{
+				avail = 0;
+			}
 		}
 		var avail_m = Math.floor(avail / 60);
 		var avail_s = avail - (avail_m * 60);
