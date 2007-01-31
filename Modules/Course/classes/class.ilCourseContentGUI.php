@@ -30,7 +30,7 @@
 * @extends ilObjectGUI
 *
 * @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI, ilCourseObjectivePresentationGUI, ilCourseItemAdministrationGUI
-* @ilCtrl_Calls ilCourseContentGUI: ilEventAdministrationGUI
+* @ilCtrl_Calls ilCourseContentGUI: ilEventAdministrationGUI, ilColumnGUI
 *
 */
 
@@ -70,7 +70,7 @@ class ilCourseContentGUI
 
 	function &executeCommand()
 	{
-		global $ilAccess,$ilErr;
+		global $ilAccess, $ilErr, $ilTabs, $ilCtrl;
 
 		if(!$ilAccess->checkAccess('read','',$this->container_obj->getRefId()))
 		{
@@ -96,7 +96,7 @@ class ilCourseContentGUI
 				break;
 
 			case 'ilcourseobjectivepresentationgui':
-				$this->__forwardToObjectivePresentation();
+				$this->view();					// forwarding moved to getCenterColumnHTML()
 				break;
 
 			case 'ileventadministrationgui':
@@ -105,6 +105,12 @@ class ilCourseContentGUI
 				$this->ctrl->setReturn($this,'');
 				$event_gui = new ilEventAdministrationGUI($this->container_gui,(int) $_GET['event_id']);
 				$this->ctrl->forwardCommand($event_gui);
+				break;
+
+			case "ilcolumngui":
+				$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
+				$ilTabs->setSubTabActive("crs_content");
+				$this->view();
 				break;
 
 			default:
@@ -121,12 +127,16 @@ class ilCourseContentGUI
 					$this->__forwardToArchivesGUI();
 					break;
 				}
+
 				// forward to objective presentation
-				if(!$this->is_tutor and
+				if((!$this->is_tutor and
 				   $this->container_obj->getType() == 'crs' and
-				   $this->container_obj->enabledObjectiveView())
+				   $this->container_obj->enabledObjectiveView()) ||
+				   $_GET["col_return"] == "objectives")
 				{
-					$this->__forwardToObjectivePresentation();
+					$this->use_objective_presentation = true;
+					$this->view();
+					//$this->__forwardToObjectivePresentation();
 					break;
 				}
 
@@ -329,11 +339,96 @@ class ilCourseContentGUI
 		return true;
 	}
 
-
-
-
+	/**
+	* Output course content
+	*/
 	function view()
 	{
+		$this->tpl->setRightContent($this->getRightColumnHTML());
+		$this->getCenterColumnHTML();
+	}
+
+	/**
+	* Display right column
+	*/
+	function getRightColumnHTML()
+	{
+		global $ilUser, $lng, $ilCtrl, $ilAccess;
+		
+		if ($ilCtrl->getNextClass() == "ilcourseobjectivepresentationgui")
+		{
+			$ilCtrl->setParameterByClass("ilcolumngui", "col_return", "objectives");
+		}
+		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
+			
+		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
+		$obj_type = ilObject::_lookupType($obj_id);
+
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
+		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+		$column_gui->setRepositoryMode(true);
+		if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()) &&
+			$this->container_gui->isActiveAdministrationPanel())
+		{
+			$column_gui->setEnableEdit(true);
+		}
+		
+		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
+			$column_gui->getCmdSide() == IL_COL_RIGHT &&
+			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
+		{
+			$html = $ilCtrl->forwardCommand($column_gui);
+		}
+		else
+		{
+			if (!$ilCtrl->isAsynch())
+			{
+				$html = $ilCtrl->getHTML($column_gui);
+			}
+		}
+
+		return $html;
+	}
+
+	/**
+	* Output center column
+	*/
+	function getCenterColumnHTML()
+	{
+		global $ilCtrl, $tpl;
+		
+		$this->tabs_gui->setSubTabActive('crs_content');
+		
+		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
+
+		if ($this->use_objective_presentation)
+		{
+			$this->tabs_gui->setSubTabActive('learners_view');
+			return $this->__forwardToObjectivePresentation();
+		}
+		
+		switch ($ilCtrl->getNextClass())
+		{	
+			case "ilcolumngui":
+				if ($_GET["col_return"] == "objectives")
+				{
+					$this->tabs_gui->setSubTabActive('learners_view');
+					$ilCtrl->setParameter($this, "col_return", "objectives");
+					$ilCtrl->setReturn($this, "view");
+				}
+				else
+				{
+					$this->tabs_gui->setSubTabActive('crs_content');
+					$ilCtrl->setReturn($this, "view");
+				}
+				$tpl->setContent($this->__forwardToColumnGUI());
+				return;
+				
+			case "ilcourseobjectivepresentationgui":
+				$this->tabs_gui->setSubTabActive('learners_view');
+				return $this->__forwardToObjectivePresentation();
+		}
+		
 		if($_SESSION['crs_timings_panel'][$this->course_obj->getId()])
 		{
 			return $this->editTimings();
@@ -343,8 +438,6 @@ class ilCourseContentGUI
 
 		include_once './classes/class.ilObjectListGUIFactory.php';
 		include_once './Modules/Course/classes/Event/class.ilEvent.php';
-
-		$this->tabs_gui->setSubTabActive('crs_content');
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html");
 
@@ -359,6 +452,54 @@ class ilCourseContentGUI
 		// course materials
 		$this->__showMaterials();
 	}
+	
+	/**
+	* Get columngui output
+	*/
+	function __forwardToColumnGUI()
+	{
+		global $ilCtrl, $ilAccess;
+		
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
+
+		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
+		$obj_type = ilObject::_lookupType($obj_id);
+
+		if (!$ilCtrl->isAsynch())
+		{
+			//if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
+			if (ilColumnGUI::getScreenMode() != IL_SCREEN_SIDE)
+			{
+				// right column wants center
+				if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT)
+				{
+					$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+					$column_gui->setRepositoryMode(true);
+					$column_gui->setEnableEdit(false);
+					if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()) &&
+						$this->container_gui->isActiveAdministrationPanel())
+					{
+						$column_gui->setEnableEdit(true);
+					}
+					$html = $ilCtrl->forwardCommand($column_gui);
+				}
+				// left column wants center
+				if (ilColumnGUI::getCmdSide() == IL_COL_LEFT)
+				{
+					$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
+					$column_gui->setRepositoryMode(true);
+					if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()))
+					{
+						$column_gui->setEnableEdit(true);
+					}
+					$html = $ilCtrl->forwardCommand($column_gui);
+				}
+			}
+		}
+		
+		return $html;
+	}
+
 
 	// PRIVATE
 	function __showEvents()
@@ -1830,29 +1971,33 @@ class ilCourseContentGUI
 			$this->is_tutor = true;
 		}
 
+		// These subtabs should also work, if the command is called directly in
+		// ilObjCourseGUI, so please use ...ByClass methods.
+		// (see ilObjCourseGUI->executeCommand: case "ilcolumngui")
+		
 		if($this->course_obj->enabledObjectiveView())
 		{
 			// Objective gui
 			$this->tabs_gui->addSubTabTarget('learners_view',
-											 $this->ctrl->getLinkTargetByClass('ilcourseobjectivepresentationgui','view'));
+				$this->ctrl->getLinkTargetByClass(array('ilcoursecontentgui', 'ilcourseobjectivepresentationgui'),'view'));
 		}
 		if(!$_SESSION['crs_timings_panel'][$this->course_obj->getId()])
 		{
 			$this->tabs_gui->addSubTabTarget('crs_content',
-											 $this->ctrl->getLinkTargetByClass("ilobjcoursegui",'view'));
+				$this->ctrl->getLinkTargetByClass("ilobjcoursegui",'view'));
 		}
 		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		if(!$this->course_obj->enabledObjectiveView() and $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->tabs_gui->addSubTabTarget('timings_timings',
-											 $this->ctrl->getLinkTarget($this,'editUserTimings'));
+				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','editUserTimings'));
 		}
-
 
 		if($this->is_tutor)
 		{
 			$this->tabs_gui->addSubTabTarget('crs_archives',
-											 $this->ctrl->getLinkTargetByClass('ilcoursearchivesgui','view'));
+				$this->ctrl->getLinkTargetByClass(
+					array('ilcoursecontentgui', 'ilcoursearchivesgui'),'view'));
 		}
 
 		return true;
@@ -1912,6 +2057,7 @@ class ilCourseContentGUI
 
 		return $path;
 	}
+
 
 } // END class.ilCourseContentGUI
 ?>
