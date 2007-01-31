@@ -121,10 +121,6 @@ if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
 		ilFrameTargetInfo::_getFrame("MainContent"));
 }
 
-
-
-include_once "./tracking/classes/class.ilUserTracking.php";
-
 for ( $i=0; $i<sizeof($inhalt1); $i++)
 {
 	if ($inhalt1[$i][1] != "")
