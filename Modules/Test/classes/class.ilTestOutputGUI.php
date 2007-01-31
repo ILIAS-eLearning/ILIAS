@@ -325,7 +325,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
-		$formaction = $this->ctrl->getFormAction($this);
+		$formaction = $this->ctrl->getFormAction($this, "redirectQuestion");
 
 		if($_GET['crs_show_result'])
 		{

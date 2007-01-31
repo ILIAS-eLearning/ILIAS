@@ -376,6 +376,123 @@ class ilObjAdvancedEditing extends ilObject
 		);
 		return $tags;
 	}
+
+	/**
+	* Returns an array of all possible HTML tags for text editing
+	*
+	* Returns an array of all possible HTML tags for text editing
+	*
+	* @return array HTML tags
+	*/
+	function &_getAllHTMLTags()
+	{
+		$tags = array(
+			"a",
+			"abbr",
+			"acronym",
+			"address",
+			"applet",
+			"area",
+			"b",
+			"base",
+			"basefont",
+			"bdo",
+			"big",
+			"blockquote",
+			"br",
+			"button",
+			"caption",
+			"center",
+			"cite",
+			"code",
+			"col",
+			"colgroup",
+			"dd",
+			"del",
+			"dfn",
+			"dir",
+			"div",
+			"dl",
+			"dt",
+			"em",
+			"fieldset",
+			"font",
+			"form",
+			"h1",
+			"h2",
+			"h3",
+			"h4",
+			"h5",
+			"h6",
+			"hr",
+			"i",
+			"iframe",
+			"img",
+			"input",
+			"ins",
+			"isindex",
+			"kbd",
+			"label",
+			"legend",
+			"li",
+			"link",
+			"map",
+			"menu",
+			"object",
+			"ol",
+			"optgroup",
+			"option",
+			"p",
+			"param",
+			"pre",
+			"q",
+			"s",
+			"samp",
+			"select",
+			"small",
+			"span",
+			"strike",
+			"strong",
+			"sub",
+			"sup",
+			"table",
+			"tbody",
+			"td",
+			"textarea",
+			"tfoot",
+			"th",
+			"thead",
+			"tr",
+			"tt",
+			"u",
+			"ul",
+			"var",
+			"ruby", // Ruby Annotation XHTML module
+			"rbc",
+			"rtc",
+			"rb",
+			"rt",
+			"rp"
+			);
+			return $tags;
+		}
+		/**
+		* Returns a string of all HTML tags
+		*
+		* Returns a string of all HTML tags
+		*
+		* @return string Used HTML tags
+		*/
+		function _getAllHTMLTagsAsString()
+		{
+			$result = "";
+			$tags =& ilObjAdvancedEditing::_getAllHTMLTags();
+			foreach ($tags as $tag)
+			{
+				$result .= "<$tag>";
+			}
+			return $result;
+		}
 	
 	/**
 	* Sets the state of the rich text editor visibility for the current user
