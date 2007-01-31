@@ -106,7 +106,7 @@ class ilCourseAgreementGUI
 		
 		if($send_info)
 		{
-			$this->ilUtil::sendInfoMessage();
+			$this->sendInfoMessage();
 		}
 		$this->showCourseDefinedFields();
 		
@@ -292,7 +292,7 @@ class ilCourseAgreementGUI
 	 *
 	 * @access private
 	 */
-	private function ilUtil::sendInfoMessage()
+	private function sendInfoMessage()
 	{
 		$message = '';
 		if($this->agreement_required)

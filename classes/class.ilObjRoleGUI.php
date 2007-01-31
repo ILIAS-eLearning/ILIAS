@@ -1103,11 +1103,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("err_role_not_assignable"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-		}
-
 		if (!isset($_POST["user"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
