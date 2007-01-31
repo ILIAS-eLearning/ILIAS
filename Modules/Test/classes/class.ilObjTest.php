@@ -2432,6 +2432,29 @@ class ilObjTest extends ilObject
 		}
 	}
 
+	/**
+	* Returns the seconds left from the actual time until the ending time
+	* 
+	* Returns the seconds left from the actual time until the ending time
+	*
+	* @return integer The seconds left until the ending time is reached
+	* @access public
+	* @see $ending_time
+	*/
+		function getSecondsUntilEndingTime()
+		{
+			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
+			{
+				$ending = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = time();
+				return $ending - $now;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
 /**
 * Returns the state of the processing time (enabled/disabled)
 *

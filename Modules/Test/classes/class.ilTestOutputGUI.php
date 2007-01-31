@@ -1494,23 +1494,26 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$str_time_left .= $time_left_seconds . " " . $this->lng->txt("seconds");
 		}
 		$date = getdate($starting_time);
+		$formattedStartingTime = ilFormat::formatDate(
+			$date["year"]."-".
+			sprintf("%02d", $date["mon"])."-".
+			sprintf("%02d", $date["mday"])." ".
+			sprintf("%02d", $date["hours"]).":".
+			sprintf("%02d", $date["minutes"]).":".
+			sprintf("%02d", $date["seconds"])
+		);
 		$datenow = getdate();
 		$this->tpl->setCurrentBlock("enableprocessingtime");
 		$this->tpl->setVariable("USER_WORKING_TIME", 
-			sprintf($this->lng->txt("tst_time_already_spent"),
-				ilFormat::formatDate(
-					$date["year"]."-".
-					sprintf("%02d", $date["mon"])."-".
-					sprintf("%02d", $date["mday"])." ".
-					sprintf("%02d", $date["hours"]).":".
-					sprintf("%02d", $date["minutes"]).":".
-					sprintf("%02d", $date["seconds"])
-				),
-				$str_processing_time) .
-				" <span id=\"timeleft\">" . sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left) . "</span>"
-			);
+			sprintf(
+				$this->lng->txt("tst_time_already_spent"),
+				$formattedStartingTime,
+				$str_processing_time
+			)
+		);
+		$this->tpl->setVariable("USER_REMAINING_TIME", sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left));
 		$this->tpl->parseCurrentBlock();
-		$template = new ilTemplate("tpl.workingtime.js.html", TRUE, TRUE, "Modules/Test");
+		$template = new ilTemplate("tpl.workingtime.js.html", TRUE, TRUE, TRUE);
 		$template->setVariable("STRING_MINUTE", $this->lng->txt("minute"));
 		$template->setVariable("STRING_MINUTES", $this->lng->txt("minutes"));
 		$template->setVariable("STRING_SECOND", $this->lng->txt("second"));
@@ -1523,6 +1526,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$template->setVariable("HOUR", $date["hours"]);
 		$template->setVariable("MINUTE", $date["minutes"]);
 		$template->setVariable("SECOND", $date["seconds"]);
+		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getEndingTime(), $matches))
+		{
+			$template->setVariable("ENDYEAR", $matches[1]);
+			$template->setVariable("ENDMONTH", $matches[2]-1);
+			$template->setVariable("ENDDAY", $matches[3]);
+			$template->setVariable("ENDHOUR", $matches[4]);
+			$template->setVariable("ENDMINUTE", $matches[5]);
+			$template->setVariable("ENDSECOND", $matches[6]);
+		}
 		$template->setVariable("YEARNOW", $datenow["year"]);
 		$template->setVariable("MONTHNOW", $datenow["mon"]-1);
 		$template->setVariable("DAYNOW", $datenow["mday"]);
