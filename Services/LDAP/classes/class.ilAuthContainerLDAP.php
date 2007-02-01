@@ -96,7 +96,10 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	public function _debug($a_message,$a_line = 0)
 	{
-	 	$this->log->write('LDAP PEAR: '.$a_message);
+		if(is_object($this->log))
+		{
+		 	$this->log->write('LDAP PEAR: '.$a_message);
+		}
 	 	parent::_debug($a_message,$a_line);
 	}
 	

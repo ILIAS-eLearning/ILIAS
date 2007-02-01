@@ -174,7 +174,7 @@ class ilLDAPQuery
 	 */
 	private function fetchGroupMembers($a_name = '')
 	{
-		$group_name = strlen($a_name) ? $a_name : $this->settings->getGroup();
+		$group_name = strlen($a_name) ? $a_name : $this->settings->getGroupName();
 		
 		// Build filter
 		$filter = sprintf('(&(%s=%s)%s)',
@@ -234,7 +234,7 @@ class ilLDAPQuery
 		// Build filter
 		if($this->settings->enabledGroupMemberIsDN())
 		{
-			$filter = '(objectclass=*)';
+			$filter = $this->settings->getFilter();
 			$dn = $a_name;
 			$res = $this->queryByScope(IL_LDAP_SCOPE_BASE,$dn,$filter,$this->user_fields);
 		}
@@ -266,7 +266,7 @@ class ilLDAPQuery
 
 		if($user_data = $tmp_result->get())
 		{
-			$user_ext = $user_data[$this->settings->getUserAttribute()];
+			$user_ext = $user_data[strtolower($this->settings->getUserAttribute())];
 			$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount('ldap',$user_ext);
 			$this->users[$user_ext] = $user_data;
 		}

@@ -151,8 +151,8 @@ class ilAuthLDAP extends Auth
 	 */
 	private function setCallbacks() 
 	{
-		parent::setLoginCallback(array($this,'loginObserver'));
-		parent::setFailedLoginCallback(array($this,'failedLoginObserver'));
+		$this->setLoginCallback(array($this,'loginObserver'));
+		$this->setFailedLoginCallback(array($this,'failedLoginObserver'));
 	}
 	
 }
