@@ -22,6 +22,7 @@
 */
 
 require_once "./classes/class.ilObject.php";
+include_once('Modules/File/classes/class.ilFSStorageFile.php');
 
 /** @defgroup ModulesFile Modules/File
  */
@@ -41,6 +42,8 @@ class ilObjFile extends ilObject
 	var $filemaxsize = "20000000";	// not used yet
 	var $raise_upload_error;
 	var $mode = "object";
+	
+	private $file_storage = null;
 
 	/**
 	* Constructor
@@ -54,6 +57,11 @@ class ilObjFile extends ilObject
 		$this->type = "file";
 		$this->raise_upload_error = true;
 		$this->ilObject($a_id,$a_call_by_reference);
+		
+		if($this->getId())
+		{
+			$this->initFileStorage();
+		}
 	}
 
 	/**
@@ -68,10 +76,11 @@ class ilObjFile extends ilObject
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,version,mode) "
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) "
 			."VALUES (".$ilDB->quote($this->getId()).","
 			.$ilDB->quote($this->getFileName()).","
 			.$ilDB->quote($this->getFileType()).","
+			.$ilDB->quote($this->getFileSize()).","
 			.$ilDB->quote("1").",".$ilDB->quote($this->getMode()).")";
 		$this->ilias->db->query($q);
 		
@@ -80,6 +89,10 @@ class ilObjFile extends ilObject
 		{
 			$this->createMetaData();
 		}
+		
+		// Create file directory
+		$this->initFileStorage();
+		$this->file_storage->create();
 	}
 	
 	/**
@@ -155,7 +168,7 @@ class ilObjFile extends ilObject
 			$version_subdir = "/".sprintf("%03d", $a_version);
 		}
 		
-		return ilUtil::getDataDir()."/files/file_".$this->getId().$version_subdir;
+		return $this->file_storage->getAbsolutePath().'/'.$version_subdir;
 	}
 
 	function createDirectory()
@@ -228,8 +241,11 @@ class ilObjFile extends ilObject
 
 		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
+		$this->setFileSize($row->file_size);
 		$this->setVersion($row->version);
 		$this->setMode($row->mode);
+		
+		$this->initFileStorage();
 	}
 
 	/**
@@ -248,6 +264,7 @@ class ilObjFile extends ilObject
 		
 		$q = "UPDATE file_data SET file_name = ".$ilDB->quote($this->getFileName()).
 			", file_type = ".$ilDB->quote($this->getFiletype())." ".
+			", file_size = ".$ilDB->quote($this->getFileSize())." ".
 			", version = ".$ilDB->quote($this->getVersion())." ".
 			", mode = ".$ilDB->quote($this->getMode())." ".
 			"WHERE file_id = ".$ilDB->quote($this->getId());
@@ -376,8 +393,30 @@ class ilObjFile extends ilObject
 
 	function _lookupFileSize($a_id, $a_as_string = false)
 	{
-		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
-		return ilObjFileAccess::_lookupFileSize($a_id, $a_as_string);
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		$size = $row->file_size;
+		if ($a_as_string)
+		{
+			if ($size > 1000000)
+			{
+				return round($size/1000000,1)." MB";
+			}
+			else if ($size > 1000)
+			{
+				return round($size/1000,1)." KB";
+			}
+			else
+			{
+				return $size." Bytes";
+			}
+			
+		}
+		return $size;
 	}
 	
 	/**
@@ -625,6 +664,18 @@ class ilObjFile extends ilObject
 			 ilUtil::escapeShellArg($this->getDirectory().'/'.'1.zip'));
 
 		return $this->getDirectory().'/1.zip';
+	}
+	
+	/**
+	 * init file storage object
+	 *
+	 * @access private
+	 * 
+	 */
+	private function initFileStorage()
+	{
+	 	$this->file_storage = new ilFSStorageFile($this->getId());
+	 	return true;
 	}
 
 } // END class.ilObjFile

@@ -104,13 +104,18 @@ class ilObjFileAccess extends ilObjectAccess
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
-		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
+		
+		include_once('Modules/File/classes/class.ilFSStorageFile.php');
+		$fss = new ilFSStorageFile($a_id);
+		$file = $fss->getAbsolutePath().'/'.$row->file_name;
+		#$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
 
 		if (@!is_file($file))
 		{
 			$version_subdir = "/".sprintf("%03d", ilObjFileAccess::_lookupVersion($a_id));
-			$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
+			#$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
+			$file = $fss->getAbsolutePath().'/'.$version_subdir.'/'.$row->file_name;
+			
 		}
 
 		if (is_file($file))
@@ -147,18 +152,22 @@ class ilObjFileAccess extends ilObjectAccess
 	*/
 	function _lookupSuffix($a_id)
 	{
+		include_once('Modules/File/classes/class.ilFSStorageFile.php');
+		
 		global $ilDB;
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
-		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
-
+		#$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
+		$fss = new ilFSStorageFile($a_id);
+		$file = $fss->getAbsolutePath().'/'.$row->file_name;
 		if (@!is_file($file))
 		{
 			$version_subdir = "/".sprintf("%03d", ilObjFileAccess::_lookupVersion($a_id));
-			$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
+			#$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
+			$file = $fss->getAbsolutePath().'/'.$version_subdir.'/'.$row->file_name;
 		}
 
 		if (is_file($file))
