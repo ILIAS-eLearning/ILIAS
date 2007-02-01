@@ -22,26 +22,28 @@
 */
 
 /**
-* Singleton class that stores all privacy settings
+* Singleton class that stores all security settings
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Roland Küstermann <roland@kuestermann.com>
 * @version $Id$
 *
 *
 * @ingroup Services/PrivacySecurity
 */
 
-class ilPrivacySettings
+class ilSecuritySettings
 {
+    public static $SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS = 1;
+
     private static $instance = null;
 	private $db;
 	private $settings;
 
-	private $export_course;
-	private $export_confirm;
-	private $ref_id;
+	private $https_header_enable;
+	private $https_header_name;
+	private $https_header_value;
 
-    /**
+	/**
 	 * Private constructor: use _getInstance()
 	 *
 	 * @access private
@@ -59,8 +61,9 @@ class ilPrivacySettings
 	}
 
 	/**
-	 * Get instance of ilPrivacySettings
+	 * Get instance of ilSecuritySettings
 	 *
+	 * @return ilSecuritySettings  instance
 	 * @access public
 	 *
 	 */
@@ -70,32 +73,77 @@ class ilPrivacySettings
 		{
 			return self::$instance;
 		}
-	 	return self::$instance = new ilPrivacySettings();
+	 	return self::$instance = new ilSecuritySettings();
 	}
 
-	public function getPrivacySettingsRefId()
+	public function getSecuritySettingsRefId()
 	{
 		return $this->ref_id;
 	}
 
-	public function enabledExport()
+	/**
+	 * write access to enable automatic https detection
+	 *
+	 * @param boolean $varname
+	 *
+	 */
+	public function setAutomaticHTTPSEnabled($varname)
 	{
-		return $this->export_course;
-	}
-	public function enableExport($a_status)
-	{
-		$this->export_course = (bool) $a_status;
-	}
-
-	public function confirmationRequired()
-	{
-		return $this->export_confirm;
+	    $this->https_header_enable = $varname;
 	}
 
-	public function setConfirmationRequired($a_status)
+
+	/**
+	 * set header name for automatic https detection
+	 *
+	 * @param string $varname
+	 */
+	public function setAutomaticHTTPSHeaderName($varname)
 	{
-		$this->export_confirm = (bool) $a_status;
+	    $this->https_header_name = $varname;
 	}
+
+	/**
+	 * set header value for automatic https detection
+	 *
+	 * @param string $varname
+	 */
+	public function setAutomaticHTTPSHeaderValue($varname)
+	{
+	    $this->https_header_value = $varname;
+	}
+
+	/**
+	 * read access to header name for automatic https detection
+	 *
+	 * @return string  header name
+	 */
+	public function getAutomaticHTTPSHeaderName()
+	{
+	    return $this->https_header_name;
+	}
+
+	/**
+	 * read access to header value for automatic https detection
+	 *
+	 * @return string header value
+	 */
+	public function getAutomaticHTTPSHeaderValue()
+	{
+	    return $this->https_header_value;
+	}
+
+    /**
+     * read access to switch if automatic https detection is enabled
+     *
+     * @return boolean  true, if detection is enabled, false otherwise
+     */
+	public function isAutomaticHTTPSEnabled()
+	{
+	    return $this->https_header_enable;
+	}
+
+
 
 	/**
 	 * Save settings
@@ -104,8 +152,9 @@ class ilPrivacySettings
 	 */
 	public function save()
 	{
-	 	$this->settings->set('ps_export_confirm',(bool) $this->confirmationRequired());
-	 	$this->settings->set('ps_export_course',(bool) $this->enabledExport());
+	 	$this->settings->set('ps_auto_https_enabled',(bool) $this->isAutomaticHTTPSEnabled());
+	 	$this->settings->set('ps_auto_https_headername',(string) $this->getAutomaticHTTPSHeaderName());
+	 	$this->settings->set('ps_auto_https_headervalue',(string) $this->getAutomaticHTTPSHeaderValue());
 	}
 	/**
 	 * read settings
@@ -125,9 +174,9 @@ class ilPrivacySettings
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->ref_id = $row["ref_id"];
 
-		$this->export_course = (bool) $this->settings->get('ps_export_course',false);
-		$this->export_confirm = (bool) $this->settings->get('ps_export_confirm',false);
-
+    	$this->https_header_enable = (bool) $this->settings->get('ps_auto_https_enabled',false);
+		$this->https_header_name = (string) $this->settings->get('ps_auto_https_headername',"ILIAS_HTTPS_ENABLED");
+		$this->https_header_value = (string) $this->settings->get('ps_auto_https_headervalue',"1");
 	}
 
 	/**
@@ -136,6 +185,13 @@ class ilPrivacySettings
 	 * @return 0, if everything is ok, an error code otherwise
 	 */
 	public function validate() {
+	    if ($this->isAutomaticHTTPSEnabled() &&
+	        (strlen($this->getAutomaticHTTPSHeaderName()) == 0 ||
+	         strlen($this->getAutomaticHTTPSHeaderValue()) == 0)
+	        )
+        {
+	        return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS;
+	    }
 	    return 0;
 	}
 
