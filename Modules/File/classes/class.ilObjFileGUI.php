@@ -313,7 +313,6 @@ class ilObjFileGUI extends ilObjectGUI
 	function sendFileObject()
 	{
 		$this->object->sendFile($_GET["hist_id"]);
-		
 		return true;
 	}
 

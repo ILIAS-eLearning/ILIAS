@@ -82,7 +82,7 @@ class ilLDAPServer
 	 *
 	 * @return array server ids of active ldap server
 	 */
-	public function _getCronServerIds()
+	public static function _getCronServerIds()
 	{
 		global $ilDB;
 		
