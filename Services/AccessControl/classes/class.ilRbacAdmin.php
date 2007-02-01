@@ -224,6 +224,11 @@ class ilRbacAdmin
 				}
 			}
 		}
+		
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		$mapping = ilLDAPRoleGroupMapping::_getInstance();
+		$mapping->assign($a_rol_id,$a_usr_id); 
+		
 		return true;
 	}
 
@@ -246,6 +251,10 @@ class ilRbacAdmin
 			 "WHERE usr_id='".$a_usr_id."' ".
 			 "AND rol_id='".$a_rol_id."'";
 		$this->ilDB->query($q);
+		
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		$mapping = ilLDAPRoleGroupMapping::_getInstance();
+		$mapping->deassign($a_rol_id,$a_usr_id); 
 		
 		return true;
 	}
