@@ -378,6 +378,12 @@ class ilLDAPQuery
 			case IL_LDAP_BIND_ADMIN:
 				$user = $this->settings->getRoleBindDN();
 				$pass = $this->settings->getRoleBindPassword();
+				
+				if(!strlen($user) or !strlen($pass))
+				{
+					$user = $this->settings->getBindUser();
+					$pass = $this->settings->getBindPassword();
+				}
 
 				define('IL_LDAP_REBIND_USER',$user);
 				define('IL_LDAP_REBIND_PASS',$pass);
