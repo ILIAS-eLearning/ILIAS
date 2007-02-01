@@ -251,7 +251,7 @@ common#:#im_msn_icon#:#MSN Logo
 common#:#im_aim_icon#:#AIM Logo
 common#:#im_skype_icon#:#Skype Logo
 common#:#show_user_activity#:#Show User Activity
-common#:#display_not_active_status_after#:#Display Status 'Not active' after 
+common#:#display_not_active_status_after#:#Display Status 'Not active' after
 common#:#show_user_activity_desc#:#If enabled, this option displays 'Not active' next to a user's name in the Users online list on the Personal Desktop when no input occured within the time intervall defined above.
 common#:#status_not_active#:#Not active
 common#:#not_enabled_or_configured#:#Not configured or enabled
@@ -653,9 +653,9 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous ques
 assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finished#:#Finished
-assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! 
+assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
-assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? 
+assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed?
 assessment#:#tst_general_properties#:#General Properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
@@ -778,7 +778,7 @@ assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_evaluation#:#Back to Evaluation Overview
 assessment#:#tst_results_back_introduction#:#Back to Introduction
 assessment#:#tst_results_back_overview#:#Back to Results Overview
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results 
+assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_presentation#:#Test Results Presentation
 assessment#:#tst_resume_test#:#Resume the Test
@@ -6019,7 +6019,7 @@ registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an out
 registration#:#reg_role_access_limitations#:#Define access limitations of Roles for new registered Users
 registration#:#reg_access_limitation_mode#:#Access Limitation Mode
 registration#:#reg_access_limitation_mode_unlimited#:#No access limitation
-registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date 
+registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date
 registration#:#reg_access_limitation_mode_relative#:#Limited access for a fixed time period after registration
 search#:#add_members_header#:#Add members
 search#:#append_results#:#Append results
@@ -6514,7 +6514,7 @@ survey#:#select_value#:#Select a Value
 survey#:#selection#:#Selection
 survey#:#set_filter#:#Set Filter
 survey#:#show_questiontext#:#Display the Question Text
-survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. 
+survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden.
 survey#:#skipped#:#skipped
 survey#:#spl_general_properties#:#General Properties
 survey#:#spl_online_property#:#Online
@@ -6853,7 +6853,7 @@ ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_binding#:#Binding
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously
 ldap#:#ldap_bind_user#:#Bind as User:
-ldap#:#ldap_server_bind_dn#:#User Search Base 
+ldap#:#ldap_server_bind_dn#:#User Search Base
 ldap#:#ldap_server_bind_pass#:#Password
 ldap#:#ldap_authentication_settings#:#Authentication Settings
 ldap#:#ldap_user_dn#:#User Search Base
@@ -6861,7 +6861,7 @@ ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_attribute#:#Attribute for Login Name
 ldap#:#ldap_search_filter#:#LDAP Filter
 ldap#:#ldap_group_restrictions#:#Group Restrictions
-ldap#:#ldap_group_dn#:#Group Search Base 
+ldap#:#ldap_group_dn#:#Group Search Base
 ldap#:#ldap_group_scope#:#Search Scope
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_name#:#Group Name
@@ -6879,7 +6879,7 @@ ldap#:#ldap_scope_base#:#Base
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
 ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"
 ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.
-ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server. 
+ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server.
 ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.
 ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".
 ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)<strong>(userfilter)</strong>).
@@ -6921,6 +6921,7 @@ ldap#:#ldap_role_not_exists#:#A role with that name does not exist
 common#:#obj_ps#:#Privacy and Security
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.
 ps#:#show_privacy#:#Privacy
+ps#:#show_security#:#Security
 common#:#ps_edit_permission#:#Change Permission Settings
 common#:#ps_visible#:#Privacy/Security Settings are Visible
 common#:#ps_read#:#Read Access to Privacy/Security Settings
@@ -6949,12 +6950,13 @@ crs#:#crs_agree#:#Acceptance
 crs#:#crs_info_agree#:#I accept, that the above data types are visible for course administrators.
 crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.
 ps#:#ps_privacy_protection#:#Privacy Settings
+ps#:#ps_security_protection#:#Security Settings
 ps#:#ps_profile_export#:#Protection of User Profile Data
 ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 crs#:#user_fields#:#User Fields
 ps#:#ps_crs_user_fields#:#Course-Specific User Fields
-ps#:#ps_cdf_add_field#:#Add User Field 
+ps#:#ps_cdf_add_field#:#Add User Field
 ps#:#ps_cdf_name#:#Name
 ps#:#ps_cdf_type#:#Type
 ps#:#ps_cdf_required#:#Required Field
@@ -6990,3 +6992,8 @@ ps#:#ps_cdf_info#:#Further Course-Specific Data:
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
 ps#:#ps_required_info#:#Further Course-Specific fields are required for accessing the course content.
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.
+ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.
+ps#:#ps_auto_https#:#Autodetect HTTPS
+ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
+ps#:#ps_auto_https_header_name#:#Header Name
+ps#:#ps_auto_https_header_value#:#Header Value

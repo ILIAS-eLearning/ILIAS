@@ -6247,7 +6247,7 @@ survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die URL zu kopieren)
 survey#:#survey_code_used#:#Der Zugangsschlüssel wurde verwendet
 survey#:#survey_codes_lang#:#Sprache der Umfrage
-survey#:#survey_codes_no_anonymization#:#Sie müssen eine anonymisierte Umfrage mit Zugangsschlüsseln erstellen, um Zugangsschlüssel erzeugen zu können! 
+survey#:#survey_codes_no_anonymization#:#Sie müssen eine anonymisierte Umfrage mit Zugangsschlüsseln erstellen, um Zugangsschlüssel erzeugen zu können!
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
 survey#:#survey_finish#:#Umfrage beenden >>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
@@ -6886,6 +6886,7 @@ common#:#auth_shib_instructions#:#Be sure to read the README for instructions on
 common#:#obj_ps#:#Datenschutz und Server-Sicherheit
 common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
 ps#:#show_privacy#:#Datenschutz
+ps#:#show_security#:#Sicherheit
 common#:#ps_edit_permission#:#Rechteeinstellungen ändern
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
@@ -6916,6 +6917,7 @@ crs#:#crs_agree#:#Zustimmung
 crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Kursadministratoren eingesehen werden können.
 crs#:#crs_agreement_required#:#Sie können diesem Kurs nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
 ps#:#ps_privacy_protection#:#Einstellungen zum Datenschutz
+ps#:#ps_security_protection#:#Einstellungen zur Sicherheit
 ps#:#ps_profile_export#:#Schutz der Daten des Persönlichen Profils
 ps#:#ps_export_course#:#Erlaube den Export von Persönlichen Daten in Kursen
 ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
@@ -6957,3 +6959,8 @@ ps#:#ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgende
 crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
 ps#:#ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
 ps#:#ps_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern der Einstellungen bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt werden.
+ps#:#ps_error_message_https_header_missing#:#Die automatische HTTPS-Erkennung erfordert einen Header-Namen und einen Header-Wert.
+ps#:#ps_auto_https#:#Automatische HTTPS-Erkennung
+ps#:#ps_auto_https_description#:#Wenn aktiviert, versucht ILIAS den HTTPS-Status eines Request per Header-Analyse zu bestimmen.
+ps#:#ps_auto_https_header_name#:#Headername
+ps#:#ps_auto_https_header_value#:#Headerwert
