@@ -407,15 +407,17 @@ foreach($file_ids as $file_id)
 		continue;
 	}
 	
-	// Rename
-	$fss = new ilFSStorageFile($file_id);
-	$fss->create();
-	
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/files/file_'.$file_id) or !@is_dir(ilUpdateUtils::getDataDir().'/files/file_'.$file_id))
 	{
 		$ilLog->write('DB Migration 905: Failed: No data found for file_'.$file_id);
 		continue;
 	}	
+
+	// Rename
+	$fss = new ilFSStorageFile($file_id);
+	$fss->create();
+
+
 	if($fss->rename(ilUpdateUtils::getDataDir().'/files/file_'.$file_id,$fss->getAbsolutePath()))
 	{
 		$ilLog->write('DB Migration 905: Success renaming file_'.$file_id);
