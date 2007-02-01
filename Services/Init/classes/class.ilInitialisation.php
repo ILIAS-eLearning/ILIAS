@@ -39,7 +39,7 @@
 class ilInitialisation
 {
 
-	
+
   /**
 	 * get common include code files
 	*/
@@ -50,7 +50,7 @@ class ilInitialisation
 		// get pear
 		require_once("include/inc.get_pear.php");
 		require_once("include/inc.check_pear.php");
-		
+
 		//include class.util first to start StopWatch
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		require_once "classes/class.ilBenchmark.php";
@@ -58,17 +58,17 @@ class ilInitialisation
 		$GLOBALS['ilBench'] =& $ilBench;
 
 		$ilBench->start("Core", "HeaderInclude");
-		
+
 		// start the StopWatch
 		$GLOBALS['t_pagestart'] = ilUtil::StopWatch();
-		
+
 		$ilBench->start("Core", "HeaderInclude_IncludeFiles");
-		
+
 		// Major PEAR Includes
 		require_once "PEAR.php";
 		require_once "DB.php";
 		require_once "Auth/Auth.php";
-		
+
 		// HTML_Template_IT support
 		// (location changed with 4.3.2 & higher)
 		@include_once "HTML/ITX.php";
@@ -82,7 +82,7 @@ class ilInitialisation
 			include_once "classes/class.ilTemplateITX.php";
 		}
 		require_once "classes/class.ilTemplate.php";
-		
+
 		//include classes and function libraries
 		require_once "include/inc.db_session_handler.php";
 		require_once "classes/class.ilDBx.php";
@@ -104,30 +104,30 @@ class ilInitialisation
 		require_once "Services/Navigation/classes/class.ilNavigationHistory.php";
 		require_once "Services/Help/classes/class.ilHelp.php";
 		require_once "include/inc.ilias_version.php";
-		
+
 		//include role based access control system
 		require_once "./Services/AccessControl/classes/class.ilAccessHandler.php";
 		require_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
 		require_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
 		require_once "./Services/AccessControl/classes/class.ilRbacReview.php";
-		
+
 		// include object_data cache
 		require_once "classes/class.ilObjectDataCache.php";
 		require_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
-				
+
 		// ### AA 03.10.29 added new LocatorGUI class ###
 		//include LocatorGUI
 		require_once "classes/class.ilLocatorGUI.php";
-		
+
 		// include error_handling
 		require_once "classes/class.ilErrorHandling.php";
-		
+
 		// php5 downward complaince to php 4 dom xml and clone method
 		if (version_compare(PHP_VERSION,'5','>='))
 		{
 			require_once("include/inc.xml5compliance.php");
 			//require_once("Services/CAS/phpcas/source/CAS/domxml-php4-php5.php");
-			
+
 			require_once("include/inc.xsl5compliance.php");
 			require_once("include/inc.php4compliance.php");
 		}
@@ -135,12 +135,12 @@ class ilInitialisation
 		{
 			require_once("include/inc.php5compliance.php");
 		}
-		
+
 		$ilBench->stop("Core", "HeaderInclude_IncludeFiles");
 	}
-	
+
 	/**
-	* This method provides a global instance of class ilIniFile for the 
+	* This method provides a global instance of class ilIniFile for the
 	* ilias.ini.php file in variable $ilIliasIniFile.
 	*
 	* It initializes a lot of constants accordingly to the settings in
@@ -149,12 +149,12 @@ class ilInitialisation
 	function initIliasIniFile()
 	{
 		global $ilIliasIniFile;
-		
+
 		require_once("classes/class.ilIniFile.php");
 		$ilIliasIniFile = new ilIniFile("./ilias.ini.php");
 		$GLOBALS['ilIliasIniFile'] =& $ilIliasIniFile;
 		$ilIliasIniFile->read();
-		
+
 		// initialize constants
 		define("ILIAS_DATA_DIR",$ilIliasIniFile->readVariable("clients","datadir"));
 		define("ILIAS_WEB_DIR",$ilIliasIniFile->readVariable("clients","path"));
@@ -165,7 +165,7 @@ class ilInitialisation
 		define ("ILIAS_LOG_FILE",$ilIliasIniFile->readVariable("log","file"));
 		define ("ILIAS_LOG_ENABLED",$ilIliasIniFile->readVariable("log","enabled"));
 		define ("ILIAS_LOG_LEVEL",$ilIliasIniFile->readVariable("log","level"));
-  
+
 		// read path + command for third party tools from ilias.ini
 		define ("PATH_TO_CONVERT",$ilIliasIniFile->readVariable("tools","convert"));
 		define ("PATH_TO_ZIP",$ilIliasIniFile->readVariable("tools","zip"));
@@ -174,7 +174,7 @@ class ilInitialisation
 		define ("PATH_TO_HTMLDOC",$ilIliasIniFile->readVariable("tools","htmldoc"));
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
-		
+
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
 		{
@@ -183,27 +183,27 @@ class ilInitialisation
 				define("IL_VIRUS_SCAN_COMMAND", $ilIliasIniFile->readVariable("tools", "scancommand"));
 				define("IL_VIRUS_CLEAN_COMMAND", $ilIliasIniFile->readVariable("tools", "cleancommand"));
 				break;
-				
+
 			case "antivir":
 				define("IL_VIRUS_SCANNER", "AntiVir");
 				define("IL_VIRUS_SCAN_COMMAND", $ilIliasIniFile->readVariable("tools", "scancommand"));
 				define("IL_VIRUS_CLEAN_COMMAND", $ilIliasIniFile->readVariable("tools", "cleancommand"));
 				break;
-				
+
 			case "clamav":
 				define("IL_VIRUS_SCANNER", "ClamAV");
 				define("IL_VIRUS_SCAN_COMMAND", $ilIliasIniFile->readVariable("tools", "scancommand"));
 				define("IL_VIRUS_CLEAN_COMMAND", $ilIliasIniFile->readVariable("tools", "cleancommand"));
 				break;
-				
+
 			default:
 				define("IL_VIRUS_SCANNER", "None");
 				break;
 		}
 
-		$this->buildHTTPPath();
+		//$this->buildHTTPPath();
 	}
-	
+
 	/**
 	* builds http path
 	*
@@ -212,7 +212,10 @@ class ilInitialisation
 	*/
 	function buildHTTPPath()
 	{
-		if($_SERVER['HTTPS'] == 'on')
+		include_once 'classes/class.ilHTTPS.php';
+		$https = new ilHTTPS();
+
+	    if($https->isDetected())
 		{
 			$protocol = 'https://';
 		}
@@ -238,9 +241,9 @@ class ilInitialisation
 		{
 			// if in module remove module name from HTTP_PATH
 			$path = dirname($_SERVER['REQUEST_URI']);
-			
+
 			// dirname cuts the last directory from a directory path e.g content/classes return content
-			
+
 			$module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
 
 			$dirs = explode('/',$module);
@@ -253,10 +256,10 @@ class ilInitialisation
 		return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators($protocol.$host.$uri));
 	}
 
-	
+
 	/**
 	* This method determines the current client and sets the
-	* constant CLIENT_ID. 
+	* constant CLIENT_ID.
 	*/
 	function determineClient()
 	{
@@ -285,9 +288,9 @@ class ilInitialisation
 //echo "-".$_COOKIE["ilClientId"]."-";
 		define ("CLIENT_ID", $_COOKIE["ilClientId"]);
 	}
-	
+
 	/**
-	* This method provides a global instance of class ilIniFile for the 
+	* This method provides a global instance of class ilIniFile for the
 	* client.ini.php file in variable $ilClientIniFile.
 	*
 	* It initializes a lot of constants accordingly to the settings in
@@ -319,7 +322,7 @@ class ilInitialisation
 		// get settings from ini file
 		require_once("classes/class.ilIniFile.php");
 		$ilClientIniFile = new ilIniFile($ini_file);
-		$GLOBALS['ilClientIniFile'] =& $ilClientIniFile; 
+		$GLOBALS['ilClientIniFile'] =& $ilClientIniFile;
 		$ilClientIniFile->read();
 
 		// if no ini-file found switch to setup routine
@@ -355,14 +358,14 @@ class ilInitialisation
 
 		return true;
 	}
-	
+
 	/**
 	* handle maintenance mode
 	*/
 	function handleMaintenanceMode()
 	{
 		global $ilClientIniFile;
-		
+
 		if (!$ilClientIniFile->readVariable("client","access"))
 		{
 			if (is_file("./maintenance.html"))
@@ -377,7 +380,7 @@ class ilInitialisation
 			}
 		}
 	}
-	
+
 	/**
 	* initialise database object $ilDB
 	*
@@ -398,8 +401,8 @@ class ilInitialisation
 		$ilDB = new ilDBx(IL_DSN);
 		$GLOBALS['ilDB'] =& $ilDB;
 	}
-	
-	
+
+
 	/**
 	* set session handler to db
 	*/
@@ -416,16 +419,16 @@ class ilInitialisation
 		{
 			die("Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini");
 		}
-		
+
 	}
-	
+
 	/**
 	* initialise $ilSettings object and define constants
 	*/
 	function initSettings()
 	{
 		global $ilSetting;
-		
+
 		require_once("Services/Administration/classes/class.ilSetting.php");
 		$ilSetting = new ilSetting();
 		$GLOBALS['ilSetting'] =& $ilSetting;
@@ -435,19 +438,21 @@ class ilInitialisation
 		define ("ANONYMOUS_ROLE_ID", $ilSetting->get("anonymous_role_id"));
 		define ("SYSTEM_USER_ID", $ilSetting->get("system_user_id"));
 		define ("SYSTEM_ROLE_ID", $ilSetting->get("system_role_id"));
-		
+
 		// recovery folder
 		define ("RECOVERY_FOLDER_ID", $ilSetting->get("recovery_folder_id"));
 
 		// installation id
 		define ("IL_INST_ID", $ilSetting->get("inst_id"));
-		
+
 		// define default suffix replacements
 		define ("SUFFIX_REPL_DEFAULT", "php,php3,php4,inc,lang,phtml,htaccess");
 		define ("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional"));
+
+		$this->buildHTTPPath();
 	}
-	
-	
+
+
 	/**
 	* determine current script and path to main ILIAS directory
 	*/
@@ -462,7 +467,7 @@ class ilInitialisation
 		if ($subdir)
 		{
 			$num_subdirs = substr_count($subdir,"/");
-	
+
 			for ($i=1;$i<=$num_subdirs;$i++)
 			{
 				$updir .= "../";
@@ -470,14 +475,14 @@ class ilInitialisation
 		}
 		$this->updir = $updir;
 	}
-	
+
 	/**
 	* provide $styleDefinition object
 	*/
 	function initStyle()
 	{
 		global $ilBench, $styleDefinition;
-		
+
 		// load style definitions
 		$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
 		$styleDefinition = new ilStyleDefinition();
@@ -485,15 +490,15 @@ class ilInitialisation
 		$styleDefinition->startParsing();
 		$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
 	}
-	
-	
+
+
 	/**
 	* set skin and style via $_GET parameters "skin" and "style"
 	*/
 	function handleStyle()
 	{
 		global $styleDefinition;
-		
+
 		if ($_GET['skin']  && $_GET['style'])
 		{
 			include_once("classes/class.ilObjStyleSettings.php");
@@ -515,16 +520,16 @@ class ilInitialisation
 			}
 		}
 	}
-	
+
 	function initUserAccount()
 	{
 		global $ilUser, $ilLog, $ilAuth;
-		
+
 		//get user id
 		if (empty($_SESSION["AccountId"]))
 		{
 			$_SESSION["AccountId"] = $ilUser->checkUserId();
-	
+
 			// assigned roles are stored in $_SESSION["RoleId"]
 			$rbacreview = new ilRbacReview();
 			$GLOBALS['rbacreview'] =& $rbacreview;
@@ -535,15 +540,15 @@ class ilInitialisation
 			// init user
 			$ilUser->setId($_SESSION["AccountId"]);
 		}
-	
+
 		// load account data of current user
 		$ilUser->read();
 	}
-		
+
 	function checkUserClientIP()
 	{
 		global $ilUser, $ilLog, $ilAuth, $ilias;
-		
+
 		// check client ip
 		$clientip = $ilUser->getClientIP();
 		if (trim($clientip) != "" and $clientip != $_SERVER["REMOTE_ADDR"])
@@ -555,7 +560,7 @@ class ilInitialisation
 			ilUtil::redirect("login.php?wrong_ip=true");
 		}
 	}
-	
+
 	function checkUserAgreement()
 	{
 		global $ilUser, $ilAuth;
@@ -569,7 +574,7 @@ class ilInitialisation
 		{
 			$in_user_agreement = true;
 		}
-		
+
 		// check wether user has accepted the user agreement
 		//	echo "-".$script;
 		if (!$ilUser->hasAcceptedUserAgreement() &&
@@ -580,8 +585,8 @@ class ilInitialisation
 			ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
 		}
 	}
-	
-	
+
+
 	/**
 	* go to public section
 	*/
@@ -593,7 +598,7 @@ class ilInitialisation
 		$ilAuth->logout();
 		session_unset();
 		session_destroy();
-		
+
 		// new session and login as anonymous
 		$this->setSessionHandler();
 		session_start();
@@ -615,7 +620,7 @@ class ilInitialisation
 		if ($_GET["target"] != "")
 		{
 			$this->initUserAccount();
-			
+
 			// target is accessible -> goto target
 			include_once("Services/Init/classes/class.ilStartUpGUI.php");
 			if	(ilStartUpGUI::_checkGoto($_GET["target"]))
@@ -634,7 +639,7 @@ class ilInitialisation
 				$this->goToLogin();
 			}
 		}
-		
+
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 
 		$_GET["cmd"] = "frameset";
@@ -647,8 +652,8 @@ class ilInitialisation
 			'Please click <a href="'.$script.'">here</a> if you are not redirected automatically.';
 		exit;
 	}
-	
-	
+
+
 	/**
 	* go to login
 	*/
@@ -662,7 +667,7 @@ class ilInitialisation
 		{
 			$add = "&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"];
 		}
-		
+
 		$script = $this->updir."login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat.$add;
 
@@ -679,7 +684,7 @@ class ilInitialisation
 		exit;
 
 	}
-	
+
 	/**
 	* $lng initialisation
 	*/
@@ -688,7 +693,7 @@ class ilInitialisation
 		global $ilBench, $lng, $ilUser;
 		//init language
 		$ilBench->start("Core", "HeaderInclude_initLanguage");
-		
+
 		if (is_null($_SESSION['lang']))
 		{
 			$_GET["lang"] = ($_GET["lang"]) ? $_GET["lang"] : $ilUser->getPref("language");
@@ -697,29 +702,29 @@ class ilInitialisation
 		{
 			$_GET['lang'] = $_POST['change_lang_to'];
 		}
-		
+
 		$_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
-		
+
 		// prefer personal setting when coming from login screen
 		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the user agreement should be displayes (Helmut Schottmüller, 2006-10-14)
 		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() > 0)
 		{
 			$_SESSION['lang'] = $ilUser->getPref("language");
 		}
-		
+
 		$lng = new ilLanguage($_SESSION['lang']);
 		$GLOBALS['lng'] =& $lng;
 		$ilBench->stop("Core", "HeaderInclude_initLanguage");
 
 	}
-	
+
 	/**
 	* $ilAccess and $rbac... initialisation
 	*/
 	function initAccessHandling()
 	{
 		global $ilBench, $rbacsystem, $rbacadmin, $rbacreview;
-		
+
 		$ilBench->start("Core", "HeaderInclude_initRBAC");
 		$rbacsystem = new ilRbacSystem();
 		$GLOBALS['rbacsystem'] =& $rbacsystem;
@@ -728,11 +733,11 @@ class ilInitialisation
 		$rbacreview = new ilRbacReview();
 		$GLOBALS['rbacreview'] =& $rbacreview;
 		$ilAccess =& new ilAccessHandler();
-		$GLOBALS["ilAccess"] =& $ilAccess;		
+		$GLOBALS["ilAccess"] =& $ilAccess;
 		$ilBench->stop("Core", "HeaderInclude_initRBAC");
 	}
-	
-	
+
+
 	/**
 	* ilias initialisation
 	*/
@@ -742,31 +747,31 @@ class ilInitialisation
 			$ilSetting, $ilias, $https, $ilObjDataCache,
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
 			$ilTabs, $ilMainMenu, $rbacsystem, $ilNavigationHistory;
-		
+
 		// include common code files
 		$this->requireCommonIncludes();
 		global $ilBench;
-		
+
 		// set error handler (to do: check preconditions for error handler to work)
 		$ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 		$ilErr = new ilErrorHandling();
 		$GLOBALS['ilErr'] =& $ilErr;
 		$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
 		$ilBench->stop("Core", "HeaderInclude_GetErrorHandler");
-		
-		
+
+
 		// prepare file access to work with safe mode (has been done in class ilias before)
 		umask(0117);
-		
-		
+
+
 		// $ilIliasIniFile initialisation
 		$this->initIliasIniFile();
-		
-		
+
+
 		// CLIENT_ID determination
 		$this->determineClient();
-		
-		
+
+
 		// $ilClientIniFile initialisation
 		if (!$this->initClientIniFile())
 		{
@@ -778,31 +783,32 @@ class ilInitialisation
 			//ilUtil::redirect("./setup/setup.php");	// to do: this could fail in subdirectories
 													// this is also source of a bug (see mantis)
 		}
-		
-		
+
+
 		// maintenance mode
 		$this->handleMaintenanceMode();
-		
+
 		// $ilDB initialisation
 		$this->initDatabase();
 
 		// set session handler
 		$this->setSessionHandler();
-		
+
 		// $ilSetting initialisation
 		$this->initSettings();
-		
+
+
 		// $ilLog initialisation
 		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
 		$GLOBALS['log'] =& $log;
 		$ilLog =& $log;
 		$GLOBALS['ilLog'] =& $ilLog;
-		
+
 		// $ilAuth initialisation
 		require_once("classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
-		
+
 //var_dump($_SESSION);
 		// $ilias initialisation
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
@@ -810,7 +816,7 @@ class ilInitialisation
 		$GLOBALS['ilias'] =& $ilias;
 		$ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 //var_dump($_SESSION);
-		
+
 		// test: trace function calls in debug mode
 		if (DEVMODE)
 		{
@@ -819,30 +825,30 @@ class ilInitialisation
 				//xdebug_start_trace("/tmp/test.txt");
 			}
 		}
-		
-		
+
+
 		// $https initialisation
 		require_once './classes/class.ilHTTPS.php';
 		$https =& new ilHTTPS();
 		$GLOBALS['https'] =& $https;
 		$https->checkPort();
-		
-		
+
+
 		// $ilObjDataCache initialisation
 		$ilObjDataCache = new ilObjectDataCache();
 		$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
-		
+
 		// workaround: load old post variables if error handler 'message' was called
 		if ($_SESSION["message"])
 		{
 			$_POST = $_SESSION["post_vars"];
 		}
-		
-		
+
+
 		// put debugging functions here
 		require_once "include/inc.debug.php";
-		
-		
+
+
 		// $objDefinition initialisation
 		$ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
 		$objDefinition = new ilObjectDefinition();
@@ -865,7 +871,7 @@ class ilInitialisation
 //var_dump($_SESSION);
 		$ilias->setAuthError($ilErr->getLastError());
 		$ilBench->stop("Core", "HeaderInclude_Authentication");
-		
+
 		// workaround: force login
 		if ($_GET["cmd"] == "force_login" || $this->script == "login.php")
 		{
@@ -874,7 +880,7 @@ class ilInitialisation
 			$ilAuth->start();
 			$ilias->setAuthError($ilErr->getLastError());
 		}
-		
+
 		// check correct setup
 		if (!$ilias->getSetting("setup_ok"))
 		{
@@ -887,8 +893,8 @@ class ilInitialisation
 		$ilias->account =& $ilUser;
 		$GLOBALS['ilUser'] =& $ilUser;
 		$ilBench->stop("Core", "HeaderInclude_getCurrentUser");
-		
-		
+
+
 		// $ilCtrl initialisation
 		$ilCtrl = new ilCtrl();
 		$GLOBALS['ilCtrl'] =& $ilCtrl;
@@ -896,7 +902,7 @@ class ilInitialisation
 		// determin current script and up-path to main directory
 		// (sets $this->script and $this->updir)
 		$this->determineScriptAndUpDir();
-		
+
 		// $styleDefinition initialisation and style handling for login and co.
 		$this->initStyle();
 		if (in_array($this->script,
@@ -905,8 +911,8 @@ class ilInitialisation
 		{
 			$this->handleStyle();
 		}
-		
-		
+
+
 		// handle ILIAS 2 imported users:
 		// check ilias 2 password, if authentication failed
 		// only if AUTH_LOCAL
@@ -923,7 +929,7 @@ class ilInitialisation
 				}
 			}
 		}
-		
+
 //echo $_POST; exit;
 		//
 		// SUCCESSFUL AUTHENTICATION
@@ -940,20 +946,20 @@ class ilInitialisation
 //var_dump($_SESSION);
 			// check client IP of user
 			$this->checkUserClientIP();
-			
+
 			// check user agreement
 			$this->checkUserAgreement();
-			
+
 			// update last_login date once the user logged in
 			if ($this->script == "login.php" ||
 				$_GET["baseClass"] == "ilStartUpGUI")
 			{
 				$ilUser->refreshLogin();
 			}
-		
+
 			// set hits per page for all lists using table module
 			$_GET['limit'] = $_SESSION['tbl_limit'] = (int) $ilUser->getPref('hits_per_page');
-			
+
 			// the next line makes it impossible to save the offset somehow in a session for
 			// a specific table (I tried it for the user administration).
 			// its not posssible to distinguish whether it has been set to page 1 (=offset = 0)
@@ -964,16 +970,16 @@ class ilInitialisation
 			{
 				$_GET['offset'] = (int) $_GET['offset'];		// old code
 			}
-		
+
 			$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 		}
 		elseif (
-					$this->script != "login.php" 
+					$this->script != "login.php"
 					and $this->script != "shib_login.php"
-					and $this->script != "error.php" 
+					and $this->script != "error.php"
 					and $this->script != "index.php"
-					and $this->script != "view_usr_agreement.php" 
-					and $this->script != "register.php" 
+					and $this->script != "view_usr_agreement.php"
+					and $this->script != "register.php"
 					and $this->script != "chat.php"
 					and $this->script != "pwassist.php"
 				)
@@ -1014,18 +1020,18 @@ class ilInitialisation
 		//
 		// SUCCESSFUL AUTHENTICATED or NON-AUTH-AREA (Login, Registration, ...)
 		//
-		
+
 		// $lng initialisation
 		$this->initLanguage();
-		
+
 		// store user language in tree
 		$GLOBALS['tree']->initLangCode();
-		
+
 		// instantiate main template
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$GLOBALS['tpl'] =& $tpl;
-		
-		
+
+
 		// ### AA 03.10.29 added new LocatorGUI class ###
 		// when locator data array does not exist, initialise
 		if ( !isset($_SESSION["locator_level"]) )
@@ -1038,51 +1044,51 @@ class ilInitialisation
 		$ilLocator = new ilLocatorGUI();
 		$GLOBALS['ilias_locator'] =& $ilias_locator;	// deprecated
 		$GLOBALS['ilLocator'] =& $ilLocator;
-		
+
 		// load style definitions
 		$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
 		$styleDefinition = new ilStyleDefinition();
 		$GLOBALS['styleDefinition'] =& $styleDefinition;
 		$styleDefinition->startParsing();
 		$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
-				
+
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
-		
+
 		// Init Navigation History
 		$ilNavigationHistory = new ilNavigationHistory();
 		$GLOBALS['ilNavigationHistory'] =& $ilNavigationHistory;
-		
+
 		// init infopanel
-				
+
 		// provide global browser information
 		$ilBrowser = new ilBrowser();
 		$GLOBALS['ilBrowser'] =& $ilBrowser;
-		
+
 		// provide global help object
 		$ilHelp = new ilHelp();
 		$GLOBALS['ilHelp'] =& $ilHelp;
-		
+
 		// main tabs gui
 		include_once 'classes/class.ilTabsGUI.php';
 		$ilTabs = new ilTabsGUI();
 		$GLOBALS['ilTabs'] =& $ilTabs;
-		
+
 		// main menu
 		include_once 'classes/class.ilMainMenuGUI.php';
 		$ilMainMenu = new ilMainMenuGUI("_top");
 		$GLOBALS['ilMainMenu'] =& $ilMainMenu;
-		
+
 		// Store online time of user
 		ilOnlineTracking::_updateAccess($ilUser->getId());
-				
+
 		$ilBench->stop("Core", "HeaderInclude");
 		$ilBench->save();
 
 	}
-	
+
 	/**
 	* Initialisation for feed.php
 	*/
@@ -1092,27 +1098,27 @@ class ilInitialisation
 			$ilSetting, $ilias, $https, $ilObjDataCache,
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
 			$ilTabs, $ilMainMenu, $rbacsystem, $ilNavigationHistory;
-		
+
 		// include common code files
 		$this->requireCommonIncludes();
 		global $ilBench;
-		
+
 		// set error handler (to do: check preconditions for error handler to work)
 		$ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 		$ilErr = new ilErrorHandling();
 		$GLOBALS['ilErr'] =& $ilErr;
 		$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
 		$ilBench->stop("Core", "HeaderInclude_GetErrorHandler");
-		
+
 		// prepare file access to work with safe mode (has been done in class ilias before)
 		umask(0117);
-		
+
 		// $ilIliasIniFile initialisation
 		$this->initIliasIniFile();
-		
+
 		// CLIENT_ID determination
 		$this->determineClient();
-		
+
 		// $ilClientIniFile initialisation
 		if (!$this->initClientIniFile())
 		{
@@ -1122,13 +1128,13 @@ class ilInitialisation
 			echo ("Client $c does not exist. Please reload this page to return to the default client.");
 			exit;
 		}
-		
+
 		// maintenance mode
 		$this->handleMaintenanceMode();
-		
+
 		// $ilDB initialisation
 		$this->initDatabase();
-		
+
 		// $ilObjDataCache initialisation
 		$ilObjDataCache = new ilObjectDataCache();
 		$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
