@@ -613,6 +613,11 @@ class ilLDAPServer
 	{
 		$filter = trim($a_filter);
 		
+		if(!strlen($filter))
+		{
+			return $filter;
+		}
+		
 		if(strpos($filter,'(') !== 0)
 		{
 			$filter = ('('.$filter);

@@ -22,7 +22,7 @@
 */
 
 
-include_once("Auth.php");
+include_once("Auth/Auth.php");
 
 /** @defgroup ServicesAccessControl Services/AccessControl
  */
