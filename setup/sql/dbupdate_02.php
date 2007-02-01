@@ -444,3 +444,18 @@ chdir($wd);
 ?>
 <#909>
 DROP TABLE IF EXISTS tmp_migration;
+
+<#910>
+DROP TABLE IF EXISTS ldap_role_group_mapping;
+CREATE TABLE `ldap_role_group_mapping` (
+  `mapping_id` int(11) NOT NULL auto_increment,
+  `server_id` int(3) NOT NULL default '0',
+  `url` varchar(255) NOT NULL default '',
+  `dn` varchar(255) NOT NULL default '',
+  `member_attribute` varchar(64) NOT NULL default '',
+  `member_isdn` tinyint(1) NOT NULL default '0',
+  `role` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`mapping_id`)
+) Type=MyISAM;
+
+
