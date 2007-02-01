@@ -35,36 +35,50 @@ class ilHTTPS
 	var $enabled = false;
 	var $protected_scripts = array();
 
+	var $automaticHTTPSDetectionEnabled = false;
+	var $headerName = false;
+	var $headerValue = false;
+
 	function ilHTTPS()
 	{
-		global $ilias;
+		global $ilSetting;
 
-		if($this->enabled = (bool) $ilias->getSetting('https'))
+		if($this->enabled = (bool) $ilSetting->get('https'))
 		{
 			$this->__readProtectedScripts();
 			$this->__readProtectedClasses();
 		}
+		if ($this->automaticHTTPSDetectionEnabled = (bool) $ilSetting->get("ps_auto_https_enabled"))
+		{
+		    $this->headerName = $ilSetting->get("ps_auto_https_headername");
+		    $this->headerValue = $ilSetting->get("ps_auto_https_headervalue");
+		}
 	}
-	
+
+	/**
+	 * check if current port usage is right: if https should be used than redirection is done, to http otherwise.
+	 *
+	 * @return unknown
+	 */
 	function checkPort()
 	{
-		if(!$this->enabled)
+		// if https is enabled for scripts or classes, check for redirection
+	    if ($this->enabled)
 		{
-			return true;
-		}
-		if((in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) or
-			in_array($_GET['cmdClass'],$this->protected_classes)) and
-		   $_SERVER["HTTPS"] != 'on')
-		{
-			header("location: https://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
-			exit;
-		}
-		if((!in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) and
-			!in_array($_GET['cmdClass'],$this->protected_classes)) and
-		   $_SERVER["HTTPS"] == 'on')
-		{
-			header("location: http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
-			exit;
+    		if((in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) or
+    			in_array($_GET['cmdClass'],$this->protected_classes)) and
+    		   $_SERVER["HTTPS"] != "on")
+    		{
+    			header("location: https://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+    			exit;
+    		}
+    		if((!in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) and
+    			!in_array($_GET['cmdClass'],$this->protected_classes)) and
+    		   $_SERVER["HTTPS"] == "on")
+    		{
+    			header("location: http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+    			exit;
+    		}
 		}
 		return true;
 	}
@@ -76,6 +90,28 @@ class ilHTTPS
 		$this->protected_scripts[] = 'start_bmf.php';
 
 		return true;
+	}
+
+	/**
+	 * check if https is detected
+	 *
+	 * @return boolean true, if https is detected by protocol or by automatic detection, if enabled, false otherwise
+	 */
+	public function isDetected () {
+   		if ($_SERVER["HTTPS"] == "on")
+   		   return true;
+
+	    if ($this->automaticHTTPSDetectionEnabled)
+		{
+		    $headerName = "HTTP_".str_replace("-","_",$this->headerName);
+		   /* echo $headerName;
+		    echo $_SERVER[$headerName];*/
+		    if (strcasecmp($_SERVER[$headerName],$this->headerValue)==0) {
+           		return true;
+		    }
+		}
+
+        return false;
 	}
 
 	function __readProtectedClasses()
@@ -103,20 +139,20 @@ class ilHTTPS
 	}
 	/**
 	* static method to check if http connections are possible for this server
-	* 
+	*
 	* @access	public
 	* @return	boolean
 	*/
 	function _checkHTTP()
 	{
 		$port = 80;
-		
+
 		if(($sp = @fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
 		{
 			return false;
 		}
 		fclose($sp);
 		return true;
-	}	
+	}
 }
 ?>

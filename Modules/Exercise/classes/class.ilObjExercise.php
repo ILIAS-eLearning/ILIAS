@@ -31,7 +31,7 @@ require_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 /**
 * Class ilObjExercise
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
 * @ingroup ModulesExercise
@@ -131,7 +131,7 @@ class ilObjExercise extends ilObject
 	function addUploadedFile($a_http_post_files)
 	{
 		$this->file_obj->storeUploadedFile($a_http_post_files, true);
-		
+
 		return true;
 	}
 	function deleteFiles($a_files)
@@ -142,7 +142,7 @@ class ilObjExercise extends ilObject
 	function saveData()
 	{
 		global $ilDB;
-		
+
 		// SAVE ONLY EXERCISE SPECIFIC DATA
 		$query = "INSERT INTO exc_data SET ".
 			"obj_id = ".$ilDB->quote($this->getId()).", ".
@@ -154,17 +154,17 @@ class ilObjExercise extends ilObject
 
 	/**
 	* copy all properties and subobjects of a course.
-	* 
+	*
 	* @access	public
 	* @return	integer	new ref id
 	*/
 	function ilClone($a_parent_ref)
-	{		
+	{
 		global $rbacadmin;
 
 		// always call parent ilClone function first!!
 		$new_ref_id = parent::ilClone($a_parent_ref);
-		
+
 		// put here exc specific stuff
 		$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 		$tmp_obj->setInstruction($this->getInstruction());
@@ -212,7 +212,7 @@ class ilObjExercise extends ilObject
 		}
 
 	}
-	
+
 	/**
 	* Delivers the returned files of an user
 	* @param numeric $user_id The database id of the user
@@ -224,7 +224,7 @@ class ilObjExercise extends ilObject
 	}
 
 	/**
-	* delete course and all related data	
+	* delete course and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
@@ -232,16 +232,16 @@ class ilObjExercise extends ilObject
 	function delete()
 	{
 		global $ilDB;
-		
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
-		}	
+		}
 		// put here course specific stuff
 		$query = "DELETE FROM exc_data ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		
+
 		$this->ilias->db->query($query);
 
 		$this->file_obj->delete();
@@ -253,7 +253,7 @@ class ilObjExercise extends ilObject
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
-	* 
+	*
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
@@ -263,14 +263,14 @@ class ilObjExercise extends ilObject
 	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
 	{
 		// object specific event handling
-		
+
 		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
 	}
 
 	function read()
 	{
 		global $ilDB;
-		
+
 		parent::read();
 
 		$query = "SELECT * FROM exc_data ".
@@ -295,7 +295,7 @@ class ilObjExercise extends ilObject
 	function update()
 	{
 		global $ilDB;
-		
+
 		parent::update();
 
 		$query = "UPDATE exc_data SET ".
@@ -308,14 +308,14 @@ class ilObjExercise extends ilObject
 		#$this->members_obj->update();
 		return true;
 	}
-	
+
 	/**
 	* get member list data
 	*/
 	function getMemberListData()
 	{
 		global $ilDB;
-		
+
 		$mem = array();
 		$q = "SELECT * FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId());
@@ -347,7 +347,7 @@ class ilObjExercise extends ilObject
 	* @param	int		$member_id	User ID of member.
 	* @return	mixed	false or mysql timestamp of last submission
 	*/
-	function getLastSubmission($member_id) 
+	function getLastSubmission($member_id)
 	{
 		global $ilDB, $lng;
 
@@ -359,14 +359,14 @@ class ilObjExercise extends ilObject
 		$usr_set = $ilDB->query($q);
 
 		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
-		if ($array["timestamp"]==NULL) 
+		if ($array["timestamp"]==NULL)
 		{
 			return false;
   		}
-		else 
+		else
 		{
 			return ilUtil::getMySQLTimestamp($array["timestamp"]);
-  		}  
+  		}
 	}
 
 	/**
@@ -415,7 +415,7 @@ class ilObjExercise extends ilObject
 	* Check whether student has upload new files after tutor has
 	* set the exercise to another than notgraded.
 	*/
-	function _lookupUpdatedSubmission($exc_id, $member_id) 
+	function _lookupUpdatedSubmission($exc_id, $member_id)
 	{
 
   		global $ilDB, $lng;
@@ -433,11 +433,11 @@ class ilObjExercise extends ilObject
 
   		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		if (count($array)==0) 
+		if (count($array)==0)
 		{
 			return 0;
   		}
-		else 
+		else
 		{
 			return 1;
 		}
@@ -457,7 +457,7 @@ class ilObjExercise extends ilObject
 			" AND obj_id = ".$ilDB->quote($a_exc_id);
 		$set = $ilDB->query($q);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
-		
+
 		if ($rec["cnt"] > 0)
 		{
 			return true;
@@ -467,12 +467,12 @@ class ilObjExercise extends ilObject
 			return false;
 		}
 	}
-	
+
 	/**
 	* Check how much files have been uploaded by the learner
 	* after the last download of the tutor.
 	*/
-	function _lookupNewFiles($exc_id, $member_id) 
+	function _lookupNewFiles($exc_id, $member_id)
 	{
   		global $ilDB, $ilUser;
 
@@ -499,7 +499,7 @@ class ilObjExercise extends ilObject
 	/**
 	* Get time when exercise has been set to solved.
 	*/
-	function _lookupStatusTime($exc_id, $member_id) 
+	function _lookupStatusTime($exc_id, $member_id)
 	{
 
   		global $ilDB, $lng;
@@ -518,7 +518,7 @@ class ilObjExercise extends ilObject
 	/**
 	* Get time when exercise has been sent per e-mail to user
 	*/
-	function _lookupSentTime($exc_id, $member_id) 
+	function _lookupSentTime($exc_id, $member_id)
 	{
 
   		global $ilDB, $lng;
@@ -537,7 +537,7 @@ class ilObjExercise extends ilObject
 	/**
 	* Get time when feedback mail has been sent.
 	*/
-	function _lookupFeedbackTime($exc_id, $member_id) 
+	function _lookupFeedbackTime($exc_id, $member_id)
 	{
 
   		global $ilDB, $lng;
@@ -580,7 +580,7 @@ class ilObjExercise extends ilObject
 	{
 		foreach($a_members as $member_id => $value)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByObjId($member_id); 
+			$tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
 			$tmp_members[] = $tmp_obj->getLogin();
 
 			unset($tmp_obj);
@@ -611,6 +611,6 @@ class ilObjExercise extends ilObject
 		}
 		return true;
 	}
-		
+
 } //END class.ilObjExercise
 ?>

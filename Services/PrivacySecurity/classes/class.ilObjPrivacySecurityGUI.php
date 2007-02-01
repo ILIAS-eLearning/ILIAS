@@ -51,7 +51,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('ps');
 
 		ilObjPrivacySecurityGUI::$ERROR_MESSAGE = array (
-		  ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS => $this->lng->txt("ps_error_message_https_header_missing")
+		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS => $this->lng->txt("ps_error_message_https_header_missing"),
+		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE => $this->lng->txt('https_not_possible'),
+	       ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE => $this->lng->txt('http_not_possible')
 		);
 	}
 
@@ -175,7 +177,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	     */
 		$privacy = ilSecuritySettings::_getInstance();
 
-		$this->tabs_gui->setTabActive('show_privacy');
+		$this->tabs_gui->setTabActive('show_security');
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_security.html','Services/PrivacySecurity');
 
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
@@ -191,6 +193,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('CHECK_AUTO_DETECT_HTTPS',ilUtil::formCheckbox($privacy->isAutomaticHTTPSEnabled() ? 1 : 0,'auto_https_detect_enabled',1));
 	 	$this->tpl->setVariable('INPUT_AUTO_DETECT_HTTPS_HEADER_NAME',ilUtil::formInput("auto_https_detect_header_name", $privacy->getAutomaticHTTPSHeaderName()));
 	 	$this->tpl->setVariable('INPUT_AUTO_DETECT_HTTPS_HEADER_VALUE',ilUtil::formInput("auto_https_detect_header_value", $privacy->getAutomaticHTTPSHeaderValue()));
+
+	 	// https enabled
+	 	$this->tpl->setVariable("TXT_HTTPS_ENABLED",$this->lng->txt('activate_https'));
+	 	$this->tpl->setVariable("CHECK_HTTPS_ENABLED", ilUtil::formCheckbox($privacy->isHTTPSEnabled() ? 1 : 0,'https_enabled',1));
+
 
 	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
 	}
@@ -254,7 +261,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
 
 		/**
-		 * @var ilPrivacySettings
+		 * @var ilSecuritySettings
 		 */
 		$security = ilSecuritySettings::_getInstance();
 
@@ -263,6 +270,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $security->setAutomaticHTTPSHeaderName($_POST["auto_https_detect_header_name"]);
         $security->setAutomaticHTTPSHeaderValue($_POST["auto_https_detect_header_value"]);
 
+        $security->setHTTPSEnabled($_POST["https_enabled"]);
         // validate settings
         $code = $security->validate();
 

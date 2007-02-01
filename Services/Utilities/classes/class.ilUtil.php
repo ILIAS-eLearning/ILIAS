@@ -332,7 +332,7 @@ class ilUtil
 			$multiple = "";
 			$size = 0;
 		}
-		
+
 		if ($style_class != "")
 		{
 			$class = " class=\"".$style_class."\"";
@@ -341,7 +341,7 @@ class ilUtil
 		{
 			$class = "";
 		}
-		
+
 		if (is_array($attribs))
 		{
 			foreach ($attribs as $key => $val)
@@ -502,6 +502,32 @@ class ilUtil
 
 		return $str;
 	}
+
+
+	/**
+	 * create html input area
+	 *
+	 * @param string $varname    name of form variable
+	 * @param string $value      value and id of input
+	 * @param boolean $disabled   if true, input appears disabled
+	 * @return string string
+	 */
+	function formInput($varname,$value,$disabled = false)
+	{
+
+	    $str = "<input type=\"input\" name=\"".$varname."\"";
+		if ($disabled)
+		{
+			$str .= " disabled";
+		}
+
+		$str .= " value=\"".$value."\"";
+
+		$str .= " id=\"".$value."\" />\n";
+
+		return $str;
+	}
+
 
 	/**
 	* ???
@@ -775,45 +801,45 @@ class ilUtil
 		// E-Mail
 		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
 		"<a  href=\"mailto:\\1\">\\1</a>", $ret);
-		
-		if ($detectGotoLinks) 
+
+		if ($detectGotoLinks)
 		// replace target blank with self and text with object title.
 		{
 			$regExp = "<a[^>]*href=\"(".str_replace("/","\/",ILIAS_HTTP_PATH)."\/goto.php\?target=\w+_(\d+)[^\"]*)\"[^>]*>[^<]*<\/a>";
 //			echo htmlentities($regExp);
 			$ret = preg_replace_callback(
 				"/".$regExp."/i",
-				array("ilUtil", "replaceLinkProperties"), 
+				array("ilUtil", "replaceLinkProperties"),
 				$ret);
-		} 
-		
+		}
+
 		return($ret);
 	}
-	
+
 	/**
 	 * replaces target _blank with _self and the link text with the according object title.
-	 * 
+	 *
 	 * @private
-	 * 
-	 * @param string $matches 
+	 *
+	 * @param string $matches
 	 * 	$matches[0] contains complete link
 	 * 	$matches[1] contains href attribute
 	 * 	$matches[2] contains id of goto link
 	 * @return link containg a _self target, same href and new text content
 	 */
-	function replaceLinkProperties ($matches) 
+	function replaceLinkProperties ($matches)
 	{
 		$link = $matches[0];
 		$ref_id = $matches[2];
-		if ($ref_id > 0) 
+		if ($ref_id > 0)
 		{
 			$obj_id = ilObject::_lookupObjId($ref_id);
-			if ($obj_id > 0) 
+			if ($obj_id > 0)
 			{
 				$title = ilObject::_lookupTitle($obj_id);
 				$link = "<a href=".$matches[1]." target=\"_self\">".$title."</a>";
 			}
-		}		
+		}
 		return $link;
 	}
 
@@ -1334,7 +1360,7 @@ class ilUtil
 
 		return $users ? $users : array();
 	}
-	
+
 	/**
 	* Create a temporary file in an ILIAS writable directory
 	*
@@ -1988,9 +2014,9 @@ class ilUtil
 		if ($a_allow == "" && $a_strip_html)
 		{
 			//$a_allow = "<b><i><strong><em><code><cite><gap><sub><sup><pre><strike>";
-			
+
 			$tags = array("b", "i", "strong", "em", "code", "cite", "gap", "sub", "sup", "pre", "strike");
-			
+
 			foreach ($tags as $t)		// mask allowed tags
 			{
 				$a_str = str_replace(array("<$t>", "<".strtoupper($t).">"),
@@ -1998,15 +2024,15 @@ class ilUtil
 				$a_str = str_replace(array("</$t>", "</".strtoupper($t).">"),
 					"&lt;/".$t."&gt;", $a_str);
 			}
-			
+
 			$a_str = strip_tags($a_str);		// strip all other tags
-			
+
 			foreach ($tags as $t)		// mask allowed tags
 			{
 				$a_str = str_replace("&lt;".$t."&gt;", "<".$t.">", $a_str);
 				$a_str = str_replace("&lt;/".$t."&gt;", "</".$t.">", $a_str);
 			}
-			
+
 		}
 		else
 		{
@@ -2053,7 +2079,7 @@ class ilUtil
 			foreach ($negatives as $item)
 			{
 				$pos = strpos($a_allow, "<$item>");
-	
+
 				// remove complete tag, if not allowed
 				if ($pos === false)
 				{
@@ -2075,7 +2101,7 @@ class ilUtil
 
 			// remove all attributes if a "javascript" is within tag
 			$a_str = preg_replace("/<\s*\w*(\/?)\s+[^>]*javascript[^>]*>/i", "", $a_str);
-			
+
 			// remove all attributes if an "expression" is within tag
 			// (IE allows something like <b style='width:expression(alert(1))'>test</b>)
 			$a_str = preg_replace("/<\s*\w*(\/?)\s+[^>]*expression[^>]*>/i", "", $a_str);
@@ -3082,7 +3108,7 @@ class ilUtil
 	function buildLatexImages($a_text, $a_dir ,$a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
 		$result_text = $a_text;
-	
+
 		if ($a_cgi != "")
 		{
 			while (preg_match('/' . $a_start . '(.*?)' . $a_end . '/ie', $result_text, $found))
@@ -3111,12 +3137,12 @@ class ilUtil
 				}
 				fclose($fpw);
 				fclose($fpr);
-	
+
 				// replace tex-tag
 				$img_str = "./teximg/img".$cnt.".".$suffix;
 				$result_text = str_replace($found[0],
 					'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
-	
+
 			}
 		}
 
@@ -3306,7 +3332,7 @@ class ilUtil
 		}
 		return $ids ? $ids : array();
 	}
-	
+
 	/**
 	* Get MySQL timestamp in 4.1.x or higher format (yyyy-mm-dd hh:mm:ss)
 	* This function converts a timestamp, if MySQL 4.0 is used.
@@ -3330,14 +3356,14 @@ class ilUtil
 			return $ts;
 		}
 	}
-	
+
 	/**
 	* Quotes all members of an array for usage in DB query statement.
 	*/
 	function quoteArray($a_array)
 	{
 		global $ilDB;
-		
+
 		if (is_array($a_array))
 		{
 			foreach($a_array as $k => $item)
@@ -3345,10 +3371,10 @@ class ilUtil
 				$a_array[$k] = $ilDB->quote($item);
 			}
 		}
-		
+
 		return $a_array;
 	}
-	
+
 	/**
 	* sends a message to the recent page
 	* if you call ilUtil::sendInfo without any parameter, function will display a stored message
@@ -3360,7 +3386,7 @@ class ilUtil
 	function sendInfo($a_info = "",$a_keep = false)
 	{
 		global $tpl;
-	
+
 		if (!empty($a_info))
 		{
 			$_SESSION["info"] = $a_info;
@@ -3372,22 +3398,22 @@ class ilUtil
 			$tpl->setVariable("INFO",$_SESSION["info"]);
 	#		$tpl->parseCurrentBlock();
 		}
-	
+
 		if (!$a_keep)
 		{
 			session_unregister("info");
 		}
 	}
-	
+
 	function infoPanel($a_keep = true)
 	{
 		global $tpl,$ilias,$lng;
-	
+
 		if (!empty($_SESSION["infopanel"]) and is_array($_SESSION["infopanel"]))
 		{
 			$tpl->addBlockFile("INFOPANEL", "infopanel", "tpl.infopanel.html");
 			$tpl->setCurrentBlock("infopanel");
-	
+
 			if (!empty($_SESSION["infopanel"]["text"]))
 			{
 				$link = "<a href=\"".$dir.$_SESSION["infopanel"]["link"]."\" target=\"".
@@ -3396,7 +3422,7 @@ class ilUtil
 				$link .= $lng->txt($_SESSION["infopanel"]["text"]);
 				$link .= "</a>";
 			}
-	
+
 			// deactivated
 			if (!empty($_SESSION["infopanel"]["img"]))
 			{
@@ -3407,18 +3433,18 @@ class ilUtil
 					$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
 				$link .= "</a></td>";
 			}
-	
+
 			$tpl->setVariable("INFO_ICONS",$link);
 			$tpl->parseCurrentBlock();
 		}
-	
+
 		//if (!$a_keep)
 		//{
 				session_unregister("infopanel");
 		//}
 	}
-	
-	
+
+
 
 } // END class.ilUtil
 

@@ -22,13 +22,13 @@
 */
 
 require_once("classes/class.ilFileData.php");
-				
+
 /**
 * This class handles all operations on files for the exercise object
-*  
+*
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
+*
 * @ingroup	ModulesExercise
 */
 class ilFileDataExercise extends ilFileData
@@ -59,7 +59,7 @@ class ilFileDataExercise extends ilFileData
 		define('EXERCISE_PATH','exercise');
 		parent::ilFileData();
 		$this->exercise_path = parent::getPath()."/".EXERCISE_PATH;
-		
+
 		// IF DIRECTORY ISN'T CREATED CREATE IT
 		if(!$this->__checkPath())
 		{
@@ -74,7 +74,7 @@ class ilFileDataExercise extends ilFileData
 	}
 
 	/**
-	* get exercise path 
+	* get exercise path
 	* @access	public
 	* @return string path
 	*/
@@ -102,7 +102,8 @@ class ilFileDataExercise extends ilFileData
 					$files[] = array(
 						'name'     => $rest,
 						'size'     => filesize($this->exercise_path.'/'.$file),
-						'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->exercise_path.'/'.$file))));
+						'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->exercise_path.'/'.$file))),
+						'fullpath' => $this->exercise_path.'/'.$file);
 				}
 			}
 		}
@@ -125,14 +126,14 @@ class ilFileDataExercise extends ilFileData
 		{
 			$this->unlinkFile($file["name"]);
 		}
-		
+
 		$delivered_file_path = $this->getExercisePath() . "/" . $this->obj_id . "/";
 		if (is_dir($delivered_file_path))
 		{
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($delivered_file_path);
 		}
-		
+
 		return true;
 	}
 
@@ -144,9 +145,9 @@ class ilFileDataExercise extends ilFileData
 	*/
 	function storeUploadedFile($a_http_post_file, $secure_filename = false)
 	{
-		// TODO: 
+		// TODO:
 		// CHECK UPLOAD LIMIT
-		// 
+		//
 		$filename = $a_http_post_file['name'];
 		if ($secure_filename)
 		{
@@ -168,6 +169,45 @@ class ilFileDataExercise extends ilFileData
 		return true;
 	}
 
+
+	/**
+	* store content as file in filesystem
+	* @param   $filename Filename
+	* @param   $content base64 decoded content
+	* @access	public
+	* @return bool
+	*/
+	function storeContentAsFile($filename, $content, $secure_filename = false)
+	{
+		// TODO:
+		// CHECK UPLOAD LIMIT
+		//
+		if ($secure_filename)
+		{
+			// replace whitespaces with underscores
+			$filename = preg_replace("/\s/", "_", $filename);
+			// remove all special characters
+			$filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
+		}
+		if(count($content) > 0 )
+		{
+			// CHECK IF FILE WITH SAME NAME EXISTS
+			$filename = $this->getAbsolutePath($filename);
+			$this->__rotateFiles($filename);
+			file_put_contents($filename, $content);
+
+			// check for virus
+		    $vir = ilUtil::virusHandling($filename);
+		    if (!$vir[0] ||$vir[1] != "")
+		    {
+			     unlink($filename);
+			     return false;
+		    }
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	* store delivered file in filesystem
 	* @param array HTTP_POST_FILES
@@ -177,9 +217,9 @@ class ilFileDataExercise extends ilFileData
 	*/
 	function deliverFile($a_http_post_file, $user_id)
 	{
-		// TODO: 
+		// TODO:
 		// CHECK UPLOAD LIMIT
-		// 
+		//
 		$result = false;
 		if(isset($a_http_post_file) && $a_http_post_file['size'])
 		{
@@ -197,7 +237,7 @@ class ilFileDataExercise extends ilFileData
 			if(!is_dir($savepath))
 			{
 				ilUtil::makeDir($savepath);
-			}				
+			}
 
 			// CHECK IF FILE PATH EXISTS
 			if (!is_dir($savepath))
@@ -207,7 +247,7 @@ class ilFileDataExercise extends ilFileData
 				ilUtil::makeDir($savepath);
 			}
 			$now = getdate();
-			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"], 
+			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"],
 							  $now["minutes"], $now["seconds"]);
 			//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
 			ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
@@ -221,7 +261,7 @@ class ilFileDataExercise extends ilFileData
 		}
 		return $result;
 	}
-	
+
 	/**
 	* Download all submitted files of all members.
 	*
@@ -231,7 +271,7 @@ class ilFileDataExercise extends ilFileData
 	{
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		global $lng;
-		
+
 		ksort($members);
 		$tmpfile = ilUtil::ilTempnam();
 		$fh = fopen($tmpfile, "w");
@@ -271,7 +311,7 @@ class ilFileDataExercise extends ilFileData
 		unlink($tmpfile);
 		unlink($tmpzipfile);
 	}
-	
+
 	/**
 	* unlink files: expects an array of filenames e.g. array('foo','bar')
 	* @param array filenames to delete

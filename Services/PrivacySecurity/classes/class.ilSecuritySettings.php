@@ -34,6 +34,8 @@
 class ilSecuritySettings
 {
     public static $SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS = 1;
+    public static $SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE = 2;
+    public static $SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE = 3;
 
     private static $instance = null;
 	private $db;
@@ -42,6 +44,7 @@ class ilSecuritySettings
 	private $https_header_enable;
 	private $https_header_name;
 	private $https_header_value;
+	private $https_enable;
 
 	/**
 	 * Private constructor: use _getInstance()
@@ -143,8 +146,26 @@ class ilSecuritySettings
 	    return $this->https_header_enable;
 	}
 
+	/**
+	 * Enable https for certain scripts
+	 *
+	 * @param boolean $value
+	 */
+    public function setHTTPSEnabled ($value)
+    {
+        $this->https_enable = $value;
+    }
 
 
+    /**
+     * read access to https enabled property
+     *
+     * @return boolean  true, if enabled, false otherwise
+     */
+    public function isHTTPSEnabled ()
+    {
+        return $this->https_enable;
+    }
 	/**
 	 * Save settings
 	 *
@@ -155,6 +176,7 @@ class ilSecuritySettings
 	 	$this->settings->set('ps_auto_https_enabled',(bool) $this->isAutomaticHTTPSEnabled());
 	 	$this->settings->set('ps_auto_https_headername',(string) $this->getAutomaticHTTPSHeaderName());
 	 	$this->settings->set('ps_auto_https_headervalue',(string) $this->getAutomaticHTTPSHeaderValue());
+	 	$this->settings->set('https',(string) $this->isHTTPSEnabled());
 	}
 	/**
 	 * read settings
@@ -177,6 +199,7 @@ class ilSecuritySettings
     	$this->https_header_enable = (bool) $this->settings->get('ps_auto_https_enabled',false);
 		$this->https_header_name = (string) $this->settings->get('ps_auto_https_headername',"ILIAS_HTTPS_ENABLED");
 		$this->https_header_value = (string) $this->settings->get('ps_auto_https_headervalue',"1");
+		$this->https_enable = (boolean) $this->settings->get('https', false);
 	}
 
 	/**
@@ -192,6 +215,19 @@ class ilSecuritySettings
         {
 	        return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS;
 	    }
+        include_once './classes/class.ilHTTPS.php';
+
+	    if ($this->isHTTPSEnabled())
+	    {
+			if(!ilHTTPS::_checkHTTPS())
+			{
+				return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE;
+			}
+	    } elseif(!ilHTTPS::_checkHTTP())
+			{
+			    return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE;
+			}
+
 	    return 0;
 	}
 
