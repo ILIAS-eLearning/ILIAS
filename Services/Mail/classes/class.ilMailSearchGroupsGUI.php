@@ -339,7 +339,7 @@ class ilMailSearchGroupsGUI
 			$lng->loadLanguageModule('crs');
 	
 			$this->tpl->setCurrentBlock("members_group");
-			$this->tpl->setVariable("MEMBERS_TXT_GROUP",$lng->txt("group"));
+			$this->tpl->setVariable("MEMBERS_TXT_GROUP",$lng->txt("obj_grp"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("MEMBERS_TXT_LOGIN",$lng->txt("login"));
 			$this->tpl->setVariable("MEMBERS_TXT_NAME",$lng->txt("name"));
