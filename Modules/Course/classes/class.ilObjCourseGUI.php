@@ -115,7 +115,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
-		#ilUtil::redirect("mail_new.php?type=new&rcp_to=".implode(',',$rcps));
 		ilUtil::redirect("ilias.php?baseClass=ilmailgui&type=new&rcp_to=".implode(',',$rcps));
 	}
 	/**
