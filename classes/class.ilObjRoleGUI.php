@@ -1416,7 +1416,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		foreach ($assigned_users as $user)
 		{
-			$link_contact = "mail_new.php?type=new&rcp_to=".$user["login"];
+			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$user["login"];
 			
 			if ($_GET["admin_mode"] == "settings"
 				&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)
@@ -2331,7 +2331,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	function mailToRoleObject()
 	{
 		$_SESSION['mail_roles'][] = "#".$this->object->getTitle();
-		$script = 'mail_new.php?type=role';
+		$script = 'ilias.php?baseClass=ilMailGUI&type=role';
 		ilUtil::redirect($script);
 	}
 	
