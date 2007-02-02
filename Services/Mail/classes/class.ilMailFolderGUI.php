@@ -99,7 +99,6 @@ class ilMailFolderGUI
 				{
 					$cmd = "showFolder";
 				}
-
 				$this->$cmd();
 				break;
 		}
@@ -524,6 +523,7 @@ class ilMailFolderGUI
 		$tplbtn->parseCurrentBlock();
 		
 		$this->tpl->setVariable("BUTTONS2",$tplbtn->get());
+		$this->ctrl->setParameter($this, "cmd", "post");
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
 		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
 		$this->ctrl->clearParameters($this);
@@ -644,6 +644,36 @@ class ilMailFolderGUI
 		
 		$tplprint->show();
 	}
+
+	function deliverFile()
+	{
+		if ($_SESSION["mail_id"])
+		{
+			$_GET["mail_id"] = $_SESSION["mail_id"];
+		}
+		$_SESSION["mail_id"] = "";
+
+		$filename = ($_SESSION["filename"]
+						? $_SESSION["filename"]
+						: ($_POST["filename"]
+							? $_POST["filename"]
+							: $_GET["filename"]));
+		$_SESSION["filename"] = "";
+			
+		require_once "classes/class.ilFileDataMail.php";
+			
+		$mfile = new ilFileDataMail($_SESSION["AccountId"]);
+		if(!$path = $mfile->getAttachmentPath($filename, $_GET["mail_id"]))
+		{
+			ilUtil::sendInfo("Error reading file!");
+			$this->showMail();
+		}
+		else
+		{
+			ilUtil::deliverFile($path, $filename);
+		}
+	}
+
 }
 
 ?>
