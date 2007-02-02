@@ -544,7 +544,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 							$recipients = $recipients.$user->getLogin().",";
 						}
 		
-						ilUtil::redirect("mail_new.php?type=new&rcp_to=".$recipients);
+						ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$recipients);
 					}*/
 					break;
 					
@@ -964,7 +964,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->setParameter($this, "rcp_to", $mem_obj->getLogin());
 				$this->tpl->setVariable("LINK_FEEDBACK",
 					$this->ctrl->getLinkTarget($this, "redirectFeedbackMail"));
-					//"mail_new.php?type=new&rcp_to=".$mem_obj->getLogin());
+					//"ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem_obj->getLogin());
 				$this->tpl->setVariable("TXT_FEEDBACK",
 					$this->lng->txt("exc_send_mail"));
 				$this->ctrl->setParameter($this, "rcp_to", "");
@@ -998,7 +998,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if ($_GET["member_id"] != "")
 		{
 			$this->object->members_obj->setStatusFeedbackForMember($_GET["member_id"], 1);
-			ilUtil::redirect("mail_new.php?type=new&rcp_to=".urlencode($_GET["rcp_to"]));
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($_GET["rcp_to"]));
 		}
 		else if(count($_POST["member"]) > 0)
 		{
@@ -1010,7 +1010,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->object->members_obj->setStatusFeedbackForMember($member, 1);
 			}
 			$logins = implode($logins, ",");
-			ilUtil::redirect("mail_new.php?type=new&rcp_to=".urlencode($logins));
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($logins));
 		}
 
 		ilUtil::sendInfo($this->lng->txt("select_one"),true);
