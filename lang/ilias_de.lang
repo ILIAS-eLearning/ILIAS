@@ -2394,7 +2394,7 @@ common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. Attachment-Grösse
 common#:#mail_maxsize_box#:#Max. Mailbox-Grösse
 common#:#mail_maxsize_mail#:#Max. Mail-Grösse
-common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
+common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Anhänge
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
 common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
@@ -4852,7 +4852,7 @@ mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen oder E-Mail-Adresse.
 mail#:#mail_file_name#:#Dateiname
-mail#:#mail_file_size#:#Dateigrösse
+mail#:#mail_file_size#:#Dateigröße
 mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
 mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
 mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
@@ -4890,8 +4890,8 @@ mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.###10 Ju
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.###10 Jul 2006 new variable
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used###10 Jul 2006 new variable
 mail#:#mail_new_file#:#Neue Datei hinzufügen:
-mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
-mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
+mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Anhänge beinhalten
+mail#:#mail_no_attachments_found#:#Es wurden keine Anhänge gefunden
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
 mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
@@ -6935,6 +6935,8 @@ ps#:#ps_new_text_field#:#Neues Textfeld anlegen
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_type_text#:#Textfeld
 ps#:#ps_type_select#:#Auswahlliste
+common#:#mail_select_only_one_entry#:#Bitte wählen Sie nur einen Eintrag aus.
+common#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.
 administration#:#course_export#:#Kurs-Export
 administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Wenn Sie diese Änderung bestätigen werden alle Kurs-Nutzungsvereinbarungen zurückgesetzt.
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
@@ -6959,6 +6961,13 @@ ps#:#ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgende
 crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
 ps#:#ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
 ps#:#ps_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern der Einstellungen bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt werden.
+common#:#mail_select_group#:#Bitte mindestens eine Gruppe auswählen.
+common#:#mail_my_entries#:#Meine Einträge
+common#:#mail_my_courses#:#Meine Kurse
+common#:#mail_my_groups#:#Meine Gruppen
+common#:#mail_into_addressbook#:#In Addressbuch übernehmen
+common#:#mail_group_members#:#Gruppenmitglieder
+common#:#mail_group#:#Gruppe
 ps#:#ps_error_message_https_header_missing#:#Die automatische HTTPS-Erkennung erfordert einen Header-Namen und einen Header-Wert.
 ps#:#ps_auto_https#:#Automatische HTTPS-Erkennung
 ps#:#ps_auto_https_description#:#Wenn aktiviert, versucht ILIAS den HTTPS-Status eines Request per Header-Analyse zu bestimmen.
