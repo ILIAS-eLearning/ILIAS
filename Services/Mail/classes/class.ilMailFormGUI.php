@@ -31,7 +31,7 @@ require_once "classes/class.ilFileDataMail.php";
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
+* @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
 */
 class ilMailFormGUI
 {
@@ -63,6 +63,12 @@ class ilMailFormGUI
 		$forward_class = $this->ctrl->getNextClass($this);
 		switch($forward_class)
 		{
+			case 'ilmailfoldergui':
+				include_once 'Services/Mail/classes/class.ilMailFolderGUI.php';
+
+				$this->ctrl->forwardCommand(new ilMailFolderGUI());
+				break;
+
 			case 'ilmailattachmentgui':
 				include_once 'Services/Mail/classes/class.ilMailAttachmentGUI.php';
 
@@ -116,7 +122,8 @@ class ilMailFormGUI
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("mail_message_send",true));
-			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$this->mbox->getInboxFolder());
+			$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
+			$this->ctrl->redirectByClass("ilmailfoldergui");
 		}
 
 		$this->showForm();
@@ -143,13 +150,14 @@ class ilMailFormGUI
 		}
 		else
 		{
-			if($this->umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
+			if($this->umail->sendInternalMail($draftsId,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
 												$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
 												ilUtil::stripSlashes($_POST["m_subject"]),
 												ilUtil::stripSlashes($_POST["m_message"]),$_SESSION["AccountId"]))
 			{
 				ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
-				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$mbox->getInboxFolder());
+				$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getDraftsFolder());
+				$this->ctrl->redirectByClass("ilmailfoldergui");
 			}
 			else
 			{
