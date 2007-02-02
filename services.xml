@@ -17,6 +17,9 @@
 	<service name="Initialisation" dir="Services/Init">
 		<baseclass name="ilStartUpGUI" dir="classes" />
 	</service>
+	<service name="Mail" dir="Services/Mail">
+		<baseclass name="ilMailGUI" dir="classes" />
+	</service>
 	<service name="Search" dir="Services/Search">
 		<baseclass name="ilSearchController" dir="classes" />
 	</service>
