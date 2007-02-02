@@ -144,6 +144,7 @@ class ilMailOptions
 
 		$this->signature = $a_signature;
 		$this->linebreak = $a_linebreak;
+		$this->incoming_type = $a_incoming_type;
 
 		return true;
 	}
