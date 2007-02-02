@@ -115,7 +115,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
-		ilUtil::redirect("mail_new.php?type=new&rcp_to=".implode(',',$rcps));
+		#ilUtil::redirect("mail_new.php?type=new&rcp_to=".implode(',',$rcps));
+		ilUtil::redirect("ilias.php?baseClass=ilmailgui&type=new&rcp_to=".implode(',',$rcps));
 	}
 	/**
 	* canceledObject is called when operation is canceled, method links back
@@ -384,7 +385,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getContactEmail())
 		{
 			$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-			$etpl->setVariable("EMAIL_LINK","mail_new.php?type=new&rcp_to=".$this->object->getContactEmail());
+			$etpl->setVariable("EMAIL_LINK","ilias.php?baseClass=ilmailgui&type=new&rcp_to=".$this->object->getContactEmail());
 			$etpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
 			$info->addProperty($this->lng->txt("crs_contact_email"),
 				$etpl->get());
@@ -4068,8 +4069,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->setSubTabs('members');
 
-		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
-		$this->tpl->setVariable("SELECT_ACTION",'mail_new.php?courses_to=1&course_id='.$this->object->getRefId());
+		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilmailgui&type=role');
+		$this->tpl->setVariable("SELECT_ACTION",'ilias.php?baseClass=ilmailgui&view=my_courses&search_crs='.$this->object->getId());
 		$this->tpl->setVariable("MAIL_SELECTED",$this->lng->txt('send_mail_selected'));
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
 		$this->tpl->setVariable("MAIL_TUTOR",$this->lng->txt('send_mail_tutors'));
