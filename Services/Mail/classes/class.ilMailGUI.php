@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,126 +21,260 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./include/inc.mail.php";
-require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 
 /**
-* Mail User Interface class. (only a start, mail scripts code should go here)
-*
-* @author Peter Gabriel <pgabriel@databay.de>
-*
+* @author Jens Conze
 * @version $Id$
+*
+* @defgroup ServicesMail Services/Mail
+* @ingroup ServicesMail
+* @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilMailAddressbookGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI
 */
 class ilMailGUI
 {
+	private $tpl = null;
+	private $ctrl = null;
+	private $lng = null;
+	private $tabs_gui = null;
+	
+	private $umail = null;
+	private $exp = null;
+	private $output = null;
+	private $mtree = null;
+	private $forwardClass = null;
 
-	/**
-	* Get Mail HTML for Personal Desktop Mail Display
-	*/
-	function getPDMailHTML($a_mail_id, $a_mobj_id)
+	public function __construct()
 	{
-		global $lng, $rbacsystem;
-		
-		$lng->loadLanguageModule("mail");
-		
-		//get the mail from user
-		$umail = new ilMail($_SESSION["AccountId"]);
-		
-		// catch hack attempts
-		if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
-		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
-		}
-		
-		$umail->markRead(array($a_mail_id));
-		$mail_data = $umail->getMail($a_mail_id);
-		
-		// SET MAIL DATA
-		$counter = 1;
-		
-		$tpl = new ilTemplate("tpl.pd_mail.html", true, true, "Services/Mail");
-		
-		$tmp_user = new ilObjUser($mail_data["sender_id"]);
-		
-		// image
-		$tpl->setCurrentBlock("pers_image");
-		$tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
-		$tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
-		$tpl->parseCurrentBlock();
+		global $tpl, $ilCtrl, $lng, $rbacsystem, $ilErr, $ilUser;
 
-		// attachments
-		if($mail_data["attachments"])
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		
+		$this->ctrl->saveParameter($this, "mobj_id");
+		$this->lng->loadLanguageModule("mail");
+
+		$this->umail = new ilMail($ilUser->getId());
+
+		// CHECK HACK
+		if (!$rbacsystem->checkAccess("mail_visible", $this->umail->getMailObjectReferenceId()))
 		{
-			foreach($mail_data["attachments"] as $file)
-			{
-				$tpl->setCurrentBlock("a_row");
-				$tpl->setVariable("HREF_DOWNLOAD",
-					"mail_read.php?cmd=download&mail_id=".$_GET["mail_id"].
-					"&filename=".rawurlencode($file));
-				$tpl->setVariable("FILE_NAME", $file);
-				$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setCurrentBlock("attachment");
-			$tpl->setVariable("TXT_ATTACHMENT", $lng->txt("attachments"));
-			$tpl->parseCurrentBlock();
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->WARNING);
+		}
+	}
+
+	public function executeCommand()
+	{
+		if ($_GET["type"] == "search_res")
+		{
+			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "searchResults");
+			$this->ctrl->redirectByClass("ilmailformgui");
 		}
 
-		// FROM
-		$tpl->setVariable("TXT_FROM", $lng->txt("from"));
-		$tpl->setVariable("FROM", $tmp_user->getFullname());
-
-		if(!($login = $tmp_user->getLogin()))
+		if (isset($_GET["viewmode"]))
 		{
-			$login = $mail_data["import_name"]." (".$lng->txt("imported").")";
+			$_SESSION["viewmode"] = $_GET["viewmode"];
+			$this->ctrl->setCmd("setViewMode");
 		}
-		$tpl->setVariable("MAIL_LOGIN",$login);
 
-		// TO
-		$tpl->setVariable("TXT_TO", $lng->txt("mail_to"));
-		$tpl->setVariable("TO", $mail_data["rcp_to"]);
-		
-		// CC
-		if($mail_data["rcp_cc"])
+		$this->forwardClass = $this->ctrl->getNextClass($this);
+
+		if ($this->ctrl->getCmd() != "showMenu")
 		{
-			$tpl->setCurrentBlock("cc");
-			$tpl->setVariable("TXT_CC",$lng->txt("cc"));
-			$tpl->setVariable("CC",$mail_data["rcp_cc"]);
-			$tpl->parseCurrentBlock();
+			$this->showHeader();
 		}
-		// SUBJECT
-		$tpl->setVariable("TXT_SUBJECT",$lng->txt("subject"));
-		$tpl->setVariable("SUBJECT",htmlspecialchars($mail_data["m_subject"]));
 		
-		// DATE
-		$tpl->setVariable("TXT_DATE", $lng->txt("date"));
-		$tpl->setVariable("DATE", ilFormat::formatDate($mail_data["send_time"]));
-		
-		// ATTACHMENTS
-		/*
-		if($mail_data["attachments"])
+		switch($this->forwardClass)
 		{
-			$tpl->setCurrentBlock("attachment");
-			$tpl->setCurrentBlock("a_row");
-			$counter = 1;
-			foreach($mail_data["attachments"] as $file)
-			{
-				$tpl->setVariable("A_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$tpl->setVariable("FILE",$file);
-				$tpl->setVariable("FILE_NAME",$file);
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachments"));
-			$tpl->setVariable("TXT_DOWNLOAD",$lng->txt("download"));
-			$tpl->parseCurrentBlock();
-		}*/
+			case 'ilmailmenugui':
+				include_once 'Services/Mail/classes/class.ilMailMenuGUI.php';
+
+				$this->ctrl->forwardCommand(new ilMailMenuGUI());
+				break;
+
+			case 'ilmailformgui':
+				include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
+
+				$this->ctrl->forwardCommand(new ilMailFormGUI());
+				break;
+
+			case 'ilmailaddressbookgui':
+				include_once 'Services/Mail/classes/class.ilMailAddressbookGUI.php';
+
+				$this->ctrl->forwardCommand(new ilMailAddressbookGUI());
+				break;
+
+			case 'ilmailoptionsgui':
+				include_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
+
+				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
+				break;
+
+			case 'ilmailfoldergui':
+				include_once 'Services/Mail/classes/class.ilMailFolderGUI.php';
+
+				$this->ctrl->forwardCommand(new ilMailFolderGUI());
+				break;
+
+			default:
+				if (!($cmd = $this->ctrl->getCmd()))
+				{
+					$cmd = "setViewMode";
+				}
+
+				$this->$cmd();
+				break;
+
+		}
+		return true;
+	}
+
+	private function setViewMode()
+	{
+		if ($_GET["target"] == "")
+		{
+				$_GET["target"] = "ilmailfoldergui";
+		}
+		if ($_SESSION["viewmode"] == "tree")
+		{
+			include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+			$fs_gui = new ilFramesetGUI();
+			$fs_gui->setFramesetTitle($this->lng->txt("mail"));
+			$fs_gui->setMainFrameName("content");
+			$fs_gui->setSideFrameName("tree");
 		
-		// MESSAGE
-		$tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
-		$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable($mail_data["m_message"])));
+			$this->ctrl->setParameter($this, "cmd", "showMenu");
+			$this->ctrl->setParameter($this, "mexpand", 1);
+			$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this));
+			$this->ctrl->clearParameters($this);
 		
-		return $tpl->get();
+			$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"]));
+			$fs_gui->show();
+		}
+		else
+		{
+			$this->ctrl->redirectByClass($_GET["target"]);
+		}
+	}
+	
+	private function showHeader()
+	{
+		global $ilMainMenu;
+
+		$ilMainMenu->setActive("mail");
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
+		
+		// display infopanel if something happened
+		ilUtil::infoPanel();
+
+		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+
+		// FOLDER
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVariable("TAB_TYPE", $this->forwardClass == "ilmailfoldergui"
+			? "tabactive"
+			: "tabinactive");
+		$this->ctrl->setParameterByClass("ilmailfoldergui", "type", "new");
+		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailfoldergui"));
+		$this->ctrl->clearParametersByClass("ilmailfoldergui");
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("fold"));
+		$this->tpl->parseCurrentBlock();
+		
+		
+		// COMPOSE
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVAriable("TAB_TYPE", $this->forwardClass == "ilmailformgui"
+			? "tabactive"
+			: "tabinactive");
+		$this->ctrl->setParameterByClass("ilmailformgui", "type", "new");
+		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
+		$this->ctrl->clearParametersByClass("ilmailformgui");
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("compose"));
+		$this->tpl->parseCurrentBlock();
+		
+		// ADDRESSBOOK
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVAriable("TAB_TYPE", $this->forwardClass == "ilmailaddressbookgui"
+			? "tabactive"
+			: "tabinactive");
+		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("mail_addressbook"));
+		$this->tpl->parseCurrentBlock();
+		
+		// OPTIONS
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVAriable("TAB_TYPE", $this->forwardClass == "ilmailoptionsgui"
+			? "tabactive"
+			: "tabinactive");
+		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailoptionsgui"));
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("options"));
+		$this->tpl->parseCurrentBlock();
+		
+		// FLATVIEW <-> TREEVIEW
+		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+		{
+			$this->ctrl->setParameter($this, "viewmode", "tree");
+			$this->tpl->setTreeFlatIcon(
+				$this->ctrl->getLinkTarget($this),
+				"tree");
+			//$this->tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_treeview.gif"));
+			//$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "viewmode", "flat");
+			$this->tpl->setTreeFlatIcon(
+				$this->ctrl->getLinkTarget($this),
+				"flat");
+			//$this->tpl->parseCurrentBlock();
+		}
+		$this->ctrl->clearParameters($this);
+		$this->tpl->setCurrentBlock("tree_icons");
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function showMenu()
+	{
+		global $ilUser;
+		
+		require_once "classes/class.ilMailExplorer.php";
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		
+		$this->exp = new ilMailExplorer($this->ctrl->getLinkTargetByClass("ilmailfoldergui"),$ilUser->getId());
+		$this->exp->setTargetGet("mobj_id");
+
+		if ($_GET["mexpand"] == "")
+		{
+			$this->mtree = new ilTree($ilUser->getId());
+			$this->mtree->setTableNames('mail_tree','mail_obj_data');
+			$expanded = $this->mtree->readRootId();
+		}
+		else
+			$expanded = $_GET["mexpand"];
+			
+		$this->exp->setExpand($expanded);
+		
+		//build html-output
+		$this->exp->setOutput(0);
+		$this->output = $this->exp->getOutput();
+
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("mail_folders"));
+		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
+		$this->tpl->setVariable("EXPLORER",$this->output);
+		$this->ctrl->setParameter($this, "cmd", "showMenu");
+		$this->ctrl->setParameter($this, "mexpand", $_GET["mexpand"]);
+		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->show(false);
 	}
 }
+
 ?>
