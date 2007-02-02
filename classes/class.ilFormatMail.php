@@ -197,7 +197,7 @@ class ilFormatMail extends ilMail
 	*/
 	function appendSignature()
 	{
-		return $this->mail_data["m_message"] .= $this->mail_options->getSignature();
+		return $this->mail_data["m_message"] .= chr(13).chr(10).$this->mail_options->getSignature();
 	}
 } // END class.ilFormatMail
 ?>
