@@ -54,7 +54,12 @@
 			<img src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
 			<!-- END pers_image -->
 			</TD>
-			<td class="std"  valign="middle">{MAIL_FROM}<br />{MAIL_LOGIN}</TD>
+			<td class="std"  valign="middle">
+			<!-- BEGIN mails_from -->
+				{MAIL_FROM}<br />
+			<!-- END mails_from -->
+				{MAIL_LOGIN}
+			</TD>
 			<td class="std"  valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
 			<td class="std"  valign="middle">{MAIL_DATE}</td>
 		  </tr>
