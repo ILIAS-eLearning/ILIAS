@@ -262,7 +262,7 @@ class ilMailExplorer extends ilExplorer
 		//     negative if object is compressed
 		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
 
-		return $_SERVER["PATH_INFO"]."?mexpand=".$a_child;
+		return eregi_replace("(mexpand=)(-?[0-9]+)", "\\1".$a_child, $_SERVER["REQUEST_URI"]);
 	}
 } // END class.ilMailExplorer
 ?>

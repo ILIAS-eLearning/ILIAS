@@ -182,7 +182,7 @@ class ilMainMenuGUI
 
 			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
 			{
-				$link = "mail_frameset.php";
+				/*$link = "mail_frameset.php";
 				if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 				{
 					$mbox = new ilMailbox($_SESSION["AccountId"]);
@@ -203,6 +203,22 @@ class ilMainMenuGUI
 				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget($link));
 				$this->tpl->setVariable("TARGET_MAIL", $this->target);
 
+				if ($this->active == "mail")
+				{
+					$this->tpl->setVariable("MM_CLASS", "MMActive");
+				}
+				else
+				{
+					$this->tpl->setVariable("MM_CLASS", "MMInactive");
+				}
+				$this->tpl->parseCurrentBlock();*/
+
+				$this->tpl->setCurrentBlock("mailbutton");
+				$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
+				$this->tpl->setVariable("IMG_SPACE_MAIL", ilUtil::getImagePath("spacer.gif", false));
+				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail").$add);
+				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget("ilias.php?baseClass=ilMailGUI"));
+				$this->tpl->setVariable("TARGET_MAIL", $this->target);
 				if ($this->active == "mail")
 				{
 					$this->tpl->setVariable("MM_CLASS", "MMActive");

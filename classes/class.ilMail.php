@@ -638,21 +638,20 @@ class ilMail
 		}
 
 		// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
-		$counter = 0;
 		$to = array();
 		$bcc = array();
-		foreach ($as_email as $id)
+		if (count($as_email) == 1)
 		{
-			if(!$counter++)
-			{
-				$to[] = ilObjUser::_lookupEmail($id);
-			}
-			else
+			$to[] = ilObjUser::_lookupEmail($as_email[0]); 
+		}
+		else
+		{
+			foreach ($as_email as $id)
 			{
 				$bcc[] = ilObjUser::_lookupEmail($id);
 			}
 		}
-		if($to)
+		if(count($to) > 0 || count($bcc) > 0)
 		{
 			$this->sendMimeMail(implode(',',$to),'',implode(',',$bcc),$a_subject,$a_message,$a_attachments);
 		}
@@ -1174,9 +1173,12 @@ class ilMail
 				$mmail->Bcc($a_rcp_bcc);
 			}
 
-			foreach ($a_attachments as $attachment)
-			{
-				$mmail->Attach($this->mfile->getAbsolutePath($attachment));
+			if (is_array($a_attachments))
+			{	
+				foreach ($a_attachments as $attachment)
+				{
+					$mmail->Attach($this->mfile->getAbsolutePath($attachment));
+				}
 			}
 
 			$mmail->Send();

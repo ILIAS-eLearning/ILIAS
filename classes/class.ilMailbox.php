@@ -122,10 +122,10 @@ class ilMailbox
 			$this->lng->loadLanguageModule("mail");
 
 			$this->actions = array(
-				"move"        => $this->lng->txt("mail_move_to"),
-				"mark_read"   => $this->lng->txt("mail_mark_read"),
-				"mark_unread" => $this->lng->txt("mail_mark_unread"),
-				"delete"      => $this->lng->txt("delete"));
+				"moveMails"        => $this->lng->txt("mail_move_to"),
+				"markMailsRead"   => $this->lng->txt("mail_mark_read"),
+				"markMailsUnread" => $this->lng->txt("mail_mark_unread"),
+				"deleteMails"      => $this->lng->txt("delete"));
 		}
 		
 		// array contains basic folders and there lng translation for every new user
@@ -356,7 +356,7 @@ class ilMailbox
 		// ENTRY IN mail_obj_data
 		$query = "INSERT INTO $this->table_mail_obj_data ".
 			 	 "SET user_id = ".$ilDB->quote($this->user_id).", ".
-				 "title = '".$ilDB->quote($a_folder_name)."',".
+				 "title = ".$ilDB->quote($a_folder_name).",".
 			 	 "type = 'user_folder'";
 		$res = $this->ilias->db->query($query);
 
@@ -384,7 +384,7 @@ class ilMailbox
 		}
 
 		$query = "UPDATE $this->table_mail_obj_data ".
-				 "SET title = ".$ilDB->quote($a_new_folder_name)."' ".
+				 "SET title = ".$ilDB->quote($a_new_folder_name)." ".
 				 "WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $this->ilias->db->query($query);
 		
