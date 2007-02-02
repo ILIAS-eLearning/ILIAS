@@ -894,7 +894,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		foreach ($members as $mem)
 		{
-			$link_contact = "mail_new.php?type=new&rcp_to=".$mem["login"];
+			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem["login"];
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
 		
 			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
@@ -1963,7 +1963,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$link_data = $this->object->_getLinkToObject($this->object->getRefId());
 		$link_to_seminar = ILIAS_HTTP_PATH."/".$link_data[0];
 
-		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
+		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilMailGUI&type=role');
 		$this->tpl->setVariable("ADDITIONAL_MESSAGE_TEXT",$link_to_seminar);
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
 		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
