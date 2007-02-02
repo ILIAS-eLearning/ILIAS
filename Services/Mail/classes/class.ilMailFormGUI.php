@@ -186,6 +186,10 @@ class ilMailFormGUI
 									 ilUtil::stripSlashes($_POST["m_subject"]),
 									 ilUtil::stripSlashes($_POST["m_message"]));
 
+		if ($_SESSION["search_crs"])
+		{
+			$this->ctrl->setParameterByClass("ilmailsearchcoursesgui", "cmd", "showMembers");
+		}
 		$this->ctrl->setParameterByClass("ilmailsearchcoursesgui", "ref", "mail");
 		$this->ctrl->redirectByClass("ilmailsearchcoursesgui");
 	}
@@ -309,6 +313,24 @@ class ilMailFormGUI
 		$this->showForm();		
 	}
 
+	public function mailUser()
+	{
+		$_GET["type"] = "new";
+		$this->showForm();		
+	}
+
+	public function mailRole()
+	{
+		$_GET["type"] = "role";
+		$this->showForm();		
+	}
+
+	public function replyMail()
+	{
+		$_GET["type"] = "reply";
+		$this->showForm();		
+	}
+
 	public function showForm()
 	{
 		global $rbacsystem;
@@ -319,6 +341,10 @@ class ilMailFormGUI
 		switch($_GET["type"])
 		{
 			case 'reply':
+				if($_SESSION['mail_id'])
+				{
+					$_GET['mail_id'] = $_SESSION['mail_id'];
+				}
 				$mailData = $this->umail->getMail($_GET["mail_id"]);
 				$mailData["m_subject"] = $this->umail->formatReplySubject();
 				$mailData["m_message"] = $this->umail->formatReplyMessage(); 
@@ -326,6 +352,7 @@ class ilMailFormGUI
 				// NO ATTACHMENTS FOR REPLIES
 				$mailData["attachments"] = array();
 				$mailData["rcp_to"] = $this->umail->formatReplyRecipient();
+				$_SESSION["mail_id"] = "";
 				break;
 		
 			case 'search_res':
@@ -362,8 +389,16 @@ class ilMailFormGUI
 				break;
 		
 			case 'new':
-				$mailData["rcp_to"] = $_GET['rcp_to'];
+				if($_GET['rcp_to'])
+				{
+					$mailData["rcp_to"] = $_GET['rcp_to'];
+				}
+				else if($_SESSION['rcp_to'])
+				{
+					$mailData["rcp_to"] = $_SESSION['rcp_to'];
+				}
 				$mailData["m_message"] = $this->umail->appendSignature();
+				$_SESSION['rcp_to'] = "";
 				break;
 		
 			case 'role':

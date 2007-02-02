@@ -462,6 +462,12 @@ class ilMailFolderGUI
 	{
 		global $ilUser;
 
+		if ($_SESSION["mail_id"])
+		{
+			$_GET["mail_id"] = $_SESSION["mail_id"];
+			$_SESSION["mail_id"] = "";
+		}
+
 		$this->umail->markRead(array($_GET["mail_id"]));
 
 		$mailData = $this->umail->getMail($_GET["mail_id"]);
