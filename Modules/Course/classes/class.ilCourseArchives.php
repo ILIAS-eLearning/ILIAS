@@ -387,7 +387,7 @@ class ilCourseArchives
 		if($this->course_obj->getContactEmail())
 		{
 			$tmp_tpl->setCurrentBlock("email_link");
-			#$tmp_tpl->setVariable("EMAIL_LINK","mail_new.php?type=new&rcp_to=".$this->course_obj->getContactEmail());
+			#$tmp_tpl->setVariable("EMAIL_LINK","ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$this->course_obj->getContactEmail());
 			$tmp_tpl->setVariable("CONTACT_EMAIL",$this->course_obj->getContactEmail());
 			$tmp_tpl->parseCurrentBlock();
 		}
