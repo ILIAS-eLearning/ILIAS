@@ -331,6 +331,12 @@ class ilMailFormGUI
 		$this->showForm();		
 	}
 
+	public function mailAttachment()
+	{
+		$_GET["type"] = "attach";
+		$this->showForm();		
+	}
+
 	public function showForm()
 	{
 		global $rbacsystem;

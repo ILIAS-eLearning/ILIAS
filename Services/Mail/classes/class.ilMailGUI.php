@@ -72,6 +72,12 @@ class ilMailGUI
 			$this->ctrl->redirectByClass("ilmailformgui");
 		}
 
+		if ($_GET["type"] == "attach")
+		{
+			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "mailAttachment");
+			$this->ctrl->redirectByClass("ilmailformgui");
+		}
+
 		if ($_GET["type"] == "new")
 		{
 			$_SESSION['rcp_to'] = $_GET['rcp_to'];
@@ -83,7 +89,6 @@ class ilMailGUI
 		{
 			$_SESSION['mail_id'] = $_GET['mail_id'];
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "replyMail");
-			$this->ctrl->setParameterByClass("ilmailformgui", "mobj_id", $_GET["mobj_id"]);
 			$this->ctrl->redirectByClass("ilmailformgui");
 		}
 
@@ -91,7 +96,14 @@ class ilMailGUI
 		{
 			$_SESSION['mail_id'] = $_GET['mail_id'];
 			$this->ctrl->setParameterByClass("ilmailfoldergui", "cmd", "showMail");
-			$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $_GET["mobj_id"]);
+			$this->ctrl->redirectByClass("ilmailfoldergui");
+		}
+
+		if ($_GET["type"] == "deliverFile")
+		{
+			$_SESSION['mail_id'] = $_GET['mail_id'];
+			$_SESSION['filename'] = ($_POST["filename"] ? $_POST["filename"] : $_GET["filename"]);
+			$this->ctrl->setParameterByClass("ilmailfoldergui", "cmd", "deliverFile");
 			$this->ctrl->redirectByClass("ilmailfoldergui");
 		}
 

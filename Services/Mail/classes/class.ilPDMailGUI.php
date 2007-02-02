@@ -76,7 +76,7 @@ class ilPDMailGUI
 			{
 				$tpl->setCurrentBlock("a_row");
 				$tpl->setVariable("HREF_DOWNLOAD",
-					"mail_read.php?cmd=download&mail_id=".$_GET["mail_id"].
+					"ilias.php?baseClass=ilMailGUI&type=deliverFile&mail_id=".$_GET["mail_id"].
 					"&filename=".rawurlencode($file));
 				$tpl->setVariable("FILE_NAME", $file);
 				$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
