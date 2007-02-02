@@ -315,7 +315,13 @@ class ilMailSearchCoursesGUI
 		if ($_GET["search_crs"] != "")
 		{
 			$_POST["search_crs"] = explode(",", $_GET["search_crs"]);
+			$_GET["search_crs"] = "";
 		}
+		else if ($_SESSION["search_crs"] != "")
+		{
+			$_POST["search_crs"] = explode(",", $_SESSION["search_crs"]);
+			$_SESSION["search_crs"] = "";
+		} 
 
 		if (!is_array($_POST["search_crs"]) ||
 			count($_POST["search_crs"]) == 0)

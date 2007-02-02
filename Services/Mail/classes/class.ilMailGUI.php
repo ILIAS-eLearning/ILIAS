@@ -72,6 +72,50 @@ class ilMailGUI
 			$this->ctrl->redirectByClass("ilmailformgui");
 		}
 
+		if ($_GET["type"] == "new")
+		{
+			$_SESSION['rcp_to'] = $_GET['rcp_to'];
+			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "mailUser");
+			$this->ctrl->redirectByClass("ilmailformgui");
+		}
+
+		if ($_GET["type"] == "reply")
+		{
+			$_SESSION['mail_id'] = $_GET['mail_id'];
+			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "replyMail");
+			$this->ctrl->setParameterByClass("ilmailformgui", "mobj_id", $_GET["mobj_id"]);
+			$this->ctrl->redirectByClass("ilmailformgui");
+		}
+
+		if ($_GET["type"] == "read")
+		{
+			$_SESSION['mail_id'] = $_GET['mail_id'];
+			$this->ctrl->setParameterByClass("ilmailfoldergui", "cmd", "showMail");
+			$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $_GET["mobj_id"]);
+			$this->ctrl->redirectByClass("ilmailfoldergui");
+		}
+
+		if ($_GET["type"] == "role")
+		{
+			if (is_array($_POST['roles']))
+			{
+				$_SESSION['mail_roles'] = $_POST['roles'];
+			}
+			else if ($_GET["role"])
+			{
+				$_SESSION['mail_roles'] = array($_GET["role"]);
+			}
+			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "mailRole");
+			$this->ctrl->redirectByClass("ilmailformgui");
+		}
+
+		if ($_GET["view"] == "my_courses")
+		{
+			$_SESSION['search_crs'] = $_GET['search_crs'];
+			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "searchCoursesTo");
+			$this->ctrl->redirectByClass("ilmailformgui");
+		}
+
 		if (isset($_GET["viewmode"]))
 		{
 			$_SESSION["viewmode"] = $_GET["viewmode"];
