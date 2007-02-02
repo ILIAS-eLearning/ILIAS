@@ -1228,7 +1228,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		foreach ($members as $mem)
 		{
-			$link_contact = "mail_new.php?type=new&rcp_to=".$mem["login"];
+			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem["login"];
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
 		
 			//build function
@@ -1386,7 +1386,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->__setSubTabs('members');
 
-		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
+		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilMailGUI&type=role');
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
 		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
 		$this->tpl->setVariable("CHECK_MEMBER",ilUtil::formCheckbox(1,'roles[]','#il_grp_member_'.$this->object->getRefId()));
@@ -1419,7 +1419,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$user =& $this->ilias->obj_factory->getInstanceByObjId($applicant->user_id);
 
-			$link_contact = "mail_new.php?mobj_id=3&type=new&rcp_to=".$user->getLogin();
+			$link_contact = "ilias.php?baseClass=ilMailGUI&mobj_id=3&type=new&rcp_to=".$user->getLogin();
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$user->getId();
 			$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			if (strcmp($_GET["check"], "all") == 0)
