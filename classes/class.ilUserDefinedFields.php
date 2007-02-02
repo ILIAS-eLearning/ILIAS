@@ -211,6 +211,22 @@ class ilUserDefinedFields
 	{
 		return $this->field_searchable;
 	}
+	function enableExport($a_export)
+	{
+		$this->field_export = $a_export;
+	}
+	function enabledExport()
+	{
+		return $this->field_export;
+	}
+	function enableCourseExport($a_course_export)
+	{
+		$this->field_course_export = $a_course_export;
+	}
+	function enabledCourseExport()
+	{
+		return $this->field_course_export;
+	}
 
 
 	function fieldValuesToSelectArray($a_values)
@@ -267,7 +283,9 @@ class ilUserDefinedFields
 			"visible = '".(int) $this->enabledVisible()."', ".
 			"changeable = '".(int) $this->enabledChangeable()."', ".
 			"required = '".(int) $this->enabledRequired()."', ".
-			"searchable = '".(int) $this->enabledSearchable()."'";
+			"searchable = '".(int) $this->enabledSearchable()."', ".
+			"export = '".(int) $this->enabledExport()."', ".
+			"course_export = '".(int) $this->enabledCourseExport()."'";
 
 		$this->db->query($query);
 
@@ -306,7 +324,9 @@ class ilUserDefinedFields
 			"visible = '".(int) $this->enabledVisible()."', ".
 			"changeable = '".(int) $this->enabledChangeable()."', ".
 			"required = '".(int) $this->enabledRequired()."', ".
-			"searchable = '".(int) $this->enabledSearchable()."' ".
+			"searchable = '".(int) $this->enabledSearchable()."', ".
+			"export = '".(int) $this->enabledExport()."', ".
+			"course_export = '".(int) $this->enabledCourseExport()."' ".
 			"WHERE field_id = ".$this->db->quote($a_id)." ";
 
 		$this->db->query($query);
@@ -341,6 +361,8 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['changeable'] = $row->changeable;
 			$this->definitions[$row->field_id]['required'] = $row->required;
 			$this->definitions[$row->field_id]['searchable'] = $row->searchable;
+			$this->definitions[$row->field_id]['export'] = $row->export;
+			$this->definitions[$row->field_id]['course_export'] = $row->course_export;
 
 		}
 

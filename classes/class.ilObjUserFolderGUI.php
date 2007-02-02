@@ -1927,10 +1927,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	// Functions for user defined fields
 	function listUserDefinedFieldsObject()
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("administration");
+		
 		unset($_SESSION['select_num_values']);
 		unset($_SESSION['num_values']);
 
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './classes/class.ilUserDefinedFields.php';	
 
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('global_settings');
@@ -1938,14 +1942,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_list_user_defined.html');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_OVERVIEW",$this->lng->txt('user_defined_list'));
-
-		$this->tpl->setVariable("TXT_NAME", $this->lng->txt("field_name"));
-		$this->tpl->setVariable("TXT_VISIBLE", $this->lng->txt("visible"));
-		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("changeable"));
-		$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));
-		$this->tpl->setVariable("TXT_OPTIONS",$this->lng->txt('options'));
+		
+		if ($this->confirm_change == 1)
+		{
+			$this->tpl->setVariable("CONFIRM_MESSAGE", $this->lng->txt("confirm_message_course_export"));
+			$this->tpl->setVariable("BUTTON_CONFIRM", $this->lng->txt("confirm"));	
+			$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));						
+		}		
+		
+		$this->tpl->setVariable("TXT_OVERVIEW",$this->lng->txt('user_defined_list'));		
 
 		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('add_user_defined_field'));
 
@@ -1964,12 +1969,32 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		foreach($definitions as $field_id => $definition)
 		{
-			$this->tpl->setCurrentBlock("user_defined");
+			$this->tpl->setCurrentBlock("user_defined");			
+			$this->tpl->setVariable("TXT_VISIBLE", $this->lng->txt("visible"));
+			$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("changeable"));
+			$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
+			$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));			
+			$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
+			$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
+			
 			$this->tpl->setVariable("NAME",$definition['field_name']);
+			
+			if ($_POST["cmd"]["updateFields"] != "")
+			{
+				$definition['visible'] = isset($_POST['def'][$field_id]['visible']) ? 1 : 0;
+				$definition['changeable'] = isset($_POST['def'][$field_id]['changeable']) ? 1 : 0;
+				$definition['required'] = isset($_POST['def'][$field_id]['required']) ? 1 : 0;
+				$definition['searchable'] = isset($_POST['def'][$field_id]['searchable']) ? 1 : 0;
+				$definition['export'] = isset($_POST['def'][$field_id]['export']) ? 1 : 0;
+				$definition['course_export'] = isset($_POST['def'][$field_id]['course_export']) ? 1 : 0;
+			}			
+			
 			$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($definition['visible'],"def[$field_id][visible]",1));
 			$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($definition['changeable'],"def[$field_id][changeable]",1));
 			$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($definition['required'],"def[$field_id][required]",1));
 			$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($definition['searchable'],"def[$field_id][searchable]",1));
+			$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($definition['export'],"def[$field_id][export]",1));
+			$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($definition['course_export'],"def[$field_id][course_export]",1));
 
 			$this->ctrl->setParameter($this,'field_id',$field_id);
 
@@ -1988,7 +2013,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("DELETE_LINK",$this->ctrl->getLinkTarget($this,'askDeleteField'));
 			$this->tpl->setVariable("DELETE",$this->lng->txt('delete'));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();			
 		}
 	}
 	
@@ -2033,6 +2058,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$udf->enableChangeable($definition['changeable']);
 		$udf->enableRequired($definition['required']);
 		$udf->enableSearchable($definition['searchable']);
+		$udf->enableExport($definition['export']);
+		$udf->enableCourseExport($definition['course_export']);
 
 		$udf->update($definition['field_id']);
 
@@ -2115,6 +2142,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$udf->enableChangeable($definition['changeable']);
 		$udf->enableRequired($definition['required']);
 		$udf->enableSearchable($definition['searchable']);
+		$udf->enableExport($definition['export']);
+		$udf->enableCourseExport($definition['course_export']);
 
 		if($error = $udf->validateValues())
 		{
@@ -2158,10 +2187,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$_SESSION['select_num_values'] += 1;
 		$this->editSelectFieldObject();
 		return true;
-	}
-		
-		
-		
+	}		
 		
 	function askDeleteFieldObject()
 	{
@@ -2202,15 +2228,47 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		return true;
 	}
-
-
-	function updateFieldsObject()
+	
+	function confirmSavedUDFObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
-		$user_field_definitions =& ilUserDefinedFields::_getInstance();
+		$this->updateFieldsObject("save");
+	}
 
-		foreach($user_field_definitions->getDefinitions() as $field_id => $definition)
+	function updateFieldsObject($action = "")
+	{
+		include_once './classes/class.ilUserDefinedFields.php';		
+		
+		$user_field_definitions =& ilUserDefinedFields::_getInstance();
+		$a_fields = $user_field_definitions->getDefinitions();
+			
+		// check if a course export state of any user defined field has been added
+		if ($action != 'save')
 		{
+			include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+			$privacy = ilPrivacySettings::_getInstance();
+			if ($privacy->enabledExport() == true && $privacy->confirmationRequired() == true)
+			{ 
+				foreach($a_fields as $field_id => $definition)
+				{
+					if ($definition['course_export'] == 0 && (int) $_POST['def'][$field_id]['course_export'] == 1)
+					{	
+						$this->confirm_change = 1;
+						$this->listUserDefinedFieldsObject();
+						return true;
+					}
+				}
+			}
+		}
+		
+		// Reset user confirmation
+		if ($action == 'save')
+		{
+			include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+			ilCourseAgreement::_reset();	
+		}
+
+		foreach($a_fields as $field_id => $definition)
+		{			
 			$user_field_definitions->setFieldName($definition['field_name']);
 			$user_field_definitions->setFieldType($definition['field_type']);
 			$user_field_definitions->setFieldValues($definition['field_values']);
@@ -2218,6 +2276,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$user_field_definitions->enableChangeable((int) $_POST['def'][$field_id]['changeable']);
 			$user_field_definitions->enableRequired((int) $_POST['def'][$field_id]['required']);
 			$user_field_definitions->enableSearchable((int) $_POST['def'][$field_id]['searchable']);
+			$user_field_definitions->enableExport((int) $_POST['def'][$field_id]['export']);
+			$user_field_definitions->enableCourseExport((int) $_POST['def'][$field_id]['course_export']);
 			$user_field_definitions->update($field_id);
 		}
 
@@ -2273,9 +2333,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 
 	function __showTextTable()
-	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_text_field.html');
+	{		
+		global $lng;
 		
+		$lng->loadLanguageModule("administration");
+		$lng->loadLanguageModule("ps");
+				
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_text_field.html');
+				
+		include_once("Modules/Course/classes/class.ilCourseAgreement.php");
+	 	if (ilCourseAgreement::_hasAgreements())
+	 	{
+			$this->tpl->setCurrentBlock('warning_modify');
+			$this->tpl->setVariable('TXT_WARNING', $lng->txt('ps_warning_modify'));
+			$this->tpl->parseCurrentBlock();
+	 	}
+
 		// Save field_type
 		$this->ctrl->setParameter($this,'field_type',(int) $_REQUEST['field_type']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -2290,17 +2363,34 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("changeable"));
 		$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));
+		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
 
 		$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($_POST['def']['visible'],"def[visible]",1));
 		$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($_POST['def']['changeable'],"def[changeable]",1));
 		$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($_POST['def']['required'],"def[required]",1));
 		$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($_POST['def']['searchable'],"def[searchable]",1));
+		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
+		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
 
 		return true;
 	}
 
 	function __showSelectTable()
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("administration");
+		$lng->loadLanguageModule("ps");		
+				
+		include_once("Modules/Course/classes/class.ilCourseAgreement.php");
+	 	if (ilCourseAgreement::_hasAgreements())
+	 	{
+			$this->tpl->setCurrentBlock('warning_modify');
+			$this->tpl->setVariable('TXT_WARNING', $lng->txt('ps_warning_modify'));
+			$this->tpl->parseCurrentBlock();
+	 	}
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_select_field.html');
 		
 		// Save field_type
@@ -2311,6 +2401,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SELECT_TYPE",$this->lng->txt('add_new_user_defined_select_field'));
 		$this->tpl->setVariable("TXT_FIELD_NAME",$this->lng->txt('field_name'));
 		$this->tpl->setVariable("FIELD_NAME_VALUE",$_POST['field_name']);
+		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
 
 		$this->tpl->setVariable("TXT_VISIBLE", $this->lng->txt("visible"));
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("changeable"));
@@ -2321,6 +2413,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($_POST['def']['changeable'],"def[changeable]",1));
 		$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($_POST['def']['required'],"def[required]",1));
 		$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($_POST['def']['searchable'],"def[searchable]",1));
+		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
+		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
 
 		$this->tpl->setVariable("BTN_NEW_VALUE",$this->lng->txt('btn_new_value'));
 
@@ -2348,7 +2442,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		include_once './classes/class.ilUserDefinedFields.php';
 		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 
-		if(!strlen($_POST['field_name']))
+		if (!strlen($_POST['field_name']))
 		{
 			ilUtil::sendInfo($this->lng->txt('udf_no_name_given'));
 			$this->chooseDefinitionsObject();
@@ -2387,12 +2481,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				}
 			}
 		}
+				
 		$user_field_definitions->setFieldName($_POST['field_name']);
 		$user_field_definitions->enableVisible($_POST['def']['visible']);
 		$user_field_definitions->enableChangeable($_POST['def']['changeable']);
 		$user_field_definitions->enableRequired($_POST['def']['required']);
-		$user_field_definitions->enableSearchable($_POST['def']['searchable']);
+		$user_field_definitions->enableSearchable($_POST['def']['searchable']);		
+		$user_field_definitions->enableExport($_POST['def']['export']);
+		$user_field_definitions->enableCourseExport($_POST['def']['course_export']);
 		$user_field_definitions->add();
+		
+		if ((int) $_POST['def']['course_export'] == 1)
+		{
+			include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+			ilCourseAgreement::_reset();			
+		}
 
 		ilUtil::sendInfo($this->lng->txt('udf_added_field'));
 		$this->listUserDefinedFieldsObject();
@@ -2640,7 +2743,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"show_users_online" => 0
 		);
 		
-		// check if a course exam state of any field has been added
+		// check if a course export state of any field has been added
 		$privacy = ilPrivacySettings::_getInstance();
 		if ($privacy->enabledExport() == true && 
 			$privacy->confirmationRequired() == true && 

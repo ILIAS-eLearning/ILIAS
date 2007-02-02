@@ -456,7 +456,12 @@ CREATE TABLE `ldap_role_group_mapping` (
   `role` int(11) NOT NULL default '0',
   PRIMARY KEY  (`mapping_id`)
 ) Type=MyISAM;
+
 <#911>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#912>
+ALTER TABLE `user_defined_field_definition` ADD `export` TINYINT( 1 ) NOT NULL ,
+ADD `course_export` TINYINT( 1 ) NOT NULL ;
