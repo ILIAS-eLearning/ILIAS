@@ -750,7 +750,7 @@ return;
 						 '','','','','',
 						 '',
 						 '');
-		ilUtil::redirect('mail_frameset.php?target='.urlencode("mail_new.php?type=attach"));
+		ilUtil::redirect('ilias.php?baseClass=ilMailGUI&type=attach');
 	}
 	/**
 	* display deletion conformation screen
