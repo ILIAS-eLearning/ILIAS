@@ -30,7 +30,7 @@ require_once "classes/class.ilMail.php";
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailFolderGUI: ilMailFormGUI, ilMailAddressbookGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailOptionsGUI
+* @ilCtrl_Calls ilMailFolderGUI: ilMailAddressbookGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailOptionsGUI
 */
 class ilMailFolderGUI
 {
@@ -82,12 +82,6 @@ class ilMailFolderGUI
 		$forward_class = $this->ctrl->getNextClass($this);
 		switch($forward_class)
 		{
-			case 'ilmailformgui':
-				include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
-
-				$this->ctrl->forwardCommand(new ilMailFormGUI());
-				break;
-
 			case 'ilmailaddressbookgui':
 				include_once 'Services/Mail/classes/class.ilMailAddressbookGUI.php';
 
