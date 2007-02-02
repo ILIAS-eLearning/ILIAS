@@ -325,6 +325,7 @@ class ilUserDefinedFields
 		$query = "SELECT * FROM user_defined_field_definition ";
 		$res = $this->db->query($query);
 
+		$this->definitions = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->definitions[$row->field_id]['field_id'] = $row->field_id;
