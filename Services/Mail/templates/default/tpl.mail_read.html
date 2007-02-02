@@ -1,0 +1,71 @@
+    <form action="{ACTION}" method="post">
+	<table class="fullwidth">
+		<TR class="{CSSROW_FROM}">
+			<TD class="option">{TXT_FROM}</TD>
+			<TD class="option_value">
+			<!-- BEGIN pers_image -->
+			<img style="float:left; margin-right:10px;" src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
+			<!-- END pers_image -->
+			{FROM} <br />{MAIL_LOGIN}</TD>
+		</TR>
+		<TR class="{CSSROW_TO}">
+			<TD class="option">{TXT_TO}</TD>
+			<TD class="option_value">{TO}</TD>
+		</TR>
+		<!-- BEGIN cc -->
+		<TR class="{CSSROW_CC}">
+			<TD class="option">{TXT_CC}</TD>
+			<TD class="option_value">{CC}</TD>
+		</TR>
+		<!-- END cc -->
+		<TR class="{CSSROW_SUBJ}">
+			<TD class="option">{TXT_SUBJECT}</TD>
+			<TD class="option_value">{SUBJECT}</TD>
+		</TR>
+		<TR class="{CSSROW_DATE}">
+			<TD class="option">{TXT_DATE}</TD>
+			<TD class="option_value">{DATE}</TD>
+		</TR>
+	</table>
+	  <br>
+
+	  {BUTTONS2}
+	  <!-- BEGIN attachment -->
+	  <table cellpadding="4" cellspacing="1" border="0" width="100%">
+		  <TR>
+			<TD ALIGN="left" VALIGN="top" colspan="2" class="tblheader">
+			  {TXT_ATTACHMENT}
+			</TD>
+		  </TR>
+		  <!-- BEGIN a_row -->
+		  <TR class="{A_CSSROW}">
+			<TD CLASS="STD" align="center" width="4%">
+			  <input type="radio" name="filename" value="{FILE}">
+			</TD>
+			<TD CLASS="STD" >
+			  {FILE_NAME}
+			</TD>
+		  </TR>
+		  <!-- END a_row -->
+		  <tr>
+			<td class="std"  align="center" width="4%">
+			  <img src="templates/default/images/arrow_downright.gif" />
+			</td>
+			<td class="std" >
+			  <input type="submit" name="cmd[download]" value="{TXT_DOWNLOAD}">
+			</td>
+		  </tr>
+	  </TABLE>
+	  <!-- END attachment -->
+		<table class="fullwidth">
+			<TR class="tblheader" colspan="2">
+				<TD class="std">{TXT_MESSAGE}</TD>
+			</tr>
+			<tr class="std">
+				<TD class="std" colspan="2">{MAIL_MESSAGE}</TD>
+			</TR>
+		</TABLE>
+</body>
+</form>
+<!--</div>-->
+</td></tr></table>
