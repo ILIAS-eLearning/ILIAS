@@ -247,9 +247,8 @@ class ilMailSearchCoursesGUI
 	 */
 	public function showMyCourses()
 	{
-		global $lng, $ilUser;
+		global $lng, $ilUser, $ilObjDataCache;
 
-		include_once 'Modules/Course/classes/class.ilObjCourse.php';
 		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html", "Services/Mail");
@@ -279,14 +278,13 @@ class ilMailSearchCoursesGUI
 		
 			foreach($crs_ids as $crs_id) 
 			{
-				$course_obj = new ilObjCourse($crs_id,false); 
-				$crs_members = new ilCourseMembers($course_obj);
+				$crs_members = ilCourseMembers::_getMembers($crs_id);
 	
 				$this->tpl->setCurrentBlock("loop_crs");
 				$this->tpl->setVariable("LOOP_CRS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable("LOOP_CRS_ID",$course_obj->getId());
-				$this->tpl->setVariable("LOOP_CRS_NAME",$course_obj->getTitle());
-				$this->tpl->setVariable("LOOP_CRS_NO_MEMBERS",$crs_members->getCountMembers());
+				$this->tpl->setVariable("LOOP_CRS_ID",$crs_id);
+				$this->tpl->setVariable("LOOP_CRS_NAME",$ilObjDataCache->lookupTitle($crs_id));
+				$this->tpl->setVariable("LOOP_CRS_NO_MEMBERS",count($crs_members));
 				$this->tpl->parseCurrentBlock();
 			}
 	
@@ -310,9 +308,8 @@ class ilMailSearchCoursesGUI
 	 */
 	public function showMembers()
 	{
-		global $lng, $ilUser;
+		global $lng, $ilUser, $ilObjDataCache;
 
-		include_once 'Modules/Course/classes/class.ilObjCourse.php';
 		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 
 		if ($_GET["search_crs"] != "")
@@ -350,10 +347,8 @@ class ilMailSearchCoursesGUI
 			$counter = 0;
 			foreach($_POST["search_crs"] as $crs_id) 
 			{
-				$course_obj = new ilObjCourse($crs_id,false); 
-				$crs_members = new ilCourseMembers($course_obj);
-	
-				$course_members[$crs_id] = $crs_members->getMembers();
+				$tmp_members = ilCourseMembers::_getMembers($crs_id);
+				$course_members[$crs_id] = ilUtil::_sortIds($tmp_members,'usr_data','lastname','usr_id');
 	
 				foreach ($course_members[$crs_id] as $member)
 				{
@@ -365,7 +360,7 @@ class ilMailSearchCoursesGUI
 					$this->tpl->setVariable("LOOP_MEMBERS_ID",$member);
 					$this->tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
 					$this->tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
-					$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$course_obj->getTitle());
+					$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$ilObjDataCache->lookupTitle($crs_id));
 					$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
 					$this->tpl->parseCurrentBlock();
 				}

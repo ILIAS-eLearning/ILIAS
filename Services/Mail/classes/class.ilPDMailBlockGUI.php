@@ -222,7 +222,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	{
 		global $lng, $ilCtrl;
 		
-		include_once("./Services/Mail/classes/class.ilMailPDGUI.php");
+		include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
 		$mail_gui = new ilPDMailGUI();
 
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
