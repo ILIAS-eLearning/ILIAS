@@ -49,7 +49,7 @@ class ilXMLResultSet
 		    {
 		      return null;
 		    }
-		    return $colspecs[$index] instanceof ilXMLResultSetColumn ? $colspecs[$index]->getName() : null;
+		    return $this->colspecs[$index] instanceof ilXMLResultSetColumn ? $this->colspecs[$index]->getName() : null;
 		}
 
 		/**
@@ -59,7 +59,7 @@ class ilXMLResultSet
 		 */
 		function addColumn($columname)
 		{
-			$this->colspecs [$columname] = new ilXMLResultSetColumn (count($this->colspecs), $columname);
+			$this->colspecs [count($this->colspecs)] = new ilXMLResultSetColumn (count($this->colspecs), $columname);
 		}
 
 		/**
@@ -77,7 +77,8 @@ class ilXMLResultSet
 		 *
 		 * @return array
 		 */
-		function getRows () {
+		function getRows ()
+		{
 			return $this->rows;
 		}
 
@@ -86,7 +87,8 @@ class ilXMLResultSet
 		 *
 		 * @param ilXMLResultSetRow $row
 		 */
-		function addRow (&$row) {
+		function addRow (&$row)
+		{
 			$this->rows [] = $row;
 		}
 
@@ -132,11 +134,8 @@ class ilXMLResultSet
 		            }
 		            $overwrite = false;
 		        }
-		        $i = 0;
                 $xmlRow = & new ilXMLResultSetRow();
-		        foreach ($row as $value) {
-                    $xmlRow->setValue($i++, $value);
-		        }
+                $xmlRow->setValues ($row);
                 $this->addRow($xmlRow);
 		    }
 		}
@@ -148,6 +147,24 @@ class ilXMLResultSet
 		function clear () {
 		    $this->rows = array();
 		    $this->colspecs = array();
+		}
+
+		/**
+		 * return column count
+		 *
+		 * @return int column count
+		 */
+		function getColumnCount () {
+		    return count($this->colspecs);
+		}
+
+    	/**
+		 * return row count
+		 *
+		 * @return int row count
+		 */
+		function getRowCount () {
+		    return count($this->rows);
 		}
 
 }

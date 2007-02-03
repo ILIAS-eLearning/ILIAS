@@ -53,8 +53,22 @@ class ilXMLResultSetRow {
 	 *
 	 * @return array
 	 */
-	function getColumns () {
+	function getColumns ()
+	{
 		return $this->columns;
+	}
+
+	/**
+	 * add values from array
+	 *
+	 * @param array $values
+	 */
+	function setValues ($values)
+	{
+	    $i = 0;
+	    foreach ($values as $value) {
+            $this->setValue($i++, $value);
+		}
 	}
 }
 
