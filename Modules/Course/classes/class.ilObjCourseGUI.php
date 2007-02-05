@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilEventAdministrationGUI
 *
 * 
 * @extends ilContainerGUI
@@ -1221,6 +1221,13 @@ class ilObjCourseGUI extends ilContainerGUI
 													 "mailMembers", get_class($this));
 				}
 				
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$this->tabs_gui->addSubTabTarget("crs_events",
+													 $this->ctrl->getLinkTargetByClass('ileventadministrationgui','eventsList'),
+													 "", 'ileventadministrationgui');
+				}
+
 				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 				$privacy = ilPrivacySettings::_getInstance();
 				if($privacy->enabledExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
@@ -4258,6 +4265,17 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			case 'ilcourseagreementgui':
 				$this->forwardToAgreement();
+				break;
+				
+			case 'ileventadministrationgui':
+			
+				include_once('Modules/Course/classes/Event/class.ilEventAdministrationGUI.php');
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('crs_events');
+				
+				$events = new ilEventAdministrationGUI($this);
+				$this->ctrl->forwardCommand($events);				
 				break;
 
 			default:

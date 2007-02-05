@@ -465,3 +465,8 @@ $ilCtrlStructureReader->getStructure();
 <#912>
 ALTER TABLE `user_defined_field_definition` ADD `export` TINYINT( 1 ) NOT NULL ,
 ADD `course_export` TINYINT( 1 ) NOT NULL ;
+
+<#913>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

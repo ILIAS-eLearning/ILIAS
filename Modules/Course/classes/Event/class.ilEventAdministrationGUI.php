@@ -50,7 +50,7 @@ class ilEventAdministrationGUI
 	* Constructor
 	* @access public
 	*/
-	function ilEventAdministrationGUI(&$container_gui_obj,$event_id)
+	function ilEventAdministrationGUI(&$container_gui_obj,$event_id = 0)
 	{
 		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
 
@@ -89,8 +89,6 @@ class ilEventAdministrationGUI
 				$this->$cmd();
 				break;
 		}
-		$this->tabs_gui->clearSubTabs();
-		$this->tabs_gui->clearTargets();
 	}
 
 	function cancel()
@@ -917,6 +915,19 @@ class ilEventAdministrationGUI
 		$this->ctrl->returnToParent($this);
 
 		return true;
+	}
+	
+	/**
+	 * Event List
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function eventsList()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_delete.html','Modules/Course');
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 	}
 
 
