@@ -333,6 +333,8 @@ class ilMD extends ilMDBase
 
 	function deleteAll()
 	{
+		global $ilDB;
+		
 		$tables = array('il_meta_annotation',
 						'il_meta_classification',
 						'il_meta_contribute',
@@ -359,8 +361,8 @@ class ilMD extends ilMDBase
 		foreach($tables as $table)
 		{
 			$query = "DELETE FROM ".$table." ".
-				"WHERE rbac_id = '".$this->getRBACId()."' ".
-				"AND obj_id = '".$this->getObjId()."'";
+				"WHERE rbac_id = ".$ilDB->quote($this->getRBACId())." ".
+				"AND obj_id = ".$ilDB->quote($this->getObjId());
 
 			$this->db->query($query);
 		}
@@ -397,7 +399,7 @@ class ilMD extends ilMDBase
 		foreach($tables as $table)
 		{
 			$query = "DELETE FROM ".$table." ".
-				"WHERE obj_type = '".$a_type."' ";
+				"WHERE obj_type = ".$ilDB->quote($a_type)." ";
 
 			$ilDB->query($query);
 		}
