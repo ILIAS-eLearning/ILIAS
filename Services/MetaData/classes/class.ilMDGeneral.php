@@ -258,12 +258,14 @@ class ilMDGeneral extends ilMDBase
 
 	function update()
 	{
+		global $ilDB;
+		
 		if($this->getMetaId())
 		{
 			if($this->db->autoExecute('il_meta_general',
 									  $this->__getFields(),
 									  DB_AUTOQUERY_UPDATE,
-									  "meta_general_id = '".$this->getMetaId()."'"))
+									  "meta_general_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;
 			}
@@ -273,6 +275,8 @@ class ilMDGeneral extends ilMDBase
 
 	function delete()
 	{
+		global $ilDB;
+		
 		if(!$this->getMetaId())
 		{
 			return false;
@@ -308,7 +312,7 @@ class ilMDGeneral extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_general ".
-				"WHERE meta_general_id = '".$this->getMetaId()."'";
+				"WHERE meta_general_id = ".$ilDB->quote($this->getMetaId());
 			
 			$this->db->query($query);
 			
@@ -334,12 +338,14 @@ class ilMDGeneral extends ilMDBase
 
 	function read()
 	{
+		global $ilDB;
+		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_general ".
-				"WHERE meta_general_id = '".$this->getMetaId()."'";
+				"WHERE meta_general_id = ".$ilDB->quote($this->getMetaId());
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -459,8 +465,8 @@ class ilMDGeneral extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_general_id FROM il_meta_general ".
-			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ";
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id);
 
 
 		$res = $ilDB->query($query);

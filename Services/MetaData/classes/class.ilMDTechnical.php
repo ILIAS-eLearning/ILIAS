@@ -257,12 +257,14 @@ class ilMDTechnical extends ilMDBase
 
 	function update()
 	{
+		global $ilDB;
+		
 		if($this->getMetaId())
 		{
 			if($this->db->autoExecute('il_meta_technical',
 									  $this->__getFields(),
 									  DB_AUTOQUERY_UPDATE,
-									  "meta_technical_id = '".$this->getMetaId()."'"))
+									  "meta_technical_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;
 			}
@@ -272,10 +274,12 @@ class ilMDTechnical extends ilMDBase
 
 	function delete()
 	{
+		global $ilDB;
+		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_technical ".
-				"WHERE meta_technical_id = '".$this->getMetaId()."'";
+				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId());
 			
 			$this->db->query($query);
 			
@@ -427,8 +431,8 @@ class ilMDTechnical extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_technical_id FROM il_meta_technical ".
-			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."'";
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
