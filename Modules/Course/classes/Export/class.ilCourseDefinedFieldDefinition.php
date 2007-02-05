@@ -182,7 +182,7 @@ class ilCourseDefinedFieldDefinition
 		
 	 	$query = "SELECT field_id FROM crs_defined_field_definitions ".
 	 		"WHERE obj_id = ".$ilDB->quote($a_container_id)." ".
-	 		"ORDER BY ".$a_sort;
+	 		"ORDER BY ".$ilDB->quote($a_sort);
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -354,12 +354,14 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function save()
 	{
+		global $ilDB;
+		
 	 	$query = "INSERT INTO crs_defined_field_definitions ".
 	 		"SET obj_id = ".$this->db->quote($this->getObjId()).", ".
 	 		"field_name = ".$this->db->quote($this->getName()).", ".
 	 		"field_type = ".$this->db->quote($this->getType()).", ".
 	 		"field_values = '".addslashes(serialize($this->getValues()))."', ".
-	 		"field_required = '".(int) $this->isRequired()."'";
+	 		"field_required = ".$ilDB->quote($this->isRequired())." ";
 	 	$res = $this->db->query($query);
 	 	$this->id = $this->db->getLastInsertId();
 			
@@ -373,11 +375,13 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function update()
 	{
+		global $ilDB;
+		
 	 	$query = "UPDATE crs_defined_field_definitions ".
 	 		"SET field_name = ".$this->db->quote($this->getName()).", ".
 	 		"field_type = ".$this->db->quote($this->getType()).", ".
 	 		"field_values = '".addslashes(serialize($this->getValues()))."', ".
-	 		"field_required = '".(int) $this->isRequired()."' ".
+	 		"field_required = ".$ilDB->quote($this->isRequired())." ".
 	 		"WHERE field_id = ".$this->db->quote($this->getId())." ".
 	 		"AND obj_id = ".$this->db->quote($this->getObjId());
 	 	$this->db->query($query);
@@ -393,6 +397,8 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public function delete()
 	{
+		global $ilDB;
+		
 	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
 	 	ilCourseUserData::_deleteByField($this->getId());
 		

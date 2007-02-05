@@ -217,9 +217,11 @@ class ilCourseArchives
 
 	function add()
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO crs_archives ".
-			"VALUES ('','".$this->course_obj->getId()."','".$this->getName()."','".$this->getType()."','".
-			$this->getDate()."','".$this->getSize()."','".$this->getLanguage()."')";
+			"VALUES ('',".$ilDB->quote($this->course_obj->getId()).",".$ilDB->quote($this->getName()).",".$ilDB->quote($this->getType()).", ".
+			$ilDB->quote($this->getDate()).",".$ilDB->quote($this->getSize()).",".$ilDB->quote($this->getLanguage()).")";
 
 		$this->ilDB->query($query);
 		$this->__read();
@@ -229,14 +231,16 @@ class ilCourseArchives
 
 	function delete($a_id)
 	{
+		global $ilDB;
+		
 		// Delete in file system
 		$this->initCourseFilesObject();
 
 		$this->course_files_obj->deleteArchive($this->archives[$a_id]["archive_name"]);
 
 		$query = "DELETE FROM crs_archives ".
-			"WHERE course_id = '".$this->course_obj->getId()."' ".
-			"AND archive_id = '".$a_id."'";
+			"WHERE course_id = ".$ilDB->quote($this->course_obj->getId())." ".
+			"AND archive_id = ".$ilDB->quote($a_id)." ";
 		
 		$this->ilDB->query($query);
 		$this->__read();
@@ -486,10 +490,12 @@ class ilCourseArchives
 
 	function __read()
 	{
+		global $ilDB;
+		
 		$this->archives = array();
 
 		$query = "SELECT * FROM crs_archives ".
-			"WHERE course_id = '".$this->course_obj->getId()."' ".
+			"WHERE course_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"ORDER BY archive_date DESC";
 
 		$res = $this->ilDB->query($query);

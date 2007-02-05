@@ -299,7 +299,7 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = '".$a_id."'";
+		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -417,7 +417,7 @@ class ilObjCourse extends ilContainer
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -452,7 +452,7 @@ class ilObjCourse extends ilContainer
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -658,7 +658,7 @@ class ilObjCourse extends ilContainer
 
 		// Due to a bug 3.5.alpha maybe no settings exist. => create default settings
 
-		$query = "SELECT * FROM crs_settings WHERE obj_id = '".$this->getId()."'";
+		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId())." ";
 		$res = $ilDB->query($query);
 
 		if(!$res->numRows())
@@ -667,36 +667,36 @@ class ilObjCourse extends ilContainer
 		}
 
 		$query = "UPDATE crs_settings SET ".
-			"syllabus = '".ilUtil::prepareDBString($this->getSyllabus())."', ".
-			"contact_name = '".ilUtil::prepareDBString($this->getContactName())."', ".
-			"contact_responsibility = '".ilUtil::prepareDBString($this->getContactResponsibility())."', ".
-			"contact_phone = '".ilUtil::prepareDBString($this->getContactPhone())."', ".
-			"contact_email = '".ilUtil::prepareDBString($this->getContactEmail())."', ".
-			"contact_consultation = '".ilUtil::prepareDBString($this->getContactConsultation())."', ".
-			"activation_type = '".(int) $this->getActivationType()."', ".
+			"syllabus = ".$ilDB->quote($this->getSyllabus()).", ".
+			"contact_name = ".$ilDB->quote($this->getContactName()).", ".
+			"contact_responsibility = ".$ilDB->quote($this->getContactResponsibility()).", ".
+			"contact_phone = ".$ilDB->quote($this->getContactPhone()).", ".
+			"contact_email = ".$ilDB->quote($this->getContactEmail()).", ".
+			"contact_consultation = ".$ilDB->quote($this->getContactConsultation()).", ".
+			"activation_type = ".$ilDB->quote($this->getActivationType()).", ".
 			#"activation_unlimited = '".(int) $this->getActivationUnlimitedStatus()."', ".
-			"activation_start = '".$this->getActivationStart()."', ".
-			"activation_end = '".$this->getActivationEnd()."', ".
+			"activation_start = ".$ilDB->quote($this->getActivationStart()).", ".
+			"activation_end = ".$ilDB->quote($this->getActivationEnd()).", ".
 			#"activation_offline = '".(int) $this->getOfflineStatus()."', ".
-			"subscription_limitation_type = '".$this->getSubscriptionLimitationType()."', ".
+			"subscription_limitation_type = ".$ilDB->quote($this->getSubscriptionLimitationType()).", ".
 			#"subscription_unlimited = '".(int) $this->getSubscriptionUnlimitedStatus()."', ".
-			"subscription_start = '".$this->getSubscriptionStart()."', ".
-			"subscription_end = '".$this->getSubscriptionEnd()."', ".
-			"subscription_type = '".(int) $this->getSubscriptionType()."', ".
-			"subscription_password = '".ilUtil::prepareDBString($this->getSubscriptionPassword())."', ".
-			"subscription_max_members = '".(int) $this->getSubscriptionMaxMembers()."', ".
-			"subscription_notify = '".(int) $this->getSubscriptionNotify()."', ".
-			"view_mode = '".(int) $this->getViewMode()."', ".
-			"sortorder = '".(int) $this->getOrderType()."', ".
-			"archive_start = '".$this->getArchiveStart()."', ".
-			"archive_end = '".$this->getArchiveEnd()."', ".
-			"archive_type = '".(int) $this->getArchiveType()."', ".
-			"abo = '".(int) $this->getAboStatus()."', ".
+			"subscription_start = ".$ilDB->quote($this->getSubscriptionStart()).", ".
+			"subscription_end = ".$ilDB->quote($this->getSubscriptionEnd()).", ".
+			"subscription_type = ".$ilDB->quote($this->getSubscriptionType()).", ".
+			"subscription_password = ".$ilDB->quote($this->getSubscriptionPassword()).", ".
+			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
+			"subscription_notify = ".$ilDB->quote($this->getSubscriptionNotify()).", ".
+			"view_mode = ".$ilDB->quote($this->getViewMode()).", ".
+			"sortorder = ".$ilDB->quote($this->getOrderType()).", ".
+			"archive_start = ".$ilDB->quote($this->getArchiveStart()).", ".
+			"archive_end = ".$ilDB->quote($this->getArchiveEnd()).", ".
+			"archive_type = ".$ilDB->quote($this->getArchiveType()).", ".
+			"abo = ".$ilDB->quote($this->getAboStatus()).", ".
 			#"objective_view = '".(int) $this->enabledObjectiveView()."', ".
-			"waiting_list = '".(int) $this->enabledWaitingList()."', ".
-			"important = '".ilUtil::prepareDBString($this->getImportantInformation())."', ".
-			"show_members = '".(int) $this->getShowMembers()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"waiting_list = ".$ilDB->quote($this->enabledWaitingList()).", ".
+			"important = ".$ilDB->quote($this->getImportantInformation()).", ".
+			"show_members = ".$ilDB->quote($this->getShowMembers())." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId())."";
 
 		$res = $ilDB->query($query);
 	}
@@ -706,32 +706,32 @@ class ilObjCourse extends ilContainer
 		global $ilDB;
 
 		$query = "INSERT INTO crs_settings SET ".
-			"obj_id = '".$this->getId()."', ".
-			"syllabus = '".ilUtil::prepareDBString($this->getSyllabus())."', ".
-			"contact_name = '".ilUtil::prepareDBString($this->getContactName())."', ".
-			"contact_responsibility = '".ilUtil::prepareDBString($this->getContactResponsibility())."', ".
-			"contact_phone = '".ilUtil::prepareDBString($this->getContactPhone())."', ".
-			"contact_email = '".ilUtil::prepareDBString($this->getContactEmail())."', ".
-			"contact_consultation = '".ilUtil::prepareDBString($this->getContactConsultation())."', ".
-			"activation_type = '".IL_CRS_ACTIVATION_UNLIMITED."', ".
+			"obj_id = ".$ilDB->quote($this->getId()).", ".
+			"syllabus = ".$ilDB->quote($this->getSyllabus()).", ".
+			"contact_name = ".$ilDB->quote($this->getContactName()).", ".
+			"contact_responsibility = ".$ilDB->quote($this->getContactResponsibility()).", ".
+			"contact_phone = ".$ilDB->quote($this->getContactPhone()).", ".
+			"contact_email = ".$ilDB->quote($this->getContactEmail()).", ".
+			"contact_consultation = ".$ilDB->quote($this->getContactConsultation()).", ".
+			"activation_type = ".$ilDB->quote(IL_CRS_ACTIVATION_UNLIMITED).", ".
 			#"activation_unlimited = '1', ".
-			"activation_start = '".$this->getActivationStart()."', ".
-			"activation_end = '".$this->getActivationEnd()."', ".
+			"activation_start = ".$ilDB->quote($this->getActivationStart()).", ".
+			"activation_end = ".$ilDB->quote($this->getActivationEnd()).", ".
 			#"activation_offline = '1', ".
-			"subscription_limitation_type = '".IL_CRS_SUBSCRIPTION_DEACTIVATED."', ".
+			"subscription_limitation_type = ".$ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED).", ".
 			#"subscription_unlimited = '1', ".
-			"subscription_start = '".$this->getSubscriptionStart()."', ".
-			"subscription_end = '".$this->getSubscriptionEnd()."', ".
-			"subscription_type = '".(int) IL_CRS_SUBSCRIPTION_DIRECT."', ".
-			"subscription_password = '".ilUtil::prepareDBString($this->getSubscriptionPassword())."', ".
-			"subscription_max_members = '".(int) $this->getSubscriptionMaxMembers()."', ".
+			"subscription_start = ".$ilDB->quote($this->getSubscriptionStart()).", ".
+			"subscription_end = ".$ilDB->quote($this->getSubscriptionEnd()).", ".
+			"subscription_type = ".$ilDB->quote(IL_CRS_SUBSCRIPTION_DIRECT).", ".
+			"subscription_password = ".$ilDB->quote($this->getSubscriptionPassword()).", ".
+			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
 			"subscription_notify = '1', ".
 			"view_mode = '0', ".
-			"sortorder = '".(int) IL_CRS_SORT_TITLE."', ".
-			"archive_start = '".$this->getArchiveStart()."', ".
-			"archive_end = '".$this->getArchiveEnd()."', ".
-			"archive_type = '".IL_CRS_ARCHIVE_NONE."', ".
-			"abo = '".(int) $this->ABO_ENABLED."', ".
+			"sortorder = ".$ilDB->quote(IL_CRS_SORT_TITLE).", ".
+			"archive_start = ".$ilDB->quote($this->getArchiveStart()).", ".
+			"archive_end = ".$ilDB->quote($this->getArchiveEnd()).", ".
+			"archive_type = ".$ilDB->quote(IL_CRS_ARCHIVE_NONE).", ".
+			"abo = ".$ilDB->quote($this->ABO_ENABLED).", ".
 			#"objective_view = '0', ".
 			"waiting_list = '1', ".
 			"show_members = '1'";
@@ -744,7 +744,7 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM crs_settings WHERE obj_id = '".$this->getId()."'";
+		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId())."";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -831,7 +831,7 @@ class ilObjCourse extends ilContainer
 	// RBAC METHODS
 	function initDefaultRoles()
 	{
-		global $rbacadmin,$rbacreview;
+		global $rbacadmin,$rbacreview,$ilDB;
 
 		$rolf_obj = $this->createRoleFolder();
 
@@ -995,6 +995,8 @@ class ilObjCourse extends ilContainer
 	*/
 	function __getCrsNonMemberTemplateId()
 	{
+		global $ilDB;
+		
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1068,8 +1070,10 @@ class ilObjCourse extends ilContainer
 
 	function __deleteSettings()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM crs_settings ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
 
 		$this->ilias->db->query($query);
 

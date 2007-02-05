@@ -148,15 +148,17 @@ class ilObjCourseGrouping
 
 	function delete()
 	{
+		global $ilDB;
+		
 		include_once './classes/class.ilConditionHandler.php';
 
 		if($this->getId() and $this->getType() === 'crsg')
 		{
-			$query = "DELETE FROM object_data WHERE obj_id = '".$this->getId()."'";
+			$query = "DELETE FROM object_data WHERE obj_id = ".$ilDB->quote($this->getId())." ";
 			$this->db->query($query);
 
 			$query = "DELETE FROM crs_groupings ".
-				"WHERE crs_grp_id = '".$this->getId()."'";
+				"WHERE crs_grp_id = ".$ilDB->quote($this->getId())." ";
 			$this->db->query($query);
 
 			// Delete conditions
@@ -170,14 +172,14 @@ class ilObjCourseGrouping
 
 	function create($a_course_ref_id,$a_course_id)
 	{
-		global $ilUser;
+		global $ilUser,$ilDB;
 
 		// INSERT IN object_data
 		$query = "INSERT INTO object_data ".
 			"(type,title,description,owner,create_date,last_update,import_id) ".
 			"VALUES ".
-			"('".$this->type."',".$this->db->quote($this->getTitle()).",'".ilUtil::prepareDBString($this->getDescription())."',".
-			"'".$ilUser->getId()."',now(),now(),'')";
+			"(".$ilDB->quote($this->type).",".$this->db->quote($this->getTitle()).",".$ilDB->quote($this->getDescription()).",".
+			" ".$ilDB->quote($ilUser->getId()).",now(),now(),'')";
 			
 		$this->db->query($query);
 
@@ -192,10 +194,10 @@ class ilObjCourseGrouping
 
 		// INSERT in crs_groupings
 		$query = "INSERT INTO crs_groupings ".
-			"SET crs_ref_id = '".$a_course_ref_id."', ".
-			"crs_id = '".$a_course_id."',".
-			"crs_grp_id = '".$this->getId()."', ".
-			"unique_field = '".$this->getUniqueField()."'";
+			"SET crs_ref_id = ".$ilDB->quote($a_course_ref_id).", ".
+			"crs_id = ".$ilDB->quote($a_course_id).",".
+			"crs_grp_id = ".$ilDB->quote($this->getId()).", ".
+			"unique_field = ".$ilDB->quote($this->getUniqueField())." ";
 
 		$this->db->query($query);
 
@@ -204,28 +206,30 @@ class ilObjCourseGrouping
 
 	function update()
 	{
+		global $ilDB;
+		
 		if($this->getId() and $this->getType() === 'crsg')
 		{
 			// UPDATe object_data
 			$query = "UPDATE object_data ".
-				"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
-				"description = '".ilUtil::prepareDBString($this->getDescription())."' ".
-				"WHERE obj_id = '".$this->getId()."' ".
-				"AND type = '".$this->getType()."'";
+				"SET title = ".$ilDB->quote($this->getTitle()).", ".
+				"description = ".$ilDB->quote($this->getDescription())." ".
+				"WHERE obj_id = ".$ilDB->quote($this->getId())." ".
+				"AND type = ".$ilDB->quote($this->getType())." ";
 
 			$this->db->query($query);
 
 			// UPDATE crs_groupings
 			$query = "UPDATE crs_groupings ".
-				"SET unique_field = '".$this->getUniqueField()."' ".
-				"WHERE crs_grp_id = '".$this->getId()."'";
+				"SET unique_field = ".$ilDB->quote($this->getUniqueField())." ".
+				"WHERE crs_grp_id = ".$ilDB->quote($this->getId())." ";
 
 			$this->db->query($query);
 
 			// UPDATE conditions
 			$query = "UPDATE conditions ".
-				"SET value = '".$this->getUniqueField()."' ".
-				"WHERE trigger_obj_id = '".$this->getId()."' ".
+				"SET value = ".$ilDB->quote($this->getUniqueField())." ".
+				"WHERE trigger_obj_id = ".$ilDB->quote($this->getId())." ".
 				"AND trigger_type = 'crsg'";
 			$this->db->query($query);
 
@@ -248,10 +252,10 @@ class ilObjCourseGrouping
 
 	function read()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache,$ilDB;
 
 		$query = "SELECT * FROM object_data ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -261,7 +265,7 @@ class ilObjCourseGrouping
 		}
 
 		$query = "SELECT * FROM crs_groupings ".
-			"WHERE crs_grp_id = '".$this->getId()."'";
+			"WHERE crs_grp_id = ".$ilDB->quote($this->getId())." ";
 		$res = $this->db->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -418,7 +422,7 @@ class ilObjCourseGrouping
 		}
 
 		$query = "DELETE FROM crs_groupings ".
-			"WHERE crs_id = '".$a_course_id."'";
+			"WHERE crs_id = ".$ilDB->quote($a_course_id)." ";
 
 		$ilDB->query($query);
 
@@ -430,7 +434,7 @@ class ilObjCourseGrouping
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_groupings ".
-			"WHERE crs_id = '".$a_course_id."'";
+			"WHERE crs_id = ".$ilDB->quote($a_course_id)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

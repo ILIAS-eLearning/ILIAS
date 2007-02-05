@@ -179,7 +179,7 @@ class ilCourseMembers
 
 	function update($a_usr_id,$a_role,$a_status,$a_passed)
 	{
-		global $rbacadmin;
+		global $rbacadmin,$ilDB;
 
 		$this->__read($a_usr_id);
 
@@ -251,11 +251,11 @@ class ilCourseMembers
 		ilObjUser::updateActiveRoles($a_usr_id);
 
 		$query = "UPDATE crs_members ".
-			"SET role = '".$a_role."', ".
-			"status = '".$a_status."', ".
-			"passed = '".$a_passed."' ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"SET role = ".$ilDB->quote($a_role).", ".
+			"status = ".$ilDB->quote($a_status).", ".
+			"passed = ".$ilDB->quote($a_passed)." ".
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
 		$res = $this->ilDB->query($query);
 
 		return true;
@@ -264,13 +264,15 @@ class ilCourseMembers
 
 	function deleteAllEntries()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM crs_members ".
-			"WHERE obj_id = '".$this->course_obj->getId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ";
 
 		$this->ilDB->query($query);
 
 		$query = "DELETE FROM crs_subscribers ".
-			"WHERE obj_id = '".$this->course_obj->getId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())."";
 
 		$this->ilDB->query($query);
 
@@ -300,7 +302,7 @@ class ilCourseMembers
 
 	function delete($a_usr_id)
 	{
-		global $rbacadmin;
+		global $rbacadmin,$ilDB;
 
 		if(!$this->__read($a_usr_id))
 		{
@@ -329,8 +331,8 @@ class ilCourseMembers
 
 		
 		$query = "DELETE FROM crs_members ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
 
 		$res = $this->ilDB->query($query);
 
@@ -345,10 +347,10 @@ class ilCourseMembers
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_members WHERE usr_id = '".$a_usr_id."'";
+		$query = "DELETE FROM crs_members WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 		$ilDB->query($query);
 
-		$query = "DELETE FROM crs_subscribers WHERE usr_id = '".$a_usr_id."'";
+		$query = "DELETE FROM crs_subscribers WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 		$ilDB->query($query);
 
 		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
@@ -376,13 +378,15 @@ class ilCourseMembers
 
 	function getMembers($a_all = true)
 	{
+		global $ilDB;
+		
 		$query = "SELECT cs.usr_id FROM crs_members as cs ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
-			"AND role = '".$this->ROLE_MEMBER."'";
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
+			"AND role = ".$ilDB->quote($this->ROLE_MEMBER)." ";
 
 		if(!$a_all)
 		{
-			$query .= " AND status = '".$this->STATUS_UNBLOCKED."'";
+			$query .= " AND status = ".$ilDB->quote($this->STATUS_UNBLOCKED)." ";
 		}
 
 		$res = $this->ilDB->query($query);
@@ -394,9 +398,11 @@ class ilCourseMembers
 	}
 	function getAdmins()
 	{
+		global $ilDB;
+		
 		$query = "SELECT cs.usr_id FROM crs_members as cs ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
-			"AND role = '".$this->ROLE_ADMIN."'";
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
+			"AND role = ".$ilDB->quote($this->ROLE_ADMIN)."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -407,9 +413,11 @@ class ilCourseMembers
 	}
 	function getTutors()
 	{
+		global $ilDB;
+		
 		$query = "SELECT cs.usr_id FROM crs_members as cs ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
-			"AND role = '".$this->ROLE_TUTOR."'";
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
+			"AND role = ".$ilDB->quote($this->ROLE_TUTOR)."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -458,8 +466,8 @@ class ilCourseMembers
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_members ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$a_obj_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)."";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -484,8 +492,10 @@ class ilCourseMembers
 
 	function getCountPassed()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_members ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"AND passed = 1";
 
 		$res = $this->ilDB->query($query);
@@ -604,8 +614,10 @@ class ilCourseMembers
 
 	function addSubscriber($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO crs_subscribers ".
-			" VALUES ('".$a_usr_id."','".$this->course_obj->getId()."','".time()."')";
+			" VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($this->course_obj->getId()).",".$ilDB->quote(time()).")";
 
 		$res = $this->ilDB->query($query);
 
@@ -614,10 +626,12 @@ class ilCourseMembers
 
 	function updateSubscriptionTime($a_usr_id,$a_subtime)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE crs_subscribers ".
-			"SET sub_time = '".ilUtil::prepareDBString($a_subtime)."' ".
-			"WHERE usr_id = '".ilUtil::prepareDBString($a_usr_id)."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"SET sub_time = ".$ilDB->quote($a_subtime)." ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())." ";
 
 		$this->db->query($query);
 
@@ -626,9 +640,11 @@ class ilCourseMembers
 
 	function deleteSubscriber($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM crs_subscribers ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"WHERE usr_id = ".$a_usr_id." ".
+			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())." ";
 
 		$res = $this->ilDB->query($query);
 
@@ -657,9 +673,11 @@ class ilCourseMembers
 	}
 	function isSubscriber($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_subscribers ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
 
 		$res = $this->ilDB->query($query);
 
@@ -678,8 +696,8 @@ class ilCourseMembers
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_subscribers ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$a_obj_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)."";
 
 		$res = $ilDB->query($query);
 
@@ -759,6 +777,8 @@ class ilCourseMembers
 
 	function sendNotificationToAdmins($a_usr_id)
 	{
+		global $ilDB;
+		
 		if(!$this->course_obj->getSubscriptionNotify())
 		{
 			return true;
@@ -772,8 +792,8 @@ class ilCourseMembers
 		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$this->course_obj->getTitle());
 
 		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE status = '".$this->STATUS_NOTIFY."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"WHERE status = ".$ilDB->quote($this->STATUS_NOTIFY)." ".
+			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -789,6 +809,8 @@ class ilCourseMembers
 	}
 	function sendSubscriptionRequestToAdmins($a_usr_id)
 	{
+		global $ilDB;
+		
 		if(!$this->course_obj->getSubscriptionNotify())
 		{
 			return true;
@@ -804,8 +826,8 @@ class ilCourseMembers
 		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_obj->getRefId()."&client_id=".CLIENT_ID);
 
 		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE status = '".$this->STATUS_NOTIFY."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"WHERE status = ".$ilDB->quote($this->STATUS_NOTIFY)." ".
+			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -820,6 +842,8 @@ class ilCourseMembers
 	}
 	function sendUnsubscribeNotificationToAdmins($a_usr_id)
 	{
+		global $ilDB;
+		
 		if(!$this->course_obj->getSubscriptionNotify())
 		{
 			return true;
@@ -832,8 +856,8 @@ class ilCourseMembers
 		$body = sprintf($this->lng->txt("crs_cancel_subscription_body"), $this->course_obj->getTitle());
 
 		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE status = '".$this->STATUS_NOTIFY."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"WHERE status = ".$ilDB->quote($this->STATUS_NOTIFY)." ".
+			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -864,12 +888,14 @@ class ilCourseMembers
 
 	function __createMemberEntry($a_usr_id,$a_role,$a_status,$a_passed)
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO crs_members ".
-			"SET usr_id = '".$a_usr_id."', ".
-			"obj_id = '".$this->course_obj->getId()."', ".
-			"status = '".$a_status."', ".
-			"role = '".$a_role."', ".
-			"passed = '".$a_passed."'";
+			"SET usr_id = ".$ilDB->quote($a_usr_id).", ".
+			"obj_id = ".$ilDB->quote($this->course_obj->getId()).", ".
+			"status = ".$ilDB->quote($a_status).", ".
+			"role = ".$ilDB->quote($a_role).", ".
+			"passed = ".$ilDB->quote($a_passed)."";
 
 		$res = $this->ilDB->query($query);
 
@@ -878,14 +904,16 @@ class ilCourseMembers
 
 	function __read($a_usr_id)
 	{
+		global $ilDB;
+		
 		if(!ilObjUser::_lookupLogin($a_usr_id))
 		{
 			return false;
 		}
 
 		$query = "SELECT * FROM crs_members ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$this->course_obj->getId()."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id =".$ilDB->quote($this->course_obj->getId())."";
 
 		$res = $this->ilDB->query($query);
 
@@ -903,10 +931,12 @@ class ilCourseMembers
 
 	function __readSubscribers()
 	{
+		global $ilDB;
+		
 		$this->subscribers = array();
 
 		$query = "SELECT usr_id FROM crs_subscribers ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"ORDER BY sub_time ";
 
 		$res = $this->ilDB->query($query);
@@ -924,9 +954,11 @@ class ilCourseMembers
 
 	function __readSubscriberData($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_subscribers ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -942,8 +974,8 @@ class ilCourseMembers
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_members ".
-			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND usr_id = '".$a_usr_id."' ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND passed = 1";
 
 		
@@ -959,8 +991,8 @@ class ilCourseMembers
 		if(!ilCourseMembers::_hasPassed($a_obj_id,$a_usr_id))
 		{
 			$query = "UPDATE crs_members ".
-				"SET passed = 1 WHERE usr_id = '".$a_usr_id."' ".
-				"AND obj_id = '".$a_obj_id."'";
+				"SET passed = 1 WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+				"AND obj_id = ".$ilDB->quote($a_obj_id)."";
 			
 			$ilDB->query($query);
 			
@@ -974,9 +1006,9 @@ class ilCourseMembers
 		global $ilDB;
 
 		$query = "UPDATE crs_members ".
-			"SET passed = '".(int) $a_passed."' ".
-			"WHERE obj_id = '".(int) $a_obj_id."' ".
-			"AND usr_id = '".(int) $a_usr_id."'";
+			"SET passed = ".$ilDB->quote($a_passed)." ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 
 		$ilDB->query($query);
 	}
@@ -986,9 +1018,9 @@ class ilCourseMembers
 		global $ilDB;
 
 		$query = "UPDATE crs_members ".
-			"SET status = '".(int) $a_status."' ".
-			"WHERE obj_id = '".(int) $a_obj_id."' ".
-			"AND usr_id = '".(int) $a_usr_id."'";
+			"SET status = ".$ilDB->quote($a_status)." ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$ilDB->query($query);
 	}		
@@ -996,6 +1028,8 @@ class ilCourseMembers
 
 	function __buildStatusBody(&$user_obj)
 	{
+		global $ilDB;
+		
 		$this->__read($user_obj->getId());
 
 		$body = $this->lng->txt('crs_status_changed_body').':<br />';
@@ -1075,7 +1109,7 @@ class ilCourseMembers
 		// check if entry exists
 		$query = "SELECT * FROM crs_members as cm, usr_data as ud ".
 			"WHERE cm.usr_id = ud.usr_id ".
-			"AND cm.obj_id = '".$a_course_id."' ".
+			"AND cm.obj_id = ".$ilDB->quote($a_course_id)." ".
 			$and;
 
 
@@ -1091,7 +1125,7 @@ class ilCourseMembers
 		
 		$query = "SELECT DISTINCT(crs_members.usr_id) AS usr_id FROM crs_members JOIN usr_data ".
 			"WHERE crs_members.usr_id = usr_data.usr_id ".
-			"AND obj_id = '".$a_obj_id."'";
+			"AND obj_id = ".$ilDB->quote($a_obj_id)."";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1108,14 +1142,14 @@ class ilCourseMembers
 		$query = "SELECT cs.usr_id as id FROM crs_members as cs ".
 			"LEFT JOIN usr_data as ud ".
 			"ON cs.usr_id = ud.usr_id ".
-			"WHERE obj_id = '".$this->course_obj->getId()."' ".
+			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"AND ud.usr_id IS NULL";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$query = "DELETE FROM crs_members ".
-				"WHERE usr_id = '".$row->id."'";
+				"WHERE usr_id = ".$ilDB->quote($row->id)."";
 			$ilDB->query($query);
 		}
 	}

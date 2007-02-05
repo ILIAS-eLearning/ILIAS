@@ -103,18 +103,20 @@ class ilCourseObjectiveLM
 
 	function checkExists()
 	{
+		global $ilDB;
+		
 		if($this->getLMObjId())
 		{
 			$query = "SELECT * FROM crs_objective_lm ".
-				"WHERE objective_id = '".$this->getObjectiveId()."' ".
-				"AND ref_id = '".$this->getLMRefId()."' ".
-				"AND obj_id = '".$this->getLMObjId()."'";
+				"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+				"AND ref_id = ".$ilDB->quote($this->getLMRefId())." ".
+				"AND obj_id = ".$ilDB->quote($this->getLMObjId())." ";
 		}
 		else
 		{
 			$query = "SELECT * FROM crs_objective_lm ".
-				"WHERE objective_id = '".$this->getObjectiveId()."' ".
-				"AND ref_id = '".$this->getLMRefId()."'";
+				"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+				"AND ref_id = ".$ilDB->quote($this->getLMRefId())." ";
 		}
 
 		$res = $this->db->query($query);
@@ -124,11 +126,13 @@ class ilCourseObjectiveLM
 
 	function add()
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO crs_objective_lm ".
-			"SET objective_id = '".$this->getObjectiveId()."', ".
-			"ref_id = '".$this->getLMRefId()."', ".
-			"obj_id = '".$this->getLMObjId()."', ".
-			"type = '".$this->getType()."'";
+			"SET objective_id = ".$ilDB->quote($this->getObjectiveId()).", ".
+			"ref_id = ".$ilDB->quote($this->getLMRefId()).", ".
+			"obj_id = ".$ilDB->quote($this->getLMObjId()).", ".
+			"type = ".$ilDB->quote($this->getType())."";
 
 		$this->db->query($query);
 
@@ -136,13 +140,15 @@ class ilCourseObjectiveLM
 	}
 	function delete($lm_id)
 	{
+		global $ilDB;
+		
 		if(!$lm_id)
 		{
 			return false;
 		}
 
 		$query = "DELETE FROM crs_objective_lm ".
-			"WHERE lm_ass_id = '".$lm_id."'";
+			"WHERE lm_ass_id = ".$ilDB->quote($lm_id)." ";
 
 		$this->db->query($query);
 
@@ -151,8 +157,10 @@ class ilCourseObjectiveLM
 
 	function deleteAll()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM crs_objective_lm ".
-			"WHERE objective_id = '".$this->getObjectiveId()."'";
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
 
 		$this->db->query($query);
 
@@ -162,11 +170,11 @@ class ilCourseObjectiveLM
 	// PRIVATE
 	function __read()
 	{
-		global $tree;
+		global $tree,$ilDB;
 
 		$this->lms = array();
 		$query = "SELECT * FROM crs_objective_lm ".
-			"WHERE objective_id = '".$this->getObjectiveId()."'";
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

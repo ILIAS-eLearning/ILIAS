@@ -218,7 +218,7 @@ class ilCourseAgreement
 	 	
 	 	$query = "UPDATE member_agreement ".
 	 		"SET accepted = 0 ".
-	 		"WHERE obj_id =".$ilDB->quote($a_container_id)." ";
+	 		"WHERE obj_id = ".$ilDB->quote($a_container_id)." ";
 	 	$ilDB->query($query);
 		
 		return true;

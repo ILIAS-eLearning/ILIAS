@@ -78,9 +78,11 @@ class ilCourseStart
 
 	function delete($a_crs_start_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM crs_start ".
-			"WHERE crs_start_id = '".$a_crs_start_id."' ".
-			"AND crs_id = '".$this->getId()."'";
+			"WHERE crs_start_id = ".$ilDB->quote($a_crs_start_id)." ".
+			"AND crs_id = ".$ilDB->quote($this->getId())." ";
 
 		$this->db->query($query);
 
@@ -89,9 +91,11 @@ class ilCourseStart
 
 	function exists($a_item_ref_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_start ".
-			"WHERE crs_id = '".$this->getId()."' ".
-			"AND item_ref_id = '".$a_item_ref_id."'";
+			"WHERE crs_id = ".$ilDB->quote($this->getId())." ".
+			"AND item_ref_id = ".$a_item_ref_id." ";
 
 		$res = $this->db->query($query);
 
@@ -100,11 +104,13 @@ class ilCourseStart
 
 	function add($a_item_ref_id)
 	{
+		global $ilDB;
+		
 		if($a_item_ref_id)
 		{
 			$query = "INSERT INTO crs_start ".
-				"SET crs_id = '".$this->getId()."', ".
-				"item_ref_id = '".$a_item_ref_id."'";
+				"SET crs_id = ".$ilDB->quote($this->getId()).", ".
+				"item_ref_id = ".$ilDB->quote($a_item_ref_id)." ";
 
 			$this->db->query($query);
 
@@ -115,8 +121,10 @@ class ilCourseStart
 
 	function __deleteAll()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM crs_start ".
-			"WHERE crs_id = '".$this->getId()."'";
+			"WHERE crs_id = ".$ilDB->quote($this->getId())." ";
 
 
 		$this->db->query($query);
@@ -204,12 +212,12 @@ class ilCourseStart
 	// PRIVATE
 	function __read()
 	{
-		global $tree;
+		global $tree,$ilDB;
 
 		$this->start_objs = array();
 
 		$query = "SELECT * FROM crs_start ".
-			"WHERE crs_id = '".$this->getId()."'";
+			"WHERE crs_id = ".$ilDB->quote($this->getId())." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
