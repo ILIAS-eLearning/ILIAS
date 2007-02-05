@@ -220,10 +220,12 @@ class ilForumExport
 	*/
 	function getFirstPostNode($tree_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM frm_posts, frm_posts_tree ".
 				 "WHERE pos_pk = pos_fk ".				 
 				 "AND parent_pos = 0 ".
-				 "AND thr_fk = '".$tree_id."'";
+				 "AND thr_fk = ".$ilDB->quote($tree_id)."";
 		$res = $this->ilias->db->query($query);
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -241,12 +243,14 @@ class ilForumExport
 	*/
 	function getPostTree($a_node)
 	{
+		global $ilDB;
+		
 	    $subtree = array();
 	
 		$query = "SELECT * FROM frm_posts_tree ".
 				 "LEFT JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk ".
-				 "WHERE frm_posts_tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
-				 "AND thr_fk = '".$a_node["tree"]."'";
+				 "WHERE frm_posts_tree.lft BETWEEN ".$ilDB->quote($a_node["lft"])." AND ".$ilDB->quote($a_node["rgt"])." ".
+				 "AND thr_fk = ".$ilDB->quote($a_node["tree"])."";
 		if ($this->orderField != "")
 			$query .= " ORDER BY ".$this->orderField." DESC";		 
 		
@@ -343,8 +347,10 @@ class ilForumExport
    	*/
 	function countUserArticles($user)
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM frm_posts WHERE ";
-		$q .= "pos_usr_id ='".$user."'";
+		$q .= "pos_usr_id = ".$ilDB->quote($user)."";
 				
 		$res = $this->ilias->db->query($q);			
 		
@@ -435,14 +441,14 @@ class ilForumExport
 	*/
 	function getOnePost($post)
 	{
-		global $lng;
+		global $lng, $ilDB;
 				
 		$q = "SELECT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data WHERE ";		
-		$q .= "pos_pk = '".$post."' AND ";
+		$q .= "pos_pk = ".$ilDB->quote($post)." AND ";
 		$q .= "pos_usr_id = usr_id";		
 
 		$q = "SELECT frm_posts.*  FROM frm_posts WHERE ";		
-		$q .= "pos_pk = '".$post."' ";
+		$q .= "pos_pk = ".$ilDB->quote($post)." ";
 
 		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 		
@@ -467,12 +473,14 @@ class ilForumExport
 	*/
 	function getThreadList($topic)
 	{
+		global $ilDB;
+		
 		$q = "SELECT frm_threads.*, usr_data.lastname FROM frm_threads, usr_data WHERE ";
-		$q .= "thr_top_fk ='".$topic."' AND ";
+		$q .= "thr_top_fk = ".$ilDB->quote($topic)." AND ";
 		$q .= "thr_usr_id = usr_id";
 
 		$q = "SELECT frm_threads.* FROM frm_threads WHERE ";
-		$q .= "thr_top_fk ='".$topic."' ";
+		$q .= "thr_top_fk = ".$ilDB->quote($topic)." ";
 
 		if ($this->orderField != "")
 		{
@@ -486,11 +494,11 @@ class ilForumExport
 	
 	function getUserData($id,$a_import_name = 0)
 	{
-		global $lng;
+		global $lng, $ilDB;
 
 		if($id && ilObject::_exists($id) && ilObjectFactory::getInstanceByObjId($id,false))
 		{
-			$query = "SELECT * FROM usr_data WHERE usr_id = '".$id."'";
+			$query = "SELECT * FROM usr_data WHERE usr_id = ".$ilDB->quote($id)."";
 			$res = $this->ilias->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{

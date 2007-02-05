@@ -129,7 +129,7 @@ class ilObjForum extends ilObject
 		global $ilDB;
 
 		$query = "SELECT thr_subject FROM frm_threads ".
-			"WHERE thr_pk = '".$a_thread_id."'";
+			"WHERE thr_pk = ".$ilDB->quote($a_thread_id)."";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -153,7 +153,7 @@ class ilObjForum extends ilObject
 		{
 			// Get topic_id
 			$query = "SELECT top_pk FROM frm_data ".
-				"WHERE top_frm_fk = '".$a_frm_id."'";
+				"WHERE top_frm_fk = ".$ilDB->quote($a_frm_id)."";
 
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -163,7 +163,7 @@ class ilObjForum extends ilObject
 
 			// Get number of posts
 			$query = "SELECT COUNT(pos_pk) as num_posts FROM frm_posts ".
-				"WHERE pos_top_fk = '".$topic_id."'";
+				"WHERE pos_top_fk = ".$ilDB->quote($topic_id)."";
 
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -172,8 +172,8 @@ class ilObjForum extends ilObject
 			}
 
 			$query = "SELECT COUNT(post_id) count_read FROM frm_user_read ".
-				"WHERE obj_id = '".$a_frm_id."' ".
-				"AND usr_id = '".$a_usr_id."'";
+				"WHERE obj_id = ".$ilDB->quote($a_frm_id)." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id)."";
 
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -188,7 +188,7 @@ class ilObjForum extends ilObject
 		else
 		{
 			$query = "SELECT COUNT(pos_pk) as num_posts FROM frm_posts ".
-				"WHERE pos_thr_fk = '".$a_thread_id."'";
+				"WHERE pos_thr_fk = ".$ilDB->quote($a_thread_id)."";
 
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -198,9 +198,9 @@ class ilObjForum extends ilObject
 
 
 			$query = "SELECT COUNT(post_id) as count_read FROM frm_user_read ".
-				"WHERE obj_id = '".$a_frm_id."' ".
-				"AND usr_id = '".$a_usr_id."' ".
-				"AND thread_id = '".$a_thread_id."'";
+				"WHERE obj_id = ".$ilDB->quote($a_frm_id)." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id)." ".
+				"AND thread_id = ".$ilDB->quote($a_thread_id)."";
 
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -219,9 +219,11 @@ class ilObjForum extends ilObject
 
 	function markThreadRead($a_usr_id,$a_thread_id)
 	{
+		global $ilDB;
+		
 		// Get all post ids
 		$query = "SELECT * FROM frm_posts ".
-			"WHERE pos_thr_fk = '".$a_thread_id."'";
+			"WHERE pos_thr_fk = ".$ilDB->quote($a_thread_id)."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -233,8 +235,10 @@ class ilObjForum extends ilObject
 
 	function markAllThreadsRead($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM frm_data, frm_threads ".
-			"WHERE top_frm_fk = '".$this->getId()."' ".
+			"WHERE top_frm_fk = ".$ilDB->quote($this->getId())." ".
 			"AND top_pk = thr_top_fk ";
 
 		$res = $this->ilias->db->query($query);
@@ -249,12 +253,14 @@ class ilObjForum extends ilObject
 
 	function markPostRead($a_usr_id,$a_thread_id,$a_post_id)
 	{
+		global $ilDB;
+		
 		// CHECK IF ENTRY EXISTS
 		$query = "SELECT * FROM frm_user_read ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$this->getId()."' ".
-			"AND thread_id = '".$a_thread_id."' ".
-			"AND post_id = '".$a_post_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->getId())." ".
+			"AND thread_id = ".$ilDB->quote($a_thread_id)." ".
+			"AND post_id = ".$ilDB->quote($a_post_id)."";
 
 		$res = $this->ilias->db->query($query);
 		if($res->numRows())
@@ -264,10 +270,10 @@ class ilObjForum extends ilObject
 		
 
 		$query = "INSERT INTO frm_user_read ".
-			"SET usr_id = '".$a_usr_id."', ".
-			"obj_id = '".$this->getId()."', ".
-			"thread_id = '".$a_thread_id."', ".
-			"post_id = '".$a_post_id."'";
+			"SET usr_id = ".$ilDB->quote($a_usr_id).", ".
+			"obj_id = ".$ilDB->quote($this->getId()).", ".
+			"thread_id = ".$ilDB->quote($a_thread_id).", ".
+			"post_id = ".$ilDB->quote($a_post_id)."";
 
 		$this->ilias->db->query($query);
 
@@ -276,9 +282,11 @@ class ilObjForum extends ilObject
 
 	function isRead($a_usr_id,$a_post_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM frm_user_read ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND post_id = '".$a_post_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND post_id = ".$ilDB->quote($a_post_id)."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -289,7 +297,7 @@ class ilObjForum extends ilObject
 	// METHODS FOR NEW STATUS
 	function getCountNew($a_usr_id,$a_thread_id = 0)
 	{
-		global $ilBench;
+		global $ilBench, $ilDB;
 
 		$ilBench->start('Forum','getCountNew');
 		if($a_thread_id)
@@ -306,7 +314,7 @@ class ilObjForum extends ilObject
 			// Get threads
 			$query = "SELECT DISTINCT(pos_thr_fk) FROM frm_posts,frm_data ".
 				"WHERE top_pk = pos_top_fk ".
-				"AND top_frm_fk = '".$this->getId()."' ";
+				"AND top_frm_fk = ".$ilDB->quote($this->getId())." ";
 
 			$res = $this->ilias->db->query($query);
 			
@@ -323,16 +331,18 @@ class ilObjForum extends ilObject
 
 	function __getCountNew($a_usr_id,$a_thread_id = 0)
 	{
+		global $ilDB;
+		
 		$counter = 0;
 		
 		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
 
 		// CHECK FOR NEW
 		$query = "SELECT pos_pk FROM frm_posts ".
-			"WHERE pos_thr_fk = '".$a_thread_id."' ".
+			"WHERE pos_thr_fk = ".$ilDB->quote($a_thread_id)." ".
 			"AND ( pos_date > '".date('Y-m-d H:i:s',$timest)."' ".
 			"OR pos_update > '".date('Y-m-d H:i:s',$timest)."') ".
-			"AND pos_usr_id != '".$a_usr_id."'";
+			"AND pos_usr_id != ".$ilDB->quote($a_usr_id)."";
 		
 		$res  =  $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -347,6 +357,8 @@ class ilObjForum extends ilObject
 
 	function isNew($a_usr_id,$a_thread_id,$a_post_id)
 	{
+		global $ilDB;
+		
 		if($this->isRead($a_usr_id,$a_post_id))
 		{
 			return false;
@@ -354,10 +366,10 @@ class ilObjForum extends ilObject
 		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
 		
 		$query = "SELECT * FROM frm_posts ".
-			"WHERE pos_pk = '".$a_post_id."' ".
+			"WHERE pos_pk = ".$ilDB->quote($a_post_id)." ".
 			"AND (pos_date > '".date('Y-m-d H:i:s',$timest)."' ".
 			"OR pos_update > '".date('Y-m-d H:i:s',$timest)."') ".
-			"AND pos_usr_id != '".$a_usr_id."'";
+			"AND pos_usr_id != ".$ilDB->quote($a_usr_id)."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -366,19 +378,21 @@ class ilObjForum extends ilObject
 
 	function updateLastAccess($a_usr_id,$a_thread_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM frm_thread_access ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$this->getId()."' ".
-			"AND thread_id = '".$a_thread_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->getId())." ".
+			"AND thread_id = ".$ilDB->quote($a_thread_id)."";
 
 		$res = $this->ilias->db->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE frm_thread_access ".
 				"SET access_last = '".time()."' ".
-				"WHERE usr_id = '".$a_usr_id."' ".
-				"AND obj_id = '".$this->getId()."' ".
-				"AND thread_id = '".$a_thread_id."'";
+				"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+				"AND obj_id = ".$ilDB->quote($this->getId())." ".
+				"AND thread_id = ".$ilDB->quote($a_thread_id)."";
 
 			$this->ilias->db->query($query);
 		}
@@ -387,9 +401,9 @@ class ilObjForum extends ilObject
 			$query = "INSERT INTO frm_thread_access ".
 				"SET access_last = '".time()."', ".
 				"access_old = '0', ".
-				"usr_id = '".$a_usr_id."', ".
-				"obj_id = '".$this->getId()."', ".
-				"thread_id = '".$a_thread_id."'";
+				"usr_id = ".$ilDB->quote($a_usr_id).", ".
+				"obj_id = ".$ilDB->quote($this->getId()).", ".
+				"thread_id = ".$ilDB->quote($a_thread_id)."";
 
 			$this->ilias->db->query($query);
 		}			
@@ -400,11 +414,11 @@ class ilObjForum extends ilObject
 	// STATIC
 	function _updateOldAccess($a_usr_id)
 	{
-		global $ilDB,$ilias;
+		global $ilDB, $ilias;
 
 		$query = "UPDATE frm_thread_access ".
 			"SET access_old = access_last ".
-			"WHERE usr_id = '".$a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$ilDB->query($query);
 		
@@ -415,7 +429,7 @@ class ilObjForum extends ilObject
 													 8);
 		
 		$query = "DELETE FROM frm_thread_access ".
-			"WHERE access_last < '".$new_deadline."'";
+			"WHERE access_last < ".$ilDB->quote($new_deadline)."";
 
 		$ilDB->query($query);
 		
@@ -427,12 +441,12 @@ class ilObjForum extends ilObject
 		global $ilDB;
 
 		$query = "DELETE FROM frm_user_read ".
-			"WHERE usr_id = '".$a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$ilDB->query($query);
 
 		$query = "DELETE FROM frm_thread_access ".
-			"WHERE usr_id = '".$a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$ilDB->query($query);
 
@@ -445,7 +459,7 @@ class ilObjForum extends ilObject
 		global $ilDB;
 
 		$query = "DELETE FROM frm_user_read ".
-			"WHERE post_id = '".$a_post_id."'";
+			"WHERE post_id = ".$ilDB->quote($a_post_id)."";
 
 		$ilDB->query($query);
 
@@ -457,7 +471,7 @@ class ilObjForum extends ilObject
 		global $ilDB;
 
 		$query = "DELETE FROM frm_thread_access ".
-			"WHERE thread_id = '".$a_thread_id."'";
+			"WHERE thread_id = ".$ilDB->quote($a_thread_id)."";
 
 		$ilDB->query($query);
 
@@ -471,22 +485,24 @@ class ilObjForum extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		if (parent::update())
-		{			
+		{
 			$query = "UPDATE frm_data ".
 					 "SET ".
-					 "top_name = '".ilUtil::prepareDBString($this->getTitle())."',".
-					 "top_description = '".ilUtil::prepareDBString($this->getDescription())."',".
+					 "top_name = ".$ilDB->quote($this->getTitle()).",".
+					 "top_description = ".$ilDB->quote($this->getDescription()).",".
 					 "top_update = '".date("Y-m-d H:i:s")."',".
-					 "update_user = '".(int) $_SESSION["AccountId"]."' ".
-					 "WHERE top_frm_fk = '".(int) $this->getId()."'";
+					 "update_user = ".$ilDB->quote((int) $_SESSION["AccountId"])." ".
+					 "WHERE top_frm_fk = ".$ilDB->quote((int) $this->getId())."";
 			$res = $this->ilias->db->query($query);
 
 			$query = "REPLACE INTO frm_settings ".
-				"SET obj_id = '".$this->getId()."', ".
-				"default_view = '".$this->getDefaultView()."', ".
-				"anonymized = '".($this->isAnonymized() ? 1 : 0)."', ".
-				"statistics_enabled= '".($this->isStatisticsEnabled() ? 1 : 0)."'";
+				"SET obj_id = ".$ilDB->quote($this->getId()).", ".
+				"default_view = ".$ilDB->quote($this->getDefaultView()).", ".
+				"anonymized = ".$ilDB->quote(($this->isAnonymized() ? 1 : 0)).", ".
+				"statistics_enabled= ".$ilDB->quote(($this->isStatisticsEnabled() ? 1 : 0))."";
 			
 			$this->ilias->db->query($query);
 		
@@ -506,8 +522,8 @@ class ilObjForum extends ilObject
 	* @return	integer	new ref id
 	*/
 	function ilClone($a_parent_ref,$a_with_content = true)
-	{		
-		global $rbacadmin;
+	{	
+		global $rbacadmin, $ilDB;
 
 		// always call parent ilClone function first!!
 		$new_ref_id = parent::ilClone($a_parent_ref);
@@ -517,9 +533,9 @@ class ilObjForum extends ilObject
 
 		// COPY settings
 		$query = "INSERT INTO frm_settings ".
-			"SET obj_id = '".$forumObj->getId()."', ".
-			"default_view = '".$this->getDefaultView()."', ".
-			"anonymized = '".($this->isAnonymized() ? 1 : 0)."'";
+			"SET obj_id = ".$ilDB->quote($forumObj->getId()).", ".
+			"default_view = ".$ilDB->quote($this->getDefaultView()).", ".
+			"anonymized = ".$ilDB->quote(($this->isAnonymized() ? 1 : 0))."";
 		$this->ilias->db->query($query);
 		
 
@@ -536,13 +552,13 @@ class ilObjForum extends ilObject
 		// STOP HERE if without_content is selected
 		if(!$a_with_content)
 		{
-			$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
+			$this->Forum->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->getId()));
 			$topData = $this->Forum->getOneTopic();
 
 			$query = "INSERT INTO frm_data ".
-				"VALUES('0','".$forumObj->getId()."','".ilUtil::prepareDBString($topData['top_name'])."','".
-				ilUtil::prepareDBString($topData['top_description'])."','0','0','','".$roles[0]."',NOW(),'0',NOW(),'0','".
-				$this->ilias->account->getId()."')";
+				"VALUES('0',".$ilDB->quote($forumObj->getId()).",".$ilDB->quote($topData['top_name']).",".
+				$ilDB->quote($topData['top_description']).",'0','0','',".$ilDB->quote($roles[0]).",NOW(),'0',NOW(),'0',".
+				$ilDB->quote($this->ilias->account->getId()).")";
 
 			$this->ilias->db->query($query);
 
@@ -551,7 +567,7 @@ class ilObjForum extends ilObject
 		
 
 		// get forum data
-		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
+		$this->Forum->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->getId()));
 		$topData = $this->Forum->getOneTopic();
 		
 		// insert new forum as a copy 
@@ -559,10 +575,10 @@ class ilObjForum extends ilObject
 		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,".
 			"top_usr_id,visits,top_update,update_user) ";
 		$q .= "VALUES ";
-		$q .= "('".$forumObj->getId()."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".
-			$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$roles[0]."','".
-			$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".
-			$topData["update_user"]."')";
+		$q .= "(".$ilDB->quote($forumObj->getId()).",".$ilDB->quote($topData["top_name"]).",".$ilDB->quote($topData["top_description"]).",".
+			$ilDB->quote($topData["top_num_posts"]).",".$ilDB->quote($topData["top_num_threads"]).",".$ilDB->quote($topData["top_last_post"]).",".$ilDB->quote($roles[0]).",".
+			$ilDB->quote($topData["top_date"]).",".$ilDB->quote($topData["top_usr_id"]).",".$ilDB->quote($topData["visits"]).",".$ilDB->quote($topData["top_update"]).",".
+			$ilDB->quote($topData["update_user"]).")";
 		$this->ilias->db->query($q);
 
 		// get last insert id and return it
@@ -576,9 +592,9 @@ class ilObjForum extends ilObject
 			$q = "INSERT INTO frm_threads ";
 			$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update,thr_num_posts,thr_last_post,visits) ";
 			$q .= "VALUES ";
-			$q .= "('".$new_top_pk."','".$thrData["thr_usr_id"]."','".addslashes($thrData["thr_subject"])."','".
-				$thrData["thr_date"]."','".$thrData["thr_update"]."','".$thrData["thr_num_posts"]."','".
-				$thrData["thr_last_post"]."','".$thrData["visits"]."')";
+			$q .= "(".$ilDB->quote($new_top_pk).",".$ilDB->quote($thrData["thr_usr_id"]).",".$ilDB->quote($thrData["thr_subject"]).",".
+				$ilDB->quote($thrData["thr_date"]).",".$ilDB->quote($thrData["thr_update"]).",".$ilDB->quote($thrData["thr_num_posts"]).",".
+				$ilDB->quote($thrData["thr_last_post"]).",".$ilDB->quote($thrData["visits"]).")";
 			$this->ilias->db->query($q);
 			
 			// get last insert id and return it
@@ -592,8 +608,8 @@ class ilObjForum extends ilObject
 				$q2 = "INSERT INTO frm_posts ";
 				$q2 .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date,pos_update) ";
 				$q2 .= "VALUES ";
-				$q2 .= "('".$new_top_pk."','".$new_thr_pk."','".$posData["pos_usr_id"]."','".
-					addslashes($posData["pos_message"])."','".$posData["pos_date"]."','".$posData["pos_update"]."')";
+				$q2 .= "(".$ilDB->quote($new_top_pk).",".$ilDB->quote($new_thr_pk).",".$ilDB->quote($posData["pos_usr_id"]).",".
+					$ilDB->quote($posData["pos_message"]).",".$ilDB->quote($posData["pos_date"]).",".$ilDB->quote($posData["pos_update"]).")";
 				$this->ilias->db->query($q2);
 
 				// get last insert id and return it
@@ -605,14 +621,14 @@ class ilObjForum extends ilObject
 				
 				// get tree data from old post and insert copy
 			    $q3 = "SELECT * FROM frm_posts_tree ";
-				$q3 .= "WHERE pos_fk = '".$posData["pos_pk"]."' ";	   
-				$q3 .= "AND thr_fk = '".$thrData["thr_pk"]."'";
+				$q3 .= "WHERE pos_fk = ".$ilDB->quote($posData["pos_pk"])." ";	   
+				$q3 .= "AND thr_fk = ".$ilDB->quote($thrData["thr_pk"])."";
 				$treeData = $this->ilias->db->getRow($q3, DB_FETCHMODE_ASSOC);
 								
 				$q4 = "INSERT INTO frm_posts_tree (thr_fk,pos_fk,parent_pos,lft,rgt,depth,date) ";
 				$q4 .= "VALUES ";
-				$q4 .= "('".$new_thr_pk."','".$new_pos_pk."','".$treeData["parent_pos"]."','".
-					$treeData["lft"]."','".$treeData["rgt"]."','".$treeData["depth"]."','".$treeData["date"]."')";
+				$q4 .= "(".$ilDB->quote($new_thr_pk).",".$ilDB->quote($new_pos_pk).",".$ilDB->quote($treeData["parent_pos"]).",".
+					$ilDB->quote($treeData["lft"]).",".$ilDB->quote($treeData["rgt"]).",".$ilDB->quote($treeData["depth"]).",".$ilDB->quote($treeData["date"]).")";
 				$this->ilias->db->query($q4);
 			}
 		}
@@ -631,7 +647,9 @@ class ilObjForum extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
+		global $ilDB;
+				
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -642,7 +660,7 @@ class ilObjForum extends ilObject
 		$tmp_file_obj->delete();
 		unset($tmp_file_obj);
 		
-		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
+		$this->Forum->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->getId()));
 		$topData = $this->Forum->getOneTopic();	
 		
 		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
@@ -650,31 +668,31 @@ class ilObjForum extends ilObject
 		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			// delete tree
-			$query = "DELETE FROM frm_posts_tree WHERE thr_fk = '".$thrData["thr_pk"]."'";
+			$query = "DELETE FROM frm_posts_tree WHERE thr_fk = ".$ilDB->quote($thrData["thr_pk"])."";
 			$this->ilias->db->query($query);
 			
 			// delete posts
-			$query = "DELETE FROM frm_posts WHERE pos_thr_fk = '".$thrData["thr_pk"]."'";
+			$query = "DELETE FROM frm_posts WHERE pos_thr_fk = ".$ilDB->quote($thrData["thr_pk"])."";
 			$this->ilias->db->query($query);
 			
 			// delete threads
-			$query = "DELETE FROM frm_threads WHERE thr_pk = '".$thrData["thr_pk"]."'";
+			$query = "DELETE FROM frm_threads WHERE thr_pk = ".$ilDB->quote($thrData["thr_pk"])."";
 			$this->ilias->db->query($query);
 		}
 		// delete topic
-		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$this->getId()."'";
+		$query = "DELETE FROM frm_data WHERE top_frm_fk = ".$ilDB->quote($this->getId())."";
 		$this->ilias->db->query($query);
 
 		// delete settings
-		$query = "DELETE FROM frm_settings WHERE obj_id = '".$this->getId()."'";
+		$query = "DELETE FROM frm_settings WHERE obj_id = ".$ilDB->quote($this->getId())."";
 		$this->ilias->db->query($query);
 
 		// delete read infos
-		$query = "DELETE FROM frm_user_read WHERE obj_id = '".$this->getId()."'";
+		$query = "DELETE FROM frm_user_read WHERE obj_id = ".$ilDB->quote($this->getId())."";
 		$this->ilias->db->query($query);
 
 		// delete thread access entries
-		$query = "DELETE FROM frm_thread_access WHERE obj_id = '".$this->getId()."'";
+		$query = "DELETE FROM frm_thread_access WHERE obj_id = ".$ilDB->quote($this->getId())."";
 		$this->ilias->db->query($query);
 
 		return true;
@@ -778,11 +796,13 @@ class ilObjForum extends ilObject
 
 	function createSettings()
 	{		
+		global $ilDB;
+		
 		$query = "INSERT INTO frm_settings ".
-			"SET obj_id = '".$this->getId()."', ".
-			"default_view = '".$this->getDefaultView()."', ".
-			"anonymized = '".($this->isAnonymized() ? 1 : 0) ."', ".
-			"statistics_enabled= '".($this->isStatisticsEnabled() ? 1 : 0)."'";	
+			"SET obj_id = ".$ilDB->quote($this->getId()).", ".
+			"default_view = ".$ilDB->quote($this->getDefaultView()).", ".
+			"anonymized = ".$ilDB->quote(($this->isAnonymized() ? 1 : 0)).", ".
+			"statistics_enabled= ".$ilDB->quote(($this->isStatisticsEnabled() ? 1 : 0))."";	
 		$this->ilias->db->query($query);
 
 		return true;
@@ -792,8 +812,10 @@ class ilObjForum extends ilObject
 	// PRIVATE
 	function __read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM frm_settings WHERE ".
-			"obj_id = '".$this->getId()."'";
+			"obj_id = ".$ilDB->quote($this->getId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -807,9 +829,11 @@ class ilObjForum extends ilObject
 
 	function __getLastThreadAccess($a_usr_id,$a_thread_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM frm_thread_access ".
-			"WHERE thread_id = '".$a_thread_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE thread_id = ".$ilDB->quote( $a_thread_id )." ".
+			"AND usr_id = ".$ilDB->quote( $a_usr_id )."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -834,9 +858,11 @@ class ilObjForum extends ilObject
 	*/
 	function isNotificationEnabled($user_id, $thread_id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
-		$q .= "user_id = '" . $user_id . "' AND ";
-		$q .= "thread_id = '". $thread_id . "'";
+		$q .= "user_id = " .$ilDB->quote($user_id). " AND ";
+		$q .= "thread_id = ".$ilDB->quote($thread_id). "";
 		return $this->ilias->db->getOne($q);
 	}
 

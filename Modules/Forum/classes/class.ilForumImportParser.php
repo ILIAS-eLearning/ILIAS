@@ -286,10 +286,12 @@ class ilForumImportParser extends ilSaxParser
 
 	function __addThread()
 	{
+		global $ilDB;
+		
 		$this->__initForumObject();
 
 		$this->forum_obj->setImportName($this->thread["login"]);
-		$this->forum_obj->setWhereCondition("top_frm_fk = ".$this->forum->getId());
+		$this->forum_obj->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->forum->getId()));
 		$topic = $this->forum_obj->getOneTopic();
 
 		// GENERATE IT AND 'INCREMENT' parent variable
@@ -301,15 +303,17 @@ class ilForumImportParser extends ilSaxParser
 																	 $this->post["message"],0,0,0,date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
-		$this->forum_obj->setWhereCondition("top_pk = ".$topic["top_pk"]);
+		$this->forum_obj->setWhereCondition("top_pk = ".$ilDB->quote($topic["top_pk"]));
 		$this->forum_obj->updateVisits($topic["top_pk"]);
 
 	}
 
 	function __addPost()
 	{
+		global $ilDB;
+		
 		$this->forum_obj->setImportName($this->post["login"]);
-		$this->forum_obj->setWhereCondition("top_frm_fk = ".$this->forum->getId());
+		$this->forum_obj->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->forum->getId()));
 		$topic = $this->forum_obj->getOneTopic();
 		$post = $this->forum_obj->getPostById($this->__getParentId());
 		#$post = $this->forum_obj->getPostById($this->parent[count($this->parent)-1]);
@@ -338,17 +342,17 @@ class ilForumImportParser extends ilSaxParser
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO frm_data VALUES('0','".
-			$this->forum->getId()."','".
-			ilUtil::prepareDBString($this->forum->getTitle())."','".
-			ilUtil::prepareDBString($this->forum->getDescription())."','".
+		$query = "INSERT INTO frm_data VALUES('0',".
+			$ilDB->quote($this->forum->getId()).",".
+			$ilDB->quote($this->forum->getTitle()).",".
+			$ilDB->quote($this->forum->getDescription()).",'".
 			"0','0','".
-			"','".$this->roles[0]."','".
+			"',".$ilDB->quote($this->roles[0]).",'".
 			date("Y:m:d H:i:s")."','".
 			"0','".
 			date("Y:m:d H:i:s")."','".
-			"0','".
-			$_SESSION["AccountId"]."')";
+			"0',".
+			$ilDB->quote($_SESSION["AccountId"]).")";
 		
 		$ilDB->query($query);
 
@@ -366,7 +370,5 @@ class ilForumImportParser extends ilSaxParser
 
 		return true;
 	}
-		
-
 }
 ?>

@@ -115,12 +115,12 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function showThreadsObject()
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem,$ilUser, $ilDB;
 
 		$frm =& $this->object->Forum;
 		$frm->setForumId($this->object->getId());
 		$frm->setForumRefId($this->object->getRefId());
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
 
 		$topicData = $frm->getOneTopic();
 		if(!$topicData['top_num_threads'])
@@ -153,7 +153,7 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			// Visit-Counter
 			$frm->setDbTable("frm_data");
-			$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
+			$frm->setWhereCondition("top_pk = ".$ilDB->quote($topicData["top_pk"]));
 			$frm->updateVisits($topicData["top_pk"]);
 	
 			// get list of threads
@@ -590,7 +590,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $ilDB;
 
 
 		$_POST['Fobject']['title'] = $_POST['title'];
@@ -615,8 +615,8 @@ class ilObjForumGUI extends ilObjectGUI
 		// insert new forum as new topic into frm_data
 		$top_data = array(
             "top_frm_fk"   		=> $forumObj->getId(),
-			"top_name"   		=> addslashes($forumObj->getTitle()),
-            "top_description" 	=> addslashes($forumObj->getDescription()),
+			"top_name"   		=> $forumObj->getTitle(),
+            "top_description" 	=> $forumObj->getDescription(),
             "top_num_posts"     => 0,
             "top_num_threads"   => 0,
             "top_last_post"     => "",
@@ -628,9 +628,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$q = "INSERT INTO frm_data ";
 		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id) ";
 		$q .= "VALUES ";
-		$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".
-			$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".
-			$top_data["top_mods"]."','".$top_data["top_date"]."','".$top_data["top_usr_id"]."')";
+		$q .= "(".$ilDB->quote($top_data["top_frm_fk"]).",".$ilDB->quote($top_data["top_name"]).",".$ilDB->quote($top_data["top_description"]).",".
+			$ilDB->quote($top_data["top_num_posts"]).",".$ilDB->quote($top_data["top_num_threads"]).",".$ilDB->quote($top_data["top_last_post"]).",".
+			$ilDB->quote($top_data["top_mods"]).",'".$top_data["top_date"]."',".$ilDB->quote($top_data["top_usr_id"]).")";
 		$this->ilias->db->query($q);
 
 		// always send a message
@@ -686,7 +686,7 @@ class ilObjForumGUI extends ilObjectGUI
 	 */
 	function showStatisticsObject() 
 	{
-		global $rbacsystem, $ilUser, $ilAccess;
+		global $rbacsystem, $ilUser, $ilAccess, $ilDB;
 		
 		/// if globally deactivated, skip!!! intrusion detected
 		if (!$this->ilias->getSetting("enable_fora_statistics", true))
@@ -733,7 +733,7 @@ class ilObjForumGUI extends ilObjectGUI
 		// create query
 		$query = "SELECT COUNT(f.pos_usr_id) as ranking, u.login, u.lastname, u.firstname
                                             FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d
-                                            WHERE f.pos_pk = t.pos_fk AND t.thr_fk = th.thr_pk AND u.usr_id = f.pos_usr_id AND d.top_pk = f.pos_top_fk AND d.top_frm_fk=".$this->object->getId()."
+                                            WHERE f.pos_pk = t.pos_fk AND t.thr_fk = th.thr_pk AND u.usr_id = f.pos_usr_id AND d.top_pk = f.pos_top_fk AND d.top_frm_fk = ".$ilDB->quote($this->object->getId())."
                                             GROUP BY pos_usr_id ORDER BY $sort_by $sort_order"; 
 		                                           
 		// get resultset
@@ -841,7 +841,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function showThreadFramesetObject()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilDB;
 		
 		require_once "./Modules/Forum/classes/class.ilForum.php";
 		require_once "./Modules/Forum/classes/class.ilObjForum.php";
@@ -870,7 +870,7 @@ class ilObjForumGUI extends ilObjectGUI
 			// if complete thread was deleted ...
 			if ($dead_thr == $_GET["thr_pk"])
 			{
-				$frm->setWhereCondition("top_frm_fk = ".$forumObj->getId());
+				$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($forumObj->getId()));
 				$topicData = $frm->getOneTopic();
 		
 				ilUtil::sendInfo($lng->txt("forums_post_deleted"),true);
@@ -1051,7 +1051,7 @@ class ilObjForumGUI extends ilObjectGUI
 	function viewThreadObject()
 	{
 		global $ilias, $tpl, $lng, $ilUser, $ilAccess, $ilTabs, $rbacsystem,
-			$rbacreview;
+			$rbacreview, $ilDB;
 		
 		require_once "./Modules/Forum/classes/class.ilObjForum.php";
 		require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
@@ -1118,18 +1118,18 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 				
 		// get forum- and thread-data
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
 		
 		if (is_array($topicData = $frm->getOneTopic()))
 		{
-			$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+			$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 			$threadData = $frm->getOneThread();
 
 			$tpl->setTitle($lng->txt("forums_thread")." \"".$threadData["thr_subject"]."\"");
 			
 			// Visit-Counter
 			$frm->setDbTable("frm_threads");
-			$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+			$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 			$frm->updateVisits($_GET["thr_pk"]);
 		
 			// ********************************************************************************
@@ -1901,7 +1901,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function showUserObject()
 	{
-		global $lng, $tpl, $rbacsystem, $ilias;
+		global $lng, $tpl, $rbacsystem, $ilias, $ilDB;
 		
 		require_once "./Modules/Forum/classes/class.ilForum.php";
 		
@@ -1936,7 +1936,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		if (!empty($_GET["thr_pk"]))
 		{
-			$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+			$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 			$threadData = $frm->getOneThread();
 			$frm_loc->setThread($_GET["thr_pk"], $threadData["thr_subject"]);
 		}
@@ -2029,7 +2029,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function createThreadObject()
 	{
-		global $lng, $tpl, $rbacsystem, $ilias;
+		global $lng, $tpl, $rbacsystem, $ilias, $ilDB;
 		
 		require_once "./Modules/Forum/classes/class.ilObjForum.php";
 		
@@ -2041,7 +2041,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
 		
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
 		$topicData = $frm->getOneTopic();
 		
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -2133,7 +2133,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
 		
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
 		$topicData = $frm->getOneTopic();
 
 		$formData = $_POST["formData"];
@@ -2166,10 +2166,10 @@ class ilObjForumGUI extends ilObjectGUI
 			
 			// Visit-Counter
 			$frm->setDbTable("frm_data");
-			$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
+			$frm->setWhereCondition("top_pk = ".$ilDB->quote($topicData["top_pk"]));
 			$frm->updateVisits($topicData["top_pk"]);
 			// on success: change location
-			$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = ".
+			$frm->setWhereCondition("thr_top_fk = ".$ilDB->quote($topicData["top_pk"])." AND thr_subject = ".
 									$ilDB->quote($formData["subject"])." AND thr_num_posts = 1");		
 	
 			if (is_array($thrData = $frm->getOneThread()))
@@ -2187,7 +2187,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function showNotificationObject()
 	{
-		global $lng, $tpl, $rbacsystem, $ilias, $ilUser, $ilTabs;
+		global $lng, $tpl, $rbacsystem, $ilias, $ilUser, $ilTabs, $ilDB;
 		
 		require_once "./Modules/Forum/classes/class.ilObjForum.php";
 		require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
@@ -2211,11 +2211,11 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		// get forum- and thread-data
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
 		
 		if (is_array($topicData = $frm->getOneTopic()))
 		{
-			$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+			$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 			$threadData = $frm->getOneThread();
 			$tpl->setTitle($lng->txt("forums_thread")." \"".$threadData["thr_subject"]."\"");
 			
@@ -2257,14 +2257,14 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function enableNotificationObject()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilDB;
 
 		$forumObj = new ilObjForum($_GET["ref_id"]);
 		$frm =& $forumObj->Forum;
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
-		$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
+		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 		
 		$frm->enableNotification($ilUser->getId(), $_GET["thr_pk"]);
 		ilUtil::sendInfo($lng->txt("forums_notification_enabled"));
@@ -2277,14 +2277,14 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function disableNotificationObject()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilDB;
 		
 		$forumObj = new ilObjForum($_GET["ref_id"]);
 		$frm =& $forumObj->Forum;
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
-		$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
-		$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
+		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 
 		$frm->disableNotification($ilUser->getId(), $_GET["thr_pk"]);
 		ilUtil::sendInfo($lng->txt("forums_notification_disabled"));
