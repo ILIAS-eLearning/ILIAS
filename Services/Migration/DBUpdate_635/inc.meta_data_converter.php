@@ -5,10 +5,10 @@ function ilMDConvert($table,$fields,$key)
 	global $ilDB;
 
 	$where = "WHERE ";
-	$where .= (implode(" LIKE '%\%' ESCAPE '§' OR ",$fields));
-	$where .= " LIKE '%\\%' ESCAPE '§'";
+	$where .= implode(" LIKE '%\%' ESCAPE 'ï¿½' OR ", ilUtil::quoteArray($fields));
+	$where .= " LIKE '%\\%' ESCAPE 'ï¿½'";
 
-	$query = "SELECT * FROM $table ".
+	$query = "SELECT * FROM ".$table." ".
 		$where;
 
 	$res = $ilDB->query($query);
@@ -24,9 +24,9 @@ function ilMDConvert($table,$fields,$key)
 			else
 				$query .= "SET ";
 
-			$query .= ($field ." = '".addslashes(stripslashes($row->$field))."'");
+			$query .= ($field ." = ".$ilDB->quote(stripslashes($row->$field))." ");
 		}
-		$query .= (" WHERE $key = ".$row->$key);
+		$query .= (" WHERE ".$key." = ".$ilDB->quote($row->$key));
 
 		// Perform the query
 		$ilDB->query($query);
