@@ -95,7 +95,7 @@ class ilRbacSystem
 	
 	function checkAccessOfUser($a_user_id, $a_operations, $a_ref_id, $a_type = "")
 	{
-		global $ilUser, $rbacreview,$ilObjDataCache;
+		global $ilUser, $rbacreview,$ilObjDataCache,$ilDB;
 
 		#echo ++$counter;
 
@@ -158,13 +158,13 @@ class ilRbacSystem
 			}
 			
 			// Um nur eine Abfrage zu haben
-			$in = " IN ('";
-			$in .= implode("','", $roles);
-			$in .= "')";
+			$in = " IN (";
+			$in .= implode(",",ilUtil::quoteArray($roles));
+			$in .= ")";
 
 			$q = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id ".$in." ".
-				 "AND ref_id = '".$a_ref_id."' ";
+				 "AND ref_id = ".$ilDB->quote($a_ref_id)." ";
 			$r = $this->ilDB->query($q);
 
 			$ops = array();
@@ -196,10 +196,12 @@ class ilRbacSystem
 	*/
 	function checkPermission($a_ref_id,$a_rol_id,$a_operation)
 	{
+		global $ilDB;
+		
 		$ops = array();
 
 		$q = "SELECT ops_id FROM rbac_operations ".
-				 "WHERE operation ='".$a_operation."'";
+				 "WHERE operation = ".$ilDB->quote($a_operation)." ";
 		
 		$r = $this->ilDB->query($q);
 
@@ -209,8 +211,8 @@ class ilRbacSystem
 		}
 	
 		$q = "SELECT * FROM rbac_pa ".
-			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND ref_id = '".$a_ref_id."' ";
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
+			 "AND ref_id = ".$ilDB->quote($a_ref_id)." ";
 		
 		$r = $this->ilDB->query($q);
 

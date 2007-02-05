@@ -74,16 +74,18 @@ class ilRbacReview
 	*/
 	function roleExists($a_title,$a_id = 0)
 	{
+		global $ilDB;
+		
 		if (empty($a_title))
 		{
 			$message = get_class($this)."::roleExists(): No title given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
-		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
+		$clause = ($a_id) ? " AND obj_id != ".$ilDB->quote($a_id)." " : "";
 		
 		$q = "SELECT DISTINCT(obj_id) as obj_id FROM object_data ".
-			 "WHERE title ='".addslashes($a_title)."' ".
+			 "WHERE title =".$ilDB->quote($a_title)." ".
 			 "AND type IN('role','rolt')".
 			 $clause;
 		$r = $this->ilDB->query($q);
@@ -105,7 +107,7 @@ class ilRbacReview
 	*/
 	function __getParentRoles($a_path,$a_templates,$a_keep_protected)
 	{
-		global $log;
+		global $log,$ilDB;
 		
 		if (!isset($a_path) or !is_array($a_path))
 		{
@@ -119,15 +121,15 @@ class ilRbacReview
 		$child = $this->__getAllRoleFolderIds();
 		
 		// CREATE IN() STATEMENT
-		$in = " IN('";
-		$in .= implode("','",$child);
-		$in .= "') ";
+		$in = " IN(";
+		$in .= implode(",",ilUtil::quoteArray($child));
+		$in .= ") ";
 		
 		foreach ($a_path as $path)
 		{
 			$q = "SELECT * FROM tree ".
 				 "WHERE child ".$in.
-				 "AND parent = '".$path."'";
+				 "AND parent = ".$ilDB->quote($path)." ";
 			$r = $this->ilDB->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -166,7 +168,7 @@ class ilRbacReview
 	*/
 	function getParentRoleIds($a_endnode_id,$a_templates = false,$a_keep_protected = false)
 	{
-		global $tree,$log;
+		global $tree,$log,$ilDB;
 
 		if (!isset($a_endnode_id))
 		{
@@ -193,6 +195,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getRoleListByObject($a_ref_id,$a_templates = false)
 	{
+		global $ilDB;
+		
 		if (!isset($a_ref_id) or !isset($a_templates))
 		{
 			$message = get_class($this)."::getRoleListByObject(): Missing parameter!".
@@ -208,7 +212,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		$q = "SELECT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.parent = '".$a_ref_id."'";
+			 "AND rbac_fa.parent = ".$ilDB->quote($a_ref_id)." ";
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -231,6 +235,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getAssignableRoles($a_templates = false,$a_internal_roles = false)
 	{
+		global $ilDB;
+		
 		$role_list = array();
 
 		$where = $this->__setTemplateFilter($a_templates);
@@ -357,7 +363,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function assignedUsers($a_rol_id, $a_fields = NULL)
 	{
-		global $ilBench;
+		global $ilBench,$ilDB;
 		
 		$ilBench->start("RBAC", "review_assignedUsers");
 		
@@ -380,12 +386,12 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
                 if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
                     unset($a_fields[$usr_id_field]);
 
-                $select = implode(",",$a_fields).",usr_data.usr_id";
+                $select = implode(",",ilUtil::quoteArray($a_fields)).",usr_data.usr_id";
             }
 
 	        $q = "SELECT ".$select." FROM usr_data ".
                  "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
-                 "WHERE rbac_ua.rol_id='".$a_rol_id."'";
+                 "WHERE rbac_ua.rol_id=".$ilDB->quote($a_rol_id)." ";
             $r = $this->ilDB->query($q);
 
             while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -395,7 +401,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
         }
         else
         {
-		    $q = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
+		    $q = "SELECT usr_id FROM rbac_ua WHERE rol_id=".$ilDB->quote($a_rol_id)." ";
             $r = $this->ilDB->query($q);
 
             while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -429,6 +435,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function assignedRoles($a_usr_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::assignedRoles(): No user_id given!";
@@ -437,7 +445,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 
 		$role_arr = array();
 		
-		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$a_usr_id."'";
+		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -463,7 +471,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function isAssignable($a_rol_id, $a_ref_id)
 	{
-		global $ilBench;
+		global $ilBench,$ilDB;
 
 		$ilBench->start("RBAC", "review_isAssignable");
 
@@ -483,8 +491,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		}
 		
 		$q = "SELECT * FROM rbac_fa ".
-			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_ref_id."'";
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
+			 "AND parent = ".$ilDB->quote($a_ref_id)." ";
 		$row = $this->ilDB->getRow($q);
 
 		$ilBench->stop("RBAC", "review_isAssignable");
@@ -504,6 +512,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getFoldersAssignedToRole($a_rol_id, $a_assignable = false)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::getFoldersAssignedToRole(): No role_id given!";
@@ -516,7 +526,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		}
 
 		$q = "SELECT DISTINCT parent FROM rbac_fa ".
-			 "WHERE rol_id = '".$a_rol_id."'".$where;
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".$where;
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -537,7 +547,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getRolesOfRoleFolder($a_ref_id,$a_nonassignable = true)
 	{
-		global $ilBench;
+		global $ilBench,$ilDB;
 		
 		$ilBench->start("RBAC", "review_getRolesOfRoleFolder");
 
@@ -553,7 +563,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		}
 
 		$q = "SELECT rol_id FROM rbac_fa ".
-			 "WHERE parent = '".$a_ref_id."'".
+			 "WHERE parent = ".$ilDB->quote($a_ref_id)." ".
 			 $and;
 
 		$r = $this->ilDB->query($q);
@@ -677,6 +687,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getOperations()
 	{
+		global $ilDB;
 
 		$query = "SELECT * FROM rbac_operations ORDER BY ops_id ";
 
@@ -698,7 +709,9 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getOperation($ops_id)
 	{
-		$query = "SELECT * FROM rbac_operations WHERE ops_id = '".ilUtil::prepareDBString($ops_id)."'";
+		global $ilDB;
+		
+		$query = "SELECT * FROM rbac_operations WHERE ops_id = ".$ilDB->quote($ops_id)." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -722,6 +735,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getOperationsOfRole($a_rol_id,$a_type,$a_parent = 0)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id) or !isset($a_type))
 		{
 			$message = get_class($this)."::getOperationsOfRole(): Missing Parameter!".
@@ -740,9 +755,9 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		}
 		
 		$q = "SELECT ops_id FROM rbac_templates ".
-			 "WHERE type ='".$a_type."' ".
-			 "AND rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_parent."'";
+			 "WHERE type =".$ilDB->quote($a_type)." ".
+			 "AND rol_id = ".$ilDB->quote($a_rol_id)." ".
+			 "AND parent = ".$ilDB->quote($a_parent)."";
 		$r  = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -755,9 +770,11 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	
 	function getRoleOperationsOnObject($a_role_id,$a_ref_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM rbac_pa ".
-			"WHERE rol_id = '".$a_role_id."' ".
-			"AND ref_id = '".$a_ref_id."'";
+			"WHERE rol_id = ".$ilDB->quote($a_role_id)." ".
+			"AND ref_id = ".$ilDB->quote($a_ref_id)." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -776,13 +793,15 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getOperationsOnType($a_typ_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_typ_id))
 		{
 			$message = get_class($this)."::getOperationsOnType(): No type_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "SELECT * FROM rbac_ta WHERE typ_id = '".$a_typ_id."'";
+		$q = "SELECT * FROM rbac_ta WHERE typ_id = ".$ilDB->quote($a_typ_id)." ";
 		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -801,7 +820,9 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getOperationsOnTypeString($a_type)
 	{
-		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = '".ilUtil::prepareDBString($a_type)."'";
+		global $ilDB;
+		
+		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($a_type)." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -845,7 +866,9 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function isDeleted($a_node_id)
 	{
-		$q = "SELECT tree FROM tree WHERE child ='".$a_node_id."'";
+		global $ilDB;
+		
+		$q = "SELECT tree FROM tree WHERE child =".$ilDB->quote($a_node_id)." ";
 		$r = $this->ilDB->query($q);
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -871,6 +894,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 
 	function getRolesByFilter($a_filter = 0,$a_user_id = 0)
 	{
+		global $ilDB;
+		
         $assign = "y";
 
 		switch($a_filter)
@@ -884,7 +909,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
             case 2:
 				$where = "WHERE rbac_fa.rol_id IN ";
 				$where .= '(';
-				$where .= implode(',',$this->getGlobalRoles());
+				$where .= implode(',',ilUtil::quoteArray($this->getGlobalRoles()));
 				$where .= ')';
 				break;
 
@@ -894,7 +919,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
             case 5:
 				$where = "WHERE rbac_fa.rol_id NOT IN ";
 				$where .= '(';
-				$where .= implode(',',$this->getGlobalRoles());
+				$where .= implode(',',ilUtil::quoteArray($this->getGlobalRoles()));
 				$where .= ')';
 				break;
 				
@@ -911,7 +936,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
                 
 				$where = "WHERE rbac_fa.rol_id IN ";
 				$where .= '(';
-				$where .= implode(',',$this->assignedRoles($a_user_id));
+				$where .= implode(',',ilUtil::quoteArray($this->assignedRoles($a_user_id)));
 				$where .= ')';
                 break;
 		}
@@ -921,7 +946,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		$q = "SELECT DISTINCT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.assign = '".$assign."'";
+			 "AND rbac_fa.assign = ".$ilDB->quote($assign)." ";
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -980,9 +1005,9 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		{
 			return array();
 		}
-		$where = "WHERE operation IN ('";
-		$where .= implode("','",$operations);
-		$where .= "')";
+		$where = "WHERE operation IN (";
+		$where .= implode(",",ilUtil::quoteArray($operations));
+		$where .= ")";
 
 		$query = "SELECT ops_id FROM rbac_operations ".$where;
 		$res = $ilDB->query($query);
@@ -1028,6 +1053,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	*/
 	function getLinkedRolesOfRoleFolder($a_ref_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::getLinkedRolesOfRoleFolder(): No ref_id given!";
@@ -1037,7 +1064,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		$and = " AND assign='n'";
 
 		$q = "SELECT rol_id FROM rbac_fa ".
-			 "WHERE parent = '".$a_ref_id."'".
+			 "WHERE parent = ".$ilDB->quote($a_ref_id)." ".
 			 $and;
 		$r = $this->ilDB->query($q);
 
@@ -1052,9 +1079,11 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	// checks if default permission settings of role under current parent (rolefolder) are protected from changes
 	function isProtected($a_ref_id,$a_role_id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT protected FROM rbac_fa ".
-			 "WHERE rol_id='".$a_role_id."' ".
-			 "AND parent='".$a_ref_id."'";
+			 "WHERE rol_id= ".$ilDB->quote($a_role_id)." ".
+			 "AND parent= ".$ilDB->quote($a_ref_id)." ";
 		$r = $this->ilDB->query($q);
 		$row = $r->fetchRow();
 		
