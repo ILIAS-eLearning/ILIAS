@@ -1382,7 +1382,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $rbacreview;
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
 
 		$this->__setSubTabs('members');
 
