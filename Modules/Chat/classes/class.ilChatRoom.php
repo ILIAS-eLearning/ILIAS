@@ -128,26 +128,32 @@ class ilChatRoom
 
 	function invite($a_id)
 	{
+		global $ilDB;
+		
 		$query = "REPLACE INTO chat_invitations ".
-			"SET room_id = '".$this->getRoomId()."',".
-			"guest_id = '".$a_id."'";
+			"SET room_id = ".$ilDB->quote( $this->getRoomId() ).",".
+			"guest_id = ".$ilDB->quote( $a_id )."";
 
 		$res = $this->ilias->db->query($query);
 	}
 	function drop($a_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM chat_invitations ".
-			"WHERE room_id = '".$this->getRoomId()."' ".
-			"AND guest_id = '".$a_id."'";
+			"WHERE room_id = ".$ilDB->quote( $this->getRoomId() )." ".
+			"AND guest_id = ".$ilDB->quote( $a_id )."";
 
 		$res = $this->ilias->db->query($query);
 	}
 
 	function visited($a_id)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE chat_invitations SET guest_informed = 1 ".
-			"WHERE room_id = '".$this->getRoomId()."' ".
-			"AND guest_id = '".$a_id."'";
+			"WHERE room_id = ".$ilDB->quote( $this->getRoomId() )." ".
+			"AND guest_id = ".$ilDB->quote( $a_id )."";
 
 		$res = $this->ilias->db->query($query);
 	}
@@ -169,11 +175,13 @@ class ilChatRoom
 
 	function isInvited($a_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM chat_invitations AS ci JOIN chat_rooms AS ca ".
 			"WHERE ci.room_id = ca.room_id ".
-			"AND ci.room_id = '".$this->getRoomId()."' ".
-			"AND owner = '".$this->getOwnerId()."' ".
-			"AND ci.guest_id = '".$a_id."'";
+			"AND ci.room_id = ".$ilDB->quote($this->getRoomId())." ".
+			"AND owner = ".$ilDB->quote($this->getOwnerId())." ".
+			"AND ci.guest_id = ".$ilDB->quote($a_id)."";
 
 		$res = $this->ilias->db->query($query);
 		
@@ -197,9 +205,11 @@ class ilChatRoom
 	}
 	function getAllMessages()
 	{
+		global $ilDB;
+		
 		$query = "SELECT message FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getObjId()."' ".
-			"AND room_id = '".$this->getRoomId()."' ".
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND room_id = ".$ilDB->quote($this->getRoomId())." ".
 			"ORDER BY commit_timestamp ";
 
 		$res = $this->ilias->db->query($query);
@@ -211,9 +221,11 @@ class ilChatRoom
 	}
 	function deleteAllMessages()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getObjId()."' ".
-			"AND room_id = '".$this->getRoomId()."'";
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -223,14 +235,16 @@ class ilChatRoom
 	function updateLastVisit()
 	{
 		// CHECK IF OLD DATA EXISTS
+		global $ilDB;
+		
 		$query = "DELETE FROM chat_user ".
-			"WHERE usr_id = '".$this->getUserId()."'";
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId())."";
 		$res = $this->ilias->db->query($query);
 
 		$query = "INSERT INTO chat_user ".
-			"SET usr_id = '".$this->getUserId()."', ".
-			"room_id = '".$this->getRoomId()."', ".
-			"chat_id = '".$this->getObjId()."', ".
+			"SET usr_id = ".$ilDB->quote($this->getUserId()).", ".
+			"room_id = ".$ilDB->quote($this->getRoomId()).", ".
+			"chat_id = ".$ilDB->quote($this->getObjId()).", ".
 			"last_conn_timestamp = '".time()."'";
 		$res = $this->ilias->db->query($query);
 		return true;
@@ -238,9 +252,11 @@ class ilChatRoom
 
 	function setKicked($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE chat_user SET kicked = '1' ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND chat_id = '".$this->getObjId()."' ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND chat_id = ".$ilDB->quote($this->getObjId())." ".
 			"AND room_id = '0'";
 
 		$this->ilias->db->query($query);
@@ -250,9 +266,11 @@ class ilChatRoom
 
 	function setUnkicked($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE chat_user SET kicked = '0' ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND chat_id = '".$this->getObjId()."' ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND chat_id = ".$ilDB->quote($this->getObjId())." ".
 			"AND room_id = '0'";
 
 		$this->ilias->db->query($query);
@@ -262,22 +280,25 @@ class ilChatRoom
 
 	function  isKicked($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM chat_user ".
 			"WHERE kicked = 1 ".
-			"AND usr_id = '".$a_usr_id."' ".
-			"AND chat_id = '".$this->getObjId()."'";
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND chat_id = ".$ilDB->quote($this->getObjId())."";
 
 		$res = $this->ilias->db->query($query);
 
 		return $res->numRows() ? true : false;
-	}
-		
+	}		
 
 	function getCountActiveUser($chat_id,$room_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM chat_user ".
-			"WHERE chat_id = '".$chat_id."' ".
-			"AND room_id = '".$room_id."' ".
+			"WHERE chat_id = ".$ilDB->quote($chat_id)." ".
+			"AND room_id = ".$ilDB->quote($room_id)." ".
 			"AND last_conn_timestamp > ".time()." - 40";
 		$res = $this->ilias->db->query($query);
 
@@ -289,8 +310,8 @@ class ilChatRoom
 		global $ilDB;
 
 		$query = "SELECT * FROM chat_user ".
-			"WHERE chat_id = '".$chat_id."' ".
-			"AND room_id = '".$room_id."' ".
+			"WHERE chat_id = ".$ilDB->quote($chat_id)." ".
+			"AND room_id = ".$ilDB->quote($room_id)." ".
 			"AND last_conn_timestamp > ".time()." - 40";
 		$res = $ilDB->query($query);
 
@@ -300,9 +321,11 @@ class ilChatRoom
 
 	function getActiveUsers()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM chat_user ".
-			"WHERE chat_id = '".$this->getObjId()."' ".
-			"AND room_id = '".$this->room_id."' ".
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND room_id = ".$ilDB->quote($this->room_id)." ".
 			"AND last_conn_timestamp > ".time()." - 40";
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -319,7 +342,7 @@ class ilChatRoom
 
 		$query = "SELECT * FROM chat_user ".
 			"WHERE room_id = 0 ".
-			"AND usr_id = '".(int) $usr_id."' ".
+			"AND usr_id = ".$ilDB->quote((int) $usr_id)." ".
 			"AND last_conn_timestamp > ".time()." - 40";
 		
 		$res = $ilDB->query($query);
@@ -366,49 +389,51 @@ class ilChatRoom
 	function delete($a_id, $a_owner = 0)
 	{
 		// DELETE ROOM
+		global $ilDB;
+		
 		$query = "DELETE FROM chat_rooms WHERE ".
-			"room_id = '".$a_id."'";
+			"room_id = ".$ilDB->quote($a_id)."";
 		if ($a_owner > 0)
 		{
-			" AND owner = '".$a_owner."'";
+			" AND owner = ".$ilDB->quote($a_owner)."";
 		}
 		$res = $this->ilias->db->query($query);
 
 		// DELETE INVITATIONS
 		$query = "DELETE FROM chat_invitations WHERE ".
-			"room_id = '".$a_id."'";
+			"room_id = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
 
 		// DELETE MESSAGES
 		$query = "DELETE FROM chat_room_messages WHERE ".
-			"room_id = '".$a_id."'";
+			"room_id = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
 
 		// DELETE USER_DATA
 		$query = "DELETE FROM chat_user WHERE ".
-			"room_id = '".$a_id."'";
+			"room_id = ".$ilDB->quote($a_id)."";
 		if ($a_owner > 0)
 		{
-			" AND owner = '".$a_owner."'";
+			" AND owner = ".$ilDB->quote($a_owner)."";
 		}
 		$res = $this->ilias->db->query($query);
 			
 		// AND ALL RECORDINGS
 		$query = "SELECT record_id FROM chat_records WHERE 
-					room_id = '".$a_id."'";
+					room_id = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
+		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)
 			{
 				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-				$this->ilias->db->query("DELETE FROM chat_record_data WHERE record_id = '" . $data["record_id"] . "'");
+				$this->ilias->db->query("DELETE FROM chat_record_data WHERE record_id = ".$ilDB->quote($data["record_id"])."");
 			}
 			
 		}
 		$query = "DELETE FROM chat_records WHERE 
-					room_id = '".$a_id."'";
+					room_id = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -416,9 +441,11 @@ class ilChatRoom
 
 	function rename()
 	{
+		global $ilDB;
+		
 		$query = "UPDATE chat_rooms ".
-			"SET title = '".ilUtil::prepareDBString($this->getTitle())."' ".
-			"WHERE room_id = '".$this->getRoomId()."'";
+			"SET title = ".$ilDB->quote($this->getTitle())." ".
+			"WHERE room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -427,10 +454,12 @@ class ilChatRoom
 
 	function lookupRoomId()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM chat_rooms ".
-			"WHERE title = '".ilUtil::prepareDBString($this->getTitle())."' ".
-			"AND chat_id = '".$this->getObjId()."' ".
-			"AND owner = '".$this->getOwnerId()."'";
+			"WHERE title = ".$ilDB->quote($this->getTitle())." ".
+			"AND chat_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND owner = ".$ilDB->quote($this->getOwnerId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -442,10 +471,12 @@ class ilChatRoom
 
 	function add()
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO chat_rooms ".
-			"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
-			"chat_id = '".$this->getObjId()."', ".
-			"owner = '".$this->getOwnerId()."'";
+			"SET title = ".$ilDB->quote($this->getTitle()).", ".
+			"chat_id = ".$ilDB->quote($this->getObjId()).", ".
+			"owner = ".$ilDB->quote($this->getOwnerId())."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -464,13 +495,15 @@ class ilChatRoom
 			return $this->getObjId()."_".$this->getRoomId();
 		}
 	}
+	
 	function getRooms()
 	{
 		global $tree;
+		global $ilDB;
 
 		$query = "SELECT DISTINCT(cr.room_id) as room_id,owner,title,chat_id FROM chat_rooms AS cr NATURAL LEFT JOIN chat_invitations ".
-			"WHERE (owner = '".$this->getUserId()."') ".
-			"OR (guest_id = '".$this->getUserId()."')";
+			"WHERE (owner = ".$ilDB->quote($this->getUserId()).") ".
+			"OR (guest_id = ".$ilDB->quote($this->getUserId()).")";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -482,14 +515,14 @@ class ilChatRoom
 		}
 		return $data ? $data : array();
 	}
-		
-
 
 	function getRoomsOfObject()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM chat_rooms ".
-			"WHERE chat_id = '".$this->getObjId()."' ".
-			"AND owner = '".$this->getUserId()."'";
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND owner = ".$ilDB->quote($this->getUserId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -501,10 +534,13 @@ class ilChatRoom
 		}
 		return $data ? $data : array();
 	}
+	
 	function getAllRoomsOfObject()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM chat_rooms ".
-			"WHERE chat_id = '".$this->getObjId()."'";
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -564,9 +600,11 @@ class ilChatRoom
 	// PRIVATE
 	function __getCountLines()
 	{
+		global $ilDB;
+		
 		$query = "SELECT COUNT(entry_id) as number_lines FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getObjId()."' ".
-			"AND room_id = '".$this->getRoomId()."'";
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -575,11 +613,14 @@ class ilChatRoom
 		}
 		return 0;
 	}
+	
 	function __deleteFirstLine()
 	{
+		global $ilDB;
+		
 		$query = "SELECT entry_id, MIN(commit_timestamp) as last_comm FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getObjId()."' ".
-			"AND room_id = '".$this->getRoomId()."' ".
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId()). " ".
+			"AND room_id = ".$ilDB->quote($this->getRoomId()). " ".
 			"GROUP BY null";
 
 		$res = $this->ilias->db->query($query);
@@ -590,16 +631,19 @@ class ilChatRoom
 		if($entry_id)
 		{
 			$query = "DELETE FROM chat_room_messages ".
-				"WHERE entry_id = '".$entry_id."'";
+				"WHERE entry_id = ".$ilDB->quote($entry_id)."";
 			
 			$res = $this->ilias->db->query($query);
 		}
 		return true;
 	}
+	
 	function __addLine($message)
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO chat_room_messages ".
-			"VALUES('0','".$this->getObjId()."','".$this->getRoomId()."','".addslashes($message)."',now())";
+			"VALUES('0',".$ilDB->quote($this->getObjId()).",".$ilDB->quote($this->getRoomId()).",".$ilDB->quote($message).",NOW())";
 		
 		$res = $this->ilias->db->query($query);
 
@@ -609,8 +653,8 @@ class ilChatRoom
 		{
 			$query = "INSERT INTO chat_record_data VALUES (
 						'0', 
-						'" . $this->chat_record->getRecordId() . "', 
-						'" . ilUtil::addslashes($message) . "', 
+						".$ilDB->quote($this->chat_record->getRecordId()).", 
+						".$ilDB->quote($message).", 
 						'" . time() . "')";
 
 			$res = $this->ilias->db->query($query);
@@ -622,10 +666,12 @@ class ilChatRoom
 
 	function __read()
 	{
+		global $ilDB;
+		
 		$this->guests = array();
 
 		$query = "SELECT * FROM chat_rooms ".
-			"WHERE room_id = '".$this->getRoomId()."'";
+			"WHERE room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -635,7 +681,7 @@ class ilChatRoom
 		}
 
 		$query = "SELECT * FROM chat_invitations ".
-			"WHERE room_id = '".$this->getRoomId()."'";
+			"WHERE room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -649,7 +695,7 @@ class ilChatRoom
 	{
 		global $ilDB;
 
-		$ilDB->query("UPDATE chat_user SET kicked = 0 WHERE usr_id = '".$a_usr_id."'");
+		$ilDB->query("UPDATE chat_user SET kicked = 0 WHERE usr_id = ".$ilDB->quote($a_usr_id)."");
 
 		return true;
 	}

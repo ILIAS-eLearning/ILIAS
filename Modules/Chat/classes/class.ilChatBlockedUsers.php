@@ -63,13 +63,15 @@ class ilChatBlockedUsers
 	}
 	function block($a_usr_id)
 	{
+		global $ilDB;
+		
 		if(in_array((int) $a_usr_id,$this->blocked) or !((int) $a_usr_id))
 		{
 			return false;
 		}
 		$query = "INSERT INTO chat_blocked ".
-			"SET chat_id = '".$this->id."', ".
-			"usr_id = '".(int) $a_usr_id."'";
+			"SET chat_id = ".$ilDB->quote($this->id).", ".
+			"usr_id = ".$ilDB->quote((int) $a_usr_id)."";
 
 		$this->db->query($query);
 		$this->__read();
@@ -79,13 +81,15 @@ class ilChatBlockedUsers
 
 	function unblock($a_usr_id)
 	{
+		global $ilDB;
+		
 		if(!in_array((int) $a_usr_id,$this->blocked))
 		{
 			return false;
 		}
 		$query = "DELETE FROM chat_blocked ".
-			"WHERE chat_id = '".$this->id."' ".
-			"AND usr_id = '".(int) $a_usr_id."'";
+			"WHERE chat_id = ".$ilDB->quote($this->id)." ".
+			"AND usr_id = ".$ilDB->quote((int) $a_usr_id). "";
 
 		$this->db->query($query);
 		$this->__read();
@@ -101,8 +105,8 @@ class ilChatBlockedUsers
 		global $ilDB;
 
 		$query = "SELECT * FROM chat_blocked ".
-			"WHERE chat_id = '".$a_chat_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE chat_id = ".$ilDB->quote($a_chat_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id )."";
 
 		$res = $ilDB->query($query);
 
@@ -115,7 +119,7 @@ class ilChatBlockedUsers
 		global $ilDB;
 
 		$query = "DELETE FROM chat_blocked ".
-			"WHERE usr_id = '".(int) $a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote((int) $a_usr_id)."";
 
 		$ilDB->query($query);
 
@@ -126,7 +130,7 @@ class ilChatBlockedUsers
 		global $ilDB;
 
 		$query = "DELETE FROM chat_blocked ".
-			"WHERE chat_id = '".(int) $a_chat_id."'";
+			"WHERE chat_id = ".$ilDB->quote((int) $a_chat_id)."";
 
 		$ilDB->query($query);
 
@@ -137,10 +141,12 @@ class ilChatBlockedUsers
 	// Private
 	function __read()
 	{
+		global $ilDB;
+		
 		$this->blocked = array();
 
 		$query = "SELECT * FROM chat_blocked ".
-			"WHERE chat_id = '".$this->id."'";
+			"WHERE chat_id = ".$ilDB->quote($this->id)."";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
