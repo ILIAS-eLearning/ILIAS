@@ -107,6 +107,8 @@ class ilObjChat extends ilObject
 
 	function delete()
 	{
+		global $ilDB;
+				
 		if(!parent::delete())
 		{
 			return false;
@@ -119,32 +121,32 @@ class ilObjChat extends ilObject
 
 		// FINALLY DELETE MESSAGES IN PUBLIC ROOM
 		$query = "DELETE FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getRefId()."'";
+			"WHERE chat_id = ".$ilDB->quote($this->getRefId())."";
 
 		$res = $this->ilias->db->query($query);
 
 		// AND ALL USERS
 		$query = "DELETE FROM chat_user ".
-			"WHERE chat_id = '".$this->getRefId()."'";
+			"WHERE chat_id = ".$ilDB->quote($this->getRefId())."";
 
 		$res = $this->ilias->db->query($query);
 
 		// AND ALL RECORDINGS
 		$query = "SELECT record_id FROM chat_records WHERE 
-					chat_id = '".$this->getId()."'";
+					chat_id = ".$ilDB->quote($this->getId())."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
+		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)
 			{
 				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-				$this->ilias->db->query("DELETE FROM chat_record_data WHERE record_id = '" . $data["record_id"] . "'");
+				$this->ilias->db->query("DELETE FROM chat_record_data WHERE record_id = ".$ilDB->quote($data["record_id"])."");
 			}
 			
 		}
 		$query = "DELETE FROM chat_records WHERE 
-					chat_id = '".$this->getId()."'";
+					chat_id = ".$ilDB->quote($this->getId())."";
 		$res = $this->ilias->db->query($query);
 
 		return true;
