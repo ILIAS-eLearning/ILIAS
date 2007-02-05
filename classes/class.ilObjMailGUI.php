@@ -54,7 +54,7 @@ class ilObjMailGUI extends ilObjectGUI
 		
 		$this->lng->loadLanguageModule("mail");
 
-		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.mail_basicdata.html");
+		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.mail_basicdata.html", "Services/Mail");
 		$this->tpl->setCurrentBlock("systemsettings");
 
 		$settings = $this->ilias->getAllSettings();
@@ -189,7 +189,8 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
-		$this->getTemplateFile("import");
+		#$this->getTemplateFile("import");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_import.html", "Services/Mail");
 
 		// GET ALREADY CREATED UPLOADED XML FILE
 		$this->__initFileObject();
