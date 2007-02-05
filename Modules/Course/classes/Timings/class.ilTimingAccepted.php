@@ -93,12 +93,14 @@ class ilTimingAccepted
 
 	function create()
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO crs_timings_usr_accept ".
-			"SET crs_id = '".$this->getCourseId()."', ".
-			"usr_id = '".$this->getUserId()."', ".
-			"visible = '".(int) $this->isVisible()."', ".
-			"accept = '".(int) $this->isAccepted()."', ".
-			"remark = '".ilUtil::prepareDBString($this->getRemark())."'";
+			"SET crs_id = ".$ilDB->quote($this->getCourseId()).", ".
+			"usr_id = ".$ilDB->quote($this->getUserId()).", ".
+			"visible = ".$ilDB->quote($this->isVisible()).", ".
+			"accept = ".$ilDB->quote($this->isAccepted()).", ".
+			"remark = ".$ilDB->quote($this->getRemark())." ";
 		$this->db->query($query);
 	}
 
@@ -112,8 +114,8 @@ class ilTimingAccepted
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
-			"WHERE crs_id = '".$a_crs_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE crs_id = ".$ilDB->quote($a_crs_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$ilDB->query($query);
 	}
 
@@ -122,7 +124,7 @@ class ilTimingAccepted
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
-			"WHERE crs_id = '".$a_crs_id."'";
+			"WHERE crs_id = ".$ilDB->quote($a_crs_id)." ";
 		$ilDB->query($query);
 	}
 
@@ -131,15 +133,17 @@ class ilTimingAccepted
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
-			"WHERE usr_id = '".$a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 		$ilDB->query($query);
 	}
 
 	function __read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_timings_usr_accept ".
-			"WHERE crs_id = '".$this->getCourseId()."' ".
-			"AND usr_id = '".$this->getUserId()."'";
+			"WHERE crs_id = ".$ilDB->quote($this->getCourseId())." ".
+			"AND usr_id = ".$this->getUserId()."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

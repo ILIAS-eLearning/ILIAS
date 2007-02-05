@@ -77,7 +77,7 @@ class ilCourseUserData
 		{
 			return array();
 		}
-		$where = ("WHERE field_id IN ('".implode("','",$field_ids)."') ");
+		$where = ("WHERE field_id IN (".implode(",",ilUtil::quoteArray($field_ids)).") ");
 		
 		$query = "SELECT * FROM crs_user_data ".
 			$where;
@@ -113,7 +113,7 @@ class ilCourseUserData
 			return true;
 		}
 		
-		$and = ("AND field_id IN ('".implode("','",$required)."')");
+		$and = ("AND field_id IN (".implode(",",ilUtil::quoteArray($required)).")");
 		$query = "SELECT COUNT(*) as num_entries FROM crs_user_data ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND value != '' ".

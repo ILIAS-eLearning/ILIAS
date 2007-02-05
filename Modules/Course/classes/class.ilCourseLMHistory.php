@@ -68,18 +68,18 @@ class ilCourseLMHistory
 
 		// Delete old entries
 		$query = "DELETE FROM crs_lm_history ".
-			"WHERE lm_ref_id = '".$a_lm_ref_id."' ".
-			"AND usr_id = '".$a_user_id."'";
+			"WHERE lm_ref_id = ".$ilDB->quote($a_lm_ref_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_user_id)."";
 
 		$ilDB->query($query);
 
 		// Add new entry
 		$query = "INSERT INTO crs_lm_history ".
-			"SET usr_id = '".$a_user_id."', ".
-			"crs_ref_id = '".$crs_ref_id."', ".
-			"lm_ref_id = '".$a_lm_ref_id."', ".
-			"lm_page_id = '".$a_page_id."', ".
-			"last_access = '".time()."'";
+			"SET usr_id = ".$ilDB->quote($a_user_id).", ".
+			"crs_ref_id = ".$ilDB->quote($crs_ref_id).", ".
+			"lm_ref_id = ".$ilDB->quote($a_lm_ref_id).", ".
+			"lm_page_id = ".$ilDB->quote($a_page_id).", ".
+			"last_access = ".$ilDB->quote(time())."";
 
 		$ilDB->query($query);
 
@@ -88,9 +88,11 @@ class ilCourseLMHistory
 
 	function getLastLM()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_lm_history ".
-			"WHERE usr_id = '".$this->getUserId()."' ".
-			"AND crs_ref_id = '".$this->getCourseRefId()."' ".
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId())." ".
+			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId())." ".
 			"ORDER BY last_access ";
 
 		$res = $this->db->query($query);
@@ -103,9 +105,11 @@ class ilCourseLMHistory
 
 	function getLMHistory()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_lm_history ".
-			"WHERE usr_id = '".$this->getUserId()."' ".
-			"AND crs_ref_id = '".$this->getCourseRefId()."'";
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId())." ".
+			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId())."";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -121,7 +125,7 @@ class ilCourseLMHistory
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_lm_history WHERE usr_id = '".$a_usr_id."'";
+		$query = "DELETE FROM crs_lm_history WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$ilDB->query($query);
 
 		return true;

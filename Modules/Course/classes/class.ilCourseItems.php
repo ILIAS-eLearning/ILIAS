@@ -94,8 +94,8 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		} 
 
 		$query = "SELECT * FROM crs_items ".
-			"WHERE timing_type = '".IL_CRS_TIMINGS_PRESETTING."' ".
-			"AND obj_id IN('".implode("','",$ids)."')";
+			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
+			"AND obj_id IN(".implode(",",ilUtil::quoteArray($ids)).")";
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;
@@ -113,10 +113,10 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		}
 
 		$query = "SELECT * FROM crs_items ".
-			"WHERE timing_type = '".IL_CRS_TIMINGS_PRESETTING."' ".
+			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
 			"AND changeable = '1' ".
-			"AND obj_id IN('".implode("','",$ref_ids)."') ".
-			"AND parent_id IN('".implode("','",$ref_ids)."')";
+			"AND obj_id IN(".implode(",",$ilDB->quote($ref_ids)).") ".
+			"AND parent_id IN(".implode(",",$ilDB->quote($ref_ids)).")";
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;
@@ -321,18 +321,20 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function update($a_item_id)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE crs_items SET ".
-			"timing_type = '".(int) $this->getTimingType()."', ".
-			"timing_start = '".(int) $this->getTimingStart()."', ".
-			"timing_end = '".(int) $this->getTimingEnd()."', ".
-			"suggestion_start = '".(int) $this->getSuggestionStart()."', ".
-			"suggestion_end = '".(int) $this->getSuggestionEnd()."', ".
-			"changeable = '".(int) $this->enabledChangeable()."', ".
-			"earliest_start = '".(int) $this->getEarliestStart()."', ".
-			"latest_end = '".(int) $this->getLatestEnd()."', ".
-			"visible = '".(int) $this->enabledVisible()."' ".
-			"WHERE parent_id = '".$this->getParentId()."' ".
-			"AND obj_id = '".$a_item_id."'";
+			"timing_type = ".$ilDB->quote($this->getTimingType()).", ".
+			"timing_start = ".$ilDB->quote($this->getTimingStart()).", ".
+			"timing_end = ".$ilDB->quote($this->getTimingEnd()).", ".
+			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart()).", ".
+			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd()).", ".
+			"changeable = ".$ilDB->quote($this->enabledChangeable()).", ".
+			"earliest_start = ".$ilDB->quote($this->getEarliestStart()).", ".
+			"latest_end = ".$ilDB->quote($this->getLatestEnd()).", ".
+			"visible = ".$ilDB->quote($this->enabledVisible())." ".
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ".
+			"AND obj_id = ".$ilDB->quote($a_item_id)."";
 
 		$res = $this->ilDB->query($query);
 		$this->__read();
@@ -358,17 +360,19 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function deleteAllEntries()
 	{
+		global $ilDB;
+		
 		$all_items = $this->tree->getChilds($this->parent);
 
 		foreach($all_items as $item)
 		{
 			$query = "DELETE FROM crs_items ".
-				"WHERE parent_id = '".$item["child"]."'";
+				"WHERE parent_id = ".$ilDB->quote($item["child"])."";
 
 			$this->ilDB->query($query);
 		}
 		$query = "DELETE FROM crs_items ".
-			"WHERE parent_id = '".$this->course_obj->getRefId()."'";
+			"WHERE parent_id = ".$ilDB->quote($this->course_obj->getRefId())." ";
 		
 		$this->ilDB->query($query);
 
@@ -406,12 +410,12 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function __purgeDeleted()
 	{
-		global $tree;
+		global $tree,$ilDB;
 
 		$all = array();
 
 		$query = "SELECT obj_id FROM crs_items ".
-			"WHERE parent_id = '".$this->getParentId()."'";
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -425,10 +429,12 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function __delete($a_obj_id)
 	{
+		global $ilDB;
+		
 		// READ POSITION
 		$query = "SELECT position FROM crs_items ".
-			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND parent_id = '".$this->getParentId()."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId())." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -439,18 +445,18 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		// UPDATE positions
 		$query = "UPDATE crs_items SET ".
 			"position = CASE ".
-			"WHEN position > '".$position."' ".
+			"WHEN position > ".$ilDB->quote($position)." ".
 			"THEN position - 1 ".
 			"ELSE position ".
 			"END ".
-			"WHERE parent_id = '".$this->getParentId()."'";
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
 
 		$res = $this->ilDB->query($query);
 
 		// DELETE ENTRY
 		$query = "DELETE FROM crs_items ".
-			"WHERE parent_id = '".$this->getParentId()."' ".
-			"AND obj_id = '".$a_obj_id."'";
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $this->ilDB->query($query);
 
@@ -462,8 +468,8 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		global $ilDB,$ilUser,$ilObjDataCache;
 
 		$query = "SELECT * FROM crs_items  ".
-			"WHERE obj_id = '".$a_item['child']."' ".
-			"AND parent_id = '".$a_item['parent']."'";
+			"WHERE obj_id = ".$ilDB->quote($a_item['child'])." ".
+			"AND parent_id = ".$ilDB->quote($a_item['parent'])." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -530,6 +536,8 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function createDefaultEntry($a_item)
 	{
+		global $ilDB;
+		
 		$a_item["timing_type"] = IL_CRS_TIMINGS_DEACTIVATED;
 		$a_item["timing_start"]		= time();
 		$a_item["timing_end"]		= time();
@@ -545,18 +553,18 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		
 
 		$query = "INSERT INTO crs_items ".
-			"VALUES('".$a_item['parent']."','".
-			$a_item["child"]."','".
-			$a_item["timing_type"]."','".
-			$a_item["timing_start"]."','".
-			$a_item["timing_end"]."','".
-			$a_item["suggestion_start"]."','".
-			$a_item["suggestion_end"]."','".
-			$a_item["changeable"]."','".
-			$a_item['earliest_start']."',' ".
-			$a_item['latest_end']."',' ".
-			$a_item["visible"]."','".
-			$a_item["position"]."')";
+			"VALUES(".$ilDB->quote($a_item['parent']).",".
+			$ilDB->quote($a_item["child"]).",".
+			$ilDB->quote($a_item["timing_type"]).",".
+			$ilDB->quote($a_item["timing_start"]).",".
+			$ilDB->quote($a_item["timing_end"]).",".
+			$ilDB->quote($a_item["suggestion_start"]).",".
+			$ilDB->quote($a_item["suggestion_end"]).",".
+			$ilDB->quote($a_item["changeable"]).",".
+			$ilDB->quote($a_item['earliest_start']).", ".
+			$ilDB->quote($a_item['latest_end']).", ".
+			$ilDB->quote($a_item["visible"]).",".
+			$ilDB->quote($a_item["position"]).")";
 
 		$res = $this->ilDB->query($query);
 
@@ -566,8 +574,10 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 	// methods for manual sortation
 	function __getLastPosition()
 	{
+		global $ilDB;
+		
 		$query = "SELECT MAX(position) as last_position FROM crs_items ".
-			"WHERE parent_id = '".$this->getParentId()."'";
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -579,9 +589,11 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function __updateTop($item_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT position,obj_id FROM crs_items ".
-			"WHERE obj_id = '".$item_id."' ".
-			"AND parent_id = '".$this->getParentId()."'";
+			"WHERE obj_id = ".$ilDB->quote($item_id)." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -591,8 +603,8 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		}
 
 		$query = "SELECT position, obj_id FROM crs_items ".
-			"WHERE position < '".$node_a["position"]."' ".
-			"AND parent_id = '".$this->getParentId()."' ".
+			"WHERE position < ".$ilDB->quote($node_a["position"])." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId())." ".
 			"ORDER BY position DESC";
 
 		$res = $this->ilDB->query($query);
@@ -612,9 +624,11 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function __updateBottom($item_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT position,obj_id FROM crs_items ".
-			"WHERE obj_id = '".$item_id."' ".
-			"AND parent_id = '".$this->getParentId()."'";
+			"WHERE obj_id = ".$ilDB->quote($item_id)." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -624,8 +638,8 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 			break;
 		}
 		$query = "SELECT position ,obj_id FROM crs_items ".
-			"WHERE position > '".$node_a["position"]."' ".
-			"AND parent_id = '".$this->getParentId()."' ".
+			"WHERE position > ".$ilDB->quote($node_a["position"])." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId())." ".
 			"ORDER BY position ASC";
 
 		$res = $this->ilDB->query($query);
@@ -663,22 +677,24 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function __switchNodes($node_a,$node_b)
 	{
+		global $ilDB;
+		
 		if(!$node_b["obj_id"])
 		{
 			return false;
 		}
 
 		$query = "UPDATE crs_items SET ".
-			"position = '".$node_a["position"]."' ".
-			"WHERE obj_id = '".$node_b["obj_id"]."' ".
-			"AND parent_id = '".$this->getParentId()."'";
+			"position = ".$ilDB->quote($node_a["position"])." ".
+			"WHERE obj_id = ".$ilDB->quote($node_b["obj_id"])." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
 
 		$res = $this->ilDB->query($query);
 
 		$query = "UPDATE crs_items SET ".
-			"position = '".$node_b["position"]."' ".
-			"WHERE obj_id = '".$node_a["obj_id"]."' ".
-			"AND parent_id = '".$this->getParentId()."'";
+			"position = ".$ilDB->quote($node_b["position"])." ".
+			"WHERE obj_id = ".$ilDB->quote($node_a["obj_id"])." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
 
 		$res = $this->ilDB->query($query);
 
@@ -803,7 +819,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_items ".
-			"WHERE obj_id = '".$a_item_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_item_id)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

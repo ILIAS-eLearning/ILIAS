@@ -209,20 +209,22 @@ class ilEvent
 
 	function create()
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO event SET ".
-			"obj_id = '".$this->getObjId()."', ".
-			"title = '".ilUtil::prepareDBString($this->getTitle())."', ".
-			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
-			"location = '".ilUtil::prepareDBString($this->getLocation())."',".
+			"obj_id = ".$ilDB->quote($this->getObjId()).", ".
+			"title = ".$ilDB->quote($this->getTitle()).", ".
+			"description = ".$ilDB->quote($this->getDescription()).", ".
+			"location = ".$ilDB->quote($this->getLocation()).",".
 			#"tutor_firstname = '".ilUtil::prepareDBString($this->getFirstname())."', ".
 			#"tutor_lastname = '".ilUtil::prepareDBString($this->getLastname())."', ".
-			"tutor_name = '".ilUtil::prepareDBString($this->getName())."', ".
+			"tutor_name = ".$ilDB->quote($this->getName()).", ".
 			#"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
-			"tutor_phone = '".ilUtil::prepareDBString($this->getPhone())."', ".
-			"tutor_email = '".ilUtil::prepareDBString($this->getEmail())."', ".
-			"details = '".ilUtil::prepareDBString($this->getDetails())."',".
-			"registration = '".(int) $this->enabledRegistration()."', ".
-			"participation = '".(int) $this->enabledParticipation()."'";
+			"tutor_phone = ".$ilDB->quote($this->getPhone()).", ".
+			"tutor_email = ".$ilDB->quote($this->getEmail()).", ".
+			"details = ".$ilDB->quote($this->getDetails()).",".
+			"registration = ".$ilDB->quote($this->enabledRegistration()).", ".
+			"participation = ".$ilDB->quote($this->enabledParticipation())."";
 
 		$this->db->query($query);
 		$this->setEventId($this->db->getLastInsertId());
@@ -232,24 +234,26 @@ class ilEvent
 
 	function update()
 	{
+		global $ilDB;
+		
 		if(!$this->event_id)
 		{
 			return false;
 		}
 
 		$query = "UPDATE event SET ".
-			"title = '".ilUtil::prepareDBString($this->getTitle())."', ".
-			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
-			"location = '".ilUtil::prepareDBString($this->getLocation())."',".
+			"title = ".$ilDB->quote($this->getTitle()).", ".
+			"description = ".$ilDB->quote($this->getDescription()).", ".
+			"location = ".$ilDB->quote($this->getLocation()).",".
 			#"tutor_firstname = '".ilUtil::prepareDBString($this->getFirstname())."', ".
-			"tutor_name = '".ilUtil::prepareDBString($this->getName())."', ".
+			"tutor_name = ".$ilDB->quote($this->getName()).", ".
 			#"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
-			"tutor_phone = '".ilUtil::prepareDBString($this->getPhone())."', ".
-			"tutor_email = '".ilUtil::prepareDBString($this->getEmail())."', ".
-			"details = '".ilUtil::prepareDBString($this->getDetails())."', ".
-			"registration = '".(int) $this->enabledRegistration()."', ".
-			"participation = '".(int) $this->enabledParticipation()."' ".
-			"WHERE event_id = '".$this->getEventId()."'";
+			"tutor_phone = ".$ilDB->quote($this->getPhone()).", ".
+			"tutor_email = ".$ilDB->quote($this->getEmail()).", ".
+			"details = ".$ilDB->quote($this->getDetails()).", ".
+			"registration = ".$ilDB->quote($this->enabledRegistration()).", ".
+			"participation = ".$ilDB->quote($this->enabledParticipation())." ".
+			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 
 		$this->db->query($query);
 		return true;
@@ -288,7 +292,7 @@ class ilEvent
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM event WHERE event_id = '".$a_event_id."'";
+		$query = "DELETE FROM event WHERE event_id = ".$ilDB->quote($a_event_id)." ";
 		$ilDB->query($query);
 
 		ilEventAppointment::_deleteByEvent($a_event_id);
@@ -308,7 +312,7 @@ class ilEvent
 		global $ilDB;
 
 		$query = "SELECT * FROM event ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -321,16 +325,16 @@ class ilEvent
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM event WHERE event_id = '".$a_event_id."'";
+		$query = "SELECT * FROM event WHERE event_id = ".$ilDB->quote($a_event_id)." ";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
 
-	function _lookupCourseId()
+	function _lookupCourseId($a_event_id)
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM event WHERE event_id = '".$a_event_id."'";
+		$query = "SELECT * FROM event WHERE event_id = ".$ilDB->quote($a_event_id)."";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -345,7 +349,7 @@ class ilEvent
 
 		$query = "SELECT * FROM event ".
 			"JOIN event_appointment ON event.event_id = event_appointment.event_id ".
-			"WHERE event.obj_id = '".$a_obj_id."' ".
+			"WHERE event.obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"ORDER BY starting_time";
 
 		$res = $ilDB->query($query);
@@ -377,13 +381,15 @@ class ilEvent
 	// PRIVATE
 	function __read()
 	{
+		global $ilDB;
+		
 		if(!$this->event_id)
 		{
 			return true;
 		}
 
 		// read event data
-		$query = "SELECT * FROM event WHERE event_id = '".$this->event_id."'";
+		$query = "SELECT * FROM event WHERE event_id = ".$ilDB->quote($this->event_id)." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

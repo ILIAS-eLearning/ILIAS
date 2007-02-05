@@ -73,8 +73,8 @@ class ilCourseObjectiveResult
 			return array();
 		}
 		$query = "SELECT objective_id FROM crs_objective_status ".
-			"WHERE objective_id IN ('".implode("','",$objectives)."') ".
-			"AND user_id = '".$a_user_id."'";
+			"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives))." ) ".
+			"AND user_id = ".$ilDB->quote($a_user_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -99,8 +99,8 @@ class ilCourseObjectiveResult
 		{
 			// check finished
 			$query = "SELECT objective_id FROM crs_objective_status ".
-				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
-				"AND user_id = '".$a_user_id."'";
+				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
+				"AND user_id = ".$ilDB->quote($a_user_id)." ";
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -111,8 +111,8 @@ class ilCourseObjectiveResult
 		{
 			// Pretest 
 			$query = "SELECT objective_id FROM crs_objective_status_pretest ".
-				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
-				"AND user_id = '".$a_user_id."'";
+				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
+				"AND user_id = ".$ilDB->quote($a_user_id)."";
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -131,6 +131,8 @@ class ilCourseObjectiveResult
 
 	function reset($a_course_id)
 	{
+		global $ilDB;
+		
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
@@ -154,13 +156,13 @@ class ilCourseObjectiveResult
 		if(count($objectives))
 		{
 			$query = "DELETE FROM crs_objective_status ".
-				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
-				"AND user_id = '".$this->getUserId()."'";
+				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
+				"AND user_id = ".$ilDB->quote($this->getUserId())." ";
 			$this->db->query($query);
 
 			$query = "DELETE FROM crs_objective_status_pretest ".
-				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
-				"AND user_id = '".$this->getUserId()."'";
+				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
+				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 			$this->db->query($query);
 		}
 
@@ -215,9 +217,11 @@ class ilCourseObjectiveResult
 
 	function hasAccomplishedObjective($a_objective_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT status FROM crs_objective_status ".
-			"WHERE objective_id = '".$a_objective_id."' ".
-			"AND user_id = '".$this->getUserId()."'";
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id)." ".
+			"AND user_id = ".$ilDB->quote($this->getUserId())."";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -243,16 +247,18 @@ class ilCourseObjectiveResult
 	// PRIVATE
 	function __deleteEntries($a_objective_ids)
 	{
+		global $ilDB;
+		
 		if(!count($a_objective_ids))
 		{
 			return true;
 		}
-		$in = "IN ('";
-		$in .= implode("','",$a_objective_ids);
-		$in .= "')";
+		$in = "IN (";
+		$in .= implode(",",ilUtil::quoteArray($a_objective_ids));
+		$in .= ")";
 
 		$query = "DELETE FROM crs_objective_results ".
-			"WHERE usr_id = '".$this->getUserId()."' ".
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId())." ".
 			"AND question_id ".$in;
 		$this->db->query($query);
 	}
@@ -262,22 +268,21 @@ class ilCourseObjectiveResult
 		global $ilDB;
 
 		$query = "DELETE FROM crs_objective_results ".
-			"WHERE usr_id = '".$user_id."'";
+			"WHERE usr_id = ".$ilDB->quote($user_id)." ";
 		$ilDB->query($query);
 		
 		$query = "DELETE FROM crs_objective_status ".
-			"WHERE user_id = '".$user_id."'";
+			"WHERE user_id = ".$ilDB->quote($user_id)." ";
 		$ilDB->query($query);
 
 		$query = "DELETE FROM crs_objective_status_pretest ".
-			"WHERE user_id = '".$user_id."'";
+			"WHERE user_id = ".$ilDB->quote($user_id)." ";
 		$ilDB->query($query);
 		return true;
 	}
 
 	function _updateObjectiveResult($a_user_id,$a_active_id,$a_question_id)
 	{
-
 		// find all objectives this question is assigned to
 		if(!$objectives = ilCourseObjectiveResult::_readAssignedObjectivesOfQuestion($a_question_id))
 		{
@@ -297,7 +302,7 @@ class ilCourseObjectiveResult
 		// get all objtives and questions this current question is assigned to
 		$query = "SELECT q2.question_id as qid,q2.objective_id as ob FROM crs_objective_qst as q1, ".
 			"crs_objective_qst as q2 ".
-			"WHERE q1.question_id = '".$a_question_id."' ".
+			"WHERE q1.question_id = ".$ilDB->quote($a_question_id)." ".
 			"AND q1.objective_id = q2.objective_id ";
 
 		$res = $ilDB->query($query);
@@ -323,7 +328,7 @@ class ilCourseObjectiveResult
 		$query = "SELECT t.objective_id as obj,t.ref_id as ref, question_id,tst_status,tst_limit ".
 			"FROM crs_objective_tst as t JOIN crs_objective_qst as q ".
 			"ON (t.objective_id = q.objective_id AND t.ref_id = q.ref_id) ".
-			"WHERE t.objective_id IN ('".implode("','",$a_all_objectives)."')";
+			"WHERE t.objective_id IN (".implode(",",ilUtil::quoteArray($a_all_objectives)).")";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -348,7 +353,7 @@ class ilCourseObjectiveResult
 
 		// Read reachable points
 		$query = "SELECT question_id,points FROM qpl_questions ".
-			"WHERE question_id IN('".implode("','",$objectives['all_questions'])."')";
+			"WHERE question_id IN(".implode(",",ilUtil::quoteArray($objectives['all_questions'])).")";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -357,8 +362,8 @@ class ilCourseObjectiveResult
 		// Read reached points
 		$query = "SELECT question_fi, MAX(points) as reached FROM tst_test_result JOIN tst_active ".
 			"ON (active_id = active_fi) ".
-			"WHERE user_fi = '".$a_user_id."' ".
-			"AND question_fi IN ('".implode("','",$objectives['all_questions'])."') ".
+			"WHERE user_fi = ".$ilDB->quote($a_user_id)." ".
+			"AND question_fi IN (".implode(",",ilUtil::quoteArray($objectives['all_questions'])).") ".
 			"GROUP BY question_fi,user_fi";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -428,15 +433,15 @@ class ilCourseObjectiveResult
 		
 		$query = "SELECT COUNT(t1.crs_id) AS num,t1.crs_id FROM crs_objectives as t1 ".
 			"JOIN crs_objectives as t2 WHERE t1.crs_id = t2.crs_id and t1.objective_id ".
-			"IN ('".implode("','",$objective_ids)."') ".
+			"IN (".implode(",",ilUtil::quoteArray($objective_ids)).") ".
 			"GROUP BY t1.crs_id";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$query = "SELECT COUNT(cs.objective_id) AS num_passed FROM crs_objective_status AS cs ".
 				"JOIN crs_objectives AS co ON cs.objective_id = co.objective_id ".
-				"WHERE crs_id = '".$row->crs_id."' ".
-				"AND user_id = '".$a_user_id."'";
+				"WHERE crs_id = ".$ilDB->quote($row->crs_id)." ".
+				"AND user_id = ".$ilDB->quote($a_user_id)." ";
 
 			$user_res = $ilDB->query($query);
 			while($user_row = $user_res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -450,8 +455,8 @@ class ilCourseObjectiveResult
 		if(count($passed))
 		{
 			$query = "UPDATE crs_members SET passed = '1' ".
-				"WHERE usr_id = '".$a_user_id."' ".
-				"AND obj_id IN ('".implode("','",$passed)."') ";
+				"WHERE usr_id = ".$ilDB->quote($a_user_id)." ".
+				"AND obj_id IN (".implode(",",$ilDB->quote($passed)).") ";
 			$ilDB->query($query);
 		}
 	}

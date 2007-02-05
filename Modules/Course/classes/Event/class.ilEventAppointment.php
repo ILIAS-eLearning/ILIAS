@@ -161,15 +161,17 @@ class ilEventAppointment
 
 	function create()
 	{
+		global $ilDB;
+		
 		if(!$this->getEventId())
 		{
 			return false;
 		}
 		$query = "INSERT INTO event_appointment ".
-			"SET event_id = '".$this->getEventId()."', ".
-			"starting_time = '".$this->getStartingTime()."', ".
-			"ending_time = '".$this->getEndingTime()."', ".
-			"fulltime = '".(bool) $this->enabledFullTime()."'";
+			"SET event_id = ".$ilDB->quote($this->getEventId()).", ".
+			"starting_time = ".$ilDB->quote($this->getStartingTime()).", ".
+			"ending_time = ".$ilDB->quote($this->getEndingTime()).", ".
+			"fulltime = ".$ilDB->quote($this->enabledFullTime())." ";
 
 		$this->db->query($query);
 		return true;
@@ -177,16 +179,18 @@ class ilEventAppointment
 
 	function update()
 	{
+		global $ilDB;
+		
 		if(!$this->getEventId())
 		{
 			return false;
 		}
 		$query = "UPDATE event_appointment ".
-			"SET event_id = '".$this->getEventId()."', ".
-			"starting_time = '".$this->getStartingTime()."', ".
-			"ending_time = '".$this->getEndingTime()."', ".
-			"fulltime = '".$this->enabledFullTime()."' ".
-			"WHERE appointment_id = '".$this->getAppointmentId()."'";
+			"SET event_id = ".$ilDB->quote($this->getEventId()).", ".
+			"starting_time = ".$ilDB->quote($this->getStartingTime()).", ".
+			"ending_time = ".$ilDB->quote($this->getEndingTime()).", ".
+			"fulltime = ".$ilDB->quote($this->enabledFullTime())." ".
+			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId())." ";
 
 		$this->db->query($query);
 		return true;
@@ -202,7 +206,7 @@ class ilEventAppointment
 		global $ilDB;
 
 		$query = "DELETE FROM event_appointment ".
-			"WHERE appointment_id = '".$a_appointment_id."'";
+			"WHERE appointment_id = ".$ilDB->quote($a_appointment_id)." ";
 		$this->db->query($query);
 
 		return true;
@@ -213,7 +217,7 @@ class ilEventAppointment
 		global $ilDB;
 
 		$query = "DELETE FROM event_appointment ".
-			"WHERE event_id = '".$a_event_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ";
 		$ilDB->query($query);
 
 		return true;
@@ -224,7 +228,7 @@ class ilEventAppointment
 		global $ilDB;
 
 		$query = "SELECT * FROM event_appointment ".
-			"WHERE event_id = '".$a_event_id."' ".
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
 			"ORDER BY starting_time";
 
 		$res = $ilDB->query($query);
@@ -248,13 +252,15 @@ class ilEventAppointment
 	// PRIVATE
 	function __read()
 	{
+		global $ilDB;
+		
 		if(!$this->getAppointmentId())
 		{
 			return null;
 		}
 
 		$query = "SELECT * FROM event_appointment ".
-			"WHERE appointment_id = '".$this->getAppointmentId()."'";
+			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId())." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

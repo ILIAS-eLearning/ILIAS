@@ -151,6 +151,8 @@ class ilCourseFile
 
 	function create()
 	{
+		global $ilDB;
+		
 		if($this->getErrorCode() != 0)
 		{
 			return false;
@@ -158,9 +160,9 @@ class ilCourseFile
 
 		$query = "INSERT INTO crs_file ".
 			"SET course_id = '".$this->getCourseId()."', ".
-			"file_name = '".ilUtil::prepareDBString($this->getFileName())."', ".
-			"file_size = '".ilUtil::prepareDBString($this->getFileSize())."', ".
-			"file_type = '".ilUtil::prepareDBString($this->getFileType())."' ";
+			"file_name = ".$ilDB->quote($this->getFileName()).", ".
+			"file_size = ".$ilDB->quote($this->getFileSize()).", ".
+			"file_type = ".$ilDB->quote($this->getFileType())." ";
 		
 		$res = $this->db->query($query);
 		$this->setFileId($this->db->getLastInsertId());
@@ -177,9 +179,11 @@ class ilCourseFile
 
 	function delete()
 	{
+		global $ilDB;
+		
 		// Delete db entry
 		$query = "DELETE FROM crs_file ".
-			"WHERE file_id = '".$this->getFileId()."'";
+			"WHERE file_id = ".$ilDB->quote($this->getFileId())."";
 		$this->db->query($query);
 
 		// Delete file
@@ -194,7 +198,7 @@ class ilCourseFile
 
 		// delete all course ids and delete assigned files
 		$query = "DELETE FROM crs_file ".
-			"WHERE course_id = '".$a_course_id."'";
+			"WHERE course_id = ".$ilDB->quote($a_course_id)."";
 		$res = $ilDB->query($query);
 
 		ilUtil::delDir(ilUtil::getDataDir()."/courses/course_".$a_course_id);
@@ -207,7 +211,7 @@ class ilCourseFile
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_file ".
-			"WHERE course_id = '".$a_course_id."'";
+			"WHERE course_id = ".$ilDB->quote($a_course_id)."";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

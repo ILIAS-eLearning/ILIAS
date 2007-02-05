@@ -98,11 +98,13 @@ class ilTimingPlaned
 
 	function create()
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO crs_timings_planed ".
-			"SET item_id = '".$this->getItemId()."', ".
-			"usr_id = '".$this->getUserId()."', ".
-			"planed_start = '".(int) $this->getPlanedStartingTime()."', ".
-			"planed_end = '".(int) $this->getPlanedEndingTime()."'";
+			"SET item_id = ".$ilDB->quote($this->getItemId()).", ".
+			"usr_id = ".$ilDB->quote($this->getUserId()).", ".
+			"planed_start = ".$ilDB->quote($this->getPlanedStartingTime()).", ".
+			"planed_end = ".$ilDB->quote($this->getPlanedEndingTime())." ";
 		$this->db->query($query);
 	}
 
@@ -116,8 +118,8 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_planed ".
-			"WHERE item_id = '".$a_item_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE item_id = ".$ilDB->quote($a_item_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$ilDB->query($query);
 	}
 
@@ -127,8 +129,8 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_timings_planed ".
-			"WHERE item_id = '".$a_item_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE item_id = ".$ilDB->quote($a_item_id)." ".
+			"AND usr_id = ".$a_usr_id." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -144,7 +146,7 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_timings_planed ".
-			"WHERE item_id = '".$a_item_id."'";
+			"WHERE item_id = ".$ilDB->quote($a_item_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -159,7 +161,7 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_planed ".
-			"WHERE item_id = '".$a_item_id."'";
+			"WHERE item_id = ".$ilDB->quote($a_item_id)." ";
 		$ilDB->query($query);
 	}
 
@@ -168,15 +170,17 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_planed ".
-			"WHERE usr_id = '".$a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$ilDB->query($query);
 	}
 
 	function __read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_timings_planed ".
-			"WHERE item_id = '".$this->getItemId()."' ".
-			"AND usr_id = '".$this->getUserId()."'";
+			"WHERE item_id = ".$ilDB->quote($this->getItemId())." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId())." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

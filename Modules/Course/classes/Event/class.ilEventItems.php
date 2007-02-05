@@ -79,19 +79,21 @@ class ilEventItems
 		global $ilDB;
 
 		$query = "DELETE FROM event_items ".
-			"WHERE event_id = '".$a_event_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ";
 		$ilDB->query($query);
 		return true;
 	}
 	function update()
 	{
+		global $ilDB;
+		
 		$this->delete();
 		
 		foreach($this->items as $item)
 		{
 			$query = "INSERT INTO event_items ".
-				"SET event_id = '".$this->getEventId()."', ".
-				"item_id = '".$item."'";
+				"SET event_id = ".$ilDB->quote($this->getEventId()).", ".
+				"item_id = ".$ilDB->quote($item)." ";
 			$this->db->query($query);
 		}
 		return true;
@@ -103,7 +105,7 @@ class ilEventItems
 
 		$query = "SELECT * FROM event AS e ".
 			"JOIN event_items AS ei ON e.event_id = ei.event_id ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -118,7 +120,7 @@ class ilEventItems
 		global $ilDB;
 
 		$query = "SELECT * FROM event_items ".
-			"WHERE item_id = '".$a_item_id."'";
+			"WHERE item_id = ".$ilDB->quote($a_item_id)." ";
 		$res = $ilDB->query($query);
 
 		return $res->numRows() ? true : false;
@@ -128,8 +130,10 @@ class ilEventItems
 	// PRIVATE
 	function __read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM event_items ".
-			"WHERE event_id = '".$this->getEventId()."'";
+			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 
 		$res = $this->db->query($query);
 		$this->items = array();

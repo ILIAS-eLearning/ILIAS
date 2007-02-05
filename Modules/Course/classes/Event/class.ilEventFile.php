@@ -150,16 +150,18 @@ class ilEventFile
 
 	function create()
 	{
+		global $ilDB;
+		
 		if($this->getErrorCode() != 0)
 		{
 			return false;
 		}
 
 		$query = "INSERT INTO event_file ".
-			"SET event_id = '".$this->getEventId()."', ".
-			"file_name = '".ilUtil::prepareDBString($this->getFileName())."', ".
-			"file_size = '".ilUtil::prepareDBString($this->getFileSize())."', ".
-			"file_type = '".ilUtil::prepareDBString($this->getFileType())."' ";
+			"SET event_id = ".$ilDB->quote($this->getEventId()).", ".
+			"file_name = ".$ilDB->quote($this->getFileName()).", ".
+			"file_size = ".$ilDB->quote($this->getFileSize()).", ".
+			"file_type = ".$ilDB->quote($this->getFileType())." ";
 		
 		$res = $this->db->query($query);
 		$this->setFileId($this->db->getLastInsertId());
@@ -176,9 +178,11 @@ class ilEventFile
 
 	function delete()
 	{
+		global $ilDB;
+		
 		// Delete db entry
 		$query = "DELETE FROM event_file ".
-			"WHERE file_id = '".$this->getFileId()."'";
+			"WHERE file_id = ".$this->getFileId()." ";
 		$this->db->query($query);
 
 		// Delete file
@@ -193,7 +197,7 @@ class ilEventFile
 
 		// delete all event ids and delete assigned files
 		$query = "DELETE FROM event_file ".
-			"WHERE event_id = '".$a_event_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)."";
 		$res = $ilDB->query($query);
 
 		ilUtil::delDir(ilUtil::getDataDir()."/events/event_".$a_event_id);
@@ -206,7 +210,7 @@ class ilEventFile
 		global $ilDB;
 
 		$query = "SELECT * FROM event_file ".
-			"WHERE event_id = '".$a_event_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)."";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -225,13 +229,15 @@ class ilEventFile
 
 	function __read()
 	{
+		global $ilDB;
+		
 		if(!$this->file_id)
 		{
 			return true;
 		}
 
 		// read file data
-		$query = "SELECT * FROM event_file WHERE file_id = '".$this->file_id."'";
+		$query = "SELECT * FROM event_file WHERE file_id = ".$ilDB->quote($this->file_id)."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

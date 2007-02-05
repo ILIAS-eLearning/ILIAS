@@ -93,18 +93,20 @@ class ilEventParticipants
 	}
 	function updateUser()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM event_participants ".
-			"WHERE event_id = '".$this->getEventId()."' ".
-			"AND usr_id = '".$this->getUserId()."'";
+			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId())." ";
 		$this->db->query($query);
 
 		$query = "INSERT INTO event_participants ".
-			"SET event_id = '".$this->getEventId()."', ".
-			"usr_id = '".$this->getUserId()."', ".
-			"registered = '".(int) $this->getRegistered()."', ".
-			"participated = '".(int) $this->getParticipated()."', ".
-			"mark = '".ilUtil::prepareDBString($this->getMark())."', ".
-			"comment = '".ilUtil::prepareDBString($this->getComment())."'";
+			"SET event_id = ".$ilDB->quote($this->getEventId()).", ".
+			"usr_id = ".$ilDB->quote($this->getUserId()).", ".
+			"registered = ".$ilDB->quote($this->getRegistered()).", ".
+			"participated = ".$ilDB->quote($this->getParticipated()).", ".
+			"mark = ".$ilDB->quote($this->getMark()).", ".
+			"comment = ".$ilDB->quote($this->getComment())."";
 		$this->db->query($query);
 		return true;
 	}
@@ -139,24 +141,24 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE event_participants ".
-				"SET participated = '".(int) $a_status."' ".
-				"WHERE event_id = '".$a_event_id."' ".
-				"AND usr_id = '".$a_usr_id."'";
+				"SET participated = ".$ilDB->quote($a_status)." ".
+				"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 			$ilDB->query($query);
 		}
 		else
 		{
 			$query = "INSERT INTO event_participants ".
 				"SET registered = '0', ".
-				"participated = '".(int) $a_status."', ".
-				"event_id = '".$a_event_id."', ".
-				"usr_id = '".$a_usr_id."'";
+				"participated = ".$ilDB->quote($a_status).", ".
+				"event_id = ".$ilDB->quote($a_event_id).", ".
+				"usr_id = ".$ilDB->quote($a_usr_id)." ";
 			$ilDB->query($query);
 		}
 		return true;
@@ -167,7 +169,7 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
 			"AND registered = '1'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -182,7 +184,7 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
 			"AND participated = '1'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -197,8 +199,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -212,15 +214,15 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE event_participants ".
 				"SET registered = '1' ".
-				"WHERE event_id = '".$a_event_id."' ".
-				"AND usr_id = '".$a_usr_id."'";
+				"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 			$ilDB->query($query);
 		}
 		else
@@ -228,8 +230,8 @@ class ilEventParticipants
 			$query = "INSERT INTO event_participants ".
 				"SET registered = '1', ".
 				"participated = '0', ".
-				"event_id = '".$a_event_id."', ".
-				"usr_id = '".$a_usr_id."'";
+				"event_id = ".$ilDB->quote($a_event_id).", ".
+				"usr_id = ".$ilDB->quote($a_usr_id)." ";
 			$ilDB->query($query);
 		}
 		return true;
@@ -244,15 +246,15 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE event_participants ".
 				"SET registered = '0' ".
-				"WHERE event_id = '".$a_event_id."' ".
-				"AND usr_id = '".$a_usr_id."'";
+				"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 			$ilDB->query($query);
 		}
 		else
@@ -260,8 +262,8 @@ class ilEventParticipants
 			$query = "INSERT INTO event_participants ".
 				"SET registered = '0', ".
 				"participated = '0' ".
-				"event_id = '".$a_event_id."', ".
-				"usr_id = '".$a_usr_id."'";
+				"event_id = ".$ilDB->quote($a_event_id).", ".
+				"usr_id = ".$ilDB->quote($a_usr_id)." ";
 			$ilDB->query($query);
 		}
 		return true;
@@ -276,8 +278,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -291,8 +293,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -316,7 +318,7 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "DELETE FROM event_participants ".
-			"WHERE event_id = '".$a_event_id."'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id)." ";
 		$ilDB->query($query);
 		return true;
 	}
@@ -325,7 +327,7 @@ class ilEventParticipants
 		global $ilDB;
 		
 		$query = "DELETE FROM event_participants ".
-			"WHERE usr_id = '".$a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$ilDB->query($query);
 		return true;
 	}
@@ -335,7 +337,7 @@ class ilEventParticipants
 	function __read()
 	{
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = '".$this->getEventId()."'";
+			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

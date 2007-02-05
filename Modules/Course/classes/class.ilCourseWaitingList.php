@@ -56,14 +56,16 @@ class ilCourseWaitingList
 
 	function addToList($a_usr_id)
 	{
+		global $ilDB;
+		
 		if($this->isOnList($a_usr_id))
 		{
 			return false;
 		}
 		$query = "INSERT INTO crs_waiting_list ".
-			"SET obj_id = '".$this->getCourseId()."', ".
-			"usr_id = '".$a_usr_id."', ".
-			"sub_time = '".time()."'";
+			"SET obj_id = ".$ilDB->quote($this->getCourseId()).", ".
+			"usr_id = ".$ilDB->quote($a_usr_id).", ".
+			"sub_time = ".$ilDB->quote(time())." ";
 
 		$this->db->query($query);
 		$this->__read();
@@ -73,10 +75,12 @@ class ilCourseWaitingList
 
 	function updateSubscriptionTime($a_usr_id,$a_subtime)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE crs_waiting_list ".
-			"SET sub_time = '".ilUtil::prepareDBString($a_subtime)."' ".
-			"WHERE usr_id = '".ilUtil::prepareDBString($a_usr_id)."' ".
-			"AND obj_id = '".$this->getCourseId()."'";
+			"SET sub_time = ".$ilDB->quote($a_subtime)." ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->getCourseId())." ";
 
 		$this->db->query($query);
 
@@ -85,9 +89,11 @@ class ilCourseWaitingList
 
 	function removeFromList($a_usr_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM crs_waiting_list ".
-			" WHERE obj_id = '".$this->getCourseId()."' ".
-			" AND usr_id = '".$a_usr_id."'";
+			" WHERE obj_id = ".$ilDB->quote($this->getCourseId())." ".
+			" AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 
 		$this->db->query($query);
 		$this->__read();
@@ -134,10 +140,12 @@ class ilCourseWaitingList
 	// PRIVATE
 	function __read()
 	{
+		global $ilDB;
+		
 		$this->users = array();
 
 		$query = "SELECT * FROM crs_waiting_list ".
-			"WHERE obj_id = '".$this->getCourseId()."' ORDER BY sub_time";
+			"WHERE obj_id = ".$ilDB->quote($this->getCourseId())." ORDER BY sub_time";
 
 		$res = $this->db->query($query);
 		$counter = 0;
@@ -158,7 +166,7 @@ class ilCourseWaitingList
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_waiting_list WHERE obj_id = '".$a_course_id."'";
+		$query = "DELETE FROM crs_waiting_list WHERE obj_id = ".$ilDB->quote($a_course_id)." ";
 		$ilDB->query($query);
 
 		return true;
@@ -167,7 +175,7 @@ class ilCourseWaitingList
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_waiting_list WHERE usr_id = '".$a_usr_id."'";
+		$query = "DELETE FROM crs_waiting_list WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 		$ilDB->query($query);
 
 		return true;

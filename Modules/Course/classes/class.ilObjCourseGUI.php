@@ -30,7 +30,7 @@
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilCourseContentInterface, ilConditionHandlerInterface
+* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI
 *
@@ -4360,16 +4360,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		return array("ilCourseRegisterGUI",'ilConditionHandlerInterface');
 	}
 
-	// METHODS FOR COURSE CONTENT INTERFACE
-	function initCourseContentInterface()
-	{
-		global $ilCtrl;
-
-		include_once "./Modules/Course/classes/class.ilCourseContentInterface.php";
-		
-		$this->object->ctrl =& $ilCtrl;
-		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
-	}
 
 	function cciObjectivesObject()
 	{
