@@ -326,10 +326,10 @@ class ilForumExplorer extends ilExplorer
 	*/
 	function formatHeader(&$tpl)
 	{
-		global $lng, $ilias;
+		global $lng, $ilias, $ilDB;
 
 		$frm = new ilForum();
-		$frm->setWhereCondition("thr_pk = ".$this->thread_id);
+		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($this->thread_id));
 		$threadData = $frm->getOneThread();
 
 		$tpl->setCurrentBlock("icon");
@@ -411,7 +411,9 @@ class ilForumExplorer extends ilExplorer
 
 	function __readThreadSubject()
 	{
-		$this->forum->setWhereCondition("thr_pk = ".$this->thread_id);
+		global $ilDB;
+		
+		$this->forum->setWhereCondition("thr_pk = ".$ilDB->quote($this->thread_id));
 		$threadData = $this->forum->getOneThread();
 
 		$this->thread_subject = $threadData["thr_subject"];

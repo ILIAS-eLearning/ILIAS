@@ -82,11 +82,13 @@ class ilObjForumListGUI extends ilObjectListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
+		global $ilDB;
+		
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 		$this->frm_obj =& ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$this->frm =& new ilForum();
 		$this->frm->setForumRefId($a_ref_id);
-		$this->frm->setWhereCondition("top_frm_fk = ".$a_obj_id);
+		$this->frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($a_obj_id));
 	}
 
 

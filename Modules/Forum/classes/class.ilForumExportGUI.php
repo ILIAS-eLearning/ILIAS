@@ -67,18 +67,18 @@ class ilForumExportGUI
 	*/
 	function printThread()
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $ilDB;
 		
 		$tplEx = new ilTemplate("tpl.forums_export_print.html", true, true,
 			"Modules/Forum");
 		$tplEx->setVariable("CSSPATH",$tpl->tplPath);
 
-		$this->frmEx->setWhereCondition("top_pk = ".$_GET["thr_top_fk"]);
+		$this->frmEx->setWhereCondition("top_pk = ".$ilDB->quote($_GET["thr_top_fk"]));
 		
 		// get forum- and thread-data
 		if (is_array($topicData = $this->frmEx->getOneTopic()))
 		{
-			$this->frmEx->setWhereCondition("thr_pk = ".$_GET["print_thread"]);
+			$this->frmEx->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["print_thread"]));
 			$threadData = $this->frmEx->getOneThread();			
 			
 			// get first post of thread
@@ -169,18 +169,18 @@ class ilForumExportGUI
 	*/
 	function printPost()
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $ilDB;
 		
 		$tplEx = new ilTemplate("tpl.forums_export_print.html",true,true,
 			"Modules/Forum");
 		$tplEx->setVariable("CSSPATH",$tpl->tplPath);
 
-		$this->frmEx->setWhereCondition("top_pk = ".$_GET["top_pk"]);
+		$this->frmEx->setWhereCondition("top_pk = ".$ilDB->quote($_GET["top_pk"]));
 		
 		// get forum- and thread-data
 		if (is_array($topicData = $this->frmEx->getOneTopic()))
 		{
-			$this->frmEx->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
+			$this->frmEx->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 			$threadData = $this->frmEx->getOneThread();
 			
 			// headline
@@ -257,7 +257,7 @@ class ilForumExportGUI
 	*/
 	function exportHTML()
 	{
-		global $lng, $tpl;
+		global $lng, $tpl, $ilDB;
 		
 		// Note: $startTbl = frm_data seems not to be used anymore (Alex, 2006-12-08)
 		$startTbl = "frm_threads";
@@ -271,7 +271,7 @@ class ilForumExportGUI
 			unset($topicData);
 			unset($threadData);
 			
-			$this->frmEx->setWhereCondition("top_pk = ".$_POST["forum_id"][$j]);
+			$this->frmEx->setWhereCondition("top_pk = ".$ilDB->quote($_POST["forum_id"][$j]));
 			
 			// get forum- and thread-data
 			if (is_array($topicData = $this->frmEx->getOneTopic()))
@@ -469,7 +469,7 @@ class ilForumExportGUI
 						for ($j = 0; $j < count($_POST["forum_id"]); $j++)
 						{
 							
-							$this->frmEx->setWhereCondition("thr_pk = ".$_POST["forum_id"][$j]);
+							$this->frmEx->setWhereCondition("thr_pk = ".$ilDB->quote($_POST["forum_id"][$j]));
 							$threadData = $this->frmEx->getOneThread();			
 							
 							// get first post of thread
@@ -585,8 +585,6 @@ class ilForumExportGUI
 		#header("Content-Disposition: attachment; filename=\"forum_html_export_".$_GET["ref_id"].".html\"");
 		ilUtil::deliverData($tplEx->get(),"forum_html_export_".$_GET["ref_id"].".html");
 		exit();
-		
 	}
 }
-
 ?>
