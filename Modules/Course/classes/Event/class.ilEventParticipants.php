@@ -336,6 +336,8 @@ class ilEventParticipants
 	// Private
 	function __read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 		$res = $this->db->query($query);

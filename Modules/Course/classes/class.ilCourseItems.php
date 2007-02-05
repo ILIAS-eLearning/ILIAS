@@ -115,8 +115,8 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		$query = "SELECT * FROM crs_items ".
 			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
 			"AND changeable = '1' ".
-			"AND obj_id IN(".implode(",",$ilDB->quote($ref_ids)).") ".
-			"AND parent_id IN(".implode(",",$ilDB->quote($ref_ids)).")";
+			"AND obj_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).") ".
+			"AND parent_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).")";
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;

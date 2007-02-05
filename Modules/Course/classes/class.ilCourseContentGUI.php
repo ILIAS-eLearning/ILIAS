@@ -105,6 +105,8 @@ class ilCourseContentGUI
 				$this->ctrl->setReturn($this,'');
 				$event_gui = new ilEventAdministrationGUI($this->container_gui,(int) $_GET['event_id']);
 				$this->ctrl->forwardCommand($event_gui);
+				$this->tabs_gui->clearSubTabs();
+				$this->tabs_gui->clearTargets();
 				break;
 
 			case "ilcolumngui":
