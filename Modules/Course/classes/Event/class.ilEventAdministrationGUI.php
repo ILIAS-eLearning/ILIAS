@@ -518,7 +518,7 @@ class ilEventAdministrationGUI
 		$this->tpl->parseCurrentBlock();
 
 		
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
 		$appointment_obj =& $this->event_obj->getFirstAppointment();
