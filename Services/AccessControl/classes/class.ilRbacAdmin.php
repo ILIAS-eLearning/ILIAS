@@ -68,13 +68,15 @@ class ilRbacAdmin
 	*/
 	function removeUser($a_usr_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::removeUser(): No usr_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "DELETE FROM rbac_ua WHERE usr_id='".$a_usr_id."'";
+		$q = "DELETE FROM rbac_ua WHERE usr_id = ".$ilDB->query($a_usr_id)." ";
 		$this->ilDB->query($q);
 		
 		return true;
@@ -89,7 +91,7 @@ class ilRbacAdmin
 	*/
 	function deleteRole($a_rol_id,$a_ref_id)
 	{
-		global $lng;
+		global $lng,$ilDB;
 
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
@@ -108,12 +110,12 @@ class ilRbacAdmin
 		
 		// delete user assignements
 		$q = "DELETE FROM rbac_ua ".
-			 "WHERE rol_id = '".$a_rol_id ."'";
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id) ." ";
 		$this->ilDB->query($q);
 		
 		// delete permission assignments
 		$q = "DELETE FROM rbac_pa ".
-			 "WHERE rol_id = '".$a_rol_id."'";
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ";
 		$this->ilDB->query($q);
 		
 		//delete rbac_templates and rbac_fa
@@ -130,6 +132,8 @@ class ilRbacAdmin
 	*/
 	function deleteTemplate($a_obj_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_obj_id))
 		{
 			$message = get_class($this)."::deleteTemplate(): No obj_id given!";
@@ -137,11 +141,11 @@ class ilRbacAdmin
 		}
 
 		$q = "DELETE FROM rbac_templates ".
-			 "WHERE rol_id = '".$a_obj_id ."'";
+			 "WHERE rol_id = ".$ilDB->quote($a_obj_id) ." ";
 		$this->ilDB->query($q);
 
 		$q = "DELETE FROM rbac_fa ".
-			 "WHERE rol_id = '".$a_obj_id ."'";
+			 "WHERE rol_id = ".$ilDB->quote($a_obj_id) ." ";
 		$this->ilDB->query($q);
 
 		return true;
@@ -156,6 +160,8 @@ class ilRbacAdmin
 	*/
 	function deleteLocalRole($a_rol_id,$a_ref_id = 0)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::deleteLocalRole(): Missing parameter! role_id: '".$a_rol_id."'";
@@ -170,17 +176,17 @@ class ilRbacAdmin
 
 		if ($a_ref_id != 0)
 		{
-			$clause = "AND parent = '".$a_ref_id."'";
+			$clause = "AND parent = ".$ilDB->quote($a_ref_id)." ";
 		}
 		
 		$q = "DELETE FROM rbac_fa ".
-			 "WHERE rol_id = '".$a_rol_id."' ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
 			 $clause;
 
 		$this->ilDB->query($q);
 
 		$q = "DELETE FROM rbac_templates ".
-			 "WHERE rol_id = '".$a_rol_id."' ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
 			 $clause;
 		$this->ilDB->query($q);
 
@@ -199,6 +205,8 @@ class ilRbacAdmin
 	*/
 	function assignUser($a_rol_id,$a_usr_id,$a_default = false)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
 			$message = get_class($this)."::assignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
@@ -206,7 +214,7 @@ class ilRbacAdmin
 		}
 		
 		$q = "REPLACE INTO rbac_ua ".
-			 "VALUES ('".$a_usr_id."','".$a_rol_id."')";
+			 "VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($a_rol_id).")";
 		$res = $this->ilDB->query($q);
 
 		// Finally assign desktop items assigned to this role
@@ -241,6 +249,8 @@ class ilRbacAdmin
 	*/
 	function deassignUser($a_rol_id,$a_usr_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
 			$message = get_class($this)."::deassignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
@@ -248,8 +258,8 @@ class ilRbacAdmin
 		}
 
 		$q = "DELETE FROM rbac_ua ".
-			 "WHERE usr_id='".$a_usr_id."' ".
-			 "AND rol_id='".$a_rol_id."'";
+			 "WHERE usr_id= ".$ilDB->quote($a_usr_id)." ".
+			 "AND rol_id=".$ilDB->quote($a_rol_id)." ";
 		$this->ilDB->query($q);
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
@@ -269,6 +279,8 @@ class ilRbacAdmin
 	*/
 	function grantPermission($a_rol_id,$a_ops,$a_ref_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id) or !isset($a_ops) or !isset($a_ref_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::grantPermission(): Missing parameter! ".
@@ -303,7 +315,7 @@ class ilRbacAdmin
 
 		$q = "REPLACE INTO rbac_pa (rol_id,ops_id,ref_id) ".
 			 "VALUES ".
-			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
+			 "(".$ilDB->quote($a_rol_id).",".$ilDB->quote($ops_ids).",".$ilDB->quote($a_ref_id).")";
 		$this->ilDB->query($q);
 
 		return true;
@@ -320,7 +332,7 @@ class ilRbacAdmin
 	*/
 	function revokePermission($a_ref_id,$a_rol_id = 0,$a_keep_protected = true)
 	{
-		global $rbacreview,$log;
+		global $rbacreview,$log,$ilDB;
 
 		if (!isset($a_ref_id))
 		{
@@ -340,7 +352,7 @@ $log->write("ilRBACadmin::revokePermission(), 0");
 	
 			if ($a_rol_id)
 			{
-				$and1 = " AND rol_id = '".$a_rol_id."'";
+				$and1 = " AND rol_id = ".$ilDB->quote($a_rol_id)." ";
 			}
 			else
 			{
@@ -349,7 +361,7 @@ $log->write("ilRBACadmin::revokePermission(), 0");
 	
 			// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
 			$q = "DELETE FROM rbac_pa ".
-				 "WHERE ref_id = '".$a_ref_id."' ".
+				 "WHERE ref_id = ".$ilDB->quote($a_ref_id)." ".
 				 $and1;
 			$this->ilDB->query($q);
 	
@@ -384,8 +396,8 @@ $log->write("ilRBACadmin::revokePermission(), 1");
 			}
 			
 			$q = "DELETE FROM rbac_pa ".
-				 "WHERE rol_id IN (".implode(',',$role_ids).") ".
-				 "AND ref_id ='".$a_ref_id."'";
+				 "WHERE rol_id IN (".implode(',',ilUtil::quoteArray($role_ids)).") ".
+				 "AND ref_id = ".$ilDB->quote($a_ref_id)." ";
 			$this->ilDB->query($q);
 		}
 		else
@@ -404,8 +416,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 			}
 
 			$q = "DELETE FROM rbac_pa ".
-				 "WHERE ref_id = '".$a_ref_id."' ".
-				 "AND rol_id = '".$a_rol_id."'";
+				 "WHERE ref_id = ".$ilDB->quote($a_ref_id)." ".
+				 "AND rol_id = ".$ilDB->quote($a_rol_id)." ";
 			$this->ilDB->query($q);
 		}
 
@@ -421,6 +433,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function revokePermissionList($a_ref_ids,$a_rol_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_ref_ids) or !is_array($a_ref_ids))
 		{
 			$message = get_class($this)."::revokePermissionList(): Missing parameter or parameter is not an array! reference_list: ".var_dump($a_ref_ids);
@@ -439,12 +453,12 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 			return true;
 		}
 
-		$ref_ids = implode(",",$a_ref_ids);
+		$ref_ids = implode(",",ilUtil::quoteArray($a_ref_ids));
 
 		// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
 		$q = "DELETE FROM rbac_pa ".
 			 "WHERE ref_id IN (".$ref_ids.") ".
-			 "AND rol_id = ".$a_rol_id;
+			 "AND rol_id = ".$ilDB->quote($a_rol_id);
 		$this->ilDB->query($q);
 
 		return true;
@@ -462,7 +476,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function copyRolePermission($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
 	{
-		global $rbacreview;
+		global $rbacreview,$ilDB;
 
 		if (!isset($a_source_id) or !isset($a_source_parent) or !isset($a_dest_id) or !isset($a_dest_parent))
 		{
@@ -480,15 +494,15 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		}
 
 		$q = "SELECT * FROM rbac_templates ".
-			 "WHERE rol_id = '".$a_source_id."' ".
-			 "AND parent = '".$a_source_parent."'";
+			 "WHERE rol_id = ".$ilDB->quote($a_source_id)." ".
+			 "AND parent = ".$ilDB->quote($a_source_parent)." ";
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".
-				 "('".$a_dest_id."','".$row->type."','".$row->ops_id."','".$a_dest_parent."')";
+				 "(".$ilDB->quote($a_dest_id).",".$ilDB->quote($row->type).",".$ilDB->quote($row->ops_id).",".$ilDB->quote($a_dest_parent).")";
 			$this->ilDB->query($q);
 		}
 		
@@ -518,7 +532,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function copyRolePermissionIntersection($a_source1_id,$a_source1_parent,$a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id)
 	{
-		global $rbacreview;
+		global $rbacreview,$ilDB;
 		
 		if (!isset($a_source1_id) or !isset($a_source1_parent) 
 		or !isset($a_source2_id) or !isset($a_source2_parent) 
@@ -547,10 +561,10 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 
 		$q = "SELECT s1.type, s1.ops_id ".
                         "FROM rbac_templates AS s1, rbac_templates AS s2 ".
-                        "WHERE s1.rol_id = '".$a_source1_id."' ".
-                        "AND s1.parent = '".$a_source1_parent."' ".
-                        "AND s2.rol_id = '".$a_source2_id."' ".
-                        "AND s2.parent = '".$a_source2_parent."' ".
+                        "WHERE s1.rol_id = ".$ilDB->quote($a_source1_id)." ".
+                        "AND s1.parent = ".$ilDB->quote($a_source1_parent)." ".
+                        "AND s2.rol_id = ".$ilDB->quote($a_source2_id)." ".
+                        "AND s2.parent = ".$ilDB->quote($a_source2_parent)." ".
                         "AND s1.type = s2.type ".
                         "AND s1.ops_id = s2.ops_id";
 		$r = $this->ilDB->query($q);
@@ -559,7 +573,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		{
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".
-				 "('".$a_dest_id."','".$row->type."','".$row->ops_id."','".$a_dest_parent."')";
+				 "(".$ilDB->quote($a_dest_id).",".$ilDB->quote($row->type).",".$ilDB->quote($row->ops_id).",".$ilDB->quote($a_dest_parent).")";
 			$this->ilDB->query($q);
 		}
 
@@ -578,6 +592,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function deleteRolePermission($a_rol_id,$a_ref_id,$a_type = false)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::deleteRolePermission(): Missing parameter! role_id: ".$a_rol_id." ref_id: ".$a_ref_id;
@@ -592,12 +608,12 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		
 		if ($a_type !== false)
 		{
-			$and_type = " AND type='".$a_type."'";
+			$and_type = " AND type=".$ilDB->quote($a_type)." ";
 		}
 
 		$q = "DELETE FROM rbac_templates ".
-			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_ref_id."'".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
+			 "AND parent = ".$ilDB->quote($a_ref_id)." ".
 			 $and_type;
 		$this->ilDB->query($q);
 
@@ -616,6 +632,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function setRolePermission($a_rol_id,$a_type,$a_ops,$a_ref_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id) or !isset($a_type) or !isset($a_ops) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::setRolePermission(): Missing parameter!".
@@ -648,7 +666,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		{
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".
-				 "('".$a_rol_id."','".$a_type."','".$op."','".$a_ref_id."')";
+				 "(".$ilDB->quote($a_rol_id).",".$ilDB->quote($a_type).",".$ilDB->quote($op).",".$ilDB->quote($a_ref_id).")";
 			$this->ilDB->query($q);
 		}
 
@@ -670,6 +688,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
 	{
+		global $ilDB;
+		
 		if (!isset($a_rol_id) or !isset($a_parent))
 		{
 			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".
@@ -692,7 +712,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		}
 
 		$q = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
-			 "VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."')";
+			 "VALUES (".$ilDB->quote($a_rol_id).",".$ilDB->quote($a_parent).",".$ilDB->quote($a_assign).")";
 		$this->ilDB->query($q);
 
 		return true;
@@ -708,6 +728,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function assignOperationToObject($a_type_id,$a_ops_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_type_id) or !isset($a_ops_id))
 		{
 			$message = get_class($this)."::assignOperationToObject(): Missing parameter!".
@@ -717,7 +739,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		}
 
 		$q = "INSERT INTO rbac_ta ".
-			 "VALUES('".$a_type_id."','".$a_ops_id."')";
+			 "VALUES(".$ilDB->quote($a_type_id).",".$ilDB->quote($a_ops_id).")";
 		$this->ilDB->query($q);
 
 		return true;
@@ -733,6 +755,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	*/
 	function deassignOperationFromObject($a_type_id,$a_ops_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_type_id) or !isset($a_ops_id))
 		{
 			$message = get_class($this)."::deassignPermissionFromObject(): Missing parameter!".
@@ -742,8 +766,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		}
 
 		$q = "DELETE FROM rbac_ta ".
-			 "WHERE typ_id = '".$a_type_id."' ".
-			 "AND ops_id = '".$a_ops_id."'";
+			 "WHERE typ_id = ".$ilDB->quote($a_type_id)." ".
+			 "AND ops_id = ".$ilDB->quote($a_ops_id)." ";
 		$this->ilDB->query($q);
 	
 		return true;
@@ -751,11 +775,13 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	
 	function setProtected($a_ref_id,$a_role_id,$a_value)
 	{
+		global $ilDB;
+		
 		// ref_id not used yet. protected permission acts 'global' for each role, regardless of any broken inheritance before
 		$q = "UPDATE rbac_fa ".
-			 "SET protected = '".$a_value."' ".
+			 "SET protected = ".$ilDB->quote($a_value)." ".
 			 //"WHERE parent = '".$a_ref_id."' ".
-			 "WHERE rol_id = '".$a_role_id."'";
+			 "WHERE rol_id = ".$ilDB->quote($a_role_id)." ";
 		$this->ilDB->query($q);
 		
 		return true;
