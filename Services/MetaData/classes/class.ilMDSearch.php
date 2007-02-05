@@ -106,7 +106,7 @@ class ilMDSearch
 				$where .= strtoupper($this->query_parser->getCombination());
 			}
 			$where .= $field;
-			$where .= ("LIKE ('%".$word."%')");
+			$where .= ("LIKE (".$ilDB->quote("%".$word."%").")");
 		}
 
 		$query = "SELECT * FROM il_meta_keyword".
