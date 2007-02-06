@@ -1431,27 +1431,26 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function saveRandomQuestion($question_id, $pass = NULL)
+	function saveRandomQuestion($active_id, $question_id, $pass = NULL)
 	{
 		global $ilUser;
 		global $ilDB;
 
 		if (is_null($pass)) $pass = 0;
-		$active = $this->getActiveTestUser($ilUser->getId());
 		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE active_fi = %s AND pass = %s",
-			$ilDB->quote($active->active_id . ""),
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 
-		$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active->active_id);
+		$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active_id);
 		if ($duplicate_id === FALSE)
 		{
 			$duplicate_id = $this->duplicateQuestionForTest($question_id);
 		}
 
 		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($active->active_id . ""),
+			$ilDB->quote($active_id . ""),
 			$ilDB->quote($duplicate_id . ""),
 			$ilDB->quote(($result->numRows()+1) . ""),
 			$ilDB->quote($pass . "")
@@ -1522,9 +1521,11 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		$active = $this->getActiveTestUser($ilUser->getId());
+		$active_id = 0;
 		if (is_object($active))
 		{
-			$this->loadQuestions($active->active_id, $pass);
+			$active_id = $active->active_id;
+			$this->loadQuestions($active_id, $pass);
 			if (count($this->questions) > 0)
 			{
 				// Something went wrong. Maybe the user pressed the start button twice
@@ -1533,7 +1534,7 @@ class ilObjTest extends ilObject
 			}
 			if ($pass > 0)
 			{
-				if ($this->getNrOfResultsForPass($active->active_id, $pass - 1) == 0)
+				if ($this->getNrOfResultsForPass($active_id, $pass - 1) == 0)
 				{
 					// This means that someone maybe reloaded the test submission page
 					// If there are no existing results for the previous test, it makes
@@ -1544,7 +1545,13 @@ class ilObjTest extends ilObject
 		}
 		else
 		{
-			$this->setActiveTestUser();
+			$active_id = $this->setActiveTestUser();
+		}
+		if ($active_id == 0)
+		{
+			// This may not happen! If it happens, raise a fatal error...
+			global $ilias, $ilErr;
+			$ilias->raiseError(sprintf($this->lng->txt("error_random_question_generation"), $ilUser->getId(), $this->getTestId()), $ilErr->FATAL);
 		}
 		if ($this->getRandomQuestionCount() > 0)
 		{
@@ -1559,7 +1566,7 @@ class ilObjTest extends ilObject
 			shuffle($allquestions);
 			foreach ($allquestions as $question_id)
 			{
-				$this->saveRandomQuestion($question_id, $pass);
+				$this->saveRandomQuestion($active_id, $question_id, $pass);
 			}
 		}
 		else
@@ -1581,13 +1588,13 @@ class ilObjTest extends ilObject
 			shuffle($allquestions);
 			foreach ($allquestions as $question_id)
 			{
-				$this->saveRandomQuestion($question_id, $pass);
+				$this->saveRandomQuestion($active_id, $question_id, $pass);
 			}
 		}
 		if (!is_object($active))
 		{
 			$active = $this->getActiveTestUser($ilUser->getId());
-			$this->addQuestionSequence($active->active_id);
+			$this->addQuestionSequence($active_id);
 		}
 		return;
 	}
@@ -3590,6 +3597,61 @@ class ilObjTest extends ilObject
 		return $this->active;
 	}
 
+	/**
+	* Gets the active id of a given user
+	*
+	* Gets the active id of a given user
+	*
+	* @param integer $user_id The database id of the user
+	* @param string $anonymous_id The anonymous id if the test is an anonymized test
+	* @return integer The active ID
+	* @access	public
+	*/
+		function getActiveIdOfUser($user_id = "", $anonymous_id = "")
+		{
+			global $ilDB;
+			global $ilUser;
+
+			if (!$user_id) $user_id = $ilUser->getId();
+			if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
+			{
+				$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+					$ilDB->quote($user_id),
+					$ilDB->quote($this->test_id),
+					$ilDB->quote($_SESSION["tst_access_code"][$this->getTestId()])
+				);
+			}
+			else if (strlen($anonymous_id))
+			{
+				$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+					$ilDB->quote($user_id),
+					$ilDB->quote($this->test_id),
+					$ilDB->quote($anonymous_id)
+				);
+			}
+			else
+			{
+				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+				{
+					return NULL;
+				}
+				$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+					$ilDB->quote($user_id),
+					$ilDB->quote($this->test_id)
+				);
+			}
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				return $row["active_id"];
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
 /**
 * Gets the database row of the tst_active table for the active user
 *
@@ -3703,6 +3765,14 @@ class ilObjTest extends ilObject
 			);
 		}
 		$ilDB->query($query);
+		if ($old_active)
+		{
+			return $old_active->active_id;
+		}
+		else
+		{
+			return $ilDB->getLastInsertId();
+		}
 	}
 
 	/**
@@ -3725,7 +3795,22 @@ class ilObjTest extends ilObject
 			global $ilDB;
 
 			$this->loadQuestions($active_id, 0);
-			$sequence_arr = array_flip($this->questions);
+			if ((count($this->questions)) > $this->getQuestionCount())
+			{
+				// something went terribly wrong, so create a sequence with only the maximum number of allowed questions
+				// This section was introduced due to some random problems with the question sequence (HS, 2007-02-06)
+				global $ilLog;
+				$ilLog->write("fatal error: The number of questions is greater than the allowed question count. user id = " . $ilUser->getId() . ", active id = $active_id, questions = " . print_r($this->questions, true));
+				$sequence_arr = array();
+				for ($i = 1; $i <=  $this->getQuestionCount(); $i++)
+				{
+					$sequence_arr[$i] = $i;
+				}
+			}
+			else
+			{
+				$sequence_arr = array_flip($this->questions);
+			}
 			if ($this->getShuffleQuestions())
 			{
 				$sequence_arr = array_values($sequence_arr);
