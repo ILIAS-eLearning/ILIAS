@@ -417,8 +417,9 @@ class ilForum
 	*/
 	function generatePost($topic, $thread, $user, $message, $parent_pos,$notify,$anonymize,$subject,$date = "")
 	{
-		global $ilDB;
+		global $ilUser, $ilDB;
 		
+
 		$date = $date ? $date : date("Y-m-d H:i:s");
 		if ($anonymize == 1)
 		{
@@ -487,7 +488,18 @@ class ilForum
 			$pos_data["top_name"] = $forum_obj->getTitle();			
 			$this->sendNotifications($pos_data);
 		}
-
+		
+		// Add Notification to news
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_item = new ilNewsItem();
+		$news_item->setContext($forum_obj->getId(), "frm");
+		$news_item->setPriority(NEWS_NOTICE);
+		$news_item->setTitle($pos_data["pos_subject"]);
+		$news_item->setContent(nl2br($this->prepareText($pos_data["pos_message"], 0)));
+		$news_item->setUserId($ilUser->getId());
+		$news_item->setVisibility(NEWS_USERS);
+		$news_item->create();
+		
 		return $lastInsert;
 	}
 	

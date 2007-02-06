@@ -82,6 +82,7 @@ class ilColumnGUI
 	protected $default_blocks = array(
 		"cat" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"crs" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
+		"frm" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"root" => array(),
 		"info" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT),
@@ -99,6 +100,7 @@ class ilColumnGUI
 	protected $custom_blocks = array(
 		"cat" => array("ilExternalFeedBlockGUI"),
 		"crs" => array(),
+		"frm" => array(),
 		"root" => array("ilExternalFeedBlockGUI"),
 		"info" => array(),
 		"pd" => array("ilExternalFeedBlockGUI")
@@ -241,6 +243,28 @@ class ilColumnGUI
 
 		return IL_SCREEN_SIDE;
 	}
+	
+	/**
+	* This function is supposed to be used for block type specific
+	* properties, that should be passed to ilBlockGUI->setProperty
+	*
+	* @param	string	$a_property		property name
+	* @param	string	$a_value		property value
+	*/
+	function setBlockProperty($a_block_type, $a_property, $a_value)
+	{
+		$this->block_property[$a_block_type][$a_property] = $a_value;
+	}
+	
+	function getBlockProperties($a_block_type)
+	{
+		return $this->block_property[$a_block_type];
+	}
+
+	function setAllBlockProperties($a_block_properties)
+	{
+		$this->block_property = $a_block_properties;
+	}
 
 	/**
 	* execute command
@@ -268,6 +292,7 @@ class ilColumnGUI
 					"class.".$gui_class.".php");
 				$ilCtrl->setParameter($this, "block_type", $cur_block_type);
 				$block_gui = new $gui_class();
+				$block_gui->setProperties($this->block_property[$cur_block_type]);
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 
@@ -334,6 +359,7 @@ class ilColumnGUI
 			include_once("./".self::$locations[$gui_class]."classes/".
 				"class.".$gui_class.".php");
 			$block_gui = new $gui_class();
+			$block_gui->setProperties($this->block_property[$block["type"]]);
 			$block_gui->setRepositoryMode($this->getRepositoryMode());
 			$block_gui->setEnableEdit($this->getEnableEdit());
 			if ($this->getSide() == IL_COL_LEFT)
@@ -507,6 +533,7 @@ class ilColumnGUI
 				$block_class = substr($block["class"], 0, strlen($block["class"])-3);
 				
 				$block_gui = new $gui_class();
+				$block_gui->setProperties($this->block_property[$block["type"]]);
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 				
@@ -586,6 +613,7 @@ class ilColumnGUI
 		$ilCtrl->setCmd("create");
 		include_once("./".self::$locations[$class]."classes/class.".$class.".php");
 		$block_gui = new $class();
+		$block_gui->setProperties($this->block_property[$_POST["block_type"]]);
 		$block_gui->setRepositoryMode($this->getRepositoryMode());
 		$block_gui->setEnableEdit($this->getEnableEdit());
 		

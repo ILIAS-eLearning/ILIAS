@@ -470,3 +470,8 @@ ADD `course_export` TINYINT( 1 ) NOT NULL ;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#914>
+ALTER TABLE `il_news_item` MODIFY `priority` int default 1;
+
+<#915>
+ALTER TABLE `il_news_item` ADD COLUMN `content_is_lang_var` tinyint default 0;

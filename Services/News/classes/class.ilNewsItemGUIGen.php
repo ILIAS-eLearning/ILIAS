@@ -35,12 +35,12 @@ define("IL_FORM_RE_CREATE", 3);
 class ilNewsItemGUIGen 
 {
 
-	private $enable_edit = 0;
-	private $context_obj_id;
-	private $context_obj_type;
-	private $context_sub_obj_id;
-	private $context_sub_obj_type;
-	private $form_edit_mode;
+	protected $enable_edit = 0;
+	protected $context_obj_id;
+	protected $context_obj_type;
+	protected $context_sub_obj_id;
+	protected $context_sub_obj_type;
+	protected $form_edit_mode;
 
 	/**
 	* Constructor.
@@ -53,10 +53,10 @@ class ilNewsItemGUIGen
 		$this->ctrl = $ilCtrl;
 		
 		
-		include_once("Services/News/classes/class.ilNewsItem.php");
+		include_once("Services/News/classes/class.ilNewsItemGen.php");
 		if ($_GET["news_item_id"] > 0)
 		{
-			$this->news_item = new ilNewsItem($_GET["news_item_id"]);
+			$this->news_item = new ilNewsItemGen($_GET["news_item_id"]);
 		}
 		
 		$this->ctrl->saveParameter($this, array("news_item_id"));
@@ -236,7 +236,7 @@ class ilNewsItemGUIGen
 		$alert = ($this->form_check["NewsItem"]["Title"]["error"] != "")
 			? $this->form_check["NewsItem"]["Title"]["error"]
 			: "";
-		$form_gui->addTextProperty($lng->txt("news_title"),
+		$form_gui->addTextProperty($lng->txt("news_news_item_title"),
 			"news_title",
 			$values["Title"],
 			"", $alert, true
@@ -246,31 +246,30 @@ class ilNewsItemGUIGen
 		$alert = ($this->form_check["NewsItem"]["Content"]["error"] != "")
 			? $this->form_check["NewsItem"]["Content"]["error"]
 			: "";
-		$form_gui->addTextAreaProperty($lng->txt("news_content"),
+		$form_gui->addTextAreaProperty($lng->txt("news_news_item_content"),
 			"news_content",
 			$values["Content"],
-			"", $alert, false
-			, "40", "8", true);
+			"", $alert, false);
 		
 		// Property Visibility
 		$alert = ($this->form_check["NewsItem"]["Visibility"]["error"] != "")
 			? $this->form_check["NewsItem"]["Visibility"]["error"]
 			: "";
-		$form_gui->addRadioProperty($lng->txt("news_visibility"),
+		$form_gui->addRadioProperty($lng->txt("news_news_item_visibility"),
 			"news_visibility",array(
 				array("value" => "users", "text" => $lng->txt("news_visibility_users")), 
 				array("value" => "public", "text" => $lng->txt("news_visibility_public"))),
 			$values["Visibility"],
-			$lng->txt("news_visibility_info"), $alert, false);
+			$lng->txt("news_news_item_visibility_info"), $alert, false);
 		
 		// Property ContentLong
 		$alert = ($this->form_check["NewsItem"]["ContentLong"]["error"] != "")
 			? $this->form_check["NewsItem"]["ContentLong"]["error"]
 			: "";
-		$form_gui->addTextAreaProperty($lng->txt("news_content_long"),
+		$form_gui->addTextAreaProperty($lng->txt("news_news_item_content_long"),
 			"news_content_long",
 			$values["ContentLong"],
-			$lng->txt("news_content_long_info"), $alert, false
+			$lng->txt("news_news_item_content_long_info"), $alert, false
 			, "40", "8", true);
 		
 		// save and cancel commands
@@ -328,8 +327,7 @@ class ilNewsItemGUIGen
 		{
 			$this->news_item = new ilNewsItem();
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
-			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]
-				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
 			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
 			$this->news_item->setContentLong(ilUtil::stripSlashes($_POST["news_content_long"]
 				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
@@ -355,8 +353,7 @@ class ilNewsItemGUIGen
 		{
 			
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
-			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]
-				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
 			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
 			$this->news_item->setContentLong(ilUtil::stripSlashes($_POST["news_content_long"]
 				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
@@ -397,8 +394,7 @@ class ilNewsItemGUIGen
 			case IL_FORM_RE_EDIT:
 			case IL_FORM_RE_CREATE:
 				$values["Title"] = ilUtil::stripSlashes($_POST["news_title"]);
-				$values["Content"] = ilUtil::stripSlashes($_POST["news_content"]
-				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
+				$values["Content"] = ilUtil::stripSlashes($_POST["news_content"]);
 				$values["Visibility"] = ilUtil::stripSlashes($_POST["news_visibility"]);
 				$values["ContentLong"] = ilUtil::stripSlashes($_POST["news_content_long"]
 				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
@@ -472,7 +468,7 @@ class ilNewsItemGUIGen
 		$block_gui = new ilNewsForContextBlockGUI(get_class($this));
 		$this->prepareBlockNewsForContext($block_gui);
 		
-		$news_item = new ilNewsItem();
+		$news_item = new ilNewsItemGen();
 		$this->prepareBlockQueryNewsForContext($news_item);
 		$data = $news_item->queryNewsForContext();
 		
@@ -520,7 +516,7 @@ class ilNewsItemGUIGen
 		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
 		$table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable");
 		
-		$news_item = new ilNewsItem();
+		$news_item = new ilNewsItemGen();
 		$this->prepareTableQueryNewsForContext($news_item);
 		$data = $news_item->queryNewsForContext();
 		

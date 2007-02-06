@@ -14,18 +14,24 @@
 		<input type="text" size="{SIZE}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
 		<!-- END prop_text -->
 		<!-- BEGIN prop_textarea -->
-		<textarea name="{POST_VAR}" wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w -->>{PROPERTY_VALUE}</textarea>
+		<textarea name="{POST_VAR}" <!-- BEGIN no_rteditor -->class="noRTEditor" style="width:90%;"<!-- END no_rteditor --> wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w -->>{PROPERTY_VALUE}</textarea>
 		<!-- END prop_textarea -->
 		<!-- BEGIN prop_custom -->
 		{CUSTOM_CONTENT}
 		<!-- END prop_custom -->
+		<!-- BEGIN prop_checkbox -->
+		<input type="checkbox" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} />
+		<!-- END prop_checkbox -->
 		<!-- BEGIN prop_radio -->
 		<!-- BEGIN prop_radio_option -->
 		{BR}<input type="radio" name="{POST_VAR}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> {TXT_RADIO_OPTION}
 		<!-- END prop_radio_option -->
 		<!-- END prop_radio -->
-		<!-- BEGIN description -->
+		<!-- BEGIN exp_description -->
 		<div style="margin-top:3px; margin-left:3px;"><span class="ilFormHelpLink"><img border="0" src="{IMG_INFO}" alt="{ALT_INFO}" /></span><span class="subtitle"> {PROPERTY_DESCRIPTION}</span></div>
+		<!-- END exp_description -->
+		<!-- BEGIN description -->
+		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{PROPERTY_DESCRIPTION}</span></div>
 		<!-- END description -->
 		<!-- BEGIN alert -->
 		<div style="margin-top:3px; margin-left:3px;"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" />

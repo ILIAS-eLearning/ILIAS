@@ -132,6 +132,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		
+		$this->handleView();
+		
 		// show feed url
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTarget($this, "showFeedUrl"),
@@ -189,6 +191,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$tpl->setVariable("TXT_FEED_URL", $lng->txt("news_feed_url"));
 		$tpl->setVariable("VAL_FEED_URL",
 			ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&user_id=".$ilUser->getId().
+				"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
+		$tpl->setVariable("VAL_FEED_URL_TXT",
+			ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&<br />user_id=".$ilUser->getId().
 				"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");

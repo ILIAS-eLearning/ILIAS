@@ -160,6 +160,23 @@ class ilInfoScreenGUI
 	}
 
 	/**
+	* This function is supposed to be used for block type specific
+	* properties, that should be passed to ilBlockGUI->setProperty
+	*
+	* @param	string	$a_property		property name
+	* @param	string	$a_value		property value
+	*/
+	function setBlockProperty($a_block_type, $a_property, $a_value)
+	{
+		$this->block_property[$a_block_type][$a_property] = $a_value;
+	}
+	
+	function getAllBlockProperties()
+	{
+		return $this->block_property;
+	}
+
+	/**
 	* add a new section
 	*/
 	function addSection($a_title)
@@ -416,6 +433,7 @@ class ilInfoScreenGUI
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_CENTER);
 		$column_gui->setEnableEdit($this->news_editing);
+		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 
 		if (!$ilCtrl->isAsynch())
 		{
@@ -426,6 +444,7 @@ class ilInfoScreenGUI
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
 					$column_gui->setEnableEdit($this->news_editing);
+					$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 				// left column wants center
@@ -433,6 +452,7 @@ class ilInfoScreenGUI
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_LEFT);
 					$column_gui->setEnableEdit($this->news_editing);
+					$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 			}
@@ -455,6 +475,7 @@ class ilInfoScreenGUI
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
 		$column_gui->setEnableEdit($this->news_editing);
+		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&

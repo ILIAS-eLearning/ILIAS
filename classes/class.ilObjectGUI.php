@@ -2406,5 +2406,113 @@ class ilObjectGUI
 		$this->ctrl->redirectByClass($class, $a_cmd);
 	}
 	
+	/**
+	* Get center column
+	*/
+	function getCenterColumnHTML()
+	{
+		global $ilCtrl, $ilAccess;
+
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
+
+		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
+		$obj_type = ilObject::_lookupType($obj_id);
+
+		if ($ilCtrl->getNextClass() != "ilcolumngui")
+		{
+			// normal command processing	
+			return $this->getContent();
+		}
+		else
+		{
+			if (!$ilCtrl->isAsynch())
+			{
+				//if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
+				if (ilColumnGUI::getScreenMode() != IL_SCREEN_SIDE)
+				{
+					// right column wants center
+					if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT)
+					{
+						$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+						$this->setColumnSettings($column_gui);
+						$column_gui->setRepositoryMode(true);
+						$column_gui->setEnableEdit(false);
+						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+							$this->checkEnableColumnEdit())
+						{
+							$column_gui->setEnableEdit(true);
+						}
+						$this->html = $ilCtrl->forwardCommand($column_gui);
+					}
+					// left column wants center
+					if (ilColumnGUI::getCmdSide() == IL_COL_LEFT)
+					{
+						$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
+						$this->setColumnSettings($column_gui);
+						$column_gui->setRepositoryMode(true);
+						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+							$this->checkEnableColumnEdit())
+						{
+							$column_gui->setEnableEdit(true);
+						}
+						$this->html = $ilCtrl->forwardCommand($column_gui);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	* Display right column
+	*/
+	function getRightColumnHTML()
+	{
+		global $ilUser, $lng, $ilCtrl, $ilAccess;
+		
+		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
+		$obj_type = ilObject::_lookupType($obj_id);
+
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
+		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+		$this->setColumnSettings($column_gui);
+		$column_gui->setRepositoryMode(true);
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+			$this->checkEnableColumnEdit())
+		{
+			$column_gui->setEnableEdit(true);
+		}
+		
+		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
+			$column_gui->getCmdSide() == IL_COL_RIGHT &&
+			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
+		{
+			$html = $ilCtrl->forwardCommand($column_gui);
+		}
+		else
+		{
+			if (!$ilCtrl->isAsynch())
+			{
+				$html = $ilCtrl->getHTML($column_gui);
+			}
+		}
+
+		return $html;
+	}
+
+	/**
+	* To be overwritten in subclasses.
+	*/
+	function checkEnableColumnEdit()
+	{
+		return true;
+	}
+	
+	/**
+	* To be overwritten in subclasses.
+	*/
+	function setColumnSettings($column_gui)
+	{
+	}
+
 } // END class.ilObjectGUI
 ?>

@@ -21,9 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define("NEWS_NOTICE", 0);
-define("NEWS_MESSAGE", 1);
-define("NEWS_WARNING", 2);
 define("NEWS_TEXT", "text");
 define("NEWS_HTML", "html");
 define("NEWS_USERS", "users");
@@ -40,20 +37,21 @@ define("NEWS_PUBLIC", "public");
 class ilNewsItemGen 
 {
 
-	private $id;
-	private $priority = 1;
-	private $title;
-	private $content;
-	private $context_obj_id;
-	private $context_obj_type;
-	private $context_sub_obj_id;
-	private $context_sub_obj_type;
-	private $content_type = "text";
-	private $creation_date;
-	private $update_date;
-	private $user_id;
-	private $visibility = "users";
-	private $content_long;
+	protected $id;
+	protected $title;
+	protected $content;
+	protected $context_obj_id;
+	protected $context_obj_type;
+	protected $context_sub_obj_id;
+	protected $context_sub_obj_type;
+	protected $content_type = "text";
+	protected $creation_date;
+	protected $update_date;
+	protected $user_id;
+	protected $visibility = "users";
+	protected $content_long;
+	protected $priority = 1;
+	protected $content_is_lang_var = 0;
 
 	/**
 	* Constructor.
@@ -88,26 +86,6 @@ class ilNewsItemGen
 	public function getId()
 	{
 		return $this->id;
-	}
-
-	/**
-	* Set Priority.
-	*
-	* @param	string	$a_priority	News Priority.
-	*/
-	public function setPriority($a_priority = 1)
-	{
-		$this->priority = $a_priority;
-	}
-
-	/**
-	* Get Priority.
-	*
-	* @return	string	News Priority.
-	*/
-	public function getPriority()
-	{
-		return $this->priority;
 	}
 
 	/**
@@ -351,6 +329,46 @@ class ilNewsItemGen
 	}
 
 	/**
+	* Set Priority.
+	*
+	* @param	int	$a_priority	News Priority
+	*/
+	public function setPriority($a_priority = 1)
+	{
+		$this->priority = $a_priority;
+	}
+
+	/**
+	* Get Priority.
+	*
+	* @return	int	News Priority
+	*/
+	public function getPriority()
+	{
+		return $this->priority;
+	}
+
+	/**
+	* Set ContentIsLangVar.
+	*
+	* @param	boolean	$a_content_is_lang_var	
+	*/
+	public function setContentIsLangVar($a_content_is_lang_var = 0)
+	{
+		$this->content_is_lang_var = $a_content_is_lang_var;
+	}
+
+	/**
+	* Get ContentIsLangVar.
+	*
+	* @return	boolean	
+	*/
+	public function getContentIsLangVar()
+	{
+		return $this->content_is_lang_var;
+	}
+
+	/**
 	* Create new item.
 	*
 	*/
@@ -359,8 +377,7 @@ class ilNewsItemGen
 		global $ilDB;
 		
 		$query = "INSERT INTO il_news_item (".
-			" priority".
-			", title".
+			" title".
 			", content".
 			", context_obj_id".
 			", context_obj_type".
@@ -372,9 +389,10 @@ class ilNewsItemGen
 			", user_id".
 			", visibility".
 			", content_long".
+			", priority".
+			", content_is_lang_var".
 			" ) VALUES (".
-			$ilDB->quote($this->getPriority())
-			.",".$ilDB->quote($this->getTitle())
+			$ilDB->quote($this->getTitle())
 			.",".$ilDB->quote($this->getContent())
 			.",".$ilDB->quote($this->getContextObjId())
 			.",".$ilDB->quote($this->getContextObjType())
@@ -385,8 +403,12 @@ class ilNewsItemGen
 			.","."now()"
 			.",".$ilDB->quote($this->getUserId())
 			.",".$ilDB->quote($this->getVisibility())
-			.",".$ilDB->quote($this->getContentLong()).")";
+			.",".$ilDB->quote($this->getContentLong())
+			.",".$ilDB->quote($this->getPriority())
+			.",".$ilDB->quote($this->getContentIsLangVar()).")";
 		$ilDB->query($query);
+		$this->setId($ilDB->getLastInsertId());
+		
 
 	}
 
@@ -403,7 +425,6 @@ class ilNewsItemGen
 		$set = $ilDB->query($query);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		$this->setPriority($rec["priority"]);
 		$this->setTitle($rec["title"]);
 		$this->setContent($rec["content"]);
 		$this->setContextObjId($rec["context_obj_id"]);
@@ -416,11 +437,13 @@ class ilNewsItemGen
 		$this->setUserId($rec["user_id"]);
 		$this->setVisibility($rec["visibility"]);
 		$this->setContentLong($rec["content_long"]);
+		$this->setPriority($rec["priority"]);
+		$this->setContentIsLangVar($rec["content_is_lang_var"]);
 
 	}
 
 	/**
-	* Update item from database.
+	* Update item in database.
 	*
 	*/
 	public function update()
@@ -428,8 +451,7 @@ class ilNewsItemGen
 		global $ilDB;
 		
 		$query = "UPDATE il_news_item SET ".
-			" priority = ".$ilDB->quote($this->getPriority()).
-			", title = ".$ilDB->quote($this->getTitle()).
+			" title = ".$ilDB->quote($this->getTitle()).
 			", content = ".$ilDB->quote($this->getContent()).
 			", context_obj_id = ".$ilDB->quote($this->getContextObjId()).
 			", context_obj_type = ".$ilDB->quote($this->getContextObjType()).
@@ -441,6 +463,8 @@ class ilNewsItemGen
 			", user_id = ".$ilDB->quote($this->getUserId()).
 			", visibility = ".$ilDB->quote($this->getVisibility()).
 			", content_long = ".$ilDB->quote($this->getContentLong()).
+			", priority = ".$ilDB->quote($this->getPriority()).
+			", content_is_lang_var = ".$ilDB->quote($this->getContentIsLangVar()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);

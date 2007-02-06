@@ -33,6 +33,8 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 */
 class ilTable2GUI extends ilTableGUI
 {
+	protected $close_command = "";
+	
 	/**
 	* Constructor
 	*
@@ -209,6 +211,17 @@ class ilTable2GUI extends ilTableGUI
 	{
 		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text);
 	}
+	
+	
+	/**
+	* Add command for closing table.
+	*
+	* @param	string	$a_link		closing link
+	*/
+	function setCloseCommand($a_link)
+	{
+		$this->close_command = $a_link;
+	}
 
 	/**
 	* Add Command button
@@ -384,6 +397,8 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	function render()
 	{
+		global $lng;
+		
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
 		
 		// table title and icon
@@ -396,6 +411,17 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->icon_alt);
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			// close command
+			if ($this->close_command != "")
+			{
+				$this->tpl->setCurrentBlock("tbl_header_close_link");
+				$this->tpl->setVariable("TXT_CLOSE",$lng->txt("close"));
+				$this->tpl->setVariable("LINK_CLOSE",$this->close_command);
+				$this->tpl->setVariable("IMG_CLOSE",ilUtil::getImagePath("icon_close.gif"));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock("tbl_header_title");
 			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
 			$this->tpl->setVariable("TBL_TITLE",$this->title);

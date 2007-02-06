@@ -295,99 +295,9 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			$this->tpl->setRightContent($this->getRightColumnHTML());
 		}
-		
-		$this->getCenterColumnHTML();
+		$this->getCenterColumnHTML(true);
 	}
 
-	/**
-	* Get center column
-	*/
-	function getCenterColumnHTML()
-	{
-		global $ilCtrl, $ilAccess;
-		
-		include_once("Services/Block/classes/class.ilColumnGUI.php");
-
-		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
-		$obj_type = ilObject::_lookupType($obj_id);
-
-		if ($ilCtrl->getNextClass() != "ilcolumngui")
-		{
-			// normal command processing	
-			return $this->getContent();
-		}
-		else
-		{
-			if (!$ilCtrl->isAsynch())
-			{
-				//if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
-				if (ilColumnGUI::getScreenMode() != IL_SCREEN_SIDE)
-				{
-					// right column wants center
-					if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT)
-					{
-						$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-						$column_gui->setRepositoryMode(true);
-						$column_gui->setEnableEdit(false);
-						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-							$this->isActiveAdministrationPanel())
-						{
-							$column_gui->setEnableEdit(true);
-						}
-						$this->html = $ilCtrl->forwardCommand($column_gui);
-					}
-					// left column wants center
-					if (ilColumnGUI::getCmdSide() == IL_COL_LEFT)
-					{
-						$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
-						$column_gui->setRepositoryMode(true);
-						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-						{
-							$column_gui->setEnableEdit(true);
-						}
-						$this->html = $ilCtrl->forwardCommand($column_gui);
-					}
-				}
-			}
-		}
-	}
-	
-	/**
-	* Display right column
-	*/
-	function getRightColumnHTML()
-	{
-		global $ilUser, $lng, $ilCtrl, $ilAccess;
-		
-		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
-		$obj_type = ilObject::_lookupType($obj_id);
-
-		include_once("Services/Block/classes/class.ilColumnGUI.php");
-		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-		$column_gui->setRepositoryMode(true);
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-			$this->isActiveAdministrationPanel())
-		{
-			$column_gui->setEnableEdit(true);
-		}
-		
-		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
-			$column_gui->getCmdSide() == IL_COL_RIGHT &&
-			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
-		{
-			$html = $ilCtrl->forwardCommand($column_gui);
-		}
-		else
-		{
-			if (!$ilCtrl->isAsynch())
-			{
-				$html = $ilCtrl->getHTML($column_gui);
-			}
-		}
-
-		return $html;
-	}
-	
 	/**
 	* get container content (list of subitems)
 	* (this should include multiple lists in the future that together
@@ -1860,5 +1770,9 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		return $tpl->get();
 	}
 
+	function checkEnableColumnEdit()
+	{
+		return $this->isActiveAdministrationPanel();
+	}
 }
 ?>

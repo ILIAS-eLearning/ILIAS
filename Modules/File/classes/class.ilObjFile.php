@@ -666,6 +666,20 @@ class ilObjFile extends ilObject
 		return $this->getDirectory().'/1.zip';
 	}
 	
+	function addNewsNotification()
+	{
+		// Add Notification to news
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_item = new ilNewsItem();
+		$news_item->setContext($this->getId(), $this->getType());
+		$news_item->setPriority(NEWS_NOTICE);
+		$news_item->setTitle($pos_data["pos_subject"]);
+		//$news_item->setContent(nl2br($this->prepareText($pos_data["pos_message"], 0)));
+		$news_item->setUserId($ilUser->getId());
+		$news_item->setVisibility(NEWS_USERS);
+		$news_item->create();
+	}
+	
 	/**
 	 * init file storage object
 	 *
