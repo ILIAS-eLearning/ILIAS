@@ -300,11 +300,11 @@ class ilMemberExportGUI
 		$this->file = new ilFileDataCourse($this->obj_id);
 		foreach($this->file->getMemberExportFiles() as $file)
 		{
-			if(!in_array($file['timest'],$_SESSION['il_del_member_export']))
+			if(!in_array($file['timest'],$_POST['files']))
 			{
 				continue;
 			}
-			$contents = $this->file->getMemberExportFile($file['timest'].'_member_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+			$contents = $this->file->getMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
 			ilUtil::deliverData($contents,date('Y_m_d_H-i'.$file['timest']).
 				'_member_export_'.
 				$this->obj_id.
