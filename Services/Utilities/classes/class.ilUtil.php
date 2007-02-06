@@ -3364,12 +3364,15 @@ class ilUtil
 	{
 		global $ilDB;
 
-		if (is_array($a_array))
+		
+		if(!is_array($a_array) or !count($a_array))
 		{
-			foreach($a_array as $k => $item)
-			{
-				$a_array[$k] = $ilDB->quote($item);
-			}
+			return array("''");
+		}
+
+		foreach($a_array as $k => $item)
+		{
+			$a_array[$k] = $ilDB->quote($item);
 		}
 
 		return $a_array;
