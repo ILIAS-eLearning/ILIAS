@@ -91,8 +91,12 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 			default:
 				$ids = array($a_ref_id);
 				break;
-		} 
-
+		}
+		if(!$ids)
+		{
+			return false;
+		}
+		
 		$query = "SELECT * FROM crs_items ".
 			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
 			"AND obj_id IN(".implode(",",ilUtil::quoteArray($ids)).")";
