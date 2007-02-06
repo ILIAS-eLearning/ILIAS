@@ -1078,19 +1078,23 @@ class ilEventAdministrationGUI
 			$this->tpl->setVariable("FIRSTNAME",$name['firstname']);
 			$this->tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));				
 			$this->tpl->parseCurrentBlock();			
-		}
+		}		
 		
-		// legend
+		$this->tpl->setVariable("HEAD_TXT_LEGEND", $this->lng->txt("legend"));		
+		$this->tpl->setVariable("HEAD_TXT_DIGIT", $this->lng->txt("event_digit"));
+		$this->tpl->setVariable("HEAD_TXT_EVENT", $this->lng->txt("event"));
+		$this->tpl->setVariable("HEAD_TXT_LOCATION", $this->lng->txt("event_location"));
+		$this->tpl->setVariable("HEAD_TXT_DATE_TIME",$this->lng->txt("event_date_time"));
 		$i = 1;
-		$this->tpl->setVariable("HEAD_TITLE", $this->lng->txt("legend"));		
-		$this->tpl->setVariable("HEAD_TITLE_DIGIT", $this->lng->txt("event_digit"));
-		$this->tpl->setVariable("HEAD_TITLE_EVENT", $this->lng->txt("event"));
 		foreach($events as $event_obj)
 		{
 			$this->tpl->setCurrentBlock("legend_loop");
 			$this->tpl->setVariable("LEGEND_CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$this->tpl->setVariable("LEGEND_DIGIT", $i++);
-			$this->tpl->setVariable("LEGEND_EVENT", $event_obj->getTitle());			
+			$this->tpl->setVariable("LEGEND_EVENT_TITLE", $event_obj->getTitle());
+			$this->tpl->setVariable("LEGEND_EVENT_DESCRIPTION", $event_obj->getDescription());	
+			$this->tpl->setVariable("LEGEND_EVENT_LOCATION", $event_obj->getLocation());
+			$this->tpl->setVariable("LEGEND_EVENT_APPOINTMENT", $event_obj->getFirstAppointment()->appointmentToString());		
 			$this->tpl->parseCurrentBlock();
 		}
 	}
