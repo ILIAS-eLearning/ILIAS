@@ -164,6 +164,30 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Add a checkbox property.
+	*
+	* @param	string		Title
+	* @param	string		_POST variable
+	* @param	string		Value.
+	* @param	boolean		Checked
+	* @param	string		Info text.
+	* @param	string		Alert text.
+	* @param	boolean		Required field. (Default false)
+	*/
+	function addCheckboxProperty($a_title, $a_post_var, $a_value, $a_checked = false, $a_info = "",
+		$a_alert = "", $a_required = false)
+	{
+		$this->properties[] = array ("type" => "checkbox",
+			"title" => $a_title,
+			"postvar" => $a_post_var,
+			"checked" => $a_checked,
+			"value" => $a_value,
+			"info" => $a_info,
+			"alert" => $a_alert,
+			"required" => $a_required);
+	}
+
+	/**
 	* Add a custom property.
 	*
 	* @param	string		Title
@@ -226,7 +250,6 @@ class ilPropertyFormGUI extends ilFormGUI
 					break;
 					
 				case "textarea":
-					
 					if ($property["use_rt"])
 					{
 						include_once "./Services/RTE/classes/class.ilRTE.php";
@@ -235,7 +258,7 @@ class ilPropertyFormGUI extends ilFormGUI
 						$rte = new $rtestring();
 						
 						// @todo: Check this.
-						$rte->addRTESupport(0, "");
+						$rte->addCustomRTESupport(0, "", array("strong", "em", "u", "ol", "li", "ul", "a"));
 						
 						$this->tpl->touchBlock("prop_ta_w");
 						$this->tpl->setCurrentBlock("prop_textarea");
@@ -243,6 +266,7 @@ class ilPropertyFormGUI extends ilFormGUI
 					}
 					else
 					{
+						$this->tpl->touchBlock("no_rteditor");
 						$this->tpl->setCurrentBlock("prop_ta_c");
 						$this->tpl->setVariable("COLS", $property["cols"]);
 						$this->tpl->parseCurrentBlock();
@@ -277,6 +301,18 @@ class ilPropertyFormGUI extends ilFormGUI
 					$this->tpl->parseCurrentBlock();
 					break;
 					
+				case "checkbox":
+					$this->tpl->setCurrentBlock("prop_checkbox");
+					$this->tpl->setVariable("POST_VAR", $property["postvar"]);
+					$this->tpl->setVariable("PROPERTY_VALUE", $property["value"]);
+					if ($property["checked"])
+					{
+						$this->tpl->setVariable("PROPERTY_CHECKED",
+							'checked="checked"');
+					}
+					$this->tpl->parseCurrentBlock();
+					break;
+
 				case "custom":
 					$this->tpl->setCurrentBlock("prop_custom");
 					$this->tpl->setVariable("CUSTOM_CONTENT", $property["html"]);
@@ -289,10 +325,10 @@ class ilPropertyFormGUI extends ilFormGUI
 			{
 				$tpl->addJavaScript("Services/Form/js/ServiceForm.js");
 				$this->tpl->setCurrentBlock("description");
-				$this->tpl->setVariable("IMG_INFO",
-					ilUtil::getImagePath("icon_info_s.gif"));
-				$this->tpl->setVariable("ALT_INFO",
-					$lng->txt("info_short"));
+				//$this->tpl->setVariable("IMG_INFO",
+				//	ilUtil::getImagePath("icon_info_s.gif"));
+				//$this->tpl->setVariable("ALT_INFO",
+				//	$lng->txt("info_short"));
 				$this->tpl->setVariable("PROPERTY_DESCRIPTION",
 					$property["info"]);
 				$this->tpl->parseCurrentBlock();

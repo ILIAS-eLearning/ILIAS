@@ -334,6 +334,27 @@ class ilBlockGUI
 	}
 
 	/**
+	* This function is supposed to be used for block type specific
+	* properties, that should be inherited through ilColumnGUI->setBlockProperties
+	*
+	* @param	string	$a_properties		properties array (key => value)
+	*/
+	function setProperties($a_properties)
+	{
+		$this->property = $a_properties;
+	}
+	
+	function getProperty($a_property)
+	{
+		return $this->property[$a_property];
+	}
+
+	function setProperty($a_property, $a_value)
+	{
+		$this->property[$a_property] = $a_value;
+	}
+	
+	/**
 	* Set Row Template Name.
 	*
 	* @param	string	$a_rowtemplatename	Row Template Name
@@ -455,6 +476,14 @@ class ilBlockGUI
 	function getFooterLinks()
 	{
 		return $this->footer_links;
+	}
+	
+	/**
+	* Clear footer links.
+	*/
+	function clearFooterLinks()
+	{
+		$this->footer_links = array();
 	}
 	
 	/**
@@ -923,7 +952,7 @@ class ilBlockGUI
 	function fillDetailRow()
 	{
 		global $ilCtrl, $lng;
-		
+
 		if ($this->enabledetailrow == false)
 		{
 			return;
@@ -956,7 +985,7 @@ class ilBlockGUI
 				{
 					$ilCtrl->setParameterByClass("ilcolumngui",
 						$this->getDetailParameter(), $i);
-	
+
 					// ajax link
 					if ($i > 0)
 					{

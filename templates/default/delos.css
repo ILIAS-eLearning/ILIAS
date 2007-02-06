@@ -253,6 +253,9 @@ tr.tblfooter {
 	background-color:#EDEDED;
 	background-image:url(images/TableHeader.gif);
 	background-repeat:repeat-x;
+	border-bottom-width:1px;
+	border-bottom-color:#9EADBA;
+	border-bottom-style:solid;
 }
 
 tr.std {

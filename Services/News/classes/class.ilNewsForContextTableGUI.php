@@ -40,10 +40,11 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		
 		$this->addColumn("", "f", "1");
 		$this->addColumn($lng->txt("date"), "creation_date", "1");
-		$this->addColumn($lng->txt("text"), "");
+		$this->addColumn($lng->txt("news_news_item_content"), "");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_news_for_context.html",
 			"Services/News");
+		$this->setCloseCommand($ilCtrl->getParentReturnByClass("ilnewsitemgui"));
 	}
 	
 	/**
@@ -62,7 +63,18 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable("VAL_CREATION_DATE", $a_set["creation_date"]);
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
-		$this->tpl->setVariable("VAL_CONTENT", $a_set["content"]);
+		if ($a_set["content"] != "")
+		{
+			$this->tpl->setCurrentBlock("content");
+			$this->tpl->setVariable("VAL_CONTENT", $a_set["content"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($a_set["content_long"] != "")
+		{
+			$this->tpl->setCurrentBlock("long");
+			$this->tpl->setVariable("VAL_LONG_CONTENT", $a_set["content_long"]);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 		$ilCtrl->setParameterByClass("ilnewsitemgui", "news_item_id", $a_set["id"]);

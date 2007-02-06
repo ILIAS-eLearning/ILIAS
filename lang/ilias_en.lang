@@ -1968,6 +1968,7 @@ common#:#forums_overview#:#Forums Overview
 common#:#forums_threads#:#Topics
 common#:#frm#:#Forum
 common#:#frm_a#:#a Forum
+common#:#frm_latest_postings#:#Latest Articles
 common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_article#:#article
@@ -2771,23 +2772,31 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_show_notifications#:#Show Notifications
+news#:#news_hide_notifications#:#Hide Notifications
 news#:#news_news_item_head#:#News Item
-news#:#news_title#:#Headline
-news#:#news_content#:#Text
-news#:#news_content_long#:#Long Text
-news#:#news_content_long_info#:#This text will not be published via RSS.
+news#:#news_news_item_title#:#Headline
+news#:#news_news_item_content#:#Text
+news#:#news_news_item_content_long#:#Long Text
+news#:#news_news_item_content_long_info#:#This text will not be published via RSS.
 news#:#news_visibility_users#:#Logged in Users
 news#:#news_visibility_public#:#Public
-news#:#news_visibility#:#Access
+news#:#news_news_item_visibility#:#Access
 news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Subscribe
 news#:#news_unsubscribe#:#Unsubscribe
 news#:#news_internal_news#:#Internal News
 news#:#news_get_feed_url#:#Get Feed URL
+news#:#news_feed_url_for#:#Feed URL for '%s'
 news#:#news_get_feed_title#:#Personal Feed URL
-news#:#news_get_feed_info#:#This is your personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
+news#:#news_get_feed_info#:#This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
 news#:#news_feed_url#:#Feed URL
-news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
+news#:#news_settings#:#News Settings
+news#:#news_notifications_public#:#Public Notifications
+news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.
+news#:#news_public_feed#:#Extra Feed URL
+news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.
+news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_open_source_page#:#Go to Source of External News
 feed#:#block_feed_block_head#:#External News Feed

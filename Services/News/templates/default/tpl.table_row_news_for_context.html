@@ -8,7 +8,13 @@
 <td class="std">
 <div style="float:right;"><a class="il_ContainerItemCommand" href="{CMD_EDIT}">{TXT_EDIT}</a></div>
 <b>{VAL_TITLE}</b><br />
-{VAL_CONTENT}
+<div style="clear:both;">
+<!-- BEGIN content -->
+<p>{VAL_CONTENT}</p>
+<!-- END content -->
+<!-- BEGIN long -->
+<div>{VAL_LONG_CONTENT}</div>
+<!-- END long -->
 <!-- BEGIN ni_update -->
 <div style="text-align:right;">{TXT_LAST_UPDATE}: {VAL_LAST_UPDATE}</div>
 <!-- END ni_update -->

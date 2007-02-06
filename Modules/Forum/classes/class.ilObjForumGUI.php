@@ -30,6 +30,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * $Id$
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI
+* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI
 *
 * @ingroup ModulesForum
 */
@@ -83,6 +84,10 @@ class ilObjForumGUI extends ilObjectGUI
 				exit;
 				break;
 
+			case "ilcolumngui":
+				$this->showThreadsObject();
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -114,6 +119,12 @@ class ilObjForumGUI extends ilObjectGUI
 	* list threads of forum
 	*/
 	function showThreadsObject()
+	{
+		$this->tpl->setRightContent($this->getRightColumnHTML());
+		$this->getCenterColumnHTML();
+	}
+
+	function getContent()
 	{
 		global $rbacsystem,$ilUser, $ilDB;
 
@@ -1199,6 +1210,8 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 					else
 					{
+						
+						// Generating new posting
 						if ($_GET["action"] == "ready_showreply")
 						{
 							// reply: new post
@@ -1209,6 +1222,7 @@ class ilObjForumGUI extends ilObjectGUI
 														  $_POST["subject"]
 															? ilUtil::stripSlashes($_POST["subject"])
 															: $threadData["thr_subject"]);
+							
 							ilUtil::sendInfo($lng->txt("forums_post_new_entry"));
 							if(isset($_FILES["userfile"]))
 							{
@@ -2292,6 +2306,25 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->showNotificationObject();
 	}
 
+	/**
+	* No editing allowd in forums. Notifications only.
+	*/
+	function checkEnableColumnEdit()
+	{
+		return false;
+	}
 	
+	/**
+	* Set column settings.
+	*/
+	function setColumnSettings($column_gui)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("frm");
+		$column_gui->setBlockProperty("news", "title", $lng->txt("frm_latest_postings"));
+	}
+
+
 } // END class.ilObjForumGUI
 ?>

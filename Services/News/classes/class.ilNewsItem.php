@@ -21,6 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define("NEWS_NOTICE", 0);
+define("NEWS_MESSAGE", 1);
+define("NEWS_WARNING", 2);
+
 include_once("./Services/News/classes/class.ilNewsItemGen.php");
 
 /**
@@ -130,6 +134,18 @@ class ilNewsItem extends ilNewsItemGen
 		// sort and return
 		$data = ilUtil::sortArray($data, "creation_date", "desc");
 		return $data;
+	}
+	
+	
+	/**
+	* Convenient function to set the whole context information.
+	*/
+	function setContext($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
+	{
+		$this->setContextObjId($a_obj_id);
+		$this->setContextObjType($a_obj_type);
+		$this->setContextSubObjId($a_sub_obj_id);
+		$this->setContextSubObjType($a_sub_obj_type);
 	}
 
 }

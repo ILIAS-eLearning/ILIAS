@@ -55,6 +55,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->setBlockId($ilCtrl->getContextObjId());
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
+		$this->setEnableNumInfo(true);
 		if ($ilCtrl->getContextObjType() ==  "crs")
 		{
 			$data = $news_item->getAggregatedNewsData($_GET["ref_id"]);
@@ -63,6 +64,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$data = $news_item->queryNewsForContext();
 		}
+		
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
@@ -94,6 +96,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		switch($_GET["cmd"])
 		{
 			case "showNews":
+			case "editSettings":
+			case "showFeedUrl":
 				return IL_SCREEN_CENTER;
 				break;
 			
@@ -169,6 +173,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
+		if ($this->getProperty("title") != "")
+		{
+			$this->setTitle($this->getProperty("title"));
+		}
+
+		$this->handleView();
+		
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		if (ilNewsSubscription::_hasSubscribed($_GET["ref_id"], $ilUser->getId()))
@@ -184,6 +195,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$lng->txt("news_subscribe"));
 		}
 		
+		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
+			0, $this->block_id);
+		if ($public_feed)
+		{
+			$this->addBlockCommand(
+				$ilCtrl->getLinkTarget($this, "showFeedUrl"),
+				$lng->txt("news_get_feed_url"));
+		}
+		
 		// add edit commands
 		if ($this->getEnableEdit())
 		{
@@ -195,10 +215,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
 				$lng->txt("add"));
 		}
-		
-		if ($this->getCurrentDetailLevel() == 0)
+
+		if ($this->getProperty("settings") == true)
 		{
-			return "";
+			$this->addBlockCommand(
+				$ilCtrl->getLinkTarget($this, "editSettings"),
+				$lng->txt("settings"));
 		}
 		
 		if (count($this->getData()) == 0 && !$this->getEnableEdit() &&
@@ -210,6 +232,50 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		return parent::getHTML();
 	}
 
+	/**
+	* Handles show/hide notification view and removes notifications if hidden.
+	*/
+	function handleView()
+	{
+		global $ilUser;
+		
+		include_once("Services/Block/classes/class.ilBlockSetting.php");
+		$this->view = ilBlockSetting::_lookup($this->getBlockType(), "view",
+			$ilUser->getId(), $this->block_id);
+
+		// check whether notices and messages exist
+		$got_notices = $got_messages = false;
+		foreach($this->data as $row)
+		{
+			if ($row["priority"] == 0) $got_notices = true;
+			if ($row["priority"] == 1) $got_messages = true;
+		}
+		$this->show_view_selection = false;
+
+		if ($got_notices && $got_messages)
+		{
+			$this->show_view_selection = true;
+		}
+		else if ($got_notices)
+		{
+			$this->view = "";
+		}
+		
+		// remove notifications if hidden
+		if (($this->view == "hide_notifications") && $this->show_view_selection)
+		{
+			$rset = array();
+			foreach($this->data as $k => $row)
+			{
+				if ($row["priority"] == 1)
+				{
+					$rset[$k] = $row;
+				}
+			}
+			$this->data = $rset;
+		}
+	}
+	
 	/**
 	* get flat bookmark list for personal desktop
 	*/
@@ -267,6 +333,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$news = new ilNewsItem($_GET["news_id"]);
 		
 		$tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
+
+		if ($news->getUserId() > 0)
+		{
+			$tpl->setCurrentBlock("user_info");
+			$user_obj = new ilObjUser($news->getUserId());
+			$tpl->setVariable("USR_IMAGE",
+				$user_obj->getPersonalPicturePath("xxsmall"));
+			$tpl->parseCurrentBlock();
+		}
+		
 		if (trim($news->getContent()) != "")		// content
 		{
 			$tpl->setCurrentBlock("content");
@@ -305,7 +381,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
-		$content_block->setTitle($lng->txt("news_internal_news"));
+		if ($this->getProperty("title") != "")
+		{
+			$content_block->setTitle($this->getProperty("title"));
+		}
+		else
+		{
+			$content_block->setTitle($lng->txt("news_internal_news"));
+		}
 		//$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
@@ -337,6 +420,188 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		ilNewsSubscription::_subscribe($_GET["ref_id"], $ilUser->getId());
 		$ilCtrl->returnToParent($this);
 	}
+	
+	/**
+	* block footer
+	*/
+	function fillFooter()
+	{
+		global $ilCtrl, $lng, $ilUser;
+
+		parent::fillFooter();
+		
+		if ($this->show_view_selection)
+		{
+			$this->showViewFooter();
+		}
+	}
+
+	/**
+	* Show additional footer for show/hide notifications
+	*/
+	function showViewFooter()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		$this->clearFooterLinks();
+		if ($this->view == "hide_notifications")
+		{
+			$this->addFooterLink($lng->txt("news_show_notifications"),
+				$ilCtrl->getLinkTarget($this,
+					"showNotofications"),
+				$ilCtrl->getLinkTarget($this,
+					"showNotifications", "", true),
+				"block_".$this->getBlockType()."_".$this->block_id
+				);
+			$this->addFooterLink($lng->txt("news_hide_notifications"));
+		}
+		else
+		{
+			$this->addFooterLink($lng->txt("news_show_notifications"));
+			$this->addFooterLink($lng->txt("news_hide_notifications"),
+				$ilCtrl->getLinkTarget($this,
+					"hideNotofications"),
+				$ilCtrl->getLinkTarget($this,
+					"hideNotifications", "", true),
+				"block_".$this->getBlockType()."_".$this->block_id
+				);
+		}
+
+		$this->fillFooterLinks();
+		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
+		$this->tpl->setCurrentBlock("block_footer");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function showNotifications()
+	{
+		global $ilCtrl, $ilUser;
+		
+		include_once("Services/Block/classes/class.ilBlockSetting.php");
+		$view = ilBlockSetting::_write($this->getBlockType(), "view", "",
+			$ilUser->getId(), $this->block_id);
+		
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->returnToParent($this);
+		}
+	}
+	
+	function hideNotifications()
+	{
+		global $ilCtrl, $ilUser;
+
+		include_once("Services/Block/classes/class.ilBlockSetting.php");
+		$view = ilBlockSetting::_write($this->getBlockType(), "view", "hide_notifications",
+			$ilUser->getId(), $this->block_id);
+
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->returnToParent($this);
+		}
+	}
+	
+	/**
+	* Show settings screen.
+	*/
+	function editSettings()
+	{
+		global $ilUser, $lng, $ilCtrl;
+
+		$public = ilBlockSetting::_lookup($this->getBlockType(), "public_notifications",
+			0, $this->block_id);
+		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
+			0, $this->block_id);
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt("news_settings"));
+		$form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+		$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
+			"1", $public_feed, $lng->txt("news_public_feed_info"));
+		if ($this->getProperty("public_notifications_option"))
+		{
+			$form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
+				"1", $public, $lng->txt("news_notifications_public_info"));
+		}
+		$form->addCommandButton("saveSettings", $lng->txt("save"));
+		$form->addCommandButton("cancelSettings", $lng->txt("cancel"));
+		$form->setFormAction($ilCtrl->getFormaction($this));
+		
+		return $form->getHTML();
+	}
+	
+	/**
+	* Cancel settings.
+	*/
+	function cancelSettings()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->returnToParent($this);
+	}
+	
+	/**
+	* Save settings.
+	*/
+	function saveSettings()
+	{
+		global $ilCtrl;
+		
+		ilBlockSetting::_write($this->getBlockType(), "public_notifications", $_POST["notifications_public"],
+			0, $this->block_id);
+		ilBlockSetting::_write($this->getBlockType(), "public_feed", $_POST["notifications_public_feed"],
+			0, $this->block_id);
+		
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* Show feed URL.
+	*/
+	function showFeedUrl()
+	{
+		global $lng, $ilCtrl, $ilUser;
+		
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		
+		$title = ilObject::_lookupTitle($this->block_id);
+		
+		$tpl = new ilTemplate("tpl.show_feed_url.html", true, true, "Services/News");
+		$tpl->setVariable("TXT_TITLE",
+			sprintf($lng->txt("news_feed_url_for"), $title));
+		$tpl->setVariable("TXT_INFO", $lng->txt("news_get_feed_info"));
+		$tpl->setVariable("TXT_FEED_URL", $lng->txt("news_feed_url"));
+		$tpl->setVariable("VAL_FEED_URL",
+			ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&user_id=".$ilUser->getId().
+				"&obj_id=".$this->block_id.
+				"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
+		$tpl->setVariable("VAL_FEED_URL_TXT",
+			ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&<br />user_id=".$ilUser->getId().
+				"&obj_id=".$this->block_id.
+				"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
+		
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI();
+		$content_block->setContent($tpl->get());
+		$content_block->setTitle($lng->txt("news_internal_news"));
+		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
+		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
+			$lng->txt("close"), true);
+
+		return $content_block->getHTML();
+	}
+	
 }
 
 ?>
