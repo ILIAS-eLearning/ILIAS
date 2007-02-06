@@ -32,6 +32,9 @@
 * 
 * @ingroup ServicesUtilities 
 */
+
+
+
 class ilCSVWriter
 {
 	private $csv = '';
