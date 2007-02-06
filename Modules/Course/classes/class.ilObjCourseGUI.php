@@ -1223,7 +1223,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
-					$this->tabs_gui->addSubTabTarget("crs_events",
+					$this->tabs_gui->addSubTabTarget("events",
 													 $this->ctrl->getLinkTargetByClass('ileventadministrationgui','eventsList'),
 													 "", 'ileventadministrationgui');
 				}
@@ -4272,7 +4272,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once('Modules/Course/classes/Event/class.ilEventAdministrationGUI.php');
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('crs_events');
+				$this->tabs_gui->setSubTabActive('events');
 				
 				$events = new ilEventAdministrationGUI($this);
 				$this->ctrl->forwardCommand($events);				

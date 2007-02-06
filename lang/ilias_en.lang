@@ -7007,3 +7007,9 @@ ps#:#ps_auto_https#:#Autodetect HTTPS
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
 ps#:#ps_auto_https_header_name#:#Header Name
 ps#:#ps_auto_https_header_value#:#Header Value
+crs#:#event_overview#:#Participations in Sessions
+common#:#legend#:#Legend
+crs#:#event_digit#:#Digit
+crs#:#event_csv_export#:#CSV Export
+crs#:#event_participated#:#Participated
+crs#:#event_not_participated#:#Not Participated

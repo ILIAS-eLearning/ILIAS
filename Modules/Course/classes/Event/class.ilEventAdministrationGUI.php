@@ -918,16 +918,181 @@ class ilEventAdministrationGUI
 	}
 	
 	/**
-	 * Event List
+	 * Events List CSV Export
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function exportCSV()
+	{
+		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
+		
+		$members_obj = new ilCourseMembers($this->course_obj);		
+		$members = $members_obj->getAssignedUsers();
+		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
+		
+		$events = ilEvent::_getEvents($this->course_obj->getId());
+		
+		$this->csv = new ilCSVWriter();
+		$this->csv->addColumn($this->lng->txt("lastname"));
+		$this->csv->addColumn($this->lng->txt("firstname"));
+		$this->csv->addColumn($this->lng->txt("login"));
+		
+		foreach($events as $event_obj)
+		{			
+			$this->csv->addColumn($event_obj->getTitle());			
+		}
+		
+		$this->csv->addRow();
+		
+		foreach($members as $user_id)
+		{
+			$name = ilObjUser::_lookupName($user_id);
+			
+			$this->csv->addColumn($name['lastname']);
+			$this->csv->addColumn($name['firstname']);
+			$this->csv->addColumn(ilObjUser::_lookupLogin($user_id));
+			
+			foreach($events as $event_obj)
+			{			
+				$event_part = new ilEventParticipants((int) $event_obj->getEventId());
+				
+				$this->csv->addColumn($event_part->hasParticipated($user_id) ?
+										$this->lng->txt('event_participated') :
+										$this->lng->txt('event_not_participated'));
+			}
+			
+			$this->csv->addRow();
+		}
+		
+		ilUtil::deliverData($this->csv->getCSVString(), date("Y_m_d")."_course_events.csv", "text/csv");		
+	}
+	
+	/**
+	 * Events List
 	 *
 	 * @access public
 	 * @param
 	 * 
 	 */
 	public function eventsList()
-	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_delete.html','Modules/Course');
+	{			
+		global $ilErr,$ilAccess, $ilUser;
+
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_list.html','Modules/Course');
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'exportCSV'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('event_csv_export'));
+		$this->tpl->parseCurrentBlock();
+				
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
+		
+		$this->tpl->addBlockfile("EVENTS_TABLE","events_table", "tpl.table.html");
+		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.event_list_row.html','Modules/Course');
+		
+		$members_obj = new ilCourseMembers($this->course_obj);		
+		$members = $members_obj->getAssignedUsers();
+		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
+		
+		// Table 
+		$tbl = new ilTableGUI();
+		$tbl->setTitle($this->lng->txt("event_overview"),
+					   'icon_usr.gif',
+					   $this->lng->txt('obj_usr'));
+		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);	
+		
+		$events = ilEvent::_getEvents($this->course_obj->getId());		
+		
+		$headerNames = array();
+		$headerVars = array();
+		$colWidth = array();
+		
+		$headerNames[] = $this->lng->txt('name');		
+		$headerVars[] = "name";		
+		$colWidth[] = '20%';		
+					
+		for ($i = 1; $i <= count($events); $i++)
+		{
+			$headerNames[] = $i;
+			$headerVars[] = "event_".$i;
+			$colWidth[] = 80/count($events)."%";	
+		}		
+		
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tbl->setHeaderNames($headerNames);
+		$tbl->setHeaderVars($headerVars, $this->ctrl->getParameterArray($this,'eventsList'));
+		$tbl->setColumnWidth($colWidth);		
+
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setOffset($_GET["offset"]);				
+		$tbl->setLimit($ilUser->getPref("hits_per_page"));
+		$tbl->setMaxCount(count($members));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		
+		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
+		$tbl->disable('sort');
+		$tbl->render();
+		
+		$counter = 0;
+		foreach($sliced_users as $user_id)
+		{			
+			foreach($events as $event_obj)
+			{								
+				$this->tpl->setCurrentBlock("eventcols");
+							
+				$event_part = new ilEventParticipants((int) $event_obj->getEventId());														
+										
+				if ($event_obj->enabledParticipation())
+				{			
+					$this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ? 
+											ilUtil::getImagePath('icon_ok.gif') :
+											ilUtil::getImagePath('icon_not_ok.gif'));
+					
+					$this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
+										$this->lng->txt('event_participated') :
+										$this->lng->txt('event_not_participated'));
+				}						
+				
+				$this->tpl->parseCurrentBlock();				
+			}			
+			
+			$this->tpl->setCurrentBlock("tbl_content");
+			$name = ilObjUser::_lookupName($user_id);
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("LASTNAME",$name['lastname']);
+			$this->tpl->setVariable("FIRSTNAME",$name['firstname']);
+			$this->tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));				
+			$this->tpl->parseCurrentBlock();			
+		}
+		
+		// legend
+		$i = 1;
+		$this->tpl->setVariable("HEAD_TITLE", $this->lng->txt("legend"));		
+		$this->tpl->setVariable("HEAD_TITLE_DIGIT", $this->lng->txt("event_digit"));
+		$this->tpl->setVariable("HEAD_TITLE_EVENT", $this->lng->txt("event"));
+		foreach($events as $event_obj)
+		{
+			$this->tpl->setCurrentBlock("legend_loop");
+			$this->tpl->setVariable("LEGEND_CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("LEGEND_DIGIT", $i++);
+			$this->tpl->setVariable("LEGEND_EVENT", $event_obj->getTitle());			
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 
