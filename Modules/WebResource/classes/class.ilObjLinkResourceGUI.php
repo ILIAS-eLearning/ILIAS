@@ -108,6 +108,19 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		return true;
 	}
+	
+	/**
+	 * Overwritten to offer object cloning
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function createObject()
+	{
+	 	parent::createObject();
+	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
+	}
 
 	function viewObject()
 	{

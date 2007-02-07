@@ -1095,6 +1095,7 @@ class ilObjectGUI
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
 	}
+	
 
 	/**
 	* cancel action and go back to previous page
@@ -2406,6 +2407,97 @@ class ilObjectGUI
 		$this->ctrl->redirectByClass($class, $a_cmd);
 	}
 	
+	// Object Cloning
+	
+	/**
+	 * Fill object clone template
+	 * This method can be called from any object GUI class that wants to offer object cloning. 
+	 *
+	 * @access public
+	 * @param string template variable name that will be filled
+	 * @param string type of new object
+	 * 
+	 */
+	public function fillCloneTemplate($a_tpl_varname,$a_type)
+	{
+		global $objDefinition,$ilUser;
+		
+		if(!count($existing_objs = ilUtil::_getObjectsByOperations($a_type,'write',$ilUser->getId(),-1)))
+		{
+			// No Objects with write permission found
+			return false;
+		}
+		$this->tpl->addBlockFile(strtoupper($a_tpl_varname),strtolower($a_tpl_varname),'tpl.obj_duplicate.html');
+	 	$this->ctrl->setParameter($this,'new_type',$a_type);
+	 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this));
+	 	$this->tpl->setVariable('TYPE_IMG3',ilUtil::getImagePath('icon_'.$a_type.'.gif'));
+	 	$this->tpl->setVariable('ALT_IMG3',$this->lng->txt('obj_'.$a_type));
+	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt('obj_'.$a_type.'_duplicate'));
+	 	
+	 	$this->tpl->setVariable('WIZARD_TXT_SELECT',$this->lng->txt('obj_'.$a_type));
+	 	$this->tpl->setVariable('WIZARD_OBJS',$this->buildCloneSelect($existing_objs));
+	 	
+		if($objDefinition->isContainer($a_type))
+		{
+		 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('btn_next'));
+		 	$this->tpl->setVariable('CMD_WIZARD','cloneWizardPage');
+		}
+		else
+		{
+		 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('obj_'.$a_type.'_duplicate'));
+		 	$this->tpl->setVariable('CMD_WIZARD','cloneAll');
+		}
+	 	
+	 	$this->tpl->setVariable('WIZARD_TXT_CANCEL',$this->lng->txt('cancel'));
+	}
+	
+	/**
+	 * Clone single (not container object)
+	 * Method is overwritten in ilContainerGUI
+	 *
+	 * @access public
+	 */
+	public function cloneAllObject()
+	{
+		include_once('classes/class.ilLink.php');
+		
+		global $ilAccess,$ilErr,$rbacsystem;
+		
+	 	$new_type = $_REQUEST['new_type'];
+	 	if(!$rbacsystem->checkAccess('create',(int) $_GET['ref_id'],$new_type))
+	 	{
+	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
+	 	}
+		if(!(int) $_POST['clone_source'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->createObject();
+			return false;
+		}
+		if(!$ilAccess->checkAccess('write','',(int) $_POST['clone_source'],$new_type))
+		{
+	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
+		}
+		$orig = ilObjectFactory::getInstanceByRefId((int) $_POST['clone_source']);
+		$new_obj = $orig->cloneObject((int) $_GET['ref_id']);
+		
+		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
+		ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
+	}
+	
+	/**
+	 * Build a select box for clonable objects (permission write)
+	 *
+	 * @access private
+	 * @param string obj_type 
+	 */
+	private function buildCloneSelect($existing_objs)
+	{
+ 		$options = ilObject::_prepareCloneSelection($existing_objs,$_REQUEST['new_type']);
+	 	return ilUtil::formSelect((int) $_REQUEST['clone_source'],'clone_source',$options,false,true);
+	}
+	
+	
 	/**
 	* Get center column
 	*/
@@ -2513,6 +2605,5 @@ class ilObjectGUI
 	function setColumnSettings($column_gui)
 	{
 	}
-
 } // END class.ilObjectGUI
 ?>

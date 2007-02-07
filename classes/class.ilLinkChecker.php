@@ -442,7 +442,7 @@ class ilLinkChecker
 
 	function __getWebResourceLinks()
 	{
-		include_once 'link/classes/class.ilLinkResourceItems.php';
+		include_once 'Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
 		$link_res_obj = new ilLinkResourceItems($this->getObjId());
 

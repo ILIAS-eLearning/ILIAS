@@ -133,6 +133,26 @@ class ilObjLinkResource extends ilObject
 
 		return true;
 	}
+	
+	/**
+	 * Clone
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cloneObject($a_target_id)
+	{
+	 	$new_obj = parent::cloneObject($a_target_id);
+	 	$this->cloneMetaData($new_obj);
+	 	
+	 	// object created now copy other settings
+	 	include_once('Modules/WebResource/classes/class.ilLinkResourceItems.php');
+	 	$links = new ilLinkResourceItems($this->getId());
+	 	$links->cloneItems($new_obj->getId());
+	 	
+	 	return $new_obj;
+	}
 
 	// PRIVATE
 

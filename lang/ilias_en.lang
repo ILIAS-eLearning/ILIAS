@@ -7022,3 +7022,5 @@ crs#:#event_digit#:#Digit
 crs#:#event_csv_export#:#CSV Export
 crs#:#event_participated#:#Participated
 crs#:#event_not_participated#:#Not Participated
+common#:#obj_webr_duplicate#:#Copy Web Resource 
+common#:#obj_webr_select#:#-- Please select one Web Resource --
