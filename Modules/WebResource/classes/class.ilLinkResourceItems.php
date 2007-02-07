@@ -41,7 +41,7 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 
-		$this->webr_ref_id = $webr_ref_id;
+		$this->webr_ref_id = 0;
 		$this->webr_id = $webr_id;
 
 		$this->db =& $ilDB;
@@ -145,6 +145,43 @@ class ilLinkResourceItems
 	function getValidStatus()
 	{
 		return (bool) $this->valid;
+	}
+	
+	/**
+	 * Copy web resource items
+	 *
+	 * @access public
+	 * @param int obj_id of new object
+	 * 
+	 */
+	public function cloneItems($a_new_id)
+	{
+		include_once 'Modules/WebResource/classes/class.ilParameterAppender.php';
+		$appender = new ilParameterAppender($this->getLinkResourceId());
+		
+	 	foreach($this->getAllItems() as $item)
+	 	{
+	 		$new_item = new ilLinkResourceItems($a_new_id);
+	 		$new_item->setTitle($item['title']);
+			$new_item->setDescription($item['description']);
+	 		$new_item->setTarget($item['target']);
+	 		$new_item->setActiveStatus($item['active']);
+	 		$new_item->setDisableCheckStatus($item['disable_check']);
+	 		$new_item->setLastCheckDate($item['last_check']);
+	 		$new_item->setValidStatus($item['valid']);
+	 		$new_item->add(true);
+
+			// Add parameters
+			foreach(ilParameterAppender::_getParams($item['link_id']) as $param_id => $data)
+			{
+				$appender->setName($data['name']);
+				$appender->setValue($data['value']);
+				$appender->add($new_item->getLinkId());
+			}
+
+	 		unset($new_item);
+	 	}
+	 	return true;
 	}
 
 	function delete($a_item_id,$a_update_history = true)
@@ -320,7 +357,8 @@ class ilLinkResourceItems
 		$this->db->query($query);
 
 		$link_id = $this->db->getLastInsertId();
-
+		$this->setLinkId($link_id);
+		
 		if($a_update_history)
 		{
 			include_once("classes/class.ilHistory.php");
@@ -404,6 +442,7 @@ class ilLinkResourceItems
 		}
 		return $items ? $items : array();
 	}
+	
 	function getActivatedItems()
 	{
 		foreach($this->getAllItems() as $id => $item_data)

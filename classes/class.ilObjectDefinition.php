@@ -538,6 +538,23 @@ class ilObjectDefinition extends ilSaxParser
 
 		return $imp;
 	}
+	
+	/**
+	 * Check if object type is container ('crs','fold','grp' ...)
+	 *
+	 * @access public
+	 * @param string object type
+	 * @return bool
+	 * 
+	 */
+	public function isContainer($a_obj_name)
+	{
+		if(!is_array($this->obj_data[$a_obj_name]['subobjects']))
+		{
+			return false;
+		}
+		return count($this->obj_data[$a_obj_name]['subobjects']) > 1 ? true : false;
+	}
 
 // PRIVATE METHODS
 

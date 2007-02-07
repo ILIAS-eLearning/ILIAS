@@ -1468,7 +1468,92 @@ class ilObject
 	
 		return $arr;
 	}
+	
+	/**
+	 * Prepare copy wizard object selection 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param array int array of ref ids
+	 */
+	public static function _prepareCloneSelection($a_ref_ids,$new_type)
+	{
+		global $ilDB,$lng;
+		
+		$query = "SELECT obj_data.title as obj_title,path_data.title as path_title,child FROM tree ".
+			"JOIN object_reference as obj_ref ON child = obj_ref.ref_id ".
+			"JOIN object_data as obj_data ON obj_ref.obj_id = obj_data.obj_id ".
+			"JOIN object_reference as path_ref ON parent = path_ref.ref_id ".
+			"JOIN object_data as path_data ON path_ref.obj_id = path_data.obj_id ".
+			"WHERE child IN (".implode(',',ilUtil::quoteArray($a_ref_ids)).") ".
+			"ORDER BY obj_data.title ";
+		$res = $ilDB->query($query);
+		
+		$options[0] = $lng->txt('obj_'.$new_type.'_select');
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if(strlen($title = $row->obj_title) > 40)
+			{
+				$title = substr($title,0,40).'...';
+			}
+			if(strlen($path = $row->path_title) > 40)
+			{
+				$path = substr($path,0,40).'...';
+			}
+			
+			
+			$options[$row->child] = ($title.' ('.$lng->txt('path').': '.$path.')');
+		}
+		return $options ? $options : array();
+	}
 
+	/**
+	 * Clone object permissions, put in tree ...
+	 *
+	 * @access public
+	 * @param int target id
+	 * @return object new object
+	 *  
+	 */
+	public function cloneObject($a_target_id)
+	{
+		global $objDefinition,$ilUser;
+		
+		$module = $objDefinition->getModule($this->getType());
+		$module_dir = ($module == "")
+			? ""
+			: $module."/";
+		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
 
+		// create instance
+		include_once($module_dir."classes/class.".$class_name.".php");
+		$new_obj = new $class_name(0, false);
+		$new_obj->setOwner($ilUser->getId());
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->setType($this->getType());
+		$new_obj->create();
+		$new_obj->createReference();
+		$new_obj->putInTree($a_target_id);
+		$new_obj->setPermissions($a_target_id);
+
+		return $new_obj;
+	}
+	
+	/**
+	 * Copy meta data
+	 *
+	 * @access public
+	 * @param object target object
+	 * 
+	 */
+	public function cloneMetaData($target_obj)
+	{
+	 	include_once "./Services/MetaData/classes/class.ilMD.php";
+		$md = new ilMD($this->getId(),0,$this->getType());
+		$md->cloneMD($target_obj->getId(),0,$target_obj->getType());
+		return true;	 	
+	}
 } // END class.ilObject
 ?>

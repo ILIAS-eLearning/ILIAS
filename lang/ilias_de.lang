@@ -6979,3 +6979,5 @@ crs#:#event_digit#:#Ziffer
 crs#:#event_csv_export#:#CSV-Export
 crs#:#event_participated#:#Teilgenommen
 crs#:#event_not_participated#:#Nicht teilgenommen
+common#:#obj_webr_duplicate#:#Web-Links duplizieren
+common#:#obj_webr_select#:#-- Bitte wählen Sie einen Web-Link aus --
