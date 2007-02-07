@@ -3246,6 +3246,8 @@ class ilObjSurvey extends ilObject
 		global $ilUser;
 		global $ilDB;
 		
+		if ($this->getAnonymize() && (strlen($anonymous_id) == 0)) return;
+
 		if (strcmp($user_id, "") == 0)
 		{
 			if ($user_id == ANONYMOUS_USER_ID)
@@ -4750,7 +4752,7 @@ class ilObjSurvey extends ilObject
 	function isSurveyCodeUsed($code)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT answer_id FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s",
+		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote($code)
 		);

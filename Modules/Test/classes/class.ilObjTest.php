@@ -4242,7 +4242,7 @@ class ilObjTest extends ilObject
 			$test_result =& $this->getTestResult($active_id);
 			$reached = $test_result["test"]["total_reached_points"];
 			$total = $test_result["test"]["total_max_points"];
-			$percentage = $reached/$total;
+			$percentage = $total != 0 ? $reached/$total : 0;
 			$mark = $this->mark_schema->getMatchingMark($percentage*100.0);
 			if ($mark)
 			{

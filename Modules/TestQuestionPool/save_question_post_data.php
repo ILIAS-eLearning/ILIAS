@@ -14,10 +14,14 @@ foreach ($_POST as $key => $value)
 $res = saveQuestionResult($_POST["session_id"]."::".$_POST["client"],$_POST["user_id"], $_POST["test_id"], $_POST["question_id"], $_POST["pass"], $results);
 if ($res === true)
 {
-	echo "save results was successful";
+	global $lng;
+	$lng->loadLanguageModule("assessment");
+	echo $lng->txt("result_successful_saved");
 }
 else
 {
-	echo "save results was not successful";
+	global $lng;
+	$lng->loadLanguageModule("assessment");
+	echo $lng->txt("result_unsuccessful_saved");
 }
 ?>
