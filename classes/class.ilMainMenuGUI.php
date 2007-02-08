@@ -219,8 +219,8 @@ class ilMainMenuGUI
 				include_once "./Modules/Chat/classes/class.ilChatInvitations.php";
 
 
-				$link = "mail_frameset.php";
-				if ($invitation_count = ilChatInvitations::_countNewInvitations($_SESSION["AccountId"]))
+				$link = "ilias.php?baseClass=ilMailGUI";
+				if ($invitation_count = ilChatInvitations::_countNewInvitations($_SESSION["AccountId"]) || 1 == 1)
 				{
 					$add = " ".sprintf($lng->txt("cnt_new"),$invitation_count);
 
