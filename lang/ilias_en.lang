@@ -7031,3 +7031,7 @@ common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_select#:#-- Please select one File --
 common#:#obj_exc_duplicate#:#Copy Exercise
 common#:#obj_exc_select#:#-- Please select one Exercise --
+common#:#auth_settings#:#Authentication Settings
+common#:#login_information#:#Login Information
+common#:#login_information_desc#:#Please enter a login information for the respective language.
+common#:#login_information_settings_saved#:#The login information were saved successfully

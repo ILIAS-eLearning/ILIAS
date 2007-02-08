@@ -82,12 +82,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		}
 
 		$this->tabs_gui->setTabActive('authentication_settings');
+		$this->setSubTabs('authSettings');		
+		$this->tabs_gui->setSubTabActive("auth_settings");		
 		
 		$this->getTemplateFile("general");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_AUTH_TITLE", $this->lng->txt("auth_select"));
-
+		
 		$this->tpl->setVariable("TXT_AUTH_MODE", $this->lng->txt("auth_mode"));
 		$this->tpl->setVariable("TXT_AUTH_DEFAULT", $this->lng->txt("default"));
 		$this->tpl->setVariable("TXT_AUTH_ACTIVE", $this->lng->txt("active"));
@@ -230,6 +232,134 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROLE", $role['title']);
 			$this->tpl->setVariable("ROLE_ID", $role['id']);
 			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	/**
+	 * saves the login information data
+	 *
+	 * @access public
+	 * @author Michael Jansen
+	 * 
+	 */
+	public function saveLoginInfoObject()
+	{		
+		global $rbacsystem, $lng;		
+		
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}		
+		
+		if (is_array($_POST["loginMessage"]))
+		{
+			$this->loginSettings = new ilSetting("login_settings");
+			
+			foreach ($_POST["loginMessage"] as $key => $val)
+			{				
+				$this->loginSettings->set("login_message_".$key, $val);
+			}
+		}
+		
+		ilUtil::sendInfo($this->lng->txt("login_information_settings_saved"), true);
+		
+		$this->loginInfoObject();
+	}
+	
+	/**
+	 * displays login information of all installed languages
+	 *
+	 * @access public
+	 * @author Michael Jansen
+	 */
+	public function loginInfoObject()
+	{
+		global $rbacsystem, $lng;	
+		
+		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+		}			
+
+		$this->tabs_gui->setTabActive("authentication_settings");
+		$this->setSubTabs("authSettings");		
+		$this->tabs_gui->setSubTabActive("login_information");
+		
+		$lng->loadLanguageModule("meta");	
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+					
+		if (!is_object($this->loginSettings)) $this->loginSettings = new ilSetting("login_settings");
+		
+		$login_settings = $this->loginSettings->getAll();		
+		$languages = $lng->getInstalledLanguages();
+		$def_language = $lng->getDefaultLanguage();		
+		
+		foreach ($this->setDefLangFirst($def_language, $languages) as $lang_key)
+		{						
+			$add = "";
+			if ($lang_key == $def_language)
+			{
+				$add = " (".$lng->txt("default").")";
+			}			
+			
+			$this->tpl->setCurrentBlock("langloop");
+			$this->tpl->setVariable("LANGLOOP_COUNTRY_SH", $lang_key);
+			$this->tpl->setVariable("LANGLOOP_COUNTRY",	$lng->txt("meta_l_".$lang_key).$add);
+			$this->tpl->setVariable("LANGLOOP_MESSAGE", $login_settings["login_message_".$lang_key]);				
+			$this->tpl->parseCurrentBlock();
+			
+			unset($login_settings["login_message_".$lang_key]);
+		}		
+				
+		foreach ($login_settings as $key => $message)
+		{
+			$lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
+			
+			$this->tpl->setCurrentBlock("langloop");
+			$this->tpl->setVariable("LANGLOOP_NOT_INSTALLED", $lng->txt("not_installed"));
+			$this->tpl->setVariable("LANGLOOP_COUNTRY_SH", $lang_key);
+			$this->tpl->setVariable("LANGLOOP_COUNTRY",	$lng->txt("meta_l_".$lang_key));
+			$this->tpl->setVariable("LANGLOOP_MESSAGE", $message);	
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	/**
+	 * 
+	 * returns an array of all installed languages, default language at the first position 
+	 *
+	 * @param string $a_def_language Default language of the current installation
+	 * @param array $a_languages Array of all installed languages
+	 * @return array $languages Array of the installed languages, default language at first position
+	 * @access public
+	 * @author Michael Jansen
+	 * 
+	 */
+	public function setDefLangFirst($a_def_language, $a_languages)
+	{		
+		if (is_array($a_languages) && $a_def_language != "")
+		{
+			$languages = array();
+			$languages[] = $a_def_language;
+			
+			foreach ($a_languages as $val)
+			{					
+				if (!in_array($val, $languages))
+				{					
+					$languages[] = $val;
+				}	
+			}			
+			
+			return $languages;
+		}
+		else
+		{		
+			return array();
 		}
 	}
 	
@@ -1425,6 +1555,33 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
 								 array("perm","info","owner"), 'ilpermissiongui');
+		}
+	}
+	
+	/**
+	* set sub tabs
+	*/
+	function setSubTabs($a_tab)
+	{
+		global $rbacsystem,$ilUser,$ilAccess;
+		
+		switch ($a_tab)
+		{			
+			case 'authSettings':				
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$this->tabs_gui->addSubTabTarget("auth_settings",
+													 $this->ctrl->getLinkTarget($this,'authSettings'),
+													 "");
+				}
+				
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$this->tabs_gui->addSubTabTarget("login_information",
+													 $this->ctrl->getLinkTarget($this,'loginInfo'),
+													 "");
+				}				
+				break;				
 		}
 	}
 } // END class.ilObjAuthSettingsGUI
