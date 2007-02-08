@@ -31,7 +31,6 @@
    * @package ilias
    */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
-include_once './webservice/soap/classes/class.ilSoapException.php';
 
 class ilSoapExerciseAdministration extends ilSoapAdministration
 {
@@ -76,7 +75,10 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
         // create object, put it into the tree and use the parser to update the settings
 		include_once './Modules/Exercise/classes/class.ilObjExercise.php';
-		include_once './webservice/soap/classes/class.ilExerciseXMLParser.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseXMLParser.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseException.php';
+
+
 		$exercise = new ilObjExercise();
         $exercise->create();
     	$exercise->createReference();
@@ -93,9 +95,9 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
             return $exerciseXMLParser->start() &&  $exercise->update() ? $exercise->getRefId() : 0;
 
-        } catch(Exception $exception) {
+        } catch(ilExerciseException $exception) {
             return $this->__raiseError($exception->getMessage(),
-									   $exception->getCode() == SOAP_CLIENT_ERROR ? "Client" : "Server");
+									   $exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");
         }
 	}
 
@@ -150,7 +152,8 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 									   'Server');
 		}
 
-		include_once './webservice/soap/classes/class.ilExerciseXMLParser.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseXMLParser.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseException.php';
         $exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml, $obj_id);
 
         try
@@ -158,9 +161,9 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
             return $exerciseXMLParser->start() && $exercise->update();
 
-        } catch(Exception $exception) {
+        } catch(ilExerciseException $exception) {
            return $this->__raiseError($exception->getMessage(),
-									   $exception->getCode() == SOAP_CLIENT_ERROR ? "Client" : "Server");
+									   $exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");
         }
         return false;
     }
@@ -221,7 +224,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 									   'Server');
 		}
    	    // store into xml result set
-		include_once './webservice/soap/classes/class.ilExerciseXMLWriter.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
 
 		// create writer
 		$xmlWriter = new ilExerciseXMLWriter();
