@@ -848,7 +848,37 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getNIC(): return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns');
-    	return true;
+
+        $this->server->register('getExerciseXML',
+								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "attachments" => "xsd:boolean"),
+								array('exercisexml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getExerciseXML',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getExerciseXML(): returns xml description of exercise (including file contents)');
+
+        $this->server->register('addExercise',
+								array('sid' => 'xsd:string', "target_id" => 'xsd:int', "xml" => "xsd:string"),
+								array('refid' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addExercise',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addExercise(): create exercise, put it into target (ref_id) and update exercise properties from xml (see ilias_exercise_3_8.dtd for details). Obj_id must not be set!');
+
+        $this->server->register('updateExercise',
+								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "xml" => "xsd:string"),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#updateExercise',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS updateExercise():update existing exercise, update exercise properties from xml (see ilias_exercise_3_8.dtd for details). obj_id in xml must match according obj id of refid.!');
+
+
+
+								return true;
 	}
 
 }

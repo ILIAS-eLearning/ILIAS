@@ -555,5 +555,26 @@ function getNIC($sid) {
 	return $soa->getNIC($sid);
 }
 
+function getExerciseXML ($sid, $ref_id, $attachFileContents) {
+	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
+	$sta = & new ilSoapExerciseAdministration();
+	return $sta->getExerciseXML($sid, $ref_id, $attachFileContents);
+
+}
+
+
+function updateExercise ($sid, $ref_id, $xml) {
+	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
+	$sta = & new ilSoapExerciseAdministration();
+	return $sta->updateExercise($sid, $ref_id, $xml);
+
+}
+
+function addExercise ($sid, $ref_id, $xml) {
+	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
+	$sta = & new ilSoapExerciseAdministration();
+	return $sta->addExercise($sid, $ref_id, $xml);
+
+}
 
 ?>
