@@ -310,11 +310,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("langloop");
 			$this->tpl->setVariable("LANGLOOP_COUNTRY_SH", $lang_key);
 			$this->tpl->setVariable("LANGLOOP_COUNTRY",	$lng->txt("meta_l_".$lang_key).$add);
-			$this->tpl->setVariable("LANGLOOP_MESSAGE", $login_settings["login_message_".$lang_key]);				
+			$this->tpl->setVariable("LANGLOOP_MESSAGE", ilUtil::stripSlashes($login_settings["login_message_".$lang_key]));				
 			$this->tpl->parseCurrentBlock();
 			
 			unset($login_settings["login_message_".$lang_key]);
-		}		
+		}
 				
 		foreach ($login_settings as $key => $message)
 		{
@@ -324,7 +324,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->tpl->setVariable("LANGLOOP_NOT_INSTALLED", $lng->txt("not_installed"));
 			$this->tpl->setVariable("LANGLOOP_COUNTRY_SH", $lang_key);
 			$this->tpl->setVariable("LANGLOOP_COUNTRY",	$lng->txt("meta_l_".$lang_key));
-			$this->tpl->setVariable("LANGLOOP_MESSAGE", $message);	
+			$this->tpl->setVariable("LANGLOOP_MESSAGE", ilUtil::stripSlashes($message));	
 			$this->tpl->parseCurrentBlock();
 		}
 	}
