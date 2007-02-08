@@ -6985,3 +6985,7 @@ common#:#obj_file_duplicate#:#Datei duplizieren
 common#:#obj_file_select#:#-- Bitte wählen Sie eine Datei aus --
 common#:#obj_exc_duplicate#:#Übung duplizieren
 common#:#obj_exc_select#:#-- Bitte wählen Sie eine Übung aus --
+common#:#auth_settings#:#Authentifizierungseinstellungen
+common#:#login_information#:#Logininformationen
+common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Logininformation ein.
+common#:#login_information_settings_saved#:#Die Logininformationen wurden erfolgreich gespeichert
