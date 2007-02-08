@@ -494,7 +494,7 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$query = "SELECT id, priority, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long ".
+		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var ".
 			"FROM il_news_item ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).

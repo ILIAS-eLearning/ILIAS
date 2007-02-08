@@ -149,7 +149,7 @@ switch($target_type)
 
 	// new implementation: ok
 	case "sahs":
-		require_once("content/classes/class.ilObjSAHSLearningModuleGUI.php");
+		require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php");
 		ilObjSAHSLearningModuleGUI::_goto($target_id);
 		break;
 

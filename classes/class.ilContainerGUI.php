@@ -632,27 +632,7 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			// render all items list
 			case "all":
-			
-				/*
-				// get container page
-				include_once("./content/classes/Pages/class.ilPageObjectGUI.php");
-				include_once("./content/classes/Pages/class.ilPageObject.php");
-				if (ilPageObject::_exists($this->object->getType(),
-					$this->object->getId()))
-				{
-					$page =& new ilPageObject($this->object->getType(), $this->object->getId());
-					$page_gui =& new ilPageObjectGUI($page);
-					//$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
-					//$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
-					//$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
-					//	"&amp;ref_id=".$_GET["ref_id"]);
-						
-					$page_gui->setOutputMode("presentation");
-					//$page_gui->setLinkXML($this->getLinkXML());
-					$page_gui->setTemplateOutput(false);
-					$output_html.= $page_gui->presentation($page_gui->getOutputMode());
-				}*/
-				
+							
 				$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 					"xhtml_page");
 				if ($xpage_id > 0 && $ilSetting->get("enable_cat_page_edit"))

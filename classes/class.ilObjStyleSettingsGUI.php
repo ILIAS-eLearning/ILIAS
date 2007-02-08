@@ -251,7 +251,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		ksort($style_entries);
 		$from_styles = $to_styles = array();
 		// this may not be cool, if styles are organised as (independent) Service
-		include_once("content/classes/class.ilObjContentObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 
 		// number of individual styles
 		if ($fixed_style <= 0)
@@ -428,7 +428,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			return;
 		}
 		
-		include_once("./content/classes/class.ilObjContentObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_moveLMStyles($_POST["from_style"], $_POST["to_style"]);
 		$this->ctrl->redirect($this, "editContentStyles");
 	}
@@ -439,7 +439,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function moveIndividualStylesObject()
 	{
-		include_once("./content/classes/class.ilObjContentObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_moveLMStyles(-1, $_GET["to_style"]);
 		$this->ctrl->redirect($this, "editContentStyles");
 	}

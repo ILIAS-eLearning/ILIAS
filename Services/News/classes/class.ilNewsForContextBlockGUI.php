@@ -304,7 +304,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$ilCtrl->setParameter($this, "news_context", $news["ref_id"]);
 		}
 
-		$this->tpl->setVariable("VAL_TITLE", $news["title"]);
+		if ($news["content_is_lang_var"])
+		{
+			$this->tpl->setVariable("VAL_TITLE", $lng->txt($news["title"]));
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_TITLE", $news["title"]);
+		}
 		
 		$ilCtrl->setParameter($this, "news_id", $news["id"]);
 		$this->tpl->setVariable("HREF_SHOW",
@@ -375,7 +382,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$tpl->setVariable("TXT_LINK", $lng->txt($txt).": ".ilObject::_lookupTitle($obj_id));
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("VAL_TITLE", $news->getTitle());			// title
+		if ($news->getContentIsLangVar())
+		{
+			$tpl->setVariable("VAL_TITLE", $lng->txt($news->getTitle()));
+		}
+		else
+		{
+			$tpl->setVariable("VAL_TITLE", $news->getTitle());			// title
+		}
 		$tpl->setVariable("VAL_CREATION_DATE", $news->getCreationDate());	// creation date
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");

@@ -34,7 +34,7 @@
 
 include_once "./webservice/soap/classes/class.ilSoapStructureReader.php";
 include_once "./webservice/soap/classes/class.ilSoapStructureObjectFactory.php";
-include_once "./content/classes/class.ilGlossaryDefinition.php";
+include_once "./Modules/Glossary/classes/class.ilGlossaryDefinition.php";
 
 class ilSoapGLOStructureReader extends ilSoapStructureReader
 {

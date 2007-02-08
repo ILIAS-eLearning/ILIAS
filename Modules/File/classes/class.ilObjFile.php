@@ -86,6 +86,7 @@ class ilObjFile extends ilObject
 		// not upload mode
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
+		$this->addNewsNotification("file_created");
 
 		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) "
 			."VALUES (".$ilDB->quote($this->getId()).","
@@ -219,6 +220,7 @@ class ilObjFile extends ilObject
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "replace",
 			$a_filename.",".$this->getVersion());
+		$this->addNewsNotification("file_updated");
 	}
 
 
@@ -683,14 +685,17 @@ class ilObjFile extends ilObject
 		return $this->getDirectory().'/1.zip';
 	}
 	
-	function addNewsNotification()
+	function addNewsNotification($a_lang_var)
 	{
+		global $ilUser;
+		
 		// Add Notification to news
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_item = new ilNewsItem();
 		$news_item->setContext($this->getId(), $this->getType());
 		$news_item->setPriority(NEWS_NOTICE);
-		$news_item->setTitle($pos_data["pos_subject"]);
+		$news_item->setTitle($a_lang_var);
+		$news_item->setContentIsLangVar(true);
 		//$news_item->setContent(nl2br($this->prepareText($pos_data["pos_message"], 0)));
 		$news_item->setUserId($ilUser->getId());
 		$news_item->setVisibility(NEWS_USERS);

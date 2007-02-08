@@ -647,25 +647,6 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 		return true;
 
-/*
-		include_once("./content/classes/class.ilCitationTextParser.php");
-
-		$ct_parser = new ilCitationTextParser($page_xml);
-		$ct_parser->setStartId($a_start);
-		$ct_parser->setEndId($a_end);
-		$ct_parser->startParsing();
-
-		echo $ct_parser->output;
-
-		return "hallo";
-*/
-
-
-#		var_dump("<pre>",htmlentities($page_xml),"</pre>");exit;
-		// NO TRANSLATIONS IN THE MOMENT
-		#$tmp_tpl = new ilTemplate("tpl.citation_paragraph.xsl",true,true,"content");
-		#$xsl = $tmp_tpl->get();
-
 		$xsl = file_get_contents($tpl->tplPath."/tpl.citation_paragraph.xsl");
 		$args = array( '/_xml' => $page_xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
