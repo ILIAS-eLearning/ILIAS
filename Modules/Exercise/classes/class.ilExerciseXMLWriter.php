@@ -33,6 +33,8 @@
 *
 * @author Roland Küstermann <Roland@kuestermann.com>
 * @version $Id: class.ilExerciseXMLWriter.php,v 1.3 2005/11/04 12:50:24 smeyer Exp $
+*
+* @ingroup ModulesExercise
 */
 
 include_once "./classes/class.ilXmlWriter.php";
@@ -103,8 +105,9 @@ class ilExerciseXMLWriter extends ilXmlWriter
         }
         $this->xmlEndTag("Members");
         $this->xmlStartTag("Files");
+
         /**
-         * @var ilFileDataExercise
+         * @var  ilFileDataExercise $exerciseFileData
          */
         $exerciseFileData = $this->exercise->file_obj;
         $files = $exerciseFileData->getFiles();

@@ -28,6 +28,8 @@
 * @author Roland Küstermann <roland@kuestermann.com>
 * @version $Id: class.ilObjectXMLParser.php 12811 2006-12-08 18:37:44Z akill $
 *
+* @ingroup ModulesExercise
+*
 * @extends ilSaxParser
 */
 
@@ -95,7 +97,7 @@ class ilExerciseXMLParser extends ilSaxParser
 	* @param	resource	$a_xml_parser		xml parser
 	* @param	string		$a_name				element name
 	* @param	array		$a_attribs			element attributes array
-	* @throws   exception   when obj id and passed id do not match
+	* @throws   ilExerciseException   when obj id != - 1 and if it it does not match the id in the xml
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
@@ -109,10 +111,9 @@ class ilExerciseXMLParser extends ilSaxParser
                    $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
 			       if ($this->obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id)
 			       {
-			           // which type of exception to throw?
-			           // for internal use in soap it would be sufficient to throw a soapexception, but since
-			           // we want to reuse these classes there has to be an exception concept???
-            	       throw new Exception ("Object IDs (xml $read_obj_id and argument $obj_id) do not match!",  SOAP_CLIENT_ERROR);
+			           include_once 'Modules/Exercise/class/class.ilExerciseException.php';
+
+            	       throw new ilExerciseException ("Object IDs (xml $read_obj_id and argument $obj_id) do not match!", ilExerciseException::$ID_MISMATCH);
                    }
 			    }
 				break;
@@ -203,12 +204,12 @@ class ilExerciseXMLParser extends ilSaxParser
 
 	   if ($action == "Attach" && !$memberObject->isAssigned($usr_id))
 	   {
-        $memberObject->assignMember ($usr_id);
+            $memberObject->assignMember ($usr_id);
        }
 
        if ($action == "Detach" && $memberObject->isAssigned($usr_id))
        {
-        $memberObject->deassignMember ($usr_id);
+            $memberObject->deassignMember ($usr_id);
        }
 	}
 
@@ -239,7 +240,9 @@ class ilExerciseXMLParser extends ilSaxParser
 	/**
 	 * starts parsing an changes object by side effect.
 	 *
+	 * @throws ilExerciseException when obj id != - 1 and if it it does not match the id in the xml
 	 * @return boolean true, if no errors happend.
+	 *
 	 */
 	public function start () {
 	    $this->startParsing();
