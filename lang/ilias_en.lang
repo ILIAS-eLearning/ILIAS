@@ -7029,3 +7029,5 @@ common#:#obj_webr_duplicate#:#Copy Web Resource
 common#:#obj_webr_select#:#-- Please select one Web Resource --
 common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_select#:#-- Please select one File --
+common#:#obj_exc_duplicate#:#Copy Exercise
+common#:#obj_exc_select#:#-- Please select one Exercise --

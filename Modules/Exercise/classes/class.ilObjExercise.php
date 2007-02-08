@@ -151,37 +151,38 @@ class ilObjExercise extends ilObject
 		$this->ilias->db->query($query);
 		return true;
 	}
-
+	
 	/**
-	* copy all properties and subobjects of a course.
-	*
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
+	 * Clone exercise (no member data)
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * 
+	 */
+	public function cloneObject($a_target_id)
 	{
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-
-		// put here exc specific stuff
-		$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
-		$tmp_obj->setInstruction($this->getInstruction());
-		$tmp_obj->setTimestamp($this->getTimestamp());
-		$tmp_obj->saveData();
-
-		// CLONE FILES
+		global $ilDB;
+		
+		// Copy settings
+	 	$new_obj = parent::cloneObject($a_target_id);
+	 	$new_obj->setInstruction($this->getInstruction());
+	 	$new_obj->setTimestamp($this->getTimestamp());
+	 	$new_obj->saveData();
+	 	
+		// Copy files
 		$tmp_file_obj =& new ilFileDataExercise($this->getId());
-		$tmp_file_obj->ilClone($tmp_obj->getId());
-
-		// CLONE MEMBERS
-		$tmp_members_obj =& new ilExerciseMembers($this->getId(),$new_ref_id);
-		$tmp_members_obj->ilClone($tmp_obj->getId());
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
+		$tmp_file_obj->ilClone($new_obj->getId());
+		unset($tmp_file_obj);
+		
+		// Copy learning progress settings
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+		unset($obj_settings);
+		
+		return $new_obj;
 	}
+	
 
 	/**
 	* Returns the delivered files of an user

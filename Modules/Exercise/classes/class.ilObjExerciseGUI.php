@@ -77,6 +77,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",1));
 		$this->tpl->setVariable("CMD_CANCEL", "cancel");
 	
+		$this->fillCloneTemplate('DUPLICATE','exc');
+	
 		return true;
 	}
   
