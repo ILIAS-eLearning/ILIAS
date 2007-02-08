@@ -261,7 +261,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			}
 		}
 		
-		ilUtil::sendInfo($this->lng->txt("login_information_settings_saved"), true);
+		ilUtil::sendInfo($this->lng->txt("login_information_settings_saved"));
 		
 		$this->loginInfoObject();
 	}
