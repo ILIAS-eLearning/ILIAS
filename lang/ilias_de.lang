@@ -6983,3 +6983,5 @@ common#:#obj_webr_duplicate#:#Web-Links duplizieren
 common#:#obj_webr_select#:#-- Bitte wählen Sie einen Web-Link aus --
 common#:#obj_file_duplicate#:#Datei duplizieren
 common#:#obj_file_select#:#-- Bitte wählen Sie eine Datei aus --
+common#:#obj_exc_duplicate#:#Übung duplizieren
+common#:#obj_exc_select#:#-- Bitte wählen Sie eine Übung aus --

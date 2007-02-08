@@ -72,6 +72,25 @@ class ilLPObjSettings
 			$this->obj_mode = $this->__getDefaultMode($this->obj_id,$this->obj_type);
 		}
 	}
+	
+	/**
+	 * Clone settings
+	 *
+	 * @access public
+	 * @param int new obj id
+	 * 
+	 */
+	public function cloneSettings($a_new_obj_id)
+	{
+	 	$query = "INSERT INTO ut_lp_settings ".
+	 		"SET obj_id = ".$this->db->quote($a_new_obj_id).", ".
+	 		"obj_type = ".$this->db->quote($this->getObjType()).", ".
+	 		"mode = ".$this->db->quote($this->getMode()).", ".
+	 		"visits = ".$this->db->quote($this->getVisits());
+	 		
+	 	$this->db->query($query);
+		return true;
+	}
 
 	function getVisits()
 	{
@@ -311,7 +330,7 @@ class ilLPObjSettings
 
 	function __read()
 	{
-		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = '".$this->db->quote($this->obj_id)."'");
+		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = ".$this->db->quote($this->obj_id)." ");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->is_stored = true;
