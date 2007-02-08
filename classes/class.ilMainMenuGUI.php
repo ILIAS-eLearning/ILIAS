@@ -220,7 +220,7 @@ class ilMainMenuGUI
 
 
 				$link = "ilias.php?baseClass=ilMailGUI";
-				if ($invitation_count = ilChatInvitations::_countNewInvitations($_SESSION["AccountId"]) || 1 == 1)
+				if ($invitation_count = ilChatInvitations::_countNewInvitations($_SESSION["AccountId"]))
 				{
 					$add = " ".sprintf($lng->txt("cnt_new"),$invitation_count);
 
