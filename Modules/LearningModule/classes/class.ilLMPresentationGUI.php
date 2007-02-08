@@ -1621,7 +1621,6 @@ class ilLMPresentationGUI
 		}
 		$this->tpl->setCurrentBlock("pg_content");
 		
-		//include_once("content/classes/class.ilLMObject.php");
 		$this->tpl->setVariable("TXT_MISSING_PRECONDITIONS", 
 			sprintf($this->lng->txt("cont_missing_preconditions"),
 			ilLMObject::_lookupTitle($topchap)));
@@ -1813,9 +1812,6 @@ class ilLMPresentationGUI
 		global $ilBench;
 
 		$ilBench->start("ContentPresentation", "ilGlossary");
-
-		//require_once("content/classes/Pages/class.ilPageObjectGUI.php");
-		//require_once("content/classes/class.ilLMPageObject.php");
 
 		require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 		$term_gui =& new ilGlossaryTermGUI($_GET["obj_id"]);

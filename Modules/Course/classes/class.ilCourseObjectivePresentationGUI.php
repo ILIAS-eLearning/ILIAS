@@ -466,7 +466,7 @@ class ilCourseObjectivePresentationGUI
 								continue;
 							}
 
-							include_once './content/classes/class.ilLMObject.php';
+							include_once './Modules/LearningModule/classes/class.ilLMObject.php';
 							
 						
 							$this->tpl->setCurrentBlock("chapters");

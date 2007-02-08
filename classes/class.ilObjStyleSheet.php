@@ -257,7 +257,7 @@ class ilObjStyleSheet extends ilObject
 			}
 			else
 			{
-				include_once("content/classes/class.ilObjContentObject.php");
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$obj_ids = ilObjContentObject::_lookupContObjIdByStyleId($style_rec["id"]);
 				foreach($obj_ids as $id)
 				{
@@ -554,7 +554,7 @@ class ilObjStyleSheet extends ilObject
 		}
 		
 		// delete entries in learning modules
-		include_once("content/classes/class.ilObjContentObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_deleteStyleAssignments($this->getId());
 		
 		// delete style data record

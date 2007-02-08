@@ -423,7 +423,7 @@ class SurveyQuestionGUI
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
-				include_once "./content/classes/class.ilObjGlossary.php";
+				include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
 				$glossary =& new ilObjGlossary($_GET["source_id"], true);
 				// get all glossary items
 				$terms = $glossary->getTermList();

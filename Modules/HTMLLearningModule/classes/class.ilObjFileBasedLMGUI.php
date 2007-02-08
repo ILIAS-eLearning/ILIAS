@@ -402,7 +402,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function saveBibItemObject($a_target = "")
 	{
-		include_once "content/classes/class.ilBibItemGUI.php";
+		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
@@ -435,7 +435,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function editBibItemObject($a_target = "")
 	{
-		include_once "content/classes/class.ilBibItemGUI.php";
+		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
@@ -466,7 +466,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function deleteBibItemObject($a_target = "")
 	{
-		include_once "content/classes/class.ilBibItemGUI.php";
+		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
@@ -501,14 +501,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
 		if ($bibItemName == "BibItem")
 		{
-			include_once "content/classes/class.ilBibItem.php";
+			include_once "./Modules/LearningModule/classes/class.ilBibItem.php";
 			$bib_item =& new ilBibItem();
 			$bib_item->setId($this->object->getId());
 			$bib_item->setType($this->object->getType());
 			$bib_item->read();
 		}
 
-		include_once "content/classes/class.ilBibItemGUI.php";
+		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		if ($bibItemIndex == "")
@@ -569,7 +569,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
-		require_once ("content/classes/class.ilFileExplorer.php");
+		require_once ("./Modules/HTMLLearningModule/classes/class.ilFileExplorer.php");
 		$exp = new ilFileExplorer($this->lm->getDataDirectory());
 
 	}

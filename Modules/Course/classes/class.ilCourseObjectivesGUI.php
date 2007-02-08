@@ -135,7 +135,7 @@ class ilCourseObjectivesGUI
 			$title = $tmp_lm->getTitle();
 			if($item['type'] == 'st')
 			{
-				include_once './content/classes/class.ilLMObjectFactory.php';
+				include_once './Modules/LearningModule/classes/class.ilLMObjectFactory.php';
 
 				$st_obj = ilLMObjectFactory::getInstance($tmp_lm,$item['obj_id']);
 				$title .= (" -> ".$st_obj->getTitle());
@@ -257,7 +257,7 @@ class ilCourseObjectivesGUI
 			$title = $tmp_lm->getTitle();
 			if($lm_ass_data['type'] == 'st')
 			{
-				include_once './content/classes/class.ilLMObjectFactory.php';
+				include_once './Modules/LearningModule/classes/class.ilLMObjectFactory.php';
 
 				$st_obj = ilLMObjectFactory::getInstance($tmp_lm,$lm_ass_data['obj_id']);
 				$title .= (" -> ".$st_obj->getTitle());
@@ -518,7 +518,7 @@ class ilCourseObjectivesGUI
 		foreach($this->__getAllChapters($lm_id) as $chapter)
 		{
 			++$counter;
-			include_once './content/classes/class.ilLMObjectFactory.php';
+			include_once './Modules/LearningModule/classes/class.ilLMObjectFactory.php';
 
 			$st_obj = ilLMObjectFactory::getInstance($lm_obj,$chapter);
 			

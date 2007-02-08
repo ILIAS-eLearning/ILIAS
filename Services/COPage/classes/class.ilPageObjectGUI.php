@@ -434,8 +434,9 @@ class ilPageObjectGUI
 				$ret =& $this->ctrl->forwardCommand($page_editor);
 				break;
 				
+			// does not exist
 			case "ilmediapooltargetselector":
-				include_once("content/classes/class.ilMediaPoolTargetSelector.php");
+				include_once("./classes/class.ilMediaPoolTargetSelector.php");
 				$target_sel =& new ilMediaPoolTargetSelector();
 				$ret =& $this->ctrl->forwardCommand($target_sel);
 				break;

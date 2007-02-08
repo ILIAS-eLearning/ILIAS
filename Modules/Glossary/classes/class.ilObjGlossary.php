@@ -518,7 +518,7 @@ class ilObjGlossary extends ilObject
 		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
 
 		// get glossary presentation gui class
-		include_once("content/classes/class.ilGlossaryPresentationGUI.php");
+		include_once("./Modules/Glossary/classes/class.ilGlossaryPresentationGUI.php");
 		$_GET["cmd"] = "nop";
 		$glo_gui =& new ilGlossaryPresentationGUI();
 		$glo_gui->setOfflineMode(true);

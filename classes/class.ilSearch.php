@@ -245,7 +245,7 @@ class ilSearch
 					break;
 
 				case "lm":
-					include_once "./content/classes/class.ilObjContentObject.php";
+					include_once "./Modules/LearningModule/classes/class.ilObjContentObject.php";
 					$this->act_type = 'lm';
 					$result["lm"][$this->getSearchInByType("lm")] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
 					$result["lm"][$this->getSearchInByType("lm")]
@@ -253,7 +253,7 @@ class ilSearch
 					break;
 
 				case "dbk":
-					include_once "./content/classes/class.ilObjDlBook.php";
+					include_once "./Modules/LearningModule/classes/class.ilObjDlBook.php";
 					$this->act_type = 'dbk';
 					$result["dbk"][$this->getSearchInByType("dbk")] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
 					$result["dbk"][$this->getSearchInByType("dbk")]
