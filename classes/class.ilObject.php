@@ -1533,7 +1533,8 @@ class ilObject
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setType($this->getType());
-		$new_obj->create();
+		// Choose upload mode to avoid creation of additional settings, db entries ...
+		$new_obj->create(true);
 		$new_obj->createReference();
 		$new_obj->putInTree($a_target_id);
 		$new_obj->setPermissions($a_target_id);

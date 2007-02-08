@@ -147,6 +147,8 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT_AND_META", "saveAndMeta");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		
+		$this->fillCloneTemplate('DUPLICATE','file');
 	}
 
 	/**
@@ -187,6 +189,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
 		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
 		$fileObj->create();
+		$fileObj->createFile();
 		$fileObj->createReference();
 		$fileObj->putInTree($_GET["ref_id"]);
 		$fileObj->setPermissions($_GET["ref_id"]);

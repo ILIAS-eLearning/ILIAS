@@ -66,13 +66,24 @@ class ilObjFile extends ilObject
 
 	/**
 	* create object
+	* 
+	* @param bool upload mode (if enabled no entries in file_data will be done)
 	*/
-	function create()
+	function create($a_upload = false)
 	{
 		global $ilDB;
 		
-		parent::create();
-
+		$new_id = parent::create();
+		// Create file directory
+		$this->initFileStorage();
+		$this->file_storage->create();
+		
+		if($a_upload)
+		{
+			return $new_id;
+		}
+		
+		// not upload mode
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 
@@ -89,10 +100,7 @@ class ilObjFile extends ilObject
 		{
 			$this->createMetaData();
 		}
-		
-		// Create file directory
-		$this->initFileStorage();
-		$this->file_storage->create();
+		return $new_id;		
 	}
 	
 	/**
@@ -166,6 +174,11 @@ class ilObjFile extends ilObject
 		if ($a_version)
 		{
 			$version_subdir = "/".sprintf("%03d", $a_version);
+		}
+		
+		if(!is_object($this->file_storage))
+		{
+			$this->initFileStorage();
 		}
 		
 		return $this->file_storage->getAbsolutePath().'/'.$version_subdir;
@@ -483,38 +496,42 @@ class ilObjFile extends ilObject
 		return false;
 	}
 
-	function ilClone($a_parent_ref)
+	
+	/**
+	 * Clone
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cloneObject($a_target_id)
 	{
 		global $ilDB;
 		
-		// always call parent clone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-
-		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
-		$fileObj->createDirectory();
-		
-		// copy all versions of file
-		ilUtil::rCopy($this->getDirectory(),$fileObj->getDirectory());
-		//copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$this->getFileName());
-
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,version,mode) VALUES ("
-			.$ilDB->quote($fileObj->getId()).","
-			.$ilDB->quote($this->getFileName()).","
-			.$ilDB->quote($this->getFileType()).",".$ilDB->quote($this->getVersion())
-			.",".$ilDB->quote($this->getMode()).")";
-
-		$this->ilias->db->query($q);
+	 	$new_obj = parent::cloneObject($a_target_id);
+	 	$new_obj->createDirectory();
+	 	$this->cloneMetaData($new_obj);
+	 	
+	 	// Copy all file versions
+	 	ilUtil::rCopy($this->getDirectory(),$new_obj->getDirectory());
+	 	
+	 	// object created now copy other settings
+		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) VALUES (".
+				$ilDB->quote($new_obj->getId()).",".
+				$ilDB->quote($this->getFileName()).",".
+				$ilDB->quote($this->getFileType()).",".
+				$ilDB->quote($this->getFileSize()).", ".
+				$ilDB->quote($this->getVersion()).", ".
+				$ilDB->quote($this->getMode()).")";
+		$ilDB->query($query);
 
 		// copy history entries
 		require_once("classes/class.ilHistory.php");
-		ilHistory::_copyEntriesForObject($this->getId(),$fileObj->getId());
+		ilHistory::_copyEntriesForObject($this->getId(),$new_obj->getId());
 
-		// dump object
-		unset($fileObj);
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
+	 	return $new_obj;
 	}
+	
 
 	/**
 	* delete file and all related data	
@@ -683,10 +700,10 @@ class ilObjFile extends ilObject
 	/**
 	 * init file storage object
 	 *
-	 * @access private
+	 * @access public
 	 * 
 	 */
-	private function initFileStorage()
+	public function initFileStorage()
 	{
 	 	$this->file_storage = new ilFSStorageFile($this->getId());
 	 	return true;

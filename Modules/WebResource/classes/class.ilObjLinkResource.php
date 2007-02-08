@@ -50,11 +50,19 @@ class ilObjLinkResource extends ilObject
 
 	/**
 	* create object
+	* 
+	* @param bool upload mode (if enabled no meta data will be created)
 	*/
-	function create()
+	function create($a_upload = false)
 	{
-		parent::create();
-		$this->createMetaData();
+		$new_id = parent::create();
+		
+		if(!$a_upload)
+		{
+			$this->createMetaData();
+		}
+		
+		return $new_id;
 	}
 
 	/**
@@ -66,35 +74,6 @@ class ilObjLinkResource extends ilObject
 		parent::update();
 	}
 
-	/**
-	* copy all entries of your object.
-	*
-	* @access	public
-	* @param	integer	ref_id of parent object
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{		
-		global $rbacadmin;
-
-		// always call parent clone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-		
-		// get object instance of cloned object
-		//$newObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
-
-		// create a local role folder & default roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");		
-
-		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
-		//unset($newObj);
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete object and all related data
