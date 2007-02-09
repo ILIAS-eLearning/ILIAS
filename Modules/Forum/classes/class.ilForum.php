@@ -33,6 +33,10 @@
 */
 class ilForum
 {
+	const SORT_TITLE = 1;
+	const SORT_DATE = 2;
+	
+	
 	/**
 	* ilias object
 	* @var object ilias
@@ -1764,6 +1768,43 @@ class ilForum
 		$q = "SELECT anonymized FROM frm_settings WHERE ";
 		$q .= "obj_id = ".$ilDB->quote($this->getForumId())."";
 		return $this->ilias->db->getOne($q);
-	}	
+	}
+	
+		/**
+	 * Get thread infos of object
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj_id of forum
+	 * @param int sort mode SORT_TITLE or SORT_DATE
+	 */
+	public static function _getThreads($a_obj_id,$a_sort_mode = self::SORT_DATE)
+	{
+		global $ilDB;
+		
+		switch($a_sort_mode)
+		{
+			case self::SORT_DATE:
+				$sort = 'thr_date';
+				break;
+			
+			case self::SORT_TITLE:
+			default:
+				$sort = 'thr_subject';
+				break;
+		}
+		
+		$query = "SELECT * FROM frm_threads JOIN frm_data ON top_pk = thr_top_fk ".
+			"WHERE top_frm_fk = ".$ilDB->quote($a_obj_id)." ".
+			"ORDER BY ".$sort;
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$threads[$row->thr_pk] = $row->thr_subject;
+		}
+		return $threads ? $threads : array();
+	}
+		
 
 } // END class.Forum

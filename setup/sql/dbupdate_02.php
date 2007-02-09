@@ -475,3 +475,11 @@ ALTER TABLE `il_news_item` MODIFY `priority` int default 1;
 
 <#915>
 ALTER TABLE `il_news_item` ADD COLUMN `content_is_lang_var` tinyint default 0;
+
+<#916>
+CREATE TABLE `copy_wizard_options` (
+`copy_id` INT( 11 ) NOT NULL ,
+`source_id` INT( 11 ) NOT NULL ,
+`options` TEXT NOT NULL ,
+PRIMARY KEY ( `copy_id` , `source_id` )
+) TYPE = MYISAM ;

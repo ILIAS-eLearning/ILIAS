@@ -506,11 +506,11 @@ class ilObjFile extends ilObject
 	 * @param
 	 * 
 	 */
-	public function cloneObject($a_target_id)
+	public function cloneObject($a_target_id,$a_options = array())
 	{
 		global $ilDB;
 		
-	 	$new_obj = parent::cloneObject($a_target_id);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
 	 	$new_obj->createDirectory();
 	 	$this->cloneMetaData($new_obj);
 	 	

@@ -1516,7 +1516,7 @@ class ilObject
 	 * @return object new object
 	 *  
 	 */
-	public function cloneObject($a_target_id)
+	public function cloneObject($a_target_id,$a_options = array())
 	{
 		global $objDefinition,$ilUser;
 		

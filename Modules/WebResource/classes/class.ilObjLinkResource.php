@@ -120,9 +120,9 @@ class ilObjLinkResource extends ilObject
 	 * @param
 	 * 
 	 */
-	public function cloneObject($a_target_id)
+	public function cloneObject($a_target_id,$a_options = array())
 	{
-	 	$new_obj = parent::cloneObject($a_target_id);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
 	 	$this->cloneMetaData($new_obj);
 	 	
 	 	// object created now copy other settings

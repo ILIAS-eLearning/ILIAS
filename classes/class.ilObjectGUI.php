@@ -32,6 +32,9 @@
 */
 class ilObjectGUI
 {
+	// Constants for copy wizard
+	const COPY_WIZARD_NEEDS_PAGE = 1;
+	
 	/**
 	* ilias object
 	* @var		object ilias
@@ -2408,7 +2411,6 @@ class ilObjectGUI
 	}
 	
 	// Object Cloning
-	
 	/**
 	 * Fill object clone template
 	 * This method can be called from any object GUI class that wants to offer object cloning. 
@@ -2437,7 +2439,7 @@ class ilObjectGUI
 	 	$this->tpl->setVariable('WIZARD_TXT_SELECT',$this->lng->txt('obj_'.$a_type));
 	 	$this->tpl->setVariable('WIZARD_OBJS',$this->buildCloneSelect($existing_objs));
 	 	
-		if($objDefinition->isContainer($a_type))
+		if($this->copyWizardHasOptions(self::COPY_WIZARD_NEEDS_PAGE))
 		{
 		 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('btn_next'));
 		 	$this->tpl->setVariable('CMD_WIZARD','cloneWizardPage');
@@ -2460,6 +2462,7 @@ class ilObjectGUI
 	public function cloneAllObject()
 	{
 		include_once('classes/class.ilLink.php');
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
 		global $ilAccess,$ilErr,$rbacsystem;
 		
@@ -2468,34 +2471,62 @@ class ilObjectGUI
 	 	{
 	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
 	 	}
-		if(!(int) $_POST['clone_source'])
+		if(!(int) $_REQUEST['clone_source'])
 		{
 			ilUtil::sendInfo($this->lng->txt('select_one'));
 			$this->createObject();
 			return false;
 		}
-		if(!$ilAccess->checkAccess('write','',(int) $_POST['clone_source'],$new_type))
+		if(!$ilAccess->checkAccess('write','',(int) $_REQUEST['clone_source'],$new_type))
 		{
 	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
 		}
-		$orig = ilObjectFactory::getInstanceByRefId((int) $_POST['clone_source']);
-		$new_obj = $orig->cloneObject((int) $_GET['ref_id']);
 		
+		// Save wizard options
+		$wizard_options = new ilCopyWizardOptions();
+		$wizard_options->allocateCopyId();
+		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
+		foreach($options as $source_id => $option)
+		{
+			$wizard_options->addEntry($source_id,$option);
+		}
+		$wizard_options->read();
+		
+		$orig = ilObjectFactory::getInstanceByRefId((int) $_REQUEST['clone_source']);
+		$new_obj = $orig->cloneObject((int) $_GET['ref_id'],$wizard_options->getOptions((int) $_REQUEST['clone_source']));
+		
+		// Delete wizard options
+		$wizard_options->deleteAll();
+
 		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
 		ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
 	}
 	
 	/**
+	 * Check if there is any modules specific option
+	 *
+	 * @access public
+	 * @param int wizard mode COPY_WIZARD_GENERAL,COPY_WIZARD_NEEDS_PAGE, COPY_WIZARD_OBJ_SPECIFIC
+	 * 
+	 */
+	public function copyWizardHasOptions($a_mode)
+	{
+	 	return false;
+	}
+	
+	/**
 	 * Build a select box for clonable objects (permission write)
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string obj_type 
 	 */
-	private function buildCloneSelect($existing_objs)
+	protected function buildCloneSelect($existing_objs)
 	{
  		$options = ilObject::_prepareCloneSelection($existing_objs,$_REQUEST['new_type']);
 	 	return ilUtil::formSelect((int) $_REQUEST['clone_source'],'clone_source',$options,false,true);
 	}
+	
+	
 	
 	
 	/**
