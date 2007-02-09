@@ -5109,7 +5109,7 @@ mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
 mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
-mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.
+mail#:#mail_entry_exists#:#An entry with the given login name already exists.
 mail#:#mail_file_name#:#File name
 mail#:#mail_file_size#:#File size
 mail#:#mail_files_deleted#:#The file(s) are deleted
@@ -6983,8 +6983,8 @@ ps#:#ps_new_text_field#:#Add new Text Field
 ps#:#ps_name_field#:#Name
 ps#:#ps_type_text#:#Text Field
 ps#:#ps_type_select#:#Select Field
-common#:#mail_select_only_one_entry#:#Please select only one entry.
-common#:#mail_select_course#:#Please select at least one course.
+mail#:#mail_select_only_one_entry#:#Please select only one entry.
+mail#:#mail_select_course#:#Please select at least one course.
 administration#:#course_export#:#Course Export
 administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.
 ps#:#ps_new_select_field#:#New Selection Box
@@ -7009,18 +7009,18 @@ ps#:#ps_cdf_info#:#Further Course-Specific Data:
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
 ps#:#ps_required_info#:#Further Course-Specific fields are required for accessing the course content.
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.
-common#:#mail_select_group#:#Please select at least one group.
-common#:#mail_my_entries#:#My Entries
-common#:#mail_my_courses#:#My Courses
-common#:#mail_my_groups#:#My Groups
-common#:#mail_into_addressbook#:#Take into Addressbook
-common#:#mail_group_members#:#Group Members
-common#:#mail_group#:#Group
+mail#:#mail_select_group#:#Please select at least one group.
+mail#:#mail_my_entries#:#My Entries
+mail#:#mail_my_courses#:#My Courses
+mail#:#mail_my_groups#:#My Groups
+mail#:#mail_into_addressbook#:#Take into Addressbook
+mail#:#mail_group_members#:#Group Members
 ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.
 ps#:#ps_auto_https#:#Autodetect HTTPS
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
 ps#:#ps_auto_https_header_name#:#Header Name
 ps#:#ps_auto_https_header_value#:#Header Value
+common#:#marked_entries#:#Marked Entries
 crs#:#event_overview#:#Participations in Sessions
 common#:#legend#:#Legend
 crs#:#event_digit#:#Digit
@@ -7037,3 +7037,6 @@ common#:#auth_settings#:#Authentication Settings
 common#:#login_information#:#Login Information
 common#:#login_information_desc#:#Please enter a login information for the respective language.
 common#:#login_information_settings_saved#:#The login information were saved successfully
+mail#:#mail_new_entry#:#New Entry
+mail#:#mail_edit_entry#:#Edit Entry
+mail#:#mail_select_attachment#:#Please select an attachment for download.

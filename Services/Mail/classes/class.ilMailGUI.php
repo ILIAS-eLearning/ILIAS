@@ -234,7 +234,7 @@ class ilMailGUI
 		$this->tpl->setVariable("TAB_TYPE", $this->forwardClass == "ilmailfoldergui"
 			? "tabactive"
 			: "tabinactive");
-		$this->ctrl->setParameterByClass("ilmailfoldergui", "type", "new");
+		#$this->ctrl->setParameterByClass("ilmailfoldergui", "type", "new");
 		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailfoldergui"));
 		$this->ctrl->clearParametersByClass("ilmailfoldergui");
 		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("fold"));
