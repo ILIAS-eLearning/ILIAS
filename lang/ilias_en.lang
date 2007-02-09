@@ -7037,6 +7037,11 @@ common#:#auth_settings#:#Authentication Settings
 common#:#login_information#:#Login Information
 common#:#login_information_desc#:#Please enter a login information for the respective language.
 common#:#login_information_settings_saved#:#The login information were saved successfully
+common#:#obj_frm_duplicate#:#Copy Forum
+common#:#obj_frm_select#:#-- Please select one Forum --
+forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)
+forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
+common#:#btn_back#:#Back
 mail#:#mail_new_entry#:#New Entry
 mail#:#mail_edit_entry#:#Edit Entry
 mail#:#mail_select_attachment#:#Please select an attachment for download.

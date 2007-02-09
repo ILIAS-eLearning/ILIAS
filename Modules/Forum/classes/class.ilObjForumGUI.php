@@ -431,6 +431,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->tpl->setVariable("ALT_IMG2", $this->lng->txt("forum_import"));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->fillCloneTemplate('DUPLICATE','frm');
 		return true;
 	}
 
@@ -2324,7 +2326,72 @@ class ilObjForumGUI extends ilObjectGUI
 		$lng->loadLanguageModule("frm");
 		$column_gui->setBlockProperty("news", "title", $lng->txt("frm_latest_postings"));
 	}
+	
+	// Copy wizard
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function copyWizardHasOptions($a_mode)
+	{
+	 	switch($a_mode)
+	 	{
+	 		case self::COPY_WIZARD_NEEDS_PAGE:
+	 			return true;
+	 		
+	 		default:
+	 			return false;
+	 	}
+	}
+	
+	/**
+	 * Show selection of starting threads
+	 *
+	 * @access public
+	 */
+	public function cloneWizardPageObject()
+	{
+		global $ilObjDataCache;
+		
+	 	if(!$_POST['clone_source'])
+	 	{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->createObject();
+			return false;
+	 	}
+		$source_id = $_POST['clone_source'];
+		$this->lng->loadLanguageModule('frm');
 
-
+	 	$new_type = $_REQUEST['new_type'];
+	 	$this->ctrl->setParameter($this,'clone_source',(int) $_POST['clone_source']);
+	 	$this->ctrl->setParameter($this,'new_type',$new_type);
+	 	
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.frm_wizard_page.html','Modules/Forum');
+	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.gif'));
+	 	$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$new_type));
+	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt('frm_wizard_page'));
+	 	$this->tpl->setVariable('INFO_THREADS',$this->lng->txt('fmr_copy_threads_info'));
+	 	$this->tpl->setVariable('THREADS',$this->lng->txt('forums_threads'));
+	 	
+	 	$forum_id = $ilObjDataCache->lookupObjId((int) $_POST['clone_source']);
+	 	
+	 	include_once('Modules/Forum/classes/class.ilForum.php');
+	 	$threads = ilForum::_getThreads($forum_id,ilForum::SORT_TITLE);
+	 	foreach($threads as $thread_id => $title)
+	 	{
+	 		$this->tpl->setCurrentBlock('thread_row');
+	 		$this->tpl->setVariable('CHECK_THREAD',ilUtil::formCheckbox(0,'cp_options['.$source_id.'][threads][]',$thread_id));
+	 		$this->tpl->setVariable('NAME_THREAD',$title);
+	 		$this->tpl->parseCurrentBlock();
+	 	}
+	 	$this->tpl->setVariable('SELECT_ALL',$this->lng->txt('select_all'));
+	 	$this->tpl->setVariable('JS_FIELD','cp_options['.$source_id.'][threads]');
+	 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('obj_'.$new_type.'_duplicate'));
+	 	$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
+	}
 } // END class.ilObjForumGUI
 ?>

@@ -6989,6 +6989,11 @@ common#:#auth_settings#:#Authentifizierungseinstellungen
 common#:#login_information#:#Logininformationen
 common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Logininformation ein.
 common#:#login_information_settings_saved#:#Die Logininformationen wurden erfolgreich gespeichert
+common#:#obj_frm_duplicate#:#Forum duplizieren
+common#:#obj_frm_select#:#-- Bitte wählen Sie ein Forum aus --
+forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
+forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
+common#:#btn_back#:#Zurück
 mail#:#mail_new_entry#:#Neuer Eintrag
 mail#:#mail_edit_entry#:#Eintrag bearbeiten
 mail#:#mail_select_attachment#:#Bitte einen Anhang zum Herunterladen auswählen.

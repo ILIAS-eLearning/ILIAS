@@ -38,6 +38,7 @@ require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 */
 class ilObjForum extends ilObject
 {
+	
 	/**
 	* Default view ( 1 means 'order by answers', 2 => 'order by date')
 	* @var		object Forum
@@ -513,6 +514,40 @@ class ilObjForum extends ilObject
 	}
 	
 	/**
+	 * Clone Object
+	 *
+	 * @access public
+	 * @param int source_id
+	 * 
+	 */
+	public function cloneObject($a_target_id,$a_options = array())
+	{
+		global $ilDB,$ilUser;
+		
+	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
+	 	$roles = $new_obj->initDefaultRoles();
+	 	
+		// COPY settings
+		$query = "INSERT INTO frm_settings ".
+			"SET obj_id = ".$ilDB->quote($new_obj->getId()).", ".
+			"default_view = ".$ilDB->quote($this->getDefaultView()).", ".
+			"anonymized = ".$ilDB->quote(($this->isAnonymized() ? 1 : 0)).", ".
+			"statistics_enabled = ".$ilDB->quote($this->isStatisticsEnabled())." ";
+		$ilDB->query($query);
+		
+		$this->Forum->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->getId()));
+		$topData = $this->Forum->getOneTopic();
+
+		$query = "INSERT INTO frm_data ".
+			"VALUES('0',".$ilDB->quote($new_obj->getId()).",".$ilDB->quote($topData['top_name']).",".
+			$ilDB->quote($topData['top_description']).",'0','0','',".$ilDB->quote($roles[0]).",NOW(),'0',NOW(),'0',".
+			$ilDB->quote($ilUser->getId()).")";
+
+		$ilDB->query($query);
+		return $new_obj;
+	}
+	
+	/**
 	* copy all entries of a forum object.
 	* attention: frm_data is linked with ILIAS system (object_data) with the obj_id and NOT ref_id! 
 	* 
@@ -807,6 +842,7 @@ class ilObjForum extends ilObject
 
 		return true;
 	}
+	
 
 	
 	// PRIVATE
