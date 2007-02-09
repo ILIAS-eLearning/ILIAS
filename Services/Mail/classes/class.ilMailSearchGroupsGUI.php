@@ -303,6 +303,8 @@ class ilMailSearchGroupsGUI
 		}
 
 		if ($_GET["ref"] == "mail") $this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+
+		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 		$this->tpl->show();
 	}
 
@@ -382,6 +384,8 @@ class ilMailSearchGroupsGUI
 			}
 
 			$this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+
+			$this->tpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 			$this->tpl->show();
 		}
 	}

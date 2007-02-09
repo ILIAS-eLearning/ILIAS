@@ -105,6 +105,31 @@ class ilMailFolderGUI
 		return true;
 	}
 
+	public function add()
+	{
+		global $lng, $ilUser;
+
+		if($_GET["mail_id"] != "")
+		{
+			if (is_array($mail_data = $this->umail->getMail($_GET["mail_id"])))
+			{
+				require_once "classes/class.ilAddressbook.php";
+				$abook = new ilAddressbook($ilUser->getId());
+
+				$tmp_user = new ilObjUser($mail_data["sender_id"]);
+				$abook->addEntry($tmp_user->getLogin(),
+							$tmp_user->getFirstname(),
+							$tmp_user->getLastname(),
+							$tmp_user->getEmail());
+				ilUtil::sendInfo($lng->txt("mail_entry_added"));
+
+			}
+		}
+		
+		$this->showMail();
+		
+	}
+
 	public function showFolder()
 	{
 		global $ilUser;
@@ -504,10 +529,10 @@ class ilMailFolderGUI
 		if($mailData["sender_id"])
 		{
 			$tplbtn->setCurrentBlock("btn_cell");
-			$this->ctrl->setParameterByClass("ilmailaddressbookgui", "mail_id", $_GET["mail_id"]);
-			$this->ctrl->setParameterByClass("ilmailaddressbookgui", "cmd", "add");
-			$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
-			$this->ctrl->clearParametersByClass("iliasmailaddressbookgui");
+			$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
+			$this->ctrl->setParameter($this, "cmd", "add");
+			$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+			$this->ctrl->clearParameters($this);
 			$tplbtn->setVariable("BTN_TXT", $this->lng->txt("mail_add_to_addressbook"));
 			$tplbtn->parseCurrentBlock();
 		}
@@ -659,18 +684,26 @@ class ilMailFolderGUI
 							? $_POST["filename"]
 							: $_GET["filename"]));
 		$_SESSION["filename"] = "";
-			
-		require_once "classes/class.ilFileDataMail.php";
-			
-		$mfile = new ilFileDataMail($_SESSION["AccountId"]);
-		if(!$path = $mfile->getAttachmentPath($filename, $_GET["mail_id"]))
+
+		if ($filename != "")
 		{
-			ilUtil::sendInfo("Error reading file!");
-			$this->showMail();
+			require_once "classes/class.ilFileDataMail.php";
+			
+			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
+			if(!$path = $mfile->getAttachmentPath($filename, $_GET["mail_id"]))
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_error_reading_attachment"));
+				$this->showMail();
+			}
+			else
+			{
+				ilUtil::deliverFile($path, $filename);
+			}
 		}
 		else
 		{
-			ilUtil::deliverFile($path, $filename);
+			ilUtil::sendInfo($this->lng->txt("mail_select_attachment"));
+			$this->showMail();
 		}
 	}
 

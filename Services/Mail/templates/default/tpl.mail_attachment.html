@@ -14,28 +14,28 @@
 			<td class="std" colspan="4">{TXT_ATTACHMENT}</td>
 		</tr>
 		  <tr class="tblheader" valign="top">
-			<td class="std" width="1%">
+			<th id="header1" class="std" width="1%">
 			  &nbsp;
-			</td>
-			<td class="std"  width="43%">
+			</th>
+			<th id="header2" class="std"  width="43%">
 			  <b>{TXT_FILENAME}</b>
-			</td>
-			<td class="std"  width="20%">
+			</th>
+			<th id="header3" class="std"  width="20%">
 			  <b>{TXT_FILESIZE}</b>
-			</td>
-			<td class="std"  width="25%">
+			</th>
+			<th id="header4" class="std"  width="25%">
 			  <b>{TXT_CREATE_TIME}</b>
-			</td>
+			</th>
 		  </tr>
 
 		  <!-- BEGIN files -->
 		  <tr class="{CSSROW}">
-			<td class="std" align="center">
+			<td headers="header1" class="std" align="center">
 			  <input type="checkbox" name="filename[]" value="{FILE_NAME}" {CHECKED}>			
 			</td> 
-			<td class="std"  valign="top">{NAME}</td>
-			<td class="std"  valign="top">{SIZE}</td>
-			<td class="std"  valign="top">{CTIME}</td>
+			<td headers="header2" class="std"  valign="top">{NAME}</td>
+			<td headers="header3" class="std"  valign="top">{SIZE}</td>
+			<td headers="header4" class="std"  valign="top">{CTIME}</td>
 		  </tr>
 		  <!-- END files -->
 		  <!-- BEGIN no_content -->
@@ -45,7 +45,7 @@
 		  <!-- END no_content -->
 		  <tr>
 			<td class="submit" colspan="5">
-			  <img src="templates/default/images/arrow_downright.gif" />&nbsp;
+			  <img src="templates/default/images/arrow_downright.gif" alt="{TXT_MARKED_ENTRIES}" />&nbsp;
 			  <input class="submit" type="submit" name="cmd[saveAttachments]" value="{BUTTON_ATTACHMENT_ADOPT}">
 			  <input class="submit" type="submit" name="cmd[deleteAttachments]" value="{BUTTON_ATTACHMENT_DELETE}">
 			  <input class="submit" type="submit" name="cmd[cancelSaveAttachments]" value="{BUTTON_ATTACHMENT_CANCEL}">

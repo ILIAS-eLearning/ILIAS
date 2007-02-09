@@ -219,6 +219,9 @@ class ilMailAttachmentGUI
 			$this->tpl->setVariable("TXT_ATTACHMENT_NO",$this->lng->txt("mail_no_attachments_found"));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt("marked_entries"));
+
 		$this->tpl->show();
 	}
 

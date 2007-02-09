@@ -1,126 +1,138 @@
 	<form action="{ACTION}" METHOD="post">
 	<table class="fullwidth">
+		<thead>
 	<!-- BEGIN crs -->
-		<tr class="tblheader" valign="top">
-			<td class="std" width="4%">
-			  &nbsp;
-			</td>
-			<td class="std" >
-			  <b>{CRS_TXT_COURSES}</b>
-			</td>
-			<td class="std" >
-			  <b>{CRS_TXT_NO_MEMBERS}</b>
-			</td>
-			<td colspan="2">&nbsp;</td>
-		</tr>
+			<tr class="tblheader" valign="top">
+				<th id="header1" class="std" width="4%">
+					&nbsp;
+				</th>
+				<th id="header2" class="std" >
+				  <b>{CRS_TXT_COURSES}</b>
+				</th>
+				<th id="header3" class="std" >
+				  <b>{CRS_TXT_NO_MEMBERS}</b>
+				</th>
+				<td class="std" colspan="2">
+					&nbsp;
+				</td>
+			</tr>
+		</thead>
+		<tbody>
 		<!-- BEGIN loop_crs -->
-		<tr class="{LOOP_CRS_CSSROW}">
-			<td class="std" align="center">	
-			  <input type="checkbox" name="search_crs[]" value="{LOOP_CRS_ID}"/>
-			</td>
-			<td class="std"  valign="top">{LOOP_CRS_NAME}</td>
-			<td class="std"  valign="top">{LOOP_CRS_NO_MEMBERS}</td>
-			<td colspan="2">&nbsp;</td>
-		</tr>
+			<tr class="{LOOP_CRS_CSSROW}">
+				<td headers="header1" class="std" valign="top" align="center">	
+				  <input type="checkbox" name="search_crs[]" value="{LOOP_CRS_ID}"/>
+				</td>
+				<td headers="header2" class="std" valign="top">{LOOP_CRS_NAME}</td>
+				<td headers="header3" class="std" valign="top">{LOOP_CRS_NO_MEMBERS}</td>
+				<td class="std" colspan="2">&nbsp;</td>
+			</tr>
 		<!-- END loop_crs -->
 		<!-- BEGIN crs_not_found -->
-		<tr class="tblrow1">
-			<td class="std" colspan="5" align="center">{TXT_CRS_NOT_FOUND}</td>
-		</tr>
+			<tr class="tblrow1">
+				<td class="std" colspan="5" align="center">{TXT_CRS_NOT_FOUND}</td>
+			</tr>
 		<!-- END crs_not_found -->
 	<!-- END crs -->
 	<!-- BEGIN grp -->
-		<tr class="tblheader" valign="top">
-			<td class="std" width="4%">
-			  &nbsp;
-			</td>
-			<td class="std" >
-			  <b>{GRP_TXT_GROUPS}</b>
-			</td>
-			<td class="std" >
-			  <b>{GRP_TXT_NO_MEMBERS}</b>
-			</td>
-			<td colspan="2">&nbsp;</td>
-		</tr>
+			<tr class="tblheader" valign="top">
+				<th id="header1" class="std" width="4%">
+				  &nbsp;
+				</th>
+				<th id="header2" class="std" >
+				  <b>{GRP_TXT_GROUPS}</b>
+				</th>
+				<th id="header3" class="std" >
+				  <b>{GRP_TXT_NO_MEMBERS}</b>
+				</th>
+				<td class="std" colspan="2">
+					&nbsp;
+				</td>
+			</tr>
+		</thead>
+		<tbody>
 		<!-- BEGIN loop_grp -->
-		<tr class="{LOOP_GRP_CSSROW}">
-			<td class="std" align="center">	
-			  <input type="checkbox" name="search_grp[]" value="{LOOP_GRP_ID}"/>
-			</td>
-			<td class="std"  valign="top">{LOOP_GRP_NAME}</td>
-			<td class="std"  valign="top">{LOOP_GRP_NO_MEMBERS}</td>
-			<td colspan="2">&nbsp;</td>
-		</tr>
+			<tr class="{LOOP_GRP_CSSROW}">
+				<td headers="header1" class="std" valign="top" align="center">	
+				  <input type="checkbox" name="search_grp[]" value="{LOOP_GRP_ID}"/>
+				</td>
+				<td headers="header2" class="std" valign="top">{LOOP_GRP_NAME}</td>
+				<td headers="header3" class="std" valign="top">{LOOP_GRP_NO_MEMBERS}</td>
+				<td class="std" colspan="2">&nbsp;</td>
+			</tr>
 		<!-- END loop_grp -->
 		<!-- BEGIN grp_not_found -->
-		<tr class="tblrow1">
-			<td class="std" colspan="5" align="center">{TXT_GRP_NOT_FOUND}</td>
-		</tr>
+			<tr class="tblrow1">
+				<td class="std" colspan="5" align="center">{TXT_GRP_NOT_FOUND}</td>
+			</tr>
 		<!-- END grp_not_found -->
 	<!-- END grp -->
 	<!-- BEGIN members -->
-		<tr class="tblheader" valign="top">
-			<td class="std" width="4%">
-			  &nbsp;
-			</td>
-			<td class="std" >
-			  <b>{MEMBERS_TXT_LOGIN}</b>
-			</td>
-			<td class="std" >
-			  <b>{MEMBERS_TXT_NAME}</b>
-			</td>
+			<tr class="tblheader" valign="top">
+				<th id="header1" class="std" width="4%">
+					&nbsp;
+				</th>
+				<th id="header2" class="std" >
+				  <b>{MEMBERS_TXT_LOGIN}</b>
+				</th>
+				<th id="header3" class="std" >
+				  <b>{MEMBERS_TXT_NAME}</b>
+				</th>
 		<!-- BEGIN members_course -->
-			<td class="std" >
-			  <b>{MEMBERS_TXT_COURSE}</b>
-			</td>
+				<th id="header4" class="std" >
+				  <b>{MEMBERS_TXT_COURSE}</b>
+				</th>
 		<!-- END members_course -->
 		<!-- BEGIN members_group -->
-			<td class="std" >
-			  <b>{MEMBERS_TXT_GROUP}</b>
-			</td>
+				<th id="header4" class="std" >
+				  <b>{MEMBERS_TXT_GROUP}</b>
+				</th>
 		<!-- END members_group -->
-			<td class="std" >
-			  <b>{MEMBERS_TXT_IN_ADDRESSBOOK}</b>
-			</td>
-		</tr>
+				<th id="header5" class="std" >
+				  <b>{MEMBERS_TXT_IN_ADDRESSBOOK}</b>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
 		<!-- BEGIN loop_members -->
-		  <tr class="{LOOP_MEMBERS_CSSROW}">
-			<td class="std" align="center">	
-			  <input type="checkbox" name="search_members[]" value="{LOOP_MEMBERS_ID}"/>
-			</td>
-			<td class="std"  valign="top">{LOOP_MEMBERS_LOGIN}</td>
-			<td class="std"  valign="top">{LOOP_MEMBERS_NAME}</td>
-			<td class="std"  valign="top">{LOOP_MEMBERS_CRS_GRP}</td>
-			<td class="std"  valign="top">{LOOP_MEMBERS_IN_ADDRESSBOOK}</td>
-		</tr>
+			<tr class="{LOOP_MEMBERS_CSSROW}">
+				<td headers="header1" class="std" valign"=top" align="center">	
+				  <input type="checkbox" name="search_members[]" value="{LOOP_MEMBERS_ID}"/>
+				</td>
+				<td headers="header2" class="std" valign="top">{LOOP_MEMBERS_LOGIN}</td>
+				<td headers="header3" class="std" valign="top">{LOOP_MEMBERS_NAME}</td>
+				<td headers="header4" class="std" valign="top">{LOOP_MEMBERS_CRS_GRP}</td>
+				<td headers="header5" class="std" valign="top">{LOOP_MEMBERS_IN_ADDRESSBOOK}</td>
+			</tr>
 		<!-- END loop_members -->
 		<!-- BEGIN members_not_found -->
-		<tr class="tblrow1">
-			<td class="std" colspan="4" align="center">{TXT_MEMBERS_NOT_FOUND}</td>
-		</tr>
+			<tr class="tblrow1">
+				<td class="std" colspan="4" align="center">{TXT_MEMBERS_NOT_FOUND}</td>
+			</tr>
 		<!-- END members_not_found -->
 	<!-- END members -->
-		<tr class="tblfooter">
-			<td class="submit"  width="4%" align="center">
-			<img src="templates/default/images/arrow_downright.gif" />
-			</td>
-			<td class="submit" colspan="3">
+			<tr class="tblfooter">
+				<td class="submit"  width="4%" align="center">
+					<img src="templates/default/images/arrow_downright.gif" alt="{TXT_MARKED_ENTRIES}" />
+				</td>
+				<td class="submit" colspan="3">
 	<!-- BEGIN mail -->
-			<input class="submit" type="submit" name="cmd[mail]" value="{BUTTON_MAIL}"/>
+					<input class="submit" type="submit" name="cmd[mail]" value="{BUTTON_MAIL}"/>
 	<!-- END mail -->
 	<!-- BEGIN list -->
-			<input class="submit" type="submit" name="cmd[showMembers]" value="{BUTTON_LIST}"/>
+					<input class="submit" type="submit" name="cmd[showMembers]" value="{BUTTON_LIST}"/>
 	<!-- END list -->
 	<!-- BEGIN adopt -->
-			<input class="submit" type="submit" name="cmd[adoptMembers]" value="{BUTTON_ADOPT}"/>
+					<input class="submit" type="submit" name="cmd[adoptMembers]" value="{BUTTON_ADOPT}"/>
 	<!-- END adopt -->
-			</td>
-			<td class="submit" align="right">
+				</td>
+				<td class="submit" align="right">
 	<!-- BEGIN cancel -->
-			<input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}"/>
+					<input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}"/>
 	<!-- END cancel -->
-			</td>
-		</tr>
+				</td>
+			</tr>
+		</tbody>
 	  </table>
 	</form>
 <!--</div>-->

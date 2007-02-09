@@ -4850,7 +4850,7 @@ mail#:#mail_enter_valid_email_addr#:#Bitte geben Sie eine gültige E-Mail-Adress
 mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernnamen ein.
 mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
-mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen oder E-Mail-Adresse.
+mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen.
 mail#:#mail_file_name#:#Dateiname
 mail#:#mail_file_size#:#Dateigröße
 mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
@@ -6935,8 +6935,8 @@ ps#:#ps_new_text_field#:#Neues Textfeld anlegen
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_type_text#:#Textfeld
 ps#:#ps_type_select#:#Auswahlliste
-common#:#mail_select_only_one_entry#:#Bitte wählen Sie nur einen Eintrag aus.
-common#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.
+mail#:#mail_select_only_one_entry#:#Bitte wählen Sie nur einen Eintrag aus.
+mail#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.
 administration#:#course_export#:#Kurs-Export
 administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Wenn Sie diese Änderung bestätigen werden alle Kurs-Nutzungsvereinbarungen zurückgesetzt.
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
@@ -6961,18 +6961,18 @@ ps#:#ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgende
 crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
 ps#:#ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
 ps#:#ps_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern der Einstellungen bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt werden.
-common#:#mail_select_group#:#Bitte mindestens eine Gruppe auswählen.
-common#:#mail_my_entries#:#Meine Einträge
-common#:#mail_my_courses#:#Meine Kurse
-common#:#mail_my_groups#:#Meine Gruppen
-common#:#mail_into_addressbook#:#In Addressbuch übernehmen
-common#:#mail_group_members#:#Gruppenmitglieder
-common#:#mail_group#:#Gruppe
+mail#:#mail_select_group#:#Bitte mindestens eine Gruppe auswählen.
+mail#:#mail_my_entries#:#Meine Einträge
+mail#:#mail_my_courses#:#Meine Kurse
+mail#:#mail_my_groups#:#Meine Gruppen
+mail#:#mail_into_addressbook#:#In Addressbuch übernehmen
+mail#:#mail_group_members#:#Gruppenmitglieder
 ps#:#ps_error_message_https_header_missing#:#Die automatische HTTPS-Erkennung erfordert einen Header-Namen und einen Header-Wert.
 ps#:#ps_auto_https#:#Automatische HTTPS-Erkennung
 ps#:#ps_auto_https_description#:#Wenn aktiviert, versucht ILIAS den HTTPS-Status eines Request per Header-Analyse zu bestimmen.
 ps#:#ps_auto_https_header_name#:#Headername
 ps#:#ps_auto_https_header_value#:#Headerwert
+common#:#marked_entries#:#Markierte Einträge
 crs#:#event_overview#:#Teilnahme an Sitzungen
 common#:#legend#:#Legende
 crs#:#event_digit#:#Ziffer
@@ -6989,3 +6989,6 @@ common#:#auth_settings#:#Authentifizierungseinstellungen
 common#:#login_information#:#Logininformationen
 common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Logininformation ein.
 common#:#login_information_settings_saved#:#Die Logininformationen wurden erfolgreich gespeichert
+mail#:#mail_new_entry#:#Neuer Eintrag
+mail#:#mail_edit_entry#:#Eintrag bearbeiten
+mail#:#mail_select_attachment#:#Bitte einen Anhang zum Herunterladen auswählen.
