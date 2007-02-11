@@ -365,7 +365,7 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 ?>
 <#905>
-ALTER TABLE `chat_invitations` ADD `guest_informed` BOOL NOT NULL DEFAULT '0';
+ALTER TABLE `chat_invitations` ADD `guest_informed` tinyint(1) NOT NULL DEFAULT '0';
 
 <#906>
 ALTER TABLE `file_data` ADD `file_size` INT( 11 ) DEFAULT '0' NOT NULL AFTER `file_type` ;
