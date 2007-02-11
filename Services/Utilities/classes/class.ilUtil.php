@@ -932,9 +932,9 @@ class ilUtil
 		$sel_year .= "<select name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
 		if ((strlen($startyear) == 0) || ($startyear > $year))
 		{
-			$startyear = $year;
+			$startyear = $year - 5;
 		}
-		for ($i = $startyear; $i <= $year + 3; $i++)
+		for ($i = $startyear; $i <= $year + 5; $i++)
 		{
 			$sel_year .= "<option value=\"$i\">" . sprintf("%04d", $i) . "</option>\n";
 		}

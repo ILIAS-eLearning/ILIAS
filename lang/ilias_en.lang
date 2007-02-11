@@ -2828,6 +2828,12 @@ delic#:#delic_add_to_delicious#:#Add to del.icio.us
 delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens
 delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile
+gmaps#:#gmaps_api_key#:#API Key
+gmaps#:#gmaps_settings#:#Google Maps Settings
+gmaps#:#gmaps_extt_gmaps#:#Google Maps
+gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:
+gmaps#:#gmaps_std_location#:#Default Location
+gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.
 common#:#next#:#Next
 common#:#delicious#:#del.icio.us Account
 common#:#select_page#:#Select Page
@@ -3015,6 +3021,8 @@ common#:#offline#:#offline
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
 common#:#go#:#Go
+common#:#hh_mm_ss#:#HH:MM:SS
+common#:#hh_mm#:#HH:MM
 common#:#old#:#Old
 common#:#online#:#Online
 common#:#online_chapter#:#Online Chapter

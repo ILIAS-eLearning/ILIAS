@@ -1,9 +1,12 @@
 <table class="std">
+	<!-- BEGIN item -->
+	<!-- BEGIN header -->
 	<tr class="tblheader">
 		<td class="std" colspan="2">
 		<!-- BEGIN title_icon --><img src="{IMG_ICON}" border="0"/><!-- END title_icon -->
 		{TXT_TITLE}</td>
 	</tr>
+	<!-- END header -->
 	<!-- BEGIN prop -->
 	<tr>
 		<td class="option">
@@ -23,10 +26,49 @@
 		<input type="checkbox" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} />
 		<!-- END prop_checkbox -->
 		<!-- BEGIN prop_radio -->
-		<!-- BEGIN prop_radio_option -->
-		{BR}<input type="radio" name="{POST_VAR}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> {TXT_RADIO_OPTION}
-		<!-- END prop_radio_option -->
+			<!-- BEGIN prop_radio_option -->
+			{BR}<input type="radio" name="{POST_VAR}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> {TXT_RADIO_OPTION}
+			<!-- END prop_radio_option -->
 		<!-- END prop_radio -->
+		<!-- BEGIN prop_select -->
+		<select name="{POST_VAR}">
+			<!-- BEGIN prop_select_option -->
+			<option value="{VAL_SELECT_OPTION}" {CHK_SEL_OPTION}>{TXT_SELECT_OPTION}</option>
+			<!-- END prop_select_option -->
+		</select>
+		<!-- END prop_select -->
+		<!-- BEGIN prop_location -->
+		<input type="text" size="12" maxlength="12" name="{POST_VAR}[latitude]" value="{PROPERTY_VALUE_LAT}" /> /
+		<input type="text" size="12" maxlength="12" name="{POST_VAR}[longitude]" value="{PROPERTY_VALUE_LONG}" />
+		<script type="text/javascript">
+		//<![CDATA[
+		ilMapData[{MAP_ID}] = array({LAT},{LONG},{ZOOM});
+		//]]>
+		</script>
+		<div id="{MAP_ID}" class="ilGoogleMap" style="width: 500px; height: 300px;" />
+		<!-- END prop_location -->
+		<!-- BEGIN prop_file -->
+		<input type="file" name="{POST_VAR}" />
+		<!-- END prop_file -->
+		<!-- BEGIN prop_datetime -->
+			<!-- BEGIN prop_date -->
+			{DATE_SELECT}
+			<input type="image" alt="{TXT_DATE_CALENDAR}" title="{TXT_DATE_CALENDAR}" src="{IMG_DATE_CALENDAR}" id="btn_cal_{DATE_ID}" />
+			<script type="text/javascript">
+			//<![CDATA[
+			Calendar.setup( 
+			{ 
+				button : "btn_cal_{DATE_ID}",
+				inputFieldsDate : "{INPUT_FIELDS_DATE}"
+			}
+			);
+			//]]>
+			</script>
+			<!-- END prop_date -->{DELIM}
+			<!-- BEGIN prop_time -->
+			{TIME_SELECT} {TXT_TIME}
+			<!-- END prop_time -->
+		<!-- END prop_datetime -->
 		<!-- BEGIN exp_description -->
 		<div style="margin-top:3px; margin-left:3px;"><span class="ilFormHelpLink"><img border="0" src="{IMG_INFO}" alt="{ALT_INFO}" /></span><span class="subtitle"> {PROPERTY_DESCRIPTION}</span></div>
 		<!-- END exp_description -->
@@ -40,6 +82,7 @@
 		</td>
 	</tr>
 	<!-- END prop -->
+	<!-- END item -->
 	<tr>
 	<td class="submit" colspan="2">
 		<!-- BEGIN required_text -->

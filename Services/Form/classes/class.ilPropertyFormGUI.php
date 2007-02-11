@@ -164,6 +164,30 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Add a select property.
+	*
+	* @param	string		Title
+	* @param	string		_POST variable
+	* @param	array		Options. Array of array ("value" => ..., "text" => ...)
+	* @param	string		Current value.
+	* @param	string		Info text.
+	* @param	string		Alert text.
+	* @param	boolean		Required field. (Default false)
+	*/
+	function addSelectProperty($a_title, $a_post_var, $a_options, $a_value = "", $a_info = "",
+		$a_alert = "", $a_required = false)
+	{
+		$this->properties[] = array ("type" => "select",
+			"title" => $a_title,
+			"postvar" => $a_post_var,
+			"options" => $a_options,
+			"value" => $a_value,
+			"info" => $a_info,
+			"alert" => $a_alert,
+			"required" => $a_required);
+	}
+
+	/**
 	* Add a checkbox property.
 	*
 	* @param	string		Title
@@ -185,6 +209,94 @@ class ilPropertyFormGUI extends ilFormGUI
 			"info" => $a_info,
 			"alert" => $a_alert,
 			"required" => $a_required);
+	}
+
+	/**
+	* Add a location property.
+	*
+	* @param	string		Title
+	* @param	string		_POST variable
+	* @param	string		Latitude.
+	* @param	string		Longitude.
+	* @param	string		Value.
+	* @param	string		Info text.
+	* @param	string		Alert text.
+	* @param	boolean		Required field. (Default false)
+	*/
+	function addLocationProperty($a_title, $a_post_var, $a_latitude, $a_longitude,
+		$a_info = "", $a_alert = "", $a_required = false)
+	{
+		$this->properties[] = array ("type" => "location",
+			"title" => $a_title,
+			"postvar" => $a_post_var,
+			"latitude" => $a_latitude,
+			"longitude" => $a_longitude,
+			"info" => $a_info,
+			"alert" => $a_alert,
+			"required" => $a_required);
+	}
+
+	/**
+	* Add a file property.
+	*
+	* @param	string		Title
+	* @param	string		_POST variable
+	* @param	string		Info text.
+	* @param	string		Alert text.
+	* @param	boolean		Required field. (Default false)
+	*/
+	function addFileProperty($a_title, $a_post_var, $a_info = "",
+		$a_alert = "", $a_required = false)
+	{
+		$this->properties[] = array ("type" => "file",
+			"title" => $a_title,
+			"postvar" => $a_post_var,
+			"info" => $a_info,
+			"alert" => $a_alert,
+			"required" => $a_required);
+	}
+
+	/**
+	* Add a date/time property.
+	*
+	* @param	string		Title
+	* @param	string		_POST variable
+	* @param	string		Date (yyyy-mm-dd)
+	* @param	boolean		Display date (true/false), default true
+	* @param	string		Time (hh:mm:ss)
+	* @param	boolean		Display time (true/false), default false
+	* @param	boolean		Display seconds, default false
+	* @param	string		Info text.
+	* @param	string		Alert text.
+	* @param	boolean		Required field. (Default false)
+	*/
+	function addDateTimeProperty($a_title, $a_post_var, $a_date_val, $a_date = true,
+		$a_time_val = "00:00:00", $a_time = false, $a_seconds = false,
+		$a_info = "", $a_alert = "", $a_required = false)
+	{
+		$this->properties[] = array ("type" => "datetime",
+			"title" => $a_title,
+			"postvar" => $a_post_var,
+			"date_val" => $a_date_val,
+			"date" => $a_date,
+			"time_val" => $a_time_val,
+			"time" => $a_time,
+			"seconds" => $a_seconds,
+			"info" => $a_info,
+			"alert" => $a_alert,
+			"required" => $a_required);
+	}
+
+	/**
+	* Add a section header.
+	*
+	* @param	string		Title
+	*/
+	function addSectionHeader($a_title, $a_info = "")
+	{
+		$this->properties[] = array ("type" => "section_header",
+			"title" => $a_title,
+			"info" => $a_info);
 	}
 
 	/**
@@ -223,6 +335,8 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		global $lng, $tpl;
 		
+		$gm_set = new ilSetting("google_maps");
+		
 		$this->tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
 
 		// title icon
@@ -232,6 +346,12 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setVariable("IMG_ICON", $this->getTitleIcon());
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// title
+		$this->tpl->setCurrentBlock("header");
+		$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->touchBlock("item");
 		
 		// properties
 		$required_text = false;
@@ -301,6 +421,24 @@ class ilPropertyFormGUI extends ilFormGUI
 					$this->tpl->parseCurrentBlock();
 					break;
 					
+				case "select":
+					foreach($property["options"] as $option)
+					{
+						$this->tpl->setCurrentBlock("prop_select_option");
+						$this->tpl->setVariable("VAL_SELECT_OPTION", $option["value"]);
+						if ($option["value"] == $property["value"])
+						{
+							$this->tpl->setVariable("CHK_SEL_OPTION",
+								'selected="selected"');
+						}
+						$this->tpl->setVariable("TXT_SELECT_OPTION", $option["text"]);
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("prop_select");
+					$this->tpl->setVariable("POST_VAR", $property["postvar"]);
+					$this->tpl->parseCurrentBlock();
+					break;
+
 				case "checkbox":
 					$this->tpl->setCurrentBlock("prop_checkbox");
 					$this->tpl->setVariable("POST_VAR", $property["postvar"]);
@@ -313,50 +451,116 @@ class ilPropertyFormGUI extends ilFormGUI
 					$this->tpl->parseCurrentBlock();
 					break;
 
+				case "location":
+					$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
+						$gm_set->get("api_key"));
+					$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
+					$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
+					$this->tpl->setCurrentBlock("prop_location");
+					$this->tpl->setVariable("POST_VAR", $property["postvar"]);
+					$this->tpl->setVariable("MAP_ID", "map_".$property["postvar"]);
+					$this->tpl->setVariable("PROPERTY_VALUE_LAT", $property["latitude"]);
+					$this->tpl->setVariable("PROPERTY_VALUE_LONG", $property["longitude"]);
+					$this->tpl->parseCurrentBlock();
+					break;
+
+				case "file":
+					$this->setMultipart(true);
+					$this->tpl->setCurrentBlock("prop_file");
+					$this->tpl->setVariable("POST_VAR", $property["postvar"]);
+					$this->tpl->parseCurrentBlock();
+					break;
+					
+				case "datetime":
+					//$tpl->addJavaScript("Services/Calendar/js/calendar.js");
+					//$tpl->addJavaScript("Services/Calendar/js/calendar-setup.js");
+					//$tpl->addCss("Services/Calendar/css/calendar.css");
+					$lng->loadLanguageModule("jscalendar");
+					require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
+					ilCalendarUtil::initJSCalendar();
+					$this->tpl->setCurrentBlock("prop_file");
+					if ($property["date"])
+					{
+						$this->tpl->setVariable("IMG_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
+						$this->tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
+						$this->tpl->setVariable("DATE_ID", $property["postvar"]);
+						$this->tpl->setVariable("INPUT_FIELDS_DATE", $property["postvar"]."_date");
+						$date = explode("-", $property["date_val"]);
+						$this->tpl->setVariable("DATE_SELECT",
+							ilUtil::makeDateSelect($property["postvar"]."_date", $date[0], $date[1], $date[2]));
+					}
+					if ($property["time"])
+					{
+						$time = explode(":", $property["time_val"]);
+						$this->tpl->setVariable("TIME_SELECT",
+							ilUtil::makeTimeSelect($property["postvar"]."_time", !$property["seconds"],
+							$time[0], $time[1], $time[2]));
+						$this->tpl->setVariable("TXT_TIME", $property["seconds"]
+							? "(".$lng->txt("hh_mm_ss").")"
+							: "(".$lng->txt("hh_mm").")");
+					}
+					if ($property["time"] && $property["date"])
+					{
+						$this->tpl->setVariable("DELIM", "<br />");
+					}
+					break;
+
 				case "custom":
 					$this->tpl->setCurrentBlock("prop_custom");
 					$this->tpl->setVariable("CUSTOM_CONTENT", $property["html"]);
 					$this->tpl->parseCurrentBlock();
 					break;
-			}
-			
-			// info text
-			if ($property["info"] != "")
-			{
-				$tpl->addJavaScript("Services/Form/js/ServiceForm.js");
-				$this->tpl->setCurrentBlock("description");
-				//$this->tpl->setVariable("IMG_INFO",
-				//	ilUtil::getImagePath("icon_info_s.gif"));
-				//$this->tpl->setVariable("ALT_INFO",
-				//	$lng->txt("info_short"));
-				$this->tpl->setVariable("PROPERTY_DESCRIPTION",
-					$property["info"]);
-				$this->tpl->parseCurrentBlock();
-			}
 
-			// required
-			if ($property["required"])
-			{
-				$this->tpl->touchBlock("required");
-				$required_text = true;
+				case "section_header":
+					$this->tpl->setCurrentBlock("header");
+					$this->tpl->setVariable("TXT_TITLE", $property["title"]);
+					$this->tpl->parseCurrentBlock();
+					break;
 			}
 			
-			// alert
-			if ($property["alert"] != "")
+			if ($property["type"] != "section_header")
 			{
-				$this->tpl->setCurrentBlock("alert");
-				$this->tpl->setVariable("IMG_ALERT",
-					ilUtil::getImagePath("icon_alert_s.gif"));
-				$this->tpl->setVariable("ALT_ALERT",
-					$lng->txt("alert"));
-				$this->tpl->setVariable("TXT_ALERT",
-					$property["alert"]);
+				// info text
+				if ($property["info"] != "")
+				{
+					$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
+					$tpl->addJavaScript("Services/Form/js/ServiceForm.js");
+					$this->tpl->setCurrentBlock("description");
+					//$this->tpl->setVariable("IMG_INFO",
+					//	ilUtil::getImagePath("icon_info_s.gif"));
+					//$this->tpl->setVariable("ALT_INFO",
+					//	$lng->txt("info_short"));
+					$this->tpl->setVariable("PROPERTY_DESCRIPTION",
+						$property["info"]);
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				// required
+				if ($property["required"])
+				{
+					$this->tpl->touchBlock("required");
+					$required_text = true;
+				}
+				
+				// alert
+				if ($property["alert"] != "")
+				{
+					$this->tpl->setCurrentBlock("alert");
+					$this->tpl->setVariable("IMG_ALERT",
+						ilUtil::getImagePath("icon_alert_s.gif"));
+					$this->tpl->setVariable("ALT_ALERT",
+						$lng->txt("alert"));
+					$this->tpl->setVariable("TXT_ALERT",
+						$property["alert"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$this->tpl->setCurrentBlock("prop");
+				$this->tpl->setVariable("PROPERTY_TITLE", $property["title"]);
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			$this->tpl->setCurrentBlock("prop");
-			$this->tpl->setVariable("PROPERTY_TITLE", $property["title"]);
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("item");
 		}
 
 		// command buttons
@@ -375,9 +579,6 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setVariable("CMD_TXT", $button["text"]);
 			$this->tpl->parseCurrentBlock();
 		}
-
-		// title
-		$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
 		
 		return $this->tpl->get();
 	}

@@ -30,7 +30,9 @@
 */
 class ilFormGUI
 {
-
+	protected $formaction;
+	protected $multipart = false;
+	
 	/**
 	* Constructor
 	*
@@ -61,6 +63,26 @@ class ilFormGUI
 	}
 
 	/**
+	* Set Enctype Multipart/Formdata true/false.
+	*
+	* @param	boolean	$a_multipart	Enctype Multipart/Formdata true/false
+	*/
+	function setMultipart($a_multipart)
+	{
+		$this->multipart = $a_multipart;
+	}
+
+	/**
+	* Get Enctype Multipart/Formdata true/false.
+	*
+	* @return	boolean	Enctype Multipart/Formdata true/false
+	*/
+	function getMultipart()
+	{
+		return $this->multipart;
+	}
+
+	/**
 	* Get HTML.
 	*/
 	function getHTML()
@@ -68,6 +90,10 @@ class ilFormGUI
 		$tpl = new ilTemplate("tpl.form.html", true, true, "Services/Form");
 		$tpl->setVariable("FORM_CONTENT", $this->getContent());
 		$tpl->setVariable("FORM_ACTION", $this->getFormAction());
+		if ($this->getMultipart())
+		{
+			$tpl->touchBlock("multipart");
+		}
 		return $tpl->get();
 	}
 
