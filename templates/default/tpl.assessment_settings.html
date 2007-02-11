@@ -16,20 +16,31 @@
 <!-- END reporting_lang_row -->		
 		</select></td>
 	</tr>
-	<tr class="tblheader">
-		<td class="std" colspan="2">{TXT_MANUAL_SCORING_HEADER}</td>
-	</tr>
-	<tr>
-		<td class="option">
-			{TXT_MANUAL_SCORING_ACTIVATE}
-		</td>
-		<td class="option_value">
-<!-- BEGIN manual_scoring -->
-			<input type="checkbox" name="chb_manual_scoring[]" id="chb_manual_scoring_{VALUE_MANUAL_SCORING}" value="{VALUE_MANUAL_SCORING}"{CHECKED_MANUAL_SCORING} /> <label for="chb_manual_scoring_{VALUE_MANUAL_SCORING}">{TXT_MANUAL_SCORING}</label><br />
-<!-- END manual_scoring -->
-			<div class="il_Description_no_margin">{TXT_MANUAL_SCORING_DESCRIPTION}</div>
-		</td>
-	</tr>
+		<tr class="tblheader">
+			<td class="std" colspan="2">{TXT_QUESTIONTYPES_HEADER}</td>
+		</tr>
+		<tr>
+			<td class="option">
+				{TXT_ALLOWED_QUESTIONTYPES}
+			</td>
+			<td class="option_value">
+	<!-- BEGIN allowed_questiontypes -->
+				<input type="checkbox" name="chb_allowed_questiontypes[]" id="chb_allowed_questiontypes{VALUE_ALLOWED_QUESTIONTYPES}" value="{VALUE_ALLOWED_QUESTIONTYPES}"{CHECKED_ALLOWED_QUESTIONTYPES} /> <label for="chb_allowed_questiontypes{VALUE_ALLOWED_QUESTIONTYPES}">{TEXT_ALLOWED_QUESTIONTYPES}</label><br />
+	<!-- END allowed_questiontypes -->
+				<div class="il_Description_no_margin">{TXT_ALLOWED_QUESTIONTYPES_DESCRIPTION}</div>
+			</td>
+		</tr>
+			<tr>
+				<td class="option">
+					{TXT_MANUAL_SCORING_ACTIVATE}
+				</td>
+				<td class="option_value">
+		<!-- BEGIN manual_scoring -->
+					<input type="checkbox" name="chb_manual_scoring[]" id="chb_manual_scoring_{VALUE_MANUAL_SCORING}" value="{VALUE_MANUAL_SCORING}"{CHECKED_MANUAL_SCORING} /> <label for="chb_manual_scoring_{VALUE_MANUAL_SCORING}">{TXT_MANUAL_SCORING}</label><br />
+		<!-- END manual_scoring -->
+					<div class="il_Description_no_margin">{TXT_MANUAL_SCORING_DESCRIPTION}</div>
+				</td>
+			</tr>
 	<tr class="tablefooter">
 	<td class="submit" colspan="2">
 		<div align="right">

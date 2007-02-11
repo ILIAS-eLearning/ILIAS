@@ -4486,6 +4486,37 @@ class ilObjTest extends ilObject
 			"maximum_points" => $maximum_points
 		);
 	}
+	
+	function &_evalResultsOverview()
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT tst_test_result.*, qpl_questions.original_id, qpl_questions.title, qpl_questions.points AS maxpoints " .
+			"FROM tst_test_result, tst_active, qpl_questions " .
+			"WHERE tst_active.active_id = tst_test_result.active_fi " .
+			"AND qpl_questions.question_id = tst_test_result.question_fi " .
+			"AND tst_active.test_fi = %s " .
+			"ORDER BY active_id, pass, TIMESTAMP",
+			$ilDB->quote($this->getTestId() . "")
+		);
+		$result = $ilDB->query($query);
+		$overview = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (!array_key_exists($row["active_fi"], $overview))
+			{
+				$overview[$row["active_fi"]] = array();
+			}
+			if (!array_key_exists($row["pass"], $overview[$row["active_fi"]]))
+			{
+				$overview[$row["active_fi"]][$row["pass"]] = array();
+				$overview[$row["active_fi"]][$row["pass"]]["reached"] = 0;
+			}
+			array_push($overview[$row["active_fi"]][$row["pass"]], $row);
+			$overview[$row["active_fi"]][$row["pass"]]["reached"] += $row["points"];
+		}
+		return $overview;
+	}
 
 /**
 * Returns the average processing time for total finished tests
@@ -5203,29 +5234,6 @@ class ilObjTest extends ilObject
 			"step" => $maxentries,
 			"rowcount" => $max
 		);
-	}
-
-	/**
-	* Creates a list of all available question types
-	*
-	* Creates a list of all available question types
-	*
-	* @return array An array containing the available questiontypes
-	* @access public
-	*/
-	function &_getQuestiontypes()
-	{
-		global $ilDB;
-
-		$questiontypes = array();
-		$query = "SELECT * FROM qpl_question_type ORDER BY type_tag";
-		$query_result = $ilDB->query($query);
-		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$questiontypes[$this->lng->txt($row["type_tag"])] = $row;
-		}
-		ksort($questiontypes);
-		return $questiontypes;
 	}
 
 	/**
@@ -7097,6 +7105,54 @@ class ilObjTest extends ilObject
 			return 0;
 		}
 	}
+
+	/**
+	* Retrieves the maximum pass of a given user for a given test
+	*
+	* Retrieves the maximum pass of a given user for a given test
+	* in which the user answered at least one question
+	*
+	* @param integer $user_id The user id
+	* @param integer $test_id The test id
+	* @return integer The pass of the user for the given test
+	* @access public
+	*/
+		function _getMaxPass($active_id)
+		{
+			global $ilDB;
+			$query = sprintf("SELECT tries FROM tst_active WHERE active_id = %s",
+				$ilDB->quote($active_id . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE pass = %s AND active_fi = %s",
+					$ilDB->quote($row["tries"] . ""),
+					$ilDB->quote($active_id . "")
+				);
+				$result = $ilDB->query($query);
+				if ($result->numRows() > 0)
+				{
+					return $row["tries"];
+				}
+				else
+				{
+					if ($row["tries"] > 0)
+					{
+						return $row["tries"] - 1;
+					}
+					else
+					{
+						return $row["tries"];
+					}
+				}
+			}
+			else
+			{
+				return 0;
+			}
+		}
 
 /**
 * Retrieves the best pass of a given user for a given test

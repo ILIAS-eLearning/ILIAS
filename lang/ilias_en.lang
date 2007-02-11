@@ -1286,6 +1286,9 @@ common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment Administration
 common#:#assf_visible#:#Test&Assessment administration is visible
 common#:#assf_write#:#Edit Test&Assessment administration
+common#:#assf_questiontypes#:#Question Settings
+common#:#assf_allowed_questiontypes#:#Available Question Types
+common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_lo_forum#:#Assign LO Forum
@@ -6554,7 +6557,7 @@ survey#:#survey_code_no_codes#:#You have not created any survey access codes yet
 survey#:#survey_code_url#:#URL for Direct Access
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
-survey#:#survey_codes_lang#:#Language of the Survey
+survey#:#survey_codes_lang#:#ILIAS language for the direct access URL
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#Finish Survey

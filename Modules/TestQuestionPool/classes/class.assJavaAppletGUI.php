@@ -438,6 +438,15 @@ class assJavaAppletGUI extends assQuestionGUI
 		$actualpass = ilObjTest::_getPass($active_id);
 		$template->setVariable("PARAM_VALUE", $actualpass);
 		$template->parseCurrentBlock();
+		// additional parameters
+		for ($i = 0; $i < $this->object->getParameterCount(); $i++)
+		{
+			$parameter = $this->object->getParameter($i);
+			$template->setCurrentBlock("appletparam");
+			$template->setVariable("PARAM_NAME", $parameter["name"]);
+			$template->setVariable("PARAM_VALUE", $parameter["value"]);
+			$template->parseCurrentBlock();
+		}
 
 		if ($active_id)
 		{
@@ -549,6 +558,15 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->setVariable("PARAM_NAME", "client");
 		$template->setVariable("PARAM_VALUE", CLIENT_ID);
 		$template->parseCurrentBlock();
+		// additional parameters
+		for ($i = 0; $i < $this->object->getParameterCount(); $i++)
+		{
+			$parameter = $this->object->getParameter($i);
+			$template->setCurrentBlock("appletparam");
+			$template->setVariable("PARAM_NAME", $parameter["name"]);
+			$template->setVariable("PARAM_VALUE", $parameter["value"]);
+			$template->parseCurrentBlock();
+		}
 
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
@@ -635,6 +653,15 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->setVariable("PARAM_NAME", "post_url");
 		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_question_post_data.php");
 		$template->parseCurrentBlock();
+		// additional parameters
+		for ($i = 0; $i < $this->object->getParameterCount(); $i++)
+		{
+			$parameter = $this->object->getParameter($i);
+			$template->setCurrentBlock("appletparam");
+			$template->setVariable("PARAM_NAME", $parameter["name"]);
+			$template->setVariable("PARAM_VALUE", $parameter["value"]);
+			$template->parseCurrentBlock();
+		}
 
 		if ($active_id)
 		{

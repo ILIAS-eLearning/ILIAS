@@ -117,7 +117,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_settings.html");
 	
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		$questiontypes =& ilObjQuestionPool::_getQuestionTypes();
+		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
 		$manscoring = $this->object->_getManualScoring();
 		foreach ($questiontypes as $type_name => $qtype)
 		{
@@ -128,6 +128,16 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			if (in_array($type_id, $manscoring))
 			{
 				$this->tpl->setVariable("CHECKED_MANUAL_SCORING", " checked=\"checked\"");
+			}
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("allowed_questiontypes");
+			$this->tpl->setVariable("VALUE_ALLOWED_QUESTIONTYPES", $type_id);
+			$this->tpl->setVariable("TEXT_ALLOWED_QUESTIONTYPES", $type_name);
+			$forbidden_types = $this->object->_getForbiddenQuestionTypes();
+			if (!in_array($type_id, $forbidden_types))
+			{
+				$this->tpl->setVariable("CHECKED_ALLOWED_QUESTIONTYPES", " checked=\"checked\"");
 			}
 			$this->tpl->parseCurrentBlock();
 		}
@@ -156,8 +166,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		$this->tpl->setVariable("TXT_QUESTIONTYPES_HEADER", $this->lng->txt("assf_questiontypes"));
+		$this->tpl->setVariable("TXT_ALLOWED_QUESTIONTYPES", $this->lng->txt("assf_allowed_questiontypes"));
+		$this->tpl->setVariable("TXT_ALLOWED_QUESTIONTYPES_DESCRIPTION", $this->lng->txt("assf_allowed_questiontypes_desc"));
 		$this->tpl->setVariable("TXT_MANUAL_SCORING_DESCRIPTION", $this->lng->txt("assessment_log_manual_scoring_desc"));
-		$this->tpl->setVariable("TXT_MANUAL_SCORING_HEADER", $this->lng->txt("assessment_log_manual_scoring"));
 		$this->tpl->setVariable("TXT_MANUAL_SCORING_ACTIVATE", $this->lng->txt("assessment_log_manual_scoring_activate"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
@@ -184,6 +196,17 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$this->object->_setLogLanguage($_POST["reporting_language"]);
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
+		$forbidden_types = array();
+		foreach ($questiontypes as $name => $row)
+		{
+			if (!in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"]))
+			{
+				array_push($forbidden_types, $row["question_type_id"]);
+			}
+		}
+		$this->object->_setForbiddenQuestionTypes($forbidden_types);
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
