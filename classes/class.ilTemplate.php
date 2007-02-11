@@ -52,6 +52,7 @@ class ilTemplate extends ilTemplateX
 	var $activeBlock;
 	
 	var $js_files = array();		// list of JS files that should be included
+	var $css_files = array();		// list of css files that should be included
 
 	/**
 	* constructor
@@ -147,6 +148,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillHeaderIcon();
 			$this->fillNavigationHistory();
 			$this->fillJavaScriptFiles();
+			$this->fillCssFiles();
 		}
 
 		if ($add_ilias_footer)
@@ -248,6 +250,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillHeaderIcon();
 			$this->fillNavigationHistory();
 			$this->fillJavaScriptFiles();
+			$this->fillCssFiles();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
@@ -281,6 +284,19 @@ class ilTemplate extends ilTemplateX
 			{
 				$this->setCurrentBlock("js_file");
 				$this->setVariable("JS_FILE", $file);
+				$this->parseCurrentBlock();
+			}
+		}
+	}
+
+	function fillCssFiles()
+	{
+		foreach($this->css_files as $file)
+		{
+			if (is_file($file))
+			{
+				$this->setCurrentBlock("css_file");
+				$this->setVariable("CSS_FILE", $file);
 				$this->parseCurrentBlock();
 			}
 		}
@@ -956,6 +972,17 @@ class ilTemplate extends ilTemplateX
 		if (!in_array($a_js_file, $this->js_files))
 		{
 			$this->js_files[] = $a_js_file;
+		}
+	}
+
+	/**
+	* Add a css file that should be included in the header.
+	*/
+	function addCss($a_css_file)
+	{
+		if (!in_array($a_css_file, $this->css_files))
+		{
+			$this->css_files[] = $a_css_file;
 		}
 	}
 }

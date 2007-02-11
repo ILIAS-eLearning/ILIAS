@@ -50,8 +50,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		define ("ILINC_DEFAULT_HTTP_PORT",80);
 		define ("ILINC_DEFAULT_SSL_PORT",443);
 		define ("ILINC_DEFAULT_TIMEOUT",30);
-		
 		$lng->loadLanguageModule("delic");
+		$lng->loadLanguageModule("gmaps");
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("view","editiLinc","editDelicious", ""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"), array("view","editiLinc","editDelicious", "editGoogleMaps",""), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -346,6 +346,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "saveDelicious");
 	}
 
+
 	/**
 	* Save Delicious Setttings
 	*/
@@ -360,6 +361,76 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "editDelicious");
 	}
 	
+
+	/**
+	* Configure google maps settings
+	* 
+	* @access	public
+	*/
+	function editGoogleMapsObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
+		
+		$gm_set = new ilSetting("google_maps");
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initSubTabs("editGoogleMaps");
+
+		$api_key = $gm_set->get("api_key");
+		$std_latitude = $gm_set->get("std_latitude");
+		$std_longitude = $gm_set->get("std_longitude");
+		$api_url = "http://www.google.com/apis/maps/signup.html";
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("gmaps_settings"));
+		$form->addTextProperty($lng->txt("gmaps_api_key"), "api_key", $api_key,
+			$lng->txt("gmaps_api_key_desc").' <a href="'.$api_url.'">'.$api_url.'</a>',
+			"", true, 200, 60);
+			
+		// test
+		$form->addRadioProperty("Test", "test", array(
+			array("value" => 1, "text" => "op1"),array("value" => 2, "text" => "op2")),
+			"1");
+		$form->addSectionHeader("Hello World");
+		$form->addFileProperty("File", "file");
+		$form->addSelectProperty("Select", "sel", array(
+			array("value" => 1, "text" => "sel1"),array("value" => 2, "text" => "sel2")),
+			2);
+		$form->addDateTimeProperty("datetime", "datetime", "2007-12-24", true,
+			"12:13:27", true, true);
+		$form->addDateTimeProperty("End Date", "enddate", "", true,
+			"11:22", true, false);
+			
+		$form->addLocationProperty($lng->txt("gmaps_std_location"), "std_location", $std_latitude,
+			$std_longitude, $lng->txt("gmaps_std_location_desc"));
+		$form->addCommandButton("saveGoogleMaps", $lng->txt("save"));
+		$form->addCommandButton("view", $lng->txt("cancel"));
+		
+		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
+	}
+
+
+	/**
+	* Save Google Maps Setttings
+	*/
+	function saveGoogleMapsObject()
+	{
+		global $ilCtrl;
+
+		$gm_set = new ilSetting("google_maps");
+		
+		$gm_set->set("api_key", ilUtil::stripSlashes($_POST["api_key"]));
+		$gm_set->set("std_latitude", ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
+		$gm_set->set("std_longitude", ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
+		
+		$ilCtrl->redirect($this, "editGoogleMaps");
+	}
 	
 	// init sub tabs
 	function __initSubTabs($a_cmd)
@@ -367,11 +438,14 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$ilinc = ($a_cmd == 'editiLinc') ? true : false;
 		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
 		$delicious = ($a_cmd == 'editDelicious') ? true : false;
+		$gmaps = ($a_cmd == 'editGoogleMaps') ? true : false;
 
 		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
 										 "", "", "", $overview);
 		$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
 										 "", "", "", $delicious);
+		$this->tabs_gui->addSubTabTarget("gmaps_extt_gmaps", $this->ctrl->getLinkTarget($this, "editGoogleMaps"),
+										 "", "", "", $gmaps);
 		$this->tabs_gui->addSubTabTarget("extt_ilinc", $this->ctrl->getLinkTarget($this, "editiLinc"),
 										 "", "", "", $ilinc);
 	}
