@@ -92,7 +92,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		{
 			if (strlen($_GET["pass"]))
 			{
-				$maxpass = $this->object->_getPass($active_id);	
+				$maxpass = $this->object->_getMaxPass($active_id);	
 				if ($_GET["pass"] <= $maxpass) $pass = $_GET["pass"];
 			}
 		}

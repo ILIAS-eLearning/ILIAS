@@ -1861,7 +1861,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$questiontypes =& $this->object->_getQuestiontypes();
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		$questiontypes =& ilObjQuestionPool::_getQuestionTypes();
 		foreach ($questiontypes as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("questiontype_row");
@@ -2918,7 +2919,8 @@ class ilObjTestGUI extends ilObjectGUI
 			global $ilUser;
 			$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
 			$this->tpl->setCurrentBlock("QTypes");
-			$question_types =& $this->object->_getQuestiontypes();
+			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+			$question_types =& ilObjQuestionPool::_getQuestionTypes();
 			foreach ($question_types as $data)
 			{
 				if ($data["question_type_id"] == $lastquestiontype)

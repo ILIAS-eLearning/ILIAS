@@ -3153,11 +3153,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$tbl->disable("sort");
 				$tbl->disable("auto_sort");
 				$tbl->disable("title");
+				$tbl->enable("action");
+				$tbl->enable("select_all");
 				$tbl->setLimit($maxentries);
 				$tbl->setOffset($_GET["offset"]);
 				$tbl->setData($survey_codes);
 				$tbl->setMaxCount($codecount);
 				$tbl->setOrderDirection($_GET["sort_order"]);
+				$tbl->setSelectAllCheckbox("chb_code");
+				$tbl->setFormName("form_codes");
+				$tbl->addActionButton("deleteCodes", $this->lng->txt("delete"));
 	
 				$header_params = $this->ctrl->getParameterArray($this, "codes");
 				$tbl->setHeaderVars($headervars, $header_params);
@@ -3201,6 +3206,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("cannot_create_survey_codes"));
 		}
+	}
+	
+	/**
+	* Delete a list of survey codes
+	*
+	* Delete a list of survey codes
+	*
+	* @access private
+	*/
+	function deleteCodesObject()
+	{
+		if (is_array($_POST["chb_code"]) && (count($_POST["chb_code"]) > 0))
+		{
+			foreach ($_POST["chb_code"] as $survey_code)
+			{
+				$this->object->deleteSurveyCode($survey_code);
+			}
+		}
+		$this->codesObject();
 	}
 	
 	/**
@@ -3984,7 +4008,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// code
 				$tabs_gui->addTarget("codes",
 					 $this->ctrl->getLinkTarget($this,'codes'),
-					 array("codes", "createSurveyCodes", "setCodeLanguage"),
+					 array("codes", "createSurveyCodes", "setCodeLanguage", "deleteCodes"),
 					 "");
 			}
 		}

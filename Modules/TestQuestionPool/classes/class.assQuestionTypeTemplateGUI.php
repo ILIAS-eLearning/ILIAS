@@ -30,6 +30,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * The assQuestionTypeTemplateGUI class encapsulates the GUI representation
 * of a new question type
 *
+* @ilctrl_iscalledby assQuestionTypeTemplateGUI: ilObjQuestionPoolGUI
+*
 * @author		Unknown <unknowns@email>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool

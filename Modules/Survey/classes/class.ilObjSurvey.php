@@ -374,6 +374,11 @@ class ilObjSurvey extends ilObject
 		
 		$this->deleteAllUserData();
 
+		$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s",
+			$ilDB->quote($this->getSurveyId())
+		);
+		$result = $ilDB->query($query);
+		
 		// delete export files
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
@@ -4742,6 +4747,7 @@ class ilObjSurvey extends ilObject
 					$url .= $this->lng->txt("survey_code_url_name");
 					$url .= "</a>";
 				}
+				$counter = "<input type=\"checkbox\" name=\"chb_code[]\" value=\"" . $row["survey_key"] . "\"/>";
 				array_push($codes, array($counter, $row["survey_key"], $created, $state, $url));
 				$counter++;
 			}
@@ -4778,6 +4784,27 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($this->getSurveyId() . "")
 			);
 			$result = $ilDB->query($query);
+		}
+	}
+
+	/**
+	* Deletes a given survey access code
+	*
+	* Deletes a given survey access code
+	*
+	* @param string $survey_code	The survey code that should be deleted
+	*/
+	function deleteSurveyCode($survey_code)
+	{
+		global $ilDB;
+		
+		if (strlen($survey_code) > 0)
+		{
+			$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s AND survey_key = %s",
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($survey_code)
+			);
+			$ilDB->query($query);
 		}
 	}
 	

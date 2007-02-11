@@ -633,10 +633,54 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$overview =& $this->object->_evalResultsOverview();
+		$questions = array();
+		foreach ($overview as $active_id => $pass)
+		{
+			foreach ($pass as $passnr => $userresults)
+			{
+				foreach ($userresults as $userresult)
+				{
+					if (is_array($userresult))
+					{
+						if (!array_key_exists($userresult["original_id"], $questions))
+						{
+							$questions[$userresult["original_id"]] = array(
+								"reached" => 0, 
+								"max" => $userresult["maxpoints"], 
+								"count" => 0, 
+								"title" => $userresult["title"]
+							);
+						}
+						$questions[$userresult["original_id"]]["reached"] += $userresult["points"];
+						$questions[$userresult["original_id"]]["count"]++;
+					}
+				}
+			}
+		}
+		$counter = 0;
+		foreach ($questions as $avg)
+		{
+			$this->tpl->setCurrentBlock("avg_row");
+			$this->tpl->setVariable("TXT_QUESTIONTITLE", $avg["title"]);
+			$reached = $avg["count"] ? $avg["reached"]/$avg["count"] : 0;
+			$max = $avg["count"] ? $avg["max"]/$avg["count"] : 0;
+			$percent = $max ? $reached/$max * 100.0 : 0;
+			$this->tpl->setVariable("TXT_POINTS", sprintf("%.2f", $reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $max));
+			$this->tpl->setVariable("TXT_PERCENT", sprintf("%.2f", $percent) . "%");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
+		$this->tpl->setVariable("TXT_AVG_REACHED", $this->lng->txt("average_reached_points"));
+		$this->tpl->setVariable("TXT_QUESTIONTITLE", $this->lng->txt("question_title"));
+		$this->tpl->setVariable("TXT_POINTS", $this->lng->txt("points"));
+		$this->tpl->setVariable("TXT_PERCENT", $this->lng->txt("percentage"));
 		$this->tpl->parseCurrentBlock();
 	}
 

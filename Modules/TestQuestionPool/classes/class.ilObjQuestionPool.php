@@ -1585,33 +1585,43 @@ class ilObjQuestionPool extends ilObject
 		return $newObj->getRefId();
 	}
 	
-	function &getQuestionTypes()
+	function &getQuestionTypes($all_tags = FALSE)
 	{
 		global $ilDB;
 		
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		$forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
 		$query = "SELECT * FROM qpl_question_type";
 		$result = $ilDB->query($query);
 		$types = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$types[$this->lng->txt($row["type_tag"])] = $row;
+			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
+			{
+				$types[$this->lng->txt($row["type_tag"])] = $row;
+			}
 		}
 		ksort($types);
 		return $types;
 	}
 
-	function &_getQuestionTypes()
+	function &_getQuestionTypes($all_tags = FALSE)
 	{
 		global $ilDB;
 		global $lng;
 		
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		$forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
 		$lng->loadLanguageModule("assessment");
 		$query = "SELECT * FROM qpl_question_type";
 		$result = $ilDB->query($query);
 		$types = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$types[$lng->txt($row["type_tag"])] = $row;
+			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
+			{
+				$types[$lng->txt($row["type_tag"])] = $row;
+			}
 		}
 		ksort($types);
 		return $types;

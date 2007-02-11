@@ -247,6 +247,39 @@ class ilObjAssessmentFolder extends ilObject
 	}
 	
 	/**
+	* Returns the forbidden questiontypes for ILIAS
+	*/
+	function _getForbiddenQuestionTypes()
+	{
+		$setting = new ilSetting("assessment");
+		$types = $setting->get("forbidden_questiontypes");
+		if (strlen(trim($types)) == 0)
+		{
+			return array();
+		}
+		else
+		{
+			return unserialize($types);
+		}
+	}
+
+	/**
+	* Sets the forbidden questiontypes for ILIAS
+	*
+	* @param array $a_types An array containing the database ID's of the forbidden question types
+	*/
+	function _setForbiddenQuestionTypes($a_types)
+	{
+		$setting = new ilSetting("assessment");
+		$types = "";
+		if (is_array($a_types) && (count($a_types) > 0))
+		{
+			$types = serialize($a_types);
+		}
+		$setting->set("forbidden_questiontypes", $types);
+	}
+	
+	/**
 	* retrieve the log language for assessment logging
 	*/
 	function _getLogLanguage()
