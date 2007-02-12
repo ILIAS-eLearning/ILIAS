@@ -496,19 +496,32 @@ class ilRegistrationGUI
 
 			$access_limitations_obj = new ilRegistrationRoleAccessLimitations();
 			
-			$access_limit_mode = $access_limitations_obj->getMode($_POST['user']['default_role']);
+			if ($this->registration_settings->roleSelectionEnabled())
+			{
+				$default_role = $_POST['user']['default_role'];
+			}
+			else
+			{
+				// Assign by email
+				include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
+
+				$registration_role_assignments = new ilRegistrationRoleAssignments();
+				$default_role = $registration_role_assignments->getRoleByEmail($this->userObj->getEmail());
+			}
 			
+			$access_limit_mode = $access_limitations_obj->getMode($default_role);
+		
 			if ($access_limit_mode == 'absolute')
 			{
-				$access_limit = $access_limitations_obj->getAbsolute($_POST['user']['default_role']);
+				$access_limit = $access_limitations_obj->getAbsolute($default_role);
 				$this->userObj->setTimeLimitUnlimited(0);
 				$this->userObj->setTimeLimitUntil($access_limit);
 			}
 			elseif ($access_limit_mode == 'relative')
 			{
-				$rel_d = (int) $access_limitations_obj->getRelative($_POST['user']['default_role'],'d');
-				$rel_m = (int) $access_limitations_obj->getRelative($_POST['user']['default_role'],'m');
-				$rel_y = (int) $access_limitations_obj->getRelative($_POST['user']['default_role'],'y');
+				$rel_d = (int) $access_limitations_obj->getRelative($default_role,'d');
+				$rel_m = (int) $access_limitations_obj->getRelative($default_role,'m');
+				$rel_y = (int) $access_limitations_obj->getRelative($default_role,'y');
 				
 				$access_limit = $rel_d * 86400 + $rel_m * 2592000 + $rel_y * 31536000 + time();
 				$this->userObj->setTimeLimitUnlimited(0);

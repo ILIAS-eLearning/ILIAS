@@ -138,7 +138,7 @@ class ilRegistrationRoleAccessLimitations
 	
 	function setAbsolute($a_arr,$a_role_id)
 	{
-		$this->access_limitations[$a_role_id]['absolute'] = mktime(0,0,0,$a_arr['m'],$a_arr['d'],$a_arr['y']);
+		$this->access_limitations[$a_role_id]['absolute'] = mktime(23,59,59,$a_arr['m'],$a_arr['d'],$a_arr['y']);
 	}
 	
 	function getRelative($a_role_id,$a_type)
