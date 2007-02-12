@@ -559,7 +559,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setQuestion($questiontext);
 			$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 			$this->object->setShuffle($_POST["shuffle"]);
@@ -950,11 +950,11 @@ class assImagemapQuestionGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
-		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		foreach ($this->object->answers as $index => $answer)
 		{
-			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		}
 		$this->object->cleanupMediaObjectUsage();
 		$this->feedback();
