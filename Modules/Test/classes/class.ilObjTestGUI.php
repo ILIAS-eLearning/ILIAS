@@ -861,7 +861,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_cancel"] = $_POST["chb_show_cancel"];
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$introduction = ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$data["introduction"] = $introduction;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["chb_postpone"]);
 		$data["shuffle_questions"] = 0;

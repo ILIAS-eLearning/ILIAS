@@ -229,8 +229,8 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
-		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		$this->object->cleanupMediaObjectUsage();
 
 		// additional feedback processing
