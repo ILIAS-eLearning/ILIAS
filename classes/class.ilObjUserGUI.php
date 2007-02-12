@@ -2474,10 +2474,19 @@ class ilObjUserGUI extends ilObjectGUI
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
-
-			$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
-				ilObject::_lookupObjId($_GET["ref_id"]))),
-				$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+				
+			if ($_GET['ref_id'] == USER_FOLDER_ID)
+			{					
+				$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
+					ilObject::_lookupObjId($_GET["ref_id"]))),
+					$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+			}
+			elseif ($_GET['ref_id'] == ROLE_FOLDER_ID)
+			{
+				$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
+					ilObject::_lookupObjId($_GET["ref_id"]))),
+					$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+			}
 			
 			if ($_GET["obj_id"] > 0)
 			{

@@ -42,6 +42,7 @@ administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
 common#:#access_expired#:#expired
+common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
 common#:#access_unlimited#:#unlimited
 common#:#usr_limited_access_only#:#Users with limited access only
@@ -6041,7 +6042,7 @@ registration#:#reg_access_limitation_limited_until#:#Access is limited until
 registration#:#reg_access_limitation_limited_time#:#After registration access for
 registration#:#reg_access_limitation_none#:#Unlimited access
 registration#:#reg_access_limitation_missing_mode#:#Please choose for all roles an Access Limitation Mode
-registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an outdated access limitation or the access limitation would expire today!
+registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an outdated access limitation!
 registration#:#reg_role_access_limitations#:#Define access limitations of Roles for new registered Users
 registration#:#reg_access_limitation_mode#:#Access Limitation Mode
 registration#:#reg_access_limitation_mode_unlimited#:#No access limitation

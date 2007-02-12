@@ -459,6 +459,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
  	*/
 	function displayList()
 	{
+		if (!is_array($this->data["data"][0]))
+		{
+			ilUtil::sendInfo($this->lng->txt("usr_filter_empty_result")); return;
+		}
+
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		// load template for table
