@@ -1,4 +1,9 @@
+<!-- BEGIN std_table -->
 <table class="std">
+<!-- END std_table -->
+<!-- BEGIN sub_table -->
+<table class="nobackground">
+<!-- END sub_table -->
 	<!-- BEGIN item -->
 	<!-- BEGIN header -->
 	<tr class="tblheader">
@@ -8,11 +13,20 @@
 	</tr>
 	<!-- END header -->
 	<!-- BEGIN prop -->
+	<!-- BEGIN std_prop_start -->
 	<tr>
 		<td class="option">
 		{PROPERTY_TITLE}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required -->
 		</td>
 		<td class="option_value" width="400px">
+	<!-- END std_prop_start -->
+	<!-- BEGIN sub_prop_start -->
+	<tr>
+		<td class="std" style="padding-left:40px; vertical-align:top;">
+		{PROPERTY_TITLE}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required -->
+		</td>
+		<td class="std">
+	<!-- END sub_prop_start -->
 		<!-- BEGIN prop_text -->
 		<input type="text" size="{SIZE}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
 		<!-- END prop_text -->
@@ -23,11 +37,16 @@
 		{CUSTOM_CONTENT}
 		<!-- END prop_custom -->
 		<!-- BEGIN prop_checkbox -->
-		<input type="checkbox" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} />
+		<input type="checkbox" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} /> {OPTION_TITLE}
+		{SUB_FORM}
 		<!-- END prop_checkbox -->
 		<!-- BEGIN prop_radio -->
 			<!-- BEGIN prop_radio_option -->
-			{BR}<input type="radio" name="{POST_VAR}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> {TXT_RADIO_OPTION}
+			<div><input type="radio" name="{POST_VAR}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> {TXT_RADIO_OPTION}</div>
+			<!-- BEGIN radio_option_desc -->
+			<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{RADIO_OPTION_DESC}</span></div>
+			<!-- END radio_option_desc -->
+			{SUB_FORM}
 			<!-- END prop_radio_option -->
 		<!-- END prop_radio -->
 		<!-- BEGIN prop_select -->
@@ -83,6 +102,7 @@
 	</tr>
 	<!-- END prop -->
 	<!-- END item -->
+	<!-- BEGIN commands -->
 	<tr>
 	<td class="submit" colspan="2">
 		<!-- BEGIN required_text -->
@@ -97,4 +117,5 @@
 		</div>
 	</td>
 	</tr>
+	<!-- END commands -->
 </table>

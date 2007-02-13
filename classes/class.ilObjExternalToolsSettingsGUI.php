@@ -389,26 +389,101 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("gmaps_settings"));
-		$form->addTextProperty($lng->txt("gmaps_api_key"), "api_key", $api_key,
-			$lng->txt("gmaps_api_key_desc").' <a href="'.$api_url.'">'.$api_url.'</a>',
-			"", true, 200, 60);
+		
+		// API key
+		$text_prop = new ilTextInputGUI($lng->txt("gmaps_api_key"), "api_key");
+		$text_prop->setInfo($lng->txt("gmaps_api_key_desc").' <a href="'.$api_url.'">'.$api_url.'</a>');
+		$text_prop->setValue($api_key);
+		$text_prop->setRequired(true);
+		$text_prop->setMaxLength(200);
+		$text_prop->setSize(60);
+		$form->addItem($text_prop);
+		
+		// radio property
+		$radio_prop = new ilRadioGroupInputGUI("Radio Test", "radio_test");
+		$radio_prop->setInfo("This is the info text of the Radio Test property.");
+		$op = new ilRadioOption("Option 1", "1", "Infotext for Option 1");
+		
+			$text_prop = new ilTextInputGUI("Text Input", "ti2");
+			$text_prop->setInfo("This is the info text of subitem 'Text Input' of Option 1.");
+			$op->addSubItem($text_prop);
+
+		$radio_prop->addOption($op);
+		$op = new ilRadioOption("Option 2", "2", "Infotext for Option 2");
+	
+			$cb_prop = new ilCheckboxInputGUI("Checkbox", "cbox2");
+			$cb_prop->setValue("1");
+			$cb_prop->setChecked(true);
+			$op->addSubItem($cb_prop);
 			
-		// test
-		$form->addRadioProperty("Test", "test", array(
-			array("value" => 1, "text" => "op1"),array("value" => 2, "text" => "op2")),
-			"1");
-		$form->addSectionHeader("Hello World");
-		$form->addFileProperty("File", "file");
-		$form->addSelectProperty("Select", "sel", array(
-			array("value" => 1, "text" => "sel1"),array("value" => 2, "text" => "sel2")),
-			2);
-		$form->addDateTimeProperty("datetime", "datetime", "2007-12-24", true,
-			"12:13:27", true, true);
-		$form->addDateTimeProperty("End Date", "enddate", "", true,
-			"11:22", true, false);
-			
-		$form->addLocationProperty($lng->txt("gmaps_std_location"), "std_location", $std_latitude,
-			$std_longitude, $lng->txt("gmaps_std_location_desc"));
+			$dt_prop = new ilDateTimeInputGUI("Start Date", "datetime5");
+			$dt_prop->setDate("2006-12-24");
+			$dt_prop->setTime("15:44");
+			$dt_prop->setShowTime(true);
+			$dt_prop->setInfo("Info text for the start date.");
+			$op->addSubItem($dt_prop);
+
+			$dt_prop = new ilDateTimeInputGUI("End Date", "datetime6");
+			$dt_prop->setDate("2006-12-24");
+			$dt_prop->setTime("15:44");
+			$dt_prop->setShowTime(true);
+			$dt_prop->setInfo("Info text for the end date.");
+			$op->addSubItem($dt_prop);
+
+		
+		$radio_prop->addOption($op);
+		$radio_prop->setValue("1");
+		$form->addItem($radio_prop);
+
+		// select property
+		$sel_prop = new ilSelectInputGUI("Selection Test", "sel_test");
+		$sel_prop->setOptions(array(
+			array("value" => 1, "text" => "sel1"),array("value" => 2, "text" => "sel2")));
+		$sel_prop->setValue("2");
+		$form->addItem($sel_prop);
+		
+		// section header
+		$sec_head = new ilFormSectionHeaderGUI();
+		$sec_head->setTitle("Hello World.");
+		$sec_head->setInfo("Section Info");
+		$form->addItem($sec_head);
+
+		// datetime property
+		$dt_prop = new ilDateTimeInputGUI("Date 1", "datetime1");
+		$dt_prop->setDate("2007-12-24");
+		$dt_prop->setTime("12:13:27");
+		$dt_prop->setShowTime(true);
+		$dt_prop->setShowSeconds(true);
+		$form->addItem($dt_prop);
+		
+		// datetime property 1
+		$dt_prop = new ilDateTimeInputGUI("Date 2", "datetime2");
+		$dt_prop->setDate("2006-12-24");
+		$dt_prop->setTime("15:44");
+		$dt_prop->setShowTime(true);
+		$form->addItem($dt_prop);
+		
+		// checkbox property
+		$cb_prop = new ilCheckboxInputGUI("Checkbox", "cbox");
+		$cb_prop->setValue("1");
+		$cb_prop->setOptionTitle("Option Title (optional).");
+		$cb_prop->setInfo("Info text for the checkbox property.");
+		$cb_prop->setChecked(true);
+		
+			$text_prop = new ilTextInputGUI("Text Input 3", "ti3");
+			$text_prop->setInfo("Info text for Text Input 3.");
+			$cb_prop->addSubItem($text_prop);
+
+		$form->addItem($cb_prop);
+		
+		// location property
+		$loc_prop = new ilLocationInputGUI($lng->txt("gmaps_std_location"),
+			"std_location");
+		$loc_prop->setLatitude($std_latitude);
+		$loc_prop->setLongitude($std_longitude);
+		$form->addItem($loc_prop);
+		
+		
 		$form->addCommandButton("saveGoogleMaps", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
 		

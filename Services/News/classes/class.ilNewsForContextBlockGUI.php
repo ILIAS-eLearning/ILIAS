@@ -541,13 +541,29 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($lng->txt("news_settings"));
 		$form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
-		$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
-			"1", $public_feed, $lng->txt("news_public_feed_info"));
+		
+		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
+			"notifications_public_feed");
+		$ch->setInfo($lng->txt("news_public_feed_info"));
+		$ch->setChecked($public_feed);
+		$form->addItem($ch);
+
 		if ($this->getProperty("public_notifications_option"))
 		{
-			$form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
-				"1", $public, $lng->txt("news_notifications_public_info"));
+			$ch = new ilCheckboxInputGUI($lng->txt("news_notifications_public"),
+				"notifications_public");
+			$ch->setInfo($lng->txt("news_notifications_public_info"));
+			$ch->setChecked($public);
+			$form->addItem($ch);
 		}
+		
+		//$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
+		//	"1", $public_feed, $lng->txt("news_public_feed_info"));
+		//if ($this->getProperty("public_notifications_option"))
+		//{
+		//	$form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
+		//		"1", $public, $lng->txt("news_notifications_public_info"));
+		//}
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("cancelSettings", $lng->txt("cancel"));
 		$form->setFormAction($ilCtrl->getFormaction($this));

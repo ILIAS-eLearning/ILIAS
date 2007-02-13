@@ -217,91 +217,14 @@ class ilNewsItemGUIGen
 	}
 
 	/**
-	* FORM NewsItem: Output form.
-	*
-	*/
-	public function outputFormNewsItem()
-	{
-		global $lng;
-		
-		$lng->loadLanguageModule("news");
-		
-		include("Services/Form/classes/class.ilPropertyFormGUI.php");
-		
-		$form_gui = new ilPropertyFormGUI();
-		
-		$values = $this->getValuesNewsItem();
-		
-		// Property Title
-		$alert = ($this->form_check["NewsItem"]["Title"]["error"] != "")
-			? $this->form_check["NewsItem"]["Title"]["error"]
-			: "";
-		$form_gui->addTextProperty($lng->txt("news_news_item_title"),
-			"news_title",
-			$values["Title"],
-			"", $alert, true
-			, "200");
-		
-		// Property Content
-		$alert = ($this->form_check["NewsItem"]["Content"]["error"] != "")
-			? $this->form_check["NewsItem"]["Content"]["error"]
-			: "";
-		$form_gui->addTextAreaProperty($lng->txt("news_news_item_content"),
-			"news_content",
-			$values["Content"],
-			"", $alert, false);
-		
-		// Property Visibility
-		$alert = ($this->form_check["NewsItem"]["Visibility"]["error"] != "")
-			? $this->form_check["NewsItem"]["Visibility"]["error"]
-			: "";
-		$form_gui->addRadioProperty($lng->txt("news_news_item_visibility"),
-			"news_visibility",array(
-				array("value" => "users", "text" => $lng->txt("news_visibility_users")), 
-				array("value" => "public", "text" => $lng->txt("news_visibility_public"))),
-			$values["Visibility"],
-			$lng->txt("news_news_item_visibility_info"), $alert, false);
-		
-		// Property ContentLong
-		$alert = ($this->form_check["NewsItem"]["ContentLong"]["error"] != "")
-			? $this->form_check["NewsItem"]["ContentLong"]["error"]
-			: "";
-		$form_gui->addTextAreaProperty($lng->txt("news_news_item_content_long"),
-			"news_content_long",
-			$values["ContentLong"],
-			$lng->txt("news_news_item_content_long_info"), $alert, false
-			, "40", "8", true);
-		
-		// save and cancel commands
-		if (in_array($this->getFormEditMode(), array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
-		{
-			$form_gui->addCommandButton("saveNewsItem", $lng->txt("save"));
-			$form_gui->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"));
-		}
-		else
-		{
-			$form_gui->addCommandButton("updateNewsItem", $lng->txt("save"));
-			$form_gui->addCommandButton("cancelUpdateNewsItem", $lng->txt("cancel"));
-		}
-		
-		$form_gui->setTitle($lng->txt("news_news_item_head"));
-		$form_gui->setFormAction($this->ctrl->getFormAction($this));
-		
-		// individual preparation of form
-		$this->prepareFormNewsItem($form_gui);
-		
-		return $form_gui->getHTML();
-
-	}
-
-	/**
 	* FORM NewsItem: Edit form.
 	*
 	*/
 	public function editNewsItem()
 	{
-		$this->setFormEditMode(IL_FORM_EDIT);
-		return $this->outputFormNewsItem();
+		$this->initFormNewsItem(IL_FORM_EDIT);
+		$this->getValuesNewsItem();
+		return $this->form_gui->getHtml();
 
 	}
 
@@ -311,8 +234,8 @@ class ilNewsItemGUIGen
 	*/
 	public function createNewsItem()
 	{
-		$this->setFormEditMode(IL_FORM_CREATE);
-		return $this->outputFormNewsItem();
+		$this->initFormNewsItem(IL_FORM_CREATE);
+		return $this->form_gui->getHtml();
 
 	}
 
@@ -322,22 +245,22 @@ class ilNewsItemGUIGen
 	*/
 	public function saveNewsItem()
 	{
-		include_once("./classes/class.ilObjAdvancedEditing.php");
-		if ($this->checkInputNewsItem())
+		$this->initFormNewsItem(IL_FORM_CREATE);
+		if ($this->form_gui->checkInput())
 		{
 			$this->news_item = new ilNewsItem();
-			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
-			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
-			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
-			$this->news_item->setContentLong(ilUtil::stripSlashes($_POST["news_content_long"]
-				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$this->news_item->setTitle($this->form_gui->getInput("news_title"));
+			$this->news_item->setContent($this->form_gui->getInput("news_content"));
+			$this->news_item->setVisibility($this->form_gui->getInput("news_visibility"));
+			$this->news_item->setContentLong($this->form_gui->getInput("news_content_long"));
 			$this->prepareSaveNewsItem($this->news_item);
 			$this->news_item->create();
+			$this->exitSaveNewsItem();
 		}
 		else
 		{
-			$this->setFormEditMode(IL_FORM_RE_CREATE);
-			return $this->outputFormNewsItem();
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
 		}
 
 	}
@@ -348,22 +271,89 @@ class ilNewsItemGUIGen
 	*/
 	public function updateNewsItem()
 	{
-		include_once("./classes/class.ilObjAdvancedEditing.php");
-		if ($this->checkInputNewsItem())
+		$this->initFormNewsItem(IL_FORM_EDIT);
+		if ($this->form_gui->checkInput())
 		{
 			
-			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
-			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
-			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
-			$this->news_item->setContentLong(ilUtil::stripSlashes($_POST["news_content_long"]
-				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$this->news_item->setTitle($this->form_gui->getInput("news_title"));
+			$this->news_item->setContent($this->form_gui->getInput("news_content"));
+			$this->news_item->setVisibility($this->form_gui->getInput("news_visibility"));
+			$this->news_item->setContentLong($this->form_gui->getInput("news_content_long"));
 			$this->news_item->update();
+			$this->exitUpdateNewsItem();
 		}
 		else
 		{
-			$this->setFormEditMode(IL_FORM_RE_EDIT);
-			return $this->outputFormNewsItem();
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
 		}
+
+	}
+
+	/**
+	* FORM NewsItem: Init form.
+	*
+	* @param	int	$a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	*/
+	public function initFormNewsItem($a_mode)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("news");
+		
+		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		
+		// Property Title
+		$text_input = new ilTextInputGUI($lng->txt("news_news_item_title"), "news_title");
+		$text_input->setInfo("");
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(200);
+		$this->form_gui->addItem($text_input);
+		
+		// Property Content
+		$text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content"), "news_content");
+		$text_area->setInfo("");
+		$text_area->setRequired(false);
+		$this->form_gui->addItem($text_area);
+		
+		// Property Visibility
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_news_item_visibility"), "news_visibility");
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
+		$radio_group->addOption($radio_option);
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+		$radio_group->setRequired(false);
+		$radio_group->setValue("users");
+		$this->form_gui->addItem($radio_group);
+		
+		// Property ContentLong
+		$text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content_long"), "news_content_long");
+		$text_area->setInfo($lng->txt("news_news_item_content_long_info"));
+		$text_area->setRequired(false);
+		$text_area->setCols("40");
+		$text_area->setRows("8");
+		$text_area->setUseRte(true);
+		$this->form_gui->addItem($text_area);
+		
+		
+		// save and cancel commands
+		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
+		{
+			$this->form_gui->addCommandButton("saveNewsItem", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("updateNewsItem", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelUpdateNewsItem", $lng->txt("cancel"));
+		}
+		
+		$this->form_gui->setTitle($lng->txt("news_news_item_head"));
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 
 	}
 
@@ -375,65 +365,57 @@ class ilNewsItemGUIGen
 	{
 		$values = array();
 		
-		switch ($this->getFormEditMode())
-		{
-			case IL_FORM_CREATE:
-				$values["Title"] = "";
-				$values["Content"] = "";
-				$values["Visibility"] = "users";
-				$values["ContentLong"] = "";
-				break;
-				
-			case IL_FORM_EDIT:
-				$values["Title"] = $this->news_item->getTitle();
-				$values["Content"] = $this->news_item->getContent();
-				$values["Visibility"] = $this->news_item->getVisibility();
-				$values["ContentLong"] = $this->news_item->getContentLong();
-				break;
-				
-			case IL_FORM_RE_EDIT:
-			case IL_FORM_RE_CREATE:
-				$values["Title"] = ilUtil::stripSlashes($_POST["news_title"]);
-				$values["Content"] = ilUtil::stripSlashes($_POST["news_content"]);
-				$values["Visibility"] = ilUtil::stripSlashes($_POST["news_visibility"]);
-				$values["ContentLong"] = ilUtil::stripSlashes($_POST["news_content_long"]
-				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
-				break;
-		}
+		$values["news_title"] = $this->news_item->getTitle();
+		$values["news_content"] = $this->news_item->getContent();
+		$values["news_visibility"] = $this->news_item->getVisibility();
+		$values["news_content_long"] = $this->news_item->getContentLong();
 		
-		return $values;
+		$this->form_gui->setValuesByArray($values);
 
 	}
 
 	/**
-	* FORM NewsItem: Check input.
+	* FORM NewsItem: Cancel save. (Can be overwritten in derived classes)
 	*
 	*/
-	public function checkInputNewsItem()
+	public function cancelSaveNewsItem()
 	{
-		
-		include_once("./Services/Utilities/classes/class.ilTypeCheck.php");
-		$ilTypeCheck = new ilTypeCheck();
-		
-		$this->form_check["NewsItem"] = array();
-		$this->form_check["NewsItem"]["Title"] =
-			ilTypeCheck::check("varchar", $_POST["news_title"], true);
-		$this->form_check["NewsItem"]["Content"] =
-			ilTypeCheck::check("text", $_POST["news_content"], false);
-		$this->form_check["NewsItem"]["Visibility"] =
-			ilTypeCheck::check("enum", $_POST["news_visibility"], false);
-		$this->form_check["NewsItem"]["ContentLong"] =
-			ilTypeCheck::check("text", $_POST["news_content_long"], false);
-		
-		foreach($this->form_check["NewsItem"] as $prop_check)
-		{
-			if (!$prop_check["ok"])
-			{
-				return false;
-			}
-		}
-		return true;
+		global $ilCtrl;
 
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* FORM NewsItem: Cancel update. (Can be overwritten in derived classes)
+	*
+	*/
+	public function cancelUpdateNewsItem()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* FORM NewsItem: Exit save. (Can be overwritten in derived classes)
+	*
+	*/
+	public function exitSaveNewsItem()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* FORM NewsItem: Exit update. (Can be overwritten in derived classes)
+	*
+	*/
+	public function exitUpdateNewsItem()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
 	}
 
 	/**
