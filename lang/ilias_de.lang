@@ -6716,6 +6716,7 @@ assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet ke
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#participants_evaluation#:#Statistik für alle Teilnehmer
 assessment#:#percentage#:#Prozentsatz
+assessment#:#number_of_answers#:#Anzahl der Antworten
 assessment#:#numeric_gap#:#Numerische Lücke
 assessment#:#tst_change_points_not_done#:#Die Punkte der Antwort konnten nicht geändert werden! Bitte überprüfen Sie den verfügbaren Wertebereich der erreichbaren Punkte.
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
