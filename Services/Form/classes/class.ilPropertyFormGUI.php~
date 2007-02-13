@@ -25,16 +25,16 @@ include_once("./Services/Form/classes/class.ilFormGUI.php");
 
 // we currently include all property types (autoload may prevent this in the future)
 include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
-include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-include_once("./Services/Form/classes/class.ilCustomInputGUI.php");
-include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
-include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-include_once("./Services/Form/classes/class.ilLocationInputGUI.php");
-include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
+include_once("./Services/Form/classes/class.ilFormCheckboxPropertyGUI.php");
+include_once("./Services/Form/classes/class.ilFormCustomPropertyGUI.php");
+include_once("./Services/Form/classes/class.ilFormDateTimePropertyGUI.php");
+include_once("./Services/Form/classes/class.ilFormFilePropertyGUI.php");
+include_once("./Services/Form/classes/class.ilFormLocationPropertyGUI.php");
+include_once("./Services/Form/classes/class.ilFormRadioPropertyGUI.php");
 include_once("./Services/Form/classes/class.ilFormSectionHeaderGUI.php");
-include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
-include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+include_once("./Services/Form/classes/class.ilFormSelectPropertyGUI.php");
+include_once("./Services/Form/classes/class.ilFormTextAreaPropertyGUI.php");
+include_once("./Services/Form/classes/class.ilFormTextPropertyGUI.php");
 
 /**
 * This class represents a property form user interface
@@ -48,7 +48,6 @@ class ilPropertyFormGUI extends ilFormGUI
 	private $buttons = array();
 	private $items = array();
 	protected $mode = "std";
-	protected $check_input_called = false;
 	
 	/**
 	* Constructor
@@ -151,69 +150,17 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
-	* Set form values from an array
+	* Add a section header.
 	*
-	* @param	array	$a_values	Value array (key is post variable name, value is value)
+	* @param	string		Title
 	*/
-	function setValuesByArray($a_values)
+	function addSectionHeader($a_title, $a_info = "")
 	{
-		foreach($this->items as $item)
-		{
-			$item->setValueByArray($a_values);
-		}
+		$this->properties[] = array ("type" => "section_header",
+			"title" => $a_title,
+			"info" => $a_info);
 	}
 
-	/**
-	* Set form values from POST values
-	*
-	*/
-	function setValuesByPost()
-	{
-		foreach($this->items as $item)
-		{
-			$item->setValueByArray($_POST);
-		}
-	}
-	
-	/**
-	* Check Post Input. This method also strips slashes and html from
-	* input and sets the alert texts for the items, if the input was not ok.
-	*
-	* @return	boolean		ok true/false
-	*/
-	function checkInput()
-	{
-		if ($this->check_input_called)
-		{
-			die ("Error: ilPropertyFormGUI->checkInput() called twice.");
-		}
-		
-		$ok = true;
-		foreach($this->items as $item)
-		{
-			$item_ok = $item->checkInput();
-			if(!$item_ok)
-			{
-				$ok = false;
-			}
-		}
-		
-		$this->check_input_called = true;
-		
-		return $ok;
-	}
-
-	function getInput($a_post_var)
-	{
-		// this check ensures, that checkInput has been called (incl. stripSlashes())
-		if (!$this->check_input_called)
-		{
-			die ("Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.");
-		}
-		
-		return $_POST[$a_post_var];
-	}
-	
 	/**
 	* Add a custom property.
 	*
@@ -267,14 +214,14 @@ class ilPropertyFormGUI extends ilFormGUI
 		$this->tpl->touchBlock("item");
 		
 		// properties
-		$this->required_text = false;
+		$required_text = false;
 		foreach($this->items as $item)
 		{
 			$this->insertItem($item);
 		}
 
 		// required
-		if ($this->required_text)
+		if ($required_text)
 		{
 			$this->tpl->setCurrentBlock("required_text");
 			$this->tpl->setVariable("TXT_REQUIRED", $lng->txt("required_field"));
@@ -292,8 +239,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		if ($required_text || count($this->buttons) > 0)
 		{
-			$this->tpl->setCurrentBlock("commands");
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("commands");
 		}
 		
 		if ($this->getMode() == "subform")
@@ -310,7 +256,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
 	function insertItem($item, $a_sub_item = false)
 	{
-		global $tpl, $lng;
+		global $tpl;
 		
 		$item->insert($this->tpl);
 		if ($item->getType() == "file")
@@ -339,7 +285,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			if ($item->getRequired())
 			{
 				$this->tpl->touchBlock("required");
-				$this->required_text = true;
+				$required_text = true;
 			}
 			
 			if ($this->getMode() == "subform")
