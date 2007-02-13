@@ -4487,14 +4487,43 @@ class ilObjTest extends ilObject
 		);
 	}
 	
+	function &_getQuestionsOfPass($active_id, $pass)
+	{
+		global $ilDB;
+		$table = "tst_test_question";
+		if ($this->isRandomTest()) $table = "tst_test_random_question";
+		$query = sprintf("SELECT $table.sequence, $table.question_fi, " .
+			"qpl_questions.points " .
+			"FROM $table, qpl_questions " .
+			"WHERE $table.question_fi = qpl_questions.question_id " .
+			"AND active_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		$qpass = array();
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($qpass, $row);
+			}
+		}
+		return $qpass;
+	}
+	
 	function &_evalResultsOverview()
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT tst_test_result.*, qpl_questions.original_id, qpl_questions.title, qpl_questions.points AS maxpoints " .
-			"FROM tst_test_result, tst_active, qpl_questions " .
+		$query = sprintf("SELECT tst_times.started, tst_times.finished, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
+			"qpl_questions.points AS maxpoints " .
+			"FROM tst_test_result, qpl_questions, tst_times, tst_active " .
+			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
+			"AND tst_active.active_id = tst_times.active_fi " .
 			"AND tst_active.test_fi = %s " .
 			"ORDER BY active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTestId() . "")
@@ -4506,16 +4535,62 @@ class ilObjTest extends ilObject
 			if (!array_key_exists($row["active_fi"], $overview))
 			{
 				$overview[$row["active_fi"]] = array();
+				$overview[$row["active_fi"]]["firstname"] = $row["firstname"];
+				$overview[$row["active_fi"]]["lastname"] = $row["lastname"];
+				$overview[$row["active_fi"]]["title"] = $row["title"];
+				$overview[$row["active_fi"]]["login"] = $row["login"];
+				$overview[$row["active_fi"]]["usr_id"] = $row["usr_id"];
+				$overview[$row["active_fi"]]["started"] = $row["started"];
+				$overview[$row["active_fi"]]["finished"] = $row["finished"];
 			}
 			if (!array_key_exists($row["pass"], $overview[$row["active_fi"]]))
 			{
 				$overview[$row["active_fi"]][$row["pass"]] = array();
 				$overview[$row["active_fi"]][$row["pass"]]["reached"] = 0;
+				$overview[$row["active_fi"]][$row["pass"]]["maxpoints"] = $row["maxpoints"];
 			}
 			array_push($overview[$row["active_fi"]][$row["pass"]], $row);
 			$overview[$row["active_fi"]][$row["pass"]]["reached"] += $row["points"];
 		}
 		return $overview;
+	}
+
+	/**
+	* Builds a user name for the output
+	*
+	* Builds a user name for the output depending on test type and existence of
+	* the user
+	*
+	* @param int $user_id The database ID of the user
+	* @param string $firstname The first name of the user
+	* @param string $lastname The last name of the user
+	* @param string $title The title of the user
+	* @return string The output name of the user
+	* @access public
+	*/
+	function buildName($user_id, $firstname, $lastname, $title)
+	{
+		$name = "";
+		if (strlen($firstname.$lastname.$title) == 0)
+		{
+			$name = $this->lng->txt("deleted_user");
+		}
+		else
+		{
+			if ($user_id == ANONYMOUS_USER_ID)
+			{
+				$name = $row["lastname"];
+			}
+			else
+			{
+				$name = trim($lastname . ", " . $firstname . " " .  $title);
+			}
+			if ($this->getAnonymity())
+			{
+				$name = $this->lng->txt("anonymous");
+			}
+		}
+		return $name;
 	}
 
 /**

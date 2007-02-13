@@ -106,8 +106,42 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		array_push($headervars, "");
 		return $headervars;
 	}
+
+	function &getEvaluationRowNew($evaldata)
+	{
+		$evaluationrow = array();
+		if ($this->object->getAnonymity())
+		{
+			array_push($evaluationrow, $counter);
+		}
+		else
+		{
+			array_push($evaluationrow, $user_data["name"]);
+			array_push($evaluationrow, "[" . $user_data["login"] . "]");
+		}
+		array_push($evaluationrow, $eval_data["resultspoints"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["maxpoints"]);
+		array_push($evaluationrow, $eval_data["resultsmarks"]);
+		if ($this->object->ects_output)
+		{
+			$mark_ects = $this->object->getECTSGrade($eval_data["resultspoints"],$eval_data["maxpoints"]);
+			array_push($evaluationrow, $mark_ects);
+		}
+		array_push($evaluationrow, $eval_data["qworkedthrough"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["qmax"] . " (" . sprintf("%2.2f", $eval_data["pworkedthrough"] * 100.0) . " %" . ")");
+		$time = $eval_data["timeofwork"];
+		$time_seconds = $time;
+		$time_hours    = floor($time_seconds/3600);
+		$time_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($time_seconds/60);
+		$time_seconds -= $time_minutes * 60;
+		array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		$this->ctrl->setParameter($this, "active_id", $active_id);
+		$href = $this->ctrl->getLinkTarget($this, "detailedEvaluation");
+		$detailed_evaluation = $this->lng->txt("detailed_evaluation_show");
+		array_push($evaluationrow, "<a class=\"il_ContainerItemCommand\" href=\"$href\">$detailed_evaluation</a>");
+		return $evaluationrow;
+	}
 	
-	function &getEvaluationRow($active_id, &$eval_data, $user_data, $counter, $total_participants, $rank_participant, $rank_median, $median)
+	function &getEvaluationRow($active_id, &$eval_data, $user_data, $counter, $total_participants)
 	{
 		$evaluationrow = array();
 		if ($this->object->getAnonymity())
@@ -151,6 +185,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	function outEvaluation()
 	{
 		global $ilAccess;
+		
 		if (!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) 
 		{
 			// allow only evaluation access
@@ -219,7 +254,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		// reset filter was pressed
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("reset_filter")) == 0)
 		{
-			$filter = 1;
+			$filter = 0;
 			$filtertext = "";
 			$passedonly = FALSE;
 			$ilUser->deletePref("tst_stat_filter_passed_" . $this->object->getTestId());
@@ -234,41 +269,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->setParameter($this, "g_passedonly", "1");
 		}
 
-		$question_stat = array();
-		$evaluation_array = array();
-		foreach ($total_users as $key => $value) 
-		{
-			// receive array with statistical information on the test for a specific user
-			$stat_eval =& $this->object->evalStatistical($key);
-			foreach ($stat_eval as $sindex => $sarray)
-			{
-				if (preg_match("/\d+/", $sindex))
-				{
-					$qt = $sarray["title"];
-					$qt = preg_replace("/<.*?>/", "", $qt);
-					if (!array_key_exists($this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"]), $question_stat))
-					{
-						$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])] = array("max" => 0, "reached" => 0, "title" => $qt);
-					}
-					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["single_max"] = $sarray["max"];
-					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["max"] += $sarray["max"];
-					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["reached"] += $sarray["reached"];
-				}
-			}
-			$evaluation_array[$key] = $stat_eval;
-		}
-		include_once "./classes/class.ilStatistics.php";
-		// calculate the median
-		$median_array = array();
-		foreach ($evaluation_array as $key => $value)
-		{
-			array_push($median_array, $value["resultspoints"]);
-		}
-		include_once "./classes/class.ilStatistics.php";
-		$statistics = new ilStatistics();
-		$statistics->setData($median_array);
-		$median = $statistics->median();
-		
 		$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
 		$orderdirection = ($_GET["sort_order"]) ? $_GET["sort_order"] : "asc";
 		$defaultOrderColumn = "name";
@@ -302,31 +302,98 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$evaluation_rows = array();
 		$counter = 1;
-		foreach ($total_users as $key => $value) 
+		$overview =& $this->object->_evalResultsOverview();
+
+		foreach ($overview as $active_id => $pass)
 		{
-			$remove = FALSE;
-			if (strlen($filtertext))
+			$bestpass = 0;
+			$bestpasspoints = 0;
+			$lastpass = 0;
+			foreach ($pass as $passnr => $userresults)
 			{
-				$username = $value["name"];
-				if (!@preg_match("/$filtertext/i", $username))
+				if (is_numeric($passnr))
 				{
-					$remove = TRUE;
+					$reached = $pass[$passnr]["reached"];
+					if ($reached > $bestpasspoints)
+					{
+						$bestpasspoints = $reached;
+						$bestpass = $passnr;
+					}
+					if ($passnr > $lastpass) $lastpass = $passnr;
 				}
 			}
-			if ($passedonly)
+			$statpass = 0;
+			if ($this->object->getPassScoring() == SCORE_BEST_PASS)
 			{
-				if ($evaluation_array[$key]["passed"] == 0)
+				$statpass = $bestpass;
+			}
+			else
+			{
+				$statpass = $lastpass;
+			}
+			// build the evaluation row
+			$qpass =& $this->object->_getQuestionsOfPass($active_id, $statpass);
+			$evaluationrow = array();
+			$fullname = "";
+			if ($this->object->getAnonymity())
+			{
+				$fullname = $counter;
+				array_push($evaluationrow, $fullname);
+			}
+			else
+			{
+				$fullname = $this->object->buildName($pass["usr_id"], $pass["firstname"], $pass["lastname"], $pass["title"]);
+				array_push($evaluationrow, $fullname);
+				if (strlen($pass["login"]))
 				{
-					$remove = TRUE;
+					array_push($evaluationrow, "[" . $pass["login"] . "]");
+				}
+				else
+				{
+					array_push($evaluationrow, "");
 				}
 			}
-			if (!$remove)
+			$maxpoints = 0;
+			foreach ($qpass as $row)
 			{
-				$stat_eval =& $this->object->evalStatistical($key);
-				$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
-				$rank_median = $statistics->rank_median();
-				$tablerow =& $this->getEvaluationRow($key, $stat_eval, $value, $counter, count($evaluation_array), $rank_participant, $rank_median, $median);
-				array_push($evaluation_rows, $tablerow);
+				$maxpoints += $row["points"];
+			}
+			array_push($evaluationrow, $pass[$statpass]["reached"] . " " . strtolower($this->lng->txt("of")) . " " . $maxpoints);
+			$pct = ($maxpoints ? ($pass[$statpass]["reached"] / $maxpoints)*100.0 : 0);
+			$mark = $this->object->mark_schema->getMatchingMark($pct);
+			if (is_object($mark))
+			{
+				array_push($evaluationrow, $mark->getShortName());
+			}
+			else
+			{
+				array_push($evaluationrow, "");
+			}
+			if ($this->object->ects_output)
+			{
+				$mark_ects = $this->object->getECTSGrade($pass[$statpass]["reached"], $maxpoints);
+				array_push($evaluationrow, $mark_ects);
+			}
+			$preached = count($qpass) ? ((count($pass[$statpass])-2) / count($qpass))* 100.0 : 0;
+			array_push($evaluationrow, (count($pass[$statpass])-2) . " " . strtolower($this->lng->txt("of")) . " " . count($qpass) . " (" . sprintf("%2.2f", $preached) . " %" . ")");
+
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $pass["started"], $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $pass["finished"], $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			$time_seconds += ($epoch_2 - $epoch_1);
+			$time_hours    = floor($time_seconds/3600);
+			$time_seconds -= $time_hours   * 3600;
+			$time_minutes  = floor($time_seconds/60);
+			$time_seconds -= $time_minutes * 60;
+			array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+			$this->ctrl->setParameter($this, "active_id", $active_id);
+			$href = $this->ctrl->getLinkTarget($this, "detailedEvaluation");
+			$detailed_evaluation = $this->lng->txt("detailed_evaluation_show");
+			if ((!$filter) || (($filter) && ($passedonly) && ($mark->getPassed())) || (($filter) && (strlen($filtertext) > 0) && (strpos(strtolower($fullname), strtolower($filtertext)) !== FALSE)))
+			{
+				array_push($evaluationrow, "<a class=\"il_ContainerItemCommand\" href=\"$href\">$detailed_evaluation</a>");
+				array_push($evaluation_rows, $evaluationrow);
 				$counter++;
 			}
 		}
@@ -640,21 +707,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			foreach ($pass as $passnr => $userresults)
 			{
-				foreach ($userresults as $userresult)
+				if (is_numeric($passnr))
 				{
-					if (is_array($userresult))
+					foreach ($userresults as $userresult)
 					{
-						if (!array_key_exists($userresult["original_id"], $questions))
+						if (is_array($userresult))
 						{
-							$questions[$userresult["original_id"]] = array(
-								"reached" => 0, 
-								"max" => $userresult["maxpoints"], 
-								"count" => 0, 
-								"title" => $userresult["title"]
-							);
+							if (!array_key_exists($userresult["original_id"], $questions))
+							{
+								$questions[$userresult["original_id"]] = array(
+									"reached" => 0, 
+									"max" => $userresult["maxpoints"], 
+									"count" => 0, 
+									"title" => $userresult["questiontitle"]
+								);
+							}
+							$questions[$userresult["original_id"]]["reached"] += $userresult["points"];
+							$questions[$userresult["original_id"]]["count"]++;
 						}
-						$questions[$userresult["original_id"]]["reached"] += $userresult["points"];
-						$questions[$userresult["original_id"]]["count"]++;
 					}
 				}
 			}
@@ -665,10 +735,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->tpl->setCurrentBlock("avg_row");
 			$this->tpl->setVariable("TXT_QUESTIONTITLE", $avg["title"]);
 			$reached = $avg["count"] ? $avg["reached"]/$avg["count"] : 0;
-			$max = $avg["count"] ? $avg["max"]/$avg["count"] : 0;
+			$max = $avg["max"];
 			$percent = $max ? $reached/$max * 100.0 : 0;
 			$this->tpl->setVariable("TXT_POINTS", sprintf("%.2f", $reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $max));
 			$this->tpl->setVariable("TXT_PERCENT", sprintf("%.2f", $percent) . "%");
+			$this->tpl->setVariable("TXT_ANSWERS", $avg["count"]);
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$counter++;
 			$this->tpl->parseCurrentBlock();
@@ -680,6 +751,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TXT_AVG_REACHED", $this->lng->txt("average_reached_points"));
 		$this->tpl->setVariable("TXT_QUESTIONTITLE", $this->lng->txt("question_title"));
 		$this->tpl->setVariable("TXT_POINTS", $this->lng->txt("points"));
+		$this->tpl->setVariable("TXT_ANSWERS", $this->lng->txt("number_of_answers"));
 		$this->tpl->setVariable("TXT_PERCENT", $this->lng->txt("percentage"));
 		$this->tpl->parseCurrentBlock();
 	}

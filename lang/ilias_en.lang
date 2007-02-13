@@ -579,6 +579,7 @@ assessment#:#search_users#:#Search Users
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
+assessment#:#number_of_answers#:#Number of Answers
 assessment#:#numeric_gap#:#Numeric Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test
