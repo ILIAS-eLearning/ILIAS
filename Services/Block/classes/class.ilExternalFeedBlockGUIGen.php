@@ -104,71 +104,14 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	}
 
 	/**
-	* FORM FeedBlock: Output form.
-	*
-	*/
-	public function outputFormFeedBlock()
-	{
-		global $lng;
-		
-		$lng->loadLanguageModule("block");
-		
-		include("Services/Form/classes/class.ilPropertyFormGUI.php");
-		
-		$form_gui = new ilPropertyFormGUI();
-		
-		$values = $this->getValuesFeedBlock();
-		
-		// Property Title
-		$alert = ($this->form_check["FeedBlock"]["Title"]["error"] != "")
-			? $this->form_check["FeedBlock"]["Title"]["error"]
-			: "";
-		$form_gui->addTextProperty($lng->txt("block_feed_block_title"),
-			"block_title",
-			$values["Title"],
-			"", $alert, true
-			, "200");
-		
-		// Property FeedUrl
-		$alert = ($this->form_check["FeedBlock"]["FeedUrl"]["error"] != "")
-			? $this->form_check["FeedBlock"]["FeedUrl"]["error"]
-			: "";
-		$form_gui->addTextProperty($lng->txt("block_feed_block_feed_url"),
-			"block_feed_url",
-			$values["FeedUrl"],
-			$lng->txt("block_feed_block_feed_url_info"), $alert, true
-			, "250");
-		
-		// save and cancel commands
-		if (in_array($this->getFormEditMode(), array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
-		{
-			$form_gui->addCommandButton("saveFeedBlock", $lng->txt("save"));
-			$form_gui->addCommandButton("cancelSaveFeedBlock", $lng->txt("cancel"));
-		}
-		else
-		{
-			$form_gui->addCommandButton("updateFeedBlock", $lng->txt("save"));
-			$form_gui->addCommandButton("cancelUpdateFeedBlock", $lng->txt("cancel"));
-		}
-		
-		$form_gui->setTitle($lng->txt("block_feed_block_head"));
-		$form_gui->setFormAction($this->ctrl->getFormAction($this));
-		
-		// individual preparation of form
-		$this->prepareFormFeedBlock($form_gui);
-		
-		return $form_gui->getHTML();
-
-	}
-
-	/**
 	* FORM FeedBlock: Edit form.
 	*
 	*/
 	public function editFeedBlock()
 	{
-		$this->setFormEditMode(IL_FORM_EDIT);
-		return $this->outputFormFeedBlock();
+		$this->initFormFeedBlock(IL_FORM_EDIT);
+		$this->getValuesFeedBlock();
+		return $this->form_gui->getHtml();
 
 	}
 
@@ -178,8 +121,8 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function createFeedBlock()
 	{
-		$this->setFormEditMode(IL_FORM_CREATE);
-		return $this->outputFormFeedBlock();
+		$this->initFormFeedBlock(IL_FORM_CREATE);
+		return $this->form_gui->getHtml();
 
 	}
 
@@ -189,19 +132,20 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function saveFeedBlock()
 	{
-		include_once("./classes/class.ilObjAdvancedEditing.php");
-		if ($this->checkInputFeedBlock())
+		$this->initFormFeedBlock(IL_FORM_CREATE);
+		if ($this->form_gui->checkInput())
 		{
 			$this->external_feed_block = new ilExternalFeedBlock();
-			$this->external_feed_block->setTitle(ilUtil::stripSlashes($_POST["block_title"]));
-			$this->external_feed_block->setFeedUrl(ilUtil::stripSlashes($_POST["block_feed_url"]));
+			$this->external_feed_block->setTitle($this->form_gui->getInput("block_title"));
+			$this->external_feed_block->setFeedUrl($this->form_gui->getInput("block_feed_url"));
 			$this->prepareSaveFeedBlock($this->external_feed_block);
 			$this->external_feed_block->create();
+			$this->exitSaveFeedBlock();
 		}
 		else
 		{
-			$this->setFormEditMode(IL_FORM_RE_CREATE);
-			return $this->outputFormFeedBlock();
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
 		}
 
 	}
@@ -212,19 +156,68 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function updateFeedBlock()
 	{
-		include_once("./classes/class.ilObjAdvancedEditing.php");
-		if ($this->checkInputFeedBlock())
+		$this->initFormFeedBlock(IL_FORM_EDIT);
+		if ($this->form_gui->checkInput())
 		{
 			
-			$this->external_feed_block->setTitle(ilUtil::stripSlashes($_POST["block_title"]));
-			$this->external_feed_block->setFeedUrl(ilUtil::stripSlashes($_POST["block_feed_url"]));
+			$this->external_feed_block->setTitle($this->form_gui->getInput("block_title"));
+			$this->external_feed_block->setFeedUrl($this->form_gui->getInput("block_feed_url"));
 			$this->external_feed_block->update();
+			$this->exitUpdateFeedBlock();
 		}
 		else
 		{
-			$this->setFormEditMode(IL_FORM_RE_EDIT);
-			return $this->outputFormFeedBlock();
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
 		}
+
+	}
+
+	/**
+	* FORM FeedBlock: Init form.
+	*
+	* @param	int	$a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	*/
+	public function initFormFeedBlock($a_mode)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("block");
+		
+		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		
+		// Property Title
+		$text_input = new ilTextInputGUI($lng->txt("block_feed_block_title"), "block_title");
+		$text_input->setInfo("");
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(200);
+		$this->form_gui->addItem($text_input);
+		
+		// Property FeedUrl
+		$text_input = new ilTextInputGUI($lng->txt("block_feed_block_feed_url"), "block_feed_url");
+		$text_input->setInfo($lng->txt("block_feed_block_feed_url_info"));
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(250);
+		$this->form_gui->addItem($text_input);
+		
+		
+		// save and cancel commands
+		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
+		{
+			$this->form_gui->addCommandButton("saveFeedBlock", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelSaveFeedBlock", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("updateFeedBlock", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelUpdateFeedBlock", $lng->txt("cancel"));
+		}
+		
+		$this->form_gui->setTitle($lng->txt("block_feed_block_head"));
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 
 	}
 
@@ -236,54 +229,55 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	{
 		$values = array();
 		
-		switch ($this->getFormEditMode())
-		{
-			case IL_FORM_CREATE:
-				$values["Title"] = "";
-				$values["FeedUrl"] = "";
-				break;
-				
-			case IL_FORM_EDIT:
-				$values["Title"] = $this->external_feed_block->getTitle();
-				$values["FeedUrl"] = $this->external_feed_block->getFeedUrl();
-				break;
-				
-			case IL_FORM_RE_EDIT:
-			case IL_FORM_RE_CREATE:
-				$values["Title"] = ilUtil::stripSlashes($_POST["block_title"]);
-				$values["FeedUrl"] = ilUtil::stripSlashes($_POST["block_feed_url"]);
-				break;
-		}
+		$values["block_title"] = $this->external_feed_block->getTitle();
+		$values["block_feed_url"] = $this->external_feed_block->getFeedUrl();
 		
-		return $values;
+		$this->form_gui->setValuesByArray($values);
 
 	}
 
 	/**
-	* FORM FeedBlock: Check input.
+	* FORM FeedBlock: Cancel save. (Can be overwritten in derived classes)
 	*
 	*/
-	public function checkInputFeedBlock()
+	public function cancelSaveFeedBlock()
 	{
-		
-		include_once("./Services/Utilities/classes/class.ilTypeCheck.php");
-		$ilTypeCheck = new ilTypeCheck();
-		
-		$this->form_check["FeedBlock"] = array();
-		$this->form_check["FeedBlock"]["Title"] =
-			ilTypeCheck::check("varchar", $_POST["block_title"], true);
-		$this->form_check["FeedBlock"]["FeedUrl"] =
-			ilTypeCheck::check("varchar", $_POST["block_feed_url"], true);
-		
-		foreach($this->form_check["FeedBlock"] as $prop_check)
-		{
-			if (!$prop_check["ok"])
-			{
-				return false;
-			}
-		}
-		return true;
+		global $ilCtrl;
 
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* FORM FeedBlock: Cancel update. (Can be overwritten in derived classes)
+	*
+	*/
+	public function cancelUpdateFeedBlock()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* FORM FeedBlock: Exit save. (Can be overwritten in derived classes)
+	*
+	*/
+	public function exitSaveFeedBlock()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* FORM FeedBlock: Exit update. (Can be overwritten in derived classes)
+	*
+	*/
+	public function exitUpdateFeedBlock()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
 	}
 
 	/**

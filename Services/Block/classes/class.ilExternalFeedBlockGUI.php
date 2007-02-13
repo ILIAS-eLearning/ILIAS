@@ -92,7 +92,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	{
 		global $ilCtrl;
 		
-		switch($_GET["cmd"])
+		switch($ilCtrl->getCmd())
 		{
 			case "create":
 			case "edit":
@@ -292,34 +292,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$a_feed_block->setContextObjType($ilCtrl->getContextObjType());
 	}
 	
-	/**
-	* FORM FeedBlock: Save FeedBlock.
-	*
-	*/
-	public function saveFeedBlock()
-	{
-		global $ilCtrl;
-
-		if ($this->checkInputFeedBlock())
-		{
-			parent::saveFeedBlock();
-			$ilCtrl->returnToParent($this);
-		}
-		else
-		{
-			return parent::saveFeedBlock();
-		}
-	}
-	
-	/**
-	* Cancel Saving
-	*/
-	function cancelSaveFeedBlock()
-	{
-		global $ilCtrl;
-
-		$ilCtrl->returnToParent($this);
-	}
 
 }
 

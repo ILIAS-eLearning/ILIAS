@@ -90,11 +90,15 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		{
 			return;
 		}
-		parent::saveNewsItem();
-		if ($this->checkInputNewsItem())
-		{
-			return $this->editNews();
-		}
+		
+		return parent::saveNewsItem();
+	}
+	
+	function exitSaveNewsItem()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "editNews");
 	}
 
 	/**
@@ -107,11 +111,15 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		{
 			return;
 		}
-		parent::updateNewsItem();
-		if ($this->checkInputNewsItem())
-		{
-			return $this->editNews();
-		}
+		
+		return parent::updateNewsItem();
+	}
+
+	function exitUpdateNewsItem()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "editNews");
 	}
 
 	/**
