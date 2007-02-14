@@ -104,6 +104,17 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	}
 
 	/**
+	* FORM FeedBlock: Create ExternalFeedBlock.
+	*
+	*/
+	public function createFeedBlock()
+	{
+		$this->initFormFeedBlock(IL_FORM_CREATE);
+		return $this->form_gui->getHtml();
+
+	}
+
+	/**
 	* FORM FeedBlock: Edit form.
 	*
 	*/
@@ -111,17 +122,6 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	{
 		$this->initFormFeedBlock(IL_FORM_EDIT);
 		$this->getValuesFeedBlock();
-		return $this->form_gui->getHtml();
-
-	}
-
-	/**
-	* FORM FeedBlock: Create ExternalFeedBlock.
-	*
-	*/
-	public function createFeedBlock()
-	{
-		$this->initFormFeedBlock(IL_FORM_CREATE);
 		return $this->form_gui->getHtml();
 
 	}
