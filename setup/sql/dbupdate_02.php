@@ -485,3 +485,5 @@ PRIMARY KEY ( `copy_id` , `source_id` )
 ) TYPE = MYISAM ;
 <#917>
 ALTER TABLE  `tst_test_result` ADD INDEX (  `active_fi` );
+<#918>
+ALTER TABLE  `qpl_answer_cloze` ADD  `lowerlimit` DOUBLE NULL DEFAULT  '0' AFTER  `cloze_type` , ADD  `upperlimit` DOUBLE NULL DEFAULT  '0' AFTER  `lowerlimit` ;
