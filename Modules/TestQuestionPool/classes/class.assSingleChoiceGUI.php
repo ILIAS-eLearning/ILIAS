@@ -635,7 +635,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 						}
 						else
 						{
-							$template->setCurrentBlock("icon_ok");
+							$template->setCurrentBlock("icon_not_ok");
 							if ($answer->getPoints() > 0)
 							{
 								$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.gif"));
@@ -648,6 +648,13 @@ class assSingleChoiceGUI extends assQuestionGUI
 							}
 							$template->parseCurrentBlock();
 						}
+					}
+					if (strlen($user_solution) == 0)
+					{
+						$template->setCurrentBlock("icon_not_ok");
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+						$template->parseCurrentBlock();
 					}
 				}
 			}

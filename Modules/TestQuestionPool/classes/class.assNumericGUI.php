@@ -338,30 +338,34 @@ class assNumericGUI extends assQuestionGUI
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if (is_array($solutions))
 		{
-			foreach ($solutions as $solution)
+			if ($active_id)
 			{
-				if ($active_id)
+				if ($graphicalOutput)
 				{
-					if ($graphicalOutput)
+					// output of ok/not ok icons for user entered solutions
+					if ($this->object->getReachedPoints($active_id, $pass) == $this->object->getMaximumPoints())
 					{
-						// output of ok/not ok icons for user entered solutions
-						if ($this->object->getReachedPoints($active_id, $pass) == $this->object->getMaximumPoints())
-						{
-							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
-							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-							$template->parseCurrentBlock();
-						}
-						else
-						{
-							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
-							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-							$template->parseCurrentBlock();
-						}
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+						$template->parseCurrentBlock();
 					}
 				}
+			}
+			foreach ($solutions as $solution)
+			{
 				$template->setVariable("NUMERIC_VALUE", $solution["value1"]);
+			}
+			if (count($solutions) == 0)
+			{
+				$template->setVariable("NUMERIC_VALUE", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 			}
 		}
 		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
