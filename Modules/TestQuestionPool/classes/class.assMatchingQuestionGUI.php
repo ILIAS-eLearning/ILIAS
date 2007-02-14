@@ -593,6 +593,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
 				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
 			}
+			$hasoutput = FALSE;
 			foreach ($solutions as $solution)
 			{
 				if ($answer->getDefinitionId() == $solution["value2"])
@@ -602,9 +603,14 @@ class assMatchingQuestionGUI extends assQuestionGUI
 						if ($pair->getTermId() == $solution["value1"])
 						{
 							$template->setVariable("SOLUTION", ilUtil::prepareFormOutput($pair->getTerm()));
+							$hasoutput = TRUE;
 						}
 					}
 				}
+			}
+			if (!$hasoutput)
+			{
+				$template->setVariable("SOLUTION", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 			}
 			$template->parseCurrentBlock();
 		}
