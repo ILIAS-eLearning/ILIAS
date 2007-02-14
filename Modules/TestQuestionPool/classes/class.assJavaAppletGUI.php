@@ -386,13 +386,13 @@ class assJavaAppletGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if (strlen($userdata["test_id"]))
 		{
 			$template->setCurrentBlock("appletparam");
 			$template->setVariable("PARAM_NAME", "test_type");
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			if (ilObjTest::_lookupAnonymity(ilObjTest::_getObjectIDFromTestID($userdata["test_id"])))
 			{
 				$template->setVariable("PARAM_VALUE", "0");

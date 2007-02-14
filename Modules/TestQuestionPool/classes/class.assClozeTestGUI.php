@@ -680,10 +680,12 @@ class assClozeTestGUI extends assQuestionGUI
 			$template->setVariable("CLOZE_TEXT", $this->object->prepareTextareaOutput($delimiter[0], TRUE));
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
+			$filledgap = FALSE;
 			foreach ($user_solution as $solution)
 			{
 				if (strcmp($solution["value1"], $counter) == 0)
 				{
+					$filledgap = TRUE;
 					if ($active_id)
 					{
 						if ($graphicalOutput)
@@ -699,7 +701,7 @@ class assClozeTestGUI extends assQuestionGUI
 							}
 							else
 							{
-								$template->setCurrentBlock("icon_ok");
+								$template->setCurrentBlock("icon_not_ok");
 								if ($check["positive"])
 								{
 									$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.gif"));
@@ -714,6 +716,14 @@ class assClozeTestGUI extends assQuestionGUI
 							}
 						}
 					}
+					if ($result_output)
+					{
+						$points = $this->object->getMaximumGapPoints($solution["value1"]);
+						$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+						$template->setCurrentBlock("result_output");
+						$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
+						$template->parseCurrentBlock();
+					}
 					$template->setCurrentBlock("solution");
 					if ((strlen($solution["value2"])) && ($gap[0]->getClozeType() == CLOZE_SELECT))
 					{
@@ -723,13 +733,34 @@ class assClozeTestGUI extends assQuestionGUI
 					{
 						$template->setVariable("SOLUTION", $solution["value2"]);
 					}
-					if ($result_output)
-					{
-						$points = $this->object->getMaximumGapPoints($solution["value1"]);
-						$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
-						$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
-					}
+					$template->parseCurrentBlock();
 				}
+			}
+			if (count($gap) && !$filledgap)
+			{
+				if ($graphicalOutput)
+				{
+					$template->setCurrentBlock("icon_not_ok");
+					$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+					$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+					$template->parseCurrentBlock();
+				}
+				if ($result_output)
+				{
+					$points = 0;
+					$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+					$template->setCurrentBlock("result_output");
+					$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
+					$template->parseCurrentBlock();
+				}
+				$template->setCurrentBlock("solution");
+				$fillspace = "";
+				for ($chars = 0; $chars < $this->object->getColumnSize($gap); $chars++)
+				{
+					$fillspace .= "&nbsp;";
+				}
+				$template->setVariable("SOLUTION", $fillspace);
+				$template->parseCurrentBlock();
 			}
 			$template->parseCurrentBlock();
 			$template->touchBlock("cloze_part");
