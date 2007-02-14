@@ -612,11 +612,11 @@ class ilBlockGUI
 				$this->tpl->setVariable("ALT_CLOSE", $lng->txt("close"));
 				if ($this->getBigMode())
 				{
-					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close.gif"));
+					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2.gif"));
 				}
 				else
 				{
-					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close_s.gif"));
+					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
 				}
 				if ($this->close_command != "")
 				{
@@ -657,7 +657,7 @@ class ilBlockGUI
 
 				// normal link
 				$this->tpl->setCurrentBlock("header_config");
-				$this->tpl->setVariable("IMG_CONFIG", ilUtil::getImagePath("icon_config_s.gif"));
+				$this->tpl->setVariable("IMG_CONFIG", ilUtil::getImagePath("icon_move_s.gif"));
 				$this->tpl->setVariable("ALT_CONFIG", $lng->txt("move"));
 				$this->tpl->setVariable("HREF_CONFIG",
 					$ilCtrl->getLinkTargetByClass("ilcolumngui", ""));
@@ -978,8 +978,8 @@ class ilBlockGUI
 			{
 				if (($i > $start && $i > 1))
 				{
-					$this->tpl->touchBlock("det_delim");
-					$this->tpl->touchBlock("det_item");
+					//$this->tpl->touchBlock("det_delim");
+					//$this->tpl->touchBlock("det_item");
 				}
 				if ($i != $this->getCurrentDetailLevel())
 				{
@@ -1004,7 +1004,11 @@ class ilBlockGUI
 					
 					// normal link
 					$this->tpl->setCurrentBlock("det_link");
-					$this->tpl->setVariable("DLINK", $i);
+					//$this->tpl->setVariable("DLINK", $i);
+					$this->tpl->setVariable("SRC_LINK",
+						ilUtil::getImagePath("details".$i.".gif"));
+					$this->tpl->setVariable("ALT_LINK",
+						$lng->txt("details_".$i));
 					$this->tpl->setVariable("DHREF",
 						$ilCtrl->getLinkTargetByClass("ilcolumngui",
 						""));
@@ -1014,7 +1018,11 @@ class ilBlockGUI
 				else
 				{
 					$this->tpl->setCurrentBlock("det_text");
-					$this->tpl->setVariable("DTEXT", $i);
+					//$this->tpl->setVariable("DTEXT", $i);
+					$this->tpl->setVariable("ALT_NO_LINK",
+						$lng->txt("details_".$i));
+					$this->tpl->setVariable("SRC_NO_LINK",
+						ilUtil::getImagePath("details".$i."off.gif"));
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->touchBlock("det_item");
 				}
