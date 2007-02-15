@@ -601,7 +601,7 @@ class ilBlockGUI
 				$this->tpl->setVariable("TXT_HCOMM", $command["text"]);
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			// close button
 			if (($this->detail_max > $this->detail_min && $this->detail_min == 0 &&
 				!$this->getRepositoryMode())

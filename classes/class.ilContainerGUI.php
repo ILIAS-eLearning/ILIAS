@@ -1749,10 +1749,21 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		
 		return $tpl->get();
 	}
-
-	function checkEnableColumnEdit()
+	
+	/**
+	* May be overwritten in subclasses.
+	*/
+	function setColumnSettings($column_gui)
 	{
-		return $this->isActiveAdministrationPanel();
+		global $ilAccess;
+		parent::setColumnSettings($column_gui);
+		
+		if ($this->isActiveAdministrationPanel())
+		{
+			$column_gui->setBlockProperty("news", "settings", true);
+			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+		}
 	}
+
 }
 ?>

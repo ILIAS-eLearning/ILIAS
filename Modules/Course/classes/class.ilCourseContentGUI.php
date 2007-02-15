@@ -368,12 +368,7 @@ class ilCourseContentGUI
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-		$column_gui->setRepositoryMode(true);
-		if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()) &&
-			$this->container_gui->isActiveAdministrationPanel())
-		{
-			$column_gui->setEnableEdit(true);
-		}
+		$this->setColumnSettings($column_gui);
 		
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
@@ -455,6 +450,24 @@ class ilCourseContentGUI
 		$this->__showMaterials();
 	}
 	
+	function setColumnSettings($column_gui)
+	{
+		global $ilAccess;
+		
+		$column_gui->setRepositoryMode(true);
+		$column_gui->setEnableEdit(false);
+		if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()))
+		{
+			$column_gui->setEnableEdit(true);
+		}
+		if ($this->container_gui->isActiveAdministrationPanel())
+		{
+			$column_gui->setBlockProperty("news", "settings", true);
+			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+		}
+	}
+
+	
 	/**
 	* Get columngui output
 	*/
@@ -476,24 +489,14 @@ class ilCourseContentGUI
 				if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT)
 				{
 					$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-					$column_gui->setRepositoryMode(true);
-					$column_gui->setEnableEdit(false);
-					if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()) &&
-						$this->container_gui->isActiveAdministrationPanel())
-					{
-						$column_gui->setEnableEdit(true);
-					}
+					$this->setColumnSettings($column_gui);
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 				// left column wants center
 				if (ilColumnGUI::getCmdSide() == IL_COL_LEFT)
 				{
 					$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
-					$column_gui->setRepositoryMode(true);
-					if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()))
-					{
-						$column_gui->setEnableEdit(true);
-					}
+					$this->setColumnSettings($column_gui);
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 			}
