@@ -1,17 +1,4 @@
-<script language="JavaScript" type="text/javascript">
-<!--
-// Helpline messages
-g_help = "Insert gap: <gap>text</gap>  (alt+g)";
-
-// Shows the help messages in the helpline window
-function helpline(help) 
-{
-	document.frm_cloze_test.helpbox.value = eval(help + "_help");
-}
-//-->
-</script>
-<form name="frm_cloze_test" action="{ACTION_CLOZE_TEST}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="id" value="{CLOZE_ID}" />
+<form name="frm_cloze_test" action="{FORMACTION}" method="post" enctype="multipart/form-data">
 <table class="fullwidth">
 <thead>
 	<tr class="tblheader">

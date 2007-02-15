@@ -1251,7 +1251,7 @@ class ilPageObject
 		// delete page_object entry
 		$query = "DELETE FROM page_object ".
 			"WHERE page_id = ".$ilDB->quote($this->getId()).
-			"' AND parent_type= ".$ilDB->quote($this->getParentType());
+			" AND parent_type= ".$ilDB->quote($this->getParentType());
 		$this->ilias->db->query($query);
 
 		foreach ($mobs as $mob_id)
