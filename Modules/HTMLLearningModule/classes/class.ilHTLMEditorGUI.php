@@ -53,7 +53,7 @@ class ilHTLMEditorGUI
 	function ilHTLMEditorGUI()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
-			$rbacsystem;
+			$rbacsystem, $ilLocator;
 		
 		$lng->loadLanguageModule("content");
 
@@ -62,7 +62,6 @@ class ilHTLMEditorGUI
 		{
 			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 		}
-
 
 		$this->ctrl =& $ilCtrl;
 

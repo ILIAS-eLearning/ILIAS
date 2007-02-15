@@ -2782,6 +2782,7 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_first_letter_of_word_notification#:#N
 news#:#news_show_notifications#:#Show Notifications
 news#:#news_hide_notifications#:#Hide Notifications
 news#:#news_news_item_head#:#News Item

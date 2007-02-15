@@ -54,7 +54,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
-
+		
 		#include_once("classes/class.ilTabsGUI.php");
 		#$this->tabs_gui =& new ilTabsGUI();
 
@@ -72,7 +72,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{	
-		global $ilUser;
+		global $ilUser, $ilLocator;
 	
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
@@ -872,5 +872,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		
+		if (is_object($this->object))
+		{		
+			$ilLocator->addItem($this->object->getTitle(),
+				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "", $_GET["ref_id"]);
+		}
+	}
 }
 ?>

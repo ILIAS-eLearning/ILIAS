@@ -485,5 +485,18 @@ class ilObjFileGUI extends ilObjectGUI
 
 	}
 
+	/**
+	*
+	*/
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
+		}
+	}
+
 } // END class.ilObjFileGUI
 ?>

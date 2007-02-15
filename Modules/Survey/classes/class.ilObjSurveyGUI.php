@@ -3841,13 +3841,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "previous":
 			case "start":
 			case "resume":
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 				break;
 			case "evaluation":
 			case "checkEvaluationAccess":
 			case "evaluationdetails":
 			case "evaluationuser":
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"), "", $_GET["ref_id"]);
 				break;
 			case "create":
 			case "save":
@@ -3856,10 +3856,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "cloneAll":
 				break;
 			case "infoScreen":
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 				break;
 		default:
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
 				break;
 		}
 	}

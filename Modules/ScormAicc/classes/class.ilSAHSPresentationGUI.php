@@ -568,16 +568,11 @@ class ilSAHSPresentationGUI
 		$this->tpl->setTitle($this->slm_gui->object->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.gif"));
 		
-		// Full locator, if read permission is given
-		//if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-		//{
-		//	$this->ilLocator();
-		//}
-		//else
-		//{
-			$ilLocator->addRepositoryItems();
-			$this->tpl->setLocator();
-		//}
+		$ilLocator->addRepositoryItems();
+		$ilLocator->addItem($this->slm_gui->object->getTitle(),
+			$this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+
+		$this->tpl->setLocator();
 		
 		$this->lng->loadLanguageModule("meta");
 

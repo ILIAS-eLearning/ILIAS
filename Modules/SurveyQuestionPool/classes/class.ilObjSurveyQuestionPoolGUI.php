@@ -1284,7 +1284,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			case "cancel":
 				break;
 			default:
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
 				break;
 		}
 		if ($_GET["q_id"] > 0)

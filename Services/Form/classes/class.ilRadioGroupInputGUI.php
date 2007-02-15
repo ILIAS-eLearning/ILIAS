@@ -28,7 +28,7 @@ include_once("./Services/Form/classes/class.ilRadioOption.php");
 *
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
-*
+* @ingroup	ServicesForm
 */
 class ilRadioGroupInputGUI extends ilFormPropertyGUI
 {

@@ -41,7 +41,7 @@ include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
-*
+* @ingroup	ServicesForm
 */
 class ilPropertyFormGUI extends ilFormGUI
 {

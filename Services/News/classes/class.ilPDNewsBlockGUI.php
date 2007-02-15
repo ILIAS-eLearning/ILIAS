@@ -162,8 +162,17 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			$this->tpl->setVariable("VAL_CREATION_DATE", $news["creation_date"]);
 		}
 		
+		if ($news["priority"] == 0)
+		{
+			$this->tpl->setCurrentBlock("notification");
+			$this->tpl->setVariable("CHAR_NOT", $lng->txt("news_first_letter_of_word_notification"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("news_context");
 		$this->tpl->setVariable("TYPE", $lng->txt("obj_".$news["context_obj_type"]));
+		$this->tpl->setVariable("IMG_TYPE",
+			ilUtil::getImagePath("icon_".$news["context_obj_type"]."_s.gif"));
 		$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($news["context_obj_id"]));
 		$this->tpl->parseCurrentBlock();
 		$ilCtrl->setParameter($this, "news_context", $news["ref_id"]);

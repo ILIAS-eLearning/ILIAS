@@ -1161,7 +1161,7 @@ class ilLMPresentationGUI
 			$ilLocator->addItem(
 				ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
 				"repository.php?cmd=frameset&amp;ref_id=".$par_id,
-				ilFrameTargetInfo::_getFrame("MainContent"));
+				ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
 		}
 
 		if($this->lm_tree->isInTree($a_id))
@@ -1186,7 +1186,7 @@ class ilLMPresentationGUI
 						$ilLocator->addItem(
 							ilUtil::shortenText($this->lm->getTitle(),50,true),
 							$this->getLink($_GET["ref_id"], "layout", "", $frame_param),
-							$frame_target);
+							$frame_target, $_GET["ref_id"]);
 					}
 				}
 			}
