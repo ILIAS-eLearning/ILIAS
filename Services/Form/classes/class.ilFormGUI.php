@@ -21,12 +21,15 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesForm Services/Form
+ */
+
 /**
 * This class represents a form user interface
 *
-* @author Alex Killing <alex.killing@gmx.de> 
-* @version $Id$
-*
+* @author 	Alex Killing <alex.killing@gmx.de> 
+* @version 	$Id$
+* @ingroup	ServicesForm
 */
 class ilFormGUI
 {

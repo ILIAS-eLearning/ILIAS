@@ -302,6 +302,18 @@ class ilLMEditorGUI
 				$this->tpl->touchBlock("locator_separator");
 			}
 
+			if ($row["ref_id"]> 0 && $row["ref_id"] != ROOT_FOLDER_ID)
+			{
+				$oid = ilObject::_lookupObjId($row["ref_id"]);
+				$t = ilObject::_lookupType($oid);
+				$this->tpl->setCurrentBlock("locator_img");
+				$this->tpl->setVariable("IMG_SRC",
+					ilUtil::getImagePath("icon_".$t."_s.gif"));
+				$this->tpl->setVariable("IMG_ALT",
+					$lng->txt("obj_".$type));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			if ($row["link"] != "")
 			{
 				$this->tpl->setCurrentBlock("locator_item");

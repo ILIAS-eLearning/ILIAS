@@ -87,7 +87,7 @@ class ilGlossaryLocatorGUI
 
 		$path = $this->tree->getPathFull($_GET["ref_id"]);
 
-		if (is_object($this->term))
+		if (is_object($this->term) && ($_GET["def"] > 0 || $this->mode == "presentation"))
 		{
 			$modifier = 0;
 		}
@@ -123,7 +123,17 @@ class ilGlossaryLocatorGUI
 				$this->tpl->touchBlock("locator_separator");
 			}
 			
-//echo "-".$row["child"]."-";
+			
+			if ($row["child"] > 0)
+			{
+				$this->tpl->setCurrentBlock("locator_img");
+				$this->tpl->setVariable("IMG_SRC",
+					ilUtil::getImagePath("icon_".$row["type"]."_s.gif"));
+				$this->tpl->setVariable("IMG_ALT",
+					$lng->txt("obj_".$type));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("locator_item");
 			$t_frame = "";
 			if ($row["child"] == $this->tree->getRootId())

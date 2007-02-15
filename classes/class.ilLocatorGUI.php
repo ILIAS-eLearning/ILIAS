@@ -128,7 +128,7 @@ class ilLocatorGUI
 				
 				$this->addItem($row["title"],
 					$pre."repository.php?cmd=frameset&amp;ref_id=".$row["child"],
-					ilFrameTargetInfo::_getFrame("MainContent"));
+					ilFrameTargetInfo::_getFrame("MainContent"), $row["child"]);
 			}
 		}
 	}
@@ -169,7 +169,7 @@ class ilLocatorGUI
 				$class = strtolower("ilObj".$class_name."GUI");
 				$ilCtrl->setParameterByClass($class, "ref_id", $row["child"]);
 				$this->addItem($row["title"],
-					$ilCtrl->getLinkTargetbyClass($class, "view"));
+					$ilCtrl->getLinkTargetbyClass($class, "view"), "", $row["child"]);
 			}
 		}
 	}
@@ -181,11 +181,10 @@ class ilLocatorGUI
 	* @param	string	$a_link			item link
 	* @param	string	$a_frame		frame target
 	*/
-	function addItem($a_title, $a_link, $a_frame = "")
+	function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0)
 	{
-
 		$this->entries[] = array("title" => $a_title,
-			"link" => $a_link, "frame" => $a_frame); 
+			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id); 
 	}
 	
 	function clearItems()

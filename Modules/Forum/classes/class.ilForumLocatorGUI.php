@@ -115,12 +115,24 @@ class ilForumLocatorGUI
 				continue;
 			}*/
 
-			if (($key < count($path)-$modifier) || (!empty($this->thread_id))
-				|| $this->show_user)
+			//if (($key < count($path)-$modifier) || (!empty($this->thread_id))
+			//	|| $this->show_user)
+			if (($key < count($path)-$modifier))
 			{
 				$this->tpl->touchBlock("locator_separator");
 				//$this->tpl->touchBlock("locator_item");
 			}
+			
+			if ($row["child"] > 0)
+			{
+				$this->tpl->setCurrentBlock("locator_img");
+				$this->tpl->setVariable("IMG_SRC",
+					ilUtil::getImagePath("icon_".$row["type"]."_s.gif"));
+				$this->tpl->setVariable("IMG_ALT",
+					$lng->txt("obj_".$type));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			
 			$this->tpl->setCurrentBlock("locator_item");
 			if ($row["child"] == $this->tree->getRootId())
@@ -155,6 +167,7 @@ class ilForumLocatorGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		/*
 		if (!empty($this->thread_id))
 		{
 			if ($this->show_user)
@@ -166,8 +179,9 @@ class ilForumLocatorGUI
 			$this->tpl->setVariable("LINK_ITEM", "repository.php?cmd=viewThread&cmdClass=ilobjforumgui&thr_pk=".
 				$this->thread_id."&ref_id=".$this->ref_id);
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
+		/*
 		if ($this->show_user)
 		{
 			$this->tpl->setCurrentBlock("locator_item");
@@ -176,7 +190,7 @@ class ilForumLocatorGUI
 			//$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
 			//$this->tpl->setVariable("LINK_TARGET","target=\"$t_frame\"");
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
 		$this->tpl->setCurrentBlock("locator");
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));

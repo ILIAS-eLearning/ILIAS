@@ -1002,15 +1002,17 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 					$this->ctrl->setParameter($this, "obj_id", "");
 					$link = $this->ctrl->getLinkTarget($this, "listMedia");
 					$title = $this->object->getTitle();
+					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+					$ilLocator->addItem($title, $link, "", $_GET["ref_id"]);
 				}
 				else
 				{
 					$this->ctrl->setParameter($this, "obj_id", $node["child"]);
 					$link = $this->ctrl->getLinkTarget($this, "listMedia");
 					$title = $node["title"];
+					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+					$ilLocator->addItem($title, $link);
 				}
-				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				$ilLocator->addItem($title, $link);
 			}
 		}
 	}

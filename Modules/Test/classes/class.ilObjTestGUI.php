@@ -4770,12 +4770,12 @@ class ilObjTestGUI extends ilObjectGUI
 			case "redirectQuestion":
 			case "outUserPassDetails":
 			case "checkPassword":
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 				break;
 			case "eval_stat":
 			case "evalAllUsers":
 			case "evalUserDetail":
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "eval_stat"), "", $_GET["ref_id"]);
 				break;
 			case "create":
 			case "save":
@@ -4786,7 +4786,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "cancelImport":
 				break;
 		default:
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
 				break;
 		}
 	}

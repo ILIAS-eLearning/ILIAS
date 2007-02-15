@@ -2770,7 +2770,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->ctrl->addLocation(
 			ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
 			"repository.php?cmd=frameset&amp;ref_id=".$par_id,
-			ilFrameTargetInfo::_getFrame("MainContent"));
+			ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
 		if (!$a_omit_obj_id)
 		{
 			$obj_id = $_GET["obj_id"];
@@ -2800,7 +2800,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->ctrl->setParameter($this, "obj_id", "");
 				$this->ctrl->addLocation(
 					$this->object->getTitle(),
-					$this->ctrl->getLinkTarget($this, "properties"));
+					$this->ctrl->getLinkTarget($this, "properties"), "", $_GET["ref_id"]);
 			}
 			else
 			{

@@ -360,10 +360,10 @@ class ilCtrl
 	* @param	string		$a_link		link
 	* @param	string		$a_target	target frame
 	*/
-	function addLocation($a_title, $a_link, $a_target = "")
+	function addLocation($a_title, $a_link, $a_target = "", $a_ref_id = 0)
 	{
 		$this->location[] = array("title" => $a_title,
-			"link" => $a_link, "target" => $a_target);
+			"link" => $a_link, "target" => $a_target, "ref_id" => $a_ref_id);
 	}
 
 	/**

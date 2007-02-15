@@ -864,7 +864,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setLocator()
 	{
-		global $ilLocator;
+		global $ilLocator, $lng;
 		
 		$this->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		
@@ -880,6 +880,18 @@ class ilTemplate extends ilTemplateX
 				if (!$first)
 				{
 					$this->touchBlock("locator_separator_prefix");
+				}
+				
+				if ($item["ref_id"] > 0)
+				{
+					$this->setCurrentBlock("locator_img");
+					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+					$type = ilObject::_lookupType($obj_id);
+					$this->setVariable("IMG_SRC",
+						ilUtil::getImagePath("icon_".$type."_s.gif"));
+					$this->setVariable("IMG_ALT",
+						$lng->txt("obj_".$type));
+					$this->parseCurrentBlock();
 				}
 				
 				$this->setCurrentBlock("locator_item");

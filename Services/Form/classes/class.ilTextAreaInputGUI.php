@@ -26,7 +26,7 @@
 *
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
-*
+* @ingroup	ServicesForm
 */
 class ilTextAreaInputGUI extends ilFormPropertyGUI
 {
