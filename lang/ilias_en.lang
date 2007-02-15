@@ -543,8 +543,8 @@ assessment#:#random_accept_sample#:#Accept Sample
 assessment#:#random_another_sample#:#Get another Sample
 assessment#:#random_selection#:#Random Selection
 assessment#:#range#:#Range
-assessment#:#range_lower_limit#:#Lower Limit
-assessment#:#range_upper_limit#:#Upper Limit
+assessment#:#range_lower_limit#:#Lower Bound
+assessment#:#range_upper_limit#:#Upper Bound
 assessment#:#rectangle#:#Rectangle
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.

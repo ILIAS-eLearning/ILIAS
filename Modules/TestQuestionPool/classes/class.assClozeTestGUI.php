@@ -341,7 +341,6 @@ class assClozeTestGUI extends assQuestionGUI
 		$cloze_text = $this->object->getClozeText();
 		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->object->prepareTextareaOutput($cloze_text));
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
-		$this->tpl->setVariable("CLOZE_ID", $this->object->getId());
 
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -355,7 +354,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assClozeTest");
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assClozeTest"));
-		$this->tpl->setVariable("ACTION_CLOZE_TEST", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();
 
