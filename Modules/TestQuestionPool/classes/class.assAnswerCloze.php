@@ -54,6 +54,28 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 * @var string
 */
   var $name;
+
+/**
+* Name of the lower bound
+* 
+* A string value defining the lower bound
+* of a numeric value
+*
+* @var string
+*/
+	var $lowerBound;
+
+/**
+* Name of the upper bound
+* 
+* A string value defining the upper bound
+* of a numeric value
+*
+* @var string
+*/
+	var $upperBound;
+
+
   
 	var $shuffle;
 	
@@ -145,6 +167,26 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 	
 	function setShuffle($shuffle = 1) {
 		$this->shuffle = $shuffle;
+	}
+	
+	function setLowerBound($bound)
+	{
+		$this->lowerBound = $bound;
+	}
+	
+	function setUpperBound($bound)
+	{
+		$this->upperBound = $bound;
+	}
+	
+	function getLowerBound()
+	{
+		return $this->lowerBound;
+	}
+	
+	function getUpperBound()
+	{
+		return $this->upperBound;
 	}
 }
 

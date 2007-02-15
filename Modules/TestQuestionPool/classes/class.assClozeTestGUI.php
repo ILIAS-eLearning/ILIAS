@@ -160,14 +160,18 @@ class assClozeTestGUI extends assQuestionGUI
 				foreach ($gap as $key => $value)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP", ilUtil::prepareFormOutput($value->getAnswertext()));
+					$this->tpl->setVariable("TEXT_LOWER_LIMIT", $this->lng->txt("range_lower_limit"));
+					$this->tpl->setVariable("TEXT_UPPER_LIMIT", $this->lng->txt("range_upper_limit"));
+					$this->tpl->setVariable("VALUE_NUMERIC_GAP", ilUtil::prepareFormOutput($value->getAnswertext()));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $key);
 					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", $value->getPoints());
+					$this->tpl->setVariable("VALUE_NUMERIC_GAP_POINTS", $value->getPoints());
+					$this->tpl->setVariable("VALUE_LOWER_LIMIT", $value->getLowerBound());
+					$this->tpl->setVariable("VALUE_UPPER_LIMIT", $value->getUpperBound());
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
@@ -199,8 +203,6 @@ class assClozeTestGUI extends assQuestionGUI
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("numericgap");
-				$this->tpl->setVariable("ADD_TEXT_GAP", $this->lng->txt("add_gap"));
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
 				$this->tpl->parseCurrentBlock();
 			}
 			elseif ($gap[0]->getClozeType() == CLOZE_SELECT)
