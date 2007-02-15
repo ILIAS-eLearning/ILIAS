@@ -2167,8 +2167,8 @@ common#:#hist_dbk_pg_update#:#Page changed.
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_file_create#:#File created, file name is "%1". ### 2006-5-8 --- Content changed
-common#:#file_created#:#File added
-common#:#file_updated#:#File updated
+common#:#file_created#:#A new file has been added.
+common#:#file_updated#:#File has been updated.
 common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2. ### 2006-5-8 --- Content changed
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.

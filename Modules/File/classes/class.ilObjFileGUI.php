@@ -380,15 +380,18 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 		
 		$info->enablePrivateNotes();
-		$info->enableNews();
-		$info->setBlockProperty("news", "settings", true);
-		$info->setBlockProperty("news", "public_notifications_option", true);
+		
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$info->enableNews();
+		}
 
 		// no news editing for files, just notifications
 		$info->enableNewsEditing(false);
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
-			$info->enableNewsEditing(false);
+			$info->setBlockProperty("news", "settings", true);
+			$info->setBlockProperty("news", "public_notifications_option", true);
 		}
 
 		

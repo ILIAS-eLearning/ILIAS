@@ -2526,9 +2526,6 @@ class ilObjectGUI
 	 	return ilUtil::formSelect((int) $_REQUEST['clone_source'],'clone_source',$options,false,true);
 	}
 	
-	
-	
-	
 	/**
 	* Get center column
 	*/
@@ -2558,13 +2555,6 @@ class ilObjectGUI
 					{
 						$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
 						$this->setColumnSettings($column_gui);
-						$column_gui->setRepositoryMode(true);
-						$column_gui->setEnableEdit(false);
-						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-							$this->checkEnableColumnEdit())
-						{
-							$column_gui->setEnableEdit(true);
-						}
 						$this->html = $ilCtrl->forwardCommand($column_gui);
 					}
 					// left column wants center
@@ -2572,12 +2562,6 @@ class ilObjectGUI
 					{
 						$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
 						$this->setColumnSettings($column_gui);
-						$column_gui->setRepositoryMode(true);
-						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-							$this->checkEnableColumnEdit())
-						{
-							$column_gui->setEnableEdit(true);
-						}
 						$this->html = $ilCtrl->forwardCommand($column_gui);
 					}
 				}
@@ -2598,12 +2582,6 @@ class ilObjectGUI
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
 		$this->setColumnSettings($column_gui);
-		$column_gui->setRepositoryMode(true);
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-			$this->checkEnableColumnEdit())
-		{
-			$column_gui->setEnableEdit(true);
-		}
 		
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
@@ -2623,18 +2601,18 @@ class ilObjectGUI
 	}
 
 	/**
-	* To be overwritten in subclasses.
-	*/
-	function checkEnableColumnEdit()
-	{
-		return true;
-	}
-	
-	/**
-	* To be overwritten in subclasses.
+	* May be overwritten in subclasses.
 	*/
 	function setColumnSettings($column_gui)
 	{
+		global $ilAccess;
+		
+		$column_gui->setRepositoryMode(true);
+		$column_gui->setEnableEdit(false);
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$column_gui->setEnableEdit(true);
+		}
 	}
 } // END class.ilObjectGUI
 ?>

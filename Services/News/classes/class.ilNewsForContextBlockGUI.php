@@ -291,6 +291,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		if ($news["priority"] == 0)
+		{
+			$this->tpl->setCurrentBlock("notification");
+			$this->tpl->setVariable("CHAR_NOT", $lng->txt("news_first_letter_of_word_notification"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		if ($news["ref_id"] > 0 && $news["ref_id"] != $_GET["ref_id"])
 		{
 			$type = in_array($news["context_obj_type"], array("sahs", "lm", "dbk", "htlm"))
@@ -299,6 +306,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 			$this->tpl->setCurrentBlock("news_context");
 			$this->tpl->setVariable("TYPE", $lng->txt($type));
+			$this->tpl->setVariable("IMG_TYPE",
+				ilUtil::getImagePath("icon_".$news["context_obj_type"]."_s.gif"));
 			$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($news["context_obj_id"]));
 			$this->tpl->parseCurrentBlock();
 			$ilCtrl->setParameter($this, "news_context", $news["ref_id"]);

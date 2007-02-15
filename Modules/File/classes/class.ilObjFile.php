@@ -220,6 +220,7 @@ class ilObjFile extends ilObject
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "replace",
 			$a_filename.",".$this->getVersion());
+		$this->setFilename($a_filename);
 		$this->addNewsNotification("file_updated");
 	}
 
@@ -691,12 +692,16 @@ class ilObjFile extends ilObject
 		
 		// Add Notification to news
 		include_once("./Services/News/classes/class.ilNewsItem.php");
+		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 		$news_item = new ilNewsItem();
 		$news_item->setContext($this->getId(), $this->getType());
 		$news_item->setPriority(NEWS_NOTICE);
 		$news_item->setTitle($a_lang_var);
 		$news_item->setContentIsLangVar(true);
-		//$news_item->setContent(nl2br($this->prepareText($pos_data["pos_message"], 0)));
+		$news_item->setContent(
+			$this->getFilename().
+			"<br />".
+			ilObjFileAccess::_lookupFileSize($this->getId(), true));
 		$news_item->setUserId($ilUser->getId());
 		$news_item->setVisibility(NEWS_USERS);
 		$news_item->create();

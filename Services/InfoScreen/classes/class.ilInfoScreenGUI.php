@@ -433,6 +433,7 @@ class ilInfoScreenGUI
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_CENTER);
 		$column_gui->setEnableEdit($this->news_editing);
+		$column_gui->setRepositoryMode(true);
 		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 
 		if (!$ilCtrl->isAsynch())
@@ -444,6 +445,7 @@ class ilInfoScreenGUI
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
 					$column_gui->setEnableEdit($this->news_editing);
+					$column_gui->setRepositoryMode(true);
 					$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
@@ -452,6 +454,7 @@ class ilInfoScreenGUI
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_LEFT);
 					$column_gui->setEnableEdit($this->news_editing);
+					$column_gui->setRepositoryMode(true);
 					$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
@@ -475,6 +478,7 @@ class ilInfoScreenGUI
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
 		$column_gui->setEnableEdit($this->news_editing);
+		$column_gui->setRepositoryMode(true);
 		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
