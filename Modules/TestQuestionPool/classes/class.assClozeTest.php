@@ -432,7 +432,10 @@ class assClozeTest extends assQuestion
 							$data->points = 0;
 						}
 					}
-          array_push($this->gaps[$counter], new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name, $data->shuffle, $data->answer_id));
+					$answer = new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name, $data->shuffle, $data->answer_id);
+					if (strlen($data->lowerlimit)) $answer->setLowerBound($data->lowerlimit);
+					if (strlen($data->upperlimit)) $answer->setUpperBound($data->upperlimit);
+          array_push($this->gaps[$counter], $answer);
         }
       }
     }
@@ -446,14 +449,17 @@ class assClozeTest extends assQuestion
 	*
 	* @access public
 	*/
-	function addAnswer($gap, $answertext, $points, $answerorder, $correctness, $clozetype, $name, $shuffle, $answer_id = -1)
+	function addAnswer($gap, $answertext, $points, $answerorder, $correctness, $clozetype, $name, $shuffle, $answer_id = -1, $lowerbound = "", $upperbound = "")
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
 		if (!is_array($this->gaps[$gap]))
 		{
 			$this->gaps[$gap] = array();
 		}
-		array_push($this->gaps[$gap], new ASS_AnswerCloze($answertext, $points, $answerorder, $correctness, $clozetype, $name, $shuffle, $answer_id));
+		$answer = new ASS_AnswerCloze($answertext, $points, $answerorder, $correctness, $clozetype, $name, $shuffle, $answer_id);
+		if (strlen($lowerbound)) $answer->setLowerBound($lowerbound);
+		if (strlen($upperbound)) $answer->setUpperBound($upperbound);
+		array_push($this->gaps[$gap], $answer);
 	}
 	
 /**
