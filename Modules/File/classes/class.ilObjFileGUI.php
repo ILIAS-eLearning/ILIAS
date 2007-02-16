@@ -189,7 +189,6 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
 		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
 		$fileObj->create();
-		$fileObj->createFile();
 		$fileObj->createReference();
 		$fileObj->putInTree($_GET["ref_id"]);
 		$fileObj->setPermissions($_GET["ref_id"]);
