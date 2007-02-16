@@ -811,6 +811,10 @@ class ilCtrl
 		$cmd = $_GET["cmd"];
 		if($cmd == "post")
 		{
+			if (is_array($_POST["cmd"]))
+			{
+				reset($_POST["cmd"]);
+			}
 			$cmd = @key($_POST["cmd"]);
 			if($cmd == "" && isset($_POST["select_cmd"]))		// selected command in multi-list (table2)
 			{
