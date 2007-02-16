@@ -544,136 +544,45 @@ class ilObjForum extends ilObject
 			$ilDB->quote($ilUser->getId()).")";
 
 		$ilDB->query($query);
+		
+		// Generate starting threads
+		if(!is_array($a_options['threads']))
+		{
+			return $new_obj;
+		}
+		
+		include_once('Modules/Forum/classes/class.ilFileDataForum.php');
+		
+		$new_frm = $new_obj->Forum;
+		$new_frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($new_obj->getId()));
+		$new_frm->setForumId($new_obj->getId());
+		$new_frm->setForumRefId($new_obj->getRefId());
+		$new_topic = $new_frm->getOneTopic();
+		foreach($a_options['threads'] as $thread_id)
+		{
+			$this->Forum->setWhereCondition('thr_pk = '.$ilDB->quote($thread_id));
+			$old_thread = $this->Forum->getOneThread();
+			$old_post_id = $this->Forum->getFirstPostByThread($old_thread['thr_pk']);
+			$old_post = $this->Forum->getOnePost($old_post_id);
+			
+			// Now create new thread and first post
+			$new_post = $new_frm->generateThread($new_topic['top_pk'],
+				$old_thread['thr_usr_id'],
+				$old_thread['thr_subject'],
+				ilForum::_lookupPostMessage($old_post_id),
+				$old_post['notify'],
+				0,
+				0,
+				$old_thread['thr_date']);
+				
+			// Copy attachments
+			$old_forum_files = new ilFileDataForum($this->getId(),$old_post_id);
+			$old_forum_files->ilClone($new_obj->getId(),$new_post);
+		}
+		
 		return $new_obj;
 	}
 	
-	/**
-	* copy all entries of a forum object.
-	* attention: frm_data is linked with ILIAS system (object_data) with the obj_id and NOT ref_id! 
-	* 
-	* @access	public
-	* @param integer ref_id of parent object
-	* @param boolean copy with or without content (threads)
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref,$a_with_content = true)
-	{	
-		global $rbacadmin, $ilDB;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-		
-		// get object instance of cloned forum
-		$forumObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
-
-		// COPY settings
-		$query = "INSERT INTO frm_settings ".
-			"SET obj_id = ".$ilDB->quote($forumObj->getId()).", ".
-			"default_view = ".$ilDB->quote($this->getDefaultView()).", ".
-			"anonymized = ".$ilDB->quote(($this->isAnonymized() ? 1 : 0))."";
-		$this->ilias->db->query($query);
-		
-
-		// COPY ATTACHMENTS
-		$tmp_file_obj =& new ilFileDataForum($this->getId());
-
-		// create a local role folder & default roles
-		$roles = $forumObj->initDefaultRoles();
-
-		// ...finally assign moderator role to creator of forum object
-		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), "n");
-		ilObjUser::updateActiveRoles($forumObj->getOwner());
-
-		// STOP HERE if without_content is selected
-		if(!$a_with_content)
-		{
-			$this->Forum->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->getId()));
-			$topData = $this->Forum->getOneTopic();
-
-			$query = "INSERT INTO frm_data ".
-				"VALUES('0',".$ilDB->quote($forumObj->getId()).",".$ilDB->quote($topData['top_name']).",".
-				$ilDB->quote($topData['top_description']).",'0','0','',".$ilDB->quote($roles[0]).",NOW(),'0',NOW(),'0',".
-				$ilDB->quote($this->ilias->account->getId()).")";
-
-			$this->ilias->db->query($query);
-
-			return $new_ref_id;
-		}
-		
-
-		// get forum data
-		$this->Forum->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->getId()));
-		$topData = $this->Forum->getOneTopic();
-		
-		// insert new forum as a copy 
-		$q = "INSERT INTO frm_data ";
-		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,".
-			"top_usr_id,visits,top_update,update_user) ";
-		$q .= "VALUES ";
-		$q .= "(".$ilDB->quote($forumObj->getId()).",".$ilDB->quote($topData["top_name"]).",".$ilDB->quote($topData["top_description"]).",".
-			$ilDB->quote($topData["top_num_posts"]).",".$ilDB->quote($topData["top_num_threads"]).",".$ilDB->quote($topData["top_last_post"]).",".$ilDB->quote($roles[0]).",".
-			$ilDB->quote($topData["top_date"]).",".$ilDB->quote($topData["top_usr_id"]).",".$ilDB->quote($topData["visits"]).",".$ilDB->quote($topData["top_update"]).",".
-			$ilDB->quote($topData["update_user"]).")";
-		$this->ilias->db->query($q);
-
-		// get last insert id and return it
-		$new_top_pk = $this->ilias->db->getLastInsertId();
-
-		// get threads from old forum and insert them as copys
-		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
-		
-		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$q = "INSERT INTO frm_threads ";
-			$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update,thr_num_posts,thr_last_post,visits) ";
-			$q .= "VALUES ";
-			$q .= "(".$ilDB->quote($new_top_pk).",".$ilDB->quote($thrData["thr_usr_id"]).",".$ilDB->quote($thrData["thr_subject"]).",".
-				$ilDB->quote($thrData["thr_date"]).",".$ilDB->quote($thrData["thr_update"]).",".$ilDB->quote($thrData["thr_num_posts"]).",".
-				$ilDB->quote($thrData["thr_last_post"]).",".$ilDB->quote($thrData["visits"]).")";
-			$this->ilias->db->query($q);
-			
-			// get last insert id and return it
-			$new_thr_pk = $this->ilias->db->getLastInsertId();
-						
-			// get posts from old thread and insert them as copys
-			$resPosts = $this->Forum->getPostList($topData["top_pk"], $thrData["thr_pk"]);
-			
-			while ($posData = $resPosts->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$q2 = "INSERT INTO frm_posts ";
-				$q2 .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date,pos_update) ";
-				$q2 .= "VALUES ";
-				$q2 .= "(".$ilDB->quote($new_top_pk).",".$ilDB->quote($new_thr_pk).",".$ilDB->quote($posData["pos_usr_id"]).",".
-					$ilDB->quote($posData["pos_message"]).",".$ilDB->quote($posData["pos_date"]).",".$ilDB->quote($posData["pos_update"]).")";
-				$this->ilias->db->query($q2);
-
-				// get last insert id and return it
-				$new_pos_pk = $this->ilias->db->getLastInsertId();
-
-				// CLONE POST ATTACHMENTS
-				$tmp_file_obj->setPosId($posData["pos_pk"]);
-				$tmp_file_obj->ilClone($forumObj->getId(),$new_pos_pk);
-				
-				// get tree data from old post and insert copy
-			    $q3 = "SELECT * FROM frm_posts_tree ";
-				$q3 .= "WHERE pos_fk = ".$ilDB->quote($posData["pos_pk"])." ";	   
-				$q3 .= "AND thr_fk = ".$ilDB->quote($thrData["thr_pk"])."";
-				$treeData = $this->ilias->db->getRow($q3, DB_FETCHMODE_ASSOC);
-								
-				$q4 = "INSERT INTO frm_posts_tree (thr_fk,pos_fk,parent_pos,lft,rgt,depth,date) ";
-				$q4 .= "VALUES ";
-				$q4 .= "(".$ilDB->quote($new_thr_pk).",".$ilDB->quote($new_pos_pk).",".$ilDB->quote($treeData["parent_pos"]).",".
-					$ilDB->quote($treeData["lft"]).",".$ilDB->quote($treeData["rgt"]).",".$ilDB->quote($treeData["depth"]).",".$ilDB->quote($treeData["date"]).")";
-				$this->ilias->db->query($q4);
-			}
-		}
-
-		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
-		unset($forumObj);
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete forum and all related data	
@@ -759,75 +668,6 @@ class ilObjForum extends ilObject
 		return $roles ? $roles : array();
 	}
 
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	* 
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-		
-		switch ($a_event)
-		{
-			case "link":
-				
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Forum ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				
-				break;
-			
-			case "cut":
-
-				//echo "Forum ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				
-				break;
-				
-			case "copy":
-			
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Forum ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				
-				break;
-
-			case "paste":
-				
-				//echo "Forum ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				
-				break;
-			
-			case "new":
-				
-				//echo "Forum ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				
-				break;
-		}
-		
-		
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{	
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-		
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-
-	}
 
 	function createSettings()
 	{		

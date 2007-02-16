@@ -455,11 +455,11 @@ class ilForum
 		// entry in tree-table
 		if ($parent_pos == 0)
 		{
-			$this->addPostTree($thread, $lastInsert);
+			$this->addPostTree($thread, $lastInsert,$date);
 		}
 		else
 		{
-			$this->insertPostNode($lastInsert,$parent_pos,$thread);
+			$this->insertPostNode($lastInsert,$parent_pos,$thread,$date);
 		}
 
 		// string last post
@@ -566,11 +566,6 @@ class ilForum
 
 			$result = $this->ilias->db->query($q);
 		}
-
-		// MARK READ
-		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
-		
-
 		return $this->generatePost($topic, $lastInsert, $user, $message, 0, $notify, $anonymize, $subject, $date);
 	}
 
@@ -826,6 +821,26 @@ class ilForum
 
 		return $res;
 	}
+	
+	/**
+	 * Get first post of thread
+	 *
+	 * @access public
+	 * @param int thread id
+	 * @return
+	 */
+	public function getFirstPostByThread($a_thread_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM frm_posts_tree ".
+			"WHERE thr_fk = ".$ilDB->quote($a_thread_id)." ".
+			"AND parent_pos = 0";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		return $row->pos_fk ? $row->pos_fk : 0;
+	}
 
 	/**
 	* get content of given ID's
@@ -1039,9 +1054,11 @@ class ilForum
 	* @return	boolean		true on success
 	* @access	public
 	*/
-	function addPostTree($a_tree_id,$a_node_id = -1)
+	function addPostTree($a_tree_id,$a_node_id = -1,$a_date = '')
 	{
 		global $ilDB;
+		
+		$a_date = $a_date ? $a_date : date("Y-m-d H:i:s");
 		
 		if ($a_node_id <= 0)
 		{
@@ -1050,7 +1067,7 @@ class ilForum
 		
 		$query = "INSERT INTO frm_posts_tree (thr_fk, pos_fk, parent_pos, lft, rgt, depth, date) ".
 				 "VALUES ".
-				 "(".$ilDB->quote($a_tree_id).",".$ilDB->quote($a_node_id).", 0, 1, 2, 1, '".date("Y-m-d H:i:s")."')";
+				 "(".$ilDB->quote($a_tree_id).",".$ilDB->quote($a_node_id).", 0, 1, 2, 1, ".$ilDB->quote($a_date).")";
 		$this->ilias->db->query($query);
 		
 		return true;
@@ -1063,9 +1080,11 @@ class ilForum
 	* @param	integer		tree_id
 	* @param	integer		parent_id (optional)
 	*/
-	function insertPostNode($a_node_id,$a_parent_id,$tree_id)
+	function insertPostNode($a_node_id,$a_parent_id,$tree_id,$a_date = '')
 	{		
 		global $ilDB;
+		
+		$a_date = $a_date ? $a_date : date("Y-m-d H:i:s");
 		
 		// get left value
 	    $query = "SELECT * FROM frm_posts_tree ".
@@ -1098,7 +1117,8 @@ class ilForum
 		// insert node
 		$query = "INSERT INTO frm_posts_tree (thr_fk,pos_fk,parent_pos,lft,rgt,depth,date) ".
 				 "VALUES ".
-				 "(".$ilDB->quote($tree_id).",".$ilDB->quote($a_node_id).",".$ilDB->quote($a_parent_id).",".$ilDB->quote($lft).",".$ilDB->quote($rgt).",".$ilDB->quote($depth).",'".date("Y-m-d H:i:s")."')";
+				 "(".$ilDB->quote($tree_id).",".$ilDB->quote($a_node_id).",".$ilDB->quote($a_parent_id).",".$ilDB->quote($lft).",".
+				 	$ilDB->quote($rgt).",".$ilDB->quote($depth).",".$ilDB->quote($a_date).")";
 		$this->ilias->db->query($query);
 	}
 
