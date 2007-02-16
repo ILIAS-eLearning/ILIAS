@@ -499,7 +499,11 @@ class ilObjectGUI
 			? $_GET["ref_id"]
 			: $this->object->getRefId();
 		$ilLocator->addRepositoryItems($ref_id);
-		$this->addLocatorItems();
+		
+		if(!$this->creation_mode)
+		{
+			$this->addLocatorItems();
+		}
 		
 		// not so nice workaround: todo: handle $ilLocator as tabs in ilTemplate
 		if ($_GET["admin_mode"] == "" &&
