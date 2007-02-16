@@ -7059,3 +7059,5 @@ common#:#btn_back#:#Back
 mail#:#mail_new_entry#:#New Entry
 mail#:#mail_edit_entry#:#Edit Entry
 mail#:#mail_select_attachment#:#Please select an attachment for download.
+common#:#obj_tst_duplicate#:#Copy Test
+common#:#obj_tst_select#:#-- Please select one Test --
