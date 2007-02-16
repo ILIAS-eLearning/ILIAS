@@ -6260,6 +6260,90 @@ class ilObjTest extends ilObject
 			}
 		}
 	}
+	
+	
+	/**
+	 * Clone object
+	 *
+	 * @access public
+	 * @param int ref id of parent container
+	 * @param array optional object specific options
+	 * @return object new test object
+	 */
+	public function cloneObject($a_target_id,$a_options = array())
+	{
+		global $ilDB;
+		
+		$this->loadFromDb();
+		
+		// Copy settings
+	 	$newObj = parent::cloneObject($a_target_id,$a_options);
+	 	$this->cloneMetaData($newObj);
+
+	    #$counter = 2;
+	    #while ($newObj->testTitleExists($newObj->getTitle() . " ($counter)"))
+		#{
+    	#  $counter++;
+    	#}
+    	
+		$newObj->setAuthor($this->getAuthor());
+		$newObj->setTitleOutput($this->getTitleOutput());
+		$newObj->setPassScoring($this->getPassScoring());
+		#$newObj->setTitle($this->getTitle() . " ($counter)");
+		#$newObj->setDescription($this->getDescription());
+		#$newObj->create(true);
+		#$newObj->createReference();
+		#$newObj->putInTree($_GET["ref_id"]);
+		#$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->introduction = $this->getIntroduction();
+		$newObj->mark_schema = $this->mark_schema;
+		$newObj->sequence_settings = $this->getSequenceSettings();
+		$newObj->score_reporting = $this->getScoreReporting();
+		$newObj->instant_verification = $this->getInstantFeedbackSolution();
+		$newObj->answer_feedback = $this->getAnswerFeedback();
+		$newObj->answer_feedback_points = $this->getAnswerFeedbackPoints();
+		$newObj->setAnonymity($this->getAnonymity());
+		$newObj->setShowCancel($this->getShowCancel());
+		$newObj->reporting_date = $this->getReportingDate();
+		$newObj->nr_of_tries = $this->getNrOfTries();
+		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
+		$newObj->processing_time = $this->getProcessingTime();
+		$newObj->enable_processing_time = $this->getEnableProcessingTime();
+		$newObj->starting_time = $this->getStartingTime();
+		$newObj->ending_time = $this->getEndingTime();
+		$newObj->ects_output = $this->ects_output;
+		$newObj->ects_fx = $this->ects_fx;
+		$newObj->ects_grades = $this->ects_grades;
+		$newObj->random_test = $this->random_test;
+		$newObj->random_question_count = $this->random_question_count;
+		$newObj->setCountSystem($this->getCountSystem());
+		$newObj->setMCScoring($this->getMCScoring());
+		$newObj->saveToDb();
+		
+		if ($this->isRandomTest())
+		{
+			$newObj->saveRandomQuestionCount($newObj->random_question_count);
+			$this->cloneRandomQuestions($newObj->getTestId());
+		}
+		else
+		{
+			// clone the questions
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			foreach ($this->questions as $key => $question_id)
+			{
+				$question = ilObjTest::_instanciateQuestion($question_id);
+				$newObj->questions[$key] = $question->duplicate();
+	//			$question->id = -1;
+				$original_id = assQuestion::_getOriginalId($question_id);
+				$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
+				$question->saveToDb($original_id);
+			}
+		}
+
+		$newObj->saveToDb();
+
+		return $newObj;
+	}
 
 
 /**

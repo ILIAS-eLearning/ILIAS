@@ -184,6 +184,12 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cloneAllObject()
 	{
+		parent::cloneAllObject();
+		return true;
+		
+		
+		// Everything is done in parent class
+		/*
 		if ($_POST["tst"] < 1)
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_select_tsts"));
@@ -194,6 +200,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$ref_id = ilObjTest::_clone($_POST["tst"]);
 		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
 		ilUtil::redirect("ilias.php?ref_id=$ref_id&baseClass=ilObjTestGUI");
+		*/
 	}
 	
 	/**
@@ -3442,6 +3449,7 @@ class ilObjTestGUI extends ilObjectGUI
 			include_once("./Modules/Test/classes/class.ilObjTest.php");
 			$tst = new ilObjTest();
 			
+			/*
 			$tests =& ilObjTest::_getAvailableTests(true);
 			if (count($tests) > 0)
 			{
@@ -3457,7 +3465,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			
+			*/
 			$questionpools =& $tst->getAvailableQuestionpools($use_object_id = true, $equal_points = false, $could_be_offline = true);
 			if (count($questionpools) == 0)
 			{
@@ -3492,7 +3500,6 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-
 			$this->ctrl->setParameter($this, "new_type", $this->type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 //			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
@@ -3511,18 +3518,20 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_TST_FILE", $this->lng->txt("tst_upload_file"));
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 
-			$this->tpl->setVariable("TXT_DUPLICATE_TST", $this->lng->txt("duplicate_tst"));
-			$this->tpl->setVariable("TXT_SELECT_TST", $this->lng->txt("obj_tst"));
-			$this->tpl->setVariable("OPTION_SELECT_TST", $this->lng->txt("select_tst_option"));
-			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
+			#$this->tpl->setVariable("TXT_DUPLICATE_TST", $this->lng->txt("duplicate_tst"));
+			#$this->tpl->setVariable("TXT_SELECT_TST", $this->lng->txt("obj_tst"));
+			#$this->tpl->setVariable("OPTION_SELECT_TST", $this->lng->txt("select_tst_option"));
+			#$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
 			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_tst.gif'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_tst"));
 			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_tst.gif'));
 			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_tst"));
-			$this->tpl->setVariable("TYPE_IMG3", ilUtil::getImagePath('icon_tst.gif'));
-			$this->tpl->setVariable("ALT_IMG3",$this->lng->txt("obj_tst"));
+			#$this->tpl->setVariable("TYPE_IMG3", ilUtil::getImagePath('icon_tst.gif'));
+			#$this->tpl->setVariable("ALT_IMG3",$this->lng->txt("obj_tst"));
 			$this->tpl->setVariable("NEW_TYPE", $this->type);
 			$this->tpl->parseCurrentBlock();
+
+			$this->fillCloneTemplate('DUPLICATE','tst');
 		}
 	}
 

@@ -1,6 +1,6 @@
-<form enctype="multipart/form-data" action="{FORMACTION}" {TARGET} method="post">
+<form enctype="multipart/form-data" action="{FORMACTION}" method="post">
 <table class="std" width="60%">
-	<tr class="tbltitle">
+	<tr class="tblheader">
 		<th colspan="2" class="std">
 			<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
 			{TXT_HEADER}
@@ -27,7 +27,7 @@
 
 <br />
 <table class="std" width="60%">
-	<tr class="tbltitle">
+	<tr class="tblheader">
 		<th class="std" colspan="2">
 			<img src="{TYPE_IMG2}" style="vertical-align:middle;" alt="{ALT_IMG2}" title="{ALT_IMG2}" border="0" vspace="0" />
 			{TXT_IMPORT_TST}
@@ -59,31 +59,8 @@
 </table>
 
 <br />
-<table class="std" width="60%">
-	<tr class="tbltitle">
-		<th class="std" colspan="2">
-			<img src="{TYPE_IMG3}" style="vertical-align:middle;" alt="{ALT_IMG3}" title="{ALT_IMG3}" border="0" vspace="0" />
-			{TXT_DUPLICATE_TST}
-		</th>
-	</tr>
-	<tr>
-		<td class="option">{TXT_SELECT_TST}</td>
-		<td class="option_value">
-		<select name="tst">
-		<option value="-1">{OPTION_SELECT_TST}</option>
-	<!-- BEGIN option_tst -->	
-		<option value="{OPTION_VALUE_TST}"{OPTION_SELECTED_TST}>{TXT_OPTION_TST}</option>
-	<!-- END option_tst -->	
-		</select>
-		</td>
-	</tr>
-	<tr>
-		<td class="submit" align="right" colspan="2">
-			<input class="submit" type="submit" name="cmd[cloneAll]" value="{TXT_DUPLICATE}" />
-			<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
-		</td>
-	</tr>
-</table>
+{DUPLICATE}
+
 
 <input type="hidden" name="new_type" value="{NEW_TYPE}" />
 </form>
