@@ -7001,3 +7001,5 @@ mail#:#mail_edit_entry#:#Eintrag bearbeiten
 mail#:#mail_select_attachment#:#Bitte einen Anhang zum Herunterladen auswählen.
 common#:#obj_tst_duplicate#:#Test kopieren
 common#:#obj_tst_select#:#-- Bitte wählen Sie einen Test aus --
+common#:#obj_svy_duplicate#:#Umfrage kopieren
+common#:#obj_svy_select#:#-- Bitte wählen Sie eine Umfrage aus --

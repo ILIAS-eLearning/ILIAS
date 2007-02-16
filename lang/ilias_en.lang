@@ -7061,3 +7061,5 @@ mail#:#mail_edit_entry#:#Edit Entry
 mail#:#mail_select_attachment#:#Please select an attachment for download.
 common#:#obj_tst_duplicate#:#Copy Test
 common#:#obj_tst_select#:#-- Please select one Test --
+common#:#obj_svy_duplicate#:#Copy Survey
+common#:#obj_svy_select#:#-- Please select one Survey --

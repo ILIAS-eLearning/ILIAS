@@ -4305,6 +4305,113 @@ class ilObjSurvey extends ilObject
 		}
 		return $result_array;
 	}
+	
+	
+	/**
+	 * Clone object
+	 *
+	 * @access public
+	 * @param int ref_id of target container
+	 * @param array array of object specific options
+	 * @return object new svy object
+	 */
+	public function cloneObject($a_target_id,$a_options)
+	{
+		global $ilDB;
+		
+		$this->loadFromDb();
+		
+		// Copy settings
+	 	$newObj = parent::cloneObject($a_target_id,$a_options);
+	 	$this->cloneMetaData($newObj);
+	 	
+		$newObj->author = $this->getAuthor();
+		$newObj->introduction = $this->getIntroduction();
+		$newObj->outro = $this->getOutro();
+		$newObj->status = $this->getStatus();
+		$newObj->evaluation_access = $this->getEvaluationAccess();
+		$newObj->start_date = $this->getStartDate();
+		$newObj->startdate_enabled = $this->getStartDateEnabled();
+		$newObj->end_date = $this->getEndDate();
+		$newObj->enddate_enabled = $this->getEndDateEnabled();
+		$newObj->invitation = $this->getInvitation();
+		$newObj->invitation_mode = $this->getInvitationMode();
+		$newObj->anonymize = $this->getAnonymize();
+
+		$question_pointer = array();
+		// clone the questions
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		foreach ($this->questions as $key => $question_id)
+		{
+			$question = ilObjSurvey::_instanciateQuestion($question_id);
+			$question->id = -1;
+			$original_id = SurveyQuestion::_getOriginalId($question_id);
+			$question->saveToDb($original_id);
+			$newObj->questions[$key] = $question->getId();
+			$question_pointer[$question_id] = $question->getId();
+		}
+
+		$newObj->saveToDb();		
+
+		// clone the questionblocks
+		$questionblocks = array();
+		$questionblock_questions = array();
+		$query = sprintf("SELECT * FROM survey_questionblock_question WHERE survey_fi = %s",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($questionblock_questions, $row);
+				$questionblocks[$row["questionblock_fi"]] = $row["questionblock_fi"];
+			}
+		}
+		// create new questionblocks
+		foreach ($questionblocks as $key => $value)
+		{
+			$questionblock = ilObjSurvey::_getQuestionblock($key);
+			$questionblock_id = ilObjSurvey::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"]);
+			$questionblocks[$key] = $questionblock_id;
+		}
+		// create new questionblock questions
+		foreach ($questionblock_questions as $key => $value)
+		{
+			$clonequery = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
+				$ilDB->quote($newObj->getSurveyId() . ""),
+				$ilDB->quote($questionblocks[$value["questionblock_fi"]] . ""),
+				$ilDB->quote($question_pointer[$value["question_fi"]] . "")
+			);
+			$cloneresult = $ilDB->query($clonequery);
+		}
+		
+		// clone the constraints
+		$constraints = ilObjSurvey::_getConstraints($this->getSurveyId());
+		foreach ($constraints as $key => $constraint)
+		{
+			$newObj->addConstraint($question_pointer[$constraint["for_question"]], $question_pointer[$constraint["question"]], $constraint["relation_id"], $constraint["value"]);
+		}
+		
+		// clone the obligatory states
+		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$clonequery = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+					$ilDB->quote($newObj->getSurveyId() . ""),
+					$ilDB->quote($question_pointer[$row["question_fi"]] . ""),
+					$ilDB->quote($row["obligatory"])
+				);
+				$cloneresult = $ilDB->query($clonequery);
+			}
+		}
+		return $newObj;
+	}
 
 /**
 * Creates a 1:1 copy of the object and places the copy in a given repository
