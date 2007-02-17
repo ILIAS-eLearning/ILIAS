@@ -200,6 +200,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 				{
 					$info->enableNewsEditing();
+					$info->setBlockProperty("news", "settings", true);
 				}
 				
 				// show standard meta data section

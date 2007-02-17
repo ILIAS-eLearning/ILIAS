@@ -31,7 +31,7 @@
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilObjUserGUI, ilObjCourseGroupingGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI
 *
 * @extends ilObjectGUI
 */
@@ -193,6 +193,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('group_members');
 				$this->tabs_gui->setSubTabActive('grp_members_gallery');
 				$this->tpl->setVariable("ADM_CONTENT", $html);
+				break;
+
+			case "ilcolumngui":
+				//$this->prepareOutput();
+				include_once("classes/class.ilObjStyleSheet.php");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$this->renderObject();
 				break;
 
 			default:
