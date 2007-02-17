@@ -82,6 +82,7 @@ class ilColumnGUI
 	protected $default_blocks = array(
 		"cat" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"crs" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
+		"grp" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"frm" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"root" => array(),
 		"info" => array(
@@ -100,6 +101,7 @@ class ilColumnGUI
 	protected $custom_blocks = array(
 		"cat" => array("ilExternalFeedBlockGUI"),
 		"crs" => array(),
+		"grp" => array(),
 		"frm" => array(),
 		"root" => array("ilExternalFeedBlockGUI"),
 		"info" => array(),

@@ -41,7 +41,13 @@ class ilUserFeedWriter extends ilFeedWriter
 	{
 		parent::ilFeedWriter();
 		
+		if ($a_user_id == "" || $a_hash == "")
+		{
+			return;
+		}
+		
 		$hash = ilObjUser::_lookupFeedHash($a_user_id);
+
 		if ($a_hash == $hash)
 		{
 			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true);

@@ -411,11 +411,11 @@ class ilBlockGUI
 	* @param	string	$a_href		command link target
 	* @param	string	$a_text		text
 	*/
-	function addBlockCommand($a_href, $a_text)
+	function addBlockCommand($a_href, $a_text, $a_target = "")
 	{
 		return $this->block_commands[] = 
 			array("href" => $a_href,
-				"text" => $a_text);
+				"text" => $a_text, "target" => $a_target);
 	}
 
 	/**
@@ -561,6 +561,13 @@ class ilBlockGUI
 		{
 			foreach($this->getBlockCommands() as $command)
 			{
+				if ($command["target"] != "")
+				{
+					$this->tpl->setCurrentBlock("bc_target");
+					$this->tpl->setVariable("CMD_TARGET", $command["target"]);
+					$this->tpl->parseCurrentBlock();
+				}
+					
 				$this->tpl->setCurrentBlock("block_command");
 				$this->tpl->setVariable("CMD_HREF", $command["href"]);
 				$this->tpl->setVariable("CMD_TEXT", $command["text"]);

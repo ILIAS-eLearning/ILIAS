@@ -113,6 +113,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 				{
 					$info->enableNewsEditing();
+					$info->setBlockProperty("news", "settings", true);
 				}
 				$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 				$this->ctrl->forwardCommand($info);

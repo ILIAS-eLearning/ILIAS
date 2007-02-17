@@ -56,9 +56,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
 		$this->setEnableNumInfo(true);
-		if ($ilCtrl->getContextObjType() ==  "crs")
+		if ($ilCtrl->getContextObjType() ==  "crs" ||
+			$ilCtrl->getContextObjType() ==  "grp")
 		{
 			$data = $news_item->getAggregatedNewsData($_GET["ref_id"]);
+		}
+		else if ($ilCtrl->getContextObjType() ==  "cat")
+		{
+			$data = $news_item->getAggregatedChildNewsData($_GET["ref_id"]);
 		}
 		else
 		{
@@ -180,6 +185,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		$this->handleView();
 		
+		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
+			0, $this->block_id);
+		if ($public_feed)
+		{
+			$this->addBlockCommand(
+				ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
+					"&obj_id=".$this->block_id,
+					$lng->txt("news_feed_url"), "_blank");
+		}
+
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		if (ilNewsSubscription::_hasSubscribed($_GET["ref_id"], $ilUser->getId()))
@@ -195,14 +210,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$lng->txt("news_subscribe"));
 		}
 		
-		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
-			0, $this->block_id);
-		if ($public_feed)
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "showFeedUrl"),
-				$lng->txt("news_get_feed_url"));
-		}
 		
 		// add edit commands
 		if ($this->getEnableEdit())

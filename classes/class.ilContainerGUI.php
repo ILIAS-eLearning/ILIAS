@@ -291,7 +291,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function renderObject()
 	{
-		if ($this->type == 'cat')
+		if ($this->type == 'cat' || $this->type == 'grp')
 		{
 			$this->tpl->setRightContent($this->getRightColumnHTML());
 		}

@@ -136,7 +136,48 @@ class ilNewsItem extends ilNewsItemGen
 		return $data;
 	}
 	
-	
+	/**
+	* Get news aggregation for child objects (e.g. for categories)
+	*/
+	function getAggregatedChildNewsData($a_ref_id)
+	{
+		global $tree, $ilAccess;
+		
+		// get news of parent object
+		$data = $this->queryNewsForContext();
+		foreach ($data as $k => $v)
+		{
+			$data[$k]["ref_id"] = $a_ref_id;
+		}
+		
+		// get childs
+		$nodes = $tree->getChilds($a_ref_id);
+		
+		// get news for all subtree nodes
+		foreach($nodes as $node)
+		{
+			if (!$ilAccess->checkAccess("visible", "", $node["child"]))
+			{
+				continue;
+			}
+
+			$news_item = new ilNewsItem();
+			$news_item->setContextObjId($node["obj_id"]);
+			$news_item->setContextObjType($node["type"]);
+			$news = $news_item->queryNewsForContext();
+
+			foreach ($news as $k => $v)
+			{
+				$news[$k]["ref_id"] = $node["child"];
+			}
+			$data = array_merge($data, $news);
+		}
+		
+		// sort and return
+		$data = ilUtil::sortArray($data, "creation_date", "desc");
+		return $data;
+	}
+
 	/**
 	* Convenient function to set the whole context information.
 	*/
