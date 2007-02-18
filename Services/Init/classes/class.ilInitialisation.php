@@ -1138,6 +1138,9 @@ class ilInitialisation
 		// $ilObjDataCache initialisation
 		$ilObjDataCache = new ilObjectDataCache();
 		$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
+		
+		// init settings
+		$this->initSettings();
 
 	}
 }

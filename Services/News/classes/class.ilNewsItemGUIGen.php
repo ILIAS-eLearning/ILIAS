@@ -217,6 +217,17 @@ class ilNewsItemGUIGen
 	}
 
 	/**
+	* FORM NewsItem: Create NewsItem.
+	*
+	*/
+	public function createNewsItem()
+	{
+		$this->initFormNewsItem(IL_FORM_CREATE);
+		return $this->form_gui->getHtml();
+
+	}
+
+	/**
 	* FORM NewsItem: Edit form.
 	*
 	*/
@@ -224,17 +235,6 @@ class ilNewsItemGUIGen
 	{
 		$this->initFormNewsItem(IL_FORM_EDIT);
 		$this->getValuesNewsItem();
-		return $this->form_gui->getHtml();
-
-	}
-
-	/**
-	* FORM NewsItem: Create NewsItem.
-	*
-	*/
-	public function createNewsItem()
-	{
-		$this->initFormNewsItem(IL_FORM_CREATE);
 		return $this->form_gui->getHtml();
 
 	}
@@ -354,6 +354,8 @@ class ilNewsItemGUIGen
 		
 		$this->form_gui->setTitle($lng->txt("news_news_item_head"));
 		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
+		
+		$this->prepareFormNewsItem($this->form_gui);
 
 	}
 

@@ -131,6 +131,22 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Remove Item.
+	*
+	* @param	string	$a_postvar		Post Var
+	*/
+	function removeItemByPostVar($a_post_var)
+	{
+		foreach ($this->items as $key => $item)
+		{
+			if ($item->getPostVar() == $a_post_var)
+			{
+				unset($this->items[$key]);
+			}
+		}
+	}
+
+	/**
 	* Set Items
 	*
 	* @param	array	$a_items	array of item objects

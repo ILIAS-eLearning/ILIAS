@@ -48,7 +48,7 @@ class ilSelectInputGUI extends ilFormPropertyGUI
 	/**
 	* Set Options.
 	*
-	* @param	array	$a_options	Options. Array of array ("value" => ..., "text" => ...)
+	* @param	array	$a_options	Options. Array ("value" => "option_text")
 	*/
 	function setOptions($a_options)
 	{
@@ -58,7 +58,7 @@ class ilSelectInputGUI extends ilFormPropertyGUI
 	/**
 	* Get Options.
 	*
-	* @return	array	Options.  Array of array ("value" => ..., "text" => ...)
+	* @return	array	Options. Array ("value" => "option_text")
 	*/
 	function getOptions()
 	{
@@ -122,16 +122,16 @@ class ilSelectInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		foreach($this->getOptions() as $option)
+		foreach($this->getOptions() as $option_value => $option_text)
 		{
 			$a_tpl->setCurrentBlock("prop_select_option");
-			$a_tpl->setVariable("VAL_SELECT_OPTION", $option["value"]);
-			if ($option["value"] == $this->getValue())
+			$a_tpl->setVariable("VAL_SELECT_OPTION", $option_value);
+			if ($option_value == $this->getValue())
 			{
 				$a_tpl->setVariable("CHK_SEL_OPTION",
 					'selected="selected"');
 			}
-			$a_tpl->setVariable("TXT_SELECT_OPTION", $option["text"]);
+			$a_tpl->setVariable("TXT_SELECT_OPTION", $option_text);
 			$a_tpl->parseCurrentBlock();
 		}
 		$a_tpl->setCurrentBlock("prop_select");
