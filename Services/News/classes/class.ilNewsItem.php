@@ -28,12 +28,16 @@ define("NEWS_WARNING", 2);
 include_once("./Services/News/classes/class.ilNewsItemGen.php");
 
 /**
+* @defgroup ServicesNews Services/News
+*
 * A news item can be created by different sources. E.g. when
 * a new forum posting is created, or when a change in a
 * learning module is announced.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ingroup ServicesNews
 */
 class ilNewsItem extends ilNewsItemGen
 {

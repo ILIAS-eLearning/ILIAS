@@ -54,7 +54,7 @@ class ilFormPropertyGUI
 	*
 	* @param	string	$a_type	Type
 	*/
-	function setType($a_type)
+	protected function setType($a_type)
 	{
 		$this->type = $a_type;
 	}

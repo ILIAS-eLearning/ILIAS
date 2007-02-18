@@ -27,6 +27,8 @@
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ingroup ServicesNews
 */
 class ilNewsSubscription
 {

@@ -46,6 +46,12 @@ class ilUserFeedWriter extends ilFeedWriter
 			return;
 		}
 		
+		$news_set = new ilSetting("news");
+		if (!$news_set->get("enable_rss_for_internal"))
+		{
+			return;
+		}
+
 		$hash = ilObjUser::_lookupFeedHash($a_user_id);
 
 		if ($a_hash == $hash)

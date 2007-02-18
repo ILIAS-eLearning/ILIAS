@@ -30,6 +30,8 @@ include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
 * @version $Id: class.ilNewsForContextBlockGUI.php 12920 2007-01-03 19:13:46Z akill $
 *
 * @ilCtrl_IsCalledBy ilPDNewsBlockGUI: ilColumnGUI
+*
+* @ingroup ServicesNews
 */
 class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 {

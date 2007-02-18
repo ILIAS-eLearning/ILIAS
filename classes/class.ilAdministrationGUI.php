@@ -44,7 +44,7 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjObjectFolderGUI, ilObjPaymentSettingsGUI, ilObjRecoveryFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI, ilObjTaxonomyFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
 *
 */
 class ilAdministrationGUI
@@ -144,7 +144,6 @@ class ilAdministrationGUI
 		if (($next_class == "iladministrationgui" || $next_class == ""
 			) && ($this->ctrl->getCmd() == "return"))
 		{
-
 			// get GUI of current object
 			$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
 			$class_name = $this->objDefinition->getClassName($obj_type);
@@ -154,7 +153,7 @@ class ilAdministrationGUI
 		}
 		
 		$cmd = $this->ctrl->getCmd("frameset");
-		
+
 //echo "<br>cmd:$cmd:nextclass:$next_class:-".$_GET["cmdClass"]."-".$_GET["cmd"]."-";
 		switch ($next_class)
 		{
@@ -204,7 +203,7 @@ class ilAdministrationGUI
 					// get gui class instance
 					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
-					
+
 					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
 						|| $next_class == "ilobjroletemplategui"
 						|| $next_class == "ilobjstylesheetgui"))
@@ -228,10 +227,11 @@ class ilAdministrationGUI
 					$tabs_out = ($new_type == "")
 						? true
 						: false;
-					
+
 					$this->ctrl->setReturn($this, "return");					
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 					$html = $this->gui_obj->getHTML();
+
 					if ($html != "")
 					{
 						$this->tpl->setVariable("OBJECTS", $html);

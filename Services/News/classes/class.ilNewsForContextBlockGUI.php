@@ -31,6 +31,8 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
 * @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI
+*
+* @ingroup ServicesNews
 */
 class ilNewsForContextBlockGUI extends ilBlockGUI
 {

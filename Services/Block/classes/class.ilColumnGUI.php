@@ -627,7 +627,7 @@ class ilColumnGUI
 	
 	function determineBlocks()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $ilSetting;
 
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		$this->blocks[IL_COL_LEFT] = array();
@@ -663,12 +663,26 @@ class ilColumnGUI
 				{
 					$side = $def_side;
 				}
-				$this->blocks[$side][] = array(
-					"nr" => $nr,
-					"class" => $class,
-					"type" => $type,
-					"id" => 0,
-					"custom" => false);
+				
+				// check blocks that can be (de-)activated
+				$activated = true;
+				if ($type == "news" ||  $type == "pdnews")
+				{
+					if (!$ilSetting->get("block_activated_".$type))
+					{
+						$activated = false;
+					}
+				}
+				
+				if ($activated)
+				{
+					$this->blocks[$side][] = array(
+						"nr" => $nr,
+						"class" => $class,
+						"type" => $type,
+						"id" => 0,
+						"custom" => false);
+				}
 			}
 		}
 		
