@@ -1404,14 +1404,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		$assigned_users = $rbacreview->assignedUsers($this->object->getId(),array("login","firstname","lastname","usr_id"));
 
 		//if current user is admin he is able to add new members to group
-		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".
-			$this->lng->txt("role_user_send_mail")."\" title=\"".
-			$this->lng->txt("role_user_send_mail")."\" border=\"0\" vspace=\"0\"/>";
-		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".
-			$this->lng->txt("role_user_edit")."\" title=\"".$this->lng->txt("role_user_edit")."\" border=\"0\" vspace=\"0\"/>";
-		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".
-			$this->lng->txt("role_user_deassign")."\" title=\"".$this->lng->txt("role_user_deassign")."\" border=\"0\" vspace=\"0\"/>";
-
+		$val_contact = $this->lng->txt("message");
+		$val_change = $this->lng->txt("edit");
+		$val_leave = $this->lng->txt("remove");
+		$val_contact_desc = $this->lng->txt("role_user_send_mail");
+		$val_change_desc = $this->lng->txt("role_user_edit");
+		$val_leave_desc = $this->lng->txt("role_user_deassign");
 		$counter = 0;
 
 		foreach ($assigned_users as $user)
@@ -1434,16 +1432,16 @@ class ilObjRoleGUI extends ilObjectGUI
             if ($this->object->getId() != ANONYMOUS_ROLE_ID or $user["usr_id"] != ANONYMOUS_USER_ID)
 			{
                 //build function
-                $member_functions = "<a href=\"".$link_contact."\">".$val_contact."</a>";
+                $member_functions = "<a class=\"il_ContainerItemCommand\" href=\"".$link_contact."\" title=\"".$val_contact_desc."\">".$val_contact."</a>";
 
 				if (strtolower($_GET["baseClass"]) == 'iladministrationgui' && $_GET["admin_mode"] == "settings")
 				{
-					$member_functions .= "<a href=\"".$link_change."\">".$val_change."</a>";
+					$member_functions .= "&nbsp;<a class=\"il_ContainerItemCommand\" href=\"".$link_change."\" title=\"".$val_change_desc."\">".$val_change."</a>";
 				}
 
                 if ($this->object->getId() != SYSTEM_ROLE_ID or $user["usr_id"] != SYSTEM_USER_ID)
                 {
-                    $member_functions .= "<a href=\"".$link_leave."\">".$val_leave."</a>";
+                    $member_functions .= "&nbsp;<a class=\"il_ContainerItemCommand\" href=\"".$link_leave."\" title=\"".$val_leave_desc."\">".$val_leave."</a>";
                 }
             }
 
@@ -1530,7 +1528,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->lng->txt("lastname"),$this->lng->txt("grp_options")));
 		$tbl->setHeaderVars(array("","login","firstname","lastname","functions"),
 			$this->ctrl->getParameterArray($this,"",false));
-		$tbl->setColumnWidth(array("","30%","30%","30%","10%"));
+		$tbl->setColumnWidth(array("","20%","25%","25%","30%"));
 		
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"userassignment");
 		$tbl->render();
