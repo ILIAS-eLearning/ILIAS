@@ -41,12 +41,17 @@ include_once "./classes/class.ilXmlWriter.php";
 
 class ilExerciseXMLWriter extends ilXmlWriter
 {
+
+    static $CONTENT_ATTACH_NO = 0;
+    static $CONTENT_ATTACH_ENCODED = 1;
+    static $CONTENT_ATTACH_ZLIB_ENCODED = 2;
+    static $CONTENT_ATTACH_GZIP_ENCODED = 3;
 	/**
 	 * if true, file contents will be attached as base64
 	 *
 	 * @var boolean
 	 */
-    var $attachFileContents = false;
+    var $attachFileContents;
 
 	/**
 	 * Exercise Object
@@ -65,6 +70,7 @@ class ilExerciseXMLWriter extends ilXmlWriter
 	function ilExerciseXMLWriter()
 	{
 		parent::ilXmlWriter();
+		$this->attachFileContents = ilExerciseXMLWriter::$CONTENT_ATTACH_NO;
 	}
 
 
@@ -73,8 +79,23 @@ class ilExerciseXMLWriter extends ilXmlWriter
 		$this->exercise = & $exercise;
 	}
 
+    /**
+     * set attachment content mode
+     *
+     * @param int $attachFileContents
+     * @throws  ilExerciseException if mode is not supported
+     */
 	function setAttachFileContents($attachFileContents)
 	{
+	     if ($attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED && !function_exists("gzencode"))
+		 {
+		      throw new ilExerciseException("Inflating with gzip is not supported",  ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
+         }
+         if ($attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED && !function_exists("gzcompress"))
+         {
+            throw new ilExerciseException("Inflating with zlib (compress/uncompress) is not supported",  ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
+         }
+
 		$this->attachFileContents = $attachFileContents;
 	}
 
@@ -94,16 +115,6 @@ class ilExerciseXMLWriter extends ilXmlWriter
         $this->xmlElement("Description",  null,$this->exercise->getDescription());
         $this->xmlElement("Instruction",  null,$this->exercise->getInstruction());
         $this->xmlElement("DueDate",  null,$this->exercise->getTimestamp());
-        $this->xmlStartTag("Members");
-        $members = $this->exercise->getMemberListData();
-        if (count($members))
-        {
-            foreach ($members as $member)
-            {
-                $this->xmlElement("Member", array ("usr_id" => "il_".IL_INST_ID."_usr_".$member["usr_id"]));
-            }
-        }
-        $this->xmlEndTag("Members");
         $this->xmlStartTag("Files");
 
         /**
@@ -119,15 +130,41 @@ class ilExerciseXMLWriter extends ilXmlWriter
                 $this->xmlElement("Filename", null, $file["name"]);
                 if ($this->attachFileContents)
                 {
-                    $this->xmlElement("Content",null, base64_encode(
-                        file_get_contents($file["fullpath"])
-                    ));
+                    $filename = $file["fullpath"];
+                    if (@is_file($filename))
+                    {
+                        $content = @file_get_contents($filename);
+                        $attribs = array ("mode"=>"PLAIN");
+                        if ($this->attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED)
+                        {
+                            $attribs = array ("mode"=>"ZLIB");
+                            $content = gzcompress($content, 9);
+                        }
+                         elseif ($this->attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED)
+                        {
+                            $attribs = array ("mode"=>"GZIP");
+                            $content = gzencode($content, 9);
+                        }
+                        $content = base64_encode($content);
+                        $this->xmlElement("Content",$attribs, $content);
+                    }
                 }
                 $this->xmlEndTag("File");
             }
         }
-
         $this->xmlEndTag("Files");
+
+        $this->xmlStartTag("Members");
+        $members = $this->exercise->getMemberListData();
+        if (count($members))
+        {
+            foreach ($members as $member)
+            {
+                $this->xmlElement("Member", array ("usr_id" => "il_".IL_INST_ID."_usr_".$member["usr_id"]));
+            }
+        }
+        $this->xmlEndTag("Members");
+
 
         $this->xmlEndTag("Exercise");
 		$this->__buildFooter();

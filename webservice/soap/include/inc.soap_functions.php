@@ -555,10 +555,10 @@ function getNIC($sid) {
 	return $soa->getNIC($sid);
 }
 
-function getExerciseXML ($sid, $ref_id, $attachFileContents) {
+function getExerciseXML ($sid, $ref_id, $attachFileContentsMode) {
 	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
 	$sta = & new ilSoapExerciseAdministration();
-	return $sta->getExerciseXML($sid, $ref_id, $attachFileContents);
+	return $sta->getExerciseXML($sid, $ref_id, $attachFileContentsMode);
 
 }
 
@@ -574,6 +574,28 @@ function addExercise ($sid, $ref_id, $xml) {
 	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
 	$sta = & new ilSoapExerciseAdministration();
 	return $sta->addExercise($sid, $ref_id, $xml);
+
+}
+
+function getFileXML ($sid, $ref_id, $attachFileContentsMode) {
+	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
+	$sta = & new ilSoapFileAdministration();
+	return $sta->getFileXML($sid, $ref_id, $attachFileContentsMode);
+
+}
+
+
+function updateFile ($sid, $ref_id, $xml) {
+	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
+	$sta = & new ilSoapFileAdministration();
+	return $sta->updateFile($sid, $ref_id, $xml);
+
+}
+
+function addFile ($sid, $ref_id, $xml) {
+	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
+	$sta = & new ilSoapFileAdministration();
+	return $sta->addFile($sid, $ref_id, $xml);
 
 }
 
