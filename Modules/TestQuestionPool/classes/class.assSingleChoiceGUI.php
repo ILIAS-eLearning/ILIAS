@@ -958,5 +958,102 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 	}
+
+	/**
+	* Sets the ILIAS tabs for this question type
+	*
+	* Sets the ILIAS tabs for this question type
+	*
+	* @access public
+	*/
+	function setQuestionTabs()
+	{
+		global $rbacsystem, $ilTabs;
+		
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$q_type = $this->object->getQuestionType();
+
+		if (strlen($q_type))
+		{
+			$classname = $q_type . "GUI";
+			$this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
+			$this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
+		}
+
+		if ($_GET["q_id"])
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				// edit page
+				$ilTabs->addTarget("edit_content",
+					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
+					array("view", "insert", "exec_pg"),
+					"", "", $force_active);
+			}
+	
+			// edit page
+			$ilTabs->addTarget("preview",
+				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"),
+				array("preview"),
+				"ilPageObjectGUI", "", $force_active);
+		}
+
+		$force_active = false;
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
+			$url = "";
+			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
+			$commands = $_POST["cmd"];
+			if (is_array($commands))
+			{
+				foreach ($commands as $key => $value)
+				{
+					if (preg_match("/^deleteImage_.*/", $key, $matches) || 
+						preg_match("/^upload_.*/", $key, $matches)
+						)
+					{
+						$force_active = true;
+					}
+				}
+			}
+			// edit question properties
+			$ilTabs->addTarget("edit_properties",
+				$url,
+				array("editQuestion", "save", "cancel", "addSuggestedSolution",
+					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
+					"toggleGraphicalAnswers", "setMediaMode", "uploadingImage", "add", "editMode", "deleteAnswer", "addYesNo", "addTrueFalse", 
+					"saveEdit"),
+				$classname, "", $force_active);
+		}
+
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("feedback",
+				$this->ctrl->getLinkTargetByClass($classname, "feedback"),
+				array("feedback", "saveFeedback"),
+				$classname, "");
+		}
+		
+		// Assessment of questions sub menu entry
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("statistics",
+				$this->ctrl->getLinkTargetByClass($classname, "assessment"),
+				array("assessment"),
+				$classname, "");
+		}
+		
+		if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
+		{
+			$ref_id = $_GET["calling_test"];
+			if (strlen($ref_id) == 0) $ref_id = $_GET["test_ref_id"];
+			$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+		}
+		else
+		{
+			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
+		}
+	}
 }
 ?>

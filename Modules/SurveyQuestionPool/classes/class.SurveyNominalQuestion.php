@@ -809,7 +809,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 			}
 			else
 			{
-				array_push($a_array, $resultset["answers"][$question_id][0]["value"]+1);
+				array_push($a_array, $resultset["answers"][$this->getId()][0]["value"]+1);
 			}
 		}
 		else

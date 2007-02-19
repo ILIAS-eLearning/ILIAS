@@ -46,11 +46,14 @@
 <tr class="tblheader"><td colspan="5">{TEXT_GAP_NAME}</td></tr>
 <tr>
   <td class="option">{TEXT_TYPE}</td>
-  <td class="option_value" colspan="4"><select name="clozetype_{VALUE_GAP_COUNTER}" id="clozetype">
-    <option value="0"{SELECTED_TEXT_GAP}>{TEXT_TEXT_GAP}</option>
-    <option value="1"{SELECTED_SELECT_GAP}>{TEXT_SELECT_GAP}</option>
-    <option value="2"{SELECTED_NUMERIC_GAP}>{TEXT_NUMERIC_GAP}</option>
-  </select></td>
+  <td class="option_value" colspan="4">
+		<select name="clozetype_{VALUE_GAP_COUNTER}" id="clozetype">
+			<option value="0"{SELECTED_TEXT_GAP}>{TEXT_TEXT_GAP}</option>
+			<option value="1"{SELECTED_SELECT_GAP}>{TEXT_SELECT_GAP}</option>
+			<option value="2"{SELECTED_NUMERIC_GAP}>{TEXT_NUMERIC_GAP}</option>
+		</select>
+		<input type="submit" class="submit" name="cmd[changeGapType]" value="{TEXT_CHANGE}" />
+	</td>
 </tr>
 <!-- BEGIN textgap -->
 <!-- BEGIN textgap_value -->
@@ -62,7 +65,7 @@
 </tr>
 <!-- END textgap_value -->
 <tr>
-<td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addTextGap_{VALUE_GAP_COUNTER}]" value="{ADD_TEXT_GAP}" /></td>
+<td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addGapText_{VALUE_GAP_COUNTER}]" value="{ADD_TEXT_GAP}" /></td>
 </tr>
 <!-- BEGIN textgap_suggested_solution -->
 <tr>
@@ -94,7 +97,7 @@
 
 <!-- END selectgap_value -->
 <tr>
-<td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addSelectGap_{VALUE_GAP_COUNTER}]" value="{ADD_SELECT_GAP}" /></td>
+<td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addSelectGapText_{VALUE_GAP_COUNTER}]" value="{ADD_SELECT_GAP}" /></td>
 </tr>
 <!-- BEGIN selectgap_suggested_solution -->
 <tr>
@@ -123,18 +126,18 @@
 <!-- BEGIN numericgap_value -->
 <tr>
   <td class="option">{TEXT_VALUE}</td>
-  <td class="option_value" width="50%"><input class="fullwidth" name="textgap_{VALUE_GAP_COUNTER}" type="text" id="textgap_{VALUE_GAP_COUNTER}" size="30" value="{VALUE_NUMERIC_GAP}" /></td>
+  <td class="option_value" width="50%"><input class="fullwidth" name="numericgap_{VALUE_GAP_COUNTER}" type="text" id="numericgap_{VALUE_GAP_COUNTER}" size="30" value="{VALUE_NUMERIC_GAP}" /></td>
   <td class="option_value">{TEXT_POINTS} <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_NUMERIC_GAP_POINTS}" /></td>
   <td class="option_value" colspan="2"><div align="right"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></div></td>
 </tr>
 <tr>
-  <td class="option"><label for="textgap_{VALUE_GAP_COUNTER}_lower">{TEXT_LOWER_LIMIT}</label></td>
-  <td class="option_value" width="50%"><input class="fullwidth" name="textgap_{VALUE_GAP_COUNTER}_lower" type="text" id="textgap_{VALUE_GAP_COUNTER}_lower" size="30" value="{VALUE_LOWER_LIMIT}" /></td>
+  <td class="option"><label for="numericgap_{VALUE_GAP_COUNTER}_lower">{TEXT_LOWER_LIMIT}</label></td>
+  <td class="option_value" width="50%"><input class="fullwidth" name="numericgap_{VALUE_GAP_COUNTER}_lower" type="text" id="numericgap_{VALUE_GAP_COUNTER}_lower" size="30" value="{VALUE_LOWER_LIMIT}" /></td>
   <td class="option_value" colspan="3"></td>
 </tr>
 <tr>
-  <td class="option"><label for="textgap_{VALUE_GAP_COUNTER}_upper">{TEXT_UPPER_LIMIT}</label></td>
-  <td class="option_value" width="50%"><input class="fullwidth" name="textgap_{VALUE_GAP_COUNTER}_upper" type="text" id="textgap_{VALUE_GAP_COUNTER}_upper" size="30" value="{VALUE_UPPER_LIMIT}" /></td>
+  <td class="option"><label for="numericgap_{VALUE_GAP_COUNTER}_upper">{TEXT_UPPER_LIMIT}</label></td>
+  <td class="option_value" width="50%"><input class="fullwidth" name="numericgap_{VALUE_GAP_COUNTER}_upper" type="text" id="numericgap_{VALUE_GAP_COUNTER}_upper" size="30" value="{VALUE_UPPER_LIMIT}" /></td>
   <td class="option_value" colspan="3"></td>
 </tr>
 <!-- END numericgap_value -->

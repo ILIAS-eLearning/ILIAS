@@ -2930,7 +2930,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$question_types =& ilObjQuestionPool::_getQuestionTypes();
 			foreach ($question_types as $data)
 			{
-				if ($data["question_type_id"] == $lastquestiontype)
+				if ($data["type_tag"] == $lastquestiontype)
 				{
 					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
 				}

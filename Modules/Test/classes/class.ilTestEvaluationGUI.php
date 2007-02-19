@@ -210,11 +210,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("set_filter")) == 0)
 		{
 			$filter = 1;
-			$filtertext = $_POST["userfilter"];
+			$filtertext = trim($_POST["userfilter"]);
 			if ($_POST["passedonly"] == 1)
 			{
 				$passedonly = TRUE;
 			}
+			if ((strlen($filtertext) == 0) && ($passedonly == FALSE)) $filter = 0;
 			// save the filter for later usage
 			$ilUser->writePref("tst_stat_filter_passed_" . $this->object->getTestId(), ($passedonly) ? 1 : 0);
 			$ilUser->writePref("tst_stat_filter_text_" . $this->object->getTestId(), $filtertext);
