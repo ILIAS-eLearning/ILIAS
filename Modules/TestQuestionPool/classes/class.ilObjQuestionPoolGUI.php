@@ -113,6 +113,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
@@ -164,6 +165,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
+				$q_gui->setQuestionTabs();
 				$count = $q_gui->object->isInUse();
 				if (($count) && strcmp($this->ctrl->getCmd(), "assessment") != 0)
 				{
@@ -1084,7 +1086,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$types =& $this->object->getQuestionTypes();
 			foreach ($types as $data)
 			{
-					if ($data["question_type_id"] == $lastquestiontype)
+					if ($data["type_tag"] == $lastquestiontype)
 					{
 						$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
 					}
@@ -1794,7 +1796,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 													 "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
 													 "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
 													 "addParameter", "addGIT", "addST", "addPG", "delete",
-													 "editMode", "deleteAnswer", "deleteImage"),
+													 "editMode", "deleteAnswer", "deleteImage", "changeGapType"),
 											 $classname, "", $force_active);
 		}
 
@@ -1841,7 +1843,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ilmdeditorgui":
 				break;
 			default:
-				return $this->getEmbeddedTabs($tabs_gui);
+				return;
 				break;
 		}
 		// questions

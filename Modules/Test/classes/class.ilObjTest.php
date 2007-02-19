@@ -4490,16 +4490,27 @@ class ilObjTest extends ilObject
 	function &_getQuestionsOfPass($active_id, $pass)
 	{
 		global $ilDB;
-		$table = "tst_test_question";
-		if ($this->isRandomTest()) $table = "tst_test_random_question";
-		$query = sprintf("SELECT $table.sequence, $table.question_fi, " .
-			"qpl_questions.points " .
-			"FROM $table, qpl_questions " .
-			"WHERE $table.question_fi = qpl_questions.question_id " .
-			"AND active_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
-		);
+		if ($this->isRandomTest())
+		{
+			$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, " .
+				"qpl_questions.points " .
+				"FROM tst_test_random_question, qpl_questions " .
+				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
+				"AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . "")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
+				"qpl_questions.points " .
+				"FROM tst_test_question, tst_active, qpl_questions " .
+				"WHERE tst_test_question.question_fi = qpl_questions.question_id " .
+				"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
+				$ilDB->quote($active_id . "")
+			);
+		}
 		$result = $ilDB->query($query);
 		$qpass = array();
 		if ($result->numRows())

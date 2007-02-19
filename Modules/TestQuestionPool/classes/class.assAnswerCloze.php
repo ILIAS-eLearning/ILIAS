@@ -21,40 +21,21 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php";
+include_once "./Modules/TestQuestionPool/classes/class.assAnswerSimple.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* Class for cloze question answers
+* Class for cloze question numeric answers
 * 
-* ASS_AnswerCloze is a class for cloze questions answers used in cloze questions.
+* assAnswerCloze is a class for cloze questions numeric answers.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
 * @see ASS_AnswerBinaryState
 */
-class ASS_AnswerCloze extends ASS_AnswerBinaryState {
-/**
-* Type of answer (text or select gap answer)
-* 
-* An integer value indicating the type of the answer.
-* 0 == text gap answer, 1 == select gap answer
-*
-* @var int
-*/
-  var $cloze_type;
-
-/**
-* Name of answer gap 
-* 
-* A string value defining a name for the gap
-* which contains the answer
-*
-* @var string
-*/
-  var $name;
-
+class assAnswerCloze extends ASS_AnswerSimple 
+{
 /**
 * Name of the lower bound
 * 
@@ -75,108 +56,33 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
 */
 	var $upperBound;
 
-
-  
-	var $shuffle;
-	
 /**
-* ASS_AnswerCloze constructor
+* assAnswerCloze constructor
 * 
-* The constructor takes possible arguments an creates an instance of the ASS_AnswerCloze object.
+* The constructor takes possible arguments an creates an instance of the assAnswerCloze object.
 *
 * @param string $answertext A string defining the answer text
 * @param double $points The number of points given for the selected answer
-* @param boolean $correctness A boolean value indicating the correctness of the answer
 * @param integer $order A nonnegative value representing a possible display or sort order
-* @param integer $cloze_type An integer representing the answer type
 * @access public
 */
-  function ASS_AnswerCloze (
-    $answertext = "",
-    $points = 0.0,
-    $order = 0,
-    $state = 0,
-		$cloze_type = 0,
-		$name = "",
-		$shuffle = 1,
-		$id = -1
-  )
-  {
-    $this->ASS_AnswerBinaryState($answertext, $points, $order, $state, $id);
-    $this->cloze_type = $cloze_type;
-		$this->name = $name;
-		$this->shuffle = $shuffle;
-  }
-  
-  
-/**
-* Gets the cloze type
-* 
-* Returns the answer type
-*
-* @return integer answer type
-* @access public
-* @see $cloze_type
-*/
-  function getClozeType() {
-    return $this->cloze_type;
-  }
-  
-	function getShuffle() {
-		return $this->shuffle;
+	function assAnswerCloze($answertext = "", $points = 0.0, $order = 0)
+	{
+		$this->ASS_AnswerSimple($answertext, $points, $order, -1);
+		$this->lowerBound = NULL;
+		$this->upperBound = NULL;
 	}
-	
-/**
-* Sets the answer type
-* 
-* Sets the answer type
-*
-* @param integer $cloze_type Answer type
-* @access public
-* @see $correctness
-*/
-  function setClozeType($cloze_type = 0) {
-    $this->cloze_type = $cloze_type;
-  }
 
-/**
-* Gets the gap name
-* 
-* Returns the gap name
-*
-* @return string gap name
-* @access public
-* @see $name
-*/
-  function getName() {
-    return $this->name;
-  }
-  
-/**
-* Sets the gap name
-* 
-* Sets the gap name
-*
-* @param string $name Gap name
-* @access public
-* @see $name
-*/
-  function setName($name = 0) {
-    $this->name = $name;
-  }
-	
-	function setShuffle($shuffle = 1) {
-		$this->shuffle = $shuffle;
-	}
-	
 	function setLowerBound($bound)
 	{
-		$this->lowerBound = $bound;
+		$bound = str_replace(",", ".", $bound);
+		$this->lowerBound = is_numeric($bound) ? $bound : NULL;
 	}
 	
 	function setUpperBound($bound)
 	{
-		$this->upperBound = $bound;
+		$bound = str_replace(",", ".", $bound);
+		$this->upperBound = is_numeric($bound) ? $bound : NULL;
 	}
 	
 	function getLowerBound()
