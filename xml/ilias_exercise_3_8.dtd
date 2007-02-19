@@ -1,4 +1,4 @@
-<!ELEMENT Exercise (Title, Description?, Instructions?, DueDate?, Files?, Members?)>
+<!ELEMENT Exercise (Title, Description?, Instruction?, DueDate?, Files?, Members?)>
 <!--
         obj_id is internal ILIAS ID
         owner  is internal user ILIAS ID and refers to user who created the exercise object (e.g. tutor)
@@ -38,3 +38,6 @@ Due Date as Unix Timestamp
 Base64 encoded file content
 -->
 <!ELEMENT Content (#PCDATA)>
+<!ATTLIST Content
+    mode (PLAIN|ZLIB|GZIP) #IMPLIED
+>

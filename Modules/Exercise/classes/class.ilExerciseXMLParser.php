@@ -34,10 +34,18 @@
 */
 
 include_once 'classes/class.ilSaxParser.php';
+include_once 'Modules/Exercise/classes/class.ilExerciseException.php';
+
+
 
 class ilExerciseXMLParser extends ilSaxParser
 {
-	/**
+
+    static $CONTENT_NOT_COMPRESSED = 0;
+    static $CONTENT_GZ_COMPRESSED = 1;
+    static $CONTENT_ZLIB_COMPRESSED = 2;
+
+    /**
 	 * Exercise object which has been parsed
 	 *
 	 * @var ilObjExercise
@@ -59,6 +67,13 @@ class ilExerciseXMLParser extends ilSaxParser
      * @var boolean
      */
     var $result;
+
+    /**
+     * Content compression mode, defaults to no compression
+     *
+     * @var int
+     */
+    var $mode;
 
     /**
 	* Constructor
@@ -111,8 +126,6 @@ class ilExerciseXMLParser extends ilSaxParser
                    $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
 			       if ($this->obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id)
 			       {
-			           include_once 'Modules/Exercise/class/class.ilExerciseException.php';
-
             	       throw new ilExerciseException ("Object IDs (xml $read_obj_id and argument $obj_id) do not match!", ilExerciseException::$ID_MISMATCH);
                    }
 			    }
@@ -125,6 +138,23 @@ class ilExerciseXMLParser extends ilSaxParser
 			case 'File':
                 $this->file_action = $a_attribs["action"];
 				break;
+			case 'Content':
+                $this->mode = ilExerciseXMLParser::$CONTENT_NOT_COMPRESSED;
+			    if ($a_attribs["mode"] == "GZIP")
+			    {
+                    if (!function_exists("gzdecode"))
+                        throw new  ilExerciseException ("Deflating with gzip is not supported",  ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
+
+			        $this->mode = ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED;
+			    } elseif ($a_attribs["mode"] == "ZLIB")
+			    {
+                    if (!function_exists("gzuncompress"))
+                        throw new ilExerciseException ("Deflating with zlib (compress/uncompress) is not supported",  ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
+
+			        $this->mode = ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED;
+			    }
+			    break;
+
 		}
 	}
 
@@ -229,7 +259,13 @@ class ilExerciseXMLParser extends ilSaxParser
 	    $fileObject = $this->exercise->file_obj;
         if ($action == "Attach")
         {
-           $fileObject->storeContentAsFile ($filename, base64_decode((string) $b64encodedContent));
+           $content = base64_decode((string) $b64encodedContent);
+           if ($this->mode == ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED) {
+                $content = gzdecode($content);
+	       }elseif ($this->mode ==ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED) {
+                $content = gzuncompress($content);
+	       }
+           $fileObject->storeContentAsFile ($filename, $content);
         }
         if ($action == "Detach")
         {

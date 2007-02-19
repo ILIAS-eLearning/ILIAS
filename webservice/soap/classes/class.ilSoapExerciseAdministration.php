@@ -23,7 +23,7 @@
 
 
   /**
-   * Soap test administration methods
+   * Soap exercise administration methods
    *
    * @author Roland Küstermann <roland@kuestermann.com>
    * @version $Id: class.ilSoapExerciseAdministration.php 12992 2007-01-25 10:04:26Z rkuester $
@@ -173,12 +173,12 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 	 *
 	 * @param string $sid
 	 * @param int $ref_id
-	 * @param boolean attachFileContents
+	 * @param  int  $attachFileContentsMode see constants
 	 *
-	 * @return XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points
+	 * @return xml following ilias_exercise_x.dtd
 	 */
 
-	function getExerciseXML ($sid, $ref_id, $attachFileContents) {
+	function getExerciseXML ($sid, $ref_id, $attachFileContentsMode) {
 	    if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -203,7 +203,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		$permission_ok = false;
 		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
 		{
-			if($rbacsystem->checkAccess('edit',$ref_id))
+			if($rbacsystem->checkAccess('read',$ref_id))
 			{
 				$permission_ok = true;
 				break;
@@ -229,7 +229,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		// create writer
 		$xmlWriter = new ilExerciseXMLWriter();
 		$xmlWriter->setExercise($exercise);
-		$xmlWriter->setAttachFileContents($attachFileContents);
+		$xmlWriter->setAttachFileContents($attachFileContentsMode);
 		$xmlWriter->start();
 
 		return $xmlWriter->getXML();
