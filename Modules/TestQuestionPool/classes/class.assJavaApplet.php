@@ -169,7 +169,7 @@ class assJavaApplet extends assQuestion
 						if (strcmp($mat["type"], "mattext") == 0)
 						{
 							$mattext = $mat["material"];
-							if ((strlen($mattext->getLabel()) == 0) && (strlen($item->getQuestiontext()) == 0))
+							if ((strlen($mattext->getLabel()) == 0) && (strlen($this->QTIMaterialToString($item->getQuestiontext())) == 0))
 							{
 								$item->setQuestiontext($mattext->getContent());
 							}
