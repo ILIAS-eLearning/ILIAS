@@ -4088,6 +4088,99 @@ class ilObjTest extends ilObject
 		return $time;
 	}
 
+	/**
+	* Returns the complete working time in seconds for all test participants
+	*
+	* Returns the complete working time in seconds for all test participants
+	*
+	* @return array An array containing the working time in seconds for all test participants
+	* @access public
+	*/
+	function &getCompleteWorkingTimeOfParticipants()
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.active_fi, tst_times.started",
+			$ilDB->quote($this->getTestId())
+		);
+		$result = $ilDB->query($query);
+		$time = 0;
+		$times = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (!array_key_exists($row["active_fi"], $times))
+			{
+				$times[$row["active_fi"]] = 0;
+			}
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["finished"], $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			$times[$row["active_fi"]] += ($epoch_2 - $epoch_1);
+		}
+		return $times;
+	}
+
+	/**
+	* Returns the complete working time in seconds for a test participant
+	*
+	* Returns the complete working time in seconds for a test participant
+	*
+	* @return integer The working time in seconds for the test participant
+	* @access public
+	*/
+	function getCompleteWorkingTimeOfParticipant($active_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.active_fi, tst_times.started",
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		$time = 0;
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["finished"], $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			$time += ($epoch_2 - $epoch_1);
+		}
+		return $time;
+	}
+
+	/**
+	* Returns the first and last visit of a participant
+	*
+	* Returns the first and last visit of a participant
+	*
+	* @return array The first and last visit of a participant
+	* @access public
+	*/
+	function getVisitTimeOfParticipant($active_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.started",
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		$firstvisit = 0;
+		$lastvisit = 0;
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			if ($firstvisit == 0 || $epoch_1 < $firstvisit) $firstvisit = $epoch_1;
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["finished"], $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			if ($epoch_2 > $lastvisit) $lastvisit = $epoch_2;
+		}
+		return array("firstvisit" => $firstvisit, "lastvisit" => $lastvisit);
+	}
+
 /**
 * Returns the statistical evaluation of the test for a specified user
 *
@@ -4487,7 +4580,58 @@ class ilObjTest extends ilObject
 		);
 	}
 	
-	function &_getQuestionsOfPass($active_id, $pass)
+	/**
+	* Retrieves all the assigned questions for all test passes of a test participant
+	*
+	* Retrieves all the assigned questions for all test passes of a test participant
+	*
+	* @return array An associated array containing the questions
+	* @access public
+	*/
+	function &getQuestionsOfTest($active_id)
+	{
+		global $ilDB;
+		if ($this->isRandomTest())
+		{
+			$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, " .
+				"tst_test_random_question.pass, qpl_questions.points " .
+				"FROM tst_test_random_question, qpl_questions " .
+				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
+				"AND tst_test_random_question.active_fi = %s",
+				$ilDB->quote($active_id . "")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
+				"qpl_questions.points " .
+				"FROM tst_test_question, tst_active, qpl_questions " .
+				"WHERE tst_test_question.question_fi = qpl_questions.question_id " .
+				"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
+				$ilDB->quote($active_id . "")
+			);
+		}
+		$result = $ilDB->query($query);
+		$qtest = array();
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($qtest, $row);
+			}
+		}
+		return $qtest;
+	}
+	
+	/**
+	* Retrieves all the assigned questions for a test participant in a given test pass
+	*
+	* Retrieves all the assigned questions for a test participant in a given test pass
+	*
+	* @return array An associated array containing the questions
+	* @access public
+	*/
+	function &getQuestionsOfPass($active_id, $pass)
 	{
 		global $ilDB;
 		if ($this->isRandomTest())
@@ -4523,21 +4667,80 @@ class ilObjTest extends ilObject
 		return $qpass;
 	}
 	
-	function &_evalResultsOverview()
+	/**
+	* Creates an associated array with the results of all participants of a test
+	*
+	* Creates an associated array with the results of all participants of a test
+	*
+	* @return array An associated array containing the results
+	* @access public
+	*/
+	function &evalResultsOverview()
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT tst_times.started, tst_times.finished, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
 			"qpl_questions.points AS maxpoints " .
-			"FROM tst_test_result, qpl_questions, tst_times, tst_active " .
+			"FROM tst_test_result, qpl_questions, tst_active " .
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
-			"AND tst_active.active_id = tst_times.active_fi " .
 			"AND tst_active.test_fi = %s " .
 			"ORDER BY active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTestId() . "")
+		);
+		$result = $ilDB->query($query);
+		$overview = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (!array_key_exists($row["active_fi"], $overview))
+			{
+				$overview[$row["active_fi"]] = array();
+				$overview[$row["active_fi"]]["firstname"] = $row["firstname"];
+				$overview[$row["active_fi"]]["lastname"] = $row["lastname"];
+				$overview[$row["active_fi"]]["title"] = $row["title"];
+				$overview[$row["active_fi"]]["login"] = $row["login"];
+				$overview[$row["active_fi"]]["usr_id"] = $row["usr_id"];
+				$overview[$row["active_fi"]]["started"] = $row["started"];
+				$overview[$row["active_fi"]]["finished"] = $row["finished"];
+			}
+			if (!array_key_exists($row["pass"], $overview[$row["active_fi"]]))
+			{
+				$overview[$row["active_fi"]][$row["pass"]] = array();
+				$overview[$row["active_fi"]][$row["pass"]]["reached"] = 0;
+				$overview[$row["active_fi"]][$row["pass"]]["maxpoints"] = $row["maxpoints"];
+			}
+			array_push($overview[$row["active_fi"]][$row["pass"]], $row);
+			$overview[$row["active_fi"]][$row["pass"]]["reached"] += $row["points"];
+		}
+		return $overview;
+	}
+
+	/**
+	* Creates an associated array with the results for a given participant of a test
+	*
+	* Creates an associated array with the results for a given participant of a test
+	*
+	* @param integer $active_id The active id of the participant
+	* @return array An associated array containing the results
+	* @access public
+	*/
+	function &evalResultsOverviewOfParticipant($active_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
+			"qpl_questions.points AS maxpoints " .
+			"FROM tst_test_result, qpl_questions, tst_active " .
+			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
+			"WHERE tst_active.active_id = tst_test_result.active_fi " .
+			"AND qpl_questions.question_id = tst_test_result.question_fi " .
+			"AND tst_active.test_fi = %s AND tst_active.active_id = %s" .
+			"ORDER BY active_id, pass, TIMESTAMP",
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		$overview = array();

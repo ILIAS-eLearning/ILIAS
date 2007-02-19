@@ -303,8 +303,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$evaluation_rows = array();
 		$counter = 1;
-		$overview =& $this->object->_evalResultsOverview();
-
+		$overview =& $this->object->evalResultsOverview();
+		$times =& $this->object->getCompleteWorkingTimeOfParticipants();
 		foreach ($overview as $active_id => $pass)
 		{
 			$bestpass = 0;
@@ -333,7 +333,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$statpass = $lastpass;
 			}
 			// build the evaluation row
-			$qpass =& $this->object->_getQuestionsOfPass($active_id, $statpass);
+			$qpass =& $this->object->getQuestionsOfPass($active_id, $statpass);
 			$evaluationrow = array();
 			$fullname = "";
 			if ($this->object->getAnonymity())
@@ -378,11 +378,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$preached = count($qpass) ? ((count($pass[$statpass])-2) / count($qpass))* 100.0 : 0;
 			array_push($evaluationrow, (count($pass[$statpass])-2) . " " . strtolower($this->lng->txt("of")) . " " . count($qpass) . " (" . sprintf("%2.2f", $preached) . " %" . ")");
 
-			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $pass["started"], $matches);
-			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $pass["finished"], $matches);
-			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-			$time_seconds += ($epoch_2 - $epoch_1);
+			$time_seconds = $times[$active_id];
 			$time_hours    = floor($time_seconds/3600);
 			$time_seconds -= $time_hours   * 3600;
 			$time_minutes  = floor($time_seconds/60);
@@ -465,6 +461,131 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 
+		$overview =& $this->object->evalResultsOverviewOfParticipant($active_id);
+		$userdata =& $overview[$active_id];
+		$questions =& $this->object->getQuestionsOfTest($active_id);
+
+		$bestpass = 0;
+		$bestpasspoints = 0;
+		$lastpass = 0;
+		foreach ($userdata as $passnr => $userresults)
+		{
+			if (is_numeric($passnr))
+			{
+				$reached = $pass[$passnr]["reached"];
+				if ($reached > $bestpasspoints)
+				{
+					$bestpasspoints = $reached;
+					$bestpass = $passnr;
+				}
+				if ($passnr > $lastpass) $lastpass = $passnr;
+			}
+		}
+		$statpass = 0;
+		if ($this->object->getPassScoring() == SCORE_BEST_PASS)
+		{
+			$statpass = $bestpass;
+		}
+		else
+		{
+			$statpass = $lastpass;
+		}
+
+		$this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "outEvaluation"));
+		$this->tpl->setVariable("HEADING_DETAILED_EVALUATION", sprintf($this->lng->txt("detailed_evaluation_for"), 
+			$this->object->buildName($userdata["usr_id"], $userdata["firstname"], $userdata["lastname"], $userdata["title"]))
+		);
+		$this->tpl->setVariable("STATISTICAL_DATA", $this->lng->txt("statistical_data"));
+		$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
+
+		$maxpoints = 0;
+		foreach ($questions as $row)
+		{
+			if (!$this->object->isRandomTest())
+			{
+				$maxpoints += $row["points"];
+			}
+			else
+			{
+				if (count($questions) == $this->object->getQuestionCount())
+				{
+					if ($row["pass"] == 0) $maxpoints += $row["points"];
+				}
+				else
+				{
+					if ($row["pass"] == $statpass) $maxpoints += $row["points"];
+				}
+			}
+		}
+		$reachedpercent = $maxpoints ? $userdata[$statpass]["reached"] / $maxpoints * 100.0 : 0;
+		$this->tpl->setVariable("VALUE_RESULTSPOINTS", $userdata[$statpass]["reached"] . " " . strtolower($this->lng->txt("of")) . " " . $maxpoints . " (" . sprintf("%2.2f", $reachedpercent) . " %" . ")");
+		$mark = $this->object->mark_schema->getMatchingMark($reachedpercent);
+		if (is_object($mark))
+		{
+			$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
+			$this->tpl->setVariable("VALUE_RESULTSMARKS", $mark->getShortName());
+			if ($this->object->ects_output)
+			{
+				$this->tpl->setVariable("TXT_ECTS", $this->lng->txt("ects_grade"));
+				$this->tpl->setVariable("VALUE_ECTS", $this->object->getECTSGrade($userdata[$statpass]["reached"], $maxpoints));
+			}
+		}
+		$workedthrough = (count($userdata[$statpass])-2);
+		$percentworked = $this->object->getQuestionCount() ? $workedthrough / $this->object->getQuestionCount() * 100.0 : 0;
+		$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
+		$this->tpl->setVariable("VALUE_QWORKEDTHROUGH", $workedthrough . " " . strtolower($this->lng->txt("of")) . " " . $this->object->getQuestionCount() . " (" . sprintf("%2.2f", $percentworked) . " %" . ")");
+
+		$this->tpl->setVariable("TXT_TIMEOFWORK", $this->lng->txt("tst_stat_result_timeofwork"));
+		$time_seconds = $this->object->getCompleteWorkingTimeOfParticipant($active_id);
+		$atime_seconds = $this->object->getQuestionCount() ? $time_seconds / $this->object->getQuestionCount() : 0;
+		$time_hours    = floor($time_seconds/3600);
+		$time_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($time_seconds/60);
+		$time_seconds -= $time_minutes * 60;
+		$this->tpl->setVariable("VALUE_TIMEOFWORK", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		$this->tpl->setVariable("TXT_ATIMEOFWORK", $this->lng->txt("tst_stat_result_atimeofwork"));
+		$time_hours    = floor($atime_seconds/3600);
+		$atime_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($atime_seconds/60);
+		$atime_seconds -= $time_minutes * 60;
+		$this->tpl->setVariable("VALUE_ATIMEOFWORK", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $atime_seconds));
+		$visits = $this->object->getVisitTimeOfParticipant($active_id);
+		$this->tpl->setVariable("TXT_FIRSTVISIT", $this->lng->txt("tst_stat_result_firstvisit"));
+		$this->tpl->setVariable("VALUE_FIRSTVISIT", 
+			date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $visits["firstvisit"])
+		);
+		$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
+		$this->tpl->setVariable("VALUE_LASTVISIT",
+			date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $visits["lastvisit"])
+		);
+		for ($pass = 0; $pass <= $lastpass; $pass++)
+		{
+			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
+			if ($finishdate > 0)
+			{
+				$this->tpl->setCurrentBlock("question_header");
+				$this->tpl->setVariable("TXT_QUESTION_DATA", sprintf($this->lng->txt("tst_eval_question_points"), $pass+1));
+				$this->tpl->parseCurrentBlock();
+				$result_array =& $this->object->getTestResult($active_id, $pass, TRUE);
+				$counter = 1;
+				foreach ($result_array as $index => $question_data)
+				{
+					if (is_numeric($index))
+					{
+						$this->tpl->setCurrentBlock("question_row");
+						$this->tpl->setVariable("QUESTION_COUNTER", $counter);
+						$this->tpl->setVariable("QUESTION_TITLE", $question_data["title"]);
+						$this->tpl->setVariable("QUESTION_POINTS", $question_data["reached"] . " " . strtolower($this->lng->txt("of")) . " " . $question_data["max"] . " (" . $question_data["percent"] . ")");
+						$this->tpl->parseCurrentBlock();
+						$counter++;
+					}
+				}
+				$this->tpl->touchBlock("question_stats");
+			}
+		}
+
+/*
 		$total_users =& $this->object->getParticipants();
 
 		$question_stat = array();
@@ -620,7 +741,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 				$this->tpl->touchBlock("question_stats");
 			}
-		}
+		}*/
 	}
 	
 /**
