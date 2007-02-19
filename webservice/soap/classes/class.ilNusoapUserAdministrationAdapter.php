@@ -850,13 +850,13 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getNIC(): return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns');
 
         $this->server->register('getExerciseXML',
-								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "attachments" => "xsd:boolean"),
+								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "attachment mode" => "xsd:int"),
 								array('exercisexml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getExerciseXML',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getExerciseXML(): returns xml description of exercise (including file contents)');
+								'ILIAS getExerciseXML(): returns xml description of exercise. Attachment mode: 0 - no file contents, 1 - plain content (base64encoded), 2 zlib + base64, 3 gzip + base64)');
 
         $this->server->register('addExercise',
 								array('sid' => 'xsd:string', "target_id" => 'xsd:int', "xml" => "xsd:string"),
