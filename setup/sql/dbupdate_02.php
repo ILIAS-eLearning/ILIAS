@@ -534,4 +534,8 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
 $this->db->query($query);
 
 ?>
+<#920>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
