@@ -1847,7 +1847,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", "Modules/Test");
 		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_tst_filter_questions.html", "Modules/Test");
 
-		$questionpools =& $this->object->get_qpl_titles();
+		$questionpools =& $this->object->getAvailableQuestionpools(true);
 
 		$filter_fields = array(
 			"title" => $this->lng->txt("title"),
@@ -2153,7 +2153,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", "Modules/Test");
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$questionpools =& $this->object->get_qpl_titles();
+		$questionpools =& $this->object->getAvailableQuestionpools(true);
 		foreach ($question_array as $question_id)
 		{
 			$dataset = $this->object->getQuestionDataset($question_id);
@@ -2254,14 +2254,21 @@ class ilObjTestGUI extends ilObjectGUI
 		foreach ($available_qpl as $key => $value)
 		{
 			$count = ilObjQuestionPool::_getQuestionCount($key);
-			$qpl_question_count[$key] = $count;
-			if ($count == 1)
+			if ($count > 0)
 			{
-				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_question") . ")";
+				$qpl_question_count[$key] = $count;
+				if ($count == 1)
+				{
+					$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_question") . ")";
+				}
+				else
+				{
+					$available_qpl[$key] = $value . " ($count " . $this->lng->txt("assQuestions") . ")";
+				}
 			}
 			else
 			{
-				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("assQuestions") . ")";
+				unset($available_qpl[$key]);
 			}
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_questions.html", "Modules/Test");
@@ -2854,7 +2861,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$testquestions =& $this->object->getTestQuestions();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		//$questionpools =& $this->object->get_qpl_titles();
 		$questionpools = array();
 		$total = $this->object->evalTotalPersons();
 		if (count($testquestions) > 0)

@@ -1442,20 +1442,23 @@ class ilObjTest extends ilObject
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-
-		$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active_id);
-		if ($duplicate_id === FALSE)
+		$maxcount = $this->getQuestionCount();
+		if ($result->numRows() < $maxcount)
 		{
-			$duplicate_id = $this->duplicateQuestionForTest($question_id);
-		}
+			$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active_id);
+			if ($duplicate_id === FALSE)
+			{
+				$duplicate_id = $this->duplicateQuestionForTest($question_id);
+			}
 
-		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($duplicate_id . ""),
-			$ilDB->quote(($result->numRows()+1) . ""),
-			$ilDB->quote($pass . "")
-		);
-		$result = $ilDB->query($query);
+			$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($duplicate_id . ""),
+				$ilDB->quote(($result->numRows()+1) . ""),
+				$ilDB->quote($pass . "")
+			);
+			$result = $ilDB->query($query);
+		}
 	}
 
 /**
@@ -3185,37 +3188,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Get the titles of all available questionpools for the current user
-*
-* Get the titles of all available questionpools for the current user
-*
-* @return array An array containing the questionpool titles as values and the questionpool id's as keys
-* @access	public
-*/
-	function &get_qpl_titles()
-	{
-		global $rbacsystem;
-		global $ilDB;
-
-		$qpl_titles = array();
-		// get all available questionpools and remove the trashed questionspools
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
-			{
-				include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
-				{
-					$qpl_titles["$row->obj_id"] = $row->title;
-				}
-			}
-		}
-		return $qpl_titles;
-	}
-
-/**
 * Get the id's of the questions which are already part of the test
 *
 * Get the id's of the questions which are already part of the test
@@ -4597,8 +4569,9 @@ class ilObjTest extends ilObject
 				"tst_test_random_question.pass, qpl_questions.points " .
 				"FROM tst_test_random_question, qpl_questions " .
 				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
-				"AND tst_test_random_question.active_fi = %s",
-				$ilDB->quote($active_id . "")
+				"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
+				$ilDB->quote($active_id . ""),
+				$this->getQuestionCount()
 			);
 		}
 		else
@@ -4640,9 +4613,11 @@ class ilObjTest extends ilObject
 				"qpl_questions.points " .
 				"FROM tst_test_random_question, qpl_questions " .
 				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
-				"AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s",
+				"AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s " .
+				"ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
 				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
+				$ilDB->quote($pass . ""),
+				$this->getQuestionCount()
 			);
 		}
 		else
@@ -4677,6 +4652,19 @@ class ilObjTest extends ilObject
 	*/
 	function &evalResultsOverview()
 	{
+		return $this->_evalResultsOverview($this->getTestId());
+	}
+
+	/**
+	* Creates an associated array with the results of all participants of a test
+	*
+	* Creates an associated array with the results of all participants of a test
+	*
+	* @return array An associated array containing the results
+	* @access public
+	*/
+	function &_evalResultsOverview($test_id)
+	{
 		global $ilDB;
 		
 		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
@@ -4688,7 +4676,7 @@ class ilObjTest extends ilObject
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s " .
 			"ORDER BY active_id, pass, TIMESTAMP",
-			$ilDB->quote($this->getTestId() . "")
+			$ilDB->quote($test_id . "")
 		);
 		$result = $ilDB->query($query);
 		$overview = array();
@@ -4971,6 +4959,29 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 
+	function getFullPathToQpl($ref_id)
+	{
+		global $tree;
+		$path = $tree->getPathFull($ref_id);
+		$items = array();
+		$counter = 0;
+		foreach ($path as $item)
+		{
+			if (($counter > 0) && ($counter < count($path)-1))
+			{
+				array_push($items, $item["title"]);
+			}
+			$counter++;
+		}
+		$fullpath = join(" > ", $items);
+		include_once "./Services/Utilities/classes/class.ilStr.php";
+		if (strlen($fullpath) > 60)
+		{
+			$fullpath = ilStr::subStr($fullpath, 0, 30) . "..." . ilStr::subStr($fullpath, ilStr::strLen($fullpath)-30, 30);
+		}
+		return ilUtil::prepareFormOutput($fullpath);
+	}
+	
 /**
 * Returns the available question pools for the active user
 *
@@ -4983,9 +4994,9 @@ class ilObjTest extends ilObject
 	{
 		global $rbacsystem;
 		global $ilDB;
-
+		
 		$result_array = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
+		$query = "SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -4996,18 +5007,27 @@ class ilObjTest extends ilObject
 				{
 					if ((!$equal_points) || (($equal_points) && (ilObjQuestionPool::_hasEqualPoints($row->obj_id))))
 					{
-						if ($use_object_id)
+						if (ilObjQuestionPool::_getQuestionCount($row->obj_id, TRUE))
 						{
-							$result_array[$row->obj_id] = $row->title;
-						}
-						else
-						{
-							$result_array[$row->ref_id] = $row->title;
+							$path = $this->getFullPathToQpl($row->ref_id);
+							if (strlen($path))
+							{
+								$path .= " &gt; " . $row->title;
+								if ($use_object_id)
+								{
+									$result_array[$row->obj_id] = $path;
+								}
+								else
+								{
+									$result_array[$row->ref_id] = $path;
+								}
+							}
 						}
 					}
 				}
 			}
 		}
+		asort($result_array);
 		return $result_array;
 	}
 
@@ -7576,30 +7596,27 @@ class ilObjTest extends ilObject
 	function _getResultPass($active_id)
 	{
 		$counted_pass = NULL;
-		//if (ilObjTest::_lookupRandomTestFromActiveId($active_id))
-		//{
-			if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS)
+		if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS)
+		{
+			$counted_pass = ilObjTest::_getBestPass($active_id);
+		}
+		else
+		{
+			$counted_pass = ilObjTest::_getPass($active_id);
+			global $ilDB;
+			$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($counted_pass . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows() == 0)
 			{
-				$counted_pass = ilObjTest::_getBestPass($active_id);
+				// There was no answer answered in the actual pass, so the last pass is
+				// $counted_pass - 1
+				$counted_pass -= 1;
 			}
-			else
-			{
-				$counted_pass = ilObjTest::_getPass($active_id);
-				global $ilDB;
-				$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-					$ilDB->quote($active_id . ""),
-					$ilDB->quote($counted_pass . "")
-				);
-				$result = $ilDB->query($query);
-				if ($result->numRows() == 0)
-				{
-					// There was no answer answered in the actual pass, so the last pass is
-					// $counted_pass - 1
-					$counted_pass -= 1;
-				}
-				if ($counted_pass < 0) $counted_pass = 0;
-			}
-		//}
+			if ($counted_pass < 0) $counted_pass = 0;
+		}
 		return $counted_pass;
 	}
 

@@ -559,6 +559,31 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("VALUE_LASTVISIT",
 			date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $visits["lastvisit"])
 		);
+		$this->tpl->setVariable("TXT_NROFPASSES", $this->lng->txt("tst_nr_of_passes"));
+		$this->tpl->setVariable("VALUE_NROFPASSES", $lastpass + 1);
+		$this->tpl->setVariable("TXT_SCOREDPASS", $this->lng->txt("scored_pass"));
+		$this->tpl->setVariable("VALUE_SCOREDPASS", $statpass + 1);
+		
+		include_once "./Modules/Test/classes/class.ilTestStatistics.php";
+		$stat = new ilTestStatistics($this->object->getTestId());
+		$median = $stat->getStatistics()->median();
+		$pct = $maxpoints ? ($median / $maxpoints) * 100.0 : 0;
+		$mark = $this->object->mark_schema->getMatchingMark($pct);
+		if (is_object($mark))
+		{
+			$this->tpl->setVariable("TXT_MARK_MEDIAN", $this->lng->txt("tst_stat_result_mark_median"));
+			$this->tpl->setVariable("VALUE_MARK_MEDIAN", $mark->getShortName());
+		}
+
+		$this->tpl->setVariable("TXT_RANK_PARTICIPANT", $this->lng->txt("tst_stat_result_rank_participant"));
+		$this->tpl->setVariable("VALUE_RANK_PARTICIPANT", $stat->getStatistics()->rank($userdata[$statpass]["reached"]));
+		$this->tpl->setVariable("TXT_RANK_MEDIAN", $this->lng->txt("tst_stat_result_rank_median"));
+		$this->tpl->setVariable("VALUE_RANK_MEDIAN", $stat->getStatistics()->rank_median());
+		$this->tpl->setVariable("TXT_TOTAL_PARTICIPANTS", $this->lng->txt("tst_stat_result_total_participants"));
+		$this->tpl->setVariable("VALUE_TOTAL_PARTICIPANTS", $stat->getStatistics()->count());
+		$this->tpl->setVariable("TXT_RESULT_MEDIAN", $this->lng->txt("tst_stat_result_median"));
+		$this->tpl->setVariable("VALUE_RESULT_MEDIAN", $median);
+
 		for ($pass = 0; $pass <= $lastpass; $pass++)
 		{
 			$finishdate = $this->object->getPassFinishDate($active_id, $pass);

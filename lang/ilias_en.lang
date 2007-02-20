@@ -718,6 +718,7 @@ assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from
 assessment#:#tst_no_solution_available#:#Short answer questions don't have a specified solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
+assessment#:#tst_nr_of_passes#:#Number of Test Passes
 assessment#:#tst_nr_of_tries#:#Max. Number of Passes
 assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_participating_users#:#Participating Users
