@@ -570,11 +570,32 @@ class ilTestOutputGUI extends ilTestServiceGUI
 /**
 * Start a test for the first time
 *
-* Start a test for the first time
+* Start a test for the first time. This method contains a lock
+* to prevent multiple submissions by the start test button
 *
 * @access public
 */
 	function start()
+	{
+		if (strcmp($_SESSION["lock"], $_POST["lock"] != 0))
+		{
+			$_SESSION["lock"] = $_POST["lock"];
+			$this->ctrl->redirect($this, "startTest");
+		}
+		else
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+	}
+
+/**
+* Start a test for the first time after a redirect
+*
+* Start a test for the first time after a redirect
+*
+* @access public
+*/
+	function startTest()
 	{
 		if ($this->object->checkMaximumAllowedUsers() == FALSE)
 		{
