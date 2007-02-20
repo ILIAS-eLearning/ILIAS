@@ -4555,6 +4555,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$output_gui =& new ilTestOutputGUI($this->object);
 		$this->ctrl->setParameter($output_gui, "sequence", $seq);
 		$info->setFormAction($this->ctrl->getFormAction($output_gui));
+		$info->addHiddenElement("lock", md5($_COOKIE['PHPSESSID'] . time()));
 		$online_access = false;
 		if ($this->object->getFixedParticipants())
 		{
