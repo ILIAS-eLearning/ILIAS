@@ -761,16 +761,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 */
 	function exportToExcel($filtertext, $passedonly)
 	{
-		// Creating a workbook
-		$data =& $this->object->getCompleteEvaluationData();
-		$result = @include_once 'Spreadsheet/Excel/Writer.php';
-		if (!$result)
-		{
-			include_once './classes/Spreadsheet/Excel/Writer.php';
-		}
-		$workbook = new Spreadsheet_Excel_Writer();
-		// sending HTTP headers
-		$workbook->send(ilUtil::getASCIIFilename($this->object->getTitle() . ".xls"));
+		include_once "./classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter(ilUtil::getASCIIFilename($this->object->getTitle() . ".xls"));
+		$workbook = $adapter->getWorkbook();
 		// Creating a worksheet
 		$format_bold =& $workbook->addFormat();
 		$format_bold->setBold();
@@ -822,6 +815,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		include_once "./classes/class.ilExcelUtils.php";
 		$counter = 1;
+		$data =& $this->object->getCompleteEvaluationData();
 		foreach ($data->getParticipants() as $active_id => $userdata) 
 		{
 			$remove = FALSE;
@@ -987,14 +981,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		array_push($datarow, $this->lng->txt("tst_stat_result_qworkedthrough"));
 		array_push($datarow, $this->lng->txt("tst_stat_result_qmax"));
-		if ($stat_eval["qmax"] > 0)
-		{
-			$workload = $stat_eval["qworkedthrough"] / $stat_eval["qmax"];
-		}
-		else
-		{
-			$workload = 0;
-		}
 		array_push($datarow, $this->lng->txt("tst_stat_result_pworkedthrough"));
 		array_push($datarow, $this->lng->txt("tst_stat_result_timeofwork"));
 		array_push($datarow, $this->lng->txt("tst_stat_result_atimeofwork"));
@@ -1009,59 +995,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		array_push($datarow, $this->lng->txt("pass"));
 
-		$total_users =& $this->object->getParticipants();
-		$question_stat = array();
-		$evaluation_array = array();
-		foreach ($total_users as $key => $value) 
-		{
-			// receive array with statistical information on the test for a specific user
-			$stat_eval =& $this->object->evalStatistical($key);
-			foreach ($stat_eval as $sindex => $sarray)
-			{
-				if (preg_match("/\d+/", $sindex))
-				{
-					$qt = $sarray["title"];
-					$qt = preg_replace("/<.*?>/", "", $qt);
-					if (!array_key_exists($this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"]), $question_stat))
-					{
-						$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])] = array("max" => 0, "reached" => 0, "title" => $qt);
-					}
-					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["single_max"] = $sarray["max"];
-					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["max"] += $sarray["max"];
-					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["reached"] += $sarray["reached"];
-				}
-			}
-			$evaluation_array[$key] = $stat_eval;
-		}
-		include_once "./classes/class.ilStatistics.php";
-		// calculate the median
-		$median_array = array();
-		foreach ($evaluation_array as $key => $value)
-		{
-			array_push($median_array, $value["resultspoints"]);
-		}
-		include_once "./classes/class.ilStatistics.php";
-		$statistics = new ilStatistics();
-		$statistics->setData($median_array);
-		$median = $statistics->median();
-		
-		$counter = 1;
+		$data =& $this->object->getCompleteEvaluationData();
 		$headerrow = $datarow;
-		foreach ($total_users as $key => $value) 
+		$counter = 1;
+		foreach ($data->getParticipants() as $active_id => $userdata) 
 		{
 			$datarow = $headerrow;
 			$remove = FALSE;
 			if (strlen($filtertext))
 			{
 				$username = $value["name"];
-				if (!@preg_match("/$filtertext/i", $username))
+				if (!@preg_match("/$filtertext/i", $data->getParticipant($active_id)->getName()))
 				{
 					$remove = TRUE;
 				}
 			}
 			if ($passedonly)
 			{
-				if ($evaluation_array[$key]["passed"] == 0)
+				if ($data->getParticipant($active_id)->getPassed() == FALSE)
 				{
 					$remove = TRUE;
 				}
@@ -1069,126 +1020,112 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (!$remove)
 			{
 				$datarow2 = array();
-				$stat_eval =& $this->object->evalStatistical($key);
-				$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
-				$rank_median = $statistics->rank_median();
+				$row++;
+				if ($this->object->isRandomTest())
+				{
+					$row++;
+				}
+				$col = 0;
 				if ($this->object->getAnonymity())
 				{
 					array_push($datarow2, $counter);
 				}
 				else
 				{
-					array_push($datarow2, $value["name"]);
-					array_push($datarow2, $value["login"]);
+					array_push($datarow2, $data->getParticipant($active_id)->getName());
+					array_push($datarow2, $data->getParticipant($active_id)->getLogin());
 				}
-				array_push($datarow2, $stat_eval["resultspoints"]);
-				array_push($datarow2, $stat_eval["maxpoints"]);
-				array_push($datarow2, $stat_eval["resultsmarks"]);
+				array_push($datarow2, $data->getParticipant($active_id)->getReached());
+				array_push($datarow2, $data->getParticipant($active_id)->getMaxPoints());
+				array_push($datarow2, $data->getParticipant($active_id)->getMark());
 				if ($this->object->ects_output)
 				{
-					array_push($datarow2, $this->object->getECTSGrade($stat_eval["resultspoints"],$stat_eval["maxpoints"]));
+					array_push($datarow2, $data->getParticipant($active_id)->getECTSMark());
 				}
-				array_push($datarow2, $stat_eval["qworkedthrough"]);
-				array_push($datarow2, $stat_eval["qmax"]);
-				if ($stat_eval["qmax"] > 0)
-				{
-					$workload = $stat_eval["qworkedthrough"] / $stat_eval["qmax"];
-				}
-				else
-				{
-					$workload = 0;
-				}
-				array_push($datarow2, $workload);
-				$time = $stat_eval["timeofwork"];
+				array_push($datarow2, $data->getParticipant($active_id)->getQuestionsWorkedThrough());
+				array_push($datarow2, $data->getParticipant($active_id)->getNumberOfQuestions());
+				array_push($datarow2, $data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0);
+				$time = $data->getParticipant($active_id)->getTimeOfWork();
 				$time_seconds = $time;
 				$time_hours    = floor($time_seconds/3600);
 				$time_seconds -= $time_hours   * 3600;
 				$time_minutes  = floor($time_seconds/60);
 				$time_seconds -= $time_minutes * 60;
 				array_push($datarow2, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-				$time = $stat_eval["atimeofwork"];
+				$time = $data->getParticipant($active_id)->getQuestionsWorkedThrough() ? $data->getParticipant($active_id)->getTimeOfWork() / $data->getParticipant($active_id)->getQuestionsWorkedThrough() : 0;
 				$time_seconds = $time;
 				$time_hours    = floor($time_seconds/3600);
 				$time_seconds -= $time_hours   * 3600;
 				$time_minutes  = floor($time_seconds/60);
 				$time_seconds -= $time_minutes * 60;
 				array_push($datarow2, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-				$firstvisit = date(
-					$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
-					mktime(
-						$stat_eval["firstvisit"]["hours"], 
-						$stat_eval["firstvisit"]["minutes"], 
-						$stat_eval["firstvisit"]["seconds"], 
-						$stat_eval["firstvisit"]["mon"], 
-						$stat_eval["firstvisit"]["mday"], 
-						$stat_eval["firstvisit"]["year"]
-					)
+				$fv = getdate($data->getParticipant($active_id)->getFirstVisit());
+				$firstvisit = ilUtil::excelTime(
+					$fv["year"],
+					$fv["mon"],
+					$fv["mday"],
+					$fv["hours"],
+					$fv["minutes"],
+					$fv["seconds"]
 				);
-				array_push($datarow2, $firstvisit);				
-				$lastvisit = date(
-					$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
-					mktime(
-						$stat_eval["lastvisit"]["hours"], 
-						$stat_eval["lastvisit"]["minutes"], 
-						$stat_eval["lastvisit"]["seconds"], 
-						$stat_eval["lastvisit"]["mon"], 
-						$stat_eval["lastvisit"]["mday"], 
-						$stat_eval["lastvisit"]["year"]
-					)
+				array_push($datarow2, $firstvisit);
+				$lv = getdate($data->getParticipant($active_id)->getLastVisit());
+				$lastvisit = ilUtil::excelTime(
+					$lv["year"],
+					$lv["mon"],
+					$lv["mday"],
+					$lv["hours"],
+					$lv["minutes"],
+					$lv["seconds"]
 				);
-				array_push($datarow2, $lastvisit);				
-				
-				if (($stat_eval["maxpoints"]) > 0)
-				{
-					$reachedpercent = $stat_eval["resultspoints"] / $stat_eval["maxpoints"];
-				}
-				else
-				{
-					$reachedpercent = 0;
-				}
-				if ($stat_eval["maxpoints"] == 0)
-				{
-					$pct = 0;
-				}
-				else
-				{
-					$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
-				}
+				array_push($datarow2, $lastvisit);
+
+				$median = $data->getStatistics()->getStatistics()->median();
+				$pct = $data->getParticipant($active_id)->getMaxPoints() ? $median / $data->getParticipant($active_id)->getMaxPoints() * 100.0 : 0;
 				$mark = $this->object->mark_schema->getMatchingMark($pct);
 				$mark_short_name = "";
-				if ($mark)
+				if (is_object($mark))
 				{
 					$mark_short_name = $mark->getShortName();
 				}
 				array_push($datarow2, $mark_short_name);
-				array_push($datarow2, $statistics->rank($stat_eval["resultspoints"]));
-				array_push($datarow2, $statistics->rank_median());
-				array_push($datarow2, count($median_array));
+				array_push($datarow2, $data->getStatistics()->getStatistics()->rank($data->getParticipant($active_id)->getReached()));
+				array_push($datarow2, $data->getStatistics()->getStatistics()->rank_median());
+				array_push($datarow2, $data->getStatistics()->getStatistics()->count());
 				array_push($datarow2, $median);
-				$pass = $this->object->_getResultPass($key);
-				$finishdate = $this->object->getPassFinishDate($key, $pass);
-				if ($finishdate > 0)
+				$startcol = $col;
+				for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++)
 				{
-					array_push($datarow2, $pass+1);
-					$result_array =& $this->object->getTestResult($key, $pass, TRUE);
-					foreach ($result_array as $index => $question_data)
+					$col = $startcol;
+					$finishdate = $this->object->getPassFinishDate($active_id, $pass);
+					if ($finishdate > 0)
 					{
-						if (is_numeric($index))
+						if ($pass > 0)
+						{
+							$row++;
+							if ($this->object->isRandomTest())
+							{
+								$row++;
+							}
+						}
+						array_push($datarow2, $pass+1);
+						foreach ($data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestions() as $question_data)
 						{
 							array_push($datarow2, $question_data["reached"]);
-							array_push($datarow, $question_data["title"]);
+							array_push($datarow, preg_replace("/<.*?>/", "", $data->getQuestionTitle($question_data["id"])));
+							$col++;
 						}
+						if ($this->object->isRandomTest() || $counter == 1)
+						{
+							array_push($rows, $datarow);
+						}
+						$datarow = array();
+						array_push($rows, $datarow2);
+						$datarow2 = array();
 					}
-					if ($this->object->isRandomTest() || $counter == 1)
-					{
-						array_push($rows, $datarow);
-					}
-					$datarow = array();
-					array_push($rows, $datarow2);
-					$datarow2 = array();
 				}
+				$counter++;
 			}
-			$counter++;
 		}
 		$csv = "";
 		$separator = ";";
@@ -1198,7 +1135,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$csv .= join($csvrow, $separator) . "\n";
 		}
 		ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->object->getTitle() . " .csv"));
-		break;
+		exit;
 	}
 
 	/**
