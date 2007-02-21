@@ -69,6 +69,28 @@ class ilCourseDefinedFieldDefinition
 	}
 	
 	/**
+	 * Clone fields 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int source obj id
+	 * @param int target obj_id
+	 */
+	public static function _clone($a_source_id,$a_target_id)
+	{
+		foreach(ilCourseDefinedFieldDefinition::_getFields($a_source_id) as $field_obj)
+		{
+			$cdf = new ilCourseDefinedFieldDefinition($a_target_id);
+			$cdf->setName($field_obj->getName());
+			$cdf->setType($field_obj->getType());
+			$cdf->setValues($field_obj->getValues());
+			$cdf->enableRequired($field_obj->isRequired());
+			$cdf->save();
+		}
+	}
+	
+	/**
 	 * Delete all fields of a container
 	 *
 	 * @access public
