@@ -175,11 +175,6 @@ class ilSurveyEvaluationGUI
 	
 	function exportCumulatedResults($details = 0)
 	{
-		$result = @include_once 'Spreadsheet/Excel/Writer.php';
-		if (!$result)
-		{
-			include_once './classes/Spreadsheet/Excel/Writer.php';
-		}
 		$format_bold = "";
 		$format_percent = "";
 		$format_datetime = "";
@@ -190,12 +185,9 @@ class ilSurveyEvaluationGUI
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
-				// Creating a workbook
-				$workbook = new Spreadsheet_Excel_Writer();
-
-				// sending HTTP headers
-				$workbook->send("$surveyname.xls");
-
+				include_once "./classes/class.ilExcelWriterAdapter.php";
+				$adapter = new ilExcelWriterAdapter("$surveyname.xls");
+				$workbook = $adapter->getWorkbook();
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
@@ -387,12 +379,6 @@ class ilSurveyEvaluationGUI
 	*/
 	function exportUserSpecificResults($export_format)
 	{
-		$result = @include_once 'Spreadsheet/Excel/Writer.php';
-		if (!$result)
-		{
-			include_once './classes/Spreadsheet/Excel/Writer.php';
-		}
-		
 		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
 		$surveyname = preg_replace("/\s/", "_", $object_title);
 
@@ -444,13 +430,9 @@ class ilSurveyEvaluationGUI
 		switch ($export_format)
 		{
 			case TYPE_XLS:
-				// Let's send the file
-				// Creating a workbook
-				$workbook = new Spreadsheet_Excel_Writer();
-
-				// sending HTTP headers
-				$workbook->send("$surveyname.xls");
-
+				include_once "./classes/class.ilExcelWriterAdapter.php";
+				$adapter = new ilExcelWriterAdapter("$surveyname.xls");
+				$workbook = $adapter->getWorkbook();
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
