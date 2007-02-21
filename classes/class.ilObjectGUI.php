@@ -32,7 +32,6 @@
 */
 class ilObjectGUI
 {
-	// Constants for copy wizard
 	const COPY_WIZARD_NEEDS_PAGE = 1;
 	
 	/**

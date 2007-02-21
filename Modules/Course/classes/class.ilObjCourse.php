@@ -516,6 +516,33 @@ class ilObjCourse extends ilContainer
 		}
 		$this->__createDefaultSettings();
 	}
+	
+	/**
+	 * Clone course (no member data)
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * 
+	 */
+	public function cloneObject($a_target_id,$a_options = array())
+	{
+		global $ilDB;
+		
+	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
+	 	$this->cloneMetaData($new_obj);
+	 	$new_obj->initDefaultRoles();
+		
+		// Copy settings
+		
+		// Copy learning progress settings
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+		unset($obj_settings);
+		
+		return $new_obj;
+	}
+	
 
 	function validate()
 	{

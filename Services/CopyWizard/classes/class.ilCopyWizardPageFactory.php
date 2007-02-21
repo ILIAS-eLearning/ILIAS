@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,82 +21,35 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-/**
-* Class ilObjFolder
-*
-* @author Wolfgang Merkens <wmerkens@databay.de>
+include_once('Services/CopyWizard/classes/class.ilCopyWizardPage.php');
+/** 
+* 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-*
-* @extends ilObject
+* 
+* 
+* @ingroup ServicesCopyWizard 
 */
-
-require_once "class.ilObject.php";
-
-class ilObjFolder extends ilObject
+class ilCopyWizardPageFactory
 {
-	var $folder_tree;
 	
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function ilObjFolder($a_id = 0,$a_call_by_reference = true)
-	{
-		$this->type = "fold";
-		$this->ilObject($a_id,$a_call_by_reference);
-	}
-
-	function setFolderTree($a_tree)
-	{
-		$this->folder_tree =& $a_tree;
-	}
-	
-	/**
-	 * Clone folder
+	 * Get instance by type
 	 *
 	 * @access public
-	 * @param
-	 * 
+	 * @static
+	 *
+	 * @param int ref_id of source object
+	 * @param string type of block
 	 */
-	public function cloneObject($a_target_id,$a_options)
+	public static function _getInstanceByType($a_source_id,$a_item_type)
 	{
-	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
-		
-		// Copy learning progress settings
-		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
-		$obj_settings = new ilLPObjSettings($this->getId());
-		$obj_settings->cloneSettings($new_obj->getId());
-		unset($obj_settings);
-		
-		return $new_obj;
-	}
-
-	/**
-	* insert folder into grp_tree
-	*
-	*/
-	function putInTree($a_parent)
-	{
-		global $tree;
-		
-		if (!is_object($this->folder_tree))
+		switch($a_item_type)
 		{
-			$this->folder_tree =& $tree; 
-		}
-
-		if ($this->withReferences())
-		{
-			// put reference id into tree
-			$this->folder_tree->insertNode($this->getRefId(), $a_parent);
-		}
-		else
-		{
-			// put object id into tree
-			$this->folder_tree->insertNode($this->getId(), $a_parent);
+			default:
+				return new ilCopyWizardPage($a_source_id,$a_item_type);
+				
 		}
 	}
-} // END class.ilObjFolder
+}
 ?>

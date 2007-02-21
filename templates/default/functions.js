@@ -92,6 +92,27 @@ function setChecked(the_form, checkbox_name, do_check)
 } // end of the 'setCheckboxes()' function
 
 /**
+ * Checks/unchecks checkboxes
+ *
+ * @param   string   the form name
+ * @param   string   the checkbox name (or the first characters of the name, if unique)
+ * @param   boolean  whether to check or to uncheck the element
+ * @return  boolean  always true
+ */
+function setCheckedById(the_form, id_name, do_check)
+{
+	for (var i=0;i<document.forms[the_form].elements.length;i++)
+	{
+		var e = document.forms[the_form].elements[i];
+		if(e.id == id_name)
+		{
+			e.checked = do_check;
+		}
+	}
+  return true;
+} // end of the 'setCheckboxes()' function
+
+/**
  * Disables a submit button and adds a hidden input with the name and the value
  * of the button. This helps to prevent multiple clicking of submit buttons to which
  * could lead to duplicated database values.

@@ -738,7 +738,17 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
-								'syntax, parameters may change in future releases');
+								'Syntax, parameters may change in future releases');
+		// Clone functions 
+		$this->server->register('ilClone',
+								array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
+								array('new_ref_id' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#ilClone',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS ilClone(): Only for internal usage.'.
+								'Syntax, parameters may change in future releases. ');
 
 		$this->server->register('saveQuestionResult',
 								array('sid' => 'xsd:string',
@@ -839,7 +849,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS hasNewMail(): Checks whether the current authenticated user has a new mail.');
-
+		
 		$this->server->register('getNIC',
 								array('sid' => 'xsd:string'),
 								array('xmlresultset' => 'xsd:string'),

@@ -172,6 +172,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		// gives out the limit as a littel notice :)
 		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
 
+		$this->fillCloneTemplate('DUPLICATE','crs');
+
 		return true;
 	}
 
@@ -4277,7 +4279,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$events = new ilEventAdministrationGUI($this);
 				$this->ctrl->forwardCommand($events);				
 				break;
-
+				
 			default:
 				if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
 				{
@@ -4521,6 +4523,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					 's' => date('s',$a_unix_time));
 	}
 
+	// Copy wizard
 
 
 

@@ -155,7 +155,7 @@ function excludeCourseMember($sid,$course_id,$user_id)
 
 	$sca =& new ilSoapCourseAdministration();
 
-	return $sca->excludeCourseMember($sid,$course_id,$user_id,$type);
+	return $sca->excludeCourseMember($sid,$course_id,$user_id);
 }
 function getCourseXML($sid,$course_id)
 {
@@ -448,7 +448,7 @@ function excludeGroupMember($sid,$group_id,$user_id)
 function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 {
 	include_once './webservice/soap/classes/class.ilSoapUtils.php';
-
+	
 	$sou =& new ilSoapUtils();
 	$sou->disableSOAPCheck();
 	$sou->ignoreUserAbort();
@@ -456,6 +456,16 @@ function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 	return $sou->sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach);
 }
 
+function ilClone($sid,$copy_identifier)
+{
+	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+	
+	$sou = new ilSoapUtils();
+	$sou->disableSOAPCheck();
+	$sou->ignoreUserAbort();
+	
+	return $sou->ilClone($sid,$copy_identifier);
+}
 function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 {
 	include_once './webservice/soap/classes/class.ilSoapUtils.php';

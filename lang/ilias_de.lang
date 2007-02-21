@@ -7003,3 +7003,11 @@ common#:#obj_tst_duplicate#:#Test kopieren
 common#:#obj_tst_select#:#-- Bitte wählen Sie einen Test aus --
 common#:#obj_svy_duplicate#:#Umfrage kopieren
 common#:#obj_svy_select#:#-- Bitte wählen Sie eine Umfrage aus --
+common#:#obj_crs_duplicate#:#Kurs kopieren
+common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
+common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
+common#:#crs_copy_threads_info#:#Bitte wählen Sie aus welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#omit_all#:#Alle auslassen
+common#:#copy_all#:#Alle kopieren
+common#:#link_all#:#Alle verknüpfen
+common#:#omit#:#Auslassen
