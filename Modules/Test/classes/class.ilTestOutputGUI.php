@@ -1568,7 +1568,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setCurrentBlock("HeadContent");
 		$this->tpl->setVariable("CONTENT_BLOCK", $template->get());
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"window.setInterval('setWorkingTime()',1000)\"");
 	}
 	
 /**
