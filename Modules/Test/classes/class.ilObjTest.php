@@ -4684,14 +4684,29 @@ class ilObjTest extends ilObject
 		{
 			if ($this->isRandomTest())
 			{
-				$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, qpl_questions.original_id, " .
-					"tst_test_random_question.pass, qpl_questions.points, qpl_questions.title " .
-					"FROM tst_test_random_question, qpl_questions " .
-					"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
-					"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
-					$ilDB->quote($active_id . ""),
-					$this->getQuestionCount()
-				);
+				for ($testpass = 0; $testpass <= $data->getParticipant($active_id)->getLastPass(); $testpass++)
+				{
+					$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, qpl_questions.original_id, " .
+						"tst_test_random_question.pass, qpl_questions.points, qpl_questions.title " .
+						"FROM tst_test_random_question, qpl_questions " .
+						"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
+						"AND tst_test_random_question.pass = %s " .
+						"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
+						$ilDB->quote($testpass . ""),
+						$ilDB->quote($active_id . ""),
+						$this->getQuestionCount()
+					);
+					$result = $ilDB->query($query);
+					if ($result->numRows())
+					{
+						while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							$pass = array_key_exists("pass", $row) ? $row["pass"] : 0;
+							$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $pass);
+							$data->addQuestionTitle($row["original_id"], $row["title"]);
+						}
+					}
+				}
 			}
 			else
 			{
@@ -4702,15 +4717,15 @@ class ilObjTest extends ilObject
 					"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi ORDER BY tst_test_question.sequence",
 					$ilDB->quote($active_id . "")
 				);
-			}
-			$result = $ilDB->query($query);
-			if ($result->numRows())
-			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				$result = $ilDB->query($query);
+				if ($result->numRows())
 				{
-					$pass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-					$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $pass);
-					$data->addQuestionTitle($row["original_id"], $row["title"]);
+					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$pass = array_key_exists("pass", $row) ? $row["pass"] : 0;
+						$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $pass);
+						$data->addQuestionTitle($row["original_id"], $row["title"]);
+					}
 				}
 			}
 		}
@@ -4735,6 +4750,7 @@ class ilObjTest extends ilObject
 			if (is_object($mark))
 			{
 				$data->getParticipant($active_id)->setMark($mark->getShortName());
+				$data->getParticipant($active_id)->setPassed($mark->getPassed());
 			}
 			if ($this->ects_output)
 			{

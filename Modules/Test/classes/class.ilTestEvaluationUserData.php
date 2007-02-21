@@ -114,6 +114,13 @@ class ilTestEvaluationUserData
 	var $lastVisit;
 	
 	/**
+	* Is the test passed
+	*
+	* @var boolean
+	*/
+	var $passed;
+	
+	/**
 	* Test passes
 	*
 	* @var array
@@ -136,6 +143,17 @@ class ilTestEvaluationUserData
 	{
 		$this->passes = array();
 		$this->questions = array();
+		$this->passed = FALSE;
+	}
+	
+	function getPassed()
+	{
+		return $this->passed;
+	}
+	
+	function setPassed($a_passed)
+	{
+		$this->passed = ($a_passed ? TRUE : FALSE);
 	}
 	
 	function getName()
