@@ -533,6 +533,11 @@ class ilObjCourse extends ilContainer
 	 	$new_obj->initDefaultRoles();
 		
 		// Copy settings
+		$this->cloneSettings($new_obj);
+		
+		// Course Defined Fields
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		ilCourseDefinedFieldDefinition::_clone($this->getId(),$new_obj->getId());
 		
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -726,6 +731,43 @@ class ilObjCourse extends ilContainer
 			"WHERE obj_id = ".$ilDB->quote($this->getId())."";
 
 		$res = $ilDB->query($query);
+	}
+	
+	/**
+	 * Clone entries in settings table
+	 *
+	 * @access public
+	 * @param object new course object
+	 * 
+	 */
+	public function cloneSettings($new_obj)
+	{
+		$new_obj->setSyllabus($this->getSyllabus());
+		$new_obj->setContactName($this->getContactName());
+		$new_obj->setContactResponsibility($this->getContactResponsibility());
+		$new_obj->setContactPhone($this->getContactPhone());
+		$new_obj->setContactEmail($this->getContactEmail());
+		$new_obj->setContactConsultation($this->getContactConsultation());
+		$new_obj->setActivationType($this->getActivationType());
+		$new_obj->setActivationStart($this->getActivationStart());
+		$new_obj->setActivationEnd($this->getActivationEnd());
+		$new_obj->setSubscriptionLimitationType($this->getSubscriptionLimitationType());
+		$new_obj->setSubscriptionStart($this->getSubscriptionStart());
+		$new_obj->setSubscriptionEnd($this->getSubscriptionEnd());
+		$new_obj->setSubscriptionType($this->getSubscriptionType());
+		$new_obj->setSubscriptionPassword($this->getSubscriptionPassword());
+		$new_obj->setSubscriptionMaxMembers($this->getSubscriptionMaxMembers());
+		$new_obj->setSubscriptionNotify($this->getSubscriptionNotify());
+		$new_obj->setViewMode($this->getViewMode());
+		$new_obj->setOrderType($this->getOrderType());
+		$new_obj->setArchiveStart($this->getArchiveStart());
+		$new_obj->setArchiveEnd($this->getArchiveEnd());
+		$new_obj->setArchiveType($this->getArchiveEnd());
+		$new_obj->setAboStatus($this->getAboStatus());
+		$new_obj->enableWaitingList($this->enabledWaitingList());
+		$new_obj->setImportantInformation($this->getImportantInformation());
+		$new_obj->setShowMembers($this->getShowMembers());
+		$new_obj->update();
 	}
 
 	function __createDefaultSettings()
