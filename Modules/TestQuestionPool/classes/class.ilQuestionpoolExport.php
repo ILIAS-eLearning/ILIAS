@@ -213,16 +213,9 @@ class ilQuestionpoolExport
 
 		$ilBench->start("QuestionpoolExport", "buildExportFile");
 
-		// Creating a workbook
-		$result = @include_once 'Spreadsheet/Excel/Writer.php';
-		if (!$result)
-		{
-			include_once './classes/Spreadsheet/Excel/Writer.php';
-		}
-		$workbook = new Spreadsheet_Excel_Writer($this->export_dir . "/" . $this->filename);
-		// sending HTTP headers
-		//$workbook->send($this->filename);
-		// Creating a worksheet
+		include_once "./classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter($this->export_dir . "/" . $this->filename);
+		$workbook = $adapter->getWorkbook();
 		$format_bold =& $workbook->addFormat();
 		$format_bold->setBold();
 		$format_percent =& $workbook->addFormat();

@@ -2487,18 +2487,10 @@ class ilObjGroupGUI extends ilContainerGUI
 */
 	function exportMembersObject()
 	{
-		$result = @include_once 'Spreadsheet/Excel/Writer.php';
-		if (!$result)
-		{
-			include_once './classes/Spreadsheet/Excel/Writer.php';
-		}
-		// Creating a workbook
-		$workbook = new Spreadsheet_Excel_Writer();
-
-		// sending HTTP headers
 		$title = preg_replace("/\s/", "_", $this->object->getTitle());
-		$workbook->send("export_" . $title . ".xls");
-
+		include_once "./classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter("export_" . $title . ".xls");
+		$workbook = $adapter->getWorkbook();
 		// Creating a worksheet
 		$format_bold =& $workbook->addFormat();
 		$format_bold->setBold();
