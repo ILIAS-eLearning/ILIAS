@@ -137,7 +137,7 @@ switch($target_type)
 
 	// new implementation: ok
 	case "webr":
-		require_once("./link/classes/class.ilObjLinkResourceGUI.php");
+		require_once("./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php");
 		ilObjLinkResourceGUI::_goto($target_id);
 		break;
 

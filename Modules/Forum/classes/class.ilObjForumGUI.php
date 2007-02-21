@@ -2378,7 +2378,6 @@ class ilObjForumGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('THREADS',$this->lng->txt('forums_threads'));
 	 	
 	 	$forum_id = $ilObjDataCache->lookupObjId((int) $_POST['clone_source']);
-	 	
 	 	include_once('Modules/Forum/classes/class.ilForum.php');
 	 	$threads = ilForum::_getThreads($forum_id,ilForum::SORT_TITLE);
 	 	foreach($threads as $thread_id => $title)

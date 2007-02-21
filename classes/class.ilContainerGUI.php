@@ -1764,6 +1764,140 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 			$column_gui->setBlockProperty("news", "public_notifications_option", true);
 		}
 	}
+	
+	/**
+	 * Show clone wizard page for container objects
+	 *
+	 * @access public
+	 * 
+	 */
+	public function cloneWizardPageObject()
+	{
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardPageFactory.php');
+		
+		global $ilObjDataCache,$tree;
+		
+	 	if(!$_POST['clone_source'])
+	 	{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->createObject();
+			return false;
+	 	}
+		$source_id = $_POST['clone_source'];
+	 	$new_type = $_REQUEST['new_type'];
+	 	$this->ctrl->setParameter($this,'clone_source',(int) $_POST['clone_source']);
+	 	$this->ctrl->setParameter($this,'new_type',$new_type);
+		
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.container_wizard_page.html');
+	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.gif'));
+	 	$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$new_type));
+	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt($new_type.'_wizard_page'));
+	 	$this->tpl->setVariable('INFO_DUPLICATE',$this->lng->txt($new_type.'_copy_threads_info'));
+
+		// Fill item rows
+		foreach($tree->getSubTreeTypes($source_id,array('rolf','crs')) as $type)
+		{
+			$copy_wizard_page = ilCopyWizardPageFactory::_getInstanceByType($source_id,$type);
+			if(strlen($html = $copy_wizard_page->getWizardPageBlockHTML()))
+			{
+				$this->tpl->setCurrentBlock('obj_row');
+				$this->tpl->setVariable('ITEM_BLOCK',$html);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+	 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('obj_'.$new_type.'_duplicate'));
+	 	$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
+	}
+	
+	/**
+	 * Clone all object
+	 * Overwritten method for copying container objects
+	 *
+	 * @access public
+	 * 
+	 */
+	public function cloneAllObject()
+	{
+		include_once('classes/class.ilLink.php');
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		
+		global $ilAccess,$ilErr,$rbacsystem,$tree;
+		
+	 	$new_type = $_REQUEST['new_type'];
+	 	if(!$rbacsystem->checkAccess('create',(int) $_GET['ref_id'],$new_type))
+	 	{
+	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
+	 	}
+		if(!(int) $_REQUEST['clone_source'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->createObject();
+			return false;
+		}
+		if(!$ilAccess->checkAccess('write','',(int) $_REQUEST['clone_source'],$new_type))
+		{
+	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
+		}
+		
+		// Save wizard options
+		$wizard_options = new ilCopyWizardOptions();
+		$copy_id = $wizard_options->allocateCopyId();
+		// Store tree
+		$nodes = $tree->getSubTree($tree->getNodeData((int) $_REQUEST['clone_source']),true);
+		$wizard_options->storeTree($nodes);
+		
+		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
+		// add entry for source container
+		$wizard_options->initContainer((int) $_REQUEST['clone_source'],(int) $_GET['ref_id']);
+		foreach($options as $source_id => $option)
+		{
+			$wizard_options->addEntry($source_id,$option);
+		}
+		$wizard_options->read();
+		
+		// Start cloning process using soap call
+		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+		$soap_client = new ilSoapClient();
+		$soap_client->setTimeout(30);
+		$soap_client->setResponseTimeout(30);
+		$soap_client->enableWSDL(true);
+		$soap_client->init();
+		$res = $soap_client->call('ilClone',array($_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],$copy_id));
+			
+		if(is_int($res))
+		{
+			ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
+			ilUtil::redirect(ilLink::_getLink($res));
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
+			ilUtil::redirect(ilLink::_getLink((int) $_GET['ref_id']));
+		}	
+	}
+
+
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function copyWizardHasOptions($a_mode)
+	{
+	 	switch($a_mode)
+	 	{
+	 		case self::COPY_WIZARD_NEEDS_PAGE:
+	 			return true;
+	 		
+	 		default:
+	 			return false;
+	 	}
+	}
+	
 
 }
 ?>

@@ -7077,3 +7077,11 @@ common#:#obj_tst_duplicate#:#Copy Test
 common#:#obj_tst_select#:#-- Please select one Test --
 common#:#obj_svy_duplicate#:#Copy Survey
 common#:#obj_svy_select#:#-- Please select one Survey --
+common#:#obj_crs_duplicate#:#Copy Course
+common#:#obj_crs_select#:#-- Please select one Course --
+common#:#crs_wizard_page#:#Copy Course (Step 2/2)
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
+common#:#omit_all#:#Omit all
+common#:#copy_all#:#Copy all
+common#:#link_all#:#Link all
+common#:#omit#:#Omit

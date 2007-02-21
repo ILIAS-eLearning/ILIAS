@@ -91,12 +91,12 @@ class ilSoapClient
 		return (bool) $this->use_wsdl;
 	}
 
-
 	function init()
 	{
 		$this->client = new soap_client($this->getServer(),
 										$this->enabledWSDL(),
 										false, // no proxy support in the moment
+										false,
 										false,
 										false,
 										$this->getTimeout(),
@@ -112,6 +112,10 @@ class ilSoapClient
 	function &call($a_operation,$a_params)
 	{
 		$res = $this->client->call($a_operation,$a_params);
+		if($error = $this->client->getError())
+		{
+			#$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+		}
 
 		return $res;
 		// Todo cannot check errors here since it's not possible to distinguish between 'timeout' and other errors.

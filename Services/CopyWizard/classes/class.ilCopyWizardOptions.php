@@ -32,6 +32,10 @@
 
 class ilCopyWizardOptions
 {
+	const COPY_WIZARD_OMIT = 1;
+	const COPY_WIZARD_COPY = 2;
+	const COPY_WIZARD_LINK = 3;
+	
 	private $db;
 	
 	private $copy_id;
@@ -59,6 +63,17 @@ class ilCopyWizardOptions
 	}
 	
 	/**
+	 * Get copy id
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getCopyId()
+	{
+	 	return $this->copy_id;
+	}
+	
+	/**
 	 * Allocate a copy for further entries
 	 *
 	 * @access public
@@ -75,6 +90,88 @@ class ilCopyWizardOptions
 	 	$this->db->query($query);
 	 	
 	 	return $this->copy_id = $row->latest + 1;
+	}
+	
+	/**
+	 * Init container
+	 * Add copy entry
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function initContainer($a_source_id,$a_target_id)
+	{
+		global $tree;
+		
+		$mapping_source = $tree->getParentId($a_source_id);
+	 	$this->addEntry($a_source_id,array('type' => ilCopyWizardOptions::COPY_WIZARD_COPY));
+	 	$this->appendMapping($mapping_source,$a_target_id);
+	}
+	
+	/**
+	 * Save tree 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function storeTree($a_tree_structure)
+	{
+	 	$query = "UPDATE copy_wizard_options ".
+			"SET options = '".addslashes(serialize($a_tree_structure))."' ".
+			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
+			"AND source_id = 0 ";
+		$res = $this->db->query($query);
+		return true; 
+	}
+	
+	/**
+	 * Get first node of stored tree
+	 *
+	 * @access public
+	 * 
+	 */
+	public function fetchFirstNode()
+	{
+		$tree = $this->getOptions(0);
+		if(isset($tree[0]) and is_array($tree[0]))
+		{
+			return $tree[0];
+		}
+		return false;
+	}
+	
+	/**
+	 * Drop first node
+	 *
+	 * @access public
+	 * 
+	 */
+	public function dropFirstNode()
+	{
+		if(!isset($this->options[0]) or !is_array($this->options[0]))
+		{
+			return false;
+		}
+		
+		$this->options[0] = array_slice($this->options[0],1);
+		$query = "UPDATE copy_wizard_options ".
+			"SET options = '".addslashes(serialize($this->options[0]))."' ".
+			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
+			"AND source_id = 0";
+		$this->db->query($query);
+		$this->read();
+		// check for role_folder
+		if(($node = $this->fetchFirstNode()) === false)
+		{
+			return true;
+		}
+		if($node['type'] == 'rolf')
+		{
+			$this->dropFirstNode();
+		}
+		return true;
 	}
 	
 	/**
@@ -108,12 +205,61 @@ class ilCopyWizardOptions
 			return false;
 		}
 		
+		$query = "DELETE FROM copy_wizard_options ".
+			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
+			"AND source_id = ".$this->db->quote($a_source_id);
+		$this->db->query($query);
+
 		$query 	= "INSERT INTO copy_wizard_options ".
 			"SET copy_id = ".$this->db->quote($this->copy_id).", ".
 			"source_id = ".$this->db->quote($a_source_id).", ".
 			"options = '".addslashes(serialize($a_options))."' ";
 		$res = $this->db->query($query);
 		return true;
+	}
+	
+	/**
+	 * Add mapping of source -> target
+	 *
+	 * @access public
+	 * @param int source ref_id
+	 * @param int target ref_id
+	 * 
+	 */
+	public function appendMapping($a_source_id,$a_target_id)
+	{
+		$query = "SELECT * FROM copy_wizard_options ".
+			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
+			"AND source_id = -1 ";
+		$res = $this->db->query($query);
+		$mappings = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$mappings = unserialize(stripslashes($row->options));
+		}
+		$mappings[$a_source_id] = $a_target_id;
+		
+		$query = "REPLACE INTO copy_wizard_options ".
+			"SET copy_id = ".$this->db->quote($this->copy_id).", ".
+			"source_id = -1, ".
+			"options = '".addslashes(serialize($mappings))."'";
+		$this->db->query($query);
+		return true;				
+	}
+	
+	/**
+	 * Get Mappings
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getMappings()
+	{
+	 	if(isset($this->options[-1]) and is_array($this->options[-1]))
+	 	{
+	 		return $this->options[-1];
+	 	}
+	 	return array();
 	}
 	
 	/**
