@@ -3176,6 +3176,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$tbl->setSelectAllCheckbox("chb_code");
 				$tbl->setFormName("form_codes");
 				$tbl->addActionButton("deleteCodes", $this->lng->txt("delete"));
+				$tbl->addActionButton("exportCodes", $this->lng->txt("export"));
 	
 				$header_params = $this->ctrl->getParameterArray($this, "codes");
 				$tbl->setHeaderVars($headervars, $header_params);
@@ -3238,6 +3239,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		$this->codesObject();
+	}
+	
+	/**
+	* Exports a list of survey codes
+	*
+	* Exports a list of survey codes
+	*
+	* @access private
+	*/
+	function exportCodesObject()
+	{
+		if (is_array($_POST["chb_code"]) && (count($_POST["chb_code"]) > 0))
+		{
+			$export = $this->object->getSurveyCodesForExport($_POST["chb_code"]);
+			ilUtil::deliverData($export, ilUtil::getASCIIFilename($this->object->getTitle() . ".txt"));
+		}
+		else
+		{
+			$this->codesObject();
+		}
 	}
 	
 	/**
@@ -4021,7 +4042,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// code
 				$tabs_gui->addTarget("codes",
 					 $this->ctrl->getLinkTarget($this,'codes'),
-					 array("codes", "createSurveyCodes", "setCodeLanguage", "deleteCodes"),
+					 array("codes", "createSurveyCodes", "setCodeLanguage", "deleteCodes", "exportCodes"),
 					 "");
 			}
 		}
