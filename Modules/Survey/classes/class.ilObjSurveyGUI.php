@@ -2682,6 +2682,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
 
+		$header_params = $this->ctrl->getParameterArray($this, "export");
+		$tbl->setHeaderVars(array("", "file", "size", "date"), $header_params);
+
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
