@@ -1,0 +1,18 @@
+	<form action="{FORMACTION}" method="post" name="cmd">
+	  <table class="std" width="60%">
+		<tr class="tblheader">
+		  <th class="std" colspan="3">
+			<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+			{TXT_DUPLICATE}<div class="il_info">{INFO_DUPLICATE}</div>
+		  </th>
+		</tr>
+		<!-- BEGIN obj_row -->
+		{ITEM_BLOCK}
+		<!-- END obj_row -->
+		<tr>
+		  <td class="submit" align="right" colspan="3">
+			<input class="submit" type="submit" name="cmd[cloneAll]" value="{BTN_COPY}" />
+			<input class="submit" type="submit" name="cmd[create]" value="{BTN_BACK}" />
+		  </td>
+		</tr>
+	  </table>
