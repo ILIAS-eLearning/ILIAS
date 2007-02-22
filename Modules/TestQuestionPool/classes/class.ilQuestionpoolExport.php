@@ -214,7 +214,7 @@ class ilQuestionpoolExport
 		$ilBench->start("QuestionpoolExport", "buildExportFile");
 
 		include_once "./classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter($this->export_dir . "/" . $this->filename);
+		$adapter = new ilExcelWriterAdapter($this->export_dir . "/" . $this->filename, FALSE);
 		$workbook = $adapter->getWorkbook();
 		$format_bold =& $workbook->addFormat();
 		$format_bold->setBold();
