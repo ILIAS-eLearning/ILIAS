@@ -386,7 +386,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
                 if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
                     unset($a_fields[$usr_id_field]);
 
-                $select = implode(",",ilUtil::quoteArray($a_fields)).",usr_data.usr_id";
+                $select = implode(",",$a_fields).",usr_data.usr_id";
+                $select = addslashes($select);
             }
 
 	        $q = "SELECT ".$select." FROM usr_data ".
