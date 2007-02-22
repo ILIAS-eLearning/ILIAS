@@ -589,16 +589,12 @@ class ilRepositorySearchGUI
 		$tpl->setVariable("BTN_NAME","addUser");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("btn_add"));
 		$tpl->parseCurrentBlock();
-		
 		if (!empty($a_user_ids))
 		{
-			// set checkbox toggles
-			#$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			#$tpl->setVariable("JS_VARNAME","user");		
-			#$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_user_ids));
-			#$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			#$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-			#$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("tbl_select_all");
+			$tpl->setVariable("COLUMN_COUNTS",4);
+			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
+			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -651,13 +647,10 @@ class ilRepositorySearchGUI
 
 		if (!empty($a_grp_ids))
 		{
-			// set checkbox toggles
-			#$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			#$tpl->setVariable("JS_VARNAME","group");			
-			#$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_grp_ids));
-			#$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			#$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-			#$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("tbl_select_all");
+			$tpl->setVariable("COLUMN_COUNTS",4);
+			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
+			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -708,13 +701,10 @@ class ilRepositorySearchGUI
 		
 		if (!empty($a_role_ids))
 		{
-			// set checkbox toggles
-			#$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			#$tpl->setVariable("JS_VARNAME","role");			
-			#$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_role_ids));
-			#$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			#$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-			#$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("tbl_select_all");
+			$tpl->setVariable("COLUMN_COUNTS",4);
+			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
+			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
