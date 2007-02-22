@@ -82,7 +82,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("ANONYMIZED_IMG_OK",$anonymized = !ilObjUserTracking::_enabledUserRelatedData()
 								? ilUtil::getImagePath('icon_ok.gif') 
 								: ilUtil::getImagePath('icon_not_ok.gif'));
-		$this->tpl->setVariable("ANONYMIZED_STATUS",$anonymized ? $this->lng->txt('yes') : $this->lng->txt('no'));
+		$this->tpl->setVariable("ANONYMIZED_STATUS",$anonymized ? $this->lng->txt('no') : $this->lng->txt('yes'));
 
 		$this->tpl->setVariable("TXT_VALID_REQUEST",$this->lng->txt('trac_valid_request'));
 		$this->tpl->setVariable("INFO_VALID_REQUEST",$this->lng->txt('info_valid_request'));
