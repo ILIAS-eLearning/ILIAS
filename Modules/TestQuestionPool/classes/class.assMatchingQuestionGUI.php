@@ -206,7 +206,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
 			$add_random_id = $this->object->get_random_id();
 			$this->tpl->setVariable("TERM_ID", $add_random_id);
-			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", 0));
+			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%s", 0));
 			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -590,7 +590,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			if ($result_output)
 			{
 				$points = $answer->getPoints();
-				$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
 				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
 			}
 			$hasoutput = FALSE;

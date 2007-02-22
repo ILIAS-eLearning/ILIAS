@@ -679,8 +679,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			{
 				$pointschecked = $this->object->answers[$answer_id]->getPointsChecked();
 				$pointsunchecked = $this->object->answers[$answer_id]->getPointsUnchecked();
-				$resulttextchecked = ($pointschecked == 1) || ($pointschecked == -1) ? "%d " . $this->lng->txt("point") : "%d " . $this->lng->txt("points");
-				$resulttextunchecked = ($pointsunchecked == 1) || ($pointsunchecked == -1) ? "%d " . $this->lng->txt("point") : "%d " . $this->lng->txt("points"); 
+				$resulttextchecked = ($pointschecked == 1) || ($pointschecked == -1) ? "%s " . $this->lng->txt("point") : "%s " . $this->lng->txt("points");
+				$resulttextunchecked = ($pointsunchecked == 1) || ($pointsunchecked == -1) ? "%s " . $this->lng->txt("point") : "%s " . $this->lng->txt("points"); 
 				$template->setVariable("RESULT_OUTPUT", sprintf("(" . $this->lng->txt("checkbox_checked") . " = $resulttextchecked, " . $this->lng->txt("checkbox_unchecked") . " = $resulttextunchecked)", $pointschecked, $pointsunchecked));
 			}
 			foreach ($user_solution as $mc_solution)

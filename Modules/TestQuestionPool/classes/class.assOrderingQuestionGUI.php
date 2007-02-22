@@ -189,7 +189,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			}
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
 			$this->tpl->setVariable("VALUE_ORDER", $this->object->getMaxSolutionOrder() + 1);
-			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
+			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%s", 0));
 			$this->tpl->parseCurrentBlock();
 		}
 		// call to other question data i.e. estimated working time block
@@ -587,7 +587,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			{
 				$answer = $this->object->answers[$idx];
 				$points = $answer->getPoints();
-				$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
 				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
 			}
 			foreach ($solutions as $solution)
