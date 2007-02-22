@@ -521,7 +521,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function showPasswordProtectionPage()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_password_protection.html", "Modules/Test");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "checkPassword"));
 		$this->tpl->setVariable("PASSWORD_INTRODUCTION", $this->lng->txt("tst_password_introduction"));
 		$this->tpl->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
 		$this->tpl->setVariable("SUBMIT", $this->lng->txt("submit"));
