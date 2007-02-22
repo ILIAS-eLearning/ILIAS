@@ -687,7 +687,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			if ($result_output)
 			{
 				$points = $this->object->answers[$answer_id]->getPoints();
-				$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
 				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
 			}
 			$template->parseCurrentBlock();
