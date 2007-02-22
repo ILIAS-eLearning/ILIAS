@@ -541,8 +541,8 @@ class ilTestServiceGUI
 		$template->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$template->setVariable("VALUE_QUESTION_TITLE", "");
 		$template->setVariable("SOLUTION_HINT", "");
-		$template->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
-		$template->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
+		$template->setVariable("VALUE_MAX_POINTS", "<strong>$total_max</strong>");
+		$template->setVariable("VALUE_REACHED_POINTS", "<strong>$total_reached</strong>");
 		$template->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$template->parseCurrentBlock();
 
