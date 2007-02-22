@@ -4804,6 +4804,37 @@ class ilObjSurvey extends ilObject
 	}
 	
 	/**
+	* Returns a list of survey codes for file export
+	*
+	* Returns a list of survey codes for file export
+	*
+	* @param array $a_array An array of all survey codes that should be exported
+	* @return string A comma separated list of survey codes an URLs for file export
+	* @access public
+	*/
+	function getSurveyCodesForExport($a_array)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT * FROM survey_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
+		$result = $ilDB->query($query);
+		$export = "";
+		$lang = ($_POST["lang"] != 1) ? "&amp;lang=" . $_POST["lang"] : "";
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (in_array($row["survey_key"], $a_array))
+			{
+				$export .= $row["survey_key"] . ",";
+				$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$lang;
+				$export .= $url . "\n";
+			}
+		}
+		return $export;
+	}
+	
+	/**
 	* Fetches the data for the survey codes table
 	*
 	* Fetches the data for the survey codes table
