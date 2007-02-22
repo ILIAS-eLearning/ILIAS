@@ -882,6 +882,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
+		$header_params = $this->ctrl->getParameterArray($this, "export");
+		$tbl->setHeaderVars(array("", "file", "size", "date"), $header_params);
 
 		// delete button
 		include_once "./Services/Utilities/classes/class.ilUtil.php";

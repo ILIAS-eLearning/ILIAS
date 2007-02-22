@@ -1361,6 +1361,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
+		$header_params = $this->ctrl->getParameterArray($this, "export");
+		$tbl->setHeaderVars(array("", "file", "size", "date"), $header_params);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
