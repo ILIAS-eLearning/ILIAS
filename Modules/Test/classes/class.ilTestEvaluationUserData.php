@@ -382,6 +382,7 @@ class ilTestEvaluationUserData
 	function getAvailablePoints($pass = 0)
 	{
 		$available = 0;
+		if (!is_array($this->questions[$pass])) $pass = 0;
 		foreach ($this->questions[$pass] as $question)
 		{
 			$available += $question["points"];
