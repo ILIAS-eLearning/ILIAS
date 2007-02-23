@@ -189,6 +189,10 @@ class ilLPObjSettings
 		{
 			return LP_MODE_OBJECTIVES;
 		}
+		if(ilLPObjSettings::_checkSCORMPreconditions($a_obj_id))
+		{
+			return LP_MODE_SCORM;
+		}
 
 		$query = "SELECT mode FROM ut_lp_settings ".
 			"WHERE obj_id = '".$a_obj_id."'";
@@ -235,7 +239,11 @@ class ilLPObjSettings
 
 			case 'sahs':
 				include_once './Services/Tracking/classes/class.ilLPCollections.php';
-
+				
+				if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
+				{
+					return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+				}
 				if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
 				{
 					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
@@ -325,6 +333,22 @@ class ilLPObjSettings
 		}
 		return false;
 	}
+	
+	function _checkSCORMPreconditions($a_obj_id)
+	{
+		global $ilObjDataCache;
+		
+		if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
+		{
+			return false;
+		}
+		include_once('classes/class.ilConditionHandler.php');
+		if(count($conditions = ilConditionHandler::_getConditionsOfTrigger('sahs',$a_obj_id)))
+		{
+			return true;
+		}
+		return false;
+	}
 		
 
 
@@ -341,6 +365,10 @@ class ilLPObjSettings
 			if(ilLPObjSettings::_checkObjectives($this->obj_id))
 			{
 				$this->obj_mode = LP_MODE_OBJECTIVES;
+			}
+			if(ilLPObjSettings::_checkSCORMPreconditions($this->obj_id))
+			{
+				$this->obj_mode = LP_MODE_SCORM;
 			}
 
 			return true;

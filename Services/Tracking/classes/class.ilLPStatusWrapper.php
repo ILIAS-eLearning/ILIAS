@@ -118,7 +118,6 @@ class ilLPStatusWrapper
 		}
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-
 		$cache[$a_obj_id] = call_user_func(array($class,'_getCompleted'),$a_obj_id);
 
 		return $cache[$a_obj_id];
@@ -164,9 +163,7 @@ class ilLPStatusWrapper
 		}
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-
 		$cache[$a_obj_id] = call_user_func(array($class,'_getStatusInfo'),$a_obj_id);
-
 		return $cache[$a_obj_id];
 	}
 

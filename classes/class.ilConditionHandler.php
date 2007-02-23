@@ -548,9 +548,8 @@ class ilConditionHandler
 			case 'sahs':
 				global $ilUser;
 
-				include_once './Services/Tracking/classes/class.ilLPStatusSCORM.php';
 				include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-				return in_array($ilUser->getId(),$completed = ilLPStatusSCORM::_getCompleted($condition['trigger_obj_id']));
+				return in_array($ilUser->getId(),$completed = ilLPStatusWrapper::_getCompleted($condition['trigger_obj_id']));
 
 			default:
 				return false;
