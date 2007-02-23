@@ -124,9 +124,9 @@ class ilExerciseXMLParser extends ilSaxParser
 			    if (isset($a_attribs["obj_id"]))
 			    {
                    $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
-			       if ($this->obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id)
+			       if ($this->obj_id != -1 && (int) $read_obj_id  != -1 && (int) $this->obj_id != (int) $read_obj_id)
 			       {
-            	       throw new ilExerciseException ("Object IDs (xml $read_obj_id and argument $obj_id) do not match!", ilExerciseException::$ID_MISMATCH);
+            	       throw new ilExerciseException ("Object IDs (xml $read_obj_id and argument ".$this->obj_id.") do not match!", ilExerciseException::$ID_MISMATCH);
                    }
 			    }
 				break;

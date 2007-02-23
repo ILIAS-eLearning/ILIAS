@@ -119,6 +119,10 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
         include_once './include/inc.header.php';
         global $rbacsystem, $tree, $ilLog;
 
+		if(ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError('Cannot perform update since exercise has been deleted.', 'Client');
+		}
         // get obj_id
 		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
 		{
