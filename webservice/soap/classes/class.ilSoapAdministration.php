@@ -160,14 +160,14 @@ class ilSoapAdministration
                                    "installation_language_default" => $ilClientIniFile->readVariable("language","default"));
 
         // store into xml result set
-		include_once './webservice/soap/classes/class.IlXmlResultSet.php';
+		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
 
 
         $xmlResult = new ilXMLResultSet();
         $xmlResult->addArray($client_details, true);
 
         // create writer and return xml
-		include_once './webservice/soap/classes/class.IlXmlResultSetWriter.php';
+		include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
         $xmlResultWriter = new ilXMLResultSetWriter($xmlResult);
         $xmlResultWriter->start();
         return $xmlResultWriter->getXML();

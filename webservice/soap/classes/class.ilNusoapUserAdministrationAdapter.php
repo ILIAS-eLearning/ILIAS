@@ -860,7 +860,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getNIC(): return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns');
 
         $this->server->register('getExerciseXML',
-								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "attachment mode" => "xsd:int"),
+								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "attachment_mode" => "xsd:int"),
 								array('exercisexml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getExerciseXML',
@@ -878,13 +878,40 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS addExercise(): create exercise, put it into target (ref_id) and update exercise properties from xml (see ilias_exercise_3_8.dtd for details). Obj_id must not be set!');
 
         $this->server->register('updateExercise',
-								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "xml" => "xsd:string"),
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'xml' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#updateExercise',
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS updateExercise():update existing exercise, update exercise properties from xml (see ilias_exercise_3_8.dtd for details). obj_id in xml must match according obj id of refid.!');
+
+        $this->server->register('getFileXML',
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'attachment_mode' => 'xsd:int'),
+								array('filexml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getFileXML',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getFileXML(): returns xml description of file. Attachment mode: 0 - no file contents, 1 - plain content (base64encoded), 2 zlib + base64, 3 gzip + base64)');
+
+        $this->server->register('addFile',
+								array('sid' => 'xsd:string', 'target_id' => 'xsd:int', 'xml' => 'xsd:string'),
+								array('refid' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#addFile',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addFile(): create file, put it into target (ref_id) and update file properties from xml (see ilias_file_3_8.dtd for details). Obj_id must not be set!');
+
+        $this->server->register('updateFile',
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'xml' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#updateFile',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS updateFile():update existing file, update file properties from xml (see ilias_file_3_8.dtd for details). obj_id in xml must match according obj id of refid.!');
 
 
 
