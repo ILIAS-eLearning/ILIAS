@@ -7,13 +7,26 @@
 		</th>
 	</tr>
 	<tr>
-		<td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
-		<td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
+		<td class="option"><label for="title">{TXT_TITLE}</label><span class="asterisk">*</span></td>
+		<td class="option_value"><input name="Fobject[title]" id="title" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
 	</tr>
 	<tr>
-		<td class="option">{TXT_DESC}</td>
-		<td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+		<td class="option"><label for="description">{TXT_DESC}</label></td>
+		<td class="option_value"><textarea name="Fobject[desc]" id="description" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
 	</tr>
+<!-- BEGIN defaults -->	
+	<tr>
+		<td class="option"><label for="defaults">{TXT_DEFAULTS}</label></td>
+		<td class="option_value">
+			<select name="defaults" id="defaults">
+				<option value="0">{TEXT_NO_DEFAULTS}</option>
+<!-- BEGIN defaults_row -->
+				<option value="{DEFAULTS_VALUE}">{DEFAULTS_NAME}</option>
+<!-- END defaults_row -->
+			</select>
+		</td>
+	</tr>
+<!-- END defaults -->	
 	<tr>
 		<td class="submit" colspan="2">
 		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>

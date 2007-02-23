@@ -1903,6 +1903,93 @@ class ilObjTest extends ilObject
     return $this->test_id;
   }
 
+	/**
+	* Indicates if ECTS grades output is presented in this test
+	*
+	* Indicates if ECTS grades output is presented in this test
+	*
+	* @return integer 0 if there is no ECTS grades output, 1 otherwise
+	* @access public
+	* @see $ects_output
+	*/
+	function getECTSOutput()
+	{
+		return $this->ects_output;
+	}
+
+	/**
+	* Enables/Disables ECTS grades output for this test
+	*
+	* Enables/Disables ECTS grades output for this test
+	*
+	* @param integer $a_ects_output 0 if ECTS grades output should be deactivated, 1 otherwise
+	* @access public
+	* @see $ects_output
+	*/
+	function setECTSOutput($a_ects_output)
+	{
+		$this->ects_output = $a_ects_output ? 1 : 0;
+	}
+
+	/**
+	* Returns the ECTS FX grade
+	*
+	* Returns the ECTS FX grade
+	*
+	* @return string The ECTS FX grade
+	* @access public
+	* @see $ects_fx
+	*/
+	function getECTSFX()
+	{
+		return $this->ects_fx;
+	}
+
+	/**
+	* Sets the ECTS FX grade
+	*
+	* Sets the ECTS FX grade
+	*
+	* @param string $a_ects_fx The ECTS FX grade
+	* @access public
+	* @see $ects_fx
+	*/
+	function setECTSFX($a_ects_fx)
+	{
+		$this->ects_fx = $a_ects_fx;
+	}
+
+	/**
+	* Returns the ECTS grades
+	*
+	* Returns the ECTS grades
+	*
+	* @return array The ECTS grades
+	* @access public
+	* @see $ects_grades
+	*/
+	function &getECTSGrades()
+	{
+		return $this->ects_grades;
+	}
+
+	/**
+	* Sets the ECTS grades
+	*
+	* Sets the ECTS grades
+	*
+	* @param array $a_ects_grades The ECTS grades
+	* @access public
+	* @see $ects_grades
+	*/
+	function setECTSGrades($a_ects_grades)
+	{
+		if (is_array($a_ects_grades))
+		{
+			$this->ects_grades = $a_ects_grades;
+		}
+	}
+
 /**
 * Sets the sequence settings
 *
@@ -8919,6 +9006,174 @@ class ilObjTest extends ilObject
 		}
 	}
 
+	/**
+	* Returns the available test defaults for the active user
+	*
+	* Returns the available test defaults for the active user
+	*
+	* @param string $sortby Sort field for the database query
+	* @param string $sortorder Sort order for the database query
+	* @return array An array containing the defaults
+	* @access public
+	*/
+	function &getAvailableDefaults($sortby = "name", $sortorder = "asc")
+	{
+		global $ilDB;
+		global $ilUser;
+		
+		$query = sprintf("SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY $sortby $sortorder",
+			$ilDB->quote($ilUser->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		$defaults = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$defaults[$row["test_defaults_id"]] = $row;
+		}
+		return $defaults;
+	}
+	
+	/**
+	* Returns the test defaults for a given id
+	*
+	* Returns the test defaults for a given id
+	*
+	* @param integer $test_defaults_id The database id of a test defaults dataset
+	* @return array An array containing the test defaults
+	* @access public
+	*/
+	function &getTestDefaults($test_defaults_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT * FROM tst_test_defaults WHERE test_defaults_id = %s",
+			$ilDB->quote($test_defaults_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	
+	/**
+	* Deletes the defaults for a test
+	*
+	* Deletes the defaults for a test
+	*
+	* @param integer $test_default_id The database ID of the test defaults
+	* @access public
+	*/
+	function deleteDefaults($test_default_id)
+	{
+		global $ilDB;
+		$query = sprintf("DELETE FROM tst_test_defaults WHERE test_defaults_id = %s",
+			$ilDB->quote($test_default_id . "")
+		);
+		$result = $ilDB->query($query);
+	}
+	
+	/**
+	* Adds the defaults of this test to the test defaults
+	*
+	* Adds the defaults of this test to the test defaults
+	*
+	* @param string $a_name The name of the test defaults
+	* @access public
+	*/
+	function addDefaults($a_name)
+	{
+		global $ilDB;
+		global $ilUser;
+		$testsettings = array(
+			"TitleOutput" => $this->getTitleOutput(),
+			"PassScoring" => $this->getPassScoring(),
+			"Introduction" => $this->getIntroduction(),
+			"SequenceSettings" => $this->getSequenceSettings(),
+			"ScoreReporting" => $this->getScoreReporting(),
+			"InstantFeedbackSolution" => $this->getInstantFeedbackSolution(),
+			"AnswerFeedback" => $this->getAnswerFeedback(),
+			"AnswerFeedbackPoints" => $this->getAnswerFeedbackPoints(),
+			"Anonymity" => $this->getAnonymity(),
+			"ShowCancel" => $this->getShowCancel(),
+			"ReportingDate" => $this->getReportingDate(),
+			"NrOfTries" => $this->getNrOfTries(),
+			"UsePreviousAnswers" => $this->getUsePreviousAnswers(),
+			"ProcessingTime" => $this->getProcessingTime(),
+			"EnableProcessingTime" => $this->getEnableProcessingTime(),
+			"StartingTime" => $this->getStartingTime(),
+			"EndingTime" => $this->getEndingTime(),
+			"ECTSOutput" => $this->getECTSOutput(),
+			"ECTSFX" => $this->getECTSFX(),
+			"ECTSGrades" => $this->getECTSGrades(),
+			"isRandomTest" => $this->isRandomTest(),
+			"RandomQuestionCount" => $this->getRandomQuestionCount(),
+			"CountSystem" => $this->getCountSystem(),
+			"MCScoring" => $this->getMCScoring()
+		);
+		$query = sprintf("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks) VALUES (NULL, %s, %s, %s, %s)",
+			$ilDB->quote($a_name . ""),
+			$ilDB->quote($ilUser->getId(). ""),
+			$ilDB->quote(serialize($testsettings)),
+			$ilDB->quote(serialize($this->mark_schema))
+		);
+		$result = $ilDB->query($query);
+	}
+	
+	/**
+	* Applies given test defaults to this test
+	*
+	* Applies given test defaults to this test
+	*
+	* @param integer $test_defaults_id The database id of the test defaults
+	* @return boolean TRUE if the application succeeds, FALSE otherwise
+	* @access public
+	*/
+	function applyDefaults($test_defaults_id)
+	{
+		$total = $this->evalTotalPersons();
+		$result = FALSE;
+		if (($this->getQuestionCount() == 0) && ($total == 0))
+		{
+			// only apply if there are no questions added and not user datasets exist
+			$defaults =& $this->getTestDefaults($test_defaults_id);
+			$testsettings = unserialize($defaults["defaults"]);
+			include_once "./Modules/Test/classes/class.assMarkSchema.php";
+			$this->mark_schema = unserialize($defaults["marks"]);
+			$this->setTitleOutput($testsettings["TitleOutput"]);
+			$this->setPassScoring($testsettings["PassScoring"]);
+			$this->setIntroduction($testsettings["Introduction"]);
+			$this->setSequenceSettings($testsettings["SequenceSettings"]);
+			$this->setScoreReporting($testsettings["ScoreReporting"]);
+			$this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
+			$this->setAnswerFeedback($testsettings["AnswerFeedback"]);
+			$this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
+			$this->setAnonymity($testsettings["Anonymity"]);
+			$this->setShowCancel($testsettings["ShowCancel"]);
+			$this->setReportingDate($testsettings["ReportingDate"]);
+			$this->setNrOfTries($testsettings["NrOfTries"]);
+			$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
+			$this->setProcessingTime($testsettings["ProcessingTime"]);
+			$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
+			$this->setStartingTime($testsettings["StartingTime"]);
+			$this->setEndingTime($testsettings["EndingTime"]);
+			$this->setECTSOutput($testsettings["ECTSOutput"]);
+			$this->setECTSFX($testsettings["ECTSFX"]);
+			$this->setECTSGrades($testsettings["ECTSGrades"]);
+			$this->setRandomTest($testsettings["isRandomTest"]);
+			$this->setRandomQuestionCount($testsettings["RandomQuestionCount"]);
+			$this->setCountSystem($testsettings["CountSystem"]);
+			$this->setMCScoring($testsettings["MCScoring"]);
+			$this->saveToDb();
+			$result = TRUE;
+		}
+		return $result;
+	}
 } // END class.ilObjTest
 
 ?>

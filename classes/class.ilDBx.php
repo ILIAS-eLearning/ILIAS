@@ -449,7 +449,32 @@ class ilDBx extends PEAR
 			return true;
 		}
 		return false;
-	}		
+	}
+	
+	/**
+	* Checks for the existence of a table column
+	*
+	* @param string $a_table The table name which should be examined
+	* @param string $a_column_name The name of the column
+	* @return boolean TRUE if the table column exists, FALSE otherwise
+	*/
+	function tableColumnExists($a_table, $a_column_name)
+	{
+		$column_visibility = FALSE;
+		$query = "SHOW COLUMNS FROM `$a_table`";
+		$res = $this->db->query($query);
+		if ($res->numRows())
+		{
+			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (strcmp($data["Field"], $a_column_name) == 0)
+				{
+					$column_visibility = TRUE;
+				}
+			}
+		}
+		return $column_visibility;
+	}
 
 } //end Class
 ?>

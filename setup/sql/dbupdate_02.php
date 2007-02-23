@@ -17,20 +17,7 @@ $ilCtrlStructureReader->getStructure();
 <#869>
 <?php
 // add show_questiontext for question blocks
-$attribute_visibility = FALSE;
-$query = "SHOW COLUMNS FROM survey_questionblock";
-$res = $ilDB->query($query);
-if ($res->numRows())
-{
-	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-	{
-		if (strcmp($data["Field"], "show_questiontext") == 0)
-		{
-			$attribute_visibility = TRUE;
-		}
-	}
-}
-if ($attribute_visibility == FALSE)
+if (!$ilDB->tableColumnExists("survey_questionblock", "show_questiontext"))
 {
 	$query = "ALTER TABLE `survey_questionblock` ADD `show_questiontext` ENUM( '0', '1' ) DEFAULT '1' AFTER `title`";
 	$res = $ilDB->query($query);
@@ -538,4 +525,13 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#921>
+CREATE TABLE  `tst_test_defaults` (
+ `test_defaults_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+ `user_fi` INT NOT NULL ,
+ `name` VARCHAR( 255 ) NOT NULL ,
+ `defaults` TEXT NOT NULL ,
+ `marks` TEXT NOT NULL ,
+ `lastchange` TIMESTAMP NOT NULL ,
+INDEX (  `user_fi` )
+);
