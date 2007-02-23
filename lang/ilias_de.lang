@@ -1521,6 +1521,7 @@ common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
 common#:#default_value#:#Standardwert
+common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge

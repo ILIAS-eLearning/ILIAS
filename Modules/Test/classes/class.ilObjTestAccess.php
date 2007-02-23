@@ -568,16 +568,16 @@ class ilObjTestAccess extends ilObjectAccess
 				$pass = ilObjTest::_getResultPass($active_id);
 				$testres =& ilObjTestAccess::_getTestResult($active_id, $pass);
 				array_push($passed_users, 
-						   array(
-							   "user_id" => $user_id,
-							   "max_points" => $testres["max_points"],
-							   "reached_points" => $testres["reached_points"],
-							   "mark_short" => $testres["mark"]["short_name"],
-							   "mark_official" => $testres["mark"]["official_name"],
-							   "passed" => (bool) $testres['passed'],
-							   "failed" => ($tries and !$testres['passed'])
-							   )
-					);
+					array(
+						"user_id" => $user_id,
+						"max_points" => $testres["max_points"],
+						"reached_points" => $testres["reached_points"],
+						"mark_short" => $testres["mark"]["short_name"],
+						"mark_official" => $testres["mark"]["official_name"],
+						"passed" => (bool) $testres['passed'],
+						"failed" => ($tries and !$testres['passed'])
+					)
+				);
 			}
 		}
 		return $passed_users;
@@ -603,7 +603,6 @@ class ilObjTestAccess extends ilObjectAccess
 		}
 		return false;
 	}
-
 }
 
 ?>

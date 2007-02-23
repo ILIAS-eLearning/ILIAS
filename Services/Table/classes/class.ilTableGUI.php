@@ -541,15 +541,15 @@ class ilTableGUI
 			{
 				foreach ($tbl_content_row as $key => $tbl_content_cell)
 				{
-                    if (is_array($tbl_content_cell))
-                    {
-                        $this->tpl->setCurrentBlock("tbl_cell_subtitle");
-					    $this->tpl->setVariable("TBL_CELL_SUBTITLE",$tbl_content_cell[1]);
-					    $this->tpl->parseCurrentBlock();
-					    $tbl_content_cell = "<b>".$tbl_content_cell[0]."</b>";
-                    }
-                    
-                    $this->tpl->setCurrentBlock("tbl_content_cell");
+					if (is_array($tbl_content_cell))
+					{
+						$this->tpl->setCurrentBlock("tbl_cell_subtitle");
+						$this->tpl->setVariable("TBL_CELL_SUBTITLE",$tbl_content_cell[1]);
+						$this->tpl->parseCurrentBlock();
+						$tbl_content_cell = "<b>".$tbl_content_cell[0]."</b>";
+					}
+
+					$this->tpl->setCurrentBlock("tbl_content_cell");
 					$this->tpl->setVariable("TBL_CONTENT_CELL",$tbl_content_cell);
 					$this->tpl->parseCurrentBlock();
 				}

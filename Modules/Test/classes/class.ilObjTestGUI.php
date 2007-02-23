@@ -186,21 +186,6 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		parent::cloneAllObject();
 		return true;
-		
-		
-		// Everything is done in parent class
-		/*
-		if ($_POST["tst"] < 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_select_tsts"));
-			$this->createObject();
-			return;
-		}
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$ref_id = ilObjTest::_clone($_POST["tst"]);
-		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
-		ilUtil::redirect("ilias.php?ref_id=$ref_id&baseClass=ilObjTestGUI");
-		*/
 	}
 	
 	/**
@@ -213,6 +198,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
+		if ($_POST["defaults"] > 0) 
+		{
+			$newObj->applyDefaults($_POST["defaults"]);
+		}
 
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
@@ -2996,7 +2985,8 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$this->object->mark_schema->flush();
 		foreach ($_POST as $key => $value) {
-			if (preg_match("/mark_short_(\d+)/", $key, $matches)) {
+			if (preg_match("/mark_short_(\d+)/", $key, $matches)) 
+			{
 				$this->object->mark_schema->addMarkStep($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["passed_$matches[1]"]);
 			}
 		}
@@ -3456,24 +3446,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 			include_once("./Modules/Test/classes/class.ilObjTest.php");
 			$tst = new ilObjTest();
-			
-			/*
-			$tests =& ilObjTest::_getAvailableTests(true);
-			if (count($tests) > 0)
-			{
-				foreach ($tests as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("option_tst");
-					$this->tpl->setVariable("OPTION_VALUE_TST", $key);
-					$this->tpl->setVariable("TXT_OPTION_TST", $value);
-					if ($_POST["tst"] == $key)
-					{
-						$this->tpl->setVariable("OPTION_SELECTED_TST", " selected=\"selected\"");				
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			*/
 			$questionpools =& $tst->getAvailableQuestionpools($use_object_id = true, $equal_points = false, $could_be_offline = true);
 			if (count($questionpools) == 0)
 			{
@@ -3492,6 +3464,23 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
+
+			$defaults =& $tst->getAvailableDefaults();
+			if (count($defaults))
+			{
+				foreach ($defaults as $row)
+				{
+					$this->tpl->setCurrentBlock("defaults_row");
+					$this->tpl->setVariable("DEFAULTS_VALUE", $row["test_defaults_id"]);
+					$this->tpl->setVariable("DEFAULTS_NAME", ilUtil::prepareFormOutput($row["name"]));
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("defaults");
+				$this->tpl->setVariable("TXT_DEFAULTS", $this->lng->txt("defaults"));
+				$this->tpl->setVariable("TEXT_NO_DEFAULTS", $this->lng->txt("tst_defaults_dont_use"));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
@@ -3526,16 +3515,10 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_TST_FILE", $this->lng->txt("tst_upload_file"));
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 
-			#$this->tpl->setVariable("TXT_DUPLICATE_TST", $this->lng->txt("duplicate_tst"));
-			#$this->tpl->setVariable("TXT_SELECT_TST", $this->lng->txt("obj_tst"));
-			#$this->tpl->setVariable("OPTION_SELECT_TST", $this->lng->txt("select_tst_option"));
-			#$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
 			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_tst.gif'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_tst"));
 			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_tst.gif'));
 			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_tst"));
-			#$this->tpl->setVariable("TYPE_IMG3", ilUtil::getImagePath('icon_tst.gif'));
-			#$this->tpl->setVariable("ALT_IMG3",$this->lng->txt("obj_tst"));
 			$this->tpl->setVariable("NEW_TYPE", $this->type);
 			$this->tpl->parseCurrentBlock();
 
@@ -4470,6 +4453,139 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* Displays the settings page for test defaults
+	*
+	* Displays the settings page for test defaults
+	*
+	* @access public
+	*/
+	function defaultsObject()
+	{
+		global $ilUser;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_defaults.html", "Modules/Test");
+		
+		$maxentries = $ilUser->getPref("hits_per_page");
+		if ($maxentries < 1)
+		{
+			$maxentries = 9999;
+		}
+
+		$offset = $_GET["offset"] ? $_GET["offset"] : 0;
+		$sortby = $_GET["sort_by"] ? $_GET["sort_by"] : "name";
+		$sortorder = $_GET["sort_order"] ? $_GET["sort_order"] : "asc";
+		
+		$defaults =& $this->object->getAvailableDefaults($sortby, $sortorder);
+		if (count($defaults) > 0)
+		{
+			$tablerows = array();
+			foreach ($defaults as $row)
+			{
+				array_push($tablerows, array("checkbox" => "<input type=\"checkbox\" name=\"chb_defaults[]\" value=\"" . $row["test_defaults_id"] . "\"/>", "name" => $row["name"]));
+			}
+			$headervars = array("", "name");
+
+			include_once "./Services/Table/classes/class.ilTableGUI.php";
+			$tbl = new ilTableGUI(0, FALSE);
+			$tbl->setTitle($this->lng->txt("tst_defaults_available"));
+			$header_names = array(
+				"",
+				$this->lng->txt("title")
+			);
+			$tbl->setHeaderNames($header_names);
+
+			$tbl->disable("sort");
+			$tbl->disable("auto_sort");
+			$tbl->enable("title");
+			$tbl->enable("action");
+			$tbl->enable("select_all");
+			$tbl->setLimit($maxentries);
+			$tbl->setOffset($offset);
+			$tbl->setData($tablerows);
+			$tbl->setMaxCount(count($tablerows));
+			$tbl->setOrderDirection($sortorder);
+			$tbl->setSelectAllCheckbox("chb_defaults");
+			$tbl->setFormName("formDefaults");
+			$tbl->addActionButton("deleteDefaults", $this->lng->txt("delete"));
+			$tbl->addActionButton("applyDefaults", $this->lng->txt("apply"));
+
+			$header_params = $this->ctrl->getParameterArray($this, "defaults");
+			$tbl->setHeaderVars($headervars, $header_params);
+
+			// footer
+			$tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
+			// render table
+			$tableoutput = $tbl->render();
+			$this->tpl->setVariable("TEST_DEFAULTS_TABLE", $tableoutput);
+		}
+		else
+		{
+			$this->tpl->setVariable("TEST_DEFAULTS_TABLE", $this->lng->txt("tst_defaults_not_defined"));
+		}
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "addDefaults"));
+		$this->tpl->setVariable("BUTTON_ADD", $this->lng->txt("add"));
+		$this->tpl->setVariable("TEXT_DEFAULTS_OF_TEST", $this->lng->txt("tst_defaults_defaults_of_test"));
+	}
+	
+	/**
+	* Deletes selected test defaults
+	*/
+	function deleteDefaultsObject()
+	{
+		if (count($_POST["chb_defaults"]))
+		{
+			foreach ($_POST["chb_defaults"] as $test_default_id)
+			{
+				$this->object->deleteDefaults($test_default_id);
+			}
+		}
+		$this->defaultsObject();
+	}
+	
+	/**
+	* Applies the selected test defaults
+	*/
+	function applyDefaultsObject()
+	{
+		if (count($_POST["chb_defaults"]) == 1)
+		{
+			foreach ($_POST["chb_defaults"] as $test_default_id)
+			{
+				$result = $this->object->applyDefaults($test_default_id);
+				if (!$result)
+				{
+					ilUtil::sendInfo($this->lng->txt("tst_defaults_apply_not_possible"));
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt("tst_defaults_applied"));
+				}
+			}
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("tst_defaults_apply_select_one"));
+		}
+		$this->defaultsObject();
+	}
+	
+	/**
+	* Adds the defaults of this test to the defaults
+	*/
+	function addDefaultsObject()
+	{
+		if (strlen($_POST["name"]) > 0)
+		{
+			$this->object->addDefaults($_POST['name']);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("tst_defaults_enter_name"));
+		}
+		$this->defaultsObject();
+	}
+	
+	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
 	* works through ilCtrl in the future this may be changed
@@ -4955,6 +5071,14 @@ class ilObjTestGUI extends ilObjectGUI
 				"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport"),
 			array("", "ilobjtestgui", "iltestcertificategui")
 		);
+
+		// defaults subtab
+		$ilTabs->addSubTabTarget(
+			"defaults",
+			$this->ctrl->getLinkTarget($this, "defaults"),
+			array("defaults", "deleteDefaults", "addDefaults", "applyDefaults"),
+			array("", "ilobjtestgui", "iltestcertificategui")
+		);
 	}
 
 	/**
@@ -5021,11 +5145,20 @@ class ilObjTestGUI extends ilObjectGUI
 			case "scoring":
 			case "properties":
 			case "marks":
+			case "saveMarks":
+			case "cancelMarks":
+			case "addMarkStep":
+			case "deleteMarkSteps":
+			case "addSimpleMarkSchema":
 			case "certificate":
 			case "certificateImport":
 			case "certificateUpload":
 			case "certificateEditor":
 			case "certificateSave":
+			case "defaults":
+			case "deleteDefaults":
+			case "addDefaults":
+			case "applyDefaults":
 			case "":
 				if (($ilAccess->checkAccess("write", "", $this->ref_id)) && ((strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0) || (strcmp($this->ctrl->getCmdClass(), "iltestcertificategui") == 0) || (strlen($this->ctrl->getCmdClass()) == 0)))
 				{
@@ -5090,13 +5223,15 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
 				$tabs_gui->addTarget("settings",
-					 $this->ctrl->getLinkTarget($this,'properties'),
-					 array("properties", "saveProperties", "cancelProperties",
-						"marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-						"saveMarks", "cancelMarks", 
-						"certificate", "certificateEditor", "certificateRemoveBackground",
-						"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload",
-						"certificateImport", "scoring", ""),
+					$this->ctrl->getLinkTarget($this,'properties'),
+						array("properties", "saveProperties", "cancelProperties",
+							"marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+							"saveMarks", "cancelMarks", 
+							"certificate", "certificateEditor", "certificateRemoveBackground",
+							"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload",
+							"certificateImport", "scoring", "defaults", "addDefaults", "deleteDefaults", "applyDefaults",
+							""
+					),
 					 array("", "ilobjtestgui", "iltestcertificategui")
 				);
 			}
