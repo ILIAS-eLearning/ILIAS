@@ -309,7 +309,7 @@ class ilTestEvaluationUserData
 		$bestpass = 0;
 		foreach ($this->passes as $pass)
 		{
-			$reached = $pass->getReachedPoints();
+			$reached = $this->getReachedPoints($pass->getPass());
 			if ($reached > $bestpoints)
 			{
 				$bestpoints = $reached;

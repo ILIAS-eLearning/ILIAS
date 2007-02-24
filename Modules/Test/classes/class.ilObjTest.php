@@ -4788,8 +4788,8 @@ class ilObjTest extends ilObject
 					{
 						while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 						{
-							$pass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-							$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $pass);
+							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
+							$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $tpass);
 							$data->addQuestionTitle($row["original_id"], $row["title"]);
 						}
 					}
@@ -4809,8 +4809,8 @@ class ilObjTest extends ilObject
 				{
 					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 					{
-						$pass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-						$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $pass);
+						$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
+						$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $tpass);
 						$data->addQuestionTitle($row["original_id"], $row["title"]);
 					}
 				}
@@ -4821,17 +4821,17 @@ class ilObjTest extends ilObject
 
 		foreach (array_keys($data->getParticipants()) as $active_id)
 		{
-			$pass = 0;
+			$tpass = 0;
 			if ($this->getPassScoring() == SCORE_BEST_PASS)
 			{
-				$pass = $data->getParticipant($active_id)->getBestPass();
+				$tpass = $data->getParticipant($active_id)->getBestPass();
 			}
 			else
 			{
-				$pass = $data->getParticipant($active_id)->getLastPass();
+				$tpass = $data->getParticipant($active_id)->getLastPass();
 			}
-			$data->getParticipant($active_id)->setReached($data->getParticipant($active_id)->getReachedPoints($pass));
-			$data->getParticipant($active_id)->setMaxPoints($data->getParticipant($active_id)->getAvailablePoints($pass));
+			$data->getParticipant($active_id)->setReached($data->getParticipant($active_id)->getReachedPoints($tpass));
+			$data->getParticipant($active_id)->setMaxPoints($data->getParticipant($active_id)->getAvailablePoints($tpass));
 			$percentage = $data->getParticipant($active_id)->getMaxPoints() ? $data->getParticipant($active_id)->getReached() / $data->getParticipant($active_id)->getMaxPoints() * 100.0 : 0;
 			$mark = $this->mark_schema->getMatchingMark($percentage);
 			if (is_object($mark))
@@ -4845,9 +4845,9 @@ class ilObjTest extends ilObject
 				$ects_mark = $this->object->getECTSGrade($data->getParticipant($active_id)->getReached(), $data->getParticipant($active_id)->getMaxPoints());
 				$data->getParticipant($active_id)->setECTSMark($ects_mark);
 			}
-			$data->getParticipant($active_id)->setQuestionsWorkedThrough($data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionCount());
-			$questionpass = $pass;
-			if (!is_array($data->getParticipant($active_id)->getQuestions($pass)))
+			$data->getParticipant($active_id)->setQuestionsWorkedThrough($data->getParticipant($active_id)->getPass($tpass)->getAnsweredQuestionCount());
+			$questionpass = $tpass;
+			if (!is_array($data->getParticipant($active_id)->getQuestions($tpass)))
 			{
 				$questionpass = 0;
 			}
