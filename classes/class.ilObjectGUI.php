@@ -2410,7 +2410,7 @@ class ilObjectGUI
 		$obj_type = ilObject::_lookupType($a_ref_id,true);
 		$class_name = $this->objDefinition->getClassName($obj_type);
 		$class = strtolower("ilObj".$class_name."GUI");
-		$this->ctrl->redirectByClass($class, $a_cmd);
+		$this->ctrl->redirectByClass(array("ilrepositorygui", $class), $a_cmd);
 	}
 	
 	// Object Cloning

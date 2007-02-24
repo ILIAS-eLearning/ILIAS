@@ -2834,6 +2834,7 @@ feed#:#feed_open_source_page#:#Go to Source of External News
 feed#:#block_feed_block_head#:#External News Feed
 feed#:#block_feed_block_title#:#Title
 feed#:#block_feed_block_feed_url#:#Feed URL
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)
 pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!

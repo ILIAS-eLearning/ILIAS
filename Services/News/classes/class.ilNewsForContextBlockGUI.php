@@ -83,9 +83,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*
 	* @return	string	Block type.
 	*/
-	function getBlockType()
+	static function getBlockType()
 	{
 		return self::$block_type;
+	}
+
+	/**
+	* Is this a repository object
+	*
+	* @return	string	Block type.
+	*/
+	static function isRepositoryObject()
+	{
+		return false;
 	}
 	
 	/**

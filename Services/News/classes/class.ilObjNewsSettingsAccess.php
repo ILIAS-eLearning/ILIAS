@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,86 +21,20 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+include_once("classes/class.ilObjectAccess.php");
 
 /**
-* BlockGUI class for (centered) Content on Personal Desktop
+* Class ilObjNewsSettingsAccess
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ingroup ServicesNews
 */
-class ilPDContentBlockGUI extends ilBlockGUI
+class ilObjNewsSettingsAccess extends ilObjectAccess
 {
-	static $block_type = "pdcontent";
-	
-	/**
-	* Constructor
-	*/
-	function ilPDContentBlockGUI()
-	{
-		global $ilCtrl, $lng, $ilUser;
-		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
-		
-		//$this->setTitle($lng->txt("selected_items"));
-		$this->setEnableNumInfo(false);
-		$this->setLimit(99999);
-		//$this->setColSpan(2);
-		$this->setBigMode(true);
-		$this->allow_moving = false;
-	}
-	
-	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
-	{
-		return self::$block_type;
-	}
 
-	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
-	{
-		return false;
-	}
 
-	function getHTML()
-	{
-		return parent::getHTML();
-	}
-	
-	function getContent()
-	{
-		return $this->content;
-	}
-	
-	function setContent($a_content)
-	{
-		$this->content = $a_content;
-	}
-	
-	/**
-	* Fill data section
-	*/
-	function fillDataSection()
-	{
-		global $ilUser;
-		
-		$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
-	}
-
-	/**
-	* block footer
-	*/
-	function fillFooter()
-	{
-	}
 }
 
 ?>

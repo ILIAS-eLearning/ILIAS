@@ -89,12 +89,16 @@ class ilExternalFeed
 	*/
 	function fetch()
 	{
-		$this->feed = fetch_rss($this->getUrl());
-		foreach($this->feed->items as $item)
+		$this->feed = @fetch_rss($this->getUrl());
+		
+		if (is_array($this->feed->items))
 		{
-			$item_obj = new ilExternalFeedItem();
-			$item_obj->setMagpieItem($item);
-			$this->items[] = $item_obj;
+			foreach($this->feed->items as $item)
+			{
+				$item_obj = new ilExternalFeedItem();
+				$item_obj->setMagpieItem($item);
+				$this->items[] = $item_obj;
+			}
 		}
 	}
 	

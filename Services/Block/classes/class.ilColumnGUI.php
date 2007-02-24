@@ -44,7 +44,10 @@ class ilColumnGUI
 	protected $type;
 	protected $enableedit = false;
 	protected $repositorymode = false;
+	protected $repositoryitems = array();
 	
+	// all blocks that are repository objects
+	protected $rep_block_types = array("feed");
 	
 	//
 	// This two arrays may be replaced by some
@@ -61,6 +64,7 @@ class ilColumnGUI
 		"ilBookmarkBlockGUI" => "Services/PersonalDesktop/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Services/Block/",
+		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
 	
@@ -72,6 +76,7 @@ class ilColumnGUI
 			"ilBookmarkBlockGUI" => "pdbookm",
 			"ilNewsForContextBlockGUI" => "news",
 			"ilExternalFeedBlockGUI" => "feed",
+			"ilPDExternalFeedBlockGUI" => "pdfeed",
 			"ilPDFeedbackBlockGUI" => "pdfeedb",
 			"ilPDSysMessageBlockGUI" => "pdsysmess",
 			"ilPDSelectedItemsBlockGUI" => "pditems",
@@ -98,14 +103,15 @@ class ilColumnGUI
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT)
 		);
 
+	// these are only for pd blocks
 	protected $custom_blocks = array(
-		"cat" => array("ilExternalFeedBlockGUI"),
+		"cat" => array(),
 		"crs" => array(),
 		"grp" => array(),
 		"frm" => array(),
-		"root" => array("ilExternalFeedBlockGUI"),
+		"root" => array(),
 		"info" => array(),
-		"pd" => array("ilExternalFeedBlockGUI")
+		"pd" => array("ilPDExternalFeedBlockGUI")
 		);
 
 	/**
@@ -217,6 +223,26 @@ class ilColumnGUI
 	}
 
 	/**
+	* Set Administration Commmands.
+	*
+	* @param	boolean	$a_admincommands	Administration Commmands
+	*/
+	function setAdminCommands($a_admincommands)
+	{
+		$this->admincommands = $a_admincommands;
+	}
+
+	/**
+	* Get Administration Commmands.
+	*
+	* @return	boolean	Administration Commmands
+	*/
+	function getAdminCommands()
+	{
+		return $this->admincommands;
+	}
+
+	/**
 	* Get Screen Mode for current command.
 	*/
 	static function getScreenMode()
@@ -269,6 +295,26 @@ class ilColumnGUI
 	}
 
 	/**
+	* Set Repository Items.
+	*
+	* @param	array	$a_repositoryitems	Repository Items
+	*/
+	function setRepositoryItems($a_repositoryitems)
+	{
+		$this->repositoryitems = $a_repositoryitems;
+	}
+
+	/**
+	* Get Repository Items.
+	*
+	* @return	array	Repository Items
+	*/
+	function getRepositoryItems()
+	{
+		return $this->repositoryitems;
+	}
+
+	/**
 	* execute command
 	*/
 	function &executeCommand()
@@ -297,8 +343,10 @@ class ilColumnGUI
 				$block_gui->setProperties($this->block_property[$cur_block_type]);
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
+				$block_gui->setAdminCommands($this->getAdminCommands());
 
-				if (in_array($gui_class, $this->custom_blocks[$this->getColType()]))
+				if (in_array($gui_class, $this->custom_blocks[$this->getColType()]) ||
+					in_array($cur_block_type, $this->rep_block_types))
 				{
 					$block_class = substr($gui_class, 0, strlen($gui_class)-3);
 					include_once("./".self::$locations[$gui_class]."classes/".
@@ -364,6 +412,7 @@ class ilColumnGUI
 			$block_gui->setProperties($this->block_property[$block["type"]]);
 			$block_gui->setRepositoryMode($this->getRepositoryMode());
 			$block_gui->setEnableEdit($this->getEnableEdit());
+			$block_gui->setAdminCommands($this->getAdminCommands());
 			if ($this->getSide() == IL_COL_LEFT)
 			{
 				$block_gui->setAllowMove("right");
@@ -388,6 +437,7 @@ class ilColumnGUI
 					"class.".$block_class.".php");
 				$app_block = new $block_class($block["id"]);
 				$block_gui->setBlock($app_block);
+				$block_gui->setRefId($block["ref_id"]);
 			}
 
 			$ilCtrl->setParameter($this, "block_type", $block_gui->getBlockType());
@@ -415,7 +465,7 @@ class ilColumnGUI
 	*/
 	function addHiddenBlockSelector()
 	{
-		global $lng, $ilUser, $ilCtrl;
+		global $lng, $ilUser, $ilCtrl, $ilSetting;
 		
 		// show selector for hidden blocks
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
@@ -427,8 +477,10 @@ class ilColumnGUI
 			"pdbookm" => $lng->txt("my_bms"),
 			"news" => $lng->txt("news_internal_news"),
 			"feed" => $lng->txt("feed"),
+			"pdfeed" => $lng->txt("feed"),
 			"html" => $lng->txt("html_block"),
 			);
+			
 
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
@@ -488,7 +540,27 @@ class ilColumnGUI
 						include_once("./".self::$locations[$block_class]."classes/".
 							"class.".$block_class.".php");
 						$block_type = call_user_func(array($block_class, 'getBlockType'));
-						$add_blocks[$block_type] = $blocks[$block_type];
+						
+						// check blocks that can be globally (de-)activated
+						$activated = true;
+						if ($block_type == "feed")
+						{
+							if (!$ilSetting->get("block_activated_".$block_type))
+							{
+								$activated = false;
+							}
+						}
+						if ($block_type == "pdfeed")		// maximum number
+						{
+							//if ($ilSetting->get("block_max_nr_".$block_type) >=
+							//	)
+							//{
+						}
+
+						if ($activated)
+						{
+							$add_blocks[$block_type] = $blocks[$block_type];
+						}
 					}
 				}
 			}
@@ -517,6 +589,7 @@ class ilColumnGUI
 		$this->determineBlocks();
 		$i = 1;
 		$sum_moveable = count($this->blocks[$this->getSide()]);
+		
 		foreach ($this->blocks[$this->getSide()] as $block)
 		{
 			include_once("./".self::$locations[$block["class"]]."classes/".
@@ -538,6 +611,7 @@ class ilColumnGUI
 				$block_gui->setProperties($this->block_property[$block["type"]]);
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
+				$block_gui->setAdminCommands($this->getAdminCommands());
 				
 				if ($this->getSide() == IL_COL_LEFT)
 				{
@@ -563,6 +637,7 @@ class ilColumnGUI
 						"class.".$block_class.".php");
 					$app_block = new $block_class($block["id"]);
 					$block_gui->setBlock($app_block);
+					$block_gui->setRefId($block["ref_id"]);
 				}
 
 				$ilCtrl->setParameter($this, "block_type", $block["type"]);
@@ -618,6 +693,7 @@ class ilColumnGUI
 		$block_gui->setProperties($this->block_property[$_POST["block_type"]]);
 		$block_gui->setRepositoryMode($this->getRepositoryMode());
 		$block_gui->setEnableEdit($this->getEnableEdit());
+		$block_gui->setAdminCommands($this->getAdminCommands());
 		
 		$ilCtrl->setParameter($this, "block_type", $_POST["block_type"]);
 		$html = $ilCtrl->forwardCommand($block_gui);
@@ -664,7 +740,7 @@ class ilColumnGUI
 					$side = $def_side;
 				}
 				
-				// check blocks that can be (de-)activated
+				// check blocks that can be globally (de-)activated
 				$activated = true;
 				if ($type == "news" ||  $type == "pdnews")
 				{
@@ -686,34 +762,105 @@ class ilColumnGUI
 			}
 		}
 		
-		include_once("./Services/Block/classes/class.ilCustomBlock.php");
-		$costum_block = new ilCustomBlock();
-		$costum_block->setContextObjId($ilCtrl->getContextObjId());
-		$costum_block->setContextObjType($ilCtrl->getContextObjType());
-		$c_blocks = $costum_block->queryBlocksForContext();
-
-		foreach($c_blocks as $c_block)
+		if (!$this->getRepositoryMode())
 		{
-			$type = $c_block["type"];
-			$class = array_search($type, self::$block_types);
-			$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
-			if ($nr === false)
+			include_once("./Services/Block/classes/class.ilCustomBlock.php");
+			$costum_block = new ilCustomBlock();
+			$costum_block->setContextObjId($ilCtrl->getContextObjId());
+			$costum_block->setContextObjType($ilCtrl->getContextObjType());
+			$c_blocks = $costum_block->queryBlocksForContext();
+	
+			foreach($c_blocks as $c_block)
 			{
-				$nr = $def_nr++;
+				$type = $c_block["type"];
+				$class = array_search($type, self::$block_types);
+				$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
+				if ($nr === false)
+				{
+					$nr = $def_nr++;
+				}
+				$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
+				if ($side === false)
+				{
+					$side = IL_COL_RIGHT;
+				}
+	
+				// check blocks that can be globally (de-)activated
+				$activated = true;
+				if ($type == "feed")
+				{
+					if (!$ilSetting->get("block_activated_".$type))
+					{
+						$activated = false;
+					}
+				}
+				
+				if ($activated)
+				{
+					$this->blocks[$side][] = array(
+						"nr" => $nr,
+						"class" => $class,
+						"type" => $type,
+						"id" => $c_block["id"],
+						"custom" => true);
+				}
 			}
-			$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
-			if ($side === false)
-			{
-				$side = IL_COL_RIGHT;
-			}
-
-			$this->blocks[$side][] = array(
-				"nr" => $nr,
-				"class" => $class,
-				"type" => $type,
-				"id" => $c_block["id"],
-				"custom" => true);
 		}
+		else	// get all subitems
+		{
+			include_once("./Services/Block/classes/class.ilCustomBlock.php");
+			$rep_items = $this->getRepositoryItems();
+			foreach($this->rep_block_types as $block_type)
+			{
+				if (!is_array($rep_items[$block_type]))
+				{
+					continue;
+				}
+				foreach($rep_items[$block_type] as $item)
+				{
+					$costum_block = new ilCustomBlock();
+					$costum_block->setContextObjId($item["obj_id"]);
+					$costum_block->setContextObjType($block_type);
+					$c_blocks = $costum_block->queryBlocksForContext();
+					$c_block = $c_blocks[0];
+					
+					$type = $block_type;
+					$class = array_search($type, self::$block_types);
+					$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
+					if ($nr === false)
+					{
+						$nr = $def_nr++;
+					}
+					$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
+					if ($side === false)
+					{
+						$side = IL_COL_RIGHT;
+					}
+		
+					// check blocks that can be globally (de-)activated
+					$activated = true;
+					if ($type == "feed")
+					{
+						if (!$ilSetting->get("block_activated_".$type))
+						{
+							$activated = false;
+						}
+					}
+					
+					if ($activated)
+					{
+						$this->blocks[$side][] = array(
+							"nr" => $nr,
+							"class" => $class,
+							"type" => $type,
+							"id" => $c_block["id"],
+							"custom" => true,
+							"ref_id" => $item["ref_id"]);
+					}
+				}
+			}
+		}
+		
 		
 		$this->blocks[IL_COL_LEFT] =
 			ilUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);

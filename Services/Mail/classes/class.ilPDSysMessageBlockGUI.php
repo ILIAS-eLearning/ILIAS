@@ -54,9 +54,19 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	*
 	* @return	string	Block type.
 	*/
-	function getBlockType()
+	static function getBlockType()
 	{
 		return self::$block_type;
+	}
+	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	static function isRepositoryObject()
+	{
+		return false;
 	}
 
 	function getHTML()

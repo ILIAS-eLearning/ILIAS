@@ -22,13 +22,8 @@
 </div>
 </div>
 <div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
-<table class="il_ColumnLayout"><tr>
-<!-- BEGIN left_column -->
-<td class="il_LeftColumn">{LEFT_CONTENT}</td>
-<!-- END left_column -->
-<td class="il_CenterColumn">
 	<!-- BEGIN add_commands -->
-	<div style="float:right; margin-bottom:10px;">
+	<div style="margin: 0px 15px 10px 15px; text-align:right;">
 	<form class="il_Form" style="{FORMSTYLE}" action="{H_FORMACTION}" method="post">
 	{SELECT_OBJTYPE_REPOS}
 	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
@@ -40,6 +35,12 @@
 			  <!-- END event_button -->
 	</div>
 	<!-- END add_commands -->
+<!-- BEGIN page_form_start --><form action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
+<table class="il_ColumnLayout"><tr>
+<!-- BEGIN left_column -->
+<td class="il_LeftColumn">{LEFT_CONTENT}</td>
+<!-- END left_column -->
+<td class="il_CenterColumn">
 {BUTTONS}
 {MESSAGE}
 {RTE_SWITCH}
@@ -51,3 +52,4 @@
 <td class="il_RightColumn">{RIGHT_CONTENT}</td>
 <!-- END right_column -->
 </tr></table>
+<!-- BEGIN page_form_end --></form><!-- END page_form_end -->

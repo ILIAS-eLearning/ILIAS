@@ -33,9 +33,10 @@ define("IL_FORM_RE_CREATE", 3);
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilExternalFeedBlockGUIGen extends ilBlockGUI
+abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 {
 
+	protected $gui_object;
 	protected $form_edit_mode;
 
 	/**
@@ -81,6 +82,26 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 		
 		return $html;
 
+	}
+
+	/**
+	* Set GuiObject.
+	*
+	* @param	object	$a_gui_object	GUI object
+	*/
+	public function setGuiObject(&$a_gui_object)
+	{
+		$this->gui_object = $a_gui_object;
+	}
+
+	/**
+	* Get GuiObject.
+	*
+	* @return	object	GUI object
+	*/
+	public function getGuiObject()
+	{
+		return $this->gui_object;
 	}
 
 	/**
@@ -218,6 +239,8 @@ class ilExternalFeedBlockGUIGen extends ilBlockGUI
 		
 		$this->form_gui->setTitle($lng->txt("block_feed_block_head"));
 		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
+		
+		$this->prepareFormFeedBlock($this->form_gui);
 
 	}
 

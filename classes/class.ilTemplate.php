@@ -251,6 +251,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillNavigationHistory();
 			$this->fillJavaScriptFiles();
 			$this->fillCssFiles();
+			$this->fillPageFormAction();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
@@ -272,6 +273,17 @@ class ilTemplate extends ilTemplateX
 		
 		$this->setVariable("TABS",$ilTabs->getHTML());
 		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
+	}
+	
+	function fillPageFormAction()
+	{
+		if ($this->page_form_action != "")
+		{
+			$this->setCurrentBlock("page_form_start");
+			$this->setVariable("PAGE_FORM_ACTION", $this->page_form_action);
+			$this->parseCurrentBlock();
+			$this->touchBlock("page_form_end");
+		}
 	}
 	
 	function fillJavaScriptFiles()
@@ -806,6 +818,11 @@ class ilTemplate extends ilTemplateX
 	{
 		$this->icon_desc = $a_icon_desc;
 		$this->icon_path = $a_icon_path;
+	}
+	
+	function setPageFormAction($a_action)
+	{
+		$this->page_form_action = $a_action;
 	}
 	
 	/**

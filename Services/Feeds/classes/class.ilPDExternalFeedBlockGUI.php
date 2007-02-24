@@ -26,24 +26,24 @@ include_once("./Services/Block/classes/class.ilExternalFeedBlockGUIGen.php");
 include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 
 /**
-* BlockGUI class for external feed block. This is the one that is used
-* within the repository. On the personal desktop ilPDExternalFeedBlockGUI
+* BlockGUI class for external feed block on the personal desktop.
+* Within the repository ilExternalFeedBlockGUI is used.
 * is used.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_IsCalledBy ilExternalFeedBlockGUI: ilColumnGUI
+* @ilCtrl_IsCalledBy ilPDExternalFeedBlockGUI: ilColumnGUI
 * @ingroup ServicesFeeds
 */
-class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
+class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 {
-	static $block_type = "feed";
+	static $block_type = "pdfeed";
 	
 	/**
 	* Constructor
 	*/
-	function ilExternalFeedBlockGUI()
+	function ilPDExternalFeedBlockGUI()
 	{
 		global $ilCtrl, $lng;
 		
@@ -94,7 +94,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	static function isRepositoryObject()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
@@ -192,18 +192,13 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->setTitle($this->feed->getChannelTitle());
 		$this->setData($this->feed->getItems());
 
-		if ($ilAccess->checkAccess("write", "", $this->getRefId()))
-		{
-			$ilCtrl->setParameterByClass("ilobjexternalfeedgui",
-				"ref_id", $this->getRefId());
-			$ilCtrl->setParameter($this, "external_feed_block_id", $this->getBlockId());
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjexternalfeedgui",
-					"ilexternalfeedblockgui"),
-					"editFeedBlock"),
-				$lng->txt("edit"));
-			$ilCtrl->clearParametersByClass("ilobjexternalfeedgui");
-		}
+		$ilCtrl->setParameter($this, "external_feed_block_id",
+			$this->getBlockId());
+		$this->addBlockCommand(
+			$ilCtrl->getLinkTarget($this,
+				"editFeedBlock"),
+			$lng->txt("edit"));
+		$ilCtrl->setParameter($this, "external_feed_block_id", "");
 
 		return parent::getHTML();
 	}
@@ -213,22 +208,13 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function fillRow($item)
 	{
-		global $ilUser, $ilCtrl, $lng, $ilAccess;
+		global $ilUser, $ilCtrl, $lng;
 
-		if ($this->isRepositoryObject() && !$ilAccess->checkAccess("read", "", $this->getRefId()))
-		{
-			$this->tpl->setVariable("TXT_TITLE", $item->getTitle());
-		}
-		else
-		{
-			$ilCtrl->setParameter($this, "feed_item_id", $item->getId());
-			$this->tpl->setCurrentBlock("feed_link");
-			$this->tpl->setVariable("VAL_TITLE", $item->getTitle());
-			$this->tpl->setVariable("HREF_SHOW",
-				$ilCtrl->getLinkTarget($this, "showFeedItem"));
-			$ilCtrl->setParameter($this, "feed_item_id", "");
-			$this->tpl->parseCurrentBlock();
-		}
+		$ilCtrl->setParameter($this, "feed_item_id", $item->getId());
+		$this->tpl->setVariable("VAL_TITLE", $item->getTitle());
+		$this->tpl->setVariable("HREF_SHOW",
+			$ilCtrl->getLinkTarget($this, "showFeedItem"));
+		$ilCtrl->setParameter($this, "feed_item_id", "");
 	}
 
 	/**
@@ -322,42 +308,9 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	{
 		global $ilCtrl;
 		
-		$ref_id = $this->getGuiObject()->save($a_feed_block);
-		$a_feed_block->setType($this->getBlockType());
-		//$a_feed_block->setContextObjId($ilCtrl->getContextObjId());
-		//$a_feed_block->setContextObjType($ilCtrl->getContextObjType());
-	}
-	
-	/**
-	* FORM FeedBlock: Exit save. (Can be overwritten in derived classes)
-	*
-	*/
-	public function exitSaveFeedBlock()
-	{
-		global $ilCtrl;
-
-		$this->getGuiObject()->exitSave();
-	}
-
-	/**
-	* FORM FeedBlock: Exit save. (Can be overwritten in derived classes)
-	*
-	*/
-	public function cancelUpdateFeedBlock()
-	{
-		global $ilCtrl;
-
-		$this->getGuiObject()->cancelUpdate();
-	}
-
-	/**
-	* FORM FeedBlock: Exit save. (Can be overwritten in derived classes)
-	*
-	*/
-	public function exitUpdateFeedBlock()
-	{
-		global $ilCtrl;
-		$this->getGuiObject()->update($this->external_feed_block);
+		$a_feed_block->setContextObjId($ilCtrl->getContextObjId());
+		$a_feed_block->setContextObjType($ilCtrl->getContextObjType());
+		$a_feed_block->setType("pdfeed");
 	}
 
 }
