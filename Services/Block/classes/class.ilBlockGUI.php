@@ -28,8 +28,12 @@
 * @version $Id$
 *
 */
-class ilBlockGUI
+abstract class ilBlockGUI
 {
+	abstract static function getBlockType();		// return block type, e.g. "feed"
+	abstract static function isRepositoryObject();	// returns whether block has a
+													// corresponding repository object
+	
 	protected $data = array();
 	protected $colspan = 1;
 	protected $enablenuminfo = true;
@@ -140,6 +144,28 @@ class ilBlockGUI
 	function setCurrentDetailLevel($a_currentdetaillevel)
 	{
 		$this->currentdetaillevel = $a_currentdetaillevel;
+	}
+	
+	/**
+	* Set GuiObject.
+	* Only used for repository blocks, that are represented as
+	* real repository objects (have a ref id and permissions)
+	*
+	* @param	object	$a_gui_object	GUI object
+	*/
+	public function setGuiObject(&$a_gui_object)
+	{
+		$this->gui_object = $a_gui_object;
+	}
+
+	/**
+	* Get GuiObject.
+	*
+	* @return	object	GUI object
+	*/
+	public function getGuiObject()
+	{
+		return $this->gui_object;
 	}
 
 	/**
@@ -270,6 +296,46 @@ class ilBlockGUI
 	function getRepositoryMode()
 	{
 		return $this->repositorymode;
+	}
+
+	/**
+	* Set Ref Id (only used if isRepositoryObject() is true).
+	*
+	* @param	int	$a_refid	Ref Id
+	*/
+	function setRefId($a_refid)
+	{
+		$this->refid = $a_refid;
+	}
+
+	/**
+	* Get Ref Id (only used if isRepositoryObject() is true).
+	*
+	* @return	int		Ref Id
+	*/
+	function getRefId()
+	{
+		return $this->refid;
+	}
+
+	/**
+	* Set Administration Commmands.
+	*
+	* @param	boolean	$a_admincommands	Administration Commmands
+	*/
+	function setAdminCommands($a_admincommands)
+	{
+		$this->admincommands = $a_admincommands;
+	}
+
+	/**
+	* Get Administration Commmands.
+	*
+	* @return	boolean	Administration Commmands
+	*/
+	function getAdminCommands()
+	{
+		return $this->admincommands;
 	}
 
 	/**
@@ -548,7 +614,15 @@ class ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilAccess;
+		
+		if ($this->isRepositoryObject())
+		{
+			if (!$ilAccess->checkAccess("visible", "", $this->getRefId()))
+			{
+				return "";
+			}
+		}
 		
 		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
 		
@@ -559,6 +633,14 @@ class ilBlockGUI
 		// commands
 		if (count($this->getBlockCommands()) > 0)
 		{
+			if ($this->getRepositoryMode() && $this->isRepositoryObject()
+				&& $this->getAdminCommands())
+			{
+				$this->tpl->setCurrentBlock("block_check");
+				$this->tpl->setVariable("BL_REF_ID", $this->getRefId());
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			foreach($this->getBlockCommands() as $command)
 			{
 				if ($command["target"] != "")

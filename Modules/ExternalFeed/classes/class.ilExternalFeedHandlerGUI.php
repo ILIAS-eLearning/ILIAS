@@ -21,86 +21,53 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Block/classes/class.ilBlockGUI.php");
 
 /**
-* BlockGUI class for (centered) Content on Personal Desktop
+* Handles user interface for external feeds
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_Calls ilExternalFeedHandlerGUI: ilObjExternalFeedGUI
+*
+* @ingroup ModulesExternalFeed
 */
-class ilPDContentBlockGUI extends ilBlockGUI
+class ilExternalFeedHandlerGUI
 {
-	static $block_type = "pdcontent";
-	
-	/**
-	* Constructor
-	*/
-	function ilPDContentBlockGUI()
+	function ilExternalFeedHandlerGUI()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
+
+		// initialisation stuff
+		$this->ctrl =&  $ilCtrl;
 		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
-		
-		//$this->setTitle($lng->txt("selected_items"));
-		$this->setEnableNumInfo(false);
-		$this->setLimit(99999);
-		//$this->setColSpan(2);
-		$this->setBigMode(true);
-		$this->allow_moving = false;
 	}
 	
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
+	* execute command
 	*/
-	static function getBlockType()
+	function &executeCommand()
 	{
-		return self::$block_type;
+		global $lng, $ilAccess, $tpl;
+		
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+		if ($next_class == "")
+		{
+			$this->ctrl->setCmdClass("ilobjexternalfeedgui");
+			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+		switch ($next_class)
+		{
+			case 'ilobjexternalfeedgui':
+				require_once "./Modules/ExternalFeed/classes/class.ilObjExternalFeedGUI.php";
+				$ef_gui =& new ilObjExternalFeedGUI("", (int) $_GET["ref_id"], true, false);
+				$this->ctrl->forwardCommand($mc_gui);
+				break;
+		}
+
+		$tpl->show();
 	}
 
-	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
-	{
-		return false;
-	}
-
-	function getHTML()
-	{
-		return parent::getHTML();
-	}
-	
-	function getContent()
-	{
-		return $this->content;
-	}
-	
-	function setContent($a_content)
-	{
-		$this->content = $a_content;
-	}
-	
-	/**
-	* Fill data section
-	*/
-	function fillDataSection()
-	{
-		global $ilUser;
-		
-		$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
-	}
-
-	/**
-	* block footer
-	*/
-	function fillFooter()
-	{
-	}
 }
-
-?>

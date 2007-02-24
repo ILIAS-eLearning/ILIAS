@@ -21,85 +21,64 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+include_once("classes/class.ilObjectAccess.php");
 
 /**
-* BlockGUI class for (centered) Content on Personal Desktop
+* Class ilObjExternalFeedAccess
 *
-* @author Alex Killing <alex.killing@gmx.de>
+*
+* @author 		Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ingroup ModulesExternalFeed
 */
-class ilPDContentBlockGUI extends ilBlockGUI
+class ilObjExternalFeedAccess extends ilObjectAccess
 {
-	static $block_type = "pdcontent";
-	
-	/**
-	* Constructor
-	*/
-	function ilPDContentBlockGUI()
-	{
-		global $ilCtrl, $lng, $ilUser;
-		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
-		
-		//$this->setTitle($lng->txt("selected_items"));
-		$this->setEnableNumInfo(false);
-		$this->setLimit(99999);
-		//$this->setColSpan(2);
-		$this->setBigMode(true);
-		$this->allow_moving = false;
-	}
-	
-	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
-	{
-		return self::$block_type;
-	}
 
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * get commands
+	 * 
+	 * this method returns an array of all possible commands/permission combinations
+	 * 
+	 * example:	
+	 * $commands = array
+	 *	(
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+	 *	);
+	 */
+	function _getCommands()
 	{
+		$commands = array
+		(
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
+		);
+		
+		return $commands;
+	}
+	
+	
+	/**
+	* check whether goto script will succeed
+	*/
+	function _checkGoto($a_target)
+	{
+		global $ilAccess;
+		
 		return false;
-	}
-
-	function getHTML()
-	{
-		return parent::getHTML();
-	}
-	
-	function getContent()
-	{
-		return $this->content;
-	}
-	
-	function setContent($a_content)
-	{
-		$this->content = $a_content;
-	}
-	
-	/**
-	* Fill data section
-	*/
-	function fillDataSection()
-	{
-		global $ilUser;
 		
-		$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
-	}
+		$t_arr = explode("_", $a_target);
 
-	/**
-	* block footer
-	*/
-	function fillFooter()
-	{
+		if ($t_arr[0] != "feed" || ((int) $t_arr[1]) <= 0)
+		{
+			return false;
+		}
+
+		if ($ilAccess->checkAccess("read", "", $t_arr[1]))
+		{
+			return true;
+		}
+		return false;
 	}
 }
 

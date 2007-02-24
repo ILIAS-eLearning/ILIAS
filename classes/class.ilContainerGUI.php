@@ -245,7 +245,7 @@ class ilContainerGUI extends ilObjectGUI
 				{
 					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs", "mcst",
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
-													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr')))
+													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr',"feed")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
@@ -291,11 +291,11 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function renderObject()
 	{
+		$this->getCenterColumnHTML(true);
 		if ($this->type == 'cat' || $this->type == 'grp')
 		{
 			$this->tpl->setRightContent($this->getRightColumnHTML());
 		}
-		$this->getCenterColumnHTML(true);
 	}
 
 	/**
@@ -418,7 +418,7 @@ class ilContainerGUI extends ilObjectGUI
 			$tpl->parseCurrentBlock();
 			$this->ctrl->setParameter($this, "type", "");
 			$this->ctrl->setParameter($this, "item_ref_id", "");
-			$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
 		}
 		else if ($this->adminCommands)
 		{
@@ -1757,11 +1757,13 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	{
 		global $ilAccess;
 		parent::setColumnSettings($column_gui);
-		
+
+		$column_gui->setRepositoryItems($this->items);
 		if ($this->isActiveAdministrationPanel())
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
 			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			$column_gui->setAdminCommands(true);
 		}
 	}
 	

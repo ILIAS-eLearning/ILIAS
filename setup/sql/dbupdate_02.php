@@ -535,3 +535,38 @@ CREATE TABLE  `tst_test_defaults` (
  `lastchange` TIMESTAMP NOT NULL ,
 INDEX (  `user_fi` )
 );
+<#922>
+DELETE FROM il_custom_block;
+<#923>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#924>
+DELETE FROM il_html_block;
+DELETE FROM il_external_feed_block;
+
+<#925>
+<?php
+// register new object type 'feed' for news settings
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'feed', 'External Feed', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'feed'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add rbac operations for feed object
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+
+?>
