@@ -2043,8 +2043,8 @@ class ilLMPresentationGUI
 			{
 				$found = false;
 			}
-			else if ($pre_node["obj_id"] > 0 &&
-				!ilLMObject::_lookupActive($pre_node["obj_id"]))
+			else if ($succ_node["obj_id"] > 0 &&
+				!ilLMObject::_lookupActive($succ_node["obj_id"]))
 			{
 				$found = false;
 			}
