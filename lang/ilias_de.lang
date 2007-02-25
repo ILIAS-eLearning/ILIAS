@@ -298,8 +298,6 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java Applet
-assessment#:#javaapplet_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
-assessment#:#javaapplet_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlüsselwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlüsselwörter in dem Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
@@ -648,9 +646,7 @@ assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
-assessment#:#tst_show_solution_details_description#:#Teilnehmer und Teilnehmerinnen dürfen die detaillierten Ergebnisse der beantworteten Fragen einsehen
 assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
-assessment#:#tst_show_solution_printview_description#:#Teilnehmerinnen und Teilnehmer können eine Druckausgabe ihrer Ergebnisse sehen
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an
 assessment#:#tst_shuffle_questions#:#Fragen mischen
@@ -3120,7 +3116,6 @@ common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken 
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity Providern an, von den der Benützer auf der ILIAS Anmeldeseite auswählen kann.<br>Auf jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br>Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS Installation Teil von mehrere Föderationen ist.
 common#:#shib_institution#:#Attribut für Institution
-common#:#shib_instructions#:#Bitte lesen Sie <a href="README.SHIBBOLETH.txt" target="_blank">README</a> für Instruktionen, um Shibboleth für ILIAS zu konfigurieren.
 common#:#shib_invalid_home_organization#:#Bitten wählen Sie eine gültige Organisation
 common#:#shib_language#:#Attribut für Sprache
 common#:#shib_lastname#:#Attribut für Nachnamen
@@ -6650,19 +6645,14 @@ assessment#:#search_results#:#Suchergebnisse
 assessment#:#tst_allow_fixed_participants#:#Diesen Test nur für feste Teilnehmer verfügbar machen
 assessment#:#tst_change_points_done#:#Die Punkte für eine Antwort wurden erfolgreich geändert!
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort ändern
-assessment#:#tst_count_correct_solutions_description#:#Wählen Sie diese Einstellung, um nur die Fragen zu bewerten, die vollständig richtig beantwortet wurden. Fehlerhafte Bearbeitung oder Teillösungen werden mit 0 Punkten bewertet
-assessment#:#tst_count_partial_solutions_description#:#Wählen Sie diese Einstellung, um die Fragen gemäß Ihrer Punkteverteilung zu bewerten. Auch Teillösungen werden bewertet (Standardverhalten)
 assessment#:#tst_finish_confirm_list_of_answers_button#:#Nein, zurück zur Liste der Antworten
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmende, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmend nicht verändern!
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
 assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmende zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmende in diesem Test. Wenn Sie diese Teilnehmenden entfernen, werden die Testergebnisse der Teilnehmenden nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
 assessment#:#tst_instant_feedback#:#Sofortige Rückmeldung - Diese Informationen werden nach der Beantwortung einer Frage angezeigt
 assessment#:#tst_instant_feedback_answer_specific#:#Antwortspezifische Rückmeldungen anzeigen
-assessment#:#tst_instant_feedback_answer_specific_desc#:#Wählen Sie diese Einstellung, um antwortspezifische Rückmeldungen anzuzeigen, nachdem die Teilnehmenden eine Frage beantwortet haben
 assessment#:#tst_instant_feedback_results#:#Ergebnisse anzeigen (nur die erreichten Punkte)
-assessment#:#tst_instant_feedback_results_desc#:#Wählen Sie diese Einstellung, um die erreichten Punkte anzuzeigen, nachdem die Teilnehmenden eine Frage beatwortet haben
 assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
-assessment#:#tst_instant_feedback_solution_desc#:#Wählen Sie diese Einstellung, um das korrekte Ergebnis einer Frage anzuzeigen, nachdem Sie von den Teilnehmenden beantwortet wurde
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmende hinzugefügt
 assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmende hinzugefügt
 assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmende hinzugefügt
@@ -6673,23 +6663,14 @@ assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor 
 assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmende den Test beenden
 assessment#:#tst_participants_no#:#Der Test wurde von Niemandem gestaret!
 assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmenden zu diesem Test hinzugefügt
-assessment#:#tst_pass_best_pass_description#:#Wählen Sie diese Einstellung, um den besten Testdurchlauf der Teilnehmenden zu bewrten. Diese Einstellung ist nur dann auswählbar, wenn mehr als ein Testdurchlauf erlaubt ist.
-assessment#:#tst_pass_last_pass_description#:#Wählen Sie diese Einstellung, um den letzten Testdurchlauf der Teilnehmenden zu bewerten. Diese Einstellung ist nur dann auswählbar, wenn mehr als ein Testdurchlauf erlaubt ist.
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results_access#:#Zugang zu den Testergebnissen
 assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
-assessment#:#tst_results_access_finished_descr#:#Wählen Sie diese Einstellung, um Teilnehmenden einen Zugang zu ihren Testergebnissen zu gewähren, sobald diese einen Testdurchlauf beendet haben
 assessment#:#tst_results_access_date#:#Datum
-assessment#:#tst_results_access_date_descr#:#Wählen Sie diese Einstellung, um Teilnehmenden einen Zugang zu ihren Testergebnissen zu gewähren, sobald ein vorgegebener Zeitpunkt erreicht wurde
 assessment#:#tst_results_access_always#:#Immer
-assessment#:#tst_results_access_always_descr#:#Wählen Sie diese Einstellung, um Teilnehmenden zu jeder Zeit einen Zugang zu ihren Testergebnissen zu gewähren
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_results_presentation#:#Präsentation der Testergebnisse
-assessment#:#tst_score_cut_question_description#:#Wählen Sie diese Einstelllung, um das Ergebnis einer Frage auf 0 Punkte zu setzen, wenn bei der Beantwortung der Frage weniger als 0 Punkte erzielt wurden
-assessment#:#tst_score_cut_test_description#:#Wählen Sie diese Einstellung, um das Testergebnis auf 0 Punkte zu setzen, wenn die Summer der Ergebnisse aller Antworten kleiner als 0 Punkte ist
-assessment#:#tst_score_mcmr_use_scoring_system_description#:#Wählen Sie diese Einstellung, um die vorgegebene Bewertung für Multiple Choice Fragen mit Mehrfachantwort zu vergeben, selbst wenn keine der angebotenen Antworten ausgewählt wurde
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Wählen Sie diese Einstellung, um 0 Punkte für Multiple Choice Fragen mit Mehrfachantwort zu vergeben, wenn keine der angebotenen Antworten ausgewählt wurde
 assessment#:#tst_list_of_answers_show#:#Liste der Antworten anzeigen
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
@@ -6880,11 +6861,8 @@ common#:#ass_log_delete_no_selection#:#Bitte wählen Sie mindestens einen Test a
 common#:#msg_input_is_required#:#This input is required. Please enter a value.###18 12 2006 new variable
 news#:#news_block_news_for_context#:#News###18 12 2006 new variable
 news#:#news_news_item_head#:#News Item###18 12 2006 new variable
-news#:#news_title#:#Headline###18 12 2006 new variable
-news#:#news_content#:#Text###18 12 2006 new variable
 news#:#news_visibility_users#:#Logged in Users###18 12 2006 new variable
 news#:#news_visibility_public#:#Public###18 12 2006 new variable
-news#:#news_visibility#:#Access###18 12 2006 new variable
 common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS.###18 12 2006 new variable
 common#:#obj_ps#:#Datenschutz und Server-Sicherheit
 common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
@@ -6895,7 +6873,6 @@ common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
 common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten
-news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###22 12 2006 new variable
 common#:#title_long#:#Long Title###22 12 2006 new variable
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 ps#:#ps_export_files#:#Exportdateien
@@ -7012,3 +6989,109 @@ common#:#omit_all#:#Alle auslassen
 common#:#copy_all#:#Alle kopieren
 common#:#link_all#:#Alle verknüpfen
 common#:#omit#:#Auslassen
+common#:#usr_without_courses#:#Users without courses assigned###25 02 2007 new variable
+assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###25 02 2007 new variable
+assessment#:#externalscript_additional_parameters#:#Script Parameters###25 02 2007 new variable
+assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
+assessment#:#externalscript_additional_parameters_hint#:#Enter the additional script parameters in key-value-coding and separate multiple key-value-pairs with a newline, e.g. <p>key1=Hello<br />key2=World</p>###25 02 2007 new variable
+assessment#:#question_not_answered#:#The question was not answered###25 02 2007 new variable
+assessment#:#result_successful_saved#:#Your results have been saved successful!###25 02 2007 new variable
+assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!###25 02 2007 new variable
+assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.###25 02 2007 new variable
+assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.###25 02 2007 new variable
+assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!###25 02 2007 new variable
+assessment#:#tst_defaults_available#:#Available test defaults###25 02 2007 new variable
+assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
+assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---###25 02 2007 new variable
+assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
+assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
+assessment#:#tst_nr_of_passes#:#Number of Test Passes###25 02 2007 new variable
+common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable
+common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
+common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.###25 02 2007 new variable
+common#:#mcst#:#MediaCast###25 02 2007 new variable
+common#:#obj_mcst#:#MediaCast###25 02 2007 new variable
+common#:#objs_mcst#:#MediaCasts###25 02 2007 new variable
+common#:#mcst_new#:#New MediaCast###25 02 2007 new variable
+common#:#mcst_add#:#Add MediaCast###25 02 2007 new variable
+common#:#frm_latest_postings#:#Latest Articles###25 02 2007 new variable
+common#:#file_created#:#A new file has been added.###25 02 2007 new variable
+common#:#file_updated#:#File has been updated.###25 02 2007 new variable
+common#:#mails_pl#:#Mail(s)###25 02 2007 new variable
+common#:#html_block#:#HTML Block###25 02 2007 new variable
+common#:#feed#:#News Feed###25 02 2007 new variable
+block_html#:#block_html_block_head#:#HTML Block###25 02 2007 new variable
+block_html#:#block_html_block_title#:#Title###25 02 2007 new variable
+block_html#:#block_html_block_content#:#Content###25 02 2007 new variable
+news#:#news_edit_news_settings#:#Edit Settings###25 02 2007 new variable
+news#:#news_enable_internal_news#:#Enable Internal News###25 02 2007 new variable
+news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.###25 02 2007 new variable
+news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
+news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.###25 02 2007 new variable
+news#:#news_first_letter_of_word_notification#:#N###25 02 2007 new variable
+news#:#news_show_notifications#:#Show Notifications###25 02 2007 new variable
+news#:#news_hide_notifications#:#Hide Notifications###25 02 2007 new variable
+news#:#news_news_item_title#:#Headline###25 02 2007 new variable
+news#:#news_news_item_content#:#Text###25 02 2007 new variable
+news#:#news_news_item_content_long#:#Long Text###25 02 2007 new variable
+news#:#news_news_item_content_long_info#:#This text will not be published via RSS.###25 02 2007 new variable
+news#:#news_news_item_visibility#:#Access###25 02 2007 new variable
+news#:#news_news_items#:#News Item(s)###25 02 2007 new variable
+news#:#news_subscribe#:#Subscribe###25 02 2007 new variable
+news#:#news_unsubscribe#:#Unsubscribe###25 02 2007 new variable
+news#:#news_internal_news#:#Internal News###25 02 2007 new variable
+news#:#news_get_feed_url#:#Get Feed URL###25 02 2007 new variable
+news#:#news_feed_url_for#:#Feed URL for '%s'###25 02 2007 new variable
+news#:#news_get_feed_title#:#Personal Feed URL###25 02 2007 new variable
+news#:#news_get_feed_info#:#This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.###25 02 2007 new variable
+news#:#news_feed_url#:#Feed URL###25 02 2007 new variable
+news#:#news_settings#:#News Settings###25 02 2007 new variable
+news#:#news_notifications_public#:#Public Notifications###25 02 2007 new variable
+news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.###25 02 2007 new variable
+news#:#news_public_feed#:#Extra Feed URL###25 02 2007 new variable
+news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.###25 02 2007 new variable
+news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###25 02 2007 new variable
+feed#:#feed_feed_items#:#Feed Item(s)###25 02 2007 new variable
+feed#:#feed_enable_rep_feeds#:#Enable Exernal Web Feeds in Categories###25 02 2007 new variable
+feed#:#feed_enable_rep_feeds_info#:#Activates external web feeds in categories.###25 02 2007 new variable
+feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop###25 02 2007 new variable
+feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.###25 02 2007 new variable
+feed#:#feed_settings#:#External Web Feeds Settings###25 02 2007 new variable
+feed#:#feed_open_source_page#:#Go to Source of External News###25 02 2007 new variable
+feed#:#block_feed_block_head#:#External News Feed###25 02 2007 new variable
+feed#:#block_feed_block_title#:#Title###25 02 2007 new variable
+feed#:#block_feed_block_feed_url#:#Feed URL###25 02 2007 new variable
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
+pdesk#:#bm_num_bookmarks#:#Bookmark(s)###25 02 2007 new variable
+pdesk#:#bm_num_bookmark_folders#:#Folder(s)###25 02 2007 new variable
+pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!###25 02 2007 new variable
+pdesk#:#pdesk_intro2#:#This is your personal space for organising your working and learning. You can put resources from other areas on your personal desktop. Doing so takes two steps:###25 02 2007 new variable
+pdesk#:#pdesk_intro3#:#Click on '%s' and browse the existing working and learning resources.###25 02 2007 new variable
+pdesk#:#pdesk_intro4#:#If you found something of interest, add it to your desktop by clicking the <i>Add to Desktop</i> button.###25 02 2007 new variable
+common#:#activate_block#:#Activate###25 02 2007 new variable
+pdesk#:#pdesk_feedback_request#:#Feedback Request###25 02 2007 new variable
+pdesk#:#pdesk_feedbacks#:#Feedback Request(s)###25 02 2007 new variable
+rep#:#rep_intro#:#Welcome to the Repository!###25 02 2007 new variable
+rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchie of disciplines, or classes of a school.###25 02 2007 new variable
+rep#:#rep_intro2#:#Three steps are needed to build an initial structure:###25 02 2007 new variable
+rep#:#rep_intro3#:#Click on the <i>%s</i> button besides the selection list on the top right.###25 02 2007 new variable
+rep#:#rep_intro4#:#In the following form, enter a title and a description, and click on <i>%s</i>.###25 02 2007 new variable
+rep#:#rep_intro5#:#By clicking on the title of the category you enter your category.###25 02 2007 new variable
+rep#:#rep_intro6#:#After that procedure you may add any learning or working resource to your category.###25 02 2007 new variable
+delic#:#delic_settings#:#del.icio.us Settings###25 02 2007 new variable
+delic#:#delic_add_to_delicious#:#Add to del.icio.us###25 02 2007 new variable
+delic#:#delic_extt_delicious#:#del.icio.us###25 02 2007 new variable
+delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens###25 02 2007 new variable
+delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile###25 02 2007 new variable
+gmaps#:#gmaps_api_key#:#API Key###25 02 2007 new variable
+gmaps#:#gmaps_settings#:#Google Maps Settings###25 02 2007 new variable
+gmaps#:#gmaps_extt_gmaps#:#Google Maps###25 02 2007 new variable
+gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
+gmaps#:#gmaps_std_location#:#Default Location###25 02 2007 new variable
+gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.###25 02 2007 new variable
+common#:#delicious#:#del.icio.us Account###25 02 2007 new variable
+common#:#select_page#:#Select Page###25 02 2007 new variable
+common#:#obj_nwss#:#News and Web Feeds Settings###25 02 2007 new variable
+common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.###25 02 2007 new variable
+common#:#hh_mm_ss#:#HH:MM:SS###25 02 2007 new variable
+common#:#hh_mm#:#HH:MM###25 02 2007 new variable
