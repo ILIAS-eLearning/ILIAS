@@ -157,7 +157,10 @@ class ilSoapAdministration
                                    "installation_version" => ILIAS_VERSION,
                                    "installation_url" => ILIAS_HTTP_PATH,
                                    "installation_description" => $ilClientIniFile->readVariable("client","description"),
-                                   "installation_language_default" => $ilClientIniFile->readVariable("language","default"));
+																		"installation_language_default" => $ilClientIniFile->readVariable("language","default"),
+																		"installation_session_expire" => $ilClientIniFile->readVariable("session","expire"),
+																		"installation_php_postmaxsize" => $this->return_bytes(ini_get("post_max_size"))
+																		);
 
         // store into xml result set
 		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
@@ -172,5 +175,25 @@ class ilSoapAdministration
         $xmlResultWriter->start();
         return $xmlResultWriter->getXML();
 	}
+	
+	/**
+	*	calculate bytes from K,M,G modifiers
+		e.g: 8M = 8 * 1024 * 1024 bytes
+	*/
+	private function return_bytes($val) {
+		$val = trim($val);
+		$last = strtolower($val{strlen($val)-1});
+		switch($last) {
+		// The 'G' modifier is available since PHP 5.1.0
+		case 'g':
+			$val *= 1024;
+		case 'm':
+			$val *= 1024;
+		case 'k':
+			$val *= 1024;
+		}
+		return $val;
+	}
+
 }
 ?>
