@@ -321,7 +321,12 @@ class ilTestEvaluationUserData
 	
 	function getLastPass()
 	{
-		return count($this->passes)-1;
+		$lastpass = 0;
+		foreach (array_keys($this->passes) as $pass)
+		{
+			if ($pass > $lastpass) $lastpass = $pass;
+		}
+		return $lastpass;
 	}
 	
 	function addQuestionTitle($question_id, $question_title)
@@ -372,9 +377,12 @@ class ilTestEvaluationUserData
 	function getReachedPoints($pass = 0)
 	{
 		$reached = 0;
-		foreach ($this->passes[$pass]->getAnsweredQuestions() as $question)
+		if (array_key_exists($pass, $this->passes))
 		{
-			$reached += $question["reached"];
+			foreach ($this->passes[$pass]->getAnsweredQuestions() as $question)
+			{
+				$reached += $question["reached"];
+			}
 		}
 		return $reached;
 	}

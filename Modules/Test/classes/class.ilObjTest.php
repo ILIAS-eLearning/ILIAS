@@ -4764,7 +4764,7 @@ class ilObjTest extends ilObject
 				$pass->setPass($row["pass"]);
 				$data->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
 			}
-			$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"], $row["maxpoints"], $row["points"]);
+			$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["maxpoints"], $row["points"]);
 		}
 
 		foreach (array_keys($data->getParticipants()) as $active_id)
@@ -4789,8 +4789,8 @@ class ilObjTest extends ilObject
 						while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 						{
 							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-							$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $tpass);
-							$data->addQuestionTitle($row["original_id"], $row["title"]);
+							$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["points"], $row["sequence"], $tpass);
+							$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
 						}
 					}
 				}
@@ -4810,8 +4810,8 @@ class ilObjTest extends ilObject
 					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 					{
 						$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-						$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["points"], $row["sequence"], $tpass);
-						$data->addQuestionTitle($row["original_id"], $row["title"]);
+						$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["points"], $row["sequence"], $tpass);
+						$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
 					}
 				}
 			}
@@ -4845,7 +4845,10 @@ class ilObjTest extends ilObject
 				$ects_mark = $this->object->getECTSGrade($data->getParticipant($active_id)->getReached(), $data->getParticipant($active_id)->getMaxPoints());
 				$data->getParticipant($active_id)->setECTSMark($ects_mark);
 			}
-			$data->getParticipant($active_id)->setQuestionsWorkedThrough($data->getParticipant($active_id)->getPass($tpass)->getAnsweredQuestionCount());
+			if (is_object($data->getParticipant($active_id)->getPass($tpass)))
+			{
+				$data->getParticipant($active_id)->setQuestionsWorkedThrough($data->getParticipant($active_id)->getPass($tpass)->getAnsweredQuestionCount());
+			}
 			$questionpass = $tpass;
 			if (!is_array($data->getParticipant($active_id)->getQuestions($tpass)))
 			{
