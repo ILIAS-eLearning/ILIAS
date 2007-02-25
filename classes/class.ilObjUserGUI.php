@@ -1624,7 +1624,8 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 			}
 			// validate login
-			if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
+			if ($this->object->getLogin() != $_POST["Fobject"]["login"] &&
+				!ilUtil::isLogin($_POST["Fobject"]["login"]))
 			{
 				$this->ilias->raiseError($this->lng->txt("login_invalid"),$this->ilias->error_obj->MESSAGE);
 			}
