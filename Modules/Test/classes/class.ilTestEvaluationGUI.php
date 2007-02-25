@@ -615,12 +615,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				for ($i = 0; $i <= $userdata->getLastPass(); $i++)
 				{
-					$question =& $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
-					if (is_array($question))
+					if (is_object($userdata->getPass($i)))
 					{
-						$answered++;
-						$reached += $question["reached"];
-						$max += $question["points"];
+						$question =& $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+						if (is_array($question))
+						{
+							$answered++;
+							$reached += $question["reached"];
+							$max += $question["points"];
+						}
 					}
 				}
 			}
