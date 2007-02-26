@@ -590,7 +590,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageEvent.php
 // Fetch event_ids of files
 $query = "SELECT DISTINCT(event_id) as event_ids FROM event_file";
 $res = $ilDB->query($query);
-$file_ids = array();
+$event_ids = array();
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$event_ids[] = $row->event_ids;
@@ -656,7 +656,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageCourse.ph
 // Fetch archive ids
 $query = "SELECT DISTINCT(archive_id) as archive_ids,archive_name,course_id FROM crs_archives";
 $res = $ilDB->query($query);
-$file_ids = array();
+$archive_ids = array();
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$archive_ids[$row->archive_ids]['id'] = $row->archive_ids;
