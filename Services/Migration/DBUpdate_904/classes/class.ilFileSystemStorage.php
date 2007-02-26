@@ -174,9 +174,17 @@ abstract class ilFileSystemStorage
 		
 		if($this->path_conversion)
 		{
-			$this->path .= self::_createPathFromId($this->container_id,$this->getPathPostfix());
-			$this->short_path = $this->path;
-			$this->path .= ('/'.$this->getPathPostfix().'_'.$this->container_id);
+			if($path_id = self::_createPathFromId($this->container_id,$this->getPathPostfix()))
+			{
+				$this->path = $this->path.'/'.$path_id;
+				$this->path .= '/';
+				$this->short_path = $this->path;
+			}
+			else
+			{
+				$this->short_path = $this->path;
+			}
+			$this->path .= ($this->getPathPostfix().'_'.$this->container_id);
 		}
 		else
 		{
