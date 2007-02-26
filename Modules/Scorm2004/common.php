@@ -11,12 +11,12 @@
  * of this license.
  * 
  * You must not remove this notice, or any other, from this software.
- */
-
-/**
+ *  
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
  *  
+ * Content-Type: application/x-httpd-php; charset=ISO-8859-1
+ * 
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
  * @version $Id$
  * @copyright: (c) 2007 Alfred Kohnert
@@ -27,15 +27,15 @@
  */ 
  
 
-define('IL_OP_ZIP_EXE', 'zip');
-define('IL_OP_UNZIP_EXE', 'unzip');
+define('IL_OP_ZIP_EXE', 'C:/PortableApps/XamppPortable/Data/docs/ilias3/bin/InfoZip/unzip/unzip.exe');
+define('IL_OP_UNZIP_EXE', 'C:/PortableApps/XamppPortable/Data/docs/ilias3/bin/InfoZip/unzip/unzip.exe');
 define('IL_OP_PACKAGES_FOLDER', dirname(__FILE__) . '/packages');
 define('IL_OP_USER_ID', 50);
 define('IL_OP_PACKAGE_ID', 100);
 define('IL_OP_PACKAGE_BASE', 'sco.php/packages/{packageId}/');
 define('IL_OP_DB_TYPE', 'sqlite');
-define('IL_OP_DB_DSN', 'sqlite2:data/slite2.db');
-
+define('IL_OP_DB_DSN', 'sqlite2:data/sqlite2.db');
+define('IL_OP_USER_NAME', 'Anonymous');
 
 /**
  * We will include some global functions extending poor PHP (this time a module 

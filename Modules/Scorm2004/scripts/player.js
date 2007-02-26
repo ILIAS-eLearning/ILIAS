@@ -21,8 +21,8 @@
  * @version $Id$
  * @copyright: (c) 2007 Alfred Kohnert
  */ 
- 
 
+ 
 
 /**
  * Initialization of all relevant player internal objects.
@@ -33,155 +33,217 @@
  * @param function reference function to send and load data via xmlhttp interface
  * @param object collection of methods to manipulate user view    
  */  
-(function (cp, api, cmi, remoting, gui) {
-	var x = 123;
+function Player(config, gui) 
+{
 	
+	// inner functions 
+
 	/**
 	 * recursive walk through activity tree
 	 * to build up an item map to get items by id
 	 * use map(something) to populate it
 	 * use map[someIdentifier] to retrive an element
+	 * identifiers may be orginal manifest id attributes or database cp_node_id's 	 
 	 * should it also include other identifiers (manifest, organization, sequencing)?	 
 	 * @param array Items of organization
 	 */
-	function map(items) {
-		for (var i=0, ni=items.length; i<ni; i+=1) {
+	function map(items) 
+	{
+		for (var i=0, ni=items.length; i<ni; i+=1) 
+		{
 			var itm = items[i];
 			map[itm.id] = itm;
-			if (itm.item) {
+			map[itm.foreignId] = itm;			
+			if (itm.item) 
+			{
 				map(itm.item);
 			}
 		}
 	}
-	
-	function toDataset(cmiitem) {
-		return cmiitem;
-	}
-	
-	function fromDataset(dataset) {
-		return dataset;
-	}  
 
-	/**
-	 * navigation request handler	
-	 */	
-	var nav = new function () {
-		this.Start = function (id) {alert(['nav', id]);return false;};
-		this.ResumeAll = function (id) {alert(['nav', id]);return false;};
-		this.Continue = function (id) {alert(['nav', id]);return false;};
-		this.Previous = function (id) {alert(['nav', id]);return false;};
-		this.Forward = function (id) {alert(['nav', id]);return false;};
-		this.Backward = function (id) {alert(['nav', id]);return false;};
-		this.Exit = function (id) {alert(['nav', id]);return false;};
-		this.ExitAll = function (id) {alert(['nav', id]);return false;};
-		this.Abandon = function (id) {alert(['nav', id]);return false;};
-		this.AbandonAll = function (id) {alert(['nav', id]);return false;};
-		this.SuspendAll = function (id) {alert(['nav', id]);return false;};
-	}
-	
-	var nav = new OP_SCORM_SEQUENCING_1_3( //manifest, cmidata, ondeliver, ondebug
-		cp, // manifest
-		cmi, // cmidata
-		function (item) // ondeliver
+	function onItemDeliver(item) // ondeliver called from sequencing process (deliverSubProcess)
+	{
+		var url = item.href, v;
+		// create api if associated resouce is of adl:scormType=sco
+		if (item.sco)
 		{
-			var url = item.href;
-			window[api.prototype.name] = new api( // cmiItem, nonSco, onCommit, onDebug
-				Remoting.copyOf(cmi[item.id]), // cmiItem
-				item.sco==1, // nonSco
-				function (modifiedItem) // onCommit 
-				{
-					cmi[item.id] = modifiedItem; 				
-				},
-				function (diagnostic, returnValue, errCode, errInfo) // onDebug
-				{
-					gui.onAPIDebug([diagnostic, returnValue, errCode, errInfo].join(', '));
-				}			
-			);
-			gui.deliver(item.href);
-		},
-		gui.onSequencerDebug
-	);
-	
-	gui.attachEvent(window, 'load',   
-	
-		/**
-		 * start the system
-		 */	
-		function () { 
+			var data = cmidata.getAPI(item.foreignId);
+			// add user independend general item values to api
+			if (v = item.completionThreshold) data.cmi.completionThreshold = v;
+			if (v = item.dataFromLMS) data.cmi.launch_data = v;			
+			if (v = item.timeLimitAction) data.cmi.time_limit_action = v;			
 			
-			// inner functions
-			
-			function onChoice(target) {
-				if (target.className.indexOf('content')!==-1) {
-					var itm = map[target.id.substr(3)];
-					if (itm.href) {
-						if (true) {
-							alert(itm.scormType)
-							window[api.prototype.name] = new api(cmi[itm.id], function (event, value) {
-								alert([event, value, itm.id])
-							}); 
-						}
-						gui.deliver(itm.href + (itm.href.indexOf('?')===-1 ? '?' : '&') + 'id=' + itm.id);
-					} else {
-						
-					}
-				}
+			// assign api for public use from sco
+			window[api.prototype.name] = new api(data, onCommit, onTerminate, gui.onAPIDebug);
+		}
+		// customize GUI Step 1: adlnav
+		var hideLMSUI = {};
+		if (item.hideLMSUI) 
+		{
+			for (var i=0, ni=item.hideLMSUI.length; i<ni; i++) 
+			{
+				hideLMSUI[item.hideLMSUI[i].value] = true;
 			}
-
-			// populate id map from content package object
-			map(cp.item.item);
+		}
+		// customize GUI Step 2: imsss
+		var seq = item.parentActivity.sequencing;
+		if (!seq.flow) hideLMSUI['continue'] = true; 
+		if (!seq.flow || seq.forwardOnly) hideLMSUI['previous'] = true; 
+		// deliver resource (sco)
+		gui.deliver(item.id, item.href, hideLMSUI);
+	}
 	
-			// convert dataset into cache
-			cmi = fromDataset(cmi);
-			
-			gui.attachEvent(window, 'unload', function () {
-				// saveData alert("unload");
-			});
-			   
-			gui.attachEvent(document, 'click', function (e) {
-				var target = e ? (e.target ? e.target : e.srcElement) : event.srcElement;
-				if (target.tagName !== 'A') {
-				} else if (target.className === 'btn') {
-					//nav[target.id.substr(3)](target.id);
-					document.title = nav.execNavigation({type: target.id.substr(3), target: target.id});
-				} else if (target.className.indexOf('nde ')!==-1) {
-					onChoice(target);
-				}
-				return false;
-			});
-			
-			//var r = remoting.sendAndLoad('bla');
-			
-			gui.render(cp.item, cp.base);
-			
-			gui.all('listView').onchange = function () {
-				onChoice(this.options[this.selectedIndex]);
+	function onItemUndeliver(item) // onundeliver called from sequencing process (EndAttempt)
+	{
+		// throw away the resource
+		// it may change api data in this
+		gui.undeliver();
+		// throw away api
+		window[api.prototype.name] = null;
+	}
+	
+	// sequencer terminated
+	function onNavEnd()
+	{
+		// take away the player, here close window
+		// TODO set this in Gui Handler
+		gui.show(false);
+		/*
+		document.body.innerHTML = 'Finished';
+		window.close();
+		*/
+	}
+	
+	function onCommit(data) 
+	{
+		return cmidata.setAPI(data.cmi.cp_node_id, data);
+	}
+	
+	function onTerminate(data) 
+	{
+		// samples for data.adl.nav: "continue", "{target=myuri}choice"
+	   if (data.adl && data.adl.nav && typeof data.adl.nav.request === "string")
+	   {
+	   	var m = data.adl.nav.request.match(/^(\{target=([^\}]+)\})?(choice|continue|previous|exit(All)?|abandon(All)?)$/);
+	   	if (!m) return;
+	      setTimeout(function () {
+				nav.execNavigation({
+					type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), 
+					target: m[2]
+				});
+			}, 0);
+		}
+		return true;
+	}
+	
+	function onChoice(target) 
+	{
+		if (target.className.indexOf('content')!==-1) {
+			nav.execNavigation({type: 'Choice', target: target.id.substr(3)});
+		}
+	}
+
+	function onWindowUnload () 
+	{ 
+		gui.show(false);
+		cmidata.save();
+	}
+
+	function onDocumentClick (e) 
+	{
+		var target = e ? (e.target ? e.target : e.srcElement) : event.srcElement;
+		gui.stopEvent(e);
+		if (target.tagName !== 'A') 
+		{
+			// ignore clicks on other elements than A
+		} 
+		else if (target.className === 'btn') 
+		{
+			if (typeof window[target.id + '_onclick'] === "function")
+			{
+				return window[target.id + '_onclick']();
 			}
-			
-	});
+			else if (target.id.substr(0, 3)==='api')
+			{
+				var api = parent[OP_SCORM_RUNTIME.prototype.name];
+				if (!api) {
+					alert(OP_SCORM_RUNTIME.prototype.name + " not found");
+					return false; 
+				}  
+				var btn = target.id.substr(3);
+				var f = document.forms[0];
+				if (typeof(api[btn])==="function") {
+					f.cmireturn.value = api[btn](f.cmielement.value, f.cmivalue.value);
+					f.cmidiagnostic.value = api.GetDiagnostic("");
+					f.cmierror.value = api.GetLastError("");
+					f.cmidiagnostic.value = api.GetErrorString("");
+				} else {
+					alert(['not found', btn])
+				} 
+			}
+			else if (target.id.substr(0, 3)==='nav')
+			{
+				document.title = nav.execNavigation({type: target.id.substr(3), target: target.id});
+			}
+			else
+			{
+				alert(target.id)
+			}
+		} 
+		else if (target.className.indexOf('nde ')!==-1) 
+		{
+			onChoice(target);			
+		}
+	}
+		
+	function onWindowLoad () 
+	{ 
+		// load content package as json data
+		gui.setInfo('Loading content package...');
+		cpdata = Remoting.sendJSONRequest(config.cp);
+		// populate id map from content package object
+		map(cpdata.item.item);
 	
-
-	setTimeout(function () {nav.execNavigation({type: 'Start'})}, 1000)
-
-
-})(
-	Package, 
-	OP_SCORM_RUNTIME, 
-	Userdata, 
-	Remoting, 
-	Gui
-);
-
-
-/*
-OP_SCORM_RUNTIME_1_3.prototype.toDataset = function (cmiitem) {
-	// TODO implement this
-	return cmiitem;
+		// load userdata as json data into cache 
+		gui.setInfo('Loading user data...');
+		cmidata = new CMICache(config.cmi, 0, 0);
+		// load dataset into cache
+		cmidata.load();
+		
+		// finishing startup
+		gui.setInfo('');
+	
+		api = OP_SCORM_RUNTIME;
+		nav = new OP_SCORM_SEQUENCING_1_3( //manifest, cmidata, ondeliver, ondebug
+			cpdata, // manifest
+			cmidata, // cmidata
+			onItemDeliver, 
+			onItemUndeliver, 
+			onNavEnd,
+			gui.onSequencerDebug
+		);
+		
+		// 
+		gui.attachEvent(window, 'unload', onWindowUnload);
+		gui.attachEvent(document, 'click', onDocumentClick);
+		gui.render(cpdata.item, cpdata.base);
+		gui.all('listView').onchange = function () {
+			onChoice(this.options[this.selectedIndex]);
+		};
+		gui.show(true);
+		nav.startOrResume();
+	}
+	
+	this.commit = function () 
+	{
+		cmidata.save();
+	}
+	
+	// inner variables and initialization 
+	var me = this;
+	var cpdata, cmidata, api, nav;
+	
+	
+	gui.attachEvent(window, 'load', onWindowLoad);
+	
 }
-
-
-OP_SCORM_RUNTIME_1_3.prototype.fromDataset = function (dataset) {
-	// TODO implement this
-	return dataset;
-}
-*/

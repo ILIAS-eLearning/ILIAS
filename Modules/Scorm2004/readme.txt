@@ -24,29 +24,11 @@
  
 
 WHAT TO DO NEXT
-- Admin: Remove CMI Data on "Remove"
-- Admin: Adding Player controlling settings like 
-	- which gui components to show
-	- caching interval
-	- etc.
-- Player/Tracking: dataset conversion sql=>php=>json=>cmi and reverse 
-- Player/Tracking: CMIDataStore object
-- Player/Tracking: Correct initialization and binding of API on delivery  
-- Player/Debug: Show CMI Data in SCO Wrapper and refresh on SetValue events
- 
-WHAT TO DO THEN
-- Player/Tracking: Checking API principal workflows   
-- Player/Sequencing: Implementing NavEvents in the following order:
-		Previous, Exit, Abandon, SuspendAll, ExitAll, AbandonAll
-		(Backward and Forward will not be implemented)     
-		(Implementation of Start, ResumeAll and Continue have already begun)
-- Player/Sequencing: Implementing Rollup behaviors
-
-WHAT TO DO LATER
-- updating of choice gui componentes on API.Commit event
-- visible toggling of tree states on clicking block items
-- import of SCORM-1.2 Packages 
-- running of SCORM-1.2 Packages with all SCORM1.3 variables set to 
-	default values, using normal SCORM RTE API, and simple datafield conversion
-	where types have chaged
-	
+- Player/Tracking: add missing parts of activity and attempt state persistence
+- Player/Sequencing: implement randomization behaviors
+- Player/Sequencing: Implemented/check rollup behaviors
+- Player/Sequencing: check details of condition setting
+- Admin: Activating player controlling settings
+- updating of choice gui componentes on API
+- add NavRequestValid bahavior by what-if mode (readonly sequencing without delivery)
+- visible toggling of tree states on clicking block items	

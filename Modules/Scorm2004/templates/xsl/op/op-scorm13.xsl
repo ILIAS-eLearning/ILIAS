@@ -32,8 +32,7 @@ This is work in progress and therefore incomplete and buggy ...
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='organizations']"/>
 			<xsl:apply-templates select="*[local-name()='resources']"/>
-			<xsl:apply-templates select="*[local-name()='sequencingCollection']/*[local-name()='sequencing']" mode="data"/>
-			<xsl:apply-templates select="*[local-name()='organizations']//*[local-name()='sequencing' and not(@IDRef)]" mode="data"/>
+			<xsl:apply-templates select="//*[local-name()='sequencing' and node()]" mode="data"/>
 		</manifest>
 	</xsl:template>
 	<xsl:template match="*[local-name()='organizations']">
@@ -63,7 +62,7 @@ This is work in progress and therefore incomplete and buggy ...
 				<xsl:attribute name="isvisible">false</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@*[local-name()='parameters']">
-				<xsl:attribute name="parameters"><xsl:value-of select="@*[local-name()='parameters']"/></xsl:attribute>
+				<xsl:attribute name="parameters"><xsl:choose><xsl:when test="starts-with(., '?')"><xsl:value-of select="substring-after(., '?')"/></xsl:when><xsl:otherwise><xsl:value-of select="@*[local-name()='parameters']"/></xsl:otherwise></xsl:choose></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="*[local-name()='timeLimitAction']">
 				<xsl:attribute name="timeLimitAction"><xsl:value-of select="*[local-name()='timeLimitAction']"/></xsl:attribute>
@@ -76,17 +75,17 @@ This is work in progress and therefore incomplete and buggy ...
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='sequencing']" mode="reference"/>
 			<xsl:apply-templates select="*[local-name()='item']"/>
-			<xsl:apply-templates select="*[local-name()='navigation']"/>
+			<xsl:apply-templates select="*[local-name()='presentation']"/>
 		</item>
 	</xsl:template>
-	<xsl:template match="*[local-name()='navigation']">
+	<xsl:template match="*[local-name()='presentation']">
 		<xsl:apply-templates select="*[local-name()='navigationInterface']"/>
 	</xsl:template>
 	<xsl:template match="*[local-name()='navigationInterface']">
 		<xsl:apply-templates select="*[local-name()='hideLMSUI']"/>
 	</xsl:template>
 	<xsl:template match="*[local-name()='hideLMSUI']">
-		<hideLMSUI value="text()"/>
+		<hideLMSUI value="{text()}"/>
 	</xsl:template>
 	<xsl:template match="*[local-name()='resources']">
 		<xsl:apply-templates select="*[local-name()='resource']"/>
@@ -113,11 +112,27 @@ This is work in progress and therefore incomplete and buggy ...
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='sequencing']" mode="reference">
-		<xsl:attribute name="sequencingId"><xsl:choose><xsl:when test="@IDRef"><xsl:value-of select="@IDRef"/></xsl:when><xsl:otherwise><xsl:value-of select="generate-id()"/></xsl:otherwise></xsl:choose></xsl:attribute>
+		<xsl:choose>
+			<xsl:when test="@IDRef and node() and @ID">
+				<xsl:attribute name="sequencingId"><xsl:value-of select="@ID"/></xsl:attribute>
+			</xsl:when>
+			<xsl:when test="@IDRef and node()">
+				<xsl:attribute name="sequencingId"><xsl:value-of select="generate-id()"/></xsl:attribute>
+			</xsl:when>
+			<xsl:when test="@IDRef">
+				<xsl:attribute name="sequencingId"><xsl:value-of select="@IDRef"/></xsl:attribute>
+			</xsl:when>
+			<xsl:when test="node()">
+				<xsl:attribute name="sequencingId"><xsl:value-of select="generate-id()"/></xsl:attribute>
+			</xsl:when>
+		</xsl:choose>
 	</xsl:template>
 	<xsl:template match="*[local-name()='sequencing']" mode="data">
 		<sequencing>
 			<xsl:attribute name="id"><xsl:choose><xsl:when test="@ID"><xsl:value-of select="@ID"/></xsl:when><xsl:otherwise><xsl:value-of select="generate-id()"/></xsl:otherwise></xsl:choose></xsl:attribute>
+			<xsl:if test="@IDRef and not(local-name(./..)='sequencingCollection') ">
+				<xsl:attribute name="sequencingId"><xsl:value-of select="@IDRef"/></xsl:attribute>
+			</xsl:if>
 			<!-- attributes -->
 			<xsl:apply-templates select="*[local-name()='controlMode']"/>
 			<xsl:apply-templates select="*[local-name()='limitConditions']"/>
@@ -347,7 +362,7 @@ This is work in progress and therefore incomplete and buggy ...
 				<xsl:attribute name="satisfiedByMeasure">true</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='minNormalizedMeasure']" mode="attributes"/>
-			<xsl:apply-templates select="*[local-name()='mapInfo']" mode="attributes"/>
+			<xsl:apply-templates select="*[local-name()='mapInfo']" />
 		</objective>
 	</xsl:template>
 	<xsl:template match="*[local-name()='objective']">
@@ -356,7 +371,7 @@ This is work in progress and therefore incomplete and buggy ...
 				<xsl:attribute name="satisfiedByMeasure">true</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='minNormalizedMeasure']" mode="attributes"/>
-			<xsl:apply-templates select="*[local-name()='mapInfo']" mode="attributes"/>
+			<xsl:apply-templates select="*[local-name()='mapInfo']" />
 		</objective>
 	</xsl:template>
 	<xsl:template match="*[local-name()='minNormalizedMeasure']" mode="attributes">

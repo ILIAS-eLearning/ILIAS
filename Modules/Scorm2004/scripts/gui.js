@@ -25,31 +25,103 @@
  */ 
 
 
-var Gui = new (function (langstrings) { 	
-/**
+function Gui(config, langstrings) 
+{ 	
+	/**
 	 * @param {object} associative array with language data to be used by 
 	 * 	"translate" function, one array per language
 	 */	
 
+	// Inner Functions
+	
+	var me = this;
+	
+	function setOuterHTML(elm, markup)
+	{
+		if (window.ScriptEngine && window.ScriptEngine()==='JScript') 
+		{
+			return elm.outerHTML = markup;
+		}
+		else
+		{
+			var range = elm.ownerDocument.createRange();
+			range.setStartBefore(elm);
+			var fragment = range.createContextualFragment(markup);
+			elm.parentNode.replaceChild(fragment, elm);
+		}
+	}
+		
+	this.setInfo = function (name, values) 
+	{
+		var elm = this.all('introLabel');
+		var txt = this.translate(name, values);
+		elm.innerHTML = top.status = txt;		
+	}; 
+	
+	this.trim = function (str) 
+	{
+		return str.replace(/^\s+|\s+$/g, "");
+	}; 
 
+	this.addClass = function (elm, name) 
+	{
+		if (!me.hasClass(elm, name)) elm.className = me.trim(elm.className + " " + name);
+	}; 
+
+	this.hasClass = function (elm, name) 
+	{
+		return (" " + elm.className + " ").indexOf(" " + name + " ")>-1;
+	}; 
+
+	this.removeClass = function (elm, name) 
+	{
+		elm.className = me.trim((" " + elm.className + " ").replace(name, " "));
+	}; 
+	
+	this.show = function (newValue) 
+	{
+		var tableDisplay = document.body.currentStyle ? 'block' : 'table';
+		this.all('introTable').style.display = newValue ? 'none' : tableDisplay;
+		this.all('mainTable').style.display = newValue ? tableDisplay : 'none';
+	};
+	
 	/**
 	 * implements a method to call up a resource into user view
 	 * @param {string} required, url to be opened
 	 * @param {function} optional, callback function called when delivery was 
 	 * 	successfully launched (a window reference is given to that function)
 	 */
-	this.basehref = "";
-	
-	this.deliver = function (url, callback) 
+	this.deliver = function (id, url, hideLMSUI, callback) 
 	{
-		if (url.indexOf(":")===-1) url = this.basehref + url;
+		if (url.indexOf(":")===-1) 
+		{
+			url = config.base + url;
+		}
 		var elm = window.document.getElementById("tdResource");
+		var h = elm.clientHeight-20;
 		elm.innerHTML = '<iframe frameborder="0" name="frmResource" src="' + url + 
-			'" width="100%" height="' + (elm.clientHeight-20) + '"></iframe>';
+			'"  style="width: 100%; height:' + h + '" height="' + h + '"></iframe>';
 		if (typeof(callback) === 'function') 
 		{
 			callback(window.frames.frmResource);
-		}  
+		}
+		if (me.currentElm) 
+		{
+			me.removeClass(me.currentElm, "current");
+		}
+		me.currentElm = me.all("tre" + id);
+		if (me.currentElm)
+		{
+			me.addClass(me.currentElm, "current");
+		}
+		me.all('navContinue').style.backgroundColor = 'continue' in hideLMSUI ? 'orange' : '';
+		me.all('navPrevious').style.backgroundColor = 'previous' in hideLMSUI ? 'orange' : '';
+		me.all('navAbandon').style.backgroundColor = 'abandon' in hideLMSUI ? 'orange' : '';
+		me.all('navAbandonAll').style.backgroundColor = 'abandonAll' in hideLMSUI ? 'orange' : '';
+		me.all('navExit').style.backgroundColor = 'exit' in hideLMSUI ? 'orange' : '';
+		me.all('navExitAll').style.backgroundColor = 'exitAll' in hideLMSUI ? 'orange' : '';
+		me.all('navSuspendAll').style.backgroundColor = 'suspendAll' in hideLMSUI ? 'orange' : '';
+		// previous continue exit exitAll abandon abandonAll suspendAll
 	};
 
 	/**
@@ -59,8 +131,11 @@ var Gui = new (function (langstrings) {
 	 */	
 	this.undeliver = function (callback) 
 	{
-		var elm = window.document.getElementById("tdResource");
-		elm.innerHTML = 'undelivered ...';
+		var elm = me.all("tdResource");
+		if (elm)
+		{
+			elm.innerHTML = 'undelivered ...';
+		}
 		if (typeof(callback) === 'function') 
 		{
 			callback();
@@ -92,7 +167,7 @@ var Gui = new (function (langstrings) {
 	 * @param {object} Top of the activity tree (current organization) 
 	 * @param {string} required, base href for package links, may be an empty string 
 	 */
-	this.render = function (organization, basehref) 
+	this.render = function (organization) 
 	{
 		// TODO isvisible
 		// TODO icons
@@ -101,13 +176,12 @@ var Gui = new (function (langstrings) {
 		// TODO scrollIntoView
 		// TODO readonly mit getItems([id, title, href, visible])
 		
-		if (organization.base) {
-			basehref = organization.base.indexOf(":")===-1 
-			 	? basehref + organization.base 
-			 	: organization.base; 
-		}
-		this.basehref = basehref;
-		 
+		/*
+		basehref = organization.base && organization.base.indexOf(":")===-1 
+		 	? config.base + organization.base 
+		 	: organization.base; 
+		*/
+		
 		// to build visual hierarchy by incremental spacing for OPTIONs
 		var TAB = "&nbsp;" 
 
@@ -129,21 +203,23 @@ var Gui = new (function (langstrings) {
 			{
 				var item = items[i];
 				var classname = item.href ? 'content' : 'block';
-				var href = !item.href ? '#' : item.href.indexOf(':')===-1 
-					? basehref + item.href 
-					: item.href;
-				// fill the different views
-				listView.push('<option class="nde ' + classname + '" id="lst' + 
-					item.id + '">' + tabs + " " + item.title + '</option>');
-				reportView.push('<tr><td>' + tabs + (tabs.length + 1) + 
-					'</td><td width="90%"><a class="nde ' + classname + '" id="rpt' +
-					item.id + '" href="' + href + '">' + item.title + 
-					'</a></td><td>x</td></tr>');
-				stripView.push('<td><a class="nde ' + classname + '" id="str' + 
-					item.id + '" href="' + href + '">' + item.title + '</a></td>');
-				treeView.push('<a class="nde ' + classname + '" id="tre' + 
-					item.id + '" href="' + href + '">' + item.title + '</a>');
-				if (item.item) {
+				var href = "#"; // ????
+				if (item.isvisible!=="false")
+				{
+					// fill the different views
+					listView.push('<option class="nde ' + classname + '" id="lst' + 
+						item.id + '">' + tabs + " " + item.title + '</option>');
+					reportView.push('<tr><td>' + tabs + (tabs.length + 1) + 
+						'</td><td width="90%"><a class="nde ' + classname + '" id="rpt' +
+						item.id + '" href="' + href + '">' + item.title + 
+						'</a></td><td>x</td></tr>');
+					stripView.push('<td><a class="nde ' + classname + '" id="str' + 
+						item.id + '" href="' + href + '">' + item.title + '</a></td>');
+					treeView.push('<a class="nde ' + classname + '" id="tre' + 
+						item.id + '" href="' + href + '">' + item.title + '</a>');
+				} 
+				if (item.item) 
+				{
 					treeView.push('<div>');
 					walk(item.item, tabs + TAB); // RECURSION
 					treeView.push('</div>');
@@ -151,20 +227,7 @@ var Gui = new (function (langstrings) {
 			}
 		} // end walk
 		
-		function setOuterHTML(elm, markup)
-		{
-			if (window.ScriptEngine && window.ScriptEngine()==='JScript') 
-			{
-				return elm.outerHTML = markup;
-			}
-			else
-			{
-				var range = elm.ownerDocument.createRange();
-				range.setStartBefore(elm);
-				var fragment = range.createContextualFragment(markup);
-				elm.parentNode.replaceChild(fragment, elm);
-			}
-		}
+		me.all("mainTitle").innerHTML = organization.title; 
 		
 		// now run recursion
 		walk(organization.item, '');
@@ -172,11 +235,6 @@ var Gui = new (function (langstrings) {
 		setOuterHTML(this.all('listView'), '<select id="listView">' + listView.join('\n') + '</select>');
 
 		this.all('treeView').innerHTML = treeView.join('\n');
-		this.all('stripView').innerHTML = 
-			'<table border="1" width="100%" height="60"><tr>' + 
-				stripView.join('\n') + '</tr></table>';
-		this.all('reportView').innerHTML = '<table border="1" width="100%">' +
-			reportView.join('\n') + '</table>';
 	};
 
 	/**
@@ -187,7 +245,7 @@ var Gui = new (function (langstrings) {
 	 */	
 	this.translate = function (key, params) 
 	{
-		var value = key in this.langstrings ? this.langstrings[key] : key;
+		var value = key in langstrings ? langstrings[key] : key;
 		if (typeof params === 'object') 
 		{
 			value = String(value).replace(/\{(\w+)\}/g, function (m) 
@@ -206,11 +264,16 @@ var Gui = new (function (langstrings) {
 	 */	
 	this.attachEvent = function (obj, name, func) 
 	{
-		if (window.Event) { // ?
+		if (window.Event) 
+		{
 			obj.addEventListener(name, func, false);
-		} else if (obj.attachEvent) {
+		} 
+		else if (obj.attachEvent) 
+		{
 			obj.attachEvent('on'+name, func);
-		} else {
+		} 
+		else 
+		{
 			obj[name] = func;
 		}
 	};
@@ -223,14 +286,36 @@ var Gui = new (function (langstrings) {
 	 */	
 	this.detachEvent = function (obj, name, func) 
 	{
-		if (window.Event) { // ?
+		if (window.Event) 
+		{
 			obj.removeEventListener(name, func, false);
-		} else if (obj.attachEvent) {
+		} 
+		else if (obj.attachEvent) 
+		{
 			obj.detachEvent('on'+name, func);
-		} else {
+		} 
+		else 
+		{
 			obj[name] = '';
 		}
 	};	
+	
+	this.stopEvent = function (e) 
+	{
+		if (e.preventDefault) 
+		{ 
+			e.preventDefault(); 
+			e.stopPropagation(); 
+		} 
+		else 
+		{
+			e.returnValue = false;
+			e.cancelBubble = true;
+		}
+	};
+
+	
+	/// for debugging only
 
 	var onSequencerDebugStack;
 	this.onSequencerDebug = function (msg, cll) 
@@ -239,7 +324,10 @@ var Gui = new (function (langstrings) {
 		if (msg=="exec") onSequencerDebugStack = []; 
 		for (var i=onSequencerDebugStack.length-1; i>-1; i--)
 		{
-			if (onSequencerDebugStack[i]==cll) break;
+			if (onSequencerDebugStack[i]==cll) 
+			{
+				break;
+			}
 		}
 		if (i>-1) 
 		{
@@ -247,19 +335,34 @@ var Gui = new (function (langstrings) {
 		}
 		onSequencerDebugStack.push(cll);
 		var elm = window.document.getElementById("seqlog");
-		elm.insertBefore(elm.ownerDocument.createElement("option"), elm.firstChild).text = "[" + 
-			(elm.options.length/1000).toFixed(3).substr(2) + "] " +
-			s.substr(0, onSequencerDebugStack.length-1) + 
-			"" + msg;
+		var num = "[" + ((elm.options.length+1)/1000).toFixed(3).substr(2) + "] ";
+		elm.insertBefore(elm.ownerDocument.createElement("option"), elm.firstChild).text =  
+			num + s.substr(0, onSequencerDebugStack.length-1) + msg;
 	};
 	
-	this.onAPIDebug = function (msg) 
+	this.onAPIDebug = function (diagnostic, returnValue, errCode, errInfo, cmiItem) 
 	{
-		try {
-		var elm = frames['frmResource'].document.getElementById("apilog");
-		elm.appendChild(elm.ownerDocument.createElement("option")).text = msg;
-		} catch (e) {alert("onAPIDebug error")}
+		try 
+		{
+			var elm = document.getElementById("apilog");
+			var num = "[" + ((elm.options.length+1)/1000).toFixed(3).substr(2) + "] ";
+			var opt = elm.ownerDocument.createElement("option");
+			elm.insertBefore(opt, elm.firstChild).text = num + diagnostic;
+			var elm = document.getElementById("cmidata");
+			elm.value = Remoting.toJSONString(cmiItem, " ");
+		} 
+		catch (e) 
+		{
+			alert("onAPIDebug error " + e)
+		}
 	};
 
-})({'aLangStringSample': 'Hallo $1'});
+}
+
+
+function chkWebContent_click(newState) 
+{
+	parent.document.cookie = newState;
+	if (newState) btnWebContent_onclick();
+}
 

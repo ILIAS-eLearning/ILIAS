@@ -25,7 +25,7 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="cmi_comment_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
 		<field name="cmi_node_id" required="true" type="integer" size="4" default="0"/>
 		<field name="comment" required="false" type="string"/>
-		<field name="date_time" required="true" type="date" size="8" default="0"/>
+		<field name="timestamp" required="true" type="date" size="8" default="0"/>
 		<field name="location" required="false" type="string" size="255"/>
 		<field name="sourceIsLMS" required="true" type="boolean" size="1" default="false"/>
 		<key name="cmi_itemcmi_comment" type="foreign" table="cmi_node">
@@ -97,28 +97,22 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="attemptProgressStatus" required="true" type="boolean" size="1" default="false"/>
 		<field name="audio_captioning" required="true" type="integer" size="1" unsigned="true" default="0"/>
 		<field name="audio_level" required="true" type="float" size="4" default="0"/>
-		<field name="availableChildren" required="false" type="string" size="50"/>
 		<field name="cmi_node_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
 		<field name="completion" required="true" type="float" size="8" default="0"/>
 		<field name="completion_status" required="false" type="string" size="32"/>
-		<field name="completion_threshold" required="true" type="float" size="8" default="0"/>
 		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
 		<field name="created" required="true" type="date" size="8" default="0"/>
 		<field name="credit" required="false" type="string" size="32"/>
 		<field name="delivery_speed" required="true" type="float" size="4" default="0"/>
 		<field name="exit" required="false" type="string" size="255"/>
 		<field name="language" required="false" type="string" size="5"/>
-		<field name="launch_data" required="false" type="string"/>
-		<field name="learner_name" required="false" type="string" size="128"/>
 		<field name="location" required="false" type="string" size="255"/>
 		<field name="max" required="true" type="float" size="8" default="0"/>
 		<field name="min" required="true" type="float" size="8" default="0"/>
-		<field name="mode" required="false" type="string" size="32"/>
 		<field name="modified" required="true" type="date" size="8" default="0"/>
 		<field name="progress_measure" required="true" type="float" size="8" default="0"/>
 		<field name="raw" required="true" type="float" size="8" default="0"/>
 		<field name="scaled" required="true" type="float" size="8" default="0"/>
-		<field name="scaled_passing_score" required="true" type="float" size="8" default="0"/>
 		<field name="session_time" required="true" type="date" size="8" default="0"/>
 		<field name="success_status" required="false" type="string" size="255"/>
 		<field name="suspend_data" required="false" type="string"/>
@@ -166,6 +160,7 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="min" required="true" type="float" size="8" default="0"/>
 		<field name="raw" required="true" type="float" size="8" default="0"/>
 		<field name="scaled" required="true" type="float" size="8" default="0"/>
+		<field name="progress_measure" required="false" type="float" size="8"/>
 		<field name="success_status" required="false" type="string" size="32"/>
 		<key name="cmi_interactioncmi_objective" type="foreign" table="cmi_interaction">
 			<reference name="cmi_interaction_id"/>
@@ -466,6 +461,7 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="rollupProgressCompletion" required="true" type="boolean" size="1" default="false"/>
 		<field name="selectCount" required="true" type="integer" size="4" default="0"/>
 		<field name="selectionTiming" required="false" type="string" size="50"/>
+		<field name="sequencingId" required="false" type="string" size="50"/>
 		<field name="tracked" required="true" type="boolean" size="1" default="false"/>
 		<field name="useCurrentAttemptObjectiveInfo" required="true" type="boolean" size="1" default="false"/>
 		<field name="useCurrentAttemptProgressInfo" required="true" type="boolean" size="1" default="false"/>
@@ -560,5 +556,25 @@ This is work in progress and therefore incomplete and buggy ...
 		<key name="Index_410C63CC_7B9C_4D3A" type="primary">
 			<reference name="usr_id"/>
 		</key>
+	</table>
+	<table name="lng_data" collation="unicode">
+		<field name="module" required="true" type="string" size="30" default=""/>
+		<field name="identifier" required="true" type="string" size="50" default=""/>
+		<field name="lang_key" required="true" type="integer" size="2" default=""/>
+		<field name="value" required="true" type="binary"/>
+		<key name="lng_data_primary" type="primary">
+			<reference name="module"/>
+			<reference name="identifier"/>
+			<reference name="lang_key"/>
+		</key>
+		<index name="lng_data_module" unique="false">
+			<reference name="module"/>
+		</index>
+		<index name="lng_data_identifier" unique="false">
+			<reference name="identifier"/>
+		</index>
+		<index name="lng_data_lang_key" unique="false">
+			<reference name="lang_key"/>
+		</index>
 	</table>
 </database>

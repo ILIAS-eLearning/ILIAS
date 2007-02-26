@@ -33,9 +33,14 @@
  * isRequestValid(requestId) => Boolean
  * getActivityState(itemId) => {completion, progress, attemptcount, firstaccessed, lastaccessed, duration}
  */  
-function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
+function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onend, ondebug) {
 
 	this.execNavigation = exec;
+	
+	this.startOrResume = function ()
+	{
+		exec({type : SuspendedActivity ? 'ResumeAll' : 'Start'});
+	}
 
 	//var RootActivity = manifest.organizations[0]; // maps to selected organization
 	var RootActivity = manifest.item; // maps to selected organization
@@ -50,39 +55,120 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	// Attribute mit doppelter Activity Nennung sind gekürzt: activity.ActiivtyProgressStatus => activity.ProgressStatus
 	var activityMap = {}; // assoziativer Array aller Activities nach activityId
 	var activityIndex = []; // numerischer Array aller Activities im Manifest
+	var seqMap = {};
 	
-	var SetOfExitActions = /^exit$/;
-	var SetOfPostActions = /^exitParent|exitAll|retry|retryAll|continue|previous$/;
-	var SetOfSkippedActions = /^skip$/;
-	var SetOfStopForwardTraversalActions = /^stopForwardTraversal$/;
-	var SetOfHiddenFromChoiceActions = /^hiddenFromChoice$/;
-	var SetOfDisabledActions = /^disabled$/;
+	var SetOfExitActions = /^exit$/i;
+	var SetOfPostActions = /^exitParent|exitAll|retry|retryAll|continue|previous$/i;
+	var SetOfSkippedActions = /^skip$/i;
+	var SetOfStopForwardTraversalActions = /^stopForwardTraversal$/i;
+	var SetOfHiddenFromChoiceActions = /^hiddenFromChoice$/i;
+	var SetOfDisabledActions = /^disabled$/i;
 	
-	function walk(a, f) {
+	function walk(a, f) 
+	{
 		f(a);
-		if (a.item) {
-			for (var k in a.item) {
+		if (a.item) 
+		{
+			for (var k in a.item) 
+			{
 				walk(a.item[k], f);
 			}  
 		} 
 	}
 	
-	function SeqObject(idref) {}
-	// controlMode
-	SeqObject.prototype.Choice = true;
-	SeqObject.prototype.ChoiceExit = true;
-	SeqObject.prototype.Flow = true;
-	SeqObject.prototype.ForwardOnly = false;
-	SeqObject.prototype.useCurrentAttemptObjectiveInfo = true;
-	SeqObject.prototype.useCurrentAttemptProgressInfo = true;
-	// misc
-	SeqObject.prototype.Rules = [];
-	SeqObject.prototype.RollupRules = [];
-	SeqObject.prototype.Objectives = [];
+	function SeqObject(data) 
+	{
+		if (data) 
+		{
+			for (var k in data) 
+			{
+				this[k] = data[k];
+			}
+			if (this.rule.length) 
+			{
+				for (var i=this.rule.length-1; i>-1; i--)
+				{
+					if (this.rule[i].type==="rollup")
+					{
+						if (!this.hasOwnProperty("rollupRule")) this.rollupRule = []; 
+						this.rollupRule.unshift(this.rule[i]);
+						delete this.rule[i];
+					}
+				}
+			}
+		}
+	}
+	
+	SeqObject.prototype = {
+		// controlMode
+		choice : true,
+		choiceExit : true,
+		flow : true,
+		forwardOnly : false,
+		useCurrentAttemptObjectiveInfo : true,
+		useCurrentAttemptProgressInfo : true,
+		// limit
+		activityAbsoluteDurationLimit : 0,
+		activityExperiencedDurationLimit : 0,
+		attemptAbsoluteDurationLimit : 0,
+		attemptExperiencedDurationLimit : 0,
+		attemptLimit : 0,
+		beginTimeLimit : 0,
+		endTimeLimit : 0,
+		// misc
+		rule : [],
+		rollupRule : [],
+		objective : [],
+		// randomization
+		randomizationTiming : 'never',
+		selectCount : null,
+		reorderChildren : false,
+		selectionTiming : 'never',
+		// delivery
+		tracked : true,
+		completionSetByContent : false,
+		objectiveSetByContent : false,
+		// adlseq
+		preventActivation : false,
+		constrainChoice : false
+	}
 
+	/*
+		activityAbsoluteDurationLimit	activityExperiencedDurationLimit	attemptAbsoluteDurationLimit	
+		attemptExperiencedDurationLimit	attemptLimit	beginTimeLimit	choice	choiceExit	
+		completionSetByContent	constrainChoice	endTimeLimit	flow	forwardOnly	
+		measureSatisfactionIfActive	objectiveMeasureWeight	objectiveSetByContent	preventActivation	
+		randomizationTiming	reorderChildren	requiredForCompleted	requiredForIncomplete	
+		requiredForNotSatisfied	requiredForSatisfied	rollupObjectiveSatisfied	rollupProgressCompletion	
+		selectCount	selectionTiming	tracked	useCurrentAttemptObjectiveInfo	useCurrentAttemptProgressInfo
+	*/
+	
+	if (manifest.sequencing)
+	{
+		for (var i=0, ni=manifest.sequencing.length; i<ni; i+=1)
+		{
+			seqMap[manifest.sequencing[i].id] = new SeqObject(manifest.sequencing[i]);
+			delete manifest.sequencing[i];
+		}
+	}
+	for (var k in seqMap) 
+	{
+		if (seqMap[k].sequencingId)
+		{
+			var basedata = seqMap[seqMap[k].sequencingId];
+			for (var kk in basedata) 
+			{
+				if (!seqMap[k].hasOwnProperty(kk) && basedata.hasOwnProperty(kk)) 
+				{
+					seqMap[kk] = basedata[kk];
+				}
+			}
+		}
+	}
+	  
 	walk(RootActivity, function (a) {
 		a.index = activityIndex.length; 
-		a.sequencing = new SeqObject(a.sequencing)
+		a.sequencing = a.sequencingId in seqMap ? seqMap[a.sequencingId] : SeqObject.prototype;
 		activityIndex[a.index] = a;
 		activityMap[a.id] = a;
 		if (a.item) {
@@ -94,8 +180,10 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			a.availableChildren = r;
 		}
 	});
-	
-	SuspendedActivity = activityIndex[activityIndex.length-1]; 
+			
+	// read last activity as location of organization node
+	var id = cmidata.getValue(RootActivity.foreignId, 'location') 
+	if (id) setSuspendedActivity(activityMap[id]);
 	
 	activityCount = activityIndex.length; 
 	
@@ -112,6 +200,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	 // noch eine Baustellen, da der Pseudocode hier unklar ist
 	function exec(NavigationRequest) // #166 
 	{
+
 		if (ondebug) ondebug("exec", exec.caller);
 		var rn, rd, rs, SequencingRequest;
 
@@ -138,7 +227,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		
 		if (SequencingRequest) 
 		{
-			rs = SequencingRequestProcess(SequencingRequest);
+			rs = SequencingRequestProcess(SequencingRequest, activityMap[NavigationRequest.target]);
 			if (!rs.valid) 
 			{
 				return adlException('sequencing request exception');
@@ -146,7 +235,6 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			if (rs.EndSequencingSession) 
 			{
 				return endSequencingSession();
-				// suicide me
 			} 
 			if (rs.DeliveryRequest) 
 			{
@@ -208,7 +296,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			{
 				returnValue.Exception = 'NB.2.1-2';
 			}
-			else if (CurrentActivity.parentActivity && CurrentActivity.parentActivity.sequencing.Flow)
+			else if (CurrentActivity.parentActivity && CurrentActivity.parentActivity.sequencing.flow)
 			{
 				returnValue.valid = true;
 				returnValue.SequencingRequest = 'Continue';
@@ -229,7 +317,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			}
 			else if (CurrentActivity.parentActivity) 
 			{
-				if (CurrentActivity.parentActivity.sequencing.Flow && !CurrentActivity.parentActivity.Sequencing.ForwardOnly)
+				if (CurrentActivity.parentActivity.sequencing.flow && !CurrentActivity.parentActivity.sequencing.forwardOnly)
 				{
 					returnValue.valid = true;
 					returnValue.SequencingRequest = 'Previous';
@@ -256,7 +344,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			var target = activityMap[navReq.target]; 
 			if (target) 
 			{
-				if (!target.parentActivity || target.parentActivity.SequencingControlChoice)
+				if (!target.parentActivity || target.parentActivity.sequencing.choice)
 				{
 					if (!CurrentActivity)
 					{
@@ -266,16 +354,14 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 						break;
 					}
 					if (!isSibling(CurrentActivity, target))
-					{
-						var a = FindCommonAncestor(CurrentActivity, target);
-						var activityPath = a.activityPath; 
-						var commonAncestor = a.CommonAncestor;
+					{						
+						var activityPath = getCommonAncestorAndPath(CurrentActivity, target).activityPath; 
 						if (activityPath.length) 
 						{
 							for (var i=0, ni=activityPath.length; i<ni; i+=1) 
 							{
 								var activity = activityPath[i];
-								if (activity.isActive && !activity.SequencingControlChoiceExit)
+								if (activity.isActive && activity.sequencing.choiceExit==="false")
 								{
 									returnValue.Exception = 'NB.2.1-8';
 									break;
@@ -495,15 +581,15 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		case 'SuspendAll':
 			if (CurrentActivity.isActive || CurrentActivity.isSuspended)
 			{
-				SuspendedActivity = CurrentActivity;
+				setSuspendedActivity(CurrentActivity);
 			}
 			else
 			{
 				if (CurrentActivity.parentActivity) 
 				{
-					SuspendedActivity = CurrentActivity.parentActivity;
+					setSuspendedActivity(CurrentActivity.parentActivity);
 				}
-				else
+				else // RootActivity
 				{
 					returnValue.exception = 'TB.2.3-3';
 					return returnValue;
@@ -563,12 +649,13 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			for (var activityId in activity.item)
 			{
 				var child = activity.item[activityId];
-				if (child.tracked) 
+				if (child.sequencing.tracked) 
 				{
 					var rolledUpObjective = undefined;
-					for (var objectiveId in child.objectives) 
+					var objectives = child.sequencing.objective;
+					for (var objectiveId in objectives) 
 					{
-						var objective = child.objectives[objectiveId];
+						var objective = objectives[objectiveId];
 						if (objective.ObjectiveContributesToRollup) 
 						{
 							rolledUpObjective = objective;
@@ -679,7 +766,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	function RollupRuleCheckSubprocess(activity, RollupAction) // #186
 	{
 		if (ondebug) ondebug("RollupRuleCheckSubprocess", RollupRuleCheckSubprocess.caller); 
-		var rules = getRulesByAction(activity.sequencing.RollupRules, RollupAction);
+		var rules = getRulesByAction(activity.sequencing.rollupRule, RollupAction);
 		var statusChange = false;
 		if (rules) 
 		{
@@ -691,7 +778,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 				for (var childId in activity.item)
 				{
 					var child = activity.item[childId];
-					if (child.tracked)
+					if (child.sequencing.tracked)
 					{
 						if (CheckChildForRollupSubprocess(child, RollupAction))
 						{
@@ -753,7 +840,11 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	function EvaluateRollupConditionsSubprocess(activity, RollupConditions) // #188
 	{
 		if (ondebug) ondebug("EvaluateRollupConditionsSubprocess", EvaluateRollupConditionsSubprocess.caller); 
-		var bag = {satisfied:0, objectiveStatusKnown:0, objectiveMeasureKnown:0, completed:0, activityProgressKnown:0, attempted:0, attemptLimitExceeded:0, timeLimitExceeded:0, outsideAvailableTimeRange:0};
+		var bag = {
+			satisfied:0, objectiveStatusKnown:0, objectiveMeasureKnown:0, completed:0, 
+			activityProgressKnown:0, attempted:0, attemptLimitExceeded:0, timeLimitExceeded:0, 
+			outsideAvailableTimeRange:0
+		};
 		var bagcount = 0;
 		for (var i=0, ni=RollupConditions.length; i<ni; i+=1)
 		{
@@ -785,7 +876,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		var included = false;
 		if (RollupAction==='satisfied' || RollupAction==='notSatisfied')
 		{
-			if (activity.objectiveSatisfied)
+			if (activity.sequencing.objectiveSatisfied)
 			{
 				included = true;
 				if ((RollupAction==='satisfied' && activity.requiredForSatisfied==='ifNotSuspended') ||
@@ -928,29 +1019,34 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		if (previousTraversalDirection==='backward' && isLastOfAvailableChildren(activity)) 
 		{
 			traversalDirection = 'backward';
+			////
 			// ???? activity is the first activity in the activity’s parent’s list of Available Children
+			//--activity = activity.parentActivity.availableChildren[0];
+			////
 			reversedDirection = true;
 		}
 		if (traversalDirection==='forward') 
 		{
-			if (activity.index === activityCount-1)
+			if (activity.index === activityCount-1) //3,1
 			{
 				returnValue.exception = 'SB.2.1-1';
 				return returnValue;
 			} 
-			if (!activity.item || activity.item.length===0) //3,2
+			if (!activity.item || activity.item.length===0 || !considerChildren) //3,2 ??????
 			{
-				if (isLastOfAvailableChildren(activity)) 
+				// search for current item from back to front
+				var siblings = activity.parentActivity.availableChildren;
+				for (var i=siblings.length-1;i>-1; i--)
+				{
+					if (siblings[i]===activity) break;
+				}
+				if (i==siblings.length-1) // last one, one up
 				{
 					return FlowTreeTraversalSubprocess(activity.parentActivity, 'forward', false, null);
 				}
 				else // go for next sibling
 				{
-					///??? Traverse the tree, forward preorder, one activity to the next
-					///??? activity, in the activity’s parent’s list of Available Children
-					var candidate = activityIndex[activity.index+1];
-					// kommen hier noch checks???					
-					returnValue.identifiedActivity = candidate;
+					returnValue.identifiedActivity = siblings[i+1]; // next one
 					returnValue.traversalDirection = traversalDirection;
 					return returnValue;
 				}
@@ -970,34 +1066,31 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 				}
 			}
 		}
-		if (traversalDirection==='backward') 
+		if (traversalDirection==='backward') // 4
 		{
-			if (isRoot(activity)) 
+			if (isRoot(activity)) // 4.1
 			{
 				returnValue.exception = 'SB.2.1-3';
 				return returnValue;
 			}
-			if (!activity.item || activity.item.length===0) 
+			if (!activity.item || activity.item.length===0 || !considerChildren) // 4.2 
 			{
-				if (reversedDirection===false) {
-					if (activity.parentActivity.Sequencing.ForwardOnly)
-					{
-						returnValue.exception = 'SB.2.1-4';
-						return returnValue;
-					}
+				if (reversedDirection===false && activity.parentActivity.sequencing.forwardOnly)
+				{
+					returnValue.exception = 'SB.2.1-4';
+					return returnValue;
 				}
-				if (activity === activity.parentActivity.availableChildren[0]) 
+				for (var i=activity.parentActivity.availableChildren.length-1;i>-1; i--)
+				{
+					if (activity.parentActivity.availableChildren[i]===activity) break;
+				}
+				if (i===0) // is first activity
 				{
 					return FlowTreeTraversalSubprocess(activity.parentActivity, 'backward', false, null);
 				}
-				else
+				else // non first activity
 				{
-					///Traverse the tree, reverse preorder, one activity to the
-					///previous activity, from the activity’s parent’s list of Available
-					///Children
-					var candidate = activityIndex[activity.index-1];
-					returnValue.identifiedActivity = candidate;
-					// noch was zu checken hier???
+					returnValue.identifiedActivity = activity.parentActivity.availableChildren[i-1];
 					returnValue.traversalDirection = traversalDirection;
 					return returnValue;
 				}
@@ -1006,7 +1099,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			{
 				if (activity.availableChildren && activity.availableChildren.length) 
 				{
-					if (activity.Sequencing.ControlForwardOnly)
+					if (activity.sequencing.forwardOnly)
 					{
 						returnValue.identifiedActivity = activity.parentActivity.availableChildren[0];
 						returnValue.traversalDirection = 'forward';
@@ -1030,16 +1123,24 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	}
 	
 	
+	/*
+	Flow Activity Traversal Subprocess [SB.2.2]
+	@param activity
+	@param a traversal direction
+	@param a previous traversal direction
+	@return object the ‘next’ activity in a directed traversal of the activity tree ("identifiedActivity")
+		and True if the activity can be delivered ("deliverable")
+	*/
 	function FlowActivityTraversalSubprocess(activity, traversalDirection, previousTraversalDirection) // #197
 	{
 		if (ondebug) ondebug("FlowActivityTraversalSubprocess", FlowActivityTraversalSubprocess.caller); 
 		var r;
-		if (!activity.sequencing.Flow)
+		if (!activity.sequencing.flow)
 		{
 			return {deliverable: false, identifiedActivity: activity, exception: 'SB.2.2-1'};
 		}
 		r = SequencingRulesCheckProcess(activity, SetOfSkippedActions);
-		if (r)
+		if (r) // skipped
 		{
 			r = FlowTreeTraversalSubprocess(activity, traversalDirection, false, previousTraversalDirection);
 			if (!r.identifiedActivity)
@@ -1121,7 +1222,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		{
 			if (activity.parentActivity) 
 			{
-				if (activity.parentActivity.Sequencing.ForwardOnly)
+				if (activity.parentActivity.sequencing.forwardOnly)
 				{
 					returnValue.exception = 'SB.2.4-2';
 					return returnValue;
@@ -1191,7 +1292,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		}
 		else if (CurrentActivity!=RootActivity)
 		{
-			if (!CurrentActivity.parentActivity.sequencing.Flow) 
+			if (!CurrentActivity.parentActivity.sequencing.flow) 
 			{
 				return {exception : 'SB.2.7-2'};
 			}
@@ -1217,7 +1318,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		}
 		else if (CurrentActivity!=RootActivity)
 		{
-			if (!CurrentActivity.parentActivity.sequencing.Flow) 
+			if (!CurrentActivity.parentActivity.sequencing.flow) 
 			{
 				return {exception : 'SB.2.8-2'};
 			}
@@ -1240,7 +1341,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	function ChoiceSequencingRequestProcess(targetActivity)  // #205
 	{
 		if (ondebug) ondebug("ChoiceSequencingRequestProcess", ChoiceSequencingRequestProcess.caller); 
-		var r, a, commonAncestor, activityPath, traverse, activityList, consideredActivity ;
+		var r, a, commonAncestor, commonPath, activityPath, traverse, activityList, consideredActivity ;
 		if (!targetActivity) 
 		{
 			return {exception: 'SB.2.9-1'};
@@ -1253,25 +1354,25 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			}
 		}
 		activityPath = getActivityPath(targetActivity);
-		while (activityPath.length)
+		for (var i=activityPath.length-1; i>-1; i--)
 		{
-			a = activityPath.pop();
+			a = activityPath[i];
 			r = SequencingRulesCheckProcess(a, SetOfHiddenFromChoiceActions);
-			if (!r)
+			if (r)
 			{
 				return {exception: 'SB.2.9-3'};
 			}
 		}
 		if (!isRoot(targetActivity)) 
 		{
-			if (!targetActivity.parentActivity.SequencingControlModeChoice) 
+			if (!targetActivity.parentActivity.sequencing.choice) 
 			{
 				return {exception: 'SB.2.9-4'};
 			}
 		}
 		if (CurrentActivity)
 		{
-			r = FindCommonAncestor(CurrentActivity, targetActivity);
+			r = getCommonAncestorAndPath(CurrentActivity, targetActivity);
 			commonAncestor = r.commonAncestor;
 			activityPath = r.activityPath;
 		}
@@ -1279,32 +1380,10 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		{
 			commonAncestor = RootActivity;
 		}
-		if (CurrentActivity==targetActivity)
+		if (CurrentActivity==targetActivity) // 8
 		{
 		}
-		else if (targetActivity.id in CurrentActivity.parentActivity.item)
-		{
-			activityList = [];
-			// ??? prüfen, ob das die richtigen Elemente sind
-			for (var i = Math.min(targetActivity.index, CurrentActivity.index), ni = Math.max(targetActivity.index, CurrentActivity.index); i<ni; i+=1)
-			{
-				activityList.push(activityMap[activityIndex[i]]);
-			}
-			if (activityList.length===0) 
-			{
-				return {exception: 'SB.2.9-5'};
-			}
-			traverse = targetActivity.index > CurrentActivity.index ? 'forward' : 'backward';
-			while (activityList.length)
-			{
-				r = ChoiceActivityTraversalSubprocess(activityList.pop(), traverse);
-				if (r.exception)
-				{
-					return {exception: r.exception};
-				} 
-			}
-		} 
-		else if (!CurrentActivity || CurrentActivity==commonAncestor) 
+		else if (!CurrentActivity || CurrentActivity==commonAncestor) // 10 
 		{
 			if (activityPath.length===0)
 			{
@@ -1324,6 +1403,28 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 				}
 			}
 		}
+		else if (isInArray(targetActivity.id, CurrentActivity.parentActivity.item, 'id')) // 9 (needs CurrentActivity, so better after case "10")
+		{
+			activityList = [];
+			// ??? prüfen, ob das die richtigen Elemente sind
+			for (var i = Math.min(targetActivity.index, CurrentActivity.index), ni = Math.max(targetActivity.index, CurrentActivity.index); i<ni; i+=1)
+			{
+				activityList.push(activityIndex[i]);
+			}
+			if (activityList.length===0) 
+			{
+				return {exception: 'SB.2.9-5'};
+			}
+			traverse = targetActivity.index > CurrentActivity.index ? 'forward' : 'backward';
+			while (activityList.length)
+			{
+				r = ChoiceActivityTraversalSubprocess(activityList.pop(), traverse);
+				if (r.exception)
+				{
+					return {exception: r.exception};
+				} 
+			}
+		} 
 		else if (targetActivity==commonAncestor) 
 		{
 			/// ?? prüfen ob der Pfad richtig ist
@@ -1333,15 +1434,15 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			}
 			// suche nach constrained activity
 			a = activityPath.unshift(); // letzte wegwerfen
-			var constrainedActivity = a.constrainedChoice ? a : null; ///??? letztes zuerst auswerten erlaubt?
+			var constrainedActivity = a.sequencing.constrainChoice ? a : null; ///??? letztes zuerst auswerten erlaubt?
 			while (activityPath.length)
 			{
 				a = activityPath.pop();
-				if (!a.SequencingControlChoiceExit)
+				if (a.sequencing.choiceExit==="false")
 				{
 					return {exception: 'SB.2.9-7'};
 				}
-				if (!constrainedActivity && a.constrainedChoice)
+				if (!constrainedActivity && a.sequencing.constrainChoice)
 				{
 					constrainedActivity = a;
 				}
@@ -1358,30 +1459,27 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 				}
 			}
 		}
-		else if (targetActivity.index > commonAncestor.index) 
+		else if (targetActivity.index > commonAncestor.index) // 12 
 		{
-			// activityPath // Current Activity to the common ancestor
-			/// ?? prüfen ob der Pfad richtig ist
+			activityPath.push(commonAncestor);
 			if (activityPath.length===0)
 			{
 				return {exception: 'SB.2.9-5'};
 			}
-			// suche nach constrained activity
-			a = activityPath.unshift(); // letzte wegwerfen
-			constrainedActivity = a.constrainedChoice ? a : null; ///??? letztes zuerst auswerten erlaubt?
-			while (activityPath.length)
+			constrainedActivity = null;
+			for (var i=0, ni=activityPath.length-1; i<=ni; i++)  // 12.4
 			{
-				a = activityPath.pop();
-				if (!a.SequencingControlChoiceExit)
+				a = activityPath[i];
+				if (i!==ni && a.sequencing.choiceExit === "false") 
 				{
 					return {exception: 'SB.2.9-7'};
 				}
-				if (!constrainedActivity && a.constrainedChoice)
+				if (!constrainedActivity && a.sequencing.constrainChoice) 
 				{
 					constrainedActivity = a;
-				}
+				} 
 			}
-			if (constrainedActivity)
+			if (constrainedActivity) // 12.5
 			{
 				traverse = targetActivity.index > constrainedActivity.index ? 'forward' : 'backward';
 				r = ChoiceFlowSubprocess(constrainedActivity, traverse);
@@ -1392,7 +1490,6 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 					return {exception: 'SB.2.9-8'};
 				}
 			}
-			//  12.6 ??? neuer activityPath from common ancestor to the target activity
 			if (activityPath.length===0)
 			{
 				return {exception: 'SB.2.9-5'};
@@ -1545,7 +1642,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	}
 	
 		
-	function SequencingRequestProcess(sequencingRequest) // #216
+	function SequencingRequestProcess(sequencingRequest, target) // #216
 	{
 		if (ondebug) ondebug("SequencingRequestProcess", SequencingRequestProcess.caller); 
 		var r;
@@ -1570,7 +1667,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			r = PreviousSequencingRequestProcess();
 			break;
 		case 'Choice':
-			r = ChoiceSequencingRequestProcess();
+			r = ChoiceSequencingRequestProcess(target);
 			break;
 		}
 		if (!r || r.exception)
@@ -1626,7 +1723,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 			var a = activityPath.pop();
 			if (!a.isActive)
 			{
-				if (a.tracked)
+				if (a.sequencing.tracked)
 				{ 
 					if (a.isSuspended)
 					{
@@ -1654,7 +1751,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		ondeliver(CurrentActivity);
 		/// ??? The delivery environment begins tracking the Attempt Absolute Duration and the Attempt Experienced Duration
 		deliveryStarted = currentTimePoint();
-		if (CurrentActivity.tracked)
+		if (CurrentActivity.sequencing.tracked)
 		{
 			// ??
 		}
@@ -1667,11 +1764,10 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		if (ondebug) ondebug("ClearSuspendedActivitySubprocess", ClearSuspendedActivitySubprocess.caller); 
 		if (SuspendedActivity)
 		{
-			var commonAncestor = FindCommonAncestor(activity, SuspendedActivity);
-			/// ??? including common ancestor AND Suspended Activity???
-			while (commonAncestor.activityPath.length)
+			var activityPath = getCommonAncestorAndPath(activity, SuspendedActivity).activityPath;
+			while (activityPath.length)
 			{
-				var a = commonAncestor.activityPath.shift();
+				var a = activityPath.shift();
 				if (isLeaf(a))
 				{
 					a.isSuspended = false;
@@ -1684,7 +1780,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 					}
 				}
 			}
-			SuspendedActivity = null;
+			setSuspendedActivity(null);
 		}
 	}
 		
@@ -1693,60 +1789,71 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	 */ 
 	function LimitConditionsCheckProcess(activity) // #223
 	{
-		if (ondebug) ondebug("LimitConditionsCheckProcess", LimitConditionsCheckProcess.caller); 
-		if (!activity.tracked)
+		if (ondebug) ondebug("LimitConditionsCheckProcess", LimitConditionsCheckProcess.caller);
+		var limit; 
+		if (!activity.sequencing.tracked)
 		{
 			return false;
 		}
-		if (activity.LimitConditionAttemptControl)
+		if (cmidata.getValue(activity.foreignId, 'activityProgressState'))
 		{
-			if (activity.ProgressStatus && (activity.AttemptCount >= activity.LimitConditionAttemptLimit))
+			if (limit = Number(activity.sequencing.attemptLimit))
+			{
+				if (Number(cmidata.getValue(activity.foreignId, 'attemptCount')) >= limit)
+				{
+					return true;
+				}
+			}
+			if (limit = Number(activity.sequencing.activityAbsoluteDurationLimit))
+			{
+				if (Number(cmidata.getValue(activity.foreignId, 'activityAbsoluteDuration')) >= limit)
+				{
+					return true;
+				}
+			}
+			if (limit = Number(activity.sequencing.activityExperiencedDurationLimit))
+			{
+				if (Number(cmidata.getValue(activity.foreignId, 'activityExperiencedDuration')) >= limit)
+				{
+					return true;
+				}
+			}
+			if (cmidata.getValue(activity.foreignId, 'attemptProgressState'))
+			{
+				if (limit = Number(activity.sequencing.attemptAbsoluteDurationLimit))
+				{
+					if (Number(cmidata.getValue(activity.foreignId, 'attemptAbsoluteDuration')) >= limit)
+					{
+						return true;
+					}
+				}
+				if (limit = Number(activity.sequencing.attemptExperiencedDurationLimit))
+				{
+					if (Number(cmidata.getValue(activity.foreignId, 'attemptExperiencedDuration')) >= limit)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		/*
+		// At this time, the SCORM does not require an LMS to implement
+		// time related sequencing decisions based on this value.
+		if (activity.sequencing.beginTimeLimit)
+		{
+			if (currentTimePoint() < activity.sequencing.beginTimeLimit)
 			{
 				return true;
 			}
 		}
-		if (activity.LimitConditionActivityAbsoluteDurationControl)
+		if (activity.sequencing.endTimeLimit)
 		{
-			if (activity.ProgressStatus && (activity.ActivityAbsoluteDuration >= activity.LimitConditionActivityAbsoluteDurationLimit))
+			if (currentTimePoint() > activity.sequencing.endTimeLimit)
 			{
 				return true;
 			}
 		}
-		if (activity.LimitConditionActivityExperiencedDurationControl)
-		{
-			if (activity.ProgressStatus && (activity.ActivityExperiencedDuration >= activity.LimitConditionActivityExperiencedDurationLimit))
-			{
-				return true;
-			}
-		}
-		if (activity.LimitConditionAttemptAbsoluteDurationControl)
-		{
-			if (activity.ProgressStatus && activity.AttemptProgressStatus && (activity.AttemptAbsoluteDuration >= activity.LimitConditionAttemptAbsoluteDurationLimit))
-			{
-				return true;
-			}
-		}
-		if (activity.LimitConditionAttemptExperiencedDurationControl)
-		{
-			if (activity.ProgressStatus && activity.AttemptProgressStatus && (activity.AttemptExperiencedDuration >= activity.LimitConditionAttemptExperiencedDurationLimit))
-			{
-				return true;
-			}
-		}
-		if (activity.LimitConditionBeginTimeLimitControl)
-		{
-			if (currentTimePoint() < activity.LimitConditionBeginTimeLimit)
-			{
-				return true;
-			}
-		}
-		if (activity.LimitConditionEndTimeLimitControl)
-		{
-			if (currentTimePoint() > activity.LimitConditionEndTimeLimit)
-			{
-				return true;
-			}
-		}
+		*/
 		return false;
 	}
 		
@@ -1758,15 +1865,15 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	function SequencingRulesCheckProcess(activity, SetOfRuleActions) // #225
 	{
 		if (ondebug) ondebug("SequencingRulesCheckProcess", SequencingRulesCheckProcess.caller); 
-		var rules = activity.sequencing.Rules;
-		for (var i=0, ni=rules.length; i<ni; i+=1)
+		var rules = activity.sequencing.rule;
+		for (var i=0; i<rules.length; i+=1)
 		{
 			var rule = rules[i];
-			if (SetOfRuleActions.test(rule.action))
+			if (rule && SetOfRuleActions.test(rule.action))
 			{
 				if (SequencingRuleCheckSubprocess(activity, rule))
 				{
-					return rule.action;
+					return rule.action.substr(0, 1).toUpperCase() + rule.action.substr(1);
 				}
 			}
 		}
@@ -1780,21 +1887,47 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	function SequencingRuleCheckSubprocess(activity, SequencingRule) // #226
 	{
 		if (ondebug) ondebug("SequencingRuleCheckSubprocess", SequencingRuleCheckSubprocess.caller); 
-		var bag = [];
-		for (var i=0, ni=SequencingRule.conditions.length; i<ni; i+=1)
+		var bag = [], value;
+		var conditions = SequencingRule.condition;
+		for (var i=0, ni=conditions.length; i<ni; i+=1)
 		{
-			var condition = SequencingRule.conditions[i];
-			///???Evaluate the rule condition by applying the appropriate tracking
-			///???information for the activity to the Rule Condition
-			if (condition.operator === 'not')
+			var condition = conditions[i];
+				/*
+				o satisfied
+				o objectiveStatusKnown
+				o objectiveMeasureKnown
+				o objectiveMeasureGreaterThan
+				o objectiveMeasureLessThan
+				o completed
+				o activityProgressKnown
+				o attempted
+				o attempLimitExceeded
+				o timeLimitExceeded
+				o outsideAvailableTimeRange
+				o always
+
+Objective Measure Greater
+=> cmi.objectives.n.score.scaled (if defined)
+=> cmi.score.scaled (for prim objective)
+
+				*/
+			switch (condition.condition)
 			{
-				negateRuleCondition(condition);
+				case 'objectiveMeasureGreaterThan':
+					var v = cmidata.getObjectiveValue(condition.referencedObjective, 'scaled');
+					value = v!==undefined && Number(v) > Number(condition.measureThreshold);
+					break;
+				case 'objectiveMeasureLessThan':
+					var v = cmidata.getObjectiveValue(condition.referencedObjective, 'scaled');
+					value = v!==undefined && Number(v) < Number(condition.measureThreshold);
+					break;
+				case 'always':
+					value = true;
+					break;
+				default:
+					break;
 			}
-			bag.push(condition.value);
-		}
-		if (bag.length===0)
-		{
-			return false;
+			bag.push(condition.operator === 'not' ? !value : value);
 		}
 		return RuleCombination(SequencingRule, bag);
 	}
@@ -1802,8 +1935,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	function TerminateDescendentAttemptsProcess(activity) // #227
 	{
 		if (ondebug) ondebug("TerminateDescendentAttemptsProcess", TerminateDescendentAttemptsProcess.caller); 
-		var commonAncestor = FindCommonAncestor(CurrentActivity, activity);
-		var activityPath = commonAncestor.activityPath;
+		var activityPath = getCommonAncestorAndPath(CurrentActivity, activity).activityPath;
 		while (activityPath.length)
 		{
 			EndAttemptProcess(activityPath.shift());		
@@ -1813,34 +1945,35 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	
 	function EndAttemptProcess(activity) // #228
 	{
-		if (ondebug) ondebug("EndAttemptProcess", EndAttemptProcess.caller); 
+		if (ondebug) ondebug("EndAttemptProcess", EndAttemptProcess.caller);
 		if (isLeaf(activity)) 
 		{
-			if (activity.tracked) 
+			//enforceUndeliver in GUI
+			// only do if navigation succeeds in new delivery???
+			onundeliver(); 
+		} 
+		if (isLeaf(activity) && activity.sequencing.tracked && !activity.isSuspended) 
+		{
+			if (!activity.sequencing.completionSetByContent)
 			{
-				if (!activity.isSuspended)
+				if (cmidata.getValue(activity.foreignId, "attemptProgressStatus")!=1) 
 				{
-					if (!activity.CompletionSetByContent)
+					cmidata.setValue(activity.foreignId, "attemptProgressStatus", 1);
+					cmidata.setValue(activity.foreignId, "attemptCompletionStatus", 1);
+				}
+			}
+			if (!activity.sequencing.objectiveSetByContent)
+			{
+				var objectives = activity.sequencing.objective;
+				for (var objectiveId in objectives)
+				{
+					var objective = objectives[objectiveId];
+					if (objective.ObjectiveContributesToRollup)
 					{
-						if (!activity.AttemptProgressStatus) 
+						if (!objective.ObjectiveProgressStatus)
 						{
-							activity.AttemptProgressStatus = true;
-							activity.AttemptCompletionStatus = true;
-						}
-					}
-					if (!activity.ObjectiveSetByContent)
-					{
-						for (var objectiveId in activity.objectives)
-						{
-							var objective = activity.objectives[objectiveId];
-							if (objective.ObjectiveContributesToRollup)
-							{
-								if (!objective.ObjectiveProgressStatus)
-								{
-									objective.ObjectiveProgressStatus = true;
-									objective.ObjectiveSatisfiedStatus = true;								
-								}
-							}
+							objective.ObjectiveProgressStatus = true;
+							objective.ObjectiveSatisfiedStatus = true;								
 						}
 					}
 				}
@@ -1905,7 +2038,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		'SB.2.8-2'  : 'Flow Sequencing Control Mode violation',
 		'SB.2.9-1'  : 'No target for Choice',
 		'SB.2.9-2'  : 'Target activity does not exist or is unavailable',
-		'SB.2.9.3'  : 'Target activity hidden from choice',
+		'SB.2.9-3'  : 'Target activity hidden from choice',
 		'SB.2.9-4'  : 'Choice Sequencing Control Mode violation',
 		'SB.2.9-5'  : 'No activities to consider',
 		'SB.2.9-6'  : 'Unable to activate target; target is not a child of the Current Activity',
@@ -1932,7 +2065,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	
 	function endSequencingSession() 
 	{
-		//player beenden
+		onend();	
 	}
 	
 	function isSibling(activity1, activity2) 
@@ -1947,67 +2080,82 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 		}
 		return false;
 	}
+	function isSibling(activity1, activity2) 
+	{
+		return isInArray(activity1.id, activity1.parentActivity.item, 'id');
+	}
 	
-	// Form the activity path as the ordered series of activities from the 
-	// current activity to the root of the activity tree 
+	function isInArray(value, array, prop) 
+	{
+		for (var i=0, ni=array.length; i<ni; i++)
+		{
+			if (value===(prop ? array[i][prop] : array[i])) 
+			{
+				return true;
+			} 
+		}
+		return false;
+	}
+	
+	/**
+	 *	Form the activity path as the ordered series of activities from an
+	 *	activity to the root of the activity tree
+	 *	@param {object} activity to start bubble 
+	 *	@param {boolean} as default starting activity will be included as first element
+	 *	@param {boolean} as root activity will be included as last element
+	 *	@return {array} bottom up list of references to activity objects with id-associated positions
+	 */	  
 	function getActivityPath(activity, excludeSource, excludeTop)
 	{
 		var r = [];
 		var a = activity;
 		if (!excludeSource)
 		{
+			r[a.id] = r.length;
 			r.push(a);
 		}
 		while ((a = a.parentActivity)) 
 		{
+			r[a.id] = r.length;
 			r.push(a);
 		}
 		if (excludeTop)
 		{
-			r.pop(a);
+			delete r[r.pop(a).id];
 		}
 		return r;
 	}
 	
-	
-	/*
-	Form the activity path as the ordered series of activities from the Current
-	Activity to the common ancestor, exclusive of the Current Activity and the
-	common ancestor
+	/**
+	 * Form the activity path as the ordered series of activities from the Current
+	 * Activity to the common ancestor, exclusive of the Current Activity and the
+	 * common ancestor
+	 * @param {object} first activity
+	 * @param {object} second activity
+	 * @return {object} containing commonAncestor property and bottom-up activityPath
 	*/
-	function FindCommonAncestor(activity1, activity2)
+	function getCommonAncestorAndPath(commonActivity, otherActivity)
 	{
-		var p1 = {};
-		var p2 = [];
-		var a = activity1;
-		var r;
-		if (!a) /// ? on start activity1 is CurrentActivity which is empty
+		var returnValue = {commonAncestor: null, activityPath: []};
+		if (commonActivity && otherActivity)
 		{
-			return {CommonAncestor: null, activityPath: p2};
-		} 
-		while ((a = a.parentActivity))
-		{
-			p1[a.id] = p1.length;
-		}
-		a = activity2;
-		while ((a = a.parentActivity)) 
-		{
-			if (a.id in p1) 
+			var p = getActivityPath(commonActivity, true);
+			var a = otherActivity;
+			while ((a = a.parentActivity) && !(a.id in p)) 
 			{
-				r = {CommonAncestor: a, activityPath: p2};
-				break;
+				returnValue.activityPath.push(a);
 			}
-			p2.push(a);
-		}
-		return r;
+			returnValue.commonAncestor = a;
+		} 
+		return returnValue;
 	}
-	
-	function getTargetObjective(activity)
+
+	function getTargetObjective(activity) /// ???
 	{
-		var obs = activity.sequencing.Objectives;
-		for (var objectiveId in obs) 
+		var objectives = activity.sequencing.objective;
+		for (var objectiveId in objectives) 
 		{
-			var objective = obs[objectiveId];
+			var objective = objectives[objectiveId];
 			if (objective.objectiveSetByContent) 
 			{
 				return objective;
@@ -2062,12 +2210,13 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	
 	function RuleCombination(SequencingRule, bag)
 	{
-		/*
-		Apply the Rule Combination for the Sequencing Rule to the rule condition
-		bag to produce a single combined rule evaluation
-		‘And’ or ‘Or’ the set of evaluated conditions, based on the sequencing
-		rule definition
-		*/
+		var sum = 0;
+		for (var i=bag.length; i>-1; i--) 
+		{
+			if (bag[i]) sum++;
+		}
+		return (sum && SequencingRule.conditionCombination=="any") 
+			|| (sum && sum==bag.length);
 	}
 	
 	function hasAnySuspendedChildren(activity) 
@@ -2123,6 +2272,10 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, ondebug) {
 	{
 	}
 	
-	
+	function setSuspendedActivity(activity)
+	{
+		SuspendedActivity = activity;
+		cmidata.setValue(RootActivity.foreignId, 'location', activity ? activity.id : null);
+	}
+		
 }
-

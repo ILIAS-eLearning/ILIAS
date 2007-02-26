@@ -15,22 +15,18 @@
  * information to <alfred.kohnert@bigfoot.com>.
  * 
  * You must not remove this notice, or any other, from this software.
- */
-
-/**
+ * 
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
  *  
- * Business class for demonstration of current state of ILIAS SCORM 2004
- * 
- * For security reasons this is not connected to ILIAS database
- * but uses a small fake database in slite2 format.
- * Waits on finishing other sub tasks before being connected to ILIAS.
+ * Content-Type: application/x-httpd-php; charset=ISO-8859-1 
  * 
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
  * @version $Id$
- * @copyright: (c) 2005-2007 Alfred Kohnert
- *  
+ * @copyright: (c) 2005-2007 Alfred Kohnert 
+ * 
+ * Business class for demonstration of current state of ILIAS SCORM 2004
+ * 
  */ 
 
 class ilSCORM13Package
@@ -89,9 +85,14 @@ class ilSCORM13Package
 	
 	public function load($packageId)
 	{
-		if (!is_numeric($packageId)) return false;
-		$this->packageData = ilSCORM13DB::getRecord('cp_package', 'obj_id', $packageId);
-		if (!$this->packageData) return false;
+		if (!is_numeric($packageId)) 
+		{
+			return false;
+		}
+		$this->packageData = array_merge(
+			ilSCORM13DB::getRecord('sahs_lm', 'id', $packageId), 
+			ilSCORM13DB::getRecord('cp_package', 'obj_id', $packageId)
+		);
 		$this->packageId = $packageId;
 		$this->packageFolder = $this->packagesFolder . '/' . $packageId;
 		$this->packageFile = $this->packageFolder . '.zip';
@@ -152,6 +153,8 @@ class ilSCORM13Package
 		unlink($fn1);
 	}
 	
+	/**
+	 */	
 	public function exportManifest()
 	{
 		$q = 'SELECT cp_node.cp_node_id as cp_node_id, 
@@ -183,6 +186,8 @@ class ilSCORM13Package
 		return $this->transform($doc, self::DB_DECODE_XSL)->saveXML();
 	}
 
+	/**
+	 */	
 	public function uploadAndImport($packageFile)
 	{
 		$this->packageName = md5_file($packageFile);
@@ -238,13 +243,23 @@ class ilSCORM13Package
 		}
 
 		// STEP 5
-		$this->setProgress(0.6, 'Step 5: create player json data');
+		$this->setProgress(0.6, 'Step 5: Import into database');
+		$this->dbAddNew(); // add new sahs and package record
+		$this->dbRemoveAll(); // remove old data on this id
+		$this->dbImport($this->manifest);
+
+		// STEP 6
 		// create json via simple xml
+		$this->setProgress(0.7, 'Step 6: create player json data');
 		$x = simplexml_load_string($this->manifest->saveXML());
-		//$x->registerXPathNamespace('#default', 'http://www.openpalms.net/scorm/scorm13');
-		//$x['xmlns'] = ''; // workaround for missing namespace support in xpath
+		// add database values from package and sahs_lm records as defaults
+		$x['persistPreviousAttempts'] = $this->packageData['persistPreviousAttempts'];
+		$x['online'] = $this->packageData['online'];
+		$x['defaultLessonMode'] = $this->packageData['default_lesson_mode'];
+		$x['credit'] = $this->packageData['credit'];
+		$x['autoReview'] = $this->packageData['auto_review'];
 		$j = array();
-		// read resources 
+		// first read resources into flat array to resolve item/identifierref later
 		$r = array();
 		foreach ($x->resource as $xe) 
 		{
@@ -254,6 +269,7 @@ class ilSCORM13Package
 		// iterate through items and set href and scoType as activity attributes 
 		foreach ($x->xpath('//*[local-name()="item"]') as $xe) 
 		{
+			// get reference to resource and set href accordingly
 			if ($b = $r[strval($xe['resourceId'])])
 			{
 				$xe['href'] = strval($b['base']) . strval($b['href']);
@@ -263,6 +279,7 @@ class ilSCORM13Package
 		}
 		// iterate recursivly through activities and build up simple php object
 		// with items and associated sequencings
+		// top node is the default organization which is handled as an item
 		self::jsonNode($x->organization, $j['item']);
 		foreach($x->sequencing as $s) 
 		{
@@ -272,23 +289,16 @@ class ilSCORM13Package
 		$j['item']['base'] = strval($x['base']);
 		// package folder is base to whole playing process
 		$j['base'] = $packageFolder . '/';
-		// save activities + sequencing as ecma script
-		file_put_contents($this->activitiesFile, json_encode($j));
-		
-		// STEP 6
-		$this->setProgress(0.7, 'Step 6: Import into database');
-		$this->dbAddNew(); // add new sahs and package record
-		$this->dbRemoveAll(); // remove old data on this id
-		$this->dbImport($this->manifest);
+
+		// STEP 7
+		$this->setProgress(0.8, 'Step 7: Wrapping up');
 		// save xml and json for further use in db
 		ilSCORM13DB::setRecord('cp_package', array(
 			'obj_id' => $this->packageId,
 			'xmldata' => $x->asXML(),
 			'jsdata' => json_encode($j),
 		), 'obj_id');
-		
-		// STEP 7
-		$this->setProgress(0.8, 'Step 7: Wrapping up');
+		// rename temp files/folders
 		$tf = $this->packagesFolder . '/' . $this->packageId . '.zip';
 		if (is_file($tf)) 
 		{
@@ -304,16 +314,25 @@ class ilSCORM13Package
 		
 		// FINISH
 		$this->setProgress(1.0, 'Done. Everything ok.');
-		return true;
-		
+		return true;		
 	}
 	
+	/**
+	 */	
 	private function setProgress($progress, $msg = '')
 	{
 		$this->progress = $progress;
 		$this->diagnostic[] = $msg;
 	}
 	
+	/**
+	 * Helper for UploadAndImport
+	 * Recursively copies values from XML into PHP array for export as json
+	 * Elements are translated into sub array, attributes into literals
+	 * @param xml element to process
+	 * @param reference to array object where to copy values
+	 * @return void
+	 */	
 	private function jsonNode($node, &$sink)
 	{
 		foreach ($node->attributes() as $k => $v) 
@@ -356,7 +375,7 @@ class ilSCORM13Package
 					'slm_id' => $this->packageId, 
 					'nodeName' => $node->nodeName, 
 				), 'cp_node_id');
-
+				
 				// insert into cp_tree
 				ilSCORM13DB::setRecord('cp_tree', array(
 					'child' => $cp_node_id,
@@ -374,6 +393,7 @@ class ilSCORM13Package
 					$a[$attr->name] = $attr->value;
 				}
 				ilSCORM13DB::setRecord('cp_' . $node->nodeName, $a);
+				$node->setAttribute('foreignId', $cp_node_id);
 				$this->idmap[$node->getAttribute('id')] = $cp_node_id; 
 				
 				// run sub nodes
@@ -411,14 +431,12 @@ class ilSCORM13Package
 			ilSCORM13DB::exec("DELETE FROM $t WHERE $t.cp_node_id IN (SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id=$this->packageId)");
 		} 
 		// remove CMI entries 
-		/*
 		ilSCORM13DB::exec("DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
 		ilSCORM13DB::exec("DELETE FROM cmi_objective WHERE cmi_objective.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
 		ilSCORM13DB::exec("DELETE FROM cmi_objective WHERE cmi_objective.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
 		ilSCORM13DB::exec("DELETE FROM cmi_interaction WHERE cmi_interaction.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
 		ilSCORM13DB::exec("DELETE FROM cmi_comment WHERE cmi_comment.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
 		ilSCORM13DB::exec("DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
-		*/
 		// remove CP structure entries in tree and node 
 		ilSCORM13DB::exec("DELETE FROM cp_tree WHERE cp_tree.obj_id=$this->packageId"); 
 		ilSCORM13DB::exec("DELETE FROM cp_node WHERE cp_node.slm_id=$this->packageId");

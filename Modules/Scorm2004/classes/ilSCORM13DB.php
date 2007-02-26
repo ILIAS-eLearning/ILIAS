@@ -15,34 +15,34 @@
  * information to <alfred.kohnert@bigfoot.com>.
  * 
  * You must not remove this notice, or any other, from this software.
- */
-
-/**
+ *  
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
- *  
- * Database class for demonstration of current state of ILIAS SCORM 2004
  * 
- * Typical usage is static for main DB in your project.
- * Only to connect to other related databases (e.g. external user login 
- * store) you have to create instances of ilSCORM13DB.
- * Static use starts width ilSCORM13DB::init(PDODSN);
- * Instance use starts width $db = new ilSCORM13DB(PDODSN);
+ * Content-Type: application/x-httpd-php; charset=ISO-8859-1 
  * 
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
  * @version $Id$
  * @copyright: (c) 2005-2007 Alfred Kohnert
  *  
+ * Database class for demonstration of current state of ILIAS SCORM 2004
+ * Typical usage is static for main DB in your project.
+ * Only to connect to other related databases (e.g. external user login 
+ * store) you have to create instances of ilSCORM13DB.
+ * Static use starts width ilSCORM13DB::init(PDODSN);
+ * Instance use starts width $db = new ilSCORM13DB(PDODSN);
  */ 
 
 
 class ilSCORM13DB
 {
 	// variables for static usage 
+	public static $DB;
 	private static $DSN;
 	private static $TYPE;
 	private static $BRACKETS;
 	private static $LAST_ID;
+	private static $ERRORS;
 	private static $BRACKETS_LIST = array(
 		'mysql' => '``', 
 		'jet'   => '[]',
@@ -50,13 +50,16 @@ class ilSCORM13DB
 	); // for table or field names containing whitespace or other special chars
 
 	// similar variables for dynamic usage 
+	private $db;
 	private $dsn;
 	private $type;
 	private $brackets;
 	private $lastId;
+	private static $errors;
 	
 	public function __construct($dsn, $type='mysql') 
 	{
+		$this->db = new PDO($dsn); 
 		$this->dsn = $dsn; 
 		$this->brackets = self::$BRACKETS_LIST[$type]; 
 		$this->type = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
@@ -65,6 +68,7 @@ class ilSCORM13DB
 	
 	public function init($dsn, $type='mysql') 
 	{
+		self::$DB = new PDO($dsn); 
 		self::$DSN = $dsn;
 		self::$TYPE = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
 		self::$BRACKETS = self::$BRACKETS_LIST[self::$TYPE]; 
@@ -72,6 +76,7 @@ class ilSCORM13DB
 	
 	public function getLastId() 
 	{
+		return self::getDB()->lastInsertId();
 		return $this && $this instanceof ilSCORM13DB
 			? $this->lastId
 			: self::$LAST_ID; 
@@ -89,6 +94,13 @@ class ilSCORM13DB
 		return $this && $this instanceof ilSCORM13DB 
 			? $this->dsn 
 			: self::$DSN; 
+	}
+	
+	private function getDB() 
+	{
+		return $this && $this instanceof ilSCORM13DB 
+			? $this->db
+			: self::$DB; 
 	}
 	
 	private function escapeName($name) 
@@ -142,7 +154,8 @@ class ilSCORM13DB
 	
 	function setRecords($tableOrView, $rows, $idname=null)
 	{
-		$d = new PDO(self::getDSN());
+		//$d = new PDO(self::getDSN());
+		$d = self::getDB();
 		$r = 0;
 		if (!is_array($row = $rows[0]))
 		{
@@ -183,7 +196,6 @@ class ilSCORM13DB
 				if (!$u && is_string($idname) && $row)
 				{
 					if ($type==='jet') {
-						// ist noch nicht aktuell, ODBC Problem???
 						$row = self::query("SELECT Max($idname) AS lastInsertId FROM $tableOrView");
 						$row = $row[0]['lastInsertId']+1;
 					} else {
@@ -208,7 +220,8 @@ class ilSCORM13DB
 		{
 			return false;
 		}
-		$d = new PDO(self::getDSN());
+		//$d = new PDO(self::getDSN());
+		$d = self::getDB();
 		if (!is_array($tables))
 		{
 			$tables = array($tables);
@@ -234,10 +247,11 @@ class ilSCORM13DB
 		return array_reverse($tables);
 	}	
 	
-	public function & query($query, $params=null, $order=null, $paging=null) 
+	public function & query($query, $params=null, $order=null, $paging=null, $fetchType=PDO::FETCH_ASSOC) 
 	{
 		$r = array();
-		$d = new PDO(self::getDSN());
+		//$d = new PDO(self::getDSN());
+		$d = self::getDB();
 		$q = array($query);
 		if (is_array($order))
 		{
@@ -263,7 +277,7 @@ class ilSCORM13DB
 		$q = implode(' ', $q);
 		$s = $d->prepare($q);
 		$s->execute($params);
-		$r = $s->fetchAll(PDO::FETCH_ASSOC);
+		$r = $s->fetchAll($fetchType);
 		unset($d);
 		return $r;
 	}
@@ -275,7 +289,7 @@ class ilSCORM13DB
 	 * exec(array('select... id=?', 'select2... id=?'), array(array(231))) 	
 	 * exec(array('select... id=?', 'select2... id=?'), array(array(231), array(130)))
 	 * 
-	 * erstelle gleich dimensionale arrays fÃ¼r $queries und $params
+	 * erstelle gleich dimensionale arrays für $queries und $params
 	 */	
 	public function exec($queries, $params=null, &$result = null)
 	{
@@ -292,7 +306,8 @@ class ilSCORM13DB
 		{
 			$params = array($params);
 		}
-		$d = new PDO(self::getDSN());
+		//$d = new PDO(self::getDSN());
+		$d = self::getDB();
 		foreach ($queries as $i => &$q) 
 		{
        	if ($s = $d->prepare($q)) 
@@ -321,7 +336,26 @@ class ilSCORM13DB
 		unset($d);
 		return $queries; 
 	}
-	
+
+	function begin()
+	{
+		self::getDB()->beginTransaction();
+		self::$ERRORS = 0;
+	}
+		
+	function commit()
+	{
+		self::$ERRORS 
+			? self::getDB()->rollBack() 
+			: self::getDB()->commit();
+		return self::$ERRORS;
+	}
+		
+	function rollback()
+	{
+		self::getDB()->rollBack(); 
+	}
+		
 }
 
 ?>

@@ -15,19 +15,19 @@
  * information to <alfred.kohnert@bigfoot.com>.
  * 
  * You must not remove this notice, or any other, from this software.
- */
-
-/**
+ *  
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
- *  
- * Module extending PHP core 
- * for it is missing some basic functionality 
  * 
+ * Content-Type: application/x-httpd-php; charset=ISO-8859-1
+ *    
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
  * @version $Id$
  * @copyright: (c) 2005-2007 Alfred Kohnert
  *  
+ * Module extending PHP core 
+ * for it is missing some basic functionality 
+ * 
  */ 
  
 
