@@ -703,7 +703,7 @@ foreach($archive_ids as $archive_id => $data)
 	}
 	
 	// Save success
-	$query = "REPLACE INTO tmp_migration SET obj_id = '".$event_id."',passed = '1'";
+	$query = "REPLACE INTO tmp_migration SET obj_id = '".$archive_id."',passed = '1'";
 	$ilDB->query($query);
 }
 
