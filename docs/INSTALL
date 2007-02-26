@@ -7,6 +7,10 @@
           $Id$
 
 
+************************************************************
+THIS IS AN ALPHA RELEASE. DO NOT USE IT AS A PRODUCTIVE
+SYSTEM. DATA WILL BE LOST.
+************************************************************
 
 
 Table of Contents
@@ -56,7 +60,7 @@ ILIAS itself, all these programs are available as Open Source software.
 
     - Apache 1.3.29            http://www.apache.org
     - MySQL 4.0.18             http://www.mysql.com
-    - PHP 4.3.6                http://www.php.net
+    - PHP 5.1.x                http://www.php.net
     - GD (libgd) 2.0.15        http://www.boutell.com/gd/
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
@@ -65,15 +69,11 @@ ILIAS itself, all these programs are available as Open Source software.
     - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
     - libxml2 2.6.9            http://www.xmlsoft.org
     - libxslt 1.1.6            http://www.xmlsoft.org
-    - libexpat 1.95.7          http://www.libexpat.org (not needed for PHP5)
-    - Sablotron 1.1            http://www.gingerall.com (not needed for PHP5)
 
 The recommended releases can also be downloaded from the ILIAS open source web
 site: http://www.ilias.uni-koeln.de/ios/source.html
 
-ILIAS should also run with PHP 5.x.x. If you are using PHP 5 libexpat and
-Sablotron are not needed. Some problems were found using PHP 4 and the Sablotron 
-library, so it is highly recommended to use PHP 5 if possible.
+ILIAS 3.8.x will not run on PHP4 anymore.
 
 Please read the MySQL chapter if you plan to migrate from an existing 
 MySQL 4.0.x to MySQL 4.1.x.
@@ -213,16 +213,14 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/unzip550.tar.gz
     tar -xzf tarballs/mysql-4.0.18.tar.gz
     tar -xzf tarballs/apache_1.3.29.tar.gz
-    tar -xzf tarballs/php-4.3.6.tar.gz
+    tar -xzf tarballs/php-5.1.x.tar.gz
     tar -xzf tarballs/libxml2-2.6.9.tar.gz
     tar -xzf tarballs/libxslt-1.1.6.tar.gz
-    tar -xzf tarballs/expat-1.95.7.tar.gz (PHP4 only)
-    tar -xzf tarballs/Sablot-1.1.tar.gz (PHP4 only)
 
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.7.1.tar.gz
+    ilias-3.8.0-alpha.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -247,8 +245,6 @@ must be installed:
     - libxml (GNOME XML library, required by PHP for XML DOM parsing. At least a
       version >= 2.4.14 is required)
     - libxslt (GNOME XSLT library, required by PHP for using DOM XSLT features)
-    - Expat (XML parser used by the Sablotron XSLT processor) (PHP4 only)
-    - Sablotron (XSLT processor) (PHP4 only)
 
 The programs can be compiled and installed using the command sequences shown
 below. However, you may decide to install them in different locations such
@@ -309,7 +305,7 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
 
 (d) GD-Library
 
-    From release 4.3.0 PHP comes with a bundled libgd. Like all standard libgd
+    PHP comes with a bundled libgd. Like all standard libgd
     versions >= 1.6.x the bundled version does not allow the creation and
     manipulation of GIF images due to the patent problem concerning the use of
     the LZW algorithm.
@@ -335,11 +331,6 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
         --with-png=/opt/ilias
         make
         make install
-
-    Please note that opposed to current PHP versions some older PHP 4 releases
-    cannot properly be compiled with newer libgd. A patch that solves the problem
-    is available for PHP 4.2.3 and libgd >= 2.0.8 is available here:
-    http://www.boutell.com/gd/phppatch.html
 
     You may also use an older libgd, for example version 1.8.4. The latter does
     not come with a configure script. To adapt it to your system you would have
@@ -395,8 +386,6 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
     install them under /opt/ilias by modifying the Makefile.
 
 
-The following steps are only necessary for running ILIAS 3:
-
 (g) libxml
 
         cd /opt/ilias/src/libxml2-2.6.9
@@ -418,28 +407,6 @@ The following steps are only necessary for running ILIAS 3:
         make install
 
 
-(i) Expat (PHP4 only)
-
-        cd /opt/ilias/src/expat-1.95.7
-        ./configure --prefix=/opt/ilias
-        make
-        make install
-
-
-(j) Sablotron (PHP4 only)
-
-        cd /opt/ilias/src/Sablot-1.1
-        ./configure \
-        --prefix=/opt/ilias \
-        --with-expat-prefix=/opt/ilias
-        make
-        make install
-
-Note: If you found that compiling PHP 4 with Sablotron dumps some 'invalid 
-references' errors, please try to compile Sablotron and PHP 4 typing the string 
-LDFLAGS=-lstdc++ just before the 'make' command in both cases.
-
-
 2.3.2 MySQL / PHP / Apache
 
 After the libraries and tools are set up you may install the main third-party
@@ -448,7 +415,7 @@ components:
 
 (a) MySQL database
 
-    ILIAS version 3.7.x supports MySQL 4.x and MysSQL 5.x.
+    ILIAS version 3.8.x supports MySQL 4.x and MysSQL 5.x.
 
     Configure & make:
 
@@ -543,40 +510,61 @@ components:
         mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci
 
 
-(b) Apache (preparation)
+(b) Apache
+
+    Configure & make:
 
         cd /opt/ilias/src/apache_1.3.29
-        ./configure --prefix=/opt/ilias
+        ./configure \
+        --prefix=/opt/ilias \
+        --enable-so \
+        --logfiledir=/opt/ilias/log \
+        --runtimedir=/opt/ilias/log \
+        --sysconfdir=/opt/ilias/config \
+        --datadir=/opt/ilias/www
+        make
+        make install
+
+    Link to startup script apachectl:
+
+        cd /opt/ilias/bin
+        chmod 744 apachectl
+        cp apachectl /etc/rc.d/init.d/
+        cd /etc/rc.d/rc3.d
+        ln -s ../init.d/apachectl S70apachectl
+        ln -s ../init.d/apachectl K70apachectl
+
+    The directories containing the init script and the links to it may vary.
+    Please check the default runlevel for your system in /etc/inittab. On
+    Solaris systems the init scripts can usually be found in /etc/init.d, the
+    links in the runlevel specific directories like /etc/rc3.d.
+
+    Please change /opt/ilias/config/httpd.conf according to your needs, e.g. set
+    a daemon user/group like 'wwwrun' (default: nobody/nobody) to run the httpd
+    daemon. For PHP support include the following directives:
+
+        DirectoryIndex index.html index.php
+
+        AddType application/x-httpd-php .php
+        AddType application/x-httpd-php .lang
+        AddType application/x-httpd-php .inc
+
+    Also please make sure that the name of your server is properly specified in
+    httpd.conf. The 'ServerName' entry should either contain the DNS name of your
+    server or its IP address. The line should be uncommented.
+
+    IMPORTANT: All directories in your webspace ought to be secured properly, e.g.
+    using .htaccess files. It is recommended to at least disable the directory
+    option 'Indexes' in /opt/ilias/config/httpd.conf, so that someone accessing
+    your web server cannot obtain listings of the files inside your web space
+    directories.
 
 
 (c) PHP
 
     Configure & make:
 
-		PHP 4.x.x:
-		
-        cd /opt/ilias/src/php-4.3.6
-        ./configure \
-        --prefix=/opt/ilias \
-        --with-apache=/opt/ilias/src/apache_1.3.29 \
-        --with-config-file-path=/opt/ilias/config \
-        --with-mysql=/opt/ilias \
-        --with-zlib=/opt/ilias \
-        --with-zlib-dir=/opt/ilias \
-        --with-gd \
-        --with-jpeg-dir=/opt/ilias \
-        --with-png-dir=/opt/ilias
-        --with-dom=/opt/ilias
-        --with-dom-xslt=/opt/ilias
-        --enable-xslt
-        --with-pear=/opt/ilias/lib/pear
-        --with-xslt-sablot=/opt/ilias
-        --with-expat-dir=/opt/ilias
-        make
-        make install
-		
-        PHP 5.x.x: (Build apache first (see (d)) an replace the directive
-        '--activate-module=src/modules/php4/libphp4.a' by '--enable-so'.
+    PHP 5.x.x:
 		
         ./configure \
         --with-apxs=/opt/ilias/bin/apxs \
@@ -595,10 +583,6 @@ components:
     using the --with-gd directive. If you are using a version of PHP < 4.3.0 or
     want to build it with an external libgd you should specify the location of
     the libgd on your system, e.g. by entering '--with-gd=/opt/ilias'.
-
-    Note: If compilation/linking fails with a compile error concerning undefined
-    references in 'libsablot.so' try to set the and LDFLAGS environment variable
-    using the following (bash shell) command: export LDFLAGS='-lstdc++'
 
     ILIAS 3 also requires additional PEAR library packages, which will not be
     installed by default when building the current PHP source distribution. At
@@ -660,64 +644,20 @@ components:
       '.:/opt/ilias/lib/pear'.
 
 
-(d) Apache
-
-    Configure & make:
-
-        cd /opt/ilias/src/apache_1.3.29
-        ./configure \
-        --prefix=/opt/ilias \
-        --activate-module=src/modules/php4/libphp4.a \
-        --logfiledir=/opt/ilias/log \
-        --runtimedir=/opt/ilias/log \
-        --sysconfdir=/opt/ilias/config \
-        --datadir=/opt/ilias/www
-        make
-        make install
-
-    Link to startup script apachectl:
-
-        cd /opt/ilias/bin
-        chmod 744 apachectl
-        cp apachectl /etc/rc.d/init.d/
-        cd /etc/rc.d/rc3.d
-        ln -s ../init.d/apachectl S70apachectl
-        ln -s ../init.d/apachectl K70apachectl
-
-    The directories containing the init script and the links to it may vary.
-    Please check the default runlevel for your system in /etc/inittab. On
-    Solaris systems the init scripts can usually be found in /etc/init.d, the
-    links in the runlevel specific directories like /etc/rc3.d.
-
-    Please change /opt/ilias/config/httpd.conf according to your needs, e.g. set
-    a daemon user/group like 'wwwrun' (default: nobody/nobody) to run the httpd
-    daemon. For PHP support include the following directives:
-
-        DirectoryIndex index.html index.php
-
-        AddType application/x-httpd-php .php
-        AddType application/x-httpd-php .lang
-        AddType application/x-httpd-php .inc
-
-    Also please make sure that the name of your server is properly specified in
-    httpd.conf. The 'ServerName' entry should either contain the DNS name of your
-    server or its IP address. The line should be uncommented.
-
-    IMPORTANT: All directories in your webspace ought to be secured properly, e.g.
-    using .htaccess files. It is recommended to at least disable the directory
-    option 'Indexes' in /opt/ilias/config/httpd.conf, so that someone accessing
-    your web server cannot obtain listings of the files inside your web space
-    directories.
-
-
 2.4 Installing ILIAS 3
+
+************************************************************
+THIS IS AN ALPHA RELEASE. DO NOT USE IT AS A PRODUCTIVE
+SYSTEM. DATA WILL BE LOST.
+************************************************************
+
 
 (a) Installing the ILIAS 3 program files
 
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.7.1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-alpha.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -828,8 +768,13 @@ components:
 
 3. Updating ILIAS 3
 
+************************************************************
+THIS IS AN ALPHA RELEASE. DO NOT UPDATE ANY PRODUCTIVE
+SYSTEM WITH THIS PROCEDURE. DATA WILL BE LOST.
+************************************************************
+
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 stable version to
-ILIAS 3.7.1.
+ILIAS 3.8.0.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -885,7 +830,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.7.1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-alpha.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
