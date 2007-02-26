@@ -332,9 +332,9 @@ CREATE TABLE `reg_access_limitation` (
   `limit_relative_d` int(11) unsigned default NULL,
   `limit_relative_m` int(11) unsigned default NULL,
   `limit_relative_y` int(11) unsigned default NULL,
-  `limit_mode` enum('absolute','relative','unlimited') collate utf8_unicode_ci NOT NULL,
+  `limit_mode` enum('absolute','relative','unlimited') NOT NULL,
   PRIMARY KEY  (`role_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci; 
+) ENGINE=MyISAM; 
 <#901>
 <?php
 $ilCtrlStructureReader->getStructure();
