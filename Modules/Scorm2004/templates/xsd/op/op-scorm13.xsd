@@ -21,7 +21,7 @@ This is work in progress and therefore incomplete and buggy ...
 
 All compressed SCORM 1.3 Schema Definitions in one File.
 -->
-<xs:schema targetNamespace="http://www.openpalms.net/scorm/scorm13" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.openpalms.net/scorm/scorm13" elementFormDefault="qualified" attributeFormDefault="unqualified" version="OpenPALMS Version 20061125">
+<xs:schema targetNamespace="http://www.openpalms.net/scorm/scorm13" xmlns="http://www.openpalms.net/scorm/scorm13" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="OpenPALMS Version 20061125">
 	<!-- -->
 	<xs:element name="manifest" type="cp_manifestType">
 		<xs:key name="key_resource">
@@ -83,6 +83,10 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		<xs:attribute name="base" type="cp_baseType" use="optional"/>
 		<xs:attribute name="title" type="cp_titleType" use="optional"/>
 		<xs:attribute name="defaultOrganization" type="xs:IDREF" use="required"/>
+		<xs:attribute name="credit" type="xs:string" use="optional" default="credit"/>
+		<xs:attribute name="defaultLessonMode" type="xs:string" use="optional" default="normal"/>
+		<xs:attribute name="autoReview" type="xs:string" use="optional" default="review"/>
+		<xs:attribute name="persistPreviousAttempts" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
 	<xs:complexType name="cp_organizationType">
 		<xs:sequence>
@@ -214,6 +218,7 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		</xs:sequence>
 		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
 		<xs:attribute name="id" type="xs:ID"/>
+		<xs:attribute name="sequencingId" type="xs:IDREF" use="optional"/>
 		<xs:attributeGroup ref="seq_controlModeType"/>
 		<xs:attributeGroup ref="adlseq_constrainedChoiceConsiderationsType"/>
 		<xs:attributeGroup ref="adlseq_rollupConsiderationsType"/>
@@ -383,9 +388,12 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 	<xs:simpleType name="adlnav_hideLMSUIType">
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="abandon"/>
+			<xs:enumeration value="abandonAll"/>
 			<xs:enumeration value="continue"/>
 			<xs:enumeration value="exit"/>
+			<xs:enumeration value="exitAll"/>
 			<xs:enumeration value="previous"/>
+			<xs:enumeration value="suspendAll"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<!-- -->

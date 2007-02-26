@@ -1,3 +1,4 @@
+
 /**
  * ILIAS Open Source
  * --------------------------------
@@ -24,7 +25,8 @@
  * @copyright: (c) 2007 Alfred Kohnert
  */ 
 
-var Remoting = new function () {
+var Remoting = (new (function () 
+{
 
 	this.toJSONString = toJSONString; // serialize javascript object into json string 
 	this.parseJSONString = parseJSONString; // deserialize json string into javascript object
@@ -33,46 +35,56 @@ var Remoting = new function () {
 	this.copyOf = copyOf;
 
 	/**
-	 * recursivly copying contents into a new object of the same type
+	 * recursivly copying contents of an object into a new object of the same type
 	 * ignoring functions and prototype values
 	 * @param object Object to be copied
 	 * @param boolean Optional parameter setting whether functions will be copyied by reference or ignored
 	 * @return A copy of an object, resolving all references to literals.
-	 */	
-	function copyOf(obj, ref) {
+	 */
+	function copyOf(obj, ref) 
+	{
 		switch (typeof obj) {
-		case 'object':
-			var r = new obj.constructor();
-			if (obj instanceof Array) { // instanceof requires MSIE5+
-				for (var i=0, ni=obj.length; i<ni; i+=1) {
-					r[i] = copyOf(obj[i], ref);
-				}
-			} else {
-				for (var k in obj) {
-					if (obj.hasOwnProperty(k)) {  // hasOwnProperty requires Safari?
-						r[k] = copyOf(obj[k], ref);
+			case 'object':
+				var r = new obj.constructor();
+				if (obj instanceof Array) // instanceof requires MSIE5+ 
+				{ 
+					for (var i=0, ni=obj.length; i<ni; i+=1) 
+					{
+						r[i] = copyOf(obj[i], ref);
+					}
+				} 
+				else 
+				{
+					for (var k in obj) 
+					{
+						if (obj.hasOwnProperty(k)) // hasOwnProperty requires Safari 1.2
+						{  
+							r[k] = copyOf(obj[k], ref);
+						}
 					}
 				}
-			}
-			return r;
-		case 'function':
-		case 'unknown':
-			// should not be copied but referenced if ref flag is set
-			return ref ? obj : undefined;
-		default: 
-			return obj;
+				return r;
+			case 'function':
+			case 'unknown':
+				// should not be copied but referenced if ref flag is set
+				return ref ? obj : undefined;
+			default: 
+				return obj;
 		}
 	}
 	
-	function sendAndLoad(url, data, callback, user, password, headers) {
+	function sendAndLoad(url, data, callback, user, password, headers) 
+	{
 	
-		function HttpResponse(x) {
-			this.status = Number(x.status);
-			this.content = String(x.responseText);
-			this.type = String(x.getResponseHeader('Content-Type'));
+		function HttpResponse(xhttp) 
+		{
+			this.status = Number(xhttp.status);
+			this.content = String(xhttp.responseText);
+			this.type = String(xhttp.getResponseHeader('Content-Type'));
 		}
 		
-		function onStateChange() {
+		function onStateChange() 
+		{
 			if (xhttp.readyState === 4) { // COMPLETED
 				if (typeof callback === 'function') {
 					callback(new HttpResponse(xhttp));
@@ -87,48 +99,62 @@ var Remoting = new function () {
 		var async = !!callback;
 		var post = !!data; 
 		xhttp.open(post ? 'POST' : 'GET', url, async, user, password);
-		if (typeof headers !== 'object') {
+		if (typeof headers !== 'object') 
+		{
 			headers = new Object();
 		}
-		if (post) {
+		if (post) 
+		{
 			headers['Content-Type'] = 'application/x-www-form-urlencoded';
 		}
-		if (headers && headers instanceof Object) {
+		if (headers && headers instanceof Object) 
+		{
 			for (var k in headers) {
 				xhttp.setRequestHeader(k, headers[k]);
 			}
 		}
-		if (async) {
+		if (async) 
+		{
 			xhttp.onreadystatechange = onStateChange;
 			xhttp.send(data ? String(data) : '');				
-		} else {
+		} else 
+		{
 			xhttp.send(data ? String(data) : '');				
 			return onStateChange();
 		}
 	}
 
-	function sendJSONRequest (url, data, callback, user, password, headers) {		
-		var r = sendAndLoad(url, toJSONString(data), callback, user, password, {
-			'Accept': 'text/json', 
-			'Accept-Charset' : 'UTF-8'
-		});
-		return ((r.status===200 && (/^text\/json;?.*/i).test(r.type)) || r.status===0) 
+	function sendJSONRequest (url, data, callback, user, password, headers) 
+	{		
+		var headers = {'Accept': 'text/javascript', 'Accept-Charset' : 'UTF-8'};
+		var r = sendAndLoad(url, toJSONString(data), callback, user, password, headers);
+		return ((r.status===200 && (/^text\/javascript;?.*/i).test(r.type)) || r.status===0) 
 			? parseJSONString(r.content) 
 			: null;
 	}
 
-	function getXMLHttpRequest () {
-		if (window.XMLHttpRequest) {
+	function getXMLHttpRequest () 
+	{
+		if (window.XMLHttpRequest) 
+		{
 			var xhttp = new window.XMLHttpRequest(); 
-		} else if (window.ActiveXObject) {
+		} 
+		else if (window.ActiveXObject) 
+		{
 			var progIDs = {'MSXML2.XMLHTTP' : ['.6.0', '.4.0', ''], 'Microsoft.XMLHTTP' : ''};
-			try {
-				for (var k in progIDs) {
-					if (progIDs[k] instanceof Array) {
-						for (var i=0, ni=progIDs[k].length; i<ni && !xhttp; i+=1) {
+			try 
+			{
+				for (var k in progIDs) 
+				{
+					if (progIDs[k] instanceof Array) 
+					{
+						for (var i=0, ni=progIDs[k].length; i<ni && !xhttp; i+=1) 
+						{
 							xhttp = new ActiveXObject(k + progIDs[k][i]);
 						}
-					} else if (!xhttp) {
+					} 
+					else if (!xhttp) 
+					{
 						xhttp = new ActiveXObject(k + progIDs[k]);
 					}
 				}
@@ -137,7 +163,9 @@ var Remoting = new function () {
 		return xhttp;
 	}
 		
-	function toJSONString (v) { 	
+	function toJSONString (v, tab) {
+		tab = tab ? tab : "";
+		var nl = tab ? "\n" : "";
 		function fmt(n) {
 			return (n < 10 ? '0' : '') + n;
 		}
@@ -171,32 +199,35 @@ var Remoting = new function () {
 			} else if (v instanceof Array) {
 				var ra = new Array();
 				for (var i=0, ni=v.length; i<ni; i+=1) {
-					ra.push(toJSONString(v[i]));
+					ra.push(toJSONString(v[i], tab.charAt(0) + tab));
 				}
-				return '[' + ra.join(', ') + ']';
+				return '[' + nl + tab + ra.join(',' + nl + tab) + nl + tab + ']';
 			} else if (v.constructor && v.constructor.toString().indexOf("[")!==0) {
 				// not checking the constructor would be much faster but what if 
 				// native and recursive objects like "window" are considered ? 
 				var ro = new Array();
 				for (var k in v) {	
 					if (v.hasOwnProperty && v.hasOwnProperty(k)) {
-						ro.push(esc(String(k)) + ': ' + toJSONString(v[k]));
+						ro.push(esc(String(k)) + ':' + toJSONString(v[k], tab.charAt(0) + tab));
 					}
 				}
-				return '{' + ro.join(', ') + '}';
+				return '{' + nl + tab + ro.join(',' + nl + tab) + nl + tab + '}';
 			} else {
 				return 'null';
 			}
 		}
 	}
 	
-	function parseJSONString (s) {
-		try {
-			if (/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.test(s)) {
+	function parseJSONString (s) 
+	{
+		try 
+		{
+			if (/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.test(s)) 
+			{
 				return eval('(' + s + ')');
 			}
 		} catch (e) {}
-		throw new SyntaxError('parseJSONString');
+		throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));
 	}
 	
-};
+})());

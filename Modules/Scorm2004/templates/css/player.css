@@ -24,8 +24,33 @@
  *Content-Type: text/css; charset=ISO-8859-1
  */
 
-body {
+html {
+	/*
+	height: 100%;
 	overflow: hidden;
+	*/
+	margin: 0px;
+}
+body {
+	/*
+	height: 100%;
+	overflow: hidden;
+	*/
+	margin: 0px;
+	padding: 8px;
+}
+
+#introTable, #mainTable {
+	height: 80%;
+	width: 100%;
+}
+
+#debugTable {
+	width: 100%;
+}
+
+#mainTable {
+	display: none;
 }
 
 #frmResource {
@@ -36,14 +61,10 @@ body {
 }
 
 a {
-	text-decoration: none;
-	background-color: rgb(85,107,47);
-	color: white;
-	border: 1px outset;
+	color: darkred;
 }
-
 a:hover {
-	background-color: rgb(107,142,35);
+	background-color: red;
 }
 #tdControls {
 	text-align: center;
@@ -98,4 +119,22 @@ iframe {
 	overflow: hidden;
 }
 
-/* ----------- */ 
+a.nde {
+	text-decoration: none;
+	background-color: rgb(85,107,47);
+	color: white;
+	border: 1px outset;
+}
+
+a.nde:hover {
+	background-color: rgb(107,142,35);
+}
+
+.current
+{
+	background-color: rgb(154,205,50) !important;
+}
+.suspended
+{
+	border-style: inset;
+}

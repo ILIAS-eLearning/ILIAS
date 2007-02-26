@@ -66,7 +66,7 @@ div.msg
 	border: 1px solid red;
 	overflow: auto;
 	white-space: nowrap;
-	}
+}
 iframe 
 {
 	width: 100%;
@@ -80,6 +80,7 @@ button, input.button, a.btn
 	margin: 1px 2px 3px 2px;
 	padding: 1px 3px 1px 3px;
 	border: 1px outset;
+	white-space: nowrap;
 }
 button:hover, input.button:hover, a.btn:hover 
 {
@@ -101,4 +102,7 @@ th
 tr 
 {
 	vertical-align: top;
+}
+input.small-text {
+	background-color: antiquewhite;
 }

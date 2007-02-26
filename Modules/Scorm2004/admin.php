@@ -11,12 +11,12 @@
  * of this license.
  * 
  * You must not remove this notice, or any other, from this software.
- */
-
-/**
+ *  
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
  *  
+ * Content-Type: application/x-httpd-php; charset=ISO-8859-1
+ * 
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
  * @version $Id$
  * @copyright: (c) 2007 Alfred Kohnert
