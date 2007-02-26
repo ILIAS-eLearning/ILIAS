@@ -325,7 +325,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#900>
+<#900> 
 CREATE TABLE `reg_access_limitation` (
   `role_id` int(11) unsigned NOT NULL,
   `limit_absolute` int(11) unsigned default NULL,
