@@ -43,7 +43,7 @@ abstract class ilFileSystemStorage
 	private $container_id;
 	private $storage_type;
 	private $path_conversion = false;
-	
+
 	private $path;
 	
 	/**
@@ -63,6 +63,11 @@ abstract class ilFileSystemStorage
 	 	
 	 	// Get path info
 	 	$this->init();
+	}
+	
+	public function getContainerId()
+	{
+		return $this->container_id;
 	}
 	
 	/**
@@ -180,6 +185,95 @@ abstract class ilFileSystemStorage
 		}
 		return true;
 	}
+	
+	/**
+	 * Write data to file
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function writeToFile($a_data,$a_absolute_path)
+	{
+		if(!$fp = @fopen($a_absolute_path,'w+'))
+		{
+			return false;
+		}
+		if(@fwrite($fp,$a_data) === false)
+		{
+			@fclose($fp);
+			return false;
+		}
+		@fclose($fp);
+		return true;	 	
+	}
+	
+	/**
+	 * Delete file
+	 *
+	 * @access public
+	 * @param string absolute name
+	 * 
+	 */
+	public function deleteFile($a_abs_name)
+	{
+		if(@file_exists($a_abs_name))
+		{
+			@unlink($a_abs_name);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Delete directory
+	 *
+	 * @access public
+	 * @param string absolute name
+	 * 
+	 */
+	function deleteDirectory($a_abs_name)
+	{
+		if(@file_exists($a_abs_name))
+		{
+			ilUtil::delDir($a_abs_name);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Delete complete directory
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function delete()
+	{
+		return ilUtil::delDir($this->getAbsolutePath());
+	}
+	
+	
+	/**
+	 * Copy files
+	 *
+	 * @access public
+	 * @param string absolute source
+	 * @param string absolute target
+	 * 
+	 */
+	public function copyFile($a_from,$a_to)
+	{
+		if(@file_exists($a_from))
+		{
+			@copy($a_from,$a_to);
+			return true;
+		}
+		return false;
+	}
+	
 	
 }
 
