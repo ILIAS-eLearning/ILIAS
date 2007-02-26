@@ -25,6 +25,7 @@ include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
 include_once('Modules/Course/classes/Export/class.ilMemberExport.php');
 include_once('Modules/Course/classes/class.ilFileDataCourse.php');
+include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 
 /**  
@@ -176,13 +177,13 @@ class ilMemberExportGUI
 	 */
 	public function deliverData()
 	{
-		$this->file = new ilFileDataCourse($this->obj_id);
+		$this->fss_export = new ilFSStorageCourse($this->obj_id); 
 		
-		foreach($this->file->getMemberExportFiles() as $file)
+		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
 			if($file['name'] == $_SESSION['member_export_filename'])
 			{
-				$content = $this->file->getMemberExportFile($_SESSION['member_export_filename']);
+				$content = $this->fss_export->getMemberExportFile($_SESSION['member_export_filename']);
 				ilUtil::deliverData($content,date('Y_m_d_H-i',$file['timest']).
 				'_member_export_'.
 				$this->obj_id.
@@ -201,12 +202,12 @@ class ilMemberExportGUI
 	{
 		global $ilUser;
 		
-	 	$this->file = new ilFileDataCourse($this->obj_id);
-	 	if(!count($files = $this->file->getMemberExportFiles()))
-	 	{
-	 		return false;
-	 	}
-	 	
+		$this->fss_export = new ilFSStorageCourse($this->obj_id);
+		if(!count($files = $this->fss_export->getMemberExportFiles()))
+		{
+			return false;
+		}
+		
 	 	$a_tpl = new ilTemplate('tpl.table.html',true,true);
 		$a_tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.member_export_file_row.html", "Modules/Course");
 		$a_tpl->setVariable('FORMACTION',$this->ctrl->getFormaction($this));
@@ -297,14 +298,15 @@ class ilMemberExportGUI
 	 		$this->show();
 	 		return true;
 	 	}
-		$this->file = new ilFileDataCourse($this->obj_id);
-		foreach($this->file->getMemberExportFiles() as $file)
+		$this->fss_export = new ilFSStorageCourse($this->obj_id);
+		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
 			if(!in_array($file['timest'],$_POST['files']))
 			{
 				continue;
 			}
-			$contents = $this->file->getMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+			$contents = $this->fss_export->getMemberExportFile($file['timest'].'_participant_export_'.
+				$file['type'].'_'.$this->obj_id.'.'.$file['type']);
 			ilUtil::deliverData($contents,date('Y_m_d_H-i'.$file['timest']).
 				'_member_export_'.
 				$this->obj_id.
@@ -339,9 +341,9 @@ class ilMemberExportGUI
 		$this->tpl->setVariable('TEXT',$this->lng->txt('ps_delete_export_files'));
 		
 		
-		$this->file = new ilFileDataCourse($this->obj_id);
+		$this->fss_export = new ilFSStorageCourse($this->obj_id);
 		$counter = 0;
-		foreach($this->file->getMemberExportFiles() as $file)
+		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
 			if(!in_array($file['timest'],$_POST['files']))
 			{
@@ -379,15 +381,15 @@ class ilMemberExportGUI
 	 		$this->show();
 	 		return false;
 	 	}
-		$this->file = new ilFileDataCourse($this->obj_id);
+		$this->fss_export = new ilFSStorageCourse($this->obj_id);
 		$counter = 0;
-		foreach($this->file->getMemberExportFiles() as $file)
+		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
 			if(!in_array($file['timest'],$_SESSION['il_del_member_export']))
 			{
 				continue;
 			}
-			$this->file->deleteMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+			$this->fss_export->deleteMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
 		}
 		ilUtil::sendInfo($this->lng->txt('ps_files_deleted'));
 		$this->show();
@@ -414,10 +416,9 @@ class ilMemberExportGUI
 		$this->export = new ilMemberExport($this->ref_id);
 		$this->export->create();
 	 	
-	 	$this->file = new ilFileDataCourse($this->obj_id);
-
+	 	$this->fss_export = new ilFSStorageCourse($this->obj_id);
 	 	$filename = time().'_participant_export_csv_'.$this->obj_id.'.csv';
-	 	$this->file->writeToFile($this->export->getCSVString(),$filename);
+		$this->fss_export->addMemberExportFile($this->export->getCSVString(),$filename);
 
 		$_SESSION['member_export_filename'] = $filename;
 	 	$this->show(true);

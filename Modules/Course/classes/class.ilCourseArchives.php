@@ -21,9 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
 
 /**
-* class ilobjcourse
+* class ilCourseArchives
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
@@ -48,6 +49,8 @@ class ilCourseArchives
 
 	var $course_files_obj;
 	var $course_xml_writer;
+	
+	private $fss_storage;
 
 
 	function ilCourseArchives(&$course_obj)
@@ -147,8 +150,8 @@ class ilCourseArchives
 	{
 		$archive = $this->getArchive($a_id);
 		$this->initCourseFilesObject();
-
-		return $this->course_files_obj->getArchiveFile($archive['archive_name']);
+	
+		return $this->course_files_obj->getArchiveDirectory().'/'.$archive['archive_name'].'.zip';
 	}
 
 	function addXML()
@@ -159,24 +162,24 @@ class ilCourseArchives
 
 		// Step one create folder
 		$this->initCourseFilesObject();
-		$this->course_files_obj->addDirectory($this->getName());
+		$this->course_files_obj->addArchiveSubDirectory($this->getName());
 
 		// Step two create course xml
 		$this->initCourseXMLWriter();
 
 		$this->course_xml_writer->start();
-		$this->course_files_obj->writeToFile($this->course_xml_writer->getXML(),$this->getName().'/'.$this->getName().'.xml');
+		$this->course_files_obj->writeArchiveFile($this->course_xml_writer->getXML(),$this->getName().'/'.$this->getName().'.xml');
 
 	
 		// Step three create child object xml
 		// add objects directory
-		$this->course_files_obj->addDirectory($this->getName().'/objects');
+		$this->course_files_obj->addArchiveSubDirectory($this->getName().'/objects');
 		
 		$this->__addZipFiles($this->course_obj->getRefId());
 
 
 		// Step four zip
-		$this->setSize($this->course_files_obj->zipFile($this->getName(),$this->getName().'.zip'));
+		$this->setSize($this->course_files_obj->zipArchive($this->getName(),$this->getName().'.zip'));
 		
 		
 		// Finally add entry in crs_archives table
@@ -193,20 +196,20 @@ class ilCourseArchives
 		
 		// Step one create folder
 		$this->initCourseFilesObject();
-		$this->course_files_obj->addDirectory($this->getName());
+		$this->course_files_obj->addArchiveSubDirectory($this->getName());
 
 		// Step two, create child html
-		$this->course_files_obj->addDirectory($this->getName().'/objects');
+		$this->course_files_obj->addArchiveSubDirectory($this->getName().'/objects');
 		$this->__addHTMLFiles($this->course_obj->getRefId());
 
 		// Step three create course html
 		$this->__addCourseHTML();
 
 		// Step three � create copy in web dir
-		$this->course_files_obj->createOnlineVersion($this->getName());
+		$this->course_files_obj->createArchiveOnlineVersion($this->getName());
 
 		// Step four zip
-		$this->setSize($this->course_files_obj->zipFile($this->getName(),$this->getName().'.zip'));
+		$this->setSize($this->course_files_obj->zipArchive($this->getName(),$this->getName().'.zip'));
 
 		// Finally add entry in crs_archives table
 		$this->add();
@@ -260,9 +263,8 @@ class ilCourseArchives
 	{
 		if(!is_object($this->course_files_obj))
 		{
-			include_once "./Modules/Course/classes/class.ilFileDataCourse.php";
-
-			$this->course_files_obj =& new ilFileDataCourse($this->course_obj->getId());
+			include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
+			$this->course_files_obj = new ilFSStorageCourse($this->course_obj->getId());
 		}
 		return true;
 	}
@@ -272,7 +274,6 @@ class ilCourseArchives
 		if(!is_object($this->course_xml_writer))
 		{
 			include_once "./Modules/Course/classes/class.ilCourseXMLWriter.php";
-
 			$this->course_xml_writer =& new ilCourseXMLWriter($this->course_obj);
 		}
 		return true;
@@ -295,7 +296,9 @@ class ilCourseArchives
 			if($abs_file_name = $tmp_obj->getXMLZip())
 			{
 				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['obj_id'].'.zip';
-				$this->course_files_obj->copy($abs_file_name,$this->getName().'/objects/'.$new_name);
+				$this->course_files_obj->copyFile($abs_file_name,$this->course_files_obj->getArchiveDirectory().'/'.
+																$this->getName().'/objects'.
+																$new_name);
 			}
 			$this->__addZipFiles($item['child']);
 			unset($tmp_obj);
@@ -347,10 +350,8 @@ class ilCourseArchives
 
 		$tmp_tpl =& new ilTemplate("tpl.crs_export.html",true,true,'Modules/Course');
 
-		#$this->course_files_obj->copy($tpl->tplPath.'/default.css',$this->getName().'/default.css');
-		#
-		$this->course_files_obj->copy($tpl->tplPath.'/'.$ilias->account->prefs["style"].'.css',
-									  $this->getName().'/default.css');
+		$this->course_files_obj->copyFile($tpl->tplPath.'/'.$ilias->account->prefs["style"].'.css',
+									  $this->course_files_obj->getArchiveDirectory().'/'.$this->getName().'/default.css');
 
 		$tmp_tpl->setVariable('TITLE',$lng->txt('crs_export'));
 		$tmp_tpl->setVariable("CRS_STRUCTURE",$lng->txt('crs_structure'));
@@ -436,7 +437,7 @@ class ilCourseArchives
 		$this->__buildStructure($tmp_tpl,$this->course_obj->getRefId());
 		$tmp_tpl->setVariable("STRUCTURE",$this->structure);
 
-		$this->course_files_obj->writeToFile($tmp_tpl->get(),$this->getName().'/index.html');
+		$this->course_files_obj->writeArchiveFile($tmp_tpl->get(),$this->getName().'/index.html');
 
 		return true;
 	}
@@ -491,9 +492,8 @@ class ilCourseArchives
 	function __read()
 	{
 		global $ilDB;
-		
-		$this->archives = array();
 
+		$this->archives = array();
 		$query = "SELECT * FROM crs_archives ".
 			"WHERE course_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"ORDER BY archive_date DESC";

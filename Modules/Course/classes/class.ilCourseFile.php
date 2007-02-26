@@ -21,9 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
 
 /**
-* class ilEvent
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
@@ -41,6 +41,8 @@ class ilCourseFile
 
 	var $course_id = null;
 	var $file_id = null;
+	
+	private $fss_storage = null;
 
 	function ilCourseFile($a_file_id = null)
 	{
@@ -115,7 +117,11 @@ class ilCourseFile
 	
 	function getAbsolutePath()
 	{
-		return $this->__getDirectory()."/".$this->getFileId();
+		if(is_object($this->fss_storage))
+		{
+			return $this->fss_storage->getInfoDirectory().'/'.$this->getFileId();
+		}
+		return false;
 	}
 
 	function validate()
@@ -159,7 +165,7 @@ class ilCourseFile
 		}
 
 		$query = "INSERT INTO crs_file ".
-			"SET course_id = '".$this->getCourseId()."', ".
+			"SET course_id = ".$ilDB->quote($this->getCourseId()).", ".
 			"file_name = ".$ilDB->quote($this->getFileName()).", ".
 			"file_size = ".$ilDB->quote($this->getFileSize()).", ".
 			"file_type = ".$ilDB->quote($this->getFileType())." ";
@@ -167,12 +173,13 @@ class ilCourseFile
 		$res = $this->db->query($query);
 		$this->setFileId($this->db->getLastInsertId());
 
-		if(!is_dir($this->__getDirectory()))
-		{
-			ilUtil::makeDirParents($this->__getDirectory());
-		}
+		$this->fss_storage = new ilFSStorageCourse($this->getCourseId());
+		$this->fss_storage->initInfoDirectory();
+
 		// now create file
-		ilUtil::moveUploadedFile($this->getTemporaryName(),$this->getFileName(),$this->__getDirectory().'/'.$this->getFileId());
+		ilUtil::moveUploadedFile($this->getTemporaryName(),
+			$this->getFileName(),
+			$this->fss_storage->getInfoDirectory().'/'.$this->getFileId());
 
 		return true;
 	}
@@ -201,8 +208,6 @@ class ilCourseFile
 			"WHERE course_id = ".$ilDB->quote($a_course_id)."";
 		$res = $ilDB->query($query);
 
-		ilUtil::delDir(ilUtil::getDataDir()."/courses/course_".$a_course_id);
-
 		return true;
 	}
 
@@ -219,13 +224,6 @@ class ilCourseFile
 			$files[] =& new ilCourseFile($row->file_id);
 		}
 		return is_array($files) ? $files : array();
-	}
-
-			
-	// PRIVATE
-	function __getDirectory()
-	{
-		return ilUtil::getDataDir()."/course/course_file".$this->getCourseId();
 	}
 
 	function __read()
@@ -245,6 +243,7 @@ class ilCourseFile
 			$this->setFileType($row->file_type);
 			$this->setCourseId($row->course_id);
 		}
+		$this->fss_storage = new ilFSStorageCourse($this->getCourseId());
 		return true;
 	}
 		

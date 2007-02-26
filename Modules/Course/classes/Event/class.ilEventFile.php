@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Modules/Course/classes/Event/class.ilFSStorageEvent.php');
 
 /**
 * class ilEvent
@@ -41,6 +42,8 @@ class ilEventFile
 
 	var $event_id = null;
 	var $file_id = null;
+
+	private $fss_storage = null;
 
 	function ilEventFile($a_file_id = null)
 	{
@@ -115,7 +118,7 @@ class ilEventFile
 	
 	function getAbsolutePath()
 	{
-		return $this->__getDirectory()."/".$this->getFileId();
+		return $this->fss_storage->getAbsolutePath()."/".$this->getFileId();
 	}
 
 	function validate()
@@ -166,12 +169,13 @@ class ilEventFile
 		$res = $this->db->query($query);
 		$this->setFileId($this->db->getLastInsertId());
 
-		if(!is_dir($this->__getDirectory()))
-		{
-			ilUtil::makeDirParents($this->__getDirectory());
-		}
+		$this->fss_storage = new ilFSStorageEvent($this->getEventId());
+		$this->fss_storage->createDirectory();
+
 		// now create file
-		ilUtil::moveUploadedFile($this->getTemporaryName(),$this->getFileName(),$this->__getDirectory().'/'.$this->getFileId());
+		ilUtil::moveUploadedFile($this->getTemporaryName(),
+			$this->getFileName(),
+			$this->fss_storage->getAbsolutePath().'/'.$this->getFileId());
 
 		return true;
 	}
@@ -186,8 +190,7 @@ class ilEventFile
 		$this->db->query($query);
 
 		// Delete file
-		unlink($this->getAbsolutePath());
-
+		$this->fss_storage->deleteFile($this->getAbsolutePath());
 		return true;
 	}
 		
@@ -200,8 +203,7 @@ class ilEventFile
 			"WHERE event_id = ".$ilDB->quote($a_event_id)."";
 		$res = $ilDB->query($query);
 
-		ilUtil::delDir(ilUtil::getDataDir()."/events/event_".$a_event_id);
-
+		$this->fss_storage->delete();
 		return true;
 	}
 
@@ -218,13 +220,6 @@ class ilEventFile
 			$files[] =& new ilEventFile($row->file_id);
 		}
 		return is_array($files) ? $files : array();
-	}
-
-			
-	// PRIVATE
-	function __getDirectory()
-	{
-		return ilUtil::getDataDir()."/events/event_".$this->getEventId();
 	}
 
 	function __read()
@@ -246,6 +241,7 @@ class ilEventFile
 			$this->setFileType($row->file_type);
 			$this->setEventId($row->event_id);
 		}
+		$this->fss_storage = new ilFSStorageEvent($this->getEventId());
 		return true;
 	}
 		
