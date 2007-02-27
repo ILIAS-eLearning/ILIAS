@@ -139,6 +139,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create object instance!','Server');
 		}
 
+
+		if(ilObject::_isInTrash($a_ref_id))
+		{
+			return $this->__raiseError("Object with ID $a_ref_id has been deleted.", 'Client');
+		}
+
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
@@ -753,8 +759,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		{
 			if(!$object_data["obj_id"])
 			{
-				return $this->__raiseError('No obj_id in xml found.',
-										   'Client');
+				return $this->__raiseError('No obj_id in xml found.', 'Client');
 			}
 
 			if($object_data['type'] == 'role')
@@ -782,7 +787,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				if(!$permission_ok)
 				{
 					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!',
-											   'Client');
+											'Client');
 				}
 			}
 
