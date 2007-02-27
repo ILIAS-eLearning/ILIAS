@@ -443,6 +443,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid target given.',
 									   'Client');
 		}
+
+		if(ilObject::_isInTrash($a_target_id))
+		{
+			return $this->__raiseError("Object with ID $a_target_id has been deleted.", 'Client');
+		}
+
 		$allowed_types = array('cat','grp','crs','fold');
 		if(!in_array($target_obj->getType(),$allowed_types))
 		{
