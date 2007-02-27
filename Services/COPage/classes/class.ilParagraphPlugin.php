@@ -145,7 +145,7 @@
 	 * @return absolute plugin directory
 	 */
 	function getPluginDir () {
-		return ILIAS_ABSOLUTE_PATH."/content/plugins/".$this->directory;
+		return ILIAS_ABSOLUTE_PATH."/Services/COPage/plugins/".$this->directory;
 	}
 	
 	/**
@@ -183,14 +183,14 @@
 	 */
 	
 	function getResourceURL () {
-		return $this->getSystemURL()."/content/plugins/".$this->directory."/resources";	
+		return $this->getSystemURL()."/Services/COPage/plugins/".$this->directory."/resources";	
 	}
 	
 	/**
 	 * @return plugin url
 	 */
 	function getPluginURL () {
-		return $this->getSystemURL()."/content/plugins/".$this->directory;	
+		return $this->getSystemURL()."/Services/COPage/plugins/".$this->directory;	
 	}
 	
 	/**
@@ -198,7 +198,7 @@
 	*
 	*/
 	function getSystemURL () {
-		return str_replace("/content/plugins","",ILIAS_HTTP_PATH);
+		return str_replace("/Services/COPage/plugins","",ILIAS_HTTP_PATH);
 	}
 	
 	/**

@@ -256,7 +256,7 @@ class ilPageObjectGUI
 	function setSourcecodeDownloadScript ($script_name) {
 		$this->sourcecode_download_script = $script_name;
 	}
-	
+
 	function getSourcecodeDownloadScript () {
 		return $this->sourcecode_download_script;
 	}
@@ -280,7 +280,7 @@ class ilPageObjectGUI
 	{
 		$this->tabs_gui = $a_tabs;
 	}
-	
+
 	function setPageBackTitle($a_title)
 	{
 		$this->page_back_title = $a_title;
@@ -311,7 +311,7 @@ class ilPageObjectGUI
 		$this->int_link_def_type = $a_type;
 		$this->int_link_def_id = $a_id;
 	}
-	
+
 	function setIntLinkReturn($a_return)
 	{
 		$this->int_link_return = $a_return;
@@ -321,22 +321,22 @@ class ilPageObjectGUI
 	{
 		$this->change_comments = $a_enabled;
 	}
-	
+
 	function isEnabledChangeComments()
 	{
 		return $this->change_comments;
 	}
-	
+
 	/**
 	 * set offline directory to offdir
-	 * 
+	 *
 	 * @param offdir contains diretory where to store files
-	 */	
+	 */
 	function setOfflineDirectory ($offdir) {
 		$this->offline_directory = $offdir;
 	}
-	
-	
+
+
 	/**
 	 * get offline directory
 	 * @return directory where to store offline files
@@ -357,7 +357,7 @@ class ilPageObjectGUI
 		$this->view_page_link = $a_link;
 		$this->view_page_target = $a_target;
 	}
-	
+
 	/**
 	* get view page link
 	*/
@@ -365,7 +365,7 @@ class ilPageObjectGUI
 	{
 		return $this->view_page_link;
 	}
-	
+
 	/**
 	* get view page target frame
 	*/
@@ -373,18 +373,18 @@ class ilPageObjectGUI
 	{
 		return $this->view_page_target;
 	}
-	
+
 	function setActivationListener(&$a_obj, $a_meth)
 	{
 		$this->act_obj =& $a_obj;
 		$this->act_meth = $a_meth;
 	}
-	
+
 	function setActivated($a_act)
 	{
 		$this->activated = $a_act;
 	}
-	
+
 	function getActivated()
 	{
 		return $this->activated;
@@ -433,7 +433,7 @@ class ilPageObjectGUI
 				//$page_editor->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_editor);
 				break;
-				
+
 			// does not exist
 			case "ilmediapooltargetselector":
 				include_once("./classes/class.ilMediaPoolTargetSelector.php");
@@ -476,10 +476,10 @@ class ilPageObjectGUI
 			{
 //echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "Services/COPage");
-				
+
 				// to do: status dependent class
 				$this->tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
-				
+
 				// user comment
 				if ($this->isEnabledChangeComments())
 				{
@@ -488,8 +488,8 @@ class ilPageObjectGUI
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("adm_content");
 				}
-				
-				
+
+
 				$this->tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
 				$this->tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
 				$this->tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
@@ -497,13 +497,13 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/Services/COPage/js/wz_dragdrop.js");
 				$this->tpl->setVariable("IMG_DRAGDROP",
 					ilUtil::getImagePath("icon_drag.gif"));
-				
+
 				if (!ilPageEditorGUI::_isBrowserJSEditCapable())
 				{
 					$this->tpl->setVariable("TXT_JAVA_SCRIPT_CAPABLE", "<br />".$this->lng->txt("cont_browser_not_js_capable"));
 				}
 				$this->tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
-				
+
 				if ($this->getEnabledActivation())
 				{
 					$this->tpl->setCurrentBlock("de_activate_page");
@@ -519,17 +519,17 @@ class ilPageObjectGUI
 					}
 					$this->tpl->parseCurrentBlock();
 				}
-					
-                
+
+
 				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
 					"disable" => $this->lng->txt("cont_disable_media"));
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
 					? "disable"
 					: "enable";
-				
+
 				$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
 					"disable" => $this->lng->txt("cont_disable_js"));
-				
+
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
 					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true,
 					0, "ilEditSelect"));
@@ -554,7 +554,7 @@ class ilPageObjectGUI
 					$this->tpl->setVariable("TXT_VIEW_PAGE", $this->lng->txt("view"));
 					$this->tpl->parseCurrentBlock();
 				}
-					
+
 				// javascript activation
 				$sel_js_mode = "disable";
 				if($ilias->getSetting("enable_js_edit"))
@@ -566,7 +566,7 @@ class ilPageObjectGUI
 						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true,
 						0, "ilEditSelect"));
 				}
-				
+
 				// multiple actions
 				if ($sel_js_mode == "disable")
 				{
@@ -619,7 +619,7 @@ class ilPageObjectGUI
 						}
 					}
 				}
-				
+
 				if (count($mob_links) > 0)
 				{
 					$this->tpl->setCurrentBlock("med_link");
@@ -632,7 +632,7 @@ class ilPageObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			
+
 			if ($_GET["reloadTree"] == "y")
 			{
 				$this->tpl->setCurrentBlock("reload_tree");
@@ -649,22 +649,22 @@ class ilPageObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		// get content
 		$builded = $this->obj->buildDom();
 		$this->obj->addFileSizes();
-		
+
 		// manage hierarchical ids
 		if($this->getOutputMode() == "edit")
 		{
 			$this->obj->addHierIDs();
-			
+
 			$hids = $this->obj->getHierIds();
 			$row1_ids = $this->obj->getFirstRowIds();
 			$col1_ids = $this->obj->getFirstColumnIds();
 			$litem_ids = $this->obj->getListItemIds();
 			$fitem_ids = $this->obj->getFileItemIds();
-			
+
 			// standard menues
 			$hids = $this->obj->getHierIds();
 			foreach($hids as $hid)
@@ -681,7 +681,7 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_r".$hid);
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			// row menues for tables
 			foreach($row1_ids as $hid)
 			{
@@ -689,7 +689,7 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_c".$hid);
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			// list item menues
 			foreach($litem_ids as $hid)
 			{
@@ -697,7 +697,7 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_i".$hid);
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			// file item menues
 			foreach($fitem_ids as $hid)
 			{
@@ -750,7 +750,7 @@ class ilPageObjectGUI
 		$row_path = ilUtil::getImagePath("row.gif");
 		$item_path = ilUtil::getImagePath("item.gif");
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
-		 
+
 		if ($this->getOutputMode() != "offline")
 		{
 			$enlarge_path = ilUtil::getImagePath("enlarge.gif");
@@ -764,7 +764,7 @@ class ilPageObjectGUI
 		$pg_title_class = ($this->getOutputMode() == "print")
 			? "ilc_PrintPageTitle"
 			: "";
-			
+
 		// page splitting only for learning modules and
 		// digital books
 		$enable_split_new = ($this->obj->getParentType() == "lm" ||
@@ -785,25 +785,18 @@ class ilPageObjectGUI
 		{
 			$enable_split_next = "n";
 		}
-		
-      
-		$paragraph_plugins = new ilParagraphPlugins();
-		$paragraph_plugins->initialize ();							
-		
-/*        if (!session_is_registered("paragraph_plugins")) 
+
+
+        $paragraph_plugins = new ilParagraphPlugins();
+	    $paragraph_plugins->initialize ();
+
+
+        if ($this->getOutputMode() == "presentation" )
 		{
-			$paragraph_plugins = new ilParagraphPlugins();
-			$paragraph_plugins->initialize ();									
-			$_SESSION ["paragraph_plugins"] = $paragraph_plugins; 
-		} 
-*/		
-			    	
-        if ($this->getOutputMode() == "presentation")
-		{		    
-	        $paragraph_plugin_string = $paragraph_plugins->serializeToString();
-	        $_SESSION ["paragraph_plugins"] = $paragraph_plugins; 
+		    $paragraph_plugin_string = $paragraph_plugins->serializeToString();
+	        $_SESSION ["paragraph_plugins"] = $paragraph_plugins;
 		}
-		
+
 		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
 
         //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
@@ -883,7 +876,7 @@ class ilPageObjectGUI
 
 		// remove all newlines (important for code / pre output)
 		$output = str_replace("\n", "", $output);
-		
+
 		$qhtml = $this->getQuestionHTML();
 		if (strlen($qhtml))
 		{
@@ -895,12 +888,12 @@ class ilPageObjectGUI
 			// $question_prefix = "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\">";
 			// $output = str_replace($question_prefix, $question_prefix . $qhtml, $output);
 		}
-		
+
 		if($this->getOutputMode() == "edit" && !$this->getActivated())
 		{
 			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
 		}
-	
+
 		// output
 		if($this->outputToTemplate())
 		{
@@ -943,7 +936,7 @@ class ilPageObjectGUI
 		return $this->showPage();
 	}
 
-	
+
 	/**
 	* show fullscreen view of media object
 	*/

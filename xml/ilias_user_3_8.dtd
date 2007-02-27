@@ -56,7 +56,7 @@ Id is ILIAS ID or unique identifier for this xml file
 
 <!-- Look -->
 <!ELEMENT Look (#PCDATA)>
-<!ATTLIST Look 
+<!ATTLIST Look
     Skin CDATA #REQUIRED
     Style CDATA #REQUIRED
 >
@@ -103,4 +103,6 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ATTLIST UserDefinedField
     Id CDATA #REQUIRED
     Name CDATA #REQUIRED
+    Type (TEXT|SELECT) #REQUIRED
+    TypeValues CDATA #IMPLIED
 >
