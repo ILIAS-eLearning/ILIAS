@@ -92,6 +92,8 @@ class ilLog
 		$this->tag = ($a_tag == "") ? "unknown" : $a_tag;
 		$this->enabled = (bool) $a_enabled;
 		$this->setLogFormat(date("[y-m-d H:i:s] ")."[".$this->tag."] ");
+		
+		$this->open();
 
 	}
  
@@ -240,21 +242,34 @@ class ilLog
 	{
 		if ($this->enabled and $this->current_log_level >= $this->checkLogLevel($a_log_level))
 		{
-            $fp = @fopen ($this->path."/".$this->filename, "a");
-
-			if ($fp == false)
+			$this->open();
+			
+			if ($this->fp == false)
 			{
 				die("Logfile: cannot open file. Please give Logfile Writepermissions.");
 			}
 
-			if (fwrite($fp,$this->getLogFormat().$a_msg."\n") == -1)
+			if (fwrite($this->fp,$this->getLogFormat().$a_msg."\n") == -1)
 			{
 				die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
 			}
-
-			fclose($fp);
 		}
 	}
+	
+	private function open()
+	{
+		if(!$this->fp)
+		{
+		    $this->fp = @fopen ($this->path."/".$this->filename, "a");
+		}
+	}
+	
+	public function __destruct()
+	{
+		@fclose($this->fp);
+	}
+
+	
 
 	/**
 	* delete logfile

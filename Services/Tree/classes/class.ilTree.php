@@ -2229,11 +2229,11 @@ class ilTree
 	*
 	* DO NOT USE THIS FUNCTION YET. It is a proposal
 	*/
-	function moveTree($a_source_id,$a_target_id,$a_location = IL_LAST_NODE)
+	public function moveTree($a_source_id,$a_target_id,$a_location = IL_LAST_NODE)
     {
             if($this->__isMainTree())
             {
-                    ilDBx::_lockTables(array('tree' => 'WRITE'));
+            	ilDBx::_lockTables(array('tree' => 'WRITE'));
             }
             // Receive node infos for source and target
             $query = "SELECT * FROM ".$this->table_tree." ".
@@ -2246,8 +2246,12 @@ class ilTree
             // Check in tree
             if($res->numRows() != 2)
             {
-                    echo "Source or Target not in tree";
-                    exit();
+	            if($this->__isMainTree())
+    	        {
+        	            ilDBx::_unlockTables();
+            	}
+				$this->log->write(__METHOD__.' Objects not found in tree!',$this->log->FATAL);
+				$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
             }
             while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
             {
@@ -2269,8 +2273,12 @@ class ilTree
             // Check target not child of source
             if($target_lft >= $source_lft and $target_rgt <= $source_rgt)
             {
-                    echo "Target is child of source";
-                    exit;
+	            if($this->__isMainTree())
+    	        {
+        	            ilDBx::_unlockTables();
+            	}
+				$this->log->write(__METHOD__.' Target is child of source',$this->log->FATAL);
+				$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
             }
 
             // Now spread the tree at the target location. After this update the table should be still in a consistent state.
@@ -2280,16 +2288,16 @@ class ilTree
 
             $query = "UPDATE ".$this->table_tree ." SET ".
                     "lft = CASE ".
-                    "WHEN lft > '".$target_rgt."' ".
-                    "THEN lft + '".$spread_diff."' ".
+                    "WHEN lft > ".$this->ilDB->quote($target_rgt)." ".
+                    "THEN lft + ".$this->ilDB->quote($spread_diff)." ".
                     "ELSE lft ".
                     "END, ".
                     "rgt = CASE ".
-                    "WHEN rgt >= '".$target_rgt."' ".
-                    "THEN rgt + '".$spread_diff."' ".
+                    "WHEN rgt >= ".$this->ilDB->quote($target_rgt)." ".
+                    "THEN rgt + ".$this->ilDB->quote($spread_diff)."' ".
                     "ELSE rgt ".
                     "END ".
-                    "WHERE tree = ".$this->tree_id;
+                    "WHERE tree = ".$this->ilDB->quote($this->tree_id);
             #var_dump("<pre>",$query,"<pre>");
             $res = $this->ilDB->query($query);
 
@@ -2309,26 +2317,25 @@ class ilTree
 
             // Update source subtree:
             $query = "UPDATE ".$this->table_tree ." ".
-                    "SET rgt = rgt + '".$move_diff."', ".
-                    "lft = lft + '".$move_diff."', ".
-                    "depth = depth + '".$depth_diff."' ".
-                    "WHERE lft >= '".($source_lft + $where_offset)."' ".
-                    "AND rgt <= '".($source_rgt + $where_offset)."' ".
-                    "AND tree = '".$this->tree_id."'";
+                    "SET rgt = rgt + ".$this->ilDB->quote($move_diff).", ".
+                    "lft = lft + ".$this->ilDB->quote($move_diff).", ".
+                    "depth = depth + ".$this->ilDB->quote($depth_diff)." ".
+                    "WHERE lft >= ".$this->ilDB->quote(($source_lft + $where_offset))." ".
+                    "AND rgt <= ".$this->ilDB->quote(($source_rgt + $where_offset))." ".
+                    "AND tree = ".$this->ilDB->quote($this->tree_id);
             #var_dump("<pre>",$query,"<pre>");
             $res = $this->ilDB->query($query);
-
 
 			// done: close old gap
             $query = "UPDATE ".$this->table_tree ." SET ".
                     "lft = CASE ".
-                    "WHEN lft >= '".($source_lft + $where_offset)."' ".
-                    "THEN lft - '".$spread_diff."' ".
+                    "WHEN lft >= ".$this->ilDB->quote(($source_lft + $where_offset))." ".
+                    "THEN lft - ".$this->ilDB->quote($spread_diff)." ".
                     "ELSE lft ".
                     "END, ".
                     "rgt = CASE ".
-                    "WHEN rgt >= '".($source_rgt + $where_offset)."' ".
-                    "THEN rgt - '".$spread_diff."' ".
+                    "WHEN rgt >= ".$this->ilDB->quote(($source_rgt + $where_offset))." ".
+                    "THEN rgt - ".$this->ilDB->quote($spread_diff)." ".
                     "ELSE rgt ".
                     "END ".
                     "WHERE tree = ".$this->tree_id;
@@ -2340,9 +2347,9 @@ class ilTree
 
             // Finally update parent id of source
             $query = "UPDATE ".$this->table_tree ." ".
-                    "SET parent = '".$a_target_id."' ".
-                    "WHERE child = '".$a_source_id."' ".
-                    "AND tree = '".$this->tree_id."'";
+                    "SET parent = ".$this->ilDB->quote($a_target_id)." ".
+                    "WHERE child = ".$this->ilDB->quote($a_source_id)." ".
+                    "AND tree = ".$this->ilDB->quote($this->tree_id)." ";
             #var_dump("<pre>",$query,"<pre>");
             $res = $this->ilDB->query($query);
             if($this->__isMainTree())

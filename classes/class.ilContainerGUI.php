@@ -1846,6 +1846,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		// Save wizard options
 		$wizard_options = new ilCopyWizardOptions();
 		$copy_id = $wizard_options->allocateCopyId();
+		
 		// Store tree
 		$nodes = $tree->getSubTree($tree->getNodeData((int) $_REQUEST['clone_source']),true);
 		$wizard_options->storeTree($nodes);

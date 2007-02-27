@@ -75,6 +75,43 @@ class ilCourseStart
 	{
 		return $this->start_objs ? $this->start_objs : array();
 	}
+	
+	/**
+	 * Clone dependencies
+	 *
+	 * @access public
+	 * @param int target id
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+		global $ilObjDataCache,$ilLog;
+		
+		$ilLog->write(__METHOD__.': Begin course start objects...');
+		
+		$new_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
+		$start = new ilCourseStart($a_target_id,$new_obj_id);
+		
+	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+	 	$cwo = new ilCopyWizardOptions($a_copy_id);
+	 	$mappings = $cwo->getMappings();
+	 	foreach($this->getStartObjects() as $start_id => $data)
+	 	{
+	 		$item_ref_id = $data['item_ref_id'];
+	 		if(isset($mappings[$item_ref_id]) and $mappings[$item_ref_id])
+	 		{
+				$ilLog->write(__METHOD__.': Clone start object nr. '.$item_ref_id);
+	 			$start->add($mappings[$item_ref_id]);
+	 		}
+	 		else
+	 		{
+				$ilLog->write(__METHOD__.': No mapping found for start object nr. '.$item_ref_id);
+	 		}
+	 	}
+		$ilLog->write(__METHOD__.': ... end course start objects');
+	 	return true;
+	}
 
 	function delete($a_crs_start_id)
 	{

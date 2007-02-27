@@ -556,6 +556,24 @@ class ilObjCourse extends ilContainer
 		return $new_obj;
 	}
 	
+	/**
+	 * Clone object dependencies (start objects, preconditions)
+	 *
+	 * @access public
+	 * @param int target ref id of new course
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+	 	// Clone course start objects
+	 	include_once('Modules/Course/classes/class.ilCourseStart.php');
+	 	$start = new ilCourseStart($this->getRefId(),$this->getId());
+	 	$start->cloneDependencies($a_target_id,$a_copy_id);
+	 	
+	 	return true;
+	}
+	
 
 	function validate()
 	{

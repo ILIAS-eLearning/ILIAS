@@ -111,6 +111,9 @@ class ilCopyWizardOptions
 	
 	/**
 	 * Save tree 
+	 * Stores two copies of the tree structure:
+	 * id 0 is used for recursive call of cloneObject()
+	 * id -1 is used for recursive call of cloneDependencies()
 	 *
 	 * @access public
 	 * @param
@@ -123,18 +126,24 @@ class ilCopyWizardOptions
 			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
 			"AND source_id = 0 ";
 		$res = $this->db->query($query);
+
+	 	$query = "INSERT INTO copy_wizard_options ".
+			"SET options = '".addslashes(serialize($a_tree_structure))."', ".
+			"copy_id = ".$this->db->quote($this->copy_id).", ".
+			"source_id = -1 ";
+		$res = $this->db->query($query);
 		return true; 
 	}
 	
 	/**
 	 * Get first node of stored tree
 	 *
-	 * @access public
+	 * @access private
 	 * 
 	 */
-	public function fetchFirstNode()
+	private function fetchFirstNodeById($a_id)
 	{
-		$tree = $this->getOptions(0);
+		$tree = $this->getOptions($a_id);
 		if(isset($tree[0]) and is_array($tree[0]))
 		{
 			return $tree[0];
@@ -143,35 +152,81 @@ class ilCopyWizardOptions
 	}
 	
 	/**
-	 * Drop first node
+	 * Fetch first node for cloneObject
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function fetchFirstNode()
+	{
+	 	return $this->fetchFirstNodeById(0);
+	}
+	
+	/**
+	 * Fetch first dependencies node
+	 *
+	 * @access public
+	 * 
+	 */
+	public function fetchFirstDependenciesNode()
+	{
+	 	return $this->fetchFirstNodeById(-1);
+	}
+	
+	/**
+	 * Drop first node by id
+	 *
+	 * @access private
+	 * 
+	 */
+	public function dropFirstNodeById($a_id)
+	{
+		if(!isset($this->options[$a_id]) or !is_array($this->options[$a_id]))
+		{
+			return false;
+		}
+		
+		$this->options[$a_id] = array_slice($this->options[$a_id],1);
+		$query = "UPDATE copy_wizard_options ".
+			"SET options = '".addslashes(serialize($this->options[$a_id]))."' ".
+			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
+			"AND source_id = ".$this->db->quote($a_id)." ";
+			;
+		$this->db->query($query);
+		$this->read();
+		// check for role_folder
+		if(($node = $this->fetchFirstNodeById($a_id)) === false)
+		{
+			return true;
+		}
+		if($node['type'] == 'rolf')
+		{
+			$this->dropFirstNodeById($a_id);
+		}
+		return true;
+	}
+	
+	/**
+	 * Drop first node (for cloneObject())
 	 *
 	 * @access public
 	 * 
 	 */
 	public function dropFirstNode()
 	{
-		if(!isset($this->options[0]) or !is_array($this->options[0]))
-		{
-			return false;
-		}
-		
-		$this->options[0] = array_slice($this->options[0],1);
-		$query = "UPDATE copy_wizard_options ".
-			"SET options = '".addslashes(serialize($this->options[0]))."' ".
-			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
-			"AND source_id = 0";
-		$this->db->query($query);
-		$this->read();
-		// check for role_folder
-		if(($node = $this->fetchFirstNode()) === false)
-		{
-			return true;
-		}
-		if($node['type'] == 'rolf')
-		{
-			$this->dropFirstNode();
-		}
-		return true;
+	 	return $this->dropFirstNodeById(0);
+	}
+	
+	/**
+	 * Drop first node (for cloneDependencies())
+	 *
+	 * @access public
+	 * 
+	 */
+	public function dropFirstDependenciesNode()
+	{
+	 	return $this->dropFirstNodeById(-1);
 	}
 	
 	/**
@@ -230,7 +285,7 @@ class ilCopyWizardOptions
 	{
 		$query = "SELECT * FROM copy_wizard_options ".
 			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
-			"AND source_id = -1 ";
+			"AND source_id = -2 ";
 		$res = $this->db->query($query);
 		$mappings = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -241,7 +296,7 @@ class ilCopyWizardOptions
 		
 		$query = "REPLACE INTO copy_wizard_options ".
 			"SET copy_id = ".$this->db->quote($this->copy_id).", ".
-			"source_id = -1, ".
+			"source_id = -2, ".
 			"options = '".addslashes(serialize($mappings))."'";
 		$this->db->query($query);
 		return true;				
@@ -255,9 +310,9 @@ class ilCopyWizardOptions
 	 */
 	public function getMappings()
 	{
-	 	if(isset($this->options[-1]) and is_array($this->options[-1]))
+	 	if(isset($this->options[-2]) and is_array($this->options[-2]))
 	 	{
-	 		return $this->options[-1];
+	 		return $this->options[-2];
 	 	}
 	 	return array();
 	}
