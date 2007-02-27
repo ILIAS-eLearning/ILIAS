@@ -2857,6 +2857,7 @@ delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens
 delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile
 gmaps#:#gmaps_api_key#:#API Key
+gmaps#:#gmaps_zoom_level#:#Zoom Level
 gmaps#:#gmaps_settings#:#Google Maps Settings
 gmaps#:#gmaps_extt_gmaps#:#Google Maps
 gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:
