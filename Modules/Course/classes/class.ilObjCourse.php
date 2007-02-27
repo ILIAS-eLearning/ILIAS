@@ -571,6 +571,10 @@ class ilObjCourse extends ilContainer
 	 	$start = new ilCourseStart($this->getRefId(),$this->getId());
 	 	$start->cloneDependencies($a_target_id,$a_copy_id);
 	 	
+	 	// Clone course item settings
+		$this->initCourseItemObject();
+		$this->items_obj->cloneDependencies($a_target_id,$a_copy_id);
+	 	
 	 	return true;
 	}
 	
@@ -694,6 +698,9 @@ class ilObjCourse extends ilContainer
 
 		include_once './Modules/Course/classes/class.ilCourseFile.php';
 		ilCourseFile::_deleteByCourse($this->getId());
+		
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		ilCourseDefinedFieldDefinition::_deleteByContainer($this->getId());
 		
 		return true;
 	}

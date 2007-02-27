@@ -51,7 +51,7 @@ class ilCourseItems
 	var $timing_end;
 
 
-function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
+	function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 
@@ -67,6 +67,86 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		$this->__read();
 	}
 
+	/**
+	 * Clone dependencies
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+	 	global $ilObjDataCache,$ilLog;
+	 	
+		$ilLog->write(__METHOD__.': Begin course items...');
+ 	
+	 	$target_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
+	 	
+	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+	 	$cp_options = new ilCopyWizardOptions($a_copy_id);
+	 	$mappings = $cp_options->getMappings();
+	 	
+	 	$query = "SELECT * FROM crs_items WHERE ".
+	 		"parent_id = ".$this->ilDB->quote($this->getParentId())." ".
+	 		"ORDER BY position DESC";
+	 	$res = $this->ilDB->query($query);
+	 	
+	 	if(!$res->numRows())
+	 	{
+			$ilLog->write(__METHOD__.': No course items found.');
+	 		return true;
+	 	}
+	 	
+	 	// new course item object
+	 	if(!is_object($new_container = ilObjectFactory::getInstanceByRefId($a_target_id,false)))
+	 	{
+			$ilLog->write(__METHOD__.': Cannot create target object.');
+	 		return false;
+	 	}
+	 	$new_items = new ilCourseItems($new_container,$a_target_id);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		if(!isset($mappings[$row->parent_id]) or !$mappings[$row->parent_id])
+	 		{
+				$ilLog->write(__METHOD__.': No mapping for parent nr. '.$row->parent_id);
+	 			continue;
+	 		}
+	 		if(!isset($mappings[$row->obj_id]) or !$mappings[$row->obj_id])
+	 		{
+				$ilLog->write(__METHOD__.': No mapping for item nr. '.$row->obj_id);
+	 			continue;
+	 		}
+	 		$new_item_id = $mappings[$row->obj_id];
+	 		$new_parent = $mappings[$row->parent_id];
+	 		
+	 		$new_items->setItemId($new_item_id);
+	 		$new_items->setParentId($new_parent);
+	 		$new_items->setTimingType($row->timing_type);
+	 		$new_items->setTimingStart($row->timing_start);
+	 		$new_items->setTimingEnd($row->timing_end);
+	 		$new_items->setSuggestionStart($row->suggestion_start);
+	 		$new_items->setSuggestionEnd($row->suggestion_end);
+	 		$new_items->toggleChangeable($row->changeable);
+	 		$new_items->setEarliestStart($row->earliest_start);
+	 		$new_items->setLatestEnd($row->latest_end);
+	 		$new_items->toggleVisible($row->visible);
+	 		$new_items->setPosition($row->position);
+	 		$new_items->update($new_item_id);
+			$ilLog->write(__METHOD__.': Added new entry for item nr. '.$row->obj_id);
+	 	}
+		$ilLog->write(__METHOD__.': Finished course items.');
+	}
+	
+	public function setItemId($a_item_id)
+	{
+		$this->item_id = $a_item_id;
+	}
+	
+	public function getItemId()
+	{
+		return $this->item_id;
+	}
 	function getUserId()
 	{
 		global $ilUser;
@@ -212,6 +292,11 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 	{
 		return (bool) $this->changeable;
 	}
+	
+	function setPosition($a_pos)
+	{
+		$this->position = $a_pos;
+	}
 
 	function getAllItems()
 	{
@@ -322,6 +407,35 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		}
 		return true;
 	}
+	
+	/**
+	 * Save
+	 *
+	 * @access public
+	 * 
+	 */
+	public function save()
+	{
+		global $ilLog;
+		
+	 	$query = "INSERT INTO crs_items SET ".
+			"timing_type = ".$ilDB->quote($this->getTimingType()).", ".
+			"timing_start = ".$ilDB->quote($this->getTimingStart()).", ".
+			"timing_end = ".$ilDB->quote($this->getTimingEnd()).", ".
+			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart()).", ".
+			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd()).", ".
+			"changeable = ".$ilDB->quote($this->enabledChangeable()).", ".
+			"earliest_start = ".$ilDB->quote($this->getEarliestStart()).", ".
+			"latest_end = ".$ilDB->quote($this->getLatestEnd()).", ".
+			"visible = ".$ilDB->quote($this->enabledVisible()).", ".
+			"parent_id = ".$ilDB->quote($this->getParentId()).", ".
+			"obj_id = ".$ilDB->quote($this->getItemId()).", ".
+			"position = ".$this->ilDB->quote($this->position);
+		$ilLog->write(__METHOD__.': '.$query);	
+
+		$res = $this->ilDB->query($query);
+	}
+	
 
 	function update($a_item_id)
 	{
@@ -779,7 +893,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 
 			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
-			$user_data = ilTimingPlaned::_getPlanedTimings($ilUser->getId(),$a_item['child']);
+			$user_data = ilTimingPlaned::_getPlanedTimings($ilUser->getId(),$data['child']);
 
 			// Check for user entry
 			if($data['changeable'] and 
