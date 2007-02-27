@@ -539,6 +539,14 @@ class ilObjCourse extends ilContainer
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		ilCourseDefinedFieldDefinition::_clone($this->getId(),$new_obj->getId());
 		
+		// Clone course files
+		include_once('Modules/Course/classes/class.ilCourseFile.php');
+		ilCourseFile::_cloneFiles($this->getId(),$new_obj->getId());
+		
+		// Clone events
+		include_once('Modules/Course/classes/Event/class.ilEvent.php');
+		ilEvent::_cloneEvent($this->getId(),$new_obj->getId());
+				
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
 		$obj_settings = new ilLPObjSettings($this->getId());

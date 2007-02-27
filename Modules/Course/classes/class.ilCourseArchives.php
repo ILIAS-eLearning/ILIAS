@@ -487,6 +487,18 @@ class ilCourseArchives
 		}
 		return true;
 	}
+	
+	/**
+	 * Clone archives
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cloneArchives()
+	{
+	 	
+	}
 
 
 	function __read()

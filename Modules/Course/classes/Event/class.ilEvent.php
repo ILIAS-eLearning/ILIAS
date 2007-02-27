@@ -206,6 +206,50 @@ class ilEvent
 	{
 		return $this->files ? $this->files : array();
 	}
+	
+	/**
+	 * Clone events
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int source id
+	 * @param int target id
+	 */
+	public static function _cloneEvent($a_source_id,$a_target_id)
+	{
+		foreach(ilEvent::_getEvents($a_source_id) as $event_obj)
+		{
+			$new_event = new ilEvent();
+			$new_event->setObjId($a_target_id);
+			$new_event->setTitle($event_obj->getTitle());
+			$new_event->setDescription($event_obj->getDescription());
+			$new_event->setLocation($event_obj->getLocation());
+			$new_event->setName($event_obj->getName());
+			$new_event->setPhone($event_obj->getPhone());
+			$new_event->setEmail($event_obj->getEmail());
+			$new_event->setDetails($event_obj->getDetails());
+			$new_event->enableRegistration($event_obj->enabledRegistration());
+			$new_event->enableParticipation($event_obj->enabledParticipation());
+			$new_event->create();
+			
+			// Copy appointments
+			foreach($event_obj->getAppointments() as $app_obj)
+			{
+				$new_app = new ilEventAppointment();
+				$new_app->setEventId($new_event->getEventId());
+				$new_app->setStartingTime($app_obj->getStartingTime());
+				$new_app->setEndingTime($app_obj->getEndingTime());
+				$new_app->toggleFullTime($app_obj->enabledFullTime());
+				$new_app->create();
+			}
+			// Copy files
+			foreach($event_obj->getFiles() as $file_obj)
+			{
+				$file_obj->cloneFiles($new_event->getEventId());
+			}
+		}
+	}
 
 	function create()
 	{

@@ -52,6 +52,31 @@ class ilFSStorageCourse extends ilFileSystemStorage
 	 	parent::__construct(ilFileSystemStorage::STORAGE_DATA,true,$a_container_id);
 	}
 	
+	/**
+	 * Clone course data directory
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string obj_id source
+	 * @param string obj_id target
+	 */
+	public static function _clone($a_source_id,$a_target_id)
+	{
+		$source = new ilFSStorageCourse($a_source_id);
+		$target = new ilFSStorageCourse($a_target_id);
+		
+		$target->create();
+		ilFileSystemStorage::_copyDirectory($source->getAbsolutePath(),$target->getAbsolutePath());
+		
+		// Delete member export files
+		$target->deleteDirectory($target->getMemberExportDirectory());
+		
+		unset($source);
+		unset($target);
+		return true;
+	}
+	
 	// Info files
 	/**
 	 * init info directory
