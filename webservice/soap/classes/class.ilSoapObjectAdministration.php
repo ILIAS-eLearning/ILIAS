@@ -446,7 +446,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		if(ilObject::_isInTrash($a_target_id))
 		{
-			return $this->__raiseError("Object with ID $a_target_id has been deleted.", 'Client');
+			return $this->__raiseError("Parent with ID $a_target_id has been deleted.", 'Client');
 		}
 
 		$allowed_types = array('cat','grp','crs','fold');
