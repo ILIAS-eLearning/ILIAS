@@ -274,6 +274,20 @@ abstract class ilFileSystemStorage
 		return false;
 	}
 	
+	/**
+	 * Copy directory and all contents
+	 *
+	 * @access public
+	 * @static
+	 * @param string absolute source path
+	 * @param string absolute target path
+	 * 
+	 */
+	public function _copyDirectory($a_source,$a_target)
+	{
+		return ilUtil::rCopy($a_source,$a_target);
+	}
+	
 	
 }
 

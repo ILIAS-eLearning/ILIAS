@@ -150,8 +150,29 @@ class ilEventFile
 				return true;
 		}
 	}
+	
+	/**
+	 * Clone files
+	 *
+	 * @access public
+	 * @param int new event_id
+	 * 
+	 */
+	public function cloneFiles($a_target_event_id)
+	{
+	 	$file = new ilEventFile();
+	 	$file->setEventId($a_target_event_id);
+	 	$file->setFileName($this->getFileName());
+	 	$file->setFileType($this->getFileType());
+	 	$file->setFileSize($this->getFileSize());
+	 	$file->create(false);
+	 	
+	 	// Copy file
+		$source = new ilFSStorageEvent($this->getEventId());
+		$source->copyFile($this->getAbsolutePath(),$file->getAbsolutePath());	 	
+	}
 
-	function create()
+	function create($a_upload = true)
 	{
 		global $ilDB;
 		
@@ -172,10 +193,14 @@ class ilEventFile
 		$this->fss_storage = new ilFSStorageEvent($this->getEventId());
 		$this->fss_storage->createDirectory();
 
-		// now create file
-		ilUtil::moveUploadedFile($this->getTemporaryName(),
-			$this->getFileName(),
-			$this->fss_storage->getAbsolutePath().'/'.$this->getFileId());
+		if($a_upload)
+		{
+			// now create file
+			ilUtil::moveUploadedFile($this->getTemporaryName(),
+				$this->getFileName(),
+				$this->fss_storage->getAbsolutePath().'/'.$this->getFileId());
+			
+		}
 
 		return true;
 	}
@@ -203,7 +228,7 @@ class ilEventFile
 			"WHERE event_id = ".$ilDB->quote($a_event_id)."";
 		$res = $ilDB->query($query);
 
-		$this->fss_storage->delete();
+		#$this->fss_storage->delete();
 		return true;
 	}
 

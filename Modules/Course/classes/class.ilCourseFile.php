@@ -55,6 +55,34 @@ class ilCourseFile
 		$this->file_id = $a_file_id;
 		$this->__read();
 	}
+	
+	/**
+	 * Clone course files
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int source id
+	 * @param int target_id
+	 */
+	public static function _cloneFiles($a_source_id,$a_target_id)
+	{
+		$source = new ilFSStorageCourse($a_source_id);
+
+		foreach(ilCourseFile::_readFilesByCourse($a_source_id) as $file_obj)
+		{
+			$new_file = new ilCourseFile();
+			$new_file->setCourseId($a_target_id);
+			$new_file->setFileName($file_obj->getFileName());
+			$new_file->setFileSize($file_obj->getFileSize());
+			$new_file->setFileType($file_obj->getFileType());
+			$new_file->create(false);
+
+			$target = new ilFSStorageCourse($a_target_id);
+			$target->initInfoDirectory();
+			$source->copyFile($file_obj->getAbsolutePath(),$new_file->getAbsolutePath());
+		}
+	}
 
 	function setFileId($a_id)
 	{
@@ -155,7 +183,7 @@ class ilCourseFile
 		}
 	}
 
-	function create()
+	function create($a_upload = true)
 	{
 		global $ilDB;
 		
@@ -176,11 +204,14 @@ class ilCourseFile
 		$this->fss_storage = new ilFSStorageCourse($this->getCourseId());
 		$this->fss_storage->initInfoDirectory();
 
-		// now create file
-		ilUtil::moveUploadedFile($this->getTemporaryName(),
-			$this->getFileName(),
-			$this->fss_storage->getInfoDirectory().'/'.$this->getFileId());
-
+		if($a_upload)
+		{
+			// now create file
+			ilUtil::moveUploadedFile($this->getTemporaryName(),
+				$this->getFileName(),
+				$this->fss_storage->getInfoDirectory().'/'.$this->getFileId());
+			
+		}
 		return true;
 	}
 
