@@ -164,6 +164,64 @@ class ilSoapUtils extends ilSoapAdministration
 	}
 	
 	/**
+	 * clone object dependencies (e.g. course start objects, preconditions ...)
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function ilCloneDependencies($sid,$copy_identifier)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		// Include main header
+		include_once './include/inc.header.php';
+		
+		global $ilLog;
+
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$cp_options = new ilCopyWizardOptions($copy_identifier);
+		
+		// Fetch first node
+		if(($node = $cp_options->fetchFirstDependenciesNode()) === false)
+		{
+			$ilLog->write(__METHOD__.': Finished copy step 2. Copy completed');
+			return true;
+		}
+
+		// Check options of this node
+		$options = $cp_options->getOptions($node['child']);
+		$new_ref_id = 0;
+		switch($options['type'])
+		{
+			case ilCopyWizardOptions::COPY_WIZARD_OMIT:
+				$ilLog->write(__METHOD__.': Omitting node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				$this->callNextDependency($sid,$cp_options);
+				break;
+			
+			case ilCopyWizardOptions::COPY_WIZARD_LINK:
+				$ilLog->write(__METHOD__.': Nothing to do for node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				$this->callNextDependency($sid,$cp_options);
+				break;
+				
+			case ilCopyWizardOptions::COPY_WIZARD_COPY:
+				$ilLog->write(__METHOD__.': Start cloning dependencies: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				$this->cloneDependencies($node,$cp_options);
+				$this->callNextDependency($sid,$cp_options);
+				break;
+				
+			default:
+				$ilLog->write(__METHOD__.': No valid action type given for node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				$this->callNextDependency($sid,$cp_options);
+				break;
+		}
+	 	return true;
+	}
+	
+	/**
 	 * Clone object
 	 *
 	 * @access public
@@ -189,8 +247,8 @@ class ilSoapUtils extends ilSoapAdministration
 		// Fetch first node
 		if(($node = $cp_options->fetchFirstNode()) === false)
 		{
-			$ilLog->write(__METHOD__.': No valid copy id given');
-			return $this->__raiseError('No valid copy id given.','Client');
+			$ilLog->write(__METHOD__.': Finished copy step 1. Starting copying of object dependencies...');
+			return $this->ilCloneDependencies($sid,$copy_identifier);
 		}
 	
 		// Check options of this node
@@ -201,6 +259,8 @@ class ilSoapUtils extends ilSoapAdministration
 		{
 			case ilCopyWizardOptions::COPY_WIZARD_OMIT:
 				$ilLog->write(__METHOD__.': Omitting node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				// set mapping to zero
+				$cp_options->appendMapping($node['child'],0);
 				$this->callNextNode($sid,$cp_options);
 				break;
 				
@@ -246,6 +306,21 @@ class ilSoapUtils extends ilSoapAdministration
 		return true;
 	}
 	
+	private function callNextDependency($sid,$cp_options)
+	{
+		$cp_options->dropFirstDependenciesNode();
+		
+	 	// Start next soap call
+	 	include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+		$soap_client = new ilSoapClient();
+		$soap_client->setTimeout(1);
+		$soap_client->setResponseTimeout(1);
+		$soap_client->enableWSDL(true);
+		$soap_client->init();
+		$soap_client->call('ilCloneDependencies',array($sid,$cp_options->getCopyId()));
+		return true;
+	}
+	
 	/**
 	 * Clone node
 	 *
@@ -281,6 +356,30 @@ class ilSoapUtils extends ilSoapAdministration
 		// Finally add new mapping entry
 		$cp_options->appendMapping($source_id,$new_obj->getRefId());
 		return $new_obj->getRefId();
+	}
+	
+	/**
+	 * cloneDependencies
+	 *
+	 * @access private
+	 * @param 
+	 * 
+	 */
+	private function cloneDependencies($node,$cp_options)
+	{
+		$source_id = $node['child'];
+		$mappings = $cp_options->getMappings();
+		
+		if(!isset($mappings[$source_id]))
+		{
+			$ilLog->write(__METHOD__.': Omitting node '.$source_id.', '.$node['title'].', '.$node['type']. '. No mapping found.');
+			return true;
+		}
+		$target_id = $mappings[$source_id];
+
+		$orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+		$orig->cloneDependencies($target_id,$cp_options->getCopyId());
+		return true;
 	}
 	
 	/**

@@ -466,6 +466,17 @@ function ilClone($sid,$copy_identifier)
 	
 	return $sou->ilClone($sid,$copy_identifier);
 }
+function ilCloneDependencies($sid,$copy_identifier)
+{
+	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+	
+	$sou = new ilSoapUtils();
+	$sou->disableSOAPCheck();
+	$sou->ignoreUserAbort();
+	
+	return $sou->ilCloneDependencies($sid,$copy_identifier);
+}
+
 function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 {
 	include_once './webservice/soap/classes/class.ilSoapUtils.php';

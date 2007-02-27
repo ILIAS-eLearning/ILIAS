@@ -1543,6 +1543,19 @@ class ilObject
 	}
 	
 	/**
+	 * Clone object dependencies
+	 *
+	 * @access public
+	 * @param int ref_id of target object
+	 * @param int copy_id
+	 * 
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+	 	return true;
+	}
+	
+	/**
 	 * Copy meta data
 	 *
 	 * @access public
