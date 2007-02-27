@@ -61,7 +61,12 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid target given.', 'Client');
 		}
 
-   		// Check access
+		if(ilObject::_isInTrash($target_id))
+		{
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'Client');
+		}
+
+		// Check access
 		$allowed_types = array('cat','grp','crs','fold');
 		if(!in_array($target_obj->getType(), $allowed_types))
 		{
@@ -201,6 +206,12 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 			return $this->__raiseError('No exercise found for id: '.$ref_id,
 									   'Client');
 		}
+
+    	if(ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
+		}
+
 
 
 		// Check access
