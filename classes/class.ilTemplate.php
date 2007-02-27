@@ -292,7 +292,7 @@ class ilTemplate extends ilTemplateX
 		
 		foreach($this->js_files as $file)
 		{
-			if (is_file($file))
+			if (is_file($file) || substr($file, 0, 4) == "http")
 			{
 				$this->setCurrentBlock("js_file");
 				$this->setVariable("JS_FILE", $file);

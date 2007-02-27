@@ -32,6 +32,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 {
 	protected $latitude;
 	protected $longitude;
+	protected $zoom;
 	
 	/**
 	* Constructor
@@ -86,6 +87,26 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	}
 
 	/**
+	* Set Zoom.
+	*
+	* @param	int	$a_zoom	Zoom
+	*/
+	function setZoom($a_zoom)
+	{
+		$this->zoom = $a_zoom;
+	}
+
+	/**
+	* Get Zoom.
+	*
+	* @return	int	Zoom
+	*/
+	function getZoom()
+	{
+		return $this->zoom;
+	}
+
+	/**
 	* Set value by array
 	*
 	* @param	array	$a_values	value array
@@ -94,6 +115,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	{
 		$this->setLatitude($a_values[$this->getPostVar()]["latitude"]);
 		$this->setLongitude($a_values[$this->getPostVar()]["longitude"]);
+		$this->setZoom($a_values[$this->getPostVar()]["zoom"]);
 	}
 
 	/**
@@ -125,21 +147,35 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $tpl;
+		global $tpl, $lng;
 		
 		$gm_set = new ilSetting("google_maps");
+		$lng->loadLanguageModule("gmaps");
 		
-		$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
-			$gm_set->get("api_key"));
-		$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
-		$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
+		if ($gm_set->get("api_key") != "")
+		{
+			$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
+				$gm_set->get("api_key"));
+			$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
+			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
+		}
 		$a_tpl->setCurrentBlock("prop_location");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$a_tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
+		$a_tpl->setVariable("LOC_DESCRIPTION", $lng->txt("gmaps_std_location_desc"));
 		$a_tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
 		$a_tpl->setVariable("PROPERTY_VALUE_LAT", $this->getLatitude());
 		$a_tpl->setVariable("PROPERTY_VALUE_LONG", $this->getLongitude());
+		for($i = 0; $i <= 17; $i++)
+		{
+			$levels[$i] = $i;
+		}
+		$a_tpl->setVariable("ZOOM_SELECT",
+			ilUtil::formSelect($this->getZoom(), $this->getPostVar()."[zoom]",
+			$levels, false, true, 0, "", array("id" => "map_".$this->getPostVar()."_zoom",
+				"onchange" => "ilUpdateMap('"."map_".$this->getPostVar()."');")));
+		$a_tpl->setVariable("ZOOM", (int) $this->getZoom());
 		$a_tpl->parseCurrentBlock();
 	}
 
 }
-
