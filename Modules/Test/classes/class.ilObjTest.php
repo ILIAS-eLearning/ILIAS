@@ -6727,7 +6727,7 @@ class ilObjTest extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB;
+		global $ilDB,$ilLog;
 		
 		$this->loadFromDb();
 		
@@ -6782,6 +6782,9 @@ class ilObjTest extends ilObject
 		}
 		else
 		{
+			include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+			$cwo = new ilCopyWizardOptions($a_copy_id);
+			
 			// clone the questions
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			foreach ($this->questions as $key => $question_id)
@@ -6792,6 +6795,12 @@ class ilObjTest extends ilObject
 				$original_id = assQuestion::_getOriginalId($question_id);
 				$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
 				$question->saveToDb($original_id);
+				
+				// Save the mapping of old question id <-> new question id
+				// This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
+				$cwo->appendMapping($this->getRefId().'_'.$question_id,$newObj->getRefId().'_'.$newObj->questions[$key]);
+				$ilLog->write(__METHOD__.': Added mapping '.$this->getRefId().'_'.$question_id.' <-> ' .
+						$newObj->getRefId().'_'.$newObj->questions[$key]);
 			}
 		}
 
