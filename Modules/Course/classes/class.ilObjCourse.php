@@ -575,6 +575,11 @@ class ilObjCourse extends ilContainer
 	 	// Clone course item settings
 		$this->initCourseItemObject();
 		$this->items_obj->cloneDependencies($a_target_id,$a_copy_id);
+		
+		// Clone course learning objectives
+		include_once('Modules/Course/classes/class.ilCourseObjective.php');
+		$crs_objective = new ilCourseObjective($this);
+		$crs_objective->ilClone($a_target_id,$a_copy_id);
 	 	
 	 	return true;
 	}

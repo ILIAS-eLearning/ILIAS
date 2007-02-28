@@ -52,6 +52,51 @@ class ilCourseObjective
 		}
 		$this->__cleanStructure();
 	}
+	
+	/**
+	 * clone objectives
+	 *
+	 * @access public
+	 * @param int target id
+	 * @param int copy id
+	 * 
+	 */
+	public function ilClone($a_target_id,$a_copy_id)
+	{
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Start cloning learning objectives...');
+		
+	 	$query = "SELECT * FROM crs_objectives ".
+	 		"WHERE crs_id  = ".$this->db->quote($this->course_obj->getId()).
+	 		"ORDER BY position ";
+	 	$res = $this->db->query($query);
+	 	if(!$res->numRows())
+	 	{
+			$ilLog->write(__METHOD__.': ... no objectives found.');
+	 		return true;
+	 	}
+	 	
+	 	if(!is_object($new_course = ilObjectFactory::getInstanceByRefId($a_target_id,false)))
+	 	{
+			$ilLog->write(__METHOD__.': Cannot init new course object.');
+	 		return true;
+	 	}
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+			$new_objective = new ilCourseObjective($new_course);
+			$new_objective->setTitle($row->title);
+			$new_objective->setDescription($row->description);
+			$objective_id = $new_objective->add();
+			$ilLog->write(__METHOD__.': Added new objective nr: '.$objective_id);
+			
+			// Clone crs_objective_tst entries
+			include_once('Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
+			$objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
+			$objective_qst->cloneDependencies($objective_id,$a_copy_id);
+	 	}
+		$ilLog->write(__METHOD__.': Finished cloning objectives.');
+	}
 
 	function setTitle($a_title)
 	{
@@ -90,8 +135,8 @@ class ilCourseObjective
 			"created = ".$ilDB->quote(time());
 
 		$this->db->query($query);
-
-		return true;
+		
+		return $this->objective_id = $this->db->getLastInsertId();
 	}
 
 	function update()
@@ -329,6 +374,9 @@ class ilCourseObjective
 		$ilDB->query($query);
 		
 		$query = "DELETE FROM crs_objective_qst WHERE objective_id ".$in;
+		$ilDB->query($query);
+		
+		$query = "DELETE FROM crs_objectives WHERE crs_id = ".$ilDB->quote($course_id);
 		$ilDB->query($query);
 
 		return true;

@@ -104,7 +104,7 @@ class ilCourseItems
 			$ilLog->write(__METHOD__.': Cannot create target object.');
 	 		return false;
 	 	}
-	 	$new_items = new ilCourseItems($new_container,$a_target_id);
+	 	$new_items = new ilCourseItems($this->course_obj,$a_target_id);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		if(!isset($mappings[$row->parent_id]) or !$mappings[$row->parent_id])

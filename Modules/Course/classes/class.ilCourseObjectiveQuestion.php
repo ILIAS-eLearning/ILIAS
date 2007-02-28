@@ -48,6 +48,73 @@ class ilCourseObjectiveQuestion
 
 		$this->__read();
 	}
+	
+	/**
+	 * clone objective questions
+	 *
+	 * @access public
+	 *
+	 * @param int source objective
+	 * @param int target objective
+	 * @param int copy id
+	 */
+	public function cloneDependencies($a_new_objective,$a_copy_id)
+	{
+		global $ilObjDataCache,$ilLog;
+		
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$cwo = new ilCopyWizardOptions($a_copy_id);
+		$mappings = $cwo->getMappings();
+		foreach($this->getQuestions() as $question)
+		{
+			if(!isset($mappings["$question[ref_id]"]) or !$mappings["$question[ref_id]"])
+			{
+				continue;
+			}
+			$question_ref_id = $question['ref_id'];
+			$question_obj_id = $question['obj_id'];
+			$question_qst_id = $question['question_id'];
+			$new_ref_id = $mappings[$question_ref_id];
+			$new_obj_id = $ilObjDataCache->lookupObjId($new_ref_id);
+			
+			if($new_obj_id == $question_obj_id)
+			{
+				$ilLog->write(__METHOD__.': Test has been linked. Keeping question id.');
+				// Object has been linked
+				$new_question_id = $question_qst_id;
+			}
+			else
+			{
+				$new_question_info = $mappings[$question_ref_id.'_'.$question_qst_id];
+				$new_question_arr = explode('_',$new_question_info);
+				if(!isset($new_question_arr[1]) or !$new_question_arr[1])
+				{
+					continue;
+				}
+				$new_question_id = $new_question_arr[1];
+				$ilLog->write(__METHOD__.': New question id is: '.$new_question_id);
+			}
+	
+			$new_question = new ilCourseObjectiveQuestion($a_new_objective);
+			$new_question->setTestRefId($new_ref_id);
+			$new_question->setTestObjId($new_obj_id);
+			$new_question->setQuestionId($new_question_id);
+			$new_question->add();
+		}
+		
+		// Copy tests
+		foreach($this->getTests() as $test)
+		{
+			$new_test_id = $mappings["$test[ref_id]"];
+			
+			$query = "UPDATE crs_objective_tst ".
+				"SET tst_status = ".$this->db->quote($test['tst_status']).", ".
+				"tst_limit = ".$this->db->quote($test['tst_limit'])." ".
+				"WHERE objective_id = ".$this->db->quote($a_new_objective)." ".
+				"AND ref_id = ".$this->db->quote($new_test_id);
+			$this->db->query($query);
+		}
+	}
 
 	// ########################################################  Methods for test table
 	function setTestStatus($a_status)
