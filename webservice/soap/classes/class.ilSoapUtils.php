@@ -345,7 +345,7 @@ class ilSoapUtils extends ilSoapAdministration
 		$target_id = $mappings[$parent_id];
 
 		$orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
-		$new_obj = $orig->cloneObject((int) $target_id,$options);
+		$new_obj = $orig->cloneObject((int) $target_id,$cp_options->getCopyId());
 		
 		if(!is_object($new_obj))
 		{

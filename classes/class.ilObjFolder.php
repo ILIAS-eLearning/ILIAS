@@ -58,12 +58,13 @@ class ilObjFolder extends ilObject
 	 * Clone folder
 	 *
 	 * @access public
-	 * @param
+	 * @param int target id
+	 * @param int copy id
 	 * 
 	 */
-	public function cloneObject($a_target_id,$a_options)
+	public function cloneObject($a_target_id,$a_copy_id)
 	{
-	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -98,5 +99,28 @@ class ilObjFolder extends ilObject
 			$this->folder_tree->insertNode($this->getId(), $a_parent);
 		}
 	}
+	
+	/**
+	 * Clone object dependencies (crs items, preconditions)
+	 *
+	 * @access public
+	 * @param int target ref id of new course
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+		global $tree;
+		
+		if($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs'))
+		{
+			include_once('Modules/Course/classes/class.ilCourseItems.php');
+			$course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id,false);
+			$course_items = new ilCourseItems($course_obj,$this->getRefId());
+			$course_items->cloneDependencies($a_target_id,$a_copy_id);			
+		}
+	 	return true;
+	}
+	
 } // END class.ilObjFolder
 ?>

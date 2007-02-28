@@ -522,13 +522,14 @@ class ilObjCourse extends ilContainer
 	 *
 	 * @access public
 	 * @param int target ref_id
+	 * @param int copy id
 	 * 
 	 */
-	public function cloneObject($a_target_id,$a_options = array())
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB;
 		
-	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$this->cloneMetaData($new_obj);
 	 	$new_obj->initDefaultRoles();
 		

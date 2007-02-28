@@ -2487,7 +2487,7 @@ class ilObjectGUI
 		
 		// Save wizard options
 		$wizard_options = new ilCopyWizardOptions();
-		$wizard_options->allocateCopyId();
+		$copy_id = $wizard_options->allocateCopyId();
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		foreach($options as $source_id => $option)
 		{
@@ -2496,7 +2496,7 @@ class ilObjectGUI
 		$wizard_options->read();
 		
 		$orig = ilObjectFactory::getInstanceByRefId((int) $_REQUEST['clone_source']);
-		$new_obj = $orig->cloneObject((int) $_GET['ref_id'],$wizard_options->getOptions((int) $_REQUEST['clone_source']));
+		$new_obj = $orig->cloneObject((int) $_GET['ref_id'],$copy_id);
 		
 		// Delete wizard options
 		$wizard_options->deleteAll();

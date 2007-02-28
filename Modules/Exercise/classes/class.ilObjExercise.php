@@ -157,14 +157,14 @@ class ilObjExercise extends ilObject
 	 *
 	 * @access public
 	 * @param int target ref_id
-	 * 
+	 * @param int copy id
 	 */
-	public function cloneObject($a_target_id,$a_options = array())
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB;
 		
 		// Copy settings
-	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$new_obj->setInstruction($this->getInstruction());
 	 	$new_obj->setTimestamp($this->getTimestamp());
 	 	$new_obj->saveData();
