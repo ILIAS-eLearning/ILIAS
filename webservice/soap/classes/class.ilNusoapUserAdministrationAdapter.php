@@ -752,7 +752,7 @@ class ilNusoapUserAdministrationAdapter
 
 		$this->server->register('ilCloneDependencies',
 								array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
-								array('success' => 'xsd:bool'),
+								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#ilCloneDependencies',
 								SERVICE_STYLE,
