@@ -6722,17 +6722,17 @@ class ilObjTest extends ilObject
 	 *
 	 * @access public
 	 * @param int ref id of parent container
-	 * @param array optional object specific options
+	 * @param int copy id
 	 * @return object new test object
 	 */
-	public function cloneObject($a_target_id,$a_options = array())
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB;
 		
 		$this->loadFromDb();
 		
 		// Copy settings
-	 	$newObj = parent::cloneObject($a_target_id,$a_options);
+	 	$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$this->cloneMetaData($newObj);
 
 	    #$counter = 2;

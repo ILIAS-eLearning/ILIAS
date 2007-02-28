@@ -1513,10 +1513,11 @@ class ilObject
 	 *
 	 * @access public
 	 * @param int target id
+	 * @param int copy id for class.ilCopyWizardOptions()
 	 * @return object new object
 	 *  
 	 */
-	public function cloneObject($a_target_id,$a_options = array())
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $objDefinition,$ilUser;
 		

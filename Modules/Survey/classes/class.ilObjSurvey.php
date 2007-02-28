@@ -4312,17 +4312,17 @@ class ilObjSurvey extends ilObject
 	 *
 	 * @access public
 	 * @param int ref_id of target container
-	 * @param array array of object specific options
+	 * @param int copy id
 	 * @return object new svy object
 	 */
-	public function cloneObject($a_target_id,$a_options)
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB;
 		
 		$this->loadFromDb();
 		
 		// Copy settings
-	 	$newObj = parent::cloneObject($a_target_id,$a_options);
+	 	$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$this->cloneMetaData($newObj);
 	 	
 		$newObj->author = $this->getAuthor();

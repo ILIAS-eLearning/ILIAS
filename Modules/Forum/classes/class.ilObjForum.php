@@ -518,13 +518,14 @@ class ilObjForum extends ilObject
 	 *
 	 * @access public
 	 * @param int source_id
+	 * @apram int copy id
 	 * 
 	 */
-	public function cloneObject($a_target_id,$a_options = array())
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB,$ilUser;
 		
-	 	$new_obj = parent::cloneObject($a_target_id,$a_options);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$roles = $new_obj->initDefaultRoles();
 	 	
 		// COPY settings
@@ -545,8 +546,13 @@ class ilObjForum extends ilObject
 
 		$ilDB->query($query);
 		
+		// read options
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$cwo = new ilCopyWizardOptions($a_copy_id);
+		$options = $cwo->getOptions($this->getRefId());
+
 		// Generate starting threads
-		if(!is_array($a_options['threads']))
+		if(!is_array($options['threads']))
 		{
 			return $new_obj;
 		}
@@ -558,7 +564,7 @@ class ilObjForum extends ilObject
 		$new_frm->setForumId($new_obj->getId());
 		$new_frm->setForumRefId($new_obj->getRefId());
 		$new_topic = $new_frm->getOneTopic();
-		foreach($a_options['threads'] as $thread_id)
+		foreach($options['threads'] as $thread_id)
 		{
 			$this->Forum->setWhereCondition('thr_pk = '.$ilDB->quote($thread_id));
 			$old_thread = $this->Forum->getOneThread();

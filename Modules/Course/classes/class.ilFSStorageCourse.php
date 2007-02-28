@@ -152,8 +152,13 @@ class ilFSStorageCourse extends ilFileSystemStorage
 	 */
 	public function getMemberExportFiles()
 	{
+		if(!@is_dir($this->getMemberExportDirectory()))
+		{
+			return array();
+		}
+		
 		$files = array();
-		$dp = opendir($this->getMemberExportDirectory());
+		$dp = @opendir($this->getMemberExportDirectory());
 
 		while($file = readdir($dp))
 		{
