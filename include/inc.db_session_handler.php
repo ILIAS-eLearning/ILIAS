@@ -148,6 +148,31 @@ function db_set_save_handler()
 	return false;
 }
 
+function duplicate_session($a_session_id) 
+{
+	global $ilDB;
+	
+	// Create new session id
+	$new_session = $a_session_id;
+	do
+	{
+		$new_session = md5($new_session);
+		$query = "SELECT * FROM usr_session WHERE ".
+			"session_id = ".$ilDB->quote($new_session);
+		$res = $ilDB->query($query);		
+	} while($res->numRows());
+	
+	$query = "SELECT * FROM usr_session ".
+		"WHERE session_id = ".$ilDB->quote($a_session_id);
+	$res = $ilDB->query($query);
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		db_session_write($new_session,$row->data);
+		return $new_session;
+	}
+	return false;
+}
+
 // needs to be done to assure that $ilDB exists,
 // when db_session_write is called
 register_shutdown_function("session_write_close");
