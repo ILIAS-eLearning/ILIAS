@@ -1009,6 +1009,16 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+				
+			case 'ilobjusergui':
+				require_once "./classes/class.ilObjUserGUI.php";
+				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+				$html = $this->ctrl->forwardCommand($user_gui);
+				$this->__setSubTabs('members');
+				$this->tabs_gui->setTabActive('group_members');
+				$this->tabs_gui->setSubTabActive('grp_members_gallery');
+				$this->tpl->setVariable("ADM_CONTENT", $html);
+				break;
 
 			default:
 				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'icrs'))
