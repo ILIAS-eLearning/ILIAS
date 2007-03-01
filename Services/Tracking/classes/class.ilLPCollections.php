@@ -49,6 +49,35 @@ class ilLPCollections
 
 		$this->__read();
 	}
+	
+	/**
+	 * Clone collections
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cloneCollections($a_target_id,$a_copy_id)
+	{
+		global $ilObjDataCache,$ilLog;
+		
+		$target_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
+		
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+		$mappings = $cwo->getMappings();
+		
+		$new_collections = new ilLPCollections($target_obj_id);
+	 	foreach($this->items as $item)
+	 	{
+	 		if(!isset($mappings[$item]) or !$mappings[$item])
+	 		{
+	 			continue;
+	 		}
+	 		$new_collections->add($mappings[$item]);
+	 		$ilLog->write(__METHOD__.': Added learning progress collection.');
+	 	}
+	}
 
 	function getObjId()
 	{
@@ -219,7 +248,7 @@ class ilLPCollections
 			$query = "SELECT * FROM ut_lp_collections as utc ".
 				"JOIN object_reference as obr ON item_id = ref_id ".
 				"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
-				"WHERE utc.obj_id = '".$a_obj_id."' ".
+				"WHERE utc.obj_id = ".$ilDB->quote($a_obj_id)." ".
 				"ORDER BY title";
 		}
 		else
@@ -278,7 +307,7 @@ class ilLPCollections
 			$query = "SELECT * FROM ut_lp_collections as utc ".
 				"JOIN object_reference as obr ON item_id = ref_id ".
 				"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
-				"WHERE utc.obj_id = '".$this->db->quote($this->obj_id)."' ".
+				"WHERE utc.obj_id = ".$this->db->quote($this->obj_id)." ".
 				"ORDER BY title";
 		}
 		else
@@ -302,7 +331,7 @@ class ilLPCollections
 				include_once './Modules/Test/classes/class.ilObjTest.php';
 				if(ilObjTest::_lookupAnonymity($item_obj_id))
 				{
-					$this->__deleteEntry($a_obj_id,$row->item_id);
+					$this->__deleteEntry($this->getObjId(),$row->item_id);
 					continue;
 				}
 			}

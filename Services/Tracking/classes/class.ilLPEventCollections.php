@@ -137,14 +137,14 @@ class ilLPEventCollections
 
 		global $ilObjDataCache;
 
-		$query = "SELECT * FROM ut_lp_event_collections WHERE obj_id = '".$this->db->quote($this->obj_id)."'";
+		$query = "SELECT * FROM ut_lp_event_collections WHERE obj_id = ".$this->db->quote($this->obj_id)."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!ilEvent::_exists($row->item_id))
 			{
 				$query = "DELETE FROM ut_lp_event_collections ".
-					"WHERE obj_id = '".$a_obj_id."' ".
+					"WHERE obj_id = '".$this->getObjId()."' ".
 					"AND item_id = '".$row->item_id."'";
 				$this->db->query($query);
 				continue;

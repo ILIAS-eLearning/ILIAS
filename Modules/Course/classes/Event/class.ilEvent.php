@@ -218,6 +218,10 @@ class ilEvent
 	 */
 	public static function _cloneEvent($a_source_id,$a_target_id)
 	{
+		include_once('Services/Tracking/classes/class.ilLPEventCollections.php');
+		$old_event_collection = new ilLPEventCollections($a_source_id);
+		$new_event_collection = new ilLPEventCollections($a_target_id);
+		
 		foreach(ilEvent::_getEvents($a_source_id) as $event_obj)
 		{
 			$new_event = new ilEvent();
@@ -247,6 +251,12 @@ class ilEvent
 			foreach($event_obj->getFiles() as $file_obj)
 			{
 				$file_obj->cloneFiles($new_event->getEventId());
+			}
+			
+			// Copy lp collections
+			if($old_event_collection->isAssigned($event_obj->getEventId()))
+			{
+				$new_event_collection->add($new_event->getEventId());
 			}
 		}
 	}

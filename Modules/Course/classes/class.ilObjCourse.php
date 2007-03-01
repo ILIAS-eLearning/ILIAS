@@ -580,6 +580,10 @@ class ilObjCourse extends ilContainer
 		include_once('Modules/Course/classes/class.ilCourseObjective.php');
 		$crs_objective = new ilCourseObjective($this);
 		$crs_objective->ilClone($a_target_id,$a_copy_id);
+		
+		include_once('Services/Tracking/classes/class.ilLPCollections.php');
+		$lp_collection = new ilLPCollections($this->getId());
+		$lp_collection->cloneCollections($a_target_id,$a_copy_id);		
 	 	
 	 	return true;
 	}
