@@ -32,6 +32,8 @@
 
 class ilCopyWizardOptions
 {
+	private static $instances = null;
+	
 	const COPY_WIZARD_OMIT = 1;
 	const COPY_WIZARD_COPY = 2;
 	const COPY_WIZARD_LINK = 3;
@@ -43,13 +45,13 @@ class ilCopyWizardOptions
 	private $options = array();	
 	
 	/**
-	 * Constructor
+	 * Private Constructor (Singleton class)
 	 *
-	 * @access public
-	 * @param
+	 * @access private
+	 * @param int copy_id
 	 * 
 	 */
-	public function __construct($a_copy_id = 0)
+	private function __construct($a_copy_id = 0)
 	{
 		global $ilDB;
 		
@@ -63,6 +65,74 @@ class ilCopyWizardOptions
 	}
 	
 	/**
+	 * Get instance of copy wizard options
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int copy id
+	 */
+	public static function _getInstance($a_copy_id)
+	{
+		if(is_array(self::$instances) and isset(self::$instances[$a_copy_id]))
+		{
+			return self::$instances[$a_copy_id];
+		}
+		return self::$instances[$a_copy_id] = new ilCopyWizardOptions($a_copy_id);
+	}
+	
+	/**
+	 * Allocate a copy for further entries
+	 *
+	 * @access public
+	 * @static
+	 * 
+	 */
+	public static function _allocateCopyId()
+	{
+		global $ilDB;
+		
+	 	$query = "SELECT MAX(copy_id) as latest FROM copy_wizard_options ";
+	 	$res = $ilDB->query($query);
+	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	
+	 	$query = "INSERT INTO copy_wizard_options ".
+	 		"SET copy_id = ".$ilDB->quote($row->latest + 1);
+	 	$ilDB->query($query);
+	 	
+	 	return $row->latest + 1;
+	}
+	
+	/**
+	 * Save owner for copy. It will be checked against this user id in all soap calls
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function saveOwner($a_user_id)
+	{
+	 	$query = "INSERT INTO copy_wizard_options ".
+	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
+	 		"source_id = ".$this->db->quote(-3).", ".
+	 		"options = '".addslashes(serialize(array($a_user_id)))."'";
+	 	$this->db->query($query);
+		return true;
+	}
+	
+	/**
+	 * check owner 
+	 *
+	 * @access public
+	 * @param int user_id
+	 * 
+	 */
+	public function checkOwner($a_user_id)
+	{
+	 	return in_array($a_user_id,$this->getOptions(-3));
+	}
+	
+	/**
 	 * Get copy id
 	 *
 	 * @access public
@@ -73,24 +143,6 @@ class ilCopyWizardOptions
 	 	return $this->copy_id;
 	}
 	
-	/**
-	 * Allocate a copy for further entries
-	 *
-	 * @access public
-	 * 
-	 */
-	public function allocateCopyId()
-	{
-	 	$query = "SELECT MAX(copy_id) as latest FROM copy_wizard_options ";
-	 	$res = $this->db->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-	 	
-	 	$query = "INSERT INTO copy_wizard_options ".
-	 		"SET copy_id = ".$this->db->quote($row->latest + 1);
-	 	$this->db->query($query);
-	 	
-	 	return $this->copy_id = $row->latest + 1;
-	}
 	
 	/**
 	 * Init container

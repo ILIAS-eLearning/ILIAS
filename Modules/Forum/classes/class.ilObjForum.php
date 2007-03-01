@@ -548,7 +548,7 @@ class ilObjForum extends ilObject
 		
 		// read options
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-		$cwo = new ilCopyWizardOptions($a_copy_id);
+		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
 		$options = $cwo->getOptions($this->getRefId());
 
 		// Generate starting threads

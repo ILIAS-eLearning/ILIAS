@@ -63,7 +63,7 @@ class ilCourseObjectiveQuestion
 		global $ilObjDataCache,$ilLog;
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-		$cwo = new ilCopyWizardOptions($a_copy_id);
+		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
 		$mappings = $cwo->getMappings();
 		foreach($this->getQuestions() as $question)
 		{

@@ -2467,7 +2467,7 @@ class ilObjectGUI
 		include_once('classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilAccess,$ilErr,$rbacsystem;
+		global $ilAccess,$ilErr,$rbacsystem,$ilUser;
 		
 	 	$new_type = $_REQUEST['new_type'];
 	 	if(!$rbacsystem->checkAccess('create',(int) $_GET['ref_id'],$new_type))
@@ -2486,8 +2486,10 @@ class ilObjectGUI
 		}
 		
 		// Save wizard options
-		$wizard_options = new ilCopyWizardOptions();
-		$copy_id = $wizard_options->allocateCopyId();
+		$copy_id = ilCopyWizardOptions::_allocateCopyId();
+		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+		$wizard_options->saveOwner($ilUser->getId());
+		
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		foreach($options as $source_id => $option)
 		{
