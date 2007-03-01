@@ -70,6 +70,75 @@ class ilObjGroup extends ilContainer
 		$this->ilObject($a_id,$a_call_by_reference);
 		$this->setRegisterMode(true);
 	}
+	
+	/**
+	 * Clone group (no member data)
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB;
+		
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	$new_obj->initDefaultRoles($this->getGroupStatus());
+	 	
+		// find a free number
+		for ($n = 1;$n < 999;$n++)
+		{
+			$groupname_copy = $this->getTitle()."_(copy_".$n.")";
+
+			if (!ilUtil::groupNameExists($groupname_copy))
+			{
+				$new_obj->setTitle($groupname_copy);
+				$new_obj->update();
+				break;
+			}
+		}
+	 	
+		
+		// Copy settings
+		$new_obj->setRegistrationFlag($this->getRegistrationFlag());
+		$new_obj->setPassword($this->getPassword());
+		$new_obj->updateExpiration($this->getExpiration());
+		
+				
+		// Copy learning progress settings
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+		unset($obj_settings);
+		
+		return $new_obj;
+	}
+	
+	/**
+	 * Clone object dependencies (crs items, preconditions)
+	 *
+	 * @access public
+	 * @param int target ref id of new course
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+		global $tree;
+		
+		if($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs') and
+			$new_course_ref_id = $tree->checkForParentType($a_target_id,'crs'))
+		{
+			include_once('Modules/Course/classes/class.ilCourseItems.php');
+			$course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id,false);
+			$course_items = new ilCourseItems($course_obj,$this->getRefId());
+			$course_items->cloneDependencies($a_target_id,$a_copy_id);			
+		}
+	 	return true;
+	}
+	
+	
 
 	/**
 	* join Group, assigns user to role
@@ -572,6 +641,37 @@ class ilObjGroup extends ilContainer
 			$res = $this->ilias->db->query($q);
 		}
 	}
+	
+	/**
+	 * Set expiration
+	 *
+	 * @access public
+	 * @param string expiration
+	 * 
+	 */
+	public function updateExpiration($a_date)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
+		$res = $this->ilias->db->query($q);
+		$date = $a_date;
+
+		if ($res->numRows() == 0)
+		{
+			$q = "INSERT INTO grp_data (grp_id, expiration) VALUES(".
+				$ilDB->quote($this->getId()).",".$ilDB->quote($date).")";
+			$res = $this->ilias->db->query($q);
+		}
+		else
+		{
+			$q = "UPDATE grp_data SET expiration=".
+				$ilDB->quote($date)." WHERE grp_id=".$ilDB->quote($this->getId());
+			$res = $this->ilias->db->query($q);
+		}
+	 	
+	}
 
 	/**
 	* set Expiration Date and Time
@@ -599,6 +699,24 @@ class ilObjGroup extends ilContainer
 				$ilDB->quote($date)." WHERE grp_id=".$ilDB->quote($this->getId());
 			$res = $this->ilias->db->query($q);
 		}
+	}
+	
+	/**
+	 * Get expiration
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getExpiration()
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $datetime = $row["expiration"];
 	}
 
 	/**
@@ -789,7 +907,7 @@ class ilObjGroup extends ilContainer
 			}
 		}
 
-		return 1;
+		return 2;
 	}
 
 	/**
@@ -918,52 +1036,6 @@ class ilObjGroup extends ilContainer
 		}
 	}
 
-	/**
-	* copy all properties and subobjects of a group.
-	* Does not copy the settings in the group's local role folder. Instead a new local role folder is created from
-	* the template settings (same process as creating a new group manually)
-	* 
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-		
-		// get object instance of cloned group
-		$groupObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
-		
-		// find a free number
-		for ($n = 1;$n < 99;$n++)
-		{
-			$groupname_copy = $groupObj->getTitle()."_(copy_".$n.")";
-
-			if (!ilUtil::groupNameExists($groupname_copy))
-			{
-				$groupObj->setTitle($groupname_copy);
-				$groupObj->update();
-				break;
-			}
-		}
-
-		// setup rolefolder & default local roles (admin & member)
-		$roles = $groupObj->initDefaultRoles();
-
-		// ...finally assign groupadmin role to creator of group object
-		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
-		ilObjUser::updateActiveRoles($groupObj->getOwner());
-
-		// always destroy objects in ilClone method because clone() is recursive and creates instances for each object in subtree!
-		unset($groupObj);
-		unset($rfoldObj);
-		unset($roleObj);
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete group and all related data
@@ -995,7 +1067,7 @@ class ilObjGroup extends ilContainer
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
-	function initDefaultRoles()
+	function initDefaultRoles($a_group_status = 0)
 	{
 		global $rbacadmin, $rbacreview;
 
@@ -1047,7 +1119,7 @@ class ilObjGroup extends ilContainer
 		// Break inheritance and initialize permission for existing roles depending on group status
 		// TODO: eliminate POST-Parameter here. ilClone won't work with it.
 		// This will be changed anyway to non_member_template
-		$this->__setGroupStatus($_POST["group_status"]);		//0=public,1=private,2=closed
+		$this->__setGroupStatus($a_group_status);		//0=public,1=private,2=closed
 
 		return $roles ? $roles : array();
 	}

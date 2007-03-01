@@ -173,6 +173,9 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		$this->getTemplateFile("edit",$new_type);
 
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_fold.gif'));
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt('obj_fold'));
+
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -186,6 +189,9 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		
+		$this->fillCloneTemplate('CLONE_WIZARD','fold');
+		
 	}
 
 	/**

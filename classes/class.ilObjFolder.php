@@ -112,7 +112,8 @@ class ilObjFolder extends ilObject
 	{
 		global $tree;
 		
-		if($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs'))
+		if($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs') and
+			$new_course_ref_id = $tree->checkForParentType($a_target_id,'crs'))
 		{
 			include_once('Modules/Course/classes/class.ilCourseItems.php');
 			$course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id,false);

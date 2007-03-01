@@ -560,6 +560,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setCurrentBlock("fileinfo");
 		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
 		$this->tpl->parseCurrentBlock();
+		
+		$this->fillCloneTemplate('DUPLICATE','grp');
 	}
 
 
@@ -623,7 +625,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$groupObj = parent::saveObject();
 		
 		// setup rolefolder & default local roles (admin & member)
-		$roles = $groupObj->initDefaultRoles();
+		$roles = $groupObj->initDefaultRoles((int) $_POST['group_status']);
 
 		// ...finally assign groupadmin role to creator of group object
 		$groupObj->addMember($this->ilias->account->getId(),$groupObj->getDefaultAdminRole());

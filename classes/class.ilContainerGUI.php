@@ -1885,7 +1885,6 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		}	
 	}
 
-
 	/**
 	 * 
 	 *
