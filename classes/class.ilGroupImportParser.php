@@ -257,7 +257,7 @@ class ilGroupImportParser extends ilSaxParser
 		$this->group_obj->create();
 		$this->group_obj->createReference();
 		$this->group_obj->putInTree($this->__getParentId());
-		$this->group_obj->initDefaultRoles();
+		$this->group_obj->initDefaultRoles($this->group_data["type"] == "open" ? 0 : 1);
 
 
 		// SET GROUP SPECIFIC DATA
