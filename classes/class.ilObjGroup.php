@@ -135,6 +135,11 @@ class ilObjGroup extends ilContainer
 			$course_items = new ilCourseItems($course_obj,$this->getRefId());
 			$course_items->cloneDependencies($a_target_id,$a_copy_id);			
 		}
+		
+		include_once('Services/Tracking/classes/class.ilLPCollections.php');
+		$lp_collection = new ilLPCollections($this->getId());
+		$lp_collection->cloneCollections($a_target_id,$a_copy_id);		
+		
 	 	return true;
 	}
 	
