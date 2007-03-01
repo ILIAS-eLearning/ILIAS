@@ -1860,6 +1860,9 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		}
 		$wizard_options->read();
 		
+		// Duplicate session to avoid logout problems with backgrounded SOAP calls
+		$new_session_id = duplicate_session($_COOKIE['PHPSESSID']); 
+		
 		// Start cloning process using soap call
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 		$soap_client = new ilSoapClient();
@@ -1867,7 +1870,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		$soap_client->setResponseTimeout(30);
 		$soap_client->enableWSDL(true);
 		$soap_client->init();
-		$res = $soap_client->call('ilClone',array($_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],$copy_id));
+		$res = $soap_client->call('ilClone',array($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id));
 			
 		if(is_int($res))
 		{
