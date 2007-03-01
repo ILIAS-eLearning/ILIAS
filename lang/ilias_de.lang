@@ -2089,7 +2089,7 @@ common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_login#:#iLinc Login
 common#:#ilinc_passwd#:#iLinc Passwort
 common#:#ilinc_involved_users#:#Beteiligte Benutzer
-common#:#ilinc_mail_body_new_subscription#:#Sie in dem LearnLinc Seminar als Teilnehmer aufgenommen worden.
+common#:#ilinc_mail_body_new_subscription#:#Sie sind in dem LearnLinc Seminar als Teilnehmer aufgenommen worden.
 common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
 common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft
 common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
