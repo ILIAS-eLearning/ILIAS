@@ -1825,7 +1825,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		include_once('classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilAccess,$ilErr,$rbacsystem,$tree;
+		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser;
 		
 	 	$new_type = $_REQUEST['new_type'];
 	 	if(!$rbacsystem->checkAccess('create',(int) $_GET['ref_id'],$new_type))
@@ -1844,8 +1844,9 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		}
 		
 		// Save wizard options
-		$wizard_options = new ilCopyWizardOptions();
-		$copy_id = $wizard_options->allocateCopyId();
+		$copy_id = ilCopyWizardOptions::_allocateCopyId();
+		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+		$wizard_options->saveOwner($ilUser->getId());
 		
 		// Store tree
 		$nodes = $tree->getSubTree($tree->getNodeData((int) $_REQUEST['clone_source']),true);

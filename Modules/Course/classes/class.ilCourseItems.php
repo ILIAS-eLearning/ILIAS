@@ -84,7 +84,7 @@ class ilCourseItems
 	 	$target_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
 	 	
 	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-	 	$cp_options = new ilCopyWizardOptions($a_copy_id);
+	 	$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 	 	$mappings = $cp_options->getMappings();
 	 	
 	 	$query = "SELECT * FROM crs_items WHERE ".

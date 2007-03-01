@@ -6783,7 +6783,7 @@ class ilObjTest extends ilObject
 		else
 		{
 			include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-			$cwo = new ilCopyWizardOptions($a_copy_id);
+			$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
 			
 			// clone the questions
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";

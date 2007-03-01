@@ -180,10 +180,17 @@ class ilSoapUtils extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		
-		global $ilLog;
+		global $ilLog,$ilUser;
 
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-		$cp_options = new ilCopyWizardOptions($copy_identifier);
+		$cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
+		
+		// Check owner of copy procedure
+		if(!$cp_options->checkOwner($ilUser->getId()))
+		{
+			$ilLog->write(__METHOD__.': Permission check failed for user id: '.$ilUser->getId().', copy id: '.$copy_identifier);
+			return false;
+		}
 		
 		// Fetch first node
 		if(($node = $cp_options->fetchFirstDependenciesNode()) === false)
@@ -239,10 +246,18 @@ class ilSoapUtils extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		
-		global $ilLog;
+		global $ilLog,$ilUser;
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-		$cp_options = new ilCopyWizardOptions($copy_identifier);
+		$cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
+		
+		// Check owner of copy procedure
+		if(!$cp_options->checkOwner($ilUser->getId()))
+		{
+			$ilLog->write(__METHOD__.': Permission check failed for user id: '.$ilUser->getId().', copy id: '.$copy_identifier);
+			return false;
+		}
+		
 		
 		// Fetch first node
 		if(($node = $cp_options->fetchFirstNode()) === false)
