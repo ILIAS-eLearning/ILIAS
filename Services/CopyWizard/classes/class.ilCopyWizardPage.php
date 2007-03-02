@@ -66,6 +66,43 @@ class ilCopyWizardPage
 	}
 	
 	/**
+	 * Get wizard page tree presentation
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function buildTreePresentation()
+	{
+		include_once ("Services/CopyWizard/classes/class.ilCopyWizardExplorer.php");
+		$exp = new ilCopyWizardExplorer("repository.php?cmd=goto");
+		$exp->setExpandTarget("repository.php?cmd=showTree");
+		$exp->setTargetGet("ref_id");
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->forceExpandAll(true, false);
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+
+		if ($_GET["expand"] == "")
+		{
+			$expanded = $this->tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["expand"];
+		}
+
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		return $output;
+	}
+	
+	
+	/**
 	 * Get wizard page block html
 	 *
 	 * @access public
@@ -203,7 +240,7 @@ class ilCopyWizardPage
 		$nodes = $this->tree->getSubTree($this->tree->getNodeData($this->source_id),true,$this->item_type);
 		
 		$this->items = array();
-		switch($nodes['type'])
+		switch($nodes[0]['type'])
 		{
 			case 'fold':
 			case 'grp':

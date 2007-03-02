@@ -696,9 +696,96 @@ class ilCourseObjectivesGUI
 
 		return true;
 	}
+	
+	/**
+	 * Show objectives
+	 *
+	 * @access public
+	 * 
+	 */
+	public function showObjectives()
+	{
+	 	global $ilAccess,$ilErr;
+	 	
+		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
+		{
+			$this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
+		}
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_show_objectives.html','Modules/Course');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives'));
+		$this->tpl->setVariable('HEAD_TITLE',$this->lng->txt('title'));
+		$this->tpl->setVariable('HEAD_MATERIALS',$this->lng->txt('crs_objective_assigned_materials'));
+		$this->tpl->setVariable('HEAD_QUESTIONS',$this->lng->txt('crs_objective_assigned_qst'));
+		$this->tpl->setVariable('DOWNRIGHT',ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable('BTN_DELETE',$this->lng->txt('delete'));
+		$this->tpl->setVariable('BTN_ADD',$this->lng->txt('crs_add_objective'));
+		
+		if(!count($objectives = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
+		{
+			$this->tpl->setCurrentBlock('table_empty');
+			$this->tpl->setVariable('EMPTY_TXT',$this->lng->txt('crs_no_objectives_created'));
+			$this->tpl->parseCurrentBlock();
+			return true;
+		}
+		
+		$counter = 0;
+		foreach($objectives as $objective)
+		{
+			$objective_obj = $this->__initObjectivesObject($objective);
+			
+			// Up down links
+			++$counter;
+			if(count($objectives) > 1)
+			{
+				if($counter == 1)
+				{
+					$this->tpl->setVariable("NO_IMG_PRE_TYPE",ilUtil::getImagePath('empty.gif'));
+				}					
+				if($counter > 1) 
+				{
+					$this->tpl->setCurrentBlock("img");
+					$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
+					$this->tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'moveObjectiveUp'));
+					$this->tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('a_up.gif'));
+					$this->tpl->setVariable("IMG_ALT",$this->lng->txt('crs_move_up'));
+					$this->tpl->parseCurrentBlock();
+				}
+				if($counter < count($objectives))
+				{
+					$this->tpl->setCurrentBlock("img");
+					$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
+					$this->tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'moveObjectiveDown'));
+					$this->tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('a_down.gif'));
+					$this->tpl->setVariable("IMG_ALT",$this->lng->txt('crs_move_down'));
+					$this->tpl->parseCurrentBlock();
+				}
+				if($counter == count($objectives))
+				{
+					$this->tpl->setCurrentBlock("no_img_post");
+					$this->tpl->setVariable("NO_IMG_POST_TYPE",ilUtil::getImagePath('empty.gif'));
+					$this->tpl->parseCurrentBlock();
+				}					
+			}
+			
+			// Assigned Materials
+			
+			
+			$this->tpl->setCurrentBlock("table_content");
+			$this->tpl->setVariable('LABEL_ID',$objective_obj->getObjectiveId());
+			$this->tpl->setVariable("ROWCOL",ilUtil::switchColor($counter,"tblrow1","tblrow2"));
+			$this->tpl->setVariable("CHECK_OBJECTIVE",ilUtil::formCheckbox(0,'objective[]',$objective_obj->getObjectiveId()));
+			$this->tpl->setVariable("TITLE",$objective_obj->getTitle());
+			$this->tpl->setVariable("DESCRIPTION",$objective_obj->getDescription());
+			$this->tpl->parseCurrentBlock();
+		}
+	 	
+	}
 
 	function listObjectives()
 	{
+		#return $this->showObjectives();
+		
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'write'
@@ -844,7 +931,6 @@ class ilCourseObjectivesGUI
 		$tbl->render();
 
 		$this->tpl->setVariable("OBJECTIVES_TABLE", $tpl->get());
-		
 
 		return true;
 	}
@@ -1921,9 +2007,9 @@ class ilCourseObjectivesGUI
 
 	function __initLMObject($a_objective_id = 0)
 	{
-		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
 
-		$this->objectives_lm_obj =& new ilCourseObjectiveLM($a_objective_id);
+		$this->objectives_lm_obj =& new ilCourseObjectiveMaterials($a_objective_id);
 
 		return true;
 	}

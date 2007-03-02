@@ -1,0 +1,68 @@
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth" border="0">
+		<tr class="tbltitle">
+		  <th colspan="5" class="std">
+			<div style="float:left">
+			  {TABLE_TITLE}
+			</div>
+		  </th>
+		</tr>
+		<tr class="tblheader">
+		  <th class="std"></th>
+		  <th class="std">{HEAD_TITLE}</th>
+		  <th class="std">{HEAD_MATERIALS}</th>
+		  <th class="std">{HEAD_QUESTIONS}</th>
+		  <th class="std"></th>
+		</tr>
+		<!-- BEGIN table_empty -->
+		<tr>
+		  <td class="option_value" colspan="5">
+			{EMPTY_TXT}
+		  </td>
+		</tr>
+		<!-- END table_empty -->
+		<!-- BEGIN table_content -->
+		<tr>
+		  <td class="{ROWCOL}" valign="top" width="1" style="white-space:nowrap;">
+			{CHECK_OBJECTIVE}
+		  </td>
+		  <td class="{ROWCOL}">
+			<label for="objective_{LABEL_ID}">
+			{TITLE}
+			<div class="il_Description">{DESCRIPTION}</div>
+			</label>
+		  </td>
+		  <td class="{ROWCOL}">
+			{TYPE}
+		  </td>
+		  <td class="{ROWCOL}">
+			{REQUIRED}
+		  </td>
+		  <td class="{ROWCOL}">
+			<!-- BEGIN no_img_pre -->
+			<img src="{NO_IMG_PRE_TYPE}" border="0" vspace="0" />&nbsp;
+			<!-- END no_img_pre -->
+			<!-- BEGIN img -->
+			<a href="{IMG_LINK}" target="{IMG_TARGET}"><img src="{IMG_TYPE}" alt="{IMG_ALT}" title="{IMG_ALT}" border="0" vspace="0" /></a>&nbsp;
+			<!-- END img -->
+			<!-- BEGIN no_img_post -->
+			<img src="{NO_IMG_POST_TYPE}" border="0" vspace="0" />
+			<!-- END no_img_post -->
+		  </td>
+ 		</tr>
+		<!-- END table_content -->
+		<tr class="tblfooter">
+		  <td class="tblfooter" valign="center" align="left" width="1%">
+			<img src="{DOWNRIGHT}" border="0" />
+		  </td>
+		  <td class="tblfooter" valign="center" align="left">
+			&nbsp;<input class="submit" type="SUBMIT" name="cmd[askDeleteObjective]" value="{BTN_DELETE}"/>
+		  </td>
+		  <td class="tblfooter" valign="right" colspan="3">
+			<div style="float:right">
+			  <input class="submit" type="SUBMIT" name="cmd[addObjective]" value="{BTN_ADD}"/>
+			</div>
+		  </td>
+		</tr>
+	  </table>
+	</form>

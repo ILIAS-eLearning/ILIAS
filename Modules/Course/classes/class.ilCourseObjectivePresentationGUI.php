@@ -333,7 +333,7 @@ class ilCourseObjectivePresentationGUI
 	{
 		global $rbacsystem,$ilias,$ilUser,$ilObjDataCache;
 
-		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
 		include_once './classes/class.ilRepositoryExplorer.php';
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 
@@ -343,7 +343,7 @@ class ilCourseObjectivePresentationGUI
 		}
 		if($this->details_id)
 		{
-			$objectives_lm_obj =& new ilCourseObjectiveLM($this->details_id);
+			$objectives_lm_obj =& new ilCourseObjectiveMaterials($this->details_id);
 		}
 
 		$lm_continue =& new ilCourseLMHistory($this->course_obj->getRefId(),$ilUser->getId());
@@ -455,7 +455,7 @@ class ilCourseObjectivePresentationGUI
 				$objectives_lm_obj->setLMRefId($lm_id);
 				if($objectives_lm_obj->checkExists())
 				{
-					$objectives_lm_obj =& new ilCourseObjectiveLM($this->details_id);
+					$objectives_lm_obj =& new ilCourseObjectiveMaterials($this->details_id);
 					
 					if($conditions_ok)
 					{
@@ -505,7 +505,7 @@ class ilCourseObjectivePresentationGUI
 	{
 		global $ilias,$rbacsystem,$ilObjDataCache,$ilUser;
 
-		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
 
 		if(!count($tests = $this->__getAllTests()))
 		{
