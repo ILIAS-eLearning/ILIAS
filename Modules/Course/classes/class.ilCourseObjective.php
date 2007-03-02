@@ -163,9 +163,9 @@ class ilCourseObjective
 		$tmp_obj_qst =& new ilCourseObjectiveQuestion($this->getObjectiveId());
 		$tmp_obj_qst->deleteAll();
 
-		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
 
-		$tmp_obj_lm =& new ilCourseObjectiveLM($this->getObjectiveId());
+		$tmp_obj_lm =& new ilCourseObjectiveMaterials($this->getObjectiveId());
 		$tmp_obj_lm->deleteAll();
 
 

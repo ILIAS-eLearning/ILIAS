@@ -23,22 +23,21 @@
 
 
 /**
-* class ilcourseobjectivelm
+* class ilCourseObjectiveMaterials
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends Object
 */
 
-class ilCourseObjectiveLM
+class ilCourseObjectiveMaterials
 {
 	var $db = null;
 
 	var $objective_id = null;
 	var $lms;
 
-	function ilCourseObjectiveLM($a_objective_id)
+	public function __construct($a_objective_id)
 	{
 		global $ilDB;
 
