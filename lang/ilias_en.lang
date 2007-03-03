@@ -1343,7 +1343,7 @@ common#:#auth_login_instructions#:#Instructions shown on login page
 common#:#auth_mode#:#Authentication mode
 common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
-common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.
+common#:#auth_new_account_mail_desc#:#Send new account e-mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.
 common#:#auth_per_default#:#Per Default
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Configure RADIUS-Authentication
@@ -1540,7 +1540,7 @@ common#:#check_link#:#Link check
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
 common#:#check_user_accounts#:#Check user accounts
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email.
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by e-mail.
 common#:#check_web_resources#:#Check Web Resources
 common#:#check_web_resources_desc#:#If enabled all Web Resources will be checked if they are active.
 common#:#checked_files#:#Importable files
@@ -1755,10 +1755,10 @@ common#:#edit_roleassignment#:#Edit role assignment
 common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
-common#:#email#:#Mail
-common#:#email_feedback#:#Mail feedback
+common#:#email#:#E-Mail
+common#:#email_feedback#:#E-Mail feedback
 common#:#email_footer#:#<br />powered by ILIAS
-common#:#email_not_valid#:#The email address you entered is not valid!
+common#:#email_not_valid#:#The e-mail address you entered is not valid!
 common#:#enable#:#Enable
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons#:#Enable custom icons
@@ -1829,7 +1829,7 @@ common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
-common#:#exc_mail_users#:#Send mail to user(s)
+common#:#exc_mail_users#:#Send e-mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
@@ -1844,7 +1844,7 @@ common#:#exc_save_changes#:#Save
 common#:#exc_schedule#:#Schedule
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
-common#:#exc_send_exercise#:#Send exercise by mail
+common#:#exc_send_exercise#:#Send exercise by e-mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_sent_at#:#Sent at <br />%s
 common#:#exc_status#:#Status
@@ -2177,10 +2177,10 @@ common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].
 common#:#hist_dbk_pg_update#:#Page changed.
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.
-common#:#hist_file_create#:#File created, file name is "%1". ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#File created, file name is "%1".
 common#:#file_created#:#A new file has been added.
 common#:#file_updated#:#File has been updated.
-common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2. ### 2006-5-8 --- Content changed
+common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2.
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
@@ -2341,7 +2341,7 @@ common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inactive#:#Inactive
 common#:#inbox#:#Inbox
-common#:#include_local#:#include local###include local language file when updating language
+common#:#include_local#:#include local language file when updating language
 common#:#info#:#Information
 common#:#info_access_and_status_info#:#Access- and Statusinformation
 common#:#info_access_permissions#:#Access permissions
@@ -2366,7 +2366,7 @@ common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
 common#:#info_trash#:#Deleted Objects
 common#:#info_view_of_user#:#User
-common#:#inform_user_mail#:#Send email to inform user about changes
+common#:#inform_user_mail#:#Send e-mail to inform user about changes
 common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#All LE
 common#:#ingmedia_back_to_le#:#Back to LE
@@ -2381,7 +2381,7 @@ common#:#ingmedia_level_zero#:#Level up
 common#:#ingmedia_pers_dates#:#Personal data
 common#:#ingmedia_reg_fo#:#Registered forums
 common#:#ingmedia_reg_le#:#Registered LE
-common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by email (!).
+common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
 common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.
 common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
 common#:#ingmedia_use_title#:#Change user data.
@@ -2489,8 +2489,8 @@ common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#link_check#:#Link check
-common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
-common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.
+common#:#link_check_body_top#:#You receive this e-mail because you want to be informed about invalid links of the following learning modules:
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by e-mail.
 common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
 common#:#link_check_subject#:#[ILIAS 3] Link check
@@ -2573,7 +2573,7 @@ common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#last_visited#:#Last Visited
 common#:#lres#:#Learning Resources
-common#:#mail#:#Mail
+common#:#mail#:#E-Mail
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Address book
 common#:#mail_allow_smtp#:#Allow SMTP
@@ -2584,34 +2584,34 @@ common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
 common#:#mail_edit_permission#:#Change Permission Settings
-common#:#mail_feedback#:#Mail Feedback
-common#:#mail_folders#:#Mail Folders
+common#:#mail_feedback#:#E-Mail Feedback
+common#:#mail_folders#:#E-Mail Folders
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Export file
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mail_visible#:#User may use mail system
-common#:#mail_mails_of#:#Mail
+common#:#mail_mails_of#:#E-Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
-common#:#mail_maxsize_mail#:#Max. mail size
+common#:#mail_maxsize_mail#:#Max. e-mail size
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
-common#:#mail_maxtime_mail#:#Max. days to keep mail
-common#:#mail_members#:#Mail to Members
-common#:#mail_not_sent#:#Mail not sent!
-common#:#mail_read#:#Read access to Mail settings
+common#:#mail_maxtime_mail#:#Max. days to keep e-mail
+common#:#mail_members#:#E-Mail to Members
+common#:#mail_not_sent#:#E-Mail not sent!
+common#:#mail_read#:#Read access to e-mail settings
 common#:#mail_search_no#:#No entries found.
 common#:#mail_search_word#:#Search word
-common#:#mail_select_one#:#You must select one mail
-common#:#mail_send_error#:#Error sending mail
-common#:#mail_sent#:#Mail sent!
-common#:#mail_smtp_mail#:#User may send mail via SMTP
+common#:#mail_select_one#:#You must select one e-mail
+common#:#mail_send_error#:#Error sending e-mail
+common#:#mail_sent#:#E-Mail sent!
+common#:#mail_smtp_mail#:#User may send e-mail via SMTP
 common#:#mail_system#:#System Message
 common#:#mail_system_message#:#User may send internal system messages
-common#:#mail_visible#:#Mail settings are visible
-common#:#mail_write#:#Edit Mail settings
+common#:#mail_visible#:#E-Mail settings are visible
+common#:#mail_write#:#Edit e-mail settings
 common#:#mail_z_local#:#User Folders
-common#:#mails#:#Mail
-common#:#mails_pl#:#Mail(s)
+common#:#mails#:#E-Mail
+common#:#mails_pl#:#E-Mail(s)
 common#:#main_menu_frame#:#Top Level Menu
 common#:#manage_tracking_data#:#Manage Tracking Data
 common#:#mark_all_read#:#Mark All as Read
@@ -2785,7 +2785,7 @@ common#:#new_group#:#New Group
 common#:#new_language#:#New Language
 common#:#new_list_password#:#New suggestions
 common#:#new_lowercase#:#new
-common#:#new_mail#:#New mail!
+common#:#new_mail#:#New e-mail!
 common#:#news#:#News
 common#:#html_block#:#HTML Block
 common#:#feed#:#News Feed
@@ -2953,8 +2953,8 @@ common#:#obj_lng#:#Language
 common#:#obj_lngf#:#Languages
 common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lo#:#LearningObject
-common#:#obj_mail#:#Mail Settings
-common#:#obj_mail_desc#:#Configure global mail settings here.
+common#:#obj_mail#:#E-Mail Settings
+common#:#obj_mail_desc#:#Configure global e-mail settings here.
 common#:#obj_mep#:#Media Pool
 common#:#obj_mob#:#Media Object
 common#:#obj_not_found#:#Object Not Found
@@ -3082,7 +3082,7 @@ common#:#passwd#:#Password
 common#:#passwd_generation#:#Password Generation
 common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.
 common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
-common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password. ### 2006-5-8 --- Content changed
+common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.
@@ -3200,7 +3200,7 @@ common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
 common#:#reg_mail_body_text2#:#To access ILIAS use the following data:
 common#:#reg_mail_body_text3#:#Further personal information:
 common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
-common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.
+common#:#reg_passwd_via_mail#:#Your password will be sent to your e-mail address given below.
 common#:#register#:#Register
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asterisk are required information).
 common#:#registered_since#:#Registered since
@@ -3229,7 +3229,7 @@ common#:#require_city#:#Require city
 common#:#require_country#:#Require country
 common#:#require_default_role#:#Require role
 common#:#require_department#:#Require department
-common#:#require_email#:#Require email
+common#:#require_email#:#Require e-mail
 common#:#require_fax#:#Require fax
 common#:#require_firstname#:#Require first name
 common#:#require_gender#:#Require gender
@@ -3271,7 +3271,7 @@ common#:#role_desk_none_created#:#No desktop items assigned to this role.
 common#:#role_edit#:#Edit Role
 common#:#role_header_edit_users#:#Change User Assignment
 common#:#role_list_users#:#List users
-common#:#role_mailto#:#Mail to all assigned Users
+common#:#role_mailto#:#E-Mail to all assigned Users
 common#:#role_new#:#New Role
 common#:#role_new_search#:#New search
 common#:#role_no_groups_selected#:#Please select a group
@@ -3376,9 +3376,9 @@ common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
-common#:#send_mail_admins#:#Mail to all administrators
-common#:#send_mail_members#:#Mail to all members
-common#:#send_mail_tutors#:#Mail to all tutors
+common#:#send_mail_admins#:#E-Mail to all administrators
+common#:#send_mail_members#:#E-Mail to all members
+common#:#send_mail_tutors#:#E-Mail to all tutors
 common#:#sender#:#Sender
 common#:#sent#:#Sent
 common#:#sequence#:#Sequence
@@ -3403,7 +3403,7 @@ common#:#shib_data_conv#:#Absolute path to data manipulation API
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read
 common#:#shib_department#:#Attribute for department
 common#:#shib_edit_permission#:#Change permission settings
-common#:#shib_email#:#Attribute for email address
+common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for firstname
 common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')
@@ -3519,7 +3519,7 @@ common#:#system_language#:#System Language
 common#:#system_message#:#System Messages
 common#:#system_style_settings#:#System Style Settings
 common#:#system_styles#:#System Styles
-common#:#table_mail_import#:#Mail import
+common#:#table_mail_import#:#E-Mail import
 common#:#target#:#Target
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#Add Taxonomy
@@ -3672,7 +3672,7 @@ common#:#user#:#User
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
+common#:#user_cant_receive_mail#:#user is not allowed to use the e-mail system
 common#:#user_comment#:#User comment
 common#:#user_defined_fields#:#User-defined Fields
 common#:#user_defined_list#:#Overview User-defined Fields
@@ -3684,12 +3684,12 @@ common#:#user_import_failed#:#User import failed.
 common#:#user_imported#:#User import complete.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
 common#:#user_language#:#User Language
-common#:#user_new_account_mail#:#New Account Mail
-common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.
+common#:#user_new_account_mail#:#New Account E-Mail
+common#:#user_new_account_mail_desc#:#This e-mail can be sent when an ILIAS user is created by other means then self-registration.
 common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_other#:#Other Information
-common#:#user_send_new_account_mail#:#Send new account mail
+common#:#user_send_new_account_mail#:#Send new account e-mail
 common#:#user_statistics#:#Statistical Data
 common#:#userdata#:#User data
 common#:#userfolder_export_csv#:#Comma Separated Values
@@ -3736,20 +3736,20 @@ common#:#usrf_write#:#Edit user accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database. ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database. ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database. ### 2006-5-8 --- Content changed
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ### 2006-5-8 --- Content changed
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action. ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database. 
+common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.
+common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
+common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
-common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action. ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
+common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
+common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.
 common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.
 common#:#valid#:#Valid
@@ -3828,11 +3828,11 @@ content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
 content#:#cont_Additional#:#Additional
 common#:#no_start_file#:#No Start File.
-content#:#cont_Alphabetic#:#Alphabetic a, b, ...  ### 2006-5-8 --- Content changed
+content#:#cont_Alphabetic#:#Alphabetic a, b, ... 
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_Code#:#Code
-content#:#cont_Example#:#e.g.  ### 2006-5-8 --- Content changed
+content#:#cont_Example#:#e.g. 
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
@@ -3844,7 +3844,7 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#cont_Roman#:#Roman i, ii, ...  ### 2006-5-8 --- Content changed
+content#:#cont_Roman#:#Roman i, ii, ...  
 content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
@@ -4068,7 +4068,7 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s". ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s". 
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
@@ -4279,9 +4279,9 @@ content#:#start export#:#Start Export
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#add_event#:#Add Session
 crs#:#assigned#:#Assigned
-crs#:#contact_email_not_valid#:#the contact email is not valid.
-crs#:#crs_accept_subscriber#:#Admission to course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s". ### 2006-5-8 --- Content changed
+crs#:#contact_email_not_valid#:#the contact e-mail is not valid.
+crs#:#crs_accept_subscriber#:#Admission to course "%s" 
+crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s". 
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Create a HTML Archive
@@ -4296,8 +4296,8 @@ crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items t
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
-crs#:#crs_added_member#:#Addmission to course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_added_member_body#:#You have been admitted to course "%s". ### 2006-5-8 --- Content changed
+crs#:#crs_added_member#:#Addmission to course "%s" 
+crs#:#crs_added_member_body#:#You have been admitted to course "%s". 
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
 crs#:#crs_added_starters#:#Assigned start object(s).
@@ -4323,15 +4323,15 @@ crs#:#crs_availability_limitless_info#:#Choose this mode for making the course a
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
 crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.
 crs#:#crs_blocked#:#Access refused
-crs#:#crs_blocked_member#:#Membership status in course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_blocked_member_body#:#Your membership for course "%s" has been blocked. ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription#:#Resigned from course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s". ### 2006-5-8 --- Content changed
+crs#:#crs_blocked_member#:#Membership status in course "%s" 
+crs#:#crs_blocked_member_body#:#Your membership for course "%s" has been blocked. 
+crs#:#crs_cancel_subscription#:#Resigned from course "%s" 
+crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s". 
 crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
 crs#:#crs_contact#:#Contact
 crs#:#crs_contact_consultation#:#Consultation
-crs#:#crs_contact_email#:#Mail
+crs#:#crs_contact_email#:#E-Mail
 crs#:#crs_contact_name#:#Name
 crs#:#crs_contact_phone#:#Telephone
 crs#:#crs_contact_responsibility#:#Responsibility
@@ -4352,8 +4352,8 @@ crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected o
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
 crs#:#crs_details#:#Course Details
-crs#:#crs_dismiss_member#:#Terminated membership for course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_dismiss_member_body#:#You membership for course "%s" has been terminated ### 2006-5-8 --- Content changed
+crs#:#crs_dismiss_member#:#Terminated membership for course "%s" 
+crs#:#crs_dismiss_member_body#:#You membership for course "%s" has been terminated!
 crs#:#crs_edit_archive#:#Edit Archives
 crs#:#crs_edit_content#:#Edit items
 crs#:#crs_edit_start_objects#:#Edit Start Objects
@@ -4425,7 +4425,7 @@ crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.
 crs#:#crs_materials#:#Course Materials
 crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_change_status#:#Change status
-crs#:#crs_mem_send_mail#:#Send mail
+crs#:#crs_mem_send_mail#:#Send e-mail
 crs#:#crs_member#:#Member
 crs#:#crs_member_administration#:#Edit Participants
 crs#:#crs_member_blocked#:#Member (blocked)
@@ -4444,10 +4444,10 @@ crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
 crs#:#crs_moved_objective#:#Moved learning objective.
 crs#:#crs_new_search#:#New search
-crs#:#crs_new_subscription#:#User joined course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_body#:#A user has joined course "%s". ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request#:#Request to join course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s". ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription#:#User joined course "%s" 
+crs#:#crs_new_subscription_body#:#A user has joined course "%s".
+crs#:#crs_new_subscription_request#:#Request to join course "%s" 
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s". 
 crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.
 crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
@@ -4535,7 +4535,7 @@ crs#:#crs_reg#:#Registration
 crs#:#crs_reg_deactivated#:#Disabled
 crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.
 crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.
-crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by e-mail about new registrations.
 crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
@@ -4550,8 +4550,8 @@ crs#:#crs_registration_deactivated#:#Choose this option for disabling course reg
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_type#:#Registration Procedure
 crs#:#crs_registration_unlimited#:#Unlimited Registration Period
-crs#:#crs_reject_subscriber#:#Declined for course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined. ### 2006-5-8 --- Content changed
+crs#:#crs_reject_subscriber#:#Declined for course "%s" 
+crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined.
 crs#:#crs_reset_results#:#Reset results
 crs#:#crs_role#:#Role
 crs#:#crs_role_status#:#Role / Status
@@ -4575,7 +4575,7 @@ crs#:#crs_show_link_objectives#:#Show objectives
 crs#:#crs_show_link_or#:#Show other resources
 crs#:#crs_show_link_tst#:#Show tests
 crs#:#crs_show_members#:#Show Members
-crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send mail to members feature.
+crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send e-mail to members feature.
 crs#:#crs_show_objectives_view#:#Objective view
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by Activation
@@ -4591,8 +4591,8 @@ crs#:#crs_start_objects#:#Start Objects
 crs#:#crs_starter_deleted#:#Removed assignment.
 crs#:#crs_starters_already_assigned#:#This object was already assigned.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Status in course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_status_changed_body#:#Your status in course "%s" has been changed. ### 2006-5-8 --- Content changed
+crs#:#crs_status_changed#:#Status in course "%s"
+crs#:#crs_status_changed_body#:#Your status in course "%s" has been changed.
 crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribers#:#Subscribers
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
@@ -4651,8 +4651,8 @@ crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
 crs#:#crs_tutors#:#Tutors
 crs#:#crs_unblocked#:#Free entrance
-crs#:#crs_unblocked_member#:#Status in course "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_unblocked_member_body#:#Your membership in course "%s" has been restored ### 2006-5-8 --- Content changed
+crs#:#crs_unblocked_member#:#Status in course "%s"
+crs#:#crs_unblocked_member_body#:#Your membership in course "%s" has been restored
 crs#:#crs_unlimited#:#Unlimited
 crs#:#crs_unsubscribe#:#Unsubscribe
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
@@ -4745,7 +4745,7 @@ crs#:#timings_timings#:#Timings
 crs#:#timings_timings_off#:#Switch Timings Administration Off
 crs#:#timings_timings_on#:#Switch Timings Administration On
 crs#:#timings_usr_edit#:#Edit Timings
-crs#:#tutor_email#:#Mail
+crs#:#tutor_email#:#E-Mail
 crs#:#tutor_firstname#:#Firstname
 crs#:#tutor_lastname#:#Lastname
 crs#:#tutor_name#:#Name
@@ -4881,7 +4881,7 @@ dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click
 dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
 dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.
 dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
-dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters. ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.
 dateplaner#:#help_properties_time#:#Display time for day view/week view
 dateplaner#:#help_properties_time_l#:#The standard display time for the day view and week view can be changed. If dates are outside of the display time for a given days or week, the display time will be changed for that time span. Standard is 8h -18h.
 dateplaner#:#help_rotation#:#Recurrence
@@ -4980,7 +4980,7 @@ exercise#:#exc_grading#:#Grading
 exercise#:#exc_mark#:#Mark
 exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Passed
-exercise#:#exc_send_mail#:#Send Mail
+exercise#:#exc_send_mail#:#Send E-Mail
 exercise#:#exc_your_submission#:#Your Submission
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
@@ -5062,8 +5062,8 @@ ilinc#:#ilinc_user_added#:#User account created on iLinc server
 ilinc#:#ilinc_user_id#:#iLinc UserID
 ilinc#:#ilinc_user_settings#:#iLinc User settings
 jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection. ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection. ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
+jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
 jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -5119,17 +5119,17 @@ jscalendar#:#time_part#:#(Shift-)Click or drag to change value
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-mail#:#also_as_email#:#Also as Email
+mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#BCC
 mail#:#forward#:#Forward
 mail#:#linebreak#:#Line break
-mail#:#mail_account_mail#:#Account Mail
-mail#:#mail_account_mail_check#:#Send Account Mail
+mail#:#mail_account_mail#:#Account E-Mail
+mail#:#mail_account_mail_check#:#Send Account E-Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_add_to_addressbook#:#Add to address book
-mail#:#mail_add_type#:#Please add the type of mail you want to send
+mail#:#mail_add_type#:#Please add the type of e-mail you want to send
 mail#:#mail_addr_entries#:#Entries
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
@@ -5138,11 +5138,11 @@ mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#The CC recipient is not valid
 mail#:#mail_cc_search#:#CC search
 mail#:#mail_change_to_folder#:#Switch to folder:
-mail#:#mail_check_your_email_addr#:#Your email address is not valid
+mail#:#mail_check_your_email_addr#:#Your e-mail address is not valid
 mail#:#mail_compose#:#Compose Message
-mail#:#mail_deleted#:#The mail is deleted
+mail#:#mail_deleted#:#The e-mail is deleted
 mail#:#mail_deleted_entry#:#The entries are deleted
-mail#:#mail_email_forbidden#:#You are not allowed to send email
+mail#:#mail_email_forbidden#:#You are not allowed to send e-mail
 mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
 mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
 mail#:#mail_enter_valid_login#:#Please enter a valid login name.
@@ -5160,21 +5160,21 @@ mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
-mail#:#mail_incoming#:#Incoming mail
+mail#:#mail_incoming#:#Incoming e-mail
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
-mail#:#mail_incoming_smtp#:#forward to email address
+mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_intern#:#Internal
-mail#:#mail_mark_read#:#Mark mail read
-mail#:#mail_mark_unread#:#Mark mail unread
+mail#:#mail_mark_read#:#Mark e-mail read
+mail#:#mail_mark_unread#:#Mark e-mail unread
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_message_send#:#Message sent
-mail#:#mail_move_error#:#Error moving mail
+mail#:#mail_move_error#:#Error moving e-mail
 mail#:#mail_move_to#:#Move to:
-mail#:#mail_moved#:#The mail has been moved
-mail#:#mail_moved_to_trash#:#Mail has been moved to trash
+mail#:#mail_moved#:#The e-mail has been moved
+mail#:#mail_moved_to_trash#:#E-Mail has been moved to trash
 mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.
 mail#:#mail_nacc_client_name#:#Client Name.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.
@@ -5190,12 +5190,12 @@ mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used
 mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
-mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external mail
+mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_s#:#Mail
-mail#:#mail_s_unread#:#Unread Mail
+mail#:#mail_s_unread#:#Unread E-Mail
 mail#:#mail_salutation_female#:#Salutation, female
 mail#:#mail_salutation_general#:#Salutation, general
 mail#:#mail_salutation_male#:#Salutation, male
@@ -5205,13 +5205,13 @@ mail#:#mail_search_system#:#search in system
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
 mail#:#mail_send_with_system_address#:#Send With System Address
-mail#:#mail_sure_delete#:#Are sure you want to delete the marked mail
+mail#:#mail_sure_delete#:#Are sure you want to delete the marked e-mail
 mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
 mail#:#mail_to#:#To
 mail#:#mail_to_search#:#To search
-mail#:#mail_user_addr_n_valid#:#Following users have no valid email address
+mail#:#mail_user_addr_n_valid#:#Following users have no valid e-mail address
 mail#:#search_bc_recipient#:#Search BCC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 meta#:#md_days#:#Days:
@@ -5783,12 +5783,12 @@ payment#:#pay_bmf_check_number#:#Check number
 payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.
 payment#:#pay_bmf_credit_card#:#Credit card
 payment#:#pay_bmf_credit_card_data#:#Credit card
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.
 payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)
 payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds. ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds. ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
+payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
 payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
 payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
 payment#:#pay_bmf_house_number#:#House number
@@ -5994,21 +5994,21 @@ payment#:#price_a#:#Price
 payment#:#prices#:#Prices
 payment#:#update#:#Update
 pwassist#:#password_assistance#:#Password Assistance
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated email address in the fields shown below.\nILIAS will send a message to that email address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an email to %1$s. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.\nILIAS will send an e-mail to that address. The e-mail contains all usernames which have registered this e-mail address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and email address you have entered do not match an entry in the database. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_email#:#Please correct your e-mail address.\nThe given e-mail address could not be found in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
-pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this e-mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your e-mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s". ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been emailed to you more than once, or because too much time has passed since the link has been sent to you. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.
+pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
+pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
+pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
 rbac#:#edit_learning_progress#:#Edit learning progress
 rbac#:#filter_all_roles#:#Show all roles of current context
 rbac#:#filter_global_roles#:#Show only global roles
@@ -6046,15 +6046,15 @@ registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_role_assignment#:#Role Assignment By Domain
 registration#:#reg_fixed#:#Selection From Specified List
 registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.
-registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.
+registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a e-mail with your account data. Now your account has been activated by an administrator.
 registration#:#reg_mail_body_profile#:#Profile data:
 registration#:#reg_mail_body_profile_changed#:#your profile has changed !
-registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.
+registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by e-mail.
 registration#:#reg_mail_new_user_body#:#A new user has been registered.
 registration#:#reg_missing_domain#:#Please fill out all fields.
 registration#:#reg_missing_role#:#Please fill out all fields.
 registration#:#reg_notification#:#Notifications
-registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.
+registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per e-mail.
 registration#:#reg_role_assignment#:#Role Assignment
 registration#:#reg_role_info#:#Assigned Roles
 registration#:#reg_select_one#:#Please select one entry.
@@ -6226,10 +6226,10 @@ survey#:#add_standard_numbers#:#Add Standard Numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below. ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS e-mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
 survey#:#anonymize_personalized#:#Personalized Survey
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
-survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
+survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS e-mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize Survey Data
 survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
@@ -6577,7 +6577,7 @@ survey#:#spl_select_file_for_import#:#You must select a file for import!
 survey#:#start_date#:#Start Date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start Survey
-survey#:#subject_mail_survey_id#:#Your survey code for "%s" ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Your survey code for "%s"
 survey#:#subtype#:#Subtype
 survey#:#survey_code#:#Survey Access Code
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
@@ -6636,7 +6636,7 @@ survey#:#svy_status_missing_elements#:#The following elements are missing:
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
+survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS e-mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
 survey#:#title_resume_survey#:#Resume the Survey - Enter Survey Code
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
@@ -6859,7 +6859,7 @@ trac#:#trac_time_passed#:#Editing Time Exceeded
 trac#:#trac_total_online#:#Total time online
 trac#:#trac_update_edit_user#:#Saved settings
 trac#:#trac_updated_status#:#Saved learning progress status.
-trac#:#trac_user_data#:#User Data ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_user_data#:#User Data
 trac#:#trac_usr_list#:#Users
 trac#:#trac_valid_request#:#Max. time between requests
 trac#:#trac_view_crs#:#Back to course
@@ -6896,7 +6896,7 @@ chat#:#chat_server_ssl_active#:#SSL active
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.
 exercise#:#exc_crs_add_members#:#Add students of this course
-common#:#mail_settings#:#Mail Settings
+common#:#mail_settings#:#E-Mail Settings
 common#:#my_courses#:#My Courses
 mail#:#mail_list_members#:#List members
 mail#:#mail_members_added_addressbook#:#Members added to addressbook
