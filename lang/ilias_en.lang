@@ -2825,8 +2825,8 @@ news#:#news_public_feed#:#Extra Feed URL
 news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.
 news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 feed#:#feed_feed_items#:#Feed Item(s)
-feed#:#feed_enable_rep_feeds#:#Enable Exernal Web Feeds in Categories
-feed#:#feed_enable_rep_feeds_info#:#Activates external web feeds in categories.
+feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories
+feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing external web feed blocks, in case of an unexpected problem due to an external feed source.
 feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop
 feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.
 feed#:#feed_settings#:#External Web Feeds Settings
@@ -2864,6 +2864,7 @@ gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need
 gmaps#:#gmaps_std_location#:#Default Location
 gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.
 common#:#next#:#Next
+common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.
 common#:#delicious#:#del.icio.us Account
 common#:#select_page#:#Select Page
 common#:#nickname#:#Nickname

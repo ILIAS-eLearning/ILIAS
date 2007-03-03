@@ -59,45 +59,45 @@ class ilUserAgreement
 	{
 		global $lng, $ilias, $ilLog;
 	
-		$tmpPath = getcwd();
-		$tmpsave = getcwd();
 		
 		// 1st try: client specific / user language agreement
-		$client_dir = ilUtil::getWebspaceDir()."/agreement/";
-		$agreement = $client_dir."agreement_".$lng->lang_key.".html";
+		$agreement = "./Customizing/clients/".CLIENT_ID."/agreement/".
+			"agreement_".$lng->lang_key.".html";
 	
 		// 2nd try: client specific / default language
 		if (!file_exists($agreement))
 		{
-			$agreement = $client_dir."agreement_".$lng->lang_default.".html";
+			$agreement = "./Customizing/clients/".CLIENT_ID."/agreement/".
+				"agreement_".$lng->lang_default.".html";
 		}
 	
 		// 3rd try: client specific / english
 		if (!file_exists($agreement))
 		{
-			$agreement = $client_dir."agreement_en.html";
+			$agreement = "./Customizing/clients/".CLIENT_ID."/agreement/".
+				"agreement_en.html";
 		}
 		
 		// 4th try: global / user language
 		if (!file_exists($agreement))
 		{
-			$agrPath = $tmpPath."/agreement";
-			chdir($agrPath);
-			$agreement = "agreement_".$lng->lang_key.".html";
+			$agreement = "./Customizing/global/agreement/".
+				"agreement_".$lng->lang_key.".html";
 		}
 	
 		// 5th try: global / default language
 		if (!file_exists($agreement))
 		{
-			$ilLog->write("view_usr_agreement.php: Agreement file ".$agreement." has not been found (user language).");
-			$agreement = "agreement_".$lng->lang_default.".html";
+			$agreement = "./Customizing/global/agreement/".
+				"agreement_".$lng->lang_default.".html";
 		}
 	
 		// last try: global / english
 		if (!file_exists($agreement))
 		{
-			$ilLog->write("view_usr_agreement.php: Agreement file ".$agreement." has not been found (system language).");
-			$agreement = "agreement_en.html";
+			$ilLog->write("view_usr_agreement.php: Agreement file "."agreement_".$lng->lang_default.".html"." has not been found (system language).");
+			$agreement = "./Customizing/global/agreement/".
+				"agreement_en.html";
 		}
 		
 		if (file_exists($agreement))
@@ -108,21 +108,11 @@ class ilUserAgreement
 				{
 					$text .= trim(nl2br($val));
 				}
-				chdir($tmpsave);
 				return $text;
 			}
-			else
-			{
-				$ilias->raiseError($lng->txt("usr_agreement_empty"),$ilias->error_obj->MESSAGE);
-			}
 		}
-		else
-		{
-			$ilias->raiseError($lng->txt("file_not_found").": ".$agreement,
-				$ilias->error_obj->MESSAGE);
-		}
-	
-		chdir($tmpsave);
+		
+		return "<br />".$lng->txt("no_agreement_description")."<br /><br />";
 	}
 }
 ?>

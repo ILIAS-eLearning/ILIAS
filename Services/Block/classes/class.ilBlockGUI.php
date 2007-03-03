@@ -527,13 +527,15 @@ abstract class ilBlockGUI
 	/**
 	* Add a footer text/link
 	*/
-	function addFooterLink($a_text, $a_href = "", $a_onclick = "", $a_block_id = "")
+	function addFooterLink($a_text, $a_href = "", $a_onclick = "", $a_block_id = "",
+		$a_top = false)
 	{
 		$this->footer_links[] = array(
 			"text" => $a_text,
 			"href" => $a_href,
 			"onclick" => $a_onclick,
-			"block_id" => $a_block_id);
+			"block_id" => $a_block_id,
+			"top" => $a_top);
 	}
 
 	/**
@@ -668,7 +670,10 @@ abstract class ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// fill footer row
+		// fill previous next
+		$this->fillPreviousNext();
+
+		// fill footer
 		$this->fillFooter();
 		
 		// fill row for setting details
@@ -839,6 +844,10 @@ abstract class ilBlockGUI
 		}
 	}
 	
+	function fillFooter()
+	{
+	}
+	
 	final protected function fillRowColor($a_placeholder = "CSS_ROW")
 	{
 		$this->css_row = ($this->css_row != "tblrow1")
@@ -848,16 +857,17 @@ abstract class ilBlockGUI
 	}
 
 	/**
-	* Fill footer row
+	* Fill previous/next row
 	*/
-	function fillFooter()
+	function fillPreviousNext()
 	{
 		global $lng, $ilCtrl;
 
-		$footer = false;
+		$pn = false;
 				
-		// table footer numinfo
-		if ($this->getEnableNumInfo())
+		// table pn numinfo
+		$numinfo = "";
+		if ($this->getEnableNumInfo() && $this->max_count > 0)
 		{
 			$start = $this->getOffset() + 1;				// compute num info
 			$end = $this->getOffset() + $this->getLimit();
@@ -868,29 +878,11 @@ abstract class ilBlockGUI
 			}
 				
 			$numinfo = "(".$start."-".$end." ".strtolower($lng->txt("of"))." ".$this->max_count.")";
-	
-			if ($this->max_count > 0)
-			{
-				$this->tpl->setVariable("NUMINFO", $numinfo);
-			}
-			$footer = true;
 		}
 
-		// table footer linkbar
-		if ($this->getLimit()  != 0
-			 && $this->max_count > 0)
-		{
-			$this->setFooterLinks();
-			$this->fillFooterLinks();
-			$footer = true;
-		}
+		$this->setPreviousNextLinks();
+		$this->fillFooterLinks(true, $numinfo);
 
-		if ($footer)
-		{
-			$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
-			$this->tpl->setCurrentBlock("block_footer");
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 
 	/**
@@ -900,12 +892,12 @@ abstract class ilBlockGUI
 	*
 	* @return	array	linkbar or false on error
 	*/
-	function setFooterLinks()
+	function setPreviousNextLinks()
 	{
 		global $ilCtrl, $lng;
 		
 		// if more entries then entries per page -> show link bar
-		if ($this->max_count > $this->getLimit())
+		if ($this->max_count > $this->getLimit() && ($this->getLimit() != 0))
 		{
 			// previous link
 			if ($this->getOffset() >= 1)
@@ -928,7 +920,7 @@ abstract class ilBlockGUI
 				$href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
 				$text = $lng->txt("previous");
 				
-				$this->addFooterLink($text, $href, $onclick, $block_id);
+				$this->addFooterLink($text, $href, $onclick, $block_id, true);
 			}
 
 			// calculate number of pages
@@ -949,11 +941,11 @@ abstract class ilBlockGUI
 				// ajax link
 				$ilCtrl->setParameterByClass("ilcolumngui",
 					"block_id", "block_".$this->getBlockType()."_".$this->block_id);
-				$this->tpl->setCurrentBlock("fonclick");
+				//$this->tpl->setCurrentBlock("pnonclick");
 				$block_id = "block_".$this->getBlockType()."_".$this->block_id;
 				$onclick = $ilCtrl->getLinkTargetByClass("ilcolumngui",
 					"updateBlock", "", true);
-				$this->tpl->parseCurrentBlock();
+				//$this->tpl->parseCurrentBlock();
 				$ilCtrl->setParameterByClass("ilcolumngui",
 					"block_id", "");
 
@@ -961,7 +953,7 @@ abstract class ilBlockGUI
 				$href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
 				$text = $lng->txt("next");
 
-				$this->addFooterLink($text, $href, $onclick, $block_id);
+				$this->addFooterLink($text, $href, $onclick, $block_id, true);
 			}
 			$ilCtrl->setParameterByClass("ilcolumngui",
 				$this->getNavParameter(), "");
@@ -978,25 +970,32 @@ abstract class ilBlockGUI
 	*
 	* @return	array	linkbar or false on error
 	*/
-	function fillFooterLinks()
+	function fillFooterLinks($a_top = false, $a_numinfo = "")
 	{
 		global $ilCtrl, $lng;
-		
+
 		$first = true;
 		$flinks = $this->getFooterLinks();
+		
+		$prefix = ($a_top) ? "top" : "foot";
 
 		foreach($flinks as $flink)
 		{
+			if ($flink["top"] != $a_top)
+			{
+				continue;
+			}
+			
 			if (!$first)
 			{
-				$this->tpl->touchBlock("foot_delim");
-				$this->tpl->touchBlock("foot_item");
+				$this->tpl->touchBlock($prefix."_delim");
+				$this->tpl->touchBlock($prefix."_item");
 			}
 
 			// ajax link
 			if ($flink["onclick"] != "")
 			{
-				$this->tpl->setCurrentBlock("fonclick");
+				$this->tpl->setCurrentBlock($prefix."_onclick");
 				$this->tpl->setVariable("OC_BLOCK_ID",
 					$flink["block_id"]);
 				$this->tpl->setVariable("OC_HREF",
@@ -1008,30 +1007,34 @@ abstract class ilBlockGUI
 			if ($flink["href"] != "")
 			{
 				// normal link
-				$this->tpl->setCurrentBlock("foot_link");
+				$this->tpl->setCurrentBlock($prefix."_link");
 				$this->tpl->setVariable("FHREF",
 					$flink["href"]);
 				$this->tpl->setVariable("FLINK", $flink["text"]);
 				$this->tpl->parseCurrentBlock();
-				$this->tpl->touchBlock("foot_item");
+				$this->tpl->touchBlock($prefix."_item");
 			}
 			else
 			{
-				$this->tpl->setCurrentBlock("foot_text");
+				$this->tpl->setCurrentBlock($prefix."_text");
 				$this->tpl->setVariable("FTEXT", $flink["text"]);
 				$this->tpl->parseCurrentBlock();
-				$this->tpl->touchBlock("foot_item");
+				$this->tpl->touchBlock($prefix."_item");
 			}
 			$first = false;
 		}
-		
-		if ($first)
+
+		if ($a_numinfo != "")
 		{
-			return false;
+			$this->tpl->setVariable("NUMINFO", $a_numinfo);
+			$first = false;
 		}
-		else
+
+		if (!$first)
 		{
-			return true;
+			$this->tpl->setVariable("PCOLSPAN", $this->getColSpan());
+			$this->tpl->setCurrentBlock($prefix."_row");
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 

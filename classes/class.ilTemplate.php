@@ -51,7 +51,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	var $activeBlock;
 	
-	var $js_files = array();		// list of JS files that should be included
+	var $js_files = array("./Services/Javascript/js/Basic.js");		// list of JS files that should be included
 	var $css_files = array();		// list of css files that should be included
 
 	/**
@@ -754,31 +754,36 @@ class ilTemplate extends ilTemplateX
 
 		if (strpos($a_tplname,"/") === false)
 		{
+			$module_path = "";
+			
 			//$fname = $ilias->tplPath;
-			$base = "./";
 			if ($a_in_module)
 			{
 				if ($a_in_module === true)
 				{
-					$base.= ILIAS_MODULE."/";
+					$module_path = ILIAS_MODULE."/";
 				}
 				else
 				{
-					$base.= $a_in_module."/";
+					$module_path = $a_in_module."/";
 				}
 			}
-			$base .= "templates/";
-			$fname = $base.$ilias->account->skin."/".basename($a_tplname);
-			//echo "looking for :$fname:<br>";
-			if(!file_exists($fname))
+
+			if ($ilias->account->skin != "default")
 			{
-				$fname = $base."default/".basename($a_tplname);
+				$fname = "./Customizing/global/skin/".
+					$ilias->account->skin."/".$module_path.basename($a_tplname);
+			}
+			if($fname == "" || !file_exists($fname))
+			{
+				$fname = "./".$module_path."templates/default/".basename($a_tplname);
 			}
 		}
 		else
 		{
 			$fname = $a_tplname;
 		}
+		
 		return $fname;
 	}
 	

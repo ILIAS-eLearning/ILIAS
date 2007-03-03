@@ -142,8 +142,6 @@ class ilEventAdministrationGUI
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$this->tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
-
 
 		$tpl = new ilTemplate('tpl.event_members_print.html',true,true,'Modules/Course');
 

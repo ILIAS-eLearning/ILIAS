@@ -61,6 +61,26 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	}
 
 	/**
+	* Set Current Item Number.
+	*
+	* @param	int	$a_currentitemnumber	Current Item Number
+	*/
+	function setCurrentItemNumber($a_currentitemnumber)
+	{
+		$this->currentitemnumber = $a_currentitemnumber;
+	}
+
+	/**
+	* Get Current Item Number.
+	*
+	* @return	int	Current Item Number
+	*/
+	function getCurrentItemNumber()
+	{
+		return $this->currentitemnumber;
+	}
+
+	/**
 	* Get block type
 	*
 	* @return	string	Block type.
@@ -100,6 +120,40 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	*/
 	function fillFooter()
 	{
+		//$this->fillFooterLinks();
+		global $lng, $ilCtrl;
+
+		$footer = false;
+		
+		if (is_array($this->data))
+		{
+			$this->max_count = count($this->data);
+		}
+				
+		// table footer numinfo
+		if ($this->getEnableNumInfo())
+		{
+			$numinfo = "(".$this->getCurrentItemNumber()." ".
+				strtolower($lng->txt("of"))." ".$this->max_count.")";
+	
+			if ($this->max_count > 0)
+			{
+				$this->tpl->setVariable("NUMINFO", $numinfo);
+			}
+			$footer = true;
+		}
+
+		{
+			$this->fillFooterLinks();
+			$footer = true;
+		}
+
+		if ($footer)
+		{
+			$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
+			$this->tpl->setCurrentBlock("block_footer");
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 }
 

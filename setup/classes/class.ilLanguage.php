@@ -102,6 +102,7 @@ class ilLanguage
 		$this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
 		//$_GET["lang"] = $this->lang_key;  // only for downward compability (old setup)
 		$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
+		$this->cust_lang_path = ILIAS_ABSOLUTE_PATH."/Customizing/global/lang";
 
 		// set lang file...
 		$txt = file($this->lang_path."/setup_lang_sel_multi.lang");
@@ -406,9 +407,15 @@ class ilLanguage
 				$scopeExtension = '.' . $scope;
 			}
 		}
+		
+		$path = $this->lang_path;
+		if ($scope == "local")
+		{
+			$path = $this->cust_lang_path;
+		}
 
 		$tmpPath = getcwd();
-		chdir($this->lang_path);
+		chdir($path);
 
 		// compute lang-file name format
 		$lang_file = "ilias_" . $a_lang_key . ".lang" . $scopeExtension;
@@ -504,8 +511,14 @@ class ilLanguage
 			}
 		}
 
+		$path = $this->lang_path;
+		if ($scope == "local")
+		{
+			$path = $this->cust_lang_path;
+		}
+		
 		$tmpPath = getcwd();
-		chdir($this->lang_path);
+		chdir($path);
 
 		$lang_file = "ilias_" . $lang_key . ".lang" . $scopeExtension;
 
@@ -589,9 +602,9 @@ class ilLanguage
 	function getLocalLanguages()
 	{
 		$local_langs = array();
-		$d = dir($this->lang_path);
+		$d = dir($this->cust_lang_path);
 		$tmpPath = getcwd();
-		chdir ($this->lang_path);
+		chdir ($this->cust_lang_path);
 
 		// get available .lang.local files
 		while ($entry = $d->read())

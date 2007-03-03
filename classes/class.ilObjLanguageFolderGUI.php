@@ -112,11 +112,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 					break;
 			}
 
-			if (file_exists(ilUtil::getWebspaceDir()."/agreement/agreement_".$lang_key.".html"))
+			if (file_exists("./Customizing/clients/".CLIENT_ID."/agreement/".
+				"agreement_".$lang_key.".html"))
 			{
 				$agreement_exists_str = $this->lng->txt("available")." (".$this->lng->txt("client").")";
 			}
-			else if (file_exists("./agreement/agreement_".$lang_key.".html"))
+			else if (file_exists("./Customizing/global/agreement/".
+				"agreement_".$lang_key.".html"))
 			{
 				$agreement_exists_str = $this->lng->txt("available");
 			}

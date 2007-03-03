@@ -3,7 +3,7 @@
 	<style 	name = "Delos"
 			id = "delos"
 			image_directory = "."/>
-	<style 	name = "Blue Shadow"
+	<!-- <style 	name = "Blue Shadow"
 			id = "blueshadow"
-			image_directory = "blueshadow" />
+			image_directory = "blueshadow" /> -->
 </template>
