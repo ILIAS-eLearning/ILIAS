@@ -37,6 +37,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 class ilNewsForContextBlockGUI extends ilBlockGUI
 {
 	static $block_type = "news";
+	static $st_data;
 	
 	/**
 	* Constructor
@@ -58,24 +59,33 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
 		$this->setEnableNumInfo(true);
-		if ($ilCtrl->getContextObjType() ==  "crs" ||
+		
+		if (!empty(self::$st_data))
+		{
+			$data = self::$st_data;
+		}
+		else if ($ilCtrl->getContextObjType() ==  "crs" ||
 			$ilCtrl->getContextObjType() ==  "grp")
 		{
 			$data = $news_item->getAggregatedNewsData($_GET["ref_id"]);
+			self::$st_data = $data;
 		}
 		else if ($ilCtrl->getContextObjType() ==  "cat")
 		{
 			$data = $news_item->getAggregatedChildNewsData($_GET["ref_id"]);
+			self::$st_data = $data;
 		}
 		else
 		{
 			$data = $news_item->queryNewsForContext();
+			self::$st_data = $data;
 		}
 		
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
 		$this->allow_moving = false;
+		$this->handleView();
 	}
 		
 	/**
@@ -194,8 +204,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$this->setTitle($this->getProperty("title"));
 		}
-
-		$this->handleView();
 		
 		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
 			0, $this->block_id);
@@ -407,7 +415,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$txt = in_array($obj_type, array("sahs", "lm", "dbk", "htlm"))
 				? "lres"
 				: "obj_".$obj_type;
-			$tpl->setVariable("TXT_LINK", $lng->txt($txt).": ".ilObject::_lookupTitle($obj_id));
+			$tpl->setVariable("ALT_LINK", $lng->txt($txt));
+			$tpl->setVariable("TXT_LINK", ilObject::_lookupTitle($obj_id));
+			$tpl->setVariable("IMG_LINK", ilUtil::getImagePath("icon_".$obj_type."_s.gif"));
 			$tpl->parseCurrentBlock();
 		}
 		if ($news->getContentIsLangVar())
@@ -435,6 +445,48 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
+
+		// previous / next item
+		$previous = $next = "";
+		$c = current($this->data);
+		$curr_cnt = 1;
+		while($c["id"] > 0 &&
+			 $c["id"] != $_GET["news_id"])
+		{
+			$previous = $c;
+			$c = next($this->data);
+			$curr_cnt++;
+		}
+		
+		// previous
+		if ($previous != "")
+		{
+			if ($previous["ref_id"] > 0 && $previous["ref_id"] != $_GET["ref_id"])
+			{
+				$ilCtrl->setParameter($this, "news_context", $previous["ref_id"]);
+			}
+			$ilCtrl->setParameter($this, "news_id", $previous["id"]);
+			$content_block->addFooterLink($lng->txt("previous"),
+				$ilCtrl->getLinkTarget($this, "showNews"));
+			$ilCtrl->setParameter($this, "news_context", "");
+		}
+		
+		// next
+		if ($c = next($this->data))
+		{
+			if ($c["ref_id"] > 0 && $c["ref_id"] != $_GET["ref_id"])
+			{
+				$ilCtrl->setParameter($this, "news_context", $c["ref_id"]);
+			}
+			$ilCtrl->setParameter($this, "news_id", $c["id"]);
+			$content_block->addFooterLink($lng->txt("next"),
+				$ilCtrl->getLinkTarget($this, "showNews"));
+		}
+		$ilCtrl->setParameter($this, "news_context", "");
+		$ilCtrl->setParameter($this, "news_id", "");
+		$content_block->setCurrentItemNumber($curr_cnt);
+		$content_block->setEnableNumInfo(true);
+		$content_block->setData($this->getData());
 
 		return $content_block->getHTML();
 	}
@@ -510,9 +562,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 
 		$this->fillFooterLinks();
-		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
-		$this->tpl->setCurrentBlock("block_footer");
-		$this->tpl->parseCurrentBlock();
 	}
 	
 	function showNotifications()

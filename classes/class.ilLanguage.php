@@ -159,13 +159,14 @@ class ilLanguage
 		$this->lang_key = $a_lang_key;
 		$this->text = array();
 		$this->loaded_modules = array();
-		$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
+		//$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
 
 		// if no directory was found fall back to default lang dir
-		if (!is_dir($this->lang_path))
-		{
+		//if (!is_dir($this->lang_path))
+		//{
 			$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
-		}
+		//}
+		$this->cust_lang_path = ILIAS_ABSOLUTE_PATH."/Customizing/global/lang";
 
 		$this->lang_default = $this->ilias->ini->readVariable("language","default");
 		$this->lang_user = $this->ilias->account->prefs["language"];

@@ -335,7 +335,6 @@ class ilMainMenuGUI
 	
 	
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-			//$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
 	
 			$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 	

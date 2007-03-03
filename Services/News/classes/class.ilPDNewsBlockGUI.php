@@ -36,6 +36,7 @@ include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
 class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 {
 	static $block_type = "pdnews";
+	static $st_data;
 	
 	/**
 	* Constructor
@@ -50,8 +51,19 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
 		$lng->loadLanguageModule("news");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
-		
-		$data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
+
+		// do not ask two times for the data (e.g. if user displays a 
+		// single item on the personal desktop and the news block is 
+		// displayed at the same time)
+		if (empty(self::$st_data))
+		{
+			self::$st_data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
+			$data = self::$st_data;
+		}
+		else
+		{
+			$data = self::$st_data;
+		}
 
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
@@ -59,6 +71,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
+		$this->handleView();
 	}
 	
 	/**
@@ -143,8 +156,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
-		
-		$this->handleView();
 		
 		// show feed url
 		$this->addBlockCommand(

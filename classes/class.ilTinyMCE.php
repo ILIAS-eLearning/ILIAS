@@ -192,14 +192,14 @@ class ilTinyMCE
 	{
 		global $ilUser;
 		$lang = $ilUser->getLanguage();
-		if (file_exists(ilUtil::getJSPath("tiny_mce/langs/$lang.js")))
-		{
-			return "$lang";
-		}
-		else
-		{
+		//if (file_exists(ilUtil::getJSPath("tiny_mce/langs/$lang.js")))
+		//{
+		//	return "$lang";
+		//}
+		//else
+		//{
 			return "en";
-		}
+		//}
 	}
 
 	function _getValidElementsFromHTMLTags($a_html_tags)

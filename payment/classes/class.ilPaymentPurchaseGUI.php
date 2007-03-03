@@ -345,7 +345,6 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 	function __buildStylesheet()
 	{
 		$this->tpl->setVariable("LOCATION_STYLESHEET",ilUtil::getStyleSheetLocation());
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT",ilUtil::getJSPath('functions.js'));
 	}
 
 	

@@ -225,7 +225,9 @@ class ilObjUser extends ilObject
 			}
 
 			//check skin-setting
-			if ($this->prefs["skin"] == "" || file_exists($this->ilias->tplPath."/".$this->prefs["skin"]) == false)
+			include_once("./classes/class.ilStyleDefinition.php");
+			if ($this->prefs["skin"] == "" || 
+				!ilStyleDefinition::skinExists($this->prefs["skin"]))
 			{
 				$this->prefs["skin"] = $this->oldPrefs["skin"];
 			}
@@ -233,7 +235,8 @@ class ilObjUser extends ilObject
 			$this->skin = $this->prefs["skin"];
 
 			//check style-setting (skins could have more than one stylesheet
-			if ($this->prefs["style"] == "" || !file_exists($this->ilias->tplPath."/".$this->skin."/".$this->prefs["style"].".css"))
+			if ($this->prefs["style"] == "" || 
+				!ilStyleDefinition::skinExists($this->skin, $this->prefs["style"]))
 			{
 				//load default (css)
 		 		$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");

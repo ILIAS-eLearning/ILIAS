@@ -1055,7 +1055,6 @@ class ilInitialisation
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 
 		// Init Navigation History
 		$ilNavigationHistory = new ilNavigationHistory();

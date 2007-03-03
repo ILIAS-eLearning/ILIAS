@@ -543,13 +543,13 @@ class ilColumnGUI
 						
 						// check blocks that can be globally (de-)activated
 						$activated = true;
-						if ($block_type == "feed")
-						{
-							if (!$ilSetting->get("block_activated_".$block_type))
-							{
-								$activated = false;
-							}
-						}
+						//if ($block_type == "feed")
+						//{
+						//	if (!$ilSetting->get("block_activated_".$block_type))
+						//	{
+						//		$activated = false;
+						//	}
+						//}
 						if ($block_type == "pdfeed")		// maximum number
 						{
 							//if ($ilSetting->get("block_max_nr_".$block_type) >=
@@ -787,13 +787,13 @@ class ilColumnGUI
 	
 				// check blocks that can be globally (de-)activated
 				$activated = true;
-				if ($type == "feed")
-				{
-					if (!$ilSetting->get("block_activated_".$type))
-					{
-						$activated = false;
-					}
-				}
+				//if ($type == "feed")
+				//{
+				//	if (!$ilSetting->get("block_activated_".$type))
+				//	{
+				//		$activated = false;
+				//	}
+				//}
 				
 				if ($activated)
 				{
@@ -839,13 +839,13 @@ class ilColumnGUI
 		
 					// check blocks that can be globally (de-)activated
 					$activated = true;
-					if ($type == "feed")
-					{
-						if (!$ilSetting->get("block_activated_".$type))
-						{
-							$activated = false;
-						}
-					}
+					//if ($type == "feed")
+					//{
+					//	if (!$ilSetting->get("block_activated_".$type))
+					//	{
+					//		$activated = false;
+					//	}
+					//}
 					
 					if ($activated)
 					{

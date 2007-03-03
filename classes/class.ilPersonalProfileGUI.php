@@ -697,7 +697,7 @@ class ilPersonalProfileGUI
 					}
 		
 					$this->tpl->setCurrentBlock("selectskin");
-			
+//echo "-".$ilUser->skin."-".$ilUser->prefs["style"]."-";
 					if ($ilUser->skin == $template["id"] &&
 						$ilUser->prefs["style"] == $style["id"])
 					{

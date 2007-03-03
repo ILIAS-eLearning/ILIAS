@@ -65,72 +65,49 @@ class ilUtil
 	* @param	boolean		should be set to true, if the image is within a module
 	*						template directory (e.g. content/templates/default/images/test.gif)
 	*/
-	function getImagePath($img, $in_module = false, $mode = "output", $offline = false)
+	function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
 	{
 		global $ilias, $styleDefinition, $ilCtrl;
 
-		if(defined("ILIAS_MODULE") and $mode != "filesystem")
+		if ($module_path != "")
 		{
-			// added to find path for MODULES like Services/Search
-			$base = '';
-			for($i = 1;$i < count(explode('/',ILIAS_MODULE));$i++)
-			{
-				$base .= "../";
-			}
-
-			$dir .= ($base.".");
-			// hschottm: added because module images are not working
-			// using ilias.php
-//			if (strlen($base) == 0) $dir = "";
+			$module_path = "/".$module_path;
 		}
-		else
-		{
-			$dir = "";
-		}
-		$base = "./";
-		if ($in_module)
-		{
-			// if baseClass functionality is used (ilias.php):
-			// get template directory from ilCtrl
-			if (!empty($_GET["baseClass"]))
-			{
-				$base.= $ilCtrl->getModuleDir()."/";
-			}
-			else
-			{
-				if(defined("ILIAS_MODULE"))
-				{
-					$base.= ILIAS_MODULE."/";
-				}
-			}
-		}
-		$base .= "templates/";
+		
+		// default image
+		$default_img = ".".$module_path."/templates/default/images/".$img;
+		
 		if (is_object($styleDefinition))
 		{
-
-			$st_image_dir = $styleDefinition->getImageDirectory($ilias->account->prefs["style"]);
-			#var_dump("<pre>",$st_image_dir,$ilias->account->prefs["style"],"<pre>");
-
-			$user_skin_and_style = $base.$ilias->account->skin."/".
-			$st_image_dir.
-			"/images/".$img;
+			$image_dir = $styleDefinition->getImageDirectory($ilias->account->prefs["style"]);
 		}
-		$user_skin = $base.$ilias->account->skin."/images/".$img;
-		$default = $base."default/images/".$img;
+		if ($ilUser->skin == "default")
+		{
+			$user_img = ".".$module_path."/templates/default/".$image_dir."/".$img;
+			$skin_img = ".".$module_path."/templates/default/images/".$img;
+		}
+		else if (is_object($styleDefinition) && $ilUser->skin != "default")
+		{
+			$user_img = "./Customizing/global/skin/".
+				$ilias->account->skin.$module_path."/".$image_dir."/".$img;
+			$skin_img = "./Customizing/global/skin/".
+				$ilias->account->skin.$module_path."/images/".$img;
+		}
+
 		if ($offline)
 		{
 			return "./images/".$img;
 		}
-		else if (@file_exists($user_skin_and_style) && $st_image_dir != "")
+		else if (@file_exists($user_img) && $image_dir != "")
 		{
-			return $dir.$user_skin_and_style;
+			return $user_img;		// found image for skin and style
 		}
-		else if (file_exists($user_skin))
+		else if (file_exists($skin_img))
 		{
-			return $dir.$user_skin;
+			return $skin_img;		// found image in skin/images
 		}
 
-		return $dir.$default;
+		return $default_img;			// take image in default
 	}
 
     /**
@@ -156,47 +133,6 @@ class ilUtil
     }
 
 	/**
-	* Get the full JavaScript path for a JavaScript file name
-	*
-	* Get the full JavaScript path for a JavaScript file name
-	* This function first tries to find the file in templates/skin/style,
-	* then in templates/skin and then in templates/default
-	*
-	* @access	public
-	*/
-	function getJSPath($a_js)
-	{
-		global $ilias;
-
-		if(defined("ILIAS_MODULE"))
-		{
-			$dir = ".";
-		}
-		else
-		{
-			$dir = "";
-		}
-		$in_style = "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."/".$a_js;
-		$in_skin = "./templates/".$ilias->account->skin."/".$a_js;
-		$default = "./templates/default/".$a_js;
-		if(@is_file($in_style))
-		{
-			return $dir.$in_style;
-		}
-		else
-		{
-			if (@is_file($in_skin))
-			{
-				return $dir.$in_skin;
-			}
-			else
-			{
-				return $dir.$default;
-			}
-		}
-	}
-
-	/**
 	* get full style sheet file name (path inclusive) of current user
 	*
 	* @access	public
@@ -205,20 +141,6 @@ class ilUtil
 	{
 		global $ilias;
 
-		if(defined("ILIAS_MODULE") && $mode != "filesystem")
-		{
-			// added to find Stylesheet for MODULES like Services/Search
-			$base = '';
-			for($i = 0;$i < count(explode('/',ILIAS_MODULE));$i++)
-			{
-				$base .= "../";
-			}
-		}
-		else
-		{
-			$base = "./";
-		}
-
 		// add version as parameter to force reload for new releases
 		if ($mode != "filesystem")
 		{
@@ -226,7 +148,14 @@ class ilUtil
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 
-		return $base."templates/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css".$vers;
+		if ($ilias->account->skin == "default")
+		{
+			return "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css".$vers;
+		}
+		else
+		{
+			return "./Customizing/global/skin/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css".$vers;
+		}
 	}
 
 	/**
@@ -240,7 +169,6 @@ class ilUtil
 
 		if (defined("ILIAS_MODULE"))
 		{
-			// added to find Stylesheet for MODULES like Services/Search
 			$base = '';
 			for($i = 0;$i < count(explode('/',ILIAS_MODULE));$i++)
 			{
@@ -271,20 +199,6 @@ class ilUtil
 	{
 		global $ilias;
 
-		if(defined("ILIAS_MODULE") && $mode != "filesystem")
-		{
-			// added to find Stylesheet for MODULES like Services/Search
-			$base = '';
-			for($i = 0;$i < count(explode('/',ILIAS_MODULE));$i++)
-			{
-				$base .= "../";
-			}
-		}
-		else
-		{
-			$base = "./";
-		}
-
 		// add version as parameter to force reload for new releases
 		if ($mode != "filesystem")
 		{
@@ -292,7 +206,15 @@ class ilUtil
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 
-		$in_style = "templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
+		if ($ilias->account->skin == "default")
+		{
+			$in_style = "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
+		}
+		else
+		{
+			$in_style = "./Customizing/global/skin/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
+		}
+		
 		if (is_file("./".$in_style))
 		{
 			return $base.$in_style.$vers;

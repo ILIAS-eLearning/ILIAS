@@ -188,6 +188,13 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			return "";
 		}
 
+		$feed_set = new ilSetting("feed");
+		
+		if ($feed_set->get("disable_rep_feeds"))
+		{
+			return "";
+		}
+		
 		$this->feed->fetch();
 		$this->setTitle($this->feed->getChannelTitle());
 		$this->setData($this->feed->getItems());

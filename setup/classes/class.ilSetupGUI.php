@@ -550,7 +550,6 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");
 		$this->tpl->setVariable("LOCATION_STYLESHEET","./templates/blueshadow.css");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT","../templates/default");
 		$this->tpl->setVariable("TXT_ILIAS_VERSION", "ILIAS ".ILIAS_VERSION);
 		$this->tpl->setVariable("TXT_SETUP",$this->lng->txt("setup"));
 		$this->tpl->setVariable("VERSION", $this->version);

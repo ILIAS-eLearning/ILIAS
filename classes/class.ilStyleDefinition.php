@@ -51,7 +51,14 @@ class ilStyleDefinition extends ilSaxParser
 			$a_template_id = $ilias->account->skin;
 		}
 
-		parent::ilSaxParser("./templates/".$a_template_id."/template.xml");
+		if ($a_template_id == "default")
+		{
+			parent::ilSaxParser("./templates/".$a_template_id."/template.xml");
+		}
+		else
+		{
+			parent::ilSaxParser("./Customizing/global/skin/".$a_template_id."/template.xml");
+		}
 	}
 
 
@@ -105,14 +112,16 @@ class ilStyleDefinition extends ilSaxParser
 
 		$skins = array();
 
-		if ($dp = @opendir($ilias->tplPath))
+		$skins[] = array("id" => "default");
+		if ($dp = @opendir("./Customizing/global/skin"))
 		{
 			while (($file = readdir($dp)) != false)
 			{
 				//is the file a directory?
-				if (is_dir($ilias->tplPath.$file) && $file != "." && $file != ".." && $file != "CVS")
+				if (is_dir("./Customizing/global/skin/".$file) && $file != "." && $file != ".." && $file != "CVS"
+					&& $file != ".svn")
 				{
-					if (is_file($ilias->tplPath.$file."/template.xml"))
+					if (is_file("./Customizing/global/skin/".$file."/template.xml"))
 					{
 						$skins[] = array(
 							"id" => $file
@@ -125,6 +134,7 @@ class ilStyleDefinition extends ilSaxParser
 		{
 			return false;
 		}
+
 		return $skins;
 	}
 
@@ -176,13 +186,60 @@ class ilStyleDefinition extends ilSaxParser
 		}
 	}
 	
-	function styleExists($skin, $style)
+	
+	/**
+	* Check wheter a style exists
+	*
+	* @param	string	$skin		skin id
+	* @param	string	$style		style id
+	*
+	* @return	boolean
+	*/
+	static function styleExists($skin, $style)
 	{
-		if (is_file("templates/".$skin."/template.xml") &&
-			is_file("templates/".$skin."/".$style.".css")
-			)
+		if ($skin == "default")
+		{		
+			if (is_file("./templates/".$skin."/template.xml") &&
+				is_file("./templates/".$skin."/".$style.".css")
+				)
+			{
+				return true;
+			}
+		}
+		else
 		{
-			return true;
+			if (is_file("./Customizing/global/skin/".$skin."/template.xml") &&
+				is_file("./Customizing/global/skin/".$skin."/".$style.".css")
+				)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	* Check wheter a skin exists
+	*
+	* @param	string	$skin		skin id
+	*
+	* @return	boolean
+	*/
+	static function skinExists($skin)
+	{
+		if ($skin == "default")
+		{		
+			if (is_file("./templates/".$skin."/template.xml"))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if (is_file("./Customizing/global/skin/".$skin."/template.xml"))
+			{
+				return true;
+			}
 		}
 		return false;
 	}

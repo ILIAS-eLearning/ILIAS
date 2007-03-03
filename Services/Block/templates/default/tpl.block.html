@@ -22,6 +22,24 @@
 {BLOCK_TITLE}
 </th>
 </tr>
+<!-- BEGIN top_row -->
+<tr class="tblfooter">
+	<td class="tblfooter" colspan="{PCOLSPAN}">
+	<div style="float:right;" class="il_BlockInfo">
+	<!-- BEGIN top_item -->
+	<!-- BEGIN top_delim --> | <!-- END top_delim -->
+	<!-- BEGIN top_text -->{FTEXT}<!-- END top_text -->
+	<!-- BEGIN top_link --><a href="{FHREF}" <!-- BEGIN top_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END top_onclick -->>{FLINK}</a><!-- END top_link -->
+	<!-- END top_item -->
+	</div>
+	<div class="il_BlockInfo">{NUMINFO}</div>
+	</td>
+</tr>
+<!-- END top_row -->
+{BLOCK_ROW}
+<!-- BEGIN data_section -->
+<tr class="tblrow1"><td class="std">{DATA}</td></tr>
+<!-- END data_section -->
 <!-- BEGIN detail_setting -->
 <tr class="tblfooter">
 	<td class="tblfooter" colspan="{DCOLSPAN}">
@@ -32,28 +50,23 @@
 	<!-- BEGIN det_link --><a href="{DHREF}" <!-- BEGIN onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END onclick -->><img border="0" style="margin: 0px 1px 1px 1px;" alt="{ALT_LINK}" src="{SRC_LINK}"/></a><!-- END det_link -->
 	<!-- END det_item -->
 	</div>
-	<span class="small">{NUMINFO}</span>
 	</td>
 </tr>
 <!-- END detail_setting -->
-{BLOCK_ROW}
-<!-- BEGIN data_section -->
-<tr class="tblrow1"><td class="std">{DATA}</td></tr>
-<!-- END data_section -->
-<!-- BEGIN block_footer -->
+<!-- BEGIN foot_row -->
 <tr class="tblfooter">
-	<td class="tblfooter" colspan="{FCOLSPAN}">
+	<td class="tblfooter" colspan="{PCOLSPAN}">
 	<div style="float:right;" class="il_BlockInfo">
 	<!-- BEGIN foot_item -->
 	<!-- BEGIN foot_delim --> | <!-- END foot_delim -->
 	<!-- BEGIN foot_text -->{FTEXT}<!-- END foot_text -->
-	<!-- BEGIN foot_link --><a href="{FHREF}" <!-- BEGIN fonclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END fonclick -->>{FLINK}</a><!-- END foot_link -->
+	<!-- BEGIN foot_link --><a href="{FHREF}" <!-- BEGIN foot_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END foot_onclick -->>{FLINK}</a><!-- END foot_link -->
 	<!-- END foot_item -->
 	</div>
 	<div class="il_BlockInfo">{NUMINFO}</div>
 	</td>
 </tr>
-<!-- END block_footer -->
+<!-- END foot_row -->
 <!-- BEGIN block_commands -->
 <tr><td class="submit" colspan="{CCOLSPAN}">
 <!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->

@@ -579,7 +579,6 @@ class ilStartUpGUI
 		// to do: get standard style
 		$tpl->setVariable("PAGETITLE","Client List");
 		$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/delos.css");
-		$tpl->setVariable("LOCATION_JAVASCRIPT","./templates/default");
 
 		// load client list template
 		$tpl->addBlockfile("CONTENT", "content", "tpl.client_list.html");
