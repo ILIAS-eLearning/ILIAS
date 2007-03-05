@@ -89,7 +89,7 @@ class ilExternalFeed
 	*/
 	function fetch()
 	{
-		$this->feed = @fetch_rss($this->getUrl());
+		$this->feed = fetch_rss($this->getUrl());
 		
 		if (is_array($this->feed->items))
 		{
