@@ -140,74 +140,6 @@ class ilSCORM13Player
 		),
 	);
 	
-	static private $sqlcommand = array(
-		// all scos in a  package
-		'view_cmi_node' => 'SELECT cmi_node.* 
-			FROM cmi_node 
-			INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id',
-		'view_cmi_comment' => 'SELECT cmi_comment.* 
-			FROM cmi_comment 
-			INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
-			INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id',
-		'view_cmi_correct_response' => 'SELECT cmi_correct_response.* 
-			FROM cmi_correct_response 
-			INNER JOIN cmi_interaction ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
-			INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-			INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id',
-		'view_cmi_interaction' => 'SELECT cmi_interaction.* 
-			FROM cmi_interaction 
-			INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-			INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id',
-		'view_cmi_objective' => 'SELECT cmi_objective.* 
-			FROM cmi_objective 
-			INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
-			INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id',
-		'view_cmi_package' => 'SELECT usr_data.usr_id AS user_id, 
-			(usr_data.firstname || " " || usr_data.lastname) AS learner_name, 
-			sahs_lm.id AS slm_id , sahs_lm.default_lesson_mode AS mode, sahs_lm.credit
-			FROM usr_data , cp_package
-			INNER JOIN sahs_lm ON cp_package.obj_id = sahs_lm.id ',
-
-		// all scos in a  package
-		'delete_cmi_correct_responses' => 'DELETE FROM cmi_correct_response WHERE cmi_interaction_id IN (
-			SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
-			INNER JOIN cmi_node ON cmi_node.cmi_node_id=cmi_interaction.cmi_node_id 
-			INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-			WHERE cmi_node.user_id=? AND cp_node.slm_id=?)',
-		'delete_cmi_interactions' => 'DELETE FROM cmi_interaction WHERE cmi_node_id IN (
-			SELECT cmi_node.cmi_node_id FROM cmi_node 
-			INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-			WHERE cmi_node.user_id=? AND cp_node.slm_id=?)',
-		'delete_cmi_comments' => 'DELETE FROM cmi_comment WHERE cmi_node_id IN (
-			SELECT cmi_node.cmi_node_id FROM cmi_node 
-			INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-			WHERE cmi_node.user_id=? AND cp_node.slm_id=?)',
-		'delete_cmi_objectives' => 'DELETE FROM cmi_objective WHERE cmi_node_id IN (
-			SELECT cmi_node.cmi_node_id FROM cmi_node 
-			INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-			WHERE cmi_node.user_id=? AND cp_node.slm_id=?)',
-		'delete_cmi_nodes' => 'DELETE FROM cmi_node WHERE user_id=? AND cp_node_id IN (
-			SELECT cp_node_id FROM cp_node 
-			WHERE slm_id=?)',
-
-		// one scos in a  package
-		'delete_cmi_correct_response' => 'DELETE FROM cmi_correct_response WHERE cmi_interaction_id IN (
-			SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
-			INNER JOIN cmi_node ON cmi_node.cmi_node_id=cmi_interaction.cmi_node_id 
-			WHERE cmi_node.cp_node_id=?)',
-		'delete_cmi_interaction' => 'DELETE FROM cmi_interaction WHERE cmi_node_id IN (
-			SELECT cmi_node.cmi_node_id FROM cmi_node 
-			WHERE cmi_node.cp_node_id=?)',
-		'delete_cmi_comment' => 'DELETE FROM cmi_comment WHERE cmi_node_id IN (
-			SELECT cmi_node.cmi_node_id FROM cmi_node 
-			WHERE cmi_node.cp_node_id=?)',
-		'delete_cmi_objective' => 'DELETE FROM cmi_objective WHERE cmi_node_id IN (
-			SELECT cmi_node.cmi_node_id FROM cmi_node 
-			WHERE cmi_node.cp_node_id=?)',
-		'delete_cmi_node' => 'DELETE FROM cmi_node WHERE cp_node_id=?',
-
-	); 
-
 	private $userId;
 	private $packageId;
 	private $jsMode;
@@ -217,6 +149,7 @@ class ilSCORM13Player
 		$this->userId = IL_OP_USER_ID;
 		$this->packageId = IL_OP_PACKAGE_ID;
 		$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
+		ilSCORM13DB::addQueries('ilSCORM13Player');
 	}
 	
 	public function getLangStrings()
@@ -244,8 +177,43 @@ class ilSCORM13Player
 		$gui = array(
 			'base' =>  str_replace('{packageId}', $this->packageId, IL_OP_PACKAGE_BASE),		);
 		$langstrings = $this->getLangStrings();
-		header('Content-Type: text/html; charset=UTF-8');
-		include('templates/tpl/player.tpl');
+		
+		$langstrings['btnStart'] = 'Start'; 
+		$langstrings['btnResumeAll'] = 'Resume All';  
+		$langstrings['btnBackward'] = 'backward';
+		$langstrings['btnForward'] = 'Forward';
+		$langstrings['btnExit'] = 'Exit';
+		$langstrings['btnExitAll'] = 'Exit All';
+		$langstrings['btnAbandon'] = 'Abandon';
+		$langstrings['btnAbandonAll'] = 'Abandon All';
+		$langstrings['btnSuspendAll'] = 'Suspend All';
+		$langstrings['btnPrevious'] = 'Previous';
+		$langstrings['btnContinue'] = 'Next';
+		$langstrings['lblChoice'] = 'Select a choice from the tree.';
+		
+ 		header('Content-Type: text/html; charset=UTF-8');
+		$tpl = new SimpleTemplate();
+		$tpl->setParam('DEBUG', (int) $_REQUEST['debug']);
+		if ($_REQUEST['debug']) 
+		{
+			$tpl->load('templates/tpl/tpl.scorm2004.player_debug.html');
+			$tpl->setParam('INCLUDE_DEBUG', $tpl->save(null));
+		}
+		else
+		{
+			$tpl->setParam('INCLUDE_DEBUG', '');
+		}
+		$tpl->load('templates/tpl/tpl.scorm2004.player.html');
+		$tpl->setParam('JSON_LANGSTRINGS', json_encode($langstrings));
+		$tpl->setParams($langstrings);
+		$tpl->setParam('DOC_TITLE', 'ILIAS SCORM 2004 Player');
+		$tpl->setParam('THEME_CSS', 'templates/css/delos.css');
+		$tpl->setParam('LOADING', '');
+		$tpl->setParam('CSS_NEEDED', '');
+		$tpl->setParam('JS_NEEDED', '');
+		$tpl->setParam('JSON_CONFIG', json_encode($config));
+		$tpl->setParam('JSON_GUI', json_encode($gui));
+		$tpl->save();
 	}
 	
 	public function getCPData()
@@ -320,7 +288,6 @@ class ilSCORM13Player
 
 	private function getCMIData($userId, $packageId) 
 	{
-		$where = " WHERE user_id=$userId AND slm_id=$packageId";
 		$result = array(
 			'schema' => array(), 
 			'data' => array()
@@ -328,9 +295,7 @@ class ilSCORM13Player
 		foreach (self::$schema as $k=>&$v)
 		{
 			$result['schema'][$k] = array_keys($v);
-			$sql = self::$sqlcommand['view_cmi_' . $k] . $where;
-			//echo "<li>$sql";
-			$result['data'][$k] = ilSCORM13DB::query($sql, null, null, null, PDO::FETCH_NUM);
+			$result['data'][$k] = ilSCORM13DB::query('view_cmi_' . $k, array($userId, $packageId), null, null, PDO::FETCH_NUM);
 		}
 		return $result;
 	}
@@ -344,14 +309,14 @@ class ilSCORM13Player
 			if (is_null($cp_node_id))
 			{
 				ilSCORM13DB::exec(
-					self::$sqlcommand['delete_cmi_' . $k . 's'], 
+					'delete_cmi_' . $k . 's', 
 					array($userId, $packageId)
 				);
 			}
 			else
 			{
 				ilSCORM13DB::exec(
-					self::$sqlcommand['delete_cmi_' . $k ], 
+					'delete_cmi_' . $k , 
 					array($cp_node_id)
 				);
 			}
@@ -427,6 +392,6 @@ class ilSCORM13Player
 		return $result;
 	}
 	
-}
+}	
 
 ?>

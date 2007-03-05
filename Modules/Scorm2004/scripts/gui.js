@@ -24,6 +24,20 @@
  * @copyright: (c) 2007 Alfred Kohnert
  */ 
 
+/*
+introLabel
+introTable
+mainTable
+tre*
+navContinue
+navStart
+nav...
+navSuspendAll
+tdResource
+mainTitle
+listView
+treeView
+*/
 
 function Gui(config, langstrings) 
 { 	
@@ -65,22 +79,57 @@ function Gui(config, langstrings)
 
 	this.addClass = function (elm, name) 
 	{
+		elm = me.all(elm);
 		if (!me.hasClass(elm, name)) elm.className = me.trim(elm.className + " " + name);
 	}; 
 
 	this.hasClass = function (elm, name) 
 	{
+		elm = me.all(elm);
 		return (" " + elm.className + " ").indexOf(" " + name + " ")>-1;
 	}; 
 
 	this.removeClass = function (elm, name) 
 	{
+		elm = me.all(elm);
 		elm.className = me.trim((" " + elm.className + " ").replace(name, " "));
 	}; 
+	
+	this.replaceClass = function (elm, oldname, newname) 
+	{
+		elm = me.all(elm);
+		me.removeClass(elm, oldname);
+		me.addClass(elm, newname);
+	}; 
+	
+	this.toggleClass = function (elm, name, state) 
+	{
+		elm = me.all(elm);
+		if (state===undefined) state = !me.hasClass(name);
+		if (!state) me.removeClass(elm, name);
+		else me.addClass(elm, name);
+	}; 
+	
+	this.startOrResume = function (startable, resumable) 
+	{
+		if (!startable) me.toggleClass(me.all("navStart"), "hidden", true); 
+		if (!resumable) me.toggleClass(me.all("navResumeAll"), "hidden", true); 
+	}
+	
+	this.itemUpdate = function (id, choosable) 
+	{
+		var tre = me.all('tre' + id);
+		if (tre) 
+		{
+			tre.disabled = !choosable;
+			me.toggleClass(tre, 'disabled', tre.disabled); 
+		}
+	}
 	
 	this.show = function (newValue) 
 	{
 		var tableDisplay = document.body.currentStyle ? 'block' : 'table';
+		var tableDisplay = document.body.currentStyle ? 'block' : 'table-row';
 		this.all('introTable').style.display = newValue ? 'none' : tableDisplay;
 		this.all('mainTable').style.display = newValue ? tableDisplay : 'none';
 	};
@@ -91,7 +140,7 @@ function Gui(config, langstrings)
 	 * @param {function} optional, callback function called when delivery was 
 	 * 	successfully launched (a window reference is given to that function)
 	 */
-	this.deliver = function (id, url, hideLMSUI, callback) 
+	this.deliver = function (id, url, callback) 
 	{
 		if (url.indexOf(":")===-1) 
 		{
@@ -114,14 +163,6 @@ function Gui(config, langstrings)
 		{
 			me.addClass(me.currentElm, "current");
 		}
-		me.all('navContinue').style.backgroundColor = 'continue' in hideLMSUI ? 'orange' : '';
-		me.all('navPrevious').style.backgroundColor = 'previous' in hideLMSUI ? 'orange' : '';
-		me.all('navAbandon').style.backgroundColor = 'abandon' in hideLMSUI ? 'orange' : '';
-		me.all('navAbandonAll').style.backgroundColor = 'abandonAll' in hideLMSUI ? 'orange' : '';
-		me.all('navExit').style.backgroundColor = 'exit' in hideLMSUI ? 'orange' : '';
-		me.all('navExitAll').style.backgroundColor = 'exitAll' in hideLMSUI ? 'orange' : '';
-		me.all('navSuspendAll').style.backgroundColor = 'suspendAll' in hideLMSUI ? 'orange' : '';
-		// previous continue exit exitAll abandon abandonAll suspendAll
 	};
 
 	/**
@@ -154,6 +195,7 @@ function Gui(config, langstrings)
 	 */	
 	var all = this.all = function (s, w) 
 	{
+		if (s && s.nodeType===1) return s;
 		if (!w) 
 		{
 			w = window;
@@ -186,10 +228,7 @@ function Gui(config, langstrings)
 		var TAB = "&nbsp;" 
 
 		// arrays to hold html strings for each view
-		var listView = [];
 		var treeView = [];
-		var reportView = [];
-		var stripView = [];
 
 		/**
 		 * recursive walk through tree
@@ -207,14 +246,6 @@ function Gui(config, langstrings)
 				if (item.isvisible!=="false")
 				{
 					// fill the different views
-					listView.push('<option class="nde ' + classname + '" id="lst' + 
-						item.id + '">' + tabs + " " + item.title + '</option>');
-					reportView.push('<tr><td>' + tabs + (tabs.length + 1) + 
-						'</td><td width="90%"><a class="nde ' + classname + '" id="rpt' +
-						item.id + '" href="' + href + '">' + item.title + 
-						'</a></td><td>x</td></tr>');
-					stripView.push('<td><a class="nde ' + classname + '" id="str' + 
-						item.id + '" href="' + href + '">' + item.title + '</a></td>');
 					treeView.push('<a class="nde ' + classname + '" id="tre' + 
 						item.id + '" href="' + href + '">' + item.title + '</a>');
 				} 
@@ -232,8 +263,6 @@ function Gui(config, langstrings)
 		// now run recursion
 		walk(organization.item, '');
 		
-		setOuterHTML(this.all('listView'), '<select id="listView">' + listView.join('\n') + '</select>');
-
 		this.all('treeView').innerHTML = treeView.join('\n');
 	};
 
@@ -320,6 +349,7 @@ function Gui(config, langstrings)
 	var onSequencerDebugStack;
 	this.onSequencerDebug = function (msg, cll) 
 	{
+		if (!window.DEBUG) return; 
 		var s = '-----------------------------' 
 		if (msg=="exec") onSequencerDebugStack = []; 
 		for (var i=onSequencerDebugStack.length-1; i>-1; i--)
@@ -342,6 +372,7 @@ function Gui(config, langstrings)
 	
 	this.onAPIDebug = function (diagnostic, returnValue, errCode, errInfo, cmiItem) 
 	{
+		if (!window.DEBUG) return; 
 		try 
 		{
 			var elm = document.getElementById("apilog");
@@ -357,12 +388,13 @@ function Gui(config, langstrings)
 		}
 	};
 
-}
-
-
-function chkWebContent_click(newState) 
-{
-	parent.document.cookie = newState;
-	if (newState) btnWebContent_onclick();
+	this.onresize = function() {
+		// TODO later work on a more stable and trickier way of correcting table height
+		var m, d = document.documentElement, h = d.clientHeight - 120;
+		m = me.all("treeView");
+		if (m) m.style.height = h + 'px';
+		m = me.all("frmResource");
+		if (m) m.style.height = h + 'px';
+	};
 }
 

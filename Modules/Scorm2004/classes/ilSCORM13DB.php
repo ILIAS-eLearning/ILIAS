@@ -57,9 +57,15 @@ class ilSCORM13DB
 	private $lastId;
 	private static $errors;
 	
+	private static $SQLCOMMAND = array();
+
 	public function __construct($dsn, $type='mysql') 
 	{
-		$this->db = new PDO($dsn); 
+		if (!IL_OP_USER_NAME) {
+			$this->db = new PDO($dsn); 
+		} else {
+			$this->db = new PDO($dsn, IL_OP_USER_NAME, IL_OP_USER_PASSWORD); 
+		}
 		$this->dsn = $dsn; 
 		$this->brackets = self::$BRACKETS_LIST[$type]; 
 		$this->type = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
@@ -68,10 +74,19 @@ class ilSCORM13DB
 	
 	public function init($dsn, $type='mysql') 
 	{
-		self::$DB = new PDO($dsn); 
+		if (!IL_OP_USER_NAME) {
+			self::$DB = new PDO($dsn); 
+		} else {
+			self::$DB = new PDO($dsn, IL_OP_USER_NAME, IL_OP_USER_PASSWORD); 
+		}
 		self::$DSN = $dsn;
 		self::$TYPE = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
 		self::$BRACKETS = self::$BRACKETS_LIST[self::$TYPE]; 
+	}
+	
+	public function addQueries($name) 
+	{
+		require_once($name . '_' . self::getType() . '.php');
 	}
 	
 	public function getLastId() 
@@ -252,7 +267,7 @@ class ilSCORM13DB
 		$r = array();
 		//$d = new PDO(self::getDSN());
 		$d = self::getDB();
-		$q = array($query);
+		$q = array(self::$SQLCOMMAND[$query] ? self::$SQLCOMMAND[$query] : $query);
 		if (is_array($order))
 		{
 			$o = array();
@@ -310,7 +325,7 @@ class ilSCORM13DB
 		$d = self::getDB();
 		foreach ($queries as $i => &$q) 
 		{
-       	if ($s = $d->prepare($q)) 
+       	if ($s = $d->prepare(self::$SQLCOMMAND[$q] ? self::$SQLCOMMAND[$q] : $q)) 
 			{
 //echo "<br>" . $q;
 				$q = 0;
