@@ -335,7 +335,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		else
 		{
 			$question_gui->setSequenceNumber($sequence);
-			$question_gui->setQuestionCount(count($this->object->questions));
+			$question_gui->setQuestionCount(ilObjTest::_getQuestionCount($this->object->getTestId()));
 		}
 		// output question
 		$user_post_solution = FALSE;
@@ -744,7 +744,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				// has been reduced lower than the number of questions which should be
 				// chosen, the dynamic method fails because it returns the number of questions
 				// that should be chosen. This leds to an error if the test is completed
-				$questioncount = ilObjTest::_getQuestionCount($this->object->getTestId(), $ilUser->getId());
+				$questioncount = ilObjTest::_getQuestionCount($this->object->getTestId());
 				if ($this->sequence > $questioncount)
 		//			if ($this->sequence > $this->object->getQuestionCount())
 				{

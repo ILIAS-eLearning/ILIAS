@@ -6950,7 +6950,7 @@ class ilObjTest extends ilObject
 * @return integer The number of questions
 * @access	public
 */
-	function _getQuestionCount($test_id, $user_id)
+	function _getQuestionCount($test_id)
 	{
 		global $ilDB;
 
@@ -6968,12 +6968,22 @@ class ilObjTest extends ilObject
 
 		if ($test["random_test"] == 1)
 		{
-			$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
-			$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE active_fi = %s AND pass = 0",
-				$ilDB->quote($active->active_id . "")
-			);
-			$result = $ilDB->query($query);
-			$num = $result->numRows();
+			if ($test["random_question_count"] > 0)
+			{
+				$num = $test["random_question_count"];
+			}
+			else
+			{
+				$query = sprintf("SELECT SUM(num_of_q) AS questioncount FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+					$ilDB->quote($test_id . "")
+				);
+				$result = $ilDB->query($query);
+				if ($result->numRows())
+				{
+					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					$num = $row["questioncount"];
+				}
+			}
 		}
 		else
 		{
@@ -6985,7 +6995,6 @@ class ilObjTest extends ilObject
 		}
 		return $num;
 	}
-
 
 /**
 * Removes all test data of a non random test when a test was set to random test

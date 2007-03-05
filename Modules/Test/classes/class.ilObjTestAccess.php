@@ -423,50 +423,51 @@ class ilObjTestAccess extends ilObjectAccess
 * @return int The number of questions in the test
 * @access public
 */
-	function _getQuestionCount($a_test_id)
-	{
-		global $ilDB;
+function _getQuestionCount($test_id)
+{
+	global $ilDB;
 
-		$num = 0;
-		
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($a_test_id)
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows != 1) return 0;
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-		
-		if ($row["random_test"] == 1)
+	$num = 0;
+
+	$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+		$ilDB->quote($test_id . "")
+	);
+	$result = $ilDB->query($query);
+	if (!$result->numRows())
+	{
+		return 0;
+	}
+	$test = $result->fetchRow(DB_FETCHMODE_ASSOC);
+
+	if ($test["random_test"] == 1)
+	{
+		if ($test["random_question_count"] > 0)
 		{
-			if ($row["random_question_count"] > 0)
-			{
-				$num = $row["random_question_count"];
-			}
-				else
-			{
-				$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
-					$ilDB->quote($a_test_id . "")
-				);
-				$result = $ilDB->query($query);
-				if ($result->numRows())
-				{
-					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$num += $row["num_of_q"];
-					}
-				}
-			}
+			$num = $test["random_question_count"];
 		}
 		else
 		{
-			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
-				$ilDB->quote($a_test_id . "")
+			$query = sprintf("SELECT SUM(num_of_q) AS questioncount FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+				$ilDB->quote($test_id . "")
 			);
 			$result = $ilDB->query($query);
-			$num = $result->numRows();
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$num = $row["questioncount"];
+			}
 		}
-		return $num;
 	}
+	else
+	{
+		$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		$num = $result->numRows();
+	}
+	return $num;
+}
 	
 /**
 * Checks if a user is allowd to run an online exam
