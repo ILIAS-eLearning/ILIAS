@@ -115,6 +115,21 @@ class ilCourseObjectiveQuestion
 			$this->db->query($query);
 		}
 	}
+	
+	/**
+	 * Get assignable tests
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _getAssignableTests($a_container_ref_id)
+	{
+		global $tree;
+		
+		return $tree->getSubTree($tree->getNodeData($a_container_ref_id),true,'tst');
+	}
 
 	// ########################################################  Methods for test table
 	function setTestStatus($a_status)
@@ -198,8 +213,10 @@ class ilCourseObjectiveQuestion
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM crs_objective_tst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
+		$query = "SELECT * FROM crs_objective_tst as cot ".
+			"JOIN object_data as obd ON cot.obj_id = obd.obj_id ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+			"ORDER BY title ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -210,6 +227,7 @@ class ilCourseObjectiveQuestion
 			$test['obj_id']			= $row->obj_id;
 			$test['tst_status']		= $row->tst_status;
 			$test['tst_limit']		= $row->tst_limit;
+			$test['title']			= $row->title;
 
 			$tests[] = $test;
 		}
@@ -242,6 +260,25 @@ class ilCourseObjectiveQuestion
 	function getQuestions()
 	{
 		return $this->questions ? $this->questions : array();
+	}
+	
+	/**
+	 * Get questions of test
+	 *
+	 * @access public
+	 * @param int test id
+	 * 
+	 */
+	public function getQuestionsOfTest($a_test_id)
+	{
+	 	foreach($this->getQuestions() as $qst)
+	 	{
+	 		if($a_test_id == $qst['obj_id'])
+	 		{
+	 			$questions[] = $qst;
+	 		}
+	 	}
+	 	return $questions ? $questions : array();
 	}
 	
 	function getQuestion($question_id)
@@ -391,7 +428,9 @@ class ilCourseObjectiveQuestion
 		// delete test if it was the last question
 		$query = "SELECT * FROM crs_objective_qst ".
 			"WHERE ref_id = ".$ilDB->quote($test_rid)." ".
-			"AND obj_id = ".$ilDB->quote($test_oid)." ";
+			"AND obj_id = ".$ilDB->quote($test_oid)." ".
+			"AND objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
+		
 
 		$res = $this->db->query($query);
 		if(!$res->numRows())
@@ -430,8 +469,10 @@ class ilCourseObjectiveQuestion
 		global $tree;
 
 		$this->questions = array();
-		$query = "SELECT * FROM crs_objective_qst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
+		$query = "SELECT * FROM crs_objective_qst as coq ".
+			"JOIN qpl_questions as qq ON coq.question_id = qq.question_id ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+			"ORDER BY title";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

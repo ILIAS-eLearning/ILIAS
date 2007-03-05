@@ -337,7 +337,7 @@ class ilCourseObjectivePresentationGUI
 		include_once './classes/class.ilRepositoryExplorer.php';
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 
-		if(!count($lms = $this->__getAllLearningMaterials()))
+		if(!count($lms = ilCourseObjectiveMaterials::_getAllAssignedMaterials($this->course_obj->getId())))
 		{
 			return false;
 		}
@@ -445,7 +445,7 @@ class ilCourseObjectivePresentationGUI
 				$this->tpl->setVariable("TEXT_INFO_LMS",$this->lng->txt('last_access'));
 				$this->tpl->setVariable("INFO_LMS",ilFormat::formatUnixTime($continue_data["$lm_id"]['last_access'],true));
 			}
-			else
+			elseif($obj_type == 'lm')
 			{
 				$this->tpl->setVariable("INFO_LMS",$this->lng->txt('not_accessed'));
 			}
@@ -695,39 +695,22 @@ class ilCourseObjectivePresentationGUI
 		return $tests ? $tests : array();
 	}
 
-	function __getAllLearningMaterials()
-	{
-		foreach($items = $this->course_obj->items_obj->getItems() as $node)
-		{
-			switch($node['type'])
-			{
-				case 'lm':
-				case 'htlm':
-				case 'alm':
-				case 'sahs':
-					$all_lms[] = $node['ref_id'];
-					break;
-			}
-		}
-		return $all_lms ? $all_lms : array();
-	}
-
 	function __getOtherResources()
 	{
+		include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
+		$assigned = ilCourseObjectiveMaterials::_getAllAssignedMaterials($this->course_obj->getId());
+		
 		foreach($items = $this->course_obj->items_obj->getItems() as $node)
 		{
-			switch($node['type'])
+			if(in_array($node['ref_id'],$assigned))
 			{
-				case 'lm':
-				case 'htlm':
-				case 'sahs':
-				case 'tst':
-					continue;
-
-				default:
-					$all_lms[] = $node['ref_id'];
-					break;
+				continue;
 			}
+			if($node['type'] == 'tst')
+			{
+				continue;
+			}			
+			$all_lms[] = $node['ref_id'];
 		}
 		return $all_lms ? $all_lms : array();
 	}
