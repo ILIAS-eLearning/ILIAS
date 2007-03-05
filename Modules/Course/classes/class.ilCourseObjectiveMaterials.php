@@ -103,7 +103,6 @@ class ilCourseObjectiveMaterials
 			"JOIN object_reference as obr ON com.ref_id = obr.ref_id ".
 			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
 			"WHERE co.crs_id = ".$ilDB->quote($a_container_id)." ".
-			"AND com.type != 'st' ".
 			"ORDER BY obd.title ";
 			
 		$res = $ilDB->query($query);
