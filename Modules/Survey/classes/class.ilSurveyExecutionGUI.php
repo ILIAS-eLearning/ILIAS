@@ -355,7 +355,7 @@ class ilSurveyExecutionGUI
 		{
 			$page_error += $this->saveActiveQuestionData($data);
 		}
-		if ($page_error)
+		if ($page_error && (strcmp($navigationDirection, "previous") != 0))
 		{
 			if ($page_error == 1)
 			{
@@ -365,6 +365,10 @@ class ilSurveyExecutionGUI
 			{
 				ilUtil::sendInfo($this->lng->txt("svy_page_errors"));
 			}
+		}
+		else
+		{
+			$page_error = "";
 		}
 
 		$direction = 0;
