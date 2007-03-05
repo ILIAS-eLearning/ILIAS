@@ -26,7 +26,7 @@
 * class ilCourseObjectiveMaterials
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$
+* @version $Id:class.ilCourseObjectiveMaterials.php 13383 2007-03-02 10:54:46 +0000 (Fr, 02 Mrz 2007) smeyer $
 * 
 */
 
@@ -47,8 +47,74 @@ class ilCourseObjectiveMaterials
 
 		$this->__read();
 	}
+	
 
-	function getLMs()
+	/**
+	 * Get an array of course material ids that can be assigned to learning objectives
+	 * No tst, fold and grp.
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj id of course
+	 * @return array data of course materials
+	 */
+	public static function _getAssignableMaterials($a_container_id)
+	{
+		global $tree,$ilDB;
+		
+		$all_materials = $tree->getSubTree($tree->getNodeData($a_container_id),true);
+		$all_materials = ilUtil::sortArray($all_materials,'title','asc');
+		
+		// Filter
+		foreach($all_materials as $material)
+		{
+			switch($material['type'])
+			{
+				case 'tst':
+				case 'fold':
+				case 'grp':
+				case 'rolf':
+				case 'crs':
+					continue;
+				
+				default:
+					$assignable[] = $material;
+					break;
+			}
+		}
+		return $assignable ? $assignable : array();
+	}
+	
+	/**
+	 * Get all assigned materials
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param in 
+	 */
+	public static function _getAllAssignedMaterials($a_container_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT DISTINCT(com.ref_id) as ref_id FROM crs_objectives as co ".
+			"JOIN crs_objective_lm as com ON co.objective_id = com.objective_id ".
+			"JOIN object_reference as obr ON com.ref_id = obr.ref_id ".
+			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+			"WHERE co.crs_id = ".$ilDB->quote($a_container_id)." ".
+			"AND com.type != 'st' ".
+			"ORDER BY obd.title ";
+			
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ref_ids[] = $row->ref_id;
+		}
+		return $ref_ids ? $ref_ids : array();
+	}
+
+	public function getMaterials()
 	{
 		return $this->lms ? $this->lms : array();
 	}
@@ -99,7 +165,43 @@ class ilCourseObjectiveMaterials
 	{
 		return $this->type;
 	}
+	
+	/**
+	 * Check if material is assigned 
+	 *
+	 * @access public
+	 *
+	 * @param int ref id
+	 * @return bool
+	 */
+	public function isAssigned($a_ref_id)
+	{
+		$query = "SELECT * FROM crs_objective_lm ".
+			"WHERE ref_id = ".$this->db->quote($a_ref_id)." ".
+			"AND objective_id = ".$this->db->quote($this->getObjectiveId())." ".
+			"AND type != 'st'";
+		$res = $this->db->query($query);
+		return $res->numRows() ? true : false;
+	}
 
+	/**
+	 * Check if chapter is assigned 
+	 *
+	 * @access public
+	 *
+	 * @param int ref id
+	 * @return bool
+	 */
+	public function isChapterAssigned($a_ref_id,$a_obj_id)
+	{
+		$query = "SELECT * FROM crs_objective_lm ".
+			"WHERE ref_id = ".$this->db->quote($a_ref_id)." ".
+			"AND obj_id = ".$this->db->quote($a_obj_id)." ".
+			"AND objective_id = ".$this->db->quote($this->getObjectiveId())." ".
+			"AND type = 'st'";
+		$res = $this->db->query($query);
+		return $res->numRows() ? true : false;
+	}
 	function checkExists()
 	{
 		global $ilDB;
@@ -172,9 +274,13 @@ class ilCourseObjectiveMaterials
 		global $tree,$ilDB;
 
 		$this->lms = array();
-		$query = "SELECT * FROM crs_objective_lm ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
-
+		$query = "SELECT lm_ass_id,lm.ref_id,lm.obj_id,lm.type FROM crs_objective_lm as lm ".
+			"JOIN object_reference as obr ON lm.ref_id = obr.ref_id ".
+			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+			"LEFT JOIN lm_data as lmd ON lmd.obj_id = lm.obj_id ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+			"ORDER BY obd.title,lmd.title";
+			
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

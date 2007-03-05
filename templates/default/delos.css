@@ -245,6 +245,9 @@ tr.tblheader {
 .tblfooter {
 	color: #000000;
 	font-weight:normal;
+	border-bottom-width:1px;
+	border-bottom-color:#9EADBA;
+	border-bottom-style:solid;
 }
 
 tr.tblfooter {

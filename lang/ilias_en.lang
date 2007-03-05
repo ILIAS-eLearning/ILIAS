@@ -4400,7 +4400,7 @@ crs#:#crs_header_delete_subscribers#:#Delete subscribers
 crs#:#crs_header_edit_members#:#Edit members
 crs#:#crs_header_members#:#Course members
 crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users
-crs#:#crs_hide_link_lms#:#Hide learning materials
+crs#:#crs_hide_link_lms#:#Hide materials
 crs#:#crs_hide_link_objectives#:#Hide objectives
 crs#:#crs_hide_link_or#:#Hide other resources
 crs#:#crs_hide_link_tst#:#Hide tests
@@ -4416,7 +4416,7 @@ crs#:#crs_info_settings#:#Course Informations
 crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
-crs#:#crs_learning_materials#:#Learning materials
+crs#:#crs_learning_materials#:#Materials
 crs#:#crs_list_users#:#List users
 crs#:#crs_lm_assignment#:#Learning material assignment
 crs#:#crs_lm_assignment_deleted#:#Deleted assignment.
@@ -4484,7 +4484,7 @@ crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#The following number of users has been assigned to the course:
 crs#:#crs_objective_accomplished#:#Accomplished
 crs#:#crs_objective_assign_chapter#:#Assign chapters
-crs#:#crs_objective_assign_lm#:#Assign learning material
+crs#:#crs_objective_assign_lm#:#Save Assignments
 crs#:#crs_objective_assign_question#:#Assign question
 crs#:#crs_objective_deassign_question#:#Delete assignment
 crs#:#crs_objective_delete_lm_assignment#:#Delete assignment
@@ -4501,7 +4501,7 @@ crs#:#crs_objective_updated_test#:#Updated modifications.
 crs#:#crs_objective_view#:#Objective oriented view
 crs#:#crs_objectives#:#Learning Objectives
 crs#:#crs_objectives_assign_chapter#:#Assign Chapter
-crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.
+crs#:#crs_objectives_assigned_lm#:#The selected materials have been assigned.
 crs#:#crs_objectives_assigned_lms#:#Assigned learning materials
 crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.
 crs#:#crs_objectives_assigned_questions#:#Assigned questions
@@ -4509,12 +4509,12 @@ crs#:#crs_objectives_chapter_assignment#:#Chapter assignment
 crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?
 crs#:#crs_objectives_deleted#:#Delete learning objectives
 crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment
-crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam again.
+crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related materials. <br />After you have reviewed all red marked objectives, you can take the exam again.
 crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!
-crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related learning materials.
-crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.
+crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related materials.
+crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.
 crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.
-crs#:#crs_objectives_lm_assignment#:#Learning material assignment
+crs#:#crs_objectives_lm_assignment#:#Assignment of Course Materials
 crs#:#crs_objectives_max_points#:#Maximum points
 crs#:#crs_objectives_no_question_selected#:#Please select one question.
 crs#:#crs_objectives_nr_questions#:#Number of questions
@@ -4524,7 +4524,7 @@ crs#:#crs_objectives_reseted#:#Reseted results.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Options
 crs#:#crs_other_groupings#:#Groupings of other courses
-crs#:#crs_other_resources#:#Other resources
+crs#:#crs_other_resources#:#Other Resources
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
 crs#:#crs_password_required#:#This registration procedure requires a password.
@@ -7097,3 +7097,16 @@ common#:#omit_all#:#Omit all
 common#:#copy_all#:#Copy all
 common#:#link_all#:#Link all
 common#:#omit#:#Omit
+common#:#obj_fold_duplicate#:#Copy Folder
+common#:#obj_fold_select#:#-- Please select one Folder --
+common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
+common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
+common#:#obj_grp_duplicate#:#Copy Group
+common#:#obj_grp_select#:#-- Please select one Group --
+common#:#grp_wizard_page#:#Copy Group (Step 2/2)
+common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
+crs#:#crs_objective_assigned_materials#:#Zugeordnete Kursmaterialien
+crs#:#crs_objective_assigned_qst#:#Zugeordnete Testfragen
+crs#:#crs_objective_add_mat#:#Assign Materials
+crs#:#crs_objective_add_qst#:#Assign Questions
+common#:#objs_qst#:#Questions

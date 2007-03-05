@@ -26,19 +26,25 @@
 		  <td class="{ROWCOL}" valign="top" width="1" style="white-space:nowrap;">
 			{CHECK_OBJECTIVE}
 		  </td>
-		  <td class="{ROWCOL}">
+		  <td class="{ROWCOL}" valign="top">
 			<label for="objective_{LABEL_ID}">
 			{TITLE}
 			<div class="il_Description">{DESCRIPTION}</div>
 			</label>
 		  </td>
-		  <td class="{ROWCOL}">
-			{TYPE}
+		  <td class="{ROWCOL}" valign="top">
+			<!-- BEGIN material_row -->
+			<img src="{MAT_IMG}" alt="{MAT_ALT}" title="{MAT_ALT}" border="0" vspace="0" /> {MAT_TITLE}<br />
+			<!-- END material_row -->
 		  </td>
-		  <td class="{ROWCOL}">
-			{REQUIRED}
+		  <td class="{ROWCOL}" valign="top">
+			<!-- BEGIN test_row -->
+			<img src="{TST_IMG}" alt="{TST_ALT}" title="{TST_ALT}" border="0" vspace="0" /> {TST_TITLE}
+				<ul><!-- BEGIN qst_row --><li style="padding: 1px">{QST_TITLE}</li><!-- END qst_row --></ul>
+			<!-- END test_row -->
 		  </td>
-		  <td class="{ROWCOL}">
+		  <td class="{ROWCOL}" valign="top">
+		  	<div style="float:left">
 			<!-- BEGIN no_img_pre -->
 			<img src="{NO_IMG_PRE_TYPE}" border="0" vspace="0" />&nbsp;
 			<!-- END no_img_pre -->
@@ -48,6 +54,12 @@
 			<!-- BEGIN no_img_post -->
 			<img src="{NO_IMG_POST_TYPE}" border="0" vspace="0" />
 			<!-- END no_img_post -->
+		  	</div>
+			<div style="float:right;valign: top" class="il_ContainerItemCommands">
+				<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{EDIT}</a><br />
+				<a class="il_ContainerItemCommand" href="{LINK_MAT}">{ADD_MAT}</a><br />
+				<a class="il_ContainerItemCommand" href="{LINK_QST}">{ADD_QST}</a>
+			</div>			
 		  </td>
  		</tr>
 		<!-- END table_content -->
