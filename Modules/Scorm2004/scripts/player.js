@@ -76,21 +76,47 @@ function Player(config, gui)
 			// assign api for public use from sco
 			window[api.prototype.name] = new api(data, onCommit, onTerminate, gui.onAPIDebug);
 		}
-		// customize GUI Step 1: adlnav
-		var hideLMSUI = {};
-		if (item.hideLMSUI) 
+		// deliver resource (sco)
+		gui.deliver(item.id, item.href);
+		// customize GUI
+		updateNav(item);
+	}
+	
+	function updateNav(curItem) 
+	{
+		function walkChoice(parent) 
 		{
-			for (var i=0, ni=item.hideLMSUI.length; i<ni; i++) 
+			if (!parent.item) return;
+			var i, item, isvalid = true;
+			for (i=parent.item.length; i--;)
 			{
-				hideLMSUI[item.hideLMSUI[i].value] = true;
+				item = parent.item[i];
+				//isvalid = nav.queryNavigation("Choice", item.id);
+				isvalid = item.parentActivity.sequencing.choice!=="false";
+				// TODO add choiceExit and conditions
+				gui.itemUpdate(item.id, isvalid);
+				walkChoice(item);
 			}
 		}
-		// customize GUI Step 2: imsss
-		var seq = item.parentActivity.sequencing;
-		if (!seq.flow) hideLMSUI['continue'] = true; 
-		if (!seq.flow || seq.forwardOnly) hideLMSUI['previous'] = true; 
-		// deliver resource (sco)
-		gui.deliver(item.id, item.href, hideLMSUI);
+		var hideLMSUI = {};
+		// customize GUI Step 1: adlnav
+		if (curItem && curItem.hideLMSUI) 
+		{
+			for (var i=0, ni=curItem.hideLMSUI.length; i<ni; i++) 
+			{
+				hideLMSUI[curItem.hideLMSUI[i].value] = true;
+			}
+		}
+		// TODO check if last sco 
+		var seq = curItem.parentActivity;
+		if (!seq || seq.flow==="false") hideLMSUI['continue'] = true;
+		// TODO check if first sco 
+		if (!seq || seq.flow==="false" || seq.forwardOnly==="true") hideLMSUI['previous'] = true;
+		
+		gui.toggleClass("navContinue", "disabled", "continue" in hideLMSUI);
+		gui.toggleClass("navPrevious", "disabled", "previous" in hideLMSUI);
+		
+		walkChoice(cpdata.item);
 	}
 	
 	function onItemUndeliver(item) // onundeliver called from sequencing process (EndAttempt)
@@ -138,9 +164,7 @@ function Player(config, gui)
 	
 	function onChoice(target) 
 	{
-		if (target.className.indexOf('content')!==-1) {
-			nav.execNavigation({type: 'Choice', target: target.id.substr(3)});
-		}
+		nav.execNavigation({type: 'Choice', target: target.id.substr(3)});
 	}
 
 	function onWindowUnload () 
@@ -153,46 +177,39 @@ function Player(config, gui)
 	{
 		var target = e ? (e.target ? e.target : e.srcElement) : event.srcElement;
 		gui.stopEvent(e);
-		if (target.tagName !== 'A') 
+		if (target.tagName !== 'A' || !target.id || target.disabled || gui.hasClass(target, "disabled")) 
 		{
 			// ignore clicks on other elements than A
+			// or non identified elements or disabled elements
 		} 
-		else if (target.className === 'btn') 
+		else if (target.id.substr(0, 3)==='api') 
 		{
-			if (typeof window[target.id + '_onclick'] === "function")
-			{
-				return window[target.id + '_onclick']();
-			}
-			else if (target.id.substr(0, 3)==='api')
-			{
-				var api = parent[OP_SCORM_RUNTIME.prototype.name];
-				if (!api) {
-					alert(OP_SCORM_RUNTIME.prototype.name + " not found");
-					return false; 
-				}  
-				var btn = target.id.substr(3);
-				var f = document.forms[0];
-				if (typeof(api[btn])==="function") {
-					f.cmireturn.value = api[btn](f.cmielement.value, f.cmivalue.value);
-					f.cmidiagnostic.value = api.GetDiagnostic("");
-					f.cmierror.value = api.GetLastError("");
-					f.cmidiagnostic.value = api.GetErrorString("");
-				} else {
-					alert(['not found', btn])
-				} 
-			}
-			else if (target.id.substr(0, 3)==='nav')
-			{
-				document.title = nav.execNavigation({type: target.id.substr(3), target: target.id});
-			}
-			else
-			{
-				alert(target.id)
-			}
+			var api = parent[OP_SCORM_RUNTIME.prototype.name];
+			if (!api) {
+				alert(OP_SCORM_RUNTIME.prototype.name + " not found");
+				return false; 
+			}  
+			var btn = target.id.substr(3);
+			var f = document.forms[0];
+			if (typeof(api[btn])==="function") {
+				f.cmireturn.value = api[btn](f.cmielement.value, f.cmivalue.value);
+				f.cmidiagnostic.value = api.GetDiagnostic("");
+				f.cmierror.value = api.GetLastError("");
+			} else {
+				alert(['not found', btn])
+			} 
 		} 
-		else if (target.className.indexOf('nde ')!==-1) 
+		else if (target.id.substr(0, 3)==='nav') 
 		{
-			onChoice(target);			
+			top.status = nav.execNavigation({type: target.id.substr(3), target: target.id});
+		} 
+		else if (typeof window[target.id + '_onclick'] === "function")
+		{
+			return window[target.id + '_onclick']();
+		} 
+		else if (target.id.substr(0, 3)==="tre") 
+		{
+			onChoice(target);	
 		}
 	}
 		
@@ -227,11 +244,11 @@ function Player(config, gui)
 		gui.attachEvent(window, 'unload', onWindowUnload);
 		gui.attachEvent(document, 'click', onDocumentClick);
 		gui.render(cpdata.item, cpdata.base);
-		gui.all('listView').onchange = function () {
-			onChoice(this.options[this.selectedIndex]);
-		};
 		gui.show(true);
-		nav.startOrResume();
+		gui.onresize();
+		gui.attachEvent(window, 'resize', gui.onresize);
+		updateNav(cpdata.item);
+		gui.startOrResume(nav.queryNavigation("Start"), nav.queryNavigation("ResumeAll"));
 	}
 	
 	this.commit = function () 

@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="scormplayer">
+	<head>
+		<title>{DOC_TITLE}</title>
+		<link type="text/css" href="{THEME_CSS}" rel="stylesheet"/>
+<style type="text/css" >
+/* special SCORM 2004 Styles */
+
+#scormplayer html {
+	overflow: hidden;
+}
+
+#scormplayer body {
+	overflow: hidden;
+}
+
+#frmResource {
+	height: 100%;
+	width: 100%;
+	border: 1px inset #808080;
+	border-width: 0px;
+	overflow: auto;
+}
+
+/* ----------- */ 
+
+
+#treeView a {
+	display: block;
+}
+
+#treeView div {
+	padding: 8px;
+}
+
+#treeView div div {
+	padding: 0px 0px 0px 16px;
+}
+
+#treeView a.nde {
+	margin-bottom: 2px;
+	padding: 1px 3px 1px 3px;
+}
+
+#treeView a:hover {
+	text-decoration: underline;
+}
+
+/* ----------- */ 
+
+
+#scormplayer .current
+{
+	background-color: powderblue !important;
+}
+
+#scormplayer .suspended
+{
+	border-style: inset;
+}
+
+#scormplayer .disabled
+{
+	color: #A0A0A0;
+	background-color: #E0E0E0;
+}
+#scormplayer .disabled:hover
+{
+	text-decoration: none;
+}
+
+#scormplayer .hidden
+{
+	display: none;
+}
+
+</style>
+		<base target="frmResource" />
+	</head>
+	<body>
+
+		<table width="100%" height="100%" style="height: 100%" cellspacing="0" cellpadding="0" border="0"  summary="">
+			<tr height="1%">
+				<td colspan="2">
+		
+					<div class="ilMainHeader" >
+						<div class="ilLogin">SCORM 2004</div>
+						<div style="padding:2px 0px 2px 15px;">
+							<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="./templates/css/images/HeaderIcon.png" alt=""/>
+							<span class="il_PDTitle">Open Source eLearning</span>
+						</div>
+						<div class="il_MainMenu" style="clear:both;">
+			
+								<a target="_self" href="#" class="MMInactive" id="navExit">{btnExit}</a>
+								<a target="_self" href="#" class="MMInactive" id="navExitAll">{btnExitAll}</a>
+								
+								<a target="_self" href="#" class="MMInactive" id="navAbandon">{btnAbandon}</a>
+								<a target="_self" href="#" class="MMInactive" id="navAbandonAll">{btnAbandonAll}</a>
+								
+								<a target="_self" href="#" class="MMInactive" id="navSuspendAll">{btnSuspendAll}</a>
+								
+								<a target="_self" href="#" class="MMInactive" id="navPrevious">&lt; {btnPrevious}</a>
+								<a target="_self" href="#" class="MMInactive" id="navContinue">{btnContinue} &gt;</a>
+			
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+
+				</td>
+			</tr>
+
+			<tr class="il_PDBlock" id="il_PDBlock" height="1%">
+			
+				<th class="il_PDBlockHeader" width="30%">
+					<div style="float:left;" id="mainTitle">{Contents}</div>
+				</th>
+				<th class="il_PDBlockHeader" width="70%">
+					<div class="il_ContainerItemCommands" style="float:right;">
+						<a class="il_ContainerItemCommand" href="#">{Details}</a>
+					</div>
+				</th>
+				
+			</tr>
+
+			<tr valign="top" id="introTable" height="99%">			
+				<td class="std" colspan="2">
+					<div id="introLabel">loading</div>
+				</td>				
+			</tr>
+
+			<tr valign="top" id="mainTable" height="99%" >
+				<td class="std" width="30%" >
+					<div style="overflow: scroll; overflow-x: hidden; width: 100%; height: 100%" id="treeView">
+					</div>
+				</td>
+				<td class="std" width="70%" id="tdResource">
+					<div >
+						<a target="_self" href="#" class="il_ContainerItemCommand" id="navStart">{btnStart}</a>
+						<a target="_self" href="#" class="il_ContainerItemCommand" id="navResumeAll">{btnResumeAll}</a>	
+						<span id="lblChoice">{lblChoice}</span>					
+					</div>
+				</td>
+			</tr>
+			
+			<tr class="il_PDBlock" height="1%" >
+			
+				<td class="il_BlockFooter" style="text-align:left" width="30%">
+					<a style="font-weight:normal;" href="#">{View1}</a>
+					<a style="font-weight:normal;" href="#">{View2}</a>
+				</td>
+				<td class="il_BlockFooter" width="70%">
+					<a target="_self" style="font-weight:normal;" href="#" id="debugToggleView">{btnDebug}</a>
+				</td>
+				
+			</tr>
+			
+		</table>
+		
+	
+		{INCLUDE_DEBUG}
+		<!-- Load scripts after rest of page is already visible (instead of DEFER) -->
+		
+		<script type="text/javascript" src="scripts/remoting.js" charset="ISO-8859-1"></script>
+		<script type="text/javascript" src="scripts/scormapi.js" charset="ISO-8859-1"></script>
+		<script type="text/javascript" src="scripts/scormapi-1.3.js" charset="ISO-8859-1"></script>
+		<script type="text/javascript" src="scripts/gui.js" charset="ISO-8859-1"></script>
+		<script type="text/javascript" src="scripts/sequencing.js" charset="ISO-8859-1"></script>
+		<script type="text/javascript" src="scripts/cmicache.js" charset="ISO-8859-1"></script>
+		<script type="text/javascript" src="scripts/player.js" charset="ISO-8859-1"></script>
+		
+		<!--
+			Later on load all static js in one step (if compressed may load in 4 to 5 sec on 56k Modem)  
+			<script type="text/javascript" src="scripts/static.php" charset="ISO-8859-1"></script>		 
+		-->
+		<script type="text/javascript">
+			var player = new Player({JSON_CONFIG},	new Gui({JSON_GUI}, {JSON_LANGSTRINGS}));
+			var DEBUG = {DEBUG};			
+		</script>
+	</body>
+</html>

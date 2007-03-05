@@ -142,9 +142,6 @@ This is work in progress and therefore incomplete and buggy ...
 		<index name="id" unique="false">
 			<reference name="cmi_node_id"/>
 		</index>
-		<index name="mode" unique="false">
-			<reference name="mode"/>
-		</index>
 		<index name="user_id" unique="false">
 			<reference name="user_id"/>
 		</index>
@@ -560,7 +557,7 @@ This is work in progress and therefore incomplete and buggy ...
 	<table name="lng_data" collation="unicode">
 		<field name="module" required="true" type="string" size="30" default=""/>
 		<field name="identifier" required="true" type="string" size="50" default=""/>
-		<field name="lang_key" required="true" type="integer" size="2" default=""/>
+		<field name="lang_key" required="true" type="string" size="2" default=""/>
 		<field name="value" required="true" type="binary"/>
 		<key name="lng_data_primary" type="primary">
 			<reference name="module"/>
@@ -569,9 +566,6 @@ This is work in progress and therefore incomplete and buggy ...
 		</key>
 		<index name="lng_data_module" unique="false">
 			<reference name="module"/>
-		</index>
-		<index name="lng_data_identifier" unique="false">
-			<reference name="identifier"/>
 		</index>
 		<index name="lng_data_lang_key" unique="false">
 			<reference name="lang_key"/>

@@ -35,13 +35,30 @@
  */  
 function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onend, ondebug) {
 
-	this.execNavigation = exec;
+	this.execNavigation = function (req) {
+		if (running) return false; // already processing
+		running = true; 
+		var res = exec(req);
+		running = false; 
+		return !res.Exception;
+	};
+
+	this.queryNavigation = function (req) {
+		querying = true; 
+		var res = exec(typeof(req)==="string" ? {type:req, target:arguments[1]} : req);
+		querying = false; 
+		return !res.Exception;
+	};
 	
+	// if autostart i.e. not organization.choice
 	this.startOrResume = function ()
 	{
 		exec({type : SuspendedActivity ? 'ResumeAll' : 'Start'});
 	}
 
+	var running = false; 
+	var querying = false; 
+	
 	//var RootActivity = manifest.organizations[0]; // maps to selected organization
 	var RootActivity = manifest.item; // maps to selected organization
 	var CurrentActivity = null;
@@ -103,7 +120,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		// controlMode
 		choice : true,
 		choiceExit : true,
-		flow : true,
+		flow : false,
 		forwardOnly : false,
 		useCurrentAttemptObjectiveInfo : true,
 		useCurrentAttemptProgressInfo : true,
@@ -208,16 +225,16 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		
 		if (!rn.valid) 
 		{
-			return adlException('navigation request exception');
+			return rn;//adlException('navigation request exception');
 		}
 		SequencingRequest = rn.SequencingRequest;
 		
-		if (rn.TerminationRequest)  
+		if (rn.TerminationRequest && !querying)  
 		{
 			rt = TerminationRequestProcess(rn.TerminationRequest);
 			if (!rt.valid) 
 			{
-				return adlException('termination request exception');
+				return rt;//adlException('termination request exception');
 			}
 			if (rt.SequencingRequest)
 			{
@@ -230,7 +247,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 			rs = SequencingRequestProcess(SequencingRequest, activityMap[NavigationRequest.target]);
 			if (!rs.valid) 
 			{
-				return adlException('sequencing request exception');
+				return rs;//adlException('sequencing request exception');
 			}
 			if (rs.EndSequencingSession) 
 			{
@@ -241,9 +258,9 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 				rd = DeliveryRequestProcess(rs.DeliveryRequest);
 				if (!rd.valid) 
 				{
-					return adlException('delivery request exception');
+					return rd;//adlException('delivery request exception');
 				}
-				ContentDeliveryEnvironmentProcess(rs.DeliveryRequest);
+				return ContentDeliveryEnvironmentProcess(rs.DeliveryRequest);
 			}
 		} 
 
@@ -260,6 +277,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 	{
 		if (ondebug) ondebug("NavigationRequestProcess", NavigationRequestProcess.caller); 
 		var returnValue = {valid: false, SequencingRequest: null, TerminationRequest: null};
+		NAVREQ_TYPE:
 		switch (navReq.type) 
 		{
 		case 'Start':
@@ -296,7 +314,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 			{
 				returnValue.Exception = 'NB.2.1-2';
 			}
-			else if (CurrentActivity.parentActivity && CurrentActivity.parentActivity.sequencing.flow)
+			else if (CurrentActivity.parentActivity && CurrentActivity.parentActivity.sequencing.flow!=="false")
 			{
 				returnValue.valid = true;
 				returnValue.SequencingRequest = 'Continue';
@@ -317,7 +335,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 			}
 			else if (CurrentActivity.parentActivity) 
 			{
-				if (CurrentActivity.parentActivity.sequencing.flow && !CurrentActivity.parentActivity.sequencing.forwardOnly)
+				if (CurrentActivity.parentActivity.sequencing.flow!=="false" && !CurrentActivity.parentActivity.sequencing.forwardOnly)
 				{
 					returnValue.valid = true;
 					returnValue.SequencingRequest = 'Previous';
@@ -342,20 +360,21 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 			break;
 		case 'Choice':
 			var target = activityMap[navReq.target]; 
-			if (target) 
+			if (target) // 7.1
 			{
-				if (!target.parentActivity || target.parentActivity.sequencing.choice)
+				if (!target.parentActivity || target.parentActivity.sequencing.choice) // 7.1.1
 				{
-					if (!CurrentActivity)
+					if (!CurrentActivity) // 7.1.1.1
 					{
 						returnValue.valid = true;
 						returnValue.SequencingRequest = 'Choice';
 						returnValue.TargetActivity = target;
-						break;
+						break; 
 					}
-					if (!isSibling(CurrentActivity, target))
+					if (!isSibling(CurrentActivity, target)) // 7.1.1.2
 					{						
-						var activityPath = getCommonAncestorAndPath(CurrentActivity, target).activityPath; 
+						var activityPath = getCommonAncestorAndPath(target, CurrentActivity).activityPath; 
+						activityPath.push(CurrentActivity); // always include CurrentActivity
 						if (activityPath.length) 
 						{
 							for (var i=0, ni=activityPath.length; i<ni; i+=1) 
@@ -364,7 +383,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 								if (activity.isActive && activity.sequencing.choiceExit==="false")
 								{
 									returnValue.Exception = 'NB.2.1-8';
-									break;
+									break NAVREQ_TYPE;
 								}
 							}
 						}
@@ -1135,7 +1154,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 	{
 		if (ondebug) ondebug("FlowActivityTraversalSubprocess", FlowActivityTraversalSubprocess.caller); 
 		var r;
-		if (!activity.sequencing.flow)
+		if (activity.sequencing.flow==="false")
 		{
 			return {deliverable: false, identifiedActivity: activity, exception: 'SB.2.2-1'};
 		}
@@ -1292,7 +1311,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		}
 		else if (CurrentActivity!=RootActivity)
 		{
-			if (!CurrentActivity.parentActivity.sequencing.flow) 
+			if (CurrentActivity.parentActivity.sequencing.flow==="false") 
 			{
 				return {exception : 'SB.2.7-2'};
 			}
@@ -1318,7 +1337,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		}
 		else if (CurrentActivity!=RootActivity)
 		{
-			if (!CurrentActivity.parentActivity.sequencing.flow) 
+			if (CurrentActivity.parentActivity.sequencing.flow==="false") 
 			{
 				return {exception : 'SB.2.8-2'};
 			}
@@ -1711,6 +1730,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		{
 			return {exception: 'DB.2-1'};
 		}
+		if (querying) return deliveryRequest;
 		if (deliveryRequest != SuspendedActivity)
 		{
 			ClearSuspendedActivitySubprocess(deliveryRequest);
@@ -2082,7 +2102,7 @@ Objective Measure Greater
 	}
 	function isSibling(activity1, activity2) 
 	{
-		return isInArray(activity1.id, activity1.parentActivity.item, 'id');
+		return isInArray(activity2.id, activity1.parentActivity.item, 'id');
 	}
 	
 	function isInArray(value, array, prop) 

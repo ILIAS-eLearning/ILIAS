@@ -194,4 +194,65 @@ if (!is_callable('json_encode'))
 	$msg .= 'Neccessary JSON module is missing in your PHP installation.';
 }
 
+
+/**
+ * Some simple classes and functions simulting ILIAS behavior
+ */ 
+
+class SimpleTemplate
+{
+	private $params = array();
+	private $template = '';
+
+	public function __construct($tpl = null) 
+	{
+		if (is_string($tpl)) $this->load($tpl); 
+	}
+
+	public function setParam($k, $v) 
+	{
+		$this->params['{' . $k . '}'] = $v;
+	}
+
+	public function setParams($pairs) 
+	{
+		if (!is_array($pairs)) return;
+		foreach ($pairs as $k => $v) 
+		{
+			$this->setParam($k, $v);
+		}
+	}
+
+	public function load($tpl) 
+	{
+		$this->template = file_get_contents($tpl);
+	}
+
+	public function save($save='php://output', $data=null) 
+	{
+		$out = strtr($this->template, is_array($data) ? $data	: $this->params);
+		if (is_string($save)) // save into file or stream 
+		{
+			file_put_contents($save, $out);
+		}
+		else // return as string
+		{
+			return $out;
+		} 
+	}
+
+}
+
+if (!function_exists('json_encode')) {
+	require_once('JSON.php'); // you may read this from PEAR
+	function json_encode($data) {
+		$value = new Services_JSON(); 
+		return $value->encode($data);
+	}
+	function json_decode($data) {
+		$value = new Services_JSON(); 
+		return $value->decode($data); 
+	}
+}
+
 ?>
