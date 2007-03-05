@@ -1,8 +1,8 @@
-<?php xml version = "1.0" encoding = "UTF-8"?>
+<?xml version = "1.0" encoding = "UTF-8"?>
 <template xmlns = "http://www.w3.org" version = "$Id$" name = "ILIAS">
 	<style 	name = "Delos"
 			id = "delos"
-			image_directory = "."/>
+			image_directory = "images"/>
 	<!-- <style 	name = "Blue Shadow"
 			id = "blueshadow"
 			image_directory = "blueshadow" /> -->
