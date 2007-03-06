@@ -1796,21 +1796,32 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	 	$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$new_type));
 	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt($new_type.'_wizard_page'));
 	 	$this->tpl->setVariable('INFO_DUPLICATE',$this->lng->txt($new_type.'_copy_threads_info'));
-
-		// Fill item rows
-		foreach($tree->getSubTreeTypes($source_id,array('rolf','crs')) as $type)
-		{
-			$copy_wizard_page = ilCopyWizardPageFactory::_getInstanceByType($source_id,$type);
-			if(strlen($html = $copy_wizard_page->getWizardPageBlockHTML()))
-			{
-				$this->tpl->setCurrentBlock('obj_row');
-				$this->tpl->setVariable('ITEM_BLOCK',$html);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
 	 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('obj_'.$new_type.'_duplicate'));
 	 	$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
+
+		// Fill item rows
+		// tree view
+		if(0)
+		{
+			$copy_wizard_page = new ilCopyWizardPage((int) $_POST['clone_source']);
+			#$html = $copy_wizard_page->buildTreePresentation();
+			$this->tpl->setCurrentBlock('obj_row');
+			$this->tpl->setVariable('ITEM_BLOCK','123123');
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach($tree->getSubTreeTypes($source_id,array('rolf','crs')) as $type)
+			{
+				$copy_wizard_page = ilCopyWizardPageFactory::_getInstanceByType($source_id,$type);
+				if(strlen($html = $copy_wizard_page->getWizardPageBlockHTML()))
+				{
+					$this->tpl->setCurrentBlock('object_row');
+					$this->tpl->setVariable('ITEM_BLOCK',$html);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+		}
 	}
 	
 	/**

@@ -48,6 +48,85 @@ class ilCourseObjectiveMaterials
 		$this->__read();
 	}
 	
+	/**
+	 * clone objective materials
+	 *
+	 * @access public
+	 *
+	 * @param int source objective
+	 * @param int target objective
+	 * @param int copy id
+	 */
+	public function cloneDependencies($a_new_objective,$a_copy_id)
+	{
+		global $ilObjDataCache,$ilLog;
+		
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+		$mappings = $cwo->getMappings();
+		#$ilLog->write(__METHOD__.': 1');
+		foreach($this->getMaterials() as $material)
+		{
+		#$ilLog->write(__METHOD__.': 2');
+			// Copy action omit ?
+			if(!isset($mappings["$material[ref_id]"]) or !$mappings["$material[ref_id]"])
+			{
+				continue;
+			}
+		#$ilLog->write(__METHOD__.': 3');
+			$material_ref_id = $material['ref_id'];
+			$material_rbac_obj_id = $ilObjDataCache->lookupObjId($material_ref_id);
+			$material_obj_id = $material['obj_id'];
+			$new_ref_id = $mappings[$material_ref_id];
+			$new_rbac_obj_id = $ilObjDataCache->lookupObjId($new_ref_id);
+		#$ilLog->write(__METHOD__.': 4');
+			
+			// Link
+			if($new_rbac_obj_id == $material_rbac_obj_id)
+			{
+		#$ilLog->write(__METHOD__.': 5');
+				$ilLog->write(__METHOD__.': Material has been linked. Keeping object id.');
+				$new_obj_id = $material_obj_id;
+			}
+			elseif($material['type'] == 'st')
+			{
+		#$ilLog->write(__METHOD__.': 6');
+				// Chapter assignment
+				$new_material_info = isset($mappings[$material_ref_id.'_'.$material_obj_id]) ?
+					$mappings[$material_ref_id.'_'.$material_obj_id] :
+					array();
+				$new_material_arr = explode('_',$new_material_info);
+				if(!isset($new_material_arr[1]) or !$new_material_arr[1])
+				{
+					$ilLog->write(__METHOD__.': No mapping found for chapter: '.$material_obj_id);
+					continue;
+				}
+				$new_obj_id = $new_material_arr[1];
+				$ilLog->write(__METHOD__.': New material id is: '.$new_obj_id);
+			}
+			else
+			{
+		#$ilLog->write(__METHOD__.': 7');
+				// Any type
+				$new_obj_id = $ilObjDataCache->lookupObjId($mappings[$material_ref_id]);
+			}
+	
+		#$ilLog->write(__METHOD__.': 8');
+			$new_material = new ilCourseObjectiveMaterials($a_new_objective);
+		#$ilLog->write(__METHOD__.': 8.1');
+			$new_material->setLMRefId($new_ref_id);
+		#$ilLog->write(__METHOD__.': 8.2');
+			$new_material->setLMObjId($new_obj_id);
+		#$ilLog->write(__METHOD__.': 8.3');
+			$new_material->setType($material['type']);
+		#$ilLog->write(__METHOD__.': 8.4');
+			$new_material->add();
+		#$ilLog->write(__METHOD__.': 9');
+			
+		}
+	}
+	
+	
 
 	/**
 	 * Get an array of course material ids that can be assigned to learning objectives

@@ -94,6 +94,13 @@ class ilCourseObjective
 			include_once('Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
 			$objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
 			$objective_qst->cloneDependencies($objective_id,$a_copy_id);
+
+			$ilLog->write(__METHOD__.': Finished objective question dependencies: '.$objective_id);
+			
+			// Clone crs_objective_lm entries (assigned course materials)
+			include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
+			$objective_material = new ilCourseObjectiveMaterials($row->objective_id);
+			$objective_material->cloneDependencies($objective_id,$a_copy_id);
 	 	}
 		$ilLog->write(__METHOD__.': Finished cloning objectives.');
 	}
