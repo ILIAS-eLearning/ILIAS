@@ -73,10 +73,7 @@ class ilSoapRepositoryStructureObject extends ilSoapStructureObject {
 		$attrs = array(	'type' => $this->getType(),
 				'obj_id' => $this->getObjId(),
 				'ref_id' => $this->getRefId());
-		$attrs["nic_id"] = IL_INST_ID;
-		$attrs["installation_url"] = ILIAS_HTTP_PATH;
-		$attrs["client_id"] = CLIENT_ID;
-		
+
 		return $attrs;
 
 	}

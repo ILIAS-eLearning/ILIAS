@@ -39,14 +39,14 @@ class ilUserDefinedFields
 {
 	var $db = null;
 	var $definitions = array();
-	
+
 
 	/**
 	 * Constructor is private -> use getInstance
 	 * These definition are used e.g in User XML import.
 	 * To avoid instances of this class for every user object during import,
 	 * it caches this object in a singleton.
-	 *	
+	 *
 	 */
 	private function __construct()
 	{
@@ -60,7 +60,7 @@ class ilUserDefinedFields
 	function _getInstance()
 	{
 		static $udf = null;
-		
+
 		if(!is_object($udf))
 		{
 			return $udf = new ilUserDefinedFields();
@@ -111,7 +111,7 @@ class ilUserDefinedFields
 		}
 		return 0;
 	}
-	
+
 	function getDefinitions()
 	{
 		return $this->definitions ? $this->definitions : array();
@@ -269,7 +269,7 @@ class ilUserDefinedFields
 			"WHERE field_name = ".$this->db->quote($a_field_name)." ";
 
 		$res = $this->db->query($query);
-		
+
 		return (bool) $res->numRows();
 	}
 
@@ -336,7 +336,7 @@ class ilUserDefinedFields
 	}
 
 
-			
+
 	// Private
 	function __read()
 	{
@@ -402,6 +402,50 @@ class ilUserDefinedFields
 		$this->__read();
 
 		return true;
+	}
+
+	function toXML()
+	{
+		include_once 'classes/class.ilXmlWriter.php';
+		$xml_writer = new ilXmlWriter();
+
+		$this->addToXML ($xml_writer);
+
+		return $xml_writer->xmlDumpMem(false);
+	}
+
+	/**
+	*	add user defined field data to xml (using usr dtd)
+	*	@param*XmlWriter $xml_writer
+	*/
+	function addToXML($xml_writer)
+	{
+	    $xml_writer->xmlStartTag ("UDFDefinitions");
+		foreach($this->getDefinitions() as $definition)
+		{
+    	    $attributes = array(
+                "Id" => $definition ["il_id"],
+                "Type" => $definition["field_type"] == UDF_TYPE_SELECT? "SELECT" : "TEXT",
+                "Visible" => $definition["visible"]? "TRUE" : "FALSE",
+                "Changeable" => $definition["changeable"]? "TRUE" : "FALSE",
+                "Required" => $definition["required"]? "TRUE" : "FALSE",
+                "Searchable" => $definition["searchable"]? "TRUE" : "FALSE",
+                "CourseExport" => $definition["course_export"]? "TRUE" : "FALSE",
+                "Export" => $definition["export"]? "TRUE" : "FALSE",
+    	    );
+		    $xml_writer->xmlStartTag ("UDFDefinition", $attributes);
+		    $xml_writer->xmlElement('UDFName', null, $definition['field_name']);
+		    if ($definition["field_type"] == UDF_TYPE_SELECT ) {
+		        $field_values = $definition["field_values"];
+		        foreach ($field_values as $field_value)
+		        {
+	   	           $xml_writer->xmlElement('UDFValue', null, $field_value);
+		        }
+		    }
+		    $xml_writer->xmlEndTag ("UDFDefinition");
+		}
+	    $xml_writer->xmlEndTag ("UDFDefinitions");
+
 	}
 }
 ?>

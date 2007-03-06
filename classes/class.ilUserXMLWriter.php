@@ -38,7 +38,7 @@
 include_once "./classes/class.ilXmlWriter.php";
 include_once "./classes/class.ilObjUserFolder.php";
 
-class ilSoapUserObjectXMLWriter extends ilXmlWriter
+class ilUserXMLWriter extends ilXmlWriter
 {
 	var $ilias;
 	var $xml;
@@ -47,13 +47,20 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 	var $attachRoles = false;
 
 	/**
+	 * fields to be exported
+	 *
+	 * @var array of fields, which can export
+	 */
+	private $settings;
+
+	/**
 	* constructor
 	* @param	string	xml version
 	* @param	string	output encoding
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilSoapUserObjectXMLWriter()
+	function ilUserXMLWriter()
 	{
 		global $ilias,$ilUser;
 
@@ -81,6 +88,11 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 			return false;
 
 		$this->__buildHeader();
+
+
+	    include_once ("classes/class.ilUserDefinedFields.php");
+		$udf_data = & ilUserDefinedFields::_getInstance();
+		$udf_data->addToXML($this);
 
 		foreach ($this->users as $user)
 		{
@@ -168,12 +180,35 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 		}
 
 		 /**
-		  * never export passwords!
+		  * only export one password
 		  */
+		$i2passwd = FALSE;
+		if ($this->canExport("i2passwd","i2passwd") && strlen($row["i2passwd"]) > 0)
+		{
+			$i2passwd = TRUE;
+			$this->__addElement("Password",$row["i2passwd"], array("Type" => "ILIAS2"),"i2passwd");
+		}
+		if (!$i2passwd && strlen($row["passwd"]) > 0)
+		{
+			$this->__addElement("Password",$row["passwd"], array("Type" => "ILIAS3"),"passwd");
+		}
+
 
 		$this->__addElement ("Firstname", $row["firstname"]);
 		$this->__addElement ("Lastname", $row["lastname"]);
 		$this->__addElement ("Title", $row["title"]);
+
+		if ($this->canExport("PersonalPicture", "upload"))
+		{
+			$imageData = $this->getPictureValue($row["usr_id"]);
+			if ($imageData)
+			{
+				$value = array_shift($imageData); //$imageData["value"];
+				$this->__addElement ("PersonalPicture", $value, $imageData, "upload");
+			}
+		}
+
+
 		$this->__addElement ("Gender", $row["gender"]);
 		$this->__addElement ("Email", $row["email"]);
 		$this->__addElement ("Institution", $row["institution"]);
@@ -204,18 +239,28 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 				$this->__addElement ("iLincPasswd", $row["ilinc_passwd"], "ilinc_passwd");
 		}
 
-		if (strlen($row["auth_mode"])>0) 
+		if (strlen($row["auth_mode"])>0)
 		{
-			$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]));
+			$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]),"auth_mode");
 		}
-		
-		$this->__addElement ("LastUpdate", $row["last_update"]);
-		$this->__addElement ("LastLogin", $row["last_login"]);
+
+	    if ($this->canExport("skin_style"))
+	    {
+
+	    	$this->__addElement("Look",null,array(
+	    		"Skin"	=>	ilObjUser::_lookupPref($row["usr_id"], "skin") ,
+	    		"Style"	=>	ilObjUser::_lookupPref($row["usr_id"], "style")
+	    	),"skin_style");
+
+	    }
+
+
+		$this->__addElement ("LastUpdate", $row["last_update"], null, "last_update");
+		$this->__addElement ("LastLogin", $row["last_login"], null, "last_login");
 
 		include_once ("classes/class.ilUserDefinedData.php");
 		$udf_data = new ilUserDefinedData($row['usr_id']);
-
-		$udf_data->toXML($this);
+		$udf_data->addToXML($this, $this->settings);
 
 
 		$this->xmlEndTag('User');
@@ -224,9 +269,65 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 	function __addElement ($tagname, $value, $attrs = null, $settingsname = null)
 	{
+		if ($this->canExport($tagname, $settingsname))
+			$this->xmlElement ($tagname, $attrs, $value);
 
-	    $this->xmlElement ($tagname, $attrs, $value);
+	}
 
+	private function canExport ($tagname, $settingsname = null)
+	{
+		return !is_array($this->settings) ||
+			   in_array(strtolower($tagname), $this->settings) !== FALSE ||
+			   in_array($settingsname, $this->settings) !== FALSE;
+	}
+
+	/**
+	 * write access to settings
+	 *
+	 * @param array $settings
+	 */
+	function setSettings ($settings) {
+		$this->settings = $settings;
+	}
+
+	/**
+	 * return array with baseencoded picture data as key value, encoding type as encoding, and image type as key type.
+	 *
+	 * @param int $usr_id
+	 */
+	private function getPictureValue ($usr_id) {
+		global $ilDB;
+		// personal picture
+		$q = sprintf("SELECT value FROM usr_pref WHERE usr_id=%s AND keyword='profile_image'", $ilDB->quote($usr_id . ""));
+		$r = $ilDB->query($q);
+		if ($r->numRows() == 1)
+		{
+			$personal_picture_data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$personal_picture = $personal_picture_data["value"];
+			$webspace_dir = ilUtil::getWebspaceDir();
+			$image_file = $webspace_dir."/usr_images/".$personal_picture;
+			if (@is_file($image_file))
+			{
+				$fh = fopen($image_file, "rb");
+				if ($fh)
+				{
+					$image_data = fread($fh, filesize($image_file));
+					fclose($fh);
+					$base64 = base64_encode($image_data);
+					$imagetype = "image/jpeg";
+					if (preg_match("/.*\.(png|gif)$/", $personal_picture, $matches))
+					{
+						$imagetype = "image/".$matches[1];
+					}
+					return array (
+						"value" => $base64,
+						"encoding" => "Base64",
+						"imagetype" => $imagetype
+					);
+				}
+			}
+		}
+		return false;
 	}
 
 }

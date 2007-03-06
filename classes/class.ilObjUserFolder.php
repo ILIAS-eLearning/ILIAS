@@ -197,6 +197,23 @@ class ilObjUserFolder extends ilObject
 		global $log;
 
 		$file = fopen($filename, "w");
+
+		if (is_array($data))
+		{
+			  	include_once './classes/class.ilUserXMLWriter.php';
+
+			  	$xmlWriter = new ilUserXMLWriter();
+			  	$xmlWriter->setObjects($data);
+			  	$xmlWriter->setSettings($settings);
+				$xmlWriter->setAttachRoles (true);
+
+				if($xmlWriter->start())
+				{
+					fwrite($file, $xmlWriter->getXML());
+				}
+		}
+
+/*
 		fwrite($file, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		fwrite($file, "<!DOCTYPE Users SYSTEM \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_8.dtd\">\n");
 		fwrite($file, "<Users>");
@@ -266,7 +283,7 @@ class ilObjUserFolder extends ilObject
 				}
 			}
 			*/
-			//$log->write(date("[y-m-d H:i:s] ")."User data export: got all roles");
+/*			//$log->write(date("[y-m-d H:i:s] ")."User data export: got all roles");
 			$i2passwd = FALSE;
 			if (array_search("i2passwd", $settings) !== FALSE)
 			{
@@ -441,8 +458,8 @@ class ilObjUserFolder extends ilObject
 			}
 			if (array_search("skin_style", $settings) !== FALSE)
 			{
-				$userline .= 
-					"<Look Skin=\"" . ilObjUser::_lookupPref($row["usr_id"], "skin") . "\" " . 
+				$userline .=
+					"<Look Skin=\"" . ilObjUser::_lookupPref($row["usr_id"], "skin") . "\" " .
 					"Style=\"" . ilObjUser::_lookupPref($row["usr_id"], "style") . "\"></Look>";
 			}
 
@@ -464,7 +481,7 @@ class ilObjUserFolder extends ilObject
 			fwrite($file, $userline);
 		}
 		fwrite($file, "</Users>");
-		fclose($file);
+		fclose($file);*/
 	}
 
 	function createCSVExport(&$settings, &$data, $filename)

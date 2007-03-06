@@ -43,7 +43,7 @@ class ilUserDefinedData
 
 		$this->db =& $ilDB;
 		$this->usr_id = $a_usr_id;
-		
+
 		$this->__read();
 	}
 
@@ -79,26 +79,36 @@ class ilUserDefinedData
 		$this->db->query($query);
 		return true;
 	}
-	
+
 	function toXML()
 	{
 		include_once 'classes/class.ilXmlWriter.php';
 		$xml_writer = new ilXmlWriter();
-		
+
+		$this->addToXML ($xml_writer);
+
+		return $xml_writer->xmlDumpMem(false);
+	}
+
+	/**
+	*	add user defined field data to xml (using usr dtd)
+	*	@param*XmlWriter $xml_writer
+	*/
+	function addToXML($xml_writer)
+	{
 		include_once 'classes/class.ilUserDefinedFields.php';
 		$udf_obj =& ilUserDefinedFields::_getInstance();
 
 		foreach($udf_obj->getDefinitions() as $definition)
 		{
-			$xml_writer->xmlElement('UserDefinedField',
+			if ($definition["export"] != FALSE)
+				$xml_writer->xmlElement('UserDefinedField',
 									array('Id' => $definition['il_id'],
 										  'Name' => $definition['field_name']),
 									$this->user_data["$definition[field_id]"]);
 		}
-		return $xml_writer->xmlDumpMem(false);
 	}
-									
-			
+
 	// Private
 	function __read()
 	{
@@ -115,7 +125,7 @@ class ilUserDefinedData
 					$this->user_data[$field] = $data;
 				}
 			}
-		}		
+		}
 	}
 
 }

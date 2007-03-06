@@ -176,14 +176,10 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_8.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_7.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS objects");
 		$this->xmlHeader();
-
-		$attrs = array ("nic_id" => IL_INST_ID, "installation_url" => ILIAS_HTTP_PATH, "client_id" => CLIENT_ID);
-
-		$this->xmlStartTag("Objects", $attrs);
-
+		$this->xmlStartTag("Objects");
 		return true;
 	}
 
