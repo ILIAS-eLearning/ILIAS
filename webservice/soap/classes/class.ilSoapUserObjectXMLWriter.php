@@ -204,7 +204,10 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 				$this->__addElement ("iLincPasswd", $row["ilinc_passwd"], "ilinc_passwd");
 		}
 
-		$this->__addElement ("AuthMode", null, array ("type" => strlen($row["auth_mode"])==0?"default":$row["auth_mode"]));
+		if (strlen($row["auth_mode"])>0) 
+		{
+			$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]));
+		}
 		
 		$this->__addElement ("LastUpdate", $row["last_update"]);
 		$this->__addElement ("LastLogin", $row["last_login"]);
