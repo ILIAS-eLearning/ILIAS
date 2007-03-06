@@ -725,3 +725,7 @@ CREATE TABLE `il_media_cast_item` (
   PRIMARY KEY  (`id`)
 ) Type=MyISAM;
 
+<#933>
+ALTER table usr_data ADD column latitude varchar(30) NOT NULL DEFAULT '';
+ALTER table usr_data ADD column longitude varchar(30) NOT NULL DEFAULT '';
+ALTER table usr_data ADD column loc_zoom int NOT NULL DEFAULT 0;

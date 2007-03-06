@@ -99,6 +99,9 @@ class ilObjUser extends ilObject
 	var $im_skype;
 	
 	var $delicious;
+	var $latitude;
+	var $longitude;
+	var $loc_zoom;
 
 	var $user_defined_data = array();
 
@@ -312,7 +315,11 @@ class ilObjUser extends ilObject
 		$this->setInstantMessengerId('aim',$a_data["im_aim"]);
 		$this->setInstantMessengerId('skype',$a_data["im_skype"]);
 
-		$this->setDelicious($a_data["delicious"]);		
+		// other data
+		$this->setDelicious($a_data["delicious"]);
+		$this->setLatitude($a_data["latitude"]);
+		$this->setLongitude($a_data["longitude"]);
+		$this->setLocationZoom($a_data["loc_zoom"]);		
 		
 		// system data
 		$this->setLastLogin($a_data["last_login"]);
@@ -382,7 +389,7 @@ class ilObjUser extends ilObject
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
-                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious) "
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom) "
                 . "VALUES "
                 . "(".
 				$ilDB->quote($this->id).",".
@@ -421,7 +428,11 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->im_msn).",".
 				$ilDB->quote($this->im_aim).",".
 				$ilDB->quote($this->im_skype).",".
-				$ilDB->quote($this->delicious).")";
+				$ilDB->quote($this->delicious).",".
+				$ilDB->quote($this->latitude).",".
+				$ilDB->quote($this->longitude).",".
+				$ilDB->quote($this->loc_zoom).
+				")";
 		}
 		else
 		{
@@ -431,7 +442,7 @@ class ilObjUser extends ilObject
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
-                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious) "
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom) "
                 . "VALUES "
                 ."(".
 				$ilDB->quote($this->id).",".
@@ -470,7 +481,11 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->im_msn).",".
 				$ilDB->quote($this->im_aim).",".
 				$ilDB->quote($this->im_skype).",".
-				$ilDB->quote($this->delicious).")";
+				$ilDB->quote($this->delicious).",".
+				$ilDB->quote($this->latitude).",".
+				$ilDB->quote($this->longitude).",".
+				$ilDB->quote($this->loc_zoom).
+				")";
 		}
 
 		$this->ilias->db->query($q);
@@ -564,6 +579,9 @@ class ilObjUser extends ilObject
 			"im_aim= ".$ilDB->quote($this->getInstantMessengerId('aim')).",".
 			"im_skype= ".$ilDB->quote($this->getInstantMessengerId('skype')).",".
 			"delicious= ".$ilDB->quote($this->getDelicious()).",".
+			"latitude= ".$ilDB->quote($this->getLatitude()).",".
+			"longitude= ".$ilDB->quote($this->getLongitude()).",".
+			"loc_zoom= ".$ilDB->quote($this->getLocationZoom()).",".
             "last_update=now()".
 		//	"ilinc_id= ".$ilDB->quote($this->ilinc_id).",".
 		//	"ilinc_login= ".$ilDB->quote($this->ilinc_login).",".
@@ -2023,6 +2041,67 @@ class ilObjUser extends ilObject
     {
         return $this->profile_incomplete;
     }
+
+	
+	/**
+	* Set Latitude.
+	*
+	* @param	string	$a_latitude	Latitude
+	*/
+	function setLatitude($a_latitude)
+	{
+		$this->latitude = $a_latitude;
+	}
+
+	/**
+	* Get Latitude.
+	*
+	* @return	string	Latitude
+	*/
+	function getLatitude()
+	{
+		return $this->latitude;
+	}
+
+	/**
+	* Set Longitude.
+	*
+	* @param	string	$a_longitude	Longitude
+	*/
+	function setLongitude($a_longitude)
+	{
+		$this->longitude = $a_longitude;
+	}
+
+	/**
+	* Get Longitude.
+	*
+	* @return	string	Longitude
+	*/
+	function getLongitude()
+	{
+		return $this->longitude;
+	}
+
+	/**
+	* Set Location Zoom.
+	*
+	* @param	int	$a_locationzoom	Location Zoom
+	*/
+	function setLocationZoom($a_locationzoom)
+	{
+		$this->loc_zoom = $a_locationzoom;
+	}
+
+	/**
+	* Get Location Zoom.
+	*
+	* @return	int	Location Zoom
+	*/
+	function getLocationZoom()
+	{
+		return $this->loc_zoom;
+	}
 
 	function &getAppliedUsers()
 	{
