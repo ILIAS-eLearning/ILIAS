@@ -23,7 +23,9 @@ function ilInitMaps()
 		// if it has a class of helpLink
 		if(/ilGoogleMap/.test(obj[i].className))
 		{
-			ilInitMap(obj[i].id, ilMapData[obj[i].id][0], ilMapData[obj[i].id][1], ilMapData[obj[i].id][2]);
+			ilInitMap(obj[i].id, ilMapData[obj[i].id][0], ilMapData[obj[i].id][1],
+				ilMapData[obj[i].id][2], ilMapData[obj[i].id][3], ilMapData[obj[i].id][4],
+				ilMapData[obj[i].id][5], ilMapData[obj[i].id][6]);
 		}
 	}
 }
@@ -32,15 +34,29 @@ function ilInitMaps()
 /** 
 * Init a goole map
 */
-function ilInitMap(id, latitude, longitude, zoom)
+function ilInitMap(id, latitude, longitude, zoom, type_control,
+	nav_control, update_listener, large_map_control)
 {
 	if (GBrowserIsCompatible())
 	{
 		var map = new GMap2(document.getElementById(id));
-		map.addControl(new GSmallMapControl());
-		map.addControl(new GMapTypeControl());
-		GEvent.addListener(map, "moveend", function() {
-			ilUpdateLocationInput(id, map)});
+		if (nav_control)
+		{
+			map.addControl(new GSmallMapControl());
+		}
+		if (type_control)
+		{
+			map.addControl(new GMapTypeControl());
+		}
+		if (large_map_control)
+		{
+			map.addControl(new GLargeMapControl());
+		}
+		if (update_listener)
+		{
+			GEvent.addListener(map, "moveend", function() {
+				ilUpdateLocationInput(id, map)});
+		}
 		map.setCenter(new GLatLng(latitude, longitude), zoom);
 		ilMap[id] = map;
 	}

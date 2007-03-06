@@ -163,7 +163,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
 		$a_tpl->setVariable("LOC_DESCRIPTION", $lng->txt("gmaps_std_location_desc"));
-		$a_tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
+		
 		$lat = is_numeric($this->getLatitude())
 			? $this->getLatitude()
 			: 0;
@@ -180,7 +180,20 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 			ilUtil::formSelect($this->getZoom(), $this->getPostVar()."[zoom]",
 			$levels, false, true, 0, "", array("id" => "map_".$this->getPostVar()."_zoom",
 				"onchange" => "ilUpdateMap('"."map_".$this->getPostVar()."');")));
-		$a_tpl->setVariable("ZOOM", (int) $this->getZoom());
+		$a_tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
+		
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
+		$map_gui = new ilGoogleMapGUI();
+		$map_gui->setMapId("map_".$this->getPostVar());
+		$map_gui->setLatitude($lat);
+		$map_gui->setLongitude($long);
+		$map_gui->setZoom($this->getZoom());
+		$map_gui->setEnableTypeControl(true);
+		$map_gui->setEnableLargeMapControl(true);
+		$map_gui->setEnableUpdateListener(true);
+		
+		$a_tpl->setVariable("MAP", $map_gui->getHtml());
+		
 		$a_tpl->parseCurrentBlock();
 	}
 

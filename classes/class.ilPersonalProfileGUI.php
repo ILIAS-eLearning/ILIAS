@@ -1268,9 +1268,13 @@ class ilPersonalProfileGUI
 	
 	function showLocation()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $ilUser;
 
 		$this->__initSubTabs("showLocation");
+		
+		$latitude = $ilUser->getLatitude();
+		$longitude = $ilUser->getLongitude();
+		$zoom = $ilUser->getLocationZoom();
 
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
@@ -1309,6 +1313,12 @@ class ilPersonalProfileGUI
 		global $ilCtrl, $ilUser;
 		
 		$ilUser->writePref("public_location", $_POST["public_location"]);
+		
+		$ilUser->setLatitude(ilUtil::stripSlashes($_POST["location"]["latitude"]));
+		$ilUser->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
+		$ilUser->setLocationZoom(ilUtil::stripSlashes($_POST["location"]["zoom"]));
+		$ilUser->update();
+		
 		$ilCtrl->redirect($this, "showLocation");
 	}
 	

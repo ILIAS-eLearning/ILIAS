@@ -2161,6 +2161,25 @@ class ilObjUserGUI extends ilObjectGUI
 			$tpl->parseCurrentBlock();
 		}
 		
+		// map
+		if ($d_set->get("user_profile") == "1" && $this->object->getPref("public_location"))
+		{
+			$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
+
+			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
+			$map_gui = new ilGoogleMapGUI();
+			
+			$map_gui->setMapId("user_map");
+			$map_gui->setWidth("300px");
+			$map_gui->setHeight("200px");
+			$map_gui->setLatitude($this->object->getLatitude());
+			$map_gui->setLongitude($this->object->getLongitude());
+			$map_gui->setZoom($this->object->getLocationZoom());
+			$map_gui->setEnableNavigationControl(true);
+			
+			$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
+		}
+		
 		// display available IM contacts
 		if ($ilSetting->get("usr_settings_hide_instant_messengers") != 1)
 		{

@@ -63,12 +63,7 @@
 			onchange="ilUpdateMap('{MAP_ID}');" />
 		&nbsp;&nbsp;{TXT_ZOOM}: {ZOOM_SELECT}<br />
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{LOC_DESCRIPTION}</span></div>
-		<script type="text/javascript">
-		//<![CDATA[
-		ilMapData["{MAP_ID}"] = new Array({PROPERTY_VALUE_LAT},{PROPERTY_VALUE_LONG},{ZOOM});
-		//]]>
-		</script>
-		<div id="{MAP_ID}" class="ilGoogleMap" style="width: 500px; height: 300px;" />
+		{MAP}
 		<!-- END prop_location -->
 		<!-- BEGIN prop_file -->
 		<input type="file" name="{POST_VAR}" size="30" />
