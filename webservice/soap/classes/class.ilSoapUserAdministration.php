@@ -794,7 +794,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			{
 				// check if internal id
 				$internalId = ilUtil::__extractId($role_id, IL_INST_ID);
-				if (is_numeric($internalId)) 
+				if (is_numeric($internalId))
 				{
 					$role_id = $internalId;
 					$role_name = $role_id;
@@ -952,10 +952,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 			if (is_array($data))
 			{
-			  include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
+			  	include_once './classes/class.ilUserXMLWriter.php';
 
-			  $xmlWriter = new ilSoapUserObjectXMLWriter();
-				$xmlWriter->setObjects($data);
+			  	$xmlWriter = new ilUserXMLWriter();
+			  	$xmlWriter->setObjects($data);
 
 				$xmlWriter->setAttachRoles ($attachRoles);
 
