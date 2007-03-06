@@ -2772,6 +2772,7 @@ class ilUtil
 				}
 			}
 		}
+
 		return array(true,"");
 	}
 

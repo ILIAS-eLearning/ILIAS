@@ -141,19 +141,12 @@ class ilPDContentBlockGUI extends ilBlockGUI
 				$this->tpl->setVariable("NUMINFO", $numinfo);
 			}
 			$footer = true;
+			$this->fillFooterLinks(true, $numinfo);
 		}
-
-		{
-			$this->fillFooterLinks();
-			$footer = true;
-		}
-
-		if ($footer)
-		{
-			$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
-			$this->tpl->setCurrentBlock("block_footer");
-			$this->tpl->parseCurrentBlock();
-		}
+	}
+	
+	function fillPreviousNext()
+	{
 	}
 }
 

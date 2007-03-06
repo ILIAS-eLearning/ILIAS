@@ -1157,6 +1157,14 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
+form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.
+form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.
+form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.
+form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.
+form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.
+form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
+form#:#form_msg_file_wrong_file_type#:#Wrong file type.
+form#:#form_msg_file_virus_found#:#Virus found in uploaded file.
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH#:#HH:MM
@@ -1438,6 +1446,8 @@ common#:#obj_mcst#:#MediaCast
 common#:#objs_mcst#:#MediaCasts
 common#:#mcst_new#:#New MediaCast
 common#:#mcst_add#:#Add MediaCast
+mcst#:#mcst_add_new_item#:#Add New Media Cast Item
+mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -1916,6 +1926,7 @@ common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Please take note of the maximum file size of
+common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_read#:#Download File
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
@@ -2808,6 +2819,9 @@ news#:#news_news_item_content_long#:#Long Text
 news#:#news_news_item_content_long_info#:#This text will not be published via RSS.
 news#:#news_visibility_users#:#Logged in Users
 news#:#news_visibility_public#:#Public
+common#:#access_users#:#Logged in Users
+common#:#access_public#:#Public
+common#:#access_scope#:#Access
 news#:#news_news_item_visibility#:#Access
 news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Subscribe
@@ -2828,7 +2842,7 @@ feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories
 feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing external web feed blocks, in case of an unexpected problem due to an external feed source.
 feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop
-feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.
+feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop. Existing feeds are not deleted, if option is set to a lower value. '0' disables the feature completely.
 feed#:#feed_settings#:#External Web Feeds Settings
 feed#:#feed_open_source_page#:#Go to Source of External News
 feed#:#block_feed_block_head#:#External News Feed
@@ -3376,6 +3390,7 @@ common#:#select_questionpool#:#Question pool for Test
 common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
+common#:#selected_items_back#:#Back to Personal Items
 common#:#send#:#Send
 common#:#send_mail_admins#:#E-Mail to all administrators
 common#:#send_mail_members#:#E-Mail to all members

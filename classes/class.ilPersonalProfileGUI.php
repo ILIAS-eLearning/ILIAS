@@ -1265,6 +1265,53 @@ class ilPersonalProfileGUI
 		$this->tpl->show();
 	}
 	
+	
+	function showLocation()
+	{
+		global $ilUser, $ilCtrl;
+
+		$this->__initSubTabs("showLocation");
+
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		$form->setTitle($this->lng->txt("location")." ".
+			strtolower($this->lng->txt("of"))." ".$ilUser->getFullname());
+			
+		// location property
+		$loc_prop = new ilLocationInputGUI($this->lng->txt("location"),
+			"location");
+		$loc_prop->setLatitude($latitude);
+		$loc_prop->setLongitude($longitude);
+		$loc_prop->setZoom($zoom);
+		$form->addItem($loc_prop);
+
+		// public profile
+		$public = new ilCheckboxInputGUI($this->lng->txt("public_profile"),
+			"public_location");
+		$public->setValue("y");
+		$public->setChecked($ilUser->getPref("public_location"));
+		
+		$form->addItem($public);
+		
+		$form->addCommandButton("saveLocation", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		$this->tpl->show();
+	}
+
+	function saveLocation()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$ilUser->writePref("public_location", $_POST["public_location"]);
+		$ilCtrl->redirect($this, "showLocation");
+	}
+	
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
@@ -1272,9 +1319,12 @@ class ilPersonalProfileGUI
 
 		$showProfile = ($a_cmd == 'showProfile') ? true : false;
 		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
+		$showLocation = ($a_cmd == 'showLocation') ? true : false;
 
 		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile"),
 								 "", "", "", $showProfile);
+		$ilTabs->addSubTabTarget("location", $this->ctrl->getLinkTarget($this, "showLocation"),
+								 "", "", "", $showLocation);
 		$ilTabs->addSubTabTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"),
 								 "", "", "", $showMailOptions);
 	}

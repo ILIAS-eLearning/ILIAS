@@ -712,4 +712,16 @@ chdir($wd);
 <#931>
 DROP TABLE IF EXISTS tmp_migration;
 
+<#932>
+DROP TABLE IF EXISTS il_media_cast_item;
+CREATE TABLE `il_media_cast_item` (
+  `id` int(11) NOT NULL auto_increment,
+  `mcst_id` int NOT NULL default '0',
+  `mob_id` int NOT NULL default '0',
+  `creation_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  `update_user` int NOT NULL default '0',
+  `length` varchar(8) NOT NULL,
+  PRIMARY KEY  (`id`)
+) Type=MyISAM;
 

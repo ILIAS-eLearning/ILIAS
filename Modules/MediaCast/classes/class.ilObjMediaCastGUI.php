@@ -78,5 +78,159 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
 		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
 	}
+	
+	/**
+	* List items of media cast.
+	*/
+	function listItemsObject()
+	{
+		global $tpl, $lng, $ilAccess;
+		
+		$med_items = $this->object->getItemsArray();
+		
+		include_once("./Modules/MediaCast/classes/class.ilMediaCastTableGUI.php");
+		$table_gui = new ilMediaCastTableGUI($this, "listItems");
+				
+		$table_gui->setTitle($lng->txt("mcst_media_cast"));
+		$table_gui->setData($med_items);
+		
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$table_gui->addCommandButton("addCastItem", $lng->txt("add"));
+		}
+		
+		$tpl->setContent($table_gui->getHTML());
+
+	}
+	
+	/**
+	* Add media cast item
+	*/
+	function addCastItemObject()
+	{
+		global $tpl;
+		
+		$this->initAddCastItemForm();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	/**
+	* Init add cast item form.
+	*/
+	function initAddCastItemForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("mcst");
+		
+		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		// Property Title
+		$text_input = new ilTextInputGUI($lng->txt("title"), "title");
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(200);
+		$this->form_gui->addItem($text_input);
+		
+		// Property Content
+		$text_area = new ilTextAreaInputGUI($lng->txt("description"), "description");
+		$text_area->setRequired(false);
+		$this->form_gui->addItem($text_area);
+		
+		// Property Visibility
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("access_scope"), "visibility");
+		$radio_option = new ilRadioOption($lng->txt("access_users"), "users");
+		$radio_group->addOption($radio_option);
+		$radio_option = new ilRadioOption($lng->txt("access_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("mcst_visibility_info"));
+		$radio_group->setRequired(true);
+		$radio_group->setValue("users");
+		$this->form_gui->addItem($radio_group);
+		
+		// File
+		$file = new ilFileInputGUI($lng->txt("file"), "file");
+		$file->setRequired(true);
+		$file->setSuffixes(array("mp3"));
+		$this->form_gui->addItem($file);
+		
+		// save/cancel button
+		$this->form_gui->addCommandButton("saveCastItem", $lng->txt("save"));
+		$this->form_gui->addCommandButton("listItems", $lng->txt("cancel"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this, "saveCastItem"));
+		
+		$this->form_gui->setTitle($lng->txt("mcst_add_new_item"));
+	}
+	
+	
+	/**
+	* Save new cast item
+	*/
+	function saveCastItemObject()
+	{
+		global $tpl, $ilCtrl, $ilUser;
+		
+		$this->initAddCastItemForm();
+		
+		if ($this->form_gui->checkInput())
+		{
+			
+			// create dummy object in db (we need an id)
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+			$mob = new ilObjMediaObject();
+
+			$mob->setTitle($this->form_gui->getInput("title"));
+			$mob->setDescription("");
+			$mob->create();
+
+			// determine and create mob directory, move uploaded file to directory
+			//$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
+			$mob->createDirectory();
+			$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
+
+			$media_item =& new ilMediaItem();
+			$mob->addMediaItem($media_item);
+			$media_item->setPurpose("Standard");
+
+			$file = $mob_dir."/".$_FILES['file']['name'];
+			ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
+				$_FILES['file']['name'], $file);
+
+			// get mime type
+			$format = ilObjMediaObject::getMimeType($file);
+			$location = $_FILES['file']['name'];
+
+			// set real meta and object data
+			$media_item->setFormat($format);
+			$media_item->setLocation($location);
+			$media_item->setLocationType("LocalFile");
+			$mob->setTitle($_FILES['file']['name']);
+			$mob->setDescription($format);
+			$media_item->setHAlign("Left");
+
+			ilUtil::renameExecutables($mob_dir);
+			$mob->update();
+			
+			//
+			// @todo: save usage
+			//
+			
+			// create new media cast item
+			include_once("./Modules/MediaCast/classes/class.ilMediaCastItem.php");
+			$mc_item = new ilMediaCastItem();
+			$mc_item->setMobId($mob->getId());
+			$mc_item->setMcstId($this->object->getId());
+			$mc_item->setUpdateUser($ilUser->getId());
+			$mc_item->create();
+			
+			$ilCtrl->redirect($this, "listItems");
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$tpl->setContent($this->form_gui->getHTML());
+		}
+	}
+	
 } // END class.ilObjMediaCast
 ?>
