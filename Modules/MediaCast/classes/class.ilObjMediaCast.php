@@ -45,6 +45,26 @@ class ilObjMediaCast extends ilObject
 	}
 
 	/**
+	* Set ItemsArray.
+	*
+	* @param	array	$a_itemsarray	ItemsArray
+	*/
+	function setItemsArray($a_itemsarray)
+	{
+		$this->itemsarray = $a_itemsarray;
+	}
+
+	/**
+	* Get ItemsArray.
+	*
+	* @return	array	ItemsArray
+	*/
+	function getItemsArray()
+	{
+		return $this->itemsarray;
+	}
+
+	/**
 	* update object data
 	*
 	* @access	public
@@ -60,6 +80,12 @@ class ilObjMediaCast extends ilObject
 		// put here object specific stuff
 
 		return true;
+	}
+	
+	function read()
+	{
+		parent::read();
+		$this->readItems();
 	}
 
 	/**
@@ -203,5 +229,22 @@ class ilObjMediaCast extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
+	/**
+	* Get all items of media cast.
+	*/
+	function readItems()
+	{
+		global $ilDB;
+		
+		//
+		include_once("./Modules/MediaCast/classes/class.ilMediaCastItem.php");
+		$it = new ilMediaCastItem();
+		$it->setMcstId($this->getId());
+		$this->itemsarray = $it->queryItemsForCast();
+		
+		return $this->itemsarray;
+	}
+	
+	
 } // END class.ilObjMediaCast
 ?>

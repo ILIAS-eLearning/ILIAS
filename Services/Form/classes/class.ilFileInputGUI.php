@@ -53,6 +53,26 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	}
 
 	/**
+	* Set Accepted Suffixes.
+	*
+	* @param	array	$a_suffixes	Accepted Suffixes
+	*/
+	function setSuffixes($a_suffixes)
+	{
+		$this->suffixes = $a_suffixes;
+	}
+
+	/**
+	* Get Accepted Suffixes.
+	*
+	* @return	array	Accepted Suffixes
+	*/
+	function getSuffixes()
+	{
+		return $this->suffixes;
+	}
+
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -61,14 +81,74 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 
-		//$_POST[$this->getPostVar()] = 
-		//	ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		//if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
-		//{
-		//	$this->setAlert($lng->txt("msg_input_is_required"));
-		//
-		//	return false;
-		//}
+		$filename = $_FILES[$this->getPostVar()]["name"];
+		$filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
+		$suffix = $filename_arr["extension"];
+		$mimetype = $_FILES[$this->getPostVar()]["type"];
+		$size_bytes = $_FILES[$this->getPostVar()]["size"];
+		$temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
+		$error = $_FILES[$this->getPostVar()]["error"];
+		
+		// error handling
+		switch ($error)
+		{
+			case UPLOAD_ERR_INI_SIZE:
+				$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+				return false;
+				break;
+				 
+			case UPLOAD_ERR_FORM_SIZE:
+				$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+				return false;
+				break;
+
+			case UPLOAD_ERR_PARTIAL:
+				$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
+				return false;
+				break;
+
+			case UPLOAD_ERR_NO_FILE:
+				if ($this->getRequired())
+				{
+					$this->setAlert($lng->txt("form_msg_file_no_upload"));
+					return false;
+				}
+				break;
+ 
+			case UPLOAD_ERR_NO_TMP_DIR:
+				$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
+				return false;
+				break;
+				 
+			case UPLOAD_ERR_CANT_WRITE:
+				$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
+				return false;
+				break;
+ 
+			case UPLOAD_ERR_EXTENSION:
+				$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
+				return false;
+				break;
+		}
+		
+		// check suffixes
+		if (is_array($this->getSuffixes()))
+		{
+			if (!in_array(strtolower($suffix), $this->getSuffixes()))
+			{
+				$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
+				return false;
+			}
+		}
+		
+		// virus handling
+		$vir = ilUtil::virusHandling($temp_name, $filename);
+		if ($vir[0] == false)
+		{
+			$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -77,8 +157,47 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
+		global $lng;
+		
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+		
+		//convert from short-string representation to "real" bytes
+		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+		
+		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        
+        if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
+        if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
+        
+        // use the smaller one as limit
+		$max_filesize = min($umf, $pms);
+
+		if (!$max_filesize) $max_filesize=max($umf, $pms);
+	
+    	//format for display in mega-bytes
+		$max_filesize = sprintf("%.1f MB",$max_filesize/1024/1024);
+
+		if (is_array($this->getSuffixes()))
+		{
+			$suff_str = $delim = "";
+			foreach($this->getSuffixes() as $suffix)
+			{
+				$suff_str.= $delim.".".$suffix;
+				$delim = ", ";
+			}
+			$a_tpl->setCurrentBlock("allowed_suffixes");
+			$a_tpl->setVariable("TXT_ALLOWED_SUFFIXES",
+				$lng->txt("file_allowed_suffixes")." ".$suff_str);
+			$a_tpl->parseCurrentBlock();
+		}
+		
 		$a_tpl->setCurrentBlock("prop_file");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." $max_filesize");
 		$a_tpl->parseCurrentBlock();
 	}
 

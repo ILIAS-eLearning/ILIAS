@@ -57,6 +57,9 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function ilPropertyFormGUI()
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("form");
 		parent::ilFormGUI();
 	}
 

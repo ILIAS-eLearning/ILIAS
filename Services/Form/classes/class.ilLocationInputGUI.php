@@ -164,9 +164,15 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$a_tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
 		$a_tpl->setVariable("LOC_DESCRIPTION", $lng->txt("gmaps_std_location_desc"));
 		$a_tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
-		$a_tpl->setVariable("PROPERTY_VALUE_LAT", $this->getLatitude());
-		$a_tpl->setVariable("PROPERTY_VALUE_LONG", $this->getLongitude());
-		for($i = 0; $i <= 17; $i++)
+		$lat = is_numeric($this->getLatitude())
+			? $this->getLatitude()
+			: 0;
+		$long = is_numeric($this->getLongitude())
+			? $this->getLongitude()
+			: 0;
+		$a_tpl->setVariable("PROPERTY_VALUE_LAT", $lat);
+		$a_tpl->setVariable("PROPERTY_VALUE_LONG", $long);
+		for($i = 0; $i <= 18; $i++)
 		{
 			$levels[$i] = $i;
 		}

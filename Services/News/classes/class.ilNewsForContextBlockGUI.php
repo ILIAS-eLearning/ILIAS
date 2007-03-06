@@ -443,8 +443,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 		//$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
-		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("close"), true);
+		$this->addCloseCommand($content_block);
 
 		// previous / next item
 		$previous = $next = "";
@@ -467,7 +466,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			}
 			$ilCtrl->setParameter($this, "news_id", $previous["id"]);
 			$content_block->addFooterLink($lng->txt("previous"),
-				$ilCtrl->getLinkTarget($this, "showNews"));
+				$ilCtrl->getLinkTarget($this, "showNews"), "", "", true);
 			$ilCtrl->setParameter($this, "news_context", "");
 		}
 		
@@ -480,7 +479,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			}
 			$ilCtrl->setParameter($this, "news_id", $c["id"]);
 			$content_block->addFooterLink($lng->txt("next"),
-				$ilCtrl->getLinkTarget($this, "showNews"));
+				$ilCtrl->getLinkTarget($this, "showNews"), "", "", true);
 		}
 		$ilCtrl->setParameter($this, "news_context", "");
 		$ilCtrl->setParameter($this, "news_id", "");
@@ -708,7 +707,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		return $content_block->getHTML();
 	}
-	
+
+	function addCloseCommand($a_content_block)
+	{
+		global $lng, $ilCtrl;
+		
+		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
+			$lng->txt("close"), true);
+	}
 }
 
 ?>
