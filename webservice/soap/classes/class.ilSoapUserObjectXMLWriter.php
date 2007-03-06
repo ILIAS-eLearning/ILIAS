@@ -124,7 +124,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 		$attrs = array (
 			'Id' => "il_".IL_INST_ID."_usr_".$row["usr_id"],
-			'Language' => $row["language"], 
+			'Language' => $row["language"],
 			'Action' => "Update");
 
 		$this->xmlStartTag("User", $attrs);
@@ -159,7 +159,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 					if (strlen($type))
 					{
 						$this->xmlElement("Role",
-							array ("Id" => 
+							array ("Id" =>
 								"il_".IL_INST_ID."_role_".$rbacrow["rol_id"], "Type" => $type),
 							$rbacrow["title"]);
 					}
@@ -204,10 +204,16 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 				$this->__addElement ("iLincPasswd", $row["ilinc_passwd"], "ilinc_passwd");
 		}
 
-		$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]));
-
+		$this->__addElement ("AuthMode", null, array ("type" => strlen($row["auth_mode"])==0?"default":$row["auth_mode"]));
+		
 		$this->__addElement ("LastUpdate", $row["last_update"]);
 		$this->__addElement ("LastLogin", $row["last_login"]);
+
+		include_once ("classes/class.ilUserDefinedData.php");
+		$udf_data = new ilUserDefinedData($row['usr_id']);
+
+		$udf_data->toXML($this);
+
 
 		$this->xmlEndTag('User');
 	}
