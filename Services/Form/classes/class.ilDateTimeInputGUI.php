@@ -207,9 +207,9 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 		$lng->loadLanguageModule("jscalendar");
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
 		ilCalendarUtil::initJSCalendar();
-		$a_tpl->setCurrentBlock("prop_file");
 		if ($this->getShowDate())
 		{
+			$a_tpl->setCurrentBlock("prop_date");
 			$a_tpl->setVariable("IMG_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
 			$a_tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
 			$a_tpl->setVariable("DATE_ID", $this->getPostVar());
@@ -217,9 +217,12 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			$date = explode("-", $this->getDate());
 			$a_tpl->setVariable("DATE_SELECT",
 				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date[0], $date[1], $date[2]));
+			$a_tpl->parseCurrentBlock();
+				
 		}
 		if ($this->getShowTime())
 		{
+			$a_tpl->setCurrentBlock("prop_time");
 			$time = explode(":", $this->getTime());
 			$a_tpl->setVariable("TIME_SELECT",
 				ilUtil::makeTimeSelect($this->getPostVar()."[time]", !$this->getShowSeconds(),
@@ -227,11 +230,14 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable("TXT_TIME", $this->getShowSeconds()
 				? "(".$lng->txt("hh_mm_ss").")"
 				: "(".$lng->txt("hh_mm").")");
+			$a_tpl->parseCurrentBlock();
 		}
+		$a_tpl->setCurrentBlock("prop_datetime");
 		if ($this->getShowTime() && $this->getShowDate())
 		{
 			$a_tpl->setVariable("DELIM", "<br />");
 		}
+		$a_tpl->parseCurrentBlock();
 	}
 
 }

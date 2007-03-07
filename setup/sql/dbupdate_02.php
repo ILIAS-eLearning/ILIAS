@@ -729,3 +729,10 @@ CREATE TABLE `il_media_cast_item` (
 ALTER table usr_data ADD column latitude varchar(30) NOT NULL DEFAULT '';
 ALTER table usr_data ADD column longitude varchar(30) NOT NULL DEFAULT '';
 ALTER table usr_data ADD column loc_zoom int NOT NULL DEFAULT 0;
+
+<#934>
+ALTER TABLE `il_media_cast_item` ADD COLUMN `title` varchar(200);
+ALTER TABLE `il_media_cast_item` ADD COLUMN `description` text;
+
+<#935>
+ALTER TABLE `il_media_cast_item` ADD COLUMN `visibility` enum('users','public') default 'users';

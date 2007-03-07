@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define("MCST_USERS", "users");
+define("MCST_PUBLIC", "public");
 
 /**
 * Item of a media case
@@ -38,6 +40,9 @@ class ilMediaCastItem
 	protected $update_date;
 	protected $update_user;
 	protected $length;
+	protected $title;
+	protected $description;
+	protected $visibility = "users";
 
 	/**
 	* Constructor.
@@ -195,6 +200,66 @@ class ilMediaCastItem
 	}
 
 	/**
+	* Set Title.
+	*
+	* @param	string	$a_title	Title
+	*/
+	public function setTitle($a_title)
+	{
+		$this->title = $a_title;
+	}
+
+	/**
+	* Get Title.
+	*
+	* @return	string	Title
+	*/
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	* Set Description.
+	*
+	* @param	string	$a_description	Description
+	*/
+	public function setDescription($a_description)
+	{
+		$this->description = $a_description;
+	}
+
+	/**
+	* Get Description.
+	*
+	* @return	string	Description
+	*/
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+	/**
+	* Set Visibility.
+	*
+	* @param	string	$a_visibility	Access level for item
+	*/
+	public function setVisibility($a_visibility = "users")
+	{
+		$this->visibility = $a_visibility;
+	}
+
+	/**
+	* Get Visibility.
+	*
+	* @return	string	Access level for item
+	*/
+	public function getVisibility()
+	{
+		return $this->visibility;
+	}
+
+	/**
 	* Create new item.
 	*
 	*/
@@ -209,13 +274,19 @@ class ilMediaCastItem
 			", update_date".
 			", update_user".
 			", length".
+			", title".
+			", description".
+			", visibility".
 			" ) VALUES (".
 			$ilDB->quote($this->getMcstId())
 			.",".$ilDB->quote($this->getMobId())
 			.","."now()"
 			.","."now()"
 			.",".$ilDB->quote($this->getUpdateUser())
-			.",".$ilDB->quote($this->getLength()).")";
+			.",".$ilDB->quote($this->getLength())
+			.",".$ilDB->quote($this->getTitle())
+			.",".$ilDB->quote($this->getDescription())
+			.",".$ilDB->quote($this->getVisibility()).")";
 		$ilDB->query($query);
 		$this->setId($ilDB->getLastInsertId());
 		
@@ -241,6 +312,9 @@ class ilMediaCastItem
 		$this->setUpdateDate($rec["update_date"]);
 		$this->setUpdateUser($rec["update_user"]);
 		$this->setLength($rec["length"]);
+		$this->setTitle($rec["title"]);
+		$this->setDescription($rec["description"]);
+		$this->setVisibility($rec["visibility"]);
 
 	}
 
@@ -259,6 +333,9 @@ class ilMediaCastItem
 			", update_date = now()".
 			", update_user = ".$ilDB->quote($this->getUpdateUser()).
 			", length = ".$ilDB->quote($this->getLength()).
+			", title = ".$ilDB->quote($this->getTitle()).
+			", description = ".$ilDB->quote($this->getDescription()).
+			", visibility = ".$ilDB->quote($this->getVisibility()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);
@@ -288,7 +365,7 @@ class ilMediaCastItem
 	{
 		global $ilDB;
 		
-		$query = "SELECT id, mob_id, creation_date, update_date, update_user, length ".
+		$query = "SELECT id, mob_id, creation_date, update_date, update_user, length, title, description, visibility ".
 			"FROM il_media_cast_item ".
 			"WHERE ".
 				"mcst_id = ".$ilDB->quote($this->getMcstId()).
