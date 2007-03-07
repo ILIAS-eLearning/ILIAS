@@ -41,7 +41,9 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn("", "f", "1");
-		$this->addColumn($lng->txt("mcst_entry"), "");
+		$this->addColumn($lng->txt("mcst_entry"), "", "34%");
+		$this->addColumn("", "", "33%");
+		$this->addColumn("", "", "33%");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_media_cast_row.html",
 			"Modules/MediaCast");
@@ -55,8 +57,47 @@ class ilMediaCastTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 		
-		$this->tpl->setVariable("CMD_EDIT",
-			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNewsItem"));
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		if (ilObject::_exists($a_set["mob_id"]))
+		{
+			if ($a_set["update_date"] != "")
+			{
+				$this->tpl->setCurrentBlock("last_update");
+				$this->tpl->setVariable("TXT_LAST_UPDATE",
+					$lng->txt("last_update"));
+				$this->tpl->setVariable("VAL_LAST_UPDATE",
+					$a_set["update_date"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$mob = new ilObjMediaObject($a_set["mob_id"]);
+			$med = $mob->getMediaItem("Standard");
+			
+			$this->tpl->setVariable("VAL_TITLE",
+				$a_set["title"]);
+			$this->tpl->setVariable("VAL_DESCRIPTION",
+				$a_set["description"]);
+			$this->tpl->setVariable("TXT_FILENAME",
+				$lng->txt("filename"));
+			$this->tpl->setVariable("VAL_FILENAME",
+				$mob->getTitle());
+			$this->tpl->setVariable("TXT_CREATED",
+				$lng->txt("created"));
+			$this->tpl->setVariable("VAL_CREATED",
+				$a_set["creation_date"]);
+			$this->tpl->setVariable("TXT_DURATION",
+				$lng->txt("mcst_play_time"));
+			$this->tpl->setVariable("VAL_DURATION",
+				$a_set["length"]);
+				
+			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+			$mpl = new ilMediaPlayerGUI();
+
+			$mpl->setFile(ilObjMediaObject::_getDirectory($mob->getId())."/".
+				$med->getLocation());
+			$this->tpl->setVariable("PLAYER",
+				$mpl->getMp3PlayerHtml());
+		}
 	}
 
 }

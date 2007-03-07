@@ -1165,6 +1165,10 @@ form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
 form#:#form_msg_file_wrong_file_type#:#Wrong file type.
 form#:#form_msg_file_virus_found#:#Virus found in uploaded file.
+form#:#form_days#:#Days
+form#:#form_hours#:#Hours
+form#:#form_minutes#:#Minutes
+form#:#form_seconds#:#Seconds
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH#:#HH:MM
@@ -1448,6 +1452,11 @@ common#:#mcst_new#:#New MediaCast
 common#:#mcst_add#:#Add MediaCast
 mcst#:#mcst_add_new_item#:#Add New Media Cast Item
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
+mcst#:#mcst_duration#:#Duration
+mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the duration automatically.
+mcst#:#mcst_media_cast#:#Media Cast
+mcst#:#mcst_entry#:#Media Cast Entries
+mcst#:#mcst_play_time#:#Play Time
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -1616,7 +1625,7 @@ common#:#create_date#:#Created on
 common#:#create_export_file#:#Create export file
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
-common#:#created#:#Create date
+common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send forum notifications
 common#:#cron_forum_notification_cron#:#regularly per cron job
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.

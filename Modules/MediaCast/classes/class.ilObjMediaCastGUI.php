@@ -87,6 +87,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		global $tpl, $lng, $ilAccess;
 		
 		$med_items = $this->object->getItemsArray();
+		$lng->loadLanguageModule("mcst");
 		
 		include_once("./Modules/MediaCast/classes/class.ilMediaCastTableGUI.php");
 		$table_gui = new ilMediaCastTableGUI($this, "listItems");
@@ -154,6 +155,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$file->setSuffixes(array("mp3"));
 		$this->form_gui->addItem($file);
 		
+		// Duration
+		$dur = new ilDurationInputGUI($lng->txt("mcst_duration"), "duration");
+		$dur->setInfo($lng->txt("mcst_duration_info"));
+		$dur->setShowDays(false);
+		$dur->setShowHours(true);
+		$dur->setShowSeconds(true);
+		$this->form_gui->addItem($dur);
+		
 		// save/cancel button
 		$this->form_gui->addCommandButton("saveCastItem", $lng->txt("save"));
 		$this->form_gui->addCommandButton("listItems", $lng->txt("cancel"));
@@ -196,6 +205,25 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
 				$_FILES['file']['name'], $file);
 
+			// determine duration
+			$duration = $this->form_gui->getInput("duration");
+			if ($duration["hh"] == 0 && $duration["mm"] == 0 && $duration["ss"] == 0)
+			{
+				include_once("./Services/MediaObjects/classes/class.ilMediaAnalyzer.php");
+				$ana = new ilMediaAnalyzer();
+				$ana->setFile($file);
+				$ana->analyzeFile();
+				$dur = $ana->getPlaytimeString();
+				$dur = explode(":", $dur);
+				$duration["mm"] = $dur[0];
+				$duration["ss"] = $dur[1];
+			}
+			$duration = 
+				str_pad($duration["hh"], 2 , "0", STR_PAD_LEFT).":".
+				str_pad($duration["mm"], 2 , "0", STR_PAD_LEFT).":".
+				str_pad($duration["ss"], 2 , "0", STR_PAD_LEFT);
+			
+			
 			// get mime type
 			$format = ilObjMediaObject::getMimeType($file);
 			$location = $_FILES['file']['name'];
@@ -221,6 +249,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mc_item->setMobId($mob->getId());
 			$mc_item->setMcstId($this->object->getId());
 			$mc_item->setUpdateUser($ilUser->getId());
+			$mc_item->setLength($duration);
+			$mc_item->setTitle($this->form_gui->getInput("title"));
+			$mc_item->setDescription($this->form_gui->getInput("description"));
+			$mc_item->setVisibility($this->form_gui->getInput("visibility"));
 			$mc_item->create();
 			
 			$ilCtrl->redirect($this, "listItems");
