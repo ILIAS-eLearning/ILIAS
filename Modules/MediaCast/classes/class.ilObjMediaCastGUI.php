@@ -103,7 +103,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=listItems");
 	}
 	
 	
@@ -230,12 +230,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		$values = array();
 		
-		$this->mcst_item = new ilMediaCastItem($_GET["item_id"]);
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$this->mcst_item = new ilNewsItem($_GET["item_id"]);
 		
 		$values["title"] = $this->mcst_item->getTitle();
-		$values["description"] = $this->mcst_item->getDescription();
+		$values["description"] = $this->mcst_item->getContent();
 		$values["visibility"] = $this->mcst_item->getVisibility();
-		$length = explode(":", $this->mcst_item->getLength());
+		$length = explode(":", $this->mcst_item->getPlaytime());
 		$values["duration"] = array("hh" => $length[0], "mm" => $length[1], "ss" => $length[2]);
 		
 		$this->form_gui->setValuesByArray($values);
@@ -313,14 +314,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			//
 			
 			// create new media cast item
-			include_once("./Modules/MediaCast/classes/class.ilMediaCastItem.php");
-			$mc_item = new ilMediaCastItem();
+			include_once("./Services/News/classes/class.ilNewsItem.php");
+			$mc_item = new ilNewsItem();
 			$mc_item->setMobId($mob->getId());
-			$mc_item->setMcstId($this->object->getId());
-			$mc_item->setUpdateUser($ilUser->getId());
-			$mc_item->setLength($duration);
+			$mc_item->setContentType(NEWS_AUDIO);
+			$mc_item->setContextObjId($this->object->getId());
+			$mc_item->setContextObjType($this->object->getType());
+			$mc_item->setUserId($ilUser->getId());
+			$mc_item->setPlaytime($duration);
 			$mc_item->setTitle($this->form_gui->getInput("title"));
-			$mc_item->setDescription($this->form_gui->getInput("description"));
+			$mc_item->setContent($this->form_gui->getInput("description"));
 			$mc_item->setVisibility($this->form_gui->getInput("visibility"));
 			$mc_item->create();
 			
@@ -345,8 +348,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		if ($this->form_gui->checkInput())
 		{
 			// create new media cast item
-			include_once("./Modules/MediaCast/classes/class.ilMediaCastItem.php");
-			$mc_item = new ilMediaCastItem($_GET["item_id"]);
+			include_once("./Services/News/classes/class.ilNewsItem.php");
+			$mc_item = new ilNewsItem($_GET["item_id"]);
 			$mob_id = $mc_item->getMobId();
 			
 			// create dummy object in db (we need an id)
@@ -408,10 +411,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			// @todo: save usage
 			//
 			
-			$mc_item->setUpdateUser($ilUser->getId());
-			$mc_item->setLength($duration);
+			$mc_item->setUserId($ilUser->getId());
+			$mc_item->setPlaytime($duration);
 			$mc_item->setTitle($this->form_gui->getInput("title"));
-			$mc_item->setDescription($this->form_gui->getInput("description"));
+			$mc_item->setContent($this->form_gui->getInput("description"));
 			$mc_item->setVisibility($this->form_gui->getInput("visibility"));
 			$mc_item->update();
 
@@ -441,9 +444,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$c_gui->setConfirm($lng->txt("confirm"), "deleteItems");
 
 		// add items to delete
+		include_once("./Services/News/classes/class.ilNewsItem.php");
 		foreach($_POST["item_id"] as $item_id)
 		{
-			$item = new ilMediaCastItem($item_id);
+			$item = new ilNewsItem($item_id);
 			$c_gui->addItem("item_id[]", $item_id, $item->getTitle(),
 				ilUtil::getImagePath("icon_mcst.gif"));
 		}
@@ -461,9 +465,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// delete all selected news items
 		foreach($_POST["item_id"] as $item_id)
 		{
-			$med_item = new ilMediaCastItem($item_id);
-			$mob = $med_item->getMobId();
-			$med_item->delete();
+			$mc_item = new ilNewsItem($item_id);
+			$mob = $mc_item->getMobId();
+			$mc_item->delete();
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 			$mob = new ilObjMediaObject($mob);
 			$mob->delete();
@@ -477,8 +481,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function downloadItemObject()
 	{
-		$med_item = new ilMediaCastItem($_GET["item_id"]);
-		$mob = $med_item->getMobId();
+		$mc_item = new ilNewsItem($_GET["item_id"]);
+		$mob = $mc_item->getMobId();
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob = new ilObjMediaObject($mob);
 		$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
@@ -495,8 +499,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 		
-		$med_item = new ilMediaCastItem($_GET["item_id"]);
-		$mob = $med_item->getMobId();
+		$mc_item = new ilNewsItem($_GET["item_id"]);
+		$mob = $mc_item->getMobId();
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob = new ilObjMediaObject($mob);
 		$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
@@ -517,8 +521,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			str_pad($duration["hh"], 2 , "0", STR_PAD_LEFT).":".
 			str_pad($duration["mm"], 2 , "0", STR_PAD_LEFT).":".
 			str_pad($duration["ss"], 2 , "0", STR_PAD_LEFT);
-		$med_item->setLength($duration);
-		$med_item->update();
+
+		$mc_item->setPlaytime($duration);
+		$mc_item->update();
 
 		$ilCtrl->redirect($this, "listItems");
 	}
@@ -626,14 +631,26 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	/**
 	* Edit settings
 	*/
-	function editSettings()
+	function editSettingsObject()
 	{
 		global $tpl;
+		
+		$this->initSettingsForm();
+		$tpl->setContent($this->form_gui->getHtml());
+	}
+	
+	/**
+	* Init Settings Form
+	*/
+	function initSettingsForm()
+	{
+		global $tpl, $lng, $ilCtrl;
 		
 		$lng->loadLanguageModule("mcst");
 		
 		include("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setTitle($lng->txt("mcst_settings"));
 		
 		// Offline
 		$offline = new ilCheckboxInputGUI($lng->txt("offline"), "offline");
@@ -643,9 +660,36 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// Include Files in Pubic Items
 		$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
 		$incl_files->setChecked($this->object->getPublicFiles());
+		$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
 		$this->form_gui->addItem($incl_files);
 		
-		$tpl->setContent($this->form_gui->getHtml());
+		// Form action and save button
+		$this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this, "saveSettings"));
+	}
+	
+	/**
+	* Save Settings
+	*/
+	function saveSettingsObject()
+	{
+		global $ilCtrl;
+		
+		$this->initSettingsForm();
+		if ($this->form_gui->checkInput())
+		{
+			$this->object->setOffline($this->form_gui->getInput("offline"));
+			$this->object->setPublicFiles($this->form_gui->getInput("public_files"));
+			$this->object->update();
+			
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+			$ilCtrl->redirect($this, "editSettings");
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$tpl->setContent($this->form_gui->getHTML());
+		}
 	}
 
 	// add media cast to locator
