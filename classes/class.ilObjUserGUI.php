@@ -2170,12 +2170,13 @@ class ilObjUserGUI extends ilObjectGUI
 			$map_gui = new ilGoogleMapGUI();
 			
 			$map_gui->setMapId("user_map");
-			$map_gui->setWidth("300px");
-			$map_gui->setHeight("200px");
+			$map_gui->setWidth("350px");
+			$map_gui->setHeight("230px");
 			$map_gui->setLatitude($this->object->getLatitude());
 			$map_gui->setLongitude($this->object->getLongitude());
 			$map_gui->setZoom($this->object->getLocationZoom());
 			$map_gui->setEnableNavigationControl(true);
+			$map_gui->addUserMarker($this->object->getId());
 			
 			$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
 		}

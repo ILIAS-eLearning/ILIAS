@@ -1,5 +1,13 @@
 ilMapData = Array();
 ilMap = Array();
+ilMapUserMarker = Array();
+ilMarkerIcon = new GIcon();
+ilMarkerIcon.image = "./Services/GoogleMaps/images/mm_20_blue.png";
+ilMarkerIcon.shadow = "./Services/GoogleMaps/images/mm_20_shadow.png";
+ilMarkerIcon.iconSize = new GSize(12, 20);
+ilMarkerIcon.shadowSize = new GSize(22, 20);
+ilMarkerIcon.iconAnchor = new GPoint(6, 20);
+ilMarkerIcon.infoWindowAnchor = new GPoint(5, 1);
 
 // init all maps on load
 ilAddOnLoad(ilInitMaps)
@@ -39,7 +47,15 @@ function ilInitMap(id, latitude, longitude, zoom, type_control,
 {
 	if (GBrowserIsCompatible())
 	{
+		// IMPORTANT: setCenter MUST be the first thing we
+		// do with the map, do not add any code between the next two lines
 		var map = new GMap2(document.getElementById(id));
+		map.setCenter(new GLatLng(latitude, longitude), zoom);
+		
+		var mgr = new GMarkerManager(map);
+		mgr.addMarkers(ilGetUserMarkers(id, map), 1);
+		mgr.refresh();
+		
 		if (nav_control)
 		{
 			map.addControl(new GSmallMapControl());
@@ -57,7 +73,6 @@ function ilInitMap(id, latitude, longitude, zoom, type_control,
 			GEvent.addListener(map, "moveend", function() {
 				ilUpdateLocationInput(id, map)});
 		}
-		map.setCenter(new GLatLng(latitude, longitude), zoom);
 		ilMap[id] = map;
 	}
 }
@@ -116,4 +131,33 @@ function ilUpdateMap(id)
 	map.setZoom(parseInt(zoom));
 	lng_input.value = lng;
 	lat_input.value = lat;
+}
+
+/**
+* Get set of user markers for a map
+*/
+function ilGetUserMarkers(id, map)
+{
+	var batch = [];
+	var t;
+	if (ilMapUserMarker[id])
+	{
+		for (var i=0;i<ilMapUserMarker[id].length;i++)
+		{
+			point = new GLatLng(ilMapUserMarker[id][i][0],
+				ilMapUserMarker[id][i][1]);
+			marker = new GMarker(point, {icon: ilMarkerIcon});
+			batch.push(marker);
+			j = i;
+			GEvent.addListener(marker, "click", function() {
+				ilMapOpenInfoWindow(id, j);
+			});
+		}
+	}
+	return batch;
+}
+
+function ilMapOpenInfoWindow(id, j)
+{
+	marker.openInfoWindowHtml(ilMapUserMarker[id][j][2]);
 }
