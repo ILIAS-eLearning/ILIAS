@@ -1724,7 +1724,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilLocator;
 		
-		$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+		}
 	}
 	
 } // END class.ilObjExerciseGUI

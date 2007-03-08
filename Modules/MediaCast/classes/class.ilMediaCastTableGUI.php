@@ -41,12 +41,15 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn("", "f", "1");
-		$this->addColumn($lng->txt("mcst_entry"), "", "34%");
+		$this->addColumn($lng->txt("mcst_entry"), "", "33%");
 		$this->addColumn("", "", "33%");
-		$this->addColumn("", "", "33%");
+		$this->addColumn("", "", "34%");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_media_cast_row.html",
 			"Modules/MediaCast");
+		$this->setDefaultOrderField("creation_date");
+		$this->setDefaultOrderDirection("desc");
+
 	}
 	
 	/**
@@ -55,9 +58,29 @@ class ilMediaCastTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilAccess;
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		
+		// edit link
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->tpl->setCurrentBlock("edit");
+			$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
+			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+			$this->tpl->setVariable("CMD_EDIT",
+				$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "editCastItem"));
+			$this->tpl->setVariable("TXT_DET_PLAYTIME", $lng->txt("mcst_det_playtime"));
+			$this->tpl->setVariable("CMD_DET_PLAYTIME",
+				$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "determinePlaytime"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+		$this->tpl->setVariable("CMD_DOWNLOAD",
+			$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
+
+		$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", "");
+
 		if (ilObject::_exists($a_set["mob_id"]))
 		{
 			if ($a_set["update_date"] != "")
@@ -97,7 +120,9 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$med->getLocation());
 			$this->tpl->setVariable("PLAYER",
 				$mpl->getMp3PlayerHtml());
+			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		}
+		
 	}
 
 }

@@ -736,3 +736,33 @@ ALTER TABLE `il_media_cast_item` ADD COLUMN `description` text;
 
 <#935>
 ALTER TABLE `il_media_cast_item` ADD COLUMN `visibility` enum('users','public') default 'users';
+
+<#936>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#937>
+<?php
+// register new object type 'mcst' for media casts
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'mcst', 'Media Cast', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'mcst'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add rbac operations for feed object
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+
+?>
