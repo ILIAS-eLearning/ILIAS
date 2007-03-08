@@ -38,11 +38,11 @@ class ilGoogleMapGUI
 	protected $enablelargemapcontrol = false;
 	protected $width = "500px";
 	protected $height = "300px";
+	protected $user_marker = array();
 	
 	function ilGoogleMapGUI()
 	{
 	}
-	
 
 	/**
 	* Set Map ID.
@@ -245,6 +245,16 @@ class ilGoogleMapGUI
 	}
 
 	/**
+	* Add user marker
+	*
+	* @param	int		$a_user_id		User ID
+	*/
+	function addUserMarker($a_user_id)
+	{
+		return $this->user_marker[] = $a_user_id;
+	}
+
+	/**
 	* Get HTML
 	*/
 	function getHtml()
@@ -261,6 +271,61 @@ class ilGoogleMapGUI
 				$gm_set->get("api_key"));
 			$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
 			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
+			
+			// add user markers
+			foreach($this->user_marker as $user_id)
+			{
+				if (ilObject::_exists($user_id))
+				{
+					$cnt = 0;
+					$user = new ilObjUser($user_id);
+					if ($user->getLatitude() != 0 && $user->getLongitude() != 0)
+					{
+						$this->tpl->setCurrentBlock("user_marker");
+						$this->tpl->setVariable("UMAP_ID",
+							$this->getMapId());
+						$this->tpl->setVariable("CNT", $cnt);
+						$this->tpl->setVariable("ULAT", $user->getLatitude());
+						$this->tpl->setVariable("ULONG", $user->getLongitude());
+						$info = $user->getFirstName()." ".$user->getLastName();
+						$delim = "<br />";
+						if ($user->getPref("public_institution") == "y")
+						{
+							$info.= $delim.$user->getInstitution();
+							$delim = ", ";
+						}
+						if ($user->getPref("public_department") == "y")
+						{
+							$info.= $delim.$user->getDepartment();
+						}
+						$delim = "<br />";
+						if ($user->getPref("public_street") == "y")
+						{
+							$info.= $delim.$user->getStreet();
+						}
+						if ($user->getPref("public_zip") == "y")
+						{
+							$info.= $delim.$user->getZipcode();
+							$delim = " ";
+						}
+						if ($user->getPref("public_city") == "y")
+						{
+							$info.= $delim.$user->getCity();
+						}
+						$delim = "<br />";
+						if ($user->getPref("public_country") == "y")
+						{
+							$info.= $delim.$user->getCountry();
+						}
+						$this->tpl->setVariable("USER_INFO",
+							$info);
+						$this->tpl->setVariable("IMG_USER",
+							$user->getPersonalPicturePath("xsmall"));
+						$this->tpl->parseCurrentBlock();
+						$cnt++;
+					}
+				}
+			}
 
 			$this->tpl->setVariable("MAP_ID", $this->getMapId());
 			$lat = is_numeric($this->getLatitude())
