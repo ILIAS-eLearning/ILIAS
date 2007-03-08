@@ -166,7 +166,7 @@ class ilPermissionGUI
 			{
 				$tmp_local_roles = $rbacreview->getRolesOfRoleFolder($tmp_role_folder["ref_id"]);
 			}
-				
+			
 			// Is it a real or linked lokal role
 			if ($role['protected'] == false and in_array($role['obj_id'],$tmp_local_roles))
 			{

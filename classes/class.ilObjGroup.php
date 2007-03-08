@@ -84,7 +84,8 @@ class ilObjGroup extends ilContainer
 		global $ilDB;
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-	 	$new_obj->initDefaultRoles($this->getGroupStatus());
+	 	$new_obj->setGroupStatus($this->readGroupStatus());
+	 	$new_obj->initGroupStatus();
 	 	
 		// find a free number
 		for ($n = 1;$n < 999;$n++)
@@ -815,7 +816,7 @@ class ilObjGroup extends ilContainer
 	* @param	integer	group id (optional)
 	* @param	integer group status (0=public|1=private|2=closed)
 	*/
-	function __setGroupStatus($a_grpStatus)
+	function initGroupStatus($a_grpStatus)
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
@@ -883,13 +884,37 @@ class ilObjGroup extends ilContainer
 			}//END foreach
 		}
 	}
+	
+	/**
+	 * Set group status
+	 *
+	 * @access public
+	 * @param int group status[0=public|2=closed]
+	 * 
+	 */
+	public function setGroupStatus($a_status)
+	{
+		$this->group_status = $a_status;
+	}
+	
+	/**
+	 * get group status
+	 *
+	 * @access public
+	 * @param int group status
+	 * 
+	 */
+	public function getGroupStatus()
+	{
+	 	return $this->group_status;
+	}
 
 	/**
 	* get group status, redundant method because
 	* @access	public
 	* @param	return group status[0=public|2=closed]
 	*/
-	function getGroupStatus()
+	function readGroupStatus()
 	{
 		global $rbacsystem,$rbacreview;
 
@@ -908,11 +933,11 @@ class ilObjGroup extends ilContainer
 
 			if ($rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join"))
 			{
-				return 0;
+				return $this->group_status = 0;
 			}
 		}
 
-		return 2;
+		return $this->group_status = 2;
 	}
 
 	/**
@@ -1121,11 +1146,6 @@ class ilObjGroup extends ilContainer
 		$roles[] = $this->m_roleAdminId;
 		$roles[] = $this->m_roleMemberId;
 		
-		// Break inheritance and initialize permission for existing roles depending on group status
-		// TODO: eliminate POST-Parameter here. ilClone won't work with it.
-		// This will be changed anyway to non_member_template
-		$this->__setGroupStatus($a_group_status);		//0=public,1=private,2=closed
-
 		return $roles ? $roles : array();
 	}
 

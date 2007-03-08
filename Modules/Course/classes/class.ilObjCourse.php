@@ -531,7 +531,6 @@ class ilObjCourse extends ilContainer
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$this->cloneMetaData($new_obj);
-	 	$new_obj->initDefaultRoles();
 		
 		// Copy settings
 		$this->cloneSettings($new_obj);

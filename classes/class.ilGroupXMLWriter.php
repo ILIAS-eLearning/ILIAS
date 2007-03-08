@@ -84,7 +84,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 		$attrs["exportVersion"] = $this->EXPORT_VERSION;
 		$attrs["id"] = "il_".$this->ilias->getSetting('inst_id').'_grp_'.$this->group_obj->getId();
-		$attrs['type'] = $this->group_obj->getGroupStatus() ? 'open' : 'closed';
+		$attrs['type'] = $this->group_obj->readGroupStatus() ? 'open' : 'closed';
 		$this->xmlStartTag("group", $attrs);
 
 		return true;

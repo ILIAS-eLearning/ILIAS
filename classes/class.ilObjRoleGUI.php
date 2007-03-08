@@ -2264,6 +2264,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem,$rbacreview;
 
 		$base_role_folder = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
+		
 //var_dump($base_role_folder);
 //echo "-".$this->rolf_ref_id."-";
 

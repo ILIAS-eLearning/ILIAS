@@ -786,5 +786,75 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		
 		return true;
 	}
+	
+	/**
+	 * Copy local roles
+	 * This method creates a copy of all local role.
+	 * Note: auto generated roles are excluded
+	 *
+	 * @access public
+	 * @param int source id of object (not role folder)
+	 * @param int target id of object
+	 * 
+	 */
+	public function copyLocalRoles($a_source_id,$a_target_id)
+	{
+	 	global $rbacreview,$ilLog,$ilObjDataCache;
+	 	
+	 	$source_rolf = $rbacreview->getRoleFolderIdOfObject($a_source_id);
+	 	$target_rolf = $rbacreview->getRoleFolderIdOfObject($a_target_id);
+
+	 	if(!$source_rolf)
+	 	{
+	 		// Nothing to do
+	 		return true;
+	 	}
+	 	$real_local = array();
+	 	foreach($rbacreview->getRolesOfRoleFolder($source_rolf,false) as $role_data)
+	 	{
+	 		$title = $ilObjDataCache->lookupTitle($role_data);
+	 		if(substr($title,0,3) == 'il_')
+	 		{
+	 			continue;
+	 		}
+	 		$real_local[] = $role_data;
+	 	}
+	 	if(!count($real_local))
+	 	{
+	 		return true;
+	 	}
+	 	// Create role folder
+	 	if(!$target_rolf)
+	 	{
+	 		$tmp_obj = ilObjectFactory::getInstanceByRefId($a_target_id,false);
+	 		if(!is_object($tmp_obj))
+	 		{
+	 			return false;
+	 		}
+	 		$rolf = $tmp_obj->createRoleFolder();
+	 		$target_rolf = $rolf->getRefId();
+	 		$ilLog->write(__METHOD__.': Created new role folder with id '.$rolf->getRefId());
+	 	}
+	 	foreach($real_local as $role)
+	 	{
+			include_once ("classes/class.ilObjRole.php");
+	 		$orig = new ilObjRole($role);
+	 		$orig->read();
+	 		
+	 		$ilLog->write(__METHOD__.': Start copying of role '.$orig->getTitle());
+			$roleObj = new ilObjRole();
+			$roleObj->setTitle($orig->getTitle());
+			$roleObj->setDescription($orig->getDescription());
+			$roleObj->setImportId($orig->getImportId());
+			$roleObj->create();
+				
+			$this->assignRoleToFolder($roleObj->getId(),$target_rolf,"y");
+			$this->copyRolePermission($role,$source_rolf,$target_rolf,$roleObj->getId(),true);
+			$ops = $rbacreview->getRoleOperationsOnObject($role,$a_source_id);
+			$this->grantPermission($roleObj->getId(),$ops,$a_target_id);
+	 		$ilLog->write(__METHOD__.': Added new local role, id '.$roleObj->getId());
+	 	}
+	 	
+	}
 } // END class.ilRbacAdmin
 ?>

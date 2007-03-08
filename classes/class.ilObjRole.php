@@ -265,27 +265,6 @@ class ilObjRole extends ilObject
 		return $this->parent;
 	}
 
-	/**
-	* copy all properties and subobjects of a role.
-	* DISABLED
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{		
-		// DISABLED
-		return false;
-
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-		
-		// put here role specific stuff
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete role and all related data

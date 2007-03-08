@@ -58,29 +58,6 @@ class ilObjRoleFolder extends ilObject
 		}
 	}
 
-	/**
-	* copy all properties and subobjects of an rolefolder.
-	* DISABLED
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{		
-		// DISABLED
-		// DO NOTHING ROLE FOLDERS AREN'T COPIED
-		//	$new_ref_id = parent::ilClone($a_parent_ref);
-		return false;
-
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-		
-		// put here rolefolder specific stuff
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete rolefolder and all related data	

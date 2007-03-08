@@ -932,25 +932,6 @@ class ilObjGlossary extends ilObject
 
 
 	/**
-	* copy all properties and subobjects of a glossary
-	*
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-
-		// todo: put here glossary specific stuff
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
-
-	/**
 	* delete glossary and all related data
 	*
 	* this method has been tested on may 9th 2004

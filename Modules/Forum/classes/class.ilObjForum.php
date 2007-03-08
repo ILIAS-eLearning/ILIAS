@@ -526,7 +526,6 @@ class ilObjForum extends ilObject
 		global $ilDB,$ilUser;
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-	 	$roles = $new_obj->initDefaultRoles();
 	 	
 		// COPY settings
 		$query = "INSERT INTO frm_settings ".
@@ -541,7 +540,8 @@ class ilObjForum extends ilObject
 
 		$query = "INSERT INTO frm_data ".
 			"VALUES('0',".$ilDB->quote($new_obj->getId()).",".$ilDB->quote($topData['top_name']).",".
-			$ilDB->quote($topData['top_description']).",'0','0','',".$ilDB->quote($roles[0]).",NOW(),'0',NOW(),'0',".
+			$ilDB->quote($topData['top_description']).",'0','0','',".$ilDB->quote(ilObjForum::_lookupModeratorRole($new_obj->getRefId())).
+			",NOW(),'0',NOW(),'0',".
 			$ilDB->quote($ilUser->getId()).")";
 
 		$ilDB->query($query);
@@ -672,6 +672,28 @@ class ilObjForum extends ilObject
 		unset($roleObj);
 
 		return $roles ? $roles : array();
+	}
+	
+	/**
+	 * Lookup moderator role
+	 *
+	 * @access public
+	 * @static
+	 * @param int ref_id of forum
+	 * 
+	 */
+	public static function _lookupModeratorRole($a_ref_id)
+	{
+		global $ilDB;
+		
+		$mod_title = 'il_frm_moderator_'.$a_ref_id;
+	 	$query = "SELECT * FROM object_data WHERE title = ".$ilDB->quote($mod_title);
+	 	$res = $ilDB->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		return $row->obj_id;
+	 	}
+	 	return 0;
 	}
 
 

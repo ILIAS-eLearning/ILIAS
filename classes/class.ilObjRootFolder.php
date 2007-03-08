@@ -49,27 +49,6 @@ class ilObjRootFolder extends ilContainer
 	}
 
 
-	/**
-	* copy all properties and subobjects of a rootfolder.
-	* DISABLED
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{
-		// DISABLED
-		return false;
-
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-
-		// put here rootfolder specific stuff
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete rootfolder and all related data
