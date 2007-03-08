@@ -56,24 +56,6 @@ class ilObjCategory extends ilContainer
 		$ilBench->stop("Core", "ilObjCategory_Constructor");
 	}
 	
-	/**
-	* copy all properties and subobjects of a category.
-	* 
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{		
-		global $rbacadmin;
-
-		// always call parent clone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-
-		// put here cat specific stuff
-		
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete category and all related data	

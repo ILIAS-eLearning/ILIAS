@@ -284,7 +284,7 @@ class ilGroupImportParser extends ilSaxParser
 			$this->group_obj->setExpirationDateTime(date('Y.m.d H:i:s',$this->group_data['expiration']));
 		}
 		$this->group_obj->setPassword($this->group_data['password']);
-		$this->group_obj->__setGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
+		$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
 		
 		// ASSIGN ADMINS/MEMBERS
 		$this->__assignMembers();

@@ -99,12 +99,6 @@ class ilObjChat extends ilObject
 		return array($role_obj->getId());
 	}
 
-	function ilClone($a_parent_ref)
-	{
-		$tmp_obj =& ilObjectFactory::getInstanceByRefId(parent::ilClone($a_parent_ref));
-	}
-
-
 	function delete()
 	{
 		global $ilDB;

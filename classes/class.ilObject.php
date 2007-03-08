@@ -1194,39 +1194,6 @@ class ilObject
 	}
 
 
-	/**
-	* ilClone object into tree
-	* basic clone function. Register new object in object_data, creates reference and
-	* insert reference ID in tree. All object specific data must be copied in the ilClone function of the appropriate object class.
-	* Look in ilObjForum::ilClone() for example code
-	* 
-	* @access	public
-	* @param	integer		$a_parent_ref		ref id of parent object
-	* @return	integer		new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{
-		global $log;
-		
-		$new_obj = new ilObject();
-		$new_obj->setTitle($this->getTitle());
-		$new_obj->setType($this->getType());
-		$new_obj->setDescription($this->getDescription());
-		$new_obj->create();
-		$new_ref_id = $new_obj->createReference();
-		$new_obj->putInTree($a_parent_ref);
-		$new_obj->setPermissions($a_parent_ref);
-
-		unset($new_obj);
-		
-		// write log entry
-		$log->write("ilObject::ilClone(), ref_id: ".$this->getRefId().",obj_id: ".$this->getId().", type: ".
-			$this->getType().", title: ".$this->getTitle().
-			", new ref_id: ".$new_obj->getRefId().", new obj_id:".$new_obj->getId());
-	
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 
 	/**
@@ -1519,7 +1486,7 @@ class ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $objDefinition,$ilUser;
+		global $objDefinition,$ilUser,$rbacadmin;
 		
 		$module = $objDefinition->getModule($this->getType());
 		$module_dir = ($module == "")
@@ -1539,7 +1506,10 @@ class ilObject
 		$new_obj->createReference();
 		$new_obj->putInTree($a_target_id);
 		$new_obj->setPermissions($a_target_id);
-
+		$new_obj->initDefaultRoles();
+		
+		// copy local roles
+		$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());
 		return $new_obj;
 	}
 	

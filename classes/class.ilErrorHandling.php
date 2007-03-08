@@ -163,7 +163,6 @@ class ilErrorHandling extends PEAR
 						$updir .= "../";
 					}
 				}
-
 				ilUtil::redirect($updir."index.php");
 			}
 
@@ -177,7 +176,7 @@ class ilErrorHandling extends PEAR
 				$glue = "&";
 			}
 
-//echo "-".$_SESSION["referer"]."-";
+#echo "-".$_SESSION["referer"]."-";
 			ilUtil::redirect($_SESSION["referer"].$glue);
 		}
 	}

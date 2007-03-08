@@ -47,27 +47,6 @@ class ilObjUserFolder extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
-	/**
-	* copy all properties and subobjects of a userfolder.
-	* DISABLED
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{
-		// DISABLED
-		return false;
-
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-
-		// put here userfolder specific stuff
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete userfolder and all related data

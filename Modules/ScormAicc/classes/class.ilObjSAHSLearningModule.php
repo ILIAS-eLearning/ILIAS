@@ -396,25 +396,6 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	* copy all properties and subobjects of a SCROM LearningModule.
-	*
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-
-		// put here slm specific stuff
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
-
-	/**
 	* delete SCORM learning module and all related data
 	*
 	* this method has been tested on may 9th 2004

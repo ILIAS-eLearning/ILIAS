@@ -431,7 +431,7 @@ class ilTree
 			 "AND ".$this->table_obj_data.".type='".$a_type."' ".
 			 "ORDER BY ".$this->table_tree.".lft";
 		$r = $this->ilDB->query($q);
-
+		
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$childs[] = $this->fetchNodeData($row);
