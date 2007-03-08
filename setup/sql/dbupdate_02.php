@@ -766,3 +766,21 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
 $this->db->query($query);
 
 ?>
+
+<#938>
+DROP TABLE IF EXISTS il_media_cast_data;
+CREATE TABLE `il_media_cast_data` (
+  `id` int(11) NOT NULL auto_increment,
+  `offline` TINYINT DEFAULT 0,
+  `public_files` TINYINT DEFAULT 0,
+  PRIMARY KEY  (`id`)
+) Type=MyISAM;
+
+<#939>
+DROP TABLE IF EXISTS il_media_cast_item;
+ALTER TABLE `il_news_item` ADD COLUMN `mob_id` int;
+ALTER TABLE `il_news_item` ADD COLUMN `playtime` varchar(8);
+
+<#940>
+ALTER TABLE `il_news_item` MODIFY `content_type` enum('text','html','audio') default 'text';
+
