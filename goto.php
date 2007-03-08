@@ -182,6 +182,12 @@ switch($target_type)
 		require_once("./Modules/File/classes/class.ilObjFileGUI.php");
 		ilObjFileGUI::_goto($target_id);
 		break;
+
+	// new implementation: ok
+	case "mcst":
+		require_once("./Modules/MediaCast/classes/class.ilObjMediaCastGUI.php");
+		ilObjMediaCastGUI::_goto($target_id);
+		break;
 		
 	case "icrs":
 		require_once("ilinc/classes/class.ilObjiLincCourse.php");
