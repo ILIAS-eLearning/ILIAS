@@ -1460,6 +1460,9 @@ mcst#:#mcst_media_cast#:#Media Cast
 mcst#:#mcst_entry#:#Media Cast Entries
 mcst#:#mcst_play_time#:#Play Time
 mcst#:#mcst_det_playtime#:#Determine Play Time
+mcst#:#mcst_settings#:#MediaCast Settings
+mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed
+mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -3075,7 +3078,7 @@ common#:#objs_url#:#URLs
 common#:#objs_usr#:#Users
 common#:#objs_webr#:#Web Resources
 common#:#of#:#Of
-common#:#offline#:#offline
+common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
 common#:#go#:#Go

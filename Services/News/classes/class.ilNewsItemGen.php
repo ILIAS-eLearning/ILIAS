@@ -23,6 +23,7 @@
 
 define("NEWS_TEXT", "text");
 define("NEWS_HTML", "html");
+define("NEWS_AUDIO", "audio");
 define("NEWS_USERS", "users");
 define("NEWS_PUBLIC", "public");
 
@@ -52,6 +53,8 @@ class ilNewsItemGen
 	protected $content_long;
 	protected $priority = 1;
 	protected $content_is_lang_var = 0;
+	protected $mob_id;
+	protected $playtime;
 
 	/**
 	* Constructor.
@@ -369,6 +372,46 @@ class ilNewsItemGen
 	}
 
 	/**
+	* Set MobId.
+	*
+	* @param	int	$a_mob_id	Media Object ID (if news includes attachement)
+	*/
+	public function setMobId($a_mob_id)
+	{
+		$this->mob_id = $a_mob_id;
+	}
+
+	/**
+	* Get MobId.
+	*
+	* @return	int	Media Object ID (if news includes attachement)
+	*/
+	public function getMobId()
+	{
+		return $this->mob_id;
+	}
+
+	/**
+	* Set Playtime.
+	*
+	* @param	string	$a_playtime	Play Time, hh:mm:ss (of attached media file)
+	*/
+	public function setPlaytime($a_playtime)
+	{
+		$this->playtime = $a_playtime;
+	}
+
+	/**
+	* Get Playtime.
+	*
+	* @return	string	Play Time, hh:mm:ss (of attached media file)
+	*/
+	public function getPlaytime()
+	{
+		return $this->playtime;
+	}
+
+	/**
 	* Create new item.
 	*
 	*/
@@ -391,6 +434,8 @@ class ilNewsItemGen
 			", content_long".
 			", priority".
 			", content_is_lang_var".
+			", mob_id".
+			", playtime".
 			" ) VALUES (".
 			$ilDB->quote($this->getTitle())
 			.",".$ilDB->quote($this->getContent())
@@ -405,7 +450,9 @@ class ilNewsItemGen
 			.",".$ilDB->quote($this->getVisibility())
 			.",".$ilDB->quote($this->getContentLong())
 			.",".$ilDB->quote($this->getPriority())
-			.",".$ilDB->quote($this->getContentIsLangVar()).")";
+			.",".$ilDB->quote($this->getContentIsLangVar())
+			.",".$ilDB->quote($this->getMobId())
+			.",".$ilDB->quote($this->getPlaytime()).")";
 		$ilDB->query($query);
 		$this->setId($ilDB->getLastInsertId());
 		
@@ -439,6 +486,8 @@ class ilNewsItemGen
 		$this->setContentLong($rec["content_long"]);
 		$this->setPriority($rec["priority"]);
 		$this->setContentIsLangVar($rec["content_is_lang_var"]);
+		$this->setMobId($rec["mob_id"]);
+		$this->setPlaytime($rec["playtime"]);
 
 	}
 
@@ -465,6 +514,8 @@ class ilNewsItemGen
 			", content_long = ".$ilDB->quote($this->getContentLong()).
 			", priority = ".$ilDB->quote($this->getPriority()).
 			", content_is_lang_var = ".$ilDB->quote($this->getContentIsLangVar()).
+			", mob_id = ".$ilDB->quote($this->getMobId()).
+			", playtime = ".$ilDB->quote($this->getPlaytime()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);
@@ -494,7 +545,7 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var ".
+		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
 			"FROM il_news_item ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
@@ -523,7 +574,7 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$query = "SELECT id, priority, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long ".
+		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
 			"FROM il_news_item ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).

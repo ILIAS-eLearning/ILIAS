@@ -386,6 +386,23 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$tpl->parseCurrentBlock();
 		}
 		
+		// media player
+		if ($news->getContentType() == NEWS_AUDIO &&
+			$news->getMobId() > 0 && ilObject::_exists($news->getMobId()))
+		{
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+			$mob = new ilObjMediaObject($news->getMobId());
+			$med = $mob->getMediaItem("Standard");
+			$mpl = new ilMediaPlayerGUI();
+			$mpl->setFile(ilObjMediaObject::_getDirectory($mob->getId())."/".
+				$med->getLocation());
+			$tpl->setCurrentBlock("player");
+			$tpl->setVariable("PLAYER",
+				$mpl->getMp3PlayerHtml());
+			$tpl->parseCurrentBlock();
+		}
+
 		if (trim($news->getContent()) != "")		// content
 		{
 			$tpl->setCurrentBlock("content");
