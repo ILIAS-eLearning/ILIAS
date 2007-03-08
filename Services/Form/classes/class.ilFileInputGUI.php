@@ -132,7 +132,8 @@ class ilFileInputGUI extends ilFormPropertyGUI
 		}
 		
 		// check suffixes
-		if (is_array($this->getSuffixes()))
+		if ($_FILES[$this->getPostVar()]["tmp_name"] != "" &&
+			is_array($this->getSuffixes()))
 		{
 			if (!in_array(strtolower($suffix), $this->getSuffixes()))
 			{
@@ -142,11 +143,14 @@ class ilFileInputGUI extends ilFormPropertyGUI
 		}
 		
 		// virus handling
-		$vir = ilUtil::virusHandling($temp_name, $filename);
-		if ($vir[0] == false)
+		if ($_FILES[$this->getPostVar()]["tmp_name"] != "")
 		{
-			$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
-			return false;
+			$vir = ilUtil::virusHandling($temp_name, $filename);
+			if ($vir[0] == false)
+			{
+				$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
+				return false;
+			}
 		}
 		
 		return true;

@@ -1452,11 +1452,14 @@ common#:#mcst_new#:#New MediaCast
 common#:#mcst_add#:#Add MediaCast
 mcst#:#mcst_add_new_item#:#Add New Media Cast Item
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
-mcst#:#mcst_duration#:#Duration
-mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the duration automatically.
+mcst#:#mcst_duration#:#Play Time
+mcst#:#mcst_nr_items#:#Number of Items
+mcst#:#mcst_last_submission#:#Last Submission
+mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
 mcst#:#mcst_media_cast#:#Media Cast
 mcst#:#mcst_entry#:#Media Cast Entries
 mcst#:#mcst_play_time#:#Play Time
+mcst#:#mcst_det_playtime#:#Determine Play Time
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
