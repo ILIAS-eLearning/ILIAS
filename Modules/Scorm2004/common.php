@@ -26,9 +26,14 @@
  * Initing database, since there is no operation without database
  */ 
  
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+  define('IL_OP_ZIP_EXE', 'C:/Programme/Tools/infozip/zip.exe'); 
+  define('IL_OP_UNZIP_EXE', 'C:/Programme/Tools/infozip/unzip.exe');
+} else {
+  define('IL_OP_ZIP_EXE', realpath('/usr/bin/zip')); 
+  define('IL_OP_UNZIP_EXE', realpath('/usr/bin/unzip'));
+}
 
-define('IL_OP_ZIP_EXE', realpath('infozip/zip.exe')); 
-define('IL_OP_UNZIP_EXE', realpath('infozip/unzip.exe'));
 define('IL_OP_PACKAGES_FOLDER', dirname(__FILE__) . '/packages');
 define('IL_OP_USER_ID', 50);
 define('IL_OP_PACKAGE_ID', 100);
@@ -40,8 +45,6 @@ define('IL_OP_DB_DSN', 'sqlite2:data/sqlite2.db');
 define('IL_OP_USER_NAME', '');
 define('IL_OP_USER_PASSWORD', '');
 
-define('IL_OP_ZIP_EXE', 'C:/Programme/Tools/infozip/zip.exe'); 
-define('IL_OP_UNZIP_EXE', 'C:/Programme/Tools/infozip/unzip.exe');
 define('IL_OP_PACKAGES_FOLDER', dirname(__FILE__) . '/packages');
 define('IL_OP_USER_ID', 50);
 define('IL_OP_PACKAGE_ID', 100);
