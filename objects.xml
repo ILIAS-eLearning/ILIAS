@@ -215,10 +215,12 @@
 	<action name="setUserLanguage">setUserLanguage</action>
 </object>
 <object name="mep" class_name="MediaPool" location="Modules/MediaPool/classes" module="Modules/MediaPool" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="listMedia" module="1">view_content</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="htlm" class_name="FileBasedLM" location="Modules/HTMLLearningModule/classes" module="Modules/HTMLLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="listFiles" module="1">list_files</property>
 	<property name="perm">perm_settings</property>
 </object>
@@ -305,10 +307,12 @@
 	<action name="delete">delete</action>
 </object>
 <object name="exc" class_name="Exercise" location="Modules/Exercise/classes" module="Modules/Exercise" checkbox="1" inherit="1" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>
 <object name="mcst" class_name="MediaCast" location="Modules/MediaCast/classes" module="Modules/MediaCast" checkbox="1" inherit="1" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>
@@ -317,10 +321,12 @@
 	<property name="trash">trash</property>
 </object>
 <object name="file" class_name="File" location="Modules/File/classes" module="Modules/File" checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>
 <object name="qpl" class_name="QuestionPool" location="Modules/TestQuestionPool/classes" module="Modules/TestQuestionPool" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="export" module="1">export</property>
@@ -328,6 +334,7 @@
 	<action name="delete">delete</action>
 </object>
 <object name="tst" class_name="Test" location="Modules/Test/classes" module="Modules/Test" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="marks" module="1">mark_schema</property>
@@ -340,6 +347,7 @@
 	<action name="delete">delete</action>
 </object>
 <object name="svy" class_name="Survey" location="Modules/Survey/classes" module="Modules/Survey" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">survey_questions</property>
 	<property name="invite" module="1">invite_participants</property>
@@ -351,6 +359,7 @@
 	<action name="delete">delete</action>
 </object>
 <object name="spl" class_name="SurveyQuestionPool" location="Modules/SurveyQuestionPool/classes" module="Modules/SurveyQuestionPool" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">survey_questions</property>
 	<property name="phrases" module="1">manage_phrases</property>
