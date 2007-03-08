@@ -1373,12 +1373,6 @@ class ilContainerGUI extends ilObjectGUI
 		$ref_ids = $_SESSION["clipboard"]["ref_ids"];
 		unset($_SESSION["clipboard"]["ref_ids"]);
 
-		// process COPY command
-		if ($_SESSION["clipboard"]["cmd"] == "copy")
-		{
-			// CALL PRIVATE CLONE METHOD
-			#$this->cloneObject($ref_ids);
-		}
 
 		// process CUT command
 		if ($_SESSION["clipboard"]["cmd"] == "cut")

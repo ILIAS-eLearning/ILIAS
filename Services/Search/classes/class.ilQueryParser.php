@@ -154,11 +154,12 @@ class ilQueryParser
 			{
 				continue;
 			}
-			if(strlen(trim($word)) < $this->getMinWordLength())
-			{
-				$this->setMessage($this->lng->txt('search_minimum_three'));
-				continue;
-			}
+			
+			#if(strlen(trim($word)) < $this->getMinWordLength())
+			#{
+			#	$this->setMessage($this->lng->txt('search_minimum_three'));
+			#	continue;
+			#}
 			$this->words[] = ilUtil::prepareDBString($word);
 		}
 
@@ -193,6 +194,7 @@ class ilQueryParser
 			}
 			$this->quoted_words[] = ilUtil::prepareDBString($word);
 		}
+		
 	}
 
 	function validate()
