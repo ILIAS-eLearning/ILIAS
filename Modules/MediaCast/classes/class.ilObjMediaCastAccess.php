@@ -53,7 +53,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 		(
 			array("permission" => "read", "cmd" => "listItems", "lang_var" => "show",
 				"default" => true),
-			array("permission" => "write", "cmd" => "editItems", "lang_var" => "edit")
+			array("permission" => "write", "cmd" => "editSettings", "lang_var" => "edit")
 		);
 		
 		return $commands;

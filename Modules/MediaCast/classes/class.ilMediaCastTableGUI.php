@@ -99,7 +99,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_TITLE",
 				$a_set["title"]);
 			$this->tpl->setVariable("VAL_DESCRIPTION",
-				$a_set["description"]);
+				$a_set["content"]);
 			$this->tpl->setVariable("TXT_FILENAME",
 				$lng->txt("filename"));
 			$this->tpl->setVariable("VAL_FILENAME",
@@ -111,7 +111,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_DURATION",
 				$lng->txt("mcst_play_time"));
 			$this->tpl->setVariable("VAL_DURATION",
-				$a_set["length"]);
+				$a_set["playtime"]);
 				
 			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
 			$mpl = new ilMediaPlayerGUI();

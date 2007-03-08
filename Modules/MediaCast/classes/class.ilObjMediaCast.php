@@ -32,6 +32,9 @@ require_once "./classes/class.ilObject.php";
 */
 class ilObjMediaCast extends ilObject
 {
+	protected $offline = false;
+	protected $publicfiles = false;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -42,6 +45,46 @@ class ilObjMediaCast extends ilObject
 	{
 		$this->type = "mcst";
 		$this->ilObject($a_id,$a_call_by_reference);
+	}
+
+	/**
+	* Set Offline.
+	*
+	* @param	boolean	$a_offline	Offline
+	*/
+	function setOffline($a_offline)
+	{
+		$this->offline = $a_offline;
+	}
+
+	/**
+	* Get Offline.
+	*
+	* @return	boolean	Offline
+	*/
+	function getOffline()
+	{
+		return $this->offline;
+	}
+
+	/**
+	* Set PublicFiles.
+	*
+	* @param	boolean	$a_publicfiles	PublicFiles
+	*/
+	function setPublicFiles($a_publicfiles)
+	{
+		$this->publicfiles = $a_publicfiles;
+	}
+
+	/**
+	* Get PublicFiles.
+	*
+	* @return	boolean	PublicFiles
+	*/
+	function getPublicFiles()
+	{
+		return $this->publicfiles;
 	}
 
 	/**
@@ -65,6 +108,28 @@ class ilObjMediaCast extends ilObject
 	}
 
 	/**
+	* Create mew media cast
+	*/
+	function create()
+	{
+		global $ilDB;
+
+		parent::create();
+		
+		$query = "INSERT INTO il_media_cast_data (".
+			" id".
+			", offline".
+			", public_files".
+			" ) VALUES (".
+			$ilDB->quote($this->getId())
+			.",".$ilDB->quote($this->getOffline())
+			.",".$ilDB->quote($this->getPublicFiles())
+			.")";
+		$ilDB->query($query);
+
+	}
+
+	/**
 	* update object data
 	*
 	* @access	public
@@ -72,20 +137,41 @@ class ilObjMediaCast extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		if (!parent::update())
 		{			
 			return false;
 		}
 
-		// put here object specific stuff
+		// update media cast data
+		$query = "UPDATE il_media_cast_data SET ".
+			" offline = ".$ilDB->quote($this->getOffline()).
+			", public_files = ".$ilDB->quote($this->getPublicFiles()).
+			" WHERE id = ".$ilDB->quote($this->getId());
+		$ilDB->query($query);
 
 		return true;
 	}
 	
+	/**
+	* Read media cast
+	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 		$this->readItems();
+		
+		$query = "SELECT * FROM il_media_cast_data WHERE id = ".
+			$ilDB->quote($this->getId());
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$this->setOffline($rec["offline"]);
+		$this->setPublicFiles($rec["public_files"]);
+
 	}
 
 
@@ -104,6 +190,9 @@ class ilObjMediaCast extends ilObject
 		}
 		
 		//put here your module specific stuff
+		$query = "DELETE FROM il_media_cast_data".
+			" WHERE id = ".$ilDB->quote($this->getId());
+		$ilDB->query($query);
 		
 		return true;
 	}
@@ -208,10 +297,11 @@ class ilObjMediaCast extends ilObject
 		global $ilDB;
 		
 		//
-		include_once("./Modules/MediaCast/classes/class.ilMediaCastItem.php");
-		$it = new ilMediaCastItem();
-		$it->setMcstId($this->getId());
-		$this->itemsarray = $it->queryItemsForCast();
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$it = new ilNewsItem();
+		$it->setContextObjId($this->getId());
+		$it->setContextObjType($this->getType());
+		$this->itemsarray = $it->queryNewsForContext();
 		
 		return $this->itemsarray;
 	}

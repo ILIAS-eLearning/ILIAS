@@ -56,7 +56,6 @@ class ilMediaCastItem
 			$this->setId($a_id);
 			$this->read();
 		}
-
 	}
 
 	/**
