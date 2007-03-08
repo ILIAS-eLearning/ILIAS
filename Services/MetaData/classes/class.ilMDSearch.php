@@ -99,7 +99,8 @@ class ilMDSearch
 	{
 		$where = " WHERE ";
 		$field = " keyword ";
-		foreach($this->query_parser->getWords() as $word)
+		$counter = 0;
+		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
 			{
