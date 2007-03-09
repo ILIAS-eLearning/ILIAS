@@ -65,6 +65,18 @@ class ilCopyWizardExplorer extends ilExplorer
 	}
 	
 	/**
+	 * Force all nodes expanded
+	 *
+	 * @access public
+	 * @param int node_id
+	 * 
+	 */
+	public function forceExpanded()
+	{
+	 	return true;
+	}
+	
+	/**
 	 * Build option select
 	 *
 	 * @access public
