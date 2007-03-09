@@ -2,13 +2,29 @@
 	  <table class="std" width="60%">
 		<tr class="tblheader">
 		  <th class="std" colspan="3">
-			<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
-			{TXT_DUPLICATE}<div class="il_info">{INFO_DUPLICATE}</div>
+			<div style="float: left">
+				<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+				{TXT_DUPLICATE}<br />
+				<span class="il_Helptext">{INFO_DUPLICATE}</span>
+			</div>
+			<div style="vertical-align: top; align: right">
+				<input class="submit" type="submit" name="cmd[cloneWizardPageTree]" value="{BTN_TREE}" />
+				<input class="submit" type="submit" name="cmd[cloneWizardPageList]" value="{BTN_LIST}" />
+			</div>
 		  </th>
 		</tr>
-		<!-- BEGIN object_row -->
+		<!-- BEGIN obj_row -->
 		{ITEM_BLOCK}
-		<!-- END object_row -->
+		<!-- END obj_row -->
+		<!-- BEGIN tree_row -->
+		<tr class="std">
+			<td class="option_value">
+				<div style="text-align: left">
+					{TREE_BLOCK}
+				</div>
+			</td>
+		</tr>
+		<!-- END tree_row -->
 		<tr>
 		  <td class="submit" align="right" colspan="3">
 			<input class="submit" type="submit" name="cmd[cloneAll]" value="{BTN_COPY}" />

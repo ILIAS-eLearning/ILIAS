@@ -1761,27 +1761,52 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		}
 	}
 	
+	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cloneWizardPageTreeObject()
+	{
+	 	$this->cloneWizardPageObject(true);
+	}
+	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cloneWizardPageListObject()
+	{
+	 	$this->cloneWizardPageObject(false);
+	}
+	
 	/**
 	 * Show clone wizard page for container objects
 	 *
 	 * @access public
 	 * 
 	 */
-	public function cloneWizardPageObject()
+	public function cloneWizardPageObject($a_tree_view = true)
 	{
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardPageFactory.php');
 		
 		global $ilObjDataCache,$tree;
 		
-	 	if(!$_POST['clone_source'])
+	 	if(!$_REQUEST['clone_source'])
 	 	{
 			ilUtil::sendInfo($this->lng->txt('select_one'));
 			$this->createObject();
 			return false;
 	 	}
-		$source_id = $_POST['clone_source'];
+		$source_id = $_REQUEST['clone_source'];
 	 	$new_type = $_REQUEST['new_type'];
-	 	$this->ctrl->setParameter($this,'clone_source',(int) $_POST['clone_source']);
+	 	$this->ctrl->setParameter($this,'clone_source',(int) $_REQUEST['clone_source']);
 	 	$this->ctrl->setParameter($this,'new_type',$new_type);
 		
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.container_wizard_page.html');
@@ -1792,15 +1817,17 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	 	$this->tpl->setVariable('INFO_DUPLICATE',$this->lng->txt($new_type.'_copy_threads_info'));
 	 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('obj_'.$new_type.'_duplicate'));
 	 	$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
+	 	$this->tpl->setVariable('BTN_TREE',$this->lng->txt('treeview'));
+	 	$this->tpl->setVariable('BTN_LIST',$this->lng->txt('flatview'));
 
 		// Fill item rows
 		// tree view
-		if(0)
+		if($a_tree_view)
 		{
-			$copy_wizard_page = new ilCopyWizardPage((int) $_POST['clone_source']);
-			#$html = $copy_wizard_page->buildTreePresentation();
-			$this->tpl->setCurrentBlock('obj_row');
-			$this->tpl->setVariable('ITEM_BLOCK','123123');
+			$copy_wizard_page = new ilCopyWizardPage((int) $_REQUEST['clone_source']);
+			$html = $copy_wizard_page->buildTreePresentation();
+			$this->tpl->setCurrentBlock('tree_row');
+			$this->tpl->setVariable('TREE_BLOCK',$html);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -1810,7 +1837,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 				$copy_wizard_page = ilCopyWizardPageFactory::_getInstanceByType($source_id,$type);
 				if(strlen($html = $copy_wizard_page->getWizardPageBlockHTML()))
 				{
-					$this->tpl->setCurrentBlock('object_row');
+					$this->tpl->setCurrentBlock('obj_row');
 					$this->tpl->setVariable('ITEM_BLOCK',$html);
 					$this->tpl->parseCurrentBlock();
 				}
@@ -1853,10 +1880,6 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
 		$wizard_options->saveOwner($ilUser->getId());
 		
-		// Store tree
-		$nodes = $tree->getSubTree($tree->getNodeData((int) $_REQUEST['clone_source']),true);
-		$wizard_options->storeTree($nodes);
-		
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		// add entry for source container
 		$wizard_options->initContainer((int) $_REQUEST['clone_source'],(int) $_GET['ref_id']);
@@ -1865,6 +1888,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 			$wizard_options->addEntry($source_id,$option);
 		}
 		$wizard_options->read();
+		$wizard_options->storeTree((int) $_REQUEST['clone_source']);
 		
 		// Duplicate session to avoid logout problems with backgrounded SOAP calls
 		$new_session_id = duplicate_session($_COOKIE['PHPSESSID']); 

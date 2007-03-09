@@ -168,11 +168,14 @@ class ilCopyWizardOptions
 	 * id -1 is used for recursive call of cloneDependencies()
 	 *
 	 * @access public
-	 * @param
+	 * @param int source id
 	 * 
 	 */
-	public function storeTree($a_tree_structure)
+	public function storeTree($a_source_id)
 	{
+		$this->readTree($a_source_id);
+		$a_tree_structure = $this->tmp_tree;
+		
 	 	$query = "UPDATE copy_wizard_options ".
 			"SET options = '".addslashes(serialize($a_tree_structure))."' ".
 			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
@@ -402,6 +405,31 @@ class ilCopyWizardOptions
 	 	}
 
 		return true;
+	}
+	
+	/**
+	 * Purge ommitted node recursively
+	 *
+	 * @access private
+	 * @param array current node
+	 * 
+	 */
+	private function readTree($a_source_id)
+	{
+		global $tree;
+		
+	 	$this->tmp_tree[] = $tree->getNodeData($a_source_id);
+	 	foreach($tree->getChilds($a_source_id) as $sub_nodes)
+	 	{
+	 		$sub_node_ref_id = $sub_nodes['child'];
+	 		// check ommited, linked ...
+	 		$options = $this->options[$sub_node_ref_id];
+	 		if($options['type'] == self::COPY_WIZARD_COPY or
+	 			$options['type'] == self::COPY_WIZARD_LINK)
+	 		{
+				$this->readTree($sub_node_ref_id);
+	 		}
+	 	}
 	}
 }
 

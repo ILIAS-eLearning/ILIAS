@@ -32,19 +32,66 @@ include_once('classes/class.ilExplorer.php');
 */
 class ilCopyWizardExplorer extends ilExplorer
 {
+	private $lng;
 	
 	public function __construct($a_target)
 	{
-		if ($_POST["id"][0] > 0)
-		{
-			$this->style_id = $_POST["id"][0];
-		}
-		else
-		{
-			$this->style_id = $_GET["stlye_id"];
-		}
+		global $lng,$objDefinition;
 		
+		$this->lng = $lng;
+		$this->objDefinition = $objDefinition;
 		parent::ilExplorer($a_target);
 	}
+	
+   /**
+	* get image path (may be overwritten by derived classes)
+	*/
+	public function getImage($a_name, $a_type = "", $a_obj_id = "")
+	{
+		return ilUtil::getImagePath('icon_'.$a_type.'_s.gif');
+	}
+	
+	/**
+	* check if links for certain object type are activated
+	*
+	* @param	string		$a_type			object type
+	*
+	* @return	boolean		true if linking is activated
+	*/
+	function isClickable($a_type, $a_ref_id = 0)
+	{
+		// always return false
+		return false;
+	}
+	
+	/**
+	 * Build option select
+	 *
+	 * @access public
+	 * @param int node_ref_id
+	 * 
+	 */
+	public function buildSelect($a_node_id,$a_type)
+	{
+		$selected = isset($_POST['cp_options'][$a_node_id]['type']) ?
+			$_POST['cp_options'][$a_node_id]['type'] :
+			ilCopyWizardOptions::COPY_WIZARD_COPY;
+			
+		if($this->objDefinition->allowCopy($a_type))
+		{
+			$options[ilCopyWizardOptions::COPY_WIZARD_COPY] = $this->lng->txt('copy');
+		}
+		if($this->objDefinition->allowLink($a_type))
+		{
+			$options[ilCopyWizardOptions::COPY_WIZARD_LINK] = $this->lng->txt('link');
+		}
+		$options[ilCopyWizardOptions::COPY_WIZARD_OMIT] = $this->lng->txt('omit');
+		
+	 	return ilUtil::formSelect($selected,'cp_options['.$a_node_id.'][type]',
+			$options,
+	 		false,true);
+	 		
+	}
+	
 }
 ?>

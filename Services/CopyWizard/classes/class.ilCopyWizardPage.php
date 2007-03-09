@@ -74,28 +74,18 @@ class ilCopyWizardPage
 	 */
 	public function buildTreePresentation()
 	{
+		global $tree,$ilObjDataCache;
+		
 		include_once ("Services/CopyWizard/classes/class.ilCopyWizardExplorer.php");
 		$exp = new ilCopyWizardExplorer("repository.php?cmd=goto");
-		$exp->setExpandTarget("repository.php?cmd=showTree");
-		$exp->setTargetGet("ref_id");
-		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->setRoot($this->source_id);
+		$exp->setOrderColumn('title');
+		$exp->addFilter("rolf");
+		$exp->setFilterMode(IL_FM_NEGATIVE);
 		$exp->forceExpandAll(true, false);
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-
-		if ($_GET["expand"] == "")
-		{
-			$expanded = $this->tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["expand"];
-		}
-
-		$exp->setExpand($expanded);
 
 		// build html-output
-		$exp->setOutput(0);
+		$exp->setOutput($tree->getParentId($this->source_id),$tree->getDepth($this->source_id));
 		$output = $exp->getOutput();
 
 		return $output;
@@ -187,24 +177,41 @@ class ilCopyWizardPage
 	{
 		foreach($this->items as $node)
 		{
+			$selected = $this->fetchSelected($node['child']);
+			
+			
 			$this->tpl->setCurrentBlock('item_options');
 			$this->tpl->setVariable('ITEM_CHECK_NAME','cp_options['.$node['child'].'][type]');
 			$this->tpl->setVariable('ITEM_VALUE',ilCopyWizardOptions::COPY_WIZARD_OMIT);
 			$this->tpl->setVariable('ITEM_NAME_OPTION',$this->lng->txt('omit'));
+			if($selected == ilCopyWizardOptions::COPY_WIZARD_OMIT)
+			{
+				$this->tpl->setVariable('ITEM_CHECKED','checked="checked"');
+			}
 			$this->tpl->setVariable('ITEM_ID',$this->item_type.'_'.ilCopyWizardOptions::COPY_WIZARD_OMIT);
 			$this->tpl->parseCurrentBlock();
 			
-			$this->tpl->setCurrentBlock('item_options');
-			$this->tpl->setVariable('ITEM_CHECK_NAME','cp_options['.$node['child'].'][type]');
-			$this->tpl->setVariable('ITEM_VALUE',ilCopyWizardOptions::COPY_WIZARD_COPY);
-			$this->tpl->setVariable('ITEM_NAME_OPTION',$this->lng->txt('copy'));
-			$this->tpl->setVariable('ITEM_CHECKED','checked="checked"');
-			$this->tpl->setVariable('ITEM_ID',$this->item_type.'_'.ilCopyWizardOptions::COPY_WIZARD_COPY);
-			$this->tpl->parseCurrentBlock();
 			
+			if($this->objDefinition->allowCopy($this->item_type))
+			{
+				$this->tpl->setCurrentBlock('item_options');
+				if($selected == ilCopyWizardOptions::COPY_WIZARD_COPY)
+				{
+					$this->tpl->setVariable('ITEM_CHECKED','checked="checked"');
+				}
+				$this->tpl->setVariable('ITEM_CHECK_NAME','cp_options['.$node['child'].'][type]');
+				$this->tpl->setVariable('ITEM_VALUE',ilCopyWizardOptions::COPY_WIZARD_COPY);
+				$this->tpl->setVariable('ITEM_NAME_OPTION',$this->lng->txt('copy'));
+				$this->tpl->setVariable('ITEM_ID',$this->item_type.'_'.ilCopyWizardOptions::COPY_WIZARD_COPY);
+				$this->tpl->parseCurrentBlock();
+			}
 			if($this->objDefinition->allowLink($this->item_type))
 			{
 				$this->tpl->setCurrentBlock('item_options');
+				if($selected ==ilCopyWizardOptions::COPY_WIZARD_LINK)
+				{
+					$this->tpl->setVariable('ITEM_CHECKED','checked="checked"');
+				}
 				$this->tpl->setVariable('ITEM_CHECK_NAME','cp_options['.$node['child'].'][type]');
 				$this->tpl->setVariable('ITEM_VALUE',ilCopyWizardOptions::COPY_WIZARD_LINK);
 				$this->tpl->setVariable('ITEM_NAME_OPTION',$this->lng->txt('link'));
@@ -258,6 +265,18 @@ class ilCopyWizardPage
 				$this->items = $nodes;
 				break;
 		}
+	}
+	
+	/**
+	 * Check if it is checked
+	 *
+	 * @access protected
+	 */
+	protected function fetchSelected($a_node_id)
+	{
+		return $_POST['cp_options'][$a_node_id]['type'] ? 
+			$_POST['cp_options'][$a_node_id]['type'] :
+			ilCopyWizardOptions::COPY_WIZARD_COPY; 
 	}
 }
 
