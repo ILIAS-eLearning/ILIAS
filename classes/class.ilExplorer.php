@@ -222,6 +222,19 @@ class ilExplorer
 		$this->setFilterMode(IL_FM_NEGATIVE);
 		$this->highlighted = "";
 		$this->show_minus = true;
+		$this->counter = 0;
+	}
+	
+	/**
+	 * Init item counter
+	 *
+	 * @access public
+	 * @param int number
+	 * 
+	 */
+	public function initItemCounter($a_number)
+	{
+	 	$this->counter = $a_number;
 	}
 	
 	/**
@@ -461,7 +474,6 @@ class ilExplorer
 	function setOutput($a_parent_id, $a_depth = 1,$a_obj_id = 0)
 	{
 		global $rbacadmin, $rbacsystem, $ilBench;
-		static $counter = 0;
 
 #echo 'ParentId: '.$a_parent_id.' depth: '.$a_depth.' obj_id: '.$a_obj_id;
 
@@ -521,20 +533,20 @@ class ilExplorer
 						{
 							$parent_index = $this->getIndex($object);
 						}
-						$this->format_options["$counter"]["parent"]		= $object["parent"];
-						$this->format_options["$counter"]["child"]		= $object["child"];
-						$this->format_options["$counter"]["title"]		= $object["title"];
-						$this->format_options["$counter"]["type"]		= $object["type"];
-						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
-						$this->format_options["$counter"]["desc"] 		= "obj_".$object["type"];
-						$this->format_options["$counter"]["depth"]		= $tab;
-						$this->format_options["$counter"]["container"]	= false;
-						$this->format_options["$counter"]["visible"]	= true;
+						$this->format_options["$this->counter"]["parent"]		= $object["parent"];
+						$this->format_options["$this->counter"]["child"]		= $object["child"];
+						$this->format_options["$this->counter"]["title"]		= $object["title"];
+						$this->format_options["$this->counter"]["type"]		= $object["type"];
+						$this->format_options["$this->counter"]["obj_id"]		= $object["obj_id"];
+						$this->format_options["$this->counter"]["desc"] 		= "obj_".$object["type"];
+						$this->format_options["$this->counter"]["depth"]		= $tab;
+						$this->format_options["$this->counter"]["container"]	= false;
+						$this->format_options["$this->counter"]["visible"]	= true;
 						
 						// Create prefix array
 						for ($i = 0; $i < $tab; ++$i)
 						{
-							 $this->format_options["$counter"]["tab"][] = 'blank';
+							 $this->format_options["$this->counter"]["tab"][] = 'blank';
 						}
 
 						// fix explorer (sometimes explorer disappears)
@@ -555,12 +567,12 @@ class ilExplorer
 								// if parent is not expanded, and one child is
 								// visible we don't need more information and
 								// can skip the rest of the childs
-								if ($this->format_options["$counter"]["visible"])
+								if ($this->format_options["$this->counter"]["visible"])
 								{
 //echo "-setSkipping";
 									$skip_rest = true;
 								}
-								$this->format_options["$counter"]["visible"] = false;
+								$this->format_options["$this->counter"]["visible"] = false;
 							}
 						}
 
@@ -579,7 +591,7 @@ class ilExplorer
 							}
 						}
 
-						++$counter;
+						++$this->counter;
 						$ilBench->stop("Explorer", "setOutput_setFormatOptions");
 						
 						// stop recursion if 2. level beyond expanded nodes is reached
