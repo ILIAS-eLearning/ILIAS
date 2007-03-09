@@ -1023,7 +1023,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		 $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
-		 //echo $query;
+#		 echo $query;
 
 		 $r = $ilDB->query($query);
 
@@ -1032,9 +1032,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
                $data[] = $row;
          }
 
-		include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
+		include_once './classes/class.ilUserXMLWriter.php';
 
-		$xmlWriter = new ilSoapUserObjectXMLWriter();
+		$xmlWriter = new ilUserXMLWriter();
 		$xmlWriter->setAttachRoles($attachRoles);
 		$xmlWriter->setObjects($data);
 
@@ -1235,9 +1235,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		      $data[] = $row;
 		 }
 
-		 include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
+		 include_once './classes/class.ilUserXMLWriter.php';
 
-		 $xmlWriter = new ilSoapUserObjectXMLWriter();
+		 $xmlWriter = new ilUserXMLWriter();
 		 $xmlWriter->setAttachRoles($attach_roles);
 		 $xmlWriter->setObjects($data);
 
