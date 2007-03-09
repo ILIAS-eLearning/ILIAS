@@ -301,6 +301,17 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 	/**
+	* checks if copying of an object type is allowed
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function allowCopy($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["allow_copy"];
+	}
+	
+	/**
 	* get all subobjects by type
 	*
 	* @param	string	object type
@@ -598,6 +609,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["translate"] = $a_attribs["translate"];
 				$this->obj_data["$a_attribs[name]"]["devmode"] = $a_attribs["devmode"];
 				$this->obj_data["$a_attribs[name]"]["allow_link"] = $a_attribs["allow_link"];
+				$this->obj_data["$a_attribs[name]"]["allow_copy"] = $a_attribs["allow_copy"];
 				$this->obj_data["$a_attribs[name]"]["rbac"] = $a_attribs["rbac"];
 				$this->obj_data["$a_attribs[name]"]["system"] = $a_attribs["system"];
 				break;

@@ -80,7 +80,7 @@
 	<property name="pages" module="1">cont_all_pages</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="crs" class_name="Course" location="Modules/Course/classes" module="Modules/Course" checkbox="1" inherit="1" translate="0" rbac="1">
+<object name="crs" class_name="Course" location="Modules/Course/classes" module="Modules/Course" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
 	<subobj name="fold">fold</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
@@ -105,13 +105,12 @@
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
-	<action name="copy">copy</action>
 	<action name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="fold" class_name="Folder" location="classes" checkbox="1" inherit="1" translate="0" rbac="1">
+<object name="fold" class_name="Folder" location="classes" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
 	<subobj name="fold">fold</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
@@ -142,13 +141,14 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="frm" class_name="Forum" location="Modules/Forum/classes" module="Modules/Forum" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+<object name="frm" class_name="Forum" location="Modules/Forum/classes" module="Modules/Forum" checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit" module="1">edit_properties</property>
 	<property name="perm">perm_settings</property>
+	<action name="copy">copy</action>
 </object>
-<object name="grp" class_name="Group" location="classes" checkbox="1" inherit="1" translate="0" rbac="1">
+<object name="grp" class_name="Group" location="classes" checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1">
 	<subobj name="fold">fold</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
@@ -306,7 +306,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="exc" class_name="Exercise" location="Modules/Exercise/classes" module="Modules/Exercise" checkbox="1" inherit="1" allow_link="1" rbac="1">
+<object name="exc" class_name="Exercise" location="Modules/Exercise/classes" module="Modules/Exercise" checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
@@ -320,7 +320,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>
-<object name="file" class_name="File" location="Modules/File/classes" module="Modules/File" checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1">
+<object name="file" class_name="File" location="Modules/File/classes" module="Modules/File" checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
@@ -333,7 +333,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="tst" class_name="Test" location="Modules/Test/classes" module="Modules/Test" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+<object name="tst" class_name="Test" location="Modules/Test/classes" module="Modules/Test" checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
@@ -346,7 +346,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="svy" class_name="Survey" location="Modules/Survey/classes" module="Modules/Survey" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+<object name="svy" class_name="Survey" location="Modules/Survey/classes" module="Modules/Survey" checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">survey_questions</property>
@@ -367,7 +367,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="chat" class_name="Chat" location="Modules/Chat/classes" module="Modules/Chat" checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1">
+<object name="chat" class_name="Chat" location="Modules/Chat/classes" module="Modules/Chat" checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1" allow_copy="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="recordings">chat_recordings</property>
@@ -459,7 +459,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="webr" class_name="LinkResource" location="Modules/WebResource/classes" module="Modules/WebResource" checkbox="1" inherit="0" allow_link="1" translate="0" rbac="1" devmode="0">
+<object name="webr" class_name="LinkResource" location="Modules/WebResource/classes" module="Modules/WebResource" checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 	<action name="cut">cut</action>

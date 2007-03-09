@@ -215,6 +215,18 @@ class ilExplorer
 		$this->highlighted = "";
 		$this->show_minus = true;
 	}
+	
+	/**
+	 * Set root node
+	 *
+	 * @access public
+	 * @param int ref id of root node
+	 * 
+	 */
+	public function setRoot($a_root_id)
+	{
+	 	$this->tree = new ilTree(ROOT_FOLDER_ID,$a_root_id);
+	}
 
 	/**
 	* set the order column
@@ -787,6 +799,13 @@ class ilExplorer
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 			$tpl->parseCurrentBlock();
 		}
+		
+		if(strlen($sel = $this->buildSelect($a_node_id,$a_option['type'])))
+		{
+			$tpl->setCurrentBlock('select');
+			$tpl->setVariable('OBJ_SEL',$sel);
+			$tpl->parseCurrentBlock();
+		}
 
 		if ($this->isClickable($a_option["type"], $a_node_id,$a_obj_id))	// output link
 		{
@@ -827,7 +846,7 @@ class ilExplorer
 			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText(
 				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true));
 			$tpl->setVariable("OBJ_DESC", ilUtil::shortenText(
-				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]), $this->textwidth, true));
+				$this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]), $this->textwidth, true));			
 			$tpl->parseCurrentBlock();
 		}
 
@@ -891,6 +910,15 @@ class ilExplorer
 	{
 		return "";
 	}
+	
+	/**
+	* standard implementation for adding an option select box between image and title
+	*/
+	function buildSelect($a_node_id,$a_type)
+	{
+		return "";
+	}
+	
 
 	/**
 	* get frame target (may be overwritten by derived classes)
@@ -1017,7 +1045,7 @@ class ilExplorer
 		}
 
 		// exit on error
-		$this->ilias->raiseError(get_class($this)."::getIndex(): Error in tree. No index found!",$this->ilias->error_obj->FATAL);
+		#$this->ilias->raiseError(get_class($this)."::getIndex(): Error in tree. No index found!",$this->ilias->error_obj->FATAL);
 	}
 
 	/**
