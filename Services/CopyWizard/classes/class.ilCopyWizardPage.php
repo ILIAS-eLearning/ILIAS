@@ -83,9 +83,10 @@ class ilCopyWizardPage
 		$exp->addFilter("rolf");
 		$exp->setFilterMode(IL_FM_NEGATIVE);
 		$exp->forceExpandAll(true, false);
+		$exp->checkPermissions(false);
 
 		// build html-output
-		$exp->setOutput($tree->getParentId($this->source_id),$tree->getDepth($this->source_id));
+		$exp->setOutput($this->source_id,$tree->getDepth($this->source_id) + 1);
 		$output = $exp->getOutput();
 
 		return $output;

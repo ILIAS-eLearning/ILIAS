@@ -168,6 +168,14 @@ class ilExplorer
 	* @access private
 	*/
 	var $expand_all = false;
+	
+	/**
+	* Root id. One can set it using setRoot
+	* @var boolean
+	* @access private
+	*/
+	var $root_id = null;
+	
 
 	/**
 	* Constructor
@@ -225,7 +233,22 @@ class ilExplorer
 	 */
 	public function setRoot($a_root_id)
 	{
-	 	$this->tree = new ilTree(ROOT_FOLDER_ID,$a_root_id);
+	 	#$this->tree = new ilTree(ROOT_FOLDER_ID,$a_root_id);
+	 	$this->root_id = $a_root_id;
+	}
+	
+	/**
+	 * get root id
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getRoot()
+	{
+	 	return $this->root_id == null ?
+	 		$this->tree->getRootId() :
+	 		$this->root_id;
 	}
 
 	/**
@@ -386,7 +409,7 @@ class ilExplorer
 	{
 		// in this standard implementation
 		// only the type determines, wether an object should be clickable or not
-		// but this method can be overwritten and make use of the ref id
+		// but this method can be overwritten and make $exp->setFilterMode(IL_FM_NEGATIVE);use of the ref id
 		// (this happens e.g. in class ilRepositoryExplorerGUI)
 		if ($this->is_clickable[$a_type] == "n")
 		{
@@ -440,6 +463,8 @@ class ilExplorer
 		global $rbacadmin, $rbacsystem, $ilBench;
 		static $counter = 0;
 
+#echo 'ParentId: '.$a_parent_id.' depth: '.$a_depth.' obj_id: '.$a_obj_id;
+
 		if (!isset($a_parent_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
@@ -447,7 +472,7 @@ class ilExplorer
 
 		if ($this->showChilds($a_parent_id,$a_obj_id))
 		{
-//echo "<br>getChildsFor:".$a_parent_id.":";
+#echo "<br>getChildsFor:".$a_parent_id.":";
 			$ilBench->start("Explorer", "setOutput_getChilds");
 			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
 			$ilBench->stop("Explorer", "setOutput_getChilds");
@@ -491,7 +516,8 @@ class ilExplorer
 					if ($this->isVisible($object['child'],$object['type']))
 					{
 						$ilBench->start("Explorer", "setOutput_setFormatOptions");
-						if ($object["child"] != $this->tree->getRootId())
+						#echo 'CHILD getIndex() '.$object['child'].' parent: '.$this->getRoot();
+						if ($object["child"] != $this->getRoot())
 						{
 							$parent_index = $this->getIndex($object);
 						}
@@ -504,7 +530,7 @@ class ilExplorer
 						$this->format_options["$counter"]["depth"]		= $tab;
 						$this->format_options["$counter"]["container"]	= false;
 						$this->format_options["$counter"]["visible"]	= true;
-
+						
 						// Create prefix array
 						for ($i = 0; $i < $tab; ++$i)
 						{
@@ -521,7 +547,7 @@ class ilExplorer
 						}
 
 						// only if parent is expanded and visible, object is visible
-						if ($object["child"] != $this->tree->getRootId() and ((!$this->expand_all and !in_array($object["parent"],$this->expanded))
+						if ($object["child"] != $this->getRoot() and ((!$this->expand_all and !in_array($object["parent"],$this->expanded))
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							if (!$this->forceExpanded($object["child"]))
@@ -539,7 +565,7 @@ class ilExplorer
 						}
 
 						// if object exists parent is container
-						if ($object["child"] != $this->tree->getRootId())
+						if ($object["child"] != $this->getRoot())
 						{
 							$this->format_options["$parent_index"]["container"] = true;
 
@@ -1036,6 +1062,11 @@ class ilExplorer
 	**/
 	function getIndex($a_data)
 	{
+		if(!is_array($this->format_options))
+		{
+			return -1;
+		}
+		
 		foreach ($this->format_options as $key => $value)
 		{
 			if (($value["child"] == $a_data["parent"]))
@@ -1043,7 +1074,8 @@ class ilExplorer
 				return $key;
 			}
 		}
-
+		
+		return -1;
 		// exit on error
 		#$this->ilias->raiseError(get_class($this)."::getIndex(): Error in tree. No index found!",$this->ilias->error_obj->FATAL);
 	}
@@ -1137,7 +1169,7 @@ class ilExplorer
 		// IF ISN'T SET CREATE SESSION VARIABLE
 		if(!is_array($_SESSION[$this->expand_variable]))
 		{
-			$_SESSION[$this->expand_variable] = array($this->tree->getRootId());
+			$_SESSION[$this->expand_variable] = array($this->getRoot());
 		}
 		// IF $_GET["expand"] is positive => expand this node
 		if ($a_node_id > 0 && !in_array($a_node_id,$_SESSION[$this->expand_variable]))
