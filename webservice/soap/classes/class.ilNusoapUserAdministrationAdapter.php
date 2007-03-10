@@ -739,7 +739,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
 								'Syntax, parameters may change in future releases');
-		// Clone functions 
+		// Clone functions
 		$this->server->register('ilClone',
 								array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
 								array('new_ref_id' => 'xsd:int'),
@@ -859,7 +859,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS hasNewMail(): Checks whether the current authenticated user has a new mail.');
-		
+
 		$this->server->register('getNIC',
 								array('sid' => 'xsd:string'),
 								array('xmlresultset' => 'xsd:string'),
@@ -924,6 +924,14 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS updateFile():update existing file, update file properties from xml (see ilias_file_3_8.dtd for details). obj_id in xml must match according obj id of refid.!');
 
 
+      	$this->server->register('resolveUsers',
+								array('sid' => 'xsd:string', 'internal_ids_as_csv' => 'xsd:string'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#resolveUsers',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS resolveUser(): Resolve internal user id, e.g. retrieved vom members of course xml. Returns user xml dtds. Internal ids is a comma separated list of internal ids, e.g. il_instid_usr_3,il_instid_usr_6');
 
 								return true;
 	}
