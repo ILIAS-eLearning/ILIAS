@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, Look?, LastUpdate?, LastLogin?, UserDefinedField*)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, FeedHash?, GMapsInfo?)>
 
 <!--
 Id is ILIAS ID or unique identifier for this xml file
@@ -124,3 +124,21 @@ Id is ILIAS ID or unique identifier for this xml file
 >
 <!ELEMENT UDFName (#PCDATA)>
 <!ELEMENT UDFValue (#PCDATA)>
+
+
+
+<!ELEMENT AccountInfo (#PCDATA)>
+<!ATTLIST AccountInfo
+        Type CDATA #REQUIRED
+>
+
+<!-- feedhash is readonly -->
+<!ELEMENT FeedHash (#PCDATA)>
+
+
+<!ELEMENT GMapsInfo EMPTY>
+<!ATTLIST GMapsInfo
+	longitude CDATA #REQUIRED
+	latitude CDATA #REQUIRED
+	zoom CDATA #REQUIRED
+>

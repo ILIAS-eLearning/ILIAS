@@ -262,6 +262,18 @@ class ilUserXMLWriter extends ilXmlWriter
 		$udf_data = new ilUserDefinedData($row['usr_id']);
 		$udf_data->addToXML($this, $this->settings);
 
+		$msgrs = array ("skype" => "im_skype", "yahoo" => "im_yahoo", "msn"=>"im_msn", "aim"=>"im_aim", "icq"=>"im_icq", "delicious" => "delicious", "external" => "ext_account");
+		foreach ($msgrs as $type => $fieldname) {
+			$this->__addElement("AccountInfo", $row[$fieldname], array("Type" => $type));
+		}
+
+		$this->__addElement("FeedHash", $row["feed_hash"]);
+
+		$this->__addElement("GMapsInfo", null, array (
+			"longitude" => $row["longitude"],
+			"latitude" => $row["latitude"],
+			"zoom" => $row["loc_zoom"]));
+
 
 		$this->xmlEndTag('User');
 	}

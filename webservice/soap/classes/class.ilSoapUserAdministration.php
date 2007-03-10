@@ -1355,7 +1355,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		          FROM usr_data
 		          LEFT JOIN usr_pref
 		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
-		          WHERE id IN (".join(",",$ids).")";
+		          WHERE  usr_data.usr_id IN (".join(",",$ids).")";
 
   	     if (is_numeric($active) && $active > -1)
   			$query .= " AND active = '$active'";
