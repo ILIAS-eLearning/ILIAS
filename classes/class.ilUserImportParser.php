@@ -208,12 +208,12 @@ class ilUserImportParser extends ilSaxParser
 	 * Cached iLinc data
 	 */
 	var $ilincdata;
-	
+
 	/**
 	 * ILIAS skin
 	 */
 	var $skin;
-	
+
 	/**
 	 * ILIAS style
 	 */
@@ -242,6 +242,19 @@ class ilUserImportParser extends ilSaxParser
 	var $user_id;
 
 	/**
+	 * current User obj
+	 * @var ilObjUser
+	*/
+	private $userObj;
+
+	/**
+	 * current messenger type
+	 *
+	 * @var String
+	 */
+	private $current_messenger_type;
+
+	/**
 	* Constructor
 	*
 	* @param	string		$a_xml_file		xml file
@@ -253,7 +266,7 @@ class ilUserImportParser extends ilSaxParser
 	function ilUserImportParser($a_xml_file = '', $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
 		global $lng, $tree, $ilias,$ilUser;
-		
+
 		$this->roles = array();
 		$this->mode = $a_mode;
 		$this->conflict_rule = $a_conflict_rule;
@@ -265,7 +278,7 @@ class ilUserImportParser extends ilSaxParser
 		$this->ilincdata = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
-		include_once "./classes/class.ilObjUser.php"; 
+		include_once "./classes/class.ilObjUser.php";
 		$this->userStyles = ilObjUser::_getAllUserAssignedStyles();
 		$settings = $ilias->getAllSettings();
 		if ($settings["usr_settings_hide_skin_style"] == 1)
@@ -403,7 +416,7 @@ class ilUserImportParser extends ilSaxParser
 	function importBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
 		global $ilias,$lng;
-		
+
 		switch($a_name)
 		{
 			case "Role":
@@ -453,7 +466,7 @@ class ilUserImportParser extends ilSaxParser
 					$ilias->ini->readVariable("layout","skin"));
 				$this->userObj->setPref("style",
 					$ilias->ini->readVariable("layout","style"));
-				
+
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
@@ -495,11 +508,21 @@ class ilUserImportParser extends ilSaxParser
 									  sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
 				}
 				break;
-				
+
 			case 'UserDefinedField':
 				$this->tmp_udf_id = $a_attribs['Id'];
 				$this->tmp_udf_name = $a_attribs['Name'];
 				break;
+
+			case 'AccountInfo':
+				$this->current_messenger_type = strtolower($a_attribs["Type"]);
+				break;
+			case 'GMapInfo':
+				$this->userObj->setLatitude($a_attribs["latitude"]);
+				$this->userObj->setLongitude($a_attribs["longitude"]);
+				$this->userObj->setLocationZoom($a_attribs["zoom"]);
+				break;
+
 		}
 	}
 	/**
@@ -601,6 +624,7 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",""));
 				}
 				break;
+
 		}
 	}
 
@@ -877,7 +901,7 @@ class ilUserImportParser extends ilSaxParser
 						}
 						break;
 				}
-				
+
 				// check external account conflict (if external account is already used)
 				// note: we cannot apply conflict rules in the same manner as to logins here
 				// so we ignore records with already existing external accounts.
@@ -897,7 +921,7 @@ class ilUserImportParser extends ilSaxParser
 							$this->action = "Ignore";
 						}
 						break;
-						
+
 					case "Update" :
 						if ($elogin != "" && $elogin != $this->userObj->getLogin())
 						{
@@ -960,7 +984,7 @@ class ilUserImportParser extends ilSaxParser
 
 
 							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive),6);
-							
+
 							// Finally before saving new user.
 							// Check if profile is incomplete
 							$this->userObj->setProfileIncomplete($this->checkProfileIncomplete($this->userObj));
@@ -969,12 +993,12 @@ class ilUserImportParser extends ilSaxParser
 							//insert user data in table user_data
 							$this->userObj->saveAsNew(false);
 
-							
+
 							// Set default prefs
 							$this->userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
 							$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
 							// save user preferences (skin and style)
-							
+
 							$this->userObj->writePrefs();
 
 							if (is_array($this->personalPicture))
@@ -1091,9 +1115,9 @@ class ilUserImportParser extends ilSaxParser
 							$updateUser->setPref("skin", $this->userObj->getPref("skin"));
 							$updateUser->setPref("style", $this->userObj->getPref("style"));
 							$updateUser->writePrefs();
-							
+
 							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
-					
+
 							$updateUser->update();
 
 							if ($this->ilincdata["id"]) {
@@ -1306,7 +1330,7 @@ class ilUserImportParser extends ilSaxParser
 				$this->$ilincdata["password"] = $this->cdata;
 				//$this->userObj->setiLincData($this->ilincdata);
 				break;
-				
+
 			case "ExternalAccount":
 				$this->userObj->setExternalAccount($this->cdata);
 				break;
@@ -1341,6 +1365,22 @@ class ilUserImportParser extends ilSaxParser
 					$this->udf_data[$field_id] = $this->cdata;
 				}
 				break;
+			case 'AccountInfo':
+				if ($this->current_messenger_type =="delicious")
+				{
+					$this->userObj->setDelicious($this->cdata);
+				}
+				elseif ($this->current_messenger_type =="external")
+				{
+					$this->userObj->setExternalAccount($this->cdata);
+				}
+				else
+				{
+					$this->userObj->setInstantMessengerId($this->current_messenger_type, $this->cdata);
+				}
+				break;
+
+
 		}
 	}
 
@@ -1565,7 +1605,7 @@ class ilUserImportParser extends ilSaxParser
 			case "Matriculation":
 				$this->userObj->setMatriculation($this->cdata);
 				break;
-				
+
 			case "ExternalAccount":
 //echo "-".$this->userObj->getAuthMode()."-".$this->userObj->getLogin()."-";
 				$am = ($this->userObj->getAuthMode() == "default" || $this->userObj->getAuthMode() == "")
@@ -1583,7 +1623,7 @@ class ilUserImportParser extends ilSaxParser
 								$lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->cdata.")");
 						}
 						break;
-						
+
 					case "Update" :
 						if ($elogin != "" && $elogin != $this->userObj->getLogin())
 						{
@@ -1594,7 +1634,7 @@ class ilUserImportParser extends ilSaxParser
 				}
 				$this->userObj->setExternalAccount(trim($this->cdata));
 				break;
-				
+
 			case "Active":
 				if ($this->cdata != "true"
 				&& $this->cdata != "false")
@@ -1899,17 +1939,17 @@ class ilUserImportParser extends ilSaxParser
 	{
 	    return $this->mapping_mode;
 	}
-	
+
 	/**
 	 * read required fields
 	 *
 	 * @access private
-	 * 
+	 *
 	 */
 	private function readRequiredFields()
 	{
 		global $ilSetting;
-		
+
 	 	if(is_array($this->required_fields))
 	 	{
 	 		return $this->required_fields;
@@ -1923,22 +1963,22 @@ class ilUserImportParser extends ilSaxParser
 	 	}
 	 	return $this->required_fields ? $this->required_fields : array();
 	}
-	
+
 	/**
 	 * Check if profile is incomplete
-	 * Will set the usr_data field profile_incomplete if any required field is missing 
+	 * Will set the usr_data field profile_incomplete if any required field is missing
 	 *
 	 *
 	 * @access private
-	 * 
+	 *
 	 */
 	private function checkProfileIncomplete($user_obj)
 	{
 	 	$this->readRequiredFields();
-	 	
+
 	 	foreach($this->required_fields as $field)
 	 	{
-			
+
 	 		switch($field)
 	 		{
 	 			case 'login':
