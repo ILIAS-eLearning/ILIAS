@@ -448,7 +448,7 @@ function excludeGroupMember($sid,$group_id,$user_id)
 function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 {
 	include_once './webservice/soap/classes/class.ilSoapUtils.php';
-	
+
 	$sou =& new ilSoapUtils();
 	$sou->disableSOAPCheck();
 	$sou->ignoreUserAbort();
@@ -459,21 +459,21 @@ function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 function ilClone($sid,$copy_identifier)
 {
 	include_once './webservice/soap/classes/class.ilSoapUtils.php';
-	
+
 	$sou = new ilSoapUtils();
 	$sou->disableSOAPCheck();
 	$sou->ignoreUserAbort();
-	
+
 	return $sou->ilClone($sid,$copy_identifier);
 }
 function ilCloneDependencies($sid,$copy_identifier)
 {
 	include_once './webservice/soap/classes/class.ilSoapUtils.php';
-	
+
 	$sou = new ilSoapUtils();
 	$sou->disableSOAPCheck();
 	$sou->ignoreUserAbort();
-	
+
 	return $sou->ilCloneDependencies($sid,$copy_identifier);
 }
 
@@ -620,4 +620,12 @@ function addFile ($sid, $ref_id, $xml) {
 
 }
 
+
+function resolveUsers($sid, $internal_ids_as_csv) {
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->resolveUsers($sid, $internal_ids_as_csv);
+}
 ?>
