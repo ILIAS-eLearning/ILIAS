@@ -86,11 +86,19 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $ilUser,$rbacsystem,$ilAccess;
+		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
+
+		// add entry to navigation history
+		if (!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"repository.php?cmd=frameset&ref_id=".$_GET["ref_id"], "grp");
+		}
 
 		switch($next_class)
 		{
@@ -1377,17 +1385,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
 		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
-		
-		//$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
-		
-		//$this->tpl->setVariable("HEADLINE",$headline);
-		
-		$this->tpl->show();
-		exit;
 	}
 	
 	
-	
+	/**
+	* Form for mail to group members
+	*/
 	function mailMembersObject()
 	{
 		global $rbacreview;
@@ -1405,6 +1408,40 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
 	}
 
+
+	/**
+	* Members map
+	*/
+	function membersMapObject()
+	{
+		global $tpl;
+		
+		$this->__setSubTabs('members');
+		
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
+		$map = new ilGoogleMapGUI();
+		$map->setMapId("group_map");
+		$map->setWidth("900px");
+		$map->setHeight("600px");
+		$map->setLatitude($this->object->getLatitude());
+		$map->setLongitude($this->object->getLongitude());
+		$map->setZoom($this->object->getLocationZoom());
+		$map->setEnableTypeControl(true);
+		$map->setEnableNavigationControl(true);
+		
+		$member_ids = $this->object->getGroupMemberIds();
+		$admin_ids = $this->object->getGroupAdminIds();
+		
+		// fetch all users data in one shot to improve performance
+		$members = $this->object->getGroupMemberData($member_ids);
+		foreach($member_ids as $user_id)
+		{
+			$map->addUserMarker($user_id);
+		}
+		
+		$tpl->setContent($map->getHTML());
+		$tpl->setLeftContent($map->getUserListHTML());
+	}
 
 	function showNewRegistrationsObject()
 	{
@@ -1837,7 +1874,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				? true
 				: false;
 			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
+				$this->ctrl->getLinkTarget($this, "edit"), array("edit", "editMapSettings"), get_class($this),
 				"", $force_active);
 //  Export tab to export group members to an excel file. Only available for group admins
 //  commented out for following reason: clearance needed with developer list
@@ -2657,6 +2694,10 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this,'membersGallery'),
 				"membersGallery", get_class($this));
 				
+				$this->tabs_gui->addSubTabTarget("grp_members_map",
+				$this->ctrl->getLinkTarget($this,'membersMap'),
+				"membersMap", get_class($this));
+				
 				$this->tabs_gui->addSubTabTarget("mail_members",
 				$this->ctrl->getLinkTarget($this,'mailMembers'),
 				"mailMembers", get_class($this));
@@ -2682,6 +2723,10 @@ class ilObjGroupGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','listGroupings'),
 												 'listGroupings',
 												 get_class($this));
+
+				$this->tabs_gui->addSubTabTarget("grp_map_settings",
+												 $this->ctrl->getLinkTarget($this,'editMapSettings'),
+												 "editMapSettings", get_class($this));
 				break;
 		}
 	}
@@ -2784,6 +2829,61 @@ class ilObjGroupGUI extends ilContainerGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
-	
+	/**
+	* Edit Map Settings
+	*/
+	function editMapSettingsObject()
+	{
+		global $ilUser, $ilCtrl, $ilUser;
+
+		$this->__setSubTabs("properties");
+		
+		$latitude = $this->object->getLatitude();
+		$longitude = $this->object->getLongitude();
+		$zoom = $this->object->getLocationZoom();
+
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		//$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		$form->setTitle($this->lng->txt("grp_map_settings"));
+			
+		// enable map
+		$public = new ilCheckboxInputGUI($this->lng->txt("grp_enable_map"),
+			"enable_map");
+		$public->setValue("1");
+		$public->setChecked($this->object->getEnableGroupMap());
+		$form->addItem($public);
+
+		// map location
+		$loc_prop = new ilLocationInputGUI($this->lng->txt("grp_map_location"),
+			"location");
+		$loc_prop->setLatitude($latitude);
+		$loc_prop->setLongitude($longitude);
+		$loc_prop->setZoom($zoom);
+		$form->addItem($loc_prop);
+		
+		$form->addCommandButton("saveMapSettings", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		//$this->tpl->show();
+	}
+
+	function saveMapSettingsObject()
+	{
+		global $ilCtrl, $ilUser;
+
+		$this->object->setLatitude(ilUtil::stripSlashes($_POST["location"]["latitude"]));
+		$this->object->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
+		$this->object->setLocationZoom(ilUtil::stripSlashes($_POST["location"]["zoom"]));
+		$this->object->setEnableGroupMap(ilUtil::stripSlashes($_POST["enable_map"]));
+		$this->object->update();
+		
+		$ilCtrl->redirect($this, "editMapSettings");
+	}
+
 } // END class.ilObjGroupGUI
 ?>

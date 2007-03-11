@@ -48,7 +48,7 @@ class ilMediaCastHandlerGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng, $ilAccess, $tpl;
+		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -56,6 +56,13 @@ class ilMediaCastHandlerGUI
 		{
 			$this->ctrl->setCmdClass("ilobjmediacastgui");
 			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+		// add entry to navigation history
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"ilias.php?baseClass=ilMediaCastHandlerGUI&cmd=listItems&ref_id=".$_GET["ref_id"], "mcst");
 		}
 
 		switch ($next_class)

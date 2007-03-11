@@ -57,7 +57,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilNavigationHistory, $ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -128,6 +128,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 
 			default:
+			
+				// add entry to navigation history
+				if (!$this->getCreationMode() &&
+					$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+				{
+					$ilNavigationHistory->addItem($_GET["ref_id"],
+						"repository.php?cmd=frameset&ref_id=".$_GET["ref_id"], "cat");
+				}
+
 				$this->prepareOutput();
 				include_once("classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",

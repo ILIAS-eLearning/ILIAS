@@ -95,7 +95,7 @@ class ilLMEditorGUI
 		$this->tree->setTreeTablePK("lm_id");
 		
 		$ilNavigationHistory->addItem($_GET["ref_id"],
-			"ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"]);
+			"ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"], "lm");
 
 	}
 

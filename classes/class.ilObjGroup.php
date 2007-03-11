@@ -72,6 +72,75 @@ class ilObjGroup extends ilContainer
 	}
 	
 	/**
+	* Create group
+	*/
+	function create()
+	{
+		global $ilDB;
+
+		parent::create();
+		
+		$query = "INSERT INTO grp_data (".
+			" grp_id".
+			", latitude".
+			", longitude".
+			", location_zoom".
+			", enable_group_map".
+			" ) VALUES (".
+			$ilDB->quote($this->getId())
+			.",".$ilDB->quote($this->getLatitude())
+			.",".$ilDB->quote($this->getLongitude())
+			.",".$ilDB->quote($this->getLocationZoom())
+			.",".$ilDB->quote($this->getEnableGroupMap())
+			.")";
+		$ilDB->query($query);
+	}
+	
+	/**
+	* Update group
+	*/
+	function update()
+	{
+		global $ilDB;
+		
+		if (!parent::update())
+		{			
+			return false;
+		}
+
+		// update group data
+		$query = "UPDATE grp_data SET ".
+			" latitude = ".$ilDB->quote($this->getLatitude()).
+			", longitude = ".$ilDB->quote($this->getLongitude()).
+			", location_zoom = ".$ilDB->quote($this->getLocationZoom()).
+			", enable_group_map = ".$ilDB->quote($this->getEnableGroupMap()).
+			" WHERE grp_id = ".$ilDB->quote($this->getId());
+
+		$ilDB->query($query);
+
+	}
+
+	/**
+	* Read group
+	*/
+	function read()
+	{
+		global $ilDB;
+		
+		parent::read();
+		
+		$query = "SELECT * FROM grp_data WHERE grp_id = ".
+			$ilDB->quote($this->getId());
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$this->setLatitude($rec["latitude"]);
+		$this->setLongitude($rec["longitude"]);
+		$this->setLocationZoom($rec["location_zoom"]);
+		$this->setEnableGroupMap($rec["enable_group_map"]);
+	}
+
+	/**
 	 * Clone group (no member data)
 	 *
 	 * @access public
@@ -86,6 +155,10 @@ class ilObjGroup extends ilContainer
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$new_obj->setGroupStatus($this->readGroupStatus());
 	 	$new_obj->initGroupStatus();
+		$new_obj->setLatitude($this->getLatitude());
+		$new_obj->setLongitude($this->getLongitude());
+		$new_obj->setLocationZoom($this->getLocationZoom());
+		$new_obj->setEnableGroupMap($this->getEnableGroupMap());
 	 	
 		// find a free number
 		for ($n = 1;$n < 999;$n++)
@@ -144,7 +217,85 @@ class ilObjGroup extends ilContainer
 	 	return true;
 	}
 	
-	
+	/**
+	* Set Latitude.
+	*
+	* @param	string	$a_latitude	Latitude
+	*/
+	function setLatitude($a_latitude)
+	{
+		$this->latitude = $a_latitude;
+	}
+
+	/**
+	* Get Latitude.
+	*
+	* @return	string	Latitude
+	*/
+	function getLatitude()
+	{
+		return $this->latitude;
+	}
+
+	/**
+	* Set Longitude.
+	*
+	* @param	string	$a_longitude	Longitude
+	*/
+	function setLongitude($a_longitude)
+	{
+		$this->longitude = $a_longitude;
+	}
+
+	/**
+	* Get Longitude.
+	*
+	* @return	string	Longitude
+	*/
+	function getLongitude()
+	{
+		return $this->longitude;
+	}
+
+	/**
+	* Set LocationZoom.
+	*
+	* @param	int	$a_locationzoom	LocationZoom
+	*/
+	function setLocationZoom($a_locationzoom)
+	{
+		$this->locationzoom = $a_locationzoom;
+	}
+
+	/**
+	* Get LocationZoom.
+	*
+	* @return	int	LocationZoom
+	*/
+	function getLocationZoom()
+	{
+		return $this->locationzoom;
+	}
+
+	/**
+	* Set Enable Group Map.
+	*
+	* @param	boolean	$a_enablemap	Enable Group Map
+	*/
+	function setEnableGroupMap($a_enablemap)
+	{
+		$this->enablemap = $a_enablemap;
+	}
+
+	/**
+	* Get Enable Group Map.
+	*
+	* @return	boolean	Enable Group Map
+	*/
+	function getEnableGroupMap()
+	{
+		return $this->enablemap;
+	}
 
 	/**
 	* join Group, assigns user to role

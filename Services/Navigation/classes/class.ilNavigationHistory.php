@@ -58,7 +58,7 @@ class ilNavigationHistory
 	* Add an item to the stack. If ref_id is already used,
 	* the item is moved to the top.
 	*/
-	public function addItem($a_ref_id, $a_link, $a_title = "")
+	public function addItem($a_ref_id, $a_link, $a_type, $a_title = "")
 	{
 		if ($a_title == "" && $a_ref_id > 0)
 		{
@@ -80,8 +80,8 @@ class ilNavigationHistory
 		}
 		
 		$this->items = array_merge(
-			array(array("ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title)),
-			$this->items);
+			array(array("ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title,
+			"type" => $a_type)), $this->items);
 		
 		$items  = serialize($this->items);
 		$_SESSION["il_nav_history"] = $items;

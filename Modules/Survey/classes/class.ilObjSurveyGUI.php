@@ -70,6 +70,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilAccess, $ilNavigationHistory;
+		
+		// add entry to navigation history
+		if (!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"ilias.php?baseClass=ilObjSurveyGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "svy");
+		}
+
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");

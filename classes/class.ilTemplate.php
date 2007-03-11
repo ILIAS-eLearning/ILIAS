@@ -146,7 +146,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
-			$this->fillNavigationHistory();
+			//$this->fillNavigationHistory();
 			$this->fillJavaScriptFiles();
 			$this->fillCssFiles();
 		}
@@ -248,7 +248,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
-			$this->fillNavigationHistory();
+			//$this->fillNavigationHistory();
 			$this->fillJavaScriptFiles();
 			$this->fillCssFiles();
 			$this->fillPageFormAction();
@@ -333,9 +333,11 @@ class ilTemplate extends ilTemplateX
 	{
 		global $tpl, $ilMainMenu;
 
+		/* Now part of the main menu
 		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
 		$nav_hist = new ilNavigationHistoryGUI();
 		$tpl->setVariable("NAVIGATION_HISTORY", $nav_hist->getHTML());
+		*/
 	}
 	
 	function fillHeaderIcon()

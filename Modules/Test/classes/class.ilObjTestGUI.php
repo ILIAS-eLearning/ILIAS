@@ -67,10 +67,21 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilAccess, $ilNavigationHistory;
+		
 		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
+		
+		// add entry to navigation history
+		if (!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "tst");
+		}
+		
 		switch($next_class)
 		{
 			case "ilinfoscreengui":

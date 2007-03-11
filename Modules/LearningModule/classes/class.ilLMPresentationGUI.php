@@ -147,7 +147,7 @@ class ilLMPresentationGUI
 		
 		$obj_id = $_GET["obj_id"];
 		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this));
+		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this),"lm");
 		$this->ctrl->setParameter($this, "obj_id", $obj_id);
 
 		switch($next_class)
@@ -881,9 +881,9 @@ class ilLMPresentationGUI
 		
 		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 		
-		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
-		$nav_hist = new ilNavigationHistoryGUI();
-		$this->tpl->setVariable("NAVIGATION_HISTORY", $nav_hist->getHTML());
+		//require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
+		//$nav_hist = new ilNavigationHistoryGUI();
+		//$this->tpl->setVariable("NAVIGATION_HISTORY", $nav_hist->getHTML());
 		
 		$ilBench->stop("ContentPresentation", "ilMainMenu");
 	}

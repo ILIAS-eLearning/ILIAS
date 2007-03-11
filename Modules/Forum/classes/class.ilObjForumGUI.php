@@ -59,6 +59,8 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilNavigationHistory, $ilAccess;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
@@ -67,6 +69,14 @@ class ilObjForumGUI extends ilObjectGUI
 			&& $cmd != "enableNotification" && $cmd != "disableNotification")
 		{
 			$this->prepareOutput();
+		}
+
+		// add entry to navigation history
+		if (!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"repository.php?cmd=showThreads&ref_id=".$_GET["ref_id"], "frm");
 		}
 
 		switch($next_class)
@@ -854,7 +864,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function showThreadFramesetObject()
 	{
-		global $ilUser, $lng, $ilDB;
+		global $ilUser, $lng, $ilDB, $ilAccess, $ilNavigationHistory, $ilCtrl;
 		
 		require_once "./Modules/Forum/classes/class.ilForum.php";
 		require_once "./Modules/Forum/classes/class.ilObjForum.php";
@@ -1064,12 +1074,22 @@ class ilObjForumGUI extends ilObjectGUI
 	function viewThreadObject()
 	{
 		global $ilias, $tpl, $lng, $ilUser, $ilAccess, $ilTabs, $rbacsystem,
-			$rbacreview, $ilDB;
+			$rbacreview, $ilDB, $ilNavigationHistory, $ilCtrl;
 		
 		require_once "./Modules/Forum/classes/class.ilObjForum.php";
 		require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 		
 		$lng->loadLanguageModule("forum");
+		
+		
+		// add entry to navigation history
+		if (!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilCtrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				$ilCtrl->getLinkTarget($this, "showThreadFrameset"), "frm");
+		}
 		
 		$forumObj = new ilObjForum($_GET["ref_id"]);
 		$frm =& $forumObj->Forum;

@@ -58,12 +58,19 @@ class ilSAHSPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng;
+		global $lng,$ilAccess, $ilNavigationHistory, $ilCtrl;
 
 		include_once "./classes/class.ilObjectGUI.php";
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
 		$lng->loadLanguageModule("content");
+
+		// add entry to navigation history
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"ilias.php?cmd=infoScreen&baseClass=ilSAHSPresentationGUI&ref_id=".$_GET["ref_id"], "lm");
+		}
 
 		// payment
 		include_once './payment/classes/class.ilPaymentObject.php';

@@ -55,9 +55,19 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
+		global $ilAccess, $ilNavigationHistory;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
+		
+		// add entry to navigation history
+		if (!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"repository.php?cmd=infoScreen&ref_id=".$_GET["ref_id"], "file");
+		}
 		
 //echo "-$cmd-";
 		switch ($next_class)
