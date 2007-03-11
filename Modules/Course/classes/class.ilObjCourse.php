@@ -518,6 +518,86 @@ class ilObjCourse extends ilContainer
 	}
 	
 	/**
+	* Set Latitude.
+	*
+	* @param	string	$a_latitude	Latitude
+	*/
+	function setLatitude($a_latitude)
+	{
+		$this->latitude = $a_latitude;
+	}
+
+	/**
+	* Get Latitude.
+	*
+	* @return	string	Latitude
+	*/
+	function getLatitude()
+	{
+		return $this->latitude;
+	}
+
+	/**
+	* Set Longitude.
+	*
+	* @param	string	$a_longitude	Longitude
+	*/
+	function setLongitude($a_longitude)
+	{
+		$this->longitude = $a_longitude;
+	}
+
+	/**
+	* Get Longitude.
+	*
+	* @return	string	Longitude
+	*/
+	function getLongitude()
+	{
+		return $this->longitude;
+	}
+
+	/**
+	* Set LocationZoom.
+	*
+	* @param	int	$a_locationzoom	LocationZoom
+	*/
+	function setLocationZoom($a_locationzoom)
+	{
+		$this->locationzoom = $a_locationzoom;
+	}
+
+	/**
+	* Get LocationZoom.
+	*
+	* @return	int	LocationZoom
+	*/
+	function getLocationZoom()
+	{
+		return $this->locationzoom;
+	}
+
+	/**
+	* Set Enable Course Map.
+	*
+	* @param	boolean	$a_enablemap	Enable Course Map
+	*/
+	function setEnableCourseMap($a_enablemap)
+	{
+		$this->enablemap = $a_enablemap;
+	}
+
+	/**
+	* Get Enable Course Map.
+	*
+	* @return	boolean	Enable Course Map
+	*/
+	function getEnableCourseMap()
+	{
+		return $this->enablemap;
+	}
+	
+	/**
 	 * Clone course (no member data)
 	 *
 	 * @access public
@@ -769,7 +849,11 @@ class ilObjCourse extends ilContainer
 			#"objective_view = '".(int) $this->enabledObjectiveView()."', ".
 			"waiting_list = ".$ilDB->quote($this->enabledWaitingList()).", ".
 			"important = ".$ilDB->quote($this->getImportantInformation()).", ".
-			"show_members = ".$ilDB->quote($this->getShowMembers())." ".
+			"show_members = ".$ilDB->quote($this->getShowMembers()).", ".
+			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
+			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
+			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
+			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap())." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId())."";
 
 		$res = $ilDB->query($query);
@@ -843,6 +927,10 @@ class ilObjCourse extends ilContainer
 			"archive_end = ".$ilDB->quote($this->getArchiveEnd()).", ".
 			"archive_type = ".$ilDB->quote(IL_CRS_ARCHIVE_NONE).", ".
 			"abo = ".$ilDB->quote($this->ABO_ENABLED).", ".
+			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
+			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
+			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
+			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap()).", ".
 			#"objective_view = '0', ".
 			"waiting_list = '1', ".
 			"show_members = '1'";
@@ -888,6 +976,10 @@ class ilObjCourse extends ilContainer
 			$this->enableWaitingList($row->waiting_list);
 			$this->setImportantInformation($row->important);
 			$this->setShowMembers($row->show_members);
+			$this->setLatitude($row->latitude);
+			$this->setLongitude($row->longitude);
+			$this->setLocationZoom($row->location_zoom);
+			$this->setEnableCourseMap($row->enable_course_map);
 		}
 		return true;
 	}

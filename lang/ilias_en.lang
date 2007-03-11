@@ -6914,6 +6914,10 @@ grp#:#grp_enable_map#:#Enable Group Map
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_map_location#:#Group Map Location
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
+crs#:#crs_map_settings#:#Map Settings
+crs#:#crs_enable_map#:#Enable Course Map
+crs#:#crs_map_location#:#Course Map Location
+crs#:#crs_members_map#:#Course Members Map
 common#:#edit_grouping#:#Edit Membership Limitation
 crs#:#grouping_change_assignment#:#Change Assignment
 common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.
