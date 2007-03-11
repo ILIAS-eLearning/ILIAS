@@ -1421,8 +1421,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
 		$map = new ilGoogleMapGUI();
 		$map->setMapId("group_map");
-		$map->setWidth("900px");
-		$map->setHeight("600px");
+		$map->setWidth("700px");
+		$map->setHeight("500px");
 		$map->setLatitude($this->object->getLatitude());
 		$map->setLongitude($this->object->getLongitude());
 		$map->setZoom($this->object->getLocationZoom());
@@ -2695,8 +2695,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				"membersGallery", get_class($this));
 				
 				$this->tabs_gui->addSubTabTarget("grp_members_map",
-				$this->ctrl->getLinkTarget($this,'membersMap'),
-				"membersMap", get_class($this));
+					$this->ctrl->getLinkTarget($this,'membersMap'),
+					"membersMap", get_class($this));
 				
 				$this->tabs_gui->addSubTabTarget("mail_members",
 				$this->ctrl->getLinkTarget($this,'mailMembers'),

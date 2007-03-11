@@ -790,3 +790,9 @@ ALTER table grp_data ADD column longitude varchar(30) NOT NULL DEFAULT '';
 ALTER table grp_data ADD column location_zoom int NOT NULL DEFAULT 0;
 ALTER table grp_data ADD column enable_group_map TINYINT NOT NULL DEFAULT 0;
 
+<#942>
+ALTER table crs_settings ADD column latitude varchar(30) NOT NULL DEFAULT '';
+ALTER table crs_settings ADD column longitude varchar(30) NOT NULL DEFAULT '';
+ALTER table crs_settings ADD column location_zoom int NOT NULL DEFAULT 0;
+ALTER table crs_settings ADD column enable_course_map TINYINT NOT NULL DEFAULT 0;
+

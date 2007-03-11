@@ -1172,12 +1172,19 @@ class ilObjCourseGUI extends ilContainerGUI
 												 'listGroupings',
 												 get_class($this));
 
+				// custom icon
 				if ($this->ilias->getSetting("custom_icons"))
 				{
 					$this->tabs_gui->addSubTabTarget("icon_settings",
 													 $this->ctrl->getLinkTarget($this,'editCourseIcons'),
 													 "editCourseIcons", get_class($this));
 				}
+				
+				// map settings
+				$this->tabs_gui->addSubTabTarget("crs_map_settings",
+					 $this->ctrl->getLinkTarget($this,'editMapSettings'),
+					 "editMapSettings", get_class($this));
+
 				
 				include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 				include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
@@ -1213,6 +1220,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
 												 $this->ctrl->getLinkTarget($this,'membersGallery'),
 												 "membersGallery", get_class($this));
+												 
+				$this->tabs_gui->addSubTabTarget("crs_members_map",
+					$this->ctrl->getLinkTarget($this,'membersMap'),
+					"membersMap", get_class($this));
+
 				
 				include_once 'classes/class.ilMail.php';
 				$mail =& new ilMail($ilUser->getId());
@@ -3258,7 +3270,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 
 		global $rbacsystem, $ilErr, $ilAccess,$ilUser;
-		
+
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
 		if (!$is_admin &&
@@ -4534,7 +4546,94 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	// Copy wizard
 
+	/**
+	* Edit Map Settings
+	*/
+	function editMapSettingsObject()
+	{
+		global $ilUser, $ilCtrl, $ilUser;
 
+		$this->setSubTabs("properties");
+		
+		$latitude = $this->object->getLatitude();
+		$longitude = $this->object->getLongitude();
+		$zoom = $this->object->getLocationZoom();
+
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		//$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		$form->setTitle($this->lng->txt("crs_map_settings"));
+			
+		// enable map
+		$public = new ilCheckboxInputGUI($this->lng->txt("crs_enable_map"),
+			"enable_map");
+		$public->setValue("1");
+		$public->setChecked($this->object->getEnableCourseMap());
+		$form->addItem($public);
+
+		// map location
+		$loc_prop = new ilLocationInputGUI($this->lng->txt("crs_map_location"),
+			"location");
+		$loc_prop->setLatitude($latitude);
+		$loc_prop->setLongitude($longitude);
+		$loc_prop->setZoom($zoom);
+		$form->addItem($loc_prop);
+		
+		$form->addCommandButton("saveMapSettings", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		//$this->tpl->show();
+	}
+
+	function saveMapSettingsObject()
+	{
+		global $ilCtrl, $ilUser;
+
+		$this->object->setLatitude(ilUtil::stripSlashes($_POST["location"]["latitude"]));
+		$this->object->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
+		$this->object->setLocationZoom(ilUtil::stripSlashes($_POST["location"]["zoom"]));
+		$this->object->setEnableCourseMap(ilUtil::stripSlashes($_POST["enable_map"]));
+		$this->object->update();
+		
+		$ilCtrl->redirect($this, "editMapSettings");
+	}
+
+	/**
+	* Members map
+	*/
+	function membersMapObject()
+	{
+		global $tpl;
+
+		$this->setSubTabs('members');
+		
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
+		$map = new ilGoogleMapGUI();
+		$map->setMapId("course_map");
+		$map->setWidth("700px");
+		$map->setHeight("500px");
+		$map->setLatitude($this->object->getLatitude());
+		$map->setLongitude($this->object->getLongitude());
+		$map->setZoom($this->object->getLocationZoom());
+		$map->setEnableTypeControl(true);
+		$map->setEnableNavigationControl(true);
+
+		$this->object->initCourseMemberObject();
+		if(count($members = $this->object->members_obj->getAssignedUsers()))
+		{
+			foreach($members as $user_id)
+			{
+				$map->addUserMarker($user_id);
+			}
+		}
+
+		$tpl->setContent($map->getHTML());
+		$tpl->setLeftContent($map->getUserListHTML());
+	}
 
 } // END class.ilObjCourseGUI
 ?>
