@@ -1,19 +1,27 @@
 ilMapData = Array();
 ilMap = Array();
 ilMapUserMarker = Array();
-ilMarkerIcon = new GIcon();
-ilMarkerIcon.image = "./Services/GoogleMaps/images/mm_20_blue.png";
-ilMarkerIcon.shadow = "./Services/GoogleMaps/images/mm_20_shadow.png";
-ilMarkerIcon.iconSize = new GSize(12, 20);
-ilMarkerIcon.shadowSize = new GSize(22, 20);
-ilMarkerIcon.iconAnchor = new GPoint(6, 20);
-ilMarkerIcon.infoWindowAnchor = new GPoint(5, 1);
 
-// init all maps on load
-ilAddOnLoad(ilInitMaps)
+// if (typeof(GIcon) == "function") // would do the same
+if (window.GIcon)
+{
+	ilMarkerIcon = new GIcon();
+	ilMarkerIcon.image = "./Services/GoogleMaps/images/mm_20_blue.png";
+	ilMarkerIcon.shadow = "./Services/GoogleMaps/images/mm_20_shadow.png";
+	ilMarkerIcon.iconSize = new GSize(12, 20);
+	ilMarkerIcon.shadowSize = new GSize(22, 20);
+	ilMarkerIcon.iconAnchor = new GPoint(6, 20);
+	ilMarkerIcon.infoWindowAnchor = new GPoint(5, 1);
+}
 
-// Call google unload function
-ilAddOnUnload(GUnload)
+if (window.GIcon)
+{
+	// init all maps on load
+	ilAddOnLoad(ilInitMaps)
+
+	// Call google unload function
+	ilAddOnUnload(GUnload)
+}
 
 /** 
 * Init all maps

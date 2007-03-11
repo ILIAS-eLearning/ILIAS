@@ -32,7 +32,7 @@ class ilNavigationHistoryGUI
 {
 
 	private $items;
-
+static $test;
 	/**
 	* Constructor.
 	*	
@@ -63,19 +63,38 @@ class ilNavigationHistoryGUI
 			return "";
 		}
 		
+		$GLOBALS["tpl"]->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+		
 		$tpl = new ilTemplate("tpl.navigation_history.html", true, true,
 			"Services/Navigation");
 			
 		$sel_arr = array(0 => "-- ".$lng->txt("last_visited")." --");
 		reset($items);
+
+		$cnt = 0;
 		foreach($items as $item)
 		{
+			if ($cnt++ > 20) break;
+			
 			if ($item["ref_id"] != $_GET["ref_id"])			// do not list current item
 			{
 				$sel_arr[$item["ref_id"]] = $item["title"];
+				$this->css_row = ($this->css_row != "tblrow1_mo")
+					? "tblrow1_mo"
+					: "tblrow2_mo";
+				$tpl->setCurrentBlock("item");
+				$tpl->setVariable("HREF_ITEM", $item["link"]);
+				$tpl->setVariable("CSS_ROW", $this->css_row);
+				$tpl->setVariable("TXT_ITEM", $item["title"]);
+				$tpl->setVariable("IMG_ITEM",
+					ilUtil::getImagePath("icon_".$item["type"]."_s.gif"));
+				$tpl->setVariable("ALT_ITEM", $lng->txt("obj_".$item["type"]));
+				$tpl->parseCurrentBlock();
 			}
 		}
 		$select = ilUtil::formSelect("", "url_ref_id", $sel_arr, false, true, "0", "ilEditSelect");
+		$tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
+		$tpl->setVariable("IMG_DOWN", ilUtil::getImagePath("mm_down_arrow.gif"));
 		$tpl->setVariable("NAVI_SELECT", $select);
 		$tpl->setVariable("TXT_GO", $lng->txt("go"));
 		$tpl->setVariable("ACTION", "goto.php?target=navi_request&ref_id=".$_GET["ref_id"]);

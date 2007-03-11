@@ -83,7 +83,14 @@ class ilHTLMPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl,$ilAccess, $ilNavigationHistory;
+
+		// add entry to navigation history
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"repository.php?cmd=infoScreen&ref_id=".$_GET["ref_id"], "lm");
+		}
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("");

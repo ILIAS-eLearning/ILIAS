@@ -6909,6 +6909,10 @@ grp#:#crs_grp_enter_title#:#Please fill out all required fields.
 grp#:#crs_grp_added_grouping#:#Added new membership limitation.
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.
+grp#:#grp_map_settings#:#Map Settings
+grp#:#grp_enable_map#:#Enable Group Map
+grp#:#grp_members_map#:#Group Members Map
+grp#:#grp_map_location#:#Group Map Location
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
 common#:#edit_grouping#:#Edit Membership Limitation
 crs#:#grouping_change_assignment#:#Change Assignment

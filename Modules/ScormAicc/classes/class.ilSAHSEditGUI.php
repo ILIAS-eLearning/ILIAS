@@ -57,7 +57,7 @@ class ilSAHSEditGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng, $ilAccess;
+		global $lng, $ilAccess, $ilNavigationHistory;
 
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
@@ -68,6 +68,10 @@ class ilSAHSEditGUI
 		{
 			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 		}
+		
+		// add entry to navigation history
+		$ilNavigationHistory->addItem($_GET["ref_id"],
+			"ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$_GET["ref_id"], "lm");
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();

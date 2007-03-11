@@ -784,3 +784,9 @@ ALTER TABLE `il_news_item` ADD COLUMN `playtime` varchar(8);
 <#940>
 ALTER TABLE `il_news_item` MODIFY `content_type` enum('text','html','audio') default 'text';
 
+<#941>
+ALTER table grp_data ADD column latitude varchar(30) NOT NULL DEFAULT '';
+ALTER table grp_data ADD column longitude varchar(30) NOT NULL DEFAULT '';
+ALTER table grp_data ADD column location_zoom int NOT NULL DEFAULT 0;
+ALTER table grp_data ADD column enable_group_map TINYINT NOT NULL DEFAULT 0;
+

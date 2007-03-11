@@ -363,5 +363,45 @@ class ilGoogleMapGUI
 			return "";
 		}
 	}
+	
+	/**
+	* Get User List HTML (to be displayed besides the map)
+	*/
+	function getUserListHtml()
+	{
+		global $tpl;
+		
+		$list_tpl = new ilTemplate("tpl.google_map_user_list.html",
+			true, true, "Services/GoogleMaps");
+			
+		foreach($this->user_marker as $user_id)
+		{
+			if (ilObject::_exists($user_id))
+			{
+				$cnt = 0;
+				$user = new ilObjUser($user_id);
+				$this->css_row = ($this->css_row != "tblrow1_mo")
+					? "tblrow1_mo"
+					: "tblrow2_mo";
+				if ($user->getLatitude() != 0 && $user->getLongitude() != 0)
+				{
+					$list_tpl->setCurrentBlock("item");
+					$list_tpl->setVariable("USER_ID", $user_id);
+				}
+				else
+				{
+					$list_tpl->setCurrentBlock("item_no_link");
+				}
+				$list_tpl->setVariable("CSS_ROW", $this->css_row);
+				$list_tpl->setVariable("TXT_USER", $user->getLogin());
+				$list_tpl->setVariable("IMG_USER",
+					$user->getPersonalPicturePath("xxsmall"));
+				$list_tpl->parseCurrentBlock();
+			}
+		}
+		
+		return $list_tpl->get();
+	}
+
 }
 ?>

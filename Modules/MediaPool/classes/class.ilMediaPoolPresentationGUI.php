@@ -70,10 +70,17 @@ class ilMediaPoolPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $ilAccess, $ilNavigationHistory;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("");
+
+		// add entry to navigation history
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$_GET["ref_id"], "mep");
+		}
 
 		switch($next_class)
 		{

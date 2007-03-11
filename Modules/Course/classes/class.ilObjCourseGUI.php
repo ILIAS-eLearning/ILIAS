@@ -4093,7 +4093,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
-		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs;
+		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs,$ilNavigationHistory;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -4122,6 +4122,15 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 				return true;
 			}
+			
+			// add entry to navigation history
+			if (!$this->getCreationMode() &&
+				$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+			{
+				$ilNavigationHistory->addItem($_GET["ref_id"],
+					"repository.php?cmd=frameset&ref_id=".$_GET["ref_id"], "crs");
+			}
+
 		}
 
 		switch($next_class)

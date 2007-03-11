@@ -184,7 +184,7 @@ class ilGlossaryPresentationGUI
 		global $ilNavigationHistory;
 		
 		$ilNavigationHistory->addItem($_GET["ref_id"],
-			$this->ctrl->getLinkTarget($this, "listTerms"));
+			$this->ctrl->getLinkTarget($this, "listTerms"), "glo");
 		
 		$term_list = $this->glossary->getTermList();		
 		

@@ -51,7 +51,8 @@ class ilGlossaryEditorGUI
 		}
 		
 		$ilNavigationHistory->addItem($_GET["ref_id"],
-			"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);
+			"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"],
+			"glo");
 
 	}
 	

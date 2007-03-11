@@ -68,6 +68,23 @@ input.fullwidth_marked {
 	padding:3px;
 }
 
+.tblrow2_mo {
+	background-color: #F1F1F1;
+	color:#222222;
+	padding:3px;
+}
+
+.tblrow1_mo {
+	background-color:#FFFFFF;
+	color:#222222;
+	padding:3px;
+}
+
+.tblrow1_mo:hover, .tblrow2_mo:hover {
+	background-color:#D0D0FF;
+}
+
+
 .tblrow2light {
 	background-color:#F1F1F1;
 	color:#808080;

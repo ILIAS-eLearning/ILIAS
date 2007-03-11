@@ -51,7 +51,7 @@ class ilLinkResourceHandlerGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng, $ilAccess, $tpl;
+		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -59,6 +59,13 @@ class ilLinkResourceHandlerGUI
 		{
 			$this->ctrl->setCmdClass("ilobjlinkresourcegui");
 			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+		// add entry to navigation history
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "webr");
 		}
 
 		switch ($next_class)

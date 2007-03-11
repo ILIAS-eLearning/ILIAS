@@ -351,7 +351,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$answer_feedback = TRUE;
 		}
 		global $ilNavigationHistory;
-		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"));
+		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"), "tst");
 		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solution, $answer_feedback);
 		if ($directfeedback)
 		{

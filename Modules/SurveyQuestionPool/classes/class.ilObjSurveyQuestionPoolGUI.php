@@ -64,6 +64,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilAccess, $ilNavigationHistory;
+		
+		// add entry to navigation history
+		if (!$this->getCreationMode() &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				"ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&cmd=questions&ref_id=".$_GET["ref_id"], "spl");
+		}
+
 		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
