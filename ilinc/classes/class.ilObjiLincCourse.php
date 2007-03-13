@@ -258,7 +258,7 @@ class ilObjiLincCourse extends ilObject
 		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_icrs_admin'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
+		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 
 		// set object permissions of icrs object
 		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"icrs",$rfoldObj->getRefId());
@@ -276,7 +276,7 @@ class ilObjiLincCourse extends ilObject
 		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_icrs_member'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
+		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 		
 		// set object permissions of icrs object
 		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"icrs",$rfoldObj->getRefId());

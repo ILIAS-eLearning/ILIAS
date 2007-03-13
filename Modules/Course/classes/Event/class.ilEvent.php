@@ -45,7 +45,7 @@ class ilEvent
 	var $appointments = array();
 
 
-	function ilEvent($a_event_id)
+	function ilEvent($a_event_id = 0)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 

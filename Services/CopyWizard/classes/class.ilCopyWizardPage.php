@@ -66,32 +66,39 @@ class ilCopyWizardPage
 	}
 	
 	/**
-	 * Get wizard page tree presentation
+	 * Fill selection template
 	 *
 	 * @access public
-	 * @param
+	 * @param int ref_id of node
+	 * @param string type of current node
 	 * 
 	 */
-	public function buildTreePresentation()
+	public function fillTreeSelection($a_ref_id,$a_type)
 	{
-		global $tree,$ilObjDataCache;
+		global $tpl;
 		
-		include_once ("Services/CopyWizard/classes/class.ilCopyWizardExplorer.php");
-		$exp = new ilCopyWizardExplorer("repository.php?cmd=goto");
-		$exp->setRoot($this->source_id);
-		$exp->setOrderColumn('title');
-		$exp->addFilter("rolf");
-		$exp->setFilterMode(IL_FM_NEGATIVE);
-		$exp->forceExpandAll(true, false);
-		$exp->checkPermissions(false);
-
-		// build html-output
-		$exp->setOutput($this->source_id,$tree->getDepth($this->source_id) + 1);
-		$output = $exp->getOutput();
-
-		return $output;
+		$selected = isset($_POST['cp_options'][$a_ref_id]['type']) ?
+			$_POST['cp_options'][$a_ref_id]['type'] :
+			ilCopyWizardOptions::COPY_WIZARD_COPY;
+			
+		if($this->objDefinition->allowCopy($a_type))
+		{
+			$options[ilCopyWizardOptions::COPY_WIZARD_COPY] = $this->lng->txt('copy');
+		}
+		if($this->objDefinition->allowLink($a_type))
+		{
+			$options[ilCopyWizardOptions::COPY_WIZARD_LINK] = $this->lng->txt('link');
+		}
+		$options[ilCopyWizardOptions::COPY_WIZARD_OMIT] = $this->lng->txt('omit');
+		
+		
+		$tpl->setVariable('TREE_SELECT',ilUtil::formSelect($selected,'cp_options['.$a_ref_id.'][type]',
+			$options,
+	 		false,true));
+		
 	}
 	
+
 	
 	/**
 	 * Get wizard page block html
@@ -107,13 +114,6 @@ class ilCopyWizardPage
 		{
 			return '';
 		}
-		
-	 	$this->initTemplate();
-	 	$this->fillItemBlock();
-	 	$this->fillMainBlock();
-	 	$this->fillAdditionalOptions();
-	 	
-	 	return $this->tpl->get();
 	}
 	
 	/**

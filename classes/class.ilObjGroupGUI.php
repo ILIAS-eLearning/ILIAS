@@ -633,7 +633,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$groupObj = parent::saveObject();
 		
 		// setup rolefolder & default local roles (admin & member)
-		$roles = $groupObj->initDefaultRoles((int) $_POST['group_status']);
+		$roles = $groupObj->initDefaultRoles();
+		$groupObj->initGroupStatus((int) $_POST['group_status']);
 
 		// ...finally assign groupadmin role to creator of group object
 		$groupObj->addMember($this->ilias->account->getId(),$groupObj->getDefaultAdminRole());

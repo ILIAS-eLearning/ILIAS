@@ -1510,6 +1510,7 @@ class ilObject
 		
 		// copy local roles
 		$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());
+		
 		return $new_obj;
 	}
 	

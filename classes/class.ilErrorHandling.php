@@ -197,7 +197,34 @@ class ilErrorHandling extends PEAR
 		}
 		$this->message .= $a_message;
 	}
-
+	
+	/**
+	 * This is used in Soap calls to write PHP error in ILIAS Logfile
+	 * Not used yet!!!
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _ilErrorWriter($errno, $errstr, $errfile, $errline)
+	{
+		global $ilLog;
+		
+		switch($errno)
+		{
+			case E_USER_ERROR:
+				$ilLog->write('PHP errror: '.$errstr.'. FATAL error on line '.$errline.' in file '.$errfile);
+				unset($ilLog);
+				exit(1);
+			
+			case E_USER_WARNING:
+				$ilLog->write('PHP warning: ['.$errno.'] '.$errstr.' on line '.$errline.' in file '.$errfile);
+				break;
+			
+		}				
+		return true;
+	}
 
 } // END class.ilErrorHandling
 ?>

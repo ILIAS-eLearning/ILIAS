@@ -463,10 +463,34 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 
 		return true;
 	}
+	
+	/**
+	 * Copies template permissions and permission of one role to another.
+	 * 
+	 * @access	public
+	 * @param	integer		$a_source_id		role_id source
+	 * @param	integer		$a_source_parent	parent_id source
+	 * @param	integer		$a_dest_parent		parent_id destination
+	 * @param	integer		$a_dest_id			role_id destination
+	 * @return	boolean 
+	 */
+	public function copyRolePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
+	{
+		global $tree,$rbacreview;
+		
+		// Copy template permissions
+		$this->copyRoleTemplatePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected);
+		
+		$source_obj = $tree->getParentId($a_source_parent);
+		$target_obj = $tree->getParentId($a_dest_parent);
+		$ops = $rbacreview->getRoleOperationsOnObject($a_source_id,$source_obj);
+		$this->grantPermission($a_dest_id,$ops,$target_obj);
+		return true;
+	}
 
 	/**
 	* Copies template permissions of one role to another.
-	*  It's also possible to copy template permissions from/to RoleTemplateObject
+	* It's also possible to copy template permissions from/to RoleTemplateObject
 	* @access	public
 	* @param	integer		$a_source_id		role_id source
 	* @param	integer		$a_source_parent	parent_id source
@@ -474,13 +498,13 @@ $log->write("ilRBACadmin::revokePermission(), 2");
  	* @param	integer		$a_dest_id			role_id destination
 	* @return	boolean 
 	*/
-	function copyRolePermission($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
+	function copyRoleTemplatePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
 	{
 		global $rbacreview,$ilDB;
 
 		if (!isset($a_source_id) or !isset($a_source_parent) or !isset($a_dest_id) or !isset($a_dest_parent))
 		{
-			$message = get_class($this)."::copyRolePermission(): Missing parameter! source_id: ".$a_source_id.
+			$message = __METHOD__.": Missing parameter! source_id: ".$a_source_id.
 					   " source_parent_id: ".$a_source_parent.
 					   " dest_id : ".$a_dest_id.
 					   " dest_parent_id: ".$a_dest_parent;
@@ -492,6 +516,11 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		{
 			return true;
 		}
+		
+		$query = "DELETE FROM rbac_templates WHERE rol_id = ".$ilDB->quote($a_dest_id)." ".
+			"AND parent = ".$ilDB->quote($a_dest_parent);
+		$ilDB->query($query);
+		
 
 		$q = "SELECT * FROM rbac_templates ".
 			 "WHERE rol_id = ".$ilDB->quote($a_source_id)." ".
@@ -556,7 +585,6 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		if ($rbacreview->isProtected($a_source2_parent,$a_source2_id))
 		{
 			return true;
-			//return $this->copyRolePermission($a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id);
 		}
 
 		$q = "SELECT s1.type, s1.ops_id ".
@@ -847,11 +875,9 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 			$roleObj->setDescription($orig->getDescription());
 			$roleObj->setImportId($orig->getImportId());
 			$roleObj->create();
-				
+			
 			$this->assignRoleToFolder($roleObj->getId(),$target_rolf,"y");
-			$this->copyRolePermission($role,$source_rolf,$target_rolf,$roleObj->getId(),true);
-			$ops = $rbacreview->getRoleOperationsOnObject($role,$a_source_id);
-			$this->grantPermission($roleObj->getId(),$ops,$a_target_id);
+			$this->copyRolePermissions($role,$source_rolf,$target_rolf,$roleObj->getId(),true);
 	 		$ilLog->write(__METHOD__.': Added new local role, id '.$roleObj->getId());
 	 	}
 	 	

@@ -446,7 +446,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description']);
 
 			// Copy permssions
-			$rbacadmin->copyRolePermission($template_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
+			$rbacadmin->copyRoleTemplatePermissions($template_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
 			// Set object permissions according to role template
 			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),$tmp_obj->getType(),$rolf_obj->getRefId());

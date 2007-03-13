@@ -154,7 +154,7 @@ class ilObjGroup extends ilContainer
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$new_obj->setGroupStatus($this->readGroupStatus());
-	 	$new_obj->initGroupStatus();
+	 	$new_obj->initGroupStatus($this->readGroupStatus());
 		$new_obj->setLatitude($this->getLatitude());
 		$new_obj->setLongitude($this->getLongitude());
 		$new_obj->setLocationZoom($this->getLocationZoom());
@@ -967,7 +967,7 @@ class ilObjGroup extends ilContainer
 	* @param	integer	group id (optional)
 	* @param	integer group status (0=public|1=private|2=closed)
 	*/
-	function initGroupStatus($a_grpStatus)
+	function initGroupStatus($a_grpStatus = 0)
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
@@ -1248,7 +1248,7 @@ class ilObjGroup extends ilContainer
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
-	function initDefaultRoles($a_group_status = 0)
+	function initDefaultRoles()
 	{
 		global $rbacadmin, $rbacreview;
 
@@ -1263,7 +1263,7 @@ class ilObjGroup extends ilContainer
 		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
+		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 
 		// set object permissions of group object
 		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
@@ -1281,7 +1281,7 @@ class ilObjGroup extends ilContainer
 		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_member'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
+		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 		
 		// set object permissions of group object
 		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
