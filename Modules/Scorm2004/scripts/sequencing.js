@@ -219,51 +219,55 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 	{
 
 		if (ondebug) ondebug("exec", exec.caller);
-		var rn, rd, rs, SequencingRequest;
+		var r, rn, rd, rs, SequencingRequest;
 
 		rn = NavigationRequestProcess(NavigationRequest);
 		
 		if (!rn.valid) 
 		{
-			return rn;//adlException('navigation request exception');
-		}
-		SequencingRequest = rn.SequencingRequest;
-		
-		if (rn.TerminationRequest && !querying)  
-		{
-			rt = TerminationRequestProcess(rn.TerminationRequest);
-			if (!rt.valid) 
-			{
-				return rt;//adlException('termination request exception');
-			}
-			if (rt.SequencingRequest)
-			{
-				SequencingRequest = rt.SequencingRequest; 
-			} 
-		}
-		
-		if (SequencingRequest) 
-		{
-			rs = SequencingRequestProcess(SequencingRequest, activityMap[NavigationRequest.target]);
-			if (!rs.valid) 
-			{
-				return rs;//adlException('sequencing request exception');
-			}
-			if (rs.EndSequencingSession) 
-			{
-				return endSequencingSession();
-			} 
-			if (rs.DeliveryRequest) 
-			{
-				rd = DeliveryRequestProcess(rs.DeliveryRequest);
-				if (!rd.valid) 
-				{
-					return rd;//adlException('delivery request exception');
-				}
-				return ContentDeliveryEnvironmentProcess(rs.DeliveryRequest);
-			}
+			r = rn;//adlException('navigation request exception');
 		} 
-
+		else
+		{
+			SequencingRequest = rn.SequencingRequest;
+			if (rn.TerminationRequest && !querying)  
+			{
+				rt = TerminationRequestProcess(rn.TerminationRequest);
+				if (!rt.valid) 
+				{
+					r = rt;//adlException('termination request exception');
+				}
+				else if (rt.SequencingRequest)
+				{
+					SequencingRequest = rt.SequencingRequest; 
+				} 
+			}			
+			if (!r && SequencingRequest) 
+			{
+				rs = SequencingRequestProcess(SequencingRequest, activityMap[NavigationRequest.target]);
+				if (!rs.valid) 
+				{
+					r = rs;//adlException('sequencing request exception');
+				} 
+				else if (rs.EndSequencingSession) 
+				{
+					r = endSequencingSession();
+				} 
+				else if (rs.DeliveryRequest) 
+				{
+					rd = DeliveryRequestProcess(rs.DeliveryRequest);
+					if (!rd.valid) 
+					{
+						r = rd;//adlException('delivery request exception');
+					}
+					else
+					{
+						 r = ContentDeliveryEnvironmentProcess(rs.DeliveryRequest);
+					}
+				}
+			} 
+		}
+		return r;
 	}
 	
 	/**
@@ -509,27 +513,29 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 	{
 		if (ondebug) ondebug("SequencingPostConditionRulesSubprocess", SequencingPostConditionRulesSubprocess.caller); 
 		var returnValue = {TerminationRequest : null, SequencingRequest : null};
-		if (CurrentActivity.isSuspended)
+		if (!CurrentActivity.isSuspended)
 		{
-			return; 
-			// ??? oder return returnValue???
+			var r = SequencingRulesCheckProcess(CurrentActivity, SetOfPostActions);
+			switch (r) 
+			{
+			case 'Retry':
+			case 'Continue':
+			case 'Previous':
+				returnValue.SequencingRequest = r;
+				break;
+			case 'ExitParent':
+			case 'ExitAll':
+				returnValue.TerminationRequest = r;
+				break;
+			case 'RetryAll':
+				returnValue.SequencingRequest = 'Retry';
+				returnValue.TerminationRequest = 'ExitAll;';
+				break;
+			}
 		}
-		var r = SequencingRulesCheckProcess(CurrentActivity, SetOfPostActions);
-		switch (r) 
+		else
 		{
-		case 'Retry':
-		case 'Continue':
-		case 'Previous':
-			returnValue.SequencingRequest = r;
-			break;
-		case 'ExitParent':
-		case 'ExitAll':
-			returnValue.TerminationRequest = r;
-			break;
-		case 'RetryAll':
-			returnValue.SequencingRequest = 'Retry';
-			returnValue.TerminationRequest = 'ExitAll;';
-			break;
+			// ??? oder return undefined???
 		}
 		return returnValue;
 	}
@@ -543,117 +549,132 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 	{
 		if (ondebug) ondebug("TerminationRequestProcess", TerminationRequestProcess.caller); 
 		var returnValue = {valid : false, SequencingRequest : null, exception: null};
-		var r, exit, activityPath, activity, seqRule = null;
+		var r, r1, exit, activityPath, activity, seqRule = null;
 		if (!CurrentActivity) 
 		{
 			returnValue.exception = 'TB.2.3-1';
-			return returnValue;
+			r = returnValue;
 		}
 		else if ((termReq=='Exit' || termReq=='Abandon') && !CurrentActivity.isActive) 
 		{
 			returnValue.exception = 'TB.2.3-2';
-			return returnValue;
+			r = returnValue;
 		}
-		switch (termReq) 
+		else
 		{
-		case 'Exit':
-			EndAttemptProcess(CurrentActivity);
-			SequencingExitActionRulesSubprocess(CurrentActivity);
-			do {
-				exit = false;
-				seqRule = SequencingPostConditionRulesSubprocess();
-				if (seqRule.TerminationRequest == 'ExitAll')
-				{
-					returnValue.TerminationRequest = 'ExitAll';
-					break; // to the next case ??? oder return TerminationRequestProcess('ExitAll')
-				}
-				if (seqRule.TerminationRequest=='ExitParent')
-				{
-					if (CurrentActivity.parentActivity)
-					{
-						CurrentActivity = CurrentActivity.parentActivity;
-						EndAttemptProcess(CurrentActivity);
-						exit = true;
-					}
-					else
-					{
-						returnValue.exception = 'TB.2.3-4';
-						return returnValue;
-					}
-				}
-			} while (exit);
-			returnValue.valid = true;
-			returnValue.SequencingRequest = seqRule.SequencingRequest;
-			return returnValue;
-		case 'ExitAll':
-			if (CurrentActivity.isActive)
+			switch (termReq) 
 			{
-				r = EndAttemptProcess(CurrentActivity);
-				r = TerminateDescendentAttemptsProcess(RootActivity);
-				r = EndAttemptProcess(RootActivity);
+			case 'Exit':
+				EndAttemptProcess(CurrentActivity);
+				SequencingExitActionRulesSubprocess(CurrentActivity);
+				do {
+					exit = false;
+					seqRule = SequencingPostConditionRulesSubprocess();
+					if (seqRule.TerminationRequest == 'ExitAll')
+					{
+						returnValue.TerminationRequest = 'ExitAll';
+						break; // to the next case ??? oder return TerminationRequestProcess('ExitAll')
+					}
+					if (seqRule.TerminationRequest=='ExitParent')
+					{
+						if (CurrentActivity.parentActivity)
+						{
+							CurrentActivity = CurrentActivity.parentActivity;
+							EndAttemptProcess(CurrentActivity);
+							exit = true;
+						}
+						else
+						{
+							returnValue.exception = 'TB.2.3-4';
+							r = returnValue;
+							break;
+						}
+					}
+				} while (exit);
+				if (!returnValue.exception)
+				{
+					returnValue.valid = true;
+					returnValue.SequencingRequest = seqRule.SequencingRequest;
+					r = returnValue;
+				} 
+				break;
+			case 'ExitAll':
+				if (CurrentActivity.isActive)
+				{
+					r = EndAttemptProcess(CurrentActivity);
+					r = TerminateDescendentAttemptsProcess(RootActivity);
+					r = EndAttemptProcess(RootActivity);
+					CurrentActivity = RootActivity;
+					returnValue.valid = true;
+					returnValue.SequencingRequest = seqRule; /// ?? nur bei sprung in case valide!!! 
+					r = returnValue;
+				} 
+				break;
+			case 'SuspendAll':
+				if (CurrentActivity.isActive || CurrentActivity.isSuspended)
+				{
+					setSuspendedActivity(CurrentActivity);
+				}
+				else
+				{
+					if (CurrentActivity.parentActivity) 
+					{
+						setSuspendedActivity(CurrentActivity.parentActivity);
+					}
+					else // RootActivity
+					{
+						returnValue.exception = 'TB.2.3-3';
+						r = returnValue;
+						break;
+					}
+				}
+				activityPath = getActivityPath(SuspendedActivity);
+				if (activityPath.length===0)
+				{
+					returnValue.exception = 'TB.2.3-5';
+					r = returnValue;
+					break;
+				}
+				while (activityPath.length) 
+				{
+					activity = activityPath.shift();
+					activity.isActive = false;
+					activity.isSuspended = true;			
+				}
 				CurrentActivity = RootActivity;
 				returnValue.valid = true;
-				returnValue.SequencingRequest = seqRule; /// ?? nur bei sprung in case valide!!! 
-				return returnValue;
-			} 
-			break;
-		case 'SuspendAll':
-			if (CurrentActivity.isActive || CurrentActivity.isSuspended)
-			{
-				setSuspendedActivity(CurrentActivity);
-			}
-			else
-			{
-				if (CurrentActivity.parentActivity) 
+				returnValue.SequencingRequest = 'Exit';
+				r = returnValue;
+				break;
+			case 'Abandon':
+				CurrentActivity.isActive = false;
+				returnValue.valid = true;
+				r = returnValue;
+				break;
+			case 'AbandonAll':
+				activityPath = getActivityPath(CurrentActivity);
+				if (activityPath.length===0)
 				{
-					setSuspendedActivity(CurrentActivity.parentActivity);
+					returnValue.Exception = 'TB.2.3-6';
+					r = returnValue;
+					break;
 				}
-				else // RootActivity
+				while (activityPath.length) 
 				{
-					returnValue.exception = 'TB.2.3-3';
-					return returnValue;
+					activity = activityPath.shift();
+					activity.isActive = false;
 				}
+				CurrentActivity = RootActivity;
+				returnValue.valid = true;
+				r = returnValue;
+				break;
+			default: 
+				returnValue.exception = 'TB.2.3-7';
+				r = returnValue;
+				break;
 			}
-			activityPath = getActivityPath(SuspendedActivity);
-			if (activityPath.length===0)
-			{
-				returnValue.exception = 'TB.2.3-5';
-				return returnValue;
-			}
-			while (activityPath.length) 
-			{
-				activity = activityPath.shift();
-				activity.isActive = false;
-				activity.isSuspended = true;			
-			}
-			CurrentActivity = RootActivity;
-			returnValue.valid = true;
-			returnValue.SequencingRequest = 'Exit';
-			return returnValue;
-		case 'Abandon':
-			CurrentActivity.isActive = false;
-			returnValue.valid = true;
-			return returnValue;
-		case 'AbandonAll':
-			activityPath = getActivityPath(CurrentActivity);
-			if (activityPath.length===0)
-			{
-				returnValue.Exception = 'TB.2.3-6';
-				return returnValue;
-			}
-			while (activityPath.length) 
-			{
-				activity = activityPath.shift();
-				activity.isActive = false;
-			}
-			CurrentActivity = RootActivity;
-			returnValue.valid = true;
-			return returnValue;
-		default: 
-			returnValue.exception = 'TB.2.3-7';
-			return returnValue;
 		}
-		
+		return r;
 	} // end TerminationRequestProcess
 	
 	
@@ -771,13 +792,13 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		if (ondebug) ondebug("ActivityProgressRollupProcess", ActivityProgressRollupProcess.caller); 
 		if (RollupRuleCheckSubprocess(activity, /^incomplete$/))
 		{
-			activity.AttemptProgressStatus = true;
-			activity.AttemptCompletionStatus = false;
+			cmidata.setValue(activity.foreignId, 'activityProgressStatus', 'true');
+			cmidata.setValue(activity.foreignId, 'attemptCompletionStatus', 'false');
 		}
 		if (RollupRuleCheckSubprocess(activity, /^complete$/))
 		{
-			activity.AttemptProgressStatus = true;
-			activity.AttemptCompletionStatus = true;
+			cmidata.setValue(activity.foreignId, 'activityProgressStatus', 'true');
+			cmidata.setValue(activity.foreignId, 'attemptCompletionStatus', 'true');
 		}	
 	}
 	
@@ -999,7 +1020,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		if (activity.item.length > 0 &&
 			!activity.isSuspended && !activity.isActive &&
 			activity.SelectionTiming==='once' &&
-			!activity.ActivityProgressStatus && 
+			cmidata.getValue(activity.foreignId, 'activityProgressStatus')!="true" && 
 			activity.SelectionCountStatus) 
 		{
 			activity.availableChildren = selectRandomItems(activity.item, activity.SelectionCount);				
@@ -1573,15 +1594,16 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 	function ChoiceFlowTreeTraversalSubprocess(activity, traversalDirection) // #213
 	{
 		if (ondebug) ondebug("ChoiceFlowTreeTraversalSubprocess", ChoiceFlowTreeTraversalSubprocess.caller); 
+		var r;
 		if (traversalDirection === 'forward')
 		{
 			if (activity.index===activityCount-1)
 			{
-				return;
+				// no return value
 			}
-			if (isLastOfAvailableChildren(activity))
+			else if (isLastOfAvailableChildren(activity))
 			{
-				return ChoiceFlowTreeTraversalSubprocess(activity.parentActivity, 'forward');
+				r = ChoiceFlowTreeTraversalSubprocess(activity.parentActivity, 'forward');
 			}
 			else
 			{
@@ -1591,15 +1613,15 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 				ChoiceFlowTreeTraversalSubprocess(r);
 			}
 		}
-		if (traversalDirection === 'backward')
+		else if (traversalDirection === 'backward')
 		{
 			if (isRoot(activity))
 			{
-				return;
+				// no return value
 			}
-			if (activity == activity.parentActivity.availableChildren[0])
+			else if (activity == activity.parentActivity.availableChildren[0])
 			{
-				return ChoiceFlowTreeTraversalSubprocess(activity.parentActivity, 'backward');
+				r = ChoiceFlowTreeTraversalSubprocess(activity.parentActivity, 'backward');
 			}
 			else
 			{
@@ -1608,7 +1630,8 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 				r = traverse(activity, 'backward');
 				ChoiceFlowTreeTraversalSubprocess(r);
 			}
-		}	
+		}
+		return r;
 	}
 		
 		
@@ -1815,23 +1838,23 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 		{
 			return false;
 		}
-		if (cmidata.getValue(activity.foreignId, 'activityProgressState'))
+		if (cmidata.getValue(activity.foreignId, 'activityProgressState')=="true")
 		{
-			if (limit = Number(activity.sequencing.attemptLimit))
+			if ((limit = Number(activity.sequencing.attemptLimit)))
 			{
 				if (Number(cmidata.getValue(activity.foreignId, 'attemptCount')) >= limit)
 				{
 					return true;
 				}
 			}
-			if (limit = Number(activity.sequencing.activityAbsoluteDurationLimit))
+			if ((limit = Number(activity.sequencing.activityAbsoluteDurationLimit)))
 			{
 				if (Number(cmidata.getValue(activity.foreignId, 'activityAbsoluteDuration')) >= limit)
 				{
 					return true;
 				}
 			}
-			if (limit = Number(activity.sequencing.activityExperiencedDurationLimit))
+			if ((limit = Number(activity.sequencing.activityExperiencedDurationLimit)))
 			{
 				if (Number(cmidata.getValue(activity.foreignId, 'activityExperiencedDuration')) >= limit)
 				{
@@ -1840,14 +1863,14 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 			}
 			if (cmidata.getValue(activity.foreignId, 'attemptProgressState'))
 			{
-				if (limit = Number(activity.sequencing.attemptAbsoluteDurationLimit))
+				if ((limit = Number(activity.sequencing.attemptAbsoluteDurationLimit)))
 				{
 					if (Number(cmidata.getValue(activity.foreignId, 'attemptAbsoluteDuration')) >= limit)
 					{
 						return true;
 					}
 				}
-				if (limit = Number(activity.sequencing.attemptExperiencedDurationLimit))
+				if ((limit = Number(activity.sequencing.attemptExperiencedDurationLimit)))
 				{
 					if (Number(cmidata.getValue(activity.foreignId, 'attemptExperiencedDuration')) >= limit)
 					{
@@ -1885,6 +1908,7 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 	function SequencingRulesCheckProcess(activity, SetOfRuleActions) // #225
 	{
 		if (ondebug) ondebug("SequencingRulesCheckProcess", SequencingRulesCheckProcess.caller); 
+		var r;
 		var rules = activity.sequencing.rule;
 		for (var i=0; i<rules.length; i+=1)
 		{
@@ -1893,11 +1917,12 @@ function OP_SCORM_SEQUENCING_1_3(manifest, cmidata, ondeliver, onundeliver, onen
 			{
 				if (SequencingRuleCheckSubprocess(activity, rule))
 				{
-					return rule.action.substr(0, 1).toUpperCase() + rule.action.substr(1);
+					r = rule.action.substr(0, 1).toUpperCase() + rule.action.substr(1);
+					break;
 				}
 			}
 		}
-		return;
+		return r;
 	}
 	
 	
@@ -2088,18 +2113,6 @@ Objective Measure Greater
 		onend();	
 	}
 	
-	function isSibling(activity1, activity2) 
-	{
-		var p = activity1.parentActivity;
-		for (var k in p.item)
-		{
-			if (k == activity2.id) 
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 	function isSibling(activity1, activity2) 
 	{
 		return isInArray(activity2.id, activity1.parentActivity.item, 'id');

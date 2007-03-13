@@ -21,10 +21,8 @@
  * @version $Id$
  * @copyright: (c) 2007 Alfred Kohnert
  *  
- * Business class for demonstration of current state of ILIAS SCORM 2004 
  * 
  */ 
- 
 
 
 	// common constants classes, initalization, php core extension, etc. 
@@ -62,8 +60,6 @@ function post_cmi()
 
 $cmd = strtolower($_SERVER['REQUEST_METHOD'] . '_' . $_REQUEST['call']); 
 
-if (is_callable($cmd)) $cmd();
-else die($cmd);
-
+is_callable($cmd) ? $cmd() : die($cmd);
 
 ?>

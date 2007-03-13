@@ -136,6 +136,7 @@ OP_SCORM_RUNTIME.prototype =
 			};
 			
 			var LearnerResponseType = { isValid : function (value, definition, extra) {
+				var r;
 				var par = extra.parent[extra.parent.length-1];
 				var key = {};
 				var val;
@@ -145,7 +146,8 @@ OP_SCORM_RUNTIME.prototype =
 				switch (par.type)
 				{
 				case 'true-false':
-					return (/^true|false$/).test(value); 
+					r = (/^true|false$/).test(value);
+					break; 
 				case 'choice':
 					val = value.split("[,]");
 					if (val.length>36) {
@@ -153,11 +155,13 @@ OP_SCORM_RUNTIME.prototype =
 					}
 					for (i=val.length; i--;) {
 						if (key[val[i]] && !short_identifier_type.test(val[i])) {
-							return false;
+							r = false;
+							break; 
 						}
 						key[val[i]] = true; 
 					}
-					return true;
+					r = true;
+					break; 
 				case 'fill-in':
 					val = value.split("[,]");
 					if (val.length>10) {
@@ -166,59 +170,79 @@ OP_SCORM_RUNTIME.prototype =
 					for (i=val.length; i--;) {
 						val[i] = val[i].split(/^\{lang=\w{1-3}(-\w{2-8})?\}/).pop();
 						if (extra.error || !(/^.{0,250}$/).test(val[i])) {
-							return false;
+							r = false;
+							break;
 						}
 					} 
-					return true;
+					r = true;
+					break;
 				case 'long-fill-in':
 					val = value.split(/^\{lang=\w{1-3}(-\w{2-8})?\}/).pop();
-					return (/^.{0,4000}$/).test(val);
+					r = (/^.{0,4000}$/).test(val);
+					break; 
 				case 'likert':
-					return short_identifier_type.test(value); 
+					r = short_identifier_type.test(value); 
+					break; 
 				case 'matching':
 					val = value.split("[,]");
 					if (val.length>36) {
 						extra.error = {code: 351};
 					}
-					for (i=val.length; i--;) {
+					for (i=val.length; i--;) 
+					{
 						val[i] = val[i].split("[.]");
 						if (val[i].length===1 ||
 							!short_identifier_type.test(val[i][0]) ||
 							!short_identifier_type.test(val[i][1])) {
-								return false;
+								r = false;
+								break;
 						} 
 					}
-					return !extra.error;
+					r = !extra.error;
+					break; 
 				case 'performance':
 					val = val.split(/^\{order_matters=(true|false)\}/).pop();
 					val = val.split("[,]");
-					if (val.length>250) {
+					if (val.length>250) 
+					{
 						extra.error = {code: 351};
 					}
-					for (i=val.length; i--;) {
+					for (i=val.length; i--;) 
+					{
 						val[i] = val[i].split("[.]");
-						if (val[i].length===1 || !short_identifier_type.test(val[i][0])) {
-							return false;
+						if (val[i].length===1 || !short_identifier_type.test(val[i][0])) 
+						{
+							r = false;
+							break;
 						} 
 					}
 					return !extra.error;
+					break; 
 				case 'sequencing':
 					val = value.split("[,]");
-					if (val.length>36) {
+					if (val.length>36) 
+					{
 						extra.error = {code: 351};
 					}
-					for (i=val.length; i--;) {
-						if (key[val[i]]!==undefined || short_identifier_type.test(val[i])) {
-							return false;
+					for (i=val.length; i--;) 
+					{
+						if (key[val[i]]!==undefined || short_identifier_type.test(val[i])) 
+						{
+							r = false;
+							break;
 						}
 					}
-					return !extra.error;
+					r = !extra.error;
+					break; 
 				case 'numeric':
-					var r = /^\d{1,10}(\.\d{1,7})$/;
-					return r.test(value);
+					r = /^\d{1,10}(\.\d{1,7})$/;
+					r = r.test(value);
+					break; 
 				case 'other':
-					return (/^.{0,4000}$/).test(value);
+					r = (/^.{0,4000}$/).test(value);
+					break; 
 				} // end switch
+				return r;
 			}};
 			
 			var LocalizedString = { isValid : function (value, definition) {
@@ -240,142 +264,188 @@ OP_SCORM_RUNTIME.prototype =
 			};
 			
 			var PatternType = { isValid : function (value, definition, extra) {
+				var r;
 				var dat = extra.parent[extra.parent.length-1];
 				var par = extra.parent[extra.parent.length-2];
 				var sib = par.correct_responses;
 				var len = sib ? sib.length : 0;
 				var key = {};
 				var val, i;
-				if (len && sib[0] != extra.parent[extra.parent.length-1]) {
+				if (len && sib[0] != extra.parent[extra.parent.length-1]) 
+				{
 					len++;
 				}
 				var short_identifier_type = /^.{1,250}$/; 
 				switch (par.type)
 				{
 				case 'true-false':
-					if (len>1) {
+					if (len>1) 
+					{
 						extra.error = {code: 351};
 					}
-					return !extra.error && (/^true|false$/).test(value); 
+					r = !extra.error && (/^true|false$/).test(value); 
+					break;
 				case 'choice':
-					if (len>10) {
+					if (len>10) 
+					{
 						extra.error = {code: 351};
 					}
 					val = value.split("[,]");
-					if (val.length>36) {
+					if (val.length>36) 
+					{
 						extra.error = {code: 351};
 					}
-					for (i=val.length; i--;) {						
+					for (i=val.length; i--;) 
+					{						
 						if (key[val[i]] || !short_identifier_type.test(val[i])) {
-							return false;
+							r = false;
+							break;
 						}
 						key[val[i]] = true;
 					}
-					if (sib) {
-						for (i=sib.length; i--;) {
-							if (sib[i].pattern===value) {
+					if (sib) 
+					{
+						for (i=sib.length; i--;) 
+						{
+							if (sib[i].pattern===value) 
+							{
 								extra.error = {code: 351};
 							}
 						}
 					}
-					return !extra.error;
+					r = !extra.error;
+					break;
 				case 'fill-in':
-					if (len>5) {
+					if (len>5) 
+					{
 						extra.error = {code: 351};
 					}
 					val = value.split("[,]");
-					if (val.length>36) {
+					if (val.length>36) 
+					{
 						extra.error = {code: 351}; // this not given in specs but inferred
 					}
-					for (i=val.length; i--;) {
+					for (i=val.length; i--;) 
+					{
 						val[i] = val[i].split(/^\{case_matters=(true|false)\}/).pop();
 						val[i] = val[i].split(/^\{order_matters=(true|false)\}/).pop();
 						val[i] = val[i].split(/^\{lang=\w{1-3}(-\w{2-8})?\}/).pop();
-						if (extra.error || !(/^.{0,250}$/).test(val[i])) {
-							return false;
+						if (extra.error || !(/^.{0,250}$/).test(val[i])) 
+						{
+							r = false;
+							break;
 						}
 					} 
-					return true;
+					r = true;
+					break;
 				case 'long-fill-in':
-					if (len>5) {
+					if (len>5) 
+					{
 						extra.error = {code: 351};
 					}
 					val = value.split(/^\{case_matters=(true|false)\}/).pop();
 					val = val.split(/^\{lang=\w{1-3}(-\w{2-8})?\}/).pop();
-					return !extra.error && (/^.{0,4000}$/).test(val);
+					r = !extra.error && (/^.{0,4000}$/).test(val);
+					break;
 				case 'likert':
-					if (len>1) {
+					if (len>1) 
+					{
 						extra.error = {code: 351};
 					}
-					return !extra.error && short_identifier_type.test(value); 
+					r = !extra.error && short_identifier_type.test(value); 
+					break;
 				case 'matching':
-					if (len>5) {
+					if (len>5) 
+					{
 						extra.error = {code: 351};
 					}
 					val = value.split("[,]");
-					if (val.length>36) {
+					if (val.length>36) 
+					{
 						extra.error = {code: 351};
 					}
-					for (i=val.length; i--;) {
+					for (i=val.length; i--;) 
+					{
 						val[i] = val[i].split("[.]");
 						if (val[i].length===1 ||
 							!short_identifier_type.test(val[i][0])	||
 							!short_identifier_type.test(val[i][1])) {
-							return false;
+							r = false;
+							break;
 						} 
 					}
-					return !extra.error;
+					r = !extra.error;
+					break;
 				case 'performance':
-					if (len>5) {
+					if (len>5) 
+					{
 						extra.error = {code: 351};
 					}
 					val = val.split(/^\{order_matters=(true|false)\}/).pop();
 					val = val.split("[,]");
-					if (val.length>125) {
+					if (val.length>125) 
+					{
 						extra.error = {code: 351};
 					}
-					for (i=val.length; i--;) {
+					for (i=val.length; i--;) 
+					{
 						val[i] = val[i].split("[.]");
-						if (val[i].length===1 || !short_identifier_type.test(val[i][0])) {
-							return false;
+						if (val[i].length===1 || !short_identifier_type.test(val[i][0])) 
+						{
+							r = false;
+							break;
 						} 
 					}
-					return !extra.error;
+					r = !extra.error;
+					break;
 				case 'sequencing':
-					if (len>5) {
+					if (len>5) 
+					{
 						extra.error = {code: 351};
 					}
 					val = val[i].split("[,]");
-					if (val.length>36) {
+					if (val.length>36) 
+					{
 						extra.error = {code: 351};
 					}
-					for (var j=val.length; j--;) {
-						if (key[val[j]]!==undefined || short_identifier_type.test(val[j])) {
-							return false;
+					for (var j=val.length; j--;) 
+					{
+						if (key[val[j]]!==undefined || short_identifier_type.test(val[j])) 
+						{
+							r = false;
+							break;
 						}
 						key[val[j]] = true;
 					}
-					if (sib) {
-						for (i=sib.length; i--;) {
-							if (sib[i].pattern===value) {
+					if (sib) 
+					{
+						for (i=sib.length; i--;) 
+						{
+							if (sib[i].pattern===value) 
+							{
 								extra.error = {code: 351};
 							}
 						}
 					}
-					return !extra.error;
+					r = !extra.error;
+					break;
 				case 'numeric':
 					if (len>1) {
 						extra.error = {code: 351};
 					}
 					val = value.split("[:]");
-					var r = /^\d{1,10}(\.\d{1,7})$/;
-					return !extra.error && val.length===2 && (r.test(val[0]) || r.test(val[1]));
+					r = /^\d{1,10}(\.\d{1,7})$/;
+					r = !extra.error && val.length===2 && (r.test(val[0]) || r.test(val[1]));
+					break;
 				case 'other':
-					if (len>1) {
+					if (len>1) 
+					{
 						extra.error = {code: 351};
 					}
-					return !extra.error && (/^.{0,4000}$/).test(val);
+					r = !extra.error && (/^.{0,4000}$/).test(val);
+					break;
 				} // end switch
+				return r;
 			}};
 			
 			var ResultState = { isValid : function (value) {
@@ -417,9 +487,8 @@ OP_SCORM_RUNTIME.prototype =
 				var min = extra.min ? extra.min : definition.min;
 				var max = extra.max ? extra.max : definition.max;
 				var pattern = extra.pattern ? extra.pattern : definition.pattern;
-				if (min && String(value).length < min) {
-					return false;
-				} else if (max && String(value).length > max) {
+				if ((min && String(value).length < min) || (max && String(value).length > max)) {
+					extra.error = {code: 407};
 					return false;
 				} else if (pattern && !pattern.test(value)) {
 					return false;
@@ -496,7 +565,7 @@ OP_SCORM_RUNTIME.prototype =
 					learner_name : {type: LocalizedString, max: 250, permission: READONLY, 'default' : ''},
 					learner_preference: {type: Object, permission: READONLY, 
 						children : {
-							audio_level: {type: Real, min: 0, permission: READWRITE, "default": '1'},
+							audio_level: {type: Real, min: 0.000000001, permission: READWRITE, "default": '1'},
 							language : {type: LangType, permission: READWRITE, 'default': ''}, 
 							delivery_speed : {type: Real, min: 0, permission: READWRITE, 'default': '1'}, 
 							audio_captioning : {type: AudioCaptioningState, permission: READWRITE, 'default': '0'}

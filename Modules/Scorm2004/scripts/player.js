@@ -69,9 +69,9 @@ function Player(config, gui)
 		{
 			var data = cmidata.getAPI(item.foreignId);
 			// add user independend general item values to api
-			if (v = item.completionThreshold) data.cmi.completionThreshold = v;
-			if (v = item.dataFromLMS) data.cmi.launch_data = v;			
-			if (v = item.timeLimitAction) data.cmi.time_limit_action = v;			
+			if ((v = item.completionThreshold)) data.cmi.completionThreshold = v;
+			if ((v = item.dataFromLMS)) data.cmi.launch_data = v;			
+			if ((v = item.timeLimitAction)) data.cmi.time_limit_action = v;			
 			
 			// assign api for public use from sco
 			window[api.prototype.name] = new api(data, onCommit, onTerminate, gui.onAPIDebug);
@@ -151,13 +151,15 @@ function Player(config, gui)
 	   if (data.adl && data.adl.nav && typeof data.adl.nav.request === "string")
 	   {
 	   	var m = data.adl.nav.request.match(/^(\{target=([^\}]+)\})?(choice|continue|previous|exit(All)?|abandon(All)?)$/);
-	   	if (!m) return;
-	      setTimeout(function () {
-				nav.execNavigation({
-					type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), 
-					target: m[2]
-				});
-			}, 0);
+	   	if (m) 
+			{
+		      setTimeout(function () {
+					nav.execNavigation({
+						type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), 
+						target: m[2]
+					});
+				}, 0);
+			} 
 		}
 		return true;
 	}
@@ -176,6 +178,7 @@ function Player(config, gui)
 	function onDocumentClick (e) 
 	{
 		var target = e ? (e.target ? e.target : e.srcElement) : event.srcElement;
+		var r;
 		gui.stopEvent(e);
 		if (target.tagName !== 'A' || !target.id || target.disabled || gui.hasClass(target, "disabled")) 
 		{
@@ -185,19 +188,26 @@ function Player(config, gui)
 		else if (target.id.substr(0, 3)==='api') 
 		{
 			var api = parent[OP_SCORM_RUNTIME.prototype.name];
-			if (!api) {
+			if (!api) 
+			{
 				alert(OP_SCORM_RUNTIME.prototype.name + " not found");
-				return false; 
+				r = false; 
 			}  
-			var btn = target.id.substr(3);
-			var f = document.forms[0];
-			if (typeof(api[btn])==="function") {
-				f.cmireturn.value = api[btn](f.cmielement.value, f.cmivalue.value);
-				f.cmidiagnostic.value = api.GetDiagnostic("");
-				f.cmierror.value = api.GetLastError("");
-			} else {
-				alert(['not found', btn])
-			} 
+			else
+			{
+				var btn = target.id.substr(3);
+				var f = document.forms[0];
+				if (typeof(api[btn])==="function") 
+				{
+					f.cmireturn.value = api[btn](f.cmielement.value, f.cmivalue.value);
+					f.cmidiagnostic.value = api.GetDiagnostic("");
+					f.cmierror.value = api.GetLastError("");
+				} 
+				else 
+				{
+					alert(['not found', btn])
+				} 
+			}
 		} 
 		else if (target.id.substr(0, 3)==='nav') 
 		{
@@ -205,12 +215,13 @@ function Player(config, gui)
 		} 
 		else if (typeof window[target.id + '_onclick'] === "function")
 		{
-			return window[target.id + '_onclick']();
+			r = window[target.id + '_onclick']();
 		} 
 		else if (target.id.substr(0, 3)==="tre") 
 		{
 			onChoice(target);	
 		}
+		return r;
 	}
 		
 	function onWindowLoad () 

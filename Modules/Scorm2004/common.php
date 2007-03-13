@@ -26,18 +26,36 @@
  * Initing database, since there is no operation without database
  */ 
  
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-  define('IL_OP_ZIP_EXE', 'C:/Programme/Tools/infozip/zip.exe'); 
-  define('IL_OP_UNZIP_EXE', 'C:/Programme/Tools/infozip/unzip.exe');
-} else {
+
+	// zip exec will later be taken from ILIAS utils
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') 
+{
+	define('IL_OP_ZIP_EXE', realpath('infozip/zip.exe')); 
+	define('IL_OP_UNZIP_EXE', realpath('infozip/unzip.exe'));
+} 
+else 
+{
   define('IL_OP_ZIP_EXE', realpath('/usr/bin/zip')); 
   define('IL_OP_UNZIP_EXE', realpath('/usr/bin/unzip'));
 }
 
+	// where to save zip's and to save unzipped files in a folder per package
 define('IL_OP_PACKAGES_FOLDER', dirname(__FILE__) . '/packages');
-define('IL_OP_USER_ID', 50);
-define('IL_OP_PACKAGE_ID', 100);
+
+	// DEBUG only: there is only one fixed sahs in this mode
+	// creating new sahs is job of ILIAS environment 
+define('IL_OP_SAHS_ID', '100');
+
+	// DEBUG only: where to save zip's on the server as a kind of remote repository
+	// so you don't have to upload everytime
+	// later to be loaded from ILIAS upload folder 
+define('IL_OP_SAMPLES_FOLDER', dirname(__FILE__) . '/samples');
+
+	// href template for loading package data 
 define('IL_OP_PACKAGE_BASE', 'sco.php/packages/{packageId}/');
+
+	// DEBUG only: database connection data
+	// later to be replaced by ILIAS ilDB object 
 //define('IL_OP_DB_TYPE', 'mysql');
 //define('IL_OP_DB_DSN', 'mysql:host=localhost;dbname=ilscorm13');
 define('IL_OP_DB_TYPE', 'sqlite');
@@ -45,31 +63,33 @@ define('IL_OP_DB_DSN', 'sqlite2:data/sqlite2.db');
 define('IL_OP_USER_NAME', '');
 define('IL_OP_USER_PASSWORD', '');
 
-define('IL_OP_PACKAGES_FOLDER', dirname(__FILE__) . '/packages');
-define('IL_OP_USER_ID', 50);
-define('IL_OP_PACKAGE_ID', 100);
-define('IL_OP_PACKAGE_BASE', 'sco.php/packages/{packageId}/');
-define('IL_OP_DB_TYPE', 'mysql');//sqlite');
-define('IL_OP_DB_DSN', 'mysql:host=localhost;dbname=ilscorm13');//'sqlite2:data/sqlite2.db');
-define('IL_OP_USER_NAME', 'ilias');
-define('IL_OP_USER_PASSWORD', 'ilias');
+/**
+ * We will include some global functions extending poor PHP.
+ * Also adding some DEBUG initialitation later to be replace by ILIAS core functions  
+ * This is a module and not a class.  
+ */
+require_once('classes/phpext.php');
 
 /**
- * We will include some global functions extending poor PHP (this time a module 
- * and not a class). 
  * We also load a special database module running for sqlite. Will later be
  * mapped to ilDB (even if it is more rdbs independent and injection secure the
  * ILIAS default database code). 
  */
-require_once('classes/phpext.php');
 require_once('classes/ilSCORM13DB.php');
 
+/**
+ * We load some utility function in a static class emulating some ILIAS
+ * core function, like startup, zipping etc..
+ */
+require_once('classes/ilSCORM13Utils.php');
 
 /**
- * Special database module is normally used in static mode. 
- * So there ist only one database and is accessable from everywhere. 
- * You could also use instances of ilSCORM13DB for binding to additional databases.  
+ * We need a simple template engine roughly emulating PEAR template
  */
-ilSCORM13DB::init(IL_OP_DB_DSN, IL_OP_DB_TYPE);
+require_once('classes/ilSCORM13Template.php');
+
+
+	// start to whole thing (database, login, etc.)
+ilSCORM13Utils::init();
 
 ?>

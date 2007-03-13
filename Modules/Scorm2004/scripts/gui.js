@@ -52,9 +52,10 @@ function Gui(config, langstrings)
 	
 	function setOuterHTML(elm, markup)
 	{
+		var r;
 		if (window.ScriptEngine && window.ScriptEngine()==='JScript') 
 		{
-			return elm.outerHTML = markup;
+			r = elm.outerHTML = markup;
 		}
 		else
 		{
@@ -63,6 +64,7 @@ function Gui(config, langstrings)
 			var fragment = range.createContextualFragment(markup);
 			elm.parentNode.replaceChild(fragment, elm);
 		}
+		return r;
 	}
 		
 	this.setInfo = function (name, values) 
