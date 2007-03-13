@@ -25,8 +25,6 @@
  * @version $Id$
  * @copyright: (c) 2005-2007 Alfred Kohnert 
  * 
- * Business class for demonstration of current state of ILIAS SCORM 2004
- * 
  */ 
 
 class ilSCORM13Package
@@ -83,16 +81,57 @@ class ilSCORM13Package
 		$this->load($packageId);
 	}
 	
+	public function getAdmin()
+	{
+		$packages = ilSCORM13DB::getRecords('cp_package');
+		$users = ilSCORM13DB::getRecords('usr_data');
+
+		$samples = scandir(IL_OP_SAMPLES_FOLDER);
+		$samples = array_flip($samples);
+		foreach ($samples as $k => $v) 
+		{
+			$fn = IL_OP_SAMPLES_FOLDER . '/' . $k;
+			if (is_file($fn))
+			{
+				$samples[$k] = $k . ' (' . number_format(filesize($fn)/1000, 0) . ' kb)'; 
+			}
+			else
+			{
+				unset($samples[$k]);
+			} 
+		}
+		$samples[''] = 'Select a sample file...';
+		
+ 		header('Content-Type: text/html; charset=UTF-8');
+		$tpl = new ilSCORM13Template();
+		$tpl->load('templates/tpl/tpl.scorm2004.admin.html');
+		$tpl->setParam('DOC_TITLE', 'ILIAS SCORM 2004 Admin');
+		$tpl->setParam('THEME_CSS', 'templates/css/delos.css');
+		$tpl->setParam('PACKAGES', $tpl->toHTMLSelect($packages, $this->packageId, 
+			array('name'=>'packageId', 'size'=>10), 'obj_id', 'identifier'));
+		$tpl->setParam('USERS', $tpl->toHTMLSelect($users, ilSCORM13Utils::$userId, 
+			array('name'=>'userId', 'size'=>10), 'user_id', 'email'));
+		$tpl->setParam('PACKAGE_FILES', $tpl->toHTMLSelect($samples, '', 'packagefile'));
+		$tpl->setParam('MESSAGE', isset($msg) ? (is_array($msg) ? implode('<br>', $msg) : $msg) : '');
+		$tpl->setParam('PACKAGE_ID', $this->packageID);
+		$tpl->save();
+	}
+	
 	public function load($packageId)
 	{
 		if (!is_numeric($packageId)) 
 		{
 			return false;
 		}
-		$this->packageData = array_merge(
-			ilSCORM13DB::getRecord('sahs_lm', 'id', $packageId), 
-			ilSCORM13DB::getRecord('cp_package', 'obj_id', $packageId)
-		);
+		$sahs = ilSCORM13DB::getRecord('sahs_lm', 'id', $packageId); 
+		$package = ilSCORM13DB::getRecord('cp_package', 'obj_id', $packageId); 
+		$this->packageData = array(
+			'api_adapter'=>null, 'api_func_prefix'=>null, 'auto_review'=>null, 'credit'=>null,
+			'default_lesson_mode'=>null, 'id'=>null, 'online'=>null, 'type'=>null,
+			'created'=>null, 'identifier'=>null, 'jsdata	modified'=>null, 'obj_id'=>null, 
+			'persistPreviousAttempts'=>null, 'settings'=>null, 'xmldata'=>null);
+		if ($sahs) $this->packageData = array_merge($this->packageData, $sahs);
+		if ($package) $this->packageData = array_merge($this->packageData, $package);
 		$this->packageId = $packageId;
 		$this->packageFolder = $this->packagesFolder . '/' . $packageId;
 		$this->packageFile = $this->packageFolder . '.zip';
@@ -104,8 +143,10 @@ class ilSCORM13Package
 	{
 		$this->setProgress(0, 'Rolling back...');
 		$this->dbRemoveAll();
-		if (is_dir($this->packageFolder)) dir_delete($this->packageFolder);
-		if (is_file($this->packageFile)) unlink($this->packageFile);
+		if (is_dir($this->packageFolder)) 
+			ilSCORM13Utils::dir_delete($this->packageFolder);
+		if (is_file($this->packageFile)) 
+			@unlink($this->packageFile);
 		$this->setProgress(0, 'Roll back finished: Ok. ');
 	}
 	
@@ -116,10 +157,15 @@ class ilSCORM13Package
 		readfile($this->packageFile); 
 	}
 	
+	/**
+	 *	Export normalized manifest as xml file
+	 */	
 	public function exportXML()
 	{
-		$row = ilSCORM13DB::getRecord("cp_package", "obj_id",$this->packageId);
-		return $row["xmldata"];
+		header('content-type: text/xml');
+		header('content-disposition: attachment; filename="manifest.xml"');
+		$row = ilSCORM13DB::getRecord("cp_package", "obj_id", $this->packageId);
+		print($row["xmldata"]);
 	}
 	
 	public function removeCMIData()
@@ -135,28 +181,25 @@ class ilSCORM13Package
 		return $row["xmldata"];
 	}
 	
-	// needs exception handling 
+	// TODO needs exception handling 
 	public function exportPackage()
 	{
-		// get filename for temp zip and delete if already existing  
-		$fn1 = $this->packageFile . '.tmp';
-		if (is_file($fn1)) 
-		{
-			unlink($fn1);
-		}
+		// get filename for temp zip  
+		$fn1 = tempnam($packagesFolder, 'zip');
 		// copy package files and folders into zip 
 		$fn2 = $this->packageFolder . '/*.*';
-		zip($fn1, $fn2);
+		ilSCORM13Utils::zip($fn1, $fn2);
 		// copy xsd schema files for SCORM 1.3 into zip
 		// this will overwrite files existing in packageFolder 
 		$fn2 = realpath(dirname('./')) . '/templates/xsd/*.*';
-		zip($fn1, $fn2);
+		ilSCORM13Utils::zip($fn1, $fn2);
 		// create imsmanifest.xml file from database content 
 		// and copy into zip (this will overwrite existing (old) imsmanifest) 
 		// and delete afterwards
-		$fn2 = realpath($this->packagesFolder) . '/imsmanifest.xml';
-		file_put_contents($fn2, $this->exportManifest());
-		zip($fn1, $fn2);
+		$doc = $this->generateManifest();
+		$fn2 = tempnam($packagesFolder, 'xml');
+		$doc->save($fn3);
+		ilSCORM13Utils::zip($fn1, $fn2);
 		unlink($fn2);
 		// write data into output
 		header('content-type: application/zip');
@@ -167,8 +210,10 @@ class ilSCORM13Package
 	}
 	
 	/**
+	 *	Generate imsmanifest from database structure
+	 *	and return as DOMDocument	 
 	 */	
-	public function exportManifest()
+	private function generateManifest()
 	{
 		$q = 'SELECT cp_node.cp_node_id as cp_node_id, 
 			cp_node.nodeName as nodeName, cp_tree.depth as depth FROM cp_node 
@@ -196,6 +241,17 @@ class ilSCORM13Package
 				}
 			}
 		}
+		return $doc;
+	}
+
+	/**
+	 *	Export immanifest as xml file
+	 */	
+	public function exportManifest()
+	{
+		$doc = $this->generateManifest();
+		header('content-type: text/xml');
+		header('content-disposition: attachment; filename="imsmanifest.xml"');
 		return $this->transform($doc, self::DB_DECODE_XSL)->saveXML();
 	}
 
@@ -203,11 +259,12 @@ class ilSCORM13Package
 	 */	
 	public function uploadAndImport($packageFile)
 	{
-		$this->packageName = md5_file($packageFile);
-		$this->packageFile = $this->packagesFolder . '/' . $this->packageName . '.zip';
-		$this->packageFolder = $this->packagesFolder . '/' . $this->packageName;
+		$this->packageName = basename($packageFile);
+		$this->packageHash = md5_file($packageFile);
+		$this->packageFile = $this->packagesFolder . '/' . $this->packageHash . '.zip';
+		$this->packageFolder = $this->packagesFolder . '/' . $this->packageHash;
 		$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
-		
+
 		// STEP 0
 		$this->setProgress(0.1, 'Step 0: copy zip file: ' . $this->packageFile);
 		@copy($packageFile, $this->packageFile);
@@ -220,19 +277,20 @@ class ilSCORM13Package
 			//return false;
 		} else 
 		{
-			mkdir($this->packageFolder);
+			@mkdir($this->packageFolder);
 		}
-		if (0!==($e = unzip($this->packageFile, $this->packageFolder))) 
+		$e = ilSCORM13Utils::unzip($this->packageFile, $this->packageFolder);
+		if ($e!==0) 
 		{
 			$this->diagnostic[] = 'unzip error:' . $e;
 			return false;
 		}
 		
-		// STEP 2
-		$this->setProgress(0.3, 'Step 2: load imsmanifest.xml: '. $this->imsmanifestFile);
+		// STEP 2		
+		$this->setProgress(0.3, 'Step 2: load imsmanifest.xml: '. $this->imsmanifestFile);		
 		$this->imsmanifest = new DOMDocument;
 		$this->imsmanifest->async = false;
-		if (!$this->imsmanifest->load($this->imsmanifestFile))
+		if (!@$this->imsmanifest->load($this->imsmanifestFile))
 		{
 			$this->diagnostic[] = 'XML not wellformed';
 			return false;
@@ -257,9 +315,12 @@ class ilSCORM13Package
 
 		// STEP 5
 		$this->setProgress(0.6, 'Step 5: Import into database');
-		$this->dbAddNew(); // add new sahs and package record
+		$this->dbAddNew(); // add new package record
 		$this->dbRemoveAll(); // remove old data on this id
+		
+		ilSCORM13DB::begin();
 		$this->dbImport($this->manifest);
+		ilSCORM13DB::commit();
 
 		// STEP 6
 		// create json via simple xml
@@ -321,7 +382,7 @@ class ilSCORM13Package
 		$tf = $this->packagesFolder . '/' . $this->packageId;
 		if (is_dir($tf)) 
 		{
-			dir_delete($tf);
+			ilSCORM13Utils::dir_delete($tf);
 		}
 		@rename($this->packageFolder, $tf);
 		
@@ -379,8 +440,8 @@ class ilSCORM13Package
 				{
 					if ($node->getAttribute('uri')=="") 
 					{
-						// default URI is md5 hash of zip file, i.e. packageName  
-						$node->setAttribute('uri', 'md5:' . $this->packageName);
+						// default URI is md5 hash of zip file, i.e. packageHash  
+						$node->setAttribute('uri', 'md5:' . $this->packageHash);
 					}
 				}
 				// insert into cp_node
@@ -424,11 +485,13 @@ class ilSCORM13Package
 	}
 	
 	/**
-	 * 	
+	 * add new package record	
 	 */	
 	private function dbAddNew()
 	{
-		$this->packageId = IL_OP_PACKAGE_ID;
+		ilSCORM13DB::setRecord('cp_package', array(
+			'obj_id' => $this->packageId,
+		), 'obj_id');
 		return true;
 	}
 	
@@ -441,7 +504,8 @@ class ilSCORM13Package
 		foreach (self::$elements['cp'] as $t) 
 		{
 			$t = 'cp_' . $t;
-			ilSCORM13DB::exec("DELETE FROM $t WHERE $t.cp_node_id IN (SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id=$this->packageId)");
+			$sql = "DELETE FROM $t WHERE $t.cp_node_id IN (SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id=$this->packageId)";
+			ilSCORM13DB::exec($sql);
 		} 
 		// remove CMI entries 
 		ilSCORM13DB::exec("DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");

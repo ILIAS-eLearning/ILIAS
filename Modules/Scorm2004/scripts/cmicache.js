@@ -170,6 +170,13 @@ function CMICache (url, size, time)
 		// start recursive process to add current cmi subelements
 		process(api, 'node', 'cp_node_id', cp_node_id);
 		
+		// check basic data
+		if (!data || !data['package'] || !data['package'][0])
+		{
+			alert('Error: No data from LMS.');
+			return false;
+		}
+		
 		// add some readonly default values for all sco's in package
 		var k;
 		api.cmi[k="credit"] = data['package'][0][schema['package'][k]]; 
@@ -293,10 +300,19 @@ function CMICache (url, size, time)
 	{
 		var i = schema.node[key];
 		var elm = data.node[map.cp[cp_node_id]];
+		var r;
 		if (elm && i!==undefined) 
 		{
-			return elm[i];
+			if (key==="attemptProgressStatus") 
+			{
+				r = (this.getValue(cp_node_id, 'completion_status')!=="unknown").toString();
+			}
+			else
+			{
+				r = elm[i];
+			}
 		}
+		return r;
 	}
 	
 	// get value in LAST instance index of objective with an specified ID
@@ -304,19 +320,22 @@ function CMICache (url, size, time)
 	{
 		var kid = schema.objective[key];
 		var iid = schema.objective.id;
+		var r;
 		for (var i=data.objective.length-1; i>-1; i--)
 		{
 			if (data.objective[i][iid] == id)
 			{
-				return data.objective[i][kid];
+				r = data.objective[i][kid];
+				break;
 			}
 		}
+		return r;
 	}
 	
 	this.setValue = function (cp_node_id, key, value)
 	{
 		var elm;
-		var key = schema.node[key];
+		key = schema.node[key];
 		var idx = map.cp[cp_node_id];
 		if (idx===undefined) 
 		{
@@ -392,26 +411,29 @@ function CMICache (url, size, time)
 				process(r, map.cp[cp_node_ids[i]]);
 			}
 		}
-		if (!r) return; 
-		r = Remoting.sendJSONRequest(url, r);
-		// set successful updated elements to cleans
-		i=0;
-		for (var k in r) 
+		if (r) 
 		{
-			i++;
-			setDirty(k, false);
-		}
-		if (typeof time === "number" && time>10) 
-		{
-			clearTimeout(me.timeout);
-			me.timeout = setTimeout(me.save, time*1000);
-		}
-		return i;
+			r = Remoting.sendJSONRequest(url, r);
+			// set successful updated elements to cleans
+			i=0;
+			for (var k in r) 
+			{
+				i++;
+				setDirty(k, false);
+			}
+			if (typeof time === "number" && time>10) 
+			{
+				clearTimeout(me.timeout);
+				me.timeout = setTimeout(me.save, time*1000);
+			}
+			r = i;
+		} 
+		return r;
 	}; 
 
 	this.load = function ()
 	{
-		var json = Remoting.sendJSONRequest(url);
+		var json = Remoting.sendJSONRequest(url + '&' + Number(new Date()));
 		if (!json) return false;
 		data = json.data;
 		schema = json.schema;

@@ -171,25 +171,30 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 		{
 			return setReturn(201, 'param must be empty string', 'false');
 		}
+		var r;
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
-				return setReturn(142, '', 'false');
+				r = setReturn(142, '', 'false');
+				break;
 			case TERMINATED:
-				return setReturn(143, '', 'false');
+				r = setReturn(143, '', 'false');
+				break;
 			case RUNNING:
 				var returnValue = onCommit(cmiItem);
 				if (returnValue) 
 				{
 					dirty = false;
 					doEvents('Committed');
-					return setReturn(0, '', 'true');
+					r = setReturn(0, '', 'true');
 				} 
 				else
 				{
-					return setReturn(301, '', 'false');
+					r = setReturn(301, '', 'false');
 				}
+				break;
 		}
+		return r;
 	}
 
 	/**
@@ -203,12 +208,15 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 		{
 			return setReturn(201, 'param must be empty string', 'false');
 		}
+		var r;
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
-				return setReturn(112, '', 'false');
+				r = setReturn(112, '', 'false');
+				break;
 			case TERMINATED:
-				return setReturn(113, '', 'false');
+				r = setReturn(113, '', 'false');
+				break;
 			case RUNNING:
 				me.onTerminate(getValue, setValue, msec);
 				setReturn(-1, 'Terminate(' + param + ') [after wrapup]');
@@ -216,8 +224,10 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 				state = TERMINATED;
 				onTerminate(cmiItem);
 				doEvents('Terminated');
-				return setReturn(0, '', returnValue);
+				r = setReturn(0, '', returnValue);
+				break;
 		}
+		return r;
 	}
 	
 	/**
@@ -228,21 +238,29 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 	function GetValue(sPath) 
 	{
 		setReturn(-1, 'GetValue(' + sPath + ')');
+		var r;
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
-				return setReturn(122, '', '');
+				r = setReturn(122, '', '');
+				break;
 			case TERMINATED:
-				return setReturn(123, '', '');
+				r = setReturn(123, '', '');
+				break;
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
-					return setReturn(201, 'must be string', '');
+					r = setReturn(201, 'must be string', '');
 				}
-				var r = getValue(sPath, false);
-				return error ? '' : setReturn(0, '', r); 
+				else
+				{
+					r = getValue(sPath, false);
+					r = error ? '' : setReturn(0, '', r); 
+				}
+				break;
 				// TODO wrap in TRY CATCH
 		}	
+		return r;
 	}
 	
 	/**
@@ -266,33 +284,44 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 	function SetValue(sPath, sValue) 
 	{
 		setReturn(-1, 'SetValue(' + sPath + ', ' + sValue + ')');
+		var r;
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
-				return setReturn(132, '', '');
+				r = setReturn(132, '', '');
+				break;
 			case TERMINATED:
-				return setReturn(133, '', '');
+				r = setReturn(133, '', '');
+				break;
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
-					return setReturn(201, 'must be string', '');
+					r = setReturn(201, 'must be string', '');
+					break;
 				}
 				// we do not test datatype for there are to many scorm editors out there
 				// that do send numerics in there APIWrappers that we cast input
 				// as if we were an applet or object implementation
 				if (typeof sValue === "number") 
+				{
 					sValue = sValue.toFixed(3);
-				else 
+				}
+				else
+				{ 
 					sValue = String(sValue);
+				}
 				try 
 				{
-					var r = setValue(sPath, sValue);
-					return error ? 'false' : 'true'; 
-				} catch (e) 
+					r = setValue(sPath, sValue);
+					r = error ? 'false' : 'true'; 
+				} 
+				catch (e) 
 				{
-					return setReturn(351, 'Exception ' + e, 'false');
+					r  = setReturn(351, 'Exception ' + e, 'false');
 				}
+				break;
 		}
+		return r;
 	}
 	
 	/**
@@ -617,21 +646,22 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 	 */	 
 	function setReturn(errCode, errInfo, returnValue) 
 	{
+		var r;
 		if (errCode>-1 && typeof onDebug === 'function') 
 		{
 			var newReturnValue = onDebug(diagnostic, returnValue, errCode, errInfo, cmiItem);
 			if (errCode===-1) 
 			{
 				// debug message only, no value change or error setting
-				return; 
+				return r; 
 			} 
 			else if (newReturnValue!==undefined) 
 			{
-				returnValue = newReturnValue;
+				r = newReturnValue;
 			} 
 		}
 		error = errCode;
 		diagnostic = (typeof(errInfo)=='string') ? errInfo : '';
-		return returnValue;
+		return r;
 	}
 }

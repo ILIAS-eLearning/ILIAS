@@ -85,13 +85,15 @@ var Remoting = (new (function ()
 		
 		function onStateChange() 
 		{
+			var r;
 			if (xhttp.readyState === 4) { // COMPLETED
 				if (typeof callback === 'function') {
-					callback(new HttpResponse(xhttp));
+					r = callback(new HttpResponse(xhttp));
 				} else {
-					return new HttpResponse(xhttp);
+					r = new HttpResponse(xhttp);
 				} 
 			}
+			return r;
 		}
 		
 		var xhttp = getXMLHttpRequest();
@@ -116,7 +118,7 @@ var Remoting = (new (function ()
 		if (async) 
 		{
 			xhttp.onreadystatechange = onStateChange;
-			xhttp.send(data ? String(data) : '');				
+			return xhttp.send(data ? String(data) : '');				
 		} else 
 		{
 			xhttp.send(data ? String(data) : '');				
@@ -126,7 +128,9 @@ var Remoting = (new (function ()
 
 	function sendJSONRequest (url, data, callback, user, password, headers) 
 	{		
-		var headers = {'Accept': 'text/javascript', 'Accept-Charset' : 'UTF-8'};
+		if (!headers) headers = {};
+		headers['Accept'] = 'text/javascript';
+		headers['Accept-Charset'] = 'UTF-8';
 		var r = sendAndLoad(url, toJSONString(data), callback, user, password, headers);
 		return ((r.status===200 && (/^text\/javascript;?.*/i).test(r.type)) || r.status===0) 
 			? parseJSONString(r.content) 
@@ -165,7 +169,7 @@ var Remoting = (new (function ()
 		
 	function toJSONString (v, tab) {
 		tab = tab ? tab : "";
-		var nl = tab ? "\n" : "";
+		var nl = tab ? "\n" : "", r;
 		function fmt(n) {
 			return (n < 10 ? '0' : '') + n;
 		}
@@ -183,16 +187,19 @@ var Remoting = (new (function ()
 		}
 		switch (typeof v) {
 		case 'string':
-			return esc(v);
+			r = esc(v);
+			break;
 		case 'number':
-			return isFinite(v) ? String(v) : 'null';			
+			r = isFinite(v) ? String(v) : 'null';
+			break;			
 		case 'boolean':
-			return String(v);			
+			r = String(v);
+			break;			
 		case 'object':
 			if (v===null) {
-				return 'null';
+				r = 'null';
 			} else if (v instanceof Date) {
-				return '"' + v.getFullYear() + '-' + fmt(v.getMonth() + 1) + 
+				r = '"' + v.getFullYear() + '-' + fmt(v.getMonth() + 1) + 
 					'-' + fmt(v.getDate()) + 'T' + fmt(v.getHours()) + ':' +
 	            fmt(v.getMinutes()) + ':' + fmt(v.getSeconds() + 
 					v.getMilliseconds()/1000).substr(0, 6) + '"';
@@ -201,7 +208,7 @@ var Remoting = (new (function ()
 				for (var i=0, ni=v.length; i<ni; i+=1) {
 					ra.push(toJSONString(v[i], tab.charAt(0) + tab));
 				}
-				return '[' + nl + tab + ra.join(',' + nl + tab) + nl + tab + ']';
+				r = '[' + nl + tab + ra.join(',' + nl + tab) + nl + tab + ']';
 			} else if (v.constructor && v.constructor.toString().indexOf("[")!==0) {
 				// not checking the constructor would be much faster but what if 
 				// native and recursive objects like "window" are considered ? 
@@ -211,11 +218,13 @@ var Remoting = (new (function ()
 						ro.push(esc(String(k)) + ':' + toJSONString(v[k], tab.charAt(0) + tab));
 					}
 				}
-				return '{' + nl + tab + ro.join(',' + nl + tab) + nl + tab + '}';
+				r = '{' + nl + tab + ro.join(',' + nl + tab) + nl + tab + '}';
 			} else {
-				return 'null';
+				r = 'null';
 			}
+			break;
 		}
+		return r;
 	}
 	
 	function parseJSONString (s) 

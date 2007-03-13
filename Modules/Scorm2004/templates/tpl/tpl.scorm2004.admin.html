@@ -3,22 +3,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" id="scormplayer">
 	<head>
 		<title>{DOC_TITLE}</title>
-		<link type="text/css" rel="stylesheet" href="templates/css/admin.css"/> 
-	</head>
-	<body>
-	<span class="msg">{MESSAGE}</span>
-	<form id="packagesForm" action="" 
-	method="post" onsubmit="return packagesForm_submit();">
+		<link type="text/css" href="{THEME_CSS}" rel="stylesheet"/>
+<style type="text/css" >
+/* special SCORM 2004 Styles */
+select {width: 100%;}
+input[type=submit] {border: 2px outset; font-size: 100%;}
+input[type=submit]:active {border: 2px inset; font-size: 100%;}
+</style>
 <script type="text/javascript">
 	function getSelectedIndex(arr) 
 	{
+		if (arr.length && arr[0].options) arr = arr[0].options;
 		for (var i=arr.length-1; i>-1; i-=1)
 		{
-			if (arr[i].checked) break;
+			if (arr[i].checked || arr[i].selected) break;
 		}
 		return i;
 	}
-	function packagesForm_submit() 
+	function packagesForm_submit(f) 
 	{
 		var a = document.getElementsByName("packageId");
 		var i = getSelectedIndex(a);
@@ -27,6 +29,8 @@
 			alert('No package selected');
 			return false;
 		}
+		f.disabled = true;
+		return true;
 	}
 	function btnPlay_click(mode) 
 	{
@@ -46,309 +50,113 @@
 		if (f.packagedata.value) {
 			f.enctype = "multipart/form-data";
 			f.onsubmit = null;
-			return true;
+		} else if (f.packagefile.value) {
+			f.onsubmit = null;
 		} else {
-			alert("No file selected");
-			return false;
+			return alert("No file selected");
 		}
+		return true;
 	}
 </script>
-<table align="center" summary="">
-<caption>Packages</caption>
-<tr>
-<td></td>
-<td>
-<fieldset>
-{PACKAGES}
-</fieldset>
-</td>
-</tr>
-<tr>
-<td colspan="2" align="center">
-<input class="button" type="button" 
-	value="Refresh" title="Refreshes this page" onclick="location.href=location.href"/>
-<input class="button" name="submit[removePackage]" type="submit" 
-	value="Remove" title="Removes the package completely, tracking data will be lost"/>
-<input class="button" type="button" 
-	value="Play" title="" onclick="btnPlay_click(0)"/>
-<input class="button" type="button" 
-	value="Play (Debug)" title="" onclick="btnPlay_click(1)"/>
-<br/>
-<input class="button" name="submit[exportXML]" type="submit" 
-	value="Export XML" title="Gives you the internal XML representation"/>
-<input class="button" name="submit[exportManifest]" type="submit" 
-	value="Export Manifest" title="Creates a IMS Manifest from database representation"/>
-<br/>
-<input class="button" name="submit[exportZIP]" type="submit" 
-	value="Export ZIP" title="Gives you the original uploaded ZIP"/>
-<input class="button" name="submit[exportPackage]" type="submit" 
-	value="Export Package" title="Creates new package from database representation"/>
-<br/>
-<input class="button" name="submit[removeCMIData]" type="submit" 
-	value="Remove Userdata" title="Removes the tracking data"/>
-	<a href="sqlite/index.php?dbsel=2">Sqlite Manager</a>
-</td>
-</tr>
+	</head>
+	<body>
 
-<tr>
-	<td colspan="2">
-		<hr/>
-		Add New Package
-	</td>
-</tr>
-<tr>
-	<td>Title</td>
-	<td>
-		<input class="text" name="title" type="text" disabled="disabled" 
-			value="will be set to MD5 hash of uploaded file"/>
-	</td>
-</tr>
-<tr>
-	<td>ID</td>
-	<td><input class="text" name="id" type="text" value="{PACKAGE_ID}" disabled="disabled" /></td>
-</tr>
-<tr>
-	<td>File</td>
-	<td><input type="hidden" name="MAX_FILE_SIZE" value="2000000" title="1 MB" />
-		<input class="text" name="packagedata" type="file" />
-		Max upload size is 2 MB
-	</td>
-</tr>
-<tr>
-	<td></td>
-	<td>
-		<input class="button" name="submit[uploadAndImport]" type="submit" value="Upload &amp; Import"
-		onclick="return uploadAndImport_click(this.form)"
-		/>
-	</td>
-</tr>
+	<form id="packagesForm" action="" method="post" onsubmit="return packagesForm_submit(this);">
 
+		<table width="100%" cellspacing="0" cellpadding="0" border="0"  summary="">
+			<tr height="1%">
+				<td colspan="2">
+					<div class="ilMainHeader" >
+						<div class="ilLogin">SCORM 2004</div>
+						<div style="padding:2px 0px 2px 15px;">
+							<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="./templates/css/images/HeaderIcon.png" alt=""/>
+							<span class="il_PDTitle">Open Source eLearning</span>
+						</div>
+						<div class="il_MainMenu" style="clear:both;">
+							<a target="_blank" href="./sqlite/index.php?dbsel=2" class="MMInactive">Sqlite Admin</a>
+							<a target="_blank" href="#" onclick="btnPlay_click(0);return false;" class="MMInactive">Play</a>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+				</td>
+			</tr>
 
-<tr>
-<td colspan="2"><hr/>
-Package Settings</td>
-</tr>
-<tr>
-	<td>Online</td>
-	<td>
-		<input name="online" type="checkbox" disabled="disabled" value="true" checked="checked"/>
-	</td>
-</tr>
-<tr>
-	<td>API Adapter</td>
-	<td>
-		<select name="api_adapter">
-			<option disabled="disabled" value="API">API</option>
-			<option selected="selected" value="API_1484_11">API_1484_11</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>API Prefix</td>
-	<td>
-		<select name="api_func_prefix">
-			<option disabled="disabled" value="LMS">LMS</option>
-			<option selected="selected" value=""></option>
-		</select> 
-	</td>
-</tr>
-<tr>
-	<td>Credit</td>
-	<td>
-		<select name="credit">
-			<option selected="selected" value="credit">yes</option>
-			<option disabled="disabled" value="no_credit">no</option>
-		</select> 
-	</td>
-</tr>
-<tr>
-	<td>Default Lesson Mode</td>
-	<td>
-		<select name="default_lesson_mode">
-			<option selected="selected" value="normal">normal</option>
-			<option disabled="disabled" value="browse">browse</option>
-		</select> 
-	</td>
-</tr>
-<tr>
-	<td>Auto Review</td>
-	<td>
-		<select name="auto_review">
-			<option selected="selected" value="y">yes</option>
-			<option disabled="disabled" value="n">no</option>
-		</select> 
-	</td>
-</tr>
-<tr>
-	<td>Type</td>
-	<td>
-		<select name="type">
-			<option disabled="disabled" value="scorm">SCORM 1.2</option>
-			<option selected="selected" value="scorm2004">SCORM 2004</option>
-			<option disabled="disabled" value="aicc">AICC</option>
-			<option disabled="disabled" value="hacp">HACP</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>Persistance</td>
-	<td>
-		<input disabled="disabled" name="persistPreviousAttempts" type="checkbox" value="true" checked="checked"/> Persist Previous Attempts
-	</td>
-</tr>
-<tr>
-	<td>Auto Start</td>
-	<td>
-		<input disabled="disabled" name="autoStart" type="checkbox" value="true" checked="checked"/> 
-	</td>
-</tr>
-<tr>
-	<td>New Window Name</td>
-	<td>
-		<input type="text" class="small-text" size=16 name="WindowName" value="" disabled="disabled"/> 
-	</td>
-</tr>
-<tr>
-	<td>New Window Params</td>
-	<td>
-		<input type="text" class="text" size="6" name="WindowParams" value="width=80%,height=80%,align=right,vertical=10%,resizable=yes" disabled="disabled"/> 
-	</td>
-</tr>
-<tr>
-	<td>Navigation</td>
-	<td>
-		<select name="Navigation">
-			<option selected="selected" value="top">top</option>
-			<option disabled="disabled" value="bottom">bottom</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>DropDownList</td>
-	<td>
-		<select name="DropDownList">
-			<option disabled="disabled" value="">none</option>
-			<option selected="selected" value="left">left</option>
-			<option disabled="disabled" value="right">right</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>TreeView</td>
-	<td>
-		<select name="TreeView">
-			<option disabled="disabled" value="">none</option>
-			<option selected="selected" value="left">left</option>
-			<option disabled="disabled" value="right">right</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>StripView</td>
-	<td>
-		<select name="StripView">
-			<option disabled="disabled" value="">none</option>
-			<option selected="selected" value="top">top</option>
-			<option disabled="disabled" value="bottom">bottom</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>ReportList</td>
-	<td>
-		<select name="ReportList">
-			<option disabled="disabled" value="">none</option>
-			<option selected="selected" value="left">left</option>
-			<option disabled="disabled" value="right">right</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>Left Column</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="WidthLeft" value="30%" disabled="disabled"/> 
-	</td>
-</tr>
-<tr>
-	<td>Center Column</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="WidthCenter" value="70%" disabled="disabled"/>
-	</td>
-</tr>
-<tr>
-	<td>Right Column</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="WidthRight" value="0%" disabled="disabled"/>
-	</td>
-</tr>
-<tr>
-	<td>Top Row</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="WidthLeft" value="56" disabled="disabled"/> 
-	</td>
-</tr>
-<tr>
-	<td>Center Row</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="WidthCenter" value="*" disabled="disabled"/>
-	</td>
-</tr>
-<tr>
-	<td>Bottom Row</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="WidthRight" value="0%" disabled="disabled"/>
-	</td>
-</tr>
-<tr>
-	<td>Interval</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="storeMaxTime" value="60" disabled="disabled"/> Auto persist after # sec
-	</td>
-</tr>
-<tr>
-	<td>MaxSize</td>
-	<td>
-		<input type="text" class="small-text" size="6" name="storeMaxSize" value="2" disabled="disabled"/> Auto persist if buffer exeeds # items
-	</td>
-</tr>
-<tr>
-	<td></td>
-	<td>
-		<input class="button" name="submit[update]" type="submit" value="Update Settings"
-			onclick="return update(this.form)"
-		/>
-	</td>
-</tr>
+			<tr class="il_PDBlock" >
+				<th class="il_PDBlockHeader" colspan="2">
+					<div style="float:left;" id="mainTitle">Demo Administration</div>
+					<div class="il_ContainerItemCommands" style="float:right;">
+					</div>
+				</th>
+			</tr>
+		</table>
 
-</table>
-</form>
+		<br/>
+		
+		<table align="center" cellspacing="0" cellpadding="5" border="1"  summary="">
+			<tr class="il_PDBlock" height="1%">
+				<th class="il_PDBlockHeader" colspan="2">
+					<div style="float:left;" >Select User and Package</div>
+				</th>
+			</tr>
 
+			<tr valign="top" >
+				<td class="std" width="30%" >
+					<br/>Select a test user
+					<br/><small>Only one test user in this demo</small>
+					<br/>{USERS}
+				</td>
+				<td class="std" width="70%">
+					<br/>Select a test package
+					<br/><small>Only one package per sahs</small>
+					<br/>{PACKAGES}
+				</td>
+			</tr>
+			<tr class="il_PDBlock" >
+				<td class="il_BlockFooter">
+					<input class="button" name="submit[removeCMIData]" type="submit" value="Remove Trackingdata" title="Removes the tracking data"/>
+				</td>
+				<td class="il_BlockFooter">
+					<input class="button" name="submit[removePackage]" type="submit" value="Remove" title="Removes the package completely, tracking data will be lost"/>
+					<input class="button" name="submit[exportXML]" type="submit" value="Export XML" title="Gives you the internal XML representation"/>
+					<input class="button" name="submit[exportManifest]" type="submit"	value="Export Manifest" title="Creates a IMS Manifest from database representation"/>
+					<input class="button" name="submit[exportZIP]" type="submit" value="Export ZIP" title="Gives you the original uploaded ZIP"/>
+					<input class="button" name="submit[exportPackage]" type="submit" value="Export Package" title="Creates new package from database representation"/>
+				</td>
+			</tr>	
+		</table>
 
-<div style="max-height: inherit; white-space: pre" class="msg">
-ILIAS SCORM 2004
+		<br/>
+		
+		<table align="center" cellspacing="0" cellpadding="5" border="1"  summary="">
+			<tr class="il_PDBlock" height="1%">
+				<th class="il_PDBlockHeader">
+					<div style="float:left;" >Upload / Import a Package</div>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<br/>
+					{PACKAGE_FILES}
+					<br/>
+					<br/>Or upload a new one
+					<br/>
+					<input type="hidden" name="MAX_FILE_SIZE" value="4000000" />
+					<input class="text" name="packagedata" type="file" />
+					Max upload size is 4 MB
+				</td>
+			</tr>
+			<tr class="il_PDBlock" >
+				<td class="il_BlockFooter">
+					Will overwrite current package
+					<input class="button" name="submit[uploadAndImport]" type="submit" value="Upload &amp; Import"
+					onclick="return uploadAndImport_click(this.form)"
+					/>
+				</td>
+			</tr>
+			
+		</table>
 
-PRELIMINARY EDITION 
-This is work in progress and therefore incomplete and buggy ... 
+	</form>
 
-Contact: alfred.kohnert@bigfoot.com
-
-Prequisites
-- PHP 5.1
-- Extensions php_pdo, php_pdo_sqlite, php_json, php_xsl must be activated in PHP.  
-- You need write access for web user to this module directory.
-- The zip/unzip executables must be accessable in environmental path 
-  (or modify settings in common.php).
-
-Ilias Integration
-Currently SCORM 2004 is not integrated in anyway. It does not use any ILIAS
-modules, classes, data or settings. The server side processes you see are only
-mockups for getting the client side player into development.  
-
-Restrictions
-- Currently we support only one package (with fixed package id of "100").
-- Currently we support only one scorm user (with fixed user id of "50").
-
-</div>
-
-</body>
+	</body>
 </html>

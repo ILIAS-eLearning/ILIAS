@@ -41,7 +41,7 @@ class ilSCORM13Player
 
 	// zum client
 	// vom client
-	// prüfmuster
+	// prÃ¼fmuster
 	// default wert
 	const NONE = 0;
 	const READONLY = 1;
@@ -146,8 +146,8 @@ class ilSCORM13Player
 	
 	function __construct() 
 	{
-		$this->userId = IL_OP_USER_ID;
-		$this->packageId = IL_OP_PACKAGE_ID;
+		$this->userId = ilSCORM13Utils::$userId;
+		$this->packageId = ilSCORM13Utils::$packageId;
 		$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
 		ilSCORM13DB::addQueries('ilSCORM13Player');
 	}
@@ -169,8 +169,8 @@ class ilSCORM13Player
 		$config = array(
 			'cp' => $_SERVER['SCRIPT_NAME'] . '?call=cp&packageId=' . $this->packageId,
 			'cmi' => $_SERVER['SCRIPT_NAME'] .'?call=cmi&packageId=' . $this->packageId,
-			'learner_id' => (string) IL_OP_USER_ID,
-			'learner_name' => IL_OP_USER_NAME,
+			'learner_id' => (string) $GLOBALS["USER"]["id_usr"],
+			'learner_name' => $GLOBALS["USER"]["login"],
 			'mode' => 'normal',
 			'credit' => 'credit',
 		);
@@ -192,7 +192,7 @@ class ilSCORM13Player
 		$langstrings['lblChoice'] = 'Select a choice from the tree.';
 		
  		header('Content-Type: text/html; charset=UTF-8');
-		$tpl = new SimpleTemplate();
+		$tpl = new ilSCORM13Template();
 		$tpl->setParam('DEBUG', (int) $_REQUEST['debug']);
 		if ($_REQUEST['debug']) 
 		{
