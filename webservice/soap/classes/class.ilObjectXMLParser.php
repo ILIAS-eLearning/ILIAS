@@ -92,7 +92,7 @@ class ilObjectXMLParser extends ilSaxParser
 				++$this->curr_obj;
 				
 				$this->__addProperty('type',$a_attribs['type']);
-				$this->__addProperty('obj_id',$a_attribs['obj_id']);
+				$this->__addProperty('obj_id',is_numeric($a_attribs['obj_id'])?(int) $a_attribs["obj_id"] :  ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID));
 				break;
 
 			case 'Title':
