@@ -484,6 +484,8 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		$source_obj = $tree->getParentId($a_source_parent);
 		$target_obj = $tree->getParentId($a_dest_parent);
 		$ops = $rbacreview->getRoleOperationsOnObject($a_source_id,$source_obj);
+
+		$this->revokePermission($target_obj,$a_dest_id);
 		$this->grantPermission($a_dest_id,$ops,$target_obj);
 		return true;
 	}
