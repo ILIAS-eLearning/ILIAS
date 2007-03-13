@@ -51,7 +51,7 @@ class ilFulltextGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " WHERE MATCH(term) AGAINST('";
+			$query .= " WHERE MATCH(term,short_text) AGAINST('";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
@@ -62,7 +62,7 @@ class ilFulltextGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (term) AGAINST(' ";
+			$query .= " WHERE MATCH (term,short_text) AGAINST(' ";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;

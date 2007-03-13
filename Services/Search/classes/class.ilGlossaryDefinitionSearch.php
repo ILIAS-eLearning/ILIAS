@@ -54,23 +54,18 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT glo_id  ".
+		$query = "SELECT glo_id,gt.id  ".
 			$locate.
-			"FROM glossary_term ".
+			"FROM glossary_term as gt JOIN ".
+			"glossary_definition USING(id) ".
 			$where;
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->glo_id,'glo',$this->__prepareFound($row));
+			$this->search_result->addEntry($row->glo_id,'glo',$this->__prepareFound($row),$row->id);
 		}
 		return $this->search_result;
 	}
-
-	function __createAndCondition()
-	{
-		echo "Overwrite me!";
-	}
-
 }
 ?>
