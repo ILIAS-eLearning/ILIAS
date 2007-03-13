@@ -126,7 +126,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
 		if(ilObject::_isInTrash($ref_id))
 		{
-			return $this->__raiseError('Cannot perform update since file has been deleted.', 'Client');
+			return $this->__raiseError('Cannot perform update since file has been deleted.', 'CLIENT_OBJECT_DELETED');
 		}
         // get obj_id
 		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
