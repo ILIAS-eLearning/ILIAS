@@ -146,7 +146,7 @@ class ilCategoryImportParser extends ilSaxParser
 					  $desc = $a_attribs["Id"]. " ".$parentRoles[$postadopt]["title"];
 					  $roleObj = $rolfObj->createRole($desc,"Local rol for category ".$desc);
 					  // adopt permissions from rol template selected
-				  	  $rbacadmin->copyRolePermission($postadopt,$parentRoles[$postadopt]["parent"],$rolfObj->getRefId(),$roleObj->getId());					
+				  	  $rbacadmin->copyRoleTemplatePermissions($postadopt,$parentRoles[$postadopt]["parent"],$rolfObj->getRefId(),$roleObj->getId());					
 					  unset($roleObj);
 				  }
 

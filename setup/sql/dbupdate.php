@@ -2568,7 +2568,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id,true);
 	$dest_rolf_id = $rolf_arr[0];
 	$rbacadmin->deleteRolePermission($dest_role_id,$dest_rolf_id,false);
-	$rbacadmin->copyRolePermission($adm_role_id,ROLE_FOLDER_ID,$dest_rolf_id,$dest_role_id);
+	$rbacadmin->copyRoleTemplatePermissions($adm_role_id,ROLE_FOLDER_ID,$dest_rolf_id,$dest_role_id);
 
 	// change existing objects
 	$node_id = $tree->getParentId($dest_rolf_id);

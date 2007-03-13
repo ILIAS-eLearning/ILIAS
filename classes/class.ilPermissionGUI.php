@@ -292,7 +292,7 @@ class ilPermissionGUI
 				if (!in_array($stop_inherit,$roles_of_folder))
 				{
 					$parentRoles = $rbacreview->getParentRoleIds($rolf_id);
-					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
+					$rbacadmin->copyRoleTemplatePermissions($stop_inherit,$parentRoles[$stop_inherit]["parent"],
 												   $rolf_id,$stop_inherit);
 					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,'n');
 				}

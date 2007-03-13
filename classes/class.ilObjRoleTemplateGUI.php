@@ -502,7 +502,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			$rbacadmin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
 			$parentRoles = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
-			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
+			$rbacadmin->copyRoleTemplatePermissions($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
 										   $this->rolf_ref_id,$this->obj_id);		
 			// update object data entry (to update last modification date)
 			$this->object->update();
