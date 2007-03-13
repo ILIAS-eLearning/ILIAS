@@ -309,7 +309,7 @@ class ilTestEvaluationUserData
 		$bestpass = 0;
 		foreach ($this->passes as $pass)
 		{
-			$reached = $this->getReachedPoints($pass->getPass());
+			$reached = $this->getReachedPointsInPercentForPass($pass->getPass());
 			if ($reached > $bestpoints)
 			{
 				$bestpoints = $reached;
@@ -396,6 +396,14 @@ class ilTestEvaluationUserData
 			$available += $question["points"];
 		}
 		return $available;
+	}
+
+	function getReachedPointsInPercentForPass($pass = 0)
+	{
+		$reached = $this->getReachedPoints($pass);
+		$available = $this->getAvailablePoints($pass);
+		$percent = ($available > 0 ) ? $reached / $available : 0;
+		return $percent;
 	}
 } // END ilTestEvaluationUserData
 
