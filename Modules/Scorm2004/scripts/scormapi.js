@@ -432,7 +432,7 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 				{
 					tdat2 = new Object();
 				}
-				if (tdef.unique===path[path.length-1])
+				if (unique in tdef && tdef.unique===path[path.length-1])
 				{
 					for (var di=tdat.length; di--;) 
 					{
@@ -646,22 +646,20 @@ function OP_SCORM_RUNTIME(cmiItem, onCommit, onTerminate, onDebug)
 	 */	 
 	function setReturn(errCode, errInfo, returnValue) 
 	{
-		var r;
 		if (errCode>-1 && typeof onDebug === 'function') 
 		{
 			var newReturnValue = onDebug(diagnostic, returnValue, errCode, errInfo, cmiItem);
 			if (errCode===-1) 
 			{
-				// debug message only, no value change or error setting
-				return r; 
+				return undefined; 
 			} 
 			else if (newReturnValue!==undefined) 
 			{
-				r = newReturnValue;
+				returnValue = newReturnValue;
 			} 
 		}
 		error = errCode;
 		diagnostic = (typeof(errInfo)=='string') ? errInfo : '';
-		return r;
+		return returnValue;
 	}
 }
