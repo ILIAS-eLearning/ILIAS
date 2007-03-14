@@ -134,9 +134,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function showPrivacy()
 	{
-	    /**
-	     * @var ilPrivacySettings
-	     */
 		$privacy = ilPrivacySettings::_getInstance();
 
 		$this->tabs_gui->setTabActive('show_privacy');
@@ -172,41 +169,51 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function showSecurity()
 	{
-	    /**
-	     * @var ilPrivacySettings
-	     */
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		
 		$privacy = ilSecuritySettings::_getInstance();
-
-		$this->tabs_gui->setTabActive('show_security');
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_security.html','Services/PrivacySecurity');
 
-	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tabs_gui->setTabActive('show_security');
 
-	 	$this->tpl->setVariable('TXT_SECURITY_PROTECTION',$this->lng->txt('ps_security_protection'));
-	 	$this->tpl->setVariable('TXT_AUTO_HTTPS_ENABLED',$this->lng->txt('ps_auto_https'));
-	 	$this->tpl->setVariable('TXT_AUTO_HTTPS_HEADER_NAME',$this->lng->txt('ps_auto_https_header_name'));
-	 	$this->tpl->setVariable('TXT_AUTO_HTTPS_HEADER_VALUE',$this->lng->txt('ps_auto_https_header_value'));
-	 	$this->tpl->setVariable('TXT_AUTO_HTTPS_ENABLED_DESCRIPTION',$this->lng->txt('ps_auto_https_description'));
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('ps_security_protection'));
+		
+		// Form checkbox
+		$check = new ilCheckboxInputGUI($this->lng->txt('ps_auto_https'),'auto_https_detect_enabled');
+		$check->setOptionTitle($this->lng->txt('ps_auto_https_description'));
+		$check->setChecked($privacy->isAutomaticHTTPSEnabled() ? 1 : 0);
+		$check->setValue(1);
+		
+			$text = new ilTextInputGUI($this->lng->txt('ps_auto_https_header_name'),'auto_https_detect_header_name');
+			$text->setValue($privacy->getAutomaticHTTPSHeaderName());
+			$text->setSize(24);
+			$text->setMaxLength(64);
+		$check->addSubItem($text);
+			
+			$text = new ilTextInputGUI($this->lng->txt('ps_auto_https_header_value'),'auto_https_detect_header_value');
+			$text->setValue($privacy->getAutomaticHTTPSHeaderValue());
+			$text->setSize(24);
+			$text->setMaxLength(64);
+		
+		$check->addSubItem($text);
+		$form->addItem($check);
 
+		$check2 = new ilCheckboxInputGUI($this->lng->txt('activate_https'),'https_enabled');
+		$check2->setChecked($privacy->isHTTPSEnabled() ? 1 : 0);
+		$check2->setValue(1);
+		$form->addItem($check2);
 
-	 	// https detection by header information
-	 	$this->tpl->setVariable('CHECK_AUTO_DETECT_HTTPS',ilUtil::formCheckbox($privacy->isAutomaticHTTPSEnabled() ? 1 : 0,'auto_https_detect_enabled',1));
-	 	$this->tpl->setVariable('INPUT_AUTO_DETECT_HTTPS_HEADER_NAME',ilUtil::formInput("auto_https_detect_header_name", $privacy->getAutomaticHTTPSHeaderName()));
-	 	$this->tpl->setVariable('INPUT_AUTO_DETECT_HTTPS_HEADER_VALUE',ilUtil::formInput("auto_https_detect_header_value", $privacy->getAutomaticHTTPSHeaderValue()));
-
-	 	// https enabled
-	 	$this->tpl->setVariable("TXT_HTTPS_ENABLED",$this->lng->txt('activate_https'));
-	 	$this->tpl->setVariable("CHECK_HTTPS_ENABLED", ilUtil::formCheckbox($privacy->isHTTPSEnabled() ? 1 : 0,'https_enabled',1));
-
-
-	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
+		$form->addCommandButton('save_security',$this->lng->txt('save'));
+		$this->tpl->setVariable('NEW_FORM',$form->getHTML());
 	}
 
 	/**
 	 * Save privacy settings
 	 *
 	 * @access public
-	 *
+	 * 
 	 */
 	public function save_privacy()
 	{
