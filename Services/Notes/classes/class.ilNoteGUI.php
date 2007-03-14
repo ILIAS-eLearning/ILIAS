@@ -603,9 +603,11 @@ class ilNoteGUI
 		{
 			if ($a_rep_obj_id > 0)
 			{
+
 				// get all visible references of target object
 				$ref_ids = ilObject::_getAllReferences($a_rep_obj_id);
 				$vis_ref_ids = array();
+
 				foreach($ref_ids as $ref_id)
 				{
 					if ($ilAccess->checkAccess("visible", "", $ref_id))
@@ -613,7 +615,7 @@ class ilNoteGUI
 						$vis_ref_ids[] = $ref_id;
 					}
 				}
-			
+
 				// output links to targets
 				if (count($vis_ref_ids) > 0)
 				{
