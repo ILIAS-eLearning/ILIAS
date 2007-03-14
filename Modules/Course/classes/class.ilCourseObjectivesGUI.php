@@ -111,6 +111,8 @@ class ilCourseObjectivesGUI
 		}
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_objective_list_questions.html','Modules/Course');
+		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives'));
+		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		
@@ -266,6 +268,9 @@ class ilCourseObjectivesGUI
 		}
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_objective_list_materials.html','Modules/Course');
+		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives'));
+		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
+		
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		
@@ -397,6 +402,8 @@ class ilCourseObjectivesGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_show_objectives.html','Modules/Course');
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives'));
+		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
+		$this->tpl->setVariable('TBL_TITLE_IMG_ALT',$this->lng->txt('crs_objectives'));
 		$this->tpl->setVariable('HEAD_TITLE',$this->lng->txt('title'));
 		$this->tpl->setVariable('HEAD_MATERIALS',$this->lng->txt('crs_objective_assigned_materials'));
 		$this->tpl->setVariable('HEAD_QUESTIONS',$this->lng->txt('crs_objective_assigned_qst'));
@@ -612,6 +619,8 @@ class ilCourseObjectivesGUI
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('crs_update_objective'));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
+		$this->tpl->setVariable('TBL_TITLE_IMG_ALT',$this->lng->txt('crs_objectives'));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required_field'));
 		$this->tpl->setVariable("CMD_SUBMIT",'updateObjective');
@@ -726,7 +735,7 @@ class ilCourseObjectivesGUI
 		$tbl->setStyle('table','std');
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("crs_objectives"),"icon_crs.gif",$this->lng->txt("crs_objectives"));
+		$tbl->setTitle($this->lng->txt("crs_objectives"),"icon_lobj.gif",$this->lng->txt("crs_objectives"));
 
 		$tbl->setHeaderNames(array($this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title"), 
@@ -907,7 +916,7 @@ class ilCourseObjectivesGUI
 		$objectives_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
 		$header_title = $this->lng->txt("crs_objectives_assigned_questions").' ('.$objectives_obj->getTitle().')';
 
-		$tbl->setTitle($header_title,"icon_crs.gif",$this->lng->txt("crs_objectives"));
+		$tbl->setTitle($header_title,"icon_lobj.gif",$this->lng->txt("crs_objectives"));
 
 		$tbl->setHeaderNames(array('',$this->lng->txt("title")));
 		$tbl->setHeaderVars(array("","title"), 
@@ -961,8 +970,8 @@ class ilCourseObjectivesGUI
 		$this->tpl->setVariable("CSS_TABLE",'fullwidth');
 		$this->tpl->setVariable("WIDTH",'80%');
 		$this->tpl->setVariable("COLUMN_COUNT",5);
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_crs'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_lobj.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs_objectives'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_objectives_edit_question_assignments'));
 		
 		$head_titles = array(array($this->lng->txt('title'),"35%"),
