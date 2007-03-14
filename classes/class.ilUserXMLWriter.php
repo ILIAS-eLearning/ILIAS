@@ -267,8 +267,6 @@ class ilUserXMLWriter extends ilXmlWriter
 			$this->__addElement("AccountInfo", $row[$fieldname], array("Type" => $type));
 		}
 
-		$this->__addElement("FeedHash", $row["feed_hash"]);
-
 		$this->__addElement("GMapsInfo", null, array (
 			"longitude" => $row["longitude"],
 			"latitude" => $row["latitude"],
