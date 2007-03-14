@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, FeedHash?, GMapsInfo?)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?)>
 
 <!--
 Id is ILIAS ID or unique identifier for this xml file
@@ -113,14 +113,14 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT UDFDefinitions (UDFDefinition*)>
 <!ELEMENT UDFDefinition (UDFName, UDFValue*)>
 <!ATTLIST UDFDefinition
-    Id CDATA #REQUIRED
-    Type       (TEXT|SELECT) #REQUIRED
-    Visible    (TRUE|FALSE) #REQUIRED
-    Changeable (TRUE|FALSE) #REQUIRED
-    Required   (TRUE|FALSE)  #REQUIRED
-    Searchable (TRUE|FALSE)  #REQUIRED
-    CourseExport (TRUE|FALSE) #REQUIRED
-    Export (TRUE|FALSE) #REQUIRED
+	Id CDATA #REQUIRED
+	Type       (TEXT|SELECT) #REQUIRED
+	Visible    (TRUE|FALSE) #REQUIRED
+	Changeable (TRUE|FALSE) #REQUIRED
+	Required   (TRUE|FALSE)  #REQUIRED
+	Searchable (TRUE|FALSE)  #REQUIRED
+	CourseExport (TRUE|FALSE) #REQUIRED
+	Export (TRUE|FALSE) #REQUIRED
 >
 <!ELEMENT UDFName (#PCDATA)>
 <!ELEMENT UDFValue (#PCDATA)>
@@ -129,11 +129,8 @@ Id is ILIAS ID or unique identifier for this xml file
 
 <!ELEMENT AccountInfo (#PCDATA)>
 <!ATTLIST AccountInfo
-        Type CDATA #REQUIRED
+	Type CDATA #REQUIRED
 >
-
-<!-- feedhash is readonly -->
-<!ELEMENT FeedHash (#PCDATA)>
 
 
 <!ELEMENT GMapsInfo EMPTY>
