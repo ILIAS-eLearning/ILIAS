@@ -4809,7 +4809,7 @@ class ilObjTest extends ilObject
 			$testdata = $testres->fetchRow(DB_FETCHMODE_ASSOC);
 		}
 		
-		include_once "./assessment/classes/class.assMarkSchema.php";
+		include_once "./Modules/Test/classes/class.assMarkSchema.php";
 		$mark_schema = new ASS_MarkSchema();
 		$mark_schema->loadFromDb($test_id);
 
@@ -7935,7 +7935,14 @@ class ilObjTest extends ilObject
 			$test_id = $row["test_fi"];
 			$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE, $active_id);
 			$participant =& $results->getParticipant($active_id);
-			return $participant->getBestPass();
+			if ($participant != null)
+			{
+				return $participant->getBestPass();
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		else
 		{
