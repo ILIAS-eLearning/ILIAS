@@ -51,6 +51,13 @@ class ilTestEvaluationUserData
 	var $login;
 
 	/**
+	* User ID
+	*
+	* @var integer
+	*/
+	var $user_id;
+
+	/**
 	* Reached points
 	*
 	* @var double
@@ -70,6 +77,13 @@ class ilTestEvaluationUserData
 	* @var string
 	*/
 	var $mark;
+
+	/**
+	* Mark (official description)
+	*
+	* @var string
+	*/
+	var $mark_official;
 
 	/**
 	* ECTS Mark
@@ -405,6 +419,27 @@ class ilTestEvaluationUserData
 		$percent = ($available > 0 ) ? $reached / $available : 0;
 		return $percent;
 	}
+
+	function setUserID($a_usr_id)
+	{
+		$this->user_id = $a_usr_id;
+	}
+	
+	function getUserID()
+	{
+		return $this->user_id;
+	}
+
+	function setMarkOfficial($a_mark_official)
+	{
+		$this->mark_official = $a_mark_official;
+	}
+	
+	function getMarkOfficial()
+	{
+		return $this->mark_official;
+	}
+	
 } // END ilTestEvaluationUserData
 
 ?>
