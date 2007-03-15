@@ -345,7 +345,9 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function cloneNode($node,$cp_options)
 	{
-		global $ilLog;
+		global $ilLog,$tree;
+		
+		#sleep(20);
 		
 		$source_id = $node['child'];
 		$parent_id = $node['parent'];
@@ -358,6 +360,12 @@ class ilSoapUtils extends ilSoapAdministration
 			return true;
 		}
 		$target_id = $mappings[$parent_id];
+		
+		if(!$tree->isInTree($target_id))
+		{
+			$ilLog->write(__METHOD__.': Omitting node '.$source_id.', '.$node['title'].', '.$node['type']. '. Object has been deleted.');
+			return false;
+		}
 
 		$orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
 		$new_obj = $orig->cloneObject((int) $target_id,$cp_options->getCopyId());
@@ -382,6 +390,8 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function cloneDependencies($node,$cp_options)
 	{
+		global $ilLog;
+		
 		$source_id = $node['child'];
 		$mappings = $cp_options->getMappings();
 		
