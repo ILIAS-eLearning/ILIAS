@@ -4569,77 +4569,6 @@ class ilObjTest extends ilObject
 		return $row->total;
 	}
 
-/**
-* Returns the total passed tests and the average reached points
-*
-* Returns the total passed tests and the average reached points
-*
-* @return array The total passed tests and the avarage reached points.
-* array("total_passed" => VALUE, "total_failed" => VALUE, "average_points" => VALUE, "maximum_points" => VALUE)
-* @access public
-*/
-	function evalTotalFinishedPassed()
-	{
-		global $ilDB;
-
-		$q = sprintf("SELECT * FROM tst_active WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
-		);
-		$result = $ilDB->query($q);
-		$points = array();
-		$passed_tests = 0;
-		$failed_tests = 0;
-		$maximum_points = 0;
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$pass = ilObjTest::_getResultPass($row->active_id);
-			$res =& $this->getTestResult($row->active_id, $pass);
-			if ((!$res["test"]["total_reached_points"]) or (!$res["test"]["total_max_points"]))
-			{
-				$percentage = 0.0;
-			}
-				else
-			{
-				$percentage = ($res["test"]["total_reached_points"] / $res["test"]["total_max_points"]) * 100.0;
-				if ($percentage < 0) $percentage = 0.0;
-			}
-			$mark_obj = $this->mark_schema->getMatchingMark($percentage);
-			$maximum_points = $res["test"]["total_max_points"];
-			if ($mark_obj)
-			{
-				if ($mark_obj->getPassed()) {
-					$passed_tests++;
-					array_push($points, $res["test"]["total_reached_points"]);
-				}
-					else
-				{
-					$failed_tests++;
-				}
-			}
-		}
-		$reached_points = 0;
-		$counter = 0;
-		foreach ($points as $key => $value)
-		{
-			$reached_points += $value;
-			$counter++;
-		}
-		if ($counter)
-		{
-			$average_points = ($reached_points / $counter);
-		}
-			else
-		{
-			$average_points = 0;
-		}
-		return array(
-			"total_passed" => $passed_tests,
-			"total_failed" => $failed_tests,
-			"average_points" => $average_points,
-			"maximum_points" => $maximum_points
-		);
-	}
-	
 	/**
 	* Retrieves all the assigned questions for all test passes of a test participant
 	*
@@ -4758,6 +4687,7 @@ class ilObjTest extends ilObject
 				$data->addParticipant($row["active_fi"], new ilTestEvaluationUserData());
 				$data->getParticipant($row["active_fi"])->setName($this->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
 				$data->getParticipant($row["active_fi"])->setLogin($row["login"]);
+				$data->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
 			}
 			if (!is_object($data->getParticipant($row["active_fi"])->getPass($row["pass"])))
 			{
@@ -4838,6 +4768,7 @@ class ilObjTest extends ilObject
 			if (is_object($mark))
 			{
 				$data->getParticipant($active_id)->setMark($mark->getShortName());
+				$data->getParticipant($active_id)->setMarkOfficial($mark->getOfficialName());
 				$data->getParticipant($active_id)->setPassed($mark->getPassed());
 			}
 			if ($this->ects_output)
@@ -4864,7 +4795,7 @@ class ilObjTest extends ilObject
 		return $data;
 	}
 	
-	function &_getCompleteEvaluationData($test_id, $withStatistics = TRUE)
+	function &_getCompleteEvaluationData($test_id, $withStatistics = TRUE, $active_id = "")
 	{
 		global $ilDB;
 
@@ -4885,19 +4816,38 @@ class ilObjTest extends ilObject
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+		if ($active_id > 0) $withStatistics = FALSE;
 		$data = new ilTestEvaluationData($test_id, $withStatistics);
 		
-		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
-			"qpl_questions.points AS maxpoints " .
-			"FROM tst_test_result, qpl_questions, tst_active " .
-			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
-			"WHERE tst_active.active_id = tst_test_result.active_fi " .
-			"AND qpl_questions.question_id = tst_test_result.question_fi " .
-			"AND tst_active.test_fi = %s " .
-			"ORDER BY active_id, pass, TIMESTAMP",
-			$ilDB->quote($test_id . "")
-		);
+		if ($active_id > 0)
+		{
+			$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+				"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
+				"qpl_questions.points AS maxpoints " .
+				"FROM tst_test_result, qpl_questions, tst_active " .
+				"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
+				"WHERE tst_active.active_id = tst_test_result.active_fi " .
+				"AND qpl_questions.question_id = tst_test_result.question_fi " .
+				"AND tst_active.test_fi = %s AND tst_active.active_id = %s" .
+				"ORDER BY active_id, pass, TIMESTAMP",
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($active_id . "")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+				"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
+				"qpl_questions.points AS maxpoints " .
+				"FROM tst_test_result, qpl_questions, tst_active " .
+				"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
+				"WHERE tst_active.active_id = tst_test_result.active_fi " .
+				"AND qpl_questions.question_id = tst_test_result.question_fi " .
+				"AND tst_active.test_fi = %s " .
+				"ORDER BY active_id, pass, TIMESTAMP",
+				$ilDB->quote($test_id . "")
+			);
+		}
 		$result = $ilDB->query($query);
 		$pass = NULL;
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -4907,6 +4857,7 @@ class ilObjTest extends ilObject
 				$data->addParticipant($row["active_fi"], new ilTestEvaluationUserData());
 				$data->getParticipant($row["active_fi"])->setName(ilObjTest::_buildName($testdata["anonymity"], $row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
 				$data->getParticipant($row["active_fi"])->setLogin($row["login"]);
+				$data->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
 			}
 			if (!is_object($data->getParticipant($row["active_fi"])->getPass($row["pass"])))
 			{
@@ -4987,6 +4938,7 @@ class ilObjTest extends ilObject
 			if (is_object($mark))
 			{
 				$data->getParticipant($active_id)->setMark($mark->getShortName());
+				$data->getParticipant($active_id)->setMarkOfficial($mark->getOfficialName());
 				$data->getParticipant($active_id)->setPassed($mark->getPassed());
 			}
 			if (is_object($data->getParticipant($active_id)->getPass($tpass)))
@@ -5216,49 +5168,6 @@ class ilObjTest extends ilObject
 			}
 		}
 		return $name;
-	}
-
-/**
-* Returns the average processing time for total finished tests
-*
-* Returns the average processing time for total finished tests
-*
-* @return integer The average processing time for total finished tests
-* @access public
-*/
-	function evalTotalFinishedAverageTime()
-	{
-		global $ilDB;
-
-		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.tries > 0 AND tst_active.active_id = tst_times.active_fi",
-			$ilDB->quote($this->getTestId())
-		);
-		$result = $ilDB->query($q);
-		$times = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
-			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
-			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-			$times[$row->active_fi] += ($epoch_2 - $epoch_1);
-		}
-		$max_time = 0;
-		$counter = 0;
-		foreach ($times as $key => $value)
-		{
-			$max_time += $value;
-			$counter++;
-		}
-		if ($counter)
-		{
-			$average_time = round($max_time / $counter);
-		}
-			else
-		{
-			$average_time = 0;
-		}
-		return $average_time;
 	}
 
 /**
@@ -8024,7 +7933,7 @@ class ilObjTest extends ilObject
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			$test_id = $row["test_fi"];
-			$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE);
+			$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE, $active_id);
 			$participant =& $results->getParticipant($active_id);
 			return $participant->getBestPass();
 		}
@@ -8667,24 +8576,15 @@ class ilObjTest extends ilObject
 */
 	function &_getPassedUsers($a_obj_id)
 	{
-		global $ilDB;
-
 		$passed_users = array();
-		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
-						 "WHERE tst_tests.obj_fi = %s ".
-						 "AND tst_active.test_fi = tst_tests.test_id",
-			$ilDB->quote($a_obj_id . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
+		$test_id =  ilObjTest::_getTestIDFromObjectID($a_obj_id);
+		$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE);
+		if (is_object($results))
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			$participants =& $results->getParticipants();
+			foreach ($participants as $active_id => $participant)
 			{
-				$active_id = $row["active_id"];
-				$pass = ilObjTest::_getResultPass($active_id);
-				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				$testres =& ilObjTestAccess::_getTestResult($active_id, $pass);
-				if ((bool) $testres['passed'])
+				if (is_object($participant) && $participant->getPassed())
 				{
 					array_push($passed_users, $active_id);
 				}

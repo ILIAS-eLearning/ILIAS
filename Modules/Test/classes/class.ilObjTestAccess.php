@@ -541,44 +541,29 @@ function _getQuestionCount($test_id)
 */
 	function &_getPassedUsers($a_obj_id)
 	{
-		include_once './Modules/Test/classes/class.ilObjTest.php';
-
-		global $ilDB;
-		
 		$passed_users = array();
-/*		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
-						 "WHERE tst_tests.obj_fi = %s AND tst_active.tries > 0 ".
-						 "AND tst_active.test_fi = tst_tests.test_id",
-			$ilDB->quote($a_obj_id . "")
-		);*/
-		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
-						 "WHERE tst_tests.obj_fi = %s ".
-						 "AND tst_active.test_fi = tst_tests.test_id",
-			$ilDB->quote($a_obj_id . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		$test_id =  ilObjTest::_getTestIDFromObjectID($a_obj_id);
+		$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE);
+		if (is_object($results))
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			$participants =& $results->getParticipants();
+			foreach ($participants as $participant)
 			{
-				$tries = $row['tries'];
-				$user_id = $row["user_fi"];
-				$test_id = $row["test_fi"];
-				$active_id = $row["active_id"];
-				include_once "./Modules/Test/classes/class.ilObjTest.php";
-				$pass = ilObjTest::_getResultPass($active_id);
-				$testres =& ilObjTestAccess::_getTestResult($active_id, $pass);
-				array_push($passed_users, 
-					array(
-						"user_id" => $user_id,
-						"max_points" => $testres["max_points"],
-						"reached_points" => $testres["reached_points"],
-						"mark_short" => $testres["mark"]["short_name"],
-						"mark_official" => $testres["mark"]["official_name"],
-						"passed" => (bool) $testres['passed'],
-						"failed" => ($tries and !$testres['passed'])
-					)
-				);
+				if (is_object($participant))
+				{
+					array_push($passed_users, 
+						array(
+							"user_id" => $participant->getUserID(),
+							"max_points" => $participant->getMaxpoints(),
+							"reached_points" => $participant->getReached(),
+							"mark_short" => $participant->getMark(),
+							"mark_official" => $participant->getMarkOfficial(),
+							"passed" => $participant->getPassed(),
+							"failed" => (!$participant->getPassed())
+						)
+					);
+				}
 			}
 		}
 		return $passed_users;
