@@ -134,9 +134,9 @@ class ilAccountMail
 	*/
 	function reset()
 	{
-		$this->u_password = "";
-		$this->user = "";
-		$this->target = "";
+		unset($this->u_password);
+		unset($this->user);
+		unset($this->target);
 	}
 	
 	/**

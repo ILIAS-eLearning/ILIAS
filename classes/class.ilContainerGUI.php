@@ -1295,7 +1295,7 @@ class ilContainerGUI extends ilObjectGUI
  	*/
 	function pasteObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview, $log;
+		global $rbacsystem, $rbacadmin, $rbacreview, $log,$tree;
 
 //var_dump($_SESSION["clipboard"]);exit;
 		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
@@ -1377,12 +1377,15 @@ class ilContainerGUI extends ilObjectGUI
 		if ($_SESSION["clipboard"]["cmd"] == "cut")
 		{
 			
-			#foreach($ref_ids as $ref_id)
-			#{
-			#	$this->tree->moveTree($ref_id,$this->object->getRefId());
-			#}
+			foreach($ref_ids as $ref_id)
+			{
+				// Store old parent
+				$old_parent = $tree->getParentId($ref_id);
+				$this->tree->moveTree($ref_id,$this->object->getRefId());
+				$rbacadmin->adjustMovedObjectPermissions($ref_id,$old_parent);
+			}
 			
-			
+			/*
 			// get subtrees
 			foreach($ref_ids as $ref_id)
 			{
@@ -1492,6 +1495,8 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 			$tmp_object = $this->ilias->obj_factory->getInstanceByRefId($_SESSION["clipboard"]["parent"]);
 			//$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$ref_ids);
 			unset($tmp_object);
+			
+			*/
 			
 		} // END CUT
 
