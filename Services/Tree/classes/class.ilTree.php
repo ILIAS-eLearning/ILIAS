@@ -784,7 +784,7 @@ class ilTree
 			}
 			else
 			{
-				$subtree[] = $row['child_id'];
+				$subtree[] = $row['child'];
 			}
 		}
 
@@ -2294,7 +2294,7 @@ class ilTree
                     "END, ".
                     "rgt = CASE ".
                     "WHEN rgt >= ".$this->ilDB->quote($target_rgt)." ".
-                    "THEN rgt + ".$this->ilDB->quote($spread_diff)."' ".
+                    "THEN rgt + ".$this->ilDB->quote($spread_diff)." ".
                     "ELSE rgt ".
                     "END ".
                     "WHERE tree = ".$this->ilDB->quote($this->tree_id);

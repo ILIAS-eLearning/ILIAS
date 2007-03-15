@@ -884,5 +884,82 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	 	}
 	 	
 	}
+	
+	/**
+	 * Adjust permissions of moved objects
+	 * - Delete permissions of parent roles that do not exist in new context
+	 * - Delete role templates of parent roles that do not exist in new context
+	 * - Add permissions for parent roles that did not exist in old context
+	 *
+	 * @access public
+	 * @param int ref id of moved object
+	 * @param int ref_id of old parent
+	 * 
+	 */
+	public function adjustMovedObjectPermissions($a_ref_id,$a_old_parent)
+	{
+		global $rbacreview,$tree,$ilLog;
+		
+		$new_parent = $tree->getParentId($a_ref_id);
+		$old_context_roles = $rbacreview->getParentRoleIds($a_old_parent,false);
+		$new_context_roles = $rbacreview->getParentRoleIds($new_parent,false);
+		
+		$for_addition = $for_deletion = array();
+		foreach($new_context_roles as $new_role_id => $new_role)
+		{
+			if(!isset($old_context_roles[$new_role_id]))
+			{
+				$for_addition[$new_role_id] = $new_role;
+			}
+			elseif($new_role['parent'] != $old_context_roles[$new_role_id]['parent'])
+			{
+				// handle stopped inheritance
+				$for_deletion[$new_role_id] = $new_role;
+				$for_addition[$new_role_id] = $new_role;
+			}
+		}
+		foreach($old_context_roles as $old_role_id => $old_role)
+		{
+			if(!isset($new_context_roles[$old_role_id]))
+			{
+				$for_deletion[$old_role_id] = $old_role;
+			}
+		}
+		
+		if(!count($for_deletion) and !count($for_addition))
+		{
+			return true;
+		}
+		foreach($nodes = $tree->getSubTree($node_data = $tree->getNodeData($a_ref_id),true) as $node_data)
+		{
+			$node_id = $node_data['child'];
+			
+			if(!$node_id)
+			{
+				$ilLog->write(__METHOD__.': Missing subtree node_id');
+				continue;
+			}
+			
+			foreach($for_deletion as $role_id => $role_data)
+			{
+				if($rolf_id = $rbacreview->getRoleFolderIdOfObject($node_id))
+				{
+					$this->deleteLocalRole($role_id,$rolf_id);
+				}
+				$this->revokePermission($node_id,$role_id,false);
+//var_dump("<pre>",'REVOKE',$role_id,$node_id,$rolf_id,"</pre>");
+			}
+			foreach($for_addition as $role_id => $role_data)
+			{
+				$this->grantPermission(
+					$role_id,
+					$ops = $rbacreview->getOperationsOfRole($role_id,$node_data['type'],$role_data['parent']),
+					$node_id);
+//var_dump("<pre>",'GRANT',$role_id,$ops,$role_id,$node_data['type'],$role_data['parent'],"</pre>");
+				
+			}
+		}
+
+	}
 } // END class.ilRbacAdmin
 ?>
