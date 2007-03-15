@@ -1561,7 +1561,7 @@ class ilObjGroup extends ilContainer
 					break;
 					
 				default:
-					$and = "AND usr_id = '".$a_usr_id."'";
+					$and = "AND usr_id = '".$a_user_id."'";
 					break;
 			}
 			if(!$members = ilObjGroup::_getMembers($ilObjDataCache->lookupObjId($a_ref_id)))
