@@ -162,7 +162,6 @@ function ilGetUserMarkers(id, map)
 	if (ilMapUserMarker[id])
 	{
 	
-		
 		for (var i=0;i<ilMapUserMarker[id].length;i++)
 		{
 			point = new GLatLng(ilMapUserMarker[id][i][0],
@@ -188,7 +187,7 @@ function ilGetUserMarkers(id, map)
 	return batch;
 }
 
-function ilMapOpenInfoWindow(id, j)
+function ilMapOpenInfoWindow(marker, id, j)
 {
 	marker.openInfoWindowHtml(ilMapUserMarker[id][j][2]);
 }
