@@ -796,3 +796,71 @@ ALTER table crs_settings ADD column longitude varchar(30) NOT NULL DEFAULT '';
 ALTER table crs_settings ADD column location_zoom int NOT NULL DEFAULT 0;
 ALTER table crs_settings ADD column enable_course_map TINYINT NOT NULL DEFAULT 0;
 
+<#943>
+<?php
+$query = "SELECT * FROM ldap_server_settings ";
+$res = $ilDB->query($query);
+if(!$res->numRows())
+{
+	// Only update if no setting is available
+	# Fetch old settings from settings_table
+	$query = "SELECT * FROM settings WHERE keyword LIKE('ldap_%')";
+	$res = $ilDB->query($query);
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$ldap_old[$row->keyword] = $row->value;
+	}
+	
+	if($ldap_old['ldap_server'])
+	{
+		$ldap_new['name'] = 'Default Server';
+		$ldap_new['url'] = ('ldap://'.$ldap_old['ldap_server']);
+		if($ldap_old['ldap_port'])
+		{
+			$ldap_new['url'] .= (':'.$ldap_old['ldap_port']);
+		}
+		$ldap_new['active'] = $ldap_old['ldap_active'] ? 1 : 0;
+		$ldap_new['tls'] = (int) $ldap_old['ldap_tls'];
+		$ldap_new['version'] = $ldap_old['ldap_version'] ? $ldap_old['version'] : 3;
+		$ldap_new['basedn'] = $ldap_old['ldap_basedn'];
+		$ldap_new['referrals'] = (int) $ldap_old['ldap_referrals'];
+		$ldap_new['bind_type'] = $ldap_old['ldap_bind_pw'] ? 1 : 0;
+		$ldap_new['bind_user'] = $ldap_old['ldap_bind_dn'];
+		$ldap_new['bind_pass'] = $ldap_old['ldap_bind_pw'];
+		$ldap_new['search_base'] = $ldap_old['ldap_search_base'];
+		$ldap_new['user_scope'] = 0;
+		$ldap_new['user_attribute'] = $ldap_old['ldap_login_key'];
+		$ldap_new['filter'] = ('(objectclass='.$ldap_old['ldap_objectclass'].')');
+		
+		$query = "INSERT INTO  ldap_server_settings SET ".
+			"active = '".$ldap_new['active']."', ".
+			"name = '".$ldap_new['name']."', ".
+			"url = ".$this->db->quote($ldap_new['url']).", ".
+			"version = ".$this->db->quote($ldap_new['version']).", ".
+			"base_dn = '".$ldap_new['basedn']."', ".
+			"referrals = '".$ldap_new['referrals']."', ".
+			"tls = '".$ldap_new['tls']."', ".
+			"bind_type = '".$ldap_new['bind_type']."', ".
+			"bind_user = '".$ldap_new['bind_user']."', ".
+			"bind_pass = '".$ldap_new['bind_pass']."', ".
+			"search_base = '".$ldap_new['search_base']."', ".
+			"user_scope = '".$ldap_new['user_scope']."', ".
+			"user_attribute = '".$ldap_new['user_attribute']."', ".
+			"filter = '".$ldap_new['filter']."' ";
+			"group_dn = '', ".
+			"group_scope = '', ".
+			"group_filter = '', ".
+			"group_member = '', ".
+			"group_memberisdn = '', ".
+			"group_name = '', ".
+			"group_attribute = '', ".
+			"sync_on_login = '0', ".
+			"sync_per_cron = '0', ".
+			"role_sync_active = '0', ".
+			"role_bind_dn = '', ".
+			"role_bind_pass = '', ";
+			
+		$res = $ilDB->query($query);
+	}
+}
+?>
