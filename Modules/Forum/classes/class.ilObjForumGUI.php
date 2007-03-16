@@ -2153,7 +2153,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
 		
-		$tpl->show();
+		#$tpl->show();
 	}
 	
 	
