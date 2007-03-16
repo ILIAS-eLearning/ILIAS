@@ -148,19 +148,42 @@ function ilGetUserMarkers(id, map)
 {
 	var batch = [];
 	var t;
+	var j;
+	
+	// Creates a marker at the given point with the given number label
+        function ilCreateMarker(id, point, number) {
+          var marker = new GMarker(point, {icon: ilMarkerIcon});
+          GEvent.addListener(marker, "click", function() {
+			ilMapOpenInfoWindow(marker, id, number);
+          });
+          return marker;
+        }
+
 	if (ilMapUserMarker[id])
 	{
+	
+		
+		for (var i=0;i<ilMapUserMarker[id].length;i++)
+		{
+			point = new GLatLng(ilMapUserMarker[id][i][0],
+				ilMapUserMarker[id][i][1]);
+			marker = ilCreateMarker(id, point, i);
+			ilMapUserMarker[id][i][3] = marker;
+			batch.push(marker);
+		}
+		
+		/* we do not know, why this is not working...
 		for (var i=0;i<ilMapUserMarker[id].length;i++)
 		{
 			point = new GLatLng(ilMapUserMarker[id][i][0],
 				ilMapUserMarker[id][i][1]);
 			marker = new GMarker(point, {icon: ilMarkerIcon});
-			batch.push(marker);
-			j = i;
+			
 			GEvent.addListener(marker, "click", function() {
-				ilMapOpenInfoWindow(id, j);
+				ilMapOpenInfoWindow(marker, id, i);
 			});
-		}
+			batch.push(marker);
+		}*/
 	}
 	return batch;
 }
@@ -168,4 +191,11 @@ function ilGetUserMarkers(id, map)
 function ilMapOpenInfoWindow(id, j)
 {
 	marker.openInfoWindowHtml(ilMapUserMarker[id][j][2]);
+}
+
+function ilShowUserMarker(id, j)
+{
+	ilMap[id].panTo(new GLatLng(ilMapUserMarker[id][j][0], ilMapUserMarker[id][j][1]));
+	ilMapUserMarker[id][j][3].openInfoWindowHtml(ilMapUserMarker[id][j][2]);
+	return false;
 }

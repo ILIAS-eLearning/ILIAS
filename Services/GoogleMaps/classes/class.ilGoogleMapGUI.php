@@ -273,11 +273,11 @@ class ilGoogleMapGUI
 			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
 			
 			// add user markers
+			$cnt = 0;
 			foreach($this->user_marker as $user_id)
 			{
 				if (ilObject::_exists($user_id))
 				{
-					$cnt = 0;
 					$user = new ilObjUser($user_id);
 					if ($user->getLatitude() != 0 && $user->getLongitude() != 0)
 					{
@@ -285,10 +285,11 @@ class ilGoogleMapGUI
 						$this->tpl->setVariable("UMAP_ID",
 							$this->getMapId());
 						$this->tpl->setVariable("CNT", $cnt);
+
 						$this->tpl->setVariable("ULAT", $user->getLatitude());
 						$this->tpl->setVariable("ULONG", $user->getLongitude());
 						$info = $user->getFirstName()." ".$user->getLastName();
-						$delim = "<br />";
+						$delim = "<br \/>";
 						if ($user->getPref("public_institution") == "y")
 						{
 							$info.= $delim.$user->getInstitution();
@@ -298,7 +299,7 @@ class ilGoogleMapGUI
 						{
 							$info.= $delim.$user->getDepartment();
 						}
-						$delim = "<br />";
+						$delim = "<br \/>";
 						if ($user->getPref("public_street") == "y")
 						{
 							$info.= $delim.$user->getStreet();
@@ -312,7 +313,7 @@ class ilGoogleMapGUI
 						{
 							$info.= $delim.$user->getCity();
 						}
-						$delim = "<br />";
+						$delim = "<br \/>";
 						if ($user->getPref("public_country") == "y")
 						{
 							$info.= $delim.$user->getCountry();
@@ -374,11 +375,11 @@ class ilGoogleMapGUI
 		$list_tpl = new ilTemplate("tpl.google_map_user_list.html",
 			true, true, "Services/GoogleMaps");
 			
+		$cnt = 0;
 		foreach($this->user_marker as $user_id)
 		{
 			if (ilObject::_exists($user_id))
 			{
-				$cnt = 0;
 				$user = new ilObjUser($user_id);
 				$this->css_row = ($this->css_row != "tblrow1_mo")
 					? "tblrow1_mo"
@@ -386,7 +387,8 @@ class ilGoogleMapGUI
 				if ($user->getLatitude() != 0 && $user->getLongitude() != 0)
 				{
 					$list_tpl->setCurrentBlock("item");
-					$list_tpl->setVariable("USER_ID", $user_id);
+					$list_tpl->setVariable("MARKER_CNT", $cnt);
+					$list_tpl->setVariable("MAP_ID", $this->getMapId());
 				}
 				else
 				{
@@ -397,6 +399,7 @@ class ilGoogleMapGUI
 				$list_tpl->setVariable("IMG_USER",
 					$user->getPersonalPicturePath("xxsmall"));
 				$list_tpl->parseCurrentBlock();
+				$cnt++;
 			}
 		}
 		
