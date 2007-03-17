@@ -598,7 +598,8 @@ function addExercise ($sid, $ref_id, $xml) {
 
 }
 
-function getFileXML ($sid, $ref_id, $attachFileContentsMode) {
+function getFileXML ($sid, $ref_id, $attachFileContentsMode) 
+{
 	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
 	$sta = & new ilSoapFileAdministration();
 	return $sta->getFileXML($sid, $ref_id, $attachFileContentsMode);
@@ -606,14 +607,16 @@ function getFileXML ($sid, $ref_id, $attachFileContentsMode) {
 }
 
 
-function updateFile ($sid, $ref_id, $xml) {
+function updateFile ($sid, $ref_id, $xml) 
+{
 	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
 	$sta = & new ilSoapFileAdministration();
 	return $sta->updateFile($sid, $ref_id, $xml);
 
 }
 
-function addFile ($sid, $ref_id, $xml) {
+function addFile ($sid, $ref_id, $xml) 
+{
 	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
 	$sta = & new ilSoapFileAdministration();
 	return $sta->addFile($sid, $ref_id, $xml);
@@ -621,11 +624,22 @@ function addFile ($sid, $ref_id, $xml) {
 }
 
 
-function resolveUsers($sid, $internal_ids_as_csv) {
+function resolveUsers($sid, $internal_ids_as_csv) 
+{
 	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
 	$sua =& new ilSoapUserAdministration();
 
 	return $sua->resolveUsers($sid, $internal_ids_as_csv);
+}
+
+
+function getObjIdsByRefIds($sid, $ref_ids) 
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getObjIdsByRefIds($sid, $ref_ids);
 }
 ?>

@@ -114,6 +114,7 @@ class ilObjectXMLParser extends ilSaxParser
 				break;
 
 			case 'References':
+				$this->ref_id = $a_attribs["ref_id"];
 				break;
 		}
 	}
@@ -161,7 +162,7 @@ class ilObjectXMLParser extends ilSaxParser
 				break;
 
 			case 'References':
-				$this->__addReference(trim($this->cdata));
+				$this->__addReference($this->ref_id);
 				break;
 		}
 

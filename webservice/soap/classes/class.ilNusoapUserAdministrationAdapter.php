@@ -91,7 +91,6 @@ class ilNusoapUserAdministrationAdapter
 											array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:int[]')),
 											'xsd:int');
 
-
 		$this->server->wsdl->addComplexType('stringArray',
 											'complexType',
 											'array',
@@ -179,6 +178,7 @@ class ilNusoapUserAdministrationAdapter
 												  'user_language' => array('name' => 'user_language', 'type' => 'xsd:string'),
 												  'import_id' => array('name' => 'import_id', 'type' => 'xsd:string')
 												  ));
+
 
 		// lookupUser()
 		$this->server->register('lookupUser',
@@ -934,6 +934,18 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS resolveUser(): Resolve internal user id, e.g. retrieved vom members of course xml. Returns user xml dtds. Internal ids is a comma separated list of internal ids, e.g. il_instid_usr_3,il_instid_usr_6');
 
 								return true;
+								
+		// get objs ids by ref id
+		$this->server->register('getObjIdsByRefIds',
+								array('sid' => 'xsd:string',
+									  'ref_ids' => 'tns:intArray'),
+								array('obj_ids' => 'tns:intArray'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getRefIdsByImportId',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getObjIdsForRefIds: Returns a array of object ids which match the references id, given by a comma seperated string. Returns an array of ref ids, in the same order as object ids. Therefore, there might by duplicates');
+
 	}
 
 }
