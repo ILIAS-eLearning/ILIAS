@@ -118,6 +118,53 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		return $new_refs ? $new_refs : array();
 	}
 
+	/**
+	*	Returns a array of object ids which match the references id, given by a comma seperated string.
+	*
+	*	@param	string $sid	Session ID
+	*	@param	array of int $ref ids as comma separated list
+	*	@return	array of ref ids, same order as object ids there for there might by duplicates
+	*
+	*/
+	function getObjIdsByRefIds($sid, $ref_ids)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(!count($ref_ids) || !is_array ($ref_ids))
+		{
+			return $this->__raiseError('No reference id(s) given.', 'Client');
+		}
+
+		$obj_ids = array();
+		if (count($ref_ids)) {
+			foreach ($ref_ids as $ref_id)
+			{
+				$ref_id = trim($ref_id);
+				if (!is_numeric($ref_id)){
+					return $this->__raiseError('Reference ID has to be numeric. Value: '.$ref_id, 'Client');
+				}
+
+				$obj_id = ilObject::_lookupObjectId($ref_id);
+				if (!$obj_id){
+					return $this->__raiseError('No object found for reference ID. Value: '.$ref_id, 'Client');
+				}
+				if (!ilObject::_hasUntrashedReference($obj_id)){
+					return $this->__raiseError('No untrashed reference found for reference ID. Value: '.$ref_id, 'Client');
+				}
+				$obj_ids[] = $obj_id;
+			}
+		}
+		return $obj_ids;
+	}
+
+
 
 	function getObjectByReference($sid,$a_ref_id,$user_id)
 	{
@@ -760,14 +807,49 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$xml_parser =& new ilObjectXMLParser($a_xml);
 		$xml_parser->startParsing();
 
+
 		// Validate incoming data
-		foreach($xml_parser->getObjectData() as $object_data)
+		$object_datas = $xml_parser->getObjectData();
+		foreach($object_datas as & $object_data)
 		{
 			if(!$object_data["obj_id"])
 			{
 				return $this->__raiseError('No obj_id in xml found.', 'Client');
 			}
-
+			elseif ((int) $object_data["obj_id"] == -1 && count($object_data["references"])>0)
+			{
+				// object id might be unknown, resolve references instead to determine object id
+				// all references should point to the same object, so using the first one is ok.
+				foreach ($object_data["references"] as $refid) 
+				{
+					if(ilObject::_isInTrash($refid))
+					{
+						continue;
+					}
+					break;
+				}	
+				
+				$obj_id_from_refid = ilObject::_lookupObjectId($object_data["references"][0], false);
+				if (!$obj_id_from_refid)
+				{
+					return $this->__raiseError('No obj_id found for reference id '.$object_data["references"][0], 'Client');
+				} else
+				{
+					$tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
+					$object_data["obj_id"] = $obj_id_from_refid;
+				}
+			}
+			
+			$tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
+			if ($tmp_obj == null)
+			{
+				return $this->__raiseError('No object for id '.$object_data['obj_id'].'!', 'Client');
+			} 
+			else 
+			{
+				$object_data["instance"] = $tmp_obj;
+			}
+			
 			if($object_data['type'] == 'role')
 			{
 				$rolf_ids = $rbacreview->getFoldersAssignedToRole($object_data['obj_id'],true);
@@ -775,8 +857,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 				if(!$rbacsystem->checkAccess('write',$rolf_id))
 				{
-					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!',
-											   'Client');
+					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!', 'Client');
 				}
 			}
 			else
@@ -792,8 +873,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				}
 				if(!$permission_ok)
 				{
-					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!',
-											'Client');
+					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!', 'Client');
 				}
 			}
 
@@ -810,11 +890,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 					break;
 			}
 		}
-
 		// perform update
-		foreach($xml_parser->getObjectData() as $object_data)
+		foreach($object_datas as & $object_data)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'],false);
+			$tmp_obj = & $object_data["instance"];
 			$tmp_obj->setTitle($object_data['title']);
 			$tmp_obj->setDescription($object_data['description']);
 			if(strlen($object_data['owner']))
