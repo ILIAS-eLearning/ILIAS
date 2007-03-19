@@ -105,7 +105,7 @@ class ilRobotSettings
 	 */
 	public function checkModRewrite()
 	{
-	 	if(in_array('mod_rewite',apache_get_modules()))
+	 	if(in_array('mod_rewrite',apache_get_modules()))
 	 	{
 	 		return true;
 	 	}
