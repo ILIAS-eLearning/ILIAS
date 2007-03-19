@@ -652,8 +652,26 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		//$this->tpl->setVariable("TXT_MODULES", $this->lng->txt("modules"));
 		$this->tpl->setVariable("TXT_PUB_SECTION", $this->lng->txt("pub_section"));
+		
+		
 		$this->tpl->setVariable('TXT_SEARCH_ENGINE',$this->lng->txt('search_engine'));
 		$this->tpl->setVariable('TXT_ENABLE_SEARCH_ENGINE',$this->lng->txt('enable_search_engine'));
+		include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
+		$robot_settings = ilRobotSettings::_getInstance();
+		if(!$robot_settings->checkModRewrite())
+		{
+			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','disabled="disabled"');
+
+			$this->tpl->setCurrentBlock('search_engine_alert');
+			$this->tpl->setVariable('SE_ALERT_IMG',ilUtil::getImagePath('icon_alert_s.gif'));
+			$this->tpl->setVariable('SE_ALT_ALERT',$this->lng->txt('alert'));
+			$this->tpl->setVariable('TXT_SE_ALERT',$this->lng->txt('mod_rewrite_disabled'));
+		}
+		elseif($settings['open_google'])
+		{
+			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','checked="checked"');
+		}
+		
 		$this->tpl->setVariable("TXT_ENABLE_CALENDAR", $this->lng->txt("enable_calendar"));
 		$this->tpl->setVariable("TXT_DEFAULT_REPOSITORY_VIEW", $this->lng->txt("def_repository_view"));
 		$this->tpl->setVariable("TXT_FLAT", $this->lng->txt("flatview"));
@@ -831,11 +849,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("PUB_SECTION","checked=\"checked\"");
 		}
-		if($settings['open_google'])
-		{
-			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','checked="checked"');
-		}
-
 		if ($settings["enable_calendar"])
 		{
 			$this->tpl->setVariable("ENABLE_CALENDAR","checked=\"checked\"");
