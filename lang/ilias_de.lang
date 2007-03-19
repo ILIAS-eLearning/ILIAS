@@ -7111,3 +7111,4 @@ common#:#objs_qst#:#Fragen
 common#:#container_no_items#:#No items found
 common#:#search_engine#:#Suchmaschinen
 common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben
+common#:#mod_rewrite_disabled#:#Das Apache-Modul 'mod_rewrite' ist nicht verfügbar.
