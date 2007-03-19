@@ -7149,3 +7149,5 @@ crs#:#crs_objective_add_mat#:#Assign Materials
 crs#:#crs_objective_add_qst#:#Assign Questions
 common#:#objs_qst#:#Questions
 common#:#container_no_items#:#No Materials Available
+common#:#search_engine#:#Search Engines
+common#:#enable_search_engine#:#Open Publi Area for Internet Search Engines (e.g Google)

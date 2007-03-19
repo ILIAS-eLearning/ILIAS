@@ -456,6 +456,14 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			return;
 		}
+		include_once('classes/class.ilLink.php');
+		$tpl->setCurrentBlock('perma_link');
+		$tpl->setVariable('PERMA_LINK',ilLink::_getStaticLink($this->object->getRefId(),$this->object->getType()));
+		$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+		$tpl->setVariable("PERMA_TARGET", "_top");
+		$tpl->parseCurrentBlock();
+
+		/*		
 		$tpl->setCurrentBlock("perma_link");
 		$tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
 			"/goto.php?target=".
@@ -464,6 +472,7 @@ class ilContainerGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
 		$tpl->setVariable("PERMA_TARGET", "_top");
 		$tpl->parseCurrentBlock();
+		*/
 	}
 
 	/**

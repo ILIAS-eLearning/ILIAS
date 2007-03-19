@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,76 +21,77 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define('IL_INTERNAL_LINK_SCRIPT','goto.php');
-
-
-/**
-* Class for creating internal links on e.g repostory items.
-* This class uses goto.php to create permanent links
-*
+/** 
+* 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-*
+* 
+* 
+* @ingroup ServicesPrivacySecurity 
 */
-class ilLink
+class ilRobotSettings
 {
-	public function _getLink($a_ref_id,$a_type = '',$a_params = array())
-	{
-		global $ilObjDataCache;
-
-		if(!strlen($a_type))
-		{
-			$a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
-		}
-		if(count($a_params))
-		{
-			$param_string = '&';
-			foreach($a_params as $name => $value)
-			{
-				$param_string = '&'.$name.'='.$value;
-			}
-		}
-		else
-		{
-			$param_string = '';
-		}
-
-		switch($a_type)
-		{
-			case 'git':
-				return ILIAS_HTTP_PATH.'/'.IL_INTERNAL_LINK_SCRIPT.'?'.$param_string.'&client_id='.CLIENT_ID;
-			
-			default:
-				return ILIAS_HTTP_PATH.'/'.IL_INTERNAL_LINK_SCRIPT.'?target='.$a_type.'_'.$a_ref_id.'&client_id='.CLIENT_ID.$param_string;
-		}
-	}
-
+	private $open_robots = false;
+	private $settings = null;
+	
+	private static $instance = null;
 	/**
-	 * Get static link
+	 * Private constructor => use getInstance
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function __construct()
+	{
+		global $ilSetting;
+		
+		$this->settings = $ilSetting;
+	 	$this->read();
+	}
+	
+	/**
+	 * Get instance
 	 *
 	 * @access public
 	 * @static
 	 *
-	 * @param int reference id
-	 * @param string object type
+	 * @param
 	 */
-	public static function _getStaticLink($a_ref_id,$a_type = '')
+	public static function _getInstance()
 	{
-		global $ilObjDataCache;
-
-		if(!strlen($a_type))
+		if(isset(self::$instance) and self::$instance)
 		{
-			$a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
+			return self::$instance;
 		}
-		
-		include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
-		$robot_settings = ilRobotSettings::_getInstance();
-		if(!$robot_settings->robotSupportEnabled())
+		else
 		{
-			return ilLink::_getLink($a_ref_id,$a_type);
+			return self::$instance = new ilRobotSettings();
 		}
-		
-		return ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_'.$a_type.'_'.$a_ref_id.'.html';
-	}	
+	}
+	
+	/**
+	 * Check if client is open for robots
+	 *
+	 * @access public
+	 * @return bool support given 
+	 */
+	public function robotSupportEnabled()
+	{
+	 	return (bool) $this->open_robots;
+	}
+	
+	/**
+	 * Read settings
+	 *
+	 * @access private
+	 * 
+	 */
+	private function read()
+	{
+	 	$this->open_robots = (bool) $this->settings->get('open_google',false);
+	}
 }
+
+
 ?>

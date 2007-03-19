@@ -2872,7 +2872,7 @@ common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
 common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
-common#:#pub_section#:#öffentlicher Bereich
+common#:#pub_section#:#Öffentlicher Bereich
 common#:#public#:#öffentlich
 common#:#public_notes#:#Öffentliche Notizen
 common#:#public_profile#:#Öffentliches Profil
@@ -7109,3 +7109,5 @@ crs#:#crs_objective_add_mat#:#Materialien zuordnen
 crs#:#crs_objective_add_qst#:#Fragen zuordnen
 common#:#objs_qst#:#Fragen
 common#:#container_no_items#:#No items found
+common#:#search_engine#:#Suchmaschinen
+common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben

@@ -441,6 +441,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 			// modules
 			$settings["pub_section"] = $_POST["pub_section"];
+			$settings["open_google"] = $_POST["open_google"];
 			$settings["enable_calendar"] = $_POST["enable_calendar"];
 			$settings["default_repository_view"] = $_POST["default_rep_view"];
 			$settings["password_assistance"] = $_POST["password_assistance"];
@@ -522,6 +523,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 			// modules
 			$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
+			$this->ilias->setSetting('open_google',$_POST['open_google']);
 			$this->ilias->setSetting("enable_calendar",$_POST["enable_calendar"]);
 			$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
 			//$this->ilias->setSetting('https',$_POST['https']);
@@ -650,6 +652,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		//$this->tpl->setVariable("TXT_MODULES", $this->lng->txt("modules"));
 		$this->tpl->setVariable("TXT_PUB_SECTION", $this->lng->txt("pub_section"));
+		$this->tpl->setVariable('TXT_SEARCH_ENGINE',$this->lng->txt('search_engine'));
+		$this->tpl->setVariable('TXT_ENABLE_SEARCH_ENGINE',$this->lng->txt('enable_search_engine'));
 		$this->tpl->setVariable("TXT_ENABLE_CALENDAR", $this->lng->txt("enable_calendar"));
 		$this->tpl->setVariable("TXT_DEFAULT_REPOSITORY_VIEW", $this->lng->txt("def_repository_view"));
 		$this->tpl->setVariable("TXT_FLAT", $this->lng->txt("flatview"));
@@ -826,6 +830,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($settings["pub_section"])
 		{
 			$this->tpl->setVariable("PUB_SECTION","checked=\"checked\"");
+		}
+		if($settings['open_google'])
+		{
+			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','checked="checked"');
 		}
 
 		if ($settings["enable_calendar"])
