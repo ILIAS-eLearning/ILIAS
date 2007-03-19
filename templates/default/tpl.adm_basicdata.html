@@ -53,7 +53,13 @@ function toggleUserActivityTime(form)
     </tr>-->
     <tr>
       <td class="option">{TXT_PUB_SECTION}</td>
-      <td class="option_value"><input type="checkbox" name="pub_section"  value="1" {PUB_SECTION} /></td>
+      <td class="option_value">
+      	<input type="checkbox" name="pub_section"  value="1" {PUB_SECTION} /><br /><br />
+      	<strong>{TXT_SEARCH_ENGINE}:</strong>
+      	<li style="list-style:none;margin: 0px">
+      		<ul><input type="checkbox" name="open_google"  value="1" {OPEN_GOOGLE_CHECKED} />{TXT_ENABLE_SEARCH_ENGINE}</ul>
+      	</li>
+      </td>
     </tr>
     <tr>
       <td class="option">{TXT_ENABLE_CALENDAR}</td>

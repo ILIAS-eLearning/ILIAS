@@ -88,7 +88,6 @@ class ilMainMenuGUI
 	{
 		echo "ilMainMenu->getTemplate is deprecated. Use getHTML instead.";
 		return;
-		return $this->tpl;
 	}
 
 	/**
@@ -259,9 +258,12 @@ class ilMainMenuGUI
 		}
 
 		// repository link
+		include_once('classes/class.ilLink.php');
+		
 		$this->tpl->setCurrentBlock("rep_button");
-		$this->tpl->setVariable("SCRIPT_CATALOG",
-			$this->getScriptTarget("repository.php?cmd=frameset&getlast=true"));
+#		$this->tpl->setVariable("SCRIPT_CATALOG",'goto__target__root_1__client__ilias38.html');
+#			#$this->getScriptTarget("repository.php?cmd=frameset&getlast=true"));
+		$this->tpl->setVariable('SCRIPT_CATALOG',ilLink::_getStaticLink(1,'root'));
 		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
 		$title = $nd["title"];
 		if ($title == "ILIAS")

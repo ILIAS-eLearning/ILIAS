@@ -194,7 +194,10 @@ switch($target_type)
 		ilObjiLincCourse::_goto($target_id);
 		include("repository.php");
 		break;
-
+		
+	case 'root':
+		require_once('classes/class.ilObjRootFolderGUI.php');
+		ilObjRootFolderGUI::_goto($target_id);
+		break;
 }
-
 ?>
