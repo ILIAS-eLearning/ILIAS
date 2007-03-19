@@ -111,6 +111,22 @@ class ilRobotSettings
 	 	}
 	 	return false;
 	}
+	
+	/**
+	 * Indirect Check of allow override 
+	 *
+	 * @access public
+	 * 
+	 */
+	public function checkRewrite()
+	{
+	 	if(!function_exists('apache_lookup_uri'))
+	 	{
+	 		return true;
+	 	}
+	 	$status_info = apache_lookup_uri(ILIAS_HTTP_PATH.'/goto_'.CLIENT_ID.'_root_1.html');
+		return $status_info->status == 200;
+	}
 }
 
 
