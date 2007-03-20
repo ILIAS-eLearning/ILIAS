@@ -625,14 +625,19 @@ class ilInitialisation
 			include_once("Services/Init/classes/class.ilStartUpGUI.php");
 			if	(ilStartUpGUI::_checkGoto($_GET["target"]))
 			{
+				// Disabled: GET parameter is kept, since no redirect. smeyer
 				// additional parameter capturing for survey access codes
+				/*
 				$survey_parameter = "";
 				if (array_key_exists("accesscode", $_GET))
 				{
 					$survey_parameter = "&accesscode=" . $_GET["accesscode"];
 				}
-				ilUtil::redirect(ILIAS_HTTP_PATH.
-					"/goto.php?target=".$_GET["target"].$survey_parameter);
+				*/
+				// Disabled redirect for public section
+				return true;
+				#ilUtil::redirect(ILIAS_HTTP_PATH.
+				#	"/goto.php?target=".$_GET["target"].$survey_parameter);
 			}
 			else	// target is not accessible -> login
 			{
@@ -1011,9 +1016,10 @@ class ilInitialisation
 				else
 				{
 					$this->goToLogin($ilAuth->getStatus());
+					exit;
 				}
-				// we should not get here
-				exit;
+				// we should not get here => public section needs no redirect smeyer
+				// exit;
 			}
 		}
 
