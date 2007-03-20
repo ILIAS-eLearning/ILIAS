@@ -181,5 +181,53 @@ class ilMDKeyword extends ilMDBase
 		}
 		return $ids ? $ids : array();
 	}
+	
+	/**
+	 * Get keywords by language 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int rbac_id
+	 * @param int obj_id
+	 * @param string obj type
+	 */
+	public static function _getKeywordsByLanguage($a_rbac_id,$a_obj_id,$a_type)
+	{
+		global $ilDB,$ilObjDataCache;
+		
+		$query = "SELECT keyword,keyword_language ".
+			"FROM il_meta_keyword ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND obj_type = ".$ilDB->quote($a_type)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->keyword)
+			{
+				$keywords[$row->keyword_language][] = $row->keyword;
+			}
+		}
+		return $keywords ? $keywords : array();	
+	}
+	/**
+	 * Get keywords by language as string
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int rbac_id
+	 * @param int obj_id
+	 * @param string obj type
+	 */
+	public static function _getKeywordsByLanguageAsString($a_rbac_id,$a_obj_id,$a_type)
+	{
+		foreach(ilMDKeyword::_getKeywordsByLanguage($a_rbac_id,$a_obj_id,$a_type) as $lng_code => $keywords)
+		{
+			$key_string[$lng_code] = implode(",",$keywords);
+		}
+		return $key_string ? $key_string : array();
+	}
 }
 ?>
