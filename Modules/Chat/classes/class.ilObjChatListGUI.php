@@ -26,7 +26,7 @@
 * Class ilObjChatListGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* $Id$
+* $Id:class.ilObjChatListGUI.php 12853 2006-12-15 13:36:31 +0000 (Fr, 15 Dez 2006) smeyer $
 *
 * @extends ilObjectListGUI
 */
@@ -52,6 +52,7 @@ class ilObjChatListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
+		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;

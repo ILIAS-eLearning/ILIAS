@@ -671,7 +671,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable('TXT_SE_ALERT',$this->lng->txt('mod_rewrite_disabled'));
 			$this->tpl->parseCurrentBlock();
 		}
-		if(!$robot_settings->checkRewrite())
+		elseif(!$robot_settings->checkRewrite())
 		{
 			$error_se = true;
 			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','disabled="disabled"');

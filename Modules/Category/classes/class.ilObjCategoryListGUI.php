@@ -47,6 +47,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
+		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
@@ -74,7 +75,6 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 
 		return $cmd_link;
 	}
-
-
+	
 } // END class.ilObjCategoryGUI
 ?>

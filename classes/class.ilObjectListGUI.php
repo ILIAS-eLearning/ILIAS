@@ -54,7 +54,6 @@ class ilObjectListGUI
 	var $condition_depth = 0;
 	var $std_cmd_only = false;
 
-
 	/**
 	* constructor
 	*
@@ -69,6 +68,7 @@ class ilObjectListGUI
 		$this->lng = $lng;
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
+		
 //echo "list";
 		$this->init();
 	}
@@ -93,6 +93,8 @@ class ilObjectListGUI
 	*/
 	function init()
 	{
+		// Create static links for default command (linked title) or not
+		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
@@ -401,6 +403,29 @@ class ilObjectListGUI
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
 	}
+	
+	/**
+	 * Get default command link
+	 * Overwritten for e.g categories,courses => they return a goto link
+	 * If search engine visibility is enabled these object type return a goto_CLIENT_ID_cat_99.html link
+	 *
+	 * @access public
+	 * @param int command link
+	 * 
+	 */
+	public function createDefaultCommand($command)
+	{
+		if($this->static_link_enabled)
+		{
+		 	include_once('classes/class.ilLink.php');
+		 	if($link = ilLink::_getStaticLink($this->ref_id,$this->type,false))
+		 	{
+		 		$command['link'] = $link;
+		 		$command['frame'] = '_top';
+		 	}
+		}
+	 	return $command;
+	}
 
 
 	/**
@@ -594,8 +619,12 @@ class ilObjectListGUI
 			}
 			
 			// workaround for repository frameset
+			#var_dump("<pre>",$this->default_command['link'],"</pre>");
 			$this->default_command["link"] = 
 				$this->appendRepositoryFrameParameter($this->default_command["link"]);
+				
+			#var_dump("<pre>",$this->default_command['link'],"</pre>");
+			
 
 			// the default command is linked with the title
 			$this->tpl->setCurrentBlock("item_title_linked");
@@ -1025,9 +1054,8 @@ class ilObjectListGUI
 				}
 				else
 				{
-					// this is view/show most times and will be linked
-					// with the item title in insertTitle
-					$this->default_command = $command;
+					$this->default_command = $this->createDefaultCommand($command);
+					//$this->default_command = $command;
 				}
 			}
 		}
