@@ -619,8 +619,9 @@ class ilInfoScreenGUI
 			// permanent link
 			$type = $this->gui_object->object->getType();
 			$ref_id = $this->gui_object->object->getRefId();
-			$href = ILIAS_HTTP_PATH.
-				"/goto.php?target=".$type."_".$ref_id."&client_id=".CLIENT_ID;
+			
+			include_once('classes/class.ilLink.php');
+			$href = ilLink::_getStaticLink($ref_id,$type,true);
 				
 			// delicous link
 			$d_set = new ilSetting("delicious");

@@ -73,6 +73,8 @@ class ilLink
 	 *
 	 * @param int reference id
 	 * @param string object type
+	 * @param bool fallback to goto.php if robots are disabled
+	 * @return string goto.html or goto.php link
 	 */
 	public static function _getStaticLink($a_ref_id,$a_type = '',$a_fallback_goto = true)
 	{
