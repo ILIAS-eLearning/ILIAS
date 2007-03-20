@@ -74,7 +74,7 @@ class ilLink
 	 * @param int reference id
 	 * @param string object type
 	 */
-	public static function _getStaticLink($a_ref_id,$a_type = '')
+	public static function _getStaticLink($a_ref_id,$a_type = '',$a_fallback_goto = true)
 	{
 		global $ilObjDataCache;
 
@@ -87,7 +87,14 @@ class ilLink
 		$robot_settings = ilRobotSettings::_getInstance();
 		if(!$robot_settings->robotSupportEnabled())
 		{
-			return ilLink::_getLink($a_ref_id,$a_type);
+			if($a_fallback_goto)
+			{
+				return ilLink::_getLink($a_ref_id,$a_type);
+			}
+			else
+			{
+				return false;
+			}
 		}
 		
 		return ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_'.$a_type.'_'.$a_ref_id.'.html';

@@ -452,10 +452,6 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showPermanentLink(&$tpl)
 	{
-		if ($this->object->getType() == "root")
-		{
-			return;
-		}
 		include_once('classes/class.ilLink.php');
 		$tpl->setCurrentBlock('perma_link');
 		$tpl->setVariable('PERMA_LINK',ilLink::_getStaticLink($this->object->getRefId(),$this->object->getType()));
