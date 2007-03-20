@@ -260,6 +260,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			parent::viewObject();
 			return true;
 		}
+		
+		// Fill meta header tags
+		include_once('Services/MetaData/classes/class.ilMDUtils.php');
+		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
+		
 	
 		// Trac access
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
@@ -308,7 +313,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
-		
+		// Fill meta header tags
+		include_once('Services/MetaData/classes/class.ilMDUtils.php');
+		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
+
 		$this->tabs_gui->setTabActive('info_short');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -4111,7 +4119,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
-
+		
 		// check if object is purchased
 		include_once './payment/classes/class.ilPaymentObject.php';
 

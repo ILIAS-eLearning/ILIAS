@@ -85,6 +85,31 @@ class ilMDUtils
 		
 		return array($months,$days,$hours,$min,$sec);
 	}
+	
+	/**
+	 * Fill html meta tags
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int rbac_id
+	 * @param int obj_id
+	 * @param string obj type
+	 */
+	public static function _fillHTMLMetaTags($a_rbac_id,$a_obj_id,$a_type)
+	{
+		global $tpl;
+		
+		include_once('Services/MetaData/classes/class.ilMDKeyword.php');
+		foreach(ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id,$a_obj_id,$a_type) as $lng_code => $key_string)
+		{
+			$tpl->setCurrentBlock('mh_meta_item');
+			$tpl->setVariable('MH_META_NAME','keywords');
+			$tpl->setVariable('MH_META_LANG',$lng_code);
+			$tpl->setVariable('MH_META_CONTENT',$key_string);
+			$tpl->parseCurrentBlock();
+		}		
+	}
 
 
 }
