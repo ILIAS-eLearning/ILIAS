@@ -377,6 +377,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		
 		$tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
 
+		// user
 		if ($news->getUserId() > 0)
 		{
 			$tpl->setCurrentBlock("user_info");

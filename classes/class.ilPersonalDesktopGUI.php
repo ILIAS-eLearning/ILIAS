@@ -34,7 +34,7 @@ include_once "classes/class.ilPersonalDesktopGUI.php";
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI, ilPaymentGUI, ilPaymentAdminGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -147,6 +147,15 @@ class ilPersonalDesktopGUI
 				$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
 				break;
 			
+			// pd news
+			case "ilpdnewsgui":
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once("./Services/News/classes/class.ilPDNewsGUI.php");
+				$pd_news_gui = new ilPDNewsGUI();
+				$ret =& $this->ctrl->forwardCommand($pd_news_gui);
+				break;
+
 			case "illearningprogressgui":
 				$this->getStandardTemplates();
 				$this->setTabs();
@@ -496,6 +505,14 @@ class ilPersonalDesktopGUI
 		
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
+			// news
+			$inc_type = ($ilCtrl->getNextClass() == "ilpdnewsgui")
+				? "tabactive"
+				: "tabinactive";
+			$inhalt1[] = array($inc_type,
+				$this->ctrl->getLinkTargetByClass("ilpdnewsgui"),
+				$this->lng->txt("news"));
+
 			// user calendar
 			if ($this->ilias->getSetting("enable_calendar"))
 			{
@@ -504,7 +521,7 @@ class ilPersonalDesktopGUI
 				: "tabinactive";
 				$inhalt1[] = array($inc_type,"dateplaner.php",$this->lng->txt("calendar"));
 			}
-			
+						
 			// private notes
 			$inc_type = (strtolower($this->cmdClass) == "ilpdnotesgui" ||
 			strtolower($this->cmdClass) == "ilnotegui")

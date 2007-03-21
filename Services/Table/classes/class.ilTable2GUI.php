@@ -54,6 +54,46 @@ class ilTable2GUI extends ilTableGUI
 		$this->setLimit($ilUser->getPref("hits_per_page"));
 	}
 
+	/**
+	* Set Enable Title.
+	*
+	* @param	boolean	$a_enabletitle	Enable Title
+	*/
+	function setEnableTitle($a_enabletitle)
+	{
+		$this->enabled["title"] = $a_enabletitle;
+	}
+
+	/**
+	* Get Enable Title.
+	*
+	* @return	boolean	Enable Title
+	*/
+	function getEnableTitle()
+	{
+		return $this->enabled["title"];
+	}
+
+	/**
+	* Set Enable Header.
+	*
+	* @param	boolean	$a_enableheader	Enable Header
+	*/
+	function setEnableHeader($a_enableheader)
+	{
+		$this->enabled["header"] = $a_enableheader;
+	}
+
+	/**
+	* Get Enable Header.
+	*
+	* @return	boolean	Enable Header
+	*/
+	function getEnableHeader()
+	{
+		return $this->enabled["header"];
+	}
+
 	final public function setTitle($a_title, $a_icon = 0, $a_icon_alt = 0)
 	{
 		parent::setTitle($a_title, $a_icon, $a_icon_alt);
