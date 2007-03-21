@@ -332,11 +332,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		foreach($xml_parser->getObjectData() as $object_data)
 		{
 
-			if($rbacreview->roleExists($object_data['title']))
-			{
-				return $this->__raiseError('The rolename must be unique. A role with name '.$object_data['title'].' already exists',
-										   'Client');
-			}
 			// check if role title has il_ prefix
 			if(substr($object_data['title'],0,3) == "il_")
 			{
@@ -408,11 +403,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		foreach($xml_parser->getObjectData() as $object_data)
 		{
 
-			if($rbacreview->roleExists($object_data['title']))
-			{
-				return $this->__raiseError('The rolename must be unique. A role with name '.$object_data['title'].' already exists',
-										   'Client');
-			}
 			// check if role title has il_ prefix
 			if(substr($object_data['title'],0,3) == "il_")
 			{

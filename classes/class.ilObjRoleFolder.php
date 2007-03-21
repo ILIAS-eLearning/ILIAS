@@ -103,13 +103,6 @@ class ilObjRoleFolder extends ilObject
 	{
 		global $rbacadmin, $rbacreview;
 		
-		// check if role title is unique
-		if ($rbacreview->roleExists($a_title))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($a_title)."' ".
-									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-		}		
-
 		include_once ("classes/class.ilObjRole.php");
 		$roleObj = new ilObjRole();
 		$roleObj->setTitle($a_title);

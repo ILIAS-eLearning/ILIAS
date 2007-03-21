@@ -769,7 +769,7 @@ class ilCourseMembers
 		include_once("./classes/class.ilFormatMail.php");
 
 		$mail = new ilFormatMail($_SESSION["AccountId"]);
-		$mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
+		$mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
 
 		unset($tmp_user);
 		return true;

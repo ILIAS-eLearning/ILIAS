@@ -24,7 +24,100 @@
 
 /**
 * Class Mail
-* this class handles base functions for mail handling
+* this class handles base functions for mail handling.
+*
+* RFC 822 compliant e-mail addresses
+* ----------------------------------
+* If ILIAS is configured to use standards compliant e-mail addresses, then
+* this class supports RFC 822 compliant address lists as specified in
+* http://www.ietf.org/rfc/rfc0822.txt
+*
+* Examples:
+*   The following mailbox addresses work for sending an e-mail to the user with the
+*   login john.doe and e-mail address jd@mail.com. The user is member of the course
+*   "French Course". The member role of the course object has the name "il_crs_member_998"
+*   and the object ID "1000".
+*
+*      john.doe
+*      John Doe <john.doe>
+*      john.doe@ilias
+*      #member@[French Course]
+*      #il_crs_member_998
+*      #il_role_1000
+*      jd@mail.com
+*      John Doe <jd@mail.com>
+*
+* Syntax Rules:
+*   The following excerpt from chapter 6.1 "Syntax" of RFC 822 is relevant for
+*   the semantics described below:
+*
+*     addr-spec = local-part [ "@", domain ]
+*
+* Semantics:
+*   User account mailbox address:
+*   - The local-part denotes the login of an ILIAS user account.
+*   - The domain denotes the current ILIAS client.
+*   - The local-part must not start with a "#" character
+*   - The domain must be omitted or must have the value "ilias"
+*
+*   Role object mailbox address:
+*   - The local part denotes the title of an ILIAS role.
+*   - The domain denotes the title of an ILIAS object.
+*   - The local-part must start with a "#" character.
+*   - If the domain is omitted, the title "ilias" is assumed.
+*   - If the local-part starts with "#il_role_" its remaining characters
+*     directly specify the object id of the role.
+*     For example "#il_role_1234 identifies the role with object id "1234".
+*   - If the object title identifies an object that is an ILIAS role, then
+*     the local-part is ignored.
+*   - If the object title identifies an object that is not an ILIAS role, then
+*     the local-part is used to identify a local role for that object.
+*   - The local-part can be a substring of the role name.
+*     For example, "#member" can be used instead of "#il_crs_member_1234".
+*
+*   External E-Mail address:
+*   - The local-part must not start with a "#" character
+*   - The domain must be specified and it must not have the value "ilias"
+*
+*
+* Non-compliant e-mail addresses
+* ----------------------------------
+* If ILIAS is not configured to use standards compliant e-mail addresses, then
+* the following description applies:
+*
+* Examples:
+*   The following mailbox addresses work for sending an e-mail to the user with the
+*   login john.doe, who is member of the course "French Course". Assuming that
+*   the member role of the course object has the name "il_crs_member_998"
+*   and the object ID "1000".
+*
+*    john.doe
+*    #il_crs_member_998
+*    #il_role_1000
+*    jd@mail.com
+*
+* Syntax:
+*   The following syntax rule is relevant for the semantics described below:
+* 
+*     addr-spec = local-part [ "@", domain ]
+*
+* Semantics:
+*   User account mailbox address:
+*   - The local-part denotes the login of an ILIAS user account.
+*   - The domain must be omitted.
+*   - The local-part must not start with a "#" character
+*
+*   Role object mailbox address:
+*   - The local part denotes the title of an ILIAS role.
+*   - The local-part must start with a "#" character.
+*   - The domain must be omitted.
+*   - If the local-part start with "#il_role_" its remaining characters
+*     directly specify the object id of the role.
+*     For example "#il_role_1234 identifies the role with object id "1234".
+*
+*   External E-Mail address:
+*   - The local-part must not start with a "#" character
+*   - The domain must be specified and it must not have the value "ilias"
 * 
 *  
 * @author	Stefan Meyer <smeyer@databay.de>
@@ -549,7 +642,8 @@ class ilMail
 	{
 		$a_user_id = $a_user_id ? $a_user_id : $this->user_id;
 
-		global $ilDB;
+		global $ilDB, $log;
+		//$log->write('class.ilMail->sendInternalMail to user_id:'.$a_rcp_to.' '.$a_m_message);
 
 		$query = "INSERT INTO $this->table_mail ".
 			"SET user_id = ".$ilDB->quote($a_user_id).",".
@@ -587,14 +681,18 @@ class ilMail
 	*/
 	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type,$a_action)
 	{
+		global $log;
+		//$log->write('class.ilMail.distributeMail '.$a_rcp_to.' '.$a_subject);
 		include_once "classes/class.ilMailbox.php";
 		include_once "./classes/class.ilObjUser.php";
 
-		// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
-		$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"resubstitute");
-		$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"resubstitute");
-		$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"resubstitute");
-
+		if (! ilMail::_useStandardsCompliantEMailAddresses())
+		{
+			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
+			$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"resubstitute");
+			$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"resubstitute");
+			$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"resubstitute");
+		}
 
 		$as_email = array();
 
@@ -606,10 +704,26 @@ class ilMail
 		{
 			$tmp_mail_options =& new ilMailOptions($id);
 
-			// CONTINUE IF USER WNATS HIS MAIL SEND TO EMAIL
-			if ($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+			// DETERMINE IF THE USER CAN READ INTERNAL MAILS
+			$tmp_user =& new ilObjUser($id);
+			$tmp_user->read();
+			$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() 
+				&& $tmp_user->getActive() && $tmp_user->checkTimeLimit();
+
+			// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
+			if (in_array('system', $a_type) && ! $user_can_read_internal_mails)
+			{
+				//$log->write('class.ilMail.distributeMail user_id:'.$id.' suppress mail system message because user can not read internal mail');				
+				continue;
+			}
+
+			// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS MAIL
+			// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
+			if (! $user_can_read_internal_mails ||
+				$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 			{
 				$as_email[] = $id;
+				//$log->write('class.ilMail.distributeMail user_id:'.$id.' suppress mail because user can not/wants not read internal mail');				
 				continue;
 			}
 
@@ -618,15 +732,16 @@ class ilMail
 				$as_email[] = $id;
 			}
 
-			if ($a_action == 'system')
+			/*if ($a_action == 'system')
 			{
 				$inbox_id = 0;
 			}
 			else
-			{
+			{*/
 				$mbox->setUserId($id);
 				$inbox_id = $mbox->getInboxFolder();
-			}
+			//}
+
 			$mail_id = $this->sendInternalMail($inbox_id,$this->user_id,
 								  $a_attachments,$a_rcp_to,
 								  $a_rcp_cc,'','unread',$a_type,
@@ -667,54 +782,95 @@ class ilMail
 	*/
 	function getUserIds($a_recipients)
 	{
-		global $rbacreview;
-
-		$tmp_names = $this->explodeRecipients($a_recipients);
+		global $log, $rbacreview;
 		$ids = array();
-		for ($i = 0;$i < count($tmp_names); $i++)
+
+		if (ilMail::_useStandardsCompliantEMailAddresses())
 		{
-			if (substr($tmp_names[$i],0,1) == '#')
+			$tmp_names = $this->explodeRecipients($a_recipients);
+			if (! is_a($tmp_names, 'PEAR_Error'))
 			{
-				if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
+				for ($i = 0;$i < count($tmp_names); $i++)
 				{
-					include_once("./classes/class.ilObjectFactory.php");
-					include_once('./classes/class.ilObjGroup.php');
-					
-					foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
+					if (substr($tmp_names[$i]->mailbox,0,1) === '#')
 					{
-						$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
-						break;
+						$role_ids = $rbacreview->searchRolesByMailboxAddressList($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
+						foreach($role_ids as $role_id)
+						{
+							foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+							{
+								$ids[] = $usr_id;
+							}
+						}
 					}
-					// STORE MEMBER IDS IN $ids
-					foreach ($grp_object->getGroupMemberIds() as $id)
+					else if (strtolower($tmp_names[$i]->host) == 'ilias')
+					{
+						if ($id = ilObjUser::getUserIdByLogin(addslashes($tmp_names[$i]->mailbox)))
+						{
+							//$log->write('class.ilMail->getUserIds() recipient:'.$tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host.' user_id:'.$id);
+							$ids[] = $id;
+						}
+						else
+						{
+							//$log->write('class.ilMail->getUserIds() no user account found for recipient:'.$tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
+						}
+					}
+					else
+					{
+						//$log->write('class.ilMail->getUserIds() external recipient:'.$tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
+					}
+				}
+			}
+			else
+			{
+				//$log->write('class.ilMail->getUserIds() illegal recipients:'.$a_recipients);
+			}
+		}
+		else
+		{
+			$tmp_names = $this->explodeRecipients($a_recipients);
+			for ($i = 0;$i < count($tmp_names); $i++)
+			{
+				if (substr($tmp_names[$i],0,1) == '#')
+				{
+					if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
+					{
+						include_once("./classes/class.ilObjectFactory.php");
+						include_once('./classes/class.ilObjGroup.php');
+						
+						foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
+						{
+							$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
+							break;
+						}
+						// STORE MEMBER IDS IN $ids
+						foreach ($grp_object->getGroupMemberIds() as $id)
+						{
+							$ids[] = $id;
+						}
+					}
+					// is role: get role ids
+					elseif($role_id = $rbacreview->roleExists(addslashes(substr($tmp_names[$i],1))))
+					{
+						foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+						{
+							$ids[] = $usr_id;
+						}
+					}
+					
+				}
+				else if (!empty($tmp_names[$i]))
+				{
+					if ($id = ilObjUser::getUserIdByLogin(addslashes($tmp_names[$i])))
 					{
 						$ids[] = $id;
 					}
 				}
-				// is role: get role ids
-				elseif($role_id = $rbacreview->roleExists(addslashes(substr($tmp_names[$i],1))))
-				{
-					foreach($rbacreview->assignedUsers($role_id) as $usr_id)
-					{
-						$ids[] = $usr_id;
-					}
-				}
-				
-			}
-			else if (!empty($tmp_names[$i]))
-			{
-				if ($id = ilObjUser::getUserIdByLogin(addslashes($tmp_names[$i])))
-				{
-					$ids[] = $id;
-				}
-#				else if ($id = ilObjUser::getUserIdByEmail(addslashes($tmp_names[$i])))
-#				{
-#					$ids[] = $id;
-#				}
 			}
 		}
 		return array_unique($ids);
 	}
+
 	/**
 	* check if mail is complete, recipients are valid
 	* @access	public
@@ -754,44 +910,86 @@ class ilMail
 	{
 		$addresses = array();
 
-		$tmp_rcp = $this->explodeRecipients($a_rcp);
-
-		foreach ($tmp_rcp as $rcp)
+		if (ilMail::_useStandardsCompliantEMailAddresses())
 		{
-			// NO GROUP
-			if (substr($rcp,0,1) != '#')
+			$tmp_rcp = $this->explodeRecipients($a_rcp);
+			if (! is_a($tmp_rcp, 'PEAR_Error'))
 			{
-				if (strpos($rcp,'@'))
+				foreach ($tmp_rcp as $rcp)
 				{
-					$addresses[] = $rcp;
-					continue;
-				}
-
-				if ($id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
-				{
-					$tmp_user = new ilObjUser($id);
-					$addresses[] = $tmp_user->getEmail();
-					continue;
+					// NO GROUP
+					if (substr($rcp->mailbox,0,1) != '#')
+					{
+						if (strtolower($rcp->host) != 'ilias')
+						{
+							$addresses[] = $rcp->mailbox.'@'.$rcp->host;
+							continue;
+						}
+		
+						if ($id = ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)))
+						{
+							$tmp_user = new ilObjUser($id);
+							$addresses[] = $tmp_user->getEmail();
+							continue;
+						}
+					}
+					else
+					{
+						// Roles
+						$role_ids = $rbacreview->searchRolesByMailboxAddressList($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
+						foreach($role_ids as $role_id)
+						{
+							foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+							{
+								$tmp_user = new ilObjUser($usr_id);
+								$addresses[] = $tmp_user->getEmail();
+							}
+						}
+					}
 				}
 			}
-			else
+		}
+		else
+		{
+			$tmp_rcp = $this->explodeRecipients($a_rcp);
+	
+			foreach ($tmp_rcp as $rcp)
 			{
-				// GROUP THINGS
-				include_once("./classes/class.ilObjectFactory.php");
-				include_once('./classes/class.ilObjGroup.php');
-
-				// Fix 
-				foreach(ilObjGroup::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
+				// NO GROUP
+				if (substr($rcp,0,1) != '#')
 				{
-					$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
-					break;
+					if (strpos($rcp,'@'))
+					{
+						$addresses[] = $rcp;
+						continue;
+					}
+	
+					if ($id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
+					{
+						$tmp_user = new ilObjUser($id);
+						$addresses[] = $tmp_user->getEmail();
+						continue;
+					}
 				}
-				// GET EMAIL OF MEMBERS AND STORE THEM IN $addresses
-				foreach ($grp_object->getGroupMemberIds() as $id)
+				else
 				{
-					$tmp_user = new ilObjUser($id);
-					$addresses[] = $tmp_user->getEmail();
-				} 
+					// GROUP THINGS
+					include_once("./classes/class.ilObjectFactory.php");
+					include_once('./classes/class.ilObjGroup.php');
+	
+					// Fix 
+					foreach(ilObjGroup::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
+					{
+						$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
+						break;
+					}
+					// GET EMAIL OF MEMBERS AND STORE THEM IN $addresses
+					foreach ($grp_object->getGroupMemberIds() as $id)
+					{
+						$tmp_user = new ilObjUser($id);
+						$addresses[] = $tmp_user->getEmail();
+					} 
+				}
 			}
 		}
 
@@ -802,55 +1000,104 @@ class ilMail
 	* check if recipients are valid
 	* @access	public
 	* @param    string string with login names or group names (start with #)
-	* @return	bool
+	* @return   Returns an empty string, if all recipients are okay.
+	*           Returns a string with invalid recipients, if some are not okay.
 	*/
 	function checkRecipients($a_recipients,$a_type)
 	{
 		global $rbacsystem,$rbacreview;
-		
 		$wrong_rcps = '';
 
-		$tmp_rcp = $this->explodeRecipients($a_recipients);
-
-		foreach ($tmp_rcp as $rcp)
+		if (ilMail::_useStandardsCompliantEMailAddresses())
 		{
-			if (empty($rcp))
+			$tmp_rcp = $this->explodeRecipients($a_recipients);
+			if (is_a($tmp_rcp, 'PEAR_Error'))
 			{
-				continue;
+				$colon_pos = strpos($tmp_rcp->message, ':');
+				$wrong_rcps = '<BR/>'.(($colon_pos === false) ? $tmp_rcp->message : substr($tmp_rcp->message, $colon_pos+2));
 			}
-			// NO GROUP
-			if (substr($rcp,0,1) != '#')
+			else
 			{
-				// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
-				if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
-					!ilUtil::is_email($rcp))
+				foreach ($tmp_rcp as $rcp)
 				{
-					$wrong_rcps .= "<BR/>".$rcp;
-					continue;
-				}
-				
-				// CHECK IF USER CAN RECEIVE MAIL
-				if ($user_id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
-				{
-					if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
+					// NO ROLE MAIL ADDRESS
+					if (substr($rcp->mailbox,0,1) != '#')
 					{
-						$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("user_cant_receive_mail").")";
-						continue;
+						// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
+						$user_id = ($rcp->host == 'ilias') ? ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)) : false;
+						if ($user_id == false && $rcp->host == 'ilias')
+						{
+							$wrong_rcps .= "<BR/>".$rcp->mailbox;
+							continue;
+						}
+						
+						// CHECK IF USER CAN RECEIVE MAIL
+						if ($user_id)
+						{
+							if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
+							{
+								$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("user_cant_receive_mail").")";
+								continue;
+							}
+						}
+					}
+					else
+					{
+						$role_ids = $rbacreview->searchRolesByMailboxAddressList($rcp->mailbox.'@'.$rcp->host);
+						if (count($role_ids) == 0)
+						{
+							$wrong_rcps .= '<BR/>'.$rcp->mailbox.' ('.$this->lng->txt('mail_no_recipient_found').')';
+							continue;
+						} else if (count($role_ids) > 1)
+						{
+							$wrong_rcps .= '<BR/>'.$rcp->mailbox.' ('.sprintf($this->lng->txt('mail_multiple_recipients_found'), implode(',', $role_ids)).')';
+						}
 					}
 				}
 			}
-			elseif (ilUtil::groupNameExists(addslashes(substr($rcp,1))))
-			{
-				continue;
-			}
-			elseif(!$rbacreview->roleExists(addslashes(substr($rcp,1))))
-			{
-				$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("mail_no_valid_group_role").")";
-				continue;
-			}
-
 		}
-
+		else
+		{
+			$tmp_rcp = $this->explodeRecipients($a_recipients);
+	
+			foreach ($tmp_rcp as $rcp)
+			{
+				if (empty($rcp))
+				{
+					continue;
+				}
+				// NO GROUP
+				if (substr($rcp,0,1) != '#')
+				{
+					// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
+					if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
+						!ilUtil::is_email($rcp))
+					{
+						$wrong_rcps .= "<BR/>".$rcp;
+						continue;
+					}
+					
+					// CHECK IF USER CAN RECEIVE MAIL
+					if ($user_id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
+					{
+						if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
+						{
+							$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("user_cant_receive_mail").")";
+							continue;
+						}
+					}
+				}
+				elseif (ilUtil::groupNameExists(addslashes(substr($rcp,1))))
+				{
+					continue;
+				}
+				elseif(!$rbacreview->roleExists(addslashes(substr($rcp,1))))
+				{
+					$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("mail_no_valid_group_role").")";
+					continue;
+				}
+			}
+		}
 		return $wrong_rcps;
 	}
 
@@ -932,8 +1179,8 @@ class ilMail
 	*/
 	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type)
 	{
-		global $lng,$rbacsystem;
-
+		global $lng,$rbacsystem,$log;
+		//$log->write('class.ilMail.sendMail '.$a_rcp_to.' '.$a_m_subject);
 		$error_message = '';
 		$message = '';
 
@@ -985,10 +1232,14 @@ class ilMail
 			}
 		}
 
-		// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
-		$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"substitute");
-		$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"substitute");
-		$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"substitute");
+		if (! ilMail::_useStandardsCompliantEMailAddresses())
+		{
+			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
+			$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"substitute");
+			$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"substitute");
+			$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"substitute");
+		}
+		
 		// COUNT EMAILS
 		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
 		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
@@ -1236,48 +1487,92 @@ class ilMail
 	/**
 	* explode recipient string
 	* allowed seperators are ',' ';' ' '
+	*
+	* Returns an array with recipient objects 
+	*
 	* @access	private
-	* @return array array of recipients
+	*
+	* @return array with recipient objects. array[i]->mailbox gets the mailbox
+	* of the recipient. array[i]->host gets the host of the recipients. Returns
+	* a PEAR_Error object, if exploding failed. Use is_a() to test, if the return
+	* value is a PEAR_Error, then use $rcp->message to retrieve the error message.
 	*/
 	function explodeRecipients($a_recipients)
 	{
-		$a_recipients = trim($a_recipients);
-
-		// WHITESPACE IS NOT ALLOWED AS SEPERATOR
-		#$a_recipients = preg_replace("/ /",",",$a_recipients);
-		$a_recipients = preg_replace("/;/",",",$a_recipients);
-		
-
-		foreach(explode(',',$a_recipients) as $tmp_rec)
+		if (ilMail::_useStandardsCompliantEMailAddresses())
 		{
-			if($tmp_rec)
+			if (strlen(trim($a_recipients)) > 0)
 			{
-				$rcps[] = trim($tmp_rec);
+				require_once 'Mail/RFC822.php';
+				$parser = &new Mail_RFC822();
+				return $parser->parseAddressList($a_recipients, "ilias", false, true);
+			} else {
+				return array();
 			}
 		}
-		return is_array($rcps) ? $rcps : array();
-		
+		else
+		{
+			$a_recipients = trim($a_recipients);
+	
+			// WHITESPACE IS NOT ALLOWED AS SEPERATOR
+			#$a_recipients = preg_replace("/ /",",",$a_recipients);
+			$a_recipients = preg_replace("/;/",",",$a_recipients);
+			
+	
+			foreach(explode(',',$a_recipients) as $tmp_rec)
+			{
+				if($tmp_rec)
+				{
+					$rcps[] = trim($tmp_rec);
+				}
+			}
+			return is_array($rcps) ? $rcps : array();
+		}
 	}
 
 	function __getCountRecipient($rcp,$a_only_email = true)
 	{
 		$counter = 0;
 
-		foreach ($this->explodeRecipients($rcp) as $to)
+		if (ilMail::_useStandardsCompliantEMailAddresses())
 		{
-			if ($a_only_email)
+			$tmp_rcp = $this->explodeRecipients($rcp);
+			if (! is_a($tmp_rcp, 'PEAR_Error'))
 			{
-				if (strpos($to,'@'))
+				foreach ($tmp_rcp as $to)
+				{
+					if ($a_only_email)
+					{
+						// Mails which aren't on the ilias host are external
+						if ($to->host != 'ilias')
+						{
+							++$counter;
+						}
+					}
+					else
+					{
+						++$counter;
+					}
+				}
+			}
+		}
+		else
+		{
+			foreach ($this->explodeRecipients($rcp) as $to)
+			{
+				if ($a_only_email)
+				{
+					if (strpos($to,'@'))
+					{
+						++$counter;
+					}
+				}
+				else
 				{
 					++$counter;
 				}
 			}
-			else
-			{
-				++$counter;
-			}
 		}
-
 		return $counter;
 	}
 			
@@ -1291,14 +1586,33 @@ class ilMail
 
 	function __getEmailRecipients($a_rcp)
 	{
-		foreach ($this->explodeRecipients($a_rcp) as $to)
+		if (ilMail::_useStandardsCompliantEMailAddresses())
 		{
-			if(strpos($to,'@'))
+			$rcp = array();
+			$tmp_rcp = $this->explodeRecipients($a_rcp);
+			if (! is_a($tmp_rcp, 'PEAR_Error'))
 			{
-				$rcp[] = $to;
+				foreach ($tmp_rcp as $to)
+				{
+					if(substr($to->mailbox,0,1) != '#' && $to->host != 'ilias')
+					{
+						$rcp[] = $to->mailbox.'@'.$to->host;
+					}
+				}
 			}
+			return implode(',',$rcp);
 		}
-		return implode(',',$rcp ? $rcp : array());
+		else
+		{
+			foreach ($this->explodeRecipients($a_rcp) as $to)
+			{
+				if(strpos($to,'@'))
+				{
+					$rcp[] = $to;
+				}
+			}
+			return implode(',',$rcp ? $rcp : array());
+		}
 	}
 
 	function __prependMessage($a_m_message,$rcp_to,$rcp_cc)
@@ -1330,6 +1644,13 @@ class ilMail
 		return;
 	}
 
+	/**
+	 * Note: This function can only be used, when ILIAS is configured to not
+	 *       use standards compliant mail addresses. 
+	 *       If standards compliant mail addresses are used, substitution is
+	 *       not supported, because then we do the parsing of mail addresses
+	 *       using the Pear Mail Extension. 
+	 */
 	function __substituteRecipients($a_rcp,$direction)
 	{
 		$new_name = array();
@@ -1347,7 +1668,7 @@ class ilMail
 			switch($direction)
 			{
 				case "substitute":
-					if(strpos($name,"@") and ilObjUser::_loginExists($name))
+					if(strpos($name,"@") and loginExists($name))
 					{
 						$new_name[] = preg_replace("/@/","�#�",$name);
 					}
@@ -1370,6 +1691,18 @@ class ilMail
 			}
 		}
 		return implode(",",$new_name);
+	}
+
+	/**
+	 * STATIC METHOD.
+	 * Returns true, if IETF RFC 822 standards compliant e-mail addresses
+	 * shall be used.
+	 *
+	 * @access	public
+	 */
+	public static function _useStandardsCompliantEMailAddresses() {
+		// XXX - To be implemented by Werner Randelshofer
+		return false;
 	}
 } // END class.ilMail
 ?>

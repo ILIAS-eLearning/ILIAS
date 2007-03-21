@@ -344,13 +344,6 @@ class ilPermissionGUI
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		// first check if role title is unique
-		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-		}
-
 		// check if role title has il_ prefix
 		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
 		{

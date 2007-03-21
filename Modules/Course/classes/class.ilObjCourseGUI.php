@@ -4103,11 +4103,22 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
 		$this->tpl->setVariable("MAIL_TUTOR",$this->lng->txt('send_mail_tutors'));
 		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
-		$this->tpl->setVariable("CHECK_MEMBER",ilUtil::formCheckbox(1,'roles[]','#il_crs_member_'.$this->object->getRefId()));
-		$this->tpl->setVariable("CHECK_TUTOR",ilUtil::formCheckbox(0,'roles[]','#il_crs_tutor_'.$this->object->getRefId()));
-		$this->tpl->setVariable("CHECK_ADMIN",ilUtil::formCheckbox(0,'roles[]','#il_crs_admin_'.$this->object->getRefId()));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
+
+		// Display roles with user friendly mailbox addresses
+		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+		$role_ids = $rbacreview->getRolesOfRoleFolder($role_folder['ref_id'], false);
+		foreach ($role_ids as $role_id)
+		{
+			$this->tpl->setCurrentBlock("mailbox_row");
+			$role_addr = $rbacreview->getRoleMailboxAddress($role_id);
+			$this->tpl->setVariable("CHECK_MAILBOX",ilUtil::formCheckbox(1,'roles[]',
+					htmlspecialchars($role_addr)
+			));
+			$this->tpl->setVariable("MAILBOX",$role_addr);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	
