@@ -65,11 +65,15 @@ setLocator($_GET["mobj_id"],'mail_new.php',$_SESSION["AccountId"],"");
 // SEND MESSAGE
 if(isset($_POST["cmd"]["send"]))
 {
-	$f_message = $umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"]));
+	$f_message = $umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"], false));
 	$umail->setSaveInSentbox(true);
-	if($error_message = $umail->sendMail($_POST["rcp_to"],$_POST["rcp_cc"],
-										 $_POST["rcp_bcc"],ilUtil::stripSlashes($_POST["m_subject"]),$f_message,
-										 $_POST["attachments"],$_POST["m_type"]))
+	if($error_message = $umail->sendMail(
+			ilUtil::stripSlashes($_POST["rcp_to"], false),
+			ilUtil::stripSlashes($_POST["rcp_cc"], false),
+			ilUtil::stripSlashes($_POST["rcp_bcc"], false),
+			ilUtil::stripSlashes($_POST["m_subject"], false),$f_message,
+			$_POST["attachments"],$_POST["m_type"])
+		)
 	{
 		ilUtil::sendInfo($error_message);
 	}
@@ -95,10 +99,13 @@ if(isset($_POST["cmd"]["save_message"]))
 	
 	if(isset($_SESSION["draft"]))
 	{
-		$umail->updateDraft($drafts_id,$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
-								  $_POST["rcp_bcc"],$_POST["m_type"],$_POST["m_email"],
-								  ilUtil::stripSlashes($_POST["m_subject"]),
-								  ilUtil::stripSlashes($_POST["m_message"]),$_SESSION["draft"]);
+		$umail->updateDraft($drafts_id,$_POST["attachments"],
+			ilUtil::stripSlashes($_POST["rcp_to"], false),
+			ilUtil::stripSlashes($_POST["rcp_cc"], false),
+			ilUtil::stripSlashes($_POST["rcp_bcc"], false),
+			$_POST["m_type"],$_POST["m_email"],
+			ilUtil::stripSlashes($_POST["m_subject"], false),
+			ilUtil::stripSlashes($_POST["m_message"], false),$_SESSION["draft"]);
 		session_unregister("draft");
 		ilUtil::sendInfo($lng->txt("mail_saved"),true);
 		header("location: mail.php?mobj_id=".$mbox->getInboxFolder());
@@ -109,10 +116,13 @@ if(isset($_POST["cmd"]["save_message"]))
 		$mbox = new ilMailbox($_SESSION["AccountId"]);
 		$drafts_id = $mbox->getDraftsFolder();
 
-		if($umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
-									$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
-									ilUtil::stripSlashes($_POST["m_subject"]),
-									ilUtil::stripSlashes($_POST["m_message"]),$_SESSION["AccountId"]))
+		if($umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],
+				ilUtil::stripSlashes($_POST["rcp_to"], false),
+				ilUtil::stripSlashes($_POST["rcp_cc"], false),
+				ilUtil::stripSlashes($_POST["rcp_bcc"], false),
+				'read',$_POST["m_type"],$_POST["m_email"],
+									ilUtil::stripSlashes($_POST["m_subject"], false),
+									ilUtil::stripSlashes($_POST["m_message"], false),$_SESSION["AccountId"]))
 		{
 			ilUtil::sendInfo($lng->txt("mail_saved"));
 		}
@@ -201,21 +211,27 @@ if (isset($_POST["cmd"]["groups_to"]))
 if(isset($_POST["cmd"]["edit"]))
 {
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],
-						 $_POST["rcp_to"],$_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+						 ilUtil::stripSlashes($_POST["rcp_to"], false),
+						 ilUtil::stripSlashes($_POST["rcp_cc"], false),
+						 ilUtil::stripSlashes($_POST["rcp_bcc"], false),
+						 $_POST["m_type"],
 						 $_POST["m_email"],
-						 ilUtil::stripSlashes($_POST["m_subject"]),
-						 ilUtil::stripSlashes($_POST["m_message"]));
+						 ilUtil::stripSlashes($_POST["m_subject"], false),
+						 ilUtil::stripSlashes($_POST["m_message"]), false);
 	header("location: mail_attachment.php?mobj_id=$_GET[mobj_id]");
 }
 
 // SEARCH BUTTON CLICKED
 if(isset($_POST["cmd"]["search"]))
 {
-	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
-						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
-						 $_POST["m_email"],
-						 ilUtil::stripSlashes($_POST["m_subject"]),
-						 ilUtil::stripSlashes($_POST["m_message"]));
+	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],
+			ilUtil::stripSlashes($_POST["rcp_to"], false),
+			ilUtil::stripSlashes($_POST["rcp_cc"], false),
+			ilUtil::stripSlashes($_POST["rcp_bcc"], false),
+						$_POST["m_type"],
+						$_POST["m_email"],
+						ilUtil::stripSlashes($_POST["m_subject"], false),
+						ilUtil::stripSlashes($_POST["m_message"], false));
 	// IF NO TYPE IS GIVEN SEARCH IN BOTH 'system' and 'addressbook'
 	if(!$_POST["type_system"] and !$_POST["type_addressbook"])
 	{
@@ -267,12 +283,12 @@ switch($_GET["type"])
 		break;
 
 	case 'search_res':
-		
+
 		$mail_data = $umail->getSavedData();
 		if($_POST["search_name"])
 		{
 			$mail_data = $umail->appendSearchResult($_POST["search_name"],$_SESSION["mail_search"]);
-		}		
+		}
 		
 		if ($_POST["search_members"])
 		{
@@ -312,7 +328,7 @@ switch($_GET["type"])
 		break;
 
 	case 'new':
-		$mail_data["rcp_to"] = $_GET['rcp_to'];
+		$mail_data["rcp_to"] = ilUtil::stripSlashes($_GET['rcp_to'], false);
 		$mail_data["m_message"] = $umail->appendSignature();
 		break;
 
@@ -320,7 +336,7 @@ switch($_GET["type"])
 
 		if(is_array($_POST['roles']))
 		{
-			$mail_data['rcp_to'] = implode(',',$_POST['roles']);
+			$mail_data['rcp_to'] = ilUtil::stripSlashes(implode(',',$_POST['roles']), false);
 		}
 		elseif(is_array($_SESSION['mail_roles']))
 		{
@@ -339,6 +355,16 @@ switch($_GET["type"])
 	default:
 		// GET DATA FROM POST
 		$mail_data = $_POST;
+
+		// strip slashes
+		foreach ($mail_data as $key => $value)
+		{
+			if (is_string($value))
+			{
+				$mail_data[$key] = ilUtil::stripSlashes($value, false);
+			}
+		}
+
 		break;
 }
 $tpl->setVariable("ACTION", "mail_new.php?mobj_id=$_GET[mobj_id]");
@@ -436,11 +462,11 @@ $tpl->setVariable("TXT_SEND", $lng->txt("send"));
 $tpl->setVariable("TXT_MSG_SAVE", $lng->txt("save_message"));
 
 // MAIL DATA
-$tpl->setVariable("RCP_TO", ilUtil::stripSlashes($mail_data["rcp_to"]));
-$tpl->setVariable("RCP_CC", ilUtil::stripSlashes($mail_data["rcp_cc"]));
-$tpl->setVariable("RCP_BCC",ilUtil::stripSlashes($mail_data["rcp_bcc"]));
+$tpl->setVariable("RCP_TO", htmlspecialchars($mail_data["rcp_to"]));
+$tpl->setVariable("RCP_CC", htmlspecialchars($mail_data["rcp_cc"]));
+$tpl->setVariable("RCP_BCC",htmlspecialchars($mail_data["rcp_bcc"]));
 
-$tpl->setVariable("M_SUBJECT",ilUtil::stripSlashes($mail_data["m_subject"]));
+$tpl->setVariable("M_SUBJECT",htmlspecialchars($mail_data["m_subject"]));
 
 if (is_array($mail_data["attachments"]) &&
 	count($mail_data["attachments"]))
@@ -456,7 +482,7 @@ if (is_array($mail_data["attachments"]) &&
 	$tpl->setVariable("FILES",implode("\n",$mail_data["attachments"]));
 	$tpl->parseCurrentBlock();
 }
-$tpl->setVariable("M_MESSAGE",ilUtil::stripSlashes($mail_data["m_message"]));
+$tpl->setVariable("M_MESSAGE",ilUtil::stripSlashes($mail_data["m_message"], false));
 $tpl->parseCurrentBlock();
 
 $tpl->show();

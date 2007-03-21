@@ -169,13 +169,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// check if rolt title is unique
-		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-		}
-
 		// check if role title has il_ prefix
 		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
 		{
@@ -643,13 +636,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			if (substr($_POST["Fobject"]["title"],0,3) == "il_")
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
-			}
-	
-			// check if role title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 			}
 	
 			// update

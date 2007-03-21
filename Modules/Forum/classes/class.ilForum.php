@@ -1577,7 +1577,7 @@ class ilForum
 			$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
 											   $this->__formatSubject($thread_data),
 											   $this->__formatMessage($thread_data, $post_data),
-											   array(),array("normal"));
+											   array(),array("system"));
 
 			unset($tmp_user);
 			unset($tmp_mail_obj);
@@ -1733,7 +1733,7 @@ class ilForum
 				$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject(),
 												   $this->formatNotification($post_data),
-												   array(),array("normal"));
+												   array(),array("system"));
 				unset($tmp_mail_obj);
 			}
 		}

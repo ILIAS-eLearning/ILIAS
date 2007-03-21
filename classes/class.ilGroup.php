@@ -61,42 +61,5 @@ class ilGroup
 		$this->group_id = $a_group_id;
 	}
 	
-	/**
-	* checks if group name already exists. Groupnames must be unique for mailing purposes
-	* static function; move to better place (ilObjGroup or ilUtil)
-	* @access	public
-	* @param	string	groupname
-	* @param	integer	obj_id of group to exclude from the check. 
-	* @return	boolean	true if exists
-	* @static
-	*/
-	function _groupNameExists($a_group_name,$a_id = 0)
-	{
-		global $ilDB,$ilErr;
-		
-		if (empty($a_group_name))
-		{
-			$message = get_class($this)."::groupNameExists(): No groupname given!";
-			$ilErr->raiseError($message,$ilErr->WARNING);
-		}
-
-		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
-
-		$q = "SELECT obj_id FROM object_data ".
-			 "WHERE title = ".$ilDB->quote($a_group_name)." ".
-			 "AND type = 'grp'".
-			 $clause;
-		$r = $ilDB->query($q);
-
-		if ($r->numRows() == 1)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 }
 ?>

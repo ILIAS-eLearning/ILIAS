@@ -472,13 +472,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// check if role title is unique
-		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-		}
-		
 		// check if role title has il_ prefix
 		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
 		{
@@ -1259,13 +1252,6 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
 			}
 	
-			// check if role title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-			}
-
 			// update
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
@@ -2329,7 +2315,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	
 	function mailToRoleObject()
 	{
-		$_SESSION['mail_roles'][] = "#".$this->object->getTitle();
+		global $rbacreview;
+		$_SESSION['mail_roles'][] = $rbacreview->getRoleMailboxAddress($this->object->getId());
 		$script = 'ilias.php?baseClass=ilMailGUI&type=role';
 		ilUtil::redirect($script);
 	}

@@ -162,20 +162,8 @@ class ilObjGroup extends ilContainer
 		$new_obj->setLongitude($this->getLongitude());
 		$new_obj->setLocationZoom($this->getLocationZoom());
 		$new_obj->setEnableGroupMap($this->getEnableGroupMap());
-	 	
-		// find a free number
-		for ($n = 1;$n < 999;$n++)
-		{
-			$groupname_copy = $this->getTitle()."_(copy_".$n.")";
-
-			if (!ilUtil::groupNameExists($groupname_copy))
-			{
-				$new_obj->setTitle($groupname_copy);
-				$new_obj->update();
-				break;
-			}
-		}
-	 	
+		$new_obj->update();
+ 	
 		
 		// Copy settings
 		$new_obj->setRegistrationFlag($this->getRegistrationFlag());

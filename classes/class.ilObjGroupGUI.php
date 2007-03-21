@@ -622,13 +622,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("no_password"),$this->ilErr->MESSAGE);
 		}
 
-		// check groupname
-		if (ilUtil::groupNameExists($_POST["Fobject"]["title"]))
-
-		{
-			$this->ilErr->raiseError($this->lng->txt("grp_name_exists"),$this->ilErr->MESSAGE);
-		}
-
 		// create and insert group in objecttree
 		$groupObj = parent::saveObject();
 		
@@ -673,11 +666,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		if ($_POST["enable_registration"] == 2 && empty($_POST["password"]) || empty($_POST["expirationdate"]) || empty($_POST["expirationtime"]) )//Password-Registration Mode
 		{
 			$this->ilErr->raiseError($this->lng->txt("grp_err_registration_data"),$this->ilErr->MESSAGE);
-		}
-		// check groupname
-		if (ilUtil::groupNameExists(ilUtil::stripSlashes($_POST["Fobject"]["title"]),$this->object->getId()))
-		{
-			$this->ilErr->raiseError($this->lng->txt("grp_name_exists"),$this->ilErr->MESSAGE);
 		}
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
@@ -992,8 +980,9 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			$user_obj = $this->ilias->obj_factory->getInstanceByObjId($new_member);
 		
+			// SEND A SYSTEM MESSAGE EACH TIME A MEMBER IS ADDED TO THE GROUP
 			$user_obj->addDesktopItem($this->object->getRefId(),"grp");
-			$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txtlng("common","grp_mail_subj_new_subscription",$user_obj->getLanguage()).": ".$this->object->getTitle(),$this->lng->txtlng("common","grp_mail_body_new_subscription",$user_obj->getLanguage()),array(),array('normal'));	
+			$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txtlng("common","grp_mail_subj_new_subscription",$user_obj->getLanguage()).": ".$this->object->getTitle(),$this->lng->txtlng("common","grp_mail_body_new_subscription",$user_obj->getLanguage()),array(),array('system'));	
 
 			unset($user_obj);
 		}
@@ -1075,10 +1064,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				$removed_self = true;
 			}
+			/*
 			else
 			{
-				$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txtlng("common","grp_mail_subj_subscription_cancelled",$user_obj->getLanguage()).": ".$this->object->getTitle(),$this->lng->txtlng("common","grp_mail_body_subscription_cancelled",$user_obj->getLanguage()),array(),array('normal'));
-			}			
+				// SEND A SYSTEM MESSAGE EACH TIME A MEMBER HAS BEEN REMOVED FROM A GROUP
+				$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txtlng("common","grp_mail_subj_subscription_cancelled",$user_obj->getLanguage()).": ".$this->object->getTitle(),$this->lng->txtlng("common","grp_mail_body_subscription_cancelled",$user_obj->getLanguage()),array(),array('system'));
+			}*/			
 
 		}
 
@@ -1401,12 +1392,23 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->__setSubTabs('members');
 
 		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilMailGUI&type=role');
-		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
-		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
-		$this->tpl->setVariable("CHECK_MEMBER",ilUtil::formCheckbox(1,'roles[]','#il_grp_member_'.$this->object->getRefId()));
-		$this->tpl->setVariable("CHECK_ADMIN",ilUtil::formCheckbox(0,'roles[]','#il_grp_admin_'.$this->object->getRefId()));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
+		
+		// Get role mailbox addresses
+		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+		$role_ids = $rbacreview->getRolesOfRoleFolder($role_folder['ref_id'], false);
+		$role_addrs = array();
+		foreach ($role_ids as $role_id)
+		{
+			$this->tpl->setCurrentBlock("mailbox_row");
+			$role_addr = $rbacreview->getRoleMailboxAddress($role_id);
+			$this->tpl->setVariable("CHECK_MAILBOX",ilUtil::formCheckbox(1,'roles[]',
+					htmlspecialchars($role_addr)
+			));
+			$this->tpl->setVariable("MAILBOX",$role_addr);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 
@@ -1580,7 +1582,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 
 			$this->object->deleteApplicationListEntry($new_member);
-			$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$this->object->getTitle(),"You have been assigned to the group as a member. You can now access all group specific objects like forums, learningmodules,etc..",array(),array('normal'));
+			$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$this->object->getTitle(),"You have been assigned to the group as a member. You can now access all group specific objects like forums, learningmodules,etc..",array(),array('system'));
 		}
 
 		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_assigned"),true);
@@ -1607,7 +1609,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$user =& $this->ilias->obj_factory->getInstanceByObjId($new_member);
 
 			$this->object->deleteApplicationListEntry($new_member);
-			$mail->sendMail($user->getLogin(),"","","Membership application refused: Group ".$this->object->getTitle(),"Your application has been refused.",array(),array('normal'));
+			$mail->sendMail($user->getLogin(),"","","Membership application refused: Group ".$this->object->getTitle(),"Your application has been refused.",array(),array('system'));
 		}
 
 		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_removed"),true);

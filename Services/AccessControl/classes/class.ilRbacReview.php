@@ -66,6 +66,412 @@ class ilRbacReview
 	}
 
 	/**
+	* Finds all role ids that match the specified user friendly role mailbox address list.
+	*
+	* The role mailbox name address list is an e-mail address list according to IETF RFC 822:
+	*
+	* address list  = role mailbox, {"," role mailbox } ;
+	* role mailbox  = "#", local part, ["@" domain] ;
+	*
+	* Examples: The following role mailbox names are all resolved to the role il_crs_member_123:
+	*
+	*    #Course.A
+	*    #member@Course.A
+	*    #il_crs_member_123@Course.A
+	*    #il_crs_member_123
+	*    #il_crs_member_123@ilias
+	*
+	* Examples: The following role mailbox names are all resolved to the role il_crs_member_345:
+	*
+	*    #member@[English Course]
+	*    #il_crs_member_345@[English Course]
+	*    #il_crs_member_345
+	*    #il_crs_member_345@ilias
+	*
+	* If only the local part is specified, or if domain is equal to "ilias", ILIAS compares
+	* the title of role objects with local part. Only roles that are not in a trash folder
+	* are considered for the comparison.
+	*
+	* If a domain is specified, and if the domain is not equal to "ilias", ILIAS compares
+	* the title of objects with the domain. Only objects that are not in a trash folder are
+	* considered for the comparison. Then ILIAS searches for local roles which contain
+	* the local part in their title. This allows for abbreviated role names, e.g. instead of
+	* having to specify #il_grp_member_345@MyGroup, it is sufficient to specify #member@MyGroup.
+	*
+	* The address list may contain addresses thate are not role mailboxes. These addresses
+	* are ignored.
+	*
+	* If a role mailbox address is ambiguous, this function returns the ID's of all role
+	* objects that are possible recipients for the role mailbox address. 
+	*
+	* @access	public
+	* @param	string	IETF RFX 822 address list containing role mailboxes.
+	* @return	int[] Array with role ids that were found
+	*/
+	function searchRolesByMailboxAddressList($a_address_list)
+	{
+		$role_ids = array();
+		
+		require_once 'Mail/RFC822.php';
+		$parser = &new Mail_RFC822();
+		$parsedList = $parser->parseAddressList($a_address_list, "ilias", false, true);
+		//echo '<br>ilRBACReview '.var_export($parsedList,false);
+		foreach ($parsedList as $address)
+		{
+			$local_part = $address->mailbox;
+			if (strpos($local_part,'#') !== 0) 
+			{
+				// A local-part which doesn't start with a '#' doesn't denote a role.
+				// Therefore we can skip it.
+				continue;
+			}
+			$local_part = substr($local_part, 1);
+
+			if (substr($local_part,0,8) == 'il_role_')
+			{
+				$role_id = substr($local_part,8);
+				
+				$q = "SELECT COUNT(*) AS count ".
+					"FROM object_data AS dat ".
+					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
+					"JOIN tree AS t ON t.child = ref.ref_id ".
+					"WHERE dat.obj_id ='".addslashes($role_id)."' ".
+					"AND dat.type = 'role' ".
+					"AND t.tree = 1";
+				$r = $this->ilDB->query($q);
+				$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+				if ($row->count > 0)
+				{
+					$role_ids[] = $role_id;
+				}
+				continue;
+			}
+
+			
+			$domain = $address->host;
+			if (strpos($domain,'[') == 0 && strrpos($domain,']'))
+			{
+				$domain = substr($domain,1,strlen($domain) - 2);
+			}
+			if (strlen($local_part) == 0)
+			{
+				$local_part = $domain;
+				$address->host = 'ilias';
+				$domain = 'ilias';
+			}
+			
+			if (strtolower($address->host) == 'ilias')
+			{
+				// Search for roles = local-part in the whole repository
+				$q = "SELECT dat.obj_id ".
+					"FROM object_data AS dat ".
+					"JOIN rbac_fa AS fa ON fa.rol_id = dat.obj_id ".
+					"JOIN tree AS t ON t.child = fa.parent ".
+					"WHERE dat.title ='".addslashes($local_part)."' ".
+					"AND dat.type = 'role' ".
+					"AND fa.assign = 'y' ".
+					"AND t.tree = 1";
+			}
+			else
+			{
+				// Search for roles like local-part in objects = host
+				$q = "SELECT rdat.obj_id ".
+					"FROM object_data AS odat ".
+					"JOIN object_reference AS oref ON oref.obj_id = odat.obj_id ".
+					"JOIN tree AS otree ON otree.child = oref.ref_id ".
+					"JOIN tree AS rtree ON rtree.parent = otree.child ".
+					"JOIN rbac_fa AS rfa ON rfa.parent = rtree.child ".
+					"JOIN object_data AS rdat ON rdat.obj_id = rfa.rol_id ".
+					"WHERE odat.title = '".addslashes($domain)."' ".
+					"AND otree.tree = 1 AND rtree.tree = 1 ".
+					"AND rfa.assign = 'y' ".
+					"AND rdat.title like '%".addslashes($local_part)."%'";
+			}
+			$r = $this->ilDB->query($q);
+
+			$count = 0;
+			while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$role_ids[] = $row->obj_id;
+				$count++;
+			}
+			
+			// Nothing found?
+			// In this case, we search for roles = host.
+			if ($count == 0 && strtolower($address->host) == 'ilias')
+			{
+				$q = "SELECT dat.obj_id ".
+					"FROM object_data AS dat ".
+					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
+					"JOIN tree AS t ON t.child = ref.ref_id ".
+					"WHERE dat.title = '".addslashes($domain)."' ".
+					"AND dat.type = 'role' ".
+					"AND t.tree = 1 ";
+				$r = $this->ilDB->query($q);
+	
+				while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$role_ids[] = $row->obj_id;
+				}
+			}
+			//echo '<br>ids='.var_export($role_ids,true);
+		}
+
+		return $role_ids;
+	}
+	
+	/**
+	 * Returns the mailbox address of a role.
+	 *
+	 * Example 1: Mailbox address for an ILIAS reserved role name
+     * ----------------------------------------------------------
+     * The il_crs_member_345 role of the course object "English Course 1" is 
+	 * returned as one of the following mailbox addresses:
+	 *
+	 * a)   #member@[English Course 1]
+	 * b)   #il_crs_member_345@[English Course 1]
+	 * c)   #il_crs_member_345
+	 *
+	 * Address a) is returned, if the title of the object is unique, and
+ 	 * if there is only one local role with the substring "member" defined for
+	 * the object.
+     *
+	 * Address b) is returned, if the title of the object is unique, but 
+     * there is more than one local role with the substring "member" in its title.
+     *
+     * Address c) is returned, if the title of the course object is not unique.
+     *
+     *
+	 * Example 2: Mailbox address for a manually defined role name
+     * -----------------------------------------------------------
+     * The "Admin" role of the category object "Courses" is 
+	 * returned as one of the following mailbox addresses:
+	 *
+	 * a)   #Admin@Courses
+	 * b)   #Admin
+     * c)   Admin <#il_role_34211>
+	 *
+	 * Address a) is returned, if the title of the object is unique, and
+ 	 * if there is only one local role with the substring "Admin" defined for
+	 * the course object.
+     *
+	 * Address b) is returned, if the title of the object is not unique, but 
+     * the role title is unique.
+     *
+     * Address c) is returned, if neither the role title nor the title of the
+     * course object is unique. 
+     *
+     *
+	 * Example 3: Mailbox address for a manually defined role name that can
+     *            contains illegal characters for the local-part of a 
+     *            mailbox address
+     * --------------------------------------------------------------------
+     * The "Author Courses" role of the category object "Courses" is 
+	 * returned as one of the following mailbox addresses:
+	 *
+	 * a)   #member@[Author Courses]
+     * b)   #il_role_34234
+	 *
+	 * Address a) is returned, if the title of the role is unique.
+     *
+     * Address b) is returned, if neither the role title nor the title of the
+     * course object is unique. 
+     *
+     *
+	 * Example 4: Mailbox address for a manually defined role name that can
+     *            contains illegal characters for both the local-part and the
+     *            domain of a mailbox address.
+     * --------------------------------------------------------------------
+     * The "Author [Courses]" role of the category object "Courses" is 
+	 * returned as one of the following mailbox addresses:
+	 *
+     *       #il_role_34234
+	 *
+	 * @param int a role id
+	 * @return	String mailbox address or null, if role does not exist.
+	 */
+	function getRoleMailboxAddress($a_role_id)
+	{
+		global $log;
+
+		include_once "classes/class.ilMail.php";
+		if (ilMail::_useStandardsCompliantEMailAddresses())
+		{
+			// retrieve the role title and the object title
+			$q = "SELECT rdat.title AS role_title,odat.title AS object_title, ".
+					" oref.ref_id AS object_ref ".
+				"FROM object_data AS rdat ".
+				"JOIN rbac_fa AS fa ON fa.rol_id = rdat.obj_id ".
+				"JOIN tree AS rtree ON rtree.child = fa.parent ".
+				"JOIN object_reference AS oref ON oref.ref_id = rtree.parent ".
+				"JOIN object_data AS odat ON odat.obj_id = oref.obj_id ".
+				"WHERE rdat.obj_id = ".$a_role_id." ".
+				"AND fa.assign = 'y' ";
+			$r = $this->ilDB->query($q);
+			if (! ($row = $r->fetchRow(DB_FETCHMODE_OBJECT)))
+			{
+				//$log->write('class.ilRbacReview->getMailboxAddress('.$a_role_id.'): error role does not exist');
+				return null; // role does not exist
+			}
+			$object_title = $row->object_title;
+			$object_ref = $row->object_ref;
+			$role_title = $row->role_title;
+
+
+			// In this section,
+			// - if the role name contains illegal characters, so that we
+            //   can neither put it into the local-part nor in the domain
+			//   of a mailbox adddress, we return "#il_role_xxxx".
+			// --------------------------------------------------------
+			if (preg_match('/[()<>@,;:\\".\[\]]/',$role_title)) 
+			{
+				return '#il_role_'.$a_role_id;
+			}
+
+
+			// In this section,
+			// - we get rid of the object title, if we can't use it for
+			//     some reason
+			// - if necessary, we encode the object title, so that it can
+            //     be used as an IETF RFC 822 addr-spec "domain"
+			// --------------------------------------------------------
+
+			// If the object title isn't unique, we get rid of it
+			$q = "SELECT COUNT(DISTINCT dat.obj_id) AS count ".
+				"FROM object_data AS dat ".
+				"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
+				"JOIN tree ON tree.child = ref.ref_id ".
+				"WHERE title = '".addslashes($object_title)."' ".
+				"AND tree.tree = 1";
+			$r = $this->ilDB->query($q);
+			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			if ($row->count > 1)
+			{
+				$object_title = null;
+			}
+
+			// If the object title contains characters that aren't allowed
+			// in a IETF RFC 822 "domain", we get rid of it
+			if (preg_match('/[\\[\\]\x5c\"]/',$object_title))
+			{
+				$object_title = null;
+			}
+
+			// If the object title contains characters, that aren't allowed
+			// in an IETF RFC 822 "domain" consisting only of "domain-ref" 
+			// sub-domains, we encode it as a IETF RFC 822 "domain-literal".
+			if ($object_title != null && 
+					(preg_match('/[()<>@,;:\\".\[\]]/',$object_title) || 
+					preg_match('/[^\x21-\x8f]/',$object_title))
+					)
+			{
+				$object_title = '['.$object_title.']';
+			}
+
+			// In this section,
+			// - we disambiguate the role title, if its name is not unique
+			// - we encode the role title, so that it can be used as
+			//     an IETF RFC 822 addr-spec "local-part"
+			// --------------------------------------------------------
+
+			// If the role title is one of the ILIAS reserved role titles,
+			// and the object title is unique, we shorten the role title.
+			if (strpos($role_title, 'il_') === 0 && $object_title != null)
+			{
+				$unambiguous_role_title = $role_title;
+
+				$pos = strpos($role_title, '_', 3) + 1;
+				$role_title = substr(
+					$role_title, 
+					$pos,  
+					strrpos($role_title, '_') - $pos
+				);
+			}
+			else
+			{
+				$unambiguous_role_title = 'il_role_'.$a_role_id;
+			}
+
+			if ($object_title == null)
+			{
+				$q = "SELECT COUNT(DISTINCT dat.obj_id) AS count ".
+					"FROM object_data AS dat ".
+					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
+					"JOIN tree ON tree.child = ref.ref_id ".
+					"WHERE title = '".addslashes($role_title)."' ".
+					"AND tree.tree = 1";
+			}
+			else
+			{
+				$q = "SELECT COUNT(rd.obj_id) AS count ".
+					 "FROM object_data AS rd ".
+					 "JOIN rbac_fa AS fa ON rd.obj_id = fa.rol_id ".
+					 "JOIN tree AS t ON t.child = fa.parent ". 
+					 "WHERE fa.assign = 'y' ".
+					 "AND t.parent = ".$object_ref." ".
+					 "AND rd.title LIKE '%".addslashes($role_title)."%' "
+					;
+			}
+			$r = $this->ilDB->query($q);
+			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+			// if the role title is not unique, we use the unambiguous role title 
+			// instead
+			if ($row->count > 1)
+			{
+				$role_title = $unambiguous_role_title;
+			}
+			// If the role title contains characters that are neither allowed
+			// in an IETF RFC 822 'local-part' nor in a IETF RFC 822 
+			// 'domain', we use the unambiguous role title instead
+			if (preg_match('/[\\[\\]\x5c\"]/',$role_title))
+			{
+				return '#'.$unambiguous_role_title;
+			}
+
+			// If the role title contains characters that aren't allowed
+			// in an IETF RFC 822 'local-part', we put it into the
+			// IETF RFC 822 'domain-literal'
+			if ($role_title != null &&
+					(preg_match('/[\,\x20\;]/',$role_title) || 
+					preg_match('/[^\x20-\x8f]/',$role_title))
+				)
+			{
+				return '#member@['.$role_title.']';
+			}
+
+			// If we can't provide the object title, we use the full role title
+			// as the mailbox address
+			if ($object_title == null)
+			{
+				return '#'.$role_title;
+			}
+			else
+			{
+
+				return '#'.$role_title.'@'.$object_title;
+			}
+		}
+		else 
+		{
+			$q = "SELECT title ".
+				"FROM object_data ".
+				"WHERE obj_id = ".$a_role_id;
+			$r = $this->ilDB->query($q);
+
+			if ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				return '#'.$row->title;
+			}
+			else
+			{
+				return null;
+			}
+		}
+	}
+
+	
+	/**
 	* Checks if a role already exists. Role title should be unique
 	* @access	public
 	* @param	string	role title
@@ -127,9 +533,12 @@ class ilRbacReview
 		
 		foreach ($a_path as $path)
 		{
+			// Note the use of the HAVING clause: For large trees with many
+			// local roles, this query performs much faster when the IN
+            // condition is inside of the HAVING clause.
 			$q = "SELECT * FROM tree ".
-				 "WHERE child ".$in.
-				 "AND parent = ".$ilDB->quote($path)." ";
+				 "WHERE parent = ".$ilDB->quote($path)." ".
+				 "HAVING child ".$in;
 			$r = $this->ilDB->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -177,12 +586,12 @@ class ilRbacReview
 		}
 		
 		//var_dump($a_endnode_id);exit;
-$log->write("ilRBACreview::getParentRoleIds(), 0");	
+		//$log->write("ilRBACreview::getParentRoleIds(), 0");	
 		$pathIds  = $tree->getPathId($a_endnode_id);
 
 		// add system folder since it may not in the path
 		$pathIds[0] = SYSTEM_FOLDER_ID;
-$log->write("ilRBACreview::getParentRoleIds(), 1");	
+		//$log->write("ilRBACreview::getParentRoleIds(), 1");	
 		return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
 	}
 
@@ -260,6 +669,39 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	}
 
 	/**
+	* Returns a list of assignable roles in a subtree of the repository
+	* @access	public
+	* @param	ref_id Rfoot node of subtree
+	* @return	array	set ids
+	*/
+	function getAssignableRolesInSubtree($ref_id)
+	{
+		$role_list = array();
+
+		$where = $this->__setTemplateFilter($a_templates);
+
+		$q = "SELECT fa.*, dat.* ".
+			"FROM tree AS root ".
+			"JOIN tree AS node ON node.tree = root.tree AND node.lft > root.lft AND node.rgt < root.rgt ".
+			"JOIN object_reference AS ref ON ref.ref_id = node.child ".
+			"JOIN rbac_fa AS fa ON fa.parent = ref.ref_id ".
+			"JOIN object_data AS dat ON dat.obj_id = fa.rol_id ".
+			"WHERE root.child = $ref_id AND root.tree = 1 ".
+			"AND fa.assign = 'y' ".
+			"ORDER BY dat.title";
+		$r = $this->ilDB->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$role_list[] = $row;
+		}
+		
+		$role_list = $this->__setRoleType($role_list);
+		
+		return $role_list;
+	}
+
+	/**
 	* Get all assignable roles under a specific node
 	* @access	public
 	* @param ref_id
@@ -269,7 +711,20 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	{
 		global $tree;
 
-		$roles_data = $this->getAssignableRoles();
+		//$roles_data = $this->getAssignableRoles();
+		$q = "SELECT fa.*, rd.* ".
+			 "FROM object_data AS rd ".
+			 "JOIN rbac_fa AS fa ON rd.obj_id = fa.rol_id ".
+			 "JOIN tree AS t ON t.child = fa.parent ". 
+			 "WHERE fa.assign = 'y' ".
+			 "AND t.parent = ".$a_ref_id." "
+			;
+		$r = $this->ilDB->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$roles_data[] = $row;
+		}
 		
 		// Filter childs of node
 		foreach($roles_data as $role)
@@ -279,7 +734,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 				$filtered[] = $role; 
 			}
 		}
-		return $filtered ? $filtered : array();
+		return $roles_data ? $roles_data : array();
 	}
 	
 	/**
@@ -1042,8 +1497,8 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	
 		return $row->ops_id;
 	}
-	
-	
+
+
 	/**
 	* get all linked local roles of a role folder that are created due to stopped inheritance
 	* returns an array with role ids
@@ -1110,7 +1565,7 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 		
 		foreach ($a_role_hierarchy as $role_id => $rolf_id)
 		{
-$log->write("ilRBACreview::__setProtectedStatus(), 0");	
+			//$log->write("ilRBACreview::__setProtectedStatus(), 0");	
 			//echo "<br/>ROLF: ".$rolf_id." ROLE_ID: ".$role_id." (".$a_parent_roles[$role_id]['title'].") ";
 			//var_dump($leveladmin,$a_parent_roles[$role_id]['protected']);
 
@@ -1129,11 +1584,11 @@ $log->write("ilRBACreview::__setProtectedStatus(), 0");
 					//echo "<br/>level_role: ".$lvl_role_id;
 					//echo "<br/>a_ref_id: ".$a_ref_id;
 					
-$log->write("ilRBACreview::__setProtectedStatus(), 1");
+					//$log->write("ilRBACreview::__setProtectedStatus(), 1");
 					// check if role grants 'edit_permission' to parent
 					if ($rbacsystem->checkPermission($a_ref_id,$lvl_role_id,'edit_permission'))
 					{
-$log->write("ilRBACreview::__setProtectedStatus(), 2");
+						//$log->write("ilRBACreview::__setProtectedStatus(), 2");
 						// user may change permissions of that higher-ranked role
 						$a_parent_roles[$role_id]['protected'] = false;
 						
