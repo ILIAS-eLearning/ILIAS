@@ -1169,12 +1169,12 @@ $log->write("ilRBACreview::__setProtectedStatus(), 2");
 				 "LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
 				 "LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
 				 "WHERE object_data.title= ".$ilDB->quote($a_type)." AND object_data.type='typ' ".
-				 "ORDER BY 'order' ASC"; 
+				 "ORDER BY 'op_order' ASC"; 
 		}
 		else
 		{
 			$q = "SELECT * FROM rbac_operations ".
-				 "ORDER BY 'order' ASC";
+				 "ORDER BY 'op_order' ASC";
 		}
 		
 		$r = $ilDB->query($q);
