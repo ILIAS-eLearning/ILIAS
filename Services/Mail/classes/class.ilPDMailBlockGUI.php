@@ -42,7 +42,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		include_once "./include/inc.mail.php";
+		#include_once "./include/inc.mail.php";
 		include_once "classes/class.ilObjUser.php";
 		include_once "classes/class.ilMailbox.php";
 		include_once "classes/class.ilMail.php";
