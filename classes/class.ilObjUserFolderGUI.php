@@ -1372,9 +1372,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 
 			// get local roles
-			$loc_roles = $rbacreview->getAssignableRoles();
+			// A local role is only displayed, if it is contained in the subtree of 
+			// the localy administrated category. If the import function has been 
+			// invoked from the user folder object, we show all local roles, because
+			// the user folder object is considered the parent of all local roles.
+			if ($this->object->getRefId() == USER_FOLDER_ID)
+			{
+				$loc_roles = $rbacreview->getAssignableRolesInSubtree(1);
+			} else {
+				$loc_roles = $rbacreview->getAssignableRolesInSubtree($this->object->getRefId());
+			}
 			$l_roles = array();
-			$l_roles_searcharray = array(); 
+			
+			// create a search array with  .
+			$l_roles_mailbox_searcharray = array();
 			foreach ($loc_roles as $key => $loc_role)
 			{
 				// fetch context path of role
@@ -1428,30 +1439,37 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
 
-					if ($loc_role["role_type"] != "Global" && $isInSubtree)
-					{
-						$l_roles[$loc_role['obj_id']] = $loc_role["title"]." ($path)";
-						$l_roles_searcharray[$loc_role['obj_id']] = $loc_role["title"];
-					}
+					$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role['obj_id']);
+					$l_roles[$loc_role['obj_id']] = $roleMailboxAddress.', '.$path;
 				}
 			} //foreach role
 
 			$l_roles[""] = ""; 
-			natsort($l_roles);
+			natcasesort($l_roles);
 			$l_roles[""] = $this->lng->txt("usrimport_ignore_role"); 
-
 			foreach($roles as $role_id => $role)
 			{
 				if ($role["type"] == "Local")
 				{
 					$this->tpl->setCurrentBlock("local_role");
-					$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]." [".$role_id."]");
-					$pre_select = array_search($role_id, $l_roles_searcharray);
-					if (!($pre_select !== false)) 
-					{
-						$pre_select = array_search($role['name'], $l_roles_searcharray);
+					$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);
+					$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
+					$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+					$pre_select = count($matching_role_ids) > 0 ? $matching_role_ids[0] : "";
+					if ($this->object->getRefId() == USER_FOLDER_ID) {
+						// There are too many roles in a large ILIAS installation
+						// that's why whe show only a choice with the the option "ignore",
+						// and the matching roles.
+						$selectable_roles = array();
+						$selectable_roles[""] =  $this->lng->txt("usrimport_ignore_role");
+						foreach ($matching_role_ids as $id)
+						{
+							$selectable_roles[$id] =  $l_roles[$id];
+						}
+						$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $selectable_roles, false, true);
+					} else {
+						$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
 					}
-					$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
 					$this->tpl->setVariable("SELECT_LOCAL_ROLE", $role_select);
 					$this->tpl->parseCurrentBlock();
 				}

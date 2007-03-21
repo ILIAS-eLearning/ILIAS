@@ -193,8 +193,8 @@ class ilUserImportParser extends ilSaxParser
 	 * Cached local roles.
 	 * This is used to speed up access to local roles.
 	 * This is an associative array.
-	 * The key is either a role_id  or  a role_id with the string "_parent" appended.
-	 * The value is a role object or  the object for which the role is defined
+	 * The key is either a role_id  or  a role_id with the string "_courseMembersObject" appended.
+	 * The value is a role object or  the course members object for which the role is defined
 	 */
 	var $localRoleCache;
 
@@ -208,6 +208,15 @@ class ilUserImportParser extends ilSaxParser
 	 * Cached iLinc data
 	 */
 	var $ilincdata;
+
+	/**
+	 * Cached parent roles.
+	 * This is used to speed up assignment to local roles with parents.
+	 * This is an associative array.
+	 * The key is a role_id .
+	 * The value is an array of role_ids containing all parent roles.
+	 */
+	var $parentRolesCache;
 
 	/**
 	 * ILIAS skin
@@ -265,7 +274,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function ilUserImportParser($a_xml_file = '', $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
-		global $lng, $tree, $ilias,$ilUser;
+		global $lng, $tree, $ilias, $ilUser;
 
 		$this->roles = array();
 		$this->mode = $a_mode;
@@ -275,10 +284,11 @@ class ilUserImportParser extends ilSaxParser
 		$this->logins = array();
 		$this->userCount = 0;
 		$this->localRoleCache = array();
+		$this->parentRolesCache = array();
 		$this->ilincdata = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
-		include_once "./classes/class.ilObjUser.php";
+		include_once "./classes/class.ilObjUser.php"; 
 		$this->userStyles = ilObjUser::_getAllUserAssignedStyles();
 		$settings = $ilias->getAllSettings();
 		if ($settings["usr_settings_hide_skin_style"] == 1)
@@ -466,7 +476,7 @@ class ilUserImportParser extends ilSaxParser
 					$ilias->ini->readVariable("layout","skin"));
 				$this->userObj->setPref("style",
 					$ilias->ini->readVariable("layout","style"));
-
+				
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
@@ -549,6 +559,7 @@ class ilUserImportParser extends ilSaxParser
 				}
 				$this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
 				if ($this->current_role_action != "Assign"
+				&& $this->current_role_action != "AssignWithParents"
 				&& $this->current_role_action != "Detach")
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Role","Action",$a_attribs["Action"]));
@@ -687,9 +698,9 @@ class ilUserImportParser extends ilSaxParser
 	{
 		global $rbacreview, $rbacadmin, $tree;
 
-		if (array_key_exists($a_role_id.'_courseMembersoObject', $this->localRoleCache))
+		if (array_key_exists($a_role_id.'_courseMembersObject', $this->localRoleCache))
 		{
-			return $this->localRoleCache[$a_role_id];
+			return $this->localRoleCache[$a_role_id.'_courseMembersObject'];
 		}
 		else
 		{
@@ -751,6 +762,74 @@ class ilUserImportParser extends ilSaxParser
 		else
 		{
 			$rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
+		}
+	}
+	/**
+	 * Get array of parent role ids from cache.
+	 * If necessary, create a new cache entry.
+	 */
+	function getParentRoleIds($a_role_id)
+	{
+		global $rbacreview;
+	
+		if (! array_key_exists($a_role_id, $this->parentRolesCache))
+		{
+			$parent_role_ids = array();
+			
+			$role_obj = $this->getRoleObject($a_role_id);
+			$short_role_title = substr($role_obj->getTitle(),0,12);
+			$folders = $rbacreview->getFoldersAssignedToRole($a_role_id, true);
+			if (count($folders) > 0)
+				{
+				$all_parent_role_ids = $rbacreview->getParentRoleIds($folders[0]);
+				foreach ($all_parent_role_ids as $parent_role_id => $parent_role_data)
+				{
+					if ($parent_role_id != $a_role_id)
+					{
+						switch (substr($parent_role_data['title'],0,12))
+						{
+							case 'il_crs_admin' :
+							case 'il_grp_admin' :
+								if ($short_role_title == 'il_crs_admin' || $short_role_title == 'il_grp_admin')
+								{
+									$parent_role_ids[] = $parent_role_id;
+								}
+								break;
+							case 'il_crs_tutor' :
+							case 'il_grp_tutor' :
+								if ($short_role_title == 'il_crs_tutor' || $short_role_title == 'il_grp_tutor')
+								{
+									$parent_role_ids[] = $parent_role_id;
+								}
+								break;
+							case 'il_crs_membe' :
+							case 'il_grp_membe' :
+								if ($short_role_title == 'il_crs_membe' || $short_role_title == 'il_grp_membe')
+								{
+									$parent_role_ids[] = $parent_role_id;
+								}
+								break;
+							default :
+								break;
+						}
+					}
+				}
+			}
+			$this->parentRolesCache[$a_role_id] = $parent_role_ids;
+		}
+		return $this->parentRolesCache[$a_role_id];
+	}
+	/**
+	 * Assigns a user to a role and to all parent roles.
+     */
+	function assignToRoleWithParents($a_user_obj, $a_role_id)
+	{
+		$this->assignToRole($a_user_obj, $a_role_id);
+		
+		$parent_role_ids = $this->getParentRoleIds($a_role_id);
+		foreach ($parent_role_ids as $parent_role_id)
+		{
+			$this->assignToRole($a_user_obj, $parent_role_id);
 		}
 	}
 	/**
@@ -921,7 +1000,7 @@ class ilUserImportParser extends ilSaxParser
 							$this->action = "Ignore";
 						}
 						break;
-
+						
 					case "Update" :
 						if ($elogin != "" && $elogin != $this->userObj->getLogin())
 						{
@@ -1115,7 +1194,7 @@ class ilUserImportParser extends ilSaxParser
 							$updateUser->setPref("skin", $this->userObj->getPref("skin"));
 							$updateUser->setPref("style", $this->userObj->getPref("style"));
 							$updateUser->writePrefs();
-
+							
 							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
 
 							$updateUser->update();
@@ -1175,6 +1254,9 @@ class ilUserImportParser extends ilSaxParser
 									{
 										case "Assign" :
 											$this->assignToRole($updateUser, $this->role_assign[$role_id]);
+											break;
+										case "AssignWithParents" :
+											$this->assignToRoleWithParents($updateUser, $this->role_assign[$role_id]);
 											break;
 										case "Detach" :
 											$this->detachFromRole($updateUser, $this->role_assign[$role_id]);
@@ -1352,7 +1434,7 @@ class ilUserImportParser extends ilSaxParser
 					}
 				}
 				break;
-
+				
 			case 'UserDefinedField':
 				include_once 'classes/class.ilUserDefinedFields.php';
 				$udf = ilUserDefinedFields::_getInstance();
@@ -1496,7 +1578,7 @@ class ilUserImportParser extends ilSaxParser
 			case "Login":
 				if (array_key_exists($this->cdata, $this->logins))
 				{
-					$this->logFailure($this->cdata, $lng->txt("usrimport_login_is_not_unique"));
+					$this->logWarning($this->cdata, $lng->txt("usrimport_login_is_not_unique"));
 				}
 				else
 				{
@@ -1544,8 +1626,10 @@ class ilUserImportParser extends ilSaxParser
 				if ($this->cdata != "m"
 				&& $this->cdata != "f")
 				{
-					$this->logFailure($this->userObj->getLogin(),
-									  sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Gender",$this->cdata));
+					$this->logFailure(
+						$this->userObj->getLogin(), 
+						sprintf($lng->txt("usrimport_xml_element_content_illegal"),"Gender",$this->cdata)
+					);
 				}
 				$this->userObj->setGender($this->cdata);
 				break;
@@ -1623,7 +1707,7 @@ class ilUserImportParser extends ilSaxParser
 								$lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->cdata.")");
 						}
 						break;
-
+						
 					case "Update" :
 						if ($elogin != "" && $elogin != $this->userObj->getLogin())
 						{
@@ -1634,7 +1718,7 @@ class ilUserImportParser extends ilSaxParser
 				}
 				$this->userObj->setExternalAccount(trim($this->cdata));
 				break;
-
+				
 			case "Active":
 				if ($this->cdata != "true"
 				&& $this->cdata != "false")
