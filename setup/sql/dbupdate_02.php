@@ -1012,7 +1012,7 @@ CREATE TABLE `tmp_migration` (
 $query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
 $res = $ilDB->query($query);
 $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-$ops_id = $row->ops_id;
+$ops_id = (int) $row->ops_id;
 
 $all_types = array('cat','chat','crs','dbk','exc','file','fold','frm','glo','grp','htlm','icrs','lm','mcst','sahs','svy','tst','webr');
 
