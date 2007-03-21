@@ -1059,6 +1059,14 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 <#951>
 DROP TABLE IF EXISTS tmp_migration;
+<#952>
+<?php
+// Mail enhancements part II
+// Create b-tree index for fast access to object titles. This is needed for
+// efficient generation and resolution of role mailbox addresses.
+$query = "CREATE INDEX title_index USING BTREE ON object_data (title ASC);";
+$this->db->query($query);
+?>
 
 
 
