@@ -2819,6 +2819,8 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_related_to#:#Related to
+news#:#news_all_items#:#All Items
 news#:#news_edit_news_settings#:#Edit Settings
 news#:#news_enable_internal_news#:#Enable Internal News
 news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.

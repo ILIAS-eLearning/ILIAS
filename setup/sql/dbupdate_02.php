@@ -1067,9 +1067,8 @@ DROP TABLE IF EXISTS tmp_migration;
 $query = "CREATE INDEX title_index USING BTREE ON object_data (title ASC);";
 $this->db->query($query);
 ?>
-
-
-
-  
-
+<#953>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

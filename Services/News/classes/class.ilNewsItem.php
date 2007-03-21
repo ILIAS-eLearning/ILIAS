@@ -95,6 +95,35 @@ class ilNewsItem extends ilNewsItemGen
 	}
 	
 	/**
+	* Get News For Ref Id.
+	*/
+	function getNewsForRefId($a_ref_id)
+	{
+		$obj_id = ilObject::_lookupObjId($a_ref_id);
+		$obj_type = ilObject::_lookupType($obj_id);
+		if ($obj_type == "cat")
+		{
+			return $this->getAggregatedChildNewsData($a_ref_id);
+		}
+		else if ($obj_type == "grp" || $obj_type == "crs")
+		{
+			return $this->getAggregatedNewsData($a_ref_id);
+		}
+		else
+		{
+			$news_item = new ilNewsItem();
+			$news_item->setContextObjId($obj_id);
+			$news_item->setContextObjType($obj_type);
+			$news = $news_item->queryNewsForContext();
+			foreach ($news as $k => $v)
+			{
+				$news[$k]["ref_id"] = $a_ref_id;
+			}
+			return $news;
+		}
+	}
+	
+	/**
 	* Get news aggregation (e.g. for courses)
 	*/
 	function getAggregatedNewsData($a_ref_id)
