@@ -345,7 +345,7 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function cloneNode($node,$cp_options)
 	{
-		global $ilLog,$tree;
+		global $ilLog,$tree,$ilAccess;
 		
 		#sleep(20);
 		
@@ -354,6 +354,12 @@ class ilSoapUtils extends ilSoapAdministration
 		$options = $cp_options->getOptions($node['child']);
 		$mappings = $cp_options->getMappings();
 		
+		if(!$ilAccess->checkAccess('copy','',$node['child']))
+		{
+			$ilLog->write(__METHOD__.': No copy permission granted: '.$source_id.', '.$node['title'].', '.$node['type']);
+			return false;
+			
+		}
 		if(!isset($mappings[$parent_id]))
 		{
 			$ilLog->write(__METHOD__.': Omitting node '.$source_id.', '.$node['title'].', '.$node['type']. '. No target found.');
@@ -416,13 +422,19 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function linkNode($node,$cp_options)
 	{
-		global $ilLog;
+		global $ilLog,$ilAccess;
 		
 		$source_id = $node['child'];
 		$parent_id = $node['parent'];
 		$options = $cp_options->getOptions($node['child']);
 		$mappings = $cp_options->getMappings();
 		
+		if(!$ilAccess->checkAccess('write','',$node['child']))
+		{
+			$ilLog->write(__METHOD__.': No write permission granted: '.$source_id.', '.$node['title'].', '.$node['type']);
+			return false;
+			
+		}
 		if(!isset($mappings[$parent_id]))
 		{
 			$ilLog->write(__METHOD__.': Omitting node '.$source_id.', '.$node['title'].', '.$node['type']. '. No target found.');

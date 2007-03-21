@@ -239,9 +239,10 @@ class ilUtil
 	* @param	int				size
 	* @param	string			style class
 	* @param	array			additional attributes (key = attribute name, value = attribute value)
+	* @param    boolean			disabled
 	*/
 	function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
-		$style_class = "", $attribs = "")
+		$style_class = "", $attribs = "",$disabled = false)
 	{
 		global $lng;
 
@@ -271,8 +272,12 @@ class ilUtil
 				$attributes .= " ".$key."=\"".$val."\"";
 			}
 		}
+		if($disabled)
+		{
+			$disabled = ' disabled=\"disabled\"';
+		}
 
-		$str = "<select name=\"".$varname ."\"".$multiple." $class size=\"".$size."\" $attributes>\n";
+		$str = "<select name=\"".$varname ."\"".$multiple." $class size=\"".$size."\" $attributes $disabled>\n";
 
 		foreach ($options as $key => $val)
 		{
@@ -2986,13 +2991,16 @@ class ilUtil
 		}
 
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array($a_operation));
+		
 		$ops_id = $ops_ids[0];
 
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM rbac_pa ".
 			"LEFT JOIN object_reference AS obr  ON obr.ref_id = rbac_pa.ref_id ".
 			"LEFT JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
 			$where.
-			"AND ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%");
+			"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
+			"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").") ";
+			
 		$res = $ilDB->query($query);
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -3002,7 +3010,7 @@ class ilUtil
 				break;
 			}
 			// Check deleted, hierarchical access ...
-			if($ilAccess->checkAccessOfUser($a_usr_id,$a_operation,'',$row->ref_id,$row->type,$row->obj_id))
+			if($ilAccess->checkAccessOfUser($a_usr_id,'copy','',$row->ref_id,$row->type,$row->obj_id))
 			{
 				$ref_ids[] = $row->ref_id;
 			}

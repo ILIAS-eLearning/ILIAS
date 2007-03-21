@@ -98,7 +98,7 @@ class ilMDUtils
 	 */
 	public static function _fillHTMLMetaTags($a_rbac_id,$a_obj_id,$a_type)
 	{
-		global $tpl;
+		global $tpl,$ilObjDataCache;
 		
 		include_once('Services/MetaData/classes/class.ilMDKeyword.php');
 		foreach(ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id,$a_obj_id,$a_type) as $lng_code => $key_string)
@@ -108,7 +108,7 @@ class ilMDUtils
 			$tpl->setVariable('MH_META_LANG',$lng_code);
 			$tpl->setVariable('MH_META_CONTENT',$key_string);
 			$tpl->parseCurrentBlock();
-		}		
+		}
 	}
 
 
