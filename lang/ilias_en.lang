@@ -7153,3 +7153,21 @@ common#:#search_engine#:#Search Engines
 common#:#enable_search_engine#:#Open Publi Area for Internet Search Engines (e.g Google)
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
+common#:#cat_copy#:#Copy Category
+common#:#chat_copy#:#Copy Chat
+common#:#crs_copy#:#Copy Course
+common#:#dbk_copy#:#Copy Digilib-Book
+common#:#exc_copy#:#Copy Exercise
+common#:#file_copy#:#Copy File
+common#:#fold_copy#:#Copy Folder
+common#:#frm_copy#:#Copy Forum
+common#:#glo_copy#:#Copy Glossary
+common#:#grp_copy#:#Copy Group
+common#:#htlm_copy#:#Copy HTML Learning Module
+common#:#icrs_copy#:#Copy LearnLinc Seminar
+common#:#lm_copy#:#Copy ILIAS Lernmodul
+common#:#mcst_copy#:#Copy MediaCast
+common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
+common#:#svy_copy#:#Copy Survey
+common#:#tst_copy#:#Copy Test
+common#:#webr_copy#:#Copy Web Resource
