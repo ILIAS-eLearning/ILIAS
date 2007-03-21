@@ -2427,7 +2427,7 @@ class ilObjectGUI
 	{
 		global $objDefinition,$ilUser;
 		
-		if(!count($existing_objs = ilUtil::_getObjectsByOperations($a_type,'write',$ilUser->getId(),-1)))
+		if(!count($existing_objs = ilUtil::_getObjectsByOperations($a_type,'copy',$ilUser->getId(),-1)))
 		{
 			// No Objects with write permission found
 			return false;

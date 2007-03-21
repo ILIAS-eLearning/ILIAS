@@ -1855,15 +1855,14 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 					$this->tpl->touchBlock('padding');
 					$this->tpl->touchBlock('end_padding');
 				}
+				// fill options
+				$copy_wizard_page = ilCopyWizardPageFactory::_getInstanceByType($source_id,$node['type']);
+				$copy_wizard_page->fillTreeSelection($node['ref_id'],$node['type']);
 				
 				$this->tpl->setCurrentBlock('tree_row');
 				$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.gif'));
 				$this->tpl->setVariable('TREE_ALT_IMG',$this->lng->txt('obj_'.$node['type']));
 				$this->tpl->setVariable('TREE_TITLE',$node['title']);
-				
-				// fill options
-				$copy_wizard_page = ilCopyWizardPageFactory::_getInstanceByType($source_id,$node['type']);
-				$copy_wizard_page->fillTreeSelection($node['ref_id'],$node['type']);
 				$this->tpl->parseCurrentBlock();
 			}
 			if(!$has_items)
