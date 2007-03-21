@@ -7113,3 +7113,21 @@ common#:#search_engine#:#Suchmaschinen
 common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben
 common#:#mod_rewrite_disabled#:#Das Apache-Modul 'mod_rewrite' ist nicht verfügbar.
 common#:#allow_override_alert#:#Die Regeln der .htaccess-Datei können nicht ausgewertet werden.
+common#:#cat_copy#:#Kategorie kopieren
+common#:#chat_copy#:#Chat kopieren
+common#:#crs_copy#:#Kurs kopieren
+common#:#dbk_copy#:#Digilib-Buch kopieren
+common#:#exc_copy#:#Übung kopieren
+common#:#file_copy#:#Datei kopieren
+common#:#fold_copy#:#Ordner kopieren
+common#:#frm_copy#:#Forum kopieren
+common#:#glo_copy#:#Glossar kopieren
+common#:#grp_copy#:#Gruppe kopieren
+common#:#htlm_copy#:#HTML-Lerneinheit kopieren
+common#:#icrs_copy#:#LearnLinc Seminar kopieren
+common#:#lm_copy#:#ILIAS Lernmodul kopieren
+common#:#mcst_copy#:#MediaCast kopieren
+common#:#sahs_copy#:#Lernmodul SCORM/AICC kopieren
+common#:#svy_copy#:#Umfrage kopieren
+common#:#tst_copy#:#Test kopieren
+common#:#webr_copy#:#Web-Links kopieren
