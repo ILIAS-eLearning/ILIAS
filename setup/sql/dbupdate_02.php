@@ -914,4 +914,154 @@ if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
 }
 chdir($wd);
 ?>
+<#945>
+<?php
+// new permission copy
+$query = "INSERT INTO rbac_operations SET operation = 'copy', ".
+	"description = 'Copy Object', ".
+	"class = 'general', ".
+	"op_order = '115'";
+
+$res = $ilDB->query($query);
+?>
+<#946>
+<?php
+
+// copy permission id
+$query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$ops_id = $row->ops_id;
+
+$all_types = array('cat','chat','crs','dbk','exc','file','fold','frm','glo','grp','htlm','icrs','lm','mcst','sahs','svy','tst','webr');
+foreach($all_types as $type)
+{
+	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = '".$type."'";
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	
+	$query = "INSERT INTO rbac_ta SET typ_id = '".$row->obj_id."', ops_id = '".$ops_id."'";
+	$ilDB->query($query);
+}
+?>
+<#947>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `parent` int(11) NOT NULL default '0',
+  `type` varchar(4),
+  `passed` tinyint(4) NOT NULL default '0');
+  
+<#948>
+<?php
+// Adjust rbac templates 
+
+// copy permission id
+$query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$ops_id = $row->ops_id;
+
+$all_types = array('cat','chat','crs','dbk','exc','file','fold','frm','glo','grp','htlm','icrs','lm','mcst','sahs','svy','tst','webr');
+$query = "SELECT * FROM rbac_templates ".
+	"WHERE type IN ('".implode("','",$all_types)."') ".
+	"AND ops_id = 4 ".
+	"ORDER BY rol_id,parent";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	// CHECK done
+	$query = "SELECT * FROM tmp_migration ".
+		"WHERE obj_id = '".$row->rol_id."' ".
+		"AND parent = '".$row->parent."' ".
+		"AND type = '".$row->type."'";
+	$res_done = $ilDB->query($query);
+	if($res_done->numRows())
+	{
+		continue;
+	}
+	// INSERT new permission
+	$query = "INSERT INTO rbac_templates SET ".
+		"rol_id = '".$row->rol_id."', ".
+		"type = '".$row->type."', ".
+		"ops_id = '".$ops_id."', ".
+		"parent = '".$row->parent."'";
+	$ilDB->query($query);
+	
+	// Set Passed
+	$query = "INSERT INTO tmp_migration SET ".
+		"obj_id = '".$row->rol_id."', ".
+		"parent = '".$row->parent."', ".
+		"type = '".$row->type."', ".
+		"passed = '1'";
+	$ilDB->query($query);
+}
+?>
+<#949>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `rol_id` int(11) NOT NULL default '0',
+  `ref_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+<#950>
+<?php
+// Adjust rbac_pa
+
+// copy permission id
+$query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$ops_id = $row->ops_id;
+
+$all_types = array('cat','chat','crs','dbk','exc','file','fold','frm','glo','grp','htlm','icrs','lm','mcst','sahs','svy','tst','webr');
+
+// Get all objects
+$query = "SELECT rol_id,ops_id,pa.ref_id AS ref_id FROM rbac_pa AS pa ".
+	"JOIN object_reference AS obr ON pa.ref_id = obr.ref_id ".
+	"JOIN object_data AS obd ON obr.obj_id = obd.obj_id ".
+	"WHERE obd.type IN ('".implode("','",$all_types)."') ".
+	"ORDER BY rol_id,pa.ref_id ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	// CHECK done
+	$query = "SELECT * FROM tmp_migration ".
+		"WHERE rol_id = '".$row->rol_id."' ".
+		"AND ref_id = '".$row->ref_id."' ".
+		"AND passed = '1'";
+	$res_done = $ilDB->query($query);
+	if($res_done->numRows())
+	{
+		continue;
+	}
+	$ops_ids = unserialize(stripslashes($row->ops_id));
+	// write granted ?
+	if(!in_array(4,$ops_ids))
+	{
+		continue;
+	}
+	// Grant permission
+	$ops_ids[] = $ops_id;
+	$query = "UPDATE rbac_pa SET ".
+		"ops_id = '".addslashes(serialize($ops_ids))."' ".
+		"WHERE rol_id = '".$row->rol_id."' ".
+		"AND ref_id = '".$row->ref_id."'";
+	$ilDB->query($query);
+	
+	// Set Passed
+	$query = "INSERT INTO tmp_migration SET ".
+		"rol_id = '".$row->rol_id."', ".
+		"ref_id = '".$row->ref_id."', ".
+		"passed = '1'";
+	$ilDB->query($query);
+}
+?>
+<#951>
+DROP TABLE IF EXISTS tmp_migration;
+
+
+
+  
+
 
