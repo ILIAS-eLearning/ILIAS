@@ -560,14 +560,14 @@ class ilPersonalProfileGUI
 				$ilUser->setPref("show_users_online", $_POST["show_users_online"]);
 			}
 			
-			// save notes setting
-			if ($_POST["chk_notes"] != "")
+			// personal desktop items in news block
+			if ($_POST["pd_items_news"] != "")
 			{
-				$ilUser->setPref("show_notes","y");
+				$ilUser->setPref("pd_items_news","y");
 			}
 			else
 			{
-				$ilUser->setPref("show_notes","n");
+				$ilUser->setPref("pd_items_news","n");
 			}
 
 			// profile ok
@@ -758,12 +758,15 @@ class ilPersonalProfileGUI
 			}
 		}
 		
-		// show notes
-		if ($ilUser->prefs["show_notes"] != "n")
+		// personal desktop news
+		if ($ilUser->prefs["pd_items_news"] != "n")
 		{
-			$this->tpl->setVariable("CHK_NOTES", "checked");
+			$this->tpl->setVariable("PD_ITEMS_NEWS", "checked");
 		}
-		$this->tpl->setVariable("TXT_SHOW_NOTES", $this->lng->txt("show_notes_on_pd"));
+		$this->tpl->setVariable("TXT_PD_ITEMS_NEWS",
+			$this->lng->txt("pd_items_news"));
+		$this->tpl->setVariable("TXT_PD_ITEMS_NEWS_INFO",
+			$this->lng->txt("pd_items_news_info"));
 		
 		if (($ilUser->getAuthMode(true) == AUTH_LOCAL ||
 			($ilUser->getAuthMode(true) == AUTH_CAS && $ilSetting->get("cas_allow_local")) ||
