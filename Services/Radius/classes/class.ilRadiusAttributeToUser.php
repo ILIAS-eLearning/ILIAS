@@ -29,7 +29,7 @@
 * 
 * @ingroup ServicesRadius 
 */
-class ilRadiusAtributeToUser
+class ilRadiusAttributeToUser
 {
 	/**
 	 * Constructor
