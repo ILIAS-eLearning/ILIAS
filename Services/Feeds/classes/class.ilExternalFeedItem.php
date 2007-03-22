@@ -227,5 +227,4 @@ class ilExternalFeedItem
 	{
 		return $this->author;
 	}
-
 }

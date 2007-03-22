@@ -148,7 +148,7 @@ class ilFeedWriter
 	function getFeed()
 	{
 		include_once("classes/class.ilTemplate.php");
-		$this->tpl = new ilTemplate("tpl.rss_1_0.xml", true, true, "Services/Feeds");
+		$this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
 		
 		$this->tpl->setVariable("XML", "xml");
 		$this->tpl->setVariable("CONTENT_ENCODING", $this->getEncoding());
@@ -163,12 +163,23 @@ class ilFeedWriter
 			$this->tpl->setVariable("RESOURCE", $item->getAbout());
 			$this->tpl->parseCurrentBlock();
 			
+			// Enclosure
+			if ($item->getEnclosureUrl() != "")
+			{
+				$this->tpl->setCurrentBlock("enclosure");
+				$this->tpl->setVariable("ENC_URL", $item->getEnclosureUrl());
+				$this->tpl->setVariable("ENC_LENGTH", $item->getEnclosureLength());
+				$this->tpl->setVariable("ENC_TYPE", $item->getEnclosureType());
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("item");
 			$this->tpl->setVariable("ITEM_ABOUT", $item->getAbout());
 			$this->tpl->setVariable("ITEM_TITLE", $item->getTitle());
 			$this->tpl->setVariable("ITEM_DESCRIPTION", $item->getDescription());
 			$this->tpl->setVariable("ITEM_LINK", $item->getLink());
 			$this->tpl->parseCurrentBlock();
+			
 		}
 		
 		$this->tpl->parseCurrentBlock();

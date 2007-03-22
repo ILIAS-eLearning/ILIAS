@@ -211,7 +211,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$this->addBlockCommand(
 				ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
-					"&obj_id=".$this->block_id,
+					"ref_id=".$_GET["ref_id"],
 					$lng->txt("news_feed_url"), "_blank");
 		}
 

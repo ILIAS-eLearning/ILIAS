@@ -116,7 +116,10 @@ class ilNewsItem extends ilNewsItemGen
 			$pd_items = ilObjUser::_lookupDesktopItems($a_user_id);
 			foreach($pd_items as $item)
 			{
-				$ref_ids[] = $item["ref_id"];
+				if (!in_array($item["ref_id"], $ref_ids))
+				{
+					$ref_ids[] = $item["ref_id"];
+				}
 			}
 		}
 		
@@ -163,17 +166,17 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Get News For Ref Id.
 	*/
-	function getNewsForRefId($a_ref_id)
+	function getNewsForRefId($a_ref_id, $a_only_public = false)
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
 		if ($obj_type == "cat")
 		{
-			return $this->getAggregatedChildNewsData($a_ref_id);
+			return $this->getAggregatedChildNewsData($a_ref_id, $a_only_public);
 		}
 		else if ($obj_type == "grp" || $obj_type == "crs")
 		{
-			return $this->getAggregatedNewsData($a_ref_id);
+			return $this->getAggregatedNewsData($a_ref_id, $a_only_public);
 		}
 		else
 		{
@@ -181,9 +184,21 @@ class ilNewsItem extends ilNewsItemGen
 			$news_item->setContextObjId($obj_id);
 			$news_item->setContextObjType($obj_type);
 			$news = $news_item->queryNewsForContext();
+			$unset = array();
 			foreach ($news as $k => $v)
 			{
-				$news[$k]["ref_id"] = $a_ref_id;
+				if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC)
+				{
+					$news[$k]["ref_id"] = $a_ref_id;
+				}
+				else
+				{
+					$unset[] = $k;
+				}
+			}
+			foreach ($unset as $un)
+			{
+				unset($news[$un]);
 			}
 			return $news;
 		}
@@ -197,12 +212,6 @@ class ilNewsItem extends ilNewsItemGen
 		global $tree, $ilAccess;
 		
 		// get news of parent object
-		/*
-		$data = $this->queryNewsForContext();
-		foreach ($data as $k => $v)
-		{
-			$data[$k]["ref_id"] = $a_ref_id;
-		}*/
 		
 		$data = array();
 		

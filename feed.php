@@ -42,8 +42,16 @@ $ilInit = new ilInitialisation();
 $GLOBALS['ilInit'] =& $ilInit;
 $ilInit->initFeed();
 
-
-include_once("./Services/Feeds/classes/class.ilUserFeedWriter.php");
-$writer = new ilUserFeedWriter($_GET["user_id"], $_GET["hash"]);
-$writer->showFeed();
+if ($_GET["user_id"] != "")
+{
+	include_once("./Services/Feeds/classes/class.ilUserFeedWriter.php");
+	$writer = new ilUserFeedWriter($_GET["user_id"], $_GET["hash"]);
+	$writer->showFeed();
+}
+else if ($_GET["ref_id"] != "")
+{
+	include_once("./Services/Feeds/classes/class.ilObjectFeedWriter.php");
+	$writer = new ilObjectFeedWriter($_GET["ref_id"]);
+	$writer->showFeed();
+}
 ?>

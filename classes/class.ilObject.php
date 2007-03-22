@@ -216,7 +216,7 @@ class ilObject
 			// read object data
 			$q = "SELECT * FROM object_data ".
 				 "WHERE obj_id = ".$ilDB->quote($this->id);
-			$object_set = $this->ilias->db->query($q);
+			$object_set = $ilDB->query($q);
 
 			// check number of records
 			if ($object_set->numRows() == 0)
@@ -1344,7 +1344,7 @@ class ilObject
 			$q = "SELECT * FROM object_data WHERE obj_id=".$ilDB->quote($a_id);
 		}
 		
-		$r = $ilias->db->query($q);
+		$r = $ilDB->query($q);
 
 		return $r->numRows() ? true : false;
 	}
