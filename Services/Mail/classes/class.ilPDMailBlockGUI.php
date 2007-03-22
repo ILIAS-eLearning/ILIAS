@@ -139,8 +139,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$this->mails = array();
 		foreach ($mail_data as $mail)
 		{
-			//ONLY NEW MAILS WOULD BE ON THE PERONAL DESKTOP
-			if($mail["m_status"] == 'unread')
+			//ONLY NEW MAILS WOULD BE ON THE PERSONAL DESKTOP
+			if($mail["m_status"] == 'unread' &&
+				in_array('normal',$mail['m_type']))
 			{
 				$this->mails[] = $mail;
 			}
@@ -206,7 +207,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setVariable("NEW_MAIL_SUBJ", $mail["m_subject"]);
+		$this->tpl->setVariable("NEW_MAIL_SUBJ", htmlentities($mail["m_subject"]));
 		$ilCtrl->setParameter($this, "mobj_id", $inbox);
 		$ilCtrl->setParameter($this, "mail_id", $mail["mail_id"]);
 		$ilCtrl->setParameter($this, "mail_mode", $this->mail_mode);

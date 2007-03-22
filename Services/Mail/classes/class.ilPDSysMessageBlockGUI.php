@@ -94,17 +94,26 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	function getMails()
 	{
 		global $ilUser;
-
+		
+		// BEGIN MAILS
 		$umail = new ilMail($_SESSION["AccountId"]);
-		$mail_data = $umail->getMailsOfFolder(0);
-
+		$mbox = new ilMailBox($_SESSION["AccountId"]);
+		$inbox = $mbox->getInboxFolder();
+		
+		//SHOW MAILS FOR EVERY USER
+		$mail_data = $umail->getMailsOfFolder($inbox);
+		$mail_counter = $umail->getMailCounterData();
+		$unreadmails = 0;
+	
 		$this->mails = array();
 		foreach ($mail_data as $mail)
 		{
-			$mbox = new ilMailBox($_SESSION["AccountId"]);
-			$inbox = $mbox->getInboxFolder();
-
-			$this->mails[] = $mail;
+			//ONLY NEW MAILS WOULD BE ON THE PERONAL DESKTOP
+			if($mail["m_status"] == 'unread' &&
+				in_array('system',$mail['m_type']))
+			{
+				$this->mails[] = $mail;
+			}
 		}
 	}
 

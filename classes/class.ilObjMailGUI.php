@@ -99,6 +99,7 @@ class ilObjMailGUI extends ilObjectGUI
 				$this->ilias->setSetting("mail_maxsize_box",$_POST["mail_maxsize_box"]);
 				$this->ilias->setSetting("mail_maxtime_mail",$_POST["mail_maxtime_mail"]);
 				$this->ilias->setSetting("mail_maxtime_attach",$_POST["mail_maxtime_attach"]);
+				$this->ilias->setSetting("pear_mail_enable",$_POST["pear_mail_enable"]);
 
 				$settings = $this->ilias->getAllSettings();
 
@@ -118,6 +119,25 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MAIL_SMTP", $this->lng->txt("mail")." (".$this->lng->txt("smtp").")");
 		$this->tpl->setVariable("TXT_MAIL_SERVER", $this->lng->txt("server"));
 		$this->tpl->setVariable("TXT_MAIL_PORT", $this->lng->txt("port"));
+
+		// Pear Mail extension
+		$is_pear_mail_installed = include 'Mail/RFC822.php';
+		$this->tpl->setVariable("TXT_PEAR_MAIL", $this->lng->txt("mail_use_pear_mail"));
+		if ($settings['pear_mail_enable']) $this->tpl->setVariable("PEAR_MAIL_CHECKED", 'checked="checked"');
+		if ($is_pear_mail_installed)
+		{
+			$this->tpl->setVariable("TXT_PEAR_MAIL_INFO", 
+				$this->lng->txt("mail_use_pear_mail_info")
+			);
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_PEAR_MAIL_INFO", 
+				$this->lng->txt("mail_use_pear_mail_info").'<br>'.
+				$this->lng->txt("mail_pear_mail_needed")
+			);
+			$this->tpl->setVariable("PEAR_MAIL_DISABLED", 'disabled="disabled"');
+		}
 
 		// internal mail
 		include_once "class.ilMailOptions.php";
