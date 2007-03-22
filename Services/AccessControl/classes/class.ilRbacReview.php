@@ -262,30 +262,22 @@ class ilRbacReview
      * course object is unique. 
      *
      *
-	 * Example 3: Mailbox address for a manually defined role name that can
-     *            contains illegal characters for the local-part of a 
+	 * Example 3: Mailbox address for a manually defined role title that can
+     *            contains special characters in the local-part of a 
      *            mailbox address
      * --------------------------------------------------------------------
      * The "Author Courses" role of the category object "Courses" is 
 	 * returned as one of the following mailbox addresses:
 	 *
-	 * a)   #member@[Author Courses]
-     * b)   #il_role_34234
+	 * a)   "#Author Courses"@Courses
+     * b)   Author Courses <#il_role_34234>
 	 *
 	 * Address a) is returned, if the title of the role is unique.
      *
      * Address b) is returned, if neither the role title nor the title of the
-     * course object is unique. 
+     * course object is unique, or if the role title contains a quote or a
+	 * backslash.
      *
-     *
-	 * Example 4: Mailbox address for a manually defined role name that can
-     *            contains illegal characters for both the local-part and the
-     *            domain of a mailbox address.
-     * --------------------------------------------------------------------
-     * The "Author [Courses]" role of the category object "Courses" is 
-	 * returned as one of the following mailbox addresses:
-	 *
-     *       #il_role_34234
 	 *
 	 * @param int a role id
 	 * @return	String mailbox address or null, if role does not exist.
@@ -295,9 +287,9 @@ class ilRbacReview
 		global $log;
 
 		include_once "classes/class.ilMail.php";
-		if (ilMail::_useStandardsCompliantEMailAddresses())
+		if (ilMail::_usePearMail())
 		{
-			// retrieve the role title and the object title
+			// Retrieve the role title and the object title.
 			$q = "SELECT rdat.title AS role_title,odat.title AS object_title, ".
 					" oref.ref_id AS object_ref ".
 				"FROM object_data AS rdat ".
@@ -318,25 +310,14 @@ class ilRbacReview
 			$role_title = $row->role_title;
 
 
-			// In this section,
-			// - if the role name contains illegal characters, so that we
-            //   can neither put it into the local-part nor in the domain
-			//   of a mailbox adddress, we return "#il_role_xxxx".
-			// --------------------------------------------------------
-			if (preg_match('/[()<>@,;:\\".\[\]]/',$role_title)) 
-			{
-				return '#il_role_'.$a_role_id;
-			}
+			// In a perfect world, we could use the object_title in the 
+			// domain part of the mailbox address, and the role title
+			// with prefix '#' in the local part of the mailbox address.
+			$domain = $object_title;
+			$local_part = $role_title;
 
 
-			// In this section,
-			// - we get rid of the object title, if we can't use it for
-			//     some reason
-			// - if necessary, we encode the object title, so that it can
-            //     be used as an IETF RFC 822 addr-spec "domain"
-			// --------------------------------------------------------
-
-			// If the object title isn't unique, we get rid of it
+			// Determine if the object title is unique
 			$q = "SELECT COUNT(DISTINCT dat.obj_id) AS count ".
 				"FROM object_data AS dat ".
 				"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
@@ -345,43 +326,38 @@ class ilRbacReview
 				"AND tree.tree = 1";
 			$r = $this->ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+			// If the object title is not unique, we get rid of the domain.
 			if ($row->count > 1)
 			{
-				$object_title = null;
+				$domain = null;
 			}
 
-			// If the object title contains characters that aren't allowed
-			// in a IETF RFC 822 "domain", we get rid of it
-			if (preg_match('/[\\[\\]\x5c\"]/',$object_title))
+			// If the domain contains illegal characters, we get rid of it.
+			if (domain != null && preg_match('/[\[\]\\\x00-\x1f]/',$domain))
 			{
-				$object_title = null;
+				$domain = null;
 			}
 
-			// If the object title contains characters, that aren't allowed
-			// in an IETF RFC 822 "domain" consisting only of "domain-ref" 
-			// sub-domains, we encode it as a IETF RFC 822 "domain-literal".
-			if ($object_title != null && 
-					(preg_match('/[()<>@,;:\\".\[\]]/',$object_title) || 
-					preg_match('/[^\x21-\x8f]/',$object_title))
+			// If the domain contains special characters, we put square
+			//   brackets around it.
+			if ($domain != null && 
+					(preg_match('/[()<>@,;:\\".\[\]]/',$domain) || 
+					preg_match('/[^\x21-\x8f]/',$domain))
 					)
 			{
-				$object_title = '['.$object_title.']';
+				$domain = '['.$domain.']';
 			}
 
-			// In this section,
-			// - we disambiguate the role title, if its name is not unique
-			// - we encode the role title, so that it can be used as
-			//     an IETF RFC 822 addr-spec "local-part"
-			// --------------------------------------------------------
-
 			// If the role title is one of the ILIAS reserved role titles,
-			// and the object title is unique, we shorten the role title.
+			//     we can use a shorthand version of it for the local part
+			//     of the mailbox address.
 			if (strpos($role_title, 'il_') === 0 && $object_title != null)
 			{
 				$unambiguous_role_title = $role_title;
 
 				$pos = strpos($role_title, '_', 3) + 1;
-				$role_title = substr(
+				$local_part = substr(
 					$role_title, 
 					$pos,  
 					strrpos($role_title, '_') - $pos
@@ -392,13 +368,17 @@ class ilRbacReview
 				$unambiguous_role_title = 'il_role_'.$a_role_id;
 			}
 
-			if ($object_title == null)
+			// Determine if the local part is unique. If we don't have a
+			// domain, the local part must be unique within the whole repositry.
+			// If we do have a domain, the local part must be unique for that
+			// domain.
+			if ($domain == null)
 			{
 				$q = "SELECT COUNT(DISTINCT dat.obj_id) AS count ".
 					"FROM object_data AS dat ".
 					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree ON tree.child = ref.ref_id ".
-					"WHERE title = '".addslashes($role_title)."' ".
+					"WHERE title = '".addslashes($local_part)."' ".
 					"AND tree.tree = 1";
 			}
 			else
@@ -409,48 +389,39 @@ class ilRbacReview
 					 "JOIN tree AS t ON t.child = fa.parent ". 
 					 "WHERE fa.assign = 'y' ".
 					 "AND t.parent = ".$object_ref." ".
-					 "AND rd.title LIKE '%".addslashes($role_title)."%' "
+					 "AND rd.title LIKE '%".addslashes($local_part)."%' "
 					;
 			}
 			$r = $this->ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
-			// if the role title is not unique, we use the unambiguous role title 
-			// instead
+			// if the local_part is not unique, we use the unambiguous role title 
+			//   instead for the local part of the mailbox address
 			if ($row->count > 1)
 			{
-				$role_title = $unambiguous_role_title;
-			}
-			// If the role title contains characters that are neither allowed
-			// in an IETF RFC 822 'local-part' nor in a IETF RFC 822 
-			// 'domain', we use the unambiguous role title instead
-			if (preg_match('/[\\[\\]\x5c\"]/',$role_title))
-			{
-				return '#'.$unambiguous_role_title;
+				$local_part = $unambiguous_role_title;
 			}
 
-			// If the role title contains characters that aren't allowed
-			// in an IETF RFC 822 'local-part', we put it into the
-			// IETF RFC 822 'domain-literal'
-			if ($role_title != null &&
-					(preg_match('/[\,\x20\;]/',$role_title) || 
-					preg_match('/[^\x20-\x8f]/',$role_title))
-				)
+
+			// If the local part contains illegal characters, we use
+			//     the unambiguous role title instead.
+			if (preg_match('/[\\"\x00-\x1f]/',$local_part)) 
 			{
-				return '#member@['.$role_title.']';
+				$local_part = $unambiguous_role_title;
 			}
 
-			// If we can't provide the object title, we use the full role title
-			// as the mailbox address
-			if ($object_title == null)
-			{
-				return '#'.$role_title;
-			}
-			else
-			{
 
-				return '#'.$role_title.'@'.$object_title;
+			// Add a "#" prefix to the local part
+			$local_part = '#'.$local_part;
+
+			// Put quotes around the role title, if needed
+			if (preg_match('/[()<>@,;:.\[\]\x20]/',$local_part))
+			{
+				$local_part = '"'.$local_part.'"';
 			}
+			return ($domain == null) ?
+				$local_part :
+				$local_part.'@'.$domain;
 		}
 		else 
 		{

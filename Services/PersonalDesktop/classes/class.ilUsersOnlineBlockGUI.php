@@ -231,14 +231,19 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			if ($user_id != ANONYMOUS_USER_ID)
 			{
 				// hide mail-to icon for anonymous users
+				// usability: we do show mail-to for the current user, because
+				//            we often got requests by users that their own
+				//            e-mail address doesn't appear 
 				$mail_to = "";
-				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID and $_SESSION["AccountId"] != $user_id)
+				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 				{
 					// No mail for users that do have permissions to use the mail system
 					if($rbacsystem->checkAccess('mail_visible',$mail_settings_id) and
 					   $rbacsystem->checkAccessOfUser($user_id,'mail_visible',$mail_settings_id))
 					{
-						$mail_to = $user["login"];
+						$mail_to = ilMail::_getUserInternalMailboxAddress(
+							$user_id, $user['login'], $user['firstname'], $user['lastname']
+						);
 					}
 				}
 				
@@ -303,7 +308,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setCurrentBlock("mailto_link");
 				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
-				$this->tpl->setVariable("MAIL_USR_LOGIN", $a_set["login"]);
+				$this->tpl->setVariable("MAIL_USR_LOGIN", urlencode($a_set["mail_to"]));
 				$this->tpl->parseCurrentBlock();
 			}
 	

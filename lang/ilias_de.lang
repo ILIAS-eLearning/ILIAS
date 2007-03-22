@@ -2405,6 +2405,9 @@ common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_smtp_mail#:#Benutzer darf Emails (SMTP) senden
 common#:#mail_system#:#Systemnachricht
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
+common#:#mail_use_pear_mail#:#Pear Mail verwenden
+common#:#mail_use_pear_mail_info#:#Verwende Pear Mail zum parsen von Mailbox Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. Pear Mail unterstützt Internet-konforme E-Mail Addressen vollständig.
+common#:#mail_pear_mail_needed#:#.Sie benötigen Pear Mail um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Mail</code> ein.
 common#:#mail_visible#:#Maileinstellungen sind sichtbar
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
@@ -3082,6 +3085,7 @@ common#:#select_questionpool_option#:#--- Bitte wählen Sie einen Fragenpool aus
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
+common#:#send_mail#:#Mail senden
 common#:#send_mail_admins#:#Mail an Administratoren
 common#:#send_mail_members#:#Mail an Mitglieder
 common#:#send_mail_tutors#:#Mail an Tutoren
@@ -4890,6 +4894,8 @@ mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Anhänge beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Anhänge gefunden
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
+mail#:#mail_no_recipient_found#:#Geben Sie eine andere Adresse an. ILIAS konnte keinen Empfänger mit dieser Addresse finden.
+mail#:#mail_multiple_recipients_found#:#Geben Sie eine spezifischere Adresse an. ILIAS hat mehrere mögliche Empfänger für diese Adresse gefunden: %s
 mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
@@ -5700,7 +5706,7 @@ pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefel
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_invalid_auth_mode#:#Der angegebene Nutzer wird nicht direkt am ILIAS System authentifiziert. Eine Zusendung des Kennworts ist daher nicht möglich.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. 
 pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS Passwort-Unterstützung
 pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort-Unterstützung ist für den angegebenen Benutzer nicht erlaubt.

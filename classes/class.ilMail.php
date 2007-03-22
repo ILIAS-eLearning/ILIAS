@@ -686,7 +686,7 @@ class ilMail
 		include_once "classes/class.ilMailbox.php";
 		include_once "./classes/class.ilObjUser.php";
 
-		if (! ilMail::_useStandardsCompliantEMailAddresses())
+		if (! ilMail::_usePearMail())
 		{
 			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
 			$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"resubstitute");
@@ -785,7 +785,7 @@ class ilMail
 		global $log, $rbacreview;
 		$ids = array();
 
-		if (ilMail::_useStandardsCompliantEMailAddresses())
+		if (ilMail::_usePearMail())
 		{
 			$tmp_names = $this->explodeRecipients($a_recipients);
 			if (! is_a($tmp_names, 'PEAR_Error'))
@@ -910,7 +910,7 @@ class ilMail
 	{
 		$addresses = array();
 
-		if (ilMail::_useStandardsCompliantEMailAddresses())
+		if (ilMail::_usePearMail())
 		{
 			$tmp_rcp = $this->explodeRecipients($a_rcp);
 			if (! is_a($tmp_rcp, 'PEAR_Error'))
@@ -1008,7 +1008,7 @@ class ilMail
 		global $rbacsystem,$rbacreview;
 		$wrong_rcps = '';
 
-		if (ilMail::_useStandardsCompliantEMailAddresses())
+		if (ilMail::_usePearMail())
 		{
 			$tmp_rcp = $this->explodeRecipients($a_recipients);
 			if (is_a($tmp_rcp, 'PEAR_Error'))
@@ -1027,7 +1027,7 @@ class ilMail
 						$user_id = ($rcp->host == 'ilias') ? ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)) : false;
 						if ($user_id == false && $rcp->host == 'ilias')
 						{
-							$wrong_rcps .= "<BR/>".$rcp->mailbox;
+							$wrong_rcps .= "<BR/>".htmlentities($rcp->mailbox);
 							continue;
 						}
 						
@@ -1036,7 +1036,8 @@ class ilMail
 						{
 							if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
 							{
-								$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("user_cant_receive_mail").")";
+								$wrong_rcps .= "<BR/>".htmlentities($rcp).
+									" (".$this->lng->txt("user_cant_receive_mail").")";
 								continue;
 							}
 						}
@@ -1046,11 +1047,13 @@ class ilMail
 						$role_ids = $rbacreview->searchRolesByMailboxAddressList($rcp->mailbox.'@'.$rcp->host);
 						if (count($role_ids) == 0)
 						{
-							$wrong_rcps .= '<BR/>'.$rcp->mailbox.' ('.$this->lng->txt('mail_no_recipient_found').')';
+							$wrong_rcps .= '<BR/>'.htmlentities($rcp->mailbox).
+								' ('.$this->lng->txt('mail_no_recipient_found').')';
 							continue;
 						} else if (count($role_ids) > 1)
 						{
-							$wrong_rcps .= '<BR/>'.$rcp->mailbox.' ('.sprintf($this->lng->txt('mail_multiple_recipients_found'), implode(',', $role_ids)).')';
+							$wrong_rcps .= '<BR/>'.htmlentities($rcp->mailbox).
+								' ('.sprintf($this->lng->txt('mail_multiple_recipients_found'), implode(',', $role_ids)).')';
 						}
 					}
 				}
@@ -1059,7 +1062,7 @@ class ilMail
 		else
 		{
 			$tmp_rcp = $this->explodeRecipients($a_recipients);
-	
+
 			foreach ($tmp_rcp as $rcp)
 			{
 				if (empty($rcp))
@@ -1073,16 +1076,17 @@ class ilMail
 					if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
 						!ilUtil::is_email($rcp))
 					{
-						$wrong_rcps .= "<BR/>".$rcp;
+						$wrong_rcps .= "<BR/>".htmlentities($rcp);
 						continue;
 					}
-					
+
 					// CHECK IF USER CAN RECEIVE MAIL
 					if ($user_id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
 					{
 						if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
 						{
-							$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("user_cant_receive_mail").")";
+							$wrong_rcps .= "<BR/>".htmlentities($rcp).
+								" (".$this->lng->txt("user_cant_receive_mail").")";
 							continue;
 						}
 					}
@@ -1093,7 +1097,8 @@ class ilMail
 				}
 				elseif(!$rbacreview->roleExists(addslashes(substr($rcp,1))))
 				{
-					$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("mail_no_valid_group_role").")";
+					$wrong_rcps .= "<BR/>".htmlentities($rcp).	
+						" (".$this->lng->txt("mail_no_valid_group_role").")";
 					continue;
 				}
 			}
@@ -1232,7 +1237,7 @@ class ilMail
 			}
 		}
 
-		if (! ilMail::_useStandardsCompliantEMailAddresses())
+		if (! ilMail::_usePearMail())
 		{
 			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
 			$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"substitute");
@@ -1499,7 +1504,7 @@ class ilMail
 	*/
 	function explodeRecipients($a_recipients)
 	{
-		if (ilMail::_useStandardsCompliantEMailAddresses())
+		if (ilMail::_usePearMail())
 		{
 			if (strlen(trim($a_recipients)) > 0)
 			{
@@ -1534,7 +1539,7 @@ class ilMail
 	{
 		$counter = 0;
 
-		if (ilMail::_useStandardsCompliantEMailAddresses())
+		if (ilMail::_usePearMail())
 		{
 			$tmp_rcp = $this->explodeRecipients($rcp);
 			if (! is_a($tmp_rcp, 'PEAR_Error'))
@@ -1586,7 +1591,7 @@ class ilMail
 
 	function __getEmailRecipients($a_rcp)
 	{
-		if (ilMail::_useStandardsCompliantEMailAddresses())
+		if (ilMail::_usePearMail())
 		{
 			$rcp = array();
 			$tmp_rcp = $this->explodeRecipients($a_rcp);
@@ -1695,14 +1700,47 @@ class ilMail
 
 	/**
 	 * STATIC METHOD.
-	 * Returns true, if IETF RFC 822 standards compliant e-mail addresses
-	 * shall be used.
+	 * Returns the internal mailbox address for the specified user.
+     *
+     * This functions (may) perform faster, if the login, firstname and lastname 
+     * are supplied as parameters aloing with the $usr_id.
+     *
+     *
+     * @param usr_id the usr_id of the user
+     * @param login optional, but if you supply it, you have to supply
+	 *                 the firstname and the lastname as well
+     * @param firstname optional
+     * @param lastname 
+	 * @access	public
+	 */
+	public static function _getUserInternalMailboxAddress($usr_id, $login=null, $firstname=null, $lastname=null) {
+		if (ilMail::_usePearMail())
+		{
+			if ($login == null)
+			{
+				require_once 'classes/class.ilObjUser.php';
+				$usr_obj = new ilObjUser($usr_id);
+				$usr_obj->read();
+				$login = $usr_obj->getLogin();
+				$firstname = $usr_obj->getFirstname();
+				$lastname = $usr_obj->getLastname();
+			}
+			return preg_replace('/[()<>@,;:\\".\[\]]/','',$firstname.' '.$lastname).' <'.$login.'>';
+		}
+		else
+		{
+			return $login;
+		}
+	}
+	/**
+	 * STATIC METHOD.
+	 * Returns true, if Pear Mail shall be used for resolving mail addresses.
 	 *
 	 * @access	public
 	 */
-	public static function _useStandardsCompliantEMailAddresses() {
-		// XXX - To be implemented by Werner Randelshofer
-		return false;
+	public static function _usePearMail() {
+		global $ilias;
+		return $ilias->getSetting('pear_mail_enable') == true;
 	}
 } // END class.ilMail
 ?>

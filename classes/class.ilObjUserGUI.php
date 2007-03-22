@@ -2097,6 +2097,17 @@ class ilObjUserGUI extends ilObjectGUI
 			return;
 		}
 		
+		$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
+		$mail_to = ilMail::_getUserInternalMailboxAddress(
+			$this->object->getId(),
+			$this->object->getLogin(), 
+			$this->object->getFirstname(), 
+			$this->object->getLastname()
+		);
+		$tpl->setVariable("MAIL_USR_LOGIN", urlencode(
+			$mail_to)
+		);
+
 		$tpl->setVariable("TXT_NAME", $this->lng->txt("name"));
 		$tpl->setVariable("FIRSTNAME", $this->object->getFirstName());
 		$tpl->setVariable("LASTNAME", $this->object->getLastName());
