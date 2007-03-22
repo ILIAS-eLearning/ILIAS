@@ -112,6 +112,14 @@ class ilRadiusSettingsGUI
 		$check->setValue(1);
 		$form->addItem($check);
 		
+		$text = new ilTextInputGUI($this->lng->txt('auth_radius_name'),'name');
+		$text->setRequired(true);
+		$text->setInfo($this->lng->txt('auth_radius_name_desc'));
+		$text->setValue($this->settings->getName());
+		$text->setSize(32);
+		$text->setMaxLength(64);
+		$form->addItem($text);
+		
 		$text = new ilTextInputGUI($this->lng->txt('auth_radius_server'),'servers');
 		$text->setRequired(true);
 		$text->setInfo($this->lng->txt('auth_radius_server_desc'));
@@ -119,6 +127,7 @@ class ilRadiusSettingsGUI
 		$text->setSize(64);
 		$text->setMaxLength(255);
 		$form->addItem($text);
+		
 			
 		$text = new ilTextInputGUI($this->lng->txt('auth_radius_port'),'port');
 		$text->setRequired(true);
@@ -133,6 +142,18 @@ class ilRadiusSettingsGUI
 		$text->setSize(16);
 		$text->setMaxLength(32);
 		$form->addItem($text);
+		
+		$check = new ilCheckboxInputGUI($this->lng->txt('auth_radius_sync'),'sync');
+		$check->setInfo($this->lng->txt('auth_radius_sync_info'));
+		$check->setChecked($this->settings->enabledCreation() ? 1 : 0);
+		$check->setValue(1);
+		
+		$select = new ilSelectInputGUI($this->lng->txt('auth_radius_role_select'),'role');
+		$select->setOptions($this->prepareRoleSelection());
+		$select->setValue($this->settings->getDefaultRole());
+		$check->addSubItem($select);
+		$form->addItem($check);
+		
 		
 
 		$form->addCommandButton('save',$this->lng->txt('save'));
@@ -149,9 +170,11 @@ class ilRadiusSettingsGUI
 	public function save()
 	{
 		$this->settings->setActive((int) $_POST['active']);
+		$this->settings->setName(ilUtil::stripSlashes($_POST['name']));
 	 	$this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
 	 	$this->settings->setSecret(ilUtil::stripSlashes($_POST['secret']));
 	 	$this->settings->setServerString(ilUtil::stripSlashes($_POST['servers']));
+	 	$this->settings->setDefaultRole((int) $_POST['role']);
 	 	
 	 	if(!$this->settings->validateRequired())
 	 	{
@@ -191,5 +214,24 @@ class ilRadiusSettingsGUI
 	 	
 	 	
 	}
+	
+	private function prepareRoleSelection()
+	{
+		global $rbacreview,$ilObjDataCache;
+		
+		$global_roles = ilUtil::_sortIds($rbacreview->getGlobalRoles(),
+			'object_data',
+			'title',
+			'obj_id');
+		
+		$select[0] = $this->lng->txt('links_select_one');
+		foreach($global_roles as $role_id)
+		{
+			$select[$role_id] = ilObject::_lookupTitle($role_id);
+		}
+		
+		return $select;
+	}
+	
 }
 ?>

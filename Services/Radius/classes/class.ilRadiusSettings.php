@@ -106,9 +106,13 @@ class ilRadiusSettings
 	{
 		return $this->servers ? $this->servers : array();
 	}
+	public function setName($a_name)
+	{
+		$this->name = $a_name;
+	}
 	public function getName()
 	{
-		return 'Radius';
+		return $this->name;
 	}
 	
 	/**
@@ -138,6 +142,11 @@ class ilRadiusSettings
 	 	return $this->default_role;
 	}
 	
+	public function setDefaultRole($a_role)
+	{
+		$this->default_role = $a_role;
+	}
+	
 	/**
 	 * Enable creation of users
 	 *
@@ -164,6 +173,7 @@ class ilRadiusSettings
 		$this->settings->set('radius_active',$this->isActive() ? 1 : 0);
 		$this->settings->set('radius_port',$this->getPort());
 		$this->settings->set('radius_shared_secret',$this->getSecret());
+		$this->settings->set('radius_name',$this->getName());
 		
 		$counter = 0;
 		foreach($this->getServers() as $server)
@@ -177,6 +187,14 @@ class ilRadiusSettings
 				$this->settings->set('radius_server'.$counter,trim($server));
 			}
 		}
+		
+		include_once('classes/class.ilObjRole.php');
+		ilObjRole::_resetAuthMode('radius');
+		
+		if($this->getDefaultRole())
+		{
+			ilObjRole::_updateAuthMode(array($this->getDefaultRole() => 'radius'));
+		}
 		return true;
 	}
 	
@@ -188,7 +206,14 @@ class ilRadiusSettings
 	 */
 	public function validateRequired()
 	{
-	 	return strlen($this->getServersAsString()) and strlen($this->getPort()) and strlen($this->getSecret());
+	 	$ok = strlen($this->getServersAsString()) and strlen($this->getPort()) and strlen($this->getSecret()) and strlen($this->getName());
+	 	
+	 	$role_ok = true;
+	 	if($this->enabledCreation() and !$this->getDefaultRole())
+	 	{
+	 		$role_ok = false;
+	 	}
+	 	return $ok and $role_ok;
 	}
 	
 	/**
@@ -238,6 +263,7 @@ class ilRadiusSettings
 	 	$this->setActive($all_settings['radius_active']);
 	 	$this->setPort($all_settings['radius_port']);
 	 	$this->setSecret($all_settings['radius_shared_secret']);
+	 	$this->setName($all_settings['radius_name']);
 	 	
 		$query = "SELECT value FROM settings WHERE keyword LIKE 'radius_server%' ORDER BY keyword ASC";
 		$res = $this->db->query($query);

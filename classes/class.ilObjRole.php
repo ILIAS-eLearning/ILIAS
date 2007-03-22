@@ -454,6 +454,8 @@ class ilObjRole extends ilObject
 		return $a_role_title;
 	}
 	
+	
+	
 	function _updateAuthMode($a_roles)
 	{
 		global $ilDB;
@@ -498,6 +500,22 @@ class ilObjRole extends ilObject
 	 		$roles[] = $row->role_id;
 	 	}
 	 	return $roles ? $roles : array();
+	}
+	
+	/**
+	 * Reset auth mode to default
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string auth mode
+	 */
+	public static function _resetAuthMode($a_auth_mode)
+	{
+		global $ilDB;
+		
+		$query = "UPDATE role_data SET auth_mode = 'default' WHERE auth_mode = ".$ilDB->quote($a_auth_mode);
+		$ilDB->query($query);
 	}
 	
 	// returns array of operation/objecttype definitions

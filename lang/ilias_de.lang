@@ -7132,3 +7132,8 @@ common#:#svy_copy#:#Umfrage kopieren
 common#:#tst_copy#:#Test kopieren
 common#:#webr_copy#:#Web-Links kopieren
 common#:#missing_perm#:#Fehlende Berechtigung
+registration#:#auth_radius_name#:#Name der RADIUS Konfiguration
+registration#:#auth_radius_name_desc#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration
+registration#:#auth_radius_sync#:#Benutzer-Synchronisierung
+registration#:#auth_radius_role_select#:#Rolle:
+registration#:#auth_radius_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS Benutzerkonto für Anwender angelegt, wenn sich diese erfolgreich gegen RADIUS authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.
