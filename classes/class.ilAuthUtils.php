@@ -234,22 +234,6 @@ class ilAuthUtils
 				$ilAuth = new ilAuthRadius();
 				break;
 			
-				/*
-				include_once('classes/class.ilRADIUSAuthentication.php');
-				$radius_servers = ilRADIUSAuthentication::_getServers($ilDB);
-
-				$settings = $ilSetting->getAll();
-				
-				foreach ($radius_servers as $radius_server)
-				{
-					$rad_params['servers'][] = array($radius_server,$settings["radius_port"],$settings["radius_shared_secret"]);
-				}
-				
-				// build option string for PEAR::Auth
-				//$this->auth_params = array($rad_params);
-				$auth_params = $rad_params;
-				$ilAuth = new Auth("RADIUS", $auth_params,"",false);
-				*/
 				
 			case AUTH_SHIBBOLETH:
 			
