@@ -630,7 +630,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			0, $this->block_id);
 		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
 			0, $this->block_id);
-		
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($lng->txt("news_settings"));

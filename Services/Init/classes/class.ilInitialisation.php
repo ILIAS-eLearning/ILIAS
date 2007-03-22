@@ -1146,6 +1146,10 @@ class ilInitialisation
 		
 		// init settings
 		$this->initSettings();
+		
+		// init tree
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$GLOBALS['tree'] =& $tree;
 
 	}
 }
