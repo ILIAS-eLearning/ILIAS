@@ -63,7 +63,6 @@ class ilAuthRadius extends Auth
 		$user_data = array_change_key_case($this->getAuthData(),CASE_LOWER);
 		
 		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("radius",$a_username);
-		$users[$a_username] = $user_data;
 		
 		if(!$user_data['ilInternalAccount'])
 		{
@@ -82,6 +81,11 @@ class ilAuthRadius extends Auth
 				return false;
 			}
 			
+		}
+		else
+		{
+			$this->setAuth($user_data['ilInternalAccount']);
+			return true;
 		}
 	}
 	
