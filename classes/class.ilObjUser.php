@@ -2783,17 +2783,21 @@ function getCourseMemberships($a_user_id = "")
 		}
 	}
 
+	function getDesktopItems($a_types = "")
+	{
+		return $this->_lookupDesktopItems($this->getId(), $a_types);
+	}
+	
 	/**
 	* get all desktop items of user and specified type
 	*
 	* note: the implementation of this method is not good style (directly
 	* reading tables object_data and object_reference), must be revised someday...
 	*/
-	function getDesktopItems($a_types = "")
+	static function _lookupDesktopItems($user_id, $a_types = "")
 	{
 		global $ilUser, $rbacsystem, $tree, $ilDB;
 
-		
 		if ($a_types == "")
 		{
 			$q = "SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ".
@@ -2802,9 +2806,9 @@ function getCourseMemberships($a_user_id = "")
 				" WHERE ".
 				"it.item_id = oref.ref_id AND ".
 				"oref.obj_id = obj.obj_id AND ".
-				"it.user_id = ".$ilDB->quote($this->getId());
+				"it.user_id = ".$ilDB->quote($user_id);
 
-			$item_set = $this->ilias->db->query($q);
+			$item_set = $ilDB->query($q);
 			while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($tree->isInTree($item_rec["ref_id"]))
@@ -2838,10 +2842,10 @@ function getCourseMemberships($a_user_id = "")
 					"it.item_id = oref.ref_id AND ".
 					"oref.obj_id = obj.obj_id AND ".
 					"it.type = ".$ilDB->quote($a_type)." AND ".
-					"it.user_id = ".$ilDB->quote($this->getId())." ".
+					"it.user_id = ".$ilDB->quote($user_id)." ".
 					"ORDER BY title";
 	
-				$item_set = $this->ilias->db->query($q);
+				$item_set = $ilDB->query($q);
 				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =

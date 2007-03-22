@@ -2341,10 +2341,15 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function setColumnSettings($column_gui)
 	{
-		global $lng;
+		global $lng, $ilAccess;
 		
 		$lng->loadLanguageModule("frm");
 		$column_gui->setBlockProperty("news", "title", $lng->txt("frm_latest_postings"));
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$column_gui->setBlockProperty("news", "settings", true);
+			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+		}
 	}
 	
 	// Copy wizard

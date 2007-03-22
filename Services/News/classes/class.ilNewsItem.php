@@ -108,18 +108,15 @@ class ilNewsItem extends ilNewsItemGen
 		$news_item = new ilNewsItem();
 		
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($a_user_id);
 		
-		// add personal desktop items, if activated
-		if ($ilUser->getId() == $a_user_id)
+		if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") != "n")
 		{
-			if ($ilUser->prefs["pd_items_news"] != "n")
+			$pd_items = ilObjUser::_lookupDesktopItems($a_user_id);
+			foreach($pd_items as $item)
 			{
-				$pd_items = $ilUser->getDesktopItems();
-				foreach($pd_items as $item)
-				{
-					$ref_ids[] = $item["ref_id"];
-				}
+				$ref_ids[] = $item["ref_id"];
 			}
 		}
 		
@@ -136,18 +133,26 @@ class ilNewsItem extends ilNewsItemGen
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news_item->setContextObjId($obj_id);
 			$news_item->setContextObjType($obj_type);
-			if ($a_only_public)
-			{
-				$news_item->setVisibility(NEWS_PUBLIC);
-				$news = $news_item->queryNewsForVisibility();
-			}
-			else
-			{
-				$news = $news_item->queryNewsForContext();
-			}
+			$news = $news_item->queryNewsForContext();
+
+			$unset = array();
 			foreach ($news as $k => $v)
 			{
-				$news[$k]["ref_id"] = $ref_id;
+				if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC ||
+					($v["priority"] == 0 &&
+						ilBlockSetting::_lookup("news", "public_notifications",
+						0, $obj_id)))
+				{
+					$news[$k]["ref_id"] = $ref_id;
+				}
+				else
+				{
+					$unset[] = $k;
+				}
+			}
+			foreach($unset as $un)
+			{
+				unset($news[$un]);
 			}
 			$data = array_merge($data, $news);
 		}
