@@ -601,40 +601,6 @@ class ilRegistrationGUI
 							   ilObject::_lookupTitle($_POST["user"]["default_role"])." [".$_POST["user"]["default_role"]."]".
 							   ", IP: ".$_SERVER["REMOTE_ADDR"],$ilias->error_obj->FATAL);
 		}
-
-		// get auth mode of role
-		$auth_mode = ilObjRole::_getAuthMode($_POST["user"]["default_role"]);
-		$_POST["user"]['auth_mode'] = $auth_mode;
-	
-		// validate authentication, if mode != LOCAL
-		// to do: if auth is taken out of ilias class, this should be
-		// implemented better
-		// to do: also needed for ldap
-		if ($auth_mode == "radius")
-		{
-			$_POST['username'] = $_POST["user"]["login"];
-			$_POST['password'] = $_POST["user"]["passwd"];
-
-			include_once('classes/class.ilRADIUSAuthentication.php');
-			$radius_servers = ilRADIUSAuthentication::_getServers($ilDB);
-			$settings = $ilias->getAllSettings();
-		
-			foreach ($radius_servers as $radius_server)
-			{
-				$rad_params['servers'][] = array($radius_server,$settings["radius_port"],$settings["radius_shared_secret"]);
-			}
-			$auth = new Auth("RADIUS", $rad_params,"",false);
-			$auth->start();
-			$err = $ilErr->getLastError();
-			if (!$auth->getAuth())
-			{
-				$add = (!is_object($err))
-					? ""
-					: "<br>".$err->getMessage();
-				$ilias->raiseError($lng->txt("could_not_verify_account").
-								   $add, $ilErr->MESSAGE);
-			}
-		}
 		return true;
 	}
 
