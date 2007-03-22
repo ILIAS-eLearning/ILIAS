@@ -399,7 +399,13 @@ class ilStartUpGUI
 				case AUTH_LDAP_NO_ILIAS_USER:
 					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
 						$lng->txt('err_auth_ldap_no_ilias_user'));
-					break;	
+					break;
+				
+				case AUTH_RADIUS_NO_ILIAS_USER:
+					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
+						$lng->txt('err_auth_radius_no_ilias_user'));
+					break;
+							
 					
 				case AUTH_WRONG_LOGIN:
 				default:

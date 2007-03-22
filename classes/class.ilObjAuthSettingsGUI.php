@@ -27,7 +27,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI
+* @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
 * 
 * @extends ilObjectGUI
 */
@@ -1491,6 +1491,15 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$ldap_settings_gui = new ilLDAPSettingsGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($ldap_settings_gui);
 				break;
+				
+			case 'ilradiussettingsgui':
+				
+				$this->tabs_gui->setTabActive('auth_radius');
+				include_once './Services/Radius/classes/class.ilRadiusSettingsGUI.php';
+				$radius_settings_gui = new ilRadiusSettingsGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($radius_settings_gui);
+				break;
+				
 
 			default:
 				if(!$cmd)
@@ -1542,6 +1551,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 			$tabs_gui->addTarget("auth_cas", $this->ctrl->getLinkTarget($this, "editCAS"),
 								   "", "", "");
+								   
+			$tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTargetByClass('ilradiussettingsgui', "settings"),
+									   "", "", "");
+
 			$tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTarget($this, "editRADIUS"),
 									   "", "", "");
 
