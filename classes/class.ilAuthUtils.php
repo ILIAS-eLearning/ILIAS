@@ -494,20 +494,15 @@ class ilAuthUtils
 		// in the moment only ldap is activated as additional authentication method
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		
-		$ldap_id = ilLDAPServer::_getFirstActiveServer();
-		$ldap_server = new ilLDAPServer($ldap_id);
-		
-		if($ilSetting->get('auth_mode',AUTH_LOCAL) == AUTH_LDAP)
-		{
-			$default = AUTH_LDAP;
-		}
-		else
-		{
-			$default = AUTH_LOCAL;
-		}	
 		$options = array(AUTH_LOCAL => $lng->txt('authenticate_ilias'));
-		$options[AUTH_LDAP] = sprintf('%s %s',$lng->txt('authenticate_with'),
+
+		// LDAP
+		if($ldap_id = ilLDAPServer::_getFirstActiveServer())
+		{
+			$ldap_server = new ilLDAPServer($ldap_id);
+			$options[AUTH_LDAP] = sprintf('%s %s',$lng->txt('authenticate_with'),
 										$ldap_server->getName());
+		}
 		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
 		$rad_settings = ilRadiusSettings::_getInstance();
 		if($rad_settings->isActive())
@@ -516,6 +511,19 @@ class ilAuthUtils
 										$rad_settings->getName());
 		}
 		
+		if($ilSetting->get('auth_mode',AUTH_LOCAL) == AUTH_LDAP)
+		{
+			$default = AUTH_LDAP;
+		}
+		elseif($ilSetting->get('auth_mode',AUTH_LOCAL) == AUTH_RADIUS)
+		{
+			$default = AUTH_RADIUS;
+		}
+		else
+		{
+			$default = AUTH_LOCAL;
+		}	
+
 		return ilUtil::formSelect((int) $_REQUEST['auth_mode'] ? (int) $_REQUEST['auth_mode'] : $default,
 			'auth_mode',
 			$options,

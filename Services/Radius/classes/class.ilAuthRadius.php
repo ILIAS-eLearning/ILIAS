@@ -69,6 +69,7 @@ class ilAuthRadius extends Auth
 		{
 			if($this->radius_settings->enabledCreation())
 			{
+				$this->initAttributeToUser();
 				$this->radius_user->create($a_username);
 				$this->setAuth($a_username);
 				return true;

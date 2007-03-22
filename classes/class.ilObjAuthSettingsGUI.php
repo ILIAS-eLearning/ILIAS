@@ -1555,9 +1555,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTargetByClass('ilradiussettingsgui', "settings"),
 									   "", "", "");
 
-			$tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTarget($this, "editRADIUS"),
-									   "", "", "");
-
 			$tabs_gui->addTarget("auth_soap", $this->ctrl->getLinkTarget($this, "editSOAP"),
 								 "", "", "");
 			
