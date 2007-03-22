@@ -1074,4 +1074,5 @@ $ilCtrlStructureReader->getStructure();
 <#954>
 <?php
 $query = "UPDATE usr_data SET ext_account = login WHERE auth_mode = 'radius'";
+$ilDB->query($query);
 ?>
