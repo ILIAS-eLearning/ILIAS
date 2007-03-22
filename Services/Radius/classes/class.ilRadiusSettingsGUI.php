@@ -1,0 +1,195 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+/** 
+* @defgroup ServicesRadius
+* 
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+* 
+* 
+* @ingroup ServicesRadius
+*/
+class ilRadiusSettingsGUI
+{
+	private $ref_id;
+	
+	/**
+	 * Constructor
+	 *
+	 * @access public
+	 * @param int object auth ref_id
+	 * 
+	 */
+	public function __construct($a_auth_ref_id)
+	{
+		global $lng,$ilCtrl,$tpl,$ilTabs;
+		
+		$this->ctrl = $ilCtrl;
+		$this->tabs_gui = $ilTabs;
+		$this->lng = $lng;
+		$this->lng->loadLanguageModule('registration');
+		
+		$this->tpl = $tpl;
+		$this->ref_id = $a_auth_ref_id;
+
+		$this->initSettings();
+	}
+	
+	/**
+	 * Execute command
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function executeCommand()
+	{
+		global $ilAccess,$ilErr;
+		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
+		}
+		
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "settings";
+				}
+				$this->$cmd();
+				break;
+		}
+		return true;
+	 	
+	}
+	
+	/**
+	 * Show settings
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function settings()
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.settings.html','Services/Radius');
+	 	
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('auth_radius_configure'));
+		
+		// Form checkbox
+		$check = new ilCheckboxInputGUI($this->lng->txt('auth_radius_enable'),'active');
+		$check->setChecked($this->settings->isActive() ? 1 : 0);
+		$check->setValue(1);
+		$form->addItem($check);
+		
+		$text = new ilTextInputGUI($this->lng->txt('auth_radius_server'),'servers');
+		$text->setRequired(true);
+		$text->setInfo($this->lng->txt('auth_radius_server_desc'));
+		$text->setValue($this->settings->getServersAsString());
+		$text->setSize(64);
+		$text->setMaxLength(255);
+		$form->addItem($text);
+			
+		$text = new ilTextInputGUI($this->lng->txt('auth_radius_port'),'port');
+		$text->setRequired(true);
+		$text->setValue($this->settings->getPort());
+		$text->setSize(5);
+		$text->setMaxLength(5);
+		$form->addItem($text);
+
+		$text = new ilTextInputGUI($this->lng->txt('auth_radius_shared_secret'),'secret');
+		$text->setRequired(true);
+		$text->setValue($this->settings->getSecret());
+		$text->setSize(16);
+		$text->setMaxLength(32);
+		$form->addItem($text);
+		
+
+		$form->addCommandButton('save',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		$this->tpl->setVariable('SETTINGS_TABLE',$form->getHTML());
+	}
+	
+	/**
+	 * Save
+	 *
+	 * @access public
+	 * 
+	 */
+	public function save()
+	{
+		$this->settings->setActive((int) $_POST['active']);
+	 	$this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
+	 	$this->settings->setSecret(ilUtil::stripSlashes($_POST['secret']));
+	 	$this->settings->setServerString(ilUtil::stripSlashes($_POST['servers']));
+	 	
+	 	if(!$this->settings->validateRequired())
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
+	 		$this->settings();
+			return false;
+	 	}
+	 	if(!$this->settings->validatePort())
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt("err_invalid_port"));
+	 		$this->settings();
+	 		return false;
+	 	}
+	 	if(!$this->settings->validateServers())
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt("err_invalid_server"));
+	 		$this->settings();
+	 		return false;
+	 	}
+	 	$this->settings->save();
+	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
+	 	$this->settings();
+	 	return true;
+	}
+	
+	
+	/**
+	 * Init Server settings
+	 *
+	 * @access private
+	 * 
+	 */
+	private function initSettings()
+	{
+	 	include_once('Services/Radius/classes/class.ilRadiusSettings.php');
+	 	$this->settings = ilRadiusSettings::_getInstance();
+	 	
+	 	
+	}
+}
+?>

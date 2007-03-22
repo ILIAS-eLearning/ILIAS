@@ -32,6 +32,7 @@ define ("AUTH_SOAP",7);
 
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
+define('AUTH_RADIUS_NI_ILIAS_USER',-300);
 
 
 // an external user cannot be found in ilias, but his email address
@@ -229,6 +230,11 @@ class ilAuthUtils
 				break;
 				
 			case AUTH_RADIUS:
+				include_once('Services/Radius/classes/class.ilAuthRadius.php');
+				$ilAuth = new ilAuthRadius();
+				break;
+			
+				/*
 				include_once('classes/class.ilRADIUSAuthentication.php');
 				$radius_servers = ilRADIUSAuthentication::_getServers($ilDB);
 
@@ -243,7 +249,7 @@ class ilAuthUtils
 				//$this->auth_params = array($rad_params);
 				$auth_params = $rad_params;
 				$ilAuth = new Auth("RADIUS", $auth_params,"",false);
-				break;
+				*/
 				
 			case AUTH_SHIBBOLETH:
 			
@@ -470,6 +476,13 @@ class ilAuthUtils
 	
 	public static function _hasMultipleAuthenticationMethods()
 	{
+		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
+		
+		$rad_settings = ilRadiusSettings::_getInstance();
+		if($rad_settings->isActive())
+		{
+			return true;
+		}
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		return count(ilLDAPServer::_getActiveServerList()) ? true : false;
 	}
@@ -495,6 +508,13 @@ class ilAuthUtils
 		$options = array(AUTH_LOCAL => $lng->txt('authenticate_ilias'));
 		$options[AUTH_LDAP] = sprintf('%s %s',$lng->txt('authenticate_with'),
 										$ldap_server->getName());
+		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
+		$rad_settings = ilRadiusSettings::_getInstance();
+		if($rad_settings->isActive())
+		{
+			$options[AUTH_RADIUS] = sprintf('%s %s',$lng->txt('authenticate_with'),
+										$rad_settings->getName());
+		}
 		
 		return ilUtil::formSelect((int) $_REQUEST['auth_mode'] ? (int) $_REQUEST['auth_mode'] : $default,
 			'auth_mode',

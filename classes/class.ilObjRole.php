@@ -479,6 +479,27 @@ class ilObjRole extends ilObject
 		return $row[0];
 	}
 	
+	/**
+	 * Get roles by auth mode
+	 *
+	 * @access public
+	 * @param string auth mode
+	 * 
+	 */
+	public static function _getRolesByAuthMode($a_auth_mode)
+	{
+		global $ilDB;
+		
+	 	$query = "SELECT * FROM role_data ".
+	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode);
+	 	$res = $ilDB->query($query);
+	 	while($row  = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		$roles[] = $row->role_id;
+	 	}
+	 	return $roles ? $roles : array();
+	}
+	
 	// returns array of operation/objecttype definitions
 	// private
 	function __getPermissionDefinitions()
