@@ -2819,6 +2819,8 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_nr_of_items#:#Number of Maximum News Items per Object
+news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.
 news#:#news_related_to#:#Related to
 news#:#news_all_items#:#All Items
 news#:#news_edit_news_settings#:#Edit Settings

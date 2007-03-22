@@ -1071,4 +1071,3 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-

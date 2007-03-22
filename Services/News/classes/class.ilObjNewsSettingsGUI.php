@@ -152,7 +152,16 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt("news_enable_internal_rss_info"));
 		$cb_prop->setChecked($enable_internal_rss);
 		$form->addItem($cb_prop);
-		
+
+		// Number of news items per object
+		$nr_opts = array(50 => 50, 100 => 100, 200 => 200);
+		$nr_sel = new ilSelectInputGUI($lng->txt("news_nr_of_items"),
+			"news_max_items");
+		$nr_sel->setInfo($lng->txt("news_nr_of_items_info"));
+		$nr_sel->setOptions($nr_opts);
+		$nr_sel->setValue($news_set->get("max_items"));
+		$form->addItem($nr_sel);
+
 		// Section Header: External Web Feeds Settings
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("feed_settings"));
@@ -198,6 +207,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$ilSetting->set("block_activated_news", $_POST["enable_internal_news"]);
 		$ilSetting->set("block_activated_pdnews", $_POST["enable_internal_news"]);
 		$news_set->set("enable_rss_for_internal", $_POST["enable_internal_rss"]);
+		$news_set->set("max_items", $_POST["news_max_items"]);
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 		$feed_set->set("nr_personal_desktop_feeds", $_POST["nr_pd_feeds"]);
 		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
