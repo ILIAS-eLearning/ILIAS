@@ -105,7 +105,7 @@ class ilAuthRadius extends Auth
 	
 	private function initAttributeToUser()
 	{
-		include_once('Services/Radius/classes/class.ilRadiusAttributeToUser.php');
+		include_once('Services/Radius/classes/class.ilRadiusAtributeToUser.php');
 		$this->radius_user = new ilRadiusAttributeToUser();
 	}
 	

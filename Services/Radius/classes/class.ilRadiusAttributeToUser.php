@@ -39,6 +39,10 @@ class ilRadiusAttributeToUser
 	 */
 	public function __construct()
 	{
+		global $ilLog;
+		
+		$this->log = $ilLog;
+		
 	 	include_once('Services/Radius/classes/class.ilRadiusSettings.php');
 	 	$this->rad_settings = ilRadiusSettings::_getInstance();
 
