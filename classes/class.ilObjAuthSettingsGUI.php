@@ -250,7 +250,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}		
-		
 		if (is_array($_POST["loginMessage"]))
 		{
 			$this->loginSettings = new ilSetting("login_settings");
@@ -285,15 +284,31 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->setSubTabs("authSettings");		
 		$this->tabs_gui->setSubTabActive("login_information");
 		
-		$lng->loadLanguageModule("meta");	
+		$lng->loadLanguageModule("meta");
+
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('login_information'));
+		#$form->setInfo($this->lng->txt('login_information_desc'));
+		
+		$form->addCommandButton('saveLoginInfo',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		
+		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
 		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 					
-		if (!is_object($this->loginSettings)) $this->loginSettings = new ilSetting("login_settings");
+		if (!is_object($this->loginSettings))
+		{
+			$this->loginSettings = new ilSetting("login_settings");
+		} 
 		
 		$login_settings = $this->loginSettings->getAll();		
 		$languages = $lng->getInstalledLanguages();
@@ -307,11 +322,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$add = " (".$lng->txt("default").")";
 			}			
 			
-			$this->tpl->setCurrentBlock("langloop");
-			$this->tpl->setVariable("LANGLOOP_COUNTRY_SH", $lang_key);
-			$this->tpl->setVariable("LANGLOOP_COUNTRY",	$lng->txt("meta_l_".$lang_key).$add);
-			$this->tpl->setVariable("LANGLOOP_MESSAGE", ilUtil::stripSlashes($login_settings["login_message_".$lang_key]));				
-			$this->tpl->parseCurrentBlock();
+			$textarea = new ilTextAreaInputGUI($lng->txt("meta_l_".$lang_key).$add,
+				'loginMessage['.$lang_key.']');
+			$textarea->setRows(10);
+			$textarea->setValue($login_settings["login_message_".$lang_key]);
+			$textarea->setUseRte(true);
+			$form->addItem($textarea);
 			
 			unset($login_settings["login_message_".$lang_key]);
 		}
@@ -320,13 +336,15 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
 			
-			$this->tpl->setCurrentBlock("langloop");
-			$this->tpl->setVariable("LANGLOOP_NOT_INSTALLED", $lng->txt("not_installed"));
-			$this->tpl->setVariable("LANGLOOP_COUNTRY_SH", $lang_key);
-			$this->tpl->setVariable("LANGLOOP_COUNTRY",	$lng->txt("meta_l_".$lang_key));
-			$this->tpl->setVariable("LANGLOOP_MESSAGE", ilUtil::stripSlashes($message));	
-			$this->tpl->parseCurrentBlock();
+			$textarea = new ilTextAreaInputGUI($lng->txt("meta_l_".$lang_key).$add,
+				'loginMessage['.$lang_key.']');
+			$textarea->setRows(10);
+			$textarea->setValue($message);
+			$textarea->setUseRte(true);
+			$textarea->setAlert($lng->txt("not_installed"));
+			$form->addItem($textarea);
 		}
+		$this->tpl->setVariable('LOGIN_INFO',$form->getHTML());
 	}
 	
 	/**
