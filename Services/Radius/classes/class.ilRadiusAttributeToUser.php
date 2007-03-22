@@ -65,7 +65,7 @@ class ilRadiusAttributeToUser
 		// Required fields
 		// Create user
 		$this->writer->xmlStartTag('User',array('Action' => 'Insert'));
-		$this->writer->xmlElement('Login',array(),ilAuthUtils::_generateLogin($a_username));
+		$this->writer->xmlElement('Login',array(),$new_name = ilAuthUtils::_generateLogin($a_username));
 				
 		// Assign to role only for new users
 		$this->writer->xmlElement('Role',array('Id' => $this->rad_settings->getDefaultRole(),
@@ -82,7 +82,7 @@ class ilRadiusAttributeToUser
 			
 		$this->writer->xmlEndTag('User');
 		$this->writer->xmlEndTag('Users');
-		$this->log->write('Radius: Started creation of user: '.$a_username);
+		$this->log->write('Radius: Started creation of user: '.$new_name);
 		
 		include_once './classes/class.ilUserImportParser.php';
 		$importParser = new ilUserImportParser();
@@ -91,7 +91,7 @@ class ilRadiusAttributeToUser
 		$importParser->setFolderId(7);
 		$importParser->startParsing();
 		
-	 	return true;
+	 	return $new_name;
 	}
 }
 

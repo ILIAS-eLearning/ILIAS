@@ -70,8 +70,8 @@ class ilAuthRadius extends Auth
 			if($this->radius_settings->enabledCreation())
 			{
 				$this->initAttributeToUser();
-				$this->radius_user->create($a_username);
-				$this->setAuth($a_username);
+				$new_name = $this->radius_user->create($a_username);
+				$this->setAuth($new_name);
 				return true;
 			}
 			else
@@ -105,7 +105,7 @@ class ilAuthRadius extends Auth
 	
 	private function initAttributeToUser()
 	{
-		include_once('Services/Radius/classes/class.ilRadiusAtributeToUser.php');
+		include_once('Services/Radius/classes/class.ilRadiusAttributeToUser.php');
 		$this->radius_user = new ilRadiusAttributeToUser();
 	}
 	

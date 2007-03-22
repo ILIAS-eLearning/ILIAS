@@ -7155,7 +7155,7 @@ crs#:#crs_objective_add_qst#:#Assign Questions
 common#:#objs_qst#:#Questions
 common#:#container_no_items#:#No Materials Available
 common#:#search_engine#:#Search Engines
-common#:#enable_search_engine#:#Open Publi Area for Internet Search Engines (e.g Google)
+common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
 common#:#cat_copy#:#Copy Category
