@@ -103,12 +103,26 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
 		
 		$news_item = new ilNewsItem();
 		
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($a_user_id);
+		
+		// add personal desktop items, if activated
+		if ($ilUser->getId() == $a_user_id)
+		{
+			if ($ilUser->prefs["pd_items_news"] != "n")
+			{
+				$pd_items = $ilUser->getDesktopItems();
+				foreach($pd_items as $item)
+				{
+					$ref_ids[] = $item["ref_id"];
+				}
+			}
+		}
+		
 		$data = array();
 
 		foreach($ref_ids as $ref_id)

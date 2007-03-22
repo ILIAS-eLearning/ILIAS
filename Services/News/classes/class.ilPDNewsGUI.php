@@ -103,6 +103,14 @@ class ilPDNewsGUI
 		
 		// get news
 		$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($ilUser->getId());
+		if ($ilUser->prefs["pd_items_news"] != "n")
+		{
+			$pd_items = $ilUser->getDesktopItems();
+			foreach($pd_items as $item)
+			{
+				$ref_ids[] = $item["ref_id"];
+			}
+		}
 		
 		// related objects (contexts) of news
 		$news_tpl->setCurrentBlock("related_option");

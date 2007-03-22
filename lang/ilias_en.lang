@@ -3473,7 +3473,8 @@ common#:#show#:#Show
 common#:#show_details#:#Show Details
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
-common#:#show_notes_on_pd#:#Show notes on personal desktop
+common#:#pd_items_news#:#Include News of Personal Items
+common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.
 common#:#show_owner#:#Show Owner
 common#:#show_private_notes#:#Show private notes
 common#:#show_public_notes#:#Show public notes

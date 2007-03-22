@@ -14,8 +14,8 @@
 </tr>
 <tr class="tblheader">
     <th class="std" colspan="2">{TXT_PERSONAL_DATA}</th>
-    <th class="std">{TXT_PUBLIC_PROFILE}</th>
-    <th class="std" id="pub_profile"><input type="checkbox" name="chk_pub" {CHK_PUB} /></th>
+    <th class="std" style="white-space:nowrap;">{TXT_PUBLIC_PROFILE}</th>
+    <th class="std" style="white-space:nowrap;" id="pub_profile"><input type="checkbox" name="chk_pub" {CHK_PUB} /></th>
 </tr>
 <!-- BEGIN gender -->
 <tr>
@@ -351,9 +351,10 @@
 </tr>
 <!-- END show_users_online -->
 <tr>
-    <td class="option">{TXT_SHOW_NOTES}</td>
+    <td class="option">{TXT_PD_ITEMS_NEWS}</td>
     <td class="option_value">
-		<input type="checkbox" name="chk_notes" {CHK_NOTES} />
+		<input type="checkbox" name="pd_items_news" {PD_ITEMS_NEWS} /><br />
+		<span class="subtitle">{TXT_PD_ITEMS_NEWS_INFO}</span>
 	</td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
