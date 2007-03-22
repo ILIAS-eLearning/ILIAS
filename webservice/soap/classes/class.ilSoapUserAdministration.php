@@ -458,23 +458,27 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					elseif($user_data['user_skin'] and $user_data['user_style'])
 					{
 						$ok = false;
-						foreach($styleDefinition->getAllTemplates() as $template)
+						$templates = $styleDefinition->getAllTemplates();
+						if (count($templates) > 0 && is_array($templates))
 						{
-							$styleDef =& new ilStyleDefinition($template["id"]);
-							$styleDef->startParsing();
-							$styles = $styleDef->getStyles();
-							foreach ($styles as $style)
+							foreach($templates as $template)
 							{
-								if ($user_data['user_skin'] == $template["id"] &&
-									$user_data['user_style'] == $style["id"])
+								$styleDef =& new ilStyleDefinition($template["id"]);
+								$styleDef->startParsing();
+								$styles = $styleDef->getStyles();
+								foreach ($styles as $style)
 								{
-									$ok = true;
+									if ($user_data['user_skin'] == $template["id"] &&
+										$user_data['user_style'] == $style["id"])
+									{
+										$ok = true;
+									}
 								}
 							}
-						}
-						if(!$ok)
-						{
-							$this->__appendMessage('user_skin, user_style not valid.');
+							if(!$ok)
+							{
+								$this->__appendMessage('user_skin, user_style not valid.');
+							}
 						}
 					}
 					break;
@@ -1284,6 +1288,78 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	    return count ($query) ? " AND ((". join(") ".strtoupper($queryOperator)." (", $query) ."))" : "AND 0";
 	}
+	
+	
+	/**
+	*	return user xmls for given user ids (csv separated ids) as xml based on usr dtd.
+	*	@param string sid	session id
+	*	@param string userids comma separated list of user ids, may be numeric or ilias ids
+	*	@param boolean attachRoles	if true, role assignments will be attached, nothing will be done otherwise
+	*	@return	string	xml string based on usr dtd
+	*/
+	function getUserXML($sid, $user_ids, $attach_roles)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		global $rbacsystem, $ilUser, $ilDB;
+
+		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
+		{
+			return $this->__raiseError('Check access failed.','Server');
+		}
+		
+		$internalids = split(",",$user_ids);
+		$ids = array();
+		foreach ($internalids as $internalid) {
+			if (is_numeric ($internalid)) 
+			{
+				$ids[] = $internalid;
+			}
+			else
+			{
+				$parsedid = ilUtil::__extractId($internalid, IL_INST_ID);
+				if (is_numeric($parsedid) && $parsedid > 0) 
+				{
+					$ids[] = $parsedid;
+				}
+			}
+		}
+
+		$query = "SELECT usr_data.*, usr_pref.value AS language
+		          FROM usr_data
+		          LEFT JOIN usr_pref
+		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
+		          WHERE  usr_data.usr_id IN (".join(",",$ids).")";
+
+		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
+
+		//echo $query;
+		$r = $ilDB->query($query);
+		$data = array();
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$data[] = $row;
+		}
+		
+		include_once './classes/class.ilUserXMLWriter.php';
+
+		$xmlWriter = new ilUserXMLWriter();
+		$xmlWriter->setAttachRoles($attach_roles);
+		$xmlWriter->setObjects($data);
+
+		if($xmlWriter->start())
+		{
+			return $xmlWriter->getXML();
+		}
+
+		return $this->__raiseError('User does not exist','Client');
+	}
+
 
 	// has new mail
 	function hasNewMail($sid)
@@ -1306,85 +1382,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		{
 			return false;
 		}
-	}
-
-	/**
-	 * Resolve internal user id, e.g. retrieved vom members of course xml.
-	 * Returns user xml dtds.
-	 *
-	 * @param String $sid
-	 * @param String $internal_ids_as_csv	comma separated list of internal ids, e.g. il_instid_usr_3,il_instid_usr_6
-	 */
-
-	public function resolveUsers($sid, $internal_ids_as_csv) {
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}
-
-
-		// Include main header
-		include_once './include/inc.header.php';
-		global $ilDB, $rbacsystem;
-
-		if(!$rbacsystem->checkAccess('read', USER_FOLDER_ID))
-		{
-			return $this->__raiseError('Check access failed.','Server');
-		}
-
-
-    	if (!count($a_keyfields))
-    	   $this->__raiseError('At least one keyfield is needed','Client');
-
-    	if (!count ($a_keyvalues))
-    	   $this->__raiseError('At least one keyvalue is needed','Client');
-
-    	if (!strcasecmp($query_operator,"and")==0 || !strcasecmp($query_operator,"or") == 0)
-    	   $this->__raiseError('Query operator must be either \'and\' or \'or\'','Client');
-
-		$internalids = split(",",$internal_ids_as_csv);
-		$ids = array();
-		foreach ($internalids as $internalid) {
-			$parsedid = ilUtil::__extractId($internalid, IL_INST_ID);
-			if (is_numeric($parsedid) && $parsedid > 0) {
-				$ids[] = $parsedid;
-			}
-		}
-
-		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM usr_data
-		          LEFT JOIN usr_pref
-		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
-		          WHERE  usr_data.usr_id IN (".join(",",$ids).")";
-
-  	     if (is_numeric($active) && $active > -1)
-  			$query .= " AND active = '$active'";
-
-  		 $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
-
-  		 //echo $query;
-
-  	     $r = $ilDB->query($query);
-
-  	     $data = array();
-
-		 while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		 {
-		      $data[] = $row;
-		 }
-
-		 include_once './classes/class.ilUserXMLWriter.php';
-
-		 $xmlWriter = new ilUserXMLWriter();
-		 $xmlWriter->setAttachRoles($attach_roles);
-		 $xmlWriter->setObjects($data);
-
-		 if($xmlWriter->start())
-		 {
-			return $xmlWriter->getXML();
-		 }
-
-		 return $this->__raiseError('Error in searchUser','Server');
 	}
 
 }
