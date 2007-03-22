@@ -116,5 +116,64 @@ class ilFeedItem
 		return $this->description;
 	}
 
+	/**
+	* Set Enclosure URL.
+	*
+	* @param	string	$a_enclosureurl	Enclosure URL
+	*/
+	function setEnclosureUrl($a_enclosureurl)
+	{
+		$this->enclosureurl = $a_enclosureurl;
+	}
+
+	/**
+	* Get Enclosure URL.
+	*
+	* @return	string	Enclosure URL
+	*/
+	function getEnclosureUrl()
+	{
+		return $this->enclosureurl;
+	}
+
+	/**
+	* Set Enclosure Type.
+	*
+	* @param	string	$a_enclosuretype	Enclosure Type
+	*/
+	function setEnclosureType($a_enclosuretype)
+	{
+		$this->enclosuretype = $a_enclosuretype;
+	}
+
+	/**
+	* Get Enclosure Type.
+	*
+	* @return	string	Enclosure Type
+	*/
+	function getEnclosureType()
+	{
+		return $this->enclosuretype;
+	}
+
+	/**
+	* Set Enclosure Length.
+	*
+	* @param	int	$a_enclosurelength	Enclosure Length
+	*/
+	function setEnclosureLength($a_enclosurelength)
+	{
+		$this->enclosurelength = $a_enclosurelength;
+	}
+
+	/**
+	* Get Enclosure Length.
+	*
+	* @return	int	Enclosure Length
+	*/
+	function getEnclosureLength()
+	{
+		return $this->enclosurelength;
+	}
 
 }

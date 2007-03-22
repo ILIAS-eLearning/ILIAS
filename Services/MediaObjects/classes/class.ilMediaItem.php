@@ -278,6 +278,29 @@ class ilMediaItem
 	}
 
 	/**
+	* Lookup location for mob id
+	*
+	* @param	int		$a_mob_id	media object id
+	* @param	string	$a_purpose	purpose
+	*/
+	static function _lookupLocationForMobId($a_mob_id, $a_purpose)
+	{
+		global $ilDB;
+		
+		// read media_object record
+		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob_id)." ".
+			"AND purpose = ".$ilDB->quote($a_purpose);
+		$set = $ilDB->query($query);
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec["location"];
+		}
+
+		return "";
+	}
+	
+	
+	/**
 	* read media items into media objects (static)
 	*
 	* @param	object		$a_mob	 	media object

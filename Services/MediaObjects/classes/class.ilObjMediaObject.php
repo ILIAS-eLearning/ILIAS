@@ -502,6 +502,25 @@ class ilObjMediaObject extends ilObject
 	{
 		return ilUtil::getWebspaceDir($a_mode)."/thumbs/mm_".$a_mob_id;
 	}
+	
+	/**
+	* Get path for standard item.
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
+	static function _lookupStandardItemPath($a_mob_id, $a_url_encode = false,
+		$a_web = true)
+	{
+		$location = ($a_url_encode)
+			? rawurlencode(ilMediaItem::_lookupLocationForMobId($a_mob_id, "Standard"))
+			: ilMediaItem::_lookupLocationForMobId($a_mob_id, "Standard");
+		
+		$path = ($a_web)
+			? ILIAS_HTTP_PATH
+			: ".";
+			
+		return $path."/data/".CLIENT_ID."/mobs/mm_".$a_mob_id."/".$location;
+	}
 
 	/**
 	* create file directory of media object
