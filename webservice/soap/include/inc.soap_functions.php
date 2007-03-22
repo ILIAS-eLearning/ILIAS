@@ -623,17 +623,6 @@ function addFile ($sid, $ref_id, $xml)
 
 }
 
-
-function resolveUsers($sid, $internal_ids_as_csv) 
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->resolveUsers($sid, $internal_ids_as_csv);
-}
-
-
 function getObjIdsByRefIds($sid, $ref_ids) 
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
@@ -642,4 +631,15 @@ function getObjIdsByRefIds($sid, $ref_ids)
 
 	return $soa->getObjIdsByRefIds($sid, $ref_ids);
 }
+
+function getUserXML($sid,$user_ids, $attachRoles)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->getUserXML($sid,$user_ids, $attachRoles);
+}
+
+
 ?>

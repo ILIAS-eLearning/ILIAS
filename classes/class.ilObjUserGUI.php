@@ -1203,34 +1203,36 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		include("classes/class.ilObjStyleSettings.php");
-		foreach ($templates as $template)
+		if (count($templates) > 0 && is_array ($templates))
 		{
-			// get styles for skin
-			//$this->ilias->getStyles($skin["name"]);
-			$styleDef =& new ilStyleDefinition($template["id"]);
-			$styleDef->startParsing();
-			$styles = $styleDef->getStyles();
-			foreach ($styles as $style)
+			foreach ($templates as $template)
 			{
-				if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+				// get styles for skin
+				//$this->ilias->getStyles($skin["name"]);
+				$styleDef =& new ilStyleDefinition($template["id"]);
+				$styleDef->startParsing();
+				$styles = $styleDef->getStyles();
+				foreach ($styles as $style)
 				{
-					continue;
+					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					{
+						continue;
+					}
+	
+					$this->tpl->setCurrentBlock("selectskin");
+	
+					if ($selected_skin == $template["id"] &&
+						$selected_style == $style["id"])
+					{
+						$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+					}
+	
+					$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+					$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
+					$this->tpl->parseCurrentBlock();
 				}
-
-				$this->tpl->setCurrentBlock("selectskin");
-
-				if ($selected_skin == $template["id"] &&
-					$selected_style == $style["id"])
-				{
-					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
-				}
-
-				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
-				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
-				$this->tpl->parseCurrentBlock();
-			}
-		} // END skin & style selection
-
+			} // END skin & style selection
+		}
 		// BEGIN hits per page
 		$hits_options = array(2,10,15,20,30,40,50,100,9999);
 		// preselect previous chosen option otherwise default option

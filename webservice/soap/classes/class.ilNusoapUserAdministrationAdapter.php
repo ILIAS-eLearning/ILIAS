@@ -924,14 +924,14 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS updateFile():update existing file, update file properties from xml (see ilias_file_3_8.dtd for details). obj_id in xml must match according obj id of refid.!');
 
 
-      	$this->server->register('resolveUsers',
-								array('sid' => 'xsd:string', 'internal_ids_as_csv' => 'xsd:string'),
+      	$this->server->register('getUserXML',
+								array('sid' => 'xsd:string', 'user_ids' => 'xsd:string', 'attach_roles' => 'xsd:boolean'),
 								array('xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#resolveUsers',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS resolveUser(): Resolve internal user id, e.g. retrieved vom members of course xml. Returns user xml dtds. Internal ids is a comma separated list of internal ids, e.g. il_instid_usr_3,il_instid_usr_6');
+								'ILIAS getUserXML(): get xml records for user ids, e.g. retrieved vom members of course xml. Returns user xml dtds. Internal ids is a comma separated list of internal ids or numeric ids, e.g. il_instid_usr_3,il_instid_usr_6');
 
 								return true;
 								
