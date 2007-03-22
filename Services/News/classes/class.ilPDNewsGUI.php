@@ -87,7 +87,6 @@ class ilPDNewsGUI
 		ilUtil::sendInfo();
 		// display infopanel if something happened
 		ilUtil::infoPanel();
-
 	}
 
 	/*

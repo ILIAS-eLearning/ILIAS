@@ -52,6 +52,53 @@ class ilNewsItem extends ilNewsItemGen
 	}
 
 	/**
+	* Create
+	*/
+	function create()
+	{
+		global $ilDB;
+		
+		parent::create();
+		
+		$news_set = new ilSetting("news");
+		$max_items = $news_set->get("max_items");
+		if ($max_items <= 0)
+		{
+			$max_items = 50;
+		}
+		
+		$max_items = 5;
+		
+		// Determine how many rows should be deleted
+		$query = "SELECT count(*) AS cnt ".
+			"FROM il_news_item ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
+				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType());
+
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+				
+		// if we have more records than allowed, delete them
+		if (($rec["cnt"] > $max_items) && $this->getContextObjId() > 0)
+		{
+			$query = "DELETE ".
+				"FROM il_news_item ".
+				"WHERE ".
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+					" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
+					" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
+					" ORDER BY creation_date ASC".
+					" LIMIT ".($rec["cnt"] - $max_items);
+
+			$ilDB->query($query);
+		}
+	}
+
+	/**
 	* Get all news items for a user.
 	*/
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false)
