@@ -127,7 +127,7 @@ class ilNewsItem extends ilNewsItemGen
 
 		foreach($ref_ids as $ref_id)
 		{
-			if (!$a_only_public && !$ilAccess->checkAccess("visible", "", $ref_id))
+			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $ref_id))
 			{
 				continue;
 			}
@@ -222,7 +222,7 @@ class ilNewsItem extends ilNewsItemGen
 		// get news for all subtree nodes
 		foreach($nodes as $node)
 		{
-			if (!$ilAccess->checkAccess("visible", "", $node["child"]))
+			if (!$ilAccess->checkAccess("read", "", $node["child"]))
 			{
 				continue;
 			}
@@ -264,7 +264,7 @@ class ilNewsItem extends ilNewsItemGen
 		// get news for all subtree nodes
 		foreach($nodes as $node)
 		{
-			if (!$ilAccess->checkAccess("visible", "", $node["child"]))
+			if (!$ilAccess->checkAccess("read", "", $node["child"]))
 			{
 				continue;
 			}

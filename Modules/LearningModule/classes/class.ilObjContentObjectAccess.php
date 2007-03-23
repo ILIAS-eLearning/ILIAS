@@ -127,6 +127,8 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
 	/**
 	* check wether learning module is online
+	*
+	* @param	int		$a_id	learning object id
 	*/
 	function _lookupOnline($a_id)
 	{

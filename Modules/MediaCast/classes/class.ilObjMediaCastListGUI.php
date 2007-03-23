@@ -109,10 +109,14 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 		global $lng, $ilUser;
 
 		$props = array();
-		//$props[] = array(
-		//	"property" => $this->lng->txt("exc_time_to_send"),
-		//	"value" => ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id)
-		//);
+
+		include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
+
+		if (!ilObjMediaCastAccess::_lookupOnline($this->obj_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("offline"));
+		}
 
 		return $props;
 	}

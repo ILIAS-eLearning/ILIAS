@@ -90,45 +90,48 @@ class ilFileInputGUI extends ilFormPropertyGUI
 		$error = $_FILES[$this->getPostVar()]["error"];
 		
 		// error handling
-		switch ($error)
+		if ($error > 0)
 		{
-			case UPLOAD_ERR_INI_SIZE:
-				$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-				return false;
-				break;
-				 
-			case UPLOAD_ERR_FORM_SIZE:
-				$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-				return false;
-				break;
-
-			case UPLOAD_ERR_PARTIAL:
-				$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
-				return false;
-				break;
-
-			case UPLOAD_ERR_NO_FILE:
-				if ($this->getRequired())
-				{
-					$this->setAlert($lng->txt("form_msg_file_no_upload"));
+			switch ($error)
+			{
+				case UPLOAD_ERR_INI_SIZE:
+					$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
 					return false;
-				}
-				break;
- 
-			case UPLOAD_ERR_NO_TMP_DIR:
-				$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
-				return false;
-				break;
-				 
-			case UPLOAD_ERR_CANT_WRITE:
-				$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
-				return false;
-				break;
- 
-			case UPLOAD_ERR_EXTENSION:
-				$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
-				return false;
-				break;
+					break;
+					 
+				case UPLOAD_ERR_FORM_SIZE:
+					$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+					return false;
+					break;
+	
+				case UPLOAD_ERR_PARTIAL:
+					$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
+					return false;
+					break;
+	
+				case UPLOAD_ERR_NO_FILE:
+					if ($this->getRequired())
+					{
+						$this->setAlert($lng->txt("form_msg_file_no_upload"));
+						return false;
+					}
+					break;
+	 
+				case UPLOAD_ERR_NO_TMP_DIR:
+					$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
+					return false;
+					break;
+					 
+				case UPLOAD_ERR_CANT_WRITE:
+					$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
+					return false;
+					break;
+	 
+				case UPLOAD_ERR_EXTENSION:
+					$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
+					return false;
+					break;
+			}
 		}
 		
 		// check suffixes

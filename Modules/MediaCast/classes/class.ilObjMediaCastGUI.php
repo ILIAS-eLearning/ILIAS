@@ -652,10 +652,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setTitle($lng->txt("mcst_settings"));
 		
-		// Offline
-		$offline = new ilCheckboxInputGUI($lng->txt("offline"), "offline");
-		$offline->setChecked($this->object->getOffline());
-		$this->form_gui->addItem($offline);
+		// Online
+		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
+		$online->setChecked($this->object->getOnline());
+		$this->form_gui->addItem($online);
 		
 		// Include Files in Pubic Items
 		$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
@@ -678,7 +678,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->initSettingsForm();
 		if ($this->form_gui->checkInput())
 		{
-			$this->object->setOffline($this->form_gui->getInput("offline"));
+			$this->object->setOnline($this->form_gui->getInput("online"));
 			$this->object->setPublicFiles($this->form_gui->getInput("public_files"));
 			$this->object->update();
 			
