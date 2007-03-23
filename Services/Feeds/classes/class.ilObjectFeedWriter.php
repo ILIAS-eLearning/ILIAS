@@ -39,6 +39,8 @@ class ilObjectFeedWriter extends ilFeedWriter
 {
 	function ilObjectFeedWriter($a_ref_id)
 	{
+		global $ilAccess;
+		
 		parent::ilFeedWriter();
 		
 		if ($a_ref_id <= 0)
@@ -58,6 +60,17 @@ class ilObjectFeedWriter extends ilFeedWriter
 		if (!ilBlockSetting::_lookup("news", "public_feed", 0, $obj_id))
 		{
 			return;
+		}
+
+		// not nice, to do: general solution
+		if ($obj_type == "mcst")
+		{
+			include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
+			
+			if (!ilObjMediaCastAccess::_lookupOnline($obj_id))
+			{
+				return;
+			}
 		}
 
 		$news_item = new ilNewsItem();
@@ -83,16 +96,30 @@ class ilObjectFeedWriter extends ilFeedWriter
 			if ($item["content_type"] == NEWS_AUDIO &&
 				$item["mob_id"] > 0 && ilObject::_exists($item["mob_id"]))
 			{
-				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-				$url = ilObjMediaObject::_lookupStandardItemPath($item["mob_id"], true);
-				$file = ilObjMediaObject::_lookupStandardItemPath($item["mob_id"], false, false);
-				if (is_file($file))
+				$go_on = true;
+				if ($obj_type == "mcst")
 				{
-					$size = filesize($file);
+					include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
+					
+					if (!ilObjMediaCastAccess::_lookupPublicFiles($obj_id))
+					{
+						$go_on = false;
+					}
 				}
-				$feed_item->setEnclosureUrl($url);
-				$feed_item->setEnclosureType("audio/mpeg");
-				$feed_item->setEnclosureLength($size);
+				
+				if ($go_on)
+				{
+					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+					$url = ilObjMediaObject::_lookupStandardItemPath($item["mob_id"], true);
+					$file = ilObjMediaObject::_lookupStandardItemPath($item["mob_id"], false, false);
+					if (is_file($file))
+					{
+						$size = filesize($file);
+					}
+					$feed_item->setEnclosureUrl($url);
+					$feed_item->setEnclosureType("audio/mpeg");
+					$feed_item->setEnclosureLength($size);
+				}
 			}
 			
 			$this->addItem($feed_item);

@@ -1167,3 +1167,6 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id.
 $ilDB->query($query);
 
 ?>
+<#958>
+ALTER TABLE `il_media_cast_data` CHANGE `offline` `online` TINYINT DEFAULT 0;
+

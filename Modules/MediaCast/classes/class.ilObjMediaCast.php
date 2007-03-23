@@ -32,7 +32,7 @@ require_once "./classes/class.ilObject.php";
 */
 class ilObjMediaCast extends ilObject
 {
-	protected $offline = false;
+	protected $online = false;
 	protected $publicfiles = false;
 	
 	/**
@@ -48,23 +48,23 @@ class ilObjMediaCast extends ilObject
 	}
 
 	/**
-	* Set Offline.
+	* Set Online.
 	*
-	* @param	boolean	$a_offline	Offline
+	* @param	boolean	$a_online	Online
 	*/
-	function setOffline($a_offline)
+	function setOnline($a_online)
 	{
-		$this->offline = $a_offline;
+		$this->online = $a_online;
 	}
 
 	/**
-	* Get Offline.
+	* Get Online.
 	*
-	* @return	boolean	Offline
+	* @return	boolean	Online
 	*/
-	function getOffline()
+	function getOnline()
 	{
-		return $this->offline;
+		return $this->online;
 	}
 
 	/**
@@ -118,11 +118,11 @@ class ilObjMediaCast extends ilObject
 		
 		$query = "INSERT INTO il_media_cast_data (".
 			" id".
-			", offline".
+			", online".
 			", public_files".
 			" ) VALUES (".
 			$ilDB->quote($this->getId())
-			.",".$ilDB->quote($this->getOffline())
+			.",".$ilDB->quote($this->getOnline())
 			.",".$ilDB->quote($this->getPublicFiles())
 			.")";
 		$ilDB->query($query);
@@ -146,7 +146,7 @@ class ilObjMediaCast extends ilObject
 
 		// update media cast data
 		$query = "UPDATE il_media_cast_data SET ".
-			" offline = ".$ilDB->quote($this->getOffline()).
+			" online = ".$ilDB->quote($this->getOnline()).
 			", public_files = ".$ilDB->quote($this->getPublicFiles()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($query);
@@ -169,7 +169,7 @@ class ilObjMediaCast extends ilObject
 		$set = $ilDB->query($query);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		$this->setOffline($rec["offline"]);
+		$this->setOnline($rec["online"]);
 		$this->setPublicFiles($rec["public_files"]);
 
 	}
