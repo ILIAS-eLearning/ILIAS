@@ -76,9 +76,9 @@ class ilBlockSetting
 	{
 		$detail = ilBlockSetting::_lookup($a_type, "detail", $a_user, $a_block_id);
 
-		if ($detail === false)		// return a level of 1 (smallest visible)
+		if ($detail === false)		// return a level of 2 (standard value)
 		{							// if record does not exist
-			return 1;
+			return 2;
 		}
 		else
 		{

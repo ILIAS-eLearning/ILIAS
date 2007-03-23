@@ -134,24 +134,25 @@ class ilNewsItem extends ilNewsItemGen
 
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
-			$news_item->setContextObjId($obj_id);
-			$news_item->setContextObjType($obj_type);
-			$news = $news_item->queryNewsForContext();
+			$news = $news_item->getNewsForRefId($ref_id, $a_only_public);
 
 			$unset = array();
 			foreach ($news as $k => $v)
 			{
-				if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC ||
+//echo "<br>-".$v["title"]."-".$v["visibility"]."-".$v["priority"]."-".
+//	ilBlockSetting::_lookup("news", "public_notifications", 0, $obj_id)."-";
+	
+				/*if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC ||
 					($v["priority"] == 0 &&
 						ilBlockSetting::_lookup("news", "public_notifications",
 						0, $obj_id)))
-				{
+				{*/
 					$news[$k]["ref_id"] = $ref_id;
-				}
+				/*}
 				else
 				{
 					$unset[] = $k;
-				}
+				}*/
 			}
 			foreach($unset as $un)
 			{
@@ -166,15 +167,16 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Get News For Ref Id.
 	*/
-	function getNewsForRefId($a_ref_id, $a_only_public = false)
+	function getNewsForRefId($a_ref_id, $a_only_public = false, $a_stopnesting = false)
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
-		if ($obj_type == "cat")
+		if ($obj_type == "cat" && !$a_stopnesting)
 		{
 			return $this->getAggregatedChildNewsData($a_ref_id, $a_only_public);
 		}
-		else if ($obj_type == "grp" || $obj_type == "crs")
+		else if (($obj_type == "grp" || $obj_type == "crs") &&
+			!$a_stopnesting)
 		{
 			return $this->getAggregatedNewsData($a_ref_id, $a_only_public);
 		}
@@ -187,7 +189,10 @@ class ilNewsItem extends ilNewsItemGen
 			$unset = array();
 			foreach ($news as $k => $v)
 			{
-				if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC)
+				if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC ||
+					($v["priority"] == 0 &&
+						ilBlockSetting::_lookup("news", "public_notifications",
+						0, $obj_id)))
 				{
 					$news[$k]["ref_id"] = $a_ref_id;
 				}
@@ -207,7 +212,7 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Get news aggregation (e.g. for courses)
 	*/
-	function getAggregatedNewsData($a_ref_id)
+	function getAggregatedNewsData($a_ref_id, $a_only_public = false)
 	{
 		global $tree, $ilAccess;
 		
@@ -222,16 +227,12 @@ class ilNewsItem extends ilNewsItemGen
 		// get news for all subtree nodes
 		foreach($nodes as $node)
 		{
-			if (!$ilAccess->checkAccess("read", "", $node["child"]))
+			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $node["child"]))
 			{
 				continue;
 			}
 
-			$news_item = new ilNewsItem();
-			$news_item->setContextObjId($node["obj_id"]);
-			$news_item->setContextObjType($node["type"]);
-			$news = $news_item->queryNewsForContext();
-
+			$news = $this->getNewsForRefId($node["child"], $a_only_public, true);
 			foreach ($news as $k => $v)
 			{
 				$news[$k]["ref_id"] = $node["child"];
@@ -247,7 +248,7 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Get news aggregation for child objects (e.g. for categories)
 	*/
-	function getAggregatedChildNewsData($a_ref_id)
+	function getAggregatedChildNewsData($a_ref_id, $a_only_public = false)
 	{
 		global $tree, $ilAccess;
 		
@@ -264,16 +265,12 @@ class ilNewsItem extends ilNewsItemGen
 		// get news for all subtree nodes
 		foreach($nodes as $node)
 		{
-			if (!$ilAccess->checkAccess("read", "", $node["child"]))
+			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $node["child"]))
 			{
 				continue;
 			}
 
-			$news_item = new ilNewsItem();
-			$news_item->setContextObjId($node["obj_id"]);
-			$news_item->setContextObjType($node["type"]);
-			$news = $news_item->queryNewsForContext();
-
+			$news = $this->getNewsForRefId($node["child"], $a_only_public, true);
 			foreach ($news as $k => $v)
 			{
 				$news[$k]["ref_id"] = $node["child"];

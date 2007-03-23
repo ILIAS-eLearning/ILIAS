@@ -64,20 +64,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$data = self::$st_data;
 		}
-		else if ($ilCtrl->getContextObjType() ==  "crs" ||
-			$ilCtrl->getContextObjType() ==  "grp")
-		{
-			$data = $news_item->getAggregatedNewsData($_GET["ref_id"]);
-			self::$st_data = $data;
-		}
-		else if ($ilCtrl->getContextObjType() ==  "cat")
-		{
-			$data = $news_item->getAggregatedChildNewsData($_GET["ref_id"]);
-			self::$st_data = $data;
-		}
 		else
 		{
-			$data = $news_item->queryNewsForContext();
+			$data = $news_item->getNewsForRefId($_GET["ref_id"]);
 			self::$st_data = $data;
 		}
 		
@@ -325,7 +314,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($news["ref_id"] > 0 && $news["ref_id"] != $_GET["ref_id"])
+		if ($news["ref_id"] > 0)
 		{
 			$type = in_array($news["context_obj_type"], array("sahs", "lm", "dbk", "htlm"))
 				? "lres"

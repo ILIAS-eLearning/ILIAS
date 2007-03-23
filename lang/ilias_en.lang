@@ -4348,6 +4348,7 @@ crs#:#crs_accept_subscriber#:#Admission to course "%s"
 crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s". 
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Activation
+crs#:#crs_news#:#Course News
 crs#:#crs_add_archive_html#:#Create a HTML Archive
 crs#:#crs_add_archive_xml#:#Create a XML Archive
 crs#:#crs_add_grouping#:#Add course grouping
