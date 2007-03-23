@@ -2835,6 +2835,10 @@ common#:#nwss_write#:#Edit News and Web Feeds Settings
 common#:#cat_create_feed#:#Create Web Feed
 common#:#grp_create_feed#:#Create Web Feed
 common#:#crs_create_feed#:#Create Web Feed
+common#:#cat_create_mcst#:#Create MediaCast
+common#:#grp_create_mcst#:#Create MediaCast
+common#:#crs_create_mcst#:#Create MediaCast
+common#:#fold_create_mcst#:#Create MediaCast
 block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
