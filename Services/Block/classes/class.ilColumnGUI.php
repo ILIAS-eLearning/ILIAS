@@ -589,9 +589,10 @@ class ilColumnGUI
 		$this->determineBlocks();
 		$i = 1;
 		$sum_moveable = count($this->blocks[$this->getSide()]);
-		
+
 		foreach ($this->blocks[$this->getSide()] as $block)
 		{
+
 			include_once("./".self::$locations[$block["class"]]."classes/".
 				"class.".$block["class"].".php");
 				
@@ -701,6 +702,9 @@ class ilColumnGUI
 		return $html;
 	}
 	
+	/**
+	* Determine which blocks to show.
+	*/
 	function determineBlocks()
 	{
 		global $ilUser, $ilCtrl, $ilSetting;
@@ -810,6 +814,7 @@ class ilColumnGUI
 		{
 			include_once("./Services/Block/classes/class.ilCustomBlock.php");
 			$rep_items = $this->getRepositoryItems();
+
 			foreach($this->rep_block_types as $block_type)
 			{
 				if (!is_array($rep_items[$block_type]))

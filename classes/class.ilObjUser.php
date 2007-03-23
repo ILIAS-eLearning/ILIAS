@@ -2809,6 +2809,7 @@ function getCourseMemberships($a_user_id = "")
 				"it.user_id = ".$ilDB->quote($user_id);
 
 			$item_set = $ilDB->query($q);
+			$items = array();
 			while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($tree->isInTree($item_rec["ref_id"]))

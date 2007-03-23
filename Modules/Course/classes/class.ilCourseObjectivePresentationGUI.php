@@ -627,6 +627,10 @@ class ilCourseObjectivePresentationGUI
 			$obj_id = $ilObjDataCache->lookupObjId($or_id);
 			$obj_type = $ilObjDataCache->lookupType($obj_id);
 
+			if ($obj_type == "feed")
+			{
+				continue;
+			}
 			
 			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
 				

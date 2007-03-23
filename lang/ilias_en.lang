@@ -2817,7 +2817,24 @@ common#:#new_lowercase#:#new
 common#:#new_mail#:#New e-mail!
 common#:#news#:#News
 common#:#html_block#:#HTML Block
-common#:#feed#:#News Feed
+common#:#feed#:#Web Feed
+common#:#obj_feed#:#Web Feed
+common#:#objs_feed#:#Web Feeds
+common#:#feed_edit_permission#:#Change permission settings
+common#:#feed_visible#:#Web Feed is visible
+common#:#feed_read#:#Read access to Web Feed
+common#:#feed_write#:#Edit Web Feed
+common#:#mcst_edit_permission#:#Change permission settings
+common#:#mcst_visible#:#MediaCast is visible
+common#:#mcst_read#:#Read access to MediaCast
+common#:#mcst_write#:#Edit MediaCast
+common#:#nwss_edit_permission#:#Change permission settings
+common#:#nwss_visible#:#News and Web Feeds Settings are visible
+common#:#nwss_read#:#Read access to News and Web Feeds Settings
+common#:#nwss_write#:#Edit News and Web Feeds Settings
+common#:#cat_create_feed#:#Create Web Feed
+common#:#grp_create_feed#:#Create Web Feed
+common#:#crs_create_feed#:#Create Web Feed
 block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
@@ -2867,7 +2884,7 @@ feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop
 feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop. Existing feeds are not deleted, if option is set to a lower value. '0' disables the feature completely.
 feed#:#feed_settings#:#External Web Feeds Settings
 feed#:#feed_open_source_page#:#Go to Source of External News
-feed#:#block_feed_block_head#:#External News Feed
+feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php
@@ -7154,8 +7171,8 @@ common#:#obj_grp_duplicate#:#Copy Group
 common#:#obj_grp_select#:#-- Please select one Group --
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-crs#:#crs_objective_assigned_materials#:#Zugeordnete Kursmaterialien
-crs#:#crs_objective_assigned_qst#:#Zugeordnete Testfragen
+crs#:#crs_objective_assigned_materials#:#Assigned Learning Materials
+crs#:#crs_objective_assigned_qst#:#Assigned Questions
 crs#:#crs_objective_add_mat#:#Assign Materials
 crs#:#crs_objective_add_qst#:#Assign Questions
 common#:#objs_qst#:#Questions

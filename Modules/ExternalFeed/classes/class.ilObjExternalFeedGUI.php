@@ -100,13 +100,15 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	function save($a_feed_block)
 	{
-		global $rbacadmin;
+		global $rbacadmin, $ilUser;
 
 		// create and insert forum in objecttree
 		$_GET["new_type"] = "feed";
 		$_POST["Fobject"]["title"] = $a_feed_block->getTitle();
 		$_POST["Fobject"]["desc"] = $a_feed_block->getFeedUrl();
 		$newObj = parent::saveObject();
+		$newObj->setOwner($ilUser->getId());
+		$newObj->updateOwner();
 		$a_feed_block->setContextObjId($newObj->getId());
 		$a_feed_block->setContextObjType("feed");
 
