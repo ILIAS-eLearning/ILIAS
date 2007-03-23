@@ -510,7 +510,7 @@ class ilObjCourseGrouping
 		{
 			return true;
 		}
-
+		$matriculation_message = $assigned_message = '';
 		foreach($trigger_ids as $trigger_id)
 		{
 			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
@@ -588,6 +588,7 @@ class ilObjCourseGrouping
 		{
 			return false;
 		}
+		$hash_table = array();
 		foreach($trigger_ids as $trigger_id)
 		{
 			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)

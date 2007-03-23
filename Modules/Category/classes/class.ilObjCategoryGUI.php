@@ -450,7 +450,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// for lang selection include metadata class
 		include_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
 
-		$this->getTemplateFile("edit",$new_type);
+		$this->getTemplateFile("edit",'');
 		$array_push = true;
 
 		if ($_SESSION["error_post_vars"])
@@ -993,7 +993,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$f_result[$counter][]	= $user_data['lastname'];
 
 			
-			switch($usr_data['time_limit_owner'])
+			switch($user_data['time_limit_owner'])
 			{
 				case 7:
 					$f_result[$counter][]	= $this->lng->txt('global');
@@ -1009,7 +1009,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$f_result[$counter][]	= '<a class="il_ContainerItemCommand" href="'.$this->ctrl->getLinkTarget($this,'assignRoles').'">'.
 				$this->lng->txt('edit').'</a>';
 			
-			unset($tmp_obj);
 			++$counter;
 		}
 		$this->__showUsersTable($f_result,"listUsersObject",$editable);

@@ -746,7 +746,7 @@ class ilCourseObjectivesGUI
 
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($objectives));
+		$tbl->setMaxCount(count($_POST['objective']));
 
 		// footer
 		$tbl->disable("footer");
@@ -928,7 +928,7 @@ class ilCourseObjectivesGUI
 
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($objectives));
+		$tbl->setMaxCount(0);
 
 		// footer
 		$tbl->disable("footer");

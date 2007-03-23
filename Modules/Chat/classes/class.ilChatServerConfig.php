@@ -25,7 +25,7 @@
 * Class ilChatServerConfig
 * 
 * @author Stefan Meyer 
-* @version $Id$
+* @version $Id:class.ilChatServerConfig.php 12853 2006-12-15 13:36:31 +0000 (Fr, 15 Dez 2006) smeyer $
 *
 */
 
@@ -289,7 +289,7 @@ class ilChatServerConfig
 	}
 	function __writeConfigFile()
 	{
-		if(!($fp = @fopen($a_path."./Modules/Chat/chatserver/server.ini","w")))
+		if(!($fp = @fopen("./Modules/Chat/chatserver/server.ini","w")))
 		{
 			$this->error_message = "./Modules/Chat/chatserver/server.ini ".$this->lng->txt("chat_no_write_perm");
 			return false;
