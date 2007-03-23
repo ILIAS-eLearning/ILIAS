@@ -565,12 +565,14 @@ class ilObject
 		{
 			$owner = $this->getOwner();
 		}
+		elseif(is_object($ilUser))
+		{
+			$owner = $ilUser->getId();
+		}
 		else
 		{
-			#$owner = $ilUser->getId();
 			$owner = 0;
 		}
-
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
