@@ -707,18 +707,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			// SET FOOTER BUTTONS
 			$this->tpl->setCurrentBlock("tbl_action_row");
 
-			// show select all
-			if (count($a_member_ids))
-			{
-				// set checkbox toggles
-				$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-				$this->tpl->setVariable("JS_VARNAME","member");			
-				$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_member_ids));
-				$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-				$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-				$this->tpl->parseCurrentBlock();
-			}
-
 			$this->tpl->setVariable("COLUMN_COUNTS",6);
 			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
@@ -1283,6 +1271,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$search->setSearchFor(array(0 => $a_search_for));
 		$search->setSearchType('new');
   
+  		$message = '';
 		if($search->validate($message))
 		{
 			$search->performSearch();

@@ -433,7 +433,7 @@ class ilObjCourseGroupingGUI
 												 $ilUser->getId(),-1);
 		foreach($items as $item_id)
 		{
-			if($tree->checkForParentType($course_id,'adm'))
+			if($tree->checkForParentType($item_id,'adm'))
 			{
 				continue;
 			}

@@ -167,7 +167,6 @@ class ilEvent
 	function enabledParticipation()
 	{
 		return true;
-		return (bool) $this->participation;
 	}
 	function enableParticipation($a_status)
 	{
@@ -334,12 +333,6 @@ class ilEvent
 	function getFullname()
 	{
 		return $this->getName();
-
-		if(strlen($this->getPTitle()) or strlen($this->getFirstname()) or strlen($this->getLastname()))
-		{
-			return $this->getPTitle().' '.$this->getFirstname().' '.$this->getLastname();
-		}
-		return '';
 	}
 
 	function _delete($a_event_id)

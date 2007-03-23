@@ -582,7 +582,6 @@ class ilCourseObjectivePresentationGUI
 			$this->tpl->setVariable("OBJ_CLASS_TST",'option_value');
 			$this->tpl->parseCurrentBlock();
 
-			unset($tmp_tst);
 			++$counter;
 		}
 	}
@@ -675,7 +674,6 @@ class ilCourseObjectivePresentationGUI
 			$this->tpl->setVariable("OBJ_CLASS_OR",'option_value');
 			$this->tpl->parseCurrentBlock();
 
-			unset($tmp_or);
 			++$counter;
 		}
 	}

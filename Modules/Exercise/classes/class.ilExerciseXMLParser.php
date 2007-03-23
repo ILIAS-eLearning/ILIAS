@@ -232,14 +232,14 @@ class ilExerciseXMLParser extends ilSaxParser
        }
 	   $memberObject = $this->exercise->members_obj;
 
-	   if ($action == "Attach" && !$memberObject->isAssigned($usr_id))
+	   if ($action == "Attach" && !$memberObject->isAssigned($user_id))
 	   {
-            $memberObject->assignMember ($usr_id);
+            $memberObject->assignMember ($user_id);
        }
 
-       if ($action == "Detach" && $memberObject->isAssigned($usr_id))
+       if ($action == "Detach" && $memberObject->isAssigned($user_id))
        {
-            $memberObject->deassignMember ($usr_id);
+            $memberObject->deassignMember ($user_id);
        }
 	}
 

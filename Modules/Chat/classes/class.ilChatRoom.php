@@ -52,7 +52,7 @@ class ilChatRoom
 	*/
 	function ilChatRoom($a_id)
 	{
-		global $ilias,$lng;
+		global $ilias,$lng,$ilUser;
 
 		define(MAX_LINES,1000);
 
@@ -60,7 +60,7 @@ class ilChatRoom
 		$this->lng =& $lng;
 
 		$this->obj_id = $a_id;
-		$this->owner_id = $a_owner_id;
+		$this->owner_id = $ilUser->getId();
 		$this->user_id = $_SESSION["AccountId"];
 	}
 

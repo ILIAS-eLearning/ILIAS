@@ -2264,7 +2264,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		return false;
 	}
 
 	function performRemoveFromWaitingListObject()
@@ -3998,6 +3997,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$search->setSearchFor(array(0 => $a_search_for));
 		$search->setSearchType('new');
 
+		$message = '';
 		if($search->validate($message))
 		{
 			$search->performSearch();
