@@ -94,7 +94,7 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 * @param int line
 	 * 
 	 */
-	public function _debug($a_message,$a_line = 0)
+	public function _debug($a_message = '',$a_line = 0)
 	{
 		if(is_object($this->log))
 		{
