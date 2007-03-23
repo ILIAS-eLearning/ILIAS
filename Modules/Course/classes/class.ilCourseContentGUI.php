@@ -452,10 +452,12 @@ class ilCourseContentGUI
 	
 	function setColumnSettings($column_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $lng;
 		
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setEnableEdit(false);
+		$column_gui->setBlockProperty("news", "title",
+			$lng->txt("crs_news"));
 		
 		$grouped_items = array();
 		foreach($this->course_obj->items_obj->items as $item)

@@ -1045,7 +1045,7 @@ abstract class ilBlockGUI
 	{
 		global $ilCtrl, $lng;
 
-		if ($this->enabledetailrow == false)
+		if ($this->enabledetailrow == false || count($this->getData()) == 0)
 		{
 			return;
 		}
