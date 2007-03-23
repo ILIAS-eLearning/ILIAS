@@ -1189,9 +1189,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				
 				// map settings
-				$this->tabs_gui->addSubTabTarget("crs_map_settings",
-					 $this->ctrl->getLinkTarget($this,'editMapSettings'),
-					 "editMapSettings", get_class($this));
+				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+				if (ilGoogleMapUtil::isActivated())
+				{
+					$this->tabs_gui->addSubTabTarget("crs_map_settings",
+						 $this->ctrl->getLinkTarget($this,'editMapSettings'),
+						 "editMapSettings", get_class($this));
+				}
 
 				
 				include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
@@ -1228,10 +1232,15 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
 												 $this->ctrl->getLinkTarget($this,'membersGallery'),
 												 "membersGallery", get_class($this));
-												 
-				$this->tabs_gui->addSubTabTarget("crs_members_map",
-					$this->ctrl->getLinkTarget($this,'membersMap'),
-					"membersMap", get_class($this));
+				
+				// members map
+				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+				if (ilGoogleMapUtil::isActivated() && $this->object->getEnableCourseMap())
+				{
+					$this->tabs_gui->addSubTabTarget("crs_members_map",
+						$this->ctrl->getLinkTarget($this,'membersMap'),
+						"membersMap", get_class($this));
+				}
 
 				
 				include_once 'classes/class.ilMail.php';
@@ -3051,7 +3060,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				: false;
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
-				array("edit", "editCourseIcons", "listStructure"), "", "", $force_active);
+				array("edit", "editMapSettings", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}
 
 		// lom meta data
@@ -4570,13 +4579,29 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function editMapSettingsObject()
 	{
-		global $ilUser, $ilCtrl, $ilUser;
+		global $ilUser, $ilCtrl, $ilUser, $ilAccess;
 
 		$this->setSubTabs("properties");
+		$this->tabs_gui->setTabActive('settings');
 		
+		if (!ilGoogleMapUtil::isActivated() ||
+			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			return;
+		}
+
 		$latitude = $this->object->getLatitude();
 		$longitude = $this->object->getLongitude();
 		$zoom = $this->object->getLocationZoom();
+		
+		// Get Default settings, when nothing is set
+		if ($latitude == 0 && $longitude == 0 && $zoom == 0)
+		{
+			$def = ilGoogleMapUtil::getDefaultSettings();
+			$latitude = $def["latitude"];
+			$longitude = $def["longitude"];
+			$zoom =  $def["zoom"];
+		}
 
 		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
 		//$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
@@ -4629,6 +4654,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $tpl;
 
 		$this->setSubTabs('members');
+		
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+		if (!ilGoogleMapUtil::isActivated() || !$this->object->getEnableCourseMap())
+		{
+			return;
+		}
 		
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
 		$map = new ilGoogleMapGUI();

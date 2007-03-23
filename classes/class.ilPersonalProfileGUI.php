@@ -1271,13 +1271,31 @@ class ilPersonalProfileGUI
 	
 	function showLocation()
 	{
-		global $ilUser, $ilCtrl, $ilUser;
+		global $ilUser, $ilCtrl, $ilUser, $lng;
+		
+		$lng->loadLanguageModule("gmaps");
 
+		// check google map activation
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+		if (!ilGoogleMapUtil::isActivated())
+		{
+			return;
+		}
+		
 		$this->__initSubTabs("showLocation");
 		
 		$latitude = $ilUser->getLatitude();
 		$longitude = $ilUser->getLongitude();
 		$zoom = $ilUser->getLocationZoom();
+		
+		// Get Default settings, when nothing is set
+		if ($latitude == 0 && $longitude == 0 && $zoom == 0)
+		{
+			$def = ilGoogleMapUtil::getDefaultSettings();
+			$latitude = $def["latitude"];
+			$longitude = $def["longitude"];
+			$zoom =  $def["zoom"];
+		}
 
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
@@ -1289,6 +1307,14 @@ class ilPersonalProfileGUI
 		$form->setTitle($this->lng->txt("location")." ".
 			strtolower($this->lng->txt("of"))." ".$ilUser->getFullname());
 			
+		// public profile
+		$public = new ilCheckboxInputGUI($this->lng->txt("public_profile"),
+			"public_location");
+		$public->setValue("y");
+		$public->setInfo($this->lng->txt("gmaps_public_profile_info"));
+		$public->setChecked($ilUser->getPref("public_location"));
+		$form->addItem($public);
+
 		// location property
 		$loc_prop = new ilLocationInputGUI($this->lng->txt("location"),
 			"location");
@@ -1296,14 +1322,6 @@ class ilPersonalProfileGUI
 		$loc_prop->setLongitude($longitude);
 		$loc_prop->setZoom($zoom);
 		$form->addItem($loc_prop);
-
-		// public profile
-		$public = new ilCheckboxInputGUI($this->lng->txt("public_profile"),
-			"public_location");
-		$public->setValue("y");
-		$public->setChecked($ilUser->getPref("public_location"));
-		
-		$form->addItem($public);
 		
 		$form->addCommandButton("saveLocation", $this->lng->txt("save"));
 		
@@ -1336,8 +1354,15 @@ class ilPersonalProfileGUI
 
 		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile"),
 								 "", "", "", $showProfile);
-		$ilTabs->addSubTabTarget("location", $this->ctrl->getLinkTarget($this, "showLocation"),
+								 
+		// check google map activation
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+		if (ilGoogleMapUtil::isActivated())
+		{
+			$ilTabs->addSubTabTarget("location", $this->ctrl->getLinkTarget($this, "showLocation"),
 								 "", "", "", $showLocation);
+		}
+		
 		$ilTabs->addSubTabTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"),
 								 "", "", "", $showMailOptions);
 	}

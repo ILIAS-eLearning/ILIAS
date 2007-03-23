@@ -391,11 +391,17 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("gmaps_settings"));
 		
+		// Enable Google Maps
+		$enable = new ilCheckboxInputGUI($lng->txt("gmaps_enable_gmaps"), "enable");
+		$enable->setChecked($gm_set->get("enable"));
+		$enable->setInfo($lng->txt("gmaps_enable_gmaps_info"));
+		$form->addItem($enable);
+
 		// API key
 		$text_prop = new ilTextInputGUI($lng->txt("gmaps_api_key"), "api_key");
 		$text_prop->setInfo($lng->txt("gmaps_api_key_desc").' <a href="'.$api_url.'">'.$api_url.'</a>');
 		$text_prop->setValue($api_key);
-		$text_prop->setRequired(true);
+		$text_prop->setRequired(false);
 		$text_prop->setMaxLength(200);
 		$text_prop->setSize(60);
 		$form->addItem($text_prop);
@@ -424,6 +430,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		$gm_set = new ilSetting("google_maps");
 		
+		$gm_set->set("enable", ilUtil::stripSlashes($_POST["enable"]));
 		$gm_set->set("api_key", ilUtil::stripSlashes($_POST["api_key"]));
 		$gm_set->set("std_latitude", ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
 		$gm_set->set("std_longitude", ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
