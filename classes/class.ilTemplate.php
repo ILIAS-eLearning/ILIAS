@@ -51,7 +51,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	var $activeBlock;
 	
-	var $js_files = array("./Services/Javascript/js/Basic.js");		// list of JS files that should be included
+	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $css_files = array();		// list of css files that should be included
 
 	/**
