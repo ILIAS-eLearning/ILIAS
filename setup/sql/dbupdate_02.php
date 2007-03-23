@@ -1118,3 +1118,52 @@ $ilDB->query($query);
 ?>
 <#956>
 UPDATE rbac_operations SET class='create' WHERE operation='create_feed';
+
+<#957>
+<?php
+// add create operation for 
+$query = "INSERT INTO rbac_operations ".
+	"SET operation = 'create_mcst', class='create', description = 'create media cast'";
+$ilDB->query($query);
+
+// get new ops_id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops_id = $row[0];
+
+// add create feed for crs,cat,fold and grp
+// get category type id
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='cat'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='crs'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='grp'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='fold'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+?>
