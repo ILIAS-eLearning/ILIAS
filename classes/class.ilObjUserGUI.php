@@ -2175,7 +2175,8 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		// map
-		if ($d_set->get("user_profile") == "1" && $this->object->getPref("public_location"))
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+		if (ilGoogleMapUtil::isActivated() && $this->object->getPref("public_location"))
 		{
 			$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
 

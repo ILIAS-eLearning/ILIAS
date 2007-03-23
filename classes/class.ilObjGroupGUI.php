@@ -1422,6 +1422,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->__setSubTabs('members');
 		
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+		if (!ilGoogleMapUtil::isActivated() || !$this->object->getEnableGroupMap())
+		{
+			return;
+		}
+		
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
 		$map = new ilGoogleMapGUI();
 		$map->setMapId("group_map");
@@ -1893,7 +1899,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				: "membersGallery";
 
 			$tabs_gui->addTarget("group_members",
-				$this->ctrl->getLinkTarget($this, $mem_cmd), array("members","mailMembers","membersGallery","showProfile"), get_class($this));
+				$this->ctrl->getLinkTarget($this, $mem_cmd), array("members","mailMembers","membersMap","membersGallery","showProfile"), get_class($this));
 		}
 		
 		$applications = $this->object->getNewRegistrations();
@@ -2698,9 +2704,15 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this,'membersGallery'),
 				"membersGallery", get_class($this));
 				
-				$this->tabs_gui->addSubTabTarget("grp_members_map",
-					$this->ctrl->getLinkTarget($this,'membersMap'),
-					"membersMap", get_class($this));
+				// members map
+				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+				if (ilGoogleMapUtil::isActivated() &&
+					$this->object->getEnableGroupMap())
+				{
+					$this->tabs_gui->addSubTabTarget("grp_members_map",
+						$this->ctrl->getLinkTarget($this,'membersMap'),
+						"membersMap", get_class($this));
+				}
 				
 				$this->tabs_gui->addSubTabTarget("mail_members",
 				$this->ctrl->getLinkTarget($this,'mailMembers'),
@@ -2728,9 +2740,13 @@ class ilObjGroupGUI extends ilContainerGUI
 												 'listGroupings',
 												 get_class($this));
 
-				$this->tabs_gui->addSubTabTarget("grp_map_settings",
+				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+				if (ilGoogleMapUtil::isActivated())
+				{
+					$this->tabs_gui->addSubTabTarget("grp_map_settings",
 												 $this->ctrl->getLinkTarget($this,'editMapSettings'),
 												 "editMapSettings", get_class($this));
+				}
 				break;
 		}
 	}
@@ -2838,13 +2854,29 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function editMapSettingsObject()
 	{
-		global $ilUser, $ilCtrl, $ilUser;
+		global $ilUser, $ilCtrl, $ilUser, $ilAccess;
 
 		$this->__setSubTabs("properties");
 		
+		if (!ilGoogleMapUtil::isActivated() ||
+			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			return;
+		}
+
 		$latitude = $this->object->getLatitude();
 		$longitude = $this->object->getLongitude();
 		$zoom = $this->object->getLocationZoom();
+		
+		// Get Default settings, when nothing is set
+		if ($latitude == 0 && $longitude == 0 && $zoom == 0)
+		{
+			$def = ilGoogleMapUtil::getDefaultSettings();
+			$latitude = $def["latitude"];
+			$longitude = $def["longitude"];
+			$zoom =  $def["zoom"];
+		}
+
 
 		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
 		//$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
