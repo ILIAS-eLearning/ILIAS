@@ -291,6 +291,12 @@ class ilCourseObjectivesGUI
 		$counter = 0;
 		foreach($assignable as $node)
 		{
+			// not nice, fix later
+			if($node['type'] == 'feed')
+			{
+				continue;
+			}
+			
 			if($node['type'] == 'lm')
 			{
 				include_once('Modules/LearningModule/classes/class.ilLMObject.php');

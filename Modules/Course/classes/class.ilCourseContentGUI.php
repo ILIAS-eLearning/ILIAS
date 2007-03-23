@@ -346,8 +346,8 @@ class ilCourseContentGUI
 	*/
 	function view()
 	{
-		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->getCenterColumnHTML();
+		$this->tpl->setRightContent($this->getRightColumnHTML());
 	}
 
 	/**
@@ -456,6 +456,14 @@ class ilCourseContentGUI
 		
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setEnableEdit(false);
+		
+		$grouped_items = array();
+		foreach($this->course_obj->items_obj->items as $item)
+		{
+			$grouped_items[$item["type"]][] = $item;
+		}
+		
+		$column_gui->setRepositoryItems($grouped_items);
 		if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId()))
 		{
 			$column_gui->setEnableEdit(true);
@@ -477,6 +485,9 @@ class ilCourseContentGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 
+		// this gets us the subitems we need in setColumnSettings()
+		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
+		
 		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
 		$obj_type = ilObject::_lookupType($obj_id);
 
@@ -713,6 +724,12 @@ class ilCourseContentGUI
 		$num = 0;
 		foreach ($this->cont_arr as $cont_data)
 		{
+			// do not show blocks in material list (not nice, to do: clean up)
+			if ($cont_data['type'] == "feed")
+			{
+				continue;
+			}
+			
 			if(!$ilAccess->checkAccess('visible','',$cont_data['ref_id']))
 			{
 				continue;

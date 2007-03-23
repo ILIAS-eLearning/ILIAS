@@ -547,7 +547,7 @@ DELETE FROM il_external_feed_block;
 
 <#925>
 <?php
-// register new object type 'feed' for news settings
+// register new object type 'feed'
 $query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
 		"VALUES ('typ', 'feed', 'External Feed', -1, now(), now())";
 $this->db->query($query);
@@ -1076,3 +1076,45 @@ $ilCtrlStructureReader->getStructure();
 $query = "UPDATE usr_data SET ext_account = login WHERE auth_mode = 'radius'";
 $ilDB->query($query);
 ?>
+<#955>
+<?php
+// add create operation for 
+$query = "INSERT INTO rbac_operations ".
+	"SET operation = 'create_feed', description = 'create external feed'";
+$ilDB->query($query);
+
+// get new ops_id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops_id = $row[0];
+
+// add create feed for crs,cat,fold and grp
+// get category type id
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='cat'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='crs'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='grp'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+?>
+<#956>
+UPDATE rbac_operations SET class='create' WHERE operation='create_feed';
