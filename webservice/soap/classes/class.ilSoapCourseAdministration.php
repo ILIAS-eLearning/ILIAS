@@ -387,6 +387,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}			
+		
 		if(!is_numeric($course_id))
 		{
 			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
