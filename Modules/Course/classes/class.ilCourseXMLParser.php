@@ -384,6 +384,11 @@ class ilCourseXMLParser extends ilMDSaxParser
 				$this->course_obj->setSyllabus(trim($this->cdata));
 				break;
 
+
+			case 'ImportantInformation':
+				$this->course_obj->setImportantInformation(trim($this->cdata));
+				break;
+
 			case 'Name':
 				$this->course_obj->setContactName(trim($this->cdata));
 				break;

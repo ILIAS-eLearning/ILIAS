@@ -238,6 +238,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		// Syllabus
 		$this->xmlElement('Syllabus',null,$this->course_obj->getSyllabus());
+		$this->xmlElement('ImportantInformation',null,$this->course_obj->getImportantInformation());
+		
 		
 		// Contact
 		$this->xmlStartTag('Contact');
