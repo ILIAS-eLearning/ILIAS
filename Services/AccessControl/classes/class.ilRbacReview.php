@@ -135,7 +135,7 @@ class ilRbacReview
 					"FROM object_data AS dat ".
 					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree AS t ON t.child = ref.ref_id ".
-					"WHERE dat.obj_id ='".addslashes($role_id)."' ".
+					"WHERE dat.obj_id =".$ilDB->quote($role_id)." ".
 					"AND dat.type = 'role' ".
 					"AND t.tree = 1";
 				$r = $this->ilDB->query($q);
@@ -167,7 +167,7 @@ class ilRbacReview
 					"FROM object_data AS dat ".
 					"JOIN rbac_fa AS fa ON fa.rol_id = dat.obj_id ".
 					"JOIN tree AS t ON t.child = fa.parent ".
-					"WHERE dat.title ='".addslashes($local_part)."' ".
+					"WHERE dat.title =".$ilDB->quote($local_part)." ".
 					"AND dat.type = 'role' ".
 					"AND fa.assign = 'y' ".
 					"AND t.tree = 1";
@@ -182,10 +182,11 @@ class ilRbacReview
 					"JOIN tree AS rtree ON rtree.parent = otree.child ".
 					"JOIN rbac_fa AS rfa ON rfa.parent = rtree.child ".
 					"JOIN object_data AS rdat ON rdat.obj_id = rfa.rol_id ".
-					"WHERE odat.title = '".addslashes($domain)."' ".
+					"WHERE odat.title = ".$this->ilDB->quote($domain)." ".
 					"AND otree.tree = 1 AND rtree.tree = 1 ".
 					"AND rfa.assign = 'y' ".
-					"AND rdat.title like '%".addslashes($local_part)."%'";
+					"AND rdat.title LIKE ".
+						$this->ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%');
 			}
 			$r = $this->ilDB->query($q);
 
@@ -204,7 +205,7 @@ class ilRbacReview
 					"FROM object_data AS dat ".
 					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree AS t ON t.child = ref.ref_id ".
-					"WHERE dat.title = '".addslashes($domain)."' ".
+					"WHERE dat.title = ".$this->ilDB->quote($domain)." ".
 					"AND dat.type = 'role' ".
 					"AND t.tree = 1 ";
 				$r = $this->ilDB->query($q);
@@ -297,7 +298,7 @@ class ilRbacReview
 				"JOIN tree AS rtree ON rtree.child = fa.parent ".
 				"JOIN object_reference AS oref ON oref.ref_id = rtree.parent ".
 				"JOIN object_data AS odat ON odat.obj_id = oref.obj_id ".
-				"WHERE rdat.obj_id = ".$a_role_id." ".
+				"WHERE rdat.obj_id = ".$this->ilDB->quote($a_role_id)." ".
 				"AND fa.assign = 'y' ";
 			$r = $this->ilDB->query($q);
 			if (! ($row = $r->fetchRow(DB_FETCHMODE_OBJECT)))
@@ -322,7 +323,7 @@ class ilRbacReview
 				"FROM object_data AS dat ".
 				"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
 				"JOIN tree ON tree.child = ref.ref_id ".
-				"WHERE title = '".addslashes($object_title)."' ".
+				"WHERE title = ".$this->ilDB->quote($object_title)." ".
 				"AND tree.tree = 1";
 			$r = $this->ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -378,7 +379,7 @@ class ilRbacReview
 					"FROM object_data AS dat ".
 					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree ON tree.child = ref.ref_id ".
-					"WHERE title = '".addslashes($local_part)."' ".
+					"WHERE title = ".$this->ilDB->quote($local_part)." ".
 					"AND tree.tree = 1";
 			}
 			else
@@ -388,10 +389,12 @@ class ilRbacReview
 					 "JOIN rbac_fa AS fa ON rd.obj_id = fa.rol_id ".
 					 "JOIN tree AS t ON t.child = fa.parent ". 
 					 "WHERE fa.assign = 'y' ".
-					 "AND t.parent = ".$object_ref." ".
-					 "AND rd.title LIKE '%".addslashes($local_part)."%' "
+					 "AND t.parent = ".$this->ilDB->quote($object_ref)." ".
+					 "AND rd.title LIKE ".$this->ilDB->quote(
+						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%')
 					;
 			}
+
 			$r = $this->ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -427,7 +430,7 @@ class ilRbacReview
 		{
 			$q = "SELECT title ".
 				"FROM object_data ".
-				"WHERE obj_id = ".$a_role_id;
+				"WHERE obj_id = ".$this->ilDB->quote($a_role_id);
 			$r = $this->ilDB->query($q);
 
 			if ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -657,7 +660,7 @@ class ilRbacReview
 			"JOIN object_reference AS ref ON ref.ref_id = node.child ".
 			"JOIN rbac_fa AS fa ON fa.parent = ref.ref_id ".
 			"JOIN object_data AS dat ON dat.obj_id = fa.rol_id ".
-			"WHERE root.child = $ref_id AND root.tree = 1 ".
+			"WHERE root.child = ".$this->ilDB->quote($ref_id)." AND root.tree = 1 ".
 			"AND fa.assign = 'y' ".
 			"ORDER BY dat.title";
 		$r = $this->ilDB->query($q);
@@ -688,7 +691,7 @@ class ilRbacReview
 			 "JOIN rbac_fa AS fa ON rd.obj_id = fa.rol_id ".
 			 "JOIN tree AS t ON t.child = fa.parent ". 
 			 "WHERE fa.assign = 'y' ".
-			 "AND t.parent = ".$a_ref_id." "
+			 "AND t.parent = ".$this->ilDB->quote($a_ref_id)." "
 			;
 		$r = $this->ilDB->query($q);
 
