@@ -1,14 +1,13 @@
 <tr class="tblrow1">
 <td class="std">
-<!-- BEGIN link -->
-<p class="small"><a href="{HREF_LINK}"><img alt="{ALT_LINK}" src="{IMG_LINK}" /> {TXT_LINK}</a></p>
-<!-- END link -->
-<!-- BEGIN user_info -->
-<div style="float:left;">
-	<img border="0" src="{USR_IMAGE}" style="margin:0px 10px 10px 0px;" />
+<!-- BEGIN context -->
+<div class="small" style="margin: 2px 0px 4px 0px;">
+{CONTEXT_LOCATOR}
 </div>
-<!-- END user_info -->
-<p><b>{VAL_TITLE}</b></p>
+<h2><img style="vertical-align:middle" alt="{CONTEXT_TITLE}" border="0" src="{IMG_CONTEXT_TITLE}" />
+<a href="{HREF_CONTEXT_TITLE}">{CONTEXT_TITLE}</a></h2>
+<!-- END context -->
+<h4><a href="{HREF_TITLE}">{VAL_TITLE}</a></h4>
 <div style="clear:both;">
 <!-- BEGIN content -->
 <p>{VAL_CONTENT}</p>
@@ -17,12 +16,16 @@
 <div>{VAL_LONG_CONTENT}</div>
 <!-- END long -->
 <!-- BEGIN player -->
-<p>{PLAYER}</p>
+<p style="margin-top:15px;">{PLAYER}</p>
 <!-- END player -->
-<div style="text-align:right;" class="small">{VAL_CREATION_DATE}</div>
+<div style="text-align:right;" class="il_BlockInfo">{TXT_CREATED}: {VAL_CREATION_DATE}</div>
 <!-- BEGIN ni_update -->
-<div style="text-align:right;" class="small">{TXT_LAST_UPDATE}: {VAL_LAST_UPDATE}</div>
+<div style="text-align:right;" class="il_BlockInfo">{TXT_LAST_UPDATE}: {VAL_LAST_UPDATE}</div>
 <!-- END ni_update -->
+<div style="text-align:right;" class="il_BlockInfo">{TXT_ACCESS}: {VAL_ACCESS}</div>
+<!-- BEGIN user_info -->
+<div style="text-align:right;" class="il_BlockInfo">{TXT_AUTHOR}: {VAL_AUTHOR}</div>
+<!-- END user_info -->
 </div>
 <br />
 </td>

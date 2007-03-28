@@ -821,7 +821,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target, $a_thread = 0)
+	function _goto($a_target, $a_thread = 0, $a_posting = 0)
 	{
 		global $ilAccess, $ilErr, $lng;
 
@@ -829,6 +829,7 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			if ($a_thread != 0)
 			{
+				$_GET["pos_pk"] = $a_posting;
 				$_GET["thr_pk"] = $a_thread;
 				$_GET["ref_id"] = $a_target;
 				$_GET["cmdClass"] = "ilObjForumGUI";
@@ -1315,7 +1316,8 @@ class ilObjForumGUI extends ilObjectGUI
 					$Start = $_GET["offset"];
 				}
 		
-				$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$posNum,$pageHits,$Start,$params);
+				$linkbar = ilUtil::Linkbar($ilCtrl->getLinkTarget($this, "viewThread"),
+					$posNum,$pageHits,$Start,$params);
 		//echo ":$linkbar:";
 				if ($linkbar != "")
 				{
@@ -1332,7 +1334,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 			// assistance val for anchor-links
 			$jump = 0;
-		
+
 			// generate post-dates
 			foreach ($subtree_nodes as $node)
 			{
@@ -1351,7 +1353,7 @@ class ilObjForumGUI extends ilObjectGUI
 						$this->ctrl->setParameter($this, "pos_pk", $_GET["pos_pk"]);
 						$this->ctrl->setParameter($this, "offset", ($Start+$pageHits));
 						$this->ctrl->setParameter($this, "orderby", $_GET["orderby"]);
-						$this->ctrl->redirect($this, "viewThread");
+						$this->ctrl->redirect($this, "viewThread", $_GET["pos_pk"]);
 						//header("location: forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&ref_id=".
 						//	   $_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&offset=".($Start+$pageHits)."&orderby=".$_GET["orderby"]);
 						exit();

@@ -57,10 +57,6 @@ return;
 			$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$a_obj_id);
 			$tpl->parseCurrentBlock();
 		
-			// ### AA 03.11.10 added new locator GUI class ###
-			// navigate locator
-			//$ilias_locator->navigate($i++,$lng->txt("mail_mails_of"),"mail.php",
-			//	ilFrameTargetInfo::_getFrame("MainContent"));
 
 			unset($path_full[0]);
 			foreach ($path_full as $key => $row)
@@ -79,10 +75,6 @@ return;
 				$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$row["child"]);
 				$tpl->parseCurrentBlock();
 				
-				// ### AA 03.11.10 added new locator GUI class ###
-				// navigate locator
-				$ilias_locator->navigate($i++,$row["title"],"mail.php?mobj_id=".$row["child"],
-					ilFrameTargetInfo::_getFrame("MainContent"));
 			}
 			$tpl->setCurrentBlock("locator");
 		}

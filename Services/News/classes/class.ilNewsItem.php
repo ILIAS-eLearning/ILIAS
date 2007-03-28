@@ -67,8 +67,6 @@ class ilNewsItem extends ilNewsItemGen
 			$max_items = 50;
 		}
 		
-		$max_items = 5;
-		
 		// Determine how many rows should be deleted
 		$query = "SELECT count(*) AS cnt ".
 			"FROM il_news_item ".
@@ -279,6 +277,33 @@ class ilNewsItem extends ilNewsItemGen
 		$this->setContextObjType($a_obj_type);
 		$this->setContextSubObjId($a_sub_obj_id);
 		$this->setContextSubObjType($a_sub_obj_type);
+	}
+
+		/**
+	* Query NewsForContext
+	*
+	*/
+	public function queryNewsForContext()
+	{
+		global $ilDB;
+		
+		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
+			"FROM il_news_item ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+				" ORDER BY creation_date DESC ".
+				"";
+				
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$result[] = $rec;
+		}
+		
+		return $result;
+
 	}
 
 }

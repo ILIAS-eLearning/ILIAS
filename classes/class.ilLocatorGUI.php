@@ -34,63 +34,23 @@
 */
 class ilLocatorGUI
 {
-	/**
-	* template object
-	* @var object tpl
-	* @access private
-	*/
-	var $tpl;
-	
-	/**
-	* language object
-	* @var object lng
-	* @access private
-	*/
-	var $lng;
-	
-	/**
-	* array of locator data,
-	* representing the full locator tree
-	* @var array
-	* @access private
-	*/
-	var $locator_data;
-	
-	/**
-	* level in locator tree,
-	* carries value of deepest
-	* valid level in tree
-	* @var int
-	* @access private
-	*/
-	var $locator_level;
-	
-	/**
-	* indicates if the locator
-	* bar is displayed in a
-	* frame environment or
-	* not
-	*/
-	var $display_frame;
+	protected $lng;
+	protected $entries;
 	
 	/**
 	* Constructor
 	*
-	* @param	boolean		$a_display_frame		DEPRECATED
 	*/
-	function ilLocatorGUI($a_display_frame = true)
+	function ilLocatorGUI()
 	{
-		global $tpl, $lng, $tree;
+		global $lng;
 
-		$this->tpl		=& $tpl;
-		$this->lng		=& $lng;	
-		$this->display_frame = $a_display_frame;
-		
-		$this->items = array();
+		$this->lng =& $lng;	
+		$this->entries = array();
 	}
 
 	/**
-	* add repository items
+	* add repository item
 	*
 	* @param	int		$a_ref_id	current ref id (optional);
 	*								if empty $_GET["ref_id"] is used
@@ -174,6 +134,48 @@ class ilLocatorGUI
 		}
 	}
 	
+	function addContextItems($a_ref_id, $a_omit_node = false)
+	{
+		global $tree;
+		
+		if ($a_ref_id > 0)
+		{
+			$path = $tree->getPathFull($a_ref_id);
+			
+			// we want to show the full path, from the major container to the item
+			// (folders are not! treated as containers here)
+			$r_path = array_reverse($path);
+			$first = "";
+			foreach ($r_path as $key => $row)
+			{
+				if ($first == "")
+				{
+					if (in_array($row["type"], array("root", "cat", "grp", "crs")))
+					{
+						$first = $row["child"];
+					}
+				}
+			}
+
+			$add_it = false;
+			foreach ($path as $key => $row)
+			{
+				if ($first == $row["child"])
+				{
+					$add_it = true;
+				}
+				
+				if ($add_it &&
+					(!$a_omit_node || ($row["child"] != $a_ref_id)))
+				{
+					$this->addItem($row["title"],
+						"./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".$row["type"]."_".$row["child"],
+						"", $row["child"]);
+				}
+			}
+		}
+	}
+	
 	/**
 	* add locator item
 	*
@@ -187,13 +189,16 @@ class ilLocatorGUI
 			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id); 
 	}
 	
+	/**
+	* Clear all Items
+	*/
 	function clearItems()
 	{
 		$this->entries = array();
 	}
 	
 	/**
-	* get all locator entries
+	* Get all locator entries.
 	*/
 	function getItems()
 	{
@@ -201,122 +206,66 @@ class ilLocatorGUI
 	}
 	
 	/**
-	* DEPRECATED!
+	* Get locator HTML
 	*/
-	function navigate($newLocLevel,$newLocName,$newLocLink,$newLocTarget)
+	function getHTML()
 	{
-		if ($newLocLevel > -1)
+		global $lng;
+		
+		$loc_tpl = new ilTemplate("tpl.locator.html", true, true);
+		
+		$items = $this->getItems();
+		$first = true;
+
+		if (is_array($items))
 		{
-			// update local variables
-			if ($this->display_frame) {
-				$this->locator_data		= $_SESSION["locator_data"];
-				$this->locator_level	= $_SESSION["locator_level"];
-			}
-			// navigate: check whether links should be deleted or added / updated
-			if ($newLocLevel < $this->locator_level)
+			foreach($items as $item)
 			{
-				// remove link(s) of deeper levels (clean up array when leap-frogging ;)
-				for ($i = $this->locator_level ; $i >= $newLocLevel ; $i --)
+				if (!$first)
 				{
-					$this->locator_data[$i][0] = "";
-					$this->locator_data[$i][1] = "";
-					$this->locator_data[$i][2] = "";
+					$loc_tpl->touchBlock("locator_separator_prefix");
 				}
-			}
-			// add current link or update
-			$this->locator_data[$newLocLevel][0] = $newLocName;
-			$this->locator_data[$newLocLevel][1] = $newLocLink;
-			$this->locator_data[$newLocLevel][2] = $newLocTarget;
-			
-			// set level current
-			$this->locator_level = $newLocLevel;
-			
-			// update session variables
-			if ($this->display_frame) {
-				$_SESSION["locator_data"] = $this->locator_data;
-				$_SESSION["locator_level"] = $this->locator_level;
-			}
-		}
-	}
-	
-	/**
-	* DEPRECATED!
-	*/
-	function output()
-	{
-		// update local variables
-		if ($this->display_frame) {
-			$this->locator_data		= $_SESSION["locator_data"];
-			$this->locator_level	= $_SESSION["locator_level"];
-		}
 				
-		// select the template
-		if ($this->display_frame) {
-			$this->tpl = new ilTemplate("tpl.locator_frame.html", true, true);
-		} else {
-			$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		}
-
-		// locator title
-		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));		
-
-
-		// walk through array and generate locator
-		if ($this->locator_level < 0)
-		{
-			$this->tpl->setCurrentBlock("locator_text");
-			$this->tpl->setVariable("ITEM", " - ERROR Locator array empty! -");		//  ######## LANG FILE ENTRY ###########		
-
-			$this->tpl->parseCurrentBlock();
-		}
-		else 
-		{
-			for ($i = 0 ; $i <= $this->locator_level ; $i ++) 
-			{
-				// generate links, skip empty links
-				if ( ($this->locator_data[$i][0] != "") & ($this->locator_data[$i][1] != "") )
-				{	
-					// locator entry
-					if ($i == $this->locator_level)
-					{
-						if ($this->display_frame) {
-							$this->tpl->setCurrentBlock("locator_text");
-							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
-							$this->tpl->parseCurrentBlock("locator_text");
-						} else {
-							$this->tpl->setCurrentBlock("locator_text");
-							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
-							$this->tpl->setVariable("LINK_ITEM", $this->locator_data[$i][1]);
-							$this->tpl->setVariable("LINK_TARGET", $this->locator_data[$i][2]);
-							$this->tpl->parseCurrentBlock("locator_text");
-						}
-					}
-					else
-					{
-						if ($this->display_frame) {
-							$this->tpl->setCurrentBlock("locator_link");
-							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
-							$this->tpl->setVariable("LINK_ITEM", $this->locator_data[$i][1]);
-							$this->tpl->setVariable("LINK_TARGET", $this->locator_data[$i][2]);
-							$this->tpl->parseCurrentBlock("locator_link");
-						} else {
-							$this->tpl->touchBlock("locator_separator");
-							$this->tpl->setCurrentBlock("locator_item");
-							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
-							$this->tpl->setVariable("LINK_ITEM", $this->locator_data[$i][1]);
-							$this->tpl->setVariable("LINK_TARGET", $this->locator_data[$i][2]);
-							$this->tpl->parseCurrentBlock("locator_item");
-						}
-					}
+				if ($item["ref_id"] > 0)
+				{
+					$loc_tpl->setCurrentBlock("locator_img");
+					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+					$type = ilObject::_lookupType($obj_id);
+					$loc_tpl->setVariable("IMG_SRC",
+						ilUtil::getImagePath("icon_".$type."_s.gif"));
+					$loc_tpl->setVariable("IMG_ALT",
+						$lng->txt("obj_".$type));
+					$loc_tpl->parseCurrentBlock();
 				}
+				
+				$loc_tpl->setCurrentBlock("locator_item");
+				if ($item["link"] != "")
+				{
+					$loc_tpl->setVariable("LINK_ITEM", $item["link"]);
+					if ($item["frame"] != "")
+					{
+						$loc_tpl->setVariable("LINK_TARGET", ' target="'.$item["frame"].'" ');
+					}
+					$loc_tpl->setVariable("ITEM", $item["title"]);
+				}
+				else
+				{
+					$loc_tpl->setVariable("PREFIX", $item["title"]);
+				}
+				$loc_tpl->parseCurrentBlock();
+				
+				$first = false;
 			}
+		}
+		else
+		{
+			$loc_tpl->setVariable("NOITEM", "&nbsp;");
+			$loc_tpl->touchBlock("locator");
 		}
 		
-		// output
-		if ($this->display_frame) {
-			$this->tpl->show();
-		}
+		return $loc_tpl->get();
 	}
-	
+
+
 } // END class.LocatorGUI
 ?>
