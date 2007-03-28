@@ -328,6 +328,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 			$ilCtrl->setParameter($this, "news_context", $news["ref_id"]);
 		}
+		else
+		{
+			$ilCtrl->setParameter($this, "news_context", "");
+		}
 
 		if ($news["content_is_lang_var"])
 		{
