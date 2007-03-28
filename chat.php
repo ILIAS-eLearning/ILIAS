@@ -31,8 +31,6 @@
 * @package ilias-chat
 */
 
-#chdir("..");
-define("ILIAS_MODULE","Modules/Chat");
 
 require_once "./include/inc.header.php";
 require_once "./Modules/Chat/classes/class.ilChatController.php";
