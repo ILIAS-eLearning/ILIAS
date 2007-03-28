@@ -699,10 +699,12 @@ class ilObjFile extends ilObject
 		$news_item->setPriority(NEWS_NOTICE);
 		$news_item->setTitle($a_lang_var);
 		$news_item->setContentIsLangVar(true);
-		$news_item->setContent(
-			$this->getFilename().
-			"<br />".
-			ilObjFileAccess::_lookupFileSize($this->getId(), true));
+		if ($this->getDescription() != "")
+		{
+			$news_item->setContent(
+				"<p>".
+				$this->getDescription()."</p>");
+		}
 		$news_item->setUserId($ilUser->getId());
 		$news_item->setVisibility(NEWS_USERS);
 		$news_item->create();

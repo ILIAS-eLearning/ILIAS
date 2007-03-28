@@ -81,6 +81,19 @@ class ilObjForumAccess extends ilObjectAccess
 		return false;
 	}
 
+	/**
+	* Get thread id for posting
+	*/
+	function _getThreadForPosting($a_pos_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT pos_thr_fk FROM frm_posts WHERE pos_pk = ".
+			$ilDB->quote($a_pos_id));
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $rec["pos_thr_fk"];
+	}
 }
 
 ?>

@@ -883,62 +883,13 @@ class ilTemplate extends ilTemplateX
 	}
 
 	/**
-	* insert locator
-	* (add 
+	* Insert locator.
 	*/
 	function setLocator()
 	{
 		global $ilLocator, $lng;
 		
-		$this->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		
-		$items = $ilLocator->getItems();
-		$first = true;
-		if (is_array($items))
-		{
-			foreach($items as $item)
-			{
-				if (!$first)
-				{
-					$this->touchBlock("locator_separator_prefix");
-				}
-				
-				if ($item["ref_id"] > 0)
-				{
-					$this->setCurrentBlock("locator_img");
-					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
-					$type = ilObject::_lookupType($obj_id);
-					$this->setVariable("IMG_SRC",
-						ilUtil::getImagePath("icon_".$type."_s.gif"));
-					$this->setVariable("IMG_ALT",
-						$lng->txt("obj_".$type));
-					$this->parseCurrentBlock();
-				}
-				
-				$this->setCurrentBlock("locator_item");
-				if ($item["link"] != "")
-				{
-					$this->setVariable("LINK_ITEM", $item["link"]);
-					if ($item["frame"] != "")
-					{
-						$this->setVariable("LINK_TARGET", ' target="'.$item["frame"].'" ');
-					}
-					$this->setVariable("ITEM", $item["title"]);
-				}
-				else
-				{
-					$this->setVariable("PREFIX", $item["title"]);
-				}
-				$this->parseCurrentBlock();
-				
-				$first = false;
-			}
-		}
-		else
-		{
-			$this->setVariable("NOITEM", "&nbsp;");
-			$this->touchBlock("locator");
-		}
+		$this->setVariable("LOCATOR", $ilLocator->getHTML());
 	}
 	
 	/**

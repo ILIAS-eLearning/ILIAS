@@ -303,7 +303,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("long");
 			$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
-			$this->tpl->setVariable("VAL_CREATION_DATE", $news["creation_date"]);
+			$this->tpl->setVariable("VAL_CREATION_DATE",
+				ilFormat::formatDate($news["creation_date"], "datetime", true));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -375,8 +376,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$tpl->setCurrentBlock("user_info");
 			$user_obj = new ilObjUser($news->getUserId());
-			$tpl->setVariable("USR_IMAGE",
-				$user_obj->getPersonalPicturePath("xxsmall"));
+			$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+			$tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 			$tpl->parseCurrentBlock();
 		}
 		
@@ -413,24 +414,49 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$tpl->setCurrentBlock("ni_update");
 			$tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
-			$tpl->setVariable("VAL_LAST_UPDATE", $news->getUpdateDate());
+			$tpl->setVariable("VAL_LAST_UPDATE",
+				ilFormat::formatDate($news->getUpdateDate(), "datetime", true));
 			$tpl->parseCurrentBlock();
 		}
-		if ($_GET["news_context"] != "")		// link
+		
+		// context / title
+		if ($_GET["news_context"] > 0)
 		{
 			$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
 			$obj_type = ilObject::_lookupType($obj_id);
-			$tpl->setCurrentBlock("link");
-			$tpl->setVariable("HREF_LINK",
-				"./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".$obj_type."_".$_GET["news_context"]);
-			$txt = in_array($obj_type, array("sahs", "lm", "dbk", "htlm"))
-				? "lres"
-				: "obj_".$obj_type;
-			$tpl->setVariable("ALT_LINK", $lng->txt($txt));
-			$tpl->setVariable("TXT_LINK", ilObject::_lookupTitle($obj_id));
-			$tpl->setVariable("IMG_LINK", ilUtil::getImagePath("icon_".$obj_type."_s.gif"));
+			$obj_title = ilObject::_lookupTitle($obj_id);
+			
+			// forum hack, not nice
+			$add = "";
+			if ($obj_type == "frm" && $news->getContextSubObjType() == "pos"
+				&& $news->getContextSubObjId() > 0)
+			{
+				include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
+				$pos = $news->getContextSubObjId();
+				$thread = ilObjForumAccess::_getThreadForPosting($pos);
+				if ($thread > 0)
+				{
+					$add = "_".$thread."_".$pos;
+				}
+			}
+			$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+				$obj_type."_".$_GET["news_context"].$add;
+
+			
+			$tpl->setCurrentBlock("context");
+			$cont_loc = new ilLocatorGUI();
+			$cont_loc->addContextItems($_GET["news_context"], true);
+			$tpl->setVariable("CONTEXT_LOCATOR",
+				$cont_loc->getHTML());
+			$tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
+			$tpl->setVariable("CONTEXT_TITLE", $obj_title);
+			$tpl->setVariable("IMG_CONTEXT_TITLE",
+				ilUtil::getImagePath("icon_".$obj_type."_b.gif"));
 			$tpl->parseCurrentBlock();
+
+			$tpl->setVariable("HREF_TITLE", $url_target);
 		}
+		
 		if ($news->getContentIsLangVar())
 		{
 			$tpl->setVariable("VAL_TITLE", $lng->txt($news->getTitle()));
@@ -439,7 +465,25 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$tpl->setVariable("VAL_TITLE", $news->getTitle());			// title
 		}
-		$tpl->setVariable("VAL_CREATION_DATE", $news->getCreationDate());	// creation date
+
+		// creation date
+		$tpl->setVariable("VAL_CREATION_DATE",
+			ilFormat::formatDate($news->getCreationDate(), "datetime", true));
+		$tpl->setVariable("TXT_CREATED", $lng->txt("created"));
+		
+		// access
+		$tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+		if ($news->getVisibility() == NEWS_PUBLIC ||
+			($v["priority"] == 0 &&
+			ilBlockSetting::_lookup("news", "public_notifications",
+			0, $obj_id)))
+		{
+			$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+		}
+		else
+		{
+			$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+		}
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
@@ -471,7 +515,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		// previous
 		if ($previous != "")
 		{
-			if ($previous["ref_id"] > 0 && $previous["ref_id"] != $_GET["ref_id"])
+			if ($previous["ref_id"] > 0)
 			{
 				$ilCtrl->setParameter($this, "news_context", $previous["ref_id"]);
 			}
@@ -484,7 +528,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		// next
 		if ($c = next($this->data))
 		{
-			if ($c["ref_id"] > 0 && $c["ref_id"] != $_GET["ref_id"])
+			if ($c["ref_id"] > 0)
 			{
 				$ilCtrl->setParameter($this, "news_context", $c["ref_id"]);
 			}
