@@ -1387,7 +1387,7 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_INVITE_USER",$cmd == "invite" ? $this->lng->txt("chat_invite_user") :
 										$this->lng->txt("chat_drop_user"));
 				$this->tpl->setVariable("ONLINE_USER_NAME_A",$user["login"]);
-				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,true));
+				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,'Modules/Chat'));
 				
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -1450,14 +1450,14 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("moderate");
 					if($this->object->chat_room->isKicked($user_obj->getId()))
 					{
-						$this->tpl->setVariable("MOD_INVITE_IMG_SRC",ilUtil::getImagePath('plus.gif',true));
+						$this->tpl->setVariable("MOD_INVITE_IMG_SRC",ilUtil::getImagePath('plus.gif','Modules/Chat'));
 						$this->tpl->setVariable("MOD_TXT_INVITE_USER",$this->lng->txt('chat_unkick_user_session'));
 						$this->tpl->setVariable("MOD_ONLINE_LINK_A","chat.php?cmd=unkickUser&ref_id=".$this->ref_id.
 												"&kick_id=".$user_obj->getId());
 					}
 					else
 					{
-						$this->tpl->setVariable("MOD_INVITE_IMG_SRC",ilUtil::getImagePath('minus.gif',true));
+						$this->tpl->setVariable("MOD_INVITE_IMG_SRC",ilUtil::getImagePath('minus.gif','Modules/Chat'));
 						$this->tpl->setVariable("MOD_TXT_INVITE_USER",$this->lng->txt('chat_kick_user_session'));
 						$this->tpl->setVariable("MOD_ONLINE_LINK_A","chat.php?cmd=kickUser&ref_id=".$this->ref_id.
 												"&kick_id=".$user_obj->getId());

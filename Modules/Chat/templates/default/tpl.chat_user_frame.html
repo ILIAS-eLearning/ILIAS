@@ -8,8 +8,13 @@
 	  </div>
 	  <table class="std" width="100%">
 		<tr class="tblheader">
-		<th class="std" align="left" nowrap="nowrap">{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})
-		  &nbsp[<a class="navigation" href="{DETAILS_A}">{DETAILS_TXT}</a>]
+		<th class="std" align="left" nowrap="nowrap">
+			<div style="float: left">
+				{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})
+			</div>
+		  <div style="float:right">
+		  	<a class="il_ContainerItemCommand" href="{DETAILS_A}">{DETAILS_TXT}</a>
+		  </div>
 		</th>
 		  </tr>
 		<!-- BEGIN room_row -->
@@ -52,7 +57,14 @@
 
 	  <table width="100%" class="std">
 		<tr class="tblheader">
-		<th class="std" align="left" colspan="2">{ACTIVE_USERS}&nbsp;[<a class="navigation" href="{DETAILS_B}">{DETAILS_B_TXT}</a>]</th>
+		<th class="std" align="left" colspan="2">
+			<div style="float:left">
+			{ACTIVE_USERS}
+			</div>
+			<div style="float:right">
+				<a class="il_ContainerItemCommand" href="{DETAILS_B}">{DETAILS_B_TXT}</a>
+			</div>	
+			</th>
 		  </tr>
 		<!-- BEGIN no_active -->
 		<tr>
@@ -96,18 +108,13 @@
 		</tr>
 		<!-- END active -->
 	  </table>
-	  <br />
-
-	  <form action="{ADD_FORMACTION}" method="post" target="_top">
-		<p class="small">{TXT_ADD_PRIVATE_CHATROOM}:<br>
-		  <input class="small" type="text" name="room_name" value="{ROOM_NAME}" />
-		  <input class="submit_small" type="submit" name="cmd[addRoom]" value="{TXT_ADD}" /></p>
-	  </form>
 
 	  <!-- BEGIN show_online -->
 	  <br />
 	  <table width="100%" class="std">
-		<th class="tblheader" align="left" colspan="2">{ONLINE_USERS}</th>
+	  	<tr class="tblheader">
+			<th class="tblheader" align="left" colspan="2">{ONLINE_USERS}</th>
+		</tr>
 		<!-- BEGIN no_online -->
 		<tr>
 		  <td colspan="2" class="option_value"><font class="smallred">{NO_ONLINE_USERS}</font></td>
@@ -128,6 +135,11 @@
 		<!-- END online_row_end -->
 		<!-- END online -->
 	  </table>
+	  <form action="{ADD_FORMACTION}" method="post" target="_top">
+		<p class="small">{TXT_ADD_PRIVATE_CHATROOM}:<br>
+		  <input class="small" type="text" name="room_name" value="{ROOM_NAME}" />
+		  <input class="submit" type="submit" name="cmd[addRoom]" value="{TXT_ADD}" /></p>
+	  </form>
 	  <!-- END show_online -->
 	  <!--</div>-->
 	</td>
