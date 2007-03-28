@@ -136,28 +136,15 @@ class ilNewsItem extends ilNewsItemGen
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news = $news_item->getNewsForRefId($ref_id, $a_only_public);
 
-			$unset = array();
+			/*$unset = array();			// should be done in getNewsForRefId
 			foreach ($news as $k => $v)
 			{
-//echo "<br>-".$v["title"]."-".$v["visibility"]."-".$v["priority"]."-".
-//	ilBlockSetting::_lookup("news", "public_notifications", 0, $obj_id)."-";
-	
-				/*if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC ||
-					($v["priority"] == 0 &&
-						ilBlockSetting::_lookup("news", "public_notifications",
-						0, $obj_id)))
-				{*/
-					$news[$k]["ref_id"] = $ref_id;
-				/*}
-				else
-				{
-					$unset[] = $k;
-				}*/
+				$news[$k]["ref_id"] = $ref_id;
 			}
 			foreach($unset as $un)
 			{
 				unset($news[$un]);
-			}
+			}*/
 			$data = array_merge($data, $news);
 		}
 		$data = ilUtil::sortArray($data, "creation_date", "desc");
