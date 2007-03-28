@@ -21,30 +21,55 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-/**
-* Chat base script
-*
+/** 
+* 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
+* 
+* @ilCtrl_Calls ilChatHandlerGUI: ilObjChatGUI
 *
-* @package ilias-chat
+* 
+* @ingroup Modules/Chat 
 */
-
-#chdir("..");
-define("ILIAS_MODULE","Modules/Chat");
-
-require_once "./include/inc.header.php";
-require_once "./Modules/Chat/classes/class.ilChatController.php";
-
-if(!$ilias->auth->getAuth() or !$rbacsystem->checkAccess("read",(int) $_GET["ref_id"]))
+class ilChatHandlerGUI
 {
-	$_GET["cmd"] = "closeFrame";
+	public function __construct()
+	{
+		global $ilCtrl;
+
+		$this->ctrl = $ilCtrl;
+	}
+
+	/**
+	 * Execute command
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function executeCommand()
+	{
+		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
+		
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+		if ($next_class == "")
+		{
+			$this->ctrl->setCmdClass("ilobjchatgui");
+			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+		switch ($next_class)
+		{
+			case 'ilobjchatgui':
+				require_once "./Modules/Chat/classes/class.ilObjChatGUI.php";
+				$chat_gui =& new ilObjChatGUI("", (int) $_GET["ref_id"], true, false);
+				$this->ctrl->forwardCommand($chat_gui);
+				break;
+		}
+
+		$tpl->show();
+	 	
+	}
 }
-
-$chat_controller =& new ilChatController((int) $_GET["ref_id"]);
-$chat_controller->execute();
-
-$tpl->show(false);
-
 ?>

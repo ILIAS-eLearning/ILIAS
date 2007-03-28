@@ -218,7 +218,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		// Fill table
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_usr_b.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('chat_blocked_users'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('chat_blocked_users'));
 		$this->tpl->setVariable("HEADER_NAME",$this->lng->txt('chat_user_name'));
@@ -411,9 +411,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$rooms = $this->object->chat_room->getRoomsOfObject();
 		}
 
-
-
-		$script = $this->inModule() ? "./chat.php" : "./Modules/Chat/chat.php";
+		$script = './chat.php';
 
 		// ADD PUBLIC ROOM
 		// CHAT SERVER  ACTIVE
@@ -448,10 +446,6 @@ class ilObjChatGUI extends ilObjectGUI
 								$this->lng->txt('chat_users_active').': '.
 								ilChatRoom::_getCountActiveUsers($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
-
-		$script = $this->inModule() ? "./chat.php" : "./Modules/Chat/chat.php";
-
-
 
 		foreach($rooms as $room)
 		{
@@ -2018,7 +2012,9 @@ class ilObjChatGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
 			$_GET["ref_id"] = $a_target;
-			include("chat.php");
+			$_GET["cmd"] = "view";
+			$_GET["baseClass"] = "ilChatHandlerGUI";
+			include("ilias.php");
 			exit;
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))

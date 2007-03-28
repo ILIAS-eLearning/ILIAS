@@ -81,11 +81,8 @@ class ilObjChatListGUI extends ilObjectListGUI
 		{
 			case "edit":
 			case "view":
-				$cmd_link = "chat.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
-				break;
-
 			default:
-				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				$cmd_link = "ilias.php?baseClass=ilChatHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
 				break;
 		}
 

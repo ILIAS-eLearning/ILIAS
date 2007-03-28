@@ -502,7 +502,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setCurrentBlock("chat_info");
 				$this->tpl->setVariable("CHAT_ACTIVE_IN",$lng->txt('chat_active_in'));
-				$this->tpl->setVariable("CHAT_LINK","Modules/chat/chat.php?ref_id=".$ref_id."&room_id=0");
+				$this->tpl->setVariable("CHAT_LINK","./chat.php?ref_id=".$ref_id."&room_id=0");
 				$this->tpl->setVariable("CHAT_TITLE",ilObject::_lookupTitle($chat_id));
 				$this->tpl->parseCurrentBlock();
 				
@@ -528,7 +528,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("chat_link");
 			$this->tpl->setVariable("TXT_CHAT_INVITE",$lng->txt('chat_invite'));
-			$this->tpl->setVariable("CHAT_LINK",'Modules/Chat/chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
+			$this->tpl->setVariable("CHAT_LINK",'./chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
 			'&usr_id='.$a_usr_id.'&cmd=invitePD');
 			$this->tpl->parseCurrentBlock();
 			

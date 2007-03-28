@@ -1173,3 +1173,8 @@ ALTER TABLE `il_media_cast_data` CHANGE `offline` `online` TINYINT DEFAULT 0;
 <#959>
 ALTER TABLE `frm_posts` ADD `pos_usr_alias` VARCHAR( 255 ) NOT NULL AFTER `pos_usr_id` ;
 ALTER TABLE `frm_threads` ADD `thr_usr_alias` VARCHAR( 255 ) NOT NULL AFTER `thr_usr_id` ;
+
+<#960>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
