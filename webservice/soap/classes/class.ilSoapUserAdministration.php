@@ -803,16 +803,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					$role_id = $internalId;
 					$role_name = $role_id;
 				}
-				else // perhaps it is a rolename
+/*				else // perhaps it is a rolename
 				{
 					$role  = ilSoapUserAdministration::__getRoleForRolename ($role_id);
 					$role_name = $role->title;
 					$role_id = $role->role_id;
-				}
+				}*/
 			}
-/*			if (array_search($role_name, $permitted_local_roles)
-			||  array_search($role_name, $permitted_global_roles))
-*/
 			if (array_key_exists($role_id, $permitted_local_roles)
 			||  array_key_exists($role_id, $permitted_global_roles))
 
@@ -871,18 +868,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	}
 
-	/**
-	*	returns role record for role_name
-	*/
-	function __getRoleForRolename ($role_name)
-	{
-		global $ilDB;
-		$sql = "SELECT * FROM role_data r, object_data o WHERE o.type='role' and o.title='$role_name' and r.role_id = o.obj_id";
-
-		$r = $ilDB->query($sql);
-
-		return $r ? $r->fetchRow(DB_FETCHMODE_OBJECT) : null;
-	}
 
 	/**
 	* return list of users following dtd users_3_7
@@ -924,10 +909,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		    $data = array();
 			switch ($type) {
 			    case "usrf":
-			        $data = ilSoapUserAdministration::__getUserFolderUsers(USER_FOLDER_ID, $active);
+			        $data = ilObjUser::_getUsersForFolder(USER_FOLDER_ID, $active);
 			        break;
 				case "cat":
-					$data = ilSoapUserAdministration::__getUserFolderUsers($ref_id, $active);
+					$data =  ilObjUser::_getUsersForFolder($ref_id, $active);
 					break;
 				case "crs":
 				{
@@ -948,11 +933,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 				}
 				case "grp":
 					$member_ids = $object->getGroupMemberIds();
-					$data = ilSoapUserAdministration::__getGroupMemberData($member_ids, $active);
+					$data = ilObjUser::_getUserForGroup($member_ids, $active);
 					break;
 			}
-
-
 
 			if (is_array($data))
 			{
@@ -1012,30 +995,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			}
 		}
 
-		$data = array();
-
-		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM  usr_pref,usr_data
-		          LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id
-		          WHERE
-		           usr_pref.usr_id = usr_data.usr_id AND
-		           usr_pref.keyword = 'language' AND
-		           rbac_ua.rol_id='".$role_id."'";
-
-		 if (is_numeric($active) && $active > -1)
-			$query .= " AND usr_data.active = '$active'";
-
-		 $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
-
-#		 echo $query;
-
-		 $r = $ilDB->query($query);
-
-         while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-         {
-               $data[] = $row;
-         }
-
+		$data = ilObjUser::_getUsersForRole($role_id, $active);
 		include_once './classes/class.ilUserXMLWriter.php';
 
 		$xmlWriter = new ilUserXMLWriter();
@@ -1050,60 +1010,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	}
 
 
-	/**
-	*	get users for a category or from system folder
-	* @param	$ref_id		ref id of object
-	* @param 	$active		can be -1 (ignore), 1 = active, 0 = not active user
-	*/
-	function __getUserFolderUsers ($ref_id, $active) {
-		global $ilDB;
-		$data = array();
-		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = 'language' WHERE 1 ";
-
-		if (is_numeric($active) && $active > -1)
-			$query .= " AND usr_data.active = '$active'";
-
-		if ($ref_id != USER_FOLDER_ID)
-		    $query .= " AND usr_data.time_limit_owner = $ref_id";
-
-		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
-		//echo $query;
-		$result = $ilDB->query($query);
-
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			array_push($data, $row);
-		}
-
-		return $data;
-	}
-
-	/**
-	*	return user data for group members
-	*/
-	function __getGroupMemberData ($a_mem_ids, $active = -1)
-	{
-		global $rbacadmin, $rbacreview, $ilDB;
-
-		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM usr_data
-		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
-		          WHERE usr_data.usr_id IN (".implode(',',$a_mem_ids).")";
-
-  	    if (is_numeric($active) && $active > -1)
-  			$query .= " AND active = '$active'";
-
-  		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
-
-  	    $r = $ilDB->query($query);
-
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$mem_arr[] = $row;
-		}
-
-		return $mem_arr ? $mem_arr : array();
-	}
 
 	/**
 	*	Create XML ResultSet
@@ -1197,6 +1103,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+
 		global $ilDB, $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('read', USER_FOLDER_ID))
@@ -1224,7 +1131,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		          WHERE 1 ".$query;
 
   	     if (is_numeric($active) && $active > -1)
-  			$query .= " AND active = '$active'";
+  			$query .= " AND active = ". $ilDB->quote($active);
 
   		 $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
@@ -1262,6 +1169,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	 */
 
 	function __buildSearchQuery ($a_keyfields, $queryOperator, $a_keyvalues) {
+		global $ilDB;
 	    $query = array();
 
 	    $allowed_fields = array ("firstname","lastname","email","login","matriculation","institut","department","title");
@@ -1277,7 +1185,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	        foreach ($a_keyvalues as $keyvalue)
 	        {
 	            if (strlen($keyvalue) >= 3) {
-	                $field_query []= $keyfield." like '%".$keyvalue."%'";
+	                $field_query []= $keyfield." like '%".$ilDB->quote($keyvalue)."%'";
 	            }
 
 	        }
@@ -1288,16 +1196,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	    return count ($query) ? " AND ((". join(") ".strtoupper($queryOperator)." (", $query) ."))" : "AND 0";
 	}
-	
-	
+
+
 	/**
 	*	return user xmls for given user ids (csv separated ids) as xml based on usr dtd.
 	*	@param string sid	session id
-	*	@param string userids comma separated list of user ids, may be numeric or ilias ids
+	*	@param string a_userids array of user ids, may be numeric or ilias ids
 	*	@param boolean attachRoles	if true, role assignments will be attached, nothing will be done otherwise
 	*	@return	string	xml string based on usr dtd
 	*/
-	function getUserXML($sid, $user_ids, $attach_roles)
+	function getUserXML($sid, $a_user_ids, $attach_roles)
 	{
 		if(!$this->__checkSession($sid))
 		{
@@ -1312,42 +1220,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError('Check access failed.','Server');
 		}
-		
-		$internalids = split(",",$user_ids);
-		$ids = array();
-		foreach ($internalids as $internalid) {
-			if (is_numeric ($internalid)) 
-			{
-				$ids[] = $internalid;
-			}
-			else
-			{
-				$parsedid = ilUtil::__extractId($internalid, IL_INST_ID);
-				if (is_numeric($parsedid) && $parsedid > 0) 
-				{
-					$ids[] = $parsedid;
-				}
-			}
-		}
 
-		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM usr_data
-		          LEFT JOIN usr_pref
-		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
-		          WHERE  usr_data.usr_id IN (".join(",",$ids).")";
+		$data = ilObjUser::_getUserData($a_user_ids);
 
-		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
-
-		//echo $query;
-		$r = $ilDB->query($query);
-		$data = array();
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$data[] = $row;
-		}
-		
 		include_once './classes/class.ilUserXMLWriter.php';
-
 		$xmlWriter = new ilUserXMLWriter();
 		$xmlWriter->setAttachRoles($attach_roles);
 		$xmlWriter->setObjects($data);
