@@ -1,6 +1,6 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright (c) 2006, Roland Küstermann. All Rights Reserved.               ~
-  ~ Author: Roland Küstermann                                                 ~
+  ~ Copyright (c) 2006, Roland Kï¿½stermann. All Rights Reserved.               ~
+  ~ Author: Roland Kï¿½stermann                                                 ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <!-- Course dtd. -->
@@ -15,31 +15,34 @@
     id: Id is ILIAS user id. User must exist in ILIAS database
     notification: In the moment "0" (No notifications for new subsciptions) or "1" (Notification). Default => "0"
     passed: "No" (User hasn't passed the course) or "Yes" (Passed) => Default is 'no'
--->    
+-->
 <!ELEMENT Admin EMPTY>
 <!ATTLIST Admin
     id CDATA #REQUIRED
     notification (Yes | No) #IMPLIED
     passed (Yes | No) #IMPLIED
+	action (Attach|Detach) #IMPLIED
 >
 <!-- All course tutors
     @see element Admin
--->    
+-->
 <!ELEMENT Tutor EMPTY>
 <!ATTLIST Tutor
     id CDATA #REQUIRED
     notification (Yes | No) #REQUIRED
     passed (Yes | No) #REQUIRED
+	action (Attach|Detach) #IMPLIED
 >
 <!-- All course members
     @see element Admin
     blocked: Default "0" (not blocked) or "1" (course member is blocked => no access to course content)
--->    
+-->
 <!ELEMENT Member EMPTY>
 <!ATTLIST Member
     id CDATA #REQUIRED
     blocked (Yes | No) #IMPLIED
     passed (Yes | No) #IMPLIED
+	action (Attach|Detach) #IMPLIED
 >
 <!-- All users whose registration isn't finished and needs a confirmation by a course admin or tutor
     id: user id. User must exist in ILIAS database.
@@ -49,6 +52,7 @@
 <!ATTLIST Subscriber
     id CDATA #REQUIRED
     subscriptionTime CDATA #REQUIRED
+	action (Attach|Detach) #IMPLIED
 >
 <!-- All users that are on the waiting list of a course.
     id: user id. User must exist in ILIAS database.
@@ -58,6 +62,7 @@
 <!ATTLIST WaitingList
     id CDATA #REQUIRED
     subscriptionTime CDATA #REQUIRED
+	action (Attach|Detach) #IMPLIED
 >
 <!-- Description of course settings -->
 <!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,Contact?,Registration?,Sort?,Archive?)>
@@ -122,7 +127,7 @@
 <!ELEMENT Sort EMPTY>
 
 <!-- Definition of sort order of course items -->
-<!ATTLIST Sort 
+<!ATTLIST Sort
     type (Manual | Title | Activation) #REQUIRED
 >
 <!-- Archives -->

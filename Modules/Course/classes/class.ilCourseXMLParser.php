@@ -59,13 +59,15 @@ class ilCourseXMLParser extends ilMDSaxParser
 		parent::ilMDSaxParser($a_xml_file);
 
 		$this->log =& $ilLog;
-		
+
 		$this->course_obj =& $a_course_obj;
 		$this->course_members = new ilCourseMembers($this->course_obj);
 		$this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
+		// flip the array so we can use array_key_exists
+		$this->course_members_array =  array_flip(ilCourseMembers::_getMembers($this->course_obj->getId()));
 
 		$this->md_obj = new ilMD($this->course_obj->getId(),0,'crs');
-		
+
 		$this->setMDObject($this->md_obj);
 
 		$this->lng =& $lng;
@@ -84,7 +86,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
 
-	
+
 
 
 	/**
@@ -120,10 +122,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						$this->course_members->add(new ilObjUser($id_data['usr_id']),
-												   $this->course_members->ROLE_ADMIN,
-												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+						$this->handleAdmin($a_attribs, $id_data);
 					}
 				}
 				break;
@@ -133,10 +132,8 @@ class ilCourseXMLParser extends ilMDSaxParser
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						$this->course_members->add(new ilObjUser($id_data['usr_id']),
-												   $this->course_members->ROLE_TUTOR,
-												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+						$this->handleTutor($a_attribs, $id_data);
+
 					}
 				}
 				break;
@@ -146,12 +143,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						$this->course_members->add(new ilObjUser($id_data['usr_id']),
-												   $this->course_members->ROLE_MEMBER,
-												   $a_attribs['blocked'] == 'Yes' ? 
-												   $this->course_members->STATUS_BLOCKED : 
-												   $this->course_members->STATUS_UNBLOCKED,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+						$this->handleMember($a_attribs, $id_data);
 					}
 				}
 				break;
@@ -161,8 +153,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						$this->course_members->addSubscriber($id_data['usr_id']);
-						$this->course_members->updateSubscriptionTime($id_data['usr_id'],$a_attribs['subscriptionTime']);
+						$this->handleSubscriber($a_attribs, $id_data);
 					}
 				}
 				break;
@@ -172,12 +163,11 @@ class ilCourseXMLParser extends ilMDSaxParser
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						$this->course_waiting_list->addToList($id_data['usr_id']);
-						$this->course_waiting_list->updateSubscriptionTime($id_data['usr_id'],$a_attribs['subscriptionTime']);
+						$this->handleWaitingList($a_attribs, $id_data);
 					}
 				}
 				break;
-				
+
 
 			case 'Settings':
 				$this->in_settings = true;
@@ -195,7 +185,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 				{
 					$this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 				}
-					
+
 				break;
 
 			case 'Unlimited':
@@ -207,7 +197,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 				{
 					$this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_UNLIMITED);
 				}
-					
+
 				break;
 			case 'TemporarilyAvailable':
 				if($this->in_availability)
@@ -222,7 +212,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 
 			case 'Start':
 				break;
-				
+
 			case 'End':
 				break;
 
@@ -241,7 +231,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 
 			case 'Registration':
 				$this->in_registration = true;
-				
+
 				switch($a_attribs['registrationType'])
 				{
 					case 'Confirmation':
@@ -251,7 +241,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 					case 'Direct':
 						$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
 						break;
-						
+
 					case 'Password':
 						$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_PASSWORD);
 						break;
@@ -302,7 +292,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 			case 'Disabled':
 				$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 				break;
-				
+
 			case "MetaData":
 				$this->in_meta_data = true;
 				parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
@@ -311,6 +301,179 @@ class ilCourseXMLParser extends ilMDSaxParser
 		}
 	}
 
+	/**
+	 * attach or detach user/member/admin from course member
+	 *
+	 * @param array $a_attribs	attributes of nod
+	 * @param array $id_data
+	 * @param int $roletype		type of role, which is courseMember->
+	 */
+
+	private function handleMember ($a_attribs, $id_data) {
+		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
+			// if action not set, or set and attach
+		{
+			if (!array_key_exists($id_data['usr_id'], $this->course_members_array))
+			// add only if member is not yet assigned as tutor or admin
+			{
+				$this->course_members->add(new ilObjUser($id_data['usr_id']),
+												   $this->course_members->ROLE_MEMBER,
+												   $a_attribs['blocked'] == 'Yes' ?
+												   $this->course_members->STATUS_BLOCKED :
+												   $this->course_members->STATUS_UNBLOCKED,
+												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+				$this->course_members_array[$id_data['usr_id']] = "added";
+			} else
+			// the member does exist. Now update status etc. only
+			{
+				$this->course_members->update($id_data['usr_id'],
+													$this->course_members->ROLE_MEMBER,
+													$a_attribs['blocked'] == 'Yes' ?
+												   	$this->course_members->STATUS_BLOCKED :
+												   	$this->course_members->STATUS_UNBLOCKED,
+												   	$a_attribs['passed'] == 'Yes' ? 1 : 0);
+			}
+		}
+		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isMember($id_data['usr_id']))
+		// if action set and detach and is member of course
+		{
+			$this->course_members->delete($id_data['usr_id']);
+		}
+
+	}
+
+
+	/**
+	 * attach or detach admin from course member
+	 *
+	 * @param string $a_attribs	attribute of a node
+	 * @param array $id_data
+	 */
+
+	private function handleAdmin ($a_attribs, $id_data) {
+		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
+			// if action not set, or attach
+		{
+			if (!array_key_exists($id_data['usr_id'], $this->course_members_array))
+			// add only if member is not assigned yet
+			{
+
+				$this->course_members->add(new ilObjUser($id_data['usr_id']),
+												   $this->course_members->ROLE_ADMIN,
+												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
+												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+				$this->course_members_array[$id_data['usr_id']] = "added";
+
+			}
+			else
+			// update
+			{
+				$this->course_members->update($id_data['usr_id'],
+												   $this->course_members->ROLE_ADMIN,
+												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
+												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+
+			}
+		}
+		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isAdmin($id_data['usr_id']))
+		// if action set and detach and is admin of course
+		{
+			$this->course_members->delete($id_data['usr_id']);
+		}
+
+	}
+
+
+	/**
+	 * attach or detach admin from course member
+	 *
+	* @param string $a_attribs	attribute of a node
+	 * @param array $id_data
+	 */
+
+	private function handleTutor ($a_attribs, $id_data) {
+		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
+			// if action not set, or attach
+		{
+			if (!array_key_exists($id_data['usr_id'], $this->course_members_array))
+			// add only if member is not assigned yet
+			{
+				$this->course_members->add(new ilObjUser($id_data['usr_id']),
+												   $this->course_members->ROLE_TUTOR,
+												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
+												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+				$this->course_members_array[$id_data['usr_id']] = "added";
+			}
+			else
+			{
+				$this->course_members->update($id_data['usr_id'],
+												   $this->course_members->ROLE_TUTOR,
+												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
+												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+
+			}
+		}
+		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isTutor($id_data['usr_id']))
+		// if action set and detach and is tutor of course
+		{
+			$this->course_members->delete($id_data['usr_id']);
+		}
+
+	}
+
+
+
+	/**
+	 * attach or detach members from subscribers
+	 *
+	 * @param string $a_attribs	attribute of a node
+	 * @param array $id_data
+	 */
+	private function handleSubscriber ($a_attribs, $id_data) {
+		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
+			// if action not set, or attach
+		{
+			if (!$this->course_members->isSubscriber($id_data['usr_id']))
+			// add only if not exist
+			{
+				$this->course_members->addSubscriber($id_data['usr_id']);
+			}
+			$this->course_members->updateSubscriptionTime($id_data['usr_id'],$a_attribs['subscriptionTime']);
+
+		}
+		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isSubscriber($id_data['usr_id']))
+		// if action set and detach and is subscriber
+		{
+			$this->course_members->deleteSubscriber($id_data["usr_id"]);
+		}
+
+	}
+
+	/**
+	 * attach or detach members from waitinglist
+	 *
+	 * @param string $a_attribs	attribute of a node
+	 * @param array $id_data
+	 */
+	private function handleWaitingList ($a_attribs, $id_data) {
+		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
+			// if action not set, or attach
+		{
+			if (!$this->course_waiting_list->isOnList($id_data['usr_id']))
+			// add only if not exists
+			{
+				$this->course_waiting_list->addToList($id_data['usr_id']);
+			}
+			$this->course_waiting_list->updateSubscriptionTime($id_data['usr_id'],$a_attribs['subscriptionTime']);
+
+		}
+		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_waiting_list->isOnList($id_data['usr_id']))
+		// if action set and detach and is on list
+		{
+			$this->course_waiting_list->removeFromList($id_data['usr_id']);
+		}
+
+	}
 
 
 	/**
