@@ -196,30 +196,35 @@ class ilLDAPQuery
 			$gdn,
 			$filter,
 			array($this->settings->getGroupMember()));
-		
+
 		$tmp_result = new ilLDAPResult($this->lh,$res);
-		$group_data = $tmp_result->get();
+		$group_data = $tmp_result->getRows();
+		
+		
 		if(!$tmp_result->numRows())
 		{
 			$this->log->write('LDAP: No group members found.');
 			return false;
 		}
-		
+				
 		$attribute_name = strtolower($this->settings->getGroupMember());
 		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
 		
-		$this->log->write('LDAP: found '.count($group_data[$attribute_name]).' group members.');
-		
-		if(is_array($group_data[$attribute_name]))
+		// All groups
+		foreach($group_data as $data)
 		{
-			foreach($group_data[$attribute_name] as $name)
+			$this->log->write(__METHOD__.': found '.count($data[$attribute_name]).' group members for group '.$data['dn']);
+			if(is_array($data[$attribute_name]))
 			{
-				$this->readUserData($name);
+				foreach($data[$attribute_name] as $name)
+				{
+					$this->readUserData($name);
+				}
 			}
-		}
-		else
-		{
-			$this->readUserData($group_data[$attribute_name]);
+			else
+			{
+				$this->readUserData($data[$attribute_name]);
+			}
 		}
 		unset($tmp_result);
 		return;

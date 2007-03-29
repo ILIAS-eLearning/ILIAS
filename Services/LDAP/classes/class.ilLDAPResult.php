@@ -69,6 +69,17 @@ class ilLDAPResult
 	}
 	
 	/**
+	 * Get all result rows
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getRows()
+	{
+		return $this->all_rows ? $this->all_rows : array();	 	
+	}
+	
+	/**
 	 * get number of rows
 	 *
 	 * @access public
@@ -103,31 +114,43 @@ class ilLDAPResult
 			return true;
 		}
 		
-	 	foreach($this->entries[0] as $key => $value)
-	 	{
-	 		$key = strtolower($key);
-	 		if(is_int($key))
+		for($row_counter = 0; $row_counter < $this->entries['count'];$row_counter++)
+		{
+ 			$data = array();
+		 	foreach($this->entries[$row_counter] as $key => $value)
 	 		{
-	 			continue;
-	 		}
-	 		if($key == 'dn')
-	 		{
-	 			$this->data['dn'] = $value;
-	 			continue;
-	 		}
-	 		if($value['count'] > 1)
-	 		{
-		 		for($i = 0; $i < $value['count']; $i++)
+		 		$key = strtolower($key);
+				
+		 		if(is_int($key))
 		 		{
-	 				$this->data[$key][] = $value[$i];
-	 			}
-	 		}
-			elseif($value['count'] == 1)
-			{
-				$this->data[$key] = $value[0];
-			}
-					
-	 	}
+		 			continue;
+		 		}
+		 		if($key == 'dn')
+		 		{
+		 			$data['dn'] = $value;
+		 			continue;
+		 		}
+				
+		 		if($value['count'] > 1)
+		 		{
+			 		for($i = 0; $i < $value['count']; $i++)
+			 		{
+		 				$data[$key][] = $value[$i];
+		 			}
+		 		}
+				elseif($value['count'] == 1)
+				{
+					$data[$key] = $value[0];
+				}
+		 	}
+		 	$this->all_rows[] = $data;
+		 	if($row_counter == 0)
+		 	{
+		 		var_dump("<pre>",$data,"</pre>");
+				
+		 		$this->data = $data;
+		 	}
+		}
 		return true;
 	}
 	
