@@ -3500,6 +3500,29 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 
+	/**
+	* Returns true if an active user completed a test pass and did not start a new pass
+	*
+	* Returns true if an active user completed a test pass and did not start a new pass
+	*
+	* @param integer $active_id The active id of the user
+	* @param integer $currentpass The current test pass of the user
+	* @return boolean true if an active user completed a test pass and did not start a new pass, false otherwise
+	* @access public
+	*/
+	function isTestFinishedToViewResults($active_id, $currentpass)
+	{
+		$num = $this->getPassFinishDate($active_id, $currentpass);
+		if (($currentpass > 0) && ($num == 0))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
 /**
 * Returns all questions of a test in test order
 *
@@ -8140,7 +8163,7 @@ class ilObjTest extends ilObject
 			}
 		}
 		$result = TRUE;
-		if (($active->tries == 0) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
+		if (!$this->isTestFinishedToViewResults($active->active_id, $active->tries) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
 		{
 			$result = FALSE;
 		}
