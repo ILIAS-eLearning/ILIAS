@@ -73,6 +73,13 @@ class assClozeTest extends assQuestion
 	* @var string
 	*/
 	var $textgap_rating;
+
+	/**
+	* The fixed text length for all text fields in the cloze question
+	*
+	* @var integer
+	*/
+	var $fixedTextLength;
 	
 	/**
 	* assClozeTest constructor
@@ -99,6 +106,7 @@ class assClozeTest extends assQuestion
 		$this->assQuestion($title, $comment, $author, $owner);
 		$this->gaps = array();
 		$this->setClozeText($cloze_text);
+		$this->fixedTextLength = "";
 	}
 
 	/**
@@ -172,6 +180,7 @@ class assClozeTest extends assQuestion
 				$this->points = $data->points;
 				$this->owner = $data->owner;
 				$this->question = $this->cleanQuestiontext($data->question_text);
+				$this->setFixedTextLength($data->fixed_textlen);
 				// replacement of old syntax with new syntax
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
@@ -287,10 +296,11 @@ class assClozeTest extends assQuestion
 			if ($result == DB_OK)
 			{
 				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO %s (question_fi, textgap_rating) VALUES (%s, %s)",
+				$query = sprintf("INSERT INTO %s (question_fi, textgap_rating, fixed_textlen) VALUES (%s, %s, %s)",
 					$this->getAdditionalTableName(),
 					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->textgap_rating . "")
+					$ilDB->quote($this->textgap_rating . ""),
+					$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL"
 				);
 				$ilDB->query($query);
 
@@ -318,9 +328,10 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE %s SET textgap_rating = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE %s SET textgap_rating = %s, fixed_textlen = %s WHERE question_fi = %s",
 				$this->getAdditionalTableName(),
 				$ilDB->quote($this->textgap_rating . ""),
+				$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL",
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
@@ -1224,8 +1235,9 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_cloze SET textgap_rating = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE qpl_question_cloze SET textgap_rating = %s, fixed_textlen = %s WHERE question_fi = %s",
 				$ilDB->quote($this->textgap_rating . ""),
+				$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL",
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
@@ -1340,6 +1352,32 @@ class assClozeTest extends assQuestion
 	function getAnswerTableName()
 	{
 		return "qpl_answer_cloze";
+	}
+	
+	/**
+	* Sets a fixed text length for all text fields in the cloze question
+	*
+	* Sets a fixed text length for all text fields in the cloze question
+	*
+	* @param integer $a_text_len The text field length
+	* @access public
+	*/
+	function setFixedTextLength($a_text_len)
+	{
+		$this->fixedTextLength = $a_text_len;
+	}
+	
+	/**
+	* Gets the fixed text length for all text fields in the cloze question
+	*
+	* Gets the fixed text length for all text fields in the cloze question
+	*
+	* @return integer The text field length
+	* @access public
+	*/
+	function getFixedTextLength()
+	{
+		return $this->fixedTextLength;
 	}
 
 	/**
@@ -1621,6 +1659,7 @@ class assClozeTest extends assQuestion
 		$this->setObjId($questionpool_id);
 		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$textgap_rating = $item->getMetadataEntry("textgaprating");
+		$this->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
 		if (strlen($textgap_rating) == 0) $textgap_rating = "ci";
 		$this->setTextgapRating($textgap_rating);
 		$gaptext = array();
@@ -1745,6 +1784,10 @@ class assClozeTest extends assQuestion
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "textgaprating");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getTextgapRating());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "fixedTextLength");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getFixedTextLength());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
