@@ -52,9 +52,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		$lng->loadLanguageModule("news");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news_item = new ilNewsItem();
-		$news_item->setContextObjId($ilCtrl->getContextObjId());
-		$news_item->setContextObjType($ilCtrl->getContextObjType());
 		$this->setBlockId($ilCtrl->getContextObjId());
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
@@ -66,7 +63,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$data = $news_item->getNewsForRefId($_GET["ref_id"]);
+			$data = $this->getNewsData();
 			self::$st_data = $data;
 		}
 		
@@ -75,6 +72,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->setData($data);
 		$this->allow_moving = false;
 		$this->handleView();
+	}
+	
+	/**
+	* Get news for context
+	*/
+	function getNewsData()
+	{
+		global $ilCtrl;
+		
+		$news_item = new ilNewsItem();
+		$news_item->setContextObjId($ilCtrl->getContextObjId());
+		$news_item->setContextObjType($ilCtrl->getContextObjType());
+		return $news_item->getNewsForRefId($_GET["ref_id"]);
 	}
 		
 	/**
@@ -596,7 +606,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$this->addFooterLink($lng->txt("news_show_notifications"),
 				$ilCtrl->getLinkTarget($this,
-					"showNotofications"),
+					"showNotifications"),
 				$ilCtrl->getLinkTarget($this,
 					"showNotifications", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id
@@ -608,7 +618,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->addFooterLink($lng->txt("news_show_notifications"));
 			$this->addFooterLink($lng->txt("news_hide_notifications"),
 				$ilCtrl->getLinkTarget($this,
-					"hideNotofications"),
+					"hideNotifications"),
 				$ilCtrl->getLinkTarget($this,
 					"hideNotifications", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id
@@ -625,7 +635,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$view = ilBlockSetting::_write($this->getBlockType(), "view", "",
 			$ilUser->getId(), $this->block_id);
-		
+
+		// reload data
+		$data = $this->getNewsData();
+		$this->setData($data);
+		$this->handleView();
+
 		if ($ilCtrl->isAsynch())
 		{
 			echo $this->getHTML();
@@ -644,6 +659,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$view = ilBlockSetting::_write($this->getBlockType(), "view", "hide_notifications",
 			$ilUser->getId(), $this->block_id);
+
+		// reload data
+		$data = $this->getNewsData();
+		$this->setData($data);
+		$this->handleView();
 
 		if ($ilCtrl->isAsynch())
 		{
