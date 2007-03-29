@@ -374,13 +374,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function showNews()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
 		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news = new ilNewsItem($_GET["news_id"]);
 		
 		$tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
 
+		ilNewsItem::_setRead($ilUser->getId(), $_GET["news_id"]);
+		
 		// user
 		if ($news->getUserId() > 0)
 		{
