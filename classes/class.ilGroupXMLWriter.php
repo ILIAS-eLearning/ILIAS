@@ -77,9 +77,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Group SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_group_0_1.dtd\">");
-		$this->xmlSetGenCmt("Export of ILIAS group ".
-							$this->group_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
+		$this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_group_3_8.dtd\">");  
+		$this->xmlSetGenCmt("Export of ILIAS group ". $this->group_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
 		$this->xmlHeader();
 
 		$attrs["exportVersion"] = $this->EXPORT_VERSION;
