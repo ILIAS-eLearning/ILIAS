@@ -283,30 +283,25 @@ class ilNewsItem extends ilNewsItemGen
 	* Query NewsForContext
 	*
 	*/
-	public function queryNewsForContext($a_unread_only = true)
+	public function queryNewsForContext()
 	{
 		global $ilDB, $ilUser;
 		
 		$query = "SELECT il_news_item.* ".
 			", il_news_read.user_id as user_read ".
 			"FROM il_news_item LEFT JOIN il_news_read ".
-			"ON il_news_item.id = il_news_read.news_id ".
-			"WHERE ".
+			"ON il_news_item.id = il_news_read.news_id AND ".
+			" il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
+			" WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
 				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" AND (il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
-				" OR isnull(il_news_read.user_id)) ".
-				" ORDER BY creation_date DESC ".
-				"";
+				" ORDER BY creation_date DESC ";
 				
 		$set = $ilDB->query($query);
 		$result = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (!$a_unread_only || $rec["user_read"] <= 0)
-			{
-				$result[] = $rec;
-			}
+			$result[] = $rec;
 		}
 		
 		return $result;

@@ -301,7 +301,7 @@ class ilObjMediaCast extends ilObject
 		$it = new ilNewsItem();
 		$it->setContextObjId($this->getId());
 		$it->setContextObjType($this->getType());
-		$this->itemsarray = $it->queryNewsForContext();
+		$this->itemsarray = $it->queryNewsForContext(false);
 		
 		return $this->itemsarray;
 	}

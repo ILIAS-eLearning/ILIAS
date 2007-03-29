@@ -1303,6 +1303,11 @@ div.Access {
 	color: #909090;
 }
 
+.light
+{
+	color: #909090;
+}
+
 /* ----------------- normal links ------------- */
 
 a:link, a:visited {
@@ -1311,6 +1316,17 @@ a:link, a:visited {
 }
 
 a:hover {
+	color:#000000;
+}
+
+
+a.light:link, a.light:visited {
+	text-decoration: none;
+	#color:#5577CC;
+	color:#3355BB;
+}
+
+a.light:hover {
 	color:#000000;
 }
 
