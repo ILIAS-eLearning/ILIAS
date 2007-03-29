@@ -1178,3 +1178,5 @@ ALTER TABLE `frm_threads` ADD `thr_usr_alias` VARCHAR( 255 ) NOT NULL AFTER `thr
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#961>
+ALTER TABLE  `qpl_question_cloze` ADD  `fixed_textlen` INT NULL ;
