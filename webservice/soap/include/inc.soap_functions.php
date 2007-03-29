@@ -598,7 +598,7 @@ function addExercise ($sid, $ref_id, $xml) {
 
 }
 
-function getFileXML ($sid, $ref_id, $attachFileContentsMode) 
+function getFileXML ($sid, $ref_id, $attachFileContentsMode)
 {
 	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
 	$sta = & new ilSoapFileAdministration();
@@ -607,7 +607,7 @@ function getFileXML ($sid, $ref_id, $attachFileContentsMode)
 }
 
 
-function updateFile ($sid, $ref_id, $xml) 
+function updateFile ($sid, $ref_id, $xml)
 {
 	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
 	$sta = & new ilSoapFileAdministration();
@@ -615,7 +615,7 @@ function updateFile ($sid, $ref_id, $xml)
 
 }
 
-function addFile ($sid, $ref_id, $xml) 
+function addFile ($sid, $ref_id, $xml)
 {
 	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
 	$sta = & new ilSoapFileAdministration();
@@ -623,7 +623,7 @@ function addFile ($sid, $ref_id, $xml)
 
 }
 
-function getObjIdsByRefIds($sid, $ref_ids) 
+function getObjIdsByRefIds($sid, $ref_ids)
 {
 	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -639,6 +639,15 @@ function getUserXML($sid,$user_ids, $attachRoles)
 	$sua =& new ilSoapUserAdministration();
 
 	return $sua->getUserXML($sid,$user_ids, $attachRoles);
+}
+
+function updateGroup($sid, $ref_id, $grp_xml)
+{
+	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+	$sua =& new ilSoapGroupAdministration();
+
+	return $sua->updateGroup($sid,$ref_id, $grp_xml);
 }
 
 
