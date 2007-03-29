@@ -1192,3 +1192,6 @@ CREATE TABLE `il_news_read` (
 <#963>
 ALTER TABLE `il_news_read` ADD INDEX (`news_id`);
 
+<#964>
+DELETE FROM il_news_read;
+ALTER TABLE `il_news_read` ADD PRIMARY KEY (`user_id`,`news_id`);
