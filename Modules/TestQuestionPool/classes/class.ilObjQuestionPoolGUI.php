@@ -1014,7 +1014,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
 			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", true));
+			$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 			include_once "./classes/class.ilFormat.php";
 			$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
