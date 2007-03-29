@@ -196,14 +196,14 @@ class ilLDAPQuery
 			$gdn,
 			$filter,
 			array($this->settings->getGroupMember()));
-
+			
 		$tmp_result = new ilLDAPResult($this->lh,$res);
 		$group_data = $tmp_result->getRows();
 		
 		
 		if(!$tmp_result->numRows())
 		{
-			$this->log->write('LDAP: No group members found.');
+			$this->log->write(__METHOD__.': No group found.');
 			return false;
 		}
 				
@@ -291,8 +291,8 @@ class ilLDAPQuery
 	 	switch($a_scope)
 	 	{
 	 		case IL_LDAP_SCOPE_SUB:
-	 			#$this->log->write('LDAP: Scope is: sub, using ldap_search');
-	 			$res = @ldap_search($this->lh,$a_base_dn,$a_filter,$a_attributes);
+	 			$this->log->write('LDAP: Scope is: sub, using ldap_search');
+	 			$res = ldap_search($this->lh,$a_base_dn,$a_filter,$a_attributes);
 	 			break;
 	 			
  			case IL_LDAP_SCOPE_ONE:
