@@ -146,8 +146,6 @@ class ilLDAPResult
 		 	$this->all_rows[] = $data;
 		 	if($row_counter == 0)
 		 	{
-		 		var_dump("<pre>",$data,"</pre>");
-				
 		 		$this->data = $data;
 		 	}
 		}
