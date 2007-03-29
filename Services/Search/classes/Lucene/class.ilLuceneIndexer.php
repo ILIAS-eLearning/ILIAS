@@ -55,6 +55,8 @@ class ilLuceneIndexer
 	// PRIVATE
 	function __indexFiles()
 	{
+		include_once('Services/FileSystemStorage/classes/class.ilFileSystemStorage.php');
+		
 		global $tree;
 
 		$query = "SELECT * FROM file_data ".
@@ -68,7 +70,8 @@ class ilLuceneIndexer
 		{
 			++$counter;
 			$bname = ilUtil::getDataDir();
-			$bname .= ("/files/file_".$row->file_id);
+			$bname .= ("/ilFiles/");
+			$bname .= ilFileSystemStorage::_createPathFromId($row->file_id,'file');
 			$vname = (sprintf("%03d", $row->version));
 
 			if(is_file($bname.'/'.$vname.'/'.$row->file_name))
