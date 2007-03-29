@@ -106,7 +106,9 @@ class ilLDAPQuery
 		}
 		else
 		{
-			throw new ilLDAPQueryException('LDAP: Called import of users without specifying group restrictions. NOT IMPLEMENTED YET!');
+			$this->log->write(__METHOD__.': No group restrictions found. Start reading all users...');
+			$this->readAllUsers();
+			#throw new ilLDAPQueryException('LDAP: Called import of users without specifying group restrictions. NOT IMPLEMENTED YET!');
 		}
 		return $this->users ? $this->users : array();
 	}
@@ -164,6 +166,54 @@ class ilLDAPQuery
 	 		return true;
 	 	}
 	 	throw new ilLDAPQueryException(__METHOD__.' '.ldap_error($this->lh));
+	}
+	
+	/**
+	 * Fetch all users
+	 *
+	 * @access public
+	 * 
+	 */
+	private function readAllUsers()
+	{
+		
+		// Build search base
+		if(($dn = $this->settings->getSearchBase()) && substr($dn,-1) != ',')
+		{
+			$dn .= ',';
+		}
+		$dn .=	$this->settings->getBaseDN();
+		
+		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
+	 	$res = $this->queryByScope($this->settings->getUserScope(),
+	 		$dn,
+	 		$this->settings->getFilter(),
+			array($this->settings->getUserAttribute()));
+
+		$tmp_result = new ilLDAPResult($this->lh,$res);
+		
+		
+		
+		if(!$tmp_result->numRows())
+		{
+			$this->log->write(__METHOD__.': No users found. Aborting.');
+			return false;
+		}
+		$this->log->write(__METHOD__.': Found '.$tmp_result->numRows().' users.');
+
+		foreach($tmp_result->getRows() as $data)
+		{
+			if(isset($data[$this->settings->getUserAttribute()]))
+			{
+				$this->readUserData($data[$this->settings->getUserAttribute()]);
+			}
+			else
+			{
+				$this->log->write(__METHOD__.': Unknown error. No user attribute found.');
+			}
+		}
+		unset($tmp_result);
+		return true;
 	}
 
 	/**
@@ -257,6 +307,7 @@ class ilLDAPQuery
 			}
 			$dn .=	$this->settings->getBaseDN();
 			$res = $this->queryByScope($this->settings->getUserScope(),strtolower($dn),$filter,$this->user_fields);
+			
 		}
 		
 		
@@ -291,8 +342,8 @@ class ilLDAPQuery
 	 	switch($a_scope)
 	 	{
 	 		case IL_LDAP_SCOPE_SUB:
-	 			$this->log->write('LDAP: Scope is: sub, using ldap_search');
-	 			$res = ldap_search($this->lh,$a_base_dn,$a_filter,$a_attributes);
+	 			#$this->log->write('LDAP: Scope is: sub, using ldap_search');
+	 			$res = @ldap_search($this->lh,$a_base_dn,$a_filter,$a_attributes);
 	 			break;
 	 			
  			case IL_LDAP_SCOPE_ONE:
