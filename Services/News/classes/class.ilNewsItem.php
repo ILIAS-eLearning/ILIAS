@@ -279,19 +279,23 @@ class ilNewsItem extends ilNewsItemGen
 		$this->setContextSubObjType($a_sub_obj_type);
 	}
 
-		/**
+	/**
 	* Query NewsForContext
 	*
 	*/
-	public function queryNewsForContext()
+	public function queryNewsForContext($a_unread_only = true)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 		
-		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
-			"FROM il_news_item ".
+		$query = "SELECT il_news_item.* ".
+			", il_news_read.user_id as user_read ".
+			"FROM il_news_item LEFT JOIN il_news_read ".
+			"ON il_news_item.id = il_news_read.news_id ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
 				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+				" AND (il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
+				" OR isnull(il_news_read.user_id)) ".
 				" ORDER BY creation_date DESC ".
 				"";
 				
@@ -299,12 +303,26 @@ class ilNewsItem extends ilNewsItemGen
 		$result = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$result[] = $rec;
+			if (!$a_unread_only || $rec["user_read"] <= 0)
+			{
+				$result[] = $rec;
+			}
 		}
 		
 		return $result;
 
 	}
 
+	/**
+	* Set item read.
+	*/
+	function _setRead($a_user_id, $a_news_id)
+	{
+		global $ilDB;
+		
+		$q = "REPLACE INTO il_news_read (user_id, news_id) VALUES (".
+			$ilDB->quote($a_user_id).",".$ilDB->quote($a_news_id).")";
+		$ilDB->query($q);
+	}
 }
 ?>

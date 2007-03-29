@@ -1178,5 +1178,17 @@ ALTER TABLE `frm_threads` ADD `thr_usr_alias` VARCHAR( 255 ) NOT NULL AFTER `thr
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
 <#961>
 ALTER TABLE  `qpl_question_cloze` ADD  `fixed_textlen` INT NULL ;
+
+<#962>
+DROP TABLE IF EXISTS il_news_read;
+CREATE TABLE `il_news_read` (
+  `user_id` int(11) NOT NULL default '0',
+  `news_id` int(11) NOT NULL default '0',
+  INDEX (`user_id`));
+
+<#963>
+ALTER TABLE `il_news_read` ADD INDEX (`news_id`);
+
