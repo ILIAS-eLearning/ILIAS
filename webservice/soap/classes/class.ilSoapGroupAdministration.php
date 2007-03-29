@@ -38,16 +38,16 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	{
 		parent::ilSoapAdministration();
 	}
-		
+
 
 	// Service methods
 	function addGroup($sid,$target_id,$grp_xml)
 	{
-		
+
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		if(!is_numeric($target_id))
 		{
@@ -73,12 +73,55 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		return $new_ref_id ? $new_ref_id : "0";
 	}
 
+	// Service methods
+	function updateGroup($sid,$ref_id,$grp_xml)
+	{
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		if(!is_numeric($ref_id))
+		{
+			return $this->__raiseError('No valid target id given. Please choose an existing reference id of an ILIAS category or course',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('write',$ref_id,'grp'))
+		{
+			return $this->__raiseError('Check access failed. No permission to edit groups','Server');
+		}
+
+		// Start import
+		include_once("classes/class.ilObjGroup.php");
+
+		if(!$grp = ilObjectFactory::getInstanceByRefId($ref_id, false))
+		{
+			return $this->__raiseError('Cannot create group instance!','Server');
+		}
+
+
+		include_once 'classes/class.ilGroupImportParser.php';
+		$xml_parser = new ilGroupImportParser($grp_xml, -1);
+		$xml_parser->setMode(ilGroupImportParser::$UPDATE);
+		$xml_parser->setGroup($grp);
+		$new_ref_id = $xml_parser->startParsing();
+
+		return $new_ref_id ? $new_ref_id : "0";
+	}
+
+
 	function groupExists($sid,$title)
 	{
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		if(!$title)
 		{
@@ -97,7 +140,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -112,9 +155,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		$xml_writer = new ilGroupXMLWriter($grp_obj);
 		$xml_writer->start();
-		
+
 		$xml = $xml_writer->getXML();
-		
+
 		return strlen($xml) ? $xml : '';
 	}
 
@@ -135,7 +178,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		global $rbacsystem;
-		
+
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
 		{
 			$group_id = end($ref_ids = ilObject::_getAllReferences($group_id));
@@ -150,7 +193,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to write to group','Server');
 		}
 
-		
+
 		if(ilObject::_lookupType($user_id) != 'usr')
 		{
 			return $this->__raiseError('Invalid user id. User with id "'. $user_id.' does not exist','Client');
@@ -190,7 +233,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 		if(!is_numeric($group_id))
 		{
 			return $this->__raiseError('No valid group id given. Please choose an existing reference id of an ILIAS group',
@@ -229,13 +272,13 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		return true;
 	}
 
-	
+
 	function isAssignedToGroup($sid,$group_id,$user_id)
 	{
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
 		if(!is_numeric($group_id))
 		{
 			return $this->__raiseError('No valid group id given. Please choose an existing id of an ILIAS group',
@@ -280,7 +323,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}
 		return "0";
 	}
-	
+
 	// PRIVATE
 
 }

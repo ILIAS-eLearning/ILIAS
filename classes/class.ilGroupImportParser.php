@@ -36,11 +36,17 @@ require_once("classes/class.ilObjUser.php");
  */
 class ilGroupImportParser extends ilSaxParser
 {
+	public static $CREATE = 1;
+	public static $UPDATE = 2;
+
 	var $group_data;
 	var $group_obj;
 
 	var $parent;
 	var $counter;
+
+	var $mode;
+	var $grp;
 
 	/**
 	 * Constructor
@@ -55,6 +61,10 @@ class ilGroupImportParser extends ilSaxParser
 		define('EXPORT_VERSION',2);
 
 		parent::ilSaxParser();
+
+		$this->mode =  ilGroupImportParser::$CREATE;
+		$this->grp = null;
+
 		$this->setXMLContent($a_xml);
 
 		// SET MEMBER VARIABLES
@@ -97,7 +107,14 @@ class ilGroupImportParser extends ilSaxParser
 	{
 		parent::startParsing();
 
-		return is_object($this->group_obj) ? $this->group_obj->getRefId() : false;
+		if ($this->mode == ilGroupImportParser::$CREATE)
+		{
+			return is_object($this->group_obj) ? $this->group_obj->getRefId() : false;
+		}
+		else
+		{
+			return $this->group_obj->update();
+		}
 	}
 
 
@@ -123,7 +140,7 @@ class ilGroupImportParser extends ilSaxParser
 
 				$this->group_data["type"] = $a_attribs["type"];
 				$this->group_data["id"] = $a_attribs["id"];
-				
+
 				break;
 
 			case 'title':
@@ -138,12 +155,24 @@ class ilGroupImportParser extends ilSaxParser
 				break;
 
 			case "admin":
-				$this->group_data["admin"][] = $a_attribs["id"];
+				if (!isset($a_attribs['action']) || $a_attribs['action'] == "Attach")
+				{
+					$this->group_data["admin"]["attach"][] = $a_attribs["id"];
+				} elseif (isset($a_attribs['action']) || $a_attribs['action'] == "Detach")
+				{
+					$this->group_data["admin"]["detach"][] = $a_attribs["id"];
+				}
 				break;
 
 			case "member":
-				$this->group_data["member"][] = $a_attribs["id"];
-				
+				if (!isset($a_attribs['action']) || $a_attribs['action'] == "Attach")
+				{
+					$this->group_data["member"]["attach"][] = $a_attribs["id"];
+				} elseif (isset($a_attribs['action']) || $a_attribs['action'] == "Detach")
+				{
+					$this->group_data["member"]["detach"][] = $a_attribs["id"];
+				}
+
 				break;
 
 			case "folder":
@@ -184,7 +213,7 @@ class ilGroupImportParser extends ilSaxParser
 			case 'expiration':
 				$this->group_data['expiration'] = trim($this->cdata);
 				break;
-				
+
 			case "folder":
 				$this->__popParentId();
 				break;
@@ -201,8 +230,8 @@ class ilGroupImportParser extends ilSaxParser
 		}
 		$this->cdata = '';
 	}
-	
-	
+
+
 	/**
 	 * handler for character data
 	 */
@@ -220,7 +249,7 @@ class ilGroupImportParser extends ilSaxParser
 			$this->cdata .= $a_data;
 		}
 	}
-	
+
 	// PRIVATE
 	function __save()
 	{
@@ -230,7 +259,7 @@ class ilGroupImportParser extends ilSaxParser
 		}
 
 		$this->__initGroupObject();
-		
+
 		$this->group_obj->setImportId($this->group_data["id"]);
 		$this->group_obj->setTitle($this->group_data["title"]);
 		$this->group_obj->setDescription($this->group_data["description"]);
@@ -254,11 +283,19 @@ class ilGroupImportParser extends ilSaxParser
 		}
 		$this->group_obj->setRegistrationFlag($flag);
 		// CREATE IT
-		$this->group_obj->create();
-		$this->group_obj->createReference();
-		$this->group_obj->putInTree($this->__getParentId());
-		$this->group_obj->initDefaultRoles();
-		$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
+
+		/**
+		 * mode can be create or update
+		 */
+		if ($this->mode == ilGroupImportParser::$CREATE)
+		{
+			$this->group_obj->create();
+			$this->group_obj->createReference();
+			$this->group_obj->putInTree($this->__getParentId());
+			$this->group_obj->initDefaultRoles();
+			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
+		}
+
 
 
 		// SET GROUP SPECIFIC DATA
@@ -285,16 +322,20 @@ class ilGroupImportParser extends ilSaxParser
 			$this->group_obj->setExpirationDateTime(date('Y.m.d H:i:s',$this->group_data['expiration']));
 		}
 		$this->group_obj->setPassword($this->group_data['password']);
-		$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
-		
+
+		if ($this->mode == ilGroupImportParser::$CREATE)
+		{
+			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
+		}
+
 		// ASSIGN ADMINS/MEMBERS
 		$this->__assignMembers();
 
 		$this->__pushParentId($this->group_obj->getRefId());
 
-		
+
 		$this->group_imported = true;
-	
+
 		return true;
 	}
 
@@ -314,7 +355,7 @@ class ilGroupImportParser extends ilSaxParser
 
 		return true;
 	}
-	
+
 	function __saveFile()
 	{
 		$this->__initFileObject();
@@ -329,7 +370,7 @@ class ilGroupImportParser extends ilSaxParser
 
 		// COPY FILE
 		$this->file_obj->createDirectory();
-		
+
 		$this->__initImportFileObject();
 
 		if($this->import_file_obj->findObjectFile($this->file["id"]))
@@ -349,48 +390,116 @@ class ilGroupImportParser extends ilSaxParser
 
 
 		$this->group_obj->addMember($ilUser->getId(),$this->group_obj->getDefaultAdminRole());
-
-		// ADMIN
-		foreach($this->group_data["admin"] as $user)
+#print_r($this->group_data["admin"]["attach"]);
+		// attach ADMINs
+		if (count($this->group_data["admin"]["attach"]))
 		{
-			if($id_data = $this->__parseId($user))
+
+			foreach($this->group_data["admin"]["attach"] as $user)
 			{
-				if($id_data['local'] or $id_data['imported'])
+				if($id_data = $this->__parseId($user))
 				{
-					$this->group_obj->addMember($id_data['usr_id'],$this->group_obj->getDefaultAdminRole());
+					if($id_data['local'] or $id_data['imported'])
+					{
+//						if (!$this->group_obj->isMember($id_data['usr_id']))
+						{
+							$this->group_obj->addMember($id_data['usr_id'], $this->group_obj->getDefaultAdminRole());
+						}
+						/*else
+						{
+							$this->group_obj->setMemberStatus ($id_data['user_id'],$this->group_obj->getDefaultAdminRole());
+						}*/
+					}
 				}
 			}
 		}
-		
-		// MEMBER
-		foreach($this->group_data["member"] as $user)
+#print_r($this->group_data["admin"]["detach"]);
+		// detach ADMINs
+		if (count($this->group_data["admin"]["detach"]))
 		{
-			if($id_data = $this->__parseId($user))
+
+			foreach($this->group_data["admin"]["detach"] as $user)
 			{
-				if($id_data['local'] or $id_data['imported'])
+				if($id_data = $this->__parseId($user))
 				{
-					$this->group_obj->addMember($id_data['usr_id'],$this->group_obj->getDefaultMemberRole());
+					if($id_data['local'] or $id_data['imported'])
+					{
+						if ($this->group_obj->isMember($id_data['usr_id']))
+						{
+							$this->group_obj->removeMember($id_data['usr_id']);
+						}
+
+					}
+				}
+			}
+		}
+#print_r($this->group_data["member"]["attach"]);
+
+		// MEMBER
+		if (count($this->group_data["member"]["attach"]))
+		{
+
+			foreach($this->group_data["member"]["attach"] as $user)
+			{
+				if($id_data = $this->__parseId($user))
+				{
+					if($id_data['local'] or $id_data['imported'])
+					{
+						//if (!$this->group_obj->isMember($id_data['usr_id']))
+						{
+							$this->group_obj->addMember($id_data['usr_id'],$this->group_obj->getDefaultMemberRole());
+						}
+/*						else
+						{
+							$this->group_obj->setMemberStatus ($id_data['user_id'],$this->group_obj->getDefaultMemberRole());
+						}
+*/
+					}
+				}
+			}
+		}
+
+#print_r($this->group_data["member"]["detach"]);
+
+		if (count($this->group_data["member"]["detach"]))
+		{
+			foreach($this->group_data["member"]["detach"] as $user)
+			{
+				if($id_data = $this->__parseId($user))
+				{
+					if($id_data['local'] or $id_data['imported'])
+					{
+						if ($this->group_obj->isMember($id_data['usr_id']))
+						{
+							$this->group_obj->removeMember($id_data['usr_id']);
+						}
+					}
 				}
 			}
 		}
 		return true;
 	}
-	
+
 	function __initGroupObject()
 	{
 		include_once "classes/class.ilObjGroup.php";
-		
-		$this->group_obj =& new ilObjGroup();
-		
+
+		if ($this->mode == ilGroupImportParser::$CREATE)
+		{
+			$this->group_obj =& new ilObjGroup();
+		} elseif ($this->mode == ilGroupImportParser::$UPDATE) {
+			$this->group_obj = $this->grp;
+		}
+
 		return true;
 	}
-	
+
 	function __initFolderObject()
 	{
 		include_once "classes/class.ilObjFolder.php";
-		
+
 		$this->folder_obj =& new ilObjFolder();
-		
+
 		return true;
 	}
 
@@ -406,11 +515,11 @@ class ilGroupImportParser extends ilSaxParser
 	function __initFileObject()
 	{
 		include_once "./Modules/File/classes/class.ilObjFile.php";
-		
+
 		$this->file_obj =& new ilObjFile();
-		
+
 		return true;
-	}		
+	}
 
 	function __destroyFolderObject()
 	{
@@ -446,5 +555,13 @@ class ilGroupImportParser extends ilSaxParser
 		return false;
 	}
 
+
+	public function setMode($mode) {
+		$this->mode = $mode;
+	}
+
+	public function setGroup(& $grp) {
+		$this->grp = $grp;
+	}
 }
 ?>

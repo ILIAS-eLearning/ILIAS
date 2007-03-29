@@ -946,6 +946,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getObjIdsForRefIds: Returns a array of object ids which match the references id, given by a comma seperated string. Returns an array of ref ids, in the same order as object ids. Therefore, there might by duplicates');
 
+       $this->server->register('updateGroup',
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'xml' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#updateGroup',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS updateGroup(): update existing group using ref id and group xml (see DTD).');
+
+
 	}
 
 }
