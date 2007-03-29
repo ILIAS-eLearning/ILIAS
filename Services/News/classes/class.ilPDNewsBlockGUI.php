@@ -57,7 +57,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		// displayed at the same time)
 		if (empty(self::$st_data))
 		{
-			self::$st_data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
+			self::$st_data = $this->getNewsData();
 			$data = self::$st_data;
 		}
 		else
@@ -72,6 +72,16 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
 		$this->handleView();
+	}
+	
+	/**
+	* Get news for context
+	*/
+	function getNewsData()
+	{
+		global $ilUser;
+		
+		return ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
 	}
 	
 	/**
