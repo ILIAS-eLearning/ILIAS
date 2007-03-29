@@ -113,7 +113,7 @@ class ilGroupImportParser extends ilSaxParser
 		}
 		else
 		{
-			return $this->group_obj->update();
+			return is_object($this->group_obj) ? $this->group_obj->update() : false;
 		}
 	}
 
@@ -263,6 +263,21 @@ class ilGroupImportParser extends ilSaxParser
 		$this->group_obj->setImportId($this->group_data["id"]);
 		$this->group_obj->setTitle($this->group_data["title"]);
 		$this->group_obj->setDescription($this->group_data["description"]);
+		
+		$ownerChanged = false;
+		if (isset($this->group_data["owner"])) 
+		{
+			$owner = $this->group_data["owner"];
+			if (!is_numeric($owner)) 
+			{
+				$owner = ilUtil::__extractId ($owner, IL_INST_ID);
+			}
+			if (is_numeric($owner) && $owner > 0) 
+			{
+				$this->group_obj->setOwner($owner);
+				$ownerChanged = true;
+			}
+		}
 
 		switch($this->group_data['registration_type'])
 		{
@@ -294,9 +309,10 @@ class ilGroupImportParser extends ilSaxParser
 			$this->group_obj->putInTree($this->__getParentId());
 			$this->group_obj->initDefaultRoles();
 			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
+		} elseif ($ownerChanged) 
+		{
+			$this->group_obj->updateOwner();
 		}
-
-
 
 		// SET GROUP SPECIFIC DATA
 		switch($this->group_data['registration_type'])
