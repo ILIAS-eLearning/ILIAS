@@ -1185,7 +1185,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	        foreach ($a_keyvalues as $keyvalue)
 	        {
 	            if (strlen($keyvalue) >= 3) {
-	                $field_query []= $keyfield." like '%".$ilDB->quote($keyvalue)."%'";
+	                $field_query []= $keyfield." like '%".$keyvalue."%'";
 	            }
 
 	        }
