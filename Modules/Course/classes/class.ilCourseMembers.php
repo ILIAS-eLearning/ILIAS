@@ -28,9 +28,9 @@ define("IL_CRS_MEMBER",2);
 /**
 * class ilobjcourse
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
+*
 * @extends Object
 */
 
@@ -166,7 +166,7 @@ class ilCourseMembers
 				$passed = $a_passed;
 				$this->addDesktopItem($user_obj->getId());
 				break;
-				
+
 		}
 		// 1. create entry
 		$this->__createMemberEntry($user_obj->getId(),$a_role,$status,$passed);
@@ -238,7 +238,7 @@ class ilCourseMembers
 			case $this->ROLE_TUTOR:
 				$rbacadmin->assignUser($this->course_obj->getDefaultTutorRole(),$a_usr_id);
 				break;
-				
+
 			case $this->ROLE_MEMBER:
 				if($a_status != $this->STATUS_BLOCKED)
 				{
@@ -265,7 +265,7 @@ class ilCourseMembers
 	function deleteAllEntries()
 	{
 		global $ilDB;
-		
+
 		$query = "DELETE FROM crs_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ";
 
@@ -285,7 +285,7 @@ class ilCourseMembers
 		{
 			$this->course_obj->setMessage("");
 			$this->course_obj->appendMessage($this->lng->txt("no_usr_ids_given"));
-			
+
 			return false;
 		}
 		foreach($a_usr_ids as $id)
@@ -293,7 +293,7 @@ class ilCourseMembers
 			if(!$this->delete($id))
 			{
 				$this->course_obj->appendMessage($this->lng->txt("error_delete_member"));
-					
+
 				return false;
 			}
 		}
@@ -319,7 +319,7 @@ class ilCourseMembers
 			case $this->ROLE_TUTOR:
 				$role = $this->course_obj->getDefaultTutorRole();
 				break;
-				
+
 			case $this->ROLE_MEMBER:
 				$role = $this->course_obj->getDefaultMemberRole();
 				break;
@@ -329,7 +329,7 @@ class ilCourseMembers
 		$rbacadmin->deassignUser($role,$a_usr_id);
 		ilObjUser::updateActiveRoles($a_usr_id);
 
-		
+
 		$query = "DELETE FROM crs_members ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
@@ -340,8 +340,8 @@ class ilCourseMembers
 	}
 
 
-	/* 
-	 * Delete user entries called from ilObjUser->delete() 
+	/*
+	 * Delete user entries called from ilObjUser->delete()
 	 */
 	function _deleteUser($a_usr_id)
 	{
@@ -356,7 +356,7 @@ class ilCourseMembers
 		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 		ilCourseWaitingList::_deleteUser($a_usr_id);
 	}
-		
+
 	function getAssignedUsers()
 	{
 		// ALL MEMBERS AND ADMINS
@@ -379,7 +379,7 @@ class ilCourseMembers
 	function getMembers($a_all = true)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT cs.usr_id FROM crs_members as cs ".
 			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"AND role = ".$ilDB->quote($this->ROLE_MEMBER)." ";
@@ -399,7 +399,7 @@ class ilCourseMembers
 	function getAdmins()
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT cs.usr_id FROM crs_members as cs ".
 			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"AND role = ".$ilDB->quote($this->ROLE_ADMIN)."";
@@ -414,7 +414,7 @@ class ilCourseMembers
 	function getTutors()
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT cs.usr_id FROM crs_members as cs ".
 			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"AND role = ".$ilDB->quote($this->ROLE_TUTOR)."";
@@ -452,7 +452,7 @@ class ilCourseMembers
 	function isBlocked($a_usr_id)
 	{
 		$this->__read($a_usr_id);
-		
+
 		return $this->member_data["status"] == $this->STATUS_BLOCKED ? true : false;
 	}
 	/**
@@ -476,7 +476,7 @@ class ilCourseMembers
 		}
 		return false;
 	}
-	
+
 
 	function hasAccess($a_usr_id)
 	{
@@ -493,13 +493,13 @@ class ilCourseMembers
 	function getCountPassed()
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT * FROM crs_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"AND passed = 1";
 
 		$res = $this->ilDB->query($query);
-		
+
 		return $res->numRows() ? $res->numRows() : 0;
 	}
 
@@ -532,7 +532,7 @@ class ilCourseMembers
 	{
 		return $this->__readSubscriberData($a_usr_id);
 	}
-	
+
 
 
 	function assignSubscribers($a_usr_ids)
@@ -569,7 +569,7 @@ class ilCourseMembers
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByObjId($a_usr_id);
 			$this->course_obj->appendMessage($tmp_obj->getLogin().": ".$this->lng->txt("crs_user_already_assigned"));
-			
+
 			return false;
 		}
 
@@ -608,14 +608,14 @@ class ilCourseMembers
 			}
 			++$counter;
 		}
-		
+
 		return $counter;
 	}
 
 	function addSubscriber($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		$query = "INSERT INTO crs_subscribers ".
 			" VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($this->course_obj->getId()).",".$ilDB->quote(time()).")";
 
@@ -627,7 +627,7 @@ class ilCourseMembers
 	function updateSubscriptionTime($a_usr_id,$a_subtime)
 	{
 		global $ilDB;
-		
+
 		$query = "UPDATE crs_subscribers ".
 			"SET sub_time = ".$ilDB->quote($a_subtime)." ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
@@ -641,7 +641,7 @@ class ilCourseMembers
 	function deleteSubscriber($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		$query = "DELETE FROM crs_subscribers ".
 			"WHERE usr_id = ".$a_usr_id." ".
 			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())." ";
@@ -657,7 +657,7 @@ class ilCourseMembers
 		{
 			$this->course_obj->setMessage("");
 			$this->course_obj->appendMessage($this->lng->txt("no_usr_ids_given"));
-			
+
 			return false;
 		}
 		foreach($a_usr_ids as $id)
@@ -665,7 +665,7 @@ class ilCourseMembers
 			if(!$this->deleteSubscriber($id))
 			{
 				$this->course_obj->appendMessage($this->lng->txt("error_delete_subscriber"));
-					
+
 				return false;
 			}
 		}
@@ -674,7 +674,7 @@ class ilCourseMembers
 	function isSubscriber($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT * FROM crs_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
@@ -714,7 +714,7 @@ class ilCourseMembers
 
 		$link = ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
 		$link .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_obj->getRefId()."&client_id=".CLIENT_ID);
-		
+
 
 		switch($a_type)
 		{
@@ -722,7 +722,7 @@ class ilCourseMembers
 				$subject = $this->lng->txt("crs_reject_subscriber");
 				$body = $this->lng->txt("crs_reject_subscriber_body");
 				break;
-				
+
 			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
 				$subject = $this->lng->txt("crs_accept_subscriber");
 				$body = $this->lng->txt("crs_accept_subscriber_body");
@@ -778,7 +778,7 @@ class ilCourseMembers
 	function sendNotificationToAdmins($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		if(!$this->course_obj->getSubscriptionNotify())
 		{
 			return true;
@@ -810,7 +810,7 @@ class ilCourseMembers
 	function sendSubscriptionRequestToAdmins($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		if(!$this->course_obj->getSubscriptionNotify())
 		{
 			return true;
@@ -843,7 +843,7 @@ class ilCourseMembers
 	function sendUnsubscribeNotificationToAdmins($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		if(!$this->course_obj->getSubscriptionNotify())
 		{
 			return true;
@@ -889,7 +889,7 @@ class ilCourseMembers
 	function __createMemberEntry($a_usr_id,$a_role,$a_status,$a_passed)
 	{
 		global $ilDB;
-		
+
 		$query = "INSERT INTO crs_members ".
 			"SET usr_id = ".$ilDB->quote($a_usr_id).", ".
 			"obj_id = ".$ilDB->quote($this->course_obj->getId()).", ".
@@ -905,7 +905,7 @@ class ilCourseMembers
 	function __read($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		if(!ilObjUser::_lookupLogin($a_usr_id))
 		{
 			return false;
@@ -932,7 +932,7 @@ class ilCourseMembers
 	function __readSubscribers()
 	{
 		global $ilDB;
-		
+
 		$this->subscribers = array();
 
 		$query = "SELECT usr_id FROM crs_subscribers ".
@@ -955,7 +955,7 @@ class ilCourseMembers
 	function __readSubscriberData($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT * FROM crs_subscribers ".
 			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ".
 			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
@@ -978,9 +978,9 @@ class ilCourseMembers
 			"AND usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND passed = 1";
 
-		
+
 		$res = $ilDB->query($query);
-		
+
 		return $res->numRows() ? true : false;
 	}
 
@@ -993,9 +993,9 @@ class ilCourseMembers
 			$query = "UPDATE crs_members ".
 				"SET passed = 1 WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
 				"AND obj_id = ".$ilDB->quote($a_obj_id)."";
-			
+
 			$ilDB->query($query);
-			
+
 			return true;
 		}
 		return false;
@@ -1023,13 +1023,13 @@ class ilCourseMembers
 			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$ilDB->query($query);
-	}		
+	}
 
 
 	function __buildStatusBody(&$user_obj)
 	{
 		global $ilDB;
-		
+
 		$this->__read($user_obj->getId());
 
 		$body = $this->lng->txt('crs_status_changed_body').':<br />';
@@ -1076,7 +1076,7 @@ class ilCourseMembers
 	}
 
 	/**
-	* check Membership by given field 
+	* check Membership by given field
 	* @param int usr_id
 	* @param int obj_id
 	* @param string field (login,email or matriculation)
@@ -1122,8 +1122,8 @@ class ilCourseMembers
 	{
 		global $ilDB;
 		// In the moment all users that have entries in crs_members
-		
-		$query = "SELECT DISTINCT(crs_members.usr_id) AS usr_id FROM crs_members JOIN usr_data ".
+
+		$query = "SELECT DISTINCT(crs_members.usr_id) as usr_id FROM crs_members JOIN usr_data ".
 			"WHERE crs_members.usr_id = usr_data.usr_id ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id)."";
 
@@ -1132,6 +1132,7 @@ class ilCourseMembers
 		{
 			$usr_ids[] = $row->usr_id;
 		}
+
 		return $usr_ids ? $usr_ids : array();
 	}
 

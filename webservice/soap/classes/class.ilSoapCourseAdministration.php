@@ -58,6 +58,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		include_once './include/inc.header.php';
 		global $rbacsystem;
 
+		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id, false))
+		{
+			return $this->__raiseError('No valid target given.', 'Client');
+		}
+
+		if(ilObject::_isInTrash($target_id))
+		{
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'Client');
+		}
+
 		if(!$rbacsystem->checkAccess('create',$target_id,'crs'))
 		{
 			return $this->__raiseError('Check access failed. No permission to create courses','Server');

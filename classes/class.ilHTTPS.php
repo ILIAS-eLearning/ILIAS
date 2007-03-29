@@ -107,7 +107,8 @@ class ilHTTPS
 		   /* echo $headerName;
 		    echo $_SERVER[$headerName];*/
 		    if (strcasecmp($_SERVER[$headerName],$this->headerValue)==0) {
-           		return true;
+           		$_SERVER["HTTPS"] = "on";
+		    	return true;
 		    }
 		}
 
