@@ -579,7 +579,7 @@ class ilObjForum extends ilObject
 				ilForum::_lookupPostMessage($old_post_id),
 				$old_post['notify'],
 				0,
-				0,
+				$old_thread['thr_usr_alias'],
 				$old_thread['thr_date']);
 				
 			// Copy attachments

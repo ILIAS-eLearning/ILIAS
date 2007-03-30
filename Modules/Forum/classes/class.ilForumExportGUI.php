@@ -101,13 +101,20 @@ class ilForumExportGUI
 				$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 				$tplEx->setVariable("ROWCOL", $rowCol);
 					
-				// get author data
-				unset($author);
-				$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
-
-				#$author = $this->frmEx->getUser($node["author"]);	
-				#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
-				$tplEx->setVariable("AUTHOR",$author["login"]); 
+				if ($this->frmEx->isAnonymized($topicData["top_frm_fk"]))
+				{
+					if ($node["alias"] != "") $tplEx->setVariable("AUTHOR",$node["alias"]);
+					else $tplEx->setVariable("AUTHOR",$lng->txt("forums_anonymous"));
+				}
+				else
+				{
+					// get author data
+					unset($author);
+					$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
+					#$author = $this->frmEx->getUser($node["author"]);	
+					#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+					$tplEx->setVariable("AUTHOR",$author["login"]);
+				} 
 					
 				if($node["author"])
 				{
@@ -122,8 +129,11 @@ class ilForumExportGUI
 						$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
 											$node["update"]." - ".strtolower($lng->txt("from"))." ".$last_user_data['login']."]");
 					}
-					$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
-					$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
+					if ($author["public_profile"] != "n")
+					{
+						$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
+						$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
+					}
 					
 					$numPosts = $this->frmEx->countUserArticles($author->id);
 					$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts").":");
@@ -191,13 +201,21 @@ class ilForumExportGUI
 			
 			$tplEx->setCurrentBlock("posts_row");			
 			$tplEx->setVariable("ROWCOL", "tblrow2");
-			
-			// get author data
-			unset($author);
-			$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
-			#$author = $this->frmEx->getUser($node["author"]);	
-			#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
-			$tplEx->setVariable("AUTHOR",$author["login"]); 
+
+			if ($this->frmEx->isAnonymized($topicData["top_frm_fk"]))
+			{
+				if ($node["alias"] != "") $tplEx->setVariable("AUTHOR",$node["alias"]);
+				else $tplEx->setVariable("AUTHOR",$lng->txt("forums_anonymous"));
+			}
+			else
+			{
+				// get author data
+				unset($author);
+				$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
+				#$author = $this->frmEx->getUser($node["author"]);	
+				#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+				$tplEx->setVariable("AUTHOR",$author["login"]);
+			} 
 			
 
 			if($node["author"])
@@ -211,9 +229,12 @@ class ilForumExportGUI
 										$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuserdata['login']."]");
 				}
 				
-				$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-				$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
-				
+				if ($author["public_profile"] != "n")
+				{
+					$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
+					$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
+				}				
+
 				$numPosts = $this->frmEx->countUserArticles($author->id);
 				$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
 				$tplEx->setVariable("NUM_POSTS",$numPosts);
@@ -221,7 +242,7 @@ class ilForumExportGUI
 			
 			// prepare post
 			$node["message"] = $this->frmEx->prepareText($node["message"]);
-					
+
 			$tplEx->setVariable("SUBJECT",$node["pos_subject"]);
 			$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 			$tplEx->setVariable("POST_DATE",$this->frmEx->convertDate($node["create_date"]));
@@ -306,13 +327,20 @@ class ilForumExportGUI
 									$tplEx->setCurrentBlock("posts_row");
 									$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 									$tplEx->setVariable("ROWCOL", $rowCol);
-									
-									// get author data
-									unset($author);
-									$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
-									#$author = $this->frmEx->getUser($node["author"]);	
+									if ($this->frmEx->isAnonymized($topicData["top_frm_fk"]))
+									{
+										if ($node["alias"] != "") $tplEx->setVariable("AUTHOR",$node["alias"]);
+										else $tplEx->setVariable("AUTHOR",$lng->txt("forums_anonymous"));
+									}
+									else
+									{
+										// get author data
+										unset($author);
+										$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
+										#$author = $this->frmEx->getUser($node["author"]);	
 										#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
-									$tplEx->setVariable("AUTHOR",$author["login"]); 
+										$tplEx->setVariable("AUTHOR",$author["login"]);
+									} 
 	
 									#$author = $this->frmEx->getUser($node["author"]);	
 									#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
@@ -329,12 +357,15 @@ class ilForumExportGUI
 																$lastuserdata['login']."]");
 										}
 	
-										$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-										$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
+										if ($author["public_profile"] != "n")
+										{
+											$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
+											$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
 										
-										$numPosts = $this->frmEx->countUserArticles($author->id);
-										$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
-										$tplEx->setVariable("NUM_POSTS",$numPosts);
+											$numPosts = $this->frmEx->countUserArticles($author->id);
+											$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+											$tplEx->setVariable("NUM_POSTS",$numPosts);
+										}
 									}
 									
 									// prepare post
@@ -489,12 +520,24 @@ class ilForumExportGUI
 									$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 									$tplEx->setVariable("ROWCOL", $rowCol);
 									
-									// get author data
-									unset($author);
-									#$author = $this->frmEx->getUser($node["author"]);
-									$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
-									#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
-									$tplEx->setVariable("AUTHOR",$author["login"]); 
+									$this->frmEx->setWhereCondition("top_pk = ".$ilDB->quote($threadData["thr_top_fk"]));
+									$topicData = $this->frmEx->getOneTopic();
+									$this->frmEx->setWhereCondition("thr_pk = ".$ilDB->quote($_POST["forum_id"][$j]));
+
+									if ($this->frmEx->isAnonymized($topicData["top_frm_fk"]))
+									{
+										if ($node["alias"] != "") $tplEx->setVariable("AUTHOR",$node["alias"]);
+										else $tplEx->setVariable("AUTHOR",$lng->txt("forums_anonymous"));
+									}
+									else
+									{
+										// get author data
+										unset($author);
+										#$author = $this->frmEx->getUser($node["author"]);
+										$author = $this->frmEx->getUserData($node["author"],$node["import_name"]);
+										#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+										$tplEx->setVariable("AUTHOR",$author["login"]);
+									} 
 	
 									if($node["author"])
 									{
@@ -508,9 +551,12 @@ class ilForumExportGUI
 																$lastuserdata['login']."]");
 										}
 										
-										$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-										$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
-						
+										if ($author["public_profile"] != "n")
+										{	
+											$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
+											$tplEx->setVariable("REGISTERED_SINCE",$this->frmEx->convertDate($author["create_date"]));
+										}	
+
 										$numPosts = $this->frmEx->countUserArticles($author->id);
 										$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
 										$tplEx->setVariable("NUM_POSTS",$numPosts);
@@ -551,9 +597,18 @@ class ilForumExportGUI
 							$tplEx->setVariable("T_NUM_VISITS",$threadData["visits"]);
 							$tplEx->setVariable("T_FORUM",$topicData["top_name"]);
 												
-							unset($t_author);
-							$t_author = $this->frmEx->getUser($threadData["thr_usr_id"]);	
-							$tplEx->setVariable("T_AUTHOR",$t_author->getLogin()); 
+							if ($this->frmEx->isAnonymized($topicData["top_frm_fk"]))
+							{
+								unset($t_author);
+								if ($threadData["thr_usr_alias"] != "") $tplEx->setVariable("T_AUTHOR",$threadData["thr_usr_alias"]);
+								else $tplEx->setVariable("T_AUTHOR",$lng->txt("forums_anonymous"));
+							}
+							else
+							{
+								unset($t_author);
+								$t_author = $this->frmEx->getUser($threadData["thr_usr_id"]);	
+								$tplEx->setVariable("T_AUTHOR",$t_author->getLogin());
+							} 
 							
 							$tplEx->setVariable("T_TXT_FORUM", $lng->txt("forum").": ");					
 							$tplEx->setVariable("T_TXT_TOPIC", $lng->txt("forums_thread").": ");

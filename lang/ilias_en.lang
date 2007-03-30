@@ -7215,3 +7215,7 @@ registration#:#auth_radius_name_desc#:#Please choose a name for this server conf
 registration#:#auth_radius_sync#:#User Synchronization
 registration#:#auth_radius_role_select#:#Role:
 registration#:#auth_radius_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.
+common#:#forums_anonymized#:#Forum anonymized
+common#:#forums_anonymous#:#anonym
+common#:#forums_your_name#:#Your Name
+common#:#forums_use_alias#:#You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous.

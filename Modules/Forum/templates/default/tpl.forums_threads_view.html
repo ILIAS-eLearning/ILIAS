@@ -16,15 +16,19 @@
 			{USR_NAME}<br />
 			<!-- END usr_name -->
 			{AUTHOR}
-		</span>
 		<!-- BEGIN usr_image -->
 		<br />
 		<img border="0px" src="{USR_IMAGE}" style="vertical-align:text-bottom; margin:5px;" />
 		<!-- END usr_image -->
-		<!-- <br />
-			{TXT_REGISTERED}<br />
-			{REGISTERED_SINCE}<br />
-			{TXT_NUM_POSTS} {NUM_POSTS}-->
+	 <!-- BEGIN registered -->
+		<br /><nobr>{TXT_REGISTERED}</nobr><br />
+		<nobr>{REGISTERED_SINCE}</nobr>
+	 <!-- END registered -->
+	 <!-- BEGIN num_posts -->
+		<br /><nobr>{TXT_NUM_POSTS}</nobr><br />
+		<nobr>{NUM_POSTS}</nobr>
+	 <!-- END num_posts -->
+		</span>
 	</td>
 
  <td class="{ROWCOL}" valign="top">
@@ -107,20 +111,31 @@
 
 <!-- BEGIN reply_post -->
 <a name="{REPLY_ANKER}"></a>
-<form name="formular1" class="ilForm" action="{FORMACTION}" enctype="multipart/form-data" method="post" onSubmit="return isEmpty(this, 'all', '')">
+<form name="formular1" class="ilForm" action="{FORMACTION}" enctype="multipart/form-data" method="post">
 <table class="std" width="95%">
+<!-- BEGIN alias -->
+	<tr class="tblheader">
+		<td class="std">{TXT_FORM_ALIAS}</td>
+	</tr>
+	<tr>
+		<td class="option_value">
+			<input type="text" name="formData[alias]" value="{ALIAS_VALUE}" size="32" maxlength="64"><br/>
+			<i>{TXT_ALIAS_INFO}</i>
+		</td>
+	</tr>
+<!-- END alias -->
 	<tr class="tblheader">
 		<td class="std">{TXT_FORM_SUBJECT}</td>
 	</tr>
 	<tr>
-		<td class="option_value"><input type="text" name="subject" value="{SUBJECT_VALUE}" size="32" maxlength="64"></td>
+		<td class="option_value"><input type="text" name="formData[subject]" value="{SUBJECT_VALUE}" size="32" maxlength="64"></td>
 	</tr>
 	<tr class="tblheader">
-		<td class="std">{TXT_FORM_HEADER}</td>
+		<td class="std">{TXT_FORM_MESSAGE}<span class="asterisk">*</span></td>
 	</tr>
 	<tr>
 		<td class="option_value" valign="top">
-		<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:95%; height=250px">{FORM_MESSAGE}</textarea>
+		<textarea name="formData[message]" cols="50" rows="15" wrap=virtual style="width:95%; height=250px">{MESSAGE_VALUE}</textarea>
 		</td>
 	</tr>
 	<!-- BEGIN reply_attachment -->

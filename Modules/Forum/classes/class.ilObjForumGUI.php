@@ -65,7 +65,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		
 		if ($cmd != "showExplorer" && $cmd != "viewThread" && $cmd != "showUser"
-			&& $cmd != "createThread" && $cmd != "showNotification"
+			&& $cmd != "addThread" && $cmd != "createThread" && $cmd != "showNotification"
 			&& $cmd != "enableNotification" && $cmd != "disableNotification")
 		{
 			$this->prepareOutput();
@@ -231,8 +231,22 @@ class ilObjForumGUI extends ilObjectGUI
 		
 					if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
 					{
+						if ($frm->isAnonymized())
+						{
+							$usr_data = array(
+								"usr_id" => 0,
+								"login" => $thrData["thr_usr_alias"],
+								"firstname" => "",
+								"lastname" => "",
+								"public_profile" => "n"
+							);
+						}
+
 						// GET USER DATA, USED FOR IMPORTED USERS
-						$usr_data = $frm->getUserData($thrData["thr_usr_id"],$thrData["import_name"]);
+						else
+						{
+							$usr_data = $frm->getUserData($thrData["thr_usr_id"],$thrData["import_name"]);
+						}
 
 
 						$this->tpl->setCurrentBlock("threads_row");
@@ -260,20 +274,42 @@ class ilObjForumGUI extends ilObjectGUI
 				
 						// get author data
 
-						if($thrData["thr_usr_id"] && $usr_data["usr_id"] != 0)
+						if ($frm->isAnonymized())
 						{
-							$this->ctrl->setParameter($this, "backurl",
-								urlencode("repository.php?ref_id=".$_GET["ref_id"]."&offset=".$Start));
-							$this->ctrl->setParameter($this, "user", $usr_data['usr_id']);
-							$this->tpl->setVariable("AUTHOR",
-								"<a href=\"".
-								$this->ctrl->getLinkTarget($this, "showUser").
-								"\">".$usr_data["login"]."</a>");
-							$this->ctrl->clearParameters($this);
+							if ($usr_data["login"] != "")
+							{
+								$this->tpl->setVariable("AUTHOR",$usr_data["login"]);
+							}
+							else
+							{
+								$this->tpl->setVariable("AUTHOR",$this->lng->txt("forums_anonymous"));
+							}
+							
 						}
 						else
 						{
-							$this->tpl->setVariable("AUTHOR",$usr_data["login"]);
+							if($thrData["thr_usr_id"] && $usr_data["usr_id"] != 0)
+							{
+								$this->ctrl->setParameter($this, "backurl",
+									urlencode("repository.php?ref_id=".$_GET["ref_id"]."&offset=".$Start));
+								$this->ctrl->setParameter($this, "user", $usr_data['usr_id']);
+								if ($usr_data["public_profile"] == "n")
+								{
+									$this->tpl->setVariable("AUTHOR",$usr_data["login"]);
+								}
+								else
+								{
+									$this->tpl->setVariable("AUTHOR",
+										"<a href=\"".
+										$this->ctrl->getLinkTarget($this, "showUser").
+										"\">".$usr_data["login"]."</a>");
+								}
+								$this->ctrl->clearParameters($this);
+							}
+							else
+							{
+								$this->tpl->setVariable("AUTHOR",$usr_data["login"]);
+							}
 						}
 					
 				
@@ -284,7 +320,20 @@ class ilObjForumGUI extends ilObjectGUI
 							$lastPost = $frm->getLastPost($thrData["thr_last_post"]);
 						}
 						// TODOOOOOOOOOOOOOOOOOOO
-						$last_usr_data = $frm->getUserData($lastPost["pos_usr_id"],$lastPost["import_name"]);
+						if ($frm->isAnonymized())
+						{
+							$last_usr_data = array(
+								"usr_id" => 0,
+								"login" => $lastPost["pos_usr_alias"],
+								"firstname" => "",
+								"lastname" => "",
+								"public_profile" => "n"
+							);
+						}
+						else
+						{
+							$last_usr_data = $frm->getUserData($lastPost["pos_usr_id"],$lastPost["import_name"]);
+						}
 						if (is_array($lastPost))
 						{				
 							$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
@@ -298,7 +347,21 @@ class ilObjForumGUI extends ilObjectGUI
 							$this->tpl->setVariable("LP_FROM", $this->lng->txt("from"));
 							$this->tpl->setVariable("LP_HREF",
 								$this->ctrl->getLinkTarget($this, "showThreadFrameset")."#".$lastPost["pos_pk"]);
-							$this->tpl->setVariable("LP_TITLE", $last_usr_data["login"]);
+							if ($frm->isAnonymized())
+							{
+								if ($last_usr_data["login"] != "")
+								{
+									$this->tpl->setVariable("LP_TITLE",$last_usr_data["login"]);
+								}
+								else
+								{
+									$this->tpl->setVariable("LP_TITLE",$this->lng->txt("forums_anonymous"));
+								}
+							}
+							else
+							{
+								$this->tpl->setVariable("LP_TITLE", $last_usr_data["login"]);
+							}
 							$this->tpl->parseCurrentBlock();
 						}	
 				
@@ -405,12 +468,12 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHECK_DATE",ilUtil::formRadioButton($default_sort == 2 ? 1 : 0,'sort',2));
 
 		// ANONYMIZED OR NOT
-#		$this->tpl->setVariable("TXT_ANONYMIZED",$this->lng->txt('frm_anonymous_posting'));
-#		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
+		$this->tpl->setVariable("TXT_ANONYMIZED",$this->lng->txt('frm_anonymous_posting'));
+		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
 
-#		$anonymized = $_POST['anonymized'] ? $_POST['anonymized'] : 0;
+		$anonymized = $_POST['anonymized'] ? $_POST['anonymized'] : 0;
 
-#		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
+		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
 
 		// Statistics enabled or not
 		
@@ -467,7 +530,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"]));
 			$this->object->setDefaultView((int) $_POST['sort']);
-#			$this->object->setAnonymized((int) $_POST['anonymized']);
+			$this->object->setAnonymized((int) $_POST['anonymized']);
 			$this->object->setStatisticsEnabled((int) $_POST['statistics_enabled']);
 			$this->object->update();
 
@@ -500,10 +563,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$default_sort = $_POST['sort']
 			? $_POST['sort'] 
 			: $this->object->getDefaultView();
-#		$anonymized = $_POST['anonymized']
-#			? $_POST['anonymized'] 
-#			: $this->object->isAnonymized();
-			
+		$anonymized = $_POST['anonymized']
+			? $_POST['anonymized'] 
+			: $this->object->isAnonymized();
 		$statisticsEnabled  = $_POST['statistics_enabled'] ? 
 			$_POST['statistics_enabled'] 
 			: $this->object->isStatisticsEnabled();
@@ -539,10 +601,10 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHECK_DATE",ilUtil::formRadioButton($default_sort == 2 ? 1 : 0,'sort',2));
 
 		// ANONYMIZED OR NOT
-#		$this->tpl->setVariable("TXT_ANONYMIZED",$this->lng->txt('frm_anonymous_posting'));
-#		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
+		$this->tpl->setVariable("TXT_ANONYMIZED",$this->lng->txt('frm_anonymous_posting'));
+		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
 
-#		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
+		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
 
 		// Statistics enabled or not
 		$this->tpl->setVariable("TXT_STATISTICS_ENABLED", $this->lng->txt("frm_statistics_enabled"));	
@@ -624,7 +686,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// Create settings
 		$forumObj->setDefaultView((int) $_POST['sort']);
-#		$forumObj->setAnonymized((int) $_POST['anonymized']);
+		$forumObj->setAnonymized((int) $_POST['anonymized']);
 		$forumObj->setStatisticsEnabled((int) $_POST['statistics_enabled']);
 		$forumObj->createSettings();
 
@@ -1230,9 +1292,13 @@ class ilObjForumGUI extends ilObjectGUI
 					if ($errors != "")
 					{
 						ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
+						$_GET["action"] = substr($_GET["action"], 6);
+						$_GET["show_post"] = 1;
+						$this->viewThreadObject();
 					}
 					else
 					{
+						$_GET["show_post"] = 0;
 						
 						// Generating new posting
 						if ($_GET["action"] == "ready_showreply")
@@ -1240,11 +1306,12 @@ class ilObjForumGUI extends ilObjectGUI
 							// reply: new post
 		//echo "<br>1:".htmlentities($formData["message"]);
 							$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
-														  $_SESSION["AccountId"], ilUtil::stripSlashes($formData["message"]),
-														  $_GET["pos_pk"],$_POST["notify"],$_POST["anonymize"],
-														  $_POST["subject"]
-															? ilUtil::stripSlashes($_POST["subject"])
-															: $threadData["thr_subject"]);
+														  ($frm->isAnonymized() ? 0 : $_SESSION["AccountId"]), ilUtil::stripSlashes($formData["message"]),
+														  $_GET["pos_pk"],$_POST["notify"],
+														  $formData["subject"]
+															? ilUtil::stripSlashes($formData["subject"])
+															: $threadData["thr_subject"],
+														  ilUtil::stripSlashes($formData["alias"]));
 							
 							ilUtil::sendInfo($lng->txt("forums_post_new_entry"));
 							if(isset($_FILES["userfile"]))
@@ -1257,10 +1324,11 @@ class ilObjForumGUI extends ilObjectGUI
 						else
 						{
 							// edit: update post
-							if ($frm->updatePost(ilUtil::stripSlashes($formData["message"]), $_GET["pos_pk"],$_POST["notify"],
-												 $_POST["subject"]
-													? ilUtil::stripSlashes($_POST["subject"])
-													: $threadData["thr_subject"]))
+							if ($frm->updatePost(
+									ilUtil::stripSlashes($formData["message"]),
+									$_GET["pos_pk"],
+									$_POST["notify"],
+									$formData["subject"] ? ilUtil::stripSlashes($formData["subject"]) : $threadData["thr_subject"]))
 							{
 								ilUtil::sendInfo($lng->txt("forums_post_modified"));
 							}
@@ -1401,27 +1469,50 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->setCurrentBlock("reply_post");
 							$tpl->setVariable("REPLY_ANKER", $_GET["pos_pk"]);
 		
+							if ($frm->isAnonymized() && $_GET["action"] == "showreply")
+							{
+								$tpl->setVariable("TXT_FORM_ALIAS",$lng->txt("forums_your_name"));
+								$tpl->setVariable("TXT_ALIAS_INFO",$lng->txt("forums_use_alias"));
+							}
+
 							$tpl->setVariable("TXT_FORM_SUBJECT",$lng->txt("forums_subject"));
 							if ($_GET["action"] == "showreply")
 							{
-								$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
+								$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_your_reply"));
 							}
 							else
 							{
-								$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_edit_post"));
+								$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_edit_post"));
 							}
 		
-							$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
-							
 							if ($_GET["action"] == "showreply")
 							{
-								$tpl->setVariable("SUBJECT_VALUE",ilUtil::prepareFormOutput($threadData["thr_subject"]));
-								$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],1));
+								if ($frm->isAnonymized())
+								{
+									$tpl->setVariable("ALIAS_VALUE",
+										($_GET["show_post"] == 1 ?
+											ilUtil::prepareFormOutput($_POST["formData"]["alias"]) :
+											""));
+								}
+								$tpl->setVariable("SUBJECT_VALUE",
+									($_GET["show_post"] == 1 ?
+										ilUtil::prepareFormOutput($_POST["formData"]["subject"]) :
+										ilUtil::prepareFormOutput($threadData["thr_subject"])));
+								$tpl->setVariable("MESSAGE_VALUE",
+									($_GET["show_post"] == 1 ?
+										ilUtil::prepareFormOutput($_POST["formData"]["message"]) :
+										$frm->prepareText($node["message"],1)));
 							}
 							else
 							{
-								$tpl->setVariable("SUBJECT_VALUE",ilUtil::prepareFormOutput($node["subject"]));
-								$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],2));
+								$tpl->setVariable("SUBJECT_VALUE",
+									($_GET["show_post"] == 1 ?
+										ilUtil::prepareFormOutput($_POST["formData"]["subject"]) :
+										ilUtil::prepareFormOutput($node["subject"])));
+								$tpl->setVariable("MESSAGE_VALUE",
+									($_GET["show_post"] == 1 ?
+										ilUtil::prepareFormOutput($_POST["formData"]["message"]) :
+										$frm->prepareText($node["message"],2)));
 							}
 							// NOTIFY
 							include_once 'classes/class.ilMail.php';
@@ -1431,17 +1522,19 @@ class ilObjForumGUI extends ilObjectGUI
 							{
 								global $ilUser;
 								
-								// only if gen. notification is disabled...
-								if(!$frm->isNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]))
+								// only if gen. notification is disabled and forum isn't anonymous
+								if (!$frm->isNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]) &&
+									!$frm->isAnonymized())
 								{
 									$tpl->setCurrentBlock("notify");
 									$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
-									$tpl->setVariable("NOTIFY_CHECKED",$node["notify"] ? "checked=\"checked\"" : "");
+									if ($_GET["show_post"] == 1) $tpl->setVariable("NOTIFY_CHECKED",$_POST["notify"] ? "checked=\"checked\"" : "");
+									else $tpl->setVariable("NOTIFY_CHECKED",$node["notify"] ? "checked=\"checked\"" : "");
 									$tpl->parseCurrentBlock();
 								}
 							}
 		
-		/*					if ($frm->isAnonymized())
+/*							if ($frm->isAnonymized())
 							{
 								$tpl->setCurrentBlock("anonymize");
 								$tpl->setVariable("TXT_ANONYMIZE",$lng->txt("forum_anonymize"));
@@ -1724,7 +1817,6 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 		
 					// get author data
-		
 					unset($author);
 					if (ilObject::_exists($node["author"]))
 					{
@@ -1735,8 +1827,20 @@ class ilObjForumGUI extends ilObjectGUI
 						unset($node["author"]);
 					}
 		
+					if ($frm->isAnonymized())
+					{
+						$usr_data = array(
+							"usr_id" => 0,
+							"login" => $node["alias"],
+							"public_profile" => "n"
+						);
+					}
+
 					// GET USER DATA, USED FOR IMPORTED USERS
-					$usr_data = $frm->getUserData($node["author"],$node["import_name"]);
+					else
+					{					
+						$usr_data = $frm->getUserData($node["author"],$node["import_name"]);
+					}
 		
 					$this->ctrl->setParameter($this, "pos_pk", $node["pos_pk"]);
 					$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
@@ -1768,7 +1872,7 @@ class ilObjForumGUI extends ilObjectGUI
 						$node["update"] = $frm->convertDate($node["update"]);
 						#unset($lastuser);
 						#$lastuser = $frm->getUser($node["update_user"]);
-		
+
 						$last_user_data = $frm->getUserData($node['update_user']);
 						if ($span_class == "")
 							$span_class = "small";
@@ -1776,76 +1880,95 @@ class ilObjForumGUI extends ilObjectGUI
 		
 						if($last_user_data['usr_id'])
 						{
-							$this->ctrl->setParameter($this, "backurl", $backurl);
-							$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
-							$this->ctrl->setParameter($this, "user", $last_user_data['usr_id']);
-							$edited_author = 
-								$this->ctrl->getLinkTarget($this, "showUser");
-							$edited_author = "<a href=\"".
-								$edited_author.
-								"\">".$last_user_data['login']."</a>";
-							$this->ctrl->clearParameters($this);
+							if ($last_user_data["public_profile"] == "n")
+							{
+								$edited_author = $last_user_data['login'];
+							}
+							else
+							{
+								$this->ctrl->setParameter($this, "backurl", $backurl);
+								$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
+								$this->ctrl->setParameter($this, "user", $last_user_data['usr_id']);
+								$edited_author = 
+									$this->ctrl->getLinkTarget($this, "showUser");
+								$edited_author = "<a href=\"".
+									$edited_author.
+									"\">".$last_user_data['login']."</a>";
+								$this->ctrl->clearParameters($this);
+							}
 						}
 						else
 						{
 							$edited_author = $last_user_data['login'];
 						}
-		
-						$tpl->setCurrentBlock("post_update");
+
 						$tpl->setVariable("POST_UPDATE", $lng->txt("edited_at").": ".
 							$node["update"]." - ".strtolower($lng->txt("by"))." ".$edited_author);
-						$tpl->parseCurrentBlock();
-		
+
 					} // if ($node["update_user"] > 0)
 					
 					
-					if($node["author"])
+					if ($frm->isAnonymized())
 					{
-						$user_obj = new ilObjUser($usr_data["usr_id"]);
-						// user image
-						$webspace_dir = ilUtil::getWebspaceDir();
-						$image_dir = $webspace_dir."/usr_images";
-						$xthumb_file = $image_dir."/usr_".$user_obj->getID()."_xsmall.jpg";
-						if ($user_obj->getPref("public_upload") == "y" &&
-							$user_obj->getPref("public_profile") == "y" &&
-							@is_file($xthumb_file))
-						{
-							$tpl->setCurrentBlock("usr_image");
-							$tpl->setVariable("USR_IMAGE", $xthumb_file."?t=".rand(1, 99999));
-							$tpl->parseCurrentBlock();
-							//$tpl->setCurrentBlock("posts_row");
-						}
-						$tpl->setCurrentBlock("posts_row");
-		
-						//$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
-						//$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
-						$this->ctrl->setParameter($this, "backurl", $backurl);
-						$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
-						$this->ctrl->setParameter($this, "user", $usr_data["usr_id"]);
-						$href = $this->ctrl->getLinkTarget($this, "showUser");
-						$tpl->setVariable("AUTHOR",
-							"<a href=\"".$href."\">".$usr_data["login"]."</a>");
-		
-						if ($frm->_isModerator($_GET["ref_id"], $ilUser->getId()))
-						{
-							$tpl->setVariable("USR_NAME", $usr_data["firstname"]." ".$usr_data["lastname"]);
-						}
+						if ($usr_data["login"] != "") $tpl->setVariable("AUTHOR", $usr_data["login"]);
+						else $tpl->setVariable("AUTHOR", $lng->txt("forums_anonymous"));
 					}
 					else
 					{
-						$tpl->setCurrentBlock("posts_row");
-						$tpl->setVariable("AUTHOR",$usr_data["login"]);
-					}
+						if($node["author"])
+						{
+							$user_obj = new ilObjUser($usr_data["usr_id"]);
+							// user image
+							$webspace_dir = ilUtil::getWebspaceDir();
+							$image_dir = $webspace_dir."/usr_images";
+							$xthumb_file = $image_dir."/usr_".$user_obj->getID()."_xsmall.jpg";
+							if ($user_obj->getPref("public_upload") == "y" &&
+								$user_obj->getPref("public_profile") == "y" &&
+								@is_file($xthumb_file))
+							{
+								$tpl->setCurrentBlock("usr_image");
+								$tpl->setVariable("USR_IMAGE", $xthumb_file."?t=".rand(1, 99999));
+								$tpl->parseCurrentBlock();
+								//$tpl->setCurrentBlock("posts_row");
+							}
+							$tpl->setCurrentBlock("posts_row");
+			
+							//$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+							//$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
+							if ($usr_data["public_profile"] == "n")
+							{
+								$tpl->setVariable("AUTHOR",
+									$usr_data["login"]);
+							}
+							else
+							{
+								$tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
+								$tpl->setVariable("REGISTERED_SINCE",$frm->convertDate($author->getCreateDate()));
 		
-					if($node["author"])
-					{
-						$tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
-						$tpl->setVariable("REGISTERED_SINCE",$frm->convertDate($author->getCreateDate()));
-						$numPosts = $frm->countUserArticles($author->id);
-						$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts").":");
-						$tpl->setVariable("NUM_POSTS",$numPosts);
+								$this->ctrl->setParameter($this, "backurl", $backurl);
+								$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
+								$this->ctrl->setParameter($this, "user", $usr_data["usr_id"]);
+								$href = $this->ctrl->getLinkTarget($this, "showUser");
+								$tpl->setVariable("AUTHOR",
+									"<a href=\"".$href."\">".$usr_data["login"]."</a>");
+							}
+			
+							$numPosts = $frm->countUserArticles($author->id);
+							$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts").":");
+							$tpl->setVariable("NUM_POSTS",$numPosts);
+
+							if ($frm->_isModerator($_GET["ref_id"], $ilUser->getId()) && $usr_data["public_profile"] != "n")
+							{
+								$tpl->setVariable("USR_NAME", $usr_data["firstname"]." ".$usr_data["lastname"]);
+							}
+						}
+						else
+						{
+							$tpl->setCurrentBlock("posts_row");
+							$tpl->setVariable("AUTHOR",$usr_data["login"]);
+						}
 					}
-		
+
 					// make links in post usable
 					$node["message"] = ilUtil::makeClickable($node["message"]);
 		
@@ -2113,27 +2236,37 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setCurrentBlock("new_thread");
 		$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 		$tpl->setVariable("TXT_SUBJECT", $lng->txt("forums_thread"));
+		$tpl->setVariable("SUBJECT", $_POST["formData"]["subject"]);
 		$tpl->setVariable("TXT_MESSAGE", $lng->txt("forums_the_post"));
-		
+		$tpl->setVariable("MESSAGE", $_POST["formData"]["message"]);
+		if ($forumObj->isAnonymized())
+		{
+			$tpl->setVariable("TXT_ALIAS", $lng->txt("forums_your_name"));
+			$tpl->setVariable("ALIAS", $_POST["formData"]["alias"]);
+			$tpl->setVariable("TXT_ALIAS_INFO", $lng->txt("forums_use_alias"));
+		}		
 		
 		include_once 'classes/class.ilMail.php';
 		$umail = new ilMail($_SESSION["AccountId"]);
 		// catch hack attempts
-		if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
+		if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()) &&
+			!$forumObj->isAnonymized())
 		{
 			$tpl->setCurrentBlock("notify");
 			$tpl->setVariable("TXT_NOTIFY",$lng->txt("forum_direct_notification"));
 			$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me_directly"));
+			if ($_POST["formData"]["notify"] == 1) $tpl->setVariable("NOTIFY_CHECKED", "checked");
 			$tpl->parseCurrentBlock();
 			if ($ilias->getSetting("forum_notification") != 0)
 			{
 				$tpl->setCurrentBlock("notify_posts");
 				$tpl->setVariable("TXT_NOTIFY_POSTS",$lng->txt("forum_general_notification"));
 				$tpl->setVariable("NOTIFY_POSTS",$lng->txt("forum_notify_me_generally"));
+				if ($_POST["formData"]["notify_posts"] == 1) $tpl->setVariable("NOTIFY_POSTS_CHECKED", "checked");
 				$tpl->parseCurrentBlock();
 			}
 		}
-		/*if ($frm->isAnonymized())
+/*		if ($frm->isAnonymized())
 		{
 			$tpl->setCurrentBlock("anonymize");
 			$tpl->setVariable("TXT_ANONYMIZE",$lng->txt("forum_anonymize"));
@@ -2164,7 +2297,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function addThreadObject()
 	{
-		global $lng, $ilDB;
+		global $lng, $tpl, $ilDB;
 		
 		$forumObj = new ilObjForum($_GET["ref_id"]);
 		$frm =& $forumObj->Forum;
@@ -2186,13 +2319,35 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($errors != "")
 		{
 			ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
+			$this->createThreadObject();
 		}
 		else
 		{	
 			
 			// build new thread
-			$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], 
-				ilUtil::stripSlashes($formData["subject"]), ilUtil::stripSlashes($formData["message"]),$formData["notify"],$formData["notify_posts"],$formData["anonymize"]);
+			if ($forumObj->isAnonymized())
+			{
+				$newPost = $frm->generateThread(
+								$topicData["top_pk"],
+								0,
+								ilUtil::stripSlashes($formData["subject"]),
+								ilUtil::stripSlashes($formData["message"]),
+								$formData["notify"],
+								$formData["notify_posts"],
+								ilUtil::stripSlashes($formData["alias"])
+				);
+			}
+			else
+			{
+				$newPost = $frm->generateThread(
+								$topicData["top_pk"],
+								$_SESSION["AccountId"],
+								ilUtil::stripSlashes($formData["subject"]),
+								ilUtil::stripSlashes($formData["message"]),
+								$formData["notify"],
+								$formData["notify_posts"]
+				);
+			}
 			
 			// file upload
 			if(isset($_FILES["userfile"]))
@@ -2210,13 +2365,13 @@ class ilObjForumGUI extends ilObjectGUI
 			$frm->setWhereCondition("thr_top_fk = ".$ilDB->quote($topicData["top_pk"])." AND thr_subject = ".
 									$ilDB->quote($formData["subject"])." AND thr_num_posts = 1");		
 	
-			if (is_array($thrData = $frm->getOneThread()))
-			{
+#			if (is_array($thrData = $frm->getOneThread()))
+#			{
 				ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
-			} 
+#			} 
 		}
 		
-		ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
+#		ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
 	}
 	
 	

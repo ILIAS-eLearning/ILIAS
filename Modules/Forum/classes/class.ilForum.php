@@ -419,13 +419,13 @@ class ilForum
 	* @return	integer	$lastInsert: new post ID
 	* @access	public
 	*/
-	function generatePost($topic, $thread, $user, $message, $parent_pos,$notify,$anonymize,$subject,$date = "")
+	function generatePost($topic, $thread, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '')
 	{
 		global $ilUser, $ilDB;
 		
 
 		$date = $date ? $date : date("Y-m-d H:i:s");
-		if ($anonymize == 1)
+		if ($alias != '')
 		{
 			$user = 0;
 		}
@@ -433,6 +433,7 @@ class ilForum
 			"pos_top_fk"	=> $topic,
 			"pos_thr_fk"	=> $thread,
 			"pos_usr_id" 	=> $user,
+			"pos_usr_alias" 	=> $alias,
 			"pos_message"=> strip_tags(addslashes($message)),
 			"pos_subject"   => addslashes($subject),
 			"pos_date"		=> $date
@@ -440,9 +441,9 @@ class ilForum
 
 		// insert new post into frm_posts
 		$q = "INSERT INTO frm_posts ";
-		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_subject,pos_date,notify,import_name) ";
+		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_usr_alias,pos_message,pos_subject,pos_date,notify,import_name) ";
 		$q .= "VALUES ";
-		$q .= "(".$ilDB->quote($pos_data["pos_top_fk"]).",".$ilDB->quote($pos_data["pos_thr_fk"]).",".$ilDB->quote($pos_data["pos_usr_id"]).",";
+		$q .= "(".$ilDB->quote($pos_data["pos_top_fk"]).",".$ilDB->quote($pos_data["pos_thr_fk"]).",".$ilDB->quote($pos_data["pos_usr_id"]).",".$ilDB->quote($pos_data["pos_usr_alias"]).",";
 		$q .= $ilDB->quote($pos_data["pos_message"]).",".$ilDB->quote($pos_data["pos_subject"]).",".$ilDB->quote($pos_data["pos_date"]).",".$ilDB->quote($notify).",";
 		$q .= $ilDB->quote($this->getImportName()).")";
 //echo "<br>2:".htmlentities($pos_data["pos_message"]);
@@ -520,13 +521,13 @@ class ilForum
 	* @return	integer	new post ID
 	* @access public
 	*/
-	function generateThread($topic, $user, $subject, $message, $notify, $notify_posts, $anonymize, $date = '')
+	function generateThread($topic, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
 	{
 		global $ilDB;
 		
 		$date = $date ? $date : date("Y-m-d H:i:s");
 
-		if ($anonymize == 1)
+		if ($alias != '')
 		{
 			$user = 0;
 		}
@@ -534,15 +535,16 @@ class ilForum
 		$thr_data = array(
 			"thr_top_fk"	=> $topic,
 			"thr_usr_id"	=> $user,
+			"thr_usr_alias"	=> $alias,
 			"thr_subject"	=> $subject,
 			"thr_date"		=> $date
 		);
 		
 		// insert new thread into frm_threads
 		$q = "INSERT INTO frm_threads ";
-		$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update,import_name) ";
+		$q .= "(thr_top_fk,thr_usr_id,thr_usr_alias,thr_subject,thr_date,thr_update,import_name) ";
 		$q .= "VALUES ";
-		$q .= "(".$ilDB->quote($thr_data["thr_top_fk"]).",".$ilDB->quote($thr_data["thr_usr_id"]).",".
+		$q .= "(".$ilDB->quote($thr_data["thr_top_fk"]).",".$ilDB->quote($thr_data["thr_usr_id"]).",".$ilDB->quote($thr_data["thr_usr_alias"]).",".
 			$ilDB->quote($thr_data["thr_subject"]).",".$ilDB->quote($thr_data["thr_date"]).",".$ilDB->quote($thr_data["thr_date"]).",".
 			$ilDB->quote($this->getImportName()).")";
 
@@ -566,7 +568,7 @@ class ilForum
 
 			$result = $this->ilias->db->query($q);
 		}
-		return $this->generatePost($topic, $lastInsert, $user, $message, 0, $notify, $anonymize, $subject, $date);
+		return $this->generatePost($topic, $lastInsert, $user, $message, 0, $notify, $subject, $alias, $date);
 	}
 
 	/**
@@ -967,7 +969,7 @@ class ilForum
 		$q .= "AND pos_pk = ".$ilDB->quote($post_id)."";
 		$res = $this->ilias->db->query($q);			
 		
-		// if not, is he authorised to edit?
+		// online-user is author
 		if ($res->numRows() > 0)
 		{
 			return true;
@@ -1292,6 +1294,7 @@ class ilForum
 					"pos_pk"		=> $a_row->pos_pk,
 					"child"         => $a_row->pos_pk,
 					"author"		=> $a_row->pos_usr_id,
+					"alias"			=> $a_row->pos_usr_alias,
 					"title"         => $fullname,
 					"loginname"		=> $loginname,
 					"type"          => "post",
@@ -1619,9 +1622,9 @@ class ilForum
 			{
 				$tmp_array["usr_id"] = $row->usr_id;
 				$tmp_array["login"]  = $row->login;
-				$tmp_array["login"]  = $row->login;
 				$tmp_array["firstname"]  = $row->firstname;
 				$tmp_array["lastname"]  = $row->lastname;
+				$tmp_array["public_profile"] = ilObjUser::_lookupPref($a_id, "public_profile");
 			}
 			return $tmp_array ? $tmp_array : array();
 		}
@@ -1781,13 +1784,18 @@ class ilForum
 		return $message;
 	}
 
-	function isAnonymized()
+	function _isAnonymized($a_obj_id)
 	{
 		global $ilDB;
 		
 		$q = "SELECT anonymized FROM frm_settings WHERE ";
-		$q .= "obj_id = ".$ilDB->quote($this->getForumId())."";
+		$q .= "obj_id = ".$ilDB->quote($a_obj_id)."";
 		return $this->ilias->db->getOne($q);
+	}
+	
+	function isAnonymized()
+	{
+		return $this->_isAnonymized($this->getForumId());
 	}
 	
 		/**

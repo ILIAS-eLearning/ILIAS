@@ -1,8 +1,17 @@
-<form name="formular1" class="il_Form" action="{FORMACTION}" method="post"  enctype="multipart/form-data" onSubmit="return isEmpty(this, 'all', '')">
+<form name="formular1" class="il_Form" action="{FORMACTION}" method="post"  enctype="multipart/form-data">
 <table class="std">
   <tr class="tblheader">
   <td class="std" colspan="2">{TXT_NEW_TOPIC}</td>
   </tr>
+<!-- BEGIN name -->
+  <tr>
+	<td class="option">{TXT_ALIAS}</td>
+	<td class="option_value">
+		<input type="text" name="formData[alias]" value="{ALIAS}" size="50" maxlength="255" style="width:550px"/><br />
+		<i>{TXT_ALIAS_INFO}
+	</td>
+  </tr>
+<!-- END name -->
   <tr>
 	<td class="option">{TXT_SUBJECT}<span class="asterisk">*</span></td>
 	<td class="option_value"><input type="text" name="formData[subject]" value="{SUBJECT}" size="50" maxlength="255" style="width:550px"/></td>
@@ -28,15 +37,9 @@
 	  <!-- BEGIN notify_posts -->
   <tr>
 	<td class="option" valign="top">{TXT_NOTIFY_POSTS}</td>
-	<td class="option_value">&nbsp;<input type="checkbox" name="formData[notify_posts]" value="1" {NOTIFY_POSTS__CHECKED} />{NOTIFY_POSTS}</td>
+	<td class="option_value">&nbsp;<input type="checkbox" name="formData[notify_posts]" value="1" {NOTIFY_POSTS_CHECKED} />{NOTIFY_POSTS}</td>
   </tr>
 	  <!-- END notify_posts -->
-	  <!-- BEGIN anonymize -->
-  <tr>
-	<td class="option" valign="top">{TXT_ANONYMIZE}</td>
-	<td class="option_value">&nbsp;<input type="checkbox" name="formData[anonymize]" value="1" {ANONYMIZE_CHECKED} />{ANONYMIZE}</td>
-  </tr>
-	  <!-- END anonymize -->
   <tr>
 	<td class="submit" colspan="2"><span class="asterisk"> *</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
 	<div style="text-align:right;"><input class="submit" type="submit" name="cmd[addThread]" value="{SUBMIT}"/></div>

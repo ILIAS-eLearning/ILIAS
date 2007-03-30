@@ -119,6 +119,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 		include_once("./Modules/Forum/classes/class.ilForum.php");
 		include_once("./Modules/Forum/classes/class.ilObjForum.php");
 		$frm_data = ilForum::_lookupForumData($this->obj_id);
+		$frm_anonymized = ilForum::_isAnonymized($this->obj_id);
 
 		include_once("classes/class.ilObjUser.php");
 		$MODS = ilForum::_getModerators($this->ref_id);
@@ -181,22 +182,56 @@ class ilObjForumListGUI extends ilObjectListGUI
 				$this->ref_id."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a> ".
 				strtolower($lng->txt("from"))."&nbsp;";
 
-			if($lastPost["pos_usr_id"] && ilObject::_exists($lastPost["pos_usr_id"]))
+			if ($frm_anonymized)
 			{
-				$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
-				ilFrameTargetInfo::_getFrame("MainContent").
-				"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
-					$last_user["usr_id"]."&offset=".$Start."\">".$last_user["login"]."</a>, ";
-				$lpCont .= $lastPost["pos_date"];
+				if ($lastPost["pos_usr_alias"] != "")
+				{
+					$lpCont .= $lastPost["pos_usr_alias"];
+					
+				}
+				else
+				{
+					$lpCont .= $lng->txt("forums_anonymous");					
+				}
 			}
 			else
 			{
-				$lpCont .= $last_user["login"];
+				if($lastPost["pos_usr_id"] && ilObject::_exists($lastPost["pos_usr_id"]) && $last_user["public_profile"] != "n")
+				{
+					$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
+					ilFrameTargetInfo::_getFrame("MainContent").
+					"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
+						$last_user["usr_id"]."&offset=".$Start."\">".$last_user["login"]."</a>, ";
+					$lpCont .= $lastPost["pos_date"];
+				}
+				else
+				{
+					$lpCont .= $last_user["login"];
+				}
 			}
 		}
 
-		$props[] = array("alert" => false, "newline" => true, "property" => $lng->txt("forums_last_post"),
-			"value" => $lpCont);
+		/* At least one (last) posting? */
+		if ($lpCont != "")
+		{
+			$props[] = array(
+						"alert" => false,
+						"newline" => true,
+						"property" => $lng->txt("forums_last_post"),
+						"value" => $lpCont
+			);
+		}
+
+		/* Forum anonymized? */
+		if ($frm_anonymized)
+		{
+			$props[] = array(
+						"alert" => false,
+						"newline" => true,
+						"property" => $lng->txt("forums_anonymized"),
+						"value" => $lng->txt("yes")
+			);
+		}
 
 		return $props;
 
