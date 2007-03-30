@@ -170,7 +170,7 @@ class ilNewsItem extends ilNewsItemGen
 			$news_item = new ilNewsItem();
 			$news_item->setContextObjId($obj_id);
 			$news_item->setContextObjType($obj_type);
-			$news = $news_item->queryNewsForContext();
+			$news = $news_item->queryNewsForContext($a_only_public);
 			$unset = array();
 			foreach ($news as $k => $v)
 			{
@@ -238,7 +238,7 @@ class ilNewsItem extends ilNewsItemGen
 		global $tree, $ilAccess;
 		
 		// get news of parent object
-		$data = $this->queryNewsForContext();
+		$data = $this->getNewsForRefId($a_ref_id, $a_only_public, true);
 		foreach ($data as $k => $v)
 		{
 			$data[$k]["ref_id"] = $a_ref_id;
@@ -283,19 +283,31 @@ class ilNewsItem extends ilNewsItemGen
 	* Query NewsForContext
 	*
 	*/
-	public function queryNewsForContext()
+	public function queryNewsForContext($a_for_rss_use = false)
 	{
 		global $ilDB, $ilUser;
 		
-		$query = "SELECT il_news_item.* ".
-			", il_news_read.user_id as user_read ".
-			"FROM il_news_item LEFT JOIN il_news_read ".
-			"ON il_news_item.id = il_news_read.news_id AND ".
-			" il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
-			" WHERE ".
-				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" ORDER BY creation_date DESC ";
+		if ($a_for_rss_use)
+		{
+			$query = "SELECT * ".
+				"FROM il_news_item ".
+				" WHERE ".
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+					" ORDER BY creation_date DESC ";
+		}
+		else
+		{
+			$query = "SELECT il_news_item.* ".
+				", il_news_read.user_id as user_read ".
+				"FROM il_news_item LEFT JOIN il_news_read ".
+				"ON il_news_item.id = il_news_read.news_id AND ".
+				" il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
+				" WHERE ".
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+					" ORDER BY creation_date DESC ";
+		}
 				
 		$set = $ilDB->query($query);
 		$result = array();

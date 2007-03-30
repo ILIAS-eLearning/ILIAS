@@ -34,7 +34,37 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 	protected $cols;
 	protected $rows;
 	protected $usert;
-	protected $rtetags = array("strong", "em", "u", "ol", "li", "ul", "a");
+	protected $rtetags;
+	
+	protected $rte_tag_set = array(
+		"standard" => array ("strong", "em", "u", "ol", "li", "ul", "p", "div",
+			"i", "b", "code", "sup", "sub", "pre", "strike", "gap"),
+		"extended" => array (
+			"a","blockquote","br","cite","code","div","em","h1","h2","h3",
+			"h4","h5","h6","hr","li","ol","p",
+			"pre","span","strike","strong","sub","sup","u","ul",
+			"i", "b", "gap"),
+		"extended_img" => array (
+			"a","blockquote","br","cite","code","div","em","h1","h2","h3",
+			"h4","h5","h6","hr","img","li","ol","p",
+			"pre","span","strike","strong","sub","sup","u","ul",
+			"i", "b", "gap"),
+		"extended_table" => array (
+			"a","blockquote","br","cite","code","div","em","h1","h2","h3",
+			"h4","h5","h6","hr","li","ol","p",
+			"pre","span","strike","strong","sub","sup","table","td",
+			"tr","u","ul", "i", "b", "gap"),
+		"extended_table_img" => array (
+			"a","blockquote","br","cite","code","div","em","h1","h2","h3",
+			"h4","h5","h6","hr","img","li","ol","p",
+			"pre","span","strike","strong","sub","sup","table","td",
+			"tr","u","ul", "i", "b", "gap"),
+		"full" => array (
+			"a","blockquote","br","cite","code","div","em","h1","h2","h3",
+			"h4","h5","h6","hr","img","li","ol","p",
+			"pre","span","strike","strong","sub","sup","table","td",
+			"tr","u","ul","ruby","rbc","rtc","rb","rt","rp", "i", "b", "gap"));
+		
 	
 	/**
 	* Constructor
@@ -46,6 +76,7 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("textarea");
+		$this->setRteTagSet("standard");
 	}
 
 	/**
@@ -147,6 +178,31 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 	{
 		return $this->rtetags;
 	}
+	
+	/**
+	* Set Set of Valid RTE Tags
+	*
+	* @return	array	Set name "standard", "extended", "extended_img",
+	*					"extended_table", "extended_table_img", "full"
+	*/
+	function setRteTagSet($a_set_name)
+	{
+		$this->setRteTags($this->rte_tag_set[$a_set_name]);
+	}
+
+	
+	/**
+	* RTE Tag string
+	*/
+	function getRteTagString()
+	{
+		$result = "";
+		foreach ($this->getRteTags() as $tag)
+		{
+			$result .= "<$tag>";
+		}
+		return $result;
+	}
 
 	/**
 	* Set value by array
@@ -171,7 +227,7 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 		
 		$_POST[$this->getPostVar()] = ($this->getUseRte())
 			? ilUtil::stripSlashes($_POST[$this->getPostVar()], true,
-				ilObjAdvancedEditing::_getUsedHTMLTagsAsString())
+				$this->getRteTagString())
 			: ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
@@ -198,6 +254,7 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 			$rte = new $rtestring();
 			
 			// @todo: Check this.
+			$rte->addPlugin("emotions");
 			$rte->addCustomRTESupport(0, "", $this->getRteTags());
 			
 			$a_tpl->touchBlock("prop_ta_w");

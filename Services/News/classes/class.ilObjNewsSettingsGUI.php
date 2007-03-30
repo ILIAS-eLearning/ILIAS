@@ -191,7 +191,6 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
 
-
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -210,6 +209,14 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$news_set->set("max_items", $_POST["news_max_items"]);
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 		$feed_set->set("nr_personal_desktop_feeds", $_POST["nr_pd_feeds"]);
+		if ($_POST["nr_pd_feeds"] > 0)
+		{
+			$ilSetting->set("block_activated_pdfeed", 1);
+		}
+		else
+		{
+			$ilSetting->set("block_activated_pdfeed", 0);
+		}
 		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 		
 		$ilCtrl->redirect($this, "view");
