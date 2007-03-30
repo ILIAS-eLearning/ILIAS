@@ -111,7 +111,17 @@ class ilForumExplorer extends ilExplorer
 				#$this->format_options["$counter"]["title"] = $object["title"]." <small class=\"small\">".$object["date"]."</small>".
 				#"<small><br />".$object["subject"]."</small>";
 
-				$title = "<nobr>".$object["subject"]."</nobr><br>\n<nobr><small class=\"small\">".$lng->txt("from").": ".$object["loginname"]." [".$this->forum->convertDate($object["date"])."]</small></nobr>";
+				$title = "<nobr>".$object["subject"]."</nobr><br>\n<nobr><small class=\"small\">".$lng->txt("from").": ";
+				if ($this->forum_obj->isAnonymized())
+				{
+					if ($object["alias"] != "") $title .= $object["alias"];
+					else $title .= $lng->txt("forums_anonymous");
+				}
+				else
+				{
+					$title .= $object["loginname"];
+				}
+				$title .= " [".$this->forum->convertDate($object["date"])."]</small></nobr>";
 
 				$this->format_options[$counter]['title'] = $title;
 

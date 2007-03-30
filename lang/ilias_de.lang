@@ -7143,3 +7143,6 @@ registration#:#auth_radius_name_desc#:#Bitte wählen Sie einen Namen für diese 
 registration#:#auth_radius_sync#:#Benutzer-Synchronisierung
 registration#:#auth_radius_role_select#:#Rolle:
 registration#:#auth_radius_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS Benutzerkonto für Anwender angelegt, wenn sich diese erfolgreich gegen RADIUS authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.
+common#:#forums_anonymized#:#Forum anonymisiert
+common#:#forums_your_name#:#Ihr Name
+common#:#forums_use_alias#:#Sie können hier ein Alias eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als anonym markiert.

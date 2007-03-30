@@ -297,10 +297,10 @@ class ilForumImportParser extends ilSaxParser
 		// GENERATE IT AND 'INCREMENT' parent variable
 /*		$this->parent[] = (int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
 																 $this->thread["title"],
-																 $this->post["message"],0,0,0,date("Y-m-d H:i:s",$this->thread["c_time"]));*/
+																 $this->post["message"],0,0,'',date("Y-m-d H:i:s",$this->thread["c_time"]));*/
 		$this->__pushParentId((int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
 																	 $this->thread["title"],
-																	 $this->post["message"],0,0,0,date("Y-m-d H:i:s",$this->thread["c_time"])));
+																	 $this->post["message"],0,0,'',date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
 		$this->forum_obj->setWhereCondition("top_pk = ".$ilDB->quote($topic["top_pk"]));
@@ -320,10 +320,10 @@ class ilForumImportParser extends ilSaxParser
 		
 /*		$this->parent[] = (int) $this->forum_obj->generatePost($topic["top_pk"],$post["pos_thr_fk"],$this->post["author"],
 															   $this->post["message"],$this->parent[count($this->parent)-1],
-															   0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"]));*/
+															   $this->post["title"],'',date("Y-m-d H:i:s",$this->post["c_time"]));*/
 		$this->__pushParentId((int) $this->forum_obj->generatePost($topic["top_pk"],$post["pos_thr_fk"],$this->post["author"],
 																 $this->post["message"],$this->parent[count($this->parent)-1],
-																 0,0,$this->post["title"],date("Y-m-d H:i:s",$this->post["c_time"])));
+																 0,$this->post["title"],'',date("Y-m-d H:i:s",$this->post["c_time"])));
 
 		return true;
 	}

@@ -277,6 +277,7 @@ class ilForumExport
 		$data = array(
 					"pos_pk"		=> $a_row->pos_pk,
 					"author"		=> $a_row->pos_usr_id,
+					"alias"			=> $a_row->pos_usr_alias,
 					"message"		=> $a_row->pos_message,
 					"subject"		=> $a_row->pos_subject,
 					"pos_cens_com"	=> $a_row->pos_cens_com,
@@ -357,6 +358,14 @@ class ilForumExport
 		return $res->numRows();
 	}
 	
+	function isAnonymized($a_obj_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT anonymized FROM frm_settings WHERE ";
+		$q .= "obj_id = ".$ilDB->quote($a_obj_id)."";
+		return $this->ilias->db->getOne($q);
+	}
 	
 	
 	/**
@@ -454,9 +463,10 @@ class ilForumExport
 		
 		$ROW = $this->fetchPostNodeData($result);
 				
-		$result["create_date"] = $this->convertDate($result["pos_date"]);		
+		$result["create_date"] = $result["pos_date"];		
 		$result["message"] = nl2br(stripslashes($result["pos_message"]));
 		$result["author"] = nl2br(stripslashes($result["pos_usr_id"]));
+		$result["alias"] = nl2br(stripslashes($result["pos_usr_alias"]));
 		$result["date"] = date;
 		$result["update"] = $result["pos_update"];		
 			
@@ -506,6 +516,7 @@ class ilForumExport
 				$tmp_array["login"]  = $row->login;
 				$tmp_array["create_date"] = $row->create_date;
 				$tmp_array["id"] = $row->usr_id;
+				$tmp_array["public_profile"] = ilObjUser::_lookupPref($id, "public_profile");
 
 			}
 			return $tmp_array ? $tmp_array : array();
