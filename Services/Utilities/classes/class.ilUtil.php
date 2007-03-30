@@ -1940,29 +1940,38 @@ class ilUtil
 			$a_str = stripslashes($a_str);
 		}
 
-		// default behaviour: allow only fundamental tags 1:1
-		if ($a_allow == "" && $a_strip_html)
+		// check whether all allowed tags can be made secure
+		$only_secure = true;
+		$allow_tags = explode(">", $a_allow);
+		$sec_tags = ilUtil::getSecureTags();
+		$allow_array = array();
+		foreach($allow_tags as $allow)
 		{
-			//$a_allow = "<b><i><strong><em><code><cite><gap><sub><sup><pre><strike>";
-
-			$tags = array("b", "i", "strong", "em", "code", "cite", "gap", "sub", "sup", "pre", "strike");
-
-			foreach ($tags as $t)		// mask allowed tags
+			if ($allow != "")
 			{
-				$a_str = str_replace(array("<$t>", "<".strtoupper($t).">"),
-					"&lt;".$t."&gt;", $a_str);
-				$a_str = str_replace(array("</$t>", "</".strtoupper($t).">"),
-					"&lt;/".$t."&gt;", $a_str);
-			}
+				$allow = str_replace("<", "", $allow);
 
+				if (!in_array($allow, $sec_tags))
+				{
+//echo "<br>NOT SECURE: $allow";
+					$only_secure = false;
+				}
+				$allow_array[] = $allow;
+			}
+		}
+		
+		// default behaviour: allow only secure tags 1:1
+		if (($only_secure || $a_allow == "") && $a_strip_html)
+		{
+			if ($a_allow == "")
+			{
+				$allow_array = array ("b", "i", "strong", "em", "code", "cite",
+					"gap", "sub", "sup", "pre", "strike");
+			}
+			
+			$a_str = ilUtil::maskSecureTags($a_str, $allow_array);
 			$a_str = strip_tags($a_str);		// strip all other tags
-
-			foreach ($tags as $t)		// mask allowed tags
-			{
-				$a_str = str_replace("&lt;".$t."&gt;", "<".$t.">", $a_str);
-				$a_str = str_replace("&lt;/".$t."&gt;", "</".$t.">", $a_str);
-			}
-
+			$a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
 		}
 		else
 		{
@@ -1976,6 +1985,100 @@ class ilUtil
 		return $a_str;
 	}
 
+	function getSecureTags()
+	{
+		return array("strong", "em", "u", "strike", "ol", "li", "ul", "p", "div",
+			"i", "b", "code", "sup", "sub", "pre", "gap");
+	}
+	
+	function maskSecureTags($a_str)
+	{
+		foreach (ilUtil::getSecureTags() as $t)
+		{
+			switch($t)
+			{
+				case "p":
+				case "div":
+					$a_str = ilUtil::maskTag($a_str, $t, array(
+						array("param" => "align", "value" => "left"),
+						array("param" => "align", "value" => "center"),
+						array("param" => "align", "value" => "justify"),
+						array("param" => "align", "value" => "right")
+						));
+					break;
+					
+				default:
+					$a_str = ilUtil::maskTag($a_str, $t);
+					break;
+			}
+		}
+		
+		return $a_str;
+	}
+	
+	function unmaskSecureTags($a_str)
+	{
+		foreach (ilUtil::getSecureTags() as $t)
+		{
+			switch($t)
+			{
+				case "p":
+				case "div":
+					$a_str = ilUtil::unmaskTag($a_str, $t, array(
+						array("param" => "align", "value" => "left"),
+						array("param" => "align", "value" => "center"),
+						array("param" => "align", "value" => "justify"),
+						array("param" => "align", "value" => "right")
+						));
+					break;
+
+				default:
+					$a_str = ilUtil::unmaskTag($a_str, $t);
+					break;
+			}
+		}
+		
+		return $a_str;
+	}
+
+	function maskTag($a_str, $t, $fix_param = "")
+	{
+		$a_str = str_replace(array("<$t>", "<".strtoupper($t).">"),
+			"&lt;".$t."&gt;", $a_str);
+		$a_str = str_replace(array("</$t>", "</".strtoupper($t).">"),
+			"&lt;/".$t."&gt;", $a_str);
+			
+		if (is_array($fix_param))
+		{
+			foreach ($fix_param	 as $p)
+			{
+				$k = $p["param"];
+				$v = $p["value"];
+				$a_str = str_replace("<$t $k=\"$v\">",
+					"&lt;"."$t $k=\"$v\""."&gt;", $a_str);
+			}
+		}
+		
+		return $a_str;
+	}
+	
+	function unmaskTag($a_str, $t, $fix_param = "")
+	{
+		$a_str = str_replace("&lt;".$t."&gt;", "<".$t.">", $a_str);
+		$a_str = str_replace("&lt;/".$t."&gt;", "</".$t.">", $a_str);
+			
+		if (is_array($fix_param))
+		{
+			foreach ($fix_param	 as $p)
+			{
+				$k = $p["param"];
+				$v = $p["value"];
+				$a_str = str_replace("&lt;$t $k=\"$v\"&gt;",
+					"<"."$t $k=\"$v\"".">", $a_str);
+			}
+		}
+		return $a_str;
+	}
 
 	/**
 	* strip only html tags (4.0) from text

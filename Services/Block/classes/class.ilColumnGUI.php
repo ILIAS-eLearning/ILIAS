@@ -104,6 +104,7 @@ class ilColumnGUI
 		);
 
 	// these are only for pd blocks
+	// other blocks are rep objects now
 	protected $custom_blocks = array(
 		"cat" => array(),
 		"crs" => array(),
@@ -113,6 +114,12 @@ class ilColumnGUI
 		"info" => array(),
 		"pd" => array("ilPDExternalFeedBlockGUI")
 		);
+		
+	// check global activation for these block types
+	protected $check_global_activation = 
+		array("news" => true,
+			"pdnews" => true,
+			"pdfeed" => true);
 
 	/**
 	* Constructor
@@ -540,24 +547,8 @@ class ilColumnGUI
 						include_once("./".self::$locations[$block_class]."classes/".
 							"class.".$block_class.".php");
 						$block_type = call_user_func(array($block_class, 'getBlockType'));
-						
-						// check blocks that can be globally (de-)activated
-						$activated = true;
-						//if ($block_type == "feed")
-						//{
-						//	if (!$ilSetting->get("block_activated_".$block_type))
-						//	{
-						//		$activated = false;
-						//	}
-						//}
-						if ($block_type == "pdfeed")		// maximum number
-						{
-							//if ($ilSetting->get("block_max_nr_".$block_type) >=
-							//	)
-							//{
-						}
 
-						if ($activated)
+						if ($this->isGloballyActivated($block_type))
 						{
 							$add_blocks[$block_type] = $blocks[$block_type];
 						}
@@ -724,38 +715,29 @@ class ilColumnGUI
 			foreach($this->default_blocks[$this->getColType()] as $class => $def_side)
 			{
 				$type = self::$block_types[$class];
-				$nr = ilBlockSetting::_lookupNr($type, $user_id);
-				if ($nr === false)
-				{
-					$nr = $def_nr++;
-				}
-				// extra handling for system messages and feedback block
-				if ($type == "pdsysmess")		// always show sys mess first
-				{
-					$nr = -15;
-				}
-				if ($type == "pdfeedb")		// always show feedback request second
-				{
-					$nr = -10;
-				}
-				$side = ilBlockSetting::_lookupSide($type, $user_id);
-				if ($side === false)
-				{
-					$side = $def_side;
-				}
 				
-				// check blocks that can be globally (de-)activated
-				$activated = true;
-				if ($type == "news" ||  $type == "pdnews")
+				if ($this->isGloballyActivated($type))
 				{
-					if (!$ilSetting->get("block_activated_".$type))
+					$nr = ilBlockSetting::_lookupNr($type, $user_id);
+					if ($nr === false)
 					{
-						$activated = false;
+						$nr = $def_nr++;
 					}
-				}
-				
-				if ($activated)
-				{
+					// extra handling for system messages and feedback block
+					if ($type == "pdsysmess")		// always show sys mess first
+					{
+						$nr = -15;
+					}
+					if ($type == "pdfeedb")		// always show feedback request second
+					{
+						$nr = -10;
+					}
+					$side = ilBlockSetting::_lookupSide($type, $user_id);
+					if ($side === false)
+					{
+						$side = $def_side;
+					}
+					
 					$this->blocks[$side][] = array(
 						"nr" => $nr,
 						"class" => $class,
@@ -777,30 +759,21 @@ class ilColumnGUI
 			foreach($c_blocks as $c_block)
 			{
 				$type = $c_block["type"];
-				$class = array_search($type, self::$block_types);
-				$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
-				if ($nr === false)
-				{
-					$nr = $def_nr++;
-				}
-				$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
-				if ($side === false)
-				{
-					$side = IL_COL_RIGHT;
-				}
-	
-				// check blocks that can be globally (de-)activated
-				$activated = true;
-				//if ($type == "feed")
-				//{
-				//	if (!$ilSetting->get("block_activated_".$type))
-				//	{
-				//		$activated = false;
-				//	}
-				//}
 				
-				if ($activated)
+				if ($this->isGloballyActivated($type))
 				{
+					$class = array_search($type, self::$block_types);
+					$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
+					if ($nr === false)
+					{
+						$nr = $def_nr++;
+					}
+					$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
+					if ($side === false)
+					{
+						$side = IL_COL_RIGHT;
+					}
+	
 					$this->blocks[$side][] = array(
 						"nr" => $nr,
 						"class" => $class,
@@ -817,43 +790,33 @@ class ilColumnGUI
 
 			foreach($this->rep_block_types as $block_type)
 			{
-				if (!is_array($rep_items[$block_type]))
+				if ($this->isGloballyActivated($block_type))
 				{
-					continue;
-				}
-				foreach($rep_items[$block_type] as $item)
-				{
-					$costum_block = new ilCustomBlock();
-					$costum_block->setContextObjId($item["obj_id"]);
-					$costum_block->setContextObjType($block_type);
-					$c_blocks = $costum_block->queryBlocksForContext();
-					$c_block = $c_blocks[0];
-					
-					$type = $block_type;
-					$class = array_search($type, self::$block_types);
-					$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
-					if ($nr === false)
+					if (!is_array($rep_items[$block_type]))
 					{
-						$nr = $def_nr++;
+						continue;
 					}
-					$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
-					if ($side === false)
+					foreach($rep_items[$block_type] as $item)
 					{
-						$side = IL_COL_RIGHT;
-					}
-		
-					// check blocks that can be globally (de-)activated
-					$activated = true;
-					//if ($type == "feed")
-					//{
-					//	if (!$ilSetting->get("block_activated_".$type))
-					//	{
-					//		$activated = false;
-					//	}
-					//}
-					
-					if ($activated)
-					{
+						$costum_block = new ilCustomBlock();
+						$costum_block->setContextObjId($item["obj_id"]);
+						$costum_block->setContextObjType($block_type);
+						$c_blocks = $costum_block->queryBlocksForContext();
+						$c_block = $c_blocks[0];
+						
+						$type = $block_type;
+						$class = array_search($type, self::$block_types);
+						$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
+						if ($nr === false)
+						{
+							$nr = $def_nr++;
+						}
+						$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
+						if ($side === false)
+						{
+							$side = IL_COL_RIGHT;
+						}
+			
 						$this->blocks[$side][] = array(
 							"nr" => $nr,
 							"class" => $class,
@@ -925,4 +888,22 @@ class ilColumnGUI
 		}
 		$ilCtrl->returnToParent($this);
 	}
+	
+	/**
+	* Check whether a block type is globally activated
+	*/
+	protected function isGloballyActivated($a_type)
+	{
+		global $ilSetting;
+		if ($this->check_global_activation[$a_type])
+		{
+			if ($ilSetting->get("block_activated_".$a_type))
+			{
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
+
 }

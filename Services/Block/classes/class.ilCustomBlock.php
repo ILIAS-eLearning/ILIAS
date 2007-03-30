@@ -334,6 +334,57 @@ class ilCustomBlock
 
 	}
 
+	/**
+	* Query TitleForId
+	*
+	*/
+	public function queryTitleForId()
+	{
+		global $ilDB;
+		
+		$query = "SELECT id ".
+			"FROM il_custom_block ".
+			"WHERE "."";
+				
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$result[] = $rec;
+		}
+		
+		return $result;
+
+	}
+
+	/**
+	* Query CntBlockForContext
+	*
+	*/
+	public function queryCntBlockForContext()
+	{
+		global $ilDB;
+		
+		$query = "SELECT count(*) as cnt ".
+			"FROM il_custom_block ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
+				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
+				" AND type = ".$ilDB->quote($this->getType())."";
+				
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$result[] = $rec;
+		}
+		
+		return $result;
+
+	}
+
 
 }
 ?>

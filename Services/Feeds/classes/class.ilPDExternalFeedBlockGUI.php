@@ -181,8 +181,15 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilAccess;
+		global $ilCtrl, $lng, $ilUser, $ilAccess, $ilSetting;
 		
+		$feed_set = new ilSetting("feed");
+
+		if ($feed_set->get("nr_personal_desktop_feeds") == 0)
+		{
+			return "";
+		}
+
 		if ($this->getCurrentDetailLevel() == 0)
 		{
 			return "";

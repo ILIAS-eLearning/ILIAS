@@ -181,7 +181,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilAccess;
+		global $ilCtrl, $lng, $ilUser, $ilAccess, $ilSetting;
 		
 		if ($this->getCurrentDetailLevel() == 0)
 		{
