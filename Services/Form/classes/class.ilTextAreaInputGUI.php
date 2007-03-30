@@ -190,6 +190,17 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 		$this->setRteTags($this->rte_tag_set[$a_set_name]);
 	}
 
+	/**
+	* Get Set of Valid RTE Tags
+	*
+	* @return	array	Set name "standard", "extended", "extended_img",
+	*					"extended_table", "extended_table_img", "full"
+	*/
+	function getRteTagSet($a_set_name)
+	{
+		return $this->rte_tag_set[$a_set_name];
+	}
+
 	
 	/**
 	* RTE Tag string

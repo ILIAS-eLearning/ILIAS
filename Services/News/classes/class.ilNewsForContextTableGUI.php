@@ -41,7 +41,6 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn("", "f", "1");
-		$this->addColumn($lng->txt("date"), "creation_date", "1");
 		$this->addColumn($lng->txt("news_news_item_content"), "");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_news_for_context.html",
@@ -57,14 +56,50 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 		
+		// user
+		if ($a_set["user_id"] > 0)
+		{
+			$this->tpl->setCurrentBlock("user_info");
+			$user_obj = new ilObjUser($a_set["user_id"]);
+			$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+			$this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// access
+		$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+		if ($a_set["visibility"] == NEWS_PUBLIC ||
+			($a_set["priority"] == 0 &&
+			ilBlockSetting::_lookup("news", "public_notifications",
+			0, $a_set["context_obj_id"])))
+		{
+			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+		}
+
+
+		// last update
 		if ($a_set["creation_date"] != $a_set["update_date"])
 		{
 			$this->tpl->setCurrentBlock("ni_update");
-			$this->tpl->setVariable("VAL_LAST_UPDATE", $a_set["update_date"]);
+			$this->tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
+			$this->tpl->setVariable("VAL_LAST_UPDATE",
+				ilFormat::formatDate($a_set["update_date"], "datetime", true));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("VAL_CREATION_DATE", $a_set["creation_date"]);
+		
+		// creation date
+		$this->tpl->setVariable("VAL_CREATION_DATE",
+			ilFormat::formatDate($a_set["creation_date"], "datetime", true));
+		$this->tpl->setVariable("TXT_CREATED", $lng->txt("created"));
+		
+		// title
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
+		
+		// content
 		if ($a_set["content"] != "")
 		{
 			$this->tpl->setCurrentBlock("content");
@@ -77,6 +112,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_LONG_CONTENT", $a_set["content_long"]);
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 		$ilCtrl->setParameterByClass("ilnewsitemgui", "news_item_id", $a_set["id"]);

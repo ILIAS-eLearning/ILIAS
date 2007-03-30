@@ -496,7 +496,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		// access
 		$tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
 		if ($news->getVisibility() == NEWS_PUBLIC ||
-			($v["priority"] == 0 &&
+			($news->getPriority() == 0 &&
 			ilBlockSetting::_lookup("news", "public_notifications",
 			0, $obj_id)))
 		{

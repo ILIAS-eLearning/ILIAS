@@ -37,6 +37,7 @@ class ilTinyMCE extends ilRTE
 	function ilTinyMCE()
 	{
 		parent::ilRTE();
+		
 		$this->plugins = array(
 			"ibrowser",
 			"xhtmlxtras",
@@ -59,6 +60,8 @@ class ilTinyMCE extends ilRTE
 			"fullscreen",
 			"noneditable"
 		);
+		
+		$this->setStyleSelect(false);
 	}
 	
 	/**
@@ -137,6 +140,10 @@ class ilTinyMCE extends ilRTE
 			{
 				$more_buttons = ",separator," . join(",", $this->buttons);
 			}
+			if ($this->getStyleSelect())
+			{
+				$tpl->setVariable("STYLE_SELECT", ",styleselect");
+			}
 			$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
 			$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
 			$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
@@ -191,6 +198,10 @@ class ilTinyMCE extends ilRTE
 		{
 			$more_buttons = ",separator," . join(",", $this->buttons);
 		}
+		if ($this->getStyleSelect())
+		{
+			$tpl->setVariable("STYLE_SELECT", ",styleselect");
+		}
 		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags, array("charmap")) . $more_buttons);
 		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
 		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
@@ -201,6 +212,27 @@ class ilTinyMCE extends ilRTE
 		$tpl->parseCurrentBlock();
 		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
 	}
+	
+	/**
+	* Set Enable Style Selecttion.
+	*
+	* @param	boolean	$a_styleselect	Enable Style Selecttion
+	*/
+	function setStyleSelect($a_styleselect)
+	{
+		$this->styleselect = $a_styleselect;
+	}
+
+	/**
+	* Get Enable Style Selecttion.
+	*
+	* @return	boolean	Enable Style Selecttion
+	*/
+	function getStyleSelect()
+	{
+		return $this->styleselect;
+	}
+
 
 	function _buildAdvancedBlockformatsFromHTMLTags($a_html_tags)
 	{

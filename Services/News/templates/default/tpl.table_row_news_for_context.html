@@ -2,12 +2,9 @@
 <td class="std" style="vertical-align:top;">
 <input type="checkbox" name="news_id[]" value="{VAL_ID}" />
 </td>
-<td class="std" nowrap="nowrap"  style="vertical-align:top;">
-{VAL_CREATION_DATE}
-</td>
 <td class="std">
 <div style="float:right;"><a class="il_ContainerItemCommand" href="{CMD_EDIT}">{TXT_EDIT}</a></div>
-<b>{VAL_TITLE}</b><br />
+<h2>{VAL_TITLE}</h2>
 <div style="clear:both;">
 <!-- BEGIN content -->
 <p>{VAL_CONTENT}</p>
@@ -15,8 +12,14 @@
 <!-- BEGIN long -->
 <div>{VAL_LONG_CONTENT}</div>
 <!-- END long -->
+<div style="text-align:right;" class="il_BlockInfo">{TXT_CREATED}: {VAL_CREATION_DATE}</div>
 <!-- BEGIN ni_update -->
-<div style="text-align:right;">{TXT_LAST_UPDATE}: {VAL_LAST_UPDATE}</div>
+<div style="text-align:right;" class="il_BlockInfo">{TXT_LAST_UPDATE}: {VAL_LAST_UPDATE}</div>
 <!-- END ni_update -->
+<div style="text-align:right;" class="il_BlockInfo">{TXT_ACCESS}: {VAL_ACCESS}</div>
+<!-- BEGIN user_info -->
+<div style="text-align:right;" class="il_BlockInfo">{TXT_AUTHOR}: {VAL_AUTHOR}</div>
+<!-- END user_info -->
+</div>
 </td>
 </tr>

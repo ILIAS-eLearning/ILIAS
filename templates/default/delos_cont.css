@@ -75,3 +75,13 @@ span.latex {
 	color: green;
 	font-weight: bold;
 }
+
+div.framed {
+	border: 1px;
+	border-style: solid;
+	padding: 0px 10px;
+	border-color: #9EADBA;
+	background-color: #FFFFFF;
+	background-image: url(images/FramedBack.gif);
+	background-repeat:repeat-x;
+}
