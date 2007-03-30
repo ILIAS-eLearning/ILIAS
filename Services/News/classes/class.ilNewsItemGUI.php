@@ -68,8 +68,11 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	*/
 	function prepareSaveNewsItem(&$a_news_item)
 	{
+		global $ilUser;
+		
 		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
 		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
+		$a_news_item->setUserId($ilUser->getId());
 
 		$news_set = new ilSetting("news");
 		if (!$news_set->get("enable_rss_for_internal"))
