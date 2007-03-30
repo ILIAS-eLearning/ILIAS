@@ -62,7 +62,7 @@ class ilMD2XML extends ilXmlWriter
 
 	function getXML()
 	{
-		return $this->xmlDumpMem();
+		return $this->xmlDumpMem(FALSE);
 	}
 
 
