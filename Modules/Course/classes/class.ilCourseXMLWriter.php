@@ -84,7 +84,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	function getXML()
 	{
 		#var_dump("<pre>", htmlentities($this->xmlDumpMem()),"<pre>");
-		return $this->xmlDumpMem();
+		return $this->xmlDumpMem(FALSE);
 	}
 
 	// Called from nested class
