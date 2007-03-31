@@ -364,7 +364,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 	function saveSettingsObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
 
 		$settings = $this->ilias->getAllSettings();
 
@@ -445,6 +445,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["enable_calendar"] = $_POST["enable_calendar"];
 			$settings["default_repository_view"] = $_POST["default_rep_view"];
 			$settings["password_assistance"] = $_POST["password_assistance"];
+			$settings['short_inst_title'] = $_POST['short_inst_title'];
 			$settings["passwd_auto_generate"] = $_POST["password_auto_generate"];
 			//$settings["js_edit"] = $_POST["js_edit"];
 			$settings["enable_trash"] = $_POST["enable_trash"];
@@ -531,6 +532,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting('passwd_auto_generate',$_POST['password_auto_generate']);
 
 			//$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
+			$this->ilias->setSetting('short_inst_name',$_POST['short_inst_name']);
 			$this->ilias->setSetting('enable_trash',$_POST['enable_trash']);
 
 			// contact
@@ -596,7 +598,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			ilUtil::sendInfo($feedback);
 		}
 
-		$this->displayBasicSettings();
+		$ilCtrl->redirect($this, "view");
+		//$this->displayBasicSettings();
 	}
 
 	/**
@@ -636,6 +639,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $this->lng->txt("feedback_recipient"));
 		$this->tpl->setVariable("TXT_ERROR_RECIPIENT", $this->lng->txt("error_recipient"));
 		$this->tpl->setVariable("TXT_HEADER_TITLE", $this->lng->txt("header_title"));
+		$this->tpl->setVariable("TXT_SHORT_NAME", $this->lng->txt("short_inst_name"));
+		$this->tpl->setVariable("TXT_SHORT_NAME_INFO", $this->lng->txt("short_inst_name_info"));
+
+		$this->tpl->setVariable("VAL_SHORT_INST_NAME", $settings['short_inst_name']);
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
 		$this->tpl->setVariable("LINK_HEADER_TITLE",
 			$this->ctrl->getLinkTarget($this, "changeHeaderTitle"));
@@ -886,6 +893,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("PASSWORD_ASSISTANCE","checked=\"checked\"");
 		}
+		$this->tpl->setVariable("VAL_SHORT_NAME", $settings['short_inst_title']);
 		if($settings['passwd_auto_generate'])
 		{
 			$this->tpl->setVariable("PASSWORD_AUTO_GENERATE","checked=\"checked\"");
