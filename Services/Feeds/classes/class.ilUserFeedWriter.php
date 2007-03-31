@@ -37,8 +37,11 @@ include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 */
 class ilUserFeedWriter extends ilFeedWriter
 {
+	
 	function ilUserFeedWriter($a_user_id, $a_hash)
 	{
+		global $ilSetting;
+		
 		parent::ilFeedWriter();
 		
 		if ($a_user_id == "" || $a_hash == "")
@@ -57,10 +60,18 @@ class ilUserFeedWriter extends ilFeedWriter
 		if ($a_hash == $hash)
 		{
 			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true);
-			$this->setChannelTitle("ILIAS Channel Title");
+			if ($ilSetting->get('short_inst_name') != "")
+			{
+				$this->setChannelTitle($ilSetting->get('short_inst_name'));
+			}
+			else
+			{
+				$this->setChannelTitle("ILIAS");
+			}
+
 			$this->setChannelAbout(ILIAS_HTTP_PATH);
 			$this->setChannelLink(ILIAS_HTTP_PATH);
-			$this->setChannelDescription("ILIAS Channel Description");
+			//$this->setChannelDescription("ILIAS Channel Description");
 			$i = 0;
 			foreach($items as $item)
 			{

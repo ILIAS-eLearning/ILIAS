@@ -143,6 +143,7 @@ class ilTemplate extends ilTemplateX
 		if($add_standard_elements)
 		{
 			$this->setContentStyle();
+			$this->fillWindowTitle();
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
@@ -245,6 +246,7 @@ class ilTemplate extends ilTemplateX
 		if($a_fill_tabs)
 		{
 			$this->setContentStyle();
+			$this->fillWindowTitle();
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
@@ -267,6 +269,22 @@ class ilTemplate extends ilTemplateX
 		$this->handleReferer();
 	}
 
+	function fillWindowTitle()
+	{
+		global $ilSetting;
+		
+		if ($ilSetting->get('short_inst_name') != "")
+		{
+			$this->setVariable("WINDOW_TITLE",
+				$ilSetting->get('short_inst_name'));
+		}
+		else
+		{
+			$this->setVariable("WINDOW_TITLE",
+				"ILIAS");
+		}
+	}
+	
 	function fillTabs()
 	{
 		global $ilias,$ilTabs;
@@ -816,6 +834,8 @@ class ilTemplate extends ilTemplateX
 	function setTitle($a_title)
 	{
 		$this->setVariable("HEADER", $a_title);
+		$this->setVariable("PAGETITLE",
+			"- ".$a_title);
 	}
 	
 	/**

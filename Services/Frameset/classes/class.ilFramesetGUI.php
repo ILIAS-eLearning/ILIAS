@@ -119,7 +119,7 @@ class ilFramesetGUI
 
 		$tpl = new ilTemplate("tpl.frameset.html", true, false);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$tpl->setVariable("TXT_FS_TITLE", "ILIAS - ".$this->frameset_title);
+		$tpl->setVariable("PAGETITLE", "- ".$this->frameset_title);
 		$tpl->setVariable("SRC_".$main, $this->main_frame_source);
 		$tpl->setVariable("SRC_".$side, $this->side_frame_source);
 		$tpl->setVariable("TITLE_".$main, $this->main_frame_title);
@@ -128,6 +128,17 @@ class ilFramesetGUI
 		$tpl->setVariable("NAME_".$side, $this->side_frame_name);
 		$tpl->setVariable("WIDTH_".$main, $main_width);
 		$tpl->setVariable("WIDTH_".$side, $side_width);
+		if ($ilSetting->get('short_inst_name') != "")
+		{
+			$tpl->setVariable("WINDOW_TITLE",
+				$ilSetting->get('short_inst_name'));
+		}
+		else
+		{
+			$tpl->setVariable("WINDOW_TITLE",
+				"ILIAS");
+		}
+
 		$tpl->show("DEFAULT", false);
 	}
 

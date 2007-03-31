@@ -39,7 +39,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 {
 	function ilObjectFeedWriter($a_ref_id)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilSetting;
 		
 		parent::ilFeedWriter();
 		
@@ -56,6 +56,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 		}
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
+		$obj_title = ilObject::_lookupTitle($obj_id);
 
 		if (!ilBlockSetting::_lookup("news", "public_feed", 0, $obj_id))
 		{
@@ -77,10 +78,17 @@ class ilObjectFeedWriter extends ilFeedWriter
 		$news_item->setContextObjId($obj_id);
 		$news_item->setContextObjType($obj_type);
 		$items = ilNewsItem::getNewsForRefId($a_ref_id, true);
-		$this->setChannelTitle("ILIAS Channel Title");
+		if ($ilSetting->get('short_inst_name') != "")
+		{
+			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".$obj_title);
+		}
+		else
+		{
+			$this->setChannelTitle("ILIAS"." - ".$obj_title);
+		}
 		$this->setChannelAbout(ILIAS_HTTP_PATH);
 		$this->setChannelLink(ILIAS_HTTP_PATH);
-		$this->setChannelDescription("ILIAS Channel Description");
+		//$this->setChannelDescription("ILIAS Channel Description");
 		$i = 0;
 		foreach($items as $item)
 		{
