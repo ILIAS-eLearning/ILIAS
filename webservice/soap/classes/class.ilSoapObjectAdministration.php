@@ -832,7 +832,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$obj_id_from_refid = ilObject::_lookupObjectId($object_data["references"][0], false);
 				if (!$obj_id_from_refid)
 				{
-					return $this->__raiseError('No obj_id found for reference id '.$object_data["references"][0], 'Client');
+					return $this->__raiseError('No obj_id found for reference id '.$object_data["references"][0], 'CLIENT_OBJECT_NOT_FOUND');
 				} else
 				{
 					$tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
@@ -843,7 +843,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
 			if ($tmp_obj == null)
 			{
-				return $this->__raiseError('No object for id '.$object_data['obj_id'].'!', 'Client');
+				return $this->__raiseError('No object for id '.$object_data['obj_id'].'!', 'CLIENT_OBJECT_NOT_FOUND');
 			} 
 			else 
 			{

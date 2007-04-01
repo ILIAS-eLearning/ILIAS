@@ -102,7 +102,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		if(!$grp = ilObjectFactory::getInstanceByRefId($ref_id, false))
 		{
-			return $this->__raiseError('Cannot create group instance!','Server');
+			return $this->__raiseError('Cannot create group instance!','CLIENT_OBJECT_NOT_FOUND');
 		}
 
 
