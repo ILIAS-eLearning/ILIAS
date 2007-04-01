@@ -80,6 +80,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl;
 		
+		// workaround to show details row
+		$this->setData(array("dummy"));
+		
 		$this->setContent($this->getSelectedItemsBlockHTML());
 		if ($this->getContent() == "")
 		{

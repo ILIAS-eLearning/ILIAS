@@ -104,6 +104,9 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 
 	function getHTML()
 	{
+		// workaround to show details row
+		$this->setData(array("dummy"));
+
 		if ($this->getCurrentDetailLevel() == 0)
 		{
 			return "";

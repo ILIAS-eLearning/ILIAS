@@ -54,27 +54,8 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 
 		$lng->loadLanguageModule("feed");
 		
-		// Tagesschau: RSS 2.0
-		//$this->feed->setUrl("http://www.tagesschau.de/xml/rss2");
-
-		// Planet Eduforge: RSS 2.0
-		//$this->feed->setUrl("http://planet.eduforge.org/rss20.xml");
-
-		// ILIAS open source forum
-//		$this->feed->setUrl("http://www.ilias.de/iosbb/rss.php");
-		
-		// Spiegel: RSS 0.91
-		//$this->feed->setUrl("http://www.spiegel.de/schlagzeilen/rss/index.xml");
-
-		// Heise: Atom
-		//$this->feed->setUrl("http://www.heise.de/newsticker/heise-atom.xml");
-
-//		$this->feed->fetch();
-		
 		$this->setLimit(5);
-//		$this->setTitle($this->feed->getChannelTitle());
 		$this->setRowTemplate("tpl.block_external_feed_row.html", "Services/Feeds");
-//		$this->setData($this->feed->getItems());
 	}
 		
 	/**
@@ -112,6 +93,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			case "updateFeedBlock":
 			case "editFeedBlock":
 			case "showFeedItem":
+			case "confirmDeleteFeedBlock":
 				return IL_SCREEN_CENTER;
 				break;
 				
@@ -133,7 +115,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->setTitle($this->feed_block->getTitle());
 		$this->setBlockId($this->feed_block->getId());
 		
-		// get feet object
+		// get feed object
 		include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 		$this->feed = new ilExternalFeed();
 		$this->feed->setUrl($this->feed_block->getFeedUrl());
@@ -205,6 +187,10 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			$ilCtrl->getLinkTarget($this,
 				"editFeedBlock"),
 			$lng->txt("edit"));
+		$this->addBlockCommand(
+			$ilCtrl->getLinkTarget($this,
+				"confirmDeleteFeedBlock"),
+			$lng->txt("delete"));
 		$ilCtrl->setParameter($this, "external_feed_block_id", "");
 
 		return parent::getHTML();
@@ -258,8 +244,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		
 		if (is_object($c_item))
 		{
-//var_dump($c_item->getMagpieItem());
-//echo $c_item->getLink();
 			if (trim($c_item->getSummary()) != "")		// summary
 			{
 				$tpl->setCurrentBlock("content");
@@ -320,6 +304,50 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$a_feed_block->setType("pdfeed");
 	}
 
+	/**
+	* Confirmation of feed block deletion
+	*/
+	function confirmDeleteFeedBlock()
+	{
+		global $ilCtrl, $lng;
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteFeedBlock"));
+		$c_gui->setHeaderText($lng->txt("info_delete_sure"));
+		$c_gui->setCancel($lng->txt("cancel"), "exitDeleteFeedBlock");
+		$c_gui->setConfirm($lng->txt("confirm"), "deleteFeedBlock");
+
+		// add items to delete
+		$c_gui->addItem("external_feed_block_id",
+			$this->feed_block->getId(), $this->feed_block->getTitle(),
+			ilUtil::getImagePath("icon_feed.gif"));
+		
+		return $c_gui->getHTML();
+	}
+	
+	/**
+	* Cancel deletion of feed block
+	*/
+	function exitDeleteFeedBlock()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	* Delete feed block
+	*/
+	function deleteFeedBlock()
+	{
+		global $ilCtlr;
+
+		$this->feed_block->delete();
+		$ilCtrl->returnToParent($this);
+	}
 }
 
 ?>

@@ -53,28 +53,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->setImage(ilUtil::getImagePath("icon_feed_s.gif"));
 
 		$lng->loadLanguageModule("feed");
-		
-		// Tagesschau: RSS 2.0
-		//$this->feed->setUrl("http://www.tagesschau.de/xml/rss2");
-
-		// Planet Eduforge: RSS 2.0
-		//$this->feed->setUrl("http://planet.eduforge.org/rss20.xml");
-
-		// ILIAS open source forum
-//		$this->feed->setUrl("http://www.ilias.de/iosbb/rss.php");
-		
-		// Spiegel: RSS 0.91
-		//$this->feed->setUrl("http://www.spiegel.de/schlagzeilen/rss/index.xml");
-
-		// Heise: Atom
-		//$this->feed->setUrl("http://www.heise.de/newsticker/heise-atom.xml");
-
-//		$this->feed->fetch();
-		
 		$this->setLimit(5);
-//		$this->setTitle($this->feed->getChannelTitle());
 		$this->setRowTemplate("tpl.block_external_feed_row.html", "Services/Feeds");
-//		$this->setData($this->feed->getItems());
 	}
 		
 	/**
@@ -133,7 +113,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->setTitle($this->feed_block->getTitle());
 		$this->setBlockId($this->feed_block->getId());
 		
-		// get feet object
+		// get feed object
 		include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 		$this->feed = new ilExternalFeed();
 		$this->feed->setUrl($this->feed_block->getFeedUrl());
