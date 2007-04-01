@@ -49,21 +49,21 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
      * @return int reference id in the tree, 0 if not successful
      */
 	function addExercise ($sid, $target_id, $exercise_xml) {
-   	    if(!$this->__checkSession($sid))
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
-        include_once './include/inc.header.php';
-        global $rbacsystem, $tree, $ilLog;
+		include_once './include/inc.header.php';
+		global $rbacsystem, $tree, $ilLog;
 
-        if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
+		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
 			return $this->__raiseError('No valid target given.', 'Client');
 		}
 
 		if(ilObject::_isInTrash($target_id))
 		{
-			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'Client');
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_OBJECT_DELETED');
 		}
 
 		// Check access
@@ -73,37 +73,35 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"', 'Client');
 		}
 
-	    if(!$rbacsystem->checkAccess('create',$target_id,"exc"))
+		if(!$rbacsystem->checkAccess('create',$target_id,"exc"))
 		{
 			return $this->__raiseError('No permission to create exercises in target  '.$target_id.'!', 'Client');
 		}
 
-        // create object, put it into the tree and use the parser to update the settings
+		// create object, put it into the tree and use the parser to update the settings
 		include_once './Modules/Exercise/classes/class.ilObjExercise.php';
 		include_once './Modules/Exercise/classes/class.ilExerciseXMLParser.php';
 		include_once './Modules/Exercise/classes/class.ilExerciseException.php';
 
 
 		$exercise = new ilObjExercise();
-        $exercise->create();
-    	$exercise->createReference();
-    	$exercise->putInTree($target_id);
-    	$exercise->setPermissions($target_id);
-    	$exercise->saveData();
+		$exercise->create();
+		$exercise->createReference();
+		$exercise->putInTree($target_id);
+		$exercise->setPermissions($target_id);
+		$exercise->saveData();
 
-    	// we need this as workaround because file and member objects need to be initialised
+		// we need this as workaround because file and member objects need to be initialised
 		$exercise->read();
 
 		$exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml);
-        try
-        {
-
-            return $exerciseXMLParser->start() &&  $exercise->update() ? $exercise->getRefId() : 0;
-
-        } catch(ilExerciseException $exception) {
-            return $this->__raiseError($exception->getMessage(),
-									   $exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");
-        }
+		try
+		{
+			return $exerciseXMLParser->start() &&  $exercise->update() ? $exercise->getRefId() : 0;
+		} catch(ilExerciseException $exception) {
+			return $this->__raiseError($exception->getMessage(),
+									$exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");
+		}
 	}
 
 
@@ -117,25 +115,25 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
      * @return boolean true, if update successful, false otherwise
      */
 	function updateExercise ($sid, $ref_id, $exercise_xml) {
-	    if(!$this->__checkSession($sid))
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
-        include_once './include/inc.header.php';
-        global $rbacsystem, $tree, $ilLog;
+		include_once './include/inc.header.php';
+		global $rbacsystem, $tree, $ilLog;
 
 		if(ilObject::_isInTrash($ref_id))
 		{
-			return $this->__raiseError('Cannot perform update since exercise has been deleted.', 'Client');
+			return $this->__raiseError('Cannot perform update since exercise has been deleted.', 'CLIENT_OBJECT_DELETED');
 		}
-        // get obj_id
+		// get obj_id
 		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
 		{
 			return $this->__raiseError('No exercise found for id: '.$ref_id,
-									   'Client');
+									   'CLIENT_OBJECT_NOI_FOUND');
 		}
 
-   		// Check access
+		// Check access
 		$permission_ok = false;
 		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
 		{
@@ -149,7 +147,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		if(!$permission_ok)
 		{
 			return $this->__raiseError('No permission to edit the exercise with id: '.$ref_id,
-									   'Server');
+									'Server');
 		}
 
 
@@ -157,15 +155,15 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
 		if (!is_object($exercise) || $exercise->getType()!= "exc")
 		{
-            return $this->__raiseError('Wrong obj id or type for exercise with id '.$ref_id,
-									   'Server');
+			return $this->__raiseError('Wrong obj id or type for exercise with id '.$ref_id,
+									'CLIENT_OBJECT_NOI_FOUND');
 		}
 
 		include_once './Modules/Exercise/classes/class.ilExerciseXMLParser.php';
 		include_once './Modules/Exercise/classes/class.ilExerciseException.php';
-        $exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml, $obj_id);
+		$exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml, $obj_id);
 
-        try
+		try
         {
 
             return $exerciseXMLParser->start() && $exercise->update();
