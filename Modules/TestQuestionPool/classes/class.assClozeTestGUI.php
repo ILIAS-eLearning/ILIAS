@@ -986,7 +986,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 				case CLOZE_NUMERIC:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap->$this->object->getFixedTextLength() ? $this->object->getFixedTextLength() : $gap->getMaxWidth());
+					$gaptemplate->setVariable("TEXT_GAP_SIZE", $this->object->getFixedTextLength() ? $this->object->getFixedTextLength() : $gap->getMaxWidth());
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					foreach ($user_solution as $solution)
 					{
