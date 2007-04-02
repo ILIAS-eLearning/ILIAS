@@ -136,6 +136,11 @@ class ilColumnGUI
 		//	$a_side = $_GET["col_side"];
 		//}
 
+		if ($_SESSION["col_".$this->getColType()."_".movement] == "on")
+		{
+			$this->setMovementMode(true);
+		}
+		
 		$this->setSide($a_side);
 	}
 
@@ -250,6 +255,46 @@ class ilColumnGUI
 	}
 
 	/**
+	* Set Movement Mode.
+	*
+	* @param	boolean	$a_movementmode	Movement Mode
+	*/
+	function setMovementMode($a_movementmode)
+	{
+		$this->movementmode = $a_movementmode;
+	}
+
+	/**
+	* Get Movement Mode.
+	*
+	* @return	boolean	Movement Mode
+	*/
+	function getMovementMode()
+	{
+		return $this->movementmode;
+	}
+
+	/**
+	* Set Enable Movement.
+	*
+	* @param	boolean	$a_enablemovement	Enable Movement
+	*/
+	function setEnableMovement($a_enablemovement)
+	{
+		$this->enablemovement = $a_enablemovement;
+	}
+
+	/**
+	* Get Enable Movement.
+	*
+	* @return	boolean	Enable Movement
+	*/
+	function getEnableMovement()
+	{
+		return $this->enablemovement;
+	}
+
+	/**
 	* Get Screen Mode for current command.
 	*/
 	static function getScreenMode()
@@ -351,6 +396,7 @@ class ilColumnGUI
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 				$block_gui->setAdminCommands($this->getAdminCommands());
+				$block_gui->setConfigMode($this->getMovementMode());
 
 				if (in_array($gui_class, $this->custom_blocks[$this->getColType()]) ||
 					in_array($cur_block_type, $this->rep_block_types))
@@ -420,6 +466,7 @@ class ilColumnGUI
 			$block_gui->setRepositoryMode($this->getRepositoryMode());
 			$block_gui->setEnableEdit($this->getEnableEdit());
 			$block_gui->setAdminCommands($this->getAdminCommands());
+			$block_gui->setConfigMode($this->getMovementMode());
 			if ($this->getSide() == IL_COL_LEFT)
 			{
 				$block_gui->setAllowMove("right");
@@ -566,8 +613,41 @@ class ilColumnGUI
 			}
 		}
 		
+		if ($this->getSide() == IL_COL_RIGHT && $this->getEnableMovement())
+		{
+			$this->tpl->setCurrentBlock("toggle_movement");
+			$this->tpl->setVariable("HREF_TOGGLE_MOVEMENT",
+				$ilCtrl->getLinkTarget($this, "toggleMovement"));
+			if ($_SESSION["col_".$this->getColType()."_".movement] == "on")
+			{
+				$this->tpl->setVariable("TXT_TOGGLE_MOVEMENT",
+					$lng->txt("stop_moving_blocks"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_TOGGLE_MOVEMENT",
+					$lng->txt("move_blocks"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		//return $tpl->get();
 
+	}
+	
+	function toggleMovement()
+	{
+		global $ilCtrl;
+		
+		if ($_SESSION["col_".$this->getColType()."_".movement] == "on")
+		{
+			$_SESSION["col_".$this->getColType()."_".movement] = "off";
+		}
+		else
+		{
+			$_SESSION["col_".$this->getColType()."_".movement] = "on";
+		}
+		$ilCtrl->returnToParent($this);
 	}
 
 	/**
@@ -604,6 +684,7 @@ class ilColumnGUI
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 				$block_gui->setAdminCommands($this->getAdminCommands());
+				$block_gui->setConfigMode($this->getMovementMode());
 				
 				if ($this->getSide() == IL_COL_LEFT)
 				{
@@ -686,6 +767,7 @@ class ilColumnGUI
 		$block_gui->setRepositoryMode($this->getRepositoryMode());
 		$block_gui->setEnableEdit($this->getEnableEdit());
 		$block_gui->setAdminCommands($this->getAdminCommands());
+		$block_gui->setConfigMode($this->getMovementMode());
 		
 		$ilCtrl->setParameter($this, "block_type", $_POST["block_type"]);
 		$html = $ilCtrl->forwardCommand($block_gui);

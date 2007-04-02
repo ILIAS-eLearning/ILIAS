@@ -31,6 +31,7 @@
 	<subobj name="extt" max="1">extt</subobj>
 	<subobj name="ps" max="1">ps</subobj>
 	<subobj name="nwss" max="1">nwss</subobj>
+	<subobj name="pdts" max="1">pdts</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="check">system_check</property>
@@ -485,6 +486,10 @@
 </object>
 <object name="nwss" class_name="NewsSettings" location="Services/News/classes" module="Services/News" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<property name="news_settings">news_settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="pdts" class_name="PersonalDesktopSettings" location="Services/PersonalDesktop/classes" module="Services/PersonalDesktop" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="news_settings">pdesk_settings</property>
 	<property name="perm">perm_settings</property>
 </object>
 </objects>
