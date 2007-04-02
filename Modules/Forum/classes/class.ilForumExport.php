@@ -329,10 +329,10 @@ class ilForumExport
     {
         global $lng;
 		
-		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
-        {
-			return  $lng->txt("today").", ".ilFormat::formatDate($date,"time");
-		}
+#		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
+#        {
+#			return  $lng->txt("today").", ".ilFormat::formatDate($date,"time");
+#		}
 		
 		return ilFormat::formatDate($date);
     }
