@@ -1014,6 +1014,7 @@ class ilObjForumGUI extends ilObjectGUI
 				//"./forums_threads_view.php?thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 			}
 			$fs_gui->show();
+			exit();
 		}
 		else
 		{
@@ -1337,6 +1338,14 @@ class ilObjForumGUI extends ilObjectGUI
 						}
 					}
 		
+					if ($_SESSION["viewmode_".$forumObj->getId()] == "tree")
+					{
+						$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
+						$tpl->setVariable("JAVASCRIPT",
+							$this->ctrl->getLinkTarget($this, "showExplorer"));
+						$this->ctrl->clearParameters($this);
+					}
+
 				} // if ($_GET["cmd"] != "ready_censor")
 				// insert censorship
 				elseif ($_POST["confirm"] != "" && $_GET["action"] == "ready_censor")
@@ -1626,7 +1635,7 @@ class ilObjForumGUI extends ilObjectGUI
 									$this->ctrl->setParameter($this, "orderby", $_GET["orderby"]);
 
 									$tpl->setVariable("CENS_FORMACTION",
-										$this->ctrl->getLinkTarget($this, "showThreadFrameset"));
+										$this->ctrl->getLinkTarget($this, "viewThread"));
 									//basename($_SERVER["PHP_SELF"])."?action=ready_censor&ref_id=".
 									//				  $_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"].
 									//				  "&offset=".$Start."&orderby=".$_GET["orderby"]);
@@ -1805,7 +1814,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 					$tpl->setCurrentBlock("posts_row");
 					$rowCol = ilUtil::switchColor($z,"tblrow1","tblrow2");
-					if ($_GET["action"] != "censor" || $_GET["pos_pk"] != $node["pos_pk"])
+					if (($_GET["action"] != "delete" && $_GET["action"] != "censor") || $_GET["pos_pk"] != $node["pos_pk"])
 					{
 						$tpl->setVariable("ROWCOL", $rowCol);
 					}
