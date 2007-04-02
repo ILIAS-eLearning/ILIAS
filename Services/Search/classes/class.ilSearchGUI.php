@@ -638,6 +638,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 				case 'fil':
 					$filter[] = 'file';
 					break;
+				
+				case 'mcst':
+					$filter[] = 'mcst';
+					break;
 			}
 		}
 		return $filter ? $filter : array();
