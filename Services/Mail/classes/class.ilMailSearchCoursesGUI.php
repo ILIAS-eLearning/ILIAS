@@ -108,7 +108,7 @@ class ilMailSearchCoursesGUI
 
 	function mailCourses()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $rbacreview;
 
 		$members = array();
 
@@ -127,9 +127,21 @@ class ilMailSearchCoursesGUI
 			);
 		}
 		
-		foreach ($_POST["search_crs"] as $crs)
+		require_once 'classes/class.ilObject.php';
+		foreach ($_POST["search_crs"] as $crs_id)
 		{
-			array_push($members, "#il_crs_members_".$crs);
+			$ref_ids = ilObject::_getAllReferences($crs_id);
+			foreach ($ref_ids as $ref_id)
+			{
+				$roles = $rbacreview->getAssignableChildRoles($ref_id);
+				foreach ($roles as $role)
+				{
+					if (substr($role['title'],0,14) == 'il_crs_member_')
+					{
+						array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+					}
+				}
+			}
 		}
 		$mail_data = $this->umail->appendSearchResult($members,"to");
 

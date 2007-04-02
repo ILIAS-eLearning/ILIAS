@@ -353,7 +353,7 @@ class ilRbacReview
 			// If the role title is one of the ILIAS reserved role titles,
 			//     we can use a shorthand version of it for the local part
 			//     of the mailbox address.
-			if (strpos($role_title, 'il_') === 0 && $object_title != null)
+			if (strpos($role_title, 'il_') === 0 && $domain != null)
 			{
 				$unambiguous_role_title = $role_title;
 
