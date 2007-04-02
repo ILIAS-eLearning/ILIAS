@@ -602,21 +602,24 @@ class ilLanguage
 	function getLocalLanguages()
 	{
 		$local_langs = array();
-		$d = dir($this->cust_lang_path);
-		$tmpPath = getcwd();
-		chdir ($this->cust_lang_path);
-
-		// get available .lang.local files
-		while ($entry = $d->read())
+		if (is_dir($this->cust_lang_path))
 		{
-			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang.local$)", $entry)))
+			$d = dir($this->cust_lang_path);
+			$tmpPath = getcwd();
+			chdir ($this->cust_lang_path);
+	
+			// get available .lang.local files
+			while ($entry = $d->read())
 			{
-				$lang_key = substr($entry,6,2);
-				$local_langs[] = $lang_key;
+				if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang.local$)", $entry)))
+				{
+					$lang_key = substr($entry,6,2);
+					$local_langs[] = $lang_key;
+				}
 			}
+	
+			chdir($tmpPath);
 		}
-
-		chdir($tmpPath);
 
 		return $local_langs;
 	}
