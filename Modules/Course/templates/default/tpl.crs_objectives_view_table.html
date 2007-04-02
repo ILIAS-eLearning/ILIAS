@@ -1,25 +1,24 @@
-	<table class="fullwidth_invisible">
-  <tr>
-	<td>
-	  <table class="fullwidth">
-		<tr class="tbltitle">
-		  <td colspan="3">
-			<table class="fullwidth_invisible" cellspacing="0">
-			  <tr class="tbltitle">
-				<td class="tbltitle" align="left">&nbsp;{TBL_TITLE_OBJECTIVES}</td>
-			  </tr>
-			</table>
-		  </td>
-		</tr>
+<table class="fullwidth">
+	<tr class="tbltitle">
+		<th colspan="3">
+			&nbsp;{TBL_TITLE_LMS}
+		</th>
+	</tr>
 		<!-- BEGIN show -->
 		<tr class="tblheader">
-		  <!-- BEGIN tbl_header_columns -->
-		  <th class="std" nowrap="nowrap" width="{TBL_HEADER_WIDTH_OBJECTIVES}" >
-			<div align="{ALIGN}">
-			  {TBL_HEADER_NAME_OBJECTIVES}
+		  <th class="std" nowrap="nowrap" width="1">
+			<div style="text-align: center">
+			  {TBL_HEADER_NAME_OBJECTIVES_A}
 			</div>
 		  </th>
-		  <!-- END tbl_header_columns -->
+		  <th class="std" nowrap="nowrap">
+			  {TBL_HEADER_NAME_OBJECTIVES_B}
+		  </th>
+		  <th class="std" nowrap="nowrap">
+			<div style="text-align: center">
+			  {TBL_HEADER_NAME_OBJECTIVES_C}
+			</div>
+		  </th>
 		</tr>
 		<!-- BEGIN objective_row -->
 		<tr class="std">
@@ -33,8 +32,7 @@
 		<!-- END objective_row -->
 		<!-- END show -->
 	  </table>
-	</td>
-  </tr>
+  <table class="fullwidth_invisible">
   <tr>
 	<td colspan="3" align="right">{TXT_HIDE_SHOW_OBJECTIVES}
 	  <a href="{LINK_HIDE_SHOW_OBJECTIVES}">

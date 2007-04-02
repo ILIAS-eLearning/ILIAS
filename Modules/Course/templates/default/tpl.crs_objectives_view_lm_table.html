@@ -1,59 +1,53 @@
+<table class="fullwidth" border="0">
+	<tr class="tbltitle">
+		<th colspan="2">
+			&nbsp;{TBL_TITLE_LMS}
+		</th>
+	</tr>
+	<tr class="tblheader">
+		<td class="std" align="center" width="1">{TBL_HEADER_LMS_TYPE}</td>
+		<td class="std" align="center">{TBL_HEADER_NAME_LMS}</td>
+	</tr>
+	<!-- BEGIN lm_row -->
+	<tr class="std">
+		<td valign="top" style="white-space: nowrap;" class="{OBJ_CLASS_LMS}">
+			<div style="text-align: center">
+				<img src="{IMG_TYPE_MAT}" alt="{TXT_IMG_MAT}" title="{TXT_IMG_MAT}" border="0" />
+			</div>
+		</td>
+		<td class="{OBJ_CLASS_LMS}">
+			<div style="float: left">
+				<!-- BEGIN lm_visible -->
+				<b>{VISIBLE_LINK_LMS}</b>
+				<!-- END lm_visible -->
+				<!-- BEGIN lm_read -->
+				<a href="{READ_LINK_LMS}" target="{READ_TARGET_LMS}">{READ_TITLE_LMS}</a>
+				<!-- END lm_read -->
+				<!-- BEGIN lms_description -->
+				<div class="il_Description_no_margin">{DESCRIPTION_LMS}</div>
+				<!-- END lms_description -->
+				<div class="il_info">{TEXT_INFO_LMS} {INFO_LMS}</div>
+				<!-- BEGIN chapters -->
+				&nbsp;&nbsp;{TXT_CHAPTER} -> <a href="{CHAPTER_LINK_LMS}" target="{CHAPTER_LINK_TARGET_LMS}">{CHAPTER_TITLE}</a><br />
+				<!-- END chapters -->
+			</div>
+			<div style="float:right">
+				<!-- BEGIN lm_desklink -->
+				<a class="il_ContainerItemCommand" href="{DESK_LINK_LMS}">{TXT_DESK_LMS}</a>
+				<!-- END lm_desklink -->
+				<!-- BEGIN lm_continuelink -->
+				<a class="il_ContainerItemCommand" href="{CONTINUE_LINK_LMS}" target="{CONTINUE_LINK_TARGET}">{TXT_CONTINUE_LMS}</a>
+				<!-- END lm_continuelink -->
+			</div>
+		</td>
+	</tr>
+	<!-- END lm_row -->
 	<table class="fullwidth_invisible">
 		<tr>
-		  <td>
-			<table class="fullwidth" border="0">
-				<tr class="tbltitle">
-				  <td colspan="3">
-					<table class="fullwidth_invisible" cellspacing="0">
-						<tr class="tbltitle">
-						  <td class="tbltitle" align="left">&nbsp;{TBL_TITLE_LMS}</td>
-						</tr>
-					</table>
-				  </td>
-				</tr>
-				<tr class="tblheader">
-				  <!-- BEGIN tbl_header_columns_lms -->
-				  <td  class="std" nowrap="nowrap" align="center" width="{TBL_HEADER_WIDTH_LMS}" >{TBL_HEADER_NAME_LMS}</td>
-				  <!-- END tbl_header_columns_lms -->
-				  
-				</tr>
-				<!-- BEGIN lm_row -->
-				<tr class="std">
-				  <td class="{OBJ_CLASS_CENTER_LMS}"><b>{OBJ_NR_LMS}</b></td>
-				  <td class="{OBJ_CLASS_LMS}">
-					<!-- BEGIN lm_visible -->
-					<b>{VISIBLE_LINK_LMS}</b>
-					<!-- END lm_visible -->
-					<!-- BEGIN lm_read -->
-					<a href="{READ_LINK_LMS}" target="{READ_TARGET_LMS}">{READ_TITLE_LMS}</a>
-					<!-- END lm_read -->
-										<!-- BEGIN lms_description -->
-					<div class="il_Description_no_margin">{DESCRIPTION_LMS}</div>
-					<!-- END lms_description -->
-					<div class="il_info">{TEXT_INFO_LMS} {INFO_LMS}</div>
-					<!-- BEGIN chapters -->
-					&nbsp;&nbsp;{TXT_CHAPTER} -> <a href="{CHAPTER_LINK_LMS}" target="{CHAPTER_LINK_TARGET_LMS}">{CHAPTER_TITLE}</a><br />
-					<!-- END chapters -->
-				  </td>
-				  <td class="{OBJ_CLASS_LMS}">
-			<!-- BEGIN lm_desklink -->
-			<div style="float:right">
-					<a class="il_ContainerItemCommand" href="{DESK_LINK_LMS}">{TXT_DESK_LMS}</a>
-					<!-- END lm_desklink -->
-					<!-- BEGIN lm_continuelink -->
-					<a class="il_ContainerItemCommand" href="{CONTINUE_LINK_LMS}" target="{CONTINUE_LINK_TARGET}">{TXT_CONTINUE_LMS}</a>
-			</div>
-					<!-- END lm_continuelink -->
-				  </td>
-				</tr>
-				<!-- END lm_row -->
-			</table>
-		  </td>
-		</tr>
-		<tr>
-		  <td colspan="2" align="right">{TXT_HIDE_SHOW_LMS}
-			<a href="{LINK_HIDE_SHOW_LMS}">
-			  <img src="{HIDE_SHOW_IMG_LMS}" alt="{TXT_HIDE_SHOW_LMS}" title="{TXT_HIDE_SHOW_LMS}" border="0" />
-			</a>
+			<td colspan="2" align="right">{TXT_HIDE_SHOW_LMS}
+				<a href="{LINK_HIDE_SHOW_LMS}">
+				<img src="{HIDE_SHOW_IMG_LMS}" alt="{TXT_HIDE_SHOW_LMS}" title="{TXT_HIDE_SHOW_LMS}" border="0" />
+				</a>
+			</td>
 		</tr>
 	</table>

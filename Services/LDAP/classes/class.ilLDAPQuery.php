@@ -185,6 +185,8 @@ class ilLDAPQuery
 		$dn .=	$this->settings->getBaseDN();
 		
 		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
+		
+		$this->log->write(__METHOD__.': Searching with ldap search and filter '.$this->settings->getFilter().' in '.$dn);
 	 	$res = $this->queryByScope($this->settings->getUserScope(),
 	 		$dn,
 	 		$this->settings->getFilter(),
@@ -205,7 +207,7 @@ class ilLDAPQuery
 		{
 			if(isset($data[$this->settings->getUserAttribute()]))
 			{
-				$this->readUserData($data[$this->settings->getUserAttribute()]);
+				$this->readUserData($data[$this->settings->getUserAttribute()],false);
 			}
 			else
 			{
@@ -284,10 +286,10 @@ class ilLDAPQuery
 	 * Read user data 
 	 * @access private
 	 */
-	private function readUserData($a_name)
+	private function readUserData($a_name,$a_check_dn = true)
 	{
 		// Build filter
-		if($this->settings->enabledGroupMemberIsDN())
+		if($this->settings->enabledGroupMemberIsDN() and $a_check_dn)
 		{
 			$filter = $this->settings->getFilter();
 			$dn = $a_name;
@@ -306,8 +308,8 @@ class ilLDAPQuery
 				$dn .= ',';
 			}
 			$dn .=	$this->settings->getBaseDN();
-			$res = $this->queryByScope($this->settings->getUserScope(),strtolower($dn),$filter,$this->user_fields);
-			
+			$fields = array_merge($this->user_fields,array('useraccountcontrol'));
+			$res = $this->queryByScope($this->settings->getUserScope(),strtolower($dn),$filter,$fields);
 		}
 		
 		
@@ -317,11 +319,19 @@ class ilLDAPQuery
 			$this->log->write('LDAP: No user data found for: '.$a_name);
 			unset($tmp_result);
 			return false;
-				
 		}
 
 		if($user_data = $tmp_result->get())
 		{
+			if(isset($user_data['useraccountcontrol']))
+			{
+				if(($user_data['useraccountcontrol'] & 0x02))
+				{
+					$this->log->write(__METHOD__.': '.$a_name.' account disabled.');
+					return;
+				}
+			}
+			
 			$user_ext = $user_data[strtolower($this->settings->getUserAttribute())];
 			$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount('ldap',$user_ext);
 			$this->users[$user_ext] = $user_data;
@@ -391,7 +401,11 @@ class ilLDAPQuery
 			{
 				throw new ilLDAPQueryException("LDAP: Cannot switch on LDAP referrals");
 			}
-			@ldap_set_rebind_proc($this->lh,'referralRebind');
+			#@ldap_set_rebind_proc($this->lh,'referralRebind');
+		}
+		else
+		{
+			$this->log->write(__METHOD__.': Switching referrals to false.');
 		}
 		// Start TLS
 		if($this->settings->isActiveTLS())
@@ -424,10 +438,12 @@ class ilLDAPQuery
 
 					define('IL_LDAP_REBIND_USER',$user);
 					define('IL_LDAP_REBIND_PASS',$pass);
+					$this->log->write(__METHOD__.': Bind as '.$user);
 				}
 				else
 				{
 					$user = $pass = '';
+					$this->log->write(__METHOD__.': Bind anonymous');
 				}
 				break;
 			
@@ -459,6 +475,10 @@ class ilLDAPQuery
 		if(!@ldap_bind($this->lh,$user,$pass))
 		{
 			throw new ilLDAPQueryException('LDAP: Cannot bind as '.$user);
+		}
+		else
+		{
+			$this->log->write(__METHOD__.': Bind successful.');
 		}
 	}
 	
