@@ -108,7 +108,7 @@ class ilMailSearchGroupsGUI
 
 	function mailGroups()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $rbacreview;
 
 		$members = array();
 
@@ -127,9 +127,21 @@ class ilMailSearchGroupsGUI
 			);
 		}
 		
-		foreach ($_POST["search_grp"] as $grp)
+		require_once 'classes/class.ilObject.php';
+		foreach ($_POST["search_grp"] as $grp_id)
 		{
-			array_push($members, "#il_grp_members_".$grp);
+			$ref_ids = ilObject::_getAllReferences($grp_id);
+			foreach ($ref_ids as $ref_id)
+			{
+				$roles = $rbacreview->getAssignableChildRoles($ref_id);
+				foreach ($roles as $role)
+				{
+					if (substr($role['title'],0,14) == 'il_grp_member_')
+					{
+						array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+					}
+				}
+			}
 		}
 		$mail_data = $this->umail->appendSearchResult($members,"to");
 
