@@ -701,8 +701,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_ASSISTANCE", $this->lng->txt("enable_password_assistance"));
 		$this->tpl->setVariable("TXT_PASSWORD_AUTO_GENERATE_INFO",$this->lng->txt('passwd_generation_info'));
-
-		if (AUTH_DEFAULT != AUTH_LOCAL)
+//rku:	password assistent should be availabe always, even in mixed mode.
+//		if (AUTH_DEFAULT != AUTH_LOCAL)
 		{
 			$this->tpl->setVariable("DISABLE_PASSWORD_ASSISTANCE", 'disabled=\"disabled\"');
 			$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_DISABLED", $this->lng->txt("password_assistance_disabled"));
