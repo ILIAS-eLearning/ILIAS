@@ -3146,7 +3146,6 @@ common#:#show#:#Zeige
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
-common#:#show_notes_on_pd#:#Notizen auf persönlichem Schreibtisch anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#show_private_notes#:#Private Notizen zeigen
 common#:#show_public_notes#:#Öffentliche Notizen zeigen
@@ -7058,8 +7057,6 @@ news#:#news_public_feed#:#Extra Feed URL###25 02 2007 new variable
 news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.###25 02 2007 new variable
 news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###25 02 2007 new variable
 feed#:#feed_feed_items#:#Feed Item(s)###25 02 2007 new variable
-feed#:#feed_enable_rep_feeds#:#Enable Exernal Web Feeds in Categories###25 02 2007 new variable
-feed#:#feed_enable_rep_feeds_info#:#Activates external web feeds in categories.###25 02 2007 new variable
 feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop###25 02 2007 new variable
 feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.###25 02 2007 new variable
 feed#:#feed_settings#:#External Web Feeds Settings###25 02 2007 new variable
@@ -7146,3 +7143,88 @@ registration#:#auth_radius_sync_info#:#Wenn aktiviert, wird automatisch ein ILIA
 common#:#forums_anonymized#:#Forum anonymisiert
 common#:#forums_your_name#:#Ihr Name
 common#:#forums_use_alias#:#Sie können hier ein Alias eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als anonym markiert.
+common#:#short_inst_name#:#Short Title###02 04 2007 new variable
+common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
+assessment#:#cloze_fixed_textlength#:#Text Field Length###02 04 2007 new variable
+assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value.###02 04 2007 new variable
+form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.###02 04 2007 new variable
+form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.###02 04 2007 new variable
+form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.###02 04 2007 new variable
+form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.###02 04 2007 new variable
+form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.###02 04 2007 new variable
+form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
+form#:#form_msg_file_wrong_file_type#:#Wrong file type.###02 04 2007 new variable
+form#:#form_msg_file_virus_found#:#Virus found in uploaded file.###02 04 2007 new variable
+form#:#form_days#:#Days###02 04 2007 new variable
+form#:#form_hours#:#Hours###02 04 2007 new variable
+form#:#form_minutes#:#Minutes###02 04 2007 new variable
+form#:#form_seconds#:#Seconds###02 04 2007 new variable
+common#:#obj_pdts#:#Personal Desktop Settings###02 04 2007 new variable
+common#:#obj_pdts_desc#:#Configure the Personal Desktop###02 04 2007 new variable
+common#:#move_blocks#:#Move Blocks###02 04 2007 new variable
+common#:#stop_moving_blocks#:#Stop Moving Blocks###02 04 2007 new variable
+pd#:#pd_settings#:#Personal Desktop Settings###02 04 2007 new variable
+pd#:#pd_enable_block_moving#:#Enable Block Moving###02 04 2007 new variable
+pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.###02 04 2007 new variable
+mcst#:#mcst_add_new_item#:#Add New Media Cast Item###02 04 2007 new variable
+mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.###02 04 2007 new variable
+mcst#:#mcst_duration#:#Play Time###02 04 2007 new variable
+mcst#:#mcst_nr_items#:#Number of Items###02 04 2007 new variable
+mcst#:#mcst_last_submission#:#Last Submission###02 04 2007 new variable
+mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.###02 04 2007 new variable
+mcst#:#mcst_media_cast#:#Media Cast###02 04 2007 new variable
+mcst#:#mcst_entry#:#Media Cast Entries###02 04 2007 new variable
+mcst#:#mcst_play_time#:#Play Time###02 04 2007 new variable
+mcst#:#mcst_det_playtime#:#Determine Play Time###02 04 2007 new variable
+mcst#:#mcst_settings#:#MediaCast Settings###02 04 2007 new variable
+mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed###02 04 2007 new variable
+mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.###02 04 2007 new variable
+common#:#file_allowed_suffixes#:#Allowed file types:###02 04 2007 new variable
+common#:#obj_feed#:#Web Feed###02 04 2007 new variable
+common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
+common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
+common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
+common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
+common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
+common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
+common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
+common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
+common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
+common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
+common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
+common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
+news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
+news#:#news_related_to#:#Related to###02 04 2007 new variable
+news#:#news_all_items#:#All Items###02 04 2007 new variable
+common#:#access_users#:#Logged in Users###02 04 2007 new variable
+common#:#access_public#:#Public###02 04 2007 new variable
+common#:#access_scope#:#Access###02 04 2007 new variable
+feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories###02 04 2007 new variable
+feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing external web feed blocks, in case of an unexpected problem due to an external feed source.###02 04 2007 new variable
+gmaps#:#gmaps_public_profile_info#:#Show location in your public profile.###02 04 2007 new variable
+gmaps#:#gmaps_enable_gmaps#:#Enable Google Maps###02 04 2007 new variable
+gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
+gmaps#:#gmaps_zoom_level#:#Zoom Level###02 04 2007 new variable
+common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.###02 04 2007 new variable
+common#:#selected_items_back#:#Back to Personal Items###02 04 2007 new variable
+common#:#pd_items_news#:#Include News of Personal Items###02 04 2007 new variable
+common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.###02 04 2007 new variable
+crs#:#crs_news#:#Course News###02 04 2007 new variable
+grp#:#grp_map_settings#:#Map Settings###02 04 2007 new variable
+grp#:#grp_enable_map#:#Enable Group Map###02 04 2007 new variable
+grp#:#grp_members_map#:#Group Members Map###02 04 2007 new variable
+grp#:#grp_map_location#:#Group Map Location###02 04 2007 new variable
+crs#:#crs_map_settings#:#Map Settings###02 04 2007 new variable
+crs#:#crs_enable_map#:#Enable Course Map###02 04 2007 new variable
+crs#:#crs_map_location#:#Course Map Location###02 04 2007 new variable
+crs#:#crs_members_map#:#Course Members Map###02 04 2007 new variable
+common#:#forums_anonymous#:#anonym###02 04 2007 new variable

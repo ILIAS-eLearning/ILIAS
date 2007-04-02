@@ -8,7 +8,7 @@
 
 
 ************************************************************
-THIS IS AN ALPHA RELEASE. DO NOT USE IT AS A PRODUCTIVE
+THIS IS AN BETA RELEASE. DO NOT USE IT AS A PRODUCTIVE
 SYSTEM. DATA WILL BE LOST.
 ************************************************************
 
@@ -220,7 +220,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.8.0-alpha.tar.gz
+    ilias-3.8.0-beta.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -647,7 +647,7 @@ components:
 2.4 Installing ILIAS 3
 
 ************************************************************
-THIS IS AN ALPHA RELEASE. DO NOT USE IT AS A PRODUCTIVE
+THIS IS AN BETA RELEASE. DO NOT USE IT AS A PRODUCTIVE
 SYSTEM. DATA WILL BE LOST.
 ************************************************************
 
@@ -657,7 +657,7 @@ SYSTEM. DATA WILL BE LOST.
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-alpha.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-beta.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -769,7 +769,7 @@ SYSTEM. DATA WILL BE LOST.
 3. Updating ILIAS 3
 
 ************************************************************
-THIS IS AN ALPHA RELEASE. DO NOT UPDATE ANY PRODUCTIVE
+THIS IS AN BETA RELEASE. DO NOT UPDATE ANY PRODUCTIVE
 SYSTEM WITH THIS PROCEDURE. DATA WILL BE LOST.
 ************************************************************
 
@@ -830,7 +830,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-alpha.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-beta.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
