@@ -187,7 +187,7 @@ class ilObjFile extends ilObject
 
 	function createDirectory()
 	{
-		ilUtil::makeDir($this->getDirectory());
+		ilUtil::makeDirParents($this->getDirectory());
 	}
 	
 	function raiseUploadError($a_raise = true)
@@ -201,7 +201,7 @@ class ilObjFile extends ilObject
 
 		if (@!is_dir($this->getDirectory($this->getVersion())))
 		{
-			ilUtil::makeDir($this->getDirectory($this->getVersion()));
+			ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
 		}
 
 		$file = $this->getDirectory($this->getVersion())."/".$a_filename;

@@ -1135,6 +1135,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		
 		$this->object->setActiveTestUser(1, "", true);
+		
+		if($_GET['crs_show_result'])
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "backToCourse");
+		}
 
 		if (!$this->object->canViewResults()) 
 		{
@@ -1143,11 +1148,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		else
 		{
 			$this->outIntroductionPage();
-		}
-
-		if($_GET['crs_show_result'])
-		{
-			$this->ctrl->redirectByClass("ilobjtestgui", "backToCourse");
 		}
 	}
 	

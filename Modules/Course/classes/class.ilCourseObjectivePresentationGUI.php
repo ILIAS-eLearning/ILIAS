@@ -230,27 +230,12 @@ class ilCourseObjectivePresentationGUI
 			return true;
 		}
 
-		// show table header
-		for($i = 0; $i < 1; ++$i)
-		{
-			$this->tpl->setCurrentBlock("tbl_header_columns");
-			$this->tpl->setVariable("ALIGN",'center');
-			$this->tpl->setVariable("TBL_HEADER_WIDTH_OBJECTIVES","5%");
-			$this->tpl->setVariable("TBL_HEADER_NAME_OBJECTIVES",$this->lng->txt('crs_nr'));
-			$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable('TBL_HEADER_NAME_OBJECTIVES_A',$this->lng->txt('type'));
+		
+		$this->tpl->setVariable('TBL_HEADER_NAME_OBJECTIVES_B',$this->lng->txt('description'));
 
-			$this->tpl->setCurrentBlock("tbl_header_columns");
-			$this->tpl->setVariable("ALIGN",'left');
-			$this->tpl->setVariable("TBL_HEADER_WIDTH_OBJECTIVES","35%");
-			$this->tpl->setVariable("TBL_HEADER_NAME_OBJECTIVES",$this->lng->txt('description'));
-			$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable('TBL_HEADER_NAME_OBJECTIVES_C',$status);
 
-			$this->tpl->setCurrentBlock("tbl_header_columns");
-			$this->tpl->setVariable("ALIGN",'center');
-			$this->tpl->setVariable("TBL_HEADER_WIDTH_OBJECTIVES","10%");
-			$this->tpl->setVariable("TBL_HEADER_NAME_OBJECTIVES",$status);
-			$this->tpl->parseCurrentBlock();
-		}
 
 		//$max = count($objective_ids) % 2 ? count($objective_ids) + 1 : count($objective_ids); 
 		$max = count($objective_ids); 
@@ -360,20 +345,8 @@ class ilCourseObjectivePresentationGUI
 			return true;
 		}
 
-		$this->tpl->setCurrentBlock("tbl_header_columns_lms");
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","5%");
-		$this->tpl->setVariable("TBL_HEADER_NAME_LMS",$this->lng->txt('crs_nr'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_header_columns_lms");
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","75%");
+		$this->tpl->setVariable("TBL_HEADER_LMS_TYPE",$this->lng->txt('type'));
 		$this->tpl->setVariable("TBL_HEADER_NAME_LMS",$this->lng->txt('description'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_header_columns_lms");
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_LMS","25%");
-		$this->tpl->setVariable("TBL_HEADER_NAME_LMS",$this->lng->txt('actions'));
-		$this->tpl->parseCurrentBlock();
 
 		$counter = 1;
 		foreach($lms as $lm_id)
@@ -494,6 +467,8 @@ class ilCourseObjectivePresentationGUI
 				$this->tpl->setVariable("OBJ_CLASS_LMS",'option_value');
 			}
 			$this->tpl->setCurrentBlock("lm_row");
+			$this->tpl->setVariable('IMG_TYPE_MAT',ilUtil::getImagePath('icon_'.$obj_type.'.gif'));
+			$this->tpl->setVariable('TXT_IMG_MAT',$this->lng->txt('obj_'.$obj_type));
 			$this->tpl->setVariable("OBJ_NR_LMS",$counter.'.');
 			$this->tpl->parseCurrentBlock();
 
