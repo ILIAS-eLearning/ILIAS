@@ -581,8 +581,8 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("DESC", ilUtil::stripSlashes($this->object->getDescription()));
+		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput(stripslashes($this->object->getTitle())));
+		$this->tpl->setVariable("DESC", ilUtil::stripSlashes(stripslashes($this->object->getDescription())));
 
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -1179,7 +1179,24 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forums_threads_view.html",
 			"Modules/Forum");
 
-		
+		$formData = $_POST["formData"];
+		// form processing (edit & reply)
+		if ($_GET["action"] == "ready_showreply" || $_GET["action"] == "ready_showedit")
+		{
+			// check form-dates
+			$errors = "";
+
+			if (trim($formData["message"]) == "") $errors .= $lng->txt("forums_the_post").", ";
+			if ($errors != "") $errors = substr($errors, 0, strlen($errors)-2);
+
+			if ($errors != "")
+			{
+				ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
+				$_GET["action"] = substr($_GET["action"], 6);
+				$_GET["show_post"] = 1;
+			}
+		}
+
 		// UPLOAD FILE
 		// DELETE FILE
 		if(isset($_POST["cmd"]["delete_file"]))
@@ -1278,64 +1295,45 @@ class ilObjForumGUI extends ilObjectGUI
 			// form processing (edit & reply)
 			if ($_GET["action"] == "ready_showreply" || $_GET["action"] == "ready_showedit" || $_GET["action"] == "ready_censor")
 			{
-				$formData = $_POST["formData"];
-		
 				if ($_GET["action"] != "ready_censor")
 				{
-					// check form-dates
-					$checkEmptyFields = array(
-						$lng->txt("message")   => $formData["message"]
-					);
-		
-					$errors = ilUtil::checkFormEmpty($checkEmptyFields);
-		
-					if ($errors != "")
+					$_GET["show_post"] = 0;
+						
+					// Generating new posting
+					if ($_GET["action"] == "ready_showreply")
 					{
-						ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
-						$_GET["action"] = substr($_GET["action"], 6);
-						$_GET["show_post"] = 1;
-						$this->viewThreadObject();
+						// reply: new post
+		//echo "<br>1:".htmlentities($formData["message"]);
+						$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
+													  ($frm->isAnonymized() ? 0 : $_SESSION["AccountId"]), ilUtil::stripSlashes($formData["message"]),
+													  $_GET["pos_pk"],$_POST["notify"],
+													  $formData["subject"]
+														? ilUtil::stripSlashes($formData["subject"])
+														: $threadData["thr_subject"],
+													  ilUtil::stripSlashes($formData["alias"]));
+							
+						ilUtil::sendInfo($lng->txt("forums_post_new_entry"));
+						if(isset($_FILES["userfile"]))
+						{
+							$tmp_file_obj =& new ilFileDataForum($forumObj->getId(),$newPost);
+							$tmp_file_obj->storeUploadedFile($_FILES["userfile"]);
+						}
+		
 					}
 					else
 					{
-						$_GET["show_post"] = 0;
-						
-						// Generating new posting
-						if ($_GET["action"] == "ready_showreply")
+						// edit: update post
+						if ($frm->updatePost(
+								ilUtil::stripSlashes($formData["message"]),
+								$_GET["pos_pk"],
+								$_POST["notify"],
+								$formData["subject"] ? ilUtil::stripSlashes($formData["subject"]) : $threadData["thr_subject"]))
 						{
-							// reply: new post
-		//echo "<br>1:".htmlentities($formData["message"]);
-							$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
-														  ($frm->isAnonymized() ? 0 : $_SESSION["AccountId"]), ilUtil::stripSlashes($formData["message"]),
-														  $_GET["pos_pk"],$_POST["notify"],
-														  $formData["subject"]
-															? ilUtil::stripSlashes($formData["subject"])
-															: $threadData["thr_subject"],
-														  ilUtil::stripSlashes($formData["alias"]));
-							
-							ilUtil::sendInfo($lng->txt("forums_post_new_entry"));
-							if(isset($_FILES["userfile"]))
-							{
-								$tmp_file_obj =& new ilFileDataForum($forumObj->getId(),$newPost);
-								$tmp_file_obj->storeUploadedFile($_FILES["userfile"]);
-							}
-		
+							ilUtil::sendInfo($lng->txt("forums_post_modified"));
 						}
-						else
+						if(isset($_FILES["userfile"]))
 						{
-							// edit: update post
-							if ($frm->updatePost(
-									ilUtil::stripSlashes($formData["message"]),
-									$_GET["pos_pk"],
-									$_POST["notify"],
-									$formData["subject"] ? ilUtil::stripSlashes($formData["subject"]) : $threadData["thr_subject"]))
-							{
-								ilUtil::sendInfo($lng->txt("forums_post_modified"));
-							}
-							if(isset($_FILES["userfile"]))
-							{
-								$file_obj->storeUploadedFile($_FILES["userfile"]);
-							}
+							$file_obj->storeUploadedFile($_FILES["userfile"]);
 						}
 					}
 		
@@ -1491,27 +1489,27 @@ class ilObjForumGUI extends ilObjectGUI
 								{
 									$tpl->setVariable("ALIAS_VALUE",
 										($_GET["show_post"] == 1 ?
-											ilUtil::prepareFormOutput($_POST["formData"]["alias"]) :
+											ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["alias"])) :
 											""));
 								}
 								$tpl->setVariable("SUBJECT_VALUE",
 									($_GET["show_post"] == 1 ?
-										ilUtil::prepareFormOutput($_POST["formData"]["subject"]) :
-										ilUtil::prepareFormOutput($threadData["thr_subject"])));
+										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["subject"])) :
+										ilUtil::prepareFormOutput(stripslashes($threadData["thr_subject"]))));
 								$tpl->setVariable("MESSAGE_VALUE",
 									($_GET["show_post"] == 1 ?
-										ilUtil::prepareFormOutput($_POST["formData"]["message"]) :
+										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])) :
 										$frm->prepareText($node["message"],1)));
 							}
 							else
 							{
 								$tpl->setVariable("SUBJECT_VALUE",
 									($_GET["show_post"] == 1 ?
-										ilUtil::prepareFormOutput($_POST["formData"]["subject"]) :
-										ilUtil::prepareFormOutput($node["subject"])));
+										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["subject"])) :
+										ilUtil::prepareFormOutput(stripslashes($node["subject"]))));
 								$tpl->setVariable("MESSAGE_VALUE",
 									($_GET["show_post"] == 1 ?
-										ilUtil::prepareFormOutput($_POST["formData"]["message"]) :
+										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])) :
 										$frm->prepareText($node["message"],2)));
 							}
 							// NOTIFY
@@ -1979,17 +1977,17 @@ class ilObjForumGUI extends ilObjectGUI
 		
 					if($forumObj->isRead($ilUser->getId(),$node['pos_pk']))
 					{
-						$tpl->setVariable("SUBJECT",$node["subject"]);
+						$tpl->setVariable("SUBJECT",stripslashes($node["subject"]));
 					}
 					else
 					{
 						if($forumObj->isNew($ilUser->getId(),$_GET['thr_pk'],$node['pos_pk']))
 						{
-							$tpl->setVariable("SUBJECT","<i><b>".$node["subject"]."</b></i>");
+							$tpl->setVariable("SUBJECT","<i><b>".stripslashes($node["subject"])."</b></i>");
 						}
 						else
 						{
-							$tpl->setVariable("SUBJECT","<b>".$node["subject"]."</b>");
+							$tpl->setVariable("SUBJECT","<b>".stripslashes($node["subject"])."</b>");
 						}
 					}
 		
@@ -2017,9 +2015,9 @@ class ilObjForumGUI extends ilObjectGUI
 							}
 						}
 						if ($spanClass != "")
-							$tpl->setVariable("POST","<span class=\"".$spanClass."\">".nl2br($node["message"])."</span>");
+							$tpl->setVariable("POST","<span class=\"".$spanClass."\">".nl2br(stripslashes($node["message"]))."</span>");
 						else
-							$tpl->setVariable("POST",nl2br($node["message"]));
+							$tpl->setVariable("POST",nl2br(stripslashes($node["message"])));
 					}
 		
 					$tpl->parseCurrentBlock("posts_row");
@@ -2188,7 +2186,7 @@ class ilObjForumGUI extends ilObjectGUI
 	/**
 	* New Thread form.
 	*/
-	function createThreadObject()
+	function createThreadObject($errors = "")
 	{
 		global $lng, $tpl, $rbacsystem, $ilias, $ilDB;
 		
@@ -2216,6 +2214,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 		$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
 		
+		if ($errors != "")
+		{
+			ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
+		}
+
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
@@ -2236,13 +2239,13 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setCurrentBlock("new_thread");
 		$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 		$tpl->setVariable("TXT_SUBJECT", $lng->txt("forums_thread"));
-		$tpl->setVariable("SUBJECT", $_POST["formData"]["subject"]);
+		$tpl->setVariable("SUBJECT_VALUE", ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["subject"])));
 		$tpl->setVariable("TXT_MESSAGE", $lng->txt("forums_the_post"));
-		$tpl->setVariable("MESSAGE", $_POST["formData"]["message"]);
+		$tpl->setVariable("MESSAGE_VALUE", ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])));
 		if ($forumObj->isAnonymized())
 		{
 			$tpl->setVariable("TXT_ALIAS", $lng->txt("forums_your_name"));
-			$tpl->setVariable("ALIAS", $_POST["formData"]["alias"]);
+			$tpl->setVariable("ALIAS_VALUE", $_POST["formData"]["alias"]);
 			$tpl->setVariable("TXT_ALIAS_INFO", $lng->txt("forums_use_alias"));
 		}		
 		
@@ -2310,16 +2313,15 @@ class ilObjForumGUI extends ilObjectGUI
 		$formData = $_POST["formData"];
 	
 		// check form-dates
-		$checkEmptyFields = array(
-			$lng->txt("subject")   => $formData["subject"],
-			$lng->txt("message")   => $formData["message"]
-		);
-	
-		$errors = ilUtil::checkFormEmpty($checkEmptyFields);
+		$errors = "";
+
+		if (trim($formData["subject"]) == "") $errors .= $lng->txt("forums_thread").", ";
+		if (trim($formData["message"]) == "") $errors .= $lng->txt("forums_the_post").", ";
+		if ($errors != "") $errors = substr($errors, 0, strlen($errors)-2);
+
 		if ($errors != "")
 		{
-			ilUtil::sendInfo($lng->txt("form_empty_fields")." ".$errors);
-			$this->createThreadObject();
+			$this->createThreadObject($errors);
 		}
 		else
 		{	
