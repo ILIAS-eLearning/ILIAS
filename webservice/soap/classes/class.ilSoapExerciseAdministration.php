@@ -97,7 +97,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		$exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml);
 		try
 		{
-			return $exerciseXMLParser->start() &&  $exercise->update() ? $exercise->getRefId() : 0;
+			return $exerciseXMLParser->start() &&  $exercise->update() ? $exercise->getRefId() : -1;
 		} catch(ilExerciseException $exception) {
 			return $this->__raiseError($exception->getMessage(),
 									$exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");
@@ -130,7 +130,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
 		{
 			return $this->__raiseError('No exercise found for id: '.$ref_id,
-									   'CLIENT_OBJECT_NOI_FOUND');
+									   'CLIENT_OBJECT_NOT_FOUND');
 		}
 
 		// Check access
@@ -164,16 +164,14 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		$exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml, $obj_id);
 
 		try
-        {
-
-            return $exerciseXMLParser->start() && $exercise->update();
-
-        } catch(ilExerciseException $exception) {
-           return $this->__raiseError($exception->getMessage(),
+		{
+			return $exerciseXMLParser->start() && $exercise->update();
+		} catch(ilExerciseException $exception) {
+			return $this->__raiseError($exception->getMessage(),
 									   $exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");
-        }
-        return false;
-    }
+		}
+		return false;
+	}
 
 	/**
 	 * get exercise xml
@@ -186,7 +184,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 	 */
 
 	function getExerciseXML ($sid, $ref_id, $attachFileContentsMode) {
-	    if(!$this->__checkSession($sid))
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
@@ -195,7 +193,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-	    include_once './include/inc.header.php';
+		include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		// get obj_id
@@ -205,7 +203,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-    	if(ilObject::_isInTrash($ref_id))
+		if(ilObject::_isInTrash($ref_id))
 		{
 			return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
 		}
@@ -233,10 +231,10 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
 		if (!is_object($exercise) || $exercise->getType()!= "exc")
 		{
-            return $this->__raiseError('Wrong obj id or type for exercise with id '.$ref_id,
+			return $this->__raiseError('Wrong obj id or type for exercise with id '.$ref_id,
 									   'Server');
 		}
-   	    // store into xml result set
+		// store into xml result set
 		include_once './Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
 
 		// create writer
