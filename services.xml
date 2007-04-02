@@ -8,7 +8,7 @@
 	<service name="Help" dir="Services/Help">
 		<baseclass name="ilHelpGUI" dir="classes" />
 	</service>
-	<service name="PersonalDesktop" dir=".">
+	<service name="PersonalDesktop" dir="Services/PersonalDesktop">
 		<baseclass name="ilPersonalDesktopGUI" dir="classes" />
 	</service>
 	<service name="Administration" dir=".">

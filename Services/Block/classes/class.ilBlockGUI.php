@@ -590,6 +590,7 @@ abstract class ilBlockGUI
 	/**
 	* Handle config status.
 	*/
+/*
 	function handleConfigStatus()
 	{
 		$this->config_mode = false;
@@ -610,6 +611,27 @@ abstract class ilBlockGUI
 			$this->config_mode = true;
 		}
 	}
+*/
+	
+	/**
+	* Set Config Mode (move blocks).
+	*
+	* @param	boolean	$a_configmode	Config Mode (move blocks)
+	*/
+	function setConfigMode($a_configmode)
+	{
+		$this->config_mode = $a_configmode;
+	}
+
+	/**
+	* Get Config Mode (move blocks).
+	*
+	* @return	boolean	Config Mode (move blocks)
+	*/
+	function getConfigMode()
+	{
+		return $this->config_mode;
+	}
 
 	/**
 	* Get HTML.
@@ -628,7 +650,7 @@ abstract class ilBlockGUI
 		
 		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
 		
-		$this->handleConfigStatus();
+//		$this->handleConfigStatus();
 		
 		$this->fillDataSection();
 		
@@ -731,6 +753,7 @@ abstract class ilBlockGUI
 			}
 			
 			// move button
+	/*		
 			if ($this->allow_moving)
 			{
 				$ilCtrl->setParameterByClass("ilcolumngui",
@@ -759,6 +782,7 @@ abstract class ilBlockGUI
 				$ilCtrl->setParameterByClass("ilcolumngui",
 					$this->getConfigParameter(), "");
 			}
+*/
 
 			$this->tpl->setCurrentBlock("header_commands");
 			$this->tpl->parseCurrentBlock();

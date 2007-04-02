@@ -1454,6 +1454,13 @@ common#:#obj_mcst#:#MediaCast
 common#:#objs_mcst#:#MediaCasts
 common#:#mcst_new#:#New MediaCast
 common#:#mcst_add#:#Add MediaCast
+common#:#obj_pdts#:#Personal Desktop Settings
+common#:#obj_pdts_desc#:#Configure the Personal Desktop
+common#:#move_blocks#:#Move Blocks
+common#:#stop_moving_blocks#:#Stop Moving Blocks
+pd#:#pd_settings#:#Personal Desktop Settings
+pd#:#pd_enable_block_moving#:#Enable Block Moving
+pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
 mcst#:#mcst_add_new_item#:#Add New Media Cast Item
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_duration#:#Play Time

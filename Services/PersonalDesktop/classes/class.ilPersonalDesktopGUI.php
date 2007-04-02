@@ -23,7 +23,6 @@
 
 include_once "classes/class.ilObjUser.php";
 include_once "classes/class.ilMail.php";
-include_once "classes/class.ilPersonalDesktopGUI.php";
 
 
 /**
@@ -186,6 +185,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/Block/classes/class.ilColumnGUI.php");
 				$column_gui = new ilColumnGUI("pd");
+				$this->initColumn($column_gui);
 				$this->show();
 				break;
 				
@@ -270,6 +270,7 @@ class ilPersonalDesktopGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_CENTER);
+		$this->initColumn($column_gui);
 
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_CENTER)
@@ -286,12 +287,14 @@ class ilPersonalDesktopGUI
 					if ($column_gui->getCmdSide() == IL_COL_RIGHT)
 					{
 						$column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
+						$this->initColumn($column_gui);
 						$html = $ilCtrl->forwardCommand($column_gui);
 					}
 					// left column wants center
 					if ($column_gui->getCmdSide() == IL_COL_LEFT)
 					{
 						$column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
+						$this->initColumn($column_gui);
 						$html = $ilCtrl->forwardCommand($column_gui);
 					}
 				}
@@ -313,6 +316,7 @@ class ilPersonalDesktopGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
+		$this->initColumn($column_gui);
 		
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
@@ -340,6 +344,7 @@ class ilPersonalDesktopGUI
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
+		$this->initColumn($column_gui);
 		
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_LEFT &&
@@ -680,6 +685,18 @@ class ilPersonalDesktopGUI
 		$this->tpl->setLeftContent($this->getLeftColumnHTML());
 
 		$this->tpl->show();
+	}
+	
+	/**
+	* Init ilColumnGUI
+	*/
+	function initColumn($a_column_gui)
+	{
+		$pd_set = new ilSetting("pd");
+		if ($pd_set->get("enable_block_moving"))
+		{
+			$a_column_gui->setEnableMovement(true);
+		}
 	}
 
 }

@@ -343,7 +343,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function deleteFeedBlock()
 	{
-		global $ilCtlr;
+		global $ilCtrl;
 
 		$this->feed_block->delete();
 		$ilCtrl->returnToParent($this);
