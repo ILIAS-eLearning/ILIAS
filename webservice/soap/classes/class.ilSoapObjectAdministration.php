@@ -547,19 +547,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 
 
-			// Check preconditions
-			switch($object_data['type'])
-			{
-				case 'grp':
-					if(ilUtil::groupNameExists($object_data['title']))
-					{
-						return $this->__raiseError('A group with name '.$object_data['title'].' already exists!',
-												   'Client');
-					}
-					break;
-			}
-
-
 			// call gui object method
 			$class_name = $objDefinition->getClassName($object_data['type']);
 			$module = $objDefinition->getModule($object_data['type']);
@@ -875,19 +862,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				{
 					return $this->__raiseError('No write permission for object with id '.$object_data['obj_id'].'!', 'Client');
 				}
-			}
-
-
-			// Check preconditions
-			switch($object_data['type'])
-			{
-				case 'grp':
-					if(ilUtil::groupNameExists($object_data['title']))
-					{
-						return $this->__raiseError('A group with name '.$object_data['title'].' already exists!',
-												   'Client');
-					}
-					break;
 			}
 		}
 		// perform update
