@@ -81,28 +81,31 @@ class ilCopyWizardPage
 			$_POST['cp_options'][$a_ref_id]['type'] :
 			ilCopyWizardOptions::COPY_WIZARD_COPY;
 			
-		$copy = $ilAccess->checkAccess('copy','',$a_ref_id) and $this->objDefinition->allowCopy($a_type); 
-		$link = $ilAccess->checkAccess('write','',$a_ref_id) and $this->objDefinition->allowLink($a_type); 
-			
-		if($copy)
+		$perm_copy = $ilAccess->checkAccess('copy','',$a_ref_id);
+		$copy = $this->objDefinition->allowCopy($a_type); 
+		$perm_link = $ilAccess->checkAccess('write','',$a_ref_id);
+		$link = $this->objDefinition->allowLink($a_type); 
+
+		$options = array();
+		if($copy and $perm_copy)
 		{
 			$options[ilCopyWizardOptions::COPY_WIZARD_COPY] = $this->lng->txt('copy');
 		}
-		if($link)
+		if($link and $perm_link)
 		{
 			$options[ilCopyWizardOptions::COPY_WIZARD_LINK] = $this->lng->txt('link');
 		}
 		$options[ilCopyWizardOptions::COPY_WIZARD_OMIT] = $this->lng->txt('omit');
 		
-		if(!$copy or !$link)
+		if(!$perm_copy or !$perm_link)
 		{
 			$tpl->setCurrentBlock('permission');
 			$tpl->setVariable('TXT_MISSING_PERM',$this->lng->txt('missing_perm'));
-			if(!$copy)
+			if(!$perm_copy)
 			{
 				$perms = $this->lng->txt('copy');				
 			}
-			if(!$link)
+			if(!$perm_link)
 			{
 				if(strlen($perms))
 				{
@@ -114,7 +117,7 @@ class ilCopyWizardPage
 			$tpl->parseCurrentBlock();
 		}
 		
-		$disabled = (!$copy and !$link);
+		$disabled = (!($copy or $perm_copy) and !($link or $perm_link));
 		
 		$tpl->setVariable('TREE_SELECT',ilUtil::formSelect($selected,'cp_options['.$a_ref_id.'][type]',
 			$options,false,true,0,'','',$disabled));
