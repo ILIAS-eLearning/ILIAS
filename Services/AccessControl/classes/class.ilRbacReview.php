@@ -335,7 +335,7 @@ class ilRbacReview
 			}
 
 			// If the domain contains illegal characters, we get rid of it.
-			if (domain != null && preg_match('/[\[\]\\\x00-\x1f]/',$domain))
+			if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
 			{
 				$domain = null;
 			}
