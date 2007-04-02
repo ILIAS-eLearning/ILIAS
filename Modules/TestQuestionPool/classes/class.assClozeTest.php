@@ -1549,10 +1549,8 @@ class assClozeTest extends assQuestion
 						case "ilqtirenderfib":
 							switch ($response->getRenderType()->getFibtype())
 							{
-								case FIBTYPE_STRING:
-									array_push($gaps, array("ident" => $response->getIdent(), "type" => CLOZE_TEXT, "answers" => array()));
-									break;
-								default:
+								case FIBTYPE_DECIMAL:
+								case FIBTYPE_INTEGER:
 									array_push($gaps, 
 										array(
 											"ident" => $response->getIdent(), 
@@ -1562,6 +1560,10 @@ class assClozeTest extends assQuestion
 											"maxnumber" => $response->getRenderType()->getMaxnumber()
 										)
 									);
+									break;
+								default:
+								case FIBTYPE_STRING:
+									array_push($gaps, array("ident" => $response->getIdent(), "type" => CLOZE_TEXT, "answers" => array()));
 									break;
 							}
 							break;
