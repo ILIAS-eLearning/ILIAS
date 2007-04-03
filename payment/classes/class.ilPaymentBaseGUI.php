@@ -162,7 +162,7 @@ class ilPaymentBaseGUI
 				$this->tpl->setCurrentBlock("locator_item");
 				$this->tpl->setVariable("PREFIX",'>&nbsp;');
 				$this->tpl->setVariable("ITEM", $this->lng->txt("paya_locator"));
-				$this->tpl->setVariable("LINK_ITEM", "./payment_admin.php");
+				$this->tpl->setVariable("LINK_ITEM", "./payment.php?view=payment_admin");
 				$this->tpl->parseCurrentBlock();
 				break;
 

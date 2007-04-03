@@ -378,7 +378,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("TXT_TERMS_CONDITIONS",$this->lng->txt('pay_bmf_terms_conditions'));
 		$this->tpl->setVariable("TXT_TERMS_CONDITIONS_READ",$this->lng->txt('pay_bmf_terms_conditions_read'));
 		$this->tpl->setVariable("TXT_TERMS_CONDITIONS_SHOW",$this->lng->txt('pay_bmf_terms_conditions_show'));
-		$this->tpl->setVariable("LINK_TERMS_CONDITIONS","./show_terms_conditions.php");
+		$this->tpl->setVariable("LINK_TERMS_CONDITIONS","./payment.php?view=conditions");
 		$this->tpl->setVariable("TXT_PASSWORD",$this->lng->txt('password'));
 		$this->tpl->setVariable("TXT_CONFIRM_ORDER",$this->lng->txt('pay_confirm_order'));
 
@@ -608,7 +608,7 @@ class ilPurchaseBMFGUI
 						if ($this->ilias->getSetting("https") != 1)
 						{
 							$this->tpl->setCurrentBlock("buyed_objects");
-							$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
+							$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "./payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
 							$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
 							$this->tpl->parseCurrentBlock("buyed_objects");
 						}
@@ -682,7 +682,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("TXT_TERMS_CONDITIONS",$this->lng->txt('pay_bmf_terms_conditions'));
 		$this->tpl->setVariable("TXT_TERMS_CONDITIONS_READ",$this->lng->txt('pay_bmf_terms_conditions_read'));
 		$this->tpl->setVariable("TXT_TERMS_CONDITIONS_SHOW",$this->lng->txt('pay_bmf_terms_conditions_show'));
-		$this->tpl->setVariable("LINK_TERMS_CONDITIONS","./show_terms_conditions.php");
+		$this->tpl->setVariable("LINK_TERMS_CONDITIONS","./payment.php?view=conditions");
 		$this->tpl->setVariable("TXT_PASSWORD",$this->lng->txt('password'));
 		$this->tpl->setVariable("TXT_CONFIRM_ORDER",$this->lng->txt('pay_confirm_order'));
 
@@ -934,7 +934,7 @@ class ilPurchaseBMFGUI
 				if ($this->ilias->getSetting("https") != 1)
 				{
 					$this->tpl->setCurrentBlock("buyed_objects");
-					$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "payment/payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
+					$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "./payment.php?cmdClass=ilpaymentbuyedobjectsgui&cmdNode=2");
 					$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
 					$this->tpl->parseCurrentBlock("buyed_objects");
 				}
