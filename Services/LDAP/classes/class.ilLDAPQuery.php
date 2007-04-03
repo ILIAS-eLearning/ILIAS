@@ -170,13 +170,14 @@ class ilLDAPQuery
 	
 	/**
 	 * Fetch all users
+	 * This function splits the query to filters like e.g (uid=a*) (uid=b*)...
+	 * This avoids AD page_size_limit
 	 *
 	 * @access public
 	 * 
 	 */
 	private function readAllUsers()
 	{
-		
 		// Build search base
 		if(($dn = $this->settings->getSearchBase()) && substr($dn,-1) != ',')
 		{
@@ -186,37 +187,61 @@ class ilLDAPQuery
 		
 		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
 		
-		$this->log->write(__METHOD__.': Searching with ldap search and filter '.$this->settings->getFilter().' in '.$dn);
-	 	$res = $this->queryByScope($this->settings->getUserScope(),
-	 		$dn,
-	 		$this->settings->getFilter(),
-			array($this->settings->getUserAttribute()));
-
-		$tmp_result = new ilLDAPResult($this->lh,$res);
+		// page results
+		$filter = $this->settings->getFilter();
+		$page_filter = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-');
+		$chars = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 		
-		
-		
-		if(!$tmp_result->numRows())
+		foreach($page_filter as $letter)
 		{
-			$this->log->write(__METHOD__.': No users found. Aborting.');
-			return false;
-		}
-		$this->log->write(__METHOD__.': Found '.$tmp_result->numRows().' users.');
+			$new_filter = '(&';
+			$new_filter .= $filter;
+			
+			switch($letter)
+			{
+				case '-':
+					$new_filter .= ('(!(|');
+					foreach($chars as $char)
+					{
+						$new_filter .= ('('.$this->settings->getUserAttribute().'='.$char.'*)');
+					}
+					$new_filter .= ')))';
+					break;
 
-		foreach($tmp_result->getRows() as $data)
-		{
-			if(isset($data[$this->settings->getUserAttribute()]))
-			{
-				$this->readUserData($data[$this->settings->getUserAttribute()],false);
+				default:
+					$new_filter .= ('('.$this->settings->getUserAttribute().'='.$letter.'*))');
+					break;
 			}
-			else
+
+			$this->log->write(__METHOD__.': Searching with ldap search and filter '.$new_filter.' in '.$dn);
+		 	$res = $this->queryByScope($this->settings->getUserScope(),
+		 		$dn,
+	 			$new_filter,
+				array($this->settings->getUserAttribute()));
+
+			$tmp_result = new ilLDAPResult($this->lh,$res);
+			if(!$tmp_result->numRows())
 			{
-				$this->log->write(__METHOD__.': Unknown error. No user attribute found.');
+				$this->log->write(__METHOD__.': No users found. Aborting.');
+				continue;
 			}
+			$this->log->write(__METHOD__.': Found '.$tmp_result->numRows().' users.');
+			foreach($tmp_result->getRows() as $data)
+			{
+				if(isset($data[$this->settings->getUserAttribute()]))
+				{
+					$this->readUserData($data[$this->settings->getUserAttribute()],false);
+				}
+				else
+				{
+					$this->log->write(__METHOD__.': Unknown error. No user attribute found.');
+				}
+			}
+			unset($tmp_result);
 		}
-		unset($tmp_result);
 		return true;
 	}
+	
 
 	/**
 	 * Fetch group member ids
