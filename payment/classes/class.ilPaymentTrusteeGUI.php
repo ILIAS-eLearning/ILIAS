@@ -139,9 +139,9 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 															 false,
 															 true);
 
-#				$link_mail = "<a target=\"_blank\" href=\"./mail_new.php?type=new&rcp_to=".
+#				$link_mail = "<a target=\"_blank\" href=\"./ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".
 #					$tmp_obj->getLogin()."\"".$img_mail."</a>";
-				$link_mail = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"./mail_new.php?type=new&rcp_to=".
+				$link_mail = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"./ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".
 					$tmp_obj->getLogin()."\">".$this->lng->txt("mail")."</a></div>";
 				
 				$f_result[$counter][]	= $link_mail;
