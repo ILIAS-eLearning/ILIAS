@@ -110,14 +110,16 @@ if(ilPaymentShoppingCart::_hasEntries($ilias->account->getId()) or
 									  
 {
 	$lng->loadLanguageModule('payment');
-	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('paya_shopping_cart'),
+
+	$inhalt1[] = array('tabinactive',"./payment.php",$lng->txt('paya_shopping_cart'),
 		ilFrameTargetInfo::_getFrame("MainContent"));
 }	
 if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
    ilPaymentTrustees::_hasAccess($ilias->account->getId()))
 {
 	$lng->loadLanguageModule('payment');
-	$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$lng->txt('paya_header'),
+
+	$inhalt1[] = array('tabinactive',"./payment.php?view=payment_admin",$lng->txt('paya_header'),
 		ilFrameTargetInfo::_getFrame("MainContent"));
 }
 

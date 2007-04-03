@@ -204,7 +204,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 					switch($pay_methods[$p])
 					{
 						case PAY_METHOD_BMF:
-							$tpl->setVariable("SCRIPT_LINK", './payment/start_bmf.php');
+							$tpl->setVariable("SCRIPT_LINK", './payment.php?view=start_bmf');
 							break;
 		
 						case PAY_METHOD_PAYPAL:

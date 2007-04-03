@@ -77,7 +77,7 @@ class ilSAHSPresentationGUI
 		include_once './classes/class.ilSearch.php';
 		if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
 		{
-			ilUtil::redirect('./payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+			ilUtil::redirect('./payment.php?view=start_purchase&ref_id='.$_GET['ref_id']);
 		}
 		
 		$next_class = $this->ctrl->getNextClass($this);

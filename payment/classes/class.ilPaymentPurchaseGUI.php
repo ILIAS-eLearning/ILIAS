@@ -75,11 +75,8 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 			$cmd = "showDetails";
 		}
 		
-		// build header if called from start_purchase.php
-#		if($this->ctrl->getTargetScript() == 'start_purchase.php')
-#		{
-			$this->__buildHeader();
-#		}
+		$this->__buildHeader();
+
 		$this->$cmd();
 	}
 
@@ -114,18 +111,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("shopping_cart");
-#			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
 			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "ilias.php?cmdClass=ilpaymentgui&baseClass=ilPersonalDesktopGUI&cmd=showShoppingCart");
-/*			switch($this->pobject->getPayMethod())
-			{
-				case $this->pobject->PAY_METHOD_BMF:
-					$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
-					break;
-
-				case $this->pobject->PAY_METHOD_PAYPAL:
-					$this->tpl->setVariable("LINK_BUY", "payment/start_paypal.php");
-					break;
-			}*/
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
 #			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
@@ -260,18 +246,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 			$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_purchase_details.html','payment');
 			$this->tpl->setCurrentBlock("shopping_cart");
-#			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
 			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "ilias.php?cmdClass=ilpaymentgui&baseClass=ilPersonalDesktopGUI&cmd=showShoppingCart");
-/*			switch($this->pobject->getPayMethod())
-			{
-				case $this->pobject->PAY_METHOD_BMF:
-					$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
-					break;
-
-				case $this->pobject->PAY_METHOD_PAYPAL:
-					$this->tpl->setVariable("LINK_BUY", "payment/start_paypal.php");
-					break;
-			}*/
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
 #			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
