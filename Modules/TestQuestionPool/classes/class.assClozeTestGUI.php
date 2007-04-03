@@ -752,7 +752,7 @@ class assClozeTestGUI extends assQuestionGUI
 						case CLOZE_SELECT:
 							$maxpoints = 0;
 							$foundindex = -1;
-							foreach ($gap->getItems() as $$answer)
+							foreach ($gap->getItems() as $answer)
 							{
 								if ($answer->getPoints() > $maxpoints)
 								{
