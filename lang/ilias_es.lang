@@ -2791,8 +2791,8 @@ pdesk#:#pdesk_intro2#:#Este es tu espacio personal para organizar su trabajo y s
 pdesk#:#pdesk_intro3#:#Haga click en '%s' y examine los recursos de aprendizaje y trabajo existentes.
 pdesk#:#pdesk_intro4#:#Si encuentras algo de interés, añadelo a tu escritorio haciendo click en el botón <i>al escritorio</i>.
 common#:#activate_block#:#Activar
-pdesk#:#pdesk_feedback_request#:#Feedback Request###new variable
-pdesk#:#pdesk_feedbacks#:#Feedback Request(s)###new variable
+pdesk#:#pdesk_feedback_request#:#Petición de Feedback
+pdesk#:#pdesk_feedbacks#:#Peticion(es) de Feedback
 rep#:#rep_intro#:#¡Bienvenido al Repositorio!
 rep#:#rep_intro1#:#En este area puede crear recursos de aprendizaje y trabajo para todos los usuarios. Todos los recursos están organizados en categorías. Las Categorías pueden reflejar la estructura de su organización (ej. departamentos), una jerarquía de disciplinas, o grupos de una escuela.
 rep#:#rep_intro2#:#Se necesitan tres pasos para montar una estructura inicial:
@@ -3349,7 +3349,7 @@ common#:#shib_general_login_instructions#:#Para entrar via %s, por favor haga cl
 common#:#shib_general_wayf_login_instructions#:#En caso de no estar asociado con las organizaciones dadas y que necesite acceso a un curso en este servidor, por favor contacte a
 common#:#shib_idp_list#:#Ofrecer una lista de Proveedores de Identidad para permitir al usuario escoger en la página de entrada a ILIAS.<br>En cada línea debe haber una tupla separada por comas para <strong>providerID de IdP</strong> (ver el fichero de metadatos de Shibboleth) y <strong>Nombre de IdP</strong> como debe ser mostrado en la lista desplegable.<br>Como tercer parámetro opcional puede añadir la <strong>localización de un iniciador de sessión Shibboleth</strong> que debe ser usado en caso de que su instalación ILIAS forme parte de una configuración multi federación.
 common#:#shib_institution#:#Atributo para institución
-common#:#shib_invalid_home_organization#:#Please choose a valid organization!###27 Jul 2006 new variable
+common#:#shib_invalid_home_organization#:#Por favor escoja una organización válida
 common#:#shib_language#:#Atributo para lenguaje
 common#:#shib_lastname#:#Atributo para apellido
 common#:#shib_login#:#Atributo Shibboleth único
@@ -6930,7 +6930,7 @@ ps#:#ps_export_data#:#Tipos de Datos del Perfil Personal
 ps#:#ps_perform_export#:#Iniciar Exportación CSV
 crs#:#export_members#:#Exportar Participantes
 crs#:#crs_agreement_header#:#Acuerdo de usuario
-crs#:#crs_user_agreement#:#Released Data Types###new variable
+crs#:#crs_user_agreement#:#Tipos de datos liberados
 crs#:#crs_info_agreement#:#Los siguientes tipos de datos son visibles para los administradores del curso:
 crs#:#crs_agree#:#Aceptación
 crs#:#crs_info_agree#:#Yo acepto, que los tipos de datos arriba señalados son visibles para los administradores del curso.
@@ -6980,161 +6980,161 @@ ps#:#ps_warning_modify#:#Atención: Al menos un usuario ha aceptado el acuerdo d
 pwassist#:#pwassist_invalid_auth_mode#:#El usuario no será autenticado directamente en ILIAS. Por tanto enviar una contraseña no es posible.
 survey#:#survey_use_start_button#:#Debe entrar a la encuesta usando el botón comenzar
 crs#:#crs_reg_type_info#:#Esta configuración sólo es relevante, si el registro no está 'Deshabilitado'.
-common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
-assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###25 02 2007 new variable
-assessment#:#externalscript_additional_parameters#:#Script Parameters###25 02 2007 new variable
-assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
-assessment#:#externalscript_additional_parameters_hint#:#Enter the additional script parameters in key-value-coding and separate multiple key-value-pairs with a newline, e.g. <p>key1=Hello<br />key2=World</p>###25 02 2007 new variable
-assessment#:#question_not_answered#:#The question was not answered###25 02 2007 new variable
-assessment#:#result_successful_saved#:#Your results have been saved successful!###25 02 2007 new variable
-assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!###25 02 2007 new variable
-assessment#:#number_of_answers#:#Number of Answers###25 02 2007 new variable
-assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.###25 02 2007 new variable
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.###25 02 2007 new variable
-assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!###25 02 2007 new variable
-assessment#:#tst_defaults_available#:#Available test defaults###25 02 2007 new variable
-assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
-assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---###25 02 2007 new variable
-assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
-assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
-assessment#:#tst_nr_of_passes#:#Number of Test Passes###25 02 2007 new variable
-common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable
-common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
-common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.###25 02 2007 new variable
-common#:#defaults#:#Defaults###25 02 2007 new variable
-common#:#frm_latest_postings#:#Latest Articles###25 02 2007 new variable
-common#:#file_created#:#A new file has been added.###25 02 2007 new variable
-common#:#file_updated#:#File has been updated.###25 02 2007 new variable
-news#:#news_edit_news_settings#:#Edit Settings###25 02 2007 new variable
-news#:#news_enable_internal_news#:#Enable Internal News###25 02 2007 new variable
-news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.###25 02 2007 new variable
-news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
-news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.###25 02 2007 new variable
-news#:#news_first_letter_of_word_notification#:#N###25 02 2007 new variable
-news#:#news_show_notifications#:#Show Notifications###25 02 2007 new variable
-news#:#news_hide_notifications#:#Hide Notifications###25 02 2007 new variable
-news#:#news_news_item_title#:#Headline###25 02 2007 new variable
-news#:#news_news_item_content#:#Text###25 02 2007 new variable
-news#:#news_news_item_content_long#:#Long Text###25 02 2007 new variable
-news#:#news_news_item_content_long_info#:#This text will not be published via RSS.###25 02 2007 new variable
-news#:#news_news_item_visibility#:#Access###25 02 2007 new variable
-news#:#news_feed_url_for#:#Feed URL for '%s'###25 02 2007 new variable
-news#:#news_settings#:#News Settings###25 02 2007 new variable
-news#:#news_notifications_public#:#Public Notifications###25 02 2007 new variable
-news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.###25 02 2007 new variable
-news#:#news_public_feed#:#Extra Feed URL###25 02 2007 new variable
-news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.###25 02 2007 new variable
-news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###25 02 2007 new variable
-feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop###25 02 2007 new variable
-feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.###25 02 2007 new variable
-feed#:#feed_settings#:#External Web Feeds Settings###25 02 2007 new variable
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
-gmaps#:#gmaps_api_key#:#API Key###25 02 2007 new variable
-gmaps#:#gmaps_settings#:#Google Maps Settings###25 02 2007 new variable
-gmaps#:#gmaps_extt_gmaps#:#Google Maps###25 02 2007 new variable
-gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
-gmaps#:#gmaps_std_location#:#Default Location###25 02 2007 new variable
-gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.###25 02 2007 new variable
-common#:#obj_nwss#:#News and Web Feeds Settings###25 02 2007 new variable
-common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.###25 02 2007 new variable
-common#:#hh_mm_ss#:#HH:MM:SS###25 02 2007 new variable
-common#:#hh_mm#:#HH:MM###25 02 2007 new variable
-common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS.###25 02 2007 new variable
-ps#:#show_security#:#Security###25 02 2007 new variable
-ps#:#ps_security_protection#:#Security Settings###25 02 2007 new variable
-mail#:#mail_select_only_one_entry#:#Please select only one entry.###25 02 2007 new variable
-mail#:#mail_select_course#:#Please select at least one course.###25 02 2007 new variable
-mail#:#mail_select_group#:#Please select at least one group.###25 02 2007 new variable
-mail#:#mail_my_entries#:#My Entries###25 02 2007 new variable
-mail#:#mail_my_courses#:#My Courses###25 02 2007 new variable
-mail#:#mail_my_groups#:#My Groups###25 02 2007 new variable
-mail#:#mail_into_addressbook#:#Take into Addressbook###25 02 2007 new variable
-mail#:#mail_group_members#:#Group Members###25 02 2007 new variable
-ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.###25 02 2007 new variable
-ps#:#ps_auto_https#:#Autodetect HTTPS###25 02 2007 new variable
-ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###25 02 2007 new variable
-ps#:#ps_auto_https_header_name#:#Header Name###25 02 2007 new variable
-ps#:#ps_auto_https_header_value#:#Header Value###25 02 2007 new variable
-common#:#marked_entries#:#Marked Entries###25 02 2007 new variable
-crs#:#event_overview#:#Participations in Sessions###25 02 2007 new variable
-common#:#legend#:#Legend###25 02 2007 new variable
-crs#:#event_digit#:#Digit###25 02 2007 new variable
-crs#:#event_csv_export#:#CSV Export###25 02 2007 new variable
-crs#:#event_participated#:#Participated###25 02 2007 new variable
-crs#:#event_not_participated#:#Not Participated###25 02 2007 new variable
-common#:#obj_webr_duplicate#:#Copy Web Resource ###25 02 2007 new variable
-common#:#obj_webr_select#:#-- Please select one Web Resource --###25 02 2007 new variable
-common#:#obj_file_duplicate#:#Copy File###25 02 2007 new variable
-common#:#obj_file_select#:#-- Please select one File --###25 02 2007 new variable
-common#:#obj_exc_duplicate#:#Copy Exercise###25 02 2007 new variable
-common#:#obj_exc_select#:#-- Please select one Exercise --###25 02 2007 new variable
-common#:#auth_settings#:#Authentication Settings###25 02 2007 new variable
-common#:#login_information#:#Login Information###25 02 2007 new variable
-common#:#login_information_desc#:#Please enter a login information for the respective language.###25 02 2007 new variable
-common#:#login_information_settings_saved#:#The login information were saved successfully###25 02 2007 new variable
-common#:#obj_frm_duplicate#:#Copy Forum###25 02 2007 new variable
-common#:#obj_frm_select#:#-- Please select one Forum --###25 02 2007 new variable
-forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)###25 02 2007 new variable
-forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.###25 02 2007 new variable
-common#:#btn_back#:#Back###25 02 2007 new variable
-mail#:#mail_new_entry#:#New Entry###25 02 2007 new variable
-mail#:#mail_edit_entry#:#Edit Entry###25 02 2007 new variable
-mail#:#mail_select_attachment#:#Please select an attachment for download.###25 02 2007 new variable
-common#:#obj_tst_duplicate#:#Copy Test###25 02 2007 new variable
-common#:#obj_tst_select#:#-- Please select one Test --###25 02 2007 new variable
-common#:#obj_svy_duplicate#:#Copy Survey###25 02 2007 new variable
-common#:#obj_svy_select#:#-- Please select one Survey --###25 02 2007 new variable
-common#:#obj_crs_duplicate#:#Copy Course###25 02 2007 new variable
-common#:#obj_crs_select#:#-- Please select one Course --###25 02 2007 new variable
-common#:#crs_wizard_page#:#Copy Course (Step 2/2)###25 02 2007 new variable
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
-common#:#omit_all#:#Omit all###25 02 2007 new variable
-common#:#copy_all#:#Copy all###25 02 2007 new variable
-common#:#link_all#:#Link all###25 02 2007 new variable
-common#:#omit#:#Omit###25 02 2007 new variable
-common#:#short_inst_name#:#Short Title###02 04 2007 new variable
-common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
-assessment#:#cloze_fixed_textlength#:#Text Field Length###02 04 2007 new variable
-assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value.###02 04 2007 new variable
-form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.###02 04 2007 new variable
-form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.###02 04 2007 new variable
-form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.###02 04 2007 new variable
-form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.###02 04 2007 new variable
-form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.###02 04 2007 new variable
-form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
-form#:#form_msg_file_wrong_file_type#:#Wrong file type.###02 04 2007 new variable
-form#:#form_msg_file_virus_found#:#Virus found in uploaded file.###02 04 2007 new variable
-form#:#form_days#:#Days###02 04 2007 new variable
-form#:#form_hours#:#Hours###02 04 2007 new variable
-form#:#form_minutes#:#Minutes###02 04 2007 new variable
-form#:#form_seconds#:#Seconds###02 04 2007 new variable
-common#:#obj_pdts#:#Personal Desktop Settings###02 04 2007 new variable
-common#:#obj_pdts_desc#:#Configure the Personal Desktop###02 04 2007 new variable
-common#:#move_blocks#:#Move Blocks###02 04 2007 new variable
-common#:#stop_moving_blocks#:#Stop Moving Blocks###02 04 2007 new variable
-pd#:#pd_settings#:#Personal Desktop Settings###02 04 2007 new variable
-pd#:#pd_enable_block_moving#:#Enable Block Moving###02 04 2007 new variable
-pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.###02 04 2007 new variable
-mcst#:#mcst_add_new_item#:#Add New Media Cast Item###02 04 2007 new variable
-mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.###02 04 2007 new variable
-mcst#:#mcst_duration#:#Play Time###02 04 2007 new variable
-mcst#:#mcst_nr_items#:#Number of Items###02 04 2007 new variable
-mcst#:#mcst_last_submission#:#Last Submission###02 04 2007 new variable
-mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.###02 04 2007 new variable
-mcst#:#mcst_media_cast#:#Media Cast###02 04 2007 new variable
-mcst#:#mcst_entry#:#Media Cast Entries###02 04 2007 new variable
-mcst#:#mcst_play_time#:#Play Time###02 04 2007 new variable
-mcst#:#mcst_det_playtime#:#Determine Play Time###02 04 2007 new variable
-mcst#:#mcst_settings#:#MediaCast Settings###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.###02 04 2007 new variable
-common#:#file_allowed_suffixes#:#Allowed file types:###02 04 2007 new variable
-common#:#mail_use_pear_mail#:#Use Pear Mail###02 04 2007 new variable
-common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.###02 04 2007 new variable
-common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.###02 04 2007 new variable
-common#:#obj_feed#:#Web Feed###02 04 2007 new variable
-common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
-common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
+common#:#usr_filter_empty_result#:#No se encontraron usuarios que coincidan con el criterio filtro seleccionado
+assessment#:#error_random_question_generation#:#Ocurrió un error fatal durante la generación de preguntas aleatorias para el test. Por favor contacte con el administrador de sistema con la siguiente información: El sistema no pudo crear un ID activo para el ID de usuario %s y el ID de test %s.
+assessment#:#externalscript_additional_parameters#:#Parámetros del Script
+assessment#:#externalscript_use_kvc#:#Por favor use la forma clave-valor para los parámetros del script
+assessment#:#externalscript_additional_parameters_hint#:#Introduzca los parámetros adicionales del script en forma clave-valor y separe múltiples parejas clave-valor con una nueva línea, por ejemplo: <p>key1=Hola<br />key2=Mundo</p>
+assessment#:#question_not_answered#:#La pregunta no fué contestada
+assessment#:#result_successful_saved#:#Sus resultados han sido guardados con éxito
+assessment#:#result_unsuccessful_saved#:#Ocurrió un error al guardar los resultados de la pregunta
+assessment#:#number_of_answers#:#Número de Respuestas
+assessment#:#tst_defaults_applied#:#Los valores por defecto seleccionados para el test han sido aplicados
+assessment#:#tst_defaults_apply_not_possible#:#ILIAS no pudo aplicar los valores por defecto seleccionados para este test. Quizá este test ya contiene preguntas y/o datos de los participantes.
+assessment#:#tst_defaults_apply_select_one#:#Por favor seleccione exactamente una opción de valores por defecto para aplicar a este test.
+assessment#:#tst_defaults_available#:#Valores por defecto para test disponibles 
+assessment#:#tst_defaults_defaults_of_test#:#Los valores por defecto de este test
+assessment#:#tst_defaults_dont_use#:#--- Usar los valores por defecto para test de ILIAS ---
+assessment#:#tst_defaults_enter_name#:#Por favor introduzca un nombre para sus valores por defecto
+assessment#:#tst_defaults_not_defined#:#No ha definido aún ningunos valores por defecto para test
+assessment#:#tst_nr_of_passes#:#Número de ejecuciones del Test
+common#:#assf_questiontypes#:#Configuración de Pregunta
+common#:#assf_allowed_questiontypes#:#Tipos de preguntas disponibles
+common#:#assf_allowed_questiontypes_desc#:#Todos los tipos de pregunta marcados estarán disponibles en esta instalación ILIAS. Si no quiere permitir la creación de ciertos tipos de pregunta en esta instalación, debe eliminar la selección en la casilla asociada.
+common#:#defaults#:#Valores Iniciales
+common#:#frm_latest_postings#:#Últimos mensajes
+common#:#file_created#:#Un nuevo fichero fué añadido.
+common#:#file_updated#:#El fichero ha sido actualizado.
+news#:#news_edit_news_settings#:#Editar Configuración
+news#:#news_enable_internal_news#:#Habilitar Novedades
+news#:#news_enable_internal_news_info#:#Activa bloques de noticias para categorías, cursos, grupos y otros objetos. Los usuarios se pueden suscribir a estas noticias y se le mostrarán en su escritorio personal.
+news#:#news_enable_internal_rss#:#Habilitar RSS para las Novedades
+news#:#news_enable_internal_rss_info#:#Permite publicar items de noticias via RSS. Estos items estarán accesibles desde fuera del sistema sin autenticación.
+news#:#news_first_letter_of_word_notification#:#N
+news#:#news_show_notifications#:#Mostrar notificaciones
+news#:#news_hide_notifications#:#Ocultar notificaciones
+news#:#news_news_item_title#:#Cabecera
+news#:#news_news_item_content#:#Texto
+news#:#news_news_item_content_long#:#Texto detallado
+news#:#news_news_item_content_long_info#:#Este texto no será publicado via RSS
+news#:#news_news_item_visibility#:#Acceso
+news#:#news_feed_url_for#:#Feed URL para '%s'
+news#:#news_settings#:#Configuración de Noticias
+news#:#news_notifications_public#:#Notificaciones públicas
+news#:#news_notifications_public_info#:#Si esta opción está habilitada, las notificaciones pueden obtenerse con feeds RSS personales desde fuera de ILIAS. Por favor, note que esto implica que las notificaciones serán accesibles sin autenticación.
+news#:#news_public_feed#:#Extra Feed URL
+news#:#news_public_feed_info#:#Si esta opción es habilitada, se ofrecerá una URL de feed extra para este item.
+news#:#news_news_item_visibility_info#:#Las noticias públicas pueden ser accedidas sin autenticación desde fuera de ILIAS via RSS. Por favor, no incluya ninguna información confidencial.
+feed#:#feed_nr_pd_feeds#:#Número de Feeds externos en el Escritorio Personal
+feed#:#feed_nr_pd_feeds_info#:#Configura el máximo número de feeds externos que los usuarios podrán añadir a su escritorio personal.
+feed#:#feed_settings#:#Configuración de Feeds Externos
+feed#:#block_feed_block_feed_url_info#:#Debe ser una URL RSS/Atom válida, e.g. http://www.ilias.de/iosbb/rss.php
+gmaps#:#gmaps_api_key#:#Clave API
+gmaps#:#gmaps_settings#:#Configuración de Google Maps
+gmaps#:#gmaps_extt_gmaps#:#Google Maps
+gmaps#:#gmaps_api_key_desc#:#Para que funcione la extensión de Google Maps, necesita tener una clave de la API de Google Maps, que pueden conseguir en:
+gmaps#:#gmaps_std_location#:#Localización por defecto
+gmaps#:#gmaps_std_location_desc#:#Latitud / Longitud. Haga click en el mapa para configurar la localización.
+common#:#obj_nwss#:#Configuración de Noticias y Feeds
+common#:#obj_nwss_desc#:#Configuración de novedades y feeds externos
+common#:#hh_mm_ss#:#HH:MM:SS
+common#:#hh_mm#:#HH:MM
+common#:#auth_shib_instructions#:#Asegúrese de leer el fichero README para instrucciones sobre configuración del soporte Shibboleth para ILIAS.
+ps#:#show_security#:#Seguridad
+ps#:#ps_security_protection#:#Configuración de Seguridad
+mail#:#mail_select_only_one_entry#:#Por favor seleccione una única entrada.
+mail#:#mail_select_course#:#Por favor seleccione al menos un curso.
+mail#:#mail_select_group#:#Por favor seleccione al menos un grupo.
+mail#:#mail_my_entries#:#Mis entradas
+mail#:#mail_my_courses#:#Mis cursos
+mail#:#mail_my_groups#:#Mis grupos
+mail#:#mail_into_addressbook#:#Añadir a la Agenda
+mail#:#mail_group_members#:#Miembros de grupo
+ps#:#ps_error_message_https_header_missing#:#Si habilita la detección automática de HTTPS debe ofrecer un nombre de cabecera y un valor de cabecera.
+ps#:#ps_auto_https#:#Autodetectar HTTPS
+ps#:#ps_auto_https_description#:#Si se habilita, ILIAS intenta detectar el Estado HTTPS analizando el valor de cabecera especificado abajo.
+ps#:#ps_auto_https_header_name#:#Nombre de Cabecera
+ps#:#ps_auto_https_header_value#:#Valor de Cabecera
+common#:#marked_entries#:#Entradas marcadas
+crs#:#event_overview#:#Participación en Eventos
+common#:#legend#:#Leyenda
+crs#:#event_digit#:#Dígito
+crs#:#event_csv_export#:#Exportar CSV
+crs#:#event_participated#:#Participó
+crs#:#event_not_participated#:#No participó
+common#:#obj_webr_duplicate#:#Copiar Recurso Web
+common#:#obj_webr_select#:#-- Por favor seleccione un Recurso Web --
+common#:#obj_file_duplicate#:#Copiar Fichero
+common#:#obj_file_select#:#-- Por favor seleccione un Fichero --
+common#:#obj_exc_duplicate#:#Copiar Actividad
+common#:#obj_exc_select#:#-- Por favor seleccione una Actividad --
+common#:#auth_settings#:#Configuración de Autenticación
+common#:#login_information#:#Información de Login
+common#:#login_information_desc#:#Por favor introduzca la información de login para el idioma respectivo.
+common#:#login_information_settings_saved#:#La información de entrada se almacenó correctamente
+common#:#obj_frm_duplicate#:#Copiar Foro
+common#:#obj_frm_select#:#-- Por favor seleccione un Foro --
+forum#:#frm_wizard_page#:#Copiar Foro (Paso 2/2)
+forum#:#fmr_copy_threads_info#:#Tiene la posibilidad de copiar hebras únicas. Solo el comienzo de las hebras escogidas será duplicada.
+common#:#btn_back#:#Volver
+mail#:#mail_new_entry#:#Nueva entrada
+mail#:#mail_edit_entry#:#Editar entrada
+mail#:#mail_select_attachment#:#Por favor seleccione un adjunto para descargar.
+common#:#obj_tst_duplicate#:#Copiar Test
+common#:#obj_tst_select#:#-- Por favor seleccione un Test --
+common#:#obj_svy_duplicate#:#Copiar Encuesta
+common#:#obj_svy_select#:#-- Por favor seleccione una Encuesta --
+common#:#obj_crs_duplicate#:#Copiar Curso
+common#:#obj_crs_select#:#-- Por favor seleccione un Curso --
+common#:#crs_wizard_page#:#Copiar Curso (Paso 2/2)
+common#:#crs_copy_threads_info#:#Por favor decida qué materiales del curso deben ser copiados, enlazados o bien omitidos.
+common#:#omit_all#:#Omitir todos
+common#:#copy_all#:#Copiar todos
+common#:#link_all#:#Enlazar todos
+common#:#omit#:#Omitir
+common#:#short_inst_name#:#Título corto
+common#:#short_inst_name_info#:#Este título aparecerá en la barra de título del navegador. Si no existe, se usará la cadena 'ILIAS' 
+assessment#:#cloze_fixed_textlength#:#Longitud de Campo de Texto
+assessment#:#cloze_fixed_textlength_description#:#Si introduce un valor mayor que 0, todos los campos de texto y de huecos numéricos serán creados con la longitud prefijada por este valor.
+form#:#form_msg_file_size_exceeds#:#El tamaño del fichero cargado sobrepasa el máximo permitido.
+form#:#form_msg_file_partially_uploaded#:#El fichero no pudo ser cargado completamente.
+form#:#form_msg_file_no_upload#:#Esta entrada es requerida. Por favor seleccione un fichero para cargar.
+form#:#form_msg_file_missing_tmp_dir#:#Directorio temporal para subida no encontrado.
+form#:#form_msg_file_cannot_write_to_disk#:#¡No se puede escribir en disco!
+form#:#form_msg_file_upload_stopped_ext#:#Carga del fichero no permitida por la extensión.
+form#:#form_msg_file_wrong_file_type#:#Tipo de fichero incorrecto
+form#:#form_msg_file_virus_found#:#Se encontró un virus en el fichero cargado
+form#:#form_days#:#Días
+form#:#form_hours#:#Horas
+form#:#form_minutes#:#Minutos
+form#:#form_seconds#:#Segundos
+common#:#obj_pdts#:#Configuración del Escritorio Personal
+common#:#obj_pdts_desc#:#Configurar el Escritorio Personal
+common#:#move_blocks#:#Mover Bloques
+common#:#stop_moving_blocks#:#Deshabilitar Movimiento de Bloques
+pd#:#pd_settings#:#Configuración de Escritorio Personal
+pd#:#pd_enable_block_moving#:#Habilitar Movimiento de Bloques
+pd#:#pd_enable_block_moving_info#:#Permite a los usuarios reorganizar los bloques de contenidos en su escritorio personal
+mcst#:#mcst_add_new_item#:#Añadir nuevo item de Media Cast
+mcst#:#mcst_visibility_info#:#Los items Públicos puede ser accedidos via RSS sin autenticación
+mcst#:#mcst_duration#:#Duración
+mcst#:#mcst_nr_items#:#Número de items
+mcst#:#mcst_last_submission#:#Último envío
+mcst#:#mcst_duration_info#:#Si no se introduce valor, ILIAS intentará determinar la duración del fichero automáticamente.
+mcst#:#mcst_media_cast#:#Media Cast
+mcst#:#mcst_entry#:#Entradas del Media Cast
+mcst#:#mcst_play_time#:#Duración
+mcst#:#mcst_det_playtime#:#Determinar duración
+mcst#:#mcst_settings#:#Configuración de MediaCast
+mcst#:#mcst_incl_files_in_rss#:#Incluir Ficheros en el feed
+mcst#:#mcst_incl_files_in_rss_info#:#Si se habilita, los ficheros multimedia serán incluidos como adjuntos en el feed RSS. De otro modo, el feed tan sólo notificará a los suscriptores sobre nuevos items.
+common#:#file_allowed_suffixes#:#Tipos de ficheros permitidos:
+common#:#mail_use_pear_mail#:#Usar Pear Mail
+common#:#mail_use_pear_mail_info#:#Usar Pear Mail para interpretar direcciones mailbox. El parser incluido en ILIAS es muy limitado. Pear Mail soporta completamente direcciones de correo de internet.
+common#:#mail_pear_mail_needed#:#.Necesita instalar Pear Mail para usar esta función. Para hacer esto, introduzca <code>pear install Mail</code> en el terminal.
+common#:#obj_feed#:#Feed
+common#:#objs_feed#:#Feeds
+common#:#feed_edit_permission#:#Modificar configuración de permisos
 common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
