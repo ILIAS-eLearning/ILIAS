@@ -83,13 +83,14 @@ class ilTracking {
 		
 		// We query for the session_id since it is more unique than the user_id. 
 		
-		$query = "SELECT COUNT(id) FROM ut_access ".
+		$query = "SELECT COUNT(id) as num_entries FROM ut_access ".
 			"WHERE session_id = ".$ilDB->quote(session_id())." ".
 			"AND acc_obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND acc_sub_id = ".$ilDB->quote($a_sub_id);
-		
 		$res = $ilDB->query($query);
-		return $res->numRows() ? true : false;
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		return $row->num_entries ? true : false;
 	}
 
 	/**
