@@ -2761,7 +2761,7 @@ common#:#new_language#:#Nuevo idioma
 common#:#new_list_password#:#nuevas sugerencias
 common#:#new_lowercase#:#nuevo
 common#:#new_mail#:#Nuevo correo!
-common#:#news#:#noticias
+common#:#news#:#Noticias
 common#:#html_block#:#Bloque HTML
 common#:#feed#:#Feed de Noticias
 block_html#:#block_html_block_head#:#Bloque HTML
@@ -2774,7 +2774,7 @@ news#:#news_visibility_public#:#Público
 news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Suscribir
 news#:#news_unsubscribe#:#Dar de baja
-news#:#news_internal_news#:#Noticias Internas
+news#:#news_internal_news#:#Novedades
 news#:#news_get_feed_url#:#Obtener Feed URL
 news#:#news_get_feed_title#:#Feed URL Personal
 news#:#news_get_feed_info#:#Esta es tu URL personal de feed de Noticias. El feed incluye sólo noticias que han sido declaradas como públicas por el autor. El feed no está protegido por ningún procedimiento de autenticación. Por favor no comparta esta URL con otras personas.
