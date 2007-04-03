@@ -483,7 +483,7 @@ class ilPurchaseBMFGUI
 		{
 			if ($resultCustomer->code < 0)
 			{
-				$error = $this->lng->txt('pay_bmf_server_error_code') . " " . $result->code . ": " . $result->kurzText . "<br>\n" . $result->langText;
+				$error = $this->lng->txt('pay_bmf_server_error_code') . " " . $resultCustomer->code . ": " . $resultCustomer->kurzText . "<br>\n" . $resultCustomer->langText;
 				if ($resultCustomer->code == -103 ||
 					$resultCustomer->code == -104 ||
 					$resultCustomer->code == -107 ||
