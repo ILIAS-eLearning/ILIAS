@@ -1247,7 +1247,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("PRINT", $this->lng->txt("print"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("PAGETITLE", " - " . $this->object->getTitle());
