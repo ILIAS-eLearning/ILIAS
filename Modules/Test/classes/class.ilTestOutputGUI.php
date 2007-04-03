@@ -1859,7 +1859,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		global $ilUser;
 		
 //		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_overview_participants.html", "Modules/Test");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_results_participants.html", "Modules/Test");
+		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_results_participants.html", "Modules/Test");
 
 		$pass = null;
 		$user_id = $ilUser->getId();
@@ -2065,7 +2065,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_participants.html", "Modules/Test");
+		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_participants.html", "Modules/Test");
 
 		if ($this->object->getNrOfTries() == 1)
 		{
