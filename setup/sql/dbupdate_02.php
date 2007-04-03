@@ -1064,7 +1064,7 @@ DROP TABLE IF EXISTS tmp_migration;
 // Mail enhancements part II
 // Create b-tree index for fast access to object titles. This is needed for
 // efficient generation and resolution of role mailbox addresses.
-$query = "CREATE INDEX title_index USING BTREE ON object_data (title ASC);";
+$query = "CREATE INDEX title_index ON object_data (title ASC);";
 $this->db->query($query);
 ?>
 <#953>
