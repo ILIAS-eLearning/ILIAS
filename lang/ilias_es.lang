@@ -7135,96 +7135,96 @@ common#:#mail_pear_mail_needed#:#.Necesita instalar Pear Mail para usar esta fun
 common#:#obj_feed#:#Feed
 common#:#objs_feed#:#Feeds
 common#:#feed_edit_permission#:#Modificar configuración de permisos
-common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
-common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
-common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
-common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
-common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
-common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
-common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
-news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
-news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
-news#:#news_related_to#:#Related to###02 04 2007 new variable
-news#:#news_all_items#:#All Items###02 04 2007 new variable
-common#:#access_users#:#Logged in Users###02 04 2007 new variable
-common#:#access_public#:#Public###02 04 2007 new variable
-common#:#access_scope#:#Access###02 04 2007 new variable
-feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories###02 04 2007 new variable
-feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing external web feed blocks, in case of an unexpected problem due to an external feed source.###02 04 2007 new variable
-gmaps#:#gmaps_public_profile_info#:#Show location in your public profile.###02 04 2007 new variable
-gmaps#:#gmaps_enable_gmaps#:#Enable Google Maps###02 04 2007 new variable
-gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
-gmaps#:#gmaps_zoom_level#:#Zoom Level###02 04 2007 new variable
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.###02 04 2007 new variable
-common#:#selected_items_back#:#Back to Personal Items###02 04 2007 new variable
-common#:#send_mail#:#Send e-mail###02 04 2007 new variable
-common#:#pd_items_news#:#Include News of Personal Items###02 04 2007 new variable
-common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.###02 04 2007 new variable
-crs#:#crs_news#:#Course News###02 04 2007 new variable
-mail#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###02 04 2007 new variable
-mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###02 04 2007 new variable
-grp#:#grp_map_settings#:#Map Settings###02 04 2007 new variable
-grp#:#grp_enable_map#:#Enable Group Map###02 04 2007 new variable
-grp#:#grp_members_map#:#Group Members Map###02 04 2007 new variable
-grp#:#grp_map_location#:#Group Map Location###02 04 2007 new variable
-crs#:#crs_map_settings#:#Map Settings###02 04 2007 new variable
-crs#:#crs_enable_map#:#Enable Course Map###02 04 2007 new variable
-crs#:#crs_map_location#:#Course Map Location###02 04 2007 new variable
-crs#:#crs_members_map#:#Course Members Map###02 04 2007 new variable
-common#:#obj_fold_duplicate#:#Copy Folder###02 04 2007 new variable
-common#:#obj_fold_select#:#-- Please select one Folder --###02 04 2007 new variable
-common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###02 04 2007 new variable
-common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
-common#:#obj_grp_duplicate#:#Copy Group###02 04 2007 new variable
-common#:#obj_grp_select#:#-- Please select one Group --###02 04 2007 new variable
-common#:#grp_wizard_page#:#Copy Group (Step 2/2)###02 04 2007 new variable
-common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
-crs#:#crs_objective_assigned_materials#:#Assigned Learning Materials###02 04 2007 new variable
-crs#:#crs_objective_assigned_qst#:#Assigned Questions###02 04 2007 new variable
-crs#:#crs_objective_add_mat#:#Assign Materials###02 04 2007 new variable
-crs#:#crs_objective_add_qst#:#Assign Questions###02 04 2007 new variable
-common#:#objs_qst#:#Questions###02 04 2007 new variable
-common#:#container_no_items#:#No Materials Available###02 04 2007 new variable
-common#:#search_engine#:#Search Engines###02 04 2007 new variable
-common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).###02 04 2007 new variable
-common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.###02 04 2007 new variable
-common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.###02 04 2007 new variable
-common#:#cat_copy#:#Copy Category###02 04 2007 new variable
-common#:#chat_copy#:#Copy Chat###02 04 2007 new variable
-common#:#crs_copy#:#Copy Course###02 04 2007 new variable
-common#:#dbk_copy#:#Copy Digilib-Book###02 04 2007 new variable
-common#:#exc_copy#:#Copy Exercise###02 04 2007 new variable
-common#:#file_copy#:#Copy File###02 04 2007 new variable
-common#:#fold_copy#:#Copy Folder###02 04 2007 new variable
-common#:#frm_copy#:#Copy Forum###02 04 2007 new variable
-common#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
-common#:#grp_copy#:#Copy Group###02 04 2007 new variable
-common#:#htlm_copy#:#Copy HTML Learning Module###02 04 2007 new variable
-common#:#icrs_copy#:#Copy LearnLinc Seminar###02 04 2007 new variable
-common#:#lm_copy#:#Copy ILIAS Lernmodul###02 04 2007 new variable
-common#:#mcst_copy#:#Copy MediaCast###02 04 2007 new variable
-common#:#sahs_copy#:#Copy SCORM/AICC Learning Module###02 04 2007 new variable
-common#:#svy_copy#:#Copy Survey###02 04 2007 new variable
-common#:#tst_copy#:#Copy Test###02 04 2007 new variable
-common#:#webr_copy#:#Copy Web Resource###02 04 2007 new variable
-common#:#missing_perm#:#Missing Permission###02 04 2007 new variable
-registration#:#auth_radius_name#:#Name of RADIUS Configuration###02 04 2007 new variable
-registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration###02 04 2007 new variable
-registration#:#auth_radius_sync#:#User Synchronization###02 04 2007 new variable
-registration#:#auth_radius_role_select#:#Role:###02 04 2007 new variable
-registration#:#auth_radius_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###02 04 2007 new variable
-common#:#forums_anonymized#:#Forum anonymized###02 04 2007 new variable
-common#:#forums_anonymous#:#anonym###02 04 2007 new variable
-common#:#forums_your_name#:#Your Name###02 04 2007 new variable
-common#:#forums_use_alias#:#You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous###02 04 2007 new variable
+common#:#feed_visible#:#Feed es visible
+common#:#feed_read#:#Acceso de lectura al feed
+common#:#feed_write#:#Editar feed
+common#:#mcst_edit_permission#:#Modificar configuración de permisos
+common#:#mcst_visible#:#MediaCast es visible
+common#:#mcst_read#:#Acceso de lectura al MediaCast
+common#:#mcst_write#:#Editar MediaCast
+common#:#nwss_edit_permission#:#Modificar configuración de permisos
+common#:#nwss_visible#:#Configuración de Noticias y Feeds visible
+common#:#nwss_read#:#Acceso de lectura a la configuración de Noticias y Feeds
+common#:#nwss_write#:#Editar configuración de Noticias y Feeds
+common#:#cat_create_feed#:#Crear feed
+common#:#grp_create_feed#:#Crear feed
+common#:#crs_create_feed#:#Crear feed
+common#:#cat_create_mcst#:#Crear MediaCast
+common#:#grp_create_mcst#:#Crear MediaCast
+common#:#crs_create_mcst#:#Crear MediaCast
+common#:#fold_create_mcst#:#Crear MediaCast
+news#:#news_nr_of_items#:#Número de items de noticias máximo por Objeto
+news#:#news_nr_of_items_info#:#Número de items de noticias que se almacena para un objeto (ej: un fichero o un módulo de aprendizaje) en la base de datos. Por favor anote que, los objetos contenedores (ej: categorías, cursos) pueden listar más items, porque además agregan noticias de los subobjetos.
+news#:#news_related_to#:#Relativo a
+news#:#news_all_items#:#Todos los items
+common#:#access_users#:#Usuarios identificados
+common#:#access_public#:#Público
+common#:#access_scope#:#Acceso
+feed#:#feed_disable_rep_feeds#:#Deshabilitar Feeds externos en Categorías
+feed#:#feed_disable_rep_feeds_info#:#Esta opción desactiva todos los bloques de feeds externos, en caso de problemas no esperados debido a una fuente externa RSS.
+gmaps#:#gmaps_public_profile_info#:#Mostrar localización en tu perfil personal.
+gmaps#:#gmaps_enable_gmaps#:#Habilitar Google Maps
+gmaps#:#gmaps_enable_gmaps_info#:#Activa Google Maps en los perfiles de usuario, grupos y cursos.
+gmaps#:#gmaps_zoom_level#:#Nivel de Zoom
+common#:#no_agreement_description#:#No existe un acuerdo de usuario en esta instalación. Por favor contacte con el administrador del sistema.
+common#:#selected_items_back#:#Volver a los items personales
+common#:#send_mail#:#Enviar e-mail
+common#:#pd_items_news#:#Incluir Novedades de items personales
+common#:#pd_items_news_info#:#Si se activa, todas las novedades relacionados con items de tu escritorio personal serán incluidas en el bloque de novedades
+crs#:#crs_news#:#Novedades del Curso
+mail#:#mail_no_recipient_found#:#Introduzca una dirección de correo electrónico diferente. ILIAS no pudo encontrar un destinatario con esta dirección.
+mail#:#mail_multiple_recipients_found#:#Introduzca una dirección de correo más específica. ILIAS encontró múltiplos destinatarios posibles para esta dirección: %s
+grp#:#grp_map_settings#:#Configuración de Mapa
+grp#:#grp_enable_map#:#Habilitar Mapa de Grupo
+grp#:#grp_members_map#:#Mapa de miembros del grupo
+grp#:#grp_map_location#:#Mapa de Localización de Grupo
+crs#:#crs_map_settings#:#Configuración de Mapa
+crs#:#crs_enable_map#:#Habilitar Mapa de Curso
+crs#:#crs_map_location#:#Localización de Mapa de Curso
+crs#:#crs_members_map#:#Mapa de miembros del Curso
+common#:#obj_fold_duplicate#:#Copiar Carpeta
+common#:#obj_fold_select#:#-- Por favor seleccione una Carpeta --
+common#:#fold_wizard_page#:#Copiar Carpeta (Paso 2/2)
+common#:#fold_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
+common#:#obj_grp_duplicate#:#Copiar Grupo
+common#:#obj_grp_select#:#-- Por favor seleccione un Grupo --
+common#:#grp_wizard_page#:#Copiar Grupo (Paso 2/2)
+common#:#grp_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
+crs#:#crs_objective_assigned_materials#:#Materiales de Aprendizaje Asignados
+crs#:#crs_objective_assigned_qst#:#Preguntas Asignadas
+crs#:#crs_objective_add_mat#:#Asignar Materiales
+crs#:#crs_objective_add_qst#:#Asignar Preguntas
+common#:#objs_qst#:#Preguntas
+common#:#container_no_items#:#No hay materiales disponibles
+common#:#search_engine#:#Motores de Búsqueda
+common#:#enable_search_engine#:#Abrir la Sección Pública a los Motores de Búsqueda de Internet (e.g Google).
+common#:#mod_rewrite_disabled#:#El módulo Apache 'mod_rewrite' no está disponible.
+common#:#allow_override_alert#:#Las reglas para .htaccess no se interpretan correctamente.
+common#:#cat_copy#:#Copiar Categoría
+common#:#chat_copy#:#Copiar Chat
+common#:#crs_copy#:#Copiar Curso
+common#:#dbk_copy#:#Copiar Digilib-Book
+common#:#exc_copy#:#Copiar Actividad
+common#:#file_copy#:#Copiar Fichero
+common#:#fold_copy#:#Copiar Carpeta
+common#:#frm_copy#:#Copiar Foro
+common#:#glo_copy#:#Copiar Glosario
+common#:#grp_copy#:#Copiar Grupo
+common#:#htlm_copy#:#Copiar Módulo de Aprendizaje HTML
+common#:#icrs_copy#:#Copiar Seminario LearnLinc
+common#:#lm_copy#:#Copiar Módulo de aprendizaje ILIAS
+common#:#mcst_copy#:#Copiar MediaCast
+common#:#sahs_copy#:#Copiar Módulo de aprendizaje SCORM/AICC
+common#:#svy_copy#:#Copiar Encuesta
+common#:#tst_copy#:#Copiar Test
+common#:#webr_copy#:#Copiar Recurso Web
+common#:#missing_perm#:#Permiso no encontrado
+registration#:#auth_radius_name#:#Nombre de la Configuración RADIUS
+registration#:#auth_radius_name_desc#:#Por favor escoja un nombre para esta configuración de servidor
+registration#:#auth_radius_sync#:#Sincronización de Usuarios
+registration#:#auth_radius_role_select#:#Rol:
+registration#:#auth_radius_sync_info#:#Si se habilita nuevas cuentas de usuario serán creadas después de autenticarse con éxito.
+common#:#forums_anonymized#:#Foro anónimo
+common#:#forums_anonymous#:#anónimo
+common#:#forums_your_name#:#Su nombre
+common#:#forums_use_alias#:#Puede usar este alias para su mensaje. Si deja este campo en blanco, su mensaje será marcado como anónimo
