@@ -785,7 +785,7 @@ class ilObjForum extends ilObject
 	* @return	integer	Result
 	* @access	private
 	*/
-	function isNotificationEnabled($user_id, $thread_id)
+	function isThreadNotificationEnabled($user_id, $thread_id)
 	{
 		global $ilDB;
 		

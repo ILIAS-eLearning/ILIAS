@@ -491,7 +491,8 @@ class ilForum
 		if($this->ilias->getSetting("forum_notification") == 1)
 		{
 			$pos_data["top_name"] = $forum_obj->getTitle();			
-			$this->sendNotifications($pos_data);
+			$this->sendForumNotifications($pos_data);
+			$this->sendThreadNotifications($pos_data);
 		}
 		
 		// Add Notification to news
@@ -1647,17 +1648,97 @@ class ilForum
 	}
 
 	/**
+	* Enable a user's notification about new posts in this forum
+	* @param    integer	user_id	A user's ID
+	* @return	bool	true
+	* @access	private
+	*/
+	function enableForumNotification($user_id)
+	{
+		global $ilDB;
+		
+		if (!$this->isForumNotificationEnabled($user_id, $forum_id))
+		{
+			/* Remove all notifications of threads that belong to the forum */ 
+			$q = "SELECT frm_notification.thread_id FROM frm_data, frm_notification, frm_threads WHERE " .
+					"frm_notification.user_id = ".$ilDB->quote($user_id)." AND " .
+					"frm_notification.thread_id = frm_threads.thr_pk AND " .
+					"frm_threads.thr_top_fk = frm_data.top_pk AND " .
+					"frm_data.top_frm_fk = ".$this->id." " .
+					"GROUP BY frm_notification.thread_id";
+			$res = $this->ilias->db->query($q);
+			if (!DB::isError($res) &&
+				is_object($res) &&
+				$res->numRows() > 0)
+			{
+				$thread_ids = "";
+				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+				{								
+					$thread_ids .= $row["thread_id"].",";
+				}
+				$thread_ids = substr($thread_ids, 0, strlen($thread_ids)-1);
+				$q = "DELETE FROM frm_notification WHERE " .
+						"user_id = ".$ilDB->quote($user_id)." AND " .
+						"thread_id IN (".$thread_ids.")";
+				$this->ilias->db->query($q);
+			}
+
+			/* Insert forum notification */ 
+			$q = "INSERT INTO frm_notification (user_id, frm_id) VALUES (";
+			$q .= $ilDB->quote($user_id).", ";
+			$q .= $this->id.")";
+			$this->ilias->db->query($q);
+		}
+
+		return true;
+	}
+
+	/**
+	* Disable a user's notification about new posts in this forum
+	* @param    integer	user_id	A user's ID
+	* @return	bool	true
+	* @access	private
+	*/
+	function disableForumNotification($user_id)
+	{
+		global $ilDB;
+		
+		$q = "DELETE FROM frm_notification WHERE ";
+		$q .= "user_id = ".$ilDB->quote($user_id)." AND ";
+		$q .= "frm_id = ".$this->id."";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+
+	/**
+	* Check whether a user's notification about new posts in this forum is enabled (result > 0) or not (result == 0)
+	* @param    integer	user_id	A user's ID
+	* @return	integer	Result
+	* @access	private
+	*/
+	function isForumNotificationEnabled($user_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
+		$q .= "user_id = ".$ilDB->quote($user_id)." AND ";
+		$q .= "frm_id = ".$this->id;
+		return $this->ilias->db->getOne($q);
+	}
+
+	/**
 	* Enable a user's notification about new posts in a thread
 	* @param    integer	user_id	A user's ID
 	* @param    integer	thread_id	ID of the thread
 	* @return	bool	true
 	* @access	private
 	*/
-	function enableNotification($user_id, $thread_id)
+	function enableThreadNotification($user_id, $thread_id)
 	{
 		global $ilDB;
 		
-		if (!$this->isNotificationEnabled($user_id, $thread_id))
+		if (!$this->isThreadNotificationEnabled($user_id, $thread_id))
 		{
 			$q = "INSERT INTO frm_notification (user_id, thread_id) VALUES (";
 			$q .= $ilDB->quote($user_id).", ";
@@ -1675,7 +1756,7 @@ class ilForum
 	* @return	bool	true
 	* @access	private
 	*/
-	function disableNotification($user_id, $thread_id)
+	function disableThreadNotification($user_id, $thread_id)
 	{
 		global $ilDB;
 		
@@ -1694,7 +1775,7 @@ class ilForum
 	* @return	integer	Result
 	* @access	private
 	*/
-	function isNotificationEnabled($user_id, $thread_id)
+	function isThreadNotificationEnabled($user_id, $thread_id)
 	{
 		global $ilDB;
 		
@@ -1704,7 +1785,7 @@ class ilForum
 		return $this->ilias->db->getOne($q);
 	}
 
-	function sendNotifications($post_data)
+	function sendThreadNotifications($post_data)
 	{
 		global $ilDB;
 		
@@ -1725,23 +1806,53 @@ class ilForum
 		$q .= "thread_id = ".$ilDB->quote($post_data["pos_thr_fk"])." AND ";
 		$q .= "user_id <> ".$ilDB->quote($_SESSION["AccountId"])."";
 		$res = $this->ilias->db->query($q);
-		if (!DB::isError($res) &&
-			is_object($res) &&
-			$res->numRows() > 0)
-		{
-			while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{								
-				// SEND NOTIFICATIONS BY E-MAIL
-				$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
-				$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
-												   $this->formatNotificationSubject(),
-												   $this->formatNotification($post_data),
-												   array(),array("system"));
-				unset($tmp_mail_obj);
-			}
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{								
+			// SEND NOTIFICATIONS BY E-MAIL
+			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+			$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+											   $this->formatNotificationSubject(),
+											   $this->formatNotification($post_data),
+											   array(),array("system"));
+			unset($tmp_mail_obj);
 		}
 	}
 	
+	function sendForumNotifications($post_data)
+	{
+		global $ilDB;
+		
+		include_once "./classes/class.ilMail.php";
+		include_once "./classes/class.ilObjUser.php";
+		
+		// GET THREAD DATA
+		$q = "SELECT thr_subject FROM frm_threads WHERE ";
+		$q .= "thr_pk = ".$ilDB->quote($post_data["pos_thr_fk"])."";
+		$thread_subject = $this->ilias->db->getOne($q);
+		$post_data["thr_subject"] = $thread_subject;
+
+		// GET AUTHOR OF NEW POST
+		$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
+
+		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
+		$q = "SELECT frm_notification.user_id FROM frm_notification, frm_data WHERE ";
+		$q .= "frm_data.top_pk = ".$ilDB->quote($post_data["pos_top_fk"])." AND ";
+		$q .= "frm_notification.frm_id = frm_data.top_frm_fk AND ";
+		$q .= "frm_notification.user_id <> ".$ilDB->quote($_SESSION["AccountId"])." ";
+		$q .= "GROUP BY frm_notification.user_id";
+		$res = $this->ilias->db->query($q);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{								
+			// SEND NOTIFICATIONS BY E-MAIL
+			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+			$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+											   $this->formatNotificationSubject(),
+											   $this->formatNotification($post_data),
+											   array(),array("system"));
+			unset($tmp_mail_obj);
+		}
+	}
+
 	function formatNotificationSubject()
 	{
 		return $this->lng->txt("forums_notification_subject");
@@ -1749,13 +1860,19 @@ class ilForum
 
 	function formatNotification($post_data, $cron = 0)
 	{
+		global $ilIliasIniFile;
+
 		if ($cron == 1)
 		{
-			$message = sprintf($this->lng->txt("forums_notification_intro"), $this->ilias->ini->readVariable("client","name"), ILIAS_HTTP_PATH)."\n\n";
+			$message = sprintf($this->lng->txt("forums_notification_intro"),
+								$this->ilias->ini->readVariable("client","name"),
+								$ilIliasIniFile->readVariable("server","http_path"))."\n\n";
 		}
 		else
 		{
-			$message = sprintf($this->lng->txt("forums_notification_intro"), $this->ilias->ini->readVariable("client","name"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"]))."\n\n";
+			$message = sprintf($this->lng->txt("forums_notification_intro"),
+								$this->ilias->ini->readVariable("client","name"),
+								ILIAS_HTTP_PATH)."\n\n";
 		}
 		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
 		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
@@ -1774,11 +1891,11 @@ class ilForum
 		$message .= "------------------------------------------------------------\n";
 		if ($cron == 1)
 		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), $ilIliasIniFile->readVariable("server","http_path")."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
 		}
 		else
 		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
 		}
 
 		return $message;
