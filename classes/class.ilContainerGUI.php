@@ -1830,6 +1830,12 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	 	$this->ctrl->setParameter($this,'clone_source',(int) $_REQUEST['clone_source']);
 	 	$this->ctrl->setParameter($this,'new_type',$new_type);
 		
+
+		// Generell JavaScript
+		$this->tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
+		$this->tpl->setVariable('BODY_ATTRIBUTES','onload="ilDisableChilds(\'cmd\');"');
+
+		
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.container_wizard_page.html');
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.gif'));
@@ -1869,7 +1875,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 				}
 				// fill options
 				$copy_wizard_page = ilCopyWizardPageFactory::_getInstanceByType($source_id,$node['type']);
-				$copy_wizard_page->fillTreeSelection($node['ref_id'],$node['type']);
+				$copy_wizard_page->fillTreeSelection($node['ref_id'],$node['type'],$node['depth']);
 				
 				$this->tpl->setCurrentBlock('tree_row');
 				$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.gif'));
@@ -1935,6 +1941,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		$wizard_options->saveOwner($ilUser->getId());
 		
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
+		
 		// add entry for source container
 		$wizard_options->initContainer((int) $_REQUEST['clone_source'],(int) $_GET['ref_id']);
 		foreach($options as $source_id => $option)

@@ -73,55 +73,65 @@ class ilCopyWizardPage
 	 * @param string type of current node
 	 * 
 	 */
-	public function fillTreeSelection($a_ref_id,$a_type)
+	public function fillTreeSelection($a_ref_id,$a_type,$a_depth)
 	{
 		global $tpl,$ilAccess;
 		
-		$selected = isset($_POST['cp_options'][$a_ref_id]['type']) ?
-			$_POST['cp_options'][$a_ref_id]['type'] :
-			ilCopyWizardOptions::COPY_WIZARD_COPY;
-			
+		$this->tpl = $tpl;
+		
 		$perm_copy = $ilAccess->checkAccess('copy','',$a_ref_id);
-		$copy = $this->objDefinition->allowCopy($a_type); 
+		$copy = $this->objDefinition->allowCopy($a_type);
 		$perm_link = $ilAccess->checkAccess('write','',$a_ref_id);
-		$link = $this->objDefinition->allowLink($a_type); 
+		$link = $this->objDefinition->allowLink($a_type);
+		
+		// Show radio copy
+		if($perm_copy and $copy)
+		{
+			$this->tpl->setCurrentBlock('radio_copy');
+			$this->tpl->setVariable('TXT_COPY',$this->lng->txt('copy'));
+			$this->tpl->setVariable('NAME_COPY','cp_options['.$a_ref_id.'][type]');
+			$this->tpl->setVariable('VALUE_COPY',ilCopyWizardOptions::COPY_WIZARD_COPY);
+			$this->tpl->setVariable('ID_COPY',$a_depth.'_'.$a_type.'_'.$a_ref_id.'_copy');
+			$this->tpl->setVariable('COPY_CHECKED','checked="checked"');
+			$this->tpl->parseCurrentBlock();
+		}
+		elseif($copy)
+		{
+			$this->tpl->setCurrentBlock('missing_copy_perm');
+			$this->tpl->setVariable('TXT_MISSING_COPY_PERM',$this->lng->txt('missing_perm'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// Show radio link
+		if($perm_link and $link)
+		{
+			$this->tpl->setCurrentBlock('radio_link');
+			$this->tpl->setVariable('TXT_LINK',$this->lng->txt('link'));
+			$this->tpl->setVariable('NAME_LINK','cp_options['.$a_ref_id.'][type]');
+			$this->tpl->setVariable('VALUE_LINK',ilCopyWizardOptions::COPY_WIZARD_LINK);
+			$this->tpl->setVariable('ID_LINK',$a_depth.'_'.$a_type.'_'.$a_ref_id.'_link');
+			if(!$copy or !$perm_copy)
+			{
+				$this->tpl->setVariable('LINK_CHECKED','checked="checked"');
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		elseif($link)
+		{
+			$this->tpl->setCurrentBlock('missing_link_perm');
+			$this->tpl->setVariable('TXT_MISSING_LINK_PERM',$this->lng->txt('missing_perm'));
+			$this->tpl->parseCurrentBlock();
+		}
 
-		$options = array();
-		if($copy and $perm_copy)
+		// Radio omit
+		$this->tpl->setVariable('TXT_OMIT',$this->lng->txt('omit'));
+		$this->tpl->setVariable('NAME_OMIT','cp_options['.$a_ref_id.'][type]');
+		$this->tpl->setVariable('VALUE_OMIT',ilCopyWizardOptions::COPY_WIZARD_OMIT);
+		$this->tpl->setVariable('ID_OMIT',$a_depth.'_'.$a_type.'_'.$a_ref_id.'_omit');
+		if(((!$copy or !$perm_copy) and (!$link or !$perm_link)))
 		{
-			$options[ilCopyWizardOptions::COPY_WIZARD_COPY] = $this->lng->txt('copy');
+			$this->tpl->setVariable('OMIT_CHECKED','checked="checked"');
 		}
-		if($link and $perm_link)
-		{
-			$options[ilCopyWizardOptions::COPY_WIZARD_LINK] = $this->lng->txt('link');
-		}
-		$options[ilCopyWizardOptions::COPY_WIZARD_OMIT] = $this->lng->txt('omit');
-		
-		if(!$perm_copy or !$perm_link)
-		{
-			$tpl->setCurrentBlock('permission');
-			$tpl->setVariable('TXT_MISSING_PERM',$this->lng->txt('missing_perm'));
-			if(!$perm_copy)
-			{
-				$perms = $this->lng->txt('copy');				
-			}
-			if(!$perm_link)
-			{
-				if(strlen($perms))
-				{
-					$perms .= (', ');
-				}
-				$perms .= $this->lng->txt('link');
-			}
-			$tpl->setVariable('PERMS',$perms);
-			$tpl->parseCurrentBlock();
-		}
-		
-		$disabled = (!($copy or $perm_copy) and !($link or $perm_link));
-		
-		$tpl->setVariable('TREE_SELECT',ilUtil::formSelect($selected,'cp_options['.$a_ref_id.'][type]',
-			$options,false,true,0,'','',$disabled));
-		
 	}
 	
 
