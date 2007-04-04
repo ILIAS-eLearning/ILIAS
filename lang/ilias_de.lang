@@ -4698,10 +4698,10 @@ forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
-forum#:#forums_disable_notification#:#Benachrichtigung beenden
+forum#:#forums_disable_notification#:#Benachrichtigung für dieses Thema beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_enable_notification#:#Benachrichtigung starten
+forum#:#forums_enable_notification#:#Benachrichtigung für diese Thema starten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll.
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
@@ -7228,3 +7228,6 @@ crs#:#crs_enable_map#:#Enable Course Map###02 04 2007 new variable
 crs#:#crs_map_location#:#Course Map Location###02 04 2007 new variable
 crs#:#crs_members_map#:#Course Members Map###02 04 2007 new variable
 common#:#forums_anonymous#:#anonym###02 04 2007 new variable
+common#:#forums_enable_forum_notification#:#Benachrichtigung für dieses Forum starten
+common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum beenden
+common#:#forums_forum_notification_enabled#:#Sie werden über neue Nachrichten in diesem Forum benachrichtigt.

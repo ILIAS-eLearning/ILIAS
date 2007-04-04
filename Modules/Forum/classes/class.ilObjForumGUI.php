@@ -65,8 +65,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		
 		if ($cmd != "showExplorer" && $cmd != "viewThread" && $cmd != "showUser"
-			&& $cmd != "addThread" && $cmd != "createThread" && $cmd != "showNotification"
-			&& $cmd != "enableNotification" && $cmd != "disableNotification")
+			&& $cmd != "addThread" && $cmd != "createThread" && $cmd != "showThreadNotification"
+			&& $cmd != "enableThreadNotification" && $cmd != "disableThreadNotification")
 		{
 			$this->prepareOutput();
 		}
@@ -169,6 +169,27 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('forums_mark_read'));
 		$this->tpl->parseCurrentBlock();
 
+		// Enable/Disable forum notification
+		if ($this->ilias->getSetting("forum_notification") != 0)
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			if ($frm->isForumNotificationEnabled($ilUser->getId()))
+			{
+				$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'disableForumNotification'));
+				$this->tpl->setVariable("BTN_TXT",$this->lng->txt('forums_disable_forum_notification'));
+			}
+			else
+			{
+				$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'enableForumNotification'));
+				$this->tpl->setVariable("BTN_TXT",$this->lng->txt('forums_enable_forum_notification'));
+			}
+			$this->tpl->parseCurrentBlock();
+
+			if ($frm->isForumNotificationEnabled($ilUser->getId()))
+			{
+				$this->tpl->setVariable("TXT_FORUM_NOTIFICATION_ENABLED",$this->lng->txt('forums_forum_notification_enabled'));
+			}
+		}
 
 		if($topicData)
 		{
@@ -262,7 +283,7 @@ class ilObjForumGUI extends ilObjectGUI
 						$this->tpl->setVariable("TH_HREF",
 							$this->ctrl->getLinkTarget($this, "showThreadFrameset"));
 						if ($this->ilias->getSetting("forum_notification") != 0 &&
-							$frm->isNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
+							$frm->isThreadNotificationEnabled($ilUser->getId(), $thrData["thr_pk"]))
 						{
 							$this->tpl->setVariable("NOTIFICATION_ENABLED", $this->lng->txt("forums_notification_enabled"));
 						}
@@ -387,7 +408,8 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_OK",$this->lng->txt("ok"));			
 				$this->tpl->setVariable("TXT_EXPORT_HTML", $this->lng->txt("export_html"));
 				$this->tpl->setVariable("TXT_EXPORT_XML", $this->lng->txt("export_xml"));
-				if ($this->ilias->getSetting("forum_notification") != 0)
+				if ($this->ilias->getSetting("forum_notification") != 0 &&
+					!$frm->isForumNotificationEnabled($ilUser->getId()))
 				{
 					$this->tpl->setVariable("TXT_DISABLE_NOTIFICATION", $this->lng->txt("forums_disable_notification"));
 					$this->tpl->setVariable("TXT_ENABLE_NOTIFICATION", $this->lng->txt("forums_enable_notification"));
@@ -1084,7 +1106,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	function prepareThreadScreen($a_forum_obj)
 	{
-		global $tpl, $lng, $ilTabs, $ilias;
+		global $tpl, $lng, $ilTabs, $ilias, $ilUser;
 		
 		$session_name = "viewmode_".$a_forum_obj->getId();
 		$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
@@ -1122,11 +1144,15 @@ class ilObjForumGUI extends ilObjectGUI
 			$ilTabs->setTabActive("order_by_answers");
 		}
 	
-		if ($ilias->getSetting("forum_notification") != 0)
+		$frm =& $a_forum_obj->Forum;
+		$frm->setForumId($a_forum_obj->getId());
+		
+		if ($ilias->getSetting("forum_notification") != 0 &&
+			!$frm->isForumNotificationEnabled($ilUser->getId()))
 		{
 			$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
 			$ilTabs->addTarget("forums_notification",
-				$this->ctrl->getLinkTarget($this, "showNotification"),
+				$this->ctrl->getLinkTarget($this, "showThreadNotification"),
 				"","");
 			$this->ctrl->clearParameters($this);
 		}
@@ -1530,7 +1556,7 @@ class ilObjForumGUI extends ilObjectGUI
 								global $ilUser;
 								
 								// only if gen. notification is disabled and forum isn't anonymous
-								if (!$frm->isNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]) &&
+								if (!$frm->isThreadNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]) &&
 									!$frm->isAnonymized())
 								{
 									$tpl->setCurrentBlock("notify");
@@ -2163,7 +2189,7 @@ class ilObjForumGUI extends ilObjectGUI
 			{
 				for ($i = 0; $i < count($_POST["forum_id"]); $i++)
 				{
-					$frm->enableNotification($ilUser->getId(), $_POST["forum_id"][$i]);
+					$frm->enableThreadNotification($ilUser->getId(), $_POST["forum_id"][$i]);
 				}
 	
 				$this->ctrl->redirect($this, "showThreads");
@@ -2172,7 +2198,7 @@ class ilObjForumGUI extends ilObjectGUI
 			{
 				for ($i = 0; $i < count($_POST["forum_id"]); $i++)
 				{
-					$frm->disableNotification($ilUser->getId(), $_POST["forum_id"][$i]);
+					$frm->disableThreadNotification($ilUser->getId(), $_POST["forum_id"][$i]);
 				}
 	
 				$this->ctrl->redirect($this, "showThreads");
@@ -2389,7 +2415,7 @@ class ilObjForumGUI extends ilObjectGUI
 	/**
 	* Show Notification Tab
 	*/
-	function showNotificationObject()
+	function showThreadNotificationObject()
 	{
 		global $lng, $tpl, $rbacsystem, $ilias, $ilUser, $ilTabs, $ilDB;
 		
@@ -2436,50 +2462,82 @@ class ilObjForumGUI extends ilObjectGUI
 			// display different buttons depending on viewmode
 		
 			$this->ctrl->setParameter($this, "thr_pk", $_GET["thr_pk"]);
-			if ($frm->isNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]))
+			if ($frm->isThreadNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]))
 			{
 				$tpl->setVariable("TXT_STATUS", $lng->txt("forums_notification_is_enabled"));
 				$tpl->setVariable("TXT_SUBMIT", $lng->txt("forums_disable_notification"));
 				$tpl->setVariable("FORMACTION",
-					$this->ctrl->getFormAction($this, "disableNotification"));
-				$tpl->setVariable("CMD", "disableNotification");
+					$this->ctrl->getFormAction($this, "disableThreadNotification"));
+				$tpl->setVariable("CMD", "disableThreadNotification");
 			}
 			else
 			{
 				$tpl->setVariable("TXT_STATUS", $lng->txt("forums_notification_is_disabled"));
 				$tpl->setVariable("TXT_SUBMIT", $lng->txt("forums_enable_notification"));
 				$tpl->setVariable("FORMACTION",
-					$this->ctrl->getFormAction($this, "enableNotification"));
-				$tpl->setVariable("CMD", "enableNotification");
+					$this->ctrl->getFormAction($this, "enableThreadNotification"));
+				$tpl->setVariable("CMD", "enableThreadNotification");
 			}
 			$this->ctrl->clearParameters($this);
 		}
 	}
 	
 	/**
-	* Enable notification.
+	* Enable forum notification.
 	*/
-	function enableNotificationObject()
+	function enableForumNotificationObject()
 	{
 		global $ilUser, $lng, $ilDB;
 
 		$forumObj = new ilObjForum($_GET["ref_id"]);
 		$frm =& $forumObj->Forum;
 		$frm->setForumId($forumObj->getId());
-		$frm->setForumRefId($forumObj->getRefId());
-		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
-		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 		
-		$frm->enableNotification($ilUser->getId(), $_GET["thr_pk"]);
-		ilUtil::sendInfo($lng->txt("forums_notification_enabled"));
+		$frm->enableForumNotification($ilUser->getId());
 		
-		$this->showNotificationObject();
+		$this->showThreadsObject();
 	}
 
 	/**
-	* Disable notification.
+	* Disable forum notification.
 	*/
-	function disableNotificationObject()
+	function disableForumNotificationObject()
+	{
+		global $ilUser, $lng, $ilDB;
+		
+		$forumObj = new ilObjForum($_GET["ref_id"]);
+		$frm =& $forumObj->Forum;
+		$frm->setForumId($forumObj->getId());
+
+		$frm->disableForumNotification($ilUser->getId());
+		
+		$this->showThreadsObject();
+	}
+
+	/**
+	* Enable thread notification.
+	*/
+	function enableThreadNotificationObject()
+	{
+		global $ilUser, $lng, $ilDB;
+
+		$forumObj = new ilObjForum($_GET["ref_id"]);
+		$frm =& $forumObj->Forum;
+		$frm->setForumId($forumObj->getId());
+		$frm->setForumRefId($forumObj->getRefId());
+		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
+		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
+		
+		$frm->enableThreadNotification($ilUser->getId(), $_GET["thr_pk"]);
+		ilUtil::sendInfo($lng->txt("forums_notification_enabled"));
+		
+		$this->showThreadNotificationObject();
+	}
+
+	/**
+	* Disable thread notification.
+	*/
+	function disableThreadNotificationObject()
 	{
 		global $ilUser, $lng, $ilDB;
 		
@@ -2490,10 +2548,10 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setWhereCondition("top_frm_fk = ".$ilDB->quote($frm->getForumId()));
 		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 
-		$frm->disableNotification($ilUser->getId(), $_GET["thr_pk"]);
+		$frm->disableThreadNotification($ilUser->getId(), $_GET["thr_pk"]);
 		ilUtil::sendInfo($lng->txt("forums_notification_disabled"));
 		
-		$this->showNotificationObject();
+		$this->showThreadNotificationObject();
 	}
 
 	/**

@@ -5072,10 +5072,10 @@ forum#:#forums_count_art#:#Number of Articles
 forum#:#forums_count_thr#:#Number of Threads
 forum#:#forums_created_by#:#Created by
 forum#:#forums_delete_file#:#Delete attachment
-forum#:#forums_disable_notification#:#Disable notification
+forum#:#forums_disable_notification#:#Disable notification for this thread
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
-forum#:#forums_enable_notification#:#Enable notification
+forum#:#forums_enable_notification#:#Enable notification for this thread
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
@@ -7228,3 +7228,6 @@ common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
 common#:#forums_your_name#:#Your Name
 common#:#forums_use_alias#:#You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous.
+common#:#forums_enable_forum_notification#:#Enable notification for this forum
+common#:#forums_disable_forum_notification#:#Disable notification for this forum
+common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.

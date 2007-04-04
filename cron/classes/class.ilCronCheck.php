@@ -89,8 +89,8 @@ class ilCronCheck
 		{
 			include_once './cron/classes/class.ilCronForumNotification.php';
 
-			$check_lnk =& new ilCronForumNotification();
-			$check_lnk->sendNotifications();
+			$frm_not =& new ilCronForumNotification();
+			$frm_not->sendNotifications();
 
 		}
 
