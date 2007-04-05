@@ -1966,12 +1966,12 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		if(is_int($res))
 		{
 			ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
-			ilUtil::redirect(ilLink::_getLink($res));
+			ilUtil::redirect('repository.php?ref_id='.$res);
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
-			ilUtil::redirect(ilLink::_getLink((int) $_GET['ref_id']));
+			ilUtil::redirect('repository.php?ref_id='.(int) $_GET['ref_id']);
 		}	
 	}
 
