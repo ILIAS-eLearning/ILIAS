@@ -22,7 +22,9 @@
 
 package ilias.lucene;
 
-import java.io.File;
+import ilias.utils.ilEncodingTransformer;
+import ilias.utils.ilNullPrintWriter;
+
 import java.io.InputStream;
 
 import org.apache.lucene.document.Document;
@@ -32,10 +34,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.w3c.tidy.Tidy;
-
-import ilias.utils.ilEncodingException;
-import ilias.utils.ilEncodingTransformer;
-import ilias.utils.ilNullPrintWriter;
 
 /**
  * @author Stefan Meyer <smeyer@databay.de>

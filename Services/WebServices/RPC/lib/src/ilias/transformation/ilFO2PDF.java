@@ -24,16 +24,26 @@ package ilias.transformation;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.avalon.framework.logger.Log4JLogger;
-import org.apache.fop.apps.Driver;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.fop.apps.FOPException;
-import org.apache.fop.messaging.MessageHandler;
+import org.apache.fop.apps.FOUserAgent;
+import org.apache.fop.apps.Fop;
+import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.FormattingResults;
+import org.apache.fop.apps.MimeConstants;
+import org.apache.fop.apps.PageSequenceResults;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.xml.sax.InputSource;
 
 public class ilFO2PDF {
     
@@ -48,33 +58,43 @@ public class ilFO2PDF {
     
     public void transform()
         throws ilTransformerException {
-        
-
-        
+       
         try {
-            Log4JLogger fopLogger = new Log4JLogger(logger);
+            logger.info("Started transformation. FO -> PDF.");
+            FopFactory fopFactory = FopFactory.newInstance();
+            FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
+            
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             
-            Driver driver = new Driver();
-
-            logger.info("Started driver");
-            driver.setLogger(fopLogger);
-            MessageHandler.setScreenLogger(fopLogger);
-            driver.setInputSource(new InputSource(getFoInputStream()));
-            driver.setRenderer(Driver.RENDER_PDF);
-            driver.setOutputStream(out);
-            logger.info("Driver run()");
-            driver.run();
+            Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
             
-            // Set pdf byte array
+//          Setup JAXP using identity transformer
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer = factory.newTransformer(); // identity transformer
+            
+            Source src = new StreamSource(getFoInputStream());
+            Result res = new SAXResult(fop.getDefaultHandler());
+            
+            transformer.transform(src,res);
+            
+            FormattingResults foResults = fop.getResults();
+            java.util.List pageSequences = foResults.getPageSequences();
+            for (java.util.Iterator it = pageSequences.iterator(); it.hasNext();) {
+                PageSequenceResults pageSequenceResults = (PageSequenceResults)it.next();
+                logger.debug("PageSequenze "
+                        + (String.valueOf(pageSequenceResults.getID()).length() > 0 
+                                ? pageSequenceResults.getID() : "<no id>") 
+                        + " generated " + pageSequenceResults.getPageCount() + " pages.");
+            }
+            logger.info("Generated " + foResults.getPageCount() + " pages in total.");
+            
             this.setPdf(out.toByteArray());
-            //logger.info(getPdfString());
 
         } catch (UnsupportedEncodingException e) {
             throw new ilTransformerException(e);
-        } catch (IOException e) {
-            throw new ilTransformerException(e);
         } catch (FOPException e) {
+            throw new ilTransformerException(e);
+        } catch (TransformerException e) {
             throw new ilTransformerException(e);
         }
     }
