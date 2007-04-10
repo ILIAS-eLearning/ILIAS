@@ -173,7 +173,7 @@ assessment#:#certificate_edit#:#Crear/editar una plantilla de certificado
 assessment#:#certificate_export#:#Exportar Certificado
 assessment#:#certificate_page_format#:#Formato de página
 assessment#:#certificate_background_image#:#Imagen de Fondo
-assessment#:#certificate_padding_top#:#Top Padding
+assessment#:#certificate_padding_top#:#Padding superior
 assessment#:#certificate_margin_body#:#Margen
 assessment#:#certificate_not_well_formed#:#El texto del certificado no está bien definido. Por favor introduzca XHTML válido para el texto del certificado
 assessment#:#certificate_show#:#Mostrar Certificado
@@ -416,8 +416,8 @@ assessment#:#log_user_not_entered_values#:#El usuario no introdujo valores
 assessment#:#maintenance#:#Mantenimiento
 assessment#:#manscoring#:#Puntuación manual
 assessment#:#manscoring_not_allowed#:#La puntuación manual no fue activada para un tipo de pregunta. No le está permitido usar esta opción.
-assessment#:#manscoring_select_user#:#Por favor seleccione un participante para darle una puntuación manualmente
-assessment#:#manscoring_questions_not_found#:#Este test no contiene ningún tipo de pregunta que pueda ser puntuada manualmente
+assessment#:#manscoring_select_user#:#Por favor seleccione un participante para darle una puntuación de forma manual
+assessment#:#manscoring_questions_not_found#:#Este test no contiene ningún tipo de pregunta que pueda ser puntuada de forma manual
 assessment#:#manscoring_results_pass#:#Preguntas susceptibles de ser puntuadas de forma manual para el Test %s
 assessment#:#manscoring_hint#:#Ha añadido al menos una pregunta que puede requerir ser puntuada de forma manual. Para garantizar una presentación válida de los resultados del test para los participantes está muy recomendado restringir el acceso a los resultados del test usando una fecha y hora específica.
 assessment#:#mark_schema#:#Esquema de calificación
@@ -561,11 +561,11 @@ assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
 assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto
 assessment#:#scored_pass#:#Puntuación alcanzada
-assessment#:#scoring#:#Scoring
+assessment#:#scoring#:#Puntuación
 assessment#:#search_found_groups#:#Grupos encontrados
 assessment#:#search_found_users#:#Usuarios encontrados
 assessment#:#search_groups#:#Buscar Grupos
-assessment#:#search_results#:#Search Results
+assessment#:#search_results#:#Buscar Resultados
 assessment#:#search_roles#:#Buscar Roles
 assessment#:#search_term#:#Buscar término
 assessment#:#search_users#:#Buscar Usuarios
@@ -610,7 +610,7 @@ assessment#:#tst_access_code_created#:#Para proporcionarle acceso permanente a s
 assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!
 assessment#:#tst_allow_fixed_participants#:#Permitir participantes predefinidos en este test
 assessment#:#tst_allow_instant_verification#:#Permitir verificación instantánea de respuestas
-assessment#:#tst_allowed_users#:#Máximo número de usuarios ejecutando el test a la vez
+assessment#:#tst_allowed_users#:#Máximo número de usuarios permitidos ejecutando el test a la vez
 assessment#:#tst_allowed_users_time_gap#:#Tiempo de inactividad permitido para los usuarios activos
 assessment#:#tst_already_submitted#:#El Test ya ha sido finalizado y enviado
 assessment#:#tst_already_taken#:#Tests realizados
@@ -633,7 +633,7 @@ assessment#:#tst_count_partial_solutions#:#Contar soluciones parciales
 assessment#:#tst_delete_all_user_data#:#Borrar todos los datos de usuario
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de calificación para eliminarlo
 assessment#:#tst_delete_results#:#Reiniciar test
-assessment#:#tst_ending_time#:#Tiempo de finalización
+assessment#:#tst_ending_time#:#Fecha de finalización
 assessment#:#tst_enter_questionpool#:#Por favor introduzca un nombre de banco de preguntas donde la nueva pregunta será almacenada
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nadie ha rellenado el test todavía. No existen resultados de test globales anónimos disponibles.
 assessment#:#tst_eval_question_points#:#Resultados de la pregunta para la ejecución %s
@@ -679,7 +679,7 @@ assessment#:#tst_invited_selected_groups#:#Los grupos seleccionados han sido añ
 assessment#:#tst_invited_selected_roles#:#Los roles seleccionados han sido añadidos como participantes predefinidos del test
 assessment#:#tst_invited_nobody#:#No se han añadido usuarios, grupos o roles como participantes predefinidos del test
 assessment#:#tst_list_of_answers#:#Lista de Respuestas
-assessment#:#tst_list_of_questions_yes#:#Si, y adicional
+assessment#:#tst_list_of_questions_yes#:#Si, y además:
 assessment#:#tst_list_of_questions_start#:#Mostrar la lista de preguntas antes de la primera pregunta
 assessment#:#tst_list_of_questions_end#:#Mostrar la lista de preguntas antes de que un participante finalice el test
 assessment#:#tst_participants_no#:#Nadie ha comenzado el test
@@ -751,7 +751,7 @@ assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?
 assessment#:#tst_random_qpl_unselected#:#¡Hay al menos un banco de preguntas no seleccionado! No necesita añadir un nuevo banco de preguntas
 assessment#:#tst_random_questionpools#:#Bancos de preguntas origen
 assessment#:#tst_random_select_questionpool#:#Seleccione el banco de preguntas desde el que desea elegir preguntas
-assessment#:#tst_random_selection#:#Selección aleatorio de preguntas
+assessment#:#tst_random_selection#:#Selección aleatoria de preguntas
 assessment#:#tst_random_selection_question_count_too_high#:#El número de preguntas que introdujo es mayor que el máximo número de preguntas disponibles. El número de preguntas ha sido reducido automáticamente.
 assessment#:#tst_random_selection_question_total_count_too_high#:#El número de preguntas que introdujo es mayor que el máximo número de preguntas disponibles para todos los bancos de pregunta seleccionados. El número de preguntas ha sido reducido automáticamente.
 assessment#:#tst_random_test#:#Test aleatorio
@@ -771,7 +771,7 @@ assessment#:#tst_results_access#:#Acceso a los resultados del test
 assessment#:#tst_results_access_finished#:#Después de que el test sea finalizado
 assessment#:#tst_results_access_date#:#Fecha
 assessment#:#tst_results_access_always#:#Siempre
-assessment#:#tst_results_access_description#:#Esta configuración controla el acceso de los participantes a los resultados del test. Si los resultados pueden ser accedidos después de que un test sea finalizado, los participantes puede acceder a los resultados después de haber finalizado una ejecución del test por primera vez. Incluso si un test tiene más de una ejecución permitida, los participantes puede acceder a sus resultados tras finalizar la primera ejecución. Si escoge una restricción de acceso con fecha, los participantes no serán capaces de acceder a los resultados del test hasta que se alcance la fecha y hora especificada. Debe elegir esta opción si quiere usar el sistema de puntuación ECTS o si tiene pensado puntuar manualmente algunas preguntas. Si se selecciona "Siempre", los participantes pueden acceder a sus resultados del test en cualquier momento, incluso si no hubiesen terminado aún el test.
+assessment#:#tst_results_access_description#:#Esta configuración controla el acceso de los participantes a los resultados del test. Si los resultados pueden ser accedidos después de que un test sea finalizado, los participantes puede acceder a los resultados después de haber finalizado una ejecución del test por primera vez. Incluso si un test tiene más de una ejecución permitida, los participantes puede acceder a sus resultados tras finalizar la primera ejecución. Si escoge una restricción de acceso con fecha, los participantes no serán capaces de acceder a los resultados del test hasta que se alcance la fecha y hora especificada. Debe elegir esta opción si quiere usar el sistema de puntuación ECTS o si tiene pensado puntuar de forma manual algunas preguntas. Si se selecciona "Siempre", los participantes pueden acceder a sus resultados del test en cualquier momento, incluso si no hubiesen terminado aún el test.
 assessment#:#tst_results_aggregated#:#Resultados globales
 assessment#:#tst_results_back_evaluation#:#Volver al resumen de la evaluación
 assessment#:#tst_results_back_introduction#:#Volver a la introducción
@@ -809,7 +809,7 @@ assessment#:#tst_show_cancel_description#:#Si se marca, se mostrará un botón p
 assessment#:#tst_title_output#:#Mostrar título del test
 assessment#:#tst_title_output_full#:#Mostrar el título del test y la puntuación disponible
 assessment#:#tst_title_output_hide_points#:#Mostrar sólo el título del test
-assessment#:#tst_title_output_no_title#:#No mostrar el título del test y los puntos disponibles
+assessment#:#tst_title_output_no_title#:#No mostrar ni el título del test ni la puntuación disponible
 assessment#:#tst_title_output_description#:#Seleccionar una de las opciones superiores para la presentación del título del test y la puntuación disponible durante la ejecución del test
 assessment#:#tst_use_previous_answers#:#Usar respuestas previas
 assessment#:#tst_use_previous_answers_description#:#Si se marca, se usarán las respuestas previas de un participante como valores por defecto en futuras ejecuciones del test
@@ -827,7 +827,7 @@ assessment#:#tst_signature#:#Firma
 assessment#:#tst_start_new_test_pass#:#Comenzar nueva ejecución de test
 assessment#:#tst_start_test#:#Comenzar el Test
 assessment#:#tst_started#:#Test comenzado
-assessment#:#tst_starting_time#:#Tiempo de Comienzo
+assessment#:#tst_starting_time#:#Fecha de comienzo
 assessment#:#tst_stat_all_users#:#Todos los participantes
 assessment#:#tst_stat_choose_users#:#(Seleccione uno o más usuarios de la lista de usuarios)
 assessment#:#tst_stat_result_atimeofwork#:#Tiempo medio de trabajo
@@ -1254,7 +1254,7 @@ common#:#assessment_log_deleted#:#Los datos de registro de Test & Evaluaciones h
 common#:#assessment_log_logging#:#Registro
 common#:#assessment_log_manual_scoring_activate#:#Activar puntuación manual para
 common#:#assessment_log_manual_scoring#:#Puntuación Manual
-common#:#assessment_log_manual_scoring_desc#:#Si se activa la Puntuación Manual para un tipo de pregunta, todas las preguntas de este tipo podrían ser puntuadas manualmente por un autor. Por favor, sea consciente de esta configuración, porque puntuar manualmente preguntas que son puntuadas de forma automática podría causar incluso problemas de tipo legal.
+common#:#assessment_log_manual_scoring_desc#:#Si se activa la Puntuación Manual para un tipo de pregunta, todas las preguntas de este tipo podrían ser puntuadas de forma manual por un autor. Por favor, sea consciente de esta configuración, porque puntuar de forma manual preguntas que son puntuadas de forma automática podría causar incluso problemas de tipo legal.
 common#:#assessment_log#:#Crear un informe de la herramienta Test para un período específico
 common#:#assessment_log_datetime#:#Fecha/hora
 common#:#assessment_log_for_test#:#Para el test
@@ -4516,7 +4516,7 @@ crs#:#crs_show_objectives_view#:#Vista de objetivos
 crs#:#crs_size#:#Tamaño de archivo
 crs#:#crs_sort_activation#:#Ordenar por Activación
 crs#:#crs_sort_manual#:#Ordenación Manual
-crs#:#crs_sort_manual_info#:#Este modo le ofrece la posibilidad de ordenar los items del curso manualmente.
+crs#:#crs_sort_manual_info#:#Este modo le ofrece la posibilidad de ordenar los items del curso de forma manual.
 crs#:#crs_sort_timing_info#:#Ordena los items del curso por su fecha de activación o la preconfiguración de planificación temporal
 crs#:#crs_sort_title#:#Ordenar por Título
 crs#:#crs_sort_title_info#:#Escoja este modo para ordenar los items del curso automáticamente por su título.
@@ -6993,10 +6993,10 @@ assessment#:#tst_defaults_applied#:#Los valores por defecto seleccionados para e
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS no pudo aplicar los valores por defecto seleccionados para este test. Quizá este test ya contiene preguntas y/o datos de los participantes.
 assessment#:#tst_defaults_apply_select_one#:#Por favor seleccione exactamente una opción de valores por defecto para aplicar a este test.
 assessment#:#tst_defaults_available#:#Valores por defecto para test disponibles 
-assessment#:#tst_defaults_defaults_of_test#:#Los valores por defecto de este test
+assessment#:#tst_defaults_defaults_of_test#:#Valores por defecto para este test
 assessment#:#tst_defaults_dont_use#:#--- Usar los valores por defecto para test de ILIAS ---
 assessment#:#tst_defaults_enter_name#:#Por favor introduzca un nombre para sus valores por defecto
-assessment#:#tst_defaults_not_defined#:#No ha definido aún ningunos valores por defecto para test
+assessment#:#tst_defaults_not_defined#:#No ha definido aún ningún valor por defecto para este test
 assessment#:#tst_nr_of_passes#:#Número de ejecuciones del Test
 common#:#assf_questiontypes#:#Configuración de Pregunta
 common#:#assf_allowed_questiontypes#:#Tipos de preguntas disponibles
