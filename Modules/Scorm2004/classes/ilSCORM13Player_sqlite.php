@@ -91,4 +91,6 @@ self::$SQLCOMMAND['delete_cmi_objective'] = 'DELETE FROM cmi_objective
 
 self::$SQLCOMMAND['delete_cmi_node'] = 'DELETE FROM cmi_node WHERE cp_node_id=?';
 
+
+
 ?>

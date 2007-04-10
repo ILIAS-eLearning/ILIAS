@@ -61,16 +61,22 @@ This is work in progress and therefore incomplete and buggy ...
 			<xsl:if test="@isvisible and not(@isvisible='true')">
 				<xsl:attribute name="isvisible">false</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@*[local-name()='parameters']">
-				<xsl:attribute name="parameters"><xsl:choose><xsl:when test="starts-with(., '?')"><xsl:value-of select="substring-after(., '?')"/></xsl:when><xsl:otherwise><xsl:value-of select="@*[local-name()='parameters']"/></xsl:otherwise></xsl:choose></xsl:attribute>
+			<xsl:for-each select="@*[local-name()='parameters'][1]">
+			<xsl:attribute name="parameters">
+<xsl:choose><xsl:when test="starts-with(., '?')"><xsl:value-of select="substring-after(., '?')"/></xsl:when><xsl:otherwise><xsl:value-of select="."/></xsl:otherwise></xsl:choose></xsl:attribute>
+			</xsl:for-each>
+<!--			
+<xsl:if test="@*[local-name()='parameters']">
+<xsl:choose><xsl:when test="starts-with(., '?')"><xsl:value-of select="substring-after(., '?')"/></xsl:when><xsl:otherwise><xsl:value-of select="."/></xsl:otherwise></xsl:choose></xsl:attribute>
 			</xsl:if>
+-->
 			<xsl:if test="*[local-name()='timeLimitAction']">
 				<xsl:attribute name="timeLimitAction"><xsl:value-of select="*[local-name()='timeLimitAction']"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="*[local-name()='dataFromLMS']">
 				<xsl:attribute name="dataFromLMS"><xsl:value-of select="*[local-name()='dataFromLMS']"/></xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@*[local-name()='completionThreshold']">
+			<xsl:if test="*[local-name()='completionThreshold']">
 				<xsl:attribute name="completionThreshold"><xsl:value-of select="*[local-name()='completionThreshold']"/></xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='sequencing']" mode="reference"/>

@@ -25,6 +25,8 @@
  * @version $Id$
  * @copyright: (c) 2005-2007 Alfred Kohnert
  *  
+ * Module extending PHP core 
+ * for it is missing some basic functionality 
  * 
  */ 
  
@@ -50,15 +52,81 @@ function boolval($mixed)
 	}
 }
 
-
-/**
-* "memory_get_usage()" not defined in win32 (poor PHP)
-* we do not want to require php_win32ps.dll extension
-* memory_get_usage helps in performance checks
-**/	 
-if (!function_exists('memory_get_usage')) 
+	// there is not copy folder method in PHP core (poor PHP) 
+	// so we to do it ourselves (does not retain all file attributes!)
+function dir_copy($source, $dest, $overwrite = false)
 {
-	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+	if (!is_dir($source)) 
+	{
+		return false;
+	} 
+	if (!is_dir($dest)) 
+	{
+		if (!@mkdir($dest)) 
+		{
+			return false;
+		}
+	}
+	foreach (scandir($source) as $file) 
+	{
+		if ($file === '.' || $file === '..') 
+		{
+			continue;
+		}
+		$s = $source . DIRECTORY_SEPARATOR . $file;
+		$d = $dest . DIRECTORY_SEPARATOR . $file;
+		if (is_file($s)) 
+		{
+			if (!@copy($s, $d)) 
+			{
+				return false;
+			}
+		} 
+		elseif (is_dir($s)) 
+		{
+			dir_copy($s, $d, $overwrite);
+		}
+	}
+	return true;
+} // end of dir_copy()
+
+
+	// there is not delete folder method in PHP core (poor PHP) 
+	// so we to do it ourselves
+function dir_delete($d)
+{
+	if (!is_dir($d)) 
+	{
+		return false;
+	} 
+	foreach (scandir($d) as $n)
+	{
+		if($n!=='.' && $n!=='..') 
+		{
+			$fn = $d . DIRECTORY_SEPARATOR . $n;
+			if (is_file($fn)) 
+			{
+				@unlink($fn);
+			}
+			else 
+			{
+				dir_delete($fn);
+			}
+		}
+	}
+	@rmdir($d);
+} // end of dir_delete()
+
+
+
+	// Win32 related stuff
+	// -------------------
+
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+{
+	// "memory_get_usage()" not defined in win32 (poor PHP)
+	// we do not want to require php_win32ps.dll extension
+	if (!function_exists('memory_get_usage')) 
 	{
 		function memory_get_usage()
 		{
@@ -72,27 +140,149 @@ if (!function_exists('memory_get_usage'))
 			return $return;
 		}
 	}
+
 }
 
 /**
- * Checking for json and load script emulation for older php versions.
- * It is strongly recommended to use php_json extension or PHP 5.2 or higher.
- */ 
-if (!function_exists('json_encode')) 
+ * expects unzip installed in you box and being in your environment path
+ * see http://www.info-zip.org/	 	
+ * @return {variant} integer 0 on success, msg string on failure
+ */
+function unzip($sArchive, $sFolderPath) 
 {
-	require_once('JSON.php'); // you may read this from PEAR
-	function json_encode($data) 
+	$cmd = IL_OP_UNZIP_EXE . ' -o -n -P "" "' . $sArchive . '" -d "' . $sFolderPath . '"';
+	try 
 	{
+		@exec($cmd, $output, $return);
+		$return = $return ? (string) $return : 0;  
+	} 
+	catch (Exception $e) 
+	{
+		$return = $e->getMessage();
+	}
+	return $return;
+}
+
+/**
+ * expects zip installed in you box and being in your environment path
+ * see http://www.info-zip.org/	 	
+ * @return {variant} integer 0 on success, msg string on failure
+ */
+function zip($sArchive, $sFilespec) 
+{
+	$curpath = getcwd();
+	$cmd = IL_OP_ZIP_EXE . ' -ur "' . $sArchive . '" "' . basename($sFilespec) . '"';
+	@chdir(dirname($sFilespec));
+	try 
+	{
+		@exec($cmd, $output, $return);
+		$return = $return ? (string) $return : 0;  
+	} 
+	catch (Exception $e) 
+	{
+		$return = $e->getMessage();
+	}
+	@chdir($curpath);
+	return $return;
+}
+
+/**
+ * Checking some prerequisites 
+ */ 
+if (!is_callable('json_encode')) 
+{
+	$msg .= 'Neccessary JSON module is missing in your PHP installation.';
+}
+
+
+/**
+ * Some simple classes and functions simulting ILIAS behavior
+ */ 
+
+class SimpleTemplate
+{
+	private $params = array();
+	private $template = '';
+
+	public function __construct($tpl = null) 
+	{
+		if (is_string($tpl)) $this->load($tpl); 
+	}
+
+	public function setParam($k, $v) 
+	{
+		$this->params['{' . $k . '}'] = $v;
+	}
+
+	public function toHTMLSelect($data, $value=null, $params = array(), $kName=null, $vName=null) 
+	{
+		if (!is_array($params)) 
+		{
+			$params = array('name'=>$params);
+		}
+		if (!$params['id']) 
+		{
+			$params['id'] = 'id_'.uniqid();
+		}
+		if (!$params['name']) 
+		{
+			$params['name'] = $params['id'];
+		}
+		$html = array('<select');
+		foreach ($params as $k => &$v) 
+		{
+			$html[] = " $k=\"$v\"";
+		}
+		$html[] = '>';
+		foreach ($data as $k => $v) 
+		{
+			if ($kName) $k = $v[$kName];
+			if ($vName) $v = $v[$vName];
+			$html[] = '<option value="' . $k . '"' . ($k==$value ? ' selected="selected"' : '') . '>' . $v . '</option>';
+		} 
+		$html[] = '</select>';
+		return implode("\n", $html); 
+	}
+
+	public function setParams($pairs) 
+	{
+		if (!is_array($pairs)) return;
+		foreach ($pairs as $k => $v) 
+		{
+			$this->setParam($k, $v);
+		}
+	}
+
+	public function load($tpl) 
+	{
+		$this->template = file_get_contents($tpl);
+	}
+
+	public function save($save='php://output', $data=null) 
+	{
+		$out = strtr($this->template, is_array($data) ? $data	: $this->params);
+		if (is_string($save)) // save into file or stream 
+		{
+			file_put_contents($save, $out);
+		}
+		else // return as string
+		{
+			return $out;
+		} 
+	}
+
+}
+
+if (!function_exists('json_encode')) {
+	require_once('JSON.php'); // you may read this from PEAR
+	function json_encode($data) {
 		$value = new Services_JSON(); 
 		return $value->encode($data);
 	}
-	function json_decode($data) 
-	{
+	function json_decode($data) {
 		$value = new Services_JSON(); 
 		return $value->decode($data); 
 	}
 }
-
-
 
 ?>

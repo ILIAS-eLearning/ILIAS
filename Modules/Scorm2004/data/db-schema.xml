@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by any (Ru-Board) -->
 <!--
 ILIAS Open Source
 ================================
@@ -89,7 +90,7 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="activityAbsoluteDuration" required="true" type="date" size="8" default="0"/>
 		<field name="activityAttemptCount" required="true" type="integer" size="4" default="0"/>
 		<field name="activityExperiencedDuration" required="true" type="date" size="8" default="0"/>
-		<field name="activityProgressState" required="true" type="boolean" size="1" default="false"/>
+		<field name="activityProgressStatus" required="true" type="boolean" size="1" default="false"/>
 		<field name="attemptAbsoluteDuration" required="true" type="date" size="8" default="0"/>
 		<field name="attemptCompletionAmount" required="true" type="float" size="4" default="0"/>
 		<field name="attemptCompletionStatus" required="true" type="boolean" size="1" default="false"/>
@@ -159,6 +160,7 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="scaled" required="true" type="float" size="8" default="0"/>
 		<field name="progress_measure" required="false" type="float" size="8"/>
 		<field name="success_status" required="false" type="string" size="32"/>
+		<field name="scope" required="true" type="string" size="16" default="system"/>
 		<key name="cmi_interactioncmi_objective" type="foreign" table="cmi_interaction">
 			<reference name="cmi_interaction_id"/>
 		</key>
