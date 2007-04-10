@@ -276,10 +276,10 @@ assessment#:#description_maxchars#:#Si no introduce ningun valor, el máximo nú
 assessment#:#detail_ending_time_reached#:#Se ha terminado el tiempo para el test. El test no está disponible desde %s
 assessment#:#detail_max_processing_time_reached#:#¡Se ha superado el tiempo máximo permitido para el test!
 assessment#:#detail_starting_time_not_reached#:#El test no estará disponible hasta %s
-assessment#:#detailed_evaluation#:#Detailed Evaluation
-assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
-assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!
-assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
+assessment#:#detailed_evaluation#:#Evaluación Detallada
+assessment#:#detailed_evaluation_for#:#Evaluación Detallada para %s
+assessment#:#detailed_evaluation_missing_active_id#:#Debe usar la evaluación detallada para un participante seleccionado
+assessment#:#detailed_evaluation_show#:#mostrar evaluación detallada
 assessment#:#detailed_output#:#Salida detallada
 assessment#:#detailed_output_printview#:#Salida detallada con vista de impresión de las preguntas
 assessment#:#detailed_output_solutions#:#Salida detallada con soluciones de las pregunta
@@ -2546,7 +2546,7 @@ common#:#logout_text#:#Ha abandonado ILIAS. Su sesión ha sido cerrada.
 common#:#logs#:#Datos de Log
 common#:#los#:#objetos de aprendizaje
 common#:#los_last_visited#:#últimos objetos de aprendizaje visitados
-common#:#last_visited#:#Last Visited
+common#:#last_visited#:#Último Visitado
 common#:#lres#:#Recursos de aprendizaje
 common#:#mail#:#Correo
 common#:#mail_a_root#:#Bandeja de Correo
@@ -3520,7 +3520,7 @@ common#:#tree_frame#:#Marco árbol
 common#:#tree_frame_info#:#Define si el marco de árbol (e.g. árbol de contenidos/administración) debe aparecer a la izquierda o a la derecha
 common#:#tree_left#:#Izquierda
 common#:#tree_right#:#Derecha
-common#:#treeview#:#Vista árbol
+common#:#treeview#:#Vista Árbol
 common#:#tst#:#Test
 common#:#tst_add#:#Añadir Test
 common#:#tst_anon_eval#:#Resultados
