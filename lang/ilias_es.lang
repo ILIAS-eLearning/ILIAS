@@ -1165,7 +1165,7 @@ common#:#add_members#:#Añadir Miembros
 common#:#add_new_user_defined_field#:#Añadir nuevo campo definido por el usuario
 common#:#add_new_user_defined_select_field#:#Añadir nueva lista desplegable
 common#:#add_new_user_defined_text_field#:#Añadir nuevo campo de texto
-common#:#add_note#:#Añadir nota
+common#:#add_note#:#Añadir post-it
 common#:#add_translation#:#Añadir Traducción
 common#:#add_user#:#Añadir usuario local
 common#:#add_user_defined_field#:#Añadir nuevo campo
@@ -2852,10 +2852,10 @@ common#:#not_available#:#No Disponible
 common#:#not_implemented_yet#:#No implementado aun
 common#:#not_installed#:#no instalado
 common#:#not_logged_in#:#No está identificado
-common#:#note#:#Nota
-common#:#note_all_pub_notes#:#Todas las notas
-common#:#note_my_pub_notes#:#Mis notas sólo
-common#:#notes#:#Notas
+common#:#note#:#Post-it
+common#:#note_all_pub_notes#:#Todos los post-its
+common#:#note_my_pub_notes#:#Sólo mist post-its
+common#:#notes#:#Post-its
 common#:#num_users#:#Número de usuarios
 common#:#number_of_accesses#:#Número de accesos
 common#:#number_of_records#:#Número de registros
@@ -2900,8 +2900,8 @@ common#:#obj_mail_desc#:#Configure sus opciones globales de correo aquí.
 common#:#obj_mep#:#Banco Multimedia
 common#:#obj_mob#:#Objeto Multimedia
 common#:#obj_not_found#:#objeto no encontrado
-common#:#obj_note#:#Nota
-common#:#obj_notf#:#Administración de Notas
+common#:#obj_note#:#Post-it
+common#:#obj_notf#:#Administración de Post-its
 common#:#obj_objf#:#Definiciones de Objetos
 common#:#obj_objf_desc#:#Gestión de tipos de objetos ILIAS y permisos (sólo para expertos!)
 common#:#obj_owner#:#Este objeto es propiedad de
@@ -2973,7 +2973,7 @@ common#:#objs_lng#:#Idiomas
 common#:#objs_lo#:#Objetos de Aprendizaje
 common#:#objs_mep#:#Bancos Multimedia
 common#:#objs_mob#:#Objetos Multimedia
-common#:#objs_note#:#Notas
+common#:#objs_note#:#Post-its
 common#:#objs_pg#:#Páginas
 common#:#objs_qpl#:#Bancos de Preguntas
 common#:#objs_role#:#Roles
@@ -3092,7 +3092,7 @@ common#:#presentation_options#:#opciones de presentación
 common#:#previous#:#anterior
 common#:#print#:#Imprimir
 common#:#print_view#:#Vista de Impresión
-common#:#private_notes#:#Notas privadas
+common#:#private_notes#:#Mis Post-its
 common#:#pro#:#A favor
 common#:#proceed#:#Proceed
 common#:#profile#:#Perfil
@@ -3102,7 +3102,7 @@ common#:#profile_of#:#Perfil de
 common#:#properties#:#Propiedades
 common#:#pub_section#:#sección pública
 common#:#public#:#público
-common#:#public_notes#:#Notas públicas
+common#:#public_notes#:#Post-its públicos
 common#:#public_profile#:#Perfil público
 common#:#public_profile_not_visible#:#El perfil de usuario no es publico
 common#:#publication#:#publicación
@@ -3420,7 +3420,7 @@ common#:#stys_visible#:#Configuración de estilos visible
 common#:#stys_write#:#Editar configuración de estilos
 common#:#subcat_name#:#nombre de subcategoría
 common#:#subchapter_new#:#nuevo subcapítulo
-common#:#subject#:#asunto
+common#:#subject#:#Asunto
 common#:#subject_module#:#Subject Module
 common#:#submit#:#enviar
 common#:#subobjects#:#Subobjetos
@@ -4058,7 +4058,7 @@ content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#previsualizar
 content#:#cont_print_view#:#Vista de impresión
 content#:#cont_public_access#:#Acceso público
-content#:#cont_public_notes#:#Notas Públicas
+content#:#cont_public_notes#:#Post-its Públicos
 content#:#cont_public_notes_desc#:#Permite a los usuarios compartir notas en cada página de un módulo de aprendizaje
 content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
@@ -6743,8 +6743,8 @@ trac#:#trac_lp_determination#:#Determinación del Estado del Progreso de Aprendi
 trac#:#trac_lp_determination_info_crs#:#Seleccione los items que determinan el estado general del progreso de aprendizaje del curso
 trac#:#trac_lp_determination_info_sco#:#Seleccione los items que determinan el estado general del progreso de aprendizaje del módulo SCORM
 trac#:#trac_lp_filter#:#Filtro
-trac#:#trac_mark#:#Nota
-trac#:#trac_marks#:#Notas
+trac#:#trac_mark#:#Calificación
+trac#:#trac_marks#:#Calificaciones
 trac#:#trac_mode#:#Modo
 trac#:#trac_mode_collection#:#Colección de objetos
 trac#:#trac_mode_deactivated#:#Desactivado
