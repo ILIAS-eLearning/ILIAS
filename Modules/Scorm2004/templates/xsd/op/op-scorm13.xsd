@@ -21,7 +21,7 @@ This is work in progress and therefore incomplete and buggy ...
 
 All compressed SCORM 1.3 Schema Definitions in one File.
 -->
-<xs:schema targetNamespace="http://www.openpalms.net/scorm/scorm13" xmlns="http://www.openpalms.net/scorm/scorm13" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="OpenPALMS Version 20061125">
+<xs:schema targetNamespace="http://www.openpalms.net/scorm/scorm13" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.openpalms.net/scorm/scorm13" elementFormDefault="qualified" attributeFormDefault="unqualified" version="OpenPALMS Version 20061125">
 	<!-- -->
 	<xs:element name="manifest" type="cp_manifestType">
 		<xs:key name="key_resource">
@@ -233,7 +233,7 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		</xs:sequence>
 		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
 		<xs:attribute name="conditionCombination" type="seq_conditionCombinationType"/>
-		<xs:attribute name="type" type="xs:token" use="required"/>
+		<xs:attribute name="type" type="op_ruleType" use="required"/>
 		<xs:attribute name="action" type="xs:token" use="required"/>
 		<xs:attributeGroup ref="seq_rollupRuleAttributes"/>
 	</xs:complexType>
@@ -417,6 +417,15 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 			<xs:enumeration value="ifAttempted"/>
 			<xs:enumeration value="ifNotSkipped"/>
 			<xs:enumeration value="ifNotSuspended"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- -->
+	<xs:simpleType name="op_ruleType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="pre"/>
+			<xs:enumeration value="exit"/>
+			<xs:enumeration value="post"/>
+			<xs:enumeration value="rollup"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

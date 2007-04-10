@@ -21,6 +21,7 @@
  * @version $Id$
  * @copyright: (c) 2007 Alfred Kohnert
  *  
+ * Business class for demonstration of current state of ILIAS SCORM 2004 
  * 
  */ 
  
@@ -31,7 +32,7 @@ require_once('common.php');
 function get_admin()
 {
 	require_once('classes/ilSCORM13Package.php');
-	$mod = new ilSCORM13Package(ilSCORM13Utils::$packageId);
+	$mod = new ilSCORM13Package();
 	$mod->getAdmin();
 }
 
@@ -49,13 +50,9 @@ function submit_uploadAndImport()
 	{
 		$fn = $path . $newfile['name'];
 		if ($newfile['error']) 
-		{
 			return 'Upload error: ' . $newfile['error']; 
-		}
 		if (is_file($fn))
-		{
 			return 'File with this name already exists';
-		}
 		@rename($newfile['tmp_name'], $fn);
 		$oldfile = $fn;
 	}
@@ -63,22 +60,16 @@ function submit_uploadAndImport()
 	{
 		$oldfile = $path . $_POST['packagefile'];
 	}
-	if (!is_file($oldfile))
+	if (!is_file($oldfile)) 
 	{
-		die('No file uploaded or selected');
-	} 
-	$importer = new ilSCORM13Package(ilSCORM13Utils::$packageId);
+		return 'No file uploaded or selected';
+	}
+	$importer = new ilSCORM13Package();
 	if (!$importer->uploadAndImport($oldfile)) 
 	{
 		$importer->rollback();
-	} 
-	else
-	{
-		echo '<meta http-equiv="refresh" content="4; url="' . $_SERVER['SCRIPT_NAME'] . '"/>';
-	}
-	echo '<p><a href="?">Continue</a></p>';
-	die(implode('<br/>', $importer->diagnostic));
-	//header('Location: ' . $_SERVER['SCRIPT_NAME']);
+	};
+	header('Location: ' . $_SERVER['SCRIPT_NAME']);
 }
 
 
@@ -89,7 +80,7 @@ function submit_uploadAndImport()
 function submit_removePackage() 
 {
 	require_once('classes/ilSCORM13Package.php');
-	$importer = new ilSCORM13Package(ilSCORM13Utils::$packageId);
+	$importer = new ilSCORM13Package($_POST['packageId']);
 	$importer->rollback();
 	header('Location: ' . $_SERVER['SCRIPT_NAME']);
 }
@@ -101,7 +92,7 @@ function submit_removePackage()
 function submit_exportManifest() 
 {
 	require_once('classes/ilSCORM13Package.php');
-	$importer = new ilSCORM13Package(ilSCORM13Utils::$packageId);
+	$importer = new ilSCORM13Package($_POST['packageId']);
 	$xml = $importer->exportManifest();
 }
 
@@ -110,7 +101,7 @@ function submit_exportManifest()
 function submit_removeCMIData() 
 {
 	require_once('classes/ilSCORM13Package.php');
-	$importer = new ilSCORM13Package(ilSCORM13Utils::$packageId);
+	$importer = new ilSCORM13Package($_POST['packageId']);
 	$importer->removeCMIData();
 	header('Location: ' . $_SERVER['SCRIPT_NAME']);
 }
@@ -122,7 +113,7 @@ function submit_removeCMIData()
 function submit_exportPackage() 
 {
 	require_once('classes/ilSCORM13Package.php');
-	$importer = new ilSCORM13Package(ilSCORM13Utils::$packageId);
+	$importer = new ilSCORM13Package($_POST['packageId']);
 	$importer->exportPackage();
 }
 
@@ -133,8 +124,8 @@ function submit_exportPackage()
 function submit_exportXML() 
 {
 	require_once('classes/ilSCORM13Package.php');
-	$importer = new ilSCORM13Package(ilSCORM13Utils::$packageId);
-	$importer->exportXML();
+	$importer = new ilSCORM13Package($_POST['packageId']);
+	$xml = $importer->exportXML();
 }
 
 /**
@@ -144,18 +135,15 @@ function submit_exportXML()
 function submit_exportZIP() 
 {
 	require_once('classes/ilSCORM13Package.php');
-	$importer = new ilSCORM13Package(ilSCORM13Utils::$packageId);
+	$importer = new ilSCORM13Package($_POST['packageId']);
 	$importer->exportZIP();
 }
 
 
-$cmd = is_array($_POST['submit']) 
-	? 'submit_' . key($_POST['submit']) 
-	: 'get_admin';
-
-is_callable($cmd) 
-	? $cmd() 
-	: die($cmd);
+$cmd = is_array($_POST['submit']) ? 'submit_' . key($_POST['submit']) : 'get_admin';
+if (is_callable($cmd)) 
+	die($cmd());
+else 
+	die($cmd);
 		
-
 ?>

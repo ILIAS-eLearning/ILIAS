@@ -325,9 +325,8 @@ class ilSCORM13DB
 		$d = self::getDB();
 		foreach ($queries as $i => &$q) 
 		{
-       	if ($s = $d->prepare(self::$SQLCOMMAND[$q] ? self::$SQLCOMMAND[$q] : $q)) 
+       	if ($s = $d->prepare($sql = (self::$SQLCOMMAND[$q] ? self::$SQLCOMMAND[$q] : $q))) 
 			{
-//echo "<br>" . $q;
 				$q = 0;
 				$r = array();
 				$ps = is_array($params) ? $params[$i % count($params)] : null;
@@ -337,7 +336,7 @@ class ilSCORM13DB
 				}
 				foreach ($ps as $p) 
 				{
-//echo " # " . json_encode($p);
+//file_put_contents('sql.log', implode("\n", array('', date('c'), $sql, var_export($p, true))), FILE_APPEND); 
 					$q += $s->execute($p);
 					if (is_array($result)) 
 					{
@@ -346,6 +345,10 @@ class ilSCORM13DB
 							: $result[] = $s->fetchAll(PDO::FETCH_ASSOC);
 					}
 				}
+			}
+			else
+			{
+				// prepare failed
 			}
 		}
 		unset($d);

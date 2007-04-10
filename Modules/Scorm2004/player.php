@@ -21,8 +21,10 @@
  * @version $Id$
  * @copyright: (c) 2007 Alfred Kohnert
  *  
+ * Business class for demonstration of current state of ILIAS SCORM 2004 
  * 
  */ 
+ 
 
 
 	// common constants classes, initalization, php core extension, etc. 
@@ -58,8 +60,35 @@ function post_cmi()
 	$player->persistCMIData();
 }
 
-$cmd = strtolower($_SERVER['REQUEST_METHOD'] . '_' . $_REQUEST['call']); 
+function get_test()
+{
+	$d = '{"package":[],"node":[[0,0,0,0,1,0,0,0,false,0,false,0,0,null,2,0,null,null,null,0,"credit",0,null,null,null,"Joe Student",null,0,0,null,0,null,0,0,null,null,null,"Mon Apr 09 2007 19:11:19 GMT+0200","PT0H0M0S",null]],"comment":[],"correct_response":[],"interaction":[],"objective":[]}';
+	$d = '{"package":[],"node":[[0,0,0,0,1,0,null,0,0,false,0,false,0,0,null,"$2",0,null,null,3,0,"credit",0,null,null,null,"Joe Student",null,0,0,null,0,null,0,0,null,null,null,"Mon Apr 09 2007 19:56:36 GMT+0200","PT0H0M0S",null]],"comment":[],"correct_response":[],"interaction":[],"objective":[]}';
 
-is_callable($cmd) ? $cmd() : die($cmd);
+	//$d = json_decode($d);
+	require_once('classes/ilSCORM13Player.php');
+	$player = new ilSCORM13Player();
+	$player->persistCMIData($d);
+		
+}
+
+
+$call = $_REQUEST['call'];
+$path = $_SERVER['PATH_INFO'];
+
+if ($call) 
+{
+	$cmd = strtolower($_SERVER['REQUEST_METHOD'] . '_' . $call); 
+	if (is_callable($cmd)) 
+	{
+		$cmd();
+	}
+}
+elseif ($path)
+{
+	require_once('classes/ilSCORM13Player.php');
+	$player = new ilSCORM13Player();
+	$player->readFile($path);
+}
 
 ?>

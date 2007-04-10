@@ -15,6 +15,9 @@ You must not remove this notice, or any other, from this software.
 PRELIMINARY EDITION 
 This is work in progress and therefore incomplete and buggy ... 
 
+TODO
+add namespace prefixes
+
 @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
 @version $Id$
 @copyright: (c) 2007 Alfred Kohnert

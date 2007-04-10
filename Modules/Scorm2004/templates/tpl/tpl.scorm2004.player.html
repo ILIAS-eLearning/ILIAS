@@ -3,24 +3,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml" id="scormplayer">
 	<head>
 		<title>{DOC_TITLE}</title>
+		<script type="text/javascript">//<![CDATA[
+		Date.remoteOffset = (new Date()).getTime() - {TIMESTAMP};
+		//]]></script>
 		<link type="text/css" href="{THEME_CSS}" rel="stylesheet"/>
-<style type="text/css" >
+<style type="text/css" >/*<![CDATA[*/
+
 /* special SCORM 2004 Styles */
 
-#scormplayer html {
+#scormplayer html 
+{
 	overflow: hidden;
 }
 
-#scormplayer body {
+#scormplayer body 
+{
 	overflow: hidden;
 }
 
-#frmResource {
+#frmResource 
+{
 	height: 100%;
 	width: 100%;
 	border: 1px inset #808080;
 	border-width: 0px;
-	overflow: auto;
+	xoverflow: auto;
 }
 
 /* ----------- */ 
@@ -64,6 +71,7 @@
 {
 	color: #A0A0A0;
 	background-color: #E0E0E0;
+	cursor: not-allowed;
 }
 #scormplayer .disabled:hover
 {
@@ -75,15 +83,44 @@
 	display: none;
 }
 
-</style>
+#scormplayer .invisible /* imscp:@isvisible=false */
+{
+	color: white;
+	background-color: orchid;
+}
+
+
+/* Attention: display "table" is not really supported by IE6 */
+
+.loadingState .il_MainMenu {display: none}
+.loadingState #il_PDBlock {display: none}
+.loadingState #introTable {display: table}
+.loadingState #mainTable {display: none}
+
+.playingState .il_MainMenu {display: block}
+.playingState #il_PDBlock {display: block}
+.playingState #introTable {display: none}
+.playingState #mainTable {display: table;}
+
+#treeView 
+{
+	overflow: scroll; 
+	overflow-x: hidden; 
+	width: 100%; 
+	height: 100%;
+}
+
+#tdResource div {padding: 2em;}
+
+/*]]>*/</style>
+
 		<base target="frmResource" />
 	</head>
-	<body>
+	<body class="loadingState">
 
-		<table width="100%" height="100%" style="height: 100%" cellspacing="0" cellpadding="0" border="0"  summary="">
+		<table id="toolbarTable" width="100%" height="100%" style="height: 100%" cellspacing="0" cellpadding="0" border="0" summary="">
 			<tr height="1%">
-				<td colspan="2">
-		
+				<td>	
 					<div class="ilMainHeader" >
 						<div class="ilLogin">SCORM 2004</div>
 						<div style="padding:2px 0px 2px 15px;">
@@ -92,6 +129,11 @@
 						</div>
 						<div class="il_MainMenu" style="clear:both;">
 			
+								<a target="_blank" href="./index.php" class="MMInactive" id="ilHome">{btnHome}</a>
+								
+								<a target="_self" href="#" class="MMInactive" id="navStart">{btnStart}</a>
+								<a target="_self" href="#" class="MMInactive" id="navResumeAll">{btnResumeAll}</a>
+
 								<a target="_self" href="#" class="MMInactive" id="navExit">{btnExit}</a>
 								<a target="_self" href="#" class="MMInactive" id="navExitAll">{btnExitAll}</a>
 								
@@ -102,78 +144,41 @@
 								
 								<a target="_self" href="#" class="MMInactive" id="navPrevious">&lt; {btnPrevious}</a>
 								<a target="_self" href="#" class="MMInactive" id="navContinue">{btnContinue} &gt;</a>
-			
 						</div>
-						<div style="clear:both;"></div>
 					</div>
-
 				</td>
 			</tr>
+		</table>
 
-			<tr class="il_PDBlock" id="il_PDBlock" height="1%">
-			
-				<th class="il_PDBlockHeader" colspan="2">
-					<div style="float:left;" id="mainTitle">{Contents}</div>
-					<div class="il_ContainerItemCommands" style="float:right;">
-						<a class="il_ContainerItemCommand" href="#">{Details}</a>
-					</div>
-				</th>
-				
-			</tr>
-
-			<tr valign="top" id="introTable" height="99%">			
-				<td class="std" colspan="2">
+		<table id="introTable" width="100%" cellspacing="0" cellpadding="0" border="0" summary="">
+			<tr valign="top" >			
+				<td class="std">
+					<noscript>{NO_JAVASCRIPT}</noscript>
+					<div style="display: none !important; background-color: red !important; color: white !important; font: 14pt/1.0 monospace !important">{NO_CSS}</div>
 					<div id="introLabel">loading</div>
 				</td>				
 			</tr>
-
-			<tr valign="top" id="mainTable" height="99%" >
-				<td class="std" width="30%" >
-					<div style="overflow: scroll; overflow-x: hidden; width: 100%; height: 100%" id="treeView">
-					</div>
-				</td>
-				<td class="std" width="70%" id="tdResource">
-					<div >
-						<a target="_self" href="#" class="il_ContainerItemCommand" id="navStart">{btnStart}</a>
-						<a target="_self" href="#" class="il_ContainerItemCommand" id="navResumeAll">{btnResumeAll}</a>	
-						<span id="lblChoice">{lblChoice}</span>					
-					</div>
-				</td>
-			</tr>
-			
-			<tr class="il_PDBlock" height="1%" >
-			
-				<td class="il_BlockFooter" style="text-align:left" width="30%">
-					<a style="font-weight:normal;" href="#">{View1}</a>
-					<a style="font-weight:normal;" href="#">{View2}</a>
-				</td>
-				<td class="il_BlockFooter" width="70%">
-					<a target="_self" style="font-weight:normal;" href="#" id="debugToggleView">{btnDebug}</a>
-				</td>
-				
-			</tr>
-			
 		</table>
 		
-	
+		<table id="mainTable" width="100%" height="100%" style="width: 100%; height: 100%" 
+			cellspacing="0" cellpadding="0" border="0" summary="">
+				<tr valign="top">
+				<td style="width:30%" width="30%" >
+					<div id="treeView"></div>
+				</td>
+				<td style="width:70%" width="70%" id="tdResource">
+					<div></div>
+				</td>
+			</tr>
+		</table>
+
 		{INCLUDE_DEBUG}
-		<!-- Load scripts after rest of page is already visible (instead of DEFER) -->
-		
-		<script type="text/javascript" src="scripts/remoting.js" charset="ISO-8859-1"></script>
-		<script type="text/javascript" src="scripts/scormapi.js" charset="ISO-8859-1"></script>
-		<script type="text/javascript" src="scripts/scormapi-1.3.js" charset="ISO-8859-1"></script>
-		<script type="text/javascript" src="scripts/gui.js" charset="ISO-8859-1"></script>
-		<script type="text/javascript" src="scripts/sequencing.js" charset="ISO-8859-1"></script>
-		<script type="text/javascript" src="scripts/cmicache.js" charset="ISO-8859-1"></script>
-		<script type="text/javascript" src="scripts/player.js" charset="ISO-8859-1"></script>
-		
-		<!--
-			Later on load all static js in one step (if compressed may load in 4 to 5 sec on 56k Modem)  
-			<script type="text/javascript" src="scripts/static.php" charset="ISO-8859-1"></script>		 
-		-->
+
+		<script type="text/javascript" src="scripts/jsmin.php"></script>
 		<script type="text/javascript">
-			var player = new Player({JSON_CONFIG},	new Gui({JSON_GUI}, {JSON_LANGSTRINGS}));
-			var DEBUG = {DEBUG};			
+		//<![CDATA[
+			scorm_init({JS_DATA});
+		//]]>
 		</script>
 	</body>
 </html>

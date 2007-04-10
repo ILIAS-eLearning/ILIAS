@@ -41,45 +41,21 @@ class ilSCORM13Player
 
 	// zum client
 	// vom client
-	// prÃ¼fmuster
+	// prüfmuster
 	// default wert
 	const NONE = 0;
 	const READONLY = 1;
 	const WRITEONLY = 2;
 	const READWRITE = 3;
 	
-	static private $schema = array(
+	static private $schema = array // order of entries matters!
+	(
 		'package' => array(
 			'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
 			'learner_name' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
 			'slm_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
 			'mode' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
 			'credit' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-		),
-		'comment' => array (
-			'cmi_comment_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
-			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'comment' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'sourceIsLMS' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-		),
-		'correct_response' => array(
-			'cmi_correct_response_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
-			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'pattern' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-		),
-		'interaction' => array(
-			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
-			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'latency' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'learner_response' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'result' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'type' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'weighting' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 		),
 		'node' => array(
 			'accesscount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
@@ -88,7 +64,7 @@ class ilSCORM13Player
 			'activityAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'activityAttemptCount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
 			'activityExperiencedDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'activityProgressState' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'activityProgressStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'attemptAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'attemptCompletionAmount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'attemptCompletionStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
@@ -124,6 +100,31 @@ class ilSCORM13Player
 			'total_time' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
 		),
+		'comment' => array (
+			'cmi_comment_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
+			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
+			'comment' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
+			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
+			'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
+			'sourceIsLMS' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+		),
+		'correct_response' => array(
+			'cmi_correct_response_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
+			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
+			'pattern' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+		),
+		'interaction' => array(
+			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
+			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
+			'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'latency' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'learner_response' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'result' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'type' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'weighting' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+		),
 		'objective' => array(
 			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
 			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
@@ -137,6 +138,7 @@ class ilSCORM13Player
 			'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'scope' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),			
 		),
 	);
 	
@@ -146,8 +148,8 @@ class ilSCORM13Player
 	
 	function __construct() 
 	{
-		$this->userId = ilSCORM13Utils::$userId;
-		$this->packageId = ilSCORM13Utils::$packageId;
+		$this->userId = $GLOBALS['USER']['usr_id'];
+		$this->packageId = (int) $_REQUEST['packageId'];
 		$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
 		ilSCORM13DB::addQueries('ilSCORM13Player');
 	}
@@ -166,16 +168,17 @@ class ilSCORM13Player
 
 	public function getPlayer()
 	{
-		$config = array(
-			'cp' => $_SERVER['SCRIPT_NAME'] . '?call=cp&packageId=' . $this->packageId,
-			'cmi' => $_SERVER['SCRIPT_NAME'] .'?call=cmi&packageId=' . $this->packageId,
+		$config = array
+		(
+			'cp_url' => $_SERVER['SCRIPT_NAME'] . '?call=cp&packageId=' . $this->packageId,
+			'cmi_url' => $_SERVER['SCRIPT_NAME'] .'?call=cmi&packageId=' . $this->packageId,
 			'learner_id' => (string) $GLOBALS["USER"]["id_usr"],
 			'learner_name' => $GLOBALS["USER"]["login"],
 			'mode' => 'normal',
 			'credit' => 'credit',
+			'package_url' =>  str_replace('{packageId}', $this->packageId, IL_OP_PACKAGE_BASE),
 		);
-		$gui = array(
-			'base' =>  str_replace('{packageId}', $this->packageId, IL_OP_PACKAGE_BASE),		);
+		
 		$langstrings = $this->getLangStrings();
 		
 		$langstrings['btnStart'] = 'Start'; 
@@ -191,8 +194,10 @@ class ilSCORM13Player
 		$langstrings['btnContinue'] = 'Next';
 		$langstrings['lblChoice'] = 'Select a choice from the tree.';
 		
+		$config['langstrings'] = $langstrings;
+		
  		header('Content-Type: text/html; charset=UTF-8');
-		$tpl = new ilSCORM13Template();
+		$tpl = new SimpleTemplate();
 		$tpl->setParam('DEBUG', (int) $_REQUEST['debug']);
 		if ($_REQUEST['debug']) 
 		{
@@ -208,11 +213,11 @@ class ilSCORM13Player
 		$tpl->setParams($langstrings);
 		$tpl->setParam('DOC_TITLE', 'ILIAS SCORM 2004 Player');
 		$tpl->setParam('THEME_CSS', 'templates/css/delos.css');
-		$tpl->setParam('LOADING', '');
 		$tpl->setParam('CSS_NEEDED', '');
 		$tpl->setParam('JS_NEEDED', '');
-		$tpl->setParam('JSON_CONFIG', json_encode($config));
-		$tpl->setParam('JSON_GUI', json_encode($gui));
+		$tpl->setParam('JS_DATA', json_encode($config));
+		list($tsfrac, $tsint) = explode(' ', microtime()); 
+		$tpl->setParam('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$tpl->save();
 	}
 	
@@ -248,7 +253,7 @@ class ilSCORM13Player
 		}
 		else
 		{
-			header('Content-Type: text/html; charset=UTF-8');
+			header('Content-Type: text/plain; charset=UTF-8');
 			print(var_export($data, true));
 		}
 	}
@@ -295,7 +300,8 @@ class ilSCORM13Player
 		foreach (self::$schema as $k=>&$v)
 		{
 			$result['schema'][$k] = array_keys($v);
-			$result['data'][$k] = ilSCORM13DB::query('view_cmi_' . $k, array($userId, $packageId), null, null, PDO::FETCH_NUM);
+			$result['data'][$k] = ilSCORM13DB::query('view_cmi_' . $k, array($userId, $packageId), 
+				null, null, PDO::FETCH_NUM);
 		}
 		return $result;
 	}
@@ -328,69 +334,178 @@ class ilSCORM13Player
 		$result = array();
 		$map = array();
 		if (!$data) return;
+
 		// we don't want to have trouble with partially deleted or filled datasets
 		// so we try transaction mode (hopefully your RDBS supports this)
 		//ilSCORM13DB::begin();
-		$addorder = array('node', 'comment', 'interaction', 'objective', 'correct_response');
-		foreach ($addorder as $k)
+
+		// we have to specify the exact order to add records
+		// since there are dependencies
+		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
+
+		foreach ($tables as $table)
 		{
-			$v = & self::$schema[$k];
-			if (!is_array($data->$k)) continue;
+			$schem = & self::$schema[$table];
+			if (!is_array($data->$table)) continue;
 			$i=0;
-			foreach ($v as &$vv) 
+			// build up numerical index for schema fields
+			foreach ($schem as &$field) 
 			{
-				$vv['no'] = $i++;
+				$field['no'] = $i++;
 			}
-			foreach ($data->$k as &$row)
+			// now iterate through data rows from input
+			foreach ($data->$table as &$row)
 			{
-				switch ($k)
+				// first fill some fields that could not be set from client side
+				// namely the database id's depending on which table is processed  
+				switch ($table)
 				{
 					case 'correct_response':
-						$n = $v['cmi_interaction_id']['no'];
-						$row[$n] = $map['interaction'][$row[$n]];
+						$no = $schem['cmi_interaction_id']['no'];
+						$row[$no] = $map['interaction'][$row[$no]];
 					case 'comment':
 					case 'interaction':
-						$n = $v['cmi_node_id']['no'];
-						$row[$n] = $map['node'][$row[$n]];
+						$no = $schem['cmi_node_id']['no'];
+						$row[$no] = $map['node'][$row[$no]];
 						break;
 					case 'objective':
-						$n = $v['cmi_interaction_id']['no'];
-						$row[$n] = $map['interaction'][$row[$n]];
-						$n = $v['cmi_node_id']['no'];
-						$row[$n] = $map['node'][$row[$n]];
+						$no = $schem['cmi_interaction_id']['no'];
+						$row[$no] = $map['interaction'][$row[$no]];
+						$no = $schem['cmi_node_id']['no'];
+						$row[$no] = $map['node'][$row[$no]];
 						break;
 					case 'node':
-						$n = $v['user_id']['no'];
-						$row[$n] = $userId;
+						$no = $schem['user_id']['no'];
+						$row[$no] = $userId;
 						break;
 				}
+				$cp_no = $schem['cp_' . $table . '_id']['no'];						 
+				$cmi_no = $schem['cmi_' . $table . '_id']['no'];
 				
-				$n = $v['cp_' . $k . '_id']['no'];						 
-				$key = $v['cmi_' . $k . '_id']['no'];
-				$value = $row[$key];
-				$row[$key] = null;
+				// get current id for later use
+				// this is either a real db id or document unique string generated by client 
+				$cmi_id = $row[$cmi_no]; 
+				// set if field to null, so it will be filled up by autoincrement
+				$row[$cmi_no] = null;
 				// TODO validate values
-				$sql = 'REPLACE INTO cmi_' . $k . ' (' . implode(', ', array_keys($v)) . ') VALUES (' . implode(', ', array_fill(0, count($v), '?')) . ')';
-				if ($k==='node') 
+				// create sql statement, RDBS should support "REPLACE" command
+				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_keys($schem)) 
+					. ') VALUES (' . implode(', ', array_fill(0, count($schem), '?')) . ')';
+				// if we process a table we have to destroy all data on this activity 
+				// and related sub elements in interactions etc.
+				if ($table==='node') 
 				{
-					$this->removeCMIData($userId, $packageId, $row[$n]);
+					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
 				}
+				// now insert the data record
 				if (!ilSCORM13DB::exec($sql, $row))
 				{
 					$return = false;
 					break;
 				}
-				$row[$key] = is_numeric($row[$key]) ? $row[$key] : ilSCORM13DB::getLastId();
-				if ($k==='node') 
+				// and get the new cmi_id
+				$row[$cmi_no] = ilSCORM13DB::getLastId();
+
+				// if we process a node save new id into result object that will be feedback for client
+				if ($table==='node') 
 				{
-					$result[(string)$row[$n]] = $row[$key];
+					$result[(string)$row[$cp_no]] = $row[$cmi_no];
 				}
-				$map[$k][$value] = $row[$key];
+				
+				// add new id to mapping table for later use on dependend elements 
+				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
 		//$return===false ? ilSCORM13DB::rollback() : ilSCORM13DB::commit();
 		return $result;
 	}
+	
+	/**
+	 * estimate content type for a filename by extension
+	 * first do it for common static web files from external list
+	 * if not found peek into file by slow php function mime_content_type()
+	 * @param $filename required
+	 * @return string mimetype name e.g. image/jpeg
+	 */
+	public function getMimetype($filename) 
+	{
+		$mimetypes = array();
+		require_once('classes/mimemap.php');
+		$info = pathinfo($filename);
+		$ext = $mimetypes[$info['extension']];
+		return $ext ? $ext : mime_content_type($filename);
+	}
+	
+	/**
+	 * getting and setting Scorm2004 cookie
+	 * Cookie contains enrypted associative array of sahs_lm.id and permission value
+	 * you may enforce stronger symmetrical encryption by adding RC4 via mcrypt()
+	 **/
+	public function getCookie() 
+	{
+		return unserialize(base64_decode($_COOKIE[IL_OP_COOKIE_NAME]));
+	}
+	
+	public function setCookie($cook) 
+	{
+		setCookie(IL_OP_COOKIE_NAME, base64_encode(serialize($cook)));
+	}
+	
+	/**
+	 * Try to find file, identify content type, write it to buffer, and stop immediatly
+	 * If no file given, read file from PATH_INFO, check permission by cookie, and write out and stop.	 
+	 * @param $path filename
+	 * @return void	 
+	 */	 	
+	public function readFile($path) 
+	{
+
+		if (headers_sent()) 
+		{
+			die('Error: Cookie could not be established');
+		}
+		
+		$SAHS_LM_POSITION = 1; // index position of sahs_lm id in splitted path_info
+	
+		$comp = explode('/', (string) $path);
+		$sahs = $comp[$SAHS_LM_POSITION];
+		$cook = $this->getCookie();
+		$perm = $cook[$sahs];
+		
+		if (!$perm) 
+		{
+			// check login an package access
+			// TODO add rbac check function here
+			$perm = 1;
+			if (!$perm) 
+			{
+				header('HTTP/1.0 401 Unauthorized');
+				die('/* Unauthorized */');
+			}
+			// write cookie
+			$cook[$sahs] = $perm;
+			$this->setCookie($cook);
+		}
+		
+		$path = '.' . $path;
+		if (!is_file($path))
+		{
+			header('HTTP/1.0 404 Not Found');
+			die('/* Not Found ' . $path . '*/');
+		} 
+		
+		// send mimetype to client
+		header('Content-Type: ' . $this->getMimetype($path));
+	
+		// let page be cached in browser for session duration
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time() + session_cache_expire()*60) . ' GMT');
+		header('Cache-Control: private');
+	
+		// now show it to the user and be fine
+		readfile($path);
+		die();
+	
+	} 
 	
 }	
 
