@@ -1957,6 +1957,12 @@ div.ilc_Question
 	padding-bottom: 0.5em;
 }
 
+.questionPrintview {
+	border: 1px solid #C0C0C0;
+	padding: 0.25em;
+	margin-top: 1em;
+}
+
 span.solutionbox {
 	color:black;
 	background-color:white;
@@ -1986,6 +1992,10 @@ td.top {
 }
 
 /* --- Test tool javascript styles --- */
+
+span.nowrap {
+	white-space: nowrap;	
+}
 
 div.termtext
 {

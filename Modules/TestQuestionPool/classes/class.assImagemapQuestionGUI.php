@@ -101,7 +101,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($this->object->answers as $index => $answer)
 			{
-				$preview->addArea($answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), "", "", true);
+				$preview->addArea($index, $answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), "", "", true);
 			}
 			$hidearea = false;
 			$disabled_save = " disabled=\"disabled\"";
@@ -162,13 +162,20 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 			if ($coords)
 			{
-				$preview->addArea($_POST["newarea"], $coords, $_POST["shapetitle"], "", "", true, "blue");
+				$preview->addArea($key, $_POST["newarea"], $coords, $_POST["shapetitle"], "", "", true, "blue");
 			}
 			$preview->createPreview();
 
 			if (count($preview->areas))
 			{
 				$pfile = $preview->getPreviewFilename();
+				$ident = $preview->getAreaIdent();
+				$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
+				if (strlen($ident) > 0)
+				{
+					@copy($pfile, $previewfile);
+					@unlink($pfile);
+				}
 				if (strlen($pfile) == 0)
 				{
 					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
@@ -176,7 +183,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				else
 				{
-					$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
+					$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
 				}
 			}
 			else
@@ -351,10 +358,17 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
 					foreach ($this->object->answers as $index => $answer)
 					{
-						$preview->addArea($answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
+						$preview->addArea($index, $answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
 					}
 					$preview->createPreview();
 					$pfile = $preview->getPreviewFilename();
+					$ident = $preview->getAreaIdent();
+					$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
+					if (strlen($ident) > 0)
+					{
+						@copy($pfile, $previewfile);
+						@unlink($pfile);
+					}
 					if (strlen($pfile) == 0)
 					{
 						ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
@@ -362,7 +376,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					}
 					else
 					{
-						$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
+						$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
 					}
 					$map = $preview->getImagemap("imagemap_" . $this->object->getId());
 				}
@@ -707,13 +721,20 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				if (strcmp($solution_value["value1"], "") != 0)
 				{
-					$preview->addArea($this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
+					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
 				}
 			}
 			$preview->createPreview();
 			if (count($preview->areas))
 			{
 				$pfile = $preview->getPreviewFilename();
+				$ident = $preview->getAreaIdent();
+				$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
+				if (strlen($ident) > 0)
+				{
+					@copy($pfile, $previewfile);
+					@unlink($pfile);
+				}
 				if (strlen($pfile) == 0)
 				{
 					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
@@ -721,7 +742,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				else
 				{
-					$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
+					$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
 				}
 			}
 		}
@@ -846,13 +867,20 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				if (strcmp($solution_value["value1"], "") != 0)
 				{
-					$preview->addArea($this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
+					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
 				}
 			}
 			$preview->createPreview();
 			if (count($preview->areas))
 			{
 				$pfile = $preview->getPreviewFilename();
+				$ident = $preview->getAreaIdent();
+				$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
+				if (strlen($ident) > 0)
+				{
+					@copy($pfile, $previewfile);
+					@unlink($pfile);
+				}
 				if (strlen($pfile) == 0)
 				{
 					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
@@ -860,7 +888,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				else
 				{
-					$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
+					$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
 				}
 			}
 		}

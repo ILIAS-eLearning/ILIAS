@@ -230,6 +230,8 @@ assessment#:#changelog_description#:#The following table contains all changes of
 assessment#:#changelog_heading#:#Changelog
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
+assessment#:#checked#:#Checked
+assessment#:#unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
@@ -647,7 +649,7 @@ assessment#:#tst_defaults_applied#:#The selected test defaults have been applied
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
 assessment#:#tst_defaults_available#:#Available test defaults
-assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as
+assessment#:#tst_defaults_defaults_of_test#:#the settings of this test as
 assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!
 assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.

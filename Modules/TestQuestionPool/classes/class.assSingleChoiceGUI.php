@@ -676,12 +676,12 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("radiobutton_checked.gif"));
+				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.gif")));
 				$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
 			}
 			else
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("radiobutton_unchecked.gif"));
+				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
 				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
 			}
 			if ($result_output)

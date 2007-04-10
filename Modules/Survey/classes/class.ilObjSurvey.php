@@ -1320,8 +1320,11 @@ class ilObjSurvey extends ilObject
 					$members = $group->getGroupMemberIds();
 					foreach ($members as $user_id)
 					{
-						$user = new ilObjUser($user_id);
-						$user->addDesktopItem($this->getRefId(), "svy");
+						if (ilObjUser::_lookupLogin($user_id))
+						{
+							$user = new ilObjUser($user_id);
+							$user->addDesktopItem($this->getRefId(), "svy");
+						}
 					}
 				}
 			}
@@ -2948,8 +2951,11 @@ class ilObjSurvey extends ilObject
 		if ($this->getInvitation() == INVITATION_ON)
 		{
 			include_once "./classes/class.ilObjUser.php";
-			$userObj = new ilObjUser($user_id);
-			$userObj->dropDesktopItem($this->getRefId(), "svy");
+			if (ilObjUser::_lookupLogin($user_id))
+			{
+				$userObj = new ilObjUser($user_id);
+				$userObj->dropDesktopItem($this->getRefId(), "svy");
+			}
 		}
 	}
 
@@ -2981,8 +2987,11 @@ class ilObjSurvey extends ilObject
 		if ($this->getInvitation() == INVITATION_ON)
 		{
 			include_once "./classes/class.ilObjUser.php";
-			$userObj = new ilObjUser($user_id);
-			$userObj->addDesktopItem($this->getRefId(), "svy");
+			if (ilObjUser::_lookupLogin($user_id))
+			{
+				$userObj = new ilObjUser($user_id);
+				$userObj->addDesktopItem($this->getRefId(), "svy");
+			}
 		}
 	}
 
@@ -3004,8 +3013,11 @@ class ilObjSurvey extends ilObject
 			$this->inviteUser($user_id);
 			if ($this->getInvitation() == INVITATION_ON)
 			{
-				$userObj = new ilObjUser($user_id);
-				$userObj->addDesktopItem($this->getRefId(), "svy");
+				if (ilObjUser::_lookupLogin($user_id))
+				{
+					$userObj = new ilObjUser($user_id);
+					$userObj->addDesktopItem($this->getRefId(), "svy");
+				}
 			}
 		}
 	}
@@ -3027,8 +3039,11 @@ class ilObjSurvey extends ilObject
 			$this->inviteUser($user_id);
 			if ($this->getInvitation() == INVITATION_ON)
 			{
-				$userObj = new ilObjUser($user_id);
-				$userObj->addDesktopItem($this->getRefId(), "svy");
+				if (ilObjUser::_lookupLogin($user_id))
+				{
+					$userObj = new ilObjUser($user_id);
+					$userObj->addDesktopItem($this->getRefId(), "svy");
+				}
 			}
 		}
 	}

@@ -12,7 +12,7 @@ body {
 	font-size : 10pt; 
 }
 
-.il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header, .ilMainHeader, .il_SubTab, .submit, .il_ContainerItemCommand {
+.noprint, .il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header, .ilMainHeader, .il_SubTab, .submit, .il_ContainerItemCommand {
 	visibility: hidden;
 	display: none;
 }
@@ -147,7 +147,7 @@ hr {
 	page-break-after: always;
 }
 
-div.question_title {
+.questionTitle {
 	border-bottom: 1px solid black;
 	padding: 2px;	
 	background-color: #DDDDDD;
@@ -173,6 +173,6 @@ table.freefield_bottom {
 	padding-top: 5em;
 }
 
-.ilc_Page {
+.questionPrintview {
 	page-break-after: always;
 }

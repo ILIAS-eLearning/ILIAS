@@ -49,10 +49,7 @@ class ilImagemapPreview
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function ilImagemapPreview(
-			$imagemap_filename = "",
-			$preview_filename = ""
-	)
+	function ilImagemapPreview($imagemap_filename = "")
 	{
 		$this->imagemap_filename = $imagemap_filename;
 		$this->preview_filename = $preview_filename;
@@ -72,6 +69,7 @@ class ilImagemapPreview
 	}
 
 	function addArea(
+		$index,
 		$shape,
 		$coords,
 		$title = "",
@@ -80,7 +78,7 @@ class ilImagemapPreview
 		$visible = true,
 		$linecolor = "red",
 		$bordercolor = "white",
-		$fillcolor = "\"#FFFFFFC0\""
+		$fillcolor = "\"#FFFFFF40\""
 	)
 	{
 		if (ini_get("safe_mode"))
@@ -90,7 +88,7 @@ class ilImagemapPreview
 				$fillcolor = str_replace("\"", "", $fillcolor);
 			}
 		}
-		array_push($this->areas, array(
+		$this->areas[$index] = array(
 			"shape" => "$shape",
 			"coords" => "$coords",
 			"title" => "$title",
@@ -100,19 +98,21 @@ class ilImagemapPreview
 			"fillcolor" => "$fillcolor",
 			"bordercolor" => "$bordercolor",
 			"visible" => (int)$visible
-		));
+		);
 	}
-
-	function deleteArea($key, $value)
+	
+	function getAreaIdent()
 	{
-		foreach ($this->areas as $areakey => $areavalue)
+		if (count($this->areas) > 0)
 		{
-			if (strcmp($value, $areavalue[$key]) == 0)
-			{
-				unset($this->areas[$areakey]);
-			}
+			$arr = array_keys($this->areas);
+			sort($arr, SORT_NUMERIC);
+			return "preview_" . join("_", $arr) . "_";
 		}
-		$this->areas = array_values($this->areas);
+		else
+		{
+			return "";
+		}
 	}
 
 	function createPreview()
@@ -174,7 +174,7 @@ class ilImagemapPreview
 	{
 		if (is_file($this->preview_filename))
 		{
-			return basename($this->preview_filename);
+			return $this->preview_filename;
 		}
 		else
 		{

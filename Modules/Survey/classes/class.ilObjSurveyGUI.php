@@ -2082,13 +2082,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($id_array as $user_id)
 				{
-					$user = new ilObjUser($user_id);
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $user->getId());
-					$this->tpl->setVariable("VALUE_LOGIN", $user->getLogin());
-					$this->tpl->setVariable("VALUE_FIRSTNAME", $user->getFirstname());
-					$this->tpl->setVariable("VALUE_LASTNAME", $user->getLastname());
+					if (ilObjUser::_lookupLogin($user_id))
+					{
+						$user = new ilObjUser($user_id);
+						$this->tpl->setVariable("COUNTER", $user->getId());
+						$this->tpl->setVariable("VALUE_LOGIN", $user->getLogin());
+						$this->tpl->setVariable("VALUE_FIRSTNAME", $user->getFirstname());
+						$this->tpl->setVariable("VALUE_LASTNAME", $user->getLastname());
+					}
+					else
+					{
+						$this->tpl->setVariable("COUNTER", $user_id);
+						$this->tpl->setVariable("VALUE_LOGIN", $this->lng->txt("deleted_user"));
+						$this->tpl->setVariable("VALUE_FIRSTNAME", $this->lng->txt("unknown"));
+						$this->tpl->setVariable("VALUE_LASTNAME", $this->lng->txt("unknown"));
+					}
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}

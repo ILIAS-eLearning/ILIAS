@@ -386,7 +386,7 @@ class assQuestionGUI
 
 	function originalSyncForm()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_tst_sync_original.html", "Modules/TestQuestionPool");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_sync_original.html", "Modules/TestQuestionPool");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
 		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));

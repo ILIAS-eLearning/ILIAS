@@ -10,16 +10,9 @@
 <h3>{TITLE}</h3>
 <p>{TXT_PRINT_DATE}:&nbsp;{VALUE_PRINT_DATE}&nbsp;&nbsp;{TXT_MAXIMUM_POINTS}:&nbsp;{VALUE_MAXIMUM_POINTS}</p>
 <!-- BEGIN question -->
-<div class="ilc_Page" id="ilc_Page">
-	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid black; margin-top:10px">
-		<tr valign="top">
-			<td width="10px" nowrap="true" height="1" class="ilc_PageTitle"><strong>{COUNTER_QUESTION}</strong>&nbsp;</td>
-			<td rowspan="2"><strong>{QUESTION_TITLE}</strong> <em>({QUESTION_POINTS})</em><br />{SOLUTION_OUTPUT}</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-</table>
+<div class="questionPrintview">
+	<p class="questionTitle">{COUNTER_QUESTION} {QUESTION_TITLE} <em>({QUESTION_POINTS})</em></p>
+	<p>{SOLUTION_OUTPUT}</p>
 </div>
 <!-- END question -->
 </form>
