@@ -21,7 +21,7 @@
 		if (is_file($image))
 		{
 			// it's a temporary file, delete it after it was shown to save disk space
-			unlink ($image);
+			//unlink ($image);
 		}
 	}
 ?>

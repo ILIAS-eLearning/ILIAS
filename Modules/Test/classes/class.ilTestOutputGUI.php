@@ -1856,10 +1856,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function outUserResultsOverview()
 	{
-		global $ilUser;
-		
-//		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_overview_participants.html", "Modules/Test");
-		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_results_participants.html", "Modules/Test");
+		global $ilUser, $ilias;
+
+		include_once("./classes/class.ilTemplate.php");
+		$template = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$pass = null;
 		$user_id = $ilUser->getId();
@@ -1872,16 +1872,32 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
+			$template->setCurrentBlock("pass_overview");
 			$overview = $this->getPassOverview($active_id, "iltestoutputgui", "outUserResultsOverview");
-			$this->tpl->setVariable("PASS_OVERVIEW", $overview);
-			$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
+			$template->setVariable("PASS_OVERVIEW", $overview);
+			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
+			$template->parseCurrentBlock();
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-		$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
-		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
+		if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass)))
+		{
+			if (is_null($pass))	$pass = $_GET["pass"];
+		}
+
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$template->setVariable("PRINT_URL", "javascript:window.print();");
+		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		{
+			$this->ctrl->setParameter($this, "pass", $pass);
+			$this->ctrl->setParameter($this, "pdf", "1");
+			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
+			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+		}
 		
 		$result_pass = $this->object->_getResultPass($active_id);
 		$result_array =& $this->object->getTestResult($active_id, $result_pass);
@@ -1891,9 +1907,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		// output of the details of a selected pass
 		$this->ctrl->saveParameter($this, "pass");
 		$this->ctrl->saveParameter($this, "active_id");
-		if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass)))
+		if ($pass != null)
 		{
-			if (is_null($pass))	$pass = $_GET["pass"];
 			$result_array =& $this->object->getTestResult($active_id, $pass);
 	
 			$command_solution_details = "";
@@ -1901,37 +1916,49 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			{
 				$command_solution_details = "outCorrectSolution";
 			}
-			$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestoutputgui", "outUserResultsOverview", $command_solution_details);
+			$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestoutputgui", "outUserResultsOverview", $command_solution_details);
 	
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 	
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_participants.html", "Modules/Test");
-	
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("test_user_name");
+			$template->setCurrentBlock("test_user_name");
 			
-			$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-			$this->tpl->parseCurrentBlock();
+			$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+			$template->parseCurrentBlock();
 	
 			$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
 			
-			$this->tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-			$this->tpl->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
-			$this->tpl->setVariable("PASS_DETAILS", $overview);
+			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
+			$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
+			$template->setVariable("PASS_DETAILS", $detailsoverview);
 
 			$signature = $this->getResultsSignature();
-			$this->tpl->setVariable("SIGNATURE", $signature);
+			$template->setVariable("SIGNATURE", $signature);
 		}
 
-		$this->tpl->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
-		$this->tpl->setVariable("USER_DATA", $user_data);
-		$this->tpl->setVariable("USER_FEEDBACK", $statement);
-		$this->tpl->parseCurrentBlock();
+		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
+		$template->setVariable("USER_DATA", $user_data);
+		$template->setVariable("USER_FEEDBACK", $statement);
+		$template->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
+		
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
+			$printbody->setVariable("TITLE", sprintf($this->lng->txt("tst_result_user_name"), $uname));
+			$printbody->setVariable("ADM_CONTENT", $template->get());
+			$printoutput = $printbody->get();
+			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+			$fo = $this->object->processPrintoutput2FO($printoutput);
+			$this->object->deliverPDFfromFO($fo);
+		}
+		else
+		{
+			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
+		}
 	}
 	
 /**

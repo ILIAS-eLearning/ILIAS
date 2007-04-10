@@ -1,32 +1,22 @@
 	{QUESTIONTEXT}
-<table class="nobackground">
 <!-- BEGIN standard_matching_row -->
-	<tr>
-		<td class="nobackground">
-			<span class="solutionbox">{SOLUTION}</span>
-		</td>
-		<td class="nobackground">{MATCHES}</td>
-		<td class="nobackground">
+	<p>
+		<span class="solutionbox">{SOLUTION}</span>
+		{MATCHES}
 <!-- BEGIN standard_matching_terms -->
 			<strong>{DEFINITION}</strong>
 <!-- END standard_matching_terms -->		
 <!-- BEGIN standard_matching_pictures -->
-			<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+			<img src="{THUMBNAIL_HREF}" border="0" width="{THUMBNAIL_WIDTH}" height="{THUMBNAIL_HEIGHT}" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
 <!-- END standard_matching_pictures -->		
-		</td>
-		<td>
 <!-- BEGIN icon_ok -->
 			<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />
 <!-- END icon_ok -->
 <!-- BEGIN icon_not_ok -->
 			<img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" />
 <!-- END icon_not_ok -->
-		</td>
 <!-- BEGIN result_output -->
-		<td>
-			<em>{RESULT_OUTPUT}</em>
-		</td>
+		<em>{RESULT_OUTPUT}</em>
 <!-- END result_output -->
-	</tr>
+	</p>
 <!-- END standard_matching_row -->
-</table>

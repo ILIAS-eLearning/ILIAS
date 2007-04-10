@@ -687,14 +687,14 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("checkbox_checked.gif"));
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.gif")));
 					$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
 					$checked = TRUE;
 				}
 			}
 			if (!$checked)
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("checkbox_unchecked.gif"));
+				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
 				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
 			}
 			$template->parseCurrentBlock();
