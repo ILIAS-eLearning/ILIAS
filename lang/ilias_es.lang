@@ -157,7 +157,7 @@ assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar 
 assessment#:#cannot_maintain_test#:#¡No posee permisos suficientes para mantener el test!
 assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del banco de preguntas!
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!
-assessment#:#certificate#:#Certificate
+assessment#:#certificate#:#Certificado
 assessment#:#certificate_top#:#Top
 assessment#:#certificate_right#:#Right
 assessment#:#certificate_bottom#:#Bottom
@@ -168,58 +168,58 @@ assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
 assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
-assessment#:#certificate_custom#:#Custom...
-assessment#:#certificate_edit#:#Create/edit a certificate template
-assessment#:#certificate_export#:#Export Certificate
-assessment#:#certificate_page_format#:#Page Format
-assessment#:#certificate_background_image#:#Background Image
+assessment#:#certificate_custom#:#Personalizado...
+assessment#:#certificate_edit#:#Crear/editar una plantilla de certificado
+assessment#:#certificate_export#:#Exportar Certificado
+assessment#:#certificate_page_format#:#Formato de página
+assessment#:#certificate_background_image#:#Imagen de Fondo
 assessment#:#certificate_padding_top#:#Top Padding
-assessment#:#certificate_margin_body#:#Body Margin
-assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
-assessment#:#certificate_show#:#Show Certificate
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#The certificate is complete and could be used
-assessment#:#certificate_status_incomplete#:#The certificate is incomplete
-assessment#:#certificate_delete#:#Delete Certificate Data
-assessment#:#certificate_preview#:#Show Certificate Preview
-assessment#:#certificate_text#:#Certificate Text
+assessment#:#certificate_margin_body#:#Margen
+assessment#:#certificate_not_well_formed#:#El texto del certificado no está bien definido. Por favor introduzca XHTML válido para el texto del certificado
+assessment#:#certificate_show#:#Mostrar Certificado
+assessment#:#certificate_status#:#Estado
+assessment#:#certificate_status_complete#:#El certificado está completo y puede ser usado
+assessment#:#certificate_status_incomplete#:#El certificado está incompleto
+assessment#:#certificate_delete#:#Eliminar datos del Certificado
+assessment#:#certificate_preview#:#Mostrar Preview del Certificado
+assessment#:#certificate_text#:#Texto del Certificado
 assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
 assessment#:#certificate_var_user_firstname#:#Jane
 assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_result_passed#:#passed
+assessment#:#certificate_var_result_passed#:#superado
 assessment#:#certificate_var_result_points#:#38
 assessment#:#certificate_var_result_percent#:#83%
 assessment#:#certificate_var_max_points#:#46
 assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Good
-assessment#:#certificate_passed#:#passed
-assessment#:#certificate_failed#:#failed
-assessment#:#certificate_pageheight#:#Page Height
-assessment#:#certificate_pagewidth#:#Page Width
-assessment#:#certificate_wrong_unit#:#You have entered a wrong unit
-assessment#:#certificate_wrong_units#:#You have entered a wrong set of units
-assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
-assessment#:#certificate_ph_introduction#:#The following placeholders may be used
-assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
-assessment#:#certificate_ph_firstname#:#First name of the user
-assessment#:#certificate_ph_lastname#:#Last name of the user
-assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results
-assessment#:#certificate_ph_resultpoints#:#Reached points of the user
-assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user
-assessment#:#certificate_ph_maxpoints#:#Maximum available points
-assessment#:#certificate_ph_markshort#:#Users mark (short version)
-assessment#:#certificate_ph_marklong#:#Users mark (official version)
-assessment#:#certificate_ph_testtitle#:#Title of the test
-assessment#:#certificate_ph_date#:#Actual date
-assessment#:#certificate_ph_datetime#:#Actual date and time
-assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-assessment#:#certificate_visibility#:#Visibility
-assessment#:#certificate_visibility_introduction#:#The button to offer users this certificate is
-assessment#:#certificate_visibility_always#:#Always visible
-assessment#:#certificate_visibility_never#:#Not visible
-assessment#:#certificate_visibility_passed#:#Only visible is a user passed the test
-assessment#:#certificate_error_import#:#An error occured during the import of a certificate!
-assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!
+assessment#:#certificate_var_result_mark_long#:#Bien
+assessment#:#certificate_passed#:#superado
+assessment#:#certificate_failed#:#suspenso
+assessment#:#certificate_pageheight#:#Altura de Página
+assessment#:#certificate_pagewidth#:#Anchura de Página
+assessment#:#certificate_wrong_unit#:#Ha introducido una unidad errónea
+assessment#:#certificate_wrong_units#:#Ha introducido un conjunto erróneo de unidades
+assessment#:#certificate_confirm_deletion_text#:#¿Realmente quiere eliminar el certificado y todos los datos relacionados?
+assessment#:#certificate_ph_introduction#:#Las siguientes variables pueden ser usadas
+assessment#:#certificate_ph_fullname#:#Nombre completo del usuario
+assessment#:#certificate_ph_firstname#:#Nombre del usuario
+assessment#:#certificate_ph_lastname#:#Apellido del usuario
+assessment#:#certificate_ph_passed#:#"superado" o "suspenso", dependiendo de los resultados del test
+assessment#:#certificate_ph_resultpoints#:#Puntos conseguidos por el usuario
+assessment#:#certificate_ph_resultpercent#:#Porcentaje conseguido por el usuario
+assessment#:#certificate_ph_maxpoints#:#Máxima puntuación disponible
+assessment#:#certificate_ph_markshort#:#Calificación de Usuarios (version abreviada)
+assessment#:#certificate_ph_marklong#:#Calificación de Usuarios (versión oficial)
+assessment#:#certificate_ph_testtitle#:#Título del Test
+assessment#:#certificate_ph_date#:#Fecha actual
+assessment#:#certificate_ph_datetime#:#Hora y fecha actual
+assessment#:#certificate_unit_description#:#Introduzca unidades de medida como valor [cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
+assessment#:#certificate_visibility#:#Visibilidad
+assessment#:#certificate_visibility_introduction#:#El botón para ofrecer a los usuarios este certificado está
+assessment#:#certificate_visibility_always#:#Siempre visible
+assessment#:#certificate_visibility_never#:#No visible
+assessment#:#certificate_visibility_passed#:#Sólo visible si un usuario superó el test
+assessment#:#certificate_error_import#:#Ocurrió un error durante la importación de un certificado
+assessment#:#certificate_error_upload_bgimage#:#Ocurrió un error durante la carga de una imagen de fondo
 assessment#:#change_properties_from_random_to_standard#:#Va a cambiar las propiedades de su test, de aleatorio a no aleatorio. La información sobre los bancos de preguntas que ya añadió al test aleatorio será eliminada del test. ¿Está seguro de que quiere modificar las propiedades del test?
 assessment#:#change_properties_from_standard_to_random#:#Va a cambiar las propiedades de su test, de no aleatorio a test aleatorio. Las preguntas que ya añadió al test serán elimnadas, porque tiene que seleccionar bancos de preguntas para poder crear un test aleatorio. ¿Está seguro de que quiere modificar las propiedades del test?
 assessment#:#change_solution#:#Modificar solución recomendada
@@ -353,9 +353,9 @@ assessment#:#export#:#Exportar
 assessment#:#failed_official#:#no superado
 assessment#:#failed_short#:#no superado
 assessment#:#false#:#Falso
-assessment#:#feedback_answers#:#Feedback for every answer of the question
-assessment#:#feedback_complete_solution#:#Correct solution
-assessment#:#feedback_incomplete_solution#:#At least one answer is not correct
+assessment#:#feedback_answers#:#Feedback para cada respuesta de la pregunta
+assessment#:#feedback_complete_solution#:#Solución correcta
+assessment#:#feedback_incomplete_solution#:#Al menos una respuesta no es correcta
 assessment#:#fill_out_all_answer_fields#:#Por favor rellene todos los campos de texto de respuesta antes de añadir uno nuevo!
 assessment#:#fill_out_all_matching_pairs#:#Por favor rellene todos las parejas antes de añadir una nueva!
 assessment#:#fill_out_all_required_fields_add_answer#:#Por favor rellene todos los campos requeridos antes de añadir respuestas!
@@ -370,7 +370,7 @@ assessment#:#filter_all_questionpools#:#Todos los bancos de preguntas
 assessment#:#filter_show_question_types#:#Mostrar tipos de preguntas
 assessment#:#filter_show_questionpools#:#Mostrar bancos de preguntas
 assessment#:#filter_users#:#Filtrar usuarios
-assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.
+assessment#:#fixed_participants_hint#:#Este test es sólo accesible para un conjunto de participantes mostrado abajo. Puede modificar esta configuración desactivando la casilla de los participantes en el subcomando %s
 assessment#:#gap#:#Hueco
 assessment#:#gap_definition#:#Definición de hueco
 assessment#:#gap_selection#:#Hueco de selección
@@ -394,7 +394,7 @@ assessment#:#keywords_hint#:#Introduzca una lista de palabras clave, separadas p
 assessment#:#last_update#:#Ultima actualización
 assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
-assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by the test author
+assessment#:#log_answer_changed_points#:#Modificación manual de puntuación desde %d a %d puntos por el autor del test
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#El usuario no pudo entrar al test porque se ha alcanzado el máximo número simultáneo de conexiones
 assessment#:#log_create_new_test#:#Nuevo Test creado
 assessment#:#log_mark_added#:#Nota añadida
@@ -414,12 +414,12 @@ assessment#:#log_user_data_removed#:#Todos los datos de usuario eliminados
 assessment#:#log_user_entered_values#:#El usuario introdujo valores
 assessment#:#log_user_not_entered_values#:#El usuario no introdujo valores
 assessment#:#maintenance#:#Mantenimiento
-assessment#:#manscoring#:#Manual Scoring
-assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.
-assessment#:#manscoring_select_user#:#Please select a participant to set the score manually
-assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
-assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s
-assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To guarantee a valid presentation of the test results for the participants it is strongly recommended to restrict the access to the test results using a specified date and time.
+assessment#:#manscoring#:#Puntuación manual
+assessment#:#manscoring_not_allowed#:#La puntuación manual no fue activada para un tipo de pregunta. No le está permitido usar esta opción.
+assessment#:#manscoring_select_user#:#Por favor seleccione un participante para darle una puntuación manualmente
+assessment#:#manscoring_questions_not_found#:#Este test no contiene ningún tipo de pregunta que pueda ser puntuada manualmente
+assessment#:#manscoring_results_pass#:#Preguntas susceptibles de ser puntuadas de forma manual para el Test %s
+assessment#:#manscoring_hint#:#Ha añadido al menos una pregunta que puede requerir ser puntuada de forma manual. Para garantizar una presentación válida de los resultados del test para los participantes está muy recomendado restringir el acceso a los resultados del test usando una fecha y hora específica.
 assessment#:#mark_schema#:#Esquema de calificación
 assessment#:#match_terms_and_definitions#:#Emparejar términos y definiciones
 assessment#:#match_terms_and_pictures#:#Emparejar términos e imágenes
@@ -455,19 +455,19 @@ assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordenar imágenes
 assessment#:#order_terms#:#Ordenar términos
 assessment#:#ordering_question_javascript_hint#:#Por favor arrastre una definición/imagen sobre la definición/imagen donde la quiera dejar y suéltela. La definición/imagen debajo y todas las definiciones/imágenes siguientes se moverán hacia abajo.
-assessment#:#output#:#Output
+assessment#:#output#:#Salida
 assessment#:#output_mode#:#Modo de salida
 assessment#:#participants#:#Participantes
-assessment#:#participants_data#:#Participants Data
-assessment#:#participants_evaluation#:#Evaluation for all Test Participants
-assessment#:#participants_invitation#:#Fixed Participants
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.
-assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.
-assessment#:#pass#:#Aprobar
+assessment#:#participants_data#:#Datos de Participantes
+assessment#:#participants_evaluation#:#Evaluación para todos los Participantes del Test
+assessment#:#participants_invitation#:#Participantes predefinidos
+assessment#:#participants_invitation_description#:#Usted puede hacer este test accesible para un conjunto predefinido de usuarios de ILIAS. Para habilitar esta funcionalidad, por favor marque la casilla superior y presione el botón Guardar.
+assessment#:#participants_invitation_search_introduction#:#Para añadir participantes predefinidos a este test, por favor seleccione los usuarios en el formulario de búsqueda inferior e invítelos aal testTodos los participantes del test se mostrarán en el subcomando Datos de Participantes.
+assessment#:#pass#:#Superar
 assessment#:#passed_official#:#superado
-assessment#:#passed_only#:#Passed tests only
+assessment#:#passed_only#:#Sólo tests superados
 assessment#:#passed_short#:#superado
-assessment#:#percentage#:#Percentage
+assessment#:#percentage#:#Porcentaje
 assessment#:#percentage_solved#:#Usted ha solucionado el %.2f por ciento de esta pregunta!
 assessment#:#percentile#:#Percentil
 assessment#:#picture#:#Imagen
@@ -608,27 +608,27 @@ assessment#:#too_many_empty_parameters#:#Por favor rellene los parámetros vací
 assessment#:#true#:#Verdadero
 assessment#:#tst_access_code_created#:#Para proporcionarle acceso permanente a sus resultados de test y ofrecerle la posibilidad de retomar este test, un código de acceso único fue creado. Por favor, anote este código y úselo en acciones posteriores.
 assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!
-assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test
-assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
+assessment#:#tst_allow_fixed_participants#:#Permitir participantes predefinidos en este test
+assessment#:#tst_allow_instant_verification#:#Permitir verificación instantánea de respuestas
 assessment#:#tst_allowed_users#:#Máximo número de usuarios ejecutando el test a la vez
 assessment#:#tst_allowed_users_time_gap#:#Tiempo de inactividad permitido para los usuarios activos
 assessment#:#tst_already_submitted#:#El Test ya ha sido finalizado y enviado
 assessment#:#tst_already_taken#:#Tests realizados
-assessment#:#tst_anonymity#:#Anonymity
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized
+assessment#:#tst_anonymity#:#Anonimato
+assessment#:#tst_anonymity_description#:#Si el Anonimato está habilitado, los nombres de los participantes en el test serán desconocidos
 assessment#:#tst_answer_sheet#:#Hoja de Respuestas de Test
 assessment#:#tst_answered_questions#:#Preguntas contestadas
 assessment#:#tst_best_solution_is#:#La mejor solución es
 assessment#:#tst_browse_for_questions#:#Explorar en busca de preguntas
-assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!
-assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.
-assessment#:#tst_change_points_for_question#:#Change the Points for the Answer
+assessment#:#tst_change_points_done#:#La puntuación de una respuesta ha sido modificada con éxito
+assessment#:#tst_change_points_not_done#:#No se pudo modificar la puntuación de una respuesta. Por favor comprueba el rango permitido de puntuación disponible.
+assessment#:#tst_change_points_for_question#:#Modificar la puntuación para la respuesta
 assessment#:#tst_confirm_delete_results#:#Va usted a borrar todas sus resultados de preguntas de este test. Esto reiniciará todas las preguntas a sus valores por defecto. Por favor advierta que no puede reiniciar el número de intentos que necesita para este test. Quiere reiniciar los resultados de lo anteriormente rellenado?
 assessment#:#tst_confirm_delete_results_info#:#Los resultados de preguntas anteriormente completadas han sido eliminados. Se ha reiniciado satisfactoriamente el test!
 assessment#:#tst_confirm_print#:#Haga click en el botón para imprimir todas las preguntas con puntuación y solución. La pregunta siempre aparece al final de una página.
 assessment#:#tst_confirm_submit_answers#:#Por favor confirme el envío de su solución. No podrá modificar sus respuestas después de pulsar el botón de enviar. 
 assessment#:#tst_count_correct_solutions#:#Contar sólo soluciones completas
-assessment#:#tst_count_system_description#:#If partial solutions are counted, the points for a question are given dependent on the answers of a participant. If only complete solutions are counted, a participant must reach the maximum available points for a question, otherwise the resulting points are set to zero.
+assessment#:#tst_count_system_description#:#Si se cuentan las soluciones parciales, la puntuación para una pregunta se da en función de las respuestas de un participante. Si sólo se cuentan las soluciones completas, un participante debe alcanzar la máxima puntuación disponible para una pregunta, de otro modo se puntuará como cero.
 assessment#:#tst_count_partial_solutions#:#Contar soluciones parciales
 assessment#:#tst_delete_all_user_data#:#Borrar todos los datos de usuario
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de calificación para eliminarlo
@@ -636,7 +636,7 @@ assessment#:#tst_delete_results#:#Reiniciar test
 assessment#:#tst_ending_time#:#Tiempo de finalización
 assessment#:#tst_enter_questionpool#:#Por favor introduzca un nombre de banco de preguntas donde la nueva pregunta será almacenada
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nadie ha rellenado el test todavía. No existen resultados de test globales anónimos disponibles.
-assessment#:#tst_eval_question_points#:#Question Results for Pass %s
+assessment#:#tst_eval_question_points#:#Resultados de la pregunta para la ejecución %s
 assessment#:#tst_eval_results_by_pass#:#Resultados de preguntas detallados
 assessment#:#tst_eval_show_answer#:#Mostrar respuesta
 assessment#:#tst_eval_total_finished#:#Nº Total de tests finalizados (usuarios que enviaron el test haciendo click en el botón de finalizar test)
@@ -651,9 +651,9 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterio
 assessment#:#tst_finish_confirm_list_of_answers_button#:#No, volver a la lista de preguntas
 assessment#:#tst_finish_confirmation_question#:#Vas a finalizar este test y alcanzarás el máximo número de intentos permitidos. No podras volver a realizar este test para cambiar tus respuestas. ¿Quieres realmente finalizar el test?
 assessment#:#tst_finished#:#Terminado
-assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! 
-assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
-assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? 
+assessment#:#tst_fixed_participants_data_exists#:#Ya hay participantes que ejecutaron el test. No tiene permiso para modificar el status de los participantes predefinidos
+assessment#:#tst_fixed_participants_disable#:#Confirmar cambio de status
+assessment#:#tst_fixed_participants_disable_description#:#Va a deshabilitar el soporte para participantes predefinidos en este test. Ya existen participantes predefinidos en este test. Si los elimina, los resultados del test no serán eliminados. ¿Está seguro de que quiere continuar?
 assessment#:#tst_general_properties#:#Propiedades generales
 assessment#:#tst_generate_xls#:#Generar Excel
 assessment#:#tst_heading_scoring#:#Puntuación
@@ -667,23 +667,23 @@ assessment#:#tst_in_use_edit_questions_disabled#:#El test está en uso por %d us
 assessment#:#tst_insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en el test!
 assessment#:#tst_insert_questions#:#Está seguro de que quiere insertar  la(s) siguiente(s) pregunta(s) en el test?
 assessment#:#tst_insert_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s). Insertar preguntas a este test borrará todos los resultados de estos usuarios. Esta seguro de que quiere insertar la(s) siguiente(s) pregunta(s) en el test?
-assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question
-assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback
-assessment#:#tst_instant_feedback_results#:#Show Results (only points)
-assessment#:#tst_instant_feedback_solution#:#Show Solutions
-assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question. If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant. If results (in points) are selected, the reached points will be shown. If solutions are selected, the correct solution will be shown too.
-assessment#:#tst_instant_verification#:#Instant verification
+assessment#:#tst_instant_feedback#:#Feedback Instantáneo - esta información se muestra despues de cada pregunta
+assessment#:#tst_instant_feedback_answer_specific#:#Mostrar Feedback específico por respuesta
+assessment#:#tst_instant_feedback_results#:#Mostrar resultados (sólo puntuación)
+assessment#:#tst_instant_feedback_solution#:#Mostrar soluciones
+assessment#:#tst_instant_feedback_description#:#Si una de las opciones es seleccionada, la información de feedback instantáneo será mostrada directamente tras responder un participante a una pregunta. Si se selecciona feedback específico por respuesta, se mostrará el feedback predefinido, dependiendo de las respuestas del participante. Si se selecciona mostrar resultados (puntuación), se mostrará la puntuación obtenida. Si se selecciona mostrar soluciones, también se mostrará la solución correcta.
+assessment#:#tst_instant_verification#:#Verificación instantánea
 assessment#:#tst_introduction#:#Introducción
-assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
-assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
-assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
-assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
-assessment#:#tst_list_of_answers#:#List of Answers
-assessment#:#tst_list_of_questions_yes#:#Yes, and additional
-assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question
-assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test
-assessment#:#tst_participants_no#:#Nobody has started the test right now!
-assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!
+assessment#:#tst_invited_selected_users#:#Los usuarios seleccionados han sido añadidos como participantes predefinidos del test
+assessment#:#tst_invited_selected_groups#:#Los grupos seleccionados han sido añadidos como participantes predefinidos del test
+assessment#:#tst_invited_selected_roles#:#Los roles seleccionados han sido añadidos como participantes predefinidos del test
+assessment#:#tst_invited_nobody#:#No se han añadido usuarios, grupos o roles como participantes predefinidos del test
+assessment#:#tst_list_of_answers#:#Lista de Respuestas
+assessment#:#tst_list_of_questions_yes#:#Si, y adicional
+assessment#:#tst_list_of_questions_start#:#Mostrar la lista de preguntas antes de la primera pregunta
+assessment#:#tst_list_of_questions_end#:#Mostrar la lista de preguntas antes de que un participante finalice el test
+assessment#:#tst_participants_no#:#Nadie ha comenzado el test
+assessment#:#tst_participants_no_fixed#:#¡No hay nadie asignado como participante predefinido para este test!
 assessment#:#tst_mark#:#Nota
 assessment#:#tst_mark_create_new_mark_step#:#Crear nuevo rango de calificación
 assessment#:#tst_mark_create_simple_mark_schema#:#Crear un esquema simple de calificación
@@ -713,11 +713,11 @@ assessment#:#tst_no_tries#:#ninguno
 assessment#:#tst_nr_of_tries#:#Número máximo de intentos
 assessment#:#tst_nr_of_tries_of_user#:#Intentos ya completados
 assessment#:#tst_participating_users#:#Usuarios participando
-assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test
+assessment#:#tst_fixed_participating_users#:#Participantes predefinidos en este Test
 assessment#:#tst_pass_best_pass#:#Puntuar la mejor ejecución de un usuario
 assessment#:#tst_pass_details#:#Mostrar detalles
 assessment#:#tst_pass_last_pass#:#Puntuar la última ejecución de un usuario
-assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last test pass of a participant will be used to calculate the test results. If the best pass is scored, the test pass with the highest number of reached points will be chosen a test result. This setting only has effect, if more than one test pass is allowed for a test.
+assessment#:#tst_pass_scoring_description#:#Si se puntua la última ejecución, se usará la última ejecución del test de un participante para calcular los resultados. Si se puntua la mejor ejecución, la ejecución del test con el número más alto de puntos alcanzados será escogido como resultado del test. Esta configuración sólo tiene efecto si se permite más de una ejecución para este test.
 assessment#:#tst_pass_scoring#:#Puntuar múltiples ejecuciones
 assessment#:#tst_passes#:#Test Passes
 assessment#:#tst_password#:#Contraseña del test
@@ -726,8 +726,8 @@ assessment#:#tst_password_entered_wrong_password#:#No puede comenzar el test por
 assessment#:#tst_password_introduction#:#Este test sólo puede ser accedido con una contraseña. Por favor introduzca la contraseña del test para comenzar el test
 assessment#:#tst_percent_solved#:#Porcentaje resuelto
 assessment#:#tst_position#:#Pregunta %s de %s
-assessment#:#tst_postpone#:#Postpone Questions
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test
+assessment#:#tst_postpone#:#Posponer preguntas
+assessment#:#tst_postpone_description#:#Los participantes pueden posponer preguntas al final del test
 assessment#:#tst_print#:#Vista de Impresión de Test
 assessment#:#tst_print_date#:#Fecha de Impresión
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso
@@ -751,7 +751,7 @@ assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?
 assessment#:#tst_random_qpl_unselected#:#¡Hay al menos un banco de preguntas no seleccionado! No necesita añadir un nuevo banco de preguntas
 assessment#:#tst_random_questionpools#:#Bancos de preguntas origen
 assessment#:#tst_random_select_questionpool#:#Seleccione el banco de preguntas desde el que desea elegir preguntas
-assessment#:#tst_random_selection#:#Random Selection of Questions
+assessment#:#tst_random_selection#:#Selección aleatorio de preguntas
 assessment#:#tst_random_selection_question_count_too_high#:#El número de preguntas que introdujo es mayor que el máximo número de preguntas disponibles. El número de preguntas ha sido reducido automáticamente.
 assessment#:#tst_random_selection_question_total_count_too_high#:#El número de preguntas que introdujo es mayor que el máximo número de preguntas disponibles para todos los bancos de pregunta seleccionados. El número de preguntas ha sido reducido automáticamente.
 assessment#:#tst_random_test#:#Test aleatorio
@@ -767,26 +767,26 @@ assessment#:#tst_result_sorry#:#Lo siento, no ha superado el test.
 assessment#:#tst_result_user_name#:#Resultados del test para %s
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_results#:#Resultados del Test
-assessment#:#tst_results_access#:#Access to Test Results
-assessment#:#tst_results_access_finished#:#After Test is Finished
-assessment#:#tst_results_access_date#:#Date
-assessment#:#tst_results_access_always#:#Always
-assessment#:#tst_results_access_description#:#This setting handles the access of the participants to their test results. If results can be accessed after the test is finished, the participants can access their test results after they finished a test pass for the first time. Even if a test has more than one allowed test pass, the participants can access their test results after finishing the first pass. If you choose a date access restriction, the participants will not be able to access their test results until the specified date and time is reached. You must choose this option if you want to use the ECTS scoring system of if you have to score questions manually. If "Always" is selected, the participants can access their test results at any time even if the did not finish the test yet.
+assessment#:#tst_results_access#:#Acceso a los resultados del test
+assessment#:#tst_results_access_finished#:#Después de que el test sea finalizado
+assessment#:#tst_results_access_date#:#Fecha
+assessment#:#tst_results_access_always#:#Siempre
+assessment#:#tst_results_access_description#:#Esta configuración controla el acceso de los participantes a los resultados del test. Si los resultados pueden ser accedidos después de que un test sea finalizado, los participantes puede acceder a los resultados después de haber finalizado una ejecución del test por primera vez. Incluso si un test tiene más de una ejecución permitida, los participantes puede acceder a sus resultados tras finalizar la primera ejecución. Si escoge una restricción de acceso con fecha, los participantes no serán capaces de acceder a los resultados del test hasta que se alcance la fecha y hora especificada. Debe elegir esta opción si quiere usar el sistema de puntuación ECTS o si tiene pensado puntuar manualmente algunas preguntas. Si se selecciona "Siempre", los participantes pueden acceder a sus resultados del test en cualquier momento, incluso si no hubiesen terminado aún el test.
 assessment#:#tst_results_aggregated#:#Resultados globales
 assessment#:#tst_results_back_evaluation#:#Volver al resumen de la evaluación
 assessment#:#tst_results_back_introduction#:#Volver a la introducción
 assessment#:#tst_results_back_overview#:#Volver al resumen de resultados
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results 
-assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
-assessment#:#tst_results_presentation#:#Test Results Presentation
-assessment#:#tst_resume_test#:#retomar el test
+assessment#:#tst_results_overview#:#Pass Resumen de resultados del test
+assessment#:#tst_results_overview_pass#:#Resument de resultados para la ejecución %s
+assessment#:#tst_results_presentation#:#Presentación de resultados del test
+assessment#:#tst_resume_test#:#Retomar el test
 assessment#:#tst_score_cut_question#:#Redondear puntos negativos para cada pregunta
 assessment#:#tst_score_cut_test#:#Redondear puntos negativos para la suma de todos los resultados de preguntas
-assessment#:#tst_score_cutting_description#:#If Negative Question Points are cut off, the results for each question that a participant answers with a result of less than zero points will be set to zero points. If Negative Test Points are cut off, the results for the test will be set to zero points, if the sum of all question results is less than zero points.
+assessment#:#tst_score_cutting_description#:#Si se redondean los puntos negativos para cada pregunta, los resultados para cada pregunta que un participante responde con un resultado menor que cero puntos, será redondeado a cero puntos. Si se redondean los puntos de un test, los resultados para el test serán redondeados a cero puntos si la suma de todos los resultados de preguntas es menor que cero puntos.
 assessment#:#tst_score_cutting#:#Redondear puntos negativos
 assessment#:#tst_score_mcmr_questions#:#Preguntas de múltiple elección
 assessment#:#tst_score_mcmr_use_scoring_system#:#Definir la puntuación, incluso cuando no se eligió una respuesta
-assessment#:#tst_score_mcmr_questions_description#:#If "Score 0 Points for Unchecked Answers" is selected, multiple choice questions without a selected check box will scored with zero points, otherwise every check box will be scored dependent to the predefined points.
+assessment#:#tst_score_mcmr_questions_description#:#Si se selecciona "Puntuar 0 puntos para respuestas no marcadas", las preguntas de múltiple elección sin ninguna casilla seleccionada serán puntuadas con cero puntos, en otro caso, cada casilla será puntuada en función de los puntos predefinidos para la misma.
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Puntuar con 0 puntos cuando no se eligió una respuesta
 assessment#:#tst_score_reporting#:#Informe de puntuación
 assessment#:#tst_score_reporting_date#:#Fecha del informe de puntuación
@@ -802,29 +802,29 @@ assessment#:#tst_sequence#:#Secuencia
 assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia
 assessment#:#tst_session_settings#:#Configuración de Sesión
-assessment#:#tst_list_of_answers_show#:#Show List of Answers
+assessment#:#tst_list_of_answers_show#:#Mostrar lista de respuestas
 assessment#:#tst_show_answer_sheet#:#mostrar respuestas
-assessment#:#tst_show_cancel#:#Show Suspend Test Option
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
-assessment#:#tst_title_output#:#Test Title Output
-assessment#:#tst_title_output_full#:#Show Test Title and Available Points
-assessment#:#tst_title_output_hide_points#:#Show only Test Title
-assessment#:#tst_title_output_no_title#:#Don't show the Test Title and the Available Points
-assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the Test Title and the Available Points during the Test
-assessment#:#tst_use_previous_answers#:#Use Previous Answers
-assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
+assessment#:#tst_show_cancel#:#Mostrar la opción de suspender el test
+assessment#:#tst_show_cancel_description#:#Si se marca, se mostrará un botón para suspender el test durante la ejecución del mismo
+assessment#:#tst_title_output#:#Mostrar título del test
+assessment#:#tst_title_output_full#:#Mostrar el título del test y la puntuación disponible
+assessment#:#tst_title_output_hide_points#:#Mostrar sólo el título del test
+assessment#:#tst_title_output_no_title#:#No mostrar el título del test y los puntos disponibles
+assessment#:#tst_title_output_description#:#Seleccionar una de las opciones superiores para la presentación del título del test y la puntuación disponible durante la ejecución del test
+assessment#:#tst_use_previous_answers#:#Usar respuestas previas
+assessment#:#tst_use_previous_answers_description#:#Si se marca, se usarán las respuestas previas de un participante como valores por defecto en futuras ejecuciones del test
+assessment#:#tst_use_previous_answers_user#:#Usar mis respuestas previas como valores por defecto en futuras ejecuciones del test
+assessment#:#tst_dont_use_previous_answers#:#Sus respuestas previas no serán usadas como valores por defecto en futuras ejecuciones del test
 assessment#:#tst_show_results#:#Mostrar resultados del test
 assessment#:#tst_show_solution_details#:#Detalles de puntuación
 assessment#:#tst_show_solution_printview#:#Vista de impresión de soluciones
-assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission
+assessment#:#tst_results_presentation_description#:#Si se selecciona "Mostrar soluciones en los resultados del test", la solución detallada de la pregunta estará disponible para los participantes en la presentación de resultados del test. Esto incluye la puntuación exacta de cada respuesta, en otro caso sólo se mostrará un resumen con los títulos de pregunta y la puntuación alcanzada. Si selecciona la lista de respuestas, se genera un resumen de todas las preguntas con las respuestas de un participante. Esta lista se ofrecerá en la página de Info y al final de un test antes del envío final
 assessment#:#tst_show_summary#:#Mostrar sumario de preguntas
 assessment#:#tst_show_summary_description#:#Ofrecer una página resumen con todas las preguntas del test disponibles para los participantes durante el test
 assessment#:#tst_shuffle_questions#:#Aleatorizar preguntas
 assessment#:#tst_shuffle_questions_description#:#Aleatorizar la secuencia de preguntas para cada usuario al comienzo del test
 assessment#:#tst_signature#:#Firma
-assessment#:#tst_start_new_test_pass#:#Start New Test Pass
+assessment#:#tst_start_new_test_pass#:#Comenzar nueva ejecución de test
 assessment#:#tst_start_test#:#Comenzar el Test
 assessment#:#tst_started#:#Test comenzado
 assessment#:#tst_starting_time#:#Tiempo de Comienzo
@@ -840,7 +840,7 @@ assessment#:#tst_stat_result_mark_median#:#Mediana de calificación
 assessment#:#tst_stat_result_median#:#Mediana del resultado del test en puntos
 assessment#:#tst_stat_result_pworkedthrough#:#Porcentaje de la carga total de trabajo ya llevada a cabo
 assessment#:#tst_stat_result_qworkedthrough#:#Preguntas ya llevadas a cabo
-assessment#:#tst_stat_result_qmax#:#Total number of Questions
+assessment#:#tst_stat_result_qmax#:#Número total de preguntas
 assessment#:#tst_stat_result_rank_median#:#-Ranking de mediana
 assessment#:#tst_stat_result_rank_participant#:#Ranking de participantes
 assessment#:#tst_stat_result_resultsmarks#:#Resultados del Test en notas
@@ -896,7 +896,7 @@ assessment#:#width#:#Anchura
 assessment#:#with_order#:#con orden
 assessment#:#worked_through#:#Contestada
 assessment#:#working_time#:#Tiempo de Trabajo
-assessment#:#working_time_avg#:#Avg. Working Time
+assessment#:#working_time_avg#:#Tiempo medio de trabajo
 assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles
 barometer#:#anonymous#:#Anónimo
 barometer#:#barometer_title#:#Feedback
@@ -905,7 +905,7 @@ barometer#:#change_course#:#Cambiar curso
 barometer#:#chart_type#:#Tipo de cuadro
 barometer#:#chart_users#:#Cuadro de usuarios
 barometer#:#chart_votes#:#Cuadro de votos
-barometer#:#bar_create#:#Create New Feedback
+barometer#:#bar_create#:#Crear nuevo Feedback
 barometer#:#day#:#Día
 barometer#:#days#:#Días
 barometer#:#delete#:#Eliminar
@@ -917,7 +917,7 @@ barometer#:#feedb_edit_feedback#:#Editar feedback
 barometer#:#feedb_feedback_list#:#Lista de feedbacks
 barometer#:#feedb_feedback_settings#:#Configuración de feedback
 barometer#:#feedb_time#:#Fecha
-barometer#:#first_vote#:#1. Voto es el
+barometer#:#first_vote#:#1º voto es el
 barometer#:#from#:#Desde
 barometer#:#hours#:#Horas
 barometer#:#lines#:#Líneas
@@ -1153,7 +1153,7 @@ common#:#actions#:#acciones
 common#:#activate_assessment_logging#:#Activar informes de LOG de la herramienta de Tests
 common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)
 common#:#activate_tracking#:#Activación
-common#:#activation#:#Editar períodos
+common#:#activation#:#disponibilidad
 common#:#active#:#Activo
 common#:#active_roles#:#Roles activos
 common#:#add#:#añadir
@@ -1250,11 +1250,11 @@ common#:#arrow_downright#:#Flecha de arriba a abajo a la derecha
 common#:#articels_unread#:#Mensajes no leídos:
 common#:#as_of#:#as of
 common#:#ascending_order#:#Orden ascendente
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
-common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
-common#:#assessment_log_manual_scoring#:#Manual Scoring
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
+common#:#assessment_log_deleted#:#Los datos de registro de Test & Evaluaciones han sido eliminados desde la administración
+common#:#assessment_log_logging#:#Registro
+common#:#assessment_log_manual_scoring_activate#:#Activar puntuación manual para
+common#:#assessment_log_manual_scoring#:#Puntuación Manual
+common#:#assessment_log_manual_scoring_desc#:#Si se activa la Puntuación Manual para un tipo de pregunta, todas las preguntas de este tipo podrían ser puntuadas manualmente por un autor. Por favor, sea consciente de esta configuración, porque puntuar manualmente preguntas que son puntuadas de forma automática podría causar incluso problemas de tipo legal.
 common#:#assessment_log#:#Crear un informe de la herramienta Test para un período específico
 common#:#assessment_log_datetime#:#Fecha/hora
 common#:#assessment_log_for_test#:#Para el test
@@ -1268,14 +1268,14 @@ common#:#assessment_log_user_answer#:#El usuario respondió una pregunta
 common#:#assessment_log_user_answers#:#Mostrar acciones de usuario
 common#:#assessment_settings#:#Configuración de la herramienta de Test
 common#:#assessment_settings_reporting_language#:#Idioma del informe
-common#:#ass_log_output#:#Log Data Output
-common#:#ass_log_admin#:#Log Data Administration
-common#:#ass_log_count_datasets#:#Log Entries
-common#:#ass_log_path#:#Test Location
-common#:#ass_log_available_tests#:#Available Tests
-common#:#ass_log_delete_entries#:#Delete Log Entries
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
+common#:#ass_log_output#:#Presentación de datos de Log
+common#:#ass_log_admin#:#Administración de datos de Log
+common#:#ass_log_count_datasets#:#Entradas de Log
+common#:#ass_log_path#:#Localización del Test
+common#:#ass_log_available_tests#:#Test disponibles
+common#:#ass_log_delete_entries#:#Eliminar entradas de Log
+common#:#ass_log_deleted#:#Los datos de log para los tests seleccionados han sido eliminados
+common#:#ass_log_delete_no_selection#:#Por favor seleccione al menos un test para eliminar los datos de Log
 common#:#assf_edit_permission#:#Modificar configuración de permisos
 common#:#assf_read#:#Acceso a la administración de Tests
 common#:#assf_visible#:#La administración de Test es visible
@@ -2774,10 +2774,10 @@ news#:#news_visibility_public#:#Público
 news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Suscribir
 news#:#news_unsubscribe#:#Dar de baja
-news#:#news_internal_news#:#Novedades
-news#:#news_get_feed_url#:#Obtener Feed URL
+news#:#news_internal_news#:#Noticias Internas
+news#:#news_get_feed_url#:#obtener Feed URL
 news#:#news_get_feed_title#:#Feed URL Personal
-news#:#news_get_feed_info#:#Esta es tu URL personal de feed de Noticias. El feed incluye sólo noticias que han sido declaradas como públicas por el autor. El feed no está protegido por ningún procedimiento de autenticación. Por favor no comparta esta URL con otras personas.
+news#:#news_get_feed_info#:#Esta es tu URL personal de feed de noticias. El feed incluye sólo noticias que han sido declaradas como públicas por el autor. El feed no está protegido por ningún procedimiento de autenticación. Por favor no comparta esta URL con otras personas.
 news#:#news_feed_url#:#Feed URL
 feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_open_source_page#:#Ir a la fuente de Noticias Externas
@@ -3090,7 +3090,7 @@ common#:#preconditions#:#Precondiciones
 common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#presentation_options#:#opciones de presentación
 common#:#previous#:#anterior
-common#:#print#:#imprimir
+common#:#print#:#Imprimir
 common#:#print_view#:#Vista de Impresión
 common#:#private_notes#:#Notas privadas
 common#:#pro#:#A favor
@@ -3353,7 +3353,7 @@ common#:#shib_invalid_home_organization#:#Por favor escoja una organización vá
 common#:#shib_language#:#Atributo para lenguaje
 common#:#shib_lastname#:#Atributo para apellido
 common#:#shib_login#:#Atributo Shibboleth único
-common#:#shib_login_button#:#Ruta de la imagen 'botón de login Shibboleth' que se usará para redirigir los usuariosto al WAYF especificado en la configuración Shibboleth
+common#:#shib_login_button#:#Ruta de la imagen 'Botón de login Shibboleth' que se usará para redirigir los usuariosto al WAYF especificado en la configuración Shibboleth
 common#:#shib_login_external_wayf#:#Usar servicio WAYF externo
 common#:#shib_login_internal_wayf#:#Usar servicio WAYF ILIAS
 common#:#shib_login_type#:#Selección de organización
@@ -6350,37 +6350,37 @@ survey#:#lower_limit#:#Límite inferior
 survey#:#maintenance#:#Mantenimiento
 survey#:#manage_phrases#:#Gestionar conjuntos
 survey#:#material#:#Material
-survey#:#material_added_successfully#:#You successfully set a material link!
+survey#:#material_added_successfully#:#Ha añadido con éxito un enlace a material
 survey#:#material_file#:#archivo de material
-survey#:#matrix_error_no_columns#:#Please fill in at least one column text!
-survey#:#matrix_error_no_rows#:#Please fill in at least one row text!
-survey#:#matrix_appearance#:#Appearance
-survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete it!
-survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!
-survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!
-survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!
-survey#:#matrix_row_separators#:#Row Separators
-survey#:#matrix_column_separators#:#Column Separators
-survey#:#matrix_neutral_column_separator#:#Neutral Column Separator
-survey#:#matrix_neutral_column_separator_description#:#Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question
-survey#:#matrix_row_separators_description#:#Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question
-survey#:#matrix_column_separators_description#:#Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question
-survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives
-survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
-survey#:#matrix_column_settings#:#Matrix Column Settings
-survey#:#matrix_subtype_sr#:#Option Buttons (Single Response)
-survey#:#matrix_subtype_mr#:#Check Boxes (Multiple Response)
-survey#:#matrix_subtype_text#:#Text
-survey#:#matrix_subtype_integer#:#Integer
-survey#:#matrix_subtype_double#:#Floating Point
-survey#:#matrix_subtype_date#:#Date
-survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)
-survey#:#matrix_standard_answers#:#Column Text
-survey#:#matrix_rows#:#Matrix Rows
-survey#:#matrix_columns#:#Matrix Columns
-survey#:#matrix_subtype_time#:#Time
-survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.
-survey#:#matrix_columns_rows#:#Column/Row Editor
+survey#:#matrix_error_no_columns#:#¡Por favor rellene al menos el texto de una columna!
+survey#:#matrix_error_no_rows#:#¡Por favor rellene al menos el texto de una fila!
+survey#:#matrix_appearance#:#Apariencia
+survey#:#matrix_row_delete_select_none#:#Por favor marque al menos una fila para eliminar
+survey#:#matrix_column_delete_select_none#:#Por favor marque al menos una columna para eliminar
+survey#:#matrix_question_radio_button_not_checked#:#Por favor seleccione una opción para cada fila
+survey#:#matrix_question_checkbox_not_checked#:#Por favor marque al menos una casilla en cada fila
+survey#:#matrix_row_separators#:#Separadores de fila
+survey#:#matrix_column_separators#:#Separadores de columna
+survey#:#matrix_neutral_column_separator#:#Separador de Columna Neutral
+survey#:#matrix_neutral_column_separator_description#:#Seleccionar la casilla si quiere tener un separador (línea gruesa) entrea la columna neutral y otras columnas en la salida de la Pregunta de Matriz
+survey#:#matrix_row_separators_description#:#Seleccione la casilla si quiere tener separadores (líneas delgadas) entre las filas en la salida de la Pregunta de Matriz
+survey#:#matrix_column_separators_description#:#Seleccione la casilla si quiere tener separadores (líneas delgadas) entre las columnas en la salida de Pregunta de Matriz
+survey#:#matrix_bipolar_adjectives#:#Adjetivos bipolares
+survey#:#matrix_bipolar_adjectives_description#:#Puede usar un par de adjetivos bipolares para escalar las respuestas de la columna a palabras, frases cortas o textos
+survey#:#matrix_column_settings#:#Configuración de Columna de la Matriz
+survey#:#matrix_subtype_sr#:#Botones de Opción (Respuesta única)
+survey#:#matrix_subtype_mr#:#Casillas (Respuesta múltiple)
+survey#:#matrix_subtype_text#:#Texto
+survey#:#matrix_subtype_integer#:#Entero
+survey#:#matrix_subtype_double#:#Punto Flotante
+survey#:#matrix_subtype_date#:#Fecha
+survey#:#matrix_neutral_answer#:#Texto para una Columna Neutral ("No Especificado" "No sabe/No contesta" etc.)
+survey#:#matrix_standard_answers#:#Texto de Columna
+survey#:#matrix_rows#:#Filas de la Matriz
+survey#:#matrix_columns#:#Columnas de la Matriz
+survey#:#matrix_subtype_time#:#Tiempo
+survey#:#matrix_subtype_description#:#Por favor seleccione uno de los subtipos de arriba para definir el comportamiento de los campos respuesta.
+survey#:#matrix_columns_rows#:#Editor Columna/Fila
 survey#:#maxchars#:#Máximo número de caracteres
 survey#:#maximum#:#Valor Máximo
 survey#:#median#:#Mediana
@@ -6391,9 +6391,9 @@ survey#:#message_mail_survey_id#:#Ha comenzado la encuesta anónima &quot;%s&quo
 survey#:#metric_question_floating_point#:#El valor introducido es un número real en coma flotante. ¡Los números reales en coma flotante no están permitidos para este tipo de pregunta!
 survey#:#metric_question_not_a_value#:#¡El valor introducido no es un valor numérico!
 survey#:#metric_question_out_of_bounds#:#¡El valor introducido no está entre el valor mínimo y máximo!
-survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.
-survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.
-survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.
+survey#:#metric_subtype_description_interval#:#Los intervalos equivalentes entre medidas permiten una comparación significativa entre parejas arbitrarias de medidas. El punto cero en la escala es arbitrario, por tanto se pueden usar valores negativos. Ejemplos de valores de intervalo son el año en muchos calendarios o la temperatura en la escala Celsius.
+survey#:#metric_subtype_description_rationonabsolute#:#Además de la medida de intervalos, hay también ratios significativos entre parejas arbitrarias de números. El valor cero en una escala de porcentaje no es arbitraria. La mayoría de cantidades físicas, tales como la longitud en centímetros o la duración en segundos son medidas en escalas de proporción.
+survey#:#metric_subtype_description_ratioabsolute#:#La medida absoluta de proporción usa números naturales además del punto cero no arbitrario, por ejemplo el número de hijos en una familia o probabilidad.
 survey#:#minimum#:#Valor mínimo
 survey#:#missing_upper_or_lower_limit#:#¡Por favor introduzca un límite inferior y superior!
 survey#:#mode#:#Valor más seleccionado (Moda)
@@ -6401,7 +6401,7 @@ survey#:#mode_nr_of_selections#:#Número de selecciones
 survey#:#mode_text#:#Valor más seleccionado (Texto)
 survey#:#multiple_choice_multiple_response#:#Elección Múltiple (respuesta multiple)
 survey#:#multiple_choice_single_response#:#Elección Multiple (respuesta única)
-survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.
+survey#:#multiple_choice_subtype_description#:#Escoja Opción Múltiple (Respuesta única) si quiere que los participantes seleccionen sĺo una respuesta y Opción Múltiple (Múltiple respuesta) si quiere que los participantes seleccionen una o más respuestas.
 survey#:#new_survey_codes#:#nuevo(s) código(s) de acceso a encuesta
 survey#:#next_question_rows#:#Preguntas %d - %d de %d >>
 survey#:#no_available_constraints#:#No hay restricciones definidas!
@@ -6425,11 +6425,11 @@ survey#:#off#:#off
 survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#online#:#online
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online
+survey#:#online_description#:#Una encuesta puede ser comenzada por usuarios ILIAS, si está online
 survey#:#or#:#o
 survey#:#ordinal_question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
 survey#:#orientation#:#Orientación
-survey#:#outro#:#Final statement
+survey#:#outro#:#Último comentario
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
 survey#:#percentage_of_offered_answers#:#Porcentaje de respuestas ofrecidas
 survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
@@ -6502,9 +6502,9 @@ survey#:#select_target_position_for_move_question#:#Por favor seleccione una pos
 survey#:#select_value#:#Seleccione un valor
 survey#:#selection#:#Selección
 survey#:#set_filter#:#Activar filtro
-survey#:#show_questiontext#:#Display the Question Text
-survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. 
-survey#:#skipped#:#skipped
+survey#:#show_questiontext#:#Mostrar el texto de la pregunta
+survey#:#show_questiontext_description#:#Si se selecciona esta casilla, para cada pregunta en el bloque de preguntas, se mostrará el texto de la pregunta. Si esta casilla no se selecciona, el texto de pregunta de cada pregunta en el bloque de preguntas será oculto.
+survey#:#skipped#:#pasado
 survey#:#spl_general_properties#:#Propiedades generales
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Si el banco de preguntas no está online, no puede ser usado en los tests.
@@ -6521,7 +6521,7 @@ survey#:#survey_code_url#:#URL para acceso directo
 survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copiar la URL)
 survey#:#survey_code_used#:#Código fue usado
 survey#:#survey_codes_lang#:#Idioma de la encuesta
-survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
+survey#:#survey_codes_no_anonymization#:#Debe crear una encuesta anónima con códigos de acceso para crear nuevos códigos de acceso
 survey#:#survey_error_insert_incomplete_question#:#¡Intentó añadir una pregunta incompleta a la encuesta!. La pregunta no ha sido añadida.
 survey#:#survey_finish#:#Finalizar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
@@ -6805,44 +6805,44 @@ trac#:#view_mode#:#Modo de vista
 trac#:#vm_access_of_users#:#Acceso de usuarios
 trac#:#vm_days_of_period#:#Días del período
 trac#:#vm_times_of_day#:#Horas de los días
-common#:#adopt_perm_from_template#:#Copy Permission Settings
-crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:
-grp#:#crs_add_grouping#:#Add Membership Limitation
-grp#:#crs_grp_enter_title#:#Please fill out all required fields.
-grp#:#crs_grp_added_grouping#:#Added new membership limitation.
-grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?
-grp#:#crs_grouping_deleted#:#Deleted membership limitation.
-crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-common#:#edit_grouping#:#Edit Membership Limitation
-crs#:#grouping_change_assignment#:#Change Assignment
-common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.
-grp#:#crs_grp_table_assigned_courses#:#Assigned Groups
-grp#:#grouping_change_assignment#:#Change Assignment
-grp#:#crs_grp_assign_crs#:#Assignment of Groups
-grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned
-grp#:#crs_grouping_select_one#:#Please select one membership limitation.
-grp#:#crs_grp_info_reg#:#You can only register to one of this courses:
-trac#:#trac_anonymized_info_short#:#(Anonymized)
+common#:#adopt_perm_from_template#:#Configuración de Permisos de Copia
+crs#:#crs_mail_permanent_link#:#Escoga el siguiente enlace para acceder al contenido del curso:
+grp#:#crs_add_grouping#:#Añadir Limitación de Pertenencia
+grp#:#crs_grp_enter_title#:#Por favor rellene todos los campos requeridos.
+grp#:#crs_grp_added_grouping#:#Añadida nueva limitación de pertenecia
+grp#:#crs_grouping_delete_sure#:#¿Está seguro de que quiere eliminar esta limitación de pertenencia?
+grp#:#crs_grouping_deleted#:#Limitación de pertenencia eliminada
+crs#:#crs_grp_added_grouping#:#Añadida nueva limitación de pertenencia.
+common#:#edit_grouping#:#Editar Limitación de Pertenencia
+crs#:#grouping_change_assignment#:#Modificar asignación
+common#:#grouping_select_exactly_one#:#Por favor escoja exactamente una limitación de pertenencia.
+grp#:#crs_grp_table_assigned_courses#:#Grupos asignados
+grp#:#grouping_change_assignment#:#Modificar asignación
+grp#:#crs_grp_assign_crs#:#Asignación de grupos
+grp#:#crs_grp_no_courses_assigned#:#No hay grupos asignados
+grp#:#crs_grouping_select_one#:#Por favor seleccione una limitación de pertenencia.
+grp#:#crs_grp_info_reg#:#Sólo puede registrarse en uno de estos cursos:
+trac#:#trac_anonymized_info_short#:#(Anónimo)
 barometer#:#barometer_add#:#Añadir nuevo feedback
-chat#:#chat_server_ssl_settings#:#SSL Settings
-chat#:#chat_server_ssl_port#:#Server SSL Port
-chat#:#chat_server_ssl_active#:#SSL active
-chat#:#chat_add_ssl_port#:#Please add the server SSL port
-exercise#:#exc_crs_add_members#:#Add students of this course
-common#:#mail_settings#:#Mail Settings
-common#:#my_courses#:#My Courses
-mail#:#mail_list_members#:#List members
-mail#:#mail_members_added_addressbook#:#Members added to addressbook
-mail#:#mail_in_addressbook#:#Already in addressbook
-ldap#:#ldap_server_name#:#Name of LDAP Configuration
+chat#:#chat_server_ssl_settings#:#Configuración SSL
+chat#:#chat_server_ssl_port#:#Puerto SSL del servidor
+chat#:#chat_server_ssl_active#:#SSL activo
+chat#:#chat_add_ssl_port#:#Por favor añada el puerto SSL del servidor
+exercise#:#exc_crs_add_members#:#Añadir estudiantes de este curso
+common#:#mail_settings#:#Configuración de Correo
+common#:#my_courses#:#Mis Cursos
+mail#:#mail_list_members#:#Listar miembros
+mail#:#mail_members_added_addressbook#:#Miembros añadidos a la agenda
+mail#:#mail_in_addressbook#:#Ya en la agenda
+ldap#:#ldap_server_name#:#Nombre de Configuración LDAP
 ldap#:#ldap_referrals#:#Referrals
-ldap#:#ldap_server_security_settings#:#Security Settings
+ldap#:#ldap_server_security_settings#:#Configuración de Seguridad
 ldap#:#ldap_server_binding#:#Binding
-ldap#:#ldap_bind_anonymous#:#Bind Anonymously
-ldap#:#ldap_bind_user#:#Bind as User:
+ldap#:#ldap_bind_anonymous#:#Bind Anónimamente
+ldap#:#ldap_bind_user#:#Bind como Usuario:
 ldap#:#ldap_server_bind_dn#:#User DN
 ldap#:#ldap_server_bind_pass#:#Password
-ldap#:#ldap_authentication_settings#:#Authentication Settings
+ldap#:#ldap_authentication_settings#:#Configuración de Autenticación
 ldap#:#ldap_user_dn#:#User DN
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_attribute#:#Attribute for Login Name
@@ -6852,20 +6852,20 @@ ldap#:#ldap_group_dn#:#Group DN
 ldap#:#ldap_group_scope#:#Search Scope
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_name#:#Group Name
-ldap#:#ldap_group_attribute#:#Attribute for Group
+ldap#:#ldap_group_attribute#:#Atributo para Grupos for Group
 ldap#:#ldap_memberisdn#:#Attribute Value is DN
 ldap#:#ldap_user_sync#:#User Synchronization Settings
-ldap#:#ldap_moment_sync#:#Type of Sychronization
+ldap#:#ldap_moment_sync#:#Tipo de Sincronización
 ldap#:#ldap_sync_login#:#On Login
 ldap#:#ldap_sync_cron#:#Per Cron-Job
-ldap#:#ldap_global_role_assignment#:#ILIAS-Role Assignment
+ldap#:#ldap_global_role_assignment#:#Asignación de Rol ILIAS
 ldap#:#ldap_group_member#:#Group Member Attribute
 ldap#:#ldap_scope_one#:#One
 ldap#:#ldap_scope_sub#:#Sub
 ldap#:#ldap_scope_base#:#Base
-ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"
-ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.
+ldap#:#ldap_server_name_info#:#Por favor escoja un nombre para esta configuración LDAP.
+ldap#:#ldap_server_url_info#:#Una URL completamente cualificada para especificar el protocolo, url y puerto para conectar. E.g "ldap://ldap.ilias.de:389"
+ldap#:#ldap_server_version_info#:#versión LDAP a usar, normalmente 3.
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.
 ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.
 ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".
@@ -6883,36 +6883,36 @@ ldap#:#ldap_user_mapping#:#User Profile Mapping
 ldap#:#ldap_role_mapping#:#LDAP-Group -> Role Mapping
 ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile
 ldap#:#ldap_mapping_template#:#Template for objectClass:
-ldap#:#ldap_update_field_info#:#Update automatically
+ldap#:#ldap_update_field_info#:#Actualizar automáticamente
 ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings
-ldap#:#ldap_role_active#:#Enable Group Synchronization
+ldap#:#ldap_role_active#:#Habilitar Sincronización de Grupos
 ldap#:#ldap_role_bind_user#:#Usern DN
 ldap#:#ldap_role_bind_pass#:#Password
 ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.
 ldap#:#ldap_role_bind_pass_info#:#Password
-ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment
-ldap#:#ldap_ilias_role#:#ILIAS Role
+ldap#:#ldap_new_role_assignment#:#Añadir Nuevo Rol -> Asignación de Grupo
+ldap#:#ldap_ilias_role#:#Rol ILIAS
 ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.
 ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
-common#:#auth_selection#:#Login to
-common#:#authenticate_ilias#:#Login to ILIAS
-common#:#authenticate_with#:#Login to:
+common#:#auth_selection#:#Entrar a
+common#:#authenticate_ilias#:#Entrar a ILIAS
+common#:#authenticate_with#:#Entrar a:
 ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.
-ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.
-ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version "3" or disable TLS support.
-ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments
-common#:#select_one#:#Please select one.
-ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.
-ldap#:#ldap_role_not_exists#:#A role with that name does not exist
-common#:#obj_ps#:#Privacy and Security
-common#:#obj_ps_desc#:#Configure global privacy and security settings here.
-ps#:#show_privacy#:#Privacy
-common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_visible#:#Privacy/Security Settings are Visible
-common#:#ps_read#:#Read Access to Privacy/Security Settings
-common#:#ps_write#:#Edit Privacy/Security
-common#:#ps_export_member_data#:#User may Export Member Data
+ldap#:#ldap_missing_role_assignment#:#Por favor escoja un rol global al que los nuevos usuarios serán asignados.
+ldap#:#ldap_tls_conflict#:#LDAP-TLS no puede ser usado en combinación con LDAPv2. Por favor escoja LDAP version "3" o deshabilitar soporte TLS.
+ldap#:#ldap_role_group_assignments#:#Rol existente -> Asignación de Grupos
+common#:#select_one#:#Por favor seleccione uno.
+ldap#:#ldap_deleted_role_mapping#:#Asignación eliminada.
+ldap#:#ldap_role_not_exists#:#Un rol con ese nombre no existe
+common#:#obj_ps#:#Privacidad y Seguridad
+common#:#obj_ps_desc#:#Configurar privacidad global y configuración de seguridad aquí.
+ps#:#show_privacy#:#Privacidad
+common#:#ps_edit_permission#:#Modificar Configuración de Permisos
+common#:#ps_visible#:#Configuración de Privacidad/Seguridad es Visible
+common#:#ps_read#:#Acceso de Lectura a Configuración de Privacidad/Seguridad
+common#:#ps_write#:#Editar Privacidad/Seguridad
+common#:#ps_export_member_data#:#El usuario puede Exportar Datos de Miembros
 crs#:#crs_subscriber#:#Suscriptor
 ps#:#ps_export_files#:#Ficheros de Exportación
 ps#:#ps_size#:#Tamaño de Ficheros
