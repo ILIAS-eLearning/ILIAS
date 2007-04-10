@@ -2600,7 +2600,7 @@ common#:#login#:#Login
 common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this login name! Please choose another one.
-common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~
+common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 3 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service

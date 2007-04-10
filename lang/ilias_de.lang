@@ -2360,7 +2360,7 @@ common#:#login#:#Benutzername
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Benutzerdaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
-common#:#login_invalid#:#Der gewählte Benutzername ist nicht erlaubt! Ihr Benutzername muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
+common#:#login_invalid#:#Der gewählte Benutzername ist nicht erlaubt! Ihr Benutzername muss mindestens drei Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
