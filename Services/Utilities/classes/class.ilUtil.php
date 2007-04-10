@@ -1007,7 +1007,7 @@ class ilUtil
 			return false;
 		}
 
-		if (strlen($a_login) < 4)
+		if (strlen($a_login) < 3)
 		{
 			return false;
 		}
