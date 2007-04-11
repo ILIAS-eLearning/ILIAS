@@ -92,8 +92,6 @@ class ilRegisterGUI
 
 		global $rbacsystem, $ilias, $lng;
 		
-		$owner = new ilObjUser($this->object->getOwner());
-
 		switch ($this->object->getRegistrationFlag())
 		{
 			case 0:
