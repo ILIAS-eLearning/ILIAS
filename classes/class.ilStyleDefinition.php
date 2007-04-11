@@ -132,7 +132,7 @@ class ilStyleDefinition extends ilSaxParser
 		}
 		else
 		{
-			return false;
+			return $skins;
 		}
 
 		return $skins;
