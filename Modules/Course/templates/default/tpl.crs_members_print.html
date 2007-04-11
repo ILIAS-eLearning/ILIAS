@@ -15,7 +15,7 @@
 	  </style>
 	<p><b>{HEADLINE}</p></b>
 	<!-- BEGIN members -->
-	<table class="std" width="50%">
+	<table class="std" width="100%">
 	  <tr class="tbltitle">
 		<td colspan="6">
 		  <table class="fullwidth_invisible" cellspacing="0">
@@ -27,18 +27,16 @@
 		</td>
 	  </tr>
 	  <tr class="tblheader">
+		<td class="std">{TXT_NAME}</td>
 		<td class="std">{TXT_LOGIN}</td>
-		<td class="std">{TXT_FIRSTNAME}</td>
-		<td class="std">{TXT_LASTNAME}</td>
 		<td class="std">{TXT_ROLE}</td>
 		<td class="std">{TXT_STATUS}</td>
 		<td class="std">{TXT_PASSED}</td>
 	  </tr>
 	  <!-- BEGIN members_row -->
 	  <tr class="std">
+		<td class="option_value">{NAME}</td>
 		<td class="option_value">{LOGIN}</td>
-		<td class="option_value">{FIRSTNAME}</td>
-		<td class="option_value">{LASTNAME}</td>
 		<td class="option_value">{ROLE}</td>
 		<td class="option_value">{STATUS}</td>
 		<td class="option_value">{PASSED}</td>
@@ -51,7 +49,7 @@
 	<!-- BEGIN subscribers -->
 	<table class="std" width="50%">
 	  <tr class="tbltitle">
-		<td colspan="4">
+		<td colspan="3">
 		  <table class="fullwidth_invisible" cellspacing="0">
 			<tr class="tbltitle">
 			  <td width="10"><img src="{SUBSCRIBERS_IMG_SOURCE}" alt="{SUBSCRIBERS_IMG_ALT}" border="0" /></td>
@@ -61,16 +59,14 @@
 		</td>
 	  </tr>
 	  <tr class="tblheader">
+		<td class="std">{TXT_SNAME}</td>
 		<td class="std">{TXT_SLOGIN}</td>
-		<td class="std">{TXT_SFIRSTNAME}</td>
-		<td class="std">{TXT_SLASTNAME}</td>
 		<td class="std">{TXT_STIME}</td>
 	  </tr>
 	  <!-- BEGIN subscribers_row -->
 	  <tr class="std">
+		<td class="option_value">{SNAME}</td>
 		<td class="option_value">{SLOGIN}</td>
-		<td class="option_value">{SFIRSTNAME}</td>
-		<td class="option_value">{SLASTNAME}</td>
 		<td class="option_value">{STIME}</td>
 	  </tr>
 	  <!-- END subscribers_row -->
