@@ -589,6 +589,9 @@ class ilCourseObjectivesGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_add_objective.html",'Modules/Course');
+		
+		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
+		$this->tpl->setVariable('TBL_TITLE_IMG_ALT',$this->lng->txt('crs_objectives'));
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('crs_add_objective'));
