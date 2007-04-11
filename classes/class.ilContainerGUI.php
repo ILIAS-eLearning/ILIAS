@@ -1889,6 +1889,15 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 				$this->tpl->setVariable('TXT_NO_CONTENT',$this->lng->txt('container_no_items'));
 				$this->tpl->parseCurrentBlock();
 			}
+			else
+			{
+				$this->tpl->setCurrentBlock('tree_footer');
+				$this->tpl->setVariable('TXT_COPY_ALL',$this->lng->txt('copy_all'));
+				$this->tpl->setVariable('TXT_LINK_ALL',$this->lng->txt('link_all'));
+				$this->tpl->setVariable('TXT_OMIT_ALL',$this->lng->txt('omit_all'));
+				$this->tpl->parseCurrentBlock();
+				
+			}
 		}
 		else
 		{
