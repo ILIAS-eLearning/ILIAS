@@ -41,6 +41,30 @@
 			</td>
 		</tr>
 		<!-- END tree_row -->
+		<!-- BEGIN tree_footer -->
+		<tr class="std">
+			<td class="option_value">
+				&nbsp;
+			</td>
+			<td class="option_value">
+				<input type="radio" name="select_all" value="1" id="copy_all" 
+					onClick="ilCheckByAction('cmd','copy','document.cmd.copy_all.checked');ilDisableChilds('cmd');" /> 
+				<strong><label for="copy_all">{TXT_COPY_ALL}</label></strong>
+			</td>
+			<td class="option_value">
+				<input type="radio" name="select_all" value="1" id="link_all" 
+					onClick="ilCheckByAction('cmd','link','document.cmd.link_all.checked');ilDisableChilds('cmd');" /> 
+				<strong><label for="link_all">{TXT_LINK_ALL}</label></strong>
+				&nbsp;
+			</td>
+			<td class="option_value">
+				<input type="radio" name="select_all" value="1" id="omit_all" 
+					onClick="ilCheckByAction('cmd','omit','document.cmd.omit_all.checked');ilDisableChilds('cmd');" /> 
+				<strong><label for="omit_all">{TXT_OMIT_ALL}</label></strong>
+				&nbsp;
+			</td>
+		</tr>
+		<!-- END tree_footer -->
 		<!-- BEGIN no_content -->
 		<tr class="std">
 			<td class="option_value_center">{TXT_NO_CONTENT}</td>

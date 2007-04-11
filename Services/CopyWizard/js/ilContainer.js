@@ -16,6 +16,10 @@ function ilDisableChilds(the_form)
 		var e = document.forms[the_form].elements[i];
 		var id_info = e.id.split("_");
 
+		if(e.name == "select_all")
+		{
+			continue;
+		}
 
 		var depth = id_info[0];
 		var type = id_info[1];
@@ -45,4 +49,18 @@ function ilDisableChilds(the_form)
 		}	
 	}
   return true;
+}
+
+function ilCheckByAction(form,action,do_check)
+{
+	for (var i=0;i<document.forms[form].elements.length;i++)
+	{
+		var e = document.forms[form].elements[i];
+		var position = e.id.indexOf(action);
+		
+		if(position > 0)
+		{
+			e.checked = do_check;
+		}	
+	}
 }
