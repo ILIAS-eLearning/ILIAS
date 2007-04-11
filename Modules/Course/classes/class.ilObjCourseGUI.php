@@ -1406,6 +1406,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		include_once './Modules/Course/classes/class.ilCourseItems.php';
 		
+		$_SESSION['crs_print_sort'] = $_GET['sort_by'] ? $_GET['sort_by'] : 'lastname';
+		$_SESSION['crs_print_order'] = $_GET['sort_order'] ? $_GET['sort_order'] : 'asc';
+		
 		$this->lng->loadLanguageModule('trac');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
 
@@ -3141,6 +3144,117 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "");
 		}			
 	}
+	
+	function fetchPrintSubscriberData($a_members)
+	{
+		foreach($a_members as $member_id)
+		{
+			
+			$member_data = $this->object->members_obj->getSubscriberData($member_id);
+
+			if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+			{
+				$print_member[$member_id]['login'] = $tmp_obj->getLogin();
+				$print_member[$member_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
+				$print_member[$member_id]['time'] = ilFormat::formatUnixTime($member_data['time'],true);
+			}
+		}
+		switch($_SESSION['crs_print_sort'])
+		{
+			case 'lastname':
+				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order']);
+				
+			case 'login':
+				return ilUtil::sortArray($print_member,'login',$_SESSION['crs_print_order']);
+			
+			case 'sub_time':
+				return ilUtil::sortArray($print_member,'time',$_SESSION['crs_print_order']);
+			
+			default:
+				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order']);
+		}
+	}
+	
+	function fetchPrintMemberData($a_members)
+	{
+		global $ilAccess;
+
+		$is_admin = (bool) $ilAccess->checkAccess("write",'',$this->object->getRefId());
+		
+		foreach($a_members as $member_id)
+		{
+			$member_data = $this->object->members_obj->getUserData($member_id);
+	
+			// GET USER OBJ
+			if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+			{
+				$print_member[$member_id]['login'] = $tmp_obj->getLogin();
+				$print_member[$member_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
+
+				switch($member_data["role"])
+				{
+					case $this->object->members_obj->ROLE_ADMIN:
+						$print_member[$member_id]['role'] = $this->lng->txt("il_crs_admin");
+						break;
+	
+					case $this->object->members_obj->ROLE_TUTOR:
+						$print_member[$member_id]['role'] = $this->lng->txt("il_crs_tutor");
+						break;
+	
+					case $this->object->members_obj->ROLE_MEMBER:
+						$print_member[$member_id]['role'] = $this->lng->txt("il_crs_member");
+						break;
+				}
+				
+				switch($member_data["status"])
+				{
+					case $this->object->members_obj->STATUS_NOTIFY:
+						$print_member[$member_id]['status'] = $this->lng->txt("crs_notify");
+						break;
+	
+					case $this->object->members_obj->STATUS_NO_NOTIFY:
+						$print_member[$member_id]['status'] = $this->lng->txt("crs_no_notify");
+						break;
+	
+					case $this->object->members_obj->STATUS_BLOCKED:
+						$print_member[$member_id]['status'] = $this->lng->txt("crs_blocked");
+						break;
+	
+					case $this->object->members_obj->STATUS_UNBLOCKED:
+						$print_member[$member_id]['status'] = $this->lng->txt("crs_unblocked");
+						break;
+				}
+	
+				if($is_admin)
+				{
+					$print_member[$member_id]['passed'] = $member_data['passed'] ?
+									  $this->lng->txt('crs_member_passed') :
+									  $this->lng->txt('crs_member_not_passed');
+					
+				}
+			}
+		}
+		
+		switch($_SESSION['crs_print_sort'])
+		{
+			case 'lastname':
+				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order']);
+				
+			case 'login':
+				return ilUtil::sortArray($print_member,'login',$_SESSION['crs_print_order']);
+			
+			case 'passed':
+				return ilUtil::sortArray($print_member,'passed',$_SESSION['crs_print_order']);
+			
+			case 'blocked':
+			case 'notification':
+				return ilUtil::sortArray($print_member,'status',$_SESSION['crs_print_order']);
+			
+			default:
+				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order']);
+		}
+	}
+	
 
 	function printMembersObject()
 	{
@@ -3152,75 +3266,34 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->object->initCourseMemberObject();
 
-
 		// MEMBERS
 		if(count($members = $this->object->members_obj->getAssignedUsers()))
 		{
-			foreach($members as $member_id)
+			$members = $this->fetchPrintMemberData($members);
+			
+			foreach($members as $member_data)
 			{
-				$member_data = $this->object->members_obj->getUserData($member_id);
-
-				// GET USER OBJ
-				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+				$tpl->setCurrentBlock("members_row");
+				$tpl->setVariable("LOGIN",$member_data['login']);
+				$tpl->setVariable("NAME",$member_data['name']);
+				$tpl->setVariable("ROLE",$member_data['role']);
+				$tpl->setVariable("STATUS",$member_data['status']);
+				$tpl->setVariable("PASSED",$member_data['passed']);
+				
+				if($is_admin)
 				{
-					$tpl->setCurrentBlock("members_row");
-					$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
-					$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-					$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
-
-					switch($member_data["role"])
-					{
-						case $this->object->members_obj->ROLE_ADMIN:
-							$role = $this->lng->txt("il_crs_admin");
-							break;
-
-						case $this->object->members_obj->ROLE_TUTOR:
-							$role = $this->lng->txt("il_crs_tutor");
-							break;
-
-						case $this->object->members_obj->ROLE_MEMBER:
-							$role = $this->lng->txt("il_crs_member");
-							break;
-					}
-					$tpl->setVariable("ROLE",$role);
-					
-					switch($member_data["status"])
-					{
-						case $this->object->members_obj->STATUS_NOTIFY:
-							$status = $this->lng->txt("crs_notify");
-							break;
-
-						case $this->object->members_obj->STATUS_NO_NOTIFY:
-							$status = $this->lng->txt("crs_no_notify");
-							break;
-
-						case $this->object->members_obj->STATUS_BLOCKED:
-							$status = $this->lng->txt("crs_blocked");
-							break;
-
-						case $this->object->members_obj->STATUS_UNBLOCKED:
-							$status = $this->lng->txt("crs_unblocked");
-							break;
-					}
-
-					if($is_admin)
-					{
-						$tpl->setVariable("STATUS",$status);
-						$tpl->setVariable("PASSED",$member_data['passed'] ? 
-										  $this->lng->txt('crs_member_passed') :
-										  $this->lng->txt('crs_member_not_passed'));
-					}
-					$tpl->parseCurrentBlock();
+					$tpl->setVariable("STATUS",$member_data['status']);
+					$tpl->setVariable("PASSED",$member_data['passed']);
 				}
+				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("members");
 
-			$tpl->setVariable("MEMBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
+			$tpl->setCurrentBlock("members");
+			$tpl->setVariable("MEMBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr.gif'));
 			$tpl->setVariable("MEMBERS_IMG_ALT",$this->lng->txt('crs_header_members'));
-			$tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
+			$tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_table'));
 			$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
-			$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-			$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+			$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
 			$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
 
 			if($is_admin)
@@ -3235,31 +3308,23 @@ class ilObjCourseGUI extends ilContainerGUI
 		// SUBSCRIBERS
 		if(count($members = $this->object->members_obj->getSubscribers()))
 		{
-			foreach($members as $member_id)
+			$members = $this->fetchPrintSubscriberData($members);
+			foreach($members as $member_data)
 			{
-				$member_data = $this->object->members_obj->getSubscriberData($member_id);
-
-				// GET USER OBJ
-				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
-				{
-					$tpl->setCurrentBlock("members_row");
-					$tpl->setVariable("SLOGIN",$tmp_obj->getLogin());
-					$tpl->setVariable("SFIRSTNAME",$tmp_obj->getFirstname());
-					$tpl->setVariable("SLASTNAME",$tmp_obj->getLastname());
-					$tpl->setVariable("STIME",$member_data["time"]);
-					$tpl->parseCurrentBlock();
-				}
+				$tpl->setCurrentBlock("members_row");
+				$tpl->setVariable("SLOGIN",$member_data['login']);
+				$tpl->setVariable("SNAME",$member_data['name']);
+				$tpl->setVariable("STIME",$member_data["time"]);
+				$this->tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("members");
-
-			$tpl->setVariable("SUBSCRIBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
+			
+			$tpl->setCurrentBlock("subscribers");
+			$tpl->setVariable("SUBSCRIBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr.gif'));
 			$tpl->setVariable("SUBSCRIBERS_IMG_ALT",$this->lng->txt('crs_subscribers'));
 			$tpl->setVariable("SUBSCRIBERS_TABLE_HEADER",$this->lng->txt('crs_subscribers'));
 			$tpl->setVariable("TXT_SLOGIN",$this->lng->txt('username'));
-			$tpl->setVariable("TXT_SFIRSTNAME",$this->lng->txt('firstname'));
-			$tpl->setVariable("TXT_SLASTNAME",$this->lng->txt('lastname'));
+			$tpl->setVariable("TXT_SNAME",$this->lng->txt('name'));
 			$tpl->setVariable("TXT_STIME",$this->lng->txt('crs_time'));
-
 			$tpl->parseCurrentBlock();
 
 		}
