@@ -152,7 +152,7 @@ class ilObjGroup extends ilContainer
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB;
+		global $ilDB,$ilUser;
 
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$new_obj->setGroupStatus($this->readGroupStatus());
@@ -172,6 +172,8 @@ class ilObjGroup extends ilContainer
 		$new_obj->setPassword($this->getPassword());
 		$new_obj->updateExpiration($this->getExpiration());
 
+		// Assign user as admin
+		$new_obj->addMember($ilUser->getId(),$new_obj->getDefaultAdminRole());
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
