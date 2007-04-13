@@ -312,7 +312,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		if ($this->getCurrentDetailLevel() > 2)
 		{
 			$this->tpl->setCurrentBlock("long");
-			$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
+			//$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
 			$this->tpl->setVariable("VAL_CREATION_DATE",
 				ilFormat::formatDate($news["creation_date"], "datetime", true));
 			$this->tpl->parseCurrentBlock();
