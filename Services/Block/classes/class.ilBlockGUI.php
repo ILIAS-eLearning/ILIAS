@@ -237,6 +237,14 @@ abstract class ilBlockGUI
 	{
 		return $this->offset;
 	}
+	
+	function correctOffset()
+	{
+		if (!($this->offset < $this->max_count))
+		{
+			$this->setOffset(0);
+		}
+	}
 
 	/**
 	* Set Limit.
@@ -258,7 +266,7 @@ abstract class ilBlockGUI
 		return $this->limit;
 	}
 
-		/**
+	/**
 	* Set EnableEdit.
 	*
 	* @param	boolean	$a_enableedit	EnableEdit
@@ -849,6 +857,7 @@ abstract class ilBlockGUI
 			
 		$data = $this->getData();
 		$this->max_count = count($data);
+		$this->correctOffset();
 		$data = array_slice($data, $this->getOffset(), $this->getLimit());
 		
 		foreach($data as $record)
