@@ -579,11 +579,6 @@ components:
         make
         make install
 		
-    Newer PHP releases come with an integrated libgd which is activated by
-    using the --with-gd directive. If you are using a version of PHP < 4.3.0 or
-    want to build it with an external libgd you should specify the location of
-    the libgd on your system, e.g. by entering '--with-gd=/opt/ilias'.
-
     ILIAS 3 also requires additional PEAR library packages, which will not be
     installed by default when building the current PHP source distribution. At
     present, these packages are:
@@ -642,6 +637,12 @@ components:
       make sure that the pear library is within your include path of php.
       if you followed the installation instruction above, just add
       '.:/opt/ilias/lib/pear'.
+	  
+    - error_reporting
+	  
+      Some distributions output PHP notifications of error level "notice".
+      These messages are usually not crucial and must be supressed by setting:
+	  error_reporting  =  E_ALL & ~E_NOTICE & ~E_STRICT
 
 
 2.4 Installing ILIAS 3
