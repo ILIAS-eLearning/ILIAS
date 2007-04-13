@@ -2203,7 +2203,7 @@ common#:#guests#:#Guests
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#help#:#Help
-common#:#hide#:#hide
+common#:#hide#:#Hide
 common#:#hide_details#:#Hide Details
 common#:#hide_private_notes#:#Hide private notes
 common#:#hide_public_notes#:#Hide public notes
@@ -2866,8 +2866,7 @@ news#:#news_enable_internal_news_info#:#Activates news blocks for categories, co
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News
 news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.
 news#:#news_first_letter_of_word_notification#:#N
-news#:#news_show_notifications#:#Show Notifications
-news#:#news_hide_notifications#:#Hide Notifications
+news#:#news_notifications#:#Notifications
 news#:#news_news_item_head#:#News Item
 news#:#news_news_item_title#:#Headline
 news#:#news_news_item_content#:#Text
