@@ -204,22 +204,26 @@ class ilNewsItem extends ilNewsItemGen
 		$nodes = $tree->getSubTree($cur_node, true);
 		
 		// get news for all subtree nodes
+		$contexts = array();
 		foreach($nodes as $node)
 		{
 			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $node["child"]))
 			{
 				continue;
 			}
-
-			$news = $this->getNewsForRefId($node["child"], $a_only_public, true);
-			foreach ($news as $k => $v)
-			{
-				$news[$k]["ref_id"] = $node["child"];
-			}
-			$data = ilNewsItem::mergeNews($data, $news);
+			$ref_id[$node["obj_id"]] = $node["child"];
+			$contexts[] = array("obj_id" => $node["obj_id"],
+				"obj_type" => $node["type"]);
 		}
 		
 		// sort and return
+		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public);
+		foreach ($news as $k => $v)
+		{
+			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
+		}
+		$data = ilNewsItem::mergeNews($data, $news);
+		
 		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
 		return $data;
 	}
@@ -242,20 +246,24 @@ class ilNewsItem extends ilNewsItemGen
 		$nodes = $tree->getChilds($a_ref_id);
 		
 		// get news for all subtree nodes
+		$contexts = array();
 		foreach($nodes as $node)
 		{
 			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $node["child"]))
 			{
 				continue;
 			}
-
-			$news = $this->getNewsForRefId($node["child"], $a_only_public, true);
-			foreach ($news as $k => $v)
-			{
-				$news[$k]["ref_id"] = $node["child"];
-			}
-			$data = ilNewsItem::mergeNews($data, $news);
+			$ref_id[$node["obj_id"]] = $node["child"];
+			$contexts[] = array("obj_id" => $node["obj_id"],
+				"obj_type" => $node["type"]);
 		}
+		
+		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public);
+		foreach ($news as $k => $v)
+		{
+			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
+		}
+		$data = ilNewsItem::mergeNews($data, $news);
 		
 		// sort and return
 		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
@@ -313,6 +321,58 @@ class ilNewsItem extends ilNewsItemGen
 		return $result;
 
 	}
+	
+	/**
+	* Query News for multiple Contexts
+	*
+	* @param	array	$a_contexts		array of array("obj_id", "obj_type")
+	*/
+	public function queryNewsForMultipleContexts($a_contexts, $a_for_rss_use = false)
+	{
+		global $ilDB, $ilUser;
+		
+		$ids = array();
+		$type = array();
+		foreach($a_contexts as $cont)
+		{
+			$ids[] = $cont["obj_id"];
+			$type[$cont["obj_id"]] = $cont["obj_type"];
+		}
+		
+		if ($a_for_rss_use)
+		{
+			$query = "SELECT * ".
+				"FROM il_news_item ".
+				" WHERE ".
+					"context_obj_id IN (".implode(",",ilUtil::quoteArray($ids)).") ".
+					" ORDER BY creation_date DESC ";
+		}
+		else
+		{
+			$query = "SELECT il_news_item.* ".
+				", il_news_read.user_id as user_read ".
+				"FROM il_news_item LEFT JOIN il_news_read ".
+				"ON il_news_item.id = il_news_read.news_id AND ".
+				" il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
+				" WHERE ".
+					"context_obj_id IN (".implode(",",ilUtil::quoteArray($ids)).") ".
+					" ORDER BY creation_date DESC ";
+		}
+
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($type[$rec["context_obj_id"]] == $rec["context_obj_type"])
+			{
+				$result[$rec["id"]] = $rec;
+			}
+		}
+
+		return $result;
+
+	}
+
 
 	/**
 	* Set item read.
