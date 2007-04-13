@@ -195,7 +195,9 @@ class ilSoapUtils extends ilSoapAdministration
 		// Fetch first node
 		if(($node = $cp_options->fetchFirstDependenciesNode()) === false)
 		{
+			$cp_options->deleteAll();
 			$ilLog->write(__METHOD__.': Finished copy step 2. Copy completed');
+			
 			return true;
 		}
 

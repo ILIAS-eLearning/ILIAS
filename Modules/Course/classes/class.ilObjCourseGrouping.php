@@ -335,10 +335,17 @@ class ilObjCourseGrouping
 				continue;
 			}
 			// check if items are assigned
-			if(count($tmp_grouping_obj->getAssignedItems()))
+			if(count($items = $tmp_grouping_obj->getAssignedItems()))
 			{
-				$visible_groupings[] = $grouping_id;
-				continue;
+				foreach($items as $condition_data)
+				{
+					if($ilAccess->checkAccess('write','',$condition_data['target_ref_id']))
+					{
+						$visible_groupings[] = $grouping_id;
+						break;
+					}
+				}
+				
 			}				
 		}
 		return $visible_groupings ? $visible_groupings : array();
