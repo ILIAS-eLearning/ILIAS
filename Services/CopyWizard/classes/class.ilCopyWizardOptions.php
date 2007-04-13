@@ -82,6 +82,24 @@ class ilCopyWizardOptions
 	}
 	
 	/**
+	 * check if copy is finished
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int copy id
+	 */
+	public static function _isFinished($a_copy_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM copy_wizard_options ".
+			" WHERE copy_id  = ".$ilDB->quote($a_copy_id)." ";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? false : true;
+	}
+	
+	/**
 	 * Allocate a copy for further entries
 	 *
 	 * @access public
