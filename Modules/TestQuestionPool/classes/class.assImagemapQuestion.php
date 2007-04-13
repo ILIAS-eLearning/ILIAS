@@ -1190,7 +1190,7 @@ class assImagemapQuestion extends assQuestion
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, image_file = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
 				$ilDB->quote($this->obj_id. ""),
 				$ilDB->quote($this->title . ""),
 				$ilDB->quote($this->comment . ""),
@@ -1198,7 +1198,6 @@ class assImagemapQuestion extends assQuestion
 				$ilDB->quote($this->question . ""),
 				$ilDB->quote($estw_time . ""),
 				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($this->image_filename . ""),
 				$ilDB->quote($complete . ""),
 				$ilDB->quote($this->original_id . "")
 			);
