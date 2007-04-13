@@ -614,21 +614,23 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		global $ilUser, $lng, $ilCtrl;
 		
 		$this->clearFooterLinks();
+		$this->addFooterLink("[".$lng->txt("news_first_letter_of_word_notification")."] ".
+			$lng->txt("news_notifications").": ", "", "", "", false, true);
 		if ($this->view == "hide_notifications")
 		{
-			$this->addFooterLink($lng->txt("news_show_notifications"),
+			$this->addFooterLink($lng->txt("show"),
 				$ilCtrl->getLinkTarget($this,
 					"showNotifications"),
 				$ilCtrl->getLinkTarget($this,
 					"showNotifications", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id
 				);
-			$this->addFooterLink($lng->txt("news_hide_notifications"));
+			$this->addFooterLink($lng->txt("hide"));
 		}
 		else
 		{
-			$this->addFooterLink($lng->txt("news_show_notifications"));
-			$this->addFooterLink($lng->txt("news_hide_notifications"),
+			$this->addFooterLink($lng->txt("show"));
+			$this->addFooterLink($lng->txt("hide"),
 				$ilCtrl->getLinkTarget($this,
 					"hideNotifications"),
 				$ilCtrl->getLinkTarget($this,

@@ -528,14 +528,15 @@ abstract class ilBlockGUI
 	* Add a footer text/link
 	*/
 	function addFooterLink($a_text, $a_href = "", $a_onclick = "", $a_block_id = "",
-		$a_top = false)
+		$a_top = false, $a_omit_separator = false)
 	{
 		$this->footer_links[] = array(
 			"text" => $a_text,
 			"href" => $a_href,
 			"onclick" => $a_onclick,
 			"block_id" => $a_block_id,
-			"top" => $a_top);
+			"top" => $a_top,
+			"omit_separator" => $a_omit_separator);
 	}
 
 	/**
@@ -1003,6 +1004,7 @@ abstract class ilBlockGUI
 		
 		$prefix = ($a_top) ? "top" : "foot";
 
+		$omit_separator = false;
 		foreach($flinks as $flink)
 		{
 			if ($flink["top"] != $a_top)
@@ -1010,7 +1012,7 @@ abstract class ilBlockGUI
 				continue;
 			}
 			
-			if (!$first)
+			if (!$first && !$omit_separator)
 			{
 				$this->tpl->touchBlock($prefix."_delim");
 				$this->tpl->touchBlock($prefix."_item");
@@ -1046,6 +1048,7 @@ abstract class ilBlockGUI
 				$this->tpl->touchBlock($prefix."_item");
 			}
 			$first = false;
+			$omit_separator = $flink["omit_separator"];
 		}
 
 		if ($a_numinfo != "")
