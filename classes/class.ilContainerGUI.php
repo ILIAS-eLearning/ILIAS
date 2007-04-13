@@ -1971,8 +1971,9 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		$soap_client->enableWSDL(true);
 		$soap_client->init();
 		$res = $soap_client->call('ilClone',array($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id));
-			
-		if(is_int($res))
+		
+		// Check if copy is in progress
+		if(ilCopyWizardOptions::_isFinished($copy_id))
 		{
 			ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
 			ilUtil::redirect('repository.php?ref_id='.$res);
