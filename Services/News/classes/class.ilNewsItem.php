@@ -134,18 +134,12 @@ class ilNewsItem extends ilNewsItemGen
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news = $news_item->getNewsForRefId($ref_id, $a_only_public);
 
-			/*$unset = array();			// should be done in getNewsForRefId
-			foreach ($news as $k => $v)
-			{
-				$news[$k]["ref_id"] = $ref_id;
-			}
-			foreach($unset as $un)
-			{
-				unset($news[$un]);
-			}*/
-			$data = array_merge($data, $news);
+			$data = ilNewsItem::mergeNews($data, $news);
 		}
-		$data = ilUtil::sortArray($data, "creation_date", "desc");
+
+		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+		
+//var_dump($data);
 		return $data;
 	}
 	
@@ -222,11 +216,11 @@ class ilNewsItem extends ilNewsItemGen
 			{
 				$news[$k]["ref_id"] = $node["child"];
 			}
-			$data = array_merge($data, $news);
+			$data = ilNewsItem::mergeNews($data, $news);
 		}
 		
 		// sort and return
-		$data = ilUtil::sortArray($data, "creation_date", "desc");
+		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
 		return $data;
 	}
 	
@@ -243,7 +237,7 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			$data[$k]["ref_id"] = $a_ref_id;
 		}
-		
+
 		// get childs
 		$nodes = $tree->getChilds($a_ref_id);
 		
@@ -260,11 +254,11 @@ class ilNewsItem extends ilNewsItemGen
 			{
 				$news[$k]["ref_id"] = $node["child"];
 			}
-			$data = array_merge($data, $news);
+			$data = ilNewsItem::mergeNews($data, $news);
 		}
 		
 		// sort and return
-		$data = ilUtil::sortArray($data, "creation_date", "desc");
+		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
 		return $data;
 	}
 
@@ -313,9 +307,9 @@ class ilNewsItem extends ilNewsItemGen
 		$result = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$result[] = $rec;
+			$result[$rec["id"]] = $rec;
 		}
-		
+
 		return $result;
 
 	}
@@ -330,6 +324,25 @@ class ilNewsItem extends ilNewsItemGen
 		$q = "REPLACE INTO il_news_read (user_id, news_id) VALUES (".
 			$ilDB->quote($a_user_id).",".$ilDB->quote($a_news_id).")";
 		$ilDB->query($q);
+	}
+	
+	
+	/**
+	* Merges two sets of news
+	*
+	* @param	array	$n1		Array of news
+	* @param	array	$n2		Array of news
+	*
+	* @return	array			Array of news
+	*/
+	function mergeNews($n1, $n2)
+	{
+		foreach($n2 as $id => $news)
+		{
+			$n1[$id] = $news;
+		}
+		
+		return $n1;
 	}
 }
 ?>

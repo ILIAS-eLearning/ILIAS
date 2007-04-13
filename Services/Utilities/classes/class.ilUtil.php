@@ -2390,7 +2390,8 @@ class ilUtil
 	*
 	* @return	array	sorted array
 	*/
-	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false)
+	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false,
+		$a_keep_keys = false)
 	{
 		global $array_sortby,$array_sortorder;
 
@@ -2406,11 +2407,25 @@ class ilUtil
 		}
 		if($a_numeric)
 		{
-			usort($array, array("ilUtil", "sort_func_numeric"));
+			if ($a_keep_keys)
+			{
+				uasort($array, array("ilUtil", "sort_func_numeric"));
+			}
+			else
+			{
+				usort($array, array("ilUtil", "sort_func_numeric"));
+			}
 		}
 		else
 		{
-			usort($array, array("ilUtil", "sort_func"));
+			if ($a_keep_keys)
+			{
+				uasort($array, array("ilUtil", "sort_func"));
+			}
+			else
+			{
+				usort($array, array("ilUtil", "sort_func"));
+			}
 		}
 		//usort($array,"ilUtil::sort_func");
 
