@@ -625,10 +625,6 @@ class ilObjCourse extends ilContainer
 		include_once('Modules/Course/classes/class.ilCourseFile.php');
 		ilCourseFile::_cloneFiles($this->getId(),$new_obj->getId());
 		
-		// Clone events
-		include_once('Modules/Course/classes/Event/class.ilEvent.php');
-		ilEvent::_cloneEvent($this->getId(),$new_obj->getId());
-				
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
 		$obj_settings = new ilLPObjSettings($this->getId());
@@ -648,6 +644,8 @@ class ilObjCourse extends ilContainer
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
+		global $ilObjDataCache;
+		
 	 	// Clone course start objects
 	 	include_once('Modules/Course/classes/class.ilCourseStart.php');
 	 	$start = new ilCourseStart($this->getRefId(),$this->getId());
@@ -666,6 +664,10 @@ class ilObjCourse extends ilContainer
 		$lp_collection = new ilLPCollections($this->getId());
 		$lp_collection->cloneCollections($a_target_id,$a_copy_id);		
 	 	
+		// Clone events including assigned materials
+		include_once('Modules/Course/classes/Event/class.ilEvent.php');
+		ilEvent::_cloneEvent($this->getId(),$ilObjDataCache->lookupObjId($a_target_id),$a_copy_id);
+
 	 	return true;
 	}
 	

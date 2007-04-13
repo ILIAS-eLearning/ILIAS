@@ -114,6 +114,28 @@ class ilEventItems
 		}
 		return $items ? $items : array();
 	}
+	
+	/**
+	 * Get items by event 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int event id
+	 */
+	public static function _getItemsOfEvent($a_event_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM event_items ".
+			"WHERE event_id = ".$ilDB->quote($a_event_id);
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$items[] = $row->item_id;
+		}
+		return $items ? $items : array();
+	}
 
 	function _isAssigned($a_item_id)
 	{
@@ -124,6 +146,44 @@ class ilEventItems
 		$res = $ilDB->query($query);
 
 		return $res->numRows() ? true : false;
+	}
+	
+	/**
+	 * Clone items
+	 *
+	 * @access public
+	 *
+	 * @param int source event id
+	 * @param int copy id
+	 */
+	public function cloneItems($a_source_event,$a_copy_id)
+	{
+		global $ilObjDataCache,$ilLog;
+		
+		$ilLog->write(__METHOD__.': Begin course event items ...');
+		
+	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+	 	$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+	 	$mappings = $cwo->getMappings();
+		
+		$new_items = array(); 
+		foreach(ilEventItems::_getItemsOfEvent($a_source_event) as $item_id)
+		{
+	 		if(isset($mappings[$item_id]) and $mappings[$item_id])
+	 		{
+				$ilLog->write(__METHOD__.': Clone event item nr. '.$item_id);
+				$new_items[] = $mappings[$item_id];
+	 		}
+	 		else
+	 		{
+				$ilLog->write(__METHOD__.': No mapping found for event item nr. '.$item_id);
+	 		}
+		}
+		$this->setItems($new_items);
+		$this->update();
+		$ilLog->write(__METHOD__.': Finished cloning course event items ...');
+		return true;
+
 	}
 
 

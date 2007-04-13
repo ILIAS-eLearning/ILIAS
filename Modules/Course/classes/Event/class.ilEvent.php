@@ -214,9 +214,12 @@ class ilEvent
 	 *
 	 * @param int source id
 	 * @param int target id
+	 * @param int copy id
 	 */
-	public static function _cloneEvent($a_source_id,$a_target_id)
+	public static function _cloneEvent($a_source_id,$a_target_id,$a_copy_id)
 	{
+		include_once('Modules/Course/classes/Event/class.ilEventItems.php');
+		
 		include_once('Services/Tracking/classes/class.ilLPEventCollections.php');
 		$old_event_collection = new ilLPEventCollections($a_source_id);
 		$new_event_collection = new ilLPEventCollections($a_target_id);
@@ -257,6 +260,10 @@ class ilEvent
 			{
 				$new_event_collection->add($new_event->getEventId());
 			}
+			
+			// Copy assigned materials
+			$new_event_items = new ilEventItems($new_event->getEventId());
+			$new_event_items->cloneItems($event_obj->getEventId(),$a_copy_id);
 		}
 	}
 
