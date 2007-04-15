@@ -554,7 +554,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("close"), true);
+			$lng->txt("selected_items_back"));
 		
 		return $content_block->getHTML();
 	}

@@ -153,6 +153,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		else
 		{
 			$this->setEnableNumInfo(false);
+			if (count($this->getData()) == 0)
+			{
+				$this->setEnableDetailRow(false);
+			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -207,7 +211,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$content_block->setTitle($lng->txt("news_internal_news"));
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("close"), true);
+			$lng->txt("selected_items_back"));
 
 		return $content_block->getHTML();
 	}
