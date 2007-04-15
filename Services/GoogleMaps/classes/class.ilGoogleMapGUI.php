@@ -42,6 +42,18 @@ class ilGoogleMapGUI
 	
 	function ilGoogleMapGUI()
 	{
+		global $lng, $tpl;
+		
+		$gm_set = new ilSetting("google_maps");
+		$lng->loadLanguageModule("gmaps");
+		
+		if ($gm_set->get("api_key") != "")
+		{
+			$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
+				$gm_set->get("api_key"));
+			$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
+			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
+		}
 	}
 
 	/**
@@ -245,6 +257,26 @@ class ilGoogleMapGUI
 	}
 
 	/**
+	* Enable Central Marker.
+	*
+	* @param	boolean	$a_centralmarker	Central Marker
+	*/
+	function setEnableCentralMarker($a_centralmarker)
+	{
+		$this->centralmarker = $a_centralmarker;
+	}
+
+	/**
+	* Get Enable Central Marker.
+	*
+	* @return	boolean	Central Marker
+	*/
+	function getEnableCentralMarker()
+	{
+		return $this->centralmarker;
+	}
+
+	/**
 	* Add user marker
 	*
 	* @param	int		$a_user_id		User ID
@@ -356,6 +388,10 @@ class ilGoogleMapGUI
 				? "true"
 				: "false";
 			$this->tpl->setVariable("LARGE_CONTROL", $large_map_control);
+			$central_marker = $this->getEnableCentralMarker()
+				? "true"
+				: "false";
+			$this->tpl->setVariable("CENTRAL_MARKER", $central_marker);
 
 			return $this->tpl->get();
 		}
@@ -389,6 +425,7 @@ class ilGoogleMapGUI
 					$list_tpl->setCurrentBlock("item");
 					$list_tpl->setVariable("MARKER_CNT", $cnt);
 					$list_tpl->setVariable("MAP_ID", $this->getMapId());
+					$cnt++;
 				}
 				else
 				{
@@ -399,7 +436,7 @@ class ilGoogleMapGUI
 				$list_tpl->setVariable("IMG_USER",
 					$user->getPersonalPicturePath("xxsmall"));
 				$list_tpl->parseCurrentBlock();
-				$cnt++;
+				$list_tpl->touchBlock("row");
 			}
 		}
 		

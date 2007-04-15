@@ -149,16 +149,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	{
 		global $tpl, $lng;
 		
-		$gm_set = new ilSetting("google_maps");
 		$lng->loadLanguageModule("gmaps");
-		
-		if ($gm_set->get("api_key") != "")
-		{
-			$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
-				$gm_set->get("api_key"));
-			$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
-			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
-		}
 		$a_tpl->setCurrentBlock("prop_location");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
@@ -191,6 +182,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$map_gui->setEnableTypeControl(true);
 		$map_gui->setEnableLargeMapControl(true);
 		$map_gui->setEnableUpdateListener(true);
+		$map_gui->setEnableCentralMarker(true);
 		
 		$a_tpl->setVariable("MAP", $map_gui->getHtml());
 		
