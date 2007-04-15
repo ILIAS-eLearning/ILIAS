@@ -168,6 +168,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		else
 		{
 			$this->setEnableNumInfo(false);
+			if (count($this->mails) == 0)
+			{
+				$this->setEnableDetailRow(false);
+			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -244,7 +248,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_mail.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
-			$lng->txt("close"), true);
+			$lng->txt("selected_items_back"));
 			
 		if ($_GET["mail_mode"] != "system")
 		{

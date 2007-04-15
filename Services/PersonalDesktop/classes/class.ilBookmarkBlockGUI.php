@@ -146,6 +146,10 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		else
 		{
+			if ($this->num_bookmarks == 0 && $this->num_folders == 0)
+			{
+				$this->setEnableDetailRow(false);
+			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -207,6 +211,11 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	function setFooterLinks()
 	{
 		global $ilUser, $ilCtrl, $lng;
+		
+		if ($this->num_bookmarks == 0 && $this->num_folders == 0)
+		{
+			return;
+		}
 		
 		// flat
 		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')

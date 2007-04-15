@@ -132,6 +132,10 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		else
 		{
 			$this->setEnableNumInfo(false);
+			if (count($this->notes) == 0)
+			{
+				$this->setEnableDetailRow(false);
+			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -280,7 +284,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_note.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
-			$lng->txt("close"), true);
+			$lng->txt("selected_items_back"));
 		
 		return $content_block->getHTML();
 	}
