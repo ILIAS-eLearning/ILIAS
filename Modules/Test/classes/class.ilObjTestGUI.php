@@ -1850,7 +1850,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_tst_filter_questions.html", "Modules/Test");
 
 		$questionpools =& $this->object->getAvailableQuestionpools(true);
-
 		$filter_fields = array(
 			"title" => $this->lng->txt("title"),
 			"comment" => $this->lng->txt("description"),
@@ -2052,17 +2051,118 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
+		// add imports for YUI menu
+		$imports = array(
+			"./Services/YUI/js/2_2_0/yahoo/yahoo.js",
+			"./Services/YUI/js/2_2_0/event/event.js",
+			"./Services/YUI/js/2_2_0/dom/dom.js",
+			"./Services/YUI/js/2_2_0/container/container_core.js",
+			"./Services/YUI/js/2_2_0/menu/menu.js"
+		);
+		foreach ($imports as $import)
+		{
+			$this->tpl->setCurrentBlock("js_file");
+			$this->tpl->setVariable("JS_FILE", $import);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("css_file");
+		$this->tpl->setVariable("CSS_FILE", "./Services/YUI/js/2_2_0/menu/assets/menu.css");
+		$this->tpl->parseCurrentBlock();
+		// add questiontype filter
+		$filtermenu = new ilTemplate("tpl.question_type_menu.js", TRUE, TRUE, "Modules/TestQuestionPool");
+		if (strcmp($filter_question_type, "") == 0)
+		{
+			$filtermenu->setCurrentBlock("selected");
+			$filtermenu->touchBlock("selected");
+			$filtermenu->parseCurrentBlock();
+		}
+		$filtermenu->setCurrentBlock("menuitem");
+		$filtermenu->setVariable("ITEM_TEXT", $this->lng->txt("filter_all_question_types"));
+		$this->ctrl->setParameter($this, "sel_question_type", "");
+		$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
+		$filtermenu->parseCurrentBlock();
+		foreach ($questiontypes as $key => $value)
+		{
+			if (strcmp($filter_question_type, $value["type_tag"]) == 0)
+			{
+				$filtermenu->setCurrentBlock("selected");
+				$filtermenu->touchBlock("selected");
+				$filtermenu->parseCurrentBlock();
+			}
+			$filtermenu->setCurrentBlock("menuitem");
+			$filtermenu->setVariable("VALUE_QUESTION_TYPE", $value["type_tag"]);
+			$filtermenu->setVariable("ITEM_TEXT", $this->lng->txt($value["type_tag"]));
+			$this->ctrl->setParameter($this, "sel_question_type", $value["type_tag"]);
+			$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
+			$filtermenu->parseCurrentBlock();
+		}
+		$this->ctrl->setParameter($this, "sel_question_type", $filter_question_type);
+		$this->tpl->setCurrentBlock("HeadContent");
+		$this->tpl->setVariable("CONTENT_BLOCK", $filtermenu->get());
+		$this->tpl->parseCurrentBlock();
+
+		// add question pool filter
+		$filtermenu = new ilTemplate("tpl.question_pool_menu.js", TRUE, TRUE, "Modules/TestQuestionPool");
+		if (strcmp($filter_questionpool, "") == 0)
+		{
+			$filtermenu->setCurrentBlock("selected");
+			$filtermenu->touchBlock("selected");
+			$filtermenu->parseCurrentBlock();
+		}
+		$filtermenu->setCurrentBlock("menuitem");
+		$filtermenu->setVariable("ITEM_TEXT", ilUtil::prepareFormOutput($this->lng->txt("filter_all_questionpools")));
+		$this->ctrl->setParameter($this, "sel_questionpool", "");
+		$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
+		$filtermenu->parseCurrentBlock();
+		foreach ($questionpools as $key => $value)
+		{
+			if (strcmp($filter_questionpool, $key) == 0)
+			{
+				$filtermenu->setCurrentBlock("selected");
+				$filtermenu->touchBlock("selected");
+				$filtermenu->parseCurrentBlock();
+			}
+			$filtermenu->setCurrentBlock("menuitem");
+			$filtermenu->setVariable("ITEM_TEXT", ilUtil::prepareFormOutput($value));
+			$this->ctrl->setParameter($this, "sel_questionpool", $key);
+			$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
+			$filtermenu->parseCurrentBlock();
+		}
+		$this->ctrl->setParameter($this, "sel_questionpool", $filter_questionpool);
+		
+		$this->tpl->setCurrentBlock("HeadContent");
+		$this->tpl->setVariable("CONTENT_BLOCK", $filtermenu->get());
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("adm_content");
-		// create table header
 		$this->ctrl->setCmd("questionBrowser");
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
 		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
 		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$template = new ilTemplate("tpl.image.html", true, true);
+		$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
+		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
+		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
+		$template->setVariable("ID", "filter");
+		$template->setVariable("STYLE", "visibility: hidden;");
+		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>";
+		$questiontype .= $template->get();
+		$questiontype .= $table["images"]["type"];
+		$this->tpl->setVariable("QUESTION_TYPE", $questiontype);
 		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
 		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
 		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
-		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>" . $table["images"]["qpl"]);
+		$template = new ilTemplate("tpl.image.html", true, true);
+		$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
+		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
+		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
+		$template->setVariable("ID", "qpfilter");
+		$template->setVariable("STYLE", "visibility: hidden;");
+		$qpfilter = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>";
+		$qpfilter .= $template->get();
+		$qpfilter .= $table["images"]["qpl"];
+		$this->tpl->setVariable("QUESTION_POOL", $qpfilter);
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
