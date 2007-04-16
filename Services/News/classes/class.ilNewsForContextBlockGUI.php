@@ -214,6 +214,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 					$lng->txt("news_feed_url"), "_blank");
 		}
 
+/*	Subscription Concept is abandonded for now (Alex)
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		if (ilNewsSubscription::_hasSubscribed($_GET["ref_id"], $ilUser->getId()))
@@ -228,7 +229,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTarget($this, "subscribeNews"),
 				$lng->txt("news_subscribe"));
 		}
-		
+*/
 		
 		// add edit commands
 		if ($this->getEnableEdit())
