@@ -761,6 +761,7 @@ class ilPersonalProfileGUI
 		}
 		
 		// personal desktop news
+/* Subscription Concept is abandonded for now, we show all news of pd items (Alex)
 		if ($ilUser->prefs["pd_items_news"] != "n")
 		{
 			$this->tpl->setVariable("PD_ITEMS_NEWS", "checked");
@@ -769,6 +770,7 @@ class ilPersonalProfileGUI
 			$this->lng->txt("pd_items_news"));
 		$this->tpl->setVariable("TXT_PD_ITEMS_NEWS_INFO",
 			$this->lng->txt("pd_items_news_info"));
+*/
 		
 		if (($ilUser->getAuthMode(true) == AUTH_LOCAL ||
 			($ilUser->getAuthMode(true) == AUTH_CAS && $ilSetting->get("cas_allow_local")) ||
