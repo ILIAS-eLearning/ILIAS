@@ -5313,29 +5313,6 @@ class ilObjTest extends ilObject
 		}
 		return $result_array;
 	}
-
-	function getFullPathToQpl($ref_id)
-	{
-		global $tree;
-		$path = $tree->getPathFull($ref_id);
-		$items = array();
-		$counter = 0;
-		foreach ($path as $item)
-		{
-			if (($counter > 0) && ($counter < count($path)-1))
-			{
-				array_push($items, $item["title"]);
-			}
-			$counter++;
-		}
-		$fullpath = join(" > ", $items);
-		include_once "./Services/Utilities/classes/class.ilStr.php";
-		if (strlen($fullpath) > 60)
-		{
-			$fullpath = ilStr::subStr($fullpath, 0, 30) . "..." . ilStr::subStr($fullpath, ilStr::strLen($fullpath)-30, 30);
-		}
-		return ilUtil::prepareFormOutput($fullpath);
-	}
 	
 /**
 * Returns the available question pools for the active user
@@ -5347,43 +5324,8 @@ class ilObjTest extends ilObject
 */
 	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false)
 	{
-		global $rbacsystem;
-		global $ilDB;
-		
-		$result_array = array();
-		$query = "SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
-			{
-				include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-				if (ilObjQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
-				{
-					if ((!$equal_points) || (($equal_points) && (ilObjQuestionPool::_hasEqualPoints($row->obj_id))))
-					{
-						if (ilObjQuestionPool::_getQuestionCount($row->obj_id, TRUE))
-						{
-							$path = $this->getFullPathToQpl($row->ref_id);
-							if (strlen($path))
-							{
-								$path .= " &gt; " . $row->title;
-								if ($use_object_id)
-								{
-									$result_array[$row->obj_id] = $path;
-								}
-								else
-								{
-									$result_array[$row->ref_id] = $path;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		asort($result_array);
-		return $result_array;
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline);
 	}
 
 /**

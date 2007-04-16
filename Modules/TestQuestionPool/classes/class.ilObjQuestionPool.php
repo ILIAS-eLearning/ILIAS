@@ -1467,6 +1467,38 @@ class ilObjQuestionPool extends ilObject
 		return $result;
 	}
 
+
+	/**
+	* Retrieves the full path to a question pool with a given reference id
+	*
+	* Retrieves the full path to a question pool with a given reference id
+	*
+	* @return string The full path to the question pool including the locator
+	* @access public
+	*/
+	function _getFullPathToQpl($ref_id)
+	{
+		global $tree;
+		$path = $tree->getPathFull($ref_id);
+		$items = array();
+		$counter = 0;
+		foreach ($path as $item)
+		{
+			if (($counter > 0) && ($counter < count($path)-1))
+			{
+				array_push($items, $item["title"]);
+			}
+			$counter++;
+		}
+		$fullpath = join(" > ", $items);
+		include_once "./Services/Utilities/classes/class.ilStr.php";
+		if (strlen($fullpath) > 60)
+		{
+			$fullpath = ilStr::subStr($fullpath, 0, 30) . "..." . ilStr::subStr($fullpath, ilStr::strLen($fullpath)-30, 30);
+		}
+		return ilUtil::prepareFormOutput($fullpath);
+	}
+
 /**
 * Returns the available question pools for the active user
 *
@@ -1475,29 +1507,58 @@ class ilObjQuestionPool extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &_getAvailableQuestionpools($use_object_id = false)
+	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $getFullPath = FALSE)
 	{
 		global $rbacsystem;
 		global $ilDB;
-		
+	
 		$result_array = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
+		$query = "SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
 		$result = $ilDB->query($query);
-		include_once "./classes/class.ilObject.php";
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
+		{
 			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
 			{
-				if ($use_object_id)
+				include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
+				if (ilObjQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
 				{
-					$result_array[$row->obj_id] = $row->title;
-				}
-				else
-				{
-					$result_array[$row->ref_id] = $row->title;
+					if ((!$equal_points) || (($equal_points) && (ilObjQuestionPool::_hasEqualPoints($row->obj_id))))
+					{
+						if ($getFullPath)
+						{
+							if (ilObjQuestionPool::_getQuestionCount($row->obj_id, TRUE))
+							{
+								$path = ilObjQestionPool::_getFullPathToQpl($row->ref_id);
+								if (strlen($path))
+								{
+									$path .= " &gt; " . $row->title;
+									if ($use_object_id)
+									{
+										$result_array[$row->obj_id] = $path;
+									}
+									else
+									{
+										$result_array[$row->ref_id] = $path;
+									}
+								}
+							}
+						}
+						else
+						{
+							if ($use_object_id)
+							{
+								$result_array[$row->obj_id] = $row->title;
+							}
+							else
+							{
+								$result_array[$row->ref_id] = $row->title;
+							}
+						}
+					}
 				}
 			}
 		}
+		asort($result_array);
 		return $result_array;
 	}
 

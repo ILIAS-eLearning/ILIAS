@@ -842,6 +842,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function calculateSequence() 
 	{
 		$sequence = $_GET["sequence"];
+		if (!$sequence) $sequence = 1;
+		$questionCount = $this->object->getQuestionCount();
+		if ($sequence > $questionCount) $sequence = $questionCount;
 		if (array_key_exists("save_error", $_GET))
 		{
 			if ($_GET["save_error"] == 1)
@@ -849,7 +852,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				return $sequence;
 			}
 		}
-		if (!$sequence) $sequence = 1;
 		switch ($_GET["activecommand"])
 		{
 			case "next":
