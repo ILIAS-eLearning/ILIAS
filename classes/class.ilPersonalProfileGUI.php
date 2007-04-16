@@ -23,7 +23,7 @@
 
 
 /**
-* GUI class for personal profiel
+* GUI class for personal profile
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -559,8 +559,9 @@ class ilPersonalProfileGUI
 			{
 				$ilUser->setPref("show_users_online", $_POST["show_users_online"]);
 			}
-			
+
 			// personal desktop items in news block
+/* Subscription Concept is abandonded for now, we show all news of pd items (Alex)
 			if ($_POST["pd_items_news"] != "")
 			{
 				$ilUser->setPref("pd_items_news","y");
@@ -569,6 +570,7 @@ class ilPersonalProfileGUI
 			{
 				$ilUser->setPref("pd_items_news","n");
 			}
+*/
 
 			// profile ok
 			$ilUser->setProfileIncomplete(false);
