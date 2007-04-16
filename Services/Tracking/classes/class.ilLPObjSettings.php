@@ -312,6 +312,54 @@ class ilLPObjSettings
 
 		}
 	}
+	
+	/**
+	 * get mode info text
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int $mode
+	 */
+	public static function _mode2InfoText($a_mode)
+	{
+		global $lng;
+		
+		switch($a_mode)
+		{
+			case LP_MODE_DEACTIVATED:
+				return $lng->txt('trac_mode_deactivated_info');
+
+			case LP_MODE_TLT:
+				return $lng->txt('trac_mode_tlt_info');
+
+			case LP_MODE_VISITS:
+				return $lng->txt('trac_mode_visits_info');
+				
+			case LP_MODE_MANUAL:
+				return $lng->txt('trac_mode_manual_info');
+
+			case LP_MODE_OBJECTIVES:
+				return $lng->txt('trac_mode_objectives_info');
+
+			case LP_MODE_COLLECTION:
+				return $lng->txt('trac_mode_collection_info');
+
+			case LP_MODE_SCORM:
+				return $lng->txt('trac_mode_scorm_info');
+
+			case LP_MODE_TEST_FINISHED:
+				return $lng->txt('trac_mode_test_finished_info');
+
+			case LP_MODE_TEST_PASSED:
+				return $lng->txt('trac_mode_test_passed_info');
+
+			case LP_MODE_EXERCISE_RETURNED:
+				return $lng->txt('trac_mode_exercise_returned_info');
+
+		}
+		
+	}
 							 
 				
 

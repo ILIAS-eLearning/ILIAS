@@ -6839,10 +6839,10 @@ common#:#access_until#:#Access until
 trac#:#stats_user_selected#:#User selected
 trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
-trac#:#trac_activated#:#Tracking activated
-trac#:#trac_active_both#:#User Tracking and Learning progress activated
-trac#:#trac_active_lp_only#:#Learning Progress activated
-trac#:#trac_active_ut_only#:#User Tracking activated
+trac#:#trac_activated#:#Tracking Activated
+trac#:#trac_active_both#:#User Tracking and Learning Progress Activated
+trac#:#trac_active_lp_only#:#Learning Progress Activated
+trac#:#trac_active_ut_only#:#User Tracking Activated
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.
 trac#:#trac_anonymized#:#Anonymized
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
@@ -6854,35 +6854,35 @@ trac#:#trac_collection_deassign#:#Deassign
 trac#:#trac_comment#:#Comment
 trac#:#trac_comments#:#Comments
 trac#:#trac_completed#:#Completed
-trac#:#trac_crs_assignments#:#Assignment of course items
-trac#:#trac_crs_items#:#Assignable course items
-trac#:#trac_crs_members#:#Course members:
-trac#:#trac_crs_objects#:#Learning progress of course members
-trac#:#trac_crs_releavant_items#:#Course items
+trac#:#trac_crs_assignments#:#Assignment of Course Items
+trac#:#trac_crs_items#:#Assignable Course Items
+trac#:#trac_crs_members#:#Course Participants:
+trac#:#trac_crs_objects#:#Learning Progress of Course Participants
+trac#:#trac_crs_releavant_items#:#Course Items
 trac#:#trac_crs_relevant_items#:#Course Materials
 trac#:#trac_edit_collection#:#Please assign materials. If the status of all assigned items is 'Completed' the overall status is completed by the user.
-trac#:#trac_edit_progress#:#Edit learning progress
-trac#:#trac_edit_time#:#Processing time
+trac#:#trac_edit_progress#:#Edit Learning Progress
+trac#:#trac_edit_time#:#Processing Time
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
-trac#:#trac_edited_scos#:#Processed content
-trac#:#trac_editing_time_passed#:#Editing time Passed
+trac#:#trac_edited_scos#:#Processed Content
+trac#:#trac_editing_time_passed#:#Editing Time Passed
 trac#:#trac_failed#:#Failed
 trac#:#trac_filter_area#:#Area
 trac#:#trac_filter_hidden#:#Hidden
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
 trac#:#trac_filter_no_access#:#No objects found
 trac#:#trac_filter_none#:#None
-trac#:#trac_filter_repository#:#In the repository
+trac#:#trac_filter_repository#:#In the Repository
 trac#:#trac_fold_relevant_items#:#Folder Content
 trac#:#trac_grp_relevant_items#:#Group Materials
 trac#:#trac_head_timing#:#Edit Until
 trac#:#trac_hide#:#Hide
-trac#:#trac_in_progress#:#In progress
-trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated
+trac#:#trac_in_progress#:#In Progress
+trac#:#trac_inactive_both#:#User Tracking and Learning Progress Deactivated
 trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.
-trac#:#trac_last_access#:#Last access
+trac#:#trac_last_access#:#Last Access
 trac#:#trac_learning_progress#:#Learning Progress
-trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
+trac#:#trac_learning_progress_tbl_header#:#Learning Progress of:
 trac#:#trac_lm_statistics#:#Access Statistics
 trac#:#trac_lp_determination#:#Learning Progress Status Determination
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status.
@@ -6891,65 +6891,65 @@ trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Mark
 trac#:#trac_marks#:#Marks
 trac#:#trac_mode#:#Mode
-trac#:#trac_mode_collection#:#Collection of objects
+trac#:#trac_mode_collection#:#Collection of Objects
 trac#:#trac_mode_deactivated#:#Deactivated
 trac#:#trac_mode_exercise_returned#:#Exercise Solved
 trac#:#trac_mode_manual#:#Manual
-trac#:#trac_mode_objectives#:#Learning objectives
+trac#:#trac_mode_objectives#:#Learning Objectives
 trac#:#trac_mode_scorm#:#SCORM/AICC
 trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
-trac#:#trac_mode_test_finished#:#Test finished
-trac#:#trac_mode_test_passed#:#Test passed
-trac#:#trac_mode_tlt#:#Typical learning time
-trac#:#trac_mode_visits#:#Number of visits
+trac#:#trac_mode_test_finished#:#Test Finished
+trac#:#trac_mode_test_passed#:#Test Passed
+trac#:#trac_mode_tlt#:#Typical Learning Time
+trac#:#trac_mode_visits#:#Number of Visits
 trac#:#trac_modifications_saved#:#Saved settings
 trac#:#trac_modus#:#Mode
-trac#:#trac_no_attempted#:#Not attempted
+trac#:#trac_no_attempted#:#Not Attempted
 trac#:#trac_no_content#:#No informations about the learning progress available.
 trac#:#trac_no_sahs_items_found#:#No objects found.
-trac#:#trac_not_accessed#:#Not accessed
-trac#:#trac_not_assigned#:#Not assigned
-trac#:#trac_not_attempted#:#Not attempted
+trac#:#trac_not_accessed#:#Not Accessed
+trac#:#trac_not_assigned#:#Not Assigned
+trac#:#trac_not_attempted#:#Not Attempted
 trac#:#trac_not_completed#:#Not Completed
 trac#:#trac_not_participated#:#Not Participated
 trac#:#trac_not_registered#:#Not Registered
-trac#:#trac_num_visits#:#Number of visits
+trac#:#trac_num_visits#:#Number of Visits
 trac#:#trac_objects#:#Learning Progress of Users
 trac#:#trac_occurrences#:#Path:
 trac#:#trac_participated#:#Participated
-trac#:#trac_processing_time#:#Assumed processing time
+trac#:#trac_processing_time#:#Assumed Processing Time
 trac#:#trac_progress#:#Personal Learning Progress
 trac#:#trac_query#:#Title / Description:
 trac#:#trac_reached_objectives#:#Reached Learning Objectives
-trac#:#trac_reached_points#:#Achieved score
-trac#:#trac_reached_visits#:#Required visits
+trac#:#trac_reached_points#:#Achieved Score
+trac#:#trac_reached_visits#:#Required Visits
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
-trac#:#trac_required_visits#:#Number of required visits
+trac#:#trac_required_visits#:#Number of Required Visits
 trac#:#trac_sahs_relevant_items#:#Content Items
 trac#:#trac_select_one#:#You made no selection
 trac#:#trac_settings#:#Settings
 trac#:#trac_settings_saved#:#Saved settings.
-trac#:#trac_show#:#Show learning progress
+trac#:#trac_show#:#Show Learning Progress
 trac#:#trac_show_hidden#:#Show
-trac#:#trac_spent_time#:#Spent time
+trac#:#trac_spent_time#:#Spent Time
 trac#:#trac_status#:#Status
 trac#:#trac_time_passed#:#Editing Time Exceeded
-trac#:#trac_total_online#:#Total time online
+trac#:#trac_total_online#:#Total Time Online
 trac#:#trac_update_edit_user#:#Saved settings
 trac#:#trac_updated_status#:#Saved learning progress status.
 trac#:#trac_user_data#:#User Data
 trac#:#trac_usr_list#:#Users
-trac#:#trac_valid_request#:#Max. time between requests
-trac#:#trac_view_crs#:#Back to course
-trac#:#trac_view_list#:#Back to list
-trac#:#trac_visits#:#Number of visits
+trac#:#trac_valid_request#:#Max. Time Between Requests
+trac#:#trac_view_crs#:#Back to Course
+trac#:#trac_view_list#:#Back to List
+trac#:#trac_visits#:#Number of Visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
-trac#:#view_mode#:#View mode
-trac#:#vm_access_of_users#:#Access of users
-trac#:#vm_days_of_period#:#Days of period
-trac#:#vm_times_of_day#:#Times of days
+trac#:#view_mode#:#View Mode
+trac#:#vm_access_of_users#:#Access of Users
+trac#:#vm_days_of_period#:#Days of Period
+trac#:#vm_times_of_day#:#Times of Days
 common#:#adopt_perm_from_template#:#Copy Permission Settings
 crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:
 grp#:#crs_add_grouping#:#Add Membership Limitation
@@ -7232,3 +7232,14 @@ common#:#forums_use_alias#:#You may use this alias for your posting. If you leav
 common#:#forums_enable_forum_notification#:#Enable notification for this forum
 common#:#forums_disable_forum_notification#:#Disable notification for this forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.
+common#:#object_copy_in_progress#:#Started Copying.
+trac#:#trac_mode_deactivated_info#:#No progress will be calculated.
+trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'.
+trac#:#trac_mode_visits_info#:#Define the number of visits that is required for completing this learning material.
+trac#:#trac_mode_manual_info#:#Users have to decide whether their status is completed or not.
+trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.
+trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.
+trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.
+trac##:#trac_mode_test_finished_info#:#User have to finish a test completely.
+trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
+trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.

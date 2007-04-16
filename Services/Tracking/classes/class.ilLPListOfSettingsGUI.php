@@ -89,13 +89,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("SECONDS",$this->lng->txt('seconds'));
 		$this->tpl->setVariable("VAL_SECONDS",ilObjUserTracking::_getValidTimeSpan());
 
-		// Mode selector
-		$this->tpl->setVariable("TXT_MODE",$this->lng->txt('trac_modus'));
-
-		$this->tpl->setVariable("MODE",ilUtil::formSelect($this->obj_settings->getMode(),
-														  'modus',
-														  $this->obj_settings->getValidModes(),
-														  false,true));
+		$this->showModeSelection();
 
 		if($this->obj_settings->getMode() == LP_MODE_VISITS)
 		{
@@ -458,6 +452,28 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			default:
 				return false;
 		}
+	}
+	
+	/**
+	 * Show mode selection
+	 *
+	 * @access private
+	 * 
+	 */
+	private function showModeSelection()
+	{
+		$this->tpl->setVariable('TXT_MODE',$this->lng->txt('trac_mode'));
+		
+	 	foreach($this->obj_settings->getValidModes() as $mode_key => $mode_name)
+	 	{
+	 		$this->tpl->setCurrentBlock('mode_check');
+	 		$this->tpl->setVariable('RADIO_ID',$mode_key);
+	 		$this->tpl->setVariable('RADIO_CHECKED',$mode_key == $this->obj_settings->getMode() ? ' checked="checked"' : '');
+			$this->tpl->setVariable('RADIO_VALUE',$mode_key);
+			$this->tpl->setVariable('MODE_NAME',$mode_name);
+			$this->tpl->setVariable('MODE_INFO',ilLPObjSettings::_mode2InfoText($mode_key));
+			$this->tpl->parseCurrentBlock();
+	 	}
 	}
 }
 ?>

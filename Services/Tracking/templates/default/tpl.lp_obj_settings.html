@@ -1,5 +1,5 @@
 	<form action="{FORMACTION}" name="cmd" method="post">
-	  <table class="std" width="50%">
+	  <table class="std" width="75%">
 		  <tr class="tbltitle">
 			<td colspan="3">
 			  <table class="fullwidth_invisible" cellspacing="0">
@@ -40,13 +40,14 @@
 			</td>
 		  </tr>
 		  <tr>
-			<td class="option">
-			  {TXT_MODE}
-			</td>
-			<td class="option_value">
-			  {MODE}
-			</td>
-		  </tr>
+		  	<td class="option">
+		  		{TXT_MODE}
+		  	</td>
+		  	<td class="option_value">
+		  	<!-- BEGIN mode_check -->
+		  	<input type="radio" name="modus" id="{RADIO_ID}" {RADIO_CHECKED} value="{RADIO_VALUE}" /> <label for="{RADIO_ID}">{MODE_NAME}</label><br />
+		  	<div class="il_Description_no_margin">{MODE_INFO}</div>
+		  	<!-- END mode_check -->
 		<!-- BEGIN visits -->
 		<tr>
 		  <td class="option">
