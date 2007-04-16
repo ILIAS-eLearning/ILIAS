@@ -422,6 +422,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$tpl->parseCurrentBlock();
 		}
 
+		// content
 		if (trim($news->getContent()) != "")		// content
 		{
 			$tpl->setCurrentBlock("content");

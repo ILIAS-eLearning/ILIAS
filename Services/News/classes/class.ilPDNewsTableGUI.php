@@ -66,8 +66,8 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock("user_info");
 			$user_obj = new ilObjUser($a_set["user_id"]);
-			$this->tpl->setVariable("USR_IMAGE",
-				$user_obj->getPersonalPicturePath("xxsmall"));
+			$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+			$this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -88,14 +88,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($a_set["creation_date"] != $a_set["update_date"])
-		{
-			$this->tpl->setCurrentBlock("ni_update");
-			$this->tpl->setVariable("VAL_LAST_UPDATE", $a_set["update_date"]);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("VAL_CREATION_DATE", $a_set["creation_date"]);
-		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
+		// content
 		if ($a_set["content"] != "")
 		{
 			$this->tpl->setCurrentBlock("content");
@@ -108,24 +101,79 @@ class ilPDNewsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_LONG_CONTENT", $a_set["content_long"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		// context link
-		//if ($_GET["news_context"] != "")		// link
+		if ($a_set["update_date"] != $a_set["creation_date"])	// update date
 		{
-			$obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
-			$obj_type = ilObject::_lookupType($obj_id);
-			$this->tpl->setCurrentBlock("link");
-			$this->tpl->setVariable("HREF_LINK",
-				"./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".$obj_type."_".$a_set["ref_id"]);
-			$txt = in_array($obj_type, array("sahs", "lm", "dbk", "htlm"))
-				? "lres"
-				: "obj_".$obj_type;
-			$this->tpl->setVariable("ALT_LINK", $lng->txt($txt));
-			$this->tpl->setVariable("TXT_LINK", ilObject::_lookupTitle($obj_id));
-			$this->tpl->setVariable("IMG_LINK", ilUtil::getImagePath("icon_".$obj_type."_s.gif"));
+			$this->tpl->setCurrentBlock("ni_update");
+			$this->tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
+			$this->tpl->setVariable("VAL_LAST_UPDATE",
+				ilFormat::formatDate($a_set["update_date"], "datetime", true));
 			$this->tpl->parseCurrentBlock();
 		}
 
+		// context
+		$obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
+		$obj_type = ilObject::_lookupType($obj_id);
+		$obj_title = ilObject::_lookupTitle($obj_id);
+			
+		// forum hack, not nice
+		$add = "";
+		if ($obj_type == "frm" && $a_set["context_sub_obj_type"] == "pos"
+			&& $a_set["context_sub_obj_id"] > 0)
+		{
+			include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
+			$pos = $a_set["context_sub_obj_id"];
+			$thread = ilObjForumAccess::_getThreadForPosting($pos);
+			if ($thread > 0)
+			{
+				$add = "_".$thread."_".$pos;
+			}
+		}
+		$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+			$obj_type."_".$a_set["ref_id"].$add;
+		$this->tpl->setCurrentBlock("context");
+		$cont_loc = new ilLocatorGUI();
+		$cont_loc->addContextItems($a_set["ref_id"], true);
+		$this->tpl->setVariable("CONTEXT_LOCATOR",
+			$cont_loc->getHTML());
+		$this->tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
+		$this->tpl->setVariable("CONTEXT_TITLE", $obj_title);
+		$this->tpl->setVariable("IMG_CONTEXT_TITLE",
+			ilUtil::getImagePath("icon_".$obj_type."_b.gif"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("HREF_TITLE", $url_target);
+		
+		// title
+		if ($a_set["content_is_lang_var"])
+		{
+			$this->tpl->setVariable("VAL_TITLE", $lng->txt($a_set["title"]));
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);			// title
+		}
+
+		// creation date
+		$this->tpl->setVariable("VAL_CREATION_DATE",
+			ilFormat::formatDate($a_set["creation_date"], "datetime", true));
+		$this->tpl->setVariable("TXT_CREATED", $lng->txt("created"));
+		
+		// access
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+		if ($a_set["visibility"] == NEWS_PUBLIC ||
+			($a_set["priority"] == 0 &&
+			ilBlockSetting::_lookup("news", "public_notifications",
+			0, $obj_id)))
+		{
+			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+		}
+
+		$this->tpl->parseCurrentBlock();
 	}
 
 }
