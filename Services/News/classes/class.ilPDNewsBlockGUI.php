@@ -174,7 +174,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		// show feed url
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTarget($this, "showFeedUrl"),
-			$lng->txt("news_get_feed_url"));
+			$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.gif"));
 
 		if ($this->getCurrentDetailLevel() == 0)
 		{
