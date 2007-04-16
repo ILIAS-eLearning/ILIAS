@@ -7231,3 +7231,14 @@ common#:#forums_anonymous#:#anonym###02 04 2007 new variable
 common#:#forums_enable_forum_notification#:#Benachrichtigung für dieses Forum starten
 common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum beenden
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Nachrichten in diesem Forum benachrichtigt.
+common#:#object_copy_in_progress#:#Der Kopiervorgang wurde gestartet.
+trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
+trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der NutzerInnen muß die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen. 
+trac#:#trac_mode_visits_info#:#Nur die NutzerInnen, die eine festgelegte Anzahl von Aufrufen erreicht haben, erhalten den Status 'Bearbeitet'.
+trac#:#trac_mode_manual_info#:#Die NutzerInnen entscheiden selbst, ob Sie den Status 'Bearbeitet' haben oder nicht.
+trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
+trac#:#trac_mode_collection_info#:#Der Gesamtstatus wird automatisch anhand der ausgewählten Materialien bestimmt.
+trac#:#trac_mode_scorm_info#:#Der Gesamtstatus wird durch die ausgewählten SCORM-Materialien bestimmt.
+trac#:#trac_mode_test_finished_info#:#Alle Testfragen müssen beantwortet sein.
+trac#:#trac_mode_test_passed_info#:#Der Test muß bestanden sein.
+trac#:#trac_mode_exercise_returned_info#:#Der Status kann nur durch Tutoren bestimmt werden.
