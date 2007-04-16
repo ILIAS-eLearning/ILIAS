@@ -47,6 +47,7 @@ class ilTable2GUI extends ilTableGUI
 		$this->parent_obj = $a_parent_obj;
 		$this->parent_cmd = $a_parent_cmd;
 		$this->buttons = array();
+		$this->header_commands = array();
 		$this->multi = array();
 		$this->formname = "table";
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
@@ -275,6 +276,18 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
+	* Add Header Command (Link)  (Image needed for now)
+	*
+	* @param	string	href
+	* @param	string	text
+	*/
+	function addHeaderCommand($a_href, $a_text, $a_target = "", $a_img = "")
+	{
+		$this->header_commands[] = array("href" => $a_href, "text" => $a_text,
+			"target" => $a_target, "img" => $a_img);
+	}
+
+	/**
 	* Add a column to the header.
 	*
 	* @param	string		Text
@@ -452,13 +465,28 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
+			foreach($this->header_commands as $command)
+			{
+				$this->tpl->setCurrentBlock("tbl_header_img_link");
+				if ($command["target"] != "")
+				{
+					$this->tpl->setVariable("TARGET_IMG_LINK",
+						'target="'.$command["target"].'"');
+				}
+				$this->tpl->setVariable("ALT_IMG_LINK", $command["txt"]);
+				$this->tpl->setVariable("HREF_IMG_LINK", $command["href"]);
+				$this->tpl->setVariable("SRC_IMG_LINK",
+					$command["img"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			// close command
 			if ($this->close_command != "")
 			{
-				$this->tpl->setCurrentBlock("tbl_header_close_link");
-				$this->tpl->setVariable("TXT_CLOSE",$lng->txt("close"));
-				$this->tpl->setVariable("LINK_CLOSE",$this->close_command);
-				$this->tpl->setVariable("IMG_CLOSE",ilUtil::getImagePath("icon_close.gif"));
+				$this->tpl->setCurrentBlock("tbl_header_img_link");
+				$this->tpl->setVariable("ALT_IMG_LINK",$lng->txt("close"));
+				$this->tpl->setVariable("HREF_IMG_LINK",$this->close_command);
+				$this->tpl->setVariable("SRC_IMG_LINK",ilUtil::getImagePath("icon_close2.gif"));
 				$this->tpl->parseCurrentBlock();
 			}
 

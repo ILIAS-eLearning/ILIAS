@@ -211,7 +211,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->addBlockCommand(
 				ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
 					"ref_id=".$_GET["ref_id"],
-					$lng->txt("news_feed_url"), "_blank");
+					$lng->txt("news_feed_url"), "_blank",
+					ilUtil::getImagePath("rss.gif"));
 		}
 
 /*	Subscription Concept is abandonded for now (Alex)
@@ -708,12 +709,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$form->setTitle($lng->txt("news_settings"));
 		$form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
 		
-		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
-			"notifications_public_feed");
-		$ch->setInfo($lng->txt("news_public_feed_info"));
-		$ch->setChecked($public_feed);
-		$form->addItem($ch);
-
 		if ($this->getProperty("public_notifications_option"))
 		{
 			$ch = new ilCheckboxInputGUI($lng->txt("news_notifications_public"),
@@ -722,6 +717,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$ch->setChecked($public);
 			$form->addItem($ch);
 		}
+
+		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
+			"notifications_public_feed");
+		$ch->setInfo($lng->txt("news_public_feed_info"));
+		$ch->setChecked($public_feed);
+		$form->addItem($ch);
+
 		
 		//$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
 		//	"1", $public_feed, $lng->txt("news_public_feed_info"));

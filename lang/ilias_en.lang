@@ -2890,8 +2890,8 @@ news#:#news_feed_url#:#Feed URL
 news#:#news_settings#:#News Settings
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.
-news#:#news_public_feed#:#Extra Feed URL
-news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.
+news#:#news_public_feed#:#Extra RSS Feed
+news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed is provided for this item.
 news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories

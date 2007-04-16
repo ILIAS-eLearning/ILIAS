@@ -39,10 +39,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function ilObjMediaCastGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$this->type = "mcst";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$lng->loadLanguageModule("mcst");
+		$lng->loadLanguageModule("news");
 		
 		$ilCtrl->saveParameter($this, "item_id");
 	}
@@ -115,7 +117,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		global $tpl, $lng, $ilAccess;
 		
 		$med_items = $this->object->getItemsArray();
-		$lng->loadLanguageModule("mcst");
 		
 		include_once("./Modules/MediaCast/classes/class.ilMediaCastTableGUI.php");
 		$table_gui = new ilMediaCastTableGUI($this, "listItems");
@@ -130,6 +131,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$table_gui->setSelectAllCheckbox("item_id");
 		}
 		
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		$public_feed = ilBlockSetting::_lookup("news", "public_feed",
+			0, $this->object->getId());
+		if ($public_feed)
+		{
+			$table_gui->addHeaderCommand(
+					ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
+						"ref_id=".$_GET["ref_id"],
+						$lng->txt("news_feed_url"), "_blank",
+						ilUtil::getImagePath("rss.gif"));
+		}
+
 		$tpl->setContent($table_gui->getHTML());
 
 	}
@@ -557,12 +570,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		$info->enablePrivateNotes();
 		
+		/*
 		$info->enableNews();
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			//$info->enableNewsEditing();
 			$info->setBlockProperty("news", "settings", true);
-		}
+		}*/
 		
 		// general information
 		$this->lng->loadLanguageModule("meta");
@@ -657,6 +671,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$online->setChecked($this->object->getOnline());
 		$this->form_gui->addItem($online);
 		
+		// Extra Feed
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		$public_feed = ilBlockSetting::_lookup("news", "public_feed",
+			0, $this->object->getId());
+		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
+			"extra_feed");
+		$ch->setInfo($lng->txt("news_public_feed_info"));
+		$ch->setChecked($public_feed);
+		$this->form_gui->addItem($ch);
+		
 		// Include Files in Pubic Items
 		$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
 		$incl_files->setChecked($this->object->getPublicFiles());
@@ -681,6 +705,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$this->object->setOnline($this->form_gui->getInput("online"));
 			$this->object->setPublicFiles($this->form_gui->getInput("public_files"));
 			$this->object->update();
+			
+			include_once("./Services/Block/classes/class.ilBlockSetting.php");
+			ilBlockSetting::_write("news", "public_feed",
+				$this->form_gui->getInput("extra_feed"),
+				0, $this->object->getId());
 			
 			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 			$ilCtrl->redirect($this, "editSettings");
