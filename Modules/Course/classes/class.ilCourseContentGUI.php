@@ -474,6 +474,7 @@ class ilCourseContentGUI
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
 			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			$column_gui->setAdminCommands(true);
 		}
 	}
 

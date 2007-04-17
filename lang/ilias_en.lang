@@ -2899,7 +2899,7 @@ feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing extern
 feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop
 feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop. Existing feeds are not deleted, if option is set to a lower value. '0' disables the feature completely.
 feed#:#feed_settings#:#External Web Feeds Settings
-feed#:#feed_open_source_page#:#Go to Source of External News
+feed#:#feed_open_source_page#:#Open in New Window
 feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
 feed#:#block_feed_block_feed_url#:#Feed URL

@@ -274,7 +274,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
-		$content_block->setTitle($this->feed->getChannelTitle());
+		$content_block->setTitle($this->getTitle());
 		$content_block->setImage(ilUtil::getImagePath("icon_feed.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));

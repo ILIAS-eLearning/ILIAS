@@ -663,17 +663,26 @@ abstract class ilBlockGUI
 		
 		$this->fillDataSection();
 		
+		if ($this->getRepositoryMode() && $this->isRepositoryObject()
+			&& $this->getAdminCommands())
+		{
+			$this->tpl->setCurrentBlock("block_check");
+			$this->tpl->setVariable("BL_REF_ID", $this->getRefId());
+			$this->tpl->parseCurrentBlock();
+			
+			if ($ilAccess->checkAccess("delete", "", $this->getRefId()))
+			{
+				$this->addBlockCommand(
+					"repository.php?ref_id=".$_GET["ref_id"]."&cmd=delete".
+					"&item_ref_id=".$this->getRefId(),
+					$lng->txt("delete"));
+			}
+		}
+
 		// commands
 		if (count($this->getBlockCommands()) > 0)
 		{
-			if ($this->getRepositoryMode() && $this->isRepositoryObject()
-				&& $this->getAdminCommands())
-			{
-				$this->tpl->setCurrentBlock("block_check");
-				$this->tpl->setVariable("BL_REF_ID", $this->getRefId());
-				$this->tpl->parseCurrentBlock();
-			}
-			
+
 			foreach($this->getBlockCommands() as $command)
 			{
 				if ($command["target"] != "")
