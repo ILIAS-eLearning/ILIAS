@@ -174,7 +174,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$this->tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
 
-		if(ilLPObjSettings::_lookupMode($this->item_id) == LP_MODE_MANUAL)
+		$mode = ilLPObjSettings::_lookupMode($this->item_id);
+		if($mode == LP_MODE_MANUAL or $mode == LP_MODE_MANUAL_BY_TUTOR)
 		{
 			$completed = ilLPStatusWrapper::_getCompleted($this->item_id);
 			

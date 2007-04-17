@@ -6473,10 +6473,10 @@ trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Note
 trac#:#trac_marks#:#Noten
 trac#:#trac_mode#:#Modus
-trac#:#trac_mode_collection#:#Auswahl von Objekten
+trac#:#trac_mode_collection#:#Automatisch durch Auswahl von Objekten
 trac#:#trac_mode_deactivated#:#Deaktiviert
 trac#:#trac_mode_exercise_returned#:#Übung gelöst
-trac#:#trac_mode_manual#:#Manuell
+trac#:#trac_mode_manual#:#Manuell durch NutzerInnen
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_scorm#:#SCORM/AICC
 trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
@@ -7242,3 +7242,5 @@ trac#:#trac_mode_scorm_info#:#Der Gesamtstatus wird durch die ausgewählten SCOR
 trac#:#trac_mode_test_finished_info#:#Alle Testfragen müssen beantwortet sein.
 trac#:#trac_mode_test_passed_info#:#Der Test muß bestanden sein.
 trac#:#trac_mode_exercise_returned_info#:#Der Status kann nur durch Tutoren bestimmt werden.
+trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutoren
+trac#:#trac_mode_manual_by_tutor_info#:#Der Gesamtstatus kann nur durch Tutoren gesetzt werden.

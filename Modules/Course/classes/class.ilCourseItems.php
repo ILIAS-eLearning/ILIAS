@@ -164,6 +164,7 @@ class ilCourseItems
 		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
 		switch(ilLPObjSettings::_lookupMode($obj_id))
 		{
+			case LP_MODE_MANUAL_BY_TUTOR:
 			case LP_MODE_COLLECTION:
 				include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
 				$ids = ilLPCollectionCache::_getItems($obj_id);

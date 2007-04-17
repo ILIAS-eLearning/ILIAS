@@ -6891,13 +6891,13 @@ trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Mark
 trac#:#trac_marks#:#Marks
 trac#:#trac_mode#:#Mode
-trac#:#trac_mode_collection#:#Collection of Objects
+trac#:#trac_mode_collection#:#Automatic by Collection of Objects
 trac#:#trac_mode_deactivated#:#Deactivated
 trac#:#trac_mode_exercise_returned#:#Exercise Solved
-trac#:#trac_mode_manual#:#Manual
-trac#:#trac_mode_objectives#:#Learning Objectives
-trac#:#trac_mode_scorm#:#SCORM/AICC
-trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
+trac#:#trac_mode_manual#:#Manual by Learner
+trac#:#trac_mode_objectives#:#Automatic by Learning Objectives
+trac#:#trac_mode_scorm#:#Automatic by Collection of SCORM Items
+trac#:#trac_mode_scorm_aicc#:#Automatic by Collection of SCORM Items
 trac#:#trac_mode_test_finished#:#Test Finished
 trac#:#trac_mode_test_passed#:#Test Passed
 trac#:#trac_mode_tlt#:#Typical Learning Time
@@ -7243,3 +7243,5 @@ trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by
 trac##:#trac_mode_test_finished_info#:#User have to finish a test completely.
 trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
+trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor
+trac#:#trac_mode_manual_by_tutor_info#:#The overall status can only be set by tutors.

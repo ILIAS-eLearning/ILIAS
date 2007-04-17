@@ -75,6 +75,10 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				return 'ilLPStatusManual';
 
+			case LP_MODE_MANUAL_BY_TUTOR:
+				include_once 'Services/Tracking/classes/class.ilLPStatusManualByTutor.php';
+				return 'ilLPStatusManualByTutor';
+
 			case LP_MODE_EXERCISE_RETURNED:
 				include_once 'Services/Tracking/classes/class.ilLPStatusExerciseReturned.php';
 				return 'ilLPStatusExerciseReturned';
@@ -104,7 +108,7 @@ class ilLPStatusFactory
 		}
 	}
 
-	function &_getInstance()
+	function &_getInstance($a_obj_id)
 	{
 		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 		
@@ -142,6 +146,11 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusManual.php';
 				
 				return new ilLPStatusManual($a_obj_id);
+
+			case LP_MODE_MANUAL_BY_TUTOR:
+				include_once 'Services/Tracking/classes/class.ilLPStatusManualByTutor.php';
+				
+				return new ilLPStatusManualByTutor($a_obj_id);
 
 			case LP_MODE_EXERCISE_RETURNED:
 				include_once 'Services/Tracking/classes/class.ilLPStatusExerciseReturned.php';

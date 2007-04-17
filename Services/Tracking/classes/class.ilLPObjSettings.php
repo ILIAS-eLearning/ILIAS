@@ -43,6 +43,7 @@ define("LP_MODE_TEST_FINISHED",7);
 define("LP_MODE_TEST_PASSED",8);
 define("LP_MODE_EXERCISE_RETURNED",9);
 define("LP_MODE_EVENT",10);
+define("LP_MODE_MANUAL_BY_TUTOR",11);
 
 define("LP_DEFAULT_VISITS",30);
 
@@ -167,7 +168,8 @@ class ilLPObjSettings
 	{
 		return $a_mode == LP_MODE_COLLECTION or
 			$a_mode == LP_MODE_SCORM or
-			$a_mode == LP_MODE_OBJECTIVES;
+			$a_mode == LP_MODE_OBJECTIVES or
+			$a_mode == LP_MODE_MANUAL_BY_TUTOR;
 	}
 		
 
@@ -220,8 +222,7 @@ class ilLPObjSettings
 				}
 
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
-							 #LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'),
+							 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
 							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
 
 				break;
@@ -262,7 +263,7 @@ class ilLPObjSettings
 
 			case 'grp':
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
+							 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
 							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
 
 			case 'fold':
@@ -291,6 +292,9 @@ class ilLPObjSettings
 				
 			case LP_MODE_MANUAL:
 				return $lng->txt('trac_mode_manual');
+
+			case LP_MODE_MANUAL_BY_TUTOR:
+				return $lng->txt('trac_mode_manual_by_tutor');
 
 			case LP_MODE_OBJECTIVES:
 				return $lng->txt('trac_mode_objectives');
@@ -338,6 +342,9 @@ class ilLPObjSettings
 				
 			case LP_MODE_MANUAL:
 				return $lng->txt('trac_mode_manual_info');
+				
+			case LP_MODE_MANUAL_BY_TUTOR:
+				return $lng->txt('trac_mode_manual_by_tutor_info');
 
 			case LP_MODE_OBJECTIVES:
 				return $lng->txt('trac_mode_objectives_info');
@@ -439,7 +446,7 @@ class ilLPObjSettings
 				{
 					return LP_MODE_OBJECTIVES;
 				}
-				return LP_MODE_MANUAL;
+				return LP_MODE_MANUAL_BY_TUTOR;
 
 			case 'dbk':
 			case 'lm':
