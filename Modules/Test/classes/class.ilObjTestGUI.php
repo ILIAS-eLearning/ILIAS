@@ -2126,7 +2126,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
 		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
 		$template = new ilTemplate("tpl.image.html", true, true);
-		$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
+		if (strlen($filter_question_type))
+		{
+			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
+		}
+		else
+		{
+			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
+		}
 		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "filter");
@@ -2139,7 +2146,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
 		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
 		$template = new ilTemplate("tpl.image.html", true, true);
-		$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
+		if (strlen($filter_questionpool))
+		{
+			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
+		}
+		else
+		{
+			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
+		}
 		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "qpfilter");
