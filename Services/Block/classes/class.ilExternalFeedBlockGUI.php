@@ -176,7 +176,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		}
 		
 		$this->feed->fetch();
-		$this->setTitle($this->feed->getChannelTitle());
+		//$this->setTitle($this->feed->getChannelTitle());
 		$this->setData($this->feed->getItems());
 
 		if ($ilAccess->checkAccess("write", "", $this->getRefId()))
@@ -301,6 +301,56 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	}
 
 	/**
+	* FORM FeedBlock: Init form. (We need to overwrite, because Generator
+	* does not know FeedUrl Inputs yet.
+	*
+	* @param	int	$a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	*/
+	public function initFormFeedBlock($a_mode)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("block");
+		
+		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		// Property Title
+		$text_input = new ilTextInputGUI($lng->txt("block_feed_block_title"), "block_title");
+		$text_input->setInfo("");
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(200);
+		$this->form_gui->addItem($text_input);
+		
+		// Property FeedUrl
+		$text_input = new ilFeedUrlInputGUI($lng->txt("block_feed_block_feed_url"), "block_feed_url");
+		$text_input->setInfo($lng->txt("block_feed_block_feed_url_info"));
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(250);
+		$this->form_gui->addItem($text_input);
+		
+		
+		// save and cancel commands
+		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
+		{
+			$this->form_gui->addCommandButton("saveFeedBlock", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelSaveFeedBlock", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("updateFeedBlock", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelUpdateFeedBlock", $lng->txt("cancel"));
+		}
+		
+		$this->form_gui->setTitle($lng->txt("block_feed_block_head"));
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
+		
+		$this->prepareFormFeedBlock($this->form_gui);
+
+	}
+
+	/**
 	* FORM FeedBlock: Prepare Saving of FeedBlock.
 	*
 	* @param	object	$a_feed_block	FeedBlock object.
@@ -344,9 +394,9 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	public function exitUpdateFeedBlock()
 	{
 		global $ilCtrl;
+		
 		$this->getGuiObject()->update($this->external_feed_block);
 	}
-
 }
 
 ?>

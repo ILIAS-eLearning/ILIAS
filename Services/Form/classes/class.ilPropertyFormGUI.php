@@ -36,6 +36,7 @@ include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
 include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 include_once("./Services/Form/classes/class.ilDurationInputGUI.php");
+include_once("./Services/Form/classes/class.ilFeedUrlInputGUI.php");
 
 /**
 * This class represents a property form user interface

@@ -2903,6 +2903,7 @@ feed#:#feed_open_source_page#:#Go to Source of External News
 feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
 feed#:#block_feed_block_feed_url#:#Feed URL
+feed#:#feed_no_valid_url#:#The Feed URL is not valid.
 feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)
