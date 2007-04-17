@@ -37,8 +37,23 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/0_12_1/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/0_12_1/connection/connection-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/connection/connection-min.js");
+	}
+
+	/**
+	* Init YUI Menu module
+	*/
+	static function initMenu()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/event/event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/dom/dom.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/container/container_core.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/menu/menu.js");
+		$tpl->addCss("./Services/YUI/js/2_2_1/menu/assets/menu.css");
 	}
 	
 } // END class.ilUtil
