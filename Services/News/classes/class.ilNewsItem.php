@@ -315,7 +315,13 @@ class ilNewsItem extends ilNewsItemGen
 		$result = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$result[$rec["id"]] = $rec;
+			if (!$a_for_rss_use || ($rec["visibility"] == NEWS_PUBLIC ||
+				($rec["priority"] == 0 &&
+				ilBlockSetting::_lookup("news", "public_notifications",
+				0, $rec["context_obj_id"]))))
+			{
+				$result[$rec["id"]] = $rec;
+			}
 		}
 
 		return $result;
@@ -365,7 +371,13 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			if ($type[$rec["context_obj_id"]] == $rec["context_obj_type"])
 			{
-				$result[$rec["id"]] = $rec;
+				if (!$a_for_rss_use || ($rec["visibility"] == NEWS_PUBLIC ||
+					($rec["priority"] == 0 &&
+					ilBlockSetting::_lookup("news", "public_notifications",
+					0, $rec["context_obj_id"]))))
+				{
+					$result[$rec["id"]] = $rec;
+				}
 			}
 		}
 

@@ -77,7 +77,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 		$news_item = new ilNewsItem();
 		$news_item->setContextObjId($obj_id);
 		$news_item->setContextObjType($obj_type);
-		$items = ilNewsItem::getNewsForRefId($a_ref_id, true);
+		$items = $news_item->getNewsForRefId($a_ref_id, true);
 		if ($ilSetting->get('short_inst_name') != "")
 		{
 			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".$obj_title);
