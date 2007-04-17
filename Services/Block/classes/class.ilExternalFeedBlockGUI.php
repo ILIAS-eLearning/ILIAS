@@ -92,6 +92,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			case "updateFeedBlock":
 			case "editFeedBlock":
 			case "showFeedItem":
+			case "confirmDeleteFeedBlock":
 				return IL_SCREEN_CENTER;
 				break;
 				
@@ -252,8 +253,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		
 		if (is_object($c_item))
 		{
-//var_dump($c_item->getMagpieItem());
-//echo $c_item->getLink();
 			if (trim($c_item->getSummary()) != "")		// summary
 			{
 				$tpl->setCurrentBlock("content");
@@ -284,7 +283,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
-		$content_block->setTitle($this->feed->getChannelTitle());
+		$content_block->setTitle($this->getTitle());
 		$content_block->setImage(ilUtil::getImagePath("icon_feed.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
@@ -397,6 +396,58 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		
 		$this->getGuiObject()->update($this->external_feed_block);
 	}
+	
+	/**
+	* Confirmation of feed block deletion
+	*/
+/*
+	function confirmDeleteFeedBlock()
+	{
+		global $ilCtrl, $lng;
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteFeedBlock"));
+		$c_gui->setHeaderText($lng->txt("info_delete_sure"));
+		$c_gui->setCancel($lng->txt("cancel"), "exitDeleteFeedBlock");
+		$c_gui->setConfirm($lng->txt("confirm"), "deleteFeedBlock");
+
+		// add items to delete
+		$c_gui->addItem("external_feed_block_id",
+			$this->feed_block->getId(), $this->feed_block->getTitle(),
+			ilUtil::getImagePath("icon_feed.gif"));
+		
+		return $c_gui->getHTML();
+	}
+*/
+	
+	/**
+	* Cancel deletion of feed block
+	*/
+/*
+	function exitDeleteFeedBlock()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+*/
+
+	/**
+	* Delete feed block
+	*/
+/*
+	function deleteFeedBlock()
+	{
+		global $ilCtrl;
+
+		$this->feed_block->delete();
+		$ilCtrl->returnToParent($this);
+	}
+*/
+
 }
 
 ?>
