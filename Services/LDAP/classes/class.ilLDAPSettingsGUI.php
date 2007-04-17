@@ -102,6 +102,7 @@ class ilLDAPSettingsGUI
 		
 		$mapping_data = $this->role_mapping->getMappings();
 		
+		
 		// Section new assignment
 		$this->tpl->setVariable('TXT_NEW_ASSIGNMENT',$this->lng->txt('ldap_new_role_assignment'));
 		$this->tpl->setVariable('TXT_URL',$this->lng->txt('ldap_server'));

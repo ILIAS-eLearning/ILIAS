@@ -105,6 +105,11 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($lng->txt("msg_sysrole_not_deletable"),$this->ilErr->MESSAGE);
 		}
 
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		$mapping = ilLDAPRoleGroupMapping::_getInstance();
+		$mapping->deleteRole($a_rol_id); 
+
+
 		// TODO: check assigned users before deletion
 		// This is done in ilObjRole. Should be better moved to this place?
 		

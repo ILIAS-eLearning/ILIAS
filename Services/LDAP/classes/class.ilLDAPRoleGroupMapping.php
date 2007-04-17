@@ -104,6 +104,38 @@ class ilLDAPRoleGroupMapping
 	}
 	
 	/**
+	 * Delete role.
+	 * This function triggered from ilRbacAdmin::deleteRole
+	 * It deassigns all user from the mapped ldap group.
+	 *
+	 * @access public
+	 * @param int role id
+	 * 
+	 */
+	public function deleteRole($a_role_id)
+	{
+		global $rbacreview;
+		
+		// return if there nothing to do
+		if(!$this->active_servers)
+		{
+			return false;
+		}
+		
+	 	if(!$this->isHandledRole($a_role_id))
+	 	{
+	 		return false;
+	 	}
+	 	
+	 	foreach($rbacreview->assignedUsers($a_role_id) as $usr_id)
+	 	{
+	 		$this->deassign($a_role_id,$usr_id);
+	 	}
+	 	return true;
+	}
+	
+	
+	/**
 	 * This method is typically called from class RbacAdmin::deassignUser()
 	 * It checks if there is a role mapping and if the user has auth mode LDAP
 	 * After these checks the user is deassigned from the LDAP group
