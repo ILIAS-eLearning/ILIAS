@@ -275,7 +275,7 @@ class ilLDAPRoleGroupMappingSettings
 		global $ilObjDataCache;
 		
 		$this->mappings = array();
-	 	$query = "SELECT * FROM ldap_role_group_mapping JOIN object_data ".
+	 	$query = "SELECT * FROM ldap_role_group_mapping LEFT JOIN object_data ".
 	 		"ON role = obj_id ".
 	 		"WHERE server_id =".$this->db->quote($this->getServerId()).' '.
 	 		"ORDER BY title,dn";
