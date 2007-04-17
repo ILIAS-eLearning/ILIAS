@@ -2052,23 +2052,8 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		// add imports for YUI menu
-		$imports = array(
-			"./Services/YUI/js/2_2_0/yahoo/yahoo.js",
-			"./Services/YUI/js/2_2_0/event/event.js",
-			"./Services/YUI/js/2_2_0/dom/dom.js",
-			"./Services/YUI/js/2_2_0/container/container_core.js",
-			"./Services/YUI/js/2_2_0/menu/menu.js"
-		);
-		foreach ($imports as $import)
-		{
-			$this->tpl->setCurrentBlock("js_file");
-			$this->tpl->setVariable("JS_FILE", $import);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("css_file");
-		$this->tpl->setVariable("CSS_FILE", "./Services/YUI/js/2_2_0/menu/assets/menu.css");
-		$this->tpl->parseCurrentBlock();
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::initMenu();
 		// add questiontype filter
 		$filtermenu = new ilTemplate("tpl.question_type_menu.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		if (strcmp($filter_question_type, "") == 0)
