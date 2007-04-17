@@ -198,7 +198,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		foreach(ilLPEventCollections::_getItems($this->details_obj_id) as $event_id)
 		{
 			$this->__renderContainerRow($this->details_id,$event_id,'event',0);
-
 		}
 		// show items
 

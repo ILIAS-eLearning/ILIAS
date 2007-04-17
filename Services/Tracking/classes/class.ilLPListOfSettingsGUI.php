@@ -182,6 +182,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 	{
 		switch($this->obj_settings->getMode())
 		{
+			case LP_MODE_MANUAL_BY_TUTOR:
 			case LP_MODE_COLLECTION:
 
 				$this->__showCollectionTable();

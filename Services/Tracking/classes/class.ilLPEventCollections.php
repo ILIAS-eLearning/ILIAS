@@ -113,15 +113,15 @@ class ilLPEventCollections
 		global $ilObjDataCache;
 		global $ilDB;
 
-		$query = "SELECT * FROM ut_lp_event_collections WHERE obj_id = '".(int) $a_obj_id."'";
+		$query = "SELECT * FROM ut_lp_event_collections WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!ilEvent::_exists($row->item_id))
 			{
 				$query = "DELETE FROM ut_lp_event_collections ".
-					"WHERE obj_id = '".$a_obj_id."' ".
-					"AND item_id = '".$row->item_id."'";
+					"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+					"AND item_id = ".$ilDB->quote($row->item_id)."";
 				$ilDB->query($query);
 				continue;
 			}

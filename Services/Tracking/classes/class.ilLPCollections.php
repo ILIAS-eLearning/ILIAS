@@ -234,7 +234,7 @@ class ilLPCollections
 			include_once 'Modules/Course/classes/class.ilCourseObjective.php';
 			return ilCourseObjective::_getObjectiveIds($a_obj_id);
 		}
-		if($mode != LP_MODE_SCORM and $mode != LP_MODE_COLLECTION)
+		if($mode != LP_MODE_SCORM and $mode != LP_MODE_COLLECTION and $mode != LP_MODE_MANUAL_BY_TUTOR)
 		{
 			return array();
 		}
