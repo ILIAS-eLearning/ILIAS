@@ -482,6 +482,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$tpl->setVariable("HREF_TITLE", $url_target);
 		}
 		
+		// title
 		if ($news->getContentIsLangVar())
 		{
 			$tpl->setVariable("VAL_TITLE", $lng->txt($news->getTitle()));
