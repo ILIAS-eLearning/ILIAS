@@ -1036,8 +1036,10 @@ class ilTree
 				$takeId = $takeId || $a_endnode_id == $a_startnode_id;
 				if ($takeId) $pathIds[] = $a_endnode_id;
 		}
-		else if ($nodeDepth < 10)
+		else if ($nodeDepth < 32)
 		{
+			// Adjacency Map Tree performs better than
+			// Nested Sets Tree even for very deep trees.
 			// The following code construct nested self-joins
 			// Since we already know the root-id of the tree and
 			// we also know the id and parent id of the current node,
@@ -1080,6 +1082,7 @@ class ilTree
 		}
 		else
 		{
+			// Fall back to nested sets tree for extremely deep tree structures
 			return $this->getPathIdsUsingNestedSets($a_endnode_id, $a_startnode_id);
 		}
 		
