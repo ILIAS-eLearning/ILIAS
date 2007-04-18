@@ -357,7 +357,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			if ($this->object->getInstantFeedbackSolution())
 			{
-				$solutionoutput = $question_gui->getSolutionOutput("", NULL);
+				$solutionoutput = $question_gui->getSolutionOutput("", NULL, FALSE, FALSE, FALSE);
 				$this->tpl->setCurrentBlock("solution_output");
 				$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("correct_solution_is"));
 				$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
@@ -1761,7 +1761,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$template->setVariable("COUNTER_QUESTION", $counter.". ");
 				$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 				
-				$result_output = $question_gui->getSolutionOutput($active_id, $pass);
+				$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE);
 				$template->setVariable("SOLUTION_OUTPUT", $result_output);
 				$this->tpl->setVariable("QUESTION_OUTPUT", $template->get());
 				$this->tpl->parseCurrentBlock();

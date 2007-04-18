@@ -460,10 +460,10 @@ class assFlashAppGUI extends assQuestionGUI
 				}
 			}
 		}
-		$questionoutput = $template->get();
-		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
-		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
-		return $questionoutput;
+		$solutionoutput = $template->get();
+		$pageoutput = $this->getILIASPage();
+		$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $solutionoutput, $pageoutput);
+		return $solutionoutput;
 	}
 	
 	function getQuestion()

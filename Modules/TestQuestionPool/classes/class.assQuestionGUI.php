@@ -303,6 +303,31 @@ class assQuestionGUI
 	}
 
 	/**
+	* Returns the ILIAS Page around a question
+	*
+	* Returns the ILIAS Page around a question
+	*
+	* @return string The ILIAS page content
+	* @access public
+	*/
+	function getILIASPage()
+	{
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		$page =& new ilPageObject("qpl", $this->object->getId());
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->setTemplateTargetVar($a_temp_var);
+		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
+			"&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
+			"&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
+		$page_gui->setOutputMode("presentation");
+		$page_gui->setPresentationTitle("");
+		return $page_gui->presentation();
+	}
+
+	/**
 	* output question page
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "")
