@@ -1673,10 +1673,16 @@ class ilObjTest extends ilObject
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
+				$countquery = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND original_id IS NULL",
+					$ilDB->quote($row["questionpool_fi"] . "")
+				);
+				$countresult = $ilDB->query($countquery);
+				$contains = $countresult->numRows();
 				$qpls[$counter] = array(
 					"index" => $counter,
 					"count" => $row["num_of_q"],
-					"qpl"   => $row["questionpool_fi"]
+					"qpl"   => $row["questionpool_fi"],
+					"contains" => $contains
 				);
 				$counter++;
 			}
@@ -6999,14 +7005,14 @@ class ilObjTest extends ilObject
 		return 0;
 	}
 
-/**
-* Returns the number of questions in the test
-*
-* Returns the number of questions in the test
-*
-* @return integer The number of questions
-* @access	public
-*/
+	/**
+	* Returns the number of questions in the test
+	*
+	* Returns the number of questions in the test
+	*
+	* @return integer The number of questions
+	* @access	public
+	*/
 	function getQuestionCount()
 	{
 		$num = 0;
@@ -7016,13 +7022,21 @@ class ilObjTest extends ilObject
 			if ($this->getRandomQuestionCount())
 			{
 				$num = $this->getRandomQuestionCount();
+				$qpls =& $this->getRandomQuestionpools();
+				$maxcount = 0;
+				foreach ($qpls as $data)
+				{
+					$maxcount += $data["contains"];
+				}
+				if ($num > $maxcount) $num = $maxcount;
 			}
 				else
 			{
 				$qpls =& $this->getRandomQuestionpools();
 				foreach ($qpls as $data)
 				{
-					$num += $data["count"];
+					$add = ($data["count"] <= $data["contains"]) ? $data["count"] : $data["contains"];
+					$num += $add;
 				}
 			}
 		}
@@ -7033,14 +7047,14 @@ class ilObjTest extends ilObject
 		return $num;
 	}
 
-/**
-* Returns the number of questions in the test for a given user
-*
-* Returns the number of questions in the test for a given user
-*
-* @return integer The number of questions
-* @access	public
-*/
+	/**
+	* Returns the number of questions in the test for a given user
+	*
+	* Returns the number of questions in the test for a given user
+	*
+	* @return integer The number of questions
+	* @access	public
+	*/
 	function _getQuestionCount($test_id)
 	{
 		global $ilDB;
@@ -7059,20 +7073,47 @@ class ilObjTest extends ilObject
 
 		if ($test["random_test"] == 1)
 		{
+			$qpls = array();
+			$counter = 0;
+			$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+				$ilDB->quote($test_id . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$countquery = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND original_id IS NULL",
+						$ilDB->quote($row["questionpool_fi"] . "")
+					);
+					$countresult = $ilDB->query($countquery);
+					$contains = $countresult->numRows();
+					$qpls[$counter] = array(
+						"index" => $counter,
+						"count" => $row["num_of_q"],
+						"qpl"   => $row["questionpool_fi"],
+						"contains" => $contains
+					);
+					$counter++;
+				}
+			}
 			if ($test["random_question_count"] > 0)
 			{
 				$num = $test["random_question_count"];
-			}
-			else
-			{
-				$query = sprintf("SELECT SUM(num_of_q) AS questioncount FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
-					$ilDB->quote($test_id . "")
-				);
-				$result = $ilDB->query($query);
-				if ($result->numRows())
+				$maxcount = 0;
+				foreach ($qpls as $data)
 				{
-					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-					$num = $row["questioncount"];
+					$maxcount += $data["contains"];
+				}
+				if ($num > $maxcount) $num = $maxcount;
+			}
+				else
+			{
+				$num = 0;
+				foreach ($qpls as $data)
+				{
+					$add = ($data["count"] <= $data["contains"]) ? $data["count"] : $data["contains"];
+					$num += $add;
 				}
 			}
 		}
