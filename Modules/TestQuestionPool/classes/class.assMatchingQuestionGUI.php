@@ -627,8 +627,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		if (!$show_question_only)
 		{
 			// get page object output
-			$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-			$pageoutput = preg_replace("/\<div class\=\"ilc_PageTitle\">.*?\<\/div>/ims", "", $pageoutput);
+			$pageoutput = $this->getILIASPage();
 			$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $solutionoutput, $pageoutput);
 		}
 		return $solutionoutput;
