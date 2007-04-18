@@ -364,7 +364,23 @@ class ilLDAPServer
 	{
 		$this->group_attribute = $a_value;
 	}
-
+	
+	public function toggleMembershipOptional($a_status)
+	{
+		$this->group_optional = (bool) $a_status;	 	
+	}
+	public function isMembershipOptional()
+	{
+		return (bool) $this->group_optional;
+	}
+	public function setGroupUserFilter($a_filter)
+	{
+		$this->group_user_filter = $a_filter;
+	}
+	public function getGroupUserFilter()
+	{
+		return $this->group_user_filter;
+	}
 
 	public function enabledGroupMemberIsDN()
 	{
@@ -495,6 +511,8 @@ class ilLDAPServer
 			"group_memberisdn =".$this->db->quote((int) $this->enabledGroupMemberIsDN()).", ".
 			"group_name = ".$this->db->quote($this->getGroupName()).", ".
 			"group_attribute = ".$this->db->quote($this->getGroupAttribute()).", ".
+			"group_optional = ".$this->db->quote((int) $this->isMembershipOptional()).", ".
+			"group_user_filter = ".$this->db->quote($this->getGroupUserFilter()).", ".
 			"sync_on_login = ".$this->db->quote($this->enabledSyncOnLogin() ? 1 : 0).", ".
 			"sync_per_cron = ".$this->db->quote($this->enabledSyncPerCron() ? 1 : 0).", ".
 			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization()).", ".
@@ -532,6 +550,8 @@ class ilLDAPServer
 			"group_memberisdn =".$this->db->quote((int) $this->enabledGroupMemberIsDN()).", ".
 			"group_name = ".$this->db->quote($this->getGroupName()).", ".
 			"group_attribute = ".$this->db->quote($this->getGroupAttribute()).", ".
+			"group_optional = ".$this->db->quote((int) $this->isMembershipOptional()).", ".
+			"group_user_filter = ".$this->db->quote($this->getGroupUserFilter()).", ".
 			"sync_on_login = ".$this->db->quote($this->enabledSyncOnLogin() ? 1 : 0).", ".
 			"sync_per_cron = ".$this->db->quote($this->enabledSyncPerCron() ? 1 : 0).", ".
 			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization()).", ".
@@ -687,6 +707,8 @@ class ilLDAPServer
 			$this->setGroupFilter($row->group_filter);
 			$this->setGroupMember($row->group_member);
 			$this->setGroupAttribute($row->group_attribute);
+			$this->toggleMembershipOptional($row->group_optional);
+			$this->setGroupUserFilter($row->group_user_filter);
 			$this->enableGroupMemberIsDN($row->group_memberisdn);
 			$this->setGroupName($row->group_name);
 			$this->enableSyncOnLogin($row->sync_on_login);

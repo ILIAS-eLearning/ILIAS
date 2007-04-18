@@ -36,6 +36,8 @@ include_once('Auth/Container/LDAP.php');
 */
 class ilAuthContainerLDAP extends Auth_Container_LDAP
 {
+	private $optional_check = false;
+	
 	private $log = null;
 	private $server = null;
 	
@@ -54,26 +56,58 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 	parent::__construct($a_params);
 	 	$this->log = $ilLog;
 	}
+
+	/**
+	 * enable optional group check
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function enableOptionalGroupCheck()
+	{
+	 	$this->optional_check = true;
+	 	$this->updateUserFilter();
+	}
 	
 	/**
-	 * check group overwritten base class
+	 * Check if optional group check is enabled
+	 *
+	 * @access public
+	 * 
+	 */
+	public function enabledOptionalGroupCheck()
+	{
+	 	return (bool) $this->optional_check;
+	}
+
+	
+	/**
+	 * check group 
+	 * overwritten base class
 	 *
 	 * @access public
 	 * @param string user name (DN or external account name)
 	 * 
 	 */
-	
 	public function checkGroup($a_name)
 	{
-		$this->log->write('LDAP: checking group restrictions...');
+		$this->log->write(__METHOD__.': checking group restrictions...');
 
 		// if there are multiple groups define check all of them for membership
 		$groups = $this->server->getGroupNames();
-		if(count($groups) <= 1)
-		{
-			return parent::checkGroup($a_name);
-		}
 		
+		if(!count($groups))
+		{
+			$this->log->write(__METHOD__.': No group restrictions found.');
+			return true;
+		}
+		elseif($this->server->isMembershipOptional() and !$this->optional_check)
+		{
+			$this->log->write(__METHOD__.': Group membership is optional.');
+			return true;
+		}
+	
 		foreach($groups as $group)
 		{
 			$this->options['group'] = $group;
@@ -89,7 +123,7 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 * Overwritten debug method
 	 * Writes infos to log file
 	 *
-	 * @access private
+	 * @access public
 	 * @param string message
 	 * @param int line
 	 * 
@@ -101,6 +135,17 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		 	$this->log->write('LDAP PEAR: '.$a_message);
 		}
 	 	parent::_debug($a_message,$a_line);
+	}
+	
+	/**
+	 * Update user filter
+	 *
+	 * @access private
+	 * 
+	 */
+	private function updateUserFilter()
+	{
+	 	$this->options['userfilter'] = $this->server->getGroupUserFilter();
 	}
 	
 }

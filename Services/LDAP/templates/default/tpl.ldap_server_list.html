@@ -6,56 +6,56 @@
 		  </th>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2" width="40%">{TXT_ACTIVE}</td>
+		  <td class="option" align="top" width="40%">{TXT_ACTIVE}</td>
 		  <td class="option_value">{CHECK_ACTIVE}</td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_SERVER_NAME} <span class="asterisk">*</span></td>
+		  <td class="option" align="top">{TXT_SERVER_NAME} <span class="asterisk">*</span></td>
 		  <td class="option_value">
 			<input type="text" name="server_name" value="{SERVER_NAME}" size="32" maxlength="32" />
 			<div class="il_Description_no_margin">{TXT_SERVER_NAME_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_SERVER_URL} <span class="asterisk">*</span></td>
+		  <td class="option" align="top" >{TXT_SERVER_URL} <span class="asterisk">*</span></td>
 		  <td class="option_value">
 			<input type="text" name="server_url" value="{SERVER_URL}" size="32" maxlength="255" />
 			<div class="il_Description_no_margin">{TXT_SERVER_URL_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_SERVER_VERSION}</td>
+		  <td class="option" align="top" >{TXT_SERVER_VERSION}</td>
 		  <td class="option_value">
 			{SELECT_VERSION}
 			<div class="il_Description_no_margin">{TXT_SERVER_VERSION_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_BASE_DN} <span class="asterisk">*</span></td>
+		  <td class="option" align="top" >{TXT_BASE_DN} <span class="asterisk">*</span></td>
 		  <td class="option_value">
 			<input type="text" name="base_dn" value="{BASE_DN}" size="64" maxlength="255" />
 			<div class="il_Description_no_margin">{TXT_BASE_DN_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_REFERRALS}</td>
+		  <td class="option" align="top" >{TXT_REFERRALS}</td>
 		  <td class="option_value">{CHECK_REFERRALS}
 			<div class="il_Description_no_margin">{TXT_REFERRALS_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="tblheader">
-		  <td class="std" colspan="3">
+		  <td class="std" colspan="2">
 			<div style="float:left;">{TXT_SECURITY_SETTINGS}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_TLS}</td>
+		  <td class="option" align="top" >{TXT_TLS}</td>
 		  <td class="option_value">
 			{CHECK_TLS}
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_BINDING}</td>
+		  <td class="option" align="top" >{TXT_BINDING}</td>
 		  <td class="option_value">
 			{RADIO_ANONYMOUS}&nbsp;{TXT_ANONYMOUS}<br />
 			{RADIO_USER}&nbsp;{TXT_USER}<br />
@@ -81,70 +81,69 @@
 			</table>
 			  </li>
 			</ul>
+			<div class="il_Description_no_margin">{TXT_BIND_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="tblheader">
-		  <td class="std" colspan="3">
+		  <td class="std" colspan="2">
 			<div style="float:left;">{TXT_AUTH_SETTINGS}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_SEARCH_BASE}</td>
+		  <td class="option" align="top" >{TXT_SEARCH_BASE}</td>
 		  <td class="option_value">
 			<input type="text" name="search_base" value="{SEARCH_BASE}" size="32" maxlength="255" />
 			<div class="il_Description_no_margin">{TXT_SEARCH_BASE_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_USER_SCOPE}</td>
+		  <td class="option" align="top" >{TXT_USER_SCOPE}</td>
 		  <td class="option_value">
 			{SELECT_USER_SCOPE}
 			<div class="il_Description_no_margin">{TXT_USER_SCOPE_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_USER_ATTRIBUTE}</td>
+		  <td class="option" align="top" >{TXT_USER_ATTRIBUTE}</td>
 		  <td class="option_value">
 			<input type="text" name="user_attribute" value="{USER_ATTRIBUTE}" size="16" maxlength="64" />
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_FILTER}</td>
+		  <td class="option" align="top" >{TXT_FILTER}</td>
 		  <td class="option_value">
 			<input type="text" name="filter" value="{FILTER}" size="32" maxlength="255" />
 			<div class="il_Description_no_margin">{TXT_FILTER_INFO}</div>
 		  </td>
 		</tr>
-		<tr class="std">
-		  <td class="option" align="top" rowspan="7" width="20px"></td>
-		  <td class="option" align="top" colspan="1">{TXT_GROUP_RESTRICTIONS}</td>
-		  <td class="option">{CHECK_GROUP_RESTRICTION}
-			<div class="il_Description_no_margin">{TXT_GROUP_RESTRICTION_INFO}</div>
+		<tr class="tblheader">
+		  <td class="std" colspan="2">
+			<div style="float:left;">{TXT_GROUP_RESTRICTIONS}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="sub_option" align="top" colspan="1">{TXT_GROUP_DN}</td>
+		  <td class="option" align="top" >{TXT_GROUP_DN}</td>
 		  <td class="option_value">
 			<input type="text" name="group_dn" value="{GROUP_DN}" size="32" maxlength="255" />
 			<div class="il_Description_no_margin">{TXT_GROUP_DN_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="sub_option" align="top" colspan="1">{TXT_GROUP_SCOPE}</td>
+		  <td class="option" align="top" >{TXT_GROUP_SCOPE}</td>
 		  <td class="option_value">
 			{SELECT_GROUP_SCOPE}
 			<div class="il_Description_no_margin">{TXT_GROUP_SCOPE_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="sub_option" align="top" colspan="1">{TXT_GROUP_FILTER}</td>
+		  <td class="option" align="top" >{TXT_GROUP_FILTER}</td>
 		  <td class="option_value">
 			<input type="text" name="group_filter" value="{GROUP_FILTER}" size="32" maxlength="255" />
 			<div class="il_Description_no_margin">{TXT_GROUP_FILTER_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="sub_option" align="top" colspan="1">{TXT_MEMBER}</td>
+		  <td class="option" align="top" >{TXT_MEMBER}</td>
 		  <td class="option_value">
 			<input type="text" name="group_member" value="{GROUP_MEMBER}" size="32" maxlength="255" /><br />
 			{CHECK_MEMBERISDN}&nbsp;{TXT_MEMBERISDN}
@@ -152,26 +151,38 @@
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="sub_option" align="top" colspan="1">{TXT_GROUP}</td>
+		  <td class="option" align="top" >{TXT_GROUP}</td>
 		  <td class="option_value">
 			<input type="text" name="group" value="{GROUP}" size="32" maxlength="255" />
 			<div class="il_Description_no_margin">{TXT_GROUP_INFO}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="sub_option" align="top" colspan="1">{TXT_GROUP_ATTRIBUTE}</td>
+		  <td class="option" align="top" >{TXT_GROUP_ATTRIBUTE}</td>
 		  <td class="option_value">
 			<input type="text" name="group_attribute" value="{GROUP_ATTRIBUTE}" size="16" maxlength="64" />
 			<div class="il_Description_no_margin">{TXT_GROUP_ATTRIBUTE_INFO}</div>
 		  </td>
 		</tr>
+		<tr class="std">
+		  <td class="option" align="top" >{TXT_GROUP_MEMBERSHIP}</td>
+		  <td class="option_value">
+		  	{CHECK_OPTIONAL} {TXT_OPTIONAL}
+		  	<ul style="list-style-type:none">
+		      <li>
+				{TXT_GROUP_USER_FILTER}: <input type="text" name="group_user_filter" value="{GROUP_USER_FILTER}" size="32" maxlength="255" />
+			  </li>
+			</ul>
+			<div class="il_Description_no_margin">{TXT_OPTIONAL_INFO}</div>
+		  </td>
+		</tr>
 		<tr class="tblheader">
-		  <td class="std" colspan="3">
+		  <td class="std" colspan="2">
 			<div style="float:left;">{TXT_USER_SYNC}</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_MOMENT}</td>
+		  <td class="option" align="top" >{TXT_MOMENT}</td>
 		  <td class="option_value">
 			{CHECK_LOGIN}&nbsp;{TXT_LOGIN}<br />
 			{CHECK_CRON}&nbsp;{TXT_CRON}
@@ -179,14 +190,14 @@
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" colspan="2">{TXT_GLOBAL_ROLE}</td>
+		  <td class="option" align="top" >{TXT_GLOBAL_ROLE}</td>
 		  <td class="option_value">
 			{SELECT_GLOBAL_ROLE}
 			<div class="il_Description_no_margin">{TXT_GLOBAL_ROLE_INFO}</div>
 		  </td>
 		</tr>
 		<tr>
-		  <td class="submit" colspan="3">
+		  <td class="submit" colspan="2">
 			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 			<div  align="right">
 			  <input type="submit" class="submit" name="cmd[save]" value="{TXT_SAVE}" />
