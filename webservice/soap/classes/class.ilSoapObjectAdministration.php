@@ -865,18 +865,22 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			}
 		}
 		// perform update
-		foreach($object_datas as & $object_data)
+		if (count ($object_datas) > 0)
 		{
-			$tmp_obj = & $object_data["instance"];
-			$tmp_obj->setTitle($object_data['title']);
-			$tmp_obj->setDescription($object_data['description']);
-			if(strlen($object_data['owner']))
+			foreach($object_datas as $object_data)
 			{
-				$tmp_obj->setOwner($object_data['owner']);
+				$tmp_obj = $object_data["instance"];
+				$tmp_obj->setTitle($object_data['title']);
+				$tmp_obj->setDescription($object_data['description']);
+				if(strlen($object_data['owner']))
+				{
+					$tmp_obj->setOwner($object_data['owner']);
+				}
+				$tmp_obj->update();
 			}
-			$tmp_obj->update();
+			return true;
 		}
-		return true;
+		return false;
 
 	}
 

@@ -533,7 +533,7 @@ class ilExerciseMembers
 			}
 			$pathinfo = pathinfo($filename);
 			$dir = $pathinfo["dirname"];
-			$this->downloadMultipleFiles($array_files, $dir);
+			$this->downloadMultipleFiles($array_files, $dir, $a_member_id);
 		}
 		else
 		{
@@ -602,24 +602,57 @@ class ilExerciseMembers
 		ilUtil::deliverFile($filename, $filetitle);
 	}
 	
-	function downloadMultipleFiles($array_filenames, $pathname)
+	function downloadMultipleFiles($array_filenames, $pathname, $a_member_id = 0)
 	{
-		global $lng;
+		global $lng, $ilObjDataCache;
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		$cdir = getcwd();
-		chdir($pathname);
+
 		$zip = PATH_TO_ZIP;
+		$tmpdir = ilUtil::ilTempnam();
 		$tmpfile = ilUtil::ilTempnam();
 		$tmpzipfile = $tmpfile . ".zip";
+		
+		ilUtil::makeDir($tmpdir);		
+		chdir($tmpdir);
+		
+		//copy all files to a temporary directory and remove them afterwards
 		foreach ($array_filenames as $key => $filename)
 		{
-			$array_filenames[$key] = ilUtil::escapeShellArg($array_filenames[$key]);
+			// remove timestamp
+			$newFilename = trim(basename($array_filenames[$key]));
+			$pos = strpos($newFilename , "_");
+			if ($pos === false) 
+			{				
+			} else 
+			{
+				$newFilename= substr($newFilename, $pos + 1);
+			}
+			$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$newFilename;
+			// copy to temporal directory
+			$oldFilename =  $pathname.DIRECTORY_SEPARATOR.$array_filenames[$key];
+			if (!copy ($oldFilename, $newFilename)) 			
+			{
+				echo 'Could not copy '.$oldFilename.' to '.$newFilename;
+			}			
+			$array_filenames[$key] =  ilUtil::escapeShellArg(basename($newFilename)); //$array_filenames[$key]);
 		}
 		$zipcmd = $zip." ".ilUtil::escapeShellArg($tmpzipfile)." ".join($array_filenames, " ");
 		exec($zipcmd);
-		ilUtil::deliverFile($tmpzipfile, strtolower($lng->txt("excs")) . ".zip");
+		ilUtil::delDir($tmpdir);
+		$exerciseTitle = $ilObjDataCache->lookupTitle($this->getObjId());
+		$deliverFilename = $exerciseTitle;
+		if ($a_member_id > 0) 
+		{
+			$userName = ilObjUser::_lookupName($a_member_id);
+			$deliverFilename .= "_".$userName["lastname"]."_".$userName["firstname"];
+		} else 
+		{
+			$deliverFilename .= "_files";
+		}
+		$deliverFilename .= ".zip";
+		ilUtil::deliverFile($tmpzipfile, $deliverFilename);
 		chdir($cdir);
-		unlink($tmpfile);
 		unlink($tmpzipfile);
 	}
 	
