@@ -98,7 +98,7 @@ class ilAuthLDAP extends Auth
 	 */
 	protected function failedLoginObserver()
 	{
-		if(!$this->ldap_container->enabledOptionalGroupCheck())
+		if(!$this->ldap_container->enabledOptionalGroupCheck() and $this->ldap_server->isMembershipOptional())
 		{
 			$this->logout();
 			$this->ldap_container->enableOptionalGroupCheck();

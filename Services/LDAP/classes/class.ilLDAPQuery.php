@@ -88,7 +88,7 @@ class ilLDAPQuery
 		// No:  => fetch all users
 		if(strlen($this->settings->getGroupName()))
 		{
-			$this->log->write('LDAP: Searching for group members.');
+			$this->log->write(__METHOD__.': Searching for group members.');
 
 			$groups = $this->settings->getGroupNames();
 			if(count($groups) <= 1)
@@ -104,9 +104,9 @@ class ilLDAPQuery
 			}			
 			
 		}
-		else
+		if(!strlen($this->settings->getGroupName()) or $this->settings->isMembershipOptional())
 		{
-			$this->log->write(__METHOD__.': No group restrictions found. Start reading all users...');
+			$this->log->write(__METHOD__.': Start reading all users...');
 			$this->readAllUsers();
 			#throw new ilLDAPQueryException('LDAP: Called import of users without specifying group restrictions. NOT IMPLEMENTED YET!');
 		}
@@ -230,7 +230,7 @@ class ilLDAPQuery
 			{
 				if(isset($data[$this->settings->getUserAttribute()]))
 				{
-					$this->readUserData($data[$this->settings->getUserAttribute()],false);
+					$this->readUserData($data[$this->settings->getUserAttribute()],false,false);
 				}
 				else
 				{
@@ -295,12 +295,12 @@ class ilLDAPQuery
 			{
 				foreach($data[$attribute_name] as $name)
 				{
-					$this->readUserData($name);
+					$this->readUserData($name,true,true);
 				}
 			}
 			else
 			{
-				$this->readUserData($data[$attribute_name]);
+				$this->readUserData($data[$attribute_name],true,true);
 			}
 		}
 		unset($tmp_result);
@@ -309,14 +309,24 @@ class ilLDAPQuery
 	
 	/**
 	 * Read user data 
+	 * @param bool check dn
+	 * @param bool use group filter
 	 * @access private
 	 */
-	private function readUserData($a_name,$a_check_dn = true)
+	private function readUserData($a_name,$a_check_dn = true,$a_try_group_user_filter = false)
 	{
+		$filter = $this->settings->getFilter();
+		if($a_try_group_user_filter)
+		{
+			if($this->settings->isMembershipOptional())
+			{
+				$filter = $this->settings->getGroupUserFilter();
+			}
+		}
+		
 		// Build filter
 		if($this->settings->enabledGroupMemberIsDN() and $a_check_dn)
 		{
-			$filter = $this->settings->getFilter();
 			$dn = $a_name;
 			$res = $this->queryByScope(IL_LDAP_SCOPE_BASE,$dn,$filter,$this->user_fields);
 		}
@@ -325,7 +335,7 @@ class ilLDAPQuery
 			$filter = sprintf('(&(%s=%s)%s)',
 				$this->settings->getUserAttribute(),
 				$a_name,
-				$this->settings->getFilter());
+				$filter);
 
 			// Build search base
 			if(($dn = $this->settings->getSearchBase()) && substr($dn,-1) != ',')
