@@ -7250,3 +7250,7 @@ trac#:#trac_mode_test_passed_info#:#Der Test muß bestanden sein.
 trac#:#trac_mode_exercise_returned_info#:#Der Status kann nur durch Tutoren bestimmt werden.
 trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutoren
 trac#:#trac_mode_manual_by_tutor_info#:#Der Gesamtstatus kann nur durch Tutoren gesetzt werden.
+ldap#:#ldap_group_membership#:#Gruppenmitgliedschaft
+ldap#:#ldap_group_member_optional#:#Optinale Gruppenmitgliedschaft
+ldap#:#ldap_group_user_filter#:#Benutzerfilter
+ldap#:#ldap_group_optional_info#:#Wenn aktiviert ist die Gruppenmitgliedschaft für eine erfolgreiche Authentifizierung nicht erforderlich. Bitte geben Sie einen Benutzerfilter für diese Gruppenmitglieder an:<br />(&(userattr=username)<strong>(userfilter)</strong>)
