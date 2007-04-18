@@ -250,7 +250,6 @@ class assQuestionGUI
 		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = assQuestion::getQuestionTypeFromDb($question_id);
-// echo ":".$question_type;
 		}
 		if (strlen($question_type) == 0) return NULL;
 		include_once "./Modules/TestQuestionPool/classes/class.".$question_type."GUI.php";
