@@ -98,8 +98,12 @@ class ilAuthLDAP extends Auth
 	 */
 	protected function failedLoginObserver()
 	{
-		#$this->log->write($this->logCache);
-		$this->logCache = '';
+		if(!$this->ldap_container->enabledOptionalGroupCheck())
+		{
+			$this->logout();
+			$this->ldap_container->enableOptionalGroupCheck();
+			$this->start();
+		}
 	}
 	
 	

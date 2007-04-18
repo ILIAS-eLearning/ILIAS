@@ -1265,3 +1265,24 @@ CREATE TABLE IF NOT EXISTS `qpl_question_flashapp` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#971>
+<?php
+
+$found = false;
+$query = 'SHOW COLUMNS FROM `ldap_server_settings`';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->Field == 'group_optional')
+	{
+		$found = true;
+		break;
+	}
+}
+if(!$found)
+{
+	$query = 'ALTER TABLE `ldap_server_settings` ADD `group_optional` TINYINT( 1 ) DEFAULT 0 '.
+		' NOT NULL AFTER `group_attribute` , ADD `group_user_filter` VARCHAR( 255 ) NOT NULL AFTER `group_optional`';
+	$res = $ilDB->query($query);
+}
+?>

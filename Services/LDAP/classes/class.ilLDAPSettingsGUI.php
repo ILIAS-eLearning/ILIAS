@@ -365,6 +365,10 @@ class ilLDAPSettingsGUI
 		$this->tpl->setVariable('TXT_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
 		$this->tpl->setVariable('TXT_GROUP',$this->lng->txt('ldap_group_name'));
 		$this->tpl->setVariable('TXT_GROUP_ATTRIBUTE',$this->lng->txt('ldap_group_attribute'));
+		$this->tpl->setVariable('TXT_GROUP_MEMBERSHIP',$this->lng->txt('ldap_group_membership'));
+		$this->tpl->setVariable('TXT_OPTIONAL',$this->lng->txt('ldap_group_member_optional'));
+		$this->tpl->setVariable('TXT_GROUP_USER_FILTER',$this->lng->txt('ldap_group_user_filter'));
+		$this->tpl->setVariable('TXT_OPTIONAL_INFO',$this->lng->txt('ldap_group_optional_info'));
 		
 		// User Sync
 		$this->tpl->setVariable('TXT_USER_SYNC',$this->lng->txt('ldap_user_sync'));
@@ -427,7 +431,11 @@ class ilLDAPSettingsGUI
 		$this->tpl->setVariable('CHECK_MEMBERISDN',ilUtil::formCheckbox($this->server->enabledGroupMemberIsDN() ? 1 : 0,'memberisdn',1));
 		$this->tpl->setVariable('GROUP',$this->server->getGroupName());
 		$this->tpl->setVariable('GROUP_ATTRIBUTE',$this->server->getGroupAttribute());
+		$this->tpl->setVariable('GROUP_USER_FILTER',$this->server->getGroupUserFilter());
 		
+		$this->tpl->setVariable('CHECK_OPTIONAL',ilUtil::formCheckbox($this->server->isMembershipOptional() ? 1 : 0,
+			'group_optional',
+			1));
 		// User sync
 		$this->tpl->setVariable('CHECK_LOGIN',ilUtil::formCheckbox($this->server->enabledSyncOnLogin() ? true : false,
 			'sync_on_login',
@@ -468,6 +476,8 @@ class ilLDAPSettingsGUI
 		$this->server->enableGroupMemberIsDN((int) $_POST['memberisdn']);
 		$this->server->setGroupName(ilUtil::stripSlashes($_POST['group']));
 		$this->server->setGroupAttribute(ilUtil::stripSlashes($_POST['group_attribute']));
+		$this->server->setGroupUserFilter(ilUtil::stripSlashes($_POST['group_user_filter']));
+		$this->server->toggleMembershipOptional((int) $_POST['group_optional']);
 		$this->server->enableSyncOnLogin((int) $_POST['sync_on_login']);
 		$this->server->enableSyncPerCron((int) $_POST['sync_per_cron']);
 		$this->server->setGlobalRole((int) $_POST['global_role']);
