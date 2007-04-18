@@ -290,6 +290,17 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 	/**
+	* get all object types
+	*
+	* @access	public
+	* @return	array	object types
+	*/
+	function getAllObjects()
+	{
+		return array_keys($this->obj_data);
+	}
+
+	/**
 	* checks if linking of an object type is allowed
 	*
 	* @param	string	object type

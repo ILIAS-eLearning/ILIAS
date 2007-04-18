@@ -69,6 +69,12 @@ administration#:#output_options#:#Output options
 administration#:#passwd_auto_generate#:#Password Forwarding/Generation
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
+administration#:#purge_count_limit#:#Limit count
+administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. 
+administration#:#purge_age_limit#:#Limit age
+administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.
+administration#:#purge_type_limit#:#Limit type
+administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.
 administration#:#purge_trash#:#Purge deleted objects
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...

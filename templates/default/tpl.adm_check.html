@@ -2,6 +2,10 @@
 <!--
 function updateScan(form)
 {
+	// I removed this check, because Objects can be savely restored or
+	// purged from the trash without having to cleang the repository
+	// W. Randelshofer, 2007-04-18
+/*
 	if (form.clean.checked ||
             form.restore.checked || 
             form.purge.checked ||
@@ -14,7 +18,7 @@ function updateScan(form)
         else
         {
             form.scan.disabled = false;
-        }
+        }*/
 }
 
 function handleClean(form)
@@ -76,7 +80,7 @@ function handlePurgeTrash(form)
 //-->
 </script>
 <form action="{FORMACTION}" name="ScanOptions" method="post">
-<table class="fullwidth">
+<table class="std">
 <tr class="tbltitle">
   <td colspan="{COLSPAN}">
   <table class="fullwidth_invisible">
@@ -126,7 +130,26 @@ function handlePurgeTrash(form)
   <tr>
    <td class="option"><label for="purge_trash">{TXT_PURGE_TRASH}</label></td>
    <td class="option_value"><input type="checkbox" name="mode[purge_trash]" id="purge_trash" value="1" onClick="handlePurgeTrash(document.ScanOptions)" /></td>
-   <td class="option_desc">{TXT_PURGE_TRASH_DESC}</td>
+  <td class="option_desc">{TXT_PURGE_TRASH_DESC}
+      <p>
+	  <label for="count_limit">{TXT_COUNT_LIMIT}:</label>
+	  <input type="input" name="count_limit" id="count_limit" value="{COUNT_LIMIT_VALUE}"/>
+	  <br/>
+	  {TXT_COUNT_LIMIT_DESC}
+      </p>
+      <p>
+	<label for="age_limit">{TXT_AGE_LIMIT}:</label>
+	<input type="input" name="age_limit" id="age_limit" value="{AGE_LIMIT_VALUE}"/>
+	<br/>
+	{TXT_AGE_LIMIT_DESC}
+      </p>
+      <p>
+	<label for="type_limit">{TXT_TYPE_LIMIT}:</label>
+	{TYPE_LIMIT_CHOICE}
+	<br/>
+	{TXT_TYPE_LIMIT_DESC}
+      </p>
+    </td>
   </tr>
   <tr class="tblheader">
     <td class="std" colspan="3">{TXT_OUTPUT_OPTIONS}</td>
