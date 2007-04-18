@@ -948,6 +948,19 @@ class assQuestion
 	}
 
 	/**
+	* Returns the image path for web accessable flash files of a question
+	*
+	* Returns the image path for web accessable flash files of a question.
+	* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/flash
+	*
+	* @access public
+	*/
+	function getFlashPath() 
+	{
+		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/flash/";
+	}
+
+	/**
 	* Returns the web image path for web accessable java applets of a question
 	*
 	* Returns the web image path for web accessable java applets of a question.
@@ -977,6 +990,21 @@ class assQuestion
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
+	/**
+	* Returns the web image path for web accessable flash applications of a question
+	*
+	* Returns the web image path for web accessable flash applications of a question.
+	* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/flash
+	*
+	* @access public
+	*/
+	function getFlashPathWeb()
+	{
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/flash/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+	}
+	
 	/**
 	* Loads solutions of a given user from the database an returns it
 	*
