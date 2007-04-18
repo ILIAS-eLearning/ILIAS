@@ -44,8 +44,12 @@ class ilValidator extends PEAR
 	// and the fact, that media pool folders may find their way into
 	// the recovery folder (what results in broken pools, if the are deleted)
 	// Alex, 2006-07-21
+	// I removed file objects from this exclusion list, because file objects
+	// can be in the repository tree, and thus can suffer from data
+    // inconsistencies as well.
+	// Werner, 2007-04-16
 	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf",
-		"trac","taxf","auth","rolf","file","assf","extt","adve","fold");
+		"trac","taxf","auth","rolf","assf","extt","adve","fold");
 	
 	/**
 	* set mode
@@ -134,7 +138,7 @@ class ilValidator extends PEAR
 		$this->PEAR();
 		$this->db =& $ilDB;
 		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
-		
+
         $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
 		
 		if ($a_log === true)
@@ -144,6 +148,9 @@ class ilValidator extends PEAR
 			// should be available thru inc.header.php
 			// TODO: move log functionality to new class ilScanLog
 			include_once "classes/class.ilLog.php";
+		
+			// Delete old scan log
+			$this->deleteScanLog();
 		
 			// create scan log
 			$this->scan_log = new ilLog(CLIENT_DATA_DIR,"scanlog.log");
@@ -565,11 +572,19 @@ class ilValidator extends PEAR
 	
 		$this->writeScanLogLine("\nfindMissingObjects:");
 		
+		// Repair missing objects.
+		// We only repair file objects which have an entry in table object_reference.
+        // XXX - We should check all references to file objects which don't
+        //       have an object_reference. If we can't find any reference to such
+        //       a file object, we should repair it too!
 		$q = "SELECT object_data.*, ref_id FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
 			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
-			 "WHERE (object_reference.obj_id IS NULL OR tree.child IS NULL) ".
-			 "AND object_data.type IN (".$this->rbac_object_types.")";
+			 "WHERE tree.child IS NULL ".
+			 "AND (object_reference.obj_id IS NOT NULL ".
+			 "    OR object_data.type <> 'file' AND ".
+			 "       object_data.type IN (".$this->rbac_object_types.") ".
+			 ")";
 		$r = $this->db->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -928,7 +943,9 @@ class ilValidator extends PEAR
 
 		$this->writeScanLogLine("\nfindUnboundObjects:");
 
-		$q = "SELECT T2.tree AS deleted,T1.child,T1.parent,T2.parent AS grandparent FROM tree AS T1 ".
+		$q = "SELECT T1.tree,T1.child,T1.parent,".
+				"T2.tree AS deleted,T2.parent AS grandparent ".
+			 "FROM tree AS T1 ".
 			 "LEFT JOIN tree AS T2 ON T2.child=T1.parent ".
 			 "WHERE (T2.tree!=1 OR T2.tree IS NULL) AND T1.parent!=0";
 		$r = $this->db->query($q);
@@ -941,7 +958,7 @@ class ilValidator extends PEAR
 				$this->unbound_objects[] = array(
 												"child"			=> $row->child,
 												"parent"		=> $row->parent,
-												"tree"			=> 1,
+												"tree"			=> $row->tree,
 												"msg"			=> "No valid parent node found"
 												);
 			}
@@ -982,10 +999,13 @@ class ilValidator extends PEAR
 
 		$this->writeScanLogLine("\nfindDeletedObjects:");
 
-		$q = "SELECT object_data.*,tree.tree,tree.child,tree.parent FROM object_data ".
+		// Delete objects, start with the oldest objects first
+		$q = "SELECT object_data.*,tree.tree,tree.child,tree.parent,deleted,UNIX_TIMESTAMP(deleted) as deleted_timestamp ".
+			 "FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 			 "LEFT JOIN tree ON tree.child=object_reference.ref_id ".
-			 " WHERE tree !=1";
+			 " WHERE tree !=1 ".
+			 " ORDER BY deleted";
 		$r = $this->db->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -998,6 +1018,8 @@ class ilValidator extends PEAR
 											"title"			=> $row->title,
 											"desc"			=> $row->description,
 											"owner"			=> $row->owner,
+											"deleted"		=> $row->deleted,
+											"deleted_timestamp"	=> $row->deleted_timestamp,
 											"create_date"	=> $row->create_date,
 											"last_update"	=> $row->last_update
 											);
@@ -1005,7 +1027,7 @@ class ilValidator extends PEAR
 
 		if (count($this->deleted_objects) > 0)
 		{
-			$this->writeScanLogLine("obj_id\tref_id\ttree\ttype\ttitle\tdesc\towner\tcreate_date\tlast_update");
+			$this->writeScanLogArray(array(array_keys($this->deleted_objects[0])));
 			$this->writeScanLogArray($this->deleted_objects);
 			return true;
 		}
@@ -1569,7 +1591,7 @@ restore starts here
 		foreach ($a_nodes as $node)
 		{
 			// get node data
-			$topnode = $tree->getNodeData($node["child"]);
+			$topnode = $tree->getNodeData($node["child"], $node['tree']);
 			
 			// don't save rolefolders, remove them
 			// TODO process ROLE_FOLDER_ID
@@ -1742,6 +1764,28 @@ restore starts here
 	{
 		global $ilias,$ilLog;
 
+		// Get purge limits
+		$count_limit = $ilias->account->getPref("systemcheck_count_limit");
+		if (! is_numeric($count_limit) || $count_limit < 0)
+		{
+			$count_limit = count($a_nodes);
+		}
+		$timestamp_limit = time();
+		$age_limit = $ilias->account->getPref("systemcheck_age_limit");
+		if (is_numeric($age_limit) && $age_limit > 0)
+		{
+			$timestamp_limit -= $age_limit * 60 * 60 * 24;
+		}
+		$type_limit = $ilias->account->getPref("systemcheck_type_limit");
+		if ($type_limit)
+		{
+			$type_limit = trim($type_limit);
+			if (strlen($type_limit) == 0)
+			{
+				$type_limit = null;
+			}
+		}
+		
 		// handle wrong input
 		if (!is_array($a_nodes)) 
 		{
@@ -1750,8 +1794,31 @@ restore starts here
 		}
 		
 		// start delete process
+		$this->writeScanLogLine("action\tref_id\tobj_id\ttype\ttitle");
+		$count = 0;
 		foreach ($a_nodes as $node)
 		{
+			if ($type_limit && $node['type'] != $type_limit)
+			{
+				$this->writeScanLogLine("skip type\t".
+						$node['child']."\t\t".$node['type']."\t".$node['title']
+						);
+				continue;
+			}
+			
+			
+			$count++;
+			if ($count > $count_limit)
+			{
+				$this->writeScanLogLine("Stopped purging after ".($count - 1)." objects, because count limit was reached: ".$count_limit);
+				break;
+			}
+			if ($node["deleted_timestamp"] > $timestamp_limit)
+			{
+				$this->writeScanLogLine("Stopped purging after ".($count - 1)." objects, because timestamp limit was reached: ".date("c", $timestamp_limit));
+				break;
+			}
+			
 			$ref_id = ($node["child"]) ? $node["child"] : $node["ref_id"];
 			$node_obj =& $ilias->obj_factory->getInstanceByRefId($ref_id,false);
 			
@@ -1763,14 +1830,15 @@ restore starts here
 
 			$message = sprintf('%s::purgeObjects(): Removing object (id:%s ref:%s)',
 							   get_class($this),
-							   $ref_id,
+							   $node['ref_id'],
 							   $node_obj->getId);
 			$ilLog->write($message,$ilLog->WARNING);
 		
 			$node_obj->delete();
 			ilTree::_removeEntry($node["tree"],$ref_id);
 			
-			$this->writeScanLogLine("Object '".$node_obj->getId()."' deleted");
+			$this->writeScanLogLine("purged\t".$ref_id."\t".$node_obj->getId().
+				"\t".$node['type']."\t".$node['title']);
 		}
 		
 		$this->findInvalidChilds();
@@ -1920,6 +1988,14 @@ restore starts here
 		return is_file(CLIENT_DATA_DIR."/".$this->scan_log_file);
 	}
 
+	/**
+	 * Delete scan log.
+	 */
+	function deleteScanLog()
+	{
+		unlink(CLIENT_DATA_DIR."/".$this->scan_log_file);
+	}
+
 	function readScanLog()
 	{
 		// file check
@@ -1959,7 +2035,7 @@ restore starts here
 		
 		return false;
 	}
-	
+
 	/**
 	* Dumps the Tree structure into the scan log
 	*
@@ -1971,6 +2047,8 @@ restore starts here
 		$this->writeScanLogLine("BEGIN dumpTree:");
 
 		// collect nodes with duplicate child Id's
+		// (We use this, to mark these nodes later in the output as being
+		// erroneous.).
 		$q = 'SELECT child FROM tree GROUP BY child HAVING COUNT(*) > 1';
 		$r = $this->db->query($q);
 		$duplicateNodes = array();
@@ -1992,17 +2070,23 @@ restore starts here
 			'<table><tr>'
 			.'<td>tree, child, parent, lft, rgt, depth</td>'
 			.'<td>ref_id, ref.obj_id, deleted</td>'
-			.'<td>obj_id, type, title</td>'
+			.'<td>obj_id, type, owner, title</td>'
 			.'</tr>'
 		);
 		
+		// We use a stack to represent the path to the current node.
+		// This allows us to do analyze the tree structure without having
+		// to implement a recursive algorithm.
 		$stack = array();
 		$error_count = 0;
 		$repository_tree_count = 0;
 		$trash_trees_count = 0;
 		$other_trees_count = 0;
 		$not_in_tree_count = 0;
-		$previousNumber = 0; // This is used for gap checking
+
+		// The previous number is used for gap checking
+		$previousNumber = 0; 
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// If there is no entry in table tree for the object, we display it here
@@ -2080,7 +2164,7 @@ restore starts here
 					.$row->refobj_id
 					.(($isRefObjOkay) ? '' : '</b>')
 					.(($isRowOkay) ? '' : '<font color=#ff0000>')
-					.(($row->tree < 0) ? ', '.$row->deleted : '')
+					.(($row->deleted != '0000-00-00 00:00:00') ? ', '.$row->deleted : '')
 					.'</td><td>'
 					.(($isRowOkay) ? '' : '<font color=#ff0000>')
 					.$indent
@@ -2103,7 +2187,7 @@ restore starts here
 				$indent .= ". ";
 			}
 			
-			// Initialize the stack and previous number if we are in a new tree
+			// Initialize the stack and the previous number if we are in a new tree
 			if (count($stack) == 0 || $stack[0]->tree != $row->tree) 
 			{
 				$stack = array();

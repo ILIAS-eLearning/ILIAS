@@ -63,6 +63,12 @@ administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen
 administration#:#output_options#:#Ausgabe-Optionen
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
+administration#:#purge_count_limit#:#Begrenze Anzahl
+administration#:#purge_count_limit_desc#:#Wenn dieses Feld einen Wert enthält, wird höchstens die angegebene Anzahl Objekte aus dem System entfernt.
+administration#:#purge_age_limit#:#Begrenze Alter
+administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind,  aus dem System entfernt.
+administration#:#purge_type_limit#:#Begrenze Typ
+administration#:#purge_type_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte des angegebenen Typs aus dem System entfernt.
 administration#:#purge_missing#:#Entferne fehlende Objekte
 administration#:#purge_missing_desc#:#Entferne alle fehlenden und nichtzugeordneten Objekte aus dem System
 administration#:#purge_trash#:#Eliminiere gelöschte Objekte

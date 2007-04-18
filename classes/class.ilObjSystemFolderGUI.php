@@ -1130,13 +1130,23 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function checkObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilias, $objDefinition;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 //echo "1";
+
+		if ($_POST['count_limit'] !== null || $_POST['age_limit'] !== null || $_POST['type_limit'] !== null)
+		{
+			$ilias->account->writePref('systemcheck_count_limit', 
+				(is_numeric($_POST['count_limit']) && $_POST['count_limit'] > 0) ? $_POST['count_limit'] : ''
+			);
+			$ilias->account->writePref('systemcheck_age_limit', 
+				(is_numeric($_POST['age_limit']) && $_POST['age_limit'] > 0) ? $_POST['age_limit'] : '');
+			$ilias->account->writePref('systemcheck_type_limit', trim($_POST['type_limit']));
+		}
 
 		if ($_POST["mode"])
 		{
@@ -1178,6 +1188,23 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_RESTORE_TRASH_DESC", $this->lng->txt("restore_trash_desc"));
 			$this->tpl->setVariable("TXT_PURGE_TRASH", $this->lng->txt("purge_trash"));
 			$this->tpl->setVariable("TXT_PURGE_TRASH_DESC", $this->lng->txt("purge_trash_desc"));
+			$this->tpl->setVariable("TXT_COUNT_LIMIT", $this->lng->txt("purge_count_limit"));
+			$this->tpl->setVariable("TXT_COUNT_LIMIT_DESC", $this->lng->txt("purge_count_limit_desc"));
+			$this->tpl->setVariable("COUNT_LIMIT_VALUE", $ilias->account->getPref("systemcheck_count_limit"));
+			$this->tpl->setVariable("TXT_AGE_LIMIT", $this->lng->txt("purge_age_limit"));
+			$this->tpl->setVariable("TXT_AGE_LIMIT_DESC", $this->lng->txt("purge_age_limit_desc"));
+			$this->tpl->setVariable("AGE_LIMIT_VALUE", $ilias->account->getPref("systemcheck_age_limit"));
+			$this->tpl->setVariable("TXT_TYPE_LIMIT", $this->lng->txt("purge_type_limit"));
+			$this->tpl->setVariable("TXT_TYPE_LIMIT_DESC", $this->lng->txt("purge_type_limit_desc"));
+
+			$types = array_merge(array(""), $objDefinition->getAllObjects());
+			$this->tpl->setVariable("TYPE_LIMIT_CHOICE", 
+				ilUtil::formSelect(
+					$ilias->account->getPref("systemcheck_type_limit"), 
+					'type_limit', 
+					$types
+					)
+			);
 			$this->tpl->setVariable("TXT_LOG_SCAN", $this->lng->txt("log_scan"));
 			$this->tpl->setVariable("TXT_LOG_SCAN_DESC", $this->lng->txt("log_scan_desc"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("start_scan"));
