@@ -65,7 +65,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		if(ilObject::_isInTrash($target_id))
 		{
-			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'Client');
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_OBJECT_DELETED');
 		}
 
 		if(!$rbacsystem->checkAccess('create',$target_id,'crs'))
