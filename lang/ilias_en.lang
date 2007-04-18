@@ -7006,7 +7006,7 @@ ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_binding#:#Binding
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously
 ldap#:#ldap_bind_user#:#Bind as User:
-ldap#:#ldap_server_bind_dn#:#User Search Base
+ldap#:#ldap_server_bind_dn#:#User DN
 ldap#:#ldap_server_bind_pass#:#Password
 ldap#:#ldap_authentication_settings#:#Authentication Settings
 ldap#:#ldap_user_dn#:#User Search Base
@@ -7257,3 +7257,7 @@ trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to rece
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
 trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor
 trac#:#trac_mode_manual_by_tutor_info#:#The overall status can only be set by tutors.
+ldap#:#ldap_group_membership#:#Group Membership
+ldap#:#ldap_group_member_optional#:#Group Membership is Optional
+ldap#:#ldap_group_user_filter#:#User Filter
+ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)
