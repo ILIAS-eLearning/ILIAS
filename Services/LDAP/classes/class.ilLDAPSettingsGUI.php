@@ -94,9 +94,9 @@ class ilLDAPSettingsGUI
 		$this->tpl->setVariable('TXT_ROLE_BIND_USER',$this->lng->txt('ldap_role_bind_user'));
 		$this->tpl->setVariable('TXT_ROLE_BIND_PASS',$this->lng->txt('ldap_role_bind_pass'));
 		$this->tpl->setVariable('TXT_ROLE_ASSIGNMENTS',$this->lng->txt('ldap_role_assignments'));
+		$this->tpl->setVariable('TXT_BINDING',$this->lng->txt('ldap_server_binding'));
 		
 		$this->tpl->setVariable('TXT_ROLE_BIND_USER_INFO',$this->lng->txt('ldap_role_bind_user_info'));
-		$this->tpl->setVariable('TXT_ROLE_BIND_PASS_INFO',$this->lng->txt('ldap_role_bind_pass_info'));
 		$this->tpl->setVariable('TXT_ROLE_ASSIGNMENTS_INFO',$this->lng->txt('ldap_role_assignments_info'));
 		
 		
@@ -106,7 +106,6 @@ class ilLDAPSettingsGUI
 		// Section new assignment
 		$this->tpl->setVariable('TXT_NEW_ASSIGNMENT',$this->lng->txt('ldap_new_role_assignment'));
 		$this->tpl->setVariable('TXT_URL',$this->lng->txt('ldap_server'));
-		$this->tpl->setVariable('TXT_URL_INFO',$this->lng->txt('ldap_role_url_info'));
 		$this->tpl->setVariable('TXT_DN',$this->lng->txt('ldap_group_dn'));
 		$this->tpl->setVariable('TXT_MEMBER',$this->lng->txt('ldap_group_member'));
 		$this->tpl->setVariable('TXT_MEMBER_ISDN',$this->lng->txt('ldap_memberisdn'));
@@ -152,10 +151,10 @@ class ilLDAPSettingsGUI
 			$this->tpl->setVariable('ROW_CHECK',ilUtil::formCheckbox(0,
 				'mappings[]',$mapping_id));
 			$this->tpl->setVariable('TXT_PARSED_NAME',$this->role_mapping->getMappingInfoString($mapping_id));
-			$this->tpl->setVariable('ASS_GROUP_URL',$this->lng->txt('ldap_server'));
-			$this->tpl->setVariable('ASS_GROUP_DN',$this->lng->txt('ldap_group_dn'));
-			$this->tpl->setVariable('ASS_MEMBER_ATTR',$this->lng->txt('ldap_group_member'));
-			$this->tpl->setVariable('ASS_ROLE',$this->lng->txt('ldap_ilias_role'));
+			$this->tpl->setVariable('ASS_GROUP_URL',$this->lng->txt('ldap_server_short'));
+			$this->tpl->setVariable('ASS_GROUP_DN',$this->lng->txt('ldap_group_dn_short'));
+			$this->tpl->setVariable('ASS_MEMBER_ATTR',$this->lng->txt('ldap_group_member_short'));
+			$this->tpl->setVariable('ASS_ROLE',$this->lng->txt('ldap_ilias_role_short'));
 			$this->tpl->setVariable('ROW_ID',$mapping_id);
 			$this->tpl->setVariable('ROW_URL',$data['url']);
 			$this->tpl->setVariable('ROW_ROLE',$data['role_name'] ? $data['role_name'] : $data['role']);
@@ -358,7 +357,7 @@ class ilLDAPSettingsGUI
 		
 		// Group restrictions
 		$this->tpl->setVariable('TXT_GROUP_RESTRICTIONS',$this->lng->txt('ldap_group_restrictions'));
-		$this->tpl->setVariable('TXT_GROUP_DN',$this->lng->txt('ldap_group_dn'));
+		$this->tpl->setVariable('TXT_GROUP_DN',$this->lng->txt('ldap_group_search_base'));
 		$this->tpl->setVariable('TXT_GROUP_SCOPE',$this->lng->txt('ldap_group_scope'));
 		$this->tpl->setVariable('TXT_GROUP_FILTER',$this->lng->txt('ldap_group_filter'));
 		$this->tpl->setVariable('TXT_MEMBER',$this->lng->txt('ldap_group_member'));
