@@ -171,6 +171,11 @@ if(!isset($_POST["cmd"]["delete"]))
 		}
 		$tpl->parseCurrentBlock();
 	}
+	if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
+	{
+		$tpl->setVariable('INC_DISABLED','disabled="disabled"');
+	}
+	
 	$tpl->setVariable("GLOBAL_OPTIONS",$lng->txt("mail_global_options"));
 	$tpl->setVariable("TXT_INCOMING", $lng->txt("mail_incoming"));
 	$tpl->setVariable("TXT_LINEBREAK", $lng->txt("linebreak"));

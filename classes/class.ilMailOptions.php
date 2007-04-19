@@ -120,6 +120,11 @@ class ilMailOptions
 		$this->signature = stripslashes($row->signature);
 		$this->linebreak = stripslashes($row->linebreak);
 		$this->incoming_type = $row->incoming_type;
+		
+		if(!strlen(ilObjUser::_lookupEmail($this->user_id)))
+		{
+			$this->incoming_type = $this->LOCAL;
+		}
 
 		return true;
 	}

@@ -1246,6 +1246,10 @@ class ilPersonalProfileGUI
 			$this->tpl->setVariable("OPTION_INC_SELECTED",$mailOptions->getIncomingType() == $key ? "selected=\"selected\"" : "");
 			$this->tpl->parseCurrentBlock();
 		}
+		if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
+		{
+			$this->tpl->setVariable('INC_DISABLED','disabled="disabled"');
+		}					
 	
 		// BEGIN LINEBREAK_OPTIONS
 		$this->tpl->setCurrentBlock("option_line");

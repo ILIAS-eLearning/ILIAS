@@ -259,7 +259,13 @@ class ilPasswordAssistanceGUI
 			if (strcasecmp($userObj->getEmail(), $email) != 0) 
 			{
 				$userObj = null;
-			} else if ($userObj->getAuthMode(true) != AUTH_LOCAL ||
+			}
+			elseif(!strlen($email))
+			{
+				$userObj = null;
+				$txt_key = 'pwassist_no_email_found';
+			}
+			else if ($userObj->getAuthMode(true) != AUTH_LOCAL ||
 				 ($userObj->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL))			
 			{
 			    $userObj = null;
@@ -343,6 +349,15 @@ class ilPasswordAssistanceGUI
 		// No matching user object found?
 		// Show the password assistance form again, and display an error message.
 		if (count($logins)< 1)  
+		{
+			$this->showUsernameAssistanceForm
+			(
+				$lng->txt("pwassist_invalid_email"),
+				"",
+				$email
+			);
+		}
+		elseif(!strlen($email))
 		{
 			$this->showUsernameAssistanceForm
 			(

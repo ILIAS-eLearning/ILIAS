@@ -2552,11 +2552,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// For the following fields, the required state can not be changed.
 		// key = field, value = 1 (field is required), 0 (field is not required)
 		$fixed_required_fields = array(
-			"gender" => 1,
 			"firstname" => 1,
 			"lastname" => 1,
 			"upload" => 0,
-			"email" => 1,
 			"password" => 0,
 			"language" => 0,
 			"skin_style" => 0,
@@ -2754,11 +2752,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$profile_fields =& $this->object->getProfileFields();
 		// For the following fields, the required state can not be changed
 		$fixed_required_fields = array(
-			"gender" => 1,
 			"firstname" => 1,
 			"lastname" => 1,
 			"upload" => 0,
-			"email" => 1,
 			"password" => 0,
 			"language" => 0,
 			"skin_style" => 0,

@@ -1454,7 +1454,7 @@ class ilObjUserGUI extends ilObjectGUI
 	    $_POST["Fobject"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
-		if (!ilUtil::is_email($_POST["Fobject"]["email"]))
+		if (strlen($_POST['Fobject']['email']) and !ilUtil::is_email($_POST["Fobject"]["email"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1683,7 +1683,7 @@ class ilObjUserGUI extends ilObjectGUI
 	    $_POST["Fobject"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
-		if (!ilUtil::is_email($_POST["Fobject"]["email"]))
+		if (strlen($_POST['Fobject']['email']) and !ilUtil::is_email($_POST["Fobject"]["email"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -2560,6 +2560,10 @@ class ilObjUserGUI extends ilObjectGUI
 		global $ilUser,$ilias;
 
 		if($_POST['send_mail'] != 'y')
+		{
+			return '';
+		}
+		if(!strlen($this->object->getEmail()))
 		{
 			return '';
 		}
