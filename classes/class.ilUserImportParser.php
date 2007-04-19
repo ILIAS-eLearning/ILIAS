@@ -483,9 +483,6 @@ class ilUserImportParser extends ilSaxParser
 				$this->currPassword = null;
 				$this->currPasswordType = null;
 				$this->currActive = null;
-
-				// reset account mail object
-				$this->acc_mail->reset();
 				break;
 
 			case "Password":
@@ -1129,6 +1126,8 @@ class ilUserImportParser extends ilSaxParser
 
 							$this->sendAccountMail();
 							$this->logSuccess($this->userObj->getLogin(),$this->userObj->getId(), "Insert");
+							// reset account mail object
+							$this->acc_mail->reset();
 						}
 						break;
 
