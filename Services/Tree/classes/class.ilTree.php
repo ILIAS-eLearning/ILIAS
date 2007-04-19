@@ -2240,6 +2240,7 @@ class ilTree
                             $source_lft = $row->lft;
                             $source_rgt = $row->rgt;
                             $source_depth = $row->depth;
+                            $source_parent = $row->parent;
                     }
                     else
                     {
@@ -2296,8 +2297,13 @@ class ilTree
             $depth_diff = $target_depth - $source_depth + 1;
 
             // Update source subtree:
-            $query = "UPDATE ".$this->table_tree ." ".
-                    "SET rgt = rgt + ".$this->ilDB->quote($move_diff).", ".
+            $query = "UPDATE ".$this->table_tree ." SET ".
+                    "parent = CASE ".
+					"WHEN parent = ".$this->ilDB->quote($source_parent)." ".
+         			"THEN ".$this->ilDB->quote($a_target_id)." ".
+         			"ELSE parent ".
+         			"END, ".
+                    "rgt = rgt + ".$this->ilDB->quote($move_diff).", ".
                     "lft = lft + ".$this->ilDB->quote($move_diff).", ".
                     "depth = depth + ".$this->ilDB->quote($depth_diff)." ".
                     "WHERE lft >= ".$this->ilDB->quote(($source_lft + $where_offset))." ".
@@ -2322,16 +2328,6 @@ class ilTree
 			#var_dump("<pre>",$query,"</pre>");
 			$res = $this->ilDB->query($query);
 
-            // If code execution stops here the tree is inconsistent
-            // But it should be easy to add a system check function that updates the parent information
-
-            // Finally update parent id of source
-            $query = "UPDATE ".$this->table_tree ." ".
-                    "SET parent = ".$this->ilDB->quote($a_target_id)." ".
-                    "WHERE child = ".$this->ilDB->quote($a_source_id)." ".
-                    "AND tree = ".$this->ilDB->quote($this->tree_id)." ";
-            #var_dump("<pre>",$query,"<pre>");
-            $res = $this->ilDB->query($query);
             if($this->__isMainTree())
             {
                     ilDBx::_unlockTables();
