@@ -1568,7 +1568,7 @@ class ilTree
 	}
 
 	/**
-	* save subtree: copy a subtree (defined by node_id) to a new tree
+	* save subtree: delete a subtree (defined by node_id) to a new tree
 	* with $this->tree_id -node_id. This is neccessary for undelete functionality
 	* @param	integer	node_id
 	* @return	integer
@@ -1576,6 +1576,8 @@ class ilTree
 	*/
 	function saveSubTree($a_node_id, $a_set_deleted = false)
 	{
+		global $ilDB;
+		
 		if (!$a_node_id)
 		{
 			$message = sprintf('%s::saveSubTree(): No valid parameter given! $a_node_id: %s',
@@ -1605,30 +1607,46 @@ class ilTree
 		}
 
 		// GET ALL SUBNODES
-		$q = "SELECT * FROM ".$this->table_tree." ".
+		$q = "SELECT child FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND lft BETWEEN '".$lft."' AND '".$rgt."'";
 		$r = $this->ilDB->query($q);
 
+		$subnodes = array();
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$subnodes[$row["child"]] = $this->fetchNodeData($row);
+			$subnodes[] = $row['child'];
+		}
+		
+		if(!count($subnodes))
+		{
+			// possibly already deleted
+			return false;
 		}
 
 		// SAVE SUBTREE
-		foreach($subnodes as $node)
+		foreach($subnodes as $child)
 		{
-			$q = "INSERT INTO ".$this->table_tree." ".
-				 "VALUES ('".-$a_node_id."','".$node["child"]."','".$node["parent"]."','".
-				 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
-			$r = $this->ilDB->query($q);
+			#$q = "INSERT INTO ".$this->table_tree." ".
+			#	 "VALUES ('".-$a_node_id."','".$node["child"]."','".$node["parent"]."','".
+			#	 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
+			#$r = $this->ilDB->query($q);
 			
 			// set node as deleted
 			if ($a_set_deleted)
 			{
-				ilObject::_setDeletedDate($node["child"]);
+				ilObject::_setDeletedDate($child);
 			}
 		}
+		
+		// Set the nodes deleted (negative tree id)
+		$query = "UPDATE ".$this->table_tree." ".
+			"SET tree = ".$ilDB->quote(-$a_node_id)." ".
+			"WHERE ".$this->tree_pk." = ".$ilDB->quote($this->tree_id)." ".
+			"AND lft BETWEEN ".$ilDB->quote($lft)." AND ".$ilDB->quote($rgt)." ";
+		$res = $ilDB->query($query);
+		
+		
 		if($this->__isMainTree())
 		{
 			ilDBX::_unlockTables();
@@ -1667,47 +1685,6 @@ class ilTree
 	}
 
 
-	/**
-	* save node: copy a node (defined by obj_id and parent) to a new tree
-	* with tree_id -obj_id.This is neccessary for link
-	*
-	* DEPRECATED? (I grepped through the whole code, it seems that this
-	* method is never used) If you need this method, send me an e-mail
-	* (alex.killing@gmx.de), the deletion date handling is missing)
-	*
-	* @param	integer	node_id
-	* @param	integer	parent_id
-	* @return	boolean
-	* @access	public
-	*/
-	function saveNode($a_node_id,$a_parent_id)
-	{
-		if($this->__isMainTree())
-		{
-			if($a_node_id <= 1 or $a_parent_id <= 0)
-			{
-				$message = sprintf('%s::saveSubTree(): No valid parameter given! $a_node_id: %s $a_parent_id: %s',
-								   get_class($this),
-								   $a_node_id,
-								   $a_parent_id);
-
-				$this->log->write($message,$this->log->FATAL);
-				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
-			}
-		}
-		if ($a_node_id < 1 or !isset($a_parent_id))
-		{
-			$this->ilErr->raiseError(get_class($this)."::saveNode(): Missing parameter! ".
-									 "node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilErr->WARNING);
-		}
-
-		// SAVE NODE
-		$q = "INSERT INTO ".$this->table_tree." ".
-			 "VALUES ('".-$a_node_id."','".$a_node_id."','".$a_parent_id."','1','2','1')";
-		$r = $this->ilDB->query($q);
-
-		return true;
-	}
 
 	/**
 	* get data saved/deleted nodes

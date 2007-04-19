@@ -134,8 +134,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $tree,$rbacadmin,$log;
 
+		if($tree->isDeleted($course_id))
+		{
+			return $this->__raiseError('Node already deleted','Server');
+		}
+
 		$subnodes = $tree->getSubtree($tree->getNodeData($course_id));
-			
 		foreach ($subnodes as $subnode)
 		{
 			$rbacadmin->revokePermission($subnode["child"]);
@@ -144,8 +148,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 				
 		}
-		$tree->saveSubTree($course_id);
-		$tree->deleteTree($tree->getNodeData($course_id));
+		if(!$tree->saveSubTree($course_id))
+		{
+			return $this->__raiseError('Node already deleted','Client');
+		}
 		
 		// write log entry
 		$log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$course_id." to trash");

@@ -694,17 +694,22 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 		// Delete tree
-		$subnodes = $tree->getSubtree($tree->getNodeData($reference_id));
+		if($tree->isDeleted($reference_id))
+		{
+			return $this->__raiseError('Node already deleted','Server');
+		}
 
+		$subnodes = $tree->getSubtree($tree->getNodeData($reference_id));
 		foreach($subnodes as $subnode)
 		{
 			$rbacadmin->revokePermission($subnode["child"]);
 			// remove item from all user desktops
 			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 		}
-
-		$tree->saveSubTree($reference_id);
-		$tree->deleteTree($tree->getNodeData($reference_id));
+		if(!$tree->saveSubTree($reference_id))
+		{
+			return $this->__raiseError('Node already deleted','Client');
+		}
 
 		return true;
 	}
