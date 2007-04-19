@@ -7266,3 +7266,4 @@ ldap#:#ldap_server_short#:#Server URL:
 ldap#:#ldap_group_dn_short#:#Group DN:
 ldap#:#ldap_group_member_short#:#Attribute:
 ldap#:#ldap_ilias_role_short#:#Role:
+pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.

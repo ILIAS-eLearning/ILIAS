@@ -226,6 +226,12 @@ class ilMailOptionsGUI
 				}
 				$this->tpl->parseCurrentBlock();
 			}
+
+			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
+			{
+				$this->tpl->setVariable('INC_DISABLED','disabled="disabled"');
+			}			
+			
 			$this->tpl->setVariable("GLOBAL_OPTIONS",$this->lng->txt("mail_global_options"));
 			$this->tpl->setVariable("TXT_INCOMING", $this->lng->txt("mail_incoming"));
 			$this->tpl->setVariable("TXT_LINEBREAK", $this->lng->txt("linebreak"));
