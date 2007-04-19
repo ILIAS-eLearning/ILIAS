@@ -216,7 +216,7 @@ class ilRegistrationGUI
 		}
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+		$this->tpl->setVariable("TXT_SAVE", $lng->txt("register"));
 		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_LOGIN_DATA", $lng->txt("login_data"));
 		$this->tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
