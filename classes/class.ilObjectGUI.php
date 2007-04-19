@@ -679,6 +679,13 @@ class ilObjectGUI
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_SESSION["saved_post"] as $id)
 		{
+			if($this->tree->isDeleted($id))
+			{
+				$log->write(__METHOD__.': Object with ref_id: '.$id.' already deleted.');
+				ilUtil::sendInfo('Object already deleted.',true);
+				$this->ctrl->returnToParent($this);
+			}
+			
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $this->tree->getNodeData($id);
 			$subtree_nodes = $this->tree->getSubTree($node_data);
@@ -762,6 +769,13 @@ class ilObjectGUI
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 			foreach ($_SESSION["saved_post"] as $id)
 			{
+				if($this->tree->isDeleted($id))
+				{
+					$log->write(__METHOD__.': Object with ref_id: '.$id.' already deleted.');
+					ilUtil::sendInfo('Object already deleted.',true);
+					$this->ctrl->returnToParent($this);
+				}
+				
 				// DELETE OLD PERMISSION ENTRIES
 				$subnodes = $this->tree->getSubtree($this->tree->getNodeData($id));
 
@@ -775,8 +789,13 @@ class ilObjectGUI
 					//$mail->sendMail($id,$msg,$affected_users);
 				}
 
-				$this->tree->saveSubTree($id, true);
-				$this->tree->deleteTree($this->tree->getNodeData($id));
+				if(!$this->tree->saveSubTree($id, true))
+				{
+					$log->write(__METHOD__.': Object with ref_id: '.$id.' already deleted.');
+					ilUtil::sendInfo('Object already deleted.',true);
+					$this->ctrl->returnToParent($this);
+				}
+				sleep(20);
 
 				// write log entry
 				$log->write("ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$id.
