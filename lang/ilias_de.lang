@@ -6786,7 +6786,7 @@ ldap#:#ldap_user_scope#:#Suchbereich
 ldap#:#ldap_user_attribute#:#Attributname der Benutzerzugänge
 ldap#:#ldap_search_filter#:#LDAP Filter
 ldap#:#ldap_group_restrictions#:#Gruppenbeschränkungen
-ldap#:#ldap_group_dn#:#Suchbasis
+ldap#:#ldap_group_dn#:#Gruppen DN
 ldap#:#ldap_group_scope#:#Suchbereich
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_name#:#Gruppenname
@@ -7254,3 +7254,8 @@ ldap#:#ldap_group_membership#:#Gruppenmitgliedschaft
 ldap#:#ldap_group_member_optional#:#Optinale Gruppenmitgliedschaft
 ldap#:#ldap_group_user_filter#:#Benutzerfilter
 ldap#:#ldap_group_optional_info#:#Wenn aktiviert ist die Gruppenmitgliedschaft für eine erfolgreiche Authentifizierung nicht erforderlich. Bitte geben Sie einen Benutzerfilter für diese Gruppenmitglieder an:<br />(&(userattr=username)<strong>(userfilter)</strong>)
+ldap#:#ldap_server_short#:#Server URL:
+ldap#:#ldap_group_dn_short#:#Group DN:
+ldap#:#ldap_group_member_short#:#Attribut:
+ldap#:#ldap_ilias_role_short#:#Role:
+ldap#:#ldap_group_search_base#:#Suchbasis

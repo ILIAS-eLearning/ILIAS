@@ -7013,8 +7013,8 @@ ldap#:#ldap_user_dn#:#User Search Base
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_attribute#:#Attribute for Login Name
 ldap#:#ldap_search_filter#:#LDAP Filter
-ldap#:#ldap_group_restrictions#:#Group Restrictions
-ldap#:#ldap_group_dn#:#Group Search Base
+ldap#:#ldap_group_restrictions#:#Group Membership Restrictions
+ldap#:#ldap_group_dn#:#Group DN 
 ldap#:#ldap_group_scope#:#Search Scope
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_name#:#Group Name
@@ -7068,6 +7068,7 @@ ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a v
 ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.
 ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version "3" or disable TLS support.
 ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments
+ldap#:#ldap_group_search_base#:#Group Search Base
 common#:#select_one#:#Please select one.
 ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.
 ldap#:#ldap_role_not_exists#:#A role with that name does not exist
@@ -7261,3 +7262,7 @@ ldap#:#ldap_group_membership#:#Group Membership
 ldap#:#ldap_group_member_optional#:#Group Membership is Optional
 ldap#:#ldap_group_user_filter#:#User Filter
 ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)
+ldap#:#ldap_server_short#:#Server URL:
+ldap#:#ldap_group_dn_short#:#Group DN:
+ldap#:#ldap_group_member_short#:#Attribute:
+ldap#:#ldap_ilias_role_short#:#Role:
