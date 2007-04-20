@@ -626,7 +626,7 @@ class ilMailFolderGUI
 
 	public function printMail()
 	{
-		$tplprint = new ilTemplate("tpl.mail_print.html",true,true,true);
+		$tplprint = new ilTemplate("Services/Mail/templates/default/tpl.mail_print.html",true,true,true);
 		$tplprint->setVariable("JSPATH",$tpl->tplPath);
 		
 		//get the mail from user
