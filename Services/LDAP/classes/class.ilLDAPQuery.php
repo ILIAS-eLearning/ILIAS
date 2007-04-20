@@ -30,14 +30,13 @@ include_once('Services/LDAP/classes/class.ilLDAPResult.php');
 include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
 
 /** 
-* @defgroup 
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
 * 
 * @ilCtrl_Calls 
-* @ingroup 
+* @ingroup ServicesLDAP 
 */
 class ilLDAPQuery
 {
