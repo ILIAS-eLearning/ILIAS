@@ -61,7 +61,7 @@ class ilSoapUtils extends ilSoapAdministration
 
 		global $ilLog;
 
-		include_once './classes/class.ilMimeMail.php';
+		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 		$mmail = new ilMimeMail();
 		$mmail->autoCheck(false);

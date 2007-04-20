@@ -365,7 +365,7 @@ class ilLinkChecker
 			}
 			if($counter)
 			{
-				include_once "classes/class.ilFormatMail.php";
+				include_once "Services/Mail/classes/class.ilFormatMail.php";
 				
 				$umail = new ilFormatMail($tmp_user->getId());
 				$subject = $this->__txt($tmp_user->getLanguage(),'link_check_subject');

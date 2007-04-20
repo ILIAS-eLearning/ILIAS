@@ -22,7 +22,7 @@
 */
 
 require_once("classes/class.ilSaxParser.php");
-require_once("./classes/class.ilMailbox.php");
+require_once("Services/Mail/classes/class.ilMailbox.php");
 
 /**
 * Mail Import Parser

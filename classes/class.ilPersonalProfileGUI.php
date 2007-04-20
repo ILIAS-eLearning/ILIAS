@@ -684,32 +684,37 @@ class ilPersonalProfileGUI
 		
 		if ($this->userSettingVisible("skin_style"))
 		{
-			foreach($templates as $template)
+			if (is_array($templates))
 			{
-				// get styles information of template
-				$styleDef =& new ilStyleDefinition($template["id"]);
-				$styleDef->startParsing();
-				$styles = $styleDef->getStyles();
 			
-				foreach($styles as $style)
+				foreach($templates as $template)
 				{
-					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					// get styles information of template
+					$styleDef =& new ilStyleDefinition($template["id"]);
+					$styleDef->startParsing();
+					$styles = $styleDef->getStyles();
+				
+					foreach($styles as $style)
 					{
-						continue;
-					}
-		
-					$this->tpl->setCurrentBlock("selectskin");
-//echo "-".$ilUser->skin."-".$ilUser->prefs["style"]."-";
-					if ($ilUser->skin == $template["id"] &&
-						$ilUser->prefs["style"] == $style["id"])
-					{
-						$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
-					}
+						if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						{
+							continue;
+						}
 			
-					$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
-					$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
-					$this->tpl->parseCurrentBlock();
+						$this->tpl->setCurrentBlock("selectskin");
+	//echo "-".$ilUser->skin."-".$ilUser->prefs["style"]."-";
+						if ($ilUser->skin == $template["id"] &&
+							$ilUser->prefs["style"] == $style["id"])
+						{
+							$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+						}
+				
+						$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+						$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
+						$this->tpl->parseCurrentBlock();
+					}
 				}
+				
 			}
 		}
 		
@@ -1208,7 +1213,7 @@ class ilPersonalProfileGUI
 	{
 		global $ilUser;
 
-		require_once "./classes/class.ilMailOptions.php";
+		require_once "Services/Mail/classes/class.ilMailOptions.php";
 		$mailOptions = new ilMailOptions($ilUser->getId());
 
 		$this->lng->loadLanguageModule("mail");
@@ -1230,7 +1235,7 @@ class ilPersonalProfileGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 
-		require_once "./classes/class.ilMailOptions.php";
+		require_once "Services/Mail/classes/class.ilMailOptions.php";
 		$mailOptions = new ilMailOptions($ilUser->getId());
 
 		$this->lng->loadLanguageModule("mail");

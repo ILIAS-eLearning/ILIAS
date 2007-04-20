@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilFormatMail.php";
+require_once "Services/Mail/classes/class.ilFormatMail.php";
 require_once "classes/class.ilFileDataMail.php";
 
 /**

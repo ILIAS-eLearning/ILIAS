@@ -496,11 +496,11 @@ class ilObjUser extends ilObject
 		$this->updateUserDefinedFields();
 
 		// CREATE ENTRIES FOR MAIL BOX
-		include_once ("classes/class.ilMailbox.php");
+		include_once ("Services/Mail/classes/class.ilMailbox.php");
 		$mbox = new ilMailbox($this->id);
 		$mbox->createDefaultFolder();
 
-		include_once "classes/class.ilMailOptions.php";
+		include_once "Services/Mail/classes/class.ilMailOptions.php";
 		$mail_options = new ilMailOptions($this->id);
 		$mail_options->createMailOptionsEntry();
 
@@ -1116,7 +1116,7 @@ class ilObjUser extends ilObject
 		$mapping->deleteUser($this->getId());
 
 		// remove mailbox / update sent mails
-		include_once ("classes/class.ilMailbox.php");
+		include_once ("Services/Mail/classes/class.ilMailbox.php");
 		$mailbox = new ilMailbox($this->getId());
 		$mailbox->delete();
 		$mailbox->updateMailsOfDeletedUser();

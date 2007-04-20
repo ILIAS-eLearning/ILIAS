@@ -230,7 +230,7 @@ class ilMail
 	function ilMail($a_user_id)
 	{
 		require_once "classes/class.ilFileDataMail.php";
-		require_once "classes/class.ilMailOptions.php";
+		require_once "Services/Mail/classes/class.ilMailOptions.php";
 
 		global $ilias, $lng;
 
@@ -683,7 +683,7 @@ class ilMail
 	{
 		global $log;
 		//$log->write('class.ilMail.distributeMail '.$a_rcp_to.' '.$a_subject);
-		include_once "classes/class.ilMailbox.php";
+		include_once "Services/Mail/classes/class.ilMailbox.php";
 		include_once "./classes/class.ilObjUser.php";
 
 		if (! ilMail::_usePearMail())
@@ -755,6 +755,7 @@ class ilMail
 		// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
 		$to = array();
 		$bcc = array();
+
 		if (count($as_email) == 1)
 		{
 			$to[] = ilObjUser::_lookupEmail($as_email[0]); 
@@ -1331,7 +1332,7 @@ class ilMail
 	function saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_type,
 						   $a_m_subject,$a_m_message)
 	{
-		include_once "classes/class.ilMailbox.php";
+		include_once "Services/Mail/classes/class.ilMailbox.php";
 
 		$mbox = new ilMailbox($this->user_id);
 		$sent_id = $mbox->getSentFolder();
@@ -1349,7 +1350,7 @@ class ilMail
 	*/
 	function addFullname($a_email)
 	{
-		include_once 'classes/class.ilMimeMail.php';
+		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		
 		global $ilUser;
 
@@ -1407,7 +1408,7 @@ class ilMail
 		else
 		{
 			// send direct
-			include_once "classes/class.ilMimeMail.php";
+			include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 			$sender = $this->addFullname($this->getEmailOfSender());
 

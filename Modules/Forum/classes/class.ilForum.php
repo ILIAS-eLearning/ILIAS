@@ -1566,7 +1566,7 @@ class ilForum
 		if($parent_data["notify"] && $parent_data["pos_usr_id"] != $ilUser->getId())
 		{
 			// SEND MESSAGE
-			include_once "./classes/class.ilMail.php";
+			include_once "Services/Mail/classes/class.ilMail.php";
 			include_once "./classes/class.ilObjUser.php";
 
 			$tmp_user =& new ilObjUser($parent_data["pos_usr_id"]);
@@ -1789,7 +1789,7 @@ class ilForum
 	{
 		global $ilDB;
 		
-		include_once "./classes/class.ilMail.php";
+		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once "./classes/class.ilObjUser.php";
 		
 		// GET THREAD DATA
@@ -1822,7 +1822,7 @@ class ilForum
 	{
 		global $ilDB;
 		
-		include_once "./classes/class.ilMail.php";
+		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once "./classes/class.ilObjUser.php";
 		
 		// GET THREAD DATA

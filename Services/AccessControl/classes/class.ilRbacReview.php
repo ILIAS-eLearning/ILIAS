@@ -287,7 +287,7 @@ class ilRbacReview
 	{
 		global $log;
 
-		include_once "classes/class.ilMail.php";
+		include_once "Services/Mail/classes/class.ilMail.php";
 		if (ilMail::_usePearMail())
 		{
 			// Retrieve the role title and the object title.

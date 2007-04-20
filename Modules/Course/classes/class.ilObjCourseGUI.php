@@ -1243,7 +1243,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 
 				
-				include_once 'classes/class.ilMail.php';
+				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail =& new ilMail($ilUser->getId());
 				if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
 				{

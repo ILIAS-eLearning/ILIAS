@@ -6,34 +6,34 @@
   <body onLoad="window.print();">
 	<table class="fullwidth">
 		<TR>
-		  <TD ALIGN="right" width="10%"><strong>{TXT_FROM}:</strong></TD>
-		  <TD>{FROM}</TD>
+		  <TD id="header-from" ALIGN="right" width="10%"><strong>{TXT_FROM}:</strong></TD>
+		  <TD headers="header-from">{FROM}</TD>
 		</TR>
 		<TR>
-		  <TD ALIGN="right"><strong>{TXT_TO}:</strong></TD>
-		  <TD>{TO}</TD>
+		  <TD id="header-to" ALIGN="right"><strong>{TXT_TO}:</strong></TD>
+		  <TD headers="header-to">{TO}</TD>
 		</TR>
 		<!-- BEGIN cc -->
 		<TR>
-		  <TD ALIGN="right"><strong>{TXT_CC}:</strong></TD>
-		  <TD>{CC}</TD>
+		  <TD id="header-cc" ALIGN="right"><strong>{TXT_CC}:</strong></TD>
+		  <TD headers="header-cc">{CC}</TD>
 		</TR>
 		<!-- END cc -->
 		<TR>
-		  <TD ALIGN="right"><strong>{TXT_SUBJECT}:</strong></TD>
-		  <TD>{SUBJECT}</TD>
+		  <TD id="header-subject" ALIGN="right"><strong>{TXT_SUBJECT}:</strong></TD>
+		  <TD headers="header-subject">{SUBJECT}</TD>
 		</TR>
 		<TR>
-		  <TD ALIGN="right"><strong>{TXT_DATE}:</strong></TD>
-		  <TD>{DATE}</TD>
+		  <TD id="header-date" ALIGN="right"><strong>{TXT_DATE}:</strong></TD>
+		  <TD headers="header-date">{DATE}</TD>
 		</TR>
 	</table>
 	<table class="fullwidth">
 		<TR colspan=2>
-			<TD ALIGN="left" VALIGN="top"><strong>{TXT_MESSAGE}:</strong></TD>
+			<TD id="header-message" ALIGN="left" VALIGN="top"><strong>{TXT_MESSAGE}:</strong></TD>
 		</tr>
 		<tr>
-		  <TD colspan=2>{MAIL_MESSAGE}</TD>
+		  <TD headers="header-message" colspan=2>{MAIL_MESSAGE}</TD>
 		</TR>
 	  </TABLE>
   </body>

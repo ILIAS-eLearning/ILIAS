@@ -308,7 +308,7 @@ class ilUserImportParser extends ilSaxParser
 			$this->disableSkin = FALSE;
 		}
 
-		include_once("classes/class.ilAccountMail.php");
+		include_once("Services/Mail/classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();
 
 		parent::ilSaxParser($a_xml_file);

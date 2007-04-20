@@ -659,7 +659,7 @@ class ilRegistrationGUI
 		
 		include_once 'classes/class.ilLanguage.php';
 		include_once 'classes/class.ilObjUser.php';
-        include_once "classes/class.ilFormatMail.php";
+        include_once "Services/Mail/classes/class.ilFormatMail.php";
 
 
 		$settings = $ilias->getAllSettings();
@@ -690,7 +690,7 @@ class ilRegistrationGUI
 		// Send mail to new user
 		
 		// try individual account mail in user administration
-		include_once("classes/class.ilAccountMail.php");
+		include_once("Services/Mail/classes/class.ilAccountMail.php");
 		include_once 'classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
@@ -705,7 +705,7 @@ class ilRegistrationGUI
 		}
 		else	// do default mail
 		{
-			include_once "classes/class.ilMimeMail.php";
+			include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 			$mmail = new ilMimeMail();
 			$mmail->autoCheck(false);

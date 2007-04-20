@@ -980,7 +980,7 @@ class ilPurchaseBMFGUI
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once './payment/classes/class.ilGeneralSettings.php';
 		include_once './payment/classes/class.ilPaymentShoppingCart.php';
-		include_once './classes/class.ilMimeMail.php';
+		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		
 		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
 		$genSet = new ilGeneralSettings();

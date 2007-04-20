@@ -1,11 +1,11 @@
 	<form action="" method="post">
 	  <table class="std">
 		  <tr class="tblheader">
-			<td class="std" colspan="2">{TXT_GENERAL_SETTINGS}</td>
+			<th id="header-settings" class="std" colspan="2">{TXT_GENERAL_SETTINGS}</th>
 		  </tr>
 		  <tr>
-			<td class="option">{TXT_MAIL_INCOMING}</td>
-			<td class="option_value">
+			<td id="header-receiving" class="option">{TXT_MAIL_INCOMING}</td>
+			<td headers="header-receiving header-settings" class="option_value">
 				<select name="mail_incoming_mail" size="1">
 				<!-- BEGIN loop_incoming_mail -->
 					<option value="{LOOP_INCOMING_MAIL_VALUE}" {LOOP_INCOMING_MAIL_SELECTED}>{LOOP_INCOMING_MAIL_NAME}</option>
@@ -21,7 +21,7 @@
 		  </tr>
 
 		  <tr class="tblheader">
-			<td class="std" colspan="2">{TXT_MAIL_INTERN}</td>
+			<th id="header-intern" class="std" colspan="2">{TXT_MAIL_INTERN}</th>
 		  </tr>
 <!--
 		  <tr class="tblheader">
@@ -49,8 +49,8 @@
 		  </tr>
 -->
 		  <tr>
-			<td class="option">{TXT_MAIL_MAXSIZE_ATTACH}</td>
-			<td class="option_value"><input type="text" size="10" maxlength="10" name="mail_maxsize_attach" value="{MAIL_MAXSIZE_ATTACH}" />
+			<td id="header-filesize" class="option">{TXT_MAIL_MAXSIZE_ATTACH}</td>
+			<td headers="header-filesize header-intern" class="option_value"><input type="text" size="10" maxlength="10" name="mail_maxsize_attach" value="{MAIL_MAXSIZE_ATTACH}" />
 			  {TXT_KB}</td>
 		  </tr>
 <!--

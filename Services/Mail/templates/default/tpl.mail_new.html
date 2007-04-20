@@ -3,37 +3,20 @@
 		<table class="std">
 		<!-- BEGIN search -->
 		<tr>
-			<td class="option" align="right">{TXT_SEARCH_FOR}
+			<td id="header-search" class="option" align="right">{TXT_SEARCH_FOR}
 			</td>
-			<td class="option_value">
-			<input name="search" value="{VALUE_SEARCH_FOR}" size="30" width="80%"/>
-			</td>
-		</tr>
-		<tr>
-			<td class="option">&nbsp;
-			</td>
-			<td class="option_value">
-			<input type="checkbox" name="type_addressbook" value="address" checked="checked"/>{TXT_SEARCH_ADDRESS}
-			</td>
-		</tr>
-		<tr>
-			<td class="option">&nbsp;
-			</td>
-			<td class="option_value">
-			<input type="checkbox" name="type_system" value="system"/>{TXT_SEARCH_SYSTEM}
-			</td>
-		</tr>
-		<tr>
-			<td class="option">&nbsp;</td>
-			<td class="option_value" >
-			<input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
-			<input class="submit" type="submit" name="cmd[cancelSearch]" value="{BUTTON_CANCEL}"/>
+			<td headers="header-search" class="option_value">
+				<input name="search" value="{VALUE_SEARCH_FOR}" size="30" width="80%"/><br/>
+				<input type="checkbox" name="type_addressbook" value="address" checked="checked"/>{TXT_SEARCH_ADDRESS}<br/>
+				<input type="checkbox" name="type_system" value="system"/>{TXT_SEARCH_SYSTEM}<br/>
+				<input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
+				<input class="submit" type="submit" name="cmd[cancelSearch]" value="{BUTTON_CANCEL}"/>
 			</td>
 		</tr>
 		<!-- END search -->
 		<tr>
-			<td class="option" >{TXT_RECIPIENT}</a></td>
-			<td class="option_value" >
+			<td id="header-to" class="option" >{TXT_RECIPIENT}</a></td>
+			<td headers="header-to" class="option_value" >
 			<input name="rcp_to" value="{RCP_TO}" size="50" width="80%"/>
 			<input class="submit" type="submit" name="cmd[searchRcpTo]" value="{BUTTON_TO}"/>
 			<input class="submit" type="submit" name="cmd[searchCoursesTo]" value="{BUTTON_COURSES_TO}"/>
@@ -41,34 +24,34 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="option" >{TXT_CC}</a></td>
-			<td class="option_value">
+			<td id="header-cc" class="option" >{TXT_CC}</a></td>
+			<td headers="header-cc" class="option_value">
 			<input name="rcp_cc" value="{RCP_CC}" size="50" width="80%"/>
 			<input class="submit" type="submit" name="cmd[searchRcpCc]" value="{BUTTON_CC}"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="option" >{TXT_BC}</a></td>
-			<td class="option_value">
+			<td id="header-bcc" class="option" >{TXT_BC}</a></td>
+			<td headers="header-bcc" class="option_value">
 			<input name="rcp_bcc" value="{RCP_BCC}" size="50" width="80%"/>
 			<input class="submit" type="submit" name="cmd[searchRcpBc]" value="{BUTTON_BC}"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="option" >{TXT_SUBJECT}</td>
-			<td class="option_value"><input name="m_subject" value="{M_SUBJECT}" size="50" width="80%"/></td>
+			<td id="header-subject" class="option" >{TXT_SUBJECT}</td>
+			<td headers="header-subject" class="option_value"><input name="m_subject" value="{M_SUBJECT}" size="50" width="80%"/></td>
 		</tr>
 		<!-- BEGIN system_message -->
 		<tr>
-			<td class="option" >{SYSTEM_TXT_TYPE}</td>
-			<td class="option_value">
+			<td id="header-type" class="option" >{SYSTEM_TXT_TYPE}</td>
+			<td headers="header-type" class="option_value">
 			<input type="checkbox" name="m_type[]" value="system" {CHECKED_SYSTEM}/>{TXT_SYSTEM}
 			</td>
 		</tr>
 		<!-- END system_message -->
 		<tr>
-			<td class="option" >{TXT_ATTACHMENT}</td>
-			<td class="option_value">
+			<td id="header-attachment" class="option" >{TXT_ATTACHMENT}</td>
+			<td headers="header-attachment" class="option_value">
 			<!-- BEGIN files -->
 			<textarea cols="60" rows="{ROWS}" readonly="readonly">{FILES}</textarea><br/>
 			<!-- BEGIN hidden -->
@@ -79,8 +62,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="option" >{TXT_MSG_CONTENT}</td>
-			<td class="option_value"><textarea name="m_message" rows="10" cols="60">{M_MESSAGE}</textarea></td>
+			<td id="header-content" class="option" >{TXT_MSG_CONTENT}</td>
+			<td headers="header-content" class="option_value"><textarea name="m_message" rows="10" cols="60">{M_MESSAGE}</textarea></td>
 		</tr>
 		<tr>
 			<td class="submit" colspan="2" align="right">

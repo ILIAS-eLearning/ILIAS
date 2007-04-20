@@ -277,7 +277,7 @@ class ilPaymentShoppingCart
 			$price_data = ilPaymentPrices::_getPrice($item['price_id']);
 			$price_string = ilPaymentPrices::_getPriceString($item['price_id']);
 
-			$price = ((int) $price_data["unit_value"]) . "." . ((int) $price_data["sub_unit_value"]);
+			$price = ((int) $price_data["unit_value"]) . "." . sprintf("%02d", ((int) $price_data["sub_unit_value"]));
 
 			$f_result[$counter]["betrag"] = (float) $price;
 			$f_result[$counter]["betrag_string"] = $price_string;

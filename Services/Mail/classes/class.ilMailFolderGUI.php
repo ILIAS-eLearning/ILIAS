@@ -22,8 +22,8 @@
 */
 
 require_once "classes/class.ilObjUser.php";
-require_once "classes/class.ilMailbox.php";
-require_once "classes/class.ilMail.php";
+require_once "Services/Mail/classes/class.ilMailbox.php";
+require_once "Services/Mail/classes/class.ilMail.php";
 
 /**
 * @author Jens Conze
@@ -113,7 +113,7 @@ class ilMailFolderGUI
 		{
 			if (is_array($mail_data = $this->umail->getMail($_GET["mail_id"])))
 			{
-				require_once "classes/class.ilAddressbook.php";
+				require_once "Services/Mail/classes/class.ilAddressbook.php";
 				$abook = new ilAddressbook($ilUser->getId());
 
 				$tmp_user = new ilObjUser($mail_data["sender_id"]);

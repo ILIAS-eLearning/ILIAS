@@ -110,7 +110,7 @@ class ilPaymentPrices
 		$pr_str = '';
 		$price = ilPaymentPrices::_getPrice($a_price_id);
 
-		$pr_str = number_format( ((int) $price["unit_value"]) . "." . ((int) $price["sub_unit_value"]) , 2, ",", ".");
+		$pr_str = number_format( ((int) $price["unit_value"]) . "." . sprintf("%02d", ((int) $price["sub_unit_value"])) , 2, ",", ".");
 		return $pr_str . " " . $unit_string;
 
 /*		$unit_string = $lng->txt('currency_'.ilPaymentCurrency::_getUnit($price['currency']));
@@ -146,7 +146,7 @@ class ilPaymentPrices
 			{
 				$price_data = ilPaymentPrices::_getPrice($a_price_ids[$i]["id"]);
 
-				$price = ((int) $price_data["unit_value"]) . "." . ((int) $price_data["sub_unit_value"]);
+				$price = ((int) $price_data["unit_value"]) . "." . sprintf("%02d", ((int) $price_data["sub_unit_value"]));
 				$amount[$a_price_ids[$i]["pay_method"]] += (float) $price;
 			}
 		}

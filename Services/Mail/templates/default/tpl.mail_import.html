@@ -1,21 +1,21 @@
   <form action="{FORMACTION}" method="post" enctype="multipart/form-data">
 	<table class="std">
 	  <tr class="tblheader">
-		<td class="std" colspan="2">{TXT_IMPORT_MAIL}</td>
+		<th id="header-import" class="std" colspan="2">{TXT_IMPORT_MAIL}</th>
 	  </tr>
 	  <!-- BEGIN imported -->
 	  <tr>
-		<td class="option">
+		<td id="header-imported" class="option">
 		  {TXT_IMPORTED_FILE}
 		</td>
-		<td class="option_value">{XML_FILE}</td>
+		<td headers="header-imported header-import" class="option_value">{XML_FILE}</td>
 	  </tr>
 	  <!-- END imported -->
 	  <tr>
-		<td class="option">
+		<td id="header-file" class="option">
 		  {TXT_IMPORT_FILE}
 		</td>
-		<td class="option_value">
+		<td headers="header-file header-import" class="option_value">
 		  <input type="file" name="importFile"/>
 		</td>
 	  </tr>

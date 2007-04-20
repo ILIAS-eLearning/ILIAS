@@ -1,41 +1,41 @@
     <form action="{ACTION}" method="post">
 	<table class="fullwidth">
 		<TR class="{CSSROW_FROM}">
-			<TD class="option">{TXT_FROM}</TD>
-			<TD class="option_value">
+			<TD id="header-from" class="option">{TXT_FROM}</TD>
+			<TD headers="header-from" class="option_value">
 			<!-- BEGIN pers_image -->
 			<img style="float:left; margin-right:10px;" src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
 			<!-- END pers_image -->
 			{FROM} <br />{MAIL_LOGIN}</TD>
 		</TR>
 		<TR class="{CSSROW_TO}">
-			<TD class="option">{TXT_TO}</TD>
-			<TD class="option_value">{TO}</TD>
+			<TD id="header-to" class="option">{TXT_TO}</TD>
+			<TD headers="header-to" class="option_value">{TO}</TD>
 		</TR>
 		<!-- BEGIN cc -->
 		<TR class="{CSSROW_CC}">
-			<TD class="option">{TXT_CC}</TD>
-			<TD class="option_value">{CC}</TD>
+			<TD id="header-cc" class="option">{TXT_CC}</TD>
+			<TD headers="header-cc" class="option_value">{CC}</TD>
 		</TR>
 		<!-- END cc -->
 		<TR class="{CSSROW_SUBJ}">
-			<TD class="option">{TXT_SUBJECT}</TD>
-			<TD class="option_value">{SUBJECT}</TD>
+			<TD id="header-subject" class="option">{TXT_SUBJECT}</TD>
+			<TD headers="header-subject" class="option_value">{SUBJECT}</TD>
 		</TR>
 		<TR class="{CSSROW_DATE}">
-			<TD class="option">{TXT_DATE}</TD>
-			<TD class="option_value">{DATE}</TD>
+			<TD id="header-date" class="option">{TXT_DATE}</TD>
+			<TD headers="header-date" class="option_value">{DATE}</TD>
 		</TR>
 	</table>
 	  <br>
 
 	  {BUTTONS2}
 	  <!-- BEGIN attachment -->
-	  <table cellpadding="4" cellspacing="1" border="0" width="100%">
-		  <TR>
-			<TD ALIGN="left" VALIGN="top" colspan="2" class="tblheader">
+	  <table class="fullwidth">
+		  <TR class="tblheader">
+			<TH id="header-attachment" colspan="2" class="std">
 			  {TXT_ATTACHMENT}
-			</TD>
+			</TH>
 		  </TR>
 		  <!-- BEGIN a_row -->
 		  <TR class="{A_CSSROW}">
@@ -59,10 +59,10 @@
 	  <!-- END attachment -->
 		<table class="fullwidth">
 			<TR class="tblheader" colspan="2">
-				<TD class="std">{TXT_MESSAGE}</TD>
+				<TH id="header-message" class="std">{TXT_MESSAGE}</TH>
 			</tr>
 			<tr class="std">
-				<TD class="std" colspan="2">{MAIL_MESSAGE}</TD>
+				<TD headers="header-message" class="std" colspan="2">{MAIL_MESSAGE}</TD>
 			</TR>
 		</TABLE>
 </body>
