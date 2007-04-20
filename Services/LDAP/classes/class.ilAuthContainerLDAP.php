@@ -31,8 +31,7 @@ include_once('Auth/Container/LDAP.php');
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls 
-* @ingroup 
+* @ingroup ServicesLDAP
 */
 class ilAuthContainerLDAP extends Auth_Container_LDAP
 {

@@ -29,9 +29,11 @@ define('IL_LDAP_SCOPE_SUB',0);
 define('IL_LDAP_SCOPE_ONE',1);
 define('IL_LDAP_SCOPE_BASE',2);
 
+/** 
+* @defgroup ServicesLDAP Services/LDAP
+*/
 
 /** 
-* 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 

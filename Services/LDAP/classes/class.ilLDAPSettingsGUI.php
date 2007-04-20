@@ -22,7 +22,6 @@
 */
 
 /** 
-* @defgroup ServicesLDAP Services/LDAP
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$

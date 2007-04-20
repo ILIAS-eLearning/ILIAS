@@ -22,14 +22,13 @@
 */
 
 /** 
+* @defgroup ServicesCopyWizard Services/CopyWizard
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* 
-* @ingroup ServicesCopyWizard 
+* @ingroup ServicesCopyWizard
 */
-
 class ilCopyWizardOptions
 {
 	private static $instances = null;

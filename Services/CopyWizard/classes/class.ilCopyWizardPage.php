@@ -24,16 +24,14 @@
 include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 
 /** 
-* @defgroup ServicesCopyWizard Services/CopyWizard
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
 * 
 * @ilCtrl_Calls 
-* @ingroup 
+* @ingroup ServicesCopyWizard 
 */
-
 class ilCopyWizardPage
 {
 	private $type;

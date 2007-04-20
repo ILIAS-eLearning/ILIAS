@@ -28,7 +28,7 @@ include_once('classes/class.ilExplorer.php');
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* 
+* @ingroup ServicesCopyWizard
 */
 class ilCopyWizardExplorer extends ilExplorer
 {
