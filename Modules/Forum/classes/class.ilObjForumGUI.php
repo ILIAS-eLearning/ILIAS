@@ -1548,7 +1548,7 @@ class ilObjForumGUI extends ilObjectGUI
 										$frm->prepareText($node["message"],2)));
 							}
 							// NOTIFY
-							include_once 'classes/class.ilMail.php';
+							include_once 'Services/Mail/classes/class.ilMail.php';
 							$umail = new ilMail($_SESSION["AccountId"]);
 
 							if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
@@ -2284,7 +2284,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$tpl->setVariable("TXT_ALIAS_INFO", $lng->txt("forums_use_alias"));
 		}		
 		
-		include_once 'classes/class.ilMail.php';
+		include_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($_SESSION["AccountId"]);
 		// catch hack attempts
 		if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()) &&

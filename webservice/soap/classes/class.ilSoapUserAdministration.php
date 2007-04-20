@@ -1247,7 +1247,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		include_once ("./classes/class.ilMailbox.php");
+		include_once ("Services/Mail/classes/class.ilMailbox.php");
 		global $ilUser;
 
 		if (ilMailbox::hasNewMail($ilUser->getId()) > 0)

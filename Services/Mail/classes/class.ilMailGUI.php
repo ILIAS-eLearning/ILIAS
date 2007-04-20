@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "classes/class.ilMail.php";
+require_once "Services/Mail/classes/class.ilMail.php";
 
 /**
 * @author Jens Conze
@@ -297,7 +297,7 @@ class ilMailGUI
 	{
 		global $ilUser;
 		
-		require_once "classes/class.ilMailExplorer.php";
+		require_once "Services/Mail/classes/class.ilMailExplorer.php";
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));

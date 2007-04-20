@@ -766,7 +766,7 @@ class ilCourseMembers
 		$subject = sprintf($subject, $this->course_obj->getTitle());
 		$body = sprintf($body, $this->course_obj->getTitle());
 
-		include_once("./classes/class.ilFormatMail.php");
+		include_once("Services/Mail/classes/class.ilFormatMail.php");
 
 		$mail = new ilFormatMail($_SESSION["AccountId"]);
 		$mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
@@ -785,7 +785,7 @@ class ilCourseMembers
 		}
 
 
-		include_once("./classes/class.ilFormatMail.php");
+		include_once("Services/Mail/classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
 		$subject = sprintf($this->lng->txt("crs_new_subscription"),$this->course_obj->getTitle());
@@ -817,7 +817,7 @@ class ilCourseMembers
 		}
 
 
-		include_once("./classes/class.ilFormatMail.php");
+		include_once("Services/Mail/classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
 		$subject = sprintf($this->lng->txt("crs_new_subscription_request"),$this->course_obj->getTitle());
@@ -849,7 +849,7 @@ class ilCourseMembers
 			return true;
 		}
 
-		include_once("./classes/class.ilFormatMail.php");
+		include_once("Services/Mail/classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
 		$subject = sprintf($this->lng->txt("crs_cancel_subscription"), $this->course_obj->getTitle());

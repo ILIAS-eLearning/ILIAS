@@ -146,7 +146,7 @@ class ilObjMailGUI extends ilObjectGUI
 		}
 
 		// internal mail
-		include_once "class.ilMailOptions.php";
+		include_once "Services/Mail/classes/class.ilMailOptions.php";
 		$this->tpl->setVariable("TXT_GENERAL_SETTINGS", $this->lng->txt("general_settings"));
 		$this->tpl->setVariable("TXT_MAIL_INCOMING", $this->lng->txt("mail_incoming"));
 		$types = array(
@@ -313,7 +313,7 @@ class ilObjMailGUI extends ilObjectGUI
 	}
 	function __initParserObject($a_xml,$a_mode)
 	{
-		include_once "./classes/class.ilMailImportParser.php";
+		include_once "Services/Mail/classes/class.ilMailImportParser.php";
 
 		if(!$a_xml)
 		{

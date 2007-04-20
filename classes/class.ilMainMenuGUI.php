@@ -186,7 +186,7 @@ class ilMainMenuGUI
 			}
 			$this->tpl->parseCurrentBlock();
 
-			include_once "./classes/class.ilMail.php";
+			include_once "Services/Mail/classes/class.ilMail.php";
 			
 			$mail =& new ilMail($_SESSION["AccountId"]);
 
@@ -242,6 +242,7 @@ class ilMainMenuGUI
 					$this->tpl->setVariable("TXT_CHAT", $lng_chat->txt("chat_invitation_subject").$add);
 					$this->tpl->setVariable("SCRIPT_CHAT", $this->getScriptTarget($link));
 					$this->tpl->setVariable("TARGET_CHAT", $this->target);
+					$this->tpl->setVariable("CHAT_INVITATION", ilUtil::getSoundPath("chat_invitation.wav"));
 					
 					if ($this->active == "chat_invitation")
 					{

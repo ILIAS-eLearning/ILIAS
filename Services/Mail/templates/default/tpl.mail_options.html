@@ -14,13 +14,13 @@
 		<!-- BEGIN edit -->
 	<form action="{ACTION_EDIT}" method="post">
 		<tr class="tblheader">
-			<td class="std" colspan="2">
+			<th id="header-folder" class="std" colspan="2">
 			{FOLDER_OPTIONS}
-			</td>
+			</th>
 		</tr>
 		<tr>
-			<td class="option">{TXT_NAME}</td>
-			<td class="option_value">
+			<td id="header-edit" class="option">{TXT_NAME}</td>
+			<td headers="header-edit header-folder" class="option_value">
 			<input type="TEXT" name="folder_name" value="{FOLDER_NAME}" size="32"/>
 			</td>
 		</tr>
@@ -35,8 +35,8 @@
 	<!-- BEGIN add -->
 	<form action="{ACTION_ADD}" target="{FRAME_ADD}" method="post">
 	<tr>
-		<td class="option" >{TXT_NAME_ADD}</td>
-		<td class="option_value" >
+		<td id="header-add" class="option" >{TXT_NAME_ADD}</td>
+		<td headers="header-add header-folder" class="option_value" >
 		<input type="text" name="folder_name_add" size="32"/>
 		</td>
 	</tr>
@@ -50,15 +50,15 @@
 	<!-- BEGIN options -->
 	<form action="{ACTION}" method="post">
 	<tr class="tblheader" >
-		<td class="std" colspan="2">
+		<th id="header-options" class="std" colspan="2">
 		{GLOBAL_OPTIONS}
-		</td>
+		</th>
 	</tr>
 	<tr>
-		<td class="option">
+		<td id="header-incoming"  class="option">
 		{TXT_INCOMING}
 		</td>
-		<td class="option_value">
+		<td headers="header-options header-incoming" class="option_value">
 		<select name="incoming_type" {INC_DISABLED}>
 			<!-- BEGIN option_inc_line -->
 			<option value="{OPTION_INC_VALUE}" {OPTION_INC_SELECTED}>
@@ -69,10 +69,10 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="option">
+		<td id="header-linebreak" class="option">
 		{TXT_LINEBREAK}
 		</td>
-		<td class="option_value">
+		<td headers="header-linebreak header-options" class="option_value">
 		<select name="linebreak">
 			<!-- BEGIN option_line -->
 			<option value="{OPTION_VALUE}" {OPTION_SELECTED}>
@@ -83,8 +83,8 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="option">{TXT_SIGNATURE}</td>
-		<td class="option_value"><textarea name="signature" rows=10 cols=60>{CONTENT}</textarea></td>
+		<td id="header-signature" class="option">{TXT_SIGNATURE}</td>
+		<td headers="header-signature header-options" class="option_value"><textarea name="signature" rows=10 cols=60>{CONTENT}</textarea></td>
 	</tr>
 	<tr class="submit" align="right">
 		<td class="submit" colspan="2"><input class="submit" type=submit value="{TXT_SAVE}" name="cmd[saveOptions]"/></td>

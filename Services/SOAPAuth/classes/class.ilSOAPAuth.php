@@ -292,7 +292,7 @@ class ilSOAPAuth extends Auth
 				$amail = ilObjUserFolder::_lookupNewAccountMail($ilSetting->get("language"));
 				if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 				{
-					include_once("classes/class.ilAccountMail.php");
+					include_once("Services/Mail/classes/class.ilAccountMail.php");
 					$acc_mail = new ilAccountMail();
 
 					if ($pw != "")

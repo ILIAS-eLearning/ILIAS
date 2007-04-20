@@ -192,7 +192,7 @@ class ilAccountMail
 		$mail_body = $this->replacePlaceholders($amail["body"], $user, $amail, $lang);
 		
 		// send the mail
-		include_once "classes/class.ilMimeMail.php";
+		include_once "Services/Mail/classes/class.ilMimeMail.php";
 		$mmail = new ilMimeMail();
 		$mmail->autoCheck(false);
 		$mmail->From($ilSetting->get("admin_email"));																		

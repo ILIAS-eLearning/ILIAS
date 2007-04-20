@@ -22,7 +22,7 @@
 */
 
 include_once "classes/class.ilObjUser.php";
-include_once "classes/class.ilMail.php";
+include_once "Services/Mail/classes/class.ilMail.php";
 
 
 /**

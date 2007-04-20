@@ -99,7 +99,7 @@ class ilCron
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			include_once '../classes/class.ilMimeMail.php';
+			include_once '../Services/Mail/classes/class.ilMimeMail.php';
 
 			$data['expires'] = $row->time_limit_until;
 			$data['email'] = $row->email;

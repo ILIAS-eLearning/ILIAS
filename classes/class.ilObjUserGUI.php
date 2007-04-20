@@ -1531,7 +1531,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// send new account mail
 		if ($_POST["send_mail"] != "")
 		{
-			include_once("classes/class.ilAccountMail.php");
+			include_once("Services/Mail/classes/class.ilAccountMail.php");
 			$acc_mail = new ilAccountMail();		
 			$acc_mail->setUserPassword($_POST["Fobject"]["passwd"]);
 			$acc_mail->setUser($userObj);
@@ -2573,7 +2573,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$usr_lang->loadLanguageModule('crs');
 		$usr_lang->loadLanguageModule('registration');
 
-		include_once "classes/class.ilMimeMail.php";
+		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 		$mmail = new ilMimeMail();
 		$mmail->autoCheck(false);

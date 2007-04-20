@@ -23,7 +23,7 @@
 
 #require_once "./include/inc.mail.php";
 require_once "classes/class.ilObjUser.php";
-require_once "classes/class.ilMail.php";
+require_once "Services/Mail/classes/class.ilMail.php";
 
 /**
 * Mail User Interface class. (only a start, mail scripts code should go here)

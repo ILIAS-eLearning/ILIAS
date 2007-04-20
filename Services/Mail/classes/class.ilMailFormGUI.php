@@ -22,8 +22,8 @@
 */
 
 require_once "classes/class.ilObjUser.php";
-require_once "classes/class.ilMailbox.php";
-require_once "classes/class.ilFormatMail.php";
+require_once "Services/Mail/classes/class.ilMailbox.php";
+require_once "Services/Mail/classes/class.ilFormatMail.php";
 require_once "classes/class.ilFileDataMail.php";
 
 /**

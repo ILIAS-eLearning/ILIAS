@@ -31,7 +31,7 @@
 * @version $Id$
 * 
 */
-include_once "classes/class.ilMail.php";
+include_once "Services/Mail/classes/class.ilMail.php";
 
 class ilFormatMail extends ilMail
 {

@@ -420,8 +420,8 @@ class ilPasswordAssistanceGUI
 	{
 		global $lng, $ilias;
 	
-		include_once "classes/class.ilMailbox.php";
-		include_once "classes/class.ilMimeMail.php";
+		include_once "Services/Mail/classes/class.ilMailbox.php";
+		include_once "Services/Mail/classes/class.ilMimeMail.php";
 		require_once "include/inc.pwassist_session_handler.php";
 		
 	
@@ -511,8 +511,8 @@ class ilPasswordAssistanceGUI
 	{
 		global $lng, $ilias;
 	
-		include_once "classes/class.ilMailbox.php";
-		include_once "classes/class.ilMimeMail.php";
+		include_once "Services/Mail/classes/class.ilMailbox.php";
+		include_once "Services/Mail/classes/class.ilMimeMail.php";
 		require_once "include/inc.pwassist_session_handler.php";
 		
 	

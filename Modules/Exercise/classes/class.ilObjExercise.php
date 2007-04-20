@@ -388,7 +388,7 @@ class ilObjExercise extends ilObject
 			}
 		}
 
-		include_once "./classes/class.ilMail.php";
+		include_once "Services/Mail/classes/class.ilMail.php";
 
 		$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
 		$message = $tmp_mail_obj->sendMail($this->__formatRecipients($a_members),"","",$this->__formatSubject(),$this->__formatBody(),

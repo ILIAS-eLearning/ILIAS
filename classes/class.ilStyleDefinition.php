@@ -106,6 +106,11 @@ class ilStyleDefinition extends ilSaxParser
 		return $this->styles[$a_id]["image_directory"];
 	}
 
+	function getSoundDirectory($a_id)
+	{
+		return $this->styles[$a_id]["sound_directory"];
+	}
+
 	function getAllTemplates()
 	{
 		global $ilias;
@@ -174,7 +179,8 @@ class ilStyleDefinition extends ilSaxParser
 					array(	"id" => $a_attribs["id"],
 							"name" => $a_attribs["name"],
 							"css_file" => $a_attribs["id"].".css",
-							"image_directory" => $a_attribs["image_directory"]
+							"image_directory" => $a_attribs["image_directory"],
+							"sound_directory" => $a_attribs["sound_directory"]
 					);
 				$browsers =
 					explode(",", $a_attribs["browsers"]);

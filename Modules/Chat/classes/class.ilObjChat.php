@@ -213,7 +213,7 @@ class ilObjChat extends ilObject
 
 	function sendMessage($a_id)
 	{
-		include_once "./classes/class.ilMail.php";
+		include_once "Services/Mail/classes/class.ilMail.php";
 
 		$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
 

@@ -30,7 +30,7 @@
 * @version $Id$
 *
 */
-require_once("./classes/class.ilMail.php");
+require_once("Services/Mail/classes/class.ilMail.php");
 
 class ilMailbox
 {
@@ -418,7 +418,7 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		include_once("classes/class.ilMail.php");
+		include_once("Services/Mail/classes/class.ilMail.php");
 		$umail = new ilMail($this->user_id);
 
 		// SAVE SUBTREE DATA
