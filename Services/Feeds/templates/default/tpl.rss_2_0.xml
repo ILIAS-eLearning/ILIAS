@@ -12,12 +12,10 @@
 		<item>
 			<title>{ITEM_TITLE}</title>
 			<link>{ITEM_LINK}</link>
-			<description>{ITEM_DESCRIPTION}</description>
+			<description>{ITEM_DESCRIPTION}</description><!-- BEGIN date -->
+			<pubDate>{ITEM_DATE}</pubDate><!-- END date -->
 			<guid>{ITEM_ABOUT}</guid>
-			<!-- BEGIN authdate -->
-			<!-- <author>{ITEM_AUTHOR}</author> -->
-			<pubDate>{ITEM_DATE}</pubDate>
-			<!-- END authdate -->
+			<!-- BEGIN author --><author>{ITEM_AUTHOR}</author><!-- END author -->
 			<!-- BEGIN enclosure -->
 			<enclosure url="{ENC_URL}" length="{ENC_LENGTH}" type="{ENC_TYPE}" />
 			<!-- END enclosure -->

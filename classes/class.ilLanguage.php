@@ -142,14 +142,17 @@ class ilLanguage
 	 */
 	function ilLanguage($a_lang_key)
 	{
-		global $ilias,$log;
+		global $ilias,$log,$ilIliasIniFile,$ilUser;
 
 
 		$this->ilias =& $ilias;
 
 		if (!isset($log))
 		{
-			$this->log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
+			if (is_object($ilias))
+			{
+				$this->log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
+			}
 		}
 		else
 		{
@@ -157,6 +160,7 @@ class ilLanguage
 		}
 
 		$this->lang_key = $a_lang_key;
+		
 		$this->text = array();
 		$this->loaded_modules = array();
 		//$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
@@ -168,8 +172,8 @@ class ilLanguage
 		//}
 		$this->cust_lang_path = ILIAS_ABSOLUTE_PATH."/Customizing/global/lang";
 
-		$this->lang_default = $this->ilias->ini->readVariable("language","default");
-		$this->lang_user = $this->ilias->account->prefs["language"];
+		$this->lang_default = $ilIliasIniFile->readVariable("language","default");
+		$this->lang_user = $ilUser->prefs["language"];
 		
 		$langs = $this->getInstalledLanguages();
 		
@@ -246,7 +250,7 @@ class ilLanguage
 
 		if ($translation == "")
 		{
-			if (ILIAS_LOG_ENABLED)
+			if (ILIAS_LOG_ENABLED && is_object($this->log))
 			{
 				$this->log->writeLanguageLog($a_topic,$this->lang_key);
 			}
@@ -276,6 +280,7 @@ class ilLanguage
 		{
 			$lang_key = $this->lang_user;
 		}
+
 /*
 		$query = "SELECT identifier,value FROM lng_data " .
 				"WHERE lang_key = '" . $lang_key."' " .
@@ -291,7 +296,7 @@ class ilLanguage
 		$query = "SELECT * FROM lng_modules " .
 				"WHERE lang_key = ".$ilDB->quote($lang_key)." " .
 				"AND module = ".$ilDB->quote($a_module);
-		$r = $this->ilias->db->query($query);
+		$r = $ilDB->query($query);
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$new_text = unserialize($row["lang_array"]);
