@@ -176,4 +176,24 @@ class ilFeedItem
 		return $this->enclosurelength;
 	}
 
+	/**
+	* Set Date.
+	*
+	* @param	string	$a_date	Date (yyyy-mm-dd hh:mm:ss)
+	*/
+	function setDate($a_date)
+	{
+		$this->date = $a_date;
+	}
+
+	/**
+	* Get Date.
+	*
+	* @return	string	Date
+	*/
+	function getDate()
+	{
+		return $this->date;
+	}
+
 }

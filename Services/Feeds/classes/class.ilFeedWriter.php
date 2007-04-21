@@ -163,6 +163,22 @@ class ilFeedWriter
 			$this->tpl->setVariable("RESOURCE", $item->getAbout());
 			$this->tpl->parseCurrentBlock();
 			
+			// Date
+			if ($item->getDate() != "")
+			{
+				$this->tpl->setCurrentBlock("date");
+				$d = $item->getDate();
+				$yyyy = substr($d, 0, 4);
+				$mm = substr($d, 5, 2);
+				$dd = substr($d, 8, 2);
+				$h = substr($d, 11, 2);
+				$m = substr($d, 14, 2);
+				$s = substr($d, 17, 2);
+				$this->tpl->setVariable("ITEM_DATE",
+					date("r", mktime($h, $m, $s, $mm, $dd, $yyyy)));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			// Enclosure
 			if ($item->getEnclosureUrl() != "")
 			{

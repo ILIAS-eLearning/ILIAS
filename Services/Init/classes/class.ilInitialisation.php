@@ -701,7 +701,17 @@ class ilInitialisation
 
 		if (is_null($_SESSION['lang']))
 		{
-			$_GET["lang"] = ($_GET["lang"]) ? $_GET["lang"] : $ilUser->getPref("language");
+			if ($_GET["lang"])
+			{
+				$_GET["lang"] = $_GET["lang"];
+			}
+			else
+			{
+				if (is_object($ilUser))
+				{
+					$_GET["lang"] = $ilUser->getPref("language");
+				}
+			}
 		}
 		if ($_POST['change_lang_to'] != "")
 		{
@@ -1150,6 +1160,10 @@ class ilInitialisation
 		// init tree
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		$GLOBALS['tree'] =& $tree;
+		
+		// init language
+		$lng = new ilLanguage($ilClientIniFile->readVariable("language","default"));
+		$GLOBALS['lng'] =& $lng;
 
 	}
 }

@@ -39,7 +39,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 {
 	function ilObjectFeedWriter($a_ref_id)
 	{
-		global $ilAccess, $ilSetting;
+		global $ilAccess, $ilSetting, $lng;
 		
 		parent::ilFeedWriter();
 		
@@ -93,12 +93,23 @@ class ilObjectFeedWriter extends ilFeedWriter
 		foreach($items as $item)
 		{
 			$i++;
+			
+			$obj_title = ilObject::_lookupTitle($item["context_obj_id"]);
+			
 			$feed_item = new ilFeedItem();
-			$feed_item->setTitle($this->prepareStr($item["title"]));
+			if ($item["content_is_lang_var"])
+			{
+				$feed_item->setTitle($obj_title.": ".$this->prepareStr($lng->txt($item["title"])));
+			}
+			else
+			{
+				$feed_item->setTitle($obj_title.": ".$this->prepareStr($item["title"]));
+			}
 			$feed_item->setDescription($this->prepareStr($item["content"]));
 			$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 				"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
 			$feed_item->setAbout(ILIAS_HTTP_PATH."/feed".$item["id"]);
+			$feed_item->setDate($item["creation_date"]);
 			
 			// Enclosure
 			if ($item["content_type"] == NEWS_AUDIO &&
