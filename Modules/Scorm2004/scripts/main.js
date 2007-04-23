@@ -1023,6 +1023,10 @@ function setResource(id, url, base)
 			return window.alert("Window Container not found");
 		}
 		var h = elm.clientHeight-20;
+		if (self.innerHeight && navigator.userAgent.indexOf("Safari") != -1) // needed for Webkit based browsers
+		{
+			h = self.innerHeight-60;
+		} 
 		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + url +	'"  style="width: 100%; height:' + h + 'px" height="' + h + '"></iframe>';	
 	} 
 	else 
@@ -1065,6 +1069,11 @@ function onWindowResize()
 {
 	var hd = document.documentElement.clientHeight;
 	var hb = document.body.clientHeight;
+	if (self.innerHeight && navigator.userAgent.indexOf("Safari") != -1) // needed for Webkit based browsers
+
+	{
+			hd = self.innerHeight;
+	} 
 	var tot = hd ? hd : hb;
 	var elm = all(RESOURCE_TOP);
 	var h = (tot-elm.offsetTop-4) + 'px';

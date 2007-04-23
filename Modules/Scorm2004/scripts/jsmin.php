@@ -92,9 +92,14 @@ if (IL_OP_JSMIN || intval($_GET['minify']))
 }
 else
 {
+	$ilias=$_GET['ilias'];
+	$tpath="scripts/";
+	if ($ilias==1) {
+		$tpath="./Modules/Scorm2004/scripts/";
+	}
 	foreach (glob($filespec) as $file) 
 	{
-		print("\ndocument.writeln('<script src=\"scripts/$file\"></script>');");
+		print("\ndocument.writeln('<script src=\"$tpath$file\"></script>');");
 	}	
 }
 

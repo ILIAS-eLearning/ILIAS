@@ -143,7 +143,7 @@ class ilSCORM13Player
 	);
 	
 	private $userId;
-	private $packageId;
+	public $packageId;
 	private $jsMode;
 	
 	function __construct() 
@@ -216,6 +216,7 @@ class ilSCORM13Player
 		$tpl->setParam('CSS_NEEDED', '');
 		$tpl->setParam('JS_NEEDED', '');
 		$tpl->setParam('JS_DATA', json_encode($config));
+		$tpl->setParam('BASE_DIR', '');
 		list($tsfrac, $tsint) = explode(' ', microtime()); 
 		$tpl->setParam('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$tpl->save();

@@ -124,13 +124,13 @@
 					<div class="ilMainHeader" >
 						<div class="ilLogin">SCORM 2004</div>
 						<div style="padding:2px 0px 2px 15px;">
-							<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="./templates/css/images/HeaderIcon.png" alt=""/>
+							<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="{BASE_DIR}templates/css/images/HeaderIcon.png" alt=""/>
 							<span class="il_PDTitle">Open Source eLearning</span>
 						</div>
 						<div class="il_MainMenu" style="clear:both;">
-			
+								<!--  
 								<a target="_blank" href="./index.php" class="MMInactive" id="ilHome">{btnHome}</a>
-								
+								-->
 								<a target="_self" href="#" class="MMInactive" id="navStart">{btnStart}</a>
 								<a target="_self" href="#" class="MMInactive" id="navResumeAll">{btnResumeAll}</a>
 
@@ -163,7 +163,7 @@
 		<table id="mainTable" width="100%" height="100%" style="width: 100%; height: 100%" 
 			cellspacing="0" cellpadding="0" border="0" summary="">
 				<tr valign="top">
-				<td style="width:30%" width="30%" >
+				<td style="width:30%" width="30%">
 					<div id="treeView"></div>
 				</td>
 				<td style="width:70%" width="70%" id="tdResource">
@@ -174,7 +174,7 @@
 
 		{INCLUDE_DEBUG}
 
-		<script type="text/javascript" src="scripts/jsmin.php"></script>
+		<script type="text/javascript" src="{BASE_DIR}scripts/jsmin.php?ilias={ILIAS}"></script>
 		<script type="text/javascript">
 		//<![CDATA[
 			scorm_init({JS_DATA});

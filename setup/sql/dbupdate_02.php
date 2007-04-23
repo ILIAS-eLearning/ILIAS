@@ -1286,3 +1286,6 @@ if(!$found)
 	$res = $ilDB->query($query);
 }
 ?>
+<#972> 
+ALTER TABLE sahs_lm MODIFY type
+ENUM('scorm','aicc','hacp','scorm2004');

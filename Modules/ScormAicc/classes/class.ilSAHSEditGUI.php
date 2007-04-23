@@ -81,6 +81,12 @@ class ilSAHSEditGUI
 
 		switch($type)
 		{
+			
+			case "scorm2004":
+				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
+				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
+				break;
+				
 			case "scorm":
 				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
 				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
@@ -101,6 +107,11 @@ class ilSAHSEditGUI
 		{
 			switch($type)
 			{
+				
+				case "scorm2004":
+					$this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
+					break;
+					
 				case "scorm":
 					$this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
 					break;
