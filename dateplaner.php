@@ -32,6 +32,17 @@
 * @version		$Id$
 */ 
 
+
+// remove tags from all post items
+if (is_array($_POST))
+{
+	foreach($_POST as $k => $v)
+	{
+//echo "<br>-$_POST[$k]-".strip_tags($_POST[$k])."-";
+		$_POST[$k] = strip_tags($_POST[$k]);
+	}
+}
+
 /** ------------------------------------------------------------------------------+
 * Modul porperties/settings for the dateplaner
 *

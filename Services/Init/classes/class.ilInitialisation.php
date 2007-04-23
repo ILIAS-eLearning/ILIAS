@@ -39,8 +39,33 @@
 class ilInitialisation
 {
 
-
-  /**
+	/**
+	* Remove unsafe characters from GET
+	*/
+	function removeUnsafeCharacters()
+	{
+		// Remove unsafe characters from GET parameters.
+		// We do not need this characters in any case, so it is
+		// feasible to filter them everytime. POST parameters
+		// need attention through ilUtil::stripSlashes() and similar functions)
+		if (is_array($_GET))
+		{
+			foreach($_GET as $k => $v)
+			{
+				if (!in_array($k, array("file")))
+				{
+					// \r\n used for IMAP MX Injection
+					// ' used for SQL Injection
+					$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
+					
+					// this one is for XSS of any kind
+					$_GET[$k] = strip_tags($_GET[$k]);
+				}
+			}
+		}
+	}
+	
+	/**
 	 * get common include code files
 	*/
 	function requireCommonIncludes()
@@ -763,6 +788,9 @@ class ilInitialisation
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
 			$ilTabs, $ilMainMenu, $rbacsystem, $ilNavigationHistory;
 
+		// remove unsafe characters
+		$this->removeUnsafeCharacters();
+		
 		// include common code files
 		$this->requireCommonIncludes();
 		global $ilBench;
@@ -1113,6 +1141,9 @@ class ilInitialisation
 			$ilSetting, $ilias, $https, $ilObjDataCache,
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
 			$ilTabs, $ilMainMenu, $rbacsystem, $ilNavigationHistory;
+			
+		// remove unsafe characters
+		$this->removeUnsafeCharacters();
 
 		// include common code files
 		$this->requireCommonIncludes();

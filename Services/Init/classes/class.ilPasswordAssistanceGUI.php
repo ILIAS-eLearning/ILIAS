@@ -246,8 +246,8 @@ class ilPasswordAssistanceGUI
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		
 		// Retrieve form data
-		$username = $_POST["username"];
-		$email = $_POST["email"];
+		$username = ilUtil::stripSlashes($_POST["username"]);
+		$email = ilUtil::stripSlashes($_POST["email"]);
 		
 		// Retrieve a user object with matching user name and email address.
 		$userObj = null;
@@ -341,7 +341,7 @@ class ilPasswordAssistanceGUI
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		
 		// Retrieve form data
-		$email = $_POST["email"];
+		$email = ilUtil::stripSlashes($_POST["email"]);
 		
 		// Retrieve a user object with matching user name and email address.
 		$logins = ilObjUser::_getUserIdsByEmail($email);
@@ -650,10 +650,10 @@ class ilPasswordAssistanceGUI
 		require_once "include/inc.pwassist_session_handler.php";
 		
 		// Retrieve form data
-		$pwassist_id = $_POST["key"];
-		$username = $_POST["username"];
-		$password1 = $_POST["password1"];
-		$password2 = $_POST["password2"];
+		$pwassist_id = ilUtil::stripSlashes($_POST["key"]);
+		$username = ilUtil::stripSlashes($_POST["username"]);
+		$password1 = ilUtil::stripSlashes($_POST["password1"]);
+		$password2 = ilUtil::stripSlashes($_POST["password2"]);
 	
 		// Retrieve the session
 		$pwassist_session = db_pwassist_session_read($pwassist_id);
