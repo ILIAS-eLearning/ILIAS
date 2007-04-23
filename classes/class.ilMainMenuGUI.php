@@ -242,7 +242,7 @@ class ilMainMenuGUI
 					$this->tpl->setVariable("TXT_CHAT", $lng_chat->txt("chat_invitation_subject").$add);
 					$this->tpl->setVariable("SCRIPT_CHAT", $this->getScriptTarget($link));
 					$this->tpl->setVariable("TARGET_CHAT", $this->target);
-					$this->tpl->setVariable("CHAT_INVITATION", ilUtil::getSoundPath("chat_invitation.wav"));
+#					$this->tpl->setVariable("CHAT_INVITATION", ilUtil::getSoundPath("chat_invitation.wav"));
 					
 					if ($this->active == "chat_invitation")
 					{
