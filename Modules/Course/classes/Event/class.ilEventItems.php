@@ -68,7 +68,11 @@ class ilEventItems
 	}
 	function setItems($a_items)
 	{
-		$this->items = $a_items;
+		$this->items = array();
+		foreach($a_items as $item_id)
+		{
+			$this->items[] = (int) $item_id;
+		}
 	}
 	function delete()
 	{
@@ -199,7 +203,7 @@ class ilEventItems
 		$this->items = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->items[] = $row->item_id;
+			$this->items[] = (int) $row->item_id;
 		}
 		return true;
 	}
