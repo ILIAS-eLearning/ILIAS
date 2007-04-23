@@ -24,7 +24,7 @@ function ilInitLastVisitedNav()
 function ilLastVisitedNavOn()
 {
 	obj = document.getElementById('ilNavHistoryTable');
-	obj.style.display='table';
+	obj.style.display='';
 }
 
 /**
