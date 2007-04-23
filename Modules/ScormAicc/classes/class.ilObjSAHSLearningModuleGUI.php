@@ -207,6 +207,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE_HACP", $this->lng->txt("lm_type_hacp"));
 		$this->tpl->setVariable("TXT_TYPE_SCORM", $this->lng->txt("lm_type_scorm"));
 
+		$this->tpl->setVariable("TXT_TYPE_SCORM2004", $this->lng->txt("lm_type_scorm2004"));
+		
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
@@ -290,6 +292,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// create and insert object in objecttree
 		switch ($_POST["sub_type"])
 		{
+			
+			case "scorm2004":
+				include_once("./Modules/ScormAicc/classes/class.ilObjSCORM2004LearningModule.php");
+				$newObj = new ilObjSCORM2004LearningModule();
+				break;
+
 			case "scorm":
 				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 				$newObj = new ilObjSCORMLearningModule();
@@ -329,7 +337,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		ilUtil::unzip($file_path);
 		ilUtil::renameExecutables($newObj->getDataDirectory());
 
-		$title = $newObj->readObject();
+		$title = $newObj->readObject();		
 		if ($title != "")
 		{
 			ilObject::_writeTitle($newObj->getId(), $title);

@@ -304,7 +304,7 @@ class ilSCORM13DB
 	 * exec(array('select... id=?', 'select2... id=?'), array(array(231))) 	
 	 * exec(array('select... id=?', 'select2... id=?'), array(array(231), array(130)))
 	 * 
-	 * erstelle gleich dimensionale arrays für $queries und $params
+	 * erstelle gleich dimensionale arrays fï¿½r $queries und $params
 	 */	
 	public function exec($queries, $params=null, &$result = null)
 	{

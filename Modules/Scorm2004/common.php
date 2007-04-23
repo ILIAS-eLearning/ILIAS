@@ -36,7 +36,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
 } 
 else 
 {
-  define('IL_OP_ZIP_EXE', realpath('/usr/bin/zip')); 
+	define('IL_OP_ZIP_EXE', realpath('/usr/bin/zip'));
   define('IL_OP_UNZIP_EXE', realpath('/usr/bin/unzip'));
 }
 
