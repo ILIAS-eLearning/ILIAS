@@ -381,7 +381,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		else
 		{
-			$this->object->deleteExportFiles($_POST['file']);
+			$this->object->deleteExportFiles(ilUtil::stripSlashes($_POST['file']));
 			ilUtil::sendInfo('grp_deleted_export_files');
 		}
 
@@ -405,7 +405,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			return false;
 		}
 		
-		$this->object->downloadExportFile($_POST['file'][0]);
+		$this->object->downloadExportFile(ilUtil::stripSlashes($_POST['file'][0]));
 		
 		// If file wasn't sent
 		ilUtil::sendInfo('grp_error_sending_file');
@@ -633,9 +633,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		// ...finally assign groupadmin role to creator of group object
 		$groupObj->addMember($this->ilias->account->getId(),$groupObj->getDefaultAdminRole());
 
-		$groupObj->setRegistrationFlag($_POST["enable_registration"]);//0=no registration, 1=registration enabled 2=passwordregistration
-		$groupObj->setPassword($_POST["password"]);
-		$groupObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
+		$groupObj->setRegistrationFlag(ilUtil::stripSlashes($_POST["enable_registration"]));//0=no registration, 1=registration enabled 2=passwordregistration
+		$groupObj->setPassword(ilUtil::stripSlashes($_POST["password"]));
+		$groupObj->setExpirationDateTime(ilUtil::stripSlashes($_POST["expirationdate"])." ".
+			ilUtil::stripSlashes($_POST["expirationtime"]).":00");
 
 		$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
 		
@@ -677,9 +678,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("passwd_invalid"),$this->ilErr->MESSAGE);
 		}
 
-		$this->object->setRegistrationFlag($_POST["enable_registration"]);
-		$this->object->setPassword($_POST["password"]);
-		$this->object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
+		$this->object->setRegistrationFlag(ilUtil::stripSlashes($_POST["enable_registration"]));
+		$this->object->setPassword(ilUtil::stripSlashes($_POST["password"]));
+		$this->object->setExpirationDateTime(ilUtil::stripSlashes($_POST["expirationdate"])." ".
+			ilUtil::stripSlashes($_POST["expirationtime"]).":00");
 
 		//save custom icons
 		if ($this->ilias->getSetting("custom_icons"))
