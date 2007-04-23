@@ -46,6 +46,15 @@
 function getCSV($file){
 	$handle = fopen ($file,"r"); 
 	while ($data = fgetcsv ($handle, 1000, ",")) { // Daten werden aus der Datei
+		
+		if (is_array($data))
+		{
+			foreach($data as $k => $v)
+			{
+				$data[$k] = strip_tags($data[$k]);
+			}
+		}
+
 	    $array[] = $data;                           // in ein Array $data gelesen
 	}
 	fclose ($handle);

@@ -32,18 +32,6 @@
 * @package ilias-core
 */
 
-// remove unsafe characters from _GET
-if (is_array($_GET))
-{
-	foreach($_GET as $k => $v)
-	{
-		if (!in_array($k, array("file")))
-		{
-			$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
-		}
-	}
-}
-
 require_once("Services/Init/classes/class.ilInitialisation.php");
 $ilInit = new ilInitialisation();
 $GLOBALS['ilInit'] =& $ilInit;
