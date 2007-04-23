@@ -167,7 +167,7 @@ class ilRbacReview
 					"FROM object_data AS dat ".
 					"JOIN rbac_fa AS fa ON fa.rol_id = dat.obj_id ".
 					"JOIN tree AS t ON t.child = fa.parent ".
-					"WHERE dat.title =".$ilDB->quote($local_part)." ".
+					"WHERE dat.title =".$this->ilDB->quote($local_part)." ".
 					"AND dat.type = 'role' ".
 					"AND fa.assign = 'y' ".
 					"AND t.tree = 1";
