@@ -185,7 +185,7 @@ class ilFeedbackGUI
 		if(is_Array($_POST['barometer'])){
 			include_once('Services/Feedback/classes/class.ilFeedback.php');
 			$ilFB = new ilFeedback();
-			$ilFB->setIds($_POST['barometer']);
+			$ilFB->setIds(ilUtil::stripSlashes($_POST['barometer']));
 			$ilFB->delete();
 		}
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList'));
@@ -197,7 +197,7 @@ class ilFeedbackGUI
 
 		$tpl = new ilTemplate("tpl.feedback_stats.html", true, true, "Services/Feedback");
 		$feedback = new ilFeedback();
-		$feedback->setUserId($_POST['chart_user']);
+		$feedback->setUserId(ilUtil::stripSlashes($_POST['chart_user']));
 		$feedback->setId($_GET['barometer_id']);
 		$chartdata = $feedback->getChartData();
 		$data = $chartdata['data'];
@@ -243,8 +243,8 @@ class ilFeedbackGUI
 				$tpl->setVariable("CHART_LINES", $chartlines);
 				break;
 		}
-		$tpl->setVariable("SELECTBOX_CHART_TYPE", $this->selectbox($_POST['chart_type'],'chart_type',$chart_type,'onChange="document.forms[0].submit()"'));
-		$tpl->setVariable("SELECTBOX_USER", $this->selectbox($_POST['chart_user'],'chart_user',$chart_user,'onChange="document.forms[0].submit()"',$this->lng->txt('all_users')));
+		$tpl->setVariable("SELECTBOX_CHART_TYPE", $this->selectbox(ilUtil::stripSlashes($_POST['chart_type']),'chart_type',$chart_type,'onChange="document.forms[0].submit()"'));
+		$tpl->setVariable("SELECTBOX_USER", $this->selectbox(ilUtil::stripSlashes($_POST['chart_user']),'chart_user',$chart_user,'onChange="document.forms[0].submit()"',$this->lng->txt('all_users')));
 
 
 
@@ -433,18 +433,30 @@ class ilFeedbackGUI
 			$ilias->raiseError($this->lng->txt('missing_fields'),$ilias->error_obj->MESSAGE);
 		}
 		$ilFeedback = new  ilFeedback();
-		$ilFeedback->setTitle($_POST['title']);
-		$ilFeedback->setDescription($_POST['text']);
-		$ilFeedback->setAnonymous($_POS['anonymous']);
-		$ilFeedback->setRequired($_POST['type']);
-		$ilFeedback->setShowOn($_POST['show_on']);
-		$ilFeedback->setTextAnswer($_POST['text_answer']);
+		$ilFeedback->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$ilFeedback->setDescription(ilUtil::stripSlashes($_POST['text']));
+		$ilFeedback->setAnonymous(ilUtil::stripSlashes($_POST['anonymous']));
+		$ilFeedback->setRequired(ilUtil::stripSlashes($_POST['type']));
+		$ilFeedback->setShowOn(ilUtil::stripSlashes($_POST['show_on']));
+		$ilFeedback->setTextAnswer(ilUtil::stripSlashes($_POST['text_answer']));
 		$ilFeedback->setVotes(serialize($tmp_votes));
-		$ilFeedback->setStarttime(mktime($_POST['start_hour'],$_POST['start_minute'],0,$_POST['start_month'],$_POST['start_day'],$_POST['start_year']));
-		$ilFeedback->setEndtime(mktime($_POST['end_hour'],$_POST['end_minute'],0,$_POST['end_month'],$_POST['end_day'],$_POST['end_year']));
-		$ilFeedback->setInterval($_POST['interval']);
-		$ilFeedback->setIntervalUnit($_POST['interval_unit']);
-		$ilFeedback->setFirstVoteBest($_POST['first_vote_best']);
+		$ilFeedback->setStarttime(mktime(ilUtil::stripSlashes($_POST['start_hour']),
+			ilUtil::stripSlashes($_POST['start_minute']),0,
+			ilUtil::stripSlashes($_POST['start_month']),
+			ilUtil::stripSlashes($_POST['start_day']),
+			ilUtil::stripSlashes($_POST['start_year'])));
+		$ilFeedback->setEndtime(mktime(
+			ilUtil::stripSlashes($_POST['end_hour']),
+			ilUtil::stripSlashes($_POST['end_minute']),0,
+			ilUtil::stripSlashes($_POST['end_month']),
+			ilUtil::stripSlashes($_POST['end_day']),
+			ilUtil::stripSlashes($_POST['end_year'])));
+		$ilFeedback->setInterval(
+			ilUtil::stripSlashes($_POST['interval']));
+		$ilFeedback->setIntervalUnit(
+			ilUtil::stripSlashes($_POST['interval_unit']));
+		$ilFeedback->setFirstVoteBest(
+			ilUtil::stripSlashes($_POST['first_vote_best']));
 		$ilFeedback->setObjId($params['obj_id']);
 		$ilFeedback->setRefId($params['ref_id']);
 		if($this->update==1){
@@ -733,8 +745,8 @@ class ilFeedbackGUI
 		$feedback->setId($_GET['fb_id']);
 		$feedback->getBarometer()
 ;
-		$feedback->setVote($_POST['vote']);
-		$feedback->setNote($_POST['text_answer']);
+		$feedback->setVote(ilUtil::stripSlashes($_POST['vote']));
+		$feedback->setNote(ilUtil::stripSlashes($_POST['text_answer']));
 		if($feedback->getAnonymous())
 			$feedback->setUserId(0);
 		else

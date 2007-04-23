@@ -401,10 +401,9 @@ class ilObjGroup extends ilContainer
 	function getNewRegistrations()
 	{
 		global $ilDB;
-
+		
 		$appList = array();
-		$q = "SELECT * FROM grp_registration WHERE grp_id=".
-			$ilDB->quote($this->getId());
+		$q = "SELECT * FROM grp_registration WHERE grp_id=".$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -773,8 +772,8 @@ class ilObjGroup extends ilContainer
 	function getRegistrationFlag()
 	{
 		global $ilDB;
-
-		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id=".
 			$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -807,9 +806,8 @@ class ilObjGroup extends ilContainer
 	function setPassword($a_password="")
 	{
 		global $ilDB;
-
-		$q = "SELECT * FROM grp_data WHERE grp_id= ".
-			$ilDB->quote($this->getId());
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id=".$ilDB->quote($this->getId());
 
 		$res = $this->ilias->db->query($q);
 

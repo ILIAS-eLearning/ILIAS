@@ -762,6 +762,7 @@ class ilNestedSetXML
 				}
 				else
 				{
+					$meta[$key] = ilUtil::stripSlashes($meta[$key]);
 					$meta[$key] = preg_replace("/&(?!amp;|lt;|gt;|quot;)/","&amp;",$meta[$key]);
 					$meta[$key] = preg_replace("/\"/","&quot;",$meta[$key]);
 					$meta[$key] = preg_replace("/</","&lt;",$meta[$key]);
