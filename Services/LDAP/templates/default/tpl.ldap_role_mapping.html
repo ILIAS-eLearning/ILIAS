@@ -91,41 +91,46 @@
 			  {TXT_PARSED_NAME}
 			</td>
 			<td class="option_value">
-			<table>
-				<tr>
-					<td>
-						{ASS_GROUP_URL}
-					</td>
-					<td>
-			  			<input type="text" name="mapping[{ROW_ID}][url]" value="{ROW_URL}" size="50" maxlength="255" />
-			  		</td>
-			  	</tr>
-			  	<tr>
-			  		<td>
-						{ASS_GROUP_DN}
-					</td>
-					<td>
-			  			<input type="text" name="mapping[{ROW_ID}][dn]" value="{ROW_DN}" size="50" maxlength="255" />
-			  		</td>
-			  	</tr>
-			  	<tr>
-					<td>
-						{ASS_MEMBER_ATTR}
-					</td>
-					<td>
-			  			<input type="text" name="mapping[{ROW_ID}][member]" value="{ROW_MEMBER}" size="32" maxlength="50" /><br />
-			  			{ROW_CHECK_MEMBERISDN}&nbsp;{TXT_ROW_MEMBERISDN}
-			  		</td>
-			  	</tr>
-			  	<tr>
-			  		<td>
-						{ASS_ROLE}
-					</td>
-					<td>
-					  <input type="text" name="mapping[{ROW_ID}][role]" value="{ROW_ROLE}" size="32" maxlength="255" /><br />
-					</td>
-				</tr>
-			</table>
+			<div style="float: left">
+				<table>
+					<tr>
+						<td>
+							{ASS_GROUP_URL}
+						</td>
+						<td>
+				  			<input type="text" name="mapping[{ROW_ID}][url]" value="{ROW_URL}" size="50" maxlength="255" />
+				  		</td>
+				  	</tr>
+				  	<tr>
+				  		<td>
+							{ASS_GROUP_DN}
+						</td>
+						<td>
+				  			<input type="text" name="mapping[{ROW_ID}][dn]" value="{ROW_DN}" size="50" maxlength="255" />
+				  		</td>
+				  	</tr>
+				  	<tr>
+						<td>
+							{ASS_MEMBER_ATTR}
+						</td>
+						<td>
+				  			<input type="text" name="mapping[{ROW_ID}][member]" value="{ROW_MEMBER}" size="32" maxlength="50" /><br />
+				  			{ROW_CHECK_MEMBERISDN}&nbsp;{TXT_ROW_MEMBERISDN}
+				  		</td>
+				  	</tr>
+				  	<tr>
+				  		<td>
+							{ASS_ROLE}
+						</td>
+						<td>
+						  <input type="text" name="mapping[{ROW_ID}][role]" value="{ROW_ROLE}" size="32" maxlength="255" /><br />
+						</td>
+					</tr>
+				</table>
+				</div>
+				<div style="float:right">
+					<a class="il_ContainerItemCommand" href="{COPY_LINK}">{TXT_COPY}</a>
+				</div>
 			</td>
 		</tr>
 		  <!-- END assignments -->

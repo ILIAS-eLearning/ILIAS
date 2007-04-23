@@ -100,7 +100,7 @@ class ilLDAPSettingsGUI
 		
 		
 		$mapping_data = $this->role_mapping->getMappings();
-		
+		$mapping_data = $this->loadMappingCopy($mapping_data);
 		
 		// Section new assignment
 		$this->tpl->setVariable('TXT_NEW_ASSIGNMENT',$this->lng->txt('ldap_new_role_assignment'));
@@ -122,7 +122,7 @@ class ilLDAPSettingsGUI
 			1));
 			
 		// Section new assignment
-		$this->tpl->setVariable('URL',$mapping_data[0]['dn'] ? $mapping_data[0]['dn'] : $this->server->getUrl());
+		$this->tpl->setVariable('URL',$mapping_data[0]['url'] ? $mapping_data[0]['url'] : $this->server->getUrl());
 		$this->tpl->setVariable('DN',$mapping_data[0]['dn']);
 		$this->tpl->setVariable('ROLE',$mapping_data[0]['role_name']);
 		$this->tpl->setVariable('MEMBER',$mapping_data[0]['member_attribute']);
@@ -147,6 +147,13 @@ class ilLDAPSettingsGUI
 		foreach($mapping_data as $mapping_id => $data)
 		{
 			$this->tpl->setCurrentBlock('assignments');
+			
+			// Copy link
+			$this->ctrl->setParameter($this,'mapping_id',$mapping_id);
+			$this->tpl->setVariable('COPY_LINK',$this->ctrl->getLinkTarget($this,'roleMapping'));
+			$this->tpl->setVariable('TXT_COPY',$this->lng->txt('copy'));
+			$this->ctrl->clearParameters($this);
+			
 			$this->tpl->setVariable('ROW_CHECK',ilUtil::formCheckbox(0,
 				'mappings[]',$mapping_id));
 			$this->tpl->setVariable('TXT_PARSED_NAME',$this->role_mapping->getMappingInfoString($mapping_id));
@@ -609,6 +616,27 @@ class ilLDAPSettingsGUI
 													"organizationalPerson" => 'organizationalPerson',
 													"person" => 'person',
 													"ad_2003" => 'Active Directory (Win 2003)'),false,true);
+	}
+	
+	/**
+	 * Load mapping data in cas of copy
+	 *
+	 * @access private
+	 * @param array mapping data
+	 * @return array mapping_data
+	 * 
+	 */
+	private function loadMappingCopy($a_mapping_data)
+	{
+	 	if(!isset($_GET['mapping_id']))
+	 	{
+	 		return $a_mapping_data;
+	 	}
+
+	 	$mapping_id = $_GET['mapping_id'];
+	 	$a_mapping_data[0] = $a_mapping_data[$mapping_id];
+	 	
+	 	return $a_mapping_data;
 	}
 }
 ?>
