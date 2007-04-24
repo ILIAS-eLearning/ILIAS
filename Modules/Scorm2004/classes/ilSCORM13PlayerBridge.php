@@ -28,8 +28,6 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		$this->ctrl =& $ilCtrl;
 		ilSCORM13DB::init(IL_OP_DB_DSN, IL_OP_DB_TYPE);
 		$this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
-		// Todo: check lm id
-		//$this->slm =& new ilObjSCORMLearningModule($_GET["ref_id"], true);
 	}
 
 	/**
@@ -69,8 +67,6 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		$basedir = json_decode($packageData['jsdata']);
 		$config = array
 		(
-		//'cp_url' => $_SERVER['SCRIPT_NAME'] . '?baseClass=ilSAHSPresentationGUI&cmd=cp&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
-		//'cmi_url' => $_SERVER['SCRIPT_NAME'] .'?baseClass=ilSAHSPresentationGUI&cmd=cmi&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
 		'cp_url' => './Modules/Scorm2004/player.php?' . 'call=cp&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
 		'cmi_url' => './Modules/Scorm2004/player.php?' .'call=cmi&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
 
@@ -98,33 +94,22 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 
 		$config['langstrings'] = $langstrings;
 
-		header('Content-Type: text/html; charset=UTF-8');
-		$tpl = new SimpleTemplate();
-		$tpl->setParam('DEBUG', (int) $_REQUEST['debug']);
-		if ($_REQUEST['debug'])
-		{
-			$tpl->load('./Modules/Scorm2004/templates/tpl/tpl.scorm2004.player_debug.html');
-			$tpl->setParam('INCLUDE_DEBUG', $tpl->save(null));
-		}
-		else
-		{
-			$tpl->setParam('INCLUDE_DEBUG', '');
-		}
-		
-		
-		$tpl->load('./Modules/Scorm2004/templates/tpl/tpl.scorm2004.player.html');
-		$tpl->setParam('JSON_LANGSTRINGS', json_encode($langstrings));
-		$tpl->setParams($langstrings);
-		$tpl->setParam('DOC_TITLE', 'ILIAS SCORM 2004 Player');
-		$tpl->setParam('THEME_CSS', './Modules/Scorm2004/templates/css/delos.css');
-		$tpl->setParam('CSS_NEEDED', '');
-		$tpl->setParam('JS_NEEDED', '');
-		$tpl->setParam('JS_DATA', json_encode($config));
+		//header('Content-Type: text/html; charset=UTF-8');
+
+		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
+		$this->tpl->setVariable('DEBUG', (int) $_REQUEST['debug']);
+		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
+		$this->tpl->setVariable($langstrings);
+		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable('CSS_NEEDED', '');
+		$this->tpl->setVariable('JS_NEEDED', '');
+		$this->tpl->setVariable('JS_DATA', json_encode($config));
 		list($tsfrac, $tsint) = explode(' ', microtime());
-		$tpl->setParam('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
-		$tpl->setParam('BASE_DIR', './Modules/Scorm2004/');
-		$tpl->setParam('ILIAS', '1');	
-		$tpl->save();
+		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
+		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
+		$this->tpl->setVariable('ILIAS', '1');	
+		$this->tpl->show("DEFAULT", false);
 	}
 	
 	function cp()
