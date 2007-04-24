@@ -76,7 +76,7 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "DELETE FROM rbac_ua WHERE usr_id = ".$ilDB->query($a_usr_id)." ";
+		$q = "DELETE FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$this->ilDB->query($q);
 		
 		return true;
