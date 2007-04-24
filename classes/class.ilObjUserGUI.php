@@ -1069,7 +1069,8 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// external account
-		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active"))
+		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active")
+			|| $ilSetting->get("shib_active"))
 		{
 			$this->tpl->setCurrentBlock("ext_account");
 			$this->tpl->setVariable("TXT_EXT_ACCOUNT",$this->lng->txt("user_ext_account"));
