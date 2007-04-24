@@ -1923,6 +1923,8 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	 */
 	public function cloneAllObject()
 	{
+		global $ilLog;
+		
 		include_once('classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
@@ -1965,13 +1967,16 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		
 		// Start cloning process using soap call
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+
 		$soap_client = new ilSoapClient();
 		$soap_client->setTimeout(30);
 		$soap_client->setResponseTimeout(30);
 		$soap_client->enableWSDL(true);
 		$soap_client->init();
-		$res = $soap_client->call('ilClone',array($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id));
 		
+		$ilLog->write("ilContainerGUI::cloneAllObject: Call Soap Client");
+		$res = $soap_client->call('ilClone',array($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id));
+
 		// Check if copy is in progress
 		if(ilCopyWizardOptions::_isFinished($copy_id))
 		{
