@@ -100,7 +100,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				}
-				if(!$tutor and !$active and !$registration)
+				if(!$tutor and !$active)
 				{
 					return false;
 				}
