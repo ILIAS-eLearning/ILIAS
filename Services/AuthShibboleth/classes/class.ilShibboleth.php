@@ -556,7 +556,11 @@ class ShibAuth
 		$lastname = $this->getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]);
 		$firstname = $this->getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]);
 		
-		
+		if (trim($shibID) == "")
+		{
+			return;
+		}
+
 		//***********************************************//
 		// For backwards compatibility with previous versions
 		// We use the passwd field as mapping attribute for Shibboleth users
