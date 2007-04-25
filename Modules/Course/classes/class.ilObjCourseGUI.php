@@ -1106,6 +1106,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		$this->setSubTabs("properties");
+		$this->tabs_gui->setTabActive('settings');
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_icons.html",'Modules/Course');
 		$this->showCustomIconsEditing();
