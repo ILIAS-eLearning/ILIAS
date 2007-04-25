@@ -71,6 +71,9 @@ class ilObjectListGUI
 		
 //echo "list";
 		$this->init();
+		
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		$this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
 	}
 
 
@@ -505,6 +508,13 @@ class ilObjectListGUI
 	*/
 	function getCustomProperties($a_prop)
 	{
+		if($info = $this->ldap_mapping->getInfoString($this->obj_id))
+		{
+			$this->cust_prop[] = array('property' => $this->lng->txt('further_informations'),
+				'value' => $info,
+				'alert' => false,
+				'newline' => true);
+		}		
 		if (is_array($this->cust_prop))
 		{
 			foreach($this->cust_prop as $prop)
