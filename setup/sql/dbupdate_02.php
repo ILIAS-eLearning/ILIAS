@@ -1289,3 +1289,25 @@ if(!$found)
 <#972> 
 ALTER TABLE sahs_lm MODIFY type
 ENUM('scorm','aicc','hacp','scorm2004');
+
+<#973>
+<?php
+
+$found = false;
+$query = 'SHOW COLUMNS FROM `ldap_role_group_mapping`';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->Field == 'mapping_info')
+	{
+		$found = true;
+		break;
+	}
+}
+if(!$found)
+{
+	$query = 'ALTER TABLE `ldap_role_group_mapping` ADD `mapping_info` TEXT DEFAULT NULL ';
+	$res = $ilDB->query($query);
+}
+?>
+
