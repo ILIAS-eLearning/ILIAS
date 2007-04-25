@@ -1087,6 +1087,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
 				$this->object->getAuthMode(true) != AUTH_CAS &&
+				$this->object->getAuthMode(true) != AUTH_SHIBBOLETH &&
 				$this->object->getAuthMode(true) != AUTH_SOAP)
 			{
 				$this->tpl->setVariable("OPTION_DISABLED_EXT", "\"disabled=disabled\"");
@@ -1096,6 +1097,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
 			$this->object->getAuthMode(true) != AUTH_CAS &&
+			$this->object->getAuthMode(true) != AUTH_SHIBBOLETH &&
 			$this->object->getAuthMode(true) != AUTH_SOAP
 			)
 		{
