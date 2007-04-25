@@ -6,11 +6,11 @@
 			</th>
 		  </tr>
 		  <tr class="std">
-			<td class="option" align="top" width="33%">{TXT_ROLE_ACTIVE}</td>
+			<td class="option" valign="top" width="33%">{TXT_ROLE_ACTIVE}</td>
 			<td class="option_value">{CHECK_ROLE_ACTIVE}</td>
 		  </tr>
 		  <tr class="std">
-			<td class="option" align="top" >{TXT_BINDING}</td>
+			<td class="option" valign="top" >{TXT_BINDING}</td>
 			<td class="option_value">
 				<table>
 					<tr>
@@ -39,21 +39,21 @@
 			</td>
 		  </tr>
 		  <tr class="std">
-			<td class="option" align="top" colspan="1">{TXT_URL}</td>
+			<td class="option" valign="top" colspan="1">{TXT_URL} <span class="asterisk">*</span></td>
 			<td class="option_value">
 			  <input type="text" name="mapping[0][url]" value="{URL}" size="50" maxlength="255" />
 			  <div class="il_Description_no_margin">{TXT_URL_INFO}</div>
 			</td>
 		  </tr>
 		  <tr class="std">
-			<td class="option" align="top" colspan="1">{TXT_DN}</td>
+			<td class="option" valign="top" colspan="1">{TXT_DN} <span class="asterisk">*</span></td>
 			<td class="option_value">
 			  <input type="text" name="mapping[0][dn]" value="{DN}" size="50" maxlength="255" />
 			  <div class="il_Description_no_margin">{TXT_DN_INFO}</div>
 			</td>
 		  </tr>
 		  <tr class="std">
-			<td class="option" align="top" colspan="1">{TXT_MEMBER}</td>
+			<td class="option" valign="top" colspan="1">{TXT_MEMBER} <span class="asterisk">*</span></td>
 			<td class="option_value">
 			  <input type="text" name="mapping[0][member]" value="{MEMBER}" size="32" maxlength="64" /><br />
 			  {CHECK_MEMBERISDN}&nbsp;{TXT_MEMBERISDN}
@@ -61,15 +61,25 @@
 			</td>
 		  </tr>
 		  <tr class="std">
-			<td class="option" align="top" colspan="1">{TXT_ROLE}</td>
+			<td class="option" align="top" colspan="1">{TXT_ROLE} <span class="asterisk">*</span></td>
 			<td class="option_value">
 			  <input type="text" name="mapping[0][role]" value="{ROLE}" size="32" maxlength="255" />
 			  <div class="il_Description_no_margin">{TXT_ROLE_INFO}</div>
 			</td>
 		  </tr>
+		  <tr class="std">
+			<td class="option" align="top" colspan="1">{TXT_INFO}</td>
+			<td class="option_value">
+			  <textarea name="mapping[0][info]" cols="50" rows="3" class="std">{INFO}</textarea>
+			  <div class="il_Description_no_margin">{TXT_INFO_INFO}</div>
+			</td>
+		  </tr>
 		  <tr>
-			<td class="submit" colspan="3" align="right">
-			  <input type="submit" class="submit" name="cmd[saveRoleMapping]" value="{TXT_SAVE}" />
+			<td class="submit" colspan="3">
+			  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+			  <div style="float:right">
+				  <input type="submit" class="submit" name="cmd[saveRoleMapping]" value="{TXT_SAVE}" />
+			  </div>
 			</td>
 		  </tr>
 		</table>
@@ -84,13 +94,14 @@
 		  <!-- END txt_assignments -->
 		  <!-- BEGIN assignments -->
 		  <tr class="std">
-			<td class="option" align="top" colspan="1">
+			<td class="option" valign="top" colspan="1" width="{WIDTH}">
 			  <div style="float:left">
 				{ROW_CHECK}
 			  </div>
 			  {TXT_PARSED_NAME}
 			</td>
 			<td class="option_value">
+			<!-- BEGIN show_mapping_details -->
 			<div style="float: left">
 				<table>
 					<tr>
@@ -126,10 +137,20 @@
 						  <input type="text" name="mapping[{ROW_ID}][role]" value="{ROW_ROLE}" size="32" maxlength="255" /><br />
 						</td>
 					</tr>
+				  	<tr>
+				  		<td>
+							{ASS_INFO}
+						</td>
+						<td>
+						  <textarea name="mapping[{ROW_ID}][info]" rows="3" cols="48">{ROW_INFO}</textarea>
+						</td>
+					</tr>
 				</table>
 				</div>
+				<!-- END show_mapping_details -->
 				<div style="float:right">
 					<a class="il_ContainerItemCommand" href="{COPY_LINK}">{TXT_COPY}</a>
+					<a class="il_ContainerItemCommand" href="{DETAILS_LINK}">{TXT_DETAILS}</a>
 				</div>
 			</td>
 		</tr>

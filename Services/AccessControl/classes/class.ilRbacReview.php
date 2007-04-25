@@ -1634,5 +1634,32 @@ class ilRbacReview
 		}
 		return $arr; 
 	}
+
+	/**
+	 * Get object id of objects a role is assigned to
+	 *
+	 * @access public
+	 * @param int role id
+	 * 
+	 */
+	public function getObjectOfRole($a_role_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT obr.obj_id FROM rbac_fa as rfa ".
+			"JOIN tree ON rfa.parent = tree.child ".
+			"JOIN object_reference AS obr ON tree.parent = obr.ref_id ".
+			"WHERE tree.tree = 1 ".
+			"AND assign = 'y' ".
+			"AND rol_id = ".$ilDB->quote($a_role_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_id = $row->obj_id;
+		}
+		
+		return $obj_id ? $obj_id : 0;
+	}
+	
 } // END class.ilRbacReview
 ?>

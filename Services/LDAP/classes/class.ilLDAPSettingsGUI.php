@@ -101,6 +101,7 @@ class ilLDAPSettingsGUI
 		
 		$mapping_data = $this->role_mapping->getMappings();
 		$mapping_data = $this->loadMappingCopy($mapping_data);
+		$this->loadMappingDetails();
 		
 		// Section new assignment
 		$this->tpl->setVariable('TXT_NEW_ASSIGNMENT',$this->lng->txt('ldap_new_role_assignment'));
@@ -113,6 +114,8 @@ class ilLDAPSettingsGUI
 		$this->tpl->setVariable('TXT_DN_INFO',$this->lng->txt('ldap_dn_info'));
 		$this->tpl->setVariable('TXT_MEMBER_INFO',$this->lng->txt('ldap_member_info'));
 		$this->tpl->setVariable('TXT_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
+		$this->tpl->setVariable('TXT_INFO',$this->lng->txt('ldap_info_text'));
+		$this->tpl->setVariable('TXT_INFO_INFO',$this->lng->txt('ldap_info_text_info'));
 		
 		
 		$this->tpl->setVariable('ROLE_BIND_USER',$this->server->getRoleBindDN());
@@ -129,6 +132,7 @@ class ilLDAPSettingsGUI
 		$this->tpl->setVariable('CHECK_MEMBERISDN',ilUtil::formCheckbox($mapping_data[0]['memberisdn'],
 			'mapping[0][memberisdn]',
 			1));
+		$this->tpl->setVariable('INFO',$mapping_data[0]['info']);
 		
 		unset($mapping_data[0]);
 		
@@ -146,6 +150,28 @@ class ilLDAPSettingsGUI
 		}
 		foreach($mapping_data as $mapping_id => $data)
 		{
+			if(in_array($mapping_id,$_SESSION['ldap_mapping_details']))
+			{
+				$this->tpl->setCurrentBlock('show_mapping_details');
+				$this->tpl->setVariable('ASS_GROUP_URL',$this->lng->txt('ldap_server_short'));
+				$this->tpl->setVariable('ASS_GROUP_DN',$this->lng->txt('ldap_group_dn_short'));
+				$this->tpl->setVariable('ASS_MEMBER_ATTR',$this->lng->txt('ldap_group_member_short'));
+				$this->tpl->setVariable('ASS_ROLE',$this->lng->txt('ldap_ilias_role_short'));
+				$this->tpl->setVariable('ASS_INFO',$this->lng->txt('ldap_info_text_short'));
+				$this->tpl->setVariable('ROW_ID',$mapping_id);
+				$this->tpl->setVariable('ROW_URL',$data['url']);
+				$this->tpl->setVariable('ROW_ROLE',$data['role_name'] ? $data['role_name'] : $data['role']);
+				$this->tpl->setVariable('ROW_DN',$data['dn']);
+				$this->tpl->setVariable('ROW_MEMBER',$data['member_attribute']);
+				$this->tpl->setVariable('TXT_ROW_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
+				$this->tpl->setVariable('ROW_CHECK_MEMBERISDN',ilUtil::formCheckbox($data['member_isdn'],
+					'mapping['.$mapping_id.'][memberisdn]',
+				1));
+				$this->tpl->setVariable('ROW_INFO',ilUtil::prepareFormOutput($data['info']));
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// assignment row			
 			$this->tpl->setCurrentBlock('assignments');
 			
 			// Copy link
@@ -153,28 +179,36 @@ class ilLDAPSettingsGUI
 			$this->tpl->setVariable('COPY_LINK',$this->ctrl->getLinkTarget($this,'roleMapping'));
 			$this->tpl->setVariable('TXT_COPY',$this->lng->txt('copy'));
 			$this->ctrl->clearParameters($this);
-			
+
+			// Details link
+			if(!in_array($mapping_id,$_SESSION['ldap_mapping_details']))
+			{
+				$this->ctrl->setParameter($this,'details_show',$mapping_id);
+				$this->tpl->setVariable('DETAILS_LINK',$this->ctrl->getLinkTarget($this,'roleMapping'));
+				$this->tpl->setVariable('TXT_DETAILS',$this->lng->txt('show_details'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$this->ctrl->setParameter($this,'details_hide',$mapping_id);
+				$this->tpl->setVariable('DETAILS_LINK',$this->ctrl->getLinkTarget($this,'roleMapping'));
+				$this->tpl->setVariable('TXT_DETAILS',$this->lng->txt('hide_details'));
+				$this->ctrl->clearParameters($this);
+			}
+			if(!count($_SESSION['ldap_mapping_details']))
+			{
+				$this->tpl->setVariable('WIDTH',"50%");
+			}
 			$this->tpl->setVariable('ROW_CHECK',ilUtil::formCheckbox(0,
 				'mappings[]',$mapping_id));
 			$this->tpl->setVariable('TXT_PARSED_NAME',$this->role_mapping->getMappingInfoString($mapping_id));
-			$this->tpl->setVariable('ASS_GROUP_URL',$this->lng->txt('ldap_server_short'));
-			$this->tpl->setVariable('ASS_GROUP_DN',$this->lng->txt('ldap_group_dn_short'));
-			$this->tpl->setVariable('ASS_MEMBER_ATTR',$this->lng->txt('ldap_group_member_short'));
-			$this->tpl->setVariable('ASS_ROLE',$this->lng->txt('ldap_ilias_role_short'));
-			$this->tpl->setVariable('ROW_ID',$mapping_id);
-			$this->tpl->setVariable('ROW_URL',$data['url']);
-			$this->tpl->setVariable('ROW_ROLE',$data['role_name'] ? $data['role_name'] : $data['role']);
-			$this->tpl->setVariable('ROW_DN',$data['dn']);
-			$this->tpl->setVariable('ROW_MEMBER',$data['member_attribute']);
-			$this->tpl->setVariable('TXT_ROW_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
-			$this->tpl->setVariable('ROW_CHECK_MEMBERISDN',ilUtil::formCheckbox($data['member_isdn'],
-				'mapping['.$mapping_id.'][memberisdn]',
-			1));
+			
 			$this->tpl->parseCurrentBlock();
 		}
 		
 
 		$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
+		$this->tpl->setVariable('TXT_REQUIRED_FLD',$this->lng->txt('required_field'));
 	}
 	
 	
@@ -637,6 +671,28 @@ class ilLDAPSettingsGUI
 	 	$a_mapping_data[0] = $a_mapping_data[$mapping_id];
 	 	
 	 	return $a_mapping_data;
+	}
+	
+	/**
+	 * Load info about hide/show details
+	 *
+	 * @access private
+	 * 
+	 */
+	private function loadMappingDetails()
+	{
+	 	if(!isset($_SESSION['ldap_mapping_details']))
+	 	{
+	 		$_SESSION['ldap_mapping_details'] = array();
+	 	}
+	 	if(isset($_GET['details_show']))
+	 	{
+	 		$_SESSION['ldap_mapping_details'][$_GET['details_show']] = $_GET['details_show']; 
+	 	}
+	 	if(isset($_GET['details_hide']))
+	 	{
+	 		unset($_SESSION['ldap_mapping_details'][$_GET['details_hide']]);
+	 	}
 	}
 }
 ?>

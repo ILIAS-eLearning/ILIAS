@@ -92,7 +92,7 @@ class ilLDAPRoleGroupMappingSettings
 	
 	public static function _getAllActiveMappings()
 	{
-		global $ilDB;
+		global $ilDB,$rbacreview;
 		
 		$query = "SELECT rgm.* FROM ldap_role_group_mapping as rgm JOIN ldap_server_settings as lss ".
 			"ON rgm.server_id = lss.server_id ".
@@ -107,14 +107,16 @@ class ilLDAPRoleGroupMappingSettings
 			$data['dn']				= $row->dn;
 			$data['member']			= $row->member_attribute;
 			$data['isdn']			= $row->member_isdn;
+			$data['info']			= $row->mapping_info;
+			// read assigned object
+			$data['object_id'] 		= $rbacreview->getObjectOfRole($row->role);
+			
 			
 			$active[$row->role][] = $data;
 		}
 		return $active ? $active : array();
 	}
 	
-	
-
 	public function getServerId()
 	{
 		return $this->server_id;
@@ -153,6 +155,7 @@ class ilLDAPRoleGroupMappingSettings
 			$this->mappings[$mapping_id]['member_isdn'] = ilUtil::stripSlashes($data['memberisdn']);
 			$this->mappings[$mapping_id]['role_name'] = ilUtil::stripSlashes($data['role']);
 			$this->mappings[$mapping_id]['role'] = $rbacreview->roleExists(ilUtil::stripSlashes($data['role']));
+			$this->mappings[$mapping_id]['info'] = ilUtil::stripSlashes($data['info']);
 		}
 	}
 	
@@ -207,7 +210,9 @@ class ilLDAPRoleGroupMappingSettings
 	 				"dn = ".$this->db->quote($data['dn']).", ".
 	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
 	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
-	 				"role = ".$this->db->quote($data['role']);
+	 				"role = ".$this->db->quote($data['role']).", ".
+	 				"mapping_info = ".$this->db->quote($data['info']); 
+	 				
 	 		
 	 			$this->db->query($query);
 	 		}
@@ -219,7 +224,8 @@ class ilLDAPRoleGroupMappingSettings
 	 				"dn =".$this->db->quote($data['dn']).", ".
 	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
 	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
-	 				"role = ".$this->db->quote($data['role'])." ".
+	 				"role = ".$this->db->quote($data['role']).", ".
+	 				"mapping_info = ".$this->db->quote($data['info'])." ".
 	 				"WHERE mapping_id = ".$this->db->quote($mapping_id);
 
 	 			$this->db->query($query);
@@ -270,7 +276,7 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	private function read()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache,$rbacreview,$tree;
 		
 		$this->mappings = array();
 	 	$query = "SELECT * FROM ldap_role_group_mapping LEFT JOIN object_data ".
@@ -286,6 +292,7 @@ class ilLDAPRoleGroupMappingSettings
 			$this->mappings[$row->mapping_id]['member_attribute'] 		= $row->member_attribute;
 			$this->mappings[$row->mapping_id]['member_isdn'] 			= $row->member_isdn;
 			$this->mappings[$row->mapping_id]['role']					= $row->role;
+			$this->mappings[$row->mapping_id]['info']					= $row->mapping_info;
 			if($ilObjDataCache->lookupType($row->role) == 'role')
 			{
 				$this->mappings[$row->mapping_id]['role_name']			= $ilObjDataCache->lookupTitle($row->role);
@@ -294,6 +301,7 @@ class ilLDAPRoleGroupMappingSettings
 			{
 				$this->mappings[$row->mapping_id]['role_name']			= $row->role;
 			}
+		
 		}
 	}
 	

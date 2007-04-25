@@ -7268,3 +7268,7 @@ ldap#:#ldap_group_dn_short#:#Group DN:
 ldap#:#ldap_group_member_short#:#Attribute:
 ldap#:#ldap_ilias_role_short#:#Role:
 pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.
+ldap#:#ldap_info_text#:#Information Text
+ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.
+ldap#:#ldap_info_text_short#:#Info Text:
+common#:#further_informations#:#Further Informations

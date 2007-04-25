@@ -7260,3 +7260,7 @@ ldap#:#ldap_group_member_short#:#Attribut:
 ldap#:#ldap_ilias_role_short#:#Role:
 ldap#:#ldap_group_search_base#:#Suchbasis
 pwassist#:#pwassist_no_email_found#:#Leider kann die Passwortunterstützung nicht genutzt werden, da für das angegebene Benutzerkonto keine E-Mail Adresse hinterlegt ist.
+ldap#:#ldap_info_text#:#Informationstext
+ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der im Magazin sowie auf der Infoseite des der Rolle zugehörigen Objektes angezeigt wird.
+ldap#:#ldap_info_text_short#:#Infotext:
+common#:#further_informations#:#Weitere Informationen

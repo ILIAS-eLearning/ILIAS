@@ -70,6 +70,26 @@ class ilLDAPRoleGroupMapping
 	 	return self::$instance = new ilLDAPRoleGroupMapping();
 	}
 	
+	/**
+	 * Get info string for object
+	 *
+	 * @access public
+	 * @param int object id
+	 * 
+	 */
+	public function getInfoString($a_obj_id)
+	{
+	 	if(!$this->active_servers)
+	 	{
+	 		return false;
+	 	}
+	 	if(isset($this->mapping_info[$a_obj_id]))
+	 	{
+	 		return $this->mapping_info[$a_obj_id];
+	 	}
+	 	return false;
+	}
+	
 	
 	/**
 	 * This method is typically called from class RbacAdmin::assignUser()
@@ -201,10 +221,22 @@ class ilLDAPRoleGroupMapping
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php');
 		
 		$this->active_servers = true;
+		$this->mappings = array();
 		foreach($server_ids as $server_id)
 		{
 			$this->servers[$server_id]  = new ilLDAPServer($server_id);
 			$this->mappings = ilLDAPRoleGroupMappingSettings::_getAllActiveMappings();
+		}
+		$this->mapping_info = array();
+		foreach($this->mappings as $mapping)
+		{
+			foreach($mapping as $key => $data)
+			{
+				if(strlen($data['info']) and $data['object_id'])
+				{
+					$this->mapping_info[$data['object_id']] = $data['info'];
+				}
+			}
 		}
 		$this->users = ilObjUser::_getExternalAccountsByAuthMode('ldap',true);
 		
