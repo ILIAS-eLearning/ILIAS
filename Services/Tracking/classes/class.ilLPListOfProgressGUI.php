@@ -223,7 +223,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __renderContainerRow($parent_id,$item_id,$type,$level)
 	{
-		global $ilObjDataCache,$ilUser;
+		global $ilObjDataCache,$ilUser,$ilAccess;
 
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 		include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
@@ -234,7 +234,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$item_list->readTimings();
 			$item_list->enable('timings');
 		}
-
+		
 		$item_list->setCurrentUser($this->tracked_user->getId());
 		$item_list->readUserInfo();
 		$item_list->setIndentLevel($level);
@@ -246,6 +246,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		   $type != 'objective' and
 		   $type != 'event')
 		{
+			if(!$ilAccess->checkAccess('read','',$item_id))
+			{
+				return false;
+			}
 			if(ilLPObjSettings::_isContainer($item_list->getMode()))
 			{
 				$this->tpl->setCurrentBlock("item_command");
