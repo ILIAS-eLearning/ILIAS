@@ -230,7 +230,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 	}
 	function __renderContainerRow($a_parent_id,$a_item_id,$a_usr_id,$type,$level)
 	{
-		global $ilObjDataCache,$ilUser;
+		global $ilObjDataCache,$ilUser,$ilAccess;
 
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
@@ -264,23 +264,31 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		foreach(ilLPCollectionCache::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $child_id)
 		{
-			$this->writer->xmlStartTag('Item');
 			switch($item_list->getMode())
 			{
 				case LP_MODE_OBJECTIVES:
+					$this->writer->xmlStartTag('Item');
 					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'objective',$level + 2);
+					$this->writer->xmlEndTag('Item');
 					break;
 
 				case LP_MODE_SCORM:
+					$this->writer->xmlStartTag('Item');
 					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'sahs_item',$level + 2);
+					$this->writer->xmlEndTag('Item');
 					break;
 
 				default:
+					if(!$ilAccess->checkAccess('read','',$child_id))
+					{
+						break;
+					}				
+					$this->writer->xmlStartTag('Item');
 					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,
 												$ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($child_id)),$level + 2);
+					$this->writer->xmlEndTag('Item');
 					break;
 			}
-			$this->writer->xmlEndTag('Item');
 		}
 	}
 
