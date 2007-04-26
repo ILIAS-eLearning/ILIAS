@@ -444,8 +444,6 @@ class ilLDAPRoleGroupMapping
 	 */
 	private function storeMembers($a_mapping_id,$a_data)
 	{
-		#var_dump("<pre>",$a_data,"</pre>");
-		
 		$this->mapping_members[$a_mapping_id] = array();
 		foreach($a_data as $field => $value)
 		{
@@ -532,8 +530,10 @@ class ilLDAPRoleGroupMapping
 	private function getLDAPQueryInstance($a_server_id,$a_url)
 	{
 		include_once 'Services/LDAP/classes/class.ilLDAPQuery.php';
-		
-	 	if(array_key_exists($a_server_id,$this->query) and array_key_exists($a_url,$this->query[$a_server_id]) and is_object($this->query[$a_server_id]))
+
+	 	if(array_key_exists($a_server_id,$this->query) and 
+	 		array_key_exists($a_url,$this->query[$a_server_id]) and 
+	 		is_object($this->query[$a_server_id][$a_url]))
 	 	{
 	 		return $this->query[$a_server_id][$a_url];
 	 	}
@@ -546,8 +546,7 @@ class ilLDAPRoleGroupMapping
 	 	{
 	 		throw $exc;
 	 	}
-	 	
-	 	return $this->query[$a_server_id] = $tmp_query;
+	 	return $this->query[$a_server_id][$a_url] = $tmp_query;
 	}
 	
 }
