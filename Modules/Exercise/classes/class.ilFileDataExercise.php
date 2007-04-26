@@ -265,15 +265,15 @@ class ilFileDataExercise extends ilFileData
 	/**
 	* Download all submitted files of all members.
 	*
-	* @param	$members		array of member objects (ilObjUser), key is user id
+	* @param	$members		array of user names, key is user id
 	*/
 	function downloadAllDeliveredFiles($members)
 	{
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
-		global $lng;
+		global $lng, $ilObjDataCache;
 
 		ksort($members);
-		$tmpfile = ilUtil::ilTempnam();
+/*		$tmpfile = ilUtil::ilTempnam();
 		$fh = fopen($tmpfile, "w");
 
 		if ($fh)
@@ -283,11 +283,14 @@ class ilFileDataExercise extends ilFileData
 				fwrite($fh, "$id\t$member\n");
 			}
 			fclose($fh);
-		}
+		}*/
 
 		$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/";
 		copy($tmpfile, $savepath . "users.txt");
 		$cdir = getcwd();
+
+
+
 
 		// important check: if the directory does not exist
 		// ILIAS stays in the current directory (echoing only a warning)
@@ -300,17 +303,84 @@ class ilFileDataExercise extends ilFileData
 		// Safe mode fix
 		chdir($this->getExercisePath());
 		$zip = PATH_TO_ZIP;
+
+		// check first, if we have enough free disk space to copy all files to temporary directory
+		$tmpdir = ilUtil::ilTempnam();
+		ilUtil::makeDir($tmpdir);
+		chdir($tmpdir);
+
+
+		$dirsize = 0;
+		foreach ($members as $id => $object) {
+			$directory = $savepath.DIRECTORY_SEPARATOR.$id;
+			$dirsize += ilUtil::dirsize($directory);
+		}
+		if ($dirsize > disk_free_space($tmpdir)) {
+			return -1;
+		}
+
+		// copy all member directories to the temporary folder
+		// switch from id to member name and append the login if the member name is double
+		// ensure that no illegal filenames will be created
+		// remove timestamp from filename
+		$cache = array();
+		foreach ($members as $id => $user)
+		{
+			$userName = ilObjUser::_lookupName($id);
+			$directory = ilUtil::getASCIIFilename($userName["lastname"]."_".$userName["firstname"]);
+			if (array_key_exists($directory, $cache))
+			{
+				// first try is to append the login;
+				$directory = ilUtil::getASCIIFilename($directory."_". ilObjUser::_lookupLogin($id));
+				if (array_key_exists($directory, $cache)) {
+					// second and secure: append the user id as well.
+					$directory .= "_".$id;
+				}
+			}
+			$cache[$directory] = $directory;
+			ilUtil::makeDir ($directory);
+			$sourcedir = $savepath.DIRECTORY_SEPARATOR.$id;
+			$sourcefiles = scandir($sourcedir);
+			foreach ($sourcefiles as $sourcefile) {
+				if ($sourcefile == "." || $sourcefile == "..")
+					continue;
+				$targetfile = trim(basename($sourcefile));
+				$pos = strpos($targetfile, "_");
+				if ($pos === false)
+				{
+				} else
+				{
+					$targetfile= substr($targetfile, $pos + 1);
+				}
+				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
+				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
+
+				if (!copy ($sourcefile, $targetfile))
+				{
+					echo 'Could not copy '.$sourcefile.' to '.$targetfile;
+				} else
+				{
+					// preserve time stamp
+					touch($targetfile, filectime($sourcefile));
+				}
+
+			}
+		}
+
 		$tmpfile = ilUtil::ilTempnam();
 		$tmpzipfile = $tmpfile . ".zip";
 		// Safe mode fix
-		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($tmpzipfile)." ".$this->obj_id;
+		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($tmpzipfile)." .";
 		exec($zipcmd);
-		ilUtil::deliverFile($tmpzipfile, strtolower($lng->txt("excs")) . ".zip");
+		ilUtil::delDir($tmpdir);
+
+		$exerciseTitle = $ilObjDataCache->lookupTitle($this->getObjId());
+		ilUtil::deliverFile($tmpzipfile, (strlen($exerciseTitle) == 0? strtolower($lng->txt("excs")) : $exerciseTitle). ".zip");
 		chdir($cdir);
-		unlink($savepath . "users.txt");
 		unlink($tmpfile);
 		unlink($tmpzipfile);
 	}
+
 
 	/**
 	* unlink files: expects an array of filenames e.g. array('foo','bar')

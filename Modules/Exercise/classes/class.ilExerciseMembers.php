@@ -25,9 +25,9 @@
 /**
 * Class ilExerciseMembers
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
+*
 * @ingroup ModulesExercise
 */
 class ilExerciseMembers
@@ -73,7 +73,7 @@ class ilExerciseMembers
 	{
 		$this->members = $a_members;
 	}
-	
+
 	/**
 	* Assign a user to the exercise
 	*
@@ -82,7 +82,7 @@ class ilExerciseMembers
 	function assignMember($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
 		$tmp_user->addDesktopItem($this->getRefId(),"exc");
 
@@ -128,7 +128,7 @@ class ilExerciseMembers
 			return true;
 		}
 	}
-	
+
 	/**
 	* Detaches a user from an exercise
 	*
@@ -137,7 +137,7 @@ class ilExerciseMembers
 	function deassignMember($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
 		$tmp_user->dropDesktopItem($this->getRefId(),"exc");
 
@@ -169,7 +169,7 @@ class ilExerciseMembers
 		}
 		return false;
 	}
-	
+
 	function deassignMembers($a_members)
 	{
 		if(is_array($a_members))
@@ -204,7 +204,7 @@ class ilExerciseMembers
 		}
 		return false;
 	}
-	
+
 	/**
 	* set status for member (notgraded|passed|failed)
 	*
@@ -214,20 +214,20 @@ class ilExerciseMembers
 	function setStatusForMember($a_member_id,$a_status)
 	{
 		global $ilDB;
-		
+
 		$query = "UPDATE exc_members ".
 			"SET status = ".$ilDB->quote($a_status).", ".
 			"status_time= ".$ilDB->quote(date("Y-m-d H:i:s"))." ".
 			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
 			"AND usr_id = ".$ilDB->quote($a_member_id)." ".
 			" AND status <> ".$ilDB->quote($a_status);
-	  
+
 		$this->ilias->db->query($query);
 		$this->read();
-		
+
 		return true;
 	}
-	
+
 	/**
 	* Update status time (last change) for member.
 	*
@@ -236,19 +236,19 @@ class ilExerciseMembers
 	function updateStatusTimeForMember($a_member_id)
 	{
 		global $ilDB;
-		
+
 		$query = "UPDATE exc_members ".
 			"SET status_time= ".$ilDB->quote(date("Y-m-d H:i:s"))." ".
 			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
 			"AND usr_id = ".$ilDB->quote($a_member_id)." ";
-	  
+
 		$this->ilias->db->query($query);
 		$this->read();
-		
+
 		return true;
 	}
 
-	
+
 	function setStatusSent($a_status)
 	{
 		if(is_array($a_status))
@@ -272,7 +272,7 @@ class ilExerciseMembers
 	function setStatusSentForMember($a_member_id,$a_status)
 	{
 		global $ilDB;
-		
+
 		$query = "UPDATE exc_members ".
 			"SET sent = ".$ilDB->quote(($a_status ? 1 : 0))." , ".
 			"sent_time=".$ilDB->quote(($a_status ? (date("Y-m-d H:i:s")) : ("0000-00-00 00:00:00"))).
@@ -310,7 +310,7 @@ class ilExerciseMembers
 	function setStatusReturnedForMember($a_member_id,$a_status)
 	{
 		global $ilDB;
-		
+
 		$query = "UPDATE exc_members ".
 			"SET returned = ".$ilDB->quote(($a_status ? 1 : 0))." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
@@ -321,7 +321,7 @@ class ilExerciseMembers
 
 		return true;
 	}
-	
+
 	// feedback functions
 	function setStatusFeedback($a_status)
 	{
@@ -343,11 +343,11 @@ class ilExerciseMembers
 		}
 		return false;
 	}
-	
+
 	function setStatusFeedbackForMember($a_member_id,$a_status)
 	{
 		global $ilDB;
-		
+
 		$query = "UPDATE exc_members ".
 			"SET feedback = ".$ilDB->quote(($a_status ? 1 : 0)).", ".
 			"feedback_time=".$ilDB->quote(($a_status ? (date("Y-m-d H:i:s")) : ("0000-00-00 00:00:00"))).
@@ -356,7 +356,7 @@ class ilExerciseMembers
 
 		$this->ilias->db->query($query);
 		$this->read();
-	  
+
 		return true;
 	}
 
@@ -390,7 +390,7 @@ class ilExerciseMembers
 	function hasReturned($a_member_id)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT returned_id FROM exc_returned WHERE obj_id = %s AND user_id = %s",
 			$this->ilias->db->quote($this->getObjId() . ""),
 			$this->ilias->db->quote($a_member_id . "")
@@ -402,7 +402,7 @@ class ilExerciseMembers
 	function getAllDeliveredFiles()
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT * FROM exc_returned WHERE obj_id = ".
 			$ilDB->quote($this->getObjId());
 
@@ -413,7 +413,7 @@ class ilExerciseMembers
 		}
 		return $delivered ? $delivered : array();
 	}
-			
+
 	/**
 	* Returns an array of all delivered files of an user
 	*
@@ -438,7 +438,7 @@ class ilExerciseMembers
 		}
 		return $delivered_files;
 	}
-	
+
 	/**
 	* Deletes already delivered files
 	* @param array $file_id_array An array containing database ids of the delivered files
@@ -448,7 +448,7 @@ class ilExerciseMembers
 	function deleteDeliveredFiles($file_id_array, $a_member_id)
 	{
 		global $ilDB;
-		
+
 		if (count($file_id_array))
 		{
 			$query = sprintf("SELECT * FROM exc_returned WHERE user_id = %s AND returned_id IN (".
@@ -486,7 +486,7 @@ class ilExerciseMembers
 	function deliverReturnedFiles($a_member_id, $a_only_new = false)
 	{
 		global $ilUser, $ilDB;
-		
+
 		// get last download time
 		$and_str = "";
 		if ($a_only_new)
@@ -504,9 +504,9 @@ class ilExerciseMembers
 				}
 			}
 		}
-		
+
 		$this->updateTutorDownloadTime($a_member_id);
-		
+
 		$query = sprintf("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s".
 			$and_str,
 			$this->ilias->db->quote($this->getObjId() . ""),
@@ -539,10 +539,10 @@ class ilExerciseMembers
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	* Update the timestamp of the last download of current user (=tutor)
 	* for member $a_member_id.
@@ -552,7 +552,7 @@ class ilExerciseMembers
 	function updateTutorDownloadTime($a_member_id)
 	{
 		global $ilUser, $ilDB;
-		
+
 		// set download time
 		$q = "REPLACE INTO exc_usr_tutor (obj_id, usr_id, tutor_id, download_time) VALUES ".
 			"(".$ilDB->quote($this->getObjId()).",".$ilDB->quote($a_member_id).
@@ -588,20 +588,20 @@ class ilExerciseMembers
 						$pathinfo = pathinfo($value["filename"]);
 						$dir = $pathinfo["dirname"];
 						$file = $pathinfo["basename"];
-						array_push($filenames, $file); 
+						array_push($filenames, $file);
 					}
 					$this->downloadMultipleFiles($filenames, $dir);
 				}
 			}
 		}
 	}
-	
+
 	function downloadSingleFile($filename, $filetitle)
 	{
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverFile($filename, $filetitle);
 	}
-	
+
 	function downloadMultipleFiles($array_filenames, $pathname, $a_member_id = 0)
 	{
 		global $lng, $ilObjDataCache;
@@ -612,29 +612,30 @@ class ilExerciseMembers
 		$tmpdir = ilUtil::ilTempnam();
 		$tmpfile = ilUtil::ilTempnam();
 		$tmpzipfile = $tmpfile . ".zip";
-		
-		ilUtil::makeDir($tmpdir);		
+
+		ilUtil::makeDir($tmpdir);
 		chdir($tmpdir);
-		
+
 		//copy all files to a temporary directory and remove them afterwards
 		foreach ($array_filenames as $key => $filename)
 		{
 			// remove timestamp
 			$newFilename = trim(basename($array_filenames[$key]));
 			$pos = strpos($newFilename , "_");
-			if ($pos === false) 
-			{				
-			} else 
+			if ($pos === false)
+			{
+			} else
 			{
 				$newFilename= substr($newFilename, $pos + 1);
 			}
 			$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$newFilename;
 			// copy to temporal directory
 			$oldFilename =  $pathname.DIRECTORY_SEPARATOR.$array_filenames[$key];
-			if (!copy ($oldFilename, $newFilename)) 			
+			if (!copy ($oldFilename, $newFilename))
 			{
 				echo 'Could not copy '.$oldFilename.' to '.$newFilename;
-			}			
+			}
+			touch($newFilename, filectime($oldFilename));
 			$array_filenames[$key] =  ilUtil::escapeShellArg(basename($newFilename)); //$array_filenames[$key]);
 		}
 		$zipcmd = $zip." ".ilUtil::escapeShellArg($tmpzipfile)." ".join($array_filenames, " ");
@@ -642,11 +643,11 @@ class ilExerciseMembers
 		ilUtil::delDir($tmpdir);
 		$exerciseTitle = $ilObjDataCache->lookupTitle($this->getObjId());
 		$deliverFilename = $exerciseTitle;
-		if ($a_member_id > 0) 
+		if ($a_member_id > 0)
 		{
 			$userName = ilObjUser::_lookupName($a_member_id);
 			$deliverFilename .= "_".$userName["lastname"]."_".$userName["firstname"];
-		} else 
+		} else
 		{
 			$deliverFilename .= "_files";
 		}
@@ -655,11 +656,11 @@ class ilExerciseMembers
 		chdir($cdir);
 		unlink($tmpzipfile);
 	}
-	
+
 	function setNoticeForMember($a_member_id,$a_notice)
 	{
 		global $ilDB;
-		
+
 		$query = "UPDATE exc_members ".
 			"SET notice = ".$ilDB->quote($a_notice)." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
@@ -704,7 +705,7 @@ class ilExerciseMembers
 		$this->setStatusSolved($saved_st_solved);
 		$this->setStatusReturned($saved_st_return);
 
-		
+
 		// UPDATE SOLVED AND SENT
 		foreach($this->getMembers() as $member)
 		{
@@ -721,7 +722,7 @@ class ilExerciseMembers
 	function read()
 	{
 		global $ilDB;
-		
+
 		$tmp_arr_members = array();
 		$tmp_arr_status = array();
 		$tmp_arr_sent = array();
@@ -748,15 +749,15 @@ class ilExerciseMembers
 		$this->setStatusSent($tmp_arr_sent);
 		$this->setStatusReturned($tmp_arr_returned);
 		$this->setStatusFeedback($tmp_arr_feedback);
-		
+
 		return true;
 	}
-	
-	
+
+
 	function ilClone($a_new_id)
 	{
 		global $ilDB;
-		
+
 		$data = array();
 
 		$query = "SELECT * FROM exc_members ".
@@ -792,7 +793,7 @@ class ilExerciseMembers
 	function delete()
 	{
 		global $ilDB;
-		
+
 		$query = "DELETE FROM exc_members WHERE obj_id = ".$ilDB->quote($this->getObjId());
 		$this->ilias->db->query($query);
 
@@ -831,7 +832,7 @@ class ilExerciseMembers
 
 		return $usr_ids ? $usr_ids : array();
 	}
-	
+
 	/* deprecated use _lookupStatus instead
 	 modified and added this function again.
 	 Learning progress needs this function and _getFailedUsers

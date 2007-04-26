@@ -73,10 +73,10 @@ class ilUtil
 		{
 			$module_path = "/".$module_path;
 		}
-		
+
 		// default image
 		$default_img = ".".$module_path."/templates/default/images/".$img;
-		
+
 		if (is_object($styleDefinition))
 		{
 			$image_dir = $styleDefinition->getImageDirectory($ilias->account->prefs["style"]);
@@ -214,7 +214,7 @@ class ilUtil
 		{
 			$in_style = "./Customizing/global/skin/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
 		}
-		
+
 		if (is_file("./".$in_style))
 		{
 			return $base.$in_style.$vers;
@@ -1012,8 +1012,8 @@ class ilUtil
 			return false;
 		}
 
-		// FIXME - If ILIAS is configured to use RFC 822 
-		//         compliant mail addresses we should not 
+		// FIXME - If ILIAS is configured to use RFC 822
+		//         compliant mail addresses we should not
 		//         allow the @ character.
 		if (!ereg("^[A-Za-z0-9_\.\+\*\@!\$\%\~\-]+$", $a_login))
 		{
@@ -1092,11 +1092,12 @@ class ilUtil
 	* Copies content of a directory $a_sdir recursively to a directory $a_tdir
 	* @param	string	$a_sdir		source directory
 	* @param	string	$a_tdir		target directory
+	* @param 	boolean $preserveTimeAttributes	if true, ctime will be kept.
 	*
 	* @return	boolean	TRUE for sucess, FALSE otherwise
 	* @access	public
 	*/
-	function rCopy ($a_sdir, $a_tdir)
+	function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
 		// check if arguments are directories
 		if (!@is_dir($a_sdir) or
@@ -1137,6 +1138,8 @@ class ilUtil
 					{
 						return FALSE;
 					}
+					if ($preserveTimeAttributes)
+						touch($a_tdir."/".$file, filectime($a_sdir."/".$file));
 				}
 			}
 		}
@@ -1959,7 +1962,7 @@ class ilUtil
 				$allow_array[] = $allow;
 			}
 		}
-		
+
 		// default behaviour: allow only secure tags 1:1
 		if (($only_secure || $a_allow == "") && $a_strip_html)
 		{
@@ -1968,7 +1971,7 @@ class ilUtil
 				$allow_array = array ("b", "i", "strong", "em", "code", "cite",
 					"gap", "sub", "sup", "pre", "strike");
 			}
-			
+
 			$a_str = ilUtil::maskSecureTags($a_str, $allow_array);
 			$a_str = strip_tags($a_str);		// strip all other tags
 			$a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
@@ -1990,7 +1993,7 @@ class ilUtil
 		return array("strong", "em", "u", "strike", "ol", "li", "ul", "p", "div",
 			"i", "b", "code", "sup", "sub", "pre", "gap");
 	}
-	
+
 	function maskSecureTags($a_str)
 	{
 		foreach (ilUtil::getSecureTags() as $t)
@@ -2006,16 +2009,16 @@ class ilUtil
 						array("param" => "align", "value" => "right")
 						));
 					break;
-					
+
 				default:
 					$a_str = ilUtil::maskTag($a_str, $t);
 					break;
 			}
 		}
-		
+
 		return $a_str;
 	}
-	
+
 	function unmaskSecureTags($a_str)
 	{
 		foreach (ilUtil::getSecureTags() as $t)
@@ -2037,7 +2040,7 @@ class ilUtil
 					break;
 			}
 		}
-		
+
 		return $a_str;
 	}
 
@@ -2047,7 +2050,7 @@ class ilUtil
 			"&lt;".$t."&gt;", $a_str);
 		$a_str = str_replace(array("</$t>", "</".strtoupper($t).">"),
 			"&lt;/".$t."&gt;", $a_str);
-			
+
 		if (is_array($fix_param))
 		{
 			foreach ($fix_param	 as $p)
@@ -2058,15 +2061,15 @@ class ilUtil
 					"&lt;"."$t $k=\"$v\""."&gt;", $a_str);
 			}
 		}
-		
+
 		return $a_str;
 	}
-	
+
 	function unmaskTag($a_str, $t, $fix_param = "")
 	{
 		$a_str = str_replace("&lt;".$t."&gt;", "<".$t.">", $a_str);
 		$a_str = str_replace("&lt;/".$t."&gt;", "</".$t.">", $a_str);
-			
+
 		if (is_array($fix_param))
 		{
 			foreach ($fix_param	 as $p)
@@ -3109,7 +3112,7 @@ class ilUtil
 		}
 
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array($a_operation));
-		
+
 		$ops_id = $ops_ids[0];
 
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM rbac_pa ".
@@ -3118,7 +3121,7 @@ class ilUtil
 			$where.
 			"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
 			"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").") ";
-			
+
 		$res = $ilDB->query($query);
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -3416,7 +3419,7 @@ class ilUtil
 	{
 		global $ilDB;
 
-		
+
 		if(!is_array($a_array) or !count($a_array))
 		{
 			return array("''");
@@ -3499,6 +3502,38 @@ class ilUtil
 		//}
 	}
 
+
+	/**
+	 * get size of directory
+	 *
+	 * @param string $directory
+	 * @return integer
+	 */
+	function dirsize($directory)
+    {
+		if (!is_dir($directory))
+			return -1;
+		$size = 0;
+		if ($DIR = opendir($directory))
+		{
+			while (($dirfile = readdir($DIR)) !== false)
+			{
+				if (is_link($directory . DIRECTORY_SEPARATOR  . $dirfile) || $dirfile == '.' || $dirfile == '..')
+					continue;
+				if (is_file($directory .  DIRECTORY_SEPARATOR   . $dirfile))
+					$size += filesize($directory . DIRECTORY_SEPARATOR   . $dirfile);
+				else if (is_dir($directory . DIRECTORY_SEPARATOR   . $dirfile))
+				{
+					$dirSize = dirsize($directory .  DIRECTORY_SEPARATOR   . $dirfile);
+					if ($dirSize >= 0)
+						$size += $dirSize;
+					else return -1;
+				}
+			}
+			closedir($DIR);
+		}
+		return $size;
+	}
 
 
 } // END class.ilUtil
