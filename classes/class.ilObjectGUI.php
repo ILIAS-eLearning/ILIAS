@@ -795,7 +795,6 @@ class ilObjectGUI
 					ilUtil::sendInfo('Object already deleted.',true);
 					$this->ctrl->returnToParent($this);
 				}
-				sleep(20);
 
 				// write log entry
 				$log->write("ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$id.
