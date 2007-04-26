@@ -48,7 +48,7 @@ class ilSoapUtils extends ilSoapAdministration
 	{
 		$this->sauth->disableSOAPCheck();
 	}
-
+	
 	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 	{
 		if(!$this->__checkSession($sid))
@@ -310,31 +310,55 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function callNextNode($sid,$cp_options)
 	{
+		global $ilLog;
+
 		$cp_options->dropFirstNode();
 
-	 	// Start next soap call
-	 	include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-		$soap_client = new ilSoapClient();
-		$soap_client->setTimeout(1);
-		$soap_client->setResponseTimeout(1);
-		$soap_client->enableWSDL(true);
-		$soap_client->init();
-		$soap_client->call('ilClone',array($sid,$cp_options->getCopyId()));
+		if($cp_options->isSOAPEnabled())
+		{
+		 	// Start next soap call
+		 	include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+			$soap_client = new ilSoapClient();
+			$soap_client->setTimeout(1);
+			$soap_client->setResponseTimeout(1);
+			$soap_client->enableWSDL(true);
+			$soap_client->init();
+			$soap_client->call('ilClone',array($sid,$cp_options->getCopyId()));
+		}
+		else
+		{
+			$ilLog->write(__METHOD__.': Cannot call SOAP server');
+			$cp_options->read();			
+			include_once('./webservice/soap/include/inc.soap_functions.php');
+			$res = ilClone($sid,$cp_options->getCopyId());
+		}
 		return true;
 	}
 	
 	private function callNextDependency($sid,$cp_options)
 	{
+		global $ilLog;
+
 		$cp_options->dropFirstDependenciesNode();
 		
-	 	// Start next soap call
-	 	include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-		$soap_client = new ilSoapClient();
-		$soap_client->setTimeout(1);
-		$soap_client->setResponseTimeout(1);
-		$soap_client->enableWSDL(true);
-		$soap_client->init();
-		$soap_client->call('ilCloneDependencies',array($sid,$cp_options->getCopyId()));
+		if($cp_options->isSOAPEnabled())
+		{
+		 	// Start next soap call
+		 	include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+			$soap_client = new ilSoapClient();
+			$soap_client->setTimeout(1);
+			$soap_client->setResponseTimeout(1);
+			$soap_client->enableWSDL(true);
+			$soap_client->init();
+			$soap_client->call('ilCloneDependencies',array($sid,$cp_options->getCopyId()));
+		}
+		else
+		{
+			$ilLog->write(__METHOD__.': Cannot call SOAP server');
+			$cp_options->read();
+			include_once('./webservice/soap/include/inc.soap_functions.php');
+			$res = ilCloneDependencies($sid,$cp_options->getCopyId());
+		}
 		return true;
 	}
 	
