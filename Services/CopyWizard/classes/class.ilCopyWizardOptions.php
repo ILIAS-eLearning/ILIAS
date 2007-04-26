@@ -37,6 +37,9 @@ class ilCopyWizardOptions
 	const COPY_WIZARD_COPY = 2;
 	const COPY_WIZARD_LINK = 3;
 	
+	const OWNER_KEY = -3;
+	const DISABLE_SOAP = -4;
+	
 	private $db;
 	
 	private $copy_id;
@@ -131,12 +134,46 @@ class ilCopyWizardOptions
 	{
 	 	$query = "INSERT INTO copy_wizard_options ".
 	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
-	 		"source_id = ".$this->db->quote(-3).", ".
+	 		"source_id = ".$this->db->quote(self::OWNER_KEY).", ".
 	 		"options = '".addslashes(serialize(array($a_user_id)))."'";
 	 	$this->db->query($query);
 		return true;
 	}
 	
+	/**
+	 * Disable soap calls. Recursive call of ilClone and ilCloneDependencies
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function disableSOAP()
+	{
+		$this->options[self::DISABLE_SOAP] = 1;		
+	 	$query = "INSERT INTO copy_wizard_options ".
+	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
+	 		"source_id = ".$this->db->quote(self::DISABLE_SOAP).", ".
+	 		"options = '".addslashes(serialize(array(1)))."'";
+	 	$this->db->query($query);
+	}
+	
+	/**
+	 * Check if SOAP calls are disabled
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isSOAPEnabled()
+	{
+	 	if(isset($this->options[self::DISABLE_SOAP]) and $this->options[self::DISABLE_SOAP])
+	 	{
+	 		return false;
+	 	}
+	 	return true;
+	}
+	
+	
+
 	/**
 	 * check owner 
 	 *
@@ -146,7 +183,7 @@ class ilCopyWizardOptions
 	 */
 	public function checkOwner($a_user_id)
 	{
-	 	return in_array($a_user_id,$this->getOptions(-3));
+	 	return in_array($a_user_id,$this->getOptions(self::OWNER_KEY));
 	}
 	
 	/**

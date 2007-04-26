@@ -105,6 +105,7 @@ class ilSoapClient
 		if($error = $this->client->getError())
 		{
 			$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+			return false;
 		}
 		return true;
 	}

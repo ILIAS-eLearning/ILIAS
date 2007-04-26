@@ -1972,10 +1972,22 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		$soap_client->setTimeout(30);
 		$soap_client->setResponseTimeout(30);
 		$soap_client->enableWSDL(true);
-		$soap_client->init();
+
+		$ilLog->write(__METHOD__.': Trying to call Soap client...');
+		if($soap_client->init())
+		{
+			$ilLog->write(__METHOD__.': Calling soap clone method...');
+			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id));
+		}
+		else
+		{
+			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
+			$wizard_options->disableSOAP();
+			$wizard_options->read();			
+			include_once('./webservice/soap/include/inc.soap_functions.php');
+			$res = ilClone($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id);
+		}
 		
-		$ilLog->write("ilContainerGUI::cloneAllObject: Call Soap Client");
-		$res = $soap_client->call('ilClone',array($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id));
 
 		// Check if copy is in progress
 		if(ilCopyWizardOptions::_isFinished($copy_id))
