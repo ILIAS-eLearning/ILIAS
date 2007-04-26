@@ -273,18 +273,6 @@ class ilFileDataExercise extends ilFileData
 		global $lng, $ilObjDataCache;
 
 		ksort($members);
-/*		$tmpfile = ilUtil::ilTempnam();
-		$fh = fopen($tmpfile, "w");
-
-		if ($fh)
-		{
-			foreach ($members as $id => $member)
-			{
-				fwrite($fh, "$id\t$member\n");
-			}
-			fclose($fh);
-		}*/
-
 		$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/";
 		copy($tmpfile, $savepath . "users.txt");
 		$cdir = getcwd();
@@ -326,6 +314,9 @@ class ilFileDataExercise extends ilFileData
 		$cache = array();
 		foreach ($members as $id => $user)
 		{
+			$sourcedir = $savepath.DIRECTORY_SEPARATOR.$id;
+			if (!is_dir($sourcedir))
+				continue;
 			$userName = ilObjUser::_lookupName($id);
 			$directory = ilUtil::getASCIIFilename($userName["lastname"]."_".$userName["firstname"]);
 			if (array_key_exists($directory, $cache))
@@ -339,7 +330,6 @@ class ilFileDataExercise extends ilFileData
 			}
 			$cache[$directory] = $directory;
 			ilUtil::makeDir ($directory);
-			$sourcedir = $savepath.DIRECTORY_SEPARATOR.$id;
 			$sourcefiles = scandir($sourcedir);
 			foreach ($sourcefiles as $sourcefile) {
 				if ($sourcefile == "." || $sourcefile == "..")
