@@ -495,6 +495,8 @@ class ilObjQuestionPool extends ilObject
 			$newtitle = $question->object->getTitle() . " ($counter)";
 		}
 		$question->object->duplicate(false, $newtitle);
+		// update question count of question pool
+		ilObjQuestionPool::_updateQuestionCount($this->getId());
 	}
 	
 	/**
@@ -1199,11 +1201,10 @@ class ilObjQuestionPool extends ilObject
 	}
 	
 	/**
-	* Copies a question to the clipboard
+	* Copies/Moves a question from the clipboard
 	*
-	* Copies a question to the clipboard
+	* Copies/Moves a question from the clipboard
 	*
-	* @param integer $question_id Object id of the question
 	* @access private
 	*/
 	function pasteFromClipboard()
@@ -1252,6 +1253,8 @@ class ilObjQuestionPool extends ilObject
 							}
 							@rename($source_path, $target_path . $question_object["question_id"]);
 						}
+						// update question count of source question pool
+						ilObjQuestionPool::_updateQuestionCount($source_questionpool);
 					}
 				}
 				else
@@ -1260,6 +1263,8 @@ class ilObjQuestionPool extends ilObject
 				}
 			}
 		}
+		// update question count of question pool
+		ilObjQuestionPool::_updateQuestionCount($this->getId());
 		unset($_SESSION["qpl_clipboard"]);
 	}
 	
@@ -1673,6 +1678,24 @@ class ilObjQuestionPool extends ilObject
 			array_push($questions, $row);
 		}
 		return $questions;
+	}
+	
+	/**
+	* Updates the number of available questions for a question pool in the database
+	*
+	* Updates the number of available questions for a question pool in the database
+	*
+	* @param integer $object_id Object id of the questionpool to examine
+	* @access public
+	*/
+	public static function _updateQuestionCount($object_id)
+	{
+		global $ilDB;
+		$query = sprintf("UPDATE qpl_questionpool SET questioncount = %s WHERE obj_fi = %s",
+			$ilDB->quote(ilObjQuestionPool::_getQuestionCount($object_id, TRUE)),
+			$ilDB->quote($object_id)
+		);
+		$result = $ilDB->query($query);
 	}
 	
 } // END class.ilObjQuestionPool
