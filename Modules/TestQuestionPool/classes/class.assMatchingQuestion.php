@@ -226,6 +226,11 @@ class assMatchingQuestion extends assQuestion
 		$this->setMatchingType($type);
 		$this->setObjId($questionpool_id);
 		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+		$extended_shuffle = $item->getMetadataEntry("shuffle");
+		if (strlen($extended_shuffle) > 0)
+		{
+			$shuffle = $extended_shuffle;
+		}
 		$this->setShuffle($shuffle);
 		foreach ($responses as $response)
 		{
@@ -382,6 +387,10 @@ class assMatchingQuestion extends assQuestion
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "shuffle");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShuffle());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
@@ -1419,6 +1428,31 @@ class assMatchingQuestion extends assQuestion
 		return $array;
 	}
 	
+	/**
+	* Sets the shuffle flag
+	*
+	* Sets the shuffle flag
+	*
+	* @param boolean $shuffle A flag indicating whether the answers are shuffled or not
+	* @access public
+	* @see $shuffle
+	*/
+	function setShuffle($shuffle)
+	{
+		switch ($shuffle)
+		{
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+				$this->shuffle = $shuffle;
+				break;
+			default:
+				$this->shuffle = 1;
+				break;
+		}
+	}
+
 	/**
 	* Returns the question type of the question
 	*

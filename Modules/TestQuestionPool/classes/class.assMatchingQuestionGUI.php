@@ -262,15 +262,32 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
-		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-		if ($this->object->getShuffle())
+		$this->tpl->setVariable("TXT_SHUFFLE_TERMS", $this->lng->txt("matching_shuffle_terms"));
+		if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
 		{
-			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+			$this->tpl->setVariable("TXT_YES", $this->lng->txt("matching_shuffle_terms_definitions"));
+			$this->tpl->setVariable("TXT_SHUFFLE_PICTURES", $this->lng->txt("matching_shuffle_definitions"));
 		}
 		else
 		{
-			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+			$this->tpl->setVariable("TXT_YES", $this->lng->txt("matching_shuffle_terms_pictures"));
+			$this->tpl->setVariable("TXT_SHUFFLE_PICTURES", $this->lng->txt("matching_shuffle_pictures"));
+		}
+		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
+		switch ($this->object->getShuffle())
+		{
+			case 1:
+				$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+				break;
+			case 2:
+				$this->tpl->setVariable("SELECTED_SHUFFLE_TERMS", " selected=\"selected\"");
+				break;
+			case 3:
+				$this->tpl->setVariable("SELECTED_SHUFFLE_PICTURES", " selected=\"selected\"");
+				break;
+			default:
+				$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+				break;
 		}
 		$this->tpl->setVariable("MATCHING_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_MATCHING_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
@@ -644,8 +661,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$keys2 = $keys;
 		if ($this->object->getShuffle())
 		{
-			$keys = $this->object->pcArrayShuffle($keys);
-			$keys2 = $this->object->pcArrayShuffle($keys);
+			if (($this->object->getShuffle() == 3) || ($this->object->getShuffle() == 1))
+				$keys = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
+			if (($this->object->getShuffle() == 2) || ($this->object->getShuffle() == 1))
+				$keys2 = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
 		}
 
 		foreach ($keys as $idx)
@@ -705,8 +724,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$keys2 = $keys;
 		if ($this->object->getShuffle())
 		{
-			$keys = $this->object->pcArrayShuffle($keys);
-			$keys2 = $this->object->pcArrayShuffle($keys);
+			if (($this->object->getShuffle() == 3) || ($this->object->getShuffle() == 1))
+				$keys = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
+			if (($this->object->getShuffle() == 2) || ($this->object->getShuffle() == 1))
+				$keys2 = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
 		}
 
 		if ($active_id)
