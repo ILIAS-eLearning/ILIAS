@@ -1402,7 +1402,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function saveRandomQuestion($active_id, $question_id, $pass = NULL)
+	function saveRandomQuestion($active_id, $question_id, $pass = NULL, $maxcount)
 	{
 		global $ilUser;
 		global $ilDB;
@@ -1413,7 +1413,6 @@ class ilObjTest extends ilObject
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-		$maxcount = $this->getQuestionCount();
 		if ($result->numRows() < $maxcount)
 		{
 			$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active_id);
@@ -1538,9 +1537,10 @@ class ilObjTest extends ilObject
 			}
 			srand ((float)microtime()*1000000);
 			shuffle($allquestions);
+			$maxcount = $this->getQuestionCount();
 			foreach ($allquestions as $question_id)
 			{
-				$this->saveRandomQuestion($active_id, $question_id, $pass);
+				$this->saveRandomQuestion($active_id, $question_id, $pass, $maxcount);
 			}
 		}
 		else
@@ -1560,9 +1560,10 @@ class ilObjTest extends ilObject
 			}
 			srand ((float)microtime()*1000000);
 			shuffle($allquestions);
+			$maxcount = $this->getQuestionCount();
 			foreach ($allquestions as $question_id)
 			{
-				$this->saveRandomQuestion($active_id, $question_id, $pass);
+				$this->saveRandomQuestion($active_id, $question_id, $pass, $maxcount);
 			}
 		}
 		if (!is_object($active))
