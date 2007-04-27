@@ -1675,7 +1675,7 @@ class ilObjTest extends ilObject
 
 		$qpls = array();
 		$counter = 0;
-		$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+		$query = sprintf("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY test_random_id",
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -1683,16 +1683,11 @@ class ilObjTest extends ilObject
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				$countquery = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND original_id IS NULL",
-					$ilDB->quote($row["questionpool_fi"] . "")
-				);
-				$countresult = $ilDB->query($countquery);
-				$contains = $countresult->numRows();
 				$qpls[$counter] = array(
 					"index" => $counter,
 					"count" => $row["num_of_q"],
 					"qpl"   => $row["questionpool_fi"],
-					"contains" => $contains
+					"contains" => $row["questioncount"]
 				);
 				$counter++;
 			}
@@ -5338,10 +5333,10 @@ class ilObjTest extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false)
+	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $get_full_path = FALSE, $with_questioncount = FALSE)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline);
+		return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline, $get_full_path, $with_questioncount);
 	}
 
 /**

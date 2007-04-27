@@ -1595,7 +1595,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("option_qpl");
 					$this->tpl->setVariable("OPTION_VALUE_QPL", $key);
-					$this->tpl->setVariable("TXT_OPTION_QPL", $value);
+					$this->tpl->setVariable("TXT_OPTION_QPL", $value["title"]);
 					if ($_POST["qpl"] == $key)
 					{
 						$this->tpl->setVariable("OPTION_SELECTED_QPL", " selected=\"selected\"");				
