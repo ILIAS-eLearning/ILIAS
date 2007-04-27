@@ -580,6 +580,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (strcmp($_SESSION["lock"], $_POST["lock"] != 0))
 		{
 			$_SESSION["lock"] = $_POST["lock"];
+			$this->handleStartCommands();
 			$this->ctrl->redirect($this, "startTest");
 		}
 		else
@@ -626,7 +627,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->object->generateRandomQuestions();
 			$this->object->loadQuestions();
 		}
-		$this->handleStartCommands();
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
