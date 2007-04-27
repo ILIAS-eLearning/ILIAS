@@ -1310,4 +1310,12 @@ if(!$found)
 	$res = $ilDB->query($query);
 }
 ?>
-
+<#974>
+<?php
+// add questioncount field in qpl_questionpool table
+if (!$ilDB->tableColumnExists("qpl_questionpool", "questioncount"))
+{
+	$query = "ALTER TABLE `qpl_questionpool` ADD `questioncount` INT NOT NULL DEFAULT 0 AFTER `online`";
+	$res = $ilDB->query($query);
+}
+?>
