@@ -1340,3 +1340,5 @@ if (!$ilDB->tableColumnExists("qpl_questionpool", "questioncount"))
 		}
 	}
 ?>
+<#976>
+ALTER TABLE  `ass_log` ADD INDEX (  `obj_fi` );
