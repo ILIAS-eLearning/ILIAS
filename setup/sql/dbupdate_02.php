@@ -1319,3 +1319,24 @@ if (!$ilDB->tableColumnExists("qpl_questionpool", "questioncount"))
 	$res = $ilDB->query($query);
 }
 ?>
+<#975>
+<?php
+	$query = "SELECT * FROM qpl_questionpool";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		if ($row["questioncount"] == 0)
+		{
+			$cquery = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE obj_fi = %s AND ISNULL(original_id) AND complete = '1'",
+				$ilDB->quote($row["obj_fi"] . "")
+			);
+			$cresult = $ilDB->query($cquery);
+			$crow = $cresult->fetchRow(DB_FETCHMODE_ASSOC);
+			$uquery = sprintf("UPDATE qpl_questionpool SET questioncount = %s WHERE obj_fi = %s",
+				$ilDB->quote($crow["question_count"]),
+				$ilDB->quote($row["obj_fi"])
+			);
+			$uresult = $ilDB->query($uquery);
+		}
+	}
+?>

@@ -512,7 +512,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("option_qpl");
 				$this->tpl->setVariable("OPTION_VALUE", $key);
-				$this->tpl->setVariable("TXT_OPTION", $value);
+				$this->tpl->setVariable("TXT_OPTION", $value["title"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -1887,7 +1887,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("questionpool_row");
 			$this->tpl->setVariable("VALUE_QUESTIONPOOL", $key);
-			$this->tpl->setVariable("TEXT_QUESTIONPOOL", $value);
+			$this->tpl->setVariable("TEXT_QUESTIONPOOL", $value["title"]);
 			if (strcmp($filter_questionpool, $key) == 0)
 			{
 				$this->tpl->setVariable("SELECTED_QUESTIONPOOL", " selected=\"selected\"");
@@ -1956,7 +1956,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
+					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]["title"]);
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
@@ -2109,7 +2109,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$filtermenu->parseCurrentBlock();
 			}
 			$filtermenu->setCurrentBlock("menuitem");
-			$filtermenu->setVariable("ITEM_TEXT", ilUtil::prepareFormOutput($value));
+			$filtermenu->setVariable("ITEM_TEXT", ilUtil::prepareFormOutput($value["title"]));
 			$this->ctrl->setParameter($this, "sel_questionpool", $key);
 			$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
 			$filtermenu->parseCurrentBlock();
@@ -2213,7 +2213,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("option");
 			$this->tpl->setVariable("VALUE_OPTION", $key);
-			$this->tpl->setVariable("TEXT_OPTION", $value);
+			$this->tpl->setVariable("TEXT_OPTION", $value["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("hidden");
@@ -2264,7 +2264,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_COMMENT", $dataset->comment);
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($dataset->type_tag));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $dataset->author);
-			$this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->obj_fi]);
+			$this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->obj_fi]["title"]);
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
@@ -2349,23 +2349,14 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		$selection_mode = $ilUser->getPref("tst_question_selection_mode_equal");
 		$total = $this->object->evalTotalPersons();
-		$available_qpl =& $this->object->getAvailableQuestionpools(true, $selection_mode);
+		$available_qpl =& $this->object->getAvailableQuestionpools(true, $selection_mode, FALSE, FALSE, TRUE);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$qpl_question_count = array();
 		foreach ($available_qpl as $key => $value)
 		{
-			$count = ilObjQuestionPool::_getQuestionCount($key);
-			if ($count > 0)
+			if ($value["count"] > 0)
 			{
-				$qpl_question_count[$key] = $count;
-				if ($count == 1)
-				{
-					$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_question") . ")";
-				}
-				else
-				{
-					$available_qpl[$key] = $value . " ($count " . $this->lng->txt("assQuestions") . ")";
-				}
+				$qpl_question_count[$key] = $value["count"];
 			}
 			else
 			{
@@ -2387,7 +2378,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("qpl_value");
 					$this->tpl->setVariable("QPL_ID", $key);
-					$this->tpl->setVariable("QPL_TEXT", $value);
+					$this->tpl->setVariable("QPL_TEXT", $value["title"]);
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("questionpool_row");
@@ -2412,7 +2403,7 @@ class ilObjTestGUI extends ilObjectGUI
 					"index" => $matches[1],
 					"count" => sprintf("%d", $value),
 					"qpl"   => $_POST["qpl_" . $matches[1]],
-					"title" => $available_qpl[$_POST["qpl_" . $matches[1]]]
+					"title" => $available_qpl[$_POST["qpl_" . $matches[1]]]["title"]
 				);
 				if ($_POST["qpl_" . $matches[1]] == -1)
 				{
@@ -2449,7 +2440,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("qpl_value");
 				$this->tpl->setVariable("QPL_ID", $pkey);
-				$this->tpl->setVariable("QPL_TEXT", $pvalue);
+				$this->tpl->setVariable("QPL_TEXT", $pvalue["title"]);
 				if ($pkey == $value["qpl"])
 				{
 					$this->tpl->setVariable("SELECTED_QPL", " selected=\"selected\"");
@@ -2495,7 +2486,7 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$this->tpl->setCurrentBlock("qpl_value");
 						$this->tpl->setVariable("QPL_ID", $key);
-						$this->tpl->setVariable("QPL_TEXT", $value);
+						$this->tpl->setVariable("QPL_TEXT", $value["title"]);
 						$this->tpl->parseCurrentBlock();
 					}
 					$this->tpl->setCurrentBlock("questionpool_row");
@@ -2646,7 +2637,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("option");
 				$this->tpl->setVariable("VALUE_OPTION", $key);
-				$this->tpl->setVariable("TEXT_OPTION", $value);
+				$this->tpl->setVariable("TEXT_OPTION", $value["title"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -3566,7 +3557,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("option_qpl");
 					$this->tpl->setVariable("OPTION_VALUE", $key);
-					$this->tpl->setVariable("TXT_OPTION", $value);
+					$this->tpl->setVariable("TXT_OPTION", $value["title"]);
 					if ($_POST["qpl"] == $key)
 					{
 						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");				

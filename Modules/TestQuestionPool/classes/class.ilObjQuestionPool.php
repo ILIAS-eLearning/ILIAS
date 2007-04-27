@@ -1512,13 +1512,13 @@ class ilObjQuestionPool extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $getFullPath = FALSE)
+	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $getFullPath = FALSE, $with_questioncount = FALSE)
 	{
 		global $rbacsystem;
 		global $ilDB;
 	
 		$result_array = array();
-		$query = "SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
+		$query = "SELECT object_data.*, object_reference.ref_id, qpl_questionpool.* FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questionpool.obj_fi ORDER BY object_data.title";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -1529,6 +1529,18 @@ class ilObjQuestionPool extends ilObject
 				{
 					if ((!$equal_points) || (($equal_points) && (ilObjQuestionPool::_hasEqualPoints($row->obj_id))))
 					{
+						$qpl_title = $row->title;
+						if ($with_questioncount)
+						{
+							if ($row->questioncount == 1)
+							{
+								$qpl_title .= " (" . $row->questioncount . " " . $this->lng->txt("ass_question") . ")";
+							}
+							else
+							{
+								$qpl_title .= " (" . $row->questioncount . " " . $this->lng->txt("assQuestions") . ")";
+							}
+						}
 						if ($getFullPath)
 						{
 							if (ilObjQuestionPool::_getQuestionCount($row->obj_id, TRUE))
@@ -1536,14 +1548,14 @@ class ilObjQuestionPool extends ilObject
 								$path = ilObjQestionPool::_getFullPathToQpl($row->ref_id);
 								if (strlen($path))
 								{
-									$path .= " &gt; " . $row->title;
+									$path .= " &gt; " . $qpl_title;
 									if ($use_object_id)
 									{
-										$result_array[$row->obj_id] = $path;
+										$result_array[$row->obj_id] = array("title" => $path, "count" => $row->questioncount);
 									}
 									else
 									{
-										$result_array[$row->ref_id] = $path;
+										$result_array[$row->ref_id] = array("title" => $path, "count" => $row->questioncount);
 									}
 								}
 							}
@@ -1552,11 +1564,11 @@ class ilObjQuestionPool extends ilObject
 						{
 							if ($use_object_id)
 							{
-								$result_array[$row->obj_id] = $row->title;
+								$result_array[$row->obj_id] = array("title" => $qpl_title, "count" => $row->questioncount);
 							}
 							else
 							{
-								$result_array[$row->ref_id] = $row->title;
+								$result_array[$row->ref_id] = array("title" => $qpl_title, "count" => $row->questioncount);
 							}
 						}
 					}
