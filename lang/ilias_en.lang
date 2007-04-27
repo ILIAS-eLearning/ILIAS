@@ -448,6 +448,11 @@ assessment#:#match_terms_and_pictures#:#Match Terms and Pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching Pair
 assessment#:#matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
+assessment#:#matching_shuffle_terms_definitions#:#Both (Terms and Definitions)
+assessment#:#matching_shuffle_terms_pictures#:#Both (Terms and Pictures)
+assessment#:#matching_shuffle_definitions#:#Definitions only
+assessment#:#matching_shuffle_pictures#:#Pictures only
+assessment#:#matching_shuffle_terms#:#Terms only
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material to Download
 assessment#:#material_file#:#Material File

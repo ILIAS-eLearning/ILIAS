@@ -1342,3 +1342,5 @@ if (!$ilDB->tableColumnExists("qpl_questionpool", "questioncount"))
 ?>
 <#976>
 ALTER TABLE  `ass_log` ADD INDEX (  `obj_fi` );
+<#977>
+ALTER TABLE `qpl_question_matching` CHANGE `shuffle` `shuffle` ENUM(  '0',  '1',  '2',  '3' ) NOT NULL DEFAULT  '1';
