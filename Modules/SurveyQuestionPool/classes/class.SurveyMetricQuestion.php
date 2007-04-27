@@ -545,7 +545,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 			{
 				$complete = 1;
 			}
-			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$ilDB->quote($this->title . ""),
 				$ilDB->quote($this->description . ""),
 				$ilDB->quote($this->author . ""),
