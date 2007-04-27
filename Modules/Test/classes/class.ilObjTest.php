@@ -1482,13 +1482,13 @@ class ilObjTest extends ilObject
 		return $result->numRows();
 	}
 
-/**
-* Generates new random questions for the active user
-*
-* Generates new random questions for the active user
-*
-* @access private
-* @see $questions
+	/**
+	* Generates new random questions for the active user
+	*
+	* Generates new random questions for the active user
+	*
+	* @access private
+	* @see $questions
 */
 	function generateRandomQuestions($pass = NULL)
 	{
@@ -1526,10 +1526,11 @@ class ilObjTest extends ilObject
 			global $ilias, $ilErr;
 			$ilias->raiseError(sprintf($this->lng->txt("error_random_question_generation"), $ilUser->getId(), $this->getTestId()), $ilErr->FATAL);
 		}
-		if ($this->getRandomQuestionCount() > 0)
+		$num = $this->getRandomQuestionCount();
+		if ($num > 0)
 		{
 			$qpls =& $this->getRandomQuestionpools();
-			$rndquestions = $this->randomSelectQuestions($this->getRandomQuestionCount(), 0, 1, $qpls, $pass);
+			$rndquestions = $this->randomSelectQuestions($num, 0, 1, $qpls, $pass);
 			$allquestions = array();
 			foreach ($rndquestions as $question_id)
 			{
@@ -1537,16 +1538,23 @@ class ilObjTest extends ilObject
 			}
 			srand ((float)microtime()*1000000);
 			shuffle($allquestions);
-			$maxcount = $this->getQuestionCount();
+
+			$maxcount = 0;
+			foreach ($qpls as $data)
+			{
+				$maxcount += $data["contains"];
+			}
+			if ($num > $maxcount) $num = $maxcount;
 			foreach ($allquestions as $question_id)
 			{
-				$this->saveRandomQuestion($active_id, $question_id, $pass, $maxcount);
+				$this->saveRandomQuestion($active_id, $question_id, $pass, $num);
 			}
 		}
 		else
 		{
 			$qpls =& $this->getRandomQuestionpools();
 			$allquestions = array();
+			$maxcount = 0;
 			foreach ($qpls as $key => $value)
 			{
 				if ($value["count"] > 0)
@@ -1557,10 +1565,11 @@ class ilObjTest extends ilObject
 						array_push($allquestions, $question_id);
 					}
 				}
+				$add = ($value["count"] <= $value["contains"]) ? $value["count"] : $value["contains"];
+				$maxcount += $add;
 			}
 			srand ((float)microtime()*1000000);
 			shuffle($allquestions);
-			$maxcount = $this->getQuestionCount();
 			foreach ($allquestions as $question_id)
 			{
 				$this->saveRandomQuestion($active_id, $question_id, $pass, $maxcount);
