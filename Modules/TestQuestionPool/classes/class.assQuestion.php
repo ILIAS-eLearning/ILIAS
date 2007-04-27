@@ -1284,6 +1284,10 @@ class assQuestion
 			$mob_obj =& new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
+
+		// update question count of question pool
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
 	}
 
 	/**
@@ -1553,6 +1557,9 @@ class assQuestion
 		}
 		// remove unused media objects from ILIAS
 		$this->cleanupMediaObjectUsage();
+		// update question count of question pool
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
 	}
 	
 /**
