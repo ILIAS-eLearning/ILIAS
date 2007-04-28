@@ -34,11 +34,21 @@ include_once ("Services/News/classes/class.ilNewsItemGUIGen.php");
 class ilNewsItemGUI extends ilNewsItemGUIGen
 {
 
+	function __construct()
+	{
+		global $ilCtrl;
+		
+		parent::__construct();
+		
+		$ilCtrl->saveParameter($this, "add_mode");
+	}
+	
 	function getHTML()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		
 		$lng->LoadLanguageModule("news");
+		
 		return $this->getNewsForContextBlock();
 	}
 	
@@ -95,6 +105,14 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		{
 			$a_form_gui->removeItemByPostVar("news_visibility");
 		}
+		else
+		{
+			$nv = $a_form_gui->getItemByPostVar("news_visibility");
+			if (is_object($nv))
+			{
+				$nv->setValue(ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]));
+			}
+		}
 	}
 	
 	/**
@@ -115,7 +133,14 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->redirect($this, "editNews");
+		if ($_GET["add_mode"] == "block")
+		{
+			$ilCtrl->returnToParent($this);
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "editNews");
+		}
 	}
 
 	/**
@@ -154,7 +179,16 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	*/
 	function cancelSaveNewsItem()
 	{
-		return $this->editNews();
+		global $ilCtrl;
+		
+		if ($_GET["add_mode"] == "block")
+		{
+			$ilCtrl->returnToParent($this);
+		}
+		else
+		{
+			return $this->editNews();
+		}
 	}
 
 	function editNews()

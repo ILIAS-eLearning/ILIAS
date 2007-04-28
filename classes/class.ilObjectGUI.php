@@ -2496,6 +2496,12 @@ class ilObjectGUI
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+		
+		if ($column_gui->getScreenMode() == IL_SCREEN_FULL)
+		{
+			return "";
+		}
+		
 		$this->setColumnSettings($column_gui);
 		
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&

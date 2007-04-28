@@ -152,6 +152,24 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Get Item by POST variable.
+	*
+	* @param	string	$a_postvar		Post Var
+	*/
+	function getItemByPostVar($a_post_var)
+	{
+		foreach ($this->items as $key => $item)
+		{
+			if ($item->getPostVar() == $a_post_var)
+			{
+				return $this->items[$key];
+			}
+		}
+		
+		return false;
+	}
+
+	/**
 	* Set Items
 	*
 	* @param	array	$a_items	array of item objects
