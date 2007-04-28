@@ -357,6 +357,7 @@ class ilCourseContentGUI
 	{
 		global $ilUser, $lng, $ilCtrl, $ilAccess;
 		
+		
 		if ($ilCtrl->getNextClass() == "ilcourseobjectivepresentationgui")
 		{
 			$ilCtrl->setParameterByClass("ilcolumngui", "col_return", "objectives");
@@ -368,6 +369,12 @@ class ilCourseContentGUI
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+		
+		if ($column_gui->getScreenMode() == IL_SCREEN_FULL)
+		{
+			return "";
+		}
+		
 		$this->setColumnSettings($column_gui);
 		
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
@@ -473,7 +480,9 @@ class ilCourseContentGUI
 		if ($this->container_gui->isActiveAdministrationPanel())
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
-			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			//$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			$column_gui->setBlockProperty("news", "default_visibility_option", true);
+			$column_gui->setBlockProperty("news", "hide_news_block_option", true);
 			$column_gui->setAdminCommands(true);
 		}
 	}

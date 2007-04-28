@@ -416,5 +416,45 @@ class ilNewsItem extends ilNewsItemGen
 		
 		return $n1;
 	}
+	
+	/**
+	* Get default visibility for reference id
+	*
+	* @param	$a_ref_id		reference id
+	*/
+	static function _getDefaultVisibilityForRefId($a_ref_id)
+	{
+		global $tree, $ilSetting;
+
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+
+		$news_set = new ilSetting("news");
+		$default_visibility = ($news_set->get("default_visibility") != "")
+				? $news_set->get("default_visibility")
+				: "users";
+
+		if ($tree->isInTree($a_ref_id))
+		{
+			$path = $tree->getPathFull($a_ref_id);
+			
+			foreach ($path as $key => $row)
+			{
+				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "icrs")))
+				{
+					continue;
+				}
+
+				$visibility = ilBlockSetting::_lookup("news", "default_visibility",
+					0, $row["obj_id"]);
+					
+				if ($visibility != "")
+				{
+					$default_visibility = $visibility;
+				}
+			}
+		}
+		
+		return $default_visibility;
+	}
 }
 ?>

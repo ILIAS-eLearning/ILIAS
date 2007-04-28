@@ -129,6 +129,9 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		
 		$enable_internal_news = $ilSetting->get("block_activated_news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		$news_default_visibility = ($news_set->get("default_visibility") != "")
+			? $news_set->get("default_visibility")
+			: "users";
 		$disable_repository_feeds = $feed_set->get("disable_rep_feeds");
 		$nr_personal_desktop_feeds = $feed_set->get("nr_personal_desktop_feeds");
 		
@@ -152,6 +155,17 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt("news_enable_internal_rss_info"));
 		$cb_prop->setChecked($enable_internal_rss);
 		$form->addItem($cb_prop);
+		
+		// Default Visibility
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "news_default_visibility");
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
+		$radio_group->addOption($radio_option);
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+		$radio_group->setRequired(false);
+		$radio_group->setValue($news_default_visibility);
+		$form->addItem($radio_group);
 
 		// Number of news items per object
 		$nr_opts = array(50 => 50, 100 => 100, 200 => 200);
@@ -207,6 +221,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$ilSetting->set("block_activated_pdnews", $_POST["enable_internal_news"]);
 		$news_set->set("enable_rss_for_internal", $_POST["enable_internal_rss"]);
 		$news_set->set("max_items", $_POST["news_max_items"]);
+		$news_set->set("default_visibility", $_POST["news_default_visibility"]);
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 		$feed_set->set("nr_personal_desktop_feeds", $_POST["nr_pd_feeds"]);
 		if ($_POST["nr_pd_feeds"] > 0)

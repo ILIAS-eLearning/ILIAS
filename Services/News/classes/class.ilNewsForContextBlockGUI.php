@@ -116,15 +116,18 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		
 		if ($ilCtrl->getCmdClass() == "ilnewsitemgui")
 		{
-			return IL_SCREEN_CENTER;
+			return IL_SCREEN_FULL;
 		}
 		
-		switch($_GET["cmd"])
+		switch($ilCtrl->getCmd())
 		{
 			case "showNews":
-			case "editSettings":
 			case "showFeedUrl":
 				return IL_SCREEN_CENTER;
+				break;
+				
+			case "editSettings":
+				return IL_SCREEN_FULL;
 				break;
 			
 			default:
@@ -239,9 +242,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
 				$lng->txt("edit"));
 
+			$ilCtrl->setParameter($this, "add_mode", "block");
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
 				$lng->txt("add"));
+			$ilCtrl->setParameter($this, "add_mode", "");
 		}
 
 		if ($this->getProperty("settings") == true)
@@ -251,6 +256,17 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$lng->txt("settings"));
 		}
 		
+		// do not display hidden repository news blocks for users
+		// who do not have write permission
+		if (!$this->getEnableEdit() && $this->getRepositoryMode() &&
+			ilBlockSetting::_lookup($this->getBlockType(), "hide_news_block",
+			0, $this->block_id))
+		{
+			return "";
+		}
+		
+		// do not display empty news blocks for users
+		// who do not have write permission
 		if (count($this->getData()) == 0 && !$this->getEnableEdit() &&
 			$this->getRepositoryMode())
 		{
@@ -699,18 +715,53 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function editSettings()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		global $ilUser, $lng, $ilCtrl, $ilSetting;
 
 		$public = ilBlockSetting::_lookup($this->getBlockType(), "public_notifications",
 			0, $this->block_id);
 		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
 			0, $this->block_id);
-
+		$hide_block = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_block",
+			0, $this->block_id);
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($lng->txt("news_settings"));
 		$form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
 		
+		// hide news block for learners
+		if ($this->getProperty("hide_news_block_option"))
+		{
+			$ch = new ilCheckboxInputGUI($lng->txt("news_hide_news_block"),
+				"hide_news_block");
+			$ch->setInfo($lng->txt("news_hide_news_block_info"));
+			$ch->setChecked($hide_block);
+			$form->addItem($ch);
+		}
+		
+		// default visibility
+		if (true)
+		{
+			$default_visibility = ilBlockSetting::_lookup($this->getBlockType(), "default_visibility",
+				0, $this->block_id);
+			if ($default_visibility == "")
+			{
+				$default_visibility =
+					ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
+			}
+
+			// Default Visibility
+			$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "default_visibility");
+			$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
+			$radio_group->addOption($radio_option);
+			$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
+			$radio_group->addOption($radio_option);
+			$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+			$radio_group->setRequired(false);
+			$radio_group->setValue($default_visibility);
+			$form->addItem($radio_group);
+		}
+
+		// public notifications
 		if ($this->getProperty("public_notifications_option"))
 		{
 			$ch = new ilCheckboxInputGUI($lng->txt("news_notifications_public"),
@@ -720,6 +771,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$form->addItem($ch);
 		}
 
+		// extra rss feed
 		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
 			"notifications_public_feed");
 		$ch->setInfo($lng->txt("news_public_feed_info"));
@@ -762,7 +814,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			0, $this->block_id);
 		ilBlockSetting::_write($this->getBlockType(), "public_feed", $_POST["notifications_public_feed"],
 			0, $this->block_id);
-		
+		ilBlockSetting::_write($this->getBlockType(), "default_visibility", $_POST["default_visibility"],
+			0, $this->block_id);
+		ilBlockSetting::_write($this->getBlockType(), "hide_news_block", $_POST["hide_news_block"],
+			0, $this->block_id);
+
+			
 		$ilCtrl->returnToParent($this);
 	}
 

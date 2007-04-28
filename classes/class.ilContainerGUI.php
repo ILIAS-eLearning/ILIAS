@@ -1777,7 +1777,9 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		if ($this->isActiveAdministrationPanel())
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
-			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			//$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			$column_gui->setBlockProperty("news", "default_visibility_option", true);
+			$column_gui->setBlockProperty("news", "hide_news_block_option", true);
 			$column_gui->setAdminCommands(true);
 		}
 	}

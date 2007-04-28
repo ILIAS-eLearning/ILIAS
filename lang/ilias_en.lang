@@ -2885,6 +2885,9 @@ news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. The
 news#:#news_first_letter_of_word_notification#:#N
 news#:#news_notifications#:#Notifications
 news#:#news_news_item_head#:#News Item
+news#:#news_hide_news_block#:#Hide News Block
+news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
+news#:#news_default_visibility#:#Default Access
 news#:#news_news_item_title#:#Headline
 news#:#news_news_item_content#:#Text
 news#:#news_news_item_content_long#:#Long Text
