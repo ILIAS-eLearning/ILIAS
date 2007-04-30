@@ -282,6 +282,8 @@ assessment#:#create_gaps#:#Create Gaps
 assessment#:#create_imagemap#:#Create an Image Map
 assessment#:#create_new#:#Create New
 assessment#:#definition#:#Definition
+assessment#:#delete_all_user_data#:#Delete Test Data of all Users
+assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
 assessment#:#delete_area#:#Delete Area
 assessment#:#delete_image#:#Delete Image
 assessment#:#delete_user_data#:#Delete Test Data of the Selected Users
