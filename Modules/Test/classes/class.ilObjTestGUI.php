@@ -2380,34 +2380,15 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$found_qpls = $this->object->getRandomQuestionpools();
 		}
-		if (count($found_qpls) == 0)
-		{
-			if (!array_key_exists("countqpl_0", $_POST))
-			{
-				// create first questionpool row automatically
-				foreach ($available_qpl as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("qpl_value");
-					$this->tpl->setVariable("QPL_ID", $key);
-					$this->tpl->setVariable("QPL_TEXT", $value["title"]);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("questionpool_row");
-				$this->tpl->setVariable("COUNTQPL", "0");
-				$this->tpl->setVariable("VALUE_COUNTQPL", $_POST["countqpl_0"]);
-				$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-				$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
 		$qpl_unselected = 0;
 		foreach ($_POST as $key => $value)
 		{
 			if (preg_match("/countqpl_(\d+)/", $key, $matches))
 			{
-				if ($value > $qpl_question_count[$_POST["qpl_" . $matches[1]]])
+				$questioncount = $qpl_question_count[$_POST["qpl_" . $matches[1]]];
+				if ((strlen($questioncount) > 0) && ($value > $questioncount))
 				{
-					$value = $qpl_question_count[$_POST["qpl_" . $matches[1]]];
+					$value = $questioncount;
 					ilUtil::sendInfo($this->lng->txt("tst_random_selection_question_count_too_high"));
 				}
 				$found_qpls[$matches[1]] = array(
@@ -2435,6 +2416,24 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		sort($found_qpls);
 		$found_qpls = array_values($found_qpls);
+		if (count($found_qpls) == 0)
+		{
+			foreach ($available_qpl as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("qpl_value");
+				$this->tpl->setVariable("QPL_ID", $key);
+				$this->tpl->setVariable("QPL_TEXT", $value["title"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("questionpool_row");
+			$this->tpl->setVariable("COUNTQPL", "0");
+			$this->tpl->setVariable("VALUE_COUNTQPL", $_POST["countqpl_0"]);
+			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
+			$this->tpl->setVariable("BTNCOUNTQPL", 0);
+			$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$counter = 0;
 		foreach ($found_qpls as $key => $value)
 		{
@@ -2463,14 +2462,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("VALUE_COUNTQPL", $value["count"]);
 			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
 			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
-			if (!$total)
-			{
-				if ($counter > 0)
-				{
-					$this->tpl->setVariable("BTNCOUNTQPL", $counter);
-					$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-				}
-			}
+			$this->tpl->setVariable("BTNCOUNTQPL", $counter);
+			$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
@@ -2504,6 +2497,8 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("COUNTQPL", "$counter");
 					$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
 					$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
+					$this->tpl->setVariable("BTNCOUNTQPL", $counter);
+					$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
 			}
