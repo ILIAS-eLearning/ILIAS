@@ -721,6 +721,7 @@ assessment#:#tst_list_of_answers#:#List of Answers
 assessment#:#tst_list_of_questions_yes#:#Yes, and additional
 assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question
 assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test
+assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions
 assessment#:#tst_participants_no#:#Nobody has started the test right now!
 assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!
 assessment#:#tst_mark#:#Mark

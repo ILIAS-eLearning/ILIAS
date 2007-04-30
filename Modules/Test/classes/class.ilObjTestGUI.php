@@ -900,6 +900,11 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["list_of_questions_end"] = 1;
 		}
+		$data["list_of_questions_with_description"] = 0;
+		if ($_POST["chb_list_of_questions_with_description"] == 1)
+		{
+			$data["list_of_questions_with_description"] = 1;
+		}
 		$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
 		$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
 		if (!$_POST["chb_starting_time"])
@@ -1007,6 +1012,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setListOfQuestions($data["list_of_questions"]);
 		$this->object->setListOfQuestionsStart($data["list_of_questions_start"]);
 		$this->object->setListOfQuestionsEnd($data["list_of_questions_end"]);
+		$this->object->setListOfQuestionsDescription($data["list_of_questions_with_description"]);
 
 		$this->object->saveToDb(true);
 
@@ -1585,6 +1591,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_YES", $this->lng->txt("tst_list_of_questions_yes"));
 		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_START", $this->lng->txt("tst_list_of_questions_start"));
 		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_END", $this->lng->txt("tst_list_of_questions_end"));
+		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_WITH_DESCRIPTION", $this->lng->txt("tst_list_of_questions_with_description"));
 		if ($this->object->getListOfQuestions())
 		{
 			$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_YES", " checked=\"checked\"");
@@ -1595,6 +1602,10 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($this->object->getListOfQuestionsEnd())
 			{
 				$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_END", " checked=\"checked\"");
+			}
+			if ($this->object->getListOfQuestionsDescription())
+			{
+				$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_WITH_DESCRIPTION", " checked=\"checked\"");
 			}
 		}
 		else

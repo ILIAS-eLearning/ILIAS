@@ -6672,6 +6672,7 @@ assessment#:#tst_list_of_answers#:#Liste der Antworten
 assessment#:#tst_list_of_questions_yes#:#Ja, und zusätzlich
 assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmende die erste Frage bearbeiten
 assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmende den Test beenden
+assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen in der Fragenübersicht anzeigen
 assessment#:#tst_participants_no#:#Der Test wurde von Niemandem gestaret!
 assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmenden zu diesem Test hinzugefügt
 assessment#:#tst_passes#:#Testdurchläufe
