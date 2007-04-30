@@ -193,6 +193,8 @@ assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Neue Imagemap erzeugen
 assessment#:#create_new#:#erzeuge neue
 assessment#:#definition#:#Definition
+assessment#:#delete_all_user_data#:#Testdaten aller NutzerInnen löschen
+assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller NutzerInnen löschen?
 assessment#:#delete_area#:#Region löschen
 assessment#:#delete_image#:#Bild löschen
 assessment#:#delete_user_data#:#Testdaten der ausgewählten NutzerInnen löschen
@@ -6673,7 +6675,7 @@ assessment#:#tst_list_of_questions_yes#:#Ja, und zusätzlich
 assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmende die erste Frage bearbeiten
 assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmende den Test beenden
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen in der Fragenübersicht anzeigen
-assessment#:#tst_participants_no#:#Der Test wurde von Niemandem gestaret!
+assessment#:#tst_participants_no#:#Der Test wurde von niemandem gestartet!
 assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmenden zu diesem Test hinzugefügt
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s

@@ -3340,25 +3340,13 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function confirmDeleteAllUserDataObject()
+	function confirmDeleteAllUserResultsObject()
 	{
 		$this->object->removeAllTestEditings();
 		ilUtil::sendInfo($this->lng->txt("tst_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}
 	
-	/**
-	* Cancels the deletion of all user data for the test object
-	*
-	* Cancels the deletion of all user data for the test object
-	*
-	* @access	public
-	*/
-	function cancelDeleteAllUserDataObject()
-	{
-		$this->ctrl->redirect($this, "participants");
-	}
-
 	/**
 	* Deletes all user data for the test object
 	*
@@ -3411,6 +3399,38 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Asks for a confirmation to delete all user data of the test object
+	*
+	* Asks for a confirmation to delete all user data of the test object
+	*
+	* @access	public
+	*/
+	function deleteAllUserResultsObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "participants"));
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT", $this->lng->txt("delete_all_user_data"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("table_row");
+		$this->tpl->setVariable("CSS_ROW", "tblrow1");
+		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("delete_all_user_data_confirmation"));
+		$this->tpl->parseCurrentBlock();
+
+		// cancel/confirm button
+		$buttons = array( "confirmDeleteAllUserResults"  => $this->lng->txt("proceed"),
+			"participants"  => $this->lng->txt("cancel"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 	
 	/**
@@ -4014,7 +4034,14 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getFixedParticipants())
 		{
 			$invited_users =& $this->object->getInvitedUsers();
-			if (count($invited_users) == 0)	ilUtil::sendInfo($this->lng->txt("tst_participants_no_fixed"));
+			if (count($invited_users) == 0)
+			{
+				ilUtil::sendInfo($this->lng->txt("tst_participants_no_fixed"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
+			}
 			$buttons = array("save","delete_user_data", "remove_as_participant");
 			if (count($invited_users))
 			{
@@ -4024,7 +4051,14 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$invited_users =& $this->object->getTestParticipants();
-			if (count($invited_users) == 0)	ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
+			if (count($invited_users) == 0)	
+			{
+				ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
+			}
 			$buttons = array("delete_user_data");
 			if (count($invited_users))
 			{
@@ -5130,7 +5164,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this,'participants'),
 			array("participants", "saveFixedParticipantsStatus",
 				"showParticipantAnswersForAuthor", "showResults",
-				"deleteAllUserData", "confirmDeleteAllUserData",
+				"confirmDeleteAllUserData",
+				"deleteAllUserResults",
 				"cancelDeleteAllUserData", "deleteSingleUserResults",
 				"outParticipantsResultsOverview", "outParticipantsPassDetails"
 			),
@@ -5247,7 +5282,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "showResults":
 			case "outParticipantsPassDetails":
 			case "outParticipantsResultsOverview":
-			case "deleteAllUserData":
+			case "deleteAllUserResults":
 			case "confirmDeleteAllUserData":
 			case "cancelDeleteAllUserData":
 			case "deleteSingleUserResults":
@@ -5364,7 +5399,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
 					 "removeParticipant", "showAnswers", "showResults", "inviteParticipants",
 					 "saveFixedParticipantsStatus", "showParticipantAnswersForAuthor",
-					 "deleteAllUserData", "confirmDeleteAllUserData",
+					 "deleteAllUserResults",
 					 "cancelDeleteAllUserData", "deleteSingleUserResults",
 					 "outParticipantsResultsOverview", "outParticipantsPassDetails"), 
 					 "");
