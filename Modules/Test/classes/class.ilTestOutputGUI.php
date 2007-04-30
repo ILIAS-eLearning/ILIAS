@@ -1598,7 +1598,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->ctrl->setParameter($this, "sequence", $value["nr"]);
 				$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $value["title"] . "</a>");
 				$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-				$this->tpl->setVariable("VALUE_QUESTION_DESCRIPTION", $value["description"]);
+				if ($this->object->getListOfQuestionsDescription())
+				{
+					$this->tpl->setVariable("VALUE_QUESTION_DESCRIPTION", $value["description"]);
+				}
 				if ($value["worked_through"])
 				{
 					$this->tpl->setVariable("VALUE_WORKED_THROUGH", ilUtil::getImagePath("icon_ok.gif"));

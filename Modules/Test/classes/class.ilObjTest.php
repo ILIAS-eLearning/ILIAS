@@ -431,7 +431,7 @@ class ilObjTest extends ilObject
 		$this->random_test = 0;
 		$this->shuffle_questions = FALSE;
 		$this->show_solution_details = 1;
-		$this->show_summary = FALSE;
+		$this->show_summary = 8;
 		$this->show_solution_printview = 0;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
@@ -1578,7 +1578,10 @@ class ilObjTest extends ilObject
 		if (!is_object($active))
 		{
 			$active = $this->getActiveTestUser($ilUser->getId());
-			$this->addQuestionSequence($active_id);
+		}
+		if (strlen($active->sequence) == 0)
+		{
+			$this->addQuestionSequence($active->active_id);
 		}
 		return;
 	}
@@ -8477,6 +8480,49 @@ class ilObjTest extends ilObject
 			}
 		}
 	}
+
+	/**
+	* Returns TRUE if the list of questions should be presented with the question descriptions
+	*
+	* Returns TRUE if the list of questions should be presented with the question descriptions
+	*
+	* @return boolean TRUE if the list of questions is shown with the question descriptions, FALSE otherwise
+	* @access public
+	*/
+		function getListOfQuestionsDescription()
+		{
+			if (($this->show_summary & 8) > 0)
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+
+	/**
+	* Sets the show_summary attribute to TRUE if the list of questions should be presented with the question descriptions
+	*
+	* Sets the show_summary attribute to TRUE if the list of questions should be presented with the question descriptions
+	*
+	* @param boolean $a_value TRUE if the list of questions should be shown with question descriptions, FALSE otherwise
+	* @access public
+	*/
+		function setListOfQuestionsDescription($a_value = TRUE)
+		{
+			if ($a_value && $this->getListOfQuestions())
+			{
+				$this->show_summary = $this->show_summary | 8;
+			}
+			if (!$a_value && $this->getListOfQuestions())
+			{
+				if ($this->getListOfQuestionsEnd())
+				{
+					$this->show_summary = $this->show_summary ^ 8;
+				}
+			}
+		}
 
 /**
 * Returns if the solution printview should be presented to the user or not
