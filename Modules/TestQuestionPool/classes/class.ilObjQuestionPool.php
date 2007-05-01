@@ -540,7 +540,7 @@ class ilObjQuestionPool extends ilObject
 	*
 	* @access public
 	*/
-	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
+	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
 		global $ilDB;
@@ -553,53 +553,45 @@ class ilObjQuestionPool extends ilObject
 				case "title":
 					$where = " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
-
 				case "comment":
 					$where = " AND qpl_questions.comment LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
-
 				case "author":
 					$where = " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
 
-	    // build sort order for sql query
+		// build sort order for sql query
 		$order = "";
 		$images = array();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		if (count($sortoptions))
+		switch($sort)
 		{
-			foreach ($sortoptions as $key => $value)
-			{
-				switch($key)
-				{
-					case "title":
-						$order = " ORDER BY title $value";
-						$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
-						break;
-					case "comment":
-						$order = " ORDER BY comment $value";
-						$images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
-						break;
-					case "type":
-						$order = " ORDER BY question_type_id $value";
-						$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
-						break;
-					case "author":
-						$order = " ORDER BY author $value";
-						$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
-						break;
-					case "created":
-						$order = " ORDER BY created $value";
-						$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
-						break;
-					case "updated":
-						$order = " ORDER BY TIMESTAMP14 $value";
-						$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
-						break;
-				}
-			}
+			case "title":
+				$order = " ORDER BY title $sortorder";
+				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
+				break;
+			case "comment":
+				$order = " ORDER BY comment $sortorder";
+				$images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
+				break;
+			case "type":
+				$order = " ORDER BY question_type_id $sortorder";
+				$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
+				break;
+			case "author":
+				$order = " ORDER BY author $sortorder";
+				$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
+				break;
+			case "created":
+				$order = " ORDER BY created $sortorder";
+				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
+				break;
+			case "updated":
+				$order = " ORDER BY TIMESTAMP14 $sortorder";
+				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
+				break;
 		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
 		if ($maxentries < 1)

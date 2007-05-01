@@ -1933,12 +1933,9 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$startrow = $_GET["startrow"];
 		}
-		if (!$_GET["sort"])
-		{
-			// default sort order
-			$_GET["sort"] = array("title" => "ASC");
-		}
-		$table = $this->object->getQuestionsTable($_GET["sort"], $filter_text, $filter_type, $startrow, 1, $filter_question_type, $filter_questionpool);
+		$sort = ($_GET["sort"]) ? $_GET["sort"] : "title";
+		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : "ASC";
+		$table = $this->object->getQuestionsTable($sort, $sortorder, $filter_text, $filter_type, $startrow, 1, $filter_question_type, $filter_questionpool);
 		// display all questions in accessable question pools
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -1974,16 +1971,12 @@ class ilObjTestGUI extends ilObjectGUI
 	
 			if ($table["rowcount"] > count($table["rows"]))
 			{
+				$this->ctrl->setParameter($this, "sort", $sort);
+				$this->ctrl->setParameter($this, "sortorder", $sortorder);
 				$nextstep = $table["nextrow"] + $table["step"];
 				if ($nextstep > $table["rowcount"])
 				{
 					$nextstep = $table["rowcount"];
-				}
-				$sort = "";
-				if (is_array($_GET["sort"]))
-				{
-					$key = key($_GET["sort"]);
-					$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
 				}
 				$counter = 1;
 				for ($i = 0; $i < $table["rowcount"]; $i += $table["step"])
@@ -1995,7 +1988,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 					else
 					{
-						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=$i" . "\">$counter</a>");
+						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&nextrow=$i" . "\">$counter</a>");
 					}
 					$this->tpl->parseCurrentBlock();
 					$counter++;
@@ -2013,8 +2006,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 				$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 				$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&prevrow=" . $table["prevrow"]);
-				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "$sort&nextrow=" . $table["nextrow"]);
+				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&prevrow=" . $table["prevrow"]);
+				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&nextrow=" . $table["nextrow"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -2044,20 +2037,24 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// define the sort column parameters
-		$sort = array(
-			"title" => $_GET["sort"]["title"],
-			"comment" => $_GET["sort"]["comment"],
-			"type" => $_GET["sort"]["type"],
-			"author" => $_GET["sort"]["author"],
-			"created" => $_GET["sort"]["created"],
-			"updated" => $_GET["sort"]["updated"],
-			"qpl" => $_GET["sort"]["qpl"]
+		$sortarray = array(
+			"title" => (strcmp($sort, "title") == 0) ? $sortorder : "",
+			"comment" => (strcmp($sort, "comment") == 0) ? $sortorder : "",
+			"type" => (strcmp($sort, "type") == 0) ? $sortorder : "",
+			"author" => (strcmp($sort, "author") == 0) ? $sortorder : "",
+			"created" => (strcmp($sort, "created") == 0) ? $sortorder : "",
+			"updated" => (strcmp($sort, "updated") == 0) ? $sortorder : "",
+			"qpl" => (strcmp($sort, "qpl") == 0) ? $sortorder : ""
 		);
-		foreach ($sort as $key => $value) {
-			if (strcmp($value, "ASC") == 0) {
-				$sort[$key] = "DESC";
-			} else {
-				$sort[$key] = "ASC";
+		foreach ($sortarray as $key => $value) 
+		{
+			if (strcmp($value, "ASC") == 0) 
+			{
+				$sortarray[$key] = "DESC";
+			} 
+			else 
+			{
+				$sortarray[$key] = "ASC";
 			}
 		}
 
@@ -2075,6 +2072,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$filtermenu->setCurrentBlock("menuitem");
 		$filtermenu->setVariable("ITEM_TEXT", $this->lng->txt("filter_all_question_types"));
 		$this->ctrl->setParameter($this, "sel_question_type", "");
+		$this->ctrl->setParameter($this, "sort", $sort);
+		$this->ctrl->setParameter($this, "sortorder", $sortorder);
 		$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
 		$filtermenu->parseCurrentBlock();
 		foreach ($questiontypes as $key => $value)
@@ -2133,8 +2132,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->ctrl->setCmd("questionBrowser");
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->ctrl->setParameter($this, "sort", "title");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["title"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->ctrl->setParameter($this, "sort", "comment");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["comment"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
 		$template = new ilTemplate("tpl.image.html", true, true);
 		if (strlen($filter_question_type))
 		{
@@ -2148,13 +2151,21 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "filter");
 		$template->setVariable("STYLE", "visibility: hidden;");
-		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>";
+		$this->ctrl->setParameter($this, "sort", "type");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["type"]);
+		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("question_type") . "</a>";
 		$questiontype .= $template->get();
 		$questiontype .= $table["images"]["type"];
 		$this->tpl->setVariable("QUESTION_TYPE", $questiontype);
-		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->ctrl->setParameter($this, "sort", "author");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["author"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->ctrl->setParameter($this, "sort", "created");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["created"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->ctrl->setParameter($this, "sort", "updated");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["updated"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
 		$template = new ilTemplate("tpl.image.html", true, true);
 		if (strlen($filter_questionpool))
 		{
@@ -2168,7 +2179,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "qpfilter");
 		$template->setVariable("STYLE", "visibility: hidden;");
-		$qpfilter = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>";
+		$this->ctrl->setParameter($this, "sort", "qpl");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["qpl"]);
+		$qpfilter = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("obj_qpl") . "</a>";
 		$qpfilter .= $template->get();
 		$qpfilter .= $table["images"]["qpl"];
 		$this->tpl->setVariable("QUESTION_POOL", $qpfilter);

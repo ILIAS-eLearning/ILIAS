@@ -960,12 +960,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$startrow = $_GET["startrow"];
 		}
-		if (!$_GET["sort"])
-		{
-			// default sort order
-			$_GET["sort"] = array("title" => "ASC");
-		}
-		$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
+		$sort = ($_GET["sort"]) ? $_GET["sort"] : "title";
+		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : "ASC";
+		$this->ctrl->setParameter($this, "sort", $sort);
+		$this->ctrl->setParameter($this, "sortorder", $sortorder);
+		$table = $this->object->getQuestionsTable($sort, $sortorder, $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
 		$colors = array("tblrow1", "tblrow2");
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$counter = 0;
@@ -1032,12 +1031,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				$nextstep = $table["rowcount"];
 			}
-			$sort = "";
-			if (is_array($_GET["sort"]))
-			{
-				$key = key($_GET["sort"]);
-				$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
-			}
 			$counter = 1;
 			for ($i = 0; $i < $table["rowcount"]; $i += $table["step"])
 			{
@@ -1048,7 +1041,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getFormAction($this) . "$sort&nextrow=$i" . "\">$counter</a>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getFormAction($this) . "&nextrow=$i" . "\">$counter</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -1066,8 +1059,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getFormAction($this) . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getFormAction($this) . "$sort&nextrow=" . $table["nextrow"]);
+			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getFormAction($this) . "&prevrow=" . $table["prevrow"]);
+			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getFormAction($this) . "&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1112,35 +1105,47 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 
 		// define the sort column parameters
-		$sort = array(
-			"title" => $_GET["sort"]["title"],
-			"comment" => $_GET["sort"]["comment"],
-			"type" => $_GET["sort"]["type"],
-			"author" => $_GET["sort"]["author"],
-			"created" => $_GET["sort"]["created"],
-			"updated" => $_GET["sort"]["updated"]
+		$sortarray = array(
+			"title" => (strcmp($sort, "title") == 0) ? $sortorder : "",
+			"comment" => (strcmp($sort, "comment") == 0) ? $sortorder : "",
+			"type" => (strcmp($sort, "type") == 0) ? $sortorder : "",
+			"author" => (strcmp($sort, "author") == 0) ? $sortorder : "",
+			"created" => (strcmp($sort, "created") == 0) ? $sortorder : "",
+			"updated" => (strcmp($sort, "updated") == 0) ? $sortorder : ""
 		);
-		foreach ($sort as $key => $value)
+		foreach ($sortarray as $key => $value) 
 		{
-			if (strcmp($value, "ASC") == 0)
+			if (strcmp($value, "ASC") == 0) 
 			{
-				$sort[$key] = "DESC";
-			}
-			else
+				$sortarray[$key] = "DESC";
+			} 
+			else 
 			{
-				$sort[$key] = "ASC";
+				$sortarray[$key] = "ASC";
 			}
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
 		// create table header
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->ctrl->setParameter($this, "sort", "title");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["title"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->ctrl->setParameter($this, "sort", "comment");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["comment"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->ctrl->setParameter($this, "sort", "type");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["type"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->ctrl->setParameter($this, "sort", "author");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["author"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->ctrl->setParameter($this, "sort", "created");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["created"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->ctrl->setParameter($this, "sort", "updated");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["updated"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
 		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("points"));
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
