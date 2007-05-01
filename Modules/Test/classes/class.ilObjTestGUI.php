@@ -216,9 +216,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
-
-		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
-			"&baseClass=ilObjTestGUI");
+		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&ref_id=".$newObj->getRefId()."&cmd=properties");
 	}
 
 	function backToRepositoryObject()
@@ -1377,7 +1375,8 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
-
+		// to set the command class for the default command after object creation to make the RTE editor switch work
+		if (strlen($this->ctrl->getCmdClass()) == 0) $this->ctrl->setCmdClass("ilobjtestgui");
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
