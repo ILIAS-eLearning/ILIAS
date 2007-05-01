@@ -117,10 +117,15 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		global $lng, $ilUser, $rbacsystem;
 
 		$props = array();
 
+		if (!$rbacsystem->checkAccess("participate", $this->ref_id))
+		{
+			return $props;
+		}
+		
 		include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
 		if (!ilObjSurveyAccess::_lookupOnline($this->obj_id))
 		{
