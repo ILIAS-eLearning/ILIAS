@@ -739,7 +739,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 		
 		// default visibility
-		if (true)
+		if ($this->getProperty("default_visibility_option"))
 		{
 			$default_visibility = ilBlockSetting::_lookup($this->getBlockType(), "default_visibility",
 				0, $this->block_id);

@@ -48,54 +48,77 @@ class ilExternalFeedItem
 	{
 		$this->magpie_item = $a_item;
 
-//var_dump($a_item);
+		//var_dump($a_item);
 		
 		// title
-		$this->setTitle($a_item["title"]);
+		$this->setTitle(
+			$this->secureString($a_item["title"]));
 		
 		// link
 		if ($a_item["link_"] != "")
 		{
-			$this->setLink($a_item["link_"]);
+			$this->setLink(
+				ilUtil::secureLink($this->secureString($a_item["link_"])));
 		}
 		else
 		{
-			$this->setLink($a_item["link"]);
+			$this->setLink(
+				ilUtil::secureLink($this->secureString($a_item["link"])));
 		}
 		
 		// summary
 		if ($a_item["atom_content"] != "")
 		{
-			$this->setSummary($a_item["atom_content"]);
+			$this->setSummary(
+				$this->secureString($a_item["atom_content"]));
 		}
 		else if ($a_item["summary"] != "")
 		{
-			$this->setSummary($a_item["summary"]);
+			$this->setSummary(
+				$this->secureString($a_item["summary"]));
 		}
 		else
 		{
-			$this->setSummary($a_item["description"]);
+			$this->setSummary(
+				$this->secureString($a_item["description"]));
 		}
 		
 		// date
 		if ($a_item["pubdate"] != "")
 		{
-			$this->setDate($a_item["pubdate"]);
+			$this->setDate(
+				$this->secureString($a_item["pubdate"]));
 		}
 		else
 		{
-			$this->setDate($a_item["updated"]);
+			$this->setDate(
+				$this->secureString($a_item["updated"]));
 		}
 
 		// Author
 		if ($a_item["dc"]["creator"] != "")
 		{
-			$this->setAuthor($a_item["dc"]["creator"]);
+			$this->setAuthor(
+				$this->secureString($a_item["dc"]["creator"]));
 		}
 
 		// id
 		$this->setId(md5($this->getTitle().$this->getSummary()));
 
+	}
+	
+	function secureString($a_str)
+	{
+		$a_str = ilUtil::secureString($a_str, true, "<b><i><em><strong><br><ol><li><ul><a><img>");
+		
+		// set target to blank for all links
+		while($old_str != $a_str)
+		{
+			$old_str = $a_str;
+			$a_str = eregi_replace("<a href=\"([^\"]*)\">",
+				"<a href=\"\\1\" target=\"_blank\">", $a_str);
+		}
+		return $a_str;
 	}
 	
 	/**

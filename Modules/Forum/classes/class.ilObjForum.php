@@ -732,6 +732,16 @@ class ilObjForum extends ilObject
 			"anonymized = ".$ilDB->quote(($this->isAnonymized() ? 1 : 0)).", ".
 			"statistics_enabled= ".$ilDB->quote(($this->isStatisticsEnabled() ? 1 : 0))."";	
 		$this->ilias->db->query($query);
+		
+		// news settings (public notifications yes/no)
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$default_visibility =
+			ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
+		if ($default_visibility == "public")
+		{
+			ilBlockSetting::_write("news", "public_notifications",
+				1, 0, $this->getId());
+		}
 
 		return true;
 	}
