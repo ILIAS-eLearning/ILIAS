@@ -141,9 +141,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$newObj = parent::saveObject();
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
-		
-		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
-			"&baseClass=ilObjSurveyGUI");
+		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$newObj->getRefId()."&cmd=properties");
 	}
 	
 	/**
@@ -256,6 +254,8 @@ class ilObjSurveyGUI extends ilObjectGUI
   function propertiesObject()
   {
 		$this->handleWriteAccess();
+		// to set the command class for the default command after object creation to make the RTE editor switch work
+		if (strlen($this->ctrl->getCmdClass()) == 0) $this->ctrl->setCmdClass("ilobjsurveygui");
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$this->lng->loadLanguageModule("jscalendar");
 		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
@@ -1811,7 +1811,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$counter = 0;
 		$title_counter = 0;
 		$last_color_class = "";
-		$obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.gif", true) . "\" alt=\"" . $this->lng->txt("question_obligatory") . "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
+		$obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.gif", "Modules/Survey") . "\" alt=\"" . $this->lng->txt("question_obligatory") . "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
 		if (count($survey_questions) > 0)
 		{
 			foreach ($survey_questions as $question_id => $data)
@@ -1836,7 +1836,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("block");
-					$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("questionblock.gif", true) . "\" alt=\"".$this->lng->txt("questionblock_icon")."\" />");
+					$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("questionblock.gif", "Modules/Survey") . "\" alt=\"".$this->lng->txt("questionblock_icon")."\" />");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
@@ -1905,7 +1905,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. ". $data["title"]);
 				}
-				$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("question.gif", true) . "\" alt=\"".$this->lng->txt("question_icon")."\" />");
+				$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("question.gif", "Modules/Survey") . "\" alt=\"".$this->lng->txt("question_icon")."\" />");
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 				{
 					$obligatory_checked = "";
@@ -3653,7 +3653,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("TYPE", "$type: ");
 				}
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->tpl->setVariable("ICON_HREF", ilUtil::getImagePath($icontype, true));
+				$this->tpl->setVariable("ICON_HREF", ilUtil::getImagePath($icontype, "Modules/Survey"));
 				$this->tpl->setVariable("ICON_ALT", $type);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();

@@ -1493,7 +1493,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			$fullpath = ilStr::subStr($fullpath, 0, 30) . "..." . ilStr::subStr($fullpath, ilStr::strLen($fullpath)-30, 30);
 		}
-		return ilUtil::prepareFormOutput($fullpath);
+		return $fullpath;
 	}
 
 /**
@@ -1537,7 +1537,7 @@ class ilObjQuestionPool extends ilObject
 						{
 							if (ilObjQuestionPool::_getQuestionCount($row->obj_id, TRUE))
 							{
-								$path = ilObjQestionPool::_getFullPathToQpl($row->ref_id);
+								$path = ilUtil::prepareFormOutput(ilObjQestionPool::_getFullPathToQpl($row->ref_id));
 								if (strlen($path))
 								{
 									$path .= " &gt; " . $qpl_title;

@@ -6101,6 +6101,18 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->ilias->getSetting("ilias_version"));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// anonymity
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "anonymity");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnonymity()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// random test
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "random_test");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->isRandomTest()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// sequence settings
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "sequence_settings");
@@ -6182,12 +6194,6 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getTitleOutput()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
-		// random test
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "random_test");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->isRandomTest()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
 		// random question count
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "random_question_count");
@@ -6228,12 +6234,6 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "answer_feedback_points");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnswerFeedbackPoints()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
-		// anonymity
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "anonymity");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnonymity()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// show cancel

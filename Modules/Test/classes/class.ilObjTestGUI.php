@@ -808,34 +808,34 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
-		if (!array_key_exists("tst_properties_confirmation", $_POST))
-		{
-			if (($this->object->isRandomTest()) && (count($this->object->getRandomQuestionpools()) > 0))
-			{
-				if (!$_POST["chb_random"])
-				{
-					// user tries to change from a random test with existing random question pools to a non random test
-					$this->confirmChangeProperties(0);
-					return;
-				}
-			}
-			if ((!$this->object->isRandomTest()) && (count($this->object->questions) > 0))
-			{
-				if ($_POST["chb_random"])
-				{
-					// user tries to change from a non random test with existing questions to a random test
-					$this->confirmChangeProperties(1);
-					return;
-				}
-			}
-		}
-		
 		$total = $this->object->evalTotalPersons();
 		$deleteuserdata = false;
 		$randomtest_switch = false;
 		// Check the values the user entered in the form
 		if (!$total)
 		{
+			if (!array_key_exists("tst_properties_confirmation", $_POST))
+			{
+				if (($this->object->isRandomTest()) && (count($this->object->getRandomQuestionpools()) > 0))
+				{
+					if (!$_POST["chb_random"])
+					{
+						// user tries to change from a random test with existing random question pools to a non random test
+						$this->confirmChangeProperties(0);
+						return;
+					}
+				}
+				if ((!$this->object->isRandomTest()) && (count($this->object->questions) > 0))
+				{
+					if ($_POST["chb_random"])
+					{
+						// user tries to change from a non random test with existing questions to a random test
+						$this->confirmChangeProperties(1);
+						return;
+					}
+				}
+			}
+
 			if (!strlen($_POST["chb_random"]))
 			{
 				$data["random_test"] = 0;
@@ -1935,6 +1935,8 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$sort = ($_GET["sort"]) ? $_GET["sort"] : "title";
 		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : "ASC";
+		$this->ctrl->setParameter($this, "sort", $sort);
+		$this->ctrl->setParameter($this, "sortorder", $sortorder);
 		$table = $this->object->getQuestionsTable($sort, $sortorder, $filter_text, $filter_type, $startrow, 1, $filter_question_type, $filter_questionpool);
 		// display all questions in accessable question pools
 		$colors = array("tblrow1", "tblrow2");
@@ -1971,8 +1973,6 @@ class ilObjTestGUI extends ilObjectGUI
 	
 			if ($table["rowcount"] > count($table["rows"]))
 			{
-				$this->ctrl->setParameter($this, "sort", $sort);
-				$this->ctrl->setParameter($this, "sortorder", $sortorder);
 				$nextstep = $table["nextrow"] + $table["step"];
 				if ($nextstep > $table["rowcount"])
 				{
@@ -2186,6 +2186,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$qpfilter .= $table["images"]["qpl"];
 		$this->tpl->setVariable("QUESTION_POOL", $qpfilter);
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
+		$this->ctrl->setParameter($this, "sort", $sort);
+		$this->ctrl->setParameter($this, "sortorder", $sortorder);
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
