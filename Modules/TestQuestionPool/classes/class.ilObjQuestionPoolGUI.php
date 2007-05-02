@@ -1147,6 +1147,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["updated"]);
 		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
 		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("points"));
+		$this->ctrl->setParameter($this, "sort", $sort);
+		$this->ctrl->setParameter($this, "sortorder", $sortorder);
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -1255,7 +1257,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("PAGETITLE", " - " . $this->object->getTitle());
+		$this->tpl->setVariable("PAGETITLE", " - " . ilUtil::prepareFormOutput(ilObjQuestionPool::_getFullPathToQpl($this->object->getRefId()) . " > " . $this->object->getTitle()));
 	}
 
 	function updateObject()

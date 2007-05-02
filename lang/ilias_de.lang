@@ -988,7 +988,7 @@ common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Verfügbarkeit
 common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Rollen
-common#:#add#:#hinzufügen
+common#:#add#:#Hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_comments#:#Kommentare bearbeiten
 common#:#add_condition#:#Neue Verknüpfung anlegen
@@ -7015,10 +7015,10 @@ assessment#:#tst_defaults_applied#:#The selected test defaults have been applied
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.###25 02 2007 new variable
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!###25 02 2007 new variable
 assessment#:#tst_defaults_available#:#Available test defaults###25 02 2007 new variable
-assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
+assessment#:#tst_defaults_defaults_of_test#:#der Einstellungen dieses Tests als neue Standardeinstellung mit dem Namen
 assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---###25 02 2007 new variable
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
-assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
+assessment#:#tst_defaults_not_defined#:#Sie haben noch keine Standardeinstellungen definiert.
 assessment#:#tst_nr_of_passes#:#Number of Test Passes###25 02 2007 new variable
 common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable
 common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
