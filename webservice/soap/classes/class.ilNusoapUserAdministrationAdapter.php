@@ -925,7 +925,7 @@ class ilNusoapUserAdministrationAdapter
 
 
       	$this->server->register('getUserXML',
-								array('sid' => 'xsd:string', 'user_ids' => 'tns:intArray', 'attach_roles' => 'xsd:boolean'),
+								array('sid' => 'xsd:string', 'user_ids' => 'tns:intArray', 'attach_roles' => 'xsd:int'),
 								array('xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#resolveUsers',

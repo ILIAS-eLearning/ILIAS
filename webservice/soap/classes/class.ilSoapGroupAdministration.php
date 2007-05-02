@@ -145,11 +145,18 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		if(ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_OBJECT_DELETED');
+		}
+
+
 		if(!$grp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
 			return $this->__raiseError('No valid reference id given.',
 									   'Client');
 		}
+
 
 		include_once 'classes/class.ilGroupXMLWriter.php';
 

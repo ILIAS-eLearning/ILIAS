@@ -632,13 +632,13 @@ function getObjIdsByRefIds($sid, $ref_ids)
 	return $soa->getObjIdsByRefIds($sid, $ref_ids);
 }
 
-function getUserXML($sid,$user_ids, $attachRoles)
+function getUserXML($sid,$user_ids, $attach_roles)
 {
 	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->getUserXML($sid,$user_ids, $attachRoles);
+	return $sua->getUserXML($sid, $user_ids, $attach_roles);
 }
 
 function updateGroup($sid, $ref_id, $grp_xml)
