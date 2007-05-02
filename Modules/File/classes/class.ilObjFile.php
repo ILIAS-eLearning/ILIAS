@@ -87,6 +87,13 @@ class ilObjFile extends ilObject
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 		$this->addNewsNotification("file_created");
+		$default_visibility =
+			ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
+		if ($default_visibility == "public")
+		{
+			ilBlockSetting::_write("news", "public_notifications",
+				1, 0, $this->getId());
+		}
 
 		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) "
 			."VALUES (".$ilDB->quote($this->getId()).","

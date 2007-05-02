@@ -1942,7 +1942,15 @@ class ilUtil
 		{
 			$a_str = stripslashes($a_str);
 		}
-
+		
+		return ilUtil::secureString($a_str, $a_strip_html, $a_allow);
+	}
+		
+	/**
+	* Remove unsecure tags
+	*/
+	function secureString($a_str, $a_strip_html = true, $a_allow = "")
+	{
 		// check whether all allowed tags can be made secure
 		$only_secure = true;
 		$allow_tags = explode(">", $a_allow);
@@ -1956,7 +1964,6 @@ class ilUtil
 
 				if (!in_array($allow, $sec_tags))
 				{
-//echo "<br>NOT SECURE: $allow";
 					$only_secure = false;
 				}
 				$allow_array[] = $allow;
@@ -1991,15 +1998,23 @@ class ilUtil
 	function getSecureTags()
 	{
 		return array("strong", "em", "u", "strike", "ol", "li", "ul", "p", "div",
-			"i", "b", "code", "sup", "sub", "pre", "gap");
+			"i", "b", "code", "sup", "sub", "pre", "gap", "a", "img");
 	}
 
-	function maskSecureTags($a_str)
+	function maskSecureTags($a_str, $allow_array)
 	{
-		foreach (ilUtil::getSecureTags() as $t)
+		foreach ($allow_array as $t)
 		{
 			switch($t)
 			{
+				case "a":
+					$a_str = ilUtil::maskAttributeTag($a_str, "a", "href");
+					break;
+					
+				case "img":
+					$a_str = ilUtil::maskAttributeTag($a_str, "img", "src");
+					break;
+
 				case "p":
 				case "div":
 					$a_str = ilUtil::maskTag($a_str, $t, array(
@@ -2019,12 +2034,20 @@ class ilUtil
 		return $a_str;
 	}
 
-	function unmaskSecureTags($a_str)
+	function unmaskSecureTags($a_str, $allow_array)
 	{
-		foreach (ilUtil::getSecureTags() as $t)
+		foreach ($allow_array as $t)
 		{
 			switch($t)
 			{
+				case "a":
+					$a_str = ilUtil::unmaskAttributeTag($a_str, "a", "href");
+					break;
+
+				case "img":
+					$a_str = ilUtil::unmaskAttributeTag($a_str, "img", "src");
+					break;
+
 				case "p":
 				case "div":
 					$a_str = ilUtil::unmaskTag($a_str, $t, array(
@@ -2044,6 +2067,68 @@ class ilUtil
 		return $a_str;
 	}
 
+	function maskAttributeTag($a_str, $tag, $tag_att)
+	{
+		global $ilLog;
+		
+		$ws = "[ \t\r\f\v\n]*";
+		$att = $ws."[^>]*".$ws;
+		
+		while (eregi("\<($tag$att($tag_att$ws=$ws\"(([\$@!*()~;,_0-9A-z/:=%\\.&#?+\\-])*)\")$att)\>",
+			$a_str, $found))
+		{
+			$un = array(".", "-", "+", "?", '$', "*", "(", ")");
+			$esc = array();
+			foreach($un as $v)
+			{
+				$esc[] = "\\".$v;
+			}
+			$ff = str_replace($un, $esc, $found[1]);
+			
+			$old_str = $a_str;
+			$a_str = eregi_replace("\<".$ff."\>",
+				"&lt;$tag $tag_att$tag_att=\"".$found[3]."\"&gt;", $a_str);
+			if ($old_str == $a_str)
+			{
+				$ilLog->write("ilUtil::maskA-".htmlentities($old_str)." == ".
+					htmlentities($a_str));
+				return $a_str;
+			}
+		}
+		$a_str = str_ireplace("</$tag>",
+			"&lt;/$tag&gt;", $a_str);
+		return $a_str;
+	}
+
+	function unmaskAttributeTag($a_str, $tag, $tag_att)
+	{
+		global $ilLog;
+		
+		while (eregi("&lt;($tag $tag_att$tag_att=\"(([\$@!*()~;,_0-9A-z/:=%\\.&#?+\\-])*)\")&gt;",
+			$a_str, $found))
+		{
+			$un = array(".", "-", "+", "?", '$', "*", "(", ")");
+			$esc = array();
+			foreach($un as $v)
+			{
+				$esc[] = "\\".$v;
+			}
+			$ff = str_replace($un, $esc, $found[1]);
+			
+			$old_str = $a_str;
+			$a_str = eregi_replace("&lt;".$ff."&gt;",
+				"<$tag $tag_att=\"".ilUtil::secureLink($found[2])."\">", $a_str);
+			if ($old_str == $a_str)
+			{
+				$ilLog->write("ilUtil::unmaskA-".htmlentities($old_str)." == ".
+					htmlentities($a_str));
+				return $a_str;
+			}
+		}
+		$a_str = str_replace("&lt;/$tag&gt;", "</$tag>", $a_str);
+		return $a_str;
+	}
+	
 	function maskTag($a_str, $t, $fix_param = "")
 	{
 		$a_str = str_replace(array("<$t>", "<".strtoupper($t).">"),
@@ -2080,6 +2165,14 @@ class ilUtil
 					"<"."$t $k=\"$v\"".">", $a_str);
 			}
 		}
+		return $a_str;
+	}
+	
+	function secureLink($a_str)
+	{
+		$a_str = str_ireplace("javascript", "jvscrpt", $a_str);
+		$a_str = str_ireplace(array("%00", "%0a", "%0d", "%1a", "&#00;", "&#x00;",
+			"&#0;", "&#x0;", "&#x0a;", "&#x0d;", "&#10;", "&#13;"), "-", $a_str);
 		return $a_str;
 	}
 

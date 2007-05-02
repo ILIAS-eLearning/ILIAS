@@ -66,6 +66,12 @@ class ilFeedUrlInputGUI extends ilTextInputGUI
 			$_POST[$this->getPostVar()] = "http:".
 				substr($_POST[$this->getPostVar()], 5);
 		}
+		
+		// add missing http://
+		if (!is_int(strpos($_POST[$this->getPostVar()], "://")))
+		{
+			$_POST[$this->getPostVar()] = "http://".$_POST[$this->getPostVar()];
+		}
 			
 		// check required
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
