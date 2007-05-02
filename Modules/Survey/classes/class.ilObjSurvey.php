@@ -415,11 +415,21 @@ class ilObjSurvey extends ilObject
 			$result = $ilDB->query($query);
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
-			$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND user_fi = %s AND anonymous_id = %s",
-				$ilDB->quote($this->getSurveyId()),
-				$ilDB->quote($row["user_fi"] . ""),
-				$ilDB->quote($row["anonymous_id"] . "")
-			);
+			if (strlen($row["anonymous_id"]) > 0)
+			{
+				$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s",
+					$ilDB->quote($this->getSurveyId()),
+					$ilDB->quote($row["anonymous_id"] . "")
+				);
+			}
+			else
+			{
+				$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND user_fi = %s AND anonymous_id = %s",
+					$ilDB->quote($this->getSurveyId()),
+					$ilDB->quote($row["user_fi"] . ""),
+					$ilDB->quote($row["anonymous_id"] . "")
+				);
+			}
 			$result = $ilDB->query($query);
 
 			$query = sprintf("DELETE FROM survey_finished WHERE finished_id = %s",
