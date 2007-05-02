@@ -689,12 +689,12 @@ class SurveyNominalQuestion extends SurveyQuestion
 				{
 					if ($maxvalues > 0)
 					{
-						$percentage = (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]);
+						$percentage = ($result_array["USERS_ANSWERED"] > 0) ? (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]) : 0;
 					}
 				}
 				else
 				{
-					$percentage = (float)((int)$cumulated[$key]/$numrows);
+					$percentage = ($numrows > 0) ? (float)((int)$cumulated[$key]/$numrows) : 0;
 				}
 			}
 			$result_array["variables"][$key] = array("title" => $this->categories->getCategory($key), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
