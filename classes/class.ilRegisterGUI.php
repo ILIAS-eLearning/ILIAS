@@ -203,7 +203,7 @@ class ilRegisterGUI
 			$this->tpl->setVariable("TXT_SUBMIT",$txt_submit);
 			$this->tpl->setVariable("CMD_SUBMIT",$cmd_submit);
 		}
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'subscribe'));
 		$this->tpl->parseCurrentBlock();
 	}
 	
