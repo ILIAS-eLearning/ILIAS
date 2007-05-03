@@ -531,7 +531,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 
 				// add http:// prefix if not exist
-				if (!strstr($entry["link"],'http://'))
+				if (!strstr($entry["link"],'://') && !strstr($entry["link"],'mailto:'))
 				{
 					$entry["link"] = "http://".$entry["link"];
 				}
@@ -2704,12 +2704,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 
 				// add http:// prefix if not exist
-				if (!strstr($entry["link"],'http://'))
+				if (!strstr($entry["link"],'://') && !strstr($entry["link"],'mailto:'))
 				{
 					$entry["link"] = "http://".$entry["link"];
 				}
+				
+				if (!strstr($entry["link"],'mailto:'))
+				{
+					$entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id);
+				}
 				$tabs_gui->addTarget($entry["title"],
-					ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id),
+					$entry["link"],
 					"", "", "_blank", "", true);
 			}
 		}
