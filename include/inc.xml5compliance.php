@@ -110,13 +110,21 @@ class php4DOMDocument
 		set_error_handler('staticxmlerror');
 		$old = ini_set('html_errors', false);
 
-		if ($file)
+		if (is_object($source))
 		{
-			$this->success = @$this->myDOMDocument->load($source);
+			$this->myDOMDocument = $source;
+			$this->success = true;
 		}
 		else
 		{
-			$this->success = @$this->myDOMDocument->loadXML($source);
+			if ($file)
+			{
+				$this->success = @$this->myDOMDocument->load($source);
+			}
+			else
+			{
+				$this->success = @$this->myDOMDocument->loadXML($source);
+			}
 		}
 				
 		// Restore error handling
@@ -240,6 +248,11 @@ class php4DOMElement extends php4DOMNode
 	function get_attribute($name)
 	{
 		return $this->myDOMNode->getAttribute($name);
+	}
+	
+	function owner_document()
+	{
+		return new php4DOMDocument($this->myDOMNode->ownerDocument);
 	}
 
 	function get_elements_by_tagname($name)
