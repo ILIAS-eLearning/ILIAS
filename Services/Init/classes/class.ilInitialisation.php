@@ -52,15 +52,12 @@ class ilInitialisation
 		{
 			foreach($_GET as $k => $v)
 			{
-				if (!in_array($k, array("file")))
-				{
-					// \r\n used for IMAP MX Injection
-					// ' used for SQL Injection
-					$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
-					
-					// this one is for XSS of any kind
-					$_GET[$k] = strip_tags($_GET[$k]);
-				}
+				// \r\n used for IMAP MX Injection
+				// ' used for SQL Injection
+				$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
+				
+				// this one is for XSS of any kind
+				$_GET[$k] = strip_tags($_GET[$k]);
 			}
 		}
 	}
