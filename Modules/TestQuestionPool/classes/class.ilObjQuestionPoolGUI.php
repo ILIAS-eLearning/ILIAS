@@ -53,7 +53,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function ilObjQuestionPoolGUI()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $rbacsystem;
 		$lng->loadLanguageModule("assessment");
 		$this->type = "qpl";
 		$this->ctrl =& $ilCtrl;
