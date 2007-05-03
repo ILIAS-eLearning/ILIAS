@@ -686,6 +686,8 @@ class ilInitialisation
 	*/
 	function goToLogin($a_auth_stat = "")
 	{
+		global $PHP_SELF;
+		
 		session_unset();
 		session_destroy();
 
@@ -703,8 +705,12 @@ class ilInitialisation
 		// we should try to prevent some information about current
 		// location
 		//
-		// it is also used, when no session is there (goto -> login)
-		// maybe this can be prevented (by checking for "goto")
+		// check whether we are currently doing a goto call
+		if (is_int(strpos($PHP_SELF, "goto.php")) && $_GET["soap_pw"] == "")
+		{
+			$script = $this->updir."goto.php?target=".$_GET["target"]."&client_id=".CLIENT_ID;
+		}
+		
 		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n".
 			'Please click <a href="'.$script.'">here</a> if you are not redirected automatically.';
 
@@ -1059,7 +1065,9 @@ class ilInitialisation
 				$this->initLanguage();
 
 				if ($ilSetting->get("pub_section") &&
-					$ilAuth->status == "" && $_GET["reloadpublic"] != "1")
+					($ilAuth->status == "" || $ilAuth->status == AUTH_EXPIRED ||
+						$ilAuth->status == AUTH_IDLED) &&
+					$_GET["reloadpublic"] != "1")
 				{
 					$this->goToPublicSection();
 				}
