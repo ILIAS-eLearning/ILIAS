@@ -696,7 +696,7 @@ class assTextSubsetGUI extends assQuestionGUI
 
 		if ($_GET["q_id"])
 		{
-			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
 			{
 				// edit page
 				$ilTabs->addTarget("edit_content",
@@ -713,7 +713,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		}
 
 		$force_active = false;
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
 		{
 			$url = "";
 			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
