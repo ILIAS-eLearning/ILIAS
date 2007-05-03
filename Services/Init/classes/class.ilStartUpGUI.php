@@ -114,7 +114,7 @@ class ilStartUpGUI
 		// login language selection is post type
 		if ($_POST["lang"] != "")
 		{
-			$_GET["lang"] = $_POST["lang"];
+			$_GET["lang"] = ilUtil::stripSlashes($_POST["lang"]);
 		}
 
 		// check for session cookies enabled
@@ -340,14 +340,14 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 			$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
-			$tpl->setVariable("USERNAME", $_POST["username"]);
+			$tpl->setVariable("USERNAME", ilUtil::prepareFormOutput($_POST["username"], true));
 			$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-
-
+		
+		$this->ctrl->setTargetScript("login.php");
 		$tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 //echo "-".htmlentities($this->ctrl->getFormAction($this, "showLogin"))."-";
@@ -561,7 +561,7 @@ class ilStartUpGUI
 		}
 		$tpl->setVariable("TXT_CREATE_USER", $lng->txt("ums_create_new_account"));
 		$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
-		$tpl->setVariable("PASSWORD", $_POST["password"]);
+		$tpl->setVariable("PASSWORD", ilUtil::prepareFormOutput($_POST["password"]));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
 
 		$tpl->show();

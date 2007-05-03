@@ -903,6 +903,7 @@ class ilObjUser extends ilObject
 
 		$q = "SELECT i2passwd FROM usr_data ".
 			 "WHERE login = ".$ilDB->quote($a_user);
+
 		$user_set = $ilias->db->query($q);
 
 		if ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))

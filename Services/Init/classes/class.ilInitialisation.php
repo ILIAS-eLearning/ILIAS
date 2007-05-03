@@ -737,7 +737,7 @@ class ilInitialisation
 		}
 		if ($_POST['change_lang_to'] != "")
 		{
-			$_GET['lang'] = $_POST['change_lang_to'];
+			$_GET['lang'] = ilUtil::stripSlashes($_POST['change_lang_to']);
 		}
 
 		$_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
@@ -818,7 +818,14 @@ class ilInitialisation
 			$c = $_COOKIE["ilClientId"];
 			setcookie("ilClientId", $ilIliasIniFile->readVariable("clients","default"));
 			$_COOKIE["ilClientId"] = $ilIliasIniFile->readVariable("clients","default");
-			echo ("Client $c does not exist. Please reload this page to return to the default client.");
+			if (CLIENT_ID != "" && CLIENT_ID != $ilIliasIniFile->readVariable("clients","default"))
+			{
+				ilUtil::redirect("index.php?client_id=".$ilIliasIniFile->readVariable("clients","default"));
+			}
+			else
+			{
+				echo ("Client $c does not exist. ".'Please <a href="./index.php">click here</a> to return to the default client.');
+			}
 			exit;
 			//ilUtil::redirect("./setup/setup.php");	// to do: this could fail in subdirectories
 													// this is also source of a bug (see mantis)
@@ -848,8 +855,14 @@ class ilInitialisation
 		require_once("classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
-
-//var_dump($_SESSION);
+		
+		// Do not accept external session ids
+		if ($_GET["PHPSESSID"] != "")
+		{
+			$_GET["PHPSESSID"] == "";
+			session_regenerate_id();
+		}
+		
 		// $ilias initialisation
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
 		$ilias =& new ILIAS();
@@ -959,9 +972,11 @@ class ilInitialisation
 //echo "A";
 		if (AUTH_CURRENT == AUTH_LOCAL && !$ilAuth->getAuth() && $this->script == "login.php" && $_POST["username"] != "")
 		{
-			if (ilObjUser::_lookupHasIlias2Password($_POST["username"]))
+			if (ilObjUser::_lookupHasIlias2Password(ilUtil::stripSlashes($_POST["username"])))
 			{
-				if (ilObjUser::_switchToIlias3Password($_POST["username"], $_POST["password"]))
+				if (ilObjUser::_switchToIlias3Password(
+					ilUtil::stripSlashes($_POST["username"]),
+					ilUtil::stripSlashes($_POST["password"])))
 				{
 					$ilAuth->start();
 					$ilias->setAuthError($ilErr->getLastError());
