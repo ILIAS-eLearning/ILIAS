@@ -2061,6 +2061,21 @@ class ilObjTestGUI extends ilObjectGUI
 		// add imports for YUI menu
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initMenu();
+		$this->tpl->addCss("./Modules/TestQuestionPool/templates/default/tpl.text_filter.css");
+
+		// add title text filter
+		$titlefilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
+		$titlefilter->setVariable("FILTERELEMENTID", "titlefilter");
+		$titlefilter->setVariable("OVERLAY_WIDTH", "400px");
+		$titlefilter->setVariable("OVERLAY_HEIGHT", "4em");
+		$titlefilter->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$titlefilter->setVariable("VALUE_FILTER_TEXT", $filter_text);
+		$titlefilter->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
+		$titlefilter->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
+		$this->tpl->setCurrentBlock("HeadContent");
+		$this->tpl->setVariable("CONTENT_BLOCK", $titlefilter->get());
+		$this->tpl->parseCurrentBlock();
+
 		// add questiontype filter
 		$filtermenu = new ilTemplate("tpl.question_type_menu.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		if (strcmp($filter_question_type, "") == 0)
@@ -2132,9 +2147,25 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->ctrl->setCmd("questionBrowser");
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
+		$template = new ilTemplate("tpl.image.html", true, true);
+		if (strlen($filter_text))
+		{
+			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
+		}
+		else
+		{
+			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
+		}
+		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
+		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
+		$template->setVariable("ID", "titlefilter");
+		$template->setVariable("STYLE", "visibility: hidden;");
 		$this->ctrl->setParameter($this, "sort", "title");
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["title"]);
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$questiontitle = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("title") . "</a>";
+		$questiontitle .= $template->get();
+		$questiontitle .= $table["images"]["title"];
+		$this->tpl->setVariable("QUESTION_TITLE", $questiontitle);
 		$this->ctrl->setParameter($this, "sort", "comment");
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["comment"]);
 		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);

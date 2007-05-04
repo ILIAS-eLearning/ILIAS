@@ -1,0 +1,13 @@
+.yui-overlay { 
+	position:absolute;
+	background:#EDEDED;
+	border:1px solid #9EADBA;
+	padding:5px;
+	margin:10px; 
+	color:#222222;
+	font-weight:normal;
+	background-color: #EDEDED;
+}
+.yui-overlay .hd {  }
+.yui-overlay .bd {  }
+.yui-overlay .ft {  }
