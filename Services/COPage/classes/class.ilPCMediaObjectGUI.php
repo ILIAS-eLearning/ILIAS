@@ -185,6 +185,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$media_item->setWidth($size[0]);
 				$media_item->setHeight($size[1]);
 			}
+			else
+			{
+				$media_item->setWidth(500);
+				$media_item->setHeight(400);
+			}
 		}
 		else
 		{
@@ -271,6 +276,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					$size = getimagesize($file);
 					$media_item->setWidth($size[0]);
 					$media_item->setHeight($size[1]);
+				}
+				else
+				{
+					$media_item->setWidth(500);
+					$media_item->setHeight(400);
 				}
 			}
 			else
