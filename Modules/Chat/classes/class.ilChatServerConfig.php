@@ -289,9 +289,13 @@ class ilChatServerConfig
 	}
 	function __writeConfigFile()
 	{
-		if(!($fp = @fopen("./Modules/Chat/chatserver/server.ini","w")))
+		if(!@is_dir(ilUtil::getDataDir().'/chat'))
 		{
-			$this->error_message = "./Modules/Chat/chatserver/server.ini ".$this->lng->txt("chat_no_write_perm");
+			ilUtil::makeDir(ilUtil::getDataDir().'/chat');
+		}		
+		if(!($fp = @fopen(ilUtil::getDataDir().'/chat/server.ini',"w")))
+		{
+			$this->error_message = ilUtil::getDataDir().'/chat/server.ini ' .$this->lng->txt("chat_no_write_perm");
 			return false;
 		}
 		$content =  "LogLevel = ".$this->getLogLevel()."\n";
@@ -312,7 +316,7 @@ class ilChatServerConfig
 
 		if(!@fwrite($fp,$content))
 		{
-			$this->error_message = ILIAS_ABSOLUTE_PATH."/Modules/Chat/chatserver/server.ini ".$this->lng->txt("chat_no_write_perm");
+			$this->error_message = ilUtil::getDataDir().'/chat/server.ini '.$this->lng->txt("chat_no_write_perm");
 			fclose($fp);
 			
 			return false;
