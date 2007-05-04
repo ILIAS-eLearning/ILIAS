@@ -198,12 +198,15 @@ class ilNoteGUI
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
 			$ilUser->getPref("notes_pub_all"), $this->public_deletion_enabled);
 
+		$all_notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
+			$this->obj_type, $a_type, $this->inc_sub, $filter,
+			"", $this->public_deletion_enabled);
+
 		$tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
 		
 		// show counter if notes are hidden
-		$cnt_str = ($ilUser->getPref("notes_".$suffix) == "n"
-			&& count($notes) > 0)
-			? " (".count($notes).")"
+		$cnt_str = (count($all_notes) > 0)
+			? " (".count($all_notes).")"
 			: "";
 		
 		if ($this->delete_note)
@@ -243,7 +246,7 @@ class ilNoteGUI
 		}
 		
 		// show show/hide button for note list
-		if (count($notes) > 0 && $this->enable_hiding && !$this->delete_note
+		if (count($all_notes) > 0 && $this->enable_hiding && !$this->delete_note
 			&& !$this->export_html && !$this->print)
 		{
 			if ($ilUser->getPref("notes_".$suffix) == "n")
