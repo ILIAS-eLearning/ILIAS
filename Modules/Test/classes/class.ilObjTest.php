@@ -5704,23 +5704,31 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
+	function getQuestionsTable($sort, $sortorder, $textfilter, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
 	{
 		global $ilUser;
 		global $ilDB;
 
 		$where = "";
-		if (strlen($filter_text) > 0) {
-			switch($sel_filter_type) {
-				case "title":
-					$where = " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
-					break;
-				case "comment":
-					$where = " AND qpl_questions.comment LIKE " . $ilDB->quote("%" . $filter_text . "%");
-					break;
-				case "author":
-					$where = " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
-					break;
+		foreach ($textfilter as $sel_filter_type => $filter_text)
+		{
+			if (strlen($filter_text) > 0) 
+			{
+				switch($sel_filter_type) 
+				{
+					case "title":
+						$where .= " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						break;
+					case "comment":
+						$where .= " AND qpl_questions.comment LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						break;
+					case "author":
+						$where .= " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						break;
+					case "qpl":
+						$where .= " AND object_data.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						break;
+				}
 			}
 		}
 
@@ -5734,14 +5742,14 @@ class ilObjTest extends ilObject
 			$where .= " AND qpl_questions.obj_fi = $filter_questionpool";
 		}
 
-    // build sort order for sql query
+		// build sort order for sql query
 		$order = "";
 		$images = array();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		switch($sort) 
 		{
 			case "title":
-				$order = " ORDER BY title $sortorder";
+				$order = " ORDER BY qpl_questions.title $sortorder";
 				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "comment":
@@ -5790,7 +5798,7 @@ class ilObjTest extends ilObject
 		}
 
 		// get all questions in the test
-		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
+		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, tst_test_question, object_data WHERE qpl_questions.question_id = tst_test_question.question_fi AND object_data.obj_id = qpl_questions.obj_fi AND tst_test_question.test_fi = %s",
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -5808,7 +5816,7 @@ class ilObjTest extends ilObject
 			$original_clause = " ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
 		}
 
-		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type WHERE $original_clause$available AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -5820,7 +5828,7 @@ class ilObjTest extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE $original_clause $available AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
