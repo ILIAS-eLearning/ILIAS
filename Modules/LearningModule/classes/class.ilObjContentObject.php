@@ -1445,7 +1445,47 @@ class ilObjContentObject extends ilObject
 	{
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
+		$linked_mobs = array();
+		
+		// mobs directly embedded into pages
 		foreach ($this->mob_ids as $mob_id)
+		{
+			if ($mob_id > 0)
+			{
+				$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
+				$media_obj = new ilObjMediaObject($mob_id);
+				$media_obj->exportXML($a_xml_writer, $a_inst);
+				$media_obj->exportFiles($a_target_dir);
+				
+				// get linked media objects (map areas)
+				$med_items = $media_obj->getMediaItems();
+				foreach($med_items as $med_item)
+				{
+					$int_links = ilMapArea::_getIntLinks($med_item->getId());
+					foreach ($int_links as $k => $int_link)
+					{
+						if ($int_link["Type"] == "MediaObject")
+						{
+							include_once("./Services/COPage/classes/Pages/class.ilInternalLink.php");
+							$l_id = ilInternalLink::_extractObjIdOfTarget($int_link["Target"]);
+							if (ilObject::_exists($l_id))
+							{
+								if (!in_array($l_id, $linked_mobs) && 
+									!in_array($l_id, $this->mob_ids))
+								{
+									$linked_mobs[] = $l_id;
+								}
+							}
+						}
+					}
+				}
+
+				unset($media_obj);
+			}
+		}
+		
+		// linked mobs (in map areas)
+		foreach ($linked_mobs as $mob_id)
 		{
 			if ($mob_id > 0)
 			{
@@ -1456,6 +1496,7 @@ class ilObjContentObject extends ilObject
 				unset($media_obj);
 			}
 		}
+
 	}
 
 	/**
