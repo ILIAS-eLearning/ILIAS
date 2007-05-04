@@ -629,19 +629,24 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("TEXT_ANONYMOUS_CODE_CREATED", $this->lng->txt("tst_access_code_created"));
-			$this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->object->getAccessCodeSession());
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("CONTINUE", $this->lng->txt("continue_work"));
-			$this->tpl->parseCurrentBlock();
+			$this->ctrl->redirect($this, "displayCode");
 		}
 		else
 		{
 			$this->ctrl->setParameter($this, "activecommand", "start");
 			$this->ctrl->redirect($this, "redirectQuestion");
 		}
+	}
+	
+	function displayCode()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE_CREATED", $this->lng->txt("tst_access_code_created"));
+		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->object->getAccessCodeSession());
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CONTINUE", $this->lng->txt("continue_work"));
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	function codeConfirmed()

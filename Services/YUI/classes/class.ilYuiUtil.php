@@ -55,6 +55,18 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/2_2_1/menu/menu.js");
 		$tpl->addCss("./Services/YUI/js/2_2_1/menu/assets/menu.css");
 	}
-	
+
+	/**
+	* Init YUI Overlay module
+	*/
+	static function initOverlay()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/event/event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/dom/dom.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_1/container/container_core.js");
+	}
 } // END class.ilUtil
 ?>
