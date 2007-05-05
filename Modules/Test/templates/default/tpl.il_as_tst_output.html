@@ -23,21 +23,19 @@
 <!-- BEGIN postpone -->
 	<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" id="postponebutton" />
 	&nbsp;&nbsp;
-	<!-- END postpone -->
-	<!-- BEGIN next -->
+<!-- END postpone -->
+<!-- BEGIN next -->
 	<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" id="nextbutton" />
-	<!-- END next -->
+<!-- END next -->
 	</td>
 	</tr>
+</table>
+<!-- BEGIN closeform --></form><!-- END closeform -->
+<table class="fullwidth">
 	<tr class="std">
-		<td colspan="3" class="ilc_Page">
+		<td class="ilc_Page">
 			<div class="ilc_Page" id="ilc_Page">
 				{QUESTION_OUTPUT}
-<!-- BEGIN back -->
-				<p>
-					<input type="submit" class="submit" name="cmd[preview_cancel]" value="{BACKLINK_TEXT}" />
-				</p>
-<!-- END back -->
 			</div>
 <!-- BEGIN direct_feedback --><div align="center"><input type="submit" class="submit" name="cmd[directfeedback]" id="directfeedback" value="{TEXT_DIRECT_FEEDBACK}" /></div><!-- END direct_feedback -->
 <!-- BEGIN answer_feedback -->
@@ -46,17 +44,18 @@
 <!-- BEGIN solution_output -->
 <!-- BEGIN solution_output_details -->
 <p><strong>{CORRECT_SOLUTION}</strong>:</p>
-<table class="ilc_Page" width="100%" cellspacing="0" cellpadding="0"><tr><td class="ilc_Page">
 <div class="ilc_Page" id="ilc_Page">
 {QUESTION_FEEDBACK}
 </div>
-</td></tr></table>
 <!-- END solution_output_details -->
 <p>{RECEIVED_POINTS_INFORMATION}</p>
 <!-- END solution_output -->
 		</td>
 	</tr>
 </table>
+<!-- BEGIN openform -->
+<form name="test_output_bottom" method="post" action="{FORMACTION_BOTTOM}">
+<!-- END openform -->
 <!-- BEGIN navigation_bottom -->
 <table class="fullwidth">
 	<tr>
@@ -83,8 +82,7 @@
 </table>
 <!-- END navigation_bottom -->
 <!-- BEGIN question_status --><table><tr valign="top"><td><small>{TEXT_QUESTION_STATUS_LABEL}</small></td><td>{TEXT_QUESTION_STATUS}</td></tr></table><!-- END question_status -->
-<p>
-</p>
+<p></p>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 </form>
 <!-- BEGIN js_initialize -->
