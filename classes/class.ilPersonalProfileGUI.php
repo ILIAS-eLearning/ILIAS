@@ -929,6 +929,7 @@ class ilPersonalProfileGUI
 			$this->tpl->setVariable("TXT_FILE", $this->lng->txt("userfile"));
 			$this->tpl->setVariable("USER_FILE", $this->lng->txt("user_file"));
 		}
+		$this->tpl->setCurrentBlock("adm_content");
 		
 		// ilinc upload pic
 		if ($this->userSettingVisible("upload") and $this->ilias->getSetting("ilinc_active"))
