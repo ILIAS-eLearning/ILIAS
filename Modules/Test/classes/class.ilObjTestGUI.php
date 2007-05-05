@@ -2071,7 +2071,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$titlefilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$titlefilter->setVariable("FILTERELEMENTID", "titlefilter");
 		$titlefilter->setVariable("OVERLAY_WIDTH", "400px");
-		$titlefilter->setVariable("OVERLAY_HEIGHT", "4em");
+		$titlefilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$titlefilter->setVariable("TEXTFIELD_NAME", "filter_title");
 		$titlefilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
 		$titlefilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
@@ -2123,7 +2123,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$commenttextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$commenttextfilter->setVariable("FILTERELEMENTID", "commenttextfilter");
 		$commenttextfilter->setVariable("OVERLAY_WIDTH", "400px");
-		$commenttextfilter->setVariable("OVERLAY_HEIGHT", "4em");
+		$commenttextfilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$commenttextfilter->setVariable("TEXTFIELD_NAME", "filter_comment");
 		$commenttextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
 		$commenttextfilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
@@ -2140,7 +2140,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$authortextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$authortextfilter->setVariable("FILTERELEMENTID", "authortextfilter");
 		$authortextfilter->setVariable("OVERLAY_WIDTH", "400px");
-		$authortextfilter->setVariable("OVERLAY_HEIGHT", "4em");
+		$authortextfilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$authortextfilter->setVariable("TEXTFIELD_NAME", "filter_author");
 		$authortextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
 		$authortextfilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
@@ -2157,7 +2157,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$qpltextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$qpltextfilter->setVariable("FILTERELEMENTID", "qpltextfilter");
 		$qpltextfilter->setVariable("OVERLAY_WIDTH", "400px");
-		$qpltextfilter->setVariable("OVERLAY_HEIGHT", "4em");
+		$qpltextfilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$qpltextfilter->setVariable("TEXTFIELD_NAME", "filter_qpl");
 		$qpltextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
 		$qpltextfilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
