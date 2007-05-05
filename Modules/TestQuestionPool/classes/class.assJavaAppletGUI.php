@@ -779,7 +779,7 @@ class assJavaAppletGUI extends assQuestionGUI
 	*/
 	function feedback()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_javaapplet_feedback.html", "Modules/TestQuestionPool");
+		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_javaapplet_question_feedback.html", "Modules/TestQuestionPool");
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
 		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
 		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE);
