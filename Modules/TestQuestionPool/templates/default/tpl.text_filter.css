@@ -2,12 +2,19 @@
 	position:absolute;
 	background:#EDEDED;
 	border:1px solid #9EADBA;
-	padding:5px;
+	padding:0px;
 	margin:10px; 
 	color:#222222;
 	font-weight:normal;
 	background-color: #EDEDED;
 }
-.yui-overlay .hd {  }
-.yui-overlay .bd {  }
-.yui-overlay .ft {  }
+.yui-overlay .hd {  
+	background-image:url(../../../../templates/default/images/TableHeaderBlue.gif);
+	background-repeat:repeat;
+	padding: 4px;
+}
+.yui-overlay .bd {
+	margin: 1em;
+}
+.yui-overlay .ft {  
+}
