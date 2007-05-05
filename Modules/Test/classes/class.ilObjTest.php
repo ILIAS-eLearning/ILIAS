@@ -6078,7 +6078,7 @@ class ilObjTest extends ilObject
 	* @return string The QTI xml representation of the test
 	* @access public
 	*/
-	function to_xml()
+	function toXML()
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -6326,7 +6326,7 @@ class ilObjTest extends ilObject
 		foreach ($this->questions as $question_id)
 		{
 			$question =& ilObjTest::_instanciateQuestion($question_id);
-			$qti_question = $question->to_xml(false);
+			$qti_question = $question->toXML(false);
 			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
 			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
 			if (strpos($xml, "</section>") !== false)

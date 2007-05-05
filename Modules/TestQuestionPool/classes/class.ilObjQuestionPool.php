@@ -1071,7 +1071,7 @@ class ilObjQuestionPool extends ilObject
 	* @return string The QTI xml representation of the questions
 	* @access public
 	*/
-	function to_xml($questions)
+	function toXML($questions)
 	{
 		$xml = "";
 		// export button was pressed
@@ -1080,7 +1080,7 @@ class ilObjQuestionPool extends ilObject
 			foreach ($questions as $key => $value)
 			{
 				$question =& $this->createQuestion("", $value);
-				$xml .= $question->object->to_xml();
+				$xml .= $question->object->toXML();
 			}
 			if (count($questions) > 1)
 			{

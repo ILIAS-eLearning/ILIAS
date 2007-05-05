@@ -322,7 +322,7 @@ class assOrderingQuestion extends assQuestion
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
 		global $ilDB;
 		global $ilUser;
