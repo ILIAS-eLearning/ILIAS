@@ -250,7 +250,7 @@ class assQuestion
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml()
+	function toXML()
 	{
 		// to be implemented in the successor classes of assQuestion
 	}

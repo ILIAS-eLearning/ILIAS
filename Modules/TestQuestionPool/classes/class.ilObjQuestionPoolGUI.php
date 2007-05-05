@@ -148,7 +148,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$this->ctrl->setCmdClass(get_class($page_gui));
 					$this->ctrl->setCmd("preview");
 				}
-				//$page_gui->setQuestionXML($question->to_xml(false, false, true));
+				//$page_gui->setQuestionXML($question->toXML(false, false, true));
 				$page_gui->setQuestionHTML($q_gui->getPreview());
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");

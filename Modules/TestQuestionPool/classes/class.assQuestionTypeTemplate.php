@@ -109,7 +109,7 @@ class assQuestionTypeTemplate extends assQuestion
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
 		// you have to define your own export code. please check the other question type for example code
 	}

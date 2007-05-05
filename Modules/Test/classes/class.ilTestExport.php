@@ -191,7 +191,7 @@ class ilTestExport
 
 		// write qti file
 		$qti_file = fopen($this->export_dir."/".$this->subdir."/".$this->qti_filename, "w");
-		fwrite($qti_file, $this->test_obj->to_xml());
+		fwrite($qti_file, $this->test_obj->toXML());
 		fclose($qti_file);
 
 		// get xml content
