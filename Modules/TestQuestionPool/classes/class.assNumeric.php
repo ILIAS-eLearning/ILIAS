@@ -832,7 +832,7 @@ class assNumeric extends assQuestion
 		$data = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$enteredvalue = $data["value1"];
-		if (!is_numeric($enteredvalue)) return 0;
+		//if (!is_numeric($enteredvalue)) return 0;
 		$points = 0;
 		foreach ($this->ranges as $key => $range)
 		{
