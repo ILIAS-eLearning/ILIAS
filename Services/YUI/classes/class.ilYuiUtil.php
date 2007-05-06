@@ -37,8 +37,8 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/connection/connection-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/connection/connection-min.js");
 	}
 
 	/**
@@ -48,12 +48,12 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/event/event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/dom/dom.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/container/container_core.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/menu/menu.js");
-		$tpl->addCss("./Services/YUI/js/2_2_1/menu/assets/menu.css");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/event/event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/dom/dom.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/container/container_core.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/menu/menu.js");
+		$tpl->addCss("./Services/YUI/js/2_2_2/menu/assets/menu.css");
 	}
 
 	/**
@@ -63,10 +63,75 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/event/event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/dom/dom.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_2_1/container/container_core.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/event/event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/dom/dom.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/container/container_core.js");
+	}
+	
+	/**
+	* Init YUI Simple Dialog
+	*/
+	static function initSimpleDialog()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/event/event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/dom/dom.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/container/container.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_2_2/dragdrop/dragdrop.js");
+		$tpl->addCss("./Services/YUI/js/2_2_2/container/assets/container.css");
+		$tpl->addCss("./Services/YUI/templates/default/tpl.simpledialog.css");
+	}
+	
+	static function addYesNoDialog($dialogname, $headertext, $message, $yesaction, $noaction, $defaultyes, $icon = "help")
+	{
+		global $tpl, $lng;
+		
+		ilYuiUtil::initSimpleDialog();
+		
+		$template = new ilTemplate("tpl.yes_no_dialog.js", TRUE, TRUE, "Services/YUI");
+		$template->setVariable("DIALOGNAME", $dialogname);
+		$template->setVariable("YES_ACTION", $yesaction);
+		$template->setVariable("NO_ACTION", $noaction);
+		$template->setVariable("DIALOG_HEADER", $headertext);
+		$template->setVariable("DIALOG_MESSAGE", $message);
+		$template->setVariable("TEXT_YES", $lng->txt("yes"));
+		$template->setVariable("TEXT_NO", $lng->txt("no"));
+		switch ($icon)
+		{
+			case "warn":
+				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_WARN");
+				break;
+			case "tip":
+				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_TIP");
+				break;
+			case "info":
+				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_INFO");
+				break;
+			case "block":
+				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_BLOCK");
+				break;
+			case "alarm":
+				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_ALARM");
+				break;
+			case "help":
+			default:
+				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_HELP");
+				break;
+		}
+		if ($defaultyes)
+		{
+			$template->touchBlock("isDefaultYes");
+		}
+		else
+		{
+			$template->touchBlock("isDefaultNo");
+		}
+		$tpl->setCurrentBlock("HeadContent");
+		$tpl->setVariable("CONTENT_BLOCK", $template->get());
+		$tpl->parseCurrentBlock();
 	}
 } // END class.ilUtil
 ?>

@@ -260,6 +260,9 @@ class assClozeTest extends assQuestion
 	{
 		global $ilDB;
 
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
 		$complete = 0;
 		if ($this->isComplete())
 		{
@@ -380,8 +383,8 @@ class assClozeTest extends assQuestion
 								$ilDB->quote($item->getPoints() . ""),
 								$ilDB->quote($item->getOrder() . ""),
 								$ilDB->quote($gap->getType() . ""),
-								is_numeric($item->getLowerBound()) ? $ilDB->quote($item->getLowerBound()) : "NULL",
-								is_numeric($item->getUpperBound()) ? $ilDB->quote($item->getUpperBound()) : "NULL"
+								$eval->e($item->getLowerBound() !== FALSE) ? $ilDB->quote($item->getLowerBound()) : "NULL",
+								$eval->e($item->getUpperBound() !== FALSE) ? $ilDB->quote($item->getUpperBound()) : "NULL"
 							);
 							break;
 					}
@@ -1018,22 +1021,25 @@ class assClozeTest extends assQuestion
 	*/
 	function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound)
 	{
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
 		$result = 0;
-		if (is_numeric($lowerBound) && (is_numeric($upperBound)))
+		if (($eval->e($lowerBound) !== FALSE) && ($eval->e($upperBound) !== FALSE))
 		{
-			if ((doubleval($a_entered) >= doubleval($lowerBound)) && (doubleval($a_entered) <= doubleval($upperBound))) $result = $max_points;
+			if (($eval->e($a_entered) >= $eval->e($lowerBound)) && ($eval->e($a_entered) <= $eval->e($upperBound))) $result = $max_points;
 		}
-		else if (is_numeric($lowerBound))
+		else if ($eval->e($lowerBound) !== FALSE)
 		{
-			if ((doubleval($a_entered) >= doubleval($lowerBound)) && (doubleval($a_entered) <= doubleval($a_original))) $result = $max_points;
+			if (($eval->e($a_entered) >= $eval->e($lowerBound)) && ($eval->e($a_entered) <= $eval->e($a_original))) $result = $max_points;
 		}
-		else if (is_numeric($upperBound))
+		else if ($eval->e($upperBound) !== FALSE)
 		{
-			if ((doubleval($a_entered) >= doubleval($a_original)) && (doubleval($a_entered) <= doubleval($upperBound))) $result = $max_points;
+			if (($eval->e($a_entered) >= $eval->e($a_original)) && ($eval->e($a_entered) <= $eval->e($upperBound))) $result = $max_points;
 		}
 		else
 		{
-			if (doubleval($a_entered) == doubleval($a_original)) $result = $max_points;
+			if ($eval->e($a_entered) == $eval->e($a_original)) $result = $max_points;
 		}
 		return $result;
 	}
@@ -1752,6 +1758,9 @@ class assClozeTest extends assQuestion
 	*/
 	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
@@ -1933,11 +1942,11 @@ class assClozeTest extends assQuestion
 						);
 						if (is_object($answeritem))
 						{
-							if (is_numeric($answeritem->getLowerBound()))
+							if ($eval->e($answeritem->getLowerBound()) !== FALSE)
 							{
 								$attrs["minnumber"] = $answeritem->getLowerBound();
 							}
-							if (is_numeric($answeritem->getUpperBound()))
+							if ($eval->e($answeritem->getUpperBound()) !== FALSE)
 							{
 								$attrs["maxnumber"] = $answeritem->getUpperBound();
 							}
