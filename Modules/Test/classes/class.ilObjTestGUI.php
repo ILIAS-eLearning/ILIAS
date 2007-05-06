@@ -4079,7 +4079,16 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_participants.html", "Modules/Test");
 		}
-
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::addYesNoDialog(
+			"deleteAllUserResults", 
+			$this->lng->txt("delete_all_user_data"), 
+			$this->lng->txt("confirm_delete_all_user_data"), 
+			"location.href='" . $this->ctrl->getLinkTarget($this, "confirmDeleteAllUserResults") . "';", 
+			"", 
+			TRUE, 
+			$icon = "warn"
+		);
 		if ($_POST["cmd"]["cancel"])
 		{
 			$this->backToRepositoryObject();

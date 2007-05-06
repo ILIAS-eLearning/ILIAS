@@ -1350,3 +1350,7 @@ ALTER TABLE  `tst_tests` CHANGE  `show_summary`  `show_summary` INT NOT NULL DEF
 ALTER TABLE  `qpl_numeric_range` CHANGE  `lowerlimit`  `lowerlimit` VARCHAR( 20 ) NOT NULL DEFAULT  '0';
 <#980>
 ALTER TABLE  `qpl_numeric_range` CHANGE  `upperlimit`  `upperlimit` VARCHAR( 20 ) NOT NULL DEFAULT  '0';
+<#981>
+ALTER TABLE  `qpl_answer_cloze` CHANGE  `lowerlimit`  `lowerlimit` VARCHAR( 20 ) NOT NULL DEFAULT  '0';
+<#982>
+ALTER TABLE  `qpl_answer_cloze` CHANGE  `upperlimit`  `upperlimit` VARCHAR( 20 ) NOT NULL DEFAULT  '0';
