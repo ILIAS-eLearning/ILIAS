@@ -102,7 +102,6 @@ class assNumericRange
 	* Get the lower limit
 	*
 	* Returns the lower limit of the range
-	
 	* @return double The lower limit
 	* @access public
 	* @see $lowerlimit
@@ -130,7 +129,6 @@ class assNumericRange
 	* Get the points
 	*
 	* Returns the points of the range
-	
 	* @return double The points
 	* @access public
 	* @see $points
@@ -144,7 +142,6 @@ class assNumericRange
 	* Get the order of the range
 	*
 	* Returns the order of the range
-	
 	* @return integer order
 	* @access public
 	* @see $order
@@ -158,7 +155,6 @@ class assNumericRange
 	* Set the lower limit
 	*
 	* Sets the lower limit of the range
-	
 	* @param double $limit The lower limit
 	* @access public
 	* @see $lowerlimit
@@ -172,7 +168,6 @@ class assNumericRange
 	* Set the upper limit
 	*
 	* Sets the upper limit of the range
-	
 	* @param double $limit The upper limit
 	* @access public
 	* @see $upperlimit
@@ -200,7 +195,6 @@ class assNumericRange
 	* Set the order
 	*
 	* Sets the order of the range
-	
 	* @param integer $order The order
 	* @access public
 	* @see $order
@@ -223,7 +217,12 @@ class assNumericRange
 	*/
   function contains($value) 
 	{
-		if (($value >= $this->lowerlimit) && ($value <= $this->upperlimit))
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
+		$result = $eval->e($value);
+		if ($result === FALSE) return FALSE;
+		if (($result >= $eval->e($this->lowerlimit)) && ($result <= $eval->e($this->upperlimit)))
 		{
 			return TRUE;
 		}

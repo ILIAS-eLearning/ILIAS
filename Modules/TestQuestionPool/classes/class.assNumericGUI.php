@@ -209,20 +209,23 @@ class assNumericGUI extends assQuestionGUI
 
 	function checkRange()
 	{
-		if (is_numeric($_POST["rang_lower_limit"]) AND is_numeric ($_POST ["range_upper_limit"]))
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
+		if (($eval->e($_POST["rang_lower_limit"]) !== FALSE) AND ($eval->e($_POST ["range_upper_limit"]) !== FALSE))
 		{
-			if ($_POST ["rang_lower_limit"] < $_POST ["range_upper_limit"])
+			if ($eval->e($_POST["rang_lower_limit"]) < $eval->e($_POST["range_upper_limit"]))
 			{
-				return true;
+				return TRUE;
 			}
 			else 
 			{
-				return false;
+				return FALSE;
 			}
 		}
 		else 
 		{
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -236,6 +239,10 @@ class assNumericGUI extends assQuestionGUI
 	*/
 	function writePostData()
 	{
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
+
 		$saved = false;
 		$result = 0;
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["maxchars"]))
@@ -275,14 +282,14 @@ class assNumericGUI extends assQuestionGUI
 				}
 				$lowerlimit = str_replace(",", ".", $_POST["lowerlimit_".$matches[1]]);
 				if (strlen($lowerlimit) == 0) $lowerlimit = 0.0;
-				if (!is_numeric($lowerlimit))
+				if ($eval->e($lowerlimit) === FALSE)
 				{
 					$this->setErrorMessage($this->lng->txt("value_is_not_a_numeric_value"));
 					$result = 1;
 				}
 				$upperlimit = str_replace(",", ".", $_POST["upperlimit_".$matches[1]]);
 				if (strlen($upperlimit) == 0) $upperlimit = 0.0;
-				if (!is_numeric($upperlimit))
+				if ($eval->e($upperlimit) === FALSE)
 				{
 					$this->setErrorMessage($this->lng->txt("value_is_not_a_numeric_value"));
 					$result = 1;
