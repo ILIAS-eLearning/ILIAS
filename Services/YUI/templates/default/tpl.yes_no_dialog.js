@@ -21,13 +21,14 @@
 				width: "300px",
 				fixedcenter: true,
 				visible: false,
+				modal: true,
 				draggable: true,
 				close: true,
 				text: "{DIALOG_MESSAGE}",
 				icon: {ICON},
 				constraintoviewport: true,
 				buttons: [ 
-					{ text:"{TEXT_YES}", handler:{DIALOGNAME}handleYes<!-- BEGIN isDefaultYes -->, isDefault:true <!-- END isDefaultYes -->},
+					{ text:"{TEXT_YES}", id: "boris", handler:{DIALOGNAME}handleYes<!-- BEGIN isDefaultYes -->, isDefault:true <!-- END isDefaultYes -->},
 					{ text:"{TEXT_NO}",  handler:{DIALOGNAME}handleNo<!-- BEGIN isDefaultNo -->, isDefault:true <!-- END isDefaultNo --> } 
 				]
 			} 
