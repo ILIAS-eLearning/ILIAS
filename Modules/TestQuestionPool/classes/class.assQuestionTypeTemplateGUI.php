@@ -144,7 +144,7 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 	* @return string HTML code which contains the solution output of the question
 	* @access public
 	*/
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
 	{
 		// Please have a look at the existing question types how to create a solution output for a question
 		// you should use your own template for the output

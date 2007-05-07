@@ -336,6 +336,13 @@ class ilObjTest extends ilObject
 	var $show_solution_printview;
 
 /**
+* Determines wheather or not the feedback should be shown in the solution
+*
+* @var boolean
+*/
+	var $show_solution_feedback;
+
+/**
 * Determines if the score of every question should be cut at 0 points or the score of the complete test
 *
 * @var boolean
@@ -433,6 +440,7 @@ class ilObjTest extends ilObject
 		$this->show_solution_details = 1;
 		$this->show_summary = 8;
 		$this->show_solution_printview = 0;
+		$this->show_solution_feedback = 0;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
 		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
@@ -1165,10 +1173,10 @@ class ilObjTest extends ilObject
 				"fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, " .
 				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
 				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
-				"shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, " .
+				"shuffle_questions, show_solution_details, show_summary, show_solution_printview, show_solution_feedback, password, allowedUsers, " .
 				"allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) " .
 				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -1206,6 +1214,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($show_solution_details . ""),
 				$ilDB->quote($this->getListOfQuestionsSettings() . ""),
 				$ilDB->quote($show_solution_printview . ""),
+				$ilDB->quote($this->getShowSolutionFeedback() ? 1 : 0),
 				$ilDB->quote($this->getPassword() . ""),
 				$allowedUsers,
 				$allowedUsersTimeGap,
@@ -1237,7 +1246,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, show_solution_feedback = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""),
@@ -1273,6 +1282,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($show_solution_details . ""),
 				$ilDB->quote($this->getListOfQuestionsSettings() . ""),
 				$ilDB->quote($show_solution_printview . ""),
+				$ilDB->quote($this->getShowSolutionFeedback() ? 1 : 0),
 				$ilDB->quote($this->getPassword() . ""),
 				$allowedUsers,
 				$allowedUsersTimeGap,
@@ -1754,6 +1764,7 @@ class ilObjTest extends ilObject
 				$this->setShowSolutionDetails($data->show_solution_details);
 				$this->setListOfQuestionsSettings($data->show_summary);
 				$this->setShowSolutionPrintview($data->show_solution_printview);
+				$this->setShowSolutionFeedback($data->show_solution_feedback);
 				$this->starting_time = $data->starting_time;
 				$this->ending_time = $data->ending_time;
 				$this->ects_output = $data->ects_output;
@@ -5972,6 +5983,9 @@ class ilObjTest extends ilObject
 				case "show_solution_printview":
 					$this->setShowSolutionPrintview($metadata["entry"]);
 					break;
+				case "show_solution_feedback":
+					$this->setShowSolutionFeedback($metadata["entry"]);
+					break;
 				case "instant_verification":
 					$this->setInstantFeedbackSolution($metadata["entry"]);
 					break;
@@ -6268,6 +6282,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_solution_printview");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowSolutionPrintview()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// solution feedback
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_solution_feedback");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowSolutionFeedback()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// shuffle questions
@@ -8549,6 +8569,19 @@ class ilObjTest extends ilObject
 	}
 
 /**
+* Returns if the feedback should be presented to the solution or not
+*
+* Returns if the feedback should be presented to the solution or not
+*
+* @return boolean TRUE if the feedback should be presented in the solution, FALSE otherwise
+* @access public
+*/
+	function getShowSolutionFeedback()
+	{
+		return $this->show_solution_feedback;
+	}
+
+/**
 * Sets if the the solution details should be presented to the user or not
 *
 * Sets if the the solution details should be presented to the user or not
@@ -8601,6 +8634,28 @@ class ilObjTest extends ilObject
 			case 1:
 			default:
 				$this->show_solution_printview = 1;
+				break;
+		}
+	}
+
+/**
+* Sets if the the feedback should be presented to the user in the solution or not
+*
+* Sets if the the feedback should be presented to the user in the solution or not
+*
+* @param boolean $a_feedback TRUE if the feedback should be presented in the solution, FALSE otherwise
+* @access public
+*/
+	function setShowSolutionFeedback($a_feedback = TRUE)
+	{
+		switch ($a_feedback)
+		{
+			case 1:
+			case TRUE:
+				$this->show_solution_feedback = TRUE;
+				break;
+			default:
+				$this->show_solution_feedback = FALSE;
 				break;
 		}
 	}
@@ -9273,6 +9328,8 @@ class ilObjTest extends ilObject
 			"InstantFeedbackSolution" => $this->getInstantFeedbackSolution(),
 			"AnswerFeedback" => $this->getAnswerFeedback(),
 			"AnswerFeedbackPoints" => $this->getAnswerFeedbackPoints(),
+			"ShowSolutionFeedback" => $this->getShowSolutionFeedback(),
+			"ShowSolutionPrintview" => $this->getShowSolutionPrintview(),
 			"Anonymity" => $this->getAnonymity(),
 			"ShowCancel" => $this->getShowCancel(),
 			"ReportingDate" => $this->getReportingDate(),
@@ -9327,6 +9384,8 @@ class ilObjTest extends ilObject
 			$this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
 			$this->setAnswerFeedback($testsettings["AnswerFeedback"]);
 			$this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
+			$this->setShowSolutionFeedback($testsettings["ShowSolutionFeedback"]);
+			$this->setShowSolutionPrintview($testsettings["ShowSolutionPrintview"]);
 			$this->setAnonymity($testsettings["Anonymity"]);
 			$this->setShowCancel($testsettings["ShowCancel"]);
 			$this->setReportingDate($testsettings["ReportingDate"]);

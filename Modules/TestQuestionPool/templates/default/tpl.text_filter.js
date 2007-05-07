@@ -19,7 +19,7 @@
 			} 
 		); 
 		overlay{FILTERELEMENTID}.setHeader('<div align="right"><a href="javascript:overlay{FILTERELEMENTID}.hide();"><img src="{IMAGE_CLOSE}" alt="{ALT_CLOSE}" title="{TITLE_CLOSE}" /></a></div>');
-		overlay{FILTERELEMENTID}.setBody('<form name="form{FILTERELEMENTID}" method="post" action="{FORMACTION}"><input type="text" name="{TEXTFIELD_NAME}" id="txt_{TEXTFIELD_NAME}" tabindex="1" size="20" value="{VALUE_FILTER_TEXT}"/> <input type="submit" class="submit" name="cmd[filter]" value="{VALUE_SUBMIT_FILTER}"/> <input type="button" class="submit" name="reset" value="{VALUE_RESET_FILTER}" onclick="javascript: var textfield = document.getElementById(\'{TEXTFIELD_NAME}\'); textfield.value = \'\'; document.form{FILTERELEMENTID}.submit();" /></form>');
+		overlay{FILTERELEMENTID}.setBody('<form name="form{FILTERELEMENTID}" method="post" action="{FORMACTION}"><input type="text" name="{TEXTFIELD_NAME}" id="txt_{TEXTFIELD_NAME}" tabindex="1" size="20" value="{VALUE_FILTER_TEXT}"/> <input type="submit" class="submit" name="cmd[filter]" value="{VALUE_SUBMIT_FILTER}"/> <input type="button" class="submit" name="reset" value="{VALUE_RESET_FILTER}" onclick="javascript: var textfield = document.getElementById(\'txt_{TEXTFIELD_NAME}\'); textfield.value = \'\'; document.form{FILTERELEMENTID}.submit();" /></form>');
 	}
 
 	function onTextFilterMouseDown{FILTERELEMENTID}(p_oEvent) 

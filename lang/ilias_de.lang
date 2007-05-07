@@ -655,6 +655,7 @@ assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
 assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
+assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an
 assessment#:#tst_shuffle_questions#:#Fragen mischen
@@ -6849,7 +6850,6 @@ ldap#:#ldap_role_not_exists#:#Eine ILIAS Rolle mit dem folgenden Namen existiert
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
 barometer#:#bar_create#:#Neues Barometer
-common#:#location#:#Ort
 common#:#last_visited#:#Zuletzt besucht
 common#:#go#:#Los
 survey#:#show_questiontext#:#Fragentext anzeigen
@@ -6862,7 +6862,7 @@ assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte 
 assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, denn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben.
 assessment#:#tst_score_cutting_description#:#Negative Punkte können für einzelne Fragen oder aber für die Summe aller Fragenergebnisse auf 0 zurückgesetzt werden. Bei der Summe aller Fragenergebnisse fallen negative Punkte stärker ins Gewicht.
 assessment#:#tst_score_mcmr_questions_description#:#Abhängig von der Punktevergabe bei Multiple Choice Fragen kann es passieren, dass für Fragen, bei denen keine Antwort ausgewählt wurde, Punkte vergeben werden. Dies wird durch die Standardeinstellung verhindert, indem in diesem Fall die Frage als nicht beantwortet gewertet wird und die Punkte automatisch auf Null gesetzt werden.
-assessment#:#tst_results_presentation_description#:#Wenn die Lösungen in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten.
+assessment#:#tst_results_presentation_description#:#Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden die diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt.
 common#:#assessment_log_deleted#:#Alle protokollierten Daten für den Test wurden über die Administrationsoberfläche gelöscht.
 common#:#ass_log_output#:#Ausgabe der Testprotokollierung
 common#:#ass_log_admin#:#Administration der Testprotokollierung
@@ -7268,13 +7268,6 @@ ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, de
 ldap#:#ldap_info_text_short#:#Infotext:
 common#:#further_informations#:#Weitere Informationen
 common#:#location#:#Position
-barometer#:#bar_create#:#Neues Barometer erstellen
 assessment#:#assExternalScript#:#External Script Question###05 02 2007 new variable
-assessment#:#externalscript_additional_parameters#:#Script Parameters###05 02 2007 new variable
-assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###05 02 2007 new variable
-assessment#:#externalscript_additional_parameters_hint#:#Enter the additional script parameters in key-value-coding and separate multiple key-value-pairs with a newline, e.g. <p>key1=Hello<br />key2=World</p>###05 02 2007 new variable
 assessment#:#no_solution_output_available#:#An output could not be created for this question###05 02 2007 new variable
-assessment#:#result_successful_saved#:#Your results have been saved successfully!###05 02 2007 new variable
-assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!###05 02 2007 new variable
-assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###06 02 2007 new variable
 chat#:#chat_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.

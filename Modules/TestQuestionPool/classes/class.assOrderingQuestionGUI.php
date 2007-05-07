@@ -496,7 +496,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -602,6 +602,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id) : "";
+		$questionoutput .= $feedback;
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 

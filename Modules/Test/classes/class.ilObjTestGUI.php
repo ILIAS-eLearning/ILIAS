@@ -1063,11 +1063,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["answer_feedback"] = ($_POST["chb_instant_feedback_answer"]) ? 1 : 0;
 		$data["answer_feedback_points"] = ($_POST["chb_instant_feedback_results"]) ? 1 : 0;
 
-		$data["show_solution_printview"] = 0;
-		if ($_POST["chb_show_solution_printview"] == 1)
-		{
-			$data["show_solution_printview"] = 1;
-		}
+		$data["show_solution_printview"] = ($_POST["chb_show_solution_printview"] == 1) ? 1 : 0;
+		$data["show_solution_feedback"] = ($_POST["chb_show_solution_feedback"] == 1) ? 1 : 0;
 		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
 		$data["results_access"] = $_POST["results_access"];
 		
@@ -1081,6 +1078,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setShowSolutionDetails($data["show_solution_details"]);
 		$this->object->setScoreReporting($data["results_access"]);
 		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
+		$this->object->setShowSolutionFeedback($data["show_solution_feedback"]);
 		if ($data["results_access"] == REPORT_AFTER_DATE)
 		{
 			$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
@@ -1128,6 +1126,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["answer_feedback"] = $this->object->getAnswerFeedback();
 		$data["answer_feedback_points"] = $this->object->getAnswerFeedbackPoints();
 		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
+		$data["show_solution_feedback"] = $this->object->getShowSolutionFeedback();
 		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
 		$data["results_access"] = $this->object->getScoreReporting();
 
@@ -1309,6 +1308,12 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($data["show_solution_details"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
+		}
+
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_FEEDBACK", $this->lng->txt("tst_show_solution_feedback"));
+		if ($data["show_solution_feedback"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_FEEDBACK", " checked=\"checked\"");
 		}
 
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW", $this->lng->txt("tst_show_solution_printview"));
@@ -2070,7 +2075,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// add title text filter
 		$titlefilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$titlefilter->setVariable("FILTERELEMENTID", "titlefilter");
-		$titlefilter->setVariable("OVERLAY_WIDTH", "400px");
+		$titlefilter->setVariable("OVERLAY_WIDTH", "500px");
 		$titlefilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$titlefilter->setVariable("TEXTFIELD_NAME", "filter_title");
 		$titlefilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
@@ -2122,7 +2127,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// add description text filter
 		$commenttextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$commenttextfilter->setVariable("FILTERELEMENTID", "commenttextfilter");
-		$commenttextfilter->setVariable("OVERLAY_WIDTH", "400px");
+		$commenttextfilter->setVariable("OVERLAY_WIDTH", "500px");
 		$commenttextfilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$commenttextfilter->setVariable("TEXTFIELD_NAME", "filter_comment");
 		$commenttextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
@@ -2139,7 +2144,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// add author text filter
 		$authortextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$authortextfilter->setVariable("FILTERELEMENTID", "authortextfilter");
-		$authortextfilter->setVariable("OVERLAY_WIDTH", "400px");
+		$authortextfilter->setVariable("OVERLAY_WIDTH", "500px");
 		$authortextfilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$authortextfilter->setVariable("TEXTFIELD_NAME", "filter_author");
 		$authortextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
@@ -2156,7 +2161,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// add question pool text filter
 		$qpltextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$qpltextfilter->setVariable("FILTERELEMENTID", "qpltextfilter");
-		$qpltextfilter->setVariable("OVERLAY_WIDTH", "400px");
+		$qpltextfilter->setVariable("OVERLAY_WIDTH", "500px");
 		$qpltextfilter->setVariable("OVERLAY_HEIGHT", "5em");
 		$qpltextfilter->setVariable("TEXTFIELD_NAME", "filter_qpl");
 		$qpltextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
@@ -4271,7 +4276,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
 			}
-			$result_output = $question_gui->getSolutionOutput("", NULL, FALSE, TRUE, FALSE);
+			$result_output = $question_gui->getSolutionOutput("", NULL, FALSE, TRUE, FALSE, $this->object->getShowSolutionFeedback());
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock("question");
 			$counter ++;					

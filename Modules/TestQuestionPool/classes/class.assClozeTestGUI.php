@@ -726,7 +726,7 @@ class assClozeTestGUI extends assQuestionGUI
 	* @return string HTML code which contains the solution output of the question
 	* @access public
 	*/
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
@@ -906,6 +906,8 @@ class assClozeTestGUI extends assQuestionGUI
 		// generate the question output
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$questionoutput = $template->get();
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id) : "";
+		$questionoutput .= $feedback;
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 

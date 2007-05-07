@@ -281,7 +281,7 @@ class ilTestServiceGUI
 					$template->setVariable("COUNTER_QUESTION", $counter.". ");
 					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 
-					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE);
+					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE, $this->object->getShowSolutionFeedback());
 
 					$template->setVariable("SOLUTION_OUTPUT", $result_output);
 					$maintemplate->setCurrentBlock("printview_question");
@@ -341,7 +341,7 @@ class ilTestServiceGUI
 						$template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("points"));
 					}
 					
-					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE);
+					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE, $this->object->getShowSolutionFeedback());
 		
 					$scoretemplate->setVariable("NAME_INPUT", $question);
 					$scoretemplate->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -693,7 +693,7 @@ class ilTestServiceGUI
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
 		$template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
-		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, FALSE);
+		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, FALSE, $this->object->getShowSolutionFeedback());
 		$best_output = $question_gui->getSolutionOutput("", NULL, FALSE, FALSE, FALSE);
 		$template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
 		$template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
