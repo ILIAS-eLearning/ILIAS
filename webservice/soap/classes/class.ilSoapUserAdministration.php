@@ -97,6 +97,25 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return $this->sauth->getSid().'::'.$client;
 	}
 
+		// Service methods
+	function loginLDAP($client, $username, $password)
+	{
+		$this->__initAuthenticationObject(AUTH_LDAP);
+		$this->sauth->setClient($client);
+		$this->sauth->setUsername($username);
+		$this->sauth->setPassword($password);
+		$authenticated = true;
+		if(!$this->sauth->authenticate())
+		{
+			$authenticated = false;
+		}
+		if(!$authenticated)
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		return $this->sauth->getSid().'::'.$client;
+	}
+
 	function logout($sid)
 	{
 		if(!$this->__checkSession($sid))

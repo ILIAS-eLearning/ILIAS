@@ -81,18 +81,18 @@ class ilSoapAdministration
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Overwrite error handler
 	 *
 	 * @access public
 	 * @param
-	 * 
+	 *
 	 */
 	public function initErrorWriter()
 	{
 		include_once('classes/class.ilErrorHandling.php');
-		
+
 	 	set_error_handler(array('ilErrorHandling','_ilErrorWriter'),E_ALL);
 	}
 
@@ -127,6 +127,9 @@ class ilSoapAdministration
 			case AUTH_CAS:
 				include_once './webservice/soap/classes/class.ilSoapAuthenticationCAS.php';
 				return $this->sauth = new ilSoapAuthenticationCAS();
+			case AUTH_LDAP:
+				include_once './webservice/soap/classes/class.ilSoapAuthenticationLDAP.php';
+				return $this->sauth = new ilSoapAuthenticationLDAP();
 
 			default:
 				include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
@@ -189,7 +192,7 @@ class ilSoapAdministration
         $xmlResultWriter->start();
         return $xmlResultWriter->getXML();
 	}
-	
+
 	/**
 	*	calculate bytes from K,M,G modifiers
 		e.g: 8M = 8 * 1024 * 1024 bytes

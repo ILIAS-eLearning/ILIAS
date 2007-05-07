@@ -53,6 +53,16 @@ function loginCAS($client, $PT, $user)
 	return $sua->loginCAS($client, $PT, $user);
 }
 
+function loginLDAP($client, $username, $password)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->loginLDAP($client, $username, $password);
+}
+
+
 function logout($sid)
 {
 	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
