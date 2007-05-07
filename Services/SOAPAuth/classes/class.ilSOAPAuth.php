@@ -277,7 +277,7 @@ class ilSOAPAuth extends Auth
 			$userObj->updateOwner();
 			
 			//insert user data in table user_data
-			$userObj->saveAsNew();
+			$userObj->saveAsNew(false);
 			
 			// setup user preferences
 			$userObj->writePrefs();
