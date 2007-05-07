@@ -524,8 +524,8 @@ class assJavaAppletGUI extends assQuestionGUI
 			}
 		}
 		$questionoutput = $template->get();
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id) : "";
-		$questionoutput .= $feedback;
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
