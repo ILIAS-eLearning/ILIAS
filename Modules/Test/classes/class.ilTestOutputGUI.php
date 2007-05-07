@@ -49,7 +49,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 /**
 * ilSurveyExecutionGUI constructor
 *
-
 * The constructor takes possible arguments an creates an instance of the ilSurveyExecutionGUI object.
 *
 * @param object $a_object Associated ilObjSurvey class
@@ -1769,7 +1768,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$template->setVariable("COUNTER_QUESTION", $counter.". ");
 				$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 				
-				$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE);
+				$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE, $this->object->getShowSolutionFeedback());
 				$template->setVariable("SOLUTION_OUTPUT", $result_output);
 				$this->tpl->setVariable("QUESTION_OUTPUT", $template->get());
 				$this->tpl->parseCurrentBlock();

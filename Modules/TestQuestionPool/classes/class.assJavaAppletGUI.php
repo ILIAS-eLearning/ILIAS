@@ -380,7 +380,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
 	{
 		$userdata = $this->object->getActiveUserData($active_id);
 
@@ -524,6 +524,8 @@ class assJavaAppletGUI extends assQuestionGUI
 			}
 		}
 		$questionoutput = $template->get();
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id) : "";
+		$questionoutput .= $feedback;
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
