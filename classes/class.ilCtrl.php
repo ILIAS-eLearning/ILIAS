@@ -423,7 +423,7 @@ class ilCtrl
 	*/
 	function getCallStructure($a_class, $a_nr = 0, $a_parent = 0)
 	{
-		global $ilDB;
+		global $ilDB, $ilLog, $ilUser;
 		
 		$a_class = strtolower($a_class);
 		
@@ -449,7 +449,24 @@ class ilCtrl
 			if (strtolower($this->call_node[$_GET["cmdNode"]]["class"]) !=
 				strtolower($_GET["cmdClass"]))
 			{
-				die ("Internal Error: ilCtrl Node Error.");
+				if (DEVMODE)
+				{
+					die ("Internal Error: ilCtrl Node Error.");
+				}
+				else
+				{
+					if (is_object($ilLog))
+					{
+						if (is_object($ilUser))
+						{
+							$user_str = "User: ".$ilUser->getLogin()." (".$ilUser->getId()."), ";
+						}
+						$ilLog->write("Invalid Request (class ilCtrl). Possible attack or Control Structure broken (see Setup). ".
+							$user_str."IP: ".$_SERVER["REMOTE_ADDR"].", URI: ".$_SERVER["REQUEST_URI"]);
+					}
+					ilUtil::sendInfo("Sorry, but the request includes invalid parameters." ,true);
+					ilUtil::redirect("repository.php?cmd=frameset");
+				}
 			}
 		}
 	}
