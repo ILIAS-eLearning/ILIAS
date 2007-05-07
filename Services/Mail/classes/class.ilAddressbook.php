@@ -264,5 +264,21 @@ class ilAddressbook
 		
 		return 0;
 	}
+
+	/* Check whether an entry with a given login name already exists */
+	function checkEntryByLogin($a_login)
+	{
+		global $ilDB;
+		
+		if ($a_login != "")
+		{
+			$query = "SELECT addr_id FROM $this->table_addr ".
+				"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+				"AND login = ".$ilDB->quote($a_login)." ";
+			return $this->ilias->db->getOne($query);
+		}
+		
+		return 0;
+	}
 }
 ?>

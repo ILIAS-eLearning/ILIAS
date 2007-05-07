@@ -117,12 +117,18 @@ class ilMailFolderGUI
 				$abook = new ilAddressbook($ilUser->getId());
 
 				$tmp_user = new ilObjUser($mail_data["sender_id"]);
-				$abook->addEntry($tmp_user->getLogin(),
-							$tmp_user->getFirstname(),
-							$tmp_user->getLastname(),
-							$tmp_user->getEmail());
-				ilUtil::sendInfo($lng->txt("mail_entry_added"));
-
+				if ($abook->checkEntryByLogin($tmp_user->getLogin()) > 0)
+				{
+					ilUtil::sendInfo($lng->txt("mail_entry_exists"));
+				}
+				else
+				{
+					$abook->addEntry($tmp_user->getLogin(),
+								$tmp_user->getFirstname(),
+								$tmp_user->getLastname(),
+								$tmp_user->getEmail());
+					ilUtil::sendInfo($lng->txt("mail_entry_added"));
+				}
 			}
 		}
 		
