@@ -125,6 +125,19 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS login function via CAS');
+		// loginLDAP()
+		$this->server->register('loginLDAP',
+								array('client' => 'xsd:string',
+									  'username' => 'xsd:string',
+									  'password' => 'xsd:string'),
+								array('sid' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#login',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS login function via LDAP');
+
+
 
 								// logout()
 		$this->server->register('logout',
