@@ -615,6 +615,7 @@ assessment#:#select_tst_option#:#--- Please select a test ---
 assessment#:#selected_image#:#Selected Image
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
+assessment#:#set_manual_feedback#:#Set Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points
@@ -845,6 +846,8 @@ assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
 assessment#:#tst_sequence_properties#:#Sequence Properties
 assessment#:#tst_session_settings#:#Session Settings
+assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved
+assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback has not been saved
 assessment#:#tst_list_of_answers_show#:#Show List of Answers
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Show Suspend Test Option

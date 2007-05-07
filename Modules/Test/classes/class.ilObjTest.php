@@ -9449,6 +9449,77 @@ class ilObjTest extends ilObject
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
 	}
+	
+	/**
+	* Retrieves the manual feedback for a question in a test
+	*
+	* Retrieves the manual feedback for a question in a test
+	*
+	* @param integer $active_id Active ID of the user
+	* @param integer $question_id Question ID
+	* @param integer $pass Pass number
+	* @return string The feedback text
+	* @access public
+	*/
+	static function getManualFeedback($active_id, $question_id, $pass)
+	{
+		global $ilDB;
+		$feedback = "";
+		$query = sprintf("SELECT feedback FROM tst_manual_feedback WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$feedback = $row["feedback"];
+		}
+		return $feedback;
+	}
+	
+	/**
+	* Saves the manual feedback for a question in a test
+	*
+	* Saves the manual feedback for a question in a test
+	*
+	* @param integer $active_id Active ID of the user
+	* @param integer $question_id Question ID
+	* @param integer $pass Pass number
+	* @param string $feedback The feedback text
+	* @return boolean TRUE if the operation succeeds, FALSE otherwise
+	* @access public
+	*/
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback)
+	{
+		global $ilDB;
+		$query = sprintf("DELETE FROM tst_manual_feedback WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+
+		if (strlen($feedback))
+		{
+			$query = sprintf("INSERT INTO tst_manual_feedback (active_fi, question_fi, pass, feedback) VALUES (%s, %s, %s, %s)",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($pass . ""),
+				$ilDB->quote($feedback . "")
+			);
+			$result = $ilDB->query($query);
+		}
+		if ($result == DB_OK)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 } // END class.ilObjTest
 
 ?>

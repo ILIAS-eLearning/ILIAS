@@ -173,6 +173,26 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		}
 		$this->manscoring();
 	}
+	
+	function setFeedbackManual()
+	{
+		if (array_key_exists("feedback", $_POST))
+		{
+			$feedbacks = array_keys($_POST["feedback"]);
+			$question_id = $feedbacks[0];
+			$feedback = ilUtil::stripSlashes($_POST["feedback"][$question_id], FALSE);
+			$result = $this->object->saveManualFeedback($_GET["active_id"], $question_id, $_GET["pass"], $feedback);
+			if ($result) 
+			{
+				ilUtil::sendInfo($this->lng->txt("tst_set_feedback_done"));
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("tst_set_feedback_not_done"));
+			}
+		}
+		$this->manscoring();
+	}
 
 }
 

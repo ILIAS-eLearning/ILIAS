@@ -342,7 +342,16 @@ class ilTestServiceGUI
 					}
 					
 					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE, $this->object->getShowSolutionFeedback());
-		
+					if ($this->object->getShowSolutionFeedback())
+					{
+						$scoretemplate->setCurrentBlock("feedback");
+						$scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
+						$feedback = $this->object->getManualFeedback($active_id, $question, $pass);
+						$scoretemplate->setVariable("VALUE_FEEDBACK", ilUtil::prepareFormOutput($feedback));
+						$scoretemplate->setVariable("VALUE_SAVE", $this->lng->txt("save"));
+						$scoretemplate->setVariable("TEXT_MANUAL_FEEDBACK", $this->lng->txt("set_manual_feedback"));
+						$scoretemplate->parseCurrentBlock();
+					}
 					$scoretemplate->setVariable("NAME_INPUT", $question);
 					$scoretemplate->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 					$scoretemplate->setVariable("LABEL_INPUT", $this->lng->txt("tst_change_points_for_question"));

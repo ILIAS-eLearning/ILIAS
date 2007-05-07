@@ -847,12 +847,19 @@ class assQuestionGUI
 	* Returns the answer specific feedback depending on the results of the question
 	*
 	* @param integer $active_id Active ID of the user
+	* @param integer $pass Active pass
 	* @result string HTML Code with the answer specific feedback
 	* @access public
 	*/
-	function getAnswerFeedbackOutput($active_id)
+	function getAnswerFeedbackOutput($active_id, $pass)
 	{
 		$output = "";
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		$manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
+		if (strlen($manual_feedback))
+		{
+			return ilUtil::prepareFormOutput($manual_feedback);
+		}
 		$correct_feedback = $this->object->getFeedbackGeneric(1);
 		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
 		if (strlen($correct_feedback.$incorrect_feedback))
