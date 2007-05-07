@@ -261,7 +261,7 @@ class ilTestServiceGUI
 * @return string HTML code of the list of answers
 * @access public
 */
-	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE)
+	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE, $only_answered_questions = FALSE)
 	{
 		$maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
@@ -269,23 +269,26 @@ class ilTestServiceGUI
 		// output of questions with solutions
 		foreach ($result_array as $question_data)
 		{
-			$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/TestQuestionPool");
-			$question = $question_data["qid"];
-			if (is_numeric($question))
+			if (($question_data["workedthrough"] == 1) || ($only_answered_questions == FALSE))
 			{
-				$this->tpl->setCurrentBlock("printview_question");
-				$question_gui = $this->object->createQuestionGUI("", $question);
-	
-				$template->setVariable("COUNTER_QUESTION", $counter.". ");
-				$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-				
-				$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE);
+				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/TestQuestionPool");
+				$question = $question_data["qid"];
+				if (is_numeric($question))
+				{
+					$this->tpl->setCurrentBlock("printview_question");
+					$question_gui = $this->object->createQuestionGUI("", $question);
 
-				$template->setVariable("SOLUTION_OUTPUT", $result_output);
-				$maintemplate->setCurrentBlock("printview_question");
-				$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
-				$maintemplate->parseCurrentBlock();
-				$counter ++;
+					$template->setVariable("COUNTER_QUESTION", $counter.". ");
+					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+
+					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE);
+
+					$template->setVariable("SOLUTION_OUTPUT", $result_output);
+					$maintemplate->setCurrentBlock("printview_question");
+					$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
+					$maintemplate->parseCurrentBlock();
+					$counter ++;
+				}
 			}
 		}
 		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_eval_results_by_pass"), $pass+1));
