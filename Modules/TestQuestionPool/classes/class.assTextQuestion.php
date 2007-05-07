@@ -822,7 +822,7 @@ class assTextQuestion extends assQuestion
 		);
 		$result = $ilDB->query($query);
 
-		$text = ilUtil::stripSlashes($_POST["TEXT"]);
+		$text = ilUtil::stripSlashes($_POST["TEXT"], FALSE);
 		if ($this->getMaxNumOfChars())
 		{
 			include_once "./Services/Utilities/classes/class.ilStr.php";
