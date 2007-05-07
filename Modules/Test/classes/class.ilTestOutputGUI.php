@@ -1833,7 +1833,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$signature = $this->getResultsSignature();
 			$result_array =& $this->object->getTestResult($active_id, $pass);
-			$answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE);
+			$answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, TRUE);
 			$this->tpl->setVariable("PASS_DETAILS", $answers);
 		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));

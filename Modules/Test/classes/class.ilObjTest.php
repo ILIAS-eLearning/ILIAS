@@ -1155,12 +1155,20 @@ class ilObjTest extends ilObject
 			$this->getId());
 
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
-    if ($this->test_id == -1)
+		if ($this->test_id == -1)
 		{
-      // Create new dataset
-      $now = getdate();
-      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			// Create new dataset
+			$now = getdate();
+			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, " .
+				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, " .
+				"fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, " .
+				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
+				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
+				"shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, " .
+				"allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) " .
+				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -8572,40 +8580,7 @@ class ilObjTest extends ilObject
 */
 	function canShowSolutionPrintview($user_id = NULL)
 	{
-		// until it is not discussed further, the list of answers will be shown
-		// if it is activated. Even if the participant has not finished the test
 		return $this->getShowSolutionPrintview();
-
-		/*
-		global $ilDB;
-
-		if (!is_numeric($user_id))
-		{
-			global $ilUser;
-			$user_id = $ilUser->getId();
-		}
-
-		if ($this->isOnlineTest())
-		{
-			$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($user_id . "")
-			);
-			$result = $ilDB->query($query);
-			return $result->numRows() == 1;
-		}
-		else
-		{
-			if (($this->canShowTestResults($user_id)) && ($this->getShowSolutionPrintview()))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
-		}
-		return FALSE;*/
 	}
 
 /**
