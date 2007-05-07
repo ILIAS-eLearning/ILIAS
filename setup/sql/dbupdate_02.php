@@ -1358,3 +1358,15 @@ ALTER TABLE  `qpl_answer_cloze` CHANGE  `upperlimit`  `upperlimit` VARCHAR( 20 )
 ALTER TABLE `tst_tests` ADD `show_solution_feedback` INT NOT NULL DEFAULT '0' AFTER `show_solution_printview` ;
 <#984>
 ALTER TABLE `tst_solutions` CHANGE `value2` `value2` TEXT NULL DEFAULT NULL;
+<#985>
+CREATE TABLE `tst_manual_feedback` (
+`manual_feedback_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`active_fi` INT NOT NULL DEFAULT '0',
+`question_fi` INT NOT NULL DEFAULT '0',
+`pass` INT NOT NULL DEFAULT '0',
+`feedback` TEXT NULL ,
+`lastchange` TIMESTAMP NOT NULL
+);
+ALTER TABLE `tst_manual_feedback` ADD INDEX ( `active_fi` );
+ALTER TABLE `tst_manual_feedback` ADD INDEX ( `question_fi` );
+ALTER TABLE `tst_manual_feedback` ADD INDEX ( `pass` );
