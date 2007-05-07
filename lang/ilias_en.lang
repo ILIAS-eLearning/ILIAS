@@ -7283,3 +7283,4 @@ ldap#:#ldap_info_text#:#Information Text
 ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.
 ldap#:#ldap_info_text_short#:#Info Text:
 common#:#further_informations#:#Further Informations
+chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s

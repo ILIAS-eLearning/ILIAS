@@ -267,14 +267,17 @@ class ilObjChat extends ilObject
 
 	function __formatBody(&$user,&$lang)
 	{
+		global $ilClientIniFile;
+		
 		$room_id = $this->chat_room->getRoomId();
 
-		$body = $lang->txt("chat_invitation_body")." ";
+		$body = sprintf($this->lng->txt("chat_notification_intro"), $ilClientIniFile->readVariable("client","name"), ILIAS_HTTP_PATH)."\n\n";
+		$body .= $lang->txt("chat_invitation_body")." ";
 		$body .= $this->ilias->account->getFullname();
 		$body .= "\n";
 		$body .= $lang->txt("chat_chatroom_body")." ".$this->chat_room->getTitle()."\n\n";
-		$body .= "<a class=\"navigation\" href=\"./Modules/Chat/chat.php?room_id=".$room_id."&ref_id=".$this->getRefId()."\" target=\"_blank\">".
-			$lang->txt("chat_to_chat_body")."</a>";
+		$body .= $lang->txt('chat_to_chat_body');
+		$body .= (': '.ILIAS_HTTP_PATH."/Modules/Chat/chat.php?room_id=".$room_id."&ref_id=".$this->getRefId());
 
 		return $body;
 	}
