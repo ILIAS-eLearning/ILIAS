@@ -394,29 +394,24 @@ class assFlashAppGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
 	{
-		
-
-		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-		$userdata = $this->getActiveUserData($active_id);
+		$userdata = $this->object->getActiveUserData($active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$template = new ilTemplate("tpl.il_as_qpl_flashapp_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		
+		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
 		if ($active_id)
 		{
-		
-		$this->createTmpData($active_id);
+			$this->createTmpData($active_id);
 				
-		// Variablen, die mittels GET an die Flashanwendung übergeben werden
-		// Diese dienen dazu das temporäre File zu lokalisieren TMP_PATH/SESSION
-		$template->setVariable("SESSION", $_COOKIE["PHPSESSID"]);
-		$template->setVariable("TMP_PATH", $this->object->getFlashPathWeb());
-
+			// Variablen, die mittels GET an die Flashanwendung übergeben werden
+			// Diese dienen dazu das temporäre File zu lokalisieren TMP_PATH/SESSION
+			$template->setVariable("SESSION", $_COOKIE["PHPSESSID"]);
+			$template->setVariable("TMP_PATH", $this->object->getFlashPathWeb());
 		}
 		
 		$questiontext = $this->object->getQuestion();
@@ -427,15 +422,16 @@ class assFlashAppGUI extends assQuestionGUI
 
 		if (strpos($this->object->getFlashFilename(), ".swf") !== FALSE)
 		{
-				$template->setVariable("FLASH_SRC", $this->object->getFlashPathWeb().$this->object->getFlashFilename());
+			$template->setVariable("FLASH_SRC", $this->object->getFlashPathWeb().$this->object->getFlashFilename());
 		}
 	
+
 		if ($active_id)
 		{
 			if ($graphicalOutput)
 			{
 				// output of ok/not ok icons for user entered solutions
-				$reached_points = $this->object->getReachedPoints($active_id);
+				$reached_points = $this->object->getReachedPoints($active_id, $pass);
 				if ($reached_points == $this->object->getMaximumPoints())
 				{
 					$template->setCurrentBlock("icon_ok");
@@ -460,15 +456,23 @@ class assFlashAppGUI extends assQuestionGUI
 				}
 			}
 		}
-		$solutionoutput = $template->get();
-		$pageoutput = $this->getILIASPage();
-		$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $solutionoutput, $pageoutput);
+		$questionoutput = $template->get();
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id) : "";
+		$questionoutput .= $feedback;
+		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+
+		$solutionoutput = $solutiontemplate->get(); 
+		if (!$show_question_only)
+		{
+			// get page object output
+			$pageoutput = $this->getILIASPage();
+			$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $solutionoutput, $pageoutput);
+		}
 		return $solutionoutput;
 	}
 	
 	function getQuestion()
 	{
-		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_flashapp_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
