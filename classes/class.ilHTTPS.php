@@ -88,6 +88,7 @@ class ilHTTPS
 		$this->protected_scripts[] = 'login.php';
 		$this->protected_scripts[] = 'index.php';
 		$this->protected_scripts[] = 'payment.php';
+		$this->protected_scripts[] = 'register.php';
 
 		return true;
 	}
