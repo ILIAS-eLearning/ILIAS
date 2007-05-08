@@ -34,6 +34,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilUserSearch extends ilAbstractSearch
 {
+	private $active_check = false;
 	/**
 	* Constructor
 	* @access public
@@ -41,6 +42,18 @@ class ilUserSearch extends ilAbstractSearch
 	function ilUserSearch(&$query_parser)
 	{
 		parent::ilAbstractSearch($query_parser);
+	}
+	
+	/**
+	 * search only active accounts
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function enableActiveCheck($a_enabled)
+	{
+	 	$this->active_check = $a_enabled;
 	}
 
 	function &performSearch()
@@ -52,6 +65,10 @@ class ilUserSearch extends ilAbstractSearch
 			$locate.
 			"FROM usr_data ".
 			$where;
+		if($this->active_check)
+		{
+			$query .= 'AND active = 1 ';
+		}
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
