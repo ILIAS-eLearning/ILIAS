@@ -768,12 +768,12 @@ class assClozeTestGUI extends assQuestionGUI
 							{
 								if (is_array($best_solutions[$answer->getPoints()]))
 								{
-									array_push($best_solutions[$answer->getPoints()], "&quot;".$answer->getAnswertext()."&quot;");
+									array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
 								}
 								else
 								{
 									$best_solutions[$answer->getPoints()] = array();
-									array_push($best_solutions[$answer->getPoints()], "&quot;".$answer->getAnswertext()."&quot;");
+									array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
 								}
 							}
 							krsort($best_solutions, SORT_NUMERIC);
@@ -786,7 +786,7 @@ class assClozeTestGUI extends assQuestionGUI
 							$foundvalue = "";
 							foreach ($gap->getItems() as $answer)
 							{
-								if ($answer->getPoints() > $maxpoints)
+								if ($answer->getPoints() >= $maxpoints)
 								{
 									$maxpoints = $answer->getPoints();
 									$foundvalue = $answer->getAnswertext();
@@ -915,7 +915,7 @@ class assClozeTestGUI extends assQuestionGUI
 		{
 			// get page object output
 			$pageoutput = $this->getILIASPage();
-			$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $solutionoutput, $pageoutput);
+			$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", "<div class=\"ilc_Question\">" . $solutionoutput . "</div>", $pageoutput);
 		}
 		return $solutionoutput;
 	}

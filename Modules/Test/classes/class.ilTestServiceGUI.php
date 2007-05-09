@@ -347,7 +347,7 @@ class ilTestServiceGUI
 						$scoretemplate->setCurrentBlock("feedback");
 						$scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
 						$feedback = $this->object->getManualFeedback($active_id, $question, $pass);
-						$scoretemplate->setVariable("VALUE_FEEDBACK", ilUtil::prepareFormOutput($feedback));
+						$scoretemplate->setVariable("VALUE_FEEDBACK", $this->object->prepareTextareaOutput($feedback, TRUE));
 						$scoretemplate->setVariable("VALUE_SAVE", $this->lng->txt("save"));
 						$scoretemplate->setVariable("TEXT_MANUAL_FEEDBACK", $this->lng->txt("set_manual_feedback"));
 						$scoretemplate->parseCurrentBlock();
@@ -373,6 +373,7 @@ class ilTestServiceGUI
 			$maintemplate->setVariable("NO_QUESTIONS_FOUND", $this->lng->txt("manscoring_questions_not_found"));
 		}
 		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("manscoring_results_pass"), $pass+1));
+
 		return $maintemplate->get();
 	}
 	
