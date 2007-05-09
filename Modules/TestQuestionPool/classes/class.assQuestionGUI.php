@@ -858,7 +858,7 @@ class assQuestionGUI
 		$manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
 		if (strlen($manual_feedback))
 		{
-			return ilUtil::prepareFormOutput($manual_feedback);
+			return $manual_feedback;
 		}
 		$correct_feedback = $this->object->getFeedbackGeneric(1);
 		$incorrect_feedback = $this->object->getFeedbackGeneric(0);

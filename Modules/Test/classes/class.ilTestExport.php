@@ -121,11 +121,11 @@ class ilTestExport
 		global $log;
 
 		//get data
-	    $participants = $this->test_obj->getTestParticipants();
-
-	    if (!count($participants)) {
-	        return;
-	    }
+		$participants = $this->test_obj->getTestParticipants();
+		if (!count($participants)) 
+		{
+			return;
+		}
 		//get Log File
 		$expDir = $this->test_obj->getExportDirectory();
 		$expLog = &$log;

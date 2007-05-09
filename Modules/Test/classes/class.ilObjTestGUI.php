@@ -3462,10 +3462,16 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmDeleteSelectedUserDataObject()
 	{
 		$active_ids = array();
-		foreach ($_POST["chbUser"] as $user_id)
+		foreach ($_POST["chbUser"] as $active_id)
 		{
-			$active = $this->object->getActiveTestUser($user_id);
-			array_push($active_ids, $active->active_id);
+			if ($this->object->getFixedParticipants())
+			{
+				array_push($active_ids, $this->object->getActiveIdOfUser($active_id));
+			}
+			else
+			{
+				array_push($active_ids, $active_id);
+			}
 		}
 		$this->object->removeSelectedTestResults($active_ids);
 		ilUtil::sendInfo($this->lng->txt("tst_selected_user_data_deleted"), true);
@@ -3565,8 +3571,16 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./classes/class.ilObjUser.php";
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		foreach ($_POST["chbUser"] as $key => $user_id)
+		foreach ($_POST["chbUser"] as $key => $active_id)
 		{
+			if ($this->object->getFixedParticipants())
+			{
+				$user_id = $active_id;
+			}
+			else
+			{
+				$user_id = $this->object->_getUserIdFromActiveId($active_id);
+			}
 			$user = ilObjUser::_lookupName($user_id);
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.gif"));
@@ -3788,7 +3802,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$invited_users = $this->object->getInvitedUsers();
 		foreach ($invited_users as $user_object)
 		{
-			$this->object->disinviteUser($user_object->usr_id);				
+			$this->object->disinviteUser($user_object->usr_id);
 		}
 		$this->object->setFixedParticipants($fixed_participants);
 		$this->object->saveToDb();
@@ -3917,12 +3931,12 @@ class ilObjTestGUI extends ilObjectGUI
 					$invited_users =& $this->object->getInvitedUsers();
 				
 					if ($searchresult = $search->getResultByType("usr"))
-					{												
+					{
 						$users = array();
 						foreach ($searchresult as $result_array)
 						{
 							if (!array_key_exists($result_array["id"], $invited_users))
-							{								
+							{
 								array_push($users, $result_array["id"]);
 							}
 						}
@@ -4318,8 +4332,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$finished_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$finished);
-					$started_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$started); 
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->usr_id);
@@ -4328,9 +4340,9 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
 					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
-					if (strlen($data->active_id))
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started:"&nbsp;");
+					if (strlen($data->usr_id))
 					{
 						$last_access = $this->object->_getLastAccess($data->active_id);
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilFormat::formatDate($last_access));
@@ -4340,7 +4352,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$last_access = $this->lng->txt("not_yet_accessed");
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
 					}
-					$this->ctrl->setParameter($this, "usr_id", $data->usr_id);
+					$this->ctrl->setParameter($this, "active_id", $data->active_id);
 					if ($data->test_started)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
@@ -4384,17 +4396,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$finished_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$finished);
-					$started_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$started); 
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $data->usr_id);
-					$this->tpl->setVariable("VALUE_IV_USR_ID", $data->usr_id);
+					$this->tpl->setVariable("COUNTER", $data->active_id);
+					$this->tpl->setVariable("VALUE_IV_USR_ID", $data->active_id);
 					$this->tpl->setVariable("VALUE_IV_LOGIN", $data->login);
 					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started:"&nbsp;");
 					if (strlen($data->active_id))
 					{
 						$last_access = $this->object->_getLastAccess($data->active_id);
@@ -4405,7 +4415,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$last_access = $this->lng->txt("not_yet_accessed");
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
 					}
-					$this->ctrl->setParameter($this, "usr_id", $data->usr_id);
+					$this->ctrl->setParameter($this, "active_id", $data->active_id);
 					if ($data->test_started)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
@@ -4531,11 +4541,11 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$i = 0;
 			foreach ($_POST["user_select"] as $user_id)
-			{					
+			{
 				$client_ip = $_POST["client_ip"][$i];
 				$this->object->inviteUser($user_id, $client_ip);
 				$countusers++;
-				$i++;				
+				$i++;
 			}
 		}
 		// add groups members
@@ -5534,7 +5544,7 @@ class ilObjTestGUI extends ilObjectGUI
 					// scoring tab
 					$tabs_gui->addTarget("manscoring",
 						 $this->ctrl->getLinkTargetByClass("iltestscoringgui", "manscoring"),
-						 array("manscoring", "selectParticipant", "setPointsManual"),
+						 array("manscoring", "selectParticipant", "setPointsManual", "setFeedbackManual"),
 						 "");
 				}
 			}

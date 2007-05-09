@@ -96,6 +96,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
  */
 	function saveQuestionSolution()
 	{
+		$this->updateWorkingTime();
 		$this->saveResult = false;
 		$formtimestamp = $_POST["formtimestamp"];
 		if (strlen($formtimestamp) == 0) $formtimestamp = $_GET["formtimestamp"];
@@ -292,6 +293,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
 	{
 		global $ilUser;
+	
+		if (is_object($active))
+		{
+			// create new time dataset and set start time
+			$active_time_id = $this->object->startWorkingTime($active->active_id);
+			$_SESSION["active_time_id"] = $active_time_id;
+		}
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -358,7 +366,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			{
 				$solutionoutput = $question_gui->getSolutionOutput("", NULL, FALSE, FALSE, FALSE);
 				$this->tpl->setCurrentBlock("solution_output");
-				$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("correct_solution_is"));
+				$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("tst_best_solution_is"));
 				$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -371,7 +379,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if ($this->object->getAnswerFeedback())
 			{
 				$this->tpl->setCurrentBlock("answer_feedback");
-				$this->tpl->setVariable("ANSWER_FEEDBACK", $question_gui->getAnswerFeedbackOutput($active->active_id));
+				$this->tpl->setVariable("ANSWER_FEEDBACK", $question_gui->getAnswerFeedbackOutput($active->active_id, NULL));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -683,10 +691,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 
-		// create new time dataset and set start time
-		$active_time_id = $this->object->startWorkingTime($ilUser->id);
-		$_SESSION["active_time_id"] = $active_time_id;
-		
 		if ($_POST["chb_javascript"])
 		{
 			$ilUser->writePref("tst_javascript", 1);
@@ -1175,9 +1179,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_execute_test"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		// update working time and set saveResult state
-		$this->updateWorkingTime();
-					
 		if ($this->isMaxProcessingTimeReached())
 		{
 			$this->maxProcessingTimeReached();

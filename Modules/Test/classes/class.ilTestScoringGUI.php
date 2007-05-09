@@ -106,7 +106,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_manual_scoring.html", "Modules/Test");
 		$counter = 1;
-		foreach ($participants as $user_id => $data)
+		foreach ($participants as $participant_active_id => $data)
 		{
 			$this->tpl->setCurrentBlock("participants");
 			$this->tpl->setVariable("ID_PARTICIPANT", $data->active_id);
@@ -122,7 +122,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 					$this->tpl->setVariable("SELECTED_PARTICIPANT", " selected=\"selected\""); 
 				}
 			}
-			$this->tpl->setVariable("TEXT_PARTICIPANT", $this->object->userLookupFullName($user_id, FALSE, TRUE, $suffix)); 
+			$this->tpl->setVariable("TEXT_PARTICIPANT", $this->object->userLookupFullName($data->usr_id, FALSE, TRUE, $suffix)); 
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -147,6 +147,16 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			}
 		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "selectParticipant"));
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addPlugin("latex");
+		$rte->addButton("latex");
+		include_once "./classes/class.ilObject.php";
+		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
+		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
+		$rte->addRTESupport($obj_id, "fdb", "assessment");
 	}
 	
 	/**
@@ -180,7 +190,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		{
 			$feedbacks = array_keys($_POST["feedback"]);
 			$question_id = $feedbacks[0];
-			$feedback = ilUtil::stripSlashes($_POST["feedback"][$question_id], FALSE);
+			include_once "./classes/class.ilObjAdvancedEditing.php";
+			$feedback = ilUtil::stripSlashes($_POST["feedback"][$question_id], FALSE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$result = $this->object->saveManualFeedback($_GET["active_id"], $question_id, $_GET["pass"], $feedback);
 			if ($result) 
 			{
@@ -191,7 +202,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				ilUtil::sendInfo($this->lng->txt("tst_set_feedback_not_done"));
 			}
 		}
-		$this->manscoring();
+		$this->setPointsManual();
 	}
 
 }

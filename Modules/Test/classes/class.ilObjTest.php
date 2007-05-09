@@ -1103,6 +1103,37 @@ class ilObjTest extends ilObject
       $result = $ilDB->query($query);
 		}
 	}
+	
+	/**
+	* Returns the content of all RTE enabled text areas in the test
+	*
+	* Returns the content of all RTE enabled text areas in the test
+	*
+	* @access private
+	*/
+	function getAllRTEContent()
+	{
+		$result = array();
+		array_push($result, $this->getIntroduction());
+		return $result;
+	}
+	
+	/**
+	* Cleans up the media objects for all text fields in a test which are using an RTE field
+	*
+	* Cleans up the media objects for all text fields in a test which are using an RTE field
+	*
+	* @access private
+	*/
+	function cleanupMediaobjectUsage()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		foreach ($this->getAllRTEContent() as $content)
+		{
+			ilRTE::_cleanupMediaObjectUsage($content, $this->getType() . ":html",
+				$this->getId());
+		}
+	}
 
 /**
 * Saves a ilObjTest object to a database
@@ -1157,10 +1188,8 @@ class ilObjTest extends ilObject
 			$allowedUsersTimeGap = $ilDB->quote($allowedUsersTimeGap);
 		}
 
-		// cleanup RTE images which are not inserted into the question text
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->introduction, $this->getType() . ":html",
-			$this->getId());
+		// cleanup RTE images
+		$this->cleanupMediaobjectUsage();
 
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if ($this->test_id == -1)
@@ -3349,17 +3378,12 @@ class ilObjTest extends ilObject
 * @param integer $user_id The database id of the user working with the test
 * @access	public
 */
-	function startWorkingTime($user_id)
+	function startWorkingTime($active_id)
 	{
 		global $ilDB;
 
-		$result = "";
-		if (!($result = $this->getActiveTestUser($user_id))) {
-			$this->setActiveTestUser();
-			$result = $this->getActiveTestUser($user_id);
-		}
 		$q = sprintf("INSERT INTO tst_times (times_id, active_fi, started, finished, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$ilDB->quote($result->active_id),
+			$ilDB->quote($active_id),
 			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
 			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S"))
 		);
@@ -7474,7 +7498,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getTestId())
 			);
 		}
-		return $this->getArrayData($q, "usr_id");
+		return $this->getArrayData($q, "active_id");
 	}
 
 /**
@@ -7642,7 +7666,6 @@ class ilObjTest extends ilObject
 			$ilDB->quote($user_id),
 			$ilDB->quote($client_ip)
 		);
-
 		$result = $ilDB->query($query);
 	}
 
@@ -7762,78 +7785,68 @@ class ilObjTest extends ilObject
 	 */
 	function getAllTestResults($participants, $prepareForCSV = true)
 	{
-
 		$results = array();
 		$row = array("matriculation" =>  $this->lng->txt("matriculation"),
-					 "lastname" =>  $this->lng->txt("lastname"),
-					 "firstname" => $this->lng->txt("firstname"),
-					 "reached_points" => $this->lng->txt("tst_reached_points"),
-					 "max_points" => $this->lng->txt("tst_maximum_points"),
-					 "percent_value" => $this->lng->txt("tst_percent_solved"),
-					 "mark" => $this->lng->txt("tst_mark"),
-					 "ects" => $this->lng->txt("ects_grade"));
-
+			"lastname" =>  $this->lng->txt("lastname"),
+			"firstname" => $this->lng->txt("firstname"),
+			"reached_points" => $this->lng->txt("tst_reached_points"),
+			"max_points" => $this->lng->txt("tst_maximum_points"),
+			"percent_value" => $this->lng->txt("tst_percent_solved"),
+			"mark" => $this->lng->txt("tst_mark"),
+			"ects" => $this->lng->txt("ects_grade")
+		);
 		$results[] = $row;
 		if (count($participants))
 		{
-
-		    foreach ($participants as $user_id => $user_rec)
-    		{
-
-    		    $row = array();
-    			$active = $this->getActiveTestUser($user_id);
-    			$reached_points = 0;
-    			$max_points = 0;
-
-    			foreach ($this->questions as $value)
-    			{
-    			    //$value = $this->questions[$seq];
-    //				$ilBench->start("getTestResult","instanciate question");
-    				$question =& ilObjTest::_instanciateQuestion($value);
-    //				$ilBench->stop("getTestResult","instanciate question");
-    				if (is_object($question))
-    				{
-    					$max_points += $question->getMaximumPoints();
-    					$reached_points += $question->getReachedPoints($active->active_id);
-    				}
-    			}
-
-    			if ($max_points > 0)
-    			{
-    				$percentvalue = $reached_points / $max_points;
-    				if ($percentvalue < 0) $percentvalue = 0.0;
-    			}
-    			else
-    			{
-    				$percentvalue = 0;
-    			}
-    			$mark_obj = $this->mark_schema->getMatchingMark($percentvalue * 100);
-    			$passed = "";
-    			if ($mark_obj)
-    			{
-    				$mark = $mark_obj->getOfficialName();
-    				$ects_mark = $this->getECTSGrade($reached_points, $max_points);
-    			}
-    			if ($this->getAnonymity())
-    			{
-    				$user_rec->firstname = "";
-    				$user_rec->lastname = $this->lng->txt("unknown");
-    			}
-
-    			$row = array(
-    					"matriculation" =>  $user_rec->matriculation,
-    					"lastname" =>  $user_rec->lastname,
-    					"firstname" => $user_rec->firstname,
-    					"reached_points" => $reached_points,
-    					"max_points" => $max_points,
-    					"percent_value" => $percentvalue,
-    					"mark" => $mark,
-    					"ects" => $ects_mark);
-
-    			$results[] = $prepareForCSV ? $this->processCSVRow ($row, true) : $row;
-    		}
+			foreach ($participants as $active_id => $user_rec)
+			{
+				$row = array();
+				$reached_points = 0;
+				$max_points = 0;
+				foreach ($this->questions as $value)
+				{
+					$question =& ilObjTest::_instanciateQuestion($value);
+					if (is_object($question))
+					{
+						$max_points += $question->getMaximumPoints();
+						$reached_points += $question->getReachedPoints($active_id);
+					}
+				}
+				if ($max_points > 0)
+				{
+					$percentvalue = $reached_points / $max_points;
+					if ($percentvalue < 0) $percentvalue = 0.0;
+				}
+				else
+				{
+					$percentvalue = 0;
+				}
+				$mark_obj = $this->mark_schema->getMatchingMark($percentvalue * 100);
+				$passed = "";
+				if ($mark_obj)
+				{
+					$mark = $mark_obj->getOfficialName();
+					$ects_mark = $this->getECTSGrade($reached_points, $max_points);
+				}
+				if ($this->getAnonymity())
+				{
+					$user_rec->firstname = "";
+					$user_rec->lastname = $this->lng->txt("unknown");
+				}
+				$row = array(
+					"matriculation" =>  $user_rec->matriculation,
+					"lastname" =>  $user_rec->lastname,
+					"firstname" => $user_rec->firstname,
+					"reached_points" => $reached_points,
+					"max_points" => $max_points,
+					"percent_value" => $percentvalue,
+					"mark" => $mark,
+					"ects" => $ects_mark
+				);
+				$results[] = $prepareForCSV ? $this->processCSVRow ($row, true) : $row;
+			}
 		}
-    	return $results;
+		return $results;
 	}
 
 /**
@@ -9474,7 +9487,8 @@ class ilObjTest extends ilObject
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$feedback = $row["feedback"];
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
 		return $feedback;
 	}
@@ -9494,6 +9508,7 @@ class ilObjTest extends ilObject
 	function saveManualFeedback($active_id, $question_id, $pass, $feedback)
 	{
 		global $ilDB;
+
 		$query = sprintf("DELETE FROM tst_manual_feedback WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($question_id . ""),
@@ -9507,7 +9522,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($active_id . ""),
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote($pass . ""),
-				$ilDB->quote($feedback . "")
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($feedback, 0) . "")
 			);
 			$result = $ilDB->query($query);
 		}
