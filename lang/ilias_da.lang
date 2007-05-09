@@ -1,9 +1,9 @@
-/**
+﻿/**
 * ILIAS language file 
 *
 * @module		language file Danish
 * @modulegroup	language
-* @author 		Jesper Goedvad <jesper@inetworks.dk> Ole Stilund Jeppsen <ole.stilund@ftf.dk> Preben Christensen <pch@tec.dk> Kasper Nielsen <kasper@kittik.dk> Gilbert Ditlefsen
+* @author 		Jesper Gødvad <jesper@inetworks.dk> Ole Stilund Jeppsen <ole.stilund@ftf.dk> Preben Christensen <pch@tec.dk> Kasper Nielsen <kasper@kittik.dk> Gilbert Ditlefsen
 * @version		$Id$
 */
 
@@ -6817,7 +6817,7 @@ news#:#news_news_item_head#:#News Item###18 12 2006 new variable
 news#:#news_visibility_users#:#Logged in Users###18 12 2006 new variable
 news#:#news_visibility_public#:#Public###18 12 2006 new variable
 common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS.###18 12 2006 new variable
-common#:#mail_settings#:#Mail Settings###18 12 2006 new variable
+common#:#mail_settings#:#Besked indstillinger
 common#:#my_courses#:#My Courses###18 12 2006 new variable
 mail#:#mail_list_members#:#List members###18 12 2006 new variable
 mail#:#mail_members_added_addressbook#:#Members added to addressbook###18 12 2006 new variable
@@ -6940,23 +6940,23 @@ feed#:#block_feed_block_feed_url#:#Feed URL###25 02 2007 new variable
 feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)###25 02 2007 new variable
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)###25 02 2007 new variable
-pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!###25 02 2007 new variable
-pdesk#:#pdesk_intro2#:#This is your personal space for organising your working and learning. You can put resources from other areas on your personal desktop. Doing so takes two steps:###25 02 2007 new variable
-pdesk#:#pdesk_intro3#:#Click on '%s' and browse the existing working and learning resources.###25 02 2007 new variable
-pdesk#:#pdesk_intro4#:#If you found something of interest, add it to your desktop by clicking the <i>Add to Desktop</i> button.###25 02 2007 new variable
-common#:#activate_block#:#Activate###25 02 2007 new variable
-pdesk#:#pdesk_feedback_request#:#Feedback Request###25 02 2007 new variable
-pdesk#:#pdesk_feedbacks#:#Feedback Request(s)###25 02 2007 new variable
-rep#:#rep_intro#:#Welcome to the Repository!###25 02 2007 new variable
-rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchie of disciplines, or classes of a school.###25 02 2007 new variable
-rep#:#rep_intro2#:#Three steps are needed to build an initial structure:###25 02 2007 new variable
-rep#:#rep_intro3#:#Click on the <i>%s</i> button besides the selection list on the top right.###25 02 2007 new variable
-rep#:#rep_intro4#:#In the following form, enter a title and a description, and click on <i>%s</i>.###25 02 2007 new variable
-rep#:#rep_intro5#:#By clicking on the title of the category you enter your category.###25 02 2007 new variable
-rep#:#rep_intro6#:#After that procedure you may add any learning or working resource to your category.###25 02 2007 new variable
-delic#:#delic_settings#:#del.icio.us Settings###25 02 2007 new variable
-delic#:#delic_add_to_delicious#:#Add to del.icio.us###25 02 2007 new variable
-delic#:#delic_extt_delicious#:#del.icio.us###25 02 2007 new variable
+pdesk#:#pdesk_intro#:#Velkommen til dit skrivebord!
+pdesk#:#pdesk_intro2#:#Dette er dit personlige sted til at organisere læring og arbejde. Du kan placere resurser fra andre områder her. Det kræver kun to skridt:
+pdesk#:#pdesk_intro3#:#Klik på '%s' og gennemse de arbejds- og læreresurser. 
+pdesk#:#pdesk_intro4#:#Hvis du finder noget interessant tilføjer du det til skrivebordet ved at trykke <i>Vis på skrivebord</i> knappen
+common#:#activate_block#:#Aktiver
+pdesk#:#pdesk_feedback_request#:#Feedback ønske
+pdesk#:#pdesk_feedbacks#:#Feedback ønske(r)
+rep#:#rep_intro#:#Velkommen til oversigten!
+rep#:#rep_intro1#:#I dette område kan du oprette læring- og arbejdsresurser til alle brugere. Alle resurser er organiseret i kategorier. Kategorier kan afspejle strukturen af din organisation (f.eks. afdelinger), et hieraki af discipliner eller klasser i en skole.
+rep#:#rep_intro2#:#Der er tre nødvendige skridt for at bygge en grundlæggende struktur:
+rep#:#rep_intro3#:#Klik på <i>%s</i> knappen ved siden af rullemenuen øverst til højre.
+rep#:#rep_intro4#:#Der dukker en formular op hvor du indtaster en titel og beskrivelse, hvorefter du klikker på <i>%s</i>.
+rep#:#rep_intro5#:#Ved derefter at klikke på kategoriens titel går du ind i kategorien.
+rep#:#rep_intro6#:#Efter disse skridt kan du tilføje læring- og arbejdsresurser til din kategori.
+delic#:#delic_settings#:#del.icio.us indstillinger
+delic#:#delic_add_to_delicious#:#Føj til del.icio.us
+delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens###25 02 2007 new variable
 delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile###25 02 2007 new variable
 gmaps#:#gmaps_api_key#:#API Key###25 02 2007 new variable
