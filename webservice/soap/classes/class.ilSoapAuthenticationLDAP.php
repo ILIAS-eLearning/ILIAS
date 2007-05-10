@@ -54,6 +54,7 @@ class ilSoapAuthenticationLDAP extends ilSOAPAuthentication
 		$init->initLog();
 		$init->initDatabase();
 		$init->initSettings();
+		$init->initILIASObject();
 		include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
 		$this->auth = new ilAuthLDAP();
 
