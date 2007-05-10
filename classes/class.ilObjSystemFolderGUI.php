@@ -659,13 +659,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		//$this->tpl->setVariable("TXT_MODULES", $this->lng->txt("modules"));
 		$this->tpl->setVariable("TXT_PUB_SECTION", $this->lng->txt("pub_section"));
-		
-		
+
+
 		$this->tpl->setVariable('TXT_SEARCH_ENGINE',$this->lng->txt('search_engine'));
 		$this->tpl->setVariable('TXT_ENABLE_SEARCH_ENGINE',$this->lng->txt('enable_search_engine'));
 		include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
 		$robot_settings = ilRobotSettings::_getInstance();
-		
+
 		$error_se = false;
 		if(!$robot_settings->checkModRewrite())
 		{
@@ -693,7 +693,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','checked="checked"');
 		}
-		
+
 		$this->tpl->setVariable("TXT_ENABLE_CALENDAR", $this->lng->txt("enable_calendar"));
 		$this->tpl->setVariable("TXT_DEFAULT_REPOSITORY_VIEW", $this->lng->txt("def_repository_view"));
 		$this->tpl->setVariable("TXT_FLAT", $this->lng->txt("flatview"));
@@ -701,12 +701,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_ASSISTANCE", $this->lng->txt("enable_password_assistance"));
 		$this->tpl->setVariable("TXT_PASSWORD_AUTO_GENERATE_INFO",$this->lng->txt('passwd_generation_info'));
-//rku:	password assistent should be availabe always, even in mixed mode.
-//		if (AUTH_DEFAULT != AUTH_LOCAL)
+		//rku:	password assistent should be availabe always, even in mixed mode.
+	/*	if (AUTH_DEFAULT != AUTH_LOCAL)
 		{
 			$this->tpl->setVariable("DISABLE_PASSWORD_ASSISTANCE", 'disabled=\"disabled\"');
 			$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_DISABLED", $this->lng->txt("password_assistance_disabled"));
-		}
+		}*/
 
 		$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_INFO", $this->lng->txt("password_assistance_info"));
 
@@ -1140,10 +1140,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		if ($_POST['count_limit'] !== null || $_POST['age_limit'] !== null || $_POST['type_limit'] !== null)
 		{
-			$ilias->account->writePref('systemcheck_count_limit', 
+			$ilias->account->writePref('systemcheck_count_limit',
 				(is_numeric($_POST['count_limit']) && $_POST['count_limit'] > 0) ? $_POST['count_limit'] : ''
 			);
-			$ilias->account->writePref('systemcheck_age_limit', 
+			$ilias->account->writePref('systemcheck_age_limit',
 				(is_numeric($_POST['age_limit']) && $_POST['age_limit'] > 0) ? $_POST['age_limit'] : '');
 			$ilias->account->writePref('systemcheck_type_limit', trim($_POST['type_limit']));
 		}
@@ -1198,10 +1198,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_TYPE_LIMIT_DESC", $this->lng->txt("purge_type_limit_desc"));
 
 			$types = array_merge(array(""), $objDefinition->getAllObjects());
-			$this->tpl->setVariable("TYPE_LIMIT_CHOICE", 
+			$this->tpl->setVariable("TYPE_LIMIT_CHOICE",
 				ilUtil::formSelect(
-					$ilias->account->getPref("systemcheck_type_limit"), 
-					'type_limit', 
+					$ilias->account->getPref("systemcheck_type_limit"),
+					'type_limit',
 					$types
 					)
 			);

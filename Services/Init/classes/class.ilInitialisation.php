@@ -55,13 +55,13 @@ class ilInitialisation
 				// \r\n used for IMAP MX Injection
 				// ' used for SQL Injection
 				$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
-				
+
 				// this one is for XSS of any kind
 				$_GET[$k] = strip_tags($_GET[$k]);
 			}
 		}
 	}
-	
+
 	/**
 	 * get common include code files
 	*/
@@ -687,7 +687,7 @@ class ilInitialisation
 	function goToLogin($a_auth_stat = "")
 	{
 		global $PHP_SELF;
-		
+
 		session_unset();
 		session_destroy();
 
@@ -710,7 +710,7 @@ class ilInitialisation
 		{
 			$script = $this->updir."goto.php?target=".$_GET["target"]."&client_id=".CLIENT_ID;
 		}
-		
+
 		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n".
 			'Please click <a href="'.$script.'">here</a> if you are not redirected automatically.';
 
@@ -793,7 +793,7 @@ class ilInitialisation
 
 		// remove unsafe characters
 		$this->removeUnsafeCharacters();
-		
+
 		// include common code files
 		$this->requireCommonIncludes();
 		global $ilBench;
@@ -852,23 +852,20 @@ class ilInitialisation
 
 
 		// $ilLog initialisation
-		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
-		$GLOBALS['log'] =& $log;
-		$ilLog =& $log;
-		$GLOBALS['ilLog'] =& $ilLog;
+		$this->initLog();
 
 		// $ilAuth initialisation
 		require_once("classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
-		
+
 		// Do not accept external session ids
 		if ($_GET["PHPSESSID"] != "")
 		{
 			$_GET["PHPSESSID"] == "";
 			session_regenerate_id();
 		}
-		
+
 		// $ilias initialisation
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
 		$ilias =& new ILIAS();
@@ -1161,7 +1158,7 @@ class ilInitialisation
 			$ilSetting, $ilias, $https, $ilObjDataCache,
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
 			$ilTabs, $ilMainMenu, $rbacsystem, $ilNavigationHistory;
-			
+
 		// remove unsafe characters
 		$this->removeUnsafeCharacters();
 
@@ -1204,18 +1201,26 @@ class ilInitialisation
 		// $ilObjDataCache initialisation
 		$ilObjDataCache = new ilObjectDataCache();
 		$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
-		
+
 		// init settings
 		$this->initSettings();
-		
+
 		// init tree
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		$GLOBALS['tree'] =& $tree;
-		
+
 		// init language
 		$lng = new ilLanguage($ilClientIniFile->readVariable("language","default"));
 		$GLOBALS['lng'] =& $lng;
 
+	}
+
+	function initLog() {
+		global $ilLog;
+		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
+		$GLOBALS['log'] =& $log;
+		$ilLog =& $log;
+		$GLOBALS['ilLog'] =& $ilLog;
 	}
 }
 ?>
