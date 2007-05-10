@@ -143,7 +143,10 @@
 </div>
 <script language="JavaScript">
 <!--
+if (document.formlogin.username && document.formlogin.password)
+{
 	if(document.formlogin.username.value!="") document.formlogin.password.focus();
 	else document.formlogin.username.focus();
+}
 //-->
 </script>
