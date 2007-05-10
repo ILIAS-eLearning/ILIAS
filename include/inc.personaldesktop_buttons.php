@@ -57,6 +57,11 @@ $inc_type = $script_name == "usr_profile.php"
 	: "tabinactive";
 $inhalt1[] = array($inc_type , "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",$lng->txt("personal_profile"));
 
+// news
+$inc_type = "tabinactive";
+$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNews",$lng->txt("news"),
+	ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
+
 if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 {
 	// user calendar
