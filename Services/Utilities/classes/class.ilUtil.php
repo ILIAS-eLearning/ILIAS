@@ -2350,23 +2350,34 @@ class ilUtil
 			$cpar = substr($cpar,1,strlen($cpar)-1);
 			while(substr($cpar,strlen($cpar)-1,1)==" " || substr($cpar,strlen($cpar)-1,1)==chr(13) || substr($cpar,strlen($cpar)-1,1)==chr(10))
 			$cpar = substr($cpar,0,strlen($cpar)-1);
+			
+			// parameter name should only
+			$cpar_old = "";
+			while($cpar != $cpar_old)
+			{
+				$cpar_old = $cpar;
+				$cpar = eregi_replace("[^a-zA-Z0-9_]", "", $cpar);
+			}
 
 			// extract value
-			if($spos=strpos($a_parstr,"\""))
+			if ($cpar != "")
 			{
-				$a_parstr = substr($a_parstr,$spos+1,strlen($a_parstr)-$spos);
-				$spos=strpos($a_parstr,"\"");
-				if(is_int($spos))
+				if($spos=strpos($a_parstr,"\""))
 				{
-					$cval = substr($a_parstr,0,$spos);
-					$par[$cpar]=$cval;
-					$a_parstr = substr($a_parstr,$spos+1,strlen($a_parstr)-$spos-1);
+					$a_parstr = substr($a_parstr,$spos+1,strlen($a_parstr)-$spos);
+					$spos=strpos($a_parstr,"\"");
+					if(is_int($spos))
+					{
+						$cval = substr($a_parstr,0,$spos);
+						$par[$cpar]=$cval;
+						$a_parstr = substr($a_parstr,$spos+1,strlen($a_parstr)-$spos-1);
+					}
+					else
+					$ok=false;
 				}
 				else
 				$ok=false;
 			}
-			else
-			$ok=false;
 		}
 
 		if($ok) return $par; else return false;
