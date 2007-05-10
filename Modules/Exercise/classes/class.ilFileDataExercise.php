@@ -274,10 +274,7 @@ class ilFileDataExercise extends ilFileData
 
 		ksort($members);
 		$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/";
-		copy($tmpfile, $savepath . "users.txt");
 		$cdir = getcwd();
-
-
 
 
 		// important check: if the directory does not exist
