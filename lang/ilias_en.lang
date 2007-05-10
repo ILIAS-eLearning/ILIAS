@@ -4316,6 +4316,7 @@ content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_table_width#:#Table Width
 content#:#cont_target_within_source#:#Target must not be within source object.
+content#:#cont_operation_not_allowed#:#This operation is not allowed.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
 content#:#cont_text_code#:#Code:
