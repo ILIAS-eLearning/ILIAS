@@ -867,7 +867,11 @@ class ilInitialisation
 		}
 
 		// $ilias initialisation
-		$this->initILIASObject();
+			global $ilias, $ilBench;
+		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
+		$ilias = & new ILIAS();
+		$GLOBALS['ilias'] =& $ilias;
+		$ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 
 		// test: trace function calls in debug mode
 		if (DEVMODE)
@@ -1220,9 +1224,9 @@ class ilInitialisation
 	}
 
 	function initILIASObject() {
-		global $ilias;
+		global $ilias, $ilBench;
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
-		$ilias =& new ILIAS();
+		$ilias = & new ILIAS();
 		$GLOBALS['ilias'] =& $ilias;
 		$ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 //var_dump($_SESSION);
