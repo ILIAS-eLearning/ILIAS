@@ -625,6 +625,14 @@ class ilPersonalDesktopGUI
 	{
 		$this->ctrl->redirectByClass("ilpdnotesgui");
 	}
+
+	/**
+	* workaround for menu in calendar only
+	*/
+	function jumpToNews()
+	{
+		$this->ctrl->redirectByClass("ilpdnewsgui");
+	}
 	
 	/**
 	* workaround for menu in calendar only
