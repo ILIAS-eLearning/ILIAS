@@ -507,7 +507,7 @@ class ilNoteGUI
 			}
 			
 			// multiple items commands
-			if ($this->multi_selection && !$this->delete_note)
+			if ($this->multi_selection && !$this->delete_note && !$this->edit_note_form)
 			{
 				$tpl->setCurrentBlock("multiple_commands");
 				$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
