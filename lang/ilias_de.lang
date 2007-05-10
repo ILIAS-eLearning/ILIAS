@@ -7043,8 +7043,6 @@ news#:#news_enable_internal_news_info#:#Activates news blocks for categories, co
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
 news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.###25 02 2007 new variable
 news#:#news_first_letter_of_word_notification#:#N###25 02 2007 new variable
-news#:#news_show_notifications#:#Show Notifications###25 02 2007 new variable
-news#:#news_hide_notifications#:#Hide Notifications###25 02 2007 new variable
 news#:#news_news_item_title#:#Headline###25 02 2007 new variable
 news#:#news_news_item_content#:#Text###25 02 2007 new variable
 news#:#news_news_item_content_long#:#Long Text###25 02 2007 new variable
@@ -7248,7 +7246,6 @@ trac#:#trac_mode_manual_info#:#Die NutzerInnen entscheiden selbst, ob Sie den St
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
 trac#:#trac_mode_collection_info#:#Der Gesamtstatus wird automatisch anhand der ausgewählten Materialien bestimmt.
 trac#:#trac_mode_scorm_info#:#Der Gesamtstatus wird durch die ausgewählten SCORM-Materialien bestimmt.
-trac#:#trac_mode_test_finished_info#:#Alle Testfragen müssen beantwortet sein.
 trac#:#trac_mode_test_passed_info#:#Der Test muß bestanden sein.
 trac#:#trac_mode_exercise_returned_info#:#Der Status kann nur durch Tutoren bestimmt werden.
 trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutoren
@@ -7268,6 +7265,29 @@ ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, de
 ldap#:#ldap_info_text_short#:#Infotext:
 common#:#further_informations#:#Weitere Informationen
 common#:#location#:#Position
-assessment#:#assExternalScript#:#External Script Question###05 02 2007 new variable
-assessment#:#no_solution_output_available#:#An output could not be created for this question###05 02 2007 new variable
 chat#:#chat_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
+assessment#:#checked#:#Checked###10 05 2007 new variable
+assessment#:#unchecked#:#Unchecked###10 05 2007 new variable
+assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
+assessment#:#flashfile#:#Flash file###10 05 2007 new variable
+assessment#:#flash_attributes#:#Flash attributes###10 05 2007 new variable
+assessment#:#flash_parameters#:#Flash parameters###10 05 2007 new variable
+assessment#:#add_flash_parameter#:#Add Flash Parameter###10 05 2007 new variable
+assessment#:#matching_shuffle_terms_definitions#:#Both (Terms and Definitions)###10 05 2007 new variable
+assessment#:#matching_shuffle_terms_pictures#:#Both (Terms and Pictures)###10 05 2007 new variable
+assessment#:#matching_shuffle_definitions#:#Definitions only###10 05 2007 new variable
+assessment#:#matching_shuffle_pictures#:#Pictures only###10 05 2007 new variable
+assessment#:#matching_shuffle_terms#:#Terms only###10 05 2007 new variable
+assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
+assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved###10 05 2007 new variable
+assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback has not been saved###10 05 2007 new variable
+common#:#lm_type_scorm2004#:#SCORM 2004###10 05 2007 new variable
+news#:#news_notifications#:#Notifications###10 05 2007 new variable
+news#:#news_hide_news_block#:#Hide News Block###10 05 2007 new variable
+news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.###10 05 2007 new variable
+news#:#news_default_visibility#:#Default Access###10 05 2007 new variable
+feed#:#feed_no_valid_url#:#The Feed URL is not valid.###10 05 2007 new variable
+trac##:#trac_mode_test_finished_info#:#User have to finish a test completely.###10 05 2007 new variable
+common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
+common#:#lang_et#:#Estonian###10 05 2007 new variable
+common#:#lang_ru#:#Russian###10 05 2007 new variable

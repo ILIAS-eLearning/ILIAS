@@ -2477,11 +2477,13 @@ common#:#java_server_readme#:#Setup informations
 common#:#join#:#Join
 common#:#kb#:#KByte
 common#:#keywords#:#Keywords
+common#:#lang_bg#:#Bulgarian
 common#:#lang_cs#:#Czech
 common#:#lang_da#:#Danish
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#German
 common#:#lang_el#:#Greek
+common#:#lang_et#:#Estonian
 common#:#lang_en#:#English
 common#:#lang_es#:#Spanish
 common#:#lang_fi#:#Finnish
@@ -2498,6 +2500,7 @@ common#:#lang_path#:#Language Path
 common#:#lang_pl#:#Polish
 common#:#lang_pt#:#Portuguese
 common#:#lang_ro#:#Romanian
+common#:#lang_ru#:#Russian
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sq#:#Albanian

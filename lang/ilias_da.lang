@@ -293,8 +293,6 @@ assessment#:#insert_before#:#Indsæt før
 assessment#:#internal_links#:#Interne links
 assessment#:#internal_links_update#:#Opdater
 assessment#:#javaapplet#:#Java Applet###21 Apr 2005 new variable
-assessment#:#javaapplet_successful_saved#:#Dine resultater er blevet gemt!
-assessment#:#javaapplet_unsuccessful_saved#:#Der opstod en fejl da du ville gemme dine resultater!
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
 assessment#:#last_update#:#Senest opdateret
 assessment#:#legend#:#Legend###21 Apr 2005 new variable
@@ -530,8 +528,6 @@ assessment#:#tst_hide_previous_results#:#Skjul tidligere resultater
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
 assessment#:#tst_hide_previous_results_introduction#:#Hvis du tager testen mere end en gang bliver dine tidligere besvarelser ikke brugt som standardværdier.
-assessment#:#tst_hide_title_points#:#Question title points###23 Dec 2005 new variable
-assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title###23 Dec 2005 new variable
 assessment#:#tst_import_no_items#:#Fejl: Den importerede fil indeholder ingen spørgsmål!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Testen bruges af %d brugere. Du har ikke rettighedder til at flytte eller ændre spørgsmålene i denne test!
@@ -539,7 +535,6 @@ assessment#:#tst_insert_missing_question#:#Vælg venligst mindst et spørgsmål 
 assessment#:#tst_insert_questions#:#Er du sikker på du vil indsætte følgende spørgsmål i denne test?
 assessment#:#tst_insert_questions_and_results#:#Denne test er allerede taget af %s brugere. Hvis du indsætter spørgsmål i denne test vil du slette alle resultater fra disse brugere. Er du sikker på du vil indsætte følgende spørgsmål i denne test?
 assessment#:#tst_introduction#:#Introduktion
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..
 assessment#:#tst_mark#:#Mærke
 assessment#:#tst_mark_create_new_mark_step#:#Opret ny karakter
 assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpelt mærke skema
@@ -638,16 +633,12 @@ assessment#:#tst_select_tsts#:#Vælg venligst en test du vil kopiere
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
 assessment#:#tst_sequence#:#Sekvens
 assessment#:#tst_sequence_fixed#:#Sekvensen af spørgsmål er lavet
-assessment#:#tst_sequence_postpone#:#Kursusdeltageren kan udsætte et spørgsmål til slutningen af testen
 assessment#:#tst_sequence_properties#:#Sekvensegenskaber
 assessment#:#tst_session_settings#:#Sessionsegenskaber
-assessment#:#tst_show_answer_print_sheet#:#Vis besvarelser
 assessment#:#tst_show_answer_sheet#:#Vis svar
 assessment#:#tst_show_results#:#Vis testresultat
 assessment#:#tst_show_solution_details#:#Score details
-assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions
 assessment#:#tst_show_solution_printview#:#Solution printview
-assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing
 assessment#:#tst_show_summary#:#Show question summary
 assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle questions
@@ -775,8 +766,6 @@ barometer#:#votes#:#Votes
 barometer#:#weeks#:#Weeks
 barometer#:#worst#:#Worst
 barometer#:#year#:#Year
-barometer#:#add#:#Giv feedback
-barometer#:#create#:#Create New Feedback
 bibitem#:#bibitem_add#:#Tilføj
 bibitem#:#bibitem_author#:#Forfatter
 bibitem#:#bibitem_av#:#AV###21 Apr 2005 new variable
@@ -966,7 +955,6 @@ chat#:#chat_whisper#:#Visken
 chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Mine chat
-chat#:#chat_invite#:#Chat
 common#:#disabled#:#Ikke tilsluttet
 common#:#options#:#Indstillinger###Faneblad i mail
 common#:#action#:#Handling
@@ -3098,7 +3086,6 @@ common#:#shib_general_login_instructions#:#To log in via %s, please click on the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
 common#:#shib_institution#:#Attribute for institution###17 Aug 2005 new variable
-common#:#shib_instructions#:#HUsk at læse <a href=\\
 common#:#shib_invalid_home_organization#:#Vælg venligst en gyldig organisation!
 common#:#shib_language#:#Attribute for language###17 Aug 2005 new variable
 common#:#shib_lastname#:#Attribute for lastname###17 Aug 2005 new variable
@@ -3125,7 +3112,6 @@ common#:#show#:#Vis
 common#:#show_details#:#Vis detaljer
 common#:#show_list#:#Vis liste
 common#:#show_members#:#Vis medlemmer
-common#:#show_notes_on_pd#:#Vis noter på skrivebordet
 common#:#show_owner#:#Vis Ejer
 common#:#show_private_notes#:#Vis private noter
 common#:#show_public_notes#:#Vis offentlige noter
@@ -3489,7 +3475,6 @@ common#:#you_may_add_local_roles#:#Du kan tilføje lokale roller
 common#:#your_message#:#Din Besked
 common#:#zip#:#Postnummer
 common#:#zipcode#:#Postnummer
-content#:#pages#:#Sider
 content#:#HTML export#:#HTMLeksport
 content#:#PDF export#:#PDFeksport
 content#:#add_menu_entry#:#Tilføj menuindgang
@@ -4424,7 +4409,6 @@ crs#:#tutor_title#:#Titel
 dateplaner#:#apply#:#Godkend
 dateplaner#:#delete#:#slet
 dateplaner#:#month#:#måned
-dateplaner#:#text#:#Tekst
 dateplaner#:#title#:#ILIAS kalender
 dateplaner#:#year#:#år
 dateplaner#:#back#:#Tilbage
@@ -4439,7 +4423,6 @@ dateplaner#:#of#:#for
 dateplaner#:#properties#:#Egenskaber
 dateplaner#:#to#:#til
 dateplaner#:#today#:#idag
-dateplaner#:#view#:#Oversigt:
 dateplaner#:#week#:#uge
 dateplaner#:#DateText#:#Besked
 dateplaner#:#Day_long#:#Dagsoversigt
@@ -6907,8 +6890,6 @@ news#:#news_enable_internal_news_info#:#Activates news blocks for categories, co
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
 news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.###25 02 2007 new variable
 news#:#news_first_letter_of_word_notification#:#N###25 02 2007 new variable
-news#:#news_show_notifications#:#Show Notifications###25 02 2007 new variable
-news#:#news_hide_notifications#:#Hide Notifications###25 02 2007 new variable
 news#:#news_news_item_title#:#Headline###25 02 2007 new variable
 news#:#news_news_item_content#:#Text###25 02 2007 new variable
 news#:#news_news_item_content_long#:#Long Text###25 02 2007 new variable
@@ -7237,3 +7218,76 @@ common#:#forums_anonymized#:#Forum anonymized###02 04 2007 new variable
 common#:#forums_anonymous#:#anonym###02 04 2007 new variable
 common#:#forums_your_name#:#Your Name###02 04 2007 new variable
 common#:#forums_use_alias#:#You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous###02 04 2007 new variable
+administration#:#purge_count_limit#:#Limit count###10 05 2007 new variable
+administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. ###10 05 2007 new variable
+administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
+administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
+administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
+administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###10 05 2007 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###10 05 2007 new variable
+assessment#:#checked#:#Checked###10 05 2007 new variable
+assessment#:#unchecked#:#Unchecked###10 05 2007 new variable
+assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
+assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
+assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
+assessment#:#flashfile#:#Flash file###10 05 2007 new variable
+assessment#:#flash_attributes#:#Flash attributes###10 05 2007 new variable
+assessment#:#flash_parameters#:#Flash parameters###10 05 2007 new variable
+assessment#:#add_flash_parameter#:#Add Flash Parameter###10 05 2007 new variable
+assessment#:#matching_shuffle_terms_definitions#:#Both (Terms and Definitions)###10 05 2007 new variable
+assessment#:#matching_shuffle_terms_pictures#:#Both (Terms and Pictures)###10 05 2007 new variable
+assessment#:#matching_shuffle_definitions#:#Definitions only###10 05 2007 new variable
+assessment#:#matching_shuffle_pictures#:#Pictures only###10 05 2007 new variable
+assessment#:#matching_shuffle_terms#:#Terms only###10 05 2007 new variable
+assessment#:#question_summary#:#List of Questions###10 05 2007 new variable
+assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
+assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions###10 05 2007 new variable
+assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved###10 05 2007 new variable
+assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback has not been saved###10 05 2007 new variable
+assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test Results###10 05 2007 new variable
+common#:#lm_type_scorm2004#:#SCORM 2004###10 05 2007 new variable
+news#:#news_notifications#:#Notifications###10 05 2007 new variable
+news#:#news_hide_news_block#:#Hide News Block###10 05 2007 new variable
+news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.###10 05 2007 new variable
+news#:#news_default_visibility#:#Default Access###10 05 2007 new variable
+feed#:#feed_no_valid_url#:#The Feed URL is not valid.###10 05 2007 new variable
+content#:#Pages#:#Pages###10 05 2007 new variable
+content#:#cont_reference#:#Reference###10 05 2007 new variable
+dateplaner#:#Text#:#Text###10 05 2007 new variable
+dateplaner#:#View#:#View:###10 05 2007 new variable
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###10 05 2007 new variable
+ldap#:#ldap_group_search_base#:#Group Search Base###10 05 2007 new variable
+common#:#forums_enable_forum_notification#:#Enable notification for this forum###10 05 2007 new variable
+common#:#forums_disable_forum_notification#:#Disable notification for this forum###10 05 2007 new variable
+common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.###10 05 2007 new variable
+common#:#object_copy_in_progress#:#Started Copying.###10 05 2007 new variable
+trac#:#trac_mode_deactivated_info#:#No progress will be calculated.###10 05 2007 new variable
+trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'.###10 05 2007 new variable
+trac#:#trac_mode_visits_info#:#Define the number of visits that is required for completing this learning material.###10 05 2007 new variable
+trac#:#trac_mode_manual_info#:#Users have to decide whether their status is completed or not.###10 05 2007 new variable
+trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.###10 05 2007 new variable
+trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.###10 05 2007 new variable
+trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.###10 05 2007 new variable
+trac##:#trac_mode_test_finished_info#:#User have to finish a test completely.###10 05 2007 new variable
+trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.###10 05 2007 new variable
+trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.###10 05 2007 new variable
+trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor###10 05 2007 new variable
+trac#:#trac_mode_manual_by_tutor_info#:#The overall status can only be set by tutors.###10 05 2007 new variable
+ldap#:#ldap_group_membership#:#Group Membership###10 05 2007 new variable
+ldap#:#ldap_group_member_optional#:#Group Membership is Optional###10 05 2007 new variable
+ldap#:#ldap_group_user_filter#:#User Filter###10 05 2007 new variable
+ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)###10 05 2007 new variable
+ldap#:#ldap_server_short#:#Server URL:###10 05 2007 new variable
+ldap#:#ldap_group_dn_short#:#Group DN:###10 05 2007 new variable
+ldap#:#ldap_group_member_short#:#Attribute:###10 05 2007 new variable
+ldap#:#ldap_ilias_role_short#:#Role:###10 05 2007 new variable
+pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.###10 05 2007 new variable
+ldap#:#ldap_info_text#:#Information Text###10 05 2007 new variable
+ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.###10 05 2007 new variable
+ldap#:#ldap_info_text_short#:#Info Text:###10 05 2007 new variable
+common#:#further_informations#:#Further Informations###10 05 2007 new variable
+chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %###10 05 2007 new variable
+common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
+common#:#lang_et#:#Estonian###10 05 2007 new variable
+common#:#lang_ru#:#Russian###10 05 2007 new variable
