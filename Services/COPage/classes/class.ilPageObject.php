@@ -1254,10 +1254,14 @@ class ilPageObject
 			" AND parent_type= ".$ilDB->quote($this->getParentType());
 		$this->ilias->db->query($query);
 
+		// delete media objects
 		foreach ($mobs as $mob_id)
 		{
-			$mob_obj =& new ilObjMediaObject($mob_id);
-			$mob_obj->delete();
+			if (ilObject::_exists($mob_id))
+			{
+				$mob_obj =& new ilObjMediaObject($mob_id);
+				$mob_obj->delete();
+			}
 		}
 
 		include_once("./Modules/File/classes/class.ilObjFile.php");
