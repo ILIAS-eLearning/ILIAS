@@ -136,7 +136,14 @@ class ilPageContentGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
+		// check whether target is allowed
+		$curr_node =& $this->pg_obj->getContentNode($_POST["target"][0]);
+		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// strip "c" "r" of table ids from hierarchical id
 		$first_hier_character = substr($_POST["target"][0], 0, 1);
 		if ($first_hier_character == "c" ||
@@ -181,6 +188,13 @@ class ilPageContentGUI
 		if($this->hier_id == substr($_POST["target"][0], 0, strlen($this->hier_id)))
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check whether target is allowed
+		$curr_node =& $this->pg_obj->getContentNode($_POST["target"][0]);
+		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// strip "c" "r" of table ids from hierarchical id
