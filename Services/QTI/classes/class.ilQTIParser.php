@@ -310,10 +310,40 @@ class ilQTIParser extends ilSaxParser
 			case "itemfeedback":
 				include_once ("./Services/QTI/classes/class.ilQTIItemfeedback.php");
 				$this->itemfeedback = new ilQTIItemfeedback();
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "ident":
+								$this->itemfeedback->setIdent($value);
+								break;
+							case "view":
+								$this->itemfeedback->setView($value);
+								break;
+						}
+					}
+				}
 				break;
 			case "displayfeedback":
 				include_once ("./Services/QTI/classes/class.ilQTIDisplayfeedback.php");
 				$this->displayfeedback = new ilQTIDisplayfeedback();
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "feedbacktype":
+								$this->displayfeedback->setFeedbacktype($value);
+								break;
+							case "linkrefid":
+								$this->displayfeedback->setLinkrefid($value);
+								break;
+						}
+					}
+				}
 				break;
 			case "setvar":
 				include_once ("./Services/QTI/classes/class.ilQTISetvar.php");
