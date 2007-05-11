@@ -24,7 +24,6 @@
 require_once("./Modules/LearningModule/classes/class.ilLMObjectGUI.php");
 require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-//require_once ("content/classes/class.ilEditClipboardGUI.php");
 require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 
 /**
@@ -99,10 +98,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$showViewInFrameset = true;
 
 				$this->ctrl->setReturn($this, "view");
-				//require_once("content/classes/class.ilContObjLocatorGUI.php");
-				//$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
-				//$contObjLocator->setObject($this->obj);
-				//$contObjLocator->setContentObject($this->content_object);
 				$page_object =& $this->obj->getPageObject();
 				$page_object->buildDom();
 				$page_object->addUpdateListener($this, "updateHistory");

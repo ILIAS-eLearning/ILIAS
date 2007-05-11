@@ -202,7 +202,7 @@ class ilGlossaryTermGUI
 	*
 	* used in ilLMPresentationGUI->ilGlossary()
 	*/
-	function output($a_offline = false, $dir = "")
+	function output($a_offline = false)
 	{
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");

@@ -425,14 +425,6 @@ class ilLMPresentationGUI
 					fwrite($fp,$css1);
 					fclose($fp);
 
-					$css2 = file("./content/content.css");
-					$css2 = implode($css2,"");
-
-					$fp = fopen($export_dir."/".$fileName."/css/content.css","wb");
-					fwrite($fp,$css2);
-					fclose($fp);
-
-
 					$fp = fopen($export_dir."/".$fileName."/".$fileName.".html","wb");
 					fwrite($fp,$html);
 					fclose($fp);
@@ -1851,7 +1843,7 @@ class ilLMPresentationGUI
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 		$term_gui->setLinkXML($link_xml);
 
-		$term_gui->output($this->offlineMode(), "content/");
+		$term_gui->output($this->offlineMode());
 		//$term_gui->listDefinitions($this->offlineMode());
 
 		$ilBench->stop("ContentPresentation", "ilGlossary");

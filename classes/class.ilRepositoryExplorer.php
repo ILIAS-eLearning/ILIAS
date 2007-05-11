@@ -98,7 +98,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$a_node_id;
 
 			case "htlm":
-				return "content/fblm_presentation.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$a_node_id;
 
 			case "sahs":
 				return "ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$a_node_id;
@@ -171,7 +171,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=".$a_node_id;
 
 			case "htlm":
-				return "content/fblm_edit.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilHTLMEditorGUI&amp;ref_id=".$a_node_id;
 
 			case "sahs":
 				return "ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$a_node_id;
@@ -240,8 +240,6 @@ class ilRepositoryExplorer extends ilExplorer
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
 		global $ilias;
-		
-		
 		
 		switch($a_type)
 		{
