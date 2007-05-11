@@ -156,7 +156,7 @@ class ilHACPExplorer extends ilAICCExplorer
 						if (strlen($unit->getWebLaunch())>0)
 							$url.="?".$unit->getWebLaunch();
 						
-						$hacpURL=ILIAS_HTTP_PATH."/content/sahs_server.php";
+						$hacpURL=ILIAS_HTTP_PATH."/Modules/ScormAicc/sahs_server.php";
 						
 						//$url.="?aicc_url=$hacpURL&aicc_sid=".$this->slm_obj->ref_id;
 						//$aicc_sid=$this->slm_obj->ref_id."%20".session_id();

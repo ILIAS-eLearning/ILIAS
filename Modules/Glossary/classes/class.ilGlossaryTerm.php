@@ -393,7 +393,6 @@ class ilGlossaryTerm
 	*/
 	function exportXML(&$a_xml_writer, $a_inst)
 	{
-		//include_once("content/classes/class..php");
 
 		$attrs = array();
 		$attrs["Language"] = $this->getLanguage();

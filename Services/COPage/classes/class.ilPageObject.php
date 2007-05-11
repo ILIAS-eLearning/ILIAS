@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-//require_once("content/classes/class.ilLMObject.php");
 require_once("./Services/COPage/classes/class.ilPageContent.php");
 require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 require_once("./Services/COPage/syntax_highlight/php/Beautifier/Init.php");
@@ -169,10 +168,6 @@ class ilPageObject
 		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
 		$ilBench->stop("ContentPresentation", "ilPageObject_buildDom");
 
-	/*	if (!is_object($this->dom)) {
-			print_r($error);
-			echo "<br><br>".$this->getId().":xml:".htmlentities($this->getXMLContent(true)).":<br>";
-		}*/
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
 		$res =& xpath_eval($xpc, $path);
@@ -2043,7 +2038,7 @@ class ilPageObject
 	function getFO()
 	{
 		$xml = $this->getXMLFromDom(false, true, true);
-		$xsl = file_get_contents("./content/page_fo.xsl");
+		$xsl = file_get_contents("./Services/COPage/xsl/page_fo.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 

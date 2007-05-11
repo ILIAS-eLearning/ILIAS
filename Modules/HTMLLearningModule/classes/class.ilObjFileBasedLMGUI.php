@@ -321,16 +321,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		/* if (!defined("ILIAS_MODULE"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/fblm_edit.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"".ilFrameTargetInfo::_getFrame("MainContent")."\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
-		} */
-
-		//parent::editObject();
 	}
 
 	/**
@@ -339,10 +329,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	function edit()
 	{
 		$this->prepareOutput();
-		//$this->setFormAction("update", "fblm_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
-		//	"&obj_id=".$_GET["obj_id"]);
 		$this->editObject();
-		//$this->tpl->show();
 	}
 
 	/**
