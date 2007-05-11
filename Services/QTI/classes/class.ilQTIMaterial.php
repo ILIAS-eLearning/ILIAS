@@ -145,5 +145,21 @@ class ilQTIMaterial
 	{
 		return $this->label;
 	}
+	
+	function extractText()
+	{
+		$text = "";
+		if ($this->getMaterialCount())
+		{
+			foreach ($this->materials as $mat)
+			{
+				if (strcmp($mat["type"], "mattext") == 0)
+				{
+					$text .= $mat["material"];
+				}
+			}
+		}
+		return $text;
+	}
 }
 ?>
