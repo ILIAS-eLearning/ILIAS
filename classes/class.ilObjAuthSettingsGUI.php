@@ -341,7 +341,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$textarea->setRows(10);
 			$textarea->setValue($message);
 			$textarea->setUseRte(true);
-			$textarea->setAlert($lng->txt("not_installed"));
+			
+			if(!in_array($lang_key,$languages))
+			{
+				$textarea->setAlert($lng->txt("not_installed"));
+			}
 			$form->addItem($textarea);
 		}
 		$this->tpl->setVariable('LOGIN_INFO',$form->getHTML());

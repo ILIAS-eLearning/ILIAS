@@ -879,7 +879,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	// METHODS for local user administration
 	function listUsersObject($show_delete = false)
 	{
-		global $ilUser;
+		global $ilUser,$rbacreview;
 
 		include_once './classes/class.ilLocalUser.php';
 		include_once './classes/class.ilObjUserGUI.php';
@@ -927,7 +927,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		if(count($rbacreview->getGlobalAssignableRoles()) or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		if(count($rbacreview->getGlobalAssignableRoles()) or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 		{
 			// add user button
 			$this->tpl->setCurrentBlock("btn_cell");
@@ -1154,12 +1154,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 	// PRIVATE
 	function __getAssignableRoles()
 	{
-		global $rbacreview;
+		global $rbacreview,$ilUser;
 
 		// check local user
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
 		// Admin => all roles
-		if(in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
+		if(in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 		{
 			$global_roles = $rbacreview->getGlobalRolesArray();
 		}
@@ -1177,12 +1177,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function __checkGlobalRoles($new_assigned)
 	{
-		global $rbacreview;
+		global $rbacreview,$ilUser;
 
 		// return true if it's not a local user
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
 		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
-		   !in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
+		   !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 		{
 			return true;
 		}
@@ -1192,7 +1192,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$assigned = $rbacreview->assignedRoles((int) $_GET['obj_id']);
 
 		// all assignable globals
-		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		if(!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 		{
 			$ga = $rbacreview->getGlobalAssignableRoles();
 		}

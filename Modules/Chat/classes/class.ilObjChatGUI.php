@@ -169,8 +169,6 @@ class ilObjChatGUI extends ilObjectGUI
 		// Assign current user.
 		$rbacadmin->assignUser($roles[0],$ilUser->getId());
 		
-		// Update active roles
-		ilObjUser::updateActiveRoles($ilUser->getId());
 
 		//$this->ctrl->setParameter($this, "ref_id", $new_obj->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",

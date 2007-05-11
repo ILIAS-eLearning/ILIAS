@@ -172,7 +172,6 @@ class ilCourseMembers
 		$this->__createMemberEntry($user_obj->getId(),$a_role,$status,$passed);
 
 		$rbacadmin->assignUser($role,$user_obj->getId());
-		ilObjUser::updateActiveRoles($user_obj->getId());
 
 		return true;
 	}
@@ -247,8 +246,6 @@ class ilCourseMembers
 				break;
 		}
 
-		// Update active roles
-		ilObjUser::updateActiveRoles($a_usr_id);
 
 		$query = "UPDATE crs_members ".
 			"SET role = ".$ilDB->quote($a_role).", ".
@@ -327,7 +324,6 @@ class ilCourseMembers
 
 		$this->dropDesktopItem($a_usr_id);
 		$rbacadmin->deassignUser($role,$a_usr_id);
-		ilObjUser::updateActiveRoles($a_usr_id);
 
 
 		$query = "DELETE FROM crs_members ".

@@ -191,7 +191,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $ilias, $rbacsystem, $rbacreview, $styleDefinition, $ilSetting;
+		global $ilias, $rbacsystem, $rbacreview, $styleDefinition, $ilSetting,$ilUser;
 		
 		//load ILIAS settings
 		$settings = $ilias->getAllSettings();
@@ -213,7 +213,7 @@ class ilObjUserGUI extends ilObjectGUI
 		foreach ($obj_list as $obj_data)
 		{
 			// allow only 'assign_users' marked roles if called from category
-			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 			{
 				include_once './classes/class.ilObjRole.php';
 		
@@ -226,7 +226,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
 				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 				{
 					$rol[$obj_data["obj_id"]] = $obj_data["title"];
 				}
@@ -1795,54 +1795,6 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 
-	/**
-	* updates actives roles of user in session
-	* DEPRECATED
-	*
-	* @access	public
-	*/
-	function activeRoleSaveObject()
-	{
-		global $rbacreview, $ilDB;
-
-		$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
-
-		// at least one active global role must be assigned to user
-		$global_roles_all = $rbacreview->getGlobalRoles();
-		$assigned_global_roles = array_intersect($_POST["id"],$global_roles_all);
-		
-		if (!count($_POST["id"]) or count($assigned_global_roles) < 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_min_one_active_role"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if ($this->object->getId() == $_SESSION["AccountId"])
-		{
-			$_SESSION["RoleId"] = $_POST["id"];
-		}
-		else
-		{
-			if (count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
-			{
-				//var_dump("<pre>",$user_online,$_POST["id"],"</pre>");exit;
-
-				$roles = "RoleId|".serialize($_POST["id"]);
-				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$this->object->getId()]["data"]);
-				
-				// to do: move to app class
-				$q = "UPDATE usr_session SET data=".$ilDB->quote($modified_data)." WHERE user_id = ".
-					$ilDB->quote($this->object->getId());
-				$this->ilias->db->query($q);
-			}
-			else
-			{
-				// user went offline - do nothing
-			}
-		}
-
-		ilUtil::sendInfo($this->lng->txt("msg_roleassignment_active_changed").".<br/>".$this->lng->txt("msg_roleassignment_active_changed_comment"),true);
-		$this->ctrl->redirect($this, "edit");
-	}
 
 	/**
 	* assign users to role
@@ -1894,7 +1846,6 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
         include_once "./classes/class.ilObjRole.php";
-        ilObjRole::_updateSessionRoles(array($this->object->getId()));
 
 		// update object data entry (to update last modification date)
 		$this->object->update();
@@ -1919,7 +1870,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function roleassignmentObject ()
 	{
-		global $rbacreview,$rbacsystem;
+		global $rbacreview,$rbacsystem,$ilUser;
 
 		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
 		{
@@ -2001,7 +1952,7 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			// disable checkbox for system role for the system user
 			if (($this->object->getId() == SYSTEM_USER_ID and $role["obj_id"] == SYSTEM_ROLE_ID)
-				or (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $role["obj_id"] == SYSTEM_ROLE_ID))
+				or (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) and $role["obj_id"] == SYSTEM_ROLE_ID))
 			{
 				$disabled = true;
 			}

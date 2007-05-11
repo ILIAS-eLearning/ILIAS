@@ -1003,6 +1003,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function removeMemberObject()
 	{
+		global $rbacreview,$ilUser;
 		$user_ids = array();
 
 		if (isset($_POST["user_id"]))
@@ -1021,7 +1022,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if (count($user_ids) == 1 and $this->ilias->account->getId() != $user_ids[0])
 		{
-			if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) 
+			if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
 				and !in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
 			{
 				$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
@@ -1095,6 +1096,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function changeMemberObject()
 	{
+		global $rbacreview,$ilUser;
+		
 		if ($_GET["sort_by"] == "title" or $_GET["sort_by"] == "")
 		{
 			$_GET["sort_by"] = "login";
@@ -1116,7 +1119,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
 
-		if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) 
+		if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
 			and !in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
 		{
 			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);

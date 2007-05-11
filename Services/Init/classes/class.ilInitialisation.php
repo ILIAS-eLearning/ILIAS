@@ -553,9 +553,10 @@ class ilInitialisation
 			$_SESSION["AccountId"] = $ilUser->checkUserId();
 
 			// assigned roles are stored in $_SESSION["RoleId"]
-			$rbacreview = new ilRbacReview();
-			$GLOBALS['rbacreview'] =& $rbacreview;
-			$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
+			// DISABLED smeyer 20070510
+			#$rbacreview = new ilRbacReview();
+			#$GLOBALS['rbacreview'] =& $rbacreview;
+			#$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
 		} // TODO: do we need 'else' here?
 		else
 		{

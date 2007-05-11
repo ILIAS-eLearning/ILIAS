@@ -1125,9 +1125,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rbacadmin->assignUser($this->object->getId(),$user,false);
         }
         
-        // update session for newly assigned users online
-        $this->object->_updateSessionRoles($assigned_users_new);
-
     	// update object data entry (to update last modification date)
 		$this->object->update();
 
@@ -1200,9 +1197,6 @@ class ilObjRoleGUI extends ilObjectGUI
         {
 			$rbacadmin->deassignUser($this->object->getId(),$user);
 		}
-
-        // update session for newly assigned users online
-        $this->object->_updateSessionRoles($selected_users);
 
     	// update object data entry (to update last modification date)
 		$this->object->update();

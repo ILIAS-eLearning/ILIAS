@@ -1115,7 +1115,7 @@ class ilPersonalProfileGUI
 		
 		foreach($global_roles as $role_id)
 		{
-			if (in_array($role_id, $_SESSION["RoleId"]))
+			if (in_array($role_id,$rbacreview->assignedRoles($ilUser->getId())))
 			{
 				$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
 				$role_names .= $roleObj->getTitle().", ";

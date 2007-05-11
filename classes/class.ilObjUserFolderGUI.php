@@ -1164,6 +1164,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserRoleAssignmentObject ()
 	{
+		global $ilUser,$rbacreview;
+	
 		// Blind out tabs for local user import
 		if($this->ctrl->getTargetScript() == 'repository.php')
 		{
@@ -1296,7 +1298,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
 				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 				{
 					$gl_roles[$obj_data["obj_id"]] = $obj_data["title"];
 				}
@@ -1509,6 +1511,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUsersObject()
 	{
+		global $rbacreview,$ilUser;
+		
 		// Blind out tabs for local user import
 		if($this->ctrl->getTargetScript() == 'repository.php')
 		{
@@ -1546,7 +1550,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				{
 					if (in_array($role_id, $global_roles))
 					{
-						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"])
+						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
 						|| ($this->object->getRefId() != USER_FOLDER_ID 
 							&& ! ilObjRole::_getAssignUsersStatus($role_id))
 						)
