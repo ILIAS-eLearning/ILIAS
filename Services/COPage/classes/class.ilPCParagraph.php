@@ -527,14 +527,14 @@ echo htmlentities($a_text);*/
 			{
 				case "PageObject":
 					$tframestr = (!empty($attribs["TargetFrame"]))
-						? " target=\"".$attribs["TargetFrame"]."\" "
+						? " target=\"".$attribs["TargetFrame"]."\""
 						: "";
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."page=\"".$target_id."\"$tframestr]",$a_text);
 					break;
 
 				case "StructureObject":
 					$tframestr = (!empty($attribs["TargetFrame"]))
-						? " target=\"".$attribs["TargetFrame"]."\" "
+						? " target=\"".$attribs["TargetFrame"]."\""
 						: "";
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."chap=\"".$target_id."\"$tframestr]",$a_text);
 					break;
@@ -542,7 +542,7 @@ echo htmlentities($a_text);*/
 				case "GlossaryItem":
 					$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
 						? ""
-						: " target=\"".$attribs["TargetFrame"]."\" ";
+						: " target=\"".$attribs["TargetFrame"]."\"";
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."term=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
