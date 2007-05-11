@@ -2485,41 +2485,6 @@ function getCourseMemberships($a_user_id = "")
 		return $crs_memberships;
 	}
 
-	/**
-	* STATIC METHOD
-	* updates Session roles
-	* @param	integer user_id
-	* @static
-	* @return	boolean	true if user is online and session was updated
-	* @access	public
-	*/
-	function updateActiveRoles($a_user_id)
-	{
-		global $rbacreview, $ilDB;
-
-		if (!count($user_online = ilUtil::getUsersOnline($a_user_id)) == 1)
-		{
-			return false;
-		}
-
-		$role_arr = $rbacreview->assignedRoles($a_user_id);
-
-		if ($_SESSION["AccountId"] == $a_user_id)
-		{
-			$_SESSION["RoleId"] = $role_arr;
-		}
-		else
-		{
-			$roles = "RoleId|".serialize($role_arr);
-			$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$a_user_id]["data"]);
-
-			$q = "UPDATE usr_session SET data= ".
-				$ilDB->quote($modified_data)." WHERE user_id = ".$ilDB->quote($a_user_id);
-			$ilDB->query($q);
-		}
-
-		return true;
-	}
 
 	/**
 	* STATIC METHOD

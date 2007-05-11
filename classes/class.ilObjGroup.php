@@ -346,7 +346,6 @@ class ilObjGroup extends ilContainer
 			$rbacadmin->assignUser($a_mem_role,$a_user_id, false);
 		}
 
-		ilObjUser::updateActiveRoles($a_user_id);
 		return true;
 	}
 
@@ -484,8 +483,6 @@ class ilObjGroup extends ilContainer
 		{
 			$rbacadmin->deassignUser($arr_groupRoles, $a_user_id);
 		}
-
-		ilObjUser::updateActiveRoles($a_user_id);
 
 		return true;
 	}
@@ -1509,11 +1506,6 @@ class ilObjGroup extends ilContainer
 	{
 		global $rbacsystem;
 
-		// exclude system role from check
-		/*if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
-		{
-			return true;
-		}*/
 
 		if (!$this->isMember() or !$rbacsystem->checkAccess("join", $this->ref_id))
 		{

@@ -404,35 +404,6 @@ class ilObjRole extends ilObject
 		return $result_data ? $result_data : array();
 	}
 	
-	// updates role assignments in sessions of users that are online
-    function _updateSessionRoles($a_selected_users)
-	{
-        global $ilDB, $rbacreview;
-        
-		$online_users_all = ilUtil::getUsersOnline();
-		
-        // users online to alter their role assignment
-        $affected_users = array_intersect(array_keys($online_users_all),$a_selected_users);
-        
-	    foreach ($affected_users as $user)
-		{
-			$role_arr = $rbacreview->assignedRoles($user);
-
-			// current user assigned himself?
-            if ($user == $_SESSION["AccountId"])
-			{
-				$_SESSION["RoleId"] = $role_arr;
-			}
-			else
-			{
-				$roles = "RoleId|".serialize($role_arr);
-				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$online_users_all[$user]["data"]);
-
-				$q = "UPDATE usr_session SET data= ".$ilDB->quote($modified_data)." WHERE user_id = ".$ilDB->quote($user)." ";
-				$ilDB->query($q);
-			}
-		}
-	}
 	
 	function _getTranslation($a_role_title)
 	{

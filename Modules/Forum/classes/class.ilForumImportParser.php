@@ -366,7 +366,6 @@ class ilForumImportParser extends ilSaxParser
 		global $rbacadmin;
 
 		$rbacadmin->assignUser($this->roles[0],$id, "n");
-		ilObjUser::updateActiveRoles($id);
 
 		return true;
 	}

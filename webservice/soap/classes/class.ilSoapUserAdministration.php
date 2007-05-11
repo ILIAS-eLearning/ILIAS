@@ -607,7 +607,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*/
 	function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail)
 	{
-
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -619,7 +618,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './classes/class.ilUserImportParser.php';
 		include_once './classes/class.ilObjRole.php';
 		include_once './classes/class.ilObjectFactory.php';
-		global $rbacreview, $rbacsystem, $tree, $lng;
+		global $rbacreview, $rbacsystem, $tree, $lng,$ilUser;
 
     	// this takes time but is nescessary
    		$error = false;
@@ -728,7 +727,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
 				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 				{
 					$permitted_global_roles[$obj_data["obj_id"]] = $obj_data["title"];
 				}
@@ -848,7 +847,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 				{
 					if (in_array($role_id, $global_roles))
 					{
-						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"])
+						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId()))
 						|| ($folder_id != USER_FOLDER_ID && $folder_id != 0 && ! ilObjRole::_getAssignUsersStatus($role_id))
 						)
 						{
@@ -990,7 +989,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		include_once './classes/class.ilObjRole.php';
-		global $ilDB, $rbacreview, $rbacsystem, $tree;
+		global $ilDB, $rbacreview, $rbacsystem, $tree,$ilUser;
 
 
 		$global_roles = $rbacreview->getGlobalRoles();
@@ -998,7 +997,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		if (in_array($role_id, $global_roles))
 		{
-			if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"])
+			if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
 			)
 			{
 				return $this->__raiseError("Role access not permitted. ($role_id)","Server");

@@ -320,7 +320,7 @@ class ilLanguage
 		
 		}
 
-		return $languages;
+		return $languages ? $languages : array();
 	}
 	
 	function _lookupEntry($a_lang_key, $a_mod, $a_id)

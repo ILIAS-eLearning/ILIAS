@@ -35,6 +35,7 @@
 */
 class ilRbacSystem
 {
+	protected static $user_role_cache = array();
 	var $ilias;
 
 	/**
@@ -110,15 +111,9 @@ class ilRbacSystem
 		}
 
 		
-		// get roles
-		if ($a_user_id == $ilUser->getId())
-		{
-			$roles = $_SESSION["RoleId"] ? $_SESSION['RoleId'] : array();
-		}
-		else
-		{
-			$roles = $rbacreview->assignedRoles($a_user_id);
-		}
+		// get roles using role cache
+		$roles = $this->fetchAssigedRoles($a_user_id);
+		
 		
 		// exclude system role from rbac
 		if (in_array(SYSTEM_ROLE_ID, $roles))
@@ -248,6 +243,25 @@ class ilRbacSystem
 			}
 		}
 		return $new_ops;
+	}
+	
+	/**
+	 * Fetch assigned roles
+	 * This method caches the assigned roles per user  
+	 *
+	 * @access private
+	 * @param int user id
+	 * 
+	 */
+	private function fetchAssignedRoles($a_usr_id)
+	{
+	 	global $ilUser;
+	 	
+		if(isset(self::$user_role_cache[$a_usr_id]) and is_array(self::$user_role_cache))
+		{
+			return self::$user_role_cache[$a_usr_id];
+		}
+		return self::$user_role_cache[$a_usr_id] = $rbavreview->assignedRoles($a_usr_id);
 	}
 
 } // END class.RbacSystem

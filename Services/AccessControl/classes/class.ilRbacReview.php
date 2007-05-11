@@ -39,6 +39,7 @@
 */
 class ilRbacReview
 {
+	protected $assigned_roles = array();
 	var $log = null;
 
 	/**
@@ -867,12 +868,6 @@ class ilRbacReview
 	{
 		global $ilDB;
 		
-		if (!isset($a_usr_id))
-		{
-			$message = get_class($this)."::assignedRoles(): No user_id given!";
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
-		}
-
 		$role_arr = array();
 		
 		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
@@ -886,10 +881,8 @@ class ilRbacReview
 		if (!count($role_arr))
 		{
 			$message = get_class($this)."::assignedRoles(): No assigned roles found or user does not exist!";
-			#$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-
-		return $role_arr;
+		return $role_arr ? $role_arr : array();
 	}
 
 	/**
@@ -1526,7 +1519,7 @@ class ilRbacReview
 	{
 		global $rbacsystem,$ilUser,$log;
 		
-		if (in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
+		if (in_array(SYSTEM_ROLE_ID,$this->assignedRoles($ilUser->getId())))
 		{
 			$leveladmin = true;
 		}
@@ -1551,7 +1544,7 @@ class ilRbacReview
 				
 			if ($a_parent_roles[$role_id]['protected'] == true)
 			{
-				$arr_lvl_roles_user = array_intersect($_SESSION['RoleId'],array_keys($a_role_hierarchy,$rolf_id));
+				$arr_lvl_roles_user = array_intersect($this->assignedRoles($ilUser->getId()),array_keys($a_role_hierarchy,$rolf_id));
 				
 				foreach ($arr_lvl_roles_user as $lvl_role_id)
 				{
