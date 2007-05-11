@@ -2297,18 +2297,21 @@ class assQuestion
 			$attrs["texttype"] = "text/xhtml";
 		}
 		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
-
 		if ($add_mobs)
 		{
 			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
-				$imgattrs = array(
-					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
-					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-				);
-				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+				$moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
+				if (strpos($a_material, "mm_$mob") !== FALSE)
+				{
+					$mob_obj =& new ilObjMediaObject($mob);
+					$imgattrs = array(
+						"label" => $moblabel,
+						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+					);
+					$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+				}
 			}
 		}		
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");

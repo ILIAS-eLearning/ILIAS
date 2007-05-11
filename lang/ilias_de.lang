@@ -649,6 +649,7 @@ assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
+assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
 assessment#:#tst_sequence_properties#:#Reihenfolge-Einstellungen
 assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
