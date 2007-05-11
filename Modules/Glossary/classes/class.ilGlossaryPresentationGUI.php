@@ -868,7 +868,7 @@ class ilGlossaryPresentationGUI
 					
 				if ($targetframe == "New")
 				{
-					$ltarget = "_new";
+					$ltarget = "_blank";
 				}
 				else
 				{
