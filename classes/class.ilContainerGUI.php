@@ -663,7 +663,7 @@ class ilContainerGUI extends ilObjectGUI
 				// all item types
 				$type_ordering = array(
 					"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
-					"glo", "webr", "file", "mcst", "exc",
+					"glo", "webr", "mcst", "file", "exc",
 					"tst", "svy", "mep", "qpl", "spl");
 
 				$cur_obj_type = "";

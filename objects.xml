@@ -43,14 +43,15 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm">frm</subobj>
+	<subobj name="feed">feed</subobj>
+	<subobj name="file" module="1">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
-	<subobj name="webr">webr</subobj>
-	<subobj name="file" module="1">file</subobj>
-	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
@@ -58,7 +59,6 @@
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
 	<subobj name="icrs">icrs</subobj>
-	<subobj name="feed">feed</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -86,21 +86,21 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="feed">feed</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
-	<subobj name="webr">webr</subobj>
-	<subobj name="file">file</subobj>
-	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
-	<subobj name="feed">feed</subobj>
 	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
@@ -117,14 +117,14 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
-	<subobj name="webr">webr</subobj>
-	<subobj name="file">file</subobj>
-	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
@@ -155,21 +155,21 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="feed">feed</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="htlm">htlm</subobj>
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
-	<subobj name="webr">webr</subobj>
-	<subobj name="file">file</subobj>
-	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
-	<subobj name="feed">feed</subobj>
 	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>

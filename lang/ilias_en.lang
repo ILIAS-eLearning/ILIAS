@@ -1475,11 +1475,11 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat#:#Category
-common#:#mcst#:#MediaCast
-common#:#obj_mcst#:#MediaCast
-common#:#objs_mcst#:#MediaCasts
-common#:#mcst_new#:#New MediaCast
-common#:#mcst_add#:#Add MediaCast
+common#:#mcst#:#Mediacast
+common#:#obj_mcst#:#Mediacast
+common#:#objs_mcst#:#Mediacasts
+common#:#mcst_new#:#New Mediacast
+common#:#mcst_add#:#Add Mediacast
 common#:#obj_pdts#:#Personal Desktop Settings
 common#:#obj_pdts_desc#:#Configure the Personal Desktop
 common#:#move_blocks#:#Move Blocks
@@ -1487,17 +1487,17 @@ common#:#stop_moving_blocks#:#Stop Moving Blocks
 pd#:#pd_settings#:#Personal Desktop Settings
 pd#:#pd_enable_block_moving#:#Enable Block Moving
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
-mcst#:#mcst_add_new_item#:#Add New Media Cast Item
+mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_duration#:#Play Time
 mcst#:#mcst_nr_items#:#Number of Items
 mcst#:#mcst_last_submission#:#Last Submission
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
-mcst#:#mcst_media_cast#:#Media Cast
-mcst#:#mcst_entry#:#Media Cast Entries
+mcst#:#mcst_media_cast#:#Mediacast
+mcst#:#mcst_entry#:#Mediacast Entries
 mcst#:#mcst_play_time#:#Play Time
 mcst#:#mcst_det_playtime#:#Determine Play Time
-mcst#:#mcst_settings#:#MediaCast Settings
+mcst#:#mcst_settings#:#Mediacast Settings
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.
 common#:#cat_a#:#a Category
@@ -2866,9 +2866,9 @@ common#:#feed_visible#:#Web Feed is visible
 common#:#feed_read#:#Read access to Web Feed
 common#:#feed_write#:#Edit Web Feed
 common#:#mcst_edit_permission#:#Change permission settings
-common#:#mcst_visible#:#MediaCast is visible
-common#:#mcst_read#:#Read access to MediaCast
-common#:#mcst_write#:#Edit MediaCast
+common#:#mcst_visible#:#Mediacast is visible
+common#:#mcst_read#:#Read access to Mediacast
+common#:#mcst_write#:#Edit Mediacast
 common#:#nwss_edit_permission#:#Change permission settings
 common#:#nwss_visible#:#News and Web Feeds Settings are visible
 common#:#nwss_read#:#Read access to News and Web Feeds Settings
@@ -2876,10 +2876,10 @@ common#:#nwss_write#:#Edit News and Web Feeds Settings
 common#:#cat_create_feed#:#Create Web Feed
 common#:#grp_create_feed#:#Create Web Feed
 common#:#crs_create_feed#:#Create Web Feed
-common#:#cat_create_mcst#:#Create MediaCast
-common#:#grp_create_mcst#:#Create MediaCast
-common#:#crs_create_mcst#:#Create MediaCast
-common#:#fold_create_mcst#:#Create MediaCast
+common#:#cat_create_mcst#:#Create Mediacast
+common#:#grp_create_mcst#:#Create Mediacast
+common#:#crs_create_mcst#:#Create Mediacast
+common#:#fold_create_mcst#:#Create Mediacast
 block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
@@ -7248,7 +7248,7 @@ common#:#grp_copy#:#Copy Group
 common#:#htlm_copy#:#Copy HTML Learning Module
 common#:#icrs_copy#:#Copy LearnLinc Seminar
 common#:#lm_copy#:#Copy ILIAS Lernmodul
-common#:#mcst_copy#:#Copy MediaCast
+common#:#mcst_copy#:#Copy Mediacast
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#svy_copy#:#Copy Survey
 common#:#tst_copy#:#Copy Test

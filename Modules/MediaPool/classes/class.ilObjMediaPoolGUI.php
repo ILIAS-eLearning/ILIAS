@@ -154,6 +154,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 //echo ":".$tree->getParentId($_GET["obj_id"]).":";
 				//$ret =& $ilObjMediaObjectGUI->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($ilObjMediaObjectGUI);
+
 //echo "<br>ilObjMediaPoolGUI:afterexecute:<br>"; exit;
 				switch($cmd)
 				{
@@ -605,8 +606,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 	function getTemplate()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->getStandardTemplate();
+		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		//$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 
 
@@ -739,7 +741,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "content");
+		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
