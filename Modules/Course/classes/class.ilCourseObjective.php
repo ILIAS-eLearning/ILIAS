@@ -54,6 +54,28 @@ class ilCourseObjective
 	}
 	
 	/**
+	 * Get container of object 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int objective id
+	 */
+	public static function _lookupContainerIdByObjectiveId($a_objective_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT crs_id FROM crs_objectives ".
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id);
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->crs_id;
+		}
+		return false;
+	}
+	
+	/**
 	 * clone objectives
 	 *
 	 * @access public
