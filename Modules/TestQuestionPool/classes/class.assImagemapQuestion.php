@@ -417,427 +417,6 @@ class assImagemapQuestion extends assQuestion
 		parent::loadFromDb($question_id);
   }
 
-	/**
-	* Creates a question from a QTI file
-	*
-	* Receives parameters from a QTI parser and creates a valid ILIAS question object
-	*
-	* @param object $item The QTI item object
-	* @param integer $questionpool_id The id of the parent questionpool
-	* @param integer $tst_id The id of the parent test if the question is part of a test
-	* @param object $tst_object A reference to the parent test object
-	* @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
-	* @param array $import_mapping An array containing references to included ILIAS objects
-	* @access public
-	*/
-	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
-	{
-		global $ilUser;
-
-		// empty session variable for imported xhtml mobs
-		unset($_SESSION["import_mob_xhtml"]);
-		$presentation = $item->getPresentation(); 
-		$duration = $item->getDuration();
-		$now = getdate();
-		$questionimage = array();
-		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-		$answers = array();
-		foreach ($presentation->order as $entry)
-		{
-			switch ($entry["type"])
-			{
-				case "response":
-					$response = $presentation->response[$entry["index"]];
-					$rendertype = $response->getRenderType(); 
-					switch (strtolower(get_class($rendertype)))
-					{
-						case "ilqtirenderhotspot":
-							foreach ($rendertype->material as $mat)
-							{
-								for ($i = 0; $i < $mat->getMaterialCount(); $i++)
-								{
-									$m = $mat->getMaterial($i);
-									if (strcmp($m["type"], "matimage") == 0)
-									{
-										$questionimage = array(
-											"imagetype" => $m["material"]->getImageType(),
-											"label" => $m["material"]->getLabel(),
-											"content" => $m["material"]->getContent()
-										);
-									}
-								}
-							}
-							foreach ($rendertype->response_labels as $response_label)
-							{
-								$ident = $response_label->getIdent();
-								$answerhint = "";
-								foreach ($response_label->material as $mat)
-								{
-									$answerhint .= $this->QTIMaterialToString($mat);
-								}
-								$answers[$ident] = array(
-									"answerhint" => $answerhint,
-									"areatype" => $response_label->getRarea(),
-									"coordinates" => $response_label->getContent(),
-									"points" => 0,
-									"answerorder" => $response_label->getIdent(),
-									"correctness" => "1",
-									"action" => ""
-								);
-							}
-							break;
-					}
-					break;
-			}
-		}
-		$responses = array();
-		foreach ($item->resprocessing as $resprocessing)
-		{
-			foreach ($resprocessing->respcondition as $respcondition)
-			{
-				$coordinates = "";
-				$conditionvar = $respcondition->getConditionvar();
-				foreach ($conditionvar->order as $order)
-				{
-					switch ($order["field"])
-					{
-						case "varinside":
-							$coordinates = $conditionvar->varinside[$order["index"]]->getContent();
-							break;
-					}
-				}
-				foreach ($respcondition->setvar as $setvar)
-				{
-					foreach ($answers as $ident => $answer)
-					{
-						if (strcmp($answer["coordinates"], $coordinates) == 0)
-						{
-							$answers[$ident]["action"] = $setvar->getAction();
-							$answers[$ident]["points"] = $setvar->getContent();
-						}
-					}
-				}
-			}
-		}
-
-		$this->setTitle($item->getTitle());
-		$this->setComment($item->getComment());
-		$this->setAuthor($item->getAuthor());
-		$this->setOwner($ilUser->getId());
-		$this->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
-		$this->setObjId($questionpool_id);
-		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
-		$areas = array("2" => "rect", "1" => "circle", "3" => "poly");
-		$this->image_filename = $questionimage["label"];
-		foreach ($answers as $answer)
-		{
-			$this->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["coordinates"], $areas[$answer["areatype"]]);
-		}
-		$this->saveToDb();
-		if (count($item->suggested_solutions))
-		{
-			foreach ($item->suggested_solutions as $suggested_solution)
-			{
-				$this->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
-			}
-			$this->saveToDb();
-		}
-		$image =& base64_decode($questionimage["content"]);
-		$imagepath = $this->getImagePath();
-		if (!file_exists($imagepath))
-		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::makeDirParents($imagepath);
-		}
-		$imagepath .=  $questionimage["label"];
-		$fh = fopen($imagepath, "wb");
-		if ($fh == false)
-		{
-//									global $ilErr;
-//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
-		}
-		else
-		{
-			$imagefile = fwrite($fh, $image);
-			fclose($fh);
-		}
-		// handle the import of media objects in XHTML code
-		if (is_array($_SESSION["import_mob_xhtml"]))
-		{
-			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-			include_once "./Services/RTE/classes/class.ilRTE.php";
-			foreach ($_SESSION["import_mob_xhtml"] as $mob)
-			{
-				if ($tst_id > 0)
-				{
-					include_once "./Modules/Test/classes/class.ilObjTest.php";
-					$importfile = ilObjTest::_getImportDirectory() . "/" . $_SESSION["tst_import_subdir"] . "/" . $mob["uri"];
-				}
-				else
-				{
-					include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-					$importfile = ilObjQuestionPool::_getImportDirectory() . "/" . $_SESSION["qpl_import_subdir"] . "/" . $mob["uri"];
-				}
-				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
-				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->getId());
-				$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getQuestion()), 1));
-			}
-			$this->saveToDb();
-		}
-		if ($tst_id > 0)
-		{
-			$q_1_id = $this->getId();
-			$question_id = $this->duplicate(true);
-			$tst_object->questions[$question_counter++] = $question_id;
-			$import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
-		}
-		else
-		{
-			$import_mapping[$item->getIdent()] = array("pool" => $this->getId(), "test" => 0);
-		}
-		//$ilLog->write(strftime("%D %T") . ": finished import multiple choice question (single response)");
-	}
-
-	/**
-	* Returns a QTI xml representation of the question
-	*
-	* Returns a QTI xml representation of the question and sets the internal
-	* domxml variable with the DOM XML representation of the QTI xml representation
-	*
-	* @return string The QTI xml representation of the question
-	* @access public
-	*/
-	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
-	{
-		include_once("./classes/class.ilXmlWriter.php");
-		$a_xml_writer = new ilXmlWriter;
-		// set xml header
-		$a_xml_writer->xmlHeader();
-		$a_xml_writer->xmlStartTag("questestinterop");
-		$attrs = array(
-			"ident" => "il_".IL_INST_ID."_qst_".$this->getId(),
-			"title" => $this->getTitle()
-		);
-		$a_xml_writer->xmlStartTag("item", $attrs);
-		// add question description
-		$a_xml_writer->xmlElement("qticomment", NULL, $this->getComment());
-		// add estimated working time
-		$workingtime = $this->getEstimatedWorkingTime();
-		$duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
-		$a_xml_writer->xmlElement("duration", NULL, $duration);
-		// add ILIAS specific metadata
-		$a_xml_writer->xmlStartTag("itemmetadata");
-		$a_xml_writer->xmlStartTag("qtimetadata");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "ILIAS_VERSION");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->ilias->getSetting("ilias_version"));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "QUESTIONTYPE");
-		$a_xml_writer->xmlElement("fieldentry", NULL, IMAGEMAP_QUESTION_IDENTIFIER);
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlEndTag("qtimetadata");
-		$a_xml_writer->xmlEndTag("itemmetadata");
-		
-		// PART I: qti presentation
-		$attrs = array(
-			"label" => $this->getTitle()
-		);
-		$a_xml_writer->xmlStartTag("presentation", $attrs);
-		// add flow to presentation
-		$a_xml_writer->xmlStartTag("flow");
-		// add material with question text to presentation
-		$this->addQTIMaterial($a_xml_writer, $this->getQuestion());
-		// add answers to presentation
-		$attrs = array(
-			"ident" => "IM",
-			"rcardinality" => "Single"
-		);
-		$a_xml_writer->xmlStartTag("response_xy", $attrs);
-		$solution = $this->getSuggestedSolution(0);
-		if (count($solution))
-		{
-			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
-			{
-				$a_xml_writer->xmlStartTag("material");
-				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-				if (strcmp($matches[1], "") != 0)
-				{
-					$intlink = $solution["internal_link"];
-				}
-				$attrs = array(
-					"label" => "suggested_solution"
-				);
-				$a_xml_writer->xmlElement("mattext", $attrs, $intlink);
-				$a_xml_writer->xmlEndTag("material");
-			}
-		}
-		$a_xml_writer->xmlStartTag("render_hotspot");
-		$a_xml_writer->xmlStartTag("material");
-		$imagetype = "image/jpeg";
-		if (preg_match("/.*\.(png|gif)$/", $this->get_image_filename(), $matches))
-		{
-			$imagetype = "image/" . $matches[1];
-		}
-		$attrs = array(
-			"imagtype" => $imagetype,
-			"label" => $this->get_image_filename()
-		);
-		if ($a_include_binary)
-		{
-			if ($force_image_references)
-			{
-				$attrs["uri"] = $this->getImagePathWeb() . $this->get_image_filename();
-				$a_xml_writer->xmlElement("matimage", $attrs);
-			}
-			else
-			{
-				$attrs["embedded"] = "base64";
-				$imagepath = $this->getImagePath() . $this->get_image_filename();
-				$fh = fopen($imagepath, "rb");
-				if ($fh == false)
-				{
-					global $ilErr;
-					$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->MESSAGE);
-					return;
-				}
-				$imagefile = fread($fh, filesize($imagepath));
-				fclose($fh);
-				$base64 = base64_encode($imagefile);
-				$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
-			}
-		}
-		else
-		{
-			$a_xml_writer->xmlElement("matimage", $attrs);
-		}
-		$a_xml_writer->xmlEndTag("material");
-
-		// add answers
-		foreach ($this->answers as $index => $answer)
-		{
-			$rared = "";
-			switch ($answer->getArea())
-			{
-				case "rect":
-					$rarea = "Rectangle";
-					break;
-				case "circle":
-					$rarea = "Ellipse";
-					break;
-				case "poly":
-					$rarea = "Bounded";
-					break;
-			}
-			$attrs = array(
-				"ident" => $index,
-				"rarea" => $rarea
-			);
-			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlData($answer->getCoords());
-			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $answer->getAnswertext());
-			$a_xml_writer->xmlEndTag("material");
-			$a_xml_writer->xmlEndTag("response_label");
-		}
-		$a_xml_writer->xmlEndTag("render_hotspot");
-		$a_xml_writer->xmlEndTag("response_xy");
-		$a_xml_writer->xmlEndTag("flow");
-		$a_xml_writer->xmlEndTag("presentation");
-
-		// PART II: qti resprocessing
-		$a_xml_writer->xmlStartTag("resprocessing");
-		$a_xml_writer->xmlStartTag("outcomes");
-		$a_xml_writer->xmlStartTag("decvar");
-		$a_xml_writer->xmlEndTag("decvar");
-		$a_xml_writer->xmlEndTag("outcomes");
-		// add response conditions
-		foreach ($this->answers as $index => $answer)
-		{
-			$attrs = array(
-				"continue" => "Yes"
-			);
-			$a_xml_writer->xmlStartTag("respcondition", $attrs);
-			// qti conditionvar
-			$a_xml_writer->xmlStartTag("conditionvar");
-			if (!$answer->isStateSet())
-			{
-				$a_xml_writer->xmlStartTag("not");
-			}
-			$areatype = "";
-			switch ($answer->getArea())
-			{
-				case "rect":
-					$areatype = "Rectangle";
-					break;
-				case "circle":
-					$areatype = "Ellipse";
-					break;
-				case "poly":
-					$areatype = "Bounded";
-					break;
-			}
-			$attrs = array(
-				"respident" => "IM",
-				"areatype" => $areatype
-			);
-			$a_xml_writer->xmlElement("varinside", $attrs, $answer->getCoords());
-			if (!$answer->isStateSet())
-			{
-				$a_xml_writer->xmlEndTag("not");
-			}
-			$a_xml_writer->xmlEndTag("conditionvar");
-			// qti setvar
-			$attrs = array(
-				"action" => "Add"
-			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
-			$linkrefid = "response_$index";
-			$attrs = array(
-				"feedbacktype" => "Response",
-				"linkrefid" => $linkrefid
-			);
-			$a_xml_writer->xmlElement("displayfeedback", $attrs);
-			$a_xml_writer->xmlEndTag("respcondition");
-		}
-		$a_xml_writer->xmlEndTag("resprocessing");
-
-		// PART III: qti itemfeedback
-		foreach ($this->answers as $index => $answer)
-		{
-			$linkrefid = "";
-			$linkrefid = "response_$index";
-			$attrs = array(
-				"ident" => $linkrefid,
-				"view" => "All"
-			);
-			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
-			// qti flow_mat
-			$a_xml_writer->xmlStartTag("flow_mat");
-			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext");
-			$a_xml_writer->xmlEndTag("material");
-			$a_xml_writer->xmlEndTag("flow_mat");
-			$a_xml_writer->xmlEndTag("itemfeedback");
-		}
-		
-		$a_xml_writer->xmlEndTag("item");
-		$a_xml_writer->xmlEndTag("questestinterop");
-
-		$xml = $a_xml_writer->xmlDumpMem(FALSE);
-		if (!$a_include_header)
-		{
-			$pos = strpos($xml, "?>");
-			$xml = substr($xml, $pos + 2);
-		}
-		return $xml;
-	}
-
 /**
 * Gets the imagemap file name
 *
@@ -892,6 +471,11 @@ class assImagemapQuestion extends assQuestion
     return $this->image_filename;
   }
 
+	function getImageFilename()
+	{
+		return $this->image_filename;
+	}
+
 /**
 * Sets the image file name
 *
@@ -901,19 +485,20 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $image_filename
 */
-  function setImageFilename($image_filename, $image_tempfilename = "") {
-
-    if (!empty($image_filename)) 
+	function setImageFilename($image_filename, $image_tempfilename = "") 
+	{
+		if (!empty($image_filename)) 
 		{
 			$image_filename = str_replace(" ", "_", $image_filename);
-      $this->image_filename = $image_filename;
-    }
-		if (!empty($image_tempfilename)) {
+			$this->image_filename = $image_filename;
+		}
+		if (!empty($image_tempfilename)) 
+		{
 			$imagepath = $this->getImagePath();
-			if (!file_exists($imagepath)) {
+			if (!file_exists($imagepath)) 
+			{
 				ilUtil::makeDirParents($imagepath);
 			}
-			
 			if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath.$image_filename))
 			{
 				$this->ilias->raiseError("The image could not be uploaded!", $this->ilias->error_obj->MESSAGE);
@@ -1014,6 +599,20 @@ class assImagemapQuestion extends assQuestion
     if ($index >= count($this->answers)) return NULL;
     return $this->answers[$index];
   }
+
+	/**
+	* Returns the answer array
+	*
+	* Returns the answer array
+	*
+	* @return array The answer array
+	* @access public
+	* @see $answers
+	*/
+	function &getAnswers() 
+	{
+		return $this->answers;
+	}
 
 /**
 * Deletes an answer
