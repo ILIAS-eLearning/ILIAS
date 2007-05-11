@@ -195,7 +195,6 @@ class ilCourseObjectivePresentationGUI
 		{
 			return false;
 		}
-		// TODO
 		if($_GET['details'])
 		{
 			$_SESSION['crs_details_id'] = $_GET['details'];
@@ -553,10 +552,19 @@ class ilCourseObjectivePresentationGUI
 			$this->tpl->setVariable("OBJ_TITLE_TST",$ilObjDataCache->lookupTitle($obj_id));
 			$this->tpl->setVariable("OBJ_NR_TST",$counter.'.');
 
-			$this->tpl->setVariable("OBJ_CLASS_CENTER_TST",'option_value_center');
-			$this->tpl->setVariable("OBJ_CLASS_TST",'option_value');
+			// Check if test is assigned to objective
+			include_once('Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
+			if($this->details_id and ilCourseObjectiveQuestion::_isTestAssignedToObjective($tst_id,$this->details_id))
+			{
+				$this->tpl->setVariable("OBJ_CLASS_CENTER_TST",'option_value_center_details');
+				$this->tpl->setVariable("OBJ_CLASS_TST",'option_value_details');
+			}
+			else
+			{
+				$this->tpl->setVariable("OBJ_CLASS_CENTER_TST",'option_value_center');
+				$this->tpl->setVariable("OBJ_CLASS_TST",'option_value');
+			}
 			$this->tpl->parseCurrentBlock();
-
 			++$counter;
 		}
 	}
