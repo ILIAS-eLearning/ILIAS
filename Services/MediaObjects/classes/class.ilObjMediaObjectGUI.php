@@ -156,7 +156,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
 		$this->tpl->setVariable("TXT_RESIZE", $this->lng->txt("cont_resize_image"));
 		$this->tpl->setVariable("TXT_RESIZE_EXPLANATION", $this->lng->txt("cont_resize_explanation"));
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
@@ -165,7 +165,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CANCEL", "cancel");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
-
 	}
 
 	/**
