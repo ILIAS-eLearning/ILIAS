@@ -462,11 +462,14 @@ class ilCourseObjectiveQuestion
 	// PRIVATE
 	function __read()
 	{
-		global $ilDB;
+		global $ilDB,$tree;
 		
 		include_once './Modules/Test/classes/class.ilObjTest.php';
+		include_once('Modules/Course/classes/class.ilCourseObjective.php');
 
-		global $tree;
+		$container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
+		$container_ref_id  = current($container_ref_ids);
+
 
 		$this->questions = array();
 		$query = "SELECT * FROM crs_objective_qst as coq ".
@@ -477,7 +480,7 @@ class ilCourseObjectiveQuestion
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(!$tree->isInTree($row->ref_id))
+			if(!$tree->isInTree($row->ref_id) or !$tree->isGrandChild($container_ref_id,$row->ref_id))
 			{
 				$this->__deleteTest($row->ref_id);
 				continue;
