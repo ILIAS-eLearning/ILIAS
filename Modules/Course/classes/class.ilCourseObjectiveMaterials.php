@@ -350,6 +350,10 @@ class ilCourseObjectiveMaterials
 	function __read()
 	{
 		global $tree,$ilDB;
+		
+		include_once('Modules/Course/classes/class.ilCourseObjective.php');
+		$container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
+		$container_ref_id  = current($container_ref_ids);
 
 		$this->lms = array();
 		$query = "SELECT lm_ass_id,lm.ref_id,lm.obj_id,lm.type FROM crs_objective_lm as lm ".
@@ -362,7 +366,7 @@ class ilCourseObjectiveMaterials
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(!$tree->isInTree($row->ref_id))
+			if(!$tree->isInTree($row->ref_id) or !$tree->isGrandChild($container_ref_id,$row->ref_id))
 			{
 				$this->delete($row->lm_ass_id);
 				continue;
@@ -376,5 +380,6 @@ class ilCourseObjectiveMaterials
 		}
 		return true;
 	}
+	
 }
 ?>
