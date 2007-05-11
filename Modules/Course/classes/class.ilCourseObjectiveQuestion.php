@@ -49,6 +49,28 @@ class ilCourseObjectiveQuestion
 		$this->__read();
 	}
 	
+	
+	/**
+	 * Check if test is assigned to objective
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int test ref_id
+	 * @param int objective_id
+	 * @return boolean success
+	 */
+	public static function _isTestAssignedToObjective($a_test_id,$a_objective_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT qst_ass_id FROM crs_objective_qst ".
+			"WHERE ref_id = ".$ilDB->quote($a_test_id)." ".
+			"AND objective_id = ".$ilDB->quote($a_objective_id);
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+	
 	/**
 	 * clone objective questions
 	 *
