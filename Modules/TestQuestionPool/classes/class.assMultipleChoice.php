@@ -486,10 +486,7 @@ class assMultipleChoice extends assQuestion
 			);
 			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
 			// qti displayfeedback
-			if ($this->response == RESPONSE_SINGLE)
-			{
-				$linkrefid = "response_$index";
-			}
+			$linkrefid = "response_$index";
 			$attrs = array(
 				"feedbacktype" => "Response",
 				"linkrefid" => $linkrefid
@@ -516,11 +513,78 @@ class assMultipleChoice extends assQuestion
 				"action" => "Add"
 			);
 			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPointsUnchecked());
+			$a_xml_writer->xmlEndTag("respcondition");
+		}
+		$feedback_allcorrect = $this->getFeedbackGeneric(1);
+		if (strlen($feedback_allcorrect))
+		{
+			$attrs = array(
+				"continue" => "Yes"
+			);
+			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			// qti conditionvar
+			$a_xml_writer->xmlStartTag("conditionvar");
+			foreach ($this->answers as $index => $answer)
+			{
+				if ($answer->getPointsChecked() < $answer->getPointsUnchecked())
+				{
+					$a_xml_writer->xmlStartTag("not");
+				}
+				$attrs = array(
+					"respident" => "MCMR"
+				);
+				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+				if ($answer->getPointsChecked() < $answer->getPointsUnchecked())
+				{
+					$a_xml_writer->xmlEndTag("not");
+				}
+			}
+			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti displayfeedback
-			$linkrefid = "response_$index";
 			$attrs = array(
 				"feedbacktype" => "Response",
-				"linkrefid" => $linkrefid
+				"linkrefid" => "response_allcorrect"
+			);
+			$a_xml_writer->xmlElement("displayfeedback", $attrs);
+			$a_xml_writer->xmlEndTag("respcondition");
+		}
+		$feedback_onenotcorrect = $this->getFeedbackGeneric(0);
+		if (strlen($feedback_onenotcorrect))
+		{
+			$attrs = array(
+				"continue" => "Yes"
+			);
+			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			// qti conditionvar
+			$a_xml_writer->xmlStartTag("conditionvar");
+			foreach ($this->answers as $index => $answer)
+			{
+				if ($index > 0)
+				{
+					$a_xml_writer->xmlStartTag("or");
+				}
+				if ($answer->getPointsChecked() >= $answer->getPointsUnchecked())
+				{
+					$a_xml_writer->xmlStartTag("not");
+				}
+				$attrs = array(
+					"respident" => "MCMR"
+				);
+				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+				if ($answer->getPointsChecked() >= $answer->getPointsUnchecked())
+				{
+					$a_xml_writer->xmlEndTag("not");
+				}
+				if ($index > 0)
+				{
+					$a_xml_writer->xmlEndTag("or");
+				}
+			}
+			$a_xml_writer->xmlEndTag("conditionvar");
+			// qti displayfeedback
+			$attrs = array(
+				"feedbacktype" => "Response",
+				"linkrefid" => "response_onenotcorrect"
 			);
 			$a_xml_writer->xmlElement("displayfeedback", $attrs);
 			$a_xml_writer->xmlEndTag("respcondition");
@@ -538,9 +602,33 @@ class assMultipleChoice extends assQuestion
 			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
 			// qti flow_mat
 			$a_xml_writer->xmlStartTag("flow_mat");
-			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext");
-			$a_xml_writer->xmlEndTag("material");
+			$this->addQTIMaterial($a_xml_writer, $this->getFeedbackSingleAnswer($index));
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("itemfeedback");
+		}
+		if (strlen($feedback_allcorrect))
+		{
+			$attrs = array(
+				"ident" => "response_allcorrect",
+				"view" => "All"
+			);
+			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+			// qti flow_mat
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$this->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("itemfeedback");
+		}
+		if (strlen($feedback_onenotcorrect))
+		{
+			$attrs = array(
+				"ident" => "response_onenotcorrect",
+				"view" => "All"
+			);
+			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+			// qti flow_mat
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$this->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
 			$a_xml_writer->xmlEndTag("flow_mat");
 			$a_xml_writer->xmlEndTag("itemfeedback");
 		}

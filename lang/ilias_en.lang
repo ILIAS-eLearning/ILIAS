@@ -830,7 +830,7 @@ assessment#:#tst_score_cutting_description#:#If Negative Question Points are cut
 assessment#:#tst_score_cutting#:#Cut off Negative Points
 assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions
 assessment#:#tst_score_mcmr_use_scoring_system#:#Use the Defined Score
-assessment#:#tst_score_mcmr_questions_description#:#If "Score 0 Points for Unchecked Answers" is selected, multiple choice questions without a selected check box will scored with zero points, otherwise every check box will be scored dependent to the predefined points.
+assessment#:#tst_score_mcmr_questions_description#:#If "Score 0 Points for Unchecked Answers" is selected, multiple choice questions without a selected check box will be scored with zero points, otherwise every check box will be scored dependent to the predefined points.
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 Points for Unchecked Answers
 assessment#:#tst_score_reporting#:#Score Reporting
 assessment#:#tst_score_reporting_date#:#Score Reporting Date
@@ -844,6 +844,7 @@ assessment#:#tst_select_tsts#:#Please select a test for duplication
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
+assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
 assessment#:#tst_sequence_properties#:#Sequence Properties
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved
@@ -865,7 +866,7 @@ assessment#:#tst_show_results#:#Show Test Results
 assessment#:#tst_show_solution_details#:#Show Solutions in Test Results
 assessment#:#tst_show_solution_printview#:#Show List of Answers
 assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test Results
-assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions.
+assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions.
 assessment#:#tst_show_summary#:#Show List of Questions
 assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
