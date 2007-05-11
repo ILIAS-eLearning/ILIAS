@@ -582,7 +582,7 @@ class ilLMPresentationGUI
 		// get current frame node
 		$ilBench->start("ContentPresentation", "layout_getFrameNode");
 		$xpc = xpath_new_context($doc);
-		$path = (empty($_GET["frame"]) || ($_GET["frame"] == "_new"))
+		$path = (empty($_GET["frame"]) || ($_GET["frame"] == "_blank"))
 			? "/ilLayout/ilFrame[1]"
 			: "//ilFrame[@name='".$_GET["frame"]."']";
 		$result = xpath_eval($xpc, $path);
@@ -619,7 +619,7 @@ class ilLMPresentationGUI
 			$ilBench->start("ContentPresentation", "layout_processContentTag");
 			//if ((empty($attributes["template"]) || !empty($_GET["obj_type"])))
 			if ((empty($attributes["template"]) || !empty($_GET["obj_type"]))
-				&& ($_GET["frame"] != "_new" || $_GET["obj_type"] != "MediaObject"))
+				&& ($_GET["frame"] != "_blank" || $_GET["obj_type"] != "MediaObject"))
 			{
 				// we got a variable content frame (can display different
 				// object types (PageObject, MediaObject, GlossarItem)
@@ -811,7 +811,7 @@ class ilLMPresentationGUI
 
 	function media()
 	{
-		if ($_GET["frame"] != "_new")
+		if ($_GET["frame"] != "_blank")
 		{
 			return $this->layout("main.xml", !$this->offlineMode());
 		}
@@ -823,7 +823,7 @@ class ilLMPresentationGUI
 
 	function glossary()
 	{
-		if ($_GET["frame"] != "_new")
+		if ($_GET["frame"] != "_blank")
 		{
 			$this->layout();
 		}

@@ -40,7 +40,7 @@
 		</ilFrame>
 	</ilFrame>
 	<ilLinkTargets>
-		<LinkTarget Type="New" Frame="_new"/>
+		<LinkTarget Type="New" Frame="_blank"/>
 		<LinkTarget Type="FAQ" Frame="topright"/>
 		<LinkTarget Type="Glossary" Frame="botright"/>
 		<LinkTarget Type="Media" Frame="topright"/>

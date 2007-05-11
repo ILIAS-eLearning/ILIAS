@@ -201,7 +201,7 @@
 						<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
 						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
-						<xsl:attribute name="target">_new</xsl:attribute>
+						<xsl:attribute name="target">_blank</xsl:attribute>
 					</xsl:for-each>
 				</area>
 			</xsl:for-each>
@@ -910,7 +910,7 @@
 
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
-	<a class="ilc_ExtLink" target="_new">
+	<a class="ilc_ExtLink" target="_blank">
 		<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
 		<xsl:apply-templates/>
 	</a>
@@ -2012,7 +2012,7 @@
 
 		<xsl:choose>
 		<xsl:when test="$fullscreen_link = 'fullscreen.html'">
-			<a target="_new">
+			<a target="_blank">
 			<xsl:attribute name="href">fullscreen_<xsl:value-of select="substring-after($cmobid,'mob_')"/>.html</xsl:attribute>
 			<img border="0" align="right">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
@@ -2020,7 +2020,7 @@
 			</a>
 		</xsl:when>
 		<xsl:otherwise>
-			<a target="_new">
+			<a target="_blank">
 			<xsl:attribute name="href"><xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
 			<img border="0" align="right">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>

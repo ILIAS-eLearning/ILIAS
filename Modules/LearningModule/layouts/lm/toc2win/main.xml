@@ -28,9 +28,9 @@
 		</ilFrame>
 	</ilFrame>
 	<ilLinkTargets>
-		<LinkTarget Type="New" Frame="_new"/>
-		<LinkTarget Type="FAQ" Frame="_new"/>
-		<LinkTarget Type="Glossary" Frame="_new"/>
-		<LinkTarget Type="Media" Frame="_new"/>
+		<LinkTarget Type="New" Frame="_blank"/>
+		<LinkTarget Type="FAQ" Frame="_blank"/>
+		<LinkTarget Type="Glossary" Frame="_blank"/>
+		<LinkTarget Type="Media" Frame="_blank"/>
 	</ilLinkTargets>
 </ilLayout>

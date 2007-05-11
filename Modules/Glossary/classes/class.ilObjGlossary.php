@@ -534,7 +534,7 @@ class ilObjGlossary extends ilObject
 		// export all media objects
 		foreach ($this->offline_mobs as $mob)
 		{
-			$this->exportHTMLMOB($a_target_dir, $glo_gui, $mob, "_new");
+			$this->exportHTMLMOB($a_target_dir, $glo_gui, $mob, "_blank");
 		}
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["obj_id"]  = $a_mob_id;
@@ -628,7 +628,7 @@ class ilObjGlossary extends ilObject
 			$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 
 			$_GET["term_id"] = $term["id"];
-			$_GET["frame"] = "_new";
+			$_GET["frame"] = "_blank";
 			$content =& $a_glo_gui->listDefinitions();
 			$file = $a_target_dir."/term_".$term["id"].".html";
 							

@@ -1816,7 +1816,7 @@ class ilObjContentObject extends ilObject
 		{
 			if (ilObject::_exists($mob))
 			{
-				$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_new");
+				$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank");
 			}
 		}
 		$_GET["obj_type"]  = "MediaObject";
@@ -1999,7 +1999,7 @@ class ilObjContentObject extends ilObject
 				$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
 				$_GET["obj_id"] = $int_link["id"];
-				$_GET["frame"] = "_new";
+				$_GET["frame"] = "_blank";
 				$content =& $a_lm_gui->glossary();
 				$file = $a_target_dir."/term_".$int_link["id"].".html";
 					
