@@ -79,6 +79,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$fileObj->setDescription("");
 		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
+		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
 		$fileObj->setMode("filelist");
 		$fileObj->create();
 		$fileObj->raiseUploadError(false);
