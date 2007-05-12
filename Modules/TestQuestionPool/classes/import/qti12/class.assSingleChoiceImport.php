@@ -112,6 +112,8 @@ class assSingleChoiceImport extends assQuestionImport
 			}
 		}
 		$responses = array();
+		$feedbacks = array();
+		$feedbacksgeneric = array();
 		foreach ($item->resprocessing as $resprocessing)
 		{
 			foreach ($resprocessing->respcondition as $respcondition)
@@ -139,6 +141,90 @@ class assSingleChoiceImport extends assQuestionImport
 						{
 							$answers[$ident]["action"] = $setvar->getAction();
 							$answers[$ident]["points"] = $setvar->getContent();
+							if (count($respcondition->displayfeedback))
+							{
+								foreach ($respcondition->displayfeedback as $feedbackpointer)
+								{
+									if (strlen($feedbackpointer->getLinkrefid()))
+									{
+										foreach ($item->itemfeedback as $ifb)
+										{
+											if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
+											{
+												// found a feedback for the identifier
+												if (count($ifb->material))
+												{
+													foreach ($ifb->material as $material)
+													{
+														$feedbacksgeneric[1] = $material;
+													}
+												}
+												if ((count($ifb->flow_mat) > 0))
+												{
+													foreach ($ifb->flow_mat as $fmat)
+													{
+														if (count($fmat->material))
+														{
+															foreach ($fmat->material as $material)
+															{
+																$feedbacksgeneric[1] = $material;
+															}
+														}
+													}
+												}
+											} 
+											else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
+											{
+												// found a feedback for the identifier
+												if (count($ifb->material))
+												{
+													foreach ($ifb->material as $material)
+													{
+														$feedbacksgeneric[0] = $material;
+													}
+												}
+												if ((count($ifb->flow_mat) > 0))
+												{
+													foreach ($ifb->flow_mat as $fmat)
+													{
+														if (count($fmat->material))
+														{
+															foreach ($fmat->material as $material)
+															{
+																$feedbacksgeneric[0] = $material;
+															}
+														}
+													}
+												}
+											}
+											if (strcmp($ifb->getIdent(), $feedbackpointer->getLinkrefid()) == 0)
+											{
+												// found a feedback for the identifier
+												if (count($ifb->material))
+												{
+													foreach ($ifb->material as $material)
+													{
+														$feedbacks[$ident] = $material;
+													}
+												}
+												if ((count($ifb->flow_mat) > 0))
+												{
+													foreach ($ifb->flow_mat as $fmat)
+													{
+														if (count($fmat->material))
+														{
+															foreach ($fmat->material as $material)
+															{
+																$feedbacks[$ident] = $material;
+															}
+														}
+													}
+												} 
+											}
+										}
+									}
+								}
+							}
 						}
 						else
 						{
@@ -162,6 +248,16 @@ class assSingleChoiceImport extends assQuestionImport
 			$this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);
 		}
 		$this->object->saveToDb();
+		foreach ($feedbacks as $ident => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$this->object->saveFeedbackSingleAnswer($ident, $m);
+		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$this->object->saveFeedbackGeneric($correctness, $m);
+		}
 		foreach ($answers as $answer)
 		{
 			if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0))
