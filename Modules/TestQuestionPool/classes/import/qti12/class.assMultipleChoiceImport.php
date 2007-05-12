@@ -149,7 +149,7 @@ class assMultipleChoiceImport extends assQuestionImport
 									{
 										foreach ($item->itemfeedback as $ifb)
 										{
-											if (strcmp($ifb->getIdent(), "response_allcorrect"))
+											if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
 											{
 												// found a feedback for the identifier
 												if (count($ifb->material))
@@ -173,7 +173,7 @@ class assMultipleChoiceImport extends assQuestionImport
 													}
 												}
 											} 
-											else if (strcmp($ifb->getIdent(), "response_onenotcorrect"))
+											else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
 											{
 												// found a feedback for the identifier
 												if (count($ifb->material))
