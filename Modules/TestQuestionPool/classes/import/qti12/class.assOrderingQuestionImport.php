@@ -111,6 +111,7 @@ class assOrderingQuestionImport extends assQuestionImport
 			}
 		}
 		$responses = array();
+		$feedbacksgeneric = array();
 		foreach ($item->resprocessing as $resprocessing)
 		{
 			foreach ($resprocessing->respcondition as $respcondition)
@@ -138,6 +139,66 @@ class assOrderingQuestionImport extends assQuestionImport
 						$answers[$ident]["solutionorder"] = $orderindex;
 						$answers[$ident]["action"] = $setvar->getAction();
 						$answers[$ident]["points"] = $setvar->getContent();
+					}
+				}
+				if (count($respcondition->displayfeedback))
+				{
+					foreach ($respcondition->displayfeedback as $feedbackpointer)
+					{
+						if (strlen($feedbackpointer->getLinkrefid()))
+						{
+							foreach ($item->itemfeedback as $ifb)
+							{
+								if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
+								{
+									// found a feedback for the identifier
+									if (count($ifb->material))
+									{
+										foreach ($ifb->material as $material)
+										{
+											$feedbacksgeneric[1] = $material;
+										}
+									}
+									if ((count($ifb->flow_mat) > 0))
+									{
+										foreach ($ifb->flow_mat as $fmat)
+										{
+											if (count($fmat->material))
+											{
+												foreach ($fmat->material as $material)
+												{
+													$feedbacksgeneric[1] = $material;
+												}
+											}
+										}
+									}
+								} 
+								else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
+								{
+									// found a feedback for the identifier
+									if (count($ifb->material))
+									{
+										foreach ($ifb->material as $material)
+										{
+											$feedbacksgeneric[0] = $material;
+										}
+									}
+									if ((count($ifb->flow_mat) > 0))
+									{
+										foreach ($ifb->flow_mat as $fmat)
+										{
+											if (count($fmat->material))
+											{
+												foreach ($fmat->material as $material)
+												{
+													$feedbacksgeneric[0] = $material;
+												}
+											}
+										}
+									} 
+								}
+							}
+						}
 					}
 				}
 			}
@@ -168,6 +229,11 @@ class assOrderingQuestionImport extends assQuestionImport
 			}
 		}
 		$this->object->saveToDb();
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$this->object->saveFeedbackGeneric($correctness, $m);
+		}
 		if (count($item->suggested_solutions))
 		{
 			foreach ($item->suggested_solutions as $suggested_solution)
