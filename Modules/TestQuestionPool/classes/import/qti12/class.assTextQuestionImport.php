@@ -76,12 +76,74 @@ class assTextQuestionImport extends assQuestionImport
 			}
 		}
 
+		$feedbacksgeneric = array();
 		foreach ($item->resprocessing as $resprocessing)
 		{
 			$outcomes = $resprocessing->getOutcomes();
 			foreach ($outcomes->decvar as $decvar)
 			{
 				$maxpoints = $decvar->getMaxvalue();
+			}
+
+			foreach ($resprocessing->respcondition as $respcondition)
+			{
+				foreach ($respcondition->displayfeedback as $feedbackpointer)
+				{
+					if (strlen($feedbackpointer->getLinkrefid()))
+					{
+						foreach ($item->itemfeedback as $ifb)
+						{
+							if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
+							{
+								// found a feedback for the identifier
+								if (count($ifb->material))
+								{
+									foreach ($ifb->material as $material)
+									{
+										$feedbacksgeneric[1] = $material;
+									}
+								}
+								if ((count($ifb->flow_mat) > 0))
+								{
+									foreach ($ifb->flow_mat as $fmat)
+									{
+										if (count($fmat->material))
+										{
+											foreach ($fmat->material as $material)
+											{
+												$feedbacksgeneric[1] = $material;
+											}
+										}
+									}
+								}
+							} 
+							else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
+							{
+								// found a feedback for the identifier
+								if (count($ifb->material))
+								{
+									foreach ($ifb->material as $material)
+									{
+										$feedbacksgeneric[0] = $material;
+									}
+								}
+								if ((count($ifb->flow_mat) > 0))
+								{
+									foreach ($ifb->flow_mat as $fmat)
+									{
+										if (count($fmat->material))
+										{
+											foreach ($fmat->material as $material)
+											{
+												$feedbacksgeneric[0] = $material;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		
@@ -105,6 +167,11 @@ class assTextQuestionImport extends assQuestionImport
 			$this->object->setKeywords($keywords);
 		}
 		$this->object->saveToDb();
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$this->object->saveFeedbackGeneric($correctness, $m);
+		}
 		if (count($item->suggested_solutions))
 		{
 			foreach ($item->suggested_solutions as $suggested_solution)
