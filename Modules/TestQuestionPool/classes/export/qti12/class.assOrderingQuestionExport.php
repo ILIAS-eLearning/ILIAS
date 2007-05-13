@@ -254,6 +254,87 @@ class assOrderingQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlElement("displayfeedback", $attrs);
 			$a_xml_writer->xmlEndTag("respcondition");
 		}
+
+		$feedback_allcorrect = $this->object->getFeedbackGeneric(1);
+		if (strlen($feedback_allcorrect))
+		{
+			$attrs = array(
+				"continue" => "Yes"
+			);
+			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			// qti conditionvar
+			$a_xml_writer->xmlStartTag("conditionvar");
+
+			foreach ($this->object->getAnswers() as $index => $answer)
+			{
+				$attrs = array();
+				if ($this->object->getOrderingType() == OQ_PICTURES)
+				{
+					$attrs = array(
+						"respident" => "OQP"
+					);
+				}
+					else
+				{
+					$attrs = array(
+						"respident" => "OQT"
+					);
+				}
+				$attrs["index"] = $answer->getSolutionOrder();
+				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+			}
+
+			$a_xml_writer->xmlEndTag("conditionvar");
+			// qti displayfeedback
+			$attrs = array(
+				"feedbacktype" => "Response",
+				"linkrefid" => "response_allcorrect"
+			);
+			$a_xml_writer->xmlElement("displayfeedback", $attrs);
+			$a_xml_writer->xmlEndTag("respcondition");
+		}
+
+		$feedback_onenotcorrect = $this->object->getFeedbackGeneric(0);
+		if (strlen($feedback_onenotcorrect))
+		{
+			$attrs = array(
+				"continue" => "Yes"
+			);
+			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			// qti conditionvar
+			$a_xml_writer->xmlStartTag("conditionvar");
+			$a_xml_writer->xmlStartTag("not");
+
+			foreach ($this->object->getAnswers() as $index => $answer)
+			{
+				$attrs = array();
+				if ($this->object->getOrderingType() == OQ_PICTURES)
+				{
+					$attrs = array(
+						"respident" => "OQP"
+					);
+				}
+					else
+				{
+					$attrs = array(
+						"respident" => "OQT"
+					);
+				}
+				$attrs["index"] = $answer->getSolutionOrder();
+				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+			}
+
+			$a_xml_writer->xmlEndTag("not");
+			$a_xml_writer->xmlEndTag("conditionvar");
+			// qti displayfeedback
+			$attrs = array(
+				"feedbacktype" => "Response",
+				"linkrefid" => "response_onenotcorrect"
+			);
+			$a_xml_writer->xmlElement("displayfeedback", $attrs);
+			$a_xml_writer->xmlEndTag("respcondition");
+		}
+
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
@@ -269,6 +350,33 @@ class assOrderingQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlStartTag("material");
 			$a_xml_writer->xmlElement("mattext");
 			$a_xml_writer->xmlEndTag("material");
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("itemfeedback");
+		}
+
+		if (strlen($feedback_allcorrect))
+		{
+			$attrs = array(
+				"ident" => "response_allcorrect",
+				"view" => "All"
+			);
+			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+			// qti flow_mat
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$this->object->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("itemfeedback");
+		}
+		if (strlen($feedback_onenotcorrect))
+		{
+			$attrs = array(
+				"ident" => "response_onenotcorrect",
+				"view" => "All"
+			);
+			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+			// qti flow_mat
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$this->object->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
 			$a_xml_writer->xmlEndTag("flow_mat");
 			$a_xml_writer->xmlEndTag("itemfeedback");
 		}
