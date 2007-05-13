@@ -60,6 +60,7 @@ class assNumericImport extends assQuestionImport
 		$points = 0;
 		$upperlimit = 0;
 		$lowerlimit = 0;
+		$feedbacksgeneric = array();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 		foreach ($presentation->order as $entry)
 		{
@@ -99,6 +100,66 @@ class assNumericImport extends assQuestionImport
 				{
 					$points = $setvar->getContent();
 				}
+				if (count($respcondition->displayfeedback))
+				{
+					foreach ($respcondition->displayfeedback as $feedbackpointer)
+					{
+						if (strlen($feedbackpointer->getLinkrefid()))
+						{
+							foreach ($item->itemfeedback as $ifb)
+							{
+								if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
+								{
+									// found a feedback for the identifier
+									if (count($ifb->material))
+									{
+										foreach ($ifb->material as $material)
+										{
+											$feedbacksgeneric[1] = $material;
+										}
+									}
+									if ((count($ifb->flow_mat) > 0))
+									{
+										foreach ($ifb->flow_mat as $fmat)
+										{
+											if (count($fmat->material))
+											{
+												foreach ($fmat->material as $material)
+												{
+													$feedbacksgeneric[1] = $material;
+												}
+											}
+										}
+									}
+								} 
+								else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
+								{
+									// found a feedback for the identifier
+									if (count($ifb->material))
+									{
+										foreach ($ifb->material as $material)
+										{
+											$feedbacksgeneric[0] = $material;
+										}
+									}
+									if ((count($ifb->flow_mat) > 0))
+									{
+										foreach ($ifb->flow_mat as $fmat)
+										{
+											if (count($fmat->material))
+											{
+												foreach ($fmat->material as $material)
+												{
+													$feedbacksgeneric[0] = $material;
+												}
+											}
+										}
+									} 
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		
@@ -112,6 +173,11 @@ class assNumericImport extends assQuestionImport
 		$this->object->setMaxChars($maxchars);
 		$this->object->addRange($lowerlimit, $upperlimit, $points);
 		$this->object->saveToDb();
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$this->object->saveFeedbackGeneric($correctness, $m);
+		}
 		if (count($item->suggested_solutions))
 		{
 			foreach ($item->suggested_solutions as $suggested_solution)
