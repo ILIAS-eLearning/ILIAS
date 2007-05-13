@@ -125,6 +125,7 @@ class assMatchingQuestionImport extends assQuestionImport
 			}
 		}
 		$responses = array();
+		$feedbacksgeneric = array();
 		foreach ($item->resprocessing as $resprocessing)
 		{
 			foreach ($resprocessing->respcondition as $respcondition)
@@ -145,6 +146,68 @@ class assMatchingQuestionImport extends assQuestionImport
 				{
 					array_push($responses, array("subset" => $subset, "action" => $setvar->getAction(), "points" => $setvar->getContent())); 
 				}
+
+				if (count($respcondition->displayfeedback))
+				{
+					foreach ($respcondition->displayfeedback as $feedbackpointer)
+					{
+						if (strlen($feedbackpointer->getLinkrefid()))
+						{
+							foreach ($item->itemfeedback as $ifb)
+							{
+								if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
+								{
+									// found a feedback for the identifier
+									if (count($ifb->material))
+									{
+										foreach ($ifb->material as $material)
+										{
+											$feedbacksgeneric[1] = $material;
+										}
+									}
+									if ((count($ifb->flow_mat) > 0))
+									{
+										foreach ($ifb->flow_mat as $fmat)
+										{
+											if (count($fmat->material))
+											{
+												foreach ($fmat->material as $material)
+												{
+													$feedbacksgeneric[1] = $material;
+												}
+											}
+										}
+									}
+								} 
+								else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
+								{
+									// found a feedback for the identifier
+									if (count($ifb->material))
+									{
+										foreach ($ifb->material as $material)
+										{
+											$feedbacksgeneric[0] = $material;
+										}
+									}
+									if ((count($ifb->flow_mat) > 0))
+									{
+										foreach ($ifb->flow_mat as $fmat)
+										{
+											if (count($fmat->material))
+											{
+												foreach ($fmat->material as $material)
+												{
+													$feedbacksgeneric[0] = $material;
+												}
+											}
+										}
+									} 
+								}
+							}
+						}
+					}
+				}
+
 			}
 		}
 		$type = 1;
@@ -243,6 +306,13 @@ class assMatchingQuestionImport extends assQuestionImport
 				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 			}
 		}
+
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$this->object->saveFeedbackGeneric($correctness, $m);
+		}
+
 		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
