@@ -367,6 +367,35 @@ class assClozeGap
 		}
 		return $maxwidth;
 	}
+	
+	/**
+	* Returns the indexes of the best solutions for the gap
+	*
+	* Returns the indexes of the best solutions for the gap
+	*
+	* @return array The indexs of the best solutions
+	* @access public
+	*/
+	function getBestSolutionIndexes()
+	{
+		$maxpoints = 0;
+		foreach ($this->items as $key => $item)
+		{
+			if ($item->getPoints() > $maxpoints)
+			{
+				$maxpoints = $item->getPoints();
+			}
+		}
+		$keys = array();
+		foreach ($this->items as $key => $item)
+		{
+			if ($item->getPoints() == $maxpoints)
+			{
+				array_push($keys, $key);
+			}
+		}
+		return $keys;
+	}
 }
 
 ?>
