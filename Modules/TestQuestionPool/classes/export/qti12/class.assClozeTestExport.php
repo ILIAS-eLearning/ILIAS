@@ -354,6 +354,200 @@ class assClozeTestExport extends assQuestionExport
 					break;
 			}
 		}
+
+		$feedback_allcorrect = $this->object->getFeedbackGeneric(1);
+		if (strlen($feedback_allcorrect))
+		{
+			$attrs = array(
+				"continue" => "Yes"
+			);
+			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			// qti conditionvar
+			$a_xml_writer->xmlStartTag("conditionvar");
+			
+			for ($i = 0; $i < $this->object->getGapCount(); $i++)
+			{
+				$gap = $this->object->getGap($i);
+				$indexes = $gap->getBestSolutionIndexes();
+				if ($i > 0)
+				{
+					$a_xml_writer->xmlStartTag("and");
+				}
+				switch ($gap->getType())
+				{
+					case CLOZE_SELECT:
+						$k = 0;
+						foreach ($indexes as $key)
+						{
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlStartTag("or");
+							}
+							$attrs = array(
+								"respident" => "gap_$i"
+							);
+							$answer = $gap->getItem($key);
+							$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlEndTag("or");
+							}
+							$k++;
+						}
+						break;
+					case CLOZE_TEXT:
+						$k = 0;
+						foreach ($indexes as $key)
+						{
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlStartTag("or");
+							}
+							$attrs = array(
+								"respident" => "gap_$i"
+							);
+							$answer = $gap->getItem($key);
+							$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlEndTag("or");
+							}
+							$k++;
+						}
+						break;
+					case CLOZE_NUMERIC:
+						$k = 0;
+						foreach ($indexes as $key)
+						{
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlStartTag("or");
+							}
+							$attrs = array(
+								"respident" => "gap_$i"
+							);
+							$answer = $gap->getItem($key);
+							$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlEndTag("or");
+							}
+							$k++;
+						}
+						break;
+				}
+				if ($i > 0)
+				{
+					$a_xml_writer->xmlEndTag("and");
+				}
+			}
+			$a_xml_writer->xmlEndTag("conditionvar");
+			// qti displayfeedback
+			$attrs = array(
+				"feedbacktype" => "Response",
+				"linkrefid" => "response_allcorrect"
+			);
+			$a_xml_writer->xmlElement("displayfeedback", $attrs);
+			$a_xml_writer->xmlEndTag("respcondition");
+		}
+		$feedback_onenotcorrect = $this->object->getFeedbackGeneric(0);
+		if (strlen($feedback_onenotcorrect))
+		{
+			$attrs = array(
+				"continue" => "Yes"
+			);
+			$a_xml_writer->xmlStartTag("respcondition", $attrs);
+			// qti conditionvar
+			$a_xml_writer->xmlStartTag("conditionvar");
+			
+			$a_xml_writer->xmlStartTag("not");
+			for ($i = 0; $i < $this->object->getGapCount(); $i++)
+			{
+				$gap = $this->object->getGap($i);
+				$indexes = $gap->getBestSolutionIndexes();
+				if ($i > 0)
+				{
+					$a_xml_writer->xmlStartTag("and");
+				}
+				switch ($gap->getType())
+				{
+					case CLOZE_SELECT:
+						$k = 0;
+						foreach ($indexes as $key)
+						{
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlStartTag("or");
+							}
+							$attrs = array(
+								"respident" => "gap_$i"
+							);
+							$answer = $gap->getItem($key);
+							$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlEndTag("or");
+							}
+							$k++;
+						}
+						break;
+					case CLOZE_TEXT:
+						$k = 0;
+						foreach ($indexes as $key)
+						{
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlStartTag("or");
+							}
+							$attrs = array(
+								"respident" => "gap_$i"
+							);
+							$answer = $gap->getItem($key);
+							$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlEndTag("or");
+							}
+							$k++;
+						}
+						break;
+					case CLOZE_NUMERIC:
+						$k = 0;
+						foreach ($indexes as $key)
+						{
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlStartTag("or");
+							}
+							$attrs = array(
+								"respident" => "gap_$i"
+							);
+							$answer = $gap->getItem($key);
+							$a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
+							if ($k > 0)
+							{
+								$a_xml_writer->xmlEndTag("or");
+							}
+							$k++;
+						}
+						break;
+				}
+				if ($i > 0)
+				{
+					$a_xml_writer->xmlEndTag("and");
+				}
+			}
+			$a_xml_writer->xmlEndTag("not");
+			$a_xml_writer->xmlEndTag("conditionvar");
+			// qti displayfeedback
+			$attrs = array(
+				"feedbacktype" => "Response",
+				"linkrefid" => "response_onenotcorrect"
+			);
+			$a_xml_writer->xmlElement("displayfeedback", $attrs);
+			$a_xml_writer->xmlEndTag("respcondition");
+		}
+
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
@@ -417,6 +611,33 @@ class assClozeTestExport extends assQuestionExport
 					}
 					break;
 			}
+		}
+
+		if (strlen($feedback_allcorrect))
+		{
+			$attrs = array(
+				"ident" => "response_allcorrect",
+				"view" => "All"
+			);
+			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+			// qti flow_mat
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$this->object->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("itemfeedback");
+		}
+		if (strlen($feedback_onenotcorrect))
+		{
+			$attrs = array(
+				"ident" => "response_onenotcorrect",
+				"view" => "All"
+			);
+			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+			// qti flow_mat
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$this->object->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("itemfeedback");
 		}
 		
 		$a_xml_writer->xmlEndTag("item");
