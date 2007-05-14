@@ -481,7 +481,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if (0)
+		if ($this->object->getShowMarker())
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$solved_array = ilObjTest::_getSolvedQuestions($active->active_id, $question_gui->object->getId());
