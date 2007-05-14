@@ -1956,39 +1956,6 @@ class assQuestion
 		$this->points = $a_points;
 	}
 	
-	function getSolutionCommentMCScoring($active_id)
-	{
-		$result = "";
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		if (ilObjTest::_getMCScoring($active_id) == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
-		{
-			$result = $this->lng->txt("solution_comment_mc_scoring");
-		}
-		return $result;
-	}
-
-	function getSolutionCommentScoreCutting($active_id)
-	{
-		$result = "";
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		if (ilObjTest::_getScoreCutting($active_id) == SCORE_CUT_QUESTION)
-		{
-			$result = $this->lng->txt("solution_comment_score_cutting");
-		}
-		return $result;
-	}
-
-	function getSolutionCommentCountSystem($active_id)
-	{
-		$result = "";
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		if (ilObjTest::_getCountSystem($active_id) == COUNT_CORRECT_SOLUTIONS )
-		{
-			$result = $this->lng->txt("solution_comment_count_system");
-		}
-		return $result;
-	}
-	
 /**
 * Returns the maximum pass a users question solution
 *

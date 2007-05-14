@@ -478,9 +478,6 @@ assessment#:#set_edit_mode#:#Bearbeitungsmodus setzen
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Antworten mischen
-assessment#:#solution_comment_count_system#:#Fragen, die nur teilweise korrekt beantwortet wurden, werden mit 0 Punkte gewertet
-assessment#:#solution_comment_mc_scoring#:#Multiple choice Fragen mit Mehrfachantwort werden mit 0 Punkten gewertet, wenn keine Antwort ausgewählt wird
-assessment#:#solution_comment_score_cutting#:#Wenn das Ergebnis einer Frage negativ ist, werden die Punkte bei Null abgeschnitten
 assessment#:#solution_hint#:#Musterlösung
 assessment#:#solution_may_contain_keywords#:#Die Lösung sollte eines der folgenden Schlüsselwörter enthalten
 assessment#:#solution_order#:#Lösungsreihenfolge
@@ -660,7 +657,7 @@ assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in d
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an
 assessment#:#tst_shuffle_questions#:#Fragen mischen
-assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen für alle Teilnehmerinnen und Teilnehmer beim Teststart mischen
+assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jeden Testdurchlauf neu mischen. Wenn Sie die zufällige Auswahl von Fragen ausgewählt haben, dann wird für jeden Testdurchlauf ein komplett neuer Satz von Fragen generiert.
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet

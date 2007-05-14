@@ -1592,7 +1592,7 @@ class ilObjSurvey extends ilObject
 			$result = FALSE;
 		}
 		// check rbac permissions
-		if ((!$ilAccess->checkAccess("read", "", $this->ref_id)) || (!$ilAccess->checkAccess("participate", "", $this->ref_id)))
+		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			array_push($messages, $this->lng->txt("cannot_participate_survey"));
 			$result = FALSE;
