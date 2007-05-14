@@ -1576,6 +1576,7 @@ class ilObjTest extends ilObject
 			$ilias->raiseError(sprintf($this->lng->txt("error_random_question_generation"), $ilUser->getId(), $this->getTestId()), $ilErr->FATAL);
 		}
 
+/*
 		if (($pass > 0) && (!$this->getShuffleQuestions()))
 		{
 			// easy, only copy the questions of the first pass
@@ -1600,7 +1601,7 @@ class ilObjTest extends ilObject
 			}
 			return;
 		}
-
+*/
 		$num = $this->getRandomQuestionCount();
 		if ($num > 0)
 		{
@@ -1611,8 +1612,11 @@ class ilObjTest extends ilObject
 			{
 				array_push($allquestions, $question_id);
 			}
-			srand ((float)microtime()*1000000);
-			shuffle($allquestions);
+			if ($this->getShuffleQuestions())
+			{
+				srand ((float)microtime()*1000000);
+				shuffle($allquestions);
+			}
 
 			$maxcount = 0;
 			foreach ($qpls as $data)
