@@ -866,6 +866,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["password"] = $_POST["password"];
 		$data["allowedUsers"] = $_POST["allowedUsers"];
 		$data["show_cancel"] = $_POST["chb_show_cancel"];
+		$data["show_marker"] = ($_POST["chb_show_marker"] ? 1 : 0);
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
@@ -974,6 +975,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setAnonymity($data["anonymity"]);
 		$this->object->setShowCancel($data["show_cancel"]);
+		$this->object->setShowMarker($data["show_marker"]);
 		$this->object->setPassword($data["password"]);
 		$this->object->setAllowedUsers($data["allowedUsers"]);
 		$this->object->setAllowedUsersTimeGap($data["allowedUsersTimeGap"]);
@@ -985,7 +987,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$this->object->setUsePreviousAnswers($data["use_previous_answers"]);
 		$this->object->setTitleOutput($data["title_output"]);
-		$this->object->setShowCancel($data["show_cancel"]);
 		
 		if ($this->object->isRandomTest())
 		{
@@ -1466,6 +1467,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$total = $this->object->evalTotalPersons();
 		$data["anonymity"] = $this->object->getAnonymity();
 		$data["show_cancel"] = $this->object->getShowCancel();
+		$data["show_marker"] = $this->object->getShowMarker();
 		$data["introduction"] = $this->object->getIntroduction();
 		$data["sequence_settings"] = $this->object->getSequenceSettings();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
@@ -1552,6 +1554,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("DISABLED_ANONYMITY", " disabled=\"disabled\"");
 		}
+
+		$this->tpl->setVariable("TEXT_SHOW_MARKER", $this->lng->txt("question_marking"));
+		$this->tpl->setVariable("TEXT_SHOW_MARKER_DESCRIPTION", $this->lng->txt("question_marking_description"));
+		if ($data["show_marker"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_MARKER", " checked=\"checked\"");
+		}
+
 		$this->tpl->setVariable("TEXT_SHOW_CANCEL", $this->lng->txt("tst_show_cancel"));
 		$this->tpl->setVariable("TEXT_SHOW_CANCEL_DESCRIPTION", $this->lng->txt("tst_show_cancel_description"));
 		if ($data["show_cancel"])
@@ -5290,7 +5300,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function getSettingsSubTabs()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilias;
 		
 		// general subtab
 		$force_active = ($this->ctrl->getCmd() == "")
@@ -5319,14 +5329,17 @@ class ilObjTestGUI extends ilObjectGUI
 			array("", "ilobjtestgui", "iltestcertificategui")
 		);
 	
-		// certificate subtab
-		$ilTabs->addSubTabTarget(
-			"certificate",
-			$this->ctrl->getLinkTarget($this,'certificate'),
-			array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-				"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport"),
-			array("", "ilobjtestgui", "iltestcertificategui")
-		);
+		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		{
+			// certificate subtab
+			$ilTabs->addSubTabTarget(
+				"certificate",
+				$this->ctrl->getLinkTarget($this,'certificate'),
+				array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+					"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport"),
+				array("", "ilobjtestgui", "iltestcertificategui")
+			);
+		}
 
 		// defaults subtab
 		$ilTabs->addSubTabTarget(

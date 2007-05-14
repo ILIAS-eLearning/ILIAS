@@ -392,6 +392,13 @@ class ilObjTest extends ilObject
 	var $show_cancel;
 
 /**
+* determines wheather a marker button is shown or not
+*
+* @var int
+*/
+	var $show_marker;
+
+/**
 * determines wheather a test may have fixed participants or not
 *
 * @var int
@@ -453,6 +460,7 @@ class ilObjTest extends ilObject
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
 		$this->show_cancel = 1;
+		$this->show_marker = 0;
 		$this->fixed_participants = 0;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
@@ -1198,14 +1206,14 @@ class ilObjTest extends ilObject
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, " .
-				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, " .
+				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, show_marker, " .
 				"fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, " .
 				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
 				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, show_solution_details, show_summary, show_solution_printview, show_solution_feedback, password, allowedUsers, " .
 				"allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) " .
 				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -1216,6 +1224,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getAnswerFeedback() . ""),
 				$ilDB->quote($this->getAnonymity() . ""),
 				$ilDB->quote($this->getShowCancel() . ""),
+				$ilDB->quote($this->getShowMarker() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
 				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
@@ -1275,25 +1284,26 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, show_solution_feedback = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
-        $ilDB->quote($this->getAuthor() . ""),
+			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, show_solution_feedback = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
-        $ilDB->quote($this->sequence_settings . ""),
-        $ilDB->quote($this->score_reporting . ""),
-        $ilDB->quote($this->getInstantFeedbackSolution() . ""),
+				$ilDB->quote($this->sequence_settings . ""),
+				$ilDB->quote($this->score_reporting . ""),
+				$ilDB->quote($this->getInstantFeedbackSolution() . ""),
 				$ilDB->quote($this->getAnswerFeedbackPoints() . ""),
 				$ilDB->quote($this->getAnswerFeedback() . ""),
 				$ilDB->quote($this->getAnonymity() . ""),
 				$ilDB->quote($this->getShowCancel() . ""),
+				$ilDB->quote($this->getShowMarker() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
-        $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
-        $ilDB->quote($this->processing_time . ""),
+				$ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
-        $ilDB->quote($this->reporting_date . ""),
-        $ilDB->quote($this->starting_time . ""),
-        $ilDB->quote($this->ending_time . ""),
+				$ilDB->quote($this->reporting_date . ""),
+				$ilDB->quote($this->starting_time . ""),
+				$ilDB->quote($this->ending_time . ""),
 				$ilDB->quote($this->ects_output . ""),
 				$ilDB->quote($this->ects_grades["A"] . ""),
 				$ilDB->quote($this->ects_grades["B"] . ""),
@@ -1315,14 +1325,14 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getPassword() . ""),
 				$allowedUsers,
 				$allowedUsersTimeGap,
-        $ilDB->quote($this->test_id)
-      );
-	    $result = $ilDB->query($query);
+				$ilDB->quote($this->test_id)
+			);
+			$result = $ilDB->query($query);
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-	        $ilDB->quote($this->test_id)
+					$ilDB->quote($this->test_id)
 				);
 				$logresult = $ilDB->query($query);
 				$newrow = array();
@@ -1814,6 +1824,7 @@ class ilObjTest extends ilObject
 				$this->answer_feedback = $data->answer_feedback;
 				$this->anonymity = $data->anonymity;
 				$this->show_cancel = $data->show_cancel;
+				$this->show_marker = $data->show_marker;
 				$this->fixed_participants = $data->fixed_participants;
 				$this->nr_of_tries = $data->nr_of_tries;
 				$this->setUsePreviousAnswers($data->use_previous_answers);
@@ -6054,6 +6065,9 @@ class ilObjTest extends ilObject
 				case "show_cancel":
 					$this->setShowCancel($metadata["entry"]);
 					break;
+				case "show_marker":
+					$this->setShowMarker($metadata["entry"]);
+					break;
 				case "fixed_participants":
 					$this->setFixedParticipants($metadata["entry"]);
 					break;
@@ -6326,6 +6340,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_cancel");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowCancel()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// show marker
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_marker");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowMarker()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// fixed participants
@@ -6951,6 +6971,7 @@ class ilObjTest extends ilObject
 		$newObj->answer_feedback_points = $this->getAnswerFeedbackPoints();
 		$newObj->setAnonymity($this->getAnonymity());
 		$newObj->setShowCancel($this->getShowCancel());
+		$newObj->setShowMarker($this->getShowMarker());
 		$newObj->reporting_date = $this->getReportingDate();
 		$newObj->nr_of_tries = $this->getNrOfTries();
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
@@ -7039,6 +7060,7 @@ class ilObjTest extends ilObject
 		$newObj->answer_feedback_points = $original->getAnswerFeedbackPoints();
 		$newObj->setAnonymity($original->getAnonymity());
 		$newObj->setShowCancel($original->getShowCancel());
+		$newObj->setShowMarker($original->getShowMarker());
 		$newObj->reporting_date = $original->getReportingDate();
 		$newObj->nr_of_tries = $original->getNrOfTries();
 		$newObj->setUsePreviousAnswers($original->getUsePreviousAnswers());
@@ -9148,6 +9170,40 @@ class ilObjTest extends ilObject
 	}
 
 	/**
+	* Returns wheather the marker button is shown or not
+	*
+	* Returns wheather the marker button is shown or not
+	*
+	* @return integer The value for the marker status (0 = don't show, 1 = show)
+	* @access public
+	*/
+	function getShowMarker()
+	{
+		return $this->show_marker;
+	}
+
+	/**
+	* Sets the marker button status
+	*
+	* Sets the marker button status
+	*
+	* @param integer $a_value The value for the marker status (0 = don't show, 1 = show)
+	* @access public
+	*/
+	function setShowMarker($a_value = 1)
+	{
+		switch ($a_value)
+		{
+			case 1:
+				$this->show_marker = 1;
+				break;
+			default:
+				$this->show_marker = 0;
+				break;
+		}
+	}
+
+	/**
 	* Returns the fixed participants status
 	*
 	* Returns the fixed participants status
@@ -9384,6 +9440,7 @@ class ilObjTest extends ilObject
 			"ShowSolutionPrintview" => $this->getShowSolutionPrintview(),
 			"Anonymity" => $this->getAnonymity(),
 			"ShowCancel" => $this->getShowCancel(),
+			"ShowMarker" => $this->getShowMarker(),
 			"ReportingDate" => $this->getReportingDate(),
 			"NrOfTries" => $this->getNrOfTries(),
 			"UsePreviousAnswers" => $this->getUsePreviousAnswers(),
@@ -9440,6 +9497,7 @@ class ilObjTest extends ilObject
 			$this->setShowSolutionPrintview($testsettings["ShowSolutionPrintview"]);
 			$this->setAnonymity($testsettings["Anonymity"]);
 			$this->setShowCancel($testsettings["ShowCancel"]);
+			$this->setShowMarker($testsettings["ShowMarker"]);
 			$this->setReportingDate($testsettings["ReportingDate"]);
 			$this->setNrOfTries($testsettings["NrOfTries"]);
 			$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);

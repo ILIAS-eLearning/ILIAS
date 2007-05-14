@@ -554,6 +554,8 @@ assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_instances_title#:#This question is used in the following tests
+assessment#:#question_marking#:#Show Question Marking
+assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
