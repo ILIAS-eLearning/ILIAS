@@ -1388,6 +1388,7 @@ class ilMail
 			$soap_client->init();
 
 			$attachments = array();
+			$a_attachments = $a_attachments ? $a_attachments : array();
 			foreach($a_attachments as $attachment)
 			{
 				$attachments[] = $this->mfile->getAbsolutePath($attachment);
