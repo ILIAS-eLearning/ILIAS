@@ -68,6 +68,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this, "sequence");
+		$this->ctrl->saveParameter($this, "active_id");
 
 		$cmd = $this->getCommand($cmd);
 		switch($next_class)
@@ -123,12 +124,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 				}
 				$pass = NULL;
-				$active = $this->object->getActiveTestUser($ilUser->getId());
+				$active_id = $this->getActiveId();
 				if ($this->object->isRandomTest())
 				{
-					$pass = $this->object->_getPass($active->active_id);
+					$pass = $this->object->_getPass($active_id);
 				}
-				$this->saveResult = $question_gui->object->saveWorkingData($active->active_id, $pass);
+				$this->saveResult = $question_gui->object->saveWorkingData($active_id, $pass);
 			}												
 		}
 		if ($this->saveResult == FALSE)
@@ -174,7 +175,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function isMaxProcessingTimeReached() 
 	{
 		global $ilUser;
-		$starting_time = $this->object->getStartingTimeOfUser($ilUser->getId());
+		$active_id = $this->getActiveId();
+		$starting_time = $this->object->getStartingTimeOfUser($active_id);
 		if ($starting_time === FALSE)
 		{
 			return FALSE;
@@ -319,7 +321,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$is_postponed = false;
 		if (is_object($active))
-		{			
+		{
 			if (!preg_match("/(^|\D)" . $question_gui->object->getId() . "($|\D)/", $active->postponed) and 
 				!($active->postponed == $question_gui->object->getId()))
 			{
@@ -351,7 +353,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$user_post_solution = $_SESSION["previouspost"];
 			unset($_SESSION["previouspost"]);
 		}
-		$active = $this->object->getActiveTestUser($ilUser->getId());
+		if (!is_object($active)) $active = $this->object->getActiveTestUser($ilUser->getId());
 		$answer_feedback = FALSE;
 		if (($directfeedback) && ($this->object->getAnswerFeedback()))
 		{
@@ -479,8 +481,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		/*
-		if ($this->object->isOnlineTest()) 
+		if (0)
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$solved_array = ilObjTest::_getSolvedQuestions($active->active_id, $question_gui->object->getId());
@@ -494,25 +495,22 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			
 			if ($solved==1) 
 			{
-			 	$solved = ilUtil::getImagePath("solved.png", true);
-			 	$solved_cmd = "resetsolved";
-			 	$solved_txt = $this->lng->txt("tst_qst_resetsolved");
+				$this->tpl->setCurrentBlock("ismarked");
+				$this->tpl->setVariable("TEXT_QUESTION_STATUS_LABEL", $this->lng->txt("tst_question_marked").":");
+				$this->tpl->setVariable("TEXT_RESET_MARK", $this->lng->txt("tst_question_unmark"));
+				$this->tpl->setVariable("ALT_MARKED", $this->lng->txt("tst_question_marked"));
+				$this->tpl->setVariable("TITLE_MARKED", $this->lng->txt("tst_question_marked"));
+				$this->tpl->setVariable("MARKED_SOURCE", ilUtil::getImagePath("marked.png"));
+				$this->tpl->parseCurrentBlock();
 			} 
 			else 
-			{				 
-				$solved = ilUtil::getImagePath("not_solved.png", true);
-				$solved_cmd = "setsolved";
-				$solved_txt = $this->lng->txt("tst_qst_setsolved");
-			}			
-			$solved = "<input align=\"middle\" border=\"0\" alt=\"".$this->lng->txt("tst_qst_solved_state_click_to_change")."\" name=\"cmd[$solved_cmd]\" type=\"image\" src=\"$solved\" id=\"$solved_cmd\">&nbsp;<small><label for=\"$solved_cmd\">$solved_txt</label></small>";
-			
-			$this->tpl->setCurrentBlock("question_status");
-			$this->tpl->setVariable("TEXT_QUESTION_STATUS_LABEL", $this->lng->txt("tst_question_solved_state").":");
-			$this->tpl->setVariable("TEXT_QUESTION_STATUS", $solved);
-			$this->tpl->parseCurrentBlock();			
+			{
+				$this->tpl->setCurrentBlock("ismarked");
+				$this->tpl->setVariable("TEXT_MARK_QUESTION", $this->lng->txt("tst_question_mark"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
-		*/
-		
+
 		$this->tpl->setCurrentBlock("adm_content");
 		//$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->parseCurrentBlock();
@@ -789,14 +787,14 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->object->setActiveTestUser($this->sequence, $postpone);
 				$this->outTestPage();
 				break;
-			case "setsolved":
+			case "setmarked":
 				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
 				$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
 				$this->object->setQuestionSetSolved(1, $q_id, $ilUser->getId());
 				$this->outTestPage();
 				break;
-			case "resetsolved":
+			case "resetmarked":
 				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
 				$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
@@ -819,7 +817,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			case "start":
 			case "resume":
 				$this->sequence = $this->calculateSequence();	
-				$this->object->setActiveTestUser($this->sequence);
+				$active_id = $this->object->setActiveTestUser($this->sequence);
+				$this->ctrl->setParameter($this, "active_id", $active_id);
+				$active_time_id = $this->object->startWorkingTime($active_id);
+				$_SESSION["active_time_id"] = $active_time_id;
 				$this->readFullSequence();
 				if ($this->object->getListOfQuestionsStart())
 				{
@@ -969,10 +970,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 *
 * @access public
 */
-	function setsolved()
+	function setmarked()
 	{
 		$this->saveQuestionSolution();
-		$this->ctrl->setParameter($this, "activecommand", "setsolved");
+		$this->ctrl->setParameter($this, "activecommand", "setmarked");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 
@@ -983,10 +984,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 *
 * @access public
 */
-	function resetsolved()
+	function resetmarked()
 	{
 		$this->saveQuestionSolution();
-		$this->ctrl->setParameter($this, "activecommand", "resetsolved");
+		$this->ctrl->setParameter($this, "activecommand", "resetmarked");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	
@@ -1102,8 +1103,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		unset($_SESSION["tst_next"]);
 		
-		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$actualpass = $this->object->_getPass($active->active_id);
+		$active_id = $this->getActiveId();
+		$actualpass = $this->object->_getPass($active_id);
 		
 		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$confirm))
 		{		
@@ -1125,7 +1126,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
 				$template_top->parseCurrentBlock();
 	
-				$this->showListOfAnswers($active->active_id, NULL, $template_top->get(), $template->get());
+				$this->showListOfAnswers($active_id, NULL, $template_top->get(), $template->get());
 				return;
 			}
 			else
@@ -1223,7 +1224,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			
 		if ($this->object->getEnableProcessingTime())
 		{
-			$this->outProcessingTime();
+			$this->outProcessingTime($active->active_id);
 		}
 
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
@@ -1278,8 +1279,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$_SESSION['crs_sequence'] = array();
-		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$results = $this->object->getTestResult($active->active_id);
+		$active = $this->getActiveId();
+		$results = $this->object->getTestResult($active_id);
 		for($i = $this->object->getFirstSequence();
 			$i <= $this->object->getQuestionCount();
 			$i++)
@@ -1427,9 +1428,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 		
-		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$active_id = $this->getActiveId();
 		$counted_pass = ilObjTest::_getResultPass($active_id);
-		$this->ctrl->setParameterByClass("iltestcertificategui","active_id", $active->active_id);
+		$this->ctrl->setParameterByClass("iltestcertificategui","active_id", $active_id);
 		$this->ctrl->setParameterByClass("iltestcertificategui","pass", $counted_pass);
 		$this->ctrl->redirectByClass("iltestcertificategui", "certificateOutput");
 	}
@@ -1490,11 +1491,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function outProcessingTime() 
+	function outProcessingTime($active_id) 
 	{
 		global $ilUser;
 
-		$starting_time = $this->object->getStartingTimeOfUser($ilUser->getId());
+		$starting_time = $this->object->getStartingTimeOfUser($active_id);
 		$processing_time = $this->object->getProcessingTimeInSeconds();
 		$processing_time_minutes = floor($processing_time / 60);
 		$processing_time_seconds = $processing_time - $processing_time_minutes * 60;
@@ -1577,6 +1578,31 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* Calculates the active id of the active test user
+	*
+	* @access public
+	*/
+	function getActiveId()
+	{
+		if (array_key_exists("active_id", $_GET))
+		{
+			return $_GET["active_id"];
+		}
+		else
+		{
+			$active = $this->object->getActiveTestUser();
+			if (is_object($active))
+			{
+				return $active->active_id;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	}
+	
 /**
 * Output of a summary of all test questions for test participants
 *
@@ -1584,15 +1610,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function outQuestionSummary() 
 	{
-		global $ilUser;
-
+		$active_id = $this->getActiveId();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
-		$user_id = $ilUser->id;
-		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$color_class = array ("tblrow1", "tblrow2");
 		$counter = 0;
 		
-		$result_array = & $this->object->getTestSummary($active->active_id);
+		$result_array = & $this->object->getTestSummary($active_id);
 		foreach ($result_array as $key => $value) 
 		{
 			if (preg_match("/\d+/", $key)) 
@@ -1645,7 +1668,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("question_summary"));		
 		
 		if ($this->object->getEnableProcessingTime())
-			$this->outProcessingTime();
+			$this->outProcessingTime($active_id);
 	}
 	
 	function showMaximumAllowedUsersReachedMessage()
@@ -1662,7 +1685,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function backConfirmFinish()
 	{
 		global $ilUser;
-		$active = $this->object->getActiveTestUser();
 		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 		{
 			$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, "Modules/Test");
@@ -1673,8 +1695,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$template_top->setCurrentBlock("button_print");
 			$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
 			$template_top->parseCurrentBlock();
-
-			return $this->showListOfAnswers($active->active_id, NULL, $template_top->get(), $template->get());
+			$active_id = $this->getActiveId();
+			return $this->showListOfAnswers($active_id, NULL, $template_top->get(), $template->get());
 		}
 		else
 		{
@@ -1814,8 +1836,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if (strlen($_GET["pass"])) $pass = $_GET["pass"];
 		}
 		$user_id = $ilUser->getId();
-		$active = $this->object->getActiveTestUser($user_id);
-		$active_id = $active->active_id;
+		$active_id = $this->getActiveId();
 		$overview = "";
 		if ($this->object->getNrOfTries() == 1)
 		{
@@ -1874,8 +1895,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$pass = null;
 		$user_id = $ilUser->getId();
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$active = $this->object->getActiveTestUser($user_id);
-		$active_id = $active->active_id;
+		$active_id = $this->getActiveId();
 		if ($this->object->getNrOfTries() == 1)
 		{
 			$pass = 0;

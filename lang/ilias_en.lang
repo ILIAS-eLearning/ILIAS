@@ -618,9 +618,6 @@ assessment#:#set_filter#:#Set Filter
 assessment#:#set_manual_feedback#:#Set Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle Answers
-assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points
-assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points
-assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points
 assessment#:#solution_hint#:#Suggested Solution
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Solution Order
@@ -786,7 +783,9 @@ assessment#:#tst_question_offer#:#Do you accept this sample or do you want anoth
 assessment#:#tst_question_selection#:#Question Selection
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points
-assessment#:#tst_question_solved_state#:#Solved
+assessment#:#tst_question_mark#:#Mark this question
+assessment#:#tst_question_marked#:#You marked the question
+assessment#:#tst_question_unmark#:#Remove the mark for this question
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question Type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
@@ -870,7 +869,7 @@ assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test R
 assessment#:#tst_show_summary#:#Show List of Questions
 assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
-assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
+assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every test pass. If you have chosen random selection of questions, ILIAS generates a completely new set of questions for every test pass.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_start_new_test_pass#:#Start New Test Pass
 assessment#:#tst_start_test#:#Start the Test

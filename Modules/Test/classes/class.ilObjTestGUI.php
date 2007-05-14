@@ -872,16 +872,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["introduction"] = $introduction;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["chb_postpone"]);
 		$data["shuffle_questions"] = 0;
-		if (!$this->object->isRandomTest())
+		if ($_POST["chb_shuffle_questions"])
 		{
-			if ($_POST["chb_shuffle_questions"])
-			{
-				$data["shuffle_questions"] = $_POST["chb_shuffle_questions"];
-			}
-		}
-		else
-		{
-			$data["shuffle_questions"] = 1;
+			$data["shuffle_questions"] = $_POST["chb_shuffle_questions"];
 		}
 		$data["list_of_questions"] = 0;
 		if ($_POST["list_of_questions"] == 1)
@@ -1576,17 +1569,9 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS", $this->lng->txt("tst_shuffle_questions"));
 		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS_DESCRIPTION", $this->lng->txt("tst_shuffle_questions_description"));
-		if ($this->object->isRandomTest())
+		if ($this->object->getShuffleQuestions())
 		{
 			$this->tpl->setVariable("CHECKED_SHUFFLE_QUESTIONS", " checked=\"checked\"");
-			$this->tpl->setVariable("DISABLE_SHUFFLE_QUESTIONS", " disabled=\"disabled\"");
-		}
-		else 
-		{
-			if ($this->object->getShuffleQuestions())
-			{
-				$this->tpl->setVariable("CHECKED_SHUFFLE_QUESTIONS", " checked=\"checked\"");
-			}
 		}
 
 		$this->tpl->setVariable("TEXT_SHOW_SUMMARY", $this->lng->txt("tst_show_summary"));
@@ -5549,7 +5534,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 
-			if ($ilAccess->checkAccess("tst_statistics", "", $this->ref_id))
+			if (($ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) || ($ilAccess->checkAccess("write", "", $this->ref_id)))
 			{
 				// statistics tab
 				$tabs_gui->addTarget("statistics",

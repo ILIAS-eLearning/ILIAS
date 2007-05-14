@@ -121,7 +121,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		if (!$rbacsystem->checkAccess("participate", $this->ref_id))
+		if (!$rbacsystem->checkAccess("visible,read", $this->ref_id))
 		{
 			return $props;
 		}

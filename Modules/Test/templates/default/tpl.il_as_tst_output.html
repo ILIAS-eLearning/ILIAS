@@ -81,7 +81,14 @@
 	</tr>
 </table>
 <!-- END navigation_bottom -->
-<!-- BEGIN question_status --><table><tr valign="top"><td><small>{TEXT_QUESTION_STATUS_LABEL}</small></td><td>{TEXT_QUESTION_STATUS}</td></tr></table><!-- END question_status -->
+<!-- BEGIN question_status -->
+<!-- BEGIN ismarked -->
+<div><small>{TEXT_QUESTION_STATUS_LABEL}</small> <img src="{MARKED_SOURCE}" alt="{ALT_MARKED}" title="{TITLE_MARKED}" /> <input name="cmd[resetmarked]" type="submit" class="submit" value="{TEXT_RESET_MARK}" /></div>
+<!-- END ismarked -->
+<!-- BEGIN isnotmarked -->
+<div><input type="submit" class="submit" name="cmd[setmarked]" value="{TEXT_MARK_QUESTION}" /></div>
+<!-- END isnotmarked -->
+<!-- END question_status -->
 <p></p>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 </form>

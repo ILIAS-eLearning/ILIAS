@@ -1540,6 +1540,8 @@ class ilObjTest extends ilObject
 	function generateRandomQuestions($pass = NULL)
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		$active = $this->getActiveTestUser($ilUser->getId());
 		$active_id = 0;
 		if (is_object($active))
@@ -1573,6 +1575,32 @@ class ilObjTest extends ilObject
 			global $ilias, $ilErr;
 			$ilias->raiseError(sprintf($this->lng->txt("error_random_question_generation"), $ilUser->getId(), $this->getTestId()), $ilErr->FATAL);
 		}
+
+		if (($pass > 0) && (!$this->getShuffleQuestions()))
+		{
+			// easy, only copy the questions of the first pass
+			$query = sprintf("SELECT * FROM tst_test_random_question WHERE active_fi = %s AND pass = 0",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . "")
+			);
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$insert = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+					$ilDB->quote($row["active_fi"] . ""),
+					$ilDB->quote($row["question_fi"] . ""),
+					$ilDB->quote($row["sequence"] . ""),
+					$ilDB->quote($pass . "")
+				);
+				$insertresult = $ilDB->query($insert);
+			}
+			if (strlen($active->sequence) == 0)
+			{
+				$this->addQuestionSequence($active->active_id);
+			}
+			return;
+		}
+
 		$num = $this->getRandomQuestionCount();
 		if ($num > 0)
 		{
@@ -8132,21 +8160,26 @@ class ilObjTest extends ilObject
 			$result["errormessage"] = sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->getEndingTime()));
 			return $result;
 		}
+
+		$active = $this->getActiveTestUser($user_id);
+
 		if ($this->getEnableProcessingTime())
 		{
-			$starting_time = $this->getStartingTimeOfUser($user_id);
-			if ($starting_time !== FALSE)
+			if (is_object($active))
 			{
-				if ($this->isMaxProcessingTimeReached($starting_time))
+				$starting_time = $this->getStartingTimeOfUser($active->active_id);
+				if ($starting_time !== FALSE)
 				{
-					$result["executable"] = false;
-					$result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
-					return $result;
+					if ($this->isMaxProcessingTimeReached($starting_time))
+					{
+						$result["executable"] = false;
+						$result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
+						return $result;
+					}
 				}
 			}
 		}
 
-		$active = $this->getActiveTestUser($user_id);
 		if ($this->hasNrOfTriesRestriction() && is_object($active) && $this->isNrOfTriesReached($active->tries))
 		{
 			$result["executable"] = false;
@@ -8188,7 +8221,10 @@ class ilObjTest extends ilObject
 	function canShowTestResults($user_id)
 	{
 		$active = $this->getActiveTestUser($user_id);
-		$starting_time = $this->getStartingTimeOfUser($user_id);
+		if (is_object($active))
+		{
+			$starting_time = $this->getStartingTimeOfUser($active->active_id);
+		}
 		$notimeleft = FALSE;
 		if ($starting_time !== FALSE)
 		{
@@ -8237,18 +8273,17 @@ class ilObjTest extends ilObject
 *
 * Returns the unix timestamp of the time a user started a test
 *
-* @param integer $user_id The user id
+* @param integer $active_id The active id of the user
 * @return mixed The unix timestamp if the user started the test, FALSE otherwise
 * @access public
 */
-	function getStartingTimeOfUser($user_id)
+	function getStartingTimeOfUser($active_id)
 	{
 		global $ilDB;
 
-		if ($user_id < 1) return FALSE;
-		$query = sprintf("SELECT tst_times.started FROM tst_times, tst_active WHERE tst_active.user_fi = %s AND tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.started",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($this->getTestId() . "")
+		if ($active_id < 1) return FALSE;
+		$query = sprintf("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s ORDER BY tst_times.started",
+			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -8260,12 +8295,12 @@ class ilObjTest extends ilObject
 			}
 			else
 			{
-				return FALSE;
+				return mktime();
 			}
 		}
 		else
 		{
-			return FALSE;
+			return mktime();
 		}
 	}
 

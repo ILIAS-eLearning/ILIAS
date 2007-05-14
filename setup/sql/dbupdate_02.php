@@ -1370,3 +1370,11 @@ CREATE TABLE `tst_manual_feedback` (
 ALTER TABLE `tst_manual_feedback` ADD INDEX ( `active_fi` );
 ALTER TABLE `tst_manual_feedback` ADD INDEX ( `question_fi` );
 ALTER TABLE `tst_manual_feedback` ADD INDEX ( `pass` );
+<#986>
+DELETE FROM rbac_operations WHERE ops_id = 46;
+<#987>
+ALTER TABLE `tst_tests` DROP `test_type_fi`;
+<#988>
+DROP TABLE `tst_test_type`;
+<#989>
+DROP TABLE `tst_eval_users`;

@@ -2309,7 +2309,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		if ((!$rbacsystem->checkAccess("visible,invite", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), true);
