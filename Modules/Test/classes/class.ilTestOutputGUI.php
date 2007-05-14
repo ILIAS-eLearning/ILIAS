@@ -1914,20 +1914,22 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if (is_null($pass))	$pass = $_GET["pass"];
 		}
 
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
-		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$template->setVariable("PRINT_URL", "javascript:window.print();");
 		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
 		{
 			$this->ctrl->setParameter($this, "pass", $pass);
 			$this->ctrl->setParameter($this, "pdf", "1");
+			$template->setCurrentBlock("pdf_export");
 			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
 			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
 			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
 			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+			$template->parseCurrentBlock();
 		}
+
+		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$template->setVariable("PRINT_URL", "javascript:window.print();");
 		
 		$result_pass = $this->object->_getResultPass($active_id);
 		$result_array =& $this->object->getTestResult($active_id, $result_pass);
@@ -1937,10 +1939,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		// output of the details of a selected pass
 		$this->ctrl->saveParameter($this, "pass");
 		$this->ctrl->saveParameter($this, "active_id");
-		if ($pass != null)
+		if (!is_null($pass))
 		{
 			$result_array =& $this->object->getTestResult($active_id, $pass);
-	
 			$command_solution_details = "";
 			if ($this->object->getShowSolutionDetails())
 			{
@@ -1964,7 +1965,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$signature = $this->getResultsSignature();
 			$template->setVariable("SIGNATURE", $signature);
 		}
-
 		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		$template->setVariable("USER_DATA", $user_data);
 		$template->setVariable("USER_FEEDBACK", $statement);
