@@ -1378,3 +1378,5 @@ ALTER TABLE `tst_tests` DROP `test_type_fi`;
 DROP TABLE `tst_test_type`;
 <#989>
 DROP TABLE `tst_eval_users`;
+<#990>
+ALTER TABLE  `tst_tests` ADD  `show_marker` TINYINT NOT NULL DEFAULT  '0';
