@@ -133,6 +133,13 @@ class ilObjExternalFeedListGUI extends ilObjectListGUI
 		return $cmd_link;
 	}
 
+	/**
+	* Returns whether current item is a block in a side column or not
+	*/
+	function isSideBlock()
+	{
+		return true;
+	}
 
 
 } // END class.ilObjExternalFeedListGUI

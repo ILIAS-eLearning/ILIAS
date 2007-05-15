@@ -1265,6 +1265,14 @@ class ilObjectListGUI
 
 		return $this->tpl->get();
 	}
+	
+	/**
+	* Returns whether current item is a block in a side column or not
+	*/
+	function isSideBlock()
+	{
+		return false;
+	}
 
 } // END class.ilObjectListGUI
 ?>

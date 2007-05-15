@@ -304,15 +304,21 @@ class ilCourseItems
 		return $this->items ? $this->items : array();
 	}
 
+	/**
+	* Get all items. (No events, no side blocks)
+	*/
 	function getFilteredItems($a_container_id)
 	{
+		global $objDefinition;
+		
 		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 
 		$event_items = ilEventItems::_getItemsOfContainer($a_container_id);
 
 		foreach($this->items as $item)
 		{
-			if(!in_array($item['ref_id'],$event_items))
+			if(!in_array($item['ref_id'],$event_items) &&
+				!$objDefinition->isSideBlock($item['type']))
 			{
 				$filtered[] = $item;
 			}
@@ -655,14 +661,21 @@ class ilCourseItems
 
 	function createDefaultEntry($a_item)
 	{
-		global $ilDB;
+		global $ilDB, $objDefinition;
 		
 		$a_item["timing_type"] = IL_CRS_TIMINGS_DEACTIVATED;
 		$a_item["timing_start"]		= time();
 		$a_item["timing_end"]		= time();
 		$a_item["suggestion_start"]		= time();
 		$a_item["suggestion_end"]		= time();
-		$a_item["position"]				= $this->__getLastPosition() + 1;
+		if ($objDefinition->isSideBlock($a_item["type"]))
+		{
+			$a_item["position"]				= 0;
+		}
+		else
+		{
+			$a_item["position"]				= $this->__getLastPosition() + 1;
+		}
 		$a_item['visible']				= 0;
 		$a_item['changeable']			= 0;
 		$a_item['earliest_start']		= time();
