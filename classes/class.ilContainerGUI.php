@@ -1773,6 +1773,11 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		global $ilAccess;
 		parent::setColumnSettings($column_gui);
 
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$column_gui->setEnableMovement(true);
+		}
+		
 		$column_gui->setRepositoryItems($this->items);
 		if ($this->isActiveAdministrationPanel())
 		{

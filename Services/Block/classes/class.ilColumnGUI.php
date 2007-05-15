@@ -446,7 +446,7 @@ class ilColumnGUI
 	*/
 	function showBlocks()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$blocks = array();
 		
@@ -467,22 +467,7 @@ class ilColumnGUI
 			$block_gui->setEnableEdit($this->getEnableEdit());
 			$block_gui->setAdminCommands($this->getAdminCommands());
 			$block_gui->setConfigMode($this->getMovementMode());
-			if ($this->getSide() == IL_COL_LEFT)
-			{
-				$block_gui->setAllowMove("right");
-			}
-			else if ($this->getSide() == IL_COL_RIGHT)
-			{
-				$block_gui->setAllowMove("left");
-			}
-			if ($i > 1)
-			{
-				$block_gui->setAllowMove("up");
-			}
-			if ($i < $sum_moveable)
-			{
-				$block_gui->setAllowMove("down");
-			}
+			$this->setPossibleMoves($block_gui, $i, $sum_moveable);
 			
 			// get block for custom blocks
 			if ($block["custom"])
@@ -498,12 +483,27 @@ class ilColumnGUI
 			$this->tpl->setCurrentBlock("col_block");
 			$html = $ilCtrl->getHTML($block_gui);
 
+			// dummy block, if non visible, but movement is ongoing
+			if ($html == "" && $this->getRepositoryMode() &&
+				$this->getMovementMode())
+			{
+				include_once("./Services/Block/classes/class.ilDummyBlockGUI.php");
+				$bl = new ilDummyBlockGUI();
+				$bl->setBlockId($block["id"]);
+				$bl->setBlockType($block["type"]);
+				$bl->setTitle($lng->txt("invisible_block"));
+				$this->setPossibleMoves($bl, $i, $sum_moveable);
+				$bl->setConfigMode($this->getMovementMode());
+				$html = $bl->getHTML();
+			}
+			
 			$this->tpl->setVariable("BLOCK", $html);
 			$this->tpl->parseCurrentBlock();
 			$ilCtrl->setParameter($this, "block_type", "");
 			
 			// count (moveable) blocks
-			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb")
+			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb" &&
+				$block["type"] != "news")
 			{
 				$i++;
 			}
@@ -514,6 +514,26 @@ class ilColumnGUI
 		}
 	}
 
+	function setPossibleMoves($a_block_gui, $i, $sum_moveable)
+	{
+		if ($this->getSide() == IL_COL_LEFT)
+		{
+			$a_block_gui->setAllowMove("right");
+		}
+		else if ($this->getSide() == IL_COL_RIGHT && !$this->getRepositoryMode())
+		{
+			$a_block_gui->setAllowMove("left");
+		}
+		if ($i > 1)
+		{
+			$a_block_gui->setAllowMove("up");
+		}
+		if ($i < $sum_moveable)
+		{
+			$a_block_gui->setAllowMove("down");
+		}
+	}
+	
 	/**
 	* Add hidden block and create block selectors.
 	*/
@@ -719,7 +739,8 @@ class ilColumnGUI
 			}
 			
 			// count (moveable) blocks
-			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb")
+			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb"
+				&& $block["type"] != "news")
 			{
 				$i++;
 			}
@@ -805,7 +826,13 @@ class ilColumnGUI
 					{
 						$nr = $def_nr++;
 					}
-					// extra handling for system messages and feedback block
+					
+					
+					// extra handling for system messages, feedback block and news
+					if ($type == "news")		// always show news first
+					{
+						$nr = -15;
+					}
 					if ($type == "pdsysmess")		// always show sys mess first
 					{
 						$nr = -15;
@@ -927,42 +954,46 @@ class ilColumnGUI
 		
 		$this->determineBlocks();
 		
-		if ($this->getColType() == "pd")
+		if (in_array($this->getColType(), array("pd", "crs", "cat", "grp")))
 		{
 			$bid = explode("_", $_GET["block_id"]);
 			$i = 2;
 			foreach($this->blocks[$this->getCmdSide()] as $block)
 			{
-				// only handle non-hidden blocks
-				if (ilBlockSetting::_lookupDetailLevel($block["type"],
+				// only handle non-hidden blocks (or repository mode, here we cannot hide blocks)
+				if ($this->getRepositoryMode() || ilBlockSetting::_lookupDetailLevel($block["type"],
 					$ilUser->getId(), $block["id"]) != 0)
 				{
-					ilBlockSetting::_writeNumber($block["type"], $i, $ilUser->getId(), $block["id"]);
+					$user_id = ($this->getRepositoryMode())
+						? 0
+						: $ilUser->getId();
+
+					ilBlockSetting::_writeNumber($block["type"], $i, $user_id, $block["id"]);
 
 					if ($block["type"] == $bid[0] && $block["id"] == $bid[1])
 					{
 						if ($_GET["move_dir"] == "up")
 						{
-							ilBlockSetting::_writeNumber($block["type"], $i-3, $ilUser->getId(), $block["id"]);
+							ilBlockSetting::_writeNumber($block["type"], $i-3, $user_id, $block["id"]);
 						}
 						if ($_GET["move_dir"] == "down")
 						{
-							ilBlockSetting::_writeNumber($block["type"], $i+3, $ilUser->getId(), $block["id"]);
+							ilBlockSetting::_writeNumber($block["type"], $i+3, $user_id, $block["id"]);
 						}
 						if ($_GET["move_dir"] == "left")
 						{
-							ilBlockSetting::_writeNumber($block["type"], 200, $ilUser->getId(), $block["id"]);
-							ilBlockSetting::_writeSide($block["type"], IL_COL_LEFT, $ilUser->getId(), $block["id"]);
+							ilBlockSetting::_writeNumber($block["type"], 200, $user_id, $block["id"]);
+							ilBlockSetting::_writeSide($block["type"], IL_COL_LEFT, $user_id, $block["id"]);
 						}
 						if ($_GET["move_dir"] == "right")
 						{
-							ilBlockSetting::_writeNumber($block["type"], 200, $ilUser->getId(), $block["id"]);
-							ilBlockSetting::_writeSide($block["type"], IL_COL_RIGHT, $ilUser->getId(), $block["id"]);
+							ilBlockSetting::_writeNumber($block["type"], 200, $user_id, $block["id"]);
+							ilBlockSetting::_writeSide($block["type"], IL_COL_RIGHT, $user_id, $block["id"]);
 						}
 					}
 					else
 					{
-						ilBlockSetting::_writeNumber($block["type"], $i, $ilUser->getId(), $block["id"]);
+						ilBlockSetting::_writeNumber($block["type"], $i, $user_id, $block["id"]);
 					}
 					$i+=2;
 				}
