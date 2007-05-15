@@ -47,6 +47,7 @@ class ilObjectListGUI
 	var $description_enabled = true;
 	var $preconditions_enabled = true;
 	var $properties_enabled = true;
+	var $notice_properties_enabled = true;
 	var $commands_enabled = true;
 	var $cust_prop = array();
 	var $cust_commands = array();
@@ -103,6 +104,7 @@ class ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
+		$this->notice_properties_enabled = true;
 		$this->info_screen_enabled = false;
 		$this->type = "";					// "cat", "course", ...
 		$this->gui_class_name = "";			// "ilobjcategorygui", "ilobjcoursegui", ...
@@ -144,6 +146,24 @@ class ilObjectListGUI
 	function enablePreconditions($a_status)
 	{
 		$this->preconditions_enabled = $a_status;
+
+		return;
+	}
+	
+	function getNoticePropertiesStatus()
+	{
+		return $this->notice_properties_enabled;
+	}
+	
+	/**
+	* En/disable notices
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableNoticeProperties($a_status)
+	{
+		$this->notice_properties_enabled = $a_status;
 
 		return;
 	}
@@ -508,13 +528,6 @@ class ilObjectListGUI
 	*/
 	function getCustomProperties($a_prop)
 	{
-		if($info = $this->ldap_mapping->getInfoString($this->obj_id))
-		{
-			$this->cust_prop[] = array('property' => $this->lng->txt('further_informations'),
-				'value' => $info,
-				'alert' => false,
-				'newline' => true);
-		}		
 		if (is_array($this->cust_prop))
 		{
 			foreach($this->cust_prop as $prop)
@@ -525,6 +538,21 @@ class ilObjectListGUI
 		return $a_prop;
 	}
 	
+	/**
+	* get notice properties
+	*/
+	function getNoticeProperties()
+	{
+		$this->notice_prop = array();
+		if($infos = $this->ldap_mapping->getInfoStrings($this->obj_id))
+		{
+			foreach($infos as $info)
+			{
+				$this->notice_prop[] = array('value' => $info);
+			}
+		}		
+		return $this->notice_prop ? $this->notice_prop : array();
+	}	
 	/**
 	* add a custom command
 	*/
@@ -762,6 +790,19 @@ class ilObjectListGUI
 			$this->tpl->setCurrentBlock("item_properties");
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+	
+	function insertNoticeProperties()
+	{
+		$this->getNoticeProperties();
+		foreach($this->notice_prop as $property)
+		{
+			$this->tpl->setCurrentBlock('notice_item');
+			$this->tpl->setVariable('NOTICE_ITEM_VALUE',$property['value']);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock('notice_property');
+		$this->tpl->parseCurrentBlock();
 	}
 
 
@@ -1245,6 +1286,14 @@ class ilObjectListGUI
 			$this->insertProperties();
 		}
 		$ilBench->stop("ilObjectListGUI", "6000_insert_properties$type");
+
+		// notice properties
+		$ilBench->start("ilObjectListGUI", "6500_insert_notice_properties$type");
+		if($this->getNoticePropertiesStatus())
+		{
+			$this->insertNoticeProperties();
+		}
+		$ilBench->stop("ilObjectListGUI", "6500_insert_properties$type");
 
 		// preconditions
 		$ilBench->start("ilObjectListGUI", "7000_insert_preconditions");

@@ -148,8 +148,12 @@ class ilLDAPSettingsGUI
 			$this->tpl->setVariable('TXT_DELETE',$this->lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();
 		}
-		foreach($mapping_data as $mapping_id => $data)
+		
+		$mapping_data = $this->sortMappingData($mapping_data);
+		
+		foreach($mapping_data as $data)
 		{
+			$mapping_id = $data['mapping_id'];
 			if(in_array($mapping_id,$_SESSION['ldap_mapping_details']))
 			{
 				$this->tpl->setCurrentBlock('show_mapping_details');
@@ -201,7 +205,12 @@ class ilLDAPSettingsGUI
 			}
 			$this->tpl->setVariable('ROW_CHECK',ilUtil::formCheckbox(0,
 				'mappings[]',$mapping_id));
-			$this->tpl->setVariable('TXT_PARSED_NAME',$this->role_mapping->getMappingInfoString($mapping_id));
+			$this->tpl->setVariable('TXT_TITLE_TITLE',$this->lng->txt('title'));
+			$this->tpl->setVariable('TXT_TITLE_ROLE',$this->lng->txt('obj_role'));
+			$this->tpl->setVariable('TXT_TITLE_GROUP',$this->lng->txt('obj_grp'));
+			$this->tpl->setVariable('TITLE_GROUP',$this->role_mapping->getMappingInfoString($mapping_id));
+			$this->tpl->setVariable('TITLE_TITLE',ilUtil::shortenText($data['obj_title'],30,true));
+			$this->tpl->setVariable('TITLE_ROLE',$data['role_name']);
 			
 			$this->tpl->parseCurrentBlock();
 		}
@@ -693,6 +702,30 @@ class ilLDAPSettingsGUI
 	 	{
 	 		unset($_SESSION['ldap_mapping_details'][$_GET['details_hide']]);
 	 	}
+	}
+	
+	/**
+	 * Sort mapping data by title
+	 *
+	 * @access private
+	 * @param array mapping data
+	 * 
+	 */
+	private function sortMappingData($a_mapping_data)
+	{
+		global $rbacreview,$ilObjDataCache;
+
+	 	foreach($a_mapping_data as $mapping_id => $data)
+	 	{
+	 		$new_mapping[$mapping_id] = $data;
+	 		$new_mapping[$mapping_id]['obj_id'] = $obj_id = $rbacreview->getObjectOfRole($data['role']);
+	 		$new_mapping[$mapping_id]['obj_title'] = $ilObjDataCache->lookupTitle($obj_id); 
+			$new_mapping[$mapping_id]['mapping_id'] = $mapping_id;
+	 	}
+		
+	 	
+	 	return $new_mapping;
+		
 	}
 }
 ?>

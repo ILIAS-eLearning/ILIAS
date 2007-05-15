@@ -446,6 +446,16 @@ div.il_ItemProperties
 	font-size: 90%;
 }
 
+div.il_ItemNotice
+{
+	margin-top: 2px;
+	margin-bottom: 5px;
+	text-align:left;
+	font-weight: normal;
+	font-size: 90%;
+	color: green
+}
+
 div.il_Preconditions
 {
 	margin-top: 3px;

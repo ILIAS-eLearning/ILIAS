@@ -264,7 +264,7 @@ class ilLDAPRoleGroupMappingSettings
 		$role = $this->mappings[$a_mapping_id]['role_name'];
 		$dn_parts = explode(',',$this->mappings[$a_mapping_id]['dn']);
 		
-		return ($role ? $role : "''").' -> '.(array_key_exists(0,$dn_parts) ? $dn_parts[0] : "''");
+		return (array_key_exists(0,$dn_parts) ? $dn_parts[0] : "''");
 	}
 	
 	
