@@ -233,6 +233,13 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 			return;
 		}
 		
+		// check whether at least one item is selected
+		if (count($_POST["news_id"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"));
+			return $this->editNews();
+		}
+
 		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$c_gui = new ilConfirmationGUI();
 		

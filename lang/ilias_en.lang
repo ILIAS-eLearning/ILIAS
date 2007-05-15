@@ -2979,7 +2979,7 @@ common#:#no_access_item_public#:#This item cannot be accessed in the public area
 common#:#no_access_link_object#:#You are not allowed to link this object
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
-common#:#no_checkbox#:#No checkbox checked!
+common#:#no_checkbox#:#Please select at least one item.
 common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_conditions_found#:#No preconditions created.
 common#:#no_datasets#:#The table is empty
