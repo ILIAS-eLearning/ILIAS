@@ -579,7 +579,7 @@ class ilForum
 	* @return	boolean
 	* @access	public
 	*/
-	function updatePost($message, $pos_pk,$notify,$subject)
+	function updatePost($message, $pos_pk,$notify,$subject,$thr_pk=0)
 	{	
 		global $ilDB;
 			
@@ -593,6 +593,33 @@ class ilForum
 				 "WHERE pos_pk = ".$ilDB->quote($pos_pk)."";
 		$this->ilias->db->query($q);
 	
+		if ($thr_pk > 0 &&
+			$pos_pk == $this->getFirstPostByThread($thr_pk))
+		{
+			$this->updateThread($thr_pk,$subject);
+		}
+
+		return true;		
+	}
+	
+	
+	/**
+	* update dataset in frm_threads
+	* @param	integer	thr_pk
+	* @param	string	subject
+	* @return	boolean
+	* @access	public
+	*/
+	function updateThread($thr_pk,$subject)
+	{	
+		global $ilDB;
+			
+		$q = "UPDATE frm_threads ".
+				 "SET ".
+				 "thr_subject = ".$ilDB->quote($subject)." ".
+				 "WHERE thr_pk = ".$ilDB->quote($thr_pk)."";
+		$this->ilias->db->query($q);
+
 		return true;		
 	}
 	

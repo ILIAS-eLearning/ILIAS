@@ -1353,8 +1353,12 @@ class ilObjForumGUI extends ilObjectGUI
 								ilUtil::stripSlashes($formData["message"]),
 								$_GET["pos_pk"],
 								$_POST["notify"],
-								$formData["subject"] ? ilUtil::stripSlashes($formData["subject"]) : $threadData["thr_subject"]))
+								$formData["subject"] ? ilUtil::stripSlashes($formData["subject"]) : $threadData["thr_subject"],
+								$threadData["thr_pk"]))
 						{
+							$frm->setWhereCondition("thr_pk = ".$ilDB->quote($threadData["thr_pk"]));
+							$threadData = $frm->getOneThread();
+							
 							ilUtil::sendInfo($lng->txt("forums_post_modified"));
 						}
 						if(isset($_FILES["userfile"]))
