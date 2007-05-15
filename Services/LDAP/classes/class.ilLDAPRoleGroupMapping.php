@@ -77,7 +77,7 @@ class ilLDAPRoleGroupMapping
 	 * @param int object id
 	 * 
 	 */
-	public function getInfoString($a_obj_id)
+	public function getInfoStrings($a_obj_id)
 	{
 	 	if(!$this->active_servers)
 	 	{
@@ -234,7 +234,7 @@ class ilLDAPRoleGroupMapping
 			{
 				if(strlen($data['info']) and $data['object_id'])
 				{
-					$this->mapping_info[$data['object_id']] = $data['info'];
+					$this->mapping_info[$data['object_id']][] = $data['info'];
 				}
 			}
 		}

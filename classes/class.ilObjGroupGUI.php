@@ -2681,14 +2681,14 @@ class ilObjGroupGUI extends ilContainerGUI
 /**
 * Clean output string from german umlauts
 *
-* Clean output string from german umlauts. Replaces ä -> ae etc.
+* Clean output string from german umlauts. Replaces �� -> ae etc.
 *
 * @param string $str String to clean
 * @return string Cleaned string
 */
 	function cleanString($str)
 	{
-		return str_replace(array("ä","ö","ü","ß","Ä","Ö","Ü"), array("ae","oe","ue","ss","Ae","Oe","Ue"), $str);
+		return str_replace(array("��","��","��","��","��","��","��"), array("ae","oe","ue","ss","Ae","Oe","Ue"), $str);
 	}
 
 	/**
@@ -2790,6 +2790,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$info->enableLearningProgress(true);
 
 		$info->addSection($this->lng->txt('group_registration'));
+		$info->showLDAPRoleGroupMappingInfo();
 		switch($this->object->getRegistrationFlag())
 		{
 			case GRP_REGISTRATION_DIRECT:
