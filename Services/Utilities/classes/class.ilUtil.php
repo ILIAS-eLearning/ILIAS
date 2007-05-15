@@ -3252,6 +3252,9 @@ class ilUtil
 	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
 		// - take care of html exports (-> see buildLatexImages)
+		$a_text = str_replace("&lt;", "<", $a_text);
+		$a_text = str_replace("&gt;", ">", $a_text);
+		$a_text = str_replace("&amp;", "&", $a_text);
 		$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
 			"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
 			" />'", $a_text);
