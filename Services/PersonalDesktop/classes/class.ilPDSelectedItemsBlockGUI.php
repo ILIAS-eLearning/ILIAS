@@ -302,6 +302,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 							$item_list_gui->enableDescription(false);
 							$item_list_gui->enableProperties(false);
 							$item_list_gui->enablePreconditions(false);
+							$item_list_gui->enableNoticeProperties(false);
 						}
 						if ($this->getCurrentDetailLevel() < 2)
 						{
