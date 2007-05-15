@@ -790,6 +790,39 @@ class ilInfoScreenGUI
 		return $html;
 	}
 
+	/**
+	 * show LDAP role group mapping info
+	 *
+	 * @access public
+	 * @param string section name. Leave empty to place this info string inside a section
+	 * 
+	 */
+	public function showLDAPRoleGroupMappingInfo($a_section = '')
+	{
+	 	if(strlen($a_section))
+	 	{
+	 		$this->addSection($a_section);
+	 	}
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		$ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
+		if($infos = $ldap_mapping->getInfoStrings($this->gui_object->object->getId()))
+		{
+			$info_combined = '<div style="color:green;">';
+			$counter = 0;
+			foreach($infos as $info_string)
+			{
+				if($counter++)
+				{
+					$info_combined .= '<br />';
+				}
+				$info_combined .= $info_string; 
+			}
+			$info_combined .= '</div>';
+			$this->addProperty($this->lng->txt('applications'),$info_combined);
+		}
+	 	return true;
+	}
+
 	function setTabs()
 	{
 		global $tpl;
