@@ -1467,7 +1467,7 @@ class ilForum
 
 		if ($edit == 1)
 		{
-			$text = ereg_replace("\[quote\].*\[\/quote\]", "", $text);
+			//$text = ereg_replace("\[quote\].*\[\/quote\]", "", $text);
 			//$text = str_replace($this->txtQuote1, "", $text);
 			//$text = str_replace($this->txtQuote2, "", $text);
 			$text = $this->txtQuote1.$text.$this->txtQuote2;
@@ -1501,7 +1501,7 @@ class ilForum
 				}
 
 				// only one txtQuote can exist...
-				if ($startZ > 1)
+/*				if ($startZ > 1)
 				{
 					$start_firstPos = strpos($text, $this->txtQuote1);
 					$text_s2 = str_replace($this->txtQuote1, "", substr($text, ($start_firstPos+strlen($this->txtQuote1))));
@@ -1514,7 +1514,7 @@ class ilForum
 					$text_e1 = str_replace($this->txtQuote2, "", substr($text, 0, $end_firstPos));
 					$text_e2 = substr($text, $end_firstPos);
 					$text = $text_e1.$text_e2;
-				}
+				}*/
 
 				if ($edit == 0)
 				{
