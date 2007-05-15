@@ -464,14 +464,14 @@
 	
 	<xsl:template match="img">
 		<fo:inline xmlns:fo="http://www.w3.org/1999/XSL/Format">
-			<fo:external-graphic  xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<fo:external-graphic xmlns:fo="http://www.w3.org/1999/XSL/Format">
 				<xsl:attribute name="src"><xsl:value-of select="@src"/></xsl:attribute>
 				<xsl:attribute name="vertical-align">middle</xsl:attribute>
 				<xsl:if test="@width">
-					<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
+					<xsl:attribute name="content-width"><xsl:value-of select="@width"/></xsl:attribute>
 				</xsl:if>
 				<xsl:if test="@height">
-					<xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute>
+					<xsl:attribute name="content-height"><xsl:value-of select="@height"/></xsl:attribute>
 				</xsl:if>
 			</fo:external-graphic>
 		</fo:inline>
