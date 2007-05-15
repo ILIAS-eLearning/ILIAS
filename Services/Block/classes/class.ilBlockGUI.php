@@ -733,7 +733,10 @@ abstract class ilBlockGUI
 		$this->fillDetailRow();
 
 		// fill row for setting details
-		$this->fillMoveRow();
+		if ($this->allow_moving)
+		{
+			$this->fillMoveRow();
+		}
 
 		// header commands
 		if (count($this->getHeaderCommands()) > 0 ||

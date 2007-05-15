@@ -3084,6 +3084,8 @@ common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
+common#:#invisible_block#:#Invisible Block
+common#:#invisible_block_mess#:#You do not have the permission to view this block.
 common#:#obj_sahs#:#Learning Module SCORM/AICC
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
