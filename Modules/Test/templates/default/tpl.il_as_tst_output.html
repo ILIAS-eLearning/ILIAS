@@ -1,12 +1,27 @@
 <!-- BEGIN enableprocessingtime -->
 <p>{USER_WORKING_TIME}<br /><span id="timeleft">{USER_REMAINING_TIME}</span></p>
 <!-- END enableprocessingtime -->
-<!-- BEGIN cancel_test -->
-<div align="right"><a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a></div>
-<br />
-<!-- END cancel_test -->
 <form name="test_output" method="post" action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+<table class="fullwidth_invisible">
+		<tr>
+			<td>
+<!-- BEGIN question_status -->
+<!-- BEGIN ismarked -->
+	<div><small>{TEXT_QUESTION_STATUS_LABEL}</small> <img src="{MARKED_SOURCE}" alt="{ALT_MARKED}" title="{TITLE_MARKED}" /> <input name="cmd[resetmarked]" type="submit" class="submit" value="{TEXT_RESET_MARK}" /></div>
+<!-- END ismarked -->
+<!-- BEGIN isnotmarked -->
+	<div><input type="submit" class="submit" name="cmd[setmarked]" value="{TEXT_MARK_QUESTION}" /></div>
+<!-- END isnotmarked -->
+<!-- END question_status -->
+			</td>
+			<td style="text-align: right;">
+<!-- BEGIN cancel_test -->
+				<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
+<!-- END cancel_test -->
+			</td>
+		</tr>
+</table>
 <table class="fullwidth">
 	<tr>
 	<td align="left" width="33%" class="submit">
@@ -81,14 +96,6 @@
 	</tr>
 </table>
 <!-- END navigation_bottom -->
-<!-- BEGIN question_status -->
-<!-- BEGIN ismarked -->
-<div><small>{TEXT_QUESTION_STATUS_LABEL}</small> <img src="{MARKED_SOURCE}" alt="{ALT_MARKED}" title="{TITLE_MARKED}" /> <input name="cmd[resetmarked]" type="submit" class="submit" value="{TEXT_RESET_MARK}" /></div>
-<!-- END ismarked -->
-<!-- BEGIN isnotmarked -->
-<div><input type="submit" class="submit" name="cmd[setmarked]" value="{TEXT_MARK_QUESTION}" /></div>
-<!-- END isnotmarked -->
-<!-- END question_status -->
 <p></p>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 </form>

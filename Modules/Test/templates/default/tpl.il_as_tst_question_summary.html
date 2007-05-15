@@ -15,6 +15,11 @@
 <!-- END title_question_points -->	
 		</th>
 		<th class="std">{WORKED_THROUGH}</th>
+		<th class="std">
+<!-- BEGIN title_marked -->	
+			{TEXT_MARKED}
+<!-- END title_marked -->	
+		</th>
 	</tr>
 </thead>
 <!-- BEGIN question -->
@@ -28,11 +33,16 @@
 <!-- END value_question_points -->	
 	</td>
 	<td class="{COLOR_CLASS}"><img src="{VALUE_WORKED_THROUGH}" alt="{ALT_WORKED_THROUGH}" /></td>
+	<td class="{COLOR_CLASS}">
+<!-- BEGIN value_marked -->	
+		<img src="{MARKED_IMAGE}" alt="{ALT_MARKED_IMAGE}" title="{TITLE_MARKED_IMAGE}" />
+<!-- END value_marked -->	
+	</td>
 </tr>
 <!-- END question --> 
 <tr class="tblfooter">
 	<td><input class="submit" type="submit" name="cmd[backFromSummary]" value="{TXT_BACK}"/></td>
- 	<td colspan="4" align="right"><input class="submit" type="submit" name="cmd[finishTest]" value="{TXT_SHOW_AND_SUBMIT_ANSWERS}"/></td>
+ 	<td colspan="5" align="right"><input class="submit" type="submit" name="cmd[finishTest]" value="{TXT_SHOW_AND_SUBMIT_ANSWERS}"/></td>
 </tr>
 </table>
 </form>
