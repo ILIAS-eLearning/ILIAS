@@ -4918,10 +4918,15 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
+	function redirectToInfoScreen()
+	{
+		$this->infoScreen($_SESSION["lock"]);
+	}
+	
 	/**
 	* show information screen
 	*/
-	function infoScreen()
+	function infoScreen($session_lock = "")
 	{
 		global $ilAccess;
 		global $ilUser;
@@ -4944,7 +4949,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$output_gui =& new ilTestOutputGUI($this->object);
 		$this->ctrl->setParameter($output_gui, "sequence", $seq);
 		$info->setFormAction($this->ctrl->getFormAction($output_gui));
-		$info->addHiddenElement("lock", md5($_COOKIE['PHPSESSID'] . time()));
+		if (strlen($session_lock))
+		{
+			$info->addHiddenElement("lock", $session_lock);
+		}
+		else
+		{
+			$info->addHiddenElement("lock", md5($_COOKIE['PHPSESSID'] . time()));
+		}
 		$online_access = false;
 		if ($this->object->getFixedParticipants())
 		{
@@ -5145,6 +5157,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			case "run":
 			case "infoScreen":
+			case "redirectToInfoScreen":
 			case "start":
 			case "resume":
 			case "previous":
@@ -5486,7 +5499,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$tabs_gui->addTarget("info",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
 					 array("infoScreen", "outIntroductionPage", "showSummary", 
-					 "setAnonymousId", "outUserListOfAnswerPasses"));
+					 "setAnonymousId", "outUserListOfAnswerPasses", "redirectToInfoScreen"));
 			}
 			
 			// settings tab

@@ -590,7 +590,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+			$this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
 		}
 	}
 
@@ -1948,7 +1948,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
 			$template->parseCurrentBlock();
 		}
-
 		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
 		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
 		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
