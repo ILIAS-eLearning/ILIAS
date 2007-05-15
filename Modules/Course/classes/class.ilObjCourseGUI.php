@@ -408,6 +408,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// access
 		//
 		$info->addSection($this->lng->txt("access"));
+		$info->showLDAPRoleGroupMappingInfo();
 		
 		// activation
 		if($this->object->getOfflineStatus())
@@ -446,6 +447,7 @@ class ilObjCourseGUI extends ilContainerGUI
 						break;
 				}
 		}
+		
 		// subscription
 		$info->addProperty($this->lng->txt("crs_info_reg"),$txt);
 
@@ -4453,6 +4455,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilUser,$ilAccess;
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			return true;
+		}
+		
+		// Disable aggrement if is not member of course
+		if(!$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
 			return true;
 		}
