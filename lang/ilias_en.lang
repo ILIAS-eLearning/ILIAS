@@ -787,6 +787,7 @@ assessment#:#tst_question_selection_description#:#If you only use question pools
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points
 assessment#:#tst_question_mark#:#Mark this question
 assessment#:#tst_question_marked#:#You marked the question
+assessment#:#tst_question_marker#:#Marker
 assessment#:#tst_question_unmark#:#Remove the mark for this question
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question Type

@@ -1380,3 +1380,5 @@ DROP TABLE `tst_test_type`;
 DROP TABLE `tst_eval_users`;
 <#990>
 ALTER TABLE  `tst_tests` ADD  `show_marker` TINYINT NOT NULL DEFAULT  '0';
+<#991>
+ALTER TABLE  `tst_tests` ADD  `keep_questions` TINYINT NOT NULL DEFAULT  '0' AFTER  `random_test`;

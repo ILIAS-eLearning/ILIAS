@@ -497,7 +497,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			{
 				$this->tpl->setCurrentBlock("ismarked");
 				$this->tpl->setVariable("TEXT_QUESTION_STATUS_LABEL", $this->lng->txt("tst_question_marked").":");
-				$this->tpl->setVariable("TEXT_RESET_MARK", $this->lng->txt("tst_question_unmark"));
+				$this->tpl->setVariable("TEXT_RESET_MARK", $this->lng->txt("remove"));
 				$this->tpl->setVariable("ALT_MARKED", $this->lng->txt("tst_question_marked"));
 				$this->tpl->setVariable("TITLE_MARKED", $this->lng->txt("tst_question_marked"));
 				$this->tpl->setVariable("MARKED_SOURCE", ilUtil::getImagePath("marked.png"));
@@ -1616,6 +1616,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$counter = 0;
 		
 		$result_array = & $this->object->getTestSummary($active_id);
+		$marked_questions = array();
+		if ($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$marked_questions = ilObjTest::_getSolvedQuestions($active_id);
+		}
 		foreach ($result_array as $key => $value) 
 		{
 			if (preg_match("/\d+/", $key)) 
@@ -1648,6 +1654,19 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				{
 					$this->tpl->setVariable("VALUE_QUESTION_POINTS", $value["points"]."&nbsp;".$this->lng->txt("points_short"));
 				}
+				if (count($marked_questions))
+				{
+					if (array_key_exists($value["qid"], $marked_questions))
+					{
+						$obj = $marked_questions[$value["qid"]];
+						if ($obj->solved == 1)
+						{
+							$this->tpl->setVariable("ALT_MARKED_IMAGE", $this->lng->txt("tst_question_marked"));
+							$this->tpl->setVariable("TITLE_MARKED_IMAGE", $this->lng->txt("tst_question_marked"));
+							$this->tpl->setVariable("MARKED_IMAGE", ilUtil::getImagePath("marked.png"));
+						}
+					} 
+				}
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
 			}
@@ -1659,6 +1678,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (!$this->object->getTitleOutput())
 		{
 			$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
+		}
+		if ($this->object->getShowMarker())
+		{
+			$this->tpl->setVariable("TEXT_MARKED", $this->lng->txt("tst_question_marker"));
 		}
 		$this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("worked_through"));
 		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
