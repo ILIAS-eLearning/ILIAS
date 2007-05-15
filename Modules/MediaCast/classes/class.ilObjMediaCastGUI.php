@@ -666,6 +666,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setTitle($lng->txt("mcst_settings"));
 		
+		// Title
+		$tit = new ilTextInputGUI($lng->txt("title"), "title");
+		$tit->setValue($this->object->getTitle());
+		$tit->setRequired(true);
+		$this->form_gui->addItem($tit);
+
+		// description
+		$des = new ilTextAreaInputGUI($lng->txt("description"), "description");
+		$des->setValue($this->object->getDescription());
+		$this->form_gui->addItem($des);
+
 		// Online
 		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 		$online->setChecked($this->object->getOnline());
@@ -702,6 +713,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->initSettingsForm();
 		if ($this->form_gui->checkInput())
 		{
+			$this->object->setTitle($this->form_gui->getInput("title"));
+			$this->object->setDescription($this->form_gui->getInput("description"));
 			$this->object->setOnline($this->form_gui->getInput("online"));
 			$this->object->setPublicFiles($this->form_gui->getInput("public_files"));
 			$this->object->update();
@@ -717,7 +730,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		else
 		{
 			$this->form_gui->setValuesByPost();
-			$tpl->setContent($this->form_gui->getHTML());
+			$this->tpl->setContent($this->form_gui->getHTML());
 		}
 	}
 

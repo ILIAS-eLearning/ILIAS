@@ -429,7 +429,7 @@ class ilEventAdministrationGUI
 
 	function materials()
 	{
-		global $tree;
+		global $tree, $objDefinition;
 
 		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->event_id);
@@ -454,6 +454,12 @@ class ilEventAdministrationGUI
 		$counter = 1;
 		foreach($nodes as $node)
 		{
+			// No side blocks here
+			if ($objDefinition->isSideBlock($node['type']))
+			{
+				continue;
+			}
+			
 			if($node['type'] == 'rolf')
 			{
 				continue;

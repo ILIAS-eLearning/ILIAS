@@ -571,7 +571,7 @@ class ilCourseObjectivePresentationGUI
 
 	function __showOtherResources()
 	{
-		global $ilias,$rbacsystem,$ilObjDataCache;
+		global $ilias,$rbacsystem,$ilObjDataCache,$objDefinition;
 
 		if(!count($ors = $this->__getOtherResources()))
 		{
@@ -610,7 +610,8 @@ class ilCourseObjectivePresentationGUI
 			$obj_id = $ilObjDataCache->lookupObjId($or_id);
 			$obj_type = $ilObjDataCache->lookupType($obj_id);
 
-			if ($obj_type == "feed")
+			// do not show side block items
+			if ($objDefinition->isSideBlock($obj_type))
 			{
 				continue;
 			}

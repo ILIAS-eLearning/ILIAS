@@ -4719,7 +4719,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $tpl;
 
+		$this->tabs_gui->setTabActive("members");
 		$this->setSubTabs('members');
+		$this->tabs_gui->setSubTabActive("crs_members_map");
 		
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
 		if (!ilGoogleMapUtil::isActivated() || !$this->object->getEnableCourseMap())

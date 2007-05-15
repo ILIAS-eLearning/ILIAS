@@ -623,6 +623,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["allow_copy"] = $a_attribs["allow_copy"];
 				$this->obj_data["$a_attribs[name]"]["rbac"] = $a_attribs["rbac"];
 				$this->obj_data["$a_attribs[name]"]["system"] = $a_attribs["system"];
+				$this->obj_data["$a_attribs[name]"]["sideblock"] = $a_attribs["sideblock"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";
@@ -736,5 +737,17 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		return (bool) $this->obj_data[$a_obj_name]["system"];
 	}
+	
+	/**
+	* Check, whether object type is a side block.
+	*
+	* @param	string		object type
+	* @return	boolean		side block true/false
+	*/
+	function isSideBlock($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["sideblock"];
+	}
+
 }
 ?>

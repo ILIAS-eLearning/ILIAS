@@ -711,6 +711,7 @@ class ilCourseContentGUI
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getId());
+		
 
 		// NO ITEMS FOUND
 		if(!count($this->cont_arr))
@@ -736,12 +737,6 @@ class ilCourseContentGUI
 		$num = 0;
 		foreach ($this->cont_arr as $cont_data)
 		{
-			// do not show blocks in material list (not nice, to do: clean up)
-			if ($cont_data['type'] == "feed")
-			{
-				continue;
-			}
-			
 			if(!$ilAccess->checkAccess('visible','',$cont_data['ref_id']))
 			{
 				continue;
@@ -1782,7 +1777,7 @@ class ilCourseContentGUI
 	
 		$this->container_gui->determineAdminCommands($cont_data['ref_id'],
 													 $item_list_gui->adminCommandsIncluded());
-
+		
 		return $html;
 	}
 

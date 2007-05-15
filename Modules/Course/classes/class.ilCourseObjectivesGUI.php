@@ -247,7 +247,7 @@ class ilCourseObjectivesGUI
 	 */
 	public function listMaterialAssignment()
 	{
-	 	global $ilAccess;
+	 	global $ilAccess, $objDefinition;
 	 	
 	 	if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 	 	{
@@ -291,8 +291,8 @@ class ilCourseObjectivesGUI
 		$counter = 0;
 		foreach($assignable as $node)
 		{
-			// not nice, fix later
-			if($node['type'] == 'feed')
+			// no side blocks here
+			if($objDefinition->isSideBlock($node['type']))
 			{
 				continue;
 			}

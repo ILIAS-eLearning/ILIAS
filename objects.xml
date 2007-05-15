@@ -319,7 +319,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>
-<object name="feed" class_name="ExternalFeed" location="Modules/ExternalFeed/classes" module="Modules/ExternalFeed" checkbox="1" inherit="1" allow_link="1" rbac="1">
+<object name="feed" class_name="ExternalFeed" location="Modules/ExternalFeed/classes" module="Modules/ExternalFeed" checkbox="1" inherit="1" allow_link="1" rbac="1" sideblock="1">
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>
