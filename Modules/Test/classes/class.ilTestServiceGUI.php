@@ -512,6 +512,7 @@ class ilTestServiceGUI
 					$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$template->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
 					$this->ctrl->setParameterByClass($targetclass, "evaluation", $value["qid"]);
+					$this->ctrl->setParameterByClass($targetclass, "active_id", $active_id);
 					$template->setVariable("URL_QUESTION_TITLE", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommanddetails));
 					$template->parseCurrentBlock();
 				}
