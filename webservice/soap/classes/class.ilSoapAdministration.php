@@ -169,14 +169,24 @@ class ilSoapAdministration
 		    return $this->__raiseError("Client ini is not initialized","Server");
 		}
 
+		$auth_modes = ilAuthUtils::_getActiveAuthModes();
+		$auth_mode_default =  strtoupper(ilAuthUtils::_getAuthModeName(array_shift($auth_modes)));
+		$auth_mode_names = array();
+		foreach ($auth_modes as $mode) {
+			$auth_mode_names[] = strtoupper(ilAuthUtils::_getAuthModeName($mode));
+		}
+
         // todo: get information from client id, read from ini file specificied
         $client_details[] = array ("installation_id" => IL_INST_ID,
                                    "installation_version" => ILIAS_VERSION,
                                    "installation_url" => ILIAS_HTTP_PATH,
                                    "installation_description" => $ilClientIniFile->readVariable("client","description"),
-																		"installation_language_default" => $ilClientIniFile->readVariable("language","default"),
-																		"installation_session_expire" => $ilClientIniFile->readVariable("session","expire"),
-																		"installation_php_postmaxsize" => $this->return_bytes(ini_get("post_max_size"))
+									"installation_language_default" => $ilClientIniFile->readVariable("language","default"),
+									"installation_session_expire" => $ilClientIniFile->readVariable("session","expire"),
+									"installation_php_postmaxsize" => $this->return_bytes(ini_get("post_max_size")),
+									"authentication_methods" => join(",", $auth_mode_names),
+									"authentication_default_method" => $auth_mode_default
+
 																		);
 
         // store into xml result set
