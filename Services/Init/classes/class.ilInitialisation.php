@@ -707,9 +707,11 @@ class ilInitialisation
 		// location
 		//
 		// check whether we are currently doing a goto call
-		if (is_int(strpos($PHP_SELF, "goto.php")) && $_GET["soap_pw"] == "")
+		if (is_int(strpos($PHP_SELF, "goto.php")) && $_GET["soap_pw"] == "" &&
+			$_GET["reloadpublic"] != "1")
 		{
-			$script = $this->updir."goto.php?target=".$_GET["target"]."&client_id=".CLIENT_ID;
+			$script = $this->updir."goto.php?target=".$_GET["target"]."&client_id=".CLIENT_ID.
+				"&reloadpublic=1";
 		}
 
 		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n".

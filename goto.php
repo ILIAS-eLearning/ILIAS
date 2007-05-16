@@ -43,7 +43,7 @@ if (isset($_GET["client_id"]))
 	setcookie("ilClientId",$_GET["client_id"]);
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
-//echo "1";
+
 require_once "./include/inc.header.php";
 
 // special handling for direct navigation request
