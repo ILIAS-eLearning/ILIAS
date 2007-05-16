@@ -2185,7 +2185,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "titlefilter");
-		$template->setVariable("STYLE", "visibility: hidden;");
+		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
 		$this->ctrl->setParameter($this, "sort", "title");
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["title"]);
 		$questiontitle = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("title") . "</a>";
@@ -2206,7 +2206,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "commenttextfilter");
-		$template->setVariable("STYLE", "visibility: hidden;");
+		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
 		$this->ctrl->setParameter($this, "sort", "comment");
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["comment"]);
 		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("description") . "</a>";
@@ -2225,7 +2225,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "filter");
-		$template->setVariable("STYLE", "visibility: hidden;");
+		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
 		$this->ctrl->setParameter($this, "sort", "type");
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["type"]);
 		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("question_type") . "</a>";
@@ -2244,7 +2244,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "authortextfilter");
-		$template->setVariable("STYLE", "visibility: hidden;");
+		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer;");
 		$this->ctrl->setParameter($this, "sort", "author");
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["author"]);
 		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("author") . "</a>";
@@ -2269,7 +2269,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
 		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
 		$template->setVariable("ID", "qpltextfilter");
-		$template->setVariable("STYLE", "visibility: hidden;");
+		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
 		$this->ctrl->setParameter($this, "sort", "qpl");
 		$this->ctrl->setParameter($this, "sortorder", $sortarray["qpl"]);
 		$qpfilter = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("obj_qpl") . "</a>";
