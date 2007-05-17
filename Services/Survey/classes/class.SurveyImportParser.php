@@ -108,6 +108,7 @@ class SurveyImportParser extends ilSaxParser
 		$this->in_questionblock = FALSE;
 		$this->questionblocks = array();
 		$this->questionblock = array();
+		$this->showQuestiontext = 1;
 		$this->questionblocktitle = "";
 	}
 	
@@ -203,6 +204,16 @@ class SurveyImportParser extends ilSaxParser
 				$this->in_questionblock = TRUE;
 				$this->questionblock = array();
 				$this->questionblocktitle = "";
+				$this->showQuestiontext = 1;
+				foreach ($a_attribs as $attrib => $value)
+				{
+					switch ($attrib)
+					{
+						case "showQuestiontext":
+							$this->showQuestiontext = $value;
+							break;
+					}
+				}
 				break;
 			case "survey":
 				$this->in_survey = TRUE;
@@ -392,7 +403,7 @@ class SurveyImportParser extends ilSaxParser
 							{
 								array_push($qblock, $this->questions[$question_id]);
 							}
-							$this->survey->createQuestionblock($title, TRUE, $qblock);
+							$this->survey->createQuestionblock($title, $this->showQuestiontext, $qblock);
 						}
 					}
 					$this->survey->saveToDb();

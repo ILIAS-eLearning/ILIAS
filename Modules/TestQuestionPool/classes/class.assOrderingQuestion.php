@@ -993,6 +993,19 @@ class assOrderingQuestion extends assQuestion
 	{
 		return $this->answers;
 	}
+
+	/**
+	* Returns true if the question type supports JavaScript output
+	*
+	* Returns true if the question type supports JavaScript output
+	*
+	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
+	* @access public
+	*/
+	function supportsJavascriptOutput()
+	{
+		return TRUE;
+	}
 }
 
 ?>

@@ -331,6 +331,8 @@ assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reac
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#edit_content#:#Edit Content
 assessment#:#edit_properties#:#Edit Properties
+assessment#:#enable_javascript#:#Click to enable JavaScript support
+assessment#:#disable_javascript#:#Click to disable JavaScript support
 assessment#:#end_tag#:#End Tag
 assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#enlarge#:#Enlarge
@@ -855,11 +857,11 @@ assessment#:#tst_list_of_answers_show#:#Show List of Answers
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
-assessment#:#tst_title_output#:#Test Title Output
-assessment#:#tst_title_output_full#:#Show Test Title and Available Points
-assessment#:#tst_title_output_hide_points#:#Show only Test Title
-assessment#:#tst_title_output_no_title#:#Don't show the Test Title and the Available Points
-assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the Test Title and the Available Points during the Test
+assessment#:#tst_title_output#:#Question Title Output
+assessment#:#tst_title_output_full#:#Show Question Titles and Available Points
+assessment#:#tst_title_output_hide_points#:#Show only Question Titles
+assessment#:#tst_title_output_no_title#:#Don't show the Question Titles and the Available Points
+assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the question titles and the available points during the test
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes

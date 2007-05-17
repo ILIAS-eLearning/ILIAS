@@ -322,14 +322,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$is_postponed = false;
 		if (is_object($active))
 		{
-			if (!preg_match("/(^|\D)" . $question_gui->object->getId() . "($|\D)/", $active->postponed) and 
-				!($active->postponed == $question_gui->object->getId()))
+			$postponed_array = split(",", $active->postponed);
+			$sequence_array = split(",", $active->sequence);
+			if (in_array($sequence_array[$sequence-1], $postponed_array))
 			{
-				$is_postponed = false;
+				$is_postponed = TRUE;
 			}
 			else
 			{
-				$is_postponed = true;
+				$is_postponed = FALSE;
 			}
 		}
 
@@ -509,6 +510,28 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->tpl->setVariable("TEXT_MARK_QUESTION", $this->lng->txt("tst_question_mark"));
 				$this->tpl->parseCurrentBlock();
 			}
+		}
+
+		if ($ilUser->prefs["tst_javascript"])
+		{
+			$this->tpl->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
+			$this->tpl->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
+			$this->tpl->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
+			$this->ctrl->setParameter($this, "tst_javascript", "0");
+			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
+		}
+		else
+		{
+			$this->tpl->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
+			$this->tpl->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
+			$this->tpl->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
+			$this->ctrl->setParameter($this, "tst_javascript", "1");
+			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
+		}
+
+		if ($question_gui->object->supportsJavascriptOutput())
+		{
+			$this->tpl->touchBlock("jsswitch");
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
@@ -834,6 +857,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			case "back":
 			case "gotoquestion":
 			default:
+				if (array_key_exists("tst_javascript", $_GET))
+				{
+					$ilUser->writePref("tst_javascript", $_GET["tst_javascript"]);
+				}
 				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
 				$this->outTestPage();
@@ -1035,6 +1062,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
 		$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
+		$this->ctrl->saveParameter($this, "tst_javascript");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	

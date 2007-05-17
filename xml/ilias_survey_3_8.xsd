@@ -158,7 +158,8 @@
           <xs:element ref="question"/>
         </xs:sequence>
       </xs:sequence>
-      <xs:attribute name="id" use="required" type="xs:string"/>
+    	<xs:attribute name="id" use="required" type="xs:string"/>
+    	<xs:attribute name="showQuestiontext" use="optional" default="1" type="bytebool"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="questionblocktitle">
