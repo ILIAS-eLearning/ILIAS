@@ -1577,8 +1577,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		//var_dump($exer;
 
 		$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('login'));
-		$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
 		$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+		$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+
 
 
 		
@@ -1599,8 +1600,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->setCurrentBlock("member_data");
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
 			$this->tpl->setVariable("LOGIN",$member["login"]);
-			$this->tpl->setVariable("FIRSTNAME",strtoupper($member["firstname"]));
 			$this->tpl->setVariable("LASTNAME",strtoupper($member["lastname"]));
+			$this->tpl->setVariable("FIRSTNAME",strtoupper($member["firstname"]));
 
 
 			foreach ($exercises as $exc) 
