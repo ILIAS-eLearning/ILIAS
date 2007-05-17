@@ -2923,7 +2923,9 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getTestId()),
 				$ilDB->quote($question_id)
 			);
-		} else {
+		} 
+		else 
+		{
 			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
 				$ilDB->quote($this->getTestId())
 			);
@@ -2933,6 +2935,11 @@ class ilObjTest extends ilObject
 			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
 				$ilDB->quote($this->getTestId())
 			);
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
+			}
 		}
 		$result = $ilDB->query($query);
 		$result = $ilDB->query($query2);
@@ -2944,11 +2951,6 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getTestId())
 			);
 			$result = $ilDB->query($query);
-		}
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-		{
-			$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 		}
 	}
 

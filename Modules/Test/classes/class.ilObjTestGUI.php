@@ -809,7 +809,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function savePropertiesObject()
 	{
 		$total = $this->object->evalTotalPersons();
-		$deleteuserdata = false;
 		$randomtest_switch = false;
 		// Check the values the user entered in the form
 		if (!$total)
@@ -848,10 +847,6 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$data["random_test"] = $this->object->random_test;
-		}
-		if ((($data["random_test"] && !$this->object->isRandomTest())) || ((!$data["random_test"] && $this->object->isRandomTest())))
-		{
-			$deleteuserdata = true;
 		}
 		if ($data["random_test"] != $this->object->random_test)
 		{
@@ -1008,10 +1003,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->object->saveToDb(true);
 
-		if ($deleteuserdata)
-		{
-			$this->object->removeAllTestEditings();
-		}
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
 		if ($randomtest_switch)
 		{
