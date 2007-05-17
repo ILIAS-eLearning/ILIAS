@@ -567,6 +567,19 @@ class assQuestion
 	{
 		return $this->outputType;
 	}
+	
+	/**
+	* Returns true if the question type supports JavaScript output
+	*
+	* Returns true if the question type supports JavaScript output
+	*
+	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
+	* @access public
+	*/
+	function supportsJavascriptOutput()
+	{
+		return FALSE;
+	}
 
 	/**
 	* Gets the estimated working time of a question

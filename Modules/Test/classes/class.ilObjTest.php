@@ -3867,11 +3867,10 @@ class ilObjTest extends ilObject
 			{
 				$sequence_array = split(",", $sequence);
 				$postpone_sequence = $sequence_array[$postpone-1];
-				$question_id = $this->questions[$postpone_sequence];
 				unset($sequence_array[$postpone-1]);
 				array_push($sequence_array, $postpone_sequence);
 				$sequence = join(",", $sequence_array);
-				$postponed .= ",$question_id";
+				$postponed .= ",$postpone_sequence";
 				$postponed = preg_replace("/^,/", "", $postponed);
 			}
 			$tries = $old_active->tries;
@@ -4167,7 +4166,8 @@ class ilObjTest extends ilObject
 					$solved =  $solved_questions[$question->getId()]->solved;
 				}
 				$is_postponed = FALSE;
-				if (in_array($question->getId(), $postponed))
+				if (in_array($question_index, $postponed))
+				//if (in_array($question->getId(), $postponed))
 				{
 					$is_postponed = TRUE;
 				}
@@ -8470,6 +8470,7 @@ class ilObjTest extends ilObject
 */
 	function getListOfQuestions()
 	{
+		if ($this->getTitleOutput() == 2) return FALSE; // No test titles => List of Questions makes no sense
 		if (($this->show_summary & 1) > 0)
 		{
 			return TRUE;

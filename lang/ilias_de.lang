@@ -6718,11 +6718,11 @@ assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
 assessment#:#tst_no_evaluation_data#:#Der Test bislang noch von niemandem gestartet. Es ist keine Statistik verfügbar.
 assessment#:#tst_fixed_participating_users#:#Feste Teilnehmer in diesem Test
 assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
-assessment#:#tst_title_output#:#Ausgabe des Fragentitels
+assessment#:#tst_title_output#:#Ausgabe der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punktezahl anzeigen
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel anzeigen
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punktezahl anzeigen
-assessment#:#tst_title_output_description#:#Wählen Sie eine der oberen Optionen für die Darstellung des Fragentitels und der erreichbaren Punkte während eines Testdurchlaufs aus
+assessment#:#tst_title_output_description#:#Wählen Sie eine der oberen Optionen für die Darstellung der Fragentitel und der erreichbaren Punkte während eines Testdurchlaufs aus
 assessment#:#tst_stat_result_qmax#:#Gesamtzahl der Fragen
 assessment#:#working_time_avg#:#Durchschnittliche Bearbeitungszeit
 common#:#assessment_log_logging#:#Protokollierung

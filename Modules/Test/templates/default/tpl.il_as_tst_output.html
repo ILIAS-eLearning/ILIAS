@@ -50,6 +50,7 @@
 	<tr class="std">
 		<td class="ilc_Page">
 			<div class="ilc_Page" id="ilc_Page">
+				<div id="javascript_switch" style="z-index: 10; float: right; display: none;"><a href="{JAVASCRIPT_URL}"><img src="{JAVASCRIPT_IMAGE}" alt="{JAVASCRIPT_IMAGE_ALT}" title="{JAVASCRIPT_IMAGE_TITLE}" /></a></div>
 				{QUESTION_OUTPUT}
 			</div>
 <!-- BEGIN direct_feedback --><div align="center"><input type="submit" class="submit" name="cmd[directfeedback]" id="directfeedback" value="{TEXT_DIRECT_FEEDBACK}" /></div><!-- END direct_feedback -->
@@ -101,4 +102,13 @@
 </form>
 <!-- BEGIN js_initialize -->
 {JS_INITIALIZE}
-<!-- END js_initialize --> 
+<!-- END js_initialize -->
+<!-- BEGIN jsswitch -->
+<script type="text/javascript">
+	var jsswitch = document.getElementById("javascript_switch");
+	if (jsswitch != null)
+	{
+		jsswitch.style.display = "block";
+	}
+</script>
+<!-- END jsswitch -->
