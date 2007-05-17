@@ -1564,6 +1564,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$all_members_data = $this->__readMemberData($members = $this->object->members_obj->getMembers());
+		$sorted_members = ilUtil::sortArray($all_members_data,"lastname","asc");
 
 		if(!count($all_members_data))
 		{
@@ -1574,14 +1575,10 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_exc_tracking.html","./Modules/Course");	
 
-		//var_dump($exer;
 
 		$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('login'));
 		$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
 		$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-
-
-
 		
 		foreach ($exercises as $exc) 
 		{
@@ -1595,7 +1592,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$counter = 0;
 
-		foreach ($all_members_data as $member) 
+		foreach ($sorted_members as $member) 
 		{
 			$this->tpl->setCurrentBlock("member_data");
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
