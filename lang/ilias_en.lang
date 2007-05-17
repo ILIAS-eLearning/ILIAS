@@ -4569,6 +4569,7 @@ crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
 crs#:#crs_no_chapter_selected#:#Please select a chapter.
+crs#:#crs_no_exercises#:#No exercises found inside this course
 crs#:#crs_no_groupings_assigned#:#No groupings assigned to this course.
 crs#:#crs_no_groups_selected#:#Please select a group
 crs#:#crs_no_items_found#:#No items
