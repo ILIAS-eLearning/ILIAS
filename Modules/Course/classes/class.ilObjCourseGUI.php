@@ -1562,88 +1562,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 
-	function exercisetrackingObject()  
-	{
-	  $this->tabs_gui->setTabActive('exercise_tracking');
-		global $tree;
-
-		$nodedata  = $tree->getNodeData($_GET["ref_id"]);
-
-          	$nodearray = $tree->getSubTree($nodedata);
-
-		foreach($nodearray as $node) 
-		{
-            		if ($node['type']=="exc") 
-			{
-	              		if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'],false)) 
-				{
-		                	$exercises[] = $tmp;
-				}
-			}
-		}
-
-		$all_members_data = $this->__readMemberData($members = $this->object->members_obj->getMembers());
-		$sorted_members = ilUtil::sortArray($all_members_data,"lastname","asc");
-
-		if(!count($all_members_data))
-		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_members_assigned"));
-			return false;
-		}
-
-		if (!count($exercises))
-		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_exercises"));
-			return false;
-		}
-
-
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_exc_tracking.html","./Modules/Course");	
-
-
-		$this->tpl->setVariable("TXT_LOGIN",$this->lng->txt('login'));
-		$this->tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
-		$this->tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
-		
-		foreach ($exercises as $exc) 
-		{
-			$this->tpl->setCurrentBlock("exercises");
-			$this->tpl->setVariable("EXERCISE_TITLE",$exc->getTitle());
-			$this->tpl->parseCurrentBlock();
-		}
-
-		require_once("./Services/Tracking/classes/class.ilLPMarks.php");		
-
-		
-		$counter = 0;
-
-		foreach ($sorted_members as $member) 
-		{
-			$this->tpl->setCurrentBlock("member_data");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
-			$this->tpl->setVariable("LOGIN",$member["login"]);
-			$this->tpl->setVariable("LASTNAME",strtoupper($member["lastname"]));
-			$this->tpl->setVariable("FIRSTNAME",strtoupper($member["firstname"]));
-
-
-			foreach ($exercises as $exc) 
-			{
-				$mark = & new ilLPMarks($exc->getId(),$member["usr_id"]);
-				$this->tpl->setCurrentBlock("marks");
-				$this->tpl->setVariable("EXERCISE_MARK",$mark->getMark());
-				$this->tpl->parseCurrentBlock();
-			}
-   			// parse outter block
-			$this->tpl->parse("member_data");
-		}
-
-
-		//var_dump($exercises);
-
-	}
-
-
 	function __renderAdminsTable()
 	{
 		$this->tpl->setVariable("TXT_ADMINISTRATORS",$this->lng->txt('crs_administrators'));
@@ -3224,10 +3142,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if ($ilAccess->checkAccess('edit_permission','',$this->ref_id))
 		{
-			$tabs_gui->addTarget("exercise_tracking",
-								 $this->ctrl->getLinkTarget($this, "exercisetracking"), 
-								 "exercisetracking",
-								 get_class($this));			
 			$tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
 								 array("perm","info","owner"), 'ilpermissiongui');
