@@ -1409,25 +1409,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		include_once './Modules/Course/classes/class.ilCourseItems.php';
 
-		global $ilDB;
-
-		$query = "SELECT distinct il_meta_identifier_.obj_id,catalog,kind,entry FROM object_data,il_meta_identifier_,il_meta_relation,il_meta_general WHERE il_meta_identifier_.obj_id = il_meta_relation.obj_id AND il_meta_identifier_.obj_id = object_data.obj_id and il_meta_general.obj_id=object_data.obj_id AND il_meta_relation.obj_id='200'";
-
-		$r = $ilDB->query($query);
-
-		$data = "";
-
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$data = $data. "<object>".$row["obj_id"]."</object>";
-			$data = $data. "<catalog>".$row["catalog"]."</catalog>";
-			$data = $data. "<kind>".$row["kind"]."</kind>";
-			$data = $data. "<entry>".$row["entry"]."</entry>";
-		}
-
-		var_dump($data);
-
-		
 		$_SESSION['crs_print_sort'] = $_GET['sort_by'] ? $_GET['sort_by'] : 'lastname';
 		$_SESSION['crs_print_order'] = $_GET['sort_order'] ? $_GET['sort_order'] : 'asc';
 		
