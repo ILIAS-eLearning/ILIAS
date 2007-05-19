@@ -263,10 +263,6 @@ common#:#im_yahoo_icon#:#Yahoo Logo
 common#:#im_msn_icon#:#MSN Logo
 common#:#im_aim_icon#:#AIM Logo
 common#:#im_skype_icon#:#Skype Logo
-common#:#show_user_activity#:#Show User Activity
-common#:#display_not_active_status_after#:#Display Status 'Not active' after
-common#:#show_user_activity_desc#:#If enabled, this option displays 'Not active' next to a user's name in the Users online list on the Personal Desktop when no input occured within the time intervall defined above.
-common#:#status_not_active#:#Not active
 common#:#not_enabled_or_configured#:#Not configured or enabled
 common#:#fold_create_grp#:#Add new Group
 assessment#:#codebase#:#Codebase
@@ -1491,6 +1487,11 @@ common#:#stop_moving_blocks#:#Stop Moving Blocks
 pd#:#pd_settings#:#Personal Desktop Settings
 pd#:#pd_enable_block_moving#:#Enable Block Moving
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
+pd#:#pd_enable_active_users#:#Enable Active Users Block
+pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)
+pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".
+pd#:#pd_osi_host#:#OSI Host
+pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_duration#:#Play Time
