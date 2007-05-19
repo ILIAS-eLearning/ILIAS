@@ -119,7 +119,8 @@ class ilColumnGUI
 	protected $check_global_activation = 
 		array("news" => true,
 			"pdnews" => true,
-			"pdfeed" => true);
+			"pdfeed" => true,
+			"pdusers" => true);
 
 	/**
 	* Constructor

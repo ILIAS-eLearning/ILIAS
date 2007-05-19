@@ -127,13 +127,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$pd_set = new ilSetting("pd");
 		
 		$enable_block_moving = $pd_set->get("enable_block_moving");
+		$enable_active_users = $ilSetting->get("block_activated_pdusers");
+		$enable_calendar = $ilSetting->get("enable_calendar");
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("pd_settings"));
 		
-		// Enable internal news
+		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
 			"enable_block_moving");
 		$cb_prop->setValue("1");
@@ -141,6 +143,40 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($enable_block_moving);
 		$form->addItem($cb_prop);
 		
+		// Enable calendar
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_calendar"),
+			"enable_calendar");
+		$cb_prop->setValue("1");
+		//$cb_prop->setInfo($lng->txt("pd_enable_block_moving_info"));
+		$cb_prop->setChecked($enable_calendar);
+		$form->addItem($cb_prop);
+		
+		// Enable active users block
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_active_users"),
+			"block_activated_pdusers");
+		$cb_prop->setValue("1");
+		$cb_prop->setChecked($enable_active_users);
+		
+			// maximum inactivity time
+			$ti_prop = new ilTextInputGUI($lng->txt("pd_time_before_removal"),
+				"time_removal");
+			$ti_prop->setValue($pd_set->get("user_activity_time"));
+			$ti_prop->setInfo($lng->txt("pd_time_before_removal_info"));
+			$ti_prop->setMaxLength(3);
+			$ti_prop->setSize(3);
+			$cb_prop->addSubItem($ti_prop);
+			
+			// osi host
+			// see http://www.onlinestatus.org
+			$ti_prop = new ilTextInputGUI($lng->txt("pd_osi_host"),
+				"osi_host");
+			$ti_prop->setValue($pd_set->get("osi_host"));
+			$ti_prop->setInfo($lng->txt("pd_osi_host_info").
+				' <a href="http://www.onlinestatus.org" target="_blank">http://www.onlinestatus.org</a>');
+			$cb_prop->addSubItem($ti_prop);
+			
+		$form->addItem($cb_prop);
+
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -156,7 +192,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		global $ilCtrl, $ilSetting;
 		
 		$pd_set = new ilSetting("pd");
+		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
+		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
+		$pd_set->set("osi_host", $_POST["osi_host"]);
+		$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
+		
 		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 		
 		$ilCtrl->redirect($this, "view");

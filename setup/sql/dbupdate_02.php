@@ -1382,3 +1382,5 @@ DROP TABLE `tst_eval_users`;
 ALTER TABLE  `tst_tests` ADD  `show_marker` TINYINT NOT NULL DEFAULT  '0';
 <#991>
 ALTER TABLE  `tst_tests` ADD  `keep_questions` TINYINT NOT NULL DEFAULT  '0' AFTER  `random_test`;
+<#992>
+REPLACE INTO settings (module,keyword,value) VALUES ('common','block_activated_pdusers','1');
