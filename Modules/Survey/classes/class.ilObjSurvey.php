@@ -5081,47 +5081,14 @@ class ilObjSurvey extends ilObject
 	*/
 	function prepareTextareaOutput($txt_output)
 	{
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$result = $txt_output;
-		if ($prepare_for_latex_output)
-		{
-			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		}
-		// removed: did not work with magic_quotes_gpc = On
-		//$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		if (!$this->isHTML($result))
-		{
-			// if the string does not contain HTML code, replace the newlines with HTML line breaks
-			$result = preg_replace("/[\n]/", "<br />", $result);
-		}
-		else
-		{
-			// patch for problems with the <pre> tags in tinyMCE
-			if (preg_match_all("/(\<pre>.*?\<\/pre>)/ims", $result, $matches))
-			{
-				foreach ($matches[0] as $found)
-				{
-					$replacement = "";
-					if (strpos("\n", $found) === FALSE)
-					{
-						$replacement = "\n";
-					}
-					$removed = preg_replace("/\<br\s*?\/>/ims", $replacement, $found);
-					$result = str_replace($found, $removed, $result);
-				}
-			}
-		}
-		$result = str_replace("{", "&#123;", $result);
-		$result = str_replace("}", "&#125;", $result);
-		$result = str_replace("\\", "&#92;", $result);
-		return $result;
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
 	}
 
 	/**
 	* Checks if a given string contains HTML or not
 	*
 	* @param string $a_text Text which should be checked
-	
 	* @return boolean 
 	* @access public
 	*/
