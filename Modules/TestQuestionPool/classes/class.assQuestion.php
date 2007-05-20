@@ -2185,7 +2185,6 @@ class assQuestion
 	* Checks if a given string contains HTML or not
 	*
 	* @param string $a_text Text which should be checked
-	
 	* @return boolean 
 	* @access public
 	*/
@@ -2209,43 +2208,8 @@ class assQuestion
 	*/
 	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
 	{
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$result = $txt_output;
-		$is_html = $this->isHTML($result);
-		if ($prepare_for_latex_output)
-		{
-			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
-		}
-		
-		// removed: did not work with magic_quotes_gpc = On
-		//$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		if (!$is_html)
-		{
-			// if the string does not contain HTML code, replace the newlines with HTML line breaks
-			$result = preg_replace("/[\n]/", "<br />", $result);
-		}
-		else
-		{
-			// patch for problems with the <pre> tags in tinyMCE
-			if (preg_match_all("/(\<pre>.*?\<\/pre>)/ims", $result, $matches))
-			{
-				foreach ($matches[0] as $found)
-				{
-					$replacement = "";
-					if (strpos("\n", $found) === FALSE)
-					{
-						$replacement = "\n";
-					}
-					$removed = preg_replace("/\<br\s*?\/>/ims", $replacement, $found);
-					$result = str_replace($found, $removed, $result);
-				}
-			}
-		}
-		$result = str_replace("{", "&#123;", $result);
-		$result = str_replace("}", "&#125;", $result);
-		$result = str_replace("\\", "&#92;", $result);
-		return $result;
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
 	}
 
 	/**
