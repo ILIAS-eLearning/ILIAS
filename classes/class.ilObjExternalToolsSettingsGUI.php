@@ -52,6 +52,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		define ("ILINC_DEFAULT_TIMEOUT",30);
 		$lng->loadLanguageModule("delic");
 		$lng->loadLanguageModule("gmaps");
+		$lng->loadLanguageModule("jsmath");
 	}
 	
 	/**
@@ -120,7 +121,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("view","editiLinc","editDelicious", "editGoogleMaps",""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"), 
+				array("view","editiLinc","editDelicious", "editGoogleMaps","editjsMath", ""), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -363,6 +365,91 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	
 
 	/**
+	* Configure jsMath settings
+	* 
+	* @access	public
+	*/
+	function editjsMathObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
+		
+		$jsMathSetting = new ilSetting("jsMath");
+		$path_to_jsmath = array_key_exists("path_to_jsmath", $_GET) ? $_GET["path_to_jsmath"] : $jsMathSetting->get("path_to_jsmath");
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initSubTabs("editjsMath");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("jsmath_settings"));
+		
+		// Enable jsMath
+		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_enable_jsmath"), "enable");
+		$enable->setChecked($jsMathSetting->get("enable"));
+		$enable->setInfo($lng->txt("jsmath_enable_jsmath_info"));
+		$form->addItem($enable);
+		// Path to jsMath
+		$text_prop = new ilTextInputGUI($lng->txt("jsmath_path_to_jsmath"), "path_to_jsmath");
+		$text_prop->setInfo($lng->txt("jsmath_path_to_jsmath_desc"));
+		$text_prop->setValue($path_to_jsmath);
+		$text_prop->setRequired(TRUE);
+		$text_prop->setMaxLength(400);
+		$text_prop->setSize(80);
+		$form->addItem($text_prop);
+
+		$form->addCommandButton("savejsMath", $lng->txt("save"));
+		$form->addCommandButton("view", $lng->txt("cancel"));
+		
+		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
+	}
+
+	/**
+	* Save jsMath Setttings
+	*/
+	function savejsMathObject()
+	{
+		global $ilCtrl;
+		$error = FALSE;
+		
+		$path_to_jsmath = ilUtil::stripSlashes($_POST["path_to_jsmath"]);
+		while (strrpos($path_to_jsmath, "/") == strlen($path_to_jsmath)-1)
+		{
+			$path_to_jsmath = substr($path_to_jsmath, 0, strlen($path_to_jsmath)-1);
+		}
+		// check jsmath path
+		if (file_exists($path_to_jsmath . "/" . "jsMath.js"))
+		{
+		}
+		else
+		{
+			$error = TRUE;
+			if (strlen($path_to_jsmath) == 0)
+			{
+				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"), TRUE);
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "path_to_jsmath", $path_to_jsmath);
+				ilUtil::sendInfo($this->lng->txt("jsmath_path_not_found"), TRUE);
+			}
+		}
+
+		if (!$error)
+		{
+			$jsMathSetting = new ilSetting("jsMath");
+			$jsMathSetting->set("path_to_jsmath", $path_to_jsmath);
+			$jsMathSetting->set("enable", ilUtil::stripSlashes($_POST["enable"]));
+		}
+		
+		$ilCtrl->redirect($this, "editjsMath");
+	}
+
+	/**
 	* Configure google maps settings
 	* 
 	* @access	public
@@ -446,11 +533,14 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
 		$delicious = ($a_cmd == 'editDelicious') ? true : false;
 		$gmaps = ($a_cmd == 'editGoogleMaps') ? true : false;
+		$jsmath = ($a_cmd == 'editjsMath') ? true : false;
 
 		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
 										 "", "", "", $overview);
 		$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
-										 "", "", "", $delicious);
+											"", "", "", $delicious);
+		$this->tabs_gui->addSubTabTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "editjsMath"),
+											"", "", "", $jsmath);
 		$this->tabs_gui->addSubTabTarget("gmaps_extt_gmaps", $this->ctrl->getLinkTarget($this, "editGoogleMaps"),
 										 "", "", "", $gmaps);
 		$this->tabs_gui->addSubTabTarget("extt_ilinc", $this->ctrl->getLinkTarget($this, "editiLinc"),
