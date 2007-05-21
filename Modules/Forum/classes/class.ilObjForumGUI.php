@@ -1534,10 +1534,11 @@ class ilObjForumGUI extends ilObjectGUI
 									($_GET["show_post"] == 1 ?
 										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["subject"])) :
 										ilUtil::prepareFormOutput(stripslashes($threadData["thr_subject"]))));
+
 								$tpl->setVariable("MESSAGE_VALUE",
 									($_GET["show_post"] == 1 ?
-										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])) :
-										$frm->prepareText($node["message"],1)));
+										ilUtil::prepareFomOutput(stripslashes($_POST["formData"]["message"])) :
+										$frm->prepareText($node["message"],1,$node["loginname"])));
 							}
 							else
 							{
