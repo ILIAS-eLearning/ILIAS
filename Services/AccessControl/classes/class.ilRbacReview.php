@@ -126,22 +126,20 @@ class ilRbacReview
 				// Therefore we can skip it.
 				continue;
 			}
+
 			$local_part = substr($local_part, 1);
 
 			if (substr($local_part,0,8) == 'il_role_')
 			{
 				$role_id = substr($local_part,8);
-				
-				$q = "SELECT COUNT(*) AS count ".
-					"FROM object_data AS dat ".
-					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
-					"JOIN tree AS t ON t.child = ref.ref_id ".
-					"WHERE dat.obj_id =".$ilDB->quote($role_id)." ".
-					"AND dat.type = 'role' ".
-					"AND t.tree = 1";
+				$q = "SELECT t.tree ".
+					"FROM rbac_fa AS fa ".
+					"JOIN tree AS t ON t.child=fa.parent ".
+					"WHERE fa.rol_id=".$this->ilDB->quote($role_id)." ".
+					"AND fa.assign='y' ".
+					"AND t.tree=1";
 				$r = $this->ilDB->query($q);
-				$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-				if ($row->count > 0)
+				if ($r->numRows() > 0)
 				{
 					$role_ids[] = $role_id;
 				}
