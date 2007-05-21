@@ -533,8 +533,8 @@ class ilContainerGUI extends ilObjectGUI
 		
 		include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 		include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
-		$ta = new ilTextAreaInputGUI();
-		$tags = $ta->getRteTagSet("extended_table_img");
+		//$ta = new ilTextAreaInputGUI();
+		//$tags = $ta->getRteTagSet("extended_table_img");
 		
 		// add rte support
 		include_once "./Services/RTE/classes/class.ilRTE.php";
@@ -545,9 +545,9 @@ class ilContainerGUI extends ilObjectGUI
 		include_once "./classes/class.ilObject.php";
 		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		//$rte->addRTESupport($obj_id, $obj_type);
-		$rte->setStyleSelect(true);
-		$rte->addCustomRTESupport($obj_id, $obj_type, $tags);
+		$rte->addRTESupport($obj_id, $obj_type);
+		//$rte->setStyleSelect(true);
+		//$rte->addCustomRTESupport($obj_id, $obj_type, $tags);
 	}
 	
 	function savePageContentObject()
@@ -557,15 +557,19 @@ class ilContainerGUI extends ilObjectGUI
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
 		
-		include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+		/*include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 		include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
 		$ta = new ilTextAreaInputGUI();
 		$ta->setRteTagSet("extended_table_img");
-		$tags = $ta->getRteTagString();
+		$tags = $ta->getRteTagString();*/
 
+		//$text = ilUtil::stripSlashes($_POST["page_content"],
+		//		true,
+		//		$tags);
+				
 		$text = ilUtil::stripSlashes($_POST["page_content"],
 				true,
-				$tags);
+				ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
 		if ($xpage_id > 0)
 		{
 			$xpage = new ilXHTMLPage($xpage_id);
