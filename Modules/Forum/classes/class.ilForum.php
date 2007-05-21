@@ -500,8 +500,8 @@ class ilForum
 		$news_item = new ilNewsItem();
 		$news_item->setContext($forum_obj->getId(), "frm", $lastInsert, "pos");
 		$news_item->setPriority(NEWS_NOTICE);
-		$news_item->setTitle($pos_data["pos_subject"]);
-		$news_item->setContent(nl2br($this->prepareText($pos_data["pos_message"], 0)));
+		$news_item->setTitle(stripslashes($pos_data["pos_subject"]));
+		$news_item->setContent(stripslashes(nl2br($this->prepareText($pos_data["pos_message"], 0))));
 		$news_item->setUserId($ilUser->getId());
 		$news_item->setVisibility(NEWS_USERS);
 		$news_item->create();
