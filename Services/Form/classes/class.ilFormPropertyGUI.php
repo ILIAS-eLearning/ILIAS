@@ -110,6 +110,19 @@ class ilFormPropertyGUI
 	}
 
 	/**
+	* Get Post Variable.
+	*
+	* @return	string	Post Variable
+	*/
+	function getFieldId()
+	{
+		$id = str_replace("[", "__", $this->getPostVar());
+		$id = str_replace("]", "__", $id);
+		
+		return $id;
+	}
+
+	/**
 	* Set Information Text.
 	*
 	* @param	string	$a_info	Information Text

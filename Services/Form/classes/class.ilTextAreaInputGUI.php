@@ -284,6 +284,7 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 		}
 		$a_tpl->setVariable("POST_VAR",
 			ilUtil::prepareFormOutput($this->getPostVar()));
+		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("PROPERTY_VALUE", $this->getValue());
 		$a_tpl->parseCurrentBlock();
 	}
