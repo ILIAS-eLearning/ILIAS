@@ -3093,9 +3093,7 @@ common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
 common#:#send_mail#:#Mail senden
-common#:#send_mail_admins#:#Mail an Administratoren
-common#:#send_mail_members#:#Mail an Mitglieder
-common#:#send_mail_tutors#:#Mail an Tutoren
+common#:#send_mail_selected#:#Mail Empfänger aus Liste auswählen
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
