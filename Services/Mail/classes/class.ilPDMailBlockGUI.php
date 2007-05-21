@@ -211,7 +211,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setVariable("NEW_MAIL_SUBJ", htmlentities($mail["m_subject"]));
+		$this->tpl->setVariable("NEW_MAIL_SUBJ", htmlentities($mail["m_subject"],ENT_NOQUOTES,'UTF-8'));
 		$ilCtrl->setParameter($this, "mobj_id", $inbox);
 		$ilCtrl->setParameter($this, "mail_id", $mail["mail_id"]);
 		$ilCtrl->setParameter($this, "mail_mode", $this->mail_mode);
