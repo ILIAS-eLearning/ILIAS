@@ -1262,8 +1262,11 @@ class ilPageObject
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		foreach ($files as $file_id)
 		{
-			$file_obj =& new ilObjFile($file_id, false);
-			$file_obj->delete();
+			if (ilObject::_exists($file_id))
+			{
+				$file_obj =& new ilObjFile($file_id, false);
+				$file_obj->delete();
+			}
 		}
 
 	}
