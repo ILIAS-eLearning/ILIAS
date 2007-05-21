@@ -43,42 +43,13 @@ class ilTestStatistics
 *
 * The constructor takes the id of an existing test object 
 *
-* @param integer $a_test_id Test id
+* @param integer $eval_data Complete test data as ilTestEvaluationData object
 * @access public
 */
-	function ilTestStatistics($a_test_id)
+	function ilTestStatistics($eval_data)
 	{
-		$this->test_id = $a_test_id;
 		$this->statistics = NULL;
-		$this->calculateStatistics();
-	}
-
-	/**
-	* Returns the test id
-	*
-	* Returns the test id
-	*
-	* @return integer Test id
-	* @access public
-	* @see $test_id
-	*/
-	function getTestId()
-	{
-		return $this->test_id;
-	}
-
-	/**
-	* Sets the test id
-	*
-	* Sets the test id
-	*
-	* @param integer $a_test_id Test id
-	* @access public
-	* @see $test_id
-	*/
-	function setTestId($a_test_id)
-	{
-		$this->test_id = $a_test_id;
+		$this->calculateStatistics($eval_data);
 	}
 
 	/**
@@ -103,54 +74,14 @@ class ilTestStatistics
 	* @access private
 	* @see $statistics
 	*/
-	function calculateStatistics()
+	function calculateStatistics($eval_data)
 	{
-		global $ilDB;
-
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$overview =& ilObjTest::_evalResultsOverview($this->getTestId());
-
-		$query = sprintf("SELECT tst_tests.pass_scoring FROM tst_tests WHERE tst_tests.test_id = %s",
-			$ilDB->quote($this->getTestId() . "")
-		);
-		$result = $ilDB->query($query);
-		$pass_scoring = SCORE_LAST_PASS;
-		if ($result->numRows())
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$pass_scoring = $row["pass_scoring"];
-		}
-
 		$median_array = array();
 
-		foreach ($overview as $active_id => $userdata)
+		foreach ($eval_data->getParticipantIds() as $active_id)
 		{
-			$bestpass = 0;
-			$bestpasspoints = 0;
-			$lastpass = 0;
-			foreach ($userdata as $passnr => $userresults)
-			{
-				if (is_numeric($passnr))
-				{
-					$reached = $pass[$passnr]["reached"];
-					if ($reached > $bestpasspoints)
-					{
-						$bestpasspoints = $reached;
-						$bestpass = $passnr;
-					}
-					if ($passnr > $lastpass) $lastpass = $passnr;
-				}
-			}
-			$statpass = 0;
-			if ($pass_scoring == SCORE_BEST_PASS)
-			{
-				$statpass = $bestpass;
-			}
-			else
-			{
-				$statpass = $lastpass;
-			}
-			array_push($median_array, $userdata[$statpass]["reached"]);
+			$participant =& $eval_data->getParticipant($active_id);
+			array_push($median_array, $participant->getReached());
 		}
 
 		$this->statistics = new ilStatistics();

@@ -59,15 +59,10 @@ class ilTestEvaluationData
 	*
 	* @access	public
 	*/
-	function ilTestEvaluationData($test_id, $withStatistics = TRUE)
+	function ilTestEvaluationData($test_id)
 	{
 		$this->participants = array();
 		$this->questionTitles = array();
-		if ($withStatistics)
-		{
-			include_once "./Modules/Test/classes/class.ilTestStatistics.php";
-			$this->statistics = new ilTestStatistics($test_id);
-		}
 	}
 	
 	function addQuestionTitle($question_id, $question_title)
@@ -92,6 +87,12 @@ class ilTestEvaluationData
 		}
 	}
 	
+	function calculateStatistics()
+	{
+		include_once "./Modules/Test/classes/class.ilTestStatistics.php";
+		$this->statistics = new ilTestStatistics($this);
+	}
+
 	function getParticipants()
 	{
 		return $this->participants;
@@ -117,6 +118,10 @@ class ilTestEvaluationData
 		return $this->statistics;
 	}
 
+	function getParticipantIds()
+	{
+		return array_keys($this->participants);
+	}
 } // END ilTestEvaluationData
 
 ?>
