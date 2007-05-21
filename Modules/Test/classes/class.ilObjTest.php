@@ -4790,7 +4790,7 @@ class ilObjTest extends ilObject
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-		$data = new ilTestEvaluationData($this->getTestId(), $withStatistics);
+		$data = new ilTestEvaluationData($this->getTestId());
 		
 		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
@@ -4917,6 +4917,10 @@ class ilObjTest extends ilObject
 			$data->getParticipant($active_id)->setFirstVisit($visitingTime["firstvisit"]);
 			$data->getParticipant($active_id)->setLastVisit($visitingTime["lastvisit"]);
 		}
+		if ($withStatistics)
+		{
+			$data->calculateStatistics();
+		}
 		return $data;
 	}
 	
@@ -4942,7 +4946,7 @@ class ilObjTest extends ilObject
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
 		if ($active_id > 0) $withStatistics = FALSE;
-		$data = new ilTestEvaluationData($test_id, $withStatistics);
+		$data = new ilTestEvaluationData($test_id);
 		
 		if ($active_id > 0)
 		{
@@ -5098,6 +5102,10 @@ class ilObjTest extends ilObject
 				$ects_mark = ilObjTest::_getECTSGrade($passed_points, $participant->getReached(), $participant->getMaxPoints(), $testdata["ects_a"], $testdata["ects_b"], $testdata["ects_c"], $testdata["ects_d"], $testdata["ects_e"], $testdata["ects_fx"]);
 				$participant->setECTSMark($ects_mark);
 			}
+		}
+		if ($withStatistics)
+		{
+			$data->calculateStatistics();
 		}
 		return $data;
 	}
