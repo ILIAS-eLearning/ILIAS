@@ -3490,9 +3490,7 @@ common#:#selected_items#:#Personal Items
 common#:#selected_items_back#:#Back to Personal Items
 common#:#send#:#Send
 common#:#send_mail#:#Send e-mail
-common#:#send_mail_admins#:#E-Mail to all administrators
-common#:#send_mail_members#:#E-Mail to all members
-common#:#send_mail_tutors#:#E-Mail to all tutors
+common#:#send_mail_selected#:#Select mail recipients from list
 common#:#sender#:#Sender
 common#:#sent#:#Sent
 common#:#sequence#:#Sequence
