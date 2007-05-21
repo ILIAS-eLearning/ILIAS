@@ -1461,33 +1461,36 @@ class ilForum
 	* @param	integer
 	* @return	string
 	*/
-	function prepareText($text,$edit=0)
+	function prepareText($text, $edit=0, $quote_user = "")
 	{
 		global $lng;
 
 		if ($edit == 1)
 		{
-			//$text = ereg_replace("\[quote\].*\[\/quote\]", "", $text);
-			//$text = str_replace($this->txtQuote1, "", $text);
-			//$text = str_replace($this->txtQuote2, "", $text);
-			$text = $this->txtQuote1.$text.$this->txtQuote2;
+			// add login name of quoted users
+			$lname = ($quote_user != "")
+				? '="'.$quote_user.'"'
+				: "";
+
+			$text = "[quote$lname]".stripslashes($text)."[/quote]";
 		}
 		else
 		{
 			// check for quotation
-			$startZ = substr_count ($text, $this->txtQuote1);
-			$endZ = substr_count ($text, $this->txtQuote2);
+			$startZ = substr_count ($text, "[quote");	// also count [quote="..."]
+			$endZ = substr_count ($text, "[/quote]");
 
 
 			if ($startZ > 0 || $endZ > 0)
 			{
+				// add missing opening and closing tags
 				if ($startZ > $endZ)
 				{
 					$diff = $startZ - $endZ;
 
 					for ($i = 0; $i < $diff; $i++)
 					{
-						$text .= $this->txtQuote2;
+						$text .= "[/quote]";
 					}
 				}
 				elseif ($startZ < $endZ)
@@ -1496,30 +1499,20 @@ class ilForum
 
 					for ($i = 0; $i < $diff; $i++)
 					{
-						$text = $this->txtQuote1.$text;
+						$text = "[quote]".$text;
 					}
 				}
 
-				// only one txtQuote can exist...
-/*				if ($startZ > 1)
-				{
-					$start_firstPos = strpos($text, $this->txtQuote1);
-					$text_s2 = str_replace($this->txtQuote1, "", substr($text, ($start_firstPos+strlen($this->txtQuote1))));
-					$text_s1 = substr($text, 0, ($start_firstPos+strlen($this->txtQuote1)));
-					$text = $text_s1.$text_s2;
-				}
-				if ($endZ > 1)
-				{
-					$end_firstPos = strrpos($text, $this->txtQuote2);
-					$text_e1 = str_replace($this->txtQuote2, "", substr($text, 0, $end_firstPos));
-					$text_e2 = substr($text, $end_firstPos);
-					$text = $text_e1.$text_e2;
-				}*/
-
 				if ($edit == 0)
 				{
-					$text = str_replace($this->txtQuote1, $this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote").'</div>', $text);
-					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);
+					$ws= "[ \t\r\f\v\n]*";
+					
+					$text = eregi_replace("\[(quote$ws=$ws\"([^\"]*)\"$ws)\]",
+						$this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote")." (\\2)".'</div>', $text);
+
+					$text = str_replace("[quote]",
+						$this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote").'</div>', $text);
+					$text = str_replace("[/quote]", $this->replQuote2, $text);
 				}
 			}
 		}
@@ -1529,6 +1522,11 @@ class ilForum
 		if ($edit == 0)
 		{
 			$text = ilUtil::insertLatexImages($text);
+		}
+		
+		if ($edit == 2)
+		{
+			$text = stripslashes($text);
 		}
 
 		// workaround for preventing template engine

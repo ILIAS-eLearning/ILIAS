@@ -1377,7 +1377,8 @@ blockquote.ilForumQuote
 
 div.ilForumQuoteHead
 {
-	font-style: italic;
+	font-weight: bold;
+	font-size: 90%;
 	margin: 0px 0px 10px 0px;
 }
 

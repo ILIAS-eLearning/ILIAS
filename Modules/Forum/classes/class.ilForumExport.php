@@ -388,8 +388,8 @@ class ilForumExport
 		else
 		{		
 			// check for quotation		
-			$startZ = substr_count ($text, $this->txtQuote1);
-			$endZ = substr_count ($text, $this->txtQuote2);
+			$startZ = substr_count ($text, "[quote");
+			$endZ = substr_count ($text, "[/quote]");
 			
 			
 			if ($startZ > 0 || $endZ > 0)
@@ -414,7 +414,7 @@ class ilForumExport
 				}
 				
 				// only one txtQuote can exist...
-				if ($startZ > 1)
+				/*if ($startZ > 1)
 				{
 					$start_firstPos = strpos($text, $this->txtQuote1);				
 					$text_s2 = str_replace($this->txtQuote1, "", substr($text, ($start_firstPos+strlen($this->txtQuote1))));
@@ -427,12 +427,18 @@ class ilForumExport
 					$text_e1 = str_replace($this->txtQuote2, "", substr($text, 0, $end_firstPos));
 					$text_e2 = substr($text, $end_firstPos);
 					$text = $text_e1.$text_e2;					
-				}			
+				}*/			
 				
 				if ($edit == 0)
 				{
-					$text = str_replace($this->txtQuote1, "<blockquote><span><b>".$lng->txt("quote")."</b>:</blockquote>".$this->replQuote1, $text);		
-					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);					
+					$ws= "[ \t\r\f\v\n]*";
+					
+					$text = eregi_replace("\[(quote$ws=$ws\"([^\"]*)\"$ws)\]",
+						$this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote")." (\\2)".'</div>', $text);
+
+					$text = str_replace("[quote]",
+						$this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote").'</div>', $text);
+					$text = str_replace("[/quote]", $this->replQuote2, $text);
 				}
 			}		
 		}
