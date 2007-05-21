@@ -169,6 +169,7 @@ class ilCheckboxInputGUI extends ilFormPropertyGUI
 	{
 		$a_tpl->setCurrentBlock("prop_checkbox");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("PROPERTY_VALUE", $this->getValue());
 		$a_tpl->setVariable("OPTION_TITLE", $this->getOptionTitle());
 		if ($this->getChecked())

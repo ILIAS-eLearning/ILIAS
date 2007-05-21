@@ -16,33 +16,33 @@
 	<!-- BEGIN std_prop_start -->
 	<tr>
 		<td class="option">
-		{PROPERTY_TITLE}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required -->
+		<label for="{LAB_ID}">{PROPERTY_TITLE}</label><!-- BEGIN required --><span class="asterisk">*</span><!-- END required -->
 		</td>
 		<td class="option_value" width="400px">
 	<!-- END std_prop_start -->
 	<!-- BEGIN sub_prop_start -->
 	<tr>
 		<td class="std" style="padding-left:40px; vertical-align:top;">
-		{PROPERTY_TITLE}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required -->
+		<label for="{LAB_ID}">{PROPERTY_TITLE}</label><!-- BEGIN required --><span class="asterisk">*</span><!-- END required -->
 		</td>
 		<td class="std">
 	<!-- END sub_prop_start -->
 		<!-- BEGIN prop_text -->
-		<input type="text" size="{SIZE}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
+		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
 		<!-- END prop_text -->
 		<!-- BEGIN prop_textarea -->
-		<textarea name="{POST_VAR}" <!-- BEGIN no_rteditor -->class="noRTEditor" style="width:90%;"<!-- END no_rteditor --> wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w -->>{PROPERTY_VALUE}</textarea>
+		<textarea name="{POST_VAR}" id="{ID}" <!-- BEGIN no_rteditor -->class="noRTEditor" style="width:90%;"<!-- END no_rteditor --> wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w -->>{PROPERTY_VALUE}</textarea>
 		<!-- END prop_textarea -->
 		<!-- BEGIN prop_custom -->
 		{CUSTOM_CONTENT}
 		<!-- END prop_custom -->
 		<!-- BEGIN prop_checkbox -->
-		<input type="checkbox" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} /> {OPTION_TITLE}
+		<input type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} /> <label for="{ID}">{OPTION_TITLE}</label>
 		{SUB_FORM}
 		<!-- END prop_checkbox -->
 		<!-- BEGIN prop_radio -->
 			<!-- BEGIN prop_radio_option -->
-			<div><input type="radio" name="{POST_VAR}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> {TXT_RADIO_OPTION}</div>
+			<div><input type="radio" name="{POST_VAR}" id="{OP_ID}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> <label for="{OP_ID}">{TXT_RADIO_OPTION}</label></div>
 			<!-- BEGIN radio_option_desc -->
 			<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{RADIO_OPTION_DESC}</span></div>
 			<!-- END radio_option_desc -->
@@ -66,7 +66,7 @@
 		{MAP}
 		<!-- END prop_location -->
 		<!-- BEGIN prop_file -->
-		<input type="file" name="{POST_VAR}" size="30" />
+		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
 		<!-- BEGIN allowed_suffixes -->
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>

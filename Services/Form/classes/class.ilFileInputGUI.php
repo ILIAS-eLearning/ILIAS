@@ -204,6 +204,7 @@ class ilFileInputGUI extends ilFormPropertyGUI
 		
 		$a_tpl->setCurrentBlock("prop_file");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." $max_filesize");
 		$a_tpl->parseCurrentBlock();
 	}
