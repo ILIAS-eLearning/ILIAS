@@ -672,6 +672,7 @@ class ilInitialisation
 
 		$_GET["cmd"] = "frameset";
 		$jump_script = "repository.php";
+		
 		$script = $this->updir.$jump_script."?reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
 
 		// todo do it better, if JS disabled
