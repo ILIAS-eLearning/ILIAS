@@ -38,8 +38,10 @@
 *
 */
 
-//define("ILIAS_MODULE", "content");
-//chdir("../..");
+// workaround to make redirects work
+$rest = substr($PHP_SELF, strpos($PHP_SELF, "data/") + 5);
+define("ILIAS_MODULE", $rest);
+chdir("../..");
 
 require_once "./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php";
 
