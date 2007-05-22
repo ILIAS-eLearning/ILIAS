@@ -61,6 +61,9 @@ class ilPDNewsTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
 		// user
 		if ($a_set["user_id"] > 0)
 		{
@@ -85,6 +88,26 @@ class ilPDNewsTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("player");
 			$this->tpl->setVariable("PLAYER",
 				$mpl->getMp3PlayerHtml());
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// access
+		if ($enable_internal_rss)
+		{
+			$this->tpl->setCurrentBlock("access");
+			include_once("./Services/Block/classes/class.ilBlockSetting.php");
+			$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+			if ($a_set["visibility"] == NEWS_PUBLIC ||
+				($a_set["priority"] == 0 &&
+				ilBlockSetting::_lookup("news", "public_notifications",
+				0, $obj_id)))
+			{
+				$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -158,21 +181,6 @@ class ilPDNewsTableGUI extends ilTable2GUI
 			ilFormat::formatDate($a_set["creation_date"], "datetime", true));
 		$this->tpl->setVariable("TXT_CREATED", $lng->txt("created"));
 		
-		// access
-		include_once("./Services/Block/classes/class.ilBlockSetting.php");
-		$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-		if ($a_set["visibility"] == NEWS_PUBLIC ||
-			($a_set["priority"] == 0 &&
-			ilBlockSetting::_lookup("news", "public_notifications",
-			0, $obj_id)))
-		{
-			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
-		}
-		else
-		{
-			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
-		}
-
 		$this->tpl->parseCurrentBlock();
 	}
 

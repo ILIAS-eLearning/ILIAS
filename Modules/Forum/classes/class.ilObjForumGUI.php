@@ -2575,10 +2575,18 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule("frm");
 		$column_gui->setBlockProperty("news", "title", $lng->txt("frm_latest_postings"));
+		
+		$column_gui->setRepositoryMode(true);
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$column_gui->setBlockProperty("news", "settings", true);
-			$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
+			if ($enable_internal_rss)
+			{
+				$column_gui->setBlockProperty("news", "settings", true);
+				$column_gui->setBlockProperty("news", "public_notifications_option", true);
+			}
 		}
 	}
 	

@@ -2527,7 +2527,7 @@ class ilObjectGUI
 	function setColumnSettings($column_gui)
 	{
 		global $ilAccess;
-		
+
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setEnableEdit(false);
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))

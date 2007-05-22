@@ -202,6 +202,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		
 		if ($this->getProperty("title") != "")
 		{
 			$this->setTitle($this->getProperty("title"));
@@ -211,11 +214,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			0, $this->block_id);
 		if ($public_feed)
 		{
-			$this->addBlockCommand(
-				ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
-					"ref_id=".$_GET["ref_id"],
-					$lng->txt("news_feed_url"), "_blank",
-					ilUtil::getImagePath("rss.gif"));
+			if ($enable_internal_rss)
+			{
+				$this->addBlockCommand(
+					ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
+						"ref_id=".$_GET["ref_id"],
+						$lng->txt("news_feed_url"), "_blank",
+						ilUtil::getImagePath("rss.gif"));
+			}
 		}
 
 /*	Subscription Concept is abandonded for now (Alex)
@@ -404,6 +410,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		global $lng, $ilCtrl, $ilUser;
 		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news = new ilNewsItem($_GET["news_id"]);
 		
@@ -435,6 +444,25 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$tpl->setCurrentBlock("player");
 			$tpl->setVariable("PLAYER",
 				$mpl->getMp3PlayerHtml());
+			$tpl->parseCurrentBlock();
+		}
+		
+		// access
+		if ($enable_internal_rss)
+		{
+			$tpl->setCurrentBlock("access");
+			$tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+			if ($news->getVisibility() == NEWS_PUBLIC ||
+				($news->getPriority() == 0 &&
+				ilBlockSetting::_lookup("news", "public_notifications",
+				0, $obj_id)))
+			{
+				$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+			}
+			else
+			{
+				$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+			}
 			$tpl->parseCurrentBlock();
 		}
 
@@ -512,20 +540,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$tpl->setVariable("VAL_CREATION_DATE",
 			ilFormat::formatDate($news->getCreationDate(), "datetime", true));
 		$tpl->setVariable("TXT_CREATED", $lng->txt("created"));
-		
-		// access
-		$tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-		if ($news->getVisibility() == NEWS_PUBLIC ||
-			($news->getPriority() == 0 &&
-			ilBlockSetting::_lookup("news", "public_notifications",
-			0, $obj_id)))
-		{
-			$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
-		}
-		else
-		{
-			$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
-		}
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
@@ -716,6 +730,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	function editSettings()
 	{
 		global $ilUser, $lng, $ilCtrl, $ilSetting;
+		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
 		$public = ilBlockSetting::_lookup($this->getBlockType(), "public_notifications",
 			0, $this->block_id);
@@ -739,7 +756,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 		
 		// default visibility
-		if ($this->getProperty("default_visibility_option"))
+		if ($this->getProperty("default_visibility_option") &&
+			$enable_internal_rss)
 		{
 			$default_visibility = ilBlockSetting::_lookup($this->getBlockType(), "default_visibility",
 				0, $this->block_id);
@@ -762,7 +780,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 
 		// public notifications
-		if ($this->getProperty("public_notifications_option"))
+		if ($this->getProperty("public_notifications_option") &&
+			$enable_internal_rss)
 		{
 			$ch = new ilCheckboxInputGUI($lng->txt("news_notifications_public"),
 				"notifications_public");
@@ -772,11 +791,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 
 		// extra rss feed
-		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
-			"notifications_public_feed");
-		$ch->setInfo($lng->txt("news_public_feed_info"));
-		$ch->setChecked($public_feed);
-		$form->addItem($ch);
+		if ($enable_internal_rss)
+		{
+			$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
+				"notifications_public_feed");
+			$ch->setInfo($lng->txt("news_public_feed_info"));
+			$ch->setChecked($public_feed);
+			$form->addItem($ch);
+		}
 
 		
 		//$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
@@ -810,12 +832,18 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl;
 		
-		ilBlockSetting::_write($this->getBlockType(), "public_notifications", $_POST["notifications_public"],
-			0, $this->block_id);
-		ilBlockSetting::_write($this->getBlockType(), "public_feed", $_POST["notifications_public_feed"],
-			0, $this->block_id);
-		ilBlockSetting::_write($this->getBlockType(), "default_visibility", $_POST["default_visibility"],
-			0, $this->block_id);
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		
+		if ($enable_internal_rss)
+		{
+			ilBlockSetting::_write($this->getBlockType(), "public_notifications", $_POST["notifications_public"],
+				0, $this->block_id);
+			ilBlockSetting::_write($this->getBlockType(), "public_feed", $_POST["notifications_public_feed"],
+				0, $this->block_id);
+			ilBlockSetting::_write($this->getBlockType(), "default_visibility", $_POST["default_visibility"],
+				0, $this->block_id);
+		}
 		ilBlockSetting::_write($this->getBlockType(), "hide_news_block", $_POST["hide_news_block"],
 			0, $this->block_id);
 
