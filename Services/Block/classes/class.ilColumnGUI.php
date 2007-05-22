@@ -121,6 +121,9 @@ class ilColumnGUI
 			"pdnews" => true,
 			"pdfeed" => true,
 			"pdusers" => true);
+			
+	protected $check_nr_limit =
+		array("pdfeed" => true);
 
 	/**
 	* Constructor
@@ -616,9 +619,14 @@ class ilColumnGUI
 							"class.".$block_class.".php");
 						$block_type = call_user_func(array($block_class, 'getBlockType'));
 
+						// check if block type is globally (de-)activated
 						if ($this->isGloballyActivated($block_type))
 						{
-							$add_blocks[$block_type] = $blocks[$block_type];
+							// check if number of blocks is limited
+							if (!$this->exceededLimit($block_type))
+							{
+								$add_blocks[$block_type] = $blocks[$block_type];
+							}
 						}
 					}
 				}
@@ -1018,6 +1026,43 @@ class ilColumnGUI
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	* Check whether limit is not exceeded
+	*/
+	protected function exceededLimit($a_type)
+	{
+		global $ilSetting, $ilCtrl;
+
+		if ($this->check_nr_limit[$a_type])
+		{
+			if (!$this->getRepositoryMode())
+			{
+				include_once("./Services/Block/classes/class.ilCustomBlock.php");
+				$costum_block = new ilCustomBlock();
+				$costum_block->setContextObjId($ilCtrl->getContextObjId());
+				$costum_block->setContextObjType($ilCtrl->getContextObjType());
+				$costum_block->setType($a_type);
+				$res = $costum_block->queryCntBlockForContext();
+				$cnt = (int) $res[0]["cnt"];
+			}
+			else
+			{
+				return false;		// not implemented for repository yet
+			}
+			
+			
+			if ($ilSetting->get("block_limit_".$a_type) > $cnt)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

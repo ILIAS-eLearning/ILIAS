@@ -133,7 +133,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 			? $news_set->get("default_visibility")
 			: "users";
 		$disable_repository_feeds = $feed_set->get("disable_rep_feeds");
-		$nr_personal_desktop_feeds = $feed_set->get("nr_personal_desktop_feeds");
+		$nr_personal_desktop_feeds = $ilSetting->get("block_limit_pdfeed");
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -223,7 +223,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$news_set->set("max_items", $_POST["news_max_items"]);
 		$news_set->set("default_visibility", $_POST["news_default_visibility"]);
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
-		$feed_set->set("nr_personal_desktop_feeds", $_POST["nr_pd_feeds"]);
+		$ilSetting->set("block_limit_pdfeed", $_POST["nr_pd_feeds"]);
 		if ($_POST["nr_pd_feeds"] > 0)
 		{
 			$ilSetting->set("block_activated_pdfeed", 1);
