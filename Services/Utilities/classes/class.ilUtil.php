@@ -3267,13 +3267,27 @@ class ilUtil
 	*/
 	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
+		global $tpl;
+		
 		// - take care of html exports (-> see buildLatexImages)
 		$a_text = str_replace("&lt;", "<", $a_text);
 		$a_text = str_replace("&gt;", ">", $a_text);
 		$a_text = str_replace("&amp;", "&", $a_text);
-		$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-			"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
-			" />'", $a_text);
+
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$jsMathSetting = new ilSetting("jsMath");
+		if ($jsMathSetting->get("enable"))
+		{
+			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+				"'<span class=\"math\">$1</span>'", $a_text);
+			$tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
+		}
+		else
+		{
+			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+				"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
+				" />'", $a_text);
+		}
 		return $result_text;
 	}
 
@@ -3340,7 +3354,7 @@ class ilUtil
 		$is_html = $this->isHTML($result);
 		if ($prepare_for_latex_output)
 		{
-			$result = ilUtil::insertLatexImages($result, "\<span class\=\"math\">", "\<\/span>", URL_TO_LATEX);
+			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
 		}
 		
