@@ -5319,8 +5319,8 @@ mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIA
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
-mail#:#mail_s#:#Mail
-mail#:#mail_s_unread#:#Unread Mail
+mail#:#mail_s#:#Mail(s)
+mail#:#mail_s_unread#:#Unread Mail(s)
 mail#:#mail_salutation_female#:#Salutation, female
 mail#:#mail_salutation_general#:#Salutation, general
 mail#:#mail_salutation_male#:#Salutation, male
