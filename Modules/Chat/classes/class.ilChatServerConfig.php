@@ -306,11 +306,11 @@ class ilChatServerConfig
         $content .= "IpAddress = ".$this->getInternalIp()."\n";
         $content .= "ExternalIpAddress = ".$this->getExternalIp()."\n";
 		$content .= "Port = ".$this->getPort()."\n";
-		$content .= "SSLStatus = ".($this->getSSLStatus() ? $this->getSSLStatus() : 0)."\n";
-		$content .= "SSLPort = ".$this->getSSLPort()."\n";
+		#$content .= "SSLStatus = ".($this->getSSLStatus() ? $this->getSSLStatus() : 0)."\n";
+		#$content .= "SSLPort = ".$this->getSSLPort()."\n";
 		$content .= "ModeratorPassword = ".$this->getModeratorPassword()."\n";
-		$content .= "HeaderFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/header.html\n";
-		$content .= "FooterFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/footer.html\n";
+		$content .= "HeaderFileName = ".ILIAS_ABSOLUTE_PATH."/Modules/Chat/templates/default/header.html\n";
+		$content .= "FooterFileName = ".ILIAS_ABSOLUTE_PATH."/Modules/Chat/templates/default/footer.html\n";
 		$content .= "Authentication = 1\n";
 		$content .= "ConnectionsFrom = ".$this->getAllowedHosts()."\n";
 
