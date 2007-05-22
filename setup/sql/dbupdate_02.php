@@ -1384,3 +1384,11 @@ ALTER TABLE  `tst_tests` ADD  `show_marker` TINYINT NOT NULL DEFAULT  '0';
 ALTER TABLE  `tst_tests` ADD  `keep_questions` TINYINT NOT NULL DEFAULT  '0' AFTER  `random_test`;
 <#992>
 REPLACE INTO settings (module,keyword,value) VALUES ('common','block_activated_pdusers','1');
+<#993>
+ALTER TABLE `usr_search` ADD `checked` TEXT NOT NULL AFTER `search_result` ,
+ADD `failed` TEXT NOT NULL AFTER `checked` ,
+ADD `page` TINYINT( 2 ) NOT NULL AFTER `failed` ;
+
+<#994>
+TRUNCATE TABLE `usr_search`;
+

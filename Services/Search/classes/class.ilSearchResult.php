@@ -20,8 +20,6 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-define('DEFAULT_SEARCH',0);
-define('ADVANCED_SEARCH',1);
 
 /**
 * searchResult stores all result of a search query.
@@ -33,6 +31,11 @@ define('ADVANCED_SEARCH',1);
 * 
 * @package ilias-search
 */
+include_once('Services/Search/classes/class.ilUserSearchCache.php');
+
+define('DEFAULT_SEARCH',0);
+define('ADVANCED_SEARCH',1);
+
 class ilSearchResult
 {
 	var $permission = 'visible';
@@ -42,15 +45,17 @@ class ilSearchResult
 	var $results = array();
 	var $observers = array();
 
+	protected $search_cache = null;
+	protected $offset = 0;
+
 	// OBJECT VARIABLES
 	var $ilias;
 	var $ilAccess;
 
 	// Stores info if MAX HITS is reached or not
 	var $limit_reached = false;
-
-
 	var $result;
+
 	/**
 	* Constructor
 	* @access	public
@@ -68,9 +73,8 @@ class ilSearchResult
 		{
 			$this->user_id = $ilUser->getId();
 		}
-
 		$this->__initSearchSettingsObject();
-		$this->setMaxHits($this->search_settings->getMaxHits());
+		$this->initUserSearchCache();
 
 		$this->db =& $ilDB;
 	}
@@ -116,8 +120,19 @@ class ilSearchResult
 	{
 		return $this->max_hits;
 	}
-
-
+	
+	/**
+	 * Check if offset is reached
+	 *
+	 * @access public
+	 * @param int current counter of result
+	 * @return bool reached or not
+	 */
+	public function isOffsetReached($a_counter)
+	{
+	 	return ($a_counter < $this->offset) ? false : true; 
+	}
+	
 	/**
 	 *
 	 * add search result entry
@@ -202,9 +217,9 @@ class ilSearchResult
 		$new_entries = $this->getEntries();
 		$this->entries = array();
 
-		foreach($result_obj->getResults() as $result)
+		// Get all checked objects
+		foreach($this->search_cache->getCheckedItems() as $ref_id => $obj_id)
 		{
-			$obj_id = $result['obj_id'];
 			if(isset($new_entries[$obj_id]))
 			{
 				$this->addEntry($new_entries[$obj_id]['obj_id'],
@@ -316,17 +331,31 @@ class ilSearchResult
 		}
 		return $presentation_result ? $presentation_result : array();
 	}
-
-	function filter($a_root_node,$check_and)
+	
+	/**
+	 * Filter search result.
+	 * Do RBAC checks.
+	 * 
+	 * Allows paging of results for referenced objects
+	 *
+	 * @access public
+	 * @param int root node id
+	 * @param bool check and boolean search
+	 * @return bool success status
+	 * 
+	 */
+	public function filter($a_root_node,$check_and)
 	{
 		global $tree;
-
+		
 		$this->__initSearchSettingsObject();
-
+			
 		// get ref_ids and check access
 		$counter = 0;
+		$offset_counter = 0;
 		foreach($this->getEntries() as $entry)
 		{
+			// boolean and failed continue
 			if($check_and and in_array(0,$entry['found']))
 			{
 				continue;
@@ -348,10 +377,21 @@ class ilSearchResult
 				}
 				continue;
 			}
-
-			// Rbac objects
+			// Check referenced objects
 			foreach(ilObject::_getAllReferences($entry['obj_id']) as $ref_id)
 			{
+				// Failed check: if ref id check is failed by previous search
+				if($this->search_cache->isFailed($ref_id))
+				{
+					continue;
+				}
+				// Offset check
+				if($this->search_cache->isChecked($ref_id) and !$this->isOffsetReached($offset_counter))
+				{
+					++$offset_counter;
+					continue;
+				}
+				// RBAC check
 				$type = ilObject::_lookupType($ref_id, true);
 				if($this->ilAccess->checkAccessOfUser($this->getUserId(),
 													  $this->getRequiredPermission(),
@@ -366,23 +406,29 @@ class ilSearchResult
 						if($this->callListeners($ref_id,$entry))
 						{
 							$this->addResult($ref_id,$entry['obj_id'],$type);
+							$this->search_cache->appendToChecked($ref_id,$entry['obj_id']);
 							$this->__updateResultChilds($ref_id,$entry['child']);
-							
-							$counter += count($entry['child']);
+
+							$counter++;
+							$offset_counter++;
 							// Stop if maximum of hits is reached
-							if(++$counter > $this->getMaxHits())
+							
+							if($counter >= $this->getMaxHits())
 							{
 								$this->limit_reached = true;
+								$this->search_cache->setResults($this->results);
 								return true;
 							}
 						}
 					}
+					continue;
 				}
+				$this->search_cache->appendToFailed($ref_id);
 			}
 		}
+		$this->search_cache->setResults($this->results);
 		return false;
 	}
-
 	
 	/**
 	 *
@@ -416,21 +462,7 @@ class ilSearchResult
 	 */
 	function save($a_type = DEFAULT_SEARCH)
 	{
-		if ($this->getUserId() and $this->getUserId() != ANONYMOUS_USER_ID)
-		{
-			$query = "DELETE FROM usr_search WHERE usr_id = '".$this->getUserId()."' ".
-				"AND search_type = '".$a_type."'";
-			$this->db->query($query);
-
-
-			$query = "INSERT INTO usr_search ".
-				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."','".$a_type."')";
-
-			$res = $this->db->query($query);
-
-			return true;
-		}
-
+		$this->search_cache->save();
 		return false;
 	}
 	/**
@@ -441,20 +473,7 @@ class ilSearchResult
 	 */
 	function read($a_type = DEFAULT_SEARCH)
 	{
-		if($this->getUserId() and $this->getUserId() != ANONYMOUS_USER_ID)
-		{
-			$query = "SELECT search_result FROM usr_search ".
-				"WHERE usr_id = '".$this->getUserId()."' ".
-				"AND search_type = '".$a_type."'";
-
-			$res = $this->db->query($query);
-
-			if($res->numRows())
-			{
-				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->results = unserialize(stripslashes($row->search_result));
-			}
-		}
+		$this->results = $this->search_cache->getResults();
 	}
 
 	// PRIVATE
@@ -507,6 +526,21 @@ class ilSearchResult
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$this->search_settings = new ilSearchSettings();
+		$this->setMaxHits($this->search_settings->getMaxHits());
+		$this->setMaxHits(2);
+	}
+	
+	/**
+	 * Init user search cache
+	 *
+	 * @access private
+	 * 
+	 */
+	private function initUserSearchCache()
+	{
+	 	include_once('Services/Search/classes/class.ilUserSearchCache.php');
+	 	$this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
+	 	$this->offset = $this->getMaxHits() * ($this->search_cache->getResultPageNumber() - 1) ;
 	}
 
 	/**
