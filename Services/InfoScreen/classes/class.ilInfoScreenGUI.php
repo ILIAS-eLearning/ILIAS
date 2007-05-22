@@ -432,9 +432,7 @@ class ilInfoScreenGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_CENTER);
-		$column_gui->setEnableEdit($this->news_editing);
-		$column_gui->setRepositoryMode(true);
-		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
+		$this->setColumnSettings($column_gui);
 
 		if (!$ilCtrl->isAsynch())
 		{
@@ -444,18 +442,14 @@ class ilInfoScreenGUI
 				if ($column_gui->getCmdSide() == IL_COL_RIGHT)
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
-					$column_gui->setEnableEdit($this->news_editing);
-					$column_gui->setRepositoryMode(true);
-					$column_gui->setAllBlockProperties($this->getAllBlockProperties());
+					$this->setColumnSettings($column_gui);
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 				// left column wants center
 				if ($column_gui->getCmdSide() == IL_COL_LEFT)
 				{
 					$column_gui = new ilColumnGUI("info", IL_COL_LEFT);
-					$column_gui->setEnableEdit($this->news_editing);
-					$column_gui->setRepositoryMode(true);
-					$column_gui->setAllBlockProperties($this->getAllBlockProperties());
+					$this->setColumnSettings($column_gui);
 					$html = $ilCtrl->forwardCommand($column_gui);
 				}
 			}
@@ -477,9 +471,7 @@ class ilInfoScreenGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
-		$column_gui->setEnableEdit($this->news_editing);
-		$column_gui->setRepositoryMode(true);
-		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
+		$this->setColumnSettings($column_gui);
 
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
@@ -499,6 +491,18 @@ class ilInfoScreenGUI
 		}
 
 		return $html;
+	}
+
+	/**
+	* Set column settings.
+	*/
+	function setColumnSettings($column_gui)
+	{
+		global $lng, $ilAccess;
+
+		$column_gui->setEnableEdit($this->news_editing);
+		$column_gui->setRepositoryMode(true);
+		$column_gui->setAllBlockProperties($this->getAllBlockProperties());
 	}
 
 	/**

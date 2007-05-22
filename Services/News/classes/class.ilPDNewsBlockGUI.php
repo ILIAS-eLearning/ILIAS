@@ -168,13 +168,19 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		
 		// show feed url
-		$this->addBlockCommand(
-			$ilCtrl->getLinkTarget($this, "showFeedUrl"),
-			$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.gif"));
+		if ($enable_internal_rss)
+		{
+			$this->addBlockCommand(
+				$ilCtrl->getLinkTarget($this, "showFeedUrl"),
+				$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.gif"));
+		}
 
 		if ($this->getCurrentDetailLevel() == 0)
 		{

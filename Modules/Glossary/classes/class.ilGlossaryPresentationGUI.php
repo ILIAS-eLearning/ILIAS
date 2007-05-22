@@ -1150,7 +1150,12 @@ class ilGlossaryPresentationGUI
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			$info->enableNewsEditing();
-			$info->setBlockProperty("news", "settings", true);
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			if ($enable_internal_rss)
+			{
+				$info->setBlockProperty("news", "settings", true);
+			}
 		}
 
 		// add read / back button

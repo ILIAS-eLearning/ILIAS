@@ -56,6 +56,9 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
 		// user
 		if ($a_set["user_id"] > 0)
 		{
@@ -67,19 +70,23 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		}
 		
 		// access
-		$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-		if ($a_set["visibility"] == NEWS_PUBLIC ||
-			($a_set["priority"] == 0 &&
-			ilBlockSetting::_lookup("news", "public_notifications",
-			0, $a_set["context_obj_id"])))
+		if ($enable_internal_rss)
 		{
-			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+			$this->tpl->setCurrentBlock("access");
+			$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+			if ($a_set["visibility"] == NEWS_PUBLIC ||
+				($a_set["priority"] == 0 &&
+				ilBlockSetting::_lookup("news", "public_notifications",
+				0, $a_set["context_obj_id"])))
+			{
+				$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+			}
+			$this->tpl->parseCurrentBlock();
 		}
-		else
-		{
-			$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
-		}
-
 
 		// last update
 		if ($a_set["creation_date"] != $a_set["update_date"])

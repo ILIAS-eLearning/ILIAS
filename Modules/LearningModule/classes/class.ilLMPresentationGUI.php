@@ -2466,8 +2466,15 @@ class ilLMPresentationGUI
 		$info->enableNews();
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
 			$info->enableNewsEditing();
-			$info->setBlockProperty("news", "settings", true);
+			
+			if ($enable_internal_rss)
+			{
+				$info->setBlockProperty("news", "settings", true);
+			}
 		}
 		
 		// add read / back button
