@@ -3267,7 +3267,7 @@ class ilUtil
 	*/
 	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
-		global $tpl;
+		global $tpl, $lng, $ilUser, $ilCtrl, $ilNavigationHistory;
 		
 		// - take care of html exports (-> see buildLatexImages)
 		$a_text = str_replace("&lt;", "<", $a_text);
@@ -3276,8 +3276,22 @@ class ilUtil
 
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$jsMathSetting = new ilSetting("jsMath");
+		$referer = $_SERVER["REQUEST_URI"];
 		if ($jsMathSetting->get("enable"))
 		{
+			// save the new jsMath setting if a user changed it
+			if (!$tpl->getMathOutput())
+			{
+				if (preg_match("/jsmath_enable\=(\\d{1})/", $referer, $matches))
+				{
+					$referer = str_replace("&jsmath_enable=" . $matches[1], "", $referer);
+					$ilUser->writePref("js_math", $matches[1]);
+				}
+			}
+		}
+		if ($jsMathSetting->get("enable") && $ilUser->getPref("js_math"))
+		{
+			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
 			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
 				"'<span class=\"math\">$1</span>'", $a_text);
 			$tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
@@ -3288,6 +3302,33 @@ class ilUtil
 				"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
 				" />'", $a_text);
 		}
+		if ($jsMathSetting->get("enable"))
+		{
+			if (!$tpl->getMathOutput())
+			{
+				$lastvisited = $ilNavigationHistory->getItems();
+				if (count($lastvisited))
+				{
+					if ($ilUser->getPref("js_math"))
+					{
+						$tpl->setCurrentBlock("jsmath_mode");
+						$tpl->setVariable("LINK_JSMATH", $referer . "&jsmath_enable=0");
+						$tpl->setVariable("IMG_JSMATH", ilUtil::getImagePath("javascript_disable.png"));
+						$tpl->setVariable("ALT_JSMATH", $lng->txt("jsmath_disable"));
+						$tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$tpl->setCurrentBlock("jsmath_mode");
+						$tpl->setVariable("LINK_JSMATH", $referer . "&jsmath_enable=1");
+						$tpl->setVariable("IMG_JSMATH", ilUtil::getImagePath("javascript.png"));
+						$tpl->setVariable("ALT_JSMATH", $lng->txt("jsmath_enable"));
+						$tpl->parseCurrentBlock();
+					}
+				}
+			}
+		}
+		$tpl->setMathOutput();
 		return $result_text;
 	}
 
