@@ -134,13 +134,21 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		$public_feed = ilBlockSetting::_lookup("news", "public_feed",
 			0, $this->object->getId());
+			
+		// rss icon/link
 		if ($public_feed)
 		{
-			$table_gui->addHeaderCommand(
-					ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
-						"ref_id=".$_GET["ref_id"],
-						$lng->txt("news_feed_url"), "_blank",
-						ilUtil::getImagePath("rss.gif"));
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
+			if ($enable_internal_rss)
+			{
+				$table_gui->addHeaderCommand(
+						ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
+							"ref_id=".$_GET["ref_id"],
+							$lng->txt("news_feed_url"), "_blank",
+							ilUtil::getImagePath("rss.gif"));
+			}
 		}
 
 		$tpl->setContent($table_gui->getHTML());
@@ -179,6 +187,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule("mcst");
 		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
 		include("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
 		
@@ -194,15 +205,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->form_gui->addItem($text_area);
 		
 		// Property Visibility
-		$radio_group = new ilRadioGroupInputGUI($lng->txt("access_scope"), "visibility");
-		$radio_option = new ilRadioOption($lng->txt("access_users"), "users");
-		$radio_group->addOption($radio_option);
-		$radio_option = new ilRadioOption($lng->txt("access_public"), "public");
-		$radio_group->addOption($radio_option);
-		$radio_group->setInfo($lng->txt("mcst_visibility_info"));
-		$radio_group->setRequired(true);
-		$radio_group->setValue("users");
-		$this->form_gui->addItem($radio_group);
+		if ($enable_internal_rss)
+		{
+			$radio_group = new ilRadioGroupInputGUI($lng->txt("access_scope"), "visibility");
+			$radio_option = new ilRadioOption($lng->txt("access_users"), "users");
+			$radio_group->addOption($radio_option);
+			$radio_option = new ilRadioOption($lng->txt("access_public"), "public");
+			$radio_group->addOption($radio_option);
+			$radio_group->setInfo($lng->txt("mcst_visibility_info"));
+			$radio_group->setRequired(true);
+			$radio_group->setValue("users");
+			$this->form_gui->addItem($radio_group);
+		}
 		
 		// File
 		$file = new ilFileInputGUI($lng->txt("file"), "file");
@@ -326,6 +340,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			// @todo: save usage
 			//
 			
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
 			// create new media cast item
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$mc_item = new ilNewsItem();
@@ -337,7 +354,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mc_item->setPlaytime($duration);
 			$mc_item->setTitle($this->form_gui->getInput("title"));
 			$mc_item->setContent($this->form_gui->getInput("description"));
-			$mc_item->setVisibility($this->form_gui->getInput("visibility"));
+			if ($enable_internal_rss)
+			{
+				$mc_item->setVisibility($this->form_gui->getInput("visibility"));
+			}
+			else
+			{
+				$mc_item->setVisibility("users");
+			}
 			$mc_item->create();
 			
 			$ilCtrl->redirect($this, "listItems");
@@ -424,11 +448,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			// @todo: save usage
 			//
 			
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
 			$mc_item->setUserId($ilUser->getId());
 			$mc_item->setPlaytime($duration);
 			$mc_item->setTitle($this->form_gui->getInput("title"));
 			$mc_item->setContent($this->form_gui->getInput("description"));
-			$mc_item->setVisibility($this->form_gui->getInput("visibility"));
+			if ($enable_internal_rss)
+			{
+				$mc_item->setVisibility($this->form_gui->getInput("visibility"));
+			}
 			$mc_item->update();
 
 			$ilCtrl->redirect($this, "listItems");
@@ -586,9 +616,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("mcst_nr_items"),
 			(int) count($med_items));
 			
-		$last = (count($med_items) > 0)
-			? $med_items[0]["creation_date"]
-			: "-";
+		if (count($med_items) > 0)
+		{
+			$cur = current($med_items);
+			$last = $cur["creation_date"];
+		}
+		else
+		{
+			$last = "-";
+		}
+
 		$info->addProperty($this->lng->txt("mcst_last_submission"), $last);
 
 		// forward the command
@@ -682,21 +719,29 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$online->setChecked($this->object->getOnline());
 		$this->form_gui->addItem($online);
 		
-		// Extra Feed
-		include_once("./Services/Block/classes/class.ilBlockSetting.php");
-		$public_feed = ilBlockSetting::_lookup("news", "public_feed",
-			0, $this->object->getId());
-		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
-			"extra_feed");
-		$ch->setInfo($lng->txt("news_public_feed_info"));
-		$ch->setChecked($public_feed);
-		$this->form_gui->addItem($ch);
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
+		// if rss is globally activated...
+		if ($enable_internal_rss)
+		{
 		
-		// Include Files in Pubic Items
-		$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
-		$incl_files->setChecked($this->object->getPublicFiles());
-		$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
-		$this->form_gui->addItem($incl_files);
+			// Extra Feed
+			include_once("./Services/Block/classes/class.ilBlockSetting.php");
+			$public_feed = ilBlockSetting::_lookup("news", "public_feed",
+				0, $this->object->getId());
+			$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
+				"extra_feed");
+			$ch->setInfo($lng->txt("news_public_feed_info"));
+			$ch->setChecked($public_feed);
+			$this->form_gui->addItem($ch);
+			
+			// Include Files in Pubic Items
+			$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
+			$incl_files->setChecked($this->object->getPublicFiles());
+			$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
+			$this->form_gui->addItem($incl_files);
+		}
 		
 		// Form action and save button
 		$this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
@@ -713,16 +758,25 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->initSettingsForm();
 		if ($this->form_gui->checkInput())
 		{
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
 			$this->object->setTitle($this->form_gui->getInput("title"));
 			$this->object->setDescription($this->form_gui->getInput("description"));
 			$this->object->setOnline($this->form_gui->getInput("online"));
-			$this->object->setPublicFiles($this->form_gui->getInput("public_files"));
+			if ($enable_internal_rss)
+			{
+				$this->object->setPublicFiles($this->form_gui->getInput("public_files"));
+			}
 			$this->object->update();
 			
-			include_once("./Services/Block/classes/class.ilBlockSetting.php");
-			ilBlockSetting::_write("news", "public_feed",
-				$this->form_gui->getInput("extra_feed"),
-				0, $this->object->getId());
+			if ($enable_internal_rss)
+			{
+				include_once("./Services/Block/classes/class.ilBlockSetting.php");
+				ilBlockSetting::_write("news", "public_feed",
+					$this->form_gui->getInput("extra_feed"),
+					0, $this->object->getId());
+			}
 			
 			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 			$ilCtrl->redirect($this, "editSettings");

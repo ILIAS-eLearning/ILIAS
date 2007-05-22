@@ -62,6 +62,9 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
 		// edit link
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
@@ -79,6 +82,23 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("CMD_DOWNLOAD",
 			$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
 
+			
+		// access
+		if ($enable_internal_rss)
+		{
+			$this->tpl->setCurrentBlock("access");
+			$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+			if ($a_set["visibility"] == NEWS_PUBLIC)
+			{
+				$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", "");
 
 		if (ilObject::_exists($a_set["mob_id"]))
