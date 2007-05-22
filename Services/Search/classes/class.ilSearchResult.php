@@ -527,7 +527,7 @@ class ilSearchResult
 
 		$this->search_settings = new ilSearchSettings();
 		$this->setMaxHits($this->search_settings->getMaxHits());
-		$this->setMaxHits(2);
+		#$this->setMaxHits(2);
 	}
 	
 	/**
