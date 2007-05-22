@@ -49,6 +49,7 @@
 					{SHIB_IDP_LIST} 
 				</p>
 				<p>
+					<input type="hidden" name="il_target" value="{ILW_TARGET}" />
 					<input type="submit" name="home_organization_selection" value="{TXT_CONTINUE}" />
 				</p>
 			</td>
@@ -71,7 +72,7 @@
 		</tr>
 		<tr class="tblrow1">
 			<td class="std" style="text-align:center;">
-				<p><a href="shib_login.php"><img src="{TXT_SHIB_LOGIN_BUTTON}" border="0" alt="Shibboleth Login Button"></a></p>
+				<p><a href="shib_login.php?target={IL_TARGET}"><img src="{TXT_SHIB_LOGIN_BUTTON}" border="0" alt="Shibboleth Login Button"></a></p>
 			</td>
 		</tr>
 		<tr class="tblrow1">

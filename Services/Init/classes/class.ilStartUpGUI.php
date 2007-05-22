@@ -282,11 +282,13 @@ class ilStartUpGUI
 				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
 				$tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $WAYF->showNotice());
 				$tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
+				$tpl->setVariable("ILW_TARGET", $_GET["target"]);
 
 				$tpl->parseCurrentBlock();
 			} else {
 				$tpl->setCurrentBlock("shibboleth_login");
 				$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
+				$tpl->setVariable("IL_TARGET", $_GET["target"]);
 				$tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
 				$tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
 					$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", sprintf($lng->txt("shib_general_login_instructions"),$ilSetting->get("shib_federation_name")).' <a href="mailto:'.$ilias->getSetting("admin_email").'">ILIAS '. $lng->txt("administrator").'</a>.');

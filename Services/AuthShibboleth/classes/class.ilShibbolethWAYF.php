@@ -149,7 +149,7 @@ class ShibWAYF
 		}
 		
 		// Where to return after the authentication process
-		$target = trim(ILIAS_HTTP_PATH, '/').'/shib_login.php';
+		$target = trim(ILIAS_HTTP_PATH, '/').'/shib_login.php?target='.$_POST["il_target"];
 		
 		$idp_data = $idp_list[$this->selectedIDP];
 		if (isset($idp_data[1]))

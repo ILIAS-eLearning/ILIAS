@@ -391,6 +391,12 @@ class ShibAuth
 				$userObj->update();
 			
 			}
+			
+			// we are authenticated: redirect, if possible
+			if ($_GET["target"] != "")
+			{
+				ilUtil::redirect("goto.php?target=".$_GET["target"]."&client_id=".CLIENT_ID);
+			}
 		}
 		else
 		{
