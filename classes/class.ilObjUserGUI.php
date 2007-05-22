@@ -386,14 +386,15 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_IM_AIM",$this->lng->txt("im_aim"));
 		$this->tpl->setVariable("TXT_IM_SKYPE",$this->lng->txt("im_skype"));
 
-		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active"))
+		include_once('classes/class.ilAuthUtils.php');
+		if(ilAuthUtils::_isExternalAccountEnabled())
 		{
 			$this->tpl->setCurrentBlock("ext_account");
 			$this->tpl->setVariable("TXT_EXT_ACCOUNT",$this->lng->txt("user_ext_account"));
 			$this->tpl->setVariable("TXT_EXT_ACCOUNT_DESC",$this->lng->txt("user_ext_account_desc"));
 			if (isset($_SESSION["error_post_vars"]["Fobject"]["ext_account"]))
 			{
-				$this->tpl->setVariable("EXT_ACCOUNT",
+				$this->tpl->setVariable("EXT_ACCOUNT_VAL",
 					$_SESSION["error_post_vars"]["Fobject"]["ext_account"]);
 			}
 			$this->tpl->parseCurrentBlock();
@@ -954,7 +955,7 @@ class ilObjUserGUI extends ilObjectGUI
 						{
 							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role.")</b>";
 						}
-
+						$active_roles = $active_roles ? $active_roles : array();
 						if (in_array($role,$active_roles))
 						{
 							$data["active_role"][$role]["active"] = true;
@@ -1069,22 +1070,23 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// external account
-		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active")
-			|| $ilSetting->get("shib_active"))
+		include_once('classes/class.ilAuthUtils.php');
+		if(ilAuthUtils::_isExternalAccountEnabled())
 		{
 			$this->tpl->setCurrentBlock("ext_account");
 			$this->tpl->setVariable("TXT_EXT_ACCOUNT",$this->lng->txt("user_ext_account"));
 			$this->tpl->setVariable("TXT_EXT_ACCOUNT_DESC",$this->lng->txt("user_ext_account_desc"));
 			if (isset($_SESSION["error_post_vars"]["Fobject"]["ext_account"]))
 			{
-				$this->tpl->setVariable("EXT_ACCOUNT",
+				$this->tpl->setVariable("EXT_ACCOUNT_VAL",
 					$_SESSION["error_post_vars"]["Fobject"]["ext_account"]);
 			}
 			else
 			{
-				$this->tpl->setVariable("EXT_ACCOUNT",
+				$this->tpl->setVariable("EXT_ACCOUNT_VAL",
 					$data["fields"]["ext_account"]);
 			}
+			/* Disabled: external account names should be changeable by admins
 			if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
 				$this->object->getAuthMode(true) != AUTH_CAS &&
 				$this->object->getAuthMode(true) != AUTH_SHIBBOLETH &&
@@ -1092,18 +1094,14 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("OPTION_DISABLED_EXT", "\"disabled=disabled\"");
 			}
+			*/
 			$this->tpl->parseCurrentBlock();
 		}
-
-		if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
-			$this->object->getAuthMode(true) != AUTH_CAS &&
-			$this->object->getAuthMode(true) != AUTH_SHIBBOLETH &&
-			$this->object->getAuthMode(true) != AUTH_SOAP
-			)
+		include_once('classes/class.ilAuthUtils.php');
+		if(!ilAuthUtils::_allowPasswordModificationByAuthMode($this->object->getAuthMode(true)))
 		{
 			$this->tpl->setVariable("OPTION_DISABLED", "\"disabled=disabled\"");
 		}
-
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -1391,6 +1389,8 @@ class ilObjUserGUI extends ilObjectGUI
 	function saveObject()
 	{
         global $ilias, $rbacsystem, $rbacadmin, $ilSetting;
+        
+        include_once('classes/class.ilAuthUtils.php');
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -1407,7 +1407,21 @@ class ilObjUserGUI extends ilObjectGUI
         {
             if (substr($key,0,8) == "require_")
             {
-                $require_keys[] = substr($key,8);
+                $field = substr($key,8);
+				
+                switch($field)
+                {
+                	case 'passwd':
+                	case 'passwd2':
+                		if(ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
+                		{
+			                $require_keys[] = $field;
+                		}
+			            break;
+                	default:
+		                $require_keys[] = $field;
+		                break;
+                }
             }
         }
 
@@ -1440,17 +1454,45 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// check passwords
-		if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
+		// Do password checks only if auth mode allows password modifications
+		include_once('classes/class.ilAuthUtils.php');
+		if(ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
 		{
-			$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
+			// check passwords
+			if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
+			{
+				$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
+			}
+	
+			// validate password
+			if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
-
-		// validate password
-		if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
+		if(ilAuthUtils::_needsExternalAccountByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
 		{
-			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+			if(!strlen($_POST['Fobject']['ext_account']))
+			{
+				$this->ilias->raiseError($this->lng->txt('ext_acccount_required'),$this->ilias->error_obj->MESSAGE);
+			}
 		}
+		
+		if($_POST['Fobject']['ext_account'] && 
+			($elogin = ilObjUser::_checkExternalAuthAccount($_POST['Fobject']['auth_mode'],$_POST['Fobject']['ext_account'])))
+		{
+			if($elogin != '')
+			{
+				$this->ilias->raiseError(
+						sprintf($this->lng->txt("err_auth_ext_user_exists"),
+							$_POST["Fobject"]["ext_account"],
+							$_POST['Fobject']['auth_mode'],
+						    $elogin),
+						$this->ilias->error_obj->MESSAGE);
+			}
+		}
+		
+		
 		// The password type is not passed in the post data.  Therefore we
 		// append it here manually.
 		require_once "class.ilObjUser.php";
@@ -1496,7 +1538,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$userObj->create();
 		
-		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active"))
+		include_once('classes/class.ilAuthUtils.php');
+		if(ilAuthUtils::_isExternalAccountEnabled())
 		{
 			$userObj->setExternalAccount($_POST["Fobject"]["ext_account"]);
 		}
@@ -1569,6 +1612,8 @@ class ilObjUserGUI extends ilObjectGUI
 	{
         global $ilias, $rbacsystem, $rbacadmin,$ilUser;
 
+		include_once('classes/class.ilAuthUtils.php');
+
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
 
@@ -1593,54 +1638,62 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST["Fobject"][$key] = ilUtil::stripSlashes($val);
 		}
 
-		// do not validate required fields, login & passwd if auth mode ist not 'local'
-		if ($this->object->getAuthMode(true) == AUTH_LOCAL || 
-			$this->object->getAuthMode(true) == AUTH_CAS || 
-			$this->object->getAuthMode(true) == AUTH_SOAP)
-		{
-            // check dynamically required fields
-            foreach ($settings as $key => $val)
+        // check dynamically required fields
+        foreach ($settings as $key => $val)
+        {
+            $field = substr($key,8);
+            switch($field)
             {
-                if (substr($key,0,8) == "require_")
-                {
-                    $require_keys[] = substr($key,8);
-                }
-            }
+            	case 'passwd':
+            	case 'passwd2':
+            		if(ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
+            		{
+		                $require_keys[] = $field;
+            		}
+		            break;
+            	default:
+	                $require_keys[] = $field;
+	                break;
+        	
+        	}
+        }
 
-            foreach ($require_keys as $key => $val)
+        foreach ($require_keys as $key => $val)
+        {
+            // exclude required system and registration-only fields
+            $system_fields = array("default_role");
+            if (!in_array($val, $system_fields))
             {
-                // exclude required system and registration-only fields
-                $system_fields = array("default_role");
-                if (!in_array($val, $system_fields))
+                if (isset($settings["require_" . $val]) && $settings["require_" . $val])
                 {
-                    if (isset($settings["require_" . $val]) && $settings["require_" . $val])
+                    if (empty($_POST["Fobject"][$val]))
                     {
-                        if (empty($_POST["Fobject"][$val]))
-                        {
-                            $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
-													 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
-                        }
+                        $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
+												 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
                     }
                 }
             }
+        }
 
-			if(!$this->__checkUserDefinedRequiredFields())
-			{
-				$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-			}
-			// validate login
-			if ($this->object->getLogin() != $_POST["Fobject"]["login"] &&
-				!ilUtil::isLogin($_POST["Fobject"]["login"]))
-			{
-				$this->ilias->raiseError($this->lng->txt("login_invalid"),$this->ilias->error_obj->MESSAGE);
-			}
+		if(!$this->__checkUserDefinedRequiredFields())
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+		// validate login
+		if ($this->object->getLogin() != $_POST["Fobject"]["login"] &&
+			!ilUtil::isLogin($_POST["Fobject"]["login"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("login_invalid"),$this->ilias->error_obj->MESSAGE);
+		}
 
-			// check loginname
-			if (ilObjUser::_loginExists($_POST["Fobject"]["login"],$this->id))
-			{
-				$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
-			}
+		// check loginname
+		if (ilObjUser::_loginExists($_POST["Fobject"]["login"],$this->id))
+		{
+			$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
+		}
 
+		if(ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
+		{
 			// check passwords
 			if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
 			{
@@ -1652,34 +1705,33 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
 			}
-			
-			// check external account
-			if ($_POST["Fobject"]["ext_account"] != "")
-			{
-				$am = $_POST["Fobject"]["auth_mode"];
-				if ($am == "default")
-				{
-					$am = ilAuthUtils::_getAuthModeName($this->ilias->getSetting('auth_mode'));
-				}
-				$elogin = ilObjUser::_checkExternalAuthAccount($am, $_POST["Fobject"]["ext_account"]);
-				if ($elogin != "" && $elogin != $this->object->getLogin())
-				{
-					$this->ilias->raiseError(
-						sprintf($this->lng->txt("err_auth_ext_user_exists"),
-							$_POST["Fobject"]["ext_account"], $am, $elogin),
-						$this->ilias->error_obj->MESSAGE);
-				}
-			}
-
-			if ($_POST["Fobject"]["passwd"] != "********")
-			{
-				$this->object->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
-			}
 		}
 		else
 		{
-			$_POST['Fobject']['ext_account'] = $this->object->getExternalAccount();
+			// Password will not be changed...
+			$_POST['Fobject']['passwd'] = "********";
 		}
+		if(ilAuthUtils::_needsExternalAccountByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
+		{
+			if(!strlen($_POST['Fobject']['ext_account']))
+			{
+				$this->ilias->raiseError($this->lng->txt('ext_acccount_required'),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+		if($_POST['Fobject']['ext_account'] && 
+			($elogin = ilObjUser::_checkExternalAuthAccount($_POST['Fobject']['auth_mode'],$_POST['Fobject']['ext_account'])))
+		{
+			if($elogin != $this->object->getLogin())
+			{
+				$this->ilias->raiseError(
+						sprintf($this->lng->txt("err_auth_ext_user_exists"),
+							$_POST["Fobject"]["ext_account"],
+							$_POST['Fobject']['auth_mode'],
+						    $elogin),
+						$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
 		// The password type is not passed with the post data.  Therefore we
 		// append it here manually.
 		include_once ('classes/class.ilObjUser.php');
@@ -1736,26 +1788,10 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST['Fobject']['time_limit_message'] = $this->object->getTimeLimitMessage();
 		}
 
-		// don't save login & passwd if auth mode is not 'local'
-		// cas users can optionally login with local account
-		if ($this->object->getAuthMode(true) != AUTH_LOCAL && 
-			$this->object->getAuthMode(true) != AUTH_CAS &&
-			$this->object->getAuthMode(true) != AUTH_SOAP)
-		{
-			$_POST['Fobject']['login'] = $this->object->getLogin();
-			$_POST['Fobject']['passwd'] = "********";
-		}
-		
 		$this->object->assignData($_POST["Fobject"]);
 		$this->object->setUserDefinedData($_POST['udf']);
 		
-		if ($this->object->getAuthMode(true) == AUTH_LOCAL ||
-			$this->object->getAuthMode(true) == AUTH_CAS ||
-			$this->object->getAuthMode(true) == AUTH_SOAP)
-		{
-			$this->object->updateLogin($_POST["Fobject"]["login"]);
-		}
-
+		$this->object->updateLogin($_POST["Fobject"]["login"]);
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
 		$this->object->setLanguage($_POST["Fobject"]["language"]);

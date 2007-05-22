@@ -515,5 +515,81 @@ class ilAuthUtils
 			true);
 	}
 
+	/**
+	 * Check if an external account name is required.
+	 * That's the case if Radius,LDAP, CAS or SOAP is active
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _isExternalAccountEnabled()
+	{
+		global $ilSetting;
+		
+		if($ilSetting->get("cas_active"))
+		{
+			return true;
+		} 
+		if($ilSetting->get("soap_auth_active"))
+		{
+			return true;
+		}
+		if($ilSetting->get("shib_active"))
+		{
+			return true;
+		}
+		if($ilSetting->get('radius_active'))
+		{
+			return true;
+		}
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		if(count(ilLDAPServer::_getActiveServerList()))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Allow password modification 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int auth_mode
+	 */
+	public static function _allowPasswordModificationByAuthMode($a_auth_mode)
+	{
+		switch($a_auth_mode)
+		{
+			case AUTH_LDAP:
+			case AUTH_RADIUS:
+				return false;
+			default:
+				return true;
+		}
+	}
+	
+	/**
+	 * Check if chosen auth mode needs an external account entry
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int auth_mode
+	 */
+	public static function _needsExternalAccountByAuthMode($a_auth_mode)
+	{
+		switch($a_auth_mode)
+		{
+			case AUTH_LOCAL:
+				return false;
+			default: 
+				return true;
+		}
+	}
+
 }
 ?>
