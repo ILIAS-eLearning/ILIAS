@@ -47,11 +47,11 @@ class ilRPCServerAdapter
 
 	function ilRPCServerAdapter()
 	{
-		global $ilLog,$ilDB,$ilError;
+		global $ilLog,$ilDB,$ilErr;
 
 		$this->log =& $ilLog;
 		$this->db =& $ilDB;
-		$this->err =& $ilError;
+		$this->err =& $ilErr;
 
 		$this->__checkPear();
 
