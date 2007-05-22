@@ -2645,7 +2645,7 @@ common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#last_visited#:#Last Visited
 common#:#lres#:#Learning Resources
-common#:#mail#:#E-Mail
+common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Address book
 common#:#mail_allow_smtp#:#Allow SMTP
@@ -2656,37 +2656,37 @@ common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
 common#:#mail_edit_permission#:#Change Permission Settings
-common#:#mail_feedback#:#E-Mail Feedback
-common#:#mail_folders#:#E-Mail Folders
+common#:#mail_feedback#:#Mail Feedback
+common#:#mail_folders#:#Mail Folders
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Export file
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mail_visible#:#User may use mail system
-common#:#mail_mails_of#:#E-Mail
+common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
 common#:#mail_maxsize_mail#:#Max. e-mail size
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
 common#:#mail_maxtime_mail#:#Max. days to keep e-mail
-common#:#mail_members#:#E-Mail to Members
-common#:#mail_not_sent#:#E-Mail not sent!
+common#:#mail_members#:#Mail to Members
+common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_read#:#Read access to e-mail settings
 common#:#mail_search_no#:#No entries found.
 common#:#mail_search_word#:#Search word
 common#:#mail_select_one#:#You must select one e-mail
 common#:#mail_send_error#:#Error sending e-mail
-common#:#mail_sent#:#E-Mail sent!
+common#:#mail_sent#:#Mail sent!
 common#:#mail_smtp_mail#:#User may send e-mail via SMTP
 common#:#mail_system#:#System Message
 common#:#mail_system_message#:#User may send internal system messages
 common#:#mail_use_pear_mail#:#Use Pear Mail
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
 common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
-common#:#mail_visible#:#E-Mail settings are visible
+common#:#mail_visible#:#Mail settings are visible
 common#:#mail_write#:#Edit e-mail settings
 common#:#mail_z_local#:#User Folders
-common#:#mails#:#E-Mail
-common#:#mails_pl#:#E-Mail(s)
+common#:#mails#:#Mails
+common#:#mails_pl#:#Mail(s)
 common#:#main_menu_frame#:#Top Level Menu
 common#:#manage_tracking_data#:#Manage Tracking Data
 common#:#mark_all_read#:#Mark All as Read
@@ -3070,7 +3070,7 @@ common#:#obj_lng#:#Language
 common#:#obj_lngf#:#Languages
 common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lo#:#LearningObject
-common#:#obj_mail#:#E-Mail Settings
+common#:#obj_mail#:#Mail Settings
 common#:#obj_mail_desc#:#Configure global e-mail settings here.
 common#:#obj_mep#:#Media Pool
 common#:#obj_mob#:#Media Object
@@ -3390,7 +3390,7 @@ common#:#role_desk_none_created#:#No desktop items assigned to this role.
 common#:#role_edit#:#Edit Role
 common#:#role_header_edit_users#:#Change User Assignment
 common#:#role_list_users#:#List users
-common#:#role_mailto#:#E-Mail to all assigned Users
+common#:#role_mailto#:#Mail to all assigned Users
 common#:#role_new#:#New Role
 common#:#role_new_search#:#New search
 common#:#role_no_groups_selected#:#Please select a group
@@ -3639,7 +3639,7 @@ common#:#system_language#:#System Language
 common#:#system_message#:#System Messages
 common#:#system_style_settings#:#System Style Settings
 common#:#system_styles#:#System Styles
-common#:#table_mail_import#:#E-Mail import
+common#:#table_mail_import#:#Mail import
 common#:#target#:#Target
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#Add Taxonomy
@@ -3804,7 +3804,7 @@ common#:#user_import_failed#:#User import failed.
 common#:#user_imported#:#User import complete.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
 common#:#user_language#:#User Language
-common#:#user_new_account_mail#:#New Account E-Mail
+common#:#user_new_account_mail#:#New Account Mail
 common#:#user_new_account_mail_desc#:#This e-mail can be sent when an ILIAS user is created by other means then self-registration.
 common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#user_not_known#:#Please insert a valid username.
@@ -5103,7 +5103,7 @@ exercise#:#exc_grading#:#Grading
 exercise#:#exc_mark#:#Mark
 exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Passed
-exercise#:#exc_send_mail#:#Send E-Mail
+exercise#:#exc_send_mail#:#Send Mail
 exercise#:#exc_your_submission#:#Your Submission
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
@@ -5246,8 +5246,8 @@ mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#BCC
 mail#:#forward#:#Forward
 mail#:#linebreak#:#Line break
-mail#:#mail_account_mail#:#Account E-Mail
-mail#:#mail_account_mail_check#:#Send Account E-Mail
+mail#:#mail_account_mail#:#Account Mail
+mail#:#mail_account_mail_check#:#Send Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
@@ -5297,8 +5297,8 @@ mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving e-mail
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The e-mail has been moved
-mail#:#mail_moved_to_trash#:#E-Mail has been moved to trash
-mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.
+mail#:#mail_moved_to_trash#:#Mail has been moved to trash
+mail#:#mail_nacc_admin_mail#:#Mail address of Administrator.
 mail#:#mail_nacc_client_name#:#Client Name.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.
 mail#:#mail_nacc_login#:#Login Account.
@@ -5320,7 +5320,7 @@ mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_s#:#Mail
-mail#:#mail_s_unread#:#Unread E-Mail
+mail#:#mail_s_unread#:#Unread Mail
 mail#:#mail_salutation_female#:#Salutation, female
 mail#:#mail_salutation_general#:#Salutation, general
 mail#:#mail_salutation_male#:#Salutation, male
@@ -6085,7 +6085,7 @@ payment#:#pays_currency_unit#:#Currency (e.g. EUR)
 payment#:#pays_delete_vendor#:#Deassign user
 payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
 payment#:#pays_edit_vendor#:#Edit user
-payment#:#pays_email_vendor#:#E-Mail address of the vendor
+payment#:#pays_email_vendor#:#Mail address of the vendor
 payment#:#pays_general#:#General
 payment#:#pays_general_settings#:#General settings
 payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.
@@ -6170,7 +6170,7 @@ registration#:#reg_domain#:#Domain
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_role_assignment#:#Role Assignment By Domain
 registration#:#reg_fixed#:#Selection From Specified List
-registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.
+registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-Mail.
 registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a e-mail with your account data. Now your account has been activated by an administrator.
 registration#:#reg_mail_body_profile#:#Profile data:
 registration#:#reg_mail_body_profile_changed#:#your profile has changed !
@@ -7029,7 +7029,7 @@ chat#:#chat_server_ssl_active#:#SSL active
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.
 exercise#:#exc_crs_add_members#:#Add students of this course
-common#:#mail_settings#:#E-Mail Settings
+common#:#mail_settings#:#Mail Settings
 common#:#my_courses#:#My Courses
 mail#:#mail_list_members#:#List members
 mail#:#mail_members_added_addressbook#:#Members added to addressbook
