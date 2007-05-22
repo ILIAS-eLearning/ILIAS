@@ -41,6 +41,8 @@ define('SEARCH_OR','or');
 
 class ilSearchGUI extends ilSearchBaseGUI
 {
+	protected $search_cache = null;
+	
 	var $root_node;
 	var $combination;
 	var $string;
@@ -52,12 +54,14 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	function ilSearchGUI()
 	{
+		global $ilUser;
+		
 		$this->root_node = $_SESSION['search_root'] ? $_SESSION['search_root'] : ROOT_FOLDER_ID;
 		$this->setType($_POST['search']['type'] ? $_POST['search']['type'] : $_SESSION['search']['type']);
 		$this->setCombination($_POST['search']['combination'] ? $_POST['search']['combination'] : $_SESSION['search']['combination']);
 		$this->setString($_POST['search']['string'] ? $_POST['search']['string'] : $_SESSION['search']['string']);
 		$this->setDetails($_POST['search']['details'] ? $_POST['search']['details'] : $_SESSION['search']['details']);
-
+		
 		parent::ilSearchBaseGUI();
 	}
 
@@ -129,12 +133,14 @@ class ilSearchGUI extends ilSearchBaseGUI
 	{
 		global $rbacsystem;
 
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		switch($next_class)
 		{
 			default:
+				$this->initUserSearchCache();
 				if(!$cmd)
 				{
 					$cmd = "showSavedResults";
@@ -192,11 +198,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 	function showSearch()
 	{
 		global $ilLocator;
-/*
-		$ilLocator->addItem($this->lng->txt('search'),
-			$this->ctrl->getLinkTarget($this));
-		$this->tpl->setLocator();
-*/
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
 
@@ -318,9 +319,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		if(count($result_obj->getResults()))
 		{
 			$this->__showSearchInResults();
+			$this->addPager($result_obj,'max_page');
 
 			include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
-			
 			$search_result_presentation = new ilSearchResultPresentationGUI($result_obj);
 			$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
 		}
@@ -331,6 +332,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 	function searchInResults()
 	{
 		$this->search_mode = 'in_results';
+		$this->search_cache->setResultPageNumber(1);
+		unset($_SESSION['max_page']);
 		$this->performSearch();
 
 		return true;
@@ -340,6 +343,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 	function performSearch()
 	{
 		global $ilUser;
+	
+		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
+		{
+			unset($_SESSION['max_page']);
+			$this->search_cache->delete();
+		}
 
 		if($this->getType() == SEARCH_DETAILS and !$this->getDetails())
 		{
@@ -387,6 +396,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		// Step 4: merge and validate results
 		$result->filter($this->getRootNode(),$query_parser->getCombination() == 'and');
+		$result->save();
 		$this->showSearch();
 
 		if(!count($result->getResults()))
@@ -405,14 +415,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 		}
 
 		// Step 6: show results
-		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
+		$this->addPager($result,'max_page');
 
+		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
 		$search_result_presentation = new ilSearchResultPresentationGUI($result);
 		$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
-
-		// Step 7: save as user result
-		$result->setUserId($ilUser->getId());
-		$result->save();
 
 		return true;
 	}
@@ -698,6 +705,23 @@ class ilSearchGUI extends ilSearchBaseGUI
 		}
 		return ilUtil::formSelect(0,'folder',$options,false,true);
 	}
-
+	/**
+	 * Init user search cache
+	 *
+	 * @access private
+	 * 
+	 */
+	protected function initUserSearchCache()
+	{
+		global $ilUser;
+		
+		include_once('Services/Search/classes/class.ilUserSearchCache.php');
+		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
+		if($_GET['page_number'])
+		{
+			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+		}
+	}
+	
 }
 ?>

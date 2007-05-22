@@ -36,6 +36,8 @@ include_once('classes/class.ilLink.php');
 */
 class ilSearchResultPresentationGUI
 {
+	protected $search_cache = null;
+
 	var $tpl;
 	var $lng;
 
@@ -43,7 +45,7 @@ class ilSearchResultPresentationGUI
 
 	function ilSearchResultPresentationGUI(&$result)
 	{
-		global $tpl,$lng,$ilCtrl;
+		global $tpl,$lng,$ilCtrl,$ilUser;
 
 		$this->lng =& $lng;
 		
@@ -55,6 +57,9 @@ class ilSearchResultPresentationGUI
 			"tst", "svy", "mep", "qpl", "spl");
 
 		$this->ctrl =& $ilCtrl;
+		
+		include_once('Services/Search/classes/class.ilUserSearchCache.php');
+		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
 	}
 
 	function &showResults()
@@ -286,6 +291,7 @@ class ilSearchResultPresentationGUI
 		}
 		return $html . $tpl->get();
 	}
+	
 
 }
 

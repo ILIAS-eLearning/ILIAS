@@ -7288,3 +7288,6 @@ common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
 common#:#lang_et#:#Estonian###10 05 2007 new variable
 common#:#lang_ru#:#Russian###10 05 2007 new variable
 common#:#applications#:#Anwendungen
+search#:#search_page#:#Ergebnisseite:
+search#:#search_page_next#:#Vorwärts
+search#:#search_page_prev#:#Zurück

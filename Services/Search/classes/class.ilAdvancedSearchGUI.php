@@ -77,6 +77,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		switch($next_class)
 		{
 			default:
+				$this->initUserSearchCache();
 				if(!$cmd)
 				{
 					$cmd = "showSavedResults";
@@ -97,6 +98,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	function searchInResults()
 	{
 		$this->search_mode = 'in_results';
+		$this->search_cache->setResultPageNumber(1);
+		unset($_SESSION['adv_max_page']);
 		$this->performSearch();
 
 		return true;
@@ -107,8 +110,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilUser;
 
-		include_once 'Services/Search/classes/class.ilSearchResult.php';
+		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
+		{
+			unset($_SESSION['adv_max_page']);
+			$this->search_cache->delete();
+		}
 
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
 		$res =& new ilSearchResult();
 
 		if($res_con =& $this->__performContentSearch())
@@ -184,7 +192,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		
 		$res->filter($this->getRootNode(),true);
-
+		$res->save();
+		$this->showSearch();
+		
 		if(!count($res->getResults()))
 		{
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
@@ -200,16 +210,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			ilUtil::sendInfo($message);
 		}
 
-		$this->showSearch();
-
+		$this->addPager($res,'adv_max_page');
+		
 		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
-
 		$search_result_presentation = new ilSearchResultPresentationGUI($res);
 		$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
-
-		$res->setUserId($ilUser->getId());
-		$res->save(ADVANCED_SEARCH);
-
 
 		return true;
 	}
@@ -558,9 +563,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		if(count($result_obj->getResults()))
 		{
 			$this->__showSearchInResults();
+			$this->addPager($result_obj,'adv_max_page');
 
 			include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
-			
 			$search_result_presentation = new ilSearchResultPresentationGUI($result_obj);
 			$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
 		}
@@ -649,7 +654,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$meta_search->setMode('title_description');
 		$meta_search->setOptions($this->options);
 		$res_tit =& $meta_search->performSearch();
-
+		
 		$meta_search->setMode('keyword_all');
 		$res_key =& $meta_search->performSearch();
 		
@@ -910,7 +915,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$meta_search->setMode('keyword');
 		$meta_search->setOptions($this->options);
 		$res =& $meta_search->performSearch();
-
+		
 		return $res;
 	}
 
@@ -1067,6 +1072,27 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		}
 		return ilUtil::formSelect(0,'folder',$options,false,true);
 	}
+	
+	/**
+	 * Init user search cache
+	 *
+	 * @access private
+	 * 
+	 */
+	private function initUserSearchCache()
+	{
+		global $ilUser;
+		
+		include_once('Services/Search/classes/class.ilUserSearchCache.php');
+		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
+		$this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
+		if($_GET['page_number'])
+		{
+			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+		}
+		
+	}
+	
 
 		
 }
