@@ -3531,6 +3531,27 @@ function getCourseMemberships($a_user_id = "")
 		}
 		return false;
 	}
+	
+	/**
+	 * Check if an external account name already exists
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string external account
+	 * @param string auth mode
+	 * 
+	 */
+	public static function _externalAccountExists($a_external_account,$a_auth_mode)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM usr_data ".
+			"WHERE ext_account = ".$ilDB->quote($a_external_account)." ".
+			"AND auth_mode = ".$ilDB->quote($a_auth_mode);
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true :false; 
+	}
 
 	/**
 	 * return array of complete users which belong to a specific role
