@@ -53,7 +53,6 @@ class ilTemplate extends ilTemplateX
 	
 	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $css_files = array();		// list of css files that should be included
-	var $math_output; // indicates if a math output occured in the template
 
 	/**
 	* constructor
@@ -70,7 +69,6 @@ class ilTemplate extends ilTemplateX
 
 		$this->activeBlock = "__global__";
 		$this->vars = array();
-		$this->math_output = FALSE;
 
 		/*
 		if (strpos($file,"/") === false)
@@ -990,22 +988,6 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->css_files[] = $a_css_file;
 		}
-	}
-	
-	/**
-	* Set the math output flag for a template
-	*/
-	function setMathOutput($a_output = TRUE)
-	{
-		$this->math_output = $a_output;
-	}
-	
-	/**
-	* Get the math output flag for a template
-	*/
-	function getMathOutput()
-	{
-		return $this->math_output;
 	}
 }
 ?>
