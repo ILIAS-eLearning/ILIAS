@@ -1676,7 +1676,7 @@ common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send forum notifications
 common#:#cron_forum_notification_cron#:#regularly per cron job
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.
+common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by mail.
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#never
 common#:#cron_jobs#:#Cron jobs
@@ -1896,7 +1896,7 @@ common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
-common#:#exc_mail_users#:#Send e-mail to user(s)
+common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
@@ -1911,7 +1911,7 @@ common#:#exc_save_changes#:#Save
 common#:#exc_schedule#:#Schedule
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
-common#:#exc_send_exercise#:#Send exercise by e-mail
+common#:#exc_send_exercise#:#Send exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_sent_at#:#Sent at <br />%s
 common#:#exc_status#:#Status
@@ -2434,7 +2434,7 @@ common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
 common#:#info_trash#:#Deleted Objects
 common#:#info_view_of_user#:#User
-common#:#inform_user_mail#:#Send e-mail to inform user about changes
+common#:#inform_user_mail#:#Send mail to inform user about changes
 common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#All LE
 common#:#ingmedia_back_to_le#:#Back to LE
@@ -2560,8 +2560,8 @@ common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#link_check#:#Link check
-common#:#link_check_body_top#:#You receive this e-mail because you want to be informed about invalid links of the following learning modules:
-common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by e-mail.
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
 common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
 common#:#link_check_subject#:#[ILIAS 3] Link check
@@ -2665,16 +2665,16 @@ common#:#mail_mail_visible#:#User may use mail system
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
-common#:#mail_maxsize_mail#:#Max. e-mail size
+common#:#mail_maxsize_mail#:#Max. mail size
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
-common#:#mail_maxtime_mail#:#Max. days to keep e-mail
+common#:#mail_maxtime_mail#:#Max. days to keep mail
 common#:#mail_members#:#Mail to Members
 common#:#mail_not_sent#:#Mail not sent!
-common#:#mail_read#:#Read access to e-mail settings
+common#:#mail_read#:#Read access to mail settings
 common#:#mail_search_no#:#No entries found.
 common#:#mail_search_word#:#Search word
-common#:#mail_select_one#:#You must select one e-mail
-common#:#mail_send_error#:#Error sending e-mail
+common#:#mail_select_one#:#You must select one mail
+common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_smtp_mail#:#User may send e-mail via SMTP
 common#:#mail_system#:#System Message
@@ -2683,7 +2683,7 @@ common#:#mail_use_pear_mail#:#Use Pear Mail
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
 common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
 common#:#mail_visible#:#Mail settings are visible
-common#:#mail_write#:#Edit e-mail settings
+common#:#mail_write#:#Edit mail settings
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
 common#:#mails_pl#:#Mail(s)
@@ -2860,7 +2860,7 @@ common#:#new_group#:#New Group
 common#:#new_language#:#New Language
 common#:#new_list_password#:#New suggestions
 common#:#new_lowercase#:#new
-common#:#new_mail#:#New e-mail!
+common#:#new_mail#:#New mail!
 common#:#news#:#News
 common#:#html_block#:#HTML Block
 common#:#feed#:#Web Feed
@@ -3071,7 +3071,7 @@ common#:#obj_lngf#:#Languages
 common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings
-common#:#obj_mail_desc#:#Configure global e-mail settings here.
+common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mep#:#Media Pool
 common#:#obj_mob#:#Media Object
 common#:#obj_not_found#:#Object Not Found
@@ -3496,7 +3496,7 @@ common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
 common#:#selected_items_back#:#Back to Personal Items
 common#:#send#:#Send
-common#:#send_mail#:#Send e-mail
+common#:#send_mail#:#Send mail
 common#:#send_mail_selected#:#Select mail recipients from list
 common#:#sender#:#Sender
 common#:#sent#:#Sent
@@ -3792,7 +3792,7 @@ common#:#user#:#User
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#user is not allowed to use the e-mail system
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#user_comment#:#User comment
 common#:#user_defined_fields#:#User-defined Fields
 common#:#user_defined_list#:#Overview User-defined Fields
@@ -3805,7 +3805,7 @@ common#:#user_imported#:#User import complete.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
 common#:#user_language#:#User Language
 common#:#user_new_account_mail#:#New Account Mail
-common#:#user_new_account_mail_desc#:#This e-mail can be sent when an ILIAS user is created by other means then self-registration.
+common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.
 common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_other#:#Other Information
@@ -4547,7 +4547,7 @@ crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.
 crs#:#crs_materials#:#Course Materials
 crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_change_status#:#Change status
-crs#:#crs_mem_send_mail#:#Send e-mail
+crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Member
 crs#:#crs_member_administration#:#Edit Participants
 crs#:#crs_member_blocked#:#Member (blocked)
@@ -4658,7 +4658,7 @@ crs#:#crs_reg#:#Registration
 crs#:#crs_reg_deactivated#:#Disabled
 crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.
 crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.
-crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by e-mail about new registrations.
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by mail about new registrations.
 crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
@@ -4698,7 +4698,7 @@ crs#:#crs_show_link_objectives#:#Show objectives
 crs#:#crs_show_link_or#:#Show other resources
 crs#:#crs_show_link_tst#:#Show tests
 crs#:#crs_show_members#:#Show Members
-crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send e-mail to members feature.
+crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send mail to members feature.
 crs#:#crs_show_objectives_view#:#Objective view
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by Activation
@@ -5132,7 +5132,7 @@ forum#:#forums_new_thread#:#New Topic
 forum#:#forums_not_available#:#Forums Not Available
 forum#:#forums_notification#:#Notification
 forum#:#forums_notification_enabled#:#Notification enabled
-forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s
+forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 forum#:#forums_notification_is_disabled#:#Your notification about new posts in this thread is not (yet) enabled.
 forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this thread is already enabled.
 forum#:#forums_notification_show_post#:#Show post: %s
@@ -5252,7 +5252,7 @@ mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_add_to_addressbook#:#Add to address book
-mail#:#mail_add_type#:#Please add the type of e-mail you want to send
+mail#:#mail_add_type#:#Please add the type of mail you want to send
 mail#:#mail_addr_entries#:#Entries
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
@@ -5263,7 +5263,7 @@ mail#:#mail_cc_search#:#CC search
 mail#:#mail_change_to_folder#:#Switch to folder:
 mail#:#mail_check_your_email_addr#:#Your e-mail address is not valid
 mail#:#mail_compose#:#Compose Message
-mail#:#mail_deleted#:#The e-mail is deleted
+mail#:#mail_deleted#:#The mail is deleted
 mail#:#mail_deleted_entry#:#The entries are deleted
 mail#:#mail_email_forbidden#:#You are not allowed to send e-mail
 mail#:#mail_enter_login_or_email_addr#:#Please enter a valid login name or e-mail address.
@@ -5283,20 +5283,20 @@ mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
-mail#:#mail_incoming#:#Incoming e-mail
+mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
 mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_intern#:#Internal
-mail#:#mail_mark_read#:#Mark e-mail read
-mail#:#mail_mark_unread#:#Mark e-mail unread
+mail#:#mail_mark_read#:#Mark mail read
+mail#:#mail_mark_unread#:#Mark mail unread
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_message_send#:#Message sent
-mail#:#mail_move_error#:#Error moving e-mail
+mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
-mail#:#mail_moved#:#The e-mail has been moved
+mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator.
 mail#:#mail_nacc_client_name#:#Client Name.
@@ -5330,7 +5330,7 @@ mail#:#mail_search_system#:#search in system
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
 mail#:#mail_send_with_system_address#:#Send With System Address
-mail#:#mail_sure_delete#:#Are sure you want to delete the marked e-mail
+mail#:#mail_sure_delete#:#Are sure you want to delete the marked mail
 mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
@@ -6127,7 +6127,7 @@ pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the e
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
 pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.
 pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%6$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your e-mail box.
+pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
 pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
@@ -6351,10 +6351,10 @@ survey#:#add_standard_numbers#:#Add Standard Numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS e-mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
 survey#:#anonymize_personalized#:#Personalized Survey
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
-survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS e-mail inbox when you started the survey.
+survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize Survey Data
 survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
@@ -6761,7 +6761,7 @@ survey#:#svy_status_missing_elements#:#The following elements are missing:
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS e-mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
+survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
 survey#:#title_resume_survey#:#Resume the Survey - Enter Survey Code
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
@@ -7305,7 +7305,7 @@ ldap#:#ldap_info_text#:#Information Text
 ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.
 ldap#:#ldap_info_text_short#:#Info Text:
 common#:#further_informations#:#Further Informations
-chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s
+chat#:#chat_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 common#:#applications#:#Applications
 search#:#search_page#:#Results:
 search#:#search_page_next#:#Next
