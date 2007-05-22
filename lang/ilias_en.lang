@@ -2481,6 +2481,8 @@ common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Setup informations
 common#:#join#:#Join
+common#:#jsmath_enable#:#Enable jsMath support (Javascript required)
+common#:#jsmath_disable#:#Disable jsMath support (use images for math output)
 common#:#kb#:#KByte
 common#:#keywords#:#Keywords
 common#:#lang_bg#:#Bulgarian
