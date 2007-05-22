@@ -56,6 +56,7 @@ class ilPersonalProfileGUI
         $this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
+		$lng->loadLanguageModule("jsmath");
 		$this->upload_error = "";
 		$this->password_error = "";
 	}
@@ -1282,6 +1283,44 @@ class ilPersonalProfileGUI
 		$this->tpl->show();
 	}
 	
+	function showjsMath()
+	{
+		global $lng, $ilCtrl, $tpl, $ilUser;
+		
+		$this->__initSubTabs("showjsMath");
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("jsmath_settings"));
+		
+		// Enable jsMath
+		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_enable_user"), "enable");
+		$enable->setChecked($ilUser->getPref("js_math"));
+		$enable->setInfo($lng->txt("jsmath_enable_user_desc"));
+		$form->addItem($enable);
+
+		$form->addCommandButton("savejsMath", $lng->txt("save"));
+		$form->addCommandButton("showjsMath", $lng->txt("cancel"));
+		
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		$this->tpl->show();
+	}
+	
+	function savejsMath()
+	{
+		global $ilCtrl, $ilUser;
+		
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$jsMathSetting = new ilSetting("jsMath");
+		if ($jsMathSetting->get("enable"))
+		{
+			$ilUser->writePref("js_math", $_POST["enable"]);
+		}
+		$ilCtrl->redirect($this, "showjsMath");
+	}
 	
 	function showLocation()
 	{
@@ -1365,6 +1404,7 @@ class ilPersonalProfileGUI
 		$showProfile = ($a_cmd == 'showProfile') ? true : false;
 		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
 		$showLocation = ($a_cmd == 'showLocation') ? true : false;
+		$showjsMath = ($a_cmd == 'showjsMath') ? true : false;
 
 		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile"),
 								 "", "", "", $showProfile);
@@ -1379,6 +1419,13 @@ class ilPersonalProfileGUI
 		
 		$ilTabs->addSubTabTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"),
 								 "", "", "", $showMailOptions);
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$jsMathSetting = new ilSetting("jsMath");
+		if ($jsMathSetting->get("enable"))
+		{
+			$ilTabs->addSubTabTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
+									 "", "", "", $showjsMath);
+		}
 	}
 
 

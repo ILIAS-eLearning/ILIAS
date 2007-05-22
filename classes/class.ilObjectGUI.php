@@ -2535,5 +2535,6 @@ class ilObjectGUI
 			$column_gui->setEnableEdit(true);
 		}
 	}
+
 } // END class.ilObjectGUI
 ?>

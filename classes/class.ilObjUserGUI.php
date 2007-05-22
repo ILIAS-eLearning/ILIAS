@@ -2479,7 +2479,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		return ilUtil::formSelect($_SESSION['filtered_roles'],"filter",$action,false,true);
 	}
-
+	
 	function hitsperpageObject()
 	{
 		parent::hitsperpageObject();

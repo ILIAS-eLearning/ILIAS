@@ -2481,8 +2481,6 @@ common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Setup informations
 common#:#join#:#Join
-common#:#jsmath_enable#:#Enable jsMath support (Javascript required)
-common#:#jsmath_disable#:#Disable jsMath support (use images for math output)
 common#:#kb#:#KByte
 common#:#keywords#:#Keywords
 common#:#lang_bg#:#Bulgarian
@@ -2981,6 +2979,8 @@ jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathemat
 jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath
 jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;
 jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!
+jsmath#:#jsmath_enable_user#:#Enable jsMath support
+jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.
 common#:#next#:#Next
 common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.
 common#:#delicious#:#del.icio.us Account
