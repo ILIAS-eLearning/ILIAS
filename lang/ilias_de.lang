@@ -2296,8 +2296,8 @@ common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
 common#:#link#:#Verknüpfen
 common#:#link_check#:#Links überprüfen
-common#:#link_check_body_top#:#Sie erhalten diese E-Mail, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
-common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per E-Mail über nicht gültige Links dieser Lerneinheit informiert.
+common#:#link_check_body_top#:#Sie erhalten diese Nachricht, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
+common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Mail über ungültige Links dieser Lerneinheit benachrichtigt.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
 common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
@@ -2412,9 +2412,9 @@ common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_smtp_mail#:#Benutzer darf E-Mails (SMTP) senden
 common#:#mail_system#:#Systemnachricht
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
-common#:#mail_use_pear_mail#:#Pear Mail verwenden
-common#:#mail_use_pear_mail_info#:#Verwende Pear Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. Pear Mail unterstützt Internet-konforme E-Mail Addressen vollständig.
-common#:#mail_pear_mail_needed#:#.Sie benötigen Pear Mail um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Mail</code> ein.
+common#:#mail_use_pear_mail#:#PEAR-Mail verwenden
+common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Addressen vollständig.
+common#:#mail_pear_mail_needed#:#.Sie benötigen PEAR-Mail um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Mail</code> ein.
 common#:#mail_visible#:#Maileinstellungen sind sichtbar
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
@@ -3093,7 +3093,7 @@ common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
 common#:#send_mail#:#Mail senden
-common#:#send_mail_selected#:#Mail Empfänger aus Liste auswählen
+common#:#send_mail_selected#:#Mail-Empfänger aus Liste auswählen
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
@@ -5704,7 +5704,7 @@ payment#:#prices#:#Preise
 payment#:#update#:#Aktualisieren
 pwassist#:#password_assistance#:#Passwort-Unterstützung
 pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der Passwort-Vergessen-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefeld.\nDie E-Mail-Adresse, die Sie eingegeben haben, ist in der Datenbank nicht vorhanden.
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail-Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
