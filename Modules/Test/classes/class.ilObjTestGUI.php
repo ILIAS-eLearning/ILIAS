@@ -3056,6 +3056,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$questionpools = array();
+		$total_points = 0;
 		$total = $this->object->evalTotalPersons();
 		if (count($testquestions) > 0)
 		{
@@ -3091,6 +3092,8 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+				$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
+				$total_points += $data["points"];
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
@@ -3112,6 +3115,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 				$counter++;
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->setVariable("TOTAL_POINTS", $total_points);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
@@ -3145,6 +3149,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("points"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
 
