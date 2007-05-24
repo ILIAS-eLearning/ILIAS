@@ -2981,6 +2981,8 @@ jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory rela
 jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!
 jsmath#:#jsmath_enable_user#:#Enable jsMath support
 jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.
+jsmath#:#jsmath_default_setting#:#Use as default
+jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.
 common#:#next#:#Next
 common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.
 common#:#delicious#:#del.icio.us Account

@@ -1297,8 +1297,11 @@ class ilPersonalProfileGUI
 		$form->setTitle($lng->txt("jsmath_settings"));
 		
 		// Enable jsMath
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$jsMathSetting = new ilSetting("jsMath");
 		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_enable_user"), "enable");
-		$enable->setChecked($ilUser->getPref("js_math"));
+		$checked = ($ilUser->getPref("js_math") === FALSE) ? $jsMathSetting->get("makedefault") : $ilUser->getPref("js_math");
+		$enable->setChecked($checked);
 		$enable->setInfo($lng->txt("jsmath_enable_user_desc"));
 		$form->addItem($enable);
 
@@ -1317,7 +1320,14 @@ class ilPersonalProfileGUI
 		$jsMathSetting = new ilSetting("jsMath");
 		if ($jsMathSetting->get("enable"))
 		{
-			$ilUser->writePref("js_math", $_POST["enable"]);
+			if ($_POST["enable"])
+			{
+				$ilUser->writePref("js_math", "1");
+			}
+			else
+			{
+				$ilUser->writePref("js_math", "0");
+			}
 		}
 		$ilCtrl->redirect($this, "showjsMath");
 	}
