@@ -1971,6 +1971,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$template->setCurrentBlock("pdf_export");
 			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
+			$this->ctrl->setParameter($this, "pass", "");
+			$this->ctrl->setParameter($this, "pdf", "");
 			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
 			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
 			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
