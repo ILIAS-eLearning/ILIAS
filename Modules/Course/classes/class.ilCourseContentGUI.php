@@ -610,6 +610,11 @@ class ilCourseContentGUI
 			$event_items = $this->course_obj->items_obj->getItemsByEvent($event_obj->getEventId());
 			foreach ($event_items as $cont_data)
 			{
+				if($cont_data["child"] <= 0)
+				{
+					continue;
+				}
+
 				if(strlen($html = $this->__getItemHTML($cont_data,true)))
 				{
 					 /* Disabled: no manual sort
