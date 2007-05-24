@@ -2983,6 +2983,7 @@ jsmath#:#jsmath_enable_user#:#Enable jsMath support
 jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.
 jsmath#:#jsmath_default_setting#:#Use as default
 jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.
+jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.
 common#:#next#:#Next
 common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.
 common#:#delicious#:#del.icio.us Account
