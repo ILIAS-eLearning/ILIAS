@@ -306,54 +306,57 @@ class ilSCORM13DB
 	 * 
 	 * erstelle gleich dimensionale arrays f�r $queries und $params
 	 */	
-	public function exec($queries, $params=null, &$result = null)
-	{
-		if (!is_array($queries))
-		{
-			$r = self::exec(array($queries), $params);
-			return $r[0];
-		}
-		if (!is_array($params)) 
-		{
-			$params = array();
-		}
-		if (!is_array(current($params))) 
-		{
-			$params = array($params);
-		}
-		//$d = new PDO(self::getDSN());
-		$d = self::getDB();
-		foreach ($queries as $i => &$q) 
-		{
-       	if ($s = $d->prepare($sql = (self::$SQLCOMMAND[$q] ? self::$SQLCOMMAND[$q] : $q))) 
-			{
-				$q = 0;
-				$r = array();
-				$ps = is_array($params) ? $params[$i % count($params)] : null;
-				if (!is_array(current($ps))) 
-				{
-					$ps = array($ps);
-				}
-				foreach ($ps as $p) 
-				{
-//file_put_contents('sql.log', implode("\n", array('', date('c'), $sql, var_export($p, true))), FILE_APPEND); 
-					$q += $s->execute($p);
-					if (is_array($result)) 
-					{
-						count($queries)<2
-							? $result = $s->fetchAll(PDO::FETCH_ASSOC)
-							: $result[] = $s->fetchAll(PDO::FETCH_ASSOC);
-					}
-				}
-			}
-			else
-			{
-				// prepare failed
-			}
-		}
-		unset($d);
-		return $queries; 
-	}
+	 public function exec($queries, $params=null, &$result = null) 
+    { 
+        if (!is_array($queries)) 
+        { 
+            $r = self::exec(array($queries), $params); 
+            return $r[0]; 
+        } 
+        if (!is_array($params))  
+        { 
+            $params = array(); 
+        } 
+        if (!is_array(current($params)))  
+        { 
+            $params = array($params); 
+        } 
+        //$d = new PDO(self::getDSN()); 
+        $d = self::getDB(); 
+        foreach ($queries as $i => &$q)  
+        { 
+           if ($s = $d->prepare($sql = (self::$SQLCOMMAND[$q] ? self::$SQLCOMMAND[$q] : $q)))  
+            { 
+                $q = 0; 
+                $r = array(); 
+                $ps = is_array($params) ? $params[$i % count($params)] : null; 
+                if (!is_array(current($ps)))  
+                { 
+                    $ps = array($ps); 
+                } 
+                foreach ($ps as $p)  
+                { 
+                 $q+=$s->execute($p);
+                 $arr = $s->errorInfo();
+                 file_put_contents('sql.log', implode("\n", array('', date('c'), $sql, var_export($p, true),var_export($arr,true))), FILE_APPEND);  
+                
+                    if (is_array($result))  
+                    { 
+                        count($queries)<2 
+                            ? $result = $s->fetchAll(PDO::FETCH_ASSOC) 
+                            : $result[] = $s->fetchAll(PDO::FETCH_ASSOC); 
+                    } 
+                } 
+            } 
+            else 
+            { 
+                // prepare failed 
+            } 
+        } 
+        unset($d); 
+        return $queries;  
+    } 
+	
 
 	function begin()
 	{
