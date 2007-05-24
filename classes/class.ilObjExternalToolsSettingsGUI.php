@@ -401,6 +401,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$text_prop->setMaxLength(400);
 		$text_prop->setSize(80);
 		$form->addItem($text_prop);
+		// jsMath as default
+		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_default_setting"), "makedefault");
+		$enable->setChecked($jsMathSetting->get("makedefault"));
+		$enable->setInfo($lng->txt("jsmath_default_setting_info"));
+		$form->addItem($enable);
 
 		$form->addCommandButton("savejsMath", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -444,6 +449,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$jsMathSetting = new ilSetting("jsMath");
 			$jsMathSetting->set("path_to_jsmath", $path_to_jsmath);
 			$jsMathSetting->set("enable", ilUtil::stripSlashes($_POST["enable"]));
+			$jsMathSetting->set("makedefault", ilUtil::stripSlashes($_POST["makedefault"]));
 		}
 		
 		$ilCtrl->redirect($this, "editjsMath");

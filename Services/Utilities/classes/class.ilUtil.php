@@ -3276,7 +3276,7 @@ class ilUtil
 
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$jsMathSetting = new ilSetting("jsMath");
-		if ($jsMathSetting->get("enable") && $ilUser->getPref("js_math"))
+		if ($jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault")))))
 		{
 			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
 			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
