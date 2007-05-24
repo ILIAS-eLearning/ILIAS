@@ -1328,6 +1328,9 @@ common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Global Test & Assessment settings
 common#:#assessment_settings_reporting_language#:#Reporting language
+common#:#assessment_defaults#:#Default settings for Test & Assessment
+common#:#assessment_use_javascript#:#JavaScript for Drag & Drop
+common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time
 common#:#ass_log_output#:#Log Data Output
 common#:#ass_log_admin#:#Log Data Administration
 common#:#ass_log_count_datasets#:#Log Entries
@@ -2975,7 +2978,7 @@ gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set locatio
 jsmath#:#jsmath_extt_jsmath#:#jsMath
 jsmath#:#jsmath_settings#:#jsMath Settings
 jsmath#:#jsmath_enable_jsmath#:#Enable jsMath
-jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output using LaTeX expressions.
+jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.
 jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath
 jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;
 jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!

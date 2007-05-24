@@ -604,6 +604,62 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	}
 
 	/**
+	* Default settings tab for Test & Assessment
+	*
+	* @access	public
+	*/
+	function defaultsObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
+		
+		$assessmentSetting = new ilSetting("assessment");
+		$use_javascript = array_key_exists("use_javascript", $_GET) ? $_GET["use_javascript"] : $assessmentSetting->get("use_javascript");
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("assessment_defaults"));
+		
+		// Enable javascript
+		$enable = new ilCheckboxInputGUI($lng->txt("assessment_use_javascript"), "use_javascript");
+		$enable->setChecked($use_javascript);
+		$enable->setInfo($lng->txt("assessment_use_javascript_desc"));
+		$form->addItem($enable);
+
+		$form->addCommandButton("saveDefaults", $lng->txt("save"));
+		$form->addCommandButton("defaults", $lng->txt("cancel"));
+		
+		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
+	}
+	
+	/**
+	* Save default settings for test & assessment
+	*
+	* @access	public
+	*/
+	function saveDefaultsObject()
+	{
+		global $ilCtrl;
+
+		$assessmentSetting = new ilSetting("assessment");
+		if ($_POST["use_javascript"])
+		{
+			$assessmentSetting->set("use_javascript", "1");
+		}
+		else
+		{
+			$assessmentSetting->set("use_javascript", "0");
+		}
+		$ilCtrl->redirect($this, "defaults");
+	}
+
+
+	/**
 	* get tabs
 	* @access	public
 	* @param	object	tabs gui object
@@ -632,6 +688,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "logs"), 
 					array("logs","showLog", "exportLog", "logAdmin", "deleteLog"), 
 					"", "");
+
+				$tabs_gui->addTarget("defaults",
+					$this->ctrl->getLinkTarget($this, "defaults"), array("defaults","saveDefaults"), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

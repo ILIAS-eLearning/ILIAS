@@ -119,7 +119,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				global $ilUser;
 				
 				$question_gui = $this->object->createQuestionGUI("", $q_id);
-				if ($ilUser->prefs["tst_javascript"])
+				if ($this->object->getJavaScriptOutput())
 				{
 					$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 				}
@@ -314,7 +314,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($sequence));
-		if ($ilUser->prefs["tst_javascript"])
+		if ($this->object->getJavaScriptOutput())
 		{
 			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 		}
@@ -512,7 +512,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 		}
 
-		if ($ilUser->prefs["tst_javascript"])
+		if ($this->object->getJavaScriptOutput())
 		{
 			$this->tpl->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
 			$this->tpl->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));

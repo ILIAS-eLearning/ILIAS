@@ -4914,8 +4914,10 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
-	function redirectToInfoScreen()
+	function redirectToInfoScreenObject()
 	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen($_SESSION["lock"]);
 	}
 	
@@ -5038,7 +5040,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				// use javascript
 				$checked_javascript = false;
-				if ($ilUser->prefs["tst_javascript"])
+				if ($this->object->getJavaScriptOutput())
 				{
 					$checked_javascript = true;
 				}
