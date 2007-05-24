@@ -9608,6 +9608,20 @@ class ilObjTest extends ilObject
 			return FALSE;
 		}
 	}
+	
+	/**
+	* Returns if Javascript should be chosen for drag & drop actions
+	* for the active user
+	*
+	* @return boolean TRUE if Javascript should be chosen, FALSE otherwise
+	* @access public
+	*/
+	function getJavaScriptOutput()
+	{
+		global $ilUser;
+		$assessmentSetting = new ilSetting("assessment");
+		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
+	}
 } // END class.ilObjTest
 
 ?>
