@@ -3,7 +3,7 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * This program is free software. The use and distribution terms for this software
+ * This program is free software. The use and distribution terms forsetResource this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
  * By using this software in any fashion, you are agreeing to be bound by the terms 
@@ -1819,7 +1819,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	}
 	// deliver resource (sco)
 	scoStartTime = currentTime();
-	setResource(item.id, item.href, this.config.package_url);
+	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 	// customize GUI
 	updateToc(tocState);
 	updateControls(controlState);

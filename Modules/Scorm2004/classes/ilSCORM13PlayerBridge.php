@@ -1,15 +1,17 @@
 <?php
 
-define('IL_OP_DB_TYPE', 'sqlite');
-define('IL_OP_DB_DSN', 'sqlite2:./Modules/Scorm2004/data/sqlite2.db');
+
+//include dependent on calling path
+
+if (file_exists("./Modules/Scorm2004/classes/ilSCORM13Player.php")) {
+	include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
+} else {	
+	include_once "classes/ilSCORM13Player.php";
+}	
+
+//TODO remove when database integration is finished
 define('IL_OP_USER_NAME', '');
 define('IL_OP_USER_PASSWORD', '');
-
-require_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
-require_once "./Modules/Scorm2004/classes/phpext.php";
-
-include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
-
 
 class ilSCORM13PlayerBridge extends ilSCORM13Player{
 
@@ -18,16 +20,35 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 	var $tpl;
 	var $lng;
 	
-	function ilSCORM13PlayerBridge($packageId)
+	function __construct($basePath)
 	{
+		
 		global $ilias, $tpl, $lng, $ilCtrl;
+		
+		
+		require_once $basePath."classes/phpext.php";
+		include_once ($basePath."classes/ilSCORM13DB.php");
 
+		
+		parent::__construct();
+		
+				
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
-		ilSCORM13DB::init(IL_OP_DB_DSN, IL_OP_DB_TYPE);
-		$this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
+		
+
+		if ($basePath) {
+			$this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
+		} else {
+			$this->packageId=$_GET["packageId"];
+		}
+		
+		//TODO remove when DB integration is done
+		
+		//ilSCORM13DB::init("sqlite2:".$basePath."data/sqlite2.db", "sqlite");
+		ilSCORM13DB::init("sqlite2:/Users/hendrikh/Development/eclipse/ilias3_scorm2004/ilias3_scorm2004/Modules/Scorm2004/data/sqlite2.db", "sqlite");
 	}
 
 	/**
@@ -58,25 +79,48 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 	
 	public function getPlayer()
 	{
-		
+		global $ilUser;
 		$packageData = ilSCORM13DB::getRecord(
-		'cp_package',
-		'obj_id',
-		$this->packageId
+			'cp_package',
+			'obj_id',
+			$this->packageId
 		);
+		
+		
+		//TODO workaround...should be moved into another table
+
+		ilSCORM13DB::setRecord('usr_data', array(
+		'usr_id' => $ilUser->getID(),
+		'firstname' => $ilUser->getFirstname(),
+		'lastname'=>$ilUser->getLastname(),
+		'ilinc_id'=>0,
+		'email'=>$ilUser->getLastname(),
+		'passwd'=>'test12',
+		'login'=>'',
+		'title'=>''
+		));
+		
+		ilSCORM13DB::setRecord('sahs_lm', array(
+		'id' => $this->packageId,
+		'credit' => "credit",
+		'default_lesson_mode'=>"normal",
+		'auto_review'=>"review"
+		));
+		
+		
 		$basedir = json_decode($packageData['jsdata']);
 		$config = array
 		(
-		'cp_url' => './Modules/Scorm2004/player.php?' . 'call=cp&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
-		'cmi_url' => './Modules/Scorm2004/player.php?' .'call=cmi&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
-
-		'learner_id' => (string) $GLOBALS["USER"]["id_usr"],
-		'learner_name' => $GLOBALS["USER"]["login"],
-		'mode' => 'normal',
-		'credit' => 'credit',
-		'package_url' =>  $basedir->base,
+			'cp_url' => './Modules/Scorm2004/player_ilias.php?' . 'call=cp&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
+			'cmi_url' => './Modules/Scorm2004/player_ilias.php?' .'call=cmi&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"].'&learnerId='.$ilUser->getID(),
+			'learner_id' => (string) $ilUser->getID(),
+			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
+			'mode' => 'normal',
+			'credit' => 'credit',
+			'package_url' =>  $basedir->base,
 		);
 
+		// TODO  replace with ILIAS languages
 		$langstrings = $this->getLangStrings();
 
 		$langstrings['btnStart'] = 'Start';

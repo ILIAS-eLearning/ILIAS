@@ -36,6 +36,9 @@
  * tracking CMI API data     
  */ 
 
+
+
+	
 class ilSCORM13Player
 {
 
@@ -48,6 +51,8 @@ class ilSCORM13Player
 	const WRITEONLY = 2;
 	const READWRITE = 3;
 	
+		
+		
 	static private $schema = array // order of entries matters!
 	(
 		'package' => array(
@@ -144,14 +149,19 @@ class ilSCORM13Player
 	
 	private $userId;
 	public $packageId;
-	private $jsMode;
-	
+	public $jsMode;
+		
 	function __construct() 
 	{
-		$this->userId = $GLOBALS['USER']['usr_id'];
+		if ($_REQUEST['learnerId']) {
+			$this->userId = $_REQUEST['learnerId'];
+		} else {
+			$this->userId = $GLOBALS['USER']['usr_id'];
+		}
 		$this->packageId = (int) $_REQUEST['packageId'];
 		$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
-		ilSCORM13DB::addQueries('ilSCORM13Player');
+		
+		//ilSCORM13DB::addQueries('ilSCORM13Player');
 	}
 	
 	public function getLangStrings()
@@ -311,6 +321,7 @@ class ilSCORM13Player
 	private function removeCMIData($userId, $packageId, $cp_node_id=null) 
 	{
 		$delorder = array('correct_response', 'objective', 'interaction', 'comment', 'node');
+		error_log("Delete, User:".$userId."Package".$packageId."Node: ".$cp_node_id);
 		foreach ($delorder as $k) 
 		{
 			if (is_null($cp_node_id))
@@ -335,7 +346,7 @@ class ilSCORM13Player
 		$result = array();
 		$map = array();
 		if (!$data) return;
-
+	
 		// we don't want to have trouble with partially deleted or filled datasets
 		// so we try transaction mode (hopefully your RDBS supports this)
 		//ilSCORM13DB::begin();
@@ -349,6 +360,7 @@ class ilSCORM13Player
 			$schem = & self::$schema[$table];
 			if (!is_array($data->$table)) continue;
 			$i=0;
+				
 			// build up numerical index for schema fields
 			foreach ($schem as &$field) 
 			{
@@ -357,6 +369,7 @@ class ilSCORM13Player
 			// now iterate through data rows from input
 			foreach ($data->$table as &$row)
 			{
+				
 				// first fill some fields that could not be set from client side
 				// namely the database id's depending on which table is processed  
 				switch ($table)
@@ -379,6 +392,7 @@ class ilSCORM13Player
 						$no = $schem['user_id']['no'];
 						$row[$no] = $userId;
 						break;
+					
 				}
 				$cp_no = $schem['cp_' . $table . '_id']['no'];						 
 				$cmi_no = $schem['cmi_' . $table . '_id']['no'];
@@ -396,17 +410,19 @@ class ilSCORM13Player
 				// and related sub elements in interactions etc.
 				if ($table==='node') 
 				{
+					error_log("Lets remove old data");
 					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
 				}
 				// now insert the data record
-				if (!ilSCORM13DB::exec($sql, $row))
+				$ret=ilSCORM13DB::exec($sql, $row);
+				
+				if (!$ret)
 				{
 					$return = false;
 					break;
 				}
 				// and get the new cmi_id
 				$row[$cmi_no] = ilSCORM13DB::getLastId();
-
 				// if we process a node save new id into result object that will be feedback for client
 				if ($table==='node') 
 				{
