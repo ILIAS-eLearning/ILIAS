@@ -3267,7 +3267,7 @@ class ilUtil
 	*/
 	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
-		global $tpl, $lng, $ilUser, $ilCtrl, $ilNavigationHistory;
+		global $tpl, $lng, $ilUser;
 		
 		// - take care of html exports (-> see buildLatexImages)
 		$a_text = str_replace("&lt;", "<", $a_text);
@@ -3278,9 +3278,20 @@ class ilUtil
 		$jsMathSetting = new ilSetting("jsMath");
 		if ($jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault")))))
 		{
+			$info = "";
+			if (!$tpl->out_jsmath_info)
+			{
+				include_once "./classes/class.ilTemplate.php";
+				$template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE);
+				$lng->loadLanguageModule("jsmath");
+				$template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
+				$info = $template->get();
+				$tpl->out_jsmath_info = TRUE;
+			}
 			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
 			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-				"'<span class=\"math\">$1</span>'", $a_text);
+				"'<span class=\"math\">$1</span>[[info]]'", $a_text);
+			$result_text = str_replace("[[info]]", $info, $result_text);
 			$tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
 		}
 		else
