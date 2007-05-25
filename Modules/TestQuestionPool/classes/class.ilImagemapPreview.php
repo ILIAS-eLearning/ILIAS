@@ -78,7 +78,7 @@ class ilImagemapPreview
 		$visible = true,
 		$linecolor = "red",
 		$bordercolor = "white",
-		$fillcolor = "\"#FFFFFF40\""
+		$fillcolor = "\"#FFFFFFA0\""
 	)
 	{
 		if (ini_get("safe_mode"))

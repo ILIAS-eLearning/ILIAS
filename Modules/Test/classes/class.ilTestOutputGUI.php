@@ -1172,7 +1172,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->object->generateRandomQuestions($actualpass+1);
 			}
 		}
-		
+
 		$this->object->setActiveTestUser(1, "", true);
 		
 		if($_GET['crs_show_result'])
@@ -2019,7 +2019,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		$template->setVariable("USER_DATA", $user_data);
-		$template->setVariable("USER_FEEDBACK", $statement);
+		$template->setVariable("USER_MARK", $statement["mark"]);
+		if (strlen($statement["markects"]))
+		{
+			$template->setVariable("USER_MARK_ECTS", $statement["mark"]);
+		}
 		$template->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("generic_css");
@@ -2090,7 +2094,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if ($this->object->getNrOfTries() == 1)
 		{
 			$statement = $this->getFinalStatement($result_array["test"]);
-			$this->tpl->setVariable("USER_FEEDBACK", $statement);
+			$this->tpl->setVariable("USER_MARK", $statement["mark"]);
+			if (strlen($statement["markects"]))
+			{
+				$this->tpl->setVariable("USER_MARK_ECTS", $statement["mark"]);
+			}
 		}
 		
 		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
@@ -2145,7 +2153,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$user_data = $this->getResultsUserdata($user_id);
 		$this->tpl->setVariable("USER_DATA", $user_data);
 		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
-		$this->tpl->setVariable("USER_FEEDBACK", $statement);
+		$this->tpl->setVariable("USER_MARK", $statement["mark"]);
+		if (strlen($statement["markects"]))
+		{
+			$this->tpl->setVariable("USER_MARK_ECTS", $statement["mark"]);
+		}
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
 
@@ -2197,7 +2209,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if ($this->object->getNrOfTries() == 1)
 		{
 			$statement = $this->getFinalStatement($result_array["test"]);
-			$this->tpl->setVariable("USER_FEEDBACK", $statement);
+			$this->tpl->setVariable("USER_MARK", $statement["mark"]);
+			if (strlen($statement["markects"]))
+			{
+				$this->tpl->setVariable("USER_MARK_ECTS", $statement["mark"]);
+			}
 		}
 		
 		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, TRUE);

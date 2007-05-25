@@ -630,7 +630,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$enable->setChecked($use_javascript);
 		$enable->setInfo($lng->txt("assessment_use_javascript_desc"));
 		$form->addItem($enable);
-
+				
 		$form->addCommandButton("saveDefaults", $lng->txt("save"));
 		$form->addCommandButton("defaults", $lng->txt("cancel"));
 		

@@ -3261,7 +3261,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function cancelMarksObject()
 	{
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
-		$this->ctrl->redirect($this, "properties");
+		$this->ctrl->redirect($this, "marks");
 	}
 	
 	/**
@@ -4589,130 +4589,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->inviteParticipantsObject();
 	}
 	
-/**
-* Output of the results of selected learners
-*
-* Output of the results of selected learners
-*
-* @access public
-*/
-	function showResultsObject()
-	{
-		$user_id = $_GET["usr_id"];
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", "Modules/Test");			
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("navigation_buttons");
-		$this->tpl->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "participants"));
-		$this->tpl->parseCurrentBlock();
-		$this->outPrintUserResults($user_id);
-	}
-
-/**
-* Output of the results for a single user
-*
-* Output of the results for a single user
-*
-* @access private
-*/
-	function outPrintUserResults($user_id) 
-	{
-		include_once "./classes/class.ilObjUser.php";
-		$user = new ilObjUser($user_id);
-		$active = $this->object->getActiveTestUser($user_id);
-		$t = $active->submittimestamp;
-		
-		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
-
-		if (strlen($user->getMatriculation()))
-		{
-			$this->tpl->setCurrentBlock("user_matric");
-			$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_matric_value");
-			$this->tpl->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_matric_separator");
-		}
-		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("matriculation") . ": " . $user->getMatriculation();
-		
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-
-		$result_array =& $this->object->getTestResult($active->active_id);
-
-		if (!$result_array["test"]["total_max_points"])
-		{
-			$percentage = 0;
-		}
-		else
-		{
-			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
-		}
-		
-		$total_max = $result_array["test"]["total_max_points"];
-		$total_reached = $result_array["test"]["total_reached_points"];
-
-		foreach ($result_array as $key => $value) {
-			if (preg_match("/\d+/", $key)) {
-				$title = $value["title"];
-				$this->tpl->setCurrentBlock("question");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $title);
-				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
-				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
-				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
-				$this->tpl->parseCurrentBlock("question");
-				$counter++;
-			}
-		}
-		
-		$this->tpl->setCurrentBlock("user_results");
-		$this->tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("VALUE_USR_NAME", $user->getLastname().", ".$user->getFirstname());
-		$this->tpl->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
-		$this->tpl->setVariable("VALUE_TEST_DATE", strftime("%Y-%m-%d %H:%M:%S",ilUtil::date_mysql2time($t)));
-		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
-		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%Y-%m-%d %H:%M:%S",$print_date));
-
-		$this->tpl->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
-		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
-		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
-		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
-		$this->tpl->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
-
-		// SUM
-		$this->tpl->setVariable("TOTAL", $this->lng->txt("total"));
-		$this->tpl->setVariable("TOTAL_MAX_POINTS", $total_max);
-		$this->tpl->setVariable("TOTAL_REACHED_POINTS",  $total_reached);
-		$this->tpl->setVariable("TOTAL_PERCENT_SOLVED", sprintf("%01.2f",$percentage)." %");
-
-		$mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
-		if ($mark_obj)
-		{
-			$mark .= "<br /><strong>" . $this->lng->txt("tst_mark") . ": &quot;" . $mark_obj->getOfficialName() . "&quot;</strong>";
-		}
-		if ($this->object->ects_output)
-		{
-			$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
-			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
-		}	
- 
-		$this->tpl->setVariable("GRADE", $mark);
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("TEXT_RESULTS", sprintf($this->lng->txt("tst_result_user_name"), $user->getFullName()));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("PAGETITLE", $pagetitle);
-	}
-
 	/**
 	* Displays the settings page for test defaults
 	*

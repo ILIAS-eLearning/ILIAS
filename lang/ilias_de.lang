@@ -148,11 +148,11 @@ assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
 assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
-assessment#:#ass_size#:#Grösse
+assessment#:#ass_size#:#Größe
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
-assessment#:#by#:#by
+assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Noten nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde und dieses Datum noch nicht erreicht wurde.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
@@ -182,7 +182,7 @@ assessment#:#cloze_textgap_rating#:#Textlücken-Bewertung
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
-assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie die Testdaten aller Nutzerinnen des Tests löschen wollen?
+assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie die Testdaten aller NutzerInnen des Tests löschen wollen?
 assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten NutzerInnen löschen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
@@ -249,13 +249,13 @@ assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fe
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#error_open_java_file#:#Fehler beim Öffnen eines Java-Applets!
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
-assessment#:#eval_all_users#:#Auswertung für alle Nutzerinnen
+assessment#:#eval_all_users#:#Auswertung für alle NutzerInnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_concatenation#:#Verknüpfung
 assessment#:#eval_data#:#Evaluationsdaten
 assessment#:#eval_found_selected_groups#:#Ausgewählte Gruppen
-assessment#:#eval_found_selected_users#:#Ausgewählte Nutzerinnen
+assessment#:#eval_found_selected_users#:#Ausgewählte NutzerInnen
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
@@ -264,9 +264,9 @@ assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist
 assessment#:#eval_search_groups#:#Gruppen
 assessment#:#eval_search_roles#:#Rollen
 assessment#:#eval_search_term#:#Suchbegriff
-assessment#:#eval_search_users#:#Nutzerinnen
-assessment#:#eval_search_userselection#:#Suchen Sie nach den Nutzerinnen, die Sie in die statistische Auswertung einbeziehen wollen
-assessment#:#eval_selected_users#:#Auswertung für ausgewählte Nutzerinnen
+assessment#:#eval_search_users#:#NutzerInnen
+assessment#:#eval_search_userselection#:#Suchen Sie nach den NutzerInnen, die Sie in die statistische Auswertung einbeziehen wollen
+assessment#:#eval_selected_users#:#Auswertung für ausgewählte NutzerInnen
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
@@ -325,7 +325,7 @@ assessment#:#log_random_question_pool_deleted#:#Alle ausgewählten Fragenpools d
 assessment#:#log_selected_user_data_removed#:#Testdaten des Nutzers/der Nutzerin %s entfernen
 assessment#:#log_total_amount_of_questions#:#Die Gesamtzahl der Fragen für den Zufallstest wurde auf %s gesetzt
 assessment#:#log_user_answered_question#:#Ein/e Nutzer/in beantwortet eine Frage und erhielt %s Punkte
-assessment#:#log_user_data_removed#:#Die Testdaten aller Nutzerinnen wurden entfernt
+assessment#:#log_user_data_removed#:#Die Testdaten aller NutzerInnen wurden entfernt
 assessment#:#log_user_entered_values#:#Der Nutzer/die Nutzerin hat Werte eingetragen
 assessment#:#log_user_not_entered_values#:#Der Nutzer/die Nutzerin hat keine Werte eingetragen
 assessment#:#maintenance#:#Wartung
@@ -353,7 +353,7 @@ assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BEST
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!
+assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
 assessment#:#not_worked_through#:#Unbeantwortet
 assessment#:#nr_of_correct_answers#:#Anzahl der erwünschten Antworten
 assessment#:#online_exam_show_answer_print_sheet#:#Sie haben Ihre Online-Prüfung beendet. Um ihre Antworten auszudrucken, klicken Sie bitte auf die Schaltfläche &quot;Druckansicht der Antworten&quot;.
@@ -459,7 +459,7 @@ assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#search_found_groups#:#Gefundene Gruppen
-assessment#:#search_found_users#:#Gefundene Nutzerinnen
+assessment#:#search_found_users#:#Gefundene NutzerInnen
 assessment#:#search_groups#:#nach Gruppen
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
@@ -498,7 +498,7 @@ assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
-assessment#:#tst_all_user_data_deleted#:#Die Testdaten aller Nutzerinnen wurden gelöscht!
+assessment#:#tst_all_user_data_deleted#:#Die Testdaten aller NutzerInnen wurden gelöscht!
 assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
 assessment#:#tst_allowed_users#:#Maximale Anzahl gleichzeitiger Teilnehmer und Teilnehmerinnen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit für Teilnehmer und Teilnehmerinnen
@@ -522,7 +522,7 @@ assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpool
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
-assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Nutzerinnen, die den Test durch Drücken der Test beenden Schaltfläche fertiggestellt haben)
+assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (NutzerInnen, die den Test durch Drücken der Test beenden Schaltfläche fertiggestellt haben)
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit aller Tests
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
@@ -639,9 +639,9 @@ assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 assessment#:#tst_select_qpls#:#Bitte wählen Sie einen Fragenpool zum Duplizieren aus
-assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
-assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
-assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus.
+assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage platzieren
+assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren
+assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence#:#Reihenfolge
@@ -662,8 +662,8 @@ assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Startzeit
-assessment#:#tst_stat_all_users#:#Alle Nutzer und Nutzerinnen
-assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Nutzerinnen aus der Liste aus)
+assessment#:#tst_stat_all_users#:#Alle Nutzer und NutzerInnen
+assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr NutzerInnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
 assessment#:#tst_stat_result_distancemean#:#Abstand zum arithmetischen Mittel
 assessment#:#tst_stat_result_distancemedian#:#Abstand zum Median
@@ -681,7 +681,7 @@ assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
 assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
-assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen
+assessment#:#tst_stat_selected_users#:#Ausgewählte NutzerInnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
@@ -715,7 +715,7 @@ assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#tt_varying_randomtest#:#Wechselnder Zufallstest
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
-assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Nutzerinnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
+assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_image#:#Bild hochladen
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
@@ -1091,7 +1091,7 @@ common#:#assessment_log_question#:#Frage
 common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
 common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
-common#:#assessment_log_user_answers#:#Aktionen der Nutzerinnen anzeigen
+common#:#assessment_log_user_answers#:#Aktionen der NutzerInnen anzeigen
 common#:#assessment_settings#:#Test&Assessment-Adminstration
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
@@ -1107,7 +1107,7 @@ common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
 common#:#associated_user#:#Mitglied
 common#:#associated_users#:#Mitglieder
-common#:#at_least_one_style#:#Es muß mindestens ein Style aktiviert sein.
+common#:#at_least_one_style#:#Es muss mindestens ein Style aktiviert sein.
 common#:#at_location#:#an Position
 common#:#attachment#:#Anhang
 common#:#attachments#:#Anhänge
@@ -1433,7 +1433,7 @@ common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_all_questions_answered_successfully#:#Sie haben bereits alle Fragen korrekt beantwortet.
 common#:#crs_archives#:#Archive
-common#:#crs_at_least_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet sein.
+common#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
 common#:#crs_create#:#Neuen Kurs anlegen
@@ -1481,8 +1481,8 @@ common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
 common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
 common#:#current_password#:#Derzeitiges Passwort
-common#:#custom_icon_size_big#:#Symbolgrösse anpassen (gross)
-common#:#custom_icon_size_small#:#Symbolgrösse anpassen (klein)
+common#:#custom_icon_size_big#:#Symbolgröße anpassen (gross)
+common#:#custom_icon_size_small#:#Symbolgröße anpassen (klein)
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#daily#:#täglich
@@ -2396,9 +2396,9 @@ common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
 common#:#mail_mails_of#:#Mail
-common#:#mail_maxsize_attach#:#Max. Attachment-Grösse
-common#:#mail_maxsize_box#:#Max. Mailbox-Grösse
-common#:#mail_maxsize_mail#:#Max. Mail-Grösse
+common#:#mail_maxsize_attach#:#Max. Attachment-Größe
+common#:#mail_maxsize_box#:#Max. Mailbox-Größe
+common#:#mail_maxsize_mail#:#Max. Mail-Größe
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Anhänge
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
 common#:#mail_members#:#Mail an Mitglieder
@@ -3209,7 +3209,7 @@ common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#beendet
-common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
+common#:#svy_invite#:#NutzerInnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
 common#:#svy_not_finished#:#nicht beendet
@@ -3317,7 +3317,7 @@ common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
-common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzeraccount muß noch vom Systemadministrator freigegeben werden. Wir bitten um Ihre Geduld.
+common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzeraccount muss noch vom Systemadministrator freigegeben werden. Wir bitten um Ihre Geduld.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
@@ -3595,7 +3595,7 @@ content#:#cont_characteristic#:#Art
 content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
 content#:#cont_choose_glossary#:#Wählen Sie das Glossar
 content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
-content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
+content#:#cont_citation_err_one#:#Für die Zitatfunktion muss genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
@@ -5406,10 +5406,10 @@ meta#:#meta_new_element#:#Neues Element
 meta#:#meta_no#:#Nein
 meta#:#meta_no_annotation#:#Keine Metadaten für den Bereich 'Anmerkung' vorhanden.
 meta#:#meta_no_classification#:#Keine Metadaten für den Bereich 'Klassifizierung' vorhanden.
-meta#:#meta_no_educational#:#Keine Metadaten für den Bereich 'Ausbildung' vorhanden.
+meta#:#meta_no_educational#:#Keine Metadaten für den Bereich 'Pädagogik' vorhanden.
 meta#:#meta_no_lifecycle#:#Keine Metadaten für den Bereich 'Lebenszyklus' vorhanden.
 meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Bereich 'Meta-Metadaten' vorhanden.
-meta#:#meta_no_relation#:#Keine Metadate für den Bereich 'Beziehungen' vorhanden.
+meta#:#meta_no_relation#:#Keine Metadaten für den Bereich 'Beziehungen' vorhanden.
 meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden.
 meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
 meta#:#meta_none#:#Keins
@@ -6111,7 +6111,7 @@ survey#:#invitation#:#Einladung
 survey#:#invitation_mode#:#Einladungsmodus
 survey#:#invite_participants#:#Teilnehmerinnen einladen
 survey#:#invited_groups#:#Eingeladene Gruppen
-survey#:#invited_users#:#Eingeladene Nutzerinnen
+survey#:#invited_users#:#Eingeladene NutzerInnen
 survey#:#label_resume_survey#:#Bitte geben Sie den aus 5 Zeichen bestehenden Zugangsschlüssel ein
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#layout#:#Layout
@@ -6151,7 +6151,7 @@ survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!
+survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
 survey#:#nominal_question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
@@ -6166,12 +6166,12 @@ survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
 survey#:#outro#:#Abschließende Bemerkung
-survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
+survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen Wert ausgewählt haben
 survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
-survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwort ausgewählt haben
+survey#:#percentage_of_selections#:#Prozentsatz der NutzerInnen, die diese Antwort ausgewählt haben
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#please_select#:#-- bitte auswählen --
-survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
+survey#:#predefined_users#:#Vordefinierte NutzerInnengruppe
 survey#:#preview#:#Vorschau
 survey#:#previous_question_rows#:#<< Fragen %d - %d von %d
 survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
@@ -6219,7 +6219,7 @@ survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten f
 survey#:#search_field_all#:#In allen Feldern suchen
 survey#:#search_for#:#Suchen nach
 survey#:#search_groups#:#Gruppen
-survey#:#search_invitation#:#Nutzerinnen oder Gruppen durchsuchen
+survey#:#search_invitation#:#NutzerInnen oder Gruppen durchsuchen
 survey#:#search_questions#:#Fragen suchen
 survey#:#search_roles#:#Gefundene Rollen
 survey#:#search_term#:#Suchbegriff(e)
@@ -6313,7 +6313,7 @@ survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die 
 survey#:#used#:#benutzt
 survey#:#users_answered#:#Beantwortet
 survey#:#users_skipped#:#Übersprungen
-survey#:#value_nr_entered#:#Anzahl der Nutzerinnen, die diesen Wert angegeben haben
+survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben haben
 survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
 survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folgenden Frage/des folgenden Fragenblocks:
@@ -6713,7 +6713,7 @@ assessment#:#number_of_answers#:#Anzahl der Antworten
 assessment#:#numeric_gap#:#Numerische Lücke
 assessment#:#tst_change_points_not_done#:#Die Punkte der Antwort konnten nicht geändert werden! Bitte überprüfen Sie den verfügbaren Wertebereich der erreichbaren Punkte.
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
-assessment#:#tst_no_evaluation_data#:#Der Test bislang noch von niemandem gestartet. Es ist keine Statistik verfügbar.
+assessment#:#tst_no_evaluation_data#:#Der Test wurde bislang noch von niemandem gestartet. Es ist keine Statistik verfügbar.
 assessment#:#tst_fixed_participating_users#:#Feste Teilnehmer in diesem Test
 assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
 assessment#:#tst_title_output#:#Ausgabe der Fragentitel
@@ -6826,7 +6826,7 @@ ldap#:#ldap_role_settings#:#Einstellungen zur LDAP-Gruppen Aktualisierung
 ldap#:#ldap_role_active#:#Gruppenaktualisierung eingeschaltet
 ldap#:#ldap_role_bind_user#:#Benutzername
 ldap#:#ldap_role_bind_pass#:#Passwort
-ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Benutzernamen ein. Dieser Benutzer muß Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
+ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Benutzernamen ein. Dieser Benutzer muss Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
 ldap#:#ldap_role_bind_pass_info#:#Passwort des LDAP-Benutzers.
 ldap#:#ldap_new_role_assignment#:#Neue Zuordnung anlegen
 ldap#:#ldap_ilias_role#:#ILIAS Rollenname
@@ -7236,13 +7236,13 @@ common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum 
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Nachrichten in diesem Forum benachrichtigt.
 common#:#object_copy_in_progress#:#Der Kopiervorgang wurde gestartet.
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
-trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der NutzerInnen muß die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen. 
+trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der NutzerInnen muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen. 
 trac#:#trac_mode_visits_info#:#Nur die NutzerInnen, die eine festgelegte Anzahl von Aufrufen erreicht haben, erhalten den Status 'Bearbeitet'.
 trac#:#trac_mode_manual_info#:#Die NutzerInnen entscheiden selbst, ob Sie den Status 'Bearbeitet' haben oder nicht.
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
 trac#:#trac_mode_collection_info#:#Der Gesamtstatus wird automatisch anhand der ausgewählten Materialien bestimmt.
 trac#:#trac_mode_scorm_info#:#Der Gesamtstatus wird durch die ausgewählten SCORM-Materialien bestimmt.
-trac#:#trac_mode_test_passed_info#:#Der Test muß bestanden sein.
+trac#:#trac_mode_test_passed_info#:#Der Test muss bestanden sein.
 trac#:#trac_mode_exercise_returned_info#:#Der Status kann nur durch Tutoren bestimmt werden.
 trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutoren
 trac#:#trac_mode_manual_by_tutor_info#:#Der Gesamtstatus kann nur durch Tutoren gesetzt werden.
