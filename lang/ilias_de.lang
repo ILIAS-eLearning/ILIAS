@@ -277,6 +277,7 @@ assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbei
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
+assessment#:#disable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu deaktivieren
 assessment#:#duplicate#:#Duplizieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
@@ -309,6 +310,7 @@ assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgef
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#edit_content#:#Inhalt bearbeiten
 assessment#:#edit_properties#:#Eigenschaften bearbeiten
+assessment#:#enable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu aktivieren
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#enlarge#:#vergrößern
@@ -421,6 +423,9 @@ assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet ke
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, den Sie bewerten wollen
 assessment#:#mark_schema#:#Notenschema
+assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
+assessment#:#mark_tst_failed#:#Leider haben Sie den Test nicht bestanden.<br />Sie haben die Note&quot;[mark]&quot; erzielt.
+assessment#:#mark_tst_passed#:#Herzlichen Glückwunsch! Sie haben den Test bestanden und dabei die Note &quot;[mark]&quot; erzielt.
 assessment#:#matches#:#passt zu
 assessment#:#matching_pair#:#Zuordnungspaar
 assessment#:#matching_question_javascript_hint#:#Bitte ziehen Sie eine Definition bzw. ein Bild auf der rechten Seite in einen der Zielbereiche neben den Termen, um eine Definition bzw. ein Bild dem nebenstehenden Term zuzuordnen.
@@ -534,6 +539,8 @@ assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fra
 assessment#:#questions_from#:#Fragen aus
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
+assessment#:#question_marking#:#Fragenmarkierungen anzeigen
+assessment#:#question_marking_description#:#Wenn diese Option ausgewählt ist, haben alle Testteilnehmer die Möglichkeit, beliebige Fragen mit einer Markierung zu versehen. Damit kann z.B. angezeigt werden, dass eine Frage noch einmal überprüft werden muss, dass eine Frage nicht beantwortet wurde oder dass eine Frage korrekt gelöst wurde. Die Markierungen werden auch in der Fragenübersicht (sofern aktiviert) angezeigt.
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
@@ -758,6 +765,9 @@ assessment#:#tst_qst_setsolved#:#markiere als gelöst
 assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
+assessment#:#tst_question_mark#:#Diese Frage markieren
+assessment#:#tst_question_marked#:#Sie haben die Frage markiert
+assessment#:#tst_question_marker#:#Markierung
 assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
 assessment#:#tst_question_selection#:#Fragenauswahl
@@ -766,6 +776,7 @@ assessment#:#tst_question_selection_equal#:#Nur Fragenpools mit Fragen gleicher 
 assessment#:#tst_question_solved_state#:#Gelöst
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Fragentyp
+assessment#:#tst_question_unmark#:#Markierung für diese Frage entfernen
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
 assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.
 assessment#:#tst_random_questionpools#:#Fragenpools
@@ -778,6 +789,7 @@ assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen 
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
+assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach dem Test-Start anbieten
 assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage anzeigen
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach dem Abschluss eines Testdurchlaufs anbieten
@@ -1288,6 +1300,7 @@ common#:#are_you_sure#:#Sind Sie sicher?
 common#:#arrow_downright#:#Pfeil von oben nach unten rechts
 common#:#articels_unread#:#Ungelesene Beiträge
 common#:#ascending_order#:#Aufsteigende Reihenfolge
+common#:#assessment_defaults#:#Standardeinstellungen für Test & Assessment
 common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_deleted#:#Alle protokollierten Daten für den Test wurden über die Administrationsoberfläche gelöscht.
@@ -1306,6 +1319,8 @@ common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der NutzerInnen anzeigen
 common#:#assessment_settings#:#Test&Assessment-Adminstration
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
+common#:#assessment_use_javascript#:#JavaScript für Ziehen und Ablegen
+common#:#assessment_use_javascript_desc#:#Selektiert die JavaScript-Unterstützung für Ziehen und Ablegen in Tests, wenn NutzerInnen diese zum ersten Mal aufrufen
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragentypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragentypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragentypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragentypen entfernen.
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
@@ -2486,6 +2501,8 @@ common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
 common#:#internal_system#:#Internes System
+common#:#invisible_block#:#Invisible Block###25 05 2007 new variable
+common#:#invisible_block_mess#:#You do not have the permission to view this block.###25 05 2007 new variable
 common#:#in_use#:#Benutzersprache
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
@@ -4182,6 +4199,7 @@ content#:#cont_offline#:#Offline Versionen
 content#:#cont_offline_files#:#Offline-Version
 content#:#cont_offline_versions#:#Offline-Versionen
 content#:#cont_online#:#Online
+content#:#cont_operation_not_allowed#:#This operation is not allowed.###25 05 2007 new variable
 content#:#cont_or#:#oder
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
@@ -4561,6 +4579,7 @@ crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_chapter_selected#:#Bitte wählen Sie mindestens ein Kapitel aus.
+crs#:#crs_no_exercises#:#No exercises found inside this course###25 05 2007 new variable
 crs#:#crs_no_groupings_assigned#:#Diesem Kurs sind keine Gruppierungen zugeordnet.
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Objekte vorhanden
@@ -5297,6 +5316,18 @@ jscalendar#:#time_part#:#(Umschalten-)Klick oder Festhalten und Ziehen um den We
 jscalendar#:#today#:#Heute
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
+jsmath#:#jsmath_default_setting#:#Als Standard verwenden
+jsmath#:#jsmath_default_setting_info#:#Ist diese Option ausgewählt, wird jsMath für die ILIAS-Nutzer als Standardmethode zur Erzeugung von mathematischen Ausdrücken im LaTeX-Format verwendet, die die jsMath-Ausgabe noch nicht in Ihren persönlichen Einstellungen aktiviert oder deaktiviert haben.
+jsmath#:#jsmath_enable_jsmath#:#jsMath aktivieren
+jsmath#:#jsmath_enable_jsmath_info#:#Aktiviert die Unterstützung für die jsMath-basierte Ausgabe von mathematischen Inhalten in Form von LaTeX-Ausdrücken
+jsmath#:#jsmath_enable_user#:#jsMath-Unterstützung aktivieren
+jsmath#:#jsmath_enable_user_desc#:#jsMath für die Ausgabe von mathematischen Ausdrücken aktivieren. Die jsMath-Ausgabe erzeugt frei skalierbaren Text und benötigt dazu aktiviertes JavaScript im Webbrowser. Wenn die jsMath-Ausgabe deaktiviert ist, werden die mathematischen Ausdrücke als Grafikausgabe erzeugt (sofern aktiviert)
+jsmath#:#jsmath_extt_jsmath#:#jsMath
+jsmath#:#jsmath_no_javascript#:#Wenn Sie keinen korrekt ausgegebenen mathematischen Ausdruck neben diesem Hinweistext sehen, haben Sie jsMath für die Ausgabe von mathematischen Ausdrücken aktiviert, aber Ihr Webbrowser unterstützt kein JavaScript bzw. Sie haben JavaScript deaktiviert. Um die mathematischen Ausdrücke korrekt darzustellen, aktivieren Sie bitte JavaScript in Ihrem Webbrowser und laden Sie diese Seite neu. Oder deaktivieren Sie die jsMath-Ausgabe in Ihren persönlichen Einstellungen unter <strong>Persönlicher Schreibtisch &gt; Persönliches Profil &gt; jsMath</strong>
+jsmath#:#jsmath_path_not_found#:#ILIAS kann die Datei jsMath.js nicht im angegebenen Verzeichnis finden. Bitte überprüfen Sie die Position der jsMath-Bibliothek auf Ihrem Server!
+jsmath#:#jsmath_path_to_jsmath#:#Pfad zur jsMath-Bibliothek
+jsmath#:#jsmath_path_to_jsmath_desc#:#Der Pfad zum Basisverzeichnis der jsMath-Bibliothek, relativ zum ILIAS-Basisverzeichnis, also z.B. &quot;./Services/Javascript/jsMath&quot;
+jsmath#:#jsmath_settings#:#jsMath Einstellungen
 ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
 ldap#:#ldap_bind_anonymous#:#Anonym verbinden
 ldap#:#ldap_bind_user#:#Als Benutzer verbinden:
@@ -6317,9 +6348,14 @@ payment#:#pay_update_view#:#Ansicht aktualisieren
 payment#:#prices#:#Preise
 payment#:#price_a#:#Preis
 payment#:#update#:#Aktualisieren
+pd#:#pd_enable_active_users#:#Enable Active Users Block###25 05 2007 new variable
 pd#:#pd_enable_block_moving#:#Enable Block Moving###02 04 2007 new variable
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.###02 04 2007 new variable
+pd#:#pd_osi_host#:#OSI Host###25 05 2007 new variable
+pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###25 05 2007 new variable
 pd#:#pd_settings#:#Personal Desktop Settings###02 04 2007 new variable
+pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###25 05 2007 new variable
+pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###25 05 2007 new variable
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)###25 02 2007 new variable
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)###25 02 2007 new variable
 pdesk#:#pdesk_feedbacks#:#Feedback Request(s)###25 02 2007 new variable
