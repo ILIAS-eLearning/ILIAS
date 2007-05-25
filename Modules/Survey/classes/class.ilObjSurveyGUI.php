@@ -3155,6 +3155,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilUser;
 		
 		$default_lang = $ilUser->getPref("survey_code_language");
+		$tableoutput = "";
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", true);
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
@@ -3186,6 +3187,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$tbl->disable("sort");
 				$tbl->disable("auto_sort");
 				$tbl->disable("title");
+				$tbl->disable("form");
 				$tbl->enable("action");
 				$tbl->enable("select_all");
 				$tbl->setLimit($maxentries);
@@ -3205,7 +3207,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
 				// render table
 				$tableoutput = $tbl->render();
-				$this->tpl->setVariable("CODES_TABLE", $tableoutput);
+				$this->tpl->setCurrentBlock("exportall");
+				$this->tpl->setVariable("VALUE_EXPORT_ALL_CODES", $this->lng->txt("export_all_survey_codes"));
+				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
@@ -3229,6 +3233,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "codes"));
+			$this->tpl->setVariable("CODES_TABLE", $tableoutput);
 			$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES_LANG", $this->lng->txt("survey_codes_lang"));
@@ -3279,6 +3284,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->codesObject();
 		}
+	}
+	
+	/**
+	* Exports all survey codes
+	*
+	* Exports all survey codes
+	*
+	* @access private
+	*/
+	function exportAllCodesObject()
+	{
+		$export = $this->object->getSurveyCodesForExport(array());
+		ilUtil::deliverData($export, ilUtil::getASCIIFilename($this->object->getTitle() . ".txt"));
 	}
 	
 	/**

@@ -4813,17 +4813,34 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT * FROM survey_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
+/*		$query = sprintf("SELECT * FROM survey_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
+*/
+		$query = sprintf("SELECT survey_anonymous.*, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key)",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
+		$result = $ilDB->query($query);
+
+
 		$result = $ilDB->query($query);
 		$export = "";
 		$lang = ($_POST["lang"] != 1) ? "&amp;lang=" . $_POST["lang"] : "";
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (in_array($row["survey_key"], $a_array))
+			if (in_array($row["survey_key"], $a_array) || (count($a_array) == 0))
 			{
 				$export .= $row["survey_key"] . ",";
+				$created = ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date");
+				$export .= "$created,";
+				if ($this->isSurveyCodeUsed($row["survey_key"]))
+				{
+					$export .= "1,";
+				}
+				else
+				{
+					$export .= "0,";
+				}
 				$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$lang;
 				$export .= $url . "\n";
 			}
