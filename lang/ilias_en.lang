@@ -588,7 +588,7 @@ assessment#:#save_before_upload_imagemap#:#You must apply your changes before yo
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
 assessment#:#save_edit#:#Save and Edit Content
 assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;
-assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is:
+assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;
 assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
 assessment#:#save_finish#:#Finish the Test
 assessment#:#save_introduction#:#Go to Introduction
