@@ -228,25 +228,31 @@ class ilTestServiceGUI
 		$result_total_max = $total_max;
 
 		$mark = "";
+		$markects = "";
 		$mark_obj = $this->object->mark_schema->getMatchingMark($result_percentage);
 		if ($mark_obj)
 		{
 			if ($mark_obj->getPassed()) 
 			{
-				$mark = $this->lng->txt("tst_result_congratulations");
+				$mark = $this->lng->txt("mark_tst_passed");
 			} 
 			else 
 			{
-				$mark = $this->lng->txt("tst_result_sorry");
+				$mark = $this->lng->txt("mark_tst_failed");
 			}
-			$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->getOfficialName() . "&quot;";
+			$mark = str_replace("[mark]", $mark_obj->getOfficialName(), $mark);
+			$mark = str_replace("[markshort]", $mark_obj->getShortName(), $mark);
+			$mark = str_replace("[percentage]", sprintf("%.2f", $result_percentage), $mark);
+			$mark = str_replace("[reached]", $result_total_reached, $mark);
+			$mark = str_replace("[max]", $result_total_max, $mark);
 		}
 		if ($this->object->ects_output)
 		{
 			$ects_mark = $this->object->getECTSGrade($result_total_reached, $result_total_max);
-			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
+			$markects = $this->lng->txt("mark_tst_ects");
+			$markects = str_replace("[markects]", $this->lng->txt("ects_grade_". strtolower($ects_mark)), $markects);
 		}
-		return $mark;
+		return array("mark" => $mark, "markects" => $markects);
 	}
 
 /**
@@ -393,58 +399,6 @@ class ilTestServiceGUI
 */
 	function getPassDetailsOverview(&$result_array, $active_id, $pass, $targetclass = "", $targetcommandsort = "", $targetcommanddetails = "")
 	{
-		/**
-		* Helper function to sort the pass details by percentage
-		*/
-		function sort_percent($a, $b) 
-		{
-			if (strcmp($_GET["order"], "ASC")) 
-			{
-				$smaller = 1;
-				$greater = -1;
-			} 
-			else 
-			{
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["percent"] == $b["percent"]) 
-			{
-				if ($a["nr"] == $b["nr"]) return 0;
-		 	 	return ($a["nr"] < $b["nr"]) ? -1 : 1;
-			}
-			$apercent = 0.0;
-			if ($a["max"] != 0) 
-			{
-				$apercent = $a["reached"] / $a["max"];
-			}
-			$bpercent = 0.0;
-			if ($b["max"] != 0)
-			{
-				$bpercent = $b["reached"] / $b["max"];
-			}
-			return ($apercent < $bpercent) ? $smaller : $greater;
-		}
-
-		/**
-		* Helper function to sort the pass details by the question sequence
-		*/
-		function sort_nr($a, $b) 
-		{
-			if (strcmp($_GET["order"], "ASC")) 
-			{
-				$smaller = 1;
-				$greater = -1;
-			} 
-			else 
-			{
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["nr"] == $b["nr"]) return 0;
-			return ($a["nr"] < $b["nr"]) ? $smaller : $greater;
-		}
-
 		global $ilUser;
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -466,42 +420,6 @@ class ilTestServiceGUI
 
 		$img_title_percent = "";
 		$img_title_nr = "";
-		switch ($_GET["sortres"]) 
-		{
-			case "percent":
-				usort($result_array, "sort_percent");
-				$img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) 
-				{
-					$sortpercent = "DESC";
-				} 
-				else 
-				{
-					$sortpercent = "ASC";
-				}
-				break;
-			case "nr":
-				usort($result_array, "sort_nr");
-				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) 
-				{
-					$sortnr = "DESC";
-				} 
-				else 
-				{
-					$sortnr = "ASC";
-				}
-				break;
-		}
-		if (!$sortpercent) 
-		{
-			$sortpercent = "ASC";
-		}
-		if (!$sortnr) 
-		{
-			$sortnr = "ASC";
-		}
-
 		foreach ($result_array as $key => $value) 
 		{
 			if (preg_match("/\d+/", $key)) 
@@ -560,38 +478,8 @@ class ilTestServiceGUI
 		$template->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$template->parseCurrentBlock();
 
-		if (strlen($targetclass) && strlen($targetcommandsort))
-		{
-			$template->setCurrentBlock("question_counter_url");
-			$this->ctrl->setParameterByClass($targetclass, "sortres", "nr");
-			$this->ctrl->setParameterByClass($targetclass, "order", "$sortnr");
-			$template->setVariable("URL_QUESTION_COUNTER",  $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
-			$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no") . $img_title_nr);
-			$template->parseCurrentBlock();
-		}
-		else
-		{
-			$template->setCurrentBlock("question_counter_plain");
-			$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
-			$template->parseCurrentBlock();
-		}
-
-		if (strlen($targetclass) && strlen($targetcommandsort))
-		{
-			$template->setCurrentBlock("percent_url");
-			$this->ctrl->setParameterByClass($targetclass, "sortres", "percent");
-			$this->ctrl->setParameterByClass($targetclass, "order", "$sortpercent");
-			$template->setVariable("URL_PERCENT_SOLVED",  $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
-			$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved") . $img_title_percent);
-			$template->parseCurrentBlock();
-		}
-		else
-		{
-			$template->setCurrentBlock("percent_plain");
-			$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
-			$template->parseCurrentBlock();
-		}
-
+		$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
+		$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
 		$template->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$template->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
 		$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));

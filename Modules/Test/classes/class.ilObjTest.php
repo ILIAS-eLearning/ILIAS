@@ -8222,6 +8222,13 @@ class ilObjTest extends ilObject
 			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 			return $result;
 		}
+		
+		if ($active->submitted)
+		{
+			$result["executable"] = FALSE;
+			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
+			return $result;
+		}
 
 		// TODO: max. processing time
 
