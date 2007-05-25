@@ -6504,6 +6504,7 @@ survey#:#exit#:#Exit
 survey#:#exp_type_csv#:#Comma Separated Value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_data_as#:#Export Data As
+survey#:#export_all_survey_codes#:#Export all Access Codes
 survey#:#fill_out_all_category_fields#:#Please fill out all answer fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add answers!
 survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete answers!
