@@ -424,7 +424,7 @@ assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchl
 assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, den Sie bewerten wollen
 assessment#:#mark_schema#:#Notenschema
 assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
-assessment#:#mark_tst_failed#:#Leider haben Sie den Test nicht bestanden.<br />Sie haben die Note&quot;[mark]&quot; erzielt.
+assessment#:#mark_tst_failed#:#Leider haben Sie den Test nicht bestanden.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#mark_tst_passed#:#Herzlichen Glückwunsch! Sie haben den Test bestanden und dabei die Note &quot;[mark]&quot; erzielt.
 assessment#:#matches#:#passt zu
 assessment#:#matching_pair#:#Zuordnungspaar
