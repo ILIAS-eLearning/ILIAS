@@ -358,7 +358,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->tpl->setCurrentBlock("news_context");
 			$this->tpl->setVariable("TYPE", $lng->txt($type));
 			$this->tpl->setVariable("IMG_TYPE",
-				ilUtil::getImagePath("icon_".$news["context_obj_type"]."_s.gif"));
+				ilObject::_getIcon($news["context_obj_id"], "tiny", $news["context_obj_type"]));
 			$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($news["context_obj_id"]));
 			if ($news["user_read"] > 0)
 			{
@@ -520,7 +520,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
 			$tpl->setVariable("CONTEXT_TITLE", $obj_title);
 			$tpl->setVariable("IMG_CONTEXT_TITLE",
-				ilUtil::getImagePath("icon_".$obj_type."_b.gif"));
+				ilObject::_getIcon($obj_id, "big", $obj_type));
 			$tpl->parseCurrentBlock();
 
 			$tpl->setVariable("HREF_TITLE", $url_target);

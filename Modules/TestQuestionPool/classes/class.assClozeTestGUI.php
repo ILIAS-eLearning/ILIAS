@@ -557,7 +557,9 @@ class assClozeTestGUI extends assQuestionGUI
 
 		// out automatical selection of the best text input field (javascript)
 		$this->tpl->setCurrentBlock("HeadContent");
-		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
+			"function initialSelect() {\n%s\n}</script>";
 		if (preg_match("/addGapText_(\d+)/", $this->ctrl->getCmd(), $matches))
 		{
 			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.textgap_" . $matches[1] . "_" .(is_object($this->object->getGap($matches[1])) ? $this->object->getGap($matches[1])->getItemCount() - 1 : 0) .".focus(); document.frm_cloze_test.textgap_" . $matches[1] . "_" . (is_object($this->object->getGap($matches[1])) ? $this->object->getGap($matches[1])->getItemCount() - 1 : 0) .".scrollIntoView(\"true\");"));
@@ -637,7 +639,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
+		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 	}
 

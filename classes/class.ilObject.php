@@ -1543,5 +1543,51 @@ class ilObject
 		$md->cloneMD($target_obj->getId(),0,$target_obj->getType());
 		return true;	 	
 	}
+	
+	public function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "")
+	{
+		global $ilSetting;
+		
+		if ($a_obj_id == "" && $a_type == "")
+		{
+			return "";
+		}
+		
+		if ($a_type == "")
+		{
+			$a_type = ilObject::_lookupType($a_obj_id);
+		}
+		
+		if ($a_size == "")
+		{
+			$a_size = "big";
+		}
+		
+		if ($ilSetting->get("custom_icons") &&
+			in_array($a_type, array("cat","grp","crs", "root")))
+		{
+			require_once("classes/class.ilContainer.php");
+			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_".$a_size))
+			{
+				$cont_dir = ilContainer::_getContainerDirectory($a_obj_id);
+				$file_name = $cont_dir."/icon_".$a_size.".gif";
+	
+				if (is_file($file_name))
+				{
+					return $file_name;
+				}
+			}
+		}
+		
+		switch($a_size)
+		{
+			case "small": $suff = ""; break;
+			case "tiny": $suff = "_s"; break;
+			default: $suff = "_b"; break;
+		}
+		
+		return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+	}
+	
 } // END class.ilObject
 ?>

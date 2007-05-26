@@ -170,7 +170,7 @@ class ilLocatorGUI
 				{
 					$this->addItem($row["title"],
 						"./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".$row["type"]."_".$row["child"],
-						"", $row["child"]);
+						"_top", $row["child"]);
 				}
 			}
 		}
@@ -210,7 +210,7 @@ class ilLocatorGUI
 	*/
 	function getHTML()
 	{
-		global $lng;
+		global $lng, $ilSetting;
 		
 		$loc_tpl = new ilTemplate("tpl.locator.html", true, true);
 		
@@ -228,11 +228,13 @@ class ilLocatorGUI
 				
 				if ($item["ref_id"] > 0)
 				{
-					$loc_tpl->setCurrentBlock("locator_img");
 					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 					$type = ilObject::_lookupType($obj_id);
-					$loc_tpl->setVariable("IMG_SRC",
-						ilUtil::getImagePath("icon_".$type."_s.gif"));
+					
+					$icon_path = ilObject::_getIcon($obj_id, "tiny", $type);
+					
+					$loc_tpl->setCurrentBlock("locator_img");					
+					$loc_tpl->setVariable("IMG_SRC", $icon_path);
 					$loc_tpl->setVariable("IMG_ALT",
 						$lng->txt("obj_".$type));
 					$loc_tpl->parseCurrentBlock();

@@ -644,7 +644,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			if ($this->ilias->getSetting("custom_icons"))
 			{
 				$this->object->saveIcons($_FILES["cont_big_icon"],
-					$_FILES["cont_small_icon"]);
+					$_FILES["cont_small_icon"], $_FILES["cont_tiny_icon"]);
 			}
 			
 			$this->update = $this->object->update();

@@ -106,6 +106,16 @@ class ilContainer extends ilObject
 	{
 		return ilContainer::_lookupIconPath($this->getId(), "small");
 	}
+
+	/**
+	* Get path for tiny icon
+	*
+	* @return	string	icon path
+	*/
+	function getTinyIconPath()
+	{
+		return ilContainer::_lookupIconPath($this->getId(), "tiny");
+	}
 	
 	/**
 	* Lookup a container setting.
@@ -146,17 +156,20 @@ class ilContainer extends ilObject
 	* @param	int		$a_id		container object id
 	* @param	string	$a_size		"big" | "small"
 	*/
-	function _lookupIconPath($a_id, $a_size)
+	function _lookupIconPath($a_id, $a_size = "big")
 	{
-		$size = ($a_size == "small")
-			? "small"
-			: "big";
-
+		if ($a_size == "")
+		{
+			$a_size = "big";
+		}
+		
+		$size = $a_size;
+		
 		if (ilContainer::_lookupContainerSetting($a_id, "icon_".$size))
 		{
 			$cont_dir = ilContainer::_getContainerDirectory($a_id);
 			$file_name = $cont_dir."/icon_".$a_size.".gif";
-			
+
 			if (is_file($file_name))
 			{
 				return $file_name;
@@ -169,7 +182,7 @@ class ilContainer extends ilObject
 	/**
 	* save container icons
 	*/
-	function saveIcons($a_big_icon, $a_small_icon)
+	function saveIcons($a_big_icon, $a_small_icon, $a_tiny_icon)
 	{
 		global $ilDB;
 		
@@ -180,6 +193,7 @@ class ilContainer extends ilObject
 		$big_geom = $this->ilias->getSetting("custom_icon_big_width")."x".
 			$this->ilias->getSetting("custom_icon_big_height");
 		$big_file_name = $cont_dir."/icon_big.gif";
+
 		if (is_file($a_big_icon["tmp_name"]))
 		{
 			$a_big_icon["tmp_name"] = ilUtil::escapeShellArg($a_big_icon["tmp_name"]);
@@ -216,6 +230,27 @@ class ilContainer extends ilObject
 		else
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_small", 0);
+		}
+
+		// save tiny icon
+		$tiny_geom = $this->ilias->getSetting("custom_icon_tiny_width")."x".
+			$this->ilias->getSetting("custom_icon_tiny_height");
+		$tiny_file_name = $cont_dir."/icon_tiny.gif";
+
+		if (is_file($a_tiny_icon["tmp_name"]))
+		{
+			$a_tiny_icon["tmp_name"] = ilUtil::escapeShellArg($a_tiny_icon["tmp_name"]);
+			$tiny_file_name = ilUtil::escapeShellArg($tiny_file_name);
+			$cmd = ilUtil::getConvertCmd()." ".$a_tiny_icon["tmp_name"]."[0] -geometry $tiny_geom GIF:$tiny_file_name";
+			system($cmd);
+		}
+		if (is_file($cont_dir."/icon_tiny.gif"))
+		{
+			ilContainer::_writeContainerSetting($this->getId(), "icon_tiny", 1);
+		}
+		else
+		{
+			ilContainer::_writeContainerSetting($this->getId(), "icon_tiny", 0);
 		}
 
 	}

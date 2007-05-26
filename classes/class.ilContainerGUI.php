@@ -1725,18 +1725,28 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 				$this->tpl->setVariable("SRC_SMALL_ICON", $small_icon);
 				$this->tpl->parseCurrentBlock();
 			}
+			if (($tiny_icon = $this->object->getTinyIconPath()) != "")
+			{
+				$this->tpl->setCurrentBlock("tiny_icon");
+				$this->tpl->setVariable("SRC_TINY_ICON", $tiny_icon);
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("container_icon_settings");
 			$this->tpl->setVariable("SPAN_TITLE", $a_input_colspan + 1);
 			$this->tpl->setVariable("SPAN_INPUT", $a_input_colspan);
 			$this->tpl->setVariable("ICON_SETTINGS", $this->lng->txt("icon_settings"));
 			$this->tpl->setVariable("BIG_ICON", $this->lng->txt("big_icon"));
 			$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("small_icon"));
+			$this->tpl->setVariable("TINY_ICON", $this->lng->txt("tiny_icon"));
 			$this->tpl->setVariable("BIG_SIZE", "(".
 				$this->ilias->getSetting("custom_icon_big_width")."x".
 				$this->ilias->getSetting("custom_icon_big_height").")");
 			$this->tpl->setVariable("SMALL_SIZE", "(".
 				$this->ilias->getSetting("custom_icon_small_width")."x".
 				$this->ilias->getSetting("custom_icon_small_height").")");
+			$this->tpl->setVariable("TINY_SIZE", "(".
+				$this->ilias->getSetting("custom_icon_tiny_width")."x".
+				$this->ilias->getSetting("custom_icon_tiny_height").")");
 			$this->tpl->setVariable("TXT_REMOVE", $this->lng->txt("remove"));
 			$this->tpl->parseCurrentBlock();
 		}

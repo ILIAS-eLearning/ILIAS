@@ -78,7 +78,9 @@ class assNumericGUI extends assQuestionGUI
 	*/
 	function editQuestion()
 	{
-		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
+			"function initialSelect() {\n%s\n}</script>";
 		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_numeric.html", "Modules/TestQuestionPool");
 		// call to other question data i.e. estimated working time block

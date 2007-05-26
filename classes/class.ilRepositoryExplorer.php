@@ -310,16 +310,7 @@ class ilRepositoryExplorer extends ilExplorer
 	{
 		if ($a_type != "")
 		{
-			// custom icons
-			if ($this->ilias->getSetting("custom_icons") &&
-				in_array($a_type, array("cat","grp","crs")))
-			{
-				require_once("classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($a_obj_id, "small")) != "")
-				{
-					return $path;
-				}
-			}
+			return ilObject::_getIcon($a_obj_id, "small", $a_type);
 		}
 		
 		return parent::getImage($a_name);

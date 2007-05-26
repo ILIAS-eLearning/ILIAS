@@ -80,7 +80,10 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	function editQuestion()
 	{
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
+		
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
+			"function initialSelect() {\n%s\n}</script>";
 		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
 		$multiline_answers = $this->object->getMultilineAnswerSetting();
 		if ($graphical_answer_setting == 0)
@@ -300,7 +303,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
+		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 	}
 
