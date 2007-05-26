@@ -363,7 +363,7 @@ class ilPersonalProfileGUI
 			}
 			else
 			{
-				$ilUser->setPref("public_delicous","n");
+				$ilUser->setPref("public_delicious","n");
 			}
 		}
 

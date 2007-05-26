@@ -66,7 +66,9 @@ class assTextQuestionGUI extends assQuestionGUI
 	*/
 	function editQuestion()
 	{
-		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
+			"function initialSelect() {\n%s\n}</script>";
 		// single response
 		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_text_question.html", "Modules/TestQuestionPool");
@@ -174,7 +176,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
+		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 	}
 

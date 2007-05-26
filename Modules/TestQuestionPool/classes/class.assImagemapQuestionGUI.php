@@ -316,7 +316,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("HeadContent");
-			$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
+			$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+			$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
+				"function initialSelect() {\n%s\n}</script>";
 			if (strcmp($_GET["markarea"], "") != 0)
 			{
 				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_imagemap.answer_".$_GET["markarea"].".focus(); document.frm_imagemap.answer_".$_GET["markarea"].".scrollIntoView(\"true\");"));
@@ -452,7 +454,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 			$rte->addRTESupport($obj_id, $obj_type, "assessment");
 			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
+			//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 			$this->tpl->parseCurrentBlock();
 		}
 	}

@@ -1391,4 +1391,7 @@ ADD `page` TINYINT( 2 ) NOT NULL AFTER `failed` ;
 
 <#994>
 TRUNCATE TABLE `usr_search`;
+<#995>
+REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_width', 16);
+REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_height', 16);
 

@@ -81,7 +81,7 @@ class ilUserFeedWriter extends ilFeedWriter
 				$feed_item->setDescription($this->prepareStr($item["content"]));
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
-				$feed_item->setAbout(ILIAS_HTTP_PATH."/feed".$item["id"]);
+				$feed_item->setAbout($feed_item->getLink()."&amp;il_about_feed=".$item["id"]);
 				$this->addItem($feed_item);
 			}
 		}

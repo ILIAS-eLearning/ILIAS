@@ -86,8 +86,10 @@ static $test;
 				$tpl->setVariable("HREF_ITEM", $item["link"]);
 				$tpl->setVariable("CSS_ROW", $this->css_row);
 				$tpl->setVariable("TXT_ITEM", $item["title"]);
+				
+				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 				$tpl->setVariable("IMG_ITEM",
-					ilUtil::getImagePath("icon_".$item["type"]."_s.gif"));
+					ilObject::_getIcon($obj_id, "tiny", $item["type"]));
 				$tpl->setVariable("ALT_ITEM", $lng->txt("obj_".$item["type"]));
 				$tpl->parseCurrentBlock();
 			}

@@ -378,26 +378,31 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	
 	function addSubtabs(&$tabs_gui)
 	{
-		$tabs_gui->addSubTabTarget("adve_general_settings",
-										 $this->ctrl->getLinkTarget($this, "settings"),
-										 array("", "view", "settings", "saveSettings"),
-										 "", "");
-		$tabs_gui->addSubTabTarget("adve_assessment_settings",
-										 $this->ctrl->getLinkTarget($this, "assessment"),
-										 array("assessment", "saveAssessmentSettings"),
-										 "", "");
-		$tabs_gui->addSubTabTarget("adve_survey_settings",
-										 $this->ctrl->getLinkTarget($this, "survey"),
-										 array("survey", "saveSurveySettings"),
-										 "", "");
-		$tabs_gui->addSubTabTarget("adve_cat_settings",
-										 $this->ctrl->getLinkTarget($this, "category"),
-										 array("category", "saveCategorySettings"),
-										 "", "");
-		$tabs_gui->addSubTabTarget("adve_lm_settings",
-										 $this->ctrl->getLinkTarget($this, "learningModule"),
-										 array("learningModule", "saveLearningModuleSettings"),
-										 "", "");
+		global $ilCtrl;
+		
+		if ($ilCtrl->getNextClass() != "ilpermissiongui")
+		{
+			$tabs_gui->addSubTabTarget("adve_general_settings",
+											 $this->ctrl->getLinkTarget($this, "settings"),
+											 array("", "view", "settings", "saveSettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_assessment_settings",
+											 $this->ctrl->getLinkTarget($this, "assessment"),
+											 array("assessment", "saveAssessmentSettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_survey_settings",
+											 $this->ctrl->getLinkTarget($this, "survey"),
+											 array("survey", "saveSurveySettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_cat_settings",
+											 $this->ctrl->getLinkTarget($this, "category"),
+											 array("category", "saveCategorySettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_lm_settings",
+											 $this->ctrl->getLinkTarget($this, "learningModule"),
+											 array("learningModule", "saveLearningModuleSettings"),
+											 "", "");
+		}
 	}
 	
 	/**

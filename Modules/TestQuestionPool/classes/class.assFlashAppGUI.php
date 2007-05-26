@@ -218,7 +218,9 @@ class assFlashAppGUI extends assQuestionGUI
 		}
 
 		$this->tpl->setCurrentBlock("HeadContent");
-		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
+			"function initialSelect() {\n%s\n}</script>";
 		$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_javaapplet.title.focus();"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("question_data");
@@ -261,7 +263,7 @@ class assFlashAppGUI extends assQuestionGUI
 		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
+		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 
 	}
