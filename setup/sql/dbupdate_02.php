@@ -1394,4 +1394,5 @@ TRUNCATE TABLE `usr_search`;
 <#995>
 REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_width', 16);
 REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_height', 16);
-
+<#996>
+DELETE FROM rbac_ta WHERE ops_id = 46;
