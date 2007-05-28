@@ -2712,6 +2712,8 @@ common#:#mep_not_insert_already_exist#:#The following items have not been insert
 common#:#mep_read#:#Read Media Pool Content
 common#:#mep_visible#:#Media Pool is visible
 common#:#mep_write#:#Edit Media Pool Content
+common#:#mcst_delete#:#Delete Mediacast
+common#:#feed_delete#:#Delete Web Feed
 common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_no_delivered_files#:#You do not have submitted any files.
