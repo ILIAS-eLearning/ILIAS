@@ -1394,6 +1394,7 @@ TRUNCATE TABLE `usr_search`;
 <#995>
 REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_width', 16);
 REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_height', 16);
+
 <#996>
 DELETE FROM rbac_ta WHERE ops_id = 46;
 <#997>
@@ -1467,3 +1468,30 @@ CREATE TABLE `tmp_svy_migration` (`answer_id` int(11) NOT NULL default '0');
 ?>
 <#1000>
 DROP TABLE `tmp_svy_migration`;
+
+<#1001>
+<?php
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'mcst'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add missing delete rbac operation for media casts
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+<#1002>
+<?php
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'feed'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add missing delete rbac operation for web feeds
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+
+?>
