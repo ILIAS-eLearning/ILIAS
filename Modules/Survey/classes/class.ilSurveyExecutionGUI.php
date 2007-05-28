@@ -171,13 +171,13 @@ class ilSurveyExecutionGUI
 		$activepage = "";
 		if ($resume)
 		{
-			$activepage = $this->object->getLastActivePage($ilUser->id);
+			$activepage = $this->object->getLastActivePage($_SESSION["finished_id"]);
 			$direction = 0;
 		}
 		// explicitly set the survey started!
 		if ($this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]) === FALSE)
 		{
-			$this->object->startSurvey($ilUser->getId(), $_SESSION["anonymous_id"]);
+			$_SESSION["finished_id"] = $this->object->startSurvey($ilUser->getId(), $_SESSION["anonymous_id"]);
 		}
 		$this->outSurveyPage($activepage, $direction);
 	}
@@ -242,7 +242,7 @@ class ilSurveyExecutionGUI
 				$constraint_true = 1;
 				foreach ($page[0]["constraints"] as $constraint)
 				{
-					$working_data = $this->object->loadWorkingData($constraint["question"], $ilUser->id);
+					$working_data = $this->object->loadWorkingData($constraint["question"], $_SESSION["finished_id"]);
 					$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
 				}
 				if ($constraint_true == 0)
@@ -310,7 +310,7 @@ class ilSurveyExecutionGUI
 				}
 				else
 				{
-					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
+					$working_data = $this->object->loadWorkingData($data["question_id"], $_SESSION["finished_id"]);
 				}
 				$question_gui->object->setObligatory($data["obligatory"]);
 				$error_messages = array();
@@ -411,17 +411,17 @@ class ilSurveyExecutionGUI
 		{
 			$user_id = $ilUser->getId();
 			// delete old answers
-			$this->object->deleteWorkingData($data["question_id"], $user_id);
+			$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"]);
 
 			if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"]) === false)
 			{
-				$this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
+				$_SESSION["finished_id"] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
 			}
 			if ($this->object->getAnonymize())
 			{
 				$user_id = 0;
 			}
-			$question->saveUserInput($_POST, $this->object->getSurveyId(), $user_id, $_SESSION["anonymous_id"]);
+			$question->saveUserInput($_POST, $_SESSION["finished_id"]);
 			return 0;
 		}
 		else

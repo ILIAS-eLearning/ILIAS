@@ -1185,7 +1185,7 @@ class SurveyQuestion
 		);
 		$result = $this->ilias->db->query($query);
 
-		$query = sprintf("DELETE survey_question_obligatory FROM WHERE question_fi = %s",
+		$query = sprintf("DELETE FROM survey_question_obligatory WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);

@@ -579,7 +579,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		return "";
 	}
 	
-	function saveUserInput($post_data, $survey_id, $user_id, $anonymous_id)
+	function saveUserInput($post_data, $active_id)
 	{
 		global $ilDB;
 
@@ -591,11 +591,9 @@ class SurveyNominalQuestion extends SurveyQuestion
 				if (strlen($entered_value) > 0)
 				{
 					$entered_value = $ilDB->quote($entered_value . "");
-					$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-						$ilDB->quote($survey_id . ""),
+					$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 						$ilDB->quote($this->getId() . ""),
-						$ilDB->quote($user_id . ""),
-						$ilDB->quote($anonymous_id . ""),
+						$ilDB->quote($active_id . ""),
 						$entered_value,
 						"NULL"
 					);
@@ -608,11 +606,9 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$entered_value = $post_data[$this->getId() . "_value"];
 			if (strlen($entered_value) == 0) return;
 			$entered_value = $ilDB->quote($entered_value . "");
-			$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($survey_id . ""),
+			$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($anonymous_id . ""),
+				$ilDB->quote($active_id . ""),
 				$entered_value,
 				"NULL"
 			);
@@ -629,7 +625,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
 			$ilDB->quote($question_id),
 			$ilDB->quote($survey_id)
 		);
@@ -840,7 +836,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
 			$ilDB->quote($survey_id),
 			$ilDB->quote($this->getId())
 		);
@@ -848,22 +844,11 @@ class SurveyNominalQuestion extends SurveyQuestion
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$category = $this->categories->getCategory($row["value"]);
-			if (strlen($row["anonymous_id"]) > 0)
+			if (!is_array($answers[$row["active_fi"]]))
 			{
-				if (!is_array($answers[$row["anonymous_id"]]))
-				{
-					$answers[$row["anonymous_id"]] = array();
-				}
-				array_push($answers[$row["anonymous_id"]], $row["value"] + 1 . " - " . $category);
+				$answers[$row["active_fi"]] = array();
 			}
-			else
-			{
-				if (!is_array($answers[$row["user_fi"]]))
-				{
-					$answers[$row["user_fi"]] = array();
-				}
-				array_push($answers[$row["user_fi"]], $row["value"] + 1 . " - " . $category);
-			}
+			array_push($answers[$row["active_fi"]], $row["value"] + 1 . " - " . $category);
 		}
 		return $answers;
 	}

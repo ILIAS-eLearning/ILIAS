@@ -1396,3 +1396,74 @@ REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_width', 16);
 REPLACE INTO settings (keyword, value) VALUES ('custom_icon_tiny_height', 16);
 <#996>
 DELETE FROM rbac_ta WHERE ops_id = 46;
+<#997>
+ALTER TABLE  `survey_answer` ADD  `active_fi` INT NOT NULL AFTER  `answer_id` ;
+ALTER TABLE  `survey_answer` ADD INDEX (  `active_fi` ) ;
+<#998>
+DROP TABLE IF EXISTS tmp_svy_migration;
+CREATE TABLE `tmp_svy_migration` (`answer_id` int(11) NOT NULL default '0');
+<#999>
+<?php
+	// converting survey data, this could take some time and more than one try
+	global $ilLog;
+	
+	$res = $ilDB->query("SELECT MAX(answer_id) as max_id FROM tmp_svy_migration ");
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$max_id = $row->max_id;
+	}
+	$max_id = $max_id ? $max_id : 0;
+	$query = "SELECT * FROM survey_answer WHERE answer_id > $max_id ORDER BY answer_id";
+	$result = $ilDB->query($query);
+	if ($result->numRows())
+	{
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$active_id = 0;
+			$activequery = "";
+			if (strlen($row["anonymous_id"]))
+			{
+				$activequery = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
+					$ilDB->quote($row["survey_fi"]),
+					$ilDB->quote($row["anonymous_id"])
+				);
+			}
+			else
+			{
+				if ($row["user_fi"] > 0)
+				{
+					$activequery = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+						$ilDB->quote($row["survey_fi"]),
+						$ilDB->quote($row["user_fi"])
+					);
+				}
+			}
+			if (strlen($activequery))
+			{
+				$activeresult = $ilDB->query($activequery);
+				if ($activeresult->numRows() == 1)
+				{
+					$activerow = $activeresult->fetchRow(DB_FETCHMODE_ASSOC);
+					$active_id = $activerow["finished_id"];
+				}
+			}
+			if ($active_id == 0)
+			{
+				// found an answer dataset the could not be associated with a user in a survey
+				$ilLog->write("DB Migration 999: Found unassociated dataset, deleting it: " . print_r($row, TRUE));
+			}
+			$updatequery = sprintf("UPDATE survey_answer SET active_fi = %s WHERE answer_id = %s",
+				$ilDB->quote($active_id),
+				$ilDB->quote($row["answer_id"])
+			);
+			$updateresult = $ilDB->query($updatequery);
+			// set last position
+			$updatetemp = sprintf("INSERT INTO tmp_svy_migration (answer_id) VALUES (%s)",
+				$ilDB->quote($row["answer_id"])
+			);
+			$updatetempresult = $ilDB->query($updatetemp);
+		}
+	}
+?>
+<#1000>
+DROP TABLE `tmp_svy_migration`;

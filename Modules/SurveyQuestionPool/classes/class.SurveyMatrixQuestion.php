@@ -180,6 +180,27 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		return $this->neutralColumn;
 	}
 	
+	/**
+	* Returns the index of the neutral column
+	*
+	* Returns the index of the neutral column
+	*
+	* @return integer The index of the neutral column
+	* @access public
+	* @see $neutralColumn
+	*/
+	function getNeutralColumnIndex()
+	{
+		if (strlen($this->getNeutralColumn()))
+		{
+			return $this->getColumnCount();
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
 /**
 * Sets the text of the neutral column
 *
@@ -332,7 +353,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		else
 		{
-			return "";
+			if (($index = $this->getColumnCount()) && (strlen($this->getNeutralColumn())))
+			{
+				return $this->getNeutralColumn();
+			}
+			else
+			{
+				return "";
+			}
 		}
 	}
 
@@ -351,7 +379,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (strcmp($column, $name) == 0)
 			{
-				return $this->removeColumn($index);
+				return $index;
 			}
 		}
 		return -1;
@@ -1269,7 +1297,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		return "";
 	}
 
-	function saveUserInput($post_data, $survey_id, $user_id, $anonymous_id)
+	function saveUserInput($post_data, $active_id)
 	{
 		global $ilDB;
 
@@ -1280,11 +1308,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
-							$ilDB->quote($survey_id . ""),
+						$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 							$ilDB->quote($this->getId() . ""),
-							$ilDB->quote($user_id . ""),
-							$ilDB->quote($anonymous_id . ""),
+							$ilDB->quote($active_id . ""),
 							$ilDB->quote($value . ""),
 							"NULL",
 							$ilDB->quote($matches[1] . "")
@@ -1302,11 +1328,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							if (strlen($checked))
 							{
-								$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
-									$ilDB->quote($survey_id . ""),
+								$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 									$ilDB->quote($this->getId() . ""),
-									$ilDB->quote($user_id . ""),
-									$ilDB->quote($anonymous_id . ""),
+									$ilDB->quote($active_id . ""),
 									$ilDB->quote($checked . ""),
 									"NULL",
 									$ilDB->quote($matches[1] . "")
@@ -1352,7 +1376,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT DISTINCT(CONCAT(user_fi,anonymous_id,question_fi,survey_fi)) AS participants FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+		$query = sprintf("SELECT DISTINCT(CONCAT(survey_answer.active_fi,survey_answer.question_fi)) AS participants FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($survey_id . "")
 		);
@@ -1379,7 +1403,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s AND row = %s",
+		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_answer.row = %s AND survey_finished.finished_id = survey_answer.active_fi",
 			$ilDB->quote($question_id . ""),
 			$ilDB->quote($survey_id . ""),
 			$ilDB->quote($rowindex . "")
@@ -1478,7 +1502,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
 			$ilDB->quote($question_id),
 			$ilDB->quote($survey_id)
 		);
@@ -1921,7 +1945,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s ORDER BY row, value",
+		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi ORDER BY row, value",
 			$ilDB->quote($survey_id),
 			$ilDB->quote($this->getId())
 		);
@@ -1930,16 +1954,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$column = $this->getColumn($row["value"]);
-			if (strlen($row["anonymous_id"]) > 0)
-			{
-				if (!is_array($answers[$row["anonymous_id"]])) $answers[$row["anonymous_id"]] = array();
-				array_push($answers[$row["anonymous_id"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $column);
-			}
-			else
-			{
-				if (!is_array($answers[$row["user_fi"]])) $answers[$row["user_fi"]] = array();
-				array_push($answers[$row["user_fi"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $column);
-			}
+			if (!is_array($answers[$row["active_fi"]])) $answers[$row["active_fi"]] = array();
+			array_push($answers[$row["active_fi"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $column);
 		}
 		foreach ($answers as $key => $value)
 		{
