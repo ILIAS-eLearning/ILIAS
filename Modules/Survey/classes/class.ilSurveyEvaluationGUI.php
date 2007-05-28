@@ -323,7 +323,6 @@ class ilSurveyEvaluationGUI
 			//$question->loadFromDb($data["question_id"]);
 			$row = $question_gui->getCumulatedResultRow($counter, $classes[$counter % 2], $this->object->getSurveyId());
 			//$eval = $this->object->getCumulatedResults($question);
-			
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("ROW", $row);
 			$this->tpl->parseCurrentBlock();
@@ -540,18 +539,17 @@ class ilSurveyEvaluationGUI
 
 		$cellcounter = 1;
 		$participants =& $this->object->getSurveyParticipants();
-		
 		foreach ($participants as $data)
 		{
 			$this->tpl->setCurrentBlock("bodycell");
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			$this->tpl->setVariable("TEXT_BODY_CELL", $data["name"]);
+			$this->tpl->setVariable("TEXT_BODY_CELL", $data["sortname"]);
 			$this->tpl->parseCurrentBlock();
 			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 			{
 				$this->tpl->setCurrentBlock("bodycell");
 				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("gender_" . ilObjUser::_lookupGender($data["user_id"])));
+				$this->tpl->setVariable("TEXT_BODY_CELL", $data["gender"]);
 				$this->tpl->parseCurrentBlock();
 			}
 			$intro = TRUE;
@@ -579,14 +577,7 @@ class ilSurveyEvaluationGUI
 				$this->tpl->setVariable("TEXT_BODY_CELL", $questioncounter++ . ". " . $question_data["title"]);
 				$this->tpl->parseCurrentBlock();
 				
-				if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-				{
-					$found = $userResults[$question_id][$data["user_id"]];
-				}
-				else
-				{
-					$found = $userResults[$question_id][$data["anonymous_id"]];
-				}
+				$found = $userResults[$question_id][$data["active_id"]];
 				$text = "";
 				if (is_array($found))
 				{
@@ -674,25 +665,18 @@ class ilSurveyEvaluationGUI
 		{
 			$this->tpl->setCurrentBlock("bodycell");
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			$this->tpl->setVariable("TEXT_BODY_CELL", $data["name"]);
+			$this->tpl->setVariable("TEXT_BODY_CELL", $data["sortname"]);
 			$this->tpl->parseCurrentBlock();
 			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 			{
 				$this->tpl->setCurrentBlock("bodycell");
 				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("gender_" . ilObjUser::_lookupGender($data["user_id"])));
+				$this->tpl->setVariable("TEXT_BODY_CELL", $data["gender"]);
 				$this->tpl->parseCurrentBlock();
 			}
 			foreach ($questions as $question_id => $question_data)
 			{
-				if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-				{
-					$found = $userResults[$question_id][$data["user_id"]];
-				}
-				else
-				{
-					$found = $userResults[$question_id][$data["anonymous_id"]];
-				}
+				$found = $userResults[$question_id][$data["active_id"]];
 				$text = "";
 				if (is_array($found))
 				{

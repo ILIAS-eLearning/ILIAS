@@ -2604,13 +2604,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				foreach ($total as $finished_id => $user_data)
+				foreach ($total as $user_data)
 				{
-					$user_name = $user_data["name"];
+					$user_name = $user_data["sortname"];
 					$user_login = $user_data["login"];
 					$this->tpl->setCurrentBlock("userrow");
 					$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("USER_ID", $finished_id);
+					$this->tpl->setVariable("USER_ID", $user_data["active_id"]);
 					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
 					$this->tpl->setVariable("VALUE_USER_LOGIN", $user_login);
 					$last_access = $this->object->_getLastAccess($finished_id);
