@@ -235,6 +235,7 @@ class SurveyTextQuestion extends SurveyQuestion
 			{
         $this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_text (question_fi, maxchars, width, height) VALUES (%s, %s, %s, %s)",
+					$maxchars,
 					$ilDB->quote($this->id . ""),
 					$ilDB->quote($this->getTextWidth() . ""),
 					$ilDB->quote($this->getTextHeight() . ""),
