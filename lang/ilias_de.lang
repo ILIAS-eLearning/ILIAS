@@ -1947,6 +1947,7 @@ common#:#fax#:#Fax
 common#:#feed#:#New-Feed
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
+common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
@@ -2241,6 +2242,7 @@ common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#header_searchable#:#Durchsuchbar
 common#:#header_title#:#Installationsüberschrift
+common#:#height#:#Höhe
 common#:#help#:#Hilfe
 common#:#HH#:#SS:MM
 common#:#hh_mm#:#HH:MM###25 02 2007 new variable
@@ -2732,6 +2734,7 @@ common#:#max_time#:#Maximale Zeit
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#MediaCast hinzufügen
 common#:#mcst_copy#:#MediaCast kopieren
+common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#mcst_new#:#Neuer MediaCast
 common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
@@ -3905,6 +3908,7 @@ common#:#weekly#:#wöchentlich
 common#:#weeks#:#Wochen
 common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
+common#:#width#:#Breite
 common#:#width_x_height#:#Breite mal Höhe
 common#:#with#:#mit
 common#:#write#:#Schreiben
@@ -6798,6 +6802,7 @@ survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmende d
 survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 survey#:#existing_constraints#:#Bestehende Vorbedingungen
 survey#:#exit#:#Beenden
+survey#:#export_all_survey_codes#:#Alle Zugangsschlüssel exportieren
 survey#:#export_data_as#:#Exportieren als
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -7032,6 +7037,7 @@ survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehme
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
 survey#:#survey_previous#:#<< Zurück
 survey#:#survey_questions#:#Fragen
+survey#:#survey_question_editor#:#Fragenliste bearbeiten
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_selected_user_data_deleted#:#Die Umfragedaten der ausgewählten Teilnehmerinnen und Teilnehmer wurden erfolgreich gelöscht
@@ -7040,6 +7046,8 @@ survey#:#survey_skip_next#:#Überspringen und weiter >>
 survey#:#survey_skip_previous#:#<< Überspringen und zurück
 survey#:#survey_skip_start#:#<< Überspringen und zur Startseite
 survey#:#survey_start#:#<< Zur Startseite
+survey#:#survey_text_textheight_desc#:#Geben Sie die Höhe des Eingabefeldes in Zeichen an
+survey#:#survey_text_textwidth_desc#:#Geben Sie die Breite des Eingabefeldes in Zeichen an
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmende der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
@@ -7318,6 +7326,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
-common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
-survey#:#export_all_survey_codes#:#Export all Access Codes###29 05 2007 new variable
