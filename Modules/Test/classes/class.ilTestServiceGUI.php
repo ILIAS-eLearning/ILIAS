@@ -394,32 +394,72 @@ class ilTestServiceGUI
 * @param string $targetclass The name of the ILIAS class for the "pass details" URL (optional)
 * @param string $targetcommand The name of the ILIAS command for the "pass details" URL (optional)
 * @param string $targetcommanddetails The name of the ILIAS command which should be called for the details of an answer (optional)
+* @param boolean $standard_header TRUE if the table headers should be plain text, FALSE if the table headers should be URL's for sortable columns
 * @return string HTML code of the pass details overview
 * @access public
 */
-	function getPassDetailsOverview(&$result_array, $active_id, $pass, $targetclass = "", $targetcommandsort = "", $targetcommanddetails = "")
+	function getPassDetailsOverview(&$result_array, $active_id, $pass, $targetclass = "", $targetcommandsort = "", $targetcommanddetails = "", $standard_header = TRUE)
 	{
+		// internal sort function to sort the result array
+		function sortResults($a, $b)
+		{
+			$sort = ($_GET["sort"]) ? ($_GET["sort"]) : "nr";
+			$sortorder = ($_GET["sortorder"]) ? ($_GET["sortorder"]) : "asc";
+			if (strcmp($sortorder, "asc")) 
+			{
+				$smaller = 1;
+				$greater = -1;
+			} 
+			else 
+			{
+				$smaller = -1;
+				$greater = 1;
+			}
+			if ($a[$sort] == $b[$sort]) return 0;
+			return ($a[$sort] < $b[$sort]) ? $smaller : $greater;
+		}
+
 		global $ilUser;
 
+		$testresults = $result_array["test"];
+		unset($result_array["test"]);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
+		$sort = ($_GET["sort"]) ? ($_GET["sort"]) : "nr";
+		$sortorder = ($_GET["sortorder"]) ? ($_GET["sortorder"]) : "asc";
+
+		if (!$standard_header)
+		{
+			// change sortorder of result array
+			usort($result_array, "sortResults");
+		}
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview.html", TRUE, TRUE, "Modules/Test");
+		$this->ctrl->setParameterByClass($targetclass, "pass", "$pass");
 
-		if (!$result_array["test"]["total_max_points"])
+		if (!$testresults["total_max_points"])
 		{
 			$percentage = 0;
 		}
 		else
 		{
-			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+			$percentage = ($testresults["total_reached_points"]/$testresults["total_max_points"])*100;
 		}
-		$total_max = $result_array["test"]["total_max_points"];
-		$total_reached = $result_array["test"]["total_reached_points"];
+		$total_max = $testresults["total_max_points"];
+		$total_reached = $testresults["total_reached_points"];
 
 		$img_title_percent = "";
 		$img_title_nr = "";
+		$hasSuggestedSolutions = FALSE;
+		
+		foreach ($result_array as $key => $value)
+		{
+			if (strlen($value["solution"]))
+			{
+				$hasSuggestedSolutions = TRUE;
+			}
+		}
 		foreach ($result_array as $key => $value) 
 		{
 			if (preg_match("/\d+/", $key)) 
@@ -441,49 +481,190 @@ class ilTestServiceGUI
 					$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$template->parseCurrentBlock();
 				}
-
-
+				if ($hasSuggestedSolutions)
+				{
+					$template->setCurrentBlock("question_suggested_solution");
+					$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					if ((preg_match("/http/", $value["solution"])) || (preg_match("/goto/", $value["solution"])))
+					{
+						$template->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
+					}
+					else
+					{
+						if ($value["solution"])
+						{
+							$template->setVariable("SOLUTION_HINT", $this->lng->txt($value["solution"]));
+						}
+						else
+						{
+							$template->setVariable("SOLUTION_HINT", "");
+						}
+					}
+					$template->parseCurrentBlock();
+				}
 				$template->setCurrentBlock("question");
 				$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$template->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
 				$template->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$template->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
-				if ((preg_match("/http/", $value["solution"])) || (preg_match("/goto/", $value["solution"])))
-				{
-					$template->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
-				}
-				else
-				{
-					if ($value["solution"])
-					{
-						$template->setVariable("SOLUTION_HINT", $this->lng->txt($value["solution"]));
-					}
-					else
-					{
-						$template->setVariable("SOLUTION_HINT", "");
-					}
-				}
 				$template->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
 				$template->parseCurrentBlock();
 				$counter++;
 			}
 		}
 
+		if ($hasSuggestedSolutions)
+		{
+			$template->touchBlock("footer_suggested_solution");
+		}
 		$template->setCurrentBlock("footer");
 		$template->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$template->setVariable("VALUE_QUESTION_TITLE", "");
-		$template->setVariable("SOLUTION_HINT", "");
 		$template->setVariable("VALUE_MAX_POINTS", "<strong>$total_max</strong>");
 		$template->setVariable("VALUE_REACHED_POINTS", "<strong>$total_reached</strong>");
 		$template->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$template->parseCurrentBlock();
 
-		$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
-		$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
-		$template->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-		$template->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
-		$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
-		$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+		if ($standard_header)
+		{
+			if ($hasSuggestedSolutions)
+			{
+				$template->setCurrentBlock("standard_header_suggested_solution");
+				$template->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
+				$template->parseCurrentBlock();
+			}
+			$template->setCurrentBlock("standard_header");
+			$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
+			$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
+			$template->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+			$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
+			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+			$template->parseCurrentBlock();
+		}
+		else
+		{
+			if ($hasSuggestedSolutions)
+			{
+				$template->setCurrentBlock("linked_header_suggested_solution");
+				if (strcmp($sort, "solution") == 0)
+				{
+					$this->ctrl->setParameterByClass($targetclass, "sortorder", !strcmp($sortorder, "asc") ? "desc" : "asc");
+				}
+				else
+				{
+					$this->ctrl->setParameterByClass($targetclass, "sortorder", "asc");
+				}
+				$this->ctrl->setParameterByClass($targetclass, "sort", "solution");
+				$template->setVariable("URL_SOLUTION_HINT_HEADER", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
+				$template->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
+				if (strcmp($sort, "solution") == 0)
+				{
+					$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+					$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
+					$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
+					$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
+					$template->setVariable("IMAGE_SOLUTION_HINT_HEADER", $image->get());
+				}
+				$template->parseCurrentBlock();
+			}
+			$template->setCurrentBlock("linked_header");
+			$this->ctrl->setParameterByClass($targetclass, "sort", "nr");
+			if (strcmp($sort, "nr") == 0)
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", !strcmp($sortorder, "asc") ? "desc" : "asc");
+			}
+			else
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", "asc");
+			}
+			$template->setVariable("URL_QUESTION_COUNTER", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
+			$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
+			if (strcmp($sort, "nr") == 0)
+			{
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
+				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
+				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
+				$template->setVariable("IMAGE_QUESTION_COUNTER", $image->get());
+			}
+			$this->ctrl->setParameterByClass($targetclass, "sort", "percent");
+			if (strcmp($sort, "percent") == 0)
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", !strcmp($sortorder, "asc") ? "desc" : "asc");
+			}
+			else
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", "asc");
+			}
+			$template->setVariable("URL_PERCENT_SOLVED", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
+			$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
+			if (strcmp($sort, "percent") == 0)
+			{
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
+				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
+				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
+				$template->setVariable("IMAGE_PERCENT_SOLVED", $image->get());
+			}
+			$this->ctrl->setParameterByClass($targetclass, "sort", "title");
+			if (strcmp($sort, "title") == 0)
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", !strcmp($sortorder, "asc") ? "desc" : "asc");
+			}
+			else
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", "asc");
+			}
+			$template->setVariable("URL_QUESTION_TITLE", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
+			$template->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+			if (strcmp($sort, "title") == 0)
+			{
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
+				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
+				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
+				$template->setVariable("IMAGE_QUESTION_TITLE", $image->get());
+			}
+			$this->ctrl->setParameterByClass($targetclass, "sort", "max");
+			if (strcmp($sort, "max") == 0)
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", strcmp($sortorder, "asc") ? "desc" : "asc");
+			}
+			else
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", "asc");
+			}
+			$template->setVariable("URL_MAX_POINTS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
+			$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
+			if (strcmp($sort, "max") == 0)
+			{
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
+				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
+				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
+				$template->setVariable("IMAGE_MAX_POINTS", $image->get());
+			}
+			$this->ctrl->setParameterByClass($targetclass, "sort", "reached");
+			if (strcmp($sort, "reached") == 0)
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", !strcmp($sortorder, "asc") ? "desc" : "asc");
+			}
+			else
+			{
+				$this->ctrl->setParameterByClass($targetclass, "sortorder", "asc");
+			}
+			$template->setVariable("URL_REACHED_POINTS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommandsort));
+			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+			if (strcmp($sort, "reached") == 0)
+			{
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
+				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
+				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
+				$template->setVariable("IMAGE_REACHED_POINTS", $image->get());
+			}
+			$template->parseCurrentBlock();
+		}
 
 		return $template->get();
 	}

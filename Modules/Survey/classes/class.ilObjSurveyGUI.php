@@ -545,6 +545,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
     global $rbacsystem;
 
+		$this->questionsSubtabs("questions");
 		if (strcmp($this->ctrl->getCmd(), "filterQuestions") != 0)
 		{
 			if (array_key_exists("sel_questionpool", $_GET)) $filter_questionpool = $_GET["sel_questionpool"];
@@ -969,6 +970,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function searchQuestionsObject($search_results = false)
 	{
+		$this->questionsSubtabs("questions");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_search_questions.html", "Modules/Survey");
 
 		if (is_array($search_results))
@@ -1132,6 +1134,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function defineQuestionblock($questionblock_id = "")
 	{
+		$this->questionsSubtabs("questions");
 		ilUtil::sendInfo();
 		if ($questionblock_id)
 		{
@@ -1185,6 +1188,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function createQuestionObject()
 	{
 		global $ilUser;
+		$this->questionsSubtabs("questions");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_qpl_select.html", "Modules/Survey");
 		$questionpools =& $this->object->getAvailableQuestionpools();
 		foreach ($questionpools as $key => $value)
@@ -1248,6 +1252,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function addHeadingObject($question_id = "")
 	{
+		$this->questionsSubtabs("questions");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_heading.html", "Modules/Survey");
 		$survey_questions =& $this->object->getSurveyQuestions();
 		if ($question_id)
@@ -1724,7 +1729,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function questionsObject() 
 	{
 		$this->handleWriteAccess();
-
+		$this->questionsSubtabs("questions");
 		global $rbacsystem;
 
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
@@ -3904,6 +3909,44 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->forwardCommand($info);
 	}
 
+	/**
+	* Creates a print view of the survey questions
+	*
+	* Creates a print view of the survey questions
+	*
+	* @access public
+	*/
+	function printViewObject()
+	{
+		$this->questionsSubtabs("printview");
+		$template = new ilTemplate("tpl.il_svy_svy_printview.html", TRUE, TRUE, "Modules/Survey");
+		$pages =& $this->object->getSurveyPages();
+		foreach ($pages as $page)
+		{
+			foreach ($page as $question)
+			{
+				$questionGUI = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
+				if (is_object($questionGUI))
+				{
+					$template->setCurrentBlock("question");
+					$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"]));
+					$template->parseCurrentBlock();
+				}
+			}
+			if (count($page) > 1)
+			{
+				$template->setCurrentBlock("page");
+				$template->setVariable("BLOCKTITLE", $page[0]["questionblock_title"]);
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->touchBlock("page");
+			}
+		}
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+	}
+	
 	function addLocatorItems()
 	{
 		global $ilLocator;
@@ -3936,6 +3979,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* Set the subtabs for the questions tab
+	*
+	* Set the subtabs for the questions tab
+	*
+	* @access private
+	*/
+	function questionsSubtabs($a_cmd)
+	{
+		$questions = ($a_cmd == 'questions') ? true : false;
+		$printview = ($a_cmd == 'printview') ? true : false;
+
+		$this->tabs_gui->addSubTabTarget("survey_question_editor", $this->ctrl->getLinkTarget($this, "questions"),
+										 "", "", "", $questions);
+		$this->tabs_gui->addSubTabTarget("print_view", $this->ctrl->getLinkTarget($this, "printView"),
+											"", "", "", $printview);
+	}
 	/**
 	* Set the tabs for the evaluation output
 	*
@@ -4011,7 +4071,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "unfoldQuestionblock", "moveQuestions",
 				 "insertQuestionsBefore", "insertQuestionsAfter", "saveObligatory",
 				 "addHeading", "saveHeading", "cancelHeading", "editHeading",
-				 "confirmRemoveHeading", "cancelRemoveHeading"),
+				 "confirmRemoveHeading", "cancelRemoveHeading", "printView"),
 				 "", "", $force_active);
 		}
 		

@@ -218,6 +218,72 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
     return $result;
   }
 
+	/**
+	* Creates a HTML representation of the question
+	*
+	* Creates a HTML representation of the question
+	*
+	* @access private
+	*/
+	function getPrintView($question_title = 1, $show_questiontext = 1)
+	{
+		$template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if (strlen($this->object->getMinimum()))
+		{
+			$template->setCurrentBlock("minimum");
+			$template->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
+			$template->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
+			$template->parseCurrentBlock();
+		}
+		if (strlen($this->object->getMaximum()))
+		{
+			$template->setCurrentBlock("maximum");
+			$template->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
+			$template->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
+			$template->parseCurrentBlock();
+		}
+
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		if ($show_questiontext)
+		{
+			$questiontext = $this->object->getQuestiontext();
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
+		if (! $this->object->getObligatory())
+		{
+			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+		}
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
+		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$template->setVariable("QUESTION_ID", $this->object->getId());
+
+		$solution_text = "";
+		if (strlen($this->object->getMaximum()) > 1) 
+		{
+			$len = strlen($this->object->getMaximum()) + 2;
+			for ($i = 0; $i < $len; $i++) $solution_text .= "&#160;";
+		}
+		else 
+		{
+			for ($i = 0; $i < 10; $i++) $solution_text .= "&#160;";
+		}
+		$template->setVariable("TEXT_SOLUTION", $solution_text);
+		$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+		$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("empty.gif"));
+		$image->setVariable("STYLE", "border-style: inset; border-width: 1px;");
+		$image->setVariable("IMAGE_ALT", $this->lng->txt("empty"));
+		$image->setVariable("IMAGE_TITLE", $this->lng->txt("empty"));
+		$image->setVariable("IMAGE_WIDTH", $len . "em");
+		$image->setVariable("IMAGE_HEIGHT", "18px");
+		$template->setVariable("TEXT_SOLUTION", $image->get());
+
+		$template->parseCurrentBlock();
+		return $template->get();
+	}
+	
 /**
 * Creates the question output form for the learner
 *

@@ -513,7 +513,6 @@ assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#print_answers#:#Print Answers
-assessment#:#print_view#:#Print View
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of Questions
@@ -6732,6 +6731,7 @@ survey#:#survey_next#:#Next >>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<< Previous
+survey#:#survey_question_editor#:#Edit survey questions
 survey#:#survey_question_obligatory#:#This question is obligatory. You must answer the question!
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions

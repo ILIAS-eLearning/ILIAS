@@ -1,12 +1,26 @@
 <table class="fullwidth">
 <thead>
 	<tr class="tblheader">
+<!-- BEGIN standard_header -->
 		<th class="std">{QUESTION_COUNTER}</th>
 		<th class="std">{QUESTION_TITLE}</th>
 		<th class="std" style="text-align: right;">{MAX_POINTS}</th>
 		<th class="std" style="text-align: right;">{REACHED_POINTS}</th>
 		<th class="std" style="text-align: right;">{PERCENT_SOLVED}</th>
+<!-- BEGIN standard_header_suggested_solution -->
 		<th class="std">{SOLUTION_HINT_HEADER}</th>
+<!-- END standard_header_suggested_solution -->
+<!-- END standard_header -->
+<!-- BEGIN linked_header -->
+		<th class="std"><a href="{URL_QUESTION_COUNTER}">{QUESTION_COUNTER} {IMAGE_QUESTION_COUNTER}</a></th>
+		<th class="std"><a href="{URL_QUESTION_TITLE}">{QUESTION_TITLE} {IMAGE_QUESTION_TITLE}</a></th>
+		<th class="std" style="text-align: right;"><a href="{URL_MAX_POINTS}">{MAX_POINTS} {IMAGE_MAX_POINTS}</a></th>
+		<th class="std" style="text-align: right;"><a href="{URL_REACHED_POINTS}">{REACHED_POINTS} {IMAGE_REACHED_POINTS}</a></th>
+		<th class="std" style="text-align: right;"><a href="{URL_PERCENT_SOLVED}">{PERCENT_SOLVED} {IMAGE_PERCENT_SOLVED}</a></th>
+<!-- BEGIN linked_header_suggested_solution -->
+		<th class="std"><a href="{URL_SOLUTION_HINT_HEADER}">{SOLUTION_HINT_HEADER} {IMAGE_SOLUTION_HINT_HEADER}</a></th>
+<!-- END linked_header_suggested_solution -->
+<!-- END linked_header -->
 	</tr>
 </thead>
 <!-- BEGIN question -->
@@ -21,7 +35,9 @@
 <td class="{COLOR_CLASS}" style="text-align: right;">{VALUE_MAX_POINTS}</td>
 <td class="{COLOR_CLASS}" style="text-align: right;">{VALUE_REACHED_POINTS}</td>
 <td class="{COLOR_CLASS}" style="text-align: right;">{VALUE_PERCENT_SOLVED}</td>
+<!-- BEGIN question_suggested_solution -->
 <td class="{COLOR_CLASS}">{SOLUTION_HINT}</td>
+<!-- END question_suggested_solution -->
 </tr>
 <!-- END question --> 
 <!-- BEGIN footer -->
@@ -31,7 +47,9 @@
 <td style="text-align: right;">{VALUE_MAX_POINTS}</td>
 <td style="text-align: right;">{VALUE_REACHED_POINTS}</td>
 <td style="text-align: right;">{VALUE_PERCENT_SOLVED}</td>
-<td>{SOLUTION_HINT}</td>
+<!-- BEGIN footer_suggested_solution -->
+<td></td>
+<!-- END footer_suggested_solution -->
 </tr>
 <!-- END footer --> 
 </table>
