@@ -301,7 +301,7 @@ class ilMainMenuGUI
 				{
 					$this->tpl->setCurrentBlock("registration_link");
 					$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
-					$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?lang=".$ilias->account->getCurrentLanguage());
+					$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?client_id=".rawurlencode(CLIENT_ID)."&lang=".$ilias->account->getCurrentLanguage());
 					$this->tpl->parseCurrentBlock();
 				}
 	
@@ -335,7 +335,7 @@ class ilMainMenuGUI
 					}
 				}
 				$this->tpl->setVariable("LINK_LOGIN",
-					$link_dir."login.php?target=".$target_str."&cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
+					$link_dir."login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
 				$this->tpl->parseCurrentBlock();
 			}
 			else
