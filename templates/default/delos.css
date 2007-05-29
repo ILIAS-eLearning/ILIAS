@@ -1962,9 +1962,13 @@ div.ilc_Question
 }
 
 .questionTitle {
-	border-bottom: thin solid #333333;
-	font-weight: bold;
-	padding-bottom: 0.5em;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	font-size: 140%;
+	padding-bottom: 3px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-color: #000000;
 }
 
 .questionPrintview {
@@ -2083,8 +2087,6 @@ div.textbox
 	border-top-width: 1px;
 	border-bottom-width: 1px;
 	margin-bottom: 0px;
-	background-color: #f8f8f8;
-	background:#f8f8f8;
 }
 
 table.matrix

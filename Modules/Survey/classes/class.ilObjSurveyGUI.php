@@ -3923,25 +3923,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$pages =& $this->object->getSurveyPages();
 		foreach ($pages as $page)
 		{
-			foreach ($page as $question)
+			if (count($page) > 0)
 			{
-				$questionGUI = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
-				if (is_object($questionGUI))
+				foreach ($page as $question)
 				{
-					$template->setCurrentBlock("question");
-					$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"]));
+					$questionGUI = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
+					if (is_object($questionGUI))
+					{
+						$template->setCurrentBlock("question");
+						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"]));
+						$template->parseCurrentBlock();
+					}
+				}
+				if (count($page) > 1)
+				{
+					$template->setCurrentBlock("page");
+					$template->setVariable("BLOCKTITLE", $page[0]["questionblock_title"]);
 					$template->parseCurrentBlock();
 				}
-			}
-			if (count($page) > 1)
-			{
-				$template->setCurrentBlock("page");
-				$template->setVariable("BLOCKTITLE", $page[0]["questionblock_title"]);
-				$template->parseCurrentBlock();
-			}
-			else
-			{
-				$template->touchBlock("page");
+				else
+				{
+					$template->setCurrentBlock("page");
+					$template->parseCurrentBlock();
+				}
 			}
 		}
 		$this->tpl->setVariable("ADM_CONTENT", $template->get());
