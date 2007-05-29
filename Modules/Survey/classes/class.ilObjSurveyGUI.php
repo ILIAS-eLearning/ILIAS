@@ -1367,6 +1367,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$insertbefore = $_POST["insertbefore_original"];
 			}
+			include_once "./classes/class.ilObjAdvancedEditing.php";
 			$this->object->saveHeading(ilUtil::stripSlashes($_POST["heading"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $insertbefore);
 			$this->ctrl->redirect($this, "questions");
 		}
