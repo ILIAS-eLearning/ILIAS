@@ -3270,10 +3270,6 @@ class ilUtil
 		global $tpl, $lng, $ilUser;
 		
 		// - take care of html exports (-> see buildLatexImages)
-		$a_text = str_replace("&lt;", "<", $a_text);
-		$a_text = str_replace("&gt;", ">", $a_text);
-		$a_text = str_replace("&amp;", "&", $a_text);
-
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$jsMathSetting = new ilSetting("jsMath");
 		if ($jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault")))))
@@ -3297,7 +3293,7 @@ class ilUtil
 		else
 		{
 			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-				"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
+				"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', '$1')))).'\" ".
 				" />'", $a_text);
 		}
 		return $result_text;
