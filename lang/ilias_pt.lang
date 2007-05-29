@@ -408,8 +408,6 @@ assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
 assessment#:#set_filter#:#Definir filtro###07 Apr 2005 content changed
 assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
-assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
-assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Ordem solução###07 Apr 2005 content changed
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
@@ -515,7 +513,6 @@ assessment#:#tst_question_offer#:#Do you accept this sample or do you want anoth
 assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.###23 Dec 2005 new variable
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
-assessment#:#tst_question_solved_state#:#Solved###08 Apr 2005 new variable
 assessment#:#tst_question_title#:#Título###07 Apr 2005 content changed
 assessment#:#tst_question_type#:#Tipo de Questão###07 Apr 2005 content changed
 assessment#:#tst_questions_inserted#:#Questõe(s) inseridas!###07 Apr 2005 content changed
@@ -533,8 +530,6 @@ assessment#:#tst_remove_questions#:#Tem a certeza que quer remover as seguintes 
 assessment#:#tst_remove_questions_and_results#:#Este teste já foi feito pelos %s utilizadore(s). Remover questões deste teste fará remover todos os resultados destes utilizadores. Tem a certeza que quer remover as seguintes questões do teste?###07 Apr 2005 content changed
 assessment#:#tst_report_after_question#:#Mostrar pontuação depois de cada questão respondida###07 Apr 2005 content changed
 assessment#:#tst_report_after_test#:#Mostrar pontuação depois de completo todo o teste###07 Apr 2005 content changed
-assessment#:#tst_result_congratulations#:#Parabéns! Você passou no teste.###07 Apr 2005 content changed
-assessment#:#tst_result_sorry#:#Com muita pena, você falhou o teste.###07 Apr 2005 content changed
 assessment#:#tst_result_user_name#:#Test results for %s###03 Nov 2005 new variable
 assessment#:#tst_results#:#Resultados do Teste###07 Apr 2005 content changed
 assessment#:#tst_results_aggregated#:#Aggregated test results###03 Nov 2005 new variable
@@ -609,8 +604,6 @@ assessment#:#tst_types#:#Tipos de teste###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
 assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.###08 Apr 2005 new variable
-assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
-assessment#:#tst_your_mark_is#:#A sua nota é###07 Apr 2005 content changed
 assessment#:#tt_assessment#:#Teste de avaliação###07 Apr 2005 content changed
 assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
 assessment#:#tt_self_assessment#:#Teste de Auto-avaliação###07 Apr 2005 content changed
@@ -2713,9 +2706,6 @@ common#:#select_questionpool_option#:#Please select a question pool###14 Oct 200
 common#:#selected#:#Seleccionado###07 Apr 2005 content changed
 common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Enviar###07 Apr 2005 content changed
-common#:#send_mail_admins#:#Mail to administrators###23 Dec 2005 new variable
-common#:#send_mail_members#:#Mail to members###23 Dec 2005 new variable
-common#:#send_mail_tutors#:#Mail to tutors###23 Dec 2005 new variable
 common#:#sender#:#Remetente###07 Apr 2005 content changed
 common#:#sent#:#Enviado###07 Apr 2005 content changed
 common#:#sequence#:#Sequência###07 Apr 2005 content changed
@@ -5722,10 +5712,6 @@ common#:#im_yahoo_icon#:#Yahoo Logo###25 02 2007 new variable
 common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
-common#:#show_user_activity#:#Show User Activity###25 02 2007 new variable
-common#:#display_not_active_status_after#:#Display Status 'Not active' after###25 02 2007 new variable
-common#:#show_user_activity_desc#:#If enabled, this option displays 'Not active' next to a user's name in the Users online list on the Personal Desktop when no input occured within the time intervall defined above.###25 02 2007 new variable
-common#:#status_not_active#:#Not active###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
 common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
@@ -5809,7 +5795,6 @@ assessment#:#search_results#:#Search Results###25 02 2007 new variable
 assessment#:#number_of_answers#:#Number of Answers###25 02 2007 new variable
 assessment#:#numeric_gap#:#Numeric Gap###25 02 2007 new variable
 assessment#:#set_edit_mode#:#Set Edit Mode###25 02 2007 new variable
-assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points###25 02 2007 new variable
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords###25 02 2007 new variable
 assessment#:#test_reference#:#Test Reference###25 02 2007 new variable
 assessment#:#text_rating#:#Text Matching Method###25 02 2007 new variable
@@ -7291,3 +7276,48 @@ chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by th
 common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
 common#:#lang_et#:#Estonian###10 05 2007 new variable
 common#:#lang_ru#:#Russian###10 05 2007 new variable
+assessment#:#enable_javascript#:#Click to enable JavaScript support###29 05 2007 new variable
+assessment#:#disable_javascript#:#Click to disable JavaScript support###29 05 2007 new variable
+assessment#:#question_marking#:#Show Question Marking###29 05 2007 new variable
+assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
+assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
+assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
+assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;###29 05 2007 new variable
+assessment#:#tst_question_mark#:#Mark this question###29 05 2007 new variable
+assessment#:#tst_question_marked#:#You marked the question###29 05 2007 new variable
+assessment#:#tst_question_marker#:#Marker###29 05 2007 new variable
+assessment#:#tst_question_unmark#:#Remove the mark for this question###29 05 2007 new variable
+assessment#:#tst_report_after_date#:#After a fixed score reporting date###29 05 2007 new variable
+assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass###29 05 2007 new variable
+common#:#assessment_defaults#:#Default settings for Test & Assessment###29 05 2007 new variable
+common#:#assessment_use_javascript#:#JavaScript for Drag & Drop###29 05 2007 new variable
+common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time###29 05 2007 new variable
+pd#:#pd_enable_active_users#:#Enable Active Users Block###29 05 2007 new variable
+pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new variable
+pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
+pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
+pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
+common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
+jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
+jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
+jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;###29 05 2007 new variable
+jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!###29 05 2007 new variable
+jsmath#:#jsmath_enable_user#:#Enable jsMath support###29 05 2007 new variable
+jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.###29 05 2007 new variable
+jsmath#:#jsmath_default_setting#:#Use as default###29 05 2007 new variable
+jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.###29 05 2007 new variable
+jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.###29 05 2007 new variable
+common#:#invisible_block#:#Invisible Block###29 05 2007 new variable
+common#:#invisible_block_mess#:#You do not have the permission to view this block.###29 05 2007 new variable
+common#:#send_mail_selected#:#Select mail recipients from list###29 05 2007 new variable
+content#:#cont_operation_not_allowed#:#This operation is not allowed.###29 05 2007 new variable
+crs#:#crs_no_exercises#:#No exercises found inside this course###29 05 2007 new variable
+survey#:#export_all_survey_codes#:#Export all Access Codes###29 05 2007 new variable
+common#:#applications#:#Applications###29 05 2007 new variable
+search#:#search_page#:#Results:###29 05 2007 new variable
+search#:#search_page_next#:#Next###29 05 2007 new variable
+search#:#search_page_prev#:#Previou###29 05 2007 new variable

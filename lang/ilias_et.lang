@@ -464,9 +464,6 @@ assessment#:#set_edit_mode#:#Set edit mode
 assessment#:#set_filter#:#Set filter
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers
-assessment#:#solution_comment_count_system#:#Küsimustele, millele on vastatud vaid osaliselt õieti, antakse 0 punkti
-assessment#:#solution_comment_mc_scoring#:#Valikvastustega küsimustele, mille ühtegi vastusevarianti pole märgitud, antakse tulemuseks 0 punkti
-assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points
 assessment#:#solution_hint#:#Viide lahendusele
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Solution order
@@ -587,7 +584,6 @@ assessment#:#tst_question_offer#:#Do you accept this sample or do you want anoth
 assessment#:#tst_question_selection#:#Question selection
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points
-assessment#:#tst_question_solved_state#:#Solved
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
@@ -606,8 +602,6 @@ assessment#:#tst_remove_questions_and_results#:#This test was already executed b
 assessment#:#tst_report_after_first_question#:#Offer score reporting when the test has been started
 assessment#:#tst_report_after_question#:#Report the score after every question is answered
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
-assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
-assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_result_user_name#:#Testitulemused: %s
 assessment#:#tst_results#:#Testitulemused
 assessment#:#tst_results_aggregated#:#Testi koondandmed
@@ -692,8 +686,6 @@ assessment#:#tst_types#:#Testi liigid
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#Siin on sinu vastused järgmistele küsimustele.
-assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is
-assessment#:#tst_your_mark_is#:#Sinu hinne on
 assessment#:#tt_assessment#:#Hindeline test
 assessment#:#tt_online_exam#:#Onlain eksam
 assessment#:#tt_self_assessment#:#Enesehindamistest
@@ -3045,9 +3037,6 @@ common#:#select_questionpool_option#:#--- Vali küsimustebassein ---
 common#:#selected#:#Valitud
 common#:#selected_items#:#Minu asjad
 common#:#send#:#Saada
-common#:#send_mail_admins#:#Kiri administraatoritele
-common#:#send_mail_members#:#Kiri liikmetele
-common#:#send_mail_tutors#:#Kiri õpetajatele
 common#:#sender#:#Saatja
 common#:#sent#:#Saadetud
 common#:#sequence#:#Sequence
@@ -6841,10 +6830,6 @@ common#:#im_yahoo_icon#:#Yahoo Logo###25 02 2007 new variable
 common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
-common#:#show_user_activity#:#Show User Activity###25 02 2007 new variable
-common#:#display_not_active_status_after#:#Display Status 'Not active' after###25 02 2007 new variable
-common#:#show_user_activity_desc#:#If enabled, this option displays 'Not active' next to a user's name in the Users online list on the Personal Desktop when no input occured within the time intervall defined above.###25 02 2007 new variable
-common#:#status_not_active#:#Not active###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
 common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###25 02 2007 new variable
@@ -7291,3 +7276,48 @@ chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by th
 common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
 common#:#lang_et#:#Estonian###10 05 2007 new variable
 common#:#lang_ru#:#Russian###10 05 2007 new variable
+assessment#:#enable_javascript#:#Click to enable JavaScript support###29 05 2007 new variable
+assessment#:#disable_javascript#:#Click to disable JavaScript support###29 05 2007 new variable
+assessment#:#question_marking#:#Show Question Marking###29 05 2007 new variable
+assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
+assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
+assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
+assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;###29 05 2007 new variable
+assessment#:#tst_question_mark#:#Mark this question###29 05 2007 new variable
+assessment#:#tst_question_marked#:#You marked the question###29 05 2007 new variable
+assessment#:#tst_question_marker#:#Marker###29 05 2007 new variable
+assessment#:#tst_question_unmark#:#Remove the mark for this question###29 05 2007 new variable
+assessment#:#tst_report_after_date#:#After a fixed score reporting date###29 05 2007 new variable
+assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass###29 05 2007 new variable
+common#:#assessment_defaults#:#Default settings for Test & Assessment###29 05 2007 new variable
+common#:#assessment_use_javascript#:#JavaScript for Drag & Drop###29 05 2007 new variable
+common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time###29 05 2007 new variable
+pd#:#pd_enable_active_users#:#Enable Active Users Block###29 05 2007 new variable
+pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new variable
+pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
+pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
+pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
+common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
+jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
+jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
+jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;###29 05 2007 new variable
+jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!###29 05 2007 new variable
+jsmath#:#jsmath_enable_user#:#Enable jsMath support###29 05 2007 new variable
+jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.###29 05 2007 new variable
+jsmath#:#jsmath_default_setting#:#Use as default###29 05 2007 new variable
+jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.###29 05 2007 new variable
+jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.###29 05 2007 new variable
+common#:#invisible_block#:#Invisible Block###29 05 2007 new variable
+common#:#invisible_block_mess#:#You do not have the permission to view this block.###29 05 2007 new variable
+common#:#send_mail_selected#:#Select mail recipients from list###29 05 2007 new variable
+content#:#cont_operation_not_allowed#:#This operation is not allowed.###29 05 2007 new variable
+crs#:#crs_no_exercises#:#No exercises found inside this course###29 05 2007 new variable
+survey#:#export_all_survey_codes#:#Export all Access Codes###29 05 2007 new variable
+common#:#applications#:#Applications###29 05 2007 new variable
+search#:#search_page#:#Results:###29 05 2007 new variable
+search#:#search_page_next#:#Next###29 05 2007 new variable
+search#:#search_page_prev#:#Previou###29 05 2007 new variable

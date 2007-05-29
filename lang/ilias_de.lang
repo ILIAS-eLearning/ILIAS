@@ -773,7 +773,6 @@ assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, o
 assessment#:#tst_question_selection#:#Fragenauswahl
 assessment#:#tst_question_selection_description#:#Wenn Sie nur Fragenpools verwenden, deren Fragen die gleiche maximale Punktezahl aufweisen, hat dieser Test die gleiche maximale Punktezahl für alle Teilnehmerinnen, was die Testergebnisse besser miteinander vergleichbar macht. Diese Vorgehensweise wird empfohlen.
 assessment#:#tst_question_selection_equal#:#Nur Fragenpools mit Fragen gleicher maximaler Punktezahl verwenden
-assessment#:#tst_question_solved_state#:#Gelöst
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Fragentyp
 assessment#:#tst_question_unmark#:#Markierung für diese Frage entfernen
@@ -807,8 +806,6 @@ assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
 assessment#:#tst_results_presentation#:#Präsentation der Testergebnisse
 assessment#:#tst_results_presentation_description#:#Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden die diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt.
-assessment#:#tst_result_congratulations#:#Glückwunsch! Sie haben den Test bestanden.
-assessment#:#tst_result_sorry#:#Sie haben den Test leider nicht bestanden.
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_resume_test#:#Test fortsetzen
@@ -907,8 +904,6 @@ assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästc
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben. Bitte kontrollieren Sie ihre Antworten und senden Sie diese dann ab.
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
-assessment#:#tst_your_ects_mark_is#:#Ihre ECTS-Note lautet
-assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_online_exam#:#Online Prüfung
 assessment#:#tt_self_assessment#:#Selbsteinschätzung
@@ -1785,7 +1780,6 @@ common#:#details#:#Details
 common#:#disable#:#ausschalten
 common#:#disabled#:#Ausgeschaltet
 common#:#disable_check#:#Keine Überprüfung
-common#:#display_not_active_status_after#:#Status 'Nicht aktiv' anzeigen nach
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Herunterladen
@@ -3541,8 +3535,6 @@ common#:#show_private_notes#:#Private Notizen zeigen
 common#:#show_public_notes#:#Öffentliche Notizen zeigen
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
-common#:#show_user_activity#:#Benutzeraktivität anzeigen
-common#:#show_user_activity_desc#:#Wenn aktiviert, erscheint in der Liste der aktiven Benutzer auf Ihrem persönlichen Schreibtisch hinter jedem Benutzer die Meldung 'Nicht aktiv', sobald nach Ablauf der oben eingestellten Zeit keine Eingabe mehr erfolgte.
 common#:#signature#:#Signatur
 common#:#size#:#Größe
 common#:#skin_style#:#Standard-Skin / -Style
@@ -3566,7 +3558,6 @@ common#:#standard_fields#:#Standardfelder
 common#:#startpage#:#Startseite
 common#:#statistic#:#Statistik
 common#:#status#:#Status
-common#:#status_not_active#:#Nicht aktiv
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#stop_moving_blocks#:#Stop Moving Blocks###02 04 2007 new variable
@@ -7327,3 +7318,6 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+survey#:#export_all_survey_codes#:#Export all Access Codes###29 05 2007 new variable
