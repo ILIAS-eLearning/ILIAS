@@ -265,6 +265,8 @@ common#:#im_aim_icon#:#AIM Logo
 common#:#im_skype_icon#:#Skype Logo
 common#:#not_enabled_or_configured#:#Not configured or enabled
 common#:#fold_create_grp#:#Add new Group
+common#:#width#:#Width
+common#:#height#:#Height
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
@@ -6724,6 +6726,8 @@ survey#:#survey_codes_lang#:#ILIAS language for the direct access URL
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#Finish Survey
+survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text input field
+survey#:#survey_text_textheight_desc#:#Enter the height in characters for the text input field
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.

@@ -38,6 +38,9 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 class SurveyTextQuestion extends SurveyQuestion 
 {
 	var $maxchars;
+	var $textwidth;
+	var $textheight;
+	
 /**
 * SurveyTextQuestion constructor
 *
@@ -60,6 +63,8 @@ class SurveyTextQuestion extends SurveyQuestion
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->maxchars = 0;
+		$this->textwidth = 50;
+		$this->textheight = 5;
 	}
 	
 	/**
@@ -118,6 +123,8 @@ class SurveyTextQuestion extends SurveyQuestion
 				$this->owner = $data->owner_fi;
 				$this->original_id = $data->original_id;
 				$this->maxchars = $data->maxchars;
+				$this->textwidth = $data->width;
+				$this->textheight = $data->height;
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
 				$this->complete = $data->complete;
@@ -227,8 +234,10 @@ class SurveyTextQuestion extends SurveyQuestion
       if ($result == DB_OK) 
 			{
         $this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_text (question_fi, maxchars) VALUES (%s, %s)",
+				$query = sprintf("INSERT INTO survey_question_text (question_fi, maxchars, width, height) VALUES (%s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->getTextWidth() . ""),
+					$ilDB->quote($this->getTextHeight() . ""),
 					$maxchars
 				);
 				$ilDB->query($query);
@@ -247,8 +256,10 @@ class SurveyTextQuestion extends SurveyQuestion
 				$ilDB->quote($this->id)
       );
       $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_text SET maxchars = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_text SET maxchars = %s, width = %s, height = %s WHERE question_fi = %s",
 				$maxchars,
+				$ilDB->quote($this->getTextWidth() . ""),
+				$ilDB->quote($this->getTextHeight() . ""),
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
@@ -311,7 +322,9 @@ class SurveyTextQuestion extends SurveyQuestion
 
 		$a_xml_writer->xmlStartTag("responses");
 		$attrs = array(
-			"id" => "0"
+			"id" => "0",
+			"rows" => $this->getTextHeight(),
+			"columns" => $this->getTextWidth()
 		);
 		if ($this->getMaxChars() > 0)
 		{
@@ -361,8 +374,10 @@ class SurveyTextQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
       );
       $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_text SET maxchars = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_text SET maxchars = %s, width = %s, height = %s WHERE question_fi = %s",
 				$ilDB->quote($this->getMaxChars() . ""),
+				$ilDB->quote($this->getTextWidth() . ""),
+				$ilDB->quote($this->getTextHeight() . ""),
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
@@ -618,6 +633,14 @@ class SurveyTextQuestion extends SurveyQuestion
 			{
 				$this->setMaxChars($data["maxlength"]);
 			}
+			if ($data["rows"] > 0)
+			{
+				$this->setTextHeight($data["rows"]);
+			}
+			if ($data["columns"] > 0)
+			{
+				$this->setTextWidth($data["columns"]);
+			}
 		}
 	}
 
@@ -634,5 +657,70 @@ class SurveyTextQuestion extends SurveyQuestion
 		return FALSE;
 	}
 
+	/**
+	* Returns the width of the answer field
+	*
+	* Returns the width of the answer field
+	*
+	* @return integer The width of the answer field in characters
+	* @access public
+	*/
+	function getTextWidth()
+	{
+		return $this->textwidth;
+	}
+	
+	/**
+	* Returns the height of the answer field
+	*
+	* Returns the height of the answer field
+	*
+	* @return integer The height of the answer field in characters
+	* @access public
+	*/
+	function getTextHeight()
+	{
+		return $this->textheight;
+	}
+	
+	/**
+	* Sets the width of the answer field
+	*
+	* Sets the width of the answer field
+	*
+	* @param integer $a_textwidth The width of the answer field in characters
+	* @access public
+	*/
+	function setTextWidth($a_textwidth)
+	{
+		if ($a_textwidth < 1)
+		{
+			$this->textwidth = 50;
+		}
+		else
+		{
+			$this->textwidth = $a_textwidth;
+		}
+	}
+	
+	/**
+	* Sets the height of the answer field
+	*
+	* Sets the height of the answer field
+	*
+	* @param integer $a_textheight The height of the answer field in characters
+	* @access public
+	*/
+	function setTextHeight($a_textheight)
+	{
+		if ($a_textheight < 1)
+		{
+			$this->textheight = 5;
+		}
+		else
+		{
+			$this->textheight = $a_textheight;
+		}
+	}
 }
 ?>

@@ -1495,3 +1495,6 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
 $this->db->query($query);
 
 ?>
+<#1003>
+ALTER TABLE `survey_question_text` ADD `width` INT NOT NULL DEFAULT  '50';
+ALTER TABLE `survey_question_text` ADD `height` INT NOT NULL DEFAULT  '5';
