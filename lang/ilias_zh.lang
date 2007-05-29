@@ -7336,3 +7336,8 @@ common#:#applications#:#Applications###29 05 2007 new variable
 search#:#search_page#:#Results:###29 05 2007 new variable
 search#:#search_page_next#:#Next###29 05 2007 new variable
 search#:#search_page_prev#:#Previou###29 05 2007 new variable
+common#:#width#:#Width###29 05 2007 new variable
+common#:#height#:#Height###29 05 2007 new variable
+survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text input field###29 05 2007 new variable
+survey#:#survey_text_textheight_desc#:#Enter the height in characters for the text input field###29 05 2007 new variable
+survey#:#survey_question_editor#:#Edit survey questions###29 05 2007 new variable
