@@ -117,6 +117,18 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
+		$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
+		$this->tpl->setVariable("TEXT_HEIGHT", $this->lng->txt("height"));
+		$this->tpl->setVariable("DESCRIPTION_TEXTWIDTH", $this->lng->txt("survey_text_textwidth_desc"));
+		$this->tpl->setVariable("DESCRIPTION_TEXTHEIGHT", $this->lng->txt("survey_text_textheight_desc"));
+		if ($this->object->getTextWidth())
+		{
+			$this->tpl->setVariable("VALUE_TEXTWIDTH", " value=\"" . $this->object->getTextWidth() . "\"");
+		}
+		if ($this->object->getTextHeight())
+		{
+			$this->tpl->setVariable("VALUE_TEXTHEIGHT", " value=\"" . $this->object->getTextHeight() . "\"");
+		}
 		$this->tpl->setVariable("DESCRIPTION_MAXCHARS", $this->lng->txt("description_maxchars"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
@@ -160,6 +172,37 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$template->parseCurrentBlock();
 		}
+
+		if ($this->object->getTextHeight() == 1)
+		{
+			$template->setCurrentBlock("textinput");
+			if (is_array($working_data))
+			{
+				if (strlen($working_data[0]["textanswer"]))
+				{
+					$template->setVariable("VALUE_ANSWER", " value=\"" . $working_data[0]["textanswer"] . "\"");
+				}
+			}
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("WIDTH", $this->object->getTextWidth());
+			if ($this->object->getMaxChars())
+			{
+				$template->setVariable("MAXLENGTH", " maxlength=\"" . $this->object->getMaxChars() . "\"");
+			}
+			$template->parseCurrentBlock();
+		}
+		else
+		{
+			$template->setCurrentBlock("textarea");
+			if (is_array($working_data))
+			{
+				$template->setVariable("VALUE_ANSWER", $working_data[0]["textanswer"]);
+			}
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("WIDTH", $this->object->getTextWidth());
+			$template->setVariable("HEIGHT", $this->object->getTextHeight());
+			$template->parseCurrentBlock();
+		}
 		$template->setCurrentBlock("question_data_text");
 		if ($show_questiontext)
 		{
@@ -175,11 +218,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		}
 		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-		$template->setVariable("QUESTION_ID", $this->object->getId());
-		if (is_array($working_data))
-		{
-			$template->setVariable("VALUE_ANSWER", $working_data[0]["textanswer"]);
-		}
+		$template->setVariable("LABEL_QUESTION_ID", $this->object->getId());
 		if (strcmp($error_message, "") != 0)
 		{
 			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
@@ -269,6 +308,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		$this->object->setMaxChars(ilUtil::stripSlashes($_POST["maxchars"]));
+		$this->object->setTextWidth(ilUtil::stripSlashes($_POST["textwidth"]));
+		$this->object->setTextHeight(ilUtil::stripSlashes($_POST["textheight"]));
 		if (strlen($_POST["material"]))
 		{
 			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
