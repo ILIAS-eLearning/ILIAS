@@ -1,0 +1,36 @@
+<!-- BEGIN questiontitle -->
+<div class="questionTitle">{QUESTION_TITLE}</div>
+<!-- END questiontitle -->
+<p>{QUESTIONTEXT}<br /><span class="obligatory">{OBLIGATORY_TEXT}</span></p>
+<!-- BEGIN tableoutput -->
+<table class="nobackground">
+<!-- BEGIN ordinal_row -->
+<tr>
+<td class="nobackground" width="1%"><img src="{IMAGE_RADIO}" alt="{ALT_RADIO}" title="{TITLE_RADIO}" /></td>
+<td class="nobackground">{TEXT_ORDINAL}</td>
+</tr>
+<!-- END ordinal_row -->
+<!-- BEGIN ordinal_col -->
+<tr>
+<!-- BEGIN radio_col_ordinal -->
+<td class="nobackground" align="center"><img src="{IMAGE_RADIO}" alt="{ALT_RADIO}" title="{TITLE_RADIO}" /></td>
+<td width="20"></td>
+<!-- END radio_col_ordinal -->
+</tr>
+<tr>
+<!-- BEGIN text_col_ordinal -->
+<td class="nobackground" align="center">{TEXT_ORDINAL}</td>
+<td width="20"></td>
+<!-- END text_col_ordinal -->
+</tr>
+<!-- END ordinal_col -->
+</table>
+<!-- END tableoutput -->
+<!-- BEGIN combooutput -->
+{TEXT_SELECTION}: <select name="{QUESTION_ID}_value">
+	<option value="">{SELECT_OPTION}</option>
+<!-- BEGIN comborow -->
+	<option value="{VALUE_ORDINAL}"{SELECTED_ORDINAL}>{TEXT_ORDINAL}</option>
+<!-- END comborow -->
+</select>
+<!-- END combooutput -->

@@ -357,6 +357,118 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$template->parseCurrentBlock();
 		return $template->get();
 	}
+
+	/**
+	* Creates a HTML representation of the question
+	*
+	* Creates a HTML representation of the question
+	*
+	* @access private
+	*/
+	function getPrintView($question_title = 1, $show_questiontext = 1)
+	{
+		$template = new ilTemplate("tpl.il_svy_qpl_nominal_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		switch ($this->object->getOrientation())
+		{
+			case 0:
+				// vertical orientation
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+					$category = $this->object->categories->getCategory($i);
+					if ($this->object->getSubtype() == SUBTYPE_MCSR)
+					{
+						$template->setCurrentBlock("nominal_row_sr");
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("nominal_row_mr");
+						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
+						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->parseCurrentBlock();
+					}
+				}
+				break;
+			case 1:
+				// horizontal orientation
+				if ($this->object->getSubtype() == SUBTYPE_MCSR)
+				{
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->categories->getCategory($i);
+						$template->setCurrentBlock("radio_col_nominal");
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+						$template->parseCurrentBlock();
+					}
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->categories->getCategory($i);
+						$template->setCurrentBlock("text_col_nominal");
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->parseCurrentBlock();
+					}
+				}
+				else
+				{
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->categories->getCategory($i);
+						$template->setCurrentBlock("checkbox_col_nominal");
+						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
+						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+						$template->parseCurrentBlock();
+					}
+					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+					{
+						$category = $this->object->categories->getCategory($i);
+						$template->setCurrentBlock("text_col_nominal_mr");
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->parseCurrentBlock();
+					}
+				}
+				break;
+			case 2:
+				// combobox output
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->categories->getCategory($i);
+					$template->setCurrentBlock("comborow_nominal");
+					$template->setVariable("TEXT_NOMINAL", $category);
+					$template->setVariable("VALUE_NOMINAL", $i);
+					$template->parseCurrentBlock();
+				}
+				$template->setCurrentBlock("combooutput_nominal");
+				$template->setVariable("QUESTION_ID", $this->object->getId());
+				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
+				$template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
+				$template->parseCurrentBlock();
+				break;
+		}
+		
+		if ($show_questiontext)
+		{
+			$questiontext = $this->object->getQuestiontext();
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
+		if (! $this->object->getObligatory())
+		{
+			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+		}
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
+		$template->parseCurrentBlock();
+		return $template->get();
+	}
 	
 /**
 * Creates a preview of the question

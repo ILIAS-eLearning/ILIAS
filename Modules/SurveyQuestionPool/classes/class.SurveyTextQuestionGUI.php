@@ -192,6 +192,46 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		return $template->get();
 	}
 
+	/**
+	* Creates a HTML representation of the question
+	*
+	* Creates a HTML representation of the question
+	*
+	* @access private
+	*/
+	function getPrintView($question_title = 1, $show_questiontext = 1)
+	{
+		$template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if ($show_questiontext)
+		{
+			$questiontext = $this->object->getQuestiontext();
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
+		if (! $this->object->getObligatory())
+		{
+			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+		}
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
+		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+		$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("empty.gif"));
+		$image->setVariable("STYLE", "border-style: inset; border-width: 1px;");
+		$image->setVariable("IMAGE_ALT", $this->lng->txt("empty"));
+		$image->setVariable("IMAGE_TITLE", $this->lng->txt("empty"));
+		$image->setVariable("IMAGE_WIDTH", "800px");
+		$image->setVariable("IMAGE_HEIGHT", "100px");
+		$template->setVariable("TEXT_CONTENT", $image->get());
+		$template->setVariable("QUESTION_ID", $this->object->getId());
+		if ($this->object->getMaxChars())
+		{
+			$template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
+		}
+		return $template->get();
+	}
+	
 /**
 * Creates a preview of the question
 *

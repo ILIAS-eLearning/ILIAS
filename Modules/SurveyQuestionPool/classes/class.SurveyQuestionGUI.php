@@ -453,6 +453,19 @@ class SurveyQuestionGUI
 		}
 	}
 
+
+	/**
+	* Creates a HTML representation of the question
+	*
+	* Creates a HTML representation of the question
+	*
+	* @access private
+	*/
+	function getPrintView($question_title = 1, $show_questiontext = 1)
+	{
+		return "";
+	}
+
 	function setQuestionTabsForClass($guiclass)
 	{
 		global $rbacsystem,$ilTabs;
