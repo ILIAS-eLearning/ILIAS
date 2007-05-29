@@ -414,8 +414,6 @@ assessment#:#selected_image#:#đã chọn ảnh
 assessment#:#set_filter#:#Đặt bộ lọc
 assessment#:#shape#:#Hình
 assessment#:#shuffle_answers#:#Xáo trộn các lựa chọn
-assessment#:#solution_comment_count_system#:#Câu hỏi trả lời đúng một phần chỉ được tính 0 điểm.
-assessment#:#solution_comment_mc_scoring#:#Câu hỏi nhiều lựa chọn mà không có lựa chọn nào được đánh dấu chỉ được tính 0 điểm.
 assessment#:#solution_hint#:#Đáp án gợi ý
 assessment#:#solution_order#:#Thứ tự giải pháp
 assessment#:#start_tag#:#Thẻ bắt đầu
@@ -520,7 +518,6 @@ assessment#:#tst_question_offer#:#Bạn có chấp nhận mẫu này hoặc bạ
 assessment#:#tst_question_selection#:#Lựa chọn câu hỏi
 assessment#:#tst_question_selection_description#:#Nếu bạn chỉ sử dụng thư viện câu hỏi chứa câu hỏi với số điểm tối đa như nhau, bài kiểm tra sẽ dễ so sánh hơn giữa những người thực hiện. Với chế độ lựa chọn này nên làm như vậy.
 assessment#:#tst_question_selection_equal#:#Sử dụng thư viện câu hỏi với số điểm tối đa bằng nhau
-assessment#:#tst_question_solved_state#:#Đã giải quyết
 assessment#:#tst_question_title#:#Tiêu đề
 assessment#:#tst_question_type#:#Kiểu câu hỏi
 assessment#:#tst_questions_inserted#:#Đã thêm (các) câu hỏi!
@@ -538,8 +535,6 @@ assessment#:#tst_remove_questions#:#Bạn có chắc bạn muốn xóa (các) c�
 assessment#:#tst_remove_questions_and_results#:#Bài kiểm tra này đã được thực hiện bởi %s người sử dụng. Xóa câu hỏi khỏi bài kiểm tra này sẽ xóa toàn bộ kết quả bài đó của những người sử dụng này. Bạn có chắc bạn muốn xóa (các) câu hỏi sau khỏi bài kiểm tra?
 assessment#:#tst_report_after_question#:#Báo điểm sau khi tất cả câu hỏi đã được trả lời
 assessment#:#tst_report_after_test#:#Báo điểm sau khi hoàn thành toàn bộ bài kiểm tra
-assessment#:#tst_result_congratulations#:#Xin chúc mừng! Bài kiểm tra của bạn đạt yêu cầu.
-assessment#:#tst_result_sorry#:#Xin lỗi, bài kiểm tra của bạn không đạt.
 assessment#:#tst_result_user_name#:#Kết quả kiểm tra của %s
 assessment#:#tst_results#:#Kết quả bài kiểm tra
 assessment#:#tst_results_aggregated#:#Tổng hợp kết quả kiểm tra
@@ -614,8 +609,6 @@ assessment#:#tst_types#:#Kiểu bài kiểm tra
 assessment#:#tst_use_javascript#:#Sử dụng Javascript để thao tác kéo và thả
 assessment#:#tst_your_answer_was#:#Câu trả lời của bạn là
 assessment#:#tst_your_answers#:#Đây là những câu trả lời của bạn cho những câu hỏi dưới đây.
-assessment#:#tst_your_ects_mark_is#:#ECTS grade của bạn là///
-assessment#:#tst_your_mark_is#:#Điểm của bạn là
 assessment#:#tt_assessment#:#Bài kiểm tra đánh giá
 assessment#:#tt_online_exam#:#Thi Online
 assessment#:#tt_self_assessment#:#Bài kiểm tra tự đánh giá
@@ -2718,9 +2711,6 @@ common#:#select_questionpool_option#:#--- Hãy chọn một thư viện câu h�
 common#:#selected#:#đã chọn
 common#:#selected_items#:#Khoản mục cá nhân
 common#:#send#:#Gửi
-common#:#send_mail_admins#:#Gửi thư cho quản trị
-common#:#send_mail_members#:#Gửi thư cho các thành viên
-common#:#send_mail_tutors#:#Gửi thư cho các trợ giáo
 common#:#sender#:#Người gửi
 common#:#sent#:#Đã gửi
 common#:#sequence#:#Trình tự
@@ -5729,10 +5719,6 @@ common#:#im_yahoo_icon#:#Yahoo Logo###25 02 2007 new variable
 common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
-common#:#show_user_activity#:#Show User Activity###25 02 2007 new variable
-common#:#display_not_active_status_after#:#Display Status 'Not active' after###25 02 2007 new variable
-common#:#show_user_activity_desc#:#If enabled, this option displays 'Not active' next to a user's name in the Users online list on the Personal Desktop when no input occured within the time intervall defined above.###25 02 2007 new variable
-common#:#status_not_active#:#Not active###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
 common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
@@ -5816,7 +5802,6 @@ assessment#:#search_results#:#Search Results###25 02 2007 new variable
 assessment#:#number_of_answers#:#Number of Answers###25 02 2007 new variable
 assessment#:#numeric_gap#:#Numeric Gap###25 02 2007 new variable
 assessment#:#set_edit_mode#:#Set Edit Mode###25 02 2007 new variable
-assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points###25 02 2007 new variable
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords###25 02 2007 new variable
 assessment#:#test_reference#:#Test Reference###25 02 2007 new variable
 assessment#:#text_rating#:#Text Matching Method###25 02 2007 new variable
@@ -7298,3 +7283,48 @@ chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by th
 common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
 common#:#lang_et#:#Estonian###10 05 2007 new variable
 common#:#lang_ru#:#Russian###10 05 2007 new variable
+assessment#:#enable_javascript#:#Click to enable JavaScript support###29 05 2007 new variable
+assessment#:#disable_javascript#:#Click to disable JavaScript support###29 05 2007 new variable
+assessment#:#question_marking#:#Show Question Marking###29 05 2007 new variable
+assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
+assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
+assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
+assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;###29 05 2007 new variable
+assessment#:#tst_question_mark#:#Mark this question###29 05 2007 new variable
+assessment#:#tst_question_marked#:#You marked the question###29 05 2007 new variable
+assessment#:#tst_question_marker#:#Marker###29 05 2007 new variable
+assessment#:#tst_question_unmark#:#Remove the mark for this question###29 05 2007 new variable
+assessment#:#tst_report_after_date#:#After a fixed score reporting date###29 05 2007 new variable
+assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass###29 05 2007 new variable
+common#:#assessment_defaults#:#Default settings for Test & Assessment###29 05 2007 new variable
+common#:#assessment_use_javascript#:#JavaScript for Drag & Drop###29 05 2007 new variable
+common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time###29 05 2007 new variable
+pd#:#pd_enable_active_users#:#Enable Active Users Block###29 05 2007 new variable
+pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new variable
+pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
+pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
+pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
+common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
+jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
+jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
+jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;###29 05 2007 new variable
+jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!###29 05 2007 new variable
+jsmath#:#jsmath_enable_user#:#Enable jsMath support###29 05 2007 new variable
+jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.###29 05 2007 new variable
+jsmath#:#jsmath_default_setting#:#Use as default###29 05 2007 new variable
+jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.###29 05 2007 new variable
+jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.###29 05 2007 new variable
+common#:#invisible_block#:#Invisible Block###29 05 2007 new variable
+common#:#invisible_block_mess#:#You do not have the permission to view this block.###29 05 2007 new variable
+common#:#send_mail_selected#:#Select mail recipients from list###29 05 2007 new variable
+content#:#cont_operation_not_allowed#:#This operation is not allowed.###29 05 2007 new variable
+crs#:#crs_no_exercises#:#No exercises found inside this course###29 05 2007 new variable
+survey#:#export_all_survey_codes#:#Export all Access Codes###29 05 2007 new variable
+common#:#applications#:#Applications###29 05 2007 new variable
+search#:#search_page#:#Results:###29 05 2007 new variable
+search#:#search_page_next#:#Next###29 05 2007 new variable
+search#:#search_page_prev#:#Previou###29 05 2007 new variable
