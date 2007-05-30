@@ -488,14 +488,28 @@ class assImagemapQuestionGUI extends assQuestionGUI
 
 	function uploadingImage()
 	{
-		$this->writePostData();
-		$this->editQuestion();
+		if ($_GET["q_id"] < 1)
+		{
+			$this->save();
+		}
+		else
+		{
+			$this->writePostData();
+			$this->editQuestion();
+		}
 	}
 
 	function uploadingImagemap()
 	{
-		$this->writePostData();
-		$this->editQuestion();
+		if ($_GET["q_id"] < 1)
+		{
+			$this->save();
+		}
+		else
+		{
+			$this->writePostData();
+			$this->editQuestion();
+		}
 	}
 
 	function deleteArea()
@@ -587,7 +601,8 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				// Question is already saved, so imagemaps and images can be uploaded
 				//setting image file
-				if (empty($_FILES['imageName']['tmp_name']))
+
+				if (strlen($_FILES['imageName']['tmp_name']) == 0)
 				{
 					$this->object->setImageFilename(ilUtil::stripSlashes($_POST["uploaded_image"]));
 				}
@@ -631,8 +646,8 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					{
 						$this->object->saveToDb();
 						$_GET["q_id"] = $this->object->getId();
-						$saved = true;
-						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"));
+						$saved = TRUE;
+						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"), TRUE);
 					}
 					$this->object->setImagemapFilename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
 				}

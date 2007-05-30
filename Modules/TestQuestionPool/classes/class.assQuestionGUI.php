@@ -498,7 +498,6 @@ class assQuestionGUI
 	function save()
 	{
 		global $ilUser;
-		
 		$old_id = $_GET["q_id"];
 		$result = $this->writePostData();
 		if ($result == 0)

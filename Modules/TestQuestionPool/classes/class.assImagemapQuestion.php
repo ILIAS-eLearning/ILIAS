@@ -503,6 +503,7 @@ class assImagemapQuestion extends assQuestion
 			{
 				$this->ilias->raiseError("The image could not be uploaded!", $this->ilias->error_obj->MESSAGE);
 			}
+			global $ilLog; $ilLog->write("gespeichert: " . $imagepath.$image_filename);
 		}
   }
 
