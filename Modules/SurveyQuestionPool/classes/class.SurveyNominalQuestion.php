@@ -642,18 +642,14 @@ class SurveyNominalQuestion extends SurveyQuestion
 		
 		if ($this->getSubType() == SUBTYPE_MCMR)
 		{
-			/* even a mcmr questions without answers could be an answered question
-			   so for this question type there is no possibility to count skipped questions */
-			/*$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", anonymous_id, \"_\", user_fi)  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
+			$query = sprintf("SELECT survey_answer.answer_id, concat( survey_answer.question_fi,  \"_\", survey_answer.active_fi)  AS groupval FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi GROUP BY groupval",
 				$ilDB->quote($question_id),
 				$ilDB->quote($survey_id)
 			);
 			$mcmr_result = $ilDB->query($query);
 			$result_array["USERS_ANSWERED"] = $mcmr_result->numRows();
 			$result_array["USERS_SKIPPED"] = $nr_of_users - $mcmr_result->numRows();
-			$numrows = $mcmr_result->numRows();*/
-			$result_array["USERS_ANSWERED"] = $nr_of_users;
-			$result_array["USERS_SKIPPED"] = 0;
+			$numrows = $mcmr_result->numRows();
 		}
 		else
 		{
