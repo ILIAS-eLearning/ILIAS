@@ -1506,3 +1506,40 @@ $ilCtrlStructureReader->getStructure();
 
 <#1005>
 INSERT INTO `settings` (`keyword`,`value`) VALUES ('usr_settings_hide_hide_own_online_status', '1');
+<#1006>
+ALTER TABLE `tst_tests` ADD `results_presentation` INT NOT NULL DEFAULT '3' AFTER `show_solution_printview` ;
+<#1007>
+<?php
+	// combine show_solution_details, show_solution_printview, show_solution_feedback to
+	// results_presentation
+	$query = "SELECT * FROM tst_tests";
+	$result = $ilDB->query($query);
+	if ($result->numRows())
+	{
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$results_presentation = 1;
+			if ($row["show_solution_details"])
+			{
+				$results_presentation = $results_presentation | 2;
+			}
+			if ($row["show_solution_printview"])
+			{
+				$results_presentation = $results_presentation | 4;
+			}
+			if ($row["show_solution_feedback"])
+			{
+				$results_presentation = $results_presentation | 8;
+			}
+			$update = sprintf("UPDATE tst_tests SET results_presentation = %s WHERE test_id = %s",
+				$ilDB->quote($results_presentation),
+				$ilDB->quote($row["test_id"])
+			);
+			$updateresult = $ilDB->query($update);
+		}
+	}
+?>
+<#1008>
+ALTER TABLE  `tst_tests` DROP  `show_solution_details`;
+ALTER TABLE  `tst_tests` DROP  `show_solution_printview`;
+ALTER TABLE  `tst_tests` DROP  `show_solution_feedback`;

@@ -7341,3 +7341,5 @@ common#:#height#:#Height###29 05 2007 new variable
 survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text input field###29 05 2007 new variable
 survey#:#survey_text_textheight_desc#:#Enter the height in characters for the text input field###29 05 2007 new variable
 survey#:#survey_question_editor#:#Edit survey questions###29 05 2007 new variable
+assessment#:#tst_show_pass_details#:#Show Pass Details for running tests###30 05 2007 new variable
+common#:#hide_own_online_status#:#Hide My Online Status###30 05 2007 new variable
