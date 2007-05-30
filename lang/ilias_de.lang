@@ -5231,21 +5231,21 @@ exercise#:#exc_notgraded#:#Nicht bewertet
 exercise#:#exc_passed#:#Bestanden
 exercise#:#exc_send_mail#:#Nachricht versenden
 exercise#:#exc_your_submission#:#Ihre Einreichung
-feed#:#block_feed_block_feed_url#:#Feed URL###25 02 2007 new variable
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
-feed#:#block_feed_block_head#:#External News Feed###25 02 2007 new variable
-feed#:#block_feed_block_title#:#Title###25 02 2007 new variable
-feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories###02 04 2007 new variable
-feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing external web feed blocks, in case of an unexpected problem due to an external feed source.###02 04 2007 new variable
-feed#:#feed_feed_items#:#Feed Item(s)###25 02 2007 new variable
-feed#:#feed_no_valid_url#:#The Feed URL is not valid.###10 05 2007 new variable
-feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop###25 02 2007 new variable
-feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.###25 02 2007 new variable
-feed#:#feed_open_source_page#:#Go to Source of External News###25 02 2007 new variable
-feed#:#feed_settings#:#External Web Feeds Settings###25 02 2007 new variable
-form#:#form_days#:#Days###02 04 2007 new variable
-form#:#form_hours#:#Hours###02 04 2007 new variable
-form#:#form_minutes#:#Minutes###02 04 2007 new variable
+feed#:#block_feed_block_feed_url#:#URL des Webfeeds
+feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich, z. B. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_head#:#Externer Webfeed
+feed#:#block_feed_block_title#:#Titel
+feed#:#feed_disable_rep_feeds#:#Keine externen Webfeeds in Kategorien
+feed#:#feed_disable_rep_feeds_info#:#Diese Option deaktivert alle bestehenden externen Webfeeds, falls wegen eines Webfeeds ein Problem auftaucht.
+feed#:#feed_feed_items#:#Webfeed-Thema
+feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
+feed#:#feed_nr_pd_feeds#:#Anzahl externer Webfeeds auf dem Persönlichen Schreibtisch
+feed#:#feed_nr_pd_feeds_info#:#Betimmt die maximale Anzahl externer Webfeeds, die ein Benutzer auf seinen Persönlichen Schreibtisch legen kann.
+feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
+feed#:#feed_settings#:#Einstellungen externer Webfeed
+form#:#form_days#:#Tage
+form#:#form_hours#:#Stunden
+form#:#form_minutes#:#Minuten
 form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.###02 04 2007 new variable
 form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.###02 04 2007 new variable
 form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.###02 04 2007 new variable
@@ -5254,7 +5254,7 @@ form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed f
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
 form#:#form_msg_file_virus_found#:#Virus found in uploaded file.###02 04 2007 new variable
 form#:#form_msg_file_wrong_file_type#:#Wrong file type.###02 04 2007 new variable
-form#:#form_seconds#:#Seconds###02 04 2007 new variable
+form#:#form_seconds#:#Sekunden
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
@@ -5321,16 +5321,16 @@ forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#gelesen
 forum#:#new_post#:#Neue Nachricht
 forum#:#thread#:#Thema
-gmaps#:#gmaps_api_key#:#API Key###25 02 2007 new variable
-gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
-gmaps#:#gmaps_enable_gmaps#:#Enable Google Maps###02 04 2007 new variable
-gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
-gmaps#:#gmaps_extt_gmaps#:#Google Maps###25 02 2007 new variable
-gmaps#:#gmaps_public_profile_info#:#Show location in your public profile.###02 04 2007 new variable
-gmaps#:#gmaps_settings#:#Google Maps Settings###25 02 2007 new variable
-gmaps#:#gmaps_std_location#:#Default Location###25 02 2007 new variable
-gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.###25 02 2007 new variable
-gmaps#:#gmaps_zoom_level#:#Zoom Level###02 04 2007 new variable
+gmaps#:#gmaps_api_key#:#API-Schlüssel
+gmaps#:#gmaps_api_key_desc#:#Um die Google Maps-Erweiterung nutzen zu können, müssen Sie einen Google-Map-API-Schlüssel beantragen bei:
+gmaps#:#gmaps_enable_gmaps#:#Google Maps aktivieren
+gmaps#:#gmaps_enable_gmaps_info#:#Aktiviere Google Maps in Persönlichen Profilen, Kursen und Gruppen
+gmaps#:#gmaps_extt_gmaps#:#Google Maps
+gmaps#:#gmaps_public_profile_info#:#Zeige Standort im Persönlichen Profil
+gmaps#:#gmaps_settings#:#Google Maps-Einstellungen
+gmaps#:#gmaps_std_location#:#Standort Installation
+gmaps#:#gmaps_std_location_desc#:#Breitengrad / Längengrad. Klicken Sie auf die Mappe, um den Standort festzulegen.
+gmaps#:#gmaps_zoom_level#:#Vergrößerungsgrad
 grp#:#crs_add_grouping#:#Neue Mitgliedsschaft-Beschränkung
 grp#:#crs_grouping_deleted#:#Die Mitgliedsschaft-Beschränkung wurde gelöscht.
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedsschaft-Beschränkung entfernt werden soll ?
@@ -5342,10 +5342,10 @@ grp#:#crs_grp_info_reg#:#Sie können Sie nur für eine der folgenden Gruppen anm
 grp#:#crs_grp_no_courses_assigned#:#Es sind keine Gruppen zugeordnet.
 grp#:#crs_grp_table_assigned_courses#:#Zugeordnete Gruppen
 grp#:#grouping_change_assignment#:#Zuordnung ändern
-grp#:#grp_enable_map#:#Enable Group Map###02 04 2007 new variable
-grp#:#grp_map_location#:#Group Map Location###02 04 2007 new variable
-grp#:#grp_map_settings#:#Map Settings###02 04 2007 new variable
-grp#:#grp_members_map#:#Group Members Map###02 04 2007 new variable
+grp#:#grp_enable_map#:#Aktiviere Gruppenkarte
+grp#:#grp_map_location#:#Standort Gruppenkarte
+grp#:#grp_map_settings#:#Einstellungen Karte
+grp#:#grp_members_map#:#Karte Gruppenmitglieder
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 ilinc#:#akclassvalue1#:#Kostenstelle 1
 ilinc#:#akclassvalue2#:#Kostenstelle 2
@@ -5621,19 +5621,19 @@ mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
 mail#:#search_bc_recipient#:#BC-Empfänger suchen
 mail#:#search_cc_recipient#:#CC-Empfänger suchen
-mcst#:#mcst_add_new_item#:#Add New Media Cast Item###02 04 2007 new variable
-mcst#:#mcst_det_playtime#:#Determine Play Time###02 04 2007 new variable
-mcst#:#mcst_duration#:#Play Time###02 04 2007 new variable
-mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.###02 04 2007 new variable
-mcst#:#mcst_entry#:#Media Cast Entries###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.###02 04 2007 new variable
-mcst#:#mcst_last_submission#:#Last Submission###02 04 2007 new variable
-mcst#:#mcst_media_cast#:#Media Cast###02 04 2007 new variable
-mcst#:#mcst_nr_items#:#Number of Items###02 04 2007 new variable
-mcst#:#mcst_play_time#:#Play Time###02 04 2007 new variable
-mcst#:#mcst_settings#:#MediaCast Settings###02 04 2007 new variable
-mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.###02 04 2007 new variable
+mcst#:#mcst_add_new_item#:#Neues Mediacast-Objekt hinzufügen
+mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
+mcst#:#mcst_duration#:#Laufzeit
+mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
+mcst#:#mcst_entry#:#Mediacast-Einträge
+mcst#:#mcst_incl_files_in_rss#:#Media-Dateien in Webfeed einfügen
+mcst#:#mcst_incl_files_in_rss_info#:#Wenn aktiviert, werden Media-Dateien als Anhang in den Webfeed eingefügt. Wenn nicht aktiviert, erhält der Benutzer nur einen Nachricht über ein neues Objekt.
+mcst#:#mcst_last_submission#:#Letzter Beitrag
+mcst#:#mcst_media_cast#:#Mediacast
+mcst#:#mcst_nr_items#:#Zahl der Objekte
+mcst#:#mcst_play_time#:#Laufzeit
+mcst#:#mcst_settings#:#Einstellungen Mediacast 
+mcst#:#mcst_visibility_info#:#Öffentliche Objekte sind über RSS ohne jegliche Authentifizierung zugänglich.
 meta#:#md_days#:#Tage:
 meta#:#md_months#:#Monate:
 meta#:#md_time#:#Zeit:
