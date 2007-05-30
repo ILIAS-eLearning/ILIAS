@@ -1,8 +1,0 @@
-<?php xml version = "1.0" encoding = "UTF-8"?>
-<template xmlns = "http://www.w3.org" version = "$Id$" name = "Stud.IP">
-<!--
-	<style 	name = "Stud.IP Template"
-			id = "studip"
-			image_directory = "studip"/>
--->
-</template>
