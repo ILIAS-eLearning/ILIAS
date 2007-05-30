@@ -1947,14 +1947,20 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$user_id = $ilUser->getId();
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
 		$active_id = $this->getActiveId();
-		if ($this->object->getNrOfTries() == 1)
+		$hide_details = !$this->object->getShowPassDetails();
+		if ($hide_details)
+		{
+			$executable = $this->object->isExecutable($ilUser->getId());
+			if (!$executable["executable"])  $hide_details = FALSE;
+		}
+		if (($this->object->getNrOfTries() == 1) && (!$hide_details))
 		{
 			$pass = 0;
 		}
 		else
 		{
 			$template->setCurrentBlock("pass_overview");
-			$overview = $this->getPassOverview($active_id, "iltestoutputgui", "outUserResultsOverview");
+			$overview = $this->getPassOverview($active_id, "iltestoutputgui", "outUserResultsOverview", FALSE, $hide_details);
 			$template->setVariable("PASS_OVERVIEW", $overview);
 			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
 			$template->parseCurrentBlock();
@@ -2008,7 +2014,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 			$template->parseCurrentBlock();
 	
-			$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+			if (!$hide_details)
+			{
+				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+			}
 			
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 			$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));

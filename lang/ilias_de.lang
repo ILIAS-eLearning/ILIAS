@@ -805,7 +805,7 @@ assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
 assessment#:#tst_results_presentation#:#Präsentation der Testergebnisse
-assessment#:#tst_results_presentation_description#:#Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden die diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt.
+assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht für laufende Tests angeboten, erhalten die Teilnehmer die Möglichkeit, Fragentitel und erzielte Punkte der jeweiligen Fragen in der Ergebnisübersicht einzusehen. Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden die diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt.
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_resume_test#:#Test fortsetzen
@@ -7327,3 +7327,4 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten

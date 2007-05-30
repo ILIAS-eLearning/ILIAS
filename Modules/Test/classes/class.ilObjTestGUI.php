@@ -1051,6 +1051,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_solution_printview"] = ($_POST["chb_show_solution_printview"] == 1) ? 1 : 0;
 		$data["show_solution_feedback"] = ($_POST["chb_show_solution_feedback"] == 1) ? 1 : 0;
 		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
+		$data["show_pass_details"] = $_POST["chb_show_pass_details"];
 		$data["results_access"] = $_POST["results_access"];
 		
 		$this->object->setCountSystem($data["count_system"]);
@@ -1061,6 +1062,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setAnswerFeedback($data["answer_feedback"]);
 		$this->object->setAnswerFeedbackPoints($data["answer_feedback_points"]);
 		$this->object->setShowSolutionDetails($data["show_solution_details"]);
+		$this->object->setShowPassDetails($data["show_pass_details"]);
 		$this->object->setScoreReporting($data["results_access"]);
 		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
 		$this->object->setShowSolutionFeedback($data["show_solution_feedback"]);
@@ -1113,6 +1115,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
 		$data["show_solution_feedback"] = $this->object->getShowSolutionFeedback();
 		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
+		$data["show_pass_details"] = $this->object->getShowPassDetails();
 		$data["results_access"] = $this->object->getScoreReporting();
 
 		$total = $this->object->evalTotalPersons();
@@ -1289,6 +1292,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKED_ANSWER_SPECIFIC_FEEDBACK", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION", $this->lng->txt("tst_results_presentation"));
+		$this->tpl->setVariable("TEXT_SHOW_PASS_DETAILS", $this->lng->txt("tst_show_pass_details"));
+		if ($data["show_pass_details"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_PASS_DETAILS", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS", $this->lng->txt("tst_show_solution_details"));
 		if ($data["show_solution_details"])
 		{

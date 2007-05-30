@@ -103,7 +103,7 @@ class ilTestServiceGUI
 * @return string HTML code of the pass overview
 * @access public
 */
-	function getPassOverview($active_id, $targetclass = "", $targetcommand = "", $short = FALSE)
+	function getPassOverview($active_id, $targetclass = "", $targetcommand = "", $short = FALSE, $hide_details = FALSE)
 	{
 		global $ilUser;
 
@@ -144,22 +144,17 @@ class ilTestServiceGUI
 					$total_max = $result_array["test"]["total_max_points"];
 					$total_reached = $result_array["test"]["total_reached_points"];
 				}
-				if (strlen($targetclass) && strlen($targetcommand))
+				if (!$hide_details)
 				{
-					$this->ctrl->setParameterByClass($targetclass, "active_id", $active_id);
-					$this->ctrl->setParameterByClass($targetclass, "pass", $pass);
-					$template->setCurrentBlock("pass_details");
-					$template->setVariable("HREF_PASS_DETAILS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommand));
-					$template->setVariable("TEXT_PASS_DETAILS", $this->lng->txt("tst_pass_details"));
-					if (($pass == $counted_pass) && (!$short))
+					if (strlen($targetclass) && strlen($targetcommand))
 					{
-						$template->setVariable("COLOR_CLASS", "tblrowmarked");
+						$this->ctrl->setParameterByClass($targetclass, "active_id", $active_id);
+						$this->ctrl->setParameterByClass($targetclass, "pass", $pass);
+						$template->setCurrentBlock("pass_details");
+						$template->setVariable("HREF_PASS_DETAILS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommand));
+						$template->setVariable("TEXT_PASS_DETAILS", $this->lng->txt("tst_pass_details"));
+						$template->parseCurrentBlock();
 					}
-					else
-					{
-						$template->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
-					}
-					$template->parseCurrentBlock();
 				}
 
 				$template->setCurrentBlock("result_row");
