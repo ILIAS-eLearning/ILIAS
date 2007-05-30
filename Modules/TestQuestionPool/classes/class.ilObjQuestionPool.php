@@ -1628,22 +1628,7 @@ class ilObjQuestionPool extends ilObject
 	
 	function &getQuestionTypes($all_tags = FALSE)
 	{
-		global $ilDB;
-		
-		include_once "./classes/class.ilObjAssessmentFolder.php";
-		$forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
-		$query = "SELECT * FROM qpl_question_type";
-		$result = $ilDB->query($query);
-		$types = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
-			{
-				$types[$this->lng->txt($row["type_tag"])] = $row;
-			}
-		}
-		ksort($types);
-		return $types;
+		return $this->_getQuestionTypes($all_tags);
 	}
 
 	function &_getQuestionTypes($all_tags = FALSE)
@@ -1661,7 +1646,17 @@ class ilObjQuestionPool extends ilObject
 		{
 			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
 			{
-				$types[$lng->txt($row["type_tag"])] = $row;
+				if (!DEVMODE)
+				{
+					if (strcmp($row["type_tag"], "assFlashApp") != 0)
+					{
+						$types[$lng->txt($row["type_tag"])] = $row;
+					}
+				}
+				else
+				{
+					$types[$lng->txt($row["type_tag"])] = $row;
+				}
 			}
 		}
 		ksort($types);
