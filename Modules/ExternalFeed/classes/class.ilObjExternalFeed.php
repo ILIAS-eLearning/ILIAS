@@ -79,6 +79,25 @@ class ilObjExternalFeed extends ilObject
 		
 		//put here your module specific stuff
 		
+		// delete feed block
+		include_once("./Services/Block/classes/class.ilCustomBlock.php");
+		$costum_block = new ilCustomBlock();
+		$costum_block->setContextObjId($this->getId());
+		$costum_block->setContextObjType($this->getType());
+		$c_blocks = $costum_block->queryBlocksForContext();
+		
+		include_once("./Services/Block/classes/class.ilExternalFeedBlock.php");
+		foreach($c_blocks as $c_block)		// should be usually only one
+		{
+			if ($c_block["type"] == "feed")
+			{
+				$fb = new ilExternalFeedBlock($c_block["id"]);
+				$fb->delete();
+			}
+		}
+
+		//ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
+		
 		return true;
 	}
 
