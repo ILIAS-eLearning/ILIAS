@@ -224,14 +224,16 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		$setting = new ilSetting("assessment");
 		$types = $setting->get("forbidden_questiontypes");
+		$result = array();
 		if (strlen(trim($types)) == 0)
 		{
-			return array();
+			$result = array();
 		}
 		else
 		{
-			return unserialize($types);
+			$result = unserialize($types);
 		}
+		return $result;
 	}
 
 	/**
