@@ -716,7 +716,8 @@ class ilObjUserFolder extends ilObject
 			"skin_style",
 			"hits_per_page",
 			"show_users_online",
-			"instant_messengers"
+			"instant_messengers",
+			"hide_own_online_status" 
 		);
 		return $profile_fields;
 	}

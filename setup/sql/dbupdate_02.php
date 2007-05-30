@@ -1503,3 +1503,6 @@ ALTER TABLE `survey_question_text` ADD `height` INT NOT NULL DEFAULT  '5';
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1005>
+INSERT INTO `settings` (`keyword`,`value`) VALUES ('usr_settings_hide_hide_own_online_status', '1');

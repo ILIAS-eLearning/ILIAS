@@ -218,7 +218,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		
 		foreach ($this->users as $user_id => $user)
 		{
-			if ($user_id != ANONYMOUS_USER_ID)
+			if ($user_id != ANONYMOUS_USER_ID &&
+				ilObjUser::_lookupPref($user_id, "hide_own_online_status") != "y")
 			{
 				// hide mail-to icon for anonymous users
 				// usability: we do show mail-to for the current user, because
@@ -258,6 +259,15 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		}
 		
 		$this->setData($data);
+		
+		// we do not have at least one (non hidden) active user
+		if (count($data) == 0)
+		{
+			$this->setEnableNumInfo(false);
+			$this->setCurrentDetailLevel(1);
+			$this->enabledetailrow = false;
+			$this->setDataSection($this->getOverview());
+		}
 	}
 	
 	/**
