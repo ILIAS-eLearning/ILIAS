@@ -1200,6 +1200,7 @@ form#:#form_days#:#Days
 form#:#form_hours#:#Hours
 form#:#form_minutes#:#Minutes
 form#:#form_seconds#:#Seconds
+common#:#hide_own_online_status#:#Hide My Online Status
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH#:#HH:MM

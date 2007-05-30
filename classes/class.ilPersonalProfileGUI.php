@@ -560,6 +560,19 @@ class ilPersonalProfileGUI
 			{
 				$ilUser->setPref("show_users_online", $_POST["show_users_online"]);
 			}
+			
+			// set hide own online_status
+			if ($this->workWithUserSetting("hide_own_online_status"))
+			{
+				if ($_POST["chk_hide_own_online_status"] != "")
+				{
+					$ilUser->setPref("hide_own_online_status","y");
+				}
+				else
+				{
+					$ilUser->setPref("hide_own_online_status","n");
+				}					
+			}
 
 			// personal desktop items in news block
 /* Subscription Concept is abandonded for now, we show all news of pd items (Alex)
@@ -766,6 +779,14 @@ class ilPersonalProfileGUI
 			}
 		}
 		
+		// hide_own_online_status
+		if ($this->userSettingVisible("hide_own_online_status")) {			
+			if ($ilUser->prefs["hide_own_online_status"] == "y")
+			{
+				$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "checked");
+			}
+		}				
+
 		// personal desktop news
 /* Subscription Concept is abandonded for now, we show all news of pd items (Alex)
 		if ($ilUser->prefs["pd_items_news"] != "n")
@@ -965,6 +986,10 @@ class ilPersonalProfileGUI
 		if ($this->userSettingVisible("show_users_online"))
 		{
 			$this->tpl->setVariable("TXT_SHOW_USERS_ONLINE", $this->lng->txt("show_users_online"));
+		}
+		if ($this->userSettingVisible("hide_own_online_status"))
+		{
+			$this->tpl->setVariable("TXT_HIDE_OWN_ONLINE_STATUS", $this->lng->txt("hide_own_online_status"));
 		}
 		if ($this->userSettingVisible("skin_style"))
 		{
@@ -1194,7 +1219,8 @@ class ilPersonalProfileGUI
 			"language",
 			"skin_style",
 			"hits_per_page",
-			"show_users_online"
+			"show_users_online",
+			"hide_own_online_status"
 		);
 		foreach ($profile_fields as $field)
 		{

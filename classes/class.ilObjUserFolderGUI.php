@@ -2564,11 +2564,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"skin_style" => 0,
 			"hits_per_page" => 0,
 			"show_users_online" => 0,
-			"instant_messengers" => 0
+			"instant_messengers" => 0,
+			"hide_own_online_status" => 0
 		);
 		$no_export_fields = array(
 			"hits_per_page",
-			"show_users_online"
+			"show_users_online",
+			"hide_own_online_status"
 		);
 		// Settings for the course export state
 		// key = field, value = 2 (field is disabled but checked), value = 1 (field is changeable), 0 (checkbox is not shown)
@@ -2763,7 +2765,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"language" => 0,
 			"skin_style" => 0,
 			"hits_per_page" => 0,
-			"show_users_online" => 0
+			"show_users_online" => 0,
+			"hide_own_online_status" => 0
 		);
 		
 		// check if a course export state of any field has been added

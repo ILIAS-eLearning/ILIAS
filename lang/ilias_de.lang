@@ -1177,6 +1177,7 @@ chat#:#chat_user_name#:#Benutzername
 chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
 chat#:#my_chats#:#Meine Chats
+common#:#hide_own_online_status#:#Eigenen Online-Status nicht anzeigen
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
