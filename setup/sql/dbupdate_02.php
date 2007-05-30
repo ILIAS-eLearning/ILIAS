@@ -1543,3 +1543,27 @@ ALTER TABLE `tst_tests` ADD `results_presentation` INT NOT NULL DEFAULT '3' AFTE
 ALTER TABLE  `tst_tests` DROP  `show_solution_details`;
 ALTER TABLE  `tst_tests` DROP  `show_solution_printview`;
 ALTER TABLE  `tst_tests` DROP  `show_solution_feedback`;
+<#1009>
+<?php
+
+$q = "SELECT up1.usr_id as usr_id FROM usr_pref AS up1, usr_pref AS up2 ".
+	" WHERE up1.keyword= ".$ilDB->quote("style")." AND up1.value= ".$ilDB->quote("blueshadow").
+	" AND up2.keyword= ".$ilDB->quote("skin")." AND up2.value= ".$ilDB->quote("default").
+	" AND up1.usr_id = up2.usr_id ";
+
+$usr_set = $ilDB->query($q);
+
+while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q = "UPDATE usr_pref SET value = ".$ilDB->quote("default").
+		" WHERE usr_id = ".$ilDB->quote($usr_rec["usr_id"]).
+		" AND keyword = ".$ilDB->quote("skin");
+	$ilDB->query($q);
+
+	$q = "UPDATE usr_pref SET value = ".$ilDB->quote("delos").
+		" WHERE usr_id = ".$ilDB->quote($usr_rec["usr_id"]).
+		" AND keyword = ".$ilDB->quote("style");
+	$ilDB->query($q);
+}
+
+?>
