@@ -687,7 +687,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if ($this->ilias->getSetting("custom_icons"))
 		{
 			$this->object->saveIcons($_FILES["cont_big_icon"],
-				$_FILES["cont_small_icon"]);
+				$_FILES["cont_small_icon"], $_FILES["cont_small_icon"]);
 		}
 
 		$this->update = $this->object->update();
@@ -2426,6 +2426,17 @@ class ilObjGroupGUI extends ilContainerGUI
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit"));
 	}
 	
+	/**
+	* remove big icon
+	*
+	* @access	public
+	*/
+	function removeTinyIconObject()
+	{
+		$this->object->removeTinyIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit"));
+	}
+
 	function listUsersGroupObject()
 	{
 		global $rbacsystem,$rbacreview,$tree;

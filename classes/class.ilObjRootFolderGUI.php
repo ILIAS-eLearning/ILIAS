@@ -371,7 +371,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			$langs = array_count_values($langs);
 
 			// all languages set?
-			if (array_key_exists("",$langs))
+			if (array_key_exists("",$langs) &&
+				(count($data["Fobject"]) > 1 || $data["Fobject"][0]["title"] != ""))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_language_selected"),$this->ilias->error_obj->MESSAGE);
 			}
@@ -421,7 +422,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			if ($this->ilias->getSetting("custom_icons"))
 			{
 				$this->object->saveIcons($_FILES["cont_big_icon"],
-					$_FILES["cont_small_icon"]);
+					$_FILES["cont_small_icon"], $_FILES["cont_tiny_icon"]);
 			}
 			
 			$this->update = $this->object->update();
@@ -496,6 +497,19 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 	}
 	
+	/**
+	* remove tiny icon
+	*
+	* @access	public
+	*/
+	function removeTinyIconObject()
+	{
+
+		$_SESSION["translation_post"] = $_POST;
+		$this->object->removeTinyIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+	}
+
 	/**
 	* goto target group
 	*/

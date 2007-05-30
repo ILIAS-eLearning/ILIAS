@@ -1736,7 +1736,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 			$this->tpl->setVariable("SPAN_INPUT", $a_input_colspan);
 			$this->tpl->setVariable("ICON_SETTINGS", $this->lng->txt("icon_settings"));
 			$this->tpl->setVariable("BIG_ICON", $this->lng->txt("big_icon"));
-			$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("small_icon"));
+			$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("standard_icon"));
 			$this->tpl->setVariable("TINY_ICON", $this->lng->txt("tiny_icon"));
 			$this->tpl->setVariable("BIG_SIZE", "(".
 				$this->ilias->getSetting("custom_icon_big_width")."x".

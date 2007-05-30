@@ -713,9 +713,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function removeSmallIconObject()
 	{
-
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeSmallIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+	}
+
+	/**
+	* remove big icon
+	*
+	* @access	public
+	*/
+	function removeTinyIconObject()
+	{
+		$_SESSION["translation_post"] = $_POST;
+		$this->object->removeTinyIcon();
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 	}
 
