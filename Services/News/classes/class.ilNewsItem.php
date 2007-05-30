@@ -456,5 +456,28 @@ class ilNewsItem extends ilNewsItemGen
 		
 		return $default_visibility;
 	}
+	
+	/**
+	* Delete all news of a context
+	*
+	*/
+	public function deleteNewsOfContext($a_context_obj_id,
+		$a_context_obj_type)
+	{
+		global $ilDB;
+		
+		if ($a_context_obj_id == 0 || $a_context_obj_type == "")
+		{
+			return;
+		}
+		
+		$query = "DELETE FROM il_news_item".
+			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id).
+			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type);
+		
+		$ilDB->query($query);
+
+	}
+
 }
 ?>

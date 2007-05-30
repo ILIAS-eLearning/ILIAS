@@ -1271,7 +1271,10 @@ class ilObject
 			unset($ch);
 		}
 
-		
+		// remove news
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_item = new ilNewsItem();
+		$news_item->deleteNewsOfContext($this->getId(), $this->getType());
 
 		return $remove;
 	}
