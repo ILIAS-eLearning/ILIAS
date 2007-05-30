@@ -1498,3 +1498,8 @@ $this->db->query($query);
 <#1003>
 ALTER TABLE `survey_question_text` ADD `width` INT NOT NULL DEFAULT  '50';
 ALTER TABLE `survey_question_text` ADD `height` INT NOT NULL DEFAULT  '5';
+
+<#1004>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
