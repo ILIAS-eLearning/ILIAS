@@ -278,6 +278,17 @@ class ilContainer extends ilObject
 	}
 	
 	/**
+	* remove tiny icon
+	*/ 
+	function removeTinyIcon()
+	{
+		$cont_dir = $this->getContainerDirectory();
+		$tiny_file_name = $cont_dir."/icon_tiny.gif";
+		@unlink($tiny_file_name);
+		ilContainer::_writeContainerSetting($this->getId(), "icon_tiny", 0);
+	}
+	
+	/**
 	* Get right column
 	*
 	* @return	object		column object

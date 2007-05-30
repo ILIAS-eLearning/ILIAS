@@ -1745,7 +1745,8 @@ common#:#current_ip#:#Current IP:
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
 common#:#current_password#:#Current Password
 common#:#custom_icon_size_big#:#Custom icon size (big)
-common#:#custom_icon_size_small#:#Custom icon size (small)
+common#:#custom_icon_size_standard#:#Custom icon size (standard)
+common#:#custom_icon_size_tiny#:#Custom icon size (small)
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
 common#:#daily#:#daily
@@ -3580,7 +3581,8 @@ common#:#show_users_online#:#Show active users
 common#:#signature#:#Signature
 common#:#size#:#Size
 common#:#skin_style#:#Default Skin / Style
-common#:#small_icon#:#Small Icon
+common#:#standard_icon#:#Standard Icon
+common#:#tiny_icon#:#Small Icon
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#External user administration (SOAP)
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.

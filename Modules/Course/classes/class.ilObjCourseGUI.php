@@ -1145,7 +1145,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($this->ilias->getSetting("custom_icons"))
 		{
 			$this->object->saveIcons($_FILES["cont_big_icon"],
-				$_FILES["cont_small_icon"]);
+				$_FILES["cont_small_icon"], $_FILES["cont_tiny_icon"]);
 		}
 
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
@@ -1298,6 +1298,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editCourseIcons"));
 	}
 
+
+	/**
+	* remove small icon
+	*
+	* @access	public
+	*/
+	function removeTinyIconObject()
+	{
+		$this->object->removeTinyIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editCourseIcons"));
+	}
 
 	/**
 	* save object
