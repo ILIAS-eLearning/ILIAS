@@ -863,10 +863,10 @@ class SurveyNominalQuestion extends SurveyQuestion
 	{
 		foreach ($a_meta as $key => $value)
 		{
-			switch ($key)
+			switch ($value["label"])
 			{
 				case "orientation":
-					$this->setOrientation($value);
+					$this->setOrientation($value["entry"]);
 					break;
 			}
 		}
