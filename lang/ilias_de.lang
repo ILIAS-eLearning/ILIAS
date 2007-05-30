@@ -1099,7 +1099,7 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
-chat#:#chat_moderator_password#:#Moderator Passwort
+chat#:#chat_moderator_password#:#Moderatoren-Passwort
 chat#:#chat_navy#:#navy
 chat#:#chat_new_message#:#Neue Nachricht
 chat#:#chat_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
@@ -1183,18 +1183,18 @@ common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#access#:#Zugang
 common#:#access_expired#:#abgelaufen
-common#:#access_public#:#Public###02 04 2007 new variable
-common#:#access_scope#:#Access###02 04 2007 new variable
+common#:#access_public#:#Öffentlich
+common#:#access_scope#:#Zugriff
 common#:#access_unlimited#:#unbefristet
 common#:#access_until#:#Zugang bis
-common#:#access_users#:#Logged in Users###02 04 2007 new variable
+common#:#access_users#:#Eingeloggte Benutzer
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
 common#:#action#:#Aktion
 common#:#actions#:#Aktionen
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
-common#:#activate_block#:#Activate###25 02 2007 new variable
+common#:#activate_block#:#Aktivieren
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Verfügbarkeit
@@ -1231,7 +1231,7 @@ common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich Text Editor aktivieren
-common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test & Assessment Werkzeug
+common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test&Assessment-Werkzeug
 common#:#advanced_editing_cat_page_editing#:#Seiteneditor für Kategorien aktivieren
 common#:#advanced_editing_cat_page_editing_desc#:#Diese Einstellung erlaubt das Hinzufügen von Text und anderen Inhalten auf Kategorienseiten. Ist der Seiteneditor deaktiviert, werden in Kategorien nur die enthaltenen Inhaltsobjekte angezeigt.
 common#:#advanced_editing_lm_js_editing#:#Aktiviere HTMLArea-Textfelder bei der Inhaltebearbeitung
@@ -1264,15 +1264,15 @@ common#:#all_topics#:#All Themen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#alm#:#Lernmodul AICC
-common#:#alm_added#:#AICC Learning Module angelegt
-common#:#alm_create#:#Neues AICC Lernmodul anlegen
-common#:#alm_delete#:#AICC Lernmodul löschen
+common#:#alm_added#:#AICC-Lernmodul angelegt
+common#:#alm_create#:#Neues AICC-Lernmodul anlegen
+common#:#alm_delete#:#AICC-Lernmodul löschen
 common#:#alm_edit_permission#:#Rechteeinstellungen ändern
-common#:#alm_join#:#AICC Lernmodul abonnieren
-common#:#alm_leave#:#AICC Lernmodulabonnement aufheben
-common#:#alm_read#:#AICC Lernmodul lesen
-common#:#alm_visible#:#AICC Lernmodul ist sichtbar
-common#:#alm_write#:#AICC Lernmodul bearbeiten
+common#:#alm_join#:#AICC-Lernmodul abonnieren
+common#:#alm_leave#:#AICC-Lernmodulabonnement aufheben
+common#:#alm_read#:#AICC-Lernmodul lesen
+common#:#alm_visible#:#AICC-Lernmodul ist sichtbar
+common#:#alm_write#:#AICC-Lernmodul bearbeiten
 common#:#already_delivered_files#:#Bereits abgegebene Dateien
 common#:#and#:#und
 common#:#announce#:#Ankündigen
@@ -1311,8 +1311,13 @@ common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für
 common#:#assessment_log_question#:#Frage
 common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
 common#:#assessment_log_text#:#Protokolleintrag
+<<<<<<< .mine
+common#:#assessment_log_user_answer#:#Ein/e Nutzer/in beantwortete eine Frage
+common#:#assessment_log_user_answers#:#Aktionen der Nutzer/innen anzeigen
+=======
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der NutzerInnen anzeigen
+>>>>>>> .r14018
 common#:#assessment_settings#:#Test&Assessment-Adminstration
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assessment_use_javascript#:#JavaScript für Ziehen und Ablegen
@@ -1322,8 +1327,8 @@ common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragentypen werden
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_questiontypes#:#Frageneinstellungen
 common#:#assf_read#:#Zugriff auf die Test&Assessment-Adminstration
-common#:#assf_visible#:#Test&Assessment Administration ist sichtbar
-common#:#assf_write#:#Bearbeiten der Test&Assessment Administration
+common#:#assf_visible#:#Test&Assessment-Administration ist sichtbar
+common#:#assf_write#:#Bearbeiten der Test&Assessment-Administration
 common#:#assign#:#Annehmen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
@@ -1356,7 +1361,7 @@ common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformul
 common#:#auth_allow_local#:#Erlaube lokale Authentifizierung
 common#:#auth_cas#:#CAS
 common#:#auth_cas_allow_local_desc#:#Erlaubt CAS-Usern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort anzumelden/zu authentifizieren.
-common#:#auth_cas_auth#:#Configure CAS-Authentifizierung
+common#:#auth_cas_auth#:#Konfiguriere CAS-Authentifizierung
 common#:#auth_cas_auth_desc#:#CAS erfordert PHP 4.3.1 oder höher mit CURL-Unterstützung (7.5 oder höher)
 common#:#auth_cas_create_users_desc#:#Erzeugt automatisch ein ILIAS-Benutzerkonto für Anwender, die sich erfolgreich gegen CAS authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügten.
 common#:#auth_cas_port_desc#:#Zum Beispiel "443" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
@@ -1411,18 +1416,28 @@ common#:#auth_soap_auth#:#Konfiguriere SOAP-Authentifizierung
 common#:#auth_soap_auth_desc#:#Diese Einstellung betrifft nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
 common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Benutzerkonto für Anwender, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügten.
 common#:#auth_soap_namespace#:#Namensraum
-common#:#auth_soap_namespace_desc#:#Entsprechend Definition in WSDL. Muss angegeben werden, wenn .NET SOAP style genutzt wird.
+common#:#auth_soap_namespace_desc#:#Entsprechend Definition in WSDL. Muss angegeben werden, wenn .NET-SOAP-Style genutzt wird.
 common#:#auth_soap_port_desc#:#Zum Beispiel "8080", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
 common#:#auth_soap_server_desc#:#Zum Beispiel "auth.yourserver.com", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
 common#:#auth_soap_settings_saved#:#Einstellungen für SOAP-Authentifizierung gespeichert!
 common#:#auth_soap_uri_desc#:#Lokale URI, z. B. "dir/server.php", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
+<<<<<<< .mine
+common#:#auth_soap_use_dotnet#:#.NET-SOAP-Style verwenden
+=======
 common#:#auth_soap_user_default_role#:#Standardrolle SOAP-User
 common#:#auth_soap_user_default_role_desc#:#Diese Rolle erhalten gegen SOAP authentifizierte Benutzer.
 common#:#auth_soap_use_dotnet#:#.NET SOAP Style verwenden
+>>>>>>> .r14018
 common#:#auth_soap_use_https#:#HTTPS verwenden
 common#:#auth_user_default_role#:#Standardrolle
 common#:#auth_visible#:#Authentifizierung ist sichtbar
 common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
+<<<<<<< .mine
+common#:#authentication_settings#:#Authentifizierung
+common#:#author#:#Autor/in
+common#:#authors#:#Autor/innen
+=======
+>>>>>>> .r14018
 common#:#auto_registration#:#Neu registrierte Benutzerkonten automatisch freigeben
 common#:#available#:#Verfügbar
 common#:#available_languages#:#Verfügbare Sprachen
@@ -1443,12 +1458,12 @@ common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
 common#:#bkm_sendmail#:#Als Anhang versenden
 common#:#bm#:#Bookmark
-common#:#bmf#:#Bookmark Ordner
+common#:#bmf#:#Bookmark-Ordner
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks von
 common#:#bookmark_edit#:#Bookmark bearbeiten
 common#:#bookmark_folder_edit#:#Bookmark Ordner bearbeiten
-common#:#bookmark_folder_new#:#Neuer Bookmark Ordner
+common#:#bookmark_folder_new#:#Neuer Bookmark-Ordner
 common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmark_target#:#Ziel
 common#:#bottom_frame#:#Hauptfenster
@@ -1480,25 +1495,25 @@ common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
 common#:#cat_clear_page#:#Seite leeren
 common#:#cat_copy#:#Kategorie kopieren
 common#:#cat_create#:#Neue Kategorie anlegen
-common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
+common#:#cat_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
 common#:#cat_create_chat#:#Neuen Chat anlegen
 common#:#cat_create_crs#:#Neuen Kurs anlegen
 common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#cat_create_exc#:#Neue Übung anlegen
-common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
+common#:#cat_create_feed#:#Neuen Webfeed anlegen
 common#:#cat_create_file#:#Neue Datei hochladen
 common#:#cat_create_frm#:#Neues Forum anlegen
 common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
-common#:#cat_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#cat_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#cat_create_icrs#:#Neues LearnLinc Seminar anlegen
-common#:#cat_create_lm#:#Neues ILIAS Lernmodul anlegen
-common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#cat_create_hlm#:#Neues HACP-Lernmodul anlegen
+common#:#cat_create_htlm#:#Neues HTML-Lernmodul anlegen
+common#:#cat_create_icrs#:#Neues LearnLinc-Seminar anlegen
+common#:#cat_create_lm#:#Neues ILIAS-Lernmodul anlegen
+common#:#cat_create_mcst#:#Neuen Mediacast anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
-common#:#cat_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
+common#:#cat_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
@@ -1508,6 +1523,27 @@ common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie
+<<<<<<< .mine
+common#:#user_profile_instant_messengers#:#Kontakt über Instant Messengers
+common#:#instant_messengers#:#Instant Messengers
+common#:#im_icq#:#ICQ
+common#:#im_yahoo#:#Yahoo
+common#:#im_msn#:#MSN
+common#:#im_aim#:#AIM
+common#:#im_skype#:#Skype
+common#:#im_icq_icon#:#ICQ-Logo
+common#:#im_yahoo_icon#:#Yahoo-Logo
+common#:#im_msn_icon#:#MSN-Logo
+common#:#im_aim_icon#:#AIM-Logo
+common#:#im_skype_icon#:#Skype-Logo
+common#:#show_user_activity#:#Benutzeraktivität anzeigen
+common#:#display_not_active_status_after#:#Status 'Nicht aktiv' anzeigen nach
+common#:#show_user_activity_desc#:#Wenn aktiviert, erscheint in der Liste der aktiven Benutzer auf Ihrem Persönlichen Schreibtisch hinter jedem Benutzer die Meldung 'Nicht aktiv', sobald nach Ablauf der oben eingestellten Zeit keine Eingabe mehr erfolgte.
+common#:#status_not_active#:#Nicht aktiv
+common#:#not_enabled_or_configured#:#Nicht aktiviert oder eingerichtet
+common#:#fold_create_grp#:#Neue Gruppe anlegen
+=======
+>>>>>>> .r14018
 common#:#cat_pages#:#Kategorien-Seiten
 common#:#cat_pages_clear#:#Kategorie-Seite geleert
 common#:#cat_pages_not_created#:#Kategorie-Seite wurde noch nicht erzeugt.
@@ -1555,7 +1591,7 @@ common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#characters#:#Zeichen
 common#:#chat#:#Chat
-common#:#chat_active_in#:#Aktiv in chat:
+common#:#chat_active_in#:#Aktiv in Chat:
 common#:#chat_add#:#Chat hinzufügen
 common#:#chat_copy#:#Chat kopieren
 common#:#chat_delete#:#Chat löschen
@@ -1666,24 +1702,24 @@ common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objektty
 common#:#crs_copy#:#Kurs kopieren
 common#:#crs_copy_threads_info#:#Bitte wählen Sie aus welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#crs_create#:#Neuen Kurs anlegen
-common#:#crs_create_alm#:#Neues AICC Lernmodul anlegen
+common#:#crs_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#crs_create_chat#:#Neuen Chat anlegen
 common#:#crs_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#crs_create_exc#:#Neue Übung anlegen
-common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
+common#:#crs_create_feed#:#Neuen Webfeed anlegen
 common#:#crs_create_file#:#Neue Datei hochladen
 common#:#crs_create_fold#:#Neuen Ordner anlegen
 common#:#crs_create_frm#:#Neues Forum anlegen
 common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_grp#:#Neue Gruppe anlegen
-common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#crs_create_htlm#:#Neues HTML Lernmodul anlegen
+common#:#crs_create_hlm#:#Neues HACP-Lernmodul anlegen
+common#:#crs_create_htlm#:#Neues HTML-Lernmodul anlegen
 common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
-common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen
-common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#crs_create_lm#:#Neues ILIAS-Lernmodul anlegen
+common#:#crs_create_mcst#:#Neuen Mediacast anlegen
 common#:#crs_create_mep#:#Neuen Media-Pool anlegen
 common#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
-common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
+common#:#crs_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
@@ -1727,6 +1763,16 @@ common#:#dateplaner#:#Kalender
 common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#days_of_period#:#Alle Tage des Zeitraums
+<<<<<<< .mine
+common#:#db_host#:#Datenbank-Host
+common#:#db_name#:#Datenbankname
+common#:#db_need_update#:#Datenbank benötigt ein Update!
+common#:#db_pass#:#Datenbank-Password
+common#:#db_type#:#Datenbank-Typ
+common#:#db_user#:#Datenbankbenutzer
+common#:#db_version#:#Datenbankversion
+=======
+>>>>>>> .r14018
 common#:#dbk#:#Digilib-Buch
 common#:#dbk_a#:#ein Digilib-Buch
 common#:#dbk_add#:#Digilib-Buch anlegen
@@ -1769,7 +1815,7 @@ common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
 common#:#delete_selected_items#:#Ausgewählte Elemente löschen
 common#:#delete_tr_data#:#Tracking Daten löschen
-common#:#delicious#:#del.icio.us Account###25 02 2007 new variable
+common#:#delicious#:#del.icio.us-Account
 common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
@@ -1814,7 +1860,7 @@ common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
 common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
-common#:#enable_js_edit#:#Aktiviere JavaScript Editor
+common#:#enable_js_edit#:#Aktiviere JavaScript-Editor
 common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
@@ -1863,7 +1909,7 @@ common#:#exc_deassign_members#:#Mitglied(er) löschen
 common#:#exc_delete#:#Übung löschen
 common#:#exc_details#:#Übungsdetails
 common#:#exc_download_all#:#Alle herunterladen
-common#:#exc_download_files#:#Download-Dateien###28 Jul 2006 new variable
+common#:#exc_download_files#:#Download-Dateien
 common#:#exc_download_new#:#Neue herunterladen
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
@@ -1879,7 +1925,7 @@ common#:#exc_header_members#:#Übung (Mitglieder)
 common#:#exc_instruction#:#Arbeitsanweisung
 common#:#exc_last_submission#:#Letzte Übertragung
 common#:#exc_mail_users#:#Mail an Nutzer verschicken
-common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
+common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder dieser Übung
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
 common#:#exc_members_comments_saved#:#Die Kommentare zu den Übungen der ausgewählten Benutzer wurden gespeichert.
 common#:#exc_new#:#Neue Übung
@@ -1928,7 +1974,7 @@ common#:#extt_ilinc_akclassvalues_required#:#Kostenstelle erforderlich
 common#:#extt_ilinc_akclassvalues_required_info#:#Die Angabe mindestens einer Kostenstelle für jedes LearnLinc-Seminar ist erforderlich
 common#:#extt_ilinc_configure#:#Einstellungen für netucate LearnLinc
 common#:#extt_ilinc_connection_data#:#Verbindungsdaten
-common#:#extt_ilinc_customer_id#:#Kunden ID
+common#:#extt_ilinc_customer_id#:#Kunden-ID
 common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
 common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
 common#:#extt_ilinc_protocol_port#:#Protokoll und Port
@@ -1948,11 +1994,11 @@ common#:#fax#:#Fax
 common#:#feed#:#News-Feed
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
-common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
-common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
-common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
-common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
+common#:#feed_delete#:#Webfeed löschen
+common#:#feed_edit_permission#:#Rechteeinstellungen ändern
+common#:#feed_read#:#Webfeed lesen
+common#:#feed_visible#:#Webfeed ist sichtbar
+common#:#feed_write#:#Webfeed bearbeiten
 common#:#field_name#:#Feldname
 common#:#field_type#:#Feldtyp
 common#:#file#:#Datei
@@ -1963,7 +2009,7 @@ common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
 common#:#file_added#:#Datei hochgeladen
 common#:#file_add_and_metadata#:#Datei hochladen und Metadaten editieren
-common#:#file_allowed_suffixes#:#Allowed file types:###02 04 2007 new variable
+common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_copy#:#Datei kopieren
 common#:#file_created#:#Eine neue Datei wurde hinzugefügt
 common#:#file_delete#:#Datei löschen
@@ -1977,8 +2023,8 @@ common#:#file_notice#:#Bitte beachten Sie bei Ihrem Dateiupload die Uploadgrenze
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_read#:#Datei runterladen
-common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
-common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
+common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
+common#:#file_suffix_repl_info#:#Dateien mit diesen Endungen (komma-separiert) erhalten als Dateiendung ".sec", wenn Sie in den Webspace hochgeladen werden. Dies geschieht standardmässig für folgende Endungen:
 common#:#file_updated#:#Die Datei wurde aktualisiert
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
@@ -1994,9 +2040,13 @@ common#:#folders#:#Ordner
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
+<<<<<<< .mine
+common#:#fold_create_alm#:#Neues AICC-Lernmodul anlegen
+=======
 common#:#fold_copy#:#Ordner kopieren
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#fold_create_alm#:#Neues AICC Lernmodul anlegen
+>>>>>>> .r14018
 common#:#fold_create_chat#:#Neuen Chat anlegen
 common#:#fold_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#fold_create_exc#:#Neue Übung anlegen
@@ -2004,12 +2054,16 @@ common#:#fold_create_file#:#Neue Datei hochladen
 common#:#fold_create_fold#:#Neuen Ordner anlegen
 common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
+<<<<<<< .mine
+common#:#fold_create_hlm#:#Neues HACP-Lernmodul anlegen
+=======
 common#:#fold_create_grp#:#Neue Gruppe anlegen
 common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
+>>>>>>> .r14018
 common#:#fold_create_htlm#:#Neues HTML Lernmodul anlegen
 common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
-common#:#fold_create_lm#:#Neues ILIAS Lernmodul anlegen
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#fold_create_lm#:#Neues ILIAS-Lernmodul anlegen
+common#:#fold_create_mcst#:#Neuen Mediacast anlegen
 common#:#fold_create_mep#:#Neuen Media-Pool anlegen
 common#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
 common#:#fold_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
@@ -2034,7 +2088,7 @@ common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert
-common#:#forums_anonymous#:#anonym###02 04 2007 new variable
+common#:#forums_anonymous#:#Anonym
 common#:#forums_articles#:#Beiträge
 common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum beenden
 common#:#forums_enable_forum_notification#:#Benachrichtigung für dieses Forum starten
@@ -2162,28 +2216,28 @@ common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_add_member#:#Mitglied(er) hinzufügen
-common#:#grp_already_applied#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf Bestätigung
+common#:#grp_already_applied#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung
 common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
 common#:#grp_back#:#Zurück
 common#:#grp_copy#:#Gruppe kopieren
 common#:#grp_copy_threads_info#:#Bitte wählen Sie aus welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create#:#Neue Gruppe anlegen
-common#:#grp_create_alm#:#Neues AICC Lernmodul anlegen
+common#:#grp_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
 common#:#grp_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#grp_create_exc#:#Neue Übung anlegen
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+common#:#grp_create_feed#:#Neuen Webfeed anlegen
 common#:#grp_create_file#:#Neue Datei hochladen
 common#:#grp_create_fold#:#Neuen Ordner anlegen
 common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_grp#:#Neue Gruppe anlegen
-common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#grp_create_icrs#:#Neues LearnLinc Seminar anlegen
-common#:#grp_create_lm#:#Neues ILIAS Lernmodul anlegen
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#grp_create_hlm#:#Neues HACP-Lernmodul anlegen
+common#:#grp_create_htlm#:#Neues HTML-Lernmodul anlegen
+common#:#grp_create_icrs#:#Neues LearnLinc-Seminar anlegen
+common#:#grp_create_lm#:#Neues ILIAS-Lernmodul anlegen
+common#:#grp_create_mcst#:#Neuen Mediacast anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
 common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
@@ -2246,8 +2300,8 @@ common#:#header_title#:#Installationsüberschrift
 common#:#height#:#Höhe
 common#:#help#:#Hilfe
 common#:#HH#:#SS:MM
-common#:#hh_mm#:#HH:MM###25 02 2007 new variable
-common#:#hh_mm_ss#:#HH:MM:SS###25 02 2007 new variable
+common#:#hh_mm#:#HH:MM
+common#:#hh_mm_ss#:#HH:MM:SS
 common#:#hide#:#ausblenden
 common#:#hide_details#:#Details ausblenden
 common#:#hide_private_notes#:#Private Notizen ausblenden
@@ -2279,15 +2333,15 @@ common#:#hist_webr_delete#:#Link wurde gelöscht. Titel: "%1"
 common#:#hist_webr_update#:#Link wurde aktualisiert. Titel: "%1"
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
-common#:#hlm_added#:#HACP Lernmodul angelegt
-common#:#hlm_create#:#Neues HACP Lernmodul anlegen
-common#:#hlm_delete#:#HACP Lernmodul löschen
+common#:#hlm_added#:#HACP-Lernmodul angelegt
+common#:#hlm_create#:#Neues HACP-Lernmodul anlegen
+common#:#hlm_delete#:#HACP-Lernmodul löschen
 common#:#hlm_edit_permission#:#Rechteeinstellungen ändern
-common#:#hlm_join#:#HACP Lernmodul abonnieren
-common#:#hlm_leave#:#HACP Lernmodulabonnement aufheben
-common#:#hlm_read#:#HACP Lernmodul lesen
-common#:#hlm_visible#:#HACP Lernmodul ist sichtbar
-common#:#hlm_write#:#HACP Lernmodul bearbeiten
+common#:#hlm_join#:#HACP-Lernmodul abonnieren
+common#:#hlm_leave#:#HACP-Lernmodulabonnement aufheben
+common#:#hlm_read#:#HACP-Lernmodul lesen
+common#:#hlm_visible#:#HACP-Lernmodul ist sichtbar
+common#:#hlm_write#:#HACP-Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
@@ -2295,18 +2349,35 @@ common#:#hour#:#Stunde
 common#:#hours#:#Stunden
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
+<<<<<<< .mine
+common#:#htlm_add#:#HTML-Lernmodul hinzufügen
+common#:#htlm_delete#:#HTML-Lernmodul löschen
+common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
+=======
 common#:#htlm_add#:#HTML Lernmodul hinzufügen
 common#:#htlm_copy#:#HTML-Lerneinheit kopieren
 common#:#htlm_delete#:#HTML Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML Lernmoduls bearbeiten
+>>>>>>> .r14018
 common#:#htlm_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#htlm_edit_permission#:#Rechteeinstellungen ändern
-common#:#htlm_new#:#Neues HTML Lernmodul
-common#:#htlm_read#:#HTML Lernmodul ansehen
-common#:#htlm_visible#:#HTML Lernmodul ist sichtbar
-common#:#htlm_write#:#HTML Lernmodul bearbeiten
+common#:#htlm_new#:#Neues HTML-Lernmodul
+common#:#htlm_read#:#HTML-Lernmodul ansehen
+common#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
+common#:#htlm_write#:#HTML-Lernmodul bearbeiten
 common#:#html_block#:#HTML-Block
 common#:#http#:#HTTP
+<<<<<<< .mine
+common#:#http_not_possible#:#Dieser Server unterstützt keine HTTP-Anfragen.
+common#:#http_path#:#HTTP-Pfad
+common#:#https_not_possible#:#Dieser Server unterstützt keine HTTPS-Verbindungen.
+common#:#i2passwd#:#ILIAS_2-Passwort
+common#:#icla#:#LearnLinc-Seminarraum
+common#:#icla_add#:#LearnLinc-Seminarraum anlegen
+common#:#icla_deleted#:#LearnLinc-Seminarräume gelöscht
+common#:#icla_edit#:#LearnLinc-Seminarraum bearbeiten
+common#:#icla_new#:#Neuer LearnLinc-Seminarraum
+=======
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
 common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
@@ -2316,10 +2387,19 @@ common#:#icla_add#:#LearnLinc Seminarraum anlegen
 common#:#icla_deleted#:#LearnLinc Seminarräume gelöscht
 common#:#icla_edit#:#LearnLinc Seminarraum bearbeiten
 common#:#icla_new#:#Neuer LearnLinc Seminarraum
+>>>>>>> .r14018
 common#:#icons_in_header#:#Kopfleiste
 common#:#icons_in_item_rows#:#Objektliste
 common#:#icons_in_typed_lists#:#Position der Symbole in Objektliste
 common#:#icons_in_typed_lists_info#:#Bestimmt, wo die Objektsymbole in der Objektliste dargestellt werden. Diese Einstellung ist wirksam bei Sortierung nach Objekttyp im Magazin und auf dem Persönlichen Schreibtisch.
+<<<<<<< .mine
+common#:#icrs#:#LearnLinc-Seminar
+common#:#icrs_add#:#LearnLinc-Seminar anlegen
+common#:#icrs_added#:#LearnLinc-Seminar angelegt
+common#:#icrs_create_icla#:#LearnLinc-Seminarräume anlegen
+common#:#icrs_delete#:#LearnLinc-Seminar löschen
+common#:#icrs_edit#:#LearnLinc-Seminar bearbeiten
+=======
 common#:#icon_settings#:#Symbol-Einstellungen
 common#:#icrs#:#LearnLinc Seminar
 common#:#icrs_add#:#LearnLinc Seminar anlegen
@@ -2328,20 +2408,34 @@ common#:#icrs_copy#:#LearnLinc Seminar kopieren
 common#:#icrs_create_icla#:#LearnLinc Seminarräume anlegen
 common#:#icrs_delete#:#LearnLinc Seminar löschen
 common#:#icrs_edit#:#LearnLinc Seminar bearbeiten
+>>>>>>> .r14018
 common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
-common#:#icrs_join#:#Benutzer kann LearnLinc Seminar beitreten
-common#:#icrs_leave#:#Benutzer kann LearnLinc Seminar verlassen
-common#:#icrs_members_gallery#:#Mitglieder-Gallerie
-common#:#icrs_new#:#Neues LearnLinc Seminar
-common#:#icrs_read#:#Lesezugriff auf LearnLinc Seminar
-common#:#icrs_visible#:#LearnLinc Seminar ist sichtbar
-common#:#icrs_write#:#LearnLinc Seminar bearbeiten
+common#:#icrs_join#:#Benutzer kann LearnLinc-Seminar beitreten
+common#:#icrs_leave#:#Benutzer kann LearnLinc-Seminar verlassen
+common#:#icrs_members_gallery#:#Mitglieder-Galerie
+common#:#icrs_new#:#Neues LearnLinc-Seminar
+common#:#icrs_read#:#Lesezugriff auf LearnLinc-Seminar
+common#:#icrs_visible#:#LearnLinc-Seminar ist sichtbar
+common#:#icrs_write#:#LearnLinc-Seminar bearbeiten
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
 common#:#if_no_title_then_url#:#Geben Sie keinen Titel ein, wird stattdessen die URL angezeigt
 common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
+<<<<<<< .mine
+common#:#il_chat_moderator#:#Chat-Moderator
+common#:#il_crs_admin#:#Kurs-Administrator
+common#:#il_crs_member#:#Kurs-Mitglied
+common#:#il_crs_tutor#:#Kurs-Tutor
+common#:#il_frm_moderator#:#Forum-Moderator
+common#:#il_grp_admin#:#Gruppen-Administrator
+common#:#il_grp_member#:#Gruppen-Mitglied
+common#:#il_icrs_admin#:#LearnLinc-Seminar-Administrator
+common#:#il_icrs_member#:#LearnLinc-Seminar-Mitglied
+common#:#ilias_version#:#ILIAS-Version
+=======
 common#:#ilias_version#:#ILIAS Version
+>>>>>>> .r14018
 common#:#ilinc_add_user#:#Benutzer hinzufügen
 common#:#ilinc_akclassvalue#:#Kostenstelle
 common#:#ilinc_akclassvalues#:#Kostenstellen
@@ -2349,28 +2443,37 @@ common#:#ilinc_classrooms#:#LearnLinc Seminarräume
 common#:#ilinc_classroom_always_open#:#Raum ist ständig geöffnet
 common#:#ilinc_classroom_closed#:#Raum ist geschlossen
 common#:#ilinc_classroom_open#:#Raum ist offen
+<<<<<<< .mine
+common#:#ilinc_classrooms#:#LearnLinc-Seminarräume
+=======
+>>>>>>> .r14018
 common#:#ilinc_coursemember_status#:#Eingetragen als
-common#:#ilinc_courses#:#LearnLinc Seminare
-common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem LearnLinc Seminar ausgetragen werden sollen?
-common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus dem LearnLinc Seminar ausgetragen wollen?
+common#:#ilinc_courses#:#LearnLinc-Seminare
+common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem LearnLinc-Seminar ausgetragen werden sollen?
+common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus dem LearnLinc-Seminar ausgetragen wollen?
 common#:#ilinc_docent#:#Dozent
-common#:#ilinc_err_administrator_required#:#Jedem LearnLinc Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc Seminar muss mindestens ein Benutzer mit Administrattionsrechten zugewiesen sein
-common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc Seminar !
+common#:#ilinc_err_administrator_required#:#Jedem LearnLinc-Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc-Seminar muss mindestens ein Benutzer mit Administrattionsrechten zugewiesen sein
+common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc-Seminar !
 common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#ilinc_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte, um diese Operation durchzuführen.
 common#:#ilinc_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Beitrittszeitraums an !
 common#:#ilinc_header_edit_users#:#Liste der beteiligten Benutzer bearbeiten
+<<<<<<< .mine
+common#:#ilinc_id#:#iLinc-ID
+common#:#ilinc_login#:#iLinc-Login
+=======
 common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Beteiligte Benutzer
 common#:#ilinc_login#:#iLinc Login
+>>>>>>> .r14018
 common#:#ilinc_mail_body_new_subscription#:#Sie sind in dem LearnLinc-Seminar als Teilnehmer aufgenommen worden.
 common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
 common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft
 common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
 common#:#ilinc_manage_course_documents#:#Agenda
 common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern
-common#:#ilinc_mem_leave#:#Benutzer aus dem LearnLinc Seminar austragen
+common#:#ilinc_mem_leave#:#Benutzer aus dem LearnLinc-Seminar austragen
 common#:#ilinc_mem_send_mail#:#Benutzer eine Nachricht senden
 common#:#ilinc_msg_joined#:#Sie sind dem LearnLinc Seminar beigetreten
 common#:#ilinc_msg_membership_annulled#:#Mitgliedschaft aufgehoben
@@ -2383,7 +2486,7 @@ common#:#ilinc_remark#:#Hinweis
 common#:#ilinc_server_not_active#:#Der iLinc-Server ist nicht aktiv
 common#:#ilinc_student#:#Teilnehmer
 common#:#ilinc_upload_pic_linktext#:#Hochladen
-common#:#ilinc_upload_pic_text#:#Um Ihr Bild in LearnLinc Seminaren anzuzeigen, benutzen Sie bitte diesen Link:
+common#:#ilinc_upload_pic_text#:#Um Ihr Bild in LearnLinc-Seminaren anzuzeigen, benutzen Sie bitte diesen Link:
 common#:#il_chat_moderator#:#Chat-Moderator
 common#:#il_crs_admin#:#Kurs-Administrator
 common#:#il_crs_member#:#Kurs-Mitglied
@@ -2396,9 +2499,13 @@ common#:#il_icrs_member#:#LearnLinc Seminar-Mitglied
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Importieren
+<<<<<<< .mine
+common#:#import_alm#:#Import AICC-Modul
+=======
 common#:#important#:#Wichtig
 common#:#imported#:#importiert
 common#:#import_alm#:#Import AICC Modul
+>>>>>>> .r14018
 common#:#import_categories#:#Kategorien importieren
 common#:#import_cat_localrol#:#Für jede neue Kategorie eine neue lokale Rolle anlegen
 common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Checkbox aktiviert ist.
@@ -2498,8 +2605,8 @@ common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
 common#:#internal_system#:#Internes System
-common#:#invisible_block#:#Invisible Block###25 05 2007 new variable
-common#:#invisible_block_mess#:#You do not have the permission to view this block.###25 05 2007 new variable
+common#:#invisible_block#:#Unsichtbarer Block
+common#:#invisible_block_mess#:#Sie haben nicht das Recht, diesen Block zu sehen.
 common#:#in_use#:#Benutzersprache
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
@@ -2520,7 +2627,7 @@ common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits inst
 common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
-common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
+common#:#lang_bg#:#Bulgarisch
 common#:#lang_cs#:#Tschechisch
 common#:#lang_da#:#Dänisch
 common#:#lang_dateformat#:#d.m.Y
@@ -2528,7 +2635,7 @@ common#:#lang_de#:#Deutsch
 common#:#lang_el#:#Neugriechisch
 common#:#lang_en#:#Englisch
 common#:#lang_es#:#Spanisch
-common#:#lang_et#:#Estonian###10 05 2007 new variable
+common#:#lang_et#:#Estisch
 common#:#lang_fi#:#Finnisch
 common#:#lang_fr#:#Französisch
 common#:#lang_ge#:#Georgisch
@@ -2543,7 +2650,7 @@ common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
 common#:#lang_pt#:#Portugisisch
 common#:#lang_ro#:#Rumänisch
-common#:#lang_ru#:#Russian###10 05 2007 new variable
+common#:#lang_ru#:#Russisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_sq#:#Albanisch
@@ -2637,8 +2744,8 @@ common#:#lm_new#:#Neues ILIAS Lernmodul
 common#:#lm_read#:#ILIAS Lernmodul lesen
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
-common#:#lm_type_scorm#:#SCORM
-common#:#lm_type_scorm2004#:#SCORM 2004###10 05 2007 new variable
+common#:#lm_type_scorm#:#SCORM 1.2
+common#:#lm_type_scorm2004#:#SCORM 2004
 common#:#lm_visible#:#ILIAS Lernmodul ist sichtbar
 common#:#lm_write#:#ILIAS Lernmodul bearbeiten
 common#:#lng#:#Sprache
@@ -2732,15 +2839,15 @@ common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#matriculation#:#Matrikelnummer
 common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
-common#:#mcst#:#MediaCast
-common#:#mcst_add#:#MediaCast hinzufügen
-common#:#mcst_copy#:#MediaCast kopieren
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_new#:#Neuer MediaCast
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+common#:#mcst#:#Mediacast
+common#:#mcst_add#:#Mediacast hinzufügen
+common#:#mcst_copy#:#Mediacast kopieren
+common#:#mcst_delete#:#Mediacast löschen
+common#:#mcst_edit_permission#:#Rechteeinstellung ändern
+common#:#mcst_new#:#Neuer Mediacast
+common#:#mcst_read#:#Mediacast lesen
+common#:#mcst_visible#:#Mediacast ist sichtbar
+common#:#mcst_write#:#Mediacast bearbeiten
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft ist beendet worden.
@@ -2801,7 +2908,7 @@ common#:#month_12_short#:#Dez
 common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
-common#:#move_blocks#:#Move Blocks###02 04 2007 new variable
+common#:#move_blocks#:#Blöcke verschieben
 common#:#move_down#:#Nach unten
 common#:#move_selected_items#:#Ausgewählte Elemente verschieben
 common#:#move_to#:#Ablegen in
@@ -2933,7 +3040,7 @@ common#:#not_logged_in#:#Sie sind nicht angemeldet
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.
 common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.###02 04 2007 new variable
+common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Benutzervereinbarung angeboten. Bitte kontaktieren Sie Ihren Systemadministrator für weitere Informationen.
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
@@ -2968,10 +3075,10 @@ common#:#no_zip_file#:#Es wurde keine ZIP-Datei gefunden
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
 common#:#num_users#:#Anzahl Benutzer
-common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
-common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
-common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
+common#:#nwss_edit_permission#:#Rechteeinstellungen ändern
+common#:#nwss_read#:#lesezugriff zu den News- und Webfeed-Einstellungen
+common#:#nwss_visible#:#News- und Webfeed-Einstellungen sind sichtbar
+common#:#nwss_write#:#News- und Webfeed-Einstellungen bearbeiten
 common#:#obj#:#Objekt
 common#:#object#:#Objekt
 common#:#objects#:#Objekte
@@ -2992,7 +3099,7 @@ common#:#objs_crs#:#Kurse
 common#:#objs_dbk#:#Digilib-Bücher
 common#:#objs_delete#:#Objekte löschen
 common#:#objs_exc#:#Übungen
-common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
+common#:#objs_feed#:#Webfeeds
 common#:#objs_file#:#Dateien
 common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
@@ -3000,12 +3107,12 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_icla#:#LearnLinc Seminarräume
-common#:#objs_icrs#:#LearnLinc Seminare
-common#:#objs_lm#:#ILIAS Lernmodule
+common#:#objs_icla#:#LearnLinc-Seminarräume
+common#:#objs_icrs#:#LearnLinc-Seminare
+common#:#objs_lm#:#ILIAS-Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
-common#:#objs_mcst#:#MediaCasts
+common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Media-Pools
 common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
@@ -3046,7 +3153,7 @@ common#:#obj_exc_duplicate#:#Übung duplizieren
 common#:#obj_exc_select#:#-- Bitte wählen Sie eine Übung aus --
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
-common#:#obj_feed#:#Web Feed###02 04 2007 new variable
+common#:#obj_feed#:#Webfeed
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei duplizieren
 common#:#obj_file_select#:#-- Bitte wählen Sie eine Datei aus --
@@ -3079,15 +3186,15 @@ common#:#obj_mob#:#Medienobjekt
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
 common#:#obj_not_found#:#Kein Objekt gefunden
-common#:#obj_nwss#:#News and Web Feeds Settings###25 02 2007 new variable
-common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.###25 02 2007 new variable
+common#:#obj_nwss#:#News- und Webfeed-Einstellungen
+common#:#obj_nwss_desc#:#Einstellungen für interne Nachrichten und externe Webfeeds
 common#:#obj_objf#:#Objektdefinitionen
-common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
+common#:#obj_objf_desc#:#ILIAS-Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pays#:#Paymenteinstellungen
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
-common#:#obj_pdts#:#Personal Desktop Settings###02 04 2007 new variable
-common#:#obj_pdts_desc#:#Configure the Personal Desktop###02 04 2007 new variable
+common#:#obj_pdts#:#Einstellungen für den Persönlichen Schreibtisch
+common#:#obj_pdts_desc#:#Persönlichen Schreibtisch anpassen
 common#:#obj_pg#:#Seite
 common#:#obj_ps#:#Datenschutz und Server-Sicherheit
 common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
@@ -3193,8 +3300,8 @@ common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
 common#:#pays_write#:#Paymenteinstellungen bearbeiten
 common#:#pay_methods#:#Bezahlarten
 common#:#pdf_export#:#PDF-Export
-common#:#pd_items_news#:#Include News of Personal Items###02 04 2007 new variable
-common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.###02 04 2007 new variable
+common#:#pd_items_news#:#Einschließlich Nachrichten der ausgewählten Objekte
+common#:#pd_items_news_info#:#Wenn aktiviert, werden alle Nachrichten der ausgewählten Objekte im Nachrichtenblock auf dem Persönlichen Schreibtisch angezeigt.
 common#:#perma_link#:#Link zu dieser Seite
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
@@ -3459,7 +3566,7 @@ common#:#sections#:#Bereiche
 common#:#select#:#Auswählen
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
-common#:#selected_items_back#:#Back to Personal Items###02 04 2007 new variable
+common#:#selected_items_back#:#Zurück zu Angeboten
 common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen
 common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
@@ -3467,7 +3574,7 @@ common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
 common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus.
 common#:#select_one#:#Bitte treffen Sie eine Auswahl
-common#:#select_page#:#Select Page###25 02 2007 new variable
+common#:#select_page#:#Seite auswählen
 common#:#select_password#:#Neues Passwort wählen
 common#:#select_questionpool#:#Fragenpool für Test
 common#:#select_questionpool_option#:#--- Bitte wählen Sie einen Fragenpool aus ---
@@ -3528,8 +3635,8 @@ common#:#shib_user_default_role#:#Generelle Rolle für Shibbolethbenützer
 common#:#shib_visible#:#Einstellungen für Shibboleth sind sichtbar
 common#:#shib_write#:#Einstellungen für Shibboleth editieren
 common#:#shib_zipcode#:#Attribut für Postleitzahl
-common#:#short_inst_name#:#Short Title###02 04 2007 new variable
-common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
+common#:#short_inst_name#:#Kurztitel
+common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'
 common#:#show#:#Zeige
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
@@ -3564,7 +3671,7 @@ common#:#statistic#:#Statistik
 common#:#status#:#Status
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
-common#:#stop_moving_blocks#:#Stop Moving Blocks###02 04 2007 new variable
+common#:#stop_moving_blocks#:#Verschieben der Blöcke beenden
 common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#sty#:#Style
@@ -3657,7 +3764,7 @@ common#:#time_limit_until#:#Until (Zeitlimit)
 common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert
 common#:#time_segment#:#Zeitraum
 common#:#title#:#Titel
-common#:#title_long#:#Long Title###22 12 2006 new variable
+common#:#title_long#:#Langtitel
 common#:#to#:#Bis
 common#:#today#:#Heute
 common#:#toggleGlobalDefault#:#Standard-Style umschalten
@@ -4092,10 +4199,10 @@ content#:#cont_footer#:#Fußzeile
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Diese Operation ist nicht möglich!
 content#:#cont_frame_botright#:#Content Details (Glossar)
-content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
-content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
+content#:#cont_frame_maincontent#:#Inhaltsfenster
+content#:#cont_frame_right#:#Details zum Inhalt
 content#:#cont_frame_toc#:#Inhaltsverzeichnis
-content#:#cont_frame_topright#:#Content Details (FAQ und Medien)###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Details zum Inhalt (FAQ und Medien)
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
@@ -4195,7 +4302,7 @@ content#:#cont_offline#:#Offline Versionen
 content#:#cont_offline_files#:#Offline-Version
 content#:#cont_offline_versions#:#Offline-Versionen
 content#:#cont_online#:#Online
-content#:#cont_operation_not_allowed#:#This operation is not allowed.###25 05 2007 new variable
+content#:#cont_operation_not_allowed#:#Diese Aktion ist nicht erlaubt
 content#:#cont_or#:#oder
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
@@ -4468,7 +4575,7 @@ crs#:#crs_edit_archive#:#Archive bearbeiten
 crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_edit_start_objects#:#Startobjekte bearbeiten
 crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
-crs#:#crs_enable_map#:#Enable Course Map###02 04 2007 new variable
+crs#:#crs_enable_map#:#Karte zum Kurs aktivieren
 crs#:#crs_end#:#Ende
 crs#:#crs_existing_files#:#Vorhandene Dateien:
 crs#:#crs_export#:#Kursexport
@@ -4537,8 +4644,8 @@ crs#:#crs_lm_assignment_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_lm_deassign#:#Zuornung entfernen
 crs#:#crs_lm_no_assignments_selected#:#Bitte wählen Sie mindestens eine Zuordnung aus.
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
-crs#:#crs_map_location#:#Course Map Location###02 04 2007 new variable
-crs#:#crs_map_settings#:#Map Settings###02 04 2007 new variable
+crs#:#crs_map_location#:#Ort auf Karte zum Kurs
+crs#:#crs_map_settings#:#Einstellungen Karte
 crs#:#crs_materials#:#Kursmaterialien
 crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
 crs#:#crs_member#:#Mitglied
@@ -4546,7 +4653,7 @@ crs#:#crs_members#:#Mitglieder
 crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
-crs#:#crs_members_map#:#Course Members Map###02 04 2007 new variable
+crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_members_table#:#Teilnehmer des Kurses
 crs#:#crs_members_title#:#Kursmitglieder
@@ -4561,7 +4668,7 @@ crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
-crs#:#crs_news#:#Course News###02 04 2007 new variable
+crs#:#crs_news#:#Nachrichten zum Kurs
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#Ein neuer Teilnehmer ist zum Kurs "%s" beigetreten.
@@ -4575,7 +4682,7 @@ crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_chapter_selected#:#Bitte wählen Sie mindestens ein Kapitel aus.
-crs#:#crs_no_exercises#:#No exercises found inside this course###25 05 2007 new variable
+crs#:#crs_no_exercises#:#Keine Übung innerhalb des Kurses gefunden
 crs#:#crs_no_groupings_assigned#:#Diesem Kurs sind keine Gruppierungen zugeordnet.
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Objekte vorhanden
@@ -5108,11 +5215,11 @@ dateplaner#:#We_long#:#Mittwoch
 dateplaner#:#We_short#:#Mi
 dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
-delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens###25 02 2007 new variable
-delic#:#delic_add_to_delicious#:#Add to del.icio.us###25 02 2007 new variable
-delic#:#delic_extt_delicious#:#del.icio.us###25 02 2007 new variable
-delic#:#delic_settings#:#del.icio.us Settings###25 02 2007 new variable
-delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile###25 02 2007 new variable
+delic#:#delic_add_info_links#:#del.icio.us-Links auf Info-Seite anzeigen
+delic#:#delic_add_to_delicious#:#Zu del.icio.us hinzufügen
+delic#:#delic_extt_delicious#:#del.icio.us
+delic#:#delic_settings#:#del.icio.us-Einstellungen
+delic#:#delic_user_profile#:#Einstellungen für del.icio.us-Account im Persönlichen Profil aktivieren
 exercise#:#exc_comment#:#Kommentar
 exercise#:#exc_comment_for_learner#:#Kommentar für Lerner
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Kurses hinzufügen
@@ -6426,7 +6533,7 @@ pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefel
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail-Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
 pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. 
-pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
+pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS Passwort-Unterstützung
 pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort-Unterstützung ist für den angegebenen Benutzer nicht erlaubt.
 pwassist#:#pwassist_no_email_found#:#Leider kann die Passwortunterstützung nicht genutzt werden, da für das angegebene Benutzerkonto keine E-Mail Adresse hinterlegt ist.
@@ -6484,7 +6591,7 @@ registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldete
 registration#:#reg_disabled#:#Keine Registrierung möglich
 registration#:#reg_domain#:#Domäne (z.B. '@your_domain.de')
 registration#:#reg_email#:#Automatische Rollenzuweisung
-registration#:#reg_email_role_assignment#:#Rollenzuweisung über Email-Adresse
+registration#:#reg_email_role_assignment#:#Rollenzuweisung über E-Mail-Adresse
 registration#:#reg_enable_access_limitations#:#Befristeten Zugang aktivieren
 registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
 registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
