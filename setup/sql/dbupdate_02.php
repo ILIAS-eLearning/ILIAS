@@ -1567,3 +1567,7 @@ while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
 }
 
 ?>
+<#1010>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

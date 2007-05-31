@@ -321,12 +321,13 @@ class ilTemplate extends ilTemplateX
 
 	function fillCssFiles()
 	{
-		foreach($this->css_files as $file)
+		foreach($this->css_files as $css)
 		{
-			if (is_file($file))
+			if (is_file($css["file"]))
 			{
 				$this->setCurrentBlock("css_file");
-				$this->setVariable("CSS_FILE", $file);
+				$this->setVariable("CSS_FILE", $css["file"]);
+				$this->setVariable("CSS_MEDIA", $css["media"]);
 				$this->parseCurrentBlock();
 			}
 		}
@@ -982,11 +983,11 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Add a css file that should be included in the header.
 	*/
-	function addCss($a_css_file)
+	function addCss($a_css_file, $media = "screen")
 	{
-		if (!in_array($a_css_file, $this->css_files))
+		if (!array_key_exists($a_css_file . $media, $this->css_files))
 		{
-			$this->css_files[] = $a_css_file;
+			$this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
 		}
 	}
 }

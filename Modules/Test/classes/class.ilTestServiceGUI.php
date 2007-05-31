@@ -29,6 +29,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * done to reduce the size of ilObjTestGUI to put command service functions
 * into classes that could be called by ilCtrl.
 *
+* @ilCtrl_IsCalledBy ilTestServiceGUI: ilObjTestGUI
+*
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
@@ -693,12 +695,13 @@ class ilTestServiceGUI
 * @return string HTML code of the user data for the test results
 * @access public
 */
-	function getResultsUserdata($user_id, $overwrite_anonymity = FALSE)
+	function getResultsUserdata($active_id, $overwrite_anonymity = FALSE)
 	{
 		$template = new ilTemplate("tpl.il_as_tst_results_userdata.html", TRUE, TRUE, "Modules/Test");
 		include_once "./classes/class.ilObjUser.php";
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$user = new ilObjUser($user_id);
-		$active = $this->object->getActiveTestUser($user_id);
+		$active =& $this->object->getActiveTestUserFromActiveId($active_id);
 		$t = $active->submittimestamp;
 		if (!$t)
 		{
@@ -789,6 +792,81 @@ class ilTestServiceGUI
 		return $template->get();
 	}
 
+	/**
+	* Output of the pass overview for a test called by a test participant
+	*
+	* Output of the pass overview for a test called by a test participant
+	*
+	* @access public
+	*/
+	function getResultsOfUserOutput($active_id, $pass)
+	{
+		global $ilias, $tpl;
+
+		include_once("./classes/class.ilTemplate.php");
+		$template = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
+
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+		$uname = $this->object->userLookupFullName($user_id, TRUE);
+		$hide_details = !$this->object->getShowPassDetails();
+
+		if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass)))
+		{
+			if (is_null($pass))	$pass = $_GET["pass"];
+		}
+
+		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
+		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$template->setVariable("PRINT_URL", "javascript:window.print();");
+
+		$result_pass = $this->object->_getResultPass($active_id);
+		$result_array =& $this->object->getTestResult($active_id, $result_pass);
+		$statement = $this->getFinalStatement($result_array["test"]);
+		$user_data = $this->getResultsUserdata($active_id, TRUE);
+
+		if (!is_null($pass))
+		{
+			$result_array =& $this->object->getTestResult($active_id, $pass);
+			$command_solution_details = "";
+			if ($this->object->getShowSolutionDetails())
+			{
+				$command_solution_details = "outCorrectSolution";
+			}
+			$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestservicegui", "getResultsOfUserOutput", $command_solution_details);
+
+			$user_id = $this->object->_getUserIdFromActiveId($active_id);
+
+			$template->setCurrentBlock("test_user_name");
+
+			$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+			$template->parseCurrentBlock();
+
+			$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+
+			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
+			$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
+			$template->setVariable("PASS_DETAILS", $detailsoverview);
+
+			$signature = $this->getResultsSignature();
+			$template->setVariable("SIGNATURE", $signature);
+		}
+		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
+		$template->setVariable("USER_DATA", $user_data);
+		$template->setVariable("USER_MARK", $statement["mark"]);
+		if (strlen($statement["markects"]))
+		{
+			$template->setVariable("USER_MARK_ECTS", $statement["mark"]);
+		}
+		$template->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("generic_css");
+		$tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$tpl->parseCurrentBlock();
+
+		return $template->get();
+	}
 }
 
 ?>

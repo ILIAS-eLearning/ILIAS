@@ -1851,7 +1851,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
-		$user_data = $this->getResultsUserdata($ilUser->getId(), TRUE);
+		$user_data = $this->getResultsUserdata($active_id, TRUE);
 		$signature = $this->getResultsSignature();
 		$this->tpl->setVariable("USER_DETAILS", $user_data);
 		$this->tpl->setVariable("SIGNATURE", $signature);
@@ -1914,7 +1914,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
 		
-		$user_data = $this->getResultsUserdata($user_id, TRUE);
+		$user_data = $this->getResultsUserdata($active_id, TRUE);
 		$this->tpl->setVariable("USER_DATA", $user_data);
 		$this->tpl->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
 		if (strlen($signature))
@@ -1992,7 +1992,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$result_pass = $this->object->_getResultPass($active_id);
 		$result_array =& $this->object->getTestResult($active_id, $result_pass);
 		$statement = $this->getFinalStatement($result_array["test"]);
-		$user_data = $this->getResultsUserdata($user_id, TRUE);
+		$user_data = $this->getResultsUserdata($active_id, TRUE);
 
 		// output of the details of a selected pass
 		$this->ctrl->saveParameter($this, "pass");
@@ -2159,7 +2159,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$result_array =& $this->object->getTestResult($active_id, $result_pass);
 		$statement = $this->getFinalStatement($result_array["test"]);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$user_data = $this->getResultsUserdata($user_id);
+		$user_data = $this->getResultsUserdata($active_id);
 		$this->tpl->setVariable("USER_DATA", $user_data);
 		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
 		$this->tpl->setVariable("USER_MARK", $statement["mark"]);

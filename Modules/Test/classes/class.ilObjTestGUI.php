@@ -107,6 +107,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
 				
+			case "iltestservicegui":
+				include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+				$serviceGUI =& new ilTestServiceGUI($this->object);
+				$this->ctrl->forwardCommand($serviceGUI);
+				break;
+
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -4169,7 +4175,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
 			}
-			$buttons = array("save","delete_user_data", "remove_as_participant");
+			$buttons = array("save","delete_user_data", "remove_as_participant", "show_pass_overview", "show_user_answers");
 			if (count($invited_users))
 			{
 				$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_fixed_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
@@ -4186,7 +4192,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
 			}
-			$buttons = array("delete_user_data");
+			$buttons = array("delete_user_data", "show_pass_overview", "show_user_answers");
 			if (count($invited_users))
 			{
 				$this->outUserGroupTable("iv_participants", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
@@ -4213,6 +4219,32 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
 		$this->tpl->parseCurrentBlock();
+	}
+
+ /**
+	* Shows the pass overview of the scored pass for one ore more users
+	*
+	* Shows the pass overview of the scored pass for one ore more users
+	*
+	* @access	public
+	*/
+	function showPassOverviewObject()
+	{
+		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+		$serviceGUI =& new ilTestServiceGUI($this->object);
+		$this->tpl->setVariable("ADM_CONTENT", $serviceGUI->getResultsOfUserOutput(11556, 0));
+	}
+
+ /**
+	* Shows the answers of one ore more users for the scored pass
+	*
+	* Shows the answers of one ore more users for the scored pass
+	*
+	* @access	public
+	*/
+	function showUserAnswersObject()
+	{
+
 	}
 
 	function removeParticipantObject()
@@ -5181,7 +5213,8 @@ class ilObjTestGUI extends ilObjectGUI
 				"confirmDeleteAllUserData",
 				"deleteAllUserResults",
 				"cancelDeleteAllUserData", "deleteSingleUserResults",
-				"outParticipantsResultsOverview", "outParticipantsPassDetails"
+				"outParticipantsResultsOverview", "outParticipantsPassDetails",
+				"showPassOverview", "showUserAnswers"
 			),
 			"", "");
 	
@@ -5297,7 +5330,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "showParticipantAnswersForAuthor":
 			case "inviteParticipants":
 			case "participants":
-			case "showResults":
 			case "outParticipantsPassDetails":
 			case "outParticipantsResultsOverview":
 			case "deleteAllUserResults":
@@ -5305,6 +5337,8 @@ class ilObjTestGUI extends ilObjectGUI
 			case "cancelDeleteAllUserData":
 			case "deleteSingleUserResults":
 			case "searchParticipants":
+			case "showPassOverview":
+			case "showUserAnswers":
 					 $this->getParticipantsSubTabs();
 				break;
 			case "scoring":
@@ -5415,11 +5449,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$tabs_gui->addTarget("participants",
 					 $this->ctrl->getLinkTarget($this,'participants'),
 					 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
-					 "removeParticipant", "showAnswers", "showResults", "inviteParticipants",
+					 "removeParticipant", "inviteParticipants",
 					 "saveFixedParticipantsStatus", "showParticipantAnswersForAuthor",
 					 "deleteAllUserResults",
 					 "cancelDeleteAllUserData", "deleteSingleUserResults",
-					 "outParticipantsResultsOverview", "outParticipantsPassDetails"), 
+					 "outParticipantsResultsOverview", "outParticipantsPassDetails",
+					 "showPassOverview", "showUserAnswers"), 
 					 "");
 
 				// output tab
