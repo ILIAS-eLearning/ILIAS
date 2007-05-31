@@ -379,7 +379,8 @@ class ilTestServiceGUI
 
 		return $maintemplate->get();
 	}
-	
+
+
 /**
 * Returns the pass details overview for a given active ID and pass
 *
@@ -397,25 +398,6 @@ class ilTestServiceGUI
 */
 	function getPassDetailsOverview(&$result_array, $active_id, $pass, $targetclass = "", $targetcommandsort = "", $targetcommanddetails = "", $standard_header = TRUE)
 	{
-		// internal sort function to sort the result array
-		function sortResults($a, $b)
-		{
-			$sort = ($_GET["sort"]) ? ($_GET["sort"]) : "nr";
-			$sortorder = ($_GET["sortorder"]) ? ($_GET["sortorder"]) : "asc";
-			if (strcmp($sortorder, "asc")) 
-			{
-				$smaller = 1;
-				$greater = -1;
-			} 
-			else 
-			{
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a[$sort] == $b[$sort]) return 0;
-			return ($a[$sort] < $b[$sort]) ? $smaller : $greater;
-		}
-
 		global $ilUser;
 
 		$testresults = $result_array["test"];
@@ -799,26 +781,20 @@ class ilTestServiceGUI
 	*
 	* @access public
 	*/
-	function getResultsOfUserOutput($active_id, $pass)
+	function getResultsOfUserOutput($active_id, $pass, $show_pass_details = TRUE, $show_answers = TRUE)
 	{
 		global $ilias, $tpl;
 
 		include_once("./classes/class.ilTemplate.php");
-		$template = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
+		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$hide_details = !$this->object->getShowPassDetails();
 
 		if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass)))
 		{
 			if (is_null($pass))	$pass = $_GET["pass"];
 		}
-
-		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
-		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$template->setVariable("PRINT_URL", "javascript:window.print();");
 
 		$result_pass = $this->object->_getResultPass($active_id);
 		$result_array =& $this->object->getTestResult($active_id, $result_pass);
@@ -833,7 +809,10 @@ class ilTestServiceGUI
 			{
 				$command_solution_details = "outCorrectSolution";
 			}
-			$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestservicegui", "getResultsOfUserOutput", $command_solution_details);
+			if ($show_pass_details)
+			{
+				$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestservicegui", "getResultsOfUserOutput", $command_solution_details);
+			}
 
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
@@ -842,7 +821,10 @@ class ilTestServiceGUI
 			$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 			$template->parseCurrentBlock();
 
-			$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+			if ($show_answers)
+			{
+				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 			$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
@@ -860,13 +842,27 @@ class ilTestServiceGUI
 		}
 		$template->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("generic_css");
-		$tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$tpl->parseCurrentBlock();
-
 		return $template->get();
 	}
+}
+
+// internal sort function to sort the result array
+function sortResults($a, $b)
+{
+	$sort = ($_GET["sort"]) ? ($_GET["sort"]) : "nr";
+	$sortorder = ($_GET["sortorder"]) ? ($_GET["sortorder"]) : "asc";
+	if (strcmp($sortorder, "asc")) 
+	{
+		$smaller = 1;
+		$greater = -1;
+	} 
+	else 
+	{
+		$smaller = -1;
+		$greater = 1;
+	}
+	if ($a[$sort] == $b[$sort]) return 0;
+	return ($a[$sort] < $b[$sort]) ? $smaller : $greater;
 }
 
 ?>

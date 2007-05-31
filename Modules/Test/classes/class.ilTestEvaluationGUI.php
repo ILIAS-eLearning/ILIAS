@@ -334,10 +334,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("EVALUATION_FILTER", $filteroutput);
 		$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 		
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 	}
 	
 	/**
@@ -358,10 +355,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, "outEvaluation");
 		}
 		
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 
 		$data =& $this->object->getCompleteEvaluationData();
 		$this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
