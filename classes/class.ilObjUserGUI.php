@@ -598,6 +598,28 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		// END show users online
 		
+		// BEGIN hide_own_online_status
+		
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"]))
+		{
+			$hide_own_online_status = $_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"];
+		}
+		else
+		{
+			$hide_own_online_status = $this->ilias->getSetting("hide_own_online_status");
+		}
+		
+		$this->tpl->setCurrentBlock("hide_own_online_status");		
+		$this->tpl->setVariable("TXT_HIDE_OWN_ONLINE_STATUS", $this->lng->txt("hide_own_online_status"));
+		if ($hide_own_online_status == "y") {
+			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "checked=\"checked\"");
+		}
+		else {
+			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "");
+		} 
+		$this->tpl->parseCurrentBlock();
+		// END hide_own_online_status
+		
 		// time limit
 		if (is_array($_SESSION["error_post_vars"]))
 		{
@@ -1292,7 +1314,27 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// END show users online
-
+			
+		// BEGIN hide_own_online_status
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"]))
+		{
+			$hide_own_online_status = $_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"];
+		}
+		else
+		{			
+			$hide_own_online_status = ($this->object->prefs["hide_own_online_status"] != '') ? $this->object->prefs["hide_own_online_status"] : "n";
+		}
+		$this->tpl->setCurrentBlock("hide_own_online_status");				
+		$this->tpl->setVariable("TXT_HIDE_OWN_ONLINE_STATUS", $this->lng->txt("hide_own_online_status"));
+		if ($hide_own_online_status == "y") {
+			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "checked=\"checked\"");
+		}
+		else {
+			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "");
+		} 
+		$this->tpl->parseCurrentBlock();		
+		//END hide_own_online_status
+		
 		// inform user about changes option
 		$this->tpl->setCurrentBlock("inform_user");
 
@@ -1565,8 +1607,10 @@ class ilObjUserGUI extends ilObjectGUI
 		// set hits per pages
 		$userObj->setPref("hits_per_page", $_POST["Fobject"]["hits_per_page"]);
 		// set show users online
-		$userObj->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
-
+		$userObj->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);			
+		// set hide_own_online_status				
+		$userObj->setPref("hide_own_online_status", $_POST["Fobject"]["hide_own_online_status"]);
+		
 		$userObj->writePrefs();
 
 		//set role entries
@@ -1809,8 +1853,15 @@ class ilObjUserGUI extends ilObjectGUI
 		// set hits per pages
 		$this->object->setPref("hits_per_page", $_POST["Fobject"]["hits_per_page"]);
 		// set show users online
-		$this->object->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
-
+		$this->object->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);	
+		// set hide_own_online_status				
+		if ($_POST["Fobject"]["hide_own_online_status"]) {
+			$this->object->setPref("hide_own_online_status", $_POST["Fobject"]["hide_own_online_status"]);	
+		}
+		else {
+			$this->object->setPref("hide_own_online_status", "n");
+		}
+		
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
