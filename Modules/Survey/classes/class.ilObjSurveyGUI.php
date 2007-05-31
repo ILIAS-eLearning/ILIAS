@@ -406,11 +406,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTIONTITLES_CHECKED", " checked=\"checked\"");
 		}
     $this->tpl->parseCurrentBlock();
+
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
-		$rte->removePlugin("ibrowser");
 		include_once "./classes/class.ilObject.php";
 		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
