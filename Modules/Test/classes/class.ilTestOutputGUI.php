@@ -1778,10 +1778,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);
@@ -1808,10 +1805,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "Modules/Test");
 
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 	
 		if (strlen($top_data))
 		{
@@ -1923,10 +1917,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 	}
 
 /**
@@ -1941,7 +1932,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		global $ilUser, $ilias;
 
 		include_once("./classes/class.ilTemplate.php");
-		$template = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
+		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
+		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
 
 		$pass = null;
 		$user_id = $ilUser->getId();
@@ -1975,19 +1967,19 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->setParameter($this, "pass", $pass);
 			$this->ctrl->setParameter($this, "pdf", "1");
-			$template->setCurrentBlock("pdf_export");
-			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
+			$templatehead->setCurrentBlock("pdf_export");
+			$templatehead->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
 			$this->ctrl->setParameter($this, "pass", "");
 			$this->ctrl->setParameter($this, "pdf", "");
-			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-			$template->parseCurrentBlock();
+			$templatehead->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+			$templatehead->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+			$templatehead->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+			$templatehead->parseCurrentBlock();
 		}
-		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
-		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$template->setVariable("PRINT_URL", "javascript:window.print();");
+		$templatehead->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+		$templatehead->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		$templatehead->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$templatehead->setVariable("PRINT_URL", "javascript:window.print();");
 		
 		$result_pass = $this->object->_getResultPass($active_id);
 		$result_array =& $this->object->getTestResult($active_id, $result_pass);
@@ -2035,10 +2027,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		$template->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
 		
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
@@ -2052,7 +2042,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
+			$this->tpl->setVariable("PRINT_CONTENT", $templatehead->get());
 		}
 	}
 	
@@ -2119,10 +2109,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("PASS_DETAILS", $overview);
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 	}
 
 /**
@@ -2170,10 +2157,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 	}
 	
 /**
@@ -2234,10 +2218,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("PASS_DETAILS", $overview);
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 	}
 }
 ?>

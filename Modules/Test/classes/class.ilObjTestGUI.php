@@ -4222,20 +4222,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
  /**
-	* Shows the pass overview of the scored pass for one ore more users
-	*
-	* Shows the pass overview of the scored pass for one ore more users
-	*
-	* @access	public
-	*/
-	function showPassOverviewObject()
-	{
-		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
-		$serviceGUI =& new ilTestServiceGUI($this->object);
-		$this->tpl->setVariable("ADM_CONTENT", $serviceGUI->getResultsOfUserOutput(11556, 0));
-	}
-
- /**
 	* Shows the answers of one ore more users for the scored pass
 	*
 	* Shows the answers of one ore more users for the scored pass
@@ -4244,7 +4230,60 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function showUserAnswersObject()
 	{
+		$this->showUserResults($show_pass_details = FALSE, $show_answers = TRUE);
+	}
 
+ /**
+	* Shows the pass overview of the scored pass for one ore more users
+	*
+	* Shows the pass overview of the scored pass for one ore more users
+	*
+	* @access	public
+	*/
+	function showPassOverviewObject()
+	{
+		$this->showUserResults($show_pass_details = TRUE, $show_answers = FALSE);
+	}
+	
+ /**
+	* Shows the pass overview of the scored pass for one ore more users
+	*
+	* Shows the pass overview of the scored pass for one ore more users
+	*
+	* @access	public
+	*/
+	function showUserResults($show_pass_details, $show_answers)
+	{
+		if (count($_POST["chbUser"]) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("select_one_user"), TRUE);
+			$this->ctrl->redirect($this, "participants");
+		}
+
+		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+		$serviceGUI =& new ilTestServiceGUI($this->object);
+
+		$results = "";
+		foreach ($_POST["chbUser"] as $key => $active_id)
+		{
+			if ($this->object->getFixedParticipants())
+			{
+				$active = $this->object->getActiveTestUser($active_id);
+				if (is_object($active))
+				{
+					$active_id = $active->active_id;
+				}
+				else
+				{
+					$active_id = -1;
+				}
+			}
+			if ($active_id > 0)
+			{
+				$results .= $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers);
+			}
+		}
+		$this->tpl->setVariable("ADM_CONTENT", $results);
 	}
 
 	function removeParticipantObject()
@@ -4297,10 +4336,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", "Modules/Test");
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 		
 		global $ilUser;		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
