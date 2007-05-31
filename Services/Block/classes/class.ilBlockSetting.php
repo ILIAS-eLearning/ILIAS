@@ -135,5 +135,40 @@ class ilBlockSetting
 		ilBlockSetting::_write($a_type, "side", $a_value, $a_user, $a_block_id);
 	}
 
+	/**
+	* Delete block settings of user
+	*
+	*/
+	public static function _deleteSettingsOfUser($a_user)
+	{
+		global $ilDB;
+		
+		if ($a_user > 0)
+		{
+			$query = "DELETE FROM il_block_setting  WHERE user = ".
+				$ilDB->quote($a_user);
+
+			$ilDB->query($query);
+		}
+	}
+
+	/**
+	* Delete block settings of block
+	*
+	*/
+	public static function _deleteSettingsOfBlock($a_block_id, $a_block_type)
+	{
+		global $ilDB;
+		
+		if ($a_block_id > 0)
+		{
+			$query = "DELETE FROM il_block_setting  WHERE block_id = ".
+				$ilDB->quote($a_block_id).
+				" AND type = ".$ilDB->quote($a_block_type);
+
+			$ilDB->query($query);
+		}
+	}
+	
 }
 ?>

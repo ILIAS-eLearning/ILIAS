@@ -93,6 +93,8 @@ class ilObjExternalFeed extends ilObject
 			{
 				$fb = new ilExternalFeedBlock($c_block["id"]);
 				$fb->delete();
+				include_once("./Services/Block/classes/class.ilBlockSetting.php");
+				ilBlockSetting::_deleteSettingsOfBlock($c_block["id"], "feed");
 			}
 		}
 

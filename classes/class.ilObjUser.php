@@ -1121,6 +1121,27 @@ class ilObjUser extends ilObject
 		$mailbox = new ilMailbox($this->getId());
 		$mailbox->delete();
 		$mailbox->updateMailsOfDeletedUser();
+		
+		// delete feed blocks on personal desktop
+		include_once("./Services/Block/classes/class.ilCustomBlock.php");
+		$costum_block = new ilCustomBlock();
+		$costum_block->setContextObjId($this->getId());
+		$costum_block->setContextObjType("user");
+		$c_blocks = $costum_block->queryBlocksForContext();
+		include_once("./Services/Feeds/classes/class.ilPDExternalFeedBlock.php");
+		foreach($c_blocks as $c_block)
+		{
+			if ($c_block["type"] == "pdfeed")
+			{
+				$fb = new ilPDExternalFeedBlock($c_block["id"]);
+				$fb->delete();
+			}
+		}
+
+		
+		// delete block settings
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		ilBlockSetting::_deleteSettingsOfUser($this->getId());
 
 		// delete user_account
 		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id = ".
