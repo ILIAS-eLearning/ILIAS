@@ -621,6 +621,8 @@ assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
 assessment#:#set_manual_feedback#:#Set Manual Feedback
 assessment#:#shape#:#Shape
+assessment#:#show_pass_overview#:#Show Pass Overview
+assessment#:#show_user_answers#:#Show User's Anwers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#solution_hint#:#Suggested Solution
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
