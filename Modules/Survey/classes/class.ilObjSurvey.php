@@ -703,6 +703,40 @@ class ilObjSurvey extends ilObject
 		$this->createQuestionblock($title, $questions);
 	}
 	
+	/**
+	* Returns the content of all RTE enabled text areas in the test
+	*
+	* Returns the content of all RTE enabled text areas in the test
+	*
+	* @access private
+	*/
+	function getAllRTEContent()
+	{
+		$result = array();
+		array_push($result, $this->getIntroduction());
+		array_push($result, $this->getOutro());
+		return $result;
+	}
+	
+	/**
+	* Cleans up the media objects for all text fields in a test which are using an RTE field
+	*
+	* Cleans up the media objects for all text fields in a test which are using an RTE field
+	*
+	* @access private
+	*/
+	function cleanupMediaobjectUsage()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$completecontent = "";
+		foreach ($this->getAllRTEContent() as $content)
+		{
+			$completecontent .= $content;
+		}
+		ilRTE::_cleanupMediaObjectUsage($completecontent, $this->getType() . ":html",
+			$this->getId());
+	}
+
 /**
 * Saves a survey object to a database
 *
@@ -737,9 +771,8 @@ class ilObjSurvey extends ilObject
 			$enddate = $ilDB->quote($enddate);
 		}
 
-		// cleanup RTE images which are not inserted into the question text
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->introduction . $this->getOutro(), $this->getType() . ":html", $this->getId());
+		// cleanup RTE images
+		$this->cleanupMediaobjectUsage();
 
     if ($this->survey_id == -1) 
 		{

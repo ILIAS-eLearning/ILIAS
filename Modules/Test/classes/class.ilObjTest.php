@@ -1117,11 +1117,13 @@ class ilObjTest extends ilObject
 	function cleanupMediaobjectUsage()
 	{
 		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$completecontent = "";
 		foreach ($this->getAllRTEContent() as $content)
 		{
-			ilRTE::_cleanupMediaObjectUsage($content, $this->getType() . ":html",
-				$this->getId());
+			$completecontent .= $content;
 		}
+		ilRTE::_cleanupMediaObjectUsage($completecontent, $this->getType() . ":html",
+			$this->getId());
 	}
 
 /**
