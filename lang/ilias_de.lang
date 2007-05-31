@@ -5148,7 +5148,7 @@ form#:#form_msg_file_missing_tmp_dir#:#Kein temporäres Verzeichnis für das Hoc
 form#:#form_msg_file_no_upload#:#Diese Eingabe wird benötigt. Bitte wählen Sie eine Datei für den Upload aus!
 form#:#form_msg_file_partially_uploaded#:#Die Datei konnte nicht vollständig hochgeladen werden.
 form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die maximale Dateigrösse.
-form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
+form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen.
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
 form#:#form_msg_file_wrong_file_type#:#Falscher Datei-Typ
 form#:#form_seconds#:#Sekunden
