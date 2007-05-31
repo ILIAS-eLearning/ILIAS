@@ -6147,13 +6147,13 @@ survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está 
 survey#:#anonymization#:#Anonimato
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 5 caracteres que puede recibir del autor/evaluador de la encuesta<br />Por favor introdúzcalo en el campo texto siguiente
 survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 5 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior.
-survey#:#anonymize_personalized#:#Sin anonimato
+survey#:#anonymize_personalized#:#No Anónima
 survey#:#anonymize_registered_user#:#Acceso de encuesta anónimo
 survey#:#anonymize_resume_introduction#:#Por favor introduzca su código de acceso a la encuesta. Le fué enviado a su bandeja de entrada cuando comenzó la encuesta.
-survey#:#anonymize_survey#:#Ocultar datos de usuario en la encuesta
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.
-survey#:#anonymize_with_code#:#Anonimato con acceso personal usando un código de encuesta
-survey#:#anonymize_without_code#:#Anonimato con acceso libre a la encuesta
+survey#:#anonymize_survey#:#Ocultar datos personales
+survey#:#anonymize_survey_description#:#El anonimato elimina cualquier dato personal de las estadísticas de encuesta. Un código de encuesta está formado por 5 dígitos y puede requerirse para realizar una encuesta anónima. Para los usuarios ILIAS ya registrados, se generará un código de encuesta de forma automática.
+survey#:#anonymize_with_code#:#Anónima con acceso personal usando un código de encuesta
+survey#:#anonymize_without_code#:#Anónima con acceso libre a la encuesta
 survey#:#anonymous_with_personalized_survey#:#¡Debe ser un usuario registrado para ejecutar una encuesta personalizada!
 survey#:#answer#:#Respuesta
 survey#:#apply#:#Aplicar
@@ -6282,7 +6282,7 @@ survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el
 survey#:#evaluation#:#evaluación
 survey#:#evaluation_access#:#Acceso de Evaluación
 survey#:#evaluation_access_all#:#Evaluación de acceso para todos los usuarios
-survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)
+survey#:#evaluation_access_description#:#Normalmente el acceso a las estadísticas de la encuesta sólo se permite a los que tienen permisos de edición de la encuesta (Acceso de Evaluación = Off)
 survey#:#evaluation_access_info#:#Tiene acceso a la evaluación de la encuesta
 survey#:#evaluation_access_off#:#Off
 survey#:#evaluation_access_participants#:#Evaluación de acceso para todos los participantes de la encuesta
@@ -6410,7 +6410,7 @@ survey#:#off#:#off
 survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#online#:#online
-survey#:#online_description#:#Una encuesta puede ser comenzada por usuarios ILIAS, si está online
+survey#:#online_description#:#Una encuesta puede ser comenzada por usuarios ILIAS, sólo si está online
 survey#:#or#:#o
 survey#:#ordinal_question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
 survey#:#orientation#:#Orientación
@@ -7211,74 +7211,74 @@ common#:#forums_anonymized#:#Foro anónimo
 common#:#forums_anonymous#:#anónimo
 common#:#forums_your_name#:#Su nombre
 common#:#forums_use_alias#:#Puede usar este alias para su mensaje. Si deja este campo en blanco, su mensaje será marcado como anónimo
-administration#:#purge_count_limit#:#Limit count###10 05 2007 new variable
-administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. ###10 05 2007 new variable
-administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
-administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
-administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
-administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
-assessment#:#checked#:#Checked###10 05 2007 new variable
-assessment#:#unchecked#:#Unchecked###10 05 2007 new variable
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
-assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
-assessment#:#flashfile#:#Flash file###10 05 2007 new variable
-assessment#:#flash_attributes#:#Flash attributes###10 05 2007 new variable
-assessment#:#flash_parameters#:#Flash parameters###10 05 2007 new variable
-assessment#:#add_flash_parameter#:#Add Flash Parameter###10 05 2007 new variable
-assessment#:#matching_shuffle_terms_definitions#:#Both (Terms and Definitions)###10 05 2007 new variable
-assessment#:#matching_shuffle_terms_pictures#:#Both (Terms and Pictures)###10 05 2007 new variable
-assessment#:#matching_shuffle_definitions#:#Definitions only###10 05 2007 new variable
-assessment#:#matching_shuffle_pictures#:#Pictures only###10 05 2007 new variable
-assessment#:#matching_shuffle_terms#:#Terms only###10 05 2007 new variable
-assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
-assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions###10 05 2007 new variable
-assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved###10 05 2007 new variable
-assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback has not been saved###10 05 2007 new variable
-assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test Results###10 05 2007 new variable
-common#:#lm_type_scorm2004#:#SCORM 2004###10 05 2007 new variable
-news#:#news_notifications#:#Notifications###10 05 2007 new variable
-news#:#news_hide_news_block#:#Hide News Block###10 05 2007 new variable
-news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.###10 05 2007 new variable
-news#:#news_default_visibility#:#Default Access###10 05 2007 new variable
-feed#:#feed_no_valid_url#:#The Feed URL is not valid.###10 05 2007 new variable
+administration#:#purge_count_limit#:#Límite por cantidad
+administration#:#purge_count_limit_desc#:#Si este campo contiene un valor, sólo el número de objetos especificado será eliminado
+administration#:#purge_age_limit#:#Límite por tiempo
+administration#:#purge_age_limit_desc#:#Si este campo contiene un valor, sólo los objetos que fueron borrados antes del número de días especificado serán eliminados definitivamente
+administration#:#purge_type_limit#:#Límite por tipo
+administration#:#purge_type_limit_desc#:#Si este campo contiene un valor, sólo los objetos del tipo especificado serán eliminados definitivamente
+assessment#:#checked#:#Marcado
+assessment#:#unchecked#:#No marcado
+assessment#:#delete_all_user_data#:#Eliminar los datos de test de todos los usuarios
+assessment#:#delete_all_user_data_confirmation#:#¿Realmente quiere eliminar los datos de test de todos los usuarios para este test?
+assessment#:#assFlashApp#:#Aplicación Flash
+assessment#:#flashfile#:#Fichero Flash
+assessment#:#flash_attributes#:#Atributos Flash
+assessment#:#flash_parameters#:#Parámetros Flash
+assessment#:#add_flash_parameter#:#Añadir parámetro Flash 
+assessment#:#matching_shuffle_terms_definitions#:#Ambos (Términos y Definiciones)
+assessment#:#matching_shuffle_terms_pictures#:#Ambos (Términos e Imágenes)
+assessment#:#matching_shuffle_definitions#:#Sólo definiciones
+assessment#:#matching_shuffle_pictures#:#Sólo imágenes
+assessment#:#matching_shuffle_terms#:#Sólo términos
+assessment#:#set_manual_feedback#:#Configurar feedback manual
+assessment#:#tst_list_of_questions_with_description#:#Mostrar la descripción de las preguntas en la lista de preguntas
+assessment#:#tst_set_feedback_done#:#El feedback manual ha sido guardado
+assessment#:#tst_set_feedback_not_done#:#¡Ocurrió un error! El feedback manual no ha sido guardado
+assessment#:#tst_show_solution_feedback#:#Mostrar feedback específicos de respuesta en los resultados del test
+common#:#lm_type_scorm2004#:#SCORM 2004
+news#:#news_notifications#:#Notificaciones
+news#:#news_hide_news_block#:#Ocultar Bloque de Noticias
+news#:#news_hide_news_block_info#:#Ocultar bloque en la vista del alumno. El bloque de noticias sólo será visible para usuarios con permiso de escritura
+news#:#news_default_visibility#:#Acceso por defecto
+feed#:#feed_no_valid_url#:#El URL del feed no es válido.
 ldap#:#ldap_group_search_base#:#Group Search Base###10 05 2007 new variable
-common#:#forums_enable_forum_notification#:#Enable notification for this forum###10 05 2007 new variable
-common#:#forums_disable_forum_notification#:#Disable notification for this forum###10 05 2007 new variable
-common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.###10 05 2007 new variable
-common#:#object_copy_in_progress#:#Started Copying.###10 05 2007 new variable
-trac#:#trac_mode_deactivated_info#:#No progress will be calculated.###10 05 2007 new variable
-trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'.###10 05 2007 new variable
-trac#:#trac_mode_visits_info#:#Define the number of visits that is required for completing this learning material.###10 05 2007 new variable
-trac#:#trac_mode_manual_info#:#Users have to decide whether their status is completed or not.###10 05 2007 new variable
-trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.###10 05 2007 new variable
-trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.###10 05 2007 new variable
-trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.###10 05 2007 new variable
-trac##:#trac_mode_test_finished_info#:#User have to finish a test completely.###10 05 2007 new variable
-trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.###10 05 2007 new variable
-trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.###10 05 2007 new variable
-trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor###10 05 2007 new variable
-trac#:#trac_mode_manual_by_tutor_info#:#The overall status can only be set by tutors.###10 05 2007 new variable
-ldap#:#ldap_group_membership#:#Group Membership###10 05 2007 new variable
-ldap#:#ldap_group_member_optional#:#Group Membership is Optional###10 05 2007 new variable
-ldap#:#ldap_group_user_filter#:#User Filter###10 05 2007 new variable
-ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)###10 05 2007 new variable
-ldap#:#ldap_server_short#:#Server URL:###10 05 2007 new variable
-ldap#:#ldap_group_dn_short#:#Group DN:###10 05 2007 new variable
-ldap#:#ldap_group_member_short#:#Attribute:###10 05 2007 new variable
-ldap#:#ldap_ilias_role_short#:#Role:###10 05 2007 new variable
-pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.###10 05 2007 new variable
-ldap#:#ldap_info_text#:#Information Text###10 05 2007 new variable
-ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.###10 05 2007 new variable
-ldap#:#ldap_info_text_short#:#Info Text:###10 05 2007 new variable
-common#:#further_informations#:#Further Informations###10 05 2007 new variable
-chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %###10 05 2007 new variable
+common#:#forums_enable_forum_notification#:#Habilitar notificación para este foro
+common#:#forums_disable_forum_notification#:#Deshabilitar notificación para este foro
+common#:#forums_forum_notification_enabled#:#Serás notificado sobre nuevos mensajes en este foro
+common#:#object_copy_in_progress#:#Empezó la copia
+trac#:#trac_mode_deactivated_info#:#No se calculará el progreso
+trac#:#trac_mode_tlt_info#:#Los usuarios que alcancen el Tiempo Típico de Aprendizaje obtendrán el status 'Completado'
+trac#:#trac_mode_visits_info#:#Defina el número de visitas que se requiere para completar este material de aprendizaje
+trac#:#trac_mode_manual_info#:#Los usuarios deberán decidir por sí mismos si su status es 'completado' o no
+trac#:#trac_mode_objectives_info#:#El progreso de aprendizaje será calculado automáticamente de acuerdo al número de objetivos de aprendizaje superados
+trac#:#trac_mode_collection_info#:#Defina los materiales que determinarán el status del progreso de aprendizaje
+trac#:#trac_mode_scorm_info#:#El status del progreso de aprendizaje será determinado por el status de los SCO's
+trac##:#trac_mode_test_finished_info#:#El usuario tiene que finalizar un test completamente.
+trac#:#trac_mode_test_passed_info#:#El test tiene que ser superado por un usuario para recibir el status 'Completado'.
+trac#:#trac_mode_exercise_returned_info#:#El status 'Completado' sólo puede ser definido por los tutores.
+trac#:#trac_mode_manual_by_tutor#:#De forma manual por el tutor
+trac#:#trac_mode_manual_by_tutor_info#:#El status general sólo puede ser definido por los tutores.
+ldap#:#ldap_group_membership#:#Pertenencia a Grupo
+ldap#:#ldap_group_member_optional#:#La Pertenencia a Grupo es Opcional
+ldap#:#ldap_group_user_filter#:#Filtro de Usuarios
+ldap#:#ldap_group_optional_info#:#Si se habilita, la pertenencia a grupo no se requiere para una autenticación exitosa. Por favor introduzca un filtro de usuario para los miembros de estos grupos::<br />(&(userattr=username)<strong>(userfilter)</strong>)
+ldap#:#ldap_server_short#:#URL del servidor:
+ldap#:#ldap_group_dn_short#:#Group DN:
+ldap#:#ldap_group_member_short#:#Attribute:
+ldap#:#ldap_ilias_role_short#:#Role:
+pwassist#:#pwassist_no_email_found#:#No puede usar la asistencia de contraseñas, ya que no hay dirección e-mail para la cuenta de usuario introducida.
+ldap#:#ldap_info_text#:#Texto de Información
+ldap#:#ldap_info_text_info#:#Si se introduce, este texto será mostrado en el repositorio y en la pantalla de Info para el objeto al que este rol está asignado.
+ldap#:#ldap_info_text_short#:#Texto Info:
+common#:#further_informations#:#Información detallada
+chat#:#chat_notification_intro#:#Este e-mail fué enviado automáticamente por la instalación ILIAS %s, 
 common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
 common#:#lang_et#:#Estonian###10 05 2007 new variable
 common#:#lang_ru#:#Russian###10 05 2007 new variable
-assessment#:#enable_javascript#:#Click to enable JavaScript support###29 05 2007 new variable
-assessment#:#disable_javascript#:#Click to disable JavaScript support###29 05 2007 new variable
-assessment#:#question_marking#:#Show Question Marking###29 05 2007 new variable
+assessment#:#enable_javascript#:#Haga click para habilitar soporte JavaScript
+assessment#:#disable_javascript#:#Haga click para deshabilitar el soporte JavaScript
+assessment#:#question_marking#:#Mostrar Calificación de Preguntas
 assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
 assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
 assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
