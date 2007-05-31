@@ -1787,6 +1787,10 @@ class ilObjForumGUI extends ilObjectGUI
 								}
 		
 								$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
+								//permanent link for entry
+								$tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$_GET["thr_pk"]."_".$node["pos_pk"]."&client_id=".CLIENT_ID);
+								$tpl->setVariable("TXT_PERMA_LINK", $lng->txt("perma_link"));
+								$tpl->setVariable("PERMA_TARGET", "_top");
 		
 							} // if (($_GET["cmd"] != "delete") || ($_GET["cmd"] == "delete" && $_GET["pos_pk"] != $node["pos_pk"]))
 		
