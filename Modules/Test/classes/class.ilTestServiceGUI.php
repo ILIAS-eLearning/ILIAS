@@ -805,10 +805,6 @@ class ilTestServiceGUI
 		{
 			$result_array =& $this->object->getTestResult($active_id, $pass);
 			$command_solution_details = "";
-			if ($this->object->getShowSolutionDetails())
-			{
-				$command_solution_details = "outCorrectSolution";
-			}
 			if ($show_pass_details)
 			{
 				$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestservicegui", "getResultsOfUserOutput", $command_solution_details);
