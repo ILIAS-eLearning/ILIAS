@@ -264,7 +264,7 @@ assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdat
 assessment#:#delete_all_user_data#:#Testdaten aller NutzerInnen löschen
 assessment#:#delete_area#:#Region löschen
 assessment#:#delete_image#:#Bild löschen
-assessment#:#delete_user_data#:#Testdaten der ausgewählten NutzerInnen löschen
+assessment#:#delete_user_data#:#Testdaten löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
@@ -7331,3 +7331,10 @@ trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
 trac##:#trac_mode_test_finished_info#:#Benutzer müssen einen Test vollständig beenden.
+assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
+assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
+common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 new variable
+common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
+common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
+common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
+common#:#icrs_copy#:#Copy LearnLinc Seminar###31 05 2007 new variable
