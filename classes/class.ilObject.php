@@ -1275,6 +1275,8 @@ class ilObject
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_item = new ilNewsItem();
 		$news_item->deleteNewsOfContext($this->getId(), $this->getType());
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
 
 		return $remove;
 	}
