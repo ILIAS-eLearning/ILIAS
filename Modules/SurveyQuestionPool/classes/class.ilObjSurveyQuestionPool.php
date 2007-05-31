@@ -184,7 +184,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function deleteAllData()
 	{
-		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s",
+		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s AND original_id IS NULL",
 			$this->ilias->db->quote($this->getId())
 		);
 		$result = $this->ilias->db->query($query);
