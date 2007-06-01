@@ -267,7 +267,7 @@ assessment#:#delete_image#:#Bild löschen
 assessment#:#delete_user_data#:#Testdaten löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
-assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
+assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungsdauer des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#detailed_evaluation_for#:#Detaillierte Statistik für %s
 assessment#:#detailed_evaluation_missing_active_id#:#Sie müssen die detaillierte Statistik für einen bestimmten Teilnehmer aufrufen!
@@ -756,7 +756,7 @@ assessment#:#tst_postpone_description#:#Wenn diese Option ausgewählt ist, könn
 assessment#:#tst_postpone#:#Fragen zurückstellen
 assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_print#:#Test & Assessment Druckansicht
-assessment#:#tst_processing_time#:#Maximale Bearbeitszeit
+assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
