@@ -778,6 +778,7 @@ assessment#:#tst_postpone_description#:#The participants may postpone questions 
 assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_processing_time#:#Max. Processing Time
+assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.
 assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
 assessment#:#tst_qst_resetsolved#:#Set Unsolved
