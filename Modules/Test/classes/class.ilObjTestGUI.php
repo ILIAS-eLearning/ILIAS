@@ -1651,6 +1651,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("COMMENT_NR_OF_TRIES", $this->lng->txt("0_unlimited"));
 		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
+		$this->tpl->setVariable("TEXT_PROCESSING_TIME_DESC", $this->lng->txt("tst_processing_time_desc"));
 		$time_input = ilUtil::makeTimeSelect("processing_time", false, substr($data["processing_time"], 0, 2), substr($data["processing_time"], 3, 2), substr($data["processing_time"], 6, 2));
 		$this->tpl->setVariable("MAX_PROCESSING_TIME", $time_input . " (hh:mm:ss)");
 		if ($data["enable_processing_time"]) {

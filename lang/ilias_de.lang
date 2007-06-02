@@ -266,7 +266,7 @@ assessment#:#delete_area#:#Region löschen
 assessment#:#delete_image#:#Bild löschen
 assessment#:#delete_user_data#:#Testdaten löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
-assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
+assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungsdauer des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#detailed_evaluation_for#:#Detaillierte Statistik für %s
@@ -312,7 +312,7 @@ assessment#:#edit_content#:#Inhalt bearbeiten
 assessment#:#edit_properties#:#Eigenschaften bearbeiten
 assessment#:#enable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu aktivieren
 assessment#:#end_tag#:#Endmarkierung
-assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
+assessment#:#ending_time_reached#:#Sie haben das Ende der möglichen Bearbeitungsdauer des Tests überschritten.
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
@@ -662,10 +662,10 @@ assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
-assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit aller Tests
+assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitungsdauer aller Tests
 assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (NutzerInnen, die den Test durch Drücken der Test beenden Schaltfläche fertiggestellt haben)
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
-assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungszeit aller bestandenen Tests
+assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
 assessment#:#tst_eval_user_answer#:#Antwort
@@ -757,6 +757,7 @@ assessment#:#tst_postpone#:#Fragen zurückstellen
 assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
+assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer startet zu dem Zeitpunkt an dem Teilnehmer einen Test starten und endet nach Ablauf der hier angegebenen Stunden, Minuten und Sekunden.
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
@@ -853,7 +854,7 @@ assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Startzeit
 assessment#:#tst_stat_all_users#:#Alle Nutzer und NutzerInnen
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr NutzerInnen aus der Liste aus)
-assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
+assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer
 assessment#:#tst_stat_result_distancemean#:#Abstand zum arithmetischen Mittel
 assessment#:#tst_stat_result_distancemedian#:#Abstand zum Median
 assessment#:#tst_stat_result_distancequintile#:#Abstand zum arithmetischen Quintil
@@ -869,7 +870,7 @@ assessment#:#tst_stat_result_rank_participant#:#Rang der Teilnehmerin
 assessment#:#tst_stat_result_resultsmarks#:#Testergebnis als Note
 assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
-assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
+assessment#:#tst_stat_result_timeofwork#:#Bearbeitungsdauer
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
 assessment#:#tst_stat_selected_users#:#Ausgewählte NutzerInnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
@@ -925,8 +926,8 @@ assessment#:#when#:#wenn
 assessment#:#width#:#Breite
 assessment#:#with_order#:#mit der Reihenfolge
 assessment#:#worked_through#:#Beantwortet
-assessment#:#working_time_avg#:#Durchschnittliche Bearbeitungszeit
-assessment#:#working_time#:#Bearbeitungszeit
+assessment#:#working_time_avg#:#Durchschnittliche Bearbeitungdauer
+assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht.
 barometer#:#anonymous#:#Anonym
 barometer#:#bar_create#:#Neues Barometer
@@ -4532,7 +4533,7 @@ crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_settings#:#Kursinformationen
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
-crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungszeit zu empfehlen.
+crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_learning_materials#:#Materialien
 crs#:#crs_list_users#:#Benutzer auflisten
 crs#:#crs_lm_assignment_deleted#:#Die Zuordnung wurde entfernt.
