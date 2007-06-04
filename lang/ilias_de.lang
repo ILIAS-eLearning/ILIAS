@@ -233,7 +233,6 @@ assessment#:#changelog_description#:#Die folgende Tabelle beinhaltet alle Änder
 assessment#:#changelog_heading#:#Änderungen
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
-assessment#:#checked#:#Ausgewählt
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#circle#:#Kreis
@@ -910,7 +909,6 @@ assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_online_exam#:#Online Prüfung
 assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#tt_varying_randomtest#:#Wechselnder Zufallstest
-assessment#:#unchecked#:#Nicht ausgewählt
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#unlock#:#Entsperren
@@ -1568,6 +1566,8 @@ common#:#chat_users_active#:#Aktive Benutzer
 common#:#chat_visible#:#Chat ist sichtbar
 common#:#chat_write#:#Chat bearbeiten
 common#:#chat#:#Chat
+common#:#checked#:#Ausgewählt
+common#:#unchecked#:#Nicht ausgewählt
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen überprüfen

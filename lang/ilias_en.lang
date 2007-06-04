@@ -236,8 +236,6 @@ assessment#:#changelog_description#:#The following table contains all changes of
 assessment#:#changelog_heading#:#Changelog
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
-assessment#:#checked#:#Checked
-assessment#:#unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
@@ -1609,6 +1607,8 @@ common#:#chat_users_active#:#Active users
 common#:#chat_visible#:#Chat is visible
 common#:#chat_write#:#Edit chat
 common#:#check#:#Check
+common#:#checked#:#Checked
+common#:#unchecked#:#Unchecked
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
