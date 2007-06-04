@@ -670,7 +670,7 @@ class assClozeTestGUI extends assQuestionGUI
 	* @return string HTML code which contains the preview output of the question
 	* @access public
 	*/
-	function getPreview()
+	function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -708,11 +708,18 @@ class assClozeTestGUI extends assQuestionGUI
 			}
 		}
 		$template->setVariable("QUESTIONTEXT", $output);
-/*		
-<!-- BEGIN cloze_part --><!-- BEGIN cloze_text -->{CLOZE_TEXT}<!-- END cloze_text --><!-- BEGIN text_gap --><input type="text" size="{TEXT_GAP_SIZE}" name="gap_{GAP_COUNTER}"{VALUE_GAP} /><!-- END text_gap --><!-- BEGIN select_gap --><select name="gap_{GAP_COUNTER}"><option value="-1">{PLEASE_SELECT}</option><!-- BEGIN select_gap_option --><option value="{SELECT_GAP_VALUE}"{SELECT_GAP_SELECTED}>{SELECT_GAP_TEXT}</option><!-- END select_gap_option --></select><!-- END select_gap --><!-- BEGIN feedback --><span class="feedback">{FEEDBACK}</span><!-- END feedback --><!-- END cloze_part -->
-*/
 		$questionoutput = $template->get();
-		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		if (!$show_question_only)
+		{
+			// get page object output
+			$pageoutput = $this->getILIASPage();
+			$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
+		}
+		else
+		{
+			$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		}
+
 		return $questionoutput;
 	}
 

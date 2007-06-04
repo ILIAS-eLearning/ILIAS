@@ -555,7 +555,7 @@ class assFlashAppGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
-	function getPreview()
+	function getPreview($show_question_only = FALSE)
 	{
 		$this->createTmpData($active_id);
 		
@@ -588,9 +588,19 @@ class assFlashAppGUI extends assQuestionGUI
 				$template->setVariable("FLASH_SRC", $this->object->getFlashPathWeb().$this->object->getFlashFilename());
 			}
 		
-		$questionoutput = $template->get();
-		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
-		return $questionoutput;
+			$questionoutput = $template->get();
+			if (!$show_question_only)
+			{
+				// get page object output
+				$pageoutput = $this->getILIASPage();
+				$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
+			}
+			else
+			{
+				$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+			}
+
+			return $questionoutput;
 	}
 
 	/**

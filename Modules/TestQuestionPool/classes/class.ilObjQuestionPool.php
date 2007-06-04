@@ -1145,13 +1145,22 @@ class ilObjQuestionPool extends ilObject
 		return $this->online;
 	}
 	
-	function _lookupOnline($a_obj_id)
+	function _lookupOnline($a_obj_id, $is_reference = FALSE)
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT online FROM qpl_questionpool WHERE obj_fi = %s",
-			$ilDB->quote($a_obj_id . "")
-		);
+		if ($is_reference)
+		{
+			$query = sprintf("SELECT qpl_questionpool.online FROM qpl_questionpool,object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questionpool.obj_fi",
+				$ilDB->quote($a_obj_id . "")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT online FROM qpl_questionpool WHERE obj_fi = %s",
+				$ilDB->quote($a_obj_id . "")
+			);
+		}
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
@@ -1169,13 +1178,22 @@ class ilObjQuestionPool extends ilObject
 	* @param integer $a_obj_id Object id of the question pool
 	* @access private
 	*/
-	function _hasEqualPoints($a_obj_id)
+	function _hasEqualPoints($a_obj_id, $is_reference = FALSE)
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s",
-			$ilDB->quote($a_obj_id . "")
-		);
+		if ($is_reference)
+		{
+			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) AS equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questions.obj_fi",
+				$ilDB->quote($a_obj_id . "")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s",
+				$ilDB->quote($a_obj_id . "")
+			);
+		}
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
@@ -1508,7 +1526,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $rbacsystem;
 		global $ilDB;
-	
+
 		$result_array = array();
 		$query = "SELECT object_data.*, object_reference.ref_id, qpl_questionpool.* FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questionpool.obj_fi ORDER BY object_data.title";
 		$result = $ilDB->query($query);

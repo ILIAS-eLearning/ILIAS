@@ -3743,7 +3743,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["fields"] = array();
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -3756,16 +3755,13 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$this->ctrl->setParameter($this, "new_type", $this->type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-//			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-//																	   $_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
 			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", ' target="'.
-				ilFrameTargetInfo::_getFrame("MainContent").'" ');
+			$this->tpl->setVariable("TARGET", ' target="'. ilFrameTargetInfo::_getFrame("MainContent").'" ');
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 			$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));

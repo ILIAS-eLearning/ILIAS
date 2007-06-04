@@ -149,7 +149,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$this->ctrl->setCmd("preview");
 				}
 				//$page_gui->setQuestionXML($question->toXML(false, false, true));
-				$page_gui->setQuestionHTML($q_gui->getPreview());
+				$page_gui->setQuestionHTML($q_gui->getPreview(TRUE));
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setHeader($question->getTitle());
@@ -1204,7 +1204,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$question_gui->object->loadFromDb($row["question_id"]);
 				if (strcmp($_POST["output"], "detailed") == 0)
 				{
-					$this->tpl->setVariable("PREVIEW", $question_gui->getSolutionOutput(""));
+					$this->tpl->setVariable("PREVIEW", $question_gui->getSolutionOutput($active_id = "", $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE));
 				}
 				else
 				{
