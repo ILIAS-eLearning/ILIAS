@@ -3949,6 +3949,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 		}
+		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 	}
 	
