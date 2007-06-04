@@ -806,7 +806,7 @@ assessment#:#tst_random_selection#:#Random Selection of Questions
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
 assessment#:#tst_random_test#:#Random Test
-assessment#:#tst_random_test_description#:#If checked, the questions of the test will be chosen randomly from question pools
+assessment#:#tst_random_test_description#:#If checked, the questions of the test will be chosen randomly from question pools. ILIAS generates a new random selection for every test pass.
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -877,7 +877,7 @@ assessment#:#tst_results_presentation_description#:#If "Show Pass Details for ru
 assessment#:#tst_show_summary#:#Show List of Questions
 assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
-assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every test pass. If you have chosen random selection of questions, ILIAS generates a completely new set of questions for every test pass.
+assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every test pass.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_start_new_test_pass#:#Start New Test Pass
 assessment#:#tst_start_test#:#Start the Test

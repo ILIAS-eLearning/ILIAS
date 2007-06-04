@@ -784,7 +784,7 @@ assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von 
 assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
 assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen aller ausgewählen Fragenpools. Der Wert wurde korrigiert.
 assessment#:#tst_random_selection#:#Zufällige Auswahl von Fragen
-assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen aus, um die Fragen des Tests für jeden Teilnehmer mit einem Zufallsgenerator zusammenstellen zu lassen. Bei der Auswahl der Fragen müssen Sie lediglich einen oder mehrere Fragenpools angeben.
+assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen aus, um die Fragen des Tests für jeden Teilnehmer mit einem Zufallsgenerator zusammenstellen zu lassen. Bei der Auswahl der Fragen müssen Sie lediglich einen oder mehrere Fragenpools angeben. ILIAS erzeugt für jeden Testdurchlauf eine neue zufällige Auswahl.
 assessment#:#tst_random_test#:#Zufallstest
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
@@ -845,7 +845,7 @@ assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in d
 assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
-assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jedem Testdurchlauf neu mischen. Wenn Sie die zufällige Auswahl von Fragen ausgewählt haben, dann wird für jeden Testdurchlauf ein komplett neuer Satz von Fragen generiert.
+assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jedem Testdurchlauf neu mischen.
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten

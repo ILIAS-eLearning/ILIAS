@@ -1634,8 +1634,11 @@ class ilObjTest extends ilObject
 				$add = ($value["count"] <= $value["contains"]) ? $value["count"] : $value["contains"];
 				$maxcount += $add;
 			}
-			srand ((float)microtime()*1000000);
-			shuffle($allquestions);
+			if ($this->getShuffleQuestions())
+			{
+				srand ((float)microtime()*1000000);
+				shuffle($allquestions);
+			}
 			foreach ($allquestions as $question_id)
 			{
 				$this->saveRandomQuestion($active_id, $question_id, $pass, $maxcount);
