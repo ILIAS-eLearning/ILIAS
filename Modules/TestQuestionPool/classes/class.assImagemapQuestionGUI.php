@@ -162,34 +162,10 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 			if ($coords)
 			{
-				$preview->addArea($key, $_POST["newarea"], $coords, $_POST["shapetitle"], "", "", true, "blue");
+				$preview->addArea($preview->getAreaCount(), $_POST["newarea"], $coords, $_POST["shapetitle"], "", "", true, "blue");
 			}
 			$preview->createPreview();
-
-			if (count($preview->areas))
-			{
-				$pfile = $preview->getPreviewFilename();
-				$ident = $preview->getAreaIdent();
-				$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
-				if (strlen($ident) > 0)
-				{
-					@copy($pfile, $previewfile);
-					@unlink($pfile);
-				}
-				if (strlen($pfile) == 0)
-				{
-					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
-					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-				}
-				else
-				{
-					$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
-				}
-			}
-			else
-			{
-				$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-			}
+			$imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->get_image_filename());
 			if (!$hidearea)
 			{
 				$this->tpl->setCurrentBlock("maparea");
@@ -363,23 +339,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 						$preview->addArea($index, $answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
 					}
 					$preview->createPreview();
-					$pfile = $preview->getPreviewFilename();
-					$ident = $preview->getAreaIdent();
-					$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
-					if (strlen($ident) > 0)
-					{
-						@copy($pfile, $previewfile);
-						@unlink($pfile);
-					}
-					if (strlen($pfile) == 0)
-					{
-						ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
-						$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-					}
-					else
-					{
-						$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
-					}
+					$imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->get_image_filename());
 					$map = $preview->getImagemap("imagemap_" . $this->object->getId());
 				}
 				else
@@ -742,26 +702,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 			}
 			$preview->createPreview();
-			if (count($preview->areas))
-			{
-				$pfile = $preview->getPreviewFilename();
-				$ident = $preview->getAreaIdent();
-				$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
-				if (strlen($ident) > 0)
-				{
-					@copy($pfile, $previewfile);
-					@unlink($pfile);
-				}
-				if (strlen($pfile) == 0)
-				{
-					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
-					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-				}
-				else
-				{
-					$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
-				}
-			}
+			$imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->get_image_filename());
 		}
 		
 		// generate the question output
@@ -898,26 +839,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 			}
 			$preview->createPreview();
-			if (count($preview->areas))
-			{
-				$pfile = $preview->getPreviewFilename();
-				$ident = $preview->getAreaIdent();
-				$previewfile = $this->object->getImagePath() . $ident . $this->object->get_image_filename();
-				if (strlen($ident) > 0)
-				{
-					@copy($pfile, $previewfile);
-					@unlink($pfile);
-				}
-				if (strlen($pfile) == 0)
-				{
-					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
-					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
-				}
-				else
-				{
-					$imagepath = $this->object->getImagePathWeb() . basename($previewfile);
-				}
-			}
+			$imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->get_image_filename());
 		}
 		
 		// generate the question output

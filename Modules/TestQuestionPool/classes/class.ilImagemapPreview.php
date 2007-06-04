@@ -67,6 +67,11 @@ class ilImagemapPreview
 		$this->linewidth_outer = 4;
 		$this->linewidth_inner = 2;
 	}
+	
+	function getAreaCount()
+	{
+		return count($this->areas);
+	}
 
 	function addArea(
 		$index,
@@ -170,16 +175,39 @@ class ilImagemapPreview
 		system($convert_cmd);
 	}
 
-	function getPreviewFilename()
+	function getPreviewFilename($imagePath, $baseFileName)
 	{
-		if (is_file($this->preview_filename))
+		$filename = $baseFileName;
+		if (count($this->areas))
 		{
-			return $this->preview_filename;
+			$pfile = $this->preview_filename;
+			if (is_file($pfile))
+			{
+				$ident = $this->getAreaIdent();
+				$previewfile = $imagePath . $ident . $baseFileName;
+				if (@md5_file($previewfile) != @md5_file($pfile))
+				{
+					if (strlen($ident) > 0)
+					{
+						@copy($pfile, $previewfile);
+					}
+				}
+				@unlink($pfile);
+				if (strlen($pfile) == 0)
+				{
+					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+				}
+				else
+				{
+					$filename = basename($previewfile);
+				}
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+			}
 		}
-		else
-		{
-			return "";
-		}
+		return $filename;
 	}
 
 	/**
