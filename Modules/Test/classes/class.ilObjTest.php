@@ -9595,12 +9595,13 @@ class ilObjTest extends ilObject
 	*/
 	function deliverPDFfromFO($fo)
 	{
-		$fp = fopen("/tmp/fop.fo", "w"); fwrite($fp, $fo); fclose($fp);
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$fo_file = ilUtil::ilTempnam() . ".fo";
+		$fp = fopen($fo_file, "w"); fwrite($fp, $fo); fclose($fp);
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
 		$fo2pdf = new ilFO2PDF();
 		$fo2pdf->setFOString($fo);
 		$result = $fo2pdf->send();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
 	}
 	
