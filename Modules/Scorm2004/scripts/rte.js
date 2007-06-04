@@ -814,7 +814,7 @@ Runtime.models =
 				case 'performance':
 					val = getDelimiter(value, 'order_matters', extra);
 					val = val.split("[,]");
-					if (val.length>125) 
+					if (val.length>250) 
 					{
 						extra.error = {code: 351};
 					}

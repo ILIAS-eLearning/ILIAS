@@ -1375,6 +1375,10 @@ function init(config)
 	activitiesByCAM[globalAct.foreignId] = globalAct;
 	activities[globalAct.id] = globalAct;
 	
+	//set data from LMS
+	globalAct.learner_id=this.config.learner_id;
+	globalAct.learner_name=this.config.learner_name;
+	
 	// walk throught activities and add some helpful properties
 	camWalk(cam.item, rootAct);
 		
@@ -1794,6 +1798,8 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.launch_data = item.dataFromLMS;
 		data.cmi.time_limit_action = item.timeLimitAction;
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
+	//	alert("Set: "+globalAct.user_id + globalAct.learner_name)
+		
 		if (item.objective && (v = item.objective[0])) 
 		{
 			// REQ_74.3, compute scaled passing score from measure
