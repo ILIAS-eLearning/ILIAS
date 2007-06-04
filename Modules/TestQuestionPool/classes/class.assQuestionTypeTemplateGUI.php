@@ -159,7 +159,7 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 	* @return string HTML code which contains the preview output of the question
 	* @access public
 	*/
-	function getPreview()
+	function getPreview($show_question_only = FALSE)
 	{
 		// Please have a look at the existing question types how to create a preview output for a question
 		// you should use your own template for the output

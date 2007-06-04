@@ -724,7 +724,7 @@ assessment#:#tst_missing_marks#:#Sie haben kein Notenschema für den Test angege
 assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzugefügt! Bitte fügen Sie dem Test wenigstens eine Frage hinzu.
 assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 assessment#:#tst_must_be_online_exam#:#Diese Option ist nur bei Online-Prüfungen verfügbar!
-assessment#:#tst_no_evaluation_data#:#Der Test wurde bislang noch von niemandem gestartet. Es ist keine Statistik verfügbar.
+assessment#:#tst_no_evaluation_data#:#Es liegen (noch) keine Nutzerdaten vor.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
@@ -845,7 +845,7 @@ assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in d
 assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
-assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jeden Testdurchlauf neu mischen. Wenn Sie die zufällige Auswahl von Fragen ausgewählt haben, dann wird für jeden Testdurchlauf ein komplett neuer Satz von Fragen generiert.
+assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jedem Testdurchlauf neu mischen. Wenn Sie die zufällige Auswahl von Fragen ausgewählt haben, dann wird für jeden Testdurchlauf ein komplett neuer Satz von Fragen generiert.
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten

@@ -819,7 +819,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		return $solutionoutput;
 	}
 	
-	function getPreview()
+	function getPreview($show_question_only = FALSE)
 	{
 		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 		// generate the question output
@@ -842,7 +842,17 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
 		$questionoutput = $template->get();
-		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		if (!$show_question_only)
+		{
+			// get page object output
+			$pageoutput = $this->getILIASPage();
+			$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
+		}
+		else
+		{
+			$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		}
+
 		return $questionoutput;
 	}
 

@@ -540,7 +540,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		return $solutionoutput;
 	}
 	
-	function getPreview()
+	function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -599,7 +599,17 @@ class assJavaAppletGUI extends assQuestionGUI
 			}
 		}
 		$questionoutput = $template->get();
-		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		if (!$show_question_only)
+		{
+			// get page object output
+			$pageoutput = $this->getILIASPage();
+			$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
+		}
+		else
+		{
+			$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		}
+
 		return $questionoutput;
 	}
 	

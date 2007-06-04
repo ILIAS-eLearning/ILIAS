@@ -746,7 +746,7 @@ assessment#:#tst_missing_marks#:#You do not have a mark schema in the test! Plea
 assessment#:#tst_missing_questions#:#You do not have any questions in the test! Please add at least one question into the test.
 assessment#:#tst_missing_title#:#You have not entered a test title! Please go to the metadata section and enter a title.
 assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!
-assessment#:#tst_no_evaluation_data#:#No one has started the test right now. There is no evaluation data available.
+assessment#:#tst_no_evaluation_data#:#There is no evaluation data available.
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_more_available_questionpools#:#There are no more question pools available
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
