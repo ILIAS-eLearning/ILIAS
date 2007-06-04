@@ -6091,7 +6091,7 @@ news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Nachrichten
 news#:#news_feed_url_for#:#Feed-URL for '%s'
 news#:#news_feed_url#:#Feed-URL
 news#:#news_first_letter_of_word_notification#:#N
-news#:#news_get_feed_info#:#Dies ist eine persönliche Newsfeed-URL. Dieser Newsfeed enthält nur Nachrichten, die vom jeweiligen Autor als öffentliche bestimmt hat. Dieser Newsfeed ist öffentlich zugänglich und wird durch keinerlei Authentifzierungsmaßnahme geschützt.
+news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, die von den jeweiligen Autoren als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
 news#:#news_get_feed_title#:#Persönliche Newsfeed-URL
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
 news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Nachrichtenblock wird nur für Benutzer mit Schreibberichtigung sichtbar sein.
@@ -6102,7 +6102,7 @@ news#:#news_news_item_content_long#:#Langfassung
 news#:#news_news_item_content#:#Text
 news#:#news_news_item_head#:#Nachricht
 news#:#news_news_item_title#:#Schlagzeile
-news#:#news_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie dürfen keine vertraulichen Informationen enthalten.
+news#:#news_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 news#:#news_news_item_visibility#:#Zugriff
 news#:#news_news_items#:#Nachricht(en)
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
@@ -7334,8 +7334,8 @@ trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
 trac##:#trac_mode_test_finished_info#:#Benutzer müssen einen Test vollständig beenden.
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
-common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 new variable
-common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
-common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
-common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
-common#:#icrs_copy#:#Copy LearnLinc Seminar###31 05 2007 new variable
+common#:#custom_icon_size_standard#:#Grösse des angepassten Icons (standard)
+common#:#custom_icon_size_tiny#:#Grösse des angepassten Icons (klein)
+common#:#standard_icon#:#Standard-Icon###31 05 2007 new variable
+common#:#tiny_icon#:#Kleines Icon
+common#:#icrs_copy#:#Kopiere LearnLinc-Seminar
