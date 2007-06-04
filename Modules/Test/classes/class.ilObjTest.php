@@ -5844,7 +5844,7 @@ class ilObjTest extends ilObject
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "qpl":
-				$order = " ORDER BY obj_fi $sortorder";
+				$order = " ORDER BY object_data.title $sortorder";
 				$images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 		}
