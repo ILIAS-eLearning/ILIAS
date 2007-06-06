@@ -35,6 +35,8 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 class ilUserSearch extends ilAbstractSearch
 {
 	private $active_check = false;
+	private $inactive_check = false;
+
 	/**
 	* Constructor
 	* @access public
@@ -55,6 +57,18 @@ class ilUserSearch extends ilAbstractSearch
 	{
 	 	$this->active_check = $a_enabled;
 	}
+	
+	/**
+	 * search only inactive accounts
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function enableInactiveCheck($a_enabled)
+	{
+	 	$this->inactive_check = $a_enabled;
+	}
 
 	function &performSearch()
 	{
@@ -68,6 +82,10 @@ class ilUserSearch extends ilAbstractSearch
 		if($this->active_check)
 		{
 			$query .= 'AND active = 1 ';
+		}
+		elseif($this->inactive_check)
+		{
+			$query .= 'AND active = 0 ';
 		}
 
 		$res = $this->db->query($query);

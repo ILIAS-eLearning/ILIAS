@@ -30,7 +30,7 @@
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilAdminUserSearchGUI
 *
 * @extends ilObjectGUI
 */
@@ -49,9 +49,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		// TODO: move this to class.ilias.php
 		define('USER_FOLDER_ID',7);
-
+		
 		$this->type = "usrf";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		
+		$this->lng->loadLanguageModule('search');
 	}
 
 	function setUserOwnerId($a_id)
@@ -76,6 +78,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+				
+			case 'iladminusersearchgui':
+				include_once('./Services/Search/classes/class.ilAdminUserSearchGUI.php');
+				$user_search =& new ilAdminUserSearchGUI();
+				$user_search->setCallbackClass($this);
+
+				$this->tabs_gui->setTabActive('obj_usrf');
+				$this->ctrl->setReturn($this,'view');
+				$ret =& $this->ctrl->forwardCommand($user_search);
 				break;
 
 			default:
@@ -315,6 +327,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function viewObject()
 	{
 		global $rbacsystem;
+		
+		// this is a workaround for a bug in ctrl class
+		$_SESSION["usergui_cmd_node"] = $this->ctrl->getNodeIdForTargetClass($this->ctrl->getCmdNode(),"ilobjusergui");
 
 		if (isset($_POST["user_filter"]))
 		{
@@ -352,9 +367,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("", "login", "firstname", "lastname", "email", "access_until");
+		$this->data["cols"] = array("", "login", "firstname", "lastname","email","access_until", "last_login");
 		
-		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email","time_limit_until","time_limit_unlimited"), $_SESSION["user_filter"]);
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email","time_limit_until","time_limit_unlimited","last_login"), $_SESSION["user_filter"]);
 
 		// fetch current time outside loop
 		$current_time = time();
@@ -387,6 +402,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							"lastname"		=> $val["lastname"],
 							"email"			=> $val["email"],
 							"access"		=> $txt_access,
+							"last_login"	=> $val["last_login"],
 							"obj_id"		=> $val["usr_id"]
 						);
 		}
@@ -404,10 +420,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$_GET["sort_by"] = "login";
 		}
 		
+		//var_dump("<pre>",$this->data["data"],"</pre>");
 		// sorting array
 		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
-
+		//var_dump("<pre>",$this->data["data"],"</pre>");
 		// now compute control information
 		foreach ($this->data["data"] as $key => $val)
 		{
@@ -422,21 +439,25 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		//add template for buttons
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// display button
+		// search user new functionality
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
-			$this->ctrl->getLinkTarget($this, "searchUserForm"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user"));
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','startExtended'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user_extended"));
 		$this->tpl->parseCurrentBlock();
-
-		//if (AUTH_DEFAULT == AUTH_LOCAL)
-		//{
+		
+		// last search result
+		if ($_SESSION['rep_search']['usr'])
+		{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTarget($this, "importUserForm"));
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("last_search_result"));
 			$this->tpl->parseCurrentBlock();
-		//}
+		}
+		
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "importUserForm"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_list.html");
 		
@@ -446,6 +467,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("FILTER_NAME",'view');
 		$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("search");
+		$this->tpl->setVariable("SEARCH_TXT_SEARCH",$this->lng->txt('search'));
+		$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormActionByClass('ilAdminUserSearchGUI','start'));
+		$this->tpl->setVariable("SEARCH_NAME",'startSimple');
+		$this->tpl->setVariable("SEARCH_VALUE",$this->lng->txt('search_user'));
 		$this->tpl->parseCurrentBlock();
 
 		$this->displayList();
@@ -495,7 +523,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		//$header_params = array("ref_id" => $this->ref_id);
 		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		$tbl->setColumnWidth(array("","20%","20%","20%","20%","20%"));
+		$tbl->setColumnWidth(array("","15%","15%","15%","20%","15%","20%"));
 		
 		$tbl->enable("select_all");
 		$tbl->setFormName("cmd");
@@ -567,6 +595,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						{
 							$val = "<span class=\"small\">".$val."</span>";
 						}
+					}
+					
+					if ($key == "last_login")
+					{
+						$val = ilFormat::formatDate($val);
 					}
 
 					$this->tpl->setCurrentBlock("text");
@@ -717,7 +750,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete"),$this->ilias->error_obj->WARNING);
 		}
+		
 		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
+		
 		if (in_array($_SESSION["AccountId"],$_SESSION["saved_post"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_delete_yourself"),$this->ilias->error_obj->WARNING);
@@ -734,7 +769,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// Feedback
 		ilUtil::sendInfo($this->lng->txt("user_deleted"),true);
 
-		$this->ctrl->redirect($this, "view");
+		if ($_SESSION['user_delete_search'] == true)
+		{
+			session_unregister("user_delete_search");
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			ilUtil::redirect($script);
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "view");
+		}
 	}
 
 	/**
@@ -820,12 +864,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-	
+
 	/**
      * displays user search form
      *
      *
      */
+   	// presumably deprecated
+	// functionality moved to search/classes/iladminusersearch
+	// dont't if this method is used elsewhere too	- saschahofmann@gmx.de 6.6.07
 	function searchUserFormObject ()
 	{
 		$this->tabs_gui->setTabActive('obj_usrf');
@@ -853,6 +900,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("ACTIVE_CHECKED","checked=\"checked\"");
 	}
 
+	// presumably deprecated
+	// functionality moved to search/classes/iladminusersearch
+	// dont't if this method is used elsewhere too	- saschahofmann@gmx.de 6.6.07
 	function searchCancelledObject()
 	{
 		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
@@ -860,6 +910,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "view");
 	}
 
+	// presumably deprecated
+	// functionality moved to search/classes/iladminusersearch
+	// dont't if this method is used elsewhere too	- saschahofmann@gmx.de 6.6.07
 	function searchUserObject()
 	{
 		global $rbacreview;
@@ -867,8 +920,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$obj_str = "&obj_id=".$this->obj_id;
 
 		$_POST["search_string"] = trim($_POST["search_string"]) ? trim($_POST["search_string"]) : trim(urldecode($_GET["search_string"]));
-        $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : explode(",",urldecode($_GET["search_fields"]));
+        //$_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : explode(",",urldecode($_GET["search_fields"]));
 		$_SESSION['us_active'] = isset($_POST['active']) ? $_POST['active'] : $_SESSION['us_active'];
+
+		$_POST["search_fields"] = array ("username","firstname","lastname","email");
 
         if (empty($_POST["search_string"]))
         {
@@ -3220,9 +3275,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
-
 		global $rbacsystem;
-
+		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("obj_usrf",
@@ -3277,6 +3331,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				break;
 		}
 	}
-
+	/*
+	function showUpperIcon()
+	{
+		var_dump($this->ctrl->getCmd());
+	}*/
 } // END class.ilObjUserFolderGUI
 ?>

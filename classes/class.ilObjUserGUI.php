@@ -159,9 +159,22 @@ class ilObjUserGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
+		
+		$tabs_gui->clearTargets();
+		
+		if ($_GET["search"])
+		{
+			$tabs_gui->setBackTarget(
+				$this->lng->txt("search_results"),$_SESSION["usr_search_link"]);
 
-		$tabs_gui->addTarget("properties",
-			$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
+			$tabs_gui->addTarget("properties",
+				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this),"",true);
+		}
+		else
+		{
+			$tabs_gui->addTarget("properties",
+				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
+		}
 			
 		$tabs_gui->addTarget("role_assignment",
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
@@ -184,6 +197,15 @@ class ilObjUserGUI extends ilObjectGUI
 			'',
 			array('ilobjilincusergui'));
 		}
+	}
+
+	/**
+	* set back tab target
+	*/
+	function setBackTarget($a_text, $a_link)
+	{
+		$this->back_target = array("text" => $a_text,
+			"link" => $a_link);
 	}
 
 	/**
@@ -2544,6 +2566,8 @@ class ilObjUserGUI extends ilObjectGUI
 	function addAdminLocatorItems()
 	{
 		global $ilLocator;
+		
+		$ilLocator->clearItems();
 
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{		
@@ -2579,7 +2603,7 @@ class ilObjUserGUI extends ilObjectGUI
 	function showUpperIcon()
 	{
 		global $tree, $tpl, $objDefinition;
-		
+
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			$tpl->setUpperIcon(

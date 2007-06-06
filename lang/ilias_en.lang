@@ -112,6 +112,10 @@ administration#:#systemcheck#:#System check
 administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
+search#:#search_user_extended#:#Extended user search
+search#:#search_user_simple#:#Simple user search
+search#:#last_search_result#:#Last search result
+common#:#search_results#:#Search results
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
 assessment#:#add_answer#:#Add Answer

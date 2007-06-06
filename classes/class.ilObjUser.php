@@ -2303,7 +2303,7 @@ class ilObjUser extends ilObject
 	 * @static
 	 * @access	public
 	 */
-	function searchUsers($a_search_str, $active = 1)
+	function searchUsers($a_search_str, $active = 1, $a_return_ids_only = false)
 	{
 		// NO CLASS VARIABLES IN STATIC METHODS
 		global $ilias, $ilDB;
@@ -2336,16 +2336,21 @@ class ilObjUser extends ilObject
         $res = $ilias->db->query($query);
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
         {
-            $ids[] = array(
+            $users[] = array(
                 "usr_id"    => $row->usr_id,
                 "login"     => $row->login,
                 "firstname" => $row->firstname,
                 "lastname"  => $row->lastname,
                 "email"     => $row->email,
                 "active"    => $row->active);
+                
+            $ids[] = $row->usr_id;
         }
-
-		return $ids ? $ids : array();
+        
+        if ($a_return_ids_only)
+			return $ids ? $ids : array();
+		else
+			return $users ? $users : array();
 	}
 
 	/**
