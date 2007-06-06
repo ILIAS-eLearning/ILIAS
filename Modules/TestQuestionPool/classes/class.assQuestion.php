@@ -1105,12 +1105,20 @@ class assQuestion
 		global $ilDB;
 		
 		if ($question_id < 1) $question_id = $this->id;
-		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE original_id = %s",
+		$query = sprintf("SELECT COUNT(qpl_questions.question_id) AS question_count FROM qpl_questions, tst_test_question WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_question.question_fi",
 			$ilDB->quote($question_id . "")
 		);
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		return $row->question_count;
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$count = $row["question_count"];
+
+		$query = sprintf("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_random_question, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.active_fi = tst_active.active_id",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		$count += $result->numRows();
+
+		return $count;
 	}
 
 	/**

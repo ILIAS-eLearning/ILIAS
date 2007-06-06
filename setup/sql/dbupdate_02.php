@@ -1575,3 +1575,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1012>
+ALTER TABLE  `qpl_questions` ADD INDEX (  `original_id` );
