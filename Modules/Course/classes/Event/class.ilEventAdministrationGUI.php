@@ -541,8 +541,7 @@ class ilEventAdministrationGUI
 							   nl2br($this->event_obj->getLocation()));
 		}
 		$info->addProperty($this->lng->txt('event_date'),
-						   ilFormat::formatUnixTime($appointment_obj->getStartingTime(),false)." ".
-						   $appointment_obj->formatTime());
+							$appointment_obj->appointmentToString());
 
 		if($this->event_obj->hasTutorSettings())
 		{
