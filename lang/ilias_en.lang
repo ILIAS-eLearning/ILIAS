@@ -7313,7 +7313,7 @@ trac#:#trac_mode_manual_info#:#Users have to decide whether their status is comp
 trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.
 trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.
 trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.
-trac##:#trac_mode_test_finished_info#:#User have to finish a test completely.
+trac##:#trac_mode_test_finished_info#:#Users have to finish a test completely.
 trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
 trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor
