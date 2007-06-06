@@ -2300,7 +2300,7 @@ common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
 common#:#hour#:#Stunde
 common#:#hours_of_day#:#24 Stunden
-common#:#hours#:#Stunden
+common#:#hours#:#Stunde(n)
 common#:#htlm_add#:#HTML-Lernmodul hinzufügen
 common#:#htlm_copy#:#HTML-Lerneinheit kopieren
 common#:#htlm_delete#:#HTML-Lernmodul löschen
@@ -2770,7 +2770,7 @@ common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
 common#:#minute#:#Minute
-common#:#minutes#:#Minuten
+common#:#minutes#:#Minute(n)
 common#:#missing_perm#:#Fehlende Berechtigung
 common#:#missing#:#Nicht vorhanden
 common#:#mob#:#Media Objekt
@@ -3460,7 +3460,7 @@ common#:#seas_settings#:#Sucheinstellungen
 common#:#seas_visible#:#Sucheinstellungen sind sichtbar
 common#:#seas_write#:#Sucheinstellungen bearbeiten
 common#:#second#:#Sekunde
-common#:#seconds#:#Sekunden
+common#:#seconds#:#Sekunde(n)
 common#:#sections#:#Bereiche
 common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen

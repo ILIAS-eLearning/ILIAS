@@ -2733,7 +2733,7 @@ common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
 common#:#minute#:#Minute
-common#:#minutes#:#Minutes
+common#:#minutes#:#Minute(s)
 common#:#missing#:#Missing
 common#:#mob#:#Media Object
 common#:#module#:#module
@@ -3501,7 +3501,7 @@ common#:#seas_settings#:#Search settings
 common#:#seas_visible#:#Search settings are visible
 common#:#seas_write#:#Edit search settings
 common#:#second#:#Second
-common#:#seconds#:#Seconds
+common#:#seconds#:#Second(s)
 common#:#sections#:#Sections
 common#:#select#:#Select
 common#:#select_all#:#Select All
