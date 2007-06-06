@@ -285,6 +285,7 @@ class ilEventAdministrationGUI
 
 		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
 		$tbl->disable('sort');
+		$tbl->enable('action');
 		$tbl->render();
 
 		$counter = 0;
