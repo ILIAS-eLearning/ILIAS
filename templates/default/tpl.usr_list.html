@@ -1,8 +1,21 @@
+<table width="100%">
+<tr>
+<td>
 <!-- BEGIN filter -->
 <form action="{FILTER_ACTION}" method="post">
 	<b>{FILTER_TXT_FILTER}</b>&nbsp;{SELECT_FILTER}&nbsp;<input class="submit" type="submit" name="cmd[{FILTER_NAME}]" value="{FILTER_VALUE}"/>&nbsp;
 </form>
 <!-- END filter -->
+</td>
+<td align="right">
+<!-- BEGIN search -->
+<form action="{SEARCH_ACTION}" method="post">
+<b>{SEARCH_TXT_SEARCH}:</b>&nbsp;<input type="text" size="20" name="search_string" />&nbsp;&nbsp;<input class="submit" type="submit" name="cmd[{SEARCH_NAME}]" value="{SEARCH_VALUE}"/>
+</form>
+<!-- END search -->
+</td>
+</tr>
+</table>
 <!-- BEGIN user_table-->
 {USR_TABLE}
 <!-- END user_table -->

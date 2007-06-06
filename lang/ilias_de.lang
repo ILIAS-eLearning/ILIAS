@@ -107,6 +107,10 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
+search#:#search_user_extended#:#Erweiterte Benutzersuche
+search#:#search_user_simple#:#Einfache Benutzersuche
+search#:#last_search_result#:#Letztes Suchergebnis
+common#:#search_results#:#Suchergebnisse
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antworten

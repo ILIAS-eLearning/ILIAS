@@ -2262,7 +2262,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		// not so nice (workaround for using tabs in repository)
 		$tabs_gui->clearTargets();
-		
+
 		if ($this->back_target != "")
 		{
 			$tabs_gui->setBackTarget(

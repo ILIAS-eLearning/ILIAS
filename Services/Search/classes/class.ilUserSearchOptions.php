@@ -47,7 +47,7 @@ class ilUserSearchOptions
 		$this->__read();
 	}
 
-	function _getSearchableFieldsInfo()
+	function _getSearchableFieldsInfo($a_admin = false)
 	{
 		global $lng;
 
@@ -60,11 +60,11 @@ class ilUserSearchOptions
 		
 
 		$counter = 1;
-		foreach(ilUserSearchOptions::_getPossibleFields() as $field)
+		foreach(ilUserSearchOptions::_getPossibleFields($a_admin) as $field)
 		{
 			// TODO: check enabled
 			// DONE
-			if(!ilUserSearchOptions::_isEnabled($field))
+			if($a_admin == false and !ilUserSearchOptions::_isEnabled($field))
 			{
 				continue;
 			}
@@ -85,6 +85,13 @@ class ilUserSearchOptions
 			{
 				$fields[$counter]['lang'] = $lng->txt('person_title');
 			}
+			/*if($field == 'active')
+			{
+				$fields[$counter]['values'] = array(-1 => $lng->txt('please_choose'),
+												  '1' => $lng->txt('active'),
+												  '0' => $lng->txt('inactive'));
+				$fields[$counter]['type'] = FIELD_TYPE_SELECT;
+			}*/
 			++$counter;
 		}
 		// TODO: add udf fields
@@ -94,8 +101,26 @@ class ilUserSearchOptions
 		return $fields ? $fields : array();
 	}
 
-	function _getPossibleFields()
+	function _getPossibleFields($a_admin = false)
 	{
+		if ($a_admin === true)
+		{
+			return array(
+			// 'active',
+			 'gender',
+			 'login',
+			 'lastname',
+			 'firstname',
+			 'title',
+			 'institution',
+			 'street',
+			 'zipcode',
+			 'city',
+			 'country',
+			 'email',
+			 'matriculation');
+		}
+		
 		return array('gender',
 					 'login',
 					 'lastname',
