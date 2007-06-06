@@ -1537,7 +1537,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 								$tpl->setVariable("MESSAGE_VALUE",
 									($_GET["show_post"] == 1 ?
-										ilUtil::prepareFomOutput(stripslashes($_POST["formData"]["message"])) :
+										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])) :
 										$frm->prepareText($node["message"],1,$node["loginname"])));
 							}
 							else
