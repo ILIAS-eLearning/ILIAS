@@ -68,7 +68,7 @@ class ilRPCServerAdapter
 	function &send()
 	{
 		include_once 'XML/RPC.php';
-		if(!$response =& $this->rpc_client->send($this->rpc_message))
+		if(!$response =& $this->rpc_client->send($this->rpc_message,RPC_TIMEOUT))
 		{
 			$this->log->write("ilRPCServerAdapter: Communication error");
 			return null;
@@ -125,6 +125,10 @@ class ilRPCServerAdapter
 		include_once 'XML/RPC.php';
 		
 		$this->rpc_message =& new XML_RPC_Message($a_message_name,$params);
+		
+		// We create the payload here since it might be quite time consuming 
+		// and this could cause a socket read exception on the server side.
+		$this->rpc_message->createPayload();
 
 		return true;
 	}
