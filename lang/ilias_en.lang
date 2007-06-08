@@ -112,9 +112,9 @@ administration#:#systemcheck#:#System check
 administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
-search#:#search_user_extended#:#Extended user search
-search#:#search_user_simple#:#Simple user search
-search#:#last_search_result#:#Last search result
+search#:#search_user_extended#:#Extended User Search
+search#:#search_user_simple#:#Simple User Search
+search#:#last_search_result#:#Last Search Result
 common#:#search_results#:#Search results
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
@@ -6907,7 +6907,7 @@ trac#:#stats_summation#:#Summation
 trac#:#stats_tracked_user#:#Selected Users
 trac#:#stats_until#:#until
 trac#:#stats_user#:#User(s)
-common#:#access_until#:#Access until
+common#:#access_until#:#Access (until)
 trac#:#stats_user_selected#:#User selected
 trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
