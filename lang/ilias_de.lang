@@ -6605,62 +6605,62 @@ search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_type#:#Suchart
 search#:#search_user#:#Benutzer
 search#:#until#:#bis
-style#:#sty_all#:#All
-style#:#sty_background_attachment#:#Background Attachment
-style#:#sty_background_color#:#Background Color
-style#:#sty_background_image#:#Background Image
-style#:#sty_background_position#:#Background Position
-style#:#sty_background_repeat#:#Background Repeat
-style#:#sty_background#:#Background
-style#:#sty_border_color#:#Border Color
-style#:#sty_border_style#:#Border Style
-style#:#sty_border_width#:#Border Width
-style#:#sty_border#:#Border
-style#:#sty_bottom#:#Bottom
-style#:#sty_clear#:#Clear
-style#:#sty_color#:#Colour
-style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? 
-style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles
-style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
-style#:#sty_create_ind_style#:#Create Individual Style
-style#:#sty_create_new_stylesheet#:#Create new Style
-style#:#sty_cursor#:#Cursor
-style#:#sty_default_style#:#Default Style
-style#:#sty_font_family#:#Font Family
-style#:#sty_font_size#:#Font Size
-style#:#sty_font_stretch#:#Font Stretch
-style#:#sty_font_style#:#Font Style
-style#:#sty_font_variant#:#Font Variant
-style#:#sty_font_weight#:#Font Weight
-style#:#sty_import_stylesheet#:#Import Style
-style#:#sty_individual_style#:#Individual Style
-style#:#sty_individual_styles#:#Individual Styles
-style#:#sty_left#:#Left
-style#:#sty_letter_spacing#:#Letter Spacing
-style#:#sty_line_height#:#Line Height
-style#:#sty_margin_and_padding#:#Margin and Padding
-style#:#sty_margin#:#Margin
-style#:#sty_move_lm_styles#:#Change Style of Learning Modules
-style#:#sty_move_style#:#Change Style
-style#:#sty_nr_learning_modules#:#Number of Learning Modules
-style#:#sty_padding#:#Padding
-style#:#sty_right#:#Right
-style#:#sty_save_active_styles#:#Save Active Styles
-style#:#sty_save_standard_styles#:#Save Standard Styles
-style#:#sty_scope#:#Scope
-style#:#sty_set_scope#:#Set Scope
-style#:#sty_source#:#Source
-style#:#sty_special#:#Special
-style#:#sty_standard_style#:#Standard Style
-style#:#sty_text_align#:#Text Alignment
-style#:#sty_text_decoration#:#Text Decoration
-style#:#sty_text_indent#:#Text Indentation
-style#:#sty_text_transform#:#Text Transform
+style#:#sty_all#:#Alle
+style#:#sty_background_attachment#:#Wasserzeichen
+style#:#sty_background_color#:#Hintergrundfarbe
+style#:#sty_background_image#:#Hintergrundbild
+style#:#sty_background_position#:#Hintergrundposition
+style#:#sty_background_repeat#:#Wiederholungseffekt
+style#:#sty_background#:#Hintergrund
+style#:#sty_border_color#:#Rahmenfarbe
+style#:#sty_border_style#:#Rahmentyp
+style#:#sty_border_width#:#Rahmendicke
+style#:#sty_border#:#Rahmen
+style#:#sty_bottom#:#Unten
+style#:#sty_clear#:#Textumfluß beenden
+style#:#sty_color#:#Farbe
+style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit individuellen Stylesheets werden dem Stil '%s' zugeordnet. Die individuellen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren? 
+style#:#sty_confirm_del_ind_styles#:#Bestätige Löschen der individuellen Lernmodul-Stylesheets
+style#:#sty_copy_other_stylesheet#:#Kopiere Stylesheet von lokaler Quelle
+style#:#sty_create_ind_style#:#Individuelles Stylesheet anlegen
+style#:#sty_create_new_stylesheet#:#Neues Stylesheet anlegen
+style#:#sty_cursor#:#Mauszeiger
+style#:#sty_default_style#:#Standard-Stylesheet
+style#:#sty_font_family#:#Schriftart
+style#:#sty_font_size#:#Schriftgröße
+style#:#sty_font_stretch#:#Schriftlaufweite
+style#:#sty_font_style#:#Schriftstil
+style#:#sty_font_variant#:#Schriftvariante
+style#:#sty_font_weight#:#Schriftgewicht
+style#:#sty_import_stylesheet#:#Stylesheet importieren
+style#:#sty_individual_style#:#Individuelles Stylesheet
+style#:#sty_individual_styles#:#Individuelle Stylesheets
+style#:#sty_left#:#Links
+style#:#sty_letter_spacing#:#Zeichenabstand
+style#:#sty_line_height#:#Zeilenhöhe
+style#:#sty_margin_and_padding#:#Außenrand und Innenabstand
+style#:#sty_margin#:#Außenrand
+style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
+style#:#sty_move_style#:#Stylesheet ändern
+style#:#sty_nr_learning_modules#:#Anzahl der Lernmodule
+style#:#sty_padding#:#Innenabstand
+style#:#sty_right#:#Rechts
+style#:#sty_save_active_styles#:#Aktive Stylesheets speichern
+style#:#sty_save_standard_styles#:#Standard-Stylesheets speichern
+style#:#sty_scope#:#Geltungsbereich
+style#:#sty_set_scope#:#Geltungsbereich festlegen
+style#:#sty_source#:#Quelle
+style#:#sty_special#:#Spezial
+style#:#sty_standard_style#:#Standard-Stylesheet
+style#:#sty_text_align#:#Horizontale Ausrichtung
+style#:#sty_text_decoration#:#Textdekoration
+style#:#sty_text_indent#:#Texteinrückung
+style#:#sty_text_transform#:#Text-Transformation
 style#:#sty_text#:#Text
-style#:#sty_top#:#Top
-style#:#sty_vertical_align#:#Vertical Alignment
-style#:#sty_white_space#:#White Space
-style#:#sty_word_spacing#:#Word Spacing
+style#:#sty_top#:#Oben
+style#:#sty_vertical_align#:#Vertikale Ausrichtung
+style#:#sty_white_space#:#Leerzeile
+style#:#sty_word_spacing#:#Wortabstand
 survey#:#add_category#:#Antwort hinzufügen
 survey#:#add_heading#:#Textblock hinzufügen
 survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
@@ -7340,6 +7340,6 @@ assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 common#:#custom_icon_size_standard#:#Grösse des angepassten Icons (standard)
 common#:#custom_icon_size_tiny#:#Grösse des angepassten Icons (klein)
-common#:#standard_icon#:#Standard-Icon###31 05 2007 new variable
+common#:#standard_icon#:#Standard-Icon
 common#:#tiny_icon#:#Kleines Icon
 common#:#icrs_copy#:#Kopiere LearnLinc-Seminar
