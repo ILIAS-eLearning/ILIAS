@@ -85,6 +85,14 @@ B Preparing ILIAS
 
 5) Enable the Lucene indexing for cron jobs by ticking the checkbox 'Administration -> Cron-jobs -> Update Lucene index'.
 
+6) Enter the IP and the port of the Server in 'Administration -> WebServices':
+
+E.g:
+Host: 127.0.0.1
+Port: 11111
+
+7) Finally save these settings.
+
 
 C Indexing ILIAS HTML learning modules
 -------------------------------------------------------------------------------
