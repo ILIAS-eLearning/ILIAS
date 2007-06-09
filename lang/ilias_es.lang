@@ -482,7 +482,6 @@ assessment#:#postponed#:#Pospuesta
 assessment#:#preview#:#Previsualizar
 assessment#:#previous_question_rows#:#<< Preguntas %d - %d de %d
 assessment#:#print_answers#:#Imprimir respuestas
-assessment#:#print_view#:#Vista de impresión
 assessment#:#qpl_answertext_fields_not_filled#:#La pregunta sólo puede ser grabada, si rellena todos los campos de texto de respuesta
 assessment#:#qpl_assessment_no_assessment_of_questions#:#No hay evaluación disponible para la pregunta seleccionada. La pregunta nunca se ha usado en un test.
 assessment#:#qpl_assessment_of_questions#:#Evaluación (por preguntas)
@@ -1639,7 +1638,6 @@ common#:#current_ip#:#IP actual:
 common#:#current_ip_alert#:#Aviso: si introduces una ip errónea no serás capaz de acceder al sistema con este perfil nunca más.
 common#:#current_password#:#Contraseña actual
 common#:#custom_icon_size_big#:#Tamaño de icono personalizado (grande)
-common#:#custom_icon_size_small#:#Tamaño de icono personalizado (pequeño)
 common#:#cut#:#cortar
 common#:#cutPage#:#Cortar
 common#:#daily#:#diariamente
@@ -3368,7 +3366,6 @@ common#:#show_users_online#:#Mostrar usuarios on-line
 common#:#signature#:#firma
 common#:#size#:#Tamaño
 common#:#skin_style#:#Tema / estilo por defecto
-common#:#small_icon#:#Icono Pequeño
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administración externa de usuarios (SOAP)
 common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas de usuario pueden ser administradas por un cliente SOAP externo.
@@ -7217,8 +7214,6 @@ administration#:#purge_age_limit#:#Límite por tiempo
 administration#:#purge_age_limit_desc#:#Si este campo contiene un valor, sólo los objetos que fueron borrados antes del número de días especificado serán eliminados definitivamente
 administration#:#purge_type_limit#:#Límite por tipo
 administration#:#purge_type_limit_desc#:#Si este campo contiene un valor, sólo los objetos del tipo especificado serán eliminados definitivamente
-assessment#:#checked#:#Marcado
-assessment#:#unchecked#:#No marcado
 assessment#:#delete_all_user_data#:#Eliminar los datos de test de todos los usuarios
 assessment#:#delete_all_user_data_confirmation#:#¿Realmente quiere eliminar los datos de test de todos los usuarios para este test?
 assessment#:#assFlashApp#:#Aplicación Flash
@@ -7333,3 +7328,13 @@ common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 ne
 common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
 common#:#standard_icon#:#Icono estándar
 common#:#tiny_icon#:#Icono pequeño
+search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
+search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
+search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
+common#:#search_results#:#Search results###09 06 2007 new variable
+assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
+common#:#checked#:#Checked###09 06 2007 new variable
+common#:#unchecked#:#Unchecked###09 06 2007 new variable
+feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
+feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable
+crs#:#crs_no_exercises#:#No exercises found inside this course###09 06 2007 new variable

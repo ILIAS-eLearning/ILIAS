@@ -376,7 +376,6 @@ assessment#:#postponed#:#Későbbre halasztott
 assessment#:#preview#:#Előnézet
 assessment#:#previous_question_rows#:#<< Kérdések %d - %d a %nak(nek)
 assessment#:#print_answers#:#Válaszok nyomtatása
-assessment#:#print_view#:#Nyomtatási nézet
 assessment#:#qpl_answertext_fields_not_filled#:#A kérdés csak akkor menthető, ha kitölt minden szöveges válaszmezőt.
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Nincs a kiválasztott kérdéseknek elérhető értékelése. A kérdés nem volt még használva tesztben.
 assessment#:#qpl_assessment_of_questions#:#Kérdések kiértékelése
@@ -1441,7 +1440,6 @@ common#:#current_ip#:#Jelenlegi IP:
 common#:#current_ip_alert#:#Figyelmeztetés: Ha rossz IP-t ad meg, a továbbiakban ezzel a profillal nem fog tudni kapcsolódni a rendszerhez.
 common#:#current_password#:#Jelenlegi jelszó
 common#:#custom_icon_size_big#:#Ikonméret beállítás (nagy)
-common#:#custom_icon_size_small#:#Ikonméret beállítás (kicsi)
 common#:#cut#:#Kivágás
 common#:#cutPage#:#Kivágás
 common#:#daily#:#napi
@@ -3109,7 +3107,6 @@ common#:#show_users_online#:#Bejelentkezett felhasználók megjelenítése
 common#:#signature#:#Aláírás
 common#:#size#:#Méret
 common#:#skin_style#:#Alapértelmezett felület/stílus
-common#:#small_icon#:#Kis ikon
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Külső felhasználó adminisztráció (SOAP)
 common#:#soap_user_administration_desc#:#Ha engedélyezett, minden felhasználói fiók külső SOAP-klienssel adminisztrálható.
@@ -6567,8 +6564,6 @@ assessment#:#certificate_visibility_never#:#Not Visible###10 05 2007 new variabl
 assessment#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test###10 05 2007 new variable
 assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###10 05 2007 new variable
 assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###10 05 2007 new variable
-assessment#:#checked#:#Checked###10 05 2007 new variable
-assessment#:#unchecked#:#Unchecked###10 05 2007 new variable
 assessment#:#cloze_fixed_textlength#:#Text Field Length###10 05 2007 new variable
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value.###10 05 2007 new variable
 common#:#user_profile_instant_messengers#:#Contacts to Instant Messengers###10 05 2007 new variable
@@ -7334,3 +7329,12 @@ common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 ne
 common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
 common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
 common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
+search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
+search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
+search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
+common#:#search_results#:#Search results###09 06 2007 new variable
+assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
+common#:#checked#:#Checked###09 06 2007 new variable
+common#:#unchecked#:#Unchecked###09 06 2007 new variable
+feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
+feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable
