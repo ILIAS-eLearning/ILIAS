@@ -92,7 +92,19 @@ class ilNavigationHistory
 	*/
 	public function getItems()
 	{
-		return $this->items;
+		global $tree;
+		
+		$items = array();
+		
+		foreach ($this->items as $it)
+		{
+			if ($tree->isInTree($it["ref_id"]))
+			{
+				$items[] = $it;
+			}
+		}
+		
+		return $items;
 	}
 }
 ?>

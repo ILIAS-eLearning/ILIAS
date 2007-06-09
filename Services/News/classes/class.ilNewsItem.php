@@ -471,6 +471,22 @@ class ilNewsItem extends ilNewsItemGen
 			return;
 		}
 		
+		// get news records
+		$query = "SELECT * FROM il_news_item".
+			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id).
+			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type);
+			
+		// delete records of il_news_read
+		$news_set = $ilDB->query($query);
+		while ($news = $news_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$query = "DELETE FROM il_news_read ".
+				" WHERE news_id = ".$ilDB->quote($news["id"]);
+
+			$ilDB->query($query);
+		}
+		
+		// delete news records
 		$query = "DELETE FROM il_news_item".
 			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id).
 			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type);
