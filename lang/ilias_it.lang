@@ -375,7 +375,6 @@ assessment#:#postponed#:#non eseguita
 assessment#:#preview#:#Anteprima
 assessment#:#previous_question_rows#:#<< Domande %d - %d di %d
 assessment#:#print_answers#:#Stampa le risposte
-assessment#:#print_view#:#Print view###10 Jul 2006 new variable
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!###10 Jul 2006 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Non esiste la valutazione per la domanda selezionata. La domanda non &#232; mai stata usata in un test.
 assessment#:#qpl_assessment_of_questions#:#Valutazione delle domande
@@ -1436,7 +1435,6 @@ common#:#current_ip#:#IP attuale:
 common#:#current_ip_alert#:#Nota: se viene specificato un indirizzo ip errato, non sarai pi&#249; in grado di accedere al sistema con questo profilo.###10 Jul 2006 content changed
 common#:#current_password#:#Password attuale
 common#:#custom_icon_size_big#:#Dimensione icona personalizzata (grande)
-common#:#custom_icon_size_small#:#Dimensione icona personalizzata (piccola)
 common#:#cut#:#Taglia
 common#:#cutPage#:#Taglia
 common#:#daily#:#giornaliero
@@ -3104,7 +3102,6 @@ common#:#show_users_online#:#Mostra gli utenti
 common#:#signature#:#Firma
 common#:#size#:#Dimensione
 common#:#skin_style#:#Predefinito Skin / Stile
-common#:#small_icon#:#Icone piccole
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Amministrazione utenti esterna (SOAP)
 common#:#soap_user_administration_desc#:#Se selezionato, tutti gli utenti potranno essere amministrati tramite un client SOAP esterno.
@@ -7217,8 +7214,6 @@ administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
 administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
 administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
-assessment#:#checked#:#Checked###10 05 2007 new variable
-assessment#:#unchecked#:#Unchecked###10 05 2007 new variable
 assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
 assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
@@ -7334,3 +7329,12 @@ common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 ne
 common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
 common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
 common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
+search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
+search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
+search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
+common#:#search_results#:#Search results###09 06 2007 new variable
+assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
+common#:#checked#:#Checked###09 06 2007 new variable
+common#:#unchecked#:#Unchecked###09 06 2007 new variable
+feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
+feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable

@@ -373,7 +373,6 @@ assessment#:#postponed#:#αναβλήθηκε
 assessment#:#preview#:#Προεπισκόπιση
 assessment#:#previous_question_rows#:#<< Ερωτήσεις %d - %d από %d
 assessment#:#print_answers#:#Εκτύπωση απαντήσεων
-assessment#:#print_view#:#Επισκόπιση εκτύπωσης
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Δεν υπάρχει διαθέσιμη αξιολόγηση των ερωτήσεων για την επιλεγμένη ερώτηση. Η ερώτηση δεν έχει χρησιμοποιηθεί σε τεστ.
 assessment#:#qpl_assessment_of_questions#:#Εκτίμηση ερωτήσεων
@@ -1433,7 +1432,6 @@ common#:#current_ip#:#Τρέχουσα IP:
 common#:#current_ip_alert#:#Ειδοποίηση: εάν πληκτρολογήσετε λάθος ip, δεν θα μπορείτε να προσπελάσετε το σύστημα με αυτό το προφίλ.
 common#:#current_password#:#Τρέχον κωδικός
 common#:#custom_icon_size_big#:#Προσαρμοσμένο μέγεθος εικονιδίου (μεγάλο)
-common#:#custom_icon_size_small#:#Προσαρμοσμένο μέγεθος εικονιδίου (μικρό)
 common#:#cut#:#Αποκοπή
 common#:#cutPage#:#Αποκοπή
 common#:#daily#:#καθημερινά
@@ -3101,7 +3099,6 @@ common#:#show_users_online#:#Εμφάνιση ενεργών χρηστών
 common#:#signature#:#Υπογραφή
 common#:#size#:#Μέγεθος
 common#:#skin_style#:#Προεπιλεγμένο Περίβλημα / Στυλ
-common#:#small_icon#:#Μικρό εικονίδιο
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Εξωτερική διαχείριση χρήστη (SOAP)
 common#:#soap_user_administration_desc#:#Εάν ενεργοποιηθεί, όλοι οι λογαριασμοί χρηστών μπορούν να διαχειριστούν από έναν εξωτερικό Πελάτη-SOAP.
@@ -7217,8 +7214,6 @@ administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
 administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
 administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
-assessment#:#checked#:#Checked###10 05 2007 new variable
-assessment#:#unchecked#:#Unchecked###10 05 2007 new variable
 assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
 assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
@@ -7334,3 +7329,12 @@ common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 ne
 common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
 common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
 common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
+search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
+search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
+search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
+common#:#search_results#:#Search results###09 06 2007 new variable
+assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
+common#:#checked#:#Checked###09 06 2007 new variable
+common#:#unchecked#:#Unchecked###09 06 2007 new variable
+feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
+feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable

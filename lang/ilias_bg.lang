@@ -1105,7 +1105,6 @@ common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Текуща парола
 common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
-common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Отрязване
 common#:#cutPage#:#Отрязване
 common#:#database#:#База данни
@@ -2456,7 +2455,6 @@ common#:#show_users_online#:#Показване на потребителите 
 common#:#signature#:#Подпис
 common#:#size#:#Размер
 common#:#skin_style#:#Оформление / стил по подразбиране
-common#:#small_icon#:#Small Icon###03 Nov 2005 new variable
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Външно потребителско администриране (SOAP)
 common#:#soap_user_administration_desc#:#Ако е включено, всички потребителски акаунти могат да се администрират от външен SOAP-клиент.
@@ -5773,7 +5771,6 @@ assessment#:#percentage#:#Percentage###25 02 2007 new variable
 assessment#:#point#:#Point###25 02 2007 new variable
 assessment#:#points_checked#:#Points when Checked###25 02 2007 new variable
 assessment#:#points_unchecked#:#Points when Unchecked###25 02 2007 new variable
-assessment#:#print_view#:#Print View###25 02 2007 new variable
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!###25 02 2007 new variable
 assessment#:#qpl_export_excel#:#Microsoft Excel File###25 02 2007 new variable
 assessment#:#qpl_export_xml#:#QTI XML File###25 02 2007 new variable
@@ -7217,8 +7214,6 @@ administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
 administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
 administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
-assessment#:#checked#:#Checked###10 05 2007 new variable
-assessment#:#unchecked#:#Unchecked###10 05 2007 new variable
 assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
 assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
@@ -7334,3 +7329,12 @@ common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 ne
 common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
 common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
 common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
+search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
+search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
+search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
+common#:#search_results#:#Search results###09 06 2007 new variable
+assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
+common#:#checked#:#Checked###09 06 2007 new variable
+common#:#unchecked#:#Unchecked###09 06 2007 new variable
+feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
+feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable
