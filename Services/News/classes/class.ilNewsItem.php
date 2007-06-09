@@ -41,6 +41,8 @@ include_once("./Services/News/classes/class.ilNewsItemGen.php");
 */
 class ilNewsItem extends ilNewsItemGen
 {
+	private $limitation;
+	
 	/**
 	* Constructor.
 	*
@@ -49,6 +51,28 @@ class ilNewsItem extends ilNewsItemGen
 	public function __construct($a_id = 0)
 	{
 		parent::__construct($a_id);
+		$this->limitation = true;
+	}
+
+	
+	/**
+	* Set Limitation for number of items.
+	*
+	* @param	boolean	$a_limitation	Limitation for number of items
+	*/
+	function setLimitation($a_limitation)
+	{
+		$this->limitation = $a_limitation;
+	}
+
+	/**
+	* Get Limitation for number of items.
+	*
+	* @return	boolean	Limitation for number of items
+	*/
+	function getLimitation()
+	{
+		return $this->limitation;
 	}
 
 	/**
@@ -67,32 +91,41 @@ class ilNewsItem extends ilNewsItemGen
 			$max_items = 50;
 		}
 		
-		// Determine how many rows should be deleted
-		$query = "SELECT count(*) AS cnt ".
-			"FROM il_news_item ".
-			"WHERE ".
-				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType());
-
-		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
-				
-		// if we have more records than allowed, delete them
-		if (($rec["cnt"] > $max_items) && $this->getContextObjId() > 0)
+		// limit number of news
+		if ($this->getLimitation())
 		{
-			$query = "DELETE ".
+			// Determine how many rows should be deleted
+			$query = "SELECT count(*) AS cnt ".
 				"FROM il_news_item ".
 				"WHERE ".
 					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
 					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
 					" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-					" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
-					" ORDER BY creation_date ASC".
-					" LIMIT ".($rec["cnt"] - $max_items);
-
-			$ilDB->query($query);
+					" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType());
+	
+			$set = $ilDB->query($query);
+			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+					
+			// if we have more records than allowed, delete them
+			if (($rec["cnt"] > $max_items) && $this->getContextObjId() > 0)
+			{
+				$query = "SELECT * ".
+					"FROM il_news_item ".
+					"WHERE ".
+						"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+						" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+						" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
+						" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
+						" ORDER BY creation_date ASC".
+						" LIMIT ".($rec["cnt"] - $max_items);
+	
+				$del_set = $ilDB->query($query);
+				while ($del_item = $del_set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$del_news = new ilNewsItem($del_item["id"]);
+					$del_news->delete();
+				}
+			}
 		}
 	}
 

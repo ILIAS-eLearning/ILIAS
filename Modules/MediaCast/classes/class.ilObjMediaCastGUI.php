@@ -355,6 +355,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mc_item->setPlaytime($duration);
 			$mc_item->setTitle($this->form_gui->getInput("title"));
 			$mc_item->setContent($this->form_gui->getInput("description"));
+			$mc_item->setLimitation(false);
 			if ($enable_internal_rss)
 			{
 				$mc_item->setVisibility($this->form_gui->getInput("visibility"));
