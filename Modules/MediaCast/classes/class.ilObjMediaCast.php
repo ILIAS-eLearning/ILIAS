@@ -182,14 +182,25 @@ class ilObjMediaCast extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
+		global $ilDB;
+		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
 		
-		//put here your module specific stuff
+		// delete all items
+		$med_items = $this->getItemsArray();
+		foreach ($med_items as $item)
+		{
+			include_once("./Services/News/classes/class.ilNewsItem.php");
+			$news_item = new ilNewsItem($item["id"]);
+			$news_item->delete();
+		}
+		
+		// delete record of table il_media_cast_data
 		$query = "DELETE FROM il_media_cast_data".
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($query);

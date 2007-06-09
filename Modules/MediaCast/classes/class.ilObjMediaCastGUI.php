@@ -510,11 +510,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		foreach($_POST["item_id"] as $item_id)
 		{
 			$mc_item = new ilNewsItem($item_id);
-			$mob = $mc_item->getMobId();
 			$mc_item->delete();
-			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			$mob = new ilObjMediaObject($mob);
-			$mob->delete();
 		}
 		
 		$ilCtrl->redirect($this, "listItems");

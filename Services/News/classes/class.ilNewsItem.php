@@ -457,6 +457,33 @@ class ilNewsItem extends ilNewsItemGen
 		return $default_visibility;
 	}
 	
+	
+	/**
+	* Delete news item
+	*
+	*/
+	public function delete()
+	{
+		global $ilDB;
+		
+		// delete il_news_read entries
+		$query = "DELETE FROM il_news_read ".
+			" WHERE news_id = ".$ilDB->quote($this->getId());
+		$ilDB->query($query);
+		
+		// delete multimedia object
+		$mob = $this->getMobId();
+		if ($mob > 0 and ilObject::_exists($mob))
+		{
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			$mob = new ilObjMediaObject($mob);
+			$mob->delete();
+		}
+		
+		// delete 
+		parent::delete();
+	}
+	
 	/**
 	* Delete all news of a context
 	*
@@ -476,23 +503,13 @@ class ilNewsItem extends ilNewsItemGen
 			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id).
 			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type);
 			
-		// delete records of il_news_read
 		$news_set = $ilDB->query($query);
+		
 		while ($news = $news_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$query = "DELETE FROM il_news_read ".
-				" WHERE news_id = ".$ilDB->quote($news["id"]);
-
-			$ilDB->query($query);
+			$news_obj = new ilNewsItem($news["id"]);
+			$news_obj->delete();
 		}
-		
-		// delete news records
-		$query = "DELETE FROM il_news_item".
-			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id).
-			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type);
-		
-		$ilDB->query($query);
-
 	}
 
 }
