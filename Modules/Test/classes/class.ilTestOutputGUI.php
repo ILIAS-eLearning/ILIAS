@@ -324,13 +324,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$postponed_array = split(",", $active->postponed);
 			$sequence_array = split(",", $active->sequence);
-			if (in_array($sequence_array[$sequence-1], $postponed_array))
+			if ((count($sequence_array)) && ($sequence > 0))
 			{
-				$is_postponed = TRUE;
-			}
-			else
-			{
-				$is_postponed = FALSE;
+				if (in_array($sequence_array[$sequence-1], $postponed_array))
+				{
+					$is_postponed = TRUE;
+				}
+				else
+				{
+					$is_postponed = FALSE;
+				}
 			}
 		}
 
@@ -839,7 +842,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				break;
 			case "start":
 			case "resume":
-				$this->sequence = $this->calculateSequence();	
+				$this->sequence = $this->calculateSequence();
 				$active_id = $this->object->setActiveTestUser($this->sequence);
 				$this->ctrl->setParameter($this, "active_id", $active_id);
 				$active_time_id = $this->object->startWorkingTime($active_id);
@@ -1200,7 +1203,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function outTestPage()
 	{
 		global $rbacsystem;
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_output.html", "Modules/Test");	
 		if (!$rbacsystem->checkAccess("read", $this->object->getRefId())) 
 		{
