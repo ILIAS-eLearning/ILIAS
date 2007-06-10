@@ -4197,7 +4197,7 @@ class ilObjSurvey extends ilObject
 
 			if (strpos($xml, "questestinterop"))
 			{
-				include_once "./Services/Survey/classes/class.SurveyQuestionPoolPre38.php";
+				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
 				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 				$spl = new ilObjSurveyQuestionPool($survey_questionpool_id, FALSE);
 				$import = new SurveyImportParserPre38($spl, "", TRUE);
