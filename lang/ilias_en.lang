@@ -1613,6 +1613,7 @@ common#:#chat_write#:#Edit chat
 common#:#check#:#Check
 common#:#checked#:#Checked
 common#:#unchecked#:#Unchecked
+common#:#textbox#:#Textbox
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages

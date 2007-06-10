@@ -261,24 +261,9 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("QUESTION_ID", $this->object->getId());
 
 		$solution_text = "";
-		if (strlen($this->object->getMaximum()) > 1) 
-		{
-			$len = strlen($this->object->getMaximum()) + 2;
-			for ($i = 0; $i < $len; $i++) $solution_text .= "&#160;";
-		}
-		else 
-		{
-			for ($i = 0; $i < 10; $i++) $solution_text .= "&#160;";
-		}
+		$len = 10;
+		for ($i = 0; $i < 10; $i++) $solution_text .= "&#160;";
 		$template->setVariable("TEXT_SOLUTION", $solution_text);
-		$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
-		$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("empty.gif"));
-		$image->setVariable("STYLE", "border-style: inset; border-width: 1px;");
-		$image->setVariable("IMAGE_ALT", $this->lng->txt("empty"));
-		$image->setVariable("IMAGE_TITLE", $this->lng->txt("empty"));
-		$image->setVariable("IMAGE_WIDTH", $len . "em");
-		$image->setVariable("IMAGE_HEIGHT", "18px");
-		$template->setVariable("TEXT_SOLUTION", $image->get());
 
 		$template->parseCurrentBlock();
 		return $template->get();
@@ -339,14 +324,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("VALUE_METRIC", $working_data[0]["value"]);
 		}
 
-		if (strlen($this->object->getMaximum())>1) 
-		{
-			$len = strlen($this->object->getMaximum()) + 2;
-			$template->setVariable("INPUT_SIZE", $len);
-		}
-		else {
-			$template->setVariable("INPUT_SIZE", 10);
-		}
+		$template->setVariable("INPUT_SIZE", 10);
 
 		if (strcmp($error_message, "") != 0)
 		{

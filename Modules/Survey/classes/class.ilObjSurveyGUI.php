@@ -3919,8 +3919,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function printViewObject()
 	{
+		global $ilias;
+		
 		$this->questionsSubtabs("printview");
 		$template = new ilTemplate("tpl.il_svy_svy_printview.html", TRUE, TRUE, "Modules/Survey");
+
+		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		{
+			$this->ctrl->setParameter($this, "pdf", "1");
+			$template->setCurrentBlock("pdf_export");
+			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "printView"));
+			$this->ctrl->setParameter($this, "pdf", "");
+			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$template->setVariable("PRINT_URL", "javascript:window.print();");
+
 		$pages =& $this->object->getSurveyPages();
 		foreach ($pages as $page)
 		{
@@ -3950,7 +3967,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
+			$printbody->setVariable("TITLE", sprintf($this->lng->txt("tst_result_user_name"), $uname));
+			$printbody->setVariable("ADM_CONTENT", $template->get());
+			$printoutput = $printbody->get();
+			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+			$fo = $this->object->processPrintoutput2FO($printoutput);
+			$this->object->deliverPDFfromFO($fo);
+		}
+		else
+		{
+			$this->tpl->setVariable("ADM_CONTENT", $template->get());
+		}
 	}
 	
 	function addLocatorItems()
