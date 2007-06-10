@@ -1310,7 +1310,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$_SESSION['crs_sequence'] = array();
 		$active = $this->getActiveId();
-		$results = $this->object->getTestResult($active_id);
+		$results = $this->object->getTestResult($active);
 		for($i = $this->object->getFirstSequence();
 			$i <= $this->object->getQuestionCount();
 			$i++)
