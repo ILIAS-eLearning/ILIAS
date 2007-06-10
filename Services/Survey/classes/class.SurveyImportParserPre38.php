@@ -512,31 +512,25 @@ class SurveyImportParserPre38 extends ilSaxParser
 						}
 					}
 				}
-				if (strcmp($this->getParent($a_xml_parser), "survey") == 0)
-				{
-					foreach ($this->metadata as $meta)
-					{
-						switch ($meta["label"])
-						{
-							case "SCORM":
-								include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
-								include_once "./Services/MetaData/classes/class.ilMD.php";
-								$md_sax_parser = new ilMDSaxParser();
-								$md_sax_parser->setXMLContent($meta["entry"]);
-								$md_sax_parser->setMDObject($tmp = new ilMD($this->survey->getId(), 0, "svy"));
-								$md_sax_parser->enableMDParsing(TRUE);
-								$md_sax_parser->startParsing();
-								$this->spl->MDUpdateListener("General");
-								break;
-						}
-					}
-				}
 				if (is_object($this->survey))
 				{
 					foreach ($this->metadata as $meta)
 					{
 						switch ($meta["label"])
 						{
+							case "SCORM":
+								if (strcmp($this->getParent($a_xml_parser), "survey") == 0)
+								{
+									include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
+									include_once "./Services/MetaData/classes/class.ilMD.php";
+									$md_sax_parser = new ilMDSaxParser();
+									$md_sax_parser->setXMLContent($meta["entry"]);
+									$md_sax_parser->setMDObject($tmp = new ilMD($this->survey->getId(), 0, "svy"));
+									$md_sax_parser->enableMDParsing(TRUE);
+									$md_sax_parser->startParsing();
+									$this->survey->MDUpdateListener("General");
+								}
+								break;
 							case "author":
 								$this->survey->setAuthor($meta["entry"]);
 								break;
