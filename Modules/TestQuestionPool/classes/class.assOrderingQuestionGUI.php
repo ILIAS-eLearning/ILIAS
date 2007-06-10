@@ -493,7 +493,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution);
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
@@ -684,7 +684,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 

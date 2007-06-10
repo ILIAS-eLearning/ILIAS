@@ -3445,7 +3445,7 @@ class ilObjTest extends ilObject
 	function getQuestionIdFromActiveUserSequence($sequence)
 	{
 		global $ilUser;
-
+		if (strlen($sequence) == 0) $sequence = 1;
 		$active = $this->getActiveTestUser();
 		$sequence_array = explode(",", $active->sequence);
 		return $this->questions[$sequence_array[$sequence-1]];
