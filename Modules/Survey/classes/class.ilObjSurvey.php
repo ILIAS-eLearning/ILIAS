@@ -5140,5 +5140,48 @@ class ilObjSurvey extends ilObject
 		return FALSE;
 	}
 
+	/**
+	* Convert a print output to XSL-FO
+	*
+	* Convert a print output to XSL-FO
+	*
+	* @param string $print_output The print output
+	* @return string XSL-FO code
+	* @access public
+	*/
+	function processPrintoutput2FO($print_output)
+	{
+		$print_output = str_replace("&nbsp;", "&#160;", $print_output);
+		$print_output = str_replace("&otimes;", "X", $print_output);
+		$xsl = file_get_contents("./Modules/Survey/xml/question2fo.xsl");
+		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$params = array();
+		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
+		xslt_error($xh);
+		xslt_free($xh);
+		return $output;
+	}
+	
+	/**
+	* Delivers a PDF file from a XSL-FO string
+	*
+	* Delivers a PDF file from a XSL-FO string
+	*
+	* @param string $fo The XSL-FO string
+	* @access public
+	*/
+	function deliverPDFfromFO($fo)
+	{
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$fo_file = ilUtil::ilTempnam() . ".fo";
+		$fp = fopen($fo_file, "w"); fwrite($fp, $fo); fclose($fp);
+		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
+		$fo2pdf = new ilFO2PDF();
+		$fo2pdf->setFOString($fo);
+		$result = $fo2pdf->send();
+		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
+	}
+	
 } // END class.ilObjSurvey
 ?>
