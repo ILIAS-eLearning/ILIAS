@@ -347,51 +347,51 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
-			foreach ($this->gaps as $key => $gap)
-			{
-				foreach ($gap->getItems() as $item)
+				foreach ($this->gaps as $key => $gap)
 				{
-					$query = "";
-					switch ($gap->getType())
+					foreach ($gap->getItems() as $item)
 					{
-						case CLOZE_TEXT:
-							$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-								$ilDB->quote($this->getId()),
-								$ilDB->quote($key . ""),
-								$ilDB->quote($item->getAnswertext() . ""),
-								$ilDB->quote($item->getPoints() . ""),
-								$ilDB->quote($item->getOrder() . ""),
-								$ilDB->quote($gap->getType() . "")
-							);
-							break;
-						case CLOZE_SELECT:
-							$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
-								$ilDB->quote($this->getId()),
-								$ilDB->quote($key . ""),
-								$ilDB->quote($item->getAnswertext() . ""),
-								$ilDB->quote($item->getPoints() . ""),
-								$ilDB->quote($item->getOrder() . ""),
-								$ilDB->quote($gap->getType() . ""),
-								$ilDB->quote($gap->getShuffle() ? "1" : "0")
-							);
-							break;
-						case CLOZE_NUMERIC:
-							$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
-								$ilDB->quote($this->getId()),
-								$ilDB->quote($key . ""),
-								$ilDB->quote($item->getAnswertext() . ""),
-								$ilDB->quote($item->getPoints() . ""),
-								$ilDB->quote($item->getOrder() . ""),
-								$ilDB->quote($gap->getType() . ""),
-								$eval->e($item->getLowerBound() !== FALSE) ? $ilDB->quote($item->getLowerBound()) : "NULL",
-								$eval->e($item->getUpperBound() !== FALSE) ? $ilDB->quote($item->getUpperBound()) : "NULL"
-							);
-							break;
+						$query = "";
+						switch ($gap->getType())
+						{
+							case CLOZE_TEXT:
+								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+									$ilDB->quote($this->getId()),
+									$ilDB->quote($key . ""),
+									$ilDB->quote($item->getAnswertext() . ""),
+									$ilDB->quote($item->getPoints() . ""),
+									$ilDB->quote($item->getOrder() . ""),
+									$ilDB->quote($gap->getType() . "")
+								);
+								break;
+							case CLOZE_SELECT:
+								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
+									$ilDB->quote($this->getId()),
+									$ilDB->quote($key . ""),
+									$ilDB->quote($item->getAnswertext() . ""),
+									$ilDB->quote($item->getPoints() . ""),
+									$ilDB->quote($item->getOrder() . ""),
+									$ilDB->quote($gap->getType() . ""),
+									$ilDB->quote($gap->getShuffle() ? "1" : "0")
+								);
+								break;
+							case CLOZE_NUMERIC:
+								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
+									$ilDB->quote($this->getId()),
+									$ilDB->quote($key . ""),
+									$ilDB->quote($item->getAnswertext() . ""),
+									$ilDB->quote($item->getPoints() . ""),
+									$ilDB->quote($item->getOrder() . ""),
+									$ilDB->quote($gap->getType() . ""),
+									$eval->e($item->getLowerBound() !== FALSE) ? $ilDB->quote($item->getLowerBound()) : "NULL",
+									$eval->e($item->getUpperBound() !== FALSE) ? $ilDB->quote($item->getUpperBound()) : "NULL"
+								);
+								break;
+						}
+						if (strlen($query)) $answer_result = $ilDB->query($query);
 					}
-					if (strlen($query)) $answer_result = $ilDB->query($query);
 				}
 			}
-		}
 		parent::saveToDb($original_id);
 	}
 
@@ -1233,8 +1233,13 @@ class assClozeTest extends assQuestion
 	function syncWithOriginal()
 	{
 		global $ilDB;
+
 		if ($this->original_id)
 		{
+			include_once "./Services/Math/classes/class.EvalMath.php";
+			$eval = new EvalMath();
+			$eval->suppress_errors = TRUE;
+
 			$complete = 0;
 			if ($this->isComplete())
 			{
@@ -1271,22 +1276,48 @@ class assClozeTest extends assQuestion
 					$ilDB->quote($this->original_id)
 				);
 				$result = $ilDB->query($query);
-				foreach ($this->gaps as $key => $value)
+				foreach ($this->gaps as $key => $gap)
 				{
-					foreach ($value as $answer_id => $answer_obj)
+					foreach ($gap->getItems() as $item)
 					{
-						$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, name, shuffle, correctness) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-							$ilDB->quote($this->original_id . ""),
-							$ilDB->quote($key . ""),
-							$ilDB->quote($answer_obj->getAnswertext() . ""),
-							$ilDB->quote($answer_obj->getPoints() . ""),
-							$ilDB->quote($answer_obj->getOrder() . ""),
-							$ilDB->quote($answer_obj->getClozeType() . ""),
-							$ilDB->quote($answer_obj->getName() . ""),
-							$ilDB->quote($answer_obj->getShuffle() . ""),
-							$ilDB->quote($answer_obj->getState() . "")
-						);
-						$answer_result = $ilDB->query($query);
+						$query = "";
+						switch ($gap->getType())
+						{
+							case CLOZE_TEXT:
+								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+									$ilDB->quote($this->original_id),
+									$ilDB->quote($key . ""),
+									$ilDB->quote($item->getAnswertext() . ""),
+									$ilDB->quote($item->getPoints() . ""),
+									$ilDB->quote($item->getOrder() . ""),
+									$ilDB->quote($gap->getType() . "")
+								);
+								break;
+							case CLOZE_SELECT:
+								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
+									$ilDB->quote($this->original_id),
+									$ilDB->quote($key . ""),
+									$ilDB->quote($item->getAnswertext() . ""),
+									$ilDB->quote($item->getPoints() . ""),
+									$ilDB->quote($item->getOrder() . ""),
+									$ilDB->quote($gap->getType() . ""),
+									$ilDB->quote($gap->getShuffle() ? "1" : "0")
+								);
+								break;
+							case CLOZE_NUMERIC:
+								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
+									$ilDB->quote($this->original_id),
+									$ilDB->quote($key . ""),
+									$ilDB->quote($item->getAnswertext() . ""),
+									$ilDB->quote($item->getPoints() . ""),
+									$ilDB->quote($item->getOrder() . ""),
+									$ilDB->quote($gap->getType() . ""),
+									$eval->e($item->getLowerBound() !== FALSE) ? $ilDB->quote($item->getLowerBound()) : "NULL",
+									$eval->e($item->getUpperBound() !== FALSE) ? $ilDB->quote($item->getUpperBound()) : "NULL"
+								);
+								break;
+						}
+						if (strlen($query)) $answer_result = $ilDB->query($query);
 					}
 				}
 			}
