@@ -166,6 +166,34 @@ class ilExternalFeed
 	}
 	
 	/**
+	* Check cache hit
+	*/
+	function checkCacheHit()
+	{
+		$cache = new RSSCache( MAGPIE_CACHE_DIR, MAGPIE_CACHE_AGE );
+        
+        $cache_status    = 0;       // response of check_cache
+        $request_headers = array(); // HTTP headers to send with fetch
+        $rss             = 0;       // parsed RSS object
+        $errormsg        = 0;       // errors, if any
+        
+        $cache_key       = $this->getUrl().MAGPIE_OUTPUT_ENCODING;
+        
+        if (!$cache->ERROR) {
+            // return cache HIT, MISS, or STALE
+            $cache_status = $cache->check_cache( $cache_key);
+        }
+                
+        // if object cached, and cache is fresh, return cached obj
+        if ($cache_status == 'HIT')
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	* Get Channel
 	*/
 	function getChannelTitle()

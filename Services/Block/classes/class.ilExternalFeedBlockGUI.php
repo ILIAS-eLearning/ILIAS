@@ -147,7 +147,11 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function fillDataSection()
 	{
-		if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		if ($this->getDynamic())
+		{
+			$this->setDataSection($this->getDynamicReload());
+		}
+		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
 		}
@@ -176,7 +180,13 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			return "";
 		}
 		
-		$this->feed->fetch();
+		// if no dynamic reload
+		if (!$this->getDynamic())
+		{
+			$this->feed->fetch();
+			$this->setData($this->feed->getItems());
+		}
+
 		//$this->setTitle($this->feed->getChannelTitle());
 		$this->setData($this->feed->getItems());
 
@@ -193,7 +203,91 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			$ilCtrl->clearParametersByClass("ilobjexternalfeedgui");
 		}
 
-		return parent::getHTML();
+		// JS enabler
+		$add = "";
+		if ($_SESSION["il_feed_js"] == "n" ||
+			($ilUser->getPref("il_feed_js") == "n" && $_SESSION["il_feed_js"] != "y"))
+		{
+			$add = $this->getJSEnabler();
+		}
+
+		return parent::getHTML().$add;
+	}
+
+	function getDynamic()
+	{
+		global $ilCtrl, $ilUser;
+		
+		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
+		{
+			if ($_SESSION["il_feed_js"] != "n" &&
+				($ilUser->getPref("il_feed_js") != "n" || $_SESSION["il_feed_js"] == "y"))
+			{
+				// do not get feed dynamically, if cache hit is given.
+				if (!$this->feed->checkCacheHit())
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	function getDynamicReload()
+	{
+		global $ilCtrl, $lng;
+		
+		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
+			"block_feed_".$this->getBlockId());
+
+		$rel_tpl = new ilTemplate("tpl.dynamic_reload.html", true, true, "Services/Feeds");
+		$rel_tpl->setVariable("TXT_LOADING", $lng->txt("feed_loading_feed"));
+		$rel_tpl->setVariable("BLOCK_ID", "block_feed_".$this->getBlockId());
+		$rel_tpl->setVariable("TARGET", 
+			$ilCtrl->getLinkTargetByClass("ilcolumngui", "updateBlock", true));
+			
+		// no JS
+		$rel_tpl->setVariable("TXT_FEED_CLICK_HERE", $lng->txt("feed_no_js_click_here"));
+		$rel_tpl->setVariable("TARGET_NO_JS", 
+			$ilCtrl->getLinkTargetByClass("ilexternalfeedblockgui", "disableJS"));
+
+		return $rel_tpl->get();
+	}
+	
+	function getJSEnabler()
+	{
+		global $ilCtrl, $lng;
+		
+		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
+			"block_feed_".$this->getBlockId());
+
+		$rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "Services/Feeds");
+		$rel_tpl->setVariable("BLOCK_ID", "block_feed_".$this->getBlockId());
+		$rel_tpl->setVariable("TARGET", 
+			$ilCtrl->getLinkTargetByClass("ilexternalfeedblockgui", "enableJS", true));
+			
+		return $rel_tpl->get();
+	}
+	
+	
+	function disableJS()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$_SESSION["il_feed_js"] = "n";
+		$ilUser->writePref("il_feed_js", "n");
+		$ilCtrl->returnToParent($this);
+	}
+	
+	function enableJS()
+	{
+		global $ilUser;
+		
+		$_SESSION["il_feed_js"] = "y";
+		$ilUser->writePref("il_feed_js", "y");
+		echo $this->getHTML();
+		exit;
 	}
 
 	/**

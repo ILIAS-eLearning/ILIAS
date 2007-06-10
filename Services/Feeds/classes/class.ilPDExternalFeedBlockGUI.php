@@ -221,7 +221,11 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			if ($_SESSION["il_feed_js"] != "n" &&
 				($ilUser->getPref("il_feed_js") != "n" || $_SESSION["il_feed_js"] == "y"))
 			{
-				return true;
+				// do not get feed dynamically, if cache hit is given.
+				if (!$this->feed->checkCacheHit())
+				{
+					return true;
+				}
 			}
 		}
 		
