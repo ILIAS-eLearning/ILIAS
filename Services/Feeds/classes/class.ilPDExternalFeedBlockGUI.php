@@ -171,7 +171,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		
 		$feed_set = new ilSetting("feed");
 		
-		if ($ilSetting->get("block_limit_pdfeeds") == 0)
+		if ($ilSetting->get("block_limit_pdfeed") == 0)
 		{
 			return "";
 		}
