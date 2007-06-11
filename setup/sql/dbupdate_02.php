@@ -1582,3 +1582,23 @@ ALTER TABLE  `qpl_questions` ADD INDEX (  `original_id` );
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1014>
+<?php
+
+$found = false;
+$query = 'SHOW COLUMNS FROM `ldap_role_group_mapping`';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->Field == 'mapping_info_type')
+	{
+		$found = true;
+		break;
+	}
+}
+if(!$found)
+{
+	$query = "ALTER TABLE `ldap_role_group_mapping` ADD `mapping_info_type` TINYINT( 1 ) DEFAULT '1' NOT NULL AFTER `mapping_info`";
+	$res = $ilDB->query($query);
+}
+?>
