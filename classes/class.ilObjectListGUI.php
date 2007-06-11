@@ -544,7 +544,7 @@ class ilObjectListGUI
 	function getNoticeProperties()
 	{
 		$this->notice_prop = array();
-		if($infos = $this->ldap_mapping->getInfoStrings($this->obj_id))
+		if($infos = $this->ldap_mapping->getInfoStrings($this->obj_id,true))
 		{
 			foreach($infos as $info)
 			{

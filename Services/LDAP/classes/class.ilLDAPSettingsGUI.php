@@ -132,7 +132,14 @@ class ilLDAPSettingsGUI
 		$this->tpl->setVariable('CHECK_MEMBERISDN',ilUtil::formCheckbox($mapping_data[0]['memberisdn'],
 			'mapping[0][memberisdn]',
 			1));
-		$this->tpl->setVariable('INFO',$mapping_data[0]['info']);
+		$this->tpl->setVariable('MAPPING_INFO',$mapping_data[0]['info']);
+		
+		$info_type_checked = isset($mapping_data[0]['info_type']) ? $mapping_data[0]['info_type'] : 1;
+		
+		$this->tpl->setVariable('TXT_MAPPING_INFO_TYPE',$this->lng->txt('ldap_mapping_info_type'));
+		$this->tpl->setVariable('CHECK_MAPPING_INFO_TYPE',ilUtil::formCheckbox($info_type_checked,
+			'mapping[0][info_type]',
+			1));
 		
 		unset($mapping_data[0]);
 		
@@ -170,8 +177,12 @@ class ilLDAPSettingsGUI
 				$this->tpl->setVariable('TXT_ROW_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
 				$this->tpl->setVariable('ROW_CHECK_MEMBERISDN',ilUtil::formCheckbox($data['member_isdn'],
 					'mapping['.$mapping_id.'][memberisdn]',
-				1));
+					1));
 				$this->tpl->setVariable('ROW_INFO',ilUtil::prepareFormOutput($data['info']));
+				$this->tpl->setVariable('TXT_ROW_INFO_TYPE',$this->lng->txt('ldap_mapping_info_type'));
+				$this->tpl->setVariable('ROW_CHECK_INFO_TYPE',ilUtil::formCheckbox($data['info_type'],
+					'mapping['.$mapping_id.'][info_type]',
+					1));
 				$this->tpl->parseCurrentBlock();
 			}
 			
@@ -722,9 +733,7 @@ class ilLDAPSettingsGUI
 	 		$new_mapping[$mapping_id]['obj_title'] = $ilObjDataCache->lookupTitle($obj_id); 
 			$new_mapping[$mapping_id]['mapping_id'] = $mapping_id;
 	 	}
-		
-	 	
-	 	return $new_mapping;
+	 	return ilUtil::sortArray($new_mapping,'obj_title','DESC');
 		
 	}
 }
