@@ -7340,3 +7340,5 @@ search#:#search_page#:#Results:
 search#:#search_page_next#:#Next
 search#:#search_page_prev#:#Previous
 ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop
+crs#:#crs_show_link_session#:#Show sessions
+crs#:#crs_hide_link_session#:#Hide sessions

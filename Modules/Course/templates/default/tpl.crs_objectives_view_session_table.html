@@ -1,0 +1,46 @@
+<br />
+<table class="fullwidth_invisible">
+	<tr>
+	  <td>
+		<table class="fullwidth">
+			<tr class="tbltitle">
+				<td class="tbltitle" align="left" colspan="2">&nbsp;{TBL_TITLE_SESSION}</td>
+			</tr>
+			<tr class="tblheader">
+				<td class="std" nowrap="nowrap" width="5%" >
+					<div align="center">{TBL_HEADER_NAME_SESSION}</div>
+				</td>
+				<td class="std" nowrap="nowrap" align="center" width="95%" >{TBL_HEADER_NAME_SESSION_1}</td>
+			</tr>
+			<!-- BEGIN session_row -->
+			<tr class="std">
+				<td class="{OBJ_CLASS_CENTER_SESSION}"><b>{OBJ_NR_SESSION}</b></td>
+				<td class="{OBJ_CLASS_SESSION}">
+				  	<div style="float: left;">
+						<a href="{READ_LINK_SESSION}" target="{READ_TARGET_SESSION}">{READ_TITLE_SESSION}</a>
+						<!--  BEGIN session_desc_block -->
+						<div class="il_Description">{SESSION_DESC}</div>
+						<!--  END session_desc_block -->
+						<div class="il_ItemProperty">{TXT_EVENT_DATE} {EVENT_DATE}</div>
+					</div>
+					<div style="float: right;">
+				  		<!-- BEGIN session_link -->
+				  		<div class="il_ContainerItemCommand">
+				  			<a class="il_ContainerItemCommand" href="{LINK_SESSION}">{TXT_LINK_SESSION}</a>
+						</div>
+						<!-- END session_link -->
+					</div>
+				</td>
+			</tr>
+			<!-- END session_row -->
+			</table>
+		  </td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right">{TXT_HIDE_SHOW_SESSION}
+				<a href="{LINK_HIDE_SHOW_SESSION}">
+				<img src="{HIDE_SHOW_IMG_SESSION}" alt="{TXT_HIDE_SHOW_SESSION}" title="{TXT_HIDE_SHOW_SESSION}" border="0" />
+				</a>
+			</td>
+		</tr>
+	</table>
