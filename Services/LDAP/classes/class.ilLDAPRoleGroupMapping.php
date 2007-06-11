@@ -72,21 +72,34 @@ class ilLDAPRoleGroupMapping
 	
 	/**
 	 * Get info string for object
+	 * If check info type is enabled this function will check if the info string is visible in the repository.
 	 *
 	 * @access public
 	 * @param int object id
+	 * @param bool check info type
 	 * 
 	 */
-	public function getInfoStrings($a_obj_id)
+	public function getInfoStrings($a_obj_id,$a_check_type = false)
 	{
 	 	if(!$this->active_servers)
 	 	{
 	 		return false;
 	 	}
-	 	if(isset($this->mapping_info[$a_obj_id]))
-	 	{
-	 		return $this->mapping_info[$a_obj_id];
-	 	}
+		if($a_check_type)
+		{
+		 	if(isset($this->mapping_info_strict[$a_obj_id]) and is_array($this->mapping_info_strict[$a_obj_id]))
+	 		{
+		 		return $this->mapping_info_strict[$a_obj_id];
+			}
+		}
+		else
+		{
+		 	if(isset($this->mapping_info[$a_obj_id]) and is_array($this->mapping_info[$a_obj_id]))
+		 	{
+		 		return $this->mapping_info[$a_obj_id];
+		 	}
+			
+		}
 	 	return false;
 	}
 	
@@ -228,6 +241,7 @@ class ilLDAPRoleGroupMapping
 			$this->mappings = ilLDAPRoleGroupMappingSettings::_getAllActiveMappings();
 		}
 		$this->mapping_info = array();
+		$this->mapping_info_strict = array();
 		foreach($this->mappings as $mapping)
 		{
 			foreach($mapping as $key => $data)
@@ -235,6 +249,10 @@ class ilLDAPRoleGroupMapping
 				if(strlen($data['info']) and $data['object_id'])
 				{
 					$this->mapping_info[$data['object_id']][] = $data['info'];
+				}
+				if(strlen($data['info']) && ($data['info_type'] == ilLDAPRoleGroupMappingSettings::MAPPING_INFO_ALL))
+				{
+					$this->mapping_info_strict[$data['object_id']][] = $data['info'];
 				}
 			}
 		}

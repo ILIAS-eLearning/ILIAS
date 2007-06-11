@@ -70,7 +70,8 @@
 		  <tr class="std">
 			<td class="option" align="top" colspan="1">{TXT_INFO}</td>
 			<td class="option_value">
-			  <textarea name="mapping[0][info]" cols="50" rows="3" class="std">{INFO}</textarea>
+			  <textarea name="mapping[0][info]" cols="50" rows="3" class="std">{MAPPING_INFO}</textarea>
+			  <br />{CHECK_MAPPING_INFO_TYPE}&nbsp;{TXT_MAPPING_INFO_TYPE}
 			  <div class="il_Description_no_margin">{TXT_INFO_INFO}</div>
 			</td>
 		  </tr>
@@ -101,16 +102,12 @@
 			  <div style="text-align: left;font-weight: normal">
 			  	<table border="0">
 			  		<tr>
-			  			<td><strong>{TXT_TITLE_TITLE}: </strong>
+			  			<td><strong>{TXT_TITLE_TITLE}: </strong></td>
 				  		<td>{TITLE_TITLE}</td>
 				  	</tr>
 			  		<tr>
-			  			<td><strong>{TXT_TITLE_ROLE}: </strong>
-				  		<td>{TITLE_ROLE}</td>
-				  	</tr>
-			  		<tr>
-			  			<td><strong>{TXT_TITLE_GROUP}: </strong>
-				  		<td>{TITLE_GROUP}</td>
+			  			<td><strong>{TXT_TITLE_ROLE} => {TXT_TITLE_GROUP}: </strong></td>
+			  			<td>{TITLE_ROLE} => {TITLE_GROUP}</td>
 				  	</tr>
 				</table>
 			 </div>
@@ -157,7 +154,8 @@
 							{ASS_INFO}
 						</td>
 						<td>
-						  <textarea name="mapping[{ROW_ID}][info]" rows="3" cols="48">{ROW_INFO}</textarea>
+						  <textarea name="mapping[{ROW_ID}][info]" rows="3" cols="48">{ROW_INFO}</textarea><br />
+						  {ROW_CHECK_INFO_TYPE}&nbsp;{TXT_ROW_INFO_TYPE}
 						</td>
 					</tr>
 				</table>

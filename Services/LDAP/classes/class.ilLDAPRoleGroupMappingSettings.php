@@ -36,6 +36,9 @@ class ilLDAPRoleGroupMappingSettings
 	private $db = null;
 	private $mappings = null;
 	
+	const MAPPING_INFO_ALL = 1;
+	const MAPPING_INFO_INFO_ONLY = 0;  
+	
 	/**
 	 * Private constructor (Singleton for each server_id)
 	 *
@@ -108,6 +111,7 @@ class ilLDAPRoleGroupMappingSettings
 			$data['member']			= $row->member_attribute;
 			$data['isdn']			= $row->member_isdn;
 			$data['info']			= $row->mapping_info;
+			$data['info_type']		= $row->mapping_info_type;
 			// read assigned object
 			$data['object_id'] 		= $rbacreview->getObjectOfRole($row->role);
 			
@@ -156,6 +160,7 @@ class ilLDAPRoleGroupMappingSettings
 			$this->mappings[$mapping_id]['role_name'] = ilUtil::stripSlashes($data['role']);
 			$this->mappings[$mapping_id]['role'] = $rbacreview->roleExists(ilUtil::stripSlashes($data['role']));
 			$this->mappings[$mapping_id]['info'] = ilUtil::stripSlashes($data['info']);
+			$this->mappings[$mapping_id]['info_type'] = ilUtil::stripSlashes($data['info_type']);
 		}
 	}
 	
@@ -211,7 +216,8 @@ class ilLDAPRoleGroupMappingSettings
 	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
 	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
 	 				"role = ".$this->db->quote($data['role']).", ".
-	 				"mapping_info = ".$this->db->quote($data['info']); 
+	 				"mapping_info = ".$this->db->quote($data['info']).", ".
+	 				"mapping_info_type = ".$this->db->quote($data['info_type']);
 	 				
 	 		
 	 			$this->db->query($query);
@@ -225,7 +231,8 @@ class ilLDAPRoleGroupMappingSettings
 	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
 	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
 	 				"role = ".$this->db->quote($data['role']).", ".
-	 				"mapping_info = ".$this->db->quote($data['info'])." ".
+	 				"mapping_info = ".$this->db->quote($data['info']).", ".
+	 				"mapping_info_type = ".$this->db->quote($data['info_type'])." ".
 	 				"WHERE mapping_id = ".$this->db->quote($mapping_id);
 
 	 			$this->db->query($query);
@@ -293,6 +300,7 @@ class ilLDAPRoleGroupMappingSettings
 			$this->mappings[$row->mapping_id]['member_isdn'] 			= $row->member_isdn;
 			$this->mappings[$row->mapping_id]['role']					= $row->role;
 			$this->mappings[$row->mapping_id]['info']					= $row->mapping_info;
+			$this->mappings[$row->mapping_id]['info_type']				= $row->mapping_info_type;
 			if($ilObjDataCache->lookupType($row->role) == 'role')
 			{
 				$this->mappings[$row->mapping_id]['role_name']			= $ilObjDataCache->lookupTitle($row->role);
