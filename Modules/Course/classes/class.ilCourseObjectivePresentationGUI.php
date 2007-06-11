@@ -75,6 +75,15 @@ class ilCourseObjectivePresentationGUI
 		$this->$cmd();
 	}
 
+	/**
+	* Also called from ilCtrl (no command is performed here,
+	* just to get standard html)
+	*/
+	function &getHTML()
+	{
+		$this->view();
+	}
+
 	function view()
 	{
 		global $rbacsystem,$ilUser,$ilBench;

@@ -410,10 +410,11 @@ class ilCourseContentGUI
 			$this->tabs_gui->setSubTabActive('learners_view');
 			return $this->__forwardToObjectivePresentation();
 		}
-		
+
 		switch ($ilCtrl->getNextClass())
 		{	
 			case "ilcolumngui":
+
 				if ($_GET["col_return"] == "objectives")
 				{
 					$this->tabs_gui->setSubTabActive('learners_view');
@@ -433,6 +434,11 @@ class ilCourseContentGUI
 				return $this->__forwardToObjectivePresentation();
 		}
 		
+		$this->getDefaultView();
+	}
+		
+	function getDefaultView()
+	{
 		if($_SESSION['crs_timings_panel'][$this->course_obj->getId()])
 		{
 			return $this->editTimings();
@@ -529,6 +535,22 @@ class ilCourseContentGUI
 					$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
 					$this->setColumnSettings($column_gui);
 					$html = $ilCtrl->forwardCommand($column_gui);
+				}
+			}
+			else
+			{
+				if ($_GET["col_return"] == "objectives")
+				{
+					$this->tabs_gui->setSubTabActive('learners_view');
+					//return $this->__forwardToObjectivePresentation();
+					include_once 'Modules/Course/classes/class.ilCourseObjectivePresentationGUI.php';
+					$this->ctrl->setReturn($this,'');
+					$objectives_gui = new ilCourseObjectivePresentationGUI($this->container_gui);
+					$this->ctrl->getHTML($objectives_gui);
+				}
+				else
+				{
+					$this->getDefaultView();
 				}
 			}
 		}

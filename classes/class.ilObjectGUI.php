@@ -2480,6 +2480,11 @@ class ilObjectGUI
 						$this->html = $ilCtrl->forwardCommand($column_gui);
 					}
 				}
+				else
+				{
+					// normal command processing	
+					return $this->getContent();
+				}
 			}
 		}
 	}
