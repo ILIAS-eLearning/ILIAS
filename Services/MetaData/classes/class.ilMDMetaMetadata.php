@@ -245,7 +245,7 @@ class ilMDMetaMetadata extends ilMDBase
 	{
 		if($this->getMetaDataScheme())
 		{
-			$attr['Metadata-Scheme'] = $this->getMetaDataScheme();
+			$attr['MetadataScheme'] = $this->getMetaDataScheme();
 		}
 		if($this->getLanguageCode())
 		{

@@ -169,7 +169,9 @@ class ilMDTaxon extends ilMDBase
 		$writer->xmlElement('Taxon',array('Language' => $this->getTaxonLanguageCode()
 										  ? $this->getTaxonLanguageCode()
 										  : 'en',
-										  'Id'		 => $this->getTaxonId()),$this->getTaxon());
+										  'Id'		 => $this->getTaxonId() ? 
+										  	$this->getTaxonId() : ("ID".rand())),
+							$this->getTaxon());
 	}
 
 

@@ -193,7 +193,7 @@ class ilMDRights extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Rights',array('Costs' => $this->getCosts()
+		$writer->xmlStartTag('Rights',array('Cost' => $this->getCosts()
 											? $this->getCosts()
 											: 'No',
 											'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
