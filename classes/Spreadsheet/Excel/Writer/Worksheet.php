@@ -464,17 +464,21 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
     */
     function _initialize()
     {
-        // Open tmp file for storing Worksheet data
-        $fh = tmpfile();
-        if ( $fh) {
-            // Store filehandle
-            $this->_filehandle = $fh;
-        }
-        else {
-            // If tmpfile() fails store data in memory
-            $this->_using_tmpfile = false;
-        }
-    }
+			if ($this->_using_tmpfile == false) {
+				return;
+			}
+			// Open tmp file for storing Worksheet data
+			$tmp_filename = @tempnam("", "Worksheet_Data");
+			$fh = @fopen($tmp_filename, "w+b");
+			if ( $fh) {
+				// Store filehandle
+				$this->_filehandle = $fh;
+			}
+			else {
+				// If tmpfile() fails store data in memory
+				$this->_using_tmpfile = false;
+			}
+		}
     
     /**
     * Add data to the beginning of the workbook (note the reverse order)
