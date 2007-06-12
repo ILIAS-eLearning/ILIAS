@@ -1076,7 +1076,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$csvrow =& $this->object->processCSVRow($evalrow, TRUE, $separator);
 			$csv .= join($csvrow, $separator) . "\n";
 		}
-		ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->object->getTitle() . " .csv"));
+		ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->object->getTitle() . ".csv"));
 		exit;
 	}
 
