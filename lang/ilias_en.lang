@@ -3514,7 +3514,7 @@ common#:#select_mode#:#Select mode
 common#:#select_object_to_copy#:#Please select the object you want to copy
 common#:#select_object_to_link#:#Please select the object which you want to link
 common#:#select_password#:#Select a new password
-common#:#select_questionpool#:#Question pool for Test
+common#:#select_questionpool#:#Insert questions into
 common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
