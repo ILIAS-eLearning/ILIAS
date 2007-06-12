@@ -151,7 +151,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));

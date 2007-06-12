@@ -296,7 +296,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_MATCHING_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_MATCHING_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_matching_pair"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS_PICTURES", $this->lng->txt("match_terms_and_pictures"));
@@ -965,9 +965,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_matching_feedback.html", "Modules/TestQuestionPool");
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
 		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
 		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 

@@ -197,7 +197,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_CORRECTANSWERS", $this->object->getCorrectAnswers());
 		$this->tpl->setVariable("VALUE_POINTS", $this->object->getMaximumPoints());
 		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -668,9 +668,9 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_textsubset_feedback.html", "Modules/TestQuestionPool");
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
 		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
 		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 

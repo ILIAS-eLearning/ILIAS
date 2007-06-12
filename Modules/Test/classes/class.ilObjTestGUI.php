@@ -1574,7 +1574,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKED_SHOW_CANCEL", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($data["introduction"]));
+		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($data["introduction"])));
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
 		$this->tpl->setVariable("TEXT_POSTPONE", $this->lng->txt("tst_postpone"));
 		$this->tpl->setVariable("TEXT_POSTPONE_DESCRIPTION", $this->lng->txt("tst_postpone_description"));

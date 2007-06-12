@@ -328,9 +328,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "properties"));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
+		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getIntroduction())));
 		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
-		$this->tpl->setVariable("VALUE_OUTRO", $this->object->prepareTextareaOutput($this->object->getOutro()));
+		$this->tpl->setVariable("VALUE_OUTRO", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getOutro())));
 		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
 		$this->tpl->setVariable("ONLINE_DESCRIPTION", $this->lng->txt("online_description"));
 		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));

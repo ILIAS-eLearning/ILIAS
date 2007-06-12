@@ -106,7 +106,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
 		$this->tpl->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
 		$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
 		$this->tpl->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
