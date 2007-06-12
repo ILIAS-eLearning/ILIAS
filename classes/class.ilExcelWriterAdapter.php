@@ -31,37 +31,6 @@
 *
 */
 
-$result = @include_once 'Spreadsheet/Excel/Writer.php';
-if (!$result)
-{
-	include_once './classes/Spreadsheet/Excel/Writer.php';
-}
-
-class ilExcelWriter extends Spreadsheet_Excel_Writer
-{
-  /**
-  * Overwrite the _initialize method of Spreadsheet_Excel_Writer and add an
-	* @-sign to the tmpfile method to prevent error messages when open_basedir is
-	* used
-  *
-  * @access private
-  */
-  function _initialize()
-  {
-      // Open tmp file for storing Worksheet data
-      $fh = @tmpfile();
-      if ( $fh) {
-          // Store filehandle
-          $this->_filehandle = $fh;
-      }
-      else {
-          // If tmpfile() fails store data in memory
-          $this->_using_tmpfile = false;
-      }
-  }
-	
-}
-
 class ilExcelWriterAdapter
 {
 	var $workbook = null;
@@ -71,17 +40,22 @@ class ilExcelWriterAdapter
 
 	function ilExcelWriterAdapter($a_filename,$a_send = true)
 	{
+		$result = @include_once 'Spreadsheet/Excel/Writer.php';
+		if (!$result)
+		{
+			include_once './classes/Spreadsheet/Excel/Writer.php';
+		}
 		if($a_send)
 		{
-			$this->workbook =& new ilExcelWriter();
+			$this->workbook =& new Spreadsheet_Excel_Writer();
 			$this->workbook->send($a_filename);
 		}
 		else
 		{
-			$this->workbook =& new ilExcelWriter($a_filename);
+			$this->workbook =& new Spreadsheet_Excel_Writer($a_filename);
 		}
 		
-		if(strlen($tmp = @ini_get('upload_tmp_dir')))
+		if(strlen($tmp = ini_get('upload_tmp_dir')))
 		{
 			$this->workbook->setTempDir($tmp);
 		}
