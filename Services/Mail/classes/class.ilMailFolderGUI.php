@@ -282,7 +282,7 @@ class ilMailFolderGUI
 			{
 				if($mail['rcp_to'])
 				{
-					$this->tpl->setVariable("MAIL_LOGIN",$mail['rcp_to']);
+					$this->tpl->setVariable("MAIL_LOGIN",str_replace(",", ", ", $mail['rcp_to']));
 				}
 				else
 				{
