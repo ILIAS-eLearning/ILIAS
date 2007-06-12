@@ -178,7 +178,7 @@ class ilCourseMembers
 
 	function update($a_usr_id,$a_role,$a_status,$a_passed)
 	{
-		global $rbacadmin,$ilDB;
+		global $rbacadmin,$rbacreview,$ilDB;
 
 		$this->__read($a_usr_id);
 
@@ -211,7 +211,7 @@ class ilCourseMembers
 		}
 
 		// UPDATE RBAC ROLES
-		$hadMemberRole = $this->member_data["role"] == $this->ROLE_MEMBER;	
+		$hadRoleBefore = false;
 		// deassign old roles
 		switch($this->member_data["role"])
 		{
@@ -224,6 +224,7 @@ class ilCourseMembers
 				break;
 
 			case $this->ROLE_MEMBER:
+				$hadRoleBefore = $rbacreview->isAssigned($a_usr_id, $this->course_obj->getDefaultMemberRole());
 				$rbacadmin->deassignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
 				break;
 		}
@@ -243,7 +244,7 @@ class ilCourseMembers
 				{
 					$rbacadmin->assignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
 				}
-				if (!$hadMemberRole)
+				if (!$hadRoleBefore)
 					$this->addDesktopItem($a_usr_id);
 				break;
 		}
