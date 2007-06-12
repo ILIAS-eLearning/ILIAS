@@ -56,7 +56,7 @@ class ilExcelWriterAdapter
 		}
 		
 		if(strlen($tmp = ini_get('upload_tmp_dir')))
-		{
+		{ global $ilLog; $ilLog->write("Excel export: Set temp directory: $tmp for filename $a_filename");
 			$this->workbook->setTempDir($tmp);
 		}
 		
