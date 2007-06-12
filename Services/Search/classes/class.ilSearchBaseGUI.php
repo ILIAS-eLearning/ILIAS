@@ -49,7 +49,7 @@ class ilSearchBaseGUI
 	*/
 	function ilSearchBaseGUI()
 	{
-		global $ilCtrl,$ilias,$lng,$tpl;
+		global $ilCtrl,$ilias,$lng,$tpl,$ilMainMenu;
 
 		$this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
@@ -57,6 +57,7 @@ class ilSearchBaseGUI
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('search');
 
+		$ilMainMenu->setActive('search');
 		$this->settings =& new ilSearchSettings();
 	}
 
