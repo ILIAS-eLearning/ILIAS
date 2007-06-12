@@ -964,6 +964,13 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		
+		if($_GET['notification'])
+		{
+			if ($_GET['notification'] == 'enable') $this->enableThreadNotificationObject();
+			else if ($_GET['notification'] == 'disable') $this->disableThreadNotificationObject();
+		}
+		
+		
 		// delete post and its sub-posts
 		if ($_GET["action"] == "ready_delete" && $_POST["confirm"] != "")
 		{
@@ -1314,6 +1321,26 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass("ilforumexportgui", "printThread"));
 			$menutpl->setVariable("BTN_TARGET","target=\"_new\"");
 			$menutpl->setVariable("BTN_TXT", $lng->txt("forums_print_thread"));
+			$menutpl->parseCurrentBlock();
+		
+			// enable/disable notification
+			$menutpl->setCurrentBlock("btn_cell");
+			$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
+			$menutpl->setVariable("BTN_TARGET","target=\"$t_frame\"");
+			if ($frm->isThreadNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]))
+			{
+				$menutpl->setVariable("BTN_TXT", $lng->txt("forums_disable_notification"));
+				$this->ctrl->setParameter($this, "notification", "disable");
+			}
+			else
+			{
+				$menutpl->setVariable("BTN_TXT", $lng->txt("forums_enable_notification"));
+				$this->ctrl->setParameter($this, "notification", "enable");
+			}
+			$this->ctrl->setParameter($this, "thr_pk", $_GET['thr_pk']);
+			$menutpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTarget($this, "showThreadFrameset"));
+			$this->ctrl->clearParameters($this);
 			$menutpl->parseCurrentBlock();
 		
 			// ********************************************************************************
@@ -2539,9 +2566,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 		
 		$frm->enableThreadNotification($ilUser->getId(), $_GET["thr_pk"]);
-		ilUtil::sendInfo($lng->txt("forums_notification_enabled"));
+		if ($_GET["notification"] == "enable") ilUtil::sendInfo($lng->txt("forums_notification_enabled"), true);
 		
-		$this->showThreadNotificationObject();
+		if ($_GET["notification"] == "") $this->showThreadNotificationObject();
 	}
 
 	/**
@@ -2559,9 +2586,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($_GET["thr_pk"]));
 
 		$frm->disableThreadNotification($ilUser->getId(), $_GET["thr_pk"]);
-		ilUtil::sendInfo($lng->txt("forums_notification_disabled"));
+		if ($_GET["notification"] == "disable") ilUtil::sendInfo($lng->txt("forums_notification_disabled"), true);
 		
-		$this->showThreadNotificationObject();
+		if ($_GET["notification"] == "") $this->showThreadNotificationObject();
 	}
 
 	/**

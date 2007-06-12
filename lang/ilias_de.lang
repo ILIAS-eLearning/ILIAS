@@ -7341,3 +7341,4 @@ trac##:#trac_mode_test_finished_info#:#Users have to finish a test completely.##
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin/Persönlichen Schreibtisch anzeigen.
 crs#:#crs_show_link_session#:#Sitzungen anzeigen
 crs#:#crs_hide_link_session#:#Sitzungen verbergen
+forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
