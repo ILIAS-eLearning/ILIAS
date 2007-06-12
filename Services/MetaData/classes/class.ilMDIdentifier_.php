@@ -149,7 +149,7 @@ class ilMDIdentifier_ extends ilMDBase
 	function toXML(&$writer)
 	{
 		$writer->xmlElement('Identifier_',array('Catalog' => $this->getCatalog(),
-												'Entry'	  => $this->getEntry()));
+												'Entry'	  => $this->getEntry() ? $this->getEntry() : "ID1"));
 	}
 
 
