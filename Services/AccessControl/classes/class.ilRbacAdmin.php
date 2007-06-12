@@ -210,7 +210,7 @@ class ilRbacAdmin
 	*/
 	function assignUser($a_rol_id,$a_usr_id,$a_default = false)
 	{
-		global $ilDB;
+		global $ilDB,$rbacreview;
 		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
@@ -219,12 +219,11 @@ class ilRbacAdmin
 		}
 		
 		// check if already assigned user id and role_id
-		$q = "SELECT rol_id FROM rbac_ua WHERE rol_id = ".$ilDB->quote($a_rol_id) ." and usr_id = ".$ilDB->quote($a_usr_id);
-		$result = $this->ilDB->query($q);
-		$alreadyAssigned = $result->fetchRow(DB_FETCHMODE_OBJECT);		
+		$alreadyAssigned = $rbacreview->isAssigned($a_usr_id,$a_rol_id);	
 		
-		// enhanced: only if we haven't had this role
-		if (!$alreadyAssigned) {
+		// enhanced: only if we haven't had this role for this user
+		if (!$alreadyAssigned) 
+		{
 			$q = "REPLACE INTO rbac_ua ".
 			 "VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($a_rol_id).")";
 
