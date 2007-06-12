@@ -179,14 +179,14 @@ class ilSurveyEvaluationGUI
 		$format_percent = "";
 		$format_datetime = "";
 		$format_title = "";
-		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
-		$surveyname = preg_replace("/\s/", "_", $object_title);
+		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
 
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
 				include_once "./classes/class.ilExcelWriterAdapter.php";
-				$adapter = new ilExcelWriterAdapter("$surveyname.xls");
+				$excelfile = ilUtil::ilTempnam();
+				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 				$workbook = $adapter->getWorkbook();
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
@@ -275,6 +275,7 @@ class ilSurveyEvaluationGUI
 			case TYPE_XLS:
 				// Let's send the file
 				$workbook->close();
+				ilUtil::deliverFile($excelfile, "$surveyname.xls", "application/vnd.ms-excel");
 				exit();
 				break;
 			case TYPE_SPSS:
@@ -378,9 +379,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function exportUserSpecificResults($export_format)
 	{
-		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
-		$surveyname = preg_replace("/\s/", "_", $object_title);
-
+		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
 		$csvfile = array();
 		$csvrow = array();
 		$questions = array();
@@ -430,7 +429,8 @@ class ilSurveyEvaluationGUI
 		{
 			case TYPE_XLS:
 				include_once "./classes/class.ilExcelWriterAdapter.php";
-				$adapter = new ilExcelWriterAdapter("$surveyname.xls");
+				$excelfile = ilUtil::ilTempnam();
+				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 				$workbook = $adapter->getWorkbook();
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
@@ -479,6 +479,7 @@ class ilSurveyEvaluationGUI
 					$row++;
 				}
 				$workbook->close();
+				ilUtil::deliverFile($excelfile, "$surveyname.xls", "application/vnd.ms-excel");
 				exit();
 				break;
 			case TYPE_SPSS:
