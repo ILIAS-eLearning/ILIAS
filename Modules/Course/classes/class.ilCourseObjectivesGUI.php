@@ -300,8 +300,14 @@ class ilCourseObjectivesGUI
 			if($node['type'] == 'lm')
 			{
 				include_once('Modules/LearningModule/classes/class.ilLMObject.php');
-				foreach($chapters = $this->__getAllChapters($node['child']) as $chapter)
+				foreach($chapters = $this->__getAllChapters($node['child']) as $chapter => $depth)
 				{
+					for($i = $depth;$i > 1;$i--)
+					{
+						$this->tpl->touchBlock('begin_depth');
+						$this->tpl->touchBlock('end_depth');
+					}
+				
 					$this->tpl->setCurrentBlock('chapter');
 					$this->tpl->setVariable('CHAPTER_TITLE',ilLMObject::_lookupTitle($chapter));
 					$this->tpl->setVariable('CHECK_CHAPTER',ilUtil::formCheckbox(
@@ -1173,9 +1179,12 @@ class ilCourseObjectivesGUI
 
 		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId())) as $node)
 		{
+		
 			if($node['type'] == 'st')
 			{
-				$chapter[] = $node['child'];
+				$depth = $node['depth'] - 1;
+				$child = $node['child'];
+				$chapter[$child] = $depth;
 			}
 		}
 
