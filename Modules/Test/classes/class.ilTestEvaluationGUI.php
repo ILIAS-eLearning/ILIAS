@@ -704,7 +704,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	function exportToExcel($filtertext, $passedonly)
 	{
 		include_once "./classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter(ilUtil::getASCIIFilename($this->object->getTitle() . ".xls"));
+		$excelfile = ilUtil::ilTempnam();
+		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 		$workbook = $adapter->getWorkbook();
 		// Creating a worksheet
 		$format_bold =& $workbook->addFormat();
@@ -889,6 +890,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 		}
 		$workbook->close();
+		ilUtil::deliverFile($excelfile, ilUtil::getASCIIFilename($this->object->getTitle() . ".xls"), "application/vnd.ms-excel");
 		exit;
 	}
 	
