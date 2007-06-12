@@ -203,7 +203,7 @@ class ilCourseMembers
 				{
 					$this->ilErr->raiseError($this->lng->txt("crs_status_not_allowed",$this->ilErr->MESSAGE));
 				}
-				$this->addDesktopItem($a_usr_id);
+		//		$this->addDesktopItem($a_usr_id);
 
 			default:
 				$this->ilErr->raiseError($this->lng->txt("crs_role_not_allowed",$this->ilErr->MESSAGE));
@@ -211,7 +211,7 @@ class ilCourseMembers
 		}
 
 		// UPDATE RBAC ROLES
-
+		$hadMemberRole = $this->member_data["role"] == $this->ROLE_MEMBER;	
 		// deassign old roles
 		switch($this->member_data["role"])
 		{
@@ -243,6 +243,8 @@ class ilCourseMembers
 				{
 					$rbacadmin->assignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
 				}
+				if (!$hadMemberRole)
+					$this->addDesktopItem($a_usr_id);
 				break;
 		}
 

@@ -218,22 +218,32 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
-		$q = "REPLACE INTO rbac_ua ".
-			 "VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($a_rol_id).")";
-		$res = $this->ilDB->query($q);
-
-		// Finally assign desktop items assigned to this role
-		include_once './classes/class.ilRoleDesktopItem.php';
-
-		$role_desk_item_obj =& new ilRoleDesktopItem($a_rol_id);
+		// check if already assigned user id and role_id
+		$q = "SELECT rol_id FROM rbac_ua WHERE rol_id = ".$ilDB->quote($a_rol_id) ." and usr_id = ".$ilDB->quote($a_usr_id);
+		$result = $this->ilDB->query($q);
+		$alreadyAssigned = $result->fetchRow(DB_FETCHMODE_OBJECT);		
 		
-		if(is_object($tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id,false)))
-		{
-			foreach($role_desk_item_obj->getAll() as $item_data)
+		// enhanced: only if we haven't had this role
+		if (!$alreadyAssigned) {
+			$q = "REPLACE INTO rbac_ua ".
+			 "VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($a_rol_id).")";
+
+			 // Finally assign desktop items assigned to this role
+
+			 $res = $this->ilDB->query($q);
+		
+			include_once './classes/class.ilRoleDesktopItem.php';
+	
+			$role_desk_item_obj =& new ilRoleDesktopItem($a_rol_id);
+			
+			if(is_object($tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id,false)))
 			{
-				if(!$tmp_user->isDesktopItem($item_data['item_id'],$item_data['item_type']))
+				foreach($role_desk_item_obj->getAll() as $item_data)
 				{
-					$tmp_user->addDesktopItem($item_data['item_id'],$item_data['item_type']);
+					if(!$tmp_user->isDesktopItem($item_data['item_id'],$item_data['item_type']))
+					{
+						$tmp_user->addDesktopItem($item_data['item_id'],$item_data['item_type']);
+					}
 				}
 			}
 		}
