@@ -131,8 +131,9 @@ class ilChatRoom
 		global $ilDB;
 		
 		$query = "REPLACE INTO chat_invitations ".
-			"SET room_id = ".$ilDB->quote( $this->getRoomId() ).",".
-			"guest_id = ".$ilDB->quote( $a_id )."";
+			"SET room_id = ".$ilDB->quote( $this->getRoomId() ).", ".
+			"guest_id = ".$ilDB->quote( $a_id ).", ".
+			"invitation_time = ".time();
 
 		$res = $this->ilias->db->query($query);
 	}

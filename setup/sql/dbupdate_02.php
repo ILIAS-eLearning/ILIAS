@@ -1602,3 +1602,7 @@ if(!$found)
 	$res = $ilDB->query($query);
 }
 ?>
+
+<#1015>
+ALTER TABLE `chat_invitations` ADD `invitation_time` INT( 11 ) NOT NULL AFTER `guest_informed` ;
+
