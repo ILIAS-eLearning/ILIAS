@@ -948,7 +948,7 @@ class ilEventAdministrationGUI
 		
 		foreach($events as $event_obj)
 		{			
-			$this->csv->addColumn($event_obj->getTitle());			
+			$this->csv->addColumn($event_obj->getTitle().' ('.$event_obj->getFirstAppointment()->appointmentToString().')');
 		}
 		
 		$this->csv->addRow();
