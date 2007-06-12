@@ -608,7 +608,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$cloze_text = $this->object->getClozeText();
-		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->object->prepareTextareaOutput($cloze_text));
+		$this->tpl->setVariable("VALUE_CLOZE_TEXT", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($cloze_text)));
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
 
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -1098,9 +1098,9 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_cloze_question_feedback.html", "Modules/TestQuestionPool");
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
 		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
 		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 

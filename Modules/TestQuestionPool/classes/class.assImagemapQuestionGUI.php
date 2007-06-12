@@ -370,7 +370,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 			$questiontext = $this->object->getQuestion();
-			$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
+			$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -958,14 +958,14 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 			$this->tpl->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($text, TRUE));
 			$this->tpl->setVariable("ANSWER_ID", $index);
-			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", $this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)), FALSE);
+			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)), FALSE));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
 		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
 		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE);
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
 		$this->tpl->setVariable("FEEDBACK_ANSWERS", $this->lng->txt("feedback_answers"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
