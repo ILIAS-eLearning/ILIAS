@@ -1592,7 +1592,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
-			$qpls =& ilObjQuestionPool::_getAvailableQuestionpools(true);
+			$qpls =& ilObjQuestionPool::_getAvailableQuestionpools(TRUE, FALSE, FALSE, TRUE);
 			if (count($qpls) > 0)
 			{
 				foreach ($qpls as $key => $value)
