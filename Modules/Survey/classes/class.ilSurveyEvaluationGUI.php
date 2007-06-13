@@ -310,6 +310,7 @@ class ilSurveyEvaluationGUI
 
 		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
+		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$counter = 0;
 		$classes = array("tblrow1", "tblrow2");
 		$questions =& $this->object->getSurveyQuestions();
@@ -515,6 +516,7 @@ class ilSurveyEvaluationGUI
 			return $this->exportUserSpecificResults($_POST["export_format"]);
 		}
 
+		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$userResults =& $this->object->getUserSpecificResults();
 		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
