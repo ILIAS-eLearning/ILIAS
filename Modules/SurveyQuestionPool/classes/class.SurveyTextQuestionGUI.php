@@ -257,8 +257,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 		$template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
 		$template->setVariable("TEXTBOX", $this->lng->txt("textbox"));
-		$template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth() . "em");
-		$template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight() . "em");
+		$template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth()*16);
+		$template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight()*16);
 		$template->setVariable("QUESTION_ID", $this->object->getId());
 		if ($this->object->getMaxChars())
 		{
