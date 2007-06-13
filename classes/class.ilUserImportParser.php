@@ -1188,6 +1188,12 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getLanguage())) $updateUser->setLanguage($this->userObj->getLanguage());
 							if (! is_null($this->userObj->getExternalAccount())) $updateUser->setExternalAccount($this->userObj->getExternalAccount());
 							if (! is_null($this->userObj->getAuthMode())) $updateUser->setAuthMode($this->userObj->getAuthMode());
+							
+							if (! is_null($this->userObj->getInstantMessengerId("aim"))) $updateUser->setInstantMessengerId("aim", $this->userObj->getInstantMessengerId("aim"));
+							if (! is_null($this->userObj->getInstantMessengerId("msn"))) $updateUser->setInstantMessengerId("msn", $this->userObj->getInstantMessengerId("msn"));
+							if (! is_null($this->userObj->getInstantMessengerId("icq"))) $updateUser->setInstantMessengerId("icq", $this->userObj->getInstantMessengerId("icq"));
+							if (! is_null($this->userObj->getInstantMessengerId("yahoo"))) $updateUser->setInstantMessengerId("yahoo", $this->userObj->getInstantMessengerId("yahoo"));
+							if (! is_null($this->userObj->getInstantMessengerId("skype"))) $updateUser->setInstantMessengerId("skype", $this->userObj->getInstantMessengerId("skype"));
 
 							// save user preferences (skin and style)
 							$updateUser->setPref("skin", $this->userObj->getPref("skin"));
