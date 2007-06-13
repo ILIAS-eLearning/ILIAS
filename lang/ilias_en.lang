@@ -331,6 +331,7 @@ assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reac
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#edit_content#:#Edit Content
 assessment#:#edit_properties#:#Edit Properties
+assessment#:#edit_test_questions#:#Edit Test Questions
 assessment#:#enable_javascript#:#Click to enable JavaScript support
 assessment#:#disable_javascript#:#Click to disable JavaScript support
 assessment#:#end_tag#:#End Tag

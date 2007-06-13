@@ -2325,6 +2325,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function randomselectObject()
 	{
 		global $ilUser;
+		$this->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(false);
 		$this->tpl->setCurrentBlock("option");
@@ -2372,6 +2373,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function createRandomSelectionObject()
 	{
+		$this->getQuestionsSubTabs();
 		$question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", "Modules/Test");
 		$color_class = array("tblrow1", "tblrow2");
@@ -2740,6 +2742,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function createQuestionObject()
 	{
 		global $ilUser;
+		$this->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools();
 		if (count($questionpools) == 0)
@@ -2870,6 +2873,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function removeQuestionsObject()
 	{
+		$this->getQuestionsSubTabs();
 		$checked_questions = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/cb_(\d+)/", $key, $matches)) {
@@ -2998,6 +3002,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
+		$this->getQuestionsSubTabs();
 		if ($this->object->isRandomTest())
 		{
 			$this->randomQuestionsObject();
@@ -4347,7 +4352,7 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
-
+		$this->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", "Modules/Test");
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 		
@@ -5210,21 +5215,26 @@ class ilObjTestGUI extends ilObjectGUI
 		$output_gui->certificateEditor();
 	}
 
-	function getOutputSubTabs()
+	function getQuestionsSubTabs()
 	{
 		global $ilTabs;
 		
-		// export subtab
-		$ilTabs->addSubTabTarget("export",
-			 $this->ctrl->getLinkTarget($this,'export'),
-			 array("export", "createExportFile", "confirmDeleteExportFile",
-			 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
+		// questions subtab
+		$ilTabs->addSubTabTarget("edit_test_questions",
+			 $this->ctrl->getLinkTarget($this,'questions'),
+			 array("questions", "browseForQuestions", "questionBrowser", "createQuestion", 
+			 "randomselect", "filter", "resetFilter", "insertQuestions",
+			 "back", "createRandomSelection", "cancelRandomSelect",
+			 "insertRandomSelection", "removeQuestions", "moveQuestions",
+			 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
+			 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
+			 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"), 
 			 "");
 			 
-		// print subtab
+		// print view subtab
 		if (!$this->object->isRandomTest())
 		{
-			$ilTabs->addSubTabTarget("print",
+			$ilTabs->addSubTabTarget("print_view",
 				 $this->ctrl->getLinkTarget($this,'print'),
 				 "print", "");
 		}
@@ -5415,7 +5425,6 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 			case "export":
 			case "print":
-				$this->getOutputSubTabs();
 				break;
 			case "statistics":
 			case "eval_a":
@@ -5454,7 +5463,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 "insertRandomSelection", "removeQuestions", "moveQuestions",
 					 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
 					 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-					 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"), 
+					 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode", "print"), 
 					 "", "", $force_active);
 			}
 
@@ -5506,12 +5515,11 @@ class ilObjTestGUI extends ilObjectGUI
 					 "showPassOverview", "showUserAnswers"), 
 					 "");
 
-				// output tab
-				$tabs_gui->addTarget("output",
+				// export tab
+				$tabs_gui->addTarget("export",
 					 $this->ctrl->getLinkTarget($this,'export'),
 					 array("export", "createExportFile", "confirmDeleteExportFile",
-					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile",
-					 "print"),
+					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
 					 "");
 
 				include_once "./classes/class.ilObjAssessmentFolder.php";
