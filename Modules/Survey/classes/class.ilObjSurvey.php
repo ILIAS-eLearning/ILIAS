@@ -1885,27 +1885,10 @@ class ilObjSurvey extends ilObject
 * @return array An array of survey question pool titles
 * @access public
 */
-	function &getQuestionpoolTitles() 
+	function &getQuestionpoolTitles($could_be_offline = FALSE, $showPath = FALSE) 
 	{
-		global $rbacsystem;
-		global $ilDB;
-		
-		$qpl_titles = array();
-		// get all available questionpools and remove the trashed questionspools
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
-			if ($rbacsystem->checkAccess("read", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
-			{
-				include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
-				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id))
-				{
-					$qpl_titles["$row->obj_id"] = $row->title;
-				}
-			}
-		}
-		return $qpl_titles;
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+		return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $could_be_offline, $showPath);
 	}
 	
 /**
@@ -2792,33 +2775,10 @@ class ilObjSurvey extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false)
+	function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = FALSE)
 	{
-		global $rbacsystem;
-		global $ilDB;
-		
-		$result_array = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
-			if ($rbacsystem->checkAccess("read", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
-			{
-				include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
-				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
-				{
-					if ($use_obj_id)
-					{
-						$result_array[$row->obj_id] = $row->title;
-					}
-					else
-					{
-						$result_array[$row->ref_id] = $row->title;
-					}
-				}
-			}
-		}
-		return $result_array;
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+		return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_obj_id, $could_be_offline, $showPath);
 	}
 	
 /**
@@ -3657,26 +3617,6 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 
-	function &getForbiddenQuestionpools()
-	{
-		global $rbacsystem;
-		global $ilDB;
-		
-		// get all available questionpools and remove the trashed questionspools
-		$forbidden_pools = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
-			include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
-			if (!$rbacsystem->checkAccess("read", $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)) || (!ilObjSurveyQuestionPool::_lookupOnline($row->obj_id)))
-			{
-				array_push($forbidden_pools, $row->obj_id);
-			}
-		}
-		return $forbidden_pools;
-	}
-	
 /**
 * Calculates the data for the output of the question browser
 *
@@ -3684,14 +3624,16 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
+	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
 	{
 		global $ilUser;
 		global $ilDB;
 		
 		$where = "";
-		if (strlen($filter_text) > 0) {
-			switch($sel_filter_type) {
+		if (strlen($filter_text) > 0) 
+		{
+			switch($sel_filter_type) 
+			{
 				case "title":
 					$where = " AND survey_question.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
@@ -3717,56 +3659,47 @@ class ilObjSurvey extends ilObject
     // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) 
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		switch($sort) 
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-      foreach ($sortoptions as $key => $value) 
-			{
-        switch($key) 
-				{
-          case "title":
-            $order = " ORDER BY title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "description":
-            $order = " ORDER BY description $value";
-            $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "type":
-            $order = " ORDER BY questiontype_id $value";
-            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "author":
-            $order = " ORDER BY author $value";
-            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "created":
-            $order = " ORDER BY created $value";
-            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "updated":
-            $order = " ORDER BY TIMESTAMP14 $value";
-            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-					case "qpl":
-						$order = " ORDER BY obj_fi $value";
-            $images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-						break;
-        }
-      }
-    }
+			case "title":
+				$order = " ORDER BY title $sortorder";
+				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "description":
+				$order = " ORDER BY description $sortorder";
+				$images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "type":
+				$order = " ORDER BY questiontype_id $sortorder";
+				$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "author":
+				$order = " ORDER BY author $sortorder";
+				$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "created":
+				$order = " ORDER BY created $sortorder";
+				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "updated":
+				$order = " ORDER BY TIMESTAMP14 $sortorder";
+				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "qpl":
+				$order = " ORDER BY obj_fi $sortorder";
+				$images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
 		if ($maxentries < 1)
 		{
 			$maxentries = 9999;
 		}
 
-		$forbidden_pools =& $this->getForbiddenQuestionpools();
+		$spls =& $this->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
 		$forbidden = "";
-		if (count($forbidden_pools))
-		{
-			$forbidden = " AND survey_question.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
-		}
+		$forbidden = " AND survey_question.obj_fi IN (" . join(array_keys($spls), ",") . ")";
 		if ($completeonly)
 		{
 			$forbidden .= " AND survey_question.complete = " . $ilDB->quote("1");
@@ -3777,12 +3710,12 @@ class ilObjSurvey extends ilObject
 		{
 			$existing = " AND survey_question.question_id NOT IN (" . join($existing_questions, ",") . ")";
 		}
-	  $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND ISNULL(survey_question.original_id) " . " $where$order$limit";
-    $query_result = $ilDB->query($query);
 		$limit = " LIMIT $startrow, $maxentries";
-	  $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
-    $query_result = $ilDB->query($query);
+		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order";
+		$query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
+		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+		$query_result = $ilDB->query($query);
 		if ($startrow > $max -1)
 		{
 			$startrow = $max - ($max % $maxentries);
@@ -3827,7 +3760,7 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function getQuestionblocksTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
+	function getQuestionblocksTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -3843,24 +3776,18 @@ class ilObjSurvey extends ilObject
     // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) 
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		switch($sort) 
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-      foreach ($sortoptions as $key => $value) 
-			{
-        switch($key) 
-				{
-          case "title":
-						$order = " ORDER BY survey_questionblock.title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-					case "svy":
-						$order = " ORDER BY survey_survey_question.survey_fi $value";
-            $images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-						break;
-        }
-      }
-    }
+			case "title":
+				$order = " ORDER BY survey_questionblock.title $sortorder";
+				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "svy":
+				$order = " ORDER BY survey_survey_question.survey_fi $sortorder";
+				$images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
 		if ($order)
 		{
@@ -4239,30 +4166,32 @@ class ilObjSurvey extends ilObject
 */
 	function &_getAvailableSurveys($use_object_id = false)
 	{
-		global $rbacsystem;
+		global $ilUser;
 		global $ilDB;
-		
+
 		$result_array = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'svy' ORDER BY object_data.title";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
-			include_once "./classes/class.ilObject.php";
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
+		$surveys = ilUtil::_getObjectsByOperations("svy","write", $ilUser->getId(), -1);
+		if (count($surveys))
+		{
+			$titles = ilObject::_prepareCloneSelection($surveys, "svy");
+			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) ORDER BY object_data.title",
+				implode(",", $surveys)
+			);
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($use_object_id)
 				{
-					$result_array[$row->obj_id] = $row->title;
+					$result_array[$row["obj_id"]] = $titles[$row["ref_id"]];
 				}
 				else
 				{
-					$result_array[$row->ref_id] = $row->title;
+					$result_array[$row["ref_id"]] = $titles[$row["ref_id"]];
 				}
 			}
 		}
 		return $result_array;
-	}
-	
+	}	
 	
 	/**
 	 * Clone object
