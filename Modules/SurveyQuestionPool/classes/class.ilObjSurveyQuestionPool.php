@@ -889,5 +889,54 @@ class ilObjSurveyQuestionPool extends ilObject
 		return $questiontypes;
 	}
 		
+	/**
+	* Returns the available question pools for the active user
+	*
+	* Returns the available question pools for the active user
+	*
+	* @return array The available question pools
+	* @access public
+	*/
+	function &_getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE)
+	{
+		global $ilUser;
+		global $ilDB;
+
+		$result_array = array();
+		$qpls = ilUtil::_getObjectsByOperations("spl","read", $ilUser->getId(), -1);
+		$titles = ilObject::_prepareCloneSelection($qpls, "spl");
+		if (count($qpls))
+		{
+			$query = "";
+			if ($could_be_offline)
+			{
+				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
+					implode(",", $qpls)
+				);
+			}
+			else
+			{
+				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) AND survey_questionpool.online = '1' AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
+					implode(",", $qpls)
+				);
+			}
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$title = (($showPath) ? $titles[$row["ref_id"]] : $row["title"]);
+
+				if ($use_object_id)
+				{
+					$result_array[$row["obj_id"]] = $title;
+				}
+				else
+				{
+					$result_array[$row["ref_id"]] = $title;
+				}
+			}
+		}
+		return $result_array;
+	}
+
 } // END class.ilSurveyObjQuestionPool
 ?>
