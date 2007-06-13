@@ -311,7 +311,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		foreach ($available_tests as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("sel_test_row");
-			$this->tpl->setVariable("TXT_OPTION", ilUtil::prepareFormOutput($value) . " (" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . ")");
+			$this->tpl->setVariable("TXT_OPTION", ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]");
 			$this->tpl->setVariable("VALUE_OPTION", $key);
 			if (($_POST["sel_test"] > -1) && ($_POST["sel_test"] == $key))
 			{

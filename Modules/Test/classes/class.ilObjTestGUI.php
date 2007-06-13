@@ -506,7 +506,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("option_qpl");
 		include_once("./Modules/Test/classes/class.ilObjTest.php");
 		$tst = new ilObjTest();
-		$questionpools =& $tst->getAvailableQuestionpools(true);
+		$questionpools =& $tst->getAvailableQuestionpools(TRUE, FALSE, FALSE, TRUE);
 		if (count($questionpools) == 0)
 		{
 		}
@@ -2327,7 +2327,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		$this->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", "Modules/Test");
-		$questionpools =& $this->object->getAvailableQuestionpools(false);
+		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE);
 		$this->tpl->setCurrentBlock("option");
 		$this->tpl->setVariable("VALUE_OPTION", "0");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("all_available_question_pools"));
@@ -2473,7 +2473,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		$selection_mode = $ilUser->getPref("tst_question_selection_mode_equal");
 		$total = $this->object->evalTotalPersons();
-		$available_qpl =& $this->object->getAvailableQuestionpools(true, $selection_mode, FALSE, FALSE, TRUE);
+		$available_qpl =& $this->object->getAvailableQuestionpools(true, $selection_mode, FALSE, TRUE, TRUE);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$qpl_question_count = array();
 		foreach ($available_qpl as $key => $value)
@@ -2744,7 +2744,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		$this->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
-		$questionpools =& $this->object->getAvailableQuestionpools();
+		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE);
 		if (count($questionpools) == 0)
 		{
 			$this->tpl->setCurrentBlock("option");
@@ -3708,7 +3708,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 			include_once("./Modules/Test/classes/class.ilObjTest.php");
 			$tst = new ilObjTest();
-			$questionpools =& $tst->getAvailableQuestionpools($use_object_id = true, $equal_points = false, $could_be_offline = true);
+			$questionpools =& $tst->getAvailableQuestionpools(TRUE, FALSE, TRUE, TRUE);
 			if (count($questionpools) == 0)
 			{
 			}

@@ -5373,36 +5373,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns the object id's of the available question pools for the active user
-*
-* Returns the object id's of the available question pools for the active user
-*
-* @return array The available question pool id's
-* @access public
-*/
-	function &getAvailableQuestionpoolIDs()
-	{
-		global $rbacsystem;
-		global $ilDB;
-
-		$result_array = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
-			{
-				include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
-				{
-					array_push($result_array, $row->obj_id);
-				}
-			}
-		}
-		return $result_array;
-	}
-	
-/**
 * Returns the available question pools for the active user
 *
 * Returns the available question pools for the active user
@@ -5410,10 +5380,10 @@ class ilObjTest extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $get_full_path = FALSE, $with_questioncount = FALSE)
+	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $show_path = FALSE, $with_questioncount = FALSE)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline, $get_full_path, $with_questioncount);
+		return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline, $show_path, $with_questioncount);
 	}
 
 /**
@@ -5494,7 +5464,8 @@ class ilObjTest extends ilObject
 		// get a list of questionpools which are not allowed for the test (only for random selection of questions in test questions editor)
 		if (($questionpool == 0) && (!is_array($qpls)))
 		{
-			$available_pools =& $this->getAvailableQuestionpoolIDs();
+			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+			$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE));
 			$available = "";
 			$constraint_qpls = "";
 			if (count($available_pools))
@@ -5856,7 +5827,8 @@ class ilObjTest extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$available_pools =& $this->getAvailableQuestionpoolIDs();
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE));
 		$available = "";
 		if (count($available_pools))
 		{
@@ -6848,26 +6820,29 @@ class ilObjTest extends ilObject
 * @return array The available tests
 * @access public
 */
-	function &_getAvailableTests($use_object_id = false)
+	function &_getAvailableTests($use_object_id = FALSE)
 	{
-		global $rbacsystem;
+		global $ilUser;
 		global $ilDB;
 
 		$result_array = array();
-		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'tst' ORDER BY object_data.title";
-		$result = $ilDB->query($query);
-		include_once "./classes/class.ilObject.php";
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		$tests = ilUtil::_getObjectsByOperations("tst","write", $ilUser->getId(), -1);
+		if (count($tests))
 		{
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
+			$titles = ilObject::_prepareCloneSelection($tests, "tst");
+			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) ORDER BY object_data.title",
+				implode(",", $tests)
+			);
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($use_object_id)
 				{
-					$result_array[$row->obj_id] = $row->title;
+					$result_array[$row["obj_id"]] = $titles[$row["ref_id"]];
 				}
 				else
 				{
-					$result_array[$row->ref_id] = $row->title;
+					$result_array[$row["ref_id"]] = $titles[$row["ref_id"]];
 				}
 			}
 		}
