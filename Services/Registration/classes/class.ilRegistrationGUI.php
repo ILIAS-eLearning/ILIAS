@@ -112,9 +112,13 @@ class ilRegistrationGUI
 			$this->tpl->setVariable("PASSWORD",$_POST["user"]['passwd']);
 			$this->tpl->parseCurrentBlock();
 		}
-		else
+		else if ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered_passw_gen"));
 		}
 	}		
 
