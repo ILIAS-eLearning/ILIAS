@@ -2681,6 +2681,38 @@ function getCourseMemberships($a_user_id = "")
 			ilObjUser::_writePref($usr_rec["usr_id"], "style", $a_to_style);
 		}
 	}
+	
+	
+	/**
+	* add an item to user's personal desktop
+	*
+	* @param 	int		$a_usr_id		id of user object
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	* @static 
+	*/
+	public static function _addDesktopItem($a_usr_id, $a_item_id, $a_type, $a_par = "")
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM desktop_item WHERE ".
+			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
+			$ilDB->quote($a_type)." AND user_id = ".
+			$ilDB->quote($a_usr_id);
+		$item_set = $ilDB->query($q);
+
+		// only insert if item is not already on desktop
+		if (!$d = $item_set->fetchRow())
+		{
+			$q = "INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
+				" (".$ilDB->quote($a_item_id).",".
+				$ilDB->quote($a_type).",".
+				$ilDB->quote($a_usr_id).",".
+				$ilDB->quote($a_par).")";
+			$ilDB->query($q);
+		}
+	}
 
 	/**
 	* add an item to user's personal desktop
@@ -2691,7 +2723,8 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function addDesktopItem($a_item_id, $a_type, $a_par = "")
 	{
-		global $ilDB;
+		ilObjUser::_addDesktopItem($this->getId(), $a_item_id, $a_type, $a_par);
+/*		global $ilDB;
 
 		$q = "SELECT * FROM desktop_item WHERE ".
 			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
@@ -2709,7 +2742,7 @@ function getCourseMemberships($a_user_id = "")
 				$ilDB->quote($a_par).")";
 			$this->ilias->db->query($q);
 		}
-	}
+*/	}
 
 	/**
 	* set parameters of a desktop item entry
@@ -2730,6 +2763,27 @@ function getCourseMemberships($a_user_id = "")
 		$this->ilias->db->query($q);
 	}
 
+	
+	/**
+	* drop an item from user's personal desktop
+	*
+	* @param 	int		$a_usr_id		id of user object
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	* @static
+	*/
+	public static function _dropDesktopItem($a_usr_id, $a_item_id, $a_type)
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM desktop_item WHERE ".
+			" item_id = ".$ilDB->quote($a_item_id)." AND ".
+			" type = ".$ilDB->quote($a_type)." AND ".
+			" user_id = ".$ilDB->quote($a_usr_id);
+		$ilDB->query($q);
+	}
+	
 	/**
 	* drop an item from user's personal desktop
 	*
@@ -2739,13 +2793,44 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function dropDesktopItem($a_item_id, $a_type)
 	{
-		global $ilDB;
+		ilObjUser::_dropDesktopItem($this->getId(), $a_item_id, $a_type);
+/*		global $ilDB;
 
 		$q = "DELETE FROM desktop_item WHERE ".
 			" item_id = ".$ilDB->quote($a_item_id)." AND ".
 			" type = ".$ilDB->quote($a_type)." AND ".
 			" user_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
+*/	}
+	
+	
+	/**
+	* check wether an item is on the users desktop or not
+	*
+	* @param 	int		$a_usr_id		id of user object
+	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
+	*									(learning modules, forums) obj_id for others
+	* @param	string	$a_type			object type
+	* @static 
+	*/
+	public static function _isDesktopItem($a_usr_id, $a_item_id, $a_type)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM desktop_item WHERE ".
+			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
+			$ilDB->quote($a_type)." AND user_id = ".
+			$ilDB->quote($a_usr_id);
+		$item_set = $ilDB->query($q);
+
+		if ($d = $item_set->fetchRow())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -2757,7 +2842,8 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function isDesktopItem($a_item_id, $a_type)
 	{
-		global $ilDB;
+		return ilObjUser::_isDesktopItem($this->getId(), $a_item_id, $a_type);
+/*		global $ilDB;
 
 		$q = "SELECT * FROM desktop_item WHERE ".
 			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
@@ -2772,7 +2858,7 @@ function getCourseMemberships($a_user_id = "")
 		else
 		{
 			return false;
-		}
+		}*/
 	}
 
 	function getDesktopItems($a_types = "")

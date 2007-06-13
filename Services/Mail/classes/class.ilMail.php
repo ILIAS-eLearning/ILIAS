@@ -1037,7 +1037,7 @@ class ilMail
 						{
 							if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
 							{
-								$wrong_rcps .= "<BR/>".htmlentities($rcp).
+								$wrong_rcps .= "<BR/>".htmlentities($rcp->mailbox).
 									" (".$this->lng->txt("user_cant_receive_mail").")";
 								continue;
 							}
