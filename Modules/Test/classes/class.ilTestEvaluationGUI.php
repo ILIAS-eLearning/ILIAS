@@ -318,10 +318,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
 		$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
-		include_once "./Modules/Test/classes/class.ilTestCertificate.php";
-		if (ilTestCertificate::_isComplete($this->object->getId()))
+		if (!$this->object->getAnonymity())
 		{
-			$template->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
+			include_once "./Modules/Test/classes/class.ilTestCertificate.php";
+			if (ilTestCertificate::_isComplete($this->object->getId()))
+			{
+				$template->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
+			}
 		}
 		$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
 		$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
