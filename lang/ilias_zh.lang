@@ -7353,3 +7353,10 @@ common#:#checked#:#Checked###09 06 2007 new variable
 common#:#unchecked#:#Unchecked###09 06 2007 new variable
 feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
 feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable
+assessment#:#edit_test_questions#:#Edit Test Questions###13 06 2007 new variable
+common#:#textbox#:#Textbox###13 06 2007 new variable
+common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.###13 06 2007 new variable
+ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop###13 06 2007 new variable
+crs#:#crs_show_link_session#:#Show sessions###13 06 2007 new variable
+crs#:#crs_hide_link_session#:#Hide sessions###13 06 2007 new variable
+forum#:#forums_notification_disabled#:#Notification disable###13 06 2007 new variable
