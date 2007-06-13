@@ -1606,3 +1606,24 @@ if(!$found)
 <#1015>
 ALTER TABLE `chat_invitations` ADD `invitation_time` INT( 11 ) NOT NULL AFTER `guest_informed` ;
 
+<#1016>
+<?php
+
+$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = 'recf'";
+$res = $ilDB->query($query);
+
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$recf_id = $row->obj_id;
+}
+
+$query = "INSERT INTO rbac_ta SET typ_id = '".$recf_id."', ops_id = 1";
+$ilDB->query($query);
+$query = "INSERT INTO rbac_ta SET typ_id = '".$recf_id."', ops_id = 2";
+$ilDB->query($query);
+$query = "INSERT INTO rbac_ta SET typ_id = '".$recf_id."', ops_id = 3";
+$ilDB->query($query);
+$query = "INSERT INTO rbac_ta SET typ_id = '".$recf_id."', ops_id = 4";
+$ilDB->query($query);
+?>
+
