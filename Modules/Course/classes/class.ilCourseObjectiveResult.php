@@ -456,7 +456,7 @@ class ilCourseObjectiveResult
 		{
 			$query = "UPDATE crs_members SET passed = '1' ".
 				"WHERE usr_id = ".$ilDB->quote($a_user_id)." ".
-				"AND obj_id IN (".implode(",",$ilDB->quote($passed)).") ";
+				"AND obj_id IN (".implode(",",$passed).") ";
 			$ilDB->query($query);
 		}
 	}
