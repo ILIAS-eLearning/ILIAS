@@ -92,18 +92,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		global $rbacsystem, $lng, $tpl;
 
 		//$this->setTabs();
+		
 
 		$this->lng =& $lng;
 		//$this->ctrl->setParameter($this,'new_type',$this->type);
 		$this->getTemplateFile("create", "sty");
+
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("sty_create_new_stylesheet"));
+
 		$this->tpl->setVariable("TXT_STYLE_BY_IMPORT", $this->lng->txt("sty_import_stylesheet"));
 		$this->tpl->setVariable("TXT_STYLE_BY_COPY", $this->lng->txt("sty_copy_other_stylesheet"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("import_file"));
 		$this->tpl->setVariable("TXT_SOURCE", $this->lng->txt("sty_source"));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
-		$this->tpl->parseCurrentBlock();
+		
 		$this->ctrl->setParameter($this, "new_type", "sty");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -116,6 +119,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$clonable_styles = ilObjStyleSheet::_getClonableContentStyles();
 		$select = ilUtil::formSelect("", "source_style", $clonable_styles, false, true);
 		$this->tpl->setVariable("SOURCE_SELECT", $select);
+
 	}
 
 	/**

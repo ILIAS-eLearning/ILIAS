@@ -75,7 +75,7 @@ class ilExternalFeedBlock extends ilCustomBlock
 	*/
 	public function create()
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 		
 		parent::create();
 		
@@ -86,7 +86,6 @@ class ilExternalFeedBlock extends ilCustomBlock
 			$ilDB->quote($this->getId())
 			.",".$ilDB->quote($this->getFeedUrl()).")";
 		$ilDB->query($query);
-		
 
 	}
 
