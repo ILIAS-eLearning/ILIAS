@@ -83,25 +83,21 @@ class ilCourseMembers
 
 	function addDesktopItem($a_usr_id)
 	{
-		$user_obj =& ilObjectFactory::getInstanceByObjId($a_usr_id);
-
-		if(!$user_obj->isDesktopItem($this->course_obj->getRefId(),'crs'))
+		if(ilObjUser::_isDesktopItem($a_usr_id, $this->course_obj->getRefId(),'crs'))
 		{
-			$user_obj->addDesktopItem($this->course_obj->getRefId(),'crs');
+			ilObjUser::_addDesktopItem($a_usr_id, $this->course_obj->getRefId(),'crs');
 		}
-		unset($user_obj);
 
 		return true;
 	}
+	
+	
 	function dropDesktopItem($a_usr_id)
 	{
-		$user_obj =& ilObjectFactory::getInstanceByObjId($a_usr_id);
-
-		if($user_obj->isDesktopItem($this->course_obj->getRefId(),'crs'))
+		if(ilObjUser::_isDesktopItem($a_usr_id, $this->course_obj->getRefId(),'crs'))
 		{
-			$user_obj->dropDesktopItem($this->course_obj->getRefId(),'crs');
+			ilObjUser::_dropDesktopItem($a_usr_id, $this->course_obj->getRefId(),'crs');
 		}
-		unset($user_obj);
 
 		return true;
 	}
