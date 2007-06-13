@@ -4177,7 +4177,12 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
 			}
-			$buttons = array("save","delete_user_data", "remove_as_participant", "show_pass_overview", "show_user_answers");
+			$buttons = array("save","delete_user_data", "remove_as_participant");
+			if (!$this->object->getAnonymity())
+			{
+				array_push($buttons, "show_pass_overview");
+				array_push($buttons, "show_user_answers");
+			}
 			if (count($invited_users))
 			{
 				$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_fixed_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
@@ -4194,7 +4199,12 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
 			}
-			$buttons = array("delete_user_data", "show_pass_overview", "show_user_answers");
+			$buttons = array("delete_user_data");
+			if (!$this->object->getAnonymity())
+			{
+				array_push($buttons, "show_pass_overview");
+				array_push($buttons, "show_user_answers");
+			}
 			if (count($invited_users))
 			{
 				$this->outUserGroupTable("iv_participants", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
