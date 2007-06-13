@@ -3251,7 +3251,7 @@ class ilUtil
 				break;
 			}
 			// Check deleted, hierarchical access ...
-			if($ilAccess->checkAccessOfUser($a_usr_id,'copy','',$row->ref_id,$row->type,$row->obj_id))
+			if($ilAccess->checkAccessOfUser($a_usr_id,$a_operation,'',$row->ref_id,$row->type,$row->obj_id))
 			{
 				$ref_ids[] = $row->ref_id;
 			}
