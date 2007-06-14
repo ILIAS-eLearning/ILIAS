@@ -7282,7 +7282,7 @@ assessment#:#tst_question_mark#:#Marcar esta pregunta
 assessment#:#tst_question_marked#:#Ha marcado la pregunta
 assessment#:#tst_question_marker#:#Marcador
 assessment#:#tst_question_unmark#:#Eliminar la marca para esta pregunta
-assessment#:#tst_report_after_date#:#After a fixed score reporting date###29 05 2007 new variable
+assessment#:#tst_report_after_date#:#Después de una fecha de informe de puntuación prefijada
 assessment#:#tst_sequence_postpone#:#Las preguntas pueden ser pospuestas para el final de la ejecución de un test
 common#:#assessment_defaults#:#Configuración por defecto para Test & Assessment
 common#:#assessment_use_javascript#:#JavaScript para Drag and Drop
@@ -7322,26 +7322,25 @@ survey#:#survey_text_textheight_desc#:#Introduzca la altura en caracteres para e
 survey#:#survey_question_editor#:#Editar preguntas de la encuesta
 assessment#:#tst_show_pass_details#:#Mostrar detalles para los tests en ejecución
 common#:#hide_own_online_status#:#Ocultar mi estado on-line
-assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
-assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
-common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 new variable
-common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
+assessment#:#show_pass_overview#:#Mostrar resumen de la ejecución seleccionada
+assessment#:#show_user_answers#:#Mostrar las respuestas marcadas del usuario
+common#:#custom_icon_size_standard#:#Tamaño de icono personalizado (standard)
+common#:#custom_icon_size_tiny#:#Tamaño de icono personalizado (pequeño)
 common#:#standard_icon#:#Icono estándar
 common#:#tiny_icon#:#Icono pequeño
-search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
-search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
-search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
-common#:#search_results#:#Search results###09 06 2007 new variable
-assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
-common#:#checked#:#Checked###09 06 2007 new variable
-common#:#unchecked#:#Unchecked###09 06 2007 new variable
-feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
-feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable
-crs#:#crs_no_exercises#:#No exercises found inside this course###09 06 2007 new variable
-assessment#:#edit_test_questions#:#Edit Test Questions###13 06 2007 new variable
-common#:#textbox#:#Textbox###13 06 2007 new variable
-common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.###13 06 2007 new variable
-ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop###13 06 2007 new variable
-crs#:#crs_show_link_session#:#Show sessions###13 06 2007 new variable
-crs#:#crs_hide_link_session#:#Hide sessions###13 06 2007 new variable
-forum#:#forums_notification_disabled#:#Notification disable###13 06 2007 new variable
+search#:#search_user_extended#:#Búsqueda extendida de usuarios
+search#:#search_user_simple#:#Búsqueda simple de usuarios
+search#:#last_search_result#:#Últimos resultados de búsqueda
+common#:#search_results#:#Resultados de búsqueda
+assessment#:#tst_processing_time_desc#:#El máximo tiempo de proceso comienza cuando un usuario empieza a hacer un test y termina cuando ha pasado el período de tiempo introducido (horas, minutos, segundos)
+common#:#checked#:#Marcado
+common#:#unchecked#:#No marcado
+feed#:#feed_loading_feed#:#Cargando Feed...
+feed#:#feed_no_js_click_here#:#Si el feed no se muestra, pulse aquí
+crs#:#crs_no_exercises#:#No se encontraron ejercicios dentro de este curso
+assessment#:#edit_test_questions#:#Editar Preguntas del Test
+common#:#textbox#:#Caja de texto
+common#:#txt_registered_passw_gen#:#Se registró con éxito en ILIAS. Debe recibir un correo electrónico incluyendo la contraseña generada para usted en breveldap#:#ldap_mapping_info_type#:#Mostrar Información también en el Repositorio/Escritorio Personal
+crs#:#crs_show_link_session#:#Mostrar eventos
+crs#:#crs_hide_link_session#:#Ocultar eventos
+forum#:#forums_notification_disabled#:#Notificación deshabilitada
