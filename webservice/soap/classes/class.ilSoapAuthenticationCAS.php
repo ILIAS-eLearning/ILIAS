@@ -89,15 +89,17 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 	function authenticate()
 	{
 		include_once("./Services/Init/classes/class.ilInitialisation.php");
-		$init = new ilInitialisation();
-		$init->requireCommonIncludes();
-		$init->buildHTTPPath();
+		$this->init = new ilInitialisation();
+		$this->init->requireCommonIncludes();
+		//$init->initSettings();
+		
 		
 		if(!$this->getClient())
 		{
 			$this->__setMessage('No client given');
 			return false;
 		}
+		
 		if(!$this->getUsername())
 		{
 			$this->__setMessage('No username given');
@@ -109,6 +111,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			$this->__setMessage('Error building dsn/Wrong client Id?');
 			return false;
 		}
+		
 		if(!$this->__setSessionSaveHandler())
 		{
 			return false;
@@ -118,6 +121,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		{
 			return false;
 		}
+
 		if($this->soap_check and !$this->__checkSOAPEnabled())
 		{
 			$this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
@@ -133,6 +137,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): No valid CAS authentication.');
 			return false;
 		}
+
 		$this->auth->forceCASAuth();
 
 		if ($this->getUsername() != $this->auth->getCASUser())
@@ -148,7 +153,6 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): SOAP CAS user authenticated but not existing in ILIAS user database.');
 			return false;
 		}
-
 				
 		/*
 		$init->initIliasIniFile();
@@ -157,7 +161,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		$GLOBALS['ilias'] =& $ilias;*/
 
 		$this->auth->start();
-//echo "5";
+
 		if(!$this->auth->getAuth())
 		{
 			$this->__getAuthStatus();
@@ -233,6 +237,11 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			$this->db =& new ilDBx($this->dsn);
 		}
 
+		$GLOBALS["ilDB"] = $this->db;
+		$this->init->initSettings();
+		
+		$this->init->buildHTTPPath();
+
 		$query = "SELECT * FROM settings WHERE ".
 			" keyword = ".$this->db->quote("cas_server")." OR ".
 			" keyword = ".$this->db->quote("cas_port")." OR ".
@@ -254,7 +263,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		$this->auth = new ilCASAuth($auth_params);
 		
 		// HTTP path will return full path to server.php directory
-		phpCAS::setFixedServiceURL(ILIAS_HTTP_PATH."/server.php");
+		phpCAS::setFixedServiceURL(ILIAS_HTTP_PATH."/webservice/soap/server.php");
 
 		return true;
 	}

@@ -51,6 +51,7 @@ class ilCASAuth extends Auth
 		$this->server_uri = $a_params["server_uri"];
 
 		phpCAS::setDebug();
+//echo "-".$_GET['ticket']."-"; exit;
 		phpCAS::client($this->server_version, $this->server_hostname,
 			$this->server_port, $this->server_uri);
 	}

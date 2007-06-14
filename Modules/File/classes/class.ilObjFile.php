@@ -539,6 +539,9 @@ class ilObjFile extends ilObject
 		// copy history entries
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_copyEntriesForObject($this->getId(),$new_obj->getId());
+		
+		// add news notification
+		$new_obj->addNewsNotification("file_created");
 
 	 	return $new_obj;
 	}
