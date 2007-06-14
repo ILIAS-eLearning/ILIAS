@@ -61,7 +61,7 @@ var ilBlockSuccessHandler = function(o)
 // Success Handler
 var ilBlockFailureHandler = function(o)
 {
-	alert('FailureHandler');
+	//alert('FailureHandler');
 }
 
 function ilBlockJSHandler(block_id, sUrl)
