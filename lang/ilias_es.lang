@@ -7341,7 +7341,9 @@ crs#:#crs_no_exercises#:#No se encontraron ejercicios dentro de este curso
 assessment#:#edit_test_questions#:#Editar Preguntas del Test
 common#:#textbox#:#Caja de texto
 common#:#txt_registered_passw_gen#:#Se registró con éxito en ILIAS. Debe recibir un correo electrónico incluyendo la contraseña generada para usted en breve
-dap#:#ldap_mapping_info_type#:#Mostrar Información también en el Repositorio/Escritorio Personal
 crs#:#crs_show_link_session#:#Mostrar eventos
 crs#:#crs_hide_link_session#:#Ocultar eventos
 forum#:#forums_notification_disabled#:#Notificación deshabilitada
+content#:#cont_bb_tip#:#Tip: Styles can be applied quickly to selected text.###14 06 2007 new variable
+content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable
+ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop###14 06 2007 new variable

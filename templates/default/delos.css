@@ -1,3 +1,5 @@
+/* -- for link pseudo-classes, respect order: Link, Visited, Hover, Active -- */
+
 body {
 	color:#222222;
 	background-color:#FFFFFF;
@@ -1495,11 +1497,10 @@ input.ilEditSubmit {
 }
 
 input.ilEditHelpline {
-	background-color:#f7f7f7;
 	border-style:none;
-	padding:3px;
 	background-image: none;
 	text-decoration:none;
+	margin: 2px 0px;
 	font-size: 80%;
 }
 
