@@ -3979,7 +3979,8 @@ content#:#cont_Alphabetic#:#Alphabetic a, b, ...
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_Code#:#Code
-content#:#cont_Example#:#e.g. 
+content#:#cont_Example#:#Example
+content#:#cont_e_g_example#:#e.g.
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
