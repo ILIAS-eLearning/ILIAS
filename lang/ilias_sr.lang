@@ -7345,3 +7345,5 @@ ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal
 crs#:#crs_show_link_session#:#Show sessions###13 06 2007 new variable
 crs#:#crs_hide_link_session#:#Hide sessions###13 06 2007 new variable
 forum#:#forums_notification_disabled#:#Notification disable###13 06 2007 new variable
+content#:#cont_bb_tip#:#Tip: Styles can be applied quickly to selected text.###14 06 2007 new variable
+content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable

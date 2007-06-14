@@ -270,7 +270,7 @@ function storeCaret(textEl) {
 <tr class="std">
 	<td class="option_value" colspan="4">
     <div id="bbcodebuttons" style="position:relative;visibility:visible;">
-	<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="Tip: Styles can be applied quickly to selected text." />
+	<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="{TXT_BB_TIP}" />
 	<br />
 	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0)" onMouseOver="helpline('b')" />
 	<input type="button" class="ilEditSubmit" accesskey="e" name="addbbcode2" value=" emp " onClick="bbstyle(2)" onMouseOver="helpline('e')" />
@@ -1113,9 +1113,9 @@ function buttonInternalLink()
     function doInit() 
 	{
     	// {{{
+		
         obj = document.getElementById("{PAR_TA_NAME}");
         T = obj.value;
-		
 		T = replaceAll(T,"<", "&lt;");
 		
         T = replaceAll(T, "[str]","<span class=\"ilc_Strong\">");
@@ -1225,17 +1225,23 @@ function buttonInternalLink()
             T = T.replace("\n","<br />");
         }
         
-        
+
         obj.value = T;
-    
+
         initEditor("{PAR_TA_NAME}");
 		
 		//initSubEditor("subform");
 		
         obj = document.getElementById("usedwsiwygeditor");
+
         obj.value = "1";
         obj = document.getElementById("bbcodebuttons");
-        obj.style.visibility = "hidden";
+
+		if (obj)
+		{
+        	obj.style.visibility = "hidden";
+		}
+
 		// }}}
 	}
 

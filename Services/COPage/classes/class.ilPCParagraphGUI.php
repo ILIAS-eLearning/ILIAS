@@ -141,6 +141,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 				$this->tpl->setVariable("BB_TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -163,7 +164,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				ilObjStyleSheet::getContentStylePath(0));
 			if (!ilPageEditorGUI::_doJSEditing())
 			{
-				$this->tpl->touchBlock("bb_buttons");
+				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 
@@ -218,7 +221,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			// this line is necessary to prevent unwanted converts
 			// e.g. an entered "&lt;" to a "<"
 			$s_text = str_replace("&","&amp;", $s_text);
-
+			
+			// to enable normal editing after links:
+			if (substr($s_text, strlen($s_text) - 6) == "[/xln]" ||
+				substr($s_text, strlen($s_text) - 6) == "[/iln]")
+			{
+				$s_text = $s_text." ";
+			}
+			
 			$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
 			$this->tpl->touchBlock("initwysiwygeditor");
 		}
@@ -312,6 +322,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				$this->tpl->setVariable("BB_TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -332,7 +343,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				ilObjStyleSheet::getContentStylePath(0));
 			if (!ilPageEditorGUI::_doJSEditing())
 			{
-				$this->tpl->touchBlock("bb_buttons");
+				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 		

@@ -38,9 +38,11 @@
 var oldUrl = "";
 var oldTitle = "";
 var oldLink = "";
+var xln_sel_text = false;
 function initForm()
 {
 
+	xln_sel_text = false;
 	N ="";
 	var ancestors = opener.editor.getAllAncestors();
 	for (k=0;k<ancestors.length-1;k++)
@@ -84,6 +86,7 @@ function initForm()
 		
 	if ( opener.editor.hasSelectedText() )
 	{
+		xln_sel_text = true;
 		document.form.externaltitle.value = opener.editor.getSelectedHTML();
 		if(oldUrl!="") document.form.externalurl.value = oldUrl;
 		if(oldTitle!="") document.form.externaltitle.value = oldTitle;
@@ -128,7 +131,9 @@ function returnXtlLink()
 	
 		if (A[0]=="") 
 		{
-			opener.editor.insertHTML("<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>");
+			opener.editor.insertHTML("<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a> ");
+			//S = opener.editor.getHTML();
+			//opener.editor.setHTML(S+"&nbsp;");
 		} 
 		else 
 		{

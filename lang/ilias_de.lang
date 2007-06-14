@@ -4301,6 +4301,7 @@ content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardansicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardansicht
 content#:#cont_structure#:#Struktur
+content#:#cont_bb_tip#:#Das Menü erlaubt die schnelle Zuweisung von Textauszeichnungen.
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
 content#:#cont_synchronize_frames_desc#:#Diese Funktion aktualisiert das Inhaltsverzeichnis entsprechend der Position im Inhalts-Fenster. Bei der Drei-Fenster-Ansicht aktualisiert es die Zusatzfenster. Wird diese Funktion genutzt, kann es zu einem längeren Seitenaufbau kommen.
@@ -7345,3 +7346,4 @@ crs#:#crs_show_link_session#:#Sitzungen anzeigen
 crs#:#crs_hide_link_session#:#Sitzungen verbergen
 forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 common#:#textbox#:#Textbox###13 06 2007 new variable
+content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable

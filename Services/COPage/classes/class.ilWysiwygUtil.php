@@ -117,7 +117,7 @@ class ilWysiwygUtil
 		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 		
 		$this->tpl->setVariable("TXT_OR", $this->lng->txt("cont_or"));
-		$this->tpl->setVariable("TXT_EXAMPLE", $this->lng->txt("cont_example"));
+		$this->tpl->setVariable("TXT_EXAMPLE", $this->lng->txt("cont_e_g_example"));
 		
 		$this->tpl->setVariable("DELETE_QUESTION", $this->lng->txt("cont_confirm_delete"));
 	}
