@@ -7340,7 +7340,8 @@ feed#:#feed_no_js_click_here#:#Si el feed no se muestra, pulse aquí
 crs#:#crs_no_exercises#:#No se encontraron ejercicios dentro de este curso
 assessment#:#edit_test_questions#:#Editar Preguntas del Test
 common#:#textbox#:#Caja de texto
-common#:#txt_registered_passw_gen#:#Se registró con éxito en ILIAS. Debe recibir un correo electrónico incluyendo la contraseña generada para usted en breveldap#:#ldap_mapping_info_type#:#Mostrar Información también en el Repositorio/Escritorio Personal
+common#:#txt_registered_passw_gen#:#Se registró con éxito en ILIAS. Debe recibir un correo electrónico incluyendo la contraseña generada para usted en breve
+dap#:#ldap_mapping_info_type#:#Mostrar Información también en el Repositorio/Escritorio Personal
 crs#:#crs_show_link_session#:#Mostrar eventos
 crs#:#crs_hide_link_session#:#Ocultar eventos
 forum#:#forums_notification_disabled#:#Notificación deshabilitada
