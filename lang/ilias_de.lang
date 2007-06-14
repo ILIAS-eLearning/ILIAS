@@ -3962,7 +3962,7 @@ content#:#cont_bottom#:#Unten
 content#:#cont_browser_not_js_capable#:#Der JavaScript-Editor wird von Ihrem Browser leider nicht unterstützt.
 content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
-content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
+content#:#cont_cant_del_std#:#Löschen der Datei für die Standardansicht nicht möglich.
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
@@ -4298,8 +4298,8 @@ content#:#cont_st_on_pg#:#Diese Funktion ist nicht möglich.
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
-content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
-content#:#cont_std_view#:#Standardsicht
+content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardansicht liegt im Verzeichnis.
+content#:#cont_std_view#:#Standardansicht
 content#:#cont_structure#:#Struktur
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
