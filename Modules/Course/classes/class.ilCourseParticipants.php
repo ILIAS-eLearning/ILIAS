@@ -1136,7 +1136,6 @@ class ilCourseParticipants
 
 		foreach($this->getNotificationRecipients() as $usr_id)
 		{
-			
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false);
 			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
 		}
@@ -1146,31 +1145,32 @@ class ilCourseParticipants
 
 	function sendNotificationToAdmins($a_usr_id)
 	{
-		global $ilDB;
+		global $ilDB,$ilObjDataCache;
 
-		if(!$this->course_obj->getSubscriptionNotify())
+		if(!ilObjCourse::_isSubscriptionNotificationEnabled($this->course_id))
 		{
 			return true;
 		}
 
-
 		include_once("Services/Mail/classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
-		$subject = sprintf($this->lng->txt("crs_new_subscription"),$this->course_obj->getTitle());
-		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$this->course_obj->getTitle());
+		$subject = sprintf($this->lng->txt("crs_new_subscription"),$ilObjDataCache->lookupTitle($this->course_id));
+		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$ilObjDataCache->lookupTitle($this->course_id));
 
 		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE status = ".$ilDB->quote($this->STATUS_NOTIFY)." ".
-			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
+			"WHERE notification = '1' ".
+			"AND obj_id = ".$ilDB->quote($this->course_id)."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
-
-			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
-			unset($tmp_user);
+			if($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id))
+			{
+				$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
+				$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
+				unset($tmp_user);
+			}
 		}
 		unset($mail);
 
