@@ -1405,7 +1405,7 @@ class ilObjCourse extends ilContainer
 		switch($a_operator)
 		{
 			case 'passed':
-				return ilCourseParticipants::_hasPassed($a_obj_id,$ilUser->getId());
+				#return ilCourseParticipants::_hasPassed($a_obj_id,$ilUser->getId());
 				
 			default:
 				return true;
