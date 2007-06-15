@@ -49,10 +49,10 @@ class ilLPStatusEvent extends ilLPStatus
 		global $ilObjDataCache;
 
 		$status_info = ilLPStatusWrapper::_getStatusInfoByType($a_obj_id,'event');
-		var_dump("<pre>","STATUS_INFO",$status_info,"<pre>");
 
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-		$members = ilCourseMembers::_getMembers($status_info['crs_id']);
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		$member_obj = ilCourseParticipants::_getInstanceByObjId($status_info['crs_id']);
+		$members = $member_obj->getParticipants();
 		
 		// diff in progress and completed (use stored result in LPStatusWrapper)
 		$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgressByType($a_obj_id,'event'));

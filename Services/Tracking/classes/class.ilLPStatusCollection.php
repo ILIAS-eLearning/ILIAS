@@ -51,8 +51,9 @@ class ilLPStatusCollection extends ilLPStatus
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
-				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-				$members = ilCourseMembers::_getMembers($a_obj_id);
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				$members = $member_obj->getParticipants();
 				
 				// diff in progress and completed (use stored result in LPStatusWrapper)
 				$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
@@ -111,8 +112,10 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				$members = $members_obj->getParticipants();
+				$users = array_intersect($members,(array) $users);
 				break;
 				
 			case 'grp':
@@ -168,8 +171,9 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				$users = array_intersect($member_obj->getParticipants(),(array) $users);
 				break;
 
 			case 'grp':
@@ -201,8 +205,11 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once './Modules/Course/classes/class.ilCourseMembers.php';
-				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				$members = $members_obj->getParticipants();
+		
+				$users = array_intersect($members,(array) $users);
 				break;
 				
 			case 'grp':

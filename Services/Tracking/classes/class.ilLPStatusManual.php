@@ -54,9 +54,9 @@ class ilLPStatusManual extends ilLPStatus
 		{
 			case 'crs':
 
-				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-				
-				$members = ilCourseMembers::_getMembers($a_obj_id);
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				$members = $members_obj->getParticipants();
 			
 				// diff in progress and completed (use stored result in LPStatusWrapper)
 				$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
@@ -160,8 +160,9 @@ class ilLPStatusManual extends ilLPStatus
 
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-		$members = ilCourseMembers::_getMembers($a_obj_id);
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+		$members = $members_obj->getParticipants();
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
 			"WHERE obj_id = '".$a_obj_id."' AND obj_type = 'crs'";
