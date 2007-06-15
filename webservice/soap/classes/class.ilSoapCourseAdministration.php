@@ -216,22 +216,23 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create user instance!','Server');
 		}
 
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		
-		$course_members = new ilCourseMembers($tmp_course);
+		$course_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
 
 		switch($type)
 		{
 			case 'Admin':
-				$course_members->add($tmp_user,$course_members->ROLE_ADMIN,$course_members->STATUS_NOTIFY,0);
+				$course_members->add($tmp_user->getId(),IL_CRS_ADMIN);
+				$course_members->updateNotification($tmp_user->getId(),1);
 				break;
 
 			case 'Tutor':
-				$course_members->add($tmp_user,$course_members->ROLE_TUTOR,$course_members->STATUS_NO_NOTIFY,0);
+				$course_members->add($tmp_user->getId(),IL_CRS_TUTOR);
 				break;
 
 			case 'Member':
-				$course_members->add($tmp_user,$course_members->ROLE_MEMBER,$course_members->STATUS_UNBLOCKED,0);
+				$course_members->add($tmp_user->getId(),IL_CRS_MEMBER);
 				break;
 		}
 
@@ -278,10 +279,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to write to course','Server');
 		}
 
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		
-		$course_members = new ilCourseMembers($tmp_course);
-
+		$course_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
 		if(!$course_members->checkLastAdmin(array($user_id)))
 		{
 			return $this->__raiseError('Cannot deassign last administrator from course','Server');
@@ -332,21 +332,20 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to write to course','Server');
 		}
 
-		include_once './Modules/Course/classes/class.ilCourseMembers.php';
-
-		$crs_members = new ilCourseMembers($tmp_course);
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		$crs_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
 		
 		if($crs_members->isAdmin($user_id))
 		{
-			return $crs_members->ROLE_ADMIN;
+			return IL_CRS_ADMIN;
 		}
 		if($crs_members->isTutor($user_id))
 		{
-			return $crs_members->ROLE_TUTOR;
+			return IL_CRS_TUTOR;
 		}
 		if($crs_members->isMember($user_id))
 		{
-			return $crs_members->ROLE_MEMBER;
+			return IL_CRS_MEMBER;
 		}
 
 		return "0";
@@ -441,13 +440,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$md = new ilMD($tmp_course->getId(),0,'crs');
 		$md->deleteAll();
 
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
 
-		$crs_members = new ilCourseMembers($tmp_course);
-		$crs_members->deleteAllEntries();
 
 		include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
-
 		ilCourseWaitingList::_deleteAll($tmp_course->getId());
 
 		include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';

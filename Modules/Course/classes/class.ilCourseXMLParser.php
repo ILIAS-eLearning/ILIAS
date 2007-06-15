@@ -35,7 +35,7 @@ include_once('classes/class.ilObjUser.php');
 * @extends ilMDSaxParser
 */
 
-include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
 
 class ilCourseXMLParser extends ilMDSaxParser
@@ -61,10 +61,10 @@ class ilCourseXMLParser extends ilMDSaxParser
 		$this->log =& $ilLog;
 
 		$this->course_obj =& $a_course_obj;
-		$this->course_members = new ilCourseMembers($this->course_obj);
+		$this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
 		$this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
 		// flip the array so we can use array_key_exists
-		$this->course_members_array =  array_flip(ilCourseMembers::_getMembers($this->course_obj->getId()));
+		$this->course_members_array =  array_flip($this->course_members->getParticipants());
 
 		$this->md_obj = new ilMD($this->course_obj->getId(),0,'crs');
 
@@ -309,29 +309,36 @@ class ilCourseXMLParser extends ilMDSaxParser
 	 * @param int $roletype		type of role, which is courseMember->
 	 */
 
-	private function handleMember ($a_attribs, $id_data) {
+	private function handleMember ($a_attribs, $id_data) 
+	{
 		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
 			// if action not set, or set and attach
 		{
 			if (!array_key_exists($id_data['usr_id'], $this->course_members_array))
 			// add only if member is not yet assigned as tutor or admin
 			{
-				$this->course_members->add(new ilObjUser($id_data['usr_id']),
-												   $this->course_members->ROLE_MEMBER,
-												   $a_attribs['blocked'] == 'Yes' ?
-												   $this->course_members->STATUS_BLOCKED :
-												   $this->course_members->STATUS_UNBLOCKED,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+				$this->course_members->add($id_data['usr_id'],IL_CRS_MEMBER);
+				if($a_attribs['blocked'] == 'Yes')
+				{
+					$this->course_members->updateBlocked($id_data['usr_id'],true);
+				}
+				if($a_attribs['passed'] == 'Yes')
+				{
+					$this->course_members->updatePassed($id_data['usr_id'],true);
+				}
 				$this->course_members_array[$id_data['usr_id']] = "added";
-			} else
+			} 
+			else
 			// the member does exist. Now update status etc. only
 			{
-				$this->course_members->update($id_data['usr_id'],
-													$this->course_members->ROLE_MEMBER,
-													$a_attribs['blocked'] == 'Yes' ?
-												   	$this->course_members->STATUS_BLOCKED :
-												   	$this->course_members->STATUS_UNBLOCKED,
-												   	$a_attribs['passed'] == 'Yes' ? 1 : 0);
+				if($a_attribs['blocked'] == 'Yes')
+				{
+					$this->course_members->updateBlocked($id_data['usr_id'],true);
+				}
+				if($a_attribs['passed'] == 'Yes')
+				{
+					$this->course_members->updatePassed($id_data['usr_id'],true);
+				}
 			}
 		}
 		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isMember($id_data['usr_id']))
@@ -350,29 +357,39 @@ class ilCourseXMLParser extends ilMDSaxParser
 	 * @param array $id_data
 	 */
 
-	private function handleAdmin ($a_attribs, $id_data) {
+	private function handleAdmin ($a_attribs, $id_data) 
+	{
+		global $rbacadmin;
+	
 		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
 			// if action not set, or attach
 		{
 			if (!array_key_exists($id_data['usr_id'], $this->course_members_array))
 			// add only if member is not assigned yet
 			{
-
-				$this->course_members->add(new ilObjUser($id_data['usr_id']),
-												   $this->course_members->ROLE_ADMIN,
-												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+				$this->course_members->add($id_data['usr_id'],IL_CRS_ADMIN);
+				if($a_attribs['notification'] == 'Yes')
+				{
+					$this->course_members->updateNotification($id_data['usr_id'],true);
+				}
+				if($a_attribs['passed'] == 'Yes')
+				{
+					$this->course_members->updatePassed($id_data['usr_id'],true);
+				}
 				$this->course_members_array[$id_data['usr_id']] = "added";
-
 			}
 			else
 			// update
 			{
-				$this->course_members->update($id_data['usr_id'],
-												   $this->course_members->ROLE_ADMIN,
-												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
-
+				if($a_attribs['notification'] == 'Yes')
+				{
+					$this->course_members->updateNotification($id_data['usr_id'],true);
+				}
+				if($a_attribs['passed'] == 'Yes')
+				{
+					$this->course_members->updatePassed($id_data['usr_id'],true);
+				}
+				$this->course_members->updateBlocked($id_data['usr_id'],false);
 			}
 		}
 		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isAdmin($id_data['usr_id']))
@@ -398,19 +415,28 @@ class ilCourseXMLParser extends ilMDSaxParser
 			if (!array_key_exists($id_data['usr_id'], $this->course_members_array))
 			// add only if member is not assigned yet
 			{
-				$this->course_members->add(new ilObjUser($id_data['usr_id']),
-												   $this->course_members->ROLE_TUTOR,
-												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
+				$this->course_members->add($id_data['usr_id'],IL_CRS_TUTOR);
+				if($a_attribs['notification'] == 'Yes')
+				{
+					$this->course_members->updateNotification($id_data['usr_id'],true);
+				}
+				if($a_attribs['passed'] == 'Yes')
+				{
+					$this->course_members->updatePassed($id_data['usr_id'],true);
+				}
 				$this->course_members_array[$id_data['usr_id']] = "added";
 			}
 			else
 			{
-				$this->course_members->update($id_data['usr_id'],
-												   $this->course_members->ROLE_TUTOR,
-												   $a_attribs['notification'] == 'Yes' ? 1 : 0,
-												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
-
+				if($a_attribs['notification'] == 'Yes')
+				{
+					$this->course_members->updateNotification($id_data['usr_id'],true);
+				}
+				if($a_attribs['passed'] == 'Yes')
+				{
+					$this->course_members->updatePassed($id_data['usr_id'],true);
+				}
+				$this->course_members->updateBlocked($id_data['usr_id'],false);
 			}
 		}
 		elseif (isset($a_attribs['action']) && $a_attribs['action'] == 'Detach' && $this->course_members->isTutor($id_data['usr_id']))
@@ -455,7 +481,8 @@ class ilCourseXMLParser extends ilMDSaxParser
 	 * @param string $a_attribs	attribute of a node
 	 * @param array $id_data
 	 */
-	private function handleWaitingList ($a_attribs, $id_data) {
+	private function handleWaitingList ($a_attribs, $id_data) 
+	{
 		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
 			// if action not set, or attach
 		{

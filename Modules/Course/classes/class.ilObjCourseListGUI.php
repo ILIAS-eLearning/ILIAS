@@ -120,15 +120,15 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		// blocked
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-		if(ilCourseMembers::_isBlocked($this->obj_id,$ilUser->getId()))
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		if(ilCourseParticipants::_isBlocked($this->obj_id,$ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
 				"value" => $lng->txt("crs_status_blocked"));
 		}
 
 		// pending subscription
-		if (ilCourseMembers::_isSubscriber($this->obj_id,$ilUser->getId()))
+		if (ilCourseParticipants::_isSubscriber($this->obj_id,$ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
 				"value" => $lng->txt("crs_status_pending"));

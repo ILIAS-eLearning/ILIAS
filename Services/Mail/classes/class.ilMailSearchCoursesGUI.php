@@ -261,7 +261,7 @@ class ilMailSearchCoursesGUI
 	{
 		global $lng, $ilUser, $ilObjDataCache;
 
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
@@ -290,7 +290,8 @@ class ilMailSearchCoursesGUI
 		
 			foreach($crs_ids as $crs_id) 
 			{
-				$crs_members = ilCourseMembers::_getMembers($crs_id);
+				$members_obj = ilCourseParticipants::_getInstanceByObjId($crs_id);
+				$crs_members = $members_obj->getParticipants();
 	
 				$this->tpl->setCurrentBlock("loop_crs");
 				$this->tpl->setVariable("LOOP_CRS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
@@ -324,7 +325,7 @@ class ilMailSearchCoursesGUI
 	{
 		global $lng, $ilUser, $ilObjDataCache;
 
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
 		if ($_GET["search_crs"] != "")
 		{
@@ -367,7 +368,8 @@ class ilMailSearchCoursesGUI
 			$counter = 0;
 			foreach($_POST["search_crs"] as $crs_id) 
 			{
-				$tmp_members = ilCourseMembers::_getMembers($crs_id);
+				$members_obj = ilCourseParticipants::_getinstanceByObjId($crs_id);
+				$tmp_members = $members_obj->getParticipants();
 				$course_members[$crs_id] = ilUtil::_sortIds($tmp_members,'usr_data','lastname','usr_id');
 	
 				foreach ($course_members[$crs_id] as $member)

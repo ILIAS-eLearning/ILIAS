@@ -542,7 +542,9 @@ class ilObjCourseGrouping
 					}
 					if($container_obj->getType() == 'crs')
 					{
-						if(ilCourseMembers::_isMember($ilUser->getId(),$condition['target_obj_id'],$condition['value']))
+						include_once('Modules/Course/classes/class.ilCourseParticipants.php');
+						$members = ilCourseParticipants::_getInstanceByObjId($condition['target_obj_id']);
+						if($members->isGroupingMember($ilUser->getId(),$condition['value']))
 						{
 							if(!$assigned_message)
 							{

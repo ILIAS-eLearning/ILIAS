@@ -97,9 +97,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		// setup rolefolder & default local roles
 		//$roles = $newObj->initDefaultRoles();
 
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
 		// put here object specific stuff
 
 		// always send a message

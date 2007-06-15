@@ -704,7 +704,7 @@ class ilUserImportParser extends ilSaxParser
 			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id, true);
 			$course_ref = $tree->getParentId($rolf_refs[0]);
 			$course_obj = new ilObjCourse($course_ref, true);
-			$crsmembers_obj = new ilCourseMembers($course_obj);
+			$crsmembers_obj = ilCourseParticipants::_getInstanceByObjId($course_obj->getId());
 			$this->localRoleCache[$a_role_id.'_courseMembersObject'] = $crsmembers_obj;
 			return $crsmembers_obj;
 		}
@@ -718,7 +718,7 @@ class ilUserImportParser extends ilSaxParser
 	{
 		require_once "classes/class.ilObjRole.php";
 		require_once "Modules/Course/classes/class.ilObjCourse.php";
-		require_once "Modules/Course/classes/class.ilCourseMembers.php";
+		require_once "Modules/Course/classes/class.ilCourseParticipants.php";
 
 		global $rbacreview, $rbacadmin, $tree;
 
@@ -732,16 +732,16 @@ class ilUserImportParser extends ilSaxParser
 			switch (substr($role_obj->getTitle(),0,12))
 			{
 				case 'il_crs_admin' :
-					$crs_role = $crsmembers_obj->ROLE_ADMIN;
+					$crs_role = IL_CRS_ADMIN;
 					$crs_status = $crsmembers_obj->STATUS_NO_NOTIFY;
 					break;
 				case 'il_crs_tutor' :
-					$crs_role = $crsmembers_obj->ROLE_TUTOR;
+					$crs_role = IL_CRS_TUTOR;
 					$crs_status = $crsmembers_obj->STATUS_NO_NOTIFY;
 					break;
 				case 'il_crs_membe' :
 				default :
-					$crs_role = $crsmembers_obj->ROLE_MEMBER;
+					$crs_role = IL_CRS_MEMBER;
 					$crs_status = $crsmembers_obj->STATUS_UNBLOCKED;
 					break;
 			}
@@ -836,7 +836,7 @@ class ilUserImportParser extends ilSaxParser
 	{
 		require_once "classes/class.ilObjRole.php";
 		require_once "Modules/Course/classes/class.ilObjCourse.php";
-		require_once "Modules/Course/classes/class.ilCourseMembers.php";
+		require_once "Modules/Course/classes/class.ilCourseParticipants.php";
 
 		global $rbacreview, $rbacadmin, $tree;
 
@@ -846,7 +846,7 @@ class ilUserImportParser extends ilSaxParser
 		//print_r($role_obj->getTitle());
 		if (substr($role_obj->getTitle(),0,6) == 'il_crs_')
 		{
-			$crsmembers_obj = $this->getCourseMembersObjectForRole($role_id);
+			$crsmembers_obj = $this->getCourseMembersObjectForRole($a_role_id);
 			//print_r($crsmembers_obj ->getTitle());
 			switch (substr($role_obj->getTitle(),0,12))
 			{

@@ -277,6 +277,26 @@ class ilObjCourse extends ilContainer
 	{
 		$this->subscription_max_members = $a_value;
 	}
+	
+	/**
+	 * Check if subscription notification is enabled
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int course_id
+	 */
+	public static function _isSubscriptionNotificationEnabled($a_course_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM crs_settings ".
+			"WHERE obj_id = ".$ilDB->quote($a_course_id)." ".
+			"AND subscription_notify = 1";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+	
 	function getSubscriptionNotify()
 	{
 		return $this->subscription_notify ? true : false;
@@ -616,7 +636,7 @@ class ilObjCourse extends ilContainer
 	 	
 	 	// Assign admin
 		$new_obj->initCourseMemberObject();
-		$new_obj->members_obj->add($ilUser,$new_obj->members_obj->ROLE_ADMIN);
+		$new_obj->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
 		
 		// Copy settings
 		$this->cloneSettings($new_obj);
@@ -760,11 +780,6 @@ class ilObjCourse extends ilContainer
 		{
 			$this->appendMessage($this->lng->txt("max_members_not_numeric"));
 		}
-		#if($this->getSubscriptionMaxMembers() and
-		#	$this->getSubscriptionMaxMembers() < $this->members_obj->getCountMembers())
-		#{
-		#	$this->appendMessage($this->lng->txt("crs_max_members_smaller_members"));
-		#}
 		if(($this->getViewMode() == IL_CRS_VIEW_ARCHIVE) and
 		   $this->getArchiveStart() > $this->getArchiveEnd())
 		{
@@ -822,8 +837,8 @@ class ilObjCourse extends ilContainer
 		$this->initCourseItemObject();
 		$this->items_obj->deleteAllEntries();
 
-		$this->initCourseMemberObject();
-		$this->members_obj->deleteAllEntries();
+		include_once('Modules/Course/classes/class.ilCourseParticipants.php');
+		ilCourseParticipants::_deleteAllEntries($this->getId());
 
 		$this->initCourseArchiveObject();
 		$this->archives_obj->deleteAll();
@@ -1050,12 +1065,8 @@ class ilObjCourse extends ilContainer
 		
 	function initCourseMemberObject()
 	{
-		include_once "./Modules/Course/classes/class.ilCourseMembers.php";
-
-		if(!is_object($this->members_obj))
-		{
-			$this->members_obj =& new ilCourseMembers($this);
-		}
+		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
+		$this->members_obj = ilCourseParticipants::_getInstanceByObjId($this->getId());
 		return true;
 	}
 
@@ -1387,14 +1398,14 @@ class ilObjCourse extends ilContainer
 	// static method for condition handler
 	function _checkCondition($a_obj_id,$a_operator,$a_value)
 	{
-		global $ilias;
+		global $ilUser;
 
-		include_once "./Modules/Course/classes/class.ilCourseMembers.php";
+		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
 		
 		switch($a_operator)
 		{
 			case 'passed':
-				return ilCourseMembers::_hasPassed($a_obj_id,$ilias->account->getId());
+				return ilCourseParticipants::_hasPassed($a_obj_id,$ilUser->getId());
 				
 			default:
 				return true;
@@ -1408,8 +1419,8 @@ class ilObjCourse extends ilContainer
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		ilCourseLMHistory::_deleteUser($a_usr_id);
 
-		include_once './Modules/Course/classes/class.ilCourseMembers.php';
-		ilCourseMembers::_deleteUser($a_usr_id);
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		ilCourseParticipants::_deleteUser($a_usr_id);
 
 		// Course objectives
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';

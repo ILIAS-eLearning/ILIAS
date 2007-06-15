@@ -192,7 +192,7 @@ class ilCourseRegisterGUI
 				
 				$tmp_obj =& ilObjectFactory::getInstanceByObjId($this->user_id);
 
-				if($this->course_obj->members_obj->add($tmp_obj,$this->course_obj->members_obj->ROLE_MEMBER))
+				if($this->course_obj->members_obj->add($tmp_obj->getId(),IL_CRS_MEMBER))
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilUtil::sendInfo($this->lng->txt("crs_subscription_successful"),true);
@@ -233,11 +233,10 @@ class ilCourseRegisterGUI
 					ilUtil::sendInfo($this->lng->txt("crs_password_not_valid"),true);
 					$this->showRegistrationForm();
 				}
-				else if($this->course_obj->members_obj->add($tmp_obj,$this->course_obj->members_obj->ROLE_MEMBER))
+				else if($this->course_obj->members_obj->add($tmp_obj->getId(),IL_CRS_MEMBER))
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilUtil::sendInfo($this->lng->txt("crs_subscription_successful"),true);
-
 					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 				}
 				else

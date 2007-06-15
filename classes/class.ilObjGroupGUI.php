@@ -1126,6 +1126,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$stati = array_flip($this->object->getLocalGroupRoles(true));
+		
 		//var_dump($stati);exit;
 
 		//build data structure
