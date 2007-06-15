@@ -124,6 +124,27 @@ class ilCourseParticipants
 	}
 	
 	/**
+	 * Check if user has passed course
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int course_id
+	 * @param int user id
+	 */
+	public static function _hasPassed($a_course_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_members ".
+			"WHERE obj_id = ".$ilDB->quote($a_course_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND passed = '1'";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false; 
+	}	
+	
+	/**
 	 * Delete all entries
 	 * Normally called for course deletion
 	 *
