@@ -121,7 +121,7 @@ class ilEventAdministrationGUI
 
 	function printViewMembers()
 	{
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
@@ -132,7 +132,7 @@ class ilEventAdministrationGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
-		$members_obj = new ilCourseMembers($this->course_obj);
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
 		$event_obj = new ilEvent((int) $_GET['event_id']);
 		$event_app =& $event_obj->getFirstAppointment();
 		$event_part = new ilEventParticipants((int) $_GET['event_id']);
@@ -158,7 +158,7 @@ class ilEventAdministrationGUI
 			$tpl->setVariable("TXT_REGISTERED",$this->lng->txt('event_tbl_registered'));
 		}
 
-		$members = $members_obj->getAssignedUsers();
+		$members = $members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
 		foreach($members as $user_id)
 		{
@@ -208,15 +208,15 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("BTN_TARGET",'target="_blank"');
 		$this->tpl->parseCurrentBlock();
 
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
-		$members_obj = new ilCourseMembers($this->course_obj);
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
 		$event_obj = new ilEvent((int) $_GET['event_id']);
 		$event_part = new ilEventParticipants((int) $_GET['event_id']);
 
-		$members = $members_obj->getAssignedUsers();
+		$members = $members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
 
 		$this->tpl->addBlockfile("PARTICIPANTS_TABLE","participants_table", "tpl.table.html");
@@ -339,16 +339,17 @@ class ilEventAdministrationGUI
 
 	function updateMembers()
 	{
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
 		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
 
-		$members_obj = new ilCourseMembers($this->course_obj);
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
+		
 		$event_part = new ilEventParticipants((int) $_GET['event_id']);
 
-		$members = $members_obj->getAssignedUsers();
+		$members = $members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
 		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
 
@@ -931,12 +932,12 @@ class ilEventAdministrationGUI
 	public function exportCSV()
 	{
 		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		
-		$members_obj = new ilCourseMembers($this->course_obj);		
-		$members = $members_obj->getAssignedUsers();
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
+		$members = $members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
 		
 		$events = ilEvent::_getEvents($this->course_obj->getId());
@@ -1001,15 +1002,15 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('event_csv_export'));
 		$this->tpl->parseCurrentBlock();
 				
-		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		
 		$this->tpl->addBlockfile("EVENTS_TABLE","events_table", "tpl.table.html");
 		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.event_list_row.html','Modules/Course');
 		
-		$members_obj = new ilCourseMembers($this->course_obj);		
-		$members = $members_obj->getAssignedUsers();
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
+		$members = $members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
 		
 		// Table 

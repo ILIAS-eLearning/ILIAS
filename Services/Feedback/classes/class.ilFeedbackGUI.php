@@ -688,12 +688,14 @@ class ilFeedbackGUI
 	function _isRequiredFeedbackOnLogin(){
 		global $ilUser;
 		include_once('Services/Feedback/classes/class.ilFeedback.php');
-		include_once('Modules/Course/classes/class.ilCourseMembers.php');
+		include_once('Modules/Course/classes/class.ilCourseParticipants.php');
+		
 
 		$feedback = new ilFeedback();
 		$feedback->getFeedback();
 
-		if(($feedback->getId())&&(ilCourseMembers::_isMember($ilUser->getId(),$feedback->getObjId())))
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($feedback->getObjId());
+		if(($feedback->getId()) && ($members_obj->isAssigned($ilUser->getId())))
 
 			return($feedback->getRefId());
 		else

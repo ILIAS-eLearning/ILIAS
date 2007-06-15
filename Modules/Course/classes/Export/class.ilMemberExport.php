@@ -23,7 +23,7 @@
 include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 include_once('Modules/Course/classes/class.ilCourseAgreement.php');
-include_once('Modules/Course/classes/class.ilCourseMembers.php');
+include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 
 define("IL_MEMBER_EXPORT_CSV_FIELD_SEPERATOR",',');
@@ -71,7 +71,7 @@ class ilMemberExport
 	 	$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
 		 	
 		$this->course = ilObjectFactory::getInstanceByRefId($this->ref_id,false);
-		$this->members = new ilCourseMembers($this->course);
+		$this->members = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
 		$this->agreement = ilCourseAgreement::_readByObjId($this->obj_id);
 	 	$this->settings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
 	 	$this->privacy = ilPrivacySettings::_getInstance();
@@ -277,14 +277,21 @@ class ilMemberExport
 	 	foreach($a_user_ids as $user_id)
 	 	{
 	 		// Read course related data
-	 		$this->user_course_data[$user_id] = $this->members->getUserData($user_id);
-	 		switch($a_status)
+	 		if($this->members->isAdmin($user_id))
 	 		{
-	 			case 'member':
-	 				break;
-	 			case 'subscriber':
-	 				$this->user_course_data[$user_id]['role'] = 'subscriber';
-	 				break; 
+	 			$this->user_course_data[$user_id]['role'] = IL_CRS_ADMIN;
+	 		}
+	 		elseif($this->members->isTutor($user_id))
+	 		{
+	 			$this->user_course_data[$user_id]['role'] = IL_CRS_TUTOR;
+	 		}
+	 		elseif($this->members->isMember($user_id))
+	 		{
+	 			$this->user_course_data[$user_id]['role'] = IL_CRS_MEMBER;
+	 		}
+	 		else
+	 		{
+ 				$this->user_course_data[$user_id]['role'] = 'subscriber';
 	 		}
 	 	}
 	}

@@ -77,6 +77,8 @@ class ilCourseMembers
 
 		$this->course_obj =& $course_obj;
 
+		$this->readRBACMembers();
+
 		$this->__purgeDeleted();
 
 	}
@@ -102,9 +104,18 @@ class ilCourseMembers
 		return true;
 	}
 
-	function add(&$user_obj,$a_role,$a_status = 0,$a_passed = 0)
+	function add($a_user_id,$a_role,$a_status = 0,$a_passed = 0,$a_assign = true)
 	{
 		global $rbacadmin;
+		
+		if(is_object($a_user_id))
+		{
+			$user_id = $a_user_id->getId();
+		}
+		else
+		{
+			$user_id = $a_user_id;
+		}
 
 		switch($a_role)
 		{
@@ -124,7 +135,7 @@ class ilCourseMembers
 				$role = $this->course_obj->getDefaultMemberRole();
 				$passed = $a_passed;
 
-				$this->addDesktopItem($user_obj->getId());
+				$this->addDesktopItem($user_id);
 				break;
 
 			case $this->ROLE_ADMIN:
@@ -142,7 +153,7 @@ class ilCourseMembers
 				}
 				$role = $this->course_obj->getDefaultAdminRole();
 				$passed = $a_passed;
-				$this->addDesktopItem($user_obj->getId());
+				$this->addDesktopItem($user_id);
 				break;
 
 			case $this->ROLE_TUTOR:
@@ -160,14 +171,17 @@ class ilCourseMembers
 				}
 				$role = $this->course_obj->getDefaultTutorRole();
 				$passed = $a_passed;
-				$this->addDesktopItem($user_obj->getId());
+				$this->addDesktopItem($user_id);
 				break;
 
 		}
 		// 1. create entry
-		$this->__createMemberEntry($user_obj->getId(),$a_role,$status,$passed);
+		$this->__createMemberEntry($user_id,$a_role,$status,$passed);
 
-		$rbacadmin->assignUser($role,$user_obj->getId());
+		if($a_assign)
+		{
+			$rbacadmin->assignUser($role,$user_id);
+		}
 
 		return true;
 	}
@@ -258,81 +272,8 @@ class ilCourseMembers
 	}
 
 
-	function deleteAllEntries()
-	{
-		global $ilDB;
-
-		$query = "DELETE FROM crs_members ".
-			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())." ";
-
-		$this->ilDB->query($query);
-
-		$query = "DELETE FROM crs_subscribers ".
-			"WHERE obj_id = ".$ilDB->quote($this->course_obj->getId())."";
-
-		$this->ilDB->query($query);
-
-		return true;
-	}
-
-	function deleteMembers($a_usr_ids)
-	{
-		if(!is_array($a_usr_ids) or !count($a_usr_ids))
-		{
-			$this->course_obj->setMessage("");
-			$this->course_obj->appendMessage($this->lng->txt("no_usr_ids_given"));
-
-			return false;
-		}
-		foreach($a_usr_ids as $id)
-		{
-			if(!$this->delete($id))
-			{
-				$this->course_obj->appendMessage($this->lng->txt("error_delete_member"));
-
-				return false;
-			}
-		}
-		return true;
-	}
-
-	function delete($a_usr_id)
-	{
-		global $rbacadmin,$ilDB;
-
-		if(!$this->__read($a_usr_id))
-		{
-			return true;
-		}
-
-		switch($this->member_data["role"])
-		{
-			case $this->ROLE_ADMIN:
-				$role = $this->course_obj->getDefaultAdminRole();
-				break;
 
 
-			case $this->ROLE_TUTOR:
-				$role = $this->course_obj->getDefaultTutorRole();
-				break;
-
-			case $this->ROLE_MEMBER:
-				$role = $this->course_obj->getDefaultMemberRole();
-				break;
-		}
-
-		$this->dropDesktopItem($a_usr_id);
-		$rbacadmin->deassignUser($role,$a_usr_id);
-
-
-		$query = "DELETE FROM crs_members ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
-
-		$res = $this->ilDB->query($query);
-
-		return true;
-	}
 
 
 	/*
@@ -702,139 +643,10 @@ class ilCourseMembers
 		}
 		return false;
 	}
+	
+	
+	
 
-	function sendNotification($a_type, $a_usr_id)
-	{
-		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id,false);
-
-		$link = ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
-		$link .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_obj->getRefId()."&client_id=".CLIENT_ID);
-
-
-		switch($a_type)
-		{
-			case $this->NOTIFY_DISMISS_SUBSCRIBER:
-				$subject = $this->lng->txt("crs_reject_subscriber");
-				$body = $this->lng->txt("crs_reject_subscriber_body");
-				break;
-
-			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
-				$subject = $this->lng->txt("crs_accept_subscriber");
-				$body = $this->lng->txt("crs_accept_subscriber_body");
-				$body .= $link;
-				break;
-			case $this->NOTIFY_DISMISS_MEMBER:
-				$subject = $this->lng->txt("crs_dismiss_member");
-				$body = $this->lng->txt("crs_dismiss_member_body");
-				break;
-			case $this->NOTIFY_BLOCK_MEMBER:
-				$subject = $this->lng->txt("crs_blocked_member");
-				$body = $this->lng->txt("crs_blocked_member_body");
-				break;
-			case $this->NOTIFY_UNBLOCK_MEMBER:
-				$subject = $this->lng->txt("crs_unblocked_member");
-				$body = $this->lng->txt("crs_unblocked_member_body");
-				$body .= $link;
-				break;
-			case $this->NOTIFY_ACCEPT_USER:
-				$subject = $this->lng->txt("crs_added_member");
-				$body = $this->lng->txt("crs_added_member_body");
-				$body .= $link;
-				break;
-			case $this->NOTIFY_STATUS_CHANGED:
-				$subject = $this->lng->txt("crs_status_changed");
-				$body = $this->__buildStatusBody($tmp_user);
-				$body .= $link;
-				break;
-
-			case $this->NOTIFY_SUBSCRIPTION_REQUEST:
-				$this->sendSubscriptionRequestToAdmins($a_usr_id);
-				return true;
-				break;
-
-			case $this->NOTIFY_ADMINS:
-				$this->sendNotificationToAdmins($a_usr_id);
-
-				return true;
-				break;
-		}
-		$subject = sprintf($subject, $this->course_obj->getTitle());
-		$body = sprintf($body, $this->course_obj->getTitle());
-
-		include_once("Services/Mail/classes/class.ilFormatMail.php");
-
-		$mail = new ilFormatMail($_SESSION["AccountId"]);
-		$mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
-
-		unset($tmp_user);
-		return true;
-	}
-
-	function sendNotificationToAdmins($a_usr_id)
-	{
-		global $ilDB;
-
-		if(!$this->course_obj->getSubscriptionNotify())
-		{
-			return true;
-		}
-
-
-		include_once("Services/Mail/classes/class.ilFormatMail.php");
-
-		$mail =& new ilFormatMail($a_usr_id);
-		$subject = sprintf($this->lng->txt("crs_new_subscription"),$this->course_obj->getTitle());
-		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$this->course_obj->getTitle());
-
-		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE status = ".$ilDB->quote($this->STATUS_NOTIFY)." ".
-			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
-
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
-
-			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
-			unset($tmp_user);
-		}
-		unset($mail);
-
-		return true;
-	}
-	function sendSubscriptionRequestToAdmins($a_usr_id)
-	{
-		global $ilDB;
-
-		if(!$this->course_obj->getSubscriptionNotify())
-		{
-			return true;
-		}
-
-
-		include_once("Services/Mail/classes/class.ilFormatMail.php");
-
-		$mail =& new ilFormatMail($a_usr_id);
-		$subject = sprintf($this->lng->txt("crs_new_subscription_request"),$this->course_obj->getTitle());
-		$body = sprintf($this->lng->txt("crs_new_subscription_request_body"),$this->course_obj->getTitle());
-		$body .= ("\n\n".$this->lng->txt('crs_new_subscription_request_body2'));
-		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_obj->getRefId()."&client_id=".CLIENT_ID);
-
-		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE status = ".$ilDB->quote($this->STATUS_NOTIFY)." ".
-			"AND obj_id = ".$ilDB->quote($this->course_obj->getId())."";
-
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
-			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
-			unset($tmp_user);
-		}
-		unset($mail);
-
-		return true;
-	}
 	function sendUnsubscribeNotificationToAdmins($a_usr_id)
 	{
 		global $ilDB;
@@ -1149,7 +961,61 @@ class ilCourseMembers
 			$ilDB->query($query);
 		}
 	}
+	
+	/**
+	 * Read RBAC members and synchronize member_data
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function readRBACMembers()
+	{
+		global $rbacreview,$ilObjDataCache;
+		
+		return true;
 
+		// get reference
+		$ref_id = $this->course_obj->getRefId();
+		$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
 
+		$users = array();
+		foreach($local_roles as $role_id)
+		{
+			$title = $ilObjDataCache->lookupTitle($role_id);
+			switch(substr($title,0,8))
+			{
+				case 'il_crs_m':
+					foreach($new_members = array_diff($rbacreview->assignedUsers($role_id),$this->getMembers()) as $member_id)
+					{
+						$this->add($member_id,$this->ROLE_MEMBER,$this->STATUS_UNBLOCKED,0,false);
+					}
+					break;
+
+				case 'il_crs_a':
+					foreach($new_admins = array_diff($rbacreview->assignedUsers($role_id),$this->getAdmins()) as $member_id)
+					{
+						$this->add($member_id,$this->ROLE_ADMIN,$this->STATUS_NOTIFY,0,false);
+					}
+					break;
+				case 'il_crs_t':
+					foreach($new_tutors = array_diff($rbacreview->assignedUsers($role_id),$this->getTutors()) as $member_id)
+					{
+						$this->add($member_id,$this->ROLE_TUTOR,$this->STATUS_NO_NOTIFY,0,false);
+					}
+					break;
+				default:
+					foreach($new_local_members = array_diff($rbacreview->assignedUsers($role_id),$this->getMembers()) as $member_id)
+					{
+						$this->add($member_id,$this->ROLE_MEMBER,$this->STATUS_UNBLOCKED,0,false);
+					}
+					break;
+			}
+			$users = array_merge($users,$rbacreview->assignedUsers($role_id));
+		}
+		return array_unique($users);
+	 	
+	}
 }
 ?>

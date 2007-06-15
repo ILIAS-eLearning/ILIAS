@@ -7166,7 +7166,7 @@ ps#:#ps_perform_export#:#Start CSV-Export
 crs#:#export_members#:#Export Participants
 crs#:#crs_agreement_header#:#User Agreement
 crs#:#crs_user_agreement#:#Released Data Types
-crs#:#crs_info_agreement#:#The following data tyes are visible for course administrators:
+crs#:#crs_info_agreement#:#The following data types are visible for course administrators:
 crs#:#crs_agree#:#Acceptance
 crs#:#crs_info_agree#:#I accept, that the above data types are visible for course administrators.
 crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.

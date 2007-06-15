@@ -336,9 +336,9 @@ class ilRepositoryExplorer extends ilExplorer
 					return false;
 				}
 				
-				include_once './Modules/Course/classes/class.ilCourseMembers.php';
+				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 
-				if(ilCourseMembers::_isBlocked($a_obj_id,$ilUser->getId()))
+				if(ilCourseParticipants::_isBlocked($a_obj_id,$ilUser->getId()))
 				{
 					return false;
 				}

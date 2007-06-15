@@ -1250,6 +1250,8 @@ class ilMail
 		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
 		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
 
+		// currently disabled..
+		/*
 		if (count($c_emails))
 		{
 			if (!$this->getEmailOfSender())
@@ -1257,6 +1259,7 @@ class ilMail
 				return $lng->txt("mail_check_your_email_addr");
 			}
 		}
+		*/
 
 		// ACTIONS FOR ALL TYPES
 		// save mail in sent box

@@ -1627,3 +1627,25 @@ $query = "INSERT INTO rbac_ta SET typ_id = '".$recf_id."', ops_id = 4";
 $ilDB->query($query);
 ?>
 
+<#1017>
+ALTER TABLE `crs_members` CHANGE `role` `notification` TINYINT( 2 ) NOT NULL DEFAULT '0';
+
+<#1018>
+ALTER TABLE `crs_members` CHANGE `status` `blocked` TINYINT( 2 ) NOT NULL DEFAULT '0';
+
+<#1019>
+<?php
+
+$query = "UPDATE crs_members SET notification = '0'";
+$ilDB->query($query);
+
+$query = "UPDATE crs_members SET notification = '1' WHERE blocked = '1'";
+$ilDB->query($query);
+
+$query = "UPDATE crs_members SET blocked = '0' WHERE (blocked = '1' OR blocked = '2' OR blocked = '4')";
+$ilDB->query($query);
+
+$query = "UPDATE crs_members SET blocked = '1' WHERE blocked = '3'";
+$ilDB->query($query);
+
+?>

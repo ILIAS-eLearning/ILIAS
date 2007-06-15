@@ -57,18 +57,19 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "view":
-				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-				if(ilCourseMembers::_isBlocked($a_obj_id,$a_user_id))
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
 				}					
 				break;
 
+			/*
 			case "info":
 				// Used for permission query ?!
-				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
-				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				if(ilCourseParticipants::_isAssigned($a_user_id,$a_obj_id))
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
 				}
@@ -77,14 +78,15 @@ class ilObjCourseAccess extends ilObjectAccess
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_not_member"));
 				}			
 				break;
-
+			*/	
 			case 'join':
-				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
-				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
+				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				if($members->isAssigned($a_user_id))
 				{
 					return false;
-				}
+				}				
 				break;
 		}
 
@@ -107,18 +109,27 @@ class ilObjCourseAccess extends ilObjectAccess
 				break;
 
 			case 'read':
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
+				if($tutor)
+				{
+					return true;
+				}				
 				include_once 'Modules/Course/classes/class.ilObjCourse.php';
 				$active = ilObjCourse::_isActivated($a_obj_id);
-				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
 
-				if(!$tutor and !$active)
+				if(!$active)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
 				}
-				break;
-					
 				
+				include_once('Modules/Course/classes/class.ilCourseParticipants.php');
+				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
+					return false;
+				}
+				break;
 		}
 		return true;
 	}

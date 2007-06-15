@@ -215,7 +215,7 @@ class ilRbacAdmin
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
 			$message = get_class($this)."::assignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			#$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		// check if already assigned user id and role_id

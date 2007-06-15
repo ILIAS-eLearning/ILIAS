@@ -2460,12 +2460,12 @@ class ilObjUser extends ilObject
 		return $grp_memberships;
 	}
 
-/*
-* get the memberships(course_ids) of courses that are subscribed to the current user object
-* @param	integer optional user_id
-* @access	public
-*/
-function getCourseMemberships($a_user_id = "")
+	/*
+	* get the memberships(course_ids) of courses that are subscribed to the current user object
+	* @param	integer optional user_id
+	* @access	public
+	*/
+	function getCourseMemberships($a_user_id = "")
 	{
 		global $rbacreview, $tree;
 
@@ -2493,22 +2493,18 @@ function getCourseMemberships($a_user_id = "")
 
 				if ($node["type"] == "crs")
 				{
-					$course =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-					include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+					include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+					$crsmem = ilCourseParticipants::_getInstanceByObjId($node['obj_id']);
 
-					$crsmem = new ilCourseMembers($course);
-
-					if ($crsmem->isAssigned($user_id) && !in_array($course->getId(), $crs_memberships))
+					if ($crsmem->isAssigned($user_id) && !in_array($node['obj_id'], $crs_memberships))
 					{
-						array_push($crs_memberships, $course->getId());
+						array_push($crs_memberships, $node['obj_id']);
 					}
 				}
-
-				unset($course);
 			}
 		}
 
-		return $crs_memberships;
+		return $crs_memberships ? $crs_memberships : array();
 	}
 
 
