@@ -1500,12 +1500,14 @@ class ilObject
 			? ""
 			: $module."/";
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
+		
+		$title = $this->prependCopyInfo($a_copy_id);
 
 		// create instance
 		include_once($module_dir."classes/class.".$class_name.".php");
 		$new_obj = new $class_name(0, false);
 		$new_obj->setOwner($ilUser->getId());
-		$new_obj->setTitle($this->getTitle());
+		$new_obj->setTitle($title);
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setType($this->getType());
 		// Choose upload mode to avoid creation of additional settings, db entries ...
@@ -1520,6 +1522,58 @@ class ilObject
 		
 		return $new_obj;
 	}
+	
+	/**
+	 * Prepend Copy info if object with same name exists in that container
+	 *
+	 * @access public
+	 * @param int copy_id
+	 * 
+	 */
+	public function prependCopyInfo($a_copy_id)
+	{
+		global $tree;
+		
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			return $this->getTitle();
+		}
+		$nodes = $tree->getChilds($tree->getParentId($this->getRefId()));
+		$title_unique = false;
+		$title = $this->getTitle();
+		$increment = 0;
+		while(!$title_unique)
+		{
+			$found = 0;
+			foreach($nodes as $node)
+			{
+				if(($title == $node['title']) and ($this->getType() == $node['type']))
+				{
+					$found++;
+				}
+			}
+			if($found > 0)
+			{
+				if(!$increment)
+				{
+					$title = $this->getTitle().' (Copy)';
+					$increment++;
+				}
+				else
+				{
+					$title = ($this->getTitle().' (Copy '.($increment+1).')');
+					$increment++;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		return $title;
+	}	
 	
 	/**
 	 * Clone object dependencies

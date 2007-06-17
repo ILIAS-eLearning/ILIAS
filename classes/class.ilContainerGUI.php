@@ -1971,6 +1971,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		$copy_id = ilCopyWizardOptions::_allocateCopyId();
 		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
 		$wizard_options->saveOwner($ilUser->getId());
+		$wizard_options->saveRoot((int) $_REQUEST['clone_source']);
 		
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		
