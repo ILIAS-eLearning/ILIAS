@@ -179,6 +179,11 @@ class ilCourseContentGUI
 
 		$this->ctrl->setReturn($this,'');
 		$objectives_gui = new ilCourseObjectivePresentationGUI($this->container_gui);
+		
+		if(!$this->ctrl->getNextClass())
+		{
+			$this->ctrl->setCmdClass(get_class($objectives_gui));
+		}
 		$this->ctrl->forwardCommand($objectives_gui);
 
 		$this->tabs_gui->setTabActive('view_content');
