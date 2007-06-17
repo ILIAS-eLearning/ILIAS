@@ -39,6 +39,7 @@ class ilCopyWizardOptions
 	
 	const OWNER_KEY = -3;
 	const DISABLE_SOAP = -4;
+	const ROOT_NODE = -5;
 	
 	private $db;
 	
@@ -139,6 +140,36 @@ class ilCopyWizardOptions
 	 	$this->db->query($query);
 		return true;
 	}
+	
+	/**
+	 * Save root node id
+	 *
+	 * @access public
+	 * @param int ref_id of copy source
+	 * 
+	 */
+	public function saveRoot($a_root)
+	{
+	 	$query = "INSERT INTO copy_wizard_options ".
+	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
+	 		"source_id = ".$this->db->quote(self::ROOT_NODE).", ".
+	 		"options = '".addslashes(serialize(array($a_root)))."'";
+	 	$this->db->query($query);
+		return true;
+		
+	}
+	
+	/**
+	 * Is root node
+	 *
+	 * @access public
+	 * @param int ref_id of copy
+	 * 
+	 */
+	 public function isRootNode($a_root)
+	 {
+	 	return in_array($a_root,$this->getOptions(self::ROOT_NODE));
+	 }
 	
 	/**
 	 * Disable soap calls. Recursive call of ilClone and ilCloneDependencies
