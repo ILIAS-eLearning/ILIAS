@@ -589,13 +589,10 @@ class ilRepositorySearchGUI
 		$tpl->setVariable("BTN_NAME","addUser");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("btn_add"));
 		$tpl->parseCurrentBlock();
-		if (!empty($a_user_ids))
-		{
-			$tpl->setCurrentBlock("tbl_select_all");
-			$tpl->setVariable("COLUMN_COUNTS",4);
-			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-			$tpl->parseCurrentBlock();
-		}
+		
+		$tbl->enable('select_all');
+		$tbl->setFormName("cmd");
+		$tbl->setSelectAllCheckbox("user");
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -645,13 +642,9 @@ class ilRepositorySearchGUI
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_list_users"));
 		$tpl->parseCurrentBlock();
 
-		if (!empty($a_grp_ids))
-		{
-			$tpl->setCurrentBlock("tbl_select_all");
-			$tpl->setVariable("COLUMN_COUNTS",4);
-			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-			$tpl->parseCurrentBlock();
-		}
+		$tbl->enable('select_all');
+		$tbl->setFormName("cmd");
+		$tbl->setSelectAllCheckbox("group");
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -698,14 +691,10 @@ class ilRepositorySearchGUI
 		$tpl->setVariable("BTN_NAME","listUsersRole");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_list_users"));
 		$tpl->parseCurrentBlock();
-		
-		if (!empty($a_role_ids))
-		{
-			$tpl->setCurrentBlock("tbl_select_all");
-			$tpl->setVariable("COLUMN_COUNTS",4);
-			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-			$tpl->parseCurrentBlock();
-		}
+
+		$tbl->enable('select_all');
+		$tbl->setFormName("cmd");
+		$tbl->setSelectAllCheckbox("role");
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
