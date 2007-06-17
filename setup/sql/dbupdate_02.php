@@ -1649,3 +1649,7 @@ $query = "UPDATE crs_members SET blocked = '1' WHERE blocked = '3'";
 $ilDB->query($query);
 
 ?>
+<#1020>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

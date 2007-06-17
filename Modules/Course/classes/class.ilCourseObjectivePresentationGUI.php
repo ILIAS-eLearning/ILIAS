@@ -70,8 +70,7 @@ class ilCourseObjectivePresentationGUI
 
 	function &executeCommand()
 	{
-		#$next_class = $this->ctrl->getNextClass();
-		$next_class = '';
+		$next_class = $this->ctrl->getNextClass();
 		switch($next_class)
 		{
 			
