@@ -454,10 +454,12 @@ class ilCourseObjectiveResult
 		}
 		if(count($passed))
 		{
-			$query = "UPDATE crs_members SET passed = '1' ".
-				"WHERE usr_id = ".$ilDB->quote($a_user_id)." ".
-				"AND obj_id IN (".implode(",",$passed).") ";
-			$ilDB->query($query);
+			foreach($passed as $crs_id)
+			{
+				include_once('Modules/Course/classes/class.ilCourseParticipants.php');
+				$members = ilCourseParticipants::_getInstanceByObjId($crs_id);
+				$members->updatePassed($a_user_id,true);
+			}
 		}
 	}
 		

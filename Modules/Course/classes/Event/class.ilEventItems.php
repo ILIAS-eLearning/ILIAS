@@ -78,6 +78,7 @@ class ilEventItems
 	{
 		return ilEventItems::_delete($this->getEventId());
 	}
+	
 	function _delete($a_event_id)
 	{
 		global $ilDB;
@@ -87,6 +88,7 @@ class ilEventItems
 		$ilDB->query($query);
 		return true;
 	}
+	
 	function update()
 	{
 		global $ilDB;
@@ -194,7 +196,7 @@ class ilEventItems
 	// PRIVATE
 	function __read()
 	{
-		global $ilDB;
+		global $ilDB,$tree;
 		
 		$query = "SELECT * FROM event_items ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
@@ -203,6 +205,18 @@ class ilEventItems
 		$this->items = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($tree->isDeleted($row->item_id))
+			{
+				continue;
+			}
+			if(!$tree->isInTree($row->item_id))
+			{
+				$query = "DELETE FROM event_items ".
+					"WHERE item_id = ".$ilDB->quote($row->item_id);
+				$ilDB->query($query);
+				continue;
+			}
+			
 			$this->items[] = (int) $row->item_id;
 		}
 		return true;
