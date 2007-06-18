@@ -1831,6 +1831,12 @@ class ilUtil
 			{
 				if (! file_exists($dir))
 				{
+					if (strcmp(substr($dir,strlen($dir)-1,1),"/") == 0)
+					{
+						// on some systems there is an error when there is a slash
+						// at the end of a directory in mkdir, see Mantis #2554
+						$dir = substr($dir,0,strlen($dir)-1);
+					}
 					if (! mkdir($dir, $umask))
 					{
 						error_log("Can't make directory: $dir");
