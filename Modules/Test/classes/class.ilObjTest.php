@@ -443,6 +443,8 @@ class ilObjTest extends ilObject
 		$this->show_cancel = 1;
 		$this->show_marker = 0;
 		$this->fixed_participants = 0;
+		$this->setShowPassDetails(TRUE);
+		$this->setShowSolutionDetails(TRUE);
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
