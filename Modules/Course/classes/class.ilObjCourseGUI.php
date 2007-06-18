@@ -1980,10 +1980,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$subscriber_ids[$counter] = $member_id;
 					
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"subscriber[]",$member_id);
+					$f_result[$counter][]	= $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
 					$f_result[$counter][]	= $tmp_obj->getLogin();
-					$f_result[$counter][]	= $tmp_obj->getFirstname();
-					$f_result[$counter][]	= $tmp_obj->getLastname();
-					#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$member_data["time"]);
 					$f_result[$counter][]   = ilFormat::formatUnixTime($member_data["time"],true);
 
 					unset($tmp_obj);
@@ -3844,7 +3842,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setCurrentBlock("plain_buttons");
 		$tpl->parseCurrentBlock();
 
-		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("COLUMN_COUNTS",4);
 		
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
@@ -3854,17 +3852,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
 		$tpl->parseCurrentBlock();
 
-		if (!empty($a_subscriber_ids))
-		{
-			// set checkbox toggles
-			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			$tpl->setVariable("JS_VARNAME","subscriber");			
-			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_subscriber_ids));
-			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-			$tpl->parseCurrentBlock();
-		}
-		
+		$tbl->enable('select_all');
+		$tbl->setFormName("cmd");
+		$tbl->setSelectAllCheckbox("subscriber");
+
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
@@ -3872,21 +3863,19 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$tbl->setTitle($this->lng->txt("crs_subscribers"),"icon_usr.gif",$this->lng->txt("crs_header_members"));
 		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("username"),
-								   $this->lng->txt("firstname"),
-								   $this->lng->txt("lastname"),
+								   $this->lng->txt("name"),
+								   $this->lng->txt("login"),
 								   $this->lng->txt("crs_time")));
 		$tbl->setHeaderVars(array("",
+								  "name",
 								  "login",
-								  "firstname",
-								  "lastname",
 								  "sub_time"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "members",
 								  "update_subscribers" => 1,
 								  "cmdClass" => "ilobjcoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array("4%","24%","24%","24%","24%"));
+		$tbl->setColumnWidth(array('1%'));
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"subscribers");
 		$tbl->render();
