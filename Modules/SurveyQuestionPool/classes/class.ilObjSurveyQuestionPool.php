@@ -443,12 +443,14 @@ class ilObjSurveyQuestionPool extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
+	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
 		$where = "";
-		if (strlen($filter_text) > 0) {
-			switch($sel_filter_type) {
+		if (strlen($filter_text) > 0) 
+		{
+			switch($sel_filter_type) 
+			{
 				case "title":
 					$where = " AND survey_question.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
@@ -461,43 +463,37 @@ class ilObjSurveyQuestionPool extends ilObject
 			}
 		}
   
-    // build sort order for sql query
+		// build sort order for sql query
 		$order = "";
 		$images = array();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-    if (count($sortoptions)) 
+		switch ($sort) 
 		{
-      foreach ($sortoptions as $key => $value) 
-			{
-        switch($key) 
-				{
-          case "title":
-            $order = " ORDER BY title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "description":
-            $order = " ORDER BY description $value";
-            $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "type":
-            $order = " ORDER BY questiontype_id $value";
-            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "author":
-            $order = " ORDER BY author $value";
-            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "created":
-            $order = " ORDER BY created $value";
-            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "updated":
-            $order = " ORDER BY TIMESTAMP14 $value";
-            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-        }
-      }
-    }
+			case "title":
+				$order = " ORDER BY title $sortorder";
+				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "description":
+				$order = " ORDER BY description $sortorder";
+				$images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "type":
+				$order = " ORDER BY questiontype_id $sortorder";
+				$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "author":
+				$order = " ORDER BY author $sortorder";
+				$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "created":
+				$order = " ORDER BY created $sortorder";
+				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+			case "updated":
+				$order = " ORDER BY TIMESTAMP14 $sortorder";
+				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+				break;
+		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
 		if ($maxentries < 1)
 		{
