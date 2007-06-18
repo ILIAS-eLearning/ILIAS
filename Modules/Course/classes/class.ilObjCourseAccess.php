@@ -58,7 +58,8 @@ class ilObjCourseAccess extends ilObjectAccess
 		{
 			case "view":
 				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id))
+				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				if($members->isBlocked($a_user_id) and $members->isAssigned($a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
@@ -124,7 +125,8 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				
 				include_once('Modules/Course/classes/class.ilCourseParticipants.php');
-				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id))
+				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				if($members->isBlocked($a_user_id) and $members->isAssigned($a_user_id))  
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;

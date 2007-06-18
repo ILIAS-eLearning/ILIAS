@@ -612,7 +612,7 @@ class ilCourseRegisterGUI
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_already_assigned"));
 			$allow_subscription = false;
 		}
-		if($this->course_obj->members_obj->isBlocked($this->user_id))
+		if($this->course_obj->members_obj->isBlocked($this->user_id) and $this->course_obj->members_obj->isAssigned($this->user_id))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_blocked"));
 			$allow_subscription = false;
