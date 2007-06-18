@@ -121,7 +121,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 		// blocked
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		if(ilCourseParticipants::_isBlocked($this->obj_id,$ilUser->getId()))
+		$members = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
+		if($members->isBlocked($ilUser->getId()) and $members->isAssigned($ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
 				"value" => $lng->txt("crs_status_blocked"));
