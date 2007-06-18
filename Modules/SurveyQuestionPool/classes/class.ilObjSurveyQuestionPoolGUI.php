@@ -316,23 +316,31 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		global $rbacsystem;
 		
 		ilUtil::sendInfo();
-    // create an array of all checked checkboxes
-    $checked_questions = array();
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/cb_(\d+)/", $key, $matches)) {
-        array_push($checked_questions, $matches[1]);
-      }
-    }
+		// create an array of all checked checkboxes
+		$checked_questions = array();
+		foreach ($_POST as $key => $value) 
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches)) 
+			{
+				array_push($checked_questions, $matches[1]);
+			}
+		}
 		
-		if (count($checked_questions) > 0) {
-			if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+		if (count($checked_questions) > 0) 
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id)) 
+			{
 				ilUtil::sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
-			} else {
+			} 
+			else 
+			{
 				ilUtil::sendInfo($this->lng->txt("qpl_delete_rbac_error"));
 				$this->questionsObject();
 				return;
 			}
-		} elseif (count($checked_questions) == 0) {
+		} 
+		elseif (count($checked_questions) == 0) 
+		{
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"));
 			$this->questionsObject();
 			return;
@@ -648,7 +656,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// default sort order
 			$_GET["sort"] = array("title" => "ASC");
 		}
-		$table = $this->object->getQuestionsTable($_GET["sort"], $filter_text, $filter_type, $startrow);
+		$sort = ($_GET["sort"]) ? $_GET["sort"] : "title";
+		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : "ASC";
+		$this->ctrl->setParameter($this, "sort", $sort);
+		$this->ctrl->setParameter($this, "sortorder", $sortorder);
+		$table = $this->object->getQuestionsTable($sort, $sortorder, $filter_text, $filter_type, $startrow);
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
 		$last_questionblock_id = 0;
@@ -703,12 +715,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			{
 				$nextstep = $table["rowcount"];
 			}
-			$sort = "";
-			if (is_array($_GET["sort"]))
-			{
-				$key = key($_GET["sort"]);
-				$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
-			}
 			$counter = 1;
 			for ($i = 0; $i < $table["rowcount"]; $i += $table["step"])
 			{
@@ -719,7 +725,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "$sort&nextrow=$i" . "\">$counter</a>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&nextrow=$i" . "\">$counter</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -737,45 +743,42 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "questions") . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "questions") . "$sort&nextrow=" . $table["nextrow"]);
+			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "questions") . "&prevrow=" . $table["prevrow"]);
+			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "questions") . "&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
     // if there are no questions, display a message
     if ($counter == 0) 
 		{
-      $this->tpl->setCurrentBlock("Emptytable");
-      $this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
-      $this->tpl->parseCurrentBlock();
-    }
-		else
+			$this->tpl->setCurrentBlock("Emptytable");
+			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("selectall");
+		$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+		$counter++;
+		$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+		$this->tpl->parseCurrentBlock();
+
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
+		$this->tpl->setCurrentBlock("copy");
+		$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("exportquestions");
+		$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
+		$this->tpl->parseCurrentBlock();
+
+		// create edit buttons & table footer
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$counter++;
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-			$this->tpl->setCurrentBlock("copy");
-			$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("exportquestions");
-			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
-			$this->tpl->parseCurrentBlock();
-
-			// create edit buttons & table footer
-			if ($rbacsystem->checkAccess("write", $this->ref_id))
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
+			$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
+			if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
 			{
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-				$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
-				$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
-				if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
-				{
-					$this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
-				}
+				$this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
 			}
 		}
     
@@ -800,39 +803,53 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("ACTION_QUESTION_ADD", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}
-    // define the sort column parameters
-    $sortcolumns = array(
-      "title" => $_GET["sort"]["title"],
-      "description" => $_GET["sort"]["description"],
-      "type" => $_GET["sort"]["type"],
-      "author" => $_GET["sort"]["author"],
-      "created" => $_GET["sort"]["created"],
-      "updated" => $_GET["sort"]["updated"]
-    );
-    foreach ($sortcolumns as $key => $value) 
+		// define the sort column parameters
+		$sortarray = array(
+			"title" => (strcmp($sort, "title") == 0) ? $sortorder : "",
+			"description" => (strcmp($sort, "description") == 0) ? $sortorder : "",
+			"type" => (strcmp($sort, "type") == 0) ? $sortorder : "",
+			"author" => (strcmp($sort, "author") == 0) ? $sortorder : "",
+			"created" => (strcmp($sort, "created") == 0) ? $sortorder : "",
+			"updated" => (strcmp($sort, "updated") == 0) ? $sortorder : ""
+		);
+		foreach ($sortarray as $key => $value) 
 		{
-      if (strcmp($value, "ASC") == 0) 
+			if (strcmp($value, "ASC") == 0) 
 			{
-        $sortcolumns[$key] = "DESC";
-      } 
+				$sortarray[$key] = "DESC";
+			} 
 			else 
 			{
-        $sortcolumns[$key] = "ASC";
-      }
-    }
+				$sortarray[$key] = "ASC";
+			}
+		}
     
-    $this->tpl->setCurrentBlock("adm_content");
-    // create table header
+		$this->tpl->setCurrentBlock("adm_content");
+		// create table header
 		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
-    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[title]=" . $sortcolumns["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-    $this->tpl->setVariable("QUESTION_DESCRIPTION", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[description]=" . $sortcolumns["description"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["description"]);
-    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[type]=" . $sortcolumns["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[author]=" . $sortcolumns["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[created]=" . $sortcolumns["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[updated]=" . $sortcolumns["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
-    $this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
-    $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this) . $sort);
-    $this->tpl->parseCurrentBlock();
+		$this->ctrl->setParameter($this, "sort", "title");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["title"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->ctrl->setParameter($this, "sort", "description");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["description"]);
+		$this->tpl->setVariable("QUESTION_DESCRIPTION", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["description"]);
+		$this->ctrl->setParameter($this, "sort", "type");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["type"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->ctrl->setParameter($this, "sort", "author");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["author"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->ctrl->setParameter($this, "sort", "created");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["created"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->ctrl->setParameter($this, "sort", "updated");
+		$this->ctrl->setParameter($this, "sortorder", $sortarray["updated"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
+		$this->ctrl->setParameter($this, "sort", $sort);
+		$this->ctrl->setParameter($this, "sortorder", $sortorder);
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
 		unset($_SESSION["calling_survey"]);
   }
 
