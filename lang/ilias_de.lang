@@ -3448,7 +3448,7 @@ common#:#search_recipient#:#Empfänger suchen
 common#:#search_result#:#Suchergebnis
 common#:#search_to_short#:#Der eingebene Suchbegriff ist zu kurz.
 common#:#search_user#:#Benutzer suchen
-common#:#search#:#Suchen
+common#:#search#:#Suche
 common#:#seas_edit_permission#:#Rechteeinstellungen ändern
 common#:#seas_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
 common#:#seas_max_hits#:#Maximalanzahl von Treffern
