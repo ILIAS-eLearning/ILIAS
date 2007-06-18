@@ -568,9 +568,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* Displays the question browser
 	* @access	public
 	*/
-  function questionsObject()
-  {
-    global $rbacsystem;
+	function questionsObject()
+	{
+		global $rbacsystem;
 		global $ilUser;
 
 		$lastquestiontype = $ilUser->getPref("svy_lastquestiontype");
@@ -599,44 +599,44 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questions.html", "Modules/SurveyQuestionPool");
-	  if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
-  	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_svy_qpl_create_new_question.html", "Modules/SurveyQuestionPool");
+			$this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_svy_qpl_create_new_question.html", "Modules/SurveyQuestionPool");
 		}
-    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_qpl_action_buttons.html", "Modules/SurveyQuestionPool");
-    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_qpl_filter_questions.html", "Modules/SurveyQuestionPool");
+		$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_qpl_action_buttons.html", "Modules/SurveyQuestionPool");
+		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_qpl_filter_questions.html", "Modules/SurveyQuestionPool");
 
-    // create filter form
-    $filter_fields = array(
-      "title" => $this->lng->txt("title"),
-      "description" => $this->lng->txt("description"),
-      "author" => $this->lng->txt("author"),
-    );
-    $this->tpl->setCurrentBlock("filterrow");
-    foreach ($filter_fields as $key => $value) 
+		// create filter form
+		$filter_fields = array(
+			"title" => $this->lng->txt("title"),
+			"description" => $this->lng->txt("description"),
+			"author" => $this->lng->txt("author"),
+		);
+		$this->tpl->setCurrentBlock("filterrow");
+		foreach ($filter_fields as $key => $value) 
 		{
-      $this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
-      $this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
-      if (!$_POST["cmd"]["reset"]) 
+			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
+			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
+			if (!$_POST["cmd"]["reset"]) 
 			{
-        if (strcmp($filter_type, $key) == 0) 
+				if (strcmp($filter_type, $key) == 0) 
 				{
-          $this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
-        }
-      }
-      $this->tpl->parseCurrentBlock();
-    }
+					$this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 
-    $this->tpl->setCurrentBlock("filter_questions");
-    $this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
-    $this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
+		$this->tpl->setCurrentBlock("filter_questions");
+		$this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
+		$this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
 		if (strcmp($this->ctrl->getCmd(), "reset") != 0)
 		{
 			$this->tpl->setVariable("VALUE_FILTER_TEXT", $filter_text);
 		}
-    $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
-    $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-    $this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
+		$this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
+		$this->tpl->parseCurrentBlock();
     
 		$startrow = 0;
 		if ($_GET["prevrow"])
@@ -661,8 +661,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "sort", $sort);
 		$this->ctrl->setParameter($this, "sortorder", $sortorder);
 		$table = $this->object->getQuestionsTable($sort, $sortorder, $filter_text, $filter_type, $startrow);
-    $colors = array("tblrow1", "tblrow2");
-    $counter = 0;
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
 		$last_questionblock_id = 0;
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
 		foreach ($table["rows"] as $data)
@@ -748,18 +748,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-    // if there are no questions, display a message
-    if ($counter == 0) 
+		// if there are no questions, display a message
+		if ($counter == 0) 
 		{
 			$this->tpl->setCurrentBlock("Emptytable");
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("selectall");
-		$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-		$counter++;
-		$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-		$this->tpl->parseCurrentBlock();
+		if ($counter > 0) 
+		{
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$counter++;
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+		}
 
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
@@ -782,7 +785,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 		}
     
-	  if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
 			// "create question" form
 			$questiontypes =& $this->object->_getQuestiontypes();
