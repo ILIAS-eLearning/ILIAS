@@ -545,5 +545,15 @@ class ilNewsItem extends ilNewsItemGen
 		}
 	}
 
+	static function _lookupTitle($a_news_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT title FROM il_news_item WHERE id = ".
+			$ilDB->quote($a_news_id);
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $rec["title"];
+	}
 }
 ?>

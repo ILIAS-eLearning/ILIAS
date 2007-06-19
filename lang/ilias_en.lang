@@ -6249,7 +6249,7 @@ search#:#search_content#:#Page Content
 search#:#search_dbk_content#:#Digital Library (content)
 search#:#search_dbk_meta#:#Digital Library (metadata)
 search#:#search_delete_sure#:#The object and its contents will be deleted permanently
-search#:#search_details_info#:#Detail search. Please select one or more objects above.
+search#:#search_details_info#:#Detailed search. Please select one or more resource types.
 search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
 search#:#search_for_grp_members#:#Search for group members

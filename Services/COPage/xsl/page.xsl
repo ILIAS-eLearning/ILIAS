@@ -1648,7 +1648,7 @@
 	</table>
 	<!-- menu -->
 	<xsl:if test="$mode = 'edit' and $javascript='enable'">
-		<div style="position:absolute;left:0;top:0;visibility:hidden;">
+		<div style="position:absolute; left:0; top:0; visibility:hidden; z-index:10;">
 			<xsl:attribute name="id">contextmenu_<xsl:value-of select="../../@HierId"/></xsl:attribute>
 			<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
 				<table cellspacing="0" cellpadding="2" border="0">
