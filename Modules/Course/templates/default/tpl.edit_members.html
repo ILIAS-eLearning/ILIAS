@@ -1,5 +1,5 @@
+<form method="post" name="cmd" action="{FORMACTION}">
 {SUBSCRIBER_TABLE}
-	<form name="members" action="{FORMACTION}" method="post">
 	  <table class="fullwidth" border="0">
 		  <tr class="tbltitle">
 			<th class="std" colspan="8">
@@ -16,43 +16,79 @@
 			  </div>
 			</td>
 		  </tr>
-	  {ADMINISTRATORS}
+		  {ADMINISTRATORS}
+		  <!-- BEGIN admin_action -->
+		  <tr>
+		  	<td colspan="8" class="submit">
+		  		<div style="float:right">
+					<input class="submit" name="btn_pressed[updateAdmins]" value="{ADMIN_SAVE}" type="submit">
+				</div>
+			</td>
+		</tr>
+		  <!-- END admin_action -->
+		</table>
+		<br />
 	  <!-- BEGIN tutor_row -->
-	  <tr class="tblheader">
-		<td class="std"  colspan="8">
-		  <div style="float:left;">
-			{TXT_TUTORS}
-		  </div>
-		  <div style="float:right;">
-			<a class="il_ContainerItemCommand" href="{TUTOR_HIDE}">{TUTOR_HIDE_TEXT}</a>
-		  </div>
-		</td>
-	  </tr>
-	  {TUTORS}
+	  <table class="fullwidth" border="0">
+		  <tr class="tblheader">
+			<td class="std"  colspan="8">
+			  <div style="float:left;">
+				{TXT_TUTORS}
+			  </div>
+			  <div style="float:right;">
+				<a class="il_ContainerItemCommand" href="{TUTOR_HIDE}">{TUTOR_HIDE_TEXT}</a>
+			  </div>
+			</td>
+		  </tr>
+		  {TUTORS}
+		  <!-- BEGIN tutor_action -->
+		  <tr>
+		  	<td colspan="8" class="submit">
+		  		<div style="float:right">
+					<input class="submit" name="btn_pressed[updateTutors]" value="{TUTOR_SAVE}" type="submit">
+				</div>
+			</td>
+		</tr>
+		<!-- END tutor_action -->
+		  
+	</table>
+	<br />
 	  <!-- END tutor_row -->
 	  <!-- BEGIN member_row -->
-	  <tr class="tblheader">
-		<td class="std"  colspan="8">
-		  <div style="float:left;">
-			{TXT_MEMBERS}
-		  </div>
-		  <div style="float:right;">
-			<a class="il_ContainerItemCommand" href="{MEMBER_HIDE}">{MEMBER_HIDE_TEXT}</a>
-		  </div>
-		</td>
-	  </tr>
-	  {MEMBERS}
-	  <!-- END member_row -->
-	  <tr class="tblfooter">
-		<td class="std" colspan="8">
-		  <div style="float:left">
-			<img src="{ARROW_DOWNRIGHT}" alt="" style="vertical-align: middle;" border="0">
-			{SELECT_ACTION}
-			<input class="submit" type="submit" name="cmd[gateway]" value="{TXT_BTN_EXECUTE}" />
-		  </div>
-		  <div style="float:right">
-			<input class="submit" type="submit" name="cmd[updateMembers]" value="{TXT_BTN_UPDATE}" />
-		  </div>
-		</td>
-	  </tr>
+	  <table class="fullwidth" border="0">
+		  <tr class="tblheader">
+			<td class="std"  colspan="8">
+			  <div style="float:left;">
+				{TXT_MEMBERS}
+			  </div>
+			  <div style="float:right;">
+				<a class="il_ContainerItemCommand" href="{MEMBER_HIDE}">{MEMBER_HIDE_TEXT}</a>
+			  </div>
+			</td>
+		  </tr>
+		  {MEMBERS}
+		  <!--  BEGIN member_action -->
+		  <tr>
+		  	<td colspan="8" class="submit">
+		  		<div style="float:right">
+					<input class="submit" name="btn_pressed[updateMembers]" value="{MEMBER_SAVE}" type="submit">
+				</div>
+			</td>
+		</tr>
+			<!-- END member_action -->
 	</table>
+	<br />
+	  <!-- END member_row -->
+<table class="fullwidth" style="clear: both;">
+	<tr class="tblheader">
+		<td>{TXT_SELECTED_USER}</td>
+	</tr>
+	<tr>
+		<td class="submit" align="left">
+			<img src="{ARROW_DOWN}" alt="{ARROW_ALT}" border="0" />
+			<input class="submit" name="btn_pressed[deleteMembers]" value="{BTN_FOOTER_VAL}" type="submit">
+			<input class="submit" name="btn_pressed[sendMailToSelectedUsers]" value="{BTN_FOOTER_MAIL}" type="submit">
+		</td>
+	</tr>
+</table>
+</form>

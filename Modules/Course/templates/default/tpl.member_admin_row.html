@@ -18,10 +18,10 @@
   </td>
   <!-- END progress -->
   <td class="std" valign="top" align="center"> 
-	<input type="checkbox" name="passed[]" value="{USER_ID}" {CHECKED_PASSED} />
+	<input type="checkbox" name="admin_passed[]" value="{USER_ID}" {CHECKED_PASSED} />
   </td>
   <td class="std" valign="top" align="center"> 
-	<input type="checkbox" name="notification[]" value="{USER_ID}" {CHECKED_NOTIFICATION} />
+	<input type="checkbox" name="admin_notification[]" value="{USER_ID}" {CHECKED_NOTIFICATION} />
   </td>
   <td class="std">
 	<div style="float:right;">
@@ -32,15 +32,3 @@
   </td>
 </tr>
 <!-- END standard -->
-<!-- BEGIN select_row -->
-	  <tr class="{ROWCLASS}">
-  <td class="std">
-	<div style="text-align:center">
-	  <input type="checkbox" name="chb_check_all" value="1" 
-		id="admin_active_all" onclick="setChecked('members', 'admin_ids', document.members.admin_active_all.checked);" />
-	</div>
-  </td>
-  <td class="{ROWCLASS}" >{SELECT_ALL}</td>
-  <td class="{ROWCLASS}" colspan="5"></td>
-	  </tr>
-<!-- END select_row -->

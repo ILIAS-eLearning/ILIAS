@@ -4497,7 +4497,7 @@ crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?
 crs#:#crs_delete_file#:#Delete File?
 crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?
 crs#:#crs_delete_from_waiting_list#:#Remove from waiting list
-crs#:#crs_delete_member#:#Deassign member(s)
+crs#:#crs_delete_member#:#Deassign
 crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
 crs#:#crs_delete_subscribers#:#Delete subscriber
@@ -7347,3 +7347,5 @@ ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal
 crs#:#crs_show_link_session#:#Show sessions
 crs#:#crs_hide_link_session#:#Hide sessions
 forum#:#forums_notification_disabled#:#Notification disabled
+crs#:#save_status#:#Save Status
+crs#:#crs_selected_users#:#Selected Participants
