@@ -58,8 +58,8 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   <tr class="tblfooter">
     <td colspan="{COLUMN_COUNT}" class="tblfooter">
 <!-- BEGIN select_all_checkbox -->
-		<input type="checkbox" name="chb_select_all" id="chb_select_all" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.chb_select_all.checked);" />
-		<label for="chb_select_all"><strong>{SELECT_ALL_TXT_SELECT_ALL}</strong></label>
+		<input type="checkbox" name="{SELECT_PREFIX}chb_select_all" id="{SELECT_PREFIX}chb_select_all" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{SELECT_PREFIX}chb_select_all.checked);" />
+		<label for="{SELECT_PREFIX}chb_select_all"><strong>{SELECT_ALL_TXT_SELECT_ALL}</strong></label>
 		<br />
 <!-- END select_all_checkbox -->
 	<div style="float:left;">
