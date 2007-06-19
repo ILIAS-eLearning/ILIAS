@@ -197,7 +197,7 @@ class ilAdminUserSearchGUI
 
 		$this->ctrl->setParameter($this,'search','1');
 
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'startSimple'));
 		$this->tpl->setVariable("TXT_SEARCH",$this->lng->txt("search"));
 		if(count($_SESSION['rep_search']['usr']))
 			$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt('append_results'));
@@ -208,7 +208,7 @@ class ilAdminUserSearchGUI
 	function __showSearch()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rep_search.html','Services/Search');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'startExtended'));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("SEARCH_MEMBERS_HEADER",$this->lng->txt("search_user_extended"));
