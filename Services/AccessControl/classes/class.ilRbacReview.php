@@ -105,6 +105,9 @@ class ilRbacReview
 	* If a role mailbox address is ambiguous, this function returns the ID's of all role
 	* objects that are possible recipients for the role mailbox address. 
 	*
+	* If Pear Mail is not installed, then the mailbox address 
+	*
+	*
 	* @access	public
 	* @param	string	IETF RFX 822 address list containing role mailboxes.
 	* @return	int[] Array with role ids that were found
@@ -113,108 +116,145 @@ class ilRbacReview
 	{
 		$role_ids = array();
 		
-		require_once 'Mail/RFC822.php';
-		$parser = &new Mail_RFC822();
-		$parsedList = $parser->parseAddressList($a_address_list, "ilias", false, true);
-		//echo '<br>ilRBACReview '.var_export($parsedList,false);
-		foreach ($parsedList as $address)
+		include_once "Services/Mail/classes/class.ilMail.php";
+		if (ilMail::_usePearMail())
 		{
-			$local_part = $address->mailbox;
-			if (strpos($local_part,'#') !== 0) 
+			require_once 'Mail/RFC822.php';
+			$parser = &new Mail_RFC822();
+			$parsedList = $parser->parseAddressList($a_address_list, "ilias", false, true);
+			//echo '<br>ilRBACReview '.var_export($parsedList,false);
+			foreach ($parsedList as $address)
 			{
-				// A local-part which doesn't start with a '#' doesn't denote a role.
-				// Therefore we can skip it.
-				continue;
-			}
-
-			$local_part = substr($local_part, 1);
-
-			if (substr($local_part,0,8) == 'il_role_')
-			{
-				$role_id = substr($local_part,8);
-				$q = "SELECT t.tree ".
-					"FROM rbac_fa AS fa ".
-					"JOIN tree AS t ON t.child=fa.parent ".
-					"WHERE fa.rol_id=".$this->ilDB->quote($role_id)." ".
-					"AND fa.assign='y' ".
-					"AND t.tree=1";
-				$r = $this->ilDB->query($q);
-				if ($r->numRows() > 0)
+				$local_part = $address->mailbox;
+				if (strpos($local_part,'#') !== 0) 
 				{
-					$role_ids[] = $role_id;
+					// A local-part which doesn't start with a '#' doesn't denote a role.
+					// Therefore we can skip it.
+					continue;
 				}
-				continue;
-			}
 
-			
-			$domain = $address->host;
-			if (strpos($domain,'[') == 0 && strrpos($domain,']'))
-			{
-				$domain = substr($domain,1,strlen($domain) - 2);
-			}
-			if (strlen($local_part) == 0)
-			{
-				$local_part = $domain;
-				$address->host = 'ilias';
-				$domain = 'ilias';
-			}
-			
-			if (strtolower($address->host) == 'ilias')
-			{
-				// Search for roles = local-part in the whole repository
-				$q = "SELECT dat.obj_id ".
-					"FROM object_data AS dat ".
-					"JOIN rbac_fa AS fa ON fa.rol_id = dat.obj_id ".
-					"JOIN tree AS t ON t.child = fa.parent ".
-					"WHERE dat.title =".$this->ilDB->quote($local_part)." ".
-					"AND dat.type = 'role' ".
-					"AND fa.assign = 'y' ".
-					"AND t.tree = 1";
-			}
-			else
-			{
-				// Search for roles like local-part in objects = host
-				$q = "SELECT rdat.obj_id ".
-					"FROM object_data AS odat ".
-					"JOIN object_reference AS oref ON oref.obj_id = odat.obj_id ".
-					"JOIN tree AS otree ON otree.child = oref.ref_id ".
-					"JOIN tree AS rtree ON rtree.parent = otree.child ".
-					"JOIN rbac_fa AS rfa ON rfa.parent = rtree.child ".
-					"JOIN object_data AS rdat ON rdat.obj_id = rfa.rol_id ".
-					"WHERE odat.title = ".$this->ilDB->quote($domain)." ".
-					"AND otree.tree = 1 AND rtree.tree = 1 ".
-					"AND rfa.assign = 'y' ".
-					"AND rdat.title LIKE ".
-						$this->ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%');
-			}
-			$r = $this->ilDB->query($q);
+				$local_part = substr($local_part, 1);
 
-			$count = 0;
-			while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$role_ids[] = $row->obj_id;
-				$count++;
-			}
-			
-			// Nothing found?
-			// In this case, we search for roles = host.
-			if ($count == 0 && strtolower($address->host) == 'ilias')
-			{
-				$q = "SELECT dat.obj_id ".
-					"FROM object_data AS dat ".
-					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
-					"JOIN tree AS t ON t.child = ref.ref_id ".
-					"WHERE dat.title = ".$this->ilDB->quote($domain)." ".
-					"AND dat.type = 'role' ".
-					"AND t.tree = 1 ";
+				if (substr($local_part,0,8) == 'il_role_')
+				{
+					$role_id = substr($local_part,8);
+					$q = "SELECT t.tree ".
+						"FROM rbac_fa AS fa ".
+						"JOIN tree AS t ON t.child=fa.parent ".
+						"WHERE fa.rol_id=".$this->ilDB->quote($role_id)." ".
+						"AND fa.assign='y' ".
+						"AND t.tree=1";
+					$r = $this->ilDB->query($q);
+					if ($r->numRows() > 0)
+					{
+						$role_ids[] = $role_id;
+					}
+					continue;
+				}
+
+
+				$domain = $address->host;
+				if (strpos($domain,'[') == 0 && strrpos($domain,']'))
+				{
+					$domain = substr($domain,1,strlen($domain) - 2);
+				}
+				if (strlen($local_part) == 0)
+				{
+					$local_part = $domain;
+					$address->host = 'ilias';
+					$domain = 'ilias';
+				}
+
+				if (strtolower($address->host) == 'ilias')
+				{
+					// Search for roles = local-part in the whole repository
+					$q = "SELECT dat.obj_id ".
+						"FROM object_data AS dat ".
+						"JOIN rbac_fa AS fa ON fa.rol_id = dat.obj_id ".
+						"JOIN tree AS t ON t.child = fa.parent ".
+						"WHERE dat.title =".$this->ilDB->quote($local_part)." ".
+						"AND dat.type = 'role' ".
+						"AND fa.assign = 'y' ".
+						"AND t.tree = 1";
+				}
+				else
+				{
+					// Search for roles like local-part in objects = host
+					$q = "SELECT rdat.obj_id ".
+						"FROM object_data AS odat ".
+						"JOIN object_reference AS oref ON oref.obj_id = odat.obj_id ".
+						"JOIN tree AS otree ON otree.child = oref.ref_id ".
+						"JOIN tree AS rtree ON rtree.parent = otree.child ".
+						"JOIN rbac_fa AS rfa ON rfa.parent = rtree.child ".
+						"JOIN object_data AS rdat ON rdat.obj_id = rfa.rol_id ".
+						"WHERE odat.title = ".$this->ilDB->quote($domain)." ".
+						"AND otree.tree = 1 AND rtree.tree = 1 ".
+						"AND rfa.assign = 'y' ".
+						"AND rdat.title LIKE ".
+							$this->ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%');
+				}
 				$r = $this->ilDB->query($q);
-	
+
+				$count = 0;
 				while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$role_ids[] = $row->obj_id;
+					$count++;
+				}
+
+				// Nothing found?
+				// In this case, we search for roles = host.
+				if ($count == 0 && strtolower($address->host) == 'ilias')
+				{
+					$q = "SELECT dat.obj_id ".
+						"FROM object_data AS dat ".
+						"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
+						"JOIN tree AS t ON t.child = ref.ref_id ".
+						"WHERE dat.title = ".$this->ilDB->quote($domain)." ".
+						"AND dat.type = 'role' ".
+						"AND t.tree = 1 ";
+					$r = $this->ilDB->query($q);
+
+					while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+					{
+						$role_ids[] = $row->obj_id;
+					}
+				}
+				//echo '<br>ids='.var_export($role_ids,true);
+			}
+		} 
+		else 
+		{
+			// the following code is executed, when Pear Mail is
+			// not installed
+
+			$titles = explode(',', $a_address_list);
+			
+			$titleList = '';
+			foreach ($titles as $title)
+			{
+				if (strlen($inList) > 0)
+				{
+					$titleList .= ',';
+				}
+				$title = trim($title);
+				if (strpos($title,'#') == 0) 
+				{
+					$titleList .= $this->ilDB->quote(substr($title, 1));
+				}
+			}	
+			if (strlen($titleList) > 0)
+			{
+				$q = "SELECT obj_id ".
+					"FROM object_data ".
+					"WHERE title IN (".$titleList.") ".
+					"AND type='role'";
+				$r = $this->ilDB->query($q);
+				while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					$role_ids[] = $row->obj_id;
 				}
 			}
-			//echo '<br>ids='.var_export($role_ids,true);
 		}
 
 		return $role_ids;

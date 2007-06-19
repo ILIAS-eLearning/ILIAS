@@ -2709,7 +2709,7 @@ common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Anhänge
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
 common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
-common#:#mail_pear_mail_needed#:#.Sie benötigen PEAR-Mail um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Mail</code> ein.
+common#:#mail_pear_mail_needed#:#Sie benötigen PEAR-Mail um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Mail</code> ein.
 common#:#mail_read#:#Lesezugriff auf Maileinstellungen
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
