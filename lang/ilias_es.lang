@@ -7344,9 +7344,9 @@ common#:#txt_registered_passw_gen#:#Se registró con éxito en ILIAS. Debe recib
 crs#:#crs_show_link_session#:#Mostrar eventos
 crs#:#crs_hide_link_session#:#Ocultar eventos
 forum#:#forums_notification_disabled#:#Notificación deshabilitada
-content#:#cont_bb_tip#:#Tip: Styles can be applied quickly to selected text.###14 06 2007 new variable
-content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable
-ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop###14 06 2007 new variable
-crs#:#save_status#:#Save Status###19 06 2007 new variable
-crs#:#crs_selected_users#:#Selected Participants###19 06 2007 new variable
-search#:#search_users#:#Search User###19 06 2007 new variable
+content#:#cont_bb_tip#:#Pista: Los estilos pueden ser aplicados rapidamente al texto seleccionado.
+content#:#cont_e_g_example#:#ej.
+ldap#:#ldap_mapping_info_type#:#Mostrar informacion tambien en Contenidos/Escritorio Personal
+crs#:#save_status#:#Guardar Status
+crs#:#crs_selected_users#:#Participantes Seleccionados
+search#:#search_users#:#Buscar Usuarios
