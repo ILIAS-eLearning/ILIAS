@@ -1978,7 +1978,7 @@ div.ilc_Question
 	margin-top: 1em;
 }
 
-span.solutionbox {
+.solutionbox {
 	color:black;
 	background-color: white;
 	padding-left: 5px;

@@ -282,7 +282,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));
+		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($user_solution));
 		$questiontext = $this->object->getQuestion();
 		if ($active_id)
 		{
