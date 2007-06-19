@@ -4461,7 +4461,7 @@ crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, dass diese Zuordnung entfernt werd
 crs#:#crs_delete_file#:#Datei löschen?
 crs#:#crs_delete_from_list_sure#:#Sind Sie sicher, dass die folgenden Benutzer aus der Warteliste ausgetragen werden sollen?
 crs#:#crs_delete_from_waiting_list#:#Aus der Warteliste austragen
-crs#:#crs_delete_member#:#Mitglied(er) austragen
+crs#:#crs_delete_member#:#Löschen
 crs#:#crs_delete_members_sure#:#Sind Sie sicher, dass die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, dass die folgenden Anträge gelöscht werden sollen?
@@ -7347,3 +7347,5 @@ crs#:#crs_hide_link_session#:#Sitzungen verbergen
 forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 common#:#textbox#:#Textbox###13 06 2007 new variable
 content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable
+crs#:#save_status#:#Status speichern
+crs#:#crs_selected_users#:#Ausgewählte Teilnehmer

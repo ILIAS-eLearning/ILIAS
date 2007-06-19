@@ -567,6 +567,7 @@ class ilTableGUI
 		{
 			if ((strlen($this->getFormName())) && (strlen($this->getSelectAllCheckbox())))
 			{
+				$this->tpl->setVariable('SELECT_PREFIX',$this->prefix);
 				$this->tpl->setVariable("SELECT_ALL_TXT_SELECT_ALL", $this->lng->txt("select_all"));
 				$this->tpl->setVariable("SELECT_ALL_CHECKBOX_NAME", $this->getSelectAllCheckbox());
 				$this->tpl->setVariable("SELECT_ALL_FORM_NAME", $this->getFormName());
@@ -609,8 +610,8 @@ class ilTableGUI
 			 && $this->max_count > 0)
 		{
 			$params = array(
-							"sort_by"		=> $this->header_vars[$this->order_column],
-							"sort_order"	=> $this->order_direction
+							$this->prefix."sort_by"		=> $this->header_vars[$this->order_column],
+							$this->prefix."sort_order"	=> $this->order_direction
 							);
 			$params = array_merge($this->header_params,$params);
 			
