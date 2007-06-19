@@ -50,7 +50,7 @@ class ilFulltextMediaCastSearch extends ilMediaCastSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " WHERE context_obj_type='mcst' AND MATCH(title) AGAINST('";
+			$query .= " WHERE context_obj_type='mcst' AND MATCH(title,content) AGAINST('";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
@@ -61,7 +61,7 @@ class ilFulltextMediaCastSearch extends ilMediaCastSearch
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE  context_obj_type='mcst' AND MATCH (title) AGAINST(' ";
+			$query .= " WHERE  context_obj_type='mcst' AND MATCH (title,content) AGAINST(' ";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
