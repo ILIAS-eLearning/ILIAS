@@ -1495,7 +1495,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					{
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
-
 					$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role['obj_id']);
 					$l_roles[$loc_role['obj_id']] = $roleMailboxAddress.', '.$path;
 				}
@@ -1512,7 +1511,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);
 					$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
 					$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
-					$pre_select = count($matching_role_ids) > 0 ? $matching_role_ids[0] : "";
+					$pre_select = count($matching_role_ids) == 1 ? $matching_role_ids[0] : "";
 					if ($this->object->getRefId() == USER_FOLDER_ID) {
 						// There are too many roles in a large ILIAS installation
 						// that's why whe show only a choice with the the option "ignore",

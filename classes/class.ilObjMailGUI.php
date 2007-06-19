@@ -124,7 +124,7 @@ class ilObjMailGUI extends ilObjectGUI
 		// Note: We use the include statement to determine whether PEAR MAIL is
 		//      installed. We use the @ operator to prevent PHP from issuing a
 		//      warning while we test for PEAR MAIL.
-		$is_pear_mail_installed = @include 'Mail/RFC822.php';
+		$is_pear_mail_installed = @include_once 'Mail/RFC822.php';
 		$this->tpl->setVariable("TXT_PEAR_MAIL", $this->lng->txt("mail_use_pear_mail"));
 		if ($settings['pear_mail_enable'] && $is_pear_mail_installed) 
 		{
