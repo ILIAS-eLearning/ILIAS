@@ -717,14 +717,17 @@ class ilUserImportParser extends ilSaxParser
 	function assignToRole($a_user_obj, $a_role_id)
 	{
 		require_once "classes/class.ilObjRole.php";
-		require_once "Modules/Course/classes/class.ilObjCourse.php";
-		require_once "Modules/Course/classes/class.ilCourseParticipants.php";
+		#require_once "Modules/Course/classes/class.ilObjCourse.php";
+		#require_once "Modules/Course/classes/class.ilCourseParticipants.php";
 
 		global $rbacreview, $rbacadmin, $tree;
 
 		// If it is a course role, use the ilCourseMember object to assign
 		// the user to the role
+		
 		$role_obj = $this->getRoleObject($a_role_id);
+		// No special handling for courses required anymore
+		/*		
 		if (substr($role_obj->getTitle(),0,6) == 'il_crs')
 		{
 			$crsmembers_obj = $this->getCourseMembersObjectForRole($a_role_id);
@@ -746,17 +749,18 @@ class ilUserImportParser extends ilSaxParser
 					break;
 			}
 
-			if ($crsmembers_obj->isAssigned($a_user_obj->getID()))
+			if ($crsmembers_obj->isAssigned($a_user_obj->getId()))
 			{
-				$crsmembers_obj->update($a_user_obj->getID(), $crs_role, $crs_status, false);
+				$crsmembers_obj->update($a_user_obj->getId(), $crs_role, $crs_status, false);
 			}
 			else
 			{
 				$crsmembers_obj->add($a_user_obj, $crs_role);
 			}
 		}
+		*/
 		// If it is not a course role, use RBAC to assign the user to the role
-		else
+		#else
 		{
 			$rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
 		}
@@ -844,6 +848,9 @@ class ilUserImportParser extends ilSaxParser
 		// the user to the role
 		$role_obj = $this->getRoleObject($a_role_id);
 		//print_r($role_obj->getTitle());
+
+		// No special handling for courses required anymore
+		/*
 		if (substr($role_obj->getTitle(),0,6) == 'il_crs_')
 		{
 			$crsmembers_obj = $this->getCourseMembersObjectForRole($a_role_id);
@@ -870,8 +877,9 @@ class ilUserImportParser extends ilSaxParser
 					break;
 			}
 		}
+		*/
 		// If it is not a course role, use RBAC to assign the user to the role
-		else
+		#else
 		{
 			$rbacadmin->deassignUser($a_role_id, $a_user_obj->getId());
 		}
