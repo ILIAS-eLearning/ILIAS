@@ -1257,8 +1257,8 @@ INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES ('11', '
 <#969>
 CREATE TABLE IF NOT EXISTS `qpl_question_flashapp` (
   `question_fi` int(11) NOT NULL default '0',
-  `flash_file` varchar(100) collate utf8_unicode_ci default NULL,
-  `params` text collate utf8_unicode_ci,
+  `flash_file` varchar(100) default NULL,
+  `params` text,
   PRIMARY KEY  (`question_fi`)
 );
 <#970>
