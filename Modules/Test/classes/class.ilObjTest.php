@@ -9357,11 +9357,18 @@ class ilObjTest extends ilObject
 		$res = $this->getNrOfResultsForPass($active_id, $active_pass);
 		if ($res == 0)
 		{
-			return $this->lng->txt("tst_start_new_test_pass");
+			if ($active_pass == 0)
+			{
+				return $this->lng->txt("tst_start_test");
+			}
+			else
+			{
+				return $this->lng->txt("tst_start_new_test_pass");
+			}
 		}
 		else
 		{
-			return $this->lng->txt("tst_start_test");
+			return $this->lng->txt("tst_resume_test");
 		}
 	}
 
