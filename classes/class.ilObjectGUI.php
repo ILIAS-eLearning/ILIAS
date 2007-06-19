@@ -2399,7 +2399,6 @@ class ilObjectGUI
 		$copy_id = ilCopyWizardOptions::_allocateCopyId();
 		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
 		$wizard_options->saveOwner($ilUser->getId());
-		$wizard_options->saveRoot((int) $_REQUEST['clone_source']);
 		
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		foreach($options as $source_id => $option)
@@ -2551,15 +2550,14 @@ class ilObjectGUI
 			$_SESSION["il_rep_ref_id"] = "";
 			ilUtil::sendInfo($lng->txt("permission_denied"), true);
 
-			if (substr($PHP_SELF, 0, 8) != "goto.php")
+			if (!is_int(strpos($PHP_SELF, "goto.php")))
 			{
 				ilUtil::redirect("goto.php?target=".$this->object->getType()."_".
 					$this->object->getRefId());
 			}
 			else	// we should never be here
 			{
-				ilUtil::sendInfo($lng->txt("permission_denied"), true);
-				exit;
+				die("Permission Denied.");
 			}
 		}
 	}
