@@ -991,15 +991,18 @@ class ilObjRoleGUI extends ilObjectGUI
 				}
 			}*/
 			
-			// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
-			$rbacadmin->revokePermissionList($node_ids,$this->object->getId());
-
-			// NOW SET ALL PERMISSIONS
-			foreach ($valid_nodes as $node)
+			if (!empty($node_ids))
 			{
-				if (is_array($node["perms"]))
+				// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
+				$rbacadmin->revokePermissionList($node_ids,$this->object->getId());
+	
+				// NOW SET ALL PERMISSIONS
+				foreach ($valid_nodes as $node)
 				{
-					$rbacadmin->grantPermission($this->object->getId(),$node["perms"],$node["child"]);
+					if (is_array($node["perms"]))
+					{
+						$rbacadmin->grantPermission($this->object->getId(),$node["perms"],$node["child"]);
+					}
 				}
 			}
 		}// END IF RECURSIVE
