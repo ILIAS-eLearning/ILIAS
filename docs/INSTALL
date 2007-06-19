@@ -7,12 +7,6 @@
           $Id$
 
 
-************************************************************
-THIS IS AN BETA RELEASE. DO NOT USE IT AS A PRODUCTIVE
-SYSTEM. DATA WILL BE LOST.
-************************************************************
-
-
 Table of Contents
 
 1. Introduction
@@ -52,7 +46,13 @@ be run on other Unix systems and even Windows.
 This document describes the installation of ILIAS 3 with the all
 software required for running an ILIAS system. The procedure has been tested
 under RedHat and Debian. With minor modifications it should also apply to
-other Linux distributions, Solaris and other Unix systems.
+other Linux distributions, Solaris and other Unix systems. Some of the
+packages used are quite old, you can replace them with newer versions. The
+exact procedure how to install them may be different, please see also the
+documentation of these tools.
+
+You should also consider to try one of the distribution related instructions
+provided at http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
 
 The following third-party software is necessary for running ILIAS. Release
 numbers refer to the version tested and recommended for use with ILIAS. Like
@@ -60,7 +60,7 @@ ILIAS itself, all these programs are available as Open Source software.
 
     - Apache 1.3.29            http://www.apache.org
     - MySQL 4.0.18             http://www.mysql.com
-    - PHP 5.1.x                http://www.php.net
+    - PHP 5.1.4                http://www.php.net
     - GD (libgd) 2.0.15        http://www.boutell.com/gd/
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
@@ -70,10 +70,6 @@ ILIAS itself, all these programs are available as Open Source software.
     - libxml2 2.6.9            http://www.xmlsoft.org
     - libxslt 1.1.6            http://www.xmlsoft.org
 
-The recommended releases can also be downloaded from the ILIAS open source web
-site: http://www.ilias.uni-koeln.de/ios/source.html
-
-ILIAS 3.8.x will not run on PHP4 anymore.
 
 Please read the MySQL chapter if you plan to migrate from an existing 
 MySQL 4.0.x to MySQL 4.1.x.
@@ -213,19 +209,18 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/unzip550.tar.gz
     tar -xzf tarballs/mysql-4.0.18.tar.gz
     tar -xzf tarballs/apache_1.3.29.tar.gz
-    tar -xzf tarballs/php-5.1.x.tar.gz
+    tar -xzf tarballs/php-5.1.4.tar.gz
     tar -xzf tarballs/libxml2-2.6.9.tar.gz
     tar -xzf tarballs/libxslt-1.1.6.tar.gz
 
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.8.0-beta.tar.gz
+    ilias-3.8.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
 space.
-
 
 
 2.3 Installing required third-party software
@@ -415,7 +410,10 @@ components:
 
 (a) MySQL database
 
-    ILIAS version 3.8.x supports MySQL 4.x and MysSQL 5.x.
+    ILIAS version 3.8.x supports MySQL 4.x and MysSQL 5.x. Using one of
+    the actual binaries provided at the MySQL web site is always the best idea.
+    However, if you decide to build MySQL from scratch. The following steps
+    give you an idea.
 
     Configure & make:
 
@@ -564,7 +562,7 @@ components:
 
     Configure & make:
 
-    PHP 5.x.x:
+    PHP 5.1.4:
 		
         ./configure \
         --with-apxs=/opt/ilias/bin/apxs \
@@ -647,18 +645,13 @@ components:
 
 2.4 Installing ILIAS 3
 
-************************************************************
-THIS IS AN BETA RELEASE. DO NOT USE IT AS A PRODUCTIVE
-SYSTEM. DATA WILL BE LOST.
-************************************************************
-
 
 (a) Installing the ILIAS 3 program files
 
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-beta.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -701,19 +694,13 @@ SYSTEM. DATA WILL BE LOST.
 (d) Setting up the user agreement form
 
     Every ILIAS user that registers to the system must confirm a user
-    agreement. You should set up your own agreement text by editing the files
-    that are provided in the agreement/ directory of ILIAS. You can add
-    additional language versions by creating files following the format
-    agreement_<langcode>.html. If you want to provide independent agreement
-    texts for certain clients, you can do this by creating a directory
-    agreement in your client data directory
-    '<ILIAS_ROOT_DIR>/data/<CLIENT_ID>/agreement' and to provide agreement
-    files within this directory, following the naming convention above, i.e.
-    '<ILIAS_ROOT_DIR>/data/<CLIENT_ID>/agreement/agreement_<langcode>.html'.
+    agreement. You should set up your own agreement text. See
+    http://www.ilias.de/docu/goto.php?target=pg_15915_367&client_id=docu
+	for more information how to do this.
 
 (e) Settting up the chat server
 
-    The file chat/chatserver/install.txt explains how the chat server
+    The file Modules/Chat/chatserver/install.txt explains how the chat server
     installation works.
 
 (f) Setting up cron jobs
@@ -769,10 +756,6 @@ SYSTEM. DATA WILL BE LOST.
 
 3. Updating ILIAS 3
 
-************************************************************
-THIS IS AN BETA RELEASE. DO NOT UPDATE ANY PRODUCTIVE
-SYSTEM WITH THIS PROCEDURE. DATA WILL BE LOST.
-************************************************************
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 stable version to
 ILIAS 3.8.0.
@@ -787,14 +770,15 @@ We recommend not to update from an any alpha or beta version of ILIAS 3 because
 this may cause ambiguous errors in the future. Please setup any stable version
 of ILIAS 3 from scratch.
 
-For major updates (e.g. 3.5.x -> 3.6.x) the safest proceeding is, to upgrade
+For major updates (e.g. 3.7.x -> 3.8.x) the safest proceeding is, to upgrade
 a copy of your productive system first and test whether everything works ok.
 
 Please also note that major updates usually include changes in the style
 sheet and template files. So if you use individual styles/skins you will have
 to adopt them for the new release first. This does usually not apply for bugfix
 updates (e.g. 3.5.1 -> 3.5.2). See also
-http://www.ilias.de/docu/goto.php?target=pg_10797&client_id=docu
+http://www.ilias.de/docu/goto.php?target=pg_16107_35&client_id=docu and
+http://www.ilias.de/docu/goto.php?target=pg_15917_367&client_id=docu
 
 At the time being no installation script is available for updating ILIAS 3. For
 this reason the ILIAS script files must be updated manually. In the following
@@ -815,12 +799,17 @@ installation and chat/chatserver/server.ini which stores the setting for the
 ilias chat server. After installing the new ILIAS release you may easily restore
 these files.
 
+Please note that the way user agreements, adapted language files and individual
+skins and styles are stored has been changed with ILIAS 3.8.0. See
+http://www.ilias.de/docu/goto.php?target=st_15914_367&client_id=docu
+for more information.
+
     cd /opt/ilias/www/htdocs/ilias
     rm *.php *.xml *.dtd *.css
     rm -r classes content css docs images include java lang layouts
     rm -r modules setup sql templates xml assessment chat tracking
     rm -r survey syntax_highlight course payment webservice ilinc link
-	rm -r cron Services calendar
+	rm -r cron Services calendar Modules
 
 You may ignore any 'no such file or directory' errors because depending on
 your current ILIAS installation some of the directories above may not exist on
@@ -831,7 +820,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0-beta.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.8.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
