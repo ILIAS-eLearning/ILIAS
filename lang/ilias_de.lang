@@ -7349,3 +7349,4 @@ common#:#textbox#:#Textbox###13 06 2007 new variable
 content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable
 crs#:#save_status#:#Status speichern
 crs#:#crs_selected_users#:#Ausgewählte Teilnehmer
+search#:#search_users#:#Benutzer suchen
