@@ -2541,6 +2541,28 @@ class ilObjectGUI
 			$column_gui->setEnableEdit(true);
 		}
 	}
+	
+	function checkPermission($a_perm, $a_cmd = "")
+	{
+		global $ilAccess, $lng, $PHP_SELF;
+		
+		if (!$ilAccess->checkAccess($a_perm, $a_cmd, $this->object->getRefId()))
+		{
+			$_SESSION["il_rep_ref_id"] = "";
+			ilUtil::sendInfo($lng->txt("permission_denied"), true);
+
+			if (substr($PHP_SELF, 0, 8) != "goto.php")
+			{
+				ilUtil::redirect("goto.php?target=".$this->object->getType()."_".
+					$this->object->getRefId());
+			}
+			else	// we should never be here
+			{
+				ilUtil::sendInfo($lng->txt("permission_denied"), true);
+				exit;
+			}
+		}
+	}
 
 } // END class.ilObjectGUI
 ?>

@@ -61,6 +61,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
   		switch($next_class)
 		{
 			case "ilinfoscreengui":
+				$this->checkPermission("visible");
 				$this->infoScreen();	// forwards command
 				break;
 
@@ -76,6 +77,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 					$cmd = "infoScreen";
 				}
 				$cmd .= "Object";
+				if ($cmd != "infoScreenObject")
+				{
+					$this->checkPermission("read");
+				}
+				else
+				{
+					$this->checkPermission("visible");
+				}
 				$this->$cmd();
 	
 			break;
@@ -116,6 +125,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function listItemsObject()
 	{
 		global $tpl, $lng, $ilAccess;
+		
+		$this->checkPermission("read");
 		
 		$med_items = $this->object->getItemsArray();
 		
@@ -163,6 +174,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		global $tpl;
 		
+		$this->checkPermission("write");
+		
 		$this->initAddCastItemForm();
 		$tpl->setContent($this->form_gui->getHTML());
 	}
@@ -173,6 +186,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function editCastItemObject()
 	{
 		global $tpl;
+		
+		$this->checkPermission("write");
 		
 		$this->initAddCastItemForm("edit");
 		$this->getCastItemValues();
@@ -185,6 +200,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function initAddCastItemForm($a_mode = "create")
 	{
 		global $lng, $ilCtrl;
+		
+		$this->checkPermission("write");
 		
 		$lng->loadLanguageModule("mcst");
 		
@@ -276,6 +293,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function saveCastItemObject()
 	{
 		global $tpl, $ilCtrl, $ilUser;
+		
+		$this->checkPermission("write");
 		
 		$this->initAddCastItemForm();
 		
@@ -382,6 +401,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		global $tpl, $ilCtrl, $ilUser;
 		
+		$this->checkPermission("write");
+		
 		$this->initAddCastItemForm("edit");
 		
 		if ($this->form_gui->checkInput())
@@ -479,6 +500,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $tpl;
 		
+		$this->checkPermission("write");
+		
 		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$c_gui = new ilConfirmationGUI();
 		
@@ -507,6 +530,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 		
+		$this->checkPermission("write");
+		
 		// delete all selected news items
 		foreach($_POST["item_id"] as $item_id)
 		{
@@ -522,6 +547,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function downloadItemObject()
 	{
+		$this->checkPermission("read");
+		
 		$mc_item = new ilNewsItem($_GET["item_id"]);
 		$mob = $mc_item->getMobId();
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -576,6 +603,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function infoScreenObject()
 	{
+		$this->checkPermission("visible");
 		$this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen();
@@ -684,6 +712,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		global $tpl;
 		
+		$this->checkPermission("write");
+		
 		$this->initSettingsForm();
 		$tpl->setContent($this->form_gui->getHtml());
 	}
@@ -752,6 +782,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function saveSettingsObject()
 	{
 		global $ilCtrl;
+		
+		$this->checkPermission("write");
 		
 		$this->initSettingsForm();
 		if ($this->form_gui->checkInput())

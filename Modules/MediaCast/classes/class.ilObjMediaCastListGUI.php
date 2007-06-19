@@ -137,6 +137,14 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 		return $cmd_link;
 	}
 
+	function setChildId($a_child_id)
+	{
+		$this->child_id = $a_child_id;
+	}
+	function getChildId()
+	{
+		return $this->child_id;
+	}
 
 
 } // END class.ilObjMediaCastListGUI

@@ -93,6 +93,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 				
 			case "ilcolumngui":
+				$this->checkPermission("read");
 				$this->prepareOutput();
 				$this->getSubItems();
 				include_once("classes/class.ilObjStyleSheet.php");
@@ -116,6 +117,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 				// container page editing
 			case "ilpageobjectgui":
+				$this->checkPermission("write");
 				$this->tpl->getStandardTemplate();
 				$this->setLocator();
 				ilUtil::sendInfo();
@@ -128,7 +130,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 
 			default:
-			
+				$this->checkPermission("read");
+				
 				// add entry to navigation history
 				if (!$this->getCreationMode() &&
 					$ilAccess->checkAccess("read", "", $_GET["ref_id"]))

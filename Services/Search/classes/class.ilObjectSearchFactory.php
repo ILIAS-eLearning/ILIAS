@@ -194,6 +194,35 @@ class ilObjectSearchFactory
 	}
 
 	/*
+	 * get reference of ilFulltextMediacastSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextMediacastSearch
+	 */
+	function &_getMediacastSearchInstance(&$query_parser)
+	{
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextMediacastSearch.php';
+			
+			return new ilFulltextMediacastSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeMediacastSearch.php';
+
+			return new ilLikeMediacastSearch($query_parser);
+		}
+
+	}
+
+	/*
 	 * get reference of ilFulltextTestSearch
 	 * 
 	 * @param object query parser object

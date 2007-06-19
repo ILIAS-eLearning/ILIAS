@@ -243,6 +243,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TST",$this->lng->txt('search_tst_svy'));
 		$this->tpl->setVariable("FOR",$this->lng->txt('objs_frm'));
 		$this->tpl->setVariable("EXC",$this->lng->txt('objs_exc'));
+		$this->tpl->setVariable("MCST",$this->lng->txt('objs_mcst'));
 		$this->tpl->setVariable("FIL",$this->lng->txt('objs_file'));
 
 		
@@ -254,6 +255,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['frm'] ? 1 : 0,'search[details][frm]',1));
 		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1));
 		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1));
+		$this->tpl->setVariable("CHECK_MCST",ilUtil::formCheckbox($details['mcst'] ? 1 : 0,'search[details][mcst]',1));
 
 
 
@@ -502,6 +504,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$result->mergeEntries($exc_search->performSearch());
 					break;
 
+				case 'mcst':
+					$mcst_search =& ilObjectSearchFactory::_getMediaCastSearchInstance($query_parser);
+					$result->mergeEntries($mcst_search->performSearch());
+					break;
+
 				case 'tst':
 					$tst_search =& ilObjectSearchFactory::_getTestSearchInstance($query_parser);
 					$result->mergeEntries($tst_search->performSearch());
@@ -628,6 +635,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 				case 'exc':
 					$filter[] = 'exc';
+					break;
+
+				case 'mcst':
+					$filter[] = 'mcst';
 					break;
 
 				case 'tst':

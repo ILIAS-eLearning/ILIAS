@@ -286,6 +286,23 @@ class ilSearchResultPresentationGUI
 				}
 				break;
 
+			case 'mcst':
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+			
+				foreach($item['child'] as $child)
+				{
+					$tpl->setCurrentBlock("link_row");
+					//$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('item'));
+
+					$item_list_gui->setChildId($child);
+					//$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK", $item_list_gui->getCommandLink('listItems'));
+					$tpl->setVariable("TARGET", $item_list_gui->getCommandFrame(''));
+					$tpl->setVariable("TITLE", ilNewsItem::_lookupTitle($child));
+					$tpl->parseCurrentBlock();
+				}
+				break;
+
 			default:
 				;
 		}
