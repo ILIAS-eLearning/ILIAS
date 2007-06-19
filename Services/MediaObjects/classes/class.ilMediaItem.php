@@ -908,8 +908,12 @@ class ilMediaItem
 					$target_frame = "Glossary";
 				}
 
+				$tf_str = ($target_frame == "")
+					? ""
+					: "TargetFrame=\"".$target_frame."\"";
+				
 				$xml .= "<IntLink Target=\"".$area->getTarget($a_insert_inst, $a_inst)."\" Type=\"".
-					$area->getType()."\" TargetFrame=\"".$target_frame."\">";
+					$area->getType()."\" $tf_str>";
 				$xml .= $area->getTitle();
 				$xml .="</IntLink>";
 			}
