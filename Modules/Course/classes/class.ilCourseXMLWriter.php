@@ -128,12 +128,9 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		foreach($this->course_obj->members_obj->getAdmins() as $id)
 		{
-
-			$data = $this->course_obj->members_obj->getUserData($id);
-
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['notification'] = ($data['status'] == $this->course_obj->members_obj->STATUS_NOTIFY) ? 'Yes' : 'No';
-			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
+			$attr['notification'] = ($this->course_obj->members_obj->isNotificationEnabled($id)) ? 'Yes' : 'No';
+			$attr['passed'] = $this->course_obj->members_obj->hasPassed($id) ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Admin',$attr);
 			$this->xmlEndTag('Admin');
@@ -147,11 +144,9 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		foreach($this->course_obj->members_obj->getTutors() as $id)
 		{
-			$data = $this->course_obj->members_obj->getUserData($id);
-
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['notification'] = ($data['status'] == $this->course_obj->members_obj->STATUS_NOTIFY) ? 'Yes' : 'No';
-			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
+			$attr['notification'] = ($this->course_obj->members_obj->isNotificationEnabled($id)) ? 'Yes' : 'No';
+			$attr['passed'] = $this->course_obj->members_obj->hasPassed($id) ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Tutor',$attr);
 			$this->xmlEndTag('Tutor');
@@ -164,11 +159,9 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		foreach($this->course_obj->members_obj->getMembers() as $id)
 		{
-			$data = $this->course_obj->members_obj->getUserData($id);
-
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['blocked'] = ($data['status'] == $this->course_obj->members_obj->STATUS_BLOCKED) ? 'Yes' : 'No';
-			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
+			$attr['blocked'] = ($this->course_obj->members_obj->isBlocked($id)) ? 'Yes' : 'No';
+			$attr['passed'] = $this->course_obj->members_obj->hasPassed($id) ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Member',$attr);
 			$this->xmlEndTag('Member');
