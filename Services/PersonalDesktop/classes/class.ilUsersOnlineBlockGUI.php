@@ -106,7 +106,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			case "ilobjusergui":
 				include_once("classes/class.ilObjUserGUI.php");
 				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-				$return = $this->ctrl->forwardCommand($user_gui);
+				$return = $ilCtrl->forwardCommand($user_gui);
 				break;
 				
 			default:
