@@ -246,6 +246,7 @@ lang_uk#:#Ukrainian
 lang_xx#:#Custom
 lang_vi#:#Vietnamese
 lang_zh#:#Chinese
+lang_et#:#Estonian
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files
 language#:#language
 languages#:#languages
