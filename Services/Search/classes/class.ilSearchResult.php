@@ -278,6 +278,16 @@ class ilSearchResult
 	{
 		return $this->results ? $this->results : array();
 	}
+	
+	function getResultsByObjId()
+	{
+		$tmp_res = array();
+		foreach($this->getResults() as $ref_id => $res_data)
+		{
+			$tmp_res[$res_data['obj_id']][] = $ref_id;
+		}
+		return $tmp_res ? $tmp_res : array();
+	}
 
 
 	/**
