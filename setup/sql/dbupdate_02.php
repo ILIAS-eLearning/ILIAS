@@ -1657,3 +1657,27 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `mail` CHANGE `rcp_to` `rcp_to` TEXT NULL DEFAULT NULL ,
 CHANGE `rcp_cc` `rcp_cc` TEXT NULL DEFAULT NULL ,
 CHANGE `rcp_bcc` `rcp_bcc` TEXT NULL DEFAULT NULL;
+
+<#1022>
+<?php
+
+$query = "SELECT * FROM crs_members WHERE blocked = 1";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$obj_id = $row->obj_id;
+	$usr_id = $row->usr_id;
+	
+	$query = "SELECT obj_id FROM object_data WHERE description = 'Member of course obj_no.".$obj_id."'";
+	$res_role_id = $ilDB->query($query);
+	while($row_role_id = $res_role_id->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$role_id = $row_role_id->obj_id;
+		
+		$query = "REPLACE INTO rbac_ua ".
+			"SET usr_id = '".$usr_id."', ".
+			"rol_id = '".$role_id."' ";
+		$ilDB->query($query);
+	}
+}
+?>
