@@ -719,7 +719,8 @@ class ilColumnGUI
 				{
 					$block_gui->setAllowMove("right");
 				}
-				else if ($this->getSide() == IL_COL_RIGHT)
+				else if ($this->getSide() == IL_COL_RIGHT &&
+					!$this->getRepositoryMode())
 				{
 					$block_gui->setAllowMove("left");
 				}

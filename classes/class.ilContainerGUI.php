@@ -1787,7 +1787,8 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		global $ilAccess;
 		parent::setColumnSettings($column_gui);
 
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+			$this->isActiveAdministrationPanel())
 		{
 			$column_gui->setEnableMovement(true);
 		}

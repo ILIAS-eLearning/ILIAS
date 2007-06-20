@@ -490,7 +490,8 @@ class ilCourseContentGUI
 		}
 		
 		// Allow movement of blocks for tutors
-		if ($this->is_tutor)
+		if ($this->is_tutor &&
+			$this->container_gui->isActiveAdministrationPanel())
 		{
 			$column_gui->setEnableMovement(true);
 		}
