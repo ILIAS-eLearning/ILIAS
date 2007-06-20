@@ -2545,6 +2545,10 @@ class ilObjectGUI
 	{
 		global $ilAccess, $lng, $PHP_SELF;
 		
+		if (!is_object($this->object))
+		{
+			return;
+		}
 		if (!$ilAccess->checkAccess($a_perm, $a_cmd, $this->object->getRefId()))
 		{
 			$_SESSION["il_rep_ref_id"] = "";
