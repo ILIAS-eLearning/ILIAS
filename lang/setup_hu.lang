@@ -473,3 +473,5 @@ lang_uk#:#Ukrainian###07 09 2006 new variable
 lang_vi#:#Vietnamese###07 09 2006 new variable
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###07 09 2006 new variable
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###07 09 2006 new variable
+clamav#:#ClamAV###20 06 2007 new variable
+lang_et#:#Estonian###20 06 2007 new variable

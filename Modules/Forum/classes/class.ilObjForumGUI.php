@@ -104,7 +104,6 @@ class ilObjForumGUI extends ilObjectGUI
 					$cmd = "showThreads";
 				}
 				$cmd .= "Object";
-
 				$this->$cmd();
 					
 				break;
@@ -1177,6 +1176,10 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule("forum");
 		
+		if (!empty($_POST["addQuote"]))
+		{
+			$_GET["action"] = "showreply";
+		}
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -1562,10 +1565,22 @@ class ilObjForumGUI extends ilObjectGUI
 										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["subject"])) :
 										ilUtil::prepareFormOutput(stripslashes($threadData["thr_subject"]))));
 
-								$tpl->setVariable("MESSAGE_VALUE",
-									($_GET["show_post"] == 1 ?
-										ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])) :
-										$frm->prepareText($node["message"],1,$node["loginname"])));
+								if (!empty($_POST["addQuote"]))
+								{
+									$tpl->setVariable("MESSAGE_VALUE",
+										($_GET["show_post"] == 1 ?
+											ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])) :
+											$frm->prepareText($node["message"],1,$node["loginname"])."\n".
+											ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"]))
+											));
+								}
+								else
+								{
+									$tpl->setVariable("MESSAGE_VALUE",
+										($_GET["show_post"] == 1 ?
+											ilUtil::prepareFormOutput(stripslashes($_POST["formData"]["message"])) :
+											""));
+								}
 							}
 							else
 							{
@@ -1597,6 +1612,13 @@ class ilObjForumGUI extends ilObjectGUI
 									$tpl->parseCurrentBlock();
 								}
 							}
+							
+							if ($_GET["action"] == "showreply" || !empty($_POST["addQuote"]))
+							{
+								$tpl->setCurrentBlock("quotation");
+								$tpl->setVariable("TXT_ADD_QUOTE", $lng->txt("forum_add_quote"));
+								$tpl->parseCurrentBlock();
+							}
 		
 /*							if ($frm->isAnonymized())
 							{
@@ -1614,7 +1636,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$this->ctrl->setParameter($this, "offset", $Start);
 							$this->ctrl->setParameter($this, "orderby", $_GET["orderby"]);
 							$tpl->setVariable("FORMACTION",
-								$this->ctrl->getLinkTarget($this, "viewThread"));
+								$this->ctrl->getLinkTarget($this, "viewThread", $_GET["pos_pk"]));
 								//basename($_SERVER["PHP_SELF"])."?action=ready_".$_GET["action"]."&ref_id=".
 								//$_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"].
 								//"&offset=".$Start."&orderby=".$_GET["orderby"]);

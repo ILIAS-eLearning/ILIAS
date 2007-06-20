@@ -5137,6 +5137,7 @@ exercise#:#exc_your_submission#:#Your Submission
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
+forum#:#forum_add_quote#:#Add Quotation
 forum#:#forums_all_threads_marked_read#:#All topics have been marked as read
 forum#:#forums_attachments#:#Attachments
 forum#:#forums_attachments_add#:#Add attachment

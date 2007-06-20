@@ -436,3 +436,5 @@ wrong_password#:#Vale salasõna!
 zip_path#:#Path to Zip
 zip_path_comment#:#required for exporting learning modules
 zipcode#:#Posti-indeks
+clamav#:#ClamAV###20 06 2007 new variable
+lang_et#:#Estonian###20 06 2007 new variable
