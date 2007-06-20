@@ -666,10 +666,19 @@ class ilEventAdministrationGUI
 		$end_time = $this->__prepareTimeSelect($this->appointment_obj->getEndingTime());
 
 		$this->tpl->setVariable("START_DATE",ilUtil::makeDateSelect('event_date',$date['y'],$date['m'],$date['d'],date('Y',time())));
-		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',true,$start_time['h'],$start_time['m'],0,false));
+		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',
+			true,$start_time['h'],$start_time['m'],
+			0,
+			false,
+			array('minute_steps' => 5)));
 		$this->tpl->setVariable("END_DATE",
 								ilUtil::makeDateSelect('event_end_date',$end_date['y'],$end_date['m'],$end_date['d'],date('Y',time())));
-		$this->tpl->setVariable("END_TIME",ilUtil::makeTimeSelect('event_time_end',true,$end_time['h'],$end_time['m'],0,false));
+		$this->tpl->setVariable("END_TIME",ilUtil::makeTimeSelect('event_time_end',
+			true,
+			$end_time['h'],$end_time['m'],
+			0,
+			false,
+			array('minute_steps' => 5)));
 
 		$this->tpl->setVariable("TITLE",$this->event_obj->getTitle());
 		$this->tpl->setVariable("DESC",$this->event_obj->getDescription());
@@ -746,10 +755,20 @@ class ilEventAdministrationGUI
 		$end_time = $this->__prepareTimeSelect($this->appointment_obj->getEndingTime());
 
 		$this->tpl->setVariable("START_DATE",ilUtil::makeDateSelect('event_date',$date['y'],$date['m'],$date['d'],date('Y',time())));
-		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',true,$start_time['h'],$start_time['m'],0,false));
+		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',
+			true,
+			$start_time['h'],$start_time['m'],
+			0,
+			false,
+			array('minute_steps' => 5)));
 		$this->tpl->setVariable("END_DATE",
 								ilUtil::makeDateSelect('event_end_date',$end_date['y'],$end_date['m'],$end_date['d'],date('Y',time())));
-		$this->tpl->setVariable("END_TIME",ilUtil::makeTimeSelect('event_time_end',true,$end_time['h'],$end_time['m'],0,false));
+		$this->tpl->setVariable("END_TIME",ilUtil::makeTimeSelect('event_time_end',
+			true,
+			$end_time['h'],$end_time['m'],
+			0,
+			false,
+			array('minute_steps' => 5)));
 
 		$this->tpl->setVariable("TITLE",$this->event_obj->getTitle());
 		$this->tpl->setVariable("DESC",$this->event_obj->getDescription());
