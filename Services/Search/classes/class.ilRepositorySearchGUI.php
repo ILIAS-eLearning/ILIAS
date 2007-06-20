@@ -150,7 +150,7 @@ class ilRepositorySearchGUI
 	function __showSearch()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rep_search.html','Services/Search');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'performSearch'));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("SEARCH_MEMBERS_HEADER",$this->lng->txt("add_members_header"));
@@ -582,7 +582,7 @@ class ilRepositorySearchGUI
 
 		// SET FORMACTION
 		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'addUser'));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
@@ -634,7 +634,7 @@ class ilRepositorySearchGUI
 		$tpl =& $tbl->getTemplateObject();
 
 		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'listUsersGroup'));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
@@ -684,7 +684,7 @@ class ilRepositorySearchGUI
 		$tpl =& $tbl->getTemplateObject();
 
 		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'listUsersRole'));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
