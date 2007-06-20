@@ -1653,3 +1653,7 @@ $ilDB->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1021>
+ALTER TABLE `mail` CHANGE `rcp_to` `rcp_to` TEXT NULL DEFAULT NULL ,
+CHANGE `rcp_cc` `rcp_cc` TEXT NULL DEFAULT NULL ,
+CHANGE `rcp_bcc` `rcp_bcc` TEXT NULL DEFAULT NULL;
