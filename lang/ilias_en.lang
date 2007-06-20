@@ -7350,3 +7350,5 @@ forum#:#forums_notification_disabled#:#Notification disabled
 crs#:#save_status#:#Save Status
 crs#:#crs_selected_users#:#Selected Participants
 search#:#search_users#:#Search Users
+common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.
+common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.

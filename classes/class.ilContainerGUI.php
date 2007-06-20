@@ -1843,7 +1843,14 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	 	if(!$_REQUEST['clone_source'])
 	 	{
 			ilUtil::sendInfo($this->lng->txt('select_one'));
-			$this->createObject();
+			if(isset($_SESSION['wizard_search_title']))
+			{
+				$this->searchCloneSourceObject();
+			}
+			else
+			{
+				$this->createObject();
+			}
 			return false;
 	 	}
 		$source_id = $_REQUEST['clone_source'];
@@ -1865,6 +1872,15 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	 	$this->tpl->setVariable('INFO_DUPLICATE',$this->lng->txt($new_type.'_copy_threads_info'));
 	 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('obj_'.$new_type.'_duplicate'));
 	 	$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
+	 	if(isset($_SESSION['wizard_search_title']))
+	 	{
+	 		$this->tpl->setVariable('CMD_BACK','searchCloneSource');
+	 	}
+	 	else
+	 	{
+	 		$this->tpl->setVariable('CMD_BACK','create');
+	 	}
+	 	
 	 	$this->tpl->setVariable('BTN_TREE',$this->lng->txt('treeview'));
 	 	$this->tpl->setVariable('BTN_LIST',$this->lng->txt('flatview'));
 

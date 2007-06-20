@@ -7350,3 +7350,5 @@ ldap#:#ldap_mapping_info_type#:#Mostrar informacion tambien en Contenidos/Escrit
 crs#:#save_status#:#Guardar Status
 crs#:#crs_selected_users#:#Participantes Seleccionados
 search#:#search_users#:#Buscar Usuarios
+common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.###20 06 2007 new variable
+common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them###20 06 2007 new variable
