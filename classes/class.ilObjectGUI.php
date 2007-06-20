@@ -2337,11 +2337,16 @@ class ilObjectGUI
 	{
 		global $objDefinition,$ilUser;
 		
-		if(!count($existing_objs = ilUtil::_getObjectsByOperations($a_type,'copy',$ilUser->getId(),-1)))
+		if(!count($existing_objs = ilUtil::_getObjectsByOperations($a_type,'copy',$ilUser->getId(),10)))
 		{
-			// No Objects with write permission found
+			// No Objects with copy permission found
 			return false;
 		}
+		if(count($existing_objs) >= 100)
+		{
+			return $this->fillCloneSearchTemplate($a_tpl_varname,$a_type);
+		}
+		unset($_SESSION['wizard_search_title']);
 		$this->tpl->addBlockFile(strtoupper($a_tpl_varname),strtolower($a_tpl_varname),'tpl.obj_duplicate.html');
 	 	$this->ctrl->setParameter($this,'new_type',$a_type);
 	 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this));
@@ -2364,6 +2369,138 @@ class ilObjectGUI
 		}
 	 	
 	 	$this->tpl->setVariable('WIZARD_TXT_CANCEL',$this->lng->txt('cancel'));
+	}
+	
+	/**
+	 * Add an object search in case the number of existing objects is too big
+	 * to offer a selection list.
+	 * 
+ 	 * @param string template variable name that will be filled
+	 * @param string type of new object
+	 * @access public
+	 */
+	public function fillCloneSearchTemplate($a_tpl_varname,$a_type)
+	{
+		unset($_SESSION['wizard_search_title']);
+		
+		$this->tpl->addBlockFile(strtoupper($a_tpl_varname),strtolower($a_tpl_varname),'tpl.obj_duplicate_search.html');
+	 	$this->ctrl->setParameter($this,'new_type',$a_type);
+	 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this));
+	 	$this->tpl->setVariable('TYPE_IMG3',ilUtil::getImagePath('icon_'.$a_type.'.gif'));
+	 	$this->tpl->setVariable('ALT_IMG3',$this->lng->txt('obj_'.$a_type));
+	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt('obj_'.$a_type.'_duplicate'));
+	 	
+	 	$this->tpl->setVariable('WIZARD_TXT_TITLE',$this->lng->txt('title'));
+	 	$this->tpl->setVariable('WIZARD_TITLE',ilUtil::prepareFormOutput($_POST['wizard_search_title'],true));
+	 	$this->tpl->setVariable('WIZARD_TITLE_INFO',$this->lng->txt('wizard_title_info'));
+	 	
+	 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('btn_next'));
+	 	$this->tpl->setVariable('CMD_WIZARD','searchCloneSource');
+	 	$this->tpl->setVariable('WIZARD_TXT_CANCEL',$this->lng->txt('cancel'));
+	}
+	
+	/**
+	 * Search clone source by title
+	 *
+	 * @access protected
+	 */
+	protected function searchCloneSourceObject()
+	{
+		global $tree,$ilObjDataCache;
+		
+		$this->ctrl->setParameter($this,'new_type',$_REQUEST['new_type']);
+		
+		$_SESSION['wizard_search_title'] = ilUtil::stripSlashes($_POST['wizard_search_title']) ? 
+			ilUtil::stripSlashes($_POST['wizard_search_title']) :
+			$_SESSION['wizard_search_title'];
+		
+		$this->lng->loadLanguageModule('search');
+		include_once './Services/Search/classes/class.ilQueryParser.php';
+		$query_parser =& new ilQueryParser(ilUtil::stripSlashes($_SESSION['wizard_search_title']));
+		$query_parser->setMinWordLength(1);
+		$query_parser->setCombination(QP_COMBINATION_AND);
+		$query_parser->parse();
+		if(!$query_parser->validate())
+		{
+			ilUtil::sendInfo($query_parser->getMessage());
+			$this->createObject();
+			return true;
+		}
+
+		// only like search since fulltext does not support search with less than 3 characters
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search =& new ilLikeObjectSearch($query_parser);
+
+		$object_search->setFilter(array($_REQUEST['new_type']));
+		$res = $object_search->performSearch();
+		$res->setRequiredPermission('copy');
+
+		// Add callback functions to receive only search_max_hits valid results
+		$res->filter(ROOT_FOLDER_ID,true);
+		
+		if(!count($results = $res->getResultsByObjId()))
+		{
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+			$this->createObject();
+			return true;
+		}
+
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.obj_duplicate_search_results.html');
+
+		$num_rows = 0;
+		foreach($results as $obj_id => $references)
+		{
+			foreach($references as $ref_id)
+			{
+				$this->tpl->setCurrentBlock('ref_row');
+				$this->tpl->setVariable('RADIO_REF',ilUtil::formRadioButton(0,'clone_source',$ref_id));
+				$this->tpl->setVariable('TXT_PATH',$this->lng->txt('path'));
+				
+				$path_arr = $tree->getPathFull($ref_id,ROOT_FOLDER_ID);
+				$counter = 0;
+				$path = '';
+				foreach($path_arr as $data)
+				{
+					if($counter++)
+					{
+						$path .= " -> ";
+					}
+					$path .= $data['title'];
+				}
+				$this->tpl->setVariable('PATH',$path);
+				$this->tpl->parseCurrentBlock();
+				break;
+			}
+			if(strlen($desc = $ilObjDataCache->lookupDescription($obj_id)))
+			{
+				$this->tpl->setCurrentBlock('desc');
+				$this->tpl->setVariable('DESCRIPTION',$desc);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock('res_row');
+			$this->tpl->setVariable('TBLROW',ilUtil::switchColor($num_rows++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable('TITLE',$ilObjDataCache->lookupTitle($obj_id));
+			$this->tpl->setVariable('REFERENCES',$this->lng->txt('pathes'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this,'cancel'));
+	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$_REQUEST['new_type'].'.gif'));
+	 	$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$_REQUEST['new_type']));
+	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt('obj_'.$_REQUEST['new_type'].'_duplicate'));
+	 	$this->tpl->setVariable('INFO_DUPLICATE',$this->lng->txt('wizard_search_list'));
+		if($this->copyWizardHasOptions(self::COPY_WIZARD_NEEDS_PAGE))
+		{
+		 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('btn_next'));
+		 	$this->tpl->setVariable('CMD_COPY','cloneWizardPage');
+		}
+		else
+		{
+		 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('obj_'.$_REQUEST['new_type'].'_duplicate'));
+		 	$this->tpl->setVariable('CMD_COPY','cloneAll');
+		}
+		$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
+		return true;
 	}
 	
 	/**

@@ -2655,7 +2655,14 @@ class ilObjForumGUI extends ilObjectGUI
 	 	if(!$_POST['clone_source'])
 	 	{
 			ilUtil::sendInfo($this->lng->txt('select_one'));
-			$this->createObject();
+			if(isset($_SESSION['wizard_search_title']))
+			{
+				$this->searchCloneSourceObject();
+			}
+			else
+			{
+				$this->createObject();
+			}
 			return false;
 	 	}
 		$source_id = $_POST['clone_source'];
@@ -2686,7 +2693,15 @@ class ilObjForumGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('SELECT_ALL',$this->lng->txt('select_all'));
 	 	$this->tpl->setVariable('JS_FIELD','cp_options['.$source_id.'][threads]');
 	 	$this->tpl->setVariable('BTN_COPY',$this->lng->txt('obj_'.$new_type.'_duplicate'));
-	 	$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
+	 	if(isset($_SESSION['wizard_search_title']))
+	 	{
+	 		$this->tpl->setVariable('BACK_CMD','searchCloneSource');
+	 	}
+	 	else
+	 	{
+	 		$this->tpl->setVariable('BACK_CMD','create');
+	 	}
+ 		$this->tpl->setVariable('BTN_BACK',$this->lng->txt('btn_back'));
 	}
 	
 	/**

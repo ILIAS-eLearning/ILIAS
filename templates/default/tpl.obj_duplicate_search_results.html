@@ -1,0 +1,32 @@
+<form action="{FORMACTION}" method="post" name="cmd">
+	<table class="fullwidth">
+		<tr class="tblheader">
+			<th class="std" colspan="4">
+				<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+				{TXT_DUPLICATE}<br />
+				<span class="il_Helptext">{INFO_DUPLICATE}</span>
+			</th>
+		</tr>
+		<!-- BEGIN res_row -->
+		<tr>
+			<td class="{TBLROW}">
+				{TITLE}
+				<!-- BEGIN desc -->
+				<div class="il_Description_no_margin">{DESCRIPTION}</div>
+				<!-- END desc -->
+				<br /><strong>{REFERENCES}</strong>
+				<!-- BEGIN ref_row -->
+				<br />{RADIO_REF} {TXT_PATH}: {PATH}
+				<!-- END ref_row -->
+			</td>
+		</tr>
+		<!-- END res_row -->
+		<tr>
+		  <td class="submit" align="right" colspan="4">
+			<input class="submit" type="submit" name="cmd[{CMD_COPY}]" value="{BTN_COPY}" />
+			<input class="submit" type="submit" name="cmd[create]" value="{BTN_BACK}" />
+		  </td>
+		</tr>
+		
+	</table>
+</form>
