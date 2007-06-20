@@ -139,9 +139,13 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		$config['langstrings'] = $langstrings;
 
 		//header('Content-Type: text/html; charset=UTF-8');
-
+		
+		$stpl = new SimpleTemplate();
+		$stpl->load('./Modules/Scorm2004/templates/default/tpl.scorm2004.player_debug.html');
+		$stpl->setParam('BASE_DIR', './Modules/Scorm2004/');
+		
 		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
-		$this->tpl->setVariable('DEBUG', (int) $_REQUEST['debug']);
+		$this->tpl->setVariable('DEBUG', 1);
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
@@ -153,6 +157,10 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
 		$this->tpl->setVariable('ILIAS', '1');	
+
+		//$this->tpl->setVariable('INCLUDE_DEBUG', $stpl->save(null)));	
+		
+	
 		$this->tpl->show("DEFAULT", false);
 	}
 	
