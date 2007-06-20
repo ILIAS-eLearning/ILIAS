@@ -65,8 +65,7 @@ class ilSCORM13PackageBridge extends ilSCORM13Package{
 	 * @return       string title of package
 	 */
 	public function il_import($packageFolder,$packeId){
-		ilSCORM13DB::init(IL_OP_DB_DSN, IL_OP_DB_TYPE);
-
+		ilSCORM13DB::init(IL_OP_DB_DSN, IL_OP_DB_TYPE);				
 		$this->packageFolder=$packageFolder;
 		$this->packageId=$packeId;
 		$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
@@ -81,6 +80,7 @@ class ilSCORM13PackageBridge extends ilSCORM13Package{
 		}
 		//step 2 tranform
 		$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
+		
 		if (!$this->manifest)
 		{
 			$this->diagnostic[] = 'Cannot transform into normalized manifest';
