@@ -1432,6 +1432,7 @@ input.submit, a.submit, a.submit:hover
 	text-decoration:none;
 	font-size: 90%;
 	cursor:pointer;
+	font-weight:normal;
 }
 
 input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {

@@ -435,3 +435,5 @@ tools#:#Tools###07 09 2006 new variable
 unzip#:#Extract###07 09 2006 new variable
 url_to_latex#:#URL to LaTeX CGI script###07 09 2006 new variable
 virus_scanner#:#Virus Scanner###07 09 2006 new variable
+clamav#:#ClamAV###20 06 2007 new variable
+lang_et#:#Estonian###20 06 2007 new variable

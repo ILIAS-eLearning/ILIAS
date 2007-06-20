@@ -422,3 +422,18 @@ tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not ex
 tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###07 09 2006 new variable
 unzip#:#Extract###07 09 2006 new variable
 url_to_latex#:#URL to LaTeX CGI script###07 09 2006 new variable
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 06 2007 new variable
+clamav#:#ClamAV###20 06 2007 new variable
+ctrl_structure#:#Control Structure###20 06 2007 new variable
+ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###20 06 2007 new variable
+ctrl_structure_reloaded#:#Control Structure Reloaded.###20 06 2007 new variable
+ilias_db_mode#:#ILIAS database mode###20 06 2007 new variable
+include_local#:#include local###20 06 2007 new variable
+installed_local#:#Installed With Local###20 06 2007 new variable
+lang_bg#:#Bulgarian###20 06 2007 new variable
+lang_sq#:#Albanian###20 06 2007 new variable
+lang_sr#:#Serbian###20 06 2007 new variable
+lang_et#:#Estonian###20 06 2007 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 06 2007 new variable
+reload#:#Reload###20 06 2007 new variable
+tools#:#Tools###20 06 2007 new variable
