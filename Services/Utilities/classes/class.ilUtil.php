@@ -893,9 +893,19 @@ class ilUtil
 	* @return	string	HTML select boxes
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
-	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true)
+	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true,$a_further_options = array())
 	{
 		global $lng;
+		
+		$minute_steps = 1;
+		if(count($a_further_options))
+		{
+			if(isset($a_further_options['minute_steps']))
+			{
+				$minute_steps = $a_further_options['minute_steps'];
+			}
+		}
+		
 		if ($a_use_default and !strlen("$hour$minute$second")) {
 			$now = localtime();
 			$hour = $now[2];
@@ -919,7 +929,7 @@ class ilUtil
 		// build minutes select
 		$sel_minute .= "<select name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
 
-		for ($i = 0; $i <= 59; $i++)
+		for ($i = 0; $i <= 59; $i = $i + $minute_steps)
 		{
 			$sel_minute .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
 		}
