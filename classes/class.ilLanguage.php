@@ -194,7 +194,7 @@ class ilLanguage
 	
 	function getDefaultLanguage()
 	{
-		return $this->lang_default;
+		return $this->lang_default ? $this->lang_default : 'en';
 	}
 	
 	/**
