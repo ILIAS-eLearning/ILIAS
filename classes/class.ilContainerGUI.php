@@ -420,7 +420,8 @@ class ilContainerGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, "item_ref_id", "");
 			$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
 		}
-		else if ($this->adminCommands)
+		else if ($this->adminCommands || (is_object($this->object) && 
+			$ilAccess->checkAccess("write", "", $this->object->getRefId())))
 		{
 			#$this->__showTimingsButton($tpl);
 
