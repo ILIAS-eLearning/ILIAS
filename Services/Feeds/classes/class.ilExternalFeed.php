@@ -46,7 +46,7 @@ class ilExternalFeed
 	*/
 	function ilExternalFeed()
 	{
-		$this->createCacheDirectory();
+		$this->_createCacheDirectory();
 	}
 
 	/**
@@ -92,16 +92,12 @@ class ilExternalFeed
 	/**
 	* Create magpie cache directorry (if not existing)
 	*/
-	function createCacheDirectory()
+	static function _createCacheDirectory()
 	{
 		if (!is_dir(ilUtil::getWebspaceDir()."/magpie_cache"))
 		{
 			ilUtil::makeDir(ilUtil::getWebspaceDir()."/magpie_cache");
 		}
-		
-//echo "<br/>./".ILIAS_WEB_DIR."/".CLIENT_ID."/magpie_cache";
-//echo "<br>".ilUtil::getWebspaceDir()."/magpie_cache";
-
 	}
 	
 	/**
@@ -112,6 +108,7 @@ class ilExternalFeed
 	*/
 	static function _checkUrl($a_url)
 	{
+		ilExternalFeed::_createCacheDirectory();
 		$feed = @fetch_rss($a_url);
 		if (!$feed)
 		{
@@ -170,6 +167,8 @@ class ilExternalFeed
 	*/
 	function checkCacheHit()
 	{
+		ilExternalFeed::_createCacheDirectory();
+		
 		$cache = new RSSCache( MAGPIE_CACHE_DIR, MAGPIE_CACHE_AGE );
         
         $cache_status    = 0;       // response of check_cache

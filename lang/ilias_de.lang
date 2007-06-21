@@ -1954,7 +1954,7 @@ common#:#feed_edit_permission#:#Rechteeinstellungen ändern
 common#:#feed_read#:#Webfeed lesen
 common#:#feed_visible#:#Webfeed ist sichtbar
 common#:#feed_write#:#Webfeed bearbeiten
-common#:#feed#:#News-Feed
+common#:#feed#:#Webfeed
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#feedback#:#Feedback
 common#:#field_name#:#Feldname
