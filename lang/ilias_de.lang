@@ -5135,7 +5135,7 @@ feed#:#block_feed_block_head#:#Externer Webfeed
 feed#:#block_feed_block_title#:#Titel
 feed#:#feed_disable_rep_feeds_info#:#Diese Option deaktiviert alle bestehenden externen Webfeeds, falls wegen eines Webfeeds ein Problem auftaucht.
 feed#:#feed_disable_rep_feeds#:#Keine externen Webfeeds in Kategorien
-feed#:#feed_feed_items#:#Webfeed-Thema
+feed#:#feed_feed_items#:#Webfeed-Themen
 feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
 feed#:#feed_nr_pd_feeds_info#:#Betimmt die maximale Anzahl externer Webfeeds, die ein Benutzer auf seinen Persönlichen Schreibtisch legen kann.
 feed#:#feed_nr_pd_feeds#:#Anzahl externer Webfeeds auf dem Persönlichen Schreibtisch
