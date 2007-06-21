@@ -3743,6 +3743,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
+			$this->tpl->setCurrentBlock("adm_content");
+			
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
