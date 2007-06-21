@@ -138,9 +138,9 @@ assessment#:#assQuestions#:#Preguntas
 assessment#:#assSingleChoice#:#Pregunta de Opción Múltiple (respuesta única)
 assessment#:#assTextQuestion#:#Pregunta de Respuesta Corta
 assessment#:#assTextSubset#:#Pregunta Subconjunto de
-assessment#:#ass_create_export_file#:#Crear fichero de exportación
+assessment#:#ass_create_export_file#:#Crear archivo de exportación
 assessment#:#ass_create_export_test_results#:#Exportar Resultados del Test
-assessment#:#ass_export_files#:#Exportar ficheros
+assessment#:#ass_export_files#:#Exportar archivos
 assessment#:#ass_file#:#Archivo
 assessment#:#ass_question#:#Pregunta
 assessment#:#ass_size#:#Tamaño
@@ -499,15 +499,15 @@ assessment#:#qpl_duplicate_select_none#:#Por favor marque al menos una pregunta 
 assessment#:#qpl_edit_rbac_error#:#No tiene permisos para editar esta pregunta!
 assessment#:#qpl_edit_select_multiple#:#Por favor marque sólo una pregunta para editar
 assessment#:#qpl_edit_select_none#:#Por favor marque una pregunta para editar
-assessment#:#qpl_export_excel#:#Fichero Microsoft Excel
+assessment#:#qpl_export_excel#:#Archivo Microsoft Excel
 assessment#:#qpl_export_select_none#:#Por favor marque al menos una pregunta para exportarla
-assessment#:#qpl_export_xml#:#Fichero QTI XML
+assessment#:#qpl_export_xml#:#Archivo QTI XML
 assessment#:#qpl_general_properties#:#Propiedades Generales
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS no pudo crear la previsualización temporal conteniendo las áreas de mapa de imagen. En su lugar, se muestra la imagen original. Esto significa que o bien la herramienta ImageMagick del servidor web no está configurada correctamente o no hay permisos de escritura en el directorio temporal. Por favor contacte con su administrador del sistema.
 assessment#:#qpl_import_create_new_qpl#:#Importar las preguntas en un nuevo banco de preguntas
-assessment#:#qpl_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
-assessment#:#qpl_import_non_ilias_files#:#Error: El fichero de importación contiene ficheros QTI que no han sido creados con el sistema ILIAS. Por favor, contacte con el equipo de ILIAS para adaptar el filtro de importación a su formato QTI.
-assessment#:#qpl_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas en el fichero de importación. Por favor, seleccione las preguntas que quiere importar.
+assessment#:#qpl_import_no_items#:#Error: ¡El archivo de importación no contiene preguntas!
+assessment#:#qpl_import_non_ilias_files#:#Error: El archivo de importación contiene archivos QTI que no han sido creados con el sistema ILIAS. Por favor, contacte con el equipo de ILIAS para adaptar el filtro de importación a su formato QTI.
+assessment#:#qpl_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas en el archivo de importación. Por favor, seleccione las preguntas que quiere importar.
 assessment#:#qpl_move_insert_clipboard#:#La(s) pregunta(s) seleccionada(s) estan marcadas para mover.
 assessment#:#qpl_move_select_none#:#Por favor marque al menos una pregunta para mover.
 assessment#:#qpl_online_property#:#Online
@@ -516,7 +516,7 @@ assessment#:#qpl_paste_no_objects#:#No hay preguntas en el portapapeles. Por fav
 assessment#:#qpl_paste_success#:#La(s) pregunta(s) han sido pegadas en el banco de preguntas.
 assessment#:#qpl_question_is_in_use#:#La pregunta que va a editar existe en el/los test(s) %s. Si modifica esta pregunta, NO cambiará la pregunta(s) en el/los test(s), porque el sistema crea una copia de una pregunta cuando se inserta en un test!
 assessment#:#qpl_questions_deleted#:#Pregunta(s) eliminada(s).
-assessment#:#qpl_select_file_for_import#:#Debe seleccionar un fichero a importar!
+assessment#:#qpl_select_file_for_import#:#Debe seleccionar un archivo a importar!
 assessment#:#qt_multiple_choice#:#Pregunta de Opción Múltiple
 assessment#:#question_cumulated_statistics#:#Estadísticas acumuladas de preguntas
 assessment#:#question_instances_title#:#Esta pregunta se usa en los siguientes tests
@@ -653,8 +653,8 @@ assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
 assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán
 assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto
-assessment#:#tst_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
-assessment#:#tst_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas el el fichero de importación de test. Por favor seleccione las preguntas que quiere importar en este test.
+assessment#:#tst_import_no_items#:#Error: ¡El archivo de importación no contiene preguntas!
+assessment#:#tst_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas el el archivo de importación de test. Por favor seleccione las preguntas que quiere importar en este test.
 assessment#:#tst_in_use_edit_questions_disabled#:#El test está en uso por %d usuario(s). No tiene permiso para editar o mover las preguntas en este test!
 assessment#:#tst_insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en el test!
 assessment#:#tst_insert_questions#:#Está seguro de que quiere insertar  la(s) siguiente(s) pregunta(s) en el test?
@@ -780,7 +780,7 @@ assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Puntuar con 0 puntos c
 assessment#:#tst_score_reporting#:#Informe de puntuación
 assessment#:#tst_score_reporting_date#:#Fecha del informe de puntuación
 assessment#:#tst_score_type#:#Tipo de informe de puntuación
-assessment#:#tst_select_file_for_import#:#¡Debe seleccionar un fichero para importar!
+assessment#:#tst_select_file_for_import#:#¡Debe seleccionar un archivo para importar!
 assessment#:#tst_select_qpls#:#Por favor seleccione un banco de preguntas para duplicar
 assessment#:#tst_select_questionpool#:#Por favor seleccione un banco de preguntas para almacenar la pregunta creada
 assessment#:#tst_select_questionpools#:#Por favor seleccione un banco de preguntas para almacenar las preguntas importadas
@@ -1278,8 +1278,8 @@ common#:#associated_user#:#Usuario relacionado
 common#:#associated_users#:#Usuarios relacionados
 common#:#at_least_one_style#:#Al menos un estilo debe quedar activado.
 common#:#at_location#:#-at location-
-common#:#attachment#:#Fichero adjunto
-common#:#attachments#:#Ficheros adjuntos
+common#:#attachment#:#Archivo adjunto
+common#:#attachments#:#Archivos adjuntos
 common#:#attend#:#-Attend-
 common#:#auth_active_roles#:#Roles globales activados para el registro
 common#:#auth_allow_local#:#Permitir Autenticación Local
@@ -1393,7 +1393,7 @@ common#:#by_type#:#Ordenar por tipo
 common#:#bytes#:#Bytes
 common#:#calendar#:#Calendario
 common#:#cancel#:#cancelar
-common#:#cannot_find_xml#:#No se puede encontrar ningun fichero XML
+common#:#cannot_find_xml#:#No se puede encontrar ningun archivo XML
 common#:#cannot_uninstall_language_in_use#:#No puedes desinstalar el idioma actualment en uso!
 common#:#cannot_uninstall_systemlanguage#:#No puedes desinstalar el idioma del sistema!
 common#:#cannot_unzip_file#:#No se pudo descomprimir el archivo
@@ -1509,7 +1509,7 @@ common#:#check_user_accounts#:#Comprobar cuentas de usuario
 common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico.
 common#:#check_web_resources#:#Comprobar Enlaces a Recursos Web
 common#:#check_web_resources_desc#:#Si se activa todos los Recursos Web serán comprobados
-common#:#checked_files#:#Ficheros importables
+common#:#checked_files#:#Archivos importables
 common#:#chg_language#:#modificar idioma
 common#:#chg_password#:#cambiar contraseña
 common#:#choose_language#:#escoja su idioma
@@ -1569,7 +1569,7 @@ common#:#course#:#Curso
 common#:#courses#:#Cursos
 common#:#create#:#crear
 common#:#create_date#:#Creado el
-common#:#create_export_file#:#Crear fichero de exportación
+common#:#create_export_file#:#Crear archivo de exportación
 common#:#create_in#:#Creado en
 common#:#create_stylesheet#:#Crear Estilo
 common#:#created#:#Crear fecha
@@ -1778,7 +1778,7 @@ common#:#exc_deassign_members#:#Eliminar miembro(s)
 common#:#exc_delete#:#Eliminar Actividad
 common#:#exc_details#:#Detalles de la actividad
 common#:#exc_download_all#:#Descargar todo
-common#:#exc_download_files#:#Descargar ficheros
+common#:#exc_download_files#:#Descargar archivos
 common#:#exc_download_new#:#Descargar nuevos
 common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
@@ -1802,7 +1802,7 @@ common#:#exc_no_members_assigned#:#Ningún miembro asignado
 common#:#exc_notices#:#Comentarios
 common#:#exc_obj#:#Actividad
 common#:#exc_read#:#Acceso actividad
-common#:#exc_resubmitted_advice#:#Este símbolo se muestro en caso de que un nuevo fichero haya sido enviado tras haber marcado el campo "resuelto"
+common#:#exc_resubmitted_advice#:#Este símbolo se muestro en caso de que un nuevo archivo haya sido enviado tras haber marcado el campo "resuelto"
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
 common#:#exc_schedule#:#Fecha de Entrega
@@ -1832,8 +1832,8 @@ common#:#expand#:#Expandir
 common#:#explorer_frame#:#Írbol Explorador
 common#:#export#:#Exportar
 common#:#export_group_members#:#Exportar miembros del grupo (a Microsoft Excel)
-common#:#export_html#:#Exportar como fichero HTML
-common#:#export_xml#:#Exportar como fichero XML
+common#:#export_html#:#Exportar como archivo HTML
+common#:#export_xml#:#Exportar como archivo XML
 common#:#extt_configure#:#configurar...
 common#:#extt_edit_permission#:#Modificar configuración de permisos
 common#:#extt_ilinc#:#netucate LearnLinc
@@ -1868,12 +1868,12 @@ common#:#field_type#:#Tipo de campo
 common#:#file#:#Archivo
 common#:#file_a#:#un Archivo
 common#:#file_add#:#Cargar archivo
-common#:#file_add_and_metadata#:#Cargar fichero y editar metadatos
+common#:#file_add_and_metadata#:#Cargar archivo y editar metadatos
 common#:#file_added#:#Archivo cargado
 common#:#file_delete#:#Eliminar archivo
 common#:#file_edit#:#Editar archivo
 common#:#file_edit_permission#:#Modificar configuración de permisos
-common#:#file_icon#:#Fichero de icono
+common#:#file_icon#:#Archivo de icono
 common#:#file_info#:#Información de archivo
 common#:#file_is_infected#:#El archivo está infectado por un virus.
 common#:#file_new#:#Nuevo archivo
@@ -1881,8 +1881,8 @@ common#:#file_not_found#:#Archivo no encontrado
 common#:#file_not_valid#:#Archivo no válido
 common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de
 common#:#file_read#:#Descarga archivo
-common#:#file_suffix_repl#:#Reemplazo de extensión en la carga de ficheros
-common#:#file_suffix_repl_info#:#Los ficheros terminados con estas extensiones (separadas por coma) serán renombradas con una extensión ".sec" si se cargan en el espacio web. Esto se realiza por defecto con las extensiones:
+common#:#file_suffix_repl#:#Reemplazo de extensión en la carga de archivos
+common#:#file_suffix_repl_info#:#Los archivos terminados con estas extensiones (separadas por coma) serán renombradas con una extensión ".sec" si se cargan en el espacio web. Esto se realiza por defecto con las extensiones:
 common#:#file_valid#:#Archivo válido
 common#:#file_version#:#versión facilitada en el archivo
 common#:#file_visible#:#El archivo es visible
@@ -1936,7 +1936,7 @@ common#:#forum#:#Foro
 common#:#forum_direct_notification#:#Notificación directa
 common#:#forum_general_notification#:#Notificación general
 common#:#forum_import#:#Importación de foro
-common#:#forum_import_file#:#Importar fichero
+common#:#forum_import_file#:#Importar archivo
 common#:#forum_notification#:#Notificación
 common#:#forum_notify_me#:#Notificarme cuando se envíe una respuesta
 common#:#forum_notify_me_directly#:#Informarme sobre respuestas directas a mi contribución
@@ -2011,7 +2011,7 @@ common#:#group_desc#:#Descripción de Grupo
 common#:#group_details#:#Detalles de Grupo
 common#:#group_filesharing#:#Compartir archivos en grupo
 common#:#group_import#:#Importar Grupo
-common#:#group_import_file#:#Importar fichero
+common#:#group_import_file#:#Importar archivo
 common#:#group_info_reg#:#Procedimiento de admisión
 common#:#group_members#:#Miembros de Grupo
 common#:#group_memstat#:#Estado de Miembro
@@ -2141,7 +2141,7 @@ common#:#hist_dbk_pg_update#:#Página modificada.
 common#:#hist_dbk_st_cut_page#:#Página "%1" [%2] cortada de capítulo.
 common#:#hist_dbk_st_paste_page#:#Página "%1" [%2] pegada en capítulo
 common#:#hist_file_create#:#Archivo creado, el nombre del archivo es "%1".
-common#:#hist_file_replace#:#Archivo reemplazado, nuevo fichero es "%1", la nueva versión es %2.
+common#:#hist_file_replace#:#Archivo reemplazado, nuevo archivo es "%1", la nueva versión es %2.
 common#:#hist_lm_delete_pg#:#Página "%1" [%2] ha sido eliminada.
 common#:#hist_lm_delete_st#:#Capítulo "%1" [%2] ha sido eliminado.
 common#:#hist_lm_pg_create#:#Página creada.
@@ -2277,7 +2277,7 @@ common#:#import_cat_localrol#:#Crear rol local para cada nueva categoría
 common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca el 'checkbox'
 common#:#import_categories#:#Importar Categorías
 common#:#import_dbk#:#Importar Libro Digital
-common#:#import_failure_log#:#Fichero de registro de fallos en la importación
+common#:#import_failure_log#:#Archivo de registro de fallos en la importación
 common#:#import_file#:#Importar archivo
 common#:#import_file_not_valid#:#La importación del archivo no es válida
 common#:#import_finished#:#Número de mensajes importados
@@ -2350,7 +2350,7 @@ common#:#ingmedia_user_agree#:#Agreement
 common#:#ingmedia_vis_le#:#Visited LE
 common#:#ingmedia_visited_le#:#All LE you have visited so far.
 common#:#ingmedia_welcome#:#, welcome to your personal desktop!!
-common#:#inifile#:#Fichero de inicialización
+common#:#inifile#:#Archivo de inicialización
 common#:#input_error#:#Error de Entrada
 common#:#insert#:#Insertar
 common#:#insert_object_here#:#Insertar objecto aquí
@@ -2827,7 +2827,7 @@ common#:#no_tst_in_personal_list#:#No hay tests en la lista personal.
 common#:#no_user_defined_fields_defined#:#No hay campos definidos por el usuario disponibles.
 common#:#no_users_applied#:#Por favor seleccione un usuario
 common#:#no_users_selected#:#Por favor seleccione un usuario.
-common#:#no_xml_file_found_in_zip#:#Fichero XML no encontrado dentro del archivo ZIP:
+common#:#no_xml_file_found_in_zip#:#Archivo XML no encontrado dentro del archivo ZIP:
 common#:#no_zip_file#:#Archivo ZIP no encontrado.
 common#:#non_internal_local_roles_only#:#Roles locales (sólo definidos por el usuario)
 common#:#none#:#ninguno
@@ -3213,8 +3213,8 @@ common#:#role_user_deassign#:#Desasignar usuario del rol
 common#:#role_user_edit#:#Editar datos de la cuenta
 common#:#role_user_send_mail#:#Enviar mensaje al usuario
 common#:#roles#:#roles
-common#:#roles_of_import_global#:#Roles globales del fichero de importación
-common#:#roles_of_import_local#:#Roles locales del fichero de importación
+common#:#roles_of_import_global#:#Roles globales del archivo de importación
+common#:#roles_of_import_local#:#Roles locales del archivo de importación
 common#:#rolf#:#Roles
 common#:#rolf_added#:#Carpeta de Roles añadida
 common#:#rolf_create_role#:#Crear nueva definición de Rol
@@ -3330,7 +3330,7 @@ common#:#shib_firstname#:#Atributo para nombre
 common#:#shib_gender#:#Atributo para género (debe ser 'm' o 'f')
 common#:#shib_general_login_instructions#:#Para entrar via %s, por favor haga click en el botón de login y elija su organización de la siguiente página.<br>Si tiene alguna pregunta relativa a esto, por favor pregunte a
 common#:#shib_general_wayf_login_instructions#:#En caso de no estar asociado con las organizaciones dadas y que necesite acceso a un curso en este servidor, por favor contacte a
-common#:#shib_idp_list#:#Ofrecer una lista de Proveedores de Identidad para permitir al usuario escoger en la página de entrada a ILIAS.<br>En cada línea debe haber una tupla separada por comas para <strong>providerID de IdP</strong> (ver el fichero de metadatos de Shibboleth) y <strong>Nombre de IdP</strong> como debe ser mostrado en la lista desplegable.<br>Como tercer parámetro opcional puede añadir la <strong>localización de un iniciador de sessión Shibboleth</strong> que debe ser usado en caso de que su instalación ILIAS forme parte de una configuración multi federación.
+common#:#shib_idp_list#:#Ofrecer una lista de Proveedores de Identidad para permitir al usuario escoger en la página de entrada a ILIAS.<br>En cada línea debe haber una tupla separada por comas para <strong>providerID de IdP</strong> (ver el archivo de metadatos de Shibboleth) y <strong>Nombre de IdP</strong> como debe ser mostrado en la lista desplegable.<br>Como tercer parámetro opcional puede añadir la <strong>localización de un iniciador de sessión Shibboleth</strong> que debe ser usado en caso de que su instalación ILIAS forme parte de una configuración multi federación.
 common#:#shib_institution#:#Atributo para institución
 common#:#shib_invalid_home_organization#:#Por favor escoja una organización válida
 common#:#shib_language#:#Atributo para lenguaje
@@ -3581,7 +3581,7 @@ common#:#url_description#:#descripción de url
 common#:#url_edit#:#Editar URL
 common#:#url_edit_permission#:#Modificar configuración de permisos
 common#:#url_new#:#Nueva URL
-common#:#url_not_found#:#Ficheros no encontrado
+common#:#url_not_found#:#Archivos no encontrado
 common#:#url_read#:#Abrir URL
 common#:#url_to_latex#:#URL del script CGI para LaTeX
 common#:#url_visible#:#URL es visible
@@ -3612,9 +3612,9 @@ common#:#user_statistics#:#Datos estadísticos
 common#:#userdata#:#Datos de usuario
 common#:#userfolder_export_csv#:#Valores separados por coma
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
-common#:#userfolder_export_file#:#Fichero
+common#:#userfolder_export_file#:#Archivo
 common#:#userfolder_export_file_size#:#Tamaño de archivo
-common#:#userfolder_export_files#:#Ficheros
+common#:#userfolder_export_files#:#Archivos
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Usuario
 common#:#users#:#usuarios
@@ -3755,7 +3755,7 @@ content#:#cont_Headline1#:#Cabecera 1
 content#:#cont_Headline2#:#Cabecera 2
 content#:#cont_Headline3#:#Cabecera 3
 content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Fichero Local
+content#:#cont_LocalFile#:#Archivo Local
 content#:#cont_Mnemonic#:#Nemónico
 content#:#cont_Number#:#Número
 content#:#cont_Poly#:#Polígono
@@ -3823,10 +3823,10 @@ content#:#cont_copy_object#:#copiar objeto
 content#:#cont_copy_to_clipboard#:#Copiar al portapapeles
 content#:#cont_copy_to_media_pool#:#Copiar a banco multimedia
 content#:#cont_create_dir#:#Crear Directorio
-content#:#cont_create_export_file#:#Crear Fichero de Exportación
-content#:#cont_create_export_file_html#:#Crear Fichero de Exportación (HTML)
-content#:#cont_create_export_file_scorm#:#Crear Fichero de Exportación (SCORM)
-content#:#cont_create_export_file_xml#:#Crear Fichero de Exportación (XML)
+content#:#cont_create_export_file#:#Crear Archivo de Exportación
+content#:#cont_create_export_file_html#:#Crear Archivo de Exportación (HTML)
+content#:#cont_create_export_file_scorm#:#Crear Archivo de Exportación (SCORM)
+content#:#cont_create_export_file_xml#:#Crear Archivo de Exportación (XML)
 content#:#cont_create_folder#:#Crear Carpeta
 content#:#cont_create_html_version#:#Crear Paquete HTML
 content#:#cont_create_mob#:#Crear Objeto Media
@@ -3848,7 +3848,7 @@ content#:#cont_delete_selected#:#Eliminar
 content#:#cont_dependencies#:#Dependencias
 content#:#cont_derive_from_obj#:#Derivar del Objeto
 content#:#cont_details#:#Detalles
-content#:#cont_dir_file#:#Directorio/Fichero
+content#:#cont_dir_file#:#Directorio/Archivo
 content#:#cont_disable_js#:#Deshabilitar JavaScript
 content#:#cont_disable_media#:#Deshabilitar Multimedia
 content#:#cont_disable_html#:#HTML inactivo
@@ -3875,7 +3875,7 @@ content#:#cont_ed_edit_prop#:#Editar propiedades
 content#:#cont_ed_enable#:#(Des)activar elementos
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#insertar código
-content#:#cont_ed_insert_filelist#:#insertar Lista de Ficheros
+content#:#cont_ed_insert_filelist#:#insertar Lista de Archivos
 content#:#cont_ed_insert_list#:#insertar Lista
 content#:#cont_ed_insert_media#:#insertar Media
 content#:#cont_ed_insert_par#:#insertar Párrafo.
@@ -3897,10 +3897,10 @@ content#:#cont_ed_split_page#:#dividir página
 content#:#cont_ed_split_page_next#:#pasar a la siguiente página
 content#:#cont_ed_width#:#Anchura
 content#:#cont_edit_area#:#Editar Área
-content#:#cont_edit_file_list_properties#:#Editar propiedades de la Lista de Ficheros
+content#:#cont_edit_file_list_properties#:#Editar propiedades de la Lista de Archivos
 content#:#cont_edit_mob#:#Editar Objeto Media
 content#:#cont_edit_mob_alias_prop#:#Editar propiedades de la Instancia del Media Object
-content#:#cont_edit_mob_files#:#Ficheros del Objeto
+content#:#cont_edit_mob_files#:#Archivos del Objeto
 content#:#cont_edit_mob_properties#:#Editar propiedades de Media Object
 content#:#cont_edit_par#:#Editar Párrafo
 content#:#cont_edit_src#:#Editar código fuente
@@ -3910,11 +3910,11 @@ content#:#cont_edition#:#Edición
 content#:#cont_empty_mep_folder#:#No hay objetos multimedia en esta carpeta
 content#:#cont_enable_js#:#Habilitar Javascript
 content#:#cont_enable_media#:#Habilitar Media
-content#:#cont_export_files#:#Exportar Ficheros
+content#:#cont_export_files#:#Exportar Archivos
 content#:#cont_external#:#externo
 content#:#cont_external_url#:#URL externa
-content#:#cont_file#:#Fichero
-content#:#cont_files#:#Ficheros
+content#:#cont_file#:#Archivo
+content#:#cont_files#:#Archivos
 content#:#cont_fix_tree#:#Reparar estructura
 content#:#cont_fix_tree_confirm#:#Por favor ejecute este comando sólo si la estructura en árbol de este módulo está corrupta. ej: si aparecen items en blanco en la vista -'explorer'-.
 content#:#cont_footer#:#Pie de pagina
@@ -3939,8 +3939,8 @@ content#:#cont_href#:#href
 content#:#cont_id_ref#:#identificador de referencias
 content#:#cont_imagemap#:#Mapa de Imagen
 content#:#cont_import_id#:#identificador
-content#:#cont_insert_file_item#:#Insertar Item Fichero
-content#:#cont_insert_file_list#:#Insertar Lista de Ficheros
+content#:#cont_insert_file_item#:#Insertar Item Archivo
+content#:#cont_insert_file_list#:#Insertar Lista de Archivos
 content#:#cont_insert_list#:#Insertar Lista
 content#:#cont_insert_mob#:#Insertar Media Object
 content#:#cont_insert_new_footnote#:#insertar nueva nota al pie
@@ -3963,7 +3963,7 @@ content#:#cont_link_int#:#Enlace (interno)
 content#:#cont_link_select#:#Enlace interno
 content#:#cont_link_type#:#Tipo de enlace
 content#:#cont_linked_mobs#:#Objetos multimedia enlazados
-content#:#cont_list_files#:#Lista de Ficheros
+content#:#cont_list_files#:#Lista de Archivos
 content#:#cont_list_properties#:#Propiedades de Lista
 content#:#cont_lk_chapter#:#Capítulo
 content#:#cont_lk_chapter_new#:#Capítulo (Nuevo Frame)
@@ -3987,7 +3987,7 @@ content#:#cont_max_time_allowed#:#adlcp:max_tiempo_permitido
 content#:#cont_media_source#:#Fuente Multimedia
 content#:#cont_mep_structure#:#Estructura Banco Multimedia
 content#:#cont_missing_preconditions#:#Necesita cumplir las siguientes precondiciones para acceder al capítulo "%s".
-content#:#cont_mob_files#:#Ficheros Multimedia
+content#:#cont_mob_files#:#Archivos Multimedia
 content#:#cont_mob_inst_prop#:#Propiedades de Instancia
 content#:#cont_mob_prop#:#Propiedades de Objeto
 content#:#cont_mob_usages#:#Uso
@@ -3998,7 +3998,7 @@ content#:#cont_name#:#Nombre
 content#:#cont_new_area#:#Nueva Área de Enlace
 content#:#cont_new_assignment#:#Nueva asignación
 content#:#cont_new_dir#:#Nuevo Directorio
-content#:#cont_new_file#:#Nuevo Fichero
+content#:#cont_new_file#:#Nuevo Archivo
 content#:#cont_new_media_obj#:#Nuevo Objeto Media
 content#:#cont_new_term#:#Nuevo Término
 content#:#cont_no_access#:#No se tiene acceso
@@ -4094,7 +4094,7 @@ content#:#cont_set_edit_mode#:#Configurar modo de edición
 content#:#cont_set_into#:#insertar en
 content#:#cont_set_link#:#Poner enlace
 content#:#cont_set_shape#:#Editar forma
-content#:#cont_set_start_file#:#Configurar Fichero Inicial
+content#:#cont_set_start_file#:#Configurar Archivo Inicial
 content#:#cont_set_width#:#Configurar Anchura
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostrar
@@ -4108,7 +4108,7 @@ content#:#cont_src#:#Código fuente
 content#:#cont_src_other#:#otro
 content#:#cont_st_on_pg#:#Esta función no está permitida.
 content#:#cont_st_title#:#Título de Capítulo
-content#:#cont_startfile#:#Fichero Inicial
+content#:#cont_startfile#:#Archivo Inicial
 content#:#cont_status#:#Estado
 content#:#cont_std_is_in_dir#:#Eliminación no posible. El archivo de vista estándar está en el directorio.
 content#:#cont_std_view#:#Vista estándar
@@ -4153,12 +4153,12 @@ content#:#cont_translations_assigned#:#La(s) traducción(s) ha sido asignada
 content#:#cont_tree_fixed#:#Estructura de árbol reparada.
 content#:#cont_update#:#Actualizar
 content#:#cont_update_names#:#Actualizar Nombres
-content#:#cont_upload_file#:#Cargar Fichero
+content#:#cont_upload_file#:#Cargar Archivo
 content#:#cont_url#:#URL
 content#:#cont_usage#:#Uso
 content#:#cont_users_have_mob_in_clip1#:#Este objeto media está en el portapapeles de
 content#:#cont_users_have_mob_in_clip2#:#usuario(s).
-content#:#cont_validate_file#:#Validar Fichero
+content#:#cont_validate_file#:#Validar Archivo
 content#:#cont_version#:#versión
 content#:#cont_view_last_export_log#:#Último Log de Exportación
 content#:#cont_where_published#:#Donde se publica
@@ -4261,7 +4261,7 @@ crs#:#crs_create_date#:#Crear fecha
 crs#:#crs_crs_structure#:#Estructura de Curso
 crs#:#crs_dates#:#Fechas
 crs#:#crs_deassign_lm_sure#:#¿Está seguro de que quiere eliminar esta asignación?
-crs#:#crs_delete_file#:#¿Eliminar fichero?
+crs#:#crs_delete_file#:#¿Eliminar archivo?
 crs#:#crs_delete_from_list_sure#:#¿Está seguro de que quiere quitar a los siguientes usuarios de la lista?
 crs#:#crs_delete_from_waiting_list#:#Quitar de la lista de espera
 crs#:#crs_delete_member#:#Eliminar miembros
@@ -4277,13 +4277,13 @@ crs#:#crs_edit_content#:#Editar items
 crs#:#crs_edit_start_objects#:#Editar Objetos Iniciales
 crs#:#crs_edit_timings#:#Edit Planificación Temporal
 crs#:#crs_end#:#Fin
-crs#:#crs_existing_files#:#Ficheros existentes:
+crs#:#crs_existing_files#:#Archivos existentes:
 crs#:#crs_export#:#Exportar Curso
-crs#:#crs_file#:#Fichero
-crs#:#crs_file_download#:#Ficheros para Descarga
-crs#:#crs_file_name#:#Nombre de Fichero
+crs#:#crs_file#:#Archivo
+crs#:#crs_file_download#:#Archivos para Descarga
+crs#:#crs_file_name#:#Nombre de Archivo
 crs#:#crs_file_size_info#:#Tamaño
-crs#:#crs_filename#:#Nombre de fichero
+crs#:#crs_filename#:#Nombre de archivo
 crs#:#crs_free_places#:#Plazas disponibles
 crs#:#crs_from#:#Desde:
 crs#:#crs_further_settings#:#Configuración detallada
@@ -4323,7 +4323,7 @@ crs#:#crs_hide_link_or#:#Ocultar otros recursos
 crs#:#crs_hide_link_tst#:#Ocultar tests
 crs#:#crs_html#:#HTML
 crs#:#crs_important_info#:#Información Importante
-crs#:#crs_info_download#:#Ficheros para descarga
+crs#:#crs_info_download#:#Archivos para descarga
 crs#:#crs_info_reg#:#Información de registro
 crs#:#crs_info_reg_confirmation#:#Este curso necesita confirmación por un administrador del curso. Recibirá un mensaje si ha sido asignado al curso.
 crs#:#crs_info_reg_deactivated#:#No es posible el registro
@@ -4605,17 +4605,17 @@ crs#:#event_assign_materials_table#:#Asignación de materiales del curso
 crs#:#event_btn_add#:#Añadir Evento
 crs#:#event_date#:#Fecha del Evento:
 crs#:#event_date_time#:#Hora y Fecha
-crs#:#event_delete_file#:#¿Eliminar Fichero?
+crs#:#event_delete_file#:#¿Eliminar Archivo?
 crs#:#event_delete_sure#:#¿Realmente quiere eliminar este evento?
 crs#:#event_desc#:#Descripción
 crs#:#event_details_workflow#:#Detalles/Flujo de Trabajo
 crs#:#event_edit_members#:#editar participantes
 crs#:#event_end_date#:#Fin
 crs#:#event_etime_smaller_stime#:#La hora de fin es anterior a la hora de inicio. Por favor introduzca un período de tiempo válido
-crs#:#event_existing_files#:#Ficheros existentes:
-crs#:#event_file#:#Fichero
-crs#:#event_file_download#:#Ficheros para descarga
-crs#:#event_file_name#:#Nombre de Fichero
+crs#:#event_existing_files#:#Archivos existentes:
+crs#:#event_file#:#Archivo
+crs#:#event_file_download#:#Archivos para descarga
+crs#:#event_file_name#:#Nombre de Archivo
 crs#:#event_file_size_info#:#Tamaño
 crs#:#event_full_time_info#:#full-time
 crs#:#event_fullday#:#Full-Time
@@ -4797,7 +4797,7 @@ dateplaner#:#help_properties_alt_l#:#Escoja una palabra clave de la caja de diá
 dateplaner#:#help_properties_del#:#Elimina la palabra clave
 dateplaner#:#help_properties_del_l#:#Escoja una palabra clave de la caja de diálogo. Haga click en el botón para eliminar la palabra clave.
 dateplaner#:#help_properties_import#:#Importar desde archivos CSV, Outlook
-dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene fechas de Outlook. Estas citas serán importadas en el calendario.
+dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Archivo CSC, que contiene fechas de Outlook. Estas citas serán importadas en el calendario.
 dateplaner#:#help_properties_new#:#Añadir una palabra clave, máx. 20 caracteres
 dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo \"nuevo\". importante: máx. 20 caracteres
 dateplaner#:#help_properties_time#:#Fecha mostrada para vista diaria/semanal
@@ -6896,10 +6896,10 @@ common#:#ps_read#:#Acceso de Lectura a Configuración de Privacidad/Seguridad
 common#:#ps_write#:#Editar Privacidad/Seguridad
 common#:#ps_export_member_data#:#El usuario puede Exportar Datos de Miembros
 crs#:#crs_subscriber#:#Suscriptor
-ps#:#ps_export_files#:#Ficheros de Exportación
-ps#:#ps_size#:#Tamaño de Ficheros
-ps#:#ps_select_one#:#Por favor seleccione un fichero de exportación
-ps#:#ps_delete_export_files#:#Ficheros de exportación eliminados
+ps#:#ps_export_files#:#Archivos de Exportación
+ps#:#ps_size#:#Tamaño de Archivos
+ps#:#ps_select_one#:#Por favor seleccione un archivo de exportación
+ps#:#ps_delete_export_files#:#Archivos de exportación eliminados
 ps#:#ps_export_settings#:#Configuración de Exportación
 ps#:#ps_user_selection#:#Selección de Participantes
 ps#:#ps_export_admin#:#Administradores
@@ -6950,7 +6950,7 @@ ps#:#ps_cdf_deleted_field#:#Valor Eliminado
 common#:#users_online_show_short_associated#:#Tan sólo cursos y miembros de grupo
 common#:#users_online_show_short_n#:#No mostrar usuarios activos
 common#:#users_online_show_short_y#:#Mostrar todos los usuarios activos
-ps#:#ps_files_deleted#:#Exportar Ficheros Eliminados
+ps#:#ps_files_deleted#:#Exportar Archivos Eliminados
 ps#:#ps_agreement_accepted#:#Acuerdo de Usuario Aceptado
 ps#:#ps_not_accepted#:#No Aceptado
 ps#:#ps_cdf_warning_modify#:#Atencion: Al menos un usuario ha aceptado el acuerdo de usuario. Modificar estos campos específicos del curso reseteará todos los acuerdos de usuario.
@@ -6985,8 +6985,8 @@ common#:#assf_allowed_questiontypes#:#Tipos de preguntas disponibles
 common#:#assf_allowed_questiontypes_desc#:#Todos los tipos de pregunta marcados estarán disponibles en esta instalación ILIAS. Si no quiere permitir la creación de ciertos tipos de pregunta en esta instalación, debe eliminar la selección en la casilla asociada.
 common#:#defaults#:#Valores Iniciales
 common#:#frm_latest_postings#:#Últimos mensajes
-common#:#file_created#:#Un nuevo fichero fué añadido.
-common#:#file_updated#:#El fichero ha sido actualizado.
+common#:#file_created#:#Un nuevo archivo fué añadido.
+common#:#file_updated#:#El archivo ha sido actualizado.
 news#:#news_edit_news_settings#:#Editar Configuración
 news#:#news_enable_internal_news#:#Habilitar Novedades
 news#:#news_enable_internal_news_info#:#Activa bloques de noticias para categorías, cursos, grupos y otros objetos. Los usuarios se pueden suscribir a estas noticias y se le mostrarán en su escritorio personal.
@@ -7019,7 +7019,7 @@ common#:#obj_nwss#:#Configuración de Noticias y Feeds
 common#:#obj_nwss_desc#:#Configuración de novedades y feeds externos
 common#:#hh_mm_ss#:#HH:MM:SS
 common#:#hh_mm#:#HH:MM
-common#:#auth_shib_instructions#:#Asegúrese de leer el fichero README para instrucciones sobre configuración del soporte Shibboleth para ILIAS.
+common#:#auth_shib_instructions#:#Asegúrese de leer el archivo README para instrucciones sobre configuración del soporte Shibboleth para ILIAS.
 ps#:#show_security#:#Seguridad
 ps#:#ps_security_protection#:#Configuración de Seguridad
 mail#:#mail_select_only_one_entry#:#Por favor seleccione una única entrada.
@@ -7044,8 +7044,8 @@ crs#:#event_participated#:#Participó
 crs#:#event_not_participated#:#No participó
 common#:#obj_webr_duplicate#:#Copiar Recurso Web
 common#:#obj_webr_select#:#-- Por favor seleccione un Recurso Web --
-common#:#obj_file_duplicate#:#Copiar Fichero
-common#:#obj_file_select#:#-- Por favor seleccione un Fichero --
+common#:#obj_file_duplicate#:#Copiar Archivo
+common#:#obj_file_select#:#-- Por favor seleccione un Archivo --
 common#:#obj_exc_duplicate#:#Copiar Actividad
 common#:#obj_exc_select#:#-- Por favor seleccione una Actividad --
 common#:#auth_settings#:#Configuración de Autenticación
@@ -7076,14 +7076,14 @@ common#:#short_inst_name#:#Título corto
 common#:#short_inst_name_info#:#Este título aparecerá en la barra de título del navegador. Si no existe, se usará la cadena 'ILIAS' 
 assessment#:#cloze_fixed_textlength#:#Longitud de Campo de Texto
 assessment#:#cloze_fixed_textlength_description#:#Si introduce un valor mayor que 0, todos los campos de texto y de huecos numéricos serán creados con la longitud prefijada por este valor.
-form#:#form_msg_file_size_exceeds#:#El tamaño del fichero cargado sobrepasa el máximo permitido.
-form#:#form_msg_file_partially_uploaded#:#El fichero no pudo ser cargado completamente.
-form#:#form_msg_file_no_upload#:#Esta entrada es requerida. Por favor seleccione un fichero para cargar.
+form#:#form_msg_file_size_exceeds#:#El tamaño del archivo cargado sobrepasa el máximo permitido.
+form#:#form_msg_file_partially_uploaded#:#El archivo no pudo ser cargado completamente.
+form#:#form_msg_file_no_upload#:#Esta entrada es requerida. Por favor seleccione un archivo para cargar.
 form#:#form_msg_file_missing_tmp_dir#:#Directorio temporal para subida no encontrado.
 form#:#form_msg_file_cannot_write_to_disk#:#¡No se puede escribir en disco!
-form#:#form_msg_file_upload_stopped_ext#:#Carga del fichero no permitida por la extensión.
-form#:#form_msg_file_wrong_file_type#:#Tipo de fichero incorrecto
-form#:#form_msg_file_virus_found#:#Se encontró un virus en el fichero cargado
+form#:#form_msg_file_upload_stopped_ext#:#Carga del archivo no permitida por la extensión.
+form#:#form_msg_file_wrong_file_type#:#Tipo de archivo incorrecto
+form#:#form_msg_file_virus_found#:#Se encontró un virus en el archivo cargado
 form#:#form_days#:#Días
 form#:#form_hours#:#Horas
 form#:#form_minutes#:#Minutos
@@ -7100,15 +7100,15 @@ mcst#:#mcst_visibility_info#:#Los items Públicos puede ser accedidos via RSS si
 mcst#:#mcst_duration#:#Duración
 mcst#:#mcst_nr_items#:#Número de items
 mcst#:#mcst_last_submission#:#Último envío
-mcst#:#mcst_duration_info#:#Si no se introduce valor, ILIAS intentará determinar la duración del fichero automáticamente.
+mcst#:#mcst_duration_info#:#Si no se introduce valor, ILIAS intentará determinar la duración del archivo automáticamente.
 mcst#:#mcst_media_cast#:#Media Cast
 mcst#:#mcst_entry#:#Entradas del Media Cast
 mcst#:#mcst_play_time#:#Duración
 mcst#:#mcst_det_playtime#:#Determinar duración
 mcst#:#mcst_settings#:#Configuración de MediaCast
-mcst#:#mcst_incl_files_in_rss#:#Incluir Ficheros en el feed
-mcst#:#mcst_incl_files_in_rss_info#:#Si se habilita, los ficheros multimedia serán incluidos como adjuntos en el feed RSS. De otro modo, el feed tan sólo notificará a los suscriptores sobre nuevos items.
-common#:#file_allowed_suffixes#:#Tipos de ficheros permitidos:
+mcst#:#mcst_incl_files_in_rss#:#Incluir Archivos en el feed
+mcst#:#mcst_incl_files_in_rss_info#:#Si se habilita, los archivos multimedia serán incluidos como adjuntos en el feed RSS. De otro modo, el feed tan sólo notificará a los suscriptores sobre nuevos items.
+common#:#file_allowed_suffixes#:#Tipos de archivos permitidos:
 common#:#mail_use_pear_mail#:#Usar Pear Mail
 common#:#mail_use_pear_mail_info#:#Usar Pear Mail para interpretar direcciones mailbox. El parser incluido en ILIAS es muy limitado. Pear Mail soporta completamente direcciones de correo de internet.
 common#:#mail_pear_mail_needed#:#.Necesita instalar Pear Mail para usar esta función. Para hacer esto, introduzca <code>pear install Mail</code> en el terminal.
@@ -7134,7 +7134,7 @@ common#:#grp_create_mcst#:#Crear MediaCast
 common#:#crs_create_mcst#:#Crear MediaCast
 common#:#fold_create_mcst#:#Crear MediaCast
 news#:#news_nr_of_items#:#Número de items de noticias máximo por Objeto
-news#:#news_nr_of_items_info#:#Número de items de noticias que se almacena para un objeto (ej: un fichero o un módulo de aprendizaje) en la base de datos. Por favor anote que, los objetos contenedores (ej: categorías, cursos) pueden listar más items, porque además agregan noticias de los subobjetos.
+news#:#news_nr_of_items_info#:#Número de items de noticias que se almacena para un objeto (ej: un archivo o un módulo de aprendizaje) en la base de datos. Por favor anote que, los objetos contenedores (ej: categorías, cursos) pueden listar más items, porque además agregan noticias de los subobjetos.
 news#:#news_related_to#:#Relativo a
 news#:#news_all_items#:#Todos los items
 common#:#access_users#:#Usuarios identificados
@@ -7185,7 +7185,7 @@ common#:#chat_copy#:#Copiar Chat
 common#:#crs_copy#:#Copiar Curso
 common#:#dbk_copy#:#Copiar Digilib-Book
 common#:#exc_copy#:#Copiar Actividad
-common#:#file_copy#:#Copiar Fichero
+common#:#file_copy#:#Copiar Archivo
 common#:#fold_copy#:#Copiar Carpeta
 common#:#frm_copy#:#Copiar Foro
 common#:#glo_copy#:#Copiar Glosario
@@ -7217,7 +7217,7 @@ administration#:#purge_type_limit_desc#:#Si este campo contiene un valor, sólo 
 assessment#:#delete_all_user_data#:#Eliminar los datos de test de todos los usuarios
 assessment#:#delete_all_user_data_confirmation#:#¿Realmente quiere eliminar los datos de test de todos los usuarios para este test?
 assessment#:#assFlashApp#:#Aplicación Flash
-assessment#:#flashfile#:#Fichero Flash
+assessment#:#flashfile#:#Archivo Flash
 assessment#:#flash_attributes#:#Atributos Flash
 assessment#:#flash_parameters#:#Parámetros Flash
 assessment#:#add_flash_parameter#:#Añadir parámetro Flash 
