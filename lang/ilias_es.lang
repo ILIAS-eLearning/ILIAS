@@ -386,7 +386,7 @@ assessment#:#insert_before#:#Insertar antes
 assessment#:#internal_links#:#Enlaces Internos
 assessment#:#internal_links_update#:#Actualizar
 assessment#:#javaapplet#:#Applet Java
-assessment#:#keywords_hint#:#Introduzca una lista de palabras clave, separadas por espacios o saltos de línea para añadir la opción de puntuación automática a la pregunta -essay-. Si cualquiera de las palabras clave fuera encontrada en el texto de respuesta del estudiante, la puntuación por defecto se pondrá al máximo de puntos disponibles en vez de a 0 puntos.
+assessment#:#keywords_hint#:#Introduzca una lista de palabras clave, separadas por espacios o saltos de línea para añadir la opción de puntuación automática a la pregunta de respuesta corta. Si cualquiera de las palabras clave fuera encontrada en el texto de respuesta del estudiante, la puntuación por defecto se pondrá al máximo de puntos disponibles en vez de a 0 puntos.
 assessment#:#last_update#:#Ultima actualización
 assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
@@ -567,7 +567,7 @@ assessment#:#search_users#:#Buscar Usuarios
 assessment#:#see_details_for_further_information#:#Ver detalles de las soluciones recomendadas
 assessment#:#select_an_answer#:#--- Por favor seleccione una respuesta ---
 assessment#:#select_gap#:#Hueco de selección
-assessment#:#numeric_gap#:#Numeric Gap
+assessment#:#numeric_gap#:#Hueco numérico
 assessment#:#select_max_one_item#:#Por favor seleccione un único item
 assessment#:#select_one_submitted_test#:#Por favor seleccione al menos un usuario que haya finalizado el test
 assessment#:#select_one_user#:#Por favor seleccione al menos un usuario
@@ -7350,6 +7350,6 @@ ldap#:#ldap_mapping_info_type#:#Mostrar informacion tambien en Contenidos/Escrit
 crs#:#save_status#:#Guardar Status
 crs#:#crs_selected_users#:#Participantes Seleccionados
 search#:#search_users#:#Buscar Usuarios
-common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.###20 06 2007 new variable
-common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them###20 06 2007 new variable
-forum#:#forum_add_quote#:#Add Quotation###20 06 2007 new variable
+common#:#wizard_title_info#:#Por favor introduzca el título del objeto que quiere duplicar.
+common#:#wizard_search_list#:#Su búsqueda produjo los siguientes resultados. Por favor seleccione uno.
+forum#:#forum_add_quote#:#Añadir cita
