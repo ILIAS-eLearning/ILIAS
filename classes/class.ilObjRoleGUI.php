@@ -908,11 +908,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
 				$node_id = $this->tree->getParentId($this->rolf_ref_id);
 			}
-
-			// GET ALL SUBNODES
-			$node_data = $this->tree->getNodeData($node_id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
 			// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
 			$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
 
@@ -929,44 +924,41 @@ class ilObjRoleGUI extends ilObjectGUI
 			unset($all_parent_obj_of_rolf[$key[0]]);
 
 			$check = false;
-
-			foreach ($subtree_nodes as $node)
+			$check_node = 0;
+			foreach($subtree_nodes = $this->tree->getSubTree($this->tree->getNodeData($node_id),false) as $ref_id)
 			{
-				if (!$check)
+				if(!$check)
 				{
-					if (in_array($node["child"],$all_parent_obj_of_rolf))
+					if(in_array($ref_id,$all_parent_obj_of_rolf))
 					{
-						$lft = $node["lft"];
-						$rgt = $node["rgt"];
 						$check = true;
+						$check_node = $ref_id;
 						continue;
 					}
-
-					$valid_nodes[] = $node;
+					$valid_nodes[] = $ref_id;
 				}
 				else
 				{
-					if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
+					if($tree->isGrandChild($check_node,$ref_id))
 					{
 						continue;
 					}
 					else
 					{
 						$check = false;
-						
-						if (in_array($node["child"],$all_parent_obj_of_rolf))
+						if(in_array($ref_id,$all_parent_obj_of_rolf))
 						{
-							$lft = $node["lft"];
-							$rgt = $node["rgt"];
 							$check = true;
+							$check_node = $ref_id;
 							continue;
 						}
-						
-						$valid_nodes[] = $node;
+						$valid_nodes = $ref_id;						
 					}
 				}
 			}
 
+
+			
 			// Prepare arrays for permission settings below	
 			foreach ($valid_nodes as $key => $node)
 			{
