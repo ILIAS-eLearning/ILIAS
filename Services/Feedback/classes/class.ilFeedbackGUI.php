@@ -185,7 +185,7 @@ class ilFeedbackGUI
 		if(is_Array($_POST['barometer'])){
 			include_once('Services/Feedback/classes/class.ilFeedback.php');
 			$ilFB = new ilFeedback();
-			$ilFB->setIds(ilUtil::stripSlashes($_POST['barometer']));
+			$ilFB->setIds($_POST['barometer']);
 			$ilFB->delete();
 		}
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList'));
