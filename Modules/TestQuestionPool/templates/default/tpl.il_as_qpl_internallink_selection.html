@@ -1,12 +1,12 @@
 <form name="cancelform" method="post" action="{FORMACTION}">
-<table>
+<table class="std">
 <thead>
 	<tr class="tblheader">
 		<th colspan="2">{TEXT_LINK_TYPE}</th>
 	</tr>
 </thead>
 <!-- BEGIN linktable_row -->
-<tr class="{COLOR_CLASS}"><td class="{COLOR_CLASS}">{TEXT_LINK}</td><td class="{COLOR_CLASS}">[<a href="{LINK_HREF}">{TEXT_ADD}</a>]</td></tr>
+<tr class="{COLOR_CLASS}"><td class="{COLOR_CLASS}">{TEXT_LINK}</td><td class="{COLOR_CLASS}"><a href="{LINK_HREF}" class="il_ContainerItemCommand">{TEXT_ADD}</a></td></tr>
 <!-- END linktable_row -->
 </table>
 <input type="submit" class="submit" name="cmd[cancelExplorer]" value="{BUTTON_CANCEL}" />
