@@ -1072,5 +1072,35 @@ class SurveyMetricQuestion extends SurveyQuestion
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyChart.php";
 		$b1 = new SurveyChart("bars",400,250,utf8_decode($this->getTitle()),utf8_decode($this->lng->txt("answers")),utf8_decode($this->lng->txt("users_answered")),$this->cumulated["values"]);
 	}
+	
+	/**
+	* Creates a text for the input range of the metric question
+	*
+	* Creates a text for the input range of the metric question
+	*
+	* @return string Range text
+	* @access private
+	*/
+	function getMinMaxText()
+	{
+		$min = $this->getMinimum();
+		$max = $this->getMaximum();
+		if (strlen($min) && strlen($max))
+		{
+			return "(" . $min . " " . strtolower($this->lng->txt("to")) . " " . $max . ")";
+		}
+		else if (strlen($min))
+		{
+			return "(&gt;= " . $min . ")";
+		}
+		else if (strlen($max))
+		{
+			return "(&lt;= " . $max . ")";
+		}
+		else
+		{
+			return "";
+		}
+	}
 }
 ?>

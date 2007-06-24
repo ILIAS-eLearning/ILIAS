@@ -228,6 +228,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	function getPrintView($question_title = 1, $show_questiontext = 1)
 	{
 		$template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		$template->setVariable("MIN_MAX", $this->object->getMinMaxText());
+		/*
 		if (strlen($this->object->getMinimum()))
 		{
 			$template->setCurrentBlock("minimum");
@@ -241,7 +243,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
 			$template->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
 			$template->parseCurrentBlock();
-		}
+		}*/
 
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if ($show_questiontext)
@@ -287,8 +289,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$template->parseCurrentBlock();
 		}
-
-		if (strlen($this->object->getMinimum()))
+		$template->setVariable("MIN_MAX", $this->object->getMinMaxText());
+		/*if (strlen($this->object->getMinimum()))
 		{
 			$template->setCurrentBlock("minimum");
 			$template->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
@@ -301,7 +303,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
 			$template->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
 			$template->parseCurrentBlock();
-		}
+		}*/
 
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if ($show_questiontext)
