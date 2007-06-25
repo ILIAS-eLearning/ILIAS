@@ -604,7 +604,6 @@ class ilMail
 			"m_message = ".$ilDB->quote($a_m_message)." ".
 			"WHERE mail_id = ".$ilDB->quote($a_draft_id)."";
 			
-
 		$res = $this->ilias->db->query($query);
 
 		return $a_draft_id;
@@ -1282,10 +1281,6 @@ class ilMail
 		// IF EMAIL RECIPIENT
 		if ($c_emails)
 		{
-			if (!$rbacsystem->checkAccess("smtp_mail",$this->getMailObjectReferenceId()))
-			{
-				return $lng->txt("mail_no_permissions_write_smtp");
-			}
 			$this->sendMimeMail($this->__getEmailRecipients($a_rcp_to),
 								$this->__getEmailRecipients($a_rcp_cc),
 								$this->__getEmailRecipients($a_rcp_bc),
@@ -1678,7 +1673,7 @@ class ilMail
 			switch($direction)
 			{
 				case "substitute":
-					if(strpos($name,"@") and loginExists($name))
+					if(strpos($name,"@") and ilObjUser::_loginExists($name))
 					{
 						$new_name[] = preg_replace("/@/","�#�",$name);
 					}
