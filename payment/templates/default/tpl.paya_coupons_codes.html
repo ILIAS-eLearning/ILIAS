@@ -1,0 +1,25 @@
+<!-- BEGIN confirm_delete -->
+  <form action="{CONFIRM_FORMACTION}" method="post">
+	<table class="fullwidth_invisible">
+	  <tr>
+		<td align="center">
+			<input class="submit" type="submit" name="cmd[performDeleteCodes]" value="{TXT_CONFIRM}" />
+		  <input class="submit" type="submit" name="cmd[cancelDelete]" value="{TXT_CANCEL}" />
+		</td>
+	  </tr>
+	</table>
+  </form>
+<!-- END confirm_delete -->
+<!-- BEGIN confirm_delete_all -->
+  <form action="{CONFIRM_ALL_FORMACTION}" method="post">
+	<table class="fullwidth_invisible">
+	  <tr>
+		<td align="center">
+			<input class="submit" type="submit" name="cmd[performDeleteAllCodes]" value="{TXT_CONFIRM_ALL}" />
+		  <input class="submit" type="submit" name="cmd[cancelDelete]" value="{TXT_CANCEL_ALL}" />
+		</td>
+	  </tr>
+	</table>
+  </form>
+<!-- END confirm_delete_all -->
+{CODES_TABLE}

@@ -1,0 +1,89 @@
+<form action="{FORMACTION}" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_HEADLINE}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
+	<td class="option_value"><input type="text" name="title" value="{TITLE}" /></td>
+</tr>
+<tr>
+	<td class="option">{TXT_DESCRIPTION}</td>
+	<td class="option_value"><textarea name="description" rows="4" cols="35">{DESCRIPTION}</textarea></td>
+</tr>
+<tr>
+	<td class="option">{TXT_TYPE}<span class="asterisk">*</span></td>
+	<td class="option_value">
+		<select name="type" size="1">
+			<option value="fix"{TYPE_FIX}>{TXT_FIX}</option>
+			<option value="percent"{TYPE_PERCENT}>{TXT_PERCENTAGED}</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_VALUE}<span class="asterisk">*</span></td>
+	<td class="option_value"><input type="text" name="value" value="{VALUE}" style="text-align: right; width: 75px;" /> &euro; / %</td>
+</tr>
+<tr>
+	<td class="option">{TXT_VALID_FROM}</td>
+	<td class="option_value">
+		<select name="from[day]" size="1">
+			<option value=""></option>
+<!-- BEGIN loop_from_day -->
+			<option value="{LOOP_FROM_DAY}"{LOOP_FROM_DAY_SELECTED}>{LOOP_FROM_DAY}</option>
+<!-- END loop_from_day -->
+		</select>
+		.
+		<select name="from[month]" size="1">
+			<option value=""></option>
+<!-- BEGIN loop_from_month -->
+			<option value="{LOOP_FROM_MONTH}"{LOOP_FROM_MONTH_SELECTED}>{LOOP_FROM_MONTH}</option>
+<!-- END loop_from_month -->
+		</select>
+		.
+		<select name="from[year]" size="1">
+			<option value=""></option>
+<!-- BEGIN loop_from_year -->
+			<option value="{LOOP_FROM_YEAR}"{LOOP_FROM_YEAR_SELECTED}>{LOOP_FROM_YEAR}</option>
+<!-- END loop_from_year -->
+		</select>	
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_VADID_TILL}</td>
+	<td class="option_value">
+		<select name="till[day]" size="1">
+			<option value=""></option>
+<!-- BEGIN loop_till_day -->
+			<option value="{LOOP_TILL_DAY}"{LOOP_TILL_DAY_SELECTED}>{LOOP_TILL_DAY}</option>
+<!-- END loop_till_day -->
+		</select>
+		.
+		<select name="till[month]" size="1">
+			<option value=""></option>
+<!-- BEGIN loop_till_month -->
+			<option value="{LOOP_TILL_MONTH}"{LOOP_TILL_MONTH_SELECTED}>{LOOP_TILL_MONTH}</option>
+<!-- END loop_till_month -->
+		</select>
+		.
+		<select name="till[year]" size="1">
+			<option value=""></option>
+<!-- BEGIN loop_till_year -->
+			<option value="{LOOP_TILL_YEAR}"{LOOP_TILL_YEAR_SELECTED}>{LOOP_TILL_YEAR}</option>
+<!-- END loop_till_year -->
+		</select>	
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_USAGE}</td>
+	<td class="option_value"><input type="text" name="usage" value="{USAGE}" style="width: 75px;" /></td>
+</tr>
+<tr class="tblfooter" >
+	<td class="submit" colspan="2">
+		<div align="right"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></div>
+		<input class="submit" type="submit" name="cmd[saveCouponForm]" value="{TXT_SAVE}" />
+		<input class="submit" type="submit" name="cmd[{COUPONS}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+</table>
+</form>
