@@ -1117,6 +1117,34 @@ class ilCourseParticipants
 		return true;
 	}
 	
+	function sendUnsubscribeNotificationToAdmins($a_usr_id)
+	{
+		global $ilDB,$ilObjDataCache;
+
+		if(!ilObjCourse::_isSubscriptionNotificationEnabled($this->course_id))
+		{
+			return true;
+		}
+
+		include_once("Services/Mail/classes/class.ilFormatMail.php");
+
+		$mail =& new ilFormatMail($a_usr_id);
+		$subject = sprintf($this->lng->txt("crs_cancel_subscription"),$ilObjDataCache->lookupTitle($this->course_id));
+		$body = sprintf($this->lng->txt("crs_cancel_subscription_body"),$ilObjDataCache->lookupTitle($this->course_id));
+		$body .= ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
+		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_ref_id."&client_id=".CLIENT_ID);
+		
+
+		foreach($this->getNotificationRecipients() as $usr_id)
+		{
+			$tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false);
+			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
+			unset($tmp_user);
+		}
+		return true;
+	}
+	
+	
 	function sendSubscriptionRequestToAdmins($a_usr_id)
 	{
 		global $ilDB,$ilObjDataCache,$ilUser;
