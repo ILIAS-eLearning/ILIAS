@@ -144,7 +144,7 @@ class ilMailFormGUI
 		
 		if(isset($_SESSION["draft"]))
 		{
-			$this->umail->updateDraft($drafts_id,$_POST["attachments"],
+			$this->umail->updateDraft($draftsId,$_POST["attachments"],
 				ilUtil::stripSlashes($_POST["rcp_to"], false),
 				ilUtil::stripSlashes($_POST["rcp_cc"], false),
 				ilUtil::stripSlashes($_POST["rcp_bcc"], false),
@@ -159,7 +159,7 @@ class ilMailFormGUI
 		}
 		else
 		{
-			if ($this->umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],
+			if ($this->umail->sendInternalMail($draftsId,$_SESSION["AccountId"],$_POST["attachments"],
 					ilUtil::stripSlashes($_POST["rcp_to"], false),
 					ilUtil::stripSlashes($_POST["rcp_cc"], false),
 					ilUtil::stripSlashes($_POST["rcp_bcc"], false),
