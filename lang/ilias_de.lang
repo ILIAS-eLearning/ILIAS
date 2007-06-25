@@ -4819,7 +4819,7 @@ crs#:#event_assign_materials#:#Materialien zuordnen
 crs#:#event_btn_add#:#Sitzung anlegen
 crs#:#event_csv_export#:#CSV-Export
 crs#:#event_date_time#:#Datum & Zeit
-crs#:#event_date#:#Termin der Sitzung
+crs#:#event_date#:#Termin der Sitzung:
 crs#:#event_delete_file#:#Datei löschen?
 crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Sitzung löschen möchten?
 crs#:#event_desc#:#Beschreibung
