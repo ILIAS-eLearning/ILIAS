@@ -148,11 +148,17 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
 		$this->ctrl->clearParameters($this);
 
+		$isTrashFolder = false;
+		if ($this->mbox->getTrashFolder() == $_GET["mobj_id"])
+		{
+			$isTrashFolder = true;
+		}
+
 		// BEGIN CONFIRM_DELETE
 		if($_POST["action"] == "deleteMails" &&
 			!$this->errorDelete &&
 			$_POST["action"] != "confirm" &&
-			$this->mbox->getTrashFolder() == $_GET["mobj_id"])
+			$isTrashFolder)
 		{
 			$this->tpl->setCurrentBlock("CONFIRM_DELETE");
 			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
@@ -171,24 +177,32 @@ class ilMailFolderGUI
 				$folders = $this->mbox->getSubFolders();
 				foreach($folders as $folder)
 				{
-					$this->tpl->setVariable("MAILACTION_VALUE", $folder["obj_id"]);
-					if($folder["type"] != 'user_folder')
+					if ($folder["type"] != 'trash' ||
+						!$isTrashFolder)
 					{
-						$this->tpl->setVariable("MAILACTION_NAME",$action." ".$this->lng->txt("mail_".$folder["title"]));
+						$this->tpl->setVariable("MAILACTION_VALUE", $folder["obj_id"]);
+						if($folder["type"] != 'user_folder')
+						{
+							$this->tpl->setVariable("MAILACTION_NAME",$action." ".$this->lng->txt("mail_".$folder["title"]).($folder["type"] == 'trash' ? " (".$this->lng->txt("delete").")" : ""));
+						}
+						else
+						{
+							$this->tpl->setVariable("MAILACTION_NAME",$action." ".$folder["title"]);
+						}
+						$this->tpl->parseCurrentBlock();
 					}
-					else
-					{
-						$this->tpl->setVariable("MAILACTION_NAME",$action." ".$folder["title"]);
-					}
-					$this->tpl->parseCurrentBlock();
 				}
 			}
 			else
 			{
-				$this->tpl->setVariable("MAILACTION_NAME", $action);
-				$this->tpl->setVariable("MAILACTION_VALUE", $key);
-				$this->tpl->setVariable("MAILACTION_SELECTED",$_POST["action"] == 'delete' ? 'selected' : '');
-				$this->tpl->parseCurrentBlock();
+				if ($key != 'deleteMails' ||
+					$isTrashFolder)
+				{
+					$this->tpl->setVariable("MAILACTION_NAME", $action);
+					$this->tpl->setVariable("MAILACTION_VALUE", $key);
+					$this->tpl->setVariable("MAILACTION_SELECTED",$_POST["action"] == 'delete' ? 'selected' : '');
+					$this->tpl->parseCurrentBlock();
+				}	
 			}
 		}
 		// END MAIL ACTIONS
