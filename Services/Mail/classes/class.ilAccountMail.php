@@ -215,16 +215,15 @@ return true;*/
 		global $ilSetting, $tree;
 		
 		// determine salutation
-		$gender_salut = ($a_user->getGender() == "f")
-			? $a_amail["sal_f"]
-			: ($a_user->getGender() == "m")
-				? $a_amail["sal_m"]
-				: $a_amail["sal_g"];
-				
-		if (trim($gender_salut) == "")
+		switch ($a_user->getGender())
 		{
-			$gender_salut = $a_amail["sal_g"];
-		}
+			case "f" :	$gender_salut = $a_amail["sal_f"];
+						break;
+			case "m" :	$gender_salut = $a_amail["sal_m"];
+						break;
+			default :	$gender_salut = $a_amail["sal_g"];
+        }
+        $gender_salut = trim($gender_salut);
 
 		$a_string = str_replace("[MAIL_SALUTATION]", $gender_salut, $a_string);
 		$a_string = str_replace("[LOGIN]", $a_user->getLogin(), $a_string);
