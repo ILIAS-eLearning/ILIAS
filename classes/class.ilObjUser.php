@@ -3435,6 +3435,7 @@ class ilObjUser extends ilObject
 	function getProfileAsString(&$a_language)
 	{
 		include_once 'classes/class.ilObjRole.php';
+		include_once 'classes/class.ilFormat.php';
 
 		global $lng,$rbacreview;
 
@@ -3522,7 +3523,7 @@ class ilObjUser extends ilObject
 		}
 		if(strlen($this->getCreateDate()))
 		{
-			$body .= ($language->txt("create_date").": ".$this->getCreateDate()."\n");
+			$body .= ($language->txt("create_date").": ".ilFormat::formatDate($this->getCreateDate(), "datetime", true)."\n");
 		}
 
 		foreach($rbacreview->getGlobalRoles() as $role)
@@ -3545,9 +3546,9 @@ class ilObjUser extends ilObject
 		else
 		{
 			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
-					  strftime('%c',$this->getTimeLimitFrom())." ".
+					  ilFormat::formatUnixTime($this->getTimeLimitFrom(), true)." ".
 					  $language->txt('crs_to')." ".
-					  strftime('%c',$this->getTimeLimitUntil())."\n");
+					  ilFormat::formatUnixTime($this->getTimeLimitUntil(), true)."\n");
 		}
 		return $body;
 	}
