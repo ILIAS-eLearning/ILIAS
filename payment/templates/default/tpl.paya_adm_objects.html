@@ -1,0 +1,53 @@
+<form action="{FORM_ACTION}" class="il_Form" METHOD="post">
+<input type="hidden" name="updateView" value="1" />
+	  <table class="std">
+		<tr class="tblheader">
+		  <td class="std" colspan="4">{TXT_FILTER}
+		  </td>
+		</tr>
+		<tr class="tblrow1">
+		  <td class="option">
+			{TXT_TITLE}
+		  </td>
+		  <td class="option_value" >
+			<input type="TEXT" name="title_value" value="{TITLE_VALUE}" size="30"/>
+		  </td>
+		  <td align="center" class="option_value" >
+			<input type="RADIO" name="title_type" value="or" {OR_CHECKED}>{TXT_OR}</input>
+		  </td>
+		  <td align="center" class="option_value" >
+			<input type="RADIO" name="title_type" value="and" {AND_CHECKED}>{TXT_AND}</input>
+		  </td>
+		</tr>
+		<tr class="tblrow1">
+		  <td class="option">
+			{TXT_PAYMENT}
+		  </td>
+		  <td class="option_value" colspan="3">
+			<select name="pay_method" size="1">
+				<option value="all"{PAYMENT_ALL}>{TXT_ALL}</option>
+				<option value="1"{PAYMENT_1}>{TXT_BILL}</option>
+				<option value="2"{PAYMENT_2}>{TXT_BMF}</option>
+				<option value="3"{PAYMENT_3}>{TXT_PAYPAL}</option>
+			</select>
+		  </td>
+		</tr>
+		<tr class="tblrow1">
+		  <td class="option">
+			{TXT_VENDOR}
+		  </td>
+		  <td class="option_value" colspan="3">
+				<input type="text" name="vendor" value="{VENDOR}" />
+		  </td>
+		</tr>		
+		<tr class="tablefooter">
+		  <td class="submit" colspan="4">
+			<div align="right">
+			  <input class="submit" type="SUBMIT" name="cmd[objects]" value="{TXT_UPDATE_VIEW}"/>
+			  <input class="submit" type="SUBMIT" name="cmd[resetObjectFilter]" value="{TXT_RESET_FILTER}"/>
+			</div>
+		  </td>
+		</tr>
+	  </table><br />
+	</form>
+{OBJECTS_TABLE}

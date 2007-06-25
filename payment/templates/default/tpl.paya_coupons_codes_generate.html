@@ -1,0 +1,45 @@
+<form action="{FORMACTION}" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_HEADLINE}</td>
+</tr>
+<!-- BEGIN code_choice -->
+<tr>
+	<td class="option">{TXT_TYPE}</td>
+	<td class="option_value">
+	<input type="radio" name="generate[type]" value="auto" id="generate_auto"{TYPE_AUTO} /> <label for="generate_auto">{TXT_AUTO}</label>
+    &nbsp;&nbsp;&nbsp;<input type="radio" name="generate[type]" value="self" id="generate_self"{TYPE_SELF} /> <label for="generate_self">{TXT_SELF}</label>
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_NUMBER_OF_CODES}<span class="asterisk">*</span></td>
+	<td class="option_value"><input type="text" name="generate[number]" value="" style="width: 75px;" /></td>
+</tr>
+<tr>
+	<td class="option">{TXT_LENGTH}</td>
+	<td class="option_value"><input type="text" name="generate[length]" value="{LENGTH}" style="width: 75px;" /> {TXT_CHARS}</td>
+</tr>
+<!-- END code_choice -->
+<!-- BEGIN code_input -->
+<!-- BEGIN loop -->
+<tr>
+	<td class="option">#{LOOP_CODE_INDEX}</td>
+	<td class="option_value"><input type="text" name="codes[]" value="" /></td>
+</tr>
+<!-- END loop -->
+<!-- END code_input -->
+<tr class="tblfooter" >
+	<td class="submit" colspan="2">
+		<!-- BEGIN show_mandatory --><div align="right"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></div><!-- END show_mandatory -->
+		<input class="submit" type="submit" name="cmd[saveCodeForm]" value="{TXT_SEND}" />
+	</td>
+</tr>
+</table>
+</form>
+
+<div align="left">
+<br />
+  <form action="{IMPORT_ACTION}" method="post">
+    <input class="submit" type="submit" name="cmd[showCodeImport]" value="{TXT_IMPORT}" />
+  </form>
+</div>

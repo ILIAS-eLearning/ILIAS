@@ -1,0 +1,31 @@
+  <form action="{ADD_FORMACTION}" method="post">
+	<table class="std">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left" nowrap="nowrap">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_DURATION}</td>
+		<td class="option_value"><input type="text" size="2" maxlength="2" name="duration" value="{DURATION}"/>&nbsp;{MONTH}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_PRICE}</td>
+		<td class="option_value"><input type="text" size="4" maxlength="5" name="unit" value="{UNIT_VALUE}" />
+			&nbsp;{TXT_PRICE_A}&nbsp;
+			<input type="text" size="2" maxlength="2" name="sub_unit" value="{SUB_UNIT}"/>
+			&nbsp;{TXT_PRICE_B}
+		</td>
+	  </tr>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="2" align="right">
+		  <input class="submit" type="submit" name="cmd[performAddPrice]" value="{ADD}" />&nbsp;<input class="submit" type="submit" name="cmd[editPrices]" value="{CANCEL}" />
+		</td>
+	  </tr>
+	</table>
+</form>

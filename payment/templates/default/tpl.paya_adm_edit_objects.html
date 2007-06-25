@@ -1,0 +1,49 @@
+<!-- BEGIN confirm_delete -->
+  <form action="{CONFIRM_FORMACTION}" method="post">
+	<table class="fullwidth_invisible">
+	  <tr>
+		<td align="center">
+			<input class="submit" type="submit" name="cmd[{CONFIRM_CMD}]" value="{TXT_CONFIRM}" />
+		  <input class="submit" type="submit" name="cmd[editObject]" value="{TXT_CANCEL}" />
+		</td>
+	  </tr>
+	</table>
+  </form>
+  <!-- END confirm_delete -->
+<form action="{DETAILS_FORMACTION}" method="post">
+	<table class="std">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_PATH}</td>
+		<td class="option_value">{PATH}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_COUNT_PURCHASER}</td>
+		<td class="option_value">{COUNT_PURCHASER}</td>
+	  </tr>
+	  <tr>
+		<td class="option" >{TXT_VENDOR}</td>
+		<td class="option_value">{VENDOR}</td>
+	  </tr>
+	  <tr>
+		<td class="option" >{TXT_STATUS}</td>
+		<td class="option_value">{STATUS}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_PAY_METHOD}</td>
+		<td class="option_value">{PAY_METHOD}</td>
+	  </tr>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="2" ><input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" />&nbsp;<input class="submit" type="submit" name="cmd[{DELETE_CMD}]" value="{DELETE_VALUE}"</td>
+	  </tr>
+	</table>
+</form>
