@@ -140,7 +140,7 @@ class ilMailGUI
 		{
 			$this->showHeader();
 		}
-		
+
 		switch($this->forwardClass)
 		{
 			case 'ilmailmenugui':
@@ -190,7 +190,7 @@ class ilMailGUI
 	{
 		if ($_GET["target"] == "")
 		{
-				$_GET["target"] = "ilmailfoldergui";
+			$_GET["target"] = "ilmailfoldergui";
 		}
 		if ($_SESSION["viewmode"] == "tree")
 		{
@@ -205,7 +205,22 @@ class ilMailGUI
 			$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this));
 			$this->ctrl->clearParameters($this);
 		
-			$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"]));
+			if ($_GET["type"] == "add_subfolder")
+			{
+				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"], "addSubFolder"));
+			}
+			else if ($_GET["type"] == "enter_folderdata")
+			{
+				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"], "enterFolderData"));
+			}
+			else if ($_GET["type"] == "confirmdelete_folderdata")
+			{
+				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"], "confirmDeleteFolder"));
+			}
+			else
+			{
+				$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass($_GET["target"]));
+			}
 			$fs_gui->show();
 		}
 		else

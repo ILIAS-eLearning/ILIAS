@@ -1,0 +1,33 @@
+<!-- BEGIN confirm_delete -->
+<form action="{ACTION_DELETE}" target="{FRAME_DELETE}" method="post">
+<table class="fullwidth_invisible">
+	<tr>
+		<td align="center" valign="top" height="30">
+		<input class="submit" type="submit" name="cmd[performDeleteFolder]" value="{TXT_DELETE_CONFIRM}"/>
+		<input class="submit" type="submit" name="cmd[cancelDeleteFolder]" value="{TXT_DELETE_CANCEL}"/>
+		</td>
+	</tr>
+</table>
+</form>
+<!-- END confirm_delete -->
+<form action="{FORM_ACTION}" target="{FRAME_ADD}" method="post">
+<table class="std">
+<tr class="tblheader" >
+	<th class="std" colspan="2">{TXT_HEADLINE}</th>
+</tr>
+<tr>
+	<td class="option">{TXT_TITLE}</td>
+	<td class="option_value"><input type="text" name="folder_name_add" value="{TITLE_VALUE}" />
+	</td>
+</tr>
+<tr class="submit" align="right">
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+<!-- BEGIN delete --><input class="submit" type="submit" name="cmd[deleteFolder]" value="{TXT_DELETE}" /><!-- END delete -->
+		<input class="submit" type="submit" name="cmd[cancelEnterFolderData]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+
+</table>
+</form>
+{FOLDER_FORM}

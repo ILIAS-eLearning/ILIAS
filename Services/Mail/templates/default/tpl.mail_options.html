@@ -1,96 +1,46 @@
-	<!-- BEGIN confirm_delete -->
-	<form action="{ACTION_DELETE}" target="{FRAME_DELETE}" method="post">
-	<table class="fullwidth">
-		<tr>
-			<td class="std"  align="center" valign="top" height="30">
-			<input class="submit" type="submit" name="cmd[confirmDeleteFolder]" value="{TXT_DELETE_CONFIRM}"/>
-			<input class="submit" type="submit" name="cmd[cancelDeleteFolder]" value="{TXT_DELETE_CANCEL}"/>
-			</td>
-		</tr>
-	</table>
-	</form>
-	<!-- END confirm_delete -->
-	<table class="std">
-		<!-- BEGIN edit -->
-	<form action="{ACTION_EDIT}" method="post">
-		<tr class="tblheader">
-			<th id="header-folder" class="std" colspan="2">
-			{FOLDER_OPTIONS}
-			</th>
-		</tr>
-		<tr>
-			<td id="header-edit" class="option">{TXT_NAME}</td>
-			<td headers="header-edit header-folder" class="option_value">
-			<input type="TEXT" name="folder_name" value="{FOLDER_NAME}" size="32"/>
-			</td>
-		</tr>
-		<tr>
-			<td class="submit" colspan="2" align="right">
-				<input class="submit" type=submit value="{TXT_RENAME}" name="cmd[renameFolder]"/>
-				<input class="submit" type=submit value="{TXT_DELETE}" name="cmd[deleteFolder]"/>
-			</td>
-		</tr>
-	</form>
-	<!-- END edit -->
-	<!-- BEGIN add -->
-	<form action="{ACTION_ADD}" target="{FRAME_ADD}" method="post">
-	<tr>
-		<td id="header-add" class="option" >{TXT_NAME_ADD}</td>
-		<td headers="header-add header-folder" class="option_value" >
-		<input type="text" name="folder_name_add" size="32"/>
-		</td>
-	</tr>
-	<tr class="submit">
-		<td class="submit" colspan="2" align="right">
-		<input class="submit" type=submit value="{TXT_FOLDER_ADD}" name="cmd[add]"/>
-		</td>
-	</tr>
-	</form>
-	<!-- END add -->
-	<!-- BEGIN options -->
-	<form action="{ACTION}" method="post">
-	<tr class="tblheader" >
-		<th id="header-options" class="std" colspan="2">
-		{GLOBAL_OPTIONS}
-		</th>
-	</tr>
-	<tr>
-		<td id="header-incoming"  class="option">
-		{TXT_INCOMING}
-		</td>
-		<td headers="header-options header-incoming" class="option_value">
-		<select name="incoming_type" {INC_DISABLED}>
-			<!-- BEGIN option_inc_line -->
-			<option value="{OPTION_INC_VALUE}" {OPTION_INC_SELECTED}>
-			{OPTION_INC_NAME}
-			</option>
-			<!-- END option_inc_line -->
-		</select>
-		</td>
-	</tr>
-	<tr>
-		<td id="header-linebreak" class="option">
-		{TXT_LINEBREAK}
-		</td>
-		<td headers="header-linebreak header-options" class="option_value">
-		<select name="linebreak">
-			<!-- BEGIN option_line -->
-			<option value="{OPTION_VALUE}" {OPTION_SELECTED}>
-			{OPTION_NAME}
-			</option>
-			<!-- END option_line -->
-		</select>
-		</td>
-	</tr>
-	<tr>
-		<td id="header-signature" class="option">{TXT_SIGNATURE}</td>
-		<td headers="header-signature header-options" class="option_value"><textarea name="signature" rows=10 cols=60>{CONTENT}</textarea></td>
-	</tr>
-	<tr class="submit" align="right">
-		<td class="submit" colspan="2"><input class="submit" type=submit value="{TXT_SAVE}" name="cmd[saveOptions]"/></td>
-	</tr>
-	<!-- END options -->
-	</form>
+<table class="std">
+<form action="{ACTION}" method="post">
+<!-- BEGIN options -->
+<tr class="tblheader" >
+	<th id="header-options" class="std" colspan="2">
+	{GLOBAL_OPTIONS}
+	</th>
+</tr>
+<tr>
+	<td id="header-incoming"  class="option">
+	{TXT_INCOMING}
+	</td>
+	<td headers="header-options header-incoming" class="option_value">
+	<select name="incoming_type" {INC_DISABLED}>
+		<!-- BEGIN option_inc_line -->
+		<option value="{OPTION_INC_VALUE}" {OPTION_INC_SELECTED}>
+		{OPTION_INC_NAME}
+		</option>
+		<!-- END option_inc_line -->
+	</select>
+	</td>
+</tr>
+<tr>
+	<td id="header-linebreak" class="option">
+	{TXT_LINEBREAK}
+	</td>
+	<td headers="header-linebreak header-options" class="option_value">
+	<select name="linebreak">
+		<!-- BEGIN option_line -->
+		<option value="{OPTION_VALUE}" {OPTION_SELECTED}>
+		{OPTION_NAME}
+		</option>
+		<!-- END option_line -->
+	</select>
+	</td>
+</tr>
+<tr>
+	<td id="header-signature" class="option">{TXT_SIGNATURE}</td>
+	<td headers="header-signature header-options" class="option_value"><textarea name="signature" rows=10 cols=60>{CONTENT}</textarea></td>
+</tr>
+<tr class="submit" align="right">
+	<td class="submit" colspan="2"><input class="submit" type=submit value="{TXT_SAVE}" name="cmd[saveOptions]"/></td>
+</tr>
+<!-- END options -->
+</form>
 </table>
-<!--</div>-->
-</td></tr></table>
