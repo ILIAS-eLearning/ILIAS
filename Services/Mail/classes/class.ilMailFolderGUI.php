@@ -77,9 +77,9 @@ class ilMailFolderGUI
 			$_POST["cmd"]["editFolder"] = true;
 			$_POST["action"] = "deleteMails";
 			$_POST["mail_id"] = array($_GET["mail_id"]);
-		}
-
-		$forward_class = $this->ctrl->getNextClass($this);
+		}		
+		
+		$forward_class = $this->ctrl->getNextClass($this);		
 		switch($forward_class)
 		{
 			case 'ilmailaddressbookgui':
@@ -135,6 +135,34 @@ class ilMailFolderGUI
 		$this->showMail();
 		
 	}
+	
+	public function cancelEmptyTrash()
+	{
+		$this->showFolder();
+	}
+	
+	public function performEmptyTrash()
+	{
+		$this->umail->deleteMailsOfFolder($_GET["mobj_id"]); 
+
+		ilUtil::sendInfo($this->lng->txt("mail_deleted"));		
+		$this->showFolder();
+		
+		return true;
+	}
+	
+	public function askForEmptyTrash()
+	{
+		if ($this->umail->countMailsOfFolder($_GET["mobj_id"]))
+		{		
+			ilUtil::sendInfo($this->lng->txt("mail_empty_trash_confirmation"));		
+			$this->askForConfirmation = true;
+		}
+		
+		$this->showFolder();
+		
+		return true;
+	}
 
 	public function showFolder()
 	{
@@ -164,7 +192,7 @@ class ilMailFolderGUI
 			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
 			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->parseCurrentBlock();
-		}
+		}		
 		
 		// BEGIN MAIL ACTIONS
 		$actions = $this->mbox->getActions($_GET["mobj_id"]);
@@ -244,6 +272,24 @@ class ilMailFolderGUI
 		// BEGIN MAILS
 		$mailData = $this->umail->getMailsOfFolder($_GET["mobj_id"]);
 		$mail_count = count($mailData);
+		
+		if ($isTrashFolder == true && $mail_count > 0)
+		{
+			if ($this->askForConfirmation == true)
+			{
+				$this->tpl->setCurrentBlock("CONFIRM_EMPTY_TRASH");
+				$this->ctrl->setParameter($this, "cmd", "post");
+				$this->tpl->setVariable("ACTION_EMPTY_TRASH_CONFIRMATION", $this->ctrl->getLinkTarget($this));
+				$this->tpl->setVariable("BUTTON_CONFIRM_EMPTY_TRASH", $this->lng->txt("confirm"));
+				$this->tpl->setVariable("BUTTON_CANCEL_EMPTY_TRASH", $this->lng->txt("cancel"));
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("EMPTY_TRASH");
+			$this->tpl->setVariable("LINK_EMPTY_TRASH", $this->ctrl->getLinkTarget($this, "askForEmptyTrash"));
+			$this->tpl->setVariable("TXT_EMPTY_TRASH", $this->lng->txt("mail_empty_trash"));
+			$this->tpl->parseCurrentBlock();			
+		}
 		
 		// TODO: READ FROM MAIL_OPTIONS
 		$mail_max_hits = $ilUser->getPref('hits_per_page');
@@ -347,18 +393,29 @@ class ilMailFolderGUI
 		$mtree->setTableNames('mail_tree','mail_obj_data');
 		$folder_node = $mtree->getNodeData($_GET[mobj_id]);
 		
-		
 		// folder_image
 		if($folder_node["type"] == 'user_folder')
 		{
 			$this->tpl->setVariable("TXT_FOLDER", $folder_node["title"]);
-			$this->tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon_user_folder.gif"));
+			$this->tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon_user_folder.gif"));		
 		}
 		else
 		{
 			$this->tpl->setVariable("TXT_FOLDER", $this->lng->txt("mail_".$folder_node["title"]));
 			$this->tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon".substr($folder_node["title"], 1).".gif"));
 		}
+
+		if ($folder_node["type"] == 'user_folder' || $folder_node["type"] == 'local')
+		{
+			if ($folder_node["type"] == 'user_folder')
+			{
+				$this->ctrl->setParameter($this, "cmd", "enterFolderData");
+				$this->tpl->setVariable("LINK_EDIT_FOLDER", $this->ctrl->getLinkTarget($this));
+				$this->tpl->setVariable("TXT_EDIT_FOLDER", $this->lng->txt("edit"));
+			}
+			$this->tpl->setVariable("TXT_ADD_FOLDER", $this->lng->txt("mail_add_subfolder"));
+		}		
+		
 		$this->tpl->setVariable("TXT_MAIL", $this->lng->txt("mail"));
 		$this->tpl->setVariable("TXT_MAIL_S", $this->lng->txt("mail_s"));
 		$this->tpl->setVariable("TXT_UNREAD", $this->lng->txt("unread"));
@@ -389,6 +446,252 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("DIRECTION", "up");
 		
 		$this->tpl->show();
+	}
+	
+	public function deleteFolder()
+	{		
+		if ($_SESSION["viewmode"] != "flat")
+		{					
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=confirmdelete_folderdata");
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("mail_sure_delete_folder"));
+			$this->enterFolderData("saveFolderSettings", true);
+			
+			return true;
+		}
+	}
+	
+	public function confirmDeleteFolder()
+	{
+		ilUtil::sendInfo($this->lng->txt("mail_sure_delete_folder"));
+		$this->enterFolderData("saveFolderSettings", true);
+		
+		return true;
+	}
+
+	public function performDeleteFolder()
+	{
+		$new_parent = $this->mbox->getParentFolderId($_GET["mobj_id"]);
+
+		if ($this->mbox->deleteFolder($_GET["mobj_id"]))
+		{			
+			ilUtil::sendInfo($this->lng->txt("mail_folder_deleted"),true);
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI");			
+		}
+		else
+		{			
+			if ($_SESSION["viewmode"] != "flat")
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_error_delete"), true);
+				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=confirmdelete_folderdata");					
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_error_delete"));
+				$this->enterFolderData();
+				
+				return true;
+			}
+		}	
+	}
+	
+	public function cancelDeleteFolder()
+	{
+		if ($_SESSION["viewmode"] != "flat")
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
+		}
+		else
+		{
+			$this->enterFolderData();
+			return true;
+		}
+	}
+
+	public function cancelEnterFolderData()
+	{		
+		if ($_SESSION["viewmode"] != "flat")
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&target=ilmailfoldergui");					
+		}
+		else
+		{
+			$this->showFolder();
+			return true;
+		}
+	}
+	
+	public function saveFolderSettings()
+	{
+		if (isset($_POST["folder_name_add"]) && $_SESSION["viewmode"] != "flat") $_SESSION["folder_name_add"] = $_POST['folder_name_add'];
+
+		$tmp_data = $this->mbox->getFolderData($_GET["mobj_id"]);
+		if ($tmp_data["title"] != $_POST["folder_name_add"])
+		{
+			if ($_POST["folder_name_add"] == "")
+			{				
+				if ($_SESSION["viewmode"] != "flat")
+				{
+					ilUtil::sendInfo($this->lng->txt("mail_insert_folder_name"), true);
+					ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt("mail_insert_folder_name"));
+					$this->enterFolderData();
+					return true;
+				}
+			}
+			else
+			{
+				if ($this->mbox->renameFolder($_GET["mobj_id"], ilUtil::stripSlashes($_POST["folder_name_add"])))
+				{
+					ilUtil::sendInfo($this->lng->txt("mail_folder_name_changed"), true);
+					unset($_SESSION["folder_name_add"]);
+				}
+				else
+				{					
+					if ($_SESSION["viewmode"] != "flat")
+					{
+						ilUtil::sendInfo($this->lng->txt("mail_folder_exists"), true);
+						ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
+					}
+					else
+					{
+						ilUtil::sendInfo($this->lng->txt("mail_folder_exists"));
+						$this->enterFolderData();
+						return true;
+					}
+				}
+			}
+		}		
+		
+		if ($_SESSION["viewmode"] != "flat")
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
+		}
+		else
+		{
+			$this->enterFolderData();
+			return true;
+		}
+	}
+	
+	public function saveSubFolderSettings()
+	{
+		if (isset($_POST["folder_name_add"]) && $_SESSION["viewmode"] != "flat") $_SESSION["folder_name_add"] = ilUtil::stripSlashes($_POST['folder_name_add']);
+		
+		if (empty($_POST['folder_name_add']))
+		{	
+			if ($_SESSION["viewmode"] != "flat")
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_insert_folder_name"), true);
+				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=add_subfolder");					
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_insert_folder_name"));
+				$this->addSubFolder();
+				return true;
+			}			
+		}
+		else if ($_GET["mobj_id"] = $this->mbox->addFolder($_GET["mobj_id"], ilUtil::stripSlashes($_POST["folder_name_add"])))
+		{
+			unset($_SESSION["folder_name_add"]);		
+						
+			if ($_SESSION["viewmode"] != "flat")
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_folder_created"), true);
+				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]);					
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_folder_created"));
+				$this->enterFolderData();
+				return true;
+			}			
+		}
+		else
+		{
+			if ($_SESSION["viewmode"] != "flat")
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_folder_exists"), true);
+				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=add_subfolder");					
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("mail_folder_exists"));
+				$this->addSubFolder();
+				return true;
+			}			
+		}
+	}
+	
+	function addSubFolder()
+	{
+		$this->enterFolderData("saveSubFolderSettings");
+		
+		return true;
+	}
+	
+	public function enterFolderData($cmd = "saveFolderSettings", $confirmDelete = false)
+	{
+		global $ilUser;
+		
+		$mtree = new ilTree($ilUser->getId());
+		$mtree->setTableNames('mail_tree','mail_obj_data');
+		$folder_node = $mtree->getNodeData($_GET[mobj_id]);
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_edit_user_folder.html",'Services/Mail');
+		
+		if ($confirmDelete)
+		{
+			$this->tpl->setCurrentBlock("confirm_delete");
+			$this->ctrl->setParameter($this, "cmd", "post");
+			$this->tpl->setVariable("ACTION_DELETE", $this->ctrl->getLinkTarget($this));
+			$this->tpl->setVariable("FRAME_DELETE", ilFrameTargetInfo::_getFrame("MainContent"));
+			$this->ctrl->clearParameters($this);
+			$this->tpl->setVariable("TXT_DELETE_CONFIRM",$this->lng->txt("confirm"));
+			$this->tpl->setVariable("TXT_DELETE_CANCEL",$this->lng->txt("cancel"));			
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");		
+						
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "saveFolderSettings"));
+		$this->tpl->setVariable("FRAME_ADD", ilFrameTargetInfo::_getFrame("MainContent"));
+				
+		if ($cmd == "saveFolderSettings")
+		{
+			$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt('mail_folder_edit'));
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt('name'));
+			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt('delete'));
+			
+			if (isset($_SESSION["folder_name_add"])) $title_value = ilUtil::prepareFormOutput($_SESSION["folder_name_add"], true);
+			else if (isset($_POST["folder_name_add"])) $title_value = ilUtil::prepareFormOutput($_POST["folder_name_add"], true);
+			else $title_value = ilUtil::stripSlashes($folder_node["title"]);
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt('mail_add_subfolder'));
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt('name'));
+			
+			if (isset($_SESSION["folder_name_add"])) $title_value = ilUtil::prepareFormOutput($_SESSION["folder_name_add"], true);
+			else if (isset($_POST["folder_name_add"])) $title_value = ilUtil::prepareFormOutput($_POST["folder_name_add"], true);
+		}
+		
+		unset($_SESSION["folder_name_add"]);
+		
+		$this->tpl->setVariable("CMD_SUBMIT", $cmd);
+		$this->tpl->setVariable("TXT_SUBMIT", ($cmd == "saveSubFolderSettings" ? $this->lng->txt('save') : $this->lng->txt('rename')));		
+		$this->tpl->setVariable("TITLE_VALUE", $title_value);
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt('cancel'));
+		
+		$this->tpl->show();
+		
+		return true;
 	}
 
 	public function editFolder()

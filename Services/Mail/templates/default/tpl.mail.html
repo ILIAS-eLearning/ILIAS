@@ -1,3 +1,16 @@
+<!-- BEGIN confirm_empty_trash -->
+<form action="{ACTION_EMPTY_TRASH_CONFIRMATION}" class="il_Form" method="POST">
+  <table class="fullwidth_invisible">
+	  <tr>
+		<td align="center">
+		  <input class="submit" type="submit" name="cmd[performEmptyTrash]" value="{BUTTON_CONFIRM_EMPTY_TRASH}" />
+		  <input class="submit" type="submit" name="cmd[cancelEmptyTrash]" value="{BUTTON_CANCEL_EMPTY_TRASH}" />
+		</td>
+	  </tr>
+  </table>
+  </form>
+  <br />
+<!-- END confirm_empty_trash -->
 	<form action="{ACTION_FLAT}" class="il_Form" method="POST">
 	  <!-- BEGIN show_folder -->
 	  <table class="std">
@@ -26,7 +39,7 @@
 			</td>
 		  </tr>
 	  </table>
-	  <!-- END confirm_delete -->
+	  <!-- END confirm_delete -->	  
 	  <!-- BEGIN linkbar -->
 		<table class="std">
 		<tr>
@@ -36,12 +49,25 @@
 	  <!-- END linkbar -->
 	  <table class="fullwidth">
 		  <tr class="tbltitle">
-			<td class="std" colspan="1" width="1px">
+			<td class="std" colspan="1" width="1px" valign="top">
 			<img border="0" src="{IMG_FOLDER}" />
 			</td>
-			<td class="std" colspan="4">
+			<td class="std" colspan="4" valign="top">
+			<div style="float: left;">
 			{TXT_FOLDER}:&nbsp;
-			{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</td>
+			{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})
+			</div>
+<!-- BEGIN edit_folder -->
+			  <div style="text-align: right;">
+			  	<a class="submit" href="{LINK_EDIT_FOLDER}">&nbsp;{TXT_EDIT_FOLDER}&nbsp;</a>
+			  </div>
+<!-- END edit_folder -->
+<!-- BEGIN empty_trash -->
+			  <div style="text-align: right;">
+			  	<a class="submit" href="{LINK_EMPTY_TRASH}">&nbsp;{TXT_EMPTY_TRASH}&nbsp;</a>
+			  </div>
+<!-- END empty_trash -->
+		 	 </td>
 		  </tr>
 		  <tr class="tblheader">
 			<td class="std" width="1px">&nbsp;</td>
@@ -79,12 +105,19 @@
 			  <img src="{IMGPATH}/images/arrow_downright.gif" />
 			</td>
 			<td class="submit" colspan="4">
+				<div style="float: left;">
 			  <select name="action">
 				<!-- BEGIN mailactions -->
 				<option value="{MAILACTION_VALUE}" {MAILACTION_SELECTED}>{MAILACTION_NAME}</option>
 				<!-- END mailactions -->	  
 			  </select>
 			  <input class="submit" type="submit" name="cmd[editFolder]" value="{TXT_SUBMIT}"/>
+			  </div>
+<!-- BEGIN add_folder -->
+			  <div style="text-align: right;">
+			  	<input class="submit" type="submit" name="cmd[addSubFolder]" value="{TXT_ADD_FOLDER}"/>
+			  </div>
+<!-- END add_folder -->
 			</td>
 		  </tr>
 	  </table>

@@ -225,7 +225,8 @@ class ilMailbox
 
 			if ($folder_data["type"] == "user_folder" or $folder_data["type"] == "local")
 			{
-				return array_merge($this->actions,array("add" => $this->lng->txt("mail_add_subfolder")));
+				#return array_merge($this->actions,array("add" => $this->lng->txt("mail_add_subfolder")));
+				return $this->actions;
 			}
 		}
 

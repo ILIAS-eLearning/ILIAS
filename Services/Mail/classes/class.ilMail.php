@@ -428,6 +428,52 @@ class ilMail
 
 		return $output ? $output : array();
 	}
+	
+	/**
+	* count all mails of a specific folder
+	* @access	public
+	* @param	integer id of folder
+	* @return	bool	number of mails
+	*/
+	function countMailsOfFolder($a_folder_id)
+	{
+		global $ilDB;		
+
+		$query = "SELECT COUNT(*) FROM $this->table_mail ".
+			"WHERE user_id = ".$ilDB->quote($this->user_id) ." ".
+			"AND folder_id = ".$ilDB->quote($a_folder_id)." ";
+		
+		if (is_object($res = $this->ilias->db->query($query)))
+		{
+			return $res->numRows();	
+		}
+		
+		return 0;
+	}
+	
+	/**
+	* delete all mails of a specific folder
+	* @access	public
+	* @param	integer id of folder
+	*
+	*/
+	function deleteMailsOfFolder($a_folder_id)
+	{
+		if ($a_folder_id)
+		{		
+			global $ilDB;
+	
+			$query = "DELETE FROM $this->table_mail ".
+				"WHERE user_id = ".$ilDB->quote($this->user_id) ." ".
+				"AND folder_id = ".$ilDB->quote($a_folder_id)." ";
+			
+			$res = $this->ilias->db->query($query);
+			
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	* get mail counter data
