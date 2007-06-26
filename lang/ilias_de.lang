@@ -7353,3 +7353,6 @@ search#:#search_users#:#Benutzer suchen
 common#:#wizard_title_info#:#Bitte geben Sie den Titel des zu kopierenden Objektes ein.
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
 forum#:#forum_add_quote#:#Zitieren
+mail#:#mail_folder_edit#:#Ordner bearbeiten
+mail#:#mail_empty_trash#:#Papierkorb leeren
+mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Nachrichten im Papierkorb gelöscht werden sollen?
