@@ -7353,3 +7353,6 @@ crs#:#crs_selected_users#:#Selected Participants
 search#:#search_users#:#Search Users
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
+mail#:#mail_folder_edit#:#Edit Folder
+mail#:#mail_empty_trash#:#Empty Trash
+mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
