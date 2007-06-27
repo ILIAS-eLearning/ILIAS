@@ -608,7 +608,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function start()
 	{
-		if (strcmp($_SESSION["lock"], $_POST["lock"] != 0))
+		if (strcmp($_SESSION["lock"], $_POST["lock"]) != 0)
 		{
 			$_SESSION["lock"] = $_POST["lock"];
 			$this->handleStartCommands();
