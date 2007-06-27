@@ -3779,7 +3779,7 @@ common#:#user_defined_fields#:#Benutzerdefinierte Felder
 common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
-common#:#user_ext_account_desc#:#Benutzerkonto, das für die externe Authentifizierung benutzt wird. (CAS- oder SOAP-Authentifizierung)
+common#:#user_ext_account_desc#:#Benutzerkonto, das für die externe Authentifizierung benutzt wird. (CAS-, SOAP-, LDAP- oder Radius-Authentifizierung)
 common#:#user_ext_account#:#Externes Benutzerkonto
 common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
@@ -7356,3 +7356,5 @@ forum#:#forum_add_quote#:#Zitieren
 mail#:#mail_folder_edit#:#Ordner bearbeiten
 mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Nachrichten im Papierkorb gelöscht werden sollen?
+common#:#err_auth_ldap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die LDAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
+common#:#ext_acccount_required#:#Bitte geben Sie den Namen des externen Benutzerkontos ein.

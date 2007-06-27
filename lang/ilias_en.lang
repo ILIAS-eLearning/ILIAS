@@ -3826,7 +3826,7 @@ common#:#user_defined_list#:#Overview User-defined Fields
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
 common#:#user_ext_account#:#External Account
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)
+common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP, LDAP or Radius authentication)
 common#:#user_import_failed#:#User import failed.
 common#:#user_imported#:#User import complete.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
@@ -7356,3 +7356,5 @@ common#:#wizard_search_list#:#Your search produced the following hits. Please se
 mail#:#mail_folder_edit#:#Edit Folder
 mail#:#mail_empty_trash#:#Empty Trash
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
+common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
+common#:#ext_acccount_required#:#Please enter the name of the external account.
