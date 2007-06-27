@@ -70,17 +70,12 @@ class ilAuthLDAP extends Auth
 		
 		if($this->ldap_server->enabledSyncOnLogin())
 		{
-			// Refresh user data
+			// Refresh or create user data
 			$this->initLDAPAttributeToUser();
 			$this->ldap_attr_to_user->setUserData($users);
 			$this->ldap_attr_to_user->refresh();
-			
-			// set auth 
-			$this->setAuth($user_data['ilInternalAccount'] ? $user_data['ilInternalAccount'] : $a_username);
-			return;
 		}
-		
-		// No sync
+
 		if(!$user_data['ilInternalAccount'])
 		{
 			// No syncronisation allowed => create Error
@@ -89,6 +84,9 @@ class ilAuthLDAP extends Auth
 			return;
 		}
 		// Finally setAuth
+		$this->setAuth(ilObjUser::_checkExternalAuthAccount("ldap",$a_username));
+		return;
+		
 	}
 	
 	/** 

@@ -449,6 +449,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				$this->auth_mode_set = false;
 				$this->skin = "";
 				$this->style = "";
 				$this->personalPicture = null;
@@ -501,6 +502,7 @@ class ilUserImportParser extends ilSaxParser
 						case "script":
 						case "cas":
 						case "soap":
+							$this->auth_mode_set = true;
 							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
 						default:
@@ -989,6 +991,7 @@ class ilUserImportParser extends ilSaxParser
 				// check external account conflict (if external account is already used)
 				// note: we cannot apply conflict rules in the same manner as to logins here
 				// so we ignore records with already existing external accounts.
+				//echo $this->userObj->getAuthMode().'h';
 				$am = ($this->userObj->getAuthMode() == "default" || $this->userObj->getAuthMode() == "")
 					? ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode'))
 					: $this->userObj->getAuthMode();
@@ -1195,7 +1198,11 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
 							if (! is_null($this->userObj->getLanguage())) $updateUser->setLanguage($this->userObj->getLanguage());
 							if (! is_null($this->userObj->getExternalAccount())) $updateUser->setExternalAccount($this->userObj->getExternalAccount());
-							if (! is_null($this->userObj->getAuthMode())) $updateUser->setAuthMode($this->userObj->getAuthMode());
+							
+							// Fixed: if auth_mode is not set, it was always overwritten with auth_default
+							#if (! is_null($this->userObj->getAuthMode())) $updateUser->setAuthMode($this->userObj->getAuthMode());
+							if($this->auth_mode_set)
+								$updateUser->setAuthMode($this->userObj->getAuthMode());
 							
 							if (! is_null($this->userObj->getInstantMessengerId("aim"))) $updateUser->setInstantMessengerId("aim", $this->userObj->getInstantMessengerId("aim"));
 							if (! is_null($this->userObj->getInstantMessengerId("msn"))) $updateUser->setInstantMessengerId("msn", $this->userObj->getInstantMessengerId("msn"));

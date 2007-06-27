@@ -3100,20 +3100,6 @@ class ilObjUser extends ilObject
 		$this->ext_account = $a_str;
 	}
 
-	public function _updateExternalAccounts($a_auth_mode)
-	{
-		global $ilDB;
-
-		include_once('classes/class.ilAuthUtils.php');
-		$a_auth_name = ilAuthUtils::_getAuthModeName($a_auth_mode);
-
-		$query = "UPDATE usr_data SET ext_account = login ".
-			"WHERE ext_account = ''".
-			"AND auth_mode = ".$ilDB->quote($a_auth_name);
-		$ilDB->query($query);
-		return true;
-	}
-
 	/**
     * get external account
 	*
@@ -3128,6 +3114,8 @@ class ilObjUser extends ilObject
 
 	/**
 	 * Get list of external account by authentication method
+	 * Note: If login == ext_account for two user with auth_mode 'default' and auth_mode 'ldap'
+	 * 	The ldap auth mode chosen
 	 *
 	 * @access public
 	 * @param string auth_mode
@@ -3148,14 +3136,21 @@ class ilObjUser extends ilObject
 		{
 			$or = " ";
 		}
-	 	$query = "SELECT usr_id,ext_account FROM usr_data ".
+	 	$query = "SELECT login,usr_id,ext_account,auth_mode FROM usr_data ".
 	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode)." ".
 	 		$or;
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$accounts[$row->usr_id] = $row->ext_account;
+			if($row->auth_mode == 'default')
+			{
+				$accounts[$row->usr_id] = $row->login;
+			}
+			else
+			{
+				$accounts[$row->usr_id] = $row->ext_account;
+			}
 		}
 		return $accounts ? $accounts : array();
 	}
@@ -3188,12 +3183,14 @@ class ilObjUser extends ilObject
 	/**
 	* check whether external account and authentication method
 	* matches with a user
-	*
+	* 
+	* @static
 	*/
-	function _checkExternalAuthAccount($a_auth, $a_account)
+	public static function _checkExternalAuthAccount($a_auth, $a_account)
 	{
-		global $ilDB;
+		global $ilDB,$ilSetting;
 
+		// Check directly with auth_mode
 		$r = $ilDB->query("SELECT * FROM usr_data WHERE ".
 			" ext_account = ".$ilDB->quote($a_account)." AND ".
 			" auth_mode = ".$ilDB->quote($a_auth));
@@ -3201,10 +3198,22 @@ class ilObjUser extends ilObject
 		{
 			return $usr["login"];
 		}
-		else
+		
+		// If auth_default == $a_auth => check for login
+		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
 		{
-			return false;
+			$query = "SELECT login FROM usr_data ".
+				"WHERE ". 
+				"(login =".$ilDB->quote($a_account)." OR ext_account = ".$ilDB->quote($a_account).") ".
+				"AND auth_mode = 'default'";
+			
+			$res = $ilDB->query($query);
+			if ($usr = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				return $usr["login"];
+			}
 		}
+		return false;
 	}
 
 	/**

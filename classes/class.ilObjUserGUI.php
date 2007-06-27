@@ -294,7 +294,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"] = array();
 		$data["fields"]["login"] = "";
 		$data["fields"]["passwd"] = "";
-		$data["fields"]["passwd2"] = "";
+		#$data["fields"]["passwd2"] = "";
 		$data["fields"]["title"] = "";
 		$data["fields"]["ext_account"] = "";
 		$data["fields"]["gender"] = "";
@@ -339,6 +339,15 @@ class ilObjUserGUI extends ilObjectGUI
 			if ($key == "ext_account")
 			{
 				continue;
+			}
+			if($key == 'passwd')
+			{
+				$this->tpl->setCurrentBlock('passwords_visible');
+				$this->tpl->setVariable('VISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
+				$this->tpl->setVariable('VISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
+				$this->tpl->setVariable('VISIBLE_PASSWD',$_SESSION['error_post_vars']['Fobject']['passwd']);
+				$this->tpl->setVariable('VISIBLE_PASSWD2',$_SESSION['error_post_vars']['Fobject']['passwd2']);
+				$this->tpl->parseCurrentBlock();
 			}
 		
 			// check to see if dynamically required
@@ -439,7 +448,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				if ($key != "default_role" and $key != "language" 
 					and $key != "skin_style" and $key != "hits_per_page"
-					and $key != "show_users_online")
+					and $key != "show_users_online" and $key != 'passwd' and $key != 'passwd2')
 				{
 					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				}
@@ -889,6 +898,9 @@ class ilObjUserGUI extends ilObjectGUI
     {
         global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
 			,$ilSetting;
+			
+		include_once('classes/class.ilAuthUtils.php');
+			
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -918,7 +930,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"] = array();
 		$data["fields"]["login"] = $this->object->getLogin();
 		$data["fields"]["passwd"] = "********";	// will not be saved
-		$data["fields"]["passwd2"] = "********";	// will not be saved
+		#$data["fields"]["passwd2"] = "********";	// will not be saved
 		$data["fields"]["ext_account"] = $this->object->getExternalAccount();
 		$data["fields"]["title"] = $this->object->getUTitle();
 		$data["fields"]["gender"] = $this->object->getGender();
@@ -1035,6 +1047,39 @@ class ilObjUserGUI extends ilObjectGUI
 				{
 					$str = $this->lng->txt("person_title");
 				}
+				if($key == 'passwd2')
+				{
+					continue;
+				}
+				if($key == 'passwd')
+				{
+					if(ilAuthUtils::_allowPasswordModificationByAuthMode(
+						ilAuthUtils::_getAuthMode($_SESSION['error_post_vars']['Fobject']['auth_mode'])))
+					{
+						$this->tpl->setCurrentBlock('passwords_visible');
+						$this->tpl->setVariable('VISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
+						$this->tpl->setVariable('VISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
+						$this->tpl->setVariable('VISIBLE_PASSWD',$_SESSION['error_post_vars']['Fobject']['passwd']);
+						$this->tpl->setVariable('VISIBLE_PASSWD2',$_SESSION['error_post_vars']['Fobject']['passwd2']);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock('passwords_invisible');
+						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
+						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
+						$this->tpl->setVariable('INVISIBLE_PASSWD',strlen($this->object->getPasswd()) ? 
+							"********" :
+							"");
+						$this->tpl->setVariable('INVISIBLE_PASSWD2',strlen($this->object->getPasswd()) ? 
+							"********" :
+							"");
+						$this->tpl->setVariable('INVISIBLE_PASSWD_HIDDEN',"********");
+						$this->tpl->parseCurrentBlock();
+						
+					}
+					continue;
+				}
 
                 // check to see if dynamically required
                 if (isset($settings["require_" . $key]) && $settings["require_" . $key])
@@ -1083,6 +1128,34 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 				if ($key == "ext_account")
 				{
+					continue;
+				}
+				if($key == 'passwd')
+				{
+					$auth_mode = $this->object->getAuthMode(true);
+					if(ilAuthUtils::_allowPasswordModificationByAuthMode($auth_mode))
+					{
+						$this->tpl->setCurrentBlock('passwords_visible');
+						$this->tpl->setVariable('VISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
+						$this->tpl->setVariable('VISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
+						$this->tpl->setVariable('VISIBLE_PASSWD',"********");
+						$this->tpl->setVariable('VISIBLE_PASSWD2',"********");
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock('passwords_invisible');
+						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
+						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
+						$this->tpl->setVariable('INVISIBLE_PASSWD',strlen($this->object->getPasswd()) ? 
+							"********" :
+							"");
+						$this->tpl->setVariable('INVISIBLE_PASSWD2',strlen($this->object->getPasswd()) ? 
+							"********" :
+							"");
+						$this->tpl->setVariable('INVISIBLE_PASSWD_HIDDEN',"********");
+						$this->tpl->parseCurrentBlock();
+					}
 					continue;
 				}
 
@@ -1141,8 +1214,10 @@ class ilObjUserGUI extends ilObjectGUI
 			*/
 			$this->tpl->parseCurrentBlock();
 		}
-		include_once('classes/class.ilAuthUtils.php');
-		if(!ilAuthUtils::_allowPasswordModificationByAuthMode($this->object->getAuthMode(true)))
+		$auth_mode = $_SESSION['error_post_vars']['Fobject']['auth_mode'] ? 
+			ilAuthUtils::_getAuthMode($_SESSION['error_post_vars']['Fobject']['auth_mode']) :
+			$this->object->getAuthMode(true);
+		if(!ilAuthUtils::_allowPasswordModificationByAuthMode($auth_mode))
 		{
 			$this->tpl->setVariable("OPTION_DISABLED", "\"disabled=disabled\"");
 		}
@@ -1161,7 +1236,6 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
-		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
 		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
 		$this->tpl->setVariable("TXT_HITS_PER_PAGE",$this->lng->txt("hits_per_page"));
@@ -1714,7 +1788,7 @@ class ilObjUserGUI extends ilObjectGUI
             	case 'passwd2':
             		if(ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
             		{
-		                $require_keys[] = $field;
+		               $require_keys[] = $field;
             		}
 		            break;
             	default:
@@ -1723,7 +1797,7 @@ class ilObjUserGUI extends ilObjectGUI
         	
         	}
         }
-
+		
         foreach ($require_keys as $key => $val)
         {
             // exclude required system and registration-only fields
@@ -1760,6 +1834,12 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if(ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
 		{
+			if($_POST['Fobject']['passwd'] == "********" and
+				!strlen($this->object->getPasswd()))
+			{
+                $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
+					$this->lng->txt('password'),$this->ilias->error_obj->MESSAGE);
+			}				
 			// check passwords
 			if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
 			{

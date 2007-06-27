@@ -151,9 +151,14 @@ class ilLDAPAttributeToUser
 			$this->writer->xmlElement('TimeLimitUnlimited',array(),1);
 			$this->writer->xmlElement('TimeLimitFrom',array(),time());
 			$this->writer->xmlElement('TimeLimitUntil',array(),time());
-			$this->writer->xmlElement('AuthMode',array('type' => 'ldap'),'ldap');
-			$this->writer->xmlElement('ExternalAccount',array(),$external_account);
 			
+			// only for new users. 
+			// If auth_mode is 'default' (ldap) this status should remain.
+			if(!$user['ilInternalAccount'])
+			{
+				$this->writer->xmlElement('AuthMode',array('type' => 'ldap'),'ldap');
+				$this->writer->xmlElement('ExternalAccount',array(),$external_account);
+			}
 			foreach($rules as $field => $data)
 			{
 				// Do Mapping: it is possible to assign multiple ldap attribute to one user data field
