@@ -414,9 +414,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		switch ($_POST["auth_mode"])
 		{
 			case AUTH_LDAP:
-				// First update all users external accounts
-				ilObjUser::_updateExternalAccounts('default');
-				
+		
 				/*
 				if ($this->object->checkAuthLDAP() !== true)
 				{

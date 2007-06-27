@@ -73,7 +73,7 @@ class ilLDAPCronSynchronization
 		 		}
 			
 		 		if(count($users))
-		 		{
+		 		{	
 			 		$this->log->write("LDAP: Starting update/creation of users ...");
 			 		$this->ldap_to_ilias = new ilLDAPAttributeToUser($this->current_server);
 			 		$this->ldap_to_ilias->setUserData($users);

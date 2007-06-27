@@ -590,6 +590,5 @@ class ilAuthUtils
 				return true;
 		}
 	}
-
 }
 ?>
