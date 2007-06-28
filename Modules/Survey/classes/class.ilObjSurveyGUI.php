@@ -2630,7 +2630,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("USER_ID", $user_data["active_id"]);
 					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
 					$this->tpl->setVariable("VALUE_USER_LOGIN", $user_login);
-					$last_access = $this->object->_getLastAccess($finished_id);
+					$last_access = $this->object->_getLastAccess($user_data["active_id"]);
 					$this->tpl->setVariable("LAST_ACCESS", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($last_access)));
 					$this->tpl->parseCurrentBlock();
 					$counter++;
