@@ -44,6 +44,8 @@ class ilSoapAuthenticationLDAP extends ilSOAPAuthentication
 
 	function __buildAuth()
 	{
+		$_POST['auth_mode'] = AUTH_LDAP;
+		
 		include_once("./Services/Init/classes/class.ilInitialisation.php");
 		$init = new ilInitialisation();
 		$init->initILIAS();
