@@ -97,19 +97,19 @@ class ilSurveyEvaluationGUI
 		if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
 			// people with write access always have access to the evaluation
-			$_SESSION["anon_evaluation_access"] = 1;
+			$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
 			return $this->evaluation();
 		}
 		if ($this->object->getEvaluationAccess() == EVALUATION_ACCESS_ALL)
 		{
 			// if the evaluation access is open for all users, grant it
-			$_SESSION["anon_evaluation_access"] = 1;
+			$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
 			return $this->evaluation();
 		}
 		$surveycode = $this->object->getUserAccessCode($ilUser->getId());
 		if ($this->object->isAnonymizedParticipant($surveycode))
 		{
-			$_SESSION["anon_evaluation_access"] = 1;
+			$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
 			return $this->evaluation();
 		}
 		$this->tpl->setVariable("TABS", "");
@@ -136,7 +136,7 @@ class ilSurveyEvaluationGUI
 		$surveycode = $_POST["surveycode"];
 		if ($this->object->isAnonymizedParticipant($surveycode))
 		{
-			$_SESSION["anon_evaluation_access"] = 1;
+			$_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
 			$this->evaluation();
 		}
 		else
@@ -296,12 +296,35 @@ class ilSurveyEvaluationGUI
 	function evaluation($details = 0)
 	{
 		global $ilUser;
-		if (($this->object->getAnonymize() == 1) && ($_SESSION["anon_evaluation_access"] != 1))
-		{
-			$this->checkAnonymizedEvaluationAccess();
-			return;
-		}
+		global $rbacsystem;
+		global $ilias;
 		
+		switch ($this->object->getEvaluationAccess())
+		{
+			case EVALUATION_ACCESS_OFF:
+				if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+				{
+					sendInfo($this->lng->txt("permission_denied"));
+					return;
+				}
+				break;
+			case EVALUATION_ACCESS_ALL:
+				include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
+				if (!($rbacsystem->checkAccess("write",$_GET["ref_id"]) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId())))
+				{
+					sendInfo($this->lng->txt("permission_denied"));
+					return;
+				}
+				break;
+			case EVALUATION_ACCESS_PARTICIPANTS:
+				if (($this->object->getAnonymize() == 1) && ($_SESSION["anon_evaluation_access"] != $_GET["ref_id"]))
+				{
+					$this->checkAnonymizedEvaluationAccess();
+					return;
+				}
+				break;
+		}
+	
 		if (strlen($_POST["export_format"]))
 		{
 			$this->exportCumulatedResults($details);
