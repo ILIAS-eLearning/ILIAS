@@ -224,8 +224,15 @@ class ilObjSurveyAccess extends ilObjectAccess
 				return false;
 				break;
 			case 1:
-				// evaluation access for all users
-				return true;
+				// evaluation access for all registered users
+				if (($user_id > 0) && ($user_id != ANONYMOUS_USER_ID))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 				break;
 			case 2:
 				// evaluation access for participants
@@ -248,9 +255,6 @@ class ilObjSurveyAccess extends ilObjectAccess
 						return true;
 					}
 				}
-				// TODO: add an additional check for anonymous users who could have and survey access code
-				//       on the other hand: if someone publishes a survey with anonymous access and evaluation access
-				//       he or she should grant evaluation access for all users...
 				return false;
 				break;
 		}
