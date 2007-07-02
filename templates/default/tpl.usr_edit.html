@@ -26,14 +26,36 @@
         <td class="option">{TXT_LOGIN}</td>
         <td class="option_value"><input type="text" name="Fobject[login]"  value="{LOGIN}" size="40" maxlength="80" /></td>
     </tr>
+    <!--  BEGIN passwords_visible -->
     <tr>
-        <td class="option">{TXT_PASSWD}</td>
-        <td class="option_value"><input type="password" name="Fobject[passwd]"  value="{PASSWD}" size="40" maxlength="32" {OPTION_DISABLED}/></td>
+        <td class="option">{VISIBLE_TXT_PASSWD}<span class="asterisk">*</span></td>
+        <td class="option_value">
+        	<input type="password" name="Fobject[passwd]"  value="{VISIBLE_PASSWD}" size="40" maxlength="32" />
+        </td>
     </tr>
     <tr>
-        <td class="option">{TXT_PASSWD2}</td>
-        <td class="option_value"><input type="password" name="Fobject[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" {OPTION_DISABLED}/></td>
+        <td class="option">{VISIBLE_TXT_PASSWD2}<span class="asterisk">*</span></td>
+        <td class="option_value">
+        	<input type="password" name="Fobject[passwd2]"  value="{VISIBLE_PASSWD2}" size="40" maxlength="32" />
+        </td>
     </tr>
+    <!-- END passwords_visible -->
+    <!--  BEGIN passwords_invisible -->
+    <tr>
+        <td class="option">{INVISIBLE_TXT_PASSWD}</td>
+        <td class="option_value">
+        	<input type="password" name="Fobject[passwd]"  value="{INVISIBLE_PASSWD}" disabled="disabled" size="40" maxlength="32" />
+        	<input type="hidden" name="Fobject[passwd]" value="{INVISIBLE_PASSWD_HIDDEN}" />
+        </td>
+    </tr>
+    <tr>
+        <td class="option">{INVISIBLE_TXT_PASSWD2}</td>
+        <td class="option_value">
+        	<input type="password" name="Fobject[passwd2]"  value="{INVISIBLE_PASSWD2}" disabled="disabled" size="40" maxlength="32" />
+        	<input type="hidden" name="Fobject[passwd2]" value="{INVISIBLE_PASSWD_HIDDEN}" />
+        </td>
+    </tr>
+    <!-- END passwords_invisible -->
 	<!-- BEGIN ext_account -->
     <tr>
         <td class="option">{TXT_EXT_ACCOUNT}</td>
