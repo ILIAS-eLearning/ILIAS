@@ -155,22 +155,24 @@
 				</td>
 			</tr>
 		</table>
-
+		
+		<!-- when/how displayed? alex -->
 		<table id="introTable" width="100%" cellspacing="0" cellpadding="0" border="0" summary="">
 			<tr valign="top" >			
-				<td class="std">
+				<td class="std">2
 					<noscript>{NO_JAVASCRIPT}</noscript>
 					<div style="display: none !important; background-color: red !important; color: white !important; font: 14pt/1.0 monospace !important">{NO_CSS}</div>
 					<div id="introLabel">loading</div>
 				</td>				
 			</tr>
 		</table>
-		
+
 		<table id="mainTable" width="100%" height="100%" style="width: 100%; height: 100%" 
 			cellspacing="0" cellpadding="0" border="0" summary="">
 				<tr valign="top">
 				<td style="width:30%" width="30%">
 					<div id="treeView"></div>
+					<div id="ilLog" style="font-size:0.8em; white-space:pre; overflow:scroll;"></div>
 				</td>
 				<td style="width:70%" width="70%" id="tdResource">
 					<div></div>
@@ -178,9 +180,13 @@
 			</tr>
 		</table>
 
-		{INCLUDE_DEBUG}
+		<!-- {INCLUDE_DEBUG} -->
 
-		<script type="text/javascript" src="{BASE_DIR}scripts/jsmin.php?ilias={ILIAS}"></script>
+		<!-- 
+		<script type="text/javascript" src="{BASE_DIR}scripts/jsmin.php?ilias={ILIAS}"></script> -->
+		<script type="text/javascript" src="{BASE_DIR}scripts/main.js"></script>
+		<script type="text/javascript" src="{BASE_DIR}scripts/rte.js"></script>
+		<script type="text/javascript" src="{BASE_DIR}scripts/sn.js"></script>
 		<script type="text/javascript">
 		//<![CDATA[
 			scorm_init({JS_DATA});

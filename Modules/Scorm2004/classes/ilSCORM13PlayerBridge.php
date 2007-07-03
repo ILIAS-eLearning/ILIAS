@@ -49,7 +49,7 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		//TODO remove when DB integration is done
 		
 		//ilSCORM13DB::init("sqlite2:".$basePath."data/sqlite2.db", "sqlite");
-		ilSCORM13DB::init("sqlite2:/Users/hendrikh/Development/eclipse/ilias3_scorm2004/ilias3_scorm2004/Modules/Scorm2004/data/sqlite2.db", "sqlite");
+		ilSCORM13DB::init("sqlite2:/htdocs/ilias2004/Modules/Scorm2004/data/sqlite2.db", "sqlite");
 	}
 
 	/**
@@ -83,18 +83,15 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 	}
 	
 	
+	
+	/**
+	* Get and display Player
+	*/
 	public function getPlayer()
 	{
 		global $ilUser;
-		$packageData = ilSCORM13DB::getRecord(
-			'cp_package',
-			'obj_id',
-			$this->packageId
-		);
 		
-		
-		//TODO workaround...should be moved into another table
-
+		// ensure that user record is in sql lite db
 		ilSCORM13DB::setRecord('usr_data', array(
 		'usr_id' => $ilUser->getID(),
 		'firstname' => $ilUser->getFirstname(),
@@ -106,6 +103,7 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		'title'=>''
 		));
 		
+		// ensure that package record is in sql lite db
 		ilSCORM13DB::setRecord('sahs_lm', array(
 		'id' => $this->packageId,
 		'credit' => "credit",
@@ -113,8 +111,7 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		'auto_review'=>"review"
 		));
 		
-		
-		$basedir = json_decode($packageData['jsdata']);
+		// player basic config data
 		$config = array
 		(
 			'cp_url' => './Modules/Scorm2004/player_ilias.php?' . 'call=cp&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
@@ -146,9 +143,11 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 
 		//header('Content-Type: text/html; charset=UTF-8');
 		
-		$stpl = new SimpleTemplate();
-		$stpl->load('./Modules/Scorm2004/templates/default/tpl.scorm2004.player_debug.html');
-		$stpl->setParam('BASE_DIR', './Modules/Scorm2004/');
+		
+		// kohnert debugger, not working correctly -> deactivted
+		//$stpl = new SimpleTemplate();
+		//$stpl->load('./Modules/Scorm2004/templates/default/tpl.scorm2004.player_debug.html');
+		//$stpl->setParam('BASE_DIR', './Modules/Scorm2004/');
 		
 		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
 		$this->tpl->setVariable('DEBUG', 1);
@@ -159,6 +158,7 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		$this->tpl->setVariable('CSS_NEEDED', '');
 		$this->tpl->setVariable('JS_NEEDED', '');
 		$this->tpl->setVariable('JS_DATA', json_encode($config));
+		
 		list($tsfrac, $tsint) = explode(' ', microtime());
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
