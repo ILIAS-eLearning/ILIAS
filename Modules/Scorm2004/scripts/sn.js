@@ -37,6 +37,8 @@ function exec(navReq) // #166
 {
 	var rn, rd, rs, rt, seqReq;
 
+	sclog("OverallSequencing [OP.1]", "ps");
+	
 	rn = navigationRequest(navReq);
 	
 	if (!rn.valid) 
@@ -91,6 +93,9 @@ function exec(navReq) // #166
 function navigationRequest(navReq) // #168
 {
 	var returnValue = {valid: false, sequencingRequest: null, terminationRequest: null};
+	
+	sclog("NavigationRequest [NB.2.1]", "ps");
+	
 	NAVREQ_TYPE: // for jumping back, bad style taken from ADL specs
 	switch (navReq.type) 
 	{
@@ -300,6 +305,9 @@ function sequencingExitActionRulesSub () // #174
 {
 	var activityPath = getActivityPath(currentAct);
 	var activity, exitTarget;
+	
+	sclog("SequencingExitActionRulesSub [TB.2.1]", "ps");
+	
 	while (activityPath.length > 1)
 	{
 		activity = activityPath.pop();
@@ -321,6 +329,9 @@ function sequencingExitActionRulesSub () // #174
 function sequencingPostConditionRulesSub() // #175
 {
 	var returnValue = {terminationRequest : null, sequencingRequest: null};
+	
+	sclog("SequencingPostConditionRulesSub [TB.2.2]", "ps");
+	
 	if (currentAct.isSuspended)
 	{
 		return; 
@@ -355,6 +366,9 @@ function terminationRequest(termReq) // #176
 {
 	var returnValue = {valid : false, sequencingRequest: null, exception: null};
 	var r, exit, activityPath, activity, seqRule = null;
+	
+	sclog("TerminationRequest [TB.2.3]", "ps");
+	
 	if (!currentAct) 
 	{
 		returnValue.exception = 'TB.2.3-1';
@@ -473,6 +487,9 @@ function measureRollup(activity) // #180
 	var totalWeightedMeasure = 0;
 	var countedMeasures = 0;
 	var targetObjective = getTargetObjective(activity);
+	
+	sclog("MeasureRollup [RB.1.1]", "ps");
+	
 	if (targetObjective)
 	{
 		for (var activityId in activity.item)
@@ -526,6 +543,9 @@ function measureRollup(activity) // #180
 function objectiveRollupUsingMeasure(activity) // #182
 {
 	var targetObjective = getTargetObjective(activity);
+	
+	sclog("ObjectiveRollupUsingMeasure [RB.1.2a]", "ps");
+	
 	if (targetObjective)
 	{
 		if (targetObjective.ObjectiveSatisfiedByMeasure)
@@ -558,6 +578,9 @@ function objectiveRollupUsingMeasure(activity) // #182
 function objectiveRollupUsingRules(activity) // #184
 {
 	var targetObjective = getTargetObjective(activity);
+	
+	sclog("ObjectiveRollupUsingRules [RB.1.2b]", "ps");
+	
 	if (targetObjective) 
 	{
 		if (rollupRuleCheckSub(activity, /^notSatisfied$/))
@@ -576,6 +599,8 @@ function objectiveRollupUsingRules(activity) // #184
 
 function activityProgressRollup(activity) // #185
 {
+	sclog("ActivityProgressRollup [RB.1.3]", "ps");
+	
 	if (rollupRuleCheckSub(activity, /^incomplete$/))
 	{
 		activity.activityProgressStatus = true;
@@ -593,6 +618,9 @@ function rollupRuleCheckSub(activity, rollupAction) // #186
 {
 	var rules = getRulesByAction(activity.rollupRule, rollupAction);
 	var statusChange = false;
+	
+	sclog("RollupRuleCheckSub [RB.1.4]", "ps");
+	
 	if (rules) 
 	{
 		for (var i=0, ni=rules.length; i<ni; i+=1)
@@ -670,6 +698,9 @@ function evaluateRollupConditionsSub(activity, rollupConditions) // #188
 		outsideAvailableTimeRange:0
 	};
 	var bagcount = 0;
+	
+	sclog("EvaluateRollupConditionsSub [RB.1.4.1]", "ps");
+	
 	for (var i=0, ni=rollupConditions.length; i<ni; i+=1)
 	{
 		var condition = rollupConditions[i];
@@ -697,6 +728,9 @@ function evaluateRollupConditionsSub(activity, rollupConditions) // #188
 function checkChildForRollupSub(activity, rollupAction) // #189
 {
 	var included = false;
+	
+	sclog("CheckChildForRollupSub [RB.1.4.2]", "ps");
+	
 	if (rollupAction==='satisfied' || rollupAction==='notSatisfied')
 	{
 		if (activity.objectiveSatisfied)
@@ -781,6 +815,9 @@ function checkChildForRollupSub(activity, rollupAction) // #189
 function overallRollup(activity) // #191
 {
 	var activityPath = getActivityPath(activity);
+	
+	sclog("OverallRollup [RB.1.5]", "ps");
+	
 	for (var i=0, ni=activityPath.length; i<ni; i+=1)
 	{
 		var a = activityPath[i];
@@ -795,6 +832,8 @@ function overallRollup(activity) // #191
 
 function selectChildren (activity) // #192
 {
+	sclog("SelectChildren [SR.1]", "ps");
+	
 	if (activity.item.length > 0 &&
 		!activity.isSuspended && !activity.isActive &&
 		activity.SelectionTiming==='once' &&
@@ -808,6 +847,8 @@ function selectChildren (activity) // #192
 
 function randomizeChildren (activity) // #193
 {
+	sclog("RandomizeChildren [SR.2]", "ps");
+	
 	if (activity.item.length>0 &&
 		!activity.isSuspended && 
 		!activity.isActive) 
@@ -833,11 +874,14 @@ function flowTreeTraversalSub(activity, traversalDirection, considerChildren, pr
 	var returnValue = {identifiedActivity: null, traversalDirection : null, exception: null};
 	var reversedDirection = false;
 	var i;
+	
+	sclog("FlowTreeTraversalSub [SR.2.1]", "ps");
+	
 	if (previousTraversalDirection==='backward' && isLastOfAvailableChildren(activity)) 
 	{
 		traversalDirection = 'backward';
 		////
-		// ???? activity is the first activity in the activity’s parent’s list of Available Children
+		// ???? activity is the first activity in the activityï¿½s parentï¿½s list of Available Children
 		//--activity = activity.parent.availableChildren[0];
 		////
 		reversedDirection = true;
@@ -946,12 +990,15 @@ Flow Activity Traversal Sub [SB.2.2]
 @param activity
 @param a traversal direction
 @param a previous traversal direction
-@return object the ‘next’ activity in a directed traversal of the activity tree ("identifiedActivity")
+@return object the ï¿½nextï¿½ activity in a directed traversal of the activity tree ("identifiedActivity")
 	and True if the activity can be delivered ("deliverable")
 */
 function flowActivityTraversalSub(activity, traversalDirection, previousTraversalDirection) // #197
 {
 	var r;
+	
+	sclog("FlowActivityTraversalSub [SR.2.2]", "ps");
+	
 	if (activity.flow==="false")
 	{
 		return {deliverable: false, identifiedActivity: activity, exception: 'SB.2.2-1'};
@@ -1012,6 +1059,9 @@ function flowSub(activity, traversalDirection, considerChildren) // #199
 	var returnValue = {identifiedActivity: null, deliverable: null, exception: null};
 	var candidateActivity = activity;
 	var r = flowTreeTraversalSub(candidateActivity, traversalDirection, considerChildren, null);
+	
+	sclog("FlowSub [SR.2.3]", "ps");
+	
 	if (!r.identifiedActivity) 
 	{
 		returnValue.identifiedActivity = candidateActivity;
@@ -1033,7 +1083,10 @@ function flowSub(activity, traversalDirection, considerChildren) // #199
 
 function choiceActivityTraversalSub(activity, traversalDirection) // #200
 {
-	var r, returnValue = {reachable: false, exception: null}; 
+	var r, returnValue = {reachable: false, exception: null};
+	
+	sclog("ChoiceActivityTraversalSub [SB.2.4]", "ps");
+	
 	if (traversalDirection=='forward')
 	{
 		r = sequencingRulesCheck(activity, STOP_FORWARD_TRAVERSAL_ACTIONS);
@@ -1069,6 +1122,8 @@ function choiceActivityTraversalSub(activity, traversalDirection) // #200
  */ 
 function startSequencingRequest() // #201
 {
+	sclog("StartSequencingRequest [SB.2.5]", "ps");
+	
 	if (currentAct)
 	{
 		return {exception : 'SB.2.5-1'};
@@ -1094,6 +1149,8 @@ function startSequencingRequest() // #201
 
 function resumeAllSequencingRequest() // #202
 {
+	sclog("ResumeAllSequencingRequest [SB.2.6]", "ps");
+	
 	if (currentAct)
 	{
 		return {exception : 'SB.2.6-1'};
@@ -1108,6 +1165,8 @@ function resumeAllSequencingRequest() // #202
 
 function continueSequencingRequest() // #203
 {
+	sclog("ContinueSequencingRequest [SB.2.7]", "ps");
+	
 	if (!currentAct)
 	{
 		return {exception : 'SB.2.7-1'};
@@ -1133,6 +1192,8 @@ function continueSequencingRequest() // #203
 
 function previousSequencingRequest()  // #204
 {
+	sclog("PreviousSequencingRequest [SB.2.8]", "ps");
+	
 	if (!currentAct)
 	{
 		return {exception : 'SB.2.8-1'};
@@ -1162,6 +1223,9 @@ function previousSequencingRequest()  // #204
 function choiceSequencingRequest(targetActivity)  // #205
 {
 	var i, ni, r, a, commonAncestor, commonPath, activityPath, traverse, activityList, consideredActivity;
+	
+	sclog("ChoiceSequencingRequest [SB.2.9]", "ps");
+	
 	if (!targetActivity) 
 	{
 		return {exception: 'SB.2.9-1'};
@@ -1226,7 +1290,7 @@ function choiceSequencingRequest(targetActivity)  // #205
 	else if (isInArray(targetActivity.id, currentAct.parent ? currentAct.parent.item : null, 'id')) // 9 (needs currentAct, so better after case "10")
 	{
 		activityList = [];
-		// ??? prüfen, ob das die richtigen Elemente sind
+		// ??? prï¿½fen, ob das die richtigen Elemente sind
 		for (i = Math.min(targetActivity.index, currentAct.index), ni = Math.max(targetActivity.index, currentAct.index); i<ni; i+=1)
 		{
 			activityList.push(activitiesByNo[i]);
@@ -1247,7 +1311,7 @@ function choiceSequencingRequest(targetActivity)  // #205
 	} 
 	else if (targetActivity==commonAncestor) 
 	{
-		/// ?? prüfen ob der Pfad richtig ist
+		/// ?? prï¿½fen ob der Pfad richtig ist
 		if (activityPath.length===0)
 		{
 			return {exception: 'SB.2.9-5'};
@@ -1363,6 +1427,8 @@ function choiceSequencingRequest(targetActivity)  // #205
 
 function choiceFlowSub (activity, traversalDirection)  // #212
 {
+	sclog("ChoiceFlowSub [SB.2.9.1]", "ps");
+	
 	var identifiedActivity = choiceFlowTreeTraversalSub(activity, traversalDirection);
 	return identifiedActivity ? identifiedActivity : activity;
 }
@@ -1373,6 +1439,9 @@ function choiceFlowSub (activity, traversalDirection)  // #212
 function choiceFlowTreeTraversalSub(activity, traversalDirection) // #213
 {
 	var r;
+	
+	sclog("choiceFlowTreeTraversalSub [SB.2.9.2]", "ps");
+	
 	if (traversalDirection === 'forward')
 	{
 		if (activity.index===activitiesByNo.length-1)
@@ -1386,7 +1455,7 @@ function choiceFlowTreeTraversalSub(activity, traversalDirection) // #213
 		else
 		{
 			///Traverse the tree, forward preorder, one activity to the next
-			///activity, in the activity’s parent’s list of Available Children
+			///activity, in the activityï¿½s parentï¿½s list of Available Children
 			r = traverse(activity, 'forward');
 			choiceFlowTreeTraversalSub(r);
 		}
@@ -1404,7 +1473,7 @@ function choiceFlowTreeTraversalSub(activity, traversalDirection) // #213
 		else
 		{
 			///Traverse the tree, reverse preorder, one activity to the previous
-			///activity, from the activity’s parent’s list of Available Children
+			///activity, from the activityï¿½s parentï¿½s list of Available Children
 			r = traverse(activity, 'backward');
 			choiceFlowTreeTraversalSub(r);
 		}
@@ -1414,6 +1483,8 @@ function choiceFlowTreeTraversalSub(activity, traversalDirection) // #213
 	
 function retrySequencingRequest() // #214
 {
+	sclog("RetrySequencingRequest [SB.2.10]", "ps");
+	
 	if (!currentAct)
 	{
 		return {exception: 'SB.2.10-1'};
@@ -1592,7 +1663,7 @@ function clearSuspendedActivitySub(activity) // #222
 }
 	
 /**
- * @return {Boolean} True if any of the activity’s limit conditions have been violated
+ * @return {Boolean} True if any of the activityï¿½s limit conditions have been violated
  */ 
 function limitConditionsCheck(activity) // #223
 {

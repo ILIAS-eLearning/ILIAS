@@ -23,6 +23,14 @@
  */ 
 
 
+function sclog(mess, type)
+{
+	elm = all("ilLog");
+	if (elm) 
+	{
+		elm.innerHTML = elm.innerHTML + mess + '\n';
+	}
+}
 
 /* Time related Data Types */
 
@@ -967,12 +975,15 @@ function onDocumentClick (e)
 	e.stop();
 }
 
+// set style class for current state
 function setState(newState)
 {
 	replaceClass(document.body, guiState + 'State', newState + 'State');
 	guiState = newState;
 }
 
+
+// set info label
 function setInfo (name, values) 
 {
 	var elm = all('infoLabel');
@@ -1076,11 +1087,18 @@ function onWindowResize()
 	} 
 	var tot = hd ? hd : hb;
 	var elm = all(RESOURCE_TOP);
+	var hh = (tot-elm.offsetTop-4);
 	var h = (tot-elm.offsetTop-4) + 'px';
 	elm = all("treeView");
 	if (elm) 
 	{
-		elm.style.height = h;
+		//elm.style.height = h;
+		elm.style.height = (hh * 0.7) + "px";
+	}
+	elm = all("ilLog");
+	if (elm) 
+	{
+		elm.style.height = (hh * 0.3) + "px";
 	}
 	elm = all(RESOURCE_NAME);
 	if (elm) 
@@ -1335,6 +1353,8 @@ function init(config)
 	for (var i=seqs.length; i--;)
 	{
 		seq = seqs.pop();
+		
+// TODO This is error-prone, since seq.id maybe an already used index
 		seqs[seq.id] = seq;
 		delete seq.foreignId;
 	}
