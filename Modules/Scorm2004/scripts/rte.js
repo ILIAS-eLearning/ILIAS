@@ -162,6 +162,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */	 
 	function GetValue(sPath) 
 	{
+		log.info("GetValue: "+sPath);
 		setReturn(-1, 'GetValue(' + sPath + ')');
 		switch (state) 
 		{
@@ -177,6 +178,8 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					return setReturn(301, 'cannot be empty string', '');
 				}
 				var r = getValue(sPath, false);
+				log.info("Returned:"+ r.toString());
+				
 				return error ? '' : setReturn(0, '', r); 
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
@@ -193,6 +196,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function getValue(path, sudo) 
 	{
 		var tokens = path.split('.');
+		log.info("The CMI Item"+toJSONString(cmiItem));
 		return walk(cmiItem, Runtime.models[tokens[0]], tokens, null, sudo, {parent:[]});
 	}	
 
