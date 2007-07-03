@@ -45,6 +45,7 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 			$this->packageId=$_GET["packageId"];
 		}
 		
+		
 		//TODO remove when DB integration is done
 		
 		//ilSCORM13DB::init("sqlite2:".$basePath."data/sqlite2.db", "sqlite");
@@ -74,7 +75,12 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 		}
 	}
 	
-	
+	function getDataDirectory($mode = "filesystem")
+	{
+		$lm_data_dir = ilUtil::getWebspaceDir($mode)."/lm_data";
+		$lm_dir = $lm_data_dir."/lm_".$this->packageId;
+		return $lm_dir;
+	}
 	
 	
 	public function getPlayer()
@@ -117,7 +123,7 @@ class ilSCORM13PlayerBridge extends ilSCORM13Player{
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
 			'mode' => 'normal',
 			'credit' => 'credit',
-			'package_url' =>  $basedir->base,
+			'package_url' =>  $this->getDataDirectory()."/"
 		);
 
 		// TODO  replace with ILIAS languages
