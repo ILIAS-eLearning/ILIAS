@@ -22,7 +22,9 @@
  * @copyright: (c) 2007 Alfred Kohnert
  */ 
 
-
+/**
+* Log a Message
+*/
 function sclog(mess, type)
 {
 	elm = all("ilLogPre");
@@ -32,6 +34,9 @@ function sclog(mess, type)
 	}
 }
 
+/**
+* Clear the Log
+*/
 function sclogclear()
 {
 	elm = all("ilLogPre");
@@ -40,6 +45,72 @@ function sclogclear()
 		elm.innerHTML = '';
 	}
 }
+
+
+/**
+* Dump a variable
+*/
+function sclogdump(param, depth)
+{
+	if (!depth)
+	{
+		depth = 0;
+	}
+	
+	var pre = ''
+	for (var j=0; j < depth; j++)
+	{
+		pre = pre + '    ';
+	}
+	
+	//sclog(typeof param);
+	switch (typeof param)
+	{
+		case 'boolean':
+			if(param) sclog(pre + "true (boolean)"); else sclog(pre + "false (boolean)");
+			break;
+
+		case 'number':
+			sclog(pre + param + ' (number)');
+			break;
+
+		case 'string':
+			sclog(pre + param + ' (string)');
+			break;
+
+		case 'object':
+			if (param === null)
+			{
+				sclog(pre + 'null');
+			}
+			if (param instanceof Array) sclog(pre + '(Array) {');
+			else if (param instanceof Object) sclog(pre + '(Object) {');
+			for (var k in param)
+			{
+				if (param.hasOwnProperty(k)) // hasOwnProperty requires Safari 1.2
+				{
+					if (typeof param[k] != "function")
+					{
+						sclog(pre + '[' + k + '] => ');
+						sclogdump(param[k], depth + 1);
+					}
+				}
+			}
+			sclog(pre + '}');
+			break;
+			
+		case 'function':
+			// we do not show functions
+			break;
+
+		default:
+			sclog(pre + "unknown: " + (typeof param));
+			break;
+		
+	}
+}
+
+
 
 
 /* Time related Data Types */
@@ -1103,12 +1174,12 @@ function onWindowResize()
 	if (elm) 
 	{
 		//elm.style.height = h;
-		elm.style.height = (hh * 0.7) + "px";
+		elm.style.height = (hh * 0.5) + "px";
 	}
 	elm = all("ilLog");
 	if (elm) 
 	{
-		elm.style.height = (hh * 0.3) + "px";
+		elm.style.height = (hh * 0.5) + "px";
 	}
 	elm = all(RESOURCE_NAME);
 	if (elm) 
