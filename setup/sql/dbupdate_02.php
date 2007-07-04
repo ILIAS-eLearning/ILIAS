@@ -363,6 +363,8 @@ CREATE TABLE `tmp_migration` (
   `obj_id` int(11) NOT NULL default '0',
   `passed` tinyint(4) NOT NULL default '0');
 
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
+
 <#908>
 <?php
 $wd = getcwd();
@@ -951,6 +953,8 @@ CREATE TABLE `tmp_migration` (
   `parent` int(11) NOT NULL default '0',
   `type` varchar(4),
   `passed` tinyint(4) NOT NULL default '0');
+
+ALTER TABLE `tmp_migration` ADD INDEX `obj_parent_type` ( `obj_id` , `parent` , `type` ); 
   
 <#948>
 <?php
@@ -1003,6 +1007,8 @@ CREATE TABLE `tmp_migration` (
   `rol_id` int(11) NOT NULL default '0',
   `ref_id` int(11) NOT NULL default '0',
   `passed` tinyint(4) NOT NULL default '0');
+
+ALTER TABLE `tmp_migration` ADD INDEX `rol_ref_passed` ( `rol_id` , `ref_id` , `passed` ); 
 
 <#950>
 <?php
