@@ -1,60 +1,57 @@
-	<form action="{FORMACTION}" method="post" enctype="multipart/form-data" name="cmd">
-	  <table class="std">
-		<tr class="tbltitle">
-		  <th class="std" colspan="2">{TBL_TITLE}</th>
-		</tr>
-		<tr class="tblheader">
-		  <th class="std" colspan="2">{TXT_GENERAL_INFOS}</th>
-		</tr>
-		<tr class="std">
-		  <td class="option" width="30%">{TXT_TITLE}<span class="asterisk">*</span></td>
-		  <td class="option_value"><input type="text" name="title" value="{TITLE}" maxlength="70"></td>
-		</tr>
-		<tr class="std">
-		  <td class="option" width="30%">{TXT_DESC}</td>
-		  <td class="option_value" width="70%">
-			<textarea rows="3" cols="50" name="desc">{DESC}</textarea>
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option">{TXT_LOCATION}</td>
-		  <td class="option_value">
-			<textarea rows="4" cols="50" name="location">{LOCATION}</textarea>
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option">{TXT_REGISTRATION}</td>
-		  <td class="option_value">
-			<input type="checkbox" name="registration" value="1" {REG_CHECKED} />&nbsp;{REGISTRATION_INFO}
-		  </td>
-		</tr>
-		<tr class="tblheader">
-		  <th class="std" colspan="2">{TXT_DATE_TIME}</th>
-		</tr>
-		<tr class="std">
-		  <td class="option">{TXT_START_DATE}</td>
-		  <td class="option_value">
-			{START_DATE}  {TXT_TIME}: {START_TIME}
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option">{TXT_END_DATE}</td>
-		  <td class="option_value">
-			{END_DATE}  {TXT_TIME}: {END_TIME}
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option">{TXT_FULLDAY}</td>
-		  <td class="option_value">
-			<input type="checkbox" name="fulltime" value="1" {FULL_CHECKED} />&nbsp;{FULLTIME_INFO}
-		  </td>
-		</tr>
-		<!--
+<form action="{FORMACTION}" method="post" enctype="multipart/form-data"
+	name="cmd">
+<table class="std">
+	<tr class="tbltitle">
+		<th class="std" colspan="2"><img src="{COLL_TITLE_IMG}"
+			style="vertical-align:middle;" alt="{COLL_TITLE_IMG_ALT}"
+			title="{COLL_TITLE_IMG_ALT}" border="0" /> {TBL_TITLE}</th>
+	</tr>
+	<tr class="tblheader">
+		<th class="std" colspan="2">{TXT_GENERAL_INFOS}</th>
+	</tr>
+	<tr class="std">
+		<td class="option" width="30%">{TXT_TITLE}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="title"
+			value="{TITLE}" maxlength="70"></td>
+	</tr>
+	<tr class="std">
+		<td class="option" width="30%">{TXT_DESC}</td>
+		<td class="option_value" width="70%"><textarea rows="3" cols="50"
+			name="desc">{DESC}</textarea></td>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_LOCATION}</td>
+		<td class="option_value"><textarea rows="4" cols="50"
+			name="location">{LOCATION}</textarea></td>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_REGISTRATION}</td>
+		<td class="option_value"><input type="checkbox"
+			name="registration" value="1" {REG_CHECKED} />&nbsp;{REGISTRATION_INFO}
+		</td>
+	</tr>
+	<tr class="tblheader">
+		<th class="std" colspan="2">{TXT_DATE_TIME}</th>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_START_DATE}</td>
+		<td class="option_value">{START_DATE} {TXT_TIME}: {START_TIME}</td>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_END_DATE}</td>
+		<td class="option_value">{END_DATE} {TXT_TIME}: {END_TIME}</td>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_FULLDAY}</td>
+		<td class="option_value"><input type="checkbox" name="fulltime"
+			value="1" {FULL_CHECKED} />&nbsp;{FULLTIME_INFO}</td>
+	</tr>
+	<!--
 		<tr class="tblheader">
 		  <th class="std" colspan="2">{TXT_REGISTRATION_PARTICIPANCE}</th>
 		</tr>
 		-->
-		<!--
+	<!--
 		<tr class="std">
 		  <td class="option">{TXT_PARTICIPANCE}</td>
 		  <td class="option_value">
@@ -62,64 +59,91 @@
 		  </td>
 		</tr>
 		-->
-		<tr class="tblheader">
-		  <th class="std" colspan="2">{TXT_TUTOR_DATA}</th>
-		</tr>
-		<!-- 
+	<tr class="tblheader">
+		<th class="std" colspan="2">{TXT_TUTOR_DATA}</th>
+	</tr>
+	<!-- 
 		<tr class="std">
 		  <td class="option">{TXT_TUTOR_FIRSTNAME}</td>
 		  <td class="option_value"><input type="text" name="tutor_firstname" value="{TUTOR_FIRSTNAME}"></td>
 		</tr>
 		-->
-		<tr class="std">
-		  <td class="option">{TXT_TUTOR_NAME}</td>
-		  <td class="option_value"><input type="text" name="tutor_name" value="{TUTOR_NAME}"></td>
-		</tr>
-		<!-- 
+	<tr class="std">
+		<td class="option">{TXT_TUTOR_NAME}</td>
+		<td class="option_value"><input type="text" name="tutor_name"
+			value="{TUTOR_NAME}"></td>
+	</tr>
+	<!-- 
 		<tr class="std">
 		  <td class="option">{TXT_TUTOR_TITLE}</td>
 		  <td class="option_value"><input type="text" name="tutor_title" value="{TUTOR_TITLE}"></td>
 		</tr>
 		-->
-		<tr class="std">
-		  <td class="option">{TXT_TUTOR_EMAIL}</td>
-		  <td class="option_value"><input type="text" name="tutor_email" value="{TUTOR_EMAIL}"></td>
-		</tr> 
-		<tr class="std">
-		  <td class="option">{TXT_TUTOR_PHONE}</td>
-		  <td class="option_value"><input type="text" name="tutor_phone" value="{TUTOR_PHONE}"></td>
-		</tr>
-		<tr class="tblheader">
-		  <th class="std" colspan="2">{TXT_FURTHER_INFORMATIONS}</th>
-		</tr>
-		<tr class="std">
-		  <td class="option">{TXT_FILE_NAME}</td>
-		  <td class="option_value">
-			<input type="text" name="file_name" value="{FILE_NAME}">
-			<div class="il_Description">
-			  {FILE_HINT}
-			</div>
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option">{TXT_FILE} <span class="asterisk">**</span></td>
-		  <td class="option_value"><input type="file" name="file"></td>
-		</tr>
-		<tr class="std">
-		  <td class="option" width="30%">{TXT_DETAILS}</td>
-		  <td class="option_value" width="70%">
-			<textarea rows="3" cols="50" name="details">{DETAILS}</textarea>
-		  </td>
-		</tr>
-		<tr class="tblfooter">
-		  <td class="std" colspan="2">
-			<div align="right">
-			  <input class="submit" type="submit" name="cmd[createEvent]" value="{TXT_BTN_ADD_EVENT}" />
-			  <input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
-			</div>
-		  </td>
-		</tr>
-	  </table>
-	  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}<br></span>
-	  <span class="asterisk">**</span><span class="small"> {TXT_FILESIZE}<br><br></span>
-	</form>
+	<tr class="std">
+		<td class="option">{TXT_TUTOR_EMAIL}</td>
+		<td class="option_value"><input type="text" name="tutor_email"
+			value="{TUTOR_EMAIL}"></td>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_TUTOR_PHONE}</td>
+		<td class="option_value"><input type="text" name="tutor_phone"
+			value="{TUTOR_PHONE}"></td>
+	</tr>
+	<tr class="tblheader">
+		<th class="std" colspan="2">{TXT_FURTHER_INFORMATIONS}</th>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_FILE_NAME}</td>
+		<td class="option_value"><input type="text" name="file_name"
+			value="{FILE_NAME}">
+		<div class="il_Description">{FILE_HINT}</div>
+		</td>
+	</tr>
+	<tr class="std">
+		<td class="option">{TXT_FILE} <span class="asterisk">**</span></td>
+		<td class="option_value"><input type="file" name="file"></td>
+	</tr>
+	<tr class="std">
+		<td class="option" width="30%">{TXT_DETAILS}</td>
+		<td class="option_value" width="70%"><textarea rows="3" cols="50"
+			name="details">{DETAILS}</textarea></td>
+	</tr>
+	<tr class="tblfooter">
+		<td class="std" colspan="2">
+		<div align="right"><input class="submit" type="submit"
+			name="cmd[createEvent]" value="{TXT_BTN_ADD_EVENT}" /> <input
+			class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+		</div>
+		</td>
+	</tr>
+</table>
+<span class="asterisk">*</span><span class="small">
+{TXT_REQUIRED}<br>
+</span> <span class="asterisk">**</span><span class="small">
+{TXT_FILESIZE}<br>
+<br>
+<!-- BEGIN clone_event --> 
+<br />
+<table class="std">
+	<tr class="tbltitle">
+		<th class="std" colspan="2">
+			<img src="{CLONE_TITLE_IMG}" style="vertical-align:middle;" alt="{CLONE_TITLE_IMG_ALT}"	title="{CLONE_TITLE_IMG_ALT}" border="0" />
+			{CLONE_TITLE}
+		</th>
+	</tr>
+	<tr>
+		<td class="option">{CLONE_EVENT}</td>
+		<td class="option_value">{SEL_EVENT}</td>
+	</tr>
+	<tr class="tblfooter">
+		<td class="std" colspan="2">
+		<div align="right"><input class="submit" type="submit"
+			name="cmd[cloneEvent]" value="{TXT_BTN_CLONE_EVENT}" /> 
+			<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CLONE_CANCEL}" />
+		</div>
+		</td>
+	</tr>
+</table>
+<!--  END clone_event -->
+
+</span></form>
