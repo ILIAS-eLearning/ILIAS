@@ -96,7 +96,7 @@ class ilCourseContentGUI
 				break;
 
 			case 'ilcourseobjectivepresentationgui':
-				$this->view();					// forwarding moved to getCenterColumnHTML()
+				$this->view();				// forwarding moved to getCenterColumnHTML()
 				break;
 
 			case 'ileventadministrationgui':
@@ -105,8 +105,6 @@ class ilCourseContentGUI
 				$this->ctrl->setReturn($this,'');
 				$event_gui = new ilEventAdministrationGUI($this->container_gui,(int) $_GET['event_id']);
 				$this->ctrl->forwardCommand($event_gui);
-				$this->tabs_gui->clearSubTabs();
-				$this->tabs_gui->clearTargets();
 				break;
 
 			case "ilcolumngui":
@@ -185,10 +183,6 @@ class ilCourseContentGUI
 			$this->ctrl->setCmdClass(get_class($objectives_gui));
 		}
 		$this->ctrl->forwardCommand($objectives_gui);
-
-		$this->tabs_gui->setTabActive('view_content');
-		$this->tabs_gui->setSubTabActive('learners_view');
-
 		return true;
 	}
 
@@ -362,7 +356,6 @@ class ilCourseContentGUI
 	{
 		global $ilUser, $lng, $ilCtrl, $ilAccess;
 		
-		
 		if ($ilCtrl->getNextClass() == "ilcourseobjectivepresentationgui")
 		{
 			$ilCtrl->setParameterByClass("ilcolumngui", "col_return", "objectives");
@@ -409,13 +402,12 @@ class ilCourseContentGUI
 		$this->tabs_gui->setSubTabActive('crs_content');
 		
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
-
+		
 		if ($this->use_objective_presentation)
 		{
 			$this->tabs_gui->setSubTabActive('learners_view');
 			return $this->__forwardToObjectivePresentation();
 		}
-
 		switch ($ilCtrl->getNextClass())
 		{	
 			case "ilcolumngui":
@@ -588,7 +580,13 @@ class ilCourseContentGUI
 		{
 			$appointment_obj =& $event_obj->getFirstAppointment();
 
-			// Links
+			// Info
+			$tpl->setCurrentBlock("event_commands");
+			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
+			$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','info'));
+			$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('info_short'));
+			$tpl->parseCurrentBlock();
+
 			if($event_obj->enabledRegistration() and ilEventParticipants::_isRegistered($ilUser->getId(),$event_obj->getEventId()))
 			{
 				$tpl->setCurrentBlock("event_commands");
@@ -614,17 +612,6 @@ class ilCourseContentGUI
 				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('edit'));
 				$tpl->parseCurrentBlock();
 
-				// Edit Members
-				$tpl->setCurrentBlock("event_commands");
-				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','editMembers'));
-				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('event_edit_members'));
-				$tpl->parseCurrentBlock();
-
-				// Edit assignments
-				$tpl->setCurrentBlock("event_commands");
-				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','materials'));
-				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('event_assign_materials'));
-				$tpl->parseCurrentBlock();
 
 				// Delete
 				$tpl->setCurrentBlock("event_commands");

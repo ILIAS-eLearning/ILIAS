@@ -93,7 +93,6 @@ class ilEventAdministrationGUI
 
 	function cancel()
 	{
-		#ilUtil::sendInfo($this->lng->txt('msg_cancel',true));
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -192,14 +191,11 @@ class ilEventAdministrationGUI
 
 	function editMembers()
 	{
+		$this->setTabs();
+		$this->tabs_gui->setTabActive('event_edit_members');
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_members.html','Modules/Course');
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
-		$this->tpl->parseCurrentBlock();
 
 		// display print button
 		$this->tpl->setCurrentBlock("btn_cell");
@@ -380,12 +376,6 @@ class ilEventAdministrationGUI
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'editMembers'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
-		$this->tpl->parseCurrentBlock();
-
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.event_edit_user.html','Modules/Course');
 
 		$this->ctrl->setParameter($this,'user_id',(int) $_GET['user_id']);
@@ -433,18 +423,15 @@ class ilEventAdministrationGUI
 	{
 		global $tree, $objDefinition;
 
+		$this->setTabs();
+		$this->tabs_gui->setTabActive('crs_materials');
+
 		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->event_id);
 		$items = $this->event_items->getItems();
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_materials.html','Modules/Course');
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
-		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
@@ -511,17 +498,12 @@ class ilEventAdministrationGUI
 
 	function info()
 	{
+		$this->setTabs();
+		$this->tabs_gui->setTabActive('info_short');
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_info.html','Modules/Course');
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
-		$this->tpl->parseCurrentBlock();
-
-		
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
@@ -612,14 +594,10 @@ class ilEventAdministrationGUI
 
 	function addEvent()
 	{
+		$this->tabs_gui->clearSubTabs();
+		$this->tabs_gui->clearTargets();
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_create.html','Modules/Course');
-
-		// display back button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
-		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_create'));
@@ -705,14 +683,10 @@ class ilEventAdministrationGUI
 
 	function edit()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_edit.html','Modules/Course');
+		$this->setTabs();
+		$this->tabs_gui->setTabActive('edit_properties');
 
-		// display back button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_edit.html','Modules/Course');
 
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -1225,6 +1199,61 @@ class ilEventAdministrationGUI
 			}
 		}
 		return $path;
+	}
+	
+	/**
+	 * Build tabs
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getTabs($tabs_gui)
+	{
+	 	global $ilAccess,$ilTabs;
+
+		$tabs_gui->setBackTarget($this->lng->txt('back_to_crs_content'),$this->ctrl->getParentReturn($this));
+		$tabs_gui->addTarget('info_short',
+							 $this->ctrl->getLinkTarget($this,'info'));
+
+	 	if($ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
+	 	{
+			$tabs_gui->addTarget('edit_properties',
+								 $this->ctrl->getLinkTarget($this,'edit'));
+			$tabs_gui->addTarget('crs_materials',
+								 $this->ctrl->getLinkTarget($this,'materials'));
+			$tabs_gui->addTarget('event_edit_members',
+								 $this->ctrl->getLinkTarget($this,'editMembers'));
+	 		
+	 	}
+	}
+	
+	/**
+	 * Append Session to locator
+	 *
+	 * @access private
+	 * 
+	 */
+	private function setLocator()
+	{
+	 	global $ilLocator;
+	 	
+	 	#$ilLocator->addItem($this->event_obj->getTitle(),$this->ctrl->getLinkTarget($this,'info'));
+	}
+	
+	/**
+	 * Set tabs
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function setTabs()
+	{
+	 	global $ilTabs;
+
+		$this->tabs_gui->clearSubTabs();
+		$this->tabs_gui->clearTargets();
+	 	$this->getTabs($this->tabs_gui);
 	}
 			
 

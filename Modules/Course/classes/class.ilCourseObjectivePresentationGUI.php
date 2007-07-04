@@ -551,6 +551,12 @@ class ilCourseObjectivePresentationGUI
 			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
 			$this->tpl->setVariable("READ_LINK_SESSION",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','info'));
 			
+			$this->tpl->setCurrentBlock("session_link");
+			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
+			$this->tpl->setVariable("LINK_SESSION",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','info'));
+			$this->tpl->setVariable("TXT_LINK_SESSION",$this->lng->txt('info_short'));
+			$this->tpl->parseCurrentBlock();
+			
 			if($event_obj->enabledRegistration() and ilEventParticipants::_isRegistered($ilUser->getId(),$event_obj->getEventId()))
 			{
 				$this->tpl->setCurrentBlock("session_link");
