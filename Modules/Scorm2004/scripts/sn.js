@@ -1515,6 +1515,8 @@ function retrySequencingRequest() // #214
 	
 function exitSequencingRequest() // #215
 {
+	sclog("ExitSequencingRequest [SR.2.11]", "ps");
+	
 	if (!currentAct)
 	{
 		return {endSequencingSession: false, exception: 'SB.2.11-1'};
@@ -1534,6 +1536,9 @@ function exitSequencingRequest() // #215
 function sequencingRequest(seqReq, target) // #216
 {
 	var r;
+	
+	sclog("SequencingRequest [SR.2.12]", "ps");
+	
 	switch (seqReq)
 	{
 	case 'Start':
@@ -1571,6 +1576,8 @@ function sequencingRequest(seqReq, target) // #216
 
 function deliveryRequest(delReq) // #219
 {
+	sclog("DeliveryRequest [DB.1.1]", "ps");
+	
 	if (!isLeaf(delReq)) 
 	{
 		return {delReq: false, exception: 'DB.1.1-1'};
@@ -1593,6 +1600,8 @@ function deliveryRequest(delReq) // #219
 
 function contentDeliveryEnvironment(delReq) // #220
 {
+	sclog("ContentDeliveryEnvironment [DB.2]", "ps");
+	
 	if (currentAct && currentAct.isActive)
 	{
 		return {exception: 'DB.2-1'};
@@ -1641,6 +1650,8 @@ function contentDeliveryEnvironment(delReq) // #220
 
 function clearSuspendedActivitySub(activity) // #222
 {
+	sclog("ClearSuspendedActivitySub [DB.2.1]", "ps");
+	
 	if (suspendedAct)
 	{
 		var activityPath = getCommonAncestorAndPath(activity, suspendedAct).activityPath;
@@ -1668,6 +1679,8 @@ function clearSuspendedActivitySub(activity) // #222
  */ 
 function limitConditionsCheck(activity) // #223
 {
+	sclog("LimitConditionsCheck [UP.1]", "ps");
+	
 	var limit, value; 
 	if (!activity.tracked)
 	{
@@ -1753,6 +1766,8 @@ function limitConditionsCheck(activity) // #223
  */ 
 function sequencingRulesCheck(activity, ruleActions) // #225
 {
+	sclog("SequencingRulesCheck [UP.2]", "ps");
+	
 	for (var i=0; i<activity.rules.length; i+=1)
 	{
 		var rule = activity.rules[i];
@@ -1775,6 +1790,9 @@ function sequencingRuleCheckSub(activity, seqRule) // UP.2
 {
 	var bag = [], value, v;
 	var conditions = seqRule.condition;
+	
+	sclog("SequencingRuleCheckSub [UP.2.1]", "ps");
+	
 	for (var i=0, ni=conditions.length; i<ni; i+=1)
 	{
 		var condition = conditions[i];
@@ -1829,9 +1847,11 @@ function sequencingRuleCheckSub(activity, seqRule) // UP.2
 	}
 	return ruleCombination(seqRule, bag);
 }
-	
+
 function terminateDescendentAttempts(activity) // #227
 {
+	sclog("TerminateDescendentAttempts [UP.3]", "ps");
+	
 	var activityPath = getCommonAncestorAndPath(currentAct, activity).activityPath;
 	while (activityPath.length)
 	{
@@ -1842,6 +1862,8 @@ function terminateDescendentAttempts(activity) // #227
 
 function endAttempt(activity) // #228
 {
+	sclog("EndAttempt [UP.4]", "ps");
+	
 	var isleaf = isLeaf(activity);
 	if (isleaf) 
 	{
@@ -1890,6 +1912,8 @@ function endAttempt(activity) // #228
 	
 function checkActivity(activity) // #230
 {
+	sclog("CheckActivity [UP.5]", "ps");
+	
 	return sequencingRulesCheck(activity, DISABLED_ACTIONS) || 
 		limitConditionsCheck(activity); 
 }
