@@ -25,12 +25,22 @@
 
 function sclog(mess, type)
 {
-	elm = all("ilLog");
+	elm = all("ilLogPre");
 	if (elm) 
 	{
-		elm.innerHTML = elm.innerHTML + mess + '\n';
+		elm.innerHTML = elm.innerHTML + mess + '<br />';
 	}
 }
+
+function sclogclear()
+{
+	elm = all("ilLogPre");
+	if (elm) 
+	{
+		elm.innerHTML = '';
+	}
+}
+
 
 /* Time related Data Types */
 
