@@ -7358,3 +7358,7 @@ mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Nachrichten im Papierkorb gelöscht werden sollen?
 common#:#err_auth_ldap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die LDAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#ext_acccount_required#:#Bitte geben Sie den Namen des externen Benutzerkontos ein.
+crs#:#event_select_one#:#-- Bitte wählen Sie eine Sitzung zum Kopieren aus --
+crs#:#events_clone_title#:#Sitzung duplizieren
+crs#:#event_clone_btn#:#Sitzung duplizieren
+crs#:#event_cloned#:#Die Sitzung wurde kopiert

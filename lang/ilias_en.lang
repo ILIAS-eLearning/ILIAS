@@ -7358,3 +7358,7 @@ mail#:#mail_empty_trash#:#Empty Trash
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#ext_acccount_required#:#Please enter the name of the external account.
+crs#:#event_select_one#:#-- Please select one session --
+crs#:#events_clone_title#:#Duplicate Session
+crs#:#event_clone_btn#:#Duplicate Session
+crs#:#event_cloned#:#The Session has been duplicated.

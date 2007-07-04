@@ -32,6 +32,7 @@
 */
 
 include_once './Modules/Course/classes/Event/class.ilEventFile.php';
+include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 
 class ilEventAdministrationGUI
 {
@@ -591,6 +592,56 @@ class ilEventAdministrationGUI
 		ilUtil::deliverFile($file->getAbsolutePath(),$file->getFileName(),$file->getFileType());
 		return true;
 	}
+	
+	/**
+	 * Clone Event
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cloneEvent()
+	{
+	 	if(!$_POST['clone_source'])
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('event_choose_one'));
+	 		$this->addEvent();
+	 		return false;
+	 	}
+	 	$event_obj = new ilEvent($_POST['clone_source']);
+	 	
+		$new_event = new ilEvent();
+		$new_event->setObjId($this->container_obj->getId());
+		$new_event->setTitle($event_obj->getTitle());
+		$new_event->setDescription($event_obj->getDescription());
+		$new_event->setLocation($event_obj->getLocation());
+		$new_event->setName($event_obj->getName());
+		$new_event->setPhone($event_obj->getPhone());
+		$new_event->setEmail($event_obj->getEmail());
+		$new_event->setDetails($event_obj->getDetails());
+		$new_event->enableRegistration($event_obj->enabledRegistration());
+		$new_event->enableParticipation($event_obj->enabledParticipation());
+		$new_event_id = $new_event->create();
+		
+		// Copy appointments
+		foreach($event_obj->getAppointments() as $app_obj)
+		{
+			$new_app = new ilEventAppointment();
+			$new_app->setEventId($new_event->getEventId());
+			$new_app->setStartingTime($app_obj->getStartingTime());
+			$new_app->setEndingTime($app_obj->getEndingTime());
+			$new_app->toggleFullTime($app_obj->enabledFullTime());
+			$new_app->create();
+		}
+		// Copy files
+		foreach($event_obj->getFiles() as $file_obj)
+		{
+			$file_obj->cloneFiles($new_event->getEventId());
+		}
+		ilUtil::sendInfo($this->lng->txt('event_cloned'),true);
+		$this->ctrl->setParameter($this,'event_id',$new_event_id);
+		$this->ctrl->redirect($this,'edit');
+	}
 
 	function addEvent()
 	{
@@ -600,6 +651,8 @@ class ilEventAdministrationGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_create.html','Modules/Course');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
+		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_create'));
 		$this->tpl->setVariable("TXT_GENERAL_INFOS",$this->lng->txt('event_general_infos'));
 		$this->tpl->setVariable("TXT_BTN_ADD_EVENT",$this->lng->txt('event_btn_add'));
@@ -676,9 +729,25 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("FILE_HINT",$this->lng->txt('if_no_title_then_filename'));
 		$this->tpl->setVariable("TXT_DETAILS",$this->lng->txt('event_details_workflow'));
 		$this->tpl->setVariable("TXT_FILESIZE",ilUtil::getFileSizeInfo());
-
-
-		return true;
+		
+		if(!count($events = ilEvent::_getEvents($this->container_obj->getId())))
+		{
+			return true;
+		}
+		$this->tpl->setCurrentBlock('clone_event');
+		$this->tpl->setVariable("CLONE_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
+		$this->tpl->setVariable("CLONE_TITLE_IMG_ALT",$this->lng->txt('events'));
+		$this->tpl->setVariable('CLONE_TITLE',$this->lng->txt('events_clone_title'));
+		$this->tpl->setVariable('CLONE_EVENT',$this->lng->txt('event'));
+		$this->tpl->setVariable('TXT_BTN_CLONE_EVENT',$this->lng->txt('event_clone_btn'));
+		$this->tpl->setVariable('TXT_CLONE_CANCEL',$this->lng->txt('cancel'));
+		
+		$options[0] = $this->lng->txt('event_select_one');
+		foreach($events as $event_obj)
+		{
+			$options[$event_obj->getEventId()] = $event_obj->getTitle();
+		}
+		$this->tpl->setVariable('SEL_EVENT',ilUtil::formSelect(0,'clone_source',$options,false,true));
 	}
 
 	function edit()
@@ -690,6 +759,9 @@ class ilEventAdministrationGUI
 
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
+		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
+		
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_update'));
 		$this->tpl->setVariable("TXT_GENERAL_INFOS",$this->lng->txt('event_general_infos'));
 		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
@@ -1150,8 +1222,6 @@ class ilEventAdministrationGUI
 	{
 		if(!is_object($this->event_obj))
 		{
-			include_once 'Modules/Course/classes/Event/class.ilEvent.php';
-
 			$this->event_obj = new ilEvent($this->event_id);
 			$this->event_obj->setObjId($this->container_obj->getId());
 
