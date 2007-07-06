@@ -47,6 +47,20 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("datetime");
 	}
+	
+	/**
+	 * Set unix time. This function will call setDate() and set
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function setUnixTime($a_time)
+	{
+	 	$this->setDate(date('Y-m-d',$a_time));
+	 	$this->setTime(date('G:i:s',$a_time));
+	}
+	
 
 	/**
 	* Set Date, yyyy-mm-dd.
