@@ -695,12 +695,14 @@ class ilEventAdministrationGUI
 		
 		// start
 		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
+		$start->setMinuteStepSize(5);
 		$start->setUnixTime($this->appointment_obj->getStartingTime());
 		$start->setShowTime(true);
 		$this->form->addItem($start);
 		
 		// end
 		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
+		$end->setMinuteStepSize(5);
 		$end->setUnixTime($this->appointment_obj->getEndingTime());
 		$end->setShowTime(true);
 		$this->form->addItem($end);
