@@ -642,99 +642,160 @@ class ilEventAdministrationGUI
 		$this->ctrl->setParameter($this,'event_id',$new_event_id);
 		$this->ctrl->redirect($this,'edit');
 	}
+	
+	/**
+	 * Init Form 
+	 *
+	 * @access protected
+	 */
+	protected function initForm($a_mode)
+	{
+		if(is_object($this->form))
+		{
+			return true;
+		}
+	
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		// title
+		$title = new ilTextInputGUI($this->lng->txt('event_title'),'title');
+		$title->setValue($this->event_obj->getTitle());
+		$title->setSize(20);
+		$title->setMaxLength(70);
+		$title->setRequired(TRUE);
+		$this->form->addItem($title);
+		
+		// desc
+		$desc = new ilTextAreaInputGUI($this->lng->txt('event_desc'),'desc');
+		$desc->setValue($this->event_obj->getDescription());
+		$desc->setRows(4);
+		$desc->setCols(50);
+		$this->form->addItem($desc);
+		
+		// location
+		$desc = new ilTextAreaInputGUI($this->lng->txt('event_location'),'location');
+		$desc->setValue($this->event_obj->getLocation());
+		$desc->setRows(4);
+		$desc->setCols(50);
+		$this->form->addItem($desc);
+		
+		// registration
+		$reg = new ilCheckboxInputGUI($this->lng->txt('event_registration'),'registration');
+		$reg->setChecked($this->event_obj->enabledRegistration() ? true : false);
+		$reg->setOptionTitle($this->lng->txt('event_registration_info'));
+		$this->form->addItem($reg);
+		
+		// section
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('event_date_time'));
+		$this->form->addItem($section);
+		
+		// start
+		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
+		$start->setUnixTime($this->appointment_obj->getStartingTime());
+		$start->setShowTime(true);
+		$this->form->addItem($start);
+		
+		// end
+		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
+		$end->setUnixTime($this->appointment_obj->getEndingTime());
+		$end->setShowTime(true);
+		$this->form->addItem($end);
+
+		$full = new ilCheckboxInputGUI($this->lng->txt('event_fullday'),'fulltime');
+		$full->setChecked($this->appointment_obj->enabledFulltime() ? true : false);
+		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
+		$this->form->addItem($full);
+
+		// section
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('event_tutor_data'));
+		$this->form->addItem($section);
+		
+		$tutor_name = new ilTextInputGUI($this->lng->txt('tutor_name'),'tutor_name');
+		$tutor_name->setValue($this->event_obj->getName());
+		$tutor_name->setSize(20);
+		$tutor_name->setMaxLength(70);
+		$this->form->addItem($tutor_name);
+		
+		$tutor_email = new ilTextInputGUI($this->lng->txt('tutor_email'),'tutor_email');
+		$tutor_email->setValue($this->event_obj->getEmail());
+		$tutor_email->setSize(20);
+		$tutor_email->setMaxLength(70);
+		$this->form->addItem($tutor_email);
+
+		$tutor_phone = new ilTextInputGUI($this->lng->txt('tutor_phone'),'tutor_phone');
+		$tutor_phone->setValue($this->event_obj->getPhone());
+		$tutor_phone->setSize(20);
+		$tutor_phone->setMaxLength(70);
+		$this->form->addItem($tutor_phone);
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('event_further_informations'));
+		$this->form->addItem($section);
+		
+		$file = new ilFileInputGUI($this->lng->txt('event_file').' 1','file1');
+		$file->enableFileNameSelection('file_name1');
+		$this->form->addItem($file);
+		
+		$file = new ilFileInputGUI($this->lng->txt('event_file').' 2','file2');
+		$file->enableFileNameSelection('file_name2');
+		$this->form->addItem($file);
+
+		$file = new ilFileInputGUI($this->lng->txt('event_file').' 3','file3');
+		$file->enableFileNameSelection('file_name3');
+		$this->form->addItem($file);
+
+		$details = new ilTextAreaInputGUI($this->lng->txt('event_details_workflow'),'details');
+		$details->setValue($this->event_obj->getDetails());
+		$details->setCols(50);
+		$details->setRows(4);
+		$this->form->addItem($details);
+
+		switch($a_mode)
+		{
+			case 'create':
+				$this->form->setTitle($this->lng->txt('event_table_create'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.gif'));
+		
+				$this->form->addCommandButton('createEvent',$this->lng->txt('event_btn_add'));
+				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+				return true;
+			
+			case 'edit':
+				$this->form->setTitle($this->lng->txt('event_table_update'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.gif'));
+			
+				$this->form->addCommandButton('update',$this->lng->txt('save'));
+				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				
+				return true;
+		}
+
+		
+	}
+	
 
 	function addEvent()
 	{
 		$this->tabs_gui->clearSubTabs();
 		$this->tabs_gui->clearTargets();
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_create.html','Modules/Course');
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
-		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_create'));
-		$this->tpl->setVariable("TXT_GENERAL_INFOS",$this->lng->txt('event_general_infos'));
-		$this->tpl->setVariable("TXT_BTN_ADD_EVENT",$this->lng->txt('event_btn_add'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('event_title'));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('event_desc'));
-		$this->tpl->setVariable("TXT_LOCATION",$this->lng->txt('event_location'));
-		$this->tpl->setVariable("TXT_REGISTRATION_PARTICIPANCE",$this->lng->txt('event_registration_participance'));
-		$this->tpl->setVariable("TXT_REGISTRATION",$this->lng->txt('event_registration'));
-		$this->tpl->setVariable("TXT_PARTICIPANCE",$this->lng->txt('event_participation'));
-		$this->tpl->setVariable("REGISTRATION_INFO",$this->lng->txt('event_registration_info'));
-		$this->tpl->setVariable("PARTICIPATION_INFO",$this->lng->txt('event_participation_info'));
-
-
-		$this->tpl->setVariable("TXT_REQUIRED",$this->lng->txt('required_field'));
-		$this->tpl->setVariable("TXT_TUTOR_DATA",$this->lng->txt('event_tutor_data'));
-		#$this->tpl->setVariable("TXT_TUTOR_TITLE",$this->lng->txt('tutor_title'));
-		#$this->tpl->setVariable("TXT_TUTOR_FIRSTNAME",$this->lng->txt('tutor_firstname'));
-		$this->tpl->setVariable("TXT_TUTOR_NAME",$this->lng->txt('tutor_name'));
-		$this->tpl->setVariable("TXT_TUTOR_EMAIL",$this->lng->txt('tutor_email'));
-		$this->tpl->setVariable("TXT_TUTOR_PHONE",$this->lng->txt('tutor_phone'));
-
-		$this->tpl->setVariable("TXT_DATE_TIME",$this->lng->txt('event_date_time'));
-		$this->tpl->setVariable("TXT_START_DATE",$this->lng->txt('event_start_date'));
-		$this->tpl->setVariable("TXT_END_DATE",$this->lng->txt('event_end_date'));
-
-		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('event_time'));
-	
-		$this->tpl->setVariable("TXT_TUTOR_NAME",$this->lng->txt('tutor_name'));
-		$this->tpl->setVariable("TXT_TUTOR_EMAIL",$this->lng->txt('tutor_email'));
-		$this->tpl->setVariable("TXT_TUTOR_PHONE",$this->lng->txt('tutor_phone'));
-		$this->tpl->setVariable("TXT_START_DATE",$this->lng->txt('event_start_date'));
-		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('event_time'));
-		$this->tpl->setVariable("TXT_DATE",$this->lng->txt('date'));
-		$this->tpl->setVariable("TXT_FULLDAY",$this->lng->txt('event_fullday'));
-		$this->tpl->setVariable("FULLTIME_INFO",$this->lng->txt('event_fulltime_info'));
-
-		$this->tpl->setVariable("FULL_CHECKED",$this->appointment_obj->enabledFullTime() ? 'checked="checked"' : '');
-		$date = $this->__prepareDateSelect($this->appointment_obj->getStartingTime());
-		$end_date = $this->__prepareDateSelect($this->appointment_obj->getEndingTime());
-		$start_time = $this->__prepareTimeSelect($this->appointment_obj->getStartingTime());
-		$end_time = $this->__prepareTimeSelect($this->appointment_obj->getEndingTime());
-
-		$this->tpl->setVariable("START_DATE",ilUtil::makeDateSelect('event_date',$date['y'],$date['m'],$date['d'],date('Y',time())));
-		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',
-			true,$start_time['h'],$start_time['m'],
-			0,
-			false,
-			array('minute_steps' => 5)));
-		$this->tpl->setVariable("END_DATE",
-								ilUtil::makeDateSelect('event_end_date',$end_date['y'],$end_date['m'],$end_date['d'],date('Y',time())));
-		$this->tpl->setVariable("END_TIME",ilUtil::makeTimeSelect('event_time_end',
-			true,
-			$end_time['h'],$end_time['m'],
-			0,
-			false,
-			array('minute_steps' => 5)));
-
-		$this->tpl->setVariable("TITLE",$this->event_obj->getTitle());
-		$this->tpl->setVariable("DESC",$this->event_obj->getDescription());
-		$this->tpl->setVariable("LOCATION",$this->event_obj->getLocation());
-		$this->tpl->setVariable("REG_CHECKED",$this->event_obj->enabledRegistration() ? 'checked="checked"' : '');
-		$this->tpl->setVariable("PART_CHECKED",$this->event_obj->enabledParticipation() ? 'checked="checked"' : '');
-		#$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
-		$this->tpl->setVariable("TUTOR_NAME",$this->event_obj->getName());
-		#$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
-		$this->tpl->setVariable("TUTOR_EMAIL",$this->event_obj->getEmail());
-		$this->tpl->setVariable("TUTOR_PHONE",$this->event_obj->getPhone());
-		$this->tpl->setVariable("DETAILS",$this->event_obj->getDetails());
-
-		$this->tpl->setVariable("TXT_FURTHER_INFORMATIONS",$this->lng->txt('event_further_informations'));
-		$this->tpl->setVariable("TXT_FILE_NAME",$this->lng->txt('event_file_name'));
-		$this->tpl->setVariable("TXT_FILE",$this->lng->txt('event_file'));
-		$this->tpl->setVariable("FILE_HINT",$this->lng->txt('if_no_title_then_filename'));
-		$this->tpl->setVariable("TXT_DETAILS",$this->lng->txt('event_details_workflow'));
-		$this->tpl->setVariable("TXT_FILESIZE",ilUtil::getFileSizeInfo());
 		
+		$this->initForm('create');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_create.html','Modules/Course');
+		$this->tpl->setVariable('EVENT_ADD_TABLE',$this->form->getHTML());
+				
 		if(!count($events = ilEvent::_getEvents($this->container_obj->getId())))
 		{
 			return true;
 		}
 		$this->tpl->setCurrentBlock('clone_event');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CLONE_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
 		$this->tpl->setVariable("CLONE_TITLE_IMG_ALT",$this->lng->txt('events'));
 		$this->tpl->setVariable('CLONE_TITLE',$this->lng->txt('events_clone_title'));
@@ -754,105 +815,103 @@ class ilEventAdministrationGUI
 	{
 		$this->setTabs();
 		$this->tabs_gui->setTabActive('edit_properties');
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_edit.html','Modules/Course');
-
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
-		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
 		
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_update'));
-		$this->tpl->setVariable("TXT_GENERAL_INFOS",$this->lng->txt('event_general_infos'));
-		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('event_title'));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('event_desc'));
-		$this->tpl->setVariable("TXT_LOCATION",$this->lng->txt('event_location'));
-		$this->tpl->setVariable("TXT_REGISTRATION_PARTICIPANCE",$this->lng->txt('event_registration_participance'));
-		$this->tpl->setVariable("TXT_REGISTRATION",$this->lng->txt('event_registration'));
-		$this->tpl->setVariable("TXT_PARTICIPANCE",$this->lng->txt('event_participation'));
-		$this->tpl->setVariable("REGISTRATION_INFO",$this->lng->txt('event_registration_info'));
-		$this->tpl->setVariable("PARTICIPATION_INFO",$this->lng->txt('event_participation_info'));
-
-		$this->tpl->setVariable("TXT_DATE_TIME",$this->lng->txt('event_date_time'));
-		$this->tpl->setVariable("TXT_START_DATE",$this->lng->txt('event_start_date'));
-		$this->tpl->setVariable("TXT_END_DATE",$this->lng->txt('event_end_date'));
-
-		$this->tpl->setVariable("TXT_REQUIRED",$this->lng->txt('required_field'));
-		$this->tpl->setVariable("TXT_TUTOR_DATA",$this->lng->txt('event_tutor_data'));
-		#$this->tpl->setVariable("TXT_TUTOR_TITLE",$this->lng->txt('tutor_title'));
-		#$this->tpl->setVariable("TXT_TUTOR_FIRSTNAME",$this->lng->txt('tutor_firstname'));
-		#$this->tpl->setVariable("TXT_TUTOR_LASTNAME",$this->lng->txt('tutor_lastname'));
-		$this->tpl->setVariable("TXT_TUTOR_NAME",$this->lng->txt('tutor_name'));
-		$this->tpl->setVariable("TXT_TUTOR_EMAIL",$this->lng->txt('tutor_email'));
-		$this->tpl->setVariable("TXT_TUTOR_PHONE",$this->lng->txt('tutor_phone'));
-		$this->tpl->setVariable("TXT_START_DATE",$this->lng->txt('event_start_date'));
-		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('event_time'));
-		$this->tpl->setVariable("TXT_DATE",$this->lng->txt('date'));
-		$this->tpl->setVariable("TXT_FULLDAY",$this->lng->txt('event_fullday'));
-		$this->tpl->setVariable("FULLTIME_INFO",$this->lng->txt('event_fulltime_info'));
-
-
-		$this->tpl->setVariable("FULL_CHECKED",$this->appointment_obj->enabledFullTime() ? 'checked="checked"' : '');
-		$date = $this->__prepareDateSelect($this->appointment_obj->getStartingTime());
-		$end_date = $this->__prepareDateSelect($this->appointment_obj->getEndingTime());
-		$start_time = $this->__prepareTimeSelect($this->appointment_obj->getStartingTime());
-		$end_time = $this->__prepareTimeSelect($this->appointment_obj->getEndingTime());
-
-		$this->tpl->setVariable("START_DATE",ilUtil::makeDateSelect('event_date',$date['y'],$date['m'],$date['d'],date('Y',time())));
-		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',
-			true,
-			$start_time['h'],$start_time['m'],
-			0,
-			false,
-			array('minute_steps' => 5)));
-		$this->tpl->setVariable("END_DATE",
-								ilUtil::makeDateSelect('event_end_date',$end_date['y'],$end_date['m'],$end_date['d'],date('Y',time())));
-		$this->tpl->setVariable("END_TIME",ilUtil::makeTimeSelect('event_time_end',
-			true,
-			$end_time['h'],$end_time['m'],
-			0,
-			false,
-			array('minute_steps' => 5)));
-
-		$this->tpl->setVariable("TITLE",$this->event_obj->getTitle());
-		$this->tpl->setVariable("DESC",$this->event_obj->getDescription());
-		$this->tpl->setVariable("LOCATION",$this->event_obj->getLocation());
-		$this->tpl->setVariable("REG_CHECKED",$this->event_obj->enabledRegistration() ? 'checked="checked"' : '');
-		$this->tpl->setVariable("PART_CHECKED",$this->event_obj->enabledParticipation() ? 'checked="checked"' : '');
-		#$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
-		#$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getLastname());
-		#$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
-		$this->tpl->setVariable("TUTOR_NAME",$this->event_obj->getName());
-		$this->tpl->setVariable("TUTOR_EMAIL",$this->event_obj->getEmail());
-		$this->tpl->setVariable("TUTOR_PHONE",$this->event_obj->getPhone());
-		$this->tpl->setVariable("DETAILS",$this->event_obj->getDetails());
-
-		$this->tpl->setVariable("TXT_FURTHER_INFORMATIONS",$this->lng->txt('event_further_informations'));
-		$this->tpl->setVariable("TXT_FILE_NAME",$this->lng->txt('event_file_name'));
-		$this->tpl->setVariable("TXT_FILE",$this->lng->txt('event_file'));
-		$this->tpl->setVariable("FILE_HINT",$this->lng->txt('if_no_title_then_filename'));
-		$this->tpl->setVariable("TXT_DETAILS",$this->lng->txt('event_details_workflow'));
-
-		foreach($file_objs =& ilEventFile::_readFilesByEvent($this->event_id) as $file_obj)
+		$this->initForm('edit');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_edit.html','Modules/Course');
+		$this->tpl->setVariable('EVENT_EDIT_TABLE',$this->form->getHTML());
+		
+		if(!count($files = ilEventFile::_readFilesByEvent($this->event_obj->getEventId())))
 		{
-			$this->tpl->setCurrentBlock("file");
-			$this->tpl->setVariable("FILE_ID",$file_obj->getFileId());
-			$this->tpl->setVariable("DEL_FILE",$file_obj->getFileName());
-			$this->tpl->setVariable("TXT_DEL_FILE",$this->lng->txt('event_delete_file'));
-			$this->tpl->parseCurrentBlock();
+			return true;
 		}
-		if(count($file_objs))
+		$rows = array();
+		foreach($files as $file)
 		{
-			$this->tpl->setCurrentBlock("files");
-			$this->tpl->setVariable("TXT_EXISTING_FILES",$this->lng->txt('event_existing_files'));
-			$this->tpl->parseCurrentBlock();
+			$table_data['id'] = $file->getFileId();
+			$table_data['filename'] = $file->getFileName();
+			$table_data['filetype'] = $file->getFileType();
+			$table_data['filesize'] = $file->getFileSize();
+			
+			$rows[] = $table_data; 
 		}
-
-		$this->tpl->setVariable("TXT_FILESIZE",ilUtil::getFileSizeInfo());
+		
+		include_once("./Modules/Course/classes/Event/class.ilEventFileTableGUI.php");
+		$table_gui = new ilEventFileTableGUI($this, "edit");
+		$table_gui->setTitle($this->lng->txt("event_files"));
+		$table_gui->setData($rows);
+		$table_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$table_gui->addMultiCommand("confirmDeleteFiles", $this->lng->txt("delete"));
+		$table_gui->setSelectAllCheckbox("file_id");
+		$this->tpl->setVariable('EVENT_FILE_TABLE',$table_gui->getHTML());
 
 		return true;
+	}
+	
+	/**
+	 * Confirm delete files
+	 *
+	 * @access public
+	 * 
+	 */
+	public function confirmDeleteFiles()
+	{
+		$this->setTabs();
+		$this->tabs_gui->setTabActive('edit_properties');
+
+		if(!count($_POST['file_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->edit();
+			return false;
+		}
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteFiles"));
+		$c_gui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "edit");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
+
+		// add items to delete
+		foreach($_POST["file_id"] as $file_id)
+		{
+			$file = new ilEventFile($file_id);
+			if($file->getEventId() != $this->event_obj->getEventId())
+			{
+				ilUtil::sendInfo($this->lng->txt('select_one'));
+				$this->edit();
+				return false;
+			}
+			$c_gui->addItem("file_id[]", $file_id, $file->getFileName());
+		}
+		
+		$this->tpl->setContent($c_gui->getHTML());
+	}
+	
+	/**
+	 * Delete Files
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function deleteFiles()
+	{
+		if(!count($_POST['file_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->edit();
+			return false;
+		}
+		foreach($_POST['file_id'] as $id)
+		{
+			$file = new ilEventFile($id);
+			$file->delete();
+		}
+		$this->edit();
+		return true;	
 	}
 
 	function update()
@@ -860,11 +919,15 @@ class ilEventAdministrationGUI
 		global $ilErr;
 
 		$this->__load();
-
+		$this->initForm('edit');
+		
 		$ilErr->setMessage('');
+		if(!$this->form->checkInput())
+		{
+			$ilErr->setMessage($this->lng->txt('err_check_input'));
+		}
 		$this->event_obj->validate();
 		$this->appointment_obj->validate();
-		$this->file_obj->validate();
 
 		if(strlen($ilErr->getMessage()))
 		{
@@ -878,23 +941,11 @@ class ilEventAdministrationGUI
 		// create appointment
 		$this->appointment_obj->update();
 
-		// Create file
-		$this->file_obj->setEventId($this->event_obj->getEventId());
-		$this->file_obj->create();
-
-		// Todo delete files
-		if(count($_POST['del_files']))
+		foreach($this->files as $file_obj)
 		{
-			foreach($this->event_obj->getFiles() as $file_obj)
-			{
-				if(in_array($file_obj->getFileId(),$_POST['del_files']))
-				{
-					$file_obj->delete();
-				}
-			}
+			$file_obj->setEventId($this->event_obj->getEventId());
+			$file_obj->create();
 		}
-		// Reread file objects
-		$this->event_obj->readFiles();
 
 		ilUtil::sendInfo($this->lng->txt('event_updated'));
 		$this->edit();
@@ -906,11 +957,16 @@ class ilEventAdministrationGUI
 		global $ilErr;
 
 		$this->__load();
-
+		$this->initForm('create');
+		
 		$ilErr->setMessage('');
+		if(!$this->form->checkInput())
+		{
+			$ilErr->setMessage($this->lng->txt('err_check_input'));
+		}
+
 		$this->event_obj->validate();
 		$this->appointment_obj->validate();
-		$this->file_obj->validate();
 
 		if(strlen($ilErr->getMessage()))
 		{
@@ -925,9 +981,11 @@ class ilEventAdministrationGUI
 		$this->appointment_obj->setEventId($event_id);
 		$this->appointment_obj->create();
 
-		// Create file
-		$this->file_obj->setEventId($event_id);
-		$this->file_obj->create();
+		foreach($this->files as $file_obj)
+		{
+			$file_obj->setEventId($this->event_obj->getEventId());
+			$file_obj->create();
+		}
 
 		ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
 		$this->ctrl->returnToParent($this);
@@ -1172,19 +1230,32 @@ class ilEventAdministrationGUI
 
 	function __load()
 	{
-		$this->appointment_obj->setStartingTime($this->__toUnix($_POST['event_date'],$_POST['event_time_start']));
-		$this->appointment_obj->setEndingTime($this->__toUnix($_POST['event_end_date'],$_POST['event_time_end']));
+		$this->appointment_obj->setStartingTime($this->__toUnix($_POST['start']['date'],$_POST['start']['time']));
+		$this->appointment_obj->setEndingTime($this->__toUnix($_POST['end']['date'],$_POST['end']['time']));
 		$this->appointment_obj->toggleFullTime((bool) $_POST['fulltime']);
 
-		$this->file_obj = new ilEventFile();
-		$this->file_obj->setFileName(strlen($_POST['file_name']) ?
-							   ilUtil::stripSlashes($_POST['file_name']) :
-							   $_FILES['file']['name']);
-		$this->file_obj->setFileSize($_FILES['file']['size']);
-		$this->file_obj->setFileType($_FILES['file']['type']);
-		$this->file_obj->setTemporaryName($_FILES['file']['tmp_name']);
-		$this->file_obj->setErrorCode($_FILES['file']['error']);
-							   
+		$counter = 1;
+		$this->files = array();
+		foreach($_FILES as $name => $data)
+		{
+			if(!strlen($data['tmp_name']))
+			{
+				++$counter;
+				continue;
+			}
+			$filename = strlen($_POST['file_name'.$counter]) ?
+				$_POST['file_name'.$counter] : 
+				$data['name'];
+			
+			$file = new ilEventFile();
+			$file->setFileName($filename);
+			$file->setFileSize($data['size']);
+			$file->setFileType($data['type']);
+			$file->setTemporaryName($data['tmp_name']);
+			$file->setErrorCode($data['error']);
+			$this->files[] = $file;
+			++$counter;
+		}
 		
 
 		$this->event_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -1197,7 +1268,7 @@ class ilEventAdministrationGUI
 		$this->event_obj->setPhone(ilUtil::stripSlashes($_POST['tutor_phone']));
 		$this->event_obj->setDetails(ilUtil::stripSlashes($_POST['details']));
 		$this->event_obj->enableRegistration((int) $_POST['registration']);
-		$this->event_obj->enableParticipation((int) $_POST['participance']);
+		#$this->event_obj->enableParticipation((int) $_POST['participance']);
 	}
 
 

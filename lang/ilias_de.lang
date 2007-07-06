@@ -7362,3 +7362,7 @@ crs#:#event_select_one#:#-- Bitte wählen Sie eine Sitzung zum Kopieren aus --
 crs#:#events_clone_title#:#Sitzung duplizieren
 crs#:#event_clone_btn#:#Sitzung duplizieren
 crs#:#event_cloned#:#Die Sitzung wurde kopiert
+common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
+common#:#filesize#:#Dateigröße
+common#:#filetype#:#Dateityp
+crs#:#event_files#:#Zugeordnete Dateien

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,103 +21,63 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/**
-* This class represents a section header in a property form.
+/** 
 *
-* @author Alex Killing <alex.killing@gmx.de> 
+* 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* @ingroup	ServicesForm
+* 
+* 
+* @ingroup ModulesCourse 
 */
-class ilFormSectionHeaderGUI
+
+include_once('Services/Table/classes/class.ilTable2GUI.php');
+class ilEventFileTableGUI extends ilTable2GUI
 {
-	protected $type;
-	protected $title;
-	protected $info;
+	protected $lng = null;
+	protected $ctrl;
 	
 	/**
-	* Constructor
-	*
-	* @param
-	*/
-	function __construct()
+	 * Constructor
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function __construct($a_parent_obj,$a_parent_cmd = '')
 	{
-		$this->setType("section_header");
+	 	global $lng,$ilCtrl;
+	 	
+	 	$this->lng = $lng;
+	 	$this->ctrl = $ilCtrl;
+	 	
+	 	parent::__construct($a_parent_obj,$a_parent_cmd);
+	 	$this->addColumn('','f',1);
+	 	$this->addColumn($this->lng->txt('filename'),'filename',"60%");
+	 	$this->addColumn($this->lng->txt('filesize'),'filesize',"20%");
+	 	$this->addColumn($this->lng->txt('filetype'),'filetype',"20%");
+	 	
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+		$this->setRowTemplate("tpl.event_file_row.html","Modules/Course");
+		$this->setDefaultOrderField("filname");
+		$this->setDefaultOrderDirection("desc");
 	}
 	
-	function checkInput()
-	{
-		return true;
-	}
-
 	/**
-	* Set Type.
-	*
-	* @param	string	$a_type	Type
-	*/
-	function setType($a_type)
+	 * Fill row
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function fillRow($a_set)
 	{
-		$this->type = $a_type;
+	 	$this->tpl->setVariable('VAL_ID',$a_set['id']);
+	 	$this->tpl->setVariable('VAL_FILENAME',$a_set['filename']);
+	 	$this->tpl->setVariable('VAL_FILETYPE',$a_set['filetype']);
+	 	$this->tpl->setVariable('VAL_FILESIZE',$a_set['filesize']);
 	}
-
-	/**
-	* Get Type.
-	*
-	* @return	string	Type
-	*/
-	function getType()
-	{
-		return $this->type;
-	}
-
-	/**
-	* Set Title.
-	*
-	* @param	string	$a_title	Title
-	*/
-	function setTitle($a_title)
-	{
-		$this->title = $a_title;
-	}
-
-	/**
-	* Get Title.
-	*
-	* @return	string	Title
-	*/
-	function getTitle()
-	{
-		return $this->title;
-	}
-
-	/**
-	* Set Information Text.
-	*
-	* @param	string	$a_info	Information Text
-	*/
-	function setInfo($a_info)
-	{
-		$this->info = $a_info;
-	}
-
-	/**
-	* Get Information Text.
-	*
-	* @return	string	Information Text
-	*/
-	function getInfo()
-	{
-		return $this->info;
-	}
-
-	/**
-	* Insert property html
-	*
-	*/
-	function insert(&$a_tpl)
-	{
-		$a_tpl->setCurrentBlock("header");
-		$a_tpl->setVariable("TXT_TITLE", $this->getTitle());
-		$a_tpl->parseCurrentBlock();
-	}
-
 }
+
+
+?>

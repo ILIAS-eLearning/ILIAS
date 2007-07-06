@@ -71,6 +71,42 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	{
 		return $this->suffixes;
 	}
+	
+	/**
+	 * If enabled, users get the possibility to enter a filename for the uploaded file 
+	 *
+	 * @access public
+	 * @param string post variable
+	 * 
+	 */
+	public function enableFileNameSelection($a_post_var)
+	{
+	 	$this->filename_selection = true;
+	 	$this->filename = $a_post_var;
+	}
+	
+	/**
+	 * Check if filename selection is enabled
+	 *
+	 * @access public
+	 * @return bool enabled/disabled 
+	 */
+	public function isFileNameSelectionEnabled()
+	{
+	 	return $this->filename_selection ? true : false;
+	}
+	
+	/**
+	 * Get file name post var
+	 *
+	 * @access public
+	 * @param string file name post var
+	 * 
+	 */
+	public function getFileNamePostVar()
+	{
+	 	return $this->filename;
+	}
 
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
@@ -187,6 +223,16 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	
     	//format for display in mega-bytes
 		$max_filesize = sprintf("%.1f MB",$max_filesize/1024/1024);
+
+		// show filename selection if enabled
+		if($this->isFileNameSelectionEnabled())
+		{
+			$a_tpl->setCurrentBlock('filename');
+			$a_tpl->setVariable('POST_FILENAME',$this->getFileNamePostVar());
+			$a_tpl->setVariable('FILENAME_ID',$this->getFieldId());
+			$a_tpl->setVAriable('TXT_FILENAME_HINT',$lng->txt('if_no_title_then_filename'));
+			$a_tpl->parseCurrentBlock();
+		}
 
 		if (is_array($this->getSuffixes()))
 		{

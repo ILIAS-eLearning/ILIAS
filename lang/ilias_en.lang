@@ -7362,3 +7362,7 @@ crs#:#event_select_one#:#-- Please select one session --
 crs#:#events_clone_title#:#Duplicate Session
 crs#:#event_clone_btn#:#Duplicate Session
 crs#:#event_cloned#:#The Session has been duplicated.
+common#:#err_check_input#:#The settings could not be saved. Please check your input.
+common#:#filesize#:#File Size
+common#:#filetype#:#File Type
+crs#:#event_files#:#Assigned Files
