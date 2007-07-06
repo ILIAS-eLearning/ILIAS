@@ -35,6 +35,7 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 	protected $time = "00:00:00";
 	protected $showtime = false;
 	protected $showseconds = false;
+	protected $minute_step_size = 1;
 	
 	/**
 	* Constructor
@@ -141,6 +142,32 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 	{
 		return $this->showtime;
 	}
+	
+	/**
+	 * Set minute step size
+	 * E.g 5 => The selection will only show 00,05,10... minutes 
+	 *
+	 * @access public
+	 * @param int minute step_size 1,5,10,15,20...
+	 * 
+	 */
+	public function setMinuteStepSize($a_step_size)
+	{
+	 	$this->minute_step_size = $a_step_size;
+	}
+	
+	/**
+	 * Get minute step size
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getMinuteStepSize()
+	{
+	 	return $this->minute_step_size;
+	}
+
+
 
 	/**
 	* Set Show Seconds.
@@ -240,7 +267,10 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			$time = explode(":", $this->getTime());
 			$a_tpl->setVariable("TIME_SELECT",
 				ilUtil::makeTimeSelect($this->getPostVar()."[time]", !$this->getShowSeconds(),
-				$time[0], $time[1], $time[2]));
+				$time[0], $time[1], $time[2],
+				true,array('minute_steps' => $this->getMinuteStepSize())));
+				
+			
 			$a_tpl->setVariable("TXT_TIME", $this->getShowSeconds()
 				? "(".$lng->txt("hh_mm_ss").")"
 				: "(".$lng->txt("hh_mm").")");
