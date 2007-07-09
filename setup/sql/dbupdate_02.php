@@ -1728,7 +1728,7 @@ foreach($file_ids as $file_id)
 	
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/files/file_'.$file_id) or !@is_dir(ilUpdateUtils::getDataDir().'/files/file_'.$file_id))
 	{
-		$ilLog->write('DB Migration 905: Files already migrated. File: file_'.$file_id);
+		$ilLog->write('DB Migration 1024: Files already migrated. File: file_'.$file_id);
 		continue;
 	}	
 
@@ -1739,11 +1739,11 @@ foreach($file_ids as $file_id)
 
 	if($fss->rename(ilUpdateUtils::getDataDir().'/files/file_'.$file_id,$fss->getAbsolutePath()))
 	{
-		$ilLog->write('DB Migration 905: Success renaming file_'.$file_id);
+		$ilLog->write('DB Migration 1024: Success renaming file_'.$file_id);
 	}
 	else
 	{
-		$ilLog->write('DB Migration 905: Failed renaming '.ilUpdateUtils::getDataDir().'/files/file_'.$file_id.' -> '.$fss->getAbsolutePath());
+		$ilLog->write('DB Migration 1024: Failed renaming '.ilUpdateUtils::getDataDir().'/files/file_'.$file_id.' -> '.$fss->getAbsolutePath());
 		continue;
 	}
 	
@@ -1762,5 +1762,74 @@ foreach($file_ids as $file_id)
 chdir($wd);
 ?>
 <#1025>
+DROP TABLE IF EXISTS tmp_migration;
+
+<#1026>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
+  
+
+<#1027>
+<?php
+$wd = getcwd();
+chdir('..');
+
+global $ilLog;
+
+include_once('Services/Migration/DBUpdate_904/classes/class.ilUpdateUtils.php');
+include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageEvent.php');
+
+// Fetch event_ids of files
+$query = "SELECT DISTINCT(event_id) as event_ids FROM event_file";
+$res = $ilDB->query($query);
+$event_ids = array();
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$event_ids[] = $row->event_ids;
+}
+
+foreach($event_ids as $event_id)
+{
+	// Check if done
+	$query = "SELECT * FROM tmp_migration WHERE obj_id = ".$event_id." AND passed = 1";
+	$res = $ilDB->query($query);
+	if($res->numRows())
+	{
+		continue;
+	}
+	
+	if(!@file_exists(ilUpdateUtils::getDataDir().'/events/event_'.$event_id))
+	{
+		$ilLog->write('DB Migration 1028: Already migrated: Event data for event id '.$event_id);
+		continue;
+	}	
+
+	// Rename
+	$fss = new ilFSStorageEvent($event_id);
+	$fss->create();
+
+
+	if($fss->rename(ilUpdateUtils::getDataDir().'/events/event_'.$event_id,$fss->getAbsolutePath()))
+	{
+		$ilLog->write('DB Migration 1028: Success renaming event_'.$event_id);
+	}
+	else
+	{
+		$ilLog->write('DB Migration 1028: Failed renaming '.ilUpdateUtils::getDataDir().'/events/event_'.$event_id.' -> '.$fss->getAbsolutePath());
+		continue;
+	}
+	
+	// Save success
+	$query = "REPLACE INTO tmp_migration SET obj_id = '".$event_id."',passed = '1'";
+	$ilDB->query($query);
+}
+
+chdir($wd);
+?>
+<#1028>
 DROP TABLE IF EXISTS tmp_migration;
 
