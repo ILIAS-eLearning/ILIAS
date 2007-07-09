@@ -1687,3 +1687,80 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
+
+<#1023>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
+
+<#1024>
+<?php
+$wd = getcwd();
+chdir('..');
+
+global $ilLog;
+
+include_once('Services/Migration/DBUpdate_904/classes/class.ilUpdateUtils.php');
+include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageFile.php');
+include_once('Services/Migration/DBUpdate_904/classes/class.ilObjFileAccess.php');
+
+// Fetch obj_ids of files
+$query = "SELECT obj_id FROM object_data WHERE type = 'file' ORDER BY obj_id";
+$res = $ilDB->query($query);
+$file_ids = array();
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$file_ids[] = $row->obj_id;
+}
+
+foreach($file_ids as $file_id)
+{
+	// Check if done
+	$query = "SELECT * FROM tmp_migration WHERE obj_id = ".$file_id." AND passed = 1";
+	$res = $ilDB->query($query);
+	if($res->numRows())
+	{
+		continue;
+	}
+	
+	if(!@file_exists(ilUpdateUtils::getDataDir().'/files/file_'.$file_id) or !@is_dir(ilUpdateUtils::getDataDir().'/files/file_'.$file_id))
+	{
+		$ilLog->write('DB Migration 905: Files already migrated. File: file_'.$file_id);
+		continue;
+	}	
+
+	// Rename
+	$fss = new ilFSStorageFile($file_id);
+	$fss->create();
+
+
+	if($fss->rename(ilUpdateUtils::getDataDir().'/files/file_'.$file_id,$fss->getAbsolutePath()))
+	{
+		$ilLog->write('DB Migration 905: Success renaming file_'.$file_id);
+	}
+	else
+	{
+		$ilLog->write('DB Migration 905: Failed renaming '.ilUpdateUtils::getDataDir().'/files/file_'.$file_id.' -> '.$fss->getAbsolutePath());
+		continue;
+	}
+	
+	// Save success
+	$query = "REPLACE INTO tmp_migration SET obj_id = '".$file_id."',passed = '1'";
+	$ilDB->query($query);
+	
+	// Update file size
+	$size = ilObjFileAccess::_lookupFileSize($file_id);
+	$query = "UPDATE file_data SET file_size = '".$size."' ".
+		"WHERE file_id = ".$file_id;
+	$ilDB->query($query);
+	$ilLog->write('DB Migration 905: File size is '.$size.' Bytes');
+}
+
+chdir($wd);
+?>
+<#1025>
+DROP TABLE IF EXISTS tmp_migration;
+

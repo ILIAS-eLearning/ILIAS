@@ -122,7 +122,7 @@ abstract class ilFileSystemStorage
 	{
 		if(!file_exists($this->short_path))
 		{
-			ilUpdateUtils::makeDirParents($this->short_path);
+			ilUpdateUtils::makeDirParents(ilUpdateUtils::removeTrailingPathSeparators($this->short_path));
 		}
 		return true;
 	}
