@@ -56,7 +56,7 @@ class ilFSStorageEvent extends ilFileSystemStorage
 	 */
 	public function createDirectory()
 	{
-	 	return ilUtil::makeDirParents($this->getAbsolutePath());
+	 	return ilUtil::makeDirParents(ilUpdateUtils::removeTrailingPathSeparators($this->getAbsolutePath()));
 	}
 	
 	
