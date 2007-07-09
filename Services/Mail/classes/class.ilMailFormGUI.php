@@ -111,13 +111,13 @@ class ilMailFormGUI
 
 	public function sendMessage()
 	{
-		$f_message = $this->umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"], false));
+		$f_message = $this->umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"]));
 		$this->umail->setSaveInSentbox(true);
 		if($errorMessage = $this->umail->sendMail(
-				ilUtil::stripSlashes($_POST["rcp_to"], false),
-				ilUtil::stripSlashes($_POST["rcp_cc"], false),
-				ilUtil::stripSlashes($_POST["rcp_bcc"], false),
-				ilUtil::stripSlashes($_POST["m_subject"], false),$f_message,
+				ilUtil::stripSlashes($_POST["rcp_to"]),
+				ilUtil::stripSlashes($_POST["rcp_cc"]),
+				ilUtil::stripSlashes($_POST["rcp_bcc"]),
+				ilUtil::stripSlashes($_POST["m_subject"]),$f_message,
 				$_POST["attachments"],$_POST["m_type"])
 			)
 		{
@@ -145,12 +145,12 @@ class ilMailFormGUI
 		if(isset($_SESSION["draft"]))
 		{
 			$this->umail->updateDraft($draftsId,$_POST["attachments"],
-				ilUtil::stripSlashes($_POST["rcp_to"], false),
-				ilUtil::stripSlashes($_POST["rcp_cc"], false),
-				ilUtil::stripSlashes($_POST["rcp_bcc"], false),
+				ilUtil::stripSlashes($_POST["rcp_to"]),
+				ilUtil::stripSlashes($_POST["rcp_cc"]),
+				ilUtil::stripSlashes($_POST["rcp_bcc"]),
 				$_POST["m_type"],$_POST["m_email"],
-				ilUtil::stripSlashes($_POST["m_subject"], false),
-				ilUtil::stripSlashes($_POST["m_message"], false),
+				ilUtil::stripSlashes($_POST["m_subject"]),
+				ilUtil::stripSlashes($_POST["m_message"]),
 				$_SESSION["draft"]
 			);
 			session_unregister("draft");
@@ -160,12 +160,12 @@ class ilMailFormGUI
 		else
 		{
 			if ($this->umail->sendInternalMail($draftsId,$_SESSION["AccountId"],$_POST["attachments"],
-					ilUtil::stripSlashes($_POST["rcp_to"], false),
-					ilUtil::stripSlashes($_POST["rcp_cc"], false),
-					ilUtil::stripSlashes($_POST["rcp_bcc"], false),
+					ilUtil::stripSlashes($_POST["rcp_to"]),
+					ilUtil::stripSlashes($_POST["rcp_cc"]),
+					ilUtil::stripSlashes($_POST["rcp_bcc"]),
 					'read',$_POST["m_type"],$_POST["m_email"],
-					ilUtil::stripSlashes($_POST["m_subject"], false),
-					ilUtil::stripSlashes($_POST["m_message"], false),
+					ilUtil::stripSlashes($_POST["m_subject"]),
+					ilUtil::stripSlashes($_POST["m_message"]),
 					$_SESSION["AccountId"])
 			)
 			{
@@ -197,8 +197,8 @@ class ilMailFormGUI
 		$this->umail->savePostData($ilUser->getId(),$_POST["attachments"],$_POST["rcp_to"],
 									 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
 									 $_POST["m_email"],
-									 ilUtil::stripSlashes($_POST["m_subject"], false),
-									 ilUtil::stripSlashes($_POST["m_message"], false));
+									 ilUtil::stripSlashes($_POST["m_subject"]),
+									 ilUtil::stripSlashes($_POST["m_message"]));
 
 		if ($_SESSION["search_crs"])
 		{
@@ -215,8 +215,8 @@ class ilMailFormGUI
 		$this->umail->savePostData($ilUser->getId(),$_POST["attachments"],$_POST["rcp_to"],
 									 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
 									 $_POST["m_email"],
-									 ilUtil::stripSlashes($_POST["m_subject"], false),
-									 ilUtil::stripSlashes($_POST["m_message"], false));
+									 ilUtil::stripSlashes($_POST["m_subject"]),
+									 ilUtil::stripSlashes($_POST["m_message"]));
 
 		$this->ctrl->setParameterByClass("ilmailsearchgroupsgui", "ref", "mail");
 		$this->ctrl->redirectByClass("ilmailsearchgroupsgui");
@@ -262,8 +262,8 @@ class ilMailFormGUI
 		$this->umail->savePostData($ilUser->getId(),$_POST["attachments"],$_POST["rcp_to"],
 									 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
 									 $_POST["m_email"],
-									 ilUtil::stripSlashes($_POST["m_subject"], false),
-									 ilUtil::stripSlashes($_POST["m_message"], false));
+									 ilUtil::stripSlashes($_POST["m_subject"]),
+									 ilUtil::stripSlashes($_POST["m_message"]));
 		// IF NO TYPE IS GIVEN SEARCH IN BOTH 'system' and 'addressbook'
 		if(!$_POST["type_system"] &&
 			!$_POST["type_addressbook"])
@@ -309,8 +309,8 @@ class ilMailFormGUI
 		$this->umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],
 									$_POST["rcp_to"],$_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
 									$_POST["m_email"],
-							 		ilUtil::stripSlashes($_POST["m_subject"], false),
-									ilUtil::stripSlashes($_POST["m_message"], false));
+							 		ilUtil::stripSlashes($_POST["m_subject"]),
+									ilUtil::stripSlashes($_POST["m_message"]));
 			
 		$this->ctrl->redirectByClass("ilmailattachmentgui");
 	}
@@ -411,7 +411,7 @@ class ilMailFormGUI
 			case 'new':
 				if($_GET['rcp_to'])
 				{
-					$mailData["rcp_to"] = ilUtil::stripSlashes($_GET['rcp_to'],false);
+					$mailData["rcp_to"] = ilUtil::stripSlashes($_GET['rcp_to']);
 				}
 				else if($_SESSION['rcp_to'])
 				{
@@ -425,7 +425,7 @@ class ilMailFormGUI
 		
 				if(is_array($_POST['roles']))
 				{
-					$mailData['rcp_to'] = ilUtil::stripSlashes(implode(',',$_POST['roles']),false);
+					$mailData['rcp_to'] = ilUtil::stripSlashes(implode(',',$_POST['roles']));
 				}
 				elseif(is_array($_SESSION['mail_roles']))
 				{
@@ -450,7 +450,7 @@ class ilMailFormGUI
 				{
 					if (is_string($value))
 					{
-						$mailData[$key] = ilUtil::stripSlashes($value, false);
+						$mailData[$key] = ilUtil::stripSlashes($value);
 					}
 				}
 				break;
@@ -551,7 +551,7 @@ class ilMailFormGUI
 			$this->tpl->setVariable("FILES",implode("\n",$mailData["attachments"]));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("M_MESSAGE",ilUtil::stripSlashes($mailData["m_message"],false));
+		$this->tpl->setVariable("M_MESSAGE",ilUtil::stripSlashes($mailData["m_message"]));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->show();
