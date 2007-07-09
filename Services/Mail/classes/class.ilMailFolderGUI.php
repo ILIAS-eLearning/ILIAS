@@ -941,8 +941,9 @@ class ilMailFolderGUI
 		
 		// MESSAGE
 		$this->tpl->setVariable("TXT_MESSAGE", $this->lng->txt("message"));
-		$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable($mailData["m_message"])));
-		//$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars($mailData["m_message"]))));
+		
+		$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(ilUtil::secureString($mailData["m_message"]))));
+		#$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars($mailData["m_message"]))));
 		
 		$this->tpl->show();
 	}
