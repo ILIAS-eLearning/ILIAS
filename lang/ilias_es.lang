@@ -7353,3 +7353,16 @@ search#:#search_users#:#Buscar Usuarios
 common#:#wizard_title_info#:#Por favor introduzca el título del objeto que quiere duplicar.
 common#:#wizard_search_list#:#Su búsqueda produjo los siguientes resultados. Por favor seleccione uno.
 forum#:#forum_add_quote#:#Añadir cita
+mail#:#mail_folder_edit#:#Edit Folder###09 07 2007 new variable
+mail#:#mail_empty_trash#:#Empty Trash###09 07 2007 new variable
+mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###09 07 2007 new variable
+common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
+common#:#ext_acccount_required#:#Please enter the name of the external account.###09 07 2007 new variable
+crs#:#event_select_one#:#-- Please select one session --###09 07 2007 new variable
+crs#:#events_clone_title#:#Duplicate Session###09 07 2007 new variable
+crs#:#event_clone_btn#:#Duplicate Session###09 07 2007 new variable
+crs#:#event_cloned#:#The Session has been duplicated.###09 07 2007 new variable
+common#:#err_check_input#:#The settings could not be saved. Please check your input.###09 07 2007 new variable
+common#:#filesize#:#File Size###09 07 2007 new variable
+common#:#filetype#:#File Type###09 07 2007 new variable
+crs#:#event_files#:#Assigned File###09 07 2007 new variable
