@@ -115,6 +115,7 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 	*/
 	function readObject()
 	{
+		
 		// the seems_utf8($str) function
 		include_once("include/inc.utf8checker.php");
 		$needs_convert = false;
@@ -126,6 +127,8 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 		// check if manifestfile exists and space left on device...
 		$check_for_manifest_file = is_file($manifest_file);
 
+		
+			
 		// if no manifestfile
 		if (!$check_for_manifest_file)
 		{
@@ -133,18 +136,23 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 			return;
 		}
 
+		
 		if ($check_for_manifest_file)
 		{
 			$manifest_file_array = file($manifest_file);
+			
 			foreach($manifest_file_array as $mfa)
 			{
+					
 				if (!seems_not_utf8($mfa))
 				{
 					$needs_convert = true;
 					break;
 				}
 			}
-
+						
+			
+							
 			// to copy the file we need some extraspace, counted in bytes *2 ... we need 2 copies....
 			$estimated_manifest_filesize = filesize($manifest_file) * 2;
 			
@@ -153,6 +161,8 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 			$check_disc_free = 2;
 		}
 
+		
+	
 		// if $manifest_file needs to be converted to UTF8
 		if ($needs_convert)
 		{
@@ -238,7 +248,7 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 					$this->ilias->error_obj->WARNING);
 			}
 		}
-
+			
 		// start SCORM 2004 package parser - call by by bridge 
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13PackageBridge.php");
 		$newPack = new ilSCORM13PackageBridge();
