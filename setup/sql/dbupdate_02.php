@@ -1833,3 +1833,81 @@ chdir($wd);
 <#1028>
 DROP TABLE IF EXISTS tmp_migration;
 
+<#1029>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
+
+<#1030>
+<?php
+$wd = getcwd();
+chdir('..');
+
+global $ilLog;
+
+include_once('Services/Migration/DBUpdate_904/classes/class.ilUpdateUtils.php');
+include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageCourse.php');
+
+// Fetch archive ids
+$query = "SELECT DISTINCT(archive_id) as archive_ids,archive_name,course_id FROM crs_archives";
+$res = $ilDB->query($query);
+$archive_ids = array();
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$archive_ids[$row->archive_ids]['id'] = $row->archive_ids;
+	$archive_ids[$row->archive_ids]['name'] = $row->archive_name;
+	$archive_ids[$row->archive_ids]['course_id'] = $row->course_id;
+	
+}
+
+foreach($archive_ids as $archive_id => $data)
+{
+	// Check if done
+	$query = "SELECT * FROM tmp_migration WHERE obj_id = ".$archive_id." AND passed = 1";
+	$res = $ilDB->query($query);
+	if($res->numRows())
+	{
+		continue;
+	}
+	
+	if(!@file_exists(ilUpdateUtils::getDataDir().'/course/'.$data['name']))
+	{
+		$ilLog->write('DB Migration 1030: Archives already migrated: No data found for archive id '.$data['name']);
+		continue;
+	}	
+
+	// Rename
+	$fss = new ilFSStorageCourse($data['course_id']);
+	$fss->create();
+	$fss->initArchiveDirectory();
+
+
+	if($fss->rename(ilUpdateUtils::getDataDir().'/course/'.$data['name'],$fss->getArchiveDirectory().'/'.$data['name']))
+	{
+		$ilLog->write('DB Migration 1030: Success renaming archive '.$data['name']);
+	}
+	if($fss->rename(ilUpdateUtils::getDataDir().'/course/'.$data['name'].'.zip',$fss->getArchiveDirectory().'/'.$data['name'].'.zip'))
+	{
+		$ilLog->write('DB Migration 1030: Success renaming archive '.$data['name'].'.zip');
+	}
+	else
+	{
+		$ilLog->write('DB Migration 1030: Failed renaming '.ilUpdateUtils::getDataDir().'/course/'.$data['name'] .'-> '.
+			 $fss->getArchiveDirectory().'/'.$data['name']);
+		continue;
+	}
+	
+	// Save success
+	$query = "REPLACE INTO tmp_migration SET obj_id = '".$archive_id."',passed = '1'";
+	$ilDB->query($query);
+}
+
+chdir($wd);
+?>
+<#1031>
+DROP TABLE IF EXISTS tmp_migration;
+
+
