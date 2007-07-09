@@ -62,14 +62,6 @@ class ilLMPresentationGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
-		// check read permission, payment and parent conditions
-		// todo: replace all this by ilAccess call
-		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&
-			(!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")
-			&& $ilAccess->checkAccess("visible", "", $_GET["ref_id"]))))
-		{
-			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
-		}
 #		include_once './classes/class.ilSearch.php';
 
 #		if(!ilSearch::_checkParentConditions($_GET['ref_id']))
@@ -133,8 +125,17 @@ class ilLMPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilNavigationHistory;
+		global $ilNavigationHistory, $ilAccess, $ilias, $lng;
 		
+		// check read permission, payment and parent conditions
+		// todo: replace all this by ilAccess call
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&
+			(!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")
+			&& $ilAccess->checkAccess("visible", "", $_GET["ref_id"]))))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+		}
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("layout");
 
