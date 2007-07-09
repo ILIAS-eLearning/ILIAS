@@ -1432,6 +1432,11 @@ class ilCourseContentGUI
 		include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 		include_once './classes/class.ilLink.php';
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+		
+		if(!$ilAccess->checkAccess('visible','',$item['ref_id']))
+		{
+			return false;
+		}
 
 		$this->lng->loadLanguageModule('meta');
 
