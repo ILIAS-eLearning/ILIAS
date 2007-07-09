@@ -1910,4 +1910,56 @@ chdir($wd);
 <#1031>
 DROP TABLE IF EXISTS tmp_migration;
 
+<#1032>
+<?php
+$wd = getcwd();
+chdir('..');
+
+global $ilLog;
+
+include_once('Services/Migration/DBUpdate_904/classes/class.ilUpdateUtils.php');
+include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageCourse.php');
+
+$ilLog->write('DB Migration 1032: Starting migration of course info files');
+
+if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
+{
+	$dp = @opendir($dir);
+	while(($filedir = readdir($dp)) !== false)
+	{
+		if($filedir == '.' or $filedir == '..')
+		{
+			continue;
+		}
+		if(preg_match('/^course_file([0-9]+)$/',$filedir,$matches))
+		{
+			$ilLog->write('DB Migration 1032: Found file: '.$filedir.' with course_id: '.$matches[1]);
+			
+			$fss_course = new ilFSStorageCourse($matches[1]);
+			$fss_course->initInfoDirectory();
+			
+			if(@is_dir($info_dir = ilUpdateUtils::getDataDir().'/course/'.$filedir))
+			{
+				$dp2 = @opendir($info_dir);
+				while(($file = readdir($dp2)) !== false)
+				{
+					if($file == '.' or $file == '..')
+					{
+						continue;
+					}
+					$fss_course->rename($from = ilUpdateUtils::getDataDir().'/course/'.$filedir.'/'.$file,
+						$to = $fss_course->getInfoDirectory().'/'.$file);
+
+					$ilLog->write('DB Migration 1032: Renamed: '.$from.' to: '.$to);
+				}
+				
+			}
+		}
+		
+	}
+}
+chdir($wd);
+?>
+
+
 
