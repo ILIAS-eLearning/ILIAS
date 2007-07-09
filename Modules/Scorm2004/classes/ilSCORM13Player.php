@@ -150,19 +150,80 @@ class ilSCORM13Player
 	private $userId;
 	public $packageId;
 	public $jsMode;
-		
-	function __construct() 
+	
+	var $ilias;
+	var $slm;
+	var $tpl;
+	var $lng;
+	
+	function __construct($basePath)
 	{
-		if ($_REQUEST['learnerId']) {
-			$this->userId = $_REQUEST['learnerId'];
-		} else {
-			$this->userId = $GLOBALS['USER']['usr_id'];
-		}
-		$this->packageId = (int) $_REQUEST['packageId'];
-		$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
 		
-		//ilSCORM13DB::addQueries('ilSCORM13Player');
+		global $ilias, $tpl, $lng, $ilCtrl;
+		
+		
+		require_once $basePath."classes/phpext.php";
+		include_once ($basePath."classes/ilSCORM13DB.php");
+
+		
+		if ($_REQUEST['learnerId']) {
+				$this->userId = $_REQUEST['learnerId'];
+			} else {
+				$this->userId = $GLOBALS['USER']['usr_id'];
+			}
+			$this->packageId = (int) $_REQUEST['packageId'];
+			$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
+		
+		
+				
+		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->ctrl =& $ilCtrl;
+		
+	 	if ($basePath) {
+            $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
+        } else {
+            $this->packageId=$_GET["packageId"];
+        }
+		
+		//TODO remove when DB integration is done
+		
+		ilSCORM13DB::init("sqlite2:/Users/hendrikh/Development/eclipse/ilias3_scorm2004/ilias3_scorm2004/Modules/Scorm2004/data/sqlite2.db", "sqlite");
+		error_log($basepath);
 	}
+
+	/**
+	 * execute command
+	 */
+	function &executeCommand()
+	{
+		
+		global $ilAccess, $ilLog;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("getPlayer");
+
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+		}
+
+		switch($next_class)
+		{
+			default:
+				$this->$cmd();
+		}
+	}
+	
+	function getDataDirectory($mode = "filesystem")
+	{
+		$lm_data_dir = ilUtil::getWebspaceDir($mode)."/lm_data";
+		$lm_dir = $lm_data_dir."/lm_".$this->packageId;
+		return $lm_dir;
+	}
+		
+	
 	
 	public function getLangStrings()
 	{
@@ -178,21 +239,45 @@ class ilSCORM13Player
 
 	public function getPlayer()
 	{
+		global $ilUser;
+		
+		// ensure that user record is in sql lite db
+		ilSCORM13DB::setRecord('usr_data', array(
+		'usr_id' => $ilUser->getID(),
+		'firstname' => $ilUser->getFirstname(),
+		'lastname'=>$ilUser->getLastname(),
+		'ilinc_id'=>0,
+		'email'=>$ilUser->getLastname(),
+		'passwd'=>'test12',
+		'login'=>'',
+		'title'=>''
+		));
+		
+		// ensure that package record is in sql lite db
+		ilSCORM13DB::setRecord('sahs_lm', array(
+		'id' => $this->packageId,
+		'credit' => "credit",
+		'default_lesson_mode'=>"normal",
+		'auto_review'=>"review"
+		));
+		
+		// player basic config data
 		$config = array
 		(
-			'cp_url' => $_SERVER['SCRIPT_NAME'] . '?call=cp&packageId=' . $this->packageId,
-			'cmi_url' => $_SERVER['SCRIPT_NAME'] .'?call=cmi&packageId=' . $this->packageId,
-			'learner_id' => (string) $GLOBALS["USER"]["id_usr"],
-			'learner_name' => $GLOBALS["USER"]["login"],
+			'cp_url' => './Modules/Scorm2004/player_ilias.php?' . 'call=cp&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
+			'cmi_url' => './Modules/Scorm2004/player_ilias.php?' .'call=cmi&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"].'&learnerId='.$ilUser->getID(),
+			'learner_id' => (string) $ilUser->getID(),
+			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
 			'mode' => 'normal',
 			'credit' => 'credit',
-			'package_url' =>  str_replace('{packageId}', $this->packageId, IL_OP_PACKAGE_BASE),
+			'package_url' =>  $this->getDataDirectory()."/"
 		);
-		
+
+		// TODO  replace with ILIAS languages
 		$langstrings = $this->getLangStrings();
-		
-		$langstrings['btnStart'] = 'Start'; 
-		$langstrings['btnResumeAll'] = 'Resume All';  
+
+		$langstrings['btnStart'] = 'Start';
+		$langstrings['btnResumeAll'] = 'Resume All';
 		$langstrings['btnBackward'] = 'backward';
 		$langstrings['btnForward'] = 'Forward';
 		$langstrings['btnExit'] = 'Exit';
@@ -203,33 +288,24 @@ class ilSCORM13Player
 		$langstrings['btnPrevious'] = 'Previous';
 		$langstrings['btnContinue'] = 'Next';
 		$langstrings['lblChoice'] = 'Select a choice from the tree.';
-		
+
 		$config['langstrings'] = $langstrings;
+
+		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
+		$this->tpl->setVariable('DEBUG', 1);
+		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
+		$this->tpl->setVariable($langstrings);
+		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable('CSS_NEEDED', '');
+		$this->tpl->setVariable('JS_NEEDED', '');
+		$this->tpl->setVariable('JS_DATA', json_encode($config));
 		
- 		header('Content-Type: text/html; charset=UTF-8');
-		$tpl = new SimpleTemplate();
-		$tpl->setParam('DEBUG', (int) $_REQUEST['debug']);
-		if ($_REQUEST['debug']) 
-		{
-			$tpl->load('templates/tpl/tpl.scorm2004.player_debug.html');
-			$tpl->setParam('INCLUDE_DEBUG', $tpl->save(null));
-		}
-		else
-		{
-			$tpl->setParam('INCLUDE_DEBUG', '');
-		}
-		$tpl->load('templates/tpl/tpl.scorm2004.player.html');
-		$tpl->setParam('JSON_LANGSTRINGS', json_encode($langstrings));
-		$tpl->setParams($langstrings);
-		$tpl->setParam('DOC_TITLE', 'ILIAS SCORM 2004 Player');
-		$tpl->setParam('THEME_CSS', 'templates/css/delos.css');
-		$tpl->setParam('CSS_NEEDED', '');
-		$tpl->setParam('JS_NEEDED', '');
-		$tpl->setParam('JS_DATA', json_encode($config));
-		$tpl->setParam('BASE_DIR', '');
-		list($tsfrac, $tsint) = explode(' ', microtime()); 
-		$tpl->setParam('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
-		$tpl->save();
+		list($tsfrac, $tsint) = explode(' ', microtime());
+		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
+		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
+		$this->tpl->setVariable('ILIAS', '1');	
+		$this->tpl->show("DEFAULT", false);
 	}
 	
 	public function getCPData()

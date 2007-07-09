@@ -32,7 +32,7 @@
 *
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilscorm13playerbridge
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilscorm13player
 * 
 * @ingroup ModulesScormAicc
 */
@@ -118,7 +118,7 @@ class ilSAHSPresentationGUI
 			{
 				
 				case "scorm2004":
-					$this->ctrl->setCmdClass("ilscorm13playerbridge");
+					$this->ctrl->setCmdClass("ilscorm13player");
 					$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
 					break;
 						
@@ -144,9 +144,9 @@ class ilSAHSPresentationGUI
 				$ret =& $this->outputInfoScreen();
 				break;
 
-			case "ilscorm13playerbridge":
-				require_once "./Modules/Scorm2004/classes/ilSCORM13PlayerBridge.php";
-				$scorm_gui = new ilSCORM13PlayerBridge("./Modules/Scorm2004/");
+			case "ilscorm13player":
+				require_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
+				$scorm_gui = new ilSCORM13Player("./Modules/Scorm2004/");
 				$ret =& $this->ctrl->forwardCommand($scorm_gui);
 				break;	
 				
