@@ -300,14 +300,14 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 
 		if (!isset ($_POST["search_for"]) or !isset ($_POST["search_str"])) {
 			ilUtil::sendInfo($this->lng->txt("grp_search_enter_search_string"));
-			$this->searchUserFormObject();
+			$this->searchUserForm();
 
 			return false;
 		}
 
 		if (!count($result = $this->__search(ilUtil :: stripSlashes($_POST["search_str"]), $_POST["search_for"]))) {
 			ilUtil::sendInfo($this->lng->txt("grp_no_results_found"));
-			$this->searchUserFormObject();
+			$this->searchUserForm();
 
 			return false;
 		}
