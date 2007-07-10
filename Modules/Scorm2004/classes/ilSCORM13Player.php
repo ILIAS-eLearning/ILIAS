@@ -37,6 +37,10 @@
  */ 
 
 
+//TODO remove when database integration is finished
+define('IL_OP_USER_NAME', '');
+define('IL_OP_USER_PASSWORD', '');
+
 
 	
 class ilSCORM13Player
@@ -156,14 +160,14 @@ class ilSCORM13Player
 	var $tpl;
 	var $lng;
 	
-	function __construct($basePath)
+	function __construct()
 	{
 		
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $ilias, $tpl, $lng, $ilCtrl, $ilUser;
+
 		
-		
-		require_once $basePath."classes/phpext.php";
-		include_once ($basePath."classes/ilSCORM13DB.php");
+		require_once "./Modules/Scorm2004/classes/phpext.php";
+		include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
 
 		
 		if ($_REQUEST['learnerId']) {
@@ -181,16 +185,11 @@ class ilSCORM13Player
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
 		
-	 	if ($basePath) {
-            $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
-        } else {
-            $this->packageId=$_GET["packageId"];
-        }
+        $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
+		$this->userId=$ilUser->getID();
+
+		ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
 		
-		//TODO remove when DB integration is done
-		
-		ilSCORM13DB::init("sqlite2:/Users/hendrikh/Development/eclipse/ilias3_scorm2004/ilias3_scorm2004/Modules/Scorm2004/data/sqlite2.db", "sqlite");
-		error_log($basepath);
 	}
 
 	/**
@@ -199,22 +198,40 @@ class ilSCORM13Player
 	function &executeCommand()
 	{
 		
-		global $ilAccess, $ilLog;
+		global $ilAccess, $ilLog, $ilUser;
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd("getPlayer");
+		$cmd = $this->ctrl->getCmd();
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
-
-		switch($next_class)
-		{
+		
+		
+		switch($cmd){
+			case 'cp':
+				$this->getCPData();
+				break;
+			
+			case 'cmi':
+				if ($_SERVER['REQUEST_METHOD']=='POST') {
+					$this->persistCMIData();
+					error_log("Saved CMI Data");
+				} else {
+					$this->fetchCMIData();
+				}
+				break;
+				
+				
 			default:
-				$this->$cmd();
+				$this->getPlayer();
+				break;
 		}
+		
 	}
+	
+	
 	
 	function getDataDirectory($mode = "filesystem")
 	{
@@ -243,29 +260,29 @@ class ilSCORM13Player
 		
 		// ensure that user record is in sql lite db
 		ilSCORM13DB::setRecord('usr_data', array(
-		'usr_id' => $ilUser->getID(),
-		'firstname' => $ilUser->getFirstname(),
-		'lastname'=>$ilUser->getLastname(),
-		'ilinc_id'=>0,
-		'email'=>$ilUser->getLastname(),
-		'passwd'=>'test12',
-		'login'=>'',
-		'title'=>''
+			'usr_id' => $ilUser->getID(),
+			'firstname' => $ilUser->getFirstname(),
+			'lastname'=>$ilUser->getLastname(),
+			'ilinc_id'=>0,
+			'email'=>$ilUser->getLastname(),
+			'passwd'=>'test12',
+			'login'=>'',
+			'title'=>''
 		));
 		
 		// ensure that package record is in sql lite db
 		ilSCORM13DB::setRecord('sahs_lm', array(
-		'id' => $this->packageId,
-		'credit' => "credit",
-		'default_lesson_mode'=>"normal",
-		'auto_review'=>"review"
+			'id' => $this->packageId,
+			'credit' => "credit",
+			'default_lesson_mode'=>"normal",
+			'auto_review'=>"review"
 		));
 		
 		// player basic config data
 		$config = array
 		(
-			'cp_url' => './Modules/Scorm2004/player_ilias.php?' . 'call=cp&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"],
-			'cmi_url' => './Modules/Scorm2004/player_ilias.php?' .'call=cmi&packageId=' . $this->packageId.'&ref_id='.$_GET["ref_id"].'&learnerId='.$ilUser->getID(),
+			'cp_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"],
+			'cmi_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"],
 			'learner_id' => (string) $ilUser->getID(),
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
 			'mode' => 'normal',

@@ -146,7 +146,7 @@ class ilSAHSPresentationGUI
 
 			case "ilscorm13player":
 				require_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
-				$scorm_gui = new ilSCORM13Player("./Modules/Scorm2004/");
+				$scorm_gui = new ilSCORM13Player();
 				$ret =& $this->ctrl->forwardCommand($scorm_gui);
 				break;	
 				

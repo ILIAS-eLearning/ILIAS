@@ -1899,7 +1899,6 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.time_limit_action = item.timeLimitAction;
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
 	//	alert("Set: "+globalAct.user_id + globalAct.learner_name)
-	alert("Item"+item.id);
 		if (item.objective && (v = item.objective[0])) 
 		{
 			// REQ_74.3, compute scaled passing score from measure

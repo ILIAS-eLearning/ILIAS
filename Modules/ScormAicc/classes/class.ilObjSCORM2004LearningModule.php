@@ -250,8 +250,8 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 		}
 			
 		// start SCORM 2004 package parser - call by by bridge 
-		include_once ("./Modules/Scorm2004/classes/ilSCORM13PackageBridge.php");
-		$newPack = new ilSCORM13PackageBridge();
+		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
+		$newPack = new ilSCORM13Package();
 		return $newPack->il_import($this->getDataDirectory(),$this->getId());
 	}
 

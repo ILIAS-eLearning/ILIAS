@@ -30,14 +30,22 @@
  */
 
 
+require_once "./Modules/Scorm2004/classes/ilSCORM13Package.php";
+include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
+define('IL_OP_DB_TYPE', 'sqlite');
+define('IL_OP_DB_DSN', 'sqlite2:./Modules/Scorm2004/data/sqlite2.db');
+define('IL_OP_USER_NAME', '');
+define('IL_OP_USER_PASSWORD', '');
+
 
 
 class ilSCORM13Package
 {
 
-	const DB_ENCODE_XSL = 'templates/xsl/op/op-scorm13.xsl';
-	const DB_DECODE_XSL = 'templates/xsl/op/op-scorm13-revert.xsl';
-	const VALIDATE_XSD = 'templates/xsd/op/op-scorm13.xsd';
+	const DB_ENCODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13.xsl';
+	const DB_DECODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
+	const VALIDATE_XSD = './Modules/Scorm2004/templates/xsd/op/op-scorm13.xsd';
+	
 
 	private $packageFile;
 	private $packageFolder;
@@ -87,7 +95,7 @@ class ilSCORM13Package
 		$this->load($packageId);
 		$this->userId = $GLOBALS['USER']['usr_id'];
 	}
-
+	
 	public function getAdmin()
 	{
 		$packages = ilSCORM13DB::getRecords('cp_package');
@@ -252,151 +260,101 @@ class ilSCORM13Package
 		}
 	}
 
-	/**
-	 */
-	public function uploadAndImport($packageFile)
-	{
-		$this->packageName = basename($packageFile);
-		$this->packageHash = md5_file($packageFile);
-		$this->packageFile = $this->packagesFolder . '/' . $this->packageHash . '.zip';
-		$this->packageFolder = $this->packagesFolder . '/' . $this->packageHash;
-		$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
+		/**
+		 * Imports an extracted SCORM 2004 module from ilias-data dir into database
+		 *
+		 * @access       public
+		 * @return       string title of package
+		 */
+		public function il_import($packageFolder,$packeId){
+			ilSCORM13DB::init(IL_OP_DB_DSN, IL_OP_DB_TYPE);				
+			$this->packageFolder=$packageFolder;
+			$this->packageId=$packeId;
+			$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
 
-		// STEP 0
-		$this->setProgress(0.1, 'Step 0: copy zip file: ' . $this->packageFile);
-		@copy($packageFile, $this->packageFile);
-
-		// STEP 1
-		$this->setProgress(0.2, 'Step 1: unzip into temp folder: ' . $this->packageFile);
-		if (file_exists($this->packageFolder))
-		{
-			$this->diagnostic[] = 'Folder already exists: ' . $this->packageFolder;
-			//return false;
-		} else
-		{
-			@mkdir($this->packageFolder);
-		}
-		if (0!==($e = unzip($this->packageFile, $this->packageFolder)))
-		{
-			$this->diagnostic[] = 'unzip error:' . $e;
-			return false;
-		}
-
-		// STEP 2
-		$this->setProgress(0.3, 'Step 2: load imsmanifest.xml: '. $this->imsmanifestFile);
-		$this->imsmanifest = new DOMDocument;
-		$this->imsmanifest->async = false;
-		if (!@$this->imsmanifest->load($this->imsmanifestFile))
-		{
-			$this->diagnostic[] = 'XML not wellformed';
-			return false;
-		}
-
-		// STEP 3
-		$this->setProgress(0.4, 'Step 3: normalize imsmanifest.xml using ' . self::DB_ENCODE_XSL);
-		$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
-		if (!$this->manifest)
-		{
-			$this->diagnostic[] = 'Cannot transform into normalized manifest';
-			return false;
-		}
-
-		// STEP 4
-		$this->setProgress(0.5, 'Step 4: validate op-scorm13-manifest.xml against ' . self::VALIDATE_XSD);
-		if (!$this->validate($this->manifest, self::VALIDATE_XSD))
-		{
-			$this->diagnostic[] = 'normalized XML is not conform to ' . self::VALIDATE_XSD;
-			return false;
-		}
-
-		// STEP 5
-		$this->setProgress(0.6, 'Step 5: Import into database');
-		$this->dbAddNew(); // add new sahs and package record
-		$this->dbRemoveAll(); // remove old data on this id
-
-		ilSCORM13DB::begin();
-		$this->dbImport($this->manifest);
-		ilSCORM13DB::commit();
-
-		// STEP 6
-		// create json via simple xml
-		$this->setProgress(0.7, 'Step 6: create player json data');
-		$x = simplexml_load_string($this->manifest->saveXML());
-		// add database values from package and sahs_lm records as defaults
-		$x['persistPreviousAttempts'] = $this->packageData['persistPreviousAttempts'];
-		$x['online'] = $this->packageData['online'];
-		$x['defaultLessonMode'] = $this->packageData['default_lesson_mode'];
-		$x['credit'] = $this->packageData['credit'];
-		$x['autoReview'] = $this->packageData['auto_review'];
-		$j = array();
-		// first read resources into flat array to resolve item/identifierref later
-		$r = array();
-		foreach ($x->resource as $xe)
-		{
-			$r[strval($xe['id'])] = $xe;
-			unset($xe);
-		}
-		// iterate through items and set href and scoType as activity attributes
-		foreach ($x->xpath('//*[local-name()="item"]') as $xe)
-		{
-			// get reference to resource and set href accordingly
-			// if parameters exist add them and prefix optional "?"
-			$par = $xe['parameters'];
-			if ($b = $r[strval($xe['resourceId'])])
+			//step 1 - parse Manifest-File
+			$this->imsmanifest = new DOMDocument;
+			$this->imsmanifest->async = false;
+			if (!@$this->imsmanifest->load($this->imsmanifestFile))
 			{
-				$href = strval($b['base']) . strval($b['href']);
-				if ($par)
-				{
-					$href .= (strpos('?', $href)===false ? '?' : '&') . $par;
-					unset($xe['parameters']);
-				}
-				$xe['href'] = $href;
-				unset($xe['resourceId']);
-				if (strval($b['scormType'])=='sco') $xe['sco'] = true;
+				$this->diagnostic[] = 'XML not wellformed';
+				return false;
 			}
-		}
-		// iterate recursivly through activities and build up simple php object
-		// with items and associated sequencings
-		// top node is the default organization which is handled as an item
-		self::jsonNode($x->organization, $j['item']);
-		foreach($x->sequencing as $s)
-		{
-			self::jsonNode($s, $j['sequencing'][]);
-		}
-		// combined manifest+resources xml:base is set as organization base
-		$j['item']['base'] = strval($x['base']);
-		// package folder is base to whole playing process
-		$j['base'] = $packageFolder . '/';
-		$j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
-		$j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
+			//step 2 tranform
+			$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
 
-		// STEP 7
-		$this->setProgress(0.8, 'Step 7: Wrapping up');
-		// save xml and json for further use in db
-		ilSCORM13DB::setRecord('cp_package', array(
-		'obj_id' => $this->packageId,
-		'xmldata' => $x->asXML(),
-		'jsdata' => json_encode($j),
-		), 'obj_id');
-		// rename temp files/folders
-		$tf = $this->packagesFolder . '/' . $this->packageId . '.zip';
-		if (is_file($tf))
-		{
-			unlink($tf);
-		}
-		@rename($this->packageFile, $tf);
-		$tf = $this->packagesFolder . '/' . $this->packageId;
-		if (is_dir($tf))
-		{
-			dir_delete($tf);
-		}
-		@rename($this->packageFolder, $tf);
+			if (!$this->manifest)
+			{
+				$this->diagnostic[] = 'Cannot transform into normalized manifest';
+				return false;
+			}
 
-		// FINISH
-		$this->setProgress(1.0, 'Done. Everything ok.');
-		return true;
-	}
 
+			//step 3 validation -just for normalized XML
+			if (!$this->validate($this->manifest, self::VALIDATE_XSD))
+			{
+				$this->diagnostic[] = 'normalized XML is not conform to ' . self::VALIDATE_XSD;
+				return false;
+			}
+
+			//step 4 import into DB
+		//	$this->dbAddNew(); // add new package record
+		//	$this->dbRemoveAll(); // remove old data on this id
+			ilSCORM13DB::begin();
+	//		$this->dbAddNew(); // add new sahs and package record
+			$this->dbImport($this->manifest);
+			ilSCORM13DB::commit();
+
+			//step 5
+			$x = simplexml_load_string($this->manifest->saveXML());
+			// add database values from package and sahs_lm records as defaults
+			$x['persistPreviousAttempts'] = $this->packageData['persistPreviousAttempts'];
+			$x['online'] = $this->packageData['online'];
+			$x['defaultLessonMode'] = $this->packageData['default_lesson_mode'];
+			$x['credit'] = $this->packageData['credit'];
+			$x['autoReview'] = $this->packageData['auto_review'];
+			$j = array();
+			// first read resources into flat array to resolve item/identifierref later
+			$r = array();
+			foreach ($x->resource as $xe)
+			{
+				$r[strval($xe['id'])] = $xe;
+				unset($xe);
+			}
+			// iterate through items and set href and scoType as activity attributes
+			foreach ($x->xpath('//*[local-name()="item"]') as $xe)
+			{
+				// get reference to resource and set href accordingly
+				if ($b = $r[strval($xe['resourceId'])])
+				{
+					$xe['href'] = strval($b['base']) . strval($b['href']);
+					unset($xe['resourceId']);
+					if (strval($b['scormType'])=='sco') $xe['sco'] = true;
+				}
+			}
+			// iterate recursivly through activities and build up simple php object
+			// with items and associated sequencings
+			// top node is the default organization which is handled as an item
+			self::jsonNode($x->organization, $j['item']);
+			foreach($x->sequencing as $s)
+			{
+				self::jsonNode($s, $j['sequencing'][]);
+			}
+			// combined manifest+resources xml:base is set as organization base
+			$j['item']['base'] = strval($x['base']);
+			// package folder is base to whole playing process
+			$j['base'] = $packageFolder . '/';
+			$j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
+			$j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
+
+			//step 6 wrapping up
+			ilSCORM13DB::setRecord('cp_package', array(
+			'obj_id' => $this->packageId,
+			'xmldata' => $x->asXML(),
+			'jsdata' => json_encode($j),
+			), 'obj_id');
+			return $j['item']['title'];
+		}
 	/**
 	 */
 	private function setProgress($progress, $msg = '')
