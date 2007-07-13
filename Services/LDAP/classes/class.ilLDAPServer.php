@@ -599,8 +599,14 @@ class ilLDAPServer
 		$options['userfilter'] = $this->getFilter();
 		$options['attributes'] = $this->getPearAtributeArray();
 		$options['debug'] = self::DEBUG;
-
-
+		
+		if(@include_once('Log.php'))
+		{
+			if(@include_once('Log/observer.php'))
+			{
+				$options['enableLogging'] = true;
+			}	
+		}
 		switch($this->getGroupScope())
 		{
 			case IL_LDAP_SCOPE_BASE:

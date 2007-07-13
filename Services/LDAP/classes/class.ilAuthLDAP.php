@@ -52,6 +52,8 @@ class ilAuthLDAP extends Auth
 		$this->initContainer();
 		parent::Auth($this->ldap_container,$this->ldap_server->toPearAuthArray(),'',false);
 		
+		$this->initLogObserver();		
+		
 		// Set callbacks
 		$this->setCallbacks();
 	}
@@ -155,6 +157,37 @@ class ilAuthLDAP extends Auth
 	{
 		$this->setLoginCallback(array($this,'loginObserver'));
 		$this->setFailedLoginCallback(array($this,'failedLoginObserver'));
+	}
+	
+	/**
+	 * Init Log observer
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function initLogObserver()
+	{
+	 	global $ilLog;
+	 	
+	 	if(!method_exists($this,'attachLogObserver'))
+	 	{
+			$ilLog->write(__METHOD__.': PEAR Auth < 1.5 => disabling logging.');
+	 		return false;
+	 	}
+	 	
+	 	if(@include_once('Log.php'))
+	 	{
+		 	if(@include_once('Log/observer.php'))
+		 	{
+				$ilLog->write(__METHOD__.': Attached Logging observer.');
+				include_once('Services/LDAP/classes/class.ilAuthLDAPLogObserver.php');
+				$this->attachLogObserver(new ilAuthLDAPLogObserver(AUTH_LOG_DEBUG));
+				return true;
+		 	}
+	 	}
+		$ilLog->write(__METHOD__.': PEAR Log not installed. Logging disabled');
+	 	
 	}
 	
 }
