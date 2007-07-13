@@ -653,7 +653,8 @@ class ilLDAPSettingsGUI
 				'phone_mobile'  => $this->lng->txt('phone_mobile'),
 				'fax'			=> $this->lng->txt('fax'),
 				'email'			=> $this->lng->txt('email'),
-				'hobby'			=> $this->lng->txt('hobby'));
+				'hobby'			=> $this->lng->txt('hobby'),
+				'matriculation' => $this->lng->txt('matriculation'));
 				#'photo'			=> $this->lng->txt('photo'));
 	}
 	

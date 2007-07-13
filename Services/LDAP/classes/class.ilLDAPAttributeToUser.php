@@ -228,6 +228,11 @@ class ilLDAPAttributeToUser
 					case 'email':
 						$this->writer->xmlElement('Email',array(),$value);
 						break;
+						
+					case 'matriculation':
+						$this->writer->xmlElement('Matriculation',array(),$value);
+						break;
+						
 					/*						
 					case 'photo':
 						$this->writer->xmlElement('PersonalPicture',array('encoding' => 'Base64','imagetype' => 'image/jpeg'),
