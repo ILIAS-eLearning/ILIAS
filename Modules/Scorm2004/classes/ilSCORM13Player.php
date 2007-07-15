@@ -38,9 +38,8 @@
 
 
 //TODO remove when database integration is finished
-define('IL_OP_USER_NAME', '');
-define('IL_OP_USER_PASSWORD', '');
-
+//define('IL_OP_USER_NAME', 'root');
+//define('IL_OP_USER_PASSWORD', '');
 
 	
 class ilSCORM13Player
@@ -54,7 +53,7 @@ class ilSCORM13Player
 	const READONLY = 1;
 	const WRITEONLY = 2;
 	const READWRITE = 3;
-	
+
 		
 		
 	static private $schema = array // order of entries matters!
@@ -189,7 +188,7 @@ class ilSCORM13Player
 		$this->userId=$ilUser->getID();
 
 		ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
-		
+		//ilSCORM13DB::init(IL_DSN, "mysql");
 	}
 
 	/**
