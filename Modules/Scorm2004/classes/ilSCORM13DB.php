@@ -61,11 +61,7 @@ class ilSCORM13DB
 
 	public function __construct($dsn, $type='mysql') 
 	{
-		if (!IL_OP_USER_NAME) {
-			$this->db = new PDO($dsn); 
-		} else {
-			$this->db = new PDO($dsn, IL_OP_USER_NAME, IL_OP_USER_PASSWORD); 
-		}
+		$this->db = new PDO($dsn); 
 		$this->dsn = $dsn; 
 		$this->brackets = self::$BRACKETS_LIST[$type]; 
 		$this->type = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
@@ -73,12 +69,8 @@ class ilSCORM13DB
 	}
 	
 	public function init($dsn, $type='mysql') 
-	{
-		if (!IL_OP_USER_NAME) {
-			self::$DB = new PDO($dsn); 
-		} else {
-			self::$DB = new PDO($dsn, IL_OP_USER_NAME, IL_OP_USER_PASSWORD); 
-		}
+	{	
+		self::$DB = new PDO($dsn); 
 		self::$DSN = $dsn;
 		self::$TYPE = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
 		self::$BRACKETS = self::$BRACKETS_LIST[self::$TYPE]; 

@@ -98,22 +98,28 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="attemptProgressStatus" required="true" type="boolean" size="1" default="false"/>
 		<field name="audio_captioning" required="true" type="integer" size="1" unsigned="true" default="0"/>
 		<field name="audio_level" required="true" type="float" size="4" default="0"/>
+		<field name="availableChildren" required="false" type="string" size="255" default="0"/>
 		<field name="cmi_node_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
 		<field name="completion" required="true" type="float" size="8" default="0"/>
 		<field name="completion_status" required="false" type="string" size="32"/>
+		<field name="completion_threshold" required="false" type="string" size="32"/>
 		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
 		<field name="created" required="true" type="date" size="8" default="0"/>
 		<field name="credit" required="false" type="string" size="32"/>
 		<field name="delivery_speed" required="true" type="float" size="4" default="0"/>
 		<field name="exit" required="false" type="string" size="255"/>
 		<field name="language" required="false" type="string" size="5"/>
+		<field name="launch_data" required="false" type="string"/>
+		<field name="learner_name" required="false" type="string" size="255"/>
 		<field name="location" required="false" type="string" size="255"/>
 		<field name="max" required="true" type="float" size="8" default="0"/>
 		<field name="min" required="true" type="float" size="8" default="0"/>
+		<field name="mode" required="true" type="string" size="20"/>
 		<field name="modified" required="true" type="date" size="8" default="0"/>
 		<field name="progress_measure" required="true" type="float" size="8" default="0"/>
 		<field name="raw" required="true" type="float" size="8" default="0"/>
 		<field name="scaled" required="true" type="float" size="8" default="0"/>
+		<field name="scaled_passing_score" required="true" type="float" size="8" default="0"/>
 		<field name="session_time" required="true" type="date" size="8" default="0"/>
 		<field name="success_status" required="false" type="string" size="255"/>
 		<field name="suspend_data" required="false" type="string"/>
