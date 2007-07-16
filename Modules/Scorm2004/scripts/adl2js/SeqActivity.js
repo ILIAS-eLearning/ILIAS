@@ -135,14 +135,21 @@ SeqActivity.prototype =
 	// set/getIsVisible: mIsVisible
 	// set/getIsActive: mIsActive
 	// set/getIsSuspended: mIsSuspended
-
+	// getNumSCOAttempt: mNumSCOAttempt
+	// set/getParent: mParent
+	// set/getActiveOrder: mActiveOrder
+	// set/getDepth: mDepth
+	// set/getCount: mCount
+	// set/getSelection: mSelection
+	// set/getRandomized: mRandomized
+	// setOrder: mOrder
 	
 	setAttemptLimit: (iMaxAttempt)
 	{
 		if (iMaxAttempt != null)
 		{
 			var value = iMaxAttempt;
-			if ( value >= 0 )
+			if (value >= 0)
 			{
 				mMaxAttemptControl = true;
 				mMaxAttempt = value;
@@ -745,4 +752,548 @@ SeqActivity.prototype =
 		return status;
 	},
 	
+	// call setObjSatisfied(status) or 
+	// setObjSatisfied(status, {iObjID: obj_id})
+	setObjSatisfied: (iStatus, iOptions)
+	{
+		var iOptions = ilAugment({
+			iObjID: null
+			}, iOptions);
+		var iObjID = iOptions.iObjID;
+
+		var statusChange = false;
+
+		if (mIsTracked)
+		{         
+			if (mCurTracking != null)
+			{
+				if (iObjID == null)
+				{
+					iObjID = mCurTracking.mPrimaryObj;
+				}
+
+				var obj = mCurTracking.mObjectives.get(iObjID);
+				
+				if (obj != null)
+				{
+					// Validate desired value
+					if (iStatus == ADLTracking.TRACK_UNKNOWN ||
+						iStatus == ADLTracking.TRACK_SATISFIED ||
+						iStatus == ADLTracking.TRACK_NOTSATISFIED)
+					{
+					
+						var result = obj.getObjStatus(false);
+						obj.setObjStatus(iStatus);
+						statusChange = (result != iStatus);
+					}
+				}
+			}
+		}
+		return statusChange;
+	},
+	
+	// call getObjSatisfied(is_retry) or 
+	// getObjSatisfied(is_retry, {iObjID: obj_id})
+	getObjSatisfied: (iIsRetry, iOptions)
+	{
+		var iOptions = ilAugment({
+			iObjID: null
+			}, iOptions);
+		var iObjID = iOptions.iObjID;
+
+		var status = false;
+		if (mIsTracked)
+		{
+			if (mCurTracking == null)
+			{
+				var track = new ADLTracking(mObjectives,mLearnerID,mScopeID);
+				track.mAttempt = mNumAttempt;
+				mCurTracking = track;
+			}
+			
+			if (mCurTracking != null)
+			{
+				if (iObjID == null)
+				{
+					iObjID = mCurTracking.mPrimaryObj;
+				}
+
+				var obj = mCurTracking.mObjectives.get(iObjID);
+				
+				if (obj != null)
+				{
+					var objData = obj.getObj();
+					
+					if (!objData.mSatisfiedByMeasure || mActiveMeasure || !mIsActive)
+					{
+						var result = null;
+						
+						result = obj.getObjStatus(iIsRetry);
+						if (result == ADLTracking.TRACK_SATISFIED)
+						{
+							status = true;
+						}
+					}
+				}
+			}
+		}
+		return status;
+	},
+	
+	setCurAttemptExDur: (iDur)
+	{
+		if (mCurTracking != null)
+		{
+			mCurTracking.mAttemptAbDur = iDur;
+		}
+	},
+	
+	evaluateLimitConditions: ()
+	{
+		// This is an implementation of UP.1
+		var disabled = false;
+		
+		if (mCurTracking != null)
+		{
+			// Test max attempts
+			if (mMaxAttemptControl)
+			{
+				if (mNumAttempt >= mMaxAttempt)
+				{
+					disabled = true;
+				}
+			}
+		
+			if (mActivityAbDurControl && !disabled)
+			{
+				if (mActivityAbDur.compare(mActivityAbDur_track) 
+					!= ADLDuration.LT)
+				{
+					disabled = true;
+				}
+			}
+		
+			if (mActivityExDurControl && !disabled)
+			{
+				if (mActivityExDur.compare(mActivityExDur_track) != 
+					ADLDuration.LT)
+				{
+					disabled = true;
+				}
+			}
+		
+			if (mAttemptAbDurControl && !disabled)
+			{
+				if (mActivityAbDur.compare(mCurTracking.mAttemptAbDur)
+					!= ADLDuration.LT)
+				{
+					disabled = true;
+				}
+			}
+		
+			if (mAttemptExDurControl && !disabled)
+			{
+				if (mActivityExDur.compare(mCurTracking.mAttemptExDur)
+					!= ADLDuration.LT)
+				{
+					disabled = true;
+				}
+			}
+		
+			if (mBeginTimeControl && !disabled)
+			{
+				// -+- TODO -+-
+				if (false)
+				{
+					disabled = true;
+				}
+			}
+		
+			if (mEndTimeControl && !disabled)
+			{
+				// -+- TODO -+-
+				if (false)
+				{
+					disabled = true;
+				}
+			}
+		}
+		return disabled;
+	},
+	
+	incrementSCOAttempt: ()
+	{
+		mNumSCOAttempt++;
+	},
+	
+	incrementAttempt: ()
+	{
+		// Store existing tracking information for historical purposes
+		if (mCurTracking != null)
+		{
+			// todo: check
+			if (mTracking == null)
+			{
+				mTracking = new Array();
+			}
+			mTracking[sizeof(mTracking)] = mCurTracking;
+		}
+		
+		// Create a set of tracking information for the new attempt
+		var track = new ADLTracking(mObjectives, mLearnerID, mScopeID);
+		
+		mNumAttempt++;
+		track.mAttempt = mNumAttempt;
+		
+		mCurTracking = track;
+		
+		// If this is a cluster, check useCurrent flags
+		if (mActiveChildren != null)
+		{
+			for (var i = 0; i < sizeof(mActiveChildren); i++)
+			{
+				var temp = mActiveChildren[i];
+				
+				// Flag 'dirty' data if we are supposed to only use 'current attempt
+				// status -- Set existing data to 'dirty'.  When a new attempt on a
+				// a child activity begins, the new tracking information will be 
+				// 'clean'.
+				if (mUseCurObj)
+				{
+					temp.setDirtyObj();
+				}
+				
+				if (mUseCurPro)
+				{
+					temp.setDirtyPro();
+				}
+			}
+		}	
+	},
+	
+	setDirtyObj: ()
+	{
+		if (mCurTracking != null)
+		{
+			mCurTracking.setDirtyObj();
+		}
+		
+		// If this is a cluster, check useCurrent flags
+		if (mActiveChildren != null)
+		{
+			for (var i = 0; i < sizeof(mActiveChildren); i++)
+			{
+				var temp = mActiveChildren[i];
+				
+				if (mUseCurObj)
+				{
+					temp.setDirtyObj();
+				}
+			}
+		}
+	},
+	
+	setDirtyPro: ()
+	{
+		if (mCurTracking != null)
+		{
+			mCurTracking.mDirtyPro = true;
+		}
+		
+		// If this is a cluster, check useCurrent flags
+		if (mActiveChildren != null)
+		{
+			for (var i = 0; i < sizeof(mActiveChildren); i++)
+			{
+				var temp = mActiveChildren[i];
+				if (mUseCurPro)
+				{
+					temp.setDirtyPro();
+				}
+			}
+		}
+	},
+	
+	resetNumAttempt: ()
+	{
+		// Clear all current and historical tracking information.
+		mNumAttempt = 0;
+		mCurTracking = null;
+		mTracking = null;
+	},
+	
+	getNumAttempt: ()
+	{
+		var attempt = 0;
+		if (mIsTracked)
+		{
+			attempt = mNumAttempt;
+		}
+		return attempt;
+	},
+	
+	getObjIDs: (iObjID, iRead)
+	{
+		// Attempt to find the ID associated with the rolledup objective
+		if (iObjID == null)
+		{
+			if (mCurTracking != null)
+			{
+				iObjID = mCurTracking.mPrimaryObj;
+			}
+		}
+		
+		// todo check
+		var objSet = new Array();
+		var mapSet = new Array();
+		
+		if (mIsTracked)
+		{
+			if (mObjMaps != null)
+			{
+				mapSet = mObjMaps.get(iObjID);
+				if (mapSet != null)
+				{
+					for (var i = 0; i < sizeof(mapSet); i++)
+					{
+						var map = mapSet[i];
+						
+						if (!iRead && (map.mWriteStatus || map.mWriteMeasure))
+						{
+							if (objSet == null)
+							{
+								objSet = new Array();
+							}
+							
+							objSet[sizeof(objSet)] = map.mGlobalObjID;
+						}
+						else if (iRead && (map.mReadStatus || map.mReadMeasure))
+						{
+							if (objSet == null)
+							{
+								objSet = new Array();
+							}
+							objSet[sizeof(objSet)] = map.mGlobalObjID;
+						}
+					}
+				}
+			}
+		}
+		return objSet;
+	},
+	
+	addChild: (ioChild)
+	{
+		if (mChildren == null)
+		{
+			mChildren = new Array();
+		}
+		
+		// To maintain consistency, adding a child activity will set the active
+		// children to the set of all children.
+		mActiveChildren = mChildren;
+		
+		mChildren[sizeof(mChildren)] = ioChild;
+		
+		// Tell the child who its parent is and its order in relation to its
+		// siblings.
+		ioChild.setOrder(sizeof(mChildren) - 1);
+		ioChild.setActiveOrder(sizeof(mChildren) - 1);
+		ioChild.setParent(this);
+	},
+	
+	setChildren: (ioChildren, iAll)
+	{
+		var walk = null; 
+		
+		if (iAll)
+		{
+			mChildren = ioChildren;
+			mActiveChildren = ioChildren;
+			
+			for (var i = 0; i < sizeof(ioChildren); i++)
+			{
+				walk = ioChildren[i];
+				
+				walk.setOrder(i);
+				walk.setActiveOrder(i);
+				walk.setParent(this);
+				walk.setIsSelected(true);
+			}
+		}
+		else
+		{
+			for (var i = 0; i < sizeof(mChildren); i++)
+			{
+				walk = mChildren[i];
+				walk.setIsSelected(false);
+			}
+			
+			mActiveChildren = ioChildren;
+			
+			for (var i = 0; i < sizeof(ioChildren); i++)
+			{
+				walk = ioChildren[i];
+				walk.setActiveOrder(i);
+				walk.setIsSelected(true);
+				walk.setParent(this);
+			}
+		}
+	},
+	
+	getChildren: (iAll)
+	{
+		var result = null;
+		
+		if (iAll)
+		{
+			result = mChildren;
+		}
+		else
+		{
+			result = mActiveChildren;
+		}
+		
+		return result;
+	},
+	
+	hasChildren: (iAll)
+	{
+		var result = false;
+		
+		if (iAll)
+		{
+			result = mChildren != null;
+		}
+		else
+		{
+			result = mActiveChildren != null;
+		}
+		
+		return result;
+	},
+	
+	getNextSibling: (iAll)
+	{
+		var next = null;
+		var target = -1;
+		
+		// Make sure this activity has a parent
+		if (mParent != null)
+		{
+			if (iAll)
+			{
+				target = mOrder + 1; 
+			}
+			else
+			{
+				target = mActiveOrder + 1;
+			}
+			
+			// Make sure there is a 'next' sibling
+			if (target < sizeof(mParent.getChildren(iAll)))
+			{
+				var all = mParent.getChildren(iAll);
+				next = all[target];
+			}
+		}
+		return next;
+	},
+	
+	getPrevSibling: (iAll)
+	{
+		var prev = null;
+		var target = -1;
+		
+		// Make sure this activity has a parent
+		if (mParent != null)
+		{
+			if (iAll)
+			{
+				target = mOrder - 1;
+			}
+			else
+			{
+				target = mActiveOrder - 1;
+			}
+			
+			// Make sure there is a 'next' sibling
+			if (target >= 0)
+			{
+				var all = mParent.getChildren(iAll);
+				prev = all[target];
+			}
+		}
+		return prev;
+	},
+	
+	getParentID: ()
+	{
+		// If the parent is not null
+		if (mParent != null)
+		{
+			return mParent.mActivityID;
+		}
+		
+		return null;
+	},
+	
+	getObjStatusSet: ()
+	{
+		var objSet = null;
+		
+		if (mCurTracking == null)
+		{
+			var track = new ADLTracking(mObjectives,mLearnerID,mScopeID);
+			track.mAttempt = mNumAttempt;
+			mCurTracking = track;
+		}
+		
+		if (mCurTracking.mObjectives != null)
+		{
+			objSet = new Array();
+			
+			for (var k in mCurTracking.mObjectives)
+			{
+				if (mCurTracking.mObjectives.hasOwnProperty(k)) // hasOwnProperty requires Safari 1.2
+				{
+					var key = k;
+					
+					// Only include objectives with IDs
+					if ( !key.equals("_primary_") )
+					{
+						var obj = mCurTracking.mObjectives[key];
+						var objStatus = new ADLObjStatus();
+						
+						objStatus.mObjID = obj.getObjID();
+						var measure = obj.getObjMeasure(false);
+						
+						objStatus.mHasMeasure =
+							(measure != ADLTracking.TRACK_UNKNOWN);
+						
+						if (objStatus.mHasMeasure)
+						{
+							objStatus.mMeasure = measure;
+						}
+						
+						objStatus.mStatus = obj.getObjStatus(false);
+						objSet[siezof(objSet)] = objStatus;
+					}
+				}
+			}
+		}
+		
+		if (objSet != null)
+		{
+			if (sizeof(objSet) == 0)
+			{
+				objSet = null;
+			}
+		}
+		return objSet;
+	},
+	
+	
 }
+	
+	
