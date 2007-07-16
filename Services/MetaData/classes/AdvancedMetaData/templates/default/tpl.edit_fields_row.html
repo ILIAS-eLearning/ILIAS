@@ -1,0 +1,27 @@
+<tr class="{CSS_ROW}">
+	<td class="std" style="vertical-align:top;">
+		<input type="checkbox" name="field_id[]" value="{VAL_ID}" />
+	</td>
+	<td class="std" style="vertical-align=top;">
+		<input type="text" name="position[{ASS_ID}]" value="{VAL_POS}" size="2" />
+	</td>
+	<td class="std"  style="vertical-align:top;">
+		{VAL_TITLE}
+		<!-- BEGIN field_desc -->
+		<br /><font class="small">{VAL_DESCRIPTION}</font>
+		<!-- END field_desc -->
+	</td>
+	<td class="std" style="vertical-align:top;">		
+		<span class="small">No fields defined</span>
+	</td>
+	<td class="std" style="vertical-align:top;">		
+		<div style="float:left">
+			<input type="checkbox" name="searchable[{ASS_ID}][]" value="1" {ASS_CHECKED} /> {TXT_SEARCHABLE}<br />
+		</div>
+		<div style="float: right;">
+			<div class="il_ContainerItemCommands">
+				<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT_RECORD}</a>
+			</div>	
+		</div>
+	</td>
+</tr>
