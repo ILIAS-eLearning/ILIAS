@@ -87,14 +87,14 @@ function sclogdump(param, depth)
 			else if (param instanceof Object) sclog(pre + '(Object) {');
 			for (var k in param)
 			{
-				if (param.hasOwnProperty(k)) // hasOwnProperty requires Safari 1.2
-				{
+				//if (param.hasOwnProperty(k)) // hasOwnProperty requires Safari 1.2
+				//{
 					if (typeof param[k] != "function")
 					{
 						sclog(pre + '[' + k + '] => ');
 						sclogdump(param[k], depth + 1);
 					}
-				}
+				//}
 			}
 			sclog(pre + '}');
 			break;

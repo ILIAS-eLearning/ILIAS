@@ -3,7 +3,8 @@ function SeqObjective()
 {
 	this.mMaps = null;
 }
-//this.SeqObjective = SeqObjective;
+this.SeqObjective = SeqObjective;
+//new SeqObjective();
 SeqObjective.prototype = 
 {
 	mObjId: "_primary_",
@@ -12,3 +13,4 @@ SeqObjective.prototype =
 	mMinMeasure: 1.0,
 	mContributesToRollup: false
 }
+SeqObjective.prototype.ff = "nj";
