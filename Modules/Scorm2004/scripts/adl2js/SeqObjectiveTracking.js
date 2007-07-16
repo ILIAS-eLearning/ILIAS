@@ -1,48 +1,96 @@
-// JS port of ADL SeqObjectiveTracking.java
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+/*
+	JS port of ADL SeqObjectiveTracking.java
+	@author Alex Killing <alex.killing@gmx.de>
+	
+	This .js file is GPL licensed (see above) but based on
+	SeqObjectiveTracking.java by ADL Co-Lab, which is licensed as:
+	
+	Advanced Distributed Learning Co-Laboratory (ADL Co-Lab) Hub grants you 
+	("Licensee") a non-exclusive, royalty free, license to use, modify and 
+	redistribute this software in source and binary code form, provided that 
+	i) this copyright notice and license appear on all copies of the software; 
+	and ii) Licensee does not utilize the software in a manner which is 
+	disparaging to ADL Co-Lab Hub.
+
+	This software is provided "AS IS," without a warranty of any kind.  ALL 
+	EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
+	ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
+	OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL Co-Lab Hub AND ITS LICENSORS 
+	SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
+	USING, MODIFYING OR DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO 
+	EVENT WILL ADL Co-Lab Hub OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, 
+	PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
+	INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
+	THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE 
+	SOFTWARE, EVEN IF ADL Co-Lab Hub HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
+	DAMAGES.
+*/
+
 function SeqObjectiveTracking(iObj,iLearnerID,iScopeID)  
 {
-	if ( iObj != null )
+	if (iObj != null)
 	{
-		mObj = iObj;
-		mLearnerID = iLearnerID;
-		mScopeID = iScopeID;
+		this.mObj = iObj;
+		this.mLearnerID = iLearnerID;
+		this.mScopeID = iScopeID;
 
-		if ( iObj.mMaps != null )
+		if (iObj.mMaps != null)
 		{
-			for ( int i = 0; i < mObj.mMaps.size(); i++ )
+			for (var i = 0; i < this.mObj.mMaps.length; i++)
 			{
-				var map = mObj.mMaps[i];
+				var map = this.mObj.mMaps[i];
 				
 				if (map.mReadStatus)
 				{
-					mReadStatus = map.mGlobalObjID;
+					this.mReadStatus = map.mGlobalObjID;
 				}
 			
 				if (map.mReadMeasure)
 				{
-					mReadMeasure = map.mGlobalObjID;
+					this.mReadMeasure = map.mGlobalObjID;
 				}
 			
 				if (map.mWriteStatus)
 				{
-					if (mWriteStatus == null)
+					if (this.mWriteStatus == null)
 					{
-						mWriteStatus = new Array();
+						this.mWriteStatus = new Array();
 					}
 				
 					// todo: check
-					mWriteStatus[sizeof(mWriteStatus)] = map.mGlobalObjID;
+					this.mWriteStatus[this.mWriteStatus.length] = map.mGlobalObjID;
 				}
 			
 				if (map.mWriteMeasure)
 				{
-					if ( mWriteMeasure == null )
+					if (this.mWriteMeasure == null)
 					{
-						mWriteMeasure = new Array();
+						this.mWriteMeasure = new Array();
 					}
 					
 					// todo: check
-					mWriteMeasure[sizeof(mWriteMeasure)] = map.mGlobalObjID;
+					this.mWriteMeasure[this.mWriteMeasure.length] = map.mGlobalObjID;
 				}
 			}
 		}
@@ -66,136 +114,136 @@ SeqObjectiveTracking.prototype =
 	mWriteMeasure: null,
 	
 	// trivial, not implemented:
-	// getObjID: return mObj.mObjID
-	// getObj: return mObj
+	// getObjID: mObj.mObjID
+	// getObj: mObj
 	// setDirtyObj: mDirtyObj = true;
 	
-	forceObjStatus: (iSatisfied)
+	forceObjStatus: function (iSatisfied)
 	{
-		if (iSatisfied == ADLTracking.TRACK_UNKNOWN)
+		if (iSatisfied == TRACK_UNKNOWN)
 		{
 			this.clearObjStatus();
 		}
 		else
 		{
 			// Set any global objectives
-			if (mWriteStatus != null)
+			if (this.mWriteStatus != null)
 			{
-				for (var i = 0; i < sizeof(mWriteStatus); i++)
+				for (var i = 0; i < this.mWriteStatus.length; i++)
 				{
-					ADLSeqUtilities.setGlobalObjSatisfied(mWriteStatus[i], 
-						mLearnerID,mScopeID,iSatisfied);
+					adl_seq_utilities.setGlobalObjSatisfied(this.mWriteStatus[i], 
+						this.mLearnerID,this.mScopeID,iSatisfied);
 				}
 			}
 			
-			mHasSatisfied = true;
-			if (iSatisfied == ADLTracking.TRACK_SATISFIED)
+			this.mHasSatisfied = true;
+			if (iSatisfied == TRACK_SATISFIED)
 			{
-				mSatisfied = true;
+				this.mSatisfied = true;
 			}
 			else
 			{
-				mSatisfied = false;
+				this.mSatisfied = false;
 			}
 		}
 	},
 	
 	// todo: optimization: can be merged with previous function
-	setObjStatus: (iSatisfied)
+	setObjStatus: function (iSatisfied)
 	{
 		// If the objective is only satified my measure, don't set its status
-		if ( mObj.mSatisfiedByMeasure && !mSetOK )
+		if (this.mObj.mSatisfiedByMeasure && !this.mSetOK)
 		{
 			// obj satisfied by measure
 		}
 		else
 		{
-			if (iSatisfied == ADLTracking.TRACK_UNKNOWN)
+			if (iSatisfied == TRACK_UNKNOWN)
 			{
-				clearObjStatus();
+				this.clearObjStatus();
 			}
 			else
 			{
 				// Set any global objectives
-				if (mWriteStatus != null)
+				if (this.mWriteStatus != null)
 				{
-					for (var i = 0; i < sizeof(mWriteStatus); i++)
+					for (var i = 0; i < this.mWriteStatus.length; i++)
 					{
-						ADLSeqUtilities.setGlobalObjSatisfied(mWriteStatus[i], 
-							mLearnerID,mScopeID,iSatisfied);
+						adl_seq_utilities.setGlobalObjSatisfied(this.mWriteStatus[i], 
+							this.mLearnerID, this.mScopeID, iSatisfied);
 					}
 				}
-				mHasSatisfied = true;
+				this.mHasSatisfied = true;
 
-				if ( iSatisfied.equals(ADLTracking.TRACK_SATISFIED) )
+				if (iSatisfied == TRACK_SATISFIED)
 				{
-					mSatisfied = true;
+					this.mSatisfied = true;
 				}
 				else
 				{
-					mSatisfied = false;
+					this.mSatisfied = false;
 				}
 			}
 		}
 	},
 	
 	// todo: optimization: can be merged with previous function
-	clearObjStatus: ()
+	clearObjStatus: function ()
 	{
 		var statusChange = false;
 
-		if (mHasSatisfied)
+		if (this.mHasSatisfied)
 		{
-			if (mObj.mSatisfiedByMeasure)
+			if (this.mObj.mSatisfiedByMeasure)
 			{
 				// only satisfied by measure
 			}
 			else
 			{
-				if (mWriteStatus != null)
+				if (this.mWriteStatus != null)
 				{
-					for (var i = 0; i < sizeof(mWriteStatus); i++)
+					for (var i = 0; i < this.mWriteStatus.length; i++)
 					{
-						ADLSeqUtilities.setGlobalObjSatisfied(mWriteStatus[i], 
-							mLearnerID,mScopeID,ADLTracking.TRACK_UNKNOWN);
+						adl_seq_utilities.setGlobalObjSatisfied(this.mWriteStatus[i],
+							this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
 					}
 				}
 				// Clear the satisfaction status
-				mHasSatisfied = false;
+				this.mHasSatisfied = false;
 				statusChange = true;
 			}
 		}
 		return statusChange;
 	},
 	
-	clearObjMeasure: (iAffectSatisfaction)
+	clearObjMeasure: function (iAffectSatisfaction)
 	{
 		var statusChange = false;
 
-		if (mHasMeasure)
+		if (this.mHasMeasure)
 		{
-			if (mWriteMeasure != null)
+			if (this.mWriteMeasure != null)
 			{
-				for (var i = 0; i < sizeof(mWriteMeasure); i++)
+				for (var i = 0; i < this.mWriteMeasure.length; i++)
 				{
-					ADLSeqUtilities.setGlobalObjMeasure(mWriteMeasure[i], 
-						mLearnerID,mScopeID,ADLTracking.TRACK_UNKNOWN);
+					adl_seq_utilities.setGlobalObjMeasure(this.mWriteMeasure[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
 				}
 			}
 			
 			// Clear the measure
-			mHasMeasure = false;
+			this.mHasMeasure = false;
 			
 			// If measure is used to determine status, status is also cleared
 			if (iAffectSatisfaction)
 			{
-				this.forceObjStatus(ADLTracking.TRACK_UNKNOWN);
+				this.forceObjStatus(TRACK_UNKNOWN);
 			}
 		}
 		return statusChange;	// ???
-	}
+	},
 	
-	setObjMeasure: (iMeasure, iAffectSatisfaction)             
+	setObjMeasure: function (iMeasure, iAffectSatisfaction)             
 	{
 		// Validate the range of the measure
 		if (iMeasure < -1.0 || iMeasure > 1.0)
@@ -205,69 +253,70 @@ SeqObjectiveTracking.prototype =
 		}
 		else
 		{
-			mHasMeasure = true;
-			mMeasure = iMeasure;
+			this.mHasMeasure = true;
+			this.mMeasure = iMeasure;
 
 			// Set any global objectives
-			if ( mWriteMeasure != null )
+			if (this.mWriteMeasure != null)
 			{
-				for (var i = 0; i < sizeof(mWriteMeasure); i++)
+				for (var i = 0; i < this.mWriteMeasure.length; i++)
 				{
-					ADLSeqUtilities.setGlobalObjMeasure(mWriteMeasure[i], 
-						mLearnerID,mScopeID,iMeasure);
+					adl_seq_utilities.setGlobalObjMeasure(this.mWriteMeasure[i], 
+						this.mLearnerID, this.mScopeID,iMeasure);
 				}
 			}
 
 			// If objective status is determined by measure, set it
 			if (iAffectSatisfaction)
 			{
-				if (mMeasure >= mObj.mMinMeasure)
+				if (this.mMeasure >= this.mObj.mMinMeasure)
 				{
-					this.forceObjStatus(ADLTracking.TRACK_SATISFIED);
+					this.forceObjStatus(TRACK_SATISFIED);
 				}
 				else
 				{
-					this.forceObjStatus(ADLTracking.TRACK_NOTSATISFIED);
+					this.forceObjStatus(TRACK_NOTSATISFIED);
 				}
 			}
 		}
 	},
 	
 	// call getObjStatis(retry) or getObjStatis(retry, {iUseLocal: use_local})
-	getObjStatus: (iIsRetry, iOptions)
+	getObjStatus: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
 			iUseLocal: false
 			}, iOptions );
 		var iUseLocal = iOptions.iUseLocal;
 		
-		var ret = ADLTracking.TRACK_UNKNOWN;
+		var ret = TRACK_UNKNOWN;
 		var done = false;
 
 		// if satisfied by measure, ensure that it has been set if a measure is
 		// avaliable.
-		if (mObj.mSatisfiedByMeasure)
+
+		if (this.mObj.mSatisfiedByMeasure)
 		{
 			done = true;
 			var measure = null;
 			
 			// Is there a 'read' objective map?
-			if (mReadMeasure != null)
+			if (this.mReadMeasure != null)
 			{
-				measure = ADLSeqUtilities.getGlobalObjMeasure(mReadMeasure, 
-					mLearnerID, mScopeID);
+				measure = adl_seq_utilities.getGlobalObjMeasure(this.mReadMeasure, 
+					this.mLearnerID, this.mScopeID);
 			}
 			
-			if (mHasMeasure && measure == null)
+			if (this.mHasMeasure && measure == null)
 			{
-				if (mHasMeasure && !(iIsRetry && mDirtyObj))
+				if (this.mHasMeasure && !(iIsRetry && this.mDirtyObj))
 				{
-					measure = (new Double(mMeasure)).toString();
+					measure = parseFloat(this.mMeasure);
 				}
 			}
 
 			var val = -999.0;
-			val = (new Double(measure)).doubleValue();
+			val = parseFloat(measure);
 
 			// Validate the range of the measure
 			if ( val < -1.0 || val > 1.0 )
@@ -276,25 +325,25 @@ SeqObjectiveTracking.prototype =
 			}
 			else
 			{
-				if (val >= mObj.mMinMeasure)
+				if (val >= this.mObj.mMinMeasure)
 				{
-					ret = ADLTracking.TRACK_SATISFIED;
+					ret = TRACK_SATISFIED;
 				}
 				else
 				{
-					ret = ADLTracking.TRACK_NOTSATISFIED;
+					ret = TRACK_NOTSATISFIED;
 				}
 			}
 		}
 
 		if (!done)
-		{        
+		{
 			// Is there a 'read' objective map?
-			if ( mReadStatus != null )
+			if (this.mReadStatus != null)
 			{
 				// Retrieve shared competency mastery status
-				var status = ADLSeqUtilities.getGlobalObjSatisfied(mReadStatus, 
-					mLearnerID,mScopeID);
+				var status = adl_seq_utilities.getGlobalObjSatisfied(this.mReadStatus, 
+					this.mLearnerID, this.mScopeID);
 				if (status != null)
 				{
 					ret = status;
@@ -302,17 +351,17 @@ SeqObjectiveTracking.prototype =
 				}
 			}
 
-			if (mHasSatisfied && (!done || iUseLocal))
+			if (this.mHasSatisfied && (!done || iUseLocal))
 			{
-				if (mHasSatisfied && !(iIsRetry && mDirtyObj))
+				if (this.mHasSatisfied && !(iIsRetry && this.mDirtyObj))
 				{
-					if ( mSatisfied )
+					if (this.mSatisfied)
 					{
-						ret = ADLTracking.TRACK_SATISFIED;
+						ret = TRACK_SATISFIED;
 					}
 					else
 					{
-						ret = ADLTracking.TRACK_NOTSATISFIED;
+						ret = TRACK_NOTSATISFIED;
 					}
 				}
 			}
@@ -321,7 +370,7 @@ SeqObjectiveTracking.prototype =
 	},
 	
 	// call getObjMeasure(retry) or getObjMeasure(retry, {iUseLocal: use_local})
-	getObjMeasure: (iIsRetry, iOptions)
+	getObjMeasure: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
 			iUseLocal: false
@@ -329,14 +378,14 @@ SeqObjectiveTracking.prototype =
 		var iUseLocal = iOptions.iUseLocal;
 		
 		// Do not assume there is a valid measure
-		var ret = ADLTracking.TRACK_UNKNOWN;
+		var ret = TRACK_UNKNOWN;
 		var done = false;
 
 		// Is there a 'read' objective map?
-		if ( mReadMeasure != null )
+		if (this.mReadMeasure != null)
 		{
-			var measure = ADLSeqUtilities.getGlobalObjMeasure(mReadMeasure, 
-				mLearnerID, mScopeID);
+			var measure = adl_seq_utilities.getGlobalObjMeasure(this.mReadMeasure, 
+				this.mLearnerID, this.mScopeID);
 
 			// Always use shared measure if available
 			if (measure != null)
@@ -346,18 +395,18 @@ SeqObjectiveTracking.prototype =
 			}
 		}
 
-		if (mHasMeasure && (!done || iUseLocal ))
+		if (this.mHasMeasure && (!done || iUseLocal ))
 		{
-			if (mHasMeasure && !(iIsRetry && mDirtyObj))
+			if (this.mHasMeasure && !(iIsRetry && this.mDirtyObj))
 			{
-				ret = mMeasure;
+				ret = this.mMeasure;
 			}
 		}
 
-		if (ret != ADLTracking.TRACK_UNKNOWN &&
-			mObj.mSatisfiedByMeasure && !(iIsRetry && mDirtyObj))
+		if (ret != TRACK_UNKNOWN &&
+			this.mObj.mSatisfiedByMeasure && !(iIsRetry && this.mDirtyObj))
 		{
-			double val = -999.0;
+			var val = -999.0;
 			val = ret;
 
 			// Validate the range of the measure
@@ -367,28 +416,28 @@ SeqObjectiveTracking.prototype =
 			}
 			else
 			{
-				mSetOK = true;
-				if (val >= mObj.mMinMeasure)
+				this.mSetOK = true;
+				if (val >= this.mObj.mMinMeasure)
 				{
-					this.setObjStatus(ADLTracking.TRACK_SATISFIED);
+					this.setObjStatus(TRACK_SATISFIED);
 				}
 				else
 				{
-					this.setObjStatus(ADLTracking.TRACK_NOTSATISFIED);
+					this.setObjStatus(TRACK_NOTSATISFIED);
 				}
-				mSetOK = false;
+				this.mSetOK = false;
 			}
 		}
 		return ret;
 	},
 	
-	getByMeasure: ()
+	getByMeasure: function ()
 	{
 		var byMeasure = false;
 		
-		if (mObj != null)
+		if (this.mObj != null)
 		{
-			byMeasure = mObj.mSatisfiedByMeasure;
+			byMeasure = this.mObj.mSatisfiedByMeasure;
 		}
 		
 		return byMeasure;

@@ -1,14 +1,63 @@
-// JS port of ADL SeqActivity.java
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+/*
+	JS port of ADL SeqActivity.java
+	@author Alex Killing <alex.killing@gmx.de>
+	
+	This .js file is GPL licensed (see above) but based on
+	SeqActivity.java by ADL Co-Lab, which is licensed as:
+	
+	Advanced Distributed Learning Co-Laboratory (ADL Co-Lab) Hub grants you 
+	("Licensee") a non-exclusive, royalty free, license to use, modify and 
+	redistribute this software in source and binary code form, provided that 
+	i) this copyright notice and license appear on all copies of the software; 
+	and ii) Licensee does not utilize the software in a manner which is 
+	disparaging to ADL Co-Lab Hub.
+
+	This software is provided "AS IS," without a warranty of any kind.  ALL 
+	EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
+	ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
+	OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL Co-Lab Hub AND ITS LICENSORS 
+	SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
+	USING, MODIFYING OR DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO 
+	EVENT WILL ADL Co-Lab Hub OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, 
+	PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
+	INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
+	THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE 
+	SOFTWARE, EVEN IF ADL Co-Lab Hub HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
+	DAMAGES.
+*/
+
+var TIMING_NEVER = "never";
+var TIMING_ONCE = "once";
+var TIMING_EACHNEW = "onEachNewAttempt";
+var TER_EXITALL = "_EXITALL_";
+
 function SeqActivity()  
 {
 }
 //this.SeqActivity = SeqActivity;
 SeqActivity.prototype = 
 {
-	TIMING_NEVER: "never",
-	TIMING_ONCE: "once",
-	TIMING_EACHNEW: "onEachNewAttempt",
-	TER_EXITALL: "_EXITALL_",
 	mPreConditionRules: null,
 	mPostConditionRules: null,
 	mExitActionRules: null,
@@ -56,10 +105,10 @@ SeqActivity.prototype =
 	mAuxResources: null,
 	mRollupRules: null,
 	mActiveMeasure: true,
-	mRequiredForSatisfied: SeqRollupRule.ROLLUP_CONSIDER_ALWAYS,
-	mRequiredForNotSatisfied: SeqRollupRule.ROLLUP_CONSIDER_ALWAYS,
-	mRequiredForCompleted: SeqRollupRule.ROLLUP_CONSIDER_ALWAYS,
-	mRequiredForIncomplete: SeqRollupRule.ROLLUP_CONSIDER_ALWAYS,
+	mRequiredForSatisfied: ROLLUP_CONSIDER_ALWAYS,
+	mRequiredForNotSatisfied: ROLLUP_CONSIDER_ALWAYS,
+	mRequiredForCompleted: ROLLUP_CONSIDER_ALWAYS,
+	mRequiredForIncomplete: ROLLUP_CONSIDER_ALWAYS,
 	mObjectives: null,
 	mObjMaps: null,
 	mIsObjectiveRolledUp: true,
@@ -144,312 +193,312 @@ SeqActivity.prototype =
 	// set/getRandomized: mRandomized
 	// setOrder: mOrder
 	
-	setAttemptLimit: (iMaxAttempt)
+	setAttemptLimit: function (iMaxAttempt)
 	{
 		if (iMaxAttempt != null)
 		{
 			var value = iMaxAttempt;
 			if (value >= 0)
 			{
-				mMaxAttemptControl = true;
-				mMaxAttempt = value;
+				this.mMaxAttemptControl = true;
+				this.mMaxAttempt = value;
 			}
 			else
 			{
-				mMaxAttemptControl = false;
-				mMaxAttempt = -1;
+				this.mMaxAttemptControl = false;
+				this.mMaxAttempt = -1;
 			}
 		}
 	},
 	
-	getAttemptAbDur: ()
+	getAttemptAbDur: function ()
 	{
 		var dur = null;
 	
-		if (mAttemptAbDur != null)
+		if (this.mAttemptAbDur != null)
 		{
-			dur = mAttemptAbDur.format(ADLDuration.FORMAT_SCHEMA);
+			dur = this.mAttemptAbDur.format(FORMAT_SCHEMA);
 		}
 		return dur;
 	},
 	
-	setAttemptAbDur: (iDur)
+	setAttemptAbDur: function (iDur)
 	{
 		if (iDur != null)
 		{
-			mAttemptAbDurControl = true;
-			mAttemptAbDur = new ADLDuration(
-				{iFormat: ADLDuration.FORMAT_SCHEMA, iValue: iDur});
+			this.mAttemptAbDurControl = true;
+			this.mAttemptAbDur = new ADLDuration(
+				{iFormat: FORMAT_SCHEMA, iValue: iDur});
 		}
 		else
 		{
-			mAttemptAbDurControl = false;
-			mAttemptAbDur = null;
+			this.mAttemptAbDurControl = false;
+			this.mAttemptAbDur = null;
 		}
 	},
 	
-	getAttemptExDur: ()
+	getAttemptExDur: function ()
 	{
 		var dur = null;
-		if (mAttemptExDur != null)
+		if (this.mAttemptExDur != null)
 		{
-			dur = mAttemptExDur.format(ADLDuration.FORMAT_SCHEMA);
+			dur = this.mAttemptExDur.format(FORMAT_SCHEMA);
 		}
 		return dur;
 	},
 	
-	setAttemptExDur(String iDur)
+	setAttemptExDur: function (iDur)
 	{
 		if ( iDur != null )
 		{
-			mAttemptExDurControl = true;
-			mAttemptExDur = new ADLDuration(
-				{iFormat: ADLDuration.FORMAT_SCHEMA, iValue: iDur});
+			this.mAttemptExDurControl = true;
+			this.mAttemptExDur = new ADLDuration(
+				{iFormat: FORMAT_SCHEMA, iValue: iDur});
 		}
 		else
 		{
-			mAttemptExDurControl = false;
+			this.mAttemptExDurControl = false;
 		}
 	},
 	
-	getActivityAbDur: ()
+	getActivityAbDur: function ()
 	{
 		var dur = null;
-		if ( mActivityAbDur != null )
+		if (this.mActivityAbDur != null)
 		{
-			dur = mActivityAbDur.format(ADLDuration.FORMAT_SCHEMA);
+			dur = this.mActivityAbDur.format(FORMAT_SCHEMA);
 		}
 		return dur;
-   }
+	},
    
-	setActivityAbDur: (iDur)
+	setActivityAbDur: function (iDur)
 	{
 		if ( iDur != null )
 		{
-			mActivityAbDurControl = true;
-			mActivityAbDur = new ADLDuration(
-				{iFormat: ADLDuration.FORMAT_SCHEMA, iValue: iDur});
+			this.mActivityAbDurControl = true;
+			this.mActivityAbDur = new ADLDuration(
+				{iFormat: FORMAT_SCHEMA, iValue: iDur});
 		}
 		else
 		{
-			mActivityAbDurControl = false;
+			this.mActivityAbDurControl = false;
 		}
 	},
 	
-	getActivityExDur: ()
+	getActivityExDur: function ()
 	{
 		var dur = null;
-		if ( mActivityExDur != null )
+		if (this.mActivityExDur != null)
 		{
-			dur = mActivityExDur.format(ADLDuration.FORMAT_SCHEMA);
+			dur = this.mActivityExDur.format(FORMAT_SCHEMA);
 		}
 		return dur;
 	},
 	
-	setActivityExDur: (iDur)
+	setActivityExDur: function (iDur)
 	{
 		if ( iDur != null )
 		{
-			mActivityExDurControl = true;
-			mActivityExDur = new ADLDuration(
-				{iFormat: ADLDuration.FORMAT_SCHEMA, iValue: iDur});
+			this.mActivityExDurControl = true;
+			this.mActivityExDur = new ADLDuration(
+				{iFormat: FORMAT_SCHEMA, iValue: iDur});
 		}
 		else
 		{
-			mActivityExDurControl = false;
+			this.mActivityExDurControl = false;
 		}
 	},
 	
-	setBeginTimeLimit: (iTime)
+	setBeginTimeLimit: function (iTime)
 	{
 		if (iTime != null)
 		{
-			mBeginTimeControl = true;
-			mBeginTime = iTime;
+			this.mBeginTimeControl = true;
+			this.mBeginTime = iTime;
 		}
 		else
 		{
-			mBeginTimeControl = false;
+			this.mBeginTimeControl = false;
 		}
 	},
 	
-	setEndTimeLimit: (iTime)
+	setEndTimeLimit: function (iTime)
 	{
 		if (iTime != null)
 		{
-			mEndTimeControl = true;
-			mEndTime = iTime;
+			this.mEndTimeControl = true;
+			this.mEndTime = iTime;
 		}
 		else
 		{
-			mEndTimeControl = false;
+			this.mEndTimeControl = false;
 		}
 	},
 	
-	setObjectives: (iObjs)
+	setObjectives: function (iObjs)
 	{
-		mObjectives = iObjs;
+		this.mObjectives = iObjs;
 
 		if (iObjs != null)
 		{
-			for (var i = 0; i < sizeof(iObjs); i++)
+			for (var i = 0; i < iObjs.length; i++)
 			{
 				obj = iObjs[i];
 				
 				if (obj.mMaps != null)
 				{
-					if (mObjMaps == null)
+					if (this.mObjMaps == null)
 					{
-						mObjMaps = new Object();	// was Hashtable
+						this.mObjMaps = new Object();	// was Hashtable
 					}
-					mObjMaps[obj.mObjID] = obj.mMaps;
+					this.mObjMaps[obj.mObjID] = obj.mMaps;
 				}
 			}
 		}
 	},
 	
-	setSelectionTiming: (iTiming)
+	setSelectionTiming: function (iTiming)
 	{
 		// Validate vocabulary
-		if (!(iTiming == SeqActivity.TIMING_NEVER || 
-			iTiming == SeqActivity.TIMING_ONCE ||
-			iTiming == SeqActivity.TIMING_EACHNEW))
+		if (!(iTiming == TIMING_NEVER || 
+			iTiming == TIMING_ONCE ||
+			iTiming == TIMING_EACHNEW))
 		{
-			mSelectTiming = SeqActivity.TIMING_NEVER;
+			this.mSelectTiming = TIMING_NEVER;
 		}
 		else
 		{
-			mSelectTiming = iTiming;
+			this.mSelectTiming = iTiming;
 		}
    },
    
-	getSelectCount: ()
+	getSelectCount: function ()
 	{
 		// If the number to be randomized is greater than the number of children
 		// available, no  selection is required
-		if (mChildren != null)
+		if (this.mChildren != null)
 		{
-			if (mSelectCount >= sizeof(mChildren))
+			if (this.mSelectCount >= this.mChildren.length)
 			{
-				mSelectTiming = "never";
-				mSelectCount = sizeof(mChildren);
+				this.mSelectTiming = "never";
+				this.mSelectCount = mChildren.length;
 			}
 		}
 		else
 		{
 			// No children to select from; can't select
-			mSelectStatus = false;
-			mSelectCount = 0;
+			this.mSelectStatus = false;
+			this.mSelectCount = 0;
 		}
-		return mSelectCount;
+		return this.mSelectCount;
 	},
 	
-	setSelectCount: (iCount)
+	setSelectCount: function (iCount)
 	{
 		if (iCount >= 0)
 		{
-			mSelectStatus = true;
-			mSelectCount = iCount;
+			this.mSelectStatus = true;
+			this.mSelectCount = iCount;
 		}
 		else
 		{
-			mSelectStatus = false;
+			this.mSelectStatus = false;
 		}
 	},
 	
-	setRandomTiming: (iTiming)
+	setRandomTiming: function (iTiming)
 	{
 		// Validate vocabulary
-		if (!(iTiming == SeqActivity.TIMING_NEVER || 
-			iTiming == SeqActivity.TIMING_ONCE ||
-			iTiming == SeqActivity.TIMING_EACHNEW ))
+		if (!(iTiming == TIMING_NEVER || 
+			iTiming == TIMING_ONCE ||
+			iTiming == TIMING_EACHNEW ))
 		{
-			mSelectTiming = SeqActivity.TIMING_NEVER;
+			this.mSelectTiming = TIMING_NEVER;
 		}
 		else
 		{
-			mRandomTiming = iTiming;
+			this.mRandomTiming = iTiming;
 		}
 	},
 	
-	setDeliveryMode: (iDeliveryMode)
+	setDeliveryMode: function (iDeliveryMode)
 	{
 		// Test vocabulary
 		if (iDeliveryMode == "browse" || iDeliveryMode == "review" ||
 			iDeliveryMode == "normal")
 		{
-			mDeliveryMode = iDeliveryMode;
+			this.mDeliveryMode = iDeliveryMode;
 		}
 		else
 		{
-			mDeliveryMode = "normal";
+			this.mDeliveryMode = "normal";
 		}
 	},
 	
-	getActivityAttempted: ()
+	getActivityAttempted: function ()
 	{
-		return(mNumAttempt != 0);
+		return(this.mNumAttempt != 0);
 	},
 	
-	getAttemptCompleted: (iIsRetry)
+	getAttemptCompleted: function (iIsRetry)
 	{
-		var progress = ADLTracking.TRACK_UNKNOWN;
+		var progress = TRACK_UNKNOWN;
 		
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking == null)
+			if (this.mCurTracking == null)
 			{
-				track = new ADLTracking(mObjectives, 
-					mLearnerID, mScopeID);
-				track.mAttempt = mNumAttempt;
-				mCurTracking = track;
+				track = new ADLTracking(this.mObjectives, 
+					this.mLearnerID, this.mScopeID);
+				track.mAttempt = this.mNumAttempt;
+				this.mCurTracking = track;
 			}
 			
 			// make sure the current state is valid
-			if (!(mCurTracking.mDirtyPro && iIsRetry))
+			if (!(this.mCurTracking.mDirtyPro && iIsRetry))
 			{
-				progress = mCurTracking.mProgress;
+				progress = this.mCurTracking.mProgress;
 			}
 		}
-		return(progress == ADLTracking.TRACK_COMPLETED);
+		return(progress == TRACK_COMPLETED);
 	},
 	
-	setProgress: (iProgress)
+	setProgress: function (iProgress)
 	{
 		var statusChange = false;
 		
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
 			// Validate state data
-			if (iProgress == ADLTracking.TRACK_UNKNOWN ||
-				iProgress == ADLTracking.TRACK_COMPLETED ||
-				iProgress == ADLTracking.TRACK_INCOMPLETE)
+			if (iProgress == TRACK_UNKNOWN ||
+				iProgress == TRACK_COMPLETED ||
+				iProgress == TRACK_INCOMPLETE)
 			{
-				if (mCurTracking == null)
+				if (this.mCurTracking == null)
 				{
-					mCurTracking = new ADLTracking(mObjectives, mLearnerID, mScopeID);
+					this.mCurTracking = new ADLTracking(this.mObjectives,
+						this.mLearnerID, this.mScopeID);
 				}
 				
-				var prev = mCurTracking.mProgress;
+				var prev = this.mCurTracking.mProgress;
 				
-				mCurTracking.mProgress = iProgress;
+				this.mCurTracking.mProgress = iProgress;
 				statusChange = !(prev == iProgress);
 			}
 		}
 		return statusChange;
 	},
 	
-	getProgressStatus: (iIsRetry)
+	getProgressStatus: function (iIsRetry)
 	{
 		var status = false;
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
-				if (!(mCurTracking.mDirtyPro && iIsRetry))
+				if (!(this.mCurTracking.mDirtyPro && iIsRetry))
 				{
-					status = !(mCurTracking.mProgress == 
-						ADLTracking.TRACK_UNKNOWN);
+					status = (this.mCurTracking.mProgress != TRACK_UNKNOWN);
 				}
 			}
 		}
@@ -458,7 +507,7 @@ SeqActivity.prototype =
 	
 	// call getObjMeasureStatus(retry) or 
 	// getObjMeasureStatus(retry, {iObjID: obj_id, iUseLocal: use_local})
-	getObjMeasureStatus: (iIsRetry, iOptions)
+	getObjMeasureStatus: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null,
@@ -469,30 +518,30 @@ SeqActivity.prototype =
 		
 		var status = false;
 
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking == null)
+			if (this.mCurTracking == null)
 			{
-				ADLTracking track = new ADLTracking(mObjectives,
-					mLearnerID, mScopeID);
-				track.mAttempt = mNumAttempt;
-				mCurTracking = track;
+				var track = new ADLTracking(this.mObjectives,
+					this.mLearnerID, this.mScopeID);
+				track.mAttempt = this.mNumAttempt;
+				this.mCurTracking = track;
 			}
    
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
 				// A null objective indicates the primary objective
 				if (iObjID == null)
 				{
-					iObjID = mCurTracking.mPrimaryObj;
+					iObjID = this.mCurTracking.mPrimaryObj;
 				}
-				obj = mCurTracking.mObjectives.get(iObjID);
+				obj = this.mCurTracking.mObjectives.get(iObjID);
 				
 				if (obj != null)
 				{
 					var result = null;
 					result = obj.getObjMeasure(iIsRetry, iUseLocal);
-					if (result != ADLTracking.TRACK_UNKNOWN)
+					if (result != TRACK_UNKNOWN)
 					{
 						status = true;
 					}
@@ -503,7 +552,7 @@ SeqActivity.prototype =
 	},
 	
 	// call clearObjMeasure() or clearObjMeasure({iObjID: obj_id})
-	clearObjMeasure: (iOptions)
+	clearObjMeasure: function (iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -511,13 +560,13 @@ SeqActivity.prototype =
 		var iObjID = iOptions.iObjID;
 
 		var statusChange = false;
-		if (mCurTracking != null)
+		if (this.mCurTracking != null)
 		{
 			if (iObjID == null)
 			{
-				iObjID = mCurTracking.mPrimaryObj;
+				iObjID = this.mCurTracking.mPrimaryObj;
 			}
-			obj = mCurTracking.mObjectives.get(iObjID);
+			obj = this.mCurTracking.mObjectives.get(iObjID);
 
 			if (obj != null)
 			{
@@ -527,7 +576,7 @@ SeqActivity.prototype =
 				if (affectSatisfaction)
 				{
 					affectSatisfaction = !objD.mContributesToRollup ||
-						(mActiveMeasure || !mIsActive);
+						(this.mActiveMeasure || !this.mIsActive);
 				}
 				statusChange = obj.clearObjMeasure(affectSatisfaction);
 			}
@@ -536,7 +585,7 @@ SeqActivity.prototype =
 	},
 	
 	// call setObjMeasure(measure) or setObjMeasure(measure, {iObjID: obj_id})
-	setObjMeasure: (iMeasure, iOptions)
+	setObjMeasure: function (iMeasure, iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -545,15 +594,15 @@ SeqActivity.prototype =
 		
 		var statusChange = false;
 
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
 				if (iObjID == null)
 				{
-					iObjID = mCurTracking.mPrimaryObj;
+					iObjID = this.mCurTracking.mPrimaryObj;
 				}
-				obj = mCurTracking.mObjectives.get(iObjID);
+				obj = this.mCurTracking.mObjectives.get(iObjID);
 
 				if (obj != null)
 				{
@@ -564,7 +613,7 @@ SeqActivity.prototype =
 					if (affectSatisfaction)
 					{
 						affectSatisfaction = !objD.mContributesToRollup ||
-							( mActiveMeasure || !mIsActive );
+							(this.mActiveMeasure || !this.mIsActive);
 					}
 
 					obj.setObjMeasure(iMeasure, affectSatisfaction);
@@ -575,13 +624,13 @@ SeqActivity.prototype =
 		return statusChange;
 	},
 	
-	getObjSatisfiedByMeasure: ()
+	getObjSatisfiedByMeasure: function ()
 	{
 		var byMeasure = false;
 		
-		if (mCurTracking != null)
+		if (this.mCurTracking != null)
 		{
-			var obj = mCurTracking.mObjectives.get(mCurTracking.mPrimaryObj);
+			var obj = this.mCurTracking.mObjectives.get(this.mCurTracking.mPrimaryObj);
 			
 			if (obj != null)
 			{
@@ -592,7 +641,7 @@ SeqActivity.prototype =
 	},
 	
 	// call getObjMinMeasure() or getObjMinMeasure({iObjID: obj_id})
-	getObjMinMeasure: (iOptions)
+	getObjMinMeasure: function (iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -603,13 +652,13 @@ SeqActivity.prototype =
 		
 		if (iObjID == null)
 		{
-			iObjID = mCurTracking.mPrimaryObj
+			iObjID = this.mCurTracking.mPrimaryObj;
 		}
-		if (mObjectives != null)
+		if (this.mObjectives != null)
 		{
-			for (var i = 0; i < sizeof(mObjectives); i++)
+			for (var i = 0; i < this.mObjectives.length; i++)
 			{
-				var obj = mObjectives[i];
+				var obj = this.mObjectives[i];
 				
 				if (iObjID == obj.mObjID)
 				{
@@ -620,7 +669,7 @@ SeqActivity.prototype =
 		return minMeasure;
 	},
 	
-	getObjMeasure: (iIsRetry, iOptions)
+	getObjMeasure: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -628,33 +677,34 @@ SeqActivity.prototype =
 		var iObjID = iOptions.iObjID;
 
 		var measure = 0.0;
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking == null)
+			if (this.mCurTracking == null)
 			{
-				var track = new ADLTracking(mObjectives,mLearnerID,mScopeID);
-				track.mAttempt = mNumAttempt;
-				mCurTracking = track;
+				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
+					this.mScopeID);
+				track.mAttempt = this.mNumAttempt;
+				this.mCurTracking = track;
 			}
    
 			// A null objective indicates the primary objective
 			if (iObjID == null)
 			{
-				iObjID = mCurTracking.mPrimaryObj;
+				iObjID = this.mCurTracking.mPrimaryObj;
 			}
 			
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
-				var obj = mCurTracking.mObjectives.get(iObjID)));
+				var obj = this.mCurTracking.mObjectives.get(iObjID);
    
 				if (obj != null)
 				{
 					var result = null;
 					result = obj.getObjMeasure(iIsRetry);
 					
-					if (result != ADLTracking.TRACK_UNKNOWN)
+					if (result != TRACK_UNKNOWN)
 					{
-						measure = result;
+						measure = parseFloat(result);
 					}
 				}
 			}
@@ -662,21 +712,23 @@ SeqActivity.prototype =
 		return measure;
 	},
 	
-	triggerObjMeasure: ()
+	triggerObjMeasure: function ()
 	{
 		var measure = 0.0;
 
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking == null)
+			if (this.mCurTracking == null)
 			{
-				var track = new ADLTracking(mObjectives,mLearnerID,mScopeID);
+				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
+					this.mScopeID);
 				track.mAttempt = mNumAttempt;
-				mCurTracking = track;
+				this.mCurTracking = track;
 			}
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
-				var obj = mCurTracking.mObjectives.get(mCurTracking.mPrimaryObj);
+				var obj = this.mCurTracking.mObjectives.get(
+					this.mCurTracking.mPrimaryObj);
 
 				if (obj != null)
 				{
@@ -685,9 +737,9 @@ SeqActivity.prototype =
 						var result = null;
 						
 						result = obj.getObjMeasure(false);
-						if (result != ADLTracking.TRACK_UNKNOWN)
+						if (result != TRACK_UNKNOWN)
 						{
-							measure = result;
+							measure = parseFloat(result);
 							obj.setObjMeasure(measure, true);
 						}
 						else
@@ -702,7 +754,7 @@ SeqActivity.prototype =
 	
 	// call getObjStatus(retry) or 
 	// getObjStatus(retry, {iObjID: obj_id, iUseLocal: use_local})
-	getObjStatus: (iIsRetry, iOptions)
+	getObjStatus: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null,
@@ -713,35 +765,37 @@ SeqActivity.prototype =
 
 		var status = false;
 
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking == null)
+			if (this.mCurTracking == null)
 			{
-				var track = new ADLTracking(mObjectives,mLearnerID,mScopeID);
+				var track = new ADLTracking(this.mObjectives,
+					this.mLearnerID, this.mScopeID);
    
-				track.mAttempt = mNumAttempt;
-				mCurTracking = track;
+				track.mAttempt = this.mNumAttempt;
+				this.mCurTracking = track;
 			}
    			
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
 				// A null objective indicates the primary objective
 				if (iObjID == null)
 				{
-					iObjID = mCurTracking.mPrimaryObj;
+					iObjID = this.mCurTracking.mPrimaryObj;
 				}
 
-				var obj = mCurTracking.mObjectives.get(iObjID);
+				var obj = this.mCurTracking.mObjectives.get(iObjID);
 
 				if (obj != null)
 				{
 					var objData = obj.getObj();
 					
-					if (!objData.mSatisfiedByMeasure || mActiveMeasure || !mIsActive)
+					if (!objData.mSatisfiedByMeasure || this.mActiveMeasure ||
+						!this.mIsActive)
 					{              
 						var result = null;
 						result = obj.getObjStatus(iIsRetry);
-						if (result != ADLTracking.TRACK_UNKNOWN)
+						if (result != TRACK_UNKNOWN)
 						{
 							status = true;
 						}
@@ -754,7 +808,7 @@ SeqActivity.prototype =
 	
 	// call setObjSatisfied(status) or 
 	// setObjSatisfied(status, {iObjID: obj_id})
-	setObjSatisfied: (iStatus, iOptions)
+	setObjSatisfied: function (iStatus, iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -763,23 +817,23 @@ SeqActivity.prototype =
 
 		var statusChange = false;
 
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{         
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
 				if (iObjID == null)
 				{
-					iObjID = mCurTracking.mPrimaryObj;
+					iObjID = this.mCurTracking.mPrimaryObj;
 				}
 
-				var obj = mCurTracking.mObjectives.get(iObjID);
+				var obj = this.mCurTracking.mObjectives.get(iObjID);
 				
 				if (obj != null)
 				{
 					// Validate desired value
-					if (iStatus == ADLTracking.TRACK_UNKNOWN ||
-						iStatus == ADLTracking.TRACK_SATISFIED ||
-						iStatus == ADLTracking.TRACK_NOTSATISFIED)
+					if (iStatus == TRACK_UNKNOWN ||
+						iStatus == TRACK_SATISFIED ||
+						iStatus == TRACK_NOTSATISFIED)
 					{
 					
 						var result = obj.getObjStatus(false);
@@ -794,7 +848,7 @@ SeqActivity.prototype =
 	
 	// call getObjSatisfied(is_retry) or 
 	// getObjSatisfied(is_retry, {iObjID: obj_id})
-	getObjSatisfied: (iIsRetry, iOptions)
+	getObjSatisfied: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -802,34 +856,36 @@ SeqActivity.prototype =
 		var iObjID = iOptions.iObjID;
 
 		var status = false;
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mCurTracking == null)
+			if (this.mCurTracking == null)
 			{
-				var track = new ADLTracking(mObjectives,mLearnerID,mScopeID);
-				track.mAttempt = mNumAttempt;
-				mCurTracking = track;
+				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
+					this.mScopeID);
+				track.mAttempt = this.mNumAttempt;
+				this.mCurTracking = track;
 			}
 			
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
 				if (iObjID == null)
 				{
-					iObjID = mCurTracking.mPrimaryObj;
+					iObjID = this.mCurTracking.mPrimaryObj;
 				}
 
-				var obj = mCurTracking.mObjectives.get(iObjID);
+				var obj = this.mCurTracking.mObjectives.get(iObjID);
 				
 				if (obj != null)
 				{
 					var objData = obj.getObj();
 					
-					if (!objData.mSatisfiedByMeasure || mActiveMeasure || !mIsActive)
+					if (!objData.mSatisfiedByMeasure || this.mActiveMeasure ||
+						!this.mIsActive)
 					{
 						var result = null;
 						
 						result = obj.getObjStatus(iIsRetry);
-						if (result == ADLTracking.TRACK_SATISFIED)
+						if (result == TRACK_SATISFIED)
 						{
 							status = true;
 						}
@@ -840,67 +896,67 @@ SeqActivity.prototype =
 		return status;
 	},
 	
-	setCurAttemptExDur: (iDur)
+	setCurAttemptExDur: function (iDur)
 	{
-		if (mCurTracking != null)
+		if (this.mCurTracking != null)
 		{
-			mCurTracking.mAttemptAbDur = iDur;
+			this.mCurTracking.mAttemptAbDur = iDur;
 		}
 	},
 	
-	evaluateLimitConditions: ()
+	evaluateLimitConditions: function ()
 	{
 		// This is an implementation of UP.1
 		var disabled = false;
 		
-		if (mCurTracking != null)
+		if (this.mCurTracking != null)
 		{
 			// Test max attempts
-			if (mMaxAttemptControl)
+			if (this.mMaxAttemptControl)
 			{
-				if (mNumAttempt >= mMaxAttempt)
+				if (this.mNumAttempt >= this.mMaxAttempt)
 				{
 					disabled = true;
 				}
 			}
 		
-			if (mActivityAbDurControl && !disabled)
+			if (this.mActivityAbDurControl && !disabled)
 			{
-				if (mActivityAbDur.compare(mActivityAbDur_track) 
-					!= ADLDuration.LT)
+				if (this.mActivityAbDur.compare(this.mActivityAbDur_track) 
+					!= LT)
 				{
 					disabled = true;
 				}
 			}
 		
-			if (mActivityExDurControl && !disabled)
+			if (this.mActivityExDurControl && !disabled)
 			{
-				if (mActivityExDur.compare(mActivityExDur_track) != 
-					ADLDuration.LT)
+				if (this.mActivityExDur.compare(this.mActivityExDur_track) != 
+					LT)
 				{
 					disabled = true;
 				}
 			}
 		
-			if (mAttemptAbDurControl && !disabled)
+			if (this.mAttemptAbDurControl && !disabled)
 			{
-				if (mActivityAbDur.compare(mCurTracking.mAttemptAbDur)
-					!= ADLDuration.LT)
+				if (this.mActivityAbDur.compare(this.mCurTracking.mAttemptAbDur)
+					!= LT)
 				{
 					disabled = true;
 				}
 			}
 		
-			if (mAttemptExDurControl && !disabled)
+			if (this.mAttemptExDurControl && !disabled)
 			{
-				if (mActivityExDur.compare(mCurTracking.mAttemptExDur)
-					!= ADLDuration.LT)
+				if (this.mActivityExDur.compare(this.mCurTracking.mAttemptExDur)
+					!= LT)
 				{
 					disabled = true;
 				}
 			}
 		
-			if (mBeginTimeControl && !disabled)
+			if (this.mBeginTimeControl && !disabled)
 			{
 				// -+- TODO -+-
 				if (false)
@@ -909,7 +965,7 @@ SeqActivity.prototype =
 				}
 			}
 		
-			if (mEndTimeControl && !disabled)
+			if (this.mEndTimeControl && !disabled)
 			{
 				// -+- TODO -+-
 				if (false)
@@ -921,49 +977,50 @@ SeqActivity.prototype =
 		return disabled;
 	},
 	
-	incrementSCOAttempt: ()
+	incrementSCOAttempt: function ()
 	{
-		mNumSCOAttempt++;
+		this.mNumSCOAttempt++;
 	},
 	
-	incrementAttempt: ()
+	incrementAttempt: function ()
 	{
 		// Store existing tracking information for historical purposes
-		if (mCurTracking != null)
+		if (this.mCurTracking != null)
 		{
 			// todo: check
-			if (mTracking == null)
+			if (this.mTracking == null)
 			{
-				mTracking = new Array();
+				this.mTracking = new Array();
 			}
-			mTracking[sizeof(mTracking)] = mCurTracking;
+			this.mTracking[this.mTracking.length] = this.mCurTracking;
 		}
 		
 		// Create a set of tracking information for the new attempt
-		var track = new ADLTracking(mObjectives, mLearnerID, mScopeID);
+		var track = new ADLTracking(this.mObjectives, this.mLearnerID,
+			this.mScopeID);
 		
-		mNumAttempt++;
-		track.mAttempt = mNumAttempt;
+		this.mNumAttempt++;
+		track.mAttempt = this.mNumAttempt;
 		
-		mCurTracking = track;
+		this.mCurTracking = track;
 		
 		// If this is a cluster, check useCurrent flags
-		if (mActiveChildren != null)
+		if (this.mActiveChildren != null)
 		{
-			for (var i = 0; i < sizeof(mActiveChildren); i++)
+			for (var i = 0; i < this.mActiveChildren.length; i++)
 			{
-				var temp = mActiveChildren[i];
+				var temp = this.mActiveChildren[i];
 				
 				// Flag 'dirty' data if we are supposed to only use 'current attempt
 				// status -- Set existing data to 'dirty'.  When a new attempt on a
 				// a child activity begins, the new tracking information will be 
 				// 'clean'.
-				if (mUseCurObj)
+				if (this.mUseCurObj)
 				{
 					temp.setDirtyObj();
 				}
 				
-				if (mUseCurPro)
+				if (this.mUseCurPro)
 				{
 					temp.setDirtyPro();
 				}
@@ -971,21 +1028,21 @@ SeqActivity.prototype =
 		}	
 	},
 	
-	setDirtyObj: ()
+	setDirtyObj: function ()
 	{
-		if (mCurTracking != null)
+		if (this.mCurTracking != null)
 		{
-			mCurTracking.setDirtyObj();
+			this.mCurTracking.setDirtyObj();
 		}
 		
 		// If this is a cluster, check useCurrent flags
-		if (mActiveChildren != null)
+		if (this.mActiveChildren != null)
 		{
-			for (var i = 0; i < sizeof(mActiveChildren); i++)
+			for (var i = 0; i < this.mActiveChildren.length; i++)
 			{
-				var temp = mActiveChildren[i];
+				var temp = this.mActiveChildren[i];
 				
-				if (mUseCurObj)
+				if (this.mUseCurObj)
 				{
 					temp.setDirtyObj();
 				}
@@ -993,20 +1050,20 @@ SeqActivity.prototype =
 		}
 	},
 	
-	setDirtyPro: ()
+	setDirtyPro: function ()
 	{
-		if (mCurTracking != null)
+		if (this.mCurTracking != null)
 		{
-			mCurTracking.mDirtyPro = true;
+			this.mCurTracking.mDirtyPro = true;
 		}
 		
 		// If this is a cluster, check useCurrent flags
-		if (mActiveChildren != null)
+		if (this.mActiveChildren != null)
 		{
-			for (var i = 0; i < sizeof(mActiveChildren); i++)
+			for (var i = 0; i < this.mActiveChildren.length; i++)
 			{
-				var temp = mActiveChildren[i];
-				if (mUseCurPro)
+				var temp = this.mActiveChildren[i];
+				if (this.mUseCurPro)
 				{
 					temp.setDirtyPro();
 				}
@@ -1014,32 +1071,32 @@ SeqActivity.prototype =
 		}
 	},
 	
-	resetNumAttempt: ()
+	resetNumAttempt: function ()
 	{
 		// Clear all current and historical tracking information.
-		mNumAttempt = 0;
-		mCurTracking = null;
-		mTracking = null;
+		this.mNumAttempt = 0;
+		this.mCurTracking = null;
+		this.mTracking = null;
 	},
 	
-	getNumAttempt: ()
+	getNumAttempt: function ()
 	{
 		var attempt = 0;
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			attempt = mNumAttempt;
+			attempt = this.mNumAttempt;
 		}
 		return attempt;
 	},
 	
-	getObjIDs: (iObjID, iRead)
+	getObjIDs: function (iObjID, iRead)
 	{
 		// Attempt to find the ID associated with the rolledup objective
 		if (iObjID == null)
 		{
-			if (mCurTracking != null)
+			if (this.mCurTracking != null)
 			{
-				iObjID = mCurTracking.mPrimaryObj;
+				iObjID = this.mCurTracking.mPrimaryObj;
 			}
 		}
 		
@@ -1047,14 +1104,14 @@ SeqActivity.prototype =
 		var objSet = new Array();
 		var mapSet = new Array();
 		
-		if (mIsTracked)
+		if (this.mIsTracked)
 		{
-			if (mObjMaps != null)
+			if (this.mObjMaps != null)
 			{
-				mapSet = mObjMaps.get(iObjID);
+				mapSet = this.mObjMaps.get(iObjID);
 				if (mapSet != null)
 				{
-					for (var i = 0; i < sizeof(mapSet); i++)
+					for (var i = 0; i < mapSet.length; i++)
 					{
 						var map = mapSet[i];
 						
@@ -1065,7 +1122,7 @@ SeqActivity.prototype =
 								objSet = new Array();
 							}
 							
-							objSet[sizeof(objSet)] = map.mGlobalObjID;
+							objSet[objSet.length] = map.mGlobalObjID;
 						}
 						else if (iRead && (map.mReadStatus || map.mReadMeasure))
 						{
@@ -1073,7 +1130,7 @@ SeqActivity.prototype =
 							{
 								objSet = new Array();
 							}
-							objSet[sizeof(objSet)] = map.mGlobalObjID;
+							objSet[objSet.length] = map.mGlobalObjID;
 						}
 					}
 				}
@@ -1082,36 +1139,36 @@ SeqActivity.prototype =
 		return objSet;
 	},
 	
-	addChild: (ioChild)
+	addChild: function (ioChild)
 	{
-		if (mChildren == null)
+		if (this.mChildren == null)
 		{
-			mChildren = new Array();
+			this.mChildren = new Array();
 		}
 		
 		// To maintain consistency, adding a child activity will set the active
 		// children to the set of all children.
-		mActiveChildren = mChildren;
+		this.mActiveChildren = this.mChildren;
 		
-		mChildren[sizeof(mChildren)] = ioChild;
+		this.mChildren[mChildren.length] = ioChild;
 		
 		// Tell the child who its parent is and its order in relation to its
 		// siblings.
-		ioChild.setOrder(sizeof(mChildren) - 1);
-		ioChild.setActiveOrder(sizeof(mChildren) - 1);
+		ioChild.setOrder(this.mChildren.length - 1);
+		ioChild.setActiveOrder(this.mChildren.length - 1);
 		ioChild.setParent(this);
 	},
 	
-	setChildren: (ioChildren, iAll)
+	setChildren: function (ioChildren, iAll)
 	{
 		var walk = null; 
 		
 		if (iAll)
 		{
-			mChildren = ioChildren;
-			mActiveChildren = ioChildren;
+			this.mChildren = ioChildren;
+			this.mActiveChildren = ioChildren;
 			
-			for (var i = 0; i < sizeof(ioChildren); i++)
+			for (var i = 0; i < ioChildren.length; i++)
 			{
 				walk = ioChildren[i];
 				
@@ -1123,15 +1180,15 @@ SeqActivity.prototype =
 		}
 		else
 		{
-			for (var i = 0; i < sizeof(mChildren); i++)
+			for (var i = 0; i < this.mChildren.length; i++)
 			{
-				walk = mChildren[i];
+				walk = this.mChildren[i];
 				walk.setIsSelected(false);
 			}
 			
-			mActiveChildren = ioChildren;
+			this.mActiveChildren = ioChildren;
 			
-			for (var i = 0; i < sizeof(ioChildren); i++)
+			for (var i = 0; i < ioChildren.length; i++)
 			{
 				walk = ioChildren[i];
 				walk.setActiveOrder(i);
@@ -1141,159 +1198,151 @@ SeqActivity.prototype =
 		}
 	},
 	
-	getChildren: (iAll)
+	getChildren: function (iAll)
 	{
 		var result = null;
 		
 		if (iAll)
 		{
-			result = mChildren;
+			result = this.mChildren;
 		}
 		else
 		{
-			result = mActiveChildren;
+			result = this.mActiveChildren;
 		}
 		
 		return result;
 	},
 	
-	hasChildren: (iAll)
+	hasChildren: function (iAll)
 	{
 		var result = false;
 		
 		if (iAll)
 		{
-			result = mChildren != null;
+			result = (this.mChildren != null);
 		}
 		else
 		{
-			result = mActiveChildren != null;
+			result = (this.mActiveChildren != null);
 		}
 		
 		return result;
 	},
 	
-	getNextSibling: (iAll)
+	getNextSibling: function (iAll)
 	{
 		var next = null;
 		var target = -1;
 		
 		// Make sure this activity has a parent
-		if (mParent != null)
+		if (this.mParent != null)
 		{
 			if (iAll)
 			{
-				target = mOrder + 1; 
+				target = this.mOrder + 1; 
 			}
 			else
 			{
-				target = mActiveOrder + 1;
+				target = this.mActiveOrder + 1;
 			}
 			
 			// Make sure there is a 'next' sibling
-			if (target < sizeof(mParent.getChildren(iAll)))
+			if (target < this.mParent.getChildren(iAll).length)
 			{
-				var all = mParent.getChildren(iAll);
+				var all = this.mParent.getChildren(iAll);
 				next = all[target];
 			}
 		}
 		return next;
 	},
 	
-	getPrevSibling: (iAll)
+	getPrevSibling: function (iAll)
 	{
 		var prev = null;
 		var target = -1;
 		
 		// Make sure this activity has a parent
-		if (mParent != null)
+		if (this.mParent != null)
 		{
 			if (iAll)
 			{
-				target = mOrder - 1;
+				target = this.mOrder - 1;
 			}
 			else
 			{
-				target = mActiveOrder - 1;
+				target = this.mActiveOrder - 1;
 			}
 			
 			// Make sure there is a 'next' sibling
 			if (target >= 0)
 			{
-				var all = mParent.getChildren(iAll);
+				var all = this.mParent.getChildren(iAll);
 				prev = all[target];
 			}
 		}
 		return prev;
 	},
 	
-	getParentID: ()
+	getParentID: function ()
 	{
 		// If the parent is not null
-		if (mParent != null)
+		if (this.mParent != null)
 		{
-			return mParent.mActivityID;
+			return this.mParent.mActivityID;
 		}
 		
 		return null;
 	},
 	
-	getObjStatusSet: ()
+	getObjStatusSet: function ()
 	{
 		var objSet = null;
 		
-		if (mCurTracking == null)
+		if (this.mCurTracking == null)
 		{
-			var track = new ADLTracking(mObjectives,mLearnerID,mScopeID);
-			track.mAttempt = mNumAttempt;
-			mCurTracking = track;
+			var track = new ADLTracking(this.mObjectives,this.mLearnerID,
+				this.mScopeID);
+			track.mAttempt = this.mNumAttempt;
+			this.mCurTracking = track;
 		}
 		
-		if (mCurTracking.mObjectives != null)
+		if (this.mCurTracking.mObjectives != null)
 		{
 			objSet = new Array();
 			
-			for (var k in mCurTracking.mObjectives)
+			for (var key in this.mCurTracking.mObjectives)
 			{
-				if (mCurTracking.mObjectives.hasOwnProperty(k)) // hasOwnProperty requires Safari 1.2
+				// Only include objectives with IDs
+				if (key != "_primary_")
 				{
-					var key = k;
+					var obj = this.mCurTracking.mObjectives[key];
+					var objStatus = new ADLObjStatus();
 					
-					// Only include objectives with IDs
-					if ( !key.equals("_primary_") )
+					objStatus.mObjID = obj.getObjID();
+					var measure = obj.getObjMeasure(false);
+					
+					objStatus.mHasMeasure =
+						(measure != TRACK_UNKNOWN);
+					
+					if (objStatus.mHasMeasure)
 					{
-						var obj = mCurTracking.mObjectives[key];
-						var objStatus = new ADLObjStatus();
-						
-						objStatus.mObjID = obj.getObjID();
-						var measure = obj.getObjMeasure(false);
-						
-						objStatus.mHasMeasure =
-							(measure != ADLTracking.TRACK_UNKNOWN);
-						
-						if (objStatus.mHasMeasure)
-						{
-							objStatus.mMeasure = measure;
-						}
-						
-						objStatus.mStatus = obj.getObjStatus(false);
-						objSet[siezof(objSet)] = objStatus;
+						objStatus.mMeasure = parseFloat(measure);
 					}
+					
+					objStatus.mStatus = obj.getObjStatus(false);
+					objSet[objSet.length] = objStatus;
 				}
 			}
 		}
 		
 		if (objSet != null)
 		{
-			if (sizeof(objSet) == 0)
+			if (objSet.length == 0)
 			{
 				objSet = null;
 			}
 		}
 		return objSet;
-	},
-	
-	
+	}
 }
-	
-	
