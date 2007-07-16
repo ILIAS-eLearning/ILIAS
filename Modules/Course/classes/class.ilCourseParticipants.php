@@ -80,6 +80,9 @@ class ilCourseParticipants
 	 	$this->lng = $lng;
 	 
 	 	$this->course_id = $a_course_id;
+		$ref_ids = ilObject::_getAllReferences($this->course_id);
+		$this->course_ref_id = current($ref_ids);
+	 	
 	 	
 	 	$this->readParticipants();
 	 	$this->readParticipantsStatus();
@@ -719,9 +722,9 @@ class ilCourseParticipants
 	 */
 	public function addDesktopItem($a_usr_id)
 	{
-		if(ilObjUser::_isDesktopItem($a_usr_id, $this->course_id,'crs'))
+		if(!ilObjUser::_isDesktopItem($a_usr_id, $this->course_ref_id,'crs'))
 		{
-			ilObjUser::_addDesktopItem($a_usr_id, $this->course_id,'crs');
+			ilObjUser::_addDesktopItem($a_usr_id, $this->course_ref_id,'crs');
 		}
 		return true;
 	}
@@ -736,9 +739,9 @@ class ilCourseParticipants
 	 */
 	function dropDesktopItem($a_usr_id)
 	{
-		if(ilObjUser::_isDesktopItem($a_usr_id, $this->course_id,'crs'))
+		if(ilObjUser::_isDesktopItem($a_usr_id, $this->course_ref_id,'crs'))
 		{
-			ilObjUser::_dropDesktopItem($a_usr_id, $this->course_id,'crs');
+			ilObjUser::_dropDesktopItem($a_usr_id, $this->course_ref_id,'crs');
 		}
 
 		return true;
@@ -757,10 +760,6 @@ class ilCourseParticipants
 	private function readParticipants()
 	{
 		global $rbacreview,$ilObjDataCache;
-		
-		// get reference
-		$ref_ids = ilObject::_getAllReferences($this->course_id);
-		$this->course_ref_id = current($ref_ids);
 		
 		$rolf = $rbacreview->getRoleFolderOfObject($this->course_ref_id);
 		$this->course_roles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
