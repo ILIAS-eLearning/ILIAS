@@ -1,4 +1,58 @@
-// JS port of ADL ADLDuration.java
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+/*
+	JS port of ADL ADLDuration.java
+	@author Alex Killing <alex.killing@gmx.de>
+	
+	This .js file is GPL licensed (see above) but based on
+	ADLDuration.java by ADL Co-Lab, which is licensed as:
+	
+	Advanced Distributed Learning Co-Laboratory (ADL Co-Lab) Hub grants you 
+	("Licensee") a non-exclusive, royalty free, license to use, modify and 
+	redistribute this software in source and binary code form, provided that 
+	i) this copyright notice and license appear on all copies of the software; 
+	and ii) Licensee does not utilize the software in a manner which is 
+	disparaging to ADL Co-Lab Hub.
+
+	This software is provided "AS IS," without a warranty of any kind.  ALL 
+	EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
+	ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
+	OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL Co-Lab Hub AND ITS LICENSORS 
+	SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
+	USING, MODIFYING OR DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO 
+	EVENT WILL ADL Co-Lab Hub OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, 
+	PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
+	INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
+	THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE 
+	SOFTWARE, EVEN IF ADL Co-Lab Hub HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
+	DAMAGES.
+*/
+
+var UNKNOWN = -999;
+var LT = -1;
+var EQ = 0;
+var GT = 1;
+var FORMAT_SECONDS = 0;
+var FORMAT_SCHEMA = 1;
 
 // call ADLDuration() or ADLDuration({iFormat: format, iValue: value})
 function ADLDuration(iOptions)  
@@ -10,9 +64,9 @@ function ADLDuration(iOptions)
 	var iFormat = iOptions.iFormat;
 	var iValue = iOptions.iValue;
 
-	if ($iValue == 0)
+	if (iValue == 0)
 	{
-		mDuration = 0;
+		this.mDuration = 0;
 	}
 	
 	var hours = null;
@@ -25,32 +79,33 @@ function ADLDuration(iOptions)
 		{
             var secs = 0.0;
 			secs = iValue;
-			mDuration = secs * 1000.0;
+			//this.mDuration = secs * 1000.0;
+			this.mDuration = parseFloat(secs);
 			break;
 		}
 		case FORMAT_SCHEMA:
 		{
-			// todo: make this work
+			// todo: make this work for Y/M/D
             var locStart = iValue.indexOf('T');
+
             var loc = 0;
 			if ( locStart != -1 )
 			{
-				// todo: make this work
+
 				locStart++;
-				loc = iValue.indexOf("H", locStart);
-			
+				loc = iValue.indexOf("H", locStart);			
 				if ( loc != -1 )
 				{
 					hours = iValue.substring(locStart, loc);
-					mDuration = Double.parseDouble(hours) * 3600;
+					this.mDuration = parseFloat(hours) * 3600;
 					locStart = loc + 1;
 				}
-				// todo: make this work
+
 				loc = iValue.indexOf("M", locStart);
 				if ( loc != -1 )
 				{
 					min = iValue.substring(locStart, loc);
-					mDuration += min * 60;
+					this.mDuration += parseFloat(min) * 60;
 					locStart = loc + 1;
 				}
 				// todo: make this work
@@ -58,7 +113,7 @@ function ADLDuration(iOptions)
 				if ( loc != -1 )
 				{
 					sec = iValue.substring(locStart, loc);
-					mDuration += Double.parseDouble(sec);
+					this.mDuration += parseFloat(sec);
 				}
 			}
 			break;
@@ -72,25 +127,17 @@ function ADLDuration(iOptions)
 //this.ADLDuration = ADLDuration;
 ADLDuration.prototype = 
 {
-	UNKNOWN: -999,
-	LT: -1,
-	EQ: 0,
-	GT: 1,
-	FORMAT_SECONDS: 0,
-	FORMAT_SCHEMA: 1,
-	mDuration: 0.0,
+	mDuration: 0.0,				// milliseconds ?
 	
-	// todo: make this work
-	round: (iValue)
+	round: function (iValue)
 	{
 		iValue = iValue * 10;
-		iValue = Math.rint(iValue);
+		iValue = Math.round(iValue);
 		iValue = iValue / 10;
 		return iValue;
 	},
 	
-	// todo: make this work
-	format: (iFormat)
+	format: function (iFormat)
 	{
 		var out = null;
 		var countHours = 0;
@@ -102,7 +149,8 @@ ADLDuration.prototype =
 		{
 			case FORMAT_SECONDS:
 			{
-				var sec = mDuration / 1000.0;
+				//var sec = this.mDuration / 1000.0;
+				var sec = this.mDuration;
 				out = sec;
 				break;
 			}
@@ -113,39 +161,40 @@ ADLDuration.prototype =
 				countMin = 0;
 				countSec = 0;
 
-				temp = mDuration;
+				temp = this.mDuration;
 				
 				if (temp >= .1)
 				{
-					temp = round(temp);
+					temp = this.round(temp);
 					if ( temp >= 3600 )
 					{
-						countHours = (long)(temp / 3600);
+						countHours = (temp / 3600);
 						temp %= 3600;
 					}
 					if ( temp > 60 )
 					{
-						countMin = (long)(temp / 60);
+						countMin = (temp / 60);
 						temp %= 60;
 					}
-					countSec = round(temp);
+					countSec = this.round(temp);
 				}
 
 				out = "PT";
 				
 				if ( countHours > 0 )
 				{
-					out += Long.toString(countHours, 10);
+					out = out + Math.floor(countHours);
 					out +="H";
 				}
 				if ( countMin > 0 )
 				{
-					out += Long.toString(countMin, 10);
+					//out += Long.toString(countMin, 10);
+					out = out + Math.floor(countMin);
 					out +="M";
 				}
 				if ( countSec > 0 )
 				{
-					out += countSec;
+					out = out + countSec;
 					out +="S";
 				}
 				break;
@@ -154,27 +203,27 @@ ADLDuration.prototype =
 		return out;
 	},
 	
-	add: (iDur)
+	// add duration (in seconds)
+	add: function (iDur)
 	{
-		mDuration += iDur.mDuration;
+		this.mDuration += parseFloat(iDur.mDuration);
 	},
 	
-	// todo: make this work
-	compare: (iDur)
+	compare: function (iDur)
 	{
-		var relation = ADLDuration.UNKNOWN;
+		var relation = UNKNOWN;
 		
-		if (mDuration < iDur.mDuration)
+		if (this.mDuration < iDur.mDuration)
 		{
-			relation = ADLDuration.LT;
+			relation = LT;
 		}
-		else if (mDuration == iDur.mDuration)
+		else if (this.mDuration == iDur.mDuration)
 		{
-			relation = ADLDuration.EQ;
+			relation = EQ;
 		}
-		else if (mDuration > iDur.mDuration)
+		else if (this.mDuration > iDur.mDuration)
 		{
-			relation = ADLDuration.GT;
+			relation = GT;
 		}
 		return relation;
 	}
