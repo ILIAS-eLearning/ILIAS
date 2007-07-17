@@ -189,9 +189,18 @@ class ilTree
 		$this->ref_pk = 'ref_id';
 		$this->obj_pk = 'obj_id';
 		$this->tree_pk = 'tree';
+		$this->use_cache = false;
 
 		// By default, we create gaps in the tree sequence numbering for 50 nodes 
 		$this->gap = 50;
+	}
+	
+	/**
+	* Use Cache (usually not activated)
+	*/
+	function useCache($a_use = true)
+	{
+		$this->use_cache = $a_use;
 	}
 	
 	/**
@@ -1099,7 +1108,17 @@ class ilTree
 	*/
 	function getPathId($a_endnode_id, $a_startnode_id = 0)
 	{
+		// path id cache
+		if ($this->use_cache && isset($this->path_id_cache[$a_endnode_id][$a_startnode_id]))
+		{
+//echo "<br>getPathIdhit";
+			return $this->path_id_cache[$a_endnode_id][$a_startnode_id];
+		}
+//echo "<br>miss";
+
 		$pathIds =& $this->getPathIdsUsingAdjacencyMap($a_endnode_id, $a_startnode_id);
+		
+		$this->path_id_cache[$a_endnode_id][$a_startnode_id] = $pathIds;
 		return $pathIds;
 	}
 
@@ -1367,6 +1386,13 @@ class ilTree
 			return false;
 			#$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
+		
+		// is in tree cache
+		if ($this->use_cache && isset($this->in_tree_cache[$a_node_id]))
+		{
+//echo "<br>in_tree_hit";
+			return $this->in_tree_cache[$a_node_id];
+		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->table_tree.".child = ".$this->ilDB->quote($a_node_id)." ".
@@ -1375,10 +1401,12 @@ class ilTree
 
 		if ($r->numRows() > 0)
 		{
+			$this->in_tree_cache[$a_node_id] = true;
 			return true;
 		}
 		else
 		{
+			$this->in_tree_cache[$a_node_id] = false;
 			return false;
 		}
 
@@ -1669,6 +1697,13 @@ class ilTree
 	*/
 	function isSaved($a_node_id)
 	{
+		// is saved cache
+		if ($this->use_cache && isset($this->is_saved_cache[$a_node_id]))
+		{
+//echo "<br>issavedhit";
+			return $this->is_saved_cache[$a_node_id];
+		}
+		
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE child = '".$a_node_id."'";
 		$s = $this->ilDB->query($q);
@@ -1676,10 +1711,12 @@ class ilTree
 
 		if ($r[$this->tree_pk] < 0)
 		{
+			$this->is_saved_cache[$a_node_id] = true;
 			return true;
 		}
 		else
 		{
+			$this->is_saved_cache[$a_node_id] = false;
 			return false;
 		}
 	}

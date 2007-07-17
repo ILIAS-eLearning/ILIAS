@@ -134,14 +134,17 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false)
 	{
-		global $ilAccess, $ilUser;
+		global $ilAccess, $ilUser, $ilBench;
+		
+		$ilBench->start("News", "getNewsItemsOfUser");
 		
 		$news_item = new ilNewsItem();
-		
+
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
-		$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($a_user_id);
 		
+		$ilBench->start("News", "getNewsItemsOfUser_getRefIds");
+		$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($a_user_id);
 		if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") != "n")
 		{
 			$pd_items = ilObjUser::_lookupDesktopItems($a_user_id);
@@ -153,24 +156,34 @@ class ilNewsItem extends ilNewsItemGen
 				}
 			}
 		}
+		$ilBench->stop("News", "getNewsItemsOfUser_getRefIds");
 		
 		$data = array();
 
 		foreach($ref_ids as $ref_id)
 		{
+			$ilBench->start("News", "getNewsForRefId");
 			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $ref_id))
 			{
 				continue;
 			}
 
+			$ilBench->start("News", "getNewsForRefId_getNews");
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news = $news_item->getNewsForRefId($ref_id, $a_only_public);
+			$ilBench->stop("News", "getNewsForRefId_getNews");
 
+			$ilBench->start("News", "getNewsForRefId_mergeNews");
 			$data = ilNewsItem::mergeNews($data, $news);
+			$ilBench->stop("News", "getNewsForRefId_mergeNews");
+			
+			$ilBench->stop("News", "getNewsForRefId");
 		}
 
 		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+
+		$ilBench->stop("News", "getNewsItemsOfUser");
 		
 //var_dump($data);
 		return $data;
@@ -226,21 +239,30 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	function getAggregatedNewsData($a_ref_id, $a_only_public = false)
 	{
-		global $tree, $ilAccess;
+		global $tree, $ilAccess, $ilBench;
+		
+		$ilBench->start("News", "getAggregatedNewsData");
 		
 		// get news of parent object
 		
 		$data = array();
 		
 		// get subtree
+		$ilBench->start("News", "getAggregatedNewsData_getSubTree");
 		$cur_node = $tree->getNodeData($a_ref_id);
 		$nodes = $tree->getSubTree($cur_node, true);
+		$ilBench->stop("News", "getAggregatedNewsData_getSubTree");
 		
 		// get news for all subtree nodes
+		$ilBench->start("News", "getAggregatedNewsData_getContexts");
 		$contexts = array();
 		foreach($nodes as $node)
 		{
-			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $node["child"]))
+			$ilBench->start("News", "getAggregatedNewsData_getContexts_checkAccess");
+			$acc = $ilAccess->checkAccess("read", "", $node["child"]);
+			$ilBench->stop("News", "getAggregatedNewsData_getContexts_checkAccess");
+			
+			if (!$a_only_public && !$acc)
 			{
 				continue;
 			}
@@ -248,16 +270,22 @@ class ilNewsItem extends ilNewsItemGen
 			$contexts[] = array("obj_id" => $node["obj_id"],
 				"obj_type" => $node["type"]);
 		}
+		$ilBench->stop("News", "getAggregatedNewsData_getContexts");
 		
 		// sort and return
 		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public);
+		
+		$ilBench->start("News", "getAggregatedNewsData_mergeAndSort");
 		foreach ($news as $k => $v)
 		{
 			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
 		}
 		$data = ilNewsItem::mergeNews($data, $news);
-		
 		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+		$ilBench->stop("News", "getAggregatedNewsData_mergeAndSort");
+		
+		$ilBench->stop("News", "getAggregatedNewsData");
+		
 		return $data;
 	}
 	
@@ -266,7 +294,9 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	function getAggregatedChildNewsData($a_ref_id, $a_only_public = false)
 	{
-		global $tree, $ilAccess;
+		global $tree, $ilAccess, $ilBench;
+		
+		$ilBench->start("News", "getAggregatedChildNewsData");
 		
 		// get news of parent object
 		$data = $this->getNewsForRefId($a_ref_id, $a_only_public, true);
@@ -300,6 +330,9 @@ class ilNewsItem extends ilNewsItemGen
 		
 		// sort and return
 		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+		
+		$ilBench->stop("News", "getAggregatedChildNewsData");
+		
 		return $data;
 	}
 
@@ -368,7 +401,9 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	public function queryNewsForMultipleContexts($a_contexts, $a_for_rss_use = false)
 	{
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $ilBench;
+		
+		$ilBench->start("News", "queryNewsForMultipleContexts");
 		
 		$ids = array();
 		$type = array();
@@ -414,6 +449,8 @@ class ilNewsItem extends ilNewsItemGen
 			}
 		}
 
+		$ilBench->stop("News", "queryNewsForMultipleContexts");
+		
 		return $result;
 
 	}

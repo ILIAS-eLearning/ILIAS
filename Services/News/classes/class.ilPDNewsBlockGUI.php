@@ -43,7 +43,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function ilPDNewsBlockGUI()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilUser, $ilBench;
+		
+		$ilBench->start("News", "ilPDNewsBlockGUI_Constructor");
 		
 		parent::ilBlockGUI();
 		
@@ -52,26 +54,37 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$lng->loadLanguageModule("news");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 
+		$this->setLimit(5);
+		$this->setAvailableDetailLevels(3);
+
 		// do not ask two times for the data (e.g. if user displays a 
 		// single item on the personal desktop and the news block is 
 		// displayed at the same time)
-		if (empty(self::$st_data))
+		if ($this->getCurrentDetailLevel() > 0)
 		{
-			self::$st_data = $this->getNewsData();
-			$data = self::$st_data;
+			if (empty(self::$st_data))
+			{
+				self::$st_data = $this->getNewsData();
+				$data = self::$st_data;
+			}
+			else
+			{
+				$data = self::$st_data;
+			}
 		}
 		else
 		{
-			$data = self::$st_data;
+			$data = array();
 		}
-
-		$this->setLimit(5);
-		$this->setAvailableDetailLevels(3);
 		
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
+		
 		$this->setData($data);
+		
 		$this->handleView();
+		
+		$ilBench->stop("News", "ilPDNewsBlockGUI_Constructor");
 	}
 	
 	/**
@@ -146,6 +159,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function fillDataSection()
 	{
+		global $ilBench;
+		
+		$ilBench->start("News", "ilPDNewsBlockGUI_fillDataSection");
+		
 		if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
@@ -159,6 +176,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			}
 			$this->setDataSection($this->getOverview());
 		}
+		
+		$ilBench->stop("News", "ilPDNewsBlockGUI_fillDataSection");
 	}
 
 	/**

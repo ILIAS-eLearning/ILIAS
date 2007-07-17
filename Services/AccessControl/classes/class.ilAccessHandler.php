@@ -470,11 +470,10 @@ class ilAccessHandler
 		//echo "conditionCheck<br/>";
 		global $lng, $ilBench;
 
-		$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
-
 		if ($a_permission == "read" &&
 			!$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id))
 		{
+			$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
 			if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
 			{
 				$conditions = ilConditionHandler::_getConditionsOfTarget($a_obj_id, $a_type);
@@ -487,15 +486,14 @@ class ilAccessHandler
 						$lng->txt("condition_".$condition["operator"])." ".
 						$condition["value"], $condition);
 				}
-				
 				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 				$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 				return false;
 			}
+			$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 		}
 
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
-		$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 		return true;
 	}
 	
