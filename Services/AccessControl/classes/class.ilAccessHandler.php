@@ -91,7 +91,7 @@ class ilAccessHandler
 		{
 			$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] = 
 					array("granted" => $a_access_granted, "info" => $a_info);
-						
+//echo "<br>write-$a_ref_id-$a_permission-$a_cmd-$a_user_id-$a_access_granted-";
 			$this->current_result_element = array($a_access_granted,$a_ref_id,$a_permission,$a_cmd,$a_user_id);			
 			$this->last_result = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
 			$this->last_info = $a_info;
@@ -208,9 +208,12 @@ class ilAccessHandler
 		$ilBench->stop("AccessControl", "0500_lookup_id_and_type");
 
 		// get cache result
-		if ($this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
+//echo "<br>CheckAccess-".$a_permission."-".$a_cmd."-".$a_ref_id."-".$a_user_id."-";
+		$cached = $this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
+		
+		if ($cached["hit"])
 		{
-			return true;
+			return $cached["granted"];
 		}
 
 		// to do: payment handling
@@ -293,15 +296,16 @@ class ilAccessHandler
 		//var_dump($stored_access);
 		if (is_array($stored_access))
 		{
+//echo "Hit";
 			$this->current_info = $stored_access["info"];
 			//var_dump("cache-treffer:");
 			$ilBench->stop("AccessControl", "1000_checkAccess_get_cache_result");
-			return $stored_access["granted"];
+			return array("hit" => true, "granted" => $stored_access["granted"]);
 		}
 		
 		// not in cache
 		$ilBench->stop("AccessControl", "1000_checkAccess_get_cache_result");
-		return false;
+		return array("hit" => false, "granted" => false);
 	}
 	
 	/**
@@ -368,7 +372,7 @@ class ilAccessHandler
 	function doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
 		global $tree, $lng, $ilBench,$ilObjDataCache;
-
+//echo "<br>dopathcheck";
 		//echo "pathCheck<br/>";
 		$ilBench->start("AccessControl", "3100_checkAccess_check_parents_get_path");
 		$path = $tree->getPathId($a_ref_id);
@@ -427,42 +431,58 @@ class ilAccessHandler
 	{
 		global $ilBench;
 		
-		
+		$cache_perm = ($a_permission == "visible")
+			? "visible"
+			: "other";
+			
+//echo "<br>doActivationCheck-$cache_perm-$a_ref_id-$a_user_id-";
+
+		if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id]))
+		{
+			//echo "Hit";
+			return $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id];
+		}
+
 		// nothings needs to be done if current permission is write permission
 		if($a_permission == 'write')
 		{
 			return true;
 		}
 
-		$ilBench->start("AccessControl", "3200_checkAccess_check_course_activation");
+		$ilBench->start("AccessControl", "3150_checkAccess_check_course_activation");
 		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		$item_data = ilCourseItems::_getItem($a_ref_id);
-		$ilBench->stop("AccessControl", "3200_checkAccess_check_course_activation");
+		$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 
 		// if activation isn't enabled
 		if($item_data['timing_type'] != IL_CRS_TIMINGS_ACTIVATION)
 		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
 		// if within activation time
 		if((time() >= $item_data['timing_start']) and
 		   (time() <= $item_data['timing_end']))
 		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
 
 		// if user has write permission
 		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
 		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
 		// if current permission is visible and visible is set in activation
 		if($a_permission == 'visible' and $item_data['visible'])
 		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
 
 		// no access
+		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
 		return false;
 	}
 
