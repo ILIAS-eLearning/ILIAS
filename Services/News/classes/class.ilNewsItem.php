@@ -239,7 +239,7 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	function getAggregatedNewsData($a_ref_id, $a_only_public = false)
 	{
-		global $tree, $ilAccess, $ilBench;
+		global $tree, $ilAccess, $ilBench, $ilObjDataCache;
 		
 		$ilBench->start("News", "getAggregatedNewsData");
 		
@@ -251,6 +251,15 @@ class ilNewsItem extends ilNewsItemGen
 		$ilBench->start("News", "getAggregatedNewsData_getSubTree");
 		$cur_node = $tree->getNodeData($a_ref_id);
 		$nodes = $tree->getSubTree($cur_node, true);
+		
+		// preload object data cache
+		$ref_ids = array();
+		foreach($nodes as $node)
+		{
+			$ref_ids[] = $node["child"];
+		}
+		$ilObjDataCache->preloadReferenceCache($ref_ids);
+		
 		$ilBench->stop("News", "getAggregatedNewsData_getSubTree");
 		
 		// get news for all subtree nodes
