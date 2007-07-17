@@ -77,7 +77,7 @@ SeqConditionSet.prototype =
 			}, iOptions );
 		var iIsRetry = iOptions.iIsRetry;
 		mRetry = iIsRetry;
-		int result = EVALUATE_UNKNOWN;
+		var result = EVALUATE_UNKNOWN;
 
 		// Make sure we have a valid target activity  
 		if (iThisActivity != null)
