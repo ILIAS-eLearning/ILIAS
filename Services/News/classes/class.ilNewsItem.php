@@ -267,14 +267,18 @@ class ilNewsItem extends ilNewsItemGen
 		$contexts = array();
 		foreach($nodes as $node)
 		{
-			$ilBench->start("News", "getAggregatedNewsData_getContexts_checkAccess");
-			$acc = $ilAccess->checkAccess("read", "", $node["child"]);
-			$ilBench->stop("News", "getAggregatedNewsData_getContexts_checkAccess");
-			
-			if (!$a_only_public && !$acc)
+			if (!$a_only_public)
 			{
-				continue;
+				$ilBench->start("News", "getAggregatedNewsData_getContexts_checkAccess");
+				$acc = $ilAccess->checkAccess("read", "", $node["child"]);
+				$ilBench->stop("News", "getAggregatedNewsData_getContexts_checkAccess");
+				
+				if (!$acc)
+				{
+					continue;
+				}
 			}
+			
 			$ref_id[$node["obj_id"]] = $node["child"];
 			$contexts[] = array("obj_id" => $node["obj_id"],
 				"obj_type" => $node["type"]);
