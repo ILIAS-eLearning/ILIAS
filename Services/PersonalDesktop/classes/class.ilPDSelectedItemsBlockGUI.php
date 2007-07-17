@@ -222,7 +222,19 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	*/
 	function getSelectedItemsPerType(&$tpl)
 	{
-		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting;
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache;
+		
+		$items = $ilUser->getDesktopItems();
+		if (count($items) > 0)
+		{
+			// preload object data cache
+			$ref_ids = array();
+			foreach($items as $item)
+			{
+				$ref_ids[] = $item["ref_id"];
+			}
+			$ilObjDataCache->preloadReferenceCache($ref_ids);
+		}
 		
 		$output = false;
 		$types = array(
@@ -365,7 +377,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	*/
 	function getSelectedItemsPerLocation(&$tpl)
 	{
-		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting;
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache;
 		
 		$output = false;
 		
@@ -374,6 +386,15 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		
 		if (count($items) > 0)
 		{
+			// preload object data cache
+			$ref_ids = array();
+			foreach($items as $item)
+			{
+				$ref_ids[] = $item["ref_id"];
+			}
+			reset($items);
+			$ilObjDataCache->preloadReferenceCache($ref_ids);
+			
 			foreach($items as $item)
 			{
 				//echo "1";

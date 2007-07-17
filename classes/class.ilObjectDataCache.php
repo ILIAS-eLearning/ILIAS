@@ -52,6 +52,7 @@ class ilObjectDataCache
 	{
 		if(!$this->__isReferenceCached($a_ref_id))
 		{
+//echo"-objidmissed-$a_ref_id-";
 			$obj_id = $this->__storeReference($a_ref_id);
 			$this->__storeObjectData($obj_id);
 		}
@@ -71,6 +72,7 @@ class ilObjectDataCache
 	{
 		if(!$this->__isObjectCached($a_obj_id))
 		{
+//echo"-typemissed-$a_obj_id-";
 			$this->__storeObjectData($a_obj_id);
 		}
 		return @$this->object_data_cache[$a_obj_id]['type'];
@@ -197,5 +199,58 @@ class ilObjectDataCache
 		}
 		return true;
 	}
+	
+	/**
+	* Stores object data in cache
+	*
+	* @access	private
+	* @param	int			$a_obj_id				object id
+	* @return	bool
+	*/
+	function preloadObjectCache($a_obj_ids)
+	{
+		global $ilDB;
+		
+		if (!is_array($a_obj_ids)) return;
+		if (count($a_obj_ids) == 0) return;
+		
+		$query = "SELECT * FROM object_data WHERE obj_id IN (".
+			implode(",",ilUtil::quoteArray($a_obj_ids)).")";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+//echo "<br>store_obj-".$row->obj_id."-".$row->type."-".$row->title."-";
+			$this->object_data_cache[$row->obj_id]['title'] = $row->title;
+			$this->object_data_cache[$row->obj_id]['description'] = $row->description;
+			$this->object_data_cache[$row->obj_id]['type'] = $row->type;
+			$this->object_data_cache[$row->obj_id]['owner'] = $row->owner;
+			$this->object_data_cache[$row->obj_id]['last_update'] = $row->last_update;
+
+		}
+	}
+
+	function preloadReferenceCache($a_ref_ids, $a_incl_obj = true)
+	{
+		global $ilDB;
+		
+		if (!is_array($a_ref_ids)) return;
+		if (count($a_ref_ids) == 0) return;
+		
+		$query = "SELECT ref_id, obj_id FROM object_reference WHERE ref_id IN (".
+			implode(",",ilUtil::quoteArray($a_ref_ids)).")";
+		$res = $this->db->query($query);
+		$obj_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->reference_cache[$row['ref_id']] = $row['obj_id'];
+//echo "<br>store_ref-".$row['ref_id']."-".$row['obj_id']."-";
+			$obj_ids[] = $row['obj_id'];
+		}
+		if ($a_incl_obj)
+		{
+			$this->preloadObjectCache($obj_ids);
+		}
+	}
+
 }
 ?>
