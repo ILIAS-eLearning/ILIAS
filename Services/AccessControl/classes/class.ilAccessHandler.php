@@ -425,14 +425,19 @@ class ilAccessHandler
 	 */
 	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
+		global $ilBench;
+		
+		
 		// nothings needs to be done if current permission is write permission
 		if($a_permission == 'write')
 		{
 			return true;
 		}
 
+		$ilBench->start("AccessControl", "3200_checkAccess_check_course_activation");
 		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		$item_data = ilCourseItems::_getItem($a_ref_id);
+		$ilBench->stop("AccessControl", "3200_checkAccess_check_course_activation");
 
 		// if activation isn't enabled
 		if($item_data['timing_type'] != IL_CRS_TIMINGS_ACTIVATION)
