@@ -8936,13 +8936,13 @@ class ilObjTest extends ilObject
 		global $ilDB;
 
 		$nr_of_users = $this->getAllowedUsers();
-		$time_gap = $this->getAllowedUsersTimeGap();
+		$time_gap = ($this->getAllowedUsersTimeGap()) ? $this->getAllowedUsersTimeGap() : 60;
 		if (($nr_of_users > 0) && ($time_gap > 0))
 		{
 			$now = mktime();
 			$time_border = $now - $time_gap;
 			$str_time_border = strftime("%Y%m%d%H%M%S", $time_border);
-			$query = sprintf("SELECT DISTINCT tst_times.active_fi, tst_times.times_id FROM tst_times, tst_active WHERE tst_times.TIMESTAMP > %s AND tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+			$query = sprintf("SELECT DISTINCT tst_times.active_fi FROM tst_times, tst_active WHERE tst_times.TIMESTAMP > %s AND tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
 				$ilDB->quote($str_time_border),
 				$ilDB->quote($this->getTestId() . "")
 			);
