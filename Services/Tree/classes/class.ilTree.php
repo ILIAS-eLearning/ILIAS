@@ -795,6 +795,7 @@ class ilTree
 			{
 				$subtree[] = $row['child'];
 			}
+			$this->in_tree_cache[$row['child']] = true;
 		}
 
 		return $subtree ? $subtree : array();
