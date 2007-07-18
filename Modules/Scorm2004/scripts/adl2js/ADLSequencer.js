@@ -233,7 +233,7 @@ ADLSequencer.prototype =
 	clearAttemptObjMeasure: function (iID, iObjID)
 	{
 		// Find the target activty
-		var target = getActivity(iID);
+		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
 		if (target != null)
@@ -327,7 +327,7 @@ ADLSequencer.prototype =
 	
 	setAttemptProgressStatus: function (iID, iProgress)
 	{
-		var target = getActivity(iID);
+		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
 		if (target != null)
@@ -1196,7 +1196,7 @@ ADLSequencer.prototype =
 		
 			while (parent != null)
 			{
-				path.add(parent);
+				path[path.length] = parent;
 				parent = parent.getParent();
 			}
 		
@@ -1270,1687 +1270,1591 @@ ADLSequencer.prototype =
 			return seqReq;
 		}
 		
-// ------------
-		
 		// Apply the termination request
 		if (iRequest.equals(TER_EXIT))
 		{
+			
+			// Make sure the current activity is active.
+			if (cur.getIsActive())
+			{
+			
+				// End the attempt on the current activity
+				this.endAttempt(cur, iTentative);
+				
+				// Evaluate exit action rules
+				this.evaluateExitRules(iTentative);
+				
+				// Evaluate post conditions
+				var exited = false;
+				
+				// todo: check this do loop
+				do
+				{
+					exited = false;
+					
+					// Only process post conditions on the first candidate
+					var process = this.mSeqTree.getFirstCandidate();
+					
+					// Make sure we are not at the root
+					if (!this.mExitCourse)
+					{
+						// This block implements the Sequencing Post Condition Rule
+						// Subprocess (SB.2.2)
+
+						// Attempt to get rule information from the activity
+						var postRules = process.getPostSeqRules();
+						
+						if (postRules != null)
+						{
+							var result = null;
+							result = postRules.evaluate(RULE_TYPE_POST, process, false);
+							
+							if (result != null)
+							{
+								// This set of ifs implement TB.2.2
+								if (result == SEQ_ACTION_RETRY)
+								{
+									// Override any existing sequencing request
+									seqReq = SEQ_RETRY;
+									
+									// If we are processing the root activity, behave
+									// as if this where an exitAll
+									if (process == this.mSeqTree.getRoot())
+									{        
+										// Break from the current loop and jump to the
+										// next case
+										iRequest = TER_EXITALL;
+									}
+								}
+								else if (result == SEQ_ACTION_CONTINUE)
+								{
+									// Override any existing sequencing request
+									seqReq = SEQ_CONTINUE;
+								}
+								else if (result == SEQ_ACTION_PREVIOUS)
+								{
+									// Override any existing sequencing request
+									seqReq = SEQ_PREVIOUS;
+								}
+								else if (result == SEQ_ACTION_EXITALL)
+								{
+									// Break from the current loop and jump to the
+									// next case
+									iRequest = TER_EXITALL;
+								}
+								else if (result == SEQ_ACTION_EXITPARENT)
+								{
+									process = process.getParent();
 		
-		// Make sure the current activity is active.
-		if (cur.getIsActive())
-		{
-		
-		// End the attempt on the current activity
-		this.endAttempt(cur, iTentative);
-		
-		// Evaluate exit action rules
-		evaluateExitRules(iTentative);
-		
-		// Evaluate post conditions
-		var exited = false;
-		
-		do
-		{
-		exited = false;
-		
-		// Only process post conditions on the first candidate
-		var process = this.mSeqTree.getFirstCandidate();
-		
-		// Make sure we are not at the root
-		if (!this.mExitCourse)
-		{
-		// This block implements the Sequencing Post Condition Rule
-		// Subprocess (SB.2.2)
-		
-		// Attempt to get rule information from the activity
-		SeqRuleset postRules = process.getPostSeqRules();
-		
-		if (postRules != null)
-		{
-		var result = null;
-		result = postRules.evaluate(RULE_TYPE_POST,
-		process, false);
-		
-		if (result != null)
-		{
-		// This set of ifs implement TB.2.2
-		if (result.equals(SeqRule.SEQ_ACTION_RETRY))
-		{
-		// Override any existing sequencing request
-		seqReq = SEQ_RETRY;
-		
-		// If we are processing the root activity, behave
-		// as if this where an exitAll
-		if (process == this.mSeqTree.getRoot())
-		{        
-		// Break from the current loop and jump to the
-		// next case
-		iRequest = TER_EXITALL;
-		}
-		}
-		else if (result.
-		equals(SeqRule.SEQ_ACTION_CONTINUE))
-		{
-		// Override any existing sequencing request
-		seqReq = SEQ_CONTINUE;
-		}
-		else if (result.
-		equals(SeqRule.SEQ_ACTION_PREVIOUS))
-		{
-		// Override any existing sequencing request
-		seqReq = SEQ_PREVIOUS;
-		}
-		else if (result.
-		equals(SeqRule.SEQ_ACTION_EXITALL))
-		{
-		// Break from the current loop and jump to the
-		// next case
-		iRequest = TER_EXITALL;
-		}
-		else if (result.
-		equals(SeqRule.SEQ_ACTION_EXITPARENT))
-		{
-		process = process.getParent();
-		
-		if (process == null)
-		{
-		}
-		else
-		{
-		
-		this.mSeqTree.setFirstCandidate(process);
-		this.endAttempt(process, iTentative);
-		
-		exited = true;
-		}
-		}
-		else if (result.
-		equals(SeqRule.SEQ_ACTION_RETRYALL))
-		{
-		// Override any existing sequencing request
-		seqReq = SEQ_RETRY;
-		
-		// Break from the current loop and jump to the
-		// next case
-		iRequest = TER_EXITALL;
-		}
-		else if (process == this.mSeqTree.getRoot())
-		{
-		// Exited Root with no postcondition rules
-		// End the Course
-		this.mExitCourse = true;                        
-		}
-		}
-		}
-		else if (process == this.mSeqTree.getRoot())
-		{
-		// Exited Root with no postcondition rules
-		// End the Course
-		this.mExitCourse = true;
-		}
-		}
-		}
-		while (exited);
-		}
-		else
-		{
-		this.mValidTermination = false;
-		}
+									if (process == null)
+									{
+									}
+									else
+									{
+										this.mSeqTree.setFirstCandidate(process);
+										this.endAttempt(process, iTentative);
+										exited = true;
+									}
+								}
+								else if (result == SEQ_ACTION_RETRYALL)
+								{
+									// Override any existing sequencing request
+									seqReq = SEQ_RETRY;
+									
+									// Break from the current loop and jump to the
+									// next case
+									iRequest = TER_EXITALL;
+								}
+								else if (process == this.mSeqTree.getRoot())
+								{
+									// Exited Root with no postcondition rules
+									// End the Course
+									this.mExitCourse = true;                        
+								}
+							}
+						}
+						else if (process == this.mSeqTree.getRoot())
+						{
+							// Exited Root with no postcondition rules
+							// End the Course
+							this.mExitCourse = true;
+						}
+					}
+				}
+				while (exited);
+			}
+			else
+			{
+				this.mValidTermination = false;
+			}
 		}
 		
 		// Double check for an EXIT request
-		if (iRequest.equals(TER_EXIT))
+		if (iRequest == TER_EXIT)
 		{
-		// Already handled
+			// Already handled
 		}
-		else if (iRequest.equals(TER_EXITALL))
+		else if (iRequest == TER_EXITALL)
 		{
-		// Don't modify the activity tree if this is only a tentative exit
-		if (!iTentative)
-		{
-		var process = this.mSeqTree.getFirstCandidate();
-		
-		if (process.getIsActive())
-		{
-		this.endAttempt(process, false);
+			// Don't modify the activity tree if this is only a tentative exit
+			if (!iTentative)
+			{
+				var process = this.mSeqTree.getFirstCandidate();
+				if (process.getIsActive())
+				{
+					this.endAttempt(process, false);
+				}
+				
+				this.terminateDescendentAttempts(this.mSeqTree.getRoot());
+				this.endAttempt(this.mSeqTree.getRoot(), false);
+				// only exit if we're not retrying the root
+				if (seqReq != SEQ_RETRY)
+				{
+					seqReq = SEQ_EXIT;
+				}
+				
+				// Start any subsequent seqencing request from the root
+				this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
+			}
+			else
+			{
+				// Although this was a tentative evaluation, remember that we
+				// processed the exitAll so that a retry from the root can be
+				// tested
+			}
+			
+			// Start any subsequent seqencing request from the root
+			this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
+			
 		}
-		
-		this.terminateDescendentAttempts(this.mSeqTree.getRoot());
-		
-		this.endAttempt(this.mSeqTree.getRoot(), false);
-		
-		// only exit if we're not retrying the root
-		if (seqReq != SEQ_RETRY)
+		else if (iRequest == TER_SUSPENDALL)
 		{
-		seqReq = SEQ_EXIT;
+			// Don't modify the activty tree if this is only a tentative exit
+			if (!iTentative)
+			{
+				var process = this.mSeqTree.getFirstCandidate();
+				this.reportSuspension(process.getID(), true);
+				
+				if (process.getIsActive())
+				{
+					// Invoke rollup
+					this.invokeRollup(process, null);
+					
+					this.mSeqTree.setSuspendAll(process);
+					
+					// Check to see if the SCO's learner attempt ended
+					if (!process.getIsSuspended())
+					{
+						process.incrementSCOAttempt();
+					}
+				}
+				else
+				{
+					if (!process.getIsSuspended())
+					{
+						this.mSeqTree.setSuspendAll(process.getParent());
+						
+						// Make sure there was a an activity to suspend
+						if (this.mSeqTree.getSuspendAll() == null)
+						{
+							this.mValidTermination = false;
+						}
+					}
+				}
+				
+				if (this.mValidTermination)
+				{
+					var start = this.mSeqTree.getSuspendAll();
+					
+					// This process suspends all clusters up to the root
+					while (start != null)
+					{
+						start.setIsActive(false);
+						start.setIsSuspended(true);
+						start = start.getParent();
+					}
+				}
+			}
+			
+			// Start any subsequent seqencing request from the root
+			this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
+			
 		}
-		
-		// Start any subsequent seqencing request from the root
-		this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
-		
-		}
-		else
+		else if (iRequest == TER_ABANDON)
 		{
-		// Although this was a tentative evaluation, remember that we
-		// processed the exitAll so that a retry from the root can be
-		// tested
+			// Don't modify the activty tree if this is only a tentativen exit
+			if (!iTentative)
+			{
+				var process = this.mSeqTree.getFirstCandidate();
+
+				// Ignore any status values reported by the content
+				process.setProgress(TRACK_UNKNOWN);
+				process.setObjSatisfied(null, TRACK_UNKNOWN);
+				process.clearObjMeasure(null);
+				
+				process.setIsActive(false);
+			}
 		}
-		
-		// Start any subsequent seqencing request from the root
-		this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
-		
-		}
-		else if (iRequest.equals(TER_SUSPENDALL))
+		else if (iRequest == TER_ABANDONALL)
 		{
-		// Don't modify the activty tree if this is only a tentative exit
-		if (!iTentative)
-		{
-		var process = this.mSeqTree.getFirstCandidate();
-		
-		reportSuspension(process.getID(), true);
-		
-		if (process.getIsActive())
-		{
-		// Invoke rollup
-		invokeRollup(process, null);
-		
-		this.mSeqTree.setSuspendAll(process);
-		
-		// Check to see if the SCO's learner attempt ended
-		if (!process.getIsSuspended())
-		{
-		process.incrementSCOAttempt();
-		}
-		}
-		else
-		{
-		if (!process.getIsSuspended())
-		{
-		this.mSeqTree.setSuspendAll(process.getParent());
-		
-		// Make sure there was a an activity to suspend
-		if (this.mSeqTree.getSuspendAll() == null)
-		{
-		this.mValidTermination = false;
-		}
-		}
-		}
-		
-		if (this.mValidTermination)
-		{
-		var start = this.mSeqTree.getSuspendAll();
-		
-		// This process suspends all clusters up to the root
-		while (start != null)
-		{
-		start.setIsActive(false);
-		start.setIsSuspended(true);
-		
-		start = start.getParent();
-		}
-		}
-		}
-		
-		// Start any subsequent seqencing request from the root
-		this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
-		
-		}
-		else if (iRequest.equals(TER_ABANDON))
-		{
-		// Don't modify the activty tree if this is only a tentativen exit
-		if (!iTentative)
-		{
-		var process = this.mSeqTree.getFirstCandidate();
-		
-		// Ignore any status values reported by the content
-		process.setProgress(ADLTracking.TRACK_UNKNOWN);
-		process.setObjSatisfied(null, ADLTracking.TRACK_UNKNOWN);
-		process.clearObjMeasure(null);
-		
-		process.setIsActive(false);
-		}
-		}
-		else if (iRequest.equals(TER_ABANDONALL))
-		{
-		// Don't modify the activty tree if this is only a tentative exit
-		if (!iTentative)
-		{
-		var process = this.mSeqTree.getFirstCandidate();
-		
-		// Ignore any status values reported by the content
-		process.setProgress(ADLTracking.TRACK_UNKNOWN);
-		process.setObjSatisfied(null, ADLTracking.TRACK_UNKNOWN);
-		process.clearObjMeasure(null);
-		
-		while (process != null)
-		{
-		process.setIsActive(false);
-		
-		process = process.getParent();
-		}
-		
-		seqReq = SEQ_EXIT;
-		
-		// Start any subsequent seqencing request from the root
-		this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
-		}
+			// Don't modify the activty tree if this is only a tentative exit
+			if (!iTentative)
+			{
+				var process = this.mSeqTree.getFirstCandidate();
+				
+				// Ignore any status values reported by the content
+				process.setProgress(TRACK_UNKNOWN);
+				process.setObjSatisfied(null, TRACK_UNKNOWN);
+				process.clearObjMeasure(null);
+				
+				while (process != null)
+				{
+					process.setIsActive(false);
+					process = process.getParent();
+				}
+				
+				seqReq = SEQ_EXIT;
+				
+				// Start any subsequent seqencing request from the root
+				this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
+			}
 		}
 		else
 		{
-		this.mValidTermination = false;
+			this.mValidTermination = false;
 		}
 		
 		// If this was a 'real' termination request, move the current activity
 		if (!iTentative)
 		{
-		this.mSeqTree.setCurrentActivity(this.mSeqTree.getFirstCandidate());
+			this.mSeqTree.setCurrentActivity(this.mSeqTree.getFirstCandidate());
 		}
 		
+		// todo: why this?
 		var tmpID = this.mSeqTree.getFirstCandidate().getID();
 		
 		return seqReq;
+	},
+
+	invokeRollup: function (ioTarget, iWriteObjIDs)
+	{
+		var rollupSet = new Object();		// Hashtable
 		
-	}
-
-   invokeRollup: function (ioTarget, iWriteObjIDs)
-   {
-
-      Hashtable rollupSet = new Hashtable();
-
-      // Case #1 -- Rollup applies along the active path
-      if (ioTarget == this.mSeqTree.getCurrentActivity())
-      {
-
-         var walk = ioTarget;
-
-         // Walk from the target to the root, apply rollup rules at each step
-         while (walk != null)
-         {
-            rollupSet.put(walk.getID(), new Integer(walk.getDepth()));
-
-            var writeObjIDs = walk.getObjIDs(null, false);
-
-            if (writeObjIDs != null)
-            {
-               for (var i = 0; i < writeObjIDs.length; i++)
-               {
-                  var objID = writeObjIDs[i];
-
-                  // Need to identify all activity's that 'read' this objective
-                  // into their primary objective -- those activities need to be
-                  // included in the rollup set
-                  var acts = this.mSeqTree.getObjMap(objID);
-
-                  if (acts != null)
-                  {
-                     for (var j = 0; j < acts.length; j++)
-                     {
-                        var act =
-                        getActivity(acts[j]);
-
-                        // Only rollup at the parent of the affected activity
-                        act = act.getParent();
-
-                        if (act != null)
-                        {
-                           // Only add if the activity is selected
-                           if (act.getIsSelected())
-                           {
-                              rollupSet.put(act.getID(),
-                                            new Integer(act.getDepth()));
-                           }
-                        }
-                     }
-                  }
-               }
-            }
-
-            walk = walk.getParent();
-         }
-
-         // Remove the Current Activity from the rollup set
-         rollupSet.remove(ioTarget.getID());
-
-      }
-
-      // Case #2 -- Rollup applies when the state of a global shared objective
-      // is written to...
-      if (iWriteObjIDs != null)
-      {
-
-         for (var i = 0; i < iWriteObjIDs.length; i++)
-         {
-            var objID = iWriteObjIDs[i];
-
-            // Need to identify all activity's that 'read' this objective
-            // into their primary objective -- those activities need to be
-            // included in the rollup set
-            var acts = this.mSeqTree.getObjMap(objID);
-
-            if (acts != null)
-            {
-               for (var j = 0; j < acts.length; j++)
-               {
-                  var act = getActivity(acts[j]);
-
-                  // Only rollup at the parent of the affected activity
-                  act = act.getParent();
-
-                  if (act != null)
-                  {
-                     // Only add if the activity is selected
-                     if (act.getIsSelected())
-                     {
-                        rollupSet.put(act.getID(), new Integer(act.
-                                                               getDepth()));
-                     }
-                  }
-               }
-            }
-         }
-      }
-
-      // Perform the deterministic rollup extension
-      while (rollupSet.length != 0)
-      {
-
-         // Find the deepest activity
-         var deepest = null;
-         var depth = -1;
-
-         Enumeration theEnum = rollupSet.keys();
-         while (theEnum.hasMoreElements())
-         {
-            var key = (String)theEnum.nextElement();
-            var thisDepth = ((Integer)rollupSet.get(key)).intValue();
-
-            if (depth == -1)
-            {
-               depth = thisDepth;
-               deepest = getActivity(key);
-            }
-            else if (thisDepth > depth)
-            {
-               depth = thisDepth;
-               deepest = getActivity(key);
-            }
-         }
-
-         if (deepest != null)
-         {
-            doOverallRollup(deepest, rollupSet);
-
-            // If rollup was performed on the root, set the course's status
-            if (deepest == this.mSeqTree.getRoot())
-            {
-
-               var satisfied = "unknown";
-               if (deepest.getObjStatus(false))
-               {
-                  satisfied = (deepest.getObjSatisfied(false)) ?
-                      "satisfied" : "notSatisfied";
-               }
-
-               var measure = "unknown";
-               if (deepest.getObjMeasureStatus(false))
-               {
-                  measure = 
-                     (new Double(deepest.getObjMeasure(false))).toString();
-               }
-
-               var completed = "unknown";
-               if (deepest.getProgressStatus(false))
-               {
-                  completed = (deepest.getAttemptCompleted(false)) ?
-                      "completed" : "incomplete";
-               }
-
-               ADLSeqUtilities.
-                  setCourseStatus(this.mSeqTree.getCourseID(),
-                                  this.mSeqTree.getLearnerID(),
-                                  satisfied,
-                                  measure,
-                                  completed);
-            }
-
-         }
-      }
-
-   },
-
-   doOverallRollup: function (ioTarget, ioRollupSet)
-   {
-
-      // This method implements the loop of RB.1.5.  The other rollup process
-      // are encapsulated in the RollupRuleset object.
-
-      // Attempt to get Rollup Rule information from the activity node
-      SeqRollupRuleset rollupRules = ioTarget.getRollupRules();
-
-      if (rollupRules == null)
-      {
-         rollupRules = new SeqRollupRuleset();
-      }
-
-      // Apply the rollup processes to the activity
-      rollupRules.evaluate(ioTarget);
-
-      // Remove this activity from the rollup set
-      ioRollupSet.remove(ioTarget.getID());    
-   },
-
-   prepareClusters: function ()
-   {
-      var walk = this.mSeqTree.getRoot();
-      var lookAt = new Array();
-
-      if (walk != null)
-      {
-         while (walk != null)
-         {
-            // Only prepare clusters
-            if (walk.hasChildren(true))
-            {
-               if (!walk.getSelectionTiming().
-                    equals(TIMING_NEVER))
-               {
-                  if (!walk.getSelection())
-                  {
-                     doSelection(walk);
-                     walk.setSelection(true);
-                  }
-               }
-
-               if (!walk.getRandomTiming().
-                    equals(TIMING_NEVER))
-               {
-                  if (!walk.getRandomized())
-                  {
-                     doRandomize(walk);
-                     walk.setRandomized(true);
-                  }
-               }
-
-               // Keep track of children we still need to look at
-               if (walk.hasChildren(false))
-               {
-                  lookAt.add(walk);
-               }
-            }
-
-            // Move to next activity
-            walk = walk.getNextSibling(false);
-
-            if (walk == null)
-            {
-               if (lookAt.length != 0)
-               {
-                  walk = lookAt[0];
-                  walk = walk.getChildren(false)[0];
-
-                  lookAt.remove(0);
-               }
-            }
-         }
-      }
-   },
-
-   doSelection: function (ioCluster)
-   {
-      // Make sure this is a cluster
-      if (ioCluster.getChildren(true) != null)
-      {
-
-         Random gen = new Random();
-
-         var count = ioCluster.getSelectCount();
-         var all = ioCluster.getChildren(true);
-
-         var children = null;
-         var set = null;
-
-         var ok = false;
-         var rand = 0;
-         var num = 0;
-         var lookUp = 0;
-
-         // First select the Select Count number of children
-         if (count > 0)
-         {
-            // Check to see if the count exceeds the number of children
-            if (count < all.length)
-            {
-
-               // Select count activities from the set of children
-               children = new Array();
-               set = new Array();
-
-               while (set.length < count)
-               {
-                  // Find an unselected child of the cluster 
-                  ok = false;
-                  while (!ok)
-                  {
-                     rand = gen.nextInt();
-                     num = Math.abs(rand % all.length);
-
-                     lookUp = set.indexOf(new Integer(num));
-
-                     if (lookUp == -1)
-                     {
-                        set.add(new Integer(num));
-                        ok = true;
-                     }
-                  }
-               }
-
-               // Create the selected child vector
-               for (var i = 0; i < all.length; i++)
-               {
-                  lookUp = set.indexOf(new Integer(i));
-
-                  if (lookUp != -1)
-                  {
-                     children.add(all[i]);
-                  }
-               }
-
-               // Assign the selected set of children to the cluster
-               ioCluster.setChildren(children, false);
-
-            }
-         }
-      }
-   },
-
-   doRandomize: function (ioCluster)
-   {
-      // Make sure this is a cluster
-      if (ioCluster.getChildren(true) != null)
-      {
-
-         Random gen = new Random();
-         var all = ioCluster.getChildren(false);
-         var set = null;
-
-         var ok = false;
-         var rand = 0;
-         var num = 0;
-         var lookUp = 0;
-
-
-         // Reorder the 'selected' child set if neccessary
-         if (ioCluster.getReorderChildren())
-         {
-            var reorder = new Array();
-            set = new Array();
-
-            for (var i = 0; i < all.length; i++)
-            {
-               // Pick an unselected child
-               ok = false;
-               while (!ok)
-               {
-                  rand = gen.nextInt();
-                  num = Math.abs(rand % all.length);
-
-                  lookUp = set.indexOf(new Integer(num));
-
-                  if (lookUp == -1)
-                  {
-                     set.add(new Integer(num));
-                     reorder.add(all[num]);
-
-                     ok = true;
-                  }
-               }
-            }
-
-            // Assign the current set of active children to this cluster
-            ioCluster.setChildren(reorder, false);
-
-         }
-      }
-   },
-
-   doSequencingRequest: function (iRequest)
-   {
-
-      // This method implements the Sequencing Request Process (SB.2.12)
-
-      var delReq = null;
-
-      // Clear global state
-      this.mEndSession = false;
-
-      // All sequencing requests are processed from the First Candidate
-      var from = this.mSeqTree.getFirstCandidate();
-
-      if (iRequest.equals(SEQ_START))
-      {
-         // This block implements the Start Sequencing Request Process (SB.2.
-
-         // Make sure this request will begin a new session
-         if (from == null)
-         {
-            // Begin traversing the activity tree from the root
-            var walk = new Walk();
-            walk.at = this.mSeqTree.getRoot();
-
-            var success =
-            this.processFlow(FLOW_FORWARD, true, walk, false);
-
-            if (success)
-            {
-               // Delivery request is where flow stopped.
-               delReq = walk.at.getID();
-            }
-         }
-      }
-      else if (iRequest.equals(SEQ_RESUMEALL))
-      {
-         // This block implements the Resume All Sequencing Request Process
-         // (SB.2.6)
-
-         // Make sure this request will begin a new session
-         if (from == null)
-         {
-            var resume = this.mSeqTree.getSuspendAll();
-
-            if (resume != null)
-            {
-               delReq = resume.getID();
-            }
-         }
-      }
-      else if (iRequest.equals(SEQ_CONTINUE))
-      {
-         // This block implements the Continue Sequencing Request Process
-         // (SB.2.7)
-
-         // Make sure the session has already started
-         if (from != null)
-         {
-            // Confirm 'flow' is enabled
-            var parent = from.getParent();
-            if (parent == null || parent.getControlModeFlow())
-            {
-   
-               // Begin traversing the activity tree from the root
-               var walk = new Walk();
-               walk.at = from;
-   
-               var success =
-               this.processFlow(FLOW_FORWARD, false, walk, false);
-   
-               if (success)
-               {
-                  // Delivery request is where flow stopped.
-                  delReq = walk.at.getID();
-               }
-               else
-               {
-                  // If the Continue Navigation Request failed here, 
-                  // we walked off the tree -- end the Sequencing Session
-                  this.terminateDescendentAttempts(this.mSeqTree.getRoot());
-                  this.endAttempt(this.mSeqTree.getRoot(), false);
-            
-                  // Start any subsequent seqencing request from the root
-                  this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
-
-                  // The sequencing session is over -- set global state
-                  this.mEndSession = true;
-               }
-            }
-         }
-      }
-      else if (iRequest.equals(SEQ_EXIT))
-      {
-         // This block implements the Exit Sequencing Request Process
-         // (SB.2.11)
-
-         // Make sure the session has already started
-         if (from != null)
-         {
-            if (!from.getIsActive())
-            {
-               var parent = from.getParent();
-
-               if (parent == null)
-               {
-                  // The sequencing session is over -- set global state
-                  this.mEndSession = true;
-               }
-            }
-         }
-      }
-      else if (iRequest.equals(SEQ_PREVIOUS))
-      {
-         // This block implements the Previous Sequencing Request Process
-         // (SB.2.8)
-
-         // Make sure the session has already started
-         if (from != null)
-         {
-            // Confirm 'flow' is enabled
-            var parent = from.getParent();
-            if (parent == null || parent.getControlModeFlow())
-            {
-               // Begin traversing the activity tree from the root
-               var walk = new Walk();
-               walk.at = from;
-   
-               var success =
-               this.processFlow(FLOW_BACKWARD, false, walk, false);
-   
-               if (success)
-               {
-                  // Delivery request is where flow stopped.
-                  delReq = walk.at.getID();
-               }
-            }
-         }
-      }
-      else if (iRequest.equals(SEQ_RETRY))
-      {
-         // This block implements the Retry Sequencing Request Process
-         // (SB.2.10)
-
-
-         // Make sure the session has already started
-         if (from != null)
-         {
-            if (this.mExitAll || (!(from.getIsActive() || from.getIsSuspended())))
-            {
-               if (from.getChildren(false) != null)
-               {
-                  var walk = new Walk();
-                  walk.at = from;
-
-                  // Set 'Retry' flag
-                  setRetry(true);
-
-                  var success = this.processFlow(FLOW_FORWARD,
-                                                true, walk, false);
-
-                  // Reset 'Retry' flag
-                  setRetry(false);
-
-                  if (success)
-                  {
-                     delReq = walk.at.getID();
-                  }
-               }
-               else
-               {
-                  delReq = from.getID();
-               }
-            }
-         }
-      }
-      else
-      {
-         // This block implements the Choice Sequencing Request Process (SB.2)
-
-         // The sequencing request identifies the target activity
-         var target = getActivity(iRequest);
-
-         if (target != null)
-         {
-            var process = true;
-            var parent = target.getParent();
-
-            // Check if the activity should be considered.
-            if (!target.getIsSelected())
-            {
-               // Exception SB.2.9-2
-               process = false;
-
-            }
-
-            if (process)
-            {
-               var walk = target.getParent();
-
-               // Walk up the tree evaluating 'Hide from Choice' rules.
-               while (walk != null)
-               {
-                  // Attempt to get rule information from the activity
-                  SeqRuleset hideRules = walk.getPreSeqRules();
-
-                  var result = null;
-
-                  if (hideRules != null)
-                  {
-                     result =
-                     hideRules.evaluate(RULE_TYPE_HIDDEN, 
-                                        walk, false);
-                  }
-
-                  // If the rule evaluation did not return null, the activity
-                  // must be hidden.
-                  if (result != null)
-                  {
-                     // Exception SB.2.9-3
-                     walk = null;
-                     process = false;
-
-                  }
-                  else
-                  {
-                     walk = walk.getParent();
-                  }
-               }
-            }
-
-            // Confirm the control mode is valid
-            if (process)
-            {
-               if (parent != null)
-               {
-                  if (!parent.getControlModeChoice())
-                  {
-                     // Exception SB.2.9-4
-                     process = false;
-
-                  }
-               }
-            }
-
-            var common = this.mSeqTree.getRoot();
-
-            if (process)
-            {
-               if (from != null)
-               {
-                  common = findCommonAncestor(from, target);
-
-                  if (common == null)
-                  {
-                     process = false;
-
-                  }
-               }
-               else
-               {
-                  // If the sequencing session has not begun, start at the root
-                  from = common;
-               }
-
-               // Choice Case #1 -- The current activity was selected
-               if (from == target)
-               {
-
-                  // Nothing more to do...
-
-               }
-
-               // Choice Case #2 -- The current activity and target are in the
-               //                   same cluster
-               else if (from.getParent() == target.getParent())
-               {
-
-                  var dir = FLOW_FORWARD;
-
-                  if (target.getActiveOrder() < from.getActiveOrder())
-                  {
-                     dir = FLOW_BACKWARD;
-                  }
-
-                  var walk = from;
-
-                  // Make sure no control modes or rules prevent the traversal
-                  while (walk != target && process)
-                  {
-                     process = evaluateChoiceTraversal(dir, walk);
-
-                     if (dir == FLOW_FORWARD)
-                     {
-                        walk = walk.getNextSibling(false);
-                     }
-                     else
-                     {
-                        walk = walk.getPrevSibling(false);
-                     }
-                  }
-               }
-
-               // Choice Case #3 -- Path to the target is forward in the tree
-               else if (from == common)
-               {
-
-                  var walk = target.getParent();
-
-                  while (walk != from && process)
-                  {
-                     process =
-                     evaluateChoiceTraversal(FLOW_FORWARD, walk);
-
-                     // Test prevent Activation
-                     if (process)
-                     {
-                        if (!walk.getIsActive() && 
-                             walk.getPreventActivation())
-                        {
-                           // Exception 2.9-6
-                           process = false;
-
-                           continue;
-                        }
-                     }
-
-                     walk = walk.getParent();
-                  }
-
-                  // Evaluate at the common ancestor
-                  if (process)
-                  {
-                     process =
-                     evaluateChoiceTraversal(FLOW_FORWARD, walk);
-                  }
-               }
-
-               // Choice Case #4 -- Path to target is backward in the tree
-               else if (target == common)
-               {
-                  // Don't need to test choiceExit on the current activity 
-                  // because the navigation request validated.
-                  var walk = from.getParent();
-
-                  while (walk != target && process)
-                  {
-                     // Need to make sure that none of the 'exiting' activities
-                     // prevents us from reaching the common ancestor.
-                     process = walk.getControlModeChoiceExit();
-
-                     walk = walk.getParent();
-                  }
-               }
-
-               // Choice Case #5 -- Target is a descendent of the ancestor
-               else
-               {
-                  var con = null;
-                  var walk = from.getParent();
-
-                  // Walk up the tree to the common ancestor
-                  while (walk != common && process)
-                  {
-                     process = walk.getControlModeChoiceExit();
-
-                     if (process && con == null)
-                     {
-                        if (walk.getConstrainChoice())
-                        {
-                           con = walk;
-                        }
-                     }
-
-                     walk = walk.getParent();
-                  }
-
-                  // Evaluate constrained choice set
-                  if (process && con != null)
-                  {
-                     var walkCon = new Walk();
-                     walkCon.at = con;
-
-                     if (target.getCount() > con.getCount())
-                     {
-                        this.processFlow(FLOW_FORWARD, false, 
-                                              walkCon, true);
-                     }
-                     else
-                     {
-                        this.processFlow(FLOW_BACKWARD, false,
-                                              walkCon, true);   
-                     }
-
-                     if (target.getParent() != walkCon.at &&
-                          target != walkCon.at)
-                     {
-                        // Exception SB.2.9-8
-                        process = false;
-                     }
-                  }
-
-                  // Walk down the tree to the target
-                  walk = target.getParent();
-
-                  while (walk != common && process)
-                  {
-                     process =
-                     evaluateChoiceTraversal(FLOW_FORWARD, walk);
-
-                     // Test prevent Activation
-                     if (process)
-                     {
-                        if (!walk.getIsActive() && 
-                             walk.getPreventActivation())
-                        {
-                           // Exception 2.9-6
-                           process = false;
-
-                           continue;
-                        }
-                     }
-
-                     walk = walk.getParent();
-                  }
-
-                  // Evaluate the common ancestor
-                  if (process)
-                  {
-                     process =
-                     evaluateChoiceTraversal(FLOW_FORWARD,
-                                             walk);
-                  }
-               }
-
-               // Did we reach the target successfully?
-               if (process)
-               {
-
-                  // Is the target a cluster
-                  if (target.getChildren(false) != null)
-                  {
-                     var walk = new Walk();
-                     walk.at = target;
-
-                     var success = this.processFlow(FLOW_FORWARD,
-                                                   true, walk, false);
-
-                     if (success)
-                     {
-                        delReq = walk.at.getID();
-                     }
-                     else
-                     {
-                        if (this.mSeqTree.getCurrentActivity() != null &&
-                             common != null)
-                        {
-                           this.terminateDescendentAttempts(common);
-                           this.endAttempt(common, false);
-
-                           // Move the current activity
-                           this.mSeqTree.setCurrentActivity(target);
-                           this.mSeqTree.setFirstCandidate(target);
-                        }
-                     }
-                  }
-                  else
-                  {
-                     delReq = target.getID();
-                  }
-               }
-            }
-         }
-         else
-         {
-            // Exception SB.2.9-1
-         }
-      }
-
-      return delReq;
-   },
-
-   findCommonAncestor: function (iFrom, iTo)
-   {
-      var ancestor = null;
-      var done = false;
-
-      var stepFrom = null;
-
-      // If either activity is 'null', no common parent
-      if (iFrom == null || iTo == null)
-      {
-         done = true;
-      }
-      else
-      {
-         // Get the starting parents -- only look at clusters
-         // This algorithm uses the exising 'selected' children.
-         if (!iFrom.hasChildren(false))
-         {
-            stepFrom = iFrom.getParent();
-         }
-         else
-         {
-            stepFrom = iFrom;
-         }
-
-         if (!iTo.hasChildren(false))
-         {
-            iTo = iTo.getParent();
-         }
-      }
-
-      while (!done)
-      {
-         // Test if the 'to' activity is a decendent of 'from' parent
-         var success = isDescendent(stepFrom, iTo);
-
-         // If we found the target activity, we are done
-         if (success)
-         {
-            ancestor = stepFrom;
-            done = true;
-
-            continue;
-         }
-
-         // If this isn't the common parent, move up the tree
-         if (!done)
-         {
-            stepFrom = stepFrom.getParent();
-         }
-      }
-
-      return ancestor;
-   },
-
-
-   isDescendent: function (iRoot, iTarget)
-   {
-      var found = false;
-
-      if (iRoot == null)
-      {
-      }
-      else if (iRoot == this.mSeqTree.getRoot())
-      {
-         // All activities are descendents of the root
-         found = true;
-      }
-      else if (iRoot != null && iTarget != null)
-      {
-         while (iTarget != null && !found)
-         {
-            if (iTarget == iRoot)
-            {
-               found = true;
-            }
-
-            iTarget = iTarget.getParent();
-         }
-      }
-
-      return found;
-   }
-
-   walkTree: function (iDirection,iPrevDirection,iEnter,iFrom,iControl)
-   {
-
-      // This method implements Flow Subprocess SB.2.1
-
-      var next = null;
-      var parent = null;
-
-      var direction = iDirection;
-      var reversed = false;
-
-      var done = false;
-      var endSession = false;
-
-      if (iFrom == null)
-      {
-
-         // The sequencing session is over
-         endSession = true;
-         done = true;     
-      }
-      else
-      {
-         parent = iFrom.getParent();
-      }
-
-      // Test if we have skipped all of the children in a 'forward-only' 
-      // cluster traversing backward
-      if (!done && parent != null)
-      {
-         if (iPrevDirection == FLOW_BACKWARD)
-         {
-            if (iFrom.getNextSibling(false) == null)
-            {
-               // Switch traversal direction
-               direction = FLOW_BACKWARD;
-
-               // Move our starting point
-               iFrom = parent.getChildren(false)[0];
-
-               reversed = true;
-            }
-         }
-      }
-
-      if (!done && direction == FLOW_FORWARD)
-      {
-         if (iFrom.getID().equals(this.mSeqTree.getLastLeaf()))
-         {
-
-            // We are at the last leaf of the tree, the sequencing 
-            // session is over
-            done = true;
-            endSession = true;
-         }
-
-         if (!done)
-         {
-            // Is the activity a leaf or a cluster that should not be entered
-            if (!iFrom.hasChildren(false) || !iEnter)
-            {
-               next = iFrom.getNextSibling(false);
-
-               if (next == null)
-               {
-                  var walk = walkTree(direction, FLOW_NONE,
-                                       false, parent, iControl);
-
-                  next = walk.at;
-                  endSession = walk.endSession;
-               }
-            }
-
-            // Enter the Cluster
-            else
-            {
-               // Return the first child activity
-               next = (iFrom.getChildren(false)[0]);
-            }
-         }
-      }
-      else if (!done && direction == FLOW_BACKWARD)
-      {
-         // Can't walk off the root of the tree
-         if (parent != null)
-         {
-            // Is the activity a leaf or a cluster that should not be entered
-            if (!iFrom.hasChildren(false) || !iEnter)
-            {
-               // Make sure we can move backward
-               if (iControl && !reversed)
-               {
-
-                  if (parent.getControlForwardOnly())
-                  {
-                     done = true;
-                  }
-               }
-
-               if (!done)
-               {
-                  next = iFrom.getPrevSibling(false);
-
-                  if (next == null)
-                  {
-                     var walk = walkTree(direction, FLOW_NONE,
-                                          false, parent, iControl);
-
-                     next = walk.at;
-                     endSession = walk.endSession;
-                  }
-               }
-            }
-
-            // Enter the cluster backward
-            else
-            {
-               if (iFrom.getControlForwardOnly())
-               {
-                  // Return the first child activity
-                  next = (iFrom.getChildren(false)[0]);
-
-                  // And switch direction
-                  direction = FLOW_FORWARD;
-               }
-               else
-               {
-                  var size = iFrom.getChildren(false).length;
-
-                  // Return the last child activity
-                  next = (iFrom.getChildren(false)[size - 1]);
-               }
-            }
-         }
-      }
-
-      var walk = new Walk();
-      walk.at = next;
-      walk.direction = direction;
-
-
-      walk.endSession = endSession;
-
-      return walk;
-   },
-
-
-   walkActivity: function (iDirection,iPrevDirection,ioFrom)
-   {
-
-      // This method implements Flow Subprocess SB.2.3
-
-      var deliver = true;
-
-      var parent = ioFrom.at.getParent();
-
-      if (parent != null)
-      {
-         // Confirm that 'flow' is enabled for the cluster
-         if (!parent.getControlModeFlow())
-         {
-            deliver = false;
-         }
-      }
-      else
-      {
-         deliver = false;
-      }
-
-      if (deliver)
-      {
-         // Check if the activity should be 'skipped'.
-         var result = null;
-
-         SeqRuleset skippedRules = ioFrom.at.getPreSeqRules();
-
-         if (skippedRules != null)
-         {
-            result =
-            skippedRules.evaluate(RULE_TYPE_SKIPPED, 
-                                  ioFrom.at, this.mRetry);
-         }
-
-         // If the rule evaluation did not return null, the activity is skipped
-         if (result != null)
-         {
-            var walk  =
-            walkTree(iDirection, iPrevDirection, false, ioFrom.at, true);
-
-            if (walk.at == null)
-            {
-               deliver = false;
-            }
-            else
-            {
-               ioFrom.at = walk.at;
-
-               // Test if we've switched directions...
-               if (iPrevDirection == FLOW_BACKWARD &&
-                    walk.direction == FLOW_BACKWARD)
-               {
-                  return walkActivity(FLOW_BACKWARD, 
-                                      FLOW_NONE, 
-                                      ioFrom);
-               }
-               else
-               {
-                  return walkActivity(iDirection, iPrevDirection, ioFrom);
-               }
-            }
-         }
-         else
-         {
-            // The activity was not skipped, make sure it is enabled
-            if (!this.checkActivity(ioFrom.at))
-            {
-               // Make sure the activity being considered is a leaf
-               if (ioFrom.at.hasChildren(false))
-               {
-                  var walk =
-                  walkTree(iDirection,
-                           FLOW_NONE,
-                           true,
-                           ioFrom.at, true);
-
-                  if (walk.at != null)
-                  {
-
-                     ioFrom.at = walk.at;
-
-                     if (iDirection == FLOW_BACKWARD &&
-                          walk.direction ==  FLOW_FORWARD)
-                     {
-                        deliver = walkActivity(FLOW_FORWARD,
-                                               FLOW_BACKWARD,
-                                               ioFrom);
-                     }
-                     else
-                     {
-                        deliver = walkActivity(iDirection,
-                                               FLOW_NONE,
-                                               ioFrom);
-                     }
-                  }
-                  else
-                  {
-                     deliver = false;
-                  }
-               }
-            }
-            else
-            {
-               deliver = false;
-            }
-         }
-      }
-
-      return deliver;
-   },
-
-   processFlow: function (iDirection, iEnter, ioFrom, iConChoice)
-   {
-
-      // This method implements Flow Subprocess SB.2.3
-
-      var success = true;
-
-      var candidate = ioFrom.at;
-
-      // Make sure we have somewhere to start from
-      if (candidate != null)
-      {
-
-         var walk = walkTree(iDirection, FLOW_NONE, iEnter,
-                              candidate, !iConChoice);
-
-         if (!iConChoice && walk.at != null)
-         {
-            ioFrom.at = walk.at;
-            success = walkActivity(iDirection, FLOW_NONE, 
-                                   ioFrom);
-         }
-         else
-         {
-            if (iConChoice)
-            {
-
-               ioFrom.at = walk.at;
-
-            }
-
-            success = false;
-         }
-
-         // Check to see if the sequencing session is ending due to
-         // walking off the activity tree
-         if (walk.at == null && walk.endSession)
-         {
-            // End the attempt on the root of the activity tree
-            this.terminateDescendentAttempts(this.mSeqTree.getRoot());
-
-            // The sequencing session is over -- set global state
-            this.mEndSession = true;
-
-            success = false;
-         }
-      }
-      else
-      {
-         success = false;
-      }
-
-      return success;
-
-   },
-
-   evaluateChoiceTraversal: function (iDirection, iAt)
-   {
-      // This method implements Choice Activity Traversal Subprocess SB.2.4
-
-      var success = true;
-
-      // Make sure we have somewhere to start from
-      if (iAt != null)
-      {
-         if (true)
-         {
-            if (iDirection == FLOW_FORWARD)
-            {
-               // Attempt to get rule information from the activity node
-               SeqRuleset stopTrav = iAt.getPreSeqRules();
-               var result = null;
-
-               if (stopTrav != null)
-               {
-                  result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, iAt, false);
-               }
-
-               // If the rule evaluation does not return null, can't move to the
-               // activity's sibling
-               if (result != null)
-               {
-                  success = false;
-               }
-            }
-            else if (iDirection == FLOW_BACKWARD)
-            {
-               var parent = iAt.getParent();
-
-               if (parent != null)
-               {
-                  success = !parent.getControlForwardOnly();
-               }
-            }
-            else
-            {
-               success = false;
-            }
-         }
-         else
-         {
-            success = false;
-         }
-      }
-      else
-      {
-         success = false;
-      }
-
-      return success;
-
-   },
-
-   doDeliveryRequest: function (iTarget,iTentative,oLaunch)
-   {
-      // This method implements DB.1.  Also, if the delivery request is not
-      // tentative, it invokes the Content Delivery Environment Process.
-      var deliveryOK = true;
-
-      // Make sure the identified activity exists in the tree.
-      var act = getActivity(iTarget);
-
-      if (act ==  null)
-      {
-
-         // If there is no activity identified for delivery, there is nothing
-         // to delivery -- indentify non-Sequenced content
-         deliveryOK = false;
-
-         if (!iTentative)
-         {
-            if (this.mExitCourse)
-            {
-               oLaunch.mSeqNonContent = LAUNCH_COURSECOMPLETE;
-            }
-            else
-            {
-               if (this.mEndSession)
-               {
-                  oLaunch.mSeqNonContent = LAUNCH_EXITSESSION;
-               }
-               else
-               {
-                  oLaunch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
-               }
-            }
-         }
-      }
-
-      // Confirm the target activity is a leaf
-      if (deliveryOK && act.hasChildren(false))
-      {
-         deliveryOK = false;
-
-         oLaunch.mSeqNonContent = LAUNCH_ERROR;
-         oLaunch.mEndSession = this.mEndSession;
-
-      }
-      else if (deliveryOK)
-      {
-         var ok = true;
-
-         // Walk the path from the target activity to the root, checking each
-         // activity.
-         while (act != null && ok)
-         {
-
-            ok = !this.checkActivity(act);
-
-            if (ok)
-            {
-               act = act.getParent();
-            }
-         }
-
-         if (!ok)
-         {
-
-            deliveryOK = false;
-
-            oLaunch.mSeqNonContent = LAUNCH_NOTHING;
-         }
-      }
-
-      // If the delivery request not a tentative request, prepare for deliver
-      if (!iTentative)
-      {
-         // Did the request validate
-         if (deliveryOK)
-         {
-            contentDelivery(iTarget, oLaunch);
-            this.validateRequests();
-         }
-         else
-         {
-            oLaunch.mEndSession = this.mEndSession || this.mExitCourse;
-
-            if (!oLaunch.mEndSession)
-            {
-               this.validateRequests();
-               oLaunch.mNavState = this.mSeqTree.getValidRequests();
-            }
-         }
-      }
-
-      return deliveryOK;
-   },
-
+		// Case #1 -- Rollup applies along the active path
+		if (ioTarget == this.mSeqTree.getCurrentActivity())
+		{
+			var walk = ioTarget;
+			
+			// Walk from the target to the root, apply rollup rules at each step
+			while (walk != null)
+			{
+				// todo: check
+				rollupSet[walk.getID()] = walk.getDepth();	// converted to Integer
+				
+				var writeObjIDs = walk.getObjIDs(null, false);
+				if (writeObjIDs != null)
+				{
+					for (var i = 0; i < writeObjIDs.length; i++)
+					{
+						var objID = writeObjIDs[i];
+						
+						// Need to identify all activity's that 'read' this objective
+						// into their primary objective -- those activities need to be
+						// included in the rollup set
+						var acts = this.mSeqTree.getObjMap(objID);
+						
+						if (acts != null)
+						{
+							for (var j = 0; j < acts.length; j++)
+							{
+								var act = this.getActivity(acts[j]);
+								
+								// Only rollup at the parent of the affected activity
+								act = act.getParent();
+								
+								if (act != null)
+								{
+									// Only add if the activity is selected
+									if (act.getIsSelected())
+									{
+										rollupSet[act.getID()] = act.getDepth();
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				walk = walk.getParent();
+			}
+			
+			// Remove the Current Activity from the rollup set
+			// todo: check whether this works
+			rollupSet[ioTarget.getID()] = null;
+		}
+		
+		// Case #2 -- Rollup applies when the state of a global shared objective
+		// is written to...
+		if (iWriteObjIDs != null)
+		{
+			for (var i = 0; i < iWriteObjIDs.length; i++)
+			{
+				var objID = iWriteObjIDs[i];
+				
+				// Need to identify all activity's that 'read' this objective
+				// into their primary objective -- those activities need to be
+				// included in the rollup set
+				var acts = this.mSeqTree.getObjMap(objID);
+				
+				if (acts != null)
+				{
+					for (var j = 0; j < acts.length; j++)
+					{
+						var act = this.getActivity(acts[j]);
+						
+						// Only rollup at the parent of the affected activity
+						act = act.getParent();
+						
+						if (act != null)
+						{
+							// Only add if the activity is selected
+							if (act.getIsSelected())
+							{
+								rollupSet.put[act.getID()] = act.getDepth();
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// Perform the deterministic rollup extension
+		while (rollupSet.length != 0)
+		{
+			// Find the deepest activity
+			var deepest = null;
+			var depth = -1;
+			
+			// todo: object iteration
+			Enumeration theEnum = rollupSet.keys();	//...
+			while (theEnum.hasMoreElements())		//...
+			{
+				var key = (String)theEnum.nextElement();	//...
+				
+				var thisDepth = rollupSet[key];
+				
+				if (depth == -1)
+				{
+					depth = thisDepth;
+					deepest = this.getActivity(key);
+				}
+				else if (thisDepth > depth)
+				{
+					depth = thisDepth;
+					deepest = this.getActivity(key);
+				}
+			}
+			
+			if (deepest != null)
+			{
+				this.doOverallRollup(deepest, rollupSet);
+				
+				// If rollup was performed on the root, set the course's status
+				if (deepest == this.mSeqTree.getRoot())
+				{
+					
+					var satisfied = "unknown";
+					if (deepest.getObjStatus(false))
+					{
+						satisfied = (deepest.getObjSatisfied(false))
+							? "satisfied"
+							: "notSatisfied";
+					}
+					
+					var measure = "unknown";
+					if (deepest.getObjMeasureStatus(false))
+					{
+						measure = deepest.getObjMeasure(false);
+					}
+					
+					var completed = "unknown";
+					if (deepest.getProgressStatus(false))
+					{
+						completed = (deepest.getAttemptCompleted(false))
+							? "completed"
+							: "incomplete";
+					}
+					
+					// todo
+					ADLSeqUtilities.setCourseStatus(this.mSeqTree.getCourseID(),
+						this.mSeqTree.getLearnerID(),satisfied,measure,completed);
+				}
+			}
+		}
+	},
+
+	doOverallRollup: function (ioTarget, ioRollupSet)
+	{
+		// This method implements the loop of RB.1.5.  The other rollup process
+		// are encapsulated in the RollupRuleset object.
+		// Attempt to get Rollup Rule information from the activity node
+		var rollupRules = ioTarget.getRollupRules();
+		
+		if (rollupRules == null)
+		{
+			rollupRules = new SeqRollupRuleset();
+		}
+		
+		// Apply the rollup processes to the activity
+		rollupRules.evaluate(ioTarget);
+		
+		// Remove this activity from the rollup set
+		// todo: check this
+		ioRollupSet[ioTarget.getID()] = null;    
+	},
+
+	prepareClusters: function ()
+	{
+		var walk = this.mSeqTree.getRoot();
+		var lookAt = new Array();
+		
+		if (walk != null)
+		{
+			while (walk != null)
+			{
+				// Only prepare clusters
+				if (walk.hasChildren(true))
+				{
+					if (!walk.getSelectionTiming() == TIMING_NEVER)
+					{
+						if (!walk.getSelection())
+						{
+							this.doSelection(walk);
+							walk.setSelection(true);
+						}
+					}
+					
+					if (!walk.getRandomTiming() == TIMING_NEVER)
+					{
+						if (!walk.getRandomized())
+						{
+							this.doRandomize(walk);
+							walk.setRandomized(true);
+						}
+					}
+					
+					// Keep track of children we still need to look at
+					if (walk.hasChildren(false))
+					{
+						lookAt[lookAt.length] = walk;
+					}
+				}
+				
+				// Move to next activity
+				walk = walk.getNextSibling(false);
+				
+				if (walk == null)
+				{
+					if (lookAt.length != 0)
+					{
+						walk = lookAt[0];
+						walk = walk.getChildren(false)[0];
+						lookAt.remove(0);
+					}
+				}
+			}
+		}
+	},
+
+	doSelection: function (ioCluster)
+	{
+		// Make sure this is a cluster
+		if (ioCluster.getChildren(true) != null)
+		{
+			// todo: check this
+			var gen = new Random();
+			
+			var count = ioCluster.getSelectCount();
+			var all = ioCluster.getChildren(true);
+			
+			var children = null;
+			var set = null;
+			
+			var ok = false;
+			var rand = 0;
+			var num = 0;
+			var lookUp = 0;
+			
+			// First select the Select Count number of children
+			if (count > 0)
+			{
+				// Check to see if the count exceeds the number of children
+				if (count < all.length)
+				{
+					
+					// Select count activities from the set of children
+					children = new Array();
+					set = new Array();
+					
+					while (set.length < count)
+					{
+						// Find an unselected child of the cluster 
+						ok = false;
+						while (!ok)
+						{
+							// todo: check this
+							rand = gen.nextInt();	// ...
+							num = Math.abs(rand % all.length);	// ...
+							lookUp = set.indexOf(new Integer(num));		// ...
+							
+							if (lookUp == -1)
+							{
+								set[set.length] = num;
+								ok = true;
+							}
+						}
+					}
+					
+					// Create the selected child vector
+					for (var i = 0; i < all.length; i++)
+					{
+						// todo: check this
+						lookUp = set.indexOf(new Integer(i));
+						
+						if (lookUp != -1)
+						{
+							children[children.length] = all[i];
+						}
+					}
+					
+					// Assign the selected set of children to the cluster
+					ioCluster.setChildren(children, false);
+					
+				}
+			}
+		}
+	},
+
+	doRandomize: function (ioCluster)
+	{
+		// Make sure this is a cluster
+		if (ioCluster.getChildren(true) != null)
+		{
+			// todo: check this
+			Random gen = new Random();
+			var all = ioCluster.getChildren(false);
+			var set = null;
+			
+			var ok = false;
+			var rand = 0;
+			var num = 0;
+			var lookUp = 0;
+			
+			// Reorder the 'selected' child set if neccessary
+			if (ioCluster.getReorderChildren())
+			{
+				var reorder = new Array();
+				set = new Array();
+				
+				for (var i = 0; i < all.length; i++)
+				{
+					// Pick an unselected child
+					ok = false;
+					while (!ok)
+					{
+						// todo: check this
+						rand = gen.nextInt();
+						num = Math.abs(rand % all.length);
+						lookUp = set.indexOf(new Integer(num));
+						
+						if (lookUp == -1)
+						{
+							set[set.length] = num;
+							reorder[reorder.length] = all[num];
+							ok = true;
+						}
+					}
+				}
+				
+				// Assign the current set of active children to this cluster
+				ioCluster.setChildren(reorder, false);
+			}
+		}
+	},
+
+	doSequencingRequest: function (iRequest)
+	{
+		// This method implements the Sequencing Request Process (SB.2.12)
+		
+		var delReq = null;
+		
+		// Clear global state
+		this.mEndSession = false;
+		
+		// All sequencing requests are processed from the First Candidate
+		var from = this.mSeqTree.getFirstCandidate();
+		
+		if (iRequest == SEQ_START)
+		{
+			// This block implements the Start Sequencing Request Process (SB.2.
+			
+			// Make sure this request will begin a new session
+			if (from == null)
+			{
+				// Begin traversing the activity tree from the root
+				var walk = new Walk();
+				walk.at = this.mSeqTree.getRoot();
+				
+				var success = this.processFlow(FLOW_FORWARD, true, walk, false);
+				
+				if (success)
+				{
+					// Delivery request is where flow stopped.
+					delReq = walk.at.getID();
+				}
+			}
+		}
+		else if (iRequest == SEQ_RESUMEALL)
+		{
+			// This block implements the Resume All Sequencing Request Process
+			// (SB.2.6)
+			
+			// Make sure this request will begin a new session
+			if (from == null)
+			{
+				var resume = this.mSeqTree.getSuspendAll();
+				
+				if (resume != null)
+				{
+					delReq = resume.getID();
+				}
+			}
+		}
+		else if (iRequest == SEQ_CONTINUE)
+		{
+			// This block implements the Continue Sequencing Request Process
+			// (SB.2.7)
+			
+			// Make sure the session has already started
+			if (from != null)
+			{
+				// Confirm 'flow' is enabled
+				var parent = from.getParent();
+				if (parent == null || parent.getControlModeFlow())
+				{
+					
+					// Begin traversing the activity tree from the root
+					var walk = new Walk();
+					walk.at = from;
+					
+					var success = this.processFlow(FLOW_FORWARD, false, walk, false);
+					
+					if (success)
+					{
+						// Delivery request is where flow stopped.
+						delReq = walk.at.getID();
+					}
+					else
+					{
+						// If the Continue Navigation Request failed here, 
+						// we walked off the tree -- end the Sequencing Session
+						this.terminateDescendentAttempts(this.mSeqTree.getRoot());
+						this.endAttempt(this.mSeqTree.getRoot(), false);
+						
+						// Start any subsequent seqencing request from the root
+						this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
+						
+						// The sequencing session is over -- set global state
+						this.mEndSession = true;
+					}
+				}
+			}
+		}
+		else if (iRequest == SEQ_EXIT)
+		{
+			// This block implements the Exit Sequencing Request Process
+			// (SB.2.11)
+			
+			// Make sure the session has already started
+			if (from != null)
+			{
+				if (!from.getIsActive())
+				{
+					var parent = from.getParent();
+					
+					if (parent == null)
+					{
+						// The sequencing session is over -- set global state
+						this.mEndSession = true;
+					}
+				}
+			}
+		}
+		else if (iRequest == SEQ_PREVIOUS)
+		{
+			// This block implements the Previous Sequencing Request Process
+			// (SB.2.8)
+			
+			// Make sure the session has already started
+			if (from != null)
+			{
+				// Confirm 'flow' is enabled
+				var parent = from.getParent();
+				if (parent == null || parent.getControlModeFlow())
+				{
+					// Begin traversing the activity tree from the root
+					var walk = new Walk();
+					walk.at = from;
+					
+					var success = this.processFlow(FLOW_BACKWARD, false, walk, false);
+					
+					if (success)
+					{
+						// Delivery request is where flow stopped.
+						delReq = walk.at.getID();
+					}
+				}
+			}
+		}
+		else if (iRequest == SEQ_RETRY)
+		{
+			// This block implements the Retry Sequencing Request Process
+			// (SB.2.10)
+			// Make sure the session has already started
+			if (from != null)
+			{
+				if (this.mExitAll || (!(from.getIsActive() || from.getIsSuspended())))
+				{
+					if (from.getChildren(false) != null)
+					{
+						var walk = new Walk();
+						walk.at = from;
+
+						// Set 'Retry' flag
+						this.setRetry(true);
+						
+						var success = this.processFlow(FLOW_FORWARD, true, walk, false);
+						
+						// Reset 'Retry' flag
+						this.setRetry(false);
+						
+						if (success)
+						{
+							delReq = walk.at.getID();
+						}
+					}
+					else
+					{
+						delReq = from.getID();
+					}
+				}
+			}
+		}
+		else
+		{
+			// This block implements the Choice Sequencing Request Process (SB.2)
+			
+			// The sequencing request identifies the target activity
+			var target = this.getActivity(iRequest);
+			
+			if (target != null)
+			{
+				var process = true;
+				var parent = target.getParent();
+				
+				// Check if the activity should be considered.
+				if (!target.getIsSelected())
+				{
+					// Exception SB.2.9-2
+					process = false;
+				}
+				
+				if (process)
+				{
+					var walk = target.getParent();
+					
+					// Walk up the tree evaluating 'Hide from Choice' rules.
+					while (walk != null)
+					{
+						// Attempt to get rule information from the activity
+						var hideRules = walk.getPreSeqRules();
+						var result = null;
+						
+						if (hideRules != null)
+						{
+							result = hideRules.evaluate(RULE_TYPE_HIDDEN,walk, false);
+						}
+						
+						// If the rule evaluation did not return null, the activity
+						// must be hidden.
+						if (result != null)
+						{
+							// Exception SB.2.9-3
+							walk = null;
+							process = false;
+						}
+						else
+						{
+							walk = walk.getParent();
+						}
+					}
+				}
+				
+				// Confirm the control mode is valid
+				if (process)
+				{
+					if (parent != null)
+					{
+						if (!parent.getControlModeChoice())
+						{
+							// Exception SB.2.9-4
+							process = false;
+						}
+					}
+				}
+				
+				var common = this.mSeqTree.getRoot();
+				
+				if (process)
+				{
+					if (from != null)
+					{
+						common = this.findCommonAncestor(from, target);
+						
+						if (common == null)
+						{
+							process = false;
+						}
+					}
+					else
+					{
+						// If the sequencing session has not begun, start at the root
+						from = common;
+					}
+					
+					// Choice Case #1 -- The current activity was selected
+					if (from == target)
+					{
+						// Nothing more to do...
+					}
+					
+					// Choice Case #2 -- The current activity and target are in the
+					//                   same cluster
+					else if (from.getParent() == target.getParent())
+					{
+						
+						var dir = FLOW_FORWARD;
+						
+						if (target.getActiveOrder() < from.getActiveOrder())
+						{
+							dir = FLOW_BACKWARD;
+						}
+						
+						var walk = from;
+						
+						// Make sure no control modes or rules prevent the traversal
+						while (walk != target && process)
+						{
+							process = this.evaluateChoiceTraversal(dir, walk);
+							
+							if (dir == FLOW_FORWARD)
+							{
+								walk = walk.getNextSibling(false);
+							}
+							else
+							{
+								walk = walk.getPrevSibling(false);
+							}
+						}
+					}
+					
+					// Choice Case #3 -- Path to the target is forward in the tree
+					else if (from == common)
+					{
+						
+						var walk = target.getParent();
+						
+						while (walk != from && process)
+						{
+							process = this.evaluateChoiceTraversal(FLOW_FORWARD, walk);
+							
+							// Test prevent Activation
+							if (process)
+							{
+								if (!walk.getIsActive() && 
+									walk.getPreventActivation())
+								{
+									// Exception 2.9-6
+									process = false;
+									continue;
+								}
+							}
+							
+							walk = walk.getParent();
+						}
+						
+						// Evaluate at the common ancestor
+						if (process)
+						{
+							process = this.evaluateChoiceTraversal(FLOW_FORWARD, walk);
+						}
+					}
+					
+					// Choice Case #4 -- Path to target is backward in the tree
+					else if (target == common)
+					{
+						// Don't need to test choiceExit on the current activity 
+						// because the navigation request validated.
+						var walk = from.getParent();
+						
+						while (walk != target && process)
+						{
+							// Need to make sure that none of the 'exiting' activities
+							// prevents us from reaching the common ancestor.
+							process = walk.getControlModeChoiceExit();
+							walk = walk.getParent();
+						}
+					}
+					
+					// Choice Case #5 -- Target is a descendent of the ancestor
+					else
+					{
+						var con = null;
+						var walk = from.getParent();
+						
+						// Walk up the tree to the common ancestor
+						while (walk != common && process)
+						{
+							process = walk.getControlModeChoiceExit();
+							
+							if (process && con == null)
+							{
+								if (walk.getConstrainChoice())
+								{
+									con = walk;
+								}
+							}
+							
+							walk = walk.getParent();
+						}
+						
+						// Evaluate constrained choice set
+						if (process && con != null)
+						{
+							var walkCon = new Walk();
+							walkCon.at = con;
+							
+							if (target.getCount() > con.getCount())
+							{
+								this.processFlow(FLOW_FORWARD, false, walkCon, true);
+							}
+							else
+							{
+								this.processFlow(FLOW_BACKWARD, false, walkCon, true);   
+							}
+							
+							if (target.getParent() != walkCon.at &&
+								target != walkCon.at)
+							{
+								// Exception SB.2.9-8
+								process = false;
+							}
+						}
+						
+						// Walk down the tree to the target
+						walk = target.getParent();
+						
+						while (walk != common && process)
+						{
+							process = this.evaluateChoiceTraversal(FLOW_FORWARD, walk);
+							
+							// Test prevent Activation
+							if (process)
+							{
+								if (!walk.getIsActive() && 
+									walk.getPreventActivation())
+								{
+									// Exception 2.9-6
+									process = false;
+									continue;
+								}
+							}
+							walk = walk.getParent();
+						}
+						
+						// Evaluate the common ancestor
+						if (process)
+						{
+							process = this.evaluateChoiceTraversal(FLOW_FORWARD,
+								walk);
+						}
+					}
+					
+					// Did we reach the target successfully?
+					if (process)
+					{
+						
+						// Is the target a cluster
+						if (target.getChildren(false) != null)
+						{
+							var walk = new Walk();
+							walk.at = target;
+							
+							var success = this.processFlow(FLOW_FORWARD,
+								true, walk, false);
+							
+							if (success)
+							{
+								delReq = walk.at.getID();
+							}
+							else
+							{
+								if (this.mSeqTree.getCurrentActivity() != null &&
+									common != null)
+								{
+									this.terminateDescendentAttempts(common);
+									this.endAttempt(common, false);
+									
+									// Move the current activity
+									this.mSeqTree.setCurrentActivity(target);
+									this.mSeqTree.setFirstCandidate(target);
+								}
+							}
+						}
+						else
+						{
+							delReq = target.getID();
+						}
+					}
+				}
+			}
+			else
+			{
+			// Exception SB.2.9-1
+			}
+		}
+		
+		return delReq;
+	},
+
+	findCommonAncestor: function (iFrom, iTo)
+	{
+		var ancestor = null;
+		var done = false;
+		var stepFrom = null;
+		
+		// If either activity is 'null', no common parent
+		if (iFrom == null || iTo == null)
+		{
+			done = true;
+		}
+		else
+		{
+			// Get the starting parents -- only look at clusters
+			// This algorithm uses the exising 'selected' children.
+			if (!iFrom.hasChildren(false))
+			{
+				stepFrom = iFrom.getParent();
+			}
+			else
+			{
+				stepFrom = iFrom;
+			}
+			
+			if (!iTo.hasChildren(false))
+			{
+				iTo = iTo.getParent();
+			}
+		}
+		
+		while (!done)
+		{
+			// Test if the 'to' activity is a decendent of 'from' parent
+			var success = this.isDescendent(stepFrom, iTo);
+			
+			// If we found the target activity, we are done
+			if (success)
+			{
+				ancestor = stepFrom;
+				done = true;
+				continue;
+			}
+		
+			// If this isn't the common parent, move up the tree
+			if (!done)
+			{
+				stepFrom = stepFrom.getParent();
+			}
+		}
+		return ancestor;
+	},
+
+
+	isDescendent: function (iRoot, iTarget)
+	{
+		var found = false;
+		
+		if (iRoot == null)
+		{
+		}
+		else if (iRoot == this.mSeqTree.getRoot())
+		{
+			// All activities are descendents of the root
+			found = true;
+		}
+		else if (iRoot != null && iTarget != null)
+		{
+			while (iTarget != null && !found)
+			{
+				if (iTarget == iRoot)
+				{
+					found = true;
+				}
+				
+				iTarget = iTarget.getParent();
+			}
+		}
+		return found;
+	},
+
+	walkTree: function (iDirection,iPrevDirection,iEnter,iFrom,iControl)
+	{
+		// This method implements Flow Subprocess SB.2.1
+		var next = null;
+		var parent = null;
+		
+		var direction = iDirection;
+		var reversed = false;
+		
+		var done = false;
+		var endSession = false;
+		
+		if (iFrom == null)
+		{
+			// The sequencing session is over
+			endSession = true;
+			done = true;     
+		}
+		else
+		{
+			parent = iFrom.getParent();
+		}
+		
+		// Test if we have skipped all of the children in a 'forward-only' 
+		// cluster traversing backward
+		if (!done && parent != null)
+		{
+			if (iPrevDirection == FLOW_BACKWARD)
+			{
+				if (iFrom.getNextSibling(false) == null)
+				{
+					// Switch traversal direction
+					direction = FLOW_BACKWARD;
+					
+					// Move our starting point
+					iFrom = parent.getChildren(false)[0];
+					
+					reversed = true;
+				}
+			}
+		}
+		
+		if (!done && direction == FLOW_FORWARD)
+		{
+			if (iFrom.getID() == this.mSeqTree.getLastLeaf())
+			{
+				// We are at the last leaf of the tree, the sequencing 
+				// session is over
+				done = true;
+				endSession = true;
+			}
+			
+			if (!done)
+			{
+				// Is the activity a leaf or a cluster that should not be entered
+				if (!iFrom.hasChildren(false) || !iEnter)
+				{
+					next = iFrom.getNextSibling(false);
+					
+					if (next == null)
+					{
+						var walk = this.walkTree(direction, FLOW_NONE,
+							false, parent, iControl);
+						
+						next = walk.at;
+						endSession = walk.endSession;
+					}
+				}
+				// Enter the Cluster
+				else
+				{
+					// Return the first child activity
+					// todo: check this
+					next = (iFrom.getChildren(false)[0]);
+				}
+			}
+		}
+		else if (!done && direction == FLOW_BACKWARD)
+		{
+			// Can't walk off the root of the tree
+			if (parent != null)
+			{
+				// Is the activity a leaf or a cluster that should not be entered
+				if (!iFrom.hasChildren(false) || !iEnter)
+				{
+					// Make sure we can move backward
+					if (iControl && !reversed)
+					{
+						if (parent.getControlForwardOnly())
+						{
+							done = true;
+						}
+					}
+					
+					if (!done)
+					{
+						next = iFrom.getPrevSibling(false);
+						
+						if (next == null)
+						{
+							var walk = this.walkTree(direction, FLOW_NONE,
+								false, parent, iControl);
+							next = walk.at;
+							endSession = walk.endSession;
+						}
+					}
+				}
+				
+				// Enter the cluster backward
+				else
+				{
+					if (iFrom.getControlForwardOnly())
+					{
+						// Return the first child activity
+						// todo: check this
+						next = (iFrom.getChildren(false)[0]);
+						
+						// And switch direction
+						direction = FLOW_FORWARD;
+					}
+					else
+					{
+						// todo: check this
+						var size = iFrom.getChildren(false).length;
+						
+						// Return the last child activity
+						// todo: check this
+						next = iFrom.getChildren(false)[size - 1];
+					}
+				}
+			}
+		}
+		
+		var walk = new Walk();
+		walk.at = next;
+		walk.direction = direction;
+		walk.endSession = endSession;
+		
+		return walk;
+	},
+
+
+	walkActivity: function (iDirection,iPrevDirection,ioFrom)
+	{
+		// This method implements Flow Subprocess SB.2.3
+		var deliver = true;
+		var parent = ioFrom.at.getParent();
+		
+		if (parent != null)
+		{
+			// Confirm that 'flow' is enabled for the cluster
+			if (!parent.getControlModeFlow())
+			{
+				deliver = false;
+			}
+		}
+		else
+		{
+			deliver = false;
+		}
+		
+		if (deliver)
+		{
+			// Check if the activity should be 'skipped'.
+			var result = null;
+			var skippedRules = ioFrom.at.getPreSeqRules();
+			
+			if (skippedRules != null)
+			{
+				result = skippedRules.evaluate(RULE_TYPE_SKIPPED, 
+					ioFrom.at, this.mRetry);
+			}
+			
+			// If the rule evaluation did not return null, the activity is skipped
+			if (result != null)
+			{
+				var walk  =
+					this.walkTree(iDirection, iPrevDirection, false, ioFrom.at, true);
+				
+				if (walk.at == null)
+				{
+					deliver = false;
+				}
+				else
+				{
+					ioFrom.at = walk.at;
+					
+					// Test if we've switched directions...
+					if (iPrevDirection == FLOW_BACKWARD &&
+						walk.direction == FLOW_BACKWARD)
+					{
+						return this.walkActivity(FLOW_BACKWARD, FLOW_NONE, ioFrom);
+					}
+					else
+					{
+						return this.walkActivity(iDirection, iPrevDirection, ioFrom);
+					}
+				}
+			}
+			else
+			{
+				// The activity was not skipped, make sure it is enabled
+				if (!this.checkActivity(ioFrom.at))
+				{
+					// Make sure the activity being considered is a leaf
+					if (ioFrom.at.hasChildren(false))
+					{
+						var walk = this.walkTree(iDirection,
+							FLOW_NONE, true, ioFrom.at, true);
+						
+						if (walk.at != null)
+						{
+							ioFrom.at = walk.at;
+							
+							if (iDirection == FLOW_BACKWARD &&
+								walk.direction ==  FLOW_FORWARD)
+							{
+								deliver = this.walkActivity(FLOW_FORWARD,
+									FLOW_BACKWARD, ioFrom);
+							}
+							else
+							{
+								deliver = this.walkActivity(iDirection,
+									FLOW_NONE, ioFrom);
+							}
+						}
+						else
+						{
+							deliver = false;
+						}
+					}
+				}
+				else
+				{
+					deliver = false;
+				}
+			}
+		}
+		return deliver;
+	},
+
+	processFlow: function (iDirection, iEnter, ioFrom, iConChoice)
+	{
+		// This method implements Flow Subprocess SB.2.3
+		
+		var success = true;
+		var candidate = ioFrom.at;
+		
+		// Make sure we have somewhere to start from
+		if (candidate != null)
+		{
+			var walk = this.walkTree(iDirection, FLOW_NONE, iEnter,
+				candidate, !iConChoice);
+			
+			if (!iConChoice && walk.at != null)
+			{
+				ioFrom.at = walk.at;
+				success = this.walkActivity(iDirection, FLOW_NONE, ioFrom);
+			}
+			else
+			{
+				if (iConChoice)
+				{
+					ioFrom.at = walk.at;
+				}
+				success = false;
+			}
+			
+			// Check to see if the sequencing session is ending due to
+			// walking off the activity tree
+			if (walk.at == null && walk.endSession)
+			{
+				// End the attempt on the root of the activity tree
+				this.terminateDescendentAttempts(this.mSeqTree.getRoot());
+				// The sequencing session is over -- set global state
+				this.mEndSession = true;
+				success = false;
+			}
+		}
+		else
+		{
+			success = false;
+		}
+		
+		return success;
+	},
+
+	evaluateChoiceTraversal: function (iDirection, iAt)
+	{
+		// This method implements Choice Activity Traversal Subprocess SB.2.4
+		var success = true;
+		
+		// Make sure we have somewhere to start from
+		if (iAt != null)
+		{
+			if (true)
+			{
+				if (iDirection == FLOW_FORWARD)
+				{
+					// Attempt to get rule information from the activity node
+					var stopTrav = iAt.getPreSeqRules();
+					var result = null;
+					
+					if (stopTrav != null)
+					{
+						result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, iAt, false);
+					}
+					
+					// If the rule evaluation does not return null, can't move to the
+					// activity's sibling
+					if (result != null)
+					{
+						success = false;
+					}
+				}
+				else if (iDirection == FLOW_BACKWARD)
+				{
+					var parent = iAt.getParent();
+					
+					if (parent != null)
+					{
+						success = !parent.getControlForwardOnly();
+					}
+				}
+				else
+				{
+					success = false;
+				}
+			}
+			else
+			{
+				success = false;
+			}
+		}
+		else
+		{
+			success = false;
+		}
+		return success;
+	},
+
+	doDeliveryRequest: function (iTarget,iTentative,oLaunch)
+	{
+		// This method implements DB.1.  Also, if the delivery request is not
+		// tentative, it invokes the Content Delivery Environment Process.
+		var deliveryOK = true;
+		
+		// Make sure the identified activity exists in the tree.
+		var act = this.getActivity(iTarget);
+		
+		if (act ==  null)
+		{
+			
+			// If there is no activity identified for delivery, there is nothing
+			// to delivery -- indentify non-Sequenced content
+			deliveryOK = false;
+			
+			if (!iTentative)
+			{
+				if (this.mExitCourse)
+				{
+					oLaunch.mSeqNonContent = LAUNCH_COURSECOMPLETE;
+				}
+				else
+				{
+					if (this.mEndSession)
+					{
+						oLaunch.mSeqNonContent = LAUNCH_EXITSESSION;
+					}
+					else
+					{
+						oLaunch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+					}
+				}
+			}
+		}
+		
+		// Confirm the target activity is a leaf
+		if (deliveryOK && act.hasChildren(false))
+		{
+			deliveryOK = false;
+			
+			oLaunch.mSeqNonContent = LAUNCH_ERROR;
+			oLaunch.mEndSession = this.mEndSession;
+		}
+		else if (deliveryOK)
+		{
+			var ok = true;
+			
+			// Walk the path from the target activity to the root, checking each
+			// activity.
+			while (act != null && ok)
+			{
+				ok = !this.checkActivity(act);
+				if (ok)
+				{
+					act = act.getParent();
+				}
+			}
+			
+			if (!ok)
+			{
+				deliveryOK = false;
+				oLaunch.mSeqNonContent = LAUNCH_NOTHING;
+			}
+		}
+		
+		// If the delivery request not a tentative request, prepare for deliver
+		if (!iTentative)
+		{
+			// Did the request validate
+			if (deliveryOK)
+			{
+				this.contentDelivery(iTarget, oLaunch);
+				this.validateRequests();
+			}
+			else
+			{
+				oLaunch.mEndSession = this.mEndSession || this.mExitCourse;
+				
+				if (!oLaunch.mEndSession)
+				{
+					this.validateRequests();
+					oLaunch.mNavState = this.mSeqTree.getValidRequests();
+				}
+			}
+		}
+		return deliveryOK;
+	},
+
+// ----------
+	
+	
    contentDelivery: function (iTarget, oLaunch)
    {
 
       // This method implements the Content Delivery Environment Process (DB.2)
-      var target = getActivity(iTarget);
+      var target = this.getActivity(iTarget);
       var done = false;
 
       if (target == null)
@@ -2989,7 +2893,7 @@ ADLSequencer.prototype =
 
          while (walk != null)
          {
-            begin.add(walk);
+            begin[begin.length] = walk;
 
             walk = walk.getParent();
          }
@@ -3109,7 +3013,7 @@ ADLSequencer.prototype =
          if (iTarget != act)
          {
 
-            var common = findCommonAncestor(iTarget, act);
+            var common = this.findCommonAncestor(iTarget, act);
 
             while (act != common)
             {
@@ -3176,7 +3080,7 @@ ADLSequencer.prototype =
 
       if (cur != null)
       {
-         var common = findCommonAncestor(cur, iTarget);
+         var common = this.findCommonAncestor(cur, iTarget);
          var walk = cur;
 
          while (walk != common)
@@ -3208,7 +3112,7 @@ ADLSequencer.prototype =
                   // If the content hasn't set this value, set it
                   if (!iTarget.getProgressStatus(false))
                   {
-                     iTarget.setProgress(ADLTracking.TRACK_COMPLETED);
+                     iTarget.setProgress(TRACK_COMPLETED);
                   }
                }
 
@@ -3217,7 +3121,7 @@ ADLSequencer.prototype =
                   // If the content hasn't set this value, set it
                   if (!iTarget.getObjStatus(false, true))
                   {
-                     iTarget.setObjSatisfied(ADLTracking.TRACK_SATISFIED);
+                     iTarget.setObjSatisfied(TRACK_SATISFIED);
                   }
                }
             }
@@ -3251,14 +3155,14 @@ ADLSequencer.prototype =
                   if (iTarget.getSelectionTiming().
                        equals(TIMING_EACHNEW))
                   {
-                     doSelection(iTarget);
+                     this.doSelection(iTarget);
                      iTarget.setSelection(true);
                   }
 
                   if (iTarget.getRandomTiming().
                        equals(TIMING_EACHNEW))
                   {
-                     doRandomize(iTarget);
+                     this.doRandomize(iTarget);
                      iTarget.setRandomized(true);
                   }
                }
@@ -3277,7 +3181,7 @@ ADLSequencer.prototype =
             }
 
             // Invoke rollup
-            invokeRollup(iTarget, null);            
+            this.invokeRollup(iTarget, null);            
          }
       }
    },
@@ -3290,7 +3194,7 @@ ADLSequencer.prototype =
       var result = null;
 
       // Attempt to get rule information from the activity node
-      SeqRuleset disabledRules = iTarget.getPreSeqRules();
+      var disabledRules = iTarget.getPreSeqRules();
 
       if (disabledRules != null)
       {
@@ -3346,7 +3250,7 @@ ADLSequencer.prototype =
             else if (temp.mIsVisible)
             {
                set.put(temp.mID, temp);
-               oNewTOC.add(temp);
+               oNewTOC[oNewTOC.length] = temp;
             }
 
             if (lastLeaf == null)
@@ -3455,7 +3359,7 @@ ADLSequencer.prototype =
          if (include)
          {
             // Attempt to get rule information from the activity
-            SeqRuleset hiddenRules = walk.getPreSeqRules();
+            var hiddenRules = walk.getPreSeqRules();
 
             var result = null;
 
@@ -3543,7 +3447,7 @@ ADLSequencer.prototype =
             temp.mLeaf = !walk.hasChildren(false);
             temp.mParent = parentTOC;
 
-            toc.add(temp);
+            toc[toc.length] = temp;
          }
          else
          {
@@ -3578,11 +3482,11 @@ ADLSequencer.prototype =
                temp.mIsVisible = false;
             }
 
-            toc.add(temp);
+            toc[toc.length] = temp;
          }
 
          // Add this activity to the "flat TOC"
-         flatTOC.add(walk);
+         flatTOC[flatTOC.length] = walk;
 
          // If this activity has children, look at them later...
          if (walk.hasChildren(false))
@@ -3591,7 +3495,7 @@ ADLSequencer.prototype =
             // unless we are at the root
             if (walk.getParent() != null)
             {
-               lookAt.add(walk);
+               lookAt[lookAt.length] = walk;
             }
 
             // Go to the first child
@@ -3678,7 +3582,7 @@ ADLSequencer.prototype =
          if (hidden == -1)
          {
             // Attempt to get rule information from the activity
-            SeqRuleset hiddenRules = tempAct.getPreSeqRules();
+            var hiddenRules = tempAct.getPreSeqRules();
    
             var result = null;
    
@@ -4057,12 +3961,12 @@ ADLSequencer.prototype =
             {
                if (!blocked)
                {
-                  SeqRuleset stopTrav = getActivity(temp.mID).getPreSeqRules();
+                  var stopTrav = this.getActivity(temp.mID).getPreSeqRules();
    
                   var result = null;
                   if (stopTrav != null)
                   {
-                     result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, getActivity(temp.mID), false);
+                     result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, this.getActivity(temp.mID), false);
                   }
    
                   // If the rule evaluation did not return null, the activity is blocked
@@ -4094,12 +3998,12 @@ ADLSequencer.prototype =
          while (temp.mParent != -1 && temp.mParent != curParent)
          {
             temp = toc[temp.mParent];
-            SeqRuleset stopTrav = getActivity(temp.mID).getPreSeqRules();
+            var stopTrav = this.getActivity(temp.mID).getPreSeqRules();
    
             var result = null;
             if (stopTrav != null)
             {
-               result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, getActivity(temp.mID), false);
+               result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, this.getActivity(temp.mID), false);
             }
    
             // If the rule evaluation did not return null, 
@@ -4140,7 +4044,7 @@ ADLSequencer.prototype =
 
          if (!temp.mLeaf)
          {
-            var from = getActivity(temp.mID);
+            var from = this.getActivity(temp.mID);
 
             // Confirm 'flow' is enabled from this cluster
             if (from.getControlModeFlow())
@@ -4211,7 +4115,7 @@ ADLSequencer.prototype =
                if (temp.mParent == i && temp.mDepth > 0)
                {
                   temp.mDepth--;
-                  parents.add(new Integer(j));
+                  parents[parents.length] = j;
                }
                else
                {
@@ -4222,7 +4126,7 @@ ADLSequencer.prototype =
                      if (idx != -1)
                      {
                         temp.mDepth--;
-                        parents.add(new Integer(j));
+                        parents[parents.length] = j;
                      }
                   }
                }
