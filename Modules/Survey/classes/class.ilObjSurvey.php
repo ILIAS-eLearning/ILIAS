@@ -3214,6 +3214,39 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 	}
 	
+	/**
+	* Checks if a user is allowed to take multiple survey
+	*
+	* Checks if a user is allowed to take multiple survey
+	*
+	* @param string $username Login of the user
+	* @return boolean TRUE if the user is allowed to take the survey more than once, FALSE otherwise
+	* @access public
+	*/
+	function isAllowedToTakeMultipleSurveys($username = "")
+	{
+		$result = FALSE;
+		if ($this->getAnonymize())
+		{
+			if ($this->isAccessibleWithoutCode())
+			{
+				if (strlen($username) == 0)
+				{
+					global $ilUser;
+					$username = $ilUser->getLogin();
+				}
+				global $ilSetting;
+				$surveysetting = new ilSetting("survey");
+				$allowedUsers = strlen($surveysetting->get("multiple_survey_users")) ? explode(",",$surveysetting->get("multiple_survey_users")) : array();
+				if (in_array($username, $allowedUsers))
+				{
+					$result = TRUE;
+				}
+			}
+		}
+		return $result;
+	}
+	
 /**
 * Checks if a user already started a survey
 *
@@ -3229,7 +3262,7 @@ class ilObjSurvey extends ilObject
 
 		if ($this->getAnonymize())
 		{
-			if (($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0))
+			if ((($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
 			{
 				$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
 					$ilDB->quote($this->getSurveyId()),
@@ -4615,7 +4648,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		if ($user_id == ANONYMOUS_USER_ID) return "";
+		if (($user_id == ANONYMOUS_USER_ID) || (($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys()))) return "";
 		$query = sprintf("SELECT anonymous_id FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote($user_id . "")
