@@ -243,7 +243,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$rel_tpl->setVariable("TXT_LOADING", $lng->txt("feed_loading_feed"));
 		$rel_tpl->setVariable("BLOCK_ID", "block_pdfeed_".$this->getBlockId());
 		$rel_tpl->setVariable("TARGET", 
-			$ilCtrl->getLinkTargetByClass("ilcolumngui", "updateBlock", true));
+			$ilCtrl->getLinkTargetByClass("ilcolumngui", "updateBlock", "", true));
 			
 		// no JS
 		$rel_tpl->setVariable("TXT_FEED_CLICK_HERE", $lng->txt("feed_no_js_click_here"));
