@@ -2895,23 +2895,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 			$svy = new ilObjSurvey();
 			
-			/*
-			$surveys =& ilObjSurvey::_getAvailableSurveys(true);
-			if (count($surveys) > 0)
-			{
-				foreach ($surveys as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("option_svy");
-					$this->tpl->setVariable("OPTION_VALUE_SVY", $key);
-					$this->tpl->setVariable("TXT_OPTION_SVY", $value);
-					if ($_POST["svy"] == $key)
-					{
-						$this->tpl->setVariable("OPTION_SELECTED_SVY", " selected=\"selected\"");				
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			*/
+			$this->fillCloneTemplate('DUPLICATE','svy');
 			$questionpools =& $svy->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = TRUE, $showPath = TRUE);
 			if (count($questionpools) > 0)
 			{
@@ -2961,20 +2945,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_SVY_FILE", $this->lng->txt("svy_upload_file"));
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 
-			#$this->tpl->setVariable("TXT_DUPLICATE_SVY", $this->lng->txt("duplicate_svy"));
-			#$this->tpl->setVariable("TXT_SELECT_SVY", $this->lng->txt("obj_svy"));
-			#$this->tpl->setVariable("OPTION_SELECT_SVY", $this->lng->txt("select_svy_option"));
-			#$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
-
 			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_svy.gif'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_svy"));
 			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_svy.gif'));
 			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_svy"));
-			#$this->tpl->setVariable("TYPE_IMG3", ilUtil::getImagePath('icon_svy.gif'));
-			#$this->tpl->setVariable("ALT_IMG3",$this->lng->txt("obj_svy"));
 		}
-		
-		$this->fillCloneTemplate('DUPLICATE','svy');
 	}
 	
 	/**

@@ -3743,6 +3743,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
+			$this->fillCloneTemplate('DUPLICATE','tst');
 			$this->tpl->setCurrentBlock("adm_content");
 			
 			// fill in saved values in case of error
@@ -3782,7 +3783,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("NEW_TYPE", $this->type);
 			$this->tpl->parseCurrentBlock();
 
-			$this->fillCloneTemplate('DUPLICATE','tst');
 		}
 	}
 
