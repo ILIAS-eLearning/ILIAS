@@ -63,6 +63,7 @@ class ilQuestionpoolExport
 		$this->inst_id = IL_INST_ID;
 		$this->questions = $array_questions;
 		$date = time();
+		$this->qpl_obj->createExportDirectory();
 		switch($this->mode)
 		{
 			case "xls":
@@ -131,7 +132,6 @@ class ilQuestionpoolExport
 		$this->xml->xmlHeader();
 
 		// create directories
-		$this->qpl_obj->createExportDirectory();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
@@ -212,7 +212,6 @@ class ilQuestionpoolExport
 		global $ilBench;
 
 		$ilBench->start("QuestionpoolExport", "buildExportFile");
-
 		include_once "./classes/class.ilExcelWriterAdapter.php";
 		$adapter = new ilExcelWriterAdapter($this->export_dir . "/" . $this->filename, FALSE);
 		$workbook = $adapter->getWorkbook();
