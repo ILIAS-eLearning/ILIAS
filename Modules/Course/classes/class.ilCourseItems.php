@@ -967,7 +967,36 @@ class ilCourseItems
 		}
 		return false;
 	}
-		
+	
+	/**
+	 * read activation times
+	 *
+	 * @access public
+	 * @param array array(int) ref_ids
+	 * 
+	 */
+	public static function _readActivationTimes($a_ref_ids)
+	{
+	 	global $ilDB;
+	 	
+	 	if(!is_array($a_ref_ids) or !$a_ref_ids)
+	 	{
+	 		return array();
+	 	}
+	 	
+	 	$query = "SELECT obj_id,timing_type,timing_start,timing_end,visible FROM crs_items ".
+	 		"WHERE obj_id IN (".implode(',',$a_ref_ids).")";
+	 	$res = $ilDB->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		$ac_times[(string) $row->obj_id]['obj_id'] = $row->obj_id;
+	 		$ac_times[(string) $row->obj_id]['timing_type'] = $row->timing_type;
+	 		$ac_times[(string) $row->obj_id]['timing_start'] = $row->timing_start;
+	 		$ac_times[(string) $row->obj_id]['timing_end'] = $row->timing_end;
+	 		$ac_times[(string) $row->obj_id]['visible'] = $row->visible;
+	 	}
 
+		return $ac_times ? $ac_times : array();
+	}
 }
 ?>
