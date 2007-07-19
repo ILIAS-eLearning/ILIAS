@@ -429,20 +429,20 @@ class ilAccessHandler
 	 */
 	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
-		global $ilBench;
+		global $ilBench,$ilObjDataCache;
 		
 		$cache_perm = ($a_permission == "visible")
 			? "visible"
 			: "other";
 			
-//echo "<br>doActivationCheck-$cache_perm-$a_ref_id-$a_user_id-";
+//echo "<br>doActivationCheck-$cache_perm-$a_ref_id-$a_user_id-".$ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
 
 		if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id]))
 		{
 			//echo "Hit";
 			return $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id];
 		}
-
+		
 		// nothings needs to be done if current permission is write permission
 		if($a_permission == 'write')
 		{
@@ -451,7 +451,15 @@ class ilAccessHandler
 
 		$ilBench->start("AccessControl", "3150_checkAccess_check_course_activation");
 		include_once 'Modules/Course/classes/class.ilCourseItems.php';
-		$item_data = ilCourseItems::_getItem($a_ref_id);
+		if(isset($this->ac_times[$a_ref_id]))
+		{
+			// read preloaded
+			$item_data = $this->ac_times[$a_ref_id];
+		}
+		else
+		{
+			$item_data = ilCourseItems::_readActivationTimes(array($a_ref_id));
+		}
 		$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 
 		// if activation isn't enabled
@@ -485,7 +493,21 @@ class ilAccessHandler
 		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
 		return false;
 	}
-
+	
+	/**
+	 * preload activation times of course items
+	 * loads all required timing data for the given ref ids 
+	 *
+	 * @access public
+	 * @param array array(int) ref_id
+	 * 
+	 */
+	public function preloadActivationTimes($a_ref_ids)
+	{
+		include_once('Modules/Course/classes/class.ilCourseItems.php');
+		$this->ac_times = (array) $this->ac_times + ilCourseItems::_readActivationTimes($a_ref_ids);
+	}
+	
 	/**
 	 * condition check (currently only implemented for read permission)
 	 * 
