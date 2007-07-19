@@ -3216,7 +3216,7 @@ class ilUtil
 		{
 			$limit = $ilias->getSetting('search_max_hits',100);
 		}
-		if($limit = -1)
+		if($limit == -1)
 		{
 			$limit = 10000;
 		}
@@ -3238,7 +3238,8 @@ class ilUtil
 			$counter = 0;
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				if(++$counter == $limit)
+				
+				if($counter++ >= $limit)
 				{
 					break;
 				}
@@ -3262,7 +3263,7 @@ class ilUtil
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(++$counter == $limit)
+			if($counter++ >= $limit)
 			{
 				break;
 			}

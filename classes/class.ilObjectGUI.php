@@ -2335,14 +2335,17 @@ class ilObjectGUI
 	 */
 	public function fillCloneTemplate($a_tpl_varname,$a_type)
 	{
-		global $objDefinition,$ilUser;
+		global $objDefinition,$ilUser,$ilSetting;
 		
-		if(!count($existing_objs = ilUtil::_getObjectsByOperations($a_type,'copy',$ilUser->getId(),10)))
+		$max_entries = $ilSetting->get('search_max_hits',100);
+		
+		if(!count($existing_objs = ilUtil::_getObjectsByOperations($a_type,'copy',$ilUser->getId(),$max_entries)))
 		{
 			// No Objects with copy permission found
 			return false;
 		}
-		if(count($existing_objs) >= 100)
+		
+		if(count($existing_objs) >= $max_entries)
 		{
 			return $this->fillCloneSearchTemplate($a_tpl_varname,$a_type);
 		}
