@@ -11467,12 +11467,16 @@ ALTER TABLE exc_members ADD status ENUM('notgraded','failed','passed') NOT NULL 
 UPDATE exc_members SET status = 'passed' WHERE solved = 1;
 ALTER TABLE exc_members CHANGE solved_time status_time TIMESTAMP DEFAULT '0000-00-00 00:00:00';
 <#808>
+ALTER TABLE frm_data DROP INDEX top_frm_fk;
 ALTER TABLE frm_data ADD INDEX top_frm_fk (top_frm_fk);
 <#809>
+ALTER TABLE mail DROP INDEX folder_id;
 ALTER TABLE mail ADD INDEX folder_id (folder_id);
 <#810>
+ALTER TABLE mail DROP INDEX m_status;
 ALTER TABLE mail ADD INDEX m_status (m_status);
 <#811>
+ALTER TABLE frm_posts DROP INDEX pos_date;
 ALTER TABLE frm_posts ADD INDEX pos_date (pos_date);
 <#812>
 ALTER TABLE `crs_settings` ADD `show_members` TINYINT NOT NULL DEFAULT '1';
