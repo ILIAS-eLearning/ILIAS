@@ -427,6 +427,37 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * To Xml.
+	 * This method writes only the subset Field
+	 * Use class.ilAdvancedMDRecordXMLWriter to generate a complete xml presentation.
+	 *
+	 * @access public
+	 * @param object ilXmlWriter
+	 * 
+	 */
+	 public function toXML(ilXmlWriter $writer)
+	 {
+	 	$writer->xmlStartTag('Field',array(
+			'Searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
+			'FieldType'	 => (($this->getFieldType() == self::TYPE_TEXT) ? 'Text' : 'Select')));
+		
+		$writer->xmlElement('FieldTitle',null,$this->getTitle());
+		$writer->xmlElement('FieldDescription',null,$this->getDescription());
+		$writer->xmlElement('FieldPosition',null,$this->getPosition());
+		
+		foreach($this->getFieldValues() as $value)
+		{
+			if(strlen($value))
+			{
+				$writer->xmlElement('FieldValue',null,$value);
+			}
+		}
+		
+		$writer->xmlEndTag('Field');
+	 }
+	
+	
+	/**
 	 * read field definition
 	 *
 	 * @access private

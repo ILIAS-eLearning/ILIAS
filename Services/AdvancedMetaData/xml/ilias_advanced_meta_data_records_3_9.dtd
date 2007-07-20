@@ -1,0 +1,17 @@
+<!ELEMENT AdvancedMetaDataRecords(Record*)>
+<!ELEMENT Record(Title,Description?,ObjectType*,Field*)>
+
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT ObjectType (#PCDATA)>
+
+<!ELEMENT Field(FieldTitle,FieldDescription?,FieldPosition,FieldValue*)>
+
+<!ATTLIST Field
+	Searchable (Yes | No) #REQUIRED
+	FieldType (Select | Text) #REQUIRED>
+
+<!ELEMENT FieldTitle (#PCDATA)>
+<!ELEMENT FieldDescription (#PCDATA)>
+<!ELEMENT FieldPosition (#PCDATA)>
+<!ELEMENT FieldValue (#PCDATA)>
