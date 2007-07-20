@@ -30,6 +30,7 @@
 * @ingroup ServicesAdvancedMetaData
 */
 include_once('Services/Table/classes/class.ilTable2GUI.php');
+include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
 class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 {
@@ -89,7 +90,21 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_DESCRIPTION',$a_set['description']);
 		}
-		
+		$defs = ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($a_set['id']);
+		if(!count($defs))
+		{
+			$this->tpl->setVariable('TXT_FIELDS',$this->lng->txt('md_advanced_no_fields'));
+		}
+		else
+		{
+			$this->tpl->setVariable('TXT_FIELDS',$this->lng->txt('md_advanced_def_fields'));
+		}
+		foreach($defs as $definition_obj)
+		{
+			$this->tpl->setCurrentBlock('field_entry');
+			$this->tpl->setVariable('FIELD_NAME',$definition_obj->getTitle());
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->ctrl->setParameter($this->parent_obj,'record_id',$a_set['id']);
 		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editRecord'));
 		$this->tpl->setVariable('TXT_EDIT_RECORD',$this->lng->txt('edit'));

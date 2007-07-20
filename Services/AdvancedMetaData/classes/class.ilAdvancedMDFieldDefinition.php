@@ -243,6 +243,21 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * Append field value
+	 *
+	 * @access public
+	 * @param string value
+	 * 
+	 */
+	public function appendFieldValue($a_value)
+	{
+	 	if(strlen(trim($a_value)))
+	 	{
+	 		$this->field_values[] = trim($a_value);
+	 	}
+	}
+	
+	/**
 	 * get field values
 	 *
 	 * @access public
@@ -350,12 +365,16 @@ class ilAdvancedMDFieldDefinition
 	 */
 	public function add()
 	{
+	 	sort($values = $this->getFieldValues(),SORT_STRING);
+	 	
+	 	$position = $this->getLastPosition();
+	 	
 	 	$query = "INSERT INTO adv_md_field_definition ".
 	 		"SET record_id = ".$this->db->quote($this->getRecordId()).", ".
 	 		"import_id = ".$this->db->quote($this->getImportId()).", ".
-	 		"position = ".$this->db->quote($this->getPosition()).", ".
+	 		"position = ".$this->db->quote($position + 1).", ".
 	 		"field_type = ".$this->db->quote($this->getFieldType()).", ".
-			"field_values = '".addslashes(serialize($this->getFieldValues()))."', ".
+			"field_values = '".addslashes(serialize($values))."', ".
 	 		"title = ".$this->db->quote($this->getTitle()).", ".
 	 		"description = ".$this->db->quote($this->getDescription()).", ".
 	 		"searchable = ".(int) $this->isSearchable().", ".
@@ -363,6 +382,24 @@ class ilAdvancedMDFieldDefinition
 	 	$this->db->query($query);
 	 	$this->field_id = $this->db->getLastInsertId();
 		return true;
+	}
+	
+	/**
+	 * validate
+	 *
+	 * @access public
+	 * 
+	 */
+	public function validate()
+	{
+	 	global $ilErr,$lng;
+	 	
+	 	if(!strlen($this->getTitle()) or !$this->getFieldType())
+	 	{
+	 		$ilErr->setMessage('fill_out_all_required_fields');
+	 		return false;
+	 	}
+	 	return true;
 	}
 	
 	/**
@@ -386,7 +423,6 @@ class ilAdvancedMDFieldDefinition
 	 		"WHERE field_id = ".$this->db->quote($this->getFieldId())." ";
 				 		
 	 	$this->db->query($query);
-	 	$this->field_id = $this->db->getLastInsertId();
 		return true;
 	}
 	
@@ -417,6 +453,24 @@ class ilAdvancedMDFieldDefinition
 			$this->searchable = $row->searchable;
 			$this->required = $row->required;
 		}
+	}
+	
+	/**
+	 * get last position of record
+	 *
+	 * @access private
+	 * 
+	 */
+	private function getLastPosition()
+	{
+		$query = "SELECT max(position) as pos FROM adv_md_field_definition ".
+			"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->pos;
+		}
+		return 0;
 	}
 }
 ?>
