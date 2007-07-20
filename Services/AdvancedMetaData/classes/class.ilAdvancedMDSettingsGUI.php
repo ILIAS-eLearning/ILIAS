@@ -119,6 +119,110 @@ class ilAdvancedMDSettingsGUI
 	 		$this->showRecords();
 	 		return false;
 	 	}
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php');
+	 	$xml_writer = new ilAdvancedMDRecordXMLWriter($_POST['record_id']);
+	 	$xml_writer->write();
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
+	 	$export_files = new ilAdvancedMDRecordExportFiles();
+	 	$export_files->create($xml_writer->xmlDumpMem());
+	 	
+	 	$this->showRecords();
+	}
+	
+	/**
+	 * show export files
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function showFiles()
+	{
+		$this->tabs_gui->setSubTabActive('md_adv_file_list');
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
+		$files = new ilAdvancedMDRecordExportFiles();
+		$file_data = $files->readFilesInfo();
+
+		include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFilesTableGUI.php");
+		$table_gui = new ilAdvancedMDRecordExportFilesTableGUI($this, "showFiles");
+		$table_gui->setTitle($this->lng->txt("md_record_export_table"));
+		$table_gui->parseFiles($file_data);
+		$table_gui->addMultiCommand("downloadFiles",$this->lng->txt('download'));
+		$table_gui->addMultiCommand("confirmDeleteFiles", $this->lng->txt("delete"));
+		$table_gui->addCommandButton('showFiles',$this->lng->txt('cancel'));
+		$table_gui->setSelectAllCheckbox("file_id");
+		
+		$this->tpl->setContent($table_gui->getHTML());
+	}
+	
+	/**
+	 * confirm delete files
+	 *
+	 * @access public
+	 * 
+	 */
+	public function confirmDeleteFiles()
+	{
+	 	if(!isset($_POST['file_id']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		$this->editFiles();
+	 		return false;
+	 	}
+	
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteFiles"));
+		$c_gui->setHeaderText($this->lng->txt("md_adv_delete_files_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "showFiles");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
+
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
+		$files = new ilAdvancedMDRecordExportFiles();
+		$file_data = $files->readFilesInfo();
+
+
+		// add items to delete
+		foreach($_POST["file_id"] as $file_id)
+		{
+			$info = $file_data[$file_id];
+			$c_gui->addItem("file_id[]", $file_id, is_array($info['name']) ? implode(',',$info['name']) : 'No Records');
+		}
+		$this->tpl->setContent($c_gui->getHTML());
+	}
+	
+	/**
+	 * Delete files
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function deleteFiles()
+	{
+	 	if(!isset($_POST['file_id']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		$this->editFiles();
+	 		return false;
+	 	}
+
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
+		$files = new ilAdvancedMDRecordExportFiles();
+		
+		echo "hier";
+		foreach($_POST['file_id'] as $file_id)
+		{
+			echo 1;
+			$files->deleteByFileId((int) $file_id);
+			echo 2;
+		}
+		ilUtil::sendInfo($this->lng->txt('md_adv_deleted_files'));
+		$this->showFiles();
 	}
 	
 	/**
@@ -717,6 +821,21 @@ class ilAdvancedMDSettingsGUI
 	protected function setSubTabs()
 	{
 		$this->tabs_gui->clearSubTabs();
+
+		$this->tabs_gui->addSubTabTarget("md_adv_record_list",
+								 $this->ctrl->getLinkTarget($this, "showRecords"),
+								 '',
+								 '',
+								 '',
+								 true);
+			
+		$this->tabs_gui->addSubTabTarget("md_adv_file_list",
+								 $this->ctrl->getLinkTarget($this, "showFiles"),
+								 "showFiles",
+								 array(),
+								 '',
+								 false);
+		
 	}
 	
 	/**

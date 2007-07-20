@@ -22,7 +22,7 @@
 */
 
 /** 
-* @defgroup Services/AdvancedMetaData
+* @defgroup ServicesAdvancedMetaData Services/AdvancedMetaData
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -317,6 +317,34 @@ class ilAdvancedMDRecord
 	public function getAssignedObjectTypes()
 	{
 	 	return $this->obj_types ? $this->obj_types : array();
+	}
+	
+	/**
+	 * To Xml.
+	 * This method writes only the subset Record (including all fields)
+	 * Use class.ilAdvancedMDRecordXMLWriter to generate a complete xml presentation.
+	 *
+	 * @access public
+	 * @param object ilXmlWriter
+	 * 
+	 */
+	public function toXML(ilXmlWriter $writer)
+	{
+	 	$writer->xmlStartTag('Record');
+	 	$writer->xmlElement('Title',null,$this->getTitle());
+	 	$writer->xmlElement('Description',null,$this->getDescription());
+	 	
+	 	foreach($this->getAssignedObjectTypes() as $obj_type)
+	 	{
+	 		$writer->xmlElement('ObjectType',null,$obj_type);
+	 	}
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+	 	foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($this->getRecordId()) as $definition)
+	 	{
+	 		$definition->toXML($writer);
+	 	}
+	 	$writer->xmlEndTag('Record');
 	}
 	
 	/**
