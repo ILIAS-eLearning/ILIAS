@@ -1271,7 +1271,7 @@ ADLSequencer.prototype =
 		}
 		
 		// Apply the termination request
-		if (iRequest.equals(TER_EXIT))
+		if (iRequest == TER_EXIT)
 		{
 			
 			// Make sure the current activity is active.
@@ -2847,1320 +2847,1287 @@ ADLSequencer.prototype =
 		return deliveryOK;
 	},
 
-// ----------
+	contentDelivery: function (iTarget, oLaunch)
+	{
+		
+		// This method implements the Content Delivery Environment Process (DB.2)
+		var target = this.getActivity(iTarget);
+		var done = false;
+		
+		if (target == null)
+		{
+			oLaunch.mSeqNonContent = LAUNCH_ERROR;
+			oLaunch.mEndSession = this.mEndSession;
+			done = true;
+		}
+		
+		var cur = this.mSeqTree.getFirstCandidate();
+		
+		if (cur != null  && !done)
+		{
+			if (cur.getIsActive())
+			{
+				oLaunch.mSeqNonContent = LAUNCH_ERROR;
+				oLaunch.mEndSession = this.mEndSession;
+				done = true;
+			}
+		}
+		
+		if (!done)
+		{
+			// Clear any 'suspended' activity
+			this.clearSuspendedActivity(target);
+			
+			// End any active attempts
+			this.terminateDescendentAttempts(target);
+			
+			// Begin all required new attempts
+			var begin = new Array();
+			var walk = target;
+			
+			while (walk != null)
+			{
+				begin[begin.length] = walk;
+				walk = walk.getParent();
+			}
+			
+			if (begin.length > 0)
+			{
+				for (var i = begin.length - 1; i >= 0; i--)
+				{
+					walk = begin[i];
+					if (!walk.getIsActive())
+					{
+						if (walk.getIsTracked())
+						{
+							if (walk.getIsSuspended())
+							{
+								walk.setIsSuspended(false);
+							}
+							else
+							{
+								// Initialize tracking information for the new attempt
+								walk.incrementAttempt();
+							}
+						}
+						walk.setIsActive(true);
+					}
+				}
+			}
+			
+			// Set the tree in the appropriate state
+			this.mSeqTree.setCurrentActivity(target);
+			this.mSeqTree.setFirstCandidate(target);
+			
+			// Fill in required launch information
+			oLaunch.mEndSession = this.mEndSession;
+			oLaunch.mActivityID = iTarget;
+			oLaunch.mResourceID = target.getResourceID();
+			
+			oLaunch.mStateID = target.getStateID();
+			if (oLaunch.mStateID == null)
+			{
+				oLaunch.mStateID = iTarget;
+			}
+			
+			oLaunch.mNumAttempt = target.getNumAttempt() + 
+				target.getNumSCOAttempt();
+			oLaunch.mMaxTime = target. getAttemptAbDur();
+			
+			// Create auxilary services vector
+			Hashtable services = new Object();
+			ADLAuxiliaryResource test = null;
+			walk = target;
+			
+			// Starting at the target activity, walk up the tree adding services
+			while (walk != null)
+			{
+				var curSet = walk.getAuxResources();
+				if (curSet != null)
+				{
+					for (var i = 0; i < curSet.length; i++)
+					{
+						ADLAuxiliaryResource res = null;
+						res = curSet[i];
+						
+						// If the resource isn't already included in the set, add it
+						test = services[res.mType];
+						
+						if (test == null)
+						{
+							services[res.mType] = res;
+						}
+					}
+				}
+				
+				// Walk up the tree
+				walk = walk.getParent();
+			}
+			
+			if (services.length > 0)
+			{
+				oLaunch.mServices = services;
+			}
+		}
+		
+		this.validateRequests();
+		oLaunch.mNavState = this.mSeqTree.getValidRequests();
+		
+		
+		// Make sure Continue Exit is not enabled for non-content
+		if (oLaunch.mSeqNonContent != null)
+		{
+			oLaunch.mNavState.mContinueExit = false;
+		}
 	
-	
-   contentDelivery: function (iTarget, oLaunch)
-   {
-
-      // This method implements the Content Delivery Environment Process (DB.2)
-      var target = this.getActivity(iTarget);
-      var done = false;
-
-      if (target == null)
-      {
-         oLaunch.mSeqNonContent = LAUNCH_ERROR;
-         oLaunch.mEndSession = this.mEndSession;
-
-         done = true;
-      }
-
-      var cur = this.mSeqTree.getFirstCandidate();
-
-      if (cur != null  && !done)
-      {
-         if (cur.getIsActive())
-         {
-            oLaunch.mSeqNonContent = LAUNCH_ERROR;
-            oLaunch.mEndSession = this.mEndSession;
-
-            done = true;
-         }
-      }
-
-      if (!done)
-      {
-
-         // Clear any 'suspended' activity
-         clearSuspendedActivity(target);
-
-         // End any active attempts
-         this.terminateDescendentAttempts(target);
-
-         // Begin all required new attempts
-         var begin = new Array();
-         var walk = target;
-
-         while (walk != null)
-         {
-            begin[begin.length] = walk;
-
-            walk = walk.getParent();
-         }
-
-         if (begin.length > 0)
-         {
-
-            for (var i = begin.length - 1; i >= 0; i--)
-            {
-
-               walk = begin[i]);
-
-               if (!walk.getIsActive())
-               {
-                  if (walk.getIsTracked())
-                  {
-                     if (walk.getIsSuspended())
-                     {
-                        walk.setIsSuspended(false);
-                     }
-                     else
-                     {
-                        // Initialize tracking information for the new attempt
-                        walk.incrementAttempt();
-                     }
-                  }
-
-                  walk.setIsActive(true);
-
-               }
-            }
-         }
-
-         // Set the tree in the appropriate state
-         this.mSeqTree.setCurrentActivity(target);
-         this.mSeqTree.setFirstCandidate(target);
-
-         // Fill in required launch information
-         oLaunch.mEndSession = this.mEndSession;
-         oLaunch.mActivityID = iTarget;
-         oLaunch.mResourceID = target.getResourceID();
-
-         oLaunch.mStateID = target.getStateID();
-         if (oLaunch.mStateID == null)
-         {
-            oLaunch.mStateID = iTarget;
-         }
-
-         oLaunch.mNumAttempt = target.getNumAttempt() + 
-                               target.getNumSCOAttempt();
-         oLaunch.mMaxTime = target. getAttemptAbDur();
-
-         // Create auxilary services vector
-         Hashtable services = new Hashtable();
-         ADLAuxiliaryResource test = null;
-         walk = target;
-
-         // Starting at the target activity, walk up the tree adding services
-         while (walk != null)
-         {
-            var curSet = walk.getAuxResources();
-
-            if (curSet != null)
-            {
-
-               for (var i = 0; i < curSet.length; i++)
-               {
-                  ADLAuxiliaryResource res = null;
-                  res = curSet[i];
-
-                  // If the resource isn't already included in the set, add it
-                  test = (ADLAuxiliaryResource)services.get(res.mType);
-
-                  if (test == null)
-                  {
-                     services.put(res.mType, res);
-                  }
-               }
-            }
-
-            // Walk up the tree
-            walk = walk.getParent();
-         }
-
-         if (services.length > 0)
-         {
-            oLaunch.mServices = services;
-         }
-      }
-
-      this.validateRequests();
-      oLaunch.mNavState = this.mSeqTree.getValidRequests();
-
-
-      // Make sure Continue Exit is not enabled for non-content
-      if (oLaunch.mSeqNonContent != null)
-      {
-         oLaunch.mNavState.mContinueExit = false;
-      }
-
-   },
-
-   clearSuspendedActivity: function (iTarget)
-   {
-
-      // This method implements the Clear Supsended Activity Subprocess (DB.2)
-      var act = this.mSeqTree.getSuspendAll();
-
-      if (iTarget == null)
-      {
-         act = null;
-      }
-
-      if (act != null)
-      {
-
-         if (iTarget != act)
-         {
-
-            var common = this.findCommonAncestor(iTarget, act);
-
-            while (act != common)
-            {
-               act.setIsSuspended(false);
-
-               var children = act.getChildren(false);
-
-               if (children != null)
-               {
-                  var done = false;
-
-                  for (var i = 0; i < children.length && !done; i++)
-                  {
-                     var lookAt = children[i];
-
-                     if (lookAt.getIsSuspended())
-                     {
-                        act.setIsSuspended(true);
-
-                        done = true;
-                     }
-                  }
-               }
-
-               act = act.getParent();
-            }
-         }
-
-         // Clear the suspended activity
-         var temp = null;
-         this.mSeqTree.setSuspendAll(temp);
-      }
-   },
-
-   evaluateLimitConditions: function (iTarget)
-   {
-
-      // This is an implementation of UP.1
-
-      // For 2, we only test max attempt limits
-      // Need to add all limit condition tests...
-
-      var disabled = false;
-
-      // Only test limitConditions if the activity is not active
-      if (!iTarget.getIsActive() && !iTarget.getIsSuspended())
-      {
-         if (iTarget.getAttemptLimitControl())
-         {
-            disabled = iTarget.getNumAttempt() >= iTarget.getAttemptLimit();
-         }
-      }
-
-      return disabled;
-   },
-
-   terminateDescendentAttempts: function (iTarget)
-   {
-
-      // This is an implementation of the Terminate Descendent Attempts
-      // Process (UP.3)
-
-      var cur = this.mSeqTree.getFirstCandidate();
-
-      if (cur != null)
-      {
-         var common = this.findCommonAncestor(cur, iTarget);
-         var walk = cur;
-
-         while (walk != common)
-         {
-            this.endAttempt(walk, false);
-
-            walk = walk.getParent();
-         }
-      }
-   },
-
-   endAttempt: function (iTarget, iTentative)
-   {
-
-      // This is an implementation of the End Attempt Process (UP.4)
-      if (iTarget != null)
-      {
-         var children = iTarget.getChildren(false);
-
-         // Is the activity a tracked leaf
-         if (children == null && iTarget.getIsTracked())
-         {
-
-            // If the attempt was not suspended, perform attempt cleanup
-            if (!iTarget.getIsSuspended())
-            {
-               if (!iTarget.getSetCompletion())
-               {
-                  // If the content hasn't set this value, set it
-                  if (!iTarget.getProgressStatus(false))
-                  {
-                     iTarget.setProgress(TRACK_COMPLETED);
-                  }
-               }
-
-               if (!iTarget.getSetObjective())
-               {
-                  // If the content hasn't set this value, set it
-                  if (!iTarget.getObjStatus(false, true))
-                  {
-                     iTarget.setObjSatisfied(TRACK_SATISFIED);
-                  }
-               }
-            }
-         }
-         else if (children != null)
-         {
-            // The activity is a cluster, check if any of its children are
-            // suspended.
-
-            // Only set suspended state if this is a 'real' termiantion
-            if (!iTentative)
-            {
-
-               iTarget.setIsSuspended(false);
-
-               for (var i = 0; i < children.length; i++)
-               {
-                  var act = children[i];
-
-                  if (act.getIsSuspended())
-                  {
-                     iTarget.setIsSuspended(true);
-                     break;
-                  }
-               }
-
-               // If the cluster is not suspended check for selection and
-               // randomization 
-               if (!iTarget.getIsSuspended())
-               {
-                  if (iTarget.getSelectionTiming().
-                       equals(TIMING_EACHNEW))
-                  {
-                     this.doSelection(iTarget);
-                     iTarget.setSelection(true);
-                  }
-
-                  if (iTarget.getRandomTiming().
-                       equals(TIMING_EACHNEW))
-                  {
-                     this.doRandomize(iTarget);
-                     iTarget.setRandomized(true);
-                  }
-               }
-            }
-         }
-
-         // The activity becomes inactive if this is a 'real' termination
-         if (!iTentative)
-         {
-            iTarget.setIsActive(false);
-
-            if (iTarget.getIsTracked())
-            {
-               // Make sure satisfaction is updated according to measure
-               iTarget.triggerObjMeasure();
-            }
-
-            // Invoke rollup
-            this.invokeRollup(iTarget, null);            
-         }
-      }
-   },
-
-   checkActivity: function (iTarget)
-   {
-
-      // This is an implementation of UP.5.
-      var disabled = false;
-      var result = null;
-
-      // Attempt to get rule information from the activity node
-      var disabledRules = iTarget.getPreSeqRules();
-
-      if (disabledRules != null)
-      {
-         result = disabledRules.evaluate(RULE_TYPE_DISABLED,
-                                         iTarget, this.mRetry);
-      }
-
-      // If the rule evaluation did not return null, the activity must
-      // be disabled.
-      if (result != null)
-      {
-         disabled = true;
-      }
-
-      if (!disabled)
-      {
-         // Evaluate other limit conditions associated with the activity.
-         disabled = evaluateLimitConditions(iTarget);
-      }
-
-      return disabled;
-
-   },
-
-   setRetry: function (iRetry)
-   {
-      this.mRetry = false; //iRetry;
-   },
-
-   getChoiceSet: function (iOldTOC, oNewTOC)
-   {
-      Hashtable set = null;
-      var lastLeaf = null;
-
-      if (iOldTOC != null)
-      {
-         ADLTOC temp = null;
-         set = new Hashtable();
-
-         // Walk backward along the vector looking for the last available leaf
-         for (var i = iOldTOC.length - 1; i >= 0; i--)
-         {
-            temp = iOldTOC[i];
-
-            if (temp.mDepth == -1)
-            {
-               if (temp.mIsSelectable)
-               {
-                  // Not in the TOC, but still a valid target
-                  set.put(temp.mID, temp);
-               }
-            }
-            else if (temp.mIsVisible)
-            {
-               set.put(temp.mID, temp);
-               oNewTOC[oNewTOC.length] = temp;
-            }
-
-            if (lastLeaf == null)
-            {
-               if (temp.mLeaf && temp.mIsEnabled)
-               {
-                  lastLeaf = temp.mID;
-               }
-            }
-         }
-      }
-
-      if (lastLeaf != null)
-      {
-         this.mSeqTree.setLastLeaf(lastLeaf);
-      }
-
-      // If there are no items in the set, there is no TOC.
-      if (set.length == 0)
-      {
-         set = null;
-      }
-
-      // If there is only one item in the set, it must be the root -- remove it
-      // If there is only one item in the set, it is the parent of a
-      //    choiceExit == false cluster, it cannot be selected -- no TOC
-      if (oNewTOC.length == 1)
-      {
-         ADLTOC temp = oNewTOC[0];
-
-         if (!temp.mIsEnabled)
-         {
-            oNewTOC.remove(0);
-         }
-         else if (!temp.mLeaf)
-         {
-            oNewTOC.remove(0);
-         }
-      }
-
-      return set;
-   },
-
-   getTOC: function (iStart)
-   {
-      var toc = new Array();
-      ADLTOC temp = null;
-      var done = false;
-
-      // Make sure we have an activity tree
-      if (this.mSeqTree == null)
-      {
-         done = true;
-      }
-
-      // Perform a breadth-first walk of the activity tree.
-      var walk = iStart;
-      var depth = 0;
-      var parentTOC = -1;
-      var lookAt = new Array();
-      var flatTOC = new Array();
-
-      // Tree traversal status indicators
-      var next = false;
-      var include = false;
-      var collapse = false;
-
-      // Make sure the activity has been associated with this sequencer
-      // If not, build the TOC from the root
-      if (walk == null)
-      {
-         walk = this.mSeqTree.getRoot();
-      }
-
-
-      var cur = this.mSeqTree.getFirstCandidate();
-      var curIdx = -1;
-
-      if (cur == null)
-      {
-         cur = this.mSeqTree.getCurrentActivity();
-      }
-
-      while (!done)
-      {
-         include = false;
-         collapse = false;
-         next = false;
-
-         // If the activity is a valid target for a choice sequecing request,
-         // include it in the TOC and determine its attributes
-         if (walk.getParent() != null)
-         {
-            if (walk.getParent().getControlModeChoice())
-            {
-               include = true;
-            }
-         }
-         else
-         {
-            // Always include the root of the activity tree in the TOC
-            include = true;
-         }
-
-         // Make sure the activity we are considering is not disabled or hidden
-         if (include)
-         {
-            // Attempt to get rule information from the activity
-            var hiddenRules = walk.getPreSeqRules();
-
-            var result = null;
-
-            if (hiddenRules != null)
-            {
-               result = hiddenRules.evaluate(RULE_TYPE_HIDDEN,
-                                             walk, false);
-            }
-
-            // If the rule evaluation did not return null, the activity
-            // must be hidden.
-            if (result != null)
-            {
-               include = false;
-               collapse = true;
-            }
-            else
-            {
-               // Check if this activity is prevented from activation
-               if (walk.getPreventActivation() && !walk.getIsActive() && walk.hasChildren(true))
-               {
-                  if (cur != null)
-                  {
-                     if (walk != cur && cur.getParent() != walk)
-                     {
-                        include = false;
-                     }
-                  }
-                  else
-                  {
-                     if (walk.hasChildren(true))
-                     {
-                        include = false;                                                
-                     }
-                  }
-               }
-            }
-         }
-
-         // The activity is included in the TOC, set its attributes
-         if (include)
-         {
-            var parent = walk.getParent();
-
-            temp = new ADLTOC();
-
-            temp.mCount = walk.getCount();
-            temp.mTitle = walk.getTitle();
-            temp.mDepth = depth;
-            temp.mIsVisible = walk.getIsVisible();
-            temp.mIsEnabled = !this.checkActivity(walk);
-            
-            if (temp.mIsEnabled)
-            {
-               if (walk.getAttemptLimitControl())
-               {
-                  if (walk.getAttemptLimit() == 0)
-                  {
-                     temp.mIsSelectable  = false;
-                  }
-               }
-            }
-            
-            temp.mID = walk.getID();
-
-            if (walk.getParent() != null)
-            {
-               temp.mInChoice = walk.getParent().getControlModeChoice();
-            }
-            else
-            {
-               temp.mInChoice = true;
-            }
-
-            // Check if we looking at the 'current' cluster
-            if (cur != null)
-            {
-               if (temp.mID.equals(cur.getID()))
-               {
-                  temp.mIsCurrent = true;
-                  curIdx = toc.length;
-               }
-            }
-
-            temp.mLeaf = !walk.hasChildren(false);
-            temp.mParent = parentTOC;
-
-            toc[toc.length] = temp;
-         }
-         else
-         {
-            temp = new ADLTOC();
-
-            temp.mCount = walk.getCount();    
-            temp.mTitle = walk.getTitle();
-            temp.mIsVisible = walk.getIsVisible();
-
-            temp.mIsEnabled = !this.checkActivity(walk);
-            
-            if (temp.mIsEnabled)
-            {
-               if (walk.getAttemptLimitControl())
-               {
-                  if (walk.getAttemptLimit() == 0)
-                  {
-                     temp.mIsSelectable  = false;
-                  }
-               }
-            }
-            
-            temp.mDepth = -(depth);
-            temp.mID = walk.getID();
-            temp.mIsSelectable = false;
-
-            temp.mLeaf = (walk.getChildren(false) == null);
-            temp.mParent = parentTOC;
-
-            if (collapse)
-            {
-               temp.mIsVisible = false;
-            }
-
-            toc[toc.length] = temp;
-         }
-
-         // Add this activity to the "flat TOC"
-         flatTOC[flatTOC.length] = walk;
-
-         // If this activity has children, look at them later...
-         if (walk.hasChildren(false))
-         {
-            // Remember where we are at and look at the children now,
-            // unless we are at the root
-            if (walk.getParent() != null)
-            {
-               lookAt[lookAt.length] = walk;
-            }
-
-            // Go to the first child
-            walk = (walk.getChildren(false))[0];
-            parentTOC = toc.length - 1;
-            depth++;
-
-            next = true;
-         }
-
-         if (!next)
-         {
-            // Move to its sibling
-            walk = walk.getNextSibling(false);
-            temp = toc[toc.length - 1];
-            parentTOC = temp.mParent;
-
-            while (walk == null && !done)
-            {
-               if (lookAt.length > 0)
-               {
-                  // Walk back up the tree to the parent's next sibling
-                  walk = lookAt[lookAt.length - 1];
-                  lookAt.remove(lookAt.length - 1);
-                  depth--;
-
-                  // Find the correct parent
-                  temp = toc[parentTOC];
-
-                  while (!temp.mID.equals(walk.getID()))
-                  {
-                     parentTOC = temp.mParent;
-                     temp = toc[parentTOC];
-                  }
-
-                  walk = walk.getNextSibling(false);
-               }
-               else
-               {
-                  done = true;
-               }
-            }
-
-            if (walk != null)
-            {
-               parentTOC = temp.mParent;
-            }
-         }
-      }
-
-      // After the TOC has been created, mark activites unselectable
-      // if the Prevent Activation prevents them being selected,
-      // and mark them invisible if they are descendents of a hidden
-      // from choice activity
-      var hidden = -1;
-      var prevented = -1;
-
-      for (var i = 0; i < toc.length; i++)
-      {
-         var tempAct = flatTOC[i];
-         ADLTOC tempTOC = toc[i];
-
-         var checkDepth = ((tempTOC.mDepth >= 0) ? tempTOC.mDepth :
-             (-tempTOC.mDepth));
-
-         if (hidden != -1)
-         {
-            // Check to see if we are done hiding activities
-            if (checkDepth <= hidden)
-            {
-               hidden = -1;
-            }
-            else
-            {
-               // This must be a descendent
-               tempTOC.mDepth = -(depth);
-               tempTOC.mIsSelectable = false;
-
-               tempTOC.mIsVisible = false;
-            }
-         }
-
-         // Evaluate hide from choice rules if we are not hidden
-         if (hidden == -1)
-         {
-            // Attempt to get rule information from the activity
-            var hiddenRules = tempAct.getPreSeqRules();
-   
-            var result = null;
-   
-            if (hiddenRules != null)
-            {
-               result = hiddenRules.evaluate(RULE_TYPE_HIDDEN,
-                                             tempAct, false);
-            }
-   
-            // If the rule evaluation did not return null, the activity
-            // must be hidden.
-            if (result != null)
-            {
-               // The depth we are looking for should be positive
-               hidden = -tempTOC.mDepth;  
-               prevented = -1;
-            }
-            else
-            {
-               if (prevented != -1)
-               {
-                  // Check to see if we are done preventing activities
-                  if (checkDepth <= prevented)
-                  {
-                     // Reset the check until we find another prevented
-                     prevented = -1;
-                  }
-                  else
-                  {
-                     // This must be a prevented descendent
-                     tempTOC.mDepth = -1;
-                     tempTOC.mIsSelectable = false;
-                  }
-               }
-               else
-               {                 
-                  // Check if this activity is prevented from activation
-                  if (tempAct.getPreventActivation() && !tempAct.getIsActive() && tempAct.hasChildren(true))
-                  {
-                     if (cur != null)
-                     {
-                        if (tempAct != cur && cur.getParent() != tempAct)
-                        {
-                           include = false;
-
-                           prevented = (tempTOC.mDepth > 0) ? tempTOC.mDepth : -tempTOC.mDepth;
-
-                           // The activity cannot be selected
-                           temp.mDepth = -1;
-                           temp.mIsSelectable = false;
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-
-      // After the TOC has been created, mark activites unselectable
-      // if the Choice Exit control prevents them being selected
-      var noExit = null;
-
-      if (this.mSeqTree.getFirstCandidate() != null)
-      {
-         walk =  this.mSeqTree.getFirstCandidate().getParent();
-      }
-      else
-      {
-         walk = null;
-      }
-
-      // Walk up the active path looking for a non-exiting cluster
-      while (walk != null && noExit == null)
-      {
-         // We cannot choose any target that is outside of the activiy tree,
-         // so choice exit does not apply to the root of the tree
-         if (walk.getParent() != null)
-         {
-            if (!walk.getControlModeChoiceExit())
-            {
-               noExit = walk;
-            }
-         }
-
-         // Move up the tree
-         walk = walk.getParent();
-      }
-
-      if (noExit != null)
-      {
-         depth = -1;
-
-         // Only descendents of this activity can be selected.
-         for (var i = 0; i < toc.length; i++)
-         {
-            temp = toc[i];
-
-            // When we find the the 'non-exiting' activity, remember its depth
-            if (temp.mID.equals(noExit.getID()))
-            {
-               depth = (temp.mDepth > 0) ? temp.mDepth : -temp.mDepth;
-
-               // The cluster activity cannot be selected
-               temp.mDepth = -1;
-               temp.mIsSelectable = false;
-            }
-
-            // If we haven't found the the 'non-exiting' activity yet, then the
-            // activity being considered cannot be selected.
-            else if (depth == -1)
-            {
-               temp.mDepth = -1;
-               temp.mIsSelectable = false;
-            }
-
-            // When we back out of the depth-first-walk and encounter a sibling
-            // or parent of the 'non-exiting' activity, start making activity
-            // unselectable
-            else if (((temp.mDepth > 0) ? temp.mDepth : -temp.mDepth) <= 
-                      depth)
-            {
-               depth = -1;
-
-               temp.mDepth = -1;
-               temp.mIsSelectable = false;
-            }
-         }
-      }
-
-      // Boundary Condition -- evaluate choice exit on root
-      temp = toc[0];
-      var root = this.mSeqTree.getRoot();
-
-      if (!root.getControlModeChoiceExit())
-      {
-         temp.mIsSelectable = false;
-      }
-
-      // Look for constrained activities relative to the current activity and 
-      // mark activites unselectable if they are outside of the avaliable set
-      var con = null;
-
-      if (this.mSeqTree.getFirstCandidate() != null)
-      {
-         walk =  this.mSeqTree.getFirstCandidate().getParent();
-      }
-      else
-      {
-         walk = null;
-      }
-
-      // Walk up the tree to the root
-      while (walk != null && con == null)
-      {
-
-         if (walk.getConstrainChoice())
-         {
-            con = walk;
-         }
-
-         walk = walk.getParent();
-      }
-
-      // Evaluate constrained choice set
-      if (con != null)
-      {
-         var forwardAct = -1;
-         var backwardAct = -1;
-         var list = null;
-
-         var walkCon = new Walk();
-         walkCon.at = con;
-
-         // Find the next activity relative to the constrained activity.
-         this.processFlow(FLOW_FORWARD, false, walkCon, true);
-
-         if (walkCon.at == null)
-         {
-            walkCon.at = con;
-         }
-
-         var lookFor = "";
-         list = walkCon.at.getChildren(false);
-         if (list != null)
-         {
-            var size = list.length;
-            lookFor = (list[size - 1]).getID();
-         }
-         else
-         {
-            lookFor = walkCon.at.getID();
-         }
-
-         for (var j = 0; j < toc.length; j++)
-         {
-            temp = toc[j];
-
-            if (temp.mID.equals(lookFor))
-            {
-               forwardAct = j;
-               break;
-            }
-         }
-
-         // Find the previous activity relative to the constrained activity.
-         walkCon.at = con;
-         this.processFlow(FLOW_BACKWARD, false, walkCon, true);
-
-         if (walkCon.at == null)
-         {
-            walkCon.at = con;
-         }
-
-         lookFor = walkCon.at.getID();
-         for (var j = 0; j < toc.length; j++)
-         {
-            temp = toc[j];
-
-            if (temp.mID.equals(lookFor))
-            {
-               backwardAct = j;
-               break;
-            }
-         }
-
-         // If the forward activity on either end of the range is a cluster,
-         // we need to include its descendents
-         temp = toc[forwardAct];
-         if (!temp.mLeaf)
-         {
-            var idx = forwardAct;
-            var foundLeaf = false;
-
-            while (!foundLeaf)
-            {
-               for (var i = toc.length - 1; i > idx; i--)
-               {
-                  temp = toc[i];
-
-                  if (temp.mParent == idx)
-                  {
-                     idx = i;
-                     foundLeaf = temp.mLeaf;
-
-                     break;
-                  }
-               }
-            }
-
-            if (idx != toc.length)
-            {
-               forwardAct = idx;
-            }
-         }
-
-         // Need to check if an ancestor of the first available
-         // activity is reachable from the first activity in the
-         // constrained range, via flow
-         var idx = (toc[backwardAct]).mParent;
-         var childID = (toc[backwardAct]).mID;
-         var avalParent = -1;
-
-         while (idx != -1)
-         {
-            temp = toc[idx];
-
-            // We're done checking as soon as we find an activity
-            // that is not available for choice
-            if (!temp.mIsSelectable || !temp.mIsEnabled)
-            {
-               break;
-            }
-
-            // Need to check if we can "flow" from this activity
-            var check = this.mSeqTree.getActivity(temp.mID);
-            if (check.getControlModeFlow())
-            {
-               // First need to check if the constrained activity is the first child
-               if ((check.getChildren(false)[0]).getID().equals(childID))
-               {   
-                  childID = (toc[idx]).mID;
-                  avalParent = idx;
-                  idx = (toc[avalParent]).mParent;
-               }
-               else
-               {
-                  break;
-               }
-            }
-            else
-            {
-               break;
-            }
-         }
-
-         // Include the available ancestors in the constrained range
-         if (avalParent != -1 && avalParent < backwardAct)
-         {
-            backwardAct = avalParent;
-         }
-
-         // Disable activities outside of the avaliable range
-         for (var i = 0; i < toc.length; i++)
-         {
-            temp = toc[i];
-
-            if (i < backwardAct || i > forwardAct)
-            {
-               temp.mIsSelectable = false;
-            }
-         }
-      }
-
-      // Walk the TOC looking for disabled activities...
-      if (toc != null)
-      {
-         depth = -1;
-
-         for (var i = 0; i < toc.length; i++)
-         {
-            temp = toc[i];
-
-            if (depth != -1)
-            {
-               if (depth >= ((temp.mDepth > 0) ? temp.mDepth : -temp.mDepth))
-               {
-                  depth = -1;
-               }
-               else
-               {
-                  temp.mIsEnabled = false;
-                  temp.mIsSelectable = false;
-               }
-            }
-
-            if (!temp.mIsEnabled && depth == -1)
-            {
-               // Remember where the disabled activity is
-               depth = (temp.mDepth > 0) ? temp.mDepth : -temp.mDepth;
-
-            }
-
-         }
-      }
-
-      // If there is a current activity, check availablity of its siblings
-      // This pass corresponds to Case #2 of the Choice Sequencing Request
-      if (toc != null && curIdx != -1)
-      {
-         var par = (toc[curIdx]).mParent;
-         var idx;
-
-         // Check if the current activity is in a forward only cluster
-         if (cur.getParent() != null && cur.getParent().getControlForwardOnly())
-         {
-            idx = curIdx - 1;
-
-            temp = (ADLTOC)toc[idx];
-            while (temp.mParent == par)
-            {
-               temp.mIsSelectable = false;
-
-               idx--;
-               temp = toc[idx];
-            }
-         }
-
-         // Check for Stop Forward Traversal Rules
-         idx = curIdx;
-         var blocked = false;
-
-         while (idx < toc.length)
-         {
-            temp = toc[idx];
-            if (temp.mParent == par)
-            {
-               if (!blocked)
-               {
-                  var stopTrav = this.getActivity(temp.mID).getPreSeqRules();
-   
-                  var result = null;
-                  if (stopTrav != null)
-                  {
-                     result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, this.getActivity(temp.mID), false);
-                  }
-   
-                  // If the rule evaluation did not return null, the activity is blocked
-                  blocked = (result != null);
-               }
-               else 
-               {
-                  temp.mIsSelectable = false;
-               }
-            }
-
-            idx++;
-         }
-      }
-
-      // Evaluate Stop Forward Traversal Rules -- this pass cooresponds to
-      // Case #3 and #5 of the Choice Sequencing Request Subprocess.  In these
-      // cases, we need to check if the target activity is forward in the 
-      // Activity Tree relative to the commen ancestor and cuurent activity
-      if (toc != null && curIdx != -1)
-      {
-         var curParent = (toc[curIdx]).mParent;
-
-         var idx = toc.length - 1;
-         temp = toc[idx];
-
-         // Walk backward from last available activity,
-         // checking each until we get to a sibling of the current activity
-         while (temp.mParent != -1 && temp.mParent != curParent)
-         {
-            temp = toc[temp.mParent];
-            var stopTrav = this.getActivity(temp.mID).getPreSeqRules();
-   
-            var result = null;
-            if (stopTrav != null)
-            {
-               result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, this.getActivity(temp.mID), false);
-            }
-   
-            // If the rule evaluation did not return null, 
-            // then all of its descendents are blocked
-            if (result != null)
-            {
-               // The depth of the blocked activity
-               var blocked = temp.mDepth; 
-
-               for (var i = idx; i < toc.length; i++)
-               {
-                  ADLTOC tempTOC = toc[i];
-
-                  var checkDepth = ((tempTOC.mDepth >= 0) ? tempTOC.mDepth :
-                      (-tempTOC.mDepth));
-
-                  // Check to see if we are done blocking activities
-                  if (checkDepth <= blocked)
-                  {
-                     break;
-                  }
-                  
-                  // This activity must be a descendent
-                  tempTOC.mIsSelectable = false;
-               }
-            }
-
-            idx--;
-            temp = toc[idx];
-         }
-      }
-
-      // Boundary condition -- if there is a TOC make sure all "selectable"
-      // clusters actually flow into content
-      for (var i = 0; i < toc.length; i++)
-      {
-         temp = toc[i];
-
-         if (!temp.mLeaf)
-         {
-            var from = this.getActivity(temp.mID);
-
-            // Confirm 'flow' is enabled from this cluster
-            if (from.getControlModeFlow())
-            {
-               // Begin traversing the activity tree from the root
-               var treeWalk = new Walk();
-               treeWalk.at = from;
-   
-              var success = this.processFlow(FLOW_FORWARD, true, treeWalk, false);
-               
-               if (!success)
-               {
-                  temp.mIsSelectable = false;
-
-               }
-            }
-            else
-            {
-               // Cluster does not have flow == true
-               temp.mIsSelectable = false;
-            }
-         }
-      }
-
-      for (var i = toc.length - 1; i >= 0; i--)
-      {
-         temp = toc[i];
-
-         if (temp.mIsCurrent && temp.mInChoice)
-         {
-            if (temp.mDepth < 0)
-            {
-               temp.mDepth = -temp.mDepth;
-            }
-         }
-
-         if (temp.mDepth >= 0)
-         {
-            while (temp.mParent != -1)
-            {
-               temp = toc[temp.mParent];
-
-               if (temp.mDepth < 0)
-               {
-                  temp.mDepth = -temp.mDepth;
-               }
-            }
-         }
-         else if (temp.mIsVisible)
-         {
-            temp.mDepth = -1;
-         }
-      }
-
-      for (var i = 0; i < toc.length; i++)
-      {
-         temp = toc[i];
-
-         if (!temp.mIsVisible)
-         {
-            temp.mDepth = -1;
-            var parents = new Array();
-
-            for (var j = i + 1; j < toc.length; j++)
-            {
-               temp = toc[j];
-
-               if (temp.mParent == i && temp.mDepth > 0)
-               {
-                  temp.mDepth--;
-                  parents[parents.length] = j;
-               }
-               else
-               {
-                  if (temp.mDepth != -1)
-                  {                  
-                     var idx = parents.indexOf(new Integer(temp.mParent));
-   
-                     if (idx != -1)
-                     {
-                        temp.mDepth--;
-                        parents[parents.length] = j;
-                     }
-                  }
-               }
-            }
-         }
-      }
-      
-      for (var i = 0; i < toc.length; i++)
-      {
-         temp = toc[i];
-
-         if (temp.mIsCurrent && !temp.mIsVisible)
-         {
-            var parent = temp.mParent; 
-            while (parent != -1)
-            {
-               temp.mIsCurrent = false;
-               temp = toc[parent];
-               
-               if (!temp.mIsVisible)
-               {
-                  parent = temp.mParent;
-               }
-               else
-               {
-                  break;
-               }
-            }
-            
-            temp.mIsCurrent = true;
-            break;
-         }
-      }      
-
-      return toc;
-   }
+	},
+
+	clearSuspendedActivity: function (iTarget)
+	{
+		// This method implements the Clear Supsended Activity Subprocess (DB.2)
+		var act = this.mSeqTree.getSuspendAll();
+		
+		if (iTarget == null)
+		{
+			act = null;
+		}
+		
+		if (act != null)
+		{
+			if (iTarget != act)
+			{
+				var common = this.findCommonAncestor(iTarget, act);
+				
+				while (act != common)
+				{
+					act.setIsSuspended(false);
+					var children = act.getChildren(false);
+					
+					if (children != null)
+					{
+						var done = false;
+						
+						for (var i = 0; i < children.length && !done; i++)
+						{
+							var lookAt = children[i];
+							
+							if (lookAt.getIsSuspended())
+							{
+								act.setIsSuspended(true);
+								done = true;
+							}
+						}
+					}
+					
+					act = act.getParent();
+				}
+			}
+			
+			// Clear the suspended activity
+			var temp = null;
+			this.mSeqTree.setSuspendAll(temp);
+		}
+	},
+
+	evaluateLimitConditions: function (iTarget)
+	{
+		// This is an implementation of UP.1
+		var disabled = false;
+		
+		// Only test limitConditions if the activity is not active
+		if (!iTarget.getIsActive() && !iTarget.getIsSuspended())
+		{
+			if (iTarget.getAttemptLimitControl())
+			{
+				disabled = iTarget.getNumAttempt() >= iTarget.getAttemptLimit();
+			}
+		}
+		
+		return disabled;
+	},
+
+	terminateDescendentAttempts: function (iTarget)
+	{
+		
+		// This is an implementation of the Terminate Descendent Attempts
+		// Process (UP.3)
+		
+		var cur = this.mSeqTree.getFirstCandidate();
+		
+		if (cur != null)
+		{
+			var common = this.findCommonAncestor(cur, iTarget);
+			var walk = cur;
+			
+			while (walk != common)
+			{
+				this.endAttempt(walk, false);
+				walk = walk.getParent();
+			}
+		}
+	},
+
+	endAttempt: function (iTarget, iTentative)
+	{
+		
+		// This is an implementation of the End Attempt Process (UP.4)
+		if (iTarget != null)
+		{
+			var children = iTarget.getChildren(false);
+			
+			// Is the activity a tracked leaf
+			if (children == null && iTarget.getIsTracked())
+			{
+				// If the attempt was not suspended, perform attempt cleanup
+				if (!iTarget.getIsSuspended())
+				{
+					if (!iTarget.getSetCompletion())
+					{
+						// If the content hasn't set this value, set it
+						if (!iTarget.getProgressStatus(false))
+						{
+							iTarget.setProgress(TRACK_COMPLETED);
+						}
+					}
+					
+					if (!iTarget.getSetObjective())
+					{
+						// If the content hasn't set this value, set it
+						if (!iTarget.getObjStatus(false, true))
+						{
+							iTarget.setObjSatisfied(TRACK_SATISFIED);
+						}
+					}
+				}
+			}
+			else if (children != null)
+			{
+				// The activity is a cluster, check if any of its children are
+				// suspended.
+				
+				// Only set suspended state if this is a 'real' termiantion
+				if (!iTentative)
+				{
+					iTarget.setIsSuspended(false);
+					for (var i = 0; i < children.length; i++)
+					{
+						var act = children[i];
+						if (act.getIsSuspended())
+						{
+							iTarget.setIsSuspended(true);
+							break;
+						}
+					}
+					
+					// If the cluster is not suspended check for selection and
+					// randomization 
+					if (!iTarget.getIsSuspended())
+					{
+						if (iTarget.getSelectionTiming() == TIMING_EACHNEW)
+						{
+							this.doSelection(iTarget);
+							iTarget.setSelection(true);
+						}
+						
+						if (iTarget.getRandomTiming() == TIMING_EACHNEW)
+						{
+							this.doRandomize(iTarget);
+							iTarget.setRandomized(true);
+						}
+					}
+				}
+			}
+			
+			// The activity becomes inactive if this is a 'real' termination
+			if (!iTentative)
+			{
+				iTarget.setIsActive(false);
+				
+				if (iTarget.getIsTracked())
+				{
+					// Make sure satisfaction is updated according to measure
+					iTarget.triggerObjMeasure();
+				}
+				
+				// Invoke rollup
+				this.invokeRollup(iTarget, null);            
+			}
+		}
+	},
+
+	checkActivity: function (iTarget)
+	{
+		// This is an implementation of UP.5.
+		var disabled = false;
+		var result = null;
+		
+		// Attempt to get rule information from the activity node
+		var disabledRules = iTarget.getPreSeqRules();
+		
+		if (disabledRules != null)
+		{
+			result = disabledRules.evaluate(RULE_TYPE_DISABLED,
+				iTarget, this.mRetry);
+		}
+		
+		// If the rule evaluation did not return null, the activity must
+		// be disabled.
+		if (result != null)
+		{
+			disabled = true;
+		}
+		
+		if (!disabled)
+		{
+			// Evaluate other limit conditions associated with the activity.
+			disabled = evaluateLimitConditions(iTarget);
+		}
+		
+		return disabled;
+	},
+
+	setRetry: function (iRetry)
+	{
+		this.mRetry = false; //iRetry;
+	},
+
+	getChoiceSet: function (iOldTOC, oNewTOC)
+	{
+		var set = null;		// Hashtable
+		var lastLeaf = null;
+		
+		if (iOldTOC != null)
+		{
+			var temp = null;
+			set = new Object();
+			
+			// Walk backward along the vector looking for the last available leaf
+			for (var i = iOldTOC.length - 1; i >= 0; i--)
+			{
+				temp = iOldTOC[i];
+				
+				if (temp.mDepth == -1)
+				{
+					if (temp.mIsSelectable)
+					{
+						// Not in the TOC, but still a valid target
+						set[temp.mID] = temp;
+					}
+				}
+				else if (temp.mIsVisible)
+				{
+					set[temp.mID] = temp;
+					oNewTOC[oNewTOC.length] = temp;
+				}
+				
+				if (lastLeaf == null)
+				{
+					if (temp.mLeaf && temp.mIsEnabled)
+					{
+						lastLeaf = temp.mID;
+					}
+				}
+			}
+		}
+		
+		if (lastLeaf != null)
+		{
+			this.mSeqTree.setLastLeaf(lastLeaf);
+		}
+		
+		// If there are no items in the set, there is no TOC.
+		// todo: check this
+		if (set.length == 0)
+		{
+			set = null;
+		}
+		
+		// If there is only one item in the set, it must be the root -- remove it
+		// If there is only one item in the set, it is the parent of a
+		//    choiceExit == false cluster, it cannot be selected -- no TOC
+		if (oNewTOC.length == 1)
+		{
+			var temp = oNewTOC[0];
+			
+			if (!temp.mIsEnabled)
+			{
+				// todo: check this
+				oNewTOC.remove(0);
+			}
+			else if (!temp.mLeaf)
+			{
+				oNewTOC.remove(0);
+			}
+		}
+		
+		return set;
+	},
+
+	getTOC: function (iStart)
+	{
+		var toc = new Array();
+		var temp = null;
+		var done = false;
+		
+		// Make sure we have an activity tree
+		if (this.mSeqTree == null)
+		{
+			done = true;
+		}
+		
+		// Perform a breadth-first walk of the activity tree.
+		var walk = iStart;
+		var depth = 0;
+		var parentTOC = -1;
+		var lookAt = new Array();
+		var flatTOC = new Array();
+		
+		// Tree traversal status indicators
+		var next = false;
+		var include = false;
+		var collapse = false;
+		
+		// Make sure the activity has been associated with this sequencer
+		// If not, build the TOC from the root
+		if (walk == null)
+		{
+			walk = this.mSeqTree.getRoot();
+		}
+		
+		var cur = this.mSeqTree.getFirstCandidate();
+		var curIdx = -1;
+		
+		if (cur == null)
+		{
+			cur = this.mSeqTree.getCurrentActivity();
+		}
+		
+		while (!done)
+		{
+			include = false;
+			collapse = false;
+			next = false;
+			
+			// If the activity is a valid target for a choice sequecing request,
+			// include it in the TOC and determine its attributes
+			if (walk.getParent() != null)
+			{
+				if (walk.getParent().getControlModeChoice())
+				{
+					include = true;
+				}
+			}
+			else
+			{
+				// Always include the root of the activity tree in the TOC
+				include = true;
+			}
+			
+			// Make sure the activity we are considering is not disabled or hidden
+			if (include)
+			{
+				// Attempt to get rule information from the activity
+				var hiddenRules = walk.getPreSeqRules();
+				
+				var result = null;
+				
+				if (hiddenRules != null)
+				{
+					result = hiddenRules.evaluate(RULE_TYPE_HIDDEN,
+						walk, false);
+				}
+				
+				// If the rule evaluation did not return null, the activity
+				// must be hidden.
+				if (result != null)
+				{
+					include = false;
+					collapse = true;
+				}
+				else
+				{
+					// Check if this activity is prevented from activation
+					if (walk.getPreventActivation() && !walk.getIsActive() && walk.hasChildren(true))
+					{
+						if (cur != null)
+						{
+							if (walk != cur && cur.getParent() != walk)
+							{
+								include = false;
+							}
+						}
+						else
+						{
+							if (walk.hasChildren(true))
+							{
+								include = false;                                                
+							}
+						}
+					}
+				}
+			}
+			
+			// The activity is included in the TOC, set its attributes
+			if (include)
+			{
+				var parent = walk.getParent();
+				
+				temp = new ADLTOC();
+				
+				temp.mCount = walk.getCount();
+				temp.mTitle = walk.getTitle();
+				temp.mDepth = depth;
+				temp.mIsVisible = walk.getIsVisible();
+				temp.mIsEnabled = !this.checkActivity(walk);
+				
+				if (temp.mIsEnabled)
+				{
+					if (walk.getAttemptLimitControl())
+					{
+						if (walk.getAttemptLimit() == 0)
+						{
+							temp.mIsSelectable  = false;
+						}
+					}
+				}
+				
+				temp.mID = walk.getID();
+				
+				if (walk.getParent() != null)
+				{
+					temp.mInChoice = walk.getParent().getControlModeChoice();
+				}
+				else
+				{
+					temp.mInChoice = true;
+				}
+				
+				// Check if we looking at the 'current' cluster
+				if (cur != null)
+				{
+					if (temp.mID == cur.getID())
+					{
+						temp.mIsCurrent = true;
+						curIdx = toc.length;
+					}
+				}
+				
+				temp.mLeaf = !walk.hasChildren(false);
+				temp.mParent = parentTOC;
+				
+				toc[toc.length] = temp;
+			}
+			else
+			{
+				temp = new ADLTOC();
+				
+				temp.mCount = walk.getCount();    
+				temp.mTitle = walk.getTitle();
+				temp.mIsVisible = walk.getIsVisible();
+				
+				temp.mIsEnabled = !this.checkActivity(walk);
+				
+				if (temp.mIsEnabled)
+				{
+					if (walk.getAttemptLimitControl())
+					{
+						if (walk.getAttemptLimit() == 0)
+						{
+							temp.mIsSelectable  = false;
+						}
+					}
+				}
+				
+				temp.mDepth = -(depth);
+				temp.mID = walk.getID();
+				temp.mIsSelectable = false;
+				
+				temp.mLeaf = (walk.getChildren(false) == null);
+				temp.mParent = parentTOC;
+				
+				if (collapse)
+				{
+					temp.mIsVisible = false;
+				}
+				
+				toc[toc.length] = temp;
+			}
+			
+			// Add this activity to the "flat TOC"
+			flatTOC[flatTOC.length] = walk;
+			
+			// If this activity has children, look at them later...
+			if (walk.hasChildren(false))
+			{
+				// Remember where we are at and look at the children now,
+				// unless we are at the root
+				if (walk.getParent() != null)
+				{
+					lookAt[lookAt.length] = walk;
+				}
+				
+				// Go to the first child
+				// todo: check this
+				walk = (walk.getChildren(false))[0];
+				parentTOC = toc.length - 1;
+				depth++;
+				
+				next = true;
+			}
+			
+			if (!next)
+			{
+				// Move to its sibling
+				walk = walk.getNextSibling(false);
+				temp = toc[toc.length - 1];
+				parentTOC = temp.mParent;
+				
+				while (walk == null && !done)
+				{
+					if (lookAt.length > 0)
+					{
+						// Walk back up the tree to the parent's next sibling
+						walk = lookAt[lookAt.length - 1];
+						
+						// todo: check
+						lookAt.remove(lookAt.length - 1);
+						depth--;
+						
+						// Find the correct parent
+						temp = toc[parentTOC];
+						
+						while (!temp.mID == walk.getID())
+						{
+							parentTOC = temp.mParent;
+							temp = toc[parentTOC];
+						}
+						
+						walk = walk.getNextSibling(false);
+					}
+					else
+					{
+						done = true;
+					}
+				}
+				
+				if (walk != null)
+				{
+					parentTOC = temp.mParent;
+				}
+			}
+		}
+		
+		// After the TOC has been created, mark activites unselectable
+		// if the Prevent Activation prevents them being selected,
+		// and mark them invisible if they are descendents of a hidden
+		// from choice activity
+		var hidden = -1;
+		var prevented = -1;
+		
+		for (var i = 0; i < toc.length; i++)
+		{
+			var tempAct = flatTOC[i];
+			var tempTOC = toc[i];
+			
+			var checkDepth = (tempTOC.mDepth >= 0)
+				? tempTOC.mDepth
+				: (-tempTOC.mDepth);
+			
+			if (hidden != -1)
+			{
+				// Check to see if we are done hiding activities
+				if (checkDepth <= hidden)
+				{
+					hidden = -1;
+				}
+				else
+				{
+					// This must be a descendent
+					tempTOC.mDepth = -(depth);
+					tempTOC.mIsSelectable = false;
+					tempTOC.mIsVisible = false;
+				}
+			}
+			
+			// Evaluate hide from choice rules if we are not hidden
+			if (hidden == -1)
+			{
+				// Attempt to get rule information from the activity
+				var hiddenRules = tempAct.getPreSeqRules();
+				var result = null;
+				
+				if (hiddenRules != null)
+				{
+					result = hiddenRules.evaluate(RULE_TYPE_HIDDEN,
+						tempAct, false);
+				}
+				
+				// If the rule evaluation did not return null, the activity
+				// must be hidden.
+				if (result != null)
+				{
+					// The depth we are looking for should be positive
+					hidden = -tempTOC.mDepth;  
+					prevented = -1;
+				}
+				else
+				{
+					if (prevented != -1)
+					{
+						// Check to see if we are done preventing activities
+						if (checkDepth <= prevented)
+						{
+							// Reset the check until we find another prevented
+							prevented = -1;
+						}
+						else
+						{
+							// This must be a prevented descendent
+							tempTOC.mDepth = -1;
+							tempTOC.mIsSelectable = false;
+						}
+					}
+					else
+					{                 
+						// Check if this activity is prevented from activation
+						if (tempAct.getPreventActivation() && !tempAct.getIsActive() && tempAct.hasChildren(true))
+						{
+							if (cur != null)
+							{
+								if (tempAct != cur && cur.getParent() != tempAct)
+								{
+									include = false;
+									prevented = (tempTOC.mDepth > 0)
+										? tempTOC.mDepth
+										: -tempTOC.mDepth;
+									// The activity cannot be selected
+									temp.mDepth = -1;
+									temp.mIsSelectable = false;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// After the TOC has been created, mark activites unselectable
+		// if the Choice Exit control prevents them being selected
+		var noExit = null;
+		
+		if (this.mSeqTree.getFirstCandidate() != null)
+		{
+			walk =  this.mSeqTree.getFirstCandidate().getParent();
+		}
+		else
+		{
+			walk = null;
+		}
+		
+		// Walk up the active path looking for a non-exiting cluster
+		while (walk != null && noExit == null)
+		{
+			// We cannot choose any target that is outside of the activiy tree,
+			// so choice exit does not apply to the root of the tree
+			if (walk.getParent() != null)
+			{
+				if (!walk.getControlModeChoiceExit())
+				{
+					noExit = walk;
+				}
+			}
+			
+			// Move up the tree
+			walk = walk.getParent();
+		}
+		
+		if (noExit != null)
+		{
+			depth = -1;
+			
+			// Only descendents of this activity can be selected.
+			for (var i = 0; i < toc.length; i++)
+			{
+				temp = toc[i];
+				
+				// When we find the the 'non-exiting' activity, remember its depth
+				if (temp.mID == noExit.getID())
+				{
+					depth = (temp.mDepth > 0)
+						? temp.mDepth
+						: -temp.mDepth;
+					
+					// The cluster activity cannot be selected
+					temp.mDepth = -1;
+					temp.mIsSelectable = false;
+				}
+				// If we haven't found the the 'non-exiting' activity yet, then the
+				// activity being considered cannot be selected.
+				else if (depth == -1)
+				{
+					temp.mDepth = -1;
+					temp.mIsSelectable = false;
+				}
+				
+				// When we back out of the depth-first-walk and encounter a sibling
+				// or parent of the 'non-exiting' activity, start making activity
+				// unselectable
+				else if (((temp.mDepth > 0)
+							? temp.mDepth
+							: -temp.mDepth) 	<= depth)
+				{
+					depth = -1;
+					temp.mDepth = -1;
+					temp.mIsSelectable = false;
+				}
+			}
+		}
+		
+		// Boundary Condition -- evaluate choice exit on root
+		temp = toc[0];
+		var root = this.mSeqTree.getRoot();
+		
+		if (!root.getControlModeChoiceExit())
+		{
+			temp.mIsSelectable = false;
+		}
+		
+		// Look for constrained activities relative to the current activity and 
+		// mark activites unselectable if they are outside of the avaliable set
+		var con = null;
+		
+		if (this.mSeqTree.getFirstCandidate() != null)
+		{
+			walk =  this.mSeqTree.getFirstCandidate().getParent();
+		}
+		else
+		{
+			walk = null;
+		}
+		
+		// Walk up the tree to the root
+		while (walk != null && con == null)
+		{
+			if (walk.getConstrainChoice())
+			{
+				con = walk;
+			}
+			walk = walk.getParent();
+		}
+		
+		// Evaluate constrained choice set
+		if (con != null)
+		{
+			var forwardAct = -1;
+			var backwardAct = -1;
+			var list = null;
+			
+			var walkCon = new Walk();
+			walkCon.at = con;
+			
+			// Find the next activity relative to the constrained activity.
+			this.processFlow(FLOW_FORWARD, false, walkCon, true);
+			
+			if (walkCon.at == null)
+			{
+				walkCon.at = con;
+			}
+			
+			var lookFor = "";
+			list = walkCon.at.getChildren(false);
+			if (list != null)
+			{
+				var size = list.length;
+				lookFor = (list[size - 1]).getID();
+			}
+			else
+			{
+				lookFor = walkCon.at.getID();
+			}
+			
+			for (var j = 0; j < toc.length; j++)
+			{
+				temp = toc[j];
+				
+				if (temp.mID == lookFor)
+				{
+					forwardAct = j;
+					break;
+				}
+			}
+			
+			// Find the previous activity relative to the constrained activity.
+			walkCon.at = con;
+			this.processFlow(FLOW_BACKWARD, false, walkCon, true);
+			
+			if (walkCon.at == null)
+			{
+				walkCon.at = con;
+			}
+			
+			lookFor = walkCon.at.getID();
+			for (var j = 0; j < toc.length; j++)
+			{
+				temp = toc[j];
+				
+				if (temp.mID == lookFor)
+				{
+					backwardAct = j;
+					break;
+				}
+			}
+			
+			// If the forward activity on either end of the range is a cluster,
+			// we need to include its descendents
+			temp = toc[forwardAct];
+			if (!temp.mLeaf)
+			{
+				var idx = forwardAct;
+				var foundLeaf = false;
+				
+				while (!foundLeaf)
+				{
+					for (var i = toc.length - 1; i > idx; i--)
+					{
+						temp = toc[i];
+						
+						if (temp.mParent == idx)
+						{
+							idx = i;
+							foundLeaf = temp.mLeaf;
+							
+							break;
+						}
+					}
+				}
+				
+				if (idx != toc.length)
+				{
+					forwardAct = idx;
+				}
+			}
+			
+			// Need to check if an ancestor of the first available
+			// activity is reachable from the first activity in the
+			// constrained range, via flow
+			var idx = (toc[backwardAct]).mParent;
+			var childID = (toc[backwardAct]).mID;
+			var avalParent = -1;
+			
+			while (idx != -1)
+			{
+				temp = toc[idx];
+				
+				// We're done checking as soon as we find an activity
+				// that is not available for choice
+				if (!temp.mIsSelectable || !temp.mIsEnabled)
+				{
+					break;
+				}
+				
+				// Need to check if we can "flow" from this activity
+				var check = this.mSeqTree.getActivity(temp.mID);
+				if (check.getControlModeFlow())
+				{
+					// First need to check if the constrained activity is the first child
+					if ((check.getChildren(false)[0]).getID() == childID)
+					{   
+						childID = (toc[idx]).mID;
+						avalParent = idx;
+						idx = (toc[avalParent]).mParent;
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+			
+			// Include the available ancestors in the constrained range
+			if (avalParent != -1 && avalParent < backwardAct)
+			{
+				backwardAct = avalParent;
+			}
+			
+			// Disable activities outside of the avaliable range
+			for (var i = 0; i < toc.length; i++)
+			{
+				temp = toc[i];
+				
+				if (i < backwardAct || i > forwardAct)
+				{
+					temp.mIsSelectable = false;
+				}
+			}
+		}
+		
+		// Walk the TOC looking for disabled activities...
+		if (toc != null)
+		{
+			depth = -1;
+			
+			for (var i = 0; i < toc.length; i++)
+			{
+				temp = toc[i];
+				
+				if (depth != -1)
+				{
+					if (depth >= ((temp.mDepth > 0) ? temp.mDepth : -temp.mDepth))
+					{
+						depth = -1;
+					}
+					else
+					{
+						temp.mIsEnabled = false;
+						temp.mIsSelectable = false;
+					}
+				}
+				
+				if (!temp.mIsEnabled && depth == -1)
+				{
+					// Remember where the disabled activity is
+					depth = (temp.mDepth > 0)
+						? temp.mDepth
+						: -temp.mDepth;
+				}
+			}
+		}
+		
+		// If there is a current activity, check availablity of its siblings
+		// This pass corresponds to Case #2 of the Choice Sequencing Request
+		if (toc != null && curIdx != -1)
+		{
+			var par = (toc[curIdx]).mParent;
+			var idx;
+			
+			// Check if the current activity is in a forward only cluster
+			if (cur.getParent() != null && cur.getParent().getControlForwardOnly())
+			{
+				idx = curIdx - 1;
+				
+				temp = toc[idx];
+				while (temp.mParent == par)
+				{
+					temp.mIsSelectable = false;
+					idx--;
+					temp = toc[idx];
+				}
+			}
+			
+			// Check for Stop Forward Traversal Rules
+			idx = curIdx;
+			var blocked = false;
+			
+			while (idx < toc.length)
+			{
+				temp = toc[idx];
+				if (temp.mParent == par)
+				{
+					if (!blocked)
+					{
+						var stopTrav = this.getActivity(temp.mID).getPreSeqRules();
+						
+						var result = null;
+						if (stopTrav != null)
+						{
+							result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, this.getActivity(temp.mID), false);
+						}
+						
+						// If the rule evaluation did not return null, the activity is blocked
+						blocked = (result != null);
+					}
+					else 
+					{
+						temp.mIsSelectable = false;
+					}
+				}
+				idx++;
+			}
+		}
+		
+		// Evaluate Stop Forward Traversal Rules -- this pass cooresponds to
+		// Case #3 and #5 of the Choice Sequencing Request Subprocess.  In these
+		// cases, we need to check if the target activity is forward in the 
+		// Activity Tree relative to the commen ancestor and cuurent activity
+		if (toc != null && curIdx != -1)
+		{
+			var curParent = (toc[curIdx]).mParent;
+			
+			var idx = toc.length - 1;
+			temp = toc[idx];
+			
+			// Walk backward from last available activity,
+			// checking each until we get to a sibling of the current activity
+			while (temp.mParent != -1 && temp.mParent != curParent)
+			{
+				temp = toc[temp.mParent];
+				var stopTrav = this.getActivity(temp.mID).getPreSeqRules();
+				
+				var result = null;
+				if (stopTrav != null)
+				{
+					result = stopTrav.evaluate(RULE_TYPE_FORWARDBLOCK, this.getActivity(temp.mID), false);
+				}
+			
+				// If the rule evaluation did not return null, 
+				// then all of its descendents are blocked
+				if (result != null)
+				{
+					// The depth of the blocked activity
+					var blocked = temp.mDepth; 
+					
+					for (var i = idx; i < toc.length; i++)
+					{
+						var tempTOC = toc[i];
+						
+						var checkDepth = ((tempTOC.mDepth >= 0)
+							? tempTOC.mDepth
+							: (-tempTOC.mDepth));
+						
+						// Check to see if we are done blocking activities
+						if (checkDepth <= blocked)
+						{
+							break;
+						}
+						
+						// This activity must be a descendent
+						tempTOC.mIsSelectable = false;
+					}
+				}
+				
+				idx--;
+				temp = toc[idx];
+			}
+		}
+		
+		// Boundary condition -- if there is a TOC make sure all "selectable"
+		// clusters actually flow into content
+		for (var i = 0; i < toc.length; i++)
+		{
+			temp = toc[i];
+			
+			if (!temp.mLeaf)
+			{
+				var from = this.getActivity(temp.mID);
+				
+				// Confirm 'flow' is enabled from this cluster
+				if (from.getControlModeFlow())
+				{
+					// Begin traversing the activity tree from the root
+					var treeWalk = new Walk();
+					treeWalk.at = from;
+					
+					var success = this.processFlow(FLOW_FORWARD, true, treeWalk, false);
+					if (!success)
+					{
+						temp.mIsSelectable = false;
+					}
+				}
+				else
+				{
+					// Cluster does not have flow == true
+					temp.mIsSelectable = false;
+				}
+			}
+		}
+		
+		for (var i = toc.length - 1; i >= 0; i--)
+		{
+			temp = toc[i];
+			
+			if (temp.mIsCurrent && temp.mInChoice)
+			{
+				if (temp.mDepth < 0)
+				{
+					temp.mDepth = -temp.mDepth;
+				}
+			}
+			
+			if (temp.mDepth >= 0)
+			{
+				while (temp.mParent != -1)
+				{
+					temp = toc[temp.mParent];
+					
+					if (temp.mDepth < 0)
+					{
+						temp.mDepth = -temp.mDepth;
+					}
+				}
+			}
+			else if (temp.mIsVisible)
+			{
+				temp.mDepth = -1;
+			}
+		}
+		
+		for (var i = 0; i < toc.length; i++)
+		{
+			temp = toc[i];
+			
+			if (!temp.mIsVisible)
+			{
+				temp.mDepth = -1;
+				var parents = new Array();
+				
+				for (var j = i + 1; j < toc.length; j++)
+				{
+					temp = toc[j];
+					
+					if (temp.mParent == i && temp.mDepth > 0)
+					{
+						temp.mDepth--;
+						parents[parents.length] = j;
+					}
+					else
+					{
+						if (temp.mDepth != -1)
+						{
+							// todo: check this
+							var idx = parents.indexOf(new Integer(temp.mParent));
+							
+							if (idx != -1)
+							{
+								temp.mDepth--;
+								parents[parents.length] = j;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		for (var i = 0; i < toc.length; i++)
+		{
+			temp = toc[i];
+			
+			if (temp.mIsCurrent && !temp.mIsVisible)
+			{
+				var parent = temp.mParent; 
+				while (parent != -1)
+				{
+					temp.mIsCurrent = false;
+					temp = toc[parent];
+					
+					if (!temp.mIsVisible)
+					{
+						parent = temp.mParent;
+					}
+					else
+					{
+						break;
+					}
+				}
+				
+				temp.mIsCurrent = true;
+				break;
+			}
+		}      
+		
+		return toc;
+	}
 }
