@@ -3295,16 +3295,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		exit;
 	}
 
-
-	/**
-	 * Builds a course members gallery as a layer of left-floating images
+	/*
 	 * @author Arturo Gonzalez <arturogf@gmail.com>
 	 * @access       public
 	 */
 	function membersGalleryObject()
 	{
 
-		global $rbacsystem, $ilErr, $ilAccess,$ilUser;
+		global $rbacsystem, $ilErr, $ilAccess, $ilUser;
 
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
@@ -3330,27 +3328,41 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->object->initCourseMemberObject();
 
-		// MEMBERS
+		// MEMBERS 
 		if(count($members = $this->object->members_obj->getParticipants()))
 		{
+			$ordered_members = array();
+
 			foreach($members as $member_id)
 			{
-				// get user object
 				if(!($usr_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
 				{
 					continue;
 				}
+				
+				array_push($ordered_members,array("id" => $member_id, 
+								  "login" => $usr_obj->getLogin(),
+								  "lastname" => strtoupper($usr_obj->getLastName()),
+								  "firstname" => strtoupper($usr_obj->getFirstName()),
+								  "usr_obj" => $usr_obj));
+			}
+
+			$ordered_members=ilUtil::sortArray($ordered_members,"lastname","asc");
+
+			foreach($ordered_members as $member)
+			{
+			  $usr_obj = $member["usr_obj"];
 
 				$public_profile = $usr_obj->getPref("public_profile");
 				
 				// SET LINK TARGET FOR USER PROFILE
-				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member_id);
+				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member["id"]);
 				$profile_target = $this->ctrl->getLinkTargetByClass("ilobjusergui","getPublicProfile");
 			  
 				// GET USER IMAGE
 				$file = $usr_obj->getPersonalPicturePath("xsmall");
 				
-				if($this->object->members_obj->isAdmin($member_id) or $this->object->members_obj->isTutor($member_id))
+				if($this->object->members_obj->isAdmin($member["id"]) or $this->object->members_obj->isTutor($member["id"]))
 				{
 					if ($public_profile == "y")
 					{
@@ -3388,10 +3400,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				// do not show name, if public profile is not activated
 				if ($public_profile == "y")
 				{
-					$this->tpl->setVariable("FIRSTNAME", $usr_obj->getFirstname());
-					$this->tpl->setVariable("LASTNAME", $usr_obj->getLastname());
+					$this->tpl->setVariable("FIRSTNAME", $member["firstname"]);
+					$this->tpl->setVariable("LASTNAME", $member["lastname"]);
 				}
-				$this->tpl->setVariable("LOGIN", $usr_obj->getLogin());
+				$this->tpl->setVariable("LOGIN", $member["login"]);
 				$this->tpl->parseCurrentBlock();
 
 			}
