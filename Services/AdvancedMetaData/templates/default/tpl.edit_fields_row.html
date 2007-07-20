@@ -2,8 +2,8 @@
 	<td class="std" style="vertical-align:top;">
 		<input type="checkbox" name="field_id[]" value="{VAL_ID}" />
 	</td>
-	<td class="std" style="vertical-align=top;">
-		<input type="text" name="position[{ASS_ID}]" value="{VAL_POS}" size="2" />
+	<td class="std" style="vertical-align:top;">
+		<input type="text" id="text{ASS_ID}" name="position[{ASS_ID}]" value="{VAL_POS}" size="2" />
 	</td>
 	<td class="std"  style="vertical-align:top;">
 		{VAL_TITLE}
@@ -12,11 +12,16 @@
 		<!-- END field_desc -->
 	</td>
 	<td class="std" style="vertical-align:top;">		
-		<span class="small">No fields defined</span>
+		<span class="small">{FIELD_TYPE}</span>
+		<ul class="std">
+			<!-- BEGIN field_value -->
+			<li class="std"><span class="small">{FIELD_VAL}</span></li>
+			<!-- END field_value -->
+		</ul>
 	</td>
 	<td class="std" style="vertical-align:top;">		
 		<div style="float:left">
-			<input type="checkbox" name="searchable[{ASS_ID}][]" value="1" {ASS_CHECKED} /> {TXT_SEARCHABLE}<br />
+			<input type="checkbox" name="searchable[{ASS_ID}][]" value="1" {ASS_CHECKED}  /> {TXT_SEARCHABLE}<br />
 		</div>
 		<div style="float: right;">
 			<div class="il_ContainerItemCommands">
