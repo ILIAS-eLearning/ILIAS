@@ -140,6 +140,25 @@ class ilAdvancedMDRecordExportFiles
 	}
 	
 	/**
+	 * Get absolut path by file id
+	 *
+	 * @access public
+	 * @param string basename of file
+	 * 
+	 */
+	public function getAbsolutePathByFileId($a_file_basename)
+	{
+	 	global $ilLog;
+	 	
+	 	if(!@file_exists($this->export_dir.'/'.$a_file_basename.'.xml'))
+	 	{
+			$ilLog->write(__METHOD__.': Cannot find file '.$this->export_dir.'/'.$a_file_basename.'.xml');
+			return false;
+	 	}
+	 	return $this->export_dir.'/'.$a_file_basename.'.xml';
+	}
+	
+	/**
 	 * init export directory
 	 *
 	 * @access private
