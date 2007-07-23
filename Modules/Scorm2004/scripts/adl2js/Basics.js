@@ -18,6 +18,19 @@ function ilAugment (oSelf, oOther)
 	return oSelf;
 }
 
+function clone(what)
+{
+	for (i in what)
+	{
+		if (typeof(what[i]) == 'object')
+		{
+			this[i] = new cloneObject(what[i]);
+		}
+		else
+			this[i] = what[i];
+	}
+}
+
 /**
 * Log a Message
 */
