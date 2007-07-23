@@ -127,7 +127,8 @@ class ilAdvancedMDSettingsGUI
 	 	$export_files = new ilAdvancedMDRecordExportFiles();
 	 	$export_files->create($xml_writer->xmlDumpMem());
 	 	
-	 	$this->showRecords();
+	 	ilUtil::sendInfo($this->lng->txt('md_adv_records_exported'));
+	 	$this->showFiles();
 	}
 	
 	/**
@@ -149,12 +150,35 @@ class ilAdvancedMDSettingsGUI
 		$table_gui = new ilAdvancedMDRecordExportFilesTableGUI($this, "showFiles");
 		$table_gui->setTitle($this->lng->txt("md_record_export_table"));
 		$table_gui->parseFiles($file_data);
-		$table_gui->addMultiCommand("downloadFiles",$this->lng->txt('download'));
+		$table_gui->addMultiCommand("downloadFile",$this->lng->txt('download'));
 		$table_gui->addMultiCommand("confirmDeleteFiles", $this->lng->txt("delete"));
 		$table_gui->addCommandButton('showFiles',$this->lng->txt('cancel'));
 		$table_gui->setSelectAllCheckbox("file_id");
 		
 		$this->tpl->setContent($table_gui->getHTML());
+	}
+	
+	/**
+	 * Download XML file
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function downloadFile()
+	{
+	 	if(!isset($_POST['file_id']) or count($_POST['file_id']) != 1)
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('md_adv_select_one_file'));
+	 		$this->showFiles();
+	 		return false;
+	 	}
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
+	 	$files = new ilAdvancedMDRecordExportFiles();
+	 	$abs_path = $files->getAbsolutePathByFileId((int) $_POST['file_id'][0]);
+		
+	 	ilUtil::deliverFile($abs_path,'ilias_meta_data_record.xml','application/xml');
 	}
 	
 	/**
