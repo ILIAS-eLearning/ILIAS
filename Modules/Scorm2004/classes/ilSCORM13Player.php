@@ -165,7 +165,6 @@ class ilSCORM13Player
 		global $ilias, $tpl, $lng, $ilCtrl, $ilUser;
 
 		
-		require_once "./Modules/Scorm2004/classes/phpext.php";
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
 
 		
@@ -187,8 +186,13 @@ class ilSCORM13Player
         $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
 		$this->userId=$ilUser->getID();
 
-		ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
-		//ilSCORM13DB::init(IL_DSN, "mysql");
+		//ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
+		
+		//uncomment for usage with ILIAS DB
+		
+		$pdo_dsn=ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
+		ilSCORM13DB::init($pdo_dsn[0],$pdo_dsn[1],$pdo_dsn[2]);
+		
 	}
 
 	/**
@@ -208,7 +212,9 @@ class ilSCORM13Player
 		}
 		
 		
+		
 		switch($cmd){
+			
 			case 'cp':
 				$this->getCPData();
 				break;
@@ -257,26 +263,6 @@ class ilSCORM13Player
 	{
 		global $ilUser;
 		
-		// ensure that user record is in sql lite db
-		ilSCORM13DB::setRecord('usr_data', array(
-			'usr_id' => $ilUser->getID(),
-			'firstname' => $ilUser->getFirstname(),
-			'lastname'=>$ilUser->getLastname(),
-			'ilinc_id'=>0,
-			'email'=>$ilUser->getLastname(),
-			'passwd'=>'test12',
-			'login'=>'',
-			'title'=>''
-		));
-		
-		// ensure that package record is in sql lite db
-		ilSCORM13DB::setRecord('sahs_lm', array(
-			'id' => $this->packageId,
-			'credit' => "credit",
-			'default_lesson_mode'=>"normal",
-			'auto_review'=>"review"
-		));
-		
 		// player basic config data
 		$config = array
 		(
@@ -288,10 +274,10 @@ class ilSCORM13Player
 			'credit' => 'credit',
 			'package_url' =>  $this->getDataDirectory()."/"
 		);
-
+		
 		// TODO  replace with ILIAS languages
 		$langstrings = $this->getLangStrings();
-
+		
 		$langstrings['btnStart'] = 'Start';
 		$langstrings['btnResumeAll'] = 'Resume All';
 		$langstrings['btnBackward'] = 'backward';
@@ -304,9 +290,9 @@ class ilSCORM13Player
 		$langstrings['btnPrevious'] = 'Previous';
 		$langstrings['btnContinue'] = 'Next';
 		$langstrings['lblChoice'] = 'Select a choice from the tree.';
-
+		
 		$config['langstrings'] = $langstrings;
-
+		
 		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
 		$this->tpl->setVariable('DEBUG', 1);
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
@@ -496,7 +482,12 @@ class ilSCORM13Player
 				$row[$cmi_no] = null;
 				// TODO validate values
 				// create sql statement, RDBS should support "REPLACE" command
-				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_keys($schem)) 
+				//for Mysql
+				$keys=array();
+				foreach(array_keys($schem) as $key) {
+					array_push($keys,"`".$key."`");
+				}
+				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)) 
 					. ') VALUES (' . implode(', ', array_fill(0, count($schem), '?')) . ')';
 				// if we process a table we have to destroy all data on this activity 
 				// and related sub elements in interactions etc.
