@@ -42,6 +42,13 @@ ADLSeqUtilities.prototype =
 			return this.measure[iObjID][iLearnerID][iScopeID];
 		}
 		return 0.0;
+	},
+	
+	setCourseStatus: function (iCourseID, iLearnerID, iSatisfied, iMeasure, iCompleted)
+	{
+		if(this.status[iCourseID] == null) this.status[iCourseID] = new Array();
+		this.status[iCourseID][iLearnerID] =
+			{satisfied: iSatisfied, measure: iMeasure, completed: iCompleted};
 	}
 }
 var adl_seq_utilities = new ADLSeqUtilities();

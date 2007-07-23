@@ -137,14 +137,14 @@ ADLSequencer.prototype =
 			
 			if (valid.mTOC != null)
 			{
-				// todo: make this work
-				oValid.mTOC = valid.mTOC.clone();			// Vector
+				// clone Array (Vector)
+				oValid.mTOC = valid.mTOC.concat(new Array());
 			}
 			
 			if (valid.mChoice != null)
 			{
-				// todo: make this work
-				oValid.mChoice = valid.mChoice.clone();		// Hashtable
+				// clone Object (Hashtable)
+				oValid.mChoice = new clone(valid.mChoice);
 			}
 		}
 		else
@@ -1076,8 +1076,6 @@ ADLSequencer.prototype =
 			
 			if (valid.mTOC != null)
 			{
-				
-				// todo: investigate why newTOC should get a length > 0 here
 				var newTOC = new Array();
 				valid.mChoice = this.getChoiceSet(valid.mTOC, newTOC);
 				
@@ -1204,9 +1202,8 @@ ADLSequencer.prototype =
 			// parent.
 			while (path.length > 0  && (exited == null))
 			{
-				// todo: check this
 				parent = path[path.length - 1];
-				path.remove(path.length - 1);
+				delete path[path.length - 1];
 				
 				// Attempt to get rule information from the activity node
 				var exitRules = parent.getExitSeqRules();
@@ -1287,7 +1284,6 @@ ADLSequencer.prototype =
 				// Evaluate post conditions
 				var exited = false;
 				
-				// todo: check this do loop
 				do
 				{
 					exited = false;
@@ -1530,7 +1526,6 @@ ADLSequencer.prototype =
 			this.mSeqTree.setCurrentActivity(this.mSeqTree.getFirstCandidate());
 		}
 		
-		// todo: why this?
 		var tmpID = this.mSeqTree.getFirstCandidate().getID();
 		
 		return seqReq;
@@ -1548,8 +1543,7 @@ ADLSequencer.prototype =
 			// Walk from the target to the root, apply rollup rules at each step
 			while (walk != null)
 			{
-				// todo: check
-				rollupSet[walk.getID()] = walk.getDepth();	// converted to Integer
+				rollupSet[walk.getID()] = walk.getDepth();
 				
 				var writeObjIDs = walk.getObjIDs(null, false);
 				if (writeObjIDs != null)
@@ -1589,8 +1583,7 @@ ADLSequencer.prototype =
 			}
 			
 			// Remove the Current Activity from the rollup set
-			// todo: check whether this works
-			rollupSet[ioTarget.getID()] = null;
+			delete rollupSet[ioTarget.getID()];
 		}
 		
 		// Case #2 -- Rollup applies when the state of a global shared objective
@@ -1635,12 +1628,8 @@ ADLSequencer.prototype =
 			var deepest = null;
 			var depth = -1;
 			
-			// todo: object iteration
-			Enumeration theEnum = rollupSet.keys();	//...
-			while (theEnum.hasMoreElements())		//...
+			for (var key in rollupSet)
 			{
-				var key = (String)theEnum.nextElement();	//...
-				
 				var thisDepth = rollupSet[key];
 				
 				if (depth == -1)
@@ -1685,8 +1674,7 @@ ADLSequencer.prototype =
 							: "incomplete";
 					}
 					
-					// todo
-					ADLSeqUtilities.setCourseStatus(this.mSeqTree.getCourseID(),
+					adl_seq_utilities.setCourseStatus(this.mSeqTree.getCourseID(),
 						this.mSeqTree.getLearnerID(),satisfied,measure,completed);
 				}
 			}
@@ -1709,8 +1697,7 @@ ADLSequencer.prototype =
 		rollupRules.evaluate(ioTarget);
 		
 		// Remove this activity from the rollup set
-		// todo: check this
-		ioRollupSet[ioTarget.getID()] = null;    
+		delete ioRollupSet[ioTarget.getID()];    
 	},
 
 	prepareClusters: function ()
@@ -2489,8 +2476,7 @@ ADLSequencer.prototype =
 				else
 				{
 					// Return the first child activity
-					// todo: check this
-					next = (iFrom.getChildren(false)[0]);
+					next = iFrom.getChildren(false)[0];
 				}
 			}
 		}
@@ -2531,19 +2517,16 @@ ADLSequencer.prototype =
 					if (iFrom.getControlForwardOnly())
 					{
 						// Return the first child activity
-						// todo: check this
-						next = (iFrom.getChildren(false)[0]);
+						next = iFrom.getChildren(false)[0];
 						
 						// And switch direction
 						direction = FLOW_FORWARD;
 					}
 					else
 					{
-						// todo: check this
 						var size = iFrom.getChildren(false).length;
 						
 						// Return the last child activity
-						// todo: check this
 						next = iFrom.getChildren(false)[size - 1];
 					}
 				}
@@ -3236,10 +3219,17 @@ ADLSequencer.prototype =
 		}
 		
 		// If there are no items in the set, there is no TOC.
-		// todo: check this
-		if (set.length == 0)
+		if (set != null)
 		{
-			set = null;
+			var empty = true;
+			for (k in set)
+			{
+				empty = false;
+			}
+			if (empty)
+			{
+				set = null;
+			}
 		}
 		
 		// If there is only one item in the set, it must be the root -- remove it
@@ -3251,8 +3241,7 @@ ADLSequencer.prototype =
 			
 			if (!temp.mIsEnabled)
 			{
-				// todo: check this
-				oNewTOC.remove(0);
+				delete oNewTOC[0];
 			}
 			else if (!temp.mLeaf)
 			{
@@ -3467,8 +3456,7 @@ ADLSequencer.prototype =
 				}
 				
 				// Go to the first child
-				// todo: check this
-				walk = (walk.getChildren(false))[0];
+				walk = walk.getChildren(false)[0];
 				parentTOC = toc.length - 1;
 				depth++;
 				
@@ -3488,9 +3476,7 @@ ADLSequencer.prototype =
 					{
 						// Walk back up the tree to the parent's next sibling
 						walk = lookAt[lookAt.length - 1];
-						
-						// todo: check
-						lookAt.remove(lookAt.length - 1);
+						delete lookAt[lookAt.length - 1];
 						depth--;
 						
 						// Find the correct parent
