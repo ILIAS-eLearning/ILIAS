@@ -36,6 +36,7 @@
 
 class ilSCORM13DB
 {
+	
 	// variables for static usage 
 	public static $DB;
 	private static $DSN;
@@ -45,7 +46,6 @@ class ilSCORM13DB
 	private static $ERRORS;
 	private static $BRACKETS_LIST = array(
 		'mysql' => '``', 
-		'jet'   => '[]',
 		'sqlite' => '""',
 	); // for table or field names containing whitespace or other special chars
 
@@ -58,27 +58,37 @@ class ilSCORM13DB
 	private static $errors;
 	
 	private static $SQLCOMMAND = array();
+	
 
-	public function __construct($dsn, $type='mysql') 
+	public function __construct($dsn, $login, $password, $type='mysql') 
 	{
-		$this->db = new PDO($dsn); 
+		try {
+			self::$DB = new PDO($dsn, $login, $password); 
+		} catch (PDOException $e) {
+			error_log("Error!: " . $e->getMessage());	
+		}
 		$this->dsn = $dsn; 
 		$this->brackets = self::$BRACKETS_LIST[$type]; 
 		$this->type = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
 		$this->brackets = self::$BRACKETS_LIST[$this->type]; 
+		
 	}
 	
-	public function init($dsn, $type='mysql') 
+	public function init($dsn, $login, $password, $type='mysql') 
 	{	
-		self::$DB = new PDO($dsn); 
+		try {
+			self::$DB = new PDO($dsn, $login, $password); 
+		} catch (PDOException $e) {
+			error_log("Error!: " . $e->getMessage());	
+		}
 		self::$DSN = $dsn;
 		self::$TYPE = is_null($type) ? substr($dsn, 0, strpos($dsn, ':')) : $type;
 		self::$BRACKETS = self::$BRACKETS_LIST[self::$TYPE]; 
 	}
 	
-	public function addQueries($name) 
+	public function addQueries()
 	{
-		require_once($name . '_' . self::getType() . '.php');
+		require_once("./Modules/Scorm2004/classes/ilSCORM13Player_mysql.php");
 	}
 	
 	public function getLastId() 
@@ -200,14 +210,12 @@ class ilSCORM13DB
 			foreach ($rows as &$row)
 			{
 				$row = $s->execute(array_values($row));
+				$arr = $s->errorInfo();
+                file_put_contents('/tmp/sql.log', implode("\n", array('', date('c'), $sql, var_export($q, true),var_export($arr,true))), FILE_APPEND);  
+                
 				if (!$u && is_string($idname) && $row)
 				{
-					if ($type==='jet') {
-						$row = self::query("SELECT Max($idname) AS lastInsertId FROM $tableOrView");
-						$row = $row[0]['lastInsertId']+1;
-					} else {
-						$row = $d->lastInsertId();
-					}
+					$row = $d->lastInsertId();
 					self::setLastId($row);
 				} 
 			} 
@@ -257,8 +265,8 @@ class ilSCORM13DB
 	public function & query($query, $params=null, $order=null, $paging=null, $fetchType=PDO::FETCH_ASSOC) 
 	{
 		$r = array();
-		//$d = new PDO(self::getDSN());
 		$d = self::getDB();
+		self::addQueries();
 		$q = array(self::$SQLCOMMAND[$query] ? self::$SQLCOMMAND[$query] : $query);
 		if (is_array($order))
 		{
@@ -284,6 +292,8 @@ class ilSCORM13DB
 		$q = implode(' ', $q);
 		$s = $d->prepare($q);
 		$s->execute($params);
+		$arr = $s->errorInfo();
+        file_put_contents('/tmp/sql.log', implode("\n", array('', date('c'), $q, var_export($params, true),var_export($arr,true))), FILE_APPEND);
 		$r = $s->fetchAll($fetchType);
 		unset($d);
 		return $r;
@@ -315,10 +325,12 @@ class ilSCORM13DB
         } 
         //$d = new PDO(self::getDSN()); 
         $d = self::getDB(); 
+		self::addQueries();
         foreach ($queries as $i => &$q)  
         { 
            if ($s = $d->prepare($sql = (self::$SQLCOMMAND[$q] ? self::$SQLCOMMAND[$q] : $q)))  
             { 
+				error_log("SQL-Command: ".self::$SQLCOMMAND[$q]);
                 $q = 0; 
                 $r = array(); 
                 $ps = is_array($params) ? $params[$i % count($params)] : null; 
@@ -330,7 +342,7 @@ class ilSCORM13DB
                 { 
                  $q+=$s->execute($p);
                  $arr = $s->errorInfo();
-                 file_put_contents('sql.log', implode("\n", array('', date('c'), $sql, var_export($p, true),var_export($arr,true))), FILE_APPEND);  
+                 file_put_contents('/tmp/sql.log', implode("\n", array('', date('c'), $sql, var_export($p, true),var_export($arr,true))), FILE_APPEND);  
                 
                     if (is_array($result))  
                     { 
@@ -368,6 +380,18 @@ class ilSCORM13DB
 	{
 		self::getDB()->rollBack(); 
 	}
+	
+		//convert an ILIAS DB-DSN to a PDO DSN
+	function il_to_pdo_dsn($il_dsn)
+	{
+		$pattern = '/([a-z]+)(:\/\/)([^:]*)(:)([^@]*)(@)([^\/]+)(\/)(.*)/i';
+		preg_match($pattern, $il_dsn, $matches);
+		$pdo_dsn[0]=$matches[1].":dbname=".$matches[9].";host=".$matches[7];
+		$pdo_dsn[1]=$matches[3];
+		$pdo_dsn[2]=$matches[5];
+		return $pdo_dsn;
+	}
+	
 		
 }
 

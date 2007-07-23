@@ -89,7 +89,8 @@ class ilSCORM13Package
 		$this->load($packageId);
 		$this->userId = $GLOBALS['USER']['usr_id'];
 		//ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
-		ilSCORM13DB::init(IL_DSN, "mysql");		
+		$pdo_dsn=ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
+		ilSCORM13DB::init($pdo_dsn[0],$pdo_dsn[1],$pdo_dsn[2]);		
 	  	
 	}
 	
@@ -235,9 +236,6 @@ class ilSCORM13Package
 	*/
 	public function il_import($packageFolder,$packageId,$ilias){
 		
-		ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
-		//ilSCORM13DB::init(IL_DSN."he", "mysql");
-			
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
 	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
@@ -271,16 +269,9 @@ class ilSCORM13Package
 	  		return false;
 	  	}
 	
-	
-	  	//step 4 import into DB
-	  //	$this->dbAddNew(); // add new package record
-	  //	$this->dbRemoveAll(); // remove old data on this id
-		error_log("Preparing DB Actions");
 	  	ilSCORM13DB::begin();
-		$this->dbAddNew(); // add new sahs and package record
 	  	$this->dbImport($this->manifest);
 	  	ilSCORM13DB::commit();
-    	error_log("Changes to DB committed");
 	  	//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
 	  	// add database values from package and sahs_lm records as defaults
@@ -436,10 +427,10 @@ class ilSCORM13Package
 	 */
 	public function dbAddNew()
 	{
-		$this->packageId = 100;
-		return true;
-		ilSCORM13DB::getRecord('sahs_lm', array());
-		$this->packageId = ilSCORM13DB::getRecord('sahs_lm', array());
+		//$this->packageId = 100;
+		//return true;
+		//ilSCORM13DB::getRecord('sahs_lm', array());
+		//	$this->packageId = ilSCORM13DB::getRecord('sahs_lm', array());
 		ilSCORM13DB::setRecord('cp_package', array(
 		'obj_id' => $this->packageId,
 		'xmldata' => $x->asXML(),
