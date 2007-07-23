@@ -76,6 +76,7 @@ class ilAuthLDAP extends Auth
 			$this->initLDAPAttributeToUser();
 			$this->ldap_attr_to_user->setUserData($users);
 			$this->ldap_attr_to_user->refresh();
+			$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
 		}
 
 		if(!$user_data['ilInternalAccount'])
@@ -86,7 +87,7 @@ class ilAuthLDAP extends Auth
 			return;
 		}
 		// Finally setAuth
-		$this->setAuth(ilObjUser::_checkExternalAuthAccount("ldap",$a_username));
+		$this->setAuth($user_data['ilInternalAccount']);
 		return;
 		
 	}
