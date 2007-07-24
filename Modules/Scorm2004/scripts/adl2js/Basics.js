@@ -31,6 +31,26 @@ function clone(what)
 	}
 }
 
+function index_of(haystack, needle, start)
+{
+	var index = -1;
+	if (start == null)
+	{
+		start = 0;
+	}
+	
+	for(var j=start; j < haystack.length; j++)
+	{
+		if (haystack[j] != null &&
+			haystack[j] == needle)
+		{
+			index = j;
+			break;
+		}
+	}
+	return index;
+}
+
 /**
 * Log a Message
 */

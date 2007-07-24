@@ -108,7 +108,7 @@ function ADLDuration(iOptions)
 					this.mDuration += parseFloat(min) * 60;
 					locStart = loc + 1;
 				}
-				// todo: make this work
+
 				loc = iValue.indexOf("S", locStart);
 				if ( loc != -1 )
 				{

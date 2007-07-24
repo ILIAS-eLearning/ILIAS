@@ -113,10 +113,10 @@ SeqObjectiveTracking.prototype =
 	mWriteStatus: null,
 	mWriteMeasure: null,
 	
-	// trivial, not implemented:
-	// getObjID: mObj.mObjID
-	// getObj: mObj
-	// setDirtyObj: mDirtyObj = true;
+	// getter/setter
+	getObjID: function () { return this.mObj.mObjID; },
+	getObj: function () { return this.mObj; },
+	setDirtyObj: function () { this.mDirtyObj = true; },
 	
 	forceObjStatus: function (iSatisfied)
 	{
