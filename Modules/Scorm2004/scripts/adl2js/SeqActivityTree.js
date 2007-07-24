@@ -80,10 +80,10 @@ SeqActivityTree.prototype =
 	getLastLeaf: function () { this.mLastLeaf; },
 	setValidRequests: function (iValidRequests) { this.mValidReq = iValidRequests; },
 	getValidRequests: function () { return this.mValidReq; },
-	getCurrentActivity() { return this.mCurActivity; },
-	setCurrentActivity(iCurrent) { this.mCurActivity = iCurrent; },
+	getCurrentActivity: function () { return this.mCurActivity; },
+	setCurrentActivity: function (iCurrent) { this.mCurActivity = iCurrent; },
 	setFirstCandidate: function (iFirst) { this.mFirstCandidate = iFirst; },
-	setSuspendAll: function (iSuspendTarget) { this.mSuspendAll = iSuspendTarget; }
+	setSuspendAll: function (iSuspendTarget) { this.mSuspendAll = iSuspendTarget; },
 	getSuspendAll: function () { return this.mSuspendAll; },
 	getLearnerID: function () { return this.mLearnerID; },
 	setCourseID: function (iCourseID) { this.mCourseID = iCourseID; },
@@ -346,7 +346,7 @@ SeqActivityTree.prototype =
 					{
 						for (var j = 0; j < obj.mMaps.length; j++)
 						{
-							var map = var obj.mMaps[j];
+							var map = obj.mMaps[j];
 							var target = map.mGlobalObjID;
 							
 							// Make sure we haven't already added this objective

@@ -90,9 +90,8 @@ ADLSequencer.prototype =
 	mValidTermination: true,
 	mValidSequencing: true,
 	
-	// not implemented trivial stuff (access member vars directly!):
-	
-	// getActivityTree(): mSeqTree
+	// getter/setter
+	getActivityTree: function () { return this.mSeqTree; },
 
 	// NOTE:
 	// navigate(String) and navigateRequest(iRequest) are converted to
@@ -1758,9 +1757,6 @@ ADLSequencer.prototype =
 		// Make sure this is a cluster
 		if (ioCluster.getChildren(true) != null)
 		{
-			// todo: check this
-			var gen = new Random();
-			
 			var count = ioCluster.getSelectCount();
 			var all = ioCluster.getChildren(true);
 			
@@ -1789,10 +1785,11 @@ ADLSequencer.prototype =
 						ok = false;
 						while (!ok)
 						{
-							// todo: check this
-							rand = gen.nextInt();	// ...
-							num = Math.abs(rand % all.length);	// ...
-							lookUp = set.indexOf(new Integer(num));		// ...
+							//var gen = new Random();
+							//rand = gen.nextInt();
+							//num = Math.abs(rand % all.length);
+							num = Math.floor(Math.random() * all.length);
+							lookUp = index_of(set, num);
 							
 							if (lookUp == -1)
 							{
@@ -1805,8 +1802,7 @@ ADLSequencer.prototype =
 					// Create the selected child vector
 					for (var i = 0; i < all.length; i++)
 					{
-						// todo: check this
-						lookUp = set.indexOf(new Integer(i));
+						lookUp = index_of(set, i);
 						
 						if (lookUp != -1)
 						{
@@ -1827,8 +1823,6 @@ ADLSequencer.prototype =
 		// Make sure this is a cluster
 		if (ioCluster.getChildren(true) != null)
 		{
-			// todo: check this
-			Random gen = new Random();
 			var all = ioCluster.getChildren(false);
 			var set = null;
 			
@@ -1849,10 +1843,12 @@ ADLSequencer.prototype =
 					ok = false;
 					while (!ok)
 					{
-						// todo: check this
-						rand = gen.nextInt();
-						num = Math.abs(rand % all.length);
-						lookUp = set.indexOf(new Integer(num));
+						//Random gen = new Random();
+						//rand = gen.nextInt();
+						//num = Math.abs(rand % all.length);
+						//lookUp = set.indexOf(new Integer(num));
+						num = Math.floor(Math.random() * all.length);
+						lookUp = index_of(set, num);
 						
 						if (lookUp == -1)
 						{
@@ -2918,8 +2914,8 @@ ADLSequencer.prototype =
 			oLaunch.mMaxTime = target. getAttemptAbDur();
 			
 			// Create auxilary services vector
-			Hashtable services = new Object();
-			ADLAuxiliaryResource test = null;
+			var services = new Object();
+			var test = null;
 			walk = target;
 			
 			// Starting at the target activity, walk up the tree adding services
@@ -2930,7 +2926,7 @@ ADLSequencer.prototype =
 				{
 					for (var i = 0; i < curSet.length; i++)
 					{
-						ADLAuxiliaryResource res = null;
+						var res = null;
 						res = curSet[i];
 						
 						// If the resource isn't already included in the set, add it
@@ -4073,8 +4069,7 @@ ADLSequencer.prototype =
 					{
 						if (temp.mDepth != -1)
 						{
-							// todo: check this
-							var idx = parents.indexOf(new Integer(temp.mParent));
+							var idx = index_of(parents, temp.mParent);
 							
 							if (idx != -1)
 							{

@@ -131,67 +131,111 @@ SeqActivity.prototype =
 	mActivityAbDur_track: null,
 	mActivityExDur_track: null,
 	
-	// not implemented trivial stuff (access member vars directly!):
-	
-	// set/getControlModeChoice(): mControl_choice
-	// set/getControlModeChoiceExit(): mControl_choiceExit
-	// set/getControlModeFlow(): mControl_flow
-	// set/getControlForwardOnly: mControl_forwardOnly
-	// set/getConstrainChoice: mConstrainChoice
-	// set/getPreventActivation: mPreventActivation
-	// set/getUseCurObjective: mUseCurObj
-	// set/getUseCurProgress: mUseCurPro
-	// set/getPreSeqRules: mPreConditionRules
-	// set/getExitSeqRules: mExitActionRules
-	// set/getPostSeqRules: mPostConditionRules
-	// getAttemptLimitControl: mMaxAttemptControl
-	// getAttemptLimit: mMaxAttempt
-	// getAttemptAbDurControl: mAttemptAbDurControl
-	// getAttemptExDurControl: mAttemptExDurControl
-	// getActivityAbDurControl: mActivityAbDurControl
-	// getActivityExDurControl: mActivityExDurControl
-	// getBeginTimeLimitControl: mBeginTimeControl
-	// getBeginTimeLimit: mBeginTime
-	// getEndTimeLimitControl: mEndTimeControl
-	// getEndTimeLimit: mEndTime
-	// set/getAuxResources: mAuxResources (Vector)
-	// set/getRollupRules: mRollupRules (SeqRollupRuleset)
-	// set/getSatisfactionIfActive: mActiveMeasure
-	// set/getRequiredForSatisfied: mRequiredForSatisfied
-	// set/getRequiredForNotSatisfied: mRequiredForNotSatisfied
-	// set/getRequiredForCompleted: mRequiredForCompleted
-	// set/getRequiredForIncomplete: mRequiredForIncomplete
-	// getObjectives: mObjectives (Vector)
-	// set/getIsObjRolledUp: mIsObjectiveRolledUp
-	// set/getObjMeasureWeight: mObjMeasureWeight
-	// set/getIsProgressRolledUp: mIsProgressRolledUp
-	// getSelectionTiming: mSelectTiming
-	// getSelectStatus: mSelectStatus
-	// getRandomTiming: mRandomTiming
-	// set/getReorderChildren: mReorder
-	// set/getIsTracked: mIsTracked
-	// set/getSetCompletion: mContentSetsCompletion
-	// set/getSetObjective: mContentSetsObj
-	// getDeliveryMode: mDeliveryMode
-	// set/getResourceID: mResourceID
-	// set/getStateID: mStateID
-	// set/getID: mActivityID
-	// set/getTitle: mTitle
-	// set/getXMLFragment: mXML
-	// set/getLearnerID: mLearnerID
-	// set/getIsSelected: mSelected
-	// set/getScopeID: mScopeID
-	// set/getIsVisible: mIsVisible
-	// set/getIsActive: mIsActive
-	// set/getIsSuspended: mIsSuspended
-	// getNumSCOAttempt: mNumSCOAttempt
-	// set/getParent: mParent
-	// set/getActiveOrder: mActiveOrder
-	// set/getDepth: mDepth
-	// set/getCount: mCount
-	// set/getSelection: mSelection
-	// set/getRandomized: mRandomized
-	// setOrder: mOrder
+	// getter/setter
+	getControlModeChoice: function () { return this.mControl_choice; },
+	setControlModeChoice: function (iChoice) { this.mControl_choice = iChoice; },
+	getControlModeChoiceExit: function () { return this.mControl_choiceExit; },
+	setControlModeChoiceExit: function (val) { this.mControl_choiceExit = val; },
+	getControlModeFlow: function () { return this.mControl_flow; },
+	setControlModeFlow: function (val) { this.mControl_flow = val; },
+	getControlForwardOnly: function () { return this.mControl_forwardOnly; },
+	setControlForwardOnly: function (val) { this.mControl_forwardOnly = val; },
+	getConstrainChoice: function () { return this.mConstrainChoice; },
+	setConstrainChoice: function (val) { this.mConstrainChoice = val; },
+	getPreventActivation: function () { return this.mPreventActivation; },
+	setPreventActivation: function (val) { this.mPreventActivation = val; },
+	getUseCurObjective: function () { return this.mUseCurObj; },
+	setUseCurObjective: function (val) { this.mUseCurObj = val; },
+	getUseCurProgress: function () { return this.mUseCurPro; },
+	setUseCurProgress: function (val) { this.mUseCurPro = val; },
+	getPreSeqRules: function () { return this.mPreConditionRules; },
+	setPreSeqRules: function (val) { this.mPreConditionRules = val; },
+	getExitSeqRules: function () { return this.mExitActionRules; },
+	setExitSeqRules: function (val) { this.mExitActionRules = val; },
+	getPostSeqRules: function () { return this.mPostConditionRules; },
+	setPostSeqRules: function (val) { this.mPostConditionRules = val; },
+	getAttemptLimitControl: function () { return this.mMaxAttemptControl; },
+	getAttemptLimit: function () { return this.mMaxAttempt; },
+	getAttemptAbDurControl: function () { return this.mAttemptAbDurControl; },
+	getAttemptExDurControl: function () { return this.mAttemptExDurControl; },
+	getActivityAbDurControl: function () { return this.mActivityAbDurControl; },
+	getActivityExDurControl: function () { return this.mActivityExDurControl; },
+	getBeginTimeLimitControl: function () { return this.mBeginTimeControl; },
+	getBeginTimeLimit: function () { return this.mBeginTime; },
+	getEndTimeLimitControl: function () { return this.mEndTimeControl; },
+	getEndTimeLimit: function () { return this.mEndTime; },
+	getAuxResources: function () { return this.mAuxResources; },
+	setAuxResources: function (val) { this.mAuxResources = val; },
+	getRollupRules: function () { return this.mRollupRules; },
+	setRollupRules: function (val) { this.mRollupRules = val; },
+	getSatisfactionIfActive: function () { return this.mActiveMeasure; },
+	setSatisfactionIfActive: function (val) { this.mActiveMeasure = val; },
+	getRequiredForSatisfied: function () { return this.mRequiredForSatisfied; },
+	setRequiredForSatisfied: function (val) { this.mRequiredForSatisfied = val; },
+	getRequiredForNotSatisfied: function () { return this.mRequiredForNotSatisfied; },
+	setRequiredForNotSatisfied: function (val) { this.mRequiredForNotSatisfied = val; },
+	getRequiredForCompleted: function () { return this.mRequiredForCompleted; },
+	setRequiredForCompleted: function (val) { this.mRequiredForCompleted = val; },
+	getRequiredForIncomplete: function () { return this.mRequiredForIncomplete; },
+	setRequiredForIncomplete: function (val) { this.mRequiredForIncomplete = val; },
+	getObjectives: function () { return this.mObjectives; },
+	getIsObjRolledUp: function () { return this.mIsObjectiveRolledUp; },
+	setIsObjRolledUp: function (val) { this.mIsObjectiveRolledUp = val; },
+	getObjMeasureWeight: function () { return this.mObjMeasureWeight; },
+	setObjMeasureWeight: function (val) { this.mObjMeasureWeight = val; },
+	getIsProgressRolledUp: function () { return this.mIsProgressRolledUp; },
+	setIsProgressRolledUp: function (val) { this.mIsProgressRolledUp = val; },
+	getSelectionTiming: function () { return this.mSelectTiming; },
+	setSelectionTiming: function (val) { this.mSelectTiming = val; },
+	getSelectStatus: function () { return this.mSelectStatus; },
+	getRandomTiming: function () { return this.mRandomTiming; },
+	getReorderChildren: function () { return this.mReorder; },
+	setReorderChildren: function (val) { this.mReorder = val; },
+	getIsTracked: function () { return this.mIsTracked; },
+	setIsTracked: function (val) { this.mIsTracked = val; },
+	getSetCompletion: function () { return this.mContentSetsCompletion; },
+	setSetCompletion: function (val) { this.mContentSetsCompletion = val; },
+	getSetObjective: function () { return this.mContentSetsObj; },
+	setSetObjective: function (val) { this.mContentSetsObj = val; },
+	getResourceID: function () { return this.mResourceID; },
+	setResourceID: function (val) { this.mResourceID = val; },
+	getDeliveryMode: function () { return this.mDeliveryMode; },
+	getStateID: function () { return this.mStateID; },
+	setStateID: function (val) { this.mStateID = val; },
+	getID: function () { return this.mActivityID; },
+	setID: function (val) { this.mActivityID = val; },
+	getTitle: function () { return this.mTitle; },
+	setTitle: function (val) { this.mTitle = val; },
+	getXMLFragment: function () { return this.mXML; },
+	setXMLFragment: function (val) { this.mXML = val; },
+	getLearnerID: function () { return this.mLearnerID; },
+	setLearnerID: function (val) { this.mLearnerID = val; },
+	getIsSelected: function () { return this.mSelected; },
+	setIsSelected: function (val) { this.mSelected = val; },
+	getScopeID: function () { return this.mScopeID; },
+	setScopeID: function (val) { this.mScopeID = val; },
+	getIsVisible: function () { return this.mIsVisible; },
+	setIsVisible: function (val) { this.mIsVisible = val; },
+	getIsActive: function () { return this.mIsActive; },
+	setIsActive: function (val) { this.mIsActive = val; },
+	getIsSuspended: function () { return this.mIsSuspended; },
+	setIsSuspended: function (val) { this.mIsSuspended = val; },
+	getNumSCOAttempt: function () { return this.mNumSCOAttempt; },
+	getParent: function () { return this.mParent; },
+	setParent: function (val) { this.mParent = val; },
+	getActiveOrder: function () { return this.mActiveOrder; },
+	setActiveOrder: function (val) { this.mActiveOrder = val; },
+	getDepth: function () { return this.mDepth; },
+	setDepth: function (val) { this.mDepth = val; },
+	getCount: function () { return this.mCount; },
+	setCount: function (val) { this.mCount = val; },
+	getSelection: function () { return this.mSelection; },
+	setSelection: function (val) { this.mSelection = val; },
+	getRandomized: function () { return this.mRandomized; },
+	setRandomized: function (val) { this.mRandomized = val; },
+	setOrder: function (val) { this.mOrder = val; },
+	//: function () { return this.; },
+	//: function (val) { this. = val; },
 	
 	setAttemptLimit: function (iMaxAttempt)
 	{
@@ -535,7 +579,7 @@ SeqActivity.prototype =
 				{
 					iObjID = this.mCurTracking.mPrimaryObj;
 				}
-				obj = this.mCurTracking.mObjectives.get(iObjID);
+				obj = this.mCurTracking.mObjectives[iObjID];
 				
 				if (obj != null)
 				{
@@ -566,7 +610,7 @@ SeqActivity.prototype =
 			{
 				iObjID = this.mCurTracking.mPrimaryObj;
 			}
-			obj = this.mCurTracking.mObjectives.get(iObjID);
+			obj = this.mCurTracking.mObjectives[iObjID];
 
 			if (obj != null)
 			{
@@ -602,7 +646,7 @@ SeqActivity.prototype =
 				{
 					iObjID = this.mCurTracking.mPrimaryObj;
 				}
-				obj = this.mCurTracking.mObjectives.get(iObjID);
+				obj = this.mCurTracking.mObjectives[iObjID];
 
 				if (obj != null)
 				{
@@ -630,7 +674,7 @@ SeqActivity.prototype =
 		
 		if (this.mCurTracking != null)
 		{
-			var obj = this.mCurTracking.mObjectives.get(this.mCurTracking.mPrimaryObj);
+			var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
 			
 			if (obj != null)
 			{
@@ -695,7 +739,7 @@ SeqActivity.prototype =
 			
 			if (this.mCurTracking != null)
 			{
-				var obj = this.mCurTracking.mObjectives.get(iObjID);
+				var obj = this.mCurTracking.mObjectives[iObjID];
    
 				if (obj != null)
 				{
@@ -727,8 +771,7 @@ SeqActivity.prototype =
 			}
 			if (this.mCurTracking != null)
 			{
-				var obj = this.mCurTracking.mObjectives.get(
-					this.mCurTracking.mPrimaryObj);
+				var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
 
 				if (obj != null)
 				{
@@ -784,7 +827,7 @@ SeqActivity.prototype =
 					iObjID = this.mCurTracking.mPrimaryObj;
 				}
 
-				var obj = this.mCurTracking.mObjectives.get(iObjID);
+				var obj = this.mCurTracking.mObjectives[iObjID];
 
 				if (obj != null)
 				{
@@ -826,7 +869,7 @@ SeqActivity.prototype =
 					iObjID = this.mCurTracking.mPrimaryObj;
 				}
 
-				var obj = this.mCurTracking.mObjectives.get(iObjID);
+				var obj = this.mCurTracking.mObjectives[iObjID];
 				
 				if (obj != null)
 				{
@@ -873,7 +916,7 @@ SeqActivity.prototype =
 					iObjID = this.mCurTracking.mPrimaryObj;
 				}
 
-				var obj = this.mCurTracking.mObjectives.get(iObjID);
+				var obj = this.mCurTracking.mObjectives[iObjID];
 				
 				if (obj != null)
 				{
@@ -987,7 +1030,6 @@ SeqActivity.prototype =
 		// Store existing tracking information for historical purposes
 		if (this.mCurTracking != null)
 		{
-			// todo: check
 			if (this.mTracking == null)
 			{
 				this.mTracking = new Array();
@@ -1100,7 +1142,6 @@ SeqActivity.prototype =
 			}
 		}
 		
-		// todo check
 		var objSet = new Array();
 		var mapSet = new Array();
 		
@@ -1108,7 +1149,7 @@ SeqActivity.prototype =
 		{
 			if (this.mObjMaps != null)
 			{
-				mapSet = this.mObjMaps.get(iObjID);
+				mapSet = this.mObjMaps[iObjID];
 				if (mapSet != null)
 				{
 					for (var i = 0; i < mapSet.length; i++)
