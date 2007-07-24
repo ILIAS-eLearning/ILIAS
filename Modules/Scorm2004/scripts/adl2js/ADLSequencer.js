@@ -94,7 +94,7 @@ ADLSequencer.prototype =
 	getActivityTree: function () { return this.mSeqTree; },
 
 	// NOTE:
-	// navigate(String) and navigateRequest(iRequest) are converted to
+	// navigate(String) and navigate(iRequest) are converted to
 	// navigateStr and navigateRequest (maybe merged in the future)
 	
 	getObjStatusSet: function (iActivityID)
