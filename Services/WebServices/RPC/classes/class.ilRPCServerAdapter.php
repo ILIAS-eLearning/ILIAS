@@ -30,12 +30,13 @@
 *
 * @package ilias
 */
-define("RPC_TIMEOUT",10);
+define("RPC_TIMEOUT",0);
 
 include_once('Services/WebServices/RPC/classes/class.ilRPCServerSettings.php');
 
 class ilRPCServerAdapter
 {
+	var $response_timeout = RPC_TIMEOUT;
 	var $log = null;
 	var $db = null;
 	var $err = null;
@@ -57,6 +58,11 @@ class ilRPCServerAdapter
 
 		$this->settings_obj =& new ilRPCServerSettings();
 	}
+	
+	function setResponseTimeout($a_response_timeout)
+	{
+		$this->response_timeout = $a_response_timeout;
+	}
 
 	/**
 	 * Send message to remote rpc server and get response.
@@ -68,7 +74,7 @@ class ilRPCServerAdapter
 	function &send()
 	{
 		include_once 'XML/RPC.php';
-		if(!$response =& $this->rpc_client->send($this->rpc_message,RPC_TIMEOUT))
+		if(!$response =& $this->rpc_client->send($this->rpc_message,$this->response_timeout))
 		{
 			$this->log->write("ilRPCServerAdapter: Communication error");
 			return null;

@@ -138,6 +138,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	// PRIVATE
 	function __prepareQueryParams()
 	{
+		$this->setResponseTimeout(5);
 		$filter = array();
 		foreach($this->getSearchFilter() as $obj_type)
 		{
@@ -152,6 +153,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 
 	function __preparePingParams()
 	{
+		$this->setResponseTimeout(5);
 		$this->__initMessage('Searcher.ilPing',array(new XML_RPC_Value($this->__getClientId(),"string")));
 
 		return true;
@@ -159,6 +161,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 
 	function __prepareIndexFileParams()
 	{
+		$this->setResponseTimeout(5);
 		foreach($this->getFiles() as $obj_id => $fname)
 		{
 			$struct[$obj_id] = new XML_RPC_Value($fname,"string");
@@ -173,6 +176,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 
 	function __prepareIndexHTLMParams()
 	{
+		$this->setResponseTimeout(5);
 		foreach($this->getHTLMs() as $obj_id => $fname)
 		{
 			$struct[$obj_id] = new XML_RPC_Value($fname,"string");
@@ -185,7 +189,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	}
 	function __prepareFlushIndex()
 	{
-
+		$this->setResponseTimeout(5);
 		$this->__initMessage('Indexer.ilClearIndex',array(new XML_RPC_Value($this->__getClientId(),"string")));
 
 		return true;
