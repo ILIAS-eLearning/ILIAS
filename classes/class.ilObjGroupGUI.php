@@ -1313,6 +1313,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		// MEMBERS
 		if(count($members))
 		{
+			$ordered_members = array();
+
 			foreach($members as $member)
 			{
 				// get user object
@@ -1321,7 +1323,20 @@ class ilObjGroupGUI extends ilContainerGUI
 					continue;
 				}
 				
-				$public_profile = $usr_obj->getPref("public_profile");
+				array_push($ordered_members,array("id" => $member["id"], 
+								  "login" => $usr_obj->getLogin(),
+								  "lastname" => strtoupper($usr_obj->getLastName()),
+								  "firstname" => strtoupper($usr_obj->getFirstName()),
+								  "usr_obj" => $usr_obj));
+			}
+
+			$ordered_members=ilUtil::sortArray($ordered_members,"lastname","asc");
+
+			foreach($ordered_members as $member) {
+
+				$usr_obj = $member["usr_obj"];
+
+			        $public_profile = $usr_obj->getPref("public_profile");
 
 				// SET LINK TARGET FOR USER PROFILE
 				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member["id"]);
