@@ -259,7 +259,7 @@ class ilNewsItem extends ilNewsItemGen
 			$ref_ids[] = $node["child"];
 		}
 		$ilObjDataCache->preloadReferenceCache($ref_ids);
-		#$ilAccess->preloadActivationTimes($ref_ids);
+		$ilAccess->preloadActivationTimes($ref_ids);
 		$ilBench->stop("News", "getAggregatedNewsData_getSubTree");
 		
 		// get news for all subtree nodes
