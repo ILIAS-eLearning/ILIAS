@@ -703,7 +703,8 @@ class ilColumnGUI
 				$block["id"] = $ilCtrl->getContextObjId();
 			}
 				
-			if (is_int(strpos($_GET["block_id"], "block_".$block["type"]."_".$block["id"])))
+			//if (is_int(strpos($_GET["block_id"], "block_".$block["type"]."_".$block["id"])))
+			if ($_GET["block_id"] == "block_".$block["type"]."_".$block["id"])
 			{
 				$gui_class = $block["class"];
 				$block_class = substr($block["class"], 0, strlen($block["class"])-3);

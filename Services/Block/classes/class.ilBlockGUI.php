@@ -1004,6 +1004,7 @@ abstract class ilBlockGUI
 				$block_id = "block_".$this->getBlockType()."_".$this->block_id;
 				$onclick = $ilCtrl->getLinkTargetByClass("ilcolumngui",
 					"updateBlock", "", true);
+//echo "-".$onclick."-";
 				//$this->tpl->parseCurrentBlock();
 				$ilCtrl->setParameterByClass("ilcolumngui",
 					"block_id", "");
