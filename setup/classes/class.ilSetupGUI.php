@@ -2146,6 +2146,7 @@ class ilSetupGUI extends ilSetup
 				$this->client->setSetting("admin_phone",ilUtil::stripSlashes($_POST["form"]["admin_phone"]));
 				$this->client->setSetting("admin_email",ilUtil::stripSlashes($_POST["form"]["admin_email"]));
 				$this->client->setSetting("inst_institution",ilUtil::stripSlashes($_POST["form"]["inst_institution"]));
+				$this->client->setSetting("inst_name",ilUtil::stripSlashes($_POST["form"]["inst_name"]));
 
 				// update client.ini
 				$this->client->setName(ilUtil::stripSlashes($_POST["form"]["inst_name"]));
