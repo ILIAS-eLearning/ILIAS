@@ -2907,6 +2907,10 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_loading_news#:#Loading News...
+news#:#news_no_js_click_here#:#If news are not displayed, click here.
+news#:#news_acc_cache#:#Permission Check (Minutes)
+news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.
 news#:#news_related_to#:#Related to

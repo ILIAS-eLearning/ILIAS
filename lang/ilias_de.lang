@@ -7366,3 +7366,7 @@ common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. B
 common#:#filesize#:#Dateigröße
 common#:#filetype#:#Dateityp
 crs#:#event_files#:#Zugeordnete Dateien
+news#:#news_loading_news#:#News werden geladen ...
+news#:#news_no_js_click_here#:#Werden die News nicht angezeigt, klicken Sie bitte hier.
+news#:#news_acc_cache#:#Abfrage Berechtigungen (Minuten)
+news#:#news_acc_cache_info#:#Zeit, nach der die Leseberechtigung der News-Einträge geprüft wird (nur persönlicher Schreibtisch). Bei '0' wird immer geprüft. Höhere Werte verbessern die Performanz, können aber dazu führen, dass die referenzierten Repositoryressourcen nicht mehr zugreifbar sind, falls Berechtigungen verändert wurden.
