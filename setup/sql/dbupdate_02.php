@@ -2056,3 +2056,7 @@ CREATE TABLE `acc_cache` (
 	`user_id` int NOT NULL default '0' PRIMARY KEY,
 	`time` int NOT NULL default '0',
 	`result` TEXT);
+<#1035>
+ALTER TABLE `acc_cache` MODIFY `result` MEDIUMTEXT;
+<#1036>
+REPLACE INTO settings (module,keyword,value) VALUES ('news','acc_cache_mins','10');
