@@ -43,6 +43,11 @@
   </tr>
 <!-- END tbl_content_row -->
 {TBL_CONTENT}
+<!-- BEGIN tbl_no_entries -->
+  <tr class="{TBL_NO_ENTRY_CSS_ROW}">
+  	<td class="std" colspan="{TBL_NO_ENTRY_COLUMN_COUNT}">{TBL_NO_ENTRY_TEXT}</td>
+  </tr>
+<!-- END tbl_no_entries -->
 <!-- BEGIN tbl_footer -->
   <tr class="tblfooter">
     <td colspan="{COLUMN_COUNT}" class="tblfooter">
@@ -73,7 +78,7 @@
 		<div style="float:left;">
 <!-- BEGIN tbl_action_img_arrow -->
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
-<!-- BEGIN tbl_action_img_arrow -->
+<!-- END tbl_action_img_arrow -->
 <!-- BEGIN tbl_cmd_select -->
 		  {SELECT_CMDS}
 		  <input class="submit" type="submit" name="select_cmd" value="{TXT_EXECUTE}" />

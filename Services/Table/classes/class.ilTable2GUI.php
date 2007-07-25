@@ -54,6 +54,26 @@ class ilTable2GUI extends ilTableGUI
 		
 		$this->setLimit($ilUser->getPref("hits_per_page"));
 	}
+	
+	/**
+	* Set text for an empty table.
+	*
+	* @param	string	$a_text	Text
+	*/
+	function setNoEntriesText($a_text)
+	{
+		$this->noentriestext = $a_text;
+	}
+
+	/**
+	* Get text for an empty table.
+	*
+	* @return	string	Text
+	*/
+	function getNoEntriesText()
+	{
+		return $this->noentriestext;
+	}
 
 	/**
 	* Set Enable Title.
@@ -425,8 +445,18 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		else if (trim($this->getNoEntriesText()) != '')
+		{
+			$this->css_row = ($this->css_row != "tblrow1")
+					? "tblrow1"
+					: "tblrow2";				
+			
+			$this->tpl->setVariable('TBL_NO_ENTRY_CSS_ROW', $this->css_row);
+			$this->tpl->setVariable('TBL_NO_ENTRY_COLUMN_COUNT', $this->column_count);
+			$this->tpl->setVariable('TBL_NO_ENTRY_TEXT', trim($this->getNoEntriesText()));			
+		}
 		
-		// set form action
+		// set form action		
 		if ($this->form_action != "")
 		{
 			$this->tpl->setCurrentBlock("tbl_form_header");
