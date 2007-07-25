@@ -496,7 +496,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError("Parent with ID $a_target_id has been deleted.", 'Client');
 		}
 
-		$allowed_types = array('cat','grp','crs','fold');
+		$allowed_types = array('root','cat','grp','crs','fold');
 		if(!in_array($target_obj->getType(),$allowed_types))
 		{
 			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
