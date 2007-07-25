@@ -155,7 +155,7 @@ class ilAccessHandler
 			if ((time() - $rec["time"]) < $a_secs)
 			{
 				$this->results = unserialize($rec["result"]);
-var_dump($this->results);
+//var_dump($this->results);
 				return true;
 			}
 		}
