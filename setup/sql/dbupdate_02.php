@@ -2051,3 +2051,8 @@ CREATE TABLE cp_tree(`child` INTEGER, `depth` INTEGER, `lft` INTEGER, `obj_id` I
 CREATE INDEX child ON cp_tree(child);
 CREATE INDEX cp_treeobj_id ON cp_tree(obj_id);
 CREATE INDEX parent ON cp_tree(parent);
+<#1034>
+CREATE TABLE `acc_cache` (
+	`user_id` int NOT NULL default '0' PRIMARY KEY,
+	`time` int NOT NULL default '0',
+	`result` TEXT);

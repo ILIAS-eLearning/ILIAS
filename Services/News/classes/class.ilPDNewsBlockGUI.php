@@ -43,9 +43,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function ilPDNewsBlockGUI()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilBench;
+		global $ilCtrl, $lng, $ilUser, $ilBench, $ilAccess;
 		
 		$ilBench->start("News", "ilPDNewsBlockGUI_Constructor");
+		$news_set = new ilSetting("news");
 		
 		parent::ilBlockGUI();
 		
@@ -60,7 +61,21 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		// do not ask two times for the data (e.g. if user displays a 
 		// single item on the personal desktop and the news block is 
 		// displayed at the same time)
-		if ($this->getCurrentDetailLevel() > 0)
+		$this->dynamic = false;
+		
+		// store current access check results
+		$this->acc_results = $ilAccess->getResults();
+		
+		// read access cache
+		$this->acc_cache_hit = $ilAccess->readCache(
+			((int) $news_set->get("acc_cache_mins")) * 60);
+		
+		if ($this->getDynamic() && !$this->acc_cache_hit)
+		{
+			$this->dynamic = true;
+			$data = array();
+		}
+		else if ($this->getCurrentDetailLevel() > 0)
 		{
 			if (empty(self::$st_data))
 			{
@@ -84,6 +99,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		
 		$this->handleView();
 		
+		// reset access check results
+		$ilAccess->setResults($this->acc_results);
+		
 		$ilBench->stop("News", "ilPDNewsBlockGUI_Constructor");
 	}
 	
@@ -92,9 +110,14 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function getNewsData()
 	{
-		global $ilUser;
+		global $ilUser, $ilAccess;
 		
-		return ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
+		$data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
+		if (!$this->acc_cache_hit)
+		{
+			$ilAccess->storeCache();
+		}
+		return $data;
 	}
 	
 	/**
@@ -161,11 +184,15 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	{
 		global $ilBench;
 		
-		$ilBench->start("News", "ilPDNewsBlockGUI_fillDataSection");
-		
-		if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		if ($this->dynamic)
 		{
+			$this->setDataSection($this->getDynamicReload());
+		}
+		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		{
+			$ilBench->start("News", "ilPDNewsBlockGUI_fillDataSection");
 			parent::fillDataSection();
+			$ilBench->stop("News", "ilPDNewsBlockGUI_fillDataSection");
 		}
 		else
 		{
@@ -176,8 +203,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			}
 			$this->setDataSection($this->getOverview());
 		}
-		
-		$ilBench->stop("News", "ilPDNewsBlockGUI_fillDataSection");
 	}
 
 	/**
@@ -247,6 +272,84 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		
 		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
+	}
+
+	function getDynamic()
+	{
+		global $ilCtrl, $ilUser;
+		
+//return false;
+
+		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
+		{
+			if ($_SESSION["il_feed_js"] != "n" &&
+				($ilUser->getPref("il_feed_js") != "n" || $_SESSION["il_feed_js"] == "y"))
+			{
+				// do not get feed dynamically, if cache hit is given.
+//				if (!$this->feed->checkCacheHit())
+//				{
+					return true;
+//				}
+			}
+		}
+		
+		return false;
+	}
+
+	function getDynamicReload()
+	{
+		global $ilCtrl, $lng;
+		
+		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
+			"block_pdnews_".$this->getBlockId());
+
+		$rel_tpl = new ilTemplate("tpl.dynamic_reload.html", true, true, "Services/News");
+		$rel_tpl->setVariable("TXT_LOADING", $lng->txt("news_loading_news"));
+		$rel_tpl->setVariable("BLOCK_ID", "block_pdnews_".$this->getBlockId());
+		$rel_tpl->setVariable("TARGET", 
+			$ilCtrl->getLinkTargetByClass("ilcolumngui", "updateBlock", "", true));
+			
+		// no JS
+		$rel_tpl->setVariable("TXT_NEWS_CLICK_HERE", $lng->txt("news_no_js_click_here"));
+		$rel_tpl->setVariable("TARGET_NO_JS",
+			$ilCtrl->getLinkTargetByClass("ilpdnewsblockgui", "disableJS"));
+
+		return $rel_tpl->get();
+	}
+	
+	function getJSEnabler()
+	{
+		global $ilCtrl, $lng;
+		
+		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
+			"block_pdnews_".$this->getBlockId());
+
+		$rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "Services/News");
+		$rel_tpl->setVariable("BLOCK_ID", "block_pdnews_".$this->getBlockId());
+		$rel_tpl->setVariable("TARGET", 
+			$ilCtrl->getLinkTargetByClass("ilpdnewsblockgui", "enableJS", true));
+			
+		return $rel_tpl->get();
+	}
+	
+	
+	function disableJS()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$_SESSION["il_feed_js"] = "n";
+		$ilUser->writePref("il_feed_js", "n");
+		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+	}
+	
+	function enableJS()
+	{
+		global $ilUser;
+		
+		$_SESSION["il_feed_js"] = "y";
+		$ilUser->writePref("il_feed_js", "y");
+		echo $this->getHTML();
+		exit;
 	}
 
 }

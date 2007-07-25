@@ -163,9 +163,16 @@ class ilNewsItem extends ilNewsItemGen
 		foreach($ref_ids as $ref_id)
 		{
 			$ilBench->start("News", "getNewsForRefId");
-			if (!$a_only_public && !$ilAccess->checkAccess("read", "", $ref_id))
+			if (!$a_only_public)
 			{
-				continue;
+				$ilBench->start("News", "getAggregatedNewsData_getContexts_checkAccess");
+				$acc = $ilAccess->checkAccess("read", "", $ref_id);
+				$ilBench->stop("News", "getAggregatedNewsData_getContexts_checkAccess");
+				
+				if (!$acc)
+				{
+					continue;
+				}
 			}
 
 			$ilBench->start("News", "getNewsForRefId_getNews");
