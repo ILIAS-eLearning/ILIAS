@@ -132,7 +132,45 @@ class ilAccessHandler
 		return $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
 	}
 
+	function storeCache()
+	{
+		global $ilDB, $ilUser;
+		
+		$q = "REPLACE INTO acc_cache (user_id, time, result) VALUES ".
+			"(".$ilDB->quote($ilUser->getId()).",".time().",".
+			$ilDB->quote(serialize($this->results)).")";
+		$ilDB->query($q);
+	}
+	
+	function readCache($a_secs = 0)
+	{
+		global $ilUser, $ilDB;
+		
+		if ($a_secs > 0)
+		{
+			$q = "SELECT * FROM acc_cache WHERE user_id = ".
+				$ilDB->quote($ilUser->getId());
+			$set = $ilDB->query($q);
+			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			if ((time() - $rec["time"]) < $a_secs)
+			{
+				$this->results = unserialize($rec["result"]);
+				return true;
+			}
+		}
+		return false;
+	}
 
+	function getResults()
+	{
+		return $this->results;
+	}
+	
+	function setResults($a_results)
+	{
+		$this->results = $a_results;
+	}
+	
 	/**
 	* add an info item to current info object
 	*/
@@ -448,7 +486,6 @@ class ilAccessHandler
 		{
 			return true;
 		}
-
 		$ilBench->start("AccessControl", "3150_checkAccess_check_course_activation");
 		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		if(isset($this->ac_times[$a_ref_id]))

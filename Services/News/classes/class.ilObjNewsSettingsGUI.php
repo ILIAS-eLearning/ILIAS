@@ -176,6 +176,15 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$nr_sel->setValue($news_set->get("max_items"));
 		$form->addItem($nr_sel);
 
+		// Access Cache
+		$min_opts = array(0 => 0, 1 => 1, 2 => 2, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 60 => 60);
+		$min_sel = new ilSelectInputGUI($lng->txt("news_acc_cache"),
+			"news_acc_cache_mins");
+		$min_sel->setInfo($lng->txt("news_acc_cache_info"));
+		$min_sel->setOptions($min_opts);
+		$min_sel->setValue($news_set->get("acc_cache_mins"));
+		$form->addItem($min_sel);
+
 		// Section Header: External Web Feeds Settings
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("feed_settings"));
@@ -221,6 +230,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$ilSetting->set("block_activated_pdnews", $_POST["enable_internal_news"]);
 		$news_set->set("enable_rss_for_internal", $_POST["enable_internal_rss"]);
 		$news_set->set("max_items", $_POST["news_max_items"]);
+		$news_set->set("acc_cache_mins", $_POST["news_acc_cache_mins"]);
 		$news_set->set("default_visibility", $_POST["news_default_visibility"]);
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 		$ilSetting->set("block_limit_pdfeed", $_POST["nr_pd_feeds"]);
