@@ -252,10 +252,8 @@ class ilAccessHandler
 		
 		if ($cached["hit"])
 		{
-echo "H ";
 			return $cached["granted"];
 		}
-echo "M ";
 
 		// to do: payment handling
 
