@@ -34,7 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Oprogramowanie innych firm
-3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
+3rdparty#:#Dodatki innych firm
 absolute_path#:#Ścieżka absolutna
 access#:#Dostęp
 access_status#:#Status dostępu
@@ -52,7 +52,7 @@ check_db_versions#:#Upewnij się czy wybrany tryb pracy bazy danych ILIAS odpowi
 check_failed_convert#:#Nieudany test (convert)
 check_failed_htmldoc#:#Nieudany test (HTMLdoc)
 check_failed_java#:#Nieudany test (java)
-check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
+check_failed_latex#:#Test skryptu LaTeX CGI nieudany
 check_failed_unzip#:#Nieudany test (unzip)
 check_failed_zip#:#Nieudany test (zip)
 choose_language#:#Wybierz język
@@ -165,7 +165,7 @@ ilias_nic_id#:#ID NIC
 ilias_setup#:#Instalowanie ILIAS3
 ilias_version#:#wersja ILIAS
 include_local#:#włącznie z lokalnym plikiem językowym przy uaktualnianiu języka
-info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
+info_text_3rdparty#:#Tutaj zainstalujesz dodatki innych firm wymagane przez ILIAS. Aby wykonać instalację, postępuj zgodnie z informacjami podanymi dla każdego dodatku.
 info_text_contact#:#Tutaj należy podać dodatkowe informacje o kliencie i dane kontaktowe administratora systemu dla tego klienta. Pola zaznaczone gwiazdką muszą być wypełnione. Wszystkie informacje są pamiętane w twojej bazie danych. Na następnym ekranie możesz zarejestrować swoją instalację na serwerze ILIAS-NIC (aby te dane zostały przesłane na ten serwer).
 info_text_db#:#Baza danych nie istnieje lub jest pusta. Kliknij na przycisk umieszczony poniżej aby zainstalować bazę danych. Jeśli baza danych z wybraną nazwą nie istnieje, wybierz opcję 'Twórz bazę danych'. Instalator automatycznie utworzy bazę danych. Jeśli utworzenie się nie uda, (np. z powodu braku uprawnień) skontaktuj się z administratorem  serwera bazy danych i poproś o utworzenie bazy danych z tą nazwą.
 info_text_db_collation1#:#Jeżeli twoje porównania nie są na liście porównań UTF-8 (collation), musisz stworzyc bazę danych ręcznie. W każdym przypadku, upewnij się że system kodowania znaków dla bazy danych jest ustawiony na utf8.
@@ -245,7 +245,7 @@ language#:#język
 languages#:#Języki
 languages_installed#:#Zainstalowano języki.
 lastname#:#Nazwisko
-latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
+latex_url_comment#:#wymagany dla wsparcia LaTeX w ILIAS
 list#:#Lista
 list_disabled#:#Wybór klienta wyłączony
 list_enabled#:#Wybór klienta włączony
@@ -283,7 +283,7 @@ no_clients_available#:#Brak dostepnych klientów
 no_database#:#Brak bazy danych
 no_db_connect_consult_admin#:#Nie można połączyć się z bazą danych. Skontaktuj się z administratorem.
 no_db_update_file#:#dbupdate.php nie został odnaleziony!
-no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
+no_latex_url#:#Nie podano skryptu CGI LaTeX
 no_password#:#Nie podano hasła
 no_path_convert#:#Nie podano ścieżki do convert
 no_path_datadir#:#Nie podano katalogu danych
@@ -363,7 +363,7 @@ set_oldpasswd#:#Podaj stare hasło
 settings_changed#:#Ustawienia zmienione
 settings_saved#:#Ustawienia zapisane
 setup#:#Instalator
-setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
+setup_3rdparty_data#:#Instalacja dodatków innych firm
 setup_basic_settings#:#Instalacja - podstawowe informacje
 setup_contact_data#:#Instalacja - informacje kontaktowe
 setup_database#:#Utwórz bazę danych
@@ -387,7 +387,7 @@ setup_pass_title#:#Ustaw Główne hasło
 setup_password#:#utwórz hasło
 setup_password_desc#:#Utworzenie hasła dostępu do instalatora w przyszłości (np. dla aktualizacji twojej bazy danych)
 setup_process_status#:#Status procesu instalacji
-setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
+setup_process_step_3rdparty#:#Dodatki innych firm
 setup_process_step_contact#:#Podaj dane kontaktowe
 setup_process_step_db#:#twórz i uaktualnij bazę danych
 setup_process_step_finish#:#Dokończ instalowanie
@@ -399,29 +399,29 @@ setup_welcome#:#Witamy w instalatorze ILIAS. Instalator pomoże ci wykonać poni
 sophos#:#Sophos
 sort_by_this_column#:#Sortuj wg tej kolumny
 status#:#Status
-status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
-status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
-status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
+status_3rdparty_false#:#Brak dodatków innych firm
+status_3rdparty_ok#:#Dodatki innych firm zainstalowane
+status_3rdparty_problems#:#Problem z dodatkami innych firm
 step#:#Krok
 street#:#Ulica
 submit#:#Wykonaj
-tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
-tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
-tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
-tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
-tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
+tiny_dir_does_not_exist#:#Katalog zawierający edytor nie istnieje. Musisz rozpakować plik ZIP zawierający edytor w odpowiednim miejscu.
+tiny_nothing_to_do#:#Edytor jest zainstalowany, nie trzeba nic robić.
+tiny_zip_changed#:#Plik ZIP zawierający edytor zmienił się od ostatniej instalacji. Rozpakuj plik ZIP aby uaktualnić istniejący edytor.
+tiny_zip_does_not_exist#:#Brak pliku ZIP zawierającego edytor TinyMCE w odpowiednim miejscu w Services/RTE
+tinymce_wysiwyg_editor#:#Edytor TinyMCE WYSIWYG
 title#:#Tytuł
 tools#:#Narzędzia
 unknown_client_id#:#Nieznany klient
 unknown_command#:#Nieznana komenda
 unknown_display_mode#:#Nieznany tryb wyświetlania
-unzip#:#Extract###10 Jul 2006 new variable
+unzip#:#Rozpakuj
 unzip_path#:#Ścieżka do Unzip
 unzip_path_comment#:#wymagane dla importu modułów nauczania
 update_applied#:#Aktualizacja została przeprowadzona.
 update_error#:#błąd podczas aktualizacji
 update_not_found#:#Aktualizacja nie została odnaleziona!
-url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
+url_to_latex#:#URL do skryptu CGI LaTeX
 username#:#Nazwa użytkownika
 version#:#Wersja
 virus_scanner#:#Skaner Antywirusowy
@@ -431,8 +431,8 @@ wrong_password#:#Złe hasło!
 zip_path#:#Ścieżka do Zip
 zip_path_comment#:#wymagane dla eksportu modułów nauczania
 zipcode#:#Kod pocztowy
-lang_el#:#Greek###07 09 2006 new variable
-lang_ru#:#Russian###07 09 2006 new variable
-lang_vi#:#Vietnamese###07 09 2006 new variable
-clamav#:#ClamAV###20 06 2007 new variable
-lang_et#:#Estonian###20 06 2007 new variable
+lang_el#:#Grecki
+lang_ru#:#Rosyjski
+lang_vi#:#Wietnamski
+clamav#:#ClamAV
+lang_et#:#Estoński
