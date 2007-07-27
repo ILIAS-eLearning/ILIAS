@@ -123,7 +123,7 @@ assessment#:#applet_new_parameter#:#Nowy parametr
 assessment#:#applet_parameter#:#Parametr
 assessment#:#applet_parameters#:#Parametry Apletu
 assessment#:#apply#:#Zastosuj
-assessment#:#assClozeTest#:#Zamknij pytanie
+assessment#:#assClozeTest#:#Pytanie z luką
 assessment#:#assImagemapQuestion#:#Pytanie z mapą bitową
 assessment#:#assJavaApplet#:#Pytanie - aplet Javy
 assessment#:#assMatchingQuestion#:#Pytanie na dopasowanie
@@ -7351,22 +7351,22 @@ crs#:#save_status#:#Zapisz Status
 crs#:#crs_selected_users#:#Wybrani uczestnicy
 search#:#search_users#:#Szukaj użytkownika
 common#:#wizard_title_info#:#Wprowadź tytuł obiektu, który chcesz zduplikować.
-common#:#wizard_search_list#:#Twoje wyszukanie dało nasepujące wyniki. Wybierz jeden z nich.
+common#:#wizard_search_list#:#Twoje wyszukanie dało następujące wyniki. Wybierz jeden z nich.
 forum#:#forum_add_quote#:#Dodaj cudzysłów
-mail#:#mail_folder_edit#:#Edit Folder###09 07 2007 new variable
-mail#:#mail_empty_trash#:#Empty Trash###09 07 2007 new variable
-mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###09 07 2007 new variable
-common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
-common#:#ext_acccount_required#:#Please enter the name of the external account.###09 07 2007 new variable
-crs#:#event_select_one#:#-- Please select one session --###09 07 2007 new variable
-crs#:#events_clone_title#:#Duplicate Session###09 07 2007 new variable
-crs#:#event_clone_btn#:#Duplicate Session###09 07 2007 new variable
-crs#:#event_cloned#:#The Session has been duplicated.###09 07 2007 new variable
-common#:#err_check_input#:#The settings could not be saved. Please check your input.###09 07 2007 new variable
-common#:#filesize#:#File Size###09 07 2007 new variable
-common#:#filetype#:#File Type###09 07 2007 new variable
-crs#:#event_files#:#Assigned File###09 07 2007 new variable
-news#:#news_loading_news#:#Loading News...###25 07 2007 new variable
-news#:#news_no_js_click_here#:#If news are not displayed, click here.###25 07 2007 new variable
-news#:#news_acc_cache#:#Permission Check (Minutes)###25 07 2007 new variable
-news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###25 07 2007 new variable
+mail#:#mail_folder_edit#:#Edytuj folder
+mail#:#mail_empty_trash#:#Opóżnij kosz
+mail#:#mail_empty_trash_confirmation#:#Czy na pewno chcesz usunąć wszystkie wiadomości z kosza?
+common#:#err_auth_ldap_no_ilias_user#:#Błędne logowanie. Autoryzacja LDAP udana, lecz brak odpowiedniego użytkownika ILIAS. Skontaktuj się z administratorem systemu.
+common#:#ext_acccount_required#:#Podaj nazwą konta zewnętrznego.
+crs#:#event_select_one#:#-- wybierz jedną sesję --
+crs#:#events_clone_title#:#Duplikuj sesję
+crs#:#event_clone_btn#:#Duplikuj sesję
+crs#:#event_cloned#:#Sesja została powielona.
+common#:#err_check_input#:#Ustawienia nie mogą być zapamiętane. Sprawdź dane wejściowe.
+common#:#filesize#:#Rozmiar pliku
+common#:#filetype#:#Typ pliku
+crs#:#event_files#:#Przydzielony plik
+news#:#news_loading_news#:#Ładowanie wiadomości...
+news#:#news_no_js_click_here#:#Jeśli wiadomości się nie pokazały, kliknij tutaj.
+news#:#news_acc_cache#:#Sprawdzenie uprawnień (Minuty)
+news#:#news_acc_cache_info#:#Sprawdź uprawnienia do czytania wiadomości przez x minut (tylko pulpit osobisty). '0' oznacza zawsze. Większe wartości zwiększają wydajność, lecz linki mogą wskazywać niedostępne pozycje.
