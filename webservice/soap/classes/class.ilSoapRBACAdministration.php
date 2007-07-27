@@ -528,7 +528,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	 */
 	function getRoles($sid, $role_type, $id)
 	{
-	    if(!$this->__checkSession($sid))
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
@@ -540,7 +540,19 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		$roles = array();
 
-		if (strcasecmp($role_type,"user")==0)
+		if (strcasecmp($role_type,"local") != 0 &&
+			strcasecmp($role_type,"global") != 0 &&
+			strcasecmp($role_type,"user") != 0 &&
+			strcasecmp($role_type,"template") != 0)
+		{
+			return $this->__raiseError('Called service with wrong role_type parameter \''.$role_type.'\'','Client');
+		}
+		
+		if (strcasecmp($role_type,"template") == 0) 		
+		// get templates
+		{
+			$roles = $rbacreview->getRolesByFilter(6, $ilUser->getId());
+		} elseif (strcasecmp($role_type,"user")==0)
 		// get user roles
 		{
             $role_type = ""; // local and global roles for user

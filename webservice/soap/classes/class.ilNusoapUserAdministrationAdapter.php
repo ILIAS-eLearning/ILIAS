@@ -821,11 +821,11 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getRoles',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getRoles():if id equals -1, get all roles specified by type (global|local|user or empty), if type is empty all roles with all types are delivered, if id > -1 and role_type <> user, delivers all roles which belong to a repository object with specified ref_id, if roletype is user a numeric id is interpreted as userid otherwise as login.');
+								'ILIAS getRoles():if id equals -1, get all roles specified by type (global|local|user|template or empty), if type is empty all roles with all types are delivered, if id > -1 and role_type <> user, delivers all roles which belong to a repository object with specified ref_id, if roletype is user a numeric id is interpreted as userid otherwise as login,if roletype is template all role templates will be listed');
 
 		$this->server->register('getUsersForContainer',
 								array('sid' => 'xsd:string',
-    								'ref_id' => 'xsd:int',
+								'ref_id' => 'xsd:int',
 	   			     				'attach_roles' => 'xsd:int',
 								    'active' => 'xsd:int'),
 								array('user_xml' => 'xsd:string'),
