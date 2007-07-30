@@ -48,6 +48,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		$this->type = "adve";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		$this->lng->loadLanguageModule('meta');
 
 		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{

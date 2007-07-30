@@ -33,6 +33,7 @@ class ilFormSectionHeaderGUI
 	protected $type;
 	protected $title;
 	protected $info;
+	protected $section_icon;
 	
 	/**
 	* Constructor
@@ -67,6 +68,31 @@ class ilFormSectionHeaderGUI
 	function getType()
 	{
 		return $this->type;
+	}
+	
+	/**
+	 * Set section icon
+	 *
+	 * @access public
+	 * @param string path to icon
+	 * @param string alternative text
+	 * 
+	 */
+	public function setSectionIcon($a_file,$a_alt)
+	{
+	 	$this->section_icon['file'] = $a_file;
+	 	$this->section_icon['alt'] = $a_alt;
+	}
+	
+	/**
+	 * Get section icon
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getSectionIcon()
+	{
+	 	return $this->section_icon ? $this->section_icon : array();
 	}
 
 	/**
@@ -115,6 +141,16 @@ class ilFormSectionHeaderGUI
 	*/
 	function insert(&$a_tpl)
 	{
+		$section_icon = $this->getSectionIcon();
+		
+		if(isset($section_icon['file']) && is_file($section_icon['file']))
+		{
+			$a_tpl->setCurrentBlock("title_icon");
+			$a_tpl->setVariable("IMG_ICON",$section_icon['file']);
+			$a_tpl->setVariable('IMG_ALT',$section_icon['alt']);
+			$a_tpl->parseCurrentBlock();
+		}
+		
 		$a_tpl->setCurrentBlock("header");
 		$a_tpl->setVariable("TXT_TITLE", $this->getTitle());
 		$a_tpl->parseCurrentBlock();

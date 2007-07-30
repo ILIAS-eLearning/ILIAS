@@ -93,11 +93,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 		$defs = ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($a_set['id']);
 		if(!count($defs))
 		{
-			$this->tpl->setVariable('TXT_FIELDS',$this->lng->txt('md_advanced_no_fields'));
-		}
-		else
-		{
-			$this->tpl->setVariable('TXT_FIELDS',$this->lng->txt('md_advanced_def_fields'));
+			$this->tpl->setVariable('TXT_FIELDS',$this->lng->txt('md_adv_no_fields'));
 		}
 		foreach($defs as $definition_obj)
 		{
