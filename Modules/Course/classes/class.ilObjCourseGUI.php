@@ -1471,9 +1471,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
 
-		// Waitinglist
-		$this->__showWaitingList();
-		$this->__showSubscribers();
 
 		// add members
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -1486,7 +1483,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.edit_members.html','Modules/Course');
-		#$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+		// Waitinglist
+		$this->__showSubscribers();
+		$this->__showWaitingList();
+
 		// this is neccessary...
 		$this->ctrl->setParameter($this,'cmd','memberGateway');
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getLinkTarget($this));
@@ -1979,9 +1980,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				if($tmp_obj = ilObjectFactory::getInstanceByObjId($waiting_data['usr_id'],false))
 				{
 					$waiting_list_ids[] = $waiting_data['usr_id'];
-					
-					$f_result[$counter][]	= ilUtil::formCheckbox(0,"waiting_list[]",$waiting_data['usr_id']);
-
 					$message = '';
 					// Check if user is member in course grouping
 					foreach(ilObjCourseGrouping::_getGroupingCourseIds($this->object->getId()) as $course_data)
@@ -1994,12 +1992,11 @@ class ilObjCourseGUI extends ilContainerGUI
 							$message .= (ilObject::_lookupTitle($course_data['id'])."</font>");
 						}
 					}
-					$f_result[$counter][]   = $tmp_obj->getLogin().$message;
-					$f_result[$counter][]	= $tmp_obj->getFirstname();
-					$f_result[$counter][]	= $tmp_obj->getLastname();
-					#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$waiting_data["time"]);
+					
+					$f_result[$counter][]	= ilUtil::formCheckbox(0,"waiting_list[]",$waiting_data['usr_id']);
+					$f_result[$counter][]	= $tmp_obj->getLastname().', '.$tmp_obj->getFirstname().$message;
+					$f_result[$counter][]   = $tmp_obj->getLogin();
 					$f_result[$counter][]   = ilFormat::formatUnixTime($waiting_data["time"],true);
-
 
 					unset($tmp_obj);
 					++$counter;
@@ -2280,14 +2277,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$this->object->initCourseMemberObject();
 		
-		if($this->object->getSubscriptionMaxMembers() and 
-		   ($this->object->getSubscriptionMaxMembers() < ($this->object->members_obj->getCountMembers() + count($_POST["subscriber"]))))
-		{
-			ilUtil::sendInfo($this->lng->txt("crs_max_members_reached"));
-			$this->membersObject();
-
-			return false;
-		}
 		if(!$this->object->members_obj->assignSubscribers($_POST["subscriber"]))
 		{
 			ilUtil::sendInfo($this->object->getMessage());
@@ -3883,12 +3872,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
-		// SET FORMACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
 		// SET FOOTER BUTTONS
 		$tpl->setCurrentBlock("tbl_action_row");
 
@@ -3911,7 +3894,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->parseCurrentBlock();
 
 		$tbl->enable('select_all');
-		$tbl->setFormName("cmd");
+		$tbl->setFormName("subscriber_form");
 		$tbl->setSelectAllCheckbox("subscriber");
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -3938,7 +3921,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"subscribers");
 		$tbl->render();
 
-		$this->tpl->setVariable("SUBSCRIBER_TABLE",$tbl->tpl->get());
+		$this->tpl->setCurrentBlock('sub_wait_table');
+		$this->tpl->setVariable('SUB_WAIT_NAME','subscriber_form');
+		$this->tpl->setVariable('SUB_WAIT_FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("SUB_WAIT_TABLE_CONTENT",$tbl->tpl->get());
+		$this->tpl->parseCurrentBlock();
 
 		return true;
 	}
@@ -3950,11 +3937,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
-		// SET FORMACTION
-		$tpl->setCurrentBlock("tbl_form_header");
+		$tbl->enable('select_all');
+		$tbl->setFormName("wait_form");
+		$tbl->setSelectAllCheckbox("waiting_list");
 
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
 
 		// SET FOOTER BUTTONS
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -3969,17 +3955,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
 		$tpl->parseCurrentBlock();
 
-		if (!empty($a_waiting_list_ids))
-		{
-			// set checkbox toggles
-			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			$tpl->setVariable("JS_VARNAME","waiting_list");			
-			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_waiting_list_ids));
-			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-			$tpl->parseCurrentBlock();
-		}
-		
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
@@ -3987,26 +3962,28 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$tbl->setTitle($this->lng->txt("crs_waiting_list"),"icon_usr.gif",$this->lng->txt("crs_waiting_list"));
 		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("username"),
-								   $this->lng->txt("firstname"),
-								   $this->lng->txt("lastname"),
+								   $this->lng->txt("name"),
+								   $this->lng->txt("login"),
 								   $this->lng->txt("crs_time")));
 		$tbl->setHeaderVars(array("",
+								  "name",
 								  "login",
-								  "firstname",
-								  "lastname",
 								  "sub_time"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "members",
 								  "update_subscribers" => 1,
 								  "cmdClass" => "ilobjcoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array("4%","24%","24%","24%","24%"));
+		$tbl->setColumnWidth(array('1%'));
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"subscribers");
 		$tbl->render();
 
-		$this->tpl->setVariable("SUBSCRIBER_TABLE",$tbl->tpl->get());
+		$this->tpl->setCurrentBlock('sub_wait_table');
+		$this->tpl->setVariable('SUB_WAIT_NAME','wait_form');
+		$this->tpl->setVariable('SUB_WAIT_FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("SUB_WAIT_TABLE_CONTENT",$tbl->tpl->get());
+		$this->tpl->parseCurrentBlock();
 
 		return true;
 	}
