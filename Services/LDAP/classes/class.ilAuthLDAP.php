@@ -135,6 +135,7 @@ class ilAuthLDAP extends Auth
 	{
 		include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
 		$this->ldap_server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
+		$this->ldap_server->doConnectionCheck();
 	}
 	
 	/**

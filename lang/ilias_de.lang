@@ -4612,8 +4612,8 @@ crs#:#crs_objective_add_qst#:#Fragen zuordnen
 crs#:#crs_objective_assign_chapter#:#Kapitel zuordnen
 crs#:#crs_objective_assign_lm#:#Zuordnungen speichern
 crs#:#crs_objective_assign_question#:#Frage zuordnen
-crs#:#crs_objective_assigned_materials#:#Assigned Materials
-crs#:#crs_objective_assigned_qst#:#Assigned Questions
+crs#:#crs_objective_assigned_materials#:#Zugeordnete Materialien
+crs#:#crs_objective_assigned_qst#:#Zugeordnete Fragen
 crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
 crs#:#crs_objective_delete_lm_assignment#:#Zuordung entfernen
 crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
@@ -5394,7 +5394,7 @@ ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-K
 ldap#:#ldap_server_name#:#Name der LDAP-Konfiguration
 ldap#:#ldap_server_security_settings#:#Sicherheitseinstellungen
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389"
+ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389".  Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
 ldap#:#ldap_server_version_info#:#Protokollversion des LDAP-Server (in den meisten Fällen "LDAPv3").
 ldap#:#ldap_settings#:#Server-Einstellungen
 ldap#:#ldap_sync_cron#:#Per Cron-Job

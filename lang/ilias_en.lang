@@ -7102,7 +7102,7 @@ ldap#:#ldap_scope_one#:#One
 ldap#:#ldap_scope_sub#:#Sub
 ldap#:#ldap_scope_base#:#Base
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"
+ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389".  You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.
 ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server.
 ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.
