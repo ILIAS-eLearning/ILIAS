@@ -2060,3 +2060,41 @@ CREATE TABLE `acc_cache` (
 ALTER TABLE `acc_cache` MODIFY `result` MEDIUMTEXT;
 <#1036>
 REPLACE INTO settings (module,keyword,value) VALUES ('news','acc_cache_mins','10');
+<#1037>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1038>
+DROP TABLE IF EXISTS `adv_md_field_definition`;
+CREATE TABLE `adv_md_field_definition` (
+  `field_id` int(11) NOT NULL auto_increment,
+  `record_id` int(11) NOT NULL default '0',
+  `import_id` varchar(32) NOT NULL default '',
+  `position` int(3) NOT NULL default '0',
+  `field_type` tinyint(1) NOT NULL default '0',
+  `field_values` text NOT NULL,
+  `title` text NOT NULL,
+  `description` text NOT NULL,
+  `searchable` tinyint(1) NOT NULL default '0',
+  `required` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`field_id`)
+) Type=MyISAM;
+
+<#1039>
+DROP TABLE IF EXISTS `adv_md_record`;
+CREATE TABLE `adv_md_record` (
+  `record_id` tinyint(3) NOT NULL auto_increment,
+  `import_id` varchar(64) NOT NULL default '',
+  `title` varchar(128) NOT NULL default '',
+  `description` text NOT NULL,
+  PRIMARY KEY  (`record_id`)
+) Type=MyISAM;
+
+<#1040>
+DROP TABLE IF EXISTS `adv_md_record_objs`;
+CREATE TABLE `adv_md_record_objs` (
+  `record_id` tinyint(3) NOT NULL default '0',
+  `obj_type` char(6) NOT NULL default '',
+  PRIMARY KEY  (`record_id`,`obj_type`)
+) Type=MyISAM;
+
