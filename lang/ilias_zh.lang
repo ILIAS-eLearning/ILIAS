@@ -7385,3 +7385,4 @@ news#:#news_loading_news#:#Loading News...###25 07 2007 new variable
 news#:#news_no_js_click_here#:#If news are not displayed, click here.###25 07 2007 new variable
 news#:#news_acc_cache#:#Permission Check (Minutes)###25 07 2007 new variable
 news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###25 07 2007 new variable
+common#:#passwd_list#:#List of Passwords###30 07 2007 new variable

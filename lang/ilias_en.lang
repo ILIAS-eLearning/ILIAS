@@ -7370,3 +7370,4 @@ common#:#err_check_input#:#The settings could not be saved. Please check your in
 common#:#filesize#:#File Size
 common#:#filetype#:#File Type
 crs#:#event_files#:#Assigned Files
+common#:#passwd_list#:#List of Passwords
