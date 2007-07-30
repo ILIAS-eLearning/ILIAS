@@ -53,8 +53,8 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 	 	$this->addColumn('','f',1);
 	 	$this->addColumn($this->lng->txt('position'),'position',"5%");
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
-	 	$this->addColumn($this->lng->txt('md_advanced_field_fields'),'fields',"35%");
-	 	$this->addColumn($this->lng->txt('md_obj_types'),'obj_types',"30%");
+	 	$this->addColumn($this->lng->txt('md_adv_field_fields'),'fields',"35%");
+	 	$this->addColumn($this->lng->txt('options'),'obj_types',"30%");
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.edit_fields_row.html","Services/AdvancedMetaData");
@@ -71,7 +71,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		$this->tpl->setVariable('TXT_SEARCHABLE',$this->lng->txt('md_advanced_searchable'));
+		$this->tpl->setVariable('TXT_SEARCHABLE',$this->lng->txt('md_adv_searchable'));
 		$this->tpl->setVariable('ASS_ID',$a_set['id']);
 		if($a_set['searchable'])
 		{

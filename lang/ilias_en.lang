@@ -7371,3 +7371,32 @@ common#:#filesize#:#File Size
 common#:#filetype#:#File Type
 crs#:#event_files#:#Assigned Files
 common#:#passwd_list#:#List of Passwords
+meta#:#md_advanced#:#Advanced Metadata
+meta#:#md_adv_record_list#:#Datasets
+meta#:#md_adv_file_list#:#Export Files
+meta#:#md_record_list_table#:#Advanced Metadata Sets
+meta#:#md_fields#:#Fields
+meta#:#md_obj_types#:#Active for
+meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)
+meta#:#md_adv_substitution#:#Text
+meta#:#md_adv_placeholders#:#Placeholders
+meta#:#md_adv_placeholder_for#:#Placeholder for:
+meta#:#md_record_export_table#:#Export Files
+meta#:#md_adv_records#:#Included Datasets
+meta#:#md_adv_select_one_file#:#Please choose one file.
+meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?
+meta#:#md_adv_deleted_files#:#Deleted export files.
+meta#:#md_adv_records_exported#:#A new export file has been created.
+meta#:#md_adv_edit_record#:#Edit Dataset
+meta#:#md_adv_field_table#:#Edit Fields
+meta#:#md_adv_field_fields#:#Fields
+meta#:#md_adv_searchable#:#Searchable
+meta#:#md_adv_edit_field#:#Edit Field
+meta#:#md_adv_create_field#:#Add Field
+meta#:#md_adv_add_value#:#Add Value
+meta#:#md_adv_no_fields#:#No Fields Defined
+meta#:#md_adv_deleted_records#:#Deleted Dataset
+meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?
+meta#:#md_adv_added_new_record#:#Added new Dataset
+meta#:#md_adv_create_record#:#Add new Dataset
+meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?

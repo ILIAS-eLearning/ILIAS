@@ -29,81 +29,103 @@
 * 
 * @ingroup ServicesAdvancedMetaData 
 */
-
-include_once('Services/Table/classes/class.ilTable2GUI.php');
-
-class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
+class ilAdvancedMDSubstitution
 {
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param object calling gui class
-	 * @param string parent command
-	 * 
-	 */
-	public function __construct($a_parent_obj,$a_parent_cmd = '')
-	{
-	 	global $lng,$ilCtrl;
-	 	
-	 	$this->lng = $lng;
-	 	$this->ctrl = $ilCtrl;
-	 	
-	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn('','f',1);
-	 	$this->addColumn($this->lng->txt('md_adv_records'),'records',"33%");
-	 	$this->addColumn($this->lng->txt('date'),'date',"33%");
-	 	$this->addColumn($this->lng->txt('filesize'),'file_size',"33%");
-	 	
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.edit_files_row.html","Services/AdvancedMetaData");
-		$this->setDefaultOrderField("date");
-		$this->setDefaultOrderDirection('desc');
-	}
+	private static $instances = null; 
+
+	protected $db;
+	
+	protected $type;
+	protected $substitution;
 	
 	
-	/**
-	 * Fill row
-	 *
-	 * @access public
+	/*
+	 * Singleton class
+	 * Use _getInstance
+	 * @access private
 	 * @param
-	 * 
 	 */
-	public function fillRow($a_set)
+	private function __construct($a_type)
 	{
-		$this->tpl->setVariable('VAL_ID',$a_set['id']);
-		$this->tpl->setVariable('VAL_SIZE',sprintf("%.1f KB",$a_set['file_size']/1024));
-		$this->tpl->setVariable('VAL_DATE',ilFormat::formatUnixTime($a_set['date'],true));
+		global $ilDB;
 		
-		foreach($a_set['record_arr'] as $title)
-		{
-			$this->tpl->setCurrentBlock('record_title');
-			$this->tpl->setVariable('REC_TITLE',$title);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->db = $ilDB;
+		$this->type = $a_type;
+		
+		$this->read();	
 	}
+	
 	/**
-	 * parese files
+	 * Singleton: use this method to get an instance
+	 * 
+	 * @param string ilias object type (3 or 4 characters)
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function _getInstanceByObjectType($a_type)
+	{
+		if(isset(self::$instances[$a_type]))
+		{
+			return self::$instances[$a_type];
+		}
+		return self::$instances[$a_type] = new ilAdvancedMDSubstitution($a_type);
+	}
+	
+	/**
+	 * get substitution string
 	 *
 	 * @access public
 	 * @param
 	 * 
 	 */
-	public function parseFiles($a_file_data)
+	public function getSubstitutionString()
 	{
-		foreach($a_file_data as $id => $data)
-		{
-			$tmp_arr['id'] = $id;
-			$tmp_arr['records'] = implode(', ',$data['name']);
-			$tmp_arr['date'] = $data['date'];
-			$tmp_arr['file_size'] = $data['size'].' '.$this->lng->txt('bytes');
-			$tmp_arr['record_arr'] = $data['name'];
-			$defs_arr[] = $tmp_arr;
-	 	}
-	 	$this->setData($defs_arr ? $defs_arr : array());
+	 	return $this->substitution;
 	}
 	
+	/**
+	 * Set substitution
+	 *
+	 * @access public
+	 * @param string substitution
+	 * 
+	 */
+	public function setSubstitutionString($a_substitution)
+	{
+	 	$this->substitution = $a_substitution;
+	}
+	
+	/**
+	 * update
+	 *
+	 * @access public
+	 * 
+	 */
+	public function update()
+	{
+	 	$query = "REPLACE INTO adv_md_substitutions ".
+	 		"SET obj_type = ".$this->db->quote($this->type).", ".
+	 		"substitution = ".$this->db->quote($this->getSubstitutionString())." ";
+	 	$res = $this->db->query($query);
+	}
+	
+	/**
+	 * Read db entries
+	 *
+	 * @access private
+	 * 
+	 */
+	private function read()
+	{
+	 	$query = "SELECT * FROM adv_md_substitutions ".
+	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";
+			
+	 	$res = $this->db->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		$this->substitution = $row->substitution;
+	 	}
+	}
 }
-
-
 ?>

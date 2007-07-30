@@ -112,6 +112,28 @@ class ilAdvancedMDRecord
 	}
 	
 	/**
+	 * Get records by obj_type
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function _getRecordsByObjectType()
+	{
+		global $ilDB;
+		
+		$records = array();
+		
+		$query = "SELECT * FROM adv_md_record_objs ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$records[$row->obj_type][] = self::_getInstanceByRecordId($row->record_id);
+		}
+		return $records;
+	}
+	
+	/**
 	 * Delete record and all related data
 	 *
 	 * @access public

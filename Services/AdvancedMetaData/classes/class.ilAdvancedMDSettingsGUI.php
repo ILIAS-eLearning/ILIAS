@@ -53,6 +53,7 @@ class ilAdvancedMDSettingsGUI
 	 	
 	 	$this->ctrl = $ilCtrl;
 	 	$this->lng = $lng;
+	 	$this->lng->loadLanguageModule('meta');
 	 	$this->tpl = $tpl;
 	 	$this->tabs_gui = $ilTabs;
 	}
@@ -102,8 +103,34 @@ class ilAdvancedMDSettingsGUI
 		$table_gui->addMultiCommand("exportRecords",$this->lng->txt('export'));
 		$table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));
 		$table_gui->setSelectAllCheckbox("record_id");
-		
 		$this->tpl->setVariable('RECORD_TABLE',$table_gui->getHTML());
+		
+		if(!$this->initFormSubstitutions())
+		{
+			return true;
+		}
+		$this->tpl->setVariable('SUBSTITUTION_TABLE',$this->form->getHTML());
+		return true;
+	}
+	
+	/**
+	 * Update substitution
+	 *
+	 * @access public
+	 * 
+	 */
+	public function updateSubstitutions()
+	{
+	 	foreach(ilAdvancedMDRecord::_getRecordsByObjectType() as $obj_type => $visible_record)
+	 	{
+	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
+	 		$sub->setSubstitutionString(($_POST['substitution_'.$obj_type]));
+	 		$sub->update();
+	 	}
+	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
+	 	$this->showRecords();
+	 	return true;
 	}
 	
 	/**
@@ -192,7 +219,7 @@ class ilAdvancedMDSettingsGUI
 	 	if(!isset($_POST['file_id']))
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('select_one'));
-	 		$this->editFiles();
+	 		$this->showFiles();
 	 		return false;
 	 	}
 	
@@ -269,7 +296,7 @@ class ilAdvancedMDSettingsGUI
 		
 		// set confirm/cancel commands
 		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteRecords"));
-		$c_gui->setHeaderText($this->lng->txt("md_delete_record_sure"));
+		$c_gui->setHeaderText($this->lng->txt("md_adv_delete_record_sure"));
 		$c_gui->setCancel($this->lng->txt("cancel"), "showRecords");
 		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteRecords");
 
@@ -301,7 +328,7 @@ class ilAdvancedMDSettingsGUI
 			$record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
 			$record->delete();			
 		}
-		ilUtil::sendInfo($this->lng->txt('md_advanced_deleted_records'));
+		ilUtil::sendInfo($this->lng->txt('md_adv_deleted_records'));
 		$this->showRecords();
 		return true; 	
 	}
@@ -348,7 +375,7 @@ class ilAdvancedMDSettingsGUI
 		
 		// set confirm/cancel commands
 		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteFields"));
-		$c_gui->setHeaderText($this->lng->txt("md_advanced_delete_fields_sure"));
+		$c_gui->setHeaderText($this->lng->txt("md_adv_delete_fields_sure"));
 		$c_gui->setCancel($this->lng->txt("cancel"), "showRecords");
 		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteFields");
 
@@ -408,7 +435,7 @@ class ilAdvancedMDSettingsGUI
 
 		include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldTableGUI.php");
 		$table_gui = new ilAdvancedMDFieldTableGUI($this, "editRecord");
-		$table_gui->setTitle($this->lng->txt("md_advanced_field_table"));
+		$table_gui->setTitle($this->lng->txt("md_adv_field_table"));
 		$table_gui->parseDefinitions($fields);
 		$table_gui->addCommandButton("updateFields", $this->lng->txt("save"));
 		$table_gui->addCommandButton('createField',$this->lng->txt('add'));
@@ -527,7 +554,7 @@ class ilAdvancedMDSettingsGUI
 	 		return false;
 	 	}
 	 	$this->record->save();
-	 	ilUtil::sendInfo($this->lng->txt('md_advanced_added_new_record'));
+	 	ilUtil::sendInfo($this->lng->txt('md_adv_added_new_record'));
 	 	$this->showRecords();
 	}
 	
@@ -670,20 +697,20 @@ class ilAdvancedMDSettingsGUI
 		$this->form->addItem($desc);
 		
 		// Searchable
-		$check = new ilCheckboxInputGUI($this->lng->txt('md_advanced_searchable'),'searchable');
+		$check = new ilCheckboxInputGUI($this->lng->txt('md_adv_searchable'),'searchable');
 		$check->setChecked($this->field_definition->isSearchable());
 		$check->setValue(1);
 		$this->form->addItem($check);
 		
 		// field type
-		$radio = new ilRadioGroupInputGUI($this->lng->txt('udf_field_type'), "field_type");
+		$radio = new ilRadioGroupInputGUI($this->lng->txt('field_type'), "field_type");
 		$radio->setValue($this->field_definition->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_SELECT ? 
 			ilAdvancedMDFieldDefinition::TYPE_SELECT :
 			ilAdvancedMDFieldDefinition::TYPE_TEXT);
 
 		$radio_option = new ilRadioOption($this->lng->txt("udf_type_text"),ilAdvancedMDFieldDefinition::TYPE_TEXT);
 		$radio->addOption($radio_option);
-		$radio->setInfo($this->lng->txt("mcst_visibility_info"));
+		#$radio->setInfo($this->lng->txt("mcst_visibility_info"));
 		$radio->setRequired(true);
 		$this->form->addItem($radio);
 
@@ -704,17 +731,17 @@ class ilAdvancedMDSettingsGUI
 		switch($a_mode)
 		{
 			case 'create':
-				$this->form->setTitle($this->lng->txt('md_advanced_create_field'));
-				$this->form->addCommandButton('saveField',$this->lng->txt('saveField'));
-				$this->form->addCommandButton('addValue',$this->lng->txt('udf_add_value'));
+				$this->form->setTitle($this->lng->txt('md_adv_create_field'));
+				$this->form->addCommandButton('saveField',$this->lng->txt('create'));
+				$this->form->addCommandButton('addValue',$this->lng->txt('md_adv_add_value'));
 				$this->form->addCommandButton('editRecord',$this->lng->txt('cancel'));
 		
 				return true;
 			
 			case 'edit':
-				$this->form->setTitle($this->lng->txt('md_advanced_edit'));
+				$this->form->setTitle($this->lng->txt('md_adv_edit_field'));
 				$this->form->addCommandButton('updateField',$this->lng->txt('save'));
-				$this->form->addCommandButton('addValue',$this->lng->txt('udf_add_value'));
+				$this->form->addCommandButton('addValue',$this->lng->txt('md_adv_add_value'));
 				$this->form->addCommandButton('editRecord',$this->lng->txt('cancel'));
 				
 				return true;
@@ -739,7 +766,7 @@ class ilAdvancedMDSettingsGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		
 		// title
-		$title = new ilTextInputGUI($this->lng->txt('record_title'),'title');
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setValue($this->record->getTitle());
 		$title->setSize(20);
 		$title->setMaxLength(70);
@@ -747,7 +774,7 @@ class ilAdvancedMDSettingsGUI
 		$this->form->addItem($title);
 		
 		// desc
-		$desc = new ilTextAreaInputGUI($this->lng->txt('record_desc'),'desc');
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
 		$desc->setValue($this->record->getDescription());
 		$desc->setRows(3);
 		$desc->setCols(50);
@@ -769,19 +796,83 @@ class ilAdvancedMDSettingsGUI
 		switch($a_mode)
 		{
 			case 'create':
-				$this->form->setTitle($this->lng->txt('md_advanced_create'));
+				$this->form->setTitle($this->lng->txt('md_adv_create_record'));
 				$this->form->addCommandButton('saveRecord',$this->lng->txt('add'));
 				$this->form->addCommandButton('showRecords',$this->lng->txt('cancel'));
 		
 				return true;
 			
 			case 'edit':
-				$this->form->setTitle($this->lng->txt('md_advanced_edit'));
+				$this->form->setTitle($this->lng->txt('md_adv_edit_record'));
 				$this->form->addCommandButton('updateRecord',$this->lng->txt('save'));
 				$this->form->addCommandButton('showRecords',$this->lng->txt('cancel'));
 				
 				return true;
 		}
+	}
+	
+	/**
+	 * init form table 'substitutions'
+	 *
+	 * @access protected
+	 */
+	protected function initFormSubstitutions()
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		if(!$visible_records = ilAdvancedMDRecord::_getRecordsByObjectType())
+		{
+			return true;
+		}
+
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+
+		// substitution
+		foreach($visible_records as $obj_type => $records)
+		{
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+			$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
+			
+			// Show section
+			$section = new ilFormSectionHeaderGUI();
+			$section->setSectionIcon(ilUtil::getImagePath('icon_'.$obj_type.'_s.gif'),$this->lng->txt('objs_'.$obj_type));
+			$section->setTitle($this->lng->txt('objs_'.$obj_type));
+			$this->form->addItem($section);
+			
+			$area = new ilTextAreaInputGUI($this->lng->txt('md_adv_substitution'),'substitution_'.$obj_type);
+			$area->setUseRte(true);
+			$area->setRteTagSet('extended');
+			$area->setValue(ilUtil::prepareFormOutput($sub->getSubstitutionString()));
+			$area->setRows(5);
+			$area->setCols(80);
+			$this->form->addItem($area);
+			
+			// placeholder
+			$custom = new ilCustomInputGUI($this->lng->txt('md_adv_placeholders'));
+			$tpl = new ilTemplate('tpl.placeholder_info.html',true,true,'Services/AdvancedMetaData');
+			foreach($records as $record)
+			{
+				foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record->getRecordId()) as $definition)
+				{
+					$tpl->setCurrentBlock('field');
+					$tpl->setVariable('FIELD_NAME',$definition->getTitle());
+					$tpl->setVariable('MODULE_VARS','[IF_FIELD_'.$definition->getFieldId().']...[/IF_FIELD_'.$definition->getFieldId().']');
+					$tpl->setVariable('FIELD_VAR','[FIELD_'.$definition->getFieldId().']');
+					$tpl->parseCurrentBlock();
+				}
+				
+				$tpl->setCurrentBlock('record');
+				$tpl->setVariable('PLACEHOLDER_FOR',$this->lng->txt('md_adv_placeholder_for'));
+				$tpl->setVariable('TITLE',$record->getTitle());
+				$tpl->parseCurrentBlock();
+			}
+			$custom->setHTML($tpl->get());
+			$this->form->addItem($custom);
+		}
+		$this->form->setTitle($this->lng->txt('md_adv_substitution_table'));
+		$this->form->addCommandButton('updateSubstitutions',$this->lng->txt('save'));
+		return true;
 	}
 	
 	/**

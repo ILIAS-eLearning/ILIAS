@@ -2098,3 +2098,12 @@ CREATE TABLE `adv_md_record_objs` (
   PRIMARY KEY  (`record_id`,`obj_type`)
 ) Type=MyISAM;
 
+<#1041>
+DROP TABLE IF EXISTS `adv_md_substitutions`;
+CREATE TABLE `adv_md_substitutions` (
+  `obj_type` varchar(4) NOT NULL default '',
+  `substitution` text NOT NULL,
+  PRIMARY KEY  (`obj_type`)
+) Type=MyISAM;
+
+
