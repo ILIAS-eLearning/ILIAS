@@ -7370,3 +7370,4 @@ news#:#news_loading_news#:#Ładowanie wiadomości...
 news#:#news_no_js_click_here#:#Jeśli wiadomości się nie pokazały, kliknij tutaj.
 news#:#news_acc_cache#:#Sprawdzenie uprawnień (Minuty)
 news#:#news_acc_cache_info#:#Sprawdź uprawnienia do czytania wiadomości przez x minut (tylko pulpit osobisty). '0' oznacza zawsze. Większe wartości zwiększają wydajność, lecz linki mogą wskazywać niedostępne pozycje.
+common#:#passwd_list#:#List of Passwords###30 07 2007 new variable
