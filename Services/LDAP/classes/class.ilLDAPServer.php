@@ -47,6 +47,7 @@ class ilLDAPServer
 	const DEFAULT_VERSION = 3;
 	
 	private $server_id = null;
+	private $fallback_urls = array();
 
 	public function __construct($a_server_id = 0)
 	{
@@ -206,8 +207,64 @@ class ilLDAPServer
     }
     public function setUrl($a_url) 
     {
-        $this->url = $a_url;
+        $this->url_string = $a_url;
+        
+        // Maybe there are more than one url's (comma seperated). 
+		$urls = explode(',',$a_url);
+		
+		$counter = 0;
+		foreach($urls as $url)
+		{
+			$url = trim($url);
+			if(!$counter++)
+			{
+				$this->url = $url;
+			}
+			else
+			{
+				$this->fallback_urls[] = $url;
+			} 
+		}
     }
+    public function getUrlString()
+    {
+    	return $this->url_string;
+    }
+    
+    /**
+	 * Check ldap connection and do a fallback to the next server 
+	 * if no connection is possible.
+	 *
+	 * @access public
+	 * 
+	 */
+	public function doConnectionCheck()
+	{
+	 	global $ilLog;
+	 	
+	 	include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
+	 	
+	 	foreach(array_merge(array(0 => $this->url),$this->fallback_urls) as $url)
+	 	{
+			try
+			{
+				// Need to do a full bind, since openldap return valid connection links for invalid hosts 
+				$query = new ilLDAPQuery($this,$url);
+				$query->bind();
+				$this->url = $url;
+		 		$ilLog->write(__METHOD__.': Using url: '.$url.'.');
+				return true;
+			}
+			catch(ilLDAPQueryException $exc)
+			{
+		 		$ilLog->write(__METHOD__.': Cannot connect to LDAP server: '.$url.'. Trying fallback...');
+			}
+	 	}
+ 		$ilLog->write(__METHOD__.': No valid LDAP server found.');
+		return false;
+	}
+    
+    
     public function getName() 
     {
         return $this->name;
@@ -494,7 +551,7 @@ class ilLDAPServer
 		$query = "INSERT INTO  ldap_server_settings SET ".
 			"active = ".$this->db->quote($this->isActive()).", ".
 			"name = ".$this->db->quote($this->getName()).", ".
-			"url = ".$this->db->quote($this->getUrl()).", ".
+			"url = ".$this->db->quote($this->getUrlString()).", ".
 			"version = ".$this->db->quote($this->getVersion()).", ".
 			"base_dn = ".$this->db->quote($this->getBaseDN()).", ".
 			"referrals = ".$this->db->quote($this->isActiveReferrer()).", ".
@@ -533,7 +590,7 @@ class ilLDAPServer
 		$query = "UPDATE ldap_server_settings SET ".
 			"active = ".$this->db->quote($this->isActive()).", ".
 			"name = ".$this->db->quote($this->getName()).", ".
-			"url = ".$this->db->quote($this->getUrl()).", ".
+			"url = ".$this->db->quote($this->getUrlString()).", ".
 			"version = ".$this->db->quote($this->getVersion()).", ".
 			"base_dn = ".$this->db->quote($this->getBaseDN()).", ".
 			"referrals = ".$this->db->quote($this->isActiveReferrer()).", ".

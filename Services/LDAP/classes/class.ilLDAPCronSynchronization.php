@@ -61,6 +61,7 @@ class ilLDAPCronSynchronization
 			try
 			{
 		 		$this->current_server = new ilLDAPServer($server_id);
+		 		$this->current_server->doConnectionCheck();
 		 		$this->log->write("LDAP: starting user synchronization for ".$this->current_server->getName());
 		 		
 		 		$this->ldap_query = new ilLDAPQuery($this->current_server);

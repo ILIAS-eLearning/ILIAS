@@ -459,7 +459,7 @@ class ilLDAPSettingsGUI
 		// Settings
 		$this->tpl->setVariable('CHECK_ACTIVE',ilUtil::formCheckbox($this->server->isActive() ? true : false,'active',1));
 		$this->tpl->setVariable('SERVER_NAME',$this->server->getName());
-		$this->tpl->setVariable('SERVER_URL',$this->server->getUrl());
+		$this->tpl->setVariable('SERVER_URL',$this->server->getUrlString());
 		$this->tpl->setVariable('SELECT_VERSION',ilUtil::formSelect($this->server->getVersion(),
 			'version',array(2 => 2,3 => 3),false,true));
 		$this->tpl->setVariable('BASE_DN',$this->server->getBaseDN());
