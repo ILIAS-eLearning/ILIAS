@@ -27,7 +27,7 @@
 * @author Helmut Schottmüller <hschottm@gmx.de>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI
 *
 * @extends ilObjectGUI
 */
@@ -63,6 +63,13 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'iladvancedmdsettingsgui':
+				$this->tabs_gui->setTabActive('md_advanced');
+				include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php');
+				$adv_md = new ilAdvancedMDSettingsGUI();
+				$ret = $this->ctrl->forwardCommand($adv_md);
+				break;
+			
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -417,6 +424,11 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "settings"),
 					array("settings","","view", "assessment", "survey", "learningModule",
 					"category"), "", "");
+				
+			$tabs_gui->addTarget("md_advanced",
+				$this->ctrl->getLinkTargetByClass('iladvancedmdsettingsgui', ""),
+				'',
+				'iladvancedmdsettingsgui');
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
