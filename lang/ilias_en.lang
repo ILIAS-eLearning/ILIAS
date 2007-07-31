@@ -7376,7 +7376,7 @@ meta#:#md_adv_record_list#:#Datasets
 meta#:#md_adv_file_list#:#Export Files
 meta#:#md_record_list_table#:#Advanced Metadata Sets
 meta#:#md_fields#:#Fields
-meta#:#md_obj_types#:#Active for
+meta#:#md_obj_types#:#Assigned Objekts
 meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)
 meta#:#md_adv_substitution#:#Text
 meta#:#md_adv_placeholders#:#Placeholders
@@ -7401,3 +7401,4 @@ meta#:#md_adv_added_new_record#:#Added new Dataset
 meta#:#md_adv_create_record#:#Add new Dataset
 meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?
 barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.
+meta#:#md_adv_active#:#Active

@@ -7376,7 +7376,7 @@ meta#:#md_adv_record_list#:#Datensätze###30 07 2007 new variable
 meta#:#md_adv_file_list#:#Exportdateien###30 07 2007 new variable
 meta#:#md_record_list_table#:#Erweiterte Metadatensätze###30 07 2007 new variable
 meta#:#md_fields#:#Felder###30 07 2007 new variable
-meta#:#md_obj_types#:#Aktiviert für###30 07 2007 new variable
+meta#:#md_obj_types#:#Zugeordnete Objekte###30 07 2007 new variable
 meta#:#md_adv_substitution_table#:#Ersetzungen (Darstellung im Magazin)###30 07 2007 new variable
 meta#:#md_adv_substitution#:#Text###30 07 2007 new variable
 meta#:#md_adv_placeholders#:#Platzhalter###30 07 2007 new variable
@@ -7400,4 +7400,5 @@ meta#:#md_adv_delete_fields_sure#:#Sind Sie sicher, dass die folgenden Felddefin
 meta#:#md_adv_added_new_record#:#Ein neuer Datensatz wurde angelegt.###30 07 2007 new variable
 meta#:#md_adv_create_record#:#Neuen Datensatz anlegen###30 07 2007 new variable
 meta#:#md_adv_delete_record_sure#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?###30 07 2007 new variable
-barometer#:#barometer_conflict_anon_req#:#Anonymisierung und Typ: 'Pflicht' sind zusammen nicht möglich. Bitte wählen Sie nur eine dieser Optionen aus. 
+barometer#:#barometer_conflict_anon_req#:#Anonymisierung und Typ: 'Pflicht' sind zusammen nicht möglich. Bitte wählen Sie nur eine dieser Optionen aus.
+meta#:#md_adv_active#:#Aktiv

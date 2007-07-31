@@ -348,6 +348,7 @@ class ilAdvancedMDSettingsGUI
 				$_POST['obj_types'][$record_obj->getRecordId()] :
 				array();
 			$record_obj->setAssignedObjectTypes($new_types);
+			$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
 			$record_obj->update();
 		}
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
@@ -780,6 +781,12 @@ class ilAdvancedMDSettingsGUI
 		$desc->setCols(50);
 		$this->form->addItem($desc);
 		
+		// active
+		$check = new ilCheckboxInputGUI($this->lng->txt('md_adv_active'),'active');
+		$check->setChecked($this->record->isActive());
+		$check->setValue(1);
+		$this->form->addItem($check);
+		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('md_obj_types'));
 		$this->form->addItem($section);
@@ -857,8 +864,8 @@ class ilAdvancedMDSettingsGUI
 				{
 					$tpl->setCurrentBlock('field');
 					$tpl->setVariable('FIELD_NAME',$definition->getTitle());
-					$tpl->setVariable('MODULE_VARS','[IF_FIELD_'.$definition->getFieldId().']...[/IF_FIELD_'.$definition->getFieldId().']');
-					$tpl->setVariable('FIELD_VAR','[FIELD_'.$definition->getFieldId().']');
+					$tpl->setVariable('MODULE_VARS','[IF_F_'.$definition->getFieldId().']...[F_'.$definition->getFieldId().']'.
+						'[/IF_F_'.$definition->getFieldId().']');
 					$tpl->parseCurrentBlock();
 				}
 				
@@ -882,6 +889,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	protected function loadRecordFormData()
 	{
+		$this->record->setActive(ilUtil::stripSlashes($_POST['active']));
 		$this->record->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->record->setDescription(ilUtil::stripSlashes($_POST['desc']));
 		$this->record->setAssignedObjectTypes(isset($_POST['obj_types']) ? $_POST['obj_types'] : array());
