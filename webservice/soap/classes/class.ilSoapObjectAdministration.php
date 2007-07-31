@@ -610,7 +610,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 		include_once './include/inc.header.php';
-		global $objDefinition, $rbacsystem;
+		global $objDefinition, $rbacsystem, $tree;
 
 		if(!$source_obj =& ilObjectFactory::getInstanceByRefId($a_source_id,false))
 		{
@@ -655,7 +655,14 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('No permission to link object with id: '.$source_obj->getRefId().'!',
 									   'Client');
 		}
-
+		// check if object already linked to target
+		$possibleChilds = $tree->getChildsByType($target_obj->getRefId(), $source_obj->getType());
+		foreach ($possibleChilds as $child) 
+		{
+			if ($child["obj_id"] == $source_obj->getId())
+				return $this->__raiseError("Object already linked to target.","Client");
+		}
+		
 		// Finally link it to target position
 
 		$new_ref_id = $source_obj->createReference();
