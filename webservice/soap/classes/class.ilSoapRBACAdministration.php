@@ -540,7 +540,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		$roles = array();
 
-		if (strcasecmp($role_type,"local") != 0 &&
+		if (	strcasecmp($role_type,"") != 0 &&
+			strcasecmp($role_type,"local") != 0 &&
 			strcasecmp($role_type,"global") != 0 &&
 			strcasecmp($role_type,"user") != 0 &&
 			strcasecmp($role_type,"template") != 0)
