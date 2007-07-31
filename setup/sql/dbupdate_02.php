@@ -2106,4 +2106,5 @@ CREATE TABLE `adv_md_substitutions` (
   PRIMARY KEY  (`obj_type`)
 ) Type=MyISAM;
 
-
+<#1042>
+ALTER TABLE `object_data` CHANGE `title` `title` CHAR( 128 ) NOT NULL;
