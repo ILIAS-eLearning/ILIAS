@@ -2108,3 +2108,6 @@ CREATE TABLE `adv_md_substitutions` (
 
 <#1042>
 ALTER TABLE `object_data` CHANGE `title` `title` CHAR( 128 ) NOT NULL;
+
+<#1043>
+ALTER TABLE `adv_md_record` ADD `active` TINYINT( 1 ) NOT NULL AFTER `import_id` ;

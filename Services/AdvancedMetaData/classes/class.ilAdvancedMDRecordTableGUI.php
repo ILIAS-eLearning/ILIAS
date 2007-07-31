@@ -54,7 +54,8 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
 	 	$this->addColumn('','f',1);
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
-	 	$this->addColumn($this->lng->txt('md_fields'),'fields',"40%");
+	 	$this->addColumn($this->lng->txt('md_fields'),'fields',"35%");
+	 	$this->addColumn($this->lng->txt('md_adv_active'),'active',"5%");
 	 	$this->addColumn($this->lng->txt('md_obj_types'),'obj_types',"30%");
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -101,6 +102,10 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('FIELD_NAME',$definition_obj->getTitle());
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->tpl->setVariable('ACTIVE_CHECKED',$a_set['active'] ? ' checked="checked" ' : '');
+		$this->tpl->setVariable('ACTIVE_ID',$a_set['id']);
+		
 		$this->ctrl->setParameter($this->parent_obj,'record_id',$a_set['id']);
 		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editRecord'));
 		$this->tpl->setVariable('TXT_EDIT_RECORD',$this->lng->txt('edit'));
@@ -118,6 +123,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 	foreach($a_records as $record)
 	 	{
 			$tmp_arr['id'] = $record->getRecordId();
+			$tmp_arr['active'] = $record->isActive();
 			$tmp_arr['title'] = $record->getTitle();
 			$tmp_arr['description'] = $record->getDescription();
 			$tmp_arr['fields'] = array();

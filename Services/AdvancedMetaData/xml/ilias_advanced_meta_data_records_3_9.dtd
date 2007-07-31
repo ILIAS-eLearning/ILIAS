@@ -1,5 +1,7 @@
 <!ELEMENT AdvancedMetaDataRecords(Record*)>
 <!ELEMENT Record(Title,Description?,ObjectType*,Field*)>
+<!ATTLIST Record
+	Active (#PCDATA) #REQUIRED>
 
 <!ELEMENT Title (#PCDATA)>
 <!ELEMENT Description (#PCDATA)>

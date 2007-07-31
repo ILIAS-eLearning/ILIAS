@@ -37,6 +37,7 @@ class ilAdvancedMDRecord
 	
 	protected $record_id;
 	protected $import_id;
+	protected $active;
 	protected $title;
 	protected $description;
 	protected $obj_types = array();
@@ -175,6 +176,7 @@ class ilAdvancedMDRecord
 	{
 	 	$query = "INSERT INTO adv_md_record ".
 	 		"SET import_id = ".$this->db->quote($this->getImportId()).", ".
+	 		"active = ".$this->db->quote($this->isActive()).", ".
 	 		"title = ".$this->db->quote($this->getTitle()).", ".
 	 		"description = ".$this->db->quote($this->getDescription())." ";
 	 	$this->db->query($query);
@@ -199,6 +201,7 @@ class ilAdvancedMDRecord
 	{
 	 	$query = "UPDATE adv_md_record ".
 	 		"SET import_id = ".$this->db->quote($this->getImportId()).", ".
+	 		"active = ".$this->db->quote($this->isActive()).", ".
 	 		"title = ".$this->db->quote($this->getTitle()).", ".
 	 		"description = ".$this->db->quote($this->getDescription())." ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
@@ -247,6 +250,29 @@ class ilAdvancedMDRecord
 	public function getRecordId()
 	{
 	 	return $this->record_id;
+	}
+	
+	/**
+	 * Set active
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function setActive($a_active)
+	{
+	 	$this->active = $a_active;
+	}
+	
+	/**
+	 * Check if record is active
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isActive()
+	{
+	 	return (bool) $this->active;
 	}
 	
 	/**
@@ -352,7 +378,7 @@ class ilAdvancedMDRecord
 	 */
 	public function toXML(ilXmlWriter $writer)
 	{
-	 	$writer->xmlStartTag('Record');
+	 	$writer->xmlStartTag('Record',array('Active' => $this->isActive() ? 1 : 0));
 	 	$writer->xmlElement('Title',null,$this->getTitle());
 	 	$writer->xmlElement('Description',null,$this->getDescription());
 	 	
@@ -384,6 +410,7 @@ class ilAdvancedMDRecord
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setImportId($row->import_id);
+			$this->setActive($row->active);
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
 		}
