@@ -420,6 +420,14 @@ class ilFeedbackGUI
 		$params = $this->ctrl->getParameterArray($this);
 		$tmp_votes=array();
 		$vote_cnt=1;
+		
+		if($_POST['anonymous'] and $_POST['type'])
+		{
+			ilUtil::sendInfo($this->lng->txt('barometer_conflict_anon_req'),true);
+			$this->ctrl->setParameter($this,'barometer_id',(int) $_GET['barometer_id']);
+			$this->ctrl->redirect($this,'edit');
+			return false;
+		}
 		foreach ($_POST['vote'] as $k=>$v)
 		{
 			if(trim($v))
