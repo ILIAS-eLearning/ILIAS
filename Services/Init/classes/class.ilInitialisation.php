@@ -364,7 +364,7 @@ class ilInitialisation
 		define ("SYSTEM_MAIL_ADDRESS",$ilClientIniFile->readVariable('system','MAIL_SENT_ADDRESS')); // Change SS
 		define ("MAIL_REPLY_WARNING",$ilClientIniFile->readVariable('system','MAIL_REPLY_WARNING')); // Change SS
 
-		define ("MAXLENGTH_OBJ_TITLE",$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
+		define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
 		define ("MAXLENGTH_OBJ_DESC",$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_DESC'));
 
 		define ("CLIENT_DATA_DIR",ILIAS_DATA_DIR."/".CLIENT_ID);
