@@ -220,6 +220,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("PhoneHome", $row["phone_home"], null, "phone_home");
 		$this->__addElement ("PhoneMobile", $row["phone_mobile"],  null, "phone_mobile");
 		$this->__addElement ("Fax", $row["fax"]);
+		$this->__addElement ("Hobby", $row["hobby"]);
 		$this->__addElement ("Department", $row["department"]);
 		$this->__addElement ("Comment", $row["referral_comment"], null, "referral_comment");
 		$this->__addElement ("Matriculation", $row["matriculation"]);
