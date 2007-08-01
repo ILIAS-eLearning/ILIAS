@@ -37,6 +37,8 @@ class ilAdvancedMDSubstitution
 	
 	protected $type;
 	protected $substitution;
+	protected $enabled_desc = true;
+	protected $active = false;
 	
 	
 	/*
@@ -73,6 +75,57 @@ class ilAdvancedMDSubstitution
 	}
 	
 	/**
+	 * Is substitution active
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isActive()
+	{
+	 	return $this->active;
+	}
+	
+	/**
+	 * Is description enabled
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isDescriptionEnabled()
+	{
+	 	return (bool) $this->enabled_desc;
+	}
+	
+	/**
+	 * Enable description presentation
+	 *
+	 * @access public
+	 * @param bool status description enabled
+	 * 
+	 */
+	public function enableDescription($a_status)
+	{
+	 	$this->enabled_desc = $a_status;
+	}
+	
+	/**
+	 * Substitute
+	 *
+	 * @access public
+	 * @param int ref_id
+	 * @param int obj_id
+	 * @param string description
+	 * 
+	 */
+	public function substitute($a_ref_id,$a_obj_id,$a_description)
+	{
+	 	$a_string = $this->getSubstitutionString();
+	 	$a_string = str_replace('[OBJ_ID]',$a_obj_id,$a_string);
+	 	
+		return $a_string;
+	}
+	
+	/**
 	 * get substitution string
 	 *
 	 * @access public
@@ -106,7 +159,9 @@ class ilAdvancedMDSubstitution
 	{
 	 	$query = "REPLACE INTO adv_md_substitutions ".
 	 		"SET obj_type = ".$this->db->quote($this->type).", ".
-	 		"substitution = ".$this->db->quote($this->getSubstitutionString())." ";
+	 		"substitution = ".$this->db->quote($this->getSubstitutionString()).", ".
+	 		"hide_description = ".$this->db->quote(!$this->isDescriptionEnabled());
+			
 	 	$res = $this->db->query($query);
 	}
 	
@@ -118,13 +173,23 @@ class ilAdvancedMDSubstitution
 	 */
 	private function read()
 	{
+	 	// Check active status
+	 	$query = "SELECT active FROM adv_md_record AS amr".
+	 		"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
+	 		"WHERE active = 1 ".
+	 		"AND obj_type = ".$this->db->quote($this->type)." ";
+			
+	 	
 	 	$query = "SELECT * FROM adv_md_substitutions ".
 	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";
+	 	$res = $this->db->query($query);
+	 	$this->active = $res->numRows() ? true : false;
 			
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->substitution = $row->substitution;
+	 		$this->enabled_desc = !$row->hide_description;
 	 	}
 	}
 }

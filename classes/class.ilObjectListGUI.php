@@ -55,6 +55,8 @@ class ilObjectListGUI
 	var $condition_depth = 0;
 	var $std_cmd_only = false;
 
+	protected $substitutions = null;
+	protected $substitutions_enabled = false;
 	/**
 	* constructor
 	*
@@ -368,6 +370,29 @@ class ilObjectListGUI
 	{
 		return $this->info_screen_enabled;
 	}
+	
+	/**
+	 * Enable substitutions
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function enableSubstitutions($a_status)
+	{
+	 	$this->substitutions_enabled = $a_status;
+	}
+	
+	/**
+	 * Get substitution status
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getSubstitutionStatus()
+	{
+	 	return $this->substitutions_enabled;
+	}
 
 	/**
 	* @param string title
@@ -671,6 +696,19 @@ class ilObjectListGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	/**
+	 * Insert substitutions 
+	 *
+	 * @access public
+	 * 
+	 */
+	public function insertSubstitutions()
+	{
+		$this->tpl->setCurrentBlock('item_adv_substitutions');
+		$this->tpl->setVariable('ITEM_SUBSTITUTIONS',$this->substitutions->substitute($this->ref_id,$this->obj_id,$this->getDescription()));
+		$this->tpl->parseCurrentBlock();
+	}
 
 
 	/**
@@ -682,6 +720,15 @@ class ilObjectListGUI
 	*/
 	function insertDescription()
 	{
+		if($this->getSubstitutionStatus())
+		{
+			$this->insertSubstitutions();
+			if(!$this->substitutions->isDescriptionEnabled())
+			{
+				return true;
+			}
+		}
+		
 		$this->tpl->setCurrentBlock("item_description");
 		$this->tpl->setVariable("TXT_DESC", $this->getDescription());
 		$this->tpl->parseCurrentBlock();

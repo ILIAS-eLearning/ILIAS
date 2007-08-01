@@ -126,6 +126,7 @@ class ilAdvancedMDSettingsGUI
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
 	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
 	 		$sub->setSubstitutionString(($_POST['substitution_'.$obj_type]));
+	 		$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
 	 		$sub->update();
 	 	}
 	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
@@ -834,6 +835,7 @@ class ilAdvancedMDSettingsGUI
 
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setTableWidth('100%');
 
 		// substitution
 		foreach($visible_records as $obj_type => $records)
@@ -847,9 +849,15 @@ class ilAdvancedMDSettingsGUI
 			$section->setTitle($this->lng->txt('objs_'.$obj_type));
 			$this->form->addItem($section);
 			
+			$check = new ilCheckboxInputGUI($this->lng->txt('description'),'enabled_desc_'.$obj_type);
+			$check->setValue(1);
+			$check->setOptionTitle($this->lng->txt('md_adv_desc_show'));
+			$check->setChecked($sub->isDescriptionEnabled() ? true : false);
+			$this->form->addItem($check);
+			
 			$area = new ilTextAreaInputGUI($this->lng->txt('md_adv_substitution'),'substitution_'.$obj_type);
 			$area->setUseRte(true);
-			$area->setRteTagSet('extended');
+			$area->setRteTagSet('standard');
 			$area->setValue(ilUtil::prepareFormOutput($sub->getSubstitutionString()));
 			$area->setRows(5);
 			$area->setCols(80);
