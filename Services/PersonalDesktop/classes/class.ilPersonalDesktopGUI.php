@@ -78,7 +78,7 @@ class ilPersonalDesktopGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
 
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
@@ -112,6 +112,13 @@ class ilPersonalDesktopGUI
 				break;
 				// bookmarks
 			case "ilbookmarkadministrationgui":
+				if ($ilSetting->get('disable_bookmarks'))
+				{
+					ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+					return;
+				}				
+				
 				include_once("./Services/PersonalDesktop/classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
 				if ($bookmark_gui->getMode() == 'tree') {
@@ -141,6 +148,13 @@ class ilPersonalDesktopGUI
 			
 				// pd notes
 			case "ilpdnotesgui":
+				if ($ilSetting->get('disable_notes'))
+				{
+					ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+					return;
+				}
+				
 				$this->getStandardTemplates();
 				$this->setTabs();
 				include_once("classes/class.ilPDNotesGUI.php");
@@ -170,7 +184,7 @@ class ilPersonalDesktopGUI
 				$this->showShoppingCart();
 				break;
 
-			case "ilpaymentadmingui":
+			case "ilpaymentadmingui":				
 				$this->getStandardTemplates();
 				$this->setTabs();
 				include_once("./payment/classes/class.ilPaymentAdminGUI.php");
@@ -619,6 +633,13 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToBookmarks()
 	{
+		if ($this->ilias->getSetting("disable_bookmarks"))
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			return;
+		}
+		
 		$this->ctrl->redirectByClass("ilbookmarkadministrationgui");
 	}
 	
@@ -627,7 +648,14 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToNotes()
 	{
-		$this->ctrl->redirectByClass("ilpdnotesgui");
+		if ($this->ilias->getSetting('disable_notes'))
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			return;
+		}		
+		
+		$this->ctrl->redirectByClass("ilpdnotesgui");			
 	}
 
 	/**
