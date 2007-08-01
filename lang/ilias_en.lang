@@ -1504,6 +1504,8 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".
 pd#:#pd_osi_host#:#OSI Host
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:
+pd#:#pd_enable_bookmarks#:#Enable Block Bookmarks
+pd#:#pd_enable_notes#:#Enable Block Notes
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_duration#:#Play Time
@@ -1689,11 +1691,15 @@ common#:#create_export_file#:#Create export file
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
-common#:#cron_forum_notification#:#Send forum notifications
+common#:#cron_forum_notification#:#Send Forum Notifications
 common#:#cron_forum_notification_cron#:#regularly per cron job
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by mail.
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#never
+common#:#cron_mail_notification#:#Send Mail Notifications
+common#:#cron_mail_notification_never#:#never
+common#:#cron_mail_notification_cron#:#regularly per cron job
+common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
 common#:#cron_lucene_index#:#Update Lucene search index
@@ -2012,7 +2018,7 @@ common#:#files#:#Files
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#filter#:#Filter:
-common#:#firstname#:#First name
+common#:#firstname#:#First Name
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
@@ -2497,6 +2503,7 @@ common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Setup informations
 common#:#join#:#Join
+common#:#buy#:#Buy
 common#:#kb#:#KByte
 common#:#keywords#:#Keywords
 common#:#lang_bg#:#Bulgarian
@@ -2548,7 +2555,7 @@ common#:#last_edited_on#:#Last edited on
 common#:#last_login#:#Last login
 common#:#last_update#:#Last Update
 common#:#last_visit#:#Last Visit
-common#:#lastname#:#Last name
+common#:#lastname#:#Last Name
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN
@@ -2663,7 +2670,7 @@ common#:#last_visited#:#Last Visited
 common#:#lres#:#Learning Resources
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
-common#:#mail_addressbook#:#Address book
+common#:#mail_addressbook#:#Address Book
 common#:#mail_allow_smtp#:#Allow SMTP
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_c_trash#:#Trash
@@ -5288,6 +5295,9 @@ mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_add_to_addressbook#:#Add to address book
 mail#:#mail_add_type#:#Please add the type of mail you want to send
 mail#:#mail_addr_entries#:#Entries
+mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.
+mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
 mail#:#mail_bc_search#:#BCC search
@@ -5309,6 +5319,7 @@ mail#:#mail_entry_exists#:#An entry with the given login name already exists.
 mail#:#mail_file_name#:#File name
 mail#:#mail_file_size#:#File size
 mail#:#mail_files_deleted#:#The file(s) are deleted
+mail#:#mail_folder_edit#:#Edit Folder
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
 mail#:#mail_folder_exists#:#A folder already exists with this name
@@ -5332,6 +5343,7 @@ mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
+mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator.
 mail#:#mail_nacc_client_name#:#Client Name.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.
@@ -5365,14 +5377,22 @@ mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
 mail#:#mail_send_with_system_address#:#Send With System Address
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
-mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
+mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
 mail#:#mail_to#:#To
 mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Following users have no valid e-mail address
+mail#:#mail_empty_trash#:#Empty Trash
+mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
+mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
+mail#:#mail_received_x_new_mails#:#You received %s new mails.
 mail#:#search_bc_recipient#:#Search BCC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
+mail#:#send_mail_to#:#Mail to
+mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
+mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)
+mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.
 meta#:#md_days#:#Days:
 meta#:#md_months#:#Month:
 meta#:#md_time#:#Time:
@@ -5970,6 +5990,7 @@ payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and condit
 payment#:#pay_bmf_terms_conditions_show#:#show
 payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.
 payment#:#pay_bmf_total_amount#:#Total amount
+payment#:#pay_bmf_subtotal_amount#:#Subtotal amount
 payment#:#pay_bmf_validity#:#valid until
 payment#:#pay_bmf_vat_included#:#VAT included
 payment#:#pay_bmf_your_order#:#Your order
@@ -6073,7 +6094,7 @@ payment#:#paya_no_valid_login#:#This user name is not valid.
 payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.
 payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.
 payment#:#paya_not_buyable#:#Not buyable
-payment#:#paya_object#:#Objekts
+payment#:#paya_object#:#Objects
 payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.
 payment#:#paya_order_date#:#Order date
 payment#:#paya_pay_method#:#Pay method
@@ -6081,6 +6102,7 @@ payment#:#paya_pay_method_not_specified#:#Not specified
 payment#:#paya_payed#:#Payed
 payment#:#paya_payed_access#:#Payed/Access
 payment#:#paya_perm_obj#:#Edit objects
+payment#:#paya_perm_coupons#:#Edit coupons
 payment#:#paya_perm_stat#:#Edit statistics
 payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers
 payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.
@@ -6108,7 +6130,7 @@ payment#:#pays_added_vendor#:#Added new vendor
 payment#:#pays_address#:#Address for bill
 payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
 payment#:#pays_assigned_vendors#:#The following number of users have been assigned to the vendor list:
-payment#:#pays_auth_token#:#Unique token given by PayPal
+payment#:#pays_auth_token#:#Unique Token Given by PayPal
 payment#:#pays_bank_data#:#Bank data for bill
 payment#:#pays_bill#:#Bill
 payment#:#pays_bmf#:#BMF
@@ -6119,7 +6141,7 @@ payment#:#pays_currency_unit#:#Currency (e.g. EUR)
 payment#:#pays_delete_vendor#:#Deassign user
 payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
 payment#:#pays_edit_vendor#:#Edit user
-payment#:#pays_email_vendor#:#Mail address of the vendor
+payment#:#pays_email_vendor#:#Mail Address of the Vendor
 payment#:#pays_general#:#General
 payment#:#pays_general_settings#:#General settings
 payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.
@@ -6133,14 +6155,14 @@ payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some object
 payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
-payment#:#pays_page_style#:#Page style
+payment#:#pays_page_style#:#Page Style
 payment#:#pays_pay_methods#:#Pay methods
 payment#:#pays_paypal#:#PayPal
 payment#:#pays_paypal_settings#:#Settings for PayPal
 payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.
 payment#:#pays_pdf_path#:#Path for generating bill as PDF file
-payment#:#pays_server_host#:#Server host (e.g. www.paypal.com)
-payment#:#pays_server_path#:#Path to the scripts (e.g. /cgi-bin/webscr)
+payment#:#pays_server_host#:#Server Host (e.g. www.paypal.com)
+payment#:#pays_server_path#:#Path to the Scripts (e.g. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
 payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.
 payment#:#pays_updated_general_settings#:#Your general settings were updated.
@@ -7224,8 +7246,13 @@ mail#:#mail_select_group#:#Please select at least one group.
 mail#:#mail_my_entries#:#My Entries
 mail#:#mail_my_courses#:#My Courses
 mail#:#mail_my_groups#:#My Groups
+mail#:#mail_my_mailing_lists#:#My Mailing Lists
+mail#:#mail_mailing_lists#:#Mailing Lists
+mail#:#mail_mailing_list#:#Mailing List
+mail#:#mail_members_of_mailing_list#:#Members of Mailing List
 mail#:#mail_into_addressbook#:#Take into Addressbook
 mail#:#mail_group_members#:#Group Members
+mail#:#mail_entry_of_addressbook#:#Entry of Address Book
 ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.
 ps#:#ps_auto_https#:#Autodetect HTTPS
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
@@ -7348,6 +7375,68 @@ common#:#applications#:#Applications
 search#:#search_page#:#Results:
 search#:#search_page_next#:#Next
 search#:#search_page_prev#:#Previous
+payment#:#paya_coupons_codes_import#:#Import Codes
+payment#:#paya_coupons_add#:#Add Coupon
+payment#:#paya_coupons_edit#:#Edit Coupon
+payment#:#paya_coupons_coupons#:#Coupons
+payment#:#paya_coupons_coupon#:#Coupon
+payment#:#paya_coupons_type#:#Coupon Type
+payment#:#paya_coupons_fix#:#fix
+payment#:#paya_coupons_percentaged#:#percentaged
+payment#:#paya_coupons_title#:#Title
+payment#:#paya_coupons_number_of_codes#:#Number of Codes
+payment#:#paya_coupons_usage_of_codes#:#Usage of Codes
+payment#:#paya_coupons_objects#:#Objects
+payment#:#paya_coupons_from#:#Valid From
+payment#:#paya_coupons_till#:#Valid Till
+payment#:#paya_coupons_not_available#:#No coupons created yet.
+payment#:#paya_coupons_description#:#Description
+payment#:#paya_coupons_value#:#Value
+payment#:#paya_coupons_edit_codes#:#Edit Codes
+payment#:#paya_coupons_edit_objects#:#Edit Objects
+payment#:#paya_coupons_codes#:#Codes
+payment#:#paya_coupons_code#:#Code
+payment#:#paya_coupons_generate_codes#:#Generate Codes
+payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code
+payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully
+payment#:#paya_coupons_code_length#:#Code Length
+payment#:#paya_coupons_code_chars#:#Chars
+payment#:#paya_coupons_code_generation#:#Code Generation
+payment#:#paya_coupons_type_auto#:#Automatically
+payment#:#paya_coupons_type_self#:#Manually
+payment#:#paya_coupons_no_codes_selected#:#You did not select any code
+payment#:#paya_coupons_sure_delete_selected_codes#:#Are you sure you want to delete the selected codes?
+payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete all codes?
+payment#:#paya_coupons_codes_not_available#:#No codes created yet.
+payment#:#paya_coupons_assigned_objects#:#Assigned Objects
+payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects
+payment#:#paya_coupons_not_found#:#No coupons found.
+payment#:#paya_coupons_not_valid#:#The coupon is not valid.
+payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.
+payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.
+payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.
+payment#:#paya_coupons_coupon_added#:#Coupon added.
+payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects
+payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects
+payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects
+payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects
+payment#:#paya_coupons_no_codes_generated#:#No codes generated.
+payment#:#paya_coupons_import_codes#:#Import Codes
+payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!
+payment#:#paya_coupon_codes_import_successful#:#Import successful.
+payment#:#pays_bmf_settings#:#Settings for BMF
+payment#:#pays_bmf_client_id#:#Cliend Id
+payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr
+payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle
+payment#:#pays_bmf_object_id#:#Object Id
+payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren
+payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen
+payment#:#pays_bmf_epayment_server#:#ePayment-Server
+payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate
+payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate
+payment#:#pays_bmf_timeout#:#Timeout
+payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.
+payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.
 ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop
 crs#:#crs_show_link_session#:#Show sessions
 crs#:#crs_hide_link_session#:#Hide sessions
@@ -7357,9 +7446,6 @@ crs#:#crs_selected_users#:#Selected Participants
 search#:#search_users#:#Search Users
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
-mail#:#mail_folder_edit#:#Edit Folder
-mail#:#mail_empty_trash#:#Empty Trash
-mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#ext_acccount_required#:#Please enter the name of the external account.
 crs#:#event_select_one#:#-- Please select one session --

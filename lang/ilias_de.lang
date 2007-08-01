@@ -1655,6 +1655,10 @@ common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
 common#:#cron_forum_notification_never#:#nie
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
 common#:#cron_jobs_desc#:#Ein Cron-job ist ein automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.
+common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
+common#:#cron_mail_notification_never#:#nie
+common#:#cron_mail_notification_cron#:#regelmäßig per Cron-Job
+common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei neuen Mails benachrichtigt werden wollen, falls neue Mails vorliegen.
 common#:#cron_jobs#:#Cron-jobs
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'.
 common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
@@ -2515,6 +2519,7 @@ common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Zur Installationsanleitung
 common#:#java_server#:#Java-Server
 common#:#join#:#Beitreten
+common#:#buy#:#Kaufen
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_bg#:#Bulgarisch
@@ -5452,6 +5457,7 @@ mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gülti
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_group_members#:#Gruppenmitglieder
 mail#:#mail_in_addressbook#:#Bereits im Adressbuch
+mail#:#mail_entry_of_addressbook#:#Eintrag aus dem Adressbuch
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung
 mail#:#mail_incoming_local#:#Nur lokal
 mail#:#mail_incoming_smtp#:#An eingetragene E-mail-Adresse weiterleiten
@@ -5474,6 +5480,14 @@ mail#:#mail_multiple_recipients_found#:#Geben Sie eine spezifischere Adresse an.
 mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_entries#:#Meine Einträge
 mail#:#mail_my_groups#:#Meine Gruppen
+mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
+mail#:#mail_mailing_lists#:#Verteilerlisten
+mail#:#mail_mailing_list#:#Verteilerliste
+mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben noch keine Adressbuch-Einträge.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Adressbuch-Einträge diesem Verteiler zugeordnet.
+mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Adressbuch-Eintrages zum Verteiler
+mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste
+mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
 mail#:#mail_nacc_client_name#:#Name des Mandanten
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systema.
@@ -5519,6 +5533,12 @@ mail#:#mail_to#:#An
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
 mail#:#search_bc_recipient#:#BC-Empfänger suchen
 mail#:#search_cc_recipient#:#CC-Empfänger suchen
+mail#:#send_mail_to#:#Mail an
+mail#:#mail_cronjob_notification_info#:#Hier können Sie eine regelmäßige Benachrichtung über neue Mails aktivieren.
+mail#:#mail_no_valid_mailing_list#:#Kein Gültiger Verteiler
+mail#:#mail_received_x_new_mails#:#Sie haben %s neue Nachrichten erhalten.
+mail#:#mail_use_placeholders#:#Platzhalter benutzen (Empfänger können nur in das "An"-Feld geschrieben werden)
+mail#:#mail_rcpt_only_to#:#Da die Nutzung der Platzhalter aktiviert wurde, können nur Empfänger in das "An"-Feld geschrieben werden.
 mcst#:#mcst_add_new_item#:#Neues Mediacast-Objekt hinzufügen
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
@@ -6167,6 +6187,7 @@ payment#:#pay_bmf_terms_conditions_show#:#anzeigen
 payment#:#pay_bmf_terms_conditions#:#AGB
 payment#:#pay_bmf_thanks#:#Vielen Dank. Ihre Bestellung wurde erfolgreich durchgeführt.
 payment#:#pay_bmf_total_amount#:#Gesamtsumme
+payment#:#pay_bmf_subtotal_amount#:#Zwischensumme
 payment#:#pay_bmf_validity#:#gültig bis
 payment#:#pay_bmf_vat_included#:#MwSt. enthalten
 payment#:#pay_bmf_your_order#:#Ihre Bestellung
@@ -6278,6 +6299,7 @@ payment#:#paya_pay_method#:#Bezahlart
 payment#:#paya_payed_access#:#Bezahlt/Zugriff
 payment#:#paya_payed#:#Bezahlt
 payment#:#paya_perm_obj#:#Objekte bearbeiten
+payment#:#paya_perm_coupons#:#Gutscheine bearbeiten
 payment#:#paya_perm_stat#:#Statistiken bearbeiten
 payment#:#paya_price_not_valid#:#Die Angaben sind nicht gültig. Bitte geben Sie ausschliesslich Ganzzahlen ein
 payment#:#paya_select_object_to_sell#:#Bitte wählen Sie das zu verkaufende Objekt aus.
@@ -6357,6 +6379,8 @@ pd#:#pd_osi_host#:#OSI-Host
 pd#:#pd_settings#:#Einstellungen Persönlicher Schreibtisch
 pd#:#pd_time_before_removal_info#:#Nach Ablauf dieses Zeitraums, werden Benutzer aus der Liste der "Aktiven Benutzer" entfernt.
 pd#:#pd_time_before_removal#:#Maximaler Zeitraum für Inaktivität (in Minuten)
+pd#:#pd_enable_bookmarks#:#Aktiviere Block 'Meine Bookmarks'
+pd#:#pd_enable_notes#:#Aktiviere Block 'Notizen'
 pdesk#:#bm_num_bookmark_folders#:#Ordner
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#pdesk_feedback_request#:#Feedback-Anfrage
@@ -7341,6 +7365,68 @@ common#:#icrs_copy#:#Kopiere LearnLinc-Seminar
 feed#:#feed_loading_feed#:#Newsfeed wird geladen ...
 feed#:#feed_no_js_click_here#:#Wird der Newsfeed nicht angezeigt, klicken Sie bitte hier.
 trac##:#trac_mode_test_finished_info#:#Benutzer müssen den Test vollständig beenden.
+payment#:#paya_coupons_codes_import#:#Codes Importieren
+payment#:#paya_coupons_add#:#Gutschein hinzuf&uuml;gen
+payment#:#paya_coupons_edit#:#Gutschein bearbeiten
+payment#:#paya_coupons_coupons#:#Gutscheine
+payment#:#paya_coupons_coupon#:#Gutschein
+payment#:#paya_coupons_type#:#Gutschein-Typ
+payment#:#paya_coupons_fix#:#fix
+payment#:#paya_coupons_percentaged#:#prozentual
+payment#:#paya_coupons_title#:#Titel
+payment#:#paya_coupons_number_of_codes#:#Anzahl der Codes
+payment#:#paya_coupons_usage_of_codes#:#Verbrauchte Codes
+payment#:#paya_coupons_objects#:#Objekte
+payment#:#paya_coupons_from#:#Gültig von
+payment#:#paya_coupons_till#:#Gültig bis
+payment#:#paya_coupons_not_available#:#Es wurden bisher keine Gutscheine angelegt.
+payment#:#paya_coupons_description#:#Beschreibung
+payment#:#paya_coupons_value#:#Wert
+payment#:#paya_coupons_edit_codes#:#Codes bearbeiten
+payment#:#paya_coupons_edit_objects#:#Objekte bearbeiten
+payment#:#paya_coupons_availability#:#Maximale Nutzbarkeit eines Codes
+payment#:#paya_coupons_codes#:#Codes
+payment#:#paya_coupons_code#:#Code
+payment#:#paya_coupons_generate_codes#:#Generiere Codes
+payment#:#paya_coupons_code_deleted_successfully#:#Der Code wurde erfolgreich gelöscht.
+payment#:#paya_coupons_code_length#:#Code Länge
+payment#:#paya_coupons_code_chars#:#Zeichen
+payment#:#paya_coupons_code_generation#:#Code Generierung
+payment#:#paya_coupons_type_auto#:#Automatisch
+payment#:#paya_coupons_type_self#:#Manuell
+payment#:#paya_coupons_no_codes_selected#:#Kein Code ausgewählt
+payment#:#paya_coupons_sure_delete_selected_codes#:#Sollen die ausgewählten Codes wirklich gelöscht werden?
+payment#:#paya_coupons_sure_delete_all_codes#:#Sollen alle Codes wirklich gelöscht werden?
+payment#:#paya_coupons_codes_not_available#:#Es sind keine Codes angelegt.
+payment#:#paya_coupons_assigned_objects#:#Zugeordnete Objekte
+payment#:#paya_coupons_unassigned_objects#:#Nicht zugeordnete Objekte
+payment#:#paya_coupons_not_found#:#Es wurden keine Gutscheine gefunden.
+payment#:#paya_coupons_not_valid#:#Der Gutscheind ist nicht gültig.
+payment#:#paya_coupons_no_object_assigned#:#Es wurde kein passendes Objekt zum Gutschein im Warenkorb gefunden.
+payment#:#paya_coupons_coupon_not_found#:#Kein passender Gutschein zum eingegebenen Code gefunden.
+payment#:#paya_coupons_already_in_use#:#Der eingegebene Code und ein bereits verwendeter Code gehören zum gleichen Gutschein.
+payment#:#paya_coupons_coupon_added#:#Der Gutschein wurde hinzugefügt.
+payment#:#paya_coupons_fix_selected_objects#:#%s %s Rabatt auf die Summe ausgewählter Objekte
+payment#:#paya_coupons_fix_all_objects#:#%s %s Rabatt auf die Summe aller Objekte
+payment#:#paya_coupons_percentaged_selected_objects#:#%s %s Rabatt auf die Summe ausgewählter Objekte
+payment#:#paya_coupons_percentaged_all_objects#:#%s %s Rabatt auf die Summe aller Objekte
+payment#:#paya_coupons_no_codes_generated#:#Es wurden keine Codes generiert.
+payment#:#paya_coupons_import_codes#:#Code Import
+payment#:#paya_coupons_import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
+payment#:#paya_coupon_codes_import_successful#:#Die Codes wurden erfolgreich importiert.
+payment#:#pays_bmf_settings#:#Einstellungen für BMF
+payment#:#pays_bmf_client_id#:#Mandanten-Nr
+payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr
+payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle
+payment#:#pays_bmf_object_id#:#Objekt-Nr
+payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren
+payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen
+payment#:#pays_bmf_epayment_server#:#ePayment-Server
+payment#:#pays_bmf_client_certificate#:#Pfad zum Client-Zertifikat
+payment#:#pays_bmf_ca_certificate#:#Pfad zum CA-Zertifikat
+payment#:#pays_bmf_timeout#:#Timeout
+payment#:#pays_updated_bmf_settings#:#Ihre Einstellungen für BFM wurden aktualisiert.
+payment#:#pays_bmf_settings_not_valid#:#Ihre Einstellungen für BMF sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin/Persönlichen Schreibtisch anzeigen.
 crs#:#crs_show_link_session#:#Sitzungen anzeigen
 crs#:#crs_hide_link_session#:#Sitzungen verbergen

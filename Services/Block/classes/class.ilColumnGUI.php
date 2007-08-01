@@ -119,8 +119,10 @@ class ilColumnGUI
 	protected $check_global_activation = 
 		array("news" => true,
 			"pdnews" => true,
-			"pdfeed" => true,
-			"pdusers" => true);
+			"pdfeed" => true,			
+			"pdusers" => true,
+			"pdbookm" => true,
+			"pdnotes" => true);
 			
 	protected $check_nr_limit =
 		array("pdfeed" => true);
@@ -829,7 +831,7 @@ class ilColumnGUI
 			foreach($this->default_blocks[$this->getColType()] as $class => $def_side)
 			{
 				$type = self::$block_types[$class];
-				
+
 				if ($this->isGloballyActivated($type))
 				{
 					$nr = ilBlockSetting::_lookupNr($type, $user_id);

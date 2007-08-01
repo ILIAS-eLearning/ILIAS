@@ -128,7 +128,9 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		$enable_block_moving = $pd_set->get("enable_block_moving");
 		$enable_active_users = $ilSetting->get("block_activated_pdusers");
-		$enable_calendar = $ilSetting->get("enable_calendar");
+		$enable_bookmarks = $ilSetting->get("block_activated_pdbookm");
+		$enable_notes = $ilSetting->get("block_activated_pdnotes");
+		$enable_calendar = $ilSetting->get("enable_calendar");		
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -176,7 +178,17 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$cb_prop->addSubItem($ti_prop);
 			
 		$form->addItem($cb_prop);
-
+		
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_bookmarks"), "block_activated_pdbookm");
+		$cb_prop->setValue("1");
+		$cb_prop->setChecked($enable_bookmarks);
+		$form->addItem($cb_prop);
+		
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_notes"), "block_activated_pdnotes");
+		$cb_prop->setValue("1");
+		$cb_prop->setChecked($enable_notes);
+		$form->addItem($cb_prop);
+		
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -193,9 +205,11 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		$pd_set = new ilSetting("pd");
 		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
+		$ilSetting->set("block_activated_pdbookm", (int) $_POST["block_activated_pdbookm"]);
+		$ilSetting->set("block_activated_pdnotes", (int) $_POST["block_activated_pdnotes"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
-		$pd_set->set("osi_host", $_POST["osi_host"]);
+		$pd_set->set("osi_host", $_POST["osi_host"]);	
 		$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
 		
 		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
