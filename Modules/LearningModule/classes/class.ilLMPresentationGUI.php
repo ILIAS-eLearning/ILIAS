@@ -549,7 +549,7 @@ class ilLMPresentationGUI
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
 	{
-		global $tpl, $ilBench;
+		global $tpl, $ilBench, $ilSetting;
 
 		$ilBench->start("ContentPresentation", "layout");
 
@@ -765,9 +765,12 @@ class ilLMPresentationGUI
 						break;
 						
 					case "ilLMNotes":
-						$ilBench->start("ContentPresentation", "layout_lmnotes");
-						$this->ilLMNotes();
-						$ilBench->stop("ContentPresentation", "layout_lmnotes");
+						if ($ilSetting->get('block_activated_pdnotes'))
+						{
+							$ilBench->start("ContentPresentation", "layout_lmnotes");
+							$this->ilLMNotes();
+							$ilBench->stop("ContentPresentation", "layout_lmnotes");
+						}
 						break;
 				}
 			}
