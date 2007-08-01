@@ -1504,8 +1504,8 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".
 pd#:#pd_osi_host#:#OSI Host
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:
-pd#:#pd_enable_bookmarks#:#Enable Block Bookmarks
-pd#:#pd_enable_notes#:#Enable Block Notes
+pd#:#pd_enable_bookmarks#:#Enable Bookmarks
+pd#:#pd_enable_notes#:#Enable Notes
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_duration#:#Play Time

@@ -527,22 +527,27 @@ class ilPersonalDesktopGUI
 			}
 						
 			// private notes
-			$inc_type = (strtolower($this->cmdClass) == "ilpdnotesgui" ||
-			strtolower($this->cmdClass) == "ilnotegui")
-			? "tabactive"
-			: "tabinactive";
-			$inhalt1[] = array($inc_type,
-			$this->ctrl->getLinkTargetByClass("ilpdnotesgui"),
-			$this->lng->txt("private_notes"));
+			if (!$this->ilias->getSetting("disable_notes"))
+			{
+				$inc_type = (strtolower($this->cmdClass) == "ilpdnotesgui" ||
+				strtolower($this->cmdClass) == "ilnotegui")
+				? "tabactive"
+				: "tabinactive";
+				$inhalt1[] = array($inc_type,
+				$this->ctrl->getLinkTargetByClass("ilpdnotesgui"),
+				$this->lng->txt("private_notes"));
+			}
 			
 			// user bookmarks
-			$inc_type = (strtolower($this->cmdClass) == "ilbookmarkadministrationgui")
-			? "tabactive"
-			: "tabinactive";
-			$inhalt1[] = array($inc_type,
-			$this->ctrl->getLinkTargetByClass("ilbookmarkadministrationgui"),
-			$this->lng->txt("bookmarks"));
-			
+			if (!$this->ilias->getSetting("disable_bookmarks"))
+			{
+				$inc_type = (strtolower($this->cmdClass) == "ilbookmarkadministrationgui")
+				? "tabactive"
+				: "tabinactive";
+				$inhalt1[] = array($inc_type,
+				$this->ctrl->getLinkTargetByClass("ilbookmarkadministrationgui"),
+				$this->lng->txt("bookmarks"));
+			}			
 		}
 		
 		// Tracking
