@@ -29,6 +29,7 @@
 *
 * @package ilias
 */
+global $ilSetting;
 
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
@@ -79,17 +80,22 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	//$inhalt1[] = array($inc_type,"usr_agreement.php",$lng->txt("usr_agreement"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 */
 	// private notes
-	$inc_type = "tabinactive";
-	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",$lng->txt("private_notes"),
-		ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
-
+	if (!$ilSetting->get('disable_notes'))
+	{
+		$inc_type = "tabinactive";
+		$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",$lng->txt("private_notes"),
+			ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
+	}
+	
 	// user bookmarks
-	$inc_type = ($script_name == "usr_bookmarks.php")
-		? "tabactive"
-		: "tabinactive";
-	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",$lng->txt("bookmarks"),
-		ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
-
+	if (!$ilSetting->get('disable_bookmarks'))
+	{
+		$inc_type = ($script_name == "usr_bookmarks.php")
+			? "tabactive"
+			: "tabinactive";
+		$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",$lng->txt("bookmarks"),
+			ilFrameTargetInfo::_getFrame("MainContent"),"usr_pdesktop_menu.php?cmd=highest_level","left");
+	}
 
 	include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 	if (ilObjUserTracking::_enabledLearningProgress())

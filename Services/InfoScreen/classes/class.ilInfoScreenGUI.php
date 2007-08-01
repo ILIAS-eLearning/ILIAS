@@ -510,7 +510,7 @@ class ilInfoScreenGUI
 	*/
 	function getHTML()
 	{
-		global $lng;
+		global $lng, $ilSetting;
 		
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true);
 
@@ -657,7 +657,7 @@ class ilInfoScreenGUI
 
 
 		// notes section
-		if ($this->private_notes_enabled)
+		if ($this->private_notes_enabled && !$ilSetting->get('disable_notes'))
 		{
 			$html = $this->showNotesSection();
 			$tpl->setCurrentBlock("notes");
