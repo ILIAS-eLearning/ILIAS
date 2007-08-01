@@ -765,7 +765,7 @@ class ilLMPresentationGUI
 						break;
 						
 					case "ilLMNotes":
-						if ($ilSetting->get('block_activated_pdnotes'))
+						if (!$ilSetting->get('disable_notes'))
 						{
 							$ilBench->start("ContentPresentation", "layout_lmnotes");
 							$this->ilLMNotes();

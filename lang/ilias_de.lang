@@ -6379,8 +6379,8 @@ pd#:#pd_osi_host#:#OSI-Host
 pd#:#pd_settings#:#Einstellungen Persönlicher Schreibtisch
 pd#:#pd_time_before_removal_info#:#Nach Ablauf dieses Zeitraums, werden Benutzer aus der Liste der "Aktiven Benutzer" entfernt.
 pd#:#pd_time_before_removal#:#Maximaler Zeitraum für Inaktivität (in Minuten)
-pd#:#pd_enable_bookmarks#:#Aktiviere Block 'Meine Bookmarks'
-pd#:#pd_enable_notes#:#Aktiviere Block 'Notizen'
+pd#:#pd_enable_bookmarks#:#Aktiviere Bookmarks
+pd#:#pd_enable_notes#:#Aktiviere Notizen
 pdesk#:#bm_num_bookmark_folders#:#Ordner
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#pdesk_feedback_request#:#Feedback-Anfrage

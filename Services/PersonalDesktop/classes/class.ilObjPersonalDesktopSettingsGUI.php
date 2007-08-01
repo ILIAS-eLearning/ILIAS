@@ -126,16 +126,33 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		$pd_set = new ilSetting("pd");
 		
-		$enable_block_moving = $pd_set->get("enable_block_moving");
-		$enable_active_users = $ilSetting->get("block_activated_pdusers");
-		$enable_bookmarks = $ilSetting->get("block_activated_pdbookm");
-		$enable_notes = $ilSetting->get("block_activated_pdnotes");
 		$enable_calendar = $ilSetting->get("enable_calendar");		
+		$enable_block_moving = $pd_set->get("enable_block_moving");
+		$enable_active_users = $ilSetting->get("block_activated_pdusers");		
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("pd_settings"));
+		
+		// Enable calendar
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_calendar"), "enable_calendar");
+		$cb_prop->setValue("1");
+		//$cb_prop->setInfo($lng->txt("pd_enable_block_moving_info"));
+		$cb_prop->setChecked($enable_calendar);
+		$form->addItem($cb_prop);
+
+		// Enable bookmarks
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_bookmarks"), "enable_bookmarks");
+		$cb_prop->setValue("1");
+		$cb_prop->setChecked(($ilSetting->get("disable_bookmarks") ? "0" : "1"));
+		$form->addItem($cb_prop);
+		
+		// Enable notes
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_notes"), "enable_notes");
+		$cb_prop->setValue("1");
+		$cb_prop->setChecked(($ilSetting->get("disable_notes") ? "0" : "1"));
+		$form->addItem($cb_prop);
 		
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
@@ -143,15 +160,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setValue("1");
 		$cb_prop->setInfo($lng->txt("pd_enable_block_moving_info"));
 		$cb_prop->setChecked($enable_block_moving);
-		$form->addItem($cb_prop);
-		
-		// Enable calendar
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_calendar"),
-			"enable_calendar");
-		$cb_prop->setValue("1");
-		//$cb_prop->setInfo($lng->txt("pd_enable_block_moving_info"));
-		$cb_prop->setChecked($enable_calendar);
-		$form->addItem($cb_prop);
+		$form->addItem($cb_prop);		
 		
 		// Enable active users block
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_active_users"),
@@ -177,17 +186,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 				' <a href="http://www.onlinestatus.org" target="_blank">http://www.onlinestatus.org</a>');
 			$cb_prop->addSubItem($ti_prop);
 			
-		$form->addItem($cb_prop);
-		
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_bookmarks"), "block_activated_pdbookm");
-		$cb_prop->setValue("1");
-		$cb_prop->setChecked($enable_bookmarks);
-		$form->addItem($cb_prop);
-		
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_notes"), "block_activated_pdnotes");
-		$cb_prop->setValue("1");
-		$cb_prop->setChecked($enable_notes);
-		$form->addItem($cb_prop);
+		$form->addItem($cb_prop);		
 		
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
@@ -203,14 +202,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $ilSetting;
 		
-		$pd_set = new ilSetting("pd");
+		$pd_set = new ilSetting("pd");		
+		$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
+		$ilSetting->set("disable_bookmarks", (int) ($_POST["enable_bookmarks"] ? 0 : 1));
+		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));
+		
 		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
-		$ilSetting->set("block_activated_pdbookm", (int) $_POST["block_activated_pdbookm"]);
-		$ilSetting->set("block_activated_pdnotes", (int) $_POST["block_activated_pdnotes"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
 		$pd_set->set("osi_host", $_POST["osi_host"]);	
-		$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
 		
 		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 		

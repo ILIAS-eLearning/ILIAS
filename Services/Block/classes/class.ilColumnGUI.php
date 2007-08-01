@@ -1023,7 +1023,23 @@ class ilColumnGUI
 		global $ilSetting;
 		if ($this->check_global_activation[$a_type])
 		{
-			if ($ilSetting->get("block_activated_".$a_type))
+			if ($a_type == 'pdbookm')
+			{
+				if (!$ilSetting->get("disable_bookmarks"))
+				{
+					return true;
+				}
+				return false;
+			}
+			else if ($a_type == 'pdnotes')
+			{
+				if (!$ilSetting->get("disable_notes"))
+				{
+					return true;
+				}
+				return false;
+			}	
+			else if ($ilSetting->get("block_activated_".$a_type))
 			{
 				return true;
 			}
