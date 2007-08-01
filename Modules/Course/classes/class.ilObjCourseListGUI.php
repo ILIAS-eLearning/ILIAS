@@ -59,6 +59,13 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->info_screen_enabled = true;
 		$this->type = "crs";
 		$this->gui_class_name = "ilobjcoursegui";
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+		if($this->substitutions->isActive())
+		{
+			$this->substitutions_enabled = true;
+		}
 
 		// general commands array
 		include_once('class.ilObjCourseAccess.php');

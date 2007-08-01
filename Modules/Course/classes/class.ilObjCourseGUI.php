@@ -385,6 +385,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->addProperty($this->lng->txt('crs_file_download'),
 							   $tpl->get());
 		}
+		
+		// meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 			 
 		// contact
 		if($this->object->hasContactData())

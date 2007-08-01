@@ -146,6 +146,9 @@ class ilAdvancedMDRecord
 	{
 		global $ilDB;
 		
+		// Delete fields
+		ilAdvancedMDFieldDefinition::_deleteByRecordId($a_record_id);
+		
 		$query = "DELETE FROM adv_md_record ".
 			"WHERE record_id = ".$ilDB->quote($a_record_id)." ";
 		$ilDB->query($query);

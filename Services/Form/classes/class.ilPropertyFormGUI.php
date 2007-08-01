@@ -66,6 +66,29 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
+	 * Set table width
+	 *
+	 * @access public
+	 * @param string table width
+	 * 
+	 */
+	final public function setTableWidth($a_width)
+	{
+	 	$this->tbl_width = $a_width;
+	}
+	
+	/**
+	 * get table width
+	 *
+	 * @access public
+	 * 
+	 */
+	final public function getTableWidth()
+	{
+	 	return $this->tbl_width;
+	}
+
+	/**
 	* Set Mode ('std', 'subform').
 	*
 	* @param	string	$a_mode	Mode ('std', 'subform')
@@ -342,6 +365,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		else
 		{
 			$this->tpl->touchBlock("std_table");
+			$this->tpl->setVariable('STD_TABLE_WIDTH',$this->getTableWidth());
 		}
 		
 		return $this->tpl->get();
