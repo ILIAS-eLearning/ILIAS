@@ -431,13 +431,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_TOC_MODE", $select_toc_mode);
 
 		// public notes
-		$this->tpl->setVariable("TXT_PUB_NOTES", $this->lng->txt("cont_public_notes"));
-		$this->tpl->setVariable("TXT_PUB_NOTES_DESC", $this->lng->txt("cont_public_notes_desc"));
-		$this->tpl->setVariable("CBOX_PUB_NOTES", "cobj_pub_notes");
-		$this->tpl->setVariable("VAL_PUB_NOTES", "y");
-		if ($this->object->publicNotes())
+		if (!$this->ilias->getSetting('disable_notes'))
 		{
-			$this->tpl->setVariable("CHK_PUB_NOTES", "checked");
+			$this->tpl->setVariable("TXT_PUB_NOTES", $this->lng->txt("cont_public_notes"));
+			$this->tpl->setVariable("TXT_PUB_NOTES_DESC", $this->lng->txt("cont_public_notes_desc"));
+			$this->tpl->setVariable("CBOX_PUB_NOTES", "cobj_pub_notes");
+			$this->tpl->setVariable("VAL_PUB_NOTES", "y");
+			if ($this->object->publicNotes())
+			{
+				$this->tpl->setVariable("CHK_PUB_NOTES", "checked");
+			}
 		}
 
 		// clean frames
