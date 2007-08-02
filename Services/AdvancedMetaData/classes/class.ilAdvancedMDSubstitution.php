@@ -117,7 +117,7 @@ class ilAdvancedMDSubstitution
 	 * @param string description
 	 * 
 	 */
-	public function substitute($a_ref_id,$a_obj_id,$a_description)
+	public function substitute($a_ref_id,$a_obj_id)
 	{
   		$string = $this->getSubstitutionString();
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');

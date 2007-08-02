@@ -706,7 +706,7 @@ class ilObjectListGUI
 	public function insertSubstitutions()
 	{
 		$this->tpl->setCurrentBlock('item_adv_substitutions');
-		$this->tpl->setVariable('ITEM_SUBSTITUTIONS',$this->substitutions->substitute($this->ref_id,$this->obj_id,$this->getDescription()));
+		$this->tpl->setVariable('ITEM_SUBSTITUTIONS',$this->substitutions->substitute($this->ref_id,$this->obj_id));
 		$this->tpl->parseCurrentBlock();
 	}
 
