@@ -224,7 +224,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#updateUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS updateUser(). Updates all user data. '.
+								'ILIAS updateUser(). DEPRECATED: Use importUsers() for modifications of user data. Updates all user data. '.
 								'Use getUser(), then modify desired fields and finally start the updateUser() call.');
 		// Update password
 		$this->server->register('updatePassword',
@@ -249,7 +249,9 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#addUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS addUser() user. Add new ILIAS user. Requires complete or subset of user_data structure');
+								'ILIAS addUser() user. DEPRECATED: Since it is not possible to add new user data fields '.
+								'without breaking the backward compatability, this method is deprecated. Please use importUser() instead. '.
+								'Add new ILIAS user. Requires complete or subset of user_data structure');
 
 		// deleteUser()
 		$this->server->register('deleteUser',
