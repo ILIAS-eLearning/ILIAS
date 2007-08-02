@@ -2114,3 +2114,15 @@ ALTER TABLE `adv_md_record` ADD `active` TINYINT( 1 ) NOT NULL AFTER `import_id`
 
 <#1044>
 ALTER TABLE `adv_md_substitutions` ADD `hide_description` TINYINT( 1 ) NOT NULL ;
+
+<#1045>
+CREATE TABLE `adv_md_values` (
+`obj_id` INT( 11 ) NOT NULL ,
+`field_id` INT( 11 ) NOT NULL ,
+`value` TEXT NOT NULL ,
+`disabled` TINYINT( 1 ) NOT NULL ,
+PRIMARY KEY ( `obj_id` , `field_id` )
+) TYPE = MYISAM ;
+
+<#1046>
+ALTER TABLE `adv_md_values` ADD INDEX `obj_id` ( `obj_id` );

@@ -119,10 +119,24 @@ class ilAdvancedMDSubstitution
 	 */
 	public function substitute($a_ref_id,$a_obj_id,$a_description)
 	{
-	 	$a_string = $this->getSubstitutionString();
-	 	$a_string = str_replace('[OBJ_ID]',$a_obj_id,$a_string);
-	 	
-		return $a_string;
+  		$string = $this->getSubstitutionString();
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		foreach(ilAdvancedMDValues::_getValuesByObjId($a_obj_id) as $field_id => $value)
+		{
+			if($value)
+			{
+				// Substitute variables
+				$string = str_replace('[F_'.$field_id.']',$value,$string);
+				// Delete block varaibles
+				$string = preg_replace('/\[\/?IF_F_'.$field_id.'\]/U','',$string);
+			}
+		}
+		// Replace fixed variables
+		$string = str_replace('[OBJ_ID]',$a_obj_id,$string);
+		
+		// Delete all other blocks
+		$string = preg_replace('/\[IF_F_\d+\].*\[\/IF_F_\d+\]/U','',$string);
+		return $string;
 	}
 	
 	/**
