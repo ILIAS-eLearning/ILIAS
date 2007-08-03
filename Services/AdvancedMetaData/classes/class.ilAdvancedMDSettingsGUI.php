@@ -121,7 +121,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function updateSubstitutions()
 	{
-	 	foreach(ilAdvancedMDRecord::_getRecordsByObjectType() as $obj_type => $visible_record)
+	 	foreach(ilAdvancedMDRecord::_getAllRecordsByObjectType() as $obj_type => $visible_record)
 	 	{
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
 	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
@@ -828,7 +828,7 @@ class ilAdvancedMDSettingsGUI
 	{
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
-		if(!$visible_records = ilAdvancedMDRecord::_getRecordsByObjectType())
+		if(!$visible_records = ilAdvancedMDRecord::_getAllRecordsByObjectType())
 		{
 			return true;
 		}

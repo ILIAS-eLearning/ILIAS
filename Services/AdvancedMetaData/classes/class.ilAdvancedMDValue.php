@@ -32,6 +32,8 @@
 */
 class ilAdvancedMDValue
 {
+	private static $instances = array();
+	
 	protected $db;
 	
 	private $obj_id;
@@ -40,14 +42,14 @@ class ilAdvancedMDValue
 	private $disabled = false;
 
 	/**
-	 * Constructor
+	 * Singleton constructor
 	 *
-	 * @access public
+	 * @access private
 	 * @param int obj_id
 	 * @param int field_id
 	 * 
 	 */
-	public function __construct($a_obj_id,$a_field_id)
+	private function __construct($a_obj_id,$a_field_id)
 	{
 	 	global $ilDB;
 	 	
@@ -57,6 +59,34 @@ class ilAdvancedMDValue
 	 	$this->field_id = $a_field_id;
 	 	
 	 	$this->read();
+	}
+	
+	/**
+	 * Get instance 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _getInstance($a_obj_id,$a_field_id)
+	{
+		if(isset(self::$instances[$a_obj_id][$a_field_id]))
+		{
+			return self::$instances[$a_obj_id][$a_field_id];
+		}
+		return self::$instances[$a_obj_id][$a_field_id] = new ilAdvancedMDValue($a_obj_id,$a_field_id);
+	}
+	
+	/**
+	 * To string method
+	 *
+	 * @access public
+	 * 
+	 */
+	public function __toString()
+	{
+	 	return $this->getValue();
 	}
 	
 	/**

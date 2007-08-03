@@ -900,21 +900,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area->setCols(80);
 		$this->form->addItem($area);
 		
-		foreach($file_objs =& ilCourseFile::_readFilesByCourse($this->object->getId()) as $file_obj)
-		{
-			$this->tpl->setCurrentBlock("file");
-			$this->tpl->setVariable("FILE_ID",$file_obj->getFileId());
-			$this->tpl->setVariable("DEL_FILE",$file_obj->getFileName());
-			$this->tpl->setVariable("TXT_DEL_FILE",$this->lng->txt('crs_delete_file'));
-			$this->tpl->parseCurrentBlock();
-		}
-		if(count($file_objs))
-		{
-			$this->tpl->setCurrentBlock("files");
-			$this->tpl->setVariable("TXT_EXISTING_FILES",$this->lng->txt('crs_existing_files'));
-			$this->tpl->parseCurrentBlock();
-		}
-
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
+		$record_gui->setPropertyForm($this->form);
+		$record_gui->parse();
 
 		return true;
 	}
@@ -946,6 +935,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setContactPhone(ilUtil::stripSlashes($_POST['contact_phone']));
 		$this->object->setContactEmail(ilUtil::stripSlashes($_POST['contact_email']));
 		$this->object->setContactConsultation(ilUtil::stripSlashes($_POST['contact_consultation']));
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
+			'crs',$this->object->getId());
+		$record_gui->loadFromPost();
 
 		// Validate
 		$ilErr->setMessage('');
@@ -960,6 +954,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$this->object->update();
 		$file_obj->create();
+		$record_gui->saveValues();
 
 		ilUtil::sendInfo($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();

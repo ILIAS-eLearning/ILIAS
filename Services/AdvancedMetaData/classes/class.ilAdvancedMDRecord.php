@@ -116,10 +116,11 @@ class ilAdvancedMDRecord
 	 * Get records by obj_type
 	 *
 	 * @access public
+	 * @static
 	 * @param
 	 * 
 	 */
-	public function _getRecordsByObjectType()
+	public static function _getAllRecordsByObjectType()
 	{
 		global $ilDB;
 		
@@ -130,6 +131,33 @@ class ilAdvancedMDRecord
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$records[$row->obj_type][] = self::_getInstanceByRecordId($row->record_id);
+		}
+		return $records;
+	}
+	
+	/**
+	 * Get activated records by object type
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string obj_type
+	 */
+	public static function _getActivatedRecordsByObjectType($a_obj_type)
+	{
+		global $ilDB;		
+
+		$records = array();
+		
+		$query = "SELECT amro.record_id AS record_id FROM adv_md_record_objs AS amro ".
+			"JOIN adv_md_record AS amr ON amr.record_id = amro.record_id ".
+			"WHERE active = 1 ".
+			"AND obj_type = ".$ilDB->quote($a_obj_type)." ";
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$records[] = self::_getInstanceByRecordId($row->record_id);
 		}
 		return $records;
 	}
