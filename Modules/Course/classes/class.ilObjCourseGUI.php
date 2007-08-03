@@ -704,7 +704,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
-	function editInfoObject()
+	/**
+	 * Edit info page informations
+	 *
+	 * @access public
+	 * 
+	 */
+	public function editInfoObject()
 	{
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 
@@ -717,26 +723,182 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_info_settings');
-
+	 	
+	 	$this->initInfoEditor();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_info.html','Modules/Course');
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_GENERAL_INFO",$this->lng->txt('crs_general_info'));
-		$this->tpl->setVariable("TXT_IMPORTANT",$this->lng->txt('crs_important_info'));
-		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt('crs_syllabus'));
-		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt('crs_info_download'));
-		$this->tpl->setVariable("TXT_FILENAME",$this->lng->txt('crs_file_name'));
-		$this->tpl->setVariable("TXT_FILE",$this->lng->txt('crs_file'));
-		$this->tpl->setVariable("TXT_FILE_NAME",$this->lng->txt('crs_filename'));
-		$this->tpl->setVariable("TXT_FILESIZE",ilUtil::getFileSizeInfo());
+		$this->tpl->setVariable('INFO_TABLE',$this->form->getHTML());
 		
-		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt('crs_contact'));
-		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("crs_contact_name"));
-		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("crs_contact_responsibility"));
-		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("crs_contact_email"));
-		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("crs_contact_phone"));
-		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("crs_contact_consultation"));
+		if(!count($files = ilCourseFile::_readFilesByCourse($this->object->getId())))
+		{
+			return true;
+		}
+		$rows = array();
+		foreach($files as $file)
+		{
+			$table_data['id'] = $file->getFileId();
+			$table_data['filename'] = $file->getFileName();
+			$table_data['filetype'] = $file->getFileType();
+			$table_data['filesize'] = $file->getFileSize();
+			
+			$rows[] = $table_data; 
+		}
+		
+		include_once("./Modules/Course/classes/class.ilCourseInfoFileTableGUI.php");
+		$table_gui = new ilCourseInfoFileTableGUI($this, "edit");
+		$table_gui->setTitle($this->lng->txt("crs_info_download"));
+		$table_gui->setData($rows);
+		$table_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$table_gui->addMultiCommand("confirmDeleteInfoFiles", $this->lng->txt("delete"));
+		$table_gui->setSelectAllCheckbox("file_id");
+		$this->tpl->setVariable('INFO_FILE_TABLE',$table_gui->getHTML());
 
+		return true;
+		
+	}
+	
+	/**
+	 * show info file donfimation table
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function confirmDeleteInfoFilesObject()
+	{
+		if(!count($_POST['file_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->editInfoObject();
+			return false;
+		}
+
+		$this->setSubTabs('properties');
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('crs_info_settings');
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteInfoFiles"));
+		$c_gui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "editInfo");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteInfoFiles");
+
+		// add items to delete
+		include_once('Modules/Course/classes/class.ilCourseFile.php');
+		foreach($_POST["file_id"] as $file_id)
+		{
+			$file = new ilCourseFile($file_id);
+			$c_gui->addItem("file_id[]", $file_id, $file->getFileName());
+		}
+		
+		$this->tpl->setContent($c_gui->getHTML());
+	}
+	
+	/**
+	 * Delete info files
+	 *
+	 * @access public
+	 * 
+	 */
+	public function deleteInfoFilesObject()
+	{
+		if(!count($_POST['file_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->editInfoObject();
+			return false;
+		}
+		include_once('Modules/Course/classes/class.ilCourseFile.php');
+		
+		foreach($_POST['file_id'] as $file_id)
+		{
+			$file = new ilCourseFile($file_id);
+			if($this->object->getId() == $file->getCourseId())
+			{
+				$file->delete();
+			}
+		}
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->editInfoObject();
+		return true;	
+	}
+	 	
+	/**
+	 * init info editor
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function initInfoEditor()
+	{
+		if(is_object($this->form))
+		{
+			return true;
+		}
+	
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setTitle($this->lng->txt('crs_general_info'));
+		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
+		$this->form->addCommandButton('editInfo',$this->lng->txt('cancel'));
+		
+		$area = new ilTextAreaInputGUI($this->lng->txt('crs_important_info'),'important');
+		$area->setValue($this->object->getImportantInformation());
+		$area->setRows(3);
+		$area->setCols(80);
+		$this->form->addItem($area);
+		
+		$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
+		$area->setValue($this->object->getSyllabus());
+		$area->setRows(3);
+		$area->setCols(80);
+		$this->form->addItem($area);
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('crs_info_download'));
+		$this->form->addItem($section);
+		
+		$file = new ilFileInputGUI($this->lng->txt('crs_file'),'file');
+		$file->enableFileNameSelection('file_name');
+		$this->form->addItem($file);
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('crs_contact'));
+		$this->form->addItem($section);
+		
+		$text = new ilTextInputGUI($this->lng->txt('crs_contact_name'),'contact_name');
+		$text->setValue($this->object->getContactName());
+		$text->setSize(40);
+		$text->setMaxLength(70);
+		$this->form->addItem($text);
+		
+		$text = new ilTextInputGUI($this->lng->txt('crs_contact_responsibility'),'contact_responsibility');
+		$text->setValue($this->object->getContactResponsibility());
+		$text->setSize(40);
+		$text->setMaxLength(70);
+		$this->form->addItem($text);
+
+		$text = new ilTextInputGUI($this->lng->txt('crs_contact_phone'),'contact_phone');
+		$text->setValue($this->object->getContactPhone());
+		$text->setSize(40);
+		$text->setMaxLength(40);
+		$this->form->addItem($text);
+
+		$text = new ilTextInputGUI($this->lng->txt('crs_contact_email'),'contact_email');
+		$text->setValue($this->object->getContactEmail());
+		$text->setSize(40);
+		$text->setMaxLength(70);
+		$this->form->addItem($text);
+
+		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
+		$area->setValue($this->object->getContactConsultation());
+		$area->setRows(3);
+		$area->setCols(80);
+		$this->form->addItem($area);
 		
 		foreach($file_objs =& ilCourseFile::_readFilesByCourse($this->object->getId()) as $file_obj)
 		{
@@ -754,21 +916,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 
-		$this->tpl->setVariable("IMPORTANT",$this->object->getImportantInformation());
-		$this->tpl->setVariable("SYLLABUS",$this->object->getSyllabus());
-		$this->tpl->setVariable("CONTACT_NAME",$this->object->getContactName());
-		$this->tpl->setVariable("CONTACT_RESPONSIBILITY",$this->object->getContactResponsibility());
-		$this->tpl->setVariable("CONTACT_PHONE",$this->object->getContactPhone());
-		$this->tpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
-		$this->tpl->setVariable("CONTACT_CONSULTATION",$this->object->getContactConsultation());
-
-		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-
 		return true;
 	}
-
-
+	
 	function updateInfoObject()
 	{
 		global $ilErr,$ilAccess;
@@ -811,17 +961,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->update();
 		$file_obj->create();
 
-		// Delete files
-		if(count($_POST['del_files']))
-		{
-			foreach($file_objs =& ilCourseFile::_readFilesByCourse($this->object->getId()) as $file_obj)
-			{
-				if(in_array($file_obj->getFileId(),$_POST['del_files']))
-				{
-					$file_obj->delete();
-				}
-			}
-		}
 		ilUtil::sendInfo($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
 		return true;
