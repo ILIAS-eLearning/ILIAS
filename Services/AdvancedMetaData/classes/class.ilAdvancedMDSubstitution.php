@@ -188,17 +188,15 @@ class ilAdvancedMDSubstitution
 	private function read()
 	{
 	 	// Check active status
-	 	$query = "SELECT active FROM adv_md_record AS amr".
+	 	$query = "SELECT active FROM adv_md_record AS amr ".
 	 		"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
 	 		"WHERE active = 1 ".
 	 		"AND obj_type = ".$this->db->quote($this->type)." ";
-			
-	 	
-	 	$query = "SELECT * FROM adv_md_substitutions ".
-	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";
 	 	$res = $this->db->query($query);
 	 	$this->active = $res->numRows() ? true : false;
 			
+	 	$query = "SELECT * FROM adv_md_substitutions ".
+	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
