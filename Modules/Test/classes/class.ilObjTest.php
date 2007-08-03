@@ -3622,14 +3622,14 @@ class ilObjTest extends ilObject
 		{
 			$active = $this->getActiveTestUser($ilUser->getId());
 			$this->loadQuestions($active->active_id, $pass);
-			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")",
+			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s AND qpl_questions.question_id IN ('" . join($this->questions, "','") . "')",
 				$ilDB->quote($active->active_id . ""),
 				$ilDB->quote($pass . "")
 			);
 		}
 		else
 		{
-			$query = "SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")";
+			$query = "SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN ('" . join($this->questions, "','") . "')";
 		}
 		$result = $ilDB->query($query);
 		$result_array = array();
