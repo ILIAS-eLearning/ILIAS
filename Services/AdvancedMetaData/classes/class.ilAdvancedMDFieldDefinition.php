@@ -267,6 +267,23 @@ class ilAdvancedMDFieldDefinition
 	{
 	 	return $this->field_values;
 	}
+	
+	/**
+	 * get field values for select
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getFieldValuesForSelect()
+	{
+	 	$values = array();
+	 	foreach($this->field_values as $value)
+	 	{
+	 		$values[$value] = $value;
+	 	}
+	 	return $values;
+	}
+	
 	/**
 	 * set title
 	 *
