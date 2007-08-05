@@ -113,7 +113,7 @@ search#:#last_search_result#:#Letztes Suchergebnis
 common#:#search_results#:#Suchergebnisse
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
-assessment#:#add_answer_tf#:#Richtig-/Falsch-Antworten
+assessment#:#add_answer_tf#:#Wahr-/Falsch-Antworten
 assessment#:#add_answer_yn#:#Ja-/Nein-Antworten
 assessment#:#add_answer#:#Antwort hinzufügen
 assessment#:#add_applet_parameter#:#Applet-Parameter hinzufügen
