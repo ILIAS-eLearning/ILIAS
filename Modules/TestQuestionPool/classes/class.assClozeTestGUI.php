@@ -368,7 +368,7 @@ class assClozeTestGUI extends assQuestionGUI
 			if ($gap->getType() == CLOZE_TEXT)
 			{
 				$this->tpl->setCurrentBlock("textgap_value");
-				foreach ($gap->getItemsRaw() as $item)
+				foreach ($gap->getItems() as $item)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
 					$this->tpl->setVariable("VALUE_TEXT_GAP", ilUtil::prepareFormOutput($item->getAnswertext()));
@@ -688,7 +688,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 				case CLOZE_SELECT:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					foreach ($gap->getItemsRaw() as $item)
+					foreach ($gap->getItems() as $item)
 					{
 						$gaptemplate->setCurrentBlock("select_gap_option");
 						$gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
@@ -973,7 +973,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 				case CLOZE_SELECT:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					foreach ($gap->getItemsRaw() as $item)
+					foreach ($gap->getItems() as $item)
 					{
 						$gaptemplate->setCurrentBlock("select_gap_option");
 						$gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
