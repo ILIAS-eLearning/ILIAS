@@ -37,6 +37,9 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 	protected $showseconds = false;
 	protected $minute_step_size = 1;
 	
+	protected $activation_title = '';
+	protected $activation_post_var = '';
+	
 	/**
 	* Constructor
 	*
@@ -50,6 +53,34 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 	}
 	
 	/**
+	 * Enable date activation.
+	 * If chosen a checkbox will be shown that gives the possibility to en/disable the date selection.
+	 *
+	 * @access public
+	 * @param string text displayed after the checkbox
+	 * @param string name of postvar
+	 * @param bool checkbox checked
+	 * 
+	 */
+	public function enableDateActivation($a_title,$a_postvar,$a_checked = true)
+	{
+	 	$this->activation_title = $a_title;
+	 	$this->activation_post_var = $a_postvar;
+	 	$this->activation_checked = $a_checked;
+	}
+	
+	/**
+	 * Get activation post var
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getActivationPostVar()
+	{
+	 	return $this->activation_post_var;
+	}
+	
+	/**
 	 * Set unix time. This function will call setDate() and set
 	 *
 	 * @access public
@@ -58,8 +89,11 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 	 */
 	public function setUnixTime($a_time)
 	{
-	 	$this->setDate(date('Y-m-d',$a_time));
-	 	$this->setTime(date('G:i:s',$a_time));
+ 		if($a_time)
+ 		{
+ 			$this->setDate(date('Y-m-d',$a_time));
+ 			$this->setTime(date('G:i:s',$a_time));
+ 		}
 	}
 	
 
@@ -248,6 +282,16 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 		$lng->loadLanguageModule("jscalendar");
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
 		ilCalendarUtil::initJSCalendar();
+		
+		if(strlen($this->getActivationPostVar()))
+		{
+			$a_tpl->setCurrentBlock('prop_date_activation');
+			$a_tpl->setVariable('CHECK_ENABLED_DATE',$this->getActivationPostVar());
+			$a_tpl->setVariable('TXT_DATE_ENABLED',$this->activation_title);
+			$a_tpl->setVariable('CHECKED_ENABLED',$this->activation_checked ? 'checked="checked"' : '');
+			$a_tpl->parseCurrentBlock();
+		}
+		
 		if ($this->getShowDate())
 		{
 			$a_tpl->setCurrentBlock("prop_date");

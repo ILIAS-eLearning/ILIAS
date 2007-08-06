@@ -706,15 +706,16 @@ class ilAdvancedMDSettingsGUI
 		
 		// field type
 		$radio = new ilRadioGroupInputGUI($this->lng->txt('field_type'), "field_type");
-		$radio->setValue($this->field_definition->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_SELECT ? 
-			ilAdvancedMDFieldDefinition::TYPE_SELECT :
+		$radio->setValue($this->field_definition->getFieldType() ? 
+			$this->field_definition->getFieldType() : 
 			ilAdvancedMDFieldDefinition::TYPE_TEXT);
+		$radio->setRequired(true);
 
 		$radio_option = new ilRadioOption($this->lng->txt("udf_type_text"),ilAdvancedMDFieldDefinition::TYPE_TEXT);
 		$radio->addOption($radio_option);
-		#$radio->setInfo($this->lng->txt("mcst_visibility_info"));
-		$radio->setRequired(true);
-		$this->form->addItem($radio);
+
+		$radio_option = new ilRadioOption($this->lng->txt("udf_type_date"),ilAdvancedMDFieldDefinition::TYPE_DATE);
+		$radio->addOption($radio_option);
 
 		$radio_option = new ilRadioOption($this->lng->txt("udf_type_select"),ilAdvancedMDFieldDefinition::TYPE_SELECT);
 		$radio->addOption($radio_option);
@@ -729,6 +730,7 @@ class ilAdvancedMDSettingsGUI
 			$title->setMaxLength(70);
 			$radio_option->addSubItem($title);
 		}
+		$this->form->addItem($radio);
 		
 		switch($a_mode)
 		{

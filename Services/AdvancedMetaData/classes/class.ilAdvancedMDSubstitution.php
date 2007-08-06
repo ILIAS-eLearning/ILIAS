@@ -39,6 +39,7 @@ class ilAdvancedMDSubstitution
 	protected $substitution;
 	protected $enabled_desc = true;
 	protected $active = false;
+	protected $date_fields = array();
 	
 	
 	/*
@@ -123,6 +124,11 @@ class ilAdvancedMDSubstitution
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		foreach(ilAdvancedMDValues::_getValuesByObjId($a_obj_id) as $field_id => $value)
 		{
+			if(in_array($field_id,$this->date_fields) and $value)
+			{
+				$value = ilFormat::formatUnixTime((int) $value);
+			}
+			
 			if($value)
 			{
 				// Substitute variables
@@ -187,6 +193,9 @@ class ilAdvancedMDSubstitution
 	 */
 	private function read()
 	{
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+	 	$this->date_fields = ilAdvancedMDFieldDefinition::_lookupDateFields();
+	 	
 	 	// Check active status
 	 	$query = "SELECT active FROM adv_md_record AS amr ".
 	 		"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
