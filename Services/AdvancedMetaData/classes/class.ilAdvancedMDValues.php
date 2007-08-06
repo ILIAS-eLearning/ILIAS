@@ -98,7 +98,7 @@ class ilAdvancedMDValues
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "DELETE FROM adv_md_value ".
+	 	$query = "DELETE FROM adv_md_values ".
 	 		"WHERE field_id = ".$ilDB->quote($a_field_id)." ";
 	 	$ilDB->query($query);	
 	}
@@ -115,7 +115,7 @@ class ilAdvancedMDValues
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "DELETE FROM adv_md_value ".
+	 	$query = "DELETE FROM adv_md_values ".
 	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 	 	$ilDB->query($query);
 	}

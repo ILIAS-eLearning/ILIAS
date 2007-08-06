@@ -144,6 +144,17 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
+		$query = "SELECT field_id FROM adv_md_field_definition ".
+			"WHERE record_id = ".$ilDB->quote($a_record_id);
+		$res = $ilDB->query($query);	
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+		 	// Delete values
+		 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		 	ilAdvancedMDValues::_deleteByFieldId($row->field_id);
+		}		
+
+		// Delete definitions
 		$query = "DELETE FROM adv_md_field_definition ".
 			"WHERE record_id  = ".$ilDB->quote($a_record_id)." ";
 		$res = $ilDB->query($query);	
@@ -398,6 +409,10 @@ class ilAdvancedMDFieldDefinition
 	 	$query = "DELETE FROM adv_md_field_definition ".
 	 		"WHERE field_id = ".$this->db->quote($this->getFieldId())." ";
 	 	$res = $this->db->query($query);
+	 	
+	 	// Also delete all values
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+	 	ilAdvancedMDValues::_deleteByFieldId($this->getFieldId());
 		return true;	
 	}
 	
