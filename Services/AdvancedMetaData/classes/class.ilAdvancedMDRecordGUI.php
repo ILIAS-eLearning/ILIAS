@@ -56,6 +56,7 @@ class ilAdvancedMDRecordGUI
 	{
 		global $lng;
 	 	
+	 	$this->lng = $lng;
 	 	$this->mode = $a_mode;
 	 	$this->obj_type = $a_obj_type;
 	 	$this->obj_id = $a_obj_id;
@@ -104,11 +105,32 @@ class ilAdvancedMDRecordGUI
 	public function loadFromPost()
 	{
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		
 		foreach($_POST['md'] as $field_id => $value)
 		{
+			$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
+			switch($def->getFieldType())
+			{
+				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+					if(is_array($value) and $_POST['md_activated'][$field_id])
+					{
+						$value = $this->toUnixTime($value['date']);
+					}
+					else
+					{
+						$value = 0;
+					}
+					break;
+				
+				default:
+					$value = ilUtil::stripSlashes($value);
+					break;
+			}
 			$val = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
-			$val->setValue(ilUtil::stripSlashes($value));
+			$val->setValue($value);
 			$this->values[] = $val;
+			unset($value);
 		}
 	}
 	
@@ -128,7 +150,7 @@ class ilAdvancedMDRecordGUI
 	}
 	
 	/**
-	 * Parse property form in editorr mode
+	 * Parse property form in editor mode
 	 *
 	 * @access private
 	 * 
@@ -165,9 +187,31 @@ class ilAdvancedMDRecordGUI
 	 					$select->setValue($value->getValue());
 	 					$this->form->addItem($select);
 	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
+	 					$time->setShowTime(false);
+	 					$time->setUnixTime($value->getValue());
+	 					$time->enableDateActivation($this->lng->txt('enabled'),
+							'md_activated['.$def->getFieldId().']',
+							$value->getValue() ? true : false);
+	 					$this->form->addItem($time);
+	 					break;
 	 			}
 	 		}
 	 	}
+	}
+	
+	/**
+	 * convert input array to unix time
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function toUnixTime($date)
+	{
+		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
 	}
 	
 }

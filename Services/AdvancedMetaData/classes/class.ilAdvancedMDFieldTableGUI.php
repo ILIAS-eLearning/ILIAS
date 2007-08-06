@@ -106,6 +106,10 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_select'));
 				break;
+				
+			case ilAdvancedMDFieldDefinition::TYPE_DATE:
+				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_date'));
+				break;				
 		}
 		$this->ctrl->setParameter($this->parent_obj,'field_id',$a_set['id']);
 		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editField'));

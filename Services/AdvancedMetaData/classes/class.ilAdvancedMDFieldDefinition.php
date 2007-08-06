@@ -32,6 +32,7 @@ class ilAdvancedMDFieldDefinition
 {
 	const TYPE_SELECT = 1;
 	const TYPE_TEXT = 2;
+	const TYPE_DATE = 3;
 
 	private static $instances = array();
 	
@@ -64,6 +65,29 @@ class ilAdvancedMDFieldDefinition
 		
 		$this->field_id = $a_field_id;
 		$this->read();
+	}
+	
+	/**
+	 * Lookup date fields
+	 *
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function _lookupDateFields()
+	{
+		global $ilDB;
+		
+		$query = "SELECT field_id FROM adv_md_field_definition ".
+			"WHERE field_type = ".self::TYPE_DATE." ";
+		$res = $ilDB->query($query);
+		
+		$date_fields = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$date_fields[] = $row->field_id; 
+		}
+		return $date_fields;
 	}
 	
 	/**
@@ -276,7 +300,9 @@ class ilAdvancedMDFieldDefinition
 	 */
 	public function getFieldValuesForSelect()
 	{
-	 	$values = array();
+	 	global $lng;
+	 	
+	 	$values = array(0 => $lng->txt('select_one'));
 	 	foreach($this->field_values as $value)
 	 	{
 	 		$values[$value] = $value;
