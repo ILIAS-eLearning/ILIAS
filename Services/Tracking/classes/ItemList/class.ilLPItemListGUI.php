@@ -240,7 +240,8 @@ class ilLPItemListGUI
 	function renderTypeImage()
 	{
 		$this->tpl->setCurrentBlock("row_type_image");
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->getType().'.gif'));
+		$this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($this->getType(),$this->getId(),'small'));
+		#$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->getType().'.gif'));
 		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$this->getType()));
 		$this->tpl->parseCurrentBlock();
 	}
