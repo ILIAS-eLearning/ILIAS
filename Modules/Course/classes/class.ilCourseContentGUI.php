@@ -561,7 +561,7 @@ class ilCourseContentGUI
 	function __showEvents()
 	{
 		global $ilUser;
-
+		
 		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
@@ -620,8 +620,6 @@ class ilCourseContentGUI
 				$tpl->parseCurrentBlock();
 			}
 
-
-
 			$event_items = $this->course_obj->items_obj->getItemsByEvent($event_obj->getEventId());
 			foreach ($event_items as $cont_data)
 			{
@@ -629,7 +627,6 @@ class ilCourseContentGUI
 				{
 					continue;
 				}
-
 				if(strlen($html = $this->__getItemHTML($cont_data,true)))
 				{
 					 /* Disabled: no manual sort
@@ -658,7 +655,8 @@ class ilCourseContentGUI
 					 // change row color
 					 $tpl->setVariable("ITEM_HTML",$html);
 					 $tpl->setVariable("MATERIAL_ROWCOL", ilUtil::switchColor($counter,"tblrow1","tblrow2"));
-					 $tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
+					 $tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($cont_data['type'],$cont_data['obj_id'],'small'));
+					 #$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
 					 $tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				 }
 
@@ -796,7 +794,8 @@ class ilCourseContentGUI
 				// change row color
 				$tpl->setVariable("ITEM_HTML",$html);
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-				$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
+				#$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
+				$tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($cont_data['type'],$cont_data['obj_id'],'small'));
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->parseCurrentBlock();
@@ -1185,9 +1184,9 @@ class ilCourseContentGUI
 		$this->tpl->setCurrentBlock("container_standard_row");
 
 		$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
+		#$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
+		$this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($item['type'],$item['obj_id'],'small'));
 		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$item['type']));
-
 
 		if($item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
 		{
@@ -1407,8 +1406,6 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TLT_VAL",ilEventAppointment::_appointmentToString($item['start'],$item['end'],$item['fulltime']));
 		$this->tpl->parseCurrentBlock();
 
-
-
 		$this->tpl->setCurrentBlock("container_standard_row");
 		$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
@@ -1484,7 +1481,8 @@ class ilCourseContentGUI
 		{
 			$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
 		}
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
+		#$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
+		$this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($item['type'],$item['obj_id'],'small'));
 		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$item['type']));
 
 
@@ -1982,7 +1980,8 @@ class ilCourseContentGUI
 
 			// change row color
 			$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-			$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
+			$tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($cont_data['type'],$cont_data['obj_id'],'small'));
+			#$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
 			$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->parseCurrentBlock();

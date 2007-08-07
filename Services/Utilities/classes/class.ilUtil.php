@@ -56,6 +56,50 @@ class ilUtil
 		return "<img src=\"".ilUtil::getImagePath($filename)."\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 		//return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
+	
+	/**
+	 * Get type icon path path
+	 * Return image path for icon_xxx.gifs
+	 * Or (if enabled) path to custom icon
+	 *
+	 * @access public
+	 * @param string obj_type
+	 * @param int obj_id
+	 * @param string size 'tiny','small' or 'big'
+	 * 
+	 */
+	public function getTypeIconPath($a_type,$a_obj_id,$a_size = 'small')
+	{
+	 	global $ilSetting;
+	 	
+	 	if($ilSetting->get("custom_icons"))
+	 	{
+		 	switch($a_type)
+		 	{
+	 			case 'cat':
+	 			case 'crs':
+	 			case 'grp':
+	 				if(strlen($path = ilContainer::_lookupIconPath($a_obj_id,$a_size)))
+	 				{
+	 					return $path;
+	 				}
+		 	}
+	 	}
+	 	
+	 	switch($a_size)
+	 	{
+	 		case 'tiny':
+	 			$postfix = '_s.gif';
+	 			break;
+	 		case 'big':
+	 			$postfix = '_b.gif';
+	 			break;
+	 		default:
+	 			$postfix = '.gif';
+	 			break;
+	 	}
+	 	return ilUtil::getImagePath('icon_'.$a_type.$postfix);
+	}
 
 	/**
 	* get image path (for images located in a template directory)

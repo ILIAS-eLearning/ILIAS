@@ -769,7 +769,7 @@ class ilCourseObjectivePresentationGUI
 			
 			$this->tpl->setCurrentBlock("or_row");
 			$this->tpl->setVariable("OBJ_TITLE_OR",$ilObjDataCache->lookupTitle($obj_id));
-			$this->tpl->setVariable("IMG_TYPE_OR",ilUtil::getImagePath('icon_'.$obj_type.'.gif'));
+			$this->tpl->setVariable('IMG_TYPE_OR',ilUtil::getTypeIconPath($obj_type,$obj_id,'small'));
 			$this->tpl->setVariable("TXT_IMG_OR",$this->lng->txt('obj_'.$obj_type));
 			$this->tpl->setVariable("OBJ_CLASS_CENTER_OR",'option_value_center');
 			$this->tpl->setVariable("OBJ_CLASS_OR",'option_value');
