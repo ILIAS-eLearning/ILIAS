@@ -823,7 +823,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getRoles',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getRoles():if id equals -1, get all roles specified by type (global|local|user|template or empty), if type is empty all roles with all types are delivered, if id > -1 and role_type <> user, delivers all roles which belong to a repository object with specified ref_id, if roletype is user a numeric id is interpreted as userid otherwise as login,if roletype is template all role templates will be listed');
+								'ILIAS getRoles():if id equals -1, get all roles specified by type (global|local|user|user_login|template or empty), if type is empty all roles with all types are delivered, if id > -1 and role_type <> user or user_login, delivers all roles which belong to a repository object with specified ref_id, if roletype is user a numeric id is interpreted as userid, if roletype is user_login it is interpreted as login,if roletype is template all role templates will be listed');
 
 		$this->server->register('getUsersForContainer',
 								array('sid' => 'xsd:string',
@@ -969,6 +969,18 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS updateGroup(): update existing group using ref id and group xml (see DTD).');
 
+
+		
+        $this->server->register('getIMSManifestXML',
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getIMSManifestXML',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getIMSManifestXML(): returns xml of ims manifest file (scorm learning module) referred by refid');
+
+     						
 		return true;
 
 	}

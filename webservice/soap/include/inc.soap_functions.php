@@ -660,5 +660,12 @@ function updateGroup($sid, $ref_id, $grp_xml)
 	return $sua->updateGroup($sid,$ref_id, $grp_xml);
 }
 
+function getIMSManifestXML($sid, $ref_id) {
+	include_once './webservice/soap/classes/class.ilSoapSCORMAdministration.php';
+
+	$sua =& new ilSoapSCORMAdministration();
+
+	return $sua->getIMSManifestXML($sid,$ref_id);
+}
 
 ?>

@@ -522,8 +522,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	 * get roles for a specific type and id
 	 *
 	 * @param String $sid    session id
-	 * @param String  $role_type can be empty which means "local & global", "local", "global" or "user"
-	 * @param Mixed $id can be -1 for system role folder, can be ref id in case for role type "local/global", can be user id or login in case for role type is user
+	 * @param String  $role_type can be empty which means "local & global", "local", "global", "user", "user_login" or "template"
+	 * @param Mixed $id can be -1 for system role folder, can be ref id in case for role type "local/global/template", can be user id with "user" or login in case for role type "user_login"
 	 * @return String according DTD role_3_7
 	 */
 	function getRoles($sid, $role_type, $id)
@@ -540,10 +540,11 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		$roles = array();
 
-		if (	strcasecmp($role_type,"") != 0 &&
+		if (strcasecmp($role_type,"") != 0 &&
 			strcasecmp($role_type,"local") != 0 &&
 			strcasecmp($role_type,"global") != 0 &&
 			strcasecmp($role_type,"user") != 0 &&
+			strcasecmp($role_type,"user_login") != 0 &&			
 			strcasecmp($role_type,"template") != 0)
 		{
 			return $this->__raiseError('Called service with wrong role_type parameter \''.$role_type.'\'','Client');
@@ -553,33 +554,27 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		// get templates
 		{
 			$roles = $rbacreview->getRolesByFilter(6, $ilUser->getId());
-		} elseif (strcasecmp($role_type,"user")==0)
-		// get user roles
+		} elseif (strcasecmp($role_type,"user")==0 || strcasecmp($role_type,"user_login")==0)
+		// handle user roles		
 		{
-            $role_type = ""; // local and global roles for user
-
-            if (!is_numeric($id))
-            //assuming id is login
-            {
-                $user_id = ilObjUser::getUserIdByLogin($id);
-                if (!$user_id)
-                // could not find a valid user
-                {
-                  return $this->__raiseError('User with login \''.$id.'\' does not exist!','Client');
-                }
-            } else
-            // this is an id, check for login
-            {
-                $login = ilObjUser::_lookupLogin($id);
-                if (!$login)
-                // could not find a valid user
-                {
-                  return $this->__raiseError('User with Id \''.$id.'\' does not exist!','Client');
-                }
-
-                $user_id = $id;
-            }
-
+			if (strcasecmp($role_type,"user")==0)
+			// get user roles for user id, which can be numeric or ilias id
+			{
+	            $user_id = !is_numeric($id) ? ilUtil::__extractId($id, IL_INST_ID) : $id; 
+	            if (!is_numeric($user_id))
+				{
+					return $this->__raiseError('ID must be either numeric or ILIAS conform id for type \'user\'','Client');
+				}                        
+			} elseif (strcasecmp($role_type, "user_login") == 0)
+	        // check for login
+	        {
+	        	$user_id = ilObjUser::_lookupId($id);
+	            if (!$user_id)
+	                // could not find a valid user
+	            {
+	            	return $this->__raiseError('User with login \''.$id.'\' does not exist!','Client');
+				}					
+	        }
             if ($user_id != $ilUser->getId())
             // check access for user folder
             {
@@ -590,15 +585,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			       return $this->__raiseError('Check access for time limit owner failed.','Server');
 		        }
             }
-
-
+	        $role_type = ""; // local and global roles for user			            
     		$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id AND rbac_ua.usr_id=".$user_id,
 					join ("','", $rbacreview->assignedRoles($user_id))
 			);
 
 			$rbacresult = $ilDB->query($query);
-
-
 			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 					if ($rbacrow["assign"] != "y")
@@ -623,7 +615,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 				            "description" => $tmp_obj->getDescription(),
 				            "role_type" => $type);
 			        }
-
 			}
 		} elseif ($id == "-1")
 		// get all roles of system role folder
@@ -632,7 +623,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
     		{
 	   		  return $this->__raiseError('Check access failed.','Server');
 		    }
-
 
 		    $roles = $rbacreview->getAssignableRoles(false, true);
 		}
