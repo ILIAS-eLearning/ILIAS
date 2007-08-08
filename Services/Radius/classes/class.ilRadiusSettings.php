@@ -155,7 +155,19 @@ class ilRadiusSettings
 	 */
 	public function enabledCreation()
 	{
-	 	return true;
+	 	return $this->creation;
+	}
+	
+	/**
+	 * Enable creation
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function enableCreation($a_status)
+	{
+	 	$this->creation = $a_status;
 	}
 	
 	/**
@@ -174,6 +186,7 @@ class ilRadiusSettings
 		$this->settings->set('radius_port',$this->getPort());
 		$this->settings->set('radius_shared_secret',$this->getSecret());
 		$this->settings->set('radius_name',$this->getName());
+		$this->settings->set('radius_creation',$this->enabledCreation() ? 1 : 0);
 		
 		$counter = 0;
 		foreach($this->getServers() as $server)
@@ -264,6 +277,7 @@ class ilRadiusSettings
 	 	$this->setPort($all_settings['radius_port']);
 	 	$this->setSecret($all_settings['radius_shared_secret']);
 	 	$this->setName($all_settings['radius_name']);
+	 	$this->enableCreation($all_settings['radius_creation']);
 	 	
 		$query = "SELECT value FROM settings WHERE keyword LIKE 'radius_server%' ORDER BY keyword ASC";
 		$res = $this->db->query($query);
