@@ -506,7 +506,9 @@ class ilAuthUtils
 		else
 		{
 			$default = AUTH_LOCAL;
-		}	
+		}
+		
+		$default = $ilSetting->get('default_auth_mode',$default);
 
 		return ilUtil::formSelect((int) $_REQUEST['auth_mode'] ? (int) $_REQUEST['auth_mode'] : $default,
 			'auth_mode',

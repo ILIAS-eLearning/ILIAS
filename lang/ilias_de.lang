@@ -7488,3 +7488,5 @@ meta#:#md_adv_create_record#:#Neuen Datensatz anlegen###30 07 2007 new variable
 meta#:#md_adv_delete_record_sure#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?###30 07 2007 new variable
 barometer#:#barometer_conflict_anon_req#:#Anonymisierung und Typ: 'Pflicht' sind zusammen nicht möglich. Bitte wählen Sie nur eine dieser Optionen aus.
 meta#:#md_adv_active#:#Aktiv
+common#:#default_auth_mode#:#Default Authentifizierungsmethode
+common#:#default_auth_mode_info#:#Sie können hier festlegen, welche Authentifizierungsmethode auf der Loginseite vorausgewählt ist.

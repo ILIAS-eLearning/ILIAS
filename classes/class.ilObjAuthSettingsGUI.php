@@ -244,7 +244,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	 */
 	public function saveLoginInfoObject()
 	{		
-		global $rbacsystem, $lng;		
+		global $rbacsystem, $lng,$ilSetting;		
 		
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -260,6 +260,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			}
 		}
 		
+		if($_POST['default_auth_mode'])
+		{
+			$ilSetting->set('default_auth_mode',(int) $_POST['default_auth_mode']);
+		}
+		
 		ilUtil::sendInfo($this->lng->txt("login_information_settings_saved"));
 		
 		$this->loginInfoObject();
@@ -273,7 +278,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	 */
 	public function loginInfoObject()
 	{
-		global $rbacsystem, $lng;	
+		global $rbacsystem, $lng,$ilSetting;	
 		
 		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
@@ -298,7 +303,26 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$form->addCommandButton('saveLoginInfo',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
-		
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
+		$rad_settings = ilRadiusSettings::_getInstance();
+		if($ldap_id = ilLDAPServer::_getFirstActiveServer() or $rad_settings->isActive())
+		{
+			$select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'),'default_auth_mode');
+			$select->setValue($ilSetting->get('default_auth_mode',AUTH_LOCAL));
+			$select->setInfo($this->lng->txt('default_auth_mode_info'));
+			$options[AUTH_LOCAL] = $this->lng->txt('auth_local');
+			if($ldap_id)
+			{
+				$options[AUTH_LDAP] = $this->lng->txt('auth_ldap');
+			}
+			if($rad_settings->isActive())
+			{
+				$options [AUTH_RADIUS] = $this->lng->txt('auth_radius');
+			}
+			$select->setOptions($options);
+			$form->addItem($select);
+		}
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
