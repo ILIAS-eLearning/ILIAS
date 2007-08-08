@@ -7490,3 +7490,4 @@ barometer#:#barometer_conflict_anon_req#:#Anonymisierung und Typ: 'Pflicht' sind
 meta#:#md_adv_active#:#Aktiv
 common#:#default_auth_mode#:#Default Authentifizierungsmethode
 common#:#default_auth_mode_info#:#Sie können hier festlegen, welche Authentifizierungsmethode auf der Loginseite vorausgewählt ist.
+common#:#err_auth_radius_no_ilias_user#:#Anmeldung fehlgeschlagen! Die Radius-Authentifizierung war erfolgreich aber es existiert kein entsprechender ILIAS-Benutzer.
