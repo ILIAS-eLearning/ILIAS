@@ -175,6 +175,7 @@ class ilRadiusSettingsGUI
 	 	$this->settings->setSecret(ilUtil::stripSlashes($_POST['secret']));
 	 	$this->settings->setServerString(ilUtil::stripSlashes($_POST['servers']));
 	 	$this->settings->setDefaultRole((int) $_POST['role']);
+	 	$this->settings->enableCreation((int) $_POST['sync']);
 	 	
 	 	if(!$this->settings->validateRequired())
 	 	{
