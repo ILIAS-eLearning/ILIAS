@@ -478,7 +478,6 @@ class ilAccessHandler
 
 		if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id]))
 		{
-			//echo "Hit";
 			return $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id];
 		}
 		
@@ -497,7 +496,9 @@ class ilAccessHandler
 		else
 		{
 			$item_data = ilCourseItems::_readActivationTimes(array($a_ref_id));
+			$item_data = $item_data[$a_ref_id];
 		}
+		
 		$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 
 		// if activation isn't enabled
@@ -506,6 +507,7 @@ class ilAccessHandler
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
+		
 		// if within activation time
 		if((time() >= $item_data['timing_start']) and
 		   (time() <= $item_data['timing_end']))
@@ -513,7 +515,7 @@ class ilAccessHandler
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
-
+		
 		// if user has write permission
 		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
 		{
@@ -526,7 +528,6 @@ class ilAccessHandler
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
-
 		// no access
 		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
 		return false;
