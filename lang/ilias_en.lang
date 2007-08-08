@@ -7488,3 +7488,5 @@ meta#:#md_adv_create_record#:#Add new Dataset
 meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?
 barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.
 meta#:#md_adv_active#:#Active
+common#:#default_auth_mode#:#Default Authentication Method
+common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.
