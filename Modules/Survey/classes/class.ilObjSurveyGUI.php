@@ -566,6 +566,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_svy_filter_questions.html", "Modules/Survey");
 
 		$questionpools =& $this->object->getQuestionpoolTitles();
+		if (count($questionpools) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("no_questions_available"));
+			return;
+		}
 		$filter_type = $_GET["sel_filter_type"];
 		if (!$filter_type)
 		{
