@@ -195,7 +195,7 @@ class SurveyQuestionGUI
 			$ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
-			$_GET["q_id"] = $this->object->getId();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
@@ -269,6 +269,18 @@ class SurveyQuestionGUI
 	{
 		global $tree;
 
+		if ($_POST["cmd"]["addMaterial"])
+		{
+			if ($this->writePostData() == 1)
+			{
+				return $this->editQuestion();
+			}
+			else
+			{
+				$this->object->saveToDb();
+				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
+			}
+		}
 		include_once("./Modules/SurveyQuestionPool/classes/class.ilMaterialExplorer.php");
 		switch ($_POST["internalLinkType"])
 		{
@@ -366,7 +378,7 @@ class SurveyQuestionGUI
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());
-				$_GET["q_id"] = $this->object->getId();
+				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
@@ -390,7 +402,7 @@ class SurveyQuestionGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "st":
-				$_GET["q_id"] = $this->object->getId();
+				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
@@ -419,7 +431,7 @@ class SurveyQuestionGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "glo":
-				$_GET["q_id"] = $this->object->getId();
+				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");

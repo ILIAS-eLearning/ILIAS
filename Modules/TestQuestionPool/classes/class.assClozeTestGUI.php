@@ -338,7 +338,7 @@ class assClozeTestGUI extends assQuestionGUI
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
 			$this->object->saveToDb();
-			$_GET["q_id"] = $this->object->getId();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		}
 		return $result;
 	}
@@ -368,7 +368,7 @@ class assClozeTestGUI extends assQuestionGUI
 			if ($gap->getType() == CLOZE_TEXT)
 			{
 				$this->tpl->setCurrentBlock("textgap_value");
-				foreach ($gap->getItems() as $item)
+				foreach ($gap->getItemsRaw() as $item)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
 					$this->tpl->setVariable("VALUE_TEXT_GAP", ilUtil::prepareFormOutput($item->getAnswertext()));
@@ -1046,7 +1046,7 @@ class assClozeTestGUI extends assQuestionGUI
 			$_SESSION["subquestion_index"] = $addForGap;
 		}
 		$this->object->saveToDb();
-		$_GET["q_id"] = $this->object->getId();
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();

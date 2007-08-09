@@ -511,7 +511,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 									{
 										$this->object->saveToDb();
 										$saved = true;
-										$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
+										ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"));
 									}
 									$value2['name'] = $this->object->createNewImageFileName($value2['name']);
 									$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
@@ -522,10 +522,10 @@ class assSingleChoiceGUI extends assQuestionGUI
 											$answer_image = $value2['name'];
 											break;
 										case 1:
-											$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
+											$this->setErrorMessage($this->getErrorMessage() . $this->lng->txt("error_image_upload_wrong_format") . "<br />");
 											break;
 										case 2:
-											$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
+											$this->setErrorMessage($this->getErrorMessage() . $this->lng->txt("error_image_upload_copy_file") . "<br />");
 											break;
 									}
 								}
@@ -563,7 +563,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
 			$this->object->saveToDb();
-			$_GET["q_id"] = $this->object->getId();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		}
 
 		return $result;
@@ -859,7 +859,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 		}
 		$this->object->saveToDb();
-		$_GET["q_id"] = $this->object->getId();
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();

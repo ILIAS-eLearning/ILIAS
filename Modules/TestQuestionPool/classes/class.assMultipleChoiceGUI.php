@@ -560,7 +560,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
 			$this->object->saveToDb();
-			$_GET["q_id"] = $this->object->getId();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		}
 
 		return $result;
@@ -874,7 +874,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 		}
 		$this->object->saveToDb();
-		$_GET["q_id"] = $this->object->getId();
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
