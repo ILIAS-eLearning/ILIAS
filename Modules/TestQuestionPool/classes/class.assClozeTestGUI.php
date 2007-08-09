@@ -707,7 +707,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 			}
 		}
-		$template->setVariable("QUESTIONTEXT", $output);
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
@@ -910,7 +910,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 			}
 		}
-		$template->setVariable("QUESTIONTEXT", $output);
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
 
 		// generate the question output
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
@@ -1009,7 +1009,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 			}
 		}
-		$template->setVariable("QUESTIONTEXT", $output);
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
 		return $questionoutput;
