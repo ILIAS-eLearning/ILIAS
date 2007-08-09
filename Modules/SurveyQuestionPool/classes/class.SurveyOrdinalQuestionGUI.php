@@ -799,7 +799,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$_SESSION["spl_modified"] = false;
 		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
 		$originalexists = $this->object->_questionExists($this->object->original_id);
-		$_GET["q_id"] = $this->object->getId();
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 		{

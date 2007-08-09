@@ -571,7 +571,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					if ($this->object->getId() <= 0)
 					{
 						$this->object->saveToDb();
-						$_GET["q_id"] = $this->object->getId();
+						$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 						$saved = true;
 						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"));
 					}
@@ -605,7 +605,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					if ($this->object->getId() <= 0)
 					{
 						$this->object->saveToDb();
-						$_GET["q_id"] = $this->object->getId();
+						$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 						$saved = TRUE;
 						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"), TRUE);
 					}
@@ -631,7 +631,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 		if ($saved)
 		{
-			$_GET["q_id"] = $this->object->getId();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		}
 		return $result;
 	}
@@ -911,7 +911,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 		}
 		$this->object->saveToDb();
-		$_GET["q_id"] = $this->object->getId();
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();

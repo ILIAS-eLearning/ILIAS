@@ -471,7 +471,7 @@ class assQuestionGUI
 			}
 			else
 			{
-				$_GET["q_id"] = $this->object->getId();
+				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$this->editQuestion();
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
@@ -527,8 +527,7 @@ class assQuestionGUI
 			}
 			else
 			{
-				$_GET["q_id"] = $this->object->getId();
-				if ($_GET["q_id"] !=  $old_id)
+				if ($this->object->getId() !=  $old_id)
 				{
 					// first save
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
@@ -563,7 +562,7 @@ class assQuestionGUI
 	{
 		$this->writePostData();
 		$this->object->saveToDb();
-		$_GET["q_id"] = $this->object->getId();
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		$this->editQuestion();
 	}
 	
@@ -694,7 +693,7 @@ class assQuestionGUI
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());
-				$_GET["q_id"] = $this->object->getId();
+				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
 				$this->getQuestionTemplate();
 				$color_class = array("tblrow1", "tblrow2");
@@ -720,7 +719,7 @@ class assQuestionGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "st":
-				$_GET["q_id"] = $this->object->getId();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
 				$this->getQuestionTemplate();
 				$color_class = array("tblrow1", "tblrow2");
@@ -751,7 +750,7 @@ class assQuestionGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "glo":
-				$_GET["q_id"] = $this->object->getId();
+				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
 				$this->getQuestionTemplate();
 				$color_class = array("tblrow1", "tblrow2");

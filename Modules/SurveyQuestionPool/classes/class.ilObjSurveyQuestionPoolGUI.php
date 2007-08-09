@@ -1300,7 +1300,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["preview"]);
-		$_GET["q_id"] = $_GET["preview"];
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["preview"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "preview");

@@ -262,6 +262,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		if ($result == 0)
 		{
 			$this->object->saveToDb();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		}
 		$this->editQuestion();
 	}
@@ -370,6 +371,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		if ($saved)
 		{
 			$this->object->saveToDb();
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 			$this->error .= $this->lng->txt("question_saved_for_upload");
 		}
 		return $result;
@@ -762,7 +764,7 @@ class assJavaAppletGUI extends assQuestionGUI
 			}
 		}
 		$this->object->saveToDb();
-		$_GET["q_id"] = $this->object->getId();
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
