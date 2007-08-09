@@ -95,7 +95,7 @@ class assSingleChoice extends assQuestion
 		{
 			foreach ($this->answers as $answer)
 			{
-				if (strlen($answer->getAnswertext()) == 0) return false;
+				if ((strlen($answer->getAnswertext()) == 0) && (strlen($answer->getImage()) == 0)) return false;
 			}
 			return true;
 		}
