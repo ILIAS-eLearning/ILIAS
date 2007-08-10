@@ -1396,7 +1396,7 @@ common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
 common#:#auth_script#:#Benutzerdefiniert
 common#:#auth_select#:#Authentifizierungsmethode wählen
-common#:#auth_selection#:#Anmelden bei
+common#:#auth_selection#:#Anmeldungsart
 common#:#auth_settings#:#Authentifizierungseinstellungen
 common#:#auth_shib_desc#:#User-Authentifizierung über Shibboleth - Kann als zweite Authentifizierungsmethode verwendet werden.
 common#:#auth_shib_instructions#:#Bitte lesen Sie die Hinweise (README) zur Konfiguration der Shibboleth-Unterstützung für ILIAS.
@@ -1421,7 +1421,7 @@ common#:#auth_soap#:#SOAP
 common#:#auth_user_default_role#:#Standardrolle
 common#:#auth_visible#:#Authentifizierung ist sichtbar
 common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
-common#:#authenticate_ilias#:#Direkt bei ILIAS anmelden
+common#:#authenticate_ilias#:#Direkt über die ILIAS-Datenbank anmelden
 common#:#authenticate_with#:#Anmelden bei:
 common#:#authentication_settings#:#Authentifizierung
 common#:#author#:#Autor/in

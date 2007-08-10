@@ -484,15 +484,13 @@ class ilAuthUtils
 		if($ldap_id = ilLDAPServer::_getFirstActiveServer())
 		{
 			$ldap_server = new ilLDAPServer($ldap_id);
-			$options[AUTH_LDAP]['txt'] = sprintf('%s %s',$lng->txt('authenticate_with'),
-				$ldap_server->getName());
+			$options[AUTH_LDAP]['txt'] = $ldap_server->getName();
 		}
 		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
 		$rad_settings = ilRadiusSettings::_getInstance();
 		if($rad_settings->isActive())
 		{
-			$options[AUTH_RADIUS]['txt'] = sprintf('%s %s',$lng->txt('authenticate_with'),
-										$rad_settings->getName());
+			$options[AUTH_RADIUS]['txt'] = $rad_settings->getName();
 		}
 		
 		if($ilSetting->get('auth_mode',AUTH_LOCAL) == AUTH_LDAP)

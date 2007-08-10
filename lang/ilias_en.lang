@@ -3856,7 +3856,7 @@ common#:#userfolder_export_file#:#File
 common#:#userfolder_export_file_size#:#File size
 common#:#userfolder_export_files#:#Files
 common#:#userfolder_export_xml#:#XML
-common#:#username#:#User name
+common#:#username#:#User Name
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Active Users
@@ -7155,7 +7155,7 @@ ldap#:#ldap_ilias_role#:#ILIAS Role
 ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.
 ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
-common#:#auth_selection#:#Login to
+common#:#auth_selection#:#Login Options
 common#:#authenticate_ilias#:#Login to ILIAS
 common#:#authenticate_with#:#Login to:
 ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.
