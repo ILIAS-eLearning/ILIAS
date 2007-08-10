@@ -83,7 +83,7 @@ class ilAuthRadius extends Auth
 		{
 			if($this->radius_settings->enabledCreation())
 			{
-				if($this->settings->enableAccountMigration() and !$this->force_creation)
+				if($this->radius_settings->isAccountMigrationEnabled() and !$this->force_creation)
 				{
 					$this->logout();
 					$_SESSION['tmp_auth_mode'] = 'radius';

@@ -506,7 +506,7 @@ class ilStartUpGUI
 	 		return false;
 	 	}
 	 	
-	 	if($_POST['account_migration'])
+	 	if($_POST['account_migration'] == 1)
 	 	{
 			if(!$user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST['username'])))
 			{
