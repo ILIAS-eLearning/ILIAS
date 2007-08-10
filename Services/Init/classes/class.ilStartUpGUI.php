@@ -314,9 +314,17 @@ class ilStartUpGUI
 		// Show selection of auth modes
 		if(ilAuthUtils::_hasMultipleAuthenticationMethods())
 		{
+			foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
+			{
+				$tpl->setCurrentBlock('auth_mode_row');
+				$tpl->setVariable('VAL_AUTH_MODE',$key);
+				$tpl->setVariable('AUTH_CHECKED',isset($option['checked']) ? 'checked=checked' : '');
+				$tpl->setVariable('TXT_AUTH_MODE',$option['txt']);
+				$tpl->parseCurrentBlock();
+			}
+			
 			$tpl->setCurrentBlock('auth_selection');
 			$tpl->setVariable('TXT_AUTH_MODE',$lng->txt('auth_selection'));
-			$tpl->setVariable('SELECT_AUTH_MODE',ilAuthUtils::_getMultipleAuthSelect($lng));
 			$tpl->parseCurrentBlock();
 		}		
 				
@@ -325,18 +333,14 @@ class ilStartUpGUI
 			$ilSetting->get("auth_mode") != AUTH_CAS)
 		{
 			$loginSettings = new ilSetting("login_settings");
-			
-			$tpl->setCurrentBlock("ilias_login");
-			
 			if ($_GET["lang"] == false)
 			{				
 				$information = $loginSettings->get("login_message_".$lng->getDefaultLanguage());							
 			}
 			else
 			{				
-				$information = $loginSettings->get("login_message_".$_GET["lang"]);				
+				$information = $loginSettings->get("login_message_".$_GET["lang"],'login_message_'.$lng->getDefaultLanguage());	
 			}			
-						
 			$information != "" ? $tpl->setVariable("TXT_LOGIN_INFORMATION", $information) : "";
 			
 			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
@@ -449,6 +453,120 @@ class ilStartUpGUI
 		}
 
 		$tpl->show("DEFAULT", false);
+	}
+	
+	/**
+	 * Show account migration screen
+	 *
+	 * @access public
+	 * @param 
+	 * 
+	 */
+	public function showAccountMigration($a_message = '')
+	{
+	 	global $tpl,$lng;
+	 	
+		$lng->loadLanguageModule('auth');
+	 	$tpl->addBlockFile("CONTENT", "content", "tpl.login_account_migration.html");
+	 	
+	 	if(strlen($a_message))
+	 	{
+	 		ilUtil::sendInfo($a_message);
+	 	}
+		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$tpl->setVariable('TXT_ACCOUNT_MIGRATION',$lng->txt('auth_account_migration'));
+		$tpl->setVariable('INFO_MIGRATE',$lng->txt('auth_info_migrate'));
+		$tpl->setVariable('INFO_ADD',$lng->txt('auth_info_add'));
+		
+		$tpl->setVariable('MIG_USER',$_POST['username']);
+		$tpl->setVariable('TXT_USER',$lng->txt('login'));
+		$tpl->setVariable('TXT_PASS',$lng->txt('password'));
+		
+		$tpl->setVariable('TXT_SUBMIT',$lng->txt('save'));
+		$tpl->setVariable('TXT_CANCEL',$lng->txt('cancel'));
+		
+		$tpl->show('DEFAULT',false);		
+	}
+	
+	/**
+	 * migrate account
+	 *
+	 * @access public
+	 * 
+	 */
+	public function migrateAccount()
+	{
+	 	global $lng,$ilClientIniFile,$ilLog;
+	 	
+	 	$lng->loadLanguageModule('auth');
+	 	
+	 	if($_POST['account_migration'] == 1 and (!strlen($_POST['username']) or !strlen($_POST['password'])))
+	 	{
+	 		$this->showAccountMigration($lng->txt('err_wrong_login'));
+	 		return false;
+	 	}
+	 	
+	 	if($_POST['account_migration'])
+	 	{
+			if(!$user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST['username'])))
+			{
+		 		$this->showAccountMigration($lng->txt('err_wrong_login'));
+		 		return false;
+			}
+			$auth_params = array(
+				'dsn'		  => IL_DSN,
+				'table'       => $ilClientIniFile->readVariable("auth", "table"),
+				'usernamecol' => $ilClientIniFile->readVariable("auth", "usercol"),
+				'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
+				);
+			$ilAuth = new Auth("DB", $auth_params,"",false);
+			$ilAuth->start();
+			if(!$ilAuth->getAuth())
+			{
+		 		$ilAuth->logout();
+		 		$this->showAccountMigration($lng->txt('err_wrong_login'));
+ 				return false;
+			}
+
+			$user = new ilObjUser($user_id);
+			$user->setAuthMode($_SESSION['tmp_auth_mode']);
+			$user->setExternalAccount($_SESSION['tmp_external_account']);
+			$user->update();
+
+			// Log migration
+			$ilLog->write(__METHOD__.': Migrated '.$_SESSION['tmp_external_account'].' to ILIAS account '.$user->getLogin().'.');
+	 	}
+	 	elseif($_POST['account_migration'] == 2)
+	 	{
+			switch($_SESSION['tmp_auth_mode'])
+			{
+				case 'ldap':
+					$_POST['username'] = $_SESSION['tmp_external_account'];
+					$_POST['password'] = $_SESSION['tmp_pass'];
+					
+					include_once('Services/LDAP/classes/class.ilAuthLDAP.php');
+					$ilAuth = new ilAuthLDAP();
+					$ilAuth->forceCreation(true);
+					$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
+					$ilAuth->setExpire(0);
+					$ilAuth->start();
+					break;
+				
+				case 'radius':
+					$_POST['username'] = $_SESSION['tmp_external_account'];
+					$_POST['password'] = $_SESSION['tmp_pass'];
+					
+					include_once('Services/Radius/classes/class.ilAuthRadius.php');
+					$ilAuth = new ilAuthRadius();
+					$ilAuth->forceCreation(true);
+					$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
+					$ilAuth->setExpire(0);
+					$ilAuth->start();
+					break;
+			}
+	 	}
+		// show personal desktop
+		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 	}
 
 	/**

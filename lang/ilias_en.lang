@@ -7491,3 +7491,8 @@ meta#:#md_adv_active#:#Active
 common#:#default_auth_mode#:#Default Authentication Method
 common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.
 common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.
+auth#:#auth_rad_migration#:#Account Migration:
+auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.
+auth#:#auth_account_migration#:#New ILIAS Account
+auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).
+auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.

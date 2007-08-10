@@ -510,6 +510,30 @@ class ilLDAPServer
 		$this->role_sync_active = $a_value;
 	}
 	
+	/**
+	 * Enable account migration
+	 *
+	 * @access public
+	 * @param bool status
+	 * 
+	 */
+	public function enableAccountMigration($a_status)
+	{
+	 	$this->account_migration = $a_status;
+	}
+	
+	/**
+	 * enabled account migration
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isAccountMigrationEnabled()
+	{
+	 	return $this->account_migration ? true : false;
+	}
+	
+	
 	/** 
 	 * Validate user input
 	 * @param 
