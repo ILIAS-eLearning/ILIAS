@@ -1184,13 +1184,13 @@ class ilObjQuestionPool extends ilObject
 		
 		if ($is_reference)
 		{
-			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) AS equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questions.obj_fi",
+			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) AS equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s",
+			$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.original_id IS NULL",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
