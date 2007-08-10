@@ -49,6 +49,7 @@ class ilRadiusSettingsGUI
 		$this->tabs_gui = $ilTabs;
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('registration');
+		$this->lng->loadLanguageModule('auth');
 		
 		$this->tpl = $tpl;
 		$this->ref_id = $a_auth_ref_id;
@@ -148,10 +149,17 @@ class ilRadiusSettingsGUI
 		$check->setChecked($this->settings->enabledCreation() ? 1 : 0);
 		$check->setValue(1);
 		
+		
 		$select = new ilSelectInputGUI($this->lng->txt('auth_radius_role_select'),'role');
 		$select->setOptions($this->prepareRoleSelection());
 		$select->setValue($this->settings->getDefaultRole());
 		$check->addSubItem($select);
+
+		$migr = new ilCheckboxInputGUI($this->lng->txt('auth_rad_migration'),'migration');
+		$migr->setInfo($this->lng->txt('auth_rad_migration_info'));
+		$migr->setChecked($this->settings->isAccountMigrationEnabled() ? 1 : 0);
+		$migr->setValue(1);
+		$check->addSubItem($migr);
 		$form->addItem($check);
 		
 		
@@ -176,6 +184,7 @@ class ilRadiusSettingsGUI
 	 	$this->settings->setServerString(ilUtil::stripSlashes($_POST['servers']));
 	 	$this->settings->setDefaultRole((int) $_POST['role']);
 	 	$this->settings->enableCreation((int) $_POST['sync']);
+	 	$this->settings->enableAccountMigration((int) $_POST['migration']);
 	 	
 	 	if(!$this->settings->validateRequired())
 	 	{

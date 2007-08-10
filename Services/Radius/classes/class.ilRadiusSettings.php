@@ -35,6 +35,8 @@ class ilRadiusSettings
 	private $db;
 	private static $instance = null;
 	
+	private $account_migration = false;
+	
 	private $servers = array();
 	
 	/**
@@ -171,6 +173,29 @@ class ilRadiusSettings
 	}
 	
 	/**
+	 * Enable account migration
+	 *
+	 * @access public
+	 * @param bool status
+	 * 
+	 */
+	public function enableAccountMigration($a_status)
+	{
+	 	$this->account_migration = $a_status;
+	}
+	
+	/**
+	 * enabled account migration
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isAccountMigrationEnabled()
+	{
+	 	return $this->account_migration ? true : false;
+	}
+	
+	/**
 	 * Save settings
 	 *
 	 * @access public
@@ -187,6 +212,7 @@ class ilRadiusSettings
 		$this->settings->set('radius_shared_secret',$this->getSecret());
 		$this->settings->set('radius_name',$this->getName());
 		$this->settings->set('radius_creation',$this->enabledCreation() ? 1 : 0);
+		$this->settings->set('radius_migration',$this->isAccountMigrationEnabled() ? 1 : 0);
 		
 		$counter = 0;
 		foreach($this->getServers() as $server)
@@ -278,6 +304,7 @@ class ilRadiusSettings
 	 	$this->setSecret($all_settings['radius_shared_secret']);
 	 	$this->setName($all_settings['radius_name']);
 	 	$this->enableCreation($all_settings['radius_creation']);
+	 	$this->enableAccountMigration($all_settings['radius_migration']);
 	 	
 		$query = "SELECT value FROM settings WHERE keyword LIKE 'radius_server%' ORDER BY keyword ASC";
 		$res = $this->db->query($query);

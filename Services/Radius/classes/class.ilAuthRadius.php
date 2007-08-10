@@ -39,6 +39,8 @@ class ilAuthRadius extends Auth
 	private $rad_to_user = null;
 	private $log = null;
 	
+	private $force_creation = false;
+	
 	public function __construct()
 	{
 		global $ilLog;
@@ -52,6 +54,19 @@ class ilAuthRadius extends Auth
 		// Set callbacks
 		$this->setCallbacks();
 	}
+	
+	/**
+	 * Force creation of user accounts
+	 *
+	 * @access public
+	 * @param bool force_creation
+	 * 
+	 */
+	public function forceCreation($a_status)
+	{
+	 	$this->force_creation = true;
+	}
+	
 	
 	/** 
 	 * Called from base class after successful login
@@ -68,6 +83,15 @@ class ilAuthRadius extends Auth
 		{
 			if($this->radius_settings->enabledCreation())
 			{
+				if($this->settings->enableAccountMigration() and !$this->force_creation)
+				{
+					$this->logout();
+					$_SESSION['tmp_auth_mode'] = 'radius';
+					$_SESSION['tmp_external_account'] = $a_username;
+					$_SESSION['tmp_pass'] = $_POST['password'];
+				
+					ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration');
+				}
 				$this->initAttributeToUser();
 				$new_name = $this->radius_user->create($a_username);
 				$this->setAuth($new_name);

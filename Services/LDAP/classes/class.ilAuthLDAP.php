@@ -41,6 +41,8 @@ class ilAuthLDAP extends Auth
 	private $log = null;
 	private $logCache = '';
 	
+	private $force_creation = false;
+	
 	public function __construct()
 	{
 		global $ilLog;
@@ -58,6 +60,18 @@ class ilAuthLDAP extends Auth
 		$this->setCallbacks();
 	}
 	
+	/**
+	 * Force creation of user accounts
+	 *
+	 * @access public
+	 * @param bool force_creation
+	 * 
+	 */
+	public function forceCreation($a_status)
+	{
+	 	$this->force_creation = true;
+	}
+	
 	/** 
 	 * Called from base class after successful login
 	 *
@@ -72,6 +86,16 @@ class ilAuthLDAP extends Auth
 		
 		if($this->ldap_server->enabledSyncOnLogin())
 		{
+			if(!$user_data['ilInternalAccount'] and $this->ldap_server->isAccountMigrationEnabled() and !$this->force_creation)
+			{
+				$this->logout();
+				$_SESSION['tmp_auth_mode'] = 'ldap';
+				$_SESSION['tmp_external_account'] = $a_username;
+				$_SESSION['tmp_pass'] = $_POST['password'];
+				
+				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration');
+			}
+
 			// Refresh or create user data
 			$this->initLDAPAttributeToUser();
 			$this->ldap_attr_to_user->setUserData($users);
@@ -105,18 +129,6 @@ class ilAuthLDAP extends Auth
 			$this->ldap_container->enableOptionalGroupCheck();
 			$this->start();
 		}
-	}
-	
-	
-	/** 
-	 * update user
-	 *
-	 * @param string username
-	 * @return bool success status
-	 */
-	private function updateUser()
-	{
-		
 	}
 	
 	/**

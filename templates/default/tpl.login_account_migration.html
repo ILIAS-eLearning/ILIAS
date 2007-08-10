@@ -1,0 +1,37 @@
+<div align="center">
+<img src="./templates/default/images/ilias_logo_big.png" border="0" style="margin: 20px;"/>
+<form method="post" action="{FORMACTION}" name="formlogin">
+	{MESSAGE}
+	<table class="std" width="400">
+		<tr class="tblheader">
+			<th class="std">{TXT_ACCOUNT_MIGRATION}</th>
+		</tr>
+		<tr class="std">
+			<td class="std">
+				<div style="padding-left: 10px;">
+					<input type="radio" name="account_migration" checked="checked" value="1" id="1"/><label for="1">{INFO_MIGRATE}</label>
+					<div style="padding-left: 30px;">
+						<table class="fullwidth_invisible">
+							<tr>
+								<td>{TXT_USER}</td>
+								<td><input type="text" name="username" value="{MIG_USER}" /></td>
+							</tr>
+							<tr>
+								<td>{TXT_PASS}</td>
+								<td><input type="password" name="password" value="{MIG_USER}" /></td>
+							</tr>
+						</table>
+					</div>
+					<input type="radio" name="account_migration" value="2" id="2"/><label for="2">{INFO_ADD}</label>
+				</div>
+			</td>
+		</tr>
+		<tr class="tblfooter">
+			<td class="submit" align="right">
+				<input class="submit" type="submit" name="cmd[migrateAccount]" value="{TXT_SUBMIT}"/>
+				<input class="submit" type="submit" name="cmd[showLogin]" value="{TXT_CANCEL}"/>
+			</td>
+		</tr>
+	</table>	
+</form>
+</div>

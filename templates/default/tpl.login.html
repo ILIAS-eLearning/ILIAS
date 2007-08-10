@@ -89,13 +89,19 @@
   <tr class="tblheader">
 	<td class="std" colspan="2">{TXT_ILIAS_LOGIN}</td>
   </tr>
-  <!-- BEGIN login_information -->
-  <tr><td class="option_value" colspan="2">{TXT_LOGIN_INFORMATION}</td></tr>
-  <!-- END login_information -->
+	<!-- BEGIN login_information -->
+	<tr class="std">
+		<td class="std" colspan="2">{TXT_LOGIN_INFORMATION}</td>
+	</tr>
+	<!-- END login_information -->
 		  <!-- BEGIN auth_selection -->
 		  <tr>
 			<td class="option">{TXT_AUTH_MODE}</td>
-			<td class="option_value">{SELECT_AUTH_MODE}</td>
+			<td class="option_value">
+				<!-- BEGIN  auth_mode_row -->
+					<input type="radio" id="{VAL_AUTH_MODE}" name="auth_mode" value="{VAL_AUTH_MODE}" {AUTH_CHECKED} /> <label for="{VAL_AUTH_MODE}">{TXT_AUTH_MODE}</label><br />
+				<!-- END auth_mode_row -->
+			</td>
 		  </tr>
 		  <!-- END auth_selection -->
   <tr>
