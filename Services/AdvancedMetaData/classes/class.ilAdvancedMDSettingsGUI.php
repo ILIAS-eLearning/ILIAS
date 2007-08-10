@@ -49,26 +49,6 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function __construct()
 	{
-	 	
-	 	$ch = curl_init ("https://www.office.databay.de/secure/phpinfo.php"); 
-		curl_setopt($ch, CURLOPT_VERBOSE, 1);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,"my_hidden_variables");
-		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, 1);
-		curl_setopt($ch,CURLOPT_CAINFO, "/home/smeyer/certs/ca.crt");
-		curl_setopt ($ch, CURLOPT_SSLCERT,"/home/smeyer/certs/client.office.databay.de.crt");
-		curl_setopt($ch,CURLOPT_SSLKEY,"/home/smeyer/certs/client.office.databay.de.key");
-
-		$return = curl_exec ($ch);
-
-		echo curl_error($ch);
-
-		echo "Returned result:<BR>";
-		echo "$return";
-
-		curl_close ($ch); 	 	
 	 	global $tpl,$lng,$ilCtrl,$ilTabs;
 	 	
 	 	$this->ctrl = $ilCtrl;
