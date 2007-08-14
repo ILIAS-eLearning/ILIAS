@@ -655,7 +655,7 @@ assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests Already Taken
 assessment#:#tst_anonymity#:#Anonymity
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized
+assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized.
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
@@ -771,17 +771,17 @@ assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last
 assessment#:#tst_pass_scoring#:#Multiple Pass Scoring
 assessment#:#tst_passes#:#Test Passes
 assessment#:#tst_password#:#Test Password
-assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test
+assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_postpone#:#Postpone Questions
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test
+assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test.
 assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_processing_time#:#Max. Processing Time
-assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.
+assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test for the first time and ends after the expiration of the entered hours, minutes and seconds.
 assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
 assessment#:#tst_qst_resetsolved#:#Set Unsolved
@@ -861,14 +861,14 @@ assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback h
 assessment#:#tst_list_of_answers_show#:#Show List of Answers
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
+assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution.
 assessment#:#tst_title_output#:#Question Title Output
 assessment#:#tst_title_output_full#:#Show Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Show only Question Titles
 assessment#:#tst_title_output_no_title#:#Don't show the Question Titles and the Available Points
-assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the question titles and the available points during the test
+assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the question titles and the available points during the test.
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
-assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes
+assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
 assessment#:#tst_show_results#:#Show Test Results
@@ -878,7 +878,7 @@ assessment#:#tst_show_solution_printview#:#Show List of Answers
 assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test Results
 assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions.
 assessment#:#tst_show_summary#:#Show List of Questions
-assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test
+assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test.
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every test pass.
 assessment#:#tst_signature#:#Signature

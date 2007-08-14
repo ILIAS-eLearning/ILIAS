@@ -760,7 +760,7 @@ assessment#:#tst_postpone#:#Fragen zurückstellen
 assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
-assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer startet zu dem Zeitpunkt an dem Teilnehmer einen Test starten und endet nach Ablauf der hier angegebenen Stunden, Minuten und Sekunden.
+assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer startet zu dem Zeitpunkt an dem Teilnehmer zum ersten Mal einen Test starten und endet nach Ablauf der hier angegebenen Stunden, Minuten und Sekunden.
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
@@ -800,7 +800,7 @@ assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_results_access_always#:#Immer
 assessment#:#tst_results_access_date#:#Datum
-assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, denn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben.
+assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, wenn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben.
 assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
 assessment#:#tst_results_access#:#Zugang zu den Testergebnissen
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
@@ -809,7 +809,7 @@ assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
 assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
-assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht für laufende Tests angeboten, erhalten die Teilnehmer die Möglichkeit, Fragentitel und erzielte Punkte der jeweiligen Fragen in der Ergebnisübersicht einzusehen. Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden die diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt.
+assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht für laufende Tests angeboten, erhalten die Teilnehmer die Möglichkeit, Fragentitel und erzielte Punkte der jeweiligen Fragen in der Ergebnisübersicht einzusehen. Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt.
 assessment#:#tst_results_presentation#:#Präsentation der Testergebnisse
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_resume_test#:#Test fortsetzen
@@ -839,14 +839,14 @@ assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_set_feedback_done#:#Die Manuelle Rückmeldung wurde gespeichert
 assessment#:#tst_set_feedback_not_done#:#Es ist ein Fehler aufgetreten! Die Manuelle Rückmeldung konnte nicht gespeichert werden
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
-assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Abbrechen des Tests an
+assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Abbrechen des Tests an.
 assessment#:#tst_show_cancel#:#"Test abbrechen" Option anzeigen
 assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
 assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
 assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
-assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an
+assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an.
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jedem Testdurchlauf neu mischen.
 assessment#:#tst_shuffle_questions#:#Fragen mischen
@@ -891,7 +891,7 @@ assessment#:#tst_test_output#:#Testdurchführung
 assessment#:#tst_text_count_system#:#Bewertungssystem
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
 assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s.
-assessment#:#tst_title_output_description#:#Wählen Sie eine der oberen Optionen für die Darstellung der Fragentitel und der erreichbaren Punkte während eines Testdurchlaufs aus
+assessment#:#tst_title_output_description#:#Wählen Sie eine der oberen Optionen für die Darstellung der Fragentitel und der erreichbaren Punkte während eines Testdurchlaufs aus.
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punktezahl anzeigen
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel anzeigen
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punktezahl anzeigen
@@ -904,7 +904,7 @@ assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem lauf
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
-assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte in zukünftigen Testdurchläufen zu verwenden
+assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte in zukünftigen Testdurchläufen zu verwenden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_use_previous_answers#:#Vorherige Lösungen verwenden
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben

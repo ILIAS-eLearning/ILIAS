@@ -1239,7 +1239,7 @@ class ilObjTest extends ilObject
 				$allowedUsersTimeGap,
 				$ilDB->quote("0"),
 				$ilDB->quote($created)
-      );
+			);
 
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -3863,6 +3863,13 @@ class ilObjTest extends ilObject
 				// only add the number of tries if there are ANY results for the current
 				// test pass. Otherwise something must be wrong (doubleclick, reload etc.)
 				$tries++;
+				if ($this->getShuffleQuestions())
+				{
+					$sequence_arr = array_flip($this->questions);
+					$sequence_arr = array_values($sequence_arr);
+					$sequence_arr = $this->pcArrayShuffle($sequence_arr);
+					$sequence = join($sequence_arr, ",");
+				}
 			}
 			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s WHERE user_fi = %s AND test_fi = %s",
 				$ilDB->quote($lastindex),
