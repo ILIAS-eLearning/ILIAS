@@ -1371,8 +1371,8 @@ class assQuestion
 			array_push($found_id, $row->question_id);
 		}
 
-		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
-			join($found_id, ","));
+		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN ('%s')",
+			join($found_id, "','"));
 		$result = $ilDB->query($query);
 
 		return $result->numRows();
@@ -1402,8 +1402,8 @@ class assQuestion
 		{
 			array_push($found_id, $row->question_id);
 		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
-			join($found_id, ","));
+		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN ('%s')",
+			join($found_id, "','"));
 		$result = $ilDB->query($query);
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))

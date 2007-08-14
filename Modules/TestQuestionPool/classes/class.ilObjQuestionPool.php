@@ -1535,14 +1535,14 @@ class ilObjQuestionPool extends ilObject
 			$query = "";
 			if ($could_be_offline)
 			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id, qpl_questionpool.questioncount FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) AND qpl_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode(",", $qpls)
+				$query = sprintf("SELECT object_data.*, object_reference.ref_id, qpl_questionpool.questioncount FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND qpl_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
+					implode("','", $qpls)
 				);
 			}
 			else
 			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id, qpl_questionpool.questioncount FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) AND qpl_questionpool.online = '1' AND qpl_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode(",", $qpls)
+				$query = sprintf("SELECT object_data.*, object_reference.ref_id, qpl_questionpool.questioncount FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND qpl_questionpool.online = '1' AND qpl_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
+					implode("','", $qpls)
 				);
 			}
 			$result = $ilDB->query($query);

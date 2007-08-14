@@ -395,8 +395,8 @@ class ilObjSurveyQuestionPool extends ilObject
 	function &getQuestionsInfo($question_array)
 	{
 		$result_array = array();
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN (%s)",
-			join($question_array, ",")
+		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN ('%s')",
+			join($question_array, "','")
 		);
     $result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -906,14 +906,14 @@ class ilObjSurveyQuestionPool extends ilObject
 			$query = "";
 			if ($could_be_offline)
 			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode(",", $qpls)
+				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
+					implode("','", $qpls)
 				);
 			}
 			else
 			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) AND survey_questionpool.online = '1' AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode(",", $qpls)
+				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND survey_questionpool.online = '1' AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
+					implode("','", $qpls)
 				);
 			}
 			$result = $ilDB->query($query);

@@ -5469,7 +5469,7 @@ class ilObjTest extends ilObject
 		$original_clause = "";
 		if (count($original_ids))
 		{
-			$original_clause = " AND ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
+			$original_clause = " AND ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN ('" . join($original_ids, "','") . "')";
 		}
 
 		// get a list of questionpools which are not allowed for the test (only for random selection of questions in test questions editor)
@@ -5481,7 +5481,7 @@ class ilObjTest extends ilObject
 			$constraint_qpls = "";
 			if (count($available_pools))
 			{
-				$available = " AND qpl_questions.obj_fi IN (" . join($available_pools, ",") . ")";
+				$available = " AND qpl_questions.obj_fi IN ('" . join($available_pools, "','") . "')";
 			}
 			else
 			{
@@ -5501,7 +5501,7 @@ class ilObjTest extends ilObject
 					{
 						array_push($qplidx, $arr["qpl"]);
 					}
-					$constraint_qpls = " AND qpl_questions.obj_fi IN (" . join($qplidx, ",") . ")";
+					$constraint_qpls = " AND qpl_questions.obj_fi IN ('" . join($qplidx, "','") . "')";
 				}
 			}
 			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.complete = '1'$original_clause";
@@ -5843,7 +5843,7 @@ class ilObjTest extends ilObject
 		$available = "";
 		if (count($available_pools))
 		{
-			$available = " AND qpl_questions.obj_fi IN (" . join($available_pools, ",") . ")";
+			$available = " AND qpl_questions.obj_fi IN ('" . join($available_pools, "','") . "')";
 		}
 		else
 		{
@@ -5870,7 +5870,7 @@ class ilObjTest extends ilObject
 		$original_clause = " ISNULL(qpl_questions.original_id)";
 		if (count($original_ids))
 		{
-			$original_clause = " ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
+			$original_clause = " ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN ('" . join($original_ids, "','") . "')";
 		}
 
 		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
@@ -6841,8 +6841,8 @@ class ilObjTest extends ilObject
 		if (count($tests))
 		{
 			$titles = ilObject::_prepareCloneSelection($tests, "tst");
-			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) ORDER BY object_data.title",
-				implode(",", $tests)
+			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') ORDER BY object_data.title",
+				implode("','", $tests)
 			);
 			$result = $ilDB->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -7538,15 +7538,15 @@ class ilObjTest extends ilObject
 
 		if ($this->getAnonymity())
 		{
-			$query = sprintf("SELECT usr_id, '' AS login, %s AS lastname, '' AS firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",
+			$query = sprintf("SELECT usr_id, '' AS login, %s AS lastname, '' AS firstname, client_ip as clientip FROM usr_data WHERE usr_id IN ('%s') ORDER BY login",
 				$ilDB->quote($this->lng->txt("unknown")),
-				join ($ids,",")
+				join ($ids,"','")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",
-				join ($ids,",")
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN ('%s') ORDER BY login",
+				join ($ids,"','")
 			);
 		}
 
@@ -7586,8 +7586,8 @@ class ilObjTest extends ilObject
 
 		$result_array = array();
 
-		$query = sprintf("SELECT ref_id, title, description FROM `grp_data` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN (%s)",
-			join ($ids,",")
+		$query = sprintf("SELECT ref_id, title, description FROM `grp_data` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN ('%s')",
+			join ($ids,"','")
 		);
 
 		return $this->getArrayData ($query, "ref_id");
@@ -7600,8 +7600,8 @@ class ilObjTest extends ilObject
 
 		$result_array = array();
 
-		$query = sprintf("SELECT obj_id, description, title FROM role_data, object_data o WHERE o.obj_id=role_id AND role_id IN (%s)",
-			join ($ids,",")
+		$query = sprintf("SELECT obj_id, description, title FROM role_data, object_data o WHERE o.obj_id=role_id AND role_id IN ('%s')",
+			join ($ids,"','")
 		);
 
 		return $this->getArrayData ($query, "obj_id");
