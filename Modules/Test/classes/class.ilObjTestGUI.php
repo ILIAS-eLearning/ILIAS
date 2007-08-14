@@ -1645,6 +1645,10 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_USE_PREVIOUS_ANSWERS",  " checked=\"checked\"");
 		}
+		if ($data["random_test"])
+		{
+			$this->tpl->setVariable("DISABLE_USE_PREVIOUS_ANSWERS",  " disabled=\"disabled\"");
+		}
 		$this->tpl->setVariable("HEADING_SESSION", $this->lng->txt("tst_session_settings"));
 		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
 		$this->tpl->setVariable("VALUE_NR_OF_TRIES", $data["nr_of_tries"]);
