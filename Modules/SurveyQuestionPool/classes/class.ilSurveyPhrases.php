@@ -137,9 +137,9 @@ class ilSurveyPhrases
 		
 		if ((is_array($phrase_array)) && (count($phrase_array)))
 		{
-			$query = "DELETE FROM survey_phrase WHERE phrase_id IN (" . join($phrase_array, ",") . ")";
+			$query = "DELETE FROM survey_phrase WHERE phrase_id IN ('" . join($phrase_array, "','") . "')";
 			$result = $ilDB->query($query);
-			$query = "DELETE FROM survey_phrase_category WHERE phrase_fi IN (" . join($phrase_array, ",") . ")";
+			$query = "DELETE FROM survey_phrase_category WHERE phrase_fi IN ('" . join($phrase_array, "','") . "')";
 			$result = $ilDB->query($query);
 		}
 	}

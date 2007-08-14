@@ -335,7 +335,7 @@ class ilObjSurvey extends ilObject
 		}
 		if (count($questionblocks))
 		{
-			$query = "DELETE FROM survey_questionblock WHERE questionblock_id IN (" . join($questionblocks, ",") . ")";
+			$query = "DELETE FROM survey_questionblock WHERE questionblock_id IN ('" . join($questionblocks, "','") . "')";
 			$result = $ilDB->query($query);
 		}
 		$query = sprintf("DELETE FROM survey_questionblock_question WHERE survey_fi = %s",
@@ -2494,7 +2494,7 @@ class ilObjSurvey extends ilObject
 		$in = join(array_keys($all_questions), ",");
 		if ($in)
 		{
-			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ($in)",
+			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ('$in')",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
@@ -2656,7 +2656,7 @@ class ilObjSurvey extends ilObject
 		$in = join(array_keys($all_questions), ",");
 		if ($in)
 		{
-			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ($in)",
+			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ('$in')",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
@@ -3621,7 +3621,7 @@ class ilObjSurvey extends ilObject
 	function &getQuestions($question_ids)
 	{
 		$result_array = array();
-		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN (" . join($question_ids, ",") . ")";
+		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN ('" . join($question_ids, "','") . "')";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -3635,7 +3635,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-    $query = "SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN (" . join($questionblock_ids, ",") . ") ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
+    $query = "SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN ('" . join($questionblock_ids, "','") . "') ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -3732,7 +3732,7 @@ class ilObjSurvey extends ilObject
 
 		$spls =& $this->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
 		$forbidden = "";
-		$forbidden = " AND survey_question.obj_fi IN (" . join(array_keys($spls), ",") . ")";
+		$forbidden = " AND survey_question.obj_fi IN ('" . join($spls, "','") . "')";
 		if ($completeonly)
 		{
 			$forbidden .= " AND survey_question.complete = " . $ilDB->quote("1");
@@ -3741,7 +3741,7 @@ class ilObjSurvey extends ilObject
 		$existing_questions =& $this->getExistingQuestions();
 		if (count($existing_questions))
 		{
-			$existing = " AND survey_question.question_id NOT IN (" . join($existing_questions, ",") . ")";
+			$existing = " AND survey_question.question_id NOT IN ('" . join($existing_questions, "','") . "')";
 		}
 		$limit = " LIMIT $startrow, $maxentries";
 		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order";
@@ -4209,8 +4209,8 @@ class ilObjSurvey extends ilObject
 		if (count($surveys))
 		{
 			$titles = ilObject::_prepareCloneSelection($surveys, "svy");
-			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN (%s) ORDER BY object_data.title",
-				implode(",", $surveys)
+			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') ORDER BY object_data.title",
+				implode("','", $surveys)
 			);
 			$result = $ilDB->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
