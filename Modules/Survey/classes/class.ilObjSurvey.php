@@ -4080,7 +4080,7 @@ class ilObjSurvey extends ilObject
 					$a_xml_writer->xmlElement("textblock", NULL, $question["heading"]);
 				}
 				$questionObject =& $this->_instanciateQuestion($question["question_id"]);
-				$questionObject->insertXML($a_xml_writer, FALSE, $obligatory_states[$question["question_id"]]);
+				if ($questionObject !== FALSE) $questionObject->insertXML($a_xml_writer, FALSE, $obligatory_states[$question["question_id"]]);
 			}
 			if (count($question_array) > 1)
 			{
@@ -4105,8 +4105,10 @@ class ilObjSurvey extends ilObject
 */
   function &_instanciateQuestion($question_id) 
 	{
+		if ($question_id < 1) return FALSE;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		if (strlen($question_type) == 0) return FALSE;
 		include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
 		$question = new $question_type();
 		$question->loadFromDb($question_id);
