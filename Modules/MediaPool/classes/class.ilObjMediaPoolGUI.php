@@ -94,7 +94,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			? $_POST["new_type"]
 			: $_GET["new_type"];
 
-		if ($new_type != "")
+		if ($new_type != "" && ($cmd != "confirmRemove" && $cmd != "copyToClipboard"
+			&& $cmd != "pasteFromClipboard"))
 		{
 			$this->setCreationMode(true);
 		}

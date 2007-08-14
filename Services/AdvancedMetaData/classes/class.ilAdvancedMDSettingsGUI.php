@@ -109,7 +109,10 @@ class ilAdvancedMDSettingsGUI
 		{
 			return true;
 		}
-		$this->tpl->setVariable('SUBSTITUTION_TABLE',$this->form->getHTML());
+		if (is_object($this->form))
+		{
+			$this->tpl->setVariable('SUBSTITUTION_TABLE',$this->form->getHTML());
+		}
 		return true;
 	}
 	
