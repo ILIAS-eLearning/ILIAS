@@ -453,13 +453,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
 		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
 		$this->tpl->setVariable("VAL_CAPTION", $std_item->getCaption());
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 
 		// parameters
 		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
 		$this->tpl->setVariable("INPUT_PARAMETERS", "mob_parameters");
 		$this->tpl->setVariable("VAL_PARAMETERS", $std_item->getParameterString());
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 
 		// fullscreen view
 		if($this->object->hasFullScreenItem())
