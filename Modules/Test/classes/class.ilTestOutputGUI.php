@@ -2183,15 +2183,24 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_participants.html", "Modules/Test");
 
-		if ($this->object->getNrOfTries() == 1)
+		if (array_key_exists("statistics", $_GET) && ($_GET["statistics"] == 1))
 		{
 			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("back"));
-			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
+			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
+			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilTestEvaluationGUI", "detailedEvaluation"));
 		}
 		else
 		{
-			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outParticipantsResultsOverview"));
-			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
+			if ($this->object->getNrOfTries() == 1)
+			{
+				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("back"));
+				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outParticipantsResultsOverview"));
+				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
+			}
 		}
 
 		$this->tpl->parseCurrentBlock();

@@ -442,6 +442,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$this->tpl->setCurrentBlock("question_header");
 				$this->tpl->setVariable("TXT_QUESTION_DATA", sprintf($this->lng->txt("tst_eval_question_points"), $pass+1));
 				$this->tpl->parseCurrentBlock();
+				global $ilAccess;
+				if (($ilAccess->checkAccess("write", "", $_GET["ref_id"])))
+				{
+					$this->tpl->setCurrentBlock("question_footer");
+					$this->tpl->setVariable("TEXT_TO_DETAILED_RESULTS", $this->lng->txt("tst_show_answer_sheet"));
+					$this->ctrl->setParameterByClass("ilTestOutputGUI", "statistics", "1");
+					$this->ctrl->setParameterByClass("ilTestOutputGUI", "active_id", $active_id);
+					$this->ctrl->setParameterByClass("ilTestOutputGUI", "pass", $pass);
+					$this->tpl->setVariable("URL_TO_DETAILED_RESULTS", $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "outParticipantsPassDetails"));
+					$this->tpl->parseCurrentBlock();
+				}
 				$questions = $data->getParticipant($active_id)->getQuestions($pass);
 				if (!is_array($questions))
 				{
