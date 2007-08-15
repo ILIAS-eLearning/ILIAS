@@ -1274,7 +1274,16 @@ class ilObjGroupGUI extends ilContainerGUI
 			$result_set[$counter][] = $mem["login"];
 			$result_set[$counter][] = $mem["firstname"];
 			$result_set[$counter][] = $mem["lastname"];
-			$result_set[$counter][] = ilFormat::formatDate($mem["last_login"]);
+			
+			if(strcmp(substr($mem['last_login'],0,4),'0000') == 0)
+			{
+				$result_set[$counter][] = $this->lng->txt('no_date');
+			}
+			else
+			{			
+				$unix = ilFormat::datetime2unixTS($mem['last_login']);
+				$result_set[$counter][] = date('Y-m-d H:i',$unix);
+			}
 			$result_set[$counter][] = $str_member_roles;
 			$result_set[$counter][] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
 
