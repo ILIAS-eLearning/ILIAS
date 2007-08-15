@@ -208,10 +208,10 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="material">
-  	<xs:complexType mixed="true">
+  	<xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" ref="mattext"/>
-        <xs:element minOccurs="0" ref="matimage"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="matimage"/>
       </xs:sequence>
       <xs:attribute name="label" type="xs:string"/>
     </xs:complexType>
@@ -228,7 +228,7 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="matimage">
-    <xs:complexType>
+  	<xs:complexType mixed="true">
         <xs:attribute name="type" type="xs:string" default="image/jpg"/>
         <xs:attribute name="label" type="xs:string"/>
         <xs:attribute name="charset" type="xs:string" default="utf-8"/>

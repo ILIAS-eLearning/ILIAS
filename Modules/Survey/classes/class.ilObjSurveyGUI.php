@@ -2870,16 +2870,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
 		// copy uploaded file to import directory
-		$newObj->importObject($_FILES["xmldoc"], $_POST["spl"]);
-
+		$error = $newObj->importObject($_FILES["xmldoc"], $_POST["spl"]);
+		if (strlen($error)) 
+		{  
+			$newObj->delete();
+			$this->ilias->raiseError($error, $this->ilias->error_obj->MESSAGE);
+			return;
+		}
+		else
+		{
+			$ref_id = $newObj->getRefId();
+		}
 		if ($redirect)
 		{
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("upload",$this->ctrl->getTargetScript()."?".$this->link_params));
 		}
-		return $newObj->getRefId();
+		return $ref_id;
 	}
 
 	/**

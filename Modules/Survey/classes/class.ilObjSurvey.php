@@ -305,6 +305,7 @@ class ilObjSurvey extends ilObject
 		}
 		$this->deleteSurveyRecord();
 		
+		ilUtil::delDir($this->getImportDirectory());
 		return true;
 	}
 	
@@ -1160,7 +1161,7 @@ class ilObjSurvey extends ilObject
 /**
 * Sets the authors name
 * 
-* Sets the authors name of the ilObjTest object
+* Sets the authors name of the ilObjSurvey object
 *
 * @param string $author A string containing the name of the test author
 * @access public
@@ -1208,7 +1209,7 @@ class ilObjSurvey extends ilObject
 /**
 * Gets the authors name
 * 
-* Gets the authors name of the ilObjTest object
+* Gets the authors name of the ilObjSurvey object
 *
 * @return string The string containing the name of the test author
 * @access public
@@ -4116,6 +4117,60 @@ class ilObjSurvey extends ilObject
   }
 
 	/**
+	* Locates the import directory and the xml file in a directory with an unzipped import file
+	*
+	* Locates the import directory and the xml file in a directory with an unzipped import file
+	*
+	* @return array An associative array containing "dir" (import directory) and "xml" (xml file)
+	* @access private
+	*/
+	function locateImportFiles($a_dir)
+	{
+		if (!is_dir($a_dir) || is_int(strpos($a_dir, "..")))
+		{
+			return;
+		}
+		$importDirectory = "";
+		$xmlFile = "";
+
+		$current_dir = opendir($a_dir);
+		$files = array();
+		while($entryname = readdir($current_dir))
+		{
+			$files[] = $entryname;
+		}
+
+		foreach($files as $file)
+		{
+			if(is_dir($a_dir."/".$file) and ($file != "." and $file!=".."))
+			{
+				// found directory created by zip
+				$importDirectory = $a_dir."/".$file;
+			}
+		}
+		closedir($current_dir);
+		if (strlen($importDirectory))
+		{
+			// find the xml file
+			$current_dir = opendir($importDirectory);
+			$files = array();
+			while($entryname = readdir($current_dir))
+			{
+				$files[] = $entryname;
+			}
+			foreach($files as $file)
+			{ 
+				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && (strcmp(strtolower(substr($file, -4, 4)), ".xml") == 0))
+				{
+					// found xml file
+					$xmlFile = $importDirectory."/".$file;
+				}
+			}
+		}
+		return array("dir" => $importDirectory, "xml" => $xmlFile);
+	}
+
+	/**
 	* Imports a survey from XML into the ILIAS database
 	*
 	* Imports a survey from XML into the ILIAS database
@@ -4127,36 +4182,67 @@ class ilObjSurvey extends ilObject
 	{
 		// check if file was uploaded
 		$source = $file_info["tmp_name"];
-		$error = 0;
+		$error = "";
 		if (($source == 'none') || (!$source) || $file_info["error"] > UPLOAD_ERR_OK)
 		{
-			$this->ilias->raiseError($this->lng->txt("import_no_file_selected"),$this->ilias->error_obj->MESSAGE);
-			$error = 1;
+			$error = $this->lng->txt("import_no_file_selected");
 		}
 		// check correct file type
-		if (!((strcmp($file_info["type"], "text/xml") == 0) || (strcmp($file_info["type"], "application/xml") == 0)))
+		$isXml = FALSE;
+		$isZip = FALSE;
+		if ((strcmp($file_info["type"], "text/xml") == 0) || (strcmp($file_info["type"], "application/xml") == 0))
 		{
-			$this->ilias->raiseError($this->lng->txt("import_wrong_file_type"),$this->ilias->error_obj->MESSAGE);
-			$error = 1;
+			$isXml = TRUE;
 		}
-		if (!$error)
+		if (strcmp($file_info["type"], "application/zip") == 0)
+		{
+			$isZip = TRUE;
+		}
+		if (!$isXml && !$isZip)
+		{
+			$error = $this->lng->txt("import_wrong_file_type");
+		}
+		if (strlen($error) == 0)
 		{
 			// import file as a survey
 			$import_dir = $this->getImportDirectory();
-			$importfile = tempnam($import_dir, "survey_import");
-			//move_uploaded_file($source, $importfile);
+			$import_subdir = "";
+			$importfile = "";
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::moveUploadedFile($source, "survey_import", $importfile);
+			if ($isZip)
+			{
+				$importfile = $import_dir."/".$file_info["name"];
+				ilUtil::moveUploadedFile($source, $file_info["name"], $importfile);
+				ilUtil::unzip($importfile);
+				$found = $this->locateImportFiles($import_dir);
+				if (!((strlen($found["dir"]) > 0) && (strlen($found["xml"]) > 0)))
+				{
+					$error = $this->lng->txt("wrong_import_file_structure");
+					return $error;
+				}
+				$importfile = $found["xml"];
+				$import_subdir = $found["dir"];
+			}
+			else
+			{
+				$importfile = tempnam($import_dir, "survey_import");
+				ilUtil::moveUploadedFile($source, $file_info["name"], $importfile);
+			}
 			$fh = fopen($importfile, "r");
 			if (!$fh)
 			{
-				$this->ilias->raiseError($this->lng->txt("import_error_opening_file"),$this->ilias->error_obj->MESSAGE);
-				$error = 1;
+				$error = $this->lng->txt("import_error_opening_file");
 				return $error;
 			}
 			$xml = fread($fh, filesize($importfile));
 			$result = fclose($fh);
+			if (!$result)
+			{
+				$error = $this->lng->txt("import_error_closing_file");
+				return $error;
+			}
 
+			unset($_SESSION["import_mob_xhtml"]);
 			if (strpos($xml, "questestinterop"))
 			{
 				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
@@ -4177,16 +4263,33 @@ class ilObjSurvey extends ilObject
 				$import->setXMLContent($xml);
 				$import->startParsing();
 			}
-			// delete import directory
-			ilUtil::delDir($this->getImportDirectory());
-			if (!$result)
+
+			if (is_array($_SESSION["import_mob_xhtml"]))
 			{
-				$this->ilias->raiseError($this->lng->txt("import_error_closing_file"),$this->ilias->error_obj->MESSAGE);
-				$error = 1;
-				return $error;
+				include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
+				include_once "./Services/RTE/classes/class.ilRTE.php";
+				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+				foreach ($_SESSION["import_mob_xhtml"] as $mob)
+				{
+					$importfile = $import_subdir . "/" . $mob["uri"];
+					if (file_exists($importfile))
+					{
+						$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
+						ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $this->getId());
+						$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
+						$this->setOutro(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getOutro()), 1));
+					}
+					else
+					{
+						global $ilLog;
+						$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
+					}
+				}
+				$this->saveToDb();
 			}
 
-			//$this->saveToDb();
+			// delete import directory
+			ilUtil::delDir($this->getImportDirectory());
 		}
 		return $error;
 	}
@@ -5065,19 +5168,24 @@ class ilObjSurvey extends ilObject
 		{
 			$attrs["type"] = "text/xhtml";
 		}
-		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+		$mattext = ilRTE::_replaceMediaObjectImageSrc($a_material, 0);
+		$a_xml_writer->xmlElement("mattext", $attrs, $mattext);
 
 		if ($add_mobs)
 		{
 			$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->getId());
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
-				$imgattrs = array(
-					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
-					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-				);
-				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+				$mob_id = "il_" . IL_INST_ID . "_mob_" . $mob;
+				if (strpos($mattext, $mob_id) !== FALSE)
+				{
+					$mob_obj =& new ilObjMediaObject($mob);
+					$imgattrs = array(
+						"label" => $mob_id,
+						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+					);
+					$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+				}
 			}
 		}		
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
