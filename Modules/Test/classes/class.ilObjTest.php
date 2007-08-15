@@ -3863,7 +3863,7 @@ class ilObjTest extends ilObject
 				// only add the number of tries if there are ANY results for the current
 				// test pass. Otherwise something must be wrong (doubleclick, reload etc.)
 				$tries++;
-				if ($this->getShuffleQuestions())
+				if ($this->getShuffleQuestions() && !$this->isRandomTest())
 				{
 					$sequence_arr = array_flip($this->questions);
 					$sequence_arr = array_values($sequence_arr);
