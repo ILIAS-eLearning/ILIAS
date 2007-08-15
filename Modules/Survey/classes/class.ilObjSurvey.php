@@ -4276,8 +4276,8 @@ class ilObjSurvey extends ilObject
 					{
 						$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 						ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $this->getId());
-						$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
-						$this->setOutro(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getOutro()), 1));
+						$this->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()));
+						$this->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getOutro()));
 					}
 					else
 					{
@@ -4285,6 +4285,8 @@ class ilObjSurvey extends ilObject
 						$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
 					}
 				}
+				$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 1));
+				$this->setOutro(ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 1));
 				$this->saveToDb();
 			}
 
