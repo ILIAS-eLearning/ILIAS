@@ -533,7 +533,23 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			$user_data['time_limit_owner'] = USER_FOLDER_ID;
 		}
 
-		$user_obj->assignData($user_data);
+
+		// not supported fields by update/addUser
+		$user_data['im_icq'] = $user_obj->getInstantMessengerId('icq');
+		$user_data['im_yahoo'] = $user_obj->getInstantMessengerId('yahoo');
+		$user_data['im_msn'] = $user_obj->getInstantMessengerId('msn');
+		$user_data['im_aim'] = $user_obj->getInstantMessengerId('aim');
+		$user_data['im_skype'] = $user_obj->getInstantMessengerId('skype');
+		
+		$user_data['delicious'] = $user_obj->getDelicious();
+		$user_data['latitude'] = $user_obj->getLatitude();
+		$user_data['longitude'] = $user_obj->getLongitude();
+		$user_data['loc_zoom'] = $user_obj->getLocationZoom();
+		
+		
+		$user_data['auth_mode'] = $user_obj->getAuthMode();
+		$user_data['ext_account'] = $user_obj->getExternalAccount();
+ 		$user_obj->assignData($user_data);
 
 		if(isset($user_data['user_language']))
 		{
