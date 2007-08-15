@@ -207,7 +207,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$user_old = $this->__readUserData($user_obj);
 		$user_new = $this->__substituteUserData($user_old,$user_data);
 
-		if(!$this->__validateUserData($user_data,false))
+		if(!$this->__validateUserData($user_new,false))
 		{
 			return $this->__raiseError($this->__getMessage(),'Client');
 		}
@@ -390,9 +390,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	// PRIVATE
 	function __validateUserData(&$user_data,$check_complete = true)
 	{
-		global $lng,$styleDefinition;
+		global $lng,$styleDefinition,$ilLog;
 
 		$this->__setMessage('');
+		
+		include_once('classes/class.ilAuthUtils.php');
+		$allow_empty_password = ilAuthUtils::_needsExternalAccountByAuthMode(
+			ilAuthUtils::_getAuthMode($user_data['auth_mode']));
 
 		if($check_complete)
 		{
@@ -400,7 +404,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			{
 				$this->__appendMessage('No login given.');
 			}
-			if(!isset($user_data['passwd']))
+			if(!isset($user_data['passwd']) and !$allow_empty_password)
 			{
 				$this->__appendMessage('No password given.');
 			}
@@ -434,6 +438,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					break;
 
 				case 'passwd':
+					if(!strlen($value) and $allow_empty_password)
+					{
+						break;
+					}
 					if (!ilUtil::isPassword($value))
 					{
 						$this->__appendMessage('Password invalid.');
@@ -600,6 +608,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['user_skin'] = $usr_obj->getPref('skin');
 		$usr_data['user_style'] = $usr_obj->getPref('style');
 		$usr_data['user_language'] = $usr_obj->getLanguage();
+		$usr_data['auth_mode'] = $usr_obj->getAuthMode();
 
 		$usr_data['accepted_agreement'] = $usr_obj->hasAcceptedUserAgreement();
 
