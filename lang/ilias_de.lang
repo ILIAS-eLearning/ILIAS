@@ -5218,7 +5218,7 @@ forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_statistics_disabled_for_participants#:#Die Statistiken sind für normalen Forenmitglieder nicht sichtbar.
 forum#:#frm_statistics_enabled_desc#:#Statistiken für alle Forenteilnehmer anzeigen
 forum#:#frm_statistics_enabled#:#Statistiken anzeigen
-forum#:#frm_statistics_ranking#:#Rangfolge
+forum#:#frm_statistics_ranking#:#Anzahl Postings
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#gelesen
