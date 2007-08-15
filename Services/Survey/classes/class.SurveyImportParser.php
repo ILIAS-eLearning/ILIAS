@@ -309,6 +309,18 @@ class SurveyImportParser extends ilSaxParser
 				}
 				array_push($this->material, array("text" => "", "image" => "", "label" => $a_attribs["label"]));
 				break;
+			case "matimage":
+				case "label":
+					if (array_key_exists("label", $a_attribs))
+					{
+						if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"], $matches))
+						{
+							// import an mediaobject which was inserted using tiny mce
+							if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
+							array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"]));
+						}
+					}
+				break;
 			case "metadata":
 				$this->metadata = array();
 				break;
@@ -738,6 +750,5 @@ class SurveyImportParser extends ilSaxParser
 	{
     return $this->has_error; 
   }
-  
 }
 ?>
