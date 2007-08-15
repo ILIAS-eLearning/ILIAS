@@ -416,8 +416,13 @@ class ilUserImportParser extends ilSaxParser
 		{
 			case "Role":
 				// detect numeric, ilias id (then extract role id) or alphanumeric
-				$this->current_role_id = is_numeric ($a_attribs["Id"]) ? $a_attribs["Id"] : ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) ? ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) : $a_attribs["Id"];
-				$this->current_role_type = $a_attribs["Type"];
+				$this->current_role_id = $a_attribs["Id"]; 
+				if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID)) 
+				{
+					 $this->current_role_id = $internal_id;
+				}
+				$this->current_role_type = $a_attribs["Type"];							
+
 				break;
 		}
 	}
@@ -431,7 +436,11 @@ class ilUserImportParser extends ilSaxParser
 		switch($a_name)
 		{
 			case "Role":
-				$this->current_role_id = is_numeric ($a_attribs["Id"]) ? $a_attribs["Id"] : ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) ? ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) : $a_attribs["Id"];
+				$this->current_role_id = $a_attribs["Id"];
+				if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID)) 
+				{
+					 $this->current_role_id = $internal_id;
+				}			
 				$this->current_role_type = $a_attribs["Type"];
 				$this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
 				break;

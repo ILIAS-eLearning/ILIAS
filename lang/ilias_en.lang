@@ -5205,7 +5205,7 @@ forum#:#frm_default_view#:#Default View
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.
 forum#:#frm_statistics_enabled#:#Enable Statistics
 forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants
-forum#:#frm_statistics_ranking#:#Ranking
+forum#:#frm_statistics_ranking#:#Number of Postings
 forum#:#frm_title_required#:#Please insert a title.
 forum#:#is_read#:#Mark as Read
 forum#:#new_post#:#New post
