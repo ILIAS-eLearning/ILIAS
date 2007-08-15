@@ -4517,8 +4517,7 @@ class ilObjSurvey extends ilObject
 		{
 			if ($entry != "." and
 				$entry != ".." and
-				substr($entry, -4) == ".xml" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.xml\$", $entry))
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.xml|zip\$", $entry))
 			{
 				$file[] = $entry;
 			}

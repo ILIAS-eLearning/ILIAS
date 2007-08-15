@@ -38,6 +38,9 @@ class ilSurveyExport
 	var $survey_obj;		// survey object
 	var $inst_id;		// installation id
 	var $mode;
+	var $subdir;
+	var $filename;
+	var $export_dir;
 
 	/**
 	* Constructor
@@ -103,6 +106,9 @@ class ilSurveyExport
 
 		// create directories
 		$this->survey_obj->createExportDirectory();
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		ilUtil::makeDir($this->export_dir."/".$this->subdir);
+		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 
 		// get Log File
 		$expDir = $this->survey_obj->getExportDirectory();
@@ -111,20 +117,60 @@ class ilSurveyExport
 		$expLog->delete();
 		$expLog->setLogFormat("");
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
-		// write qti file
-		$qti_file = fopen($expDir . "/" . $this->filename, "w");
-		fwrite($qti_file, $this->survey_obj->toXML());
-		fclose($qti_file);
 
-		// destroy writer object
-		$this->xml->_XmlWriter;
+		// write xml file
+		$xmlFile = fopen($this->export_dir."/".$this->subdir."/".$this->filename, "w");
+		fwrite($xmlFile, $this->survey_obj->toXML());
+		fclose($xmlFile);
 
+		// add media objects which were added with tiny mce
+		$this->exportXHTMLMediaObjects($this->export_dir."/".$this->subdir);
+
+		// zip the file
+		$ilBench->start("SurveyExport", "buildExportFileXML_zipFile");
+		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip");
+		$ilBench->stop("SurveyExport", "buildExportFileXML_zipFile");
+
+		if (@file_exists($this->export_dir."/".$this->subdir.".zip"))
+		{
+			// remove export directory and contents
+			if (@is_dir($this->export_dir."/".$this->subdir))
+			{
+				ilUtil::delDir($this->export_dir."/".$this->subdir);
+			}
+		}
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("SurveyExport", "buildExportFile");
 
-		return $this->filename;
+		return $this->export_dir."/".$this->subdir.".zip";
 	}
 
+	function exportXHTMLMediaObjects($a_export_dir)
+	{
+		global $ilBench;
+		$ilBench->start("SurveyExport", "exportXHTMLMediaObjects");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+
+		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->survey_obj->getId());
+		foreach ($mobs as $mob)
+		{
+			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj->exportFiles($a_export_dir);
+			unset($mob_obj);
+		}
+		/* maybe this will be used later 
+		foreach ($this->survey_obj->questions as $question_id)
+		{
+			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
+			foreach ($mobs as $mob)
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj->exportFiles($a_export_dir);
+				unset($mob_obj);
+			}
+		}*/
+		$ilBench->stop("SurveyExport", "exportXHTMLMediaObjects");
+	}
 
 }
 
