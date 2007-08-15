@@ -42,13 +42,13 @@ require_once("classes/class.ilSaxParser.php");
 * User Import Parser
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @extends ilSaxParser
 */
 class ilUserImportParser extends ilSaxParser
 {
 	var $time_limit_set = false;
+	var $time_limit_owner_set = false;
 
 	var $folder_id;
 	var $roles;
@@ -460,6 +460,8 @@ class ilUserImportParser extends ilSaxParser
 
 			case "User":
 				$this->auth_mode_set = false;
+				$this->time_limit_set = false;
+				$this->time_limit_owner_set = false;	
 				$this->skin = "";
 				$this->style = "";
 				$this->personalPicture = null;
@@ -1069,7 +1071,11 @@ class ilUserImportParser extends ilSaxParser
 
 							$this->userObj->setTitle($this->userObj->getFullname());
 							$this->userObj->setDescription($this->userObj->getEmail());
-							$this->userObj->setTimeLimitOwner($this->getFolderId());
+							
+							if(!$this->time_limit_owner_set)
+							{
+								$this->userObj->setTimeLimitOwner($this->getFolderId());
+							}
 
 							// default time limit settings
 							if(!$this->time_limit_set)
@@ -1200,7 +1206,6 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getMatriculation())) $updateUser->setMatriculation($this->userObj->getMatriculation());
 							if (! is_null($this->currActive)) $updateUser->setActive($this->currActive == "true", is_object($ilUser) ? $ilUser->getId() : 0);
 							if (! is_null($this->userObj->getClientIP())) $updateUser->setClientIP($this->userObj->getClientIP());
-							if (! is_null($this->userObj->getTimeLimitOwner())) $updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
 							if (! is_null($this->userObj->getTimeLimitUnlimited())) $updateUser->setTimeLimitUnlimited($this->userObj->getTimeLimitUnlimited());
 							if (! is_null($this->userObj->getTimeLimitFrom())) $updateUser->setTimeLimitFrom($this->userObj->getTimeLimitFrom());
 							if (! is_null($this->userObj->getTimeLimitUntil())) $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
@@ -1219,6 +1224,12 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getInstantMessengerId("icq"))) $updateUser->setInstantMessengerId("icq", $this->userObj->getInstantMessengerId("icq"));
 							if (! is_null($this->userObj->getInstantMessengerId("yahoo"))) $updateUser->setInstantMessengerId("yahoo", $this->userObj->getInstantMessengerId("yahoo"));
 							if (! is_null($this->userObj->getInstantMessengerId("skype"))) $updateUser->setInstantMessengerId("skype", $this->userObj->getInstantMessengerId("skype"));
+
+							// Special handlin since it defaults to 7 (USER_FOLDER_ID)
+							if($this->time_limit_owner_set)
+							{
+								$updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
+							}							
 
 							// save user preferences (skin and style)
 							$updateUser->setPref("skin", $this->userObj->getPref("skin"));
@@ -1406,6 +1417,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "TimeLimitOwner":
+				$this->time_limit_owner_set = true;
 				$this->userObj->setTimeLimitOwner($this->cdata);
 				break;
 
@@ -1518,7 +1530,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function verifyEndTag($a_xml_parser, $a_name)
 	{
-		global $lng,$ilAccess,$ilSetting;
+		global $lng,$ilAccess,$ilSetting,$ilObjDataCache;
 
 		switch($a_name)
 		{
@@ -1763,13 +1775,18 @@ class ilUserImportParser extends ilSaxParser
 				{
 					$this->logFailure($this->userObj->getLogin(),
 									  sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitOwner",$this->cdata));
-				} else
-				if(!$ilAccess->checkAccess('cat_administrate_users','',$this->cdata))
+				} 
+				elseif(!$ilAccess->checkAccess('cat_administrate_users','',$this->cdata))
 				{
 					$this->logFailure($this->userObj->getLogin(),
 									  sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitOwner",$this->cdata));
 				}
-
+				elseif($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($this->cdata)) != 'cat')
+				{
+					$this->logFailure($this->userObj->getLogin(),
+									  sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitOwner",$this->cdata));
+					
+				}
 				$this->userObj->setTimeLimitOwner($this->cdata);
 				break;
 			case "TimeLimitUnlimited":
