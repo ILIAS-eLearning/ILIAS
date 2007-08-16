@@ -955,7 +955,7 @@ class ilObjCourse extends ilContainer
 		$new_obj->setOrderType($this->getOrderType());
 		$new_obj->setArchiveStart($this->getArchiveStart());
 		$new_obj->setArchiveEnd($this->getArchiveEnd());
-		$new_obj->setArchiveType($this->getArchiveEnd());
+		$new_obj->setArchiveType($this->getArchiveType());
 		$new_obj->setAboStatus($this->getAboStatus());
 		$new_obj->enableWaitingList($this->enabledWaitingList());
 		$new_obj->setImportantInformation($this->getImportantInformation());

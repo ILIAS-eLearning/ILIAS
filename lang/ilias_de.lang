@@ -2924,7 +2924,7 @@ common#:#new#:#Neu
 common#:#news#:#News
 common#:#next#:#weiter
 common#:#nickname#:#Benutzername
-common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.
+common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemeldet sein und entsprechende Zugriffsrechte besitzen.
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
 common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Benutzervereinbarung angeboten. Bitte kontaktieren Sie Ihren Systemadministrator für weitere Informationen.
@@ -4501,7 +4501,7 @@ crs#:#crs_grouping#:#Kursgruppierung
 crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
 crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedsschaft-Beschränkung wurde angelegt.
-crs#:#crs_grp_already_assigned#:#Sie sind bereits Mitglied dieser Kursgruppierung.
+crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem anderen verknüpften Kurs sind, können Sie diesem Kurs nicht beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Kurse:
 crs#:#crs_grp_assigned_courses#:#Die ausgewählten Kurse wurden zugeordnet.
@@ -4509,7 +4509,7 @@ crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Kurse sind bereits zu
 crs#:#crs_grp_crs_assignment#:#Kurszuordnung
 crs#:#crs_grp_deassigned_courses#:#Die Zuordnung wurde entfernt.
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
-crs#:#crs_grp_info_reg#:#Die folgenden Kurse sind verknüpft. Sie können nur in einen dieser Kurse beitreten:
+crs#:#crs_grp_info_reg#:#Die folgenden Kurse unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einem dieser Kurse beitreten:
 crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diese Kursgruppierung ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
 crs#:#crs_grp_modified_grouping#:#Die Änderungen wurden übernommen.
 crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens einen Kurs aus.
@@ -4532,7 +4532,7 @@ crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren e
 crs#:#crs_info_download#:#Dateien zum Herunterladen
 crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie erhalten eine Nachricht, wenn ein Kurs-Administrator Ihren Antrag angenommen oder abgelehnt hat.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
-crs#:#crs_info_reg_direct#:#Sie können direkt in diesen Kurs beitreten.
+crs#:#crs_info_reg_direct#:#Sie können direkt diesem Kurs beitreten.
 crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_settings#:#Kursinformationen

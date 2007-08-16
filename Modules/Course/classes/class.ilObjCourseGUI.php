@@ -492,13 +492,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// archive
-		if($this->object->getArchiveType() != IL_CRS_ARCHIVE_NONE)
-		{
-			$info->addProperty($this->lng->txt("crs_archive"),
-							   ilFormat::formatUnixTime($this->object->getArchiveStart(),true)." - ".
-							   ilFormat::formatUnixTime($this->object->getArchiveEnd(),true));
-		}
-		
+		if($this->object->getViewMode() == IL_CRS_VIEW_ARCHIVE)
+		{		
+			if($this->object->getArchiveType() != IL_CRS_ARCHIVE_NONE)
+			{
+				$info->addProperty($this->lng->txt("crs_archive"),
+								   ilFormat::formatUnixTime($this->object->getArchiveStart(),true)." - ".
+								   ilFormat::formatUnixTime($this->object->getArchiveEnd(),true));
+			}
+		}		
 		// Confirmation
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
