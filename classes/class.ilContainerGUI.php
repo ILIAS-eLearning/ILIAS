@@ -1182,6 +1182,11 @@ class ilContainerGUI extends ilObjectGUI
 			// CHECK DELETE PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
 			foreach ($subtree_nodes as $node)
 			{
+				if($node['type'] == 'rolf')
+				{
+					continue;
+				}
+				
 				if (!$rbacsystem->checkAccess('delete',$node["ref_id"]))
 				{
 					$no_cut[] = $node["ref_id"];
