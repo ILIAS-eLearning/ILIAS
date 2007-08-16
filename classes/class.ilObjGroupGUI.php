@@ -526,8 +526,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
 		$this->tpl->setVariable("TXT_EXPIRATIONTIME", $this->lng->txt("group_registration_expiration_time"));
-		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));
-		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));
+		$this->tpl->setVariable("TXT_DATE", "DD.MM.YYYY");
+		$this->tpl->setVariable("TXT_TIME","HH:MM");
 
 		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);
 		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));
@@ -791,8 +791,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
 		$this->tpl->setVariable("TXT_EXPIRATIONTIME", $this->lng->txt("group_registration_expiration_time"));		
-		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));
-		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));
+		$this->tpl->setVariable("TXT_DATE","DD.MM.YYYY");
+		$this->tpl->setVariable("TXT_TIME","HH:MM");
 
 		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);
 		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));
