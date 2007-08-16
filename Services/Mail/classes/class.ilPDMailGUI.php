@@ -93,7 +93,7 @@ class ilPDMailGUI
 
 		if(!($login = $tmp_user->getLogin()))
 		{
-			$login = $mail_data["import_name"]." (".$lng->txt("imported").")";
+			$login = $mail_data["import_name"]." (".$lng->txt("user_deleted").")";
 		}
 		$tpl->setVariable("MAIL_LOGIN",$login);
 
