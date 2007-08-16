@@ -327,7 +327,6 @@ class ilStartUpGUI
 			$tpl->setVariable('TXT_AUTH_MODE',$lng->txt('auth_selection'));
 			$tpl->parseCurrentBlock();
 		}		
-				
 		// login via ILIAS (this also includes radius and ldap)
 		if ($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH &&
 			$ilSetting->get("auth_mode") != AUTH_CAS)
@@ -339,10 +338,13 @@ class ilStartUpGUI
 			}
 			else
 			{				
-				$information = $loginSettings->get("login_message_".$_GET["lang"],'login_message_'.$lng->getDefaultLanguage());	
-			}			
-			$information != "" ? $tpl->setVariable("TXT_LOGIN_INFORMATION", $information) : "";
-			
+				$information = $loginSettings->get("login_message_".$_GET["lang"]);	
+			}
+						
+			if(strlen(trim($information)))
+			{
+				$tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
+			}
 			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 			$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
