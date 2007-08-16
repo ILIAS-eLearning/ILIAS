@@ -431,8 +431,19 @@ class ilObjCourseGroupingGUI
 		$items = ilUtil::_getObjectsByOperations($this->getContentType(),
 												 'write',
 												 $ilUser->getId(),-1);
-		foreach($items as $item_id)
+												 
+		$items_obj_id = array();
+		$items_ids = array();
+		foreach($items as $ref_id)
 		{
+			$obj_id =  $ilObjDataCache->lookupObjId($ref_id);
+			$items_ids[$obj_id] = $ref_id;
+			$items_obj_id[] = $obj_id;
+		}
+		$items_obj_id = ilUtil::_sortIds($items_obj_id,'object_data','title','obj_id');
+		foreach($items_obj_id as $obj_id)
+		{
+			$item_id = $items_ids[$obj_id];
 			if($tree->checkForParentType($item_id,'adm'))
 			{
 				continue;
