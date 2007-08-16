@@ -311,7 +311,8 @@ class ilGoogleMapGUI
 				if (ilObject::_exists($user_id))
 				{
 					$user = new ilObjUser($user_id);
-					if ($user->getLatitude() != 0 && $user->getLongitude() != 0)
+					if ($user->getLatitude() != 0 && $user->getLongitude() != 0 &&
+						$user->getPref("public_location") == "y")
 					{
 						$this->tpl->setCurrentBlock("user_marker");
 						$this->tpl->setVariable("UMAP_ID",
@@ -420,7 +421,8 @@ class ilGoogleMapGUI
 				$this->css_row = ($this->css_row != "tblrow1_mo")
 					? "tblrow1_mo"
 					: "tblrow2_mo";
-				if ($user->getLatitude() != 0 && $user->getLongitude() != 0)
+				if ($user->getLatitude() != 0 && $user->getLongitude() != 0
+					&& $user->getPref("public_location") == "y")
 				{
 					$list_tpl->setCurrentBlock("item");
 					$list_tpl->setVariable("MARKER_CNT", $cnt);
