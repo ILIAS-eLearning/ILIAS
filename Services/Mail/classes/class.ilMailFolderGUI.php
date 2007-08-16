@@ -355,7 +355,7 @@ class ilMailFolderGUI
 				$this->tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
 				if(!($login = $tmp_user->getLogin()))
 				{
-					$login = $mail["import_name"]." (".$this->lng->txt("imported").")";
+					$login = $mail["import_name"]." (".$this->lng->txt("user_deleted").")";
 				}
 				$pic_path = $tmp_user->getPersonalPicturePath("xxsmall");
 				
@@ -893,7 +893,7 @@ class ilMailFolderGUI
 		
 		if(!($login = $tmp_user->getLogin()))
 		{
-			$login = $mailData["import_name"]." (".$this->lng->txt("imported").")";
+			$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
 		}
 		$this->tpl->setVariable("MAIL_LOGIN",$login);
 		$this->tpl->setVariable("CSSROW_FROM",++$counter%2 ? 'tblrow1' : 'tblrow2');
@@ -963,7 +963,7 @@ class ilMailFolderGUI
 		$tmp_user = new ilObjUser($mailData["sender_id"]); 
 		if(!($login = $tmp_user->getFullname()))
 		{
-			$login = $mailData["import_name"]." (".$this->lng->txt("imported").")";
+			$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
 		}
 		$tplprint->setVariable("FROM", $login);
 		// TO
