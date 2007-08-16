@@ -401,7 +401,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							"firstname"		=> $val["firstname"],
 							"lastname"		=> $val["lastname"],
 							"email"			=> $val["email"],
-							"access"		=> $txt_access,
+							"access_until"	=> $txt_access,
 							"last_login"	=> $val["last_login"],
 							"obj_id"		=> $val["usr_id"]
 						);
@@ -581,7 +581,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$this->tpl->touchBlock("end_link");
 					}
 					
-					if ($key == "access")
+					if ($key == "access_until")
 					{
 						if ($val == $this->lng->txt("access_unlimited"))
 						{
@@ -600,6 +600,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					if ($key == "last_login")
 					{
 						$val = ilFormat::formatDate($val);
+					}
+
+					if ($key != "access_until")
+					{
+						$val = "<span class=\"small\">".$val."</span>";
 					}
 
 					$this->tpl->setCurrentBlock("text");
