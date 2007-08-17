@@ -39,49 +39,49 @@ include_once 'Modules/File/classes/class.ilFileException.php';
 
 class ilFileXMLParser extends ilSaxParser
 {
-    static $CONTENT_NOT_COMPRESSED = 0;
-    static $CONTENT_GZ_COMPRESSED = 1;
-    static $CONTENT_ZLIB_COMPRESSED = 2;
+		static $CONTENT_NOT_COMPRESSED = 0;
+		static $CONTENT_GZ_COMPRESSED = 1;
+		static $CONTENT_ZLIB_COMPRESSED = 2;
 
 	/**
 	 * Exercise object which has been parsed
 	 *
 	 * @var ilObjFile
 	 */
-    var $file;
+		var $file;
 
-    /**
-     * this will be matched against the id in the xml
-     * in case we want to update an exercise
-     *
-     * @var int
-     */
-    var $obj_id;
-
-
-    /**
-     * result of parsing and updating
-     *
-     * @var boolean
-     */
-    var $result;
-
-    /**
-     * Content compression mode, defaults to no compression
-     *
-     * @var int
-     */
-    var $mode;
+		/**
+		 * this will be matched against the id in the xml
+		 * in case we want to update an exercise
+		 *
+		 * @var int
+		 */
+		var $obj_id;
 
 
-    /**
-     * file contents, base64 encoded
-     *
-     * @var string
-     */
-    var $content;
+		/**
+		 * result of parsing and updating
+		 *
+		 * @var boolean
+		 */
+		var $result;
 
-    /**
+		/**
+		 * Content compression mode, defaults to no compression
+		 *
+		 * @var int
+		 */
+		var $mode;
+
+
+		/**
+		 * file contents, base64 encoded
+		 *
+		 * @var string
+		 */
+		var $content;
+
+		/**
 	* Constructor
 	*
 	* @param   ilObjFile  $file existing file object
@@ -129,39 +129,39 @@ class ilFileXMLParser extends ilSaxParser
 		switch($a_name)
 		{
 			case 'File':
-			    if (isset($a_attribs["obj_id"]))
-			    {
-                   $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
-			       if ($this->obj_id != -1 && (int) $read_obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id)
-			       {
-            	       throw new ilFileException ("Object IDs (xml $read_obj_id and argument ".$this->obj_id.") do not match!", ilFileException::$ID_MISMATCH);
-                   }
-                   if (isset($a_attribs["type"]))
-                   {
-                        $this->file->setFileType($a_attribs["type"]);
-                   }
-                   $this->file->setVersion($this->file->getVersion() + 1);
-			    }
+					if (isset($a_attribs["obj_id"]))
+					{
+									 $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
+						 if ($this->obj_id != -1 && (int) $read_obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id)
+						 {
+										 throw new ilFileException ("Object IDs (xml $read_obj_id and argument ".$this->obj_id.") do not match!", ilFileException::$ID_MISMATCH);
+									 }
+									 if (isset($a_attribs["type"]))
+									 {
+												$this->file->setFileType($a_attribs["type"]);
+									 }
+									 $this->file->setVersion($this->file->getVersion() + 1);
+					}
 				break;
 			case 'Content':
-			    $this->mode = ilFileXMLParser::$CONTENT_NOT_COMPRESSED;
+					$this->mode = ilFileXMLParser::$CONTENT_NOT_COMPRESSED;
 #echo $a_attribs["mode"];
-			    if (isset($a_attribs["mode"])) {
-			        if ($a_attribs["mode"] == "GZIP")
-			        {
-                        if (!function_exists("gzdecode"))
-                            throw new ilFileException ("Deflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+					if (isset($a_attribs["mode"])) {
+							if ($a_attribs["mode"] == "GZIP")
+							{
+												if (!function_exists("gzdecode"))
+														throw new ilFileException ("Deflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
 
-			            $this->mode = ilFileXMLParser::$CONTENT_GZ_COMPRESSED;
-			        } elseif ($a_attribs["mode"] == "ZLIB")
-			        {
-                        if (!function_exists("gzuncompress"))
-                             throw new ilFileException ("Deflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+									$this->mode = ilFileXMLParser::$CONTENT_GZ_COMPRESSED;
+							} elseif ($a_attribs["mode"] == "ZLIB")
+							{
+												if (!function_exists("gzuncompress"))
+														 throw new ilFileException ("Deflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
 
-			            $this->mode = ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED;
-			        }
+									$this->mode = ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED;
+							}
 
-			    }
+					}
 		}
 	}
 
@@ -178,24 +178,24 @@ class ilFileXMLParser extends ilSaxParser
 		switch($a_name)
 		{
 			case 'File':
-                $this->result = true;
+								$this->result = true;
 				break;
 			case 'Filename':
-			    $this->file->setFilename(trim($this->cdata));
-			    $this->file->setTitle(trim($this->cdata));
+					$this->file->setFilename(trim($this->cdata));
+					$this->file->setTitle(trim($this->cdata));
 				break;
 			case 'Title':
-   			    $this->file->setTitle(trim($this->cdata));
+						$this->file->setTitle(trim($this->cdata));
 			case 'Description':
-			    $this->file->setDescription(trim($this->cdata));
+					$this->file->setDescription(trim($this->cdata));
 				break;
 			case 'Content':
-			     $content = base64_decode($this->cdata);
-	             if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED) {
-                    $content = @gzdecode($content);
-	             }elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) {
-                    $content = @gzuncompress($content);
-	             }
+					 $content = base64_decode($this->cdata);
+							 if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED) {
+										$content = @gzdecode($content);
+							 }elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) {
+										$content = @gzuncompress($content);
+							 }
 				 $this->content = $content;
 				 $this->file->setFileSize(strlen($this->content));
 				break;
@@ -230,19 +230,19 @@ class ilFileXMLParser extends ilSaxParser
 	 */
 	public function setFileContents ()
 	{
-       if (strlen($this->content) == 0) {
-           return;
-       }
+			 if (strlen($this->content) == 0) {
+					 return;
+			 }
 
-       $filedir = $this->file->getDirectory($this->file->getVersion());
-	   	if (!is_dir($filedir))
-	   {
+			 $filedir = $this->file->getDirectory($this->file->getVersion());
+			if (!is_dir($filedir))
+		 {
 			$this->file->createDirectory();
 			ilUtil::makeDir($filedir);
-	   }
+		 }
 
-	   $filename = $filedir."/".$this->file->getFileName();
-	   @file_put_contents($filename, $this->content);
+		 $filename = $filedir."/".$this->file->getFileName();
+		 @file_put_contents($filename, $this->content);
 	}
 
 
@@ -256,10 +256,10 @@ class ilFileXMLParser extends ilSaxParser
 	 */
 	public function updateFileContents ()
 	{
-        $this->setFileContents();
-	    require_once("classes/class.ilHistory.php");
+		$this->setFileContents();
+		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename().",".$this->file->getVersion());
-//		$this->file->addNewsNotification("file_updated");
+		$this->file->addNewsNotification("file_updated");
 	}
 
 	/**
@@ -270,8 +270,8 @@ class ilFileXMLParser extends ilSaxParser
 	 *
 	 */
 	public function start () {
-	    $this->startParsing();
-	    return $this->result > 0;
+			$this->startParsing();
+			return $this->result > 0;
 	}
 
 }
