@@ -339,7 +339,7 @@ class ilLDAPAttributeToUser
 	private function initLDAPRoleAssignments()
 	{
 		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
-		$this->role_assignment = ilLDAPRoleAssignments::_getInstanceByServerId($this->server_settings->getServerId());
+		$this->role_assignment = ilLDAPRoleAssignments::_getInstanceByServer($this->server_settings);
 	}
 	
 	
