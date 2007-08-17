@@ -2126,3 +2126,22 @@ PRIMARY KEY ( `obj_id` , `field_id` )
 
 <#1046>
 ALTER TABLE `adv_md_values` ADD INDEX `obj_id` ( `obj_id` );
+
+<#1047>
+CREATE TABLE `ldap_role_assignments` (
+`server_id` INT( 11 ) NOT NULL ,
+`rule_id` TINYINT( 3 ) NOT NULL ,
+`type` TINYINT( 1 ) NOT NULL ,
+`dn` TEXT NOT NULL ,
+`attribute` CHAR( 32 ) NOT NULL ,
+`isdn` TINYINT( 1 ) NOT NULL ,
+`att_name` CHAR( 255 ) NOT NULL ,
+`att_value` CHAR( 255 ) NOT NULL ,
+PRIMARY KEY ( `server_id` , `rule_id` )
+) TYPE = MYISAM ;
+
+<#1048>
+ALTER TABLE `ldap_role_assignments` ADD `role_id` INT( 11 ) NOT NULL;
+
+<#1049>
+ ALTER TABLE `ldap_role_assignments` CHANGE `rule_id` `rule_id` TINYINT( 3 ) NOT NULL AUTO_INCREMENT 

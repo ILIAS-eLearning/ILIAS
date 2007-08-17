@@ -77,6 +77,200 @@ class ilLDAPSettingsGUI
 		return true;
 	}
 	
+	/**
+	 * Edit role assignments
+	 *
+	 * @access public
+	 * 
+	 */
+	public function roleAssignments()
+	{
+	 	global $rbacreview;
+
+	 	$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_role_assignments');
+
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ldap_role_assignments.html','Services/LDAP');
+
+	 	include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php');
+	 	$this->initFormRoleAssignments('create',$this->role_mapping_rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId(0));
+	 	$this->tpl->setVariable('NEW_ASSIGNMENT_TBL',$this->form->getHTML());
+	 	
+
+		if(count($rules = ilLDAPRoleAssignmentRule::_getRules()))
+		{
+			include_once("./Services/LDAP/classes/class.ilLDAPRoleAssignmentTableGUI.php");
+			$table_gui = new ilLDAPRoleAssignmentTableGUI($this,'roleAssignments');
+			$table_gui->setTitle($this->lng->txt("ldap_tbl_role_ass"));
+			$table_gui->parse($rules);
+			$table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
+			$table_gui->addMultiCommand("confirmDeleteRules", $this->lng->txt("delete"));
+			$table_gui->setSelectAllCheckbox("rule_id");
+			$this->tpl->setVariable('RULES_TBL',$table_gui->getHTML());
+		}
+	}
+
+	/**
+	 * Edit role assignment
+	 *
+	 * @access public
+	 * 
+	 */
+	public function editRoleAssignment()
+	{
+	 	if(!$_GET['rule_id'])
+	 	{
+	 		ilUtil::sendinfo($this->lng->txt('select_one'));
+	 		$this->roleAssignments();
+	 		return false;
+	 	}
+	 	$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_role_assignments');
+
+		$this->ctrl->saveParameter($this,'rule_id',(int) $_GET['rule_id']);
+	 	include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php');
+	 	$this->initFormRoleAssignments('edit',
+	 		$this->role_mapping_rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId((int) $_GET['rule_id']));
+	 	$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * update role assignment
+	 *
+	 * @access public
+	 * 
+	 */
+	public function updateRoleAssignment()
+	{
+	 	global $ilErr;
+	 	
+	 	if(!$_GET['rule_id'])
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		$this->roleAssignments();
+	 		return false;
+	 	}
+	 	include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php');
+ 		$role_assignment = ilLDAPRoleAssignmentRule::_getInstanceByRuleId((int) $_GET['rule_id']);
+		$role_assignment->setDN(ilUtil::stripSlashes($_POST['dn']));
+		$role_assignment->setMemberAttribute(ilUtil::stripSlashes($_POST['at']));
+		$role_assignment->setMemberIsDN((int) $_POST['isdn']);
+		$role_assignment->setAttributeName(ilUtil::stripSlashes($_POST['name']));
+		$role_assignment->setAttributeValue(ilUtil::stripSlashes($_POST['value']));
+		$role_assignment->setRoleId((int) $_POST['role']);
+		$role_assignment->setType((int) $_POST['type']);
+		
+		if(!$role_assignment->validate())
+		{		
+			ilUtil::sendInfo($this->lng->txt($ilErr->getMessage()));
+			$this->editRoleAssignment();
+			return false;
+		}
+		
+		$role_assignment->update();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->roleAssignments();
+	}
+	
+	/**
+	 * Confirm delete rules
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function confirmDeleteRules()
+	{
+	 	if(!is_array($_POST['rule_ids']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		$this->roleAssignments();
+	 		return false;
+	 	}
+		$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_role_assignments');
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteRules"));
+		$c_gui->setHeaderText($this->lng->txt("ldap_confirm_del_role_ass"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "roleAssignments");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteRules");
+
+		// add items to delete
+		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php');
+		foreach($_POST["rule_ids"] as $rule_id)
+		{
+			$rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($rule_id);
+			$c_gui->addItem('rule_ids[]',$rule_id,$rule->conditionToString());
+		}
+		$this->tpl->setContent($c_gui->getHTML());
+	}
+	
+	/**
+	 * delete role assignment rule
+	 *
+	 * @access public
+	 * 
+	 */
+	public function deleteRules()
+	{
+	 	if(!is_array($_POST['rule_ids']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_once'));
+	 		$this->roleAssignments();
+	 		return false;
+	 	}
+		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php');
+		foreach($_POST["rule_ids"] as $rule_id)
+		{
+			$rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($rule_id);
+			$rule->delete();
+		}
+		ilUtil::sendInfo($this->lng->txt('ldap_deleted_rule'));
+		$this->roleAssignments();
+		return true;
+	}
+	
+	/**
+	 * add new role assignment
+	 *
+	 * @access public
+	 * 
+	 */
+	public function addRoleAssignment()
+	{
+		global $ilErr;
+		
+		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php');
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		
+		$role_assignment = ilLDAPRoleAssignmentRule::_getInstanceByRuleId(0);
+		$role_assignment->setServerId(ilLDAPServer::_getFirstActiveServer());
+		$role_assignment->setDN(ilUtil::stripSlashes($_POST['dn']));
+		$role_assignment->setMemberAttribute(ilUtil::stripSlashes($_POST['at']));
+		$role_assignment->setMemberIsDN((int) $_POST['isdn']);
+		$role_assignment->setAttributeName(ilUtil::stripSlashes($_POST['name']));
+		$role_assignment->setAttributeValue(ilUtil::stripSlashes($_POST['value']));
+		$role_assignment->setRoleId((int) $_POST['role']);
+		$role_assignment->setType((int) $_POST['type']);
+		
+		if(!$role_assignment->validate())
+		{		
+			ilUtil::sendInfo($this->lng->txt($ilErr->getMessage()));
+			$this->roleAssignments();
+			return false;
+		}
+		
+		$role_assignment->create();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		unset($_POST);
+		$this->roleAssignments();
+	}
+	
+	
 	public function roleMapping()
 	{
 		$this->initRoleMapping();
@@ -580,10 +774,20 @@ class ilLDAPSettingsGUI
 		$this->tabs_gui->addSubTabTarget("ldap_settings",
 			$this->ctrl->getLinkTarget($this,'serverList'),
 			"serverList",get_class($this));
+			
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		if(!count(ilLDAPServer::_getServerList()))
+		{
+			return true;
+		}
 
 		$this->tabs_gui->addSubTabTarget("ldap_user_mapping",
 			$this->ctrl->getLinkTarget($this,'userMapping'),
 			"userMapping",get_class($this));
+			
+		$this->tabs_gui->addSubTabTarget('ldap_role_assignments',
+			$this->ctrl->getLinkTarget($this,'roleAssignments'),
+			"roleAssignments",get_class($this));			
 			
 		$this->tabs_gui->addSubTabTarget("ldap_role_mapping",
 			$this->ctrl->getLinkTarget($this,'roleMapping'),
@@ -614,7 +818,7 @@ class ilLDAPSettingsGUI
 		$this->role_mapping = ilLDAPRoleGroupMappingSettings::_getInstanceByServerId((int) $_GET['ldap_server_id']);
 	}
 	
-	private function prepareRoleSelect()
+	private function prepareRoleSelect($a_as_select = true)
 	{
 		global $rbacreview,$ilObjDataCache;
 		
@@ -631,8 +835,15 @@ class ilLDAPSettingsGUI
 			$select[$role_id] = ilObject::_lookupTitle($role_id);
 		}
 		
-		return ilUtil::formSelect(ilLDAPAttributeMapping::_lookupGlobalRole($this->server->getServerId()),
-			'global_role',$select,false,true);
+		if($a_as_select)
+		{
+			return ilUtil::formSelect(ilLDAPAttributeMapping::_lookupGlobalRole($this->server->getServerId()),
+				'global_role',$select,false,true);
+		}
+		else
+		{
+			return $select;
+		}	
 	}
 	
 		
@@ -726,7 +937,8 @@ class ilLDAPSettingsGUI
 	private function sortMappingData($a_mapping_data)
 	{
 		global $rbacreview,$ilObjDataCache;
-
+	
+		$new_mapping = array();
 	 	foreach($a_mapping_data as $mapping_id => $data)
 	 	{
 	 		$new_mapping[$mapping_id] = $data;
@@ -736,6 +948,92 @@ class ilLDAPSettingsGUI
 	 	}
 	 	return ilUtil::sortArray($new_mapping,'obj_title','DESC');
 		
+	}
+	
+	/**
+	 * Init form table for new role assignments
+	 *
+	 * @param string mode edit | create
+	 * @param object object of ilLDAPRoleAsssignmentRule
+	 * @access protected
+	 * 
+	 */
+	protected function initFormRoleAssignments($a_mode,ilLDAPRoleAssignmentRule $current_rule)
+	{
+	 	include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+	 	include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php');
+	 	
+	 	$this->form = new ilPropertyFormGUI();
+	 	$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	 	switch($a_mode)
+	 	{
+	 		case 'edit':
+			 	$this->form->setTitle($this->lng->txt('ldap_edit_role_ass_rule'));
+			 	$this->form->addCommandButton('updateRoleAssignment',$this->lng->txt('save'));
+			 	$this->form->addCommandButton('roleAssignments',$this->lng->txt('cancel'));
+			 	break;
+	 		case 'create':
+			 	$this->form->setTitle($this->lng->txt('ldap_add_role_ass_rule'));
+			 	$this->form->addCommandButton('addRoleAssignment',$this->lng->txt('ldap_btn_add_role_ass'));
+			 	$this->form->addCommandButton('roleAssignments',$this->lng->txt('cancel'));
+			 	break;
+	 	}
+
+	 	$role = new ilSelectInputGUI($this->lng->txt('ldap_ilias_role'),'role');
+	 	$role->setValue($current_rule->getRoleId());
+	 	$role->setOptions($this->prepareRoleSelect(false));
+	 	$role->setRequired(true);
+	 	$this->form->addItem($role);
+	 	
+	 	// Radio group
+	 	$group = new ilRadioGroupInputGUI($this->lng->txt('ldap_assignment_type'),'type');
+	 	$group->setValue($current_rule->getType());
+	 	$group->setRequired(true);
+	 	
+	 	// Radio Group 
+	 	$radio_group = new ilRadioOption($this->lng->txt('ldap_role_by_group'),ilLDAPRoleAssignmentRule::TYPE_GROUP);
+	 	
+	 	// Group DN
+	 	$dn = new ilTextInputGUI($this->lng->txt('ldap_group_dn'),'dn');
+	 	$dn->setValue($current_rule->getDN());
+	 	$dn->setSize(32);
+	 	$dn->setMaxLength(512);
+	 	$dn->setInfo($this->lng->txt('ldap_role_grp_dn_info'));
+	 	$radio_group->addSubItem($dn);
+	 	$at = new ilTextInputGUI($this->lng->txt('ldap_role_grp_at'),'at');
+	 	$at->setValue($current_rule->getMemberAttribute());
+	 	$at->setSize(16);
+	 	$at->setMaxLength(128);
+	 	$radio_group->addSubItem($at);
+	 	$isdn = new ilCheckboxInputGUI($this->lng->txt('ldap_role_grp_isdn'),'isdn');
+	 	$isdn->setChecked($current_rule->isMemberAttributeDN());
+	 	$isdn->setInfo($this->lng->txt('ldap_group_member_info'));
+	 	$radio_group->addSubItem($isdn);
+	 	$radio_group->setInfo($this->lng->txt('ldap_role_grp_info'));
+	 	
+	 	$group->addOption($radio_group);
+	 	
+	 	// Radio Attribute
+	 	$radio_attribute = new ilRadioOption($this->lng->txt('ldap_role_by_attribute'),ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE);
+	 	$name = new ilTextInputGUI($this->lng->txt('ldap_role_at_name'),'name');
+	 	$name->setValue($current_rule->getAttributeName());
+	 	$name->setSize(32);
+	 	$name->setMaxLength(128);
+	 	#$name->setInfo($this->lng->txt('ldap_role_at_name_info'));
+	 	$radio_attribute->addSubItem($name);
+	 	
+	 	// Radio Attribute
+	 	$val = new ilTextInputGUI($this->lng->txt('ldap_role_at_value'),'value');
+	 	$val->setValue($current_rule->getAttributeValue());
+	 	$val->setSize(32);
+	 	$val->setMaxLength(128);
+	 	#$val->setInfo($this->lng->txt('ldap_role_at_value_info'));
+	 	$radio_attribute->addSubItem($val);
+		$radio_attribute->setInfo($this->lng->txt('ldap_role_at_info'));
+	 	$group->addOption($radio_attribute);
+	 	
+	 	$this->form->addItem($group);
 	}
 }
 ?>
