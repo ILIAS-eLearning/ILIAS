@@ -750,8 +750,11 @@ class ilLDAPServer
 		if($this->enabledSyncOnLogin())
 		{
 			include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
+			include_once('Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
 			$mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->getServerId());
-	 		return array_merge(array($this->getUserAttribute()),$mapping->getFields());
+	 		return array_merge(array($this->getUserAttribute()),
+	 			$mapping->getFields(),
+	 			ilLDAPRoleAssignments::_getDistinctAttributeNamesByServerId($this->getServerId()));
 		}
 		else
 		{

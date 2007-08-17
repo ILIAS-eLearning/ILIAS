@@ -35,6 +35,7 @@
 class ilLDAPAttributeToUser
 {
 	private $server_settings = null;
+	private $role_assignment = null;
 	private $db = null;
 	
 	private $user_data = array();
@@ -63,6 +64,7 @@ class ilLDAPAttributeToUser
 		$this->setting = $ilSetting;
 		
 		$this->initLDAPAttributeMapping();
+		$this->initLDAPRoleAssignments();
 	}
 	
 	/**
@@ -93,7 +95,7 @@ class ilLDAPAttributeToUser
 		include_once './classes/class.ilUserImportParser.php';
 		$importParser = new ilUserImportParser();
 		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
-		$importParser->setRoleAssignment(array($this->mapping->getValue('global_role') => $this->mapping->getValue('global_role')));
+		$importParser->setRoleAssignment($this->role_assignment->getPossibleRoles());
 		$importParser->setFolderId(7);
 		$importParser->startParsing();
 		$debug = $importParser->getProtocol();
@@ -141,9 +143,14 @@ class ilLDAPAttributeToUser
 				$rules = $this->mapping->getRules();
 
 				// Assign to role only for new users
-				$this->writer->xmlElement('Role',array('Id' => $this->mapping->getValue('global_role'),
-				'Type' => 'Global',
-				'Action' => 'Assign'),'');
+				$roles = $this->role_assignment->assignedRoles($external_account,$user);
+				foreach($roles as $role_data)
+				{
+					$this->writer->xmlElement('Role',
+						array('Id' => $role_data['id'],
+								'Type' => $role_data['type'],
+								'Action' => $role_data['action']),'');
+				}
 			}
 
 			$this->writer->xmlElement('Active',array(),"true");
@@ -321,6 +328,18 @@ class ilLDAPAttributeToUser
 	 		$value .= ($this->convertInput($user[trim($field)]));
 	 	}
 	 	return $value ? $value : '';
+	}
+	
+	/**
+	 * Init LDAP role assignment object
+	 *
+	 * @access private
+	 * 
+	 */
+	private function initLDAPRoleAssignments()
+	{
+		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
+		$this->role_assignment = ilLDAPRoleAssignments::_getInstanceByServerId($this->server_settings->getServerId());
 	}
 	
 	
