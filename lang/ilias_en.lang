@@ -42,6 +42,7 @@ administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
 common#:#access_expired#:#expired
+common#:#res_links#:#Repository Links
 common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria
