@@ -35,10 +35,12 @@ class ilLDAPRoleAssignments
 {
 	private static $instances = array();
 	
+	private $server = null;
 	private $server_id;
 	private $default_role;
 	private $all_roles = array();
 	private $att_mappings = array();
+	private $grp_mappings = array();
 	
 	protected $db;
 
@@ -46,17 +48,19 @@ class ilLDAPRoleAssignments
 	 * Singleton
 	 *
 	 * @access private
-	 * @param
+	 * @param object ilLDAPServer
 	 * 
 	 */
-	private function __construct($a_server_id)
+	private function __construct($a_server)
 	{
 	 	global $ilDB;
 	 	
-	 	$this->server_id = $a_server_id;
+	 	$this->server = $a_server;
+	 	$this->server_id = $this->server->getServerId();
 	 	$this->db = $ilDB;
 	 	
 	 	$this->fetchAttributeMappings();
+	 	$this->fetchGroupMappings();
 	 	$this->fetchDefaultRole();
 	}
 	
@@ -66,15 +70,17 @@ class ilLDAPRoleAssignments
 	 * @access public
 	 * @static
 	 *
-	 * @param int ldap server id
+	 * @param object ldap server
 	 */
-	public static function _getInstanceByServerId($a_server_id)
+	public static function _getInstanceByServer(ilLDAPServer $a_server)
 	{
+		$a_server_id = $a_server->getServerId();
+		
 		if(isset(self::$instances[$a_server_id]))
 		{
 			return self::$instances[$a_server_id];
 		}
-		return self::$instances[$a_server_id] = new ilLDAPRoleAssignments($a_server_id);
+		return self::$instances[$a_server_id] = new ilLDAPRoleAssignments($a_server);
 	}
 	
 	/**
@@ -153,7 +159,71 @@ class ilLDAPRoleAssignments
 	 			'type' => 'Global',
 	 			'action' => 'Attach');
 	 	}
+	 	// Check group membership
+	 	foreach($this->grp_mappings as $dn => $mapping_data)
+	 	{
+	 		if($this->isGroupMember($dn,$a_external_name,$a_user_att))
+	 		{
+		 		$ilLog->write(__METHOD__.': Found role mapping for '.$a_external_name.' => '.ilObject::_lookupTitle($mapping_data['role']));
+		 		$roles[] = array('id' => $mapping_data['role'],
+	 				'type' => 'Global',
+	 				'action' => 'Attach');
+	 			
+	 		}
+	 	}
+	 	
 	 	return $roles ? $roles : $default_role;
+	}
+	
+	
+	/**
+	 * Check if user is member
+	 *
+	 * @access private
+	 * @param string group dn
+	 * @param string ldap account
+	 * @param array user_data
+	 * 
+	 */
+	private function isGroupMember($a_dn,$a_ldap_account,$a_user_data)
+	{
+		global $ilLog;
+		
+		if(isset($this->grp_members[$a_dn]))
+		{
+			return in_array($a_ldap_account,$this->grp_members[$a_dn]);
+		}
+	 	try
+	 	{
+			$this->grp_members[$a_dn] = array();
+
+	 		include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
+	 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+	 		
+	 		$query = new ilLDAPQuery($this->server);
+	 		$query->bind();
+	 		$res = $query->query($a_dn,'objectclass=*',IL_LDAP_SCOPE_BASE,array($this->grp_mappings[$a_dn]['attribute']));
+	 		
+			$member_data = $res->get();
+			if(!isset($member_data[$this->grp_mappings[$a_dn]['attribute']]))
+			{
+				return false;
+			}
+			if(!is_array($member_data[$this->grp_mappings[$a_dn]['attribute']]))
+			{
+				$this->grp_members[$a_dn][] = $member_data[$this->grp_mappings[$a_dn]['attribute']];
+			}
+			else
+			{
+				$this->grp_members[$a_dn] = $member_data[$this->grp_mappings[$a_dn]['attribute']];
+			}
+			return in_array($a_ldap_account,$this->grp_members[$a_dn]);
+	 	}
+		catch(ilLDAPQueryException $e)
+		{
+			$ilLog->write(__METHOD__.': Caught Exception: '.$e->getMessage());
+			return false;
+		}
 	}
 	
 	/**
@@ -174,6 +244,30 @@ class ilLDAPRoleAssignments
 	 		$this->all_roles[$row->role_id] = $row->role_id;
 	 	}
 	}
+	
+	/**
+	 * Fetch group mappings 
+	 *
+	 * @access private
+	 * 
+	 */
+	private function fetchGroupMappings()
+	{
+	 	$query = "SELECT * FROM ldap_role_assignments ".
+	 		"WHERE server_id = ".$this->db->quote($this->server_id)." ".
+	 		"AND type = ".ilLDAPRoleAssignmentRule::TYPE_GROUP." ";
+	 	$res = $this->db->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		$this->grp_mappings[strtolower($row->dn)]['attribute'] = strtolower($row->attribute);
+	 		$this->grp_mappings[strtolower($row->dn)]['isdn'] = $row->isdn;
+	 		$this->grp_mappings[strtolower($row->dn)]['role'] = $row->role_id;
+	 		
+	 		$this->all_roles[$row->role_id] = $row->role_id;
+	 	}
+	 	
+	}
+	
 	
 	/**
 	 * fetch default role
