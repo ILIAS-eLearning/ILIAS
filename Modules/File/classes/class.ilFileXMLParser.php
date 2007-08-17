@@ -259,6 +259,7 @@ class ilFileXMLParser extends ilSaxParser
         $this->setFileContents();
 	    require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename().",".$this->file->getVersion());
+//		$this->file->addNewsNotification("file_updated");
 	}
 
 	/**

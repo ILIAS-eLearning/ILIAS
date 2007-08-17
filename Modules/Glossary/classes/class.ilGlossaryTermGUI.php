@@ -252,6 +252,7 @@ class ilGlossaryTermGUI
 
 			$this->tpl->setCurrentBlock("definition");
 			$this->tpl->setVariable("PAGE_CONTENT", $output);
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 
