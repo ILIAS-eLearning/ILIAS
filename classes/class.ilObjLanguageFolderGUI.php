@@ -134,6 +134,14 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 				}
 			}
 
+			// make language name clickable
+			if (substr($lang_data["description"],0,9) == "installed")
+			{
+				$this->ctrl->setParameterByClass("ilobjlanguageextgui","obj_id",$lang_data["obj_id"]);
+				$url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui","");
+				$lang_data["name"] = '<a href="'.$url.'">'.$lang_data["name"].'</a>';
+			}
+
 			// visible data part
 			$this->data["data"][] = array(
 									"language"		=> $lang_data["name"].$status,

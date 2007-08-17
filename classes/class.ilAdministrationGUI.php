@@ -46,7 +46,7 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjPersonalDesktopSettingsGUI, ilObjMediaCastGUI
-*
+* @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI
 */
 class ilAdministrationGUI
 {
@@ -136,6 +136,12 @@ class ilAdministrationGUI
 			$class_name = $this->objDefinition->getClassName($obj_type);
 			$next_class = strtolower("ilObj".$class_name."GUI");
 			$this->ctrl->setCmdClass($next_class);
+		}
+		// set next_class directly for page translations
+		// (no cmdNode is given in translation link)
+		elseif ($this->ctrl->getCmdClass() == "ilobjlanguageextgui")
+		{
+			$next_class = "ilobjlanguageextgui";
 		}
 		else
 		{

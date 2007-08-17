@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -54,6 +54,48 @@ administration#:#dumping_tree#:#Liste Tree auf...
 administration#:#found_none#:#Nicht gefunden
 administration#:#found#:#Gefunden
 administration#:#initializing_gaps#:#Initialisiere Lücken in der Baumstruktur...
+administration#:#language_administration#:#Sprach-Administration
+administration#:#language_all_modules#:#Alle Module
+administration#:#language_change_settings#:#Spracheinstellungen ändern
+administration#:#language_clear_local_changes#:#Lokale Änderungen in der Datenbank löschen
+administration#:#language_cleared_local#:#Die lokalen Änderungen wurden in der Datenbank gelöscht.
+administration#:#language_compare#:#Vergleiche mit:
+administration#:#language_default_entries#:# (Standard-Einträge)
+administration#:#language_delete_local_changes#:#Lokale Ändrungen in der Datenbank löschen
+administration#:#language_error_clear_local#:#Die lokalen Änderungen konnten in der Datenbank nicht gelöscht werden!
+administration#:#language_error_read_local#:#Die lokale Sprachdatei existiert nicht oder kann nicht gelesen werden!
+administration#:#language_error_write_local#:#Die lokale Sprachdatei kann nicht geschrieben werden!
+administration#:#language_export_file#:#Sprachdatei exportieren
+administration#:#language_file_imported#:#Die Sprachdatei %s wurde importiert.
+administration#:#language_file_scope#:#Umfang der Sorachdatei
+administration#:#language_import_file#:#Sprachdatei importieren
+administration#:#language_load_local_changes#:#Lokale Sprachdatei in die Datenbank laden
+administration#:#language_loaded_local#:#Die lokale Sprachdatei wurde in die Datenbank geladen.
+administration#:#language_maintain#:#Warten
+administration#:#language_maintain_local_changes#:#Lokale Änderungen warten
+administration#:#language_maintenance#:#Sprachverwaltung
+administration#:#language_mode_existing#:#Vorhandene Einträge
+administration#:#language_mode_existing_delete#:#Vorhandene Einträge löschen
+administration#:#language_mode_existing_keepall#:#Vorhandene Einträge beibehalten
+administration#:#language_mode_existing_keepnew#:#Lokale Änderungen beibehalten
+administration#:#language_mode_existing_replace#:#Vorhandene Einträge ersetzen
+administration#:#language_note_save_local#:#Bitte speichern Sie Ihre Änderungen regelmäßig als lokale Sprachdatei. Wenn Sie keine Schreibberechtigung im Verzeichnis der lokalen Sprachdateien haben, können Sie Ihre lokalen Änderungen exportieren und bei Bedarf wieder importieren.
+administration#:#language_note_translation#:#Die Seitenübersetzung wird für jede Sprache separat aktiviert. Zusätzlich muss ein Nutzer die Rechte "Sichtbar" und "Lesen" im Sprachordner haben.
+administration#:#language_process_maintenance#:#Wartung durchführen
+administration#:#language_save_local_changes#:#Alle Änderungen in der lokalen Sprachdatei speichern
+administration#:#language_saved_local#:#Alle Änderungen wurden in der lokalen Sprachdatei gespeichert.
+administration#:#language_scope_commented#:#Mit Kommentaren des Language Managers
+administration#:#language_scope_different#:#Verschieden zur Vergleichssprache
+administration#:#language_scope_equal#:#Gleich mit der Vergleichssprache
+administration#:#language_scope_global#:#Alle Einträge
+administration#:#language_scope_local#:#Nur lokale Änderungen
+administration#:#language_scope_translate#:#Alle Einträge, leer zur Übersetzung
+administration#:#language_scope_unchanged#:#Unveränderte Einträge
+administration#:#language_settings#:#Spracheinstellungen
+administration#:#language_statistics#:#Statistik
+administration#:#language_translation_disabled#:#Seitenübersetzung deaktiviert
+administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
+administration#:#language_translation_mode#:#Übersetzungsmodus
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...

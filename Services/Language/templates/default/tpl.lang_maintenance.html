@@ -1,0 +1,31 @@
+<form action="{FORMACTION}" method="post">
+<table class="std">
+<tr class="tblheader">
+  <td class="std" colspan="2">
+      {TXT_MAINTENANCE}
+  </td>
+</tr>
+<tr>
+  <td class="option">{TXT_MAINTAIN_LOCAL}</td>
+  <td class="option_value">
+  <select name="{VAR_MAINTAIN}" size="1">
+    <option value="">{TXT_SELECT}</option>
+    <option value="save">{TXT_SAVE}</option>
+    <option value="load">{TXT_LOAD}</option>
+    <option value="clear">{TXT_CLEAR}</option>
+    </select><br />
+    <span class="subtitle">{TXT_NOTE_SAVE}</span>
+    </td>
+</tr>
+<tr>
+  <td class="submit" colspan="2">
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_MAINTAIN}]" value="{TXT_MAINTAIN}" />
+  </div>
+  </td> 
+</tr>
+</table>
+<br />
+</form>
+
+

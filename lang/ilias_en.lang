@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file English
@@ -60,6 +60,48 @@ administration#:#dumping_tree#:#Dumping tree...
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#initializing_gaps#:#Initializing gaps in tree...
+administration#:#language_administration#:#Language Administration
+administration#:#language_all_modules#:#All modules
+administration#:#language_change_settings#:#Change Language Settings
+administration#:#language_clear_local_changes#:#Clear local changes in the database
+administration#:#language_cleared_local#:#The local changes were cleared in the database.
+administration#:#language_compare#:#Compare:
+administration#:#language_default_entries#:# (default entries)
+administration#:#language_delete_local_changes#:#Delete all local changes in the database
+administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!
+administration#:#language_error_read_local#:#The local language file doesn't exist or can't be read!
+administration#:#language_error_write_local#:#The local language file can't be written!
+administration#:#language_export_file#:#Export Language File
+administration#:#language_file_imported#:#The language file %s was imported.
+administration#:#language_file_scope#:#Language file scope
+administration#:#language_import_file#:#Import Language File
+administration#:#language_load_local_changes#:#Load local language file into the database
+administration#:#language_loaded_local#:#The local language file was loaded into the database.
+administration#:#language_maintain#:#Maintain
+administration#:#language_maintain_local_changes#:#Maintain local changes
+administration#:#language_maintenance#:#Language Maintenance
+administration#:#language_mode_existing#:#Existing Entries
+administration#:#language_mode_existing_delete#:#Delete existing entries
+administration#:#language_mode_existing_keepall#:#Keep all existing entries
+administration#:#language_mode_existing_keepnew#:#Keep all local changes
+administration#:#language_mode_existing_replace#:#Replace existing entries
+administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and re-import them if needed.
+administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.
+administration#:#language_process_maintenance#:#Process Maintenance
+administration#:#language_save_local_changes#:#Save all changes to the local language file
+administration#:#language_saved_local#:#All changes were saved to the local language file.
+administration#:#language_scope_commented#:#With comments from language manager
+administration#:#language_scope_different#:#Different from compare language
+administration#:#language_scope_equal#:#Equal to compare language
+administration#:#language_scope_global#:#All entries
+administration#:#language_scope_local#:#Local changes only
+administration#:#language_scope_translate#:#All entries, empty for translation
+administration#:#language_scope_unchanged#:#Unchanged entries only
+administration#:#language_settings#:#Language Settings
+administration#:#language_statistics#:#Statistics
+administration#:#language_translation_disabled#:#Page translation disabled
+administration#:#language_translation_enabled#:#Page translation enabled
+administration#:#language_translation_mode#:#Translation mode
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...

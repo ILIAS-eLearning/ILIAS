@@ -144,6 +144,12 @@ class ilLanguage
 	{
 		global $ilias,$log,$ilIliasIniFile,$ilUser;
 
+		// store used modules and topics in a global variable
+		// ($lng seems to be initialized more than once)
+		global $ilias_lang_used_topics;
+		global $ilias_lang_used_modules;
+		$this->used_topics =& $ilias_lang_used_topics;
+		$this->used_modules =& $ilias_lang_used_modules;
 
 		$this->ilias =& $ilias;
 
@@ -223,6 +229,10 @@ class ilLanguage
 	
 			if  ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				// remember the used topics
+				$this->used_topics[$a_topic] = $a_topic;
+				$this->used_modules[$a_module] = $a_module;
+
 				return $row->value;
 			}
 			else
@@ -246,6 +256,10 @@ class ilLanguage
 		{
 			return "";
 		}
+
+		// remember the used topics
+		$this->used_topics[$a_topic] = $a_topic;
+
 		$translation = $this->text[$a_topic];
 
 		if ($translation == "")
@@ -273,6 +287,9 @@ class ilLanguage
 		}
 
 		$this->loaded_modules[] = $a_module;
+
+		// remember the used modules globally
+		$this->used_modules[$a_module] = $a_module;
 
 		$lang_key = $this->lang_key;
 
@@ -338,10 +355,47 @@ class ilLanguage
 		
 		if ($rec["value"] != "")
 		{
+			// remember the used topics
+			$this->used_topics[$a_id] = $a_id;
+			$this->used_modules[$a_mod] = $a_mod;
+			
 			return $rec["value"];
 		}
 		
 		return "-".$a_id."-";
 	}
+	
+	function getUsedTopics()
+	{
+		if (is_array($this->used_topics))
+		{
+			asort($this->used_topics);
+			return $this->used_topics;
+		}
+		else
+		{
+			return array();
+		}
+	}
+	
+	function getUsedModules()
+	{
+		if (is_array($this->used_modules))
+		{
+			asort($this->used_modules);
+			return $this->used_modules;
+		}
+		else
+		{
+			return array();
+		}
+	}
+
+	function getUserLanguage()
+	{
+		return $this->lang_user;
+	}
+
+	
 } // END class.Language
 ?>
