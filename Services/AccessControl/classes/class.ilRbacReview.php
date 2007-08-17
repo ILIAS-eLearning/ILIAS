@@ -739,14 +739,6 @@ class ilRbacReview
 			$roles_data[] = $row;
 		}
 		
-		// Filter childs of node
-		foreach($roles_data as $role)
-		{
-			if($tree->isGrandChild($a_ref_id,$role['parent']))
-			{
-				$filtered[] = $role; 
-			}
-		}
 		return $roles_data ? $roles_data : array();
 	}
 	
