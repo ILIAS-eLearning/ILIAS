@@ -950,9 +950,10 @@ class ilStartUpGUI
 		//
 		// index.php is called and public section is enabled
 		//
-		// && $ilAuth->status == "" is important for soap auth (public section on + user mapping, alex)
+		// && $ilAuth->status == -101 is important for soap auth (public section on + user mapping, alex)
+		// $ilAuth->status -1 is given, if session ends (if public section -> jump to public section)
 		if ($ilSetting->get("pub_section") && $_POST["sendLogin"] != "1"
-			&& $ilAuth->status == "")
+			&& ($ilAuth->status != -101 && $_GET["soap_pw"] == ""))
 		{
 			//
 			// TO DO: THE FOLLOWING BLOCK IS COPY&PASTED FROM HEADER.INC
@@ -976,7 +977,6 @@ class ilStartUpGUI
 		}
 		else
 		{
-			//
 			// index.php is called and public section is disabled
 			$this->showLogin();
 		}
