@@ -265,6 +265,13 @@ class ilTemplate extends ilTemplateX
 			parent::show($part);
 		}
 		
+		// output translation link
+		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+		if (ilObjLanguageAccess::_checkTranslate())
+		{
+			include_once("Services/Language/classes/class.ilObjLanguageExtGUI.php");
+			echo ilObjLanguageExtGUI::_getTranslationLink();
+		}
 
 		$this->handleReferer();
 	}
