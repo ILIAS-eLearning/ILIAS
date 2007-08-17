@@ -7496,3 +7496,21 @@ auth#:#auth_rad_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benu
 auth#:#auth_account_migration#:#Neues ILIAS-Benutzerkonto 
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
+ldap#:#ldap_role_assignments#:#Rollenzuordnung
+ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS Rollenzuordnung
+ldap#:#ldap_assignment_type#:#Art der Zuordnung
+ldap#:#ldap_role_by_group#:#Nach LDAP Gruppenzugehörigkeit
+ldap#:#ldap_role_grp_info#:#Mitglieder einer bestimmten LDAP Gruppe werden der angegebenen ILIAS Rolle zugeordnet.
+ldap#:#ldap_role_grp_at#:#Attribut
+ldap#:#ldap_role_grp_dn_info#:#Bitte geben Sie den vollständigen "Distinguished Name" der Gruppe an.
+ldap#:#ldap_role_grp_isdn#:#Attributwert ist DN
+ldap#:#ldap_role_by_attribute#:#Nach Benutzerattribut
+ldap#:#ldap_role_at_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im LDAP Benutzerprofil.
+ldap#:#ldap_role_at_name#:#Attributname
+ldap#:#ldap_role_at_value#:#Attributwert
+ldap#:#ldap_tbl_role_ass#:#Aktive Regeln für die Rollenzuordnung
+ldap#:#ldap_rule_condition#:#Bedingung
+ldap#:#ldap_btn_add_role_ass#:#Neue Regel anlegen
+ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
+ldap#:#ldap_rule_type#:#Art der Zuordnung
+ldap#:#ldap_confirm_del_role_ass#:#Rollenzuordnung löschen

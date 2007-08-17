@@ -56,6 +56,18 @@ class ilTable2GUI extends ilTableGUI
 	}
 	
 	/**
+	 * get parent object
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getParentObject()
+	{
+	 	return $this->parent_obj;
+	}
+	
+	/**
 	* Set text for an empty table.
 	*
 	* @param	string	$a_text	Text
