@@ -510,7 +510,7 @@ class ilInfoScreenGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilSetting;
+		global $lng, $ilSetting, $tree, $ilAccess;
 		
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true);
 
@@ -644,8 +644,41 @@ class ilInfoScreenGUI
 				'<a class="small" href="'.$href.'" target="_top">'.$href.'</a>'.$del_link);
 			$tpl->parseCurrentBlock();
 			$tpl->touchBlock("row");
+			
+			// links to resource
+			if ($ilAccess->checkAccess("write", "", $ref_id) ||
+				$ilAccess->checkAccess("edit_permissions", "", $ref_id))
+			{
+				$obj_id = $this->gui_object->object->getId();
+				$rs = ilObject::_getAllReferences($obj_id);
+				$refs = array();
+				foreach($rs as $r)
+				{
+					if ($tree->isInTree($r))
+					{
+						$refs[] = $r;
+					}
+				}
+				if (count($refs) > 1)
+				{
+					$links = $sep = "";
+					foreach($refs as $r)
+					{
+						$cont_loc = new ilLocatorGUI();
+						$cont_loc->addContextItems($r, true);
+						$links.= $sep.$cont_loc->getHTML();
+						$sep = "<br />";
+					}
+					
+					$tpl->setCurrentBlock("property_row");
+					$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("res_links"));
+					$tpl->setVariable("TXT_PROPERTY_VALUE",
+						'<div class="small">'.$links.'</div>');
+					$tpl->parseCurrentBlock();
+					$tpl->touchBlock("row");
+				}
+			}
 		}
-
 
 		// learning progress
 		if($this->learning_progress_enabled and $html = $this->showLearningProgress())

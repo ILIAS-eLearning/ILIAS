@@ -7249,7 +7249,6 @@ trac#:#trac_mode_manual_info#:#Les utilisateurs doivent décider si l'état de l
 trac#:#trac_mode_objectives_info#:#Le suivi d'apprentissage sera calculé automatiquement d'après le nombre de contenus d'apprentissage validés.###21 july 2007 content changed
 trac#:#trac_mode_collection_info#:#Définir les contenus déterminant pour l'état de validation du suivi d'apprentissage.###21 july 2007 content changed
 trac#:#trac_mode_scorm_info#:#L'état du suivi d'apprentissage sera déterminé par l'état du SCO's.###21 july 2007 content changed
-trac#:#trac_mode_test_finished_info#:#L'utilisateur doit passer un test complètement.###21 july 2007 content changed
 trac#:#trac_mode_test_passed_info#:#Le test doit être passé par un utilisateur pour recevoir le statut 'complet'.###21 july 2007 content changed
 trac#:#trac_mode_exercise_returned_info#:#L'état 'complet' ne peut être défini que par les tuteurs.###21 july 2007 content changed
 trac#:#trac_mode_manual_by_tutor#:#Manuellement par le tuteur###21 july 2007 content changed
@@ -7352,4 +7351,147 @@ crs#:#crs_selected_users#:#Participants sélectionnés###22 july 2007 content ch
 search#:#search_users#:#Rechercher utilisateur###22 july 2007 content changed
 common#:#wizard_title_info#:#Veuillez saisir le titre de l'objet que vous voulez dupliquer.###22 july 2007 content changed
 common#:#wizard_search_list#:#Votre recherche a produit les résultats suivants. Veuillez en sélectionner un###22 july 2007 content changed
-forum#:#forum_add_quote#:#Ajouter la citation###22 july 2007 content changed
+forum#:#forum_add_quote#:#Ajouter la citation###22 july 2007 content changedpd#:#pd_enable_bookmarks#:#Enable Bookmarks###16 08 2007 new variable
+pd#:#pd_enable_notes#:#Enable Notes###16 08 2007 new variable
+common#:#cron_mail_notification#:#Send Mail Notifications###16 08 2007 new variable
+common#:#cron_mail_notification_never#:#never###16 08 2007 new variable
+common#:#cron_mail_notification_cron#:#regularly per cron job###16 08 2007 new variable
+common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.###16 08 2007 new variable
+common#:#buy#:#Buy###16 08 2007 new variable
+news#:#news_loading_news#:#Loading News...###16 08 2007 new variable
+news#:#news_no_js_click_here#:#If news are not displayed, click here.###16 08 2007 new variable
+news#:#news_acc_cache#:#Permission Check (Minutes)###16 08 2007 new variable
+news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###16 08 2007 new variable
+mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.###16 08 2007 new variable
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.###16 08 2007 new variable
+mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List###16 08 2007 new variable
+mail#:#mail_folder_edit#:#Edit Folder###16 08 2007 new variable
+mail#:#mail_notification_subject#:#New mail in your inbox###16 08 2007 new variable
+mail#:#mail_empty_trash#:#Empty Trash###16 08 2007 new variable
+mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###16 08 2007 new variable
+mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.###16 08 2007 new variable
+mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
+mail#:#send_mail_to#:#Mail to###16 08 2007 new variable
+mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###16 08 2007 new variable
+mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###16 08 2007 new variable
+mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###16 08 2007 new variable
+payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###16 08 2007 new variable
+payment#:#paya_perm_coupons#:#Edit coupons###16 08 2007 new variable
+mail#:#mail_my_mailing_lists#:#My Mailing Lists###16 08 2007 new variable
+mail#:#mail_mailing_lists#:#Mailing Lists###16 08 2007 new variable
+mail#:#mail_mailing_list#:#Mailing List###16 08 2007 new variable
+mail#:#mail_members_of_mailing_list#:#Members of Mailing List###16 08 2007 new variable
+mail#:#mail_entry_of_addressbook#:#Entry of Address Book###16 08 2007 new variable
+trac##:#trac_mode_test_finished_info#:#Users have to finish a test completely.###16 08 2007 new variable
+payment#:#paya_coupons_codes_import#:#Import Codes###16 08 2007 new variable
+payment#:#paya_coupons_add#:#Add Coupon###16 08 2007 new variable
+payment#:#paya_coupons_edit#:#Edit Coupon###16 08 2007 new variable
+payment#:#paya_coupons_coupons#:#Coupons###16 08 2007 new variable
+payment#:#paya_coupons_coupon#:#Coupon###16 08 2007 new variable
+payment#:#paya_coupons_type#:#Coupon Type###16 08 2007 new variable
+payment#:#paya_coupons_fix#:#fix###16 08 2007 new variable
+payment#:#paya_coupons_percentaged#:#percentaged###16 08 2007 new variable
+payment#:#paya_coupons_title#:#Title###16 08 2007 new variable
+payment#:#paya_coupons_number_of_codes#:#Number of Codes###16 08 2007 new variable
+payment#:#paya_coupons_usage_of_codes#:#Usage of Codes###16 08 2007 new variable
+payment#:#paya_coupons_objects#:#Objects###16 08 2007 new variable
+payment#:#paya_coupons_from#:#Valid From###16 08 2007 new variable
+payment#:#paya_coupons_till#:#Valid Till###16 08 2007 new variable
+payment#:#paya_coupons_not_available#:#No coupons created yet.###16 08 2007 new variable
+payment#:#paya_coupons_description#:#Description###16 08 2007 new variable
+payment#:#paya_coupons_value#:#Value###16 08 2007 new variable
+payment#:#paya_coupons_edit_codes#:#Edit Codes###16 08 2007 new variable
+payment#:#paya_coupons_edit_objects#:#Edit Objects###16 08 2007 new variable
+payment#:#paya_coupons_codes#:#Codes###16 08 2007 new variable
+payment#:#paya_coupons_code#:#Code###16 08 2007 new variable
+payment#:#paya_coupons_generate_codes#:#Generate Codes###16 08 2007 new variable
+payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code###16 08 2007 new variable
+payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully###16 08 2007 new variable
+payment#:#paya_coupons_code_length#:#Code Length###16 08 2007 new variable
+payment#:#paya_coupons_code_chars#:#Chars###16 08 2007 new variable
+payment#:#paya_coupons_code_generation#:#Code Generation###16 08 2007 new variable
+payment#:#paya_coupons_type_auto#:#Automatically###16 08 2007 new variable
+payment#:#paya_coupons_type_self#:#Manually###16 08 2007 new variable
+payment#:#paya_coupons_no_codes_selected#:#You did not select any code###16 08 2007 new variable
+payment#:#paya_coupons_sure_delete_selected_codes#:#Are you sure you want to delete the selected codes?###16 08 2007 new variable
+payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete all codes?###16 08 2007 new variable
+payment#:#paya_coupons_codes_not_available#:#No codes created yet.###16 08 2007 new variable
+payment#:#paya_coupons_assigned_objects#:#Assigned Objects###16 08 2007 new variable
+payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects###16 08 2007 new variable
+payment#:#paya_coupons_not_found#:#No coupons found.###16 08 2007 new variable
+payment#:#paya_coupons_not_valid#:#The coupon is not valid.###16 08 2007 new variable
+payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.###16 08 2007 new variable
+payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.###16 08 2007 new variable
+payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.###16 08 2007 new variable
+payment#:#paya_coupons_coupon_added#:#Coupon added.###16 08 2007 new variable
+payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
+payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
+payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
+payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
+payment#:#paya_coupons_no_codes_generated#:#No codes generated.###16 08 2007 new variable
+payment#:#paya_coupons_import_codes#:#Import Codes###16 08 2007 new variable
+payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!###16 08 2007 new variable
+payment#:#paya_coupon_codes_import_successful#:#Import successful.###16 08 2007 new variable
+payment#:#pays_bmf_settings#:#Settings for BMF###16 08 2007 new variable
+payment#:#pays_bmf_client_id#:#Cliend Id###16 08 2007 new variable
+payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr###16 08 2007 new variable
+payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle###16 08 2007 new variable
+payment#:#pays_bmf_object_id#:#Object Id###16 08 2007 new variable
+payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren###16 08 2007 new variable
+payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen###16 08 2007 new variable
+payment#:#pays_bmf_epayment_server#:#ePayment-Server###16 08 2007 new variable
+payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate###16 08 2007 new variable
+payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate###16 08 2007 new variable
+payment#:#pays_bmf_timeout#:#Timeout###16 08 2007 new variable
+payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.###16 08 2007 new variable
+payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###16 08 2007 new variable
+common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###16 08 2007 new variable
+common#:#ext_acccount_required#:#Please enter the name of the external account.###16 08 2007 new variable
+crs#:#event_select_one#:#-- Please select one session --###16 08 2007 new variable
+crs#:#events_clone_title#:#Duplicate Session###16 08 2007 new variable
+crs#:#event_clone_btn#:#Duplicate Session###16 08 2007 new variable
+crs#:#event_cloned#:#The Session has been duplicated.###16 08 2007 new variable
+common#:#err_check_input#:#The settings could not be saved. Please check your input.###16 08 2007 new variable
+common#:#filesize#:#File Size###16 08 2007 new variable
+common#:#filetype#:#File Type###16 08 2007 new variable
+crs#:#event_files#:#Assigned Files###16 08 2007 new variable
+common#:#passwd_list#:#List of Passwords###16 08 2007 new variable
+meta#:#md_advanced#:#Advanced Metadata###16 08 2007 new variable
+meta#:#md_adv_record_list#:#Datasets###16 08 2007 new variable
+meta#:#md_adv_file_list#:#Export Files###16 08 2007 new variable
+meta#:#md_record_list_table#:#Advanced Metadata Sets###16 08 2007 new variable
+meta#:#md_fields#:#Fields###16 08 2007 new variable
+meta#:#md_obj_types#:#Assigned Objekts###16 08 2007 new variable
+meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)###16 08 2007 new variable
+meta#:#md_adv_substitution#:#Text###16 08 2007 new variable
+meta#:#md_adv_placeholders#:#Placeholders###16 08 2007 new variable
+meta#:#md_adv_placeholder_for#:#Placeholder for:###16 08 2007 new variable
+meta#:#md_record_export_table#:#Export Files###16 08 2007 new variable
+meta#:#md_adv_records#:#Included Datasets###16 08 2007 new variable
+meta#:#md_adv_select_one_file#:#Please choose one file.###16 08 2007 new variable
+meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?###16 08 2007 new variable
+meta#:#md_adv_deleted_files#:#Deleted export files.###16 08 2007 new variable
+meta#:#md_adv_records_exported#:#A new export file has been created.###16 08 2007 new variable
+meta#:#md_adv_edit_record#:#Edit Dataset###16 08 2007 new variable
+meta#:#md_adv_field_table#:#Edit Fields###16 08 2007 new variable
+meta#:#md_adv_field_fields#:#Fields###16 08 2007 new variable
+meta#:#md_adv_searchable#:#Searchable###16 08 2007 new variable
+meta#:#md_adv_edit_field#:#Edit Field###16 08 2007 new variable
+meta#:#md_adv_create_field#:#Add Field###16 08 2007 new variable
+meta#:#md_adv_add_value#:#Add Value###16 08 2007 new variable
+meta#:#md_adv_no_fields#:#No Fields Defined###16 08 2007 new variable
+meta#:#md_adv_deleted_records#:#Deleted Dataset###16 08 2007 new variable
+meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?###16 08 2007 new variable
+meta#:#md_adv_added_new_record#:#Added new Dataset###16 08 2007 new variable
+meta#:#md_adv_create_record#:#Add new Dataset###16 08 2007 new variable
+meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?###16 08 2007 new variable
+barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###16 08 2007 new variable
+meta#:#md_adv_active#:#Active###16 08 2007 new variable
+common#:#default_auth_mode#:#Default Authentication Method###16 08 2007 new variable
+common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###16 08 2007 new variable
+common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###16 08 2007 new variable
+auth#:#auth_rad_migration#:#Account Migration:###16 08 2007 new variable
+auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.###16 08 2007 new variable
+auth#:#auth_account_migration#:#New ILIAS Account###16 08 2007 new variable
+auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).###16 08 2007 new variable
+auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created###16 08 2007 new variable
