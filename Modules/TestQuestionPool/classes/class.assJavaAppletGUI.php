@@ -666,7 +666,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "post_url");
-		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_question_post_data.php");
+		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/Modules/TestQuestionPool/save_question_post_data.php");
 		$template->parseCurrentBlock();
 		// additional parameters
 		for ($i = 0; $i < $this->object->getParameterCount(); $i++)
