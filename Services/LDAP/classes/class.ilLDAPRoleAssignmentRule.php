@@ -70,6 +70,7 @@ class ilLDAPRoleAssignmentRule
 		return self::$instances[$a_rule_id] = new ilLDAPRoleAssignmentRule($a_rule_id);
 	}
 	
+	
 	/**
 	 * Get all rules
 	 *

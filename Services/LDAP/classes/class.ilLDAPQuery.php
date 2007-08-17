@@ -44,6 +44,8 @@ class ilLDAPQuery
 	private $settings = null;
 	private $log = null;
 	
+	private $user_fields = array();
+	
 	/**
 	 * Constructur
 	 *
@@ -70,6 +72,7 @@ class ilLDAPQuery
 		$this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->settings->getServerId());
 		$this->log = $ilLog;
 		
+		$this->fetchUserProfileFields();
 		$this->connect();
 	}
 	
@@ -184,8 +187,6 @@ class ilLDAPQuery
 		}
 		$dn .=	$this->settings->getBaseDN();
 		
-		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
-		
 		// page results
 		$filter = $this->settings->getFilter();
 		$page_filter = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-');
@@ -284,7 +285,6 @@ class ilLDAPQuery
 		}
 				
 		$attribute_name = strtolower($this->settings->getGroupMember());
-		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
 		
 		// All groups
 		foreach($group_data as $data)
@@ -516,6 +516,23 @@ class ilLDAPQuery
 		}
 	}
 	
+	/**
+	 * fetch required fields of user profile data
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function fetchUserProfileFields()
+	{
+		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
+		
+		$this->user_fields = array_merge(
+			array($this->settings->getUserAttribute()),
+			$this->mapping->getFields(),
+			ilLDAPRoleAssignments::_getDistinctAttributeNamesByServerId($this->settings->getServerId()));
+	}
+	
 	
 	/**
 	 * Unbind
@@ -553,7 +570,7 @@ function referralRebind($a_ds,$a_url)
 {
 	global $ilLog;
 	
-	$ilLog->write('LDAP: Called referralRebind. If someone will see this line please report it to smeyer@databay.de');
+	$ilLog->write('LDAP: Called referralRebind.');
 	
 	ldap_set_option($a_ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 	
