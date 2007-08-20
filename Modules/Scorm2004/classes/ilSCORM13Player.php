@@ -190,7 +190,7 @@ class ilSCORM13Player
 		
 		//uncomment for usage with ILIAS DB
 		
-		$pdo_dsn=ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
+		$pdo_dsn = ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
 		ilSCORM13DB::init($pdo_dsn[0],$pdo_dsn[1],$pdo_dsn[2]);
 		
 	}
@@ -218,6 +218,10 @@ class ilSCORM13Player
 			case 'cp':
 				$this->getCPData();
 				break;
+				
+			case 'adlact':
+				$this->getADLActData();
+				break;		
 			
 			case 'cmi':
 				if ($_SERVER['REQUEST_METHOD']=='POST') {
@@ -268,6 +272,7 @@ class ilSCORM13Player
 		(
 			'cp_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"],
 			'cmi_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"],
+			'adlact_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=adlact&ref_id='.$_GET["ref_id"],
 			'learner_id' => (string) $ilUser->getID(),
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
 			'mode' => 'normal',
@@ -302,7 +307,7 @@ class ilSCORM13Player
 		$this->tpl->setVariable('CSS_NEEDED', '');
 		$this->tpl->setVariable('JS_NEEDED', '');
 		$this->tpl->setVariable('JS_DATA', json_encode($config));
-		
+		$this->tpl->setVariable('JS_SEQUENCER',$this->includeADLSequencer());
 		list($tsfrac, $tsint) = explode(' ', microtime());
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
@@ -310,6 +315,22 @@ class ilSCORM13Player
 		$this->tpl->show("DEFAULT", false);
 	}
 	
+	
+	
+	public function includeADLSequencer()
+	{
+		$base_dir='./Modules/Scorm2004/scripts/adl2js';
+		if ($handle = opendir($base_dir)) { 
+		    // List all the files 
+		    while (false !== ($file = readdir($handle))) { 
+				if (!(strrpos($file, ".")<=1))  //skip directories and hidden files
+					$js_include_string .="		\n<script type=\"text/javascript\" src=\"$base_dir/$file\"></script>";
+		    } 
+		    closedir($handle); 
+		}
+		return $js_include_string;
+	}
+		
 	public function getCPData()
 	{
 		$packageData = ilSCORM13DB::getRecord(
@@ -329,6 +350,33 @@ class ilSCORM13Player
 			header('Content-Type: text/plain; charset=UTF-8');
 			$jsdata = json_decode($jsdata);
 			print_r($jsdata);	
+		}
+	}
+	
+	public function getADLActData()
+	{
+		$data = ilSCORM13DB::getRecord(
+			'cp_package', 
+			'obj_id', 
+			$this->packageId
+		);
+		
+		$test="SeqActivityTree = ".$data['activitytree'];
+		
+		$activitytree =$test;
+		//add the appropriate classes
+		
+		if (!$activitytree) $activitytree = 'null';
+		if ($this->jsMode) 
+		{
+			header('Content-Type: text/javascript; charset=UTF-8');
+			print($activitytree);
+		}
+		else
+		{
+			header('Content-Type: text/plain; charset=UTF-8');
+			$activitytree = json_decode($activitytree);
+			print_r($activitytree);	
 		}
 	}
 	

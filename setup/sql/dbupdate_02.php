@@ -2150,3 +2150,6 @@ ALTER TABLE `ldap_role_assignments` CHANGE `rule_id` `rule_id` TINYINT( 3 ) NOT 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1051>
+ALTER TABLE `cp_package` ADD `activitytree` TEXT;

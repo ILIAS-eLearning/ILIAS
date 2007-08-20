@@ -908,15 +908,17 @@ function toJSONString (v, tab) {
 
 function parseJSONString (s) 
 {
-	var re = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
-	try 
-	{
-		if (re.test(s)) 
-		{
-			return window.eval('(' + s + ')');
-		} 
-	} catch (e) {}
-	throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));
+	//var re = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
+	//try 
+	//{
+	//	if (re.test(s)) 
+	//	{
+	//		return window.eval('(' + s + ')');
+	//	} 
+//	} catch (e) {}
+//	throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));
+	return window.eval('(' + s + ')');
+	
 }
 
 
@@ -1028,20 +1030,87 @@ function onDocumentClick (e)
 {
 	e = new UIEvent(e);
 	var target = e.srcElement;
+	
+	
+	//integration of ADL Sqeuencer
+	
+	
+	alert("Target: "+target.id+"Tagname"+target.tagName);
 	if (target.tagName !== 'A' || !target.id) 
 	{
 		// ignore clicks on other elements than A
-		// or non identified elements or disabled elements
+		// or non identified elements or disabled elements (non active Activities)
 	} 
+	
+	//handle eventes like Contine, Previous, Exit...
 	else if (target.id.substr(0, 3)==='nav') 
 	{
+		
+			
+		//do special handling for scos
+		
+		alert("We are in"+ target.id.substr(0, 3));
+		
+		//to deprecate
 		window.top.status = execNavigation(target.id.substr(3), target.id);
+		///
+		alert("Function: "+target.id.substr(3));
+		
+		
+		//calling ADL Sequencer after UI Event
+		var navType=target.id.substr(3);
+		
+		if (navType==='Start') {
+			mlaunch = msequencer.navigate(NAV_START);
+		}
+			
+		if (navType==='ResumeAll') {
+			mlaunch = msequencer.navigate(NAV_RESUMEALL);
+		}
+		
+		if (navType==='Exit') {
+			mlaunch = msequencer.navigate(NAV_EXIT);
+		}
+		
+		if (navType==='ExitAll') {
+			mlaunch = msequencer.navigate(NAV_EXITALL);
+		}
+		
+		if (navType==='Abandon') {
+			mlaunch = msequencer.navigate(NAV_ABANDON);
+		}
+		
+		if (navType==='AbandonAll') {
+			mlaunch = msequencer.navigate(NAV_ABANDONALL);
+		}
+		
+		if (navType==='SuspendAll') {
+				mlaunch = msequencer.navigate(NAV_SUSPENDALL);
+		}
+		
+		if (navType==='Previous') {
+			mlaunch = msequencer.navigate(NAV_PREVIOUS);
+		}
+		
+		if (navType==='Continue') {
+			mlaunch = msequencer.navigate(NAV_CONTINUE);
+		}
+		
+		
+		
 	} 
+	
+	//SCO selected by user directly (OSCO is used as ITEM_PREFIX)
 	else if (target.id.substr(0, 3)===ITEM_PREFIX) 
 	{
 		if (e.altKey) {} // for special commands
 		else 
 		{
+			alert("Normal navigation")
+			//direct click on SCO
+			
+			mlaunch = msequencer.navigateStr( requestedSCO );
+            
 			onChoice(target);	
 		}
 	}
@@ -1428,6 +1497,21 @@ function init(config)
 	var cam = this.config.cp_data || sendJSONRequest(this.config.cp_url);
 
 	if (!cam) return alert('Fatal: Could not load content data.')
+
+	// Step 2: load adlActivityTree
+	
+	var adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
+	
+	if (!adlAct) {
+		return alert('Fatal: Could not load ADLActivityTree.');
+	} else {	
+		var tree;
+		adlTree = buildADLtree(adlAct,tree);
+		//assign Tree
+		
+		var actTree = new SeqActivityTree("","","",adlTree);
+		msequencer.setActivityTree(actTree);	
+	}		
 	
 	// convert seq array into seq map and decode seq data en passant
 	var seqs = cam.sequencing ? cam.sequencing  : [];
@@ -1487,6 +1571,34 @@ function init(config)
 	load();
 		
 }
+
+
+function buildADLtree(act,obj){
+	for(var index in act) { 
+		var value;
+   		if ((index.substr(0,1) == "_") ) {
+			//create new object
+			obj = eval("new "+index.substr(1)+"()");
+			obj = buildADLtree(act[index],obj);
+		} else if ((act[index] instanceof Array)) {
+		/*	var toset=new Array();
+			var temp=act[index];	
+			for (var i=0;i<temp.length;i++) {
+				obj=buildADLtree(temp[i],obj);
+				toset.push(obj);
+			}	
+			value = toset;
+			obj[index] = value;   */
+			//toimplement	
+		} else if (!(act[index] instanceof Array) && !(index.substr(0,1) == "_")){
+			value = act[index];
+			obj[index] = value;   				
+		}
+    }
+	return obj;
+}
+
+
 
 function load()
 {
@@ -2026,6 +2138,19 @@ var apiIndents = // for mapping internal to api representaiton
 	}
 };	
 
+function setTitle(item){
+	var status_colors = 
+		{
+			'null' : 'red',
+			'unknown': 'yellow',
+			'completed': 'green'
+		};
+	var status;
+	var node_stat=activities[item.id].completion_status;
+	status="<span style=\"background-color:"+status_colors[node_stat]+"; width:4px; height:4px;\">&nbsp;&nbsp;</span>&nbsp;";	
+	var title=status+item.title;	
+	return title;	
+}
 
 var guiViews = // for different table of content views in gui
 {
@@ -2039,7 +2164,12 @@ var guiViews = // for different table of content views in gui
 				elm.id = ITEM_PREFIX + item.id;
 				elm.className = (item.href ? 'content' : 'block') + (item.isvisible ? '' : ' invisible');
 				elm.href = "#";
-				elm.innerHTML = item.title;
+				if (item.href) {
+					elm.innerHTML = setTitle(item);
+				} else  {
+					elm.innerHTML = item.title;	
+				}
+				
 				if (item.item) 
 				{
 					sink[depth+1] = sink[depth].appendChild(elm.ownerDocument.createElement('DIV'));
@@ -2060,6 +2190,9 @@ var guiViews = // for different table of content views in gui
 					var elm = all(ITEM_PREFIX + item.id);
 					if (elm) 
 					{
+						if (item.href) {
+							elm.innerHTML = setTitle(item);
+						}
 						toggleClass(elm, 'disabled', item.disabled); 
 						toggleClass(elm.parentNode, 'hidden', item.hidden); 
 					} 
@@ -2086,6 +2219,9 @@ var activitiesByCAM = new Object(); // activities by cp_node_id
 var activitiesByCMI = new Object(); // activities by cmi_node_id
 var activitiesByNo = new Array(); // activities by numerical index
 var sharedObjectives = new Object(); // global objectives by objective identifier
+
+//integration of ADL Sequencer
+var msequencer=new ADLSequencer();
 
 // GUI constants
 var ITEM_PREFIX = "itm";
