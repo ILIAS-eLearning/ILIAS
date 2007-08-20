@@ -164,7 +164,7 @@ class ilLDAPRoleAssignments
 	 	{
 	 		if($this->isGroupMember($dn,$a_external_name,$a_user_att))
 	 		{
-		 		$ilLog->write(__METHOD__.': Found role mapping for '.$a_external_name.' => '.ilObject::_lookupTitle($mapping_data['role']));
+		 		$ilLog->write(__METHOD__.': Found LDAP group => role mapping for '.$a_external_name.' => '.ilObject::_lookupTitle($mapping_data['role']));
 		 		$roles[] = array('id' => $mapping_data['role'],
 	 				'type' => 'Global',
 	 				'action' => 'Attach');
@@ -191,7 +191,15 @@ class ilLDAPRoleAssignments
 		
 		if(isset($this->grp_members[$a_dn]))
 		{
-			return in_array($a_ldap_account,$this->grp_members[$a_dn]);
+			if($this->grp_mappings[$a_dn]['isdn'])
+			{
+				$user_cmp = $a_user_data['dn'];
+			}
+			else
+			{
+				$user_cmp = $a_ldap_account;
+			}
+			return in_array($user_cmp,$this->grp_members[$a_dn]);
 		}
 	 	try
 	 	{
@@ -217,7 +225,16 @@ class ilLDAPRoleAssignments
 			{
 				$this->grp_members[$a_dn] = $member_data[$this->grp_mappings[$a_dn]['attribute']];
 			}
-			return in_array($a_ldap_account,$this->grp_members[$a_dn]);
+			// Check membership by ldap account or dn
+			if($this->grp_mappings[$a_dn]['isdn'])
+			{
+				$user_cmp = $a_user_data['dn'];
+			}
+			else
+			{
+				$user_cmp = $a_ldap_account;
+			}
+			return in_array($user_cmp,$this->grp_members[$a_dn]);
 	 	}
 		catch(ilLDAPQueryException $e)
 		{
