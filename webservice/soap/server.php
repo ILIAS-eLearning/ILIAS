@@ -30,25 +30,27 @@
 *
 * @package ilias
 */
-chdir('../..');
 
+chdir("../..");
 define ("ILIAS_MODULE", "webservice/soap");
+define ("IL_SOAPMODE_NUSOAP", 0);
+define ("IL_SOAPMODE_INTERNAL", 1);
 
-global $HTTP_RAW_POST_DATA;
+define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);
 
-#if(substr(phpversion(),0,1) == '5' and $HTTP_RAW_POST_DATA)
-#{
-#	include_once './webservice/soap/classes/class.ilSoapUserAdministrationAdapter.php';
-#
-#	$server =& new ilSoapUserAdministrationAdapter();
-#	$server->start();
-#}
-#else
-{
+
+if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL) {
+	//ini_set("soap.wsdl_cache_enabled", "1"); 
+	include_once('webservice/soap/include/inc.soap_functions.php');
+	$soapServer = new SoapServer("webservice/soap/server.wsdl");
+	$soapServer->setObject(new ilSoapFunctions());
+	$soapServer->handle();
+} else {
+	global $HTTP_RAW_POST_DATA;
 	include_once './webservice/soap/classes/class.ilNusoapUserAdministrationAdapter.php';
-	
-	$server =& new ilNusoapUserAdministrationAdapter();
+	$server =& new ilNusoapUserAdministrationAdapter(true);
 	$server->start();
 	break;
 }
+
 ?>

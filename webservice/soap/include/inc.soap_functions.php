@@ -1,671 +1,673 @@
 <?php
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
-
-
-  /**
-   * soap server
-   *
-   * @author Stefan Meyer <smeyer@databay.de>
-   * @version $Id$
-   *
-   * @package ilias
-   */
-include_once './webservice/soap/lib/nusoap.php';
-
-// These functions are wrappers for nusoap, since it cannot register methods inside classes
-
-// USER ADMINISTRATION
-function login($client,$username,$password)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->login($client,$username,$password);
-}
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+ */
 
-function loginCAS($client, $PT, $user)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	$sua =& new ilSoapUserAdministration();
+/**
+ * soap server
+ *
+ * @author Stefan Meyer <smeyer@databay.de>
+ * @version $Id$
+ *
+ * @package ilias
+ */
 
-	return $sua->loginCAS($client, $PT, $user);
-}
 
-function loginLDAP($client, $username, $password)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	$sua =& new ilSoapUserAdministration();
+class ilSoapFunctions {
+	// These functions are wrappers for soap, since it cannot register methods inside classes
 
-	return $sua->loginLDAP($client, $username, $password);
-}
+	// USER ADMINISTRATION
+	function login($client,$username,$password)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
+		$sua =& new ilSoapUserAdministration();
 
-function logout($sid)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		return $sua->login($client,$username,$password);
+	}
 
-	$sua =& new ilSoapUserAdministration();
+	function loginCAS($client, $PT, $user)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	return $sua->logout($sid);
-}
-function lookupUser($sid,$user_name)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		$sua =& new ilSoapUserAdministration();
 
-	$sua =& new ilSoapUserAdministration();
+		return $sua->loginCAS($client, $PT, $user);
+	}
 
-	return $sua->lookupUser($sid,$user_name);
-}
+	function loginLDAP($client, $username, $password)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-function getUser($sid,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		$sua =& new ilSoapUserAdministration();
 
-	$sua =& new ilSoapUserAdministration();
+		return $sua->loginLDAP($client, $username, $password);
+	}
 
-	return $sua->getUser($sid,$user_id);
-}
 
-function updateUser($sid,$user_data)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+	function logout($sid)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	$sua =& new ilSoapUserAdministration();
+		$sua =& new ilSoapUserAdministration();
 
-	return $sua->updateUser($sid,$user_data);
-}
+		return $sua->logout($sid);
+	}
+	function lookupUser($sid,$user_name)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-function updatePassword($sid,$user_id,$new_password)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		$sua =& new ilSoapUserAdministration();
 
-	$sua =& new ilSoapUserAdministration();
+		return $sua->lookupUser($sid,$user_name);
+	}
 
-	return $sua->updatePassword($sid,$user_id,$new_password);
-}
+	function getUser($sid,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-function addUser($sid,$user_data,$global_role_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		$sua =& new ilSoapUserAdministration();
 
-	$sua =& new ilSoapUserAdministration();
+		return $sua->getUser($sid,$user_id);
+	}
 
-	return $sua->addUser($sid,$user_data,$global_role_id);
-}
-function deleteUser($sid,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+	function updateUser($sid,$user_data)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	$sua =& new ilSoapUserAdministration();
+		$sua =& new ilSoapUserAdministration();
 
-	return $sua->deleteUser($sid,$user_id);
-}
+		return $sua->updateUser($sid,$user_data);
+	}
 
+	function updatePassword($sid,$user_id,$new_password)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-// COURSE ADMINSTRATION
-function addCourse($sid,$target_id,$crs_xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+		$sua =& new ilSoapUserAdministration();
 
-	$sca =& new ilSoapCourseAdministration();
+		return $sua->updatePassword($sid,$user_id,$new_password);
+	}
 
-	return $sca->addCourse($sid,$target_id,$crs_xml);
-}
-function deleteCourse($sid,$course_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+	function addUser($sid,$user_data,$global_role_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	$sca =& new ilSoapCourseAdministration();
+		$sua =& new ilSoapUserAdministration();
 
-	return $sca->deleteCourse($sid,$course_id);
-}
-function assignCourseMember($sid,$course_id,$user_id,$type)
-{
-	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+		return $sua->addUser($sid,$user_data,$global_role_id);
+	}
+	function deleteUser($sid,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	$sca =& new ilSoapCourseAdministration();
+		$sua =& new ilSoapUserAdministration();
 
-	return $sca->assignCourseMember($sid,$course_id,$user_id,$type);
-}
-function isAssignedToCourse($sid,$course_id,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+		return $sua->deleteUser($sid,$user_id);
+	}
 
-	$sca =& new ilSoapCourseAdministration();
 
-	return $sca->isAssignedToCourse($sid,$course_id,$user_id);
-}
+	// COURSE ADMINSTRATION
+	function addCourse($sid,$target_id,$crs_xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
-function excludeCourseMember($sid,$course_id,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+		$sca =& new ilSoapCourseAdministration();
 
-	$sca =& new ilSoapCourseAdministration();
+		return $sca->addCourse($sid,$target_id,$crs_xml);
+	}
+	function deleteCourse($sid,$course_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
-	return $sca->excludeCourseMember($sid,$course_id,$user_id);
-}
-function getCourseXML($sid,$course_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+		$sca =& new ilSoapCourseAdministration();
 
-	$sca =& new ilSoapCourseAdministration();
+		return $sca->deleteCourse($sid,$course_id);
+	}
+	function assignCourseMember($sid,$course_id,$user_id,$type)
+	{
+		include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
-	return $sca->getCourseXML($sid,$course_id);
-}
-function updateCourse($sid,$course_id,$xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+		$sca =& new ilSoapCourseAdministration();
 
-	$sca =& new ilSoapCourseAdministration();
+		return $sca->assignCourseMember($sid,$course_id,$user_id,$type);
+	}
+	function isAssignedToCourse($sid,$course_id,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
-	return $sca->updateCourse($sid,$course_id,$xml);
-}
-// Object admninistration
-function getObjIdByImportId($sid,$import_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$sca =& new ilSoapCourseAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $sca->isAssignedToCourse($sid,$course_id,$user_id);
+	}
 
-	return $soa->getObjIdByImportId($sid,$import_id);
-}
+	function excludeCourseMember($sid,$course_id,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
-function getRefIdsByImportId($sid,$import_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$sca =& new ilSoapCourseAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $sca->excludeCourseMember($sid,$course_id,$user_id);
+	}
+	function getCourseXML($sid,$course_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
-	return $soa->getRefIdsByImportId($sid,$import_id);
-}
-function getRefIdsByObjId($sid,$object_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$sca =& new ilSoapCourseAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $sca->getCourseXML($sid,$course_id);
+	}
+	function updateCourse($sid,$course_id,$xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
-	return $soa->getRefIdsByObjId($sid,$object_id);
-}
+		$sca =& new ilSoapCourseAdministration();
 
+		return $sca->updateCourse($sid,$course_id,$xml);
+	}
+	// Object admninistration
+	function getObjIdByImportId($sid,$import_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-function getObjectByReference($sid,$a_ref_id,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa =& new ilSoapObjectAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $soa->getObjIdByImportId($sid,$import_id);
+	}
 
-	return $soa->getObjectByReference($sid,$a_ref_id,$user_id);
-}
+	function getRefIdsByImportId($sid,$import_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-function getObjectsByTitle($sid,$a_title,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa =& new ilSoapObjectAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $soa->getRefIdsByImportId($sid,$import_id);
+	}
+	function getRefIdsByObjId($sid,$object_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-	return $soa->getObjectsByTitle($sid,$a_title,$user_id);
-}
+		$soa =& new ilSoapObjectAdministration();
 
-function addObject($sid,$a_target_id,$a_xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		return $soa->getRefIdsByObjId($sid,$object_id);
+	}
 
-	$soa =& new ilSoapObjectAdministration();
 
-	return $soa->addObject($sid,$a_target_id,$a_xml);
-}
+	function getObjectByReference($sid,$a_ref_id,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-function addReference($sid,$a_source_id,$a_target_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa =& new ilSoapObjectAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $soa->getObjectByReference($sid,$a_ref_id,$user_id);
+	}
 
-	return $soa->addReference($sid,$a_source_id,$a_target_id);
-}
+	function getObjectsByTitle($sid,$a_title,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-function deleteObject($sid,$reference_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa =& new ilSoapObjectAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $soa->getObjectsByTitle($sid,$a_title,$user_id);
+	}
 
-	return $soa->deleteObject($sid,$reference_id);
-}
+	function addObject($sid,$a_target_id,$a_xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-function removeFromSystemByImportId($sid,$import_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa =& new ilSoapObjectAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $soa->addObject($sid,$a_target_id,$a_xml);
+	}
 
-	return $soa->removeFromSystemByImportId($sid,$import_id);
-}
+	function addReference($sid,$a_source_id,$a_target_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-function updateObjects($sid,$obj_xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa =& new ilSoapObjectAdministration();
 
-	$soa =& new ilSoapObjectAdministration();
+		return $soa->addReference($sid,$a_source_id,$a_target_id);
+	}
 
-	return $soa->updateObjects($sid,$obj_xml);
-}
-function searchObjects($sid,$types,$key,$combination,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+	function deleteObject($sid,$reference_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-	$soa =& new ilSoapObjectAdministration();
+		$soa =& new ilSoapObjectAdministration();
 
-	return $soa->searchObjects($sid,$types,$key,$combination,$user_id);
-}
+		return $soa->deleteObject($sid,$reference_id);
+	}
 
-function getTreeChilds($sid,$ref_id,$types,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+	function removeFromSystemByImportId($sid,$import_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-	$soa =& new ilSoapObjectAdministration();
+		$soa =& new ilSoapObjectAdministration();
 
-	return $soa->getTreeChilds($sid,$ref_id,$types,$user_id);
-}
+		return $soa->removeFromSystemByImportId($sid,$import_id);
+	}
 
-function getXMLTree($sid,$ref_id,$types,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+	function updateObjects($sid,$obj_xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-	$soa =& new ilSoapObjectAdministration();
+		$soa =& new ilSoapObjectAdministration();
 
-	return $soa->getXMLTree($sid,$ref_id,$types,$user_id);
-}
+		return $soa->updateObjects($sid,$obj_xml);
+	}
+	function searchObjects($sid,$types,$key,$combination,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
+		$soa =& new ilSoapObjectAdministration();
 
+		return $soa->searchObjects($sid,$types,$key,$combination,$user_id);
+	}
 
-// Rbac Tree functions
-function getOperations($sid)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+	function getTreeChilds($sid,$ref_id,$types,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-	$soa =& new ilSoapRBACAdministration();
+		$soa =& new ilSoapObjectAdministration();
 
-	return $soa->getOperations($sid);
-}
+		return $soa->getTreeChilds($sid,$ref_id,$types,$user_id);
+	}
 
+	function getXMLTree($sid,$ref_id,$types,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-function addUserRoleEntry($sid,$user_id,$role_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		$soa =& new ilSoapObjectAdministration();
 
-	$soa =& new ilSoapRBACAdministration();
+		return $soa->getXMLTree($sid,$ref_id,$types,$user_id);
+	}
 
-	return $soa->addUserRoleEntry($sid,$user_id,$role_id);
-}
 
-function deleteUserRoleEntry($sid,$user_id,$role_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-	$soa =& new ilSoapRBACAdministration();
+	// Rbac Tree functions
+	function getOperations($sid)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-	return $soa->deleteUserRoleEntry($sid,$user_id,$role_id);
-}
+		$soa =& new ilSoapRBACAdministration();
 
-function revokePermissions($sid,$ref_id,$role_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		return $soa->getOperations($sid);
+	}
 
-	$soa =& new ilSoapRBACAdministration();
 
-	return $soa->revokePermissions($sid,$ref_id,$role_id);
-}
+	function addUserRoleEntry($sid,$user_id,$role_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-function grantPermissions($sid,$ref_id,$role_id,$permissions)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		$soa =& new ilSoapRBACAdministration();
 
-	$soa =& new ilSoapRBACAdministration();
+		return $soa->addUserRoleEntry($sid,$user_id,$role_id);
+	}
 
-	return $soa->grantPermissions($sid,$ref_id,$role_id,$permissions);
-}
+	function deleteUserRoleEntry($sid,$user_id,$role_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-function getLocalRoles($sid,$ref_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		$soa =& new ilSoapRBACAdministration();
 
-	$soa =& new ilSoapRBACAdministration();
+		return $soa->deleteUserRoleEntry($sid,$user_id,$role_id);
+	}
 
-	return $soa->getLocalRoles($sid,$ref_id);
-}
+	function revokePermissions($sid,$ref_id,$role_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-function getUserRoles($sid,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		$soa =& new ilSoapRBACAdministration();
 
-	$soa =& new ilSoapRBACAdministration();
+		return $soa->revokePermissions($sid,$ref_id,$role_id);
+	}
 
-	return $soa->getUserRoles($sid,$user_id);
-}
+	function grantPermissions($sid,$ref_id,$role_id,$permissions)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-function deleteRole($sid,$role_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		$soa =& new ilSoapRBACAdministration();
 
-	$soa =& new ilSoapRBACAdministration();
+		return $soa->grantPermissions($sid,$ref_id,$role_id,$permissions);
+	}
 
-	return $soa->deleteRole($sid,$role_id);
-}
+	function getLocalRoles($sid,$ref_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-function addRole($sid,$target_id,$obj_xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		$soa =& new ilSoapRBACAdministration();
 
-	$soa =& new ilSoapRBACAdministration();
+		return $soa->getLocalRoles($sid,$ref_id);
+	}
 
-	return $soa->addRole($sid,$target_id,$obj_xml);
-}
-function addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+	function getUserRoles($sid,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-	$soa =& new ilSoapRBACAdministration();
+		$soa =& new ilSoapRBACAdministration();
 
-	return $soa->addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id);
-}
+		return $soa->getUserRoles($sid,$user_id);
+	}
 
-function getObjectTreeOperations($sid,$ref_id,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+	function deleteRole($sid,$role_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-	$soa =& new ilSoapRBACAdministration();
+		$soa =& new ilSoapRBACAdministration();
 
-	return $soa->getObjectTreeOperations($sid,$ref_id,$user_id);
-}
+		return $soa->deleteRole($sid,$role_id);
+	}
 
-function addGroup($sid,$target_id,$group_xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+	function addRole($sid,$target_id,$obj_xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-	$soa =& new ilSoapGroupAdministration();
+		$soa =& new ilSoapRBACAdministration();
 
-	return $soa->addGroup($sid,$target_id,$group_xml);
-}
+		return $soa->addRole($sid,$target_id,$obj_xml);
+	}
+	function addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-function groupExists($sid,$title)
-{
-	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+		$soa =& new ilSoapRBACAdministration();
 
-	$soa =& new ilSoapGroupAdministration();
+		return $soa->addRoleFromTemplate($sid,$target_id,$obj_xml,$template_id);
+	}
 
-	return $soa->addGroup($sid,$title);
-}
-function getGroup($sid,$ref_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+	function getObjectTreeOperations($sid,$ref_id,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-	$soa =& new ilSoapGroupAdministration();
+		$soa =& new ilSoapRBACAdministration();
 
-	return $soa->getGroup($sid,$ref_id);
-}
+		return $soa->getObjectTreeOperations($sid,$ref_id,$user_id);
+	}
 
-function assignGroupMember($sid,$group_id,$user_id,$type)
-{
-	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+	function addGroup($sid,$target_id,$group_xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
 
-	$sca =& new ilSoapGroupAdministration();
+		$soa =& new ilSoapGroupAdministration();
 
-	return $sca->assignGroupMember($sid,$group_id,$user_id,$type);
-}
-function isAssignedToGroup($sid,$group_id,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+		return $soa->addGroup($sid,$target_id,$group_xml);
+	}
 
-	$sca =& new ilSoapGroupAdministration();
+	function groupExists($sid,$title)
+	{
+		include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
 
-	return $sca->isAssignedToGroup($sid,$group_id,$user_id);
-}
+		$soa =& new ilSoapGroupAdministration();
 
-function excludeGroupMember($sid,$group_id,$user_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+		return $soa->addGroup($sid,$title);
+	}
+	function getGroup($sid,$ref_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
 
-	$sca =& new ilSoapGroupAdministration();
+		$soa =& new ilSoapGroupAdministration();
 
-	return $sca->excludeGroupMember($sid,$group_id,$user_id,$type);
-}
+		return $soa->getGroup($sid,$ref_id);
+	}
 
+	function assignGroupMember($sid,$group_id,$user_id,$type)
+	{
+		include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
 
-function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
-{
-	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		$sca =& new ilSoapGroupAdministration();
 
-	$sou =& new ilSoapUtils();
-	$sou->disableSOAPCheck();
-	$sou->ignoreUserAbort();
+		return $sca->assignGroupMember($sid,$group_id,$user_id,$type);
+	}
+	function isAssignedToGroup($sid,$group_id,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
 
-	return $sou->sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach);
-}
+		$sca =& new ilSoapGroupAdministration();
 
-function ilClone($sid,$copy_identifier)
-{
-	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		return $sca->isAssignedToGroup($sid,$group_id,$user_id);
+	}
 
-	$sou = new ilSoapUtils();
-	$sou->disableSOAPCheck();
-	$sou->ignoreUserAbort();
+	function excludeGroupMember($sid,$group_id,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
 
-	return $sou->ilClone($sid,$copy_identifier);
-}
-function ilCloneDependencies($sid,$copy_identifier)
-{
-	include_once './webservice/soap/classes/class.ilSoapUtils.php';
-
-	$sou = new ilSoapUtils();
-	$sou->disableSOAPCheck();
-	$sou->ignoreUserAbort();
-
-	return $sou->ilCloneDependencies($sid,$copy_identifier);
-}
+		$sca =& new ilSoapGroupAdministration();
 
-function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
-{
-	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		return $sca->excludeGroupMember($sid,$group_id,$user_id,$type);
+	}
 
-	$sou =& new ilSoapUtils();
-	$sou->disableSOAPCheck();
 
-	return $sou->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
-}
+	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 
-function saveTempFileAsMediaObject($sid,$name,$tmp_name)
-{
-	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		$sou =& new ilSoapUtils();
+		$sou->disableSOAPCheck();
+		$sou->ignoreUserAbort();
 
-	$sou =& new ilSoapUtils();
-	$sou->disableSOAPCheck();
+		return $sou->sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach);
+	}
 
-	return $sou->saveTempFileAsMediaObject($sid, $name, $tmp_name);
-}
+	function ilClone($sid,$copy_identifier)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 
-function getMobsOfObject($sid, $a_type, $a_id)
-{
-	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		$sou = new ilSoapUtils();
+		$sou->disableSOAPCheck();
+		$sou->ignoreUserAbort();
 
-	$sou =& new ilSoapUtils();
-	$sou->disableSOAPCheck();
+		return $sou->ilClone($sid,$copy_identifier);
+	}
+	function ilCloneDependencies($sid,$copy_identifier)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 
-	return $sou->getMobsOfObject($sid, $a_type, $a_id);
-}
+		$sou = new ilSoapUtils();
+		$sou->disableSOAPCheck();
+		$sou->ignoreUserAbort();
 
-function getStructureObjects ($sid, $ref_id) {
-	include_once './webservice/soap/classes/class.ilSoapStructureObjectAdministration.php';
+		return $sou->ilCloneDependencies($sid,$copy_identifier);
+	}
 
-	$sca = & new ilSOAPStructureObjectAdministration();
+	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 
-	return $sca->getStructureObjects ($sid, $ref_id);
-}
+		$sou =& new ilSoapUtils();
+		$sou->disableSOAPCheck();
 
-function getRoles($sid, $role_type, $id)
-{
-	include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+		return $sou->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
+	}
 
-	$soa =& new ilSoapRBACAdministration();
+	function saveTempFileAsMediaObject($sid,$name,$tmp_name)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 
-	return $soa->getRoles($sid, $role_type, $id);
-}
+		$sou =& new ilSoapUtils();
+		$sou->disableSOAPCheck();
 
-function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		return $sou->saveTempFileAsMediaObject($sid, $name, $tmp_name);
+	}
 
-	$sua =& new ilSoapUserAdministration();
+	function getMobsOfObject($sid, $a_type, $a_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 
-	return $sua->importUsers($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail);
-}
+		$sou =& new ilSoapUtils();
+		$sou->disableSOAPCheck();
 
-function getUsersForContainer ($sid, $ref_id, $attach_roles, $active)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		return $sou->getMobsOfObject($sid, $a_type, $a_id);
+	}
 
-	$sua =& new ilSoapUserAdministration();
+	function getStructureObjects ($sid, $ref_id) {
+		include_once './webservice/soap/classes/class.ilSoapStructureObjectAdministration.php';
 
-	return $sua->getUsersForContainer($sid, $ref_id, $attach_roles, $active);
-}
+		$sca = & new ilSOAPStructureObjectAdministration();
 
-function getUsersForRole ($sid, $role_id, $attach_roles, $active)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		return $sca->getStructureObjects ($sid, $ref_id);
+	}
 
-	$sua =& new ilSoapUserAdministration();
+	function getRoles($sid, $role_type, $id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
-	return $sua->getUserForRole($sid, $role_id, $attach_roles, $active);
-}
+		$soa =& new ilSoapRBACAdministration();
 
+		return $soa->getRoles($sid, $role_type, $id);
+	}
 
-function searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active) {
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+	function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-	$sua =& new ilSoapUserAdministration();
+		$sua =& new ilSoapUserAdministration();
 
-	return $sua->searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active);
+		return $sua->importUsers($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail);
+	}
 
-}
+	function getUsersForContainer ($sid, $ref_id, $attach_roles, $active)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-function hasNewMail($sid)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+		$sua =& new ilSoapUserAdministration();
 
-	$sua =& new ilSoapUserAdministration();
+		return $sua->getUsersForContainer($sid, $ref_id, $attach_roles, $active);
+	}
 
-	return $sua->hasNewMail($sid);
-}
+	function getUsersForRole ($sid, $role_id, $attach_roles, $active)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-function getNIC($sid) {
-	include_once './webservice/soap/classes/class.ilSoapAdministration.php';
-	$soa = & new ilSoapAdministration();
-	return $soa->getNIC($sid);
-}
+		$sua =& new ilSoapUserAdministration();
 
-function getExerciseXML ($sid, $ref_id, $attachFileContentsMode) {
-	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
-	$sta = & new ilSoapExerciseAdministration();
-	return $sta->getExerciseXML($sid, $ref_id, $attachFileContentsMode);
+		return $sua->getUserForRole($sid, $role_id, $attach_roles, $active);
+	}
 
-}
 
+	function searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active) {
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-function updateExercise ($sid, $ref_id, $xml) {
-	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
-	$sta = & new ilSoapExerciseAdministration();
-	return $sta->updateExercise($sid, $ref_id, $xml);
+		$sua =& new ilSoapUserAdministration();
 
-}
+		return $sua->searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active);
 
-function addExercise ($sid, $ref_id, $xml) {
-	include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
-	$sta = & new ilSoapExerciseAdministration();
-	return $sta->addExercise($sid, $ref_id, $xml);
+	}
 
-}
+	function hasNewMail($sid)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
-function getFileXML ($sid, $ref_id, $attachFileContentsMode)
-{
-	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
-	$sta = & new ilSoapFileAdministration();
-	return $sta->getFileXML($sid, $ref_id, $attachFileContentsMode);
+		$sua =& new ilSoapUserAdministration();
 
-}
+		return $sua->hasNewMail($sid);
+	}
 
+	function getNIC($sid) {
+		include_once './webservice/soap/classes/class.ilSoapAdministration.php';
+		$soa = & new ilSoapAdministration();
+		return $soa->getNIC($sid);
+	}
 
-function updateFile ($sid, $ref_id, $xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
-	$sta = & new ilSoapFileAdministration();
-	return $sta->updateFile($sid, $ref_id, $xml);
+	function getExerciseXML ($sid, $ref_id, $attachFileContentsMode) {
+		include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
+		$sta = & new ilSoapExerciseAdministration();
+		return $sta->getExerciseXML($sid, $ref_id, $attachFileContentsMode);
 
-}
+	}
 
-function addFile ($sid, $ref_id, $xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
-	$sta = & new ilSoapFileAdministration();
-	return $sta->addFile($sid, $ref_id, $xml);
 
-}
+	function updateExercise ($sid, $ref_id, $xml) {
+		include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
+		$sta = & new ilSoapExerciseAdministration();
+		return $sta->updateExercise($sid, $ref_id, $xml);
 
-function getObjIdsByRefIds($sid, $ref_ids)
-{
-	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+	}
 
-	$soa =& new ilSoapObjectAdministration();
+	function addExercise ($sid, $ref_id, $xml) {
+		include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
+		$sta = & new ilSoapExerciseAdministration();
+		return $sta->addExercise($sid, $ref_id, $xml);
 
-	return $soa->getObjIdsByRefIds($sid, $ref_ids);
-}
+	}
 
-function getUserXML($sid,$user_ids, $attach_roles)
-{
-	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+	function getFileXML ($sid, $ref_id, $attachFileContentsMode)
+	{
+		include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
+		$sta = & new ilSoapFileAdministration();
+		return $sta->getFileXML($sid, $ref_id, $attachFileContentsMode);
 
-	$sua =& new ilSoapUserAdministration();
+	}
 
-	return $sua->getUserXML($sid, $user_ids, $attach_roles);
-}
 
-function updateGroup($sid, $ref_id, $grp_xml)
-{
-	include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+	function updateFile ($sid, $ref_id, $xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
+		$sta = & new ilSoapFileAdministration();
+		return $sta->updateFile($sid, $ref_id, $xml);
 
-	$sua =& new ilSoapGroupAdministration();
+	}
 
-	return $sua->updateGroup($sid,$ref_id, $grp_xml);
-}
+	function addFile ($sid, $ref_id, $xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapFileAdministration.php';
+		$sta = & new ilSoapFileAdministration();
+		return $sta->addFile($sid, $ref_id, $xml);
 
-function getIMSManifestXML($sid, $ref_id) {
-	include_once './webservice/soap/classes/class.ilSoapSCORMAdministration.php';
+	}
 
-	$sua =& new ilSoapSCORMAdministration();
+	function getObjIdsByRefIds($sid, $ref_ids)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
-	return $sua->getIMSManifestXML($sid,$ref_id);
-}
+		$soa =& new ilSoapObjectAdministration();
+
+		return $soa->getObjIdsByRefIds($sid, $ref_ids);
+	}
+
+	function getUserXML($sid,$user_ids, $attach_roles)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+		$sua =& new ilSoapUserAdministration();
+
+		return $sua->getUserXML($sid, $user_ids, $attach_roles);
+	}
 
+	function updateGroup($sid, $ref_id, $grp_xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapGroupAdministration.php';
+
+		$sua =& new ilSoapGroupAdministration();
+
+		return $sua->updateGroup($sid,$ref_id, $grp_xml);
+	}
+
+	function getIMSManifestXML($sid, $ref_id) {
+		include_once './webservice/soap/classes/class.ilSoapSCORMAdministration.php';
+
+		$sua =& new ilSoapSCORMAdministration();
+
+		return $sua->getIMSManifestXML($sid,$ref_id);
+	}
+}
 ?>

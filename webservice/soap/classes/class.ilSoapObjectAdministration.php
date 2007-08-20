@@ -515,9 +515,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
-
-		$xml_parser =& new ilObjectXMLParser($a_xml);
-		$xml_parser->startParsing();
+		
+		$xml_parser =& new ilObjectXMLParser($a_xml, true);
+		try {
+			$xml_parser->startParsing();
+		} catch (ilSaxParserException $se){
+			return $this->__raiseError($se->getMessage(), $se->getCode());
+		}
 
 		foreach($xml_parser->getObjectData() as $object_data)
 		{
@@ -592,7 +596,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		}
 		$ref_id = $newObj->getRefId();
-		return  $ref_id  ? $ref_id : "0";
+		return  $ref_id  ? $ref_id : "0";		
 	}
 
 	function addReference($sid,$a_source_id,$a_target_id)
@@ -805,9 +809,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		global $rbacreview, $rbacsystem, $lng;
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
-
-		$xml_parser =& new ilObjectXMLParser($a_xml);
-		$xml_parser->startParsing();
+		$xml_parser =& new ilObjectXMLParser($a_xml, true);
+		try {
+			$xml_parser->startParsing();
+		} catch (ilSaxParserException $se){
+			return $this->__raiseError($se->getMessage(), $se->getCode());
+		}
 
 
 		// Validate incoming data

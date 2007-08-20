@@ -49,16 +49,16 @@ class ilNusoapUserAdministrationAdapter
 		define('SERVICE_STYLE','rpc');
 		define('SERVICE_USE','encoded');
 
-		$this->server =& new soap_server();
-
+		$this->server =& new soap_server();		
+		//keep utf-8 for ilias parsers, only for nusoap 0.7.2	
+		//$this->server->decode_utf8 = false;
 		if($a_use_wsdl)
 		{
 			$this->__enableWSDL();
+		
 		}
-
 		$this->__registerMethods();
-
-
+		
     }
 
 	function start()
@@ -103,7 +103,7 @@ class ilNusoapUserAdministrationAdapter
 		// It's not possible to register classes in nusoap
 
 		// login()
-		$this->server->register('login',
+		$this->server->register('ilSoapFunctions.login',
 								array('client' => 'xsd:string',
 									  'username' => 'xsd:string',
 									  'password' => 'xsd:string'),
@@ -115,7 +115,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS login function');
 
 		// loginCAS()
-		$this->server->register('loginCAS',
+		$this->server->register('ilSoapFunctions.loginCAS',
 								array('client' => 'xsd:string',
 									  'PT' => 'xsd:string',
 									  'user' => 'xsd:string'),
@@ -126,7 +126,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS login function via CAS');
 		// loginLDAP()
-		$this->server->register('loginLDAP',
+		$this->server->register('ilSoapFunctions.ilSoapFunctions.loginLDAP',
 								array('client' => 'xsd:string',
 									  'username' => 'xsd:string',
 									  'password' => 'xsd:string'),
@@ -140,7 +140,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 								// logout()
-		$this->server->register('logout',
+		$this->server->register('ilSoapFunctions.logout',
 								array('sid' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
@@ -194,7 +194,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// lookupUser()
-		$this->server->register('lookupUser',
+		$this->server->register('ilSoapFunctions.lookupUser',
 								array('sid' => 'xsd:string',
 									  'user_name' => 'xsd:string'),
 								array('usr_id' => 'xsd:int'),
@@ -206,7 +206,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// getUser()
-		$this->server->register('getUser',
+		$this->server->register('ilSoapFunctions.getUser',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int'),
 								array('user_data' => 'tns:ilUserData'),
@@ -216,7 +216,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getUser(): get complete set of user data.');
 		// updateUser()
-		$this->server->register('updateUser',
+		$this->server->register('ilSoapFunctions.updateUser',
 								array('sid' => 'xsd:string',
 									  'user_data' => 'tns:ilUserData'),
 								array('success' => 'xsd:boolean'),
@@ -227,7 +227,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS updateUser(). DEPRECATED: Use importUsers() for modifications of user data. Updates all user data. '.
 								'Use getUser(), then modify desired fields and finally start the updateUser() call.');
 		// Update password
-		$this->server->register('updatePassword',
+		$this->server->register('ilSoapFunctions.updatePassword',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int',
 									  'new_password' => 'xsd:string'),
@@ -240,7 +240,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// addUser()
-		$this->server->register('addUser',
+		$this->server->register('ilSoapFunctions.addUser',
 								array('sid' => 'xsd:string',
 									  'user_data' => 'tns:ilUserData',
 									  'global_role_id' => 'xsd:int'),
@@ -254,7 +254,7 @@ class ilNusoapUserAdministrationAdapter
 								'Add new ILIAS user. Requires complete or subset of user_data structure');
 
 		// deleteUser()
-		$this->server->register('deleteUser',
+		$this->server->register('ilSoapFunctions.deleteUser',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),
@@ -265,7 +265,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...)');
 
 		// addCourse()
-		$this->server->register('addCourse',
+		$this->server->register('ilSoapFunctions.addCourse',
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
 									  'crs_xml' => 'xsd:string'),
@@ -277,7 +277,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS addCourse(). Course import. See ilias_course_0_1.dtd for details about course xml structure');
 
 		// deleteCourse()
-		$this->server->register('deleteCourse',
+		$this->server->register('ilSoapFunctions.deleteCourse',
 								array('sid' => 'xsd:string',
 									  'course_id' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),
@@ -288,7 +288,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
 								' the ILIAS administration. ');
 		// assignCourseMember()
-		$this->server->register('assignCourseMember',
+		$this->server->register('ilSoapFunctions.assignCourseMember',
 								array('sid' => 'xsd:string',
 									  'course_id' => 'xsd:int',
 									  'user_id' => 'xsd:int',
@@ -301,7 +301,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS assignCourseMember(). Assigns an user to an existing course. Type should be "Admin", "Tutor" or "Member"');
 
 		// excludeCourseMember()
-		$this->server->register('excludeCourseMember',
+		$this->server->register('ilSoapFunctions.excludeCourseMember',
 								array('sid' => 'xsd:string',
 									  'course_id' => 'xsd:int',
 									  'user_id' => 'xsd:int'),
@@ -313,7 +313,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS excludeCourseMember(). Excludes an user from an existing course.');
 
 		// isAssignedToCourse()
-		$this->server->register('isAssignedToCourse',
+		$this->server->register('ilSoapFunctions.isAssignedToCourse',
 								array('sid' => 'xsd:string',
 									  'course_id' => 'xsd:int',
 									  'user_id' => 'xsd:int'),
@@ -326,7 +326,7 @@ class ilNusoapUserAdministrationAdapter
 								'Returns 0 => not assigned, 1 => course admin, 2 => course member or 3 => course tutor');
 
 		// getCourseXML($sid,$course_id)
-		$this->server->register('getCourseXML',
+		$this->server->register('ilSoapFunctions.getCourseXML',
 								array('sid' => 'xsd:string',
 									  'course_id' => 'xsd:int'),
 								array('xml' => 'xsd:string'),
@@ -337,7 +337,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getCourseXML(). Get a xml description of a specific course.');
 
 		// updateCourse($sid,$course_id,$xml)
-		$this->server->register('updateCourse',
+		$this->server->register('ilSoapFunctions.updateCourse',
 								array('sid' => 'xsd:string',
 									  'course_id' => 'xsd:int',
 									  'xml' => 'xsd:string'),
@@ -350,7 +350,7 @@ class ilNusoapUserAdministrationAdapter
 								'given xml description');
 
 		// get obj_id by import id
-		$this->server->register('getObjIdByImportId',
+		$this->server->register('ilSoapFunctions.getObjIdByImportId',
 								array('sid' => 'xsd:string',
 									  'import_id' => 'xsd:string'),
 								array('obj_id' => 'xsd:int'),
@@ -362,7 +362,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// get ref ids by import id
-		$this->server->register('getRefIdsByImportId',
+		$this->server->register('ilSoapFunctions.getRefIdsByImportId',
 								array('sid' => 'xsd:string',
 									  'import_id' => 'xsd:string'),
 								array('ref_ids' => 'tns:intArray'),
@@ -373,7 +373,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getRefIdsByImportId(). Get all reference ids by a given import id.');
 
 		// get obj_id by import id
-		$this->server->register('getRefIdsByObjId',
+		$this->server->register('ilSoapFunctions.getRefIdsByObjId',
 								array('sid' => 'xsd:string',
 									  'obj_id' => 'xsd:string'),
 								array('ref_ids' => 'tns:intArray'),
@@ -384,7 +384,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getRefIdsByObjId(). Get all reference ids by a given object id.');
 
 		// Object administration
-		$this->server->register('getObjectByReference',
+		$this->server->register('ilSoapFunctions.getObjectByReference',
 								array('sid' => 'xsd:string',
 									  'reference_id' => 'xsd:int',
 									  'user_id' => 'xsd:int'),
@@ -396,7 +396,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getObjectByReference(). Get XML-description of an ILIAS object. If a user id is given, '.
 								'this methods also checks the permissions of that user on the object.');
 
-		$this->server->register('getObjectsByTitle',
+		$this->server->register('ilSoapFunctions.getObjectsByTitle',
 								array('sid' => 'xsd:string',
 									  'title' => 'xsd:string',
 									  'user_id' => 'xsd:int'),
@@ -408,7 +408,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getObjectsByTitle(). Get XML-description of an ILIAS object with given title. '.
 								'If a user id is given this method also checks the permissions of that user on the object.');
 
-		$this->server->register('searchObjects',
+		$this->server->register('ilSoapFunctions.searchObjects',
 								array('sid' => 'xsd:string',
 									  'types' => 'tns:stringArray',
 									  'key' => 'xsd:string',
@@ -424,7 +424,7 @@ class ilNusoapUserAdministrationAdapter
 								' If an optional user id is given, this methods also return the permissions for that user '.
 								'on the found objects');
 
-		$this->server->register('getTreeChilds',
+		$this->server->register('ilSoapFunctions.getTreeChilds',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
 									  'types' => 'tns:stringArray',
@@ -437,7 +437,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getTreeChilds(): Get all child objects of a given object.'.
 								'Choose array of types to filter the output. Choose empty type array to receive all object types');
 
-		$this->server->register('getXMLTree',
+		$this->server->register('ilSoapFunctions.getXMLTree',
 					array('sid' => 'xsd:string',
 					      'ref_id' => 'xsd:int',
 					      'types' => 'tns:stringArray',
@@ -451,7 +451,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 
-		$this->server->register('addObject',
+		$this->server->register('ilSoapFunctions.addObject',
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
 									  'object_xml' => 'xsd:string'),
@@ -463,7 +463,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS addObject. Create new object based on xml description under a given node '.
 								'("category,course,group or folder). Return created reference id of the new object.' );
 
-		$this->server->register('updateObjects',
+		$this->server->register('ilSoapFunctions.updateObjects',
 								array('sid' => 'xsd:string',
 									  'object_xml' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
@@ -473,7 +473,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS updateObjects. Update object data (title,description,owner)');
 
-		$this->server->register('addReference',
+		$this->server->register('ilSoapFunctions.addReference',
 								array('sid' => 'xsd:string',
 									  'source_id' => 'xsd:int',
 									  'target_id' => 'xsd:int'),
@@ -484,7 +484,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addReference. Create new link of given object to new object. Return the new reference id');
 
-		$this->server->register('deleteObject',
+		$this->server->register('ilSoapFunctions.deleteObject',
 								array('sid' => 'xsd:string',
 									  'reference_id' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),
@@ -495,7 +495,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS deleteObject. Stores object in trash. If multiple references exist, only the reference is deleted ');
 
 
-		$this->server->register('removeFromSystemByImportId',
+		$this->server->register('ilSoapFunctions.removeFromSystemByImportId',
 								array('sid' => 'xsd:string',
 									  'import_id' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
@@ -507,7 +507,7 @@ class ilNusoapUserAdministrationAdapter
 								'system. All data will be deleted. There will be no possibility to restore it from the trash. Do not use '.
 								'this function for deleting roles or users. Use deleteUser() or deleteRole() instead.');
 
-		$this->server->register('addUserRoleEntry',
+		$this->server->register('ilSoapFunctions.addUserRoleEntry',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int',
 									  'role_id' => 'xsd:int'),
@@ -518,7 +518,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addUserRoleEntry. Assign user to role.');
 
-		$this->server->register('deleteUserRoleEntry',
+		$this->server->register('ilSoapFunctions.deleteUserRoleEntry',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int',
 									  'role_id' => 'xsd:int'),
@@ -552,7 +552,7 @@ class ilNusoapUserAdministrationAdapter
 											array(array('ref' => 'SOAP-ENC:arrayType',
 														'wsdl:arrayType' => 'tns:ilOperation[]')),
 											'tns:ilOperation');
-		$this->server->register('getOperations',
+		$this->server->register('ilSoapFunctions.getOperations',
 								array('sid' => 'xsd:string'),
 								array('operations' => 'tns:ilOperations'),
 								SERVICE_NAMESPACE,
@@ -561,7 +561,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getOperations(): get complete set of RBAC operations.');
 
-		$this->server->register('revokePermissions',
+		$this->server->register('ilSoapFunctions.revokePermissions',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
 									  'role_id' => 'xsd:int'),
@@ -582,7 +582,7 @@ class ilNusoapUserAdministrationAdapter
 														'wsdl:arrayType' => 'xsd:int[]')),
 											'xsd:int');
 
-		$this->server->register('grantPermissions',
+		$this->server->register('ilSoapFunctions.grantPermissions',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
 									  'role_id' => 'xsd:int',
@@ -595,7 +595,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS grantPermissions(): Grant permissions for a specific role on an object. '.
 								'(Substitutes existing permission settings)');
 
-		$this->server->register('getLocalRoles',
+		$this->server->register('ilSoapFunctions.getLocalRoles',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int'),
 								array('role_xml' => 'xsd:string'),
@@ -605,7 +605,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getLocalRoles(): Get all local roles assigned to an specific object.');
 
-		$this->server->register('getUserRoles',
+		$this->server->register('ilSoapFunctions.getUserRoles',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int'),
 								array('role_xml' => 'xsd:string'),
@@ -615,7 +615,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getUserRoles(): Get all local roles assigned to an specific user. ');
 
-		$this->server->register('addRole',
+		$this->server->register('ilSoapFunctions.addRole',
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
 									  'obj_xml' => 'xsd:string'),
@@ -627,7 +627,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS '.
 								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created.');
 
-		$this->server->register('deleteRole',
+		$this->server->register('ilSoapFunctions.deleteRole',
 								array('sid' => 'xsd:string',
 									  'role_id' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),
@@ -637,7 +637,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteRole(): Deletes an role and all user assignments. Fails if it is the last role of an user');
 
-		$this->server->register('addRoleFromTemplate',
+		$this->server->register('ilSoapFunctions.addRoleFromTemplate',
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
 									  'obj_xml' => 'xsd:string',
@@ -651,7 +651,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created. '.
 								'In addition to addRole the template permissions will be copied from the given role template');
 
-		$this->server->register('getObjectTreeOperations',
+		$this->server->register('ilSoapFunctions.getObjectTreeOperations',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int',
 									  'user_id' => 'xsd:int'),
@@ -663,7 +663,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getObjectTreeOperations(): Get all granted permissions for all references of '.
 								'an object for a specific user. Returns array of granted operations or empty array');
 
-		$this->server->register('addGroup',
+		$this->server->register('ilSoapFunctions.addGroup',
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
 									  'group_xml' => 'xsd:string'),
@@ -675,7 +675,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS addGroup(): Add grop according to valid group XML '.
 								'@See ilias_group_0_1.dtd');
 
-		$this->server->register('groupExists',
+		$this->server->register('ilSoapFunctions.groupExists',
 								array('sid' => 'xsd:string',
 									  'title' => 'xsd:string'),
 								array('exists' => 'xsd:boolean'),
@@ -687,7 +687,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// getGroup
-		$this->server->register('getGroup',
+		$this->server->register('ilSoapFunctions.getGroup',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int'),
 								array('group_xml' => 'xsd:string'),
@@ -698,7 +698,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getGroup(): get xml description of grouip with given reference id.');
 
 		// assignGroupMember()
-		$this->server->register('assignGroupMember',
+		$this->server->register('ilSoapFunctions.assignGroupMember',
 								array('sid' => 'xsd:string',
 									  'group_id' => 'xsd:int',
 									  'user_id' => 'xsd:int',
@@ -711,7 +711,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS assignGroupMember(). Assigns an user to an existing group. Type should be "Admin","Member"');
 
 		// excludeGroupMember()
-		$this->server->register('excludeGroupMember',
+		$this->server->register('ilSoapFunctions.excludeGroupMember',
 								array('sid' => 'xsd:string',
 									  'group_id' => 'xsd:int',
 									  'user_id' => 'xsd:int'),
@@ -723,7 +723,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS excludeGroupMember(). Excludes an user from an existing group.');
 
 		// isAssignedToGroup()
-		$this->server->register('isAssignedToGroup',
+		$this->server->register('ilSoapFunctions.isAssignedToGroup',
 								array('sid' => 'xsd:string',
 									  'group_id' => 'xsd:int',
 									  'user_id' => 'xsd:int'),
@@ -738,7 +738,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// ILIAS util functions
-		$this->server->register('sendMail',
+		$this->server->register('ilSoapFunctions.sendMail',
 								array('sid' => 'xsd:string',
 									  'rcp_to' => 'xsd:string',
 									  'rcp_cc' => 'xsd:string',
@@ -755,7 +755,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
 								'Syntax, parameters may change in future releases');
 		// Clone functions
-		$this->server->register('ilClone',
+		$this->server->register('ilSoapFunctions.ilClone',
 								array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
 								array('new_ref_id' => 'xsd:int'),
 								SERVICE_NAMESPACE,
@@ -765,7 +765,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS ilClone(): Only for internal usage.'.
 								'Syntax, parameters may change in future releases. ');
 
-		$this->server->register('ilCloneDependencies',
+		$this->server->register('ilSoapFunctions.ilCloneDependencies',
 								array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
@@ -775,7 +775,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS ilCloneDependencies(): Only for internal usage.'.
 								'Syntax, parameters may change in future releases. ');
 
-		$this->server->register('saveQuestionResult',
+		$this->server->register('ilSoapFunctions.saveQuestionResult',
 								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:int',
 									  'test_id' => 'xsd:int',
@@ -790,7 +790,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS saveQuesionResult(): Typically called from Java Applet questions. Only for internal usage '.
 								'Sntax, parameters may change in future releases');
 
-		$this->server->register('getStructureObjects',
+		$this->server->register('ilSoapFunctions.getStructureObjects',
 								array('sid' => 'xsd:string',
 									  'ref_id' => 'xsd:int'),
 								array('xml' => 'xsd:string'),
@@ -801,7 +801,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getStructureObjects: delivers structure of content objects like learning modules (chapters/pages) or glossary (terms)');
 
 		// importUsers()
-		$this->server->register('importUsers',
+		$this->server->register('ilSoapFunctions.importUsers',
 								array('sid' => 'xsd:string',
 									  'folder_id' => 'xsd:int',
 									  'usr_xml' => 'xsd:string',
@@ -814,7 +814,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS import users into folder id, which should be ref_id of folder or user folder (-1:System user folder, 0: checks access at user level, otherwise refid): conflict_rule: IL_FAIL_ON_CONFLICT = 1, IL_UPDATE_ON_CONFLICT = 2, IL_IGNORE_ON_CONFLICT = 3. The Return-Value is a protocol with the columns userid, login, action, message, following xmlresultset dtd. Send Account Mail = 0 deactivates sending a mail to each user, 1 activates it');
 
-		$this->server->register('getRoles',
+		$this->server->register('ilSoapFunctions.getRoles',
 								array('sid' => 'xsd:string',
 								      'role_type' => 'xsd:string',
 								      'id' => 'xsd:string'),
@@ -825,7 +825,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getRoles():if id equals -1, get all roles specified by type (global|local|user|user_login|template or empty), if type is empty all roles with all types are delivered, if id > -1 and role_type <> user or user_login, delivers all roles which belong to a repository object with specified ref_id, if roletype is user a numeric id is interpreted as userid, if roletype is user_login it is interpreted as login,if roletype is template all role templates will be listed');
 
-		$this->server->register('getUsersForContainer',
+		$this->server->register('ilSoapFunctions.getUsersForContainer',
 								array('sid' => 'xsd:string',
 								'ref_id' => 'xsd:int',
 	   			     				'attach_roles' => 'xsd:int',
@@ -837,7 +837,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getUsersForContainer(): get all users of a specific ref_id, which can be crs, group, category or user folder (value: -1). Choose if all roles of a user should be attached (1) or not (0). set active to -1 to get all, 0, to get inactive users only, 1 to get active users only');
 
-		$this->server->register('getUsersForRole',
+		$this->server->register('ilSoapFunctions.getUsersForRole',
 								array('sid' => 'xsd:string',
 								      'role_id' => 'xsd:int',
 								      'attach_roles' => 'xsd:int',
@@ -849,7 +849,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getUsersForRole(): get all users of a role with specified id, specify attach_roles to 1, to attach all role assignmnents; specify active: 1, to import active only, 0: inactive only, -1: both');
 
-		$this->server->register('searchUser',
+		$this->server->register('ilSoapFunctions.searchUser',
 								array('sid' => 'xsd:string',
 								      'key_fields' => 'tns:stringArray',
 								      'query_operator' => 'xsd:string',
@@ -866,7 +866,7 @@ class ilNusoapUserAdministrationAdapter
 
 		// Mail Functions
 		// Check whether current user has new mail
-		$this->server->register('hasNewMail',
+		$this->server->register('ilSoapFunctions.hasNewMail',
 								array('sid' => 'xsd:string'),
 								array('status' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
@@ -875,7 +875,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS hasNewMail(): Checks whether the current authenticated user has a new mail.');
 
-		$this->server->register('getNIC',
+		$this->server->register('ilSoapFunctions.getNIC',
 								array('sid' => 'xsd:string'),
 								array('xmlresultset' => 'xsd:string'),
 								SERVICE_NAMESPACE,
@@ -884,7 +884,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getNIC(): return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns');
 
-        $this->server->register('getExerciseXML',
+        $this->server->register('ilSoapFunctions.getExerciseXML',
 								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "attachment_mode" => "xsd:int"),
 								array('exercisexml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
@@ -893,7 +893,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getExerciseXML(): returns xml description of exercise. Attachment mode: 0 - no file contents, 1 - plain content (base64encoded), 2 zlib + base64, 3 gzip + base64)');
 
-        $this->server->register('addExercise',
+        $this->server->register('ilSoapFunctions.addExercise',
 								array('sid' => 'xsd:string', "target_id" => 'xsd:int', "xml" => "xsd:string"),
 								array('refid' => 'xsd:int'),
 								SERVICE_NAMESPACE,
@@ -902,7 +902,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addExercise(): create exercise, put it into target (ref_id) and update exercise properties from xml (see ilias_exercise_3_8.dtd for details). Obj_id must not be set!');
 
-        $this->server->register('updateExercise',
+        $this->server->register('ilSoapFunctions.updateExercise',
 								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'xml' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
@@ -911,7 +911,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS updateExercise():update existing exercise, update exercise properties from xml (see ilias_exercise_3_8.dtd for details). obj_id in xml must match according obj id of refid.!');
 
-        $this->server->register('getFileXML',
+        $this->server->register('ilSoapFunctions.getFileXML',
 								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'attachment_mode' => 'xsd:int'),
 								array('filexml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
@@ -920,7 +920,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getFileXML(): returns xml description of file. Attachment mode: 0 - no file contents, 1 - plain content (base64encoded), 2 zlib + base64, 3 gzip + base64)');
 
-        $this->server->register('addFile',
+        $this->server->register('ilSoapFunctions.addFile',
 								array('sid' => 'xsd:string', 'target_id' => 'xsd:int', 'xml' => 'xsd:string'),
 								array('refid' => 'xsd:int'),
 								SERVICE_NAMESPACE,
@@ -929,7 +929,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS addFile(): create file, put it into target (ref_id) and update file properties from xml (see ilias_file_3_8.dtd for details). Obj_id must not be set!');
 
-        $this->server->register('updateFile',
+        $this->server->register('ilSoapFunctions.updateFile',
 								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'xml' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
@@ -939,7 +939,7 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS updateFile():update existing file, update file properties from xml (see ilias_file_3_8.dtd for details). obj_id in xml must match according obj id of refid.!');
 
 
-      	$this->server->register('getUserXML',
+      	$this->server->register('ilSoapFunctions.getUserXML',
 								array('sid' => 'xsd:string', 'user_ids' => 'tns:intArray', 'attach_roles' => 'xsd:int'),
 								array('xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
@@ -950,7 +950,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// get objs ids by ref id
-		$this->server->register('getObjIdsByRefIds',
+		$this->server->register('ilSoapFunctions.getObjIdsByRefIds',
 								array('sid' => 'xsd:string',
 									  'ref_ids' => 'tns:intArray'),
 								array('obj_ids' => 'tns:intArray'),
@@ -960,7 +960,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getObjIdsForRefIds: Returns a array of object ids which match the references id, given by a comma seperated string. Returns an array of ref ids, in the same order as object ids. Therefore, there might by duplicates');
 
-		$this->server->register('updateGroup',
+		$this->server->register('ilSoapFunctions.updateGroup',
 								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'xml' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
@@ -971,7 +971,7 @@ class ilNusoapUserAdministrationAdapter
 
 
 		
-        $this->server->register('getIMSManifestXML',
+        $this->server->register('ilSoapFunctions.getIMSManifestXML',
 								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int'),
 								array('xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
