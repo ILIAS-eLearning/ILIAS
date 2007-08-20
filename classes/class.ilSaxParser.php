@@ -32,6 +32,8 @@
 *
 * @extends PEAR
 */
+
+
 class ilSaxParser
 {
 	/**
@@ -73,11 +75,17 @@ class ilSaxParser
 	var $xml_file;
 
 	/**
+	 * error handler which handles error messages (used if parsers are called from soap)
+	 *
+	 * @var boolean
+	 */
+	var $throwException = false;
+	/**
 	* Constructor
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ilSaxParser($a_xml_file = '')
+	function ilSaxParser($a_xml_file = '', $throwException = false)
 	{
 		global $ilias, $lng;
 
@@ -86,7 +94,8 @@ class ilSaxParser
 			$this->xml_file = $a_xml_file;
 			$this->input_type = 'file';
 		}
-		
+
+		$this->throwException = $throwException;
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
 	}
@@ -111,6 +120,7 @@ class ilSaxParser
 	* stores xml data in array
 	* 
 	* @access	private
+	* @throws ilSaxParserException or ILIAS Error
 	*/
 	function startParsing()
 	{
@@ -130,7 +140,7 @@ class ilSaxParser
 				break;
 
 			default:
-				$this->ilias->raiseError("No input type given. Set filename in constructor or choose setXMLContent()",
+				$this->handleError("No input type given. Set filename in constructor or choose setXMLContent()",
 										 $this->ilias->error_obj->FATAL);
 				break;
 		}
@@ -147,7 +157,7 @@ class ilSaxParser
 
 		if($xml_parser == false)
 		{
-			$this->ilias->raiseError("Cannot create an XML parser handle",$this->ilias->error_obj->FATAL);
+			$this->handleError("Cannot create an XML parser handle",$this->ilias->error_obj->FATAL);
 		}
 		return $xml_parser;
 	}
@@ -178,7 +188,7 @@ class ilSaxParser
 	{
 		if(!($fp = fopen($this->xml_file,'r')))
 		{
-			$this->ilias->raiseError("Cannot open xml file",$this->ilias->error_obj->FATAL);
+			$this->handleError("Cannot open xml file",$this->ilias->error_obj->FATAL);
 		}
 		return $fp;
 	}
@@ -206,10 +216,29 @@ class ilSaxParser
 		if(!$parseOk
 		   && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE))
 		{
-			$this->ilias->raiseError("XML Parse Error: ".xml_get_error_code($a_xml_parser),$this->ilias->error_obj->FATAL);
+			$errorCode = xml_get_error_code($a_xml_parser);
+			$line = xml_get_current_line_number($a_xml_parser);
+			$col = xml_get_current_column_number($a_xml_parser);			
+			$this->handleError("XML Parse Error: ".xml_error_string($errorCode)." at line ".$line.", col ". $col . " (Code: ".$errorCode.")" ,$this->ilias->error_obj->FATAL);
 		}
 		return true;
 				
+	}
+	
+	/**
+	 * use given error handler to handle error message or internal ilias error message handle
+	 *
+	 * @param string $message
+	 * @param string $code
+	 */
+	protected function handleError($message, $code) {
+		if ($this->throwException) {
+			require_once ('./classes/class.ilSaxParserException.php');			
+			throw new ilSaxParserException ($message, $code);
+		} else {
+			$this->ilias->raiseError($message, $code);
+		}
+		return false;
 	}
 	/**
 	* free xml parser handle
@@ -222,6 +251,16 @@ class ilSaxParser
 		{
 			$this->ilias->raiseError("Error freeing xml parser handle ",$this->ilias->error_obj->FATAL);
 		}
+	}
+	
+	/**
+	 * set error handling
+	 *
+	 * @param  $error_handler
+	 */
+	public function setThrowException ($throwException) 
+	{
+		$this->throwException = $throwException;
 	}
 }
 ?>
