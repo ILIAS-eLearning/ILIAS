@@ -654,10 +654,18 @@ class ilSoapUserAdministration extends ilSoapAdministration
    		if ($error)
    		{
 		    $msg = array();
-	            foreach ($error as $err) {
-			$msg []= "(".$err["line"].",".$err["col"]."): ".$err["errormessage"];
+		    if (is_array($error))
+		    {
+	        	foreach ($error as $err) {
+					$msg []= "(".$err["line"].",".$err["col"]."): ".$err["errormessage"];
+		    	}
 		    }
-   		    return $this->__raiseError(join("\n",$msg), "Client");
+		    else 
+		    {
+		   		$msg[] = $error;
+		   	}
+		   	$msg = join("\n",$msg);
+		   	return $this->__raiseError($msg, "Client");
    		}
 
 

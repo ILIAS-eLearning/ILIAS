@@ -96,10 +96,10 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function start()
 	{
-		if(!count($objects = $this->__getObjects()))
+		/*if(!count($objects = $this->__getObjects()))
 		{
 			return false;
-		}
+		}*/
 
 		$this->__buildHeader();
 
