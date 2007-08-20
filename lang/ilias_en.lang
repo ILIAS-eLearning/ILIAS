@@ -7542,12 +7542,12 @@ auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS.
 ldap#:#ldap_role_assignments#:#Role Assignment
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
 ldap#:#ldap_assignment_type#:#Assignment Type
-ldap#:#ldap_role_by_group#:#By LDAP Groupmembership
+ldap#:#ldap_role_by_group#:#Groupmembership
 ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.
 ldap#:#ldap_role_grp_at#:#Attribute
 ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.
 ldap#:#ldap_role_grp_isdn#:#Attribute value is DN
-ldap#:#ldap_role_by_attribute#:#By LDAP Attribute
+ldap#:#ldap_role_by_attribute#:#LDAP Attribute
 ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.
 ldap#:#ldap_role_at_name#:#Attribute Name
 ldap#:#ldap_role_at_value#:#Attribute Value
