@@ -59,9 +59,13 @@ class ilSoapAdministration
 		define('NUSOAP',1);
 		define('PHP5',2);
 
-		if($use_nusoap)
+		if(IL_SOAPMODE == IL_SOAPMODE_NUSOAP)
 		{
 			$this->error_method = NUSOAP;
+		} 
+		else
+		{ 
+			$this->error_method = PHP5;
 		}
 		$this->__initAuthenticationObject();
 
@@ -143,8 +147,9 @@ class ilSoapAdministration
 		switch($this->error_method)
 		{
 			case NUSOAP:
-
 				return new soap_fault($a_code,'',$a_message);
+			case PHP5:
+				return new SoapFault($a_code, $a_message);
 		}
 	}
 

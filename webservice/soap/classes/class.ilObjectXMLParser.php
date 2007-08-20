@@ -46,9 +46,9 @@ class ilObjectXMLParser extends ilSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilObjectXMLParser($a_xml_data = '')
+	function ilObjectXMLParser($a_xml_data = '', $throwException = false)
 	{
-		parent::ilSaxParser();
+		parent::ilSaxParser('', $throwException);
 		$this->setXMLContent($a_xml_data);
 	}
 
@@ -118,8 +118,6 @@ class ilObjectXMLParser extends ilSaxParser
 				break;
 		}
 	}
-
-
 
 	/**
 	* handler for end of element
