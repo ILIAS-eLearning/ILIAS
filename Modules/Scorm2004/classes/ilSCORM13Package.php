@@ -31,6 +31,8 @@
 
 
 require_once "./Modules/Scorm2004/classes/ilSCORM13Package.php";
+require_once "./Modules/Scorm2004/classes/adlparser/SeqTreeBuilder.php";
+
 include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
 
 class ilSCORM13Package
@@ -313,13 +315,18 @@ class ilSCORM13Package
 	  	$j['base'] = $packageFolder . '/';
 	  	$j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
 	  	$j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
-    
-	  	//step 6 wrapping up
+    	
+
+		//last step - build ADL Activity tree
+		$act = new SeqTreeBuilder();
+		$adl_tree = $act->buildNodeSeqTree($this->imsmanifestFile);
+		
 	  	ilSCORM13DB::setRecord(
 			'cp_package', array(
 	  		'obj_id' => $this->packageId,
 	  		'xmldata' => $x->asXML(),
 	  		'jsdata' => json_encode($j),
+			'activitytree' => json_encode($adl_tree)
 	  		), 'obj_id');
 	  	return $j['item']['title'];
 	  }

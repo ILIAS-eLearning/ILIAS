@@ -1,0 +1,218 @@
+<manifest identifier="manifest_5fdcd2e25838459c9bc3cee758cf4e5c" xmlns:imsss="http://www.imsglobal.org/xsd/imsss" xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3" xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3" xmlns:insite="uri:insitecp_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd" version="2004 3rd Edition">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>2004 3rd Edition</schemaversion>
+  </metadata>
+  <organizations default="organization_294673fbf63c4815b45af1651480864c">
+    <organization identifier="organization_294673fbf63c4815b45af1651480864c">
+      <title>ILIAS for Admins</title>
+      <item identifier="item_8017380e67384e13b735d16511a6c149" identifierref="resource_74da3c38d35c47d5b42da9d6c0f255bb">
+        <title>Vorabtest</title>
+        <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da">
+        	<imsss:controlMode choiceExit="false"></imsss:controlMode>
+        </imsss:sequencing>
+      </item>
+      <item identifier="item_e4a9c7851c114760b2a3f03e892b5427">
+        <title>Authentifizierung</title>
+        <item identifier="item_df1cb952695841938519b1b77d7fc5b6" isvisible="false">
+          <title>Hidden Cluster Item</title>
+          <item identifier="item_8ebe0745ffe24bffa2ceba3682c6f7ec" identifierref="resource_0c47e4ac023a4a819fdbb28146b7b7a2">
+            <title>Authentifizierung 1 </title>
+            <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da" />
+          </item>
+          <item identifier="item_3bf16927a417469293bd176b23bf5cb4" identifierref="resource_eb239f75804641ab8932982a13e7db54">
+            <title>Authentifizerung 2 </title>
+            <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da" />
+          </item>
+          <item identifier="item_366683108e61443b911f86a36cfd3ce6" identifierref="resource_e5c297d67e284e82b1d3517d6fbe49d2">
+            <title>Authentifizierung Nachtest</title>
+            <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da" />
+          </item>
+          <item identifier="item_a0dc6a3eb9714bb2bd7e322087a41b12" identifierref="resource_f9bf818889944a0f9b87ade4807e0570" isvisible="false">
+            <title>Sequence Cap</title>
+            <imsss:sequencing>
+              <imsss:sequencingRules>
+                <imsss:postConditionRule>
+                  <imsss:ruleConditions>
+                    <imsss:ruleCondition condition="always" />
+                  </imsss:ruleConditions>
+                  <imsss:ruleAction action="exitParent" />
+                </imsss:postConditionRule>
+              </imsss:sequencingRules>
+            </imsss:sequencing>
+          </item>
+          <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da">
+            <imsss:sequencingRules>
+              <imsss:postConditionRule>
+                <imsss:ruleConditions>
+                  <imsss:ruleCondition referencedObjective="201c0fcdbe99495ebabe81ec93e19736" measureThreshold="0.66" operator="noOp" condition="objectiveMeasureLessThan" />
+                </imsss:ruleConditions>
+                <imsss:ruleAction action="retry" />
+              </imsss:postConditionRule>
+            </imsss:sequencingRules>
+            <imsss:limitConditions attemptLimit="0" />
+          </imsss:sequencing>
+        </item>
+        <item identifier="item_1ff77533d4084fb9aebf21d3a2154492" identifierref="resource_f9bf818889944a0f9b87ade4807e0570" isvisible="false">
+          <title>Sequence Cap</title>
+          <imsss:sequencing>
+            <imsss:sequencingRules>
+              <imsss:postConditionRule>
+                <imsss:ruleConditions>
+                  <imsss:ruleCondition condition="always" />
+                </imsss:ruleConditions>
+                <imsss:ruleAction action="exitParent" />
+              </imsss:postConditionRule>
+            </imsss:sequencingRules>
+          </imsss:sequencing>
+        </item>
+        <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da">
+          <imsss:sequencingRules>
+            <imsss:preConditionRule>
+              <imsss:ruleConditions>
+                <imsss:ruleCondition referencedObjective="b75d9d2755344021b906853aea56f52f" measureThreshold="0.75" operator="not" condition="objectiveMeasureLessThan" />
+              </imsss:ruleConditions>
+              <imsss:ruleAction action="skip" />
+            </imsss:preConditionRule>
+          </imsss:sequencingRules>
+        </imsss:sequencing>
+      </item>
+      <item identifier="item_f321b6f642f04739ae001cb659321fd8">
+        <title>Deployment</title>
+        <item identifier="item_55d6e1ad8c0a44f3b27f6bb825f30c61" identifierref="resource_fc6d353a91074b368b6e67f9792be8a9">
+        	<title>Nachhilfe zum Deployment</title>
+        	<imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da">
+        		<imsss:sequencingRules>
+        			<imsss:preConditionRule>
+        				<imsss:ruleConditions conditionCombination="all">
+        					<imsss:ruleCondition referencedObjective="1d622cc0b1a547019354abfbef60c303" measureThreshold="0.5" condition="objectiveMeasureGreaterThan" operator="not" />
+        					<imsss:ruleCondition referencedObjective="1d622cc0b1a547019354abfbef60c303" measureThreshold="0.5" operator="not" condition="objectiveMeasureLessThan"></imsss:ruleCondition>
+        				</imsss:ruleConditions>
+        				<imsss:ruleAction action="skip" />
+        			</imsss:preConditionRule>
+
+        		</imsss:sequencingRules>
+        	</imsss:sequencing>
+        </item>
+        <item identifier="item_6da130defc4a403b8176bcdeb495a3ac" identifierref="resource_de5e74877b524f77a97a5b0e93d8c7e1">
+          <title>Deployment I </title>
+          <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da" />
+        </item>
+        <item identifier="item_c792f8ad0c0e45bb855c3887e5720565" identifierref="resource_f9bf818889944a0f9b87ade4807e0570" isvisible="false">
+          <title>Sequence Cap</title>
+          <imsss:sequencing>
+            <imsss:sequencingRules>
+              <imsss:postConditionRule>
+                <imsss:ruleConditions>
+                  <imsss:ruleCondition condition="always" />
+                </imsss:ruleConditions>
+                <imsss:ruleAction action="exitParent" />
+              </imsss:postConditionRule>
+            </imsss:sequencingRules>
+          </imsss:sequencing>
+        </item>
+        <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da">
+        	<imsss:sequencingRules>
+
+        		<imsss:preConditionRule>
+        			<imsss:ruleConditions conditionCombination="all">
+        				<imsss:ruleCondition measureThreshold="1" operator="not" condition="objectiveMeasureGreaterThan" referencedObjective="1d622cc0b1a547019354abfbef60c303"></imsss:ruleCondition>
+        				<imsss:ruleCondition referencedObjective="1d622cc0b1a547019354abfbef60c303" measureThreshold="1" operator="not" condition="objectiveMeasureLessThan"></imsss:ruleCondition>
+        			</imsss:ruleConditions>
+        			<imsss:ruleAction action="skip"></imsss:ruleAction>
+        		</imsss:preConditionRule>
+        	</imsss:sequencingRules>
+        </imsss:sequencing>
+      </item>
+      <item identifier="item_8c3a716431ce4514b7ba93400f9f61e6" identifierref="resource_9c7707d6d3da41629b647c3a0c9d6063">
+        <title>Ende</title>
+        <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da" />
+      </item>
+      <imsss:sequencing IDRef="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da" />
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="resource_f9bf818889944a0f9b87ade4807e0570" type="webcontent" adlcp:scormType="sco" href="SequenceCap.html">
+      <file href="SequenceCap.html" />
+    </resource>
+    <resource identifier="resource_74da3c38d35c47d5b42da9d6c0f255bb" type="webcontent" adlcp:scormType="sco" href="e78a86fa23ee48f7a94b940d215c2d61.scorm.html">
+      <file href="e78a86fa23ee48f7a94b940d215c2d61.scorm.html" />
+      <file href="e78a86fa23ee48f7a94b940d215c2d61.html" />
+      <file href="res/PageSound.js" />
+      <file href="res/SkinSound.js" />
+      <file href="res/skinStyles.css" />
+      <file href="res/ISAssessment-model.js" />
+      <file href="res/APIWrapper.js" />
+    </resource>
+    <resource identifier="resource_0c47e4ac023a4a819fdbb28146b7b7a2" type="webcontent" adlcp:scormType="sco" href="02d2c79bc48441859c3f00f5ec2540c5.scorm.html">
+      <file href="02d2c79bc48441859c3f00f5ec2540c5.scorm.html" />
+      <file href="02d2c79bc48441859c3f00f5ec2540c5.html" />
+      <file href="res/PageSound.js" />
+      <file href="res/SkinSound.js" />
+      <file href="res/skinStyles.css" />
+      <file href="res/APIWrapper.js" />
+    </resource>
+    <resource identifier="resource_eb239f75804641ab8932982a13e7db54" type="webcontent" adlcp:scormType="sco" href="f5390ebc083c438fb67aa56b67780cff.scorm.html">
+      <file href="f5390ebc083c438fb67aa56b67780cff.scorm.html" />
+      <file href="f5390ebc083c438fb67aa56b67780cff.html" />
+      <file href="3352883595.jpg" />
+      <file href="res/PageSound.js" />
+      <file href="res/SkinSound.js" />
+      <file href="res/skinStyles.css" />
+      <file href="res/APIWrapper.js" />
+    </resource>
+    <resource identifier="resource_e5c297d67e284e82b1d3517d6fbe49d2" type="webcontent" adlcp:scormType="sco" href="c69a680963fd4ba9803d03b60fa363e8.scorm.html">
+      <file href="c69a680963fd4ba9803d03b60fa363e8.scorm.html" />
+      <file href="c69a680963fd4ba9803d03b60fa363e8.html" />
+      <file href="res/PageSound.js" />
+      <file href="res/SkinSound.js" />
+      <file href="res/skinStyles.css" />
+      <file href="res/ISAssessment-model.js" />
+      <file href="res/APIWrapper.js" />
+    </resource>
+    <resource identifier="resource_fc6d353a91074b368b6e67f9792be8a9" type="webcontent" adlcp:scormType="sco" href="1b175b9aa5b441f7ad4a06cb9e989a76.scorm.html">
+      <file href="1b175b9aa5b441f7ad4a06cb9e989a76.scorm.html" />
+      <file href="1b175b9aa5b441f7ad4a06cb9e989a76.html" />
+      <file href="res/PageSound.js" />
+      <file href="res/SkinSound.js" />
+      <file href="res/skinStyles.css" />
+      <file href="res/APIWrapper.js" />
+    </resource>
+    <resource identifier="resource_de5e74877b524f77a97a5b0e93d8c7e1" type="webcontent" adlcp:scormType="sco" href="776fec1461844972b0ee5615f86b479b.scorm.html">
+      <file href="776fec1461844972b0ee5615f86b479b.scorm.html" />
+      <file href="776fec1461844972b0ee5615f86b479b.html" />
+      <file href="res/PageSound.js" />
+      <file href="res/SkinSound.js" />
+      <file href="res/skinStyles.css" />
+      <file href="res/APIWrapper.js" />
+    </resource>
+    <resource identifier="resource_9c7707d6d3da41629b647c3a0c9d6063" type="webcontent" adlcp:scormType="sco" href="5de0f6934391493f859f0323f21e6fb3.scorm.html">
+      <file href="5de0f6934391493f859f0323f21e6fb3.scorm.html" />
+      <file href="5de0f6934391493f859f0323f21e6fb3.html" />
+      <file href="res/PageSound.js" />
+      <file href="res/SkinSound.js" />
+      <file href="res/skinStyles.css" />
+      <file href="res/APIWrapper.js" />
+    </resource>
+  </resources>
+  <imsss:sequencingCollection>
+    <imsss:sequencing ID="sequencing_c9c0a2a07aaf4c4d987e7c1cc90de4da">
+      <imsss:controlMode choice="true" flow="true" />
+      <imsss:objectives>
+        <imsss:primaryObjective />
+        <imsss:objective objectiveID="b75d9d2755344021b906853aea56f52f" satisfiedByMeasure="false">
+          <imsss:minNormalizedMeasure>0</imsss:minNormalizedMeasure>
+          <imsss:mapInfo targetObjectiveID="b75d9d2755344021b906853aea56f52f" readNormalizedMeasure="true" writeNormalizedMeasure="true" readSatisfiedStatus="true" writeSatisfiedStatus="true" />
+        </imsss:objective>
+        <imsss:objective objectiveID="1d622cc0b1a547019354abfbef60c303" satisfiedByMeasure="false">
+          <imsss:minNormalizedMeasure>0</imsss:minNormalizedMeasure>
+          <imsss:mapInfo targetObjectiveID="1d622cc0b1a547019354abfbef60c303" readNormalizedMeasure="true" writeNormalizedMeasure="true" readSatisfiedStatus="true" writeSatisfiedStatus="true" />
+        </imsss:objective>
+        <imsss:objective objectiveID="201c0fcdbe99495ebabe81ec93e19736" satisfiedByMeasure="false">
+          <imsss:minNormalizedMeasure>0</imsss:minNormalizedMeasure>
+          <imsss:mapInfo targetObjectiveID="201c0fcdbe99495ebabe81ec93e19736" readNormalizedMeasure="true" writeNormalizedMeasure="true" readSatisfiedStatus="true" writeSatisfiedStatus="true" />
+        </imsss:objective>
+      </imsss:objectives>
+    </imsss:sequencing>
+  </imsss:sequencingCollection>
+</manifest>
