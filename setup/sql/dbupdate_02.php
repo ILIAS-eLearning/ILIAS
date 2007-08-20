@@ -2144,4 +2144,9 @@ PRIMARY KEY ( `server_id` , `rule_id` )
 ALTER TABLE `ldap_role_assignments` ADD `role_id` INT( 11 ) NOT NULL;
 
 <#1049>
- ALTER TABLE `ldap_role_assignments` CHANGE `rule_id` `rule_id` TINYINT( 3 ) NOT NULL AUTO_INCREMENT 
+ALTER TABLE `ldap_role_assignments` CHANGE `rule_id` `rule_id` TINYINT( 3 ) NOT NULL AUTO_INCREMENT;
+
+<#1050>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
