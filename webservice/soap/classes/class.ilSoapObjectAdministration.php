@@ -386,6 +386,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
  		$filter = is_array($types) ? $types : array();
 
+ 		$objs = array();
 		foreach($tree->getChilds($ref_id,'title') as $child)
 		{
 			if($all or in_array($child['type'],$types))
@@ -397,10 +398,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			}
 		}
 
-		if(!$objs)
+		/*if(!$objs)
 		{
 			return '';
-		}
+		}*/
 
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
@@ -483,7 +484,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacsystem, $objDefinition,$ilUser;
+		global $rbacsystem, $objDefinition,$ilUser, $lng;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
 		{
@@ -584,7 +585,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				case 'dbk':
 					$newObj->createLMTree();
 					break;
-
+				case 'cat':
+					$newObj->addTranslation($object_data["title"],$object_data["description"], $lng->getLangKey(), $lng->getLangKey());
+					break;
 			}
 
 		}
@@ -799,7 +802,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacreview, $rbacsystem;
+		global $rbacreview, $rbacsystem, $lng;
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
 
@@ -887,6 +890,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				if(strlen($object_data['owner']))
 				{
 					$tmp_obj->setOwner($object_data['owner']);
+				}
+				switch ($object_data['type']) {
+					case 'cat':
+						$tmp_obj->updateTranslation($object_data["title"],$object_data["description"], $lng->getLangKey(), $lng->getLangKey());
+						break;
 				}
 				$tmp_obj->update();
 			}

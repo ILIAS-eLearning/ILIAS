@@ -140,6 +140,28 @@ class ilObjCategory extends ilContainer
 
 		return true;
 	}
+	
+// update a translation to current category
+	function updateTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
+	{
+		global $ilDB, $ilLog;
+		
+		if (empty($a_title))
+		{
+			$a_title = "NO TITLE";
+		}
+
+		$q = "UPDATE object_translation ".
+			 "SET title = ". $ilDB->quote($a_title).",".
+				  "description = ".$ilDB->quote($a_desc).",".
+				  "lang_code = ".$ilDB->quote($a_lang) . ",". 
+				  "lang_default = ".$ilDB->quote($a_lang_default)." ".
+			 "WHERE ".
+			 " obj_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+
+		return true;
+	}
 
 		
 } // END class.ilObjCategory
