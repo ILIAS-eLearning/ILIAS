@@ -36,14 +36,14 @@ define ("ILIAS_MODULE", "webservice/soap");
 define ("IL_SOAPMODE_NUSOAP", 0);
 define ("IL_SOAPMODE_INTERNAL", 1);
 
-define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);
+define ("IL_SOAPMODE", IL_SOAPMODE_INTERNAL);
 
 
 if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL) {
 	//ini_set("soap.wsdl_cache_enabled", "1"); 
 	include_once('webservice/soap/include/inc.soap_functions.php');
 	$soapServer = new SoapServer("webservice/soap/server.wsdl");
-	$soapServer->setObject(new ilSoapFunctions());
+	$soapServer->setClass("ilSoapFunctions");
 	$soapServer->handle();
 } else {
 	global $HTTP_RAW_POST_DATA;
