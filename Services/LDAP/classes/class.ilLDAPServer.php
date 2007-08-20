@@ -754,6 +754,7 @@ class ilLDAPServer
 			$mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->getServerId());
 	 		return array_merge(array($this->getUserAttribute()),
 	 			$mapping->getFields(),
+	 			array('dn'),
 	 			ilLDAPRoleAssignments::_getDistinctAttributeNamesByServerId($this->getServerId()));
 		}
 		else

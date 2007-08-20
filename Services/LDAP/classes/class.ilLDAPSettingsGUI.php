@@ -775,6 +775,7 @@ class ilLDAPSettingsGUI
 			$this->ctrl->getLinkTarget($this,'serverList'),
 			"serverList",get_class($this));
 			
+		// Disable all other tabs, if server hasn't been configured. 
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		if(!count(ilLDAPServer::_getServerList()))
 		{

@@ -529,6 +529,7 @@ class ilLDAPQuery
 		
 		$this->user_fields = array_merge(
 			array($this->settings->getUserAttribute()),
+			array('dn'),
 			$this->mapping->getFields(),
 			ilLDAPRoleAssignments::_getDistinctAttributeNamesByServerId($this->settings->getServerId()));
 	}
