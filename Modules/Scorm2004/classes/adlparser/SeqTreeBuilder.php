@@ -45,7 +45,10 @@
 	  	
 	  	$root = $this->buildNode($default_organization,$seqCollection,$doc);
 	  	
-	  	$tree['mRoot'] = $root;
+	
+		//assign SeqActivity to top node
+		$c_root['_SeqActivity']=$root;
+	  	$tree['mRoot'] = $c_root;
 	  	
 		//is set at later point..don't return
 	  	$tree['mLearnerID'] = null;
@@ -58,7 +61,7 @@
 		
 		//don't return
 		
-		return $root;
+		return $c_root;
 	  	
 	  }
 	  
@@ -157,7 +160,7 @@
 	  	}
 		//add class
 		$c_act['_SeqActivity']=$act;
-	  	return $c_act;
+	  	return $act;
 	  
 	  }
 	  

@@ -908,7 +908,7 @@ function toJSONString (v, tab) {
 
 function parseJSONString (s) 
 {
-	var re = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
+/*	var re = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
 	try 
 		{
 		if (re.test(s)) 
@@ -916,7 +916,7 @@ function parseJSONString (s)
 			return window.eval('(' + s + ')');
 		} 
 	} catch (e) {}
-	throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));
+	throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));*/
 	return window.eval('(' + s + ')');
 	
 }
@@ -1062,6 +1062,7 @@ function onDocumentClick (e)
 		
 		if (navType==='Start') {
 			mlaunch = msequencer.navigate(NAV_START);
+			sclogdump(mlaunch);
 		}
 			
 		if (navType==='ResumeAll') {
@@ -1094,6 +1095,8 @@ function onDocumentClick (e)
 		
 		if (navType==='Continue') {
 			mlaunch = msequencer.navigate(NAV_CONTINUE);
+			sclogdump(mlaunch);
+			
 		}
 		
 		
@@ -1588,8 +1591,14 @@ function buildADLtree(act,obj){
 				res=buildADLtree(temp[i],obj);
 				toset.push(res);
 			}	
-			obj[index] = toset;   
-		} else if ((act[index] instanceof Object)){
+			if (index!="mActiveChildren") {
+				obj[index] = toset; 
+			}	  
+			//keep trees in sync
+			if (index=="mChildren") {
+				obj["mActiveChildren"]=toset;
+			}
+		} else if ((act[index] instanceof Object)){			
 			//handle object
 			res2=buildADLtree(act[index] ,obj);
 			obj[index] = res2;   		
