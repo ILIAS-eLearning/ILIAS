@@ -3274,6 +3274,7 @@ ADLSequencer.prototype =
 		var include = false;
 		var collapse = false;
 		
+	
 		// Make sure the activity has been associated with this sequencer
 		// If not, build the TOC from the root
 		if (walk == null)
@@ -3288,6 +3289,7 @@ ADLSequencer.prototype =
 		{
 			cur = this.mSeqTree.getCurrentActivity();
 		}
+	
 		
 		while (!done)
 		{

@@ -181,7 +181,7 @@ class SeqActivity{
 	
 
 	public function __construct() {
-		$this->mActiveChildren = array();
+		//$this->mActiveChildren = array();
 	}
 	
 	public function addChild($ioChild){
@@ -189,10 +189,38 @@ class SeqActivity{
 		if ($this->mChildren == null) {
 			$this->mChildren =  array();
     	}
-		array_push($this->mChildren,$ioChild);
+		if ($this->mActiveChildren == null) {
+			$this->mActiveChildren =  array();
+    	}
 
+		//set class
+		$c_ioChild['_SeqActivity']=$ioChild;
+		
+		//keep both in sync
+		array_push($this->mChildren,$c_ioChild);
+		//array_push($this->mActiveChildren,$c_ioChild);
+		
+		//$this->mActiveChildren = $this->mChildren;
+		
+		$ioChild->setOrder(count($this->mChildren) - 1);
+	    $ioChild->setActiveOrder(count($this->mChildren)- 1);
+	    //$ioChild->setParent($this); 
 	}
 	
+	public function setOrder($iOrder)
+	{
+      $this->mOrder = $iOrder;
+	}
+	
+	public function setActiveOrder ($iOrder) {
+	   $this->mActiveOrder = $iOrder;
+	}
+	
+	public function setParent ($iParent) {
+	   $this->mParent = $iParent;
+	}
+	
+
 	
 	//setters for public vats
 	public function setID($id){
@@ -448,6 +476,8 @@ class SeqActivity{
 	public function setAuxResources($iRes) {
 		$this->mAuxResources = $iRes;
     }
+
+
 	
 
 	function getID() {

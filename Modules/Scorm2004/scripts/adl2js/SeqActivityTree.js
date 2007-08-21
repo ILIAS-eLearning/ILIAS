@@ -312,7 +312,7 @@ SeqActivityTree.prototype =
 			{
 				for (i = 0; i < children.length; i++)
 				{
-					this.addChildActivitiestoMap(children.elementAt[i]);
+					this.addChildActivitiestoMap(children[i]);
 				}
 			}
 		}
