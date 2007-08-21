@@ -1056,7 +1056,7 @@ function onDocumentClick (e)
 		///
 		//alert("Function: "+target.id.substr(3));
 		
-		
+		mlaunch = new ADLLaunch();
 		//calling ADL Sequencer after UI Event
 		var navType=target.id.substr(3);
 		
@@ -1511,8 +1511,10 @@ function init(config)
 		adlTree = buildADLtree(adlAct,tree);
 		//assign Tree
 		
-		var actTree = new SeqActivityTree("","","",adlTree);
-		
+		var actTree = new SeqActivityTree("","","","");
+		actTree.setRoot(adlTree);
+		actTree.setDepths();
+        actTree.setTreeCount();
 		msequencer.setActivityTree(actTree);	
 	}		
 	
