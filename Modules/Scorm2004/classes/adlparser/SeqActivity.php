@@ -422,8 +422,9 @@ class SeqActivity{
 		$this->mObjectives = $iObjs;
 		for ( $i = 0; $i < count($iObjs); $i++ ) {
 			$obj = $iObjs[$i];
-			if ($obj->mMaps!=null) {
-				$this->mObjMaps["$obj->mObjID"]=$obj->mMaps;
+			if ($obj['_SeqObjective']->mMaps!=null) {
+				$index=$obj['_SeqObjective']->mObjID;
+				$this->mObjMaps["$index"]=$obj['_SeqObjective']->mMaps;
 			}
 		}
     }

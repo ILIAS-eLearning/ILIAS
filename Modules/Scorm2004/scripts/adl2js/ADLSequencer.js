@@ -1745,7 +1745,9 @@ ADLSequencer.prototype =
 					{
 						walk = lookAt[0];
 						walk = walk.getChildren(false)[0];
-						lookAt.remove(0);
+						
+						//lookAt.remove(0);
+						lookAt.splice(0,1);
 					}
 				}
 			}
@@ -3159,7 +3161,7 @@ ADLSequencer.prototype =
 		if (!disabled)
 		{
 			// Evaluate other limit conditions associated with the activity.
-			disabled = evaluateLimitConditions(iTarget);
+			disabled = this.evaluateLimitConditions(iTarget);
 		}
 		
 		return disabled;
