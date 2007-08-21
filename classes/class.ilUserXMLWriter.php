@@ -131,7 +131,11 @@ class ilUserXMLWriter extends ilXmlWriter
 	function __handleUser ($row)
 	{
 		global $ilDB;
-
+		if (!is_array ($this->settings))  {
+			include_once ('classes/class.ilObjUserFolder.php');
+			$this->setSettings(ilObjUserFolder::getExportSettings());
+		}
+		
 		if (strlen($row["language"]) == 0) $row["language"] = "en";
 
 		$attrs = array (
@@ -198,7 +202,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("Lastname", $row["lastname"]);
 		$this->__addElement ("Title", $row["title"]);
 
-		if ($this->canExport("PersonalPicture", "upload"))
+		if ($this->canExport("PersonalPicture", "personal_picture"))
 		{
 			$imageData = $this->getPictureValue($row["usr_id"]);
 			if ($imageData)
