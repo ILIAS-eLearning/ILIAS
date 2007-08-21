@@ -2614,6 +2614,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$profile_fields =& $this->object->getProfileFields();
 		// For the following fields, the required state can not be changed.
 		// key = field, value = 1 (field is required), 0 (field is not required)
+
 		$fixed_required_fields = array(
 			"firstname" => 1,
 			"lastname" => 1,
@@ -2636,7 +2637,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$course_export_fields = array(
 			"gender" => 1, "firstname" => 2,
 			"lastname" => 2, "title" => 1,
-			"upload" => 0, "password" => 0,
+			"password" => 0,
 			"institution" => 1, "department" => 1,
 			"street" => 1, "zipcode" => 1,
 			"city" => 1, "country" => 1,
@@ -2646,7 +2647,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"referral_comment" => 0, "matriculation" => 1,
 			"language" => 0, "skin_style" => 0,
 			"hits_per_page" => 0, "show_users_online" => 0,
-			"instant_messengers" => 0
+			"instant_messengers" => 0, 
+			"personal_picture" => 1
 		);
 		foreach ($profile_fields as $field)
 		{			

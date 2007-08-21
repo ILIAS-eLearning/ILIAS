@@ -558,12 +558,17 @@ class ilObjUserFolder extends ilObject
 		$workbook->close();
 	}
 
-	function getExportSettings()
+	/**
+	 * getExport Settings
+	 *
+	 * @return array of exportable fields
+	 */
+	static function getExportSettings()
 	{
 		global $ilDB;
 
 		$db_settings = array();
-		$profile_fields =& $this->getProfileFields();
+		$profile_fields =& ilObjUserFolder::getProfileFields();
 		$query = "SELECT * FROM `settings` WHERE keyword LIKE '%usr_settings_export_%' AND value = '1'";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -689,14 +694,18 @@ class ilObjUserFolder extends ilObject
 		}
 	}
 
-	function &getProfileFields()
+	/**
+	 * get Profile fields
+	 *
+	 * @return array of fieldnames
+	 */
+	static function &getProfileFields()
 	{
 		$profile_fields = array(
 			"gender",
 			"firstname",
 			"lastname",
-			"title",
-			"upload",
+			"title",			
 			"password",
 			"institution",
 			"department",
@@ -712,6 +721,7 @@ class ilObjUserFolder extends ilObject
 			"hobby",
 			"referral_comment",
 			"matriculation",
+			"personal_picture",
 			"language",
 			"skin_style",
 			"hits_per_page",
