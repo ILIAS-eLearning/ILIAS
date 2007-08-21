@@ -1035,7 +1035,7 @@ function onDocumentClick (e)
 	//integration of ADL Sqeuencer
 	
 	
-	alert("Target: "+target.id+"Tagname"+target.tagName);
+//	alert("Target: "+target.id+"Tagname"+target.tagName);
 	if (target.tagName !== 'A' || !target.id) 
 	{
 		// ignore clicks on other elements than A
@@ -1049,12 +1049,12 @@ function onDocumentClick (e)
 			
 		//do special handling for scos
 		
-		alert("We are in"+ target.id.substr(0, 3));
+		//alert("We are in"+ target.id.substr(0, 3));
 		
 		//to deprecate
 		window.top.status = execNavigation(target.id.substr(3), target.id);
 		///
-		alert("Function: "+target.id.substr(3));
+		//alert("Function: "+target.id.substr(3));
 		
 		
 		//calling ADL Sequencer after UI Event
