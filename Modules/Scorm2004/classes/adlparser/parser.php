@@ -3,6 +3,6 @@
 require_once("SeqTreeBuilder.php");
 
 $builder=new SeqTreeBuilder();
-$ret=$builder->buildNodeSeqTree("file:///Users/hendrikh/Desktop/parser/imsmanifest.xml");
+$ret=$builder->buildNodeSeqTree("file:///Users/hendrikh/Development/eclipse/ilias3_scorm2004/ilias3_scorm2004/Modules/Scorm2004/classes/adlparser/imsmanifest4.xml");
 echo json_encode($ret);
 ?>

@@ -361,9 +361,8 @@ class ilSCORM13Player
 			$this->packageId
 		);
 		
-		$test="SeqActivityTree = ".$data['activitytree'];
+		$activitytree=$data['activitytree'];
 		
-		$activitytree =$test;
 		//add the appropriate classes
 		
 		if (!$activitytree) $activitytree = 'null';

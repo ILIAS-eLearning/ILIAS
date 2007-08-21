@@ -908,15 +908,15 @@ function toJSONString (v, tab) {
 
 function parseJSONString (s) 
 {
-	//var re = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
-	//try 
-	//{
-	//	if (re.test(s)) 
-	//	{
-	//		return window.eval('(' + s + ')');
-	//	} 
-//	} catch (e) {}
-//	throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));
+	var re = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
+	try 
+		{
+		if (re.test(s)) 
+		{
+			return window.eval('(' + s + ')');
+		} 
+	} catch (e) {}
+	throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));
 	return window.eval('(' + s + ')');
 	
 }
@@ -1499,17 +1499,17 @@ function init(config)
 	if (!cam) return alert('Fatal: Could not load content data.')
 
 	// Step 2: load adlActivityTree
-	
 	var adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
-	
 	if (!adlAct) {
 		return alert('Fatal: Could not load ADLActivityTree.');
 	} else {	
 		var tree;
+		
 		adlTree = buildADLtree(adlAct,tree);
 		//assign Tree
 		
 		var actTree = new SeqActivityTree("","","",adlTree);
+		
 		msequencer.setActivityTree(actTree);	
 	}		
 	
@@ -1574,6 +1574,7 @@ function init(config)
 
 
 function buildADLtree(act,obj){
+	
 	for(var index in act) { 
 		var value;
    		if ((index.substr(0,1) == "_") ) {
@@ -1581,18 +1582,20 @@ function buildADLtree(act,obj){
 			obj = eval("new "+index.substr(1)+"()");
 			obj = buildADLtree(act[index],obj);
 		} else if ((act[index] instanceof Array)) {
-		/*	var toset=new Array();
+			var toset=new Array();
 			var temp=act[index];	
 			for (var i=0;i<temp.length;i++) {
-				obj=buildADLtree(temp[i],obj);
-				toset.push(obj);
+				res=buildADLtree(temp[i],obj);
+				toset.push(res);
 			}	
-			value = toset;
-			obj[index] = value;   */
-			//toimplement	
+			obj[index] = toset;   
+		} else if ((act[index] instanceof Object)){
+			//handle object
+			res2=buildADLtree(act[index] ,obj);
+			obj[index] = res2;   		
 		} else if (!(act[index] instanceof Array) && !(index.substr(0,1) == "_")){
 			value = act[index];
-			obj[index] = value;   				
+			obj[index] = value;
 		}
     }
 	return obj;

@@ -396,7 +396,7 @@
 						$obj->mSatisfiedByMeasure = self::convert_to_bool($tempVal);
                 	}
 					// Look for 'minNormalizedMeasure'
-					$tempVal = $curNode->getAttribute("minNormalizedMeasure");
+					$tempVal=self::lookupElement($curNode,"minNormalizedMeasure");
                		if($tempVal) {
 						$obj->mMinMeasure = $tempVal;
                 	}
@@ -407,7 +407,9 @@
 						$obj->mMaps = $maps;
 	            	}
 					$obj->mContributesToRollup = true;
-					array_push($objectives,$obj);
+					//add class
+					$c_obj['_SeqObjective'] = $obj;
+					array_push($objectives,$c_obj);
                }
 			}
 		}
@@ -455,8 +457,9 @@
 					if($tempVal) {
 						$map->mWriteMeasure = self::convert_to_bool($tempVal);
 			        }
-	               
-					array_push($maps,$map);
+	                //add class
+					$c_map['_SeqObjectiveMap']=$map;
+					array_push($maps,$c_map);
 				}
 			}
 		}	
@@ -512,7 +515,7 @@
 	            	if($tempVal) {
 							$rule->mMinPercent = $tempVal;
 				    }
-					$rule->mConditions =  new SeqConditionSet(true);
+					$rule->mConditions['_SeqConditionSet'] =  new SeqConditionSet(true);
 		            $conditions = array();
 					$ruleInfo = $curNode->childNodes;
 					for ($j = 0; $j < $ruleInfo->length; $j++ ) {
@@ -521,9 +524,9 @@
 						if ($curRule->nodeType == XML_ELEMENT_NODE) {
 							$tempVal = $curRule->getAttribute("conditionCombination");
 			               	if($tempVal) {
-								$rule->mConditions->mCombination = $tempVal;
+								$rule->mConditions['_SeqConditionSet']->mCombination = $tempVal;
 						   } else {
-								$rule->mConditions->mCombination = COMBINATION_ANY;		
+								$rule->mConditions['_SeqConditionSet']->mCombination = COMBINATION_ANY;		
 						   }
 						$conds = $curRule->childNodes;
 						for ($k = 0; $k < $conds->length; $k++ ) {
@@ -541,7 +544,9 @@
 									  if($tempVal) {
 										if($tempVal=='not') {$cond->mNot = true;} else {$cond->mNot = false;}
 									  }	
-									array_push($conditions,$cond);
+									//add class
+									$c_cond['_SeqCondition'] = $cond;
+									array_push($conditions,$c_cond);
 								}
 							}
 							
@@ -558,9 +563,11 @@
 				}
 					
 				// Add the conditions to the condition set for the rule
-		         $rule->mConditions->mConditions = $conditions;
+		         $rule->mConditions['_SeqConditionSet']->mConditions = $conditions;
 
 	           // Add the rule to the ruleset
+				//add class 
+				$c_rule['_SeqRollupRule']=$rule;
 				array_push($rollupRules,$rule);
 				}
 			}
@@ -569,7 +576,9 @@
 		if ( $rollupRules != null ) {
 	         $rules = new SeqRollupRuleset($rollupRules);
 	         // Set the Activity's rollup rules
-	         $ioAct->setRollupRules($rules);
+			 //add class
+			 $c_rules['_SeqRollupRuleset']=$rules;
+	         $ioAct->setRollupRules($c_rules);
 	     }
 
 		return $ioAct;
@@ -615,15 +624,21 @@
 						//changed from ADL Code..
 						if ($curNode->localName == "preConditionRule") {
 							//echo "ADD PRE";
-	                		array_push($preRules,$rule);
+							//add class
+							$c_rule['_SeqRule'] = $rule;
+	                		array_push($preRules,$c_rule);
 						}
 						if ($curNode->localName == "exitConditionRule") {
 							//echo "ADD EXIT";
-							array_push($exitRules,$rule);
+							//add class
+							$c_rule['_SeqRule'] = $rule;
+							array_push($exitRules,$c_rule);
 						}
 						if ($curNode->localName == "postConditionRule") {
 							//echo "ADD POST";
-			                array_push($postRules,$rule);
+							//add class
+							$c_rule['_SeqRule'] = $rule;
+			                array_push($postRules,$c_rule);
 						}
 					}
 				} //end if preCondition
@@ -633,18 +648,23 @@
 		
 		if ( count($preRules) > 0 ) {
 	         $rules = new SeqRuleset($preRules);
-			
-	         $ioAct->setPreSeqRules($rules);
+			 //add class
+			 $c_rules['_SeqRuleset']=$rules;
+	         $ioAct->setPreSeqRules($c_rules);
 	
 	    }
 	
 		if ( count($exitRules) > 0 ){
 	         $rules = new SeqRuleset($exitRules);
-	         $ioAct->setExitSeqRules($rules);
+			 //add class
+		 	 $c_rules['_SeqRuleset']=$rules;
+	         $ioAct->setExitSeqRules($c_rules);
 	    }
 		if ( count($postRules) > 0 ){
 	        $rules = new SeqRuleset($postRules);
-         	$ioAct->setPostSeqRules($rules);
+			//add class
+		 	$c_rules['_SeqRuleset']=$rules;
+         	$ioAct->setPostSeqRules($c_rules);
 		}
 		//echo json_encode($ioAct);
 	  	
@@ -697,7 +717,10 @@
 							$cond->mNot = false;
 						}
 					}
-					array_push($conditions,$cond);
+					
+					//add class
+					$c_cond['_SeqCondition']=$cond;
+					array_push($conditions,$c_cond);
 					
 				}
 		  	}	
@@ -708,7 +731,9 @@
 		} else {
 			$condSet->mConditions = null;
 		}
-		return $conditions;
+		//add class
+		$c_condSet['_SeqConditionSet']=$condSet;
+		return $c_condSet;
 	}
    
 	public static function getAuxResources($iNode, $ioAct) {
@@ -740,7 +765,9 @@
 				}
 			}
 		}	
-		$ioAct->setAuxResources($auxRes);
+		//add class
+		$c_auxRes['_ADLAuxiliaryResource']=$auxRes;
+		$ioAct->setAuxResources($c_auxRes);
       	return $ioAct;
 	}
 	
@@ -757,8 +784,32 @@
 	
 	  private function lookupElement($iNode, $iElement){
 	  	$value = null;
+		$curNode = null;
+		$children = null;
+		
 	  	if ( $iNode != null && $iElement != null ){
-	  		
+	  		$children = $iNode->childNodes;
+	  		for ($i = 0; $i < $children->length; $i++ ) {
+				$curNode = $children->item($i);
+  		        if ( ($curNode->nodeType == XML_ELEMENT_NODE)) {
+					if ($curNode->localName == $iElement) {
+						break;
+					}
+				}
+	    
+  			}
+		  	if ($curNode != null ) {
+				$comp = $curNode->localName;
+				if ($comp != null) {
+					if ($comp != $iElement) {
+						$curNode = null;
+					} 
+				} else {
+					$curNode = null;
+	            
+				}
+			}
+         
 	  	}
 	  	else {
 	  		//$iElement is null

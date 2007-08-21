@@ -7,7 +7,7 @@
 	
 	class SeqConditionSet{
 		
-		public  $mCombination = null;
+		public $mCombination = null;
 		
 		//convert vector to array
 		public $mConditions = null;
