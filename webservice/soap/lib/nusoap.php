@@ -4990,7 +4990,7 @@ class soap_client extends nusoap_base  {
 	var $response = '';				// HTTP response
 	var $responseData = '';			// SOAP payload of response
 	// toggles whether the parser decodes element content w/ utf8_decode()
-    var $decode_utf8 = true;
+    var $decode_utf8 = false;
 	
 	/**
 	* fault related variables
