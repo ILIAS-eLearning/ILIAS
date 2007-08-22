@@ -4475,27 +4475,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns an array with the total points of all users who participated the test
-*
-* Returns an array with the total points of all users who participated the test
-* This array could be used for statistics
-*
-* @return array The total point values
-* @access public
-*/
-	function &getTotalPointsArray()
-	{
-		$totalpoints_array = array();
-		$all_users =& $this->evalTotalParticipantsArray();
-		foreach ($all_users as $active_id => $user_name)
-		{
-			$test_result =& $this->getTestResult($active_id);
-			array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
-		}
-		return $totalpoints_array;
-	}
-
-/**
 * Returns an array with the total points of all users who passed the test
 *
 * Returns an array with the total points of all users who passed the test
@@ -6645,23 +6624,23 @@ class ilObjTest extends ilObject
 			"D" => $passed_statistics->quantile($d),
 			"E" => $passed_statistics->quantile($e)
 		);
-		if (count($passed_array) && ($reached_points >= $ects_percentiles["A"]))
+		if (count($points_passed) && ($reached_points >= $ects_percentiles["A"]))
 		{
 			return "A";
 		}
-		else if (count($passed_array) && ($reached_points >= $ects_percentiles["B"]))
+		else if (count($points_passed) && ($reached_points >= $ects_percentiles["B"]))
 		{
 			return "B";
 		}
-		else if (count($passed_array) && ($reached_points >= $ects_percentiles["C"]))
+		else if (count($points_passed) && ($reached_points >= $ects_percentiles["C"]))
 		{
 			return "C";
 		}
-		else if (count($passed_array) && ($reached_points >= $ects_percentiles["D"]))
+		else if (count($points_passed) && ($reached_points >= $ects_percentiles["D"]))
 		{
 			return "D";
 		}
-		else if (count($passed_array) && ($reached_points >= $ects_percentiles["E"]))
+		else if (count($points_passed) && ($reached_points >= $ects_percentiles["E"]))
 		{
 			return "E";
 		}

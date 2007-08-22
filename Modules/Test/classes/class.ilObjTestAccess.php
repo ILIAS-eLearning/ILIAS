@@ -107,14 +107,16 @@ class ilObjTestAccess extends ilObjectAccess
 				{
 					return false;
 				}
-				$result = ilObjTestAccess::_getTestResult($active->active_id);
-				if ($result["passed"] == 1)
+				include_once "./Modules/Test/classes/class.ilObjTest.php";
+				$data =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE, $active->active_id);
+				$userdata =& $data->getParticipant($active->active_id);
+				if (is_object($userdata))
 				{
-					return true;
+					return $userdata->getPassed();
 				}
 				else
 				{
-					return false;
+					return FALSE;
 				}
 				break;
 
@@ -285,80 +287,6 @@ class ilObjTestAccess extends ilObjectAccess
 	}
 	
 /**
-* Calculates the results of a test for a given user
-* 
-* Calculates the results of a test for a given user and
-* returns the failed/passed status
-*
-* @return array An array containing the test results for the given user
-* @access public
-*/
-	function &_getTestResult($active_id, $pass = NULL) 
-	{
-		global $ilDB;
-		$test_result = array();
-		$query = sprintf("SELECT tst_mark.*, tst_tests.* FROM tst_mark, tst_tests, tst_active WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY tst_mark.minimum_level",
-			$ilDB->quote($active_id . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
-		{
-			$test_result["marks"] = array();
-			$min_passed_percentage = 100;
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				if (($row["passed"] == 1) && ($row["minimum_level"] < $min_passed_percentage))
-				{
-					$min_passed_percentage = $row["minimum_level"];
-				}
-				array_push($test_result["marks"], $row);
-			}
-			
-			$questions =& ilObjTestAccess::_getTestQuestions($active_id, $pass);
-			$max_points = 0;
-			$reached_points = 0;
-			foreach ($questions as $row)
-			{
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				$preached = assQuestion::_getReachedPoints($active_id, $row["question_id"], $pass);
-				$max_points += $row["points"];
-				$reached_points += $preached;
-			}
-			switch ($test_result["marks"][0]["score_cutting"])
-			{
-				case 0: // SCORE_CUT_QUESTION
-					break;
-				case 1: // SCORE_CUT_TEST
-					if ($reached_points < 0) $reached_points = 0;
-					break;
-			}
-			$test_result["max_points"] = $max_points;
-			$test_result["reached_points"] = $reached_points;
-			// calculate the percentage of the reached points
-			$solved = 0;
-			if ($max_points > 0)
-			{
-				$solved = ($reached_points / $max_points) * 100.0;
-			}
-			// get the mark for the reached points
-			$mark_percentage = 0;
-			$mark_value = null;
-			foreach ($test_result["marks"] as $key => $value)
-			{
-				if (($value["minimum_level"] <= $solved) && ($mark_percentage < $value["minimum_level"]))
-				{
-					$mark_percentage = $value["minimum_level"];
-					$mark_value = $value;
-				}
-			}
-			$test_result["mark"] = $mark_value;
-			// get the passed state
-			$test_result["passed"] = $test_result["mark"]["passed"];
-		}
-		return $test_result;
-	}
-
-/**
 * Returns true, if a test is complete for use
 *
 * Returns true, if a test is complete for use
@@ -415,6 +343,30 @@ class ilObjTestAccess extends ilObjectAccess
 		}
 	}
 	
+	/**
+	* Returns the database content of a test with a given id
+	*
+	* Returns the database content of a test with a given id
+	*
+	* @param int $test_id Database id of the test
+	* @return array An associative array with the contents of the tst_tests database row
+	* @access public
+	*/
+	function &_getTestData($test_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if (!$result->numRows())
+		{
+			return 0;
+		}
+		$test = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		return $test;
+	}
+	
 /**
 * Calculates the number of questions in a test
 *
@@ -429,15 +381,7 @@ function _getQuestionCount($test_id)
 
 	$num = 0;
 
-	$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-		$ilDB->quote($test_id . "")
-	);
-	$result = $ilDB->query($query);
-	if (!$result->numRows())
-	{
-		return 0;
-	}
-	$test = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$test =& ilObjTestAccess::_getTestData($test_id);
 
 	if ($test["random_test"] == 1)
 	{
