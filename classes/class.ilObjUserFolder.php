@@ -721,7 +721,7 @@ class ilObjUserFolder extends ilObject
 			"hobby",
 			"referral_comment",
 			"matriculation",
-			"personal_picture",
+			"upload",
 			"language",
 			"skin_style",
 			"hits_per_page",
