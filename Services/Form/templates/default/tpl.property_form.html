@@ -28,21 +28,21 @@
 		<td class="std">
 	<!-- END sub_prop_start -->
 		<!-- BEGIN prop_text -->
-		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
+		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
 		<!-- END prop_text -->
 		<!-- BEGIN prop_textarea -->
-		<textarea name="{POST_VAR}" id="{ID}" <!-- BEGIN no_rteditor -->class="noRTEditor" style="width:90%;"<!-- END no_rteditor --> wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w -->>{PROPERTY_VALUE}</textarea>
+		<textarea name="{POST_VAR}" id="{ID}" <!-- BEGIN no_rteditor -->class="noRTEditor" style="width:90%;"<!-- END no_rteditor --> wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w --> {DISABLED}>{PROPERTY_VALUE}</textarea>
 		<!-- END prop_textarea -->
 		<!-- BEGIN prop_custom -->
 		{CUSTOM_CONTENT}
 		<!-- END prop_custom -->
 		<!-- BEGIN prop_checkbox -->
-		<input type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} /> <label for="{ID}">{OPTION_TITLE}</label>
+		<input type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} {DISABLED}/> <label for="{ID}">{OPTION_TITLE}</label>
 		{SUB_FORM}
 		<!-- END prop_checkbox -->
 		<!-- BEGIN prop_radio -->
 			<!-- BEGIN prop_radio_option -->
-			<div><input type="radio" name="{POST_VAR}" id="{OP_ID}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION}/> <label for="{OP_ID}">{TXT_RADIO_OPTION}</label></div>
+			<div><input type="radio" name="{POST_VAR}" id="{OP_ID}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION} {DISABLED}/> <label for="{OP_ID}">{TXT_RADIO_OPTION}</label></div>
 			<!-- BEGIN radio_option_desc -->
 			<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{RADIO_OPTION_DESC}</span></div>
 			<!-- END radio_option_desc -->
@@ -50,7 +50,7 @@
 			<!-- END prop_radio_option -->
 		<!-- END prop_radio -->
 		<!-- BEGIN prop_select -->
-		<select name="{POST_VAR}">
+		<select name="{POST_VAR}" {DISABLED}>
 			<!-- BEGIN prop_select_option -->
 			<option value="{VAL_SELECT_OPTION}" {CHK_SEL_OPTION}>{TXT_SELECT_OPTION}</option>
 			<!-- END prop_select_option -->

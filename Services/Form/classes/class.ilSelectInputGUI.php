@@ -136,6 +136,11 @@ class ilSelectInputGUI extends ilFormPropertyGUI
 		}
 		$a_tpl->setCurrentBlock("prop_select");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
+		if ($this->getDisabled())
+		{
+			$a_tpl->setVariable("DISABLED",
+				" disabled=\"disabled\"");
+		}
 		$a_tpl->parseCurrentBlock();
 	}
 

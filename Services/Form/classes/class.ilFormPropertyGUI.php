@@ -47,6 +47,7 @@ class ilFormPropertyGUI
 	{
 		$this->setTitle($a_title);
 		$this->setPostVar($a_postvar);
+		$this->setDisabled(false);
 	}
 
 	/**
@@ -180,6 +181,26 @@ class ilFormPropertyGUI
 	function getRequired()
 	{
 		return $this->required;
+	}
+	
+	/**
+	* Set Disabled.
+	*
+	* @param	boolean	$a_disabled	Disabled
+	*/
+	function setDisabled($a_disabled)
+	{
+		$this->disabled = $a_disabled;
+	}
+
+	/**
+	* Get Disabled.
+	*
+	* @return	boolean	Disabled
+	*/
+	function getDisabled()
+	{
+		return $this->disabled;
 	}
 	
 	/**
