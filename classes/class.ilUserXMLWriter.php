@@ -202,7 +202,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("Lastname", $row["lastname"]);
 		$this->__addElement ("Title", $row["title"]);
 
-		if ($this->canExport("PersonalPicture", "personal_picture"))
+		if ($this->canExport("PersonalPicture", "upload"))
 		{
 			$imageData = $this->getPictureValue($row["usr_id"]);
 			if ($imageData)
