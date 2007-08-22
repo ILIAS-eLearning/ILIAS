@@ -3624,6 +3624,10 @@ class ilObjTest extends ilObject
 			$active = $this->getActiveTestUser($ilUser->getId());
 			$this->loadQuestions($active->active_id, $pass);
 			if (count($this->questions) == 0) return $result_array;
+			if (is_null($pass))
+			{
+				$pass = $this->_getPass($active->active_id);
+			}
 			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s AND qpl_questions.question_id IN ('" . join($this->questions, "','") . "')",
 				$ilDB->quote($active->active_id . ""),
 				$ilDB->quote($pass . "")
