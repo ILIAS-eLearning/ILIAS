@@ -105,9 +105,8 @@
 	  				$nestedAct = new SeqActivity();
 	  				$nestedAct = $this->buildNode($curNode,$seq,$doc);
 	  				if ($nestedAct != null ) {
-						//assign class
-	  					$act->AddChild($nestedAct);
-	                 	}
+						$act->AddChild($nestedAct);
+	                }
 	  			}
 	  			else if ($curNode->localName == "title") {
 	  				 $act->setTitle($this->lookupElement($curNode,null));
@@ -159,7 +158,7 @@
 	  		$item=$children->item($i)->nodeValue;
 	  	}
 		//add class
-		$c_act['_SeqActivity']=$act;
+		//$c_act['_SeqActivity']=$act;
 	  	return $act;
 	  
 	  }

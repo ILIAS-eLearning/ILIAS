@@ -1052,7 +1052,7 @@ function onDocumentClick (e)
 		//alert("We are in"+ target.id.substr(0, 3));
 		
 		//to deprecate
-		window.top.status = execNavigation(target.id.substr(3), target.id);
+		//window.top.status = execNavigation(target.id.substr(3), target.id);
 		///
 		//alert("Function: "+target.id.substr(3));
 		
@@ -1062,7 +1062,8 @@ function onDocumentClick (e)
 		
 		if (navType==='Start') {
 			mlaunch = msequencer.navigate(NAV_START);
-			sclogdump(mlaunch);
+			//alert(mlaunch.mActivityID);
+			//sclogdump(mlaunch);
 		}
 			
 		if (navType==='ResumeAll') {
@@ -1099,7 +1100,7 @@ function onDocumentClick (e)
 			
 		}
 		
-		
+		onItemDeliver(activities[mlaunch.mActivityID]);
 		
 	} 
 	
@@ -1168,7 +1169,7 @@ function updateControls(controlState)
 {
 	for (var k in controlState) 
 	{
-		toggleClass('nav'+k.charAt().toUpperCase()+k.substr(1), 'disabled', !controlState[k]);
+		toggleClass('nav'+k.charAt().toUpperCase()+k.substr(1), 'enabled', !controlState[k]);
 	}
 }
 
@@ -1509,12 +1510,15 @@ function init(config)
 		var tree;
 		
 		adlTree = buildADLtree(adlAct,tree);
+		//set parents
+	    adlTree= setParents(adlTree);
 		//assign Tree
 		
 		var actTree = new SeqActivityTree("","","","");
 		actTree.setRoot(adlTree);
 		actTree.setDepths();
         actTree.setTreeCount();
+		//set parents
 		msequencer.setActivityTree(actTree);	
 	}		
 	
@@ -1609,6 +1613,27 @@ function buildADLtree(act,obj){
 			obj[index] = value;
 		}
     }
+	return obj;
+}
+
+function setParents(obj) {
+	for(var index in obj) { 
+		if (index == "mChildren") {
+			var temp=obj[index];	
+			if (temp instanceof Array) {
+				if (temp.length>0) {
+					for (var i=0;i<temp.length;i++) {
+						// get the object
+						temp[i]['mParent']=obj;
+						//check for further childs in array
+					    var ch=setParents(temp[i]);
+						temp[i]=ch;
+					}
+				}
+			}	
+		}
+	
+	}
 	return obj;
 }
 
