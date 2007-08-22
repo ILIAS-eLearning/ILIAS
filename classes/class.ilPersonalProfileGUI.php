@@ -1444,6 +1444,9 @@ class ilPersonalProfileGUI
 
 		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile"),
 								 "", "", "", $showProfile);
+
+		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile2"),
+								 "", "", "", $showProfile);
 								 
 		// check google map activation
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
@@ -1533,5 +1536,608 @@ class ilPersonalProfileGUI
 		}
 		return true;
 	}
+	
+	/**
+	* show profile form
+	*/
+	function showProfile2()
+	{
+		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng, $ilSetting;
+		
+		$this->__initSubTabs("showProfile");
+
+		$settings = $ilias->getAllSettings();
+		
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
+		
+		// catch feedback message
+		if ($ilUser->getProfileIncomplete())
+		{
+			ilUtil::sendInfo($lng->txt("profile_incomplete"));
+		}
+		else
+		{
+			ilUtil::sendInfo();
+		}
+		// display infopanel if something happened
+		ilUtil::infoPanel();
+
+		$this->initForm();
+		$this->tpl->setVariable("ADM_CONTENT", $this->form->getHTML());
+		
+		$this->tpl->show();
+	}
+		
+	
+	function initForm()
+	{
+		global $ilSetting, $lng, $ilUser, $styleDefinition;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// language
+		if ($this->userSettingVisible("language"))
+		{
+			//get all languages
+			$languages = $this->lng->getInstalledLanguages();
+			
+			// preselect previous chosen language otherwise saved language
+			$selected_lang = (isset($_POST["usr_language"]))
+				? $_POST["usr_language"]
+				: $ilUser->getLanguage();
+			
+			$this->input["language"] = new ilSelectInputGUI($lng->txt("language"), "usr_language");
+				
+			//go through languages
+			$langs = array();
+			foreach($languages as $lang_key)
+			{
+				$langs[$lang_key] = ilLanguage::_lookupEntry($lang_key,"meta", "meta_l_".$lang_key);
+			}
+			$this->input["language"]->setValue($selected_lang);
+			$this->input["language"]->setOptions($langs);
+			$this->form->addItem($this->input["language"]);
+			$profile_fields[] = "language";
+		}
+
+		// get all templates
+		include_once("classes/class.ilObjStyleSettings.php");
+		$templates = $styleDefinition->getAllTemplates();
+		if ($this->userSettingVisible("skin_style"))
+		{
+			if (is_array($templates))
+			{
+				$st_arr = array();
+				foreach($templates as $template)
+				{
+					// get styles information of template
+					$styleDef =& new ilStyleDefinition($template["id"]);
+					$styleDef->startParsing();
+					$styles = $styleDef->getStyles();
+					$st_sel = $ilUser->skin.":".$ilUser->prefs["style"];
+					foreach($styles as $style)
+					{
+						if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						{
+							continue;
+						}
+						$st_arr[$template["id"].":".$style["id"]] =
+							$styleDef->getTemplateName()." / ".$style["name"];
+					}
+				}
+				$this->input["skin_style"] = new ilSelectInputGUI($lng->txt("usr_skin_style"), "usr_skin_style");
+				$this->input["skin_style"]->setValue($st_sel);
+				$this->input["skin_style"]->setOptions($st_arr);
+				$this->form->addItem($this->input["skin_style"]);
+				$profile_fields[] = "skin_style";
+			}
+		}
+				
+		// hits per page
+		if ($this->userSettingVisible("hits_per_page"))
+		{
+			$hits_options = array(2 => 2, 10 => 10, 15 => 15,
+				20 => 20, 30 => 30, 40 => 40, 50 => 50,
+				100 => 100, 9999 => $this->lng->txt("no_limit"));
+			$this->input["hits_per_page"] = new ilSelectInputGUI($lng->txt("hits_per_page"), "hits_per_page");
+			$this->input["hits_per_page"]->setValue($ilUser->prefs["hits_per_page"]);
+			$this->input["hits_per_page"]->setOptions($hits_options);
+			$this->form->addItem($this->input["hits_per_page"]);
+		}
+		
+		// disable disabled fields
+		foreach ($profile_fields as $field)
+		{
+			if (!$ilSetting->get("usr_settings_hide_" . $field))
+			{
+				if ($ilSetting->get("usr_settings_disable_" . $field))
+				{
+					$this->input[$field]->setDisabled(true);
+				}
+			}
+		}
+
+		return;
+		
+		// Users Online
+		if ($this->userSettingVisible("show_users_online"))
+		{
+			$users_online_options = array("y","associated","n");
+			$selected_option = $ilUser->prefs["show_users_online"];
+			foreach($users_online_options as $an_option)
+			{
+				$this->tpl->setCurrentBlock("select_users_online");
+		
+				if ($selected_option == $an_option)
+				{
+					$this->tpl->setVariable("USERS_ONLINE_SELECTED", "selected=\"selected\"");
+				}
+		
+				$this->tpl->setVariable("USERS_ONLINE_VALUE", $an_option);
+		
+				$this->tpl->setVariable("USERS_ONLINE_OPTION", $this->lng->txt("users_online_show_".$an_option));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		// hide_own_online_status
+		if ($this->userSettingVisible("hide_own_online_status")) {			
+			if ($ilUser->prefs["hide_own_online_status"] == "y")
+			{
+				$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "checked");
+			}
+		}				
+
+		// personal desktop news
+/* Subscription Concept is abandonded for now, we show all news of pd items (Alex)
+		if ($ilUser->prefs["pd_items_news"] != "n")
+		{
+			$this->tpl->setVariable("PD_ITEMS_NEWS", "checked");
+		}
+		$this->tpl->setVariable("TXT_PD_ITEMS_NEWS",
+			$this->lng->txt("pd_items_news"));
+		$this->tpl->setVariable("TXT_PD_ITEMS_NEWS_INFO",
+			$this->lng->txt("pd_items_news_info"));
+*/
+		
+		if (($ilUser->getAuthMode(true) == AUTH_LOCAL ||
+			($ilUser->getAuthMode(true) == AUTH_CAS && $ilSetting->get("cas_allow_local")) ||
+			($ilUser->getAuthMode(true) == AUTH_SOAP && $ilSetting->get("soap_auth_allow_local"))
+			)
+			&&
+			$this->userSettingVisible('password'))
+		{
+			if($this->ilias->getSetting('usr_settings_disable_password'))
+			{
+				$this->tpl->setCurrentBlock("disabled_password");
+				$this->tpl->setVariable("TXT_DISABLED_PASSWORD", $this->lng->txt("chg_password"));
+				$this->tpl->setVariable("TXT_DISABLED_CURRENT_PASSWORD", $this->lng->txt("current_password"));
+				$this->tpl->parseCurrentBlock();
+			}
+			elseif ($settings["passwd_auto_generate"] == 1)
+			{
+				$passwd_list = ilUtil::generatePasswords(5);
+			 
+				foreach ($passwd_list as $passwd)
+				{
+					$passwd_choice .= ilUtil::formRadioButton(0,"new_passwd",$passwd)." ".$passwd."<br/>";
+				}
+		
+				$this->tpl->setCurrentBlock("select_password");
+				$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_password"));
+				$this->tpl->setVariable("TXT_CURRENT_PASSWORD", $this->lng->txt("current_password"));
+				$this->tpl->setVariable("TXT_SELECT_PASSWORD", $this->lng->txt("select_password"));
+				$this->tpl->setVariable("PASSWORD_CHOICE", $passwd_choice);
+				$this->tpl->setVariable("TXT_NEW_LIST_PASSWORD", $this->lng->txt("new_list_password"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("change_password");
+				$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_password"));
+				$this->tpl->setVariable("TXT_CURRENT_PW", $this->lng->txt("current_password"));
+				$this->tpl->setVariable("TXT_DESIRED_PW", $this->lng->txt("desired_password"));
+				$this->tpl->setVariable("TXT_RETYPE_PW", $this->lng->txt("retype_password"));
+				$this->tpl->setVariable("CHANGE_PASSWORD", $this->lng->txt("chg_password"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+			$this->lng->txt("personal_desktop"));
+
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("TXT_OF",strtolower($this->lng->txt("of")));
+		$this->tpl->setVariable("USR_FULLNAME",$ilUser->getFullname());
+		
+		$this->tpl->setVariable("TXT_USR_DATA", $this->lng->txt("userdata"));
+		$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("username"));
+		$this->tpl->setVariable("TXT_PUBLIC_PROFILE", $this->lng->txt("public_profile"));
+		
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["gender"] = "";
+		$data["fields"]["firstname"] = "";
+		$data["fields"]["lastname"] = "";
+		$data["fields"]["title"] = "";
+		$data["fields"]["institution"] = "";
+		$data["fields"]["department"] = "";
+		$data["fields"]["street"] = "";
+		$data["fields"]["city"] = "";
+		$data["fields"]["zipcode"] = "";
+		$data["fields"]["country"] = "";
+		$data["fields"]["phone_office"] = "";
+		$data["fields"]["phone_home"] = "";
+		$data["fields"]["phone_mobile"] = "";
+		$data["fields"]["fax"] = "";
+		$data["fields"]["email"] = "";
+		$data["fields"]["hobby"] = "";
+		$data["fields"]["referral_comment"] = "";
+		$data["fields"]["matriculation"] = "";
+		$data["fields"]["create_date"] = "";
+		$data["fields"]["approve_date"] = "";
+		$data["fields"]["active"] = "";
+		
+		$data["fields"]["default_role"] = $role;
+		// fill presets
+		foreach($data["fields"] as $key => $val)
+		{
+			// note: general "title" is not as "title" for a person
+			if ($key != "title")
+			{
+				$str = $this->lng->txt($key);
+			}
+			else
+			{
+				$str = $this->lng->txt("person_title");
+			}
+		
+			// check to see if dynamically required
+			if (isset($this->settings["require_" . $key]) && $this->settings["require_" . $key])
+			{
+						$str = $str . '<span class="asterisk">*</span>';
+			}
+		
+			if ($this->userSettingVisible("$key"))
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
+			}
+		}
+		
+		if ($this->userSettingVisible("gender"))
+		{
+			$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
+			$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
+		}
+		
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile"))
+		{
+			$this->tpl->setVariable("TXT_DELICIOUS", $lng->txt("delicious"));
+		}
+		
+		if ($this->userSettingVisible("upload"))
+		{
+			$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("personal_picture"));
+			$webspace_dir = ilUtil::getWebspaceDir("output");
+			$full_img = $ilUser->getPref("profile_image");
+			$last_dot = strrpos($full_img, ".");
+			$small_img = substr($full_img, 0, $last_dot).
+					"_small".substr($full_img, $last_dot, strlen($full_img) - $last_dot);
+			$image_file = $webspace_dir."/usr_images/".$small_img;
+			
+			if (@is_file($image_file))
+			{
+				$this->tpl->setCurrentBlock("pers_image");
+				$this->tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
+				$this->tpl->setVariable("ALT_IMG_PERSONAL",$this->lng->txt("personal_picture"));
+				$this->tpl->parseCurrentBlock();
+				if ($this->userSettingEnabled("upload"))
+				{
+					$this->tpl->setCurrentBlock("remove_pic");
+					$this->tpl->setVariable("TXT_REMOVE_PIC", $this->lng->txt("remove_personal_picture"));
+				}
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("content");
+			}
+			
+			if ($this->userSettingEnabled("upload"))
+			{
+				$this->tpl->setCurrentBlock("upload_pic");
+				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
+			}
+			$this->tpl->setVariable("TXT_FILE", $this->lng->txt("userfile"));
+			$this->tpl->setVariable("USER_FILE", $this->lng->txt("user_file"));
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		
+		// ilinc upload pic
+		if ($this->userSettingVisible("upload") and $this->ilias->getSetting("ilinc_active"))
+		{
+			include_once ('ilinc/classes/class.ilObjiLincUser.php');
+			$ilinc_user = new ilObjiLincUser($ilUser);
+				
+			if ($ilinc_user->id)
+			{
+				include_once ('ilinc/classes/class.ilnetucateXMLAPI.php');
+				$ilincAPI = new ilnetucateXMLAPI();
+				
+				$ilincAPI->uploadPicture($ilinc_user);
+				$response = $ilincAPI->sendRequest("uploadPicture");
+			
+				// return URL to user's personal page
+				$url = trim($response->data['url']['cdata']);
+		
+				$this->tpl->setCurrentBlock("ilinc_upload_pic");
+				$this->tpl->setVariable("TXT_ILINC_UPLOAD", $this->lng->txt("ilinc_upload_pic_text"));
+				$this->tpl->setVariable("ILINC_UPLOAD_LINK", $url);
+				$this->tpl->setVariable("ILINC_UPLOAD_LINKTXT", $this->lng->txt("ilinc_upload_pic_linktext"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		
+		if ($this->userSettingVisible("language"))
+		{
+			$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		}
+		if ($this->userSettingVisible("show_users_online"))
+		{
+			$this->tpl->setVariable("TXT_SHOW_USERS_ONLINE", $this->lng->txt("show_users_online"));
+		}
+		if ($this->userSettingVisible("hide_own_online_status"))
+		{
+			$this->tpl->setVariable("TXT_HIDE_OWN_ONLINE_STATUS", $this->lng->txt("hide_own_online_status"));
+		}
+		if ($this->userSettingVisible("skin_style"))
+		{
+			$this->tpl->setVariable("TXT_USR_SKIN_STYLE", $this->lng->txt("usr_skin_style"));
+		}
+		if ($this->userSettingVisible("hits_per_page"))
+		{
+			$this->tpl->setVariable("TXT_HITS_PER_PAGE", $this->lng->txt("usr_hits_per_page"));
+		}
+		if ($this->userSettingVisible("show_users_online"))
+		{
+			$this->tpl->setVariable("TXT_SHOW_USERS_ONLINE", $this->lng->txt("show_users_online"));
+		}
+		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
+		$this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
+		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
+
+		if($this->__showOtherInformations())
+		{
+			$this->tpl->setVariable("TXT_OTHER", $this->lng->txt("user_profile_other"));
+		}
+		
+		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
+		
+		//values
+		$this->tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilUser->getLogin()));
+		
+		if ($this->userSettingVisible("firstname"))
+		{
+			$this->tpl->setVariable("FIRSTNAME", ilUtil::prepareFormOutput($ilUser->getFirstname()));
+		}
+		if ($this->userSettingVisible("lastname"))
+		{
+			$this->tpl->setVariable("LASTNAME", ilUtil::prepareFormOutput($ilUser->getLastname()));
+		}
+		
+		if ($this->userSettingVisible("gender"))
+		{
+			// gender selection
+			$gender = strtoupper($ilUser->getGender());
+			
+			if (!empty($gender))
+			{
+				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
+			}
+		}
+		
+		$this->tpl->setVariable("CREATE_DATE", $ilUser->getCreateDate());
+		$this->tpl->setVariable("APPROVE_DATE", $ilUser->getApproveDate());
+		
+		if ($ilUser->getActive())
+		{
+			$this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
+		}
+		
+		if ($this->userSettingVisible("title"))
+		{
+			$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($ilUser->getUTitle()));
+		}
+		if ($this->userSettingVisible("institution"))
+		{
+			$this->tpl->setVariable("INSTITUTION", ilUtil::prepareFormOutput($ilUser->getInstitution()));
+		}
+		if ($this->userSettingVisible("department"))
+		{
+			$this->tpl->setVariable("DEPARTMENT", ilUtil::prepareFormOutput($ilUser->getDepartment()));
+		}
+		if ($this->userSettingVisible("street"))
+		{
+			$this->tpl->setVariable("STREET", ilUtil::prepareFormOutput($ilUser->getStreet()));
+		}
+		if ($this->userSettingVisible("zipcode"))
+		{
+			$this->tpl->setVariable("ZIPCODE", ilUtil::prepareFormOutput($ilUser->getZipcode()));
+		}
+		if ($this->userSettingVisible("city"))
+		{
+			$this->tpl->setVariable("CITY", ilUtil::prepareFormOutput($ilUser->getCity()));
+		}
+		if ($this->userSettingVisible("country"))
+		{
+			$this->tpl->setVariable("COUNTRY", ilUtil::prepareFormOutput($ilUser->getCountry()));
+		}
+		if ($this->userSettingVisible("phone_office"))
+		{
+			$this->tpl->setVariable("PHONE_OFFICE", ilUtil::prepareFormOutput($ilUser->getPhoneOffice()));
+		}
+		if ($this->userSettingVisible("phone_home"))
+		{
+			$this->tpl->setVariable("PHONE_HOME", ilUtil::prepareFormOutput($ilUser->getPhoneHome()));
+		}
+		if ($this->userSettingVisible("phone_mobile"))
+		{
+			$this->tpl->setVariable("PHONE_MOBILE", ilUtil::prepareFormOutput($ilUser->getPhoneMobile()));
+		}
+		if ($this->userSettingVisible("fax"))
+		{
+			$this->tpl->setVariable("FAX", ilUtil::prepareFormOutput($ilUser->getFax()));
+		}
+		if ($this->userSettingVisible("email"))
+		{
+			$this->tpl->setVariable("EMAIL", ilUtil::prepareFormOutput($ilUser->getEmail()));
+		}
+		if ($this->userSettingVisible("hobby"))
+		{
+			$this->tpl->setVariable("HOBBY", ilUtil::prepareFormOutput($ilUser->getHobby()));		// here
+		}
+		if ($this->userSettingVisible("referral_comment"))
+		{
+			$this->tpl->setVariable("REFERRAL_COMMENT", ilUtil::prepareFormOutput($ilUser->getComment()));
+		}
+		if ($this->userSettingVisible("matriculation"))
+		{
+			$this->tpl->setVariable("MATRICULATION", ilUtil::prepareFormOutput($ilUser->getMatriculation()));
+		}
+		
+		// instant messengers
+		if ($this->userSettingVisible("instant_messengers"))
+		{
+			$this->tpl->setVariable("TXT_INSTANT_MESSENGERS", $this->lng->txt("user_profile_instant_messengers"));
+
+			$im_arr = array("icq","yahoo","msn","aim","skype");
+			
+			foreach ($im_arr as $im_name)
+			{
+				$im_id = $ilUser->getInstantMessengerId($im_name);
+				$this->tpl->setCurrentBlock("im_row");
+				$this->tpl->setVariable("TXT_IM_NAME",$this->lng->txt("im_".$im_name));
+				$this->tpl->setVariable("USR_IM_NAME","usr_im_".$im_name);
+				$this->tpl->setVariable("IM_ID",$im_id);
+				$this->tpl->setVariable("IMG_IM_ICON", ilUtil::getImagePath($im_name.'online.gif'));
+				$this->tpl->setVariable("TXT_IM_ICON", $this->lng->txt("im_".$im_name."_icon"));
+				$this->tpl->setVariable("CHK_IM", "checked=\"checked\" disabled=\"disabled\"");
+				$this->tpl->parseCurrentBlock();	
+			}
+		}
+		
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile") == "1")
+		{
+			$this->tpl->setVariable("DELICIOUS", ilUtil::prepareFormOutput($ilUser->getDelicious()));
+		}
+
+		// show user defined visible fields
+		$this->__showUserDefinedFields();
+
+		// get assigned global roles (default roles)
+		$global_roles = $rbacreview->getGlobalRoles();
+		
+		foreach($global_roles as $role_id)
+		{
+			if (in_array($role_id,$rbacreview->assignedRoles($ilUser->getId())))
+			{
+				$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
+				$role_names .= $roleObj->getTitle().", ";
+				unset($roleObj);
+			}
+		}
+		
+		$this->tpl->setVariable("TXT_DEFAULT_ROLES", $this->lng->txt("default_roles"));
+		$this->tpl->setVariable("DEFAULT_ROLES", substr($role_names,0,-2));
+		
+		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
+		
+		//button
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		// addeding by ratana ty
+		if ($this->userSettingEnabled("upload"))
+		{
+			$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
+		}
+
+		// 
+		if ($ilUser->prefs["public_profile"] == "y")
+		{
+			$this->tpl->setVariable("CHK_PUB","checked");
+		}
+		$val_array = array("institution", "department", "upload", "street",
+			"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
+			"fax", "email", "hobby", "matriculation", "show_users_online");
+		foreach($val_array as $key => $value)
+		{
+			if ($this->userSettingVisible("$value"))
+			{
+				if ($ilUser->prefs["public_".$value] == "y")
+				{
+					$this->tpl->setVariable("CHK_".strtoupper($value), "checked");
+				}
+			}
+		}
+		
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile") == "1")
+		{
+			if ($ilUser->prefs["public_delicious"] == "y")
+			{
+				$this->tpl->setVariable("CHK_DELICIOUS", "checked");
+			}
+		}
+
+		
+		// End of showing
+		// Testing by ratana ty
+		
+		
+		$profile_fields = array(
+			"gender",
+			"firstname",
+			"lastname",
+			"title",
+			"upload",
+			"institution",
+			"department",
+			"street",
+			"city",
+			"zipcode",
+			"country",
+			"phone_office",
+			"phone_home",
+			"phone_mobile",
+			"fax",
+			"email",
+			"hobby",
+			"matriculation",
+			"referral_comment",
+			"language",
+			"skin_style",
+			"hits_per_page",
+			"show_users_online",
+			"hide_own_online_status"
+		);
+		foreach ($profile_fields as $field)
+		{
+			if (!$this->ilias->getSetting("usr_settings_hide_" . $field))
+			{
+				if ($this->ilias->getSetting("usr_settings_disable_" . $field))
+				{
+					$this->tpl->setVariable("DISABLED_" . strtoupper($field), " disabled=\"disabled\"");
+				}
+			}
+		}
+		
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
 }
 ?>
