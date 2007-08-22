@@ -204,6 +204,8 @@ class SeqActivity{
 		
 		$ioChild->setOrder(count($this->mChildren) - 1);
 	    $ioChild->setActiveOrder(count($this->mChildren)- 1);
+		
+		//set parents on the client
 	    //$ioChild->setParent($this); 
 	}
 	

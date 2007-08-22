@@ -75,6 +75,7 @@ SeqRollupRuleset.prototype =
 		
 		// Evaluate all defined rollup rules for this activity.
 		// Make sure there is a legal target and a set of children. 
+		alert("Call");
 		if (ioThisActivity != null)
 		{
 			if (ioThisActivity.getChildren(false) != null)
@@ -91,7 +92,7 @@ SeqRollupRuleset.prototype =
 					//  Complete/Incomplete and Satisfied/Not Satisfied
 					for (var i = 0; i < this.mRollupRules.length; i++)
 					{
-						var rule = mRollupRules[i];
+						var rule = this.mRollupRules[i];
 						
 						if (rule.mAction == ROLLUP_ACTION_SATISFIED ||
 							rule.mAction == ROLLUP_ACTION_NOTSATISFIED)
@@ -168,7 +169,7 @@ SeqRollupRuleset.prototype =
 					var rule = new SeqRollupRule();
 					
 					set.mCombination = COMBINATION_ANY;
-					set.mConditions = new Vector();
+					set.mConditions = new Array();
 					
 					cond.mCondition = ATTEMPTED;
 					set.mConditions[0] = cond;

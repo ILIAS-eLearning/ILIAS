@@ -1202,8 +1202,8 @@ ADLSequencer.prototype =
 			while (path.length > 0  && (exited == null))
 			{
 				parent = path[path.length - 1];
-				delete path[path.length - 1];
-				
+				//delete path[path.length - 1];
+				path.splice(path.length - 1,1);
 				// Attempt to get rule information from the activity node
 				var exitRules = parent.getExitSeqRules();
 				
@@ -1583,6 +1583,7 @@ ADLSequencer.prototype =
 			
 			// Remove the Current Activity from the rollup set
 			delete rollupSet[ioTarget.getID()];
+			//rollupSet.splice(ioTarget.getID(),1);
 		}
 		
 		// Case #2 -- Rollup applies when the state of a global shared objective
@@ -1696,7 +1697,8 @@ ADLSequencer.prototype =
 		rollupRules.evaluate(ioTarget);
 		
 		// Remove this activity from the rollup set
-		delete ioRollupSet[ioTarget.getID()];    
+		delete ioRollupSet[ioTarget.getID()];
+		//ioRollupSet.splice(ioTarget.getID(),1);
 	},
 
 	prepareClusters: function ()
@@ -3239,11 +3241,14 @@ ADLSequencer.prototype =
 			
 			if (!temp.mIsEnabled)
 			{
-				delete oNewTOC[0];
+				//delete oNewTOC[0];
+				oNewTOC.splice(0,1);
 			}
 			else if (!temp.mLeaf)
 			{
-				oNewTOC.remove(0);
+				//oNewTOC.remove(0);
+				oNewTOC.splice(0,1);
+				
 			}
 		}
 		
@@ -3476,7 +3481,8 @@ ADLSequencer.prototype =
 					{
 						// Walk back up the tree to the parent's next sibling
 						walk = lookAt[lookAt.length - 1];
-						delete lookAt[lookAt.length - 1];
+						//delete lookAt[lookAt.length - 1];
+						lookAt.splice(lookAt.length - 1,1);
 						depth--;
 						
 						// Find the correct parent

@@ -138,7 +138,7 @@ SeqConditionSet.prototype =
 		var result = EVALUATE_UNKNOWN;
 		
 		// Make sure this condition exists
-		if (iIndex < this.mConditions.size())
+		if (iIndex < this.mConditions.length)
 		{
 			var cond = this.mConditions[iIndex];
 			

@@ -407,8 +407,8 @@ SeqActivityTree.prototype =
 				{
 					// Remove the activity from the 'lookat' list
 					walk = lookAt[0];
-					delete lookAt[0];
-					
+					//delete lookAt[0];
+					lookAt.splice(0,1);
 					// Start at the first child of the activity
 					walk = walk.getChildren(true)[0];
 				}
