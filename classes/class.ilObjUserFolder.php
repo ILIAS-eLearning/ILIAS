@@ -169,7 +169,7 @@ class ilObjUserFolder extends ilObject
 	function createXMLExport(&$settings, &$data, $filename)
 	{
 		include_once 'classes/class.ilUserDefinedData.php';
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 
 		global $rbacreview;
 		global $ilDB;

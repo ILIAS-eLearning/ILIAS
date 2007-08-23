@@ -259,7 +259,7 @@
 	<property name="view">view_content</property>
 	<property name="edit">edit_operations</property>
 </object>
-<object name="usr" class_name="User" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
+<object name="usr" class_name="User" location="Services/User/classes" module="Services/User" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
 	<property name="roleassignment">role_assignment</property>
 </object>

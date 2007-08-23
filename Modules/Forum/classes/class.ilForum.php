@@ -1307,7 +1307,7 @@ class ilForum
 	{
 		global $lng;
 
-		require_once("./classes/class.ilObjUser.php");
+		require_once('./Services/User/classes/class.ilObjUser.php');
 		
 		if (ilObject::_exists($a_row->pos_usr_id))
 		{
@@ -1592,7 +1592,7 @@ class ilForum
 		{
 			// SEND MESSAGE
 			include_once "Services/Mail/classes/class.ilMail.php";
-			include_once "./classes/class.ilObjUser.php";
+			include_once './Services/User/classes/class.ilObjUser.php';
 
 			$tmp_user =& new ilObjUser($parent_data["pos_usr_id"]);
 
@@ -1815,7 +1815,7 @@ class ilForum
 		global $ilDB;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		
 		// GET THREAD DATA
 		$q = "SELECT thr_subject FROM frm_threads WHERE ";
@@ -1848,7 +1848,7 @@ class ilForum
 		global $ilDB;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		
 		// GET THREAD DATA
 		$q = "SELECT thr_subject FROM frm_threads WHERE ";

@@ -2976,7 +2976,7 @@ class ilObjTest extends ilObject
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				include_once ("./classes/class.ilObjUser.php");
+				include_once ('./Services/User/classes/class.ilObjUser.php');
 				$uname = ilObjUser::_lookupName($this->_getUserIdFromActiveId($active_id));
 				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
 			}
@@ -3035,7 +3035,7 @@ class ilObjTest extends ilObject
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			include_once ("./classes/class.ilObjUser.php");
+			include_once ('./Services/User/classes/class.ilObjUser.php');
 			$uname = ilObjUser::_lookupName($this->_getUserIdFromActiveId($active_id));
 			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
 		}
@@ -4145,7 +4145,7 @@ class ilObjTest extends ilObject
 		$active = $this->getActiveTestUserFromActiveId($active_id);
 		$postponed = explode(",", $active->postponed);
 		$solved_questions = ilObjTest::_getSolvedQuestions($active_id);
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 	 	$user = new ilObjUser($user_id);
 		$sequence_array = split(",", $active->sequence);
 		foreach ($sequence_array as $question_index)
@@ -7604,7 +7604,7 @@ class ilObjTest extends ilObject
 		include_once "./classes/class.ilObjGroup.php";
 		$group = new ilObjGroup($group_id);
 		$members = $group->getGroupMemberIds();
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		foreach ($members as $user_id)
 		{
 			$this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
@@ -7623,7 +7623,7 @@ class ilObjTest extends ilObject
 	{
 		global $rbacreview;
 		$members =  $rbacreview->assignedUsers($role_id,"usr_id");
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		foreach ($members as $user_id)
 		{
 			$this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
@@ -9316,7 +9316,7 @@ class ilObjTest extends ilObject
 		}
 		else
 		{
-			include_once "./classes/class.ilObjUser.php";
+			include_once './Services/User/classes/class.ilObjUser.php';
 			$uname = ilObjUser::_lookupName($user_id);
 			if (strlen($uname["firstname"].$uname["lastname"]) == 0) $uname["firstname"] = $this->lng->txt("deleted_user");
 			if ($sorted_order)

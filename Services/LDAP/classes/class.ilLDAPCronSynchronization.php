@@ -101,7 +101,7 @@ class ilLDAPCronSynchronization
 	 */
 	private function deactivateUsers($a_ldap_users)
 	{
-	 	include_once './classes/class.ilObjUser.php';
+	 	include_once './Services/User/classes/class.ilObjUser.php';
 	 	
 	 	foreach($ext = ilObjUser::_getExternalAccountsByAuthMode('ldap',true) as $usr_id => $external_account)
 	 	{

@@ -3583,7 +3583,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		foreach ($_POST["chbUser"] as $key => $active_id)
@@ -3663,7 +3663,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$tblrow = array("tblrow1", "tblrow2");
 				$counter = 0;
-				include_once "./classes/class.ilObjUser.php";
+				include_once './Services/User/classes/class.ilObjUser.php';
 				foreach ($log as $entry)
 				{
 					$this->tpl->setCurrentBlock("changelog_row");

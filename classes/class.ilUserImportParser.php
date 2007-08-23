@@ -288,7 +288,7 @@ class ilUserImportParser extends ilSaxParser
 		$this->ilincdata = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
-		include_once "./classes/class.ilObjUser.php"; 
+		include_once './Services/User/classes/class.ilObjUser.php'; 
 		$this->userStyles = ilObjUser::_getAllUserAssignedStyles();
 		$settings = $ilias->getAllSettings();
 		if ($settings["usr_settings_hide_skin_style"] == 1)

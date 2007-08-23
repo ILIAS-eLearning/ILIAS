@@ -21,7 +21,7 @@
 +-----------------------------------------------------------------------------+
 */
 
-include_once "classes/class.ilObjUser.php";
+include_once './Services/User/classes/class.ilObjUser.php';
 include_once "Services/Mail/classes/class.ilMail.php";
 
 

@@ -24,7 +24,7 @@
 
 include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
 include_once("Services/MetaData/classes/class.ilMD.php");
-include_once('classes/class.ilObjUser.php');
+include_once('./Services/User/classes/class.ilObjUser.php');
 
 /**
 * Course XML Parser

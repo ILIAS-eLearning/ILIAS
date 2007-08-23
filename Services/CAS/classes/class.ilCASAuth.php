@@ -212,7 +212,7 @@ class ilCASAuth extends Auth
 			$username = phpCAS::getUser();
 
 			// Authorize this user
-			include_once("classes/class.ilObjUser.php");
+			include_once('./Services/User/classes/class.ilObjUser.php');
 			$local_user = ilObjUser::_checkExternalAuthAccount("cas", $username);
 
 			if ($local_user != "")

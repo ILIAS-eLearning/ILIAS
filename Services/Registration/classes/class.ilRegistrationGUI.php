@@ -466,7 +466,7 @@ class ilRegistrationGUI
 		}
 		// The password type is not passed in the post data. Therefore we
 		// append it here manually.
-		require_once "classes/class.ilObjUser.php";
+		require_once './Services/User/classes/class.ilObjUser.php';
 		$_POST["user"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
@@ -662,7 +662,7 @@ class ilRegistrationGUI
 		global $ilias;
 		
 		include_once 'classes/class.ilLanguage.php';
-		include_once 'classes/class.ilObjUser.php';
+		include_once './Services/User/classes/class.ilObjUser.php';
         include_once "Services/Mail/classes/class.ilFormatMail.php";
 
 

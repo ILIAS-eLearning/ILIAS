@@ -2100,7 +2100,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "usr":
-				include_once "./classes/class.ilObjUser.php";
+				include_once './Services/User/classes/class.ilObjUser.php';
 				$counter = 0;
 				foreach ($id_array as $user_id)
 				{

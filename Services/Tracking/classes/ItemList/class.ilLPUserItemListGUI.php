@@ -56,7 +56,7 @@ class ilLPUserItemListGUI extends ilLPObjectItemListGUI
 	{
 		global $ilObjDataCache;
 
-		include_once 'classes/class.ilObjUser.php';
+		include_once './Services/User/classes/class.ilObjUser.php';
 
 		$login = '['.ilObjUser::_lookupLogin($this->getCurrentUser()).']';
 		$fullname = $ilObjDataCache->lookupTitle($this->getCurrentUser());

@@ -146,7 +146,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			return false;
 		}
 
-		include_once("classes/class.ilObjUser.php");
+		include_once('./Services/User/classes/class.ilObjUser.php');
 		$local_user = ilObjUser::_checkExternalAuthAccount("cas", $this->auth->getCASUser());
 		if ($local_user == "")
 		{

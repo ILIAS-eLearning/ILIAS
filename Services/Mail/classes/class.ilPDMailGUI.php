@@ -22,7 +22,7 @@
 */
 
 #require_once "./include/inc.mail.php";
-require_once "classes/class.ilObjUser.php";
+require_once './Services/User/classes/class.ilObjUser.php';
 require_once "Services/Mail/classes/class.ilMail.php";
 
 /**

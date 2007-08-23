@@ -1340,7 +1340,7 @@ class ilObjSurvey extends ilObject
 				);
 				$result = $ilDB->query($query);
 				include_once "./classes/class.ilObjGroup.php";
-				include_once "./classes/class.ilObjUser.php";
+				include_once './Services/User/classes/class.ilObjUser.php';
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$group = new ilObjGroup($row["group_fi"]);
@@ -2937,7 +2937,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($this->getInvitation() == INVITATION_ON)
 		{
-			include_once "./classes/class.ilObjUser.php";
+			include_once './Services/User/classes/class.ilObjUser.php';
 			if (ilObjUser::_lookupLogin($user_id))
 			{
 				$userObj = new ilObjUser($user_id);
@@ -2973,7 +2973,7 @@ class ilObjSurvey extends ilObject
 		}
 		if ($this->getInvitation() == INVITATION_ON)
 		{
-			include_once "./classes/class.ilObjUser.php";
+			include_once './Services/User/classes/class.ilObjUser.php';
 			if (ilObjUser::_lookupLogin($user_id))
 			{
 				$userObj = new ilObjUser($user_id);
@@ -3503,7 +3503,7 @@ class ilObjSurvey extends ilObject
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && ($this->getAnonymize() == 0))
 			{
-				include_once "./classes/class.ilObjUser.php";
+				include_once './Services/User/classes/class.ilObjUser.php';
 				if (strlen(ilObjUser::_lookupLogin($row["user_fi"])) == 0)
 				{
 					$userdata["fullname"] = $this->lng->txt("deleted_user");

@@ -729,7 +729,7 @@ class ilMail
 		global $log;
 		//$log->write('class.ilMail.distributeMail '.$a_rcp_to.' '.$a_subject);
 		include_once "Services/Mail/classes/class.ilMailbox.php";
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 
 		if (! ilMail::_usePearMail())
 		{
@@ -1764,7 +1764,7 @@ class ilMail
 		{
 			if ($login == null)
 			{
-				require_once 'classes/class.ilObjUser.php';
+				require_once './Services/User/classes/class.ilObjUser.php';
 				$usr_obj = new ilObjUser($usr_id);
 				$usr_obj->read();
 				$login = $usr_obj->getLogin();
