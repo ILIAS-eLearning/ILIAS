@@ -168,7 +168,7 @@ class ilObjUserFolder extends ilObject
 
 	function createXMLExport(&$settings, &$data, $filename)
 	{
-		include_once 'classes/class.ilUserDefinedData.php';
+		include_once './Services/User/classes/class.ilUserDefinedData.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
 
 		global $rbacreview;
@@ -179,7 +179,7 @@ class ilObjUserFolder extends ilObject
 
 		if (is_array($data))
 		{
-			  	include_once './classes/class.ilUserXMLWriter.php';
+			  	include_once './Services/User/classes/class.ilUserXMLWriter.php';
 
 			  	$xmlWriter = new ilUserXMLWriter();
 			  	$xmlWriter->setObjects($data);

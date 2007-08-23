@@ -1233,7 +1233,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 		include_once './classes/class.ilObjRole.php';
-		include_once './classes/class.ilUserImportParser.php';
+		include_once './Services/User/classes/class.ilUserImportParser.php';
 		
 		global $rbacreview, $rbacsystem, $tree, $lng;
 		
@@ -1300,7 +1300,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				." ".$subdir."/".$subdir.".xml", $this->ilias->error_obj->MESSAGE);
 		}
 
-		require_once("classes/class.ilUserImportParser.php");
+		require_once("./Services/User/classes/class.ilUserImportParser.php");
 
 		// Verify the data
 		// ---------------
@@ -1579,7 +1579,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		include_once './classes/class.ilObjRole.php';
-		include_once './classes/class.ilUserImportParser.php';
+		include_once './Services/User/classes/class.ilUserImportParser.php';
 
 		global $rbacreview, $rbacsystem, $tree, $lng;
 
@@ -2020,7 +2020,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		unset($_SESSION['select_num_values']);
 		unset($_SESSION['num_values']);
 
-		include_once './classes/class.ilUserDefinedFields.php';	
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';	
 
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('global_settings');
@@ -2105,7 +2105,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	function editTextFieldObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$udf =& ilUserDefinedFields::_getInstance();
 		$definition = $udf->getDefinition((int) $_GET['field_id']);
 
@@ -2132,7 +2132,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function updateTextFieldObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		
 		$udf =& ilUserDefinedFields::_getInstance();
 		$definition = $udf->getDefinition((int) $_GET['field_id']);
@@ -2156,7 +2156,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function editSelectFieldObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		$_SESSION['select_num_values'] = $_SESSION['select_num_values'] ? $_SESSION['select_num_values'] : 0;
 
@@ -2212,7 +2212,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function updateSelectFieldObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		
 		$_POST['field_values'] = is_array($_POST['field_values']) ? $_POST['field_values'] : array();
@@ -2257,7 +2257,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function deleteValueObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		
 		$udf =& ilUserDefinedFields::_getInstance();
 		$udf->deleteValue((int) $_GET['field_id'],(int) $_GET['value_id']);
@@ -2277,7 +2277,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 	function askDeleteFieldObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		ilUtil::sendInfo($this->lng->txt('udf_delete_sure'));
 
@@ -2304,7 +2304,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 	function deleteFieldObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 
 		$user_field_definitions->delete((int) $_GET['field_id']);
@@ -2322,7 +2322,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function updateFieldsObject($action = "")
 	{
-		include_once './classes/class.ilUserDefinedFields.php';		
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';		
 		
 		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 		$a_fields = $user_field_definitions->getDefinitions();
@@ -2375,7 +2375,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function chooseFieldTypeObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		// number of values defaults to 3
 		$_SESSION['num_values'] = 3;
@@ -2400,7 +2400,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function chooseDefinitionsObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('global_settings');
@@ -2525,7 +2525,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function saveFieldObject()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 
 		if (!strlen($_POST['field_name']))

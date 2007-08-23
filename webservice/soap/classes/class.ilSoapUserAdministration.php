@@ -640,7 +640,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		include_once './classes/class.ilUserImportParser.php';
+		include_once './Services/User/classes/class.ilUserImportParser.php';
 		include_once './classes/class.ilObjRole.php';
 		include_once './classes/class.ilObjectFactory.php';
 		global $rbacreview, $rbacsystem, $tree, $lng,$ilUser;
@@ -990,7 +990,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 			if (is_array($data))
 			{
-			  	include_once './classes/class.ilUserXMLWriter.php';
+			  	include_once './Services/User/classes/class.ilUserXMLWriter.php';
 
 			  	$xmlWriter = new ilUserXMLWriter();
 			  	$xmlWriter->setObjects($data);
@@ -1047,7 +1047,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 
 		$data = ilObjUser::_getUsersForRole($role_id, $active);
-		include_once './classes/class.ilUserXMLWriter.php';
+		include_once './Services/User/classes/class.ilUserXMLWriter.php';
 
 		$xmlWriter = new ilUserXMLWriter();
 		$xmlWriter->setAttachRoles($attachRoles);
@@ -1197,7 +1197,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		      $data[] = $row;
 		 }
 
-		 include_once './classes/class.ilUserXMLWriter.php';
+		 include_once './Services/User/classes/class.ilUserXMLWriter.php';
 
 		 $xmlWriter = new ilUserXMLWriter();
 		 $xmlWriter->setAttachRoles($attach_roles);
@@ -1274,7 +1274,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$data = ilObjUser::_getUserData($a_user_ids);
 
-		include_once './classes/class.ilUserXMLWriter.php';
+		include_once './Services/User/classes/class.ilUserXMLWriter.php';
 		$xmlWriter = new ilUserXMLWriter();
 		$xmlWriter->setAttachRoles($attach_roles);
 		$xmlWriter->setObjects($data);

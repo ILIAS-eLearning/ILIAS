@@ -1142,7 +1142,7 @@ class ilUserImportParser extends ilSaxParser
 
 							if(count($this->udf_data))
 							{
-								include_once 'classes/class.ilUserDefinedData.php';
+								include_once './Services/User/classes/class.ilUserDefinedData.php';
 								$udd = new ilUserDefinedData($this->userObj->getId());
 								foreach($this->udf_data as $field => $value)
 								{
@@ -1251,7 +1251,7 @@ class ilUserImportParser extends ilSaxParser
 
 							if(count($this->udf_data))
 							{
-								include_once 'classes/class.ilUserDefinedData.php';
+								include_once './Services/User/classes/class.ilUserDefinedData.php';
 								$udd = new ilUserDefinedData($updateUser->getId());
 								foreach($this->udf_data as $field => $value)
 								{
@@ -1478,7 +1478,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 				
 			case 'UserDefinedField':
-				include_once 'classes/class.ilUserDefinedFields.php';
+				include_once './Services/User/classes/class.ilUserDefinedFields.php';
 				$udf = ilUserDefinedFields::_getInstance();
 				if($field_id = $udf->fetchFieldIdFromImportId($this->tmp_udf_id))
 				{
