@@ -65,7 +65,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		switch($next_class)
 		{
 			case "ilobjusergui":
-				include_once("./classes/class.ilObjUserGUI.php");
+				include_once('./Services/User/classes/class.ilObjUserGUI.php');
 				
 				$this->tabs_gui->setTabActive('administrate_users');
 				if(!$_GET['obj_id'])
@@ -896,7 +896,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		global $ilUser,$rbacreview;
 
 		include_once './classes/class.ilLocalUser.php';
-		include_once './classes/class.ilObjUserGUI.php';
+		include_once './Services/User/classes/class.ilObjUserGUI.php';
 
 		global $rbacsystem,$rbacreview;
 

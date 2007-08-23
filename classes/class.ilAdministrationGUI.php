@@ -166,7 +166,7 @@ class ilAdministrationGUI
 		{
 			/*
 			case "ilobjusergui":
-				include_once("./classes/class.ilObjUserGUI.php");
+				include_once('./Services/User/classes/class.ilObjUserGUI.php');
 
 				if(!$_GET['obj_id'])
 				{

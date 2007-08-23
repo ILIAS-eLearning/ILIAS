@@ -2196,7 +2196,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm_loc->showUser(true);
 		$frm_loc->display();
 		
-		require_once ("classes/class.ilObjUserGUI.php");
+		require_once ('./Services/User/classes/class.ilObjUserGUI.php');
 		
 		$_GET["obj_id"] = $_GET["user"];
 		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);

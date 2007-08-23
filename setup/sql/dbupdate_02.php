@@ -2153,3 +2153,9 @@ $ilCtrlStructureReader->getStructure();
 
 <#1051>
 ALTER TABLE `cp_package` ADD `activitytree` TEXT;
+
+<#1052>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

@@ -194,7 +194,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilobjusergui':
-				require_once "./classes/class.ilObjUserGUI.php";
+				require_once './Services/User/classes/class.ilObjUserGUI.php';
 				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 				$html = $this->ctrl->forwardCommand($user_gui);
 				$this->__setSubTabs('members');

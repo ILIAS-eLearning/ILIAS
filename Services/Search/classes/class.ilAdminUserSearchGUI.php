@@ -93,7 +93,7 @@ class ilAdminUserSearchGUI
 		switch($next_class)
 		{
 			case "ilobjusergui":	// never called, see workaround in objuserfoldergui
-				include_once("classes/class.ilObjUserGUI.php");
+				include_once('./Services/User/classes/class.ilObjUserGUI.php');
 				$this->gui_obj = new ilObjUserGUI("",(int) $_GET["obj_id"], false, false);
 				$this->gui_obj->setBackTarget($this->lng->txt("search_results"),
 					$this->ctrl->getLinkTarget($this, "show"));

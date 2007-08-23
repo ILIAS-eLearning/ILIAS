@@ -32,7 +32,7 @@
 */
 
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilObjUserGUI.php";
+require_once './Services/User/classes/class.ilObjUserGUI.php';
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile_view.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
