@@ -35,7 +35,7 @@ chdir("..");
 define('ILIAS_MODULE','Modules/Chat');
 
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilObjUserGUI.php";
+require_once './Services/User/classes/class.ilObjUserGUI.php';
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.chat_profile_view.html",'Modules/Chat');
 

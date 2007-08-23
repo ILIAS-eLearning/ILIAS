@@ -141,7 +141,7 @@ class ilPersonalDesktopGUI
 			
 				// profile
 			case "ilobjusergui":
-				include_once("classes/class.ilObjUserGUI.php");
+				include_once('./Services/User/classes/class.ilObjUserGUI.php');
 				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 				$ret =& $this->ctrl->forwardCommand($user_gui);
 				break;
@@ -707,7 +707,7 @@ class ilPersonalDesktopGUI
 		
 		$this->prepareContentView();
 		
-		include_once("classes/class.ilObjUserGUI.php");
+		include_once('./Services/User/classes/class.ilObjUserGUI.php');
 		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");

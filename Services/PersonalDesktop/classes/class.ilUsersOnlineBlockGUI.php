@@ -104,7 +104,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			// profile
 			case "ilobjusergui":
-				include_once("classes/class.ilObjUserGUI.php");
+				include_once('./Services/User/classes/class.ilObjUserGUI.php');
 				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 				$return = $ilCtrl->forwardCommand($user_gui);
 				break;
@@ -517,7 +517,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	function showUserProfile()
 	{
 		global $lng, $ilCtrl;
-		include_once("classes/class.ilObjUserGUI.php");
+		include_once('./Services/User/classes/class.ilObjUserGUI.php');
 		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
