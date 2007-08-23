@@ -895,7 +895,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		global $ilUser,$rbacreview;
 
-		include_once './classes/class.ilLocalUser.php';
+		include_once './Services/User/classes/class.ilLocalUser.php';
 		include_once './Services/User/classes/class.ilObjUserGUI.php';
 
 		global $rbacsystem,$rbacreview;
@@ -1032,7 +1032,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function performDeleteUsersObject()
 	{
-		include_once './classes/class.ilLocalUser.php';
+		include_once './Services/User/classes/class.ilLocalUser.php';
 
 		foreach($_SESSION['delete_users'] as $user_id)
 		{
@@ -1072,7 +1072,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		global $rbacreview;
 
-		include_once './classes/class.ilLocalUser.php';
+		include_once './Services/User/classes/class.ilLocalUser.php';
 
 		if(!isset($_GET['obj_id']))
 		{
@@ -1126,7 +1126,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		global $rbacreview,$rbacadmin;
 
-		include_once './classes/class.ilLocalUser.php';
+		include_once './Services/User/classes/class.ilLocalUser.php';
 		// check hack
 		if(!isset($_GET['obj_id']) or !in_array($_REQUEST['obj_id'],ilLocalUser::_getAllUserIds()))
 		{
