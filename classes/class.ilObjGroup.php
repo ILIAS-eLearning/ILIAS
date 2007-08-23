@@ -1526,7 +1526,7 @@ class ilObjGroup extends ilContainer
 		// Used for membership limitations -> check membership by given field
 		if($a_field)
 		{
-			include_once 'classes/class.ilObjUser.php';
+			include_once './Services/User/classes/class.ilObjUser.php';
 
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($a_user_id);
 			switch($a_field)

@@ -121,7 +121,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$frm_data = ilForum::_lookupForumData($this->obj_id);
 		$frm_anonymized = ilForum::_isAnonymized($this->obj_id);
 
-		include_once("classes/class.ilObjUser.php");
+		include_once('./Services/User/classes/class.ilObjUser.php');
 		$MODS = ilForum::_getModerators($this->ref_id);
 
 		$moderators = "";

@@ -680,7 +680,7 @@ class ilTestServiceGUI
 	function getResultsUserdata($active_id, $overwrite_anonymity = FALSE)
 	{
 		$template = new ilTemplate("tpl.il_as_tst_results_userdata.html", TRUE, TRUE, "Modules/Test");
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$user = new ilObjUser($user_id);
 		$active =& $this->object->getActiveTestUserFromActiveId($active_id);

@@ -642,7 +642,7 @@ class ilStartUpGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		include_once("classes/class.ilObjUser.php");
+		include_once('./Services/User/classes/class.ilObjUser.php');
 		if (count($email_user) == 1)
 		{
 			//$user = new ilObjUser(key($email_user));

@@ -47,7 +47,7 @@ class ilCronForumNotification
 
 		include_once "./Modules/Forum/classes/class.ilObjForum.php";
 		include_once "Services/Mail/classes/class.ilMail.php";
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		include_once "./classes/class.ilLanguage.php";
 		
 		$forumObj = new ilObjForum($_GET["ref_id"]);

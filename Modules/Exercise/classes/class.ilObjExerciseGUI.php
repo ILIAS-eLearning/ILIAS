@@ -531,7 +531,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				case "redirectFeedbackMail":
 					$this->redirectFeedbackMailObject();
 					/*
-					include_once("./classes/class.ilObjUser.php");
+					include_once('./Services/User/classes/class.ilObjUser.php');
 
 					if (!count($_POST["member"]))
 					{
@@ -992,7 +992,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		else if(count($_POST["member"]) > 0)
 		{
-			include_once("./classes/class.ilObjUser.php");
+			include_once('./Services/User/classes/class.ilObjUser.php');
 			$logins = array();
 			foreach($_POST["member"] as $member => $val)
 			{

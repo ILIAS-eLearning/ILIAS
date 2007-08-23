@@ -62,7 +62,7 @@ class ilLocalUser
 	// STATIC
 	function _getUserData($a_filter)
 	{
-		include_once './classes/class.ilObjUser.php';
+		include_once './Services/User/classes/class.ilObjUser.php';
 
 		$users_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","time_limit_owner"),-1);
 

@@ -499,7 +499,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function setUserLanguageObject()
 	{
-		require_once "classes/class.ilObjUser.php";
+		require_once './Services/User/classes/class.ilObjUser.php';
 
 		if (!isset($_POST["id"]))
 		{
