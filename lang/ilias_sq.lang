@@ -7496,3 +7496,64 @@ auth#:#auth_rad_migration_info#:#Activate this option to give new users the poss
 auth#:#auth_account_migration#:#New ILIAS Account###16 08 2007 new variable
 auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).###16 08 2007 new variable
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created###16 08 2007 new variable
+common#:#res_links#:#Repository Links###23 08 2007 new variable
+administration#:#language_administration#:#Language Administration###23 08 2007 new variable
+administration#:#language_all_modules#:#All modules###23 08 2007 new variable
+administration#:#language_change_settings#:#Change Language Settings###23 08 2007 new variable
+administration#:#language_clear_local_changes#:#Clear local changes in the database###23 08 2007 new variable
+administration#:#language_cleared_local#:#The local changes were cleared in the database.###23 08 2007 new variable
+administration#:#language_compare#:#Compare:###23 08 2007 new variable
+administration#:#language_default_entries#:# (default entries)###23 08 2007 new variable
+administration#:#language_delete_local_changes#:#Delete all local changes in the database###23 08 2007 new variable
+administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!###23 08 2007 new variable
+administration#:#language_error_read_local#:#The local language file doesn't exist or can't be read!###23 08 2007 new variable
+administration#:#language_error_write_local#:#The local language file can't be written!###23 08 2007 new variable
+administration#:#language_export_file#:#Export Language File###23 08 2007 new variable
+administration#:#language_file_imported#:#The language file %s was imported.###23 08 2007 new variable
+administration#:#language_file_scope#:#Language file scope###23 08 2007 new variable
+administration#:#language_import_file#:#Import Language File###23 08 2007 new variable
+administration#:#language_load_local_changes#:#Load local language file into the database###23 08 2007 new variable
+administration#:#language_loaded_local#:#The local language file was loaded into the database.###23 08 2007 new variable
+administration#:#language_maintain#:#Maintain###23 08 2007 new variable
+administration#:#language_maintain_local_changes#:#Maintain local changes###23 08 2007 new variable
+administration#:#language_maintenance#:#Language Maintenance###23 08 2007 new variable
+administration#:#language_mode_existing#:#Existing Entries###23 08 2007 new variable
+administration#:#language_mode_existing_delete#:#Delete existing entries###23 08 2007 new variable
+administration#:#language_mode_existing_keepall#:#Keep all existing entries###23 08 2007 new variable
+administration#:#language_mode_existing_keepnew#:#Keep all local changes###23 08 2007 new variable
+administration#:#language_mode_existing_replace#:#Replace existing entries###23 08 2007 new variable
+administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and re-import them if needed.###23 08 2007 new variable
+administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
+administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
+administration#:#language_save_local_changes#:#Save all changes to the local language file###23 08 2007 new variable
+administration#:#language_saved_local#:#All changes were saved to the local language file.###23 08 2007 new variable
+administration#:#language_scope_commented#:#With comments from language manager###23 08 2007 new variable
+administration#:#language_scope_different#:#Different from compare language###23 08 2007 new variable
+administration#:#language_scope_equal#:#Equal to compare language###23 08 2007 new variable
+administration#:#language_scope_global#:#All entries###23 08 2007 new variable
+administration#:#language_scope_local#:#Local changes only###23 08 2007 new variable
+administration#:#language_scope_translate#:#All entries, empty for translation###23 08 2007 new variable
+administration#:#language_scope_unchanged#:#Unchanged entries only###23 08 2007 new variable
+administration#:#language_settings#:#Language Settings###23 08 2007 new variable
+administration#:#language_statistics#:#Statistics###23 08 2007 new variable
+administration#:#language_translation_disabled#:#Page translation disabled###23 08 2007 new variable
+administration#:#language_translation_enabled#:#Page translation enabled###23 08 2007 new variable
+administration#:#language_translation_mode#:#Translation mode###23 08 2007 new variable
+ldap#:#ldap_role_assignments#:#Role Assignment###23 08 2007 new variable
+ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 08 2007 new variable
+ldap#:#ldap_assignment_type#:#Assignment Type###23 08 2007 new variable
+ldap#:#ldap_role_by_group#:#Groupmembership###23 08 2007 new variable
+ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.###23 08 2007 new variable
+ldap#:#ldap_role_grp_at#:#Attribute###23 08 2007 new variable
+ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.###23 08 2007 new variable
+ldap#:#ldap_role_grp_isdn#:#Attribute value is DN###23 08 2007 new variable
+ldap#:#ldap_role_by_attribute#:#LDAP Attribute###23 08 2007 new variable
+ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.###23 08 2007 new variable
+ldap#:#ldap_role_at_name#:#Attribute Name###23 08 2007 new variable
+ldap#:#ldap_role_at_value#:#Attribute Value###23 08 2007 new variable
+ldap#:#ldap_tbl_role_ass#:#Avtive Rules###23 08 2007 new variable
+ldap#:#ldap_rule_condition#:#condition###23 08 2007 new variable
+ldap#:#ldap_btn_add_role_ass#:#Add New Rule###23 08 2007 new variable
+ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule###23 08 2007 new variable
+ldap#:#ldap_rule_type#:#Type of Assignment###23 08 2007 new variable
+ldap#:#ldap_confirm_del_role_ass#:#Delete Role Assignmen###23 08 2007 new variable
