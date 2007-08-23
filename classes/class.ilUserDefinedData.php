@@ -63,7 +63,7 @@ class ilUserDefinedData
 
 	function update()
 	{
-		include_once 'classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$udf_obj =& ilUserDefinedFields::_getInstance();
 
 		$sql = '';
@@ -96,7 +96,7 @@ class ilUserDefinedData
 	*/
 	function addToXML($xml_writer)
 	{
-		include_once 'classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$udf_obj =& ilUserDefinedFields::_getInstance();
 
 		foreach($udf_obj->getDefinitions() as $definition)

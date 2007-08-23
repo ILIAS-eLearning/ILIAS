@@ -92,7 +92,7 @@ class ilLDAPAttributeToUser
 		
 		$this->usersToXML();
 		
-		include_once './classes/class.ilUserImportParser.php';
+		include_once './Services/User/classes/class.ilUserImportParser.php';
 		$importParser = new ilUserImportParser();
 		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
 		$importParser->setRoleAssignment($this->role_assignment->getPossibleRoles());

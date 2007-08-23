@@ -48,7 +48,7 @@ class ilPersonalProfileGUI
     {
         global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl;
 
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 
         $this->tpl =& $tpl;

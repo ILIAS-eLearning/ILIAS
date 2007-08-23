@@ -90,7 +90,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__buildHeader();
 
 
-	    include_once ("classes/class.ilUserDefinedFields.php");
+	    include_once ("./Services/User/classes/class.ilUserDefinedFields.php");
 		$udf_data = & ilUserDefinedFields::_getInstance();
 		$udf_data->addToXML($this);
 
@@ -263,7 +263,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("LastUpdate", $row["last_update"], null, "last_update");
 		$this->__addElement ("LastLogin", $row["last_login"], null, "last_login");
 
-		include_once ("classes/class.ilUserDefinedData.php");
+		include_once ("./Services/User/classes/class.ilUserDefinedData.php");
 		$udf_data = new ilUserDefinedData($row['usr_id']);
 		$udf_data->addToXML($this, $this->settings);
 

@@ -84,7 +84,7 @@ class ilRadiusAttributeToUser
 		$this->writer->xmlEndTag('Users');
 		$this->log->write('Radius: Started creation of user: '.$new_name);
 		
-		include_once './classes/class.ilUserImportParser.php';
+		include_once './Services/User/classes/class.ilUserImportParser.php';
 		$importParser = new ilUserImportParser();
 		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
 		$importParser->setRoleAssignment(array($this->rad_settings->getDefaultRole() => $this->rad_settings->getDefaultRole()));
