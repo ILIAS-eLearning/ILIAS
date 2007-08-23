@@ -35,7 +35,7 @@
 * @extends ilObjectGUI
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "./classes/class.ilObjectGUI.php";
 
 class ilObjUserFolderGUI extends ilObjectGUI
 {
@@ -1549,7 +1549,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// new account mail
 		$this->lng->loadLanguageModule("mail");
-		include_once './classes/class.ilObjUserFolder.php';
+		include_once './Services/User/classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{

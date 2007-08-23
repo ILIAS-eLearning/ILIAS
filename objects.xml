@@ -263,7 +263,7 @@
 	<property name="edit">edit_properties</property>
 	<property name="roleassignment">role_assignment</property>
 </object>
-<object name="usrf" class_name="UserFolder" location="classes" checkbox="0" inherit="1" translate="sys" rbac="1" system="1">
+<object name="usrf" class_name="UserFolder" location="Services/User/classes" module="Services/User" checkbox="0" inherit="1" translate="sys" rbac="1" system="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="usr">usr</subobj>
 	<property name="view">view_content</property>

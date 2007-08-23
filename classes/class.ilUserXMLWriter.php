@@ -36,7 +36,7 @@
 */
 
 include_once "./classes/class.ilXmlWriter.php";
-include_once "./classes/class.ilObjUserFolder.php";
+include_once './Services/User/classes/class.ilObjUserFolder.php';
 
 class ilUserXMLWriter extends ilXmlWriter
 {
@@ -132,7 +132,7 @@ class ilUserXMLWriter extends ilXmlWriter
 	{
 		global $ilDB;
 		if (!is_array ($this->settings))  {
-			include_once ('classes/class.ilObjUserFolder.php');
+			include_once ('./Services/User/classes/class.ilObjUserFolder.php');
 			$this->setSettings(ilObjUserFolder::getExportSettings());
 		}
 		

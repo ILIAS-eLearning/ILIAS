@@ -190,7 +190,7 @@ class ilAdministrationGUI
 				
 			/*
 			case "ilobjuserfoldergui":
-				include_once("./classes/class.ilObjUserFolderGUI.php");
+				include_once('./Services/User/classes/class.ilObjUserFolderGUI.php');
 
 				$this->gui_obj = new ilObjUserFolderGUI("", $_GET['ref_id'],true, false);
 				$this->gui_obj->setCreationMode($this->creation_mode);

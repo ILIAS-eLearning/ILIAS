@@ -83,7 +83,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 
 			case "ilobjuserfoldergui":
-				include_once("./classes/class.ilObjUserFolderGUI.php");
+				include_once('./Services/User/classes/class.ilObjUserFolderGUI.php');
 
 				$this->tabs_gui->setTabActive('administrate_users');
 				$this->gui_obj = new ilObjUserFolderGUI("",(int) $_GET['ref_id'],true, false);
