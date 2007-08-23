@@ -4,6 +4,8 @@ function ADLSeqUtilities()
 {
 	this.satisfied = new Array();
 	this.measure = new Array();
+	this.status = new Array();
+	
 }
 ADLSeqUtilities.prototype = 
 {

@@ -524,6 +524,7 @@
 						$curRule=$ruleInfo->item($j);
 						//check for element
 						if ($curRule->nodeType == XML_ELEMENT_NODE) {
+						  if ($con->localName == "rollupConditions") {
 							$tempVal = $curRule->getAttribute("conditionCombination");
 			               	if($tempVal) {
 								$rule->mConditions['_SeqConditionSet']->mCombination = $tempVal;
@@ -549,9 +550,9 @@
 									//add class
 									$c_cond['_SeqCondition'] = $cond;
 									array_push($conditions,$c_cond);
-								}
-							}
+								}								
 							
+						  }	
 						}
 					}	
 					else if ($curRule->localName == "rollupAction") {
@@ -563,14 +564,14 @@
 				  }
 				
 				}
-					
+			   }
 				// Add the conditions to the condition set for the rule
 		         $rule->mConditions['_SeqConditionSet']->mConditions = $conditions;
 
 	           // Add the rule to the ruleset
 				//add class 
 				$c_rule['_SeqRollupRule']=$rule;
-				array_push($rollupRules,$rule);
+				array_push($rollupRules,$c_rule);
 				}
 			}
 		}
