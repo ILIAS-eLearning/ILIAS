@@ -374,7 +374,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		// new account mail
-		include_once 'classes/class.ilObjUserFolder.php';
+		include_once './Services/User/classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{

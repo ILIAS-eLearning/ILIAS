@@ -288,7 +288,7 @@ class ilSOAPAuth extends Auth
 			// send account mail
 			if ($ilSetting->get("soap_auth_account_mail"))
 			{
-				include_once("classes/class.ilObjUserFolder.php");
+				include_once('./Services/User/classes/class.ilObjUserFolder.php');
 				$amail = ilObjUserFolder::_lookupNewAccountMail($ilSetting->get("language"));
 				if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 				{

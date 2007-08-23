@@ -695,7 +695,7 @@ class ilRegistrationGUI
 		
 		// try individual account mail in user administration
 		include_once("Services/Mail/classes/class.ilAccountMail.php");
-		include_once 'classes/class.ilObjUserFolder.php';
+		include_once './Services/User/classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{
