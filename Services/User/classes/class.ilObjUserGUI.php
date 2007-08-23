@@ -2375,7 +2375,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function deliverVCardObject()
 	{
-		require_once "./classes/class.ilvCard.php";
+		require_once "./Services/User/classes/class.ilvCard.php";
 		$vcard = new ilvCard();
 		
 		if ($this->object->getPref("public_profile")!="y")
