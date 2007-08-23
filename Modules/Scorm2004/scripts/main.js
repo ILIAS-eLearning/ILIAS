@@ -1096,7 +1096,7 @@ function onDocumentClick (e)
 		
 		if (navType==='Continue') {
 			mlaunch = msequencer.navigate(NAV_CONTINUE);
-			sclogdump(mlaunch);
+		//	sclogdump(mlaunch);
 			
 		}
 		
@@ -1513,12 +1513,14 @@ function init(config)
 		//set parents
 	    adlTree= setParents(adlTree);
 		//assign Tree
-		
-		var actTree = new SeqActivityTree("","","","");
-		actTree.setRoot(adlTree);
+		//scope equals courseID 
+		var actTree = new SeqActivityTree(this.config.course_id,this.config.learner_id,this.config.course_id,adlTree);
+	//	actTree.setLearnerID(this.config.learner_id);
+		//actTree.setRoot(adlTree);
 		actTree.setDepths();
-        actTree.setTreeCount();
-		//set parents
+		actTree.setTreeCount();
+	//	actTree.setScopeID(this.config.course_id);
+		
 		msequencer.setActivityTree(actTree);	
 	}		
 	
@@ -1610,6 +1612,9 @@ function buildADLtree(act,obj){
 			obj[index] = res2;   		
 		} else if (!(act[index] instanceof Array) && !(index.substr(0,1) == "_")){
 			value = act[index];
+			//set learner id and course id
+			if (index == "mLearnerID") {value = this.config.learner_id;}
+			if (index == "mScopeID") {value = this.config.course_id;}
 			obj[index] = value;
 		}
     }

@@ -1532,7 +1532,7 @@ ADLSequencer.prototype =
 
 	invokeRollup: function (ioTarget, iWriteObjIDs)
 	{
-		var rollupSet = new Object();		// Hashtable
+		var rollupSet = new Array();		// Hashtable
 		
 		// Case #1 -- Rollup applies along the active path
 		if (ioTarget == this.mSeqTree.getCurrentActivity())
@@ -1582,8 +1582,8 @@ ADLSequencer.prototype =
 			}
 			
 			// Remove the Current Activity from the rollup set
-			delete rollupSet[ioTarget.getID()];
-			//rollupSet.splice(ioTarget.getID(),1);
+			//delete rollupSet[ioTarget.getID()];
+			rollupSet.splice(ioTarget.getID(),1);
 		}
 		
 		// Case #2 -- Rollup applies when the state of a global shared objective
@@ -1624,6 +1624,8 @@ ADLSequencer.prototype =
 		// Perform the deterministic rollup extension
 		while (rollupSet.length != 0)
 		{
+			alert(rollupSet.length);
+			
 			// Find the deepest activity
 			var deepest = null;
 			var depth = -1;
@@ -1673,7 +1675,6 @@ ADLSequencer.prototype =
 							? "completed"
 							: "incomplete";
 					}
-					
 					adl_seq_utilities.setCourseStatus(this.mSeqTree.getCourseID(),
 						this.mSeqTree.getLearnerID(),satisfied,measure,completed);
 				}
@@ -1697,8 +1698,8 @@ ADLSequencer.prototype =
 		rollupRules.evaluate(ioTarget);
 		
 		// Remove this activity from the rollup set
-		delete ioRollupSet[ioTarget.getID()];
-		//ioRollupSet.splice(ioTarget.getID(),1);
+		//delete ioRollupSet[ioTarget.getID()];
+		ioRollupSet.splice(ioTarget.getID(),1);
 	},
 
 	prepareClusters: function ()

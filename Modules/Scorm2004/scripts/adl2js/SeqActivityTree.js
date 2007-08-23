@@ -116,7 +116,8 @@ SeqActivityTree.prototype =
 			{
 				for (var act in this.mActivityMap)
 				{
-					act.setScopeID(mScopeID);
+					alert(act.mTitle);
+					act.setScopeID(this.mScopeID);
 				}
 			}
 		}

@@ -75,7 +75,7 @@ SeqRollupRuleset.prototype =
 		
 		// Evaluate all defined rollup rules for this activity.
 		// Make sure there is a legal target and a set of children. 
-		alert("Call");
+		
 		if (ioThisActivity != null)
 		{
 			if (ioThisActivity.getChildren(false) != null)
