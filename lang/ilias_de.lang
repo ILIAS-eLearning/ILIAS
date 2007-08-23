@@ -7555,4 +7555,4 @@ ldap#:#ldap_rule_condition#:#Bedingung
 ldap#:#ldap_btn_add_role_ass#:#Neue Regel anlegen
 ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
 ldap#:#ldap_rule_type#:#Art der Zuordnung
-ldap#:#ldap_confirm_del_role_ass#:#Rollenzuordnung löschen
+ldap#:#ldap_confirm_del_role_ass#:#Rollenzuordnung löschencommon#:#res_links#:#Repository Links###23 08 2007 new variable
