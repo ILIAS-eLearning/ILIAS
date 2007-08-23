@@ -2492,7 +2492,7 @@ class ilObjSurvey extends ilObject
 		}
 		// get all questionblocks
 		$questionblocks = array();
-		$in = join(array_keys($all_questions), ",");
+		$in = join(array_keys($all_questions), "','");
 		if ($in)
 		{
 			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ('$in')",
@@ -2654,7 +2654,7 @@ class ilObjSurvey extends ilObject
 		}
 		// get all questionblocks
 		$questionblocks = array();
-		$in = join(array_keys($all_questions), ",");
+		$in = join(array_keys($all_questions), "','");
 		if ($in)
 		{
 			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ('$in')",
@@ -3733,7 +3733,7 @@ class ilObjSurvey extends ilObject
 
 		$spls =& $this->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
 		$forbidden = "";
-		$forbidden = " AND survey_question.obj_fi IN ('" . join($spls, "','") . "')";
+		$forbidden = " AND survey_question.obj_fi IN ('" . join(array_keys($spls), "','") . "')";
 		if ($completeonly)
 		{
 			$forbidden .= " AND survey_question.complete = " . $ilDB->quote("1");
