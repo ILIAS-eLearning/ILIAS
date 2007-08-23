@@ -1633,7 +1633,7 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		// The password type is not passed in the post data.  Therefore we
 		// append it here manually.
-		require_once "class.ilObjUser.php";
+		include_once ('./Services/User/classes/class.ilObjUser.php');
 	    $_POST["Fobject"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
