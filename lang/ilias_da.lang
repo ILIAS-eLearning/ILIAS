@@ -1,9 +1,9 @@
-﻿/**
+ï»¿/**
 * ILIAS language file 
 *
 * @module		language file Danish
 * @modulegroup	language
-* @author 		Jesper Gødvad <jesper@inetworks.dk> Ole Stilund Jeppsen <ole.stilund@ftf.dk> Preben Christensen <pch@tec.dk> Kasper Nielsen <kasper@kittik.dk> Gilbert Ditlefsen
+* @author 		Jesper Goedvad <jesper@inetworks.dk> Ole Stilund Jeppesen <ole.stilund@ftf.dk>
 * @version		$Id$
 */
 
@@ -15,7 +15,7 @@
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
     | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at yofur option) any later version.                     |
+    | of the License, or (at yofur option) any later version.                      |
     |                                                                             |
     | This program is distributed in the hope that it will be useful,             |
     | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
@@ -23,7 +23,7 @@
     | GNU General Public License for more details.                                |
     |                                                                             |
     | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                |
+    | along with this program; if not, write to the Free Software                 |
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 
@@ -293,15 +293,17 @@ assessment#:#insert_before#:#Indsæt før
 assessment#:#internal_links#:#Interne links
 assessment#:#internal_links_update#:#Opdater
 assessment#:#javaapplet#:#Java Applet###21 Apr 2005 new variable
+assessment#:#javaapplet_successful_saved#:#Dine resultater er blevet gemt!
+assessment#:#javaapplet_unsuccessful_saved#:#Der opstod en fejl da du ville gemme dine resultater!
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
 assessment#:#last_update#:#Senest opdateret
 assessment#:#legend#:#Legend###21 Apr 2005 new variable
 assessment#:#locked#:#låst
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Ny test oprettet
-assessment#:#log_mark_added#:#Mark added###21 Apr 2005 new variable
-assessment#:#log_mark_changed#:#Mark changed###21 Apr 2005 new variable
-assessment#:#log_mark_removed#:#Mark removed###21 Apr 2005 new variable
+assessment#:#log_mark_added#:#Karakter tildelt
+assessment#:#log_mark_changed#:#Karakter ændret
+assessment#:#log_mark_removed#:#Karakter ophævet
 assessment#:#log_modified_test#:#Testen er tilpasset
 assessment#:#log_no_test_fields_changed#:#Gemt, men intet ændret
 assessment#:#log_question_added#:#Spørgsmål tilføjet på position
@@ -373,6 +375,7 @@ assessment#:#postponed#:#Udskudt
 assessment#:#preview#:#Eksempel
 assessment#:#previous_question_rows#:#<< Spørgsmål %d - %d af %d
 assessment#:#print_answers#:#Udskriv svar
+assessment#:#print_view#:#Print view
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Der er ingen spørgsmål tilgængelige for det valgte spørgsmål. Spørgsmålet blev aldrig brugt i en test
 assessment#:#qpl_assessment_of_questions#:#Vurdering af spørgsmål
@@ -408,7 +411,7 @@ assessment#:#qpl_paste_success#:#The question(s) have been pasted into the quest
 assessment#:#qpl_question_is_in_use#:#Spørgsmålet du er ved at ændre findes i %s test. Hvis du ændrer spørgsmålet vil det ikke ændres i disse tests, fordi der laves en kopi af spørgsmålet når det tilføjes.
 assessment#:#qpl_questions_deleted#:#Spørgsmål slettet.
 assessment#:#qpl_select_file_for_import#:#Du må vælge en fil at importere!
-assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
+assessment#:#qt_multiple_choice#:#Multiple choice spørgsmål
 assessment#:#question_saved_for_upload#:#Spørgsmålet blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette spørgsmålet i spørgsmålsgruppen hvis du ikke ønsker at beholde det!
 assessment#:#question_short#:#Q###21 Apr 2005 new variable
 assessment#:#question_title#:#Titel
@@ -463,6 +466,9 @@ assessment#:#set_edit_mode#:#Set edit mode
 assessment#:#set_filter#:#Sæt filter
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Bland svar
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points
 assessment#:#solution_hint#:#Foreslået løsning
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Løsnings række
@@ -495,7 +501,7 @@ assessment#:#tst_browse_for_questions#:#Led efter spørgsmål
 assessment#:#tst_confirm_delete_results#:#Du er ved at slette alle dine tidligere indtastet spørgsmåls resultater for denne test. Dette vil nulstille alle spørgsmål til dens standart værdi. Bemærk venligst, at du ikke kan nulstille antalet af forsøg, d
 assessment#:#tst_confirm_delete_results_info#:#Dine tidligere indtastet resultater blev slettet. Du har med succes nulstillet testen!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###17 Aug 2005 new variable
-assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###17 Aug 2005 new variable
+assessment#:#tst_confirm_submit_answers#:#Bekræft venligst din besvarelse. Du kan ikke ændre dine svar efter du har trykket på send knappen.
 assessment#:#tst_count_correct_solutions#:#Count only complete solutions###17 Aug 2005 new variable
 assessment#:#tst_count_partial_solutions#:#Medtæl delvise løsninger
 assessment#:#tst_delete_all_user_data#:#Slet alle bruger data
@@ -524,6 +530,8 @@ assessment#:#tst_hide_previous_results#:#Skjul tidligere resultater
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
 assessment#:#tst_hide_previous_results_introduction#:#Hvis du tager testen mere end en gang bliver dine tidligere besvarelser ikke brugt som standardværdier.
+assessment#:#tst_hide_title_points#:#Question title points###23 Dec 2005 new variable
+assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title###23 Dec 2005 new variable
 assessment#:#tst_import_no_items#:#Fejl: Den importerede fil indeholder ingen spørgsmål!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Testen bruges af %d brugere. Du har ikke rettighedder til at flytte eller ændre spørgsmålene i denne test!
@@ -531,6 +539,7 @@ assessment#:#tst_insert_missing_question#:#Vælg venligst mindst et spørgsmål 
 assessment#:#tst_insert_questions#:#Er du sikker på du vil indsætte følgende spørgsmål i denne test?
 assessment#:#tst_insert_questions_and_results#:#Denne test er allerede taget af %s brugere. Hvis du indsætter spørgsmål i denne test vil du slette alle resultater fra disse brugere. Er du sikker på du vil indsætte følgende spørgsmål i denne test?
 assessment#:#tst_introduction#:#Introduktion
+assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..
 assessment#:#tst_mark#:#Mærke
 assessment#:#tst_mark_create_new_mark_step#:#Opret ny karakter
 assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpelt mærke skema
@@ -538,7 +547,7 @@ assessment#:#tst_mark_minimum_level#:#Minimum level (i %)
 assessment#:#tst_mark_official_form#:#Officiel form
 assessment#:#tst_mark_passed#:#Bestået
 assessment#:#tst_mark_short_form#:#Kort form
-assessment#:#tst_max_allowed_users#:#Participants restriction
+assessment#:#tst_max_allowed_users#:#Deltagerbegrænsning
 assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
 assessment#:#tst_maximum_points#:#Maksimum point
@@ -583,6 +592,7 @@ assessment#:#tst_question_offer#:#Vil du acceptere denne prøve eller vil du hav
 assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommende
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
+assessment#:#tst_question_solved_state#:#Besvaret
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Spørgsmåls type
 assessment#:#tst_questions_inserted#:#Spørgsmål indsat!
@@ -601,6 +611,8 @@ assessment#:#tst_remove_questions_and_results#:#Denne test er allerede blevet ta
 assessment#:#tst_report_after_first_question#:#Offer score reporting when the test has been started
 assessment#:#tst_report_after_question#:#Vis resultat efter hvert spørgsmål er blevet besvaret
 assessment#:#tst_report_after_test#:#Vis resultat efter hele testen er besvaret
+assessment#:#tst_result_congratulations#:#Tillykke! Du har bestået testen.
+assessment#:#tst_result_sorry#:#Desværre, du bestod ikke testen.
 assessment#:#tst_result_user_name#:#Test resultat for %s
 assessment#:#tst_results#:#Test resultat
 assessment#:#tst_results_aggregated#:#Aggrerede testresultater
@@ -611,7 +623,7 @@ assessment#:#tst_resume_test#:#Genoptag testen
 assessment#:#tst_score_cut_question#:#Cut negative points for every question
 assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results
 assessment#:#tst_score_cutting#:#Cut negative points
-assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_questions#:#Multiple choice spørgsmål
 assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#0 point for ubesvarede
 assessment#:#tst_score_reporting#:#Resultat report
@@ -626,14 +638,18 @@ assessment#:#tst_select_tsts#:#Vælg venligst en test du vil kopiere
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
 assessment#:#tst_sequence#:#Sekvens
 assessment#:#tst_sequence_fixed#:#Sekvensen af spørgsmål er lavet
+assessment#:#tst_sequence_postpone#:#Kursusdeltageren kan udsætte et spørgsmål til slutningen af testen
 assessment#:#tst_sequence_properties#:#Sekvensegenskaber
 assessment#:#tst_session_settings#:#Sessionsegenskaber
+assessment#:#tst_show_answer_print_sheet#:#Vis besvarelser
 assessment#:#tst_show_answer_sheet#:#Vis svar
 assessment#:#tst_show_results#:#Vis testresultat
 assessment#:#tst_show_solution_details#:#Score details
+assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions
 assessment#:#tst_show_solution_printview#:#Solution printview
+assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing
 assessment#:#tst_show_summary#:#Show question summary
-assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test
+assessment#:#tst_show_summary_description#:#Viser en oversigt over alle testspørgsmål der er tilgængelige under testen.
 assessment#:#tst_shuffle_questions#:#Shuffle questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
 assessment#:#tst_signature#:#Signature###17 Aug 2005 new variable
@@ -685,6 +701,8 @@ assessment#:#tst_types#:#Test typer
 assessment#:#tst_use_javascript#:#Brug Javascript for træk og slip aktioner
 assessment#:#tst_your_answer_was#:#Dit svar var
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.###17 Aug 2005 new variable
+assessment#:#tst_your_ects_mark_is#:#Din ECTS karakter er
+assessment#:#tst_your_mark_is#:#Din karakter er
 assessment#:#tt_assessment#:#Opgave test
 assessment#:#tt_online_exam#:#Online eksamen
 assessment#:#tt_self_assessment#:#Selv vurderingstest
@@ -757,6 +775,8 @@ barometer#:#votes#:#Votes
 barometer#:#weeks#:#Weeks
 barometer#:#worst#:#Worst
 barometer#:#year#:#Year
+barometer#:#add#:#Giv feedback
+barometer#:#create#:#Create New Feedback
 bibitem#:#bibitem_add#:#Tilføj
 bibitem#:#bibitem_author#:#Forfatter
 bibitem#:#bibitem_av#:#AV###21 Apr 2005 new variable
@@ -946,6 +966,7 @@ chat#:#chat_whisper#:#Visken
 chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Mine chat
+chat#:#chat_invite#:#Chat
 common#:#disabled#:#Ikke tilsluttet
 common#:#options#:#Indstillinger###Faneblad i mail
 common#:#action#:#Handling
@@ -1201,7 +1222,7 @@ common#:#back_to_grp_content#:#Tilbage til gruppens indhold
 common#:#basedn#:#BaseDN###21 Apr 2005 new variable
 common#:#basic_data#:#Standard Data
 common#:#basic_settings#:#Basic Settings
-common#:#benchmark#:#Benchmark###21 Apr 2005 new variable
+common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmarkindstillinger
 common#:#benchmarks#:#Benchmarks###21 Apr 2005 new variable
 common#:#bib_data#:#Bibliografisk data
@@ -1363,7 +1384,7 @@ common#:#condition_deleted#:#Tilstand slettet.
 common#:#condition_finished#:#Afsluttet
 common#:#condition_not_finished#:#Ikke afsluttet
 common#:#condition_passed#:#Bestået
-common#:#condition_precondition#:#Preconditions:###21 Apr 2005 new variable
+common#:#condition_precondition#:#Betingelser
 common#:#condition_select_object#:#Vælg venligst et objekt.
 common#:#condition_select_one#:#vælg venligst kun et objekt
 common#:#condition_update#:#Gem
@@ -1438,7 +1459,7 @@ common#:#crs_create_tst#:#Opret test
 common#:#crs_create_webr#:#Opret ny webresource
 common#:#crs_delete#:#Slet kursus
 common#:#crs_edit#:#Rediger Kursus
-common#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+common#:#crs_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#crs_edit_permission#:#Ændre rettighedsindstillinger
 common#:#crs_info#:#Info###17 Aug 2005 new variable
 common#:#crs_join#:#Tilmeld kursus
@@ -1461,6 +1482,7 @@ common#:#current_ip#:#Nuværende IP:###20 Jul 2005 new variable
 common#:#current_ip_alert#:#Obs: hvis du angiver en forkert ip vil du ikke længere kunne få adgang til systemet med denne profil.
 common#:#current_password#:#Nuværende password
 common#:#custom_icon_size_big#:#Custom icon size (big)
+common#:#custom_icon_size_small#:#Custom icon size (small)
 common#:#cut#:#Klip
 common#:#cutPage#:#Klip
 common#:#daily#:#dagligt
@@ -1484,7 +1506,7 @@ common#:#dbk_add#:#Tilføj Digilibbog
 common#:#dbk_added#:#Digilibbog tilføjet
 common#:#dbk_create#:#Opret digilibbog
 common#:#dbk_delete#:#Slet Digilibbog
-common#:#dbk_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+common#:#dbk_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#dbk_edit_permission#:#Ændre rettighedsindstillinger
 common#:#dbk_new#:#Ny Digilibbog
 common#:#dbk_read#:#Læseadgang til Digilibbog
@@ -1598,7 +1620,7 @@ common#:#exc_download_files#:#Download filer
 common#:#exc_download_new#:#Download ny
 common#:#exc_edit#:#Ny øvelse er blevet oprettet
 common#:#exc_edit_exercise#:#Rediger øvelse
-common#:#exc_edit_learning_progress#:#Edit Learning Progress
+common#:#exc_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#exc_edit_permission#:#Ændre rettighedsindstillinger
 common#:#exc_edit_until#:#Rediger indtil
 common#:#exc_exercise_sent#:#Exercise Sent
@@ -1733,7 +1755,7 @@ common#:#fold_create_tst#:#Opret test
 common#:#fold_create_webr#:#Opret webresurse
 common#:#fold_delete#:#Slet mappe
 common#:#fold_edit#:#Rediger mappe
-common#:#fold_edit_learning_progress#:#Edit Learning Progress
+common#:#fold_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#fold_edit_permission#:#Ændre rettighedsindstillinger
 common#:#fold_new#:#Ny mappe
 common#:#fold_read#:#Læseadgang til mappe
@@ -1893,7 +1915,7 @@ common#:#grp_deleted_export_files#:#Slet valgte filer.
 common#:#grp_dismiss_member#:#Er du sikker på at du vil afmelde den følgende bruger(e) fra gruppen
 common#:#grp_dismiss_myself#:#er du sikker du gerne vil afmelde dig selv fra gruppen###23 Dec 2005 content changed
 common#:#grp_edit#:#Rediger gruppe
-common#:#grp_edit_learning_progress#:#Edit Learning Progress
+common#:#grp_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#grp_edit_permission#:#ændre rettighedsindstillinger
 common#:#grp_err_administrator_required#:#Bruger kunne ikke blive fjernet, en administrator per gruppe er nødvendig!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Hver gruppe skal mindst have en administrator
@@ -1989,7 +2011,7 @@ common#:#htlm#:#Læremodul HTML
 common#:#htlm_add#:#Tilføj HTML Læremodul
 common#:#htlm_delete#:#Slet HTML Læremodul
 common#:#htlm_edit#:#Rediger HTML læremoduls Egenskaber
-common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+common#:#htlm_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#htlm_edit_permission#:#Ændre rettighedsindstillinger
 common#:#htlm_new#:#Nyt HTML Læremodul
 common#:#htlm_read#:#Læs HTML Læremodul
@@ -2252,9 +2274,9 @@ common#:#ldap_visible#:#LDAP indstillinger er synlige
 common#:#ldap_write#:#Rediger LDAP indstillinger
 common#:#learning module#:#Lærer modul
 common#:#learning_objects#:#Lærer Objekt
-common#:#learning_progress#:#Learning progress###23 Dec 2005 new variable
+common#:#learning_progress#:#Læringsfremskridt
 common#:#learning_resourc#:#Learning Resource
-common#:#learning_resource#:#Learning Resource
+common#:#learning_resource#:#Læreresurse
 common#:#learning_resources#:#Læreresourcer
 common#:#level#:#Level###21 Apr 2005 new variable
 common#:#link#:#Link###21 Apr 2005 new variable
@@ -2294,7 +2316,7 @@ common#:#lm_add#:#Tilføj ILIAS Læremodul
 common#:#lm_added#:#ILIAS Læremodul er tilføjet
 common#:#lm_create#:#Opret ILIAS læremodul
 common#:#lm_delete#:#Slet ILIAS Læremodul
-common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+common#:#lm_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#lm_edit_permission#:#Ændrer rettighedsindstillinger
 common#:#lm_join#:#tilmeld til ILIAS Læremodul
 common#:#lm_leave#:#Afmeld ILIAS Læremodul
@@ -2339,7 +2361,7 @@ common#:#logout_text#:#Du er logget af ILIAS. Tak for besøget.
 common#:#logs#:#Log data###21 Apr 2005 new variable
 common#:#los#:#Lærer objekter
 common#:#los_last_visited#:#Sidst besøgte lærer objekter
-common#:#lres#:#Learning Resources###17 Aug 2005 new variable
+common#:#lres#:#Læreresurser
 common#:#mail#:#Mail###21 Apr 2005 new variable
 common#:#mail_a_root#:#Mailboks
 common#:#mail_addressbook#:#Adressebog
@@ -2558,7 +2580,7 @@ common#:#no_bm_in_personal_list#:#Ingen foretrukne er defineret.
 common#:#no_chat_in_personal_list#:#Ingen chats i din personlige liste
 common#:#no_checkbox#:#Ingen box er krydset af!
 common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
-common#:#no_conditions_found#:#No preconditions created.###23 Dec 2005 new variable
+common#:#no_conditions_found#:#Ingen forudgående betingelser fundet
 common#:#no_datasets#:#Tabellen er tom
 common#:#no_date#:#Ingen dato
 common#:#no_description#:#Ingen Beskrivelse
@@ -2822,7 +2844,7 @@ common#:#please_wait#:#Vent venligst...
 common#:#port#:#Port###21 Apr 2005 new variable
 common#:#position#:#Position###21 Apr 2005 new variable
 common#:#precondition_not_accessible#:#You do not have sufficient permission to view the precondition(s) of this item.###19 Apr 2006 new variable
-common#:#preconditions#:#Preconditions###21 Apr 2005 new variable
+common#:#preconditions#:#Betingelser
 common#:#predefined_template#:#Fordefineret rolleskabelon
 common#:#presentation_options#:#Presentation Options###21 Apr 2005 new variable
 common#:#previous#:#sidste
@@ -2868,7 +2890,7 @@ common#:#refresh_languages#:#Opdater sprog
 common#:#refresh_list#:#Opdateringsliste
 common#:#refuse#:#Nægt
 common#:#reg_mail_body_salutation#:#Hej
-common#:#reg_mail_body_text1#:#Velkommen til ILIAS eLearning!
+common#:#reg_mail_body_text1#:#Velkommen til ILIAS e-læring
 common#:#reg_mail_body_text2#:#For at få adgang til  ILIAs brug følgende data:
 common#:#reg_mail_body_text3#:#Yderligere personlig information: 
 common#:#reg_mail_subject#:#ILIAS eLæring - Din brugerkonto
@@ -2989,7 +3011,7 @@ common#:#sahs#:#Læremodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Læremodul tilføjet
 common#:#sahs_create#:#Opret SCORM/AICC Læremodul
 common#:#sahs_delete#:#Slet SCORM/AICC Læremodul
-common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+common#:#sahs_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#sahs_edit_permission#:#ændrer rettighedsindstillinger
 common#:#sahs_join#:#Tilmeld til SCORM/AICC Læremodul
 common#:#sahs_leave#:#Afmeld SCORM/AICC Læremodul
@@ -3042,6 +3064,9 @@ common#:#select_questionpool_option#:#--- Vælg et spørgsmålsbibliotek ---
 common#:#selected#:#Valgte
 common#:#selected_items#:#Personlige ting
 common#:#send#:#Send###21 Apr 2005 new variable
+common#:#send_mail_admins#:#Mail til administratorer
+common#:#send_mail_members#:#Mail til medlemmer
+common#:#send_mail_tutors#:#Mail til tutorer
 common#:#sender#:#Afsender
 common#:#sent#:#Sendt
 common#:#sequence#:#Sekvens
@@ -3073,6 +3098,7 @@ common#:#shib_general_login_instructions#:#To log in via %s, please click on the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
 common#:#shib_institution#:#Attribute for institution###17 Aug 2005 new variable
+common#:#shib_instructions#:#HUsk at læse <a href=\\
 common#:#shib_invalid_home_organization#:#Vælg venligst en gyldig organisation!
 common#:#shib_language#:#Attribute for language###17 Aug 2005 new variable
 common#:#shib_lastname#:#Attribute for lastname###17 Aug 2005 new variable
@@ -3099,6 +3125,7 @@ common#:#show#:#Vis
 common#:#show_details#:#Vis detaljer
 common#:#show_list#:#Vis liste
 common#:#show_members#:#Vis medlemmer
+common#:#show_notes_on_pd#:#Vis noter på skrivebordet
 common#:#show_owner#:#Vis Ejer
 common#:#show_private_notes#:#Vis private noter
 common#:#show_public_notes#:#Vis offentlige noter
@@ -3107,6 +3134,7 @@ common#:#show_users_online#:#Vis brugere  online###20 Jun 2005 content changed
 common#:#signature#:#Signatur
 common#:#size#:#Størrelse
 common#:#skin_style#:#Standardudseende
+common#:#small_icon#:#Lille ikon
 common#:#smtp#:#SMTP###21 Apr 2005 new variable
 common#:#soap_user_administration#:#Ekstern brugeradministration (SOAP)
 common#:#soap_user_administration_desc#:#Hvis sat til, kan alle brugerkonti blive administreret af en ekstern SOAP-klient
@@ -3243,7 +3271,7 @@ common#:#tst#:#Test###21 Apr 2005 new variable
 common#:#tst_add#:#Tilføj tekst
 common#:#tst_anon_eval#:#Resultater
 common#:#tst_delete#:#Slet test
-common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+common#:#tst_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#tst_edit_permission#:#Ændre systemindstillinger
 common#:#tst_new#:#Ny test
 common#:#tst_no_content#:#Ingen tests tilgængelige
@@ -3461,6 +3489,7 @@ common#:#you_may_add_local_roles#:#Du kan tilføje lokale roller
 common#:#your_message#:#Din Besked
 common#:#zip#:#Postnummer
 common#:#zipcode#:#Postnummer
+content#:#pages#:#Sider
 content#:#HTML export#:#HTMLeksport
 content#:#PDF export#:#PDFeksport
 content#:#add_menu_entry#:#Tilføj menuindgang
@@ -3488,7 +3517,7 @@ content#:#cont_Number#:#Nummer
 content#:#cont_Poly#:#Polygon###21 Apr 2005 new variable
 content#:#cont_Rect#:#Rektangel
 content#:#cont_Reference#:#Referencer
-content#:#cont_Remark#:#Remark###21 Apr 2005 new variable
+content#:#cont_Remark#:#Bemærkning
 content#:#cont_Roman#:#Roman I, II, ...###21 Apr 2005 new variable
 content#:#cont_TableContent#:#Table Content###21 Apr 2005 new variable
 content#:#cont_Unordered#:#Usorteret
@@ -4069,7 +4098,7 @@ crs#:#crs_max_members_reached#:#Det maksimale antal deltagere er nået
 crs#:#crs_mem_change_status#:#ændre status
 crs#:#crs_mem_send_mail#:#Send mail###21 Apr 2005 new variable
 crs#:#crs_member#:#Medlem
-crs#:#crs_member_administration#:#Edit Participants
+crs#:#crs_member_administration#:#Rediger kursusdeltagere
 crs#:#crs_member_blocked#:#Medlem (blokeret)
 crs#:#crs_member_of#:#Member of course:###18 Aug 2005 new variable
 crs#:#crs_member_unblocked#:#Medlem (ublokeret)
@@ -4174,23 +4203,23 @@ crs#:#crs_persons_on_waiting_list#:#Personer på venteliste
 crs#:#crs_print_list#:#Udskriv liste
 crs#:#crs_question_assignment#:#Question assignment###21 Apr 2005 new variable
 crs#:#crs_reg#:#Kursustilmelding
-crs#:#crs_reg_deactivated#:#Disabled###21 Apr 2005 new variable
+crs#:#crs_reg_deactivated#:#Lukket
 crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.###21 Apr 2005 new variable
-crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.###21 Apr 2005 new variable
+crs#:#crs_reg_max_info#:#Vælg det maksimale antal brugere der kan tilmeldes dette kursus. '0' for ubegrænset.
 crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###21 Apr 2005 new variable
 crs#:#crs_reg_subscription_deactivated#:#Registration er slået fra
 crs#:#crs_reg_subscription_end_earlier#:#Tidsgrænsen for registration er udløbet
 crs#:#crs_reg_subscription_max_members_reached#:#Maximal antal brugere overskrevet.
 crs#:#crs_reg_subscription_start_later#:#Du kan først registrere dig senere
-crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration types above.###21 Apr 2005 new variable
+crs#:#crs_reg_unlim_info#:#Hvis aktiveret er der ingen tidsbegrænsning på tilmeldinger. Vælg i så fald en tilmeldingsmetode.
 crs#:#crs_reg_until#:#Tilmeldingsperiode
 crs#:#crs_reg_user_already_assigned#:#Du er allerede tilmeldt dette kursus
 crs#:#crs_reg_user_already_subscribed#:#Du har allerede tilmeldt dig dette kursus###23 Dec 2005 content changed
 crs#:#crs_reg_user_blocked#:#Du har ikke adgang til dette kursus
 crs#:#crs_registration#:#Kursusregistrering
-crs#:#crs_registration_deactivated#:#Choose this option for disabling the registration. No you user can register for this course.###21 Apr 2005 new variable
+crs#:#crs_registration_deactivated#:#Klik her for at slå tilmelding fra. Ingen brugere kan selv tilmelde sig kurset men skal tilføjes af en administrator
 crs#:#crs_registration_limited#:#Midlertidig tilmeldingsperiode
-crs#:#crs_registration_type#:#Registration type###21 Apr 2005 new variable
+crs#:#crs_registration_type#:#Tilmeldingstype
 crs#:#crs_registration_unlimited#:#Ubegrænset tilmeldingsperiode
 crs#:#crs_reject_subscriber#:#Kursustilmelding###23 Dec 2005 content changed
 crs#:#crs_reject_subscriber_body#:#Din tilmelding er blevet afslået.###23 Dec 2005 content changed
@@ -4202,12 +4231,12 @@ crs#:#crs_search_for#:#Søg efter
 crs#:#crs_search_members#:#Brugersøgning
 crs#:#crs_search_str#:#Søg efter udtryk
 crs#:#crs_select_archive_language#:#Vælg venligst et sprog til arkivet
-crs#:#crs_select_exactly_one_lm#:#Please select exactly one learning module.###21 Apr 2005 new variable
+crs#:#crs_select_exactly_one_lm#:#Vælg venligst et og kun et læremodul.
 crs#:#crs_select_exactly_one_tst#:#Please select exactly one test.###21 Apr 2005 new variable
 crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIAS learning modules.###21 Apr 2005 new variable
 crs#:#crs_select_one_archive#:#Vælg venligst et arkiv
 crs#:#crs_select_one_object#:#Please select one course item.###21 Apr 2005 new variable
-crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
+crs#:#crs_select_registration_type#:#Vælg en tilmeldingsmetode
 crs#:#crs_select_starter#:#Select start object###21 Apr 2005 new variable
 crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Kursus indstillinger
@@ -4227,7 +4256,7 @@ crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timin
 crs#:#crs_sort_title#:#Sorter efter titel
 crs#:#crs_sort_title_info#:#Vælg denne indstilling for at sortere kursusdele automatisk efter titel
 crs#:#crs_sortorder#:#Sorter
-crs#:#crs_sortorder_abo#:#Sortorder/Subscription###21 Apr 2005 new variable
+crs#:#crs_sortorder_abo#:#Sortering af kursusdele
 crs#:#crs_start#:#Start###21 Apr 2005 new variable
 crs#:#crs_start_objects#:#Start objects###21 Apr 2005 new variable
 crs#:#crs_starter_deleted#:#Removed assignment.###21 Apr 2005 new variable
@@ -4299,7 +4328,7 @@ crs#:#crs_unlimited#:#Ubegrænset
 crs#:#crs_unsubscribe#:#Afmeld
 crs#:#crs_unsubscribe_sure#:#Vil du afmeldes dette kursus
 crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus
-crs#:#crs_update_objective#:#Edit learning objective###21 Apr 2005 new variable
+crs#:#crs_update_objective#:#Rediger læremål
 crs#:#crs_users_added#:#Tilføjet bruger til dette kursus
 crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus
 crs#:#crs_users_removed_from_list#:#De valgte brugere er fjernet fra ventelisten
@@ -4307,15 +4336,15 @@ crs#:#crs_view_archive#:#Arkivoversigt
 crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.
 crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.
 crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
-crs#:#crs_view_mode#:#Course Presentation
-crs#:#crs_view_objective#:#Objective Oriented View
+crs#:#crs_view_mode#:#Kursus layout
+crs#:#crs_view_objective#:#Mål orienteret visning
 crs#:#crs_view_standard#:#Standard View
 crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility#:#Tilgængelighed
 crs#:#crs_visibility_limitless#:#Ubegrænset
 crs#:#crs_visibility_until#:#Midlertidigt tilgængelig
 crs#:#crs_visibility_unvisible#:#Ikke tilgængelig
-crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
+crs#:#crs_wait_info#:#Hvis denne funktion er aktiveret og det maksimale antal brugere overskrides vil nye tilmeldinger blive placeret på venteliste.
 crs#:#crs_waiting_list#:#Venteliste
 crs#:#crs_xml#:#XML###21 Apr 2005 new variable
 crs#:#crs_youre_position#:#Din placering på ventelisten
@@ -4332,7 +4361,7 @@ crs#:#event_delete_file#:#Delete File?
 crs#:#event_delete_sure#:#Do really want to delete this session?
 crs#:#event_desc#:#Description
 crs#:#event_details_workflow#:#Details/Workflow
-crs#:#event_edit_members#:#Edit Participants
+crs#:#event_edit_members#:#Rediger kursusdeltagere
 crs#:#event_end_date#:#End
 crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
 crs#:#event_existing_files#:#Existing Files:
@@ -4358,7 +4387,7 @@ crs#:#event_save_participants#:#Save Participance
 crs#:#event_start_date#:#Start
 crs#:#event_table_create#:#New Session
 crs#:#event_table_update#:#Edit Session
-crs#:#event_tbl_participants#:#List of Participants
+crs#:#event_tbl_participants#:#Liste over deltagere
 crs#:#event_tbl_participated#:#Participated
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_time#:#Time
@@ -4375,7 +4404,7 @@ crs#:#subscription_times_not_valid#:#Kursustilmeldingsperioden er ikke gyldig
 crs#:#timing_accept_table#:#Timings: Remarks
 crs#:#timing_accepted#:#Accepted
 crs#:#timing_not_accepted#:#Not Accepted
-crs#:#timing_remark#:#Remark
+crs#:#timing_remark#:#Bemærkning
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors
 crs#:#timing_user_accept#:#Accept Timings
 crs#:#timing_user_accepted#:#Timings Accepted
@@ -4395,6 +4424,7 @@ crs#:#tutor_title#:#Titel
 dateplaner#:#apply#:#Godkend
 dateplaner#:#delete#:#slet
 dateplaner#:#month#:#måned
+dateplaner#:#text#:#Tekst
 dateplaner#:#title#:#ILIAS kalender
 dateplaner#:#year#:#år
 dateplaner#:#back#:#Tilbage
@@ -4409,6 +4439,7 @@ dateplaner#:#of#:#for
 dateplaner#:#properties#:#Egenskaber
 dateplaner#:#to#:#til
 dateplaner#:#today#:#idag
+dateplaner#:#view#:#Oversigt:
 dateplaner#:#week#:#uge
 dateplaner#:#DateText#:#Besked
 dateplaner#:#Day_long#:#Dagsoversigt
@@ -4620,7 +4651,7 @@ exercise#:#exc_mark#:#Mark
 exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Bestået
 exercise#:#exc_send_mail#:#Send mail
-exercise#:#exc_your_submission#:#Your Submission
+exercise#:#exc_your_submission#:#Aflevering af opgave
 forum#:#forums#:#Fora###
 forum#:#forums_overview#:#Forum oversigt
 forum#:#frm_statistics_ranking#:#Ranking
@@ -5237,7 +5268,7 @@ meta#:#meta_l_ky#:#kirghiz
 meta#:#meta_l_la#:#latinsk
 meta#:#meta_l_ln#:#lingala
 meta#:#meta_l_lo#:#laotisk
-meta#:#meta_l_lt#:#lithausk
+meta#:#meta_l_lt#:#litauisk
 meta#:#meta_l_lv#:#latvian;lettish
 meta#:#meta_l_mg#:#malagasy
 meta#:#meta_l_mi#:#maori
@@ -5646,7 +5677,7 @@ pwassist#:#pwassist_password_assigned#:#Passwordet blev tilføjet til bruger \"%
 pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\\nDin passwordassistancesession er udløbet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig på email mere end 1 gang, eller fordi der er gået for lang tid siden linket blev sendt ti
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\\nPasswordet kunne ikke blive tildelt brugerkontoen på grund af en fejl under opdatering af databasen.
 pwassist#:#pwassist_username_mail_body#:#Her er de aktive brugernavne for emailadressen: %s.\n\nDenne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.\n\n\t- Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den.\n\t- Har du aldrig bedt om denne mail, så kontakt %s.\n\t-Har du bedt om denne mail, så fortsæt med følgende:\n1. Start din browser\n2. Indtast følgende url:\n\t%s\n\nBemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram.\n3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password.
-rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#edit_learning_progress#:#Rediger læringsfremskridt
 rbac#:#filter_all_roles#:#Vis alle roller i nuværende kontekst
 rbac#:#filter_global_roles#:#Vis kun globale roller
 rbac#:#filter_local_roles#:#Vis kun lokale roller i nuværende kontekst
@@ -5697,7 +5728,7 @@ registration#:#reg_role_info#:#Tildelte roller
 registration#:#reg_select_one#:#Please select one entry.
 registration#:#reg_selectable_roles#:#Selectable Roles
 registration#:#reg_settings_header#:#New Registration Settings
-registration#:#reg_type#:#Registration Type
+registration#:#reg_type#:#Tilmeldingsmetode
 registration#:#reg_unknown_recipients#:#The following logins are not valid:
 registration#:#registration_settings#:#Nyoprettelser
 search#:#until#:#up to###20 Jun 2005 new variable
@@ -5723,7 +5754,7 @@ search#:#search_content#:#Side indhold
 search#:#search_dbk_content#:#Digitalt bibliotek (indhold)
 search#:#search_dbk_meta#:#Digitalt bibliotek (meta data)
 search#:#search_delete_sure#:#Objektet og dets indhold vil blive slettet permenent
-search#:#search_details_info#:#Detajleret søgning. Vælg hvilke typer objekter der søges efter.
+search#:#search_details_info#:#Detaljeret søgning. Vælg hvilke typer objekter der søges efter.
 search#:#search_direct#:#Direkte søgning
 search#:#search_fast_info#:#Søg efter titler, beskrivelser og nøgleord i alle objekter.
 search#:#search_for_grp_members#:#Søg efter gruppemedlemmer
@@ -5798,7 +5829,7 @@ style#:#sty_color#:#Colour
 style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles
 style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue?
 style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
-style#:#sty_create_ind_style#:#Create Individual Style
+style#:#sty_create_ind_style#:#Lav personlig præsentation
 style#:#sty_create_new_stylesheet#:#Create new Style
 style#:#sty_cursor#:#Cursor
 style#:#sty_default_style#:#Default Style
@@ -6341,7 +6372,7 @@ trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
 trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
 trac#:#trac_active_both#:#User Tracking and Learning progress activated###06 Apr 2006 new variable
-trac#:#trac_active_lp_only#:#Learning Progress activated###06 Apr 2006 new variable
+trac#:#trac_active_lp_only#:#Læringsfremskridt aktiveret
 trac#:#trac_active_ut_only#:#User Tracking activated###06 Apr 2006 new variable
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###28 Feb 2006 new variable
 trac#:#trac_anonymized#:#Anonymiseret
@@ -6357,7 +6388,7 @@ trac#:#trac_completed#:#Afsluttet
 trac#:#trac_crs_assignments#:#Assignment of course items###28 Feb 2006 new variable
 trac#:#trac_crs_items#:#Assignable course items###28 Feb 2006 new variable
 trac#:#trac_crs_members#:#Kursusdeltagere
-trac#:#trac_crs_objects#:#Learning progress of course members###28 Feb 2006 new variable
+trac#:#trac_crs_objects#:#Lærefremskridt for deltagere
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
 trac#:#trac_crs_relevant_items#:#Kursusmateriale
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
@@ -6381,15 +6412,15 @@ trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
 trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated###06 Apr 2006 new variable
 trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###28 Feb 2006 new variable
 trac#:#trac_last_access#:#Last access###28 Feb 2006 new variable
-trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
-trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
+trac#:#trac_learning_progress#:#Læringsfremskridt
+trac#:#trac_learning_progress_tbl_header#:#Læringsfremskridt for:
 trac#:#trac_lm_statistics#:#Adgangsstatistik
 trac#:#trac_lp_determination#:#Learning Progress Status Determination
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status.
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.
 trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
-trac#:#trac_mark#:#Mark###23 Dec 2005 new variable
-trac#:#trac_marks#:#Marks###23 Dec 2005 new variable
+trac#:#trac_mark#:#Karakter
+trac#:#trac_marks#:#Karakterer
 trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
 trac#:#trac_mode_collection#:#Collection of objects###23 Dec 2005 new variable
 trac#:#trac_mode_deactivated#:#Deactivated###23 Dec 2005 new variable
@@ -6418,7 +6449,7 @@ trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
 trac#:#trac_occurrences#:#Sti:
 trac#:#trac_participated#:#Participated
 trac#:#trac_processing_time#:#Processing time###28 Feb 2006 new variable
-trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
+trac#:#trac_progress#:#Personlig læringsfremskridt
 trac#:#trac_query#:#Titel / Beskrivelse
 trac#:#trac_reached_objectives#:#Reached Learning Objectives
 trac#:#trac_reached_points#:#Achieved score###28 Feb 2006 new variable
@@ -6430,7 +6461,7 @@ trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
 trac#:#trac_select_one#:#Du foretog intet valg
 trac#:#trac_settings#:#Indstillinger
 trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable
-trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable
+trac#:#trac_show#:#Vis læringsfremskridt
 trac#:#trac_show_hidden#:#Vis
 trac#:#trac_spent_time#:#Brugt tid
 trac#:#trac_status#:#Status
@@ -6450,1110 +6481,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 09 2006 new variable
-assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
-common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
-crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###07 09 2006 new variable
-grp#:#crs_add_grouping#:#Add Membership Limitation###07 09 2006 new variable
-grp#:#crs_grp_enter_title#:#Please fill out all required fields.###07 09 2006 new variable
-grp#:#crs_grp_added_grouping#:#Added new membership limitation.###07 09 2006 new variable
-grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###07 09 2006 new variable
-grp#:#crs_grouping_deleted#:#Deleted membership limitation.###07 09 2006 new variable
-content#:#cont_text_tex#:#LaTeX Code:###05 10 2006 new variable
-crs#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
-common#:#edit_grouping#:#Edit Membership Limitation###05 10 2006 new variable
-crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
-common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###05 10 2006 new variable
-grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###05 10 2006 new variable
-grp#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
-grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
-grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
-grp#:#crs_grouping_select_one#:#Please select one membership limitation.###05 10 2006 new variable
-grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable
-assessment#:#certificate#:#Certificate###10 10 2006 new variable
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
-assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###10 10 2006 new variable
-assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###10 10 2006 new variable
-assessment#:#certificate_custom#:#Custom...###10 10 2006 new variable
-assessment#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
-assessment#:#certificate_page_format#:#Page Format###10 10 2006 new variable
-assessment#:#certificate_background_image#:#Background Image###10 10 2006 new variable
-assessment#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
-assessment#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
-assessment#:#certificate_show#:#Show Certificate###10 10 2006 new variable
-assessment#:#certificate_status#:#Status###10 10 2006 new variable
-assessment#:#certificate_status_complete#:#The certificate is complete and could be used###10 10 2006 new variable
-assessment#:#certificate_status_incomplete#:#The certificate is incomplete###10 10 2006 new variable
-assessment#:#certificate_delete#:#Delete Certificate Data###10 10 2006 new variable
-assessment#:#certificate_preview#:#Show Certificate Preview###10 10 2006 new variable
-assessment#:#certificate_text#:#Certificate Text###10 10 2006 new variable
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe###10 10 2006 new variable
-assessment#:#certificate_var_user_firstname#:#Jane###10 10 2006 new variable
-assessment#:#certificate_var_user_lastname#:#Doe###10 10 2006 new variable
-assessment#:#certificate_var_result_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_var_result_points#:#38###10 10 2006 new variable
-assessment#:#certificate_var_result_percent#:#83%###10 10 2006 new variable
-assessment#:#certificate_var_max_points#:#46###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_short#:#B###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
-assessment#:#certificate_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_failed#:#failed###10 10 2006 new variable
-assessment#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
-assessment#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
-assessment#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
-assessment#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
-assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
-assessment#:#exp_type_certificate#:#Certificate (PDF)###10 10 2006 new variable
-assessment#:#certificate_ph_introduction#:#The following placeholders may be used###11 10 2006 new variable
-assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###11 10 2006 new variable
-assessment#:#certificate_ph_firstname#:#First name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_lastname#:#Last name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###11 10 2006 new variable
-assessment#:#certificate_ph_resultpoints#:#Reached points of the user###11 10 2006 new variable
-assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user###11 10 2006 new variable
-assessment#:#certificate_ph_maxpoints#:#Maximum available points###11 10 2006 new variable
-assessment#:#certificate_ph_markshort#:#Users mark (short version)###11 10 2006 new variable
-assessment#:#certificate_ph_marklong#:#Users mark (official version)###11 10 2006 new variable
-assessment#:#certificate_ph_testtitle#:#Title of the test###11 10 2006 new variable
-assessment#:#certificate_ph_date#:#Actual date###11 10 2006 new variable
-assessment#:#certificate_ph_datetime#:#Actual date and time###11 10 2006 new variable
-assessment#:#certificate_visibility#:#Visibility###11 10 2006 new variable
-assessment#:#certificate_visibility_introduction#:#The button to offer users this certificate is###11 10 2006 new variable
-assessment#:#certificate_visibility_always#:#Always visible###11 10 2006 new variable
-assessment#:#certificate_visibility_never#:#Not visible###11 10 2006 new variable
-assessment#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
-assessment#:#passed_only#:#Passed tests only###12 10 2006 new variable
-trac#:#trac_anonymized_info_short#:#(Anonymized)###12 10 2006 new variable
-assessment#:#certificate_top#:#Top###13 10 2006 new variable
-assessment#:#certificate_right#:#Right###13 10 2006 new variable
-assessment#:#certificate_bottom#:#Bottom###13 10 2006 new variable
-assessment#:#certificate_left#:#Left###13 10 2006 new variable
-assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
-assessment#:#certificate_export#:#Export Certificate###19 10 2006 new variable
-assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
-assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
-assessment#:#general#:#General###25 10 2006 new variable
-assessment#:#output#:#Output###25 10 2006 new variable
-assessment#:#scoring#:#Scoring###25 10 2006 new variable
-content#:#cont_disable_html#:#HTML inactive###25 10 2006 new variable
-content#:#cont_enable_html#:#HTML active###25 10 2006 new variable
-barometer#:#barometer_add#:#Add new Feedbac###25 10 2006 new variable
-assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
-assessment#:#tst_postpone#:#Postpone Questions###26 10 2006 new variable
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###26 10 2006 new variable
-assessment#:#tst_random_selection#:#Random Selection of Questions###26 10 2006 new variable
-assessment#:#tst_show_cancel#:#Show Suspend Test Option###26 10 2006 new variable
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution###26 10 2006 new variable
-assessment#:#tst_use_previous_answers#:#Use Previous Answers###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes###26 10 2006 new variable
-common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
-common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
-pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###26 10 2006 new variable
-assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by the test author###12 11 2006 new variable
-assessment#:#manscoring#:#Manual Scoring###12 11 2006 new variable
-assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###12 11 2006 new variable
-assessment#:#not_yet_accessed#:#Not yet accessed###12 11 2006 new variable
-assessment#:#participants_data#:#Participants Data###12 11 2006 new variable
-assessment#:#participants_invitation#:#Fixed Participants###12 11 2006 new variable
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.###12 11 2006 new variable
-assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.###12 11 2006 new variable
-assessment#:#remove_as_participant#:#Remove as Fixed Participant###12 11 2006 new variable
-assessment#:#search_results#:#Search Results###12 11 2006 new variable
-assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test###12 11 2006 new variable
-assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!###12 11 2006 new variable
-assessment#:#tst_change_points_for_question#:#Change the Points for the Answer###12 11 2006 new variable
-assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers###12 11 2006 new variable
-assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! ###12 11 2006 new variable
-assessment#:#tst_fixed_participants_disable#:#Confirm Status Change###12 11 2006 new variable
-assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? ###12 11 2006 new variable
-assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback###12 11 2006 new variable
-assessment#:#tst_instant_feedback_results#:#Show Results (only points)###12 11 2006 new variable
-assessment#:#tst_instant_feedback_solution#:#Show Solutions###12 11 2006 new variable
-assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_list_of_answers#:#List of Answers###12 11 2006 new variable
-assessment#:#tst_list_of_questions_yes#:#Yes, and additional###12 11 2006 new variable
-assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question###12 11 2006 new variable
-assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test###12 11 2006 new variable
-assessment#:#tst_participants_no#:#Nobody has started the test right now!###12 11 2006 new variable
-assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###12 11 2006 new variable
-assessment#:#tst_passes#:#Test Passes###12 11 2006 new variable
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s###12 11 2006 new variable
-assessment#:#tst_results_access#:#Access to Test Results###12 11 2006 new variable
-assessment#:#tst_results_access_finished#:#After Test is Finished###12 11 2006 new variable
-assessment#:#tst_results_access_date#:#Date###12 11 2006 new variable
-assessment#:#tst_results_access_always#:#Always###12 11 2006 new variable
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results ###12 11 2006 new variable
-assessment#:#tst_results_presentation#:#Test Results Presentation###12 11 2006 new variable
-assessment#:#tst_list_of_answers_show#:#Show List of Answers###12 11 2006 new variable
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes###12 11 2006 new variable
-assessment#:#tst_start_new_test_pass#:#Start New Test Pass###12 11 2006 new variable
-common#:#proceed#:#Proceed###12 11 2006 new variable
-survey#:#evaluation_access_off#:#Off###12 11 2006 new variable
-chat#:#chat_server_ssl_settings#:#SSL Settings###12 11 2006 new variable
-chat#:#chat_server_ssl_port#:#Server SSL Port###12 11 2006 new variable
-chat#:#chat_server_ssl_active#:#SSL active###12 11 2006 new variable
-chat#:#chat_add_ssl_port#:#Please add the server SSL port###12 11 2006 new variable
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###15 11 2006 new variable
-survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)###15 11 2006 new variable
-survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.###15 11 2006 new variable
-survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###15 11 2006 new variable
-survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###15 11 2006 new variable
-survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
-survey#:#survey_use_start_button#:#You must enter the survey using the start button!###15 11 2006 new variable
-assessment#:#detailed_evaluation#:#Detailed Evaluation###29 11 2006 new variable
-assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s###29 11 2006 new variable
-assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!###29 11 2006 new variable
-assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation###29 11 2006 new variable
-assessment#:#feedback_answers#:#Feedback for every answer of the question###29 11 2006 new variable
-assessment#:#feedback_complete_solution#:#Correct solution###29 11 2006 new variable
-assessment#:#feedback_incomplete_solution#:#At least one answer is not correct###29 11 2006 new variable
-assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.###29 11 2006 new variable
-assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.###29 11 2006 new variable
-assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.###29 11 2006 new variable
-assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s###29 11 2006 new variable
-assessment#:#participants_evaluation#:#Evaluation for all Test Participants###29 11 2006 new variable
-assessment#:#percentage#:#Percentage###29 11 2006 new variable
-assessment#:#numeric_gap#:#Numeric Gap###29 11 2006 new variable
-assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.###29 11 2006 new variable
-assessment#:#tst_eval_question_points#:#Question Results for Pass %s###29 11 2006 new variable
-assessment#:#tst_no_evaluation_data#:#No one has started the test right now. There is no evaluation data available.###29 11 2006 new variable
-assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test###29 11 2006 new variable
-assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s###29 11 2006 new variable
-assessment#:#tst_title_output#:#Test Title Output###29 11 2006 new variable
-assessment#:#tst_title_output_full#:#Show Test Title and Available Points###29 11 2006 new variable
-assessment#:#tst_title_output_hide_points#:#Show only Test Title###29 11 2006 new variable
-assessment#:#tst_title_output_no_title#:#Don't show the Test Title and the Available Points###29 11 2006 new variable
-assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the Test Title and the Available Points during the Test###29 11 2006 new variable
-assessment#:#tst_stat_result_qmax#:#Total number of Questions###29 11 2006 new variable
-assessment#:#working_time_avg#:#Avg. Working Time###29 11 2006 new variable
-common#:#assessment_log_logging#:#Logging###29 11 2006 new variable
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
-common#:#assessment_log_manual_scoring#:#Manual Scoring###29 11 2006 new variable
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
-common#:#move_up#:#Move Up###29 11 2006 new variable
-common#:#move_down#:#Move Down###29 11 2006 new variable
-common#:#row#:#Row###29 11 2006 new variable
-common#:#rows#:#Rows###29 11 2006 new variable
-common#:#rte_editor_enabled#:#Rich Text Editor enabled###29 11 2006 new variable
-common#:#rte_editor_disabled#:#Rich Text Editor disabled###29 11 2006 new variable
-common#:#set_edit_mode#:#Set Edit Mode###29 11 2006 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###29 11 2006 new variable
-common#:#no_start_file#:#No Start File.###29 11 2006 new variable
-ilinc#:#ilinc_member_administration#:#Edit Participants###29 11 2006 new variable
-survey#:#SurveyMatrixQuestion#:#Matrix Question###29 11 2006 new variable
-survey#:#matrix_error_no_columns#:#Please fill in at least one column text!###29 11 2006 new variable
-survey#:#matrix_error_no_rows#:#Please fill in at least one row text!###29 11 2006 new variable
-survey#:#matrix_appearance#:#Appearance###29 11 2006 new variable
-survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete it!###29 11 2006 new variable
-survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!###29 11 2006 new variable
-survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!###29 11 2006 new variable
-survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!###29 11 2006 new variable
-survey#:#matrix_row_separators#:#Row Separators###29 11 2006 new variable
-survey#:#matrix_column_separators#:#Column Separators###29 11 2006 new variable
-survey#:#matrix_neutral_column_separator#:#Neutral Column Separator###29 11 2006 new variable
-survey#:#matrix_neutral_column_separator_description#:#Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question###29 11 2006 new variable
-survey#:#matrix_row_separators_description#:#Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question###29 11 2006 new variable
-survey#:#matrix_column_separators_description#:#Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question###29 11 2006 new variable
-survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives###29 11 2006 new variable
-survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts###29 11 2006 new variable
-survey#:#matrix_column_settings#:#Matrix Column Settings###29 11 2006 new variable
-survey#:#matrix_subtype_sr#:#Option Buttons (Single Response)###29 11 2006 new variable
-survey#:#matrix_subtype_mr#:#Check Boxes (Multiple Response)###29 11 2006 new variable
-survey#:#matrix_subtype_text#:#Text###29 11 2006 new variable
-survey#:#matrix_subtype_integer#:#Integer###29 11 2006 new variable
-survey#:#matrix_subtype_double#:#Floating Point###29 11 2006 new variable
-survey#:#matrix_subtype_date#:#Date###29 11 2006 new variable
-survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)###29 11 2006 new variable
-survey#:#matrix_standard_answers#:#Column Text###29 11 2006 new variable
-survey#:#matrix_rows#:#Matrix Rows###29 11 2006 new variable
-survey#:#matrix_columns#:#Matrix Columns###29 11 2006 new variable
-survey#:#matrix_subtype_time#:#Time###29 11 2006 new variable
-survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.###29 11 2006 new variable
-survey#:#matrix_columns_rows#:#Column/Row Editor###29 11 2006 new variable
-survey#:#results#:#Results###29 11 2006 new variable
-crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
-assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
-assessment#:#question_instances_title#:#This question is used in the following tests###08 12 2006 new variable
-barometer#:#bar_create#:#Create New Feedback###08 12 2006 new variable
-common#:#location#:#Location###08 12 2006 new variable
-common#:#last_visited#:#Last Visited###08 12 2006 new variable
-common#:#go#:#Go###08 12 2006 new variable
-survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
-survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
-exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
-ldap#:#ldap_server_name#:#Name of LDAP Configuration###08 12 2006 new variable
-ldap#:#ldap_referrals#:#Referrals###08 12 2006 new variable
-ldap#:#ldap_server_security_settings#:#Security Settings###08 12 2006 new variable
-ldap#:#ldap_server_binding#:#Binding###08 12 2006 new variable
-ldap#:#ldap_bind_anonymous#:#Bind Anonymously###08 12 2006 new variable
-ldap#:#ldap_bind_user#:#Bind as User:###08 12 2006 new variable
-ldap#:#ldap_server_bind_dn#:#User DN###08 12 2006 new variable
-ldap#:#ldap_server_bind_pass#:#Password###08 12 2006 new variable
-ldap#:#ldap_authentication_settings#:#Authentication Settings###08 12 2006 new variable
-ldap#:#ldap_user_dn#:#User DN###08 12 2006 new variable
-ldap#:#ldap_user_scope#:#Search Scope###08 12 2006 new variable
-ldap#:#ldap_user_attribute#:#Attribute for Login Name###08 12 2006 new variable
-ldap#:#ldap_search_filter#:#LDAP Filter###08 12 2006 new variable
-ldap#:#ldap_group_restrictions#:#Group Restrictions###08 12 2006 new variable
-ldap#:#ldap_group_dn#:#Group DN###08 12 2006 new variable
-ldap#:#ldap_group_scope#:#Search Scope###08 12 2006 new variable
-ldap#:#ldap_group_filter#:#LDAP Filter###08 12 2006 new variable
-ldap#:#ldap_group_name#:#Group Name###08 12 2006 new variable
-ldap#:#ldap_group_attribute#:#Attribute for Group###08 12 2006 new variable
-ldap#:#ldap_memberisdn#:#Attribute Value is DN###08 12 2006 new variable
-ldap#:#ldap_user_sync#:#User Synchronization Settings###08 12 2006 new variable
-ldap#:#ldap_moment_sync#:#Type of Sychronization###08 12 2006 new variable
-ldap#:#ldap_sync_login#:#On Login###08 12 2006 new variable
-ldap#:#ldap_sync_cron#:#Per Cron-Job###08 12 2006 new variable
-ldap#:#ldap_global_role_assignment#:#ILIAS-Role Assignment###08 12 2006 new variable
-ldap#:#ldap_group_member#:#Group Member Attribute###08 12 2006 new variable
-ldap#:#ldap_scope_one#:#One###08 12 2006 new variable
-ldap#:#ldap_scope_sub#:#Sub###08 12 2006 new variable
-ldap#:#ldap_scope_base#:#Base###08 12 2006 new variable
-ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.###08 12 2006 new variable
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"###08 12 2006 new variable
-ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.###08 12 2006 new variable
-ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.###08 12 2006 new variable
-ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.###08 12 2006 new variable
-ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".###08 12 2006 new variable
-ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)(userfilter)).###08 12 2006 new variable
-ldap#:#ldap_group_dn_info#:#Gets prepended to basedn when searching for groups.###08 12 2006 new variable
-ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)(groupfilter)).###08 12 2006 new variable
-ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose "Attribute Value is DN" if the member attribute is the distinguished name of the users.###08 12 2006 new variable
-ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of to authenticate successfully.###08 12 2006 new variable
-ldap#:#ldap_group_attribute_info#:#The group attribute to search for.###08 12 2006 new variable
-ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.###08 12 2006 new variable
-ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to.###08 12 2006 new variable
-ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose "Sub"###08 12 2006 new variable
-ldap#:#ldap_settings#:#Server Settings###08 12 2006 new variable
-ldap#:#ldap_user_mapping#:#User Profile Mapping###08 12 2006 new variable
-ldap#:#ldap_role_mapping#:#LDAP-Group -> Role Mapping###08 12 2006 new variable
-ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile###08 12 2006 new variable
-ldap#:#ldap_mapping_template#:#Template for objectClass:###08 12 2006 new variable
-ldap#:#ldap_update_field_info#:#Update automatically###08 12 2006 new variable
-ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings###08 12 2006 new variable
-ldap#:#ldap_role_active#:#Enable Group Synchronization###08 12 2006 new variable
-ldap#:#ldap_role_bind_user#:#Usern DN###08 12 2006 new variable
-ldap#:#ldap_role_bind_pass#:#Password###08 12 2006 new variable
-ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.###08 12 2006 new variable
-ldap#:#ldap_role_bind_pass_info#:#Password###08 12 2006 new variable
-ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment###08 12 2006 new variable
-ldap#:#ldap_ilias_role#:#ILIAS Role###08 12 2006 new variable
-ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.###08 12 2006 new variable
-ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.###08 12 2006 new variable
-ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.###08 12 2006 new variable
-common#:#auth_selection#:#Login to###08 12 2006 new variable
-common#:#authenticate_ilias#:#Login to ILIAS###08 12 2006 new variable
-common#:#authenticate_with#:#Login to:###08 12 2006 new variable
-ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.###08 12 2006 new variable
-ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.###08 12 2006 new variable
-ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version "3" or disable TLS support.###08 12 2006 new variable
-ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments###08 12 2006 new variable
-common#:#select_one#:#Please select one.###08 12 2006 new variable
-ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.###08 12 2006 new variable
-ldap#:#ldap_role_not_exists#:#A role with that name does not exist###08 12 2006 new variable
-assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To guarantee a valid presentation of the test results for the participants it is strongly recommended to restrict the access to the test results using a specified date and time.###18 12 2006 new variable
-assessment#:#tst_count_system_description#:#If partial solutions are counted, the points for a question are given dependent on the answers of a participant. If only complete solutions are counted, a participant must reach the maximum available points for a question, otherwise the resulting points are set to zero.###18 12 2006 new variable
-assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question. If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant. If results (in points) are selected, the reached points will be shown. If solutions are selected, the correct solution will be shown too.###18 12 2006 new variable
-assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last test pass of a participant will be used to calculate the test results. If the best pass is scored, the test pass with the highest number of reached points will be chosen a test result. This setting only has effect, if more than one test pass is allowed for a test.###18 12 2006 new variable
-assessment#:#tst_results_access_description#:#This setting handles the access of the participants to their test results. If results can be accessed after the test is finished, the participants can access their test results after they finished a test pass for the first time. Even if a test has more than one allowed test pass, the participants can access their test results after finishing the first pass. If you choose a date access restriction, the participants will not be able to access their test results until the specified date and time is reached. You must choose this option if you want to use the ECTS scoring system of if you have to score questions manually. If "Always" is selected, the participants can access their test results at any time even if the did not finish the test yet.###18 12 2006 new variable
-assessment#:#tst_score_cutting_description#:#If Negative Question Points are cut off, the results for each question that a participant answers with a result of less than zero points will be set to zero points. If Negative Test Points are cut off, the results for the test will be set to zero points, if the sum of all question results is less than zero points.###18 12 2006 new variable
-assessment#:#tst_score_mcmr_questions_description#:#If "Score 0 Points for Unchecked Answers" is selected, multiple choice questions without a selected check box will scored with zero points, otherwise every check box will be scored dependent to the predefined points.###18 12 2006 new variable
-assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission###18 12 2006 new variable
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###18 12 2006 new variable
-common#:#ass_log_output#:#Log Data Output###18 12 2006 new variable
-common#:#ass_log_admin#:#Log Data Administration###18 12 2006 new variable
-common#:#ass_log_count_datasets#:#Log Entries###18 12 2006 new variable
-common#:#ass_log_path#:#Test Location###18 12 2006 new variable
-common#:#ass_log_available_tests#:#Available Tests###18 12 2006 new variable
-common#:#ass_log_delete_entries#:#Delete Log Entries###18 12 2006 new variable
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted###18 12 2006 new variable
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data###18 12 2006 new variable
-common#:#msg_input_is_required#:#This input is required. Please enter a value.###18 12 2006 new variable
-news#:#news_block_news_for_context#:#News###18 12 2006 new variable
-news#:#news_news_item_head#:#News Item###18 12 2006 new variable
-news#:#news_visibility_users#:#Logged in Users###18 12 2006 new variable
-news#:#news_visibility_public#:#Public###18 12 2006 new variable
-common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS.###18 12 2006 new variable
-common#:#mail_settings#:#Besked indstillinger
-common#:#my_courses#:#My Courses###18 12 2006 new variable
-mail#:#mail_list_members#:#List members###18 12 2006 new variable
-mail#:#mail_members_added_addressbook#:#Members added to addressbook###18 12 2006 new variable
-mail#:#mail_in_addressbook#:#Already in addressbook###18 12 2006 new variable
-common#:#title_long#:#Long Title###22 12 2006 new variable
-survey#:#layout#:#Layout###22 12 2006 new variable
-survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!###22 12 2006 new variable
-common#:#obj_ps#:#Privacy and Security###22 12 2006 new variable
-common#:#obj_ps_desc#:#Configure global privacy and security settings here.###22 12 2006 new variable
-ps#:#show_privacy#:#Privacy###22 12 2006 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
-common#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
-common#:#access_expired#:#expired###25 02 2007 new variable
-common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
-common#:#access_unlimited#:#unlimited###25 02 2007 new variable
-common#:#usr_limited_access_only#:#Users with limited access only###25 02 2007 new variable
-common#:#usr_without_courses#:#Users without courses assigned###25 02 2007 new variable
-common#:#user_profile_instant_messengers#:#Contacts to Instant Messengers###25 02 2007 new variable
-common#:#instant_messengers#:#Instant Messengers###25 02 2007 new variable
-common#:#im_icq#:#ICQ###25 02 2007 new variable
-common#:#im_yahoo#:#Yahoo###25 02 2007 new variable
-common#:#im_msn#:#MSN###25 02 2007 new variable
-common#:#im_aim#:#AIM###25 02 2007 new variable
-common#:#im_skype#:#Skype###25 02 2007 new variable
-common#:#im_icq_icon#:#ICQ Logo###25 02 2007 new variable
-common#:#im_yahoo_icon#:#Yahoo Logo###25 02 2007 new variable
-common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
-common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
-common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
-common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
-assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###25 02 2007 new variable
-assessment#:#externalscript_additional_parameters#:#Script Parameters###25 02 2007 new variable
-assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
-assessment#:#externalscript_additional_parameters_hint#:#Enter the additional script parameters in key-value-coding and separate multiple key-value-pairs with a newline, e.g. <p>key1=Hello<br />key2=World</p>###25 02 2007 new variable
-assessment#:#question_not_answered#:#The question was not answered###25 02 2007 new variable
-assessment#:#result_successful_saved#:#Your results have been saved successful!###25 02 2007 new variable
-assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!###25 02 2007 new variable
-assessment#:#number_of_answers#:#Number of Answers###25 02 2007 new variable
-assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.###25 02 2007 new variable
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.###25 02 2007 new variable
-assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!###25 02 2007 new variable
-assessment#:#tst_defaults_available#:#Available test defaults###25 02 2007 new variable
-assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
-assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---###25 02 2007 new variable
-assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
-assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
-assessment#:#tst_nr_of_passes#:#Number of Test Passes###25 02 2007 new variable
-common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable
-common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
-common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.###25 02 2007 new variable
-common#:#mcst#:#MediaCast###25 02 2007 new variable
-common#:#obj_mcst#:#MediaCast###25 02 2007 new variable
-common#:#objs_mcst#:#MediaCasts###25 02 2007 new variable
-common#:#mcst_new#:#New MediaCast###25 02 2007 new variable
-common#:#mcst_add#:#Add MediaCast###25 02 2007 new variable
-common#:#perm_special_options#:#Special Options###25 02 2007 new variable
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.###25 02 2007 new variable
-common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.###25 02 2007 new variable
-common#:#change_existing_prefix#:#Change existing###25 02 2007 new variable
-common#:#change_existing_suffix#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_prefix_single#:#Change###25 02 2007 new variable
-common#:#change_existing_suffix_single#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type###25 02 2007 new variable
-common#:#defaults#:#Defaults###25 02 2007 new variable
-common#:#frm_latest_postings#:#Latest Articles###25 02 2007 new variable
-common#:#file_created#:#A new file has been added.###25 02 2007 new variable
-common#:#file_updated#:#File has been updated.###25 02 2007 new variable
-common#:#ilinc_login#:#iLinc Login###25 02 2007 new variable
-common#:#ilinc_passwd#:#iLinc Password###25 02 2007 new variable
-common#:#mails_pl#:#Mail(s)###25 02 2007 new variable
-common#:#html_block#:#HTML Block###25 02 2007 new variable
-common#:#feed#:#News Feed###25 02 2007 new variable
-block_html#:#block_html_block_head#:#HTML Block###25 02 2007 new variable
-block_html#:#block_html_block_title#:#Title###25 02 2007 new variable
-block_html#:#block_html_block_content#:#Content###25 02 2007 new variable
-news#:#news_edit_news_settings#:#Edit Settings###25 02 2007 new variable
-news#:#news_enable_internal_news#:#Enable Internal News###25 02 2007 new variable
-news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.###25 02 2007 new variable
-news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
-news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.###25 02 2007 new variable
-news#:#news_first_letter_of_word_notification#:#N###25 02 2007 new variable
-news#:#news_news_item_title#:#Headline###25 02 2007 new variable
-news#:#news_news_item_content#:#Text###25 02 2007 new variable
-news#:#news_news_item_content_long#:#Long Text###25 02 2007 new variable
-news#:#news_news_item_content_long_info#:#This text will not be published via RSS.###25 02 2007 new variable
-news#:#news_news_item_visibility#:#Access###25 02 2007 new variable
-news#:#news_news_items#:#News Item(s)###25 02 2007 new variable
-news#:#news_subscribe#:#Subscribe###25 02 2007 new variable
-news#:#news_unsubscribe#:#Unsubscribe###25 02 2007 new variable
-news#:#news_internal_news#:#Internal News###25 02 2007 new variable
-news#:#news_get_feed_url#:#Get Feed URL###25 02 2007 new variable
-news#:#news_feed_url_for#:#Feed URL for '%s'###25 02 2007 new variable
-news#:#news_get_feed_title#:#Personal Feed URL###25 02 2007 new variable
-news#:#news_get_feed_info#:#This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.###25 02 2007 new variable
-news#:#news_feed_url#:#Feed URL###25 02 2007 new variable
-news#:#news_settings#:#News Settings###25 02 2007 new variable
-news#:#news_notifications_public#:#Public Notifications###25 02 2007 new variable
-news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.###25 02 2007 new variable
-news#:#news_public_feed#:#Extra Feed URL###25 02 2007 new variable
-news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.###25 02 2007 new variable
-news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###25 02 2007 new variable
-feed#:#feed_feed_items#:#Feed Item(s)###25 02 2007 new variable
-feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop###25 02 2007 new variable
-feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.###25 02 2007 new variable
-feed#:#feed_settings#:#External Web Feeds Settings###25 02 2007 new variable
-feed#:#feed_open_source_page#:#Go to Source of External News###25 02 2007 new variable
-feed#:#block_feed_block_head#:#External News Feed###25 02 2007 new variable
-feed#:#block_feed_block_title#:#Title###25 02 2007 new variable
-feed#:#block_feed_block_feed_url#:#Feed URL###25 02 2007 new variable
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
-pdesk#:#bm_num_bookmarks#:#Bookmark(s)###25 02 2007 new variable
-pdesk#:#bm_num_bookmark_folders#:#Folder(s)###25 02 2007 new variable
-pdesk#:#pdesk_intro#:#Velkommen til dit skrivebord!
-pdesk#:#pdesk_intro2#:#Dette er dit personlige sted til at organisere læring og arbejde. Du kan placere resurser fra andre områder her. Det kræver kun to skridt:
-pdesk#:#pdesk_intro3#:#Klik på '%s' og gennemse de arbejds- og læreresurser. 
-pdesk#:#pdesk_intro4#:#Hvis du finder noget interessant tilføjer du det til skrivebordet ved at trykke <i>Vis på skrivebord</i> knappen
-common#:#activate_block#:#Aktiver
-pdesk#:#pdesk_feedback_request#:#Feedback ønske
-pdesk#:#pdesk_feedbacks#:#Feedback ønske(r)
-rep#:#rep_intro#:#Velkommen til oversigten!
-rep#:#rep_intro1#:#I dette område kan du oprette læring- og arbejdsresurser til alle brugere. Alle resurser er organiseret i kategorier. Kategorier kan afspejle strukturen af din organisation (f.eks. afdelinger), et hieraki af discipliner eller klasser i en skole.
-rep#:#rep_intro2#:#Der er tre nødvendige skridt for at bygge en grundlæggende struktur:
-rep#:#rep_intro3#:#Klik på <i>%s</i> knappen ved siden af rullemenuen øverst til højre.
-rep#:#rep_intro4#:#Der dukker en formular op hvor du indtaster en titel og beskrivelse, hvorefter du klikker på <i>%s</i>.
-rep#:#rep_intro5#:#Ved derefter at klikke på kategoriens titel går du ind i kategorien.
-rep#:#rep_intro6#:#Efter disse skridt kan du tilføje læring- og arbejdsresurser til din kategori.
-delic#:#delic_settings#:#del.icio.us indstillinger
-delic#:#delic_add_to_delicious#:#Føj til del.icio.us
-delic#:#delic_extt_delicious#:#del.icio.us
-delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens###25 02 2007 new variable
-delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile###25 02 2007 new variable
-gmaps#:#gmaps_api_key#:#API Key###25 02 2007 new variable
-gmaps#:#gmaps_settings#:#Google Maps Settings###25 02 2007 new variable
-gmaps#:#gmaps_extt_gmaps#:#Google Maps###25 02 2007 new variable
-gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
-gmaps#:#gmaps_std_location#:#Default Location###25 02 2007 new variable
-gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.###25 02 2007 new variable
-common#:#delicious#:#del.icio.us Account###25 02 2007 new variable
-common#:#select_page#:#Select Page###25 02 2007 new variable
-common#:#obj_nwss#:#News and Web Feeds Settings###25 02 2007 new variable
-common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.###25 02 2007 new variable
-common#:#obj_user#:#User###25 02 2007 new variable
-common#:#hh_mm_ss#:#HH:MM:SS###25 02 2007 new variable
-common#:#hh_mm#:#HH:MM###25 02 2007 new variable
-registration#:#reg_access_limitations#:#Access Limitation###25 02 2007 new variable
-registration#:#reg_enable_access_limitations#:#Enable Access Limitation###25 02 2007 new variable
-registration#:#reg_access_limitation_limited_until#:#Access is limited until###25 02 2007 new variable
-registration#:#reg_access_limitation_limited_time#:#After registration access for###25 02 2007 new variable
-registration#:#reg_access_limitation_none#:#Unlimited access###25 02 2007 new variable
-registration#:#reg_access_limitation_missing_mode#:#Please choose for all roles an Access Limitation Mode###25 02 2007 new variable
-registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an outdated access limitation!###25 02 2007 new variable
-registration#:#reg_role_access_limitations#:#Define access limitations of Roles for new registered Users###25 02 2007 new variable
-registration#:#reg_access_limitation_mode#:#Access Limitation Mode###25 02 2007 new variable
-registration#:#reg_access_limitation_mode_unlimited#:#No access limitation###25 02 2007 new variable
-registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date###25 02 2007 new variable
-registration#:#reg_access_limitation_mode_relative#:#Limited access for a fixed time period after registration###25 02 2007 new variable
-common#:#access_until#:#Access until###25 02 2007 new variable
-ps#:#show_security#:#Security###25 02 2007 new variable
-crs#:#crs_subscriber#:#Subscriber###25 02 2007 new variable
-ps#:#ps_export_files#:#Export Files###25 02 2007 new variable
-ps#:#ps_size#:#Files Size###25 02 2007 new variable
-ps#:#ps_select_one#:#Please select one export file###25 02 2007 new variable
-ps#:#ps_delete_export_files#:#Deleted export files###25 02 2007 new variable
-ps#:#ps_export_settings#:#Export Settings###25 02 2007 new variable
-ps#:#ps_user_selection#:#Participants Selection###25 02 2007 new variable
-ps#:#ps_export_admin#:#Administrators###25 02 2007 new variable
-ps#:#ps_export_tutor#:#Tutors###25 02 2007 new variable
-ps#:#ps_export_member#:#Members###25 02 2007 new variable
-ps#:#ps_export_sub#:#Subscribers###25 02 2007 new variable
-ps#:#ps_export_wait#:#Users on the Waiting List###25 02 2007 new variable
-ps#:#ps_export_user_data#:#Data Types###25 02 2007 new variable
-ps#:#ps_export_data#:#Data Types of the Personal Profile###25 02 2007 new variable
-ps#:#ps_perform_export#:#Start CSV-Export###25 02 2007 new variable
-crs#:#export_members#:#Export Participants###25 02 2007 new variable
-crs#:#crs_agreement_header#:#User Agreement###25 02 2007 new variable
-crs#:#crs_user_agreement#:#Released Data Types###25 02 2007 new variable
-crs#:#crs_info_agreement#:#The following data tyes are visible for course administrators:###25 02 2007 new variable
-crs#:#crs_agree#:#Acceptance###25 02 2007 new variable
-crs#:#crs_info_agree#:#I accept, that the above data types are visible for course administrators.###25 02 2007 new variable
-crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.###25 02 2007 new variable
-ps#:#ps_privacy_protection#:#Privacy Settings###25 02 2007 new variable
-ps#:#ps_security_protection#:#Security Settings###25 02 2007 new variable
-ps#:#ps_profile_export#:#Protection of User Profile Data###25 02 2007 new variable
-ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses###25 02 2007 new variable
-ps#:#ps_export_confirm#:#User Confirmation when Entering Courses###25 02 2007 new variable
-crs#:#user_fields#:#User Fields###25 02 2007 new variable
-ps#:#ps_crs_user_fields#:#Course-Specific User Fields###25 02 2007 new variable
-ps#:#ps_cdf_add_field#:#Add User Field###25 02 2007 new variable
-ps#:#ps_cdf_name#:#Name###25 02 2007 new variable
-ps#:#ps_cdf_type#:#Type###25 02 2007 new variable
-ps#:#ps_cdf_required#:#Required Field###25 02 2007 new variable
-ps#:#ps_cdf_no_fields#:#No User Fields Defined###25 02 2007 new variable
-ps#:#ps_field_type#:#Field Type###25 02 2007 new variable
-ps#:#ps_type_txt_long#:#Text Field (Optional Values)###25 02 2007 new variable
-ps#:#ps_type_select_long#:#Selection Box (Fixed Values)###25 02 2007 new variable
-ps#:#ps_new_text_field#:#Add new Text Field###25 02 2007 new variable
-ps#:#ps_name_field#:#Name###25 02 2007 new variable
-ps#:#ps_type_text#:#Text Field###25 02 2007 new variable
-ps#:#ps_type_select#:#Select Field###25 02 2007 new variable
-mail#:#mail_select_only_one_entry#:#Please select only one entry.###25 02 2007 new variable
-mail#:#mail_select_course#:#Please select at least one course.###25 02 2007 new variable
-administration#:#course_export#:#Course Export###25 02 2007 new variable
-administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.###25 02 2007 new variable
-ps#:#ps_new_select_field#:#New Selection Box###25 02 2007 new variable
-ps#:#ps_cdf_value#:#Value###25 02 2007 new variable
-ps#:#ps_btn_add_value#:#New Value###25 02 2007 new variable
-ps#:#ps_cdf_no_name_given#:#Please enter a name.###25 02 2007 new variable
-ps#:#ps_cdf_added_field#:#Added new selection box.###25 02 2007 new variable
-ps#:#ps_cdf_select_one#:#Please select one.###25 02 2007 new variable
-ps#:#ps_cdf_delete_sure#:#Do you really want to delete these user fields ?###25 02 2007 new variable
-ps#:#ps_cdf_deleted#:#Deleted user fields###25 02 2007 new variable
-ps#:#ps_edit_select_field#:#Edit Selection Box###25 02 2007 new variable
-ps#:#ps_cdf_deleted_field#:#Deleted value###25 02 2007 new variable
-common#:#users_online_show_short_associated#:#Only course and group members###25 02 2007 new variable
-common#:#users_online_show_short_n#:#Don't show active users###25 02 2007 new variable
-common#:#users_online_show_short_y#:#Show all active users###25 02 2007 new variable
-ps#:#ps_files_deleted#:#Export Files Deleted###25 02 2007 new variable
-ps#:#ps_agreement_accepted#:#User Agreement Accepted###25 02 2007 new variable
-ps#:#ps_not_accepted#:#Not Accepted###25 02 2007 new variable
-ps#:#ps_cdf_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements.###25 02 2007 new variable
-ps#:#ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.###25 02 2007 new variable
-ps#:#ps_cdf_info#:#Further Course-Specific Data:###25 02 2007 new variable
-crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators###25 02 2007 new variable
-ps#:#ps_required_info#:#Further Course-Specific fields are required for accessing the course content.###25 02 2007 new variable
-ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.###25 02 2007 new variable
-mail#:#mail_select_group#:#Please select at least one group.###25 02 2007 new variable
-mail#:#mail_my_entries#:#My Entries###25 02 2007 new variable
-mail#:#mail_my_courses#:#My Courses###25 02 2007 new variable
-mail#:#mail_my_groups#:#My Groups###25 02 2007 new variable
-mail#:#mail_into_addressbook#:#Take into Addressbook###25 02 2007 new variable
-mail#:#mail_group_members#:#Group Members###25 02 2007 new variable
-ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.###25 02 2007 new variable
-ps#:#ps_auto_https#:#Autodetect HTTPS###25 02 2007 new variable
-ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###25 02 2007 new variable
-ps#:#ps_auto_https_header_name#:#Header Name###25 02 2007 new variable
-ps#:#ps_auto_https_header_value#:#Header Value###25 02 2007 new variable
-common#:#marked_entries#:#Marked Entries###25 02 2007 new variable
-crs#:#event_overview#:#Participations in Sessions###25 02 2007 new variable
-common#:#legend#:#Legend###25 02 2007 new variable
-crs#:#event_digit#:#Digit###25 02 2007 new variable
-crs#:#event_csv_export#:#CSV Export###25 02 2007 new variable
-crs#:#event_participated#:#Participated###25 02 2007 new variable
-crs#:#event_not_participated#:#Not Participated###25 02 2007 new variable
-common#:#obj_webr_duplicate#:#Copy Web Resource ###25 02 2007 new variable
-common#:#obj_webr_select#:#-- Please select one Web Resource --###25 02 2007 new variable
-common#:#obj_file_duplicate#:#Copy File###25 02 2007 new variable
-common#:#obj_file_select#:#-- Please select one File --###25 02 2007 new variable
-common#:#obj_exc_duplicate#:#Copy Exercise###25 02 2007 new variable
-common#:#obj_exc_select#:#-- Please select one Exercise --###25 02 2007 new variable
-common#:#auth_settings#:#Authentication Settings###25 02 2007 new variable
-common#:#login_information#:#Login Information###25 02 2007 new variable
-common#:#login_information_desc#:#Please enter a login information for the respective language.###25 02 2007 new variable
-common#:#login_information_settings_saved#:#The login information were saved successfully###25 02 2007 new variable
-common#:#obj_frm_duplicate#:#Copy Forum###25 02 2007 new variable
-common#:#obj_frm_select#:#-- Please select one Forum --###25 02 2007 new variable
-forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)###25 02 2007 new variable
-forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.###25 02 2007 new variable
-common#:#btn_back#:#Back###25 02 2007 new variable
-mail#:#mail_new_entry#:#New Entry###25 02 2007 new variable
-mail#:#mail_edit_entry#:#Edit Entry###25 02 2007 new variable
-mail#:#mail_select_attachment#:#Please select an attachment for download.###25 02 2007 new variable
-common#:#obj_tst_duplicate#:#Copy Test###25 02 2007 new variable
-common#:#obj_tst_select#:#-- Please select one Test --###25 02 2007 new variable
-common#:#obj_svy_duplicate#:#Copy Survey###25 02 2007 new variable
-common#:#obj_svy_select#:#-- Please select one Survey --###25 02 2007 new variable
-common#:#obj_crs_duplicate#:#Copy Course###25 02 2007 new variable
-common#:#obj_crs_select#:#-- Please select one Course --###25 02 2007 new variable
-common#:#crs_wizard_page#:#Copy Course (Step 2/2)###25 02 2007 new variable
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
-common#:#omit_all#:#Omit all###25 02 2007 new variable
-common#:#copy_all#:#Copy all###25 02 2007 new variable
-common#:#link_all#:#Link all###25 02 2007 new variable
-common#:#omit#:#Omit###25 02 2007 new variable
-common#:#short_inst_name#:#Short Title###02 04 2007 new variable
-common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
-assessment#:#cloze_fixed_textlength#:#Text Field Length###02 04 2007 new variable
-assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value.###02 04 2007 new variable
-form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.###02 04 2007 new variable
-form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.###02 04 2007 new variable
-form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.###02 04 2007 new variable
-form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.###02 04 2007 new variable
-form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.###02 04 2007 new variable
-form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
-form#:#form_msg_file_wrong_file_type#:#Wrong file type.###02 04 2007 new variable
-form#:#form_msg_file_virus_found#:#Virus found in uploaded file.###02 04 2007 new variable
-form#:#form_days#:#Days###02 04 2007 new variable
-form#:#form_hours#:#Hours###02 04 2007 new variable
-form#:#form_minutes#:#Minutes###02 04 2007 new variable
-form#:#form_seconds#:#Seconds###02 04 2007 new variable
-common#:#obj_pdts#:#Personal Desktop Settings###02 04 2007 new variable
-common#:#obj_pdts_desc#:#Configure the Personal Desktop###02 04 2007 new variable
-common#:#move_blocks#:#Move Blocks###02 04 2007 new variable
-common#:#stop_moving_blocks#:#Stop Moving Blocks###02 04 2007 new variable
-pd#:#pd_settings#:#Personal Desktop Settings###02 04 2007 new variable
-pd#:#pd_enable_block_moving#:#Enable Block Moving###02 04 2007 new variable
-pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.###02 04 2007 new variable
-mcst#:#mcst_add_new_item#:#Add New Media Cast Item###02 04 2007 new variable
-mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.###02 04 2007 new variable
-mcst#:#mcst_duration#:#Play Time###02 04 2007 new variable
-mcst#:#mcst_nr_items#:#Number of Items###02 04 2007 new variable
-mcst#:#mcst_last_submission#:#Last Submission###02 04 2007 new variable
-mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.###02 04 2007 new variable
-mcst#:#mcst_media_cast#:#Media Cast###02 04 2007 new variable
-mcst#:#mcst_entry#:#Media Cast Entries###02 04 2007 new variable
-mcst#:#mcst_play_time#:#Play Time###02 04 2007 new variable
-mcst#:#mcst_det_playtime#:#Determine Play Time###02 04 2007 new variable
-mcst#:#mcst_settings#:#MediaCast Settings###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.###02 04 2007 new variable
-common#:#file_allowed_suffixes#:#Allowed file types:###02 04 2007 new variable
-common#:#mail_use_pear_mail#:#Use Pear Mail###02 04 2007 new variable
-common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.###02 04 2007 new variable
-common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.###02 04 2007 new variable
-common#:#obj_feed#:#Web Feed###02 04 2007 new variable
-common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
-common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
-common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
-common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
-common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
-common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
-common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
-common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
-news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
-news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
-news#:#news_related_to#:#Related to###02 04 2007 new variable
-news#:#news_all_items#:#All Items###02 04 2007 new variable
-common#:#access_users#:#Logged in Users###02 04 2007 new variable
-common#:#access_public#:#Public###02 04 2007 new variable
-common#:#access_scope#:#Access###02 04 2007 new variable
-feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories###02 04 2007 new variable
-feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing external web feed blocks, in case of an unexpected problem due to an external feed source.###02 04 2007 new variable
-gmaps#:#gmaps_public_profile_info#:#Show location in your public profile.###02 04 2007 new variable
-gmaps#:#gmaps_enable_gmaps#:#Enable Google Maps###02 04 2007 new variable
-gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
-gmaps#:#gmaps_zoom_level#:#Zoom Level###02 04 2007 new variable
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.###02 04 2007 new variable
-common#:#selected_items_back#:#Back to Personal Items###02 04 2007 new variable
-common#:#send_mail#:#Send e-mail###02 04 2007 new variable
-common#:#pd_items_news#:#Include News of Personal Items###02 04 2007 new variable
-common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.###02 04 2007 new variable
-crs#:#crs_news#:#Course News###02 04 2007 new variable
-mail#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###02 04 2007 new variable
-mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###02 04 2007 new variable
-grp#:#grp_map_settings#:#Map Settings###02 04 2007 new variable
-grp#:#grp_enable_map#:#Enable Group Map###02 04 2007 new variable
-grp#:#grp_members_map#:#Group Members Map###02 04 2007 new variable
-grp#:#grp_map_location#:#Group Map Location###02 04 2007 new variable
-crs#:#crs_map_settings#:#Map Settings###02 04 2007 new variable
-crs#:#crs_enable_map#:#Enable Course Map###02 04 2007 new variable
-crs#:#crs_map_location#:#Course Map Location###02 04 2007 new variable
-crs#:#crs_members_map#:#Course Members Map###02 04 2007 new variable
-common#:#obj_fold_duplicate#:#Copy Folder###02 04 2007 new variable
-common#:#obj_fold_select#:#-- Please select one Folder --###02 04 2007 new variable
-common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###02 04 2007 new variable
-common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
-common#:#obj_grp_duplicate#:#Copy Group###02 04 2007 new variable
-common#:#obj_grp_select#:#-- Please select one Group --###02 04 2007 new variable
-common#:#grp_wizard_page#:#Copy Group (Step 2/2)###02 04 2007 new variable
-common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
-crs#:#crs_objective_assigned_materials#:#Assigned Learning Materials###02 04 2007 new variable
-crs#:#crs_objective_assigned_qst#:#Assigned Questions###02 04 2007 new variable
-crs#:#crs_objective_add_mat#:#Assign Materials###02 04 2007 new variable
-crs#:#crs_objective_add_qst#:#Assign Questions###02 04 2007 new variable
-common#:#objs_qst#:#Questions###02 04 2007 new variable
-common#:#container_no_items#:#No Materials Available###02 04 2007 new variable
-common#:#search_engine#:#Search Engines###02 04 2007 new variable
-common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).###02 04 2007 new variable
-common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.###02 04 2007 new variable
-common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.###02 04 2007 new variable
-common#:#cat_copy#:#Copy Category###02 04 2007 new variable
-common#:#chat_copy#:#Copy Chat###02 04 2007 new variable
-common#:#crs_copy#:#Copy Course###02 04 2007 new variable
-common#:#dbk_copy#:#Copy Digilib-Book###02 04 2007 new variable
-common#:#exc_copy#:#Copy Exercise###02 04 2007 new variable
-common#:#file_copy#:#Copy File###02 04 2007 new variable
-common#:#fold_copy#:#Copy Folder###02 04 2007 new variable
-common#:#frm_copy#:#Copy Forum###02 04 2007 new variable
-common#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
-common#:#grp_copy#:#Copy Group###02 04 2007 new variable
-common#:#htlm_copy#:#Copy HTML Learning Module###02 04 2007 new variable
-common#:#icrs_copy#:#Copy LearnLinc Seminar###02 04 2007 new variable
-common#:#lm_copy#:#Copy ILIAS Lernmodul###02 04 2007 new variable
-common#:#mcst_copy#:#Copy MediaCast###02 04 2007 new variable
-common#:#sahs_copy#:#Copy SCORM/AICC Learning Module###02 04 2007 new variable
-common#:#svy_copy#:#Copy Survey###02 04 2007 new variable
-common#:#tst_copy#:#Copy Test###02 04 2007 new variable
-common#:#webr_copy#:#Copy Web Resource###02 04 2007 new variable
-common#:#missing_perm#:#Missing Permission###02 04 2007 new variable
-registration#:#auth_radius_name#:#Name of RADIUS Configuration###02 04 2007 new variable
-registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration###02 04 2007 new variable
-registration#:#auth_radius_sync#:#User Synchronization###02 04 2007 new variable
-registration#:#auth_radius_role_select#:#Role:###02 04 2007 new variable
-registration#:#auth_radius_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###02 04 2007 new variable
-common#:#forums_anonymized#:#Forum anonymized###02 04 2007 new variable
-common#:#forums_anonymous#:#anonym###02 04 2007 new variable
-common#:#forums_your_name#:#Your Name###02 04 2007 new variable
-common#:#forums_use_alias#:#You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous###02 04 2007 new variable
-administration#:#purge_count_limit#:#Limit count###10 05 2007 new variable
-administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. ###10 05 2007 new variable
-administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
-administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
-administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
-administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
-assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###10 05 2007 new variable
-assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###10 05 2007 new variable
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
-assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
-assessment#:#flashfile#:#Flash file###10 05 2007 new variable
-assessment#:#flash_attributes#:#Flash attributes###10 05 2007 new variable
-assessment#:#flash_parameters#:#Flash parameters###10 05 2007 new variable
-assessment#:#add_flash_parameter#:#Add Flash Parameter###10 05 2007 new variable
-assessment#:#matching_shuffle_terms_definitions#:#Both (Terms and Definitions)###10 05 2007 new variable
-assessment#:#matching_shuffle_terms_pictures#:#Both (Terms and Pictures)###10 05 2007 new variable
-assessment#:#matching_shuffle_definitions#:#Definitions only###10 05 2007 new variable
-assessment#:#matching_shuffle_pictures#:#Pictures only###10 05 2007 new variable
-assessment#:#matching_shuffle_terms#:#Terms only###10 05 2007 new variable
-assessment#:#question_summary#:#List of Questions###10 05 2007 new variable
-assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
-assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions###10 05 2007 new variable
-assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved###10 05 2007 new variable
-assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback has not been saved###10 05 2007 new variable
-assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test Results###10 05 2007 new variable
-common#:#lm_type_scorm2004#:#SCORM 2004###10 05 2007 new variable
-news#:#news_notifications#:#Notifications###10 05 2007 new variable
-news#:#news_hide_news_block#:#Hide News Block###10 05 2007 new variable
-news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.###10 05 2007 new variable
-news#:#news_default_visibility#:#Default Access###10 05 2007 new variable
-feed#:#feed_no_valid_url#:#The Feed URL is not valid.###10 05 2007 new variable
-content#:#Pages#:#Pages###10 05 2007 new variable
-content#:#cont_reference#:#Reference###10 05 2007 new variable
-dateplaner#:#Text#:#Text###10 05 2007 new variable
-dateplaner#:#View#:#View:###10 05 2007 new variable
-survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###10 05 2007 new variable
-ldap#:#ldap_group_search_base#:#Group Search Base###10 05 2007 new variable
-common#:#forums_enable_forum_notification#:#Enable notification for this forum###10 05 2007 new variable
-common#:#forums_disable_forum_notification#:#Disable notification for this forum###10 05 2007 new variable
-common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.###10 05 2007 new variable
-common#:#object_copy_in_progress#:#Started Copying.###10 05 2007 new variable
-trac#:#trac_mode_deactivated_info#:#No progress will be calculated.###10 05 2007 new variable
-trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'.###10 05 2007 new variable
-trac#:#trac_mode_visits_info#:#Define the number of visits that is required for completing this learning material.###10 05 2007 new variable
-trac#:#trac_mode_manual_info#:#Users have to decide whether their status is completed or not.###10 05 2007 new variable
-trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.###10 05 2007 new variable
-trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.###10 05 2007 new variable
-trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.###10 05 2007 new variable
-trac##:#trac_mode_test_finished_info#:#User have to finish a test completely.###10 05 2007 new variable
-trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.###10 05 2007 new variable
-trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.###10 05 2007 new variable
-trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor###10 05 2007 new variable
-trac#:#trac_mode_manual_by_tutor_info#:#The overall status can only be set by tutors.###10 05 2007 new variable
-ldap#:#ldap_group_membership#:#Group Membership###10 05 2007 new variable
-ldap#:#ldap_group_member_optional#:#Group Membership is Optional###10 05 2007 new variable
-ldap#:#ldap_group_user_filter#:#User Filter###10 05 2007 new variable
-ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)###10 05 2007 new variable
-ldap#:#ldap_server_short#:#Server URL:###10 05 2007 new variable
-ldap#:#ldap_group_dn_short#:#Group DN:###10 05 2007 new variable
-ldap#:#ldap_group_member_short#:#Attribute:###10 05 2007 new variable
-ldap#:#ldap_ilias_role_short#:#Role:###10 05 2007 new variable
-pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.###10 05 2007 new variable
-ldap#:#ldap_info_text#:#Information Text###10 05 2007 new variable
-ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.###10 05 2007 new variable
-ldap#:#ldap_info_text_short#:#Info Text:###10 05 2007 new variable
-common#:#further_informations#:#Further Informations###10 05 2007 new variable
-chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %###10 05 2007 new variable
-common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
-common#:#lang_et#:#Estonian###10 05 2007 new variable
-common#:#lang_ru#:#Russian###10 05 2007 new variable
-assessment#:#enable_javascript#:#Click to enable JavaScript support###29 05 2007 new variable
-assessment#:#disable_javascript#:#Click to disable JavaScript support###29 05 2007 new variable
-assessment#:#question_marking#:#Show Question Marking###29 05 2007 new variable
-assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
-assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
-assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;###29 05 2007 new variable
-assessment#:#tst_question_mark#:#Mark this question###29 05 2007 new variable
-assessment#:#tst_question_marked#:#You marked the question###29 05 2007 new variable
-assessment#:#tst_question_marker#:#Marker###29 05 2007 new variable
-assessment#:#tst_question_unmark#:#Remove the mark for this question###29 05 2007 new variable
-assessment#:#tst_report_after_date#:#After a fixed score reporting date###29 05 2007 new variable
-assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass###29 05 2007 new variable
-common#:#assessment_defaults#:#Default settings for Test & Assessment###29 05 2007 new variable
-common#:#assessment_use_javascript#:#JavaScript for Drag & Drop###29 05 2007 new variable
-common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time###29 05 2007 new variable
-pd#:#pd_enable_active_users#:#Enable Active Users Block###29 05 2007 new variable
-pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new variable
-pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
-pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
-pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
-common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
-jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
-jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
-jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
-jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.###29 05 2007 new variable
-jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath###29 05 2007 new variable
-jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;###29 05 2007 new variable
-jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!###29 05 2007 new variable
-jsmath#:#jsmath_enable_user#:#Enable jsMath support###29 05 2007 new variable
-jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.###29 05 2007 new variable
-jsmath#:#jsmath_default_setting#:#Use as default###29 05 2007 new variable
-jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.###29 05 2007 new variable
-jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.###29 05 2007 new variable
-common#:#invisible_block#:#Invisible Block###29 05 2007 new variable
-common#:#invisible_block_mess#:#You do not have the permission to view this block.###29 05 2007 new variable
-common#:#send_mail_selected#:#Select mail recipients from list###29 05 2007 new variable
-content#:#cont_operation_not_allowed#:#This operation is not allowed.###29 05 2007 new variable
-crs#:#crs_no_exercises#:#No exercises found inside this course###29 05 2007 new variable
-survey#:#export_all_survey_codes#:#Export all Access Codes###29 05 2007 new variable
-common#:#applications#:#Applications###29 05 2007 new variable
-search#:#search_page#:#Results:###29 05 2007 new variable
-search#:#search_page_next#:#Next###29 05 2007 new variable
-search#:#search_page_prev#:#Previou###29 05 2007 new variable
-common#:#width#:#Width###29 05 2007 new variable
-common#:#height#:#Height###29 05 2007 new variable
-survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text input field###29 05 2007 new variable
-survey#:#survey_text_textheight_desc#:#Enter the height in characters for the text input field###29 05 2007 new variable
-survey#:#survey_question_editor#:#Edit survey questions###29 05 2007 new variable
-assessment#:#tst_show_pass_details#:#Show Pass Details for running tests###30 05 2007 new variable
-common#:#hide_own_online_status#:#Hide My Online Status###30 05 2007 new variable
-assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
-assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
-common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 new variable
-common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
-common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
-common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
-search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
-search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
-search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
-common#:#search_results#:#Search results###09 06 2007 new variable
-assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
-common#:#checked#:#Checked###09 06 2007 new variable
-common#:#unchecked#:#Unchecked###09 06 2007 new variable
-feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
-feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable
-assessment#:#edit_test_questions#:#Edit Test Questions###13 06 2007 new variable
-common#:#textbox#:#Textbox###13 06 2007 new variable
-common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.###13 06 2007 new variable
-ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop###13 06 2007 new variable
-crs#:#crs_show_link_session#:#Show sessions###13 06 2007 new variable
-crs#:#crs_hide_link_session#:#Hide sessions###13 06 2007 new variable
-forum#:#forums_notification_disabled#:#Notification disable###13 06 2007 new variable
-content#:#cont_bb_tip#:#Tip: Styles can be applied quickly to selected text.###14 06 2007 new variable
-content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable
-crs#:#save_status#:#Save Status###19 06 2007 new variable
-crs#:#crs_selected_users#:#Selected Participants###19 06 2007 new variable
-search#:#search_users#:#Search User###19 06 2007 new variable
-common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.###20 06 2007 new variable
-common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them###20 06 2007 new variable
-forum#:#forum_add_quote#:#Add Quotation###20 06 2007 new variable
-mail#:#mail_folder_edit#:#Edit Folder###09 07 2007 new variable
-mail#:#mail_empty_trash#:#Empty Trash###09 07 2007 new variable
-mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###09 07 2007 new variable
-common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
-common#:#ext_acccount_required#:#Please enter the name of the external account.###09 07 2007 new variable
-crs#:#event_select_one#:#-- Please select one session --###09 07 2007 new variable
-crs#:#events_clone_title#:#Duplicate Session###09 07 2007 new variable
-crs#:#event_clone_btn#:#Duplicate Session###09 07 2007 new variable
-crs#:#event_cloned#:#The Session has been duplicated.###09 07 2007 new variable
-common#:#err_check_input#:#The settings could not be saved. Please check your input.###09 07 2007 new variable
-common#:#filesize#:#File Size###09 07 2007 new variable
-common#:#filetype#:#File Type###09 07 2007 new variable
-crs#:#event_files#:#Assigned File###09 07 2007 new variable
-news#:#news_loading_news#:#Loading News...###25 07 2007 new variable
-news#:#news_no_js_click_here#:#If news are not displayed, click here.###25 07 2007 new variable
-news#:#news_acc_cache#:#Permission Check (Minutes)###25 07 2007 new variable
-news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###25 07 2007 new variable
-common#:#passwd_list#:#List of Passwords###30 07 2007 new variable
-pd#:#pd_enable_bookmarks#:#Enable Bookmarks###16 08 2007 new variable
-pd#:#pd_enable_notes#:#Enable Notes###16 08 2007 new variable
-common#:#cron_mail_notification#:#Send Mail Notifications###16 08 2007 new variable
-common#:#cron_mail_notification_never#:#never###16 08 2007 new variable
-common#:#cron_mail_notification_cron#:#regularly per cron job###16 08 2007 new variable
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.###16 08 2007 new variable
-common#:#buy#:#Buy###16 08 2007 new variable
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.###16 08 2007 new variable
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.###16 08 2007 new variable
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List###16 08 2007 new variable
-mail#:#mail_notification_subject#:#New mail in your inbox###16 08 2007 new variable
-mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.###16 08 2007 new variable
-mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
-mail#:#send_mail_to#:#Mail to###16 08 2007 new variable
-mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###16 08 2007 new variable
-mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###16 08 2007 new variable
-mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###16 08 2007 new variable
-payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###16 08 2007 new variable
-payment#:#paya_perm_coupons#:#Edit coupons###16 08 2007 new variable
-mail#:#mail_my_mailing_lists#:#My Mailing Lists###16 08 2007 new variable
-mail#:#mail_mailing_lists#:#Mailing Lists###16 08 2007 new variable
-mail#:#mail_mailing_list#:#Mailing List###16 08 2007 new variable
-mail#:#mail_members_of_mailing_list#:#Members of Mailing List###16 08 2007 new variable
-mail#:#mail_entry_of_addressbook#:#Entry of Address Book###16 08 2007 new variable
-payment#:#paya_coupons_codes_import#:#Import Codes###16 08 2007 new variable
-payment#:#paya_coupons_add#:#Add Coupon###16 08 2007 new variable
-payment#:#paya_coupons_edit#:#Edit Coupon###16 08 2007 new variable
-payment#:#paya_coupons_coupons#:#Coupons###16 08 2007 new variable
-payment#:#paya_coupons_coupon#:#Coupon###16 08 2007 new variable
-payment#:#paya_coupons_type#:#Coupon Type###16 08 2007 new variable
-payment#:#paya_coupons_fix#:#fix###16 08 2007 new variable
-payment#:#paya_coupons_percentaged#:#percentaged###16 08 2007 new variable
-payment#:#paya_coupons_title#:#Title###16 08 2007 new variable
-payment#:#paya_coupons_number_of_codes#:#Number of Codes###16 08 2007 new variable
-payment#:#paya_coupons_usage_of_codes#:#Usage of Codes###16 08 2007 new variable
-payment#:#paya_coupons_objects#:#Objects###16 08 2007 new variable
-payment#:#paya_coupons_from#:#Valid From###16 08 2007 new variable
-payment#:#paya_coupons_till#:#Valid Till###16 08 2007 new variable
-payment#:#paya_coupons_not_available#:#No coupons created yet.###16 08 2007 new variable
-payment#:#paya_coupons_description#:#Description###16 08 2007 new variable
-payment#:#paya_coupons_value#:#Value###16 08 2007 new variable
-payment#:#paya_coupons_edit_codes#:#Edit Codes###16 08 2007 new variable
-payment#:#paya_coupons_edit_objects#:#Edit Objects###16 08 2007 new variable
-payment#:#paya_coupons_codes#:#Codes###16 08 2007 new variable
-payment#:#paya_coupons_code#:#Code###16 08 2007 new variable
-payment#:#paya_coupons_generate_codes#:#Generate Codes###16 08 2007 new variable
-payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code###16 08 2007 new variable
-payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully###16 08 2007 new variable
-payment#:#paya_coupons_code_length#:#Code Length###16 08 2007 new variable
-payment#:#paya_coupons_code_chars#:#Chars###16 08 2007 new variable
-payment#:#paya_coupons_code_generation#:#Code Generation###16 08 2007 new variable
-payment#:#paya_coupons_type_auto#:#Automatically###16 08 2007 new variable
-payment#:#paya_coupons_type_self#:#Manually###16 08 2007 new variable
-payment#:#paya_coupons_no_codes_selected#:#You did not select any code###16 08 2007 new variable
-payment#:#paya_coupons_sure_delete_selected_codes#:#Are you sure you want to delete the selected codes?###16 08 2007 new variable
-payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete all codes?###16 08 2007 new variable
-payment#:#paya_coupons_codes_not_available#:#No codes created yet.###16 08 2007 new variable
-payment#:#paya_coupons_assigned_objects#:#Assigned Objects###16 08 2007 new variable
-payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects###16 08 2007 new variable
-payment#:#paya_coupons_not_found#:#No coupons found.###16 08 2007 new variable
-payment#:#paya_coupons_not_valid#:#The coupon is not valid.###16 08 2007 new variable
-payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.###16 08 2007 new variable
-payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.###16 08 2007 new variable
-payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.###16 08 2007 new variable
-payment#:#paya_coupons_coupon_added#:#Coupon added.###16 08 2007 new variable
-payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
-payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
-payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
-payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
-payment#:#paya_coupons_no_codes_generated#:#No codes generated.###16 08 2007 new variable
-payment#:#paya_coupons_import_codes#:#Import Codes###16 08 2007 new variable
-payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!###16 08 2007 new variable
-payment#:#paya_coupon_codes_import_successful#:#Import successful.###16 08 2007 new variable
-payment#:#pays_bmf_settings#:#Settings for BMF###16 08 2007 new variable
-payment#:#pays_bmf_client_id#:#Cliend Id###16 08 2007 new variable
-payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr###16 08 2007 new variable
-payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle###16 08 2007 new variable
-payment#:#pays_bmf_object_id#:#Object Id###16 08 2007 new variable
-payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren###16 08 2007 new variable
-payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen###16 08 2007 new variable
-payment#:#pays_bmf_epayment_server#:#ePayment-Server###16 08 2007 new variable
-payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate###16 08 2007 new variable
-payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate###16 08 2007 new variable
-payment#:#pays_bmf_timeout#:#Timeout###16 08 2007 new variable
-payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.###16 08 2007 new variable
-payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###16 08 2007 new variable
-meta#:#md_advanced#:#Advanced Metadata###16 08 2007 new variable
-meta#:#md_adv_record_list#:#Datasets###16 08 2007 new variable
-meta#:#md_adv_file_list#:#Export Files###16 08 2007 new variable
-meta#:#md_record_list_table#:#Advanced Metadata Sets###16 08 2007 new variable
-meta#:#md_fields#:#Fields###16 08 2007 new variable
-meta#:#md_obj_types#:#Assigned Objekts###16 08 2007 new variable
-meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)###16 08 2007 new variable
-meta#:#md_adv_substitution#:#Text###16 08 2007 new variable
-meta#:#md_adv_placeholders#:#Placeholders###16 08 2007 new variable
-meta#:#md_adv_placeholder_for#:#Placeholder for:###16 08 2007 new variable
-meta#:#md_record_export_table#:#Export Files###16 08 2007 new variable
-meta#:#md_adv_records#:#Included Datasets###16 08 2007 new variable
-meta#:#md_adv_select_one_file#:#Please choose one file.###16 08 2007 new variable
-meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?###16 08 2007 new variable
-meta#:#md_adv_deleted_files#:#Deleted export files.###16 08 2007 new variable
-meta#:#md_adv_records_exported#:#A new export file has been created.###16 08 2007 new variable
-meta#:#md_adv_edit_record#:#Edit Dataset###16 08 2007 new variable
-meta#:#md_adv_field_table#:#Edit Fields###16 08 2007 new variable
-meta#:#md_adv_field_fields#:#Fields###16 08 2007 new variable
-meta#:#md_adv_searchable#:#Searchable###16 08 2007 new variable
-meta#:#md_adv_edit_field#:#Edit Field###16 08 2007 new variable
-meta#:#md_adv_create_field#:#Add Field###16 08 2007 new variable
-meta#:#md_adv_add_value#:#Add Value###16 08 2007 new variable
-meta#:#md_adv_no_fields#:#No Fields Defined###16 08 2007 new variable
-meta#:#md_adv_deleted_records#:#Deleted Dataset###16 08 2007 new variable
-meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?###16 08 2007 new variable
-meta#:#md_adv_added_new_record#:#Added new Dataset###16 08 2007 new variable
-meta#:#md_adv_create_record#:#Add new Dataset###16 08 2007 new variable
-meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?###16 08 2007 new variable
-barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###16 08 2007 new variable
-meta#:#md_adv_active#:#Active###16 08 2007 new variable
-common#:#default_auth_mode#:#Default Authentication Method###16 08 2007 new variable
-common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###16 08 2007 new variable
-common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###16 08 2007 new variable
-auth#:#auth_rad_migration#:#Account Migration:###16 08 2007 new variable
-auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.###16 08 2007 new variable
-auth#:#auth_account_migration#:#New ILIAS Account###16 08 2007 new variable
-auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).###16 08 2007 new variable
-auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created###16 08 2007 new variable
-common#:#res_links#:#Repository Links###23 08 2007 new variable
-administration#:#language_administration#:#Language Administration###23 08 2007 new variable
-administration#:#language_all_modules#:#All modules###23 08 2007 new variable
-administration#:#language_change_settings#:#Change Language Settings###23 08 2007 new variable
-administration#:#language_clear_local_changes#:#Clear local changes in the database###23 08 2007 new variable
-administration#:#language_cleared_local#:#The local changes were cleared in the database.###23 08 2007 new variable
-administration#:#language_compare#:#Compare:###23 08 2007 new variable
-administration#:#language_default_entries#:# (default entries)###23 08 2007 new variable
-administration#:#language_delete_local_changes#:#Delete all local changes in the database###23 08 2007 new variable
-administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!###23 08 2007 new variable
-administration#:#language_error_read_local#:#The local language file doesn't exist or can't be read!###23 08 2007 new variable
-administration#:#language_error_write_local#:#The local language file can't be written!###23 08 2007 new variable
-administration#:#language_export_file#:#Export Language File###23 08 2007 new variable
-administration#:#language_file_imported#:#The language file %s was imported.###23 08 2007 new variable
-administration#:#language_file_scope#:#Language file scope###23 08 2007 new variable
-administration#:#language_import_file#:#Import Language File###23 08 2007 new variable
-administration#:#language_load_local_changes#:#Load local language file into the database###23 08 2007 new variable
-administration#:#language_loaded_local#:#The local language file was loaded into the database.###23 08 2007 new variable
-administration#:#language_maintain#:#Maintain###23 08 2007 new variable
-administration#:#language_maintain_local_changes#:#Maintain local changes###23 08 2007 new variable
-administration#:#language_maintenance#:#Language Maintenance###23 08 2007 new variable
-administration#:#language_mode_existing#:#Existing Entries###23 08 2007 new variable
-administration#:#language_mode_existing_delete#:#Delete existing entries###23 08 2007 new variable
-administration#:#language_mode_existing_keepall#:#Keep all existing entries###23 08 2007 new variable
-administration#:#language_mode_existing_keepnew#:#Keep all local changes###23 08 2007 new variable
-administration#:#language_mode_existing_replace#:#Replace existing entries###23 08 2007 new variable
-administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and re-import them if needed.###23 08 2007 new variable
-administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
-administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
-administration#:#language_save_local_changes#:#Save all changes to the local language file###23 08 2007 new variable
-administration#:#language_saved_local#:#All changes were saved to the local language file.###23 08 2007 new variable
-administration#:#language_scope_commented#:#With comments from language manager###23 08 2007 new variable
-administration#:#language_scope_different#:#Different from compare language###23 08 2007 new variable
-administration#:#language_scope_equal#:#Equal to compare language###23 08 2007 new variable
-administration#:#language_scope_global#:#All entries###23 08 2007 new variable
-administration#:#language_scope_local#:#Local changes only###23 08 2007 new variable
-administration#:#language_scope_translate#:#All entries, empty for translation###23 08 2007 new variable
-administration#:#language_scope_unchanged#:#Unchanged entries only###23 08 2007 new variable
-administration#:#language_settings#:#Language Settings###23 08 2007 new variable
-administration#:#language_statistics#:#Statistics###23 08 2007 new variable
-administration#:#language_translation_disabled#:#Page translation disabled###23 08 2007 new variable
-administration#:#language_translation_enabled#:#Page translation enabled###23 08 2007 new variable
-administration#:#language_translation_mode#:#Translation mode###23 08 2007 new variable
-ldap#:#ldap_role_assignments#:#Role Assignment###23 08 2007 new variable
-ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 08 2007 new variable
-ldap#:#ldap_assignment_type#:#Assignment Type###23 08 2007 new variable
-ldap#:#ldap_role_by_group#:#Groupmembership###23 08 2007 new variable
-ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.###23 08 2007 new variable
-ldap#:#ldap_role_grp_at#:#Attribute###23 08 2007 new variable
-ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.###23 08 2007 new variable
-ldap#:#ldap_role_grp_isdn#:#Attribute value is DN###23 08 2007 new variable
-ldap#:#ldap_role_by_attribute#:#LDAP Attribute###23 08 2007 new variable
-ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.###23 08 2007 new variable
-ldap#:#ldap_role_at_name#:#Attribute Name###23 08 2007 new variable
-ldap#:#ldap_role_at_value#:#Attribute Value###23 08 2007 new variable
-ldap#:#ldap_tbl_role_ass#:#Avtive Rules###23 08 2007 new variable
-ldap#:#ldap_rule_condition#:#condition###23 08 2007 new variable
-ldap#:#ldap_btn_add_role_ass#:#Add New Rule###23 08 2007 new variable
-ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule###23 08 2007 new variable
-ldap#:#ldap_rule_type#:#Type of Assignment###23 08 2007 new variable
-ldap#:#ldap_confirm_del_role_ass#:#Delete Role Assignmen###23 08 2007 new variable
