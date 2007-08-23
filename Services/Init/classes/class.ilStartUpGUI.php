@@ -828,7 +828,7 @@ class ilStartUpGUI
 	{
 		global $lng, $tpl, $ilUser;
 
-		require_once "classes/class.ilUserAgreement.php";
+		require_once "./Services/User/classes/class.ilUserAgreement.php";
 
 		$tpl->addBlockFile("CONTENT", "content", "tpl.view_usr_agreement.html");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");

@@ -36,7 +36,7 @@
 */
 
 require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
-require_once "classes/class.ilUserAgreement.php";
+require_once "./Services/User/classes/class.ilUserAgreement.php";
 
 class ilRegistrationGUI
 {
