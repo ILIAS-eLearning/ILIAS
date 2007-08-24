@@ -166,6 +166,28 @@ class ilLDAPResult
 	private function getEntries()
 	{
 		return $this->entries = @ldap_get_entries($this->ldap_handle,$this->result);
+
+		// this way ldap_get_entries is binary safe
+
+		$i=0;
+		$tmp_entries = array();
+		$entry = ldap_first_entry($this->ldap_handle,$this->result);
+		do {
+			$attributes = @ldap_get_attributes($this->ldap_handle, $entry);
+			for($j=0; $j<$attributes['count']; $j++) 
+			{
+				$values = ldap_get_values_len($this->ldap_handle, $entry,$attributes[$j]);
+				$tmp_entries[$i][strtolower($attributes[$j])] = $values;
+			}
+			$i++;               
+		} while ($entry = @ldap_next_entry($this->ldap_handle,$entry));
+
+		if($i)
+		{
+			$tmp_entries['count'] = $i;
+		}
+		$this->entries = $tmp_entries;
+		return $this->entries;
 	}
 }
 
