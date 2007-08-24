@@ -872,7 +872,7 @@ class ilLDAPSettingsGUI
 	
 	private function initUserDefinedFields()
 	{
-		include_once("classes/class.ilUserDefinedFields.php");
+		include_once("./Services/User/classes/class.ilUserDefinedFields.php");
 		$this->udf = ilUserDefinedFields::_getInstance();
 	}
 	
