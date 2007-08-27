@@ -4480,6 +4480,16 @@ content#:#selected_pages_only#:#only that pages selected below
 content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
+content#:#seq_coursecomplete#:#The current course is completed.
+content#:#seq_endsession#:#The current course session has ended.
+content#:#seq_blocked#:#The sequencing session was blocked.
+content#:#seq_nothing#:#There is no activity to deliver.
+content#:#seq_error#:#An internal error in the sequencer occurred.
+content#:#seq_deadlock#:#The sequencer is in a deadlock.
+content#:#seq_invalidnavreq#:#The sequencer received an invalid request.
+content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.
+content#:#seq_abandonall#:#The current course session has been abandoned..
+content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#add_event#:#Add Session
 crs#:#assigned#:#Assigned
