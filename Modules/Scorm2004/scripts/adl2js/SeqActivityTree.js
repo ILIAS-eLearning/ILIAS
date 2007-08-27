@@ -390,7 +390,7 @@ SeqActivityTree.prototype =
 								}
 								
 								actList[actList.length] = walk.getID();
-								mObjMap[target] = actList;
+								this.mObjMap[target] = actList;
 							}
 						}
 					}

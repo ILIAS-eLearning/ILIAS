@@ -1056,14 +1056,11 @@ function onDocumentClick (e)
 		///
 		//alert("Function: "+target.id.substr(3));
 		
-		mlaunch = new ADLLaunch();
 		//calling ADL Sequencer after UI Event
 		var navType=target.id.substr(3);
-		
+		mlaunch = new ADLLaunch();
 		if (navType==='Start') {
 			mlaunch = msequencer.navigate(NAV_START);
-			//alert(mlaunch.mActivityID);
-			//sclogdump(mlaunch);
 		}
 			
 		if (navType==='ResumeAll') {
@@ -1087,7 +1084,7 @@ function onDocumentClick (e)
 		}
 		
 		if (navType==='SuspendAll') {
-				mlaunch = msequencer.navigate(NAV_SUSPENDALL);
+			mlaunch = msequencer.navigate(NAV_SUSPENDALL);
 		}
 		
 		if (navType==='Previous') {
@@ -1100,8 +1097,12 @@ function onDocumentClick (e)
 			
 		}
 		
-		onItemDeliver(activities[mlaunch.mActivityID]);
-		
+		if (mlaunch.mSeqNonContent == null) {
+			onItemDeliver(activities[mlaunch.mActivityID]);
+		} else {
+		  //call specialpage
+		  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+		}
 	} 
 	
 	//SCO selected by user directly (OSCO is used as ITEM_PREFIX)
@@ -1110,12 +1111,17 @@ function onDocumentClick (e)
 		if (e.altKey) {} // for special commands
 		else 
 		{
-			alert("Normal navigation")
+			alert("Normal navigation"+target.id);
 			//direct click on SCO
 			
-			mlaunch = msequencer.navigateStr( requestedSCO );
-            
-			onChoice(target);	
+			mlaunch = msequencer.navigateStr( target.id );
+           
+ 			if (mlaunch.mSeqNonContent == null) {
+				onItemDeliver(activities[mlaunch.mActivityID]);
+			} else {
+			  //call specialpage
+			  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+			}
 		}
 	}
 	else if (typeof window[target.id + '_onclick'] === "function")
@@ -1134,6 +1140,21 @@ function setState(newState)
 {
 	replaceClass(document.body, guiState + 'State', newState + 'State');
 	guiState = newState;
+}
+
+function loadPage(src) {
+		var elm = window.document.getElementById(RESOURCE_PARENT);
+		if (!elm) 
+		{
+			return window.alert("Window Container not found");
+		}
+		var h = elm.clientHeight-20;
+		if (self.innerHeight && navigator.userAgent.indexOf("Safari") != -1) // needed for Webkit based browsers
+		{
+			h = self.innerHeight-60;
+		} 
+		RESOURCE_NAME= "SPECIALPAGE";
+		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:' + h + 'px" height="' + h + '"></iframe>';
 }
 
 
@@ -1167,10 +1188,22 @@ function updateToc(tocState)
 
 function updateControls(controlState) 
 {
-	for (var k in controlState) 
-	{
-		toggleClass('nav'+k.charAt().toUpperCase()+k.substr(1), 'enabled', !controlState[k]);
-	}
+	//mapping
+	if (mlaunch!=null) {
+		//do it manually instead of array processing
+		toggleClass('navContinue', 'disabled', !mlaunch.mNavState.mContinue);
+		toggleClass('navExit', 'disabled', !mlaunch.mNavState.mContinueExit);
+		toggleClass('navPrevious', 'disabled', !mlaunch.mNavState.mPrevious);
+		toggleClass('navResumeAll', 'disabled', !mlaunch.mNavState.mResume);
+		toggleClass('navStart', 'disabled', !mlaunch.mNavState.mStart);
+		toggleClass('navSuspendAll', 'disabled', !mlaunch.mNavState.mSuspend);
+		
+		/*for (var k in mlaunch.mNavState) 
+		{
+			alert(k);
+			toggleClass('nav'+k.charAt().toUpperCase()+k.substr(1), 'enabled', !controlState[k]);
+		}*/
+	}	
 }
 
 function setResource(id, url, base) 
@@ -1485,7 +1518,7 @@ function init(config)
 	}
 
 	this.config = config;
-	
+	gConfig=config;
 	setInfo('loading');
 	setState('loading');
 	
@@ -1518,10 +1551,9 @@ function init(config)
 	//	actTree.setLearnerID(this.config.learner_id);
 		//actTree.setRoot(adlTree);
 		actTree.setDepths();
-		actTree.setTreeCount();
-	//	actTree.setScopeID(this.config.course_id);
-		
+		actTree.setTreeCount();		
 		msequencer.setActivityTree(actTree);	
+		
 	}		
 	
 	// convert seq array into seq map and decode seq data en passant
@@ -1580,6 +1612,11 @@ function init(config)
 		
 	// Step 2: load tracking data
 	load();
+	
+	//launch first activity
+	mlaunch = msequencer.navigate(NAV_NONE);
+    updateControls(null);
+	
 		
 }
 
@@ -2266,6 +2303,9 @@ var sharedObjectives = new Object(); // global objectives by objective identifie
 
 //integration of ADL Sequencer
 var msequencer=new ADLSequencer();
+var mlaunch=null;
+//var mlaunch = new ADLLaunch();
+
 
 // GUI constants
 var ITEM_PREFIX = "itm";
@@ -2276,6 +2316,7 @@ var RESOURCE_TOP = "mainTable";
 // GUI Variables 
 var guiItem;
 var guiState; // loading, playing, paused, stopped, buffering
+var gConfig;
 
 // SEQUENCER Constants: States
 var RUNNING = 1; // already executing some navigation command

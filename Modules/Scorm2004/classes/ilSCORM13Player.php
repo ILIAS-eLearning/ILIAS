@@ -157,12 +157,11 @@ class ilSCORM13Player
 	var $ilias;
 	var $slm;
 	var $tpl;
-	var $lng;
 	
 	function __construct()
 	{
 		
-		global $ilias, $tpl, $lng, $ilCtrl, $ilUser;
+		global $ilias, $tpl, $ilCtrl, $ilUser, $lng;
 
 		
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
@@ -173,16 +172,17 @@ class ilSCORM13Player
 			} else {
 				$this->userId = $GLOBALS['USER']['usr_id'];
 			}
-			$this->packageId = (int) $_REQUEST['packageId'];
-			$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
+		$this->packageId = (int) $_REQUEST['packageId'];
+		$this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
+		
+		$this->page = $_REQUEST['page'];
 		
 		
 				
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
-		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
-		
+				
         $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
 		$this->userId=$ilUser->getID();
 
@@ -231,6 +231,10 @@ class ilSCORM13Player
 					$this->fetchCMIData();
 				}
 				break;
+			
+			case 'specialPage':
+			 	$this->specialPage();
+				break;
 				
 				
 			default:
@@ -240,7 +244,7 @@ class ilSCORM13Player
 		
 	}
 	
-	
+
 	
 	function getDataDirectory($mode = "filesystem")
 	{
@@ -262,6 +266,9 @@ class ilSCORM13Player
 		}
 		return $return;
 	}	
+	
+	
+	
 
 	public function getPlayer()
 	{
@@ -273,6 +280,8 @@ class ilSCORM13Player
 			'cp_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"],
 			'cmi_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"],
 			'adlact_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=adlact&ref_id='.$_GET["ref_id"],
+			'specialpage_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=specialPage&ref_id='.$_GET["ref_id"],
+			
 			'learner_id' => (string) $ilUser->getID(),
 			'course_id' => (string) $this->packageId,
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
@@ -379,6 +388,32 @@ class ilSCORM13Player
 			print_r($activitytree);	
 		}
 	}
+	
+	
+	public function specialPage() {
+		//mapping constants
+		global $lng;
+		
+		$specialpages = array (
+			"_COURSECOMPLETE_"	=>		"seq_coursecomplete",
+			"_ENDSESSION_"		=> 		"seq_endsession",
+			"_SEQBLOCKED_"		=> 		"seq_blocked",
+			"_NOTHING_"			=> 		"seq_nothing",
+			"_ERROR_"			=>  	"seq_error",
+			"_DEADLOCK_"		=>		"seq_deadlock",
+			"_INVALIDNAVREQ_"	=>		"seq_invalidnavreq",
+			"_SEQABANDON_"		=>		"seq_abandon",
+			"_SEQABANDONALL_"	=>		"seq_abandonall",
+			"_TOC_"				=>		"seq_toc"
+		);
+		
+		$this->tpl = new ilTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt($specialpages[$this->page]));
+		$this->tpl->show("DEFAULT", false);
+				
+	}
+	
 	
 	public function fetchCMIData()
 	{
