@@ -1105,18 +1105,17 @@ function onDocumentClick (e)
 		}
 	} 
 	
-	//SCO selected by user directly (OSCO is used as ITEM_PREFIX)
+	//SCO selected by user directly (itm is used as ITEM_PREFIX)
 	else if (target.id.substr(0, 3)===ITEM_PREFIX) 
 	{
 		if (e.altKey) {} // for special commands
 		else 
 		{
-			alert("Normal navigation"+target.id);
-			//direct click on SCO
-			
-			mlaunch = msequencer.navigateStr( target.id );
+			mlaunch = msequencer.navigateStr( target.id.substr(3));
            
  			if (mlaunch.mSeqNonContent == null) {
+				//alert(activities[mlaunch.mActivityID]);	
+	
 				onItemDeliver(activities[mlaunch.mActivityID]);
 			} else {
 			  //call specialpage
@@ -1153,8 +1152,9 @@ function loadPage(src) {
 		{
 			h = self.innerHeight-60;
 		} 
+		
 		RESOURCE_NAME= "SPECIALPAGE";
-		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:' + h + 'px" height="' + h + '"></iframe>';
+		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:' + h + 'px;" height="' + h + '"></iframe>';
 }
 
 
@@ -1610,13 +1610,11 @@ function init(config)
 	// walk throught activities and add some helpful properties
 	camWalk(cam.item, rootAct);
 		
+
 	// Step 2: load tracking data
 	load();
 	
-	//launch first activity
-	mlaunch = msequencer.navigate(NAV_NONE);
-    updateControls(null);
-	
+   
 		
 }
 
@@ -2057,6 +2055,18 @@ function onWindowLoad ()
 	setState('playing');
 	attachUIEvent(window, 'resize', onWindowResize);
 	onWindowResize();
+	
+	//launch first activity
+	mlaunch = msequencer.navigate(NAV_NONE);
+	
+	if (mlaunch.mSeqNonContent == null) {
+		onItemDeliver(activities[mlaunch.mActivityID]);
+	} else {
+	  //call specialpage
+	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+	}
+	updateControls(null);
+	
 }
 
 function onWindowUnload () 
@@ -2244,7 +2254,8 @@ var guiViews = // for different table of content views in gui
 				var elm = sink[depth].appendChild(sink[depth].ownerDocument.createElement('A'));
 				elm.id = ITEM_PREFIX + item.id;
 				elm.className = (item.href ? 'content' : 'block') + (item.isvisible ? '' : ' invisible');
-				elm.href = "#";
+				elm.href = "#this";
+				elm.target ="_self";
 				if (item.href) {
 					elm.innerHTML = setTitle(item);
 				} else  {
