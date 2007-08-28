@@ -371,8 +371,8 @@ ADLSequencer.prototype =
 		}
 		
 		// Make sure the requested activity exists
+		//alert(iTarget);
 		var target = this.getActivity(iTarget);
-		
 		if (target != null)
 		{
 			// If this is a new session, we start at the root.
@@ -401,7 +401,7 @@ ADLSequencer.prototype =
 					// Confirm the target activity is allowed
 					if (valid.mChoice != null)
 					{
-						var test = valid.mChoice.get(iTarget);
+						var test = valid.mChoice[iTarget];
 						
 						if (test == null)
 						{
