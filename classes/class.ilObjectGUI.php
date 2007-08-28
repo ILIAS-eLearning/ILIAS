@@ -1152,7 +1152,7 @@ class ilObjectGUI
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
-			$this->tpl->parseCurrentBlock();
+//			$this->tpl->parseCurrentBlock();
 		}
 
 		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
