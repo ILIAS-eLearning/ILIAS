@@ -51,13 +51,11 @@ class ilAdvancedMDFieldDefinition
 	
 	
 	/**
-	 * Singleton constructor
-	 *
-	 * @access private
+	 * @access public
 	 * @param
 	 * 
 	 */
-	private function __construct($a_field_id = 0)
+	public function __construct($a_field_id = 0)
 	{
 		global $ilDB;
 		
@@ -439,6 +437,14 @@ class ilAdvancedMDFieldDefinition
 	 		"required = ".(int) $this->isRequired();
 	 	$this->db->query($query);
 	 	$this->field_id = $this->db->getLastInsertId();
+	 	
+	 	if(!strlen($this->getImportId()))
+	 	{
+	 		$query = "UPDATE adv_md_field_definition ".
+	 			"SET import_id = 'il_".(IL_INST_ID.'_adv_md_field_'.$this->field_id)."' ".
+	 			"WHERE field_id = ".$this->db->quote($this->field_id)." ";
+	 		$this->db->query($query);
+	 	}
 		return true;
 	}
 	
@@ -495,9 +501,26 @@ class ilAdvancedMDFieldDefinition
 	 */
 	 public function toXML(ilXmlWriter $writer)
 	 {
+	 	switch($this->getFieldType())
+	 	{
+	 		case self::TYPE_TEXT:
+	 			$type = 'Text';
+	 			break;
+	 			
+	 		case self::TYPE_SELECT:
+	 			$type = 'Select';
+	 			break;
+	 			
+	 		case self::TYPE_DATE:
+	 			$type = 'Date';
+	 			break;
+	 	}
+	 	
+	 	
 	 	$writer->xmlStartTag('Field',array(
+	 		'Id' => $this->getImportId(),
 			'Searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
-			'FieldType'	 => (($this->getFieldType() == self::TYPE_TEXT) ? 'Text' : 'Select')));
+			'FieldType'	 => $type));
 		
 		$writer->xmlElement('FieldTitle',null,$this->getTitle());
 		$writer->xmlElement('FieldDescription',null,$this->getDescription());
