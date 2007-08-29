@@ -165,7 +165,7 @@ class ilUserSearchOptions
 
 	function __appendUserDefinedFields($fields,$counter)
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		$user_defined_fields =& ilUserDefinedFields::_getInstance();
 		
