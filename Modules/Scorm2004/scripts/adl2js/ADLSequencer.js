@@ -496,6 +496,7 @@ ADLSequencer.prototype =
 		// Make sure an activity tree has been associated with this sequencer
 		if (this.mSeqTree == null)
 		{
+			alert("Firefox lost mSeqTree");
 			// No activity tree, therefore nothing to do
 			//    -- inform the caller of the error.
 			launch.mSeqNonContent = LAUNCH_ERROR;

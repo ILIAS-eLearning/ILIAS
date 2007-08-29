@@ -1154,7 +1154,8 @@ function loadPage(src) {
 		} 
 		
 		RESOURCE_NAME= "SPECIALPAGE";
-		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:' + h + 'px;" height="' + h + '"></iframe>';
+		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:100%;"></iframe>';
+		onWindowResize();
 }
 
 
@@ -1225,7 +1226,7 @@ function setResource(id, url, base)
 		{
 			h = self.innerHeight-60;
 		} 
-		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + url +	'"  style="width: 100%; height:' + h + 'px" height="' + h + '"></iframe>';	
+		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + url +	'"  style="width: 100%; height:100%;"></iframe>';	
 	} 
 	else 
 	{
@@ -1241,6 +1242,7 @@ function setResource(id, url, base)
 	{
 		addClass(guiItem, "current");
 	}
+	onWindowResize();
 }
 
 function removeResource(callback) 
@@ -1613,6 +1615,26 @@ function init(config)
 
 	// Step 2: load tracking data
 	load();
+	
+	//set toc-moved 
+	setToc(getTocData(), this.config.package_url);
+	
+	//do a fake launch to check if TOC choice should be displayed
+	mlaunch = msequencer.navigate(NAV_NONE);
+	
+	if (mlaunch.mNavState.mStart) {
+		//launch first activity //assume course has not be launched before
+		mlaunch = msequencer.navigate(NAV_START);
+	} 
+	if (mlaunch.mSeqNonContent == null) {
+		onItemDeliver(activities[mlaunch.mActivityID]);
+	} else {
+	  //call specialpage
+	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+	}
+//	updateControls(null);
+	updateToc(getTocState());
+	updateControls(getControlState());
 	
    
 		
@@ -2041,38 +2063,22 @@ function dirtyCount()
 
 function onWindowLoad () 
 { 
+	//dummy - most code removed, cause of sync problems with init method
+	//finishing 
 	// Hook core events
 	attachUIEvent(window, 'unload', onWindowUnload);
 	attachUIEvent(document, 'click', onDocumentClick);
 	
+	/*
 	// Show Tree and Controls
 	setToc(getTocData(), this.config.package_url);
-
+	*/
 	
 	// Finishing startup
 	setInfo('');
 	setState('playing');
 	attachUIEvent(window, 'resize', onWindowResize);
 	onWindowResize();
-	
-	//do a fake launch to check if TOC choice should be displayed
-	mlaunch = msequencer.navigate(NAV_NONE);
-	
-	if (mlaunch.mNavState.mStart) {
-		//launch first activity //assume course has not be launched before
-		mlaunch = msequencer.navigate(NAV_START);
-	} 
-	
-	if (mlaunch.mSeqNonContent == null) {
-		onItemDeliver(activities[mlaunch.mActivityID]);
-	} else {
-	  //call specialpage
-	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
-	}
-//	updateControls(null);
-	updateToc(getTocState());
-	updateControls(getControlState());
-	
 }
 
 function onWindowUnload () 
@@ -2082,10 +2088,12 @@ function onWindowUnload ()
 
 function onItemDeliver(item) // onDeliver called from sequencing process (deliverSubProcess)
 {
+	
 	var url = item.href, v;
 	var tocState = getTocState();
 	var controlState = getControlState();
 	// create api if associated resouce is of adl:scormType=sco
+	
 	if (item.sco)
 	{
 		// get data in cmi-1.3 format
