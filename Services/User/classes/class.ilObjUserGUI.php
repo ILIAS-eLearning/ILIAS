@@ -707,7 +707,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function __checkUserDefinedRequiredFields()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 
 		foreach($this->user_defined_fields->getDefinitions() as $field_id => $definition)
@@ -723,7 +723,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function __showUserDefinedFields()
 	{
-		include_once './classes/class.ilUserDefinedFields.php';
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 		
 		if($this->object->getType() == 'usr')
