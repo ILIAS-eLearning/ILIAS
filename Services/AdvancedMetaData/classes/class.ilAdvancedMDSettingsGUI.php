@@ -269,12 +269,9 @@ class ilAdvancedMDSettingsGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
 		$files = new ilAdvancedMDRecordExportFiles();
 		
-		echo "hier";
 		foreach($_POST['file_id'] as $file_id)
 		{
-			echo 1;
 			$files->deleteByFileId((int) $file_id);
-			echo 2;
 		}
 		ilUtil::sendInfo($this->lng->txt('md_adv_deleted_files'));
 		$this->showFiles();
@@ -536,7 +533,91 @@ class ilAdvancedMDSettingsGUI
 		$this->initRecordObject();
 		$this->initForm('create');
 		$this->tpl->setVariable('NEW_RECORD_TABLE',$this->form->getHTML());
+		
+		// Import Table
+		$this->initImportForm();
+		$this->tpl->setVariable('IMPORT_RECORD_TABLE',$this->import_form->getHTML());
+		return true;
 	}
+	
+	/**
+	 * show import form
+	 *
+	 * @access protected
+	 */
+	protected function initImportForm()
+	{
+		if(is_object($this->import_form))
+		{
+			return true;
+		}
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->import_form = new ilPropertyFormGUI();
+		$this->import_form->setFormAction($this->ctrl->getFormAction($this));
+		
+		// add file property
+		$file = new ilFileInputGUI($this->lng->txt('file'),'file');
+		$file->setSuffixes(array('xml'));
+		$file->setRequired(true);
+		$this->import_form->addItem($file);
+		
+		$this->import_form->setTitle($this->lng->txt('md_adv_import_record'));
+		$this->import_form->addCommandButton('importRecord',$this->lng->txt('import'));
+		$this->import_form->addCommandButton('editRecord',$this->lng->txt('cancel'));
+	}
+	
+	/**
+	 * import xml file
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function importRecord()
+	{
+	 	$this->initImportForm();
+	 	if(!$this->import_form->checkInput())
+	 	{
+			$this->import_form->setValuesByPost();
+			$this->createRecord();
+			return false;
+	 	}
+	 	
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordImportFiles.php');
+	 	$import_files = new ilAdvancedMDRecordImportFiles();
+	 	if(!$create_time = $import_files->moveUploadedFile($_FILES['file']['tmp_name']))
+	 	{
+	 		$this->createRecord();
+	 		return false;
+	 	}
+	 	
+	 	try
+	 	{
+		 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordParser.php');
+		 	$parser = new ilAdvancedMDRecordParser($import_files->getImportFileByCreationDate($create_time));
+		 	
+		 	// Validate
+	 		$parser->setMode(ilAdvancedMDRecordParser::MODE_INSERT_VALIDATION);
+	 		$parser->startParsing();
+	 		
+	 		// Insert
+	 		$parser->setMode(ilAdvancedMDRecordParser::MODE_INSERT);
+	 		$parser->startParsing();
+	 		ilUtil::sendInfo($this->lng->txt('md_adv_added_new_record'));
+	 		$this->showRecords();
+	 	}
+	 	catch(ilSAXParserException $exc)
+	 	{
+	 		ilUtil::sendInfo($exc->getMessage());
+	 		$this->createRecord();
+	 	}
+
+		// Finally delete import file
+		$import_files->deleteFileByCreationDate($create_time);
+		return true;
+	}
+	
 	
 	/**
 	 * Save record

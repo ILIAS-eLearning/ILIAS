@@ -45,12 +45,14 @@ class ilAdvancedMDRecord
 	
 	/**
 	 * Singleton constructor
+	 * To create an array of new records (without saving them)
+	 * call the constructor directly. Otherwise call getInstance...
 	 *
 	 * @access public
 	 * @param int record id
 	 * 
 	 */
-	private function __construct($a_record_id = 0)
+	public function __construct($a_record_id = 0)
 	{
 	 	global $ilDB;
 	 	
@@ -78,6 +80,28 @@ class ilAdvancedMDRecord
 			return self::$instances[$a_record_id];
 		}
 		return self::$instances[$a_record_id] = new ilAdvancedMDRecord($a_record_id);
+	}
+	
+	/**
+	 * Lookup record Id by import id
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string ilias id
+	 */
+	public static function _lookupRecordIdByImportId($a_ilias_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT record_id FROM adv_md_record ".
+			"WHERE import_id = ".$ilDB->quote($a_ilias_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->record_id;
+		}
+		return 0;
 	}
 	
 	/**
@@ -186,6 +210,7 @@ class ilAdvancedMDRecord
 		$ilDB->query($query);
 	}
 	
+	
 	/**
 	 * Delete
 	 *
@@ -205,6 +230,7 @@ class ilAdvancedMDRecord
 	 */
 	public function save()
 	{
+	 	// Save import id if given
 	 	$query = "INSERT INTO adv_md_record ".
 	 		"SET import_id = ".$this->db->quote($this->getImportId()).", ".
 	 		"active = ".$this->db->quote($this->isActive()).", ".
@@ -212,7 +238,16 @@ class ilAdvancedMDRecord
 	 		"description = ".$this->db->quote($this->getDescription())." ";
 	 	$this->db->query($query);
 	 	$this->record_id = $this->db->getLastInsertId();
-	 	
+
+	 	if(!strlen($this->getImportId()))
+	 	{
+		 	// set import id to default value
+		 	$query = "UPDATE adv_md_record ".
+		 		"SET import_id = 'il_".(IL_INST_ID.'_adv_md_record_'.$this->record_id)."' ".
+		 		"WHERE record_id = ".$this->db->quote($this->record_id)." ";
+		 	$res = $this->db->query($query);
+	 	}
+
 	 	foreach($this->getAssignedObjectTypes() as $type)
 	 	{
 	 		$query = "INSERT INTO adv_md_record_objs ".
@@ -231,8 +266,7 @@ class ilAdvancedMDRecord
 	public function update()
 	{
 	 	$query = "UPDATE adv_md_record ".
-	 		"SET import_id = ".$this->db->quote($this->getImportId()).", ".
-	 		"active = ".$this->db->quote($this->isActive()).", ".
+	 		"SET active = ".$this->db->quote($this->isActive()).", ".
 	 		"title = ".$this->db->quote($this->getTitle()).", ".
 	 		"description = ".$this->db->quote($this->getDescription())." ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
@@ -388,6 +422,18 @@ class ilAdvancedMDRecord
 	}
 	
 	/**
+	 * append assigned object types
+	 *
+	 * @access public
+	 * @param string ilias object type
+	 * 
+	 */
+	public function appendAssignedObjectType($a_obj_type)
+	{
+	 	$this->obj_types[] = $a_obj_type;
+	}
+	
+	/**
 	 * Get assigned object types 
 	 *
 	 * @access public
@@ -409,7 +455,8 @@ class ilAdvancedMDRecord
 	 */
 	public function toXML(ilXmlWriter $writer)
 	{
-	 	$writer->xmlStartTag('Record',array('Active' => $this->isActive() ? 1 : 0));
+	 	$writer->xmlStartTag('Record',array('Active' => $this->isActive() ? 1 : 0,
+	 		'Id' => $this->getImportId()));
 	 	$writer->xmlElement('Title',null,$this->getTitle());
 	 	$writer->xmlElement('Description',null,$this->getDescription());
 	 	
@@ -452,6 +499,17 @@ class ilAdvancedMDRecord
 	 	{
 	 		$this->obj_types[] = $row->obj_type;
 	 	}
+	}
+	
+	/**
+	 * Destructor
+	 *
+	 * @access public
+	 * 
+	 */
+	public function __destruct()
+	{
+	 	unset(self::$instances[$this->getRecordId()]);
 	}
 }
 ?>

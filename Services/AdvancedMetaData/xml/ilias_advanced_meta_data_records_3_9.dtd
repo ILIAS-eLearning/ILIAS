@@ -1,17 +1,19 @@
 <!ELEMENT AdvancedMetaDataRecords(Record*)>
 <!ELEMENT Record(Title,Description?,ObjectType*,Field*)>
 <!ATTLIST Record
+	Id (#CDATA) #REQUIRED
 	Active (#PCDATA) #REQUIRED>
 
-<!ELEMENT Title (#PCDATA)>
-<!ELEMENT Description (#PCDATA)>
-<!ELEMENT ObjectType (#PCDATA)>
+<!ELEMENT Title (#CDATA)>
+<!ELEMENT Description (#CDATA)>
+<!ELEMENT ObjectType (#CDATA)>
 
 <!ELEMENT Field(FieldTitle,FieldDescription?,FieldPosition,FieldValue*)>
 
 <!ATTLIST Field
+	Id (#CDATA) #REQUIRED
 	Searchable (Yes | No) #REQUIRED
-	FieldType (Select | Text) #REQUIRED>
+	FieldType (Select | Text | Date) #REQUIRED>
 
 <!ELEMENT FieldTitle (#PCDATA)>
 <!ELEMENT FieldDescription (#PCDATA)>
