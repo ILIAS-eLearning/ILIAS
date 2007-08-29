@@ -2047,8 +2047,7 @@ function onWindowLoad ()
 	
 	// Show Tree and Controls
 	setToc(getTocData(), this.config.package_url);
-	updateToc(getTocState());
-	updateControls(getControlState());
+
 	
 	// Finishing startup
 	setInfo('');
@@ -2056,8 +2055,13 @@ function onWindowLoad ()
 	attachUIEvent(window, 'resize', onWindowResize);
 	onWindowResize();
 	
-	//launch first activity
+	//do a fake launch to check if TOC choice should be displayed
 	mlaunch = msequencer.navigate(NAV_NONE);
+	
+	if (mlaunch.mNavState.mStart) {
+		//launch first activity //assume course has not be launched before
+		mlaunch = msequencer.navigate(NAV_START);
+	} 
 	
 	if (mlaunch.mSeqNonContent == null) {
 		onItemDeliver(activities[mlaunch.mActivityID]);
@@ -2065,7 +2069,9 @@ function onWindowLoad ()
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
 	}
-	updateControls(null);
+//	updateControls(null);
+	updateToc(getTocState());
+	updateControls(getControlState());
 	
 }
 
@@ -2285,7 +2291,15 @@ var guiViews = // for different table of content views in gui
 						if (item.href) {
 							elm.innerHTML = setTitle(item);
 						}
-						toggleClass(elm, 'disabled', item.disabled); 
+						//test for activity tree
+						var test=mlaunch.mNavState.mChoice[item.id];
+						var disable;
+						if (test) {
+							disable=false;
+						} else {
+							disable=true;
+						}
+						toggleClass(elm, 'disabled', disable); 
 						toggleClass(elm.parentNode, 'hidden', item.hidden); 
 					} 
 					if (item.item) 

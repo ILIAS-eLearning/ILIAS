@@ -836,7 +836,6 @@ ADLSequencer.prototype =
 					launch.mSeqNonContent = LAUNCH_TOC;
 					
 					launch.mNavState = this.mSeqTree.getValidRequests();
-					
 					// Make sure that a TOC is realy available
 					if (launch.mNavState.mTOC == null)
 					{
@@ -1043,7 +1042,6 @@ ADLSequencer.prototype =
 		// If there is no current activity or the current activity is inactive,
 		// no state change could have occured since the last validation.
 		var cur = this.mSeqTree.getCurrentActivity();
-		
 		if (cur != null)
 		{
 			var test = false;
@@ -1115,7 +1113,6 @@ ADLSequencer.prototype =
 		else
 		{
 			valid = new ADLValidRequests();
-			
 			// Check to see if a resume All should be processed instead of a start
 			if (this.mSeqTree.getSuspendAll() != null)
 			{
@@ -1156,7 +1153,6 @@ ADLSequencer.prototype =
 			{
 				var newTOC = new Array();
 				valid.mChoice = this.getChoiceSet(valid.mTOC, newTOC);
-				
 				if (newTOC.length > 0)
 				{
 					valid.mTOC = newTOC;
@@ -3220,7 +3216,7 @@ ADLSequencer.prototype =
 		}
 		
 		// If there are no items in the set, there is no TOC.
-		if (set != null)
+		if (set!= null)
 		{
 			var empty = true;
 			for (k in set)
@@ -3252,7 +3248,6 @@ ADLSequencer.prototype =
 				
 			}
 		}
-		
 		return set;
 	},
 
