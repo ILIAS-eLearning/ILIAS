@@ -163,6 +163,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function GetValue(sPath) 
 	{
 		//log.info("GetValue: "+sPath);
+		sclogdump("Get: "+sPath);
 		setReturn(-1, 'GetValue(' + sPath + ')');
 		switch (state) 
 		{
@@ -179,7 +180,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				var r = getValue(sPath, false);
 				//log.info("Returned:"+ r.toString());
-				
+				sclogdump("Return: "+sPath + " : "+ r);
 				return error ? '' : setReturn(0, '', r); 
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
@@ -208,6 +209,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function SetValue(sPath, sValue) 
 	{
 		setReturn(-1, 'SetValue(' + sPath + ', ' + sValue + ')');
+		sclogdump("Set: "+sPath+" : "+sValue);
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
