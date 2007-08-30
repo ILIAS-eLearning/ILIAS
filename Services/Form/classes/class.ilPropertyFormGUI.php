@@ -25,10 +25,12 @@ include_once("./Services/Form/classes/class.ilFormGUI.php");
 
 // we currently include all property types (autoload may prevent this in the future)
 include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
 include_once("./Services/Form/classes/class.ilCustomInputGUI.php");
 include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+include_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
 include_once("./Services/Form/classes/class.ilLocationInputGUI.php");
 include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
 include_once("./Services/Form/classes/class.ilFormSectionHeaderGUI.php");
@@ -37,6 +39,7 @@ include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
 include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 include_once("./Services/Form/classes/class.ilDurationInputGUI.php");
 include_once("./Services/Form/classes/class.ilFeedUrlInputGUI.php");
+include_once("./Services/Form/classes/class.ilNonEditableValueGUI.php");
 
 /**
 * This class represents a property form user interface
@@ -51,6 +54,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	private $items = array();
 	protected $mode = "std";
 	protected $check_input_called = false;
+	protected $subformmode = "bottom";
 	
 	/**
 	* Constructor
@@ -126,6 +130,26 @@ class ilPropertyFormGUI extends ilFormGUI
 	function getTitle()
 	{
 		return $this->title;
+	}
+
+	/**
+	* Set Subform Mode. ("bottom" | "right")
+	*
+	* @param	string	$a_subformmode	Subform Mode
+	*/
+	function setSubformMode($a_subformmode)
+	{
+		$this->subformmode = $a_subformmode;
+	}
+
+	/**
+	* Get Subform Mode. ("bottom" | "right")
+	*
+	* @return	string	Subform Mode
+	*/
+	function getSubformMode()
+	{
+		return $this->subformmode;
 	}
 
 	/**
@@ -323,9 +347,20 @@ class ilPropertyFormGUI extends ilFormGUI
 		}
 
 		// title
-		$this->tpl->setCurrentBlock("header");
-		$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
-		$this->tpl->parseCurrentBlock();
+		if ($this->getTitle() != "")
+		{
+			$this->tpl->setCurrentBlock("header");
+			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
+			if ($this->getSubformMode() == "right")
+			{
+				$this->tpl->setVariable("HEAD_COLSPAN", "3");
+			}
+			else
+			{
+				$this->tpl->setVariable("HEAD_COLSPAN", "2");
+			}		
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->touchBlock("item");
 		
 		// properties
@@ -376,7 +411,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		global $tpl, $lng;
 		
 		$item->insert($this->tpl);
-		if ($item->getType() == "file")
+		if ($item->getType() == "file" || $item->getType() == "image_file")
 		{
 			$this->setMultipart(true);
 		}
@@ -399,31 +434,46 @@ class ilPropertyFormGUI extends ilFormGUI
 			}
 
 			// required
-			if ($item->getRequired())
+			if ($item->getType() != "non_editable_value")
 			{
-				$this->tpl->touchBlock("required");
-				$this->required_text = true;
+				if ($item->getRequired())
+				{
+					$this->tpl->touchBlock("required");
+					$this->required_text = true;
+				}
 			}
 			
 			if ($this->getMode() == "subform")
 			{
 				$this->tpl->setCurrentBlock("sub_prop_start");
 				$this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
-				$this->tpl->setVariable("LAB_ID", $item->getFieldId());
+				if ($item->getType() != "non_editable_value")
+				{
+					$this->tpl->setVariable("LAB_ID", $item->getFieldId());
+				}
+				if ($this->getSubformMode() != "right")
+				{
+					$this->tpl->setVariable("PS_STYLE", "padding-left:40px; vertical-align:top;");
+				}
+				else
+				{
+					$this->tpl->setVariable("PS_STYLE", "vertical-align:top;");
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
 				$this->tpl->setCurrentBlock("std_prop_start");
 				$this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
-				$this->tpl->setVariable("LAB_ID", $item->getFieldId());
+				if ($item->getType() != "non_editable_value")
+				{
+					$this->tpl->setVariable("LAB_ID", $item->getFieldId());
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			
-			
 			// alert
-			if ($item->getAlert() != "")
+			if ($item->getType() != "non_editable_value" && $item->getAlert() != "")
 			{
 				$this->tpl->setCurrentBlock("alert");
 				$this->tpl->setVariable("IMG_ALERT",
@@ -436,6 +486,35 @@ class ilPropertyFormGUI extends ilFormGUI
 			}
 			
 			$this->tpl->setCurrentBlock("prop");
+			
+			// subitems
+			$sf = "";
+			if ($item->getType() != "non_editable_value")
+			{
+				$sf = $item->getSubForm();
+			}
+
+			if ($this->getSubformMode() == "right")
+			{
+				if ($sf != "")
+				{
+					$this->tpl->setVariable("PROP_SUB_FORM",
+						'</td><td class="option_value">'.$sf);
+				}
+				else
+				{
+					if ($this->getMode() != "subform")
+					{
+						$this->tpl->setVariable("PROP_SUB_FORM",
+							'</td><td class="option_value">&nbsp;');
+					}
+				}
+			}
+			else
+			{
+				$this->tpl->setVariable("PROP_SUB_FORM", $item->getSubForm());
+			}
+
 			$this->tpl->parseCurrentBlock();
 		}
 		

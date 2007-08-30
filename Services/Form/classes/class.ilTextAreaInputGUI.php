@@ -28,7 +28,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilTextAreaInputGUI extends ilFormPropertyGUI
+class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $value;
 	protected $cols;
@@ -247,7 +247,7 @@ class ilTextAreaInputGUI extends ilFormPropertyGUI
 
 			return false;
 		}
-		return true;
+		return $this->checkSubItemsInput();
 	}
 
 	/**

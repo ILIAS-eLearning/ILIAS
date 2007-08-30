@@ -42,6 +42,7 @@ administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
 common#:#access_expired#:#expired
+common#:#delete_existing_file#:#Delete Existing File
 common#:#res_links#:#Repository Links
 common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.
@@ -296,7 +297,7 @@ assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
 assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
-common#:#user_profile_instant_messengers#:#Contacts to Instant Messengers
+common#:#user_profile_instant_messengers#:#Instant Messengers
 common#:#instant_messengers#:#Instant Messengers
 common#:#im_icq#:#ICQ
 common#:#im_yahoo#:#Yahoo
@@ -3321,7 +3322,7 @@ common#:#permission_denied#:#Permission Denied
 common#:#permission_settings#:#Object Permission Settings
 common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.
 common#:#person_title#:#Title
-common#:#personal_data#:#Personal information
+common#:#personal_data#:#Personal Information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
 common#:#personal_profile#:#Personal Profile
@@ -3892,7 +3893,7 @@ common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_other#:#Other Information
 common#:#user_send_new_account_mail#:#Send new account e-mail
 common#:#user_statistics#:#Statistical Data
-common#:#userdata#:#User data
+common#:#userdata#:#User Data
 common#:#userfolder_export_csv#:#Comma Separated Values
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#File

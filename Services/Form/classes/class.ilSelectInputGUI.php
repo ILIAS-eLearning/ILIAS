@@ -28,7 +28,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilSelectInputGUI extends ilFormPropertyGUI
+class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $options;
 	protected $value;
@@ -112,7 +112,7 @@ class ilSelectInputGUI extends ilFormPropertyGUI
 
 			return false;
 		}
-		return true;
+		return $this->checkSubItemsInput();
 	}
 
 	/**
