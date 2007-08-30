@@ -213,4 +213,19 @@ class ilFormPropertyGUI
 		return false;		// please overwrite
 	}
 
+	/**
+	* Get sub form html
+	*
+	*/
+	public function getSubForm()
+	{
+		return "";
+	}
+	
+	function getSubformMode()
+	{
+		return "none";
+	}
+
+
 }

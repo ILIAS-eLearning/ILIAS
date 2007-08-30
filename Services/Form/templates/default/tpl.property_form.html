@@ -7,7 +7,7 @@
 	<!-- BEGIN item -->
 	<!-- BEGIN header -->
 	<tr class="tblheader">
-		<td class="std" colspan="2">
+		<td class="std" colspan="{HEAD_COLSPAN}">
 		<!-- BEGIN title_icon --><img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/><!-- END title_icon -->
 		{TXT_TITLE}</td>
 	</tr>
@@ -22,11 +22,14 @@
 	<!-- END std_prop_start -->
 	<!-- BEGIN sub_prop_start -->
 	<tr>
-		<td class="std" style="padding-left:40px; vertical-align:top;">
+		<td class="std" style="{PS_STYLE}">
 		<label for="{LAB_ID}">{PROPERTY_TITLE}</label><!-- BEGIN required --><span class="asterisk">*</span><!-- END required -->
 		</td>
 		<td class="std">
 	<!-- END sub_prop_start -->
+		<!-- BEGIN non_editable_value -->
+		{VALUE}
+		<!-- END non_editable_value -->
 		<!-- BEGIN prop_text -->
 		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
 		<!-- END prop_text -->
@@ -38,7 +41,6 @@
 		<!-- END prop_custom -->
 		<!-- BEGIN prop_checkbox -->
 		<input type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} {DISABLED}/> <label for="{ID}">{OPTION_TITLE}</label>
-		{SUB_FORM}
 		<!-- END prop_checkbox -->
 		<!-- BEGIN prop_radio -->
 			<!-- BEGIN prop_radio_option -->
@@ -76,6 +78,17 @@
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
 		<!-- END allowed_suffixes -->
 		<!-- END prop_file -->
+		<!-- BEGIN prop_image_file -->
+		<!-- BEGIN image -->
+		<input type="checkbox" name="{POST_VAR_D}[delete]" value="1" />{TXT_DELETE_EXISTING}<br />
+		<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+		<!-- END image -->
+		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
+		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
+		<!-- BEGIN allowed_image_suffixes -->
+		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
+		<!-- END allowed_image_suffixes -->
+		<!-- END prop_image_file -->
 		<!-- BEGIN prop_datetime -->
 			<!-- BEGIN prop_date_activation -->
 			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED}/> {TXT_DATE_ENABLED}<br />
@@ -114,6 +127,7 @@
 		<div style="margin-top:3px; margin-left:3px;"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" />
 		<span class="subtitle">{TXT_ALERT}</span></div>
 		<!-- END alert -->
+		{PROP_SUB_FORM}
 		</td>
 	</tr>
 	<!-- END prop -->

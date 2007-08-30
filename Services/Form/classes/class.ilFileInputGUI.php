@@ -202,10 +202,51 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
+		// show filename selection if enabled
+		if($this->isFileNameSelectionEnabled())
+		{
+			$a_tpl->setCurrentBlock('filename');
+			$a_tpl->setVariable('POST_FILENAME',$this->getFileNamePostVar());
+			$a_tpl->setVariable('FILENAME_ID',$this->getFieldId());
+			$a_tpl->setVAriable('TXT_FILENAME_HINT',$lng->txt('if_no_title_then_filename'));
+			$a_tpl->parseCurrentBlock();
+		}
+
+		$this->outputSuffixes($a_tpl);
+		
+		$a_tpl->setCurrentBlock("prop_file");
+		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$a_tpl->setVariable("ID", $this->getFieldId());
+		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
+			$this->getMaxFileSizeString());
+		$a_tpl->parseCurrentBlock();
+	}
+
+	protected function outputSuffixes($a_tpl, $a_block = "allowed_suffixes")
+	{
+		global $lng;
+		
+		if (is_array($this->getSuffixes()))
+		{
+			$suff_str = $delim = "";
+			foreach($this->getSuffixes() as $suffix)
+			{
+				$suff_str.= $delim.".".$suffix;
+				$delim = ", ";
+			}
+			$a_tpl->setCurrentBlock($a_block);
+			$a_tpl->setVariable("TXT_ALLOWED_SUFFIXES",
+				$lng->txt("file_allowed_suffixes")." ".$suff_str);
+			$a_tpl->parseCurrentBlock();
+		}
+	}
+	
+	protected function getMaxFileSizeString()
+	{
 		// get the value for the maximal uploadable filesize from the php.ini (if available)
-		$umf=get_cfg_var("upload_max_filesize");
+		$umf = get_cfg_var("upload_max_filesize");
 		// get the value for the maximal post data from the php.ini (if available)
-		$pms=get_cfg_var("post_max_size");
+		$pms = get_cfg_var("post_max_size");
 		
 		//convert from short-string representation to "real" bytes
 		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
@@ -223,36 +264,7 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	
     	//format for display in mega-bytes
 		$max_filesize = sprintf("%.1f MB",$max_filesize/1024/1024);
-
-		// show filename selection if enabled
-		if($this->isFileNameSelectionEnabled())
-		{
-			$a_tpl->setCurrentBlock('filename');
-			$a_tpl->setVariable('POST_FILENAME',$this->getFileNamePostVar());
-			$a_tpl->setVariable('FILENAME_ID',$this->getFieldId());
-			$a_tpl->setVAriable('TXT_FILENAME_HINT',$lng->txt('if_no_title_then_filename'));
-			$a_tpl->parseCurrentBlock();
-		}
-
-		if (is_array($this->getSuffixes()))
-		{
-			$suff_str = $delim = "";
-			foreach($this->getSuffixes() as $suffix)
-			{
-				$suff_str.= $delim.".".$suffix;
-				$delim = ", ";
-			}
-			$a_tpl->setCurrentBlock("allowed_suffixes");
-			$a_tpl->setVariable("TXT_ALLOWED_SUFFIXES",
-				$lng->txt("file_allowed_suffixes")." ".$suff_str);
-			$a_tpl->parseCurrentBlock();
-		}
 		
-		$a_tpl->setCurrentBlock("prop_file");
-		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." $max_filesize");
-		$a_tpl->parseCurrentBlock();
+		return $max_filesize;
 	}
-
 }

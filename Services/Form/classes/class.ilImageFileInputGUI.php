@@ -22,17 +22,14 @@
 */
 
 /**
-* This class represents a text property in a property form.
+* This class represents an image file property in a property form.
 *
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
+class ilImageFileInputGUI extends ilFileInputGUI
 {
-	protected $value;
-	protected $maxlength = 200;
-	protected $size = 40;
 	
 	/**
 	* Constructor
@@ -43,114 +40,76 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
-		$this->setType("text");
+		$this->setType("image_file");
+		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 	}
 
 	/**
-	* Set Value.
+	* Set Image.
 	*
-	* @param	string	$a_value	Value
+	* @param	string	$a_image	Image
 	*/
-	function setValue($a_value)
+	function setImage($a_image)
 	{
-		$this->value = $a_value;
+		$this->image = $a_image;
 	}
 
 	/**
-	* Get Value.
+	* Get Image.
 	*
-	* @return	string	Value
+	* @return	string	Image
 	*/
-	function getValue()
+	function getImage()
 	{
-		return $this->value;
+		return $this->image;
 	}
 
 	/**
-	* Set Max Length.
+	* Set Alternative Text.
 	*
-	* @param	int	$a_maxlength	Max Length
+	* @param	string	$a_alt	Alternative Text
 	*/
-	function setMaxLength($a_maxlength)
+	function setAlt($a_alt)
 	{
-		$this->maxlength = $a_maxlength;
+		$this->alt = $a_alt;
 	}
 
 	/**
-	* Get Max Length.
+	* Get Alternative Text.
 	*
-	* @return	int	Max Length
+	* @return	string	Alternative Text
 	*/
-	function getMaxLength()
+	function getAlt()
 	{
-		return $this->maxlength;
-	}
-
-	/**
-	* Set Size.
-	*
-	* @param	int	$a_size	Size
-	*/
-	function setSize($a_size)
-	{
-		$this->size = $a_size;
-	}
-
-	/**
-	* Set value by array
-	*
-	* @param	array	$a_values	value array
-	*/
-	function setValueByArray($a_values)
-	{
-		$this->setValue($a_values[$this->getPostVar()]);
-	}
-
-	/**
-	* Get Size.
-	*
-	* @return	int	Size
-	*/
-	function getSize()
-	{
-		return $this->size;
-	}
-
-	/**
-	* Check input, strip slashes etc. set alert, if input is not ok.
-	*
-	* @return	boolean		Input ok, true/false
-	*/	
-	function checkInput()
-	{
-		global $lng;
-		
-		$_POST[$this->getPostVar()] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-
-			return false;
-		}
-		
-		return $this->checkSubItemsInput();
+		return $this->alt;
 	}
 
 	/**
 	* Insert property html
-	*
-	* @return	int	Size
 	*/
 	function insert(&$a_tpl)
 	{
-		$a_tpl->setCurrentBlock("prop_text");
+		global $lng;
+		
+		$this->outputSuffixes($a_tpl, "allowed_image_suffixes");
+		
+		if ($this->getImage() != "")
+		{
+			$a_tpl->setCurrentBlock("image");
+			$a_tpl->setVariable("SRC_IMAGE", $this->getImage());
+			$a_tpl->setVariable("ALT_IMAGE", $this->getAlt());
+			$a_tpl->setVariable("POST_VAR_D", $this->getPostVar());
+			$a_tpl->setVariable("TXT_DELETE_EXISTING",
+				$lng->txt("delete_existing_file"));
+			$a_tpl->parseCurrentBlock();
+		}
+		
+		$a_tpl->setCurrentBlock("prop_image_file");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("PROPERTY_VALUE",
-			ilUtil::prepareFormOutput($this->getValue()));
-		$a_tpl->setVariable("SIZE", $this->getSize());
-		$a_tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
+			$this->getMaxFileSizeString());
 		$a_tpl->parseCurrentBlock();
 	}
+
 }

@@ -22,31 +22,97 @@
 */
 
 /**
-* This class represents a text property in a property form.
+* This class represents a non editable value in a property form.
 *
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
+class ilNonEditableValueGUI
 {
+	protected $type;
 	protected $value;
-	protected $maxlength = 200;
-	protected $size = 40;
+	protected $title;
+	protected $info;
+	protected $section_icon;
 	
 	/**
 	* Constructor
 	*
-	* @param	string	$a_title	Title
-	* @param	string	$a_postvar	Post Variable
+	* @param
 	*/
-	function __construct($a_title = "", $a_postvar = "")
+	function __construct($a_title = "")
 	{
-		parent::__construct($a_title, $a_postvar);
-		$this->setType("text");
+		$this->setTitle($a_title);
+		$this->setType("non_editable_value");
+	}
+	
+	function checkInput()
+	{
+		return true;
 	}
 
 	/**
+	* Set Type.
+	*
+	* @param	string	$a_type	Type
+	*/
+	function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+
+	/**
+	* Get Type.
+	*
+	* @return	string	Type
+	*/
+	function getType()
+	{
+		return $this->type;
+	}
+	
+	/**
+	* Set Title.
+	*
+	* @param	string	$a_title	Title
+	*/
+	function setTitle($a_title)
+	{
+		$this->title = $a_title;
+	}
+
+	/**
+	* Get Title.
+	*
+	* @return	string	Title
+	*/
+	function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	* Set Information Text.
+	*
+	* @param	string	$a_info	Information Text
+	*/
+	function setInfo($a_info)
+	{
+		$this->info = $a_info;
+	}
+
+	/**
+	* Get Information Text.
+	*
+	* @return	string	Information Text
+	*/
+	function getInfo()
+	{
+		return $this->info;
+	}
+
+		/**
 	* Set Value.
 	*
 	* @param	string	$a_value	Value
@@ -67,90 +133,14 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Set Max Length.
-	*
-	* @param	int	$a_maxlength	Max Length
-	*/
-	function setMaxLength($a_maxlength)
-	{
-		$this->maxlength = $a_maxlength;
-	}
-
-	/**
-	* Get Max Length.
-	*
-	* @return	int	Max Length
-	*/
-	function getMaxLength()
-	{
-		return $this->maxlength;
-	}
-
-	/**
-	* Set Size.
-	*
-	* @param	int	$a_size	Size
-	*/
-	function setSize($a_size)
-	{
-		$this->size = $a_size;
-	}
-
-	/**
-	* Set value by array
-	*
-	* @param	array	$a_values	value array
-	*/
-	function setValueByArray($a_values)
-	{
-		$this->setValue($a_values[$this->getPostVar()]);
-	}
-
-	/**
-	* Get Size.
-	*
-	* @return	int	Size
-	*/
-	function getSize()
-	{
-		return $this->size;
-	}
-
-	/**
-	* Check input, strip slashes etc. set alert, if input is not ok.
-	*
-	* @return	boolean		Input ok, true/false
-	*/	
-	function checkInput()
-	{
-		global $lng;
-		
-		$_POST[$this->getPostVar()] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-
-			return false;
-		}
-		
-		return $this->checkSubItemsInput();
-	}
-
-	/**
 	* Insert property html
 	*
-	* @return	int	Size
 	*/
 	function insert(&$a_tpl)
 	{
-		$a_tpl->setCurrentBlock("prop_text");
-		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("PROPERTY_VALUE",
-			ilUtil::prepareFormOutput($this->getValue()));
-		$a_tpl->setVariable("SIZE", $this->getSize());
-		$a_tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		$a_tpl->setCurrentBlock("non_editable_value");
+		$a_tpl->setVariable("VALUE", $this->getValue());
 		$a_tpl->parseCurrentBlock();
 	}
+
 }

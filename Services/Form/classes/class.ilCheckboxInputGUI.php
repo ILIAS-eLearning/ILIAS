@@ -28,11 +28,10 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilCheckboxInputGUI extends ilFormPropertyGUI
+class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $value = "1";
 	protected $checked;
-	protected $sub_items = array();
 	protected $optiontitle = "";
 	
 	/**
@@ -118,26 +117,6 @@ class ilCheckboxInputGUI extends ilFormPropertyGUI
 	}
 
 	/**
-	* Add Subitem
-	*
-	* @param	object	$a_item		Item
-	*/
-	function addSubItem($a_item)
-	{
-		$this->sub_items[] = $a_item;
-	}
-
-	/**
-	* Get Subitems
-	*
-	* @return	array	Array of items
-	*/
-	function getSubItems()
-	{
-		return $this->sub_items;
-	}
-
-	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -149,15 +128,7 @@ class ilCheckboxInputGUI extends ilFormPropertyGUI
 		$_POST[$this->getPostVar()] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 
-		$ok = true;
-		foreach($this->getSubItems() as $item)
-		{
-			$item_ok = $item->checkInput();
-			if(!$item_ok)
-			{
-				$ok = false;
-			}
-		}
+		$ok = $this->checkSubItemsInput();
 		return $ok;
 	}
 
@@ -177,16 +148,6 @@ class ilCheckboxInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable("PROPERTY_CHECKED",
 				'checked="checked"');
 		}
-		
-		// subitems
-		if (count($this->getSubItems()) > 0)
-		{
-			$pf = new ilPropertyFormGUI();
-			$pf->setMode("subform");
-			$pf->setItems($this->getSubItems());
-			$a_tpl->setVariable("SUB_FORM", $pf->getContent());
-		}
-
 		$a_tpl->parseCurrentBlock();
 	}
 
