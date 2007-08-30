@@ -1,7 +1,7 @@
 <!-- Course dtd. -->
 <!-- For MetaData definition have a look at ilias_co.dtd.
     Maybe we should use an include and store the MetaData definistion in a single file -->
-<!ELEMENT Course (MetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?)>
+<!ELEMENT Course (MetaData?,AdvancedMetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?)>
 <!ATTLIST Course
     exportVersion CDATA #REQUIRED
     id CDATA #IMPLIED

@@ -64,6 +64,39 @@ class ilAdvancedMDValues
 	}
 	
 	/**
+	 * Get xml of object values
+	 *
+	 * @access public
+	 * @static
+	 * @param object instance of ilXmlWriter
+	 * @param int $a_obj_id
+	 */
+	public static function _appendXMLByObjId(ilXmlWriter $xml_writer,$a_obj_id)
+	{
+		global $ilDB;
+		
+		$type = ilObject::_lookupType($a_obj_id);
+
+		// Get active field_definitions
+		$query = "SELECT field_id FROM adv_md_record AS amr ".
+			"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
+			"JOIN adv_md_field_definition AS amfd ON amr.record_id = amfd.record_id ".
+			"WHERE active = 1 ".
+			"AND obj_type = ".$ilDB->quote($type)." ";
+			
+		$xml_writer->xmlStartTag('AdvancedMetaData');	
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
+			$value = ilAdvancedMDValue::_getInstance($a_obj_id,$row->field_id);
+			$value->appendXML($xml_writer);
+		}
+		$xml_writer->xmlEndTag('AdvancedMetaData');	
+	}
+	
+	/**
 	 * preload object values
 	 *
 	 * @access public
