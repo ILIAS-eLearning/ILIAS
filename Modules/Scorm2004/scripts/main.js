@@ -1025,6 +1025,53 @@ function extend(destination, source, nochain, nooverwrite) {
 
 /* ############### GUI ############################################ */
 
+function launchNavType(navType) {
+	mlaunch = new ADLLaunch();
+	
+	if (navType==='Start') {
+		mlaunch = msequencer.navigate(NAV_START);
+	}
+		
+	if (navType==='ResumeAll') {
+		mlaunch = msequencer.navigate(NAV_RESUMEALL);
+	}
+	
+	if (navType==='Exit') {
+		mlaunch = msequencer.navigate(NAV_EXIT);
+	}
+	
+	if (navType==='ExitAll') {
+		mlaunch = msequencer.navigate(NAV_EXITALL);
+	}
+	
+	if (navType==='Abandon') {
+		mlaunch = msequencer.navigate(NAV_ABANDON);
+	}
+	
+	if (navType==='AbandonAll') {
+		mlaunch = msequencer.navigate(NAV_ABANDONALL);
+	}
+	
+	if (navType==='SuspendAll') {
+		mlaunch = msequencer.navigate(NAV_SUSPENDALL);
+	}
+	
+	if (navType==='Previous') {
+		mlaunch = msequencer.navigate(NAV_PREVIOUS);
+	}
+	
+	if (navType==='Continue') {
+		mlaunch = msequencer.navigate(NAV_CONTINUE);		
+	}
+		if (mlaunch.mActivityID) {
+			onItemDeliver(activities[mlaunch.mActivityID]);
+		} else {
+	  		//call specialpage
+	  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+		}
+		
+}
+
 
 function onDocumentClick (e) 
 {
@@ -1058,51 +1105,8 @@ function onDocumentClick (e)
 		
 		//calling ADL Sequencer after UI Event
 		var navType=target.id.substr(3);
-		mlaunch = new ADLLaunch();
-		if (navType==='Start') {
-			mlaunch = msequencer.navigate(NAV_START);
-		}
-			
-		if (navType==='ResumeAll') {
-			mlaunch = msequencer.navigate(NAV_RESUMEALL);
-		}
+		launchNavType(navType);
 		
-		if (navType==='Exit') {
-			mlaunch = msequencer.navigate(NAV_EXIT);
-		}
-		
-		if (navType==='ExitAll') {
-			mlaunch = msequencer.navigate(NAV_EXITALL);
-		}
-		
-		if (navType==='Abandon') {
-			mlaunch = msequencer.navigate(NAV_ABANDON);
-		}
-		
-		if (navType==='AbandonAll') {
-			mlaunch = msequencer.navigate(NAV_ABANDONALL);
-		}
-		
-		if (navType==='SuspendAll') {
-			mlaunch = msequencer.navigate(NAV_SUSPENDALL);
-		}
-		
-		if (navType==='Previous') {
-			mlaunch = msequencer.navigate(NAV_PREVIOUS);
-		}
-		
-		if (navType==='Continue') {
-			mlaunch = msequencer.navigate(NAV_CONTINUE);
-		//	sclogdump(mlaunch);
-			
-		}
-		
-		if (mlaunch.mSeqNonContent == null) {
-			onItemDeliver(activities[mlaunch.mActivityID]);
-		} else {
-		  //call specialpage
-		  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
-		}
 	} 
 	
 	//SCO selected by user directly (itm is used as ITEM_PREFIX)
@@ -2205,6 +2209,7 @@ function onTerminate(data)
 				var m = String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);
 				if (m) 
 				{
+					alert("m "+m)
 					navReq = {type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), target: m[2]};
 				}
 			}
@@ -2216,12 +2221,18 @@ function onTerminate(data)
 		// so we delay to next script cycle
 		// and use closure to retain current variable scope
 		//alert('ADLNAV => '+[navReq.type, navReq.target])
-		window.setTimeout( 
+	//	alert(navReq.type, navReq.target);
+
+		if (navReq.type!="suspend") {
+			launchNavType(navReq.type);
+		}
+	/*	window.setTimeout( 
 			new (function (type, target) {
 				return function () {
 					execNavigation(type, target);
 				}
 			})(navReq.type, navReq.target), 0);
+		*/	
 	}
 	return true;
 }

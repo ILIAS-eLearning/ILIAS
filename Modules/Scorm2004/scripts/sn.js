@@ -37,7 +37,7 @@ function exec(navReq) // #166
 {
 	var rn, rd, rs, rt, seqReq;
 
-	sclogclear();
+	//sclogclear();
 	sclog("OverallSequencing [OP.1]", "ps");
 	
 	rn = navigationRequest(navReq);
