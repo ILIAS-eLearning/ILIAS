@@ -153,6 +153,7 @@ class ilFormSectionHeaderGUI
 		
 		$a_tpl->setCurrentBlock("header");
 		$a_tpl->setVariable("TXT_TITLE", $this->getTitle());
+		$a_tpl->setVariable('HEAD_COLSPAN',2);
 		$a_tpl->parseCurrentBlock();
 	}
 

@@ -67,7 +67,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	{
 		$this->__buildHeader();
 		$this->__buildMetaData();
-		
+		$this->__buildAdvancedMetaData();
 		$this->__buildAdmin();
 		$this->__buildTutor();
 		$this->__buildMember();
@@ -84,7 +84,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	function getXML()
 	{
 		#var_dump("<pre>", htmlentities($this->xmlDumpMem()),"<pre>");
-		return $this->xmlDumpMem(FALSE);
+		return $this->xmlDumpMem();
 	}
 
 	// Called from nested class
@@ -121,7 +121,19 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		return true;
 	}
-
+	
+	/**
+	 * Build advanced meta data
+	 *
+	 * @access private
+	 * 
+	 */
+	private function __buildAdvancedMetaData()
+	{
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+	 	ilAdvancedMDValues::_appendXMLByObjId($this,$this->course_obj->getId());
+	}
+	
 	function __buildAdmin()
 	{
 		$this->course_obj->initCourseMemberObject();

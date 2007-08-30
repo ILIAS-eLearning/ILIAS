@@ -45,11 +45,11 @@ class ilAdvancedMDValue
 	 * Singleton constructor
 	 *
 	 * @access private
-	 * @param int obj_id
 	 * @param int field_id
+	 * @param int obj_id
 	 * 
 	 */
-	private function __construct($a_obj_id,$a_field_id)
+	public function __construct($a_field_id,$a_obj_id = 0)
 	{
 	 	global $ilDB;
 	 	
@@ -75,7 +75,7 @@ class ilAdvancedMDValue
 		{
 			return self::$instances[$a_obj_id][$a_field_id];
 		}
-		return self::$instances[$a_obj_id][$a_field_id] = new ilAdvancedMDValue($a_obj_id,$a_field_id);
+		return self::$instances[$a_obj_id][$a_field_id] = new ilAdvancedMDValue($a_field_id,$a_obj_id);
 	}
 	
 	/**
@@ -88,6 +88,35 @@ class ilAdvancedMDValue
 	{
 	 	return $this->getValue();
 	}
+	
+	/**
+	 * set object id
+	 *
+	 * @access public
+	 * @param int obj_id
+	 * 
+	 */
+	public function setObjId($a_obj_id)
+	{
+	 	$this->obj_id = $a_obj_id;
+	}
+	
+	/**
+	 * append value xml
+	 *
+	 * @access public
+	 * @param object instance of ilXmlWriter
+	 * 
+	 */
+	public function appendXML($xml_writer)
+	{
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+	 	
+	 	$xml_writer->xmlElement('Value',
+	 		array('id' => ilAdvancedMDFieldDefinition::_lookupImportId($this->field_id)),
+	 		$this->getValue());
+	}
+	
 	
 	/**
 	 * Set value
@@ -173,6 +202,11 @@ class ilAdvancedMDValue
 	 */
 	private function read()
 	{
+	 	if(!$this->obj_id or !$this->field_id)
+	 	{
+	 		return;
+	 	}
+	 	
 	 	$query = "SELECT * FROM adv_md_values ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ".
 	 		"AND field_id = ".$this->db->quote($this->field_id)." ";

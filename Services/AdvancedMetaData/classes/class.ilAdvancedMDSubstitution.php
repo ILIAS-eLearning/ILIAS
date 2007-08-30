@@ -40,6 +40,7 @@ class ilAdvancedMDSubstitution
 	protected $enabled_desc = true;
 	protected $active = false;
 	protected $date_fields = array();
+	protected $active_fields = array();
 	
 	
 	/*
@@ -124,6 +125,11 @@ class ilAdvancedMDSubstitution
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		foreach(ilAdvancedMDValues::_getValuesByObjId($a_obj_id) as $field_id => $value)
 		{
+			if(!in_array($field_id,$this->active_fields))
+			{
+				continue;
+			}
+			
 			if(in_array($field_id,$this->date_fields) and $value)
 			{
 				$value = ilFormat::formatUnixTime((int) $value);
@@ -197,12 +203,17 @@ class ilAdvancedMDSubstitution
 	 	$this->date_fields = ilAdvancedMDFieldDefinition::_lookupDateFields();
 	 	
 	 	// Check active status
-	 	$query = "SELECT active FROM adv_md_record AS amr ".
+	 	$query = "SELECT active,field_id FROM adv_md_record AS amr ".
 	 		"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
+	 		"JOIN adv_md_field_definition AS amfd ON amr.record_id = amfd.record_id ".
 	 		"WHERE active = 1 ".
 	 		"AND obj_type = ".$this->db->quote($this->type)." ";
 	 	$res = $this->db->query($query);
 	 	$this->active = $res->numRows() ? true : false;
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		$this->active_fields[] = $row->field_id;
+	 	}
 			
 	 	$query = "SELECT * FROM adv_md_substitutions ".
 	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";

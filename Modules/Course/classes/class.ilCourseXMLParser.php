@@ -24,7 +24,9 @@
 
 include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
 include_once("Services/MetaData/classes/class.ilMD.php");
-include_once('./Services/User/classes/class.ilObjUser.php');
+include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
+include_once('Services/Utilities/classes/class.ilSaxController.php');
+
 
 /**
 * Course XML Parser
@@ -38,7 +40,7 @@ include_once('./Services/User/classes/class.ilObjUser.php');
 include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
 
-class ilCourseXMLParser extends ilMDSaxParser
+class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 {
 	var $lng;
 	var $md_obj = null;			// current meta data object
@@ -52,11 +54,13 @@ class ilCourseXMLParser extends ilMDSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilCourseXMLParser(&$a_course_obj, $a_xml_file = '')
+	function ilCourseXMLParser($a_course_obj, $a_xml_file = '')
 	{
 		global $lng,$ilLog;
 
 		parent::ilMDSaxParser($a_xml_file);
+
+		$this->sax_controller = new ilSaxController();
 
 		$this->log =& $ilLog;
 
@@ -77,13 +81,17 @@ class ilCourseXMLParser extends ilMDSaxParser
 	* set event handlers
 	*
 	* @param	resource	reference to the xml parser
-	* @access	private
+	* @access	public
 	*/
 	function setHandlers($a_xml_parser)
 	{
-		xml_set_object($a_xml_parser,$this);
-		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
-		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
+		$this->sax_controller->setHandlers($a_xml_parser);
+		$this->sax_controller->setDefaultElementHandler($this);
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValueParser.php');
+		$this->sax_controller->setElementHandler(
+			$this->adv_md_handler = new ilAdvancedMDValueParser($this->course_obj->getId()),
+			'AdvancedMetaData');
 	}
 
 
@@ -522,6 +530,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 
 				$this->log->write('CourseXMLParser: import_id = '.$this->course_obj->getImportId());
 				$this->course_obj->updateSettings();
+				$this->adv_md_handler->save();
 				break;
 
 			case 'Settings':
@@ -633,8 +642,6 @@ class ilCourseXMLParser extends ilMDSaxParser
 
 			$this->cdata .= $a_data;
 		}
-
-
 	}
 
 	// PRIVATE

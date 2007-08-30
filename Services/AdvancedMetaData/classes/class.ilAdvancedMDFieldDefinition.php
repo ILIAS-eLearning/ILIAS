@@ -66,6 +66,44 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * Lookup import id
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int field_id
+	 */
+	public static function _lookupImportId($a_field_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT import_id FROM adv_md_field_definition ".
+			"WHERE field_id = ".$ilDB->quote($a_field_id)." ";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row['import_id'] ? $row['import_id'] : '';
+	}
+	
+	/**
+	 * Lookup field id
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string import_id
+	 */
+	public static function _lookupFieldId($a_import_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT field_id FROM adv_md_field_definition ".
+			"WHERE import_id = ".$ilDB->quote($a_import_id)." ";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row['field_id'] ? $row['field_id'] : 0;
+	}
+	
+	/**
 	 * Lookup date fields
 	 *
 	 * @access public
@@ -518,9 +556,9 @@ class ilAdvancedMDFieldDefinition
 	 	
 	 	
 	 	$writer->xmlStartTag('Field',array(
-	 		'Id' => $this->getImportId(),
-			'Searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
-			'FieldType'	 => $type));
+	 		'id' => $this->getImportId(),
+			'searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
+			'fieldType'	 => $type));
 		
 		$writer->xmlElement('FieldTitle',null,$this->getTitle());
 		$writer->xmlElement('FieldDescription',null,$this->getDescription());

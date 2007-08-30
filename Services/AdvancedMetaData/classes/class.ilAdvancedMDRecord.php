@@ -455,8 +455,8 @@ class ilAdvancedMDRecord
 	 */
 	public function toXML(ilXmlWriter $writer)
 	{
-	 	$writer->xmlStartTag('Record',array('Active' => $this->isActive() ? 1 : 0,
-	 		'Id' => $this->getImportId()));
+	 	$writer->xmlStartTag('Record',array('active' => $this->isActive() ? 1 : 0,
+	 		'id' => $this->getImportId()));
 	 	$writer->xmlElement('Title',null,$this->getTitle());
 	 	$writer->xmlElement('Description',null,$this->getDescription());
 	 	

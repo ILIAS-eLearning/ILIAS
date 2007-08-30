@@ -132,16 +132,16 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 				$this->fields = array();
 				$this->current_field = null;
 				$this->current_record = null;
-				if(!strlen($a_attribs['Id']) or !isset($a_attribs['Active']))
+				if(!strlen($a_attribs['id']) or !isset($a_attribs['active']))
 				{
 					$this->appendErrorMessage('Missing XML attribute for element "Record".');
 				}
-				if(!$this->initRecordObject($a_attribs['Id']))
+				if(!$this->initRecordObject($a_attribs['id']))
 				{
 					$this->appendErrorMessage('Invalid attribute Id given for element "Record".');
 				}
-				$this->getCurrentRecord()->setActive($a_attribs['Active']);
-				$this->getCurrentRecord()->setImportId($a_attribs['Id']);
+				$this->getCurrentRecord()->setActive($a_attribs['active']);
+				$this->getCurrentRecord()->setImportId($a_attribs['id']);
 				$this->getCurrentRecord()->setAssignedObjectTypes(array());
 				break;
 				
@@ -149,15 +149,15 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 				break;
 
 			case 'Field':
-				if(!strlen($a_attribs['Id']) or !isset($a_attribs['Searchable']) or !isset($a_attribs['FieldType']))
+				if(!strlen($a_attribs['id']) or !isset($a_attribs['searchable']) or !isset($a_attribs['fieldType']))
 				{
 					$this->appendErrorMessage('Missing XML attribute for element "Field".');
 				}
-				if(!$this->initFieldObject($a_attribs['Id']))
+				if(!$this->initFieldObject($a_attribs['id']))
 				{
 					$this->appendErrorMessage('Invalid attribute Id given for element "Record".');
 				}
-				switch($a_attribs['FieldType'])
+				switch($a_attribs['fieldType'])
 				{
 					case 'Select':
 						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_SELECT);
@@ -176,8 +176,8 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 						break;
 									
 				}
-				$this->getCurrentField()->setImportId($a_attribs['Id']);				
-				$this->getCurrentField()->enableSearchable($a_attribs['Searchable'] == 'Yes' ? true : false);
+				$this->getCurrentField()->setImportId($a_attribs['id']);				
+				$this->getCurrentField()->enableSearchable($a_attribs['searchable'] == 'Yes' ? true : false);
 				break;
 				
 			case 'FieldTitle':
