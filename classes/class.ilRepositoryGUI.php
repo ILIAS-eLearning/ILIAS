@@ -39,7 +39,7 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjRoleGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjLinkResourceGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilObjMediaCastGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilObjMediaCastGUI, ilObjRemoteCourseGUI
 *
 */
 class ilRepositoryGUI
@@ -242,6 +242,7 @@ class ilRepositoryGUI
 					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
 					$class_name = $this->objDefinition->getClassName($obj_type);
 					$next_class = strtolower("ilObj".$class_name."GUI");
+					
 					$this->ctrl->setCmdClass($next_class);
 					if ($this->ctrl->getCmd() == "return")
 					{
@@ -270,7 +271,6 @@ class ilRepositoryGUI
 					// get gui class instance
 					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
-					
 					if (!$this->creation_mode)
 					{
 						$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);

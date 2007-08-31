@@ -40,6 +40,7 @@
 <object name="cat" class_name="Category" location="Modules/Category/classes" module="Modules/Category" checkbox="1" inherit="1" translate="db" rbac="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="crs">crs</subobj>
+	<subobj name="rcrs">crs</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm">frm</subobj>
@@ -492,4 +493,15 @@
 	<property name="news_settings">pdesk_settings</property>
 	<property name="perm">perm_settings</property>
 </object>
+<object name="rcrs" class_name="RemoteCourse" location="Modules/RemoteCourse/classes" module="Modules/RemoteCourse" checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+
 </objects>

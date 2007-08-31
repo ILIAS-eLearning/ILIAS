@@ -245,7 +245,7 @@ class ilContainerGUI extends ilObjectGUI
 				{
 					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs", "mcst",
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
-													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr',"feed")))
+													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr',"feed",'rcrs')))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
@@ -667,7 +667,7 @@ class ilContainerGUI extends ilObjectGUI
 
 				// all item types
 				$type_ordering = array(
-					"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
+					"cat", "fold", "crs","rcrs", "icrs", "icla", "grp", "chat", "frm", "lres",
 					"glo", "webr", "mcst", "file", "exc",
 					"tst", "svy", "mep", "qpl", "spl");
 
