@@ -178,6 +178,7 @@ class ilAdvancedMDRecordGUI
 	 					$text->setValue($value->getValue());
 	 					$text->setSize(40);
 	 					$text->setMaxLength(512);
+	 					$text->setDisabled($value->isDisabled());
 	 					$this->form->addItem($text);
 	 					break;
 	 					
@@ -185,6 +186,7 @@ class ilAdvancedMDRecordGUI
 	 					$select = new ilSelectInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
 	 					$select->setOptions($def->getFieldValuesForSelect());
 	 					$select->setValue($value->getValue());
+	 					$select->setDisabled($value->isDisabled());
 	 					$this->form->addItem($select);
 	 					break;
 	 					
@@ -195,6 +197,7 @@ class ilAdvancedMDRecordGUI
 	 					$time->enableDateActivation($this->lng->txt('enabled'),
 							'md_activated['.$def->getFieldId().']',
 							$value->getValue() ? true : false);
+						$time->setDisabled($value->isDisabled());
 	 					$this->form->addItem($time);
 	 					break;
 	 			}
