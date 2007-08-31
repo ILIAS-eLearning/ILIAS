@@ -16,8 +16,6 @@
 	require_once("SeqRollupRuleset.php");
 	
 	require_once("ADLAuxiliaryResource.php");
-	
-	
 
 	class SeqTreeBuilder{
 
@@ -524,7 +522,7 @@
 						$curRule=$ruleInfo->item($j);
 						//check for element
 						if ($curRule->nodeType == XML_ELEMENT_NODE) {
-						  if ($con->localName == "rollupConditions") {
+						  if ($curRule->localName == "rollupConditions") {
 							$tempVal = $curRule->getAttribute("conditionCombination");
 			               	if($tempVal) {
 								$rule->mConditions['_SeqConditionSet']->mCombination = $tempVal;

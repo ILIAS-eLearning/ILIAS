@@ -1196,13 +1196,13 @@ function updateControls(controlState)
 	//mapping
 	if (mlaunch!=null) {
 		//do it manually instead of array processing
-		toggleClass('navContinue', 'disabled', !mlaunch.mNavState.mContinue);
-		toggleClass('navExit', 'disabled', !mlaunch.mNavState.mContinueExit);
-		toggleClass('navPrevious', 'disabled', !mlaunch.mNavState.mPrevious);
+		toggleClass('navContinue', 'disabled', (!mlaunch.mNavState.mContinue));
+		toggleClass('navExit', 'disabled', (!mlaunch.mNavState.mContinueExit));
+		toggleClass('navPrevious', 'disabled', (!mlaunch.mNavState.mPrevious));
 		toggleClass('navResumeAll', 'disabled', !mlaunch.mNavState.mResume);
 		toggleClass('navStart', 'disabled', !mlaunch.mNavState.mStart);
 		toggleClass('navSuspendAll', 'disabled', !mlaunch.mNavState.mSuspend);
-		
+//		toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll'] instanceof Object);
 		/*for (var k in mlaunch.mNavState) 
 		{
 			alert(k);
@@ -1213,7 +1213,7 @@ function updateControls(controlState)
 
 function setResource(id, url, base) 
 {
-	if (url.indexOf(":")===-1) 
+	if(!(adlnavreq)) 
 	{
 		url = base + url;
 	}
@@ -1233,7 +1233,7 @@ function setResource(id, url, base)
 		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + url +	'"  style="width: 100%; height:100%;"></iframe>';	
 	} 
 	else 
-	{
+	{			
 		open(url, RESOURCE_NAME);
 	} 
 	
@@ -1247,6 +1247,8 @@ function setResource(id, url, base)
 		addClass(guiItem, "current");
 	}
 	onWindowResize();
+	//reset
+	adlnavreq=false;
 }
 
 function removeResource(callback) 
@@ -2198,23 +2200,26 @@ function onTerminate(data)
 			navReq = {type: "suspend"};
 			break;
 		case "logout":
+			navReq = {type: "exitAll"};
 		case "time-out":
 			navReq = {type: "exitAll"};
 			// abort ongoing navigation
 			abortNavigation();
 			break;
 		default : // "", "normal"
-			if (data.adl && data.adl.nav) 
-			{
-				var m = String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);
-				if (m) 
-				{
-					alert("m "+m)
-					navReq = {type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), target: m[2]};
-				}
-			}
+		
 			break;
 	}
+	
+	if (data.adl && data.adl.nav) 
+	{
+		var m = String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);
+		if (m) 
+		{
+			navReq = {type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), target: m[2]};
+		}
+	}
+	
 	if (navReq) 
 	{
 		// will only work if no navigation is ongoing 
@@ -2224,6 +2229,8 @@ function onTerminate(data)
 	//	alert(navReq.type, navReq.target);
 
 		if (navReq.type!="suspend") {
+			//adlnavreq=true; 
+			//TODO fix for Unix
 			launchNavType(navReq.type);
 		}
 	/*	window.setTimeout( 
@@ -2348,6 +2355,7 @@ var sharedObjectives = new Object(); // global objectives by objective identifie
 //integration of ADL Sequencer
 var msequencer=new ADLSequencer();
 var mlaunch=null;
+var adlnavreq=null;
 //var mlaunch = new ADLLaunch();
 
 
