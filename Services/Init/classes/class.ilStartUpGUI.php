@@ -1002,8 +1002,7 @@ class ilStartUpGUI
 				if	($this->_checkGoto($_GET["target"]))
 				{
 //echo "B";
-					ilUtil::redirect(ILIAS_HTTP_PATH.
-						"/goto.php?target=".$_GET["target"]);
+					ilUtil::redirect("./goto.php?target=".$_GET["target"]);
 				}
 				else	// target is not accessible -> login
 				{
@@ -1020,6 +1019,8 @@ class ilStartUpGUI
 			$ilCtrl->initBaseClass("");
 			$ilCtrl->setCmd("frameset");
 			$start_script = "repository.php";
+			include($start_script);
+			return true;
 		}
 		else
 		{
@@ -1037,14 +1038,15 @@ class ilStartUpGUI
 				}
 
 				// show personal desktop
-				$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
-				$start_script = "ilias.php";
+				#$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
+				#$start_script = "ilias.php";
+				// Redirect here to switch back to http if desired
+				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			}
 			else
 			{
 //echo "3";
-				ilUtil::redirect(ILIAS_HTTP_PATH.
-					"/goto.php?target=".$_GET["target"]);
+				ilUtil::redirect("./goto.php?target=".$_GET["target"]);
 			}
 		}
 
