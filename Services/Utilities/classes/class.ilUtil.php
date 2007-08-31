@@ -859,9 +859,15 @@ class ilUtil
 	* @author	Aresch Yavari <ay@databay.de>
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
-	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true)
+	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true,$a_further_options = array())
 	{
 		global $lng;
+
+		$disabled = '';
+		if(isset($a_further_options['disabled']) and $a_further_options['disabled'])
+		{
+			$disabled = 'disabled="disabled" ';
+		}
 
 		$now = getdate();
 		if (!strlen($year)) $year = $now["year"];
@@ -873,7 +879,7 @@ class ilUtil
 		$day = (int) $day;
 
 		// build day select
-		$sel_day .= "<select name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";
+		$sel_day .= "<select ".$disabled."name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";
 
 		for ($i = 1; $i <= 31; $i++)
 		{
@@ -883,7 +889,7 @@ class ilUtil
 		$sel_day = preg_replace("/(value\=\"$day\")/", "$1 selected=\"selected\"", $sel_day);
 
 		// build month select
-		$sel_month .= "<select name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
+		$sel_month .= "<select ".$disabled."name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
 
 		for ($i = 1; $i <= 12; $i++)
 		{
@@ -900,7 +906,7 @@ class ilUtil
 		$sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);
 
 		// build year select
-		$sel_year .= "<select name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
+		$sel_year .= "<select ".$disabled."name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
 		if ((strlen($startyear) == 0) || ($startyear > $year))
 		{
 			$startyear = $year - 5;
@@ -942,11 +948,16 @@ class ilUtil
 		global $lng;
 		
 		$minute_steps = 1;
+		$disabled = '';
 		if(count($a_further_options))
 		{
 			if(isset($a_further_options['minute_steps']))
 			{
 				$minute_steps = $a_further_options['minute_steps'];
+			}
+			if(isset($a_further_options['disabled']) and $a_further_options['disabled'])
+			{
+				$disabled = 'disabled="disabled" ';
 			}
 		}
 		
@@ -961,7 +972,7 @@ class ilUtil
 			$second = (int)$second;
 		}
 		// build hour select
-		$sel_hour .= "<select name=\"".$prefix."[h]\" id=\"".$prefix."_h\">\n";
+		$sel_hour .= "<select ".$disabled."name=\"".$prefix."[h]\" id=\"".$prefix."_h\">\n";
 
 		for ($i = 0; $i <= 23; $i++)
 		{
@@ -971,7 +982,7 @@ class ilUtil
 		$sel_hour = preg_replace("/(value\=\"$hour\")/", "$1 selected=\"selected\"", $sel_hour);
 
 		// build minutes select
-		$sel_minute .= "<select name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
+		$sel_minute .= "<select ".$disabled."name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
 
 		for ($i = 0; $i <= 59; $i = $i + $minute_steps)
 		{
@@ -982,7 +993,7 @@ class ilUtil
 
 		if (!$short) {
 			// build seconds select
-			$sel_second .= "<select name=\"".$prefix."[s]\" id=\"".$prefix."_s\">\n";
+			$sel_second .= "<select ".$disabled."name=\"".$prefix."[s]\" id=\"".$prefix."_s\">\n";
 
 			for ($i = 0; $i <= 59; $i++)
 			{

@@ -279,6 +279,7 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
+		
 		$lng->loadLanguageModule("jscalendar");
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
 		ilCalendarUtil::initJSCalendar();
@@ -289,6 +290,7 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable('CHECK_ENABLED_DATE',$this->getActivationPostVar());
 			$a_tpl->setVariable('TXT_DATE_ENABLED',$this->activation_title);
 			$a_tpl->setVariable('CHECKED_ENABLED',$this->activation_checked ? 'checked="checked"' : '');
+			$a_tpl->setVariable('CHECKED_DISABLED',$this->getDisabled() ? 'disabled="disabled" ' : '');
 			$a_tpl->parseCurrentBlock();
 		}
 		
@@ -301,7 +303,8 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
 			$date = explode("-", $this->getDate());
 			$a_tpl->setVariable("DATE_SELECT",
-				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date[0], $date[1], $date[2]));
+				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date[0], $date[1], $date[2],
+					'','',array('disabled' => $this->getDisabled())));
 			$a_tpl->parseCurrentBlock();
 				
 		}
@@ -312,7 +315,8 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable("TIME_SELECT",
 				ilUtil::makeTimeSelect($this->getPostVar()."[time]", !$this->getShowSeconds(),
 				$time[0], $time[1], $time[2],
-				true,array('minute_steps' => $this->getMinuteStepSize())));
+				true,array('minute_steps' => $this->getMinuteStepSize(),
+							'disabled' => $this->getDisabled())));
 				
 			
 			$a_tpl->setVariable("TXT_TIME", $this->getShowSeconds()

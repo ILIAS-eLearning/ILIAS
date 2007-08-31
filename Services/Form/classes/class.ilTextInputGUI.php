@@ -151,6 +151,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 			ilUtil::prepareFormOutput($this->getValue()));
 		$a_tpl->setVariable("SIZE", $this->getSize());
 		$a_tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		if ($this->getDisabled())
+		{
+			$a_tpl->setVariable("DISABLED",
+				" disabled=\"disabled\"");
+		}
 		$a_tpl->parseCurrentBlock();
 	}
 }
