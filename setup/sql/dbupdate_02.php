@@ -2110,7 +2110,8 @@ CREATE TABLE `adv_md_substitutions` (
 ALTER TABLE `object_data` CHANGE `title` `title` CHAR( 128 ) NOT NULL;
 
 <#1043>
-ALTER TABLE `adv_md_record` ADD `active` TINYINT( 1 ) NOT NULL AFTER `import_id` ;
+ALTER TABLE scorm_tracking DROP PRIMARY KEY;
+ALTER TABLE scorm_tracking ADD PRIMARY KEY (user_id, sco_id, lvalue, obj_id);
 
 <#1044>
 ALTER TABLE `adv_md_substitutions` ADD `hide_description` TINYINT( 1 ) NOT NULL ;
@@ -2215,3 +2216,9 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1056>
+DROP TABLE IF EXISTS `adv_md_record`;
+
+<#1057>
+ALTER TABLE scorm_tracking DROP PRIMARY KEY;
+ALTER TABLE scorm_tracking ADD PRIMARY KEY (user_id, sco_id, lvalue, obj_id);
