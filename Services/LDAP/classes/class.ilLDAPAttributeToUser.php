@@ -176,6 +176,23 @@ class ilLDAPAttributeToUser
 		
 				switch($field)
 				{
+					case 'gender':
+						switch(strtolower($value))
+						{
+							case 'm':
+							case 'male':
+								$this->writer->xmlElement('Gender',array(),'m');
+								break;
+							
+							case 'f':
+							case 'female':
+							default:
+								$this->writer->xmlElement('Gender',array(),'f');
+								break;
+								
+						}
+						break;
+					
 					case 'firstname':
 						$this->writer->xmlElement('Firstname',array(),$value);
 						break;
