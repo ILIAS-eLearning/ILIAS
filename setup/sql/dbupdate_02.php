@@ -2222,3 +2222,15 @@ DROP TABLE IF EXISTS `adv_md_record`;
 <#1057>
 ALTER TABLE scorm_tracking DROP PRIMARY KEY;
 ALTER TABLE scorm_tracking ADD PRIMARY KEY (user_id, sco_id, lvalue, obj_id);
+
+<#1058>
+CREATE TABLE IF NOT EXISTS `adv_md_record` (
+  `record_id` tinyint(3) NOT NULL auto_increment,
+  `import_id` varchar(64) NOT NULL default '',
+  `active` tinyint(1) NOT NULL default '0',
+  `title` varchar(128) NOT NULL default '',
+  `description` text NOT NULL,
+  PRIMARY KEY  (`record_id`)
+) Type=MyISAM AUTO_INCREMENT=1 ;
+
+
