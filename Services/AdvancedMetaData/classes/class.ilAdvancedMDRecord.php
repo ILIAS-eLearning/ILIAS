@@ -112,7 +112,7 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getAssignableObjectTypes()
 	{
-	 	return array('crs','grp');
+	 	return array('crs','rcrs');
 	}
 	
 	/**

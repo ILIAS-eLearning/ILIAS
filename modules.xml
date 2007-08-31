@@ -51,5 +51,7 @@
 	<module name="Course" dir="course">
 		<!-- more to come ... -->
 	</module>
-	
+	<module name="RemoteCourse" dir="Modules/RemoteCourse">
+		<baseclass name="ilObjRemoteCourseGUI" />
+	</module>
 </modules>

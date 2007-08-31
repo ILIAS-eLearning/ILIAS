@@ -2162,4 +2162,56 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1054>
+<?php
+// insert link definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'rcrs', 'Remote Course Object', -1, now(), now())";
+$this->db->query($query);
 
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+
+// add operation assignment to link object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete,
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+
+// add create operation
+$query = "INSERT INTO rbac_operations ".
+	"SET operation = 'create_rcrs', description = 'create remote course'";
+$this->db->query($query);
+
+// get new ops_id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$ops_id = $row[0];
+
+// add create for cat
+// get category type id
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='cat'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$this->db->query($query);
+
+?>
+<#1055>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
