@@ -66,10 +66,10 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
 		// edit link
+		$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			$this->tpl->setCurrentBlock("edit");
-			$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
 			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 			$this->tpl->setVariable("CMD_EDIT",
 				$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "editCastItem"));
