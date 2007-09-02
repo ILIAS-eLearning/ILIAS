@@ -188,7 +188,7 @@ class EvalMath {
         while(1) { // 1 Infinite Loop ;)
             $op = substr($expr, $index, 1); // get the first character at the current index
             // find out if we're currently at the beginning of a number/variable/function/parenthesis/operand
-            $ex = preg_match('/^([a-z]\w*\(?|\d+(?:\.\d*)?|\.\d+|\()/', substr($expr, $index), $match);
+            $ex = preg_match('/^([01]+[bB]|[\da-fA-F]+[hH]|[a-z]\w*\(?|\d+(?:\.\d*)?|\.\d+|\()/', substr($expr, $index), $match);
             //===============
             if ($op == '-' and !$expecting_op) { // is it a negation instead of a minus?
                 $stack->push('_'); // put a negation on the stack
@@ -340,6 +340,8 @@ class EvalMath {
             } else {
                 if (is_numeric($token)) {
                     $stack->push($token);
+		} elseif (($hex=$this->from_hexbin($token))!==FALSE) {
+		    $stack->push($hex);
                 } elseif (array_key_exists($token, $this->v)) {
                     $stack->push($this->v[$token]);
                 } elseif (array_key_exists($token, $vars)) {
@@ -359,6 +361,14 @@ class EvalMath {
         $this->last_error = $msg;
         if (!$this->suppress_errors) trigger_error($msg, E_USER_WARNING);
         return false;
+    }
+    
+    // check if the token is a hex/bin number, and convert to decimal
+    //  1234h/0101010b are allowed
+    function from_hexbin($token) {
+      if (strtoupper(substr($token, -1, 1))=='H')  return hexdec($token);
+      if (strtoupper(substr($token, -1, 1))=='B')  return bindec($token);
+      return FALSE;
     }
 }
 
@@ -386,3 +396,4 @@ class EvalMathStack {
     }
 }
 
+?>
