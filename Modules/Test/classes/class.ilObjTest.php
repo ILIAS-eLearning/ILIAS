@@ -1519,6 +1519,34 @@ class ilObjTest extends ilObject
 	}
 
 	/**
+	* Checkes wheather a random test has already created questions for a given pass or not
+	*
+	* Checkes wheather a random test has already created questions for a given pass or not
+	*
+	* @access private
+	* @param $active_id Active id of the test
+	* @param $pass Pass of the test
+	* @return boolean TRUE if the test already contains questions, FALSE otherwise
+	*/
+	function hasRandomQuestionsForPass($active_id, $pass)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE active_fi = %s AND pass = %s",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . "")
+			);
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
 	* Generates new random questions for the active user
 	*
 	* Generates new random questions for the active user
@@ -1536,8 +1564,7 @@ class ilObjTest extends ilObject
 		if (is_object($active))
 		{
 			$active_id = $active->active_id;
-			$this->loadQuestions($active_id, $pass);
-			if (count($this->questions) > 0)
+			if ($this->hasRandomQuestionsForPass($active_id, $pass) > 0)
 			{
 				// Something went wrong. Maybe the user pressed the start button twice
 				// Questions already exist so there is no need to create new questions
@@ -1853,41 +1880,53 @@ class ilObjTest extends ilObject
 * @param integer $user_id The user id of the test user (necessary for random tests)
 * @access	public
 */
-	function loadQuestions($active_id = "", $pass = NULL)
-	{
-		global $ilUser;
-		global $ilDB;
+function loadQuestions($active_id = "", $pass = NULL)
+{
+	global $ilUser;
+	global $ilDB;
 
-		$this->questions = array();
-		if (strcmp($active_id, "") == 0)
+	$this->questions = array();
+	if (strcmp($active_id, "") == 0)
+	{
+		$active = $this->getActiveTestUser($ilUser->getId());
+		$active_id = $active->active_id;
+	}
+	if ($this->isRandomTest())
+	{
+		if (is_null($pass))
 		{
-			$active = $this->getActiveTestUser($ilUser->getId());
-			$active_id = $active->active_id;
+			$pass = $this->_getPass($active_id);
 		}
-		if ($this->isRandomTest())
-		{
-			if (is_null($pass))
-			{
-				$pass = $this->_getPass($active_id);
-			}
-			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
-			);
-		}
-		else
-		{
-			$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
-				$ilDB->quote($this->test_id . "")
-			);
-		}
+		$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($pass . "")
+		);
 		$result = $ilDB->query($query);
-		$index = 1;
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		// The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
+		// is only one test pass (pass = 0) in tst_test_random_question while with ILIAS 3.8 there are questions for every test pass.
+		// To prevent problems with tests started in an older version and continued in ILIAS 3.8, the first pass should be taken if
+		// no questions are present for a newer pass.
+		if ($result->numRows() == 0)
 		{
-			$this->questions[$index++] = $data->question_fi;
+			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = 0 ORDER BY sequence",
+				$ilDB->quote($active_id . "")
+			);
+			$result = $ilDB->query($query);
 		}
 	}
+	else
+	{
+		$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
+			$ilDB->quote($this->test_id . "")
+		);
+		$result = $ilDB->query($query);
+	}
+	$index = 1;
+	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$this->questions[$index++] = $data->question_fi;
+	}
+}
 
 /**
 * Sets the introduction
@@ -2885,9 +2924,6 @@ class ilObjTest extends ilObject
 	function removeAllTestEditings($question_id = "")
 	{
 		global $ilDB;
-		// remove test_active entries, because test has changed
-		$this->deleteActiveTests();
-
 		// remove the question from tst_solutions
 		if ($question_id)
 		{
@@ -2932,6 +2968,9 @@ class ilObjTest extends ilObject
 			);
 			$result = $ilDB->query($query);
 		}
+
+		// remove test_active entries, because test has changed
+		$this->deleteActiveTests();
 	}
 
 /**
