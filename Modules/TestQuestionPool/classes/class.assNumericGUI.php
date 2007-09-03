@@ -402,7 +402,6 @@ class assNumericGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
 		$questiontext = $this->object->getQuestion();
-		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
