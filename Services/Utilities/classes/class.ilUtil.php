@@ -3463,9 +3463,16 @@ class ilUtil
 		}
 		if ($prepare_for_latex_output)
 		{
+			// replace special characters to prevent problems with the ILIAS template system
+			// eg. if someone uses {1} as an answer, nothing will be shown without the replacement
 			$result = str_replace("{", "&#123;", $result);
 			$result = str_replace("}", "&#125;", $result);
 			$result = str_replace("\\", "&#92;", $result);
+			// replace these characters back in jsMath expressions
+			$a_start = "<span class=\"math\">";
+			$a_end = "<\/span>";
+			$result = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+				"'<span class=\"math\">'.str_replace('&#123;', '{', str_replace('&#125;', '}', str_replace('&#92;', '\\\\\\', '$1'))).'</span>'", $result);
 		}
 		return $result;
 	}
