@@ -3461,9 +3461,12 @@ class ilUtil
 				}
 			}
 		}
-		$result = str_replace("{", "&#123;", $result);
-		$result = str_replace("}", "&#125;", $result);
-		$result = str_replace("\\", "&#92;", $result);
+		if ($prepare_for_latex_output)
+		{
+			$result = str_replace("{", "&#123;", $result);
+			$result = str_replace("}", "&#125;", $result);
+			$result = str_replace("\\", "&#92;", $result);
+		}
 		return $result;
 	}
 
