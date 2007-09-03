@@ -3468,11 +3468,6 @@ class ilUtil
 			$result = str_replace("{", "&#123;", $result);
 			$result = str_replace("}", "&#125;", $result);
 			$result = str_replace("\\", "&#92;", $result);
-			// replace these characters back in jsMath expressions
-			$a_start = "<span class=\"math\">";
-			$a_end = "<\/span>";
-			$result = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-				"'<span class=\"math\">'.str_replace('&#123;', '{', str_replace('&#125;', '}', str_replace('&#92;', '\\\\\\', '$1'))).'</span>'", $result);
 		}
 		return $result;
 	}
