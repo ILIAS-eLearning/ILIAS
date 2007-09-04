@@ -416,6 +416,7 @@ class assJavaApplet extends assQuestion
 			return;
 		}
 		// duplicate the question in database
+		$this_id = $this->getId();
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
@@ -442,14 +443,14 @@ class assJavaApplet extends assQuestion
 		}
 
 		// copy question page content
-		$clone->copyPageOfQuestion($original_id);
+		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
-		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateFeedbackGeneric($this_id);
 
 		// duplicate the image
-		$clone->duplicateApplet($original_id);
+		$clone->duplicateApplet($this_id);
 		return $clone->id;
 	}
 

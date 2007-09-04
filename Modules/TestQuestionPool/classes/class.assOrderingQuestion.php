@@ -287,6 +287,7 @@ class assOrderingQuestion extends assQuestion
 			return;
 		}
 		// duplicate the question in database
+		$this_id = $this->getId();
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
@@ -313,14 +314,14 @@ class assOrderingQuestion extends assQuestion
 		}
 
 		// copy question page content
-		$clone->copyPageOfQuestion($original_id);
+		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
-		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateFeedbackGeneric($this_id);
 
 		// duplicate the image
-		$clone->duplicateImages($original_id);
+		$clone->duplicateImages($this_id);
 		return $clone->id;
 	}
 
