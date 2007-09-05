@@ -152,6 +152,10 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 			$a_tpl->setVariable("VAL_RADIO_OPTION", $option->getValue());
 			$a_tpl->setVariable("OP_ID", $this->getFieldId()."_".$option->getValue());
+			if($this->getDisabled())
+			{
+				$a_tpl->setVariable('DISABLED','disabled="disabled" ');
+			}
 			if ($option->getValue() == $this->getValue())
 			{
 				$a_tpl->setVariable("CHK_RADIO_OPTION",

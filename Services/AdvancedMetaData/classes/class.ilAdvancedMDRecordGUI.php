@@ -33,7 +33,8 @@
 class ilAdvancedMDRecordGUI
 {
 	const MODE_EDITOR = 1;
-	const MODE_SEARCH = 2; 
+	const MODE_SEARCH = 2;
+	const MODE_INFO = 3;
 	
 	protected $lng;
 	
@@ -63,15 +64,28 @@ class ilAdvancedMDRecordGUI
 	}
 	
 	/**
-	 * Set property form object
+	 * set property form object
 	 *
 	 * @access public
-	 * @param object ilPropertyFormGUI instance
+	 * @param
 	 * 
 	 */
-	public function setPropertyForm(ilPropertyFormGUI $form)
+	public function setPropertyForm($form)
 	{
 	 	$this->form = $form;
+	}
+	
+	
+	/**
+	 * get info sections
+	 *
+	 * @access public
+	 * @param object instance of ilInfoScreenGUI
+	 * 
+	 */
+	public function setInfoObject($info)
+	{
+	 	$this->info = $info;
 	}
 	
 	/**
@@ -90,6 +104,9 @@ class ilAdvancedMDRecordGUI
 	 			
 	 		case self::MODE_SEARCH:
 	 			return $this->parseSearch();
+	 		
+	 		case self::MODE_INFO:
+	 			return $this->parseInfoPage();
 	 			
 	 		default:
 	 			die('Not implemented yet');
@@ -204,6 +221,41 @@ class ilAdvancedMDRecordGUI
 	 		}
 	 	}
 	}
+	
+	private function parseInfoPage()
+	{
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+	 	foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type) as $record_obj)
+	 	{
+	 		$this->info->addSection($record_obj->getTitle());
+	 		
+	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
+	 		{
+	 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
+				$value = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId());
+	 			
+	 			switch($def->getFieldType())
+	 			{
+	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+	 					$this->info->addProperty($def->getTitle(),$value->getValue());
+	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+	 					$this->info->addProperty($def->getTitle(),$value->getValue());
+	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+	 					if($value->getValue())
+						{
+							$this->info->addProperty($def->getTitle(),ilFormat::formatUnixTime($value->getValue()));
+						}
+	 					break;
+	 			}
+	 		}
+	 	}
+		
+	} 
 	
 	/**
 	 * convert input array to unix time
