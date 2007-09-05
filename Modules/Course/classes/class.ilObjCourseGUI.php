@@ -328,6 +328,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
+		
+		
+		
 		// Fill meta header tags
 		include_once('Services/MetaData/classes/class.ilMDUtils.php');
 		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
@@ -355,6 +358,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$info->addSection($this->lng->txt('crs_general_informations'));
 		}
+
 		if(strlen($this->object->getImportantInformation()))
 		{
 			$info->addProperty($this->lng->txt('crs_important_info'),
@@ -385,6 +389,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->addProperty($this->lng->txt('crs_file_download'),
 							   $tpl->get());
 		}
+
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'crs',$this->object->getId());
+		$record_gui->setInfoObject($info);
+		$record_gui->parse();
 		
 		// meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());

@@ -87,5 +87,25 @@ class ilObjRemoteCourseListGUI extends ilObjectListGUI
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 	}
 
+	/**
+	 * get properties (offline)
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getProperties()
+	{
+		global $lng;
+
+		include_once('Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
+		if(!ilObjRemoteCourse::_lookupOnline($this->obj_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("offline"));
+		}
+		return $props ? $props : array();
+	}
+
 } // END class.ilObjRemoteCourseListGUI
 ?>

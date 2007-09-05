@@ -2233,4 +2233,8 @@ CREATE TABLE IF NOT EXISTS `adv_md_record` (
   PRIMARY KEY  (`record_id`)
 ) Type=MyISAM AUTO_INCREMENT=1 ;
 
+<#1059>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
