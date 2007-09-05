@@ -406,7 +406,7 @@
 					if ( $maps != null ){
 						$obj->mMaps = $maps;
 	            	}
-					$obj->mContributesToRollup = true;
+					//$obj->mContributesToRollup = true;
 					//add class
 					$c_obj['_SeqObjective'] = $obj;
 					array_push($objectives,$c_obj);

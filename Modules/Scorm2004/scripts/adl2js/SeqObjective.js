@@ -54,7 +54,7 @@ function SeqObjective()
 //this.SeqObjective = SeqObjective;
 SeqObjective.prototype = 
 {
-	mObjId: "_primary_",
+	mObjID: "_primary_",
 	mSatisfiedByMeasure: false,
 	mActiveMeasure: true,
 	mMinMeasure: 1,

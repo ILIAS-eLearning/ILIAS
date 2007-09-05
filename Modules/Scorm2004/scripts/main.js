@@ -1026,6 +1026,10 @@ function extend(destination, source, nochain, nooverwrite) {
 /* ############### GUI ############################################ */
 
 function launchNavType(navType) {
+	
+	//throw away API from previous sco and sync CMI and ADLTree
+	onItemUndeliver();
+	
 	mlaunch = new ADLLaunch();
 	
 	if (navType==='Start') {
@@ -1119,7 +1123,8 @@ function onDocumentClick (e)
            
  			if (mlaunch.mSeqNonContent == null) {
 				//alert(activities[mlaunch.mActivityID]);	
-	
+				//throw away API from previous sco and sync CMI and ADLTree
+				onItemUndeliver();
 				onItemDeliver(activities[mlaunch.mActivityID]);
 			} else {
 			  //call specialpage
@@ -1304,7 +1309,7 @@ function onWindowResize()
 
 function onChoice(target) 
 {
-	execNavigation('Choice', target.id.substr(3));
+	//execNavigation('Choice', target.id.substr(3));
 }
 
 
@@ -1360,6 +1365,7 @@ function getTocData()
 
 function getTocState() 
 {
+
 	function func(v) 
 	{
 		var disabled = false;
@@ -1419,6 +1425,7 @@ function abortNavigation ()
 
 function execNavigation (type, target) 
 {
+	return;
 	if (state) 
 	{
 		return false; // already processing
@@ -1435,6 +1442,7 @@ function execNavigation (type, target)
 
 function queryNavigation (type, target) 
 {
+	return;
 	if (state) 
 	{
 		return false; // already processing
@@ -1794,7 +1802,7 @@ function load()
 		id = row[remoteMapping.objective.id];
 		cmi_interaction_id = row[remoteMapping.objective.cmi_interaction_id];
 		cmi_node_id = row[remoteMapping.objective.cmi_node_id];
-		if (cmi_interaction_id===null) // objective to an activity or shared
+		if (cmi_interaction_id===null ) // objective to an activity or shared
 		{
 			act = activitiesByCMI[cmi_node_id];
 			if (act && act.objectives[id]) // local objective specified in manifest
@@ -1940,18 +1948,27 @@ function getAPI(cp_node_id)
 			}
 			else if (mod.type===Array) 
 			{
+				
 				api[k] = [];
+				
+			//	sclogdump(dat);
 				if (mod.mapping) 
 				{
-					dat = data[mod.mapping.name];
+				//TODO-this needs a fix!!!
+				//	dat = data[mod.mapping.name];
 				}
 				for (i in dat) 
 				{
 					if (mod.mapping && !mod.mapping.func(dat[i])) continue;
 					var d = getAPIWalk(mod, dat[i], {});
 					var idname = 'cmi_'+ k.substr(0, k.length-1) + '_id';
-					d[idname] = dat[idname];
-					api[k].push(d);					
+					if (dat[i]['objectiveID']) {
+						d['id'] = dat[i]['objectiveID'];
+					} else {
+						d[idname] = dat[i][idname];
+					}	
+					api[k].push(d);	
+									
 				}
 			}
 			else 
@@ -1967,7 +1984,6 @@ function getAPI(cp_node_id)
 	
 	// reference to live data
 	var data = activitiesByCAM[cp_node_id];
-
 	// start recursive process to add current cmi subelements
 	getAPIWalk(Runtime.models.cmi.cmi, data, api.cmi);
 
@@ -2104,6 +2120,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	{
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
+		//sclogdump(data);
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};
 		for (var k in controlState) 
@@ -2153,15 +2170,153 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	updateControls(controlState);
 }
 
+function syncCMIADLTree(){
+	//get global status
+	var mPRIMARY_OBJ_ID = null;
+	// Get the current completion_status
+	var completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
+	if (completionStatus == "not attempted") {
+		completionStatus = "incomplete";
+	}
+	
+	// Get the current success_status
+    var masteryStatus = currentAPI.GetValueIntern("cmi.success_status");
+	//alert(masteryStatus);
+    // Get the current entry
+	var entry = currentAPI.GetValueIntern("cmi.entry");
+	
+	// Get the current scaled score
+    var score = currentAPI.GetValueIntern("cmi.score.scaled");
+
+    // Get the current session time
+    var sessionTime = currentAPI.GetValueIntern("cmi.session_time");
+
+	//get current activity
+	var act = msequencer.mSeqTree.getActivity(mlaunch.mActivityID);
+	
+	var primaryObjID = null;
+    var foundPrimaryObj = false;
+    var setPrimaryObjSuccess = false;
+    var setPrimaryObjScore = false;
+	
+	objs = act.getObjectives();
+	if( objs != null ) {
+		for(var j = 0; j < objs.length; j++ ) {
+			obj = objs[j];
+			if( obj.mContributesToRollup ) {
+				if( obj.mObjID != null ){
+                      primaryObjID = obj.mObjID;
+         		}
+                break;
+			}
+		}
+	}
+	
+	//get Objective List
+	var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
+    for( var i = 0; i < numObjs; i++ ) {
+		var obj = "cmi.objectives." + i + ".id";
+        var objID= currentAPI.GetValueIntern(obj);
+		if( primaryObjID != null && objID==primaryObjID )
+	    {
+	        foundPrimaryObj = true;	
+	    } else {
+		    foundPrimaryObj = false;
+	    
+		}
+		obj = "cmi.objectives." + i + ".success_status";
+        objMS= currentAPI.GetValueIntern(obj);
+		if( objMS=="passed" ) {
+            msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "satisfied");
+            if( foundPrimaryObj )
+            {
+               setPrimaryObjSuccess = true;
+            }
+        }
+		else if( objMS=="failed" )
+        {
+             msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "notSatisfied");
+
+             if( foundPrimaryObj )
+             {
+                setPrimaryObjSuccess = true;
+             }
+        }
+		else
+        {
+           	msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "unknown");
+        }
+
+		obj = "cmi.objectives." + i + ".score.scaled";
+        objScore= currentAPI.GetValueIntern(obj);
+        if( !objScore=="" && !objScore=="unknown" ) {
+			normalScore = objScore; 
+			msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
+			if( foundPrimaryObj ){
+ 				setPrimaryObjScore = true;
+			}
+			
+		}     
+		else
+         {
+            msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, objID);
+         }   
+   	}
+	
+	// Report the completion status
+    msequencer.setAttemptProgressStatus(mlaunch.mActivityID, completionStatus);
+    
+	//we don't support resume at the moment
+	
+	//report the success status
+	
+	// Report the success status
+      if( masteryStatus=="passed" )
+      {
+		//alert("SET");
+         msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "satisfied");
+      }
+      else if( masteryStatus=="failed" )
+      {
+         msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "notSatisfied");
+      }
+      else
+      {
+         if( !setPrimaryObjSuccess )
+         {
+            msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "unknown");
+         }
+      }
+
+	  // Report the measure
+	  if( !score=="" && !score=="unknown" ) {
+			normalScore = score;
+        	msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
+       }
+
+	   else{
+            if( !setPrimaryObjScore )
+            {
+               msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
+            }
+       }
+	
+    
+    
+}
+
 function onItemUndeliver(item) // onUndeliver called from sequencing process (EndAttempt)
 {
 	// throw away the resource
 	// it may change api data in this
 	removeResource();
-
+	
+	
+	
 	// throw away api, and try a API.Terminate before (will return "false" if already closed by SCO)
 	if (currentAPI) 
 	{
+		syncCMIADLTree();		
 		currentAPI.Terminate("");
 	}
 	currentAPI = window[Runtime.apiname] = null;
@@ -2314,14 +2469,16 @@ var guiViews = // for different table of content views in gui
 					var elm = all(ITEM_PREFIX + item.id);
 					if (elm) 
 					{
-						if (item.href) {
+						if (item.sco) {
 							elm.innerHTML = setTitle(item);
 						}
 						//test for activity tree
 						var test=mlaunch.mNavState.mChoice[item.id];
-						var disable;
+						var disable=true;
 						if (test) {
-							disable=false;
+							if (test['mIsSelectable']==true) { 
+								disable=false;
+							}	
 						} else {
 							disable=true;
 						}

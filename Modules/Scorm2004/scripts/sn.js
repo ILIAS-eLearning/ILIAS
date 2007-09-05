@@ -35,6 +35,7 @@
  // noch eine Baustellen, da der Pseudocode hier unklar ist
 function exec(navReq) // #166 
 {
+	
 	var rn, rd, rs, rt, seqReq;
 
 	//sclogclear();
