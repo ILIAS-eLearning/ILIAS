@@ -3318,13 +3318,14 @@ class ilUtil
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($counter++ >= $limit)
+			if($counter >= $limit)
 			{
 				break;
 			}
 			// Check deleted, hierarchical access ...
 			if($ilAccess->checkAccessOfUser($a_usr_id,$a_operation,'',$row->ref_id,$row->type,$row->obj_id))
 			{
+				$counter++;
 				$ref_ids[] = $row->ref_id;
 			}
 		}
