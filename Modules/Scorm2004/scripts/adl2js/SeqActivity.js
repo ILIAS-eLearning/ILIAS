@@ -899,6 +899,7 @@ SeqActivity.prototype =
 		var iObjID = iOptions.iObjID;
 
 		var status = false;
+		
 		if (this.mIsTracked)
 		{
 			if (this.mCurTracking == null)
@@ -911,6 +912,7 @@ SeqActivity.prototype =
 			
 			if (this.mCurTracking != null)
 			{
+				
 				if (iObjID == null)
 				{
 					iObjID = this.mCurTracking.mPrimaryObj;

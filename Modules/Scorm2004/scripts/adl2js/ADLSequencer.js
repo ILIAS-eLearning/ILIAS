@@ -308,7 +308,9 @@ ADLSequencer.prototype =
 				if (!target.hasChildren(false)  &&
 					this.mSeqTree.getCurrentActivity() == target)
 				{
-					var statusChange = target.setObjSatisfied(iObjID, iStatus);
+					//TODO here occurs some error fix it HH
+					//var statusChange = target.setObjSatisfied(iObjID, iStatus);
+					var statusChange = target.setObjSatisfied( iStatus,iObjID);
 					
 					if (statusChange)
 					{
@@ -1481,7 +1483,9 @@ ADLSequencer.prototype =
 
 				// Ignore any status values reported by the content
 				process.setProgress(TRACK_UNKNOWN);
-				process.setObjSatisfied(null, TRACK_UNKNOWN);
+				//FIXED HH
+				process.setObjSatisfied(TRACK_UNKNOWN, null);
+				//process.setObjSatisfied(null, TRACK_UNKNOWN);
 				process.clearObjMeasure(null);
 				
 				process.setIsActive(false);
@@ -1496,7 +1500,9 @@ ADLSequencer.prototype =
 				
 				// Ignore any status values reported by the content
 				process.setProgress(TRACK_UNKNOWN);
-				process.setObjSatisfied(null, TRACK_UNKNOWN);
+				//FIXED HH
+				process.setObjSatisfied(TRACK_UNKNOWN, null);
+				//process.setObjSatisfied(null, TRACK_UNKNOWN);
 				process.clearObjMeasure(null);
 				
 				while (process != null)
@@ -2570,7 +2576,6 @@ ADLSequencer.prototype =
 				result = skippedRules.evaluate(RULE_TYPE_SKIPPED, 
 					ioFrom.at, this.mRetry);
 			}
-			
 			// If the rule evaluation did not return null, the activity is skipped
 			if (result != null)
 			{
@@ -3073,6 +3078,7 @@ ADLSequencer.prototype =
 					
 					if (!iTarget.getSetObjective())
 					{
+						//alert('Set satisfied');
 						// If the content hasn't set this value, set it
 						if (!iTarget.getObjStatus(false, true))
 						{

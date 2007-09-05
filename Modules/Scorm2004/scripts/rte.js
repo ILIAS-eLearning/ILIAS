@@ -163,8 +163,8 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function GetValue(sPath) 
 	{
 		//log.info("GetValue: "+sPath);
-		sclogdump("Get: "+sPath);
 		setReturn(-1, 'GetValue(' + sPath + ')');
+//		state=1;
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
@@ -186,6 +186,18 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			case TERMINATED:
 				return setReturn(123, '', '');
 		}	
+	}
+	
+	//allows to get data even after termination
+	function GetValueIntern(sPath) {
+		setReturn(-1, 'GetValueIntern(' + sPath + ')');
+		
+		var r = getValue(sPath, false);
+		sclogdump("ReturnInern: "+sPath + " : "+ r);
+		return error ? '' : setReturn(0, '', r); 
+		
+		
+		
 	}
 	
 	/**
@@ -275,10 +287,10 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function walk(dat, def, path, value, sudo, extra) 
 	{
+		
 		var setter, token, result, tdat, tdef, k, token2, tdat2, di, token3;
 		 
 		setter = typeof value === "string";
-
 		token = path.shift();
 		
 		if (!def) 
@@ -300,7 +312,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			result = tdef.children.type.getValue(token2, tdef.children); 
 			return setReturn(0, '', result);
 		}
-		
 		if (path[0] && path[0].charAt(0)==="_") 
 		{
 			if (path.length>1) 
@@ -327,6 +338,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			
 			if ('_count' === path[0]) 
 			{
+				//sclogdump("Count liefert"+tdat);
 				return tdef.type !== Array ? 
 					setReturn(301, 'Data model element cannot have count', '') :
 					setReturn(0, '', (tdat && tdat.length ? tdat.length : 0).toString());
@@ -559,6 +571,7 @@ if (window.order_matters)
 		'Initialize' : Initialize,
 		'Terminate' : Terminate,
 		'GetValue' : GetValue,
+		'GetValueIntern' : GetValueIntern,		
 		'SetValue' : SetValue,
 		'Commit' : Commit,
 		'GetLastError' : GetLastError,
@@ -613,6 +626,8 @@ Runtime.methods =
 	'Initialize' : 'Initialize', 
 	'Terminate' : 'Terminate', 
 	'GetValue' : 'GetValue', 
+	'GetValueIntern' : 'GetValueIntern', 
+	
 	'SetValue' : 'SetValue', 
 	'Commit' : 'Commit', 
 	'GetLastError' : 'GetLastError', 
@@ -1067,15 +1082,18 @@ Runtime.models =
 				session_time : {type: Interval, permission: WRITEONLY},
 				success_status : {type: SuccessState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
 					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm = Number(currentAPI.GetValue("cmi.scaled_passing_score"));
-					var score = Number(currentAPI.GetValue("cmi.score"));
-					if (norm===NaN) {
-					} else if (score===NaN) {
-						state = "unknown";
-					} else if (score<norm) {
-						state = "failed";
-					} else {
+					var norm=currentAPI.GetValue("cmi.scaled_passing_score");
+					var score=currentAPI.GetValue("cmi.score");
+					if (norm && score) {
+						score=Number(score);
+						norm=Number(norm);
+					   if (score>=norm) {
 						state = "passed";
+					  } else if (score<norm) {
+						state = "failed";
+					  } else {
+						state = "unknown";
+					  }
 					} 
 					currentAPI.SetValue('cmi.success_status', state);
 					return state;
