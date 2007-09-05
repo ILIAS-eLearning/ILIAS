@@ -940,6 +940,7 @@ class ilLDAPSettingsGUI
 		global $rbacreview,$ilObjDataCache;
 	
 		$new_mapping = array();
+		$new_mapping = array();		
 	 	foreach($a_mapping_data as $mapping_id => $data)
 	 	{
 	 		$new_mapping[$mapping_id] = $data;
