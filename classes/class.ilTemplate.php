@@ -109,6 +109,9 @@ class ilTemplate extends ilTemplateX
 
 		//add tplPath to replacevars
 		$this->vars["TPLPATH"] = $this->tplPath;
+		
+		// set Options
+		$this->setOption('use_preg', false);
 
 		return true;
 	}
