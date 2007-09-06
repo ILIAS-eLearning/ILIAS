@@ -114,7 +114,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				{
 					$view_frame = "ilContObj".$this->content_object->getID();
 				}
-				$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
+				$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId().
+					"_".$_GET["ref_id"],
 					$view_frame);
 
 				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
