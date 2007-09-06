@@ -44,9 +44,12 @@ var ilBlockSuccessHandler = function(o)
 	// perform block modification
 	if(o.responseText !== undefined)
 	{
-		//alert(o.argument.block_id);
+		// this a little bit complex procedure fixes innerHTML with forms in IE
+		var newdiv = document.createElement("div");
+		newdiv.innerHTML = o.responseText;
 		var block_div = document.getElementById(o.argument.block_id);
-		block_div.innerHTML = o.responseText;
+		block_div.innerHTML = '';
+		block_div.appendChild(newdiv);
 		
 		//div.innerHTML = "Transaction id: " + o.tId;
 		//div.innerHTML += "HTTP status: " + o.status;
