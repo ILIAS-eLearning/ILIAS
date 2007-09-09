@@ -3334,7 +3334,7 @@ class ilUtil
 
 	/**
 	* replace [text]...[/tex] tags with formula image code
-	* ////////
+	*
 	* added additional parameters to make this method usable
 	* for other start and end tags as well
 	*/
@@ -3359,7 +3359,8 @@ class ilUtil
 			}
 			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
 			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-				"'<span class=\"math\">$1</span>[[info]]'", $a_text);
+				"'<span class=\"math\">' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br />', '', str_replace('<br>', '', '$1')))) . '</span>[[info]]'", $a_text);
+					// added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
 			$result_text = str_replace("[[info]]", $info, $result_text);
 			$tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
 		}
