@@ -254,10 +254,11 @@ class ilTemplate extends ilTemplateX
 			$this->fillTabs();
 			$this->fillHeaderIcon();
 			//$this->fillNavigationHistory();
-			$this->fillJavaScriptFiles();
 			$this->fillCssFiles();
 			$this->fillPageFormAction();
 		}
+		// moved outside the standard elements to assure JavaScript usage as well in LM Toc frames (e.g. for jsMath)
+		$this->fillJavaScriptFiles();
 		
 		if ($part == "DEFAULT" or is_bool($part))
 		{
@@ -317,14 +318,16 @@ class ilTemplate extends ilTemplateX
 	function fillJavaScriptFiles()
 	{
 		global $ilias,$ilTabs;
-		
-		foreach($this->js_files as $file)
+		if ($this->blockExists("js_file"))
 		{
-			if (is_file($file) || substr($file, 0, 4) == "http")
+			foreach($this->js_files as $file)
 			{
-				$this->setCurrentBlock("js_file");
-				$this->setVariable("JS_FILE", $file);
-				$this->parseCurrentBlock();
+				if (is_file($file) || substr($file, 0, 4) == "http")
+				{
+					$this->setCurrentBlock("js_file");
+					$this->setVariable("JS_FILE", $file);
+					$this->parseCurrentBlock();
+				}
 			}
 		}
 	}
@@ -507,7 +510,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function blockExists($a_blockname)
 	{
-		return $this->blockvariables["content"][$a_blockname] ? true : false;
+		return $this->blockvariables[$a_blockname] ? true : false;
 	}
 
 
