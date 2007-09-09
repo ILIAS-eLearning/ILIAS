@@ -106,7 +106,6 @@ class ilTemplate extends ilTemplateX
 		$this->callConstructor();
 		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 		$this->loadTemplatefile($fname, $flag1, $flag2);
-
 		//add tplPath to replacevars
 		$this->vars["TPLPATH"] = $this->tplPath;
 		
@@ -151,9 +150,10 @@ class ilTemplate extends ilTemplateX
 			$this->fillTabs();
 			$this->fillHeaderIcon();
 			//$this->fillNavigationHistory();
-			$this->fillJavaScriptFiles();
 			$this->fillCssFiles();
 		}
+		// moved outside the standard elements to assure JavaScript usage as well in LM Toc frames (e.g. for jsMath)
+		$this->fillJavaScriptFiles();
 
 		if ($add_ilias_footer)
 		{
