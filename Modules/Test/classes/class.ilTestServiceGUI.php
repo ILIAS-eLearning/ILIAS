@@ -278,7 +278,7 @@ class ilTestServiceGUI
 				$question = $question_data["qid"];
 				if (is_numeric($question))
 				{
-					$this->tpl->setCurrentBlock("printview_question");
+					$maintemplate->setCurrentBlock("printview_question");
 					$question_gui = $this->object->createQuestionGUI("", $question);
 
 					$template->setVariable("COUNTER_QUESTION", $counter.". ");
@@ -809,13 +809,6 @@ class ilTestServiceGUI
 			{
 				$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestservicegui", "getResultsOfUserOutput", $command_solution_details);
 			}
-
-			$user_id = $this->object->_getUserIdFromActiveId($active_id);
-
-			$template->setCurrentBlock("test_user_name");
-
-			$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-			$template->parseCurrentBlock();
 
 			if ($show_answers)
 			{

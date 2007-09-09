@@ -2003,11 +2003,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 	
-			$template->setCurrentBlock("test_user_name");
-			
-			$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-			$template->parseCurrentBlock();
-	
 			if (!$hide_details)
 			{
 				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
@@ -2086,11 +2081,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("test_user_name");
-		
-		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-		$this->tpl->parseCurrentBlock();
 
 		if ($this->object->getNrOfTries() == 1)
 		{
@@ -2109,6 +2099,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("PASS_DETAILS", $overview);
+		$uname = $this->object->userLookupFullName($user_id, TRUE);
+		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
@@ -2204,11 +2196,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("test_user_name");
-		
-		$uname = $this->object->userLookupFullName($user_id);
-		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-		$this->tpl->parseCurrentBlock();
 
 		if ($this->object->getNrOfTries() == 1)
 		{
@@ -2227,6 +2214,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("PASS_DETAILS", $overview);
+		$uname = $this->object->userLookupFullName($user_id);
+		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
