@@ -144,8 +144,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		$this->setFooterLinks();
 		$this->fillFooterLinks();
 		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
-		$this->tpl->setCurrentBlock("block_footer");
-		$this->tpl->parseCurrentBlock();
+		if ($this->tpl->blockExists("block_footer"))
+		{
+			$this->tpl->setCurrentBlock("block_footer");
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**

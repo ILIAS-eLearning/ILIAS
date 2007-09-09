@@ -4133,43 +4133,46 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$this->tpl->setCurrentBlock("invitation");
-			$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
-			$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
-			$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
-			$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
-			$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
-			$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
-			$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
-			$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
-			$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
-			$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
-			if (is_array($_POST["search_for"]))
+			if ($this->tpl->blockExists("invitation"))
 			{
-				if (in_array("usr", $_POST["search_for"]))
+				$this->tpl->setCurrentBlock("invitation");
+				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
+				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
+				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
+				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
+				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
+				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
+				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
+				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
+				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
+				$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
+				if (is_array($_POST["search_for"]))
 				{
-					$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
+					if (in_array("usr", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
+					}
+					if (in_array("grp", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+					}
+					if (in_array("role", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
+					}
+
 				}
-				if (in_array("grp", $_POST["search_for"]))
+				if (strcmp($_POST["concatenation"], "and") == 0)
 				{
-					$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
 				}
-				if (in_array("role", $_POST["search_for"]))
+				else if (strcmp($_POST["concatenation"], "or") == 0)
 				{
-					$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
+					$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
 				}
-				
+				$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
+				$this->tpl->parseCurrentBlock();
 			}
-			if (strcmp($_POST["concatenation"], "and") == 0)
-			{
-				$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
-			}
-			else if (strcmp($_POST["concatenation"], "or") == 0)
-			{
-				$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
-			}
-			$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
-			$this->tpl->parseCurrentBlock();
 		}
 
 		if ($this->object->getFixedParticipants())
@@ -4446,7 +4449,14 @@ class ilObjTestGUI extends ilObjectGUI
 					if (strlen($data->usr_id))
 					{
 						$last_access = $this->object->_getLastAccess($data->active_id);
-						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilFormat::formatDate($last_access));
+						if (!strlen($last_access))
+						{
+							$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $this->lng->txt("not_yet_accessed"));
+						}
+						else
+						{
+							$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilFormat::formatDate($last_access));
+						}
 					}
 					else
 					{
