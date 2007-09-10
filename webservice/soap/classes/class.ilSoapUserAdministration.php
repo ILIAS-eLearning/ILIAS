@@ -145,7 +145,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacsystem;
+		global $rbacsystem, $ilUser ;
 
 
 		if($ilUser->getLogin() != $user_name && !$rbacsystem->checkAccess('read',USER_FOLDER_ID))
