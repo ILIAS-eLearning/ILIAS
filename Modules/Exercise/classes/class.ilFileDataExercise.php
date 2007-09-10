@@ -136,14 +136,15 @@ class ilFileDataExercise extends ilFileData
 
 		return true;
 	}
-
+	
 	/**
 	* store uploaded file in filesystem
 	* @param array HTTP_POST_FILES
+	* @param boolean $is_unziped true if uploaded file is unziped from archive
 	* @access	public
 	* @return bool
 	*/
-	function storeUploadedFile($a_http_post_file, $secure_filename = false)
+	function storeUploadedFile($a_http_post_file, $secure_filename = false, $is_unziped = false)
 	{
 		// TODO:
 		// CHECK UPLOAD LIMIT
@@ -162,8 +163,18 @@ class ilFileDataExercise extends ilFileData
 			$this->__rotateFiles($this->getExercisePath().'/'.$this->obj_id.'_'.$filename);
 			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getExercisePath().'/'.$this->obj_id.'_'.
 			//				   $filename);
-			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'], $a_http_post_file['name'],
+			
+			if (!$is_unziped)
+			{
+				ilUtil::moveUploadedFile($a_http_post_file['tmp_name'], $a_http_post_file['name'],
 				$this->getExercisePath().'/'.$this->obj_id.'_'.$filename);
+			}
+			else
+			{
+				// ######## Warning, there is no check whether the unziped files are virus free or not
+				rename($a_http_post_file['tmp_name'],
+				$this->getExercisePath().'/'.$this->obj_id.'_'.$filename);
+			}
 
 		}
 		return true;
@@ -215,7 +226,7 @@ class ilFileDataExercise extends ilFileData
 	* @access	public
 	* @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
 	*/
-	function deliverFile($a_http_post_file, $user_id)
+	function deliverFile($a_http_post_file, $user_id, $is_unziped = false)
 	{
 		// TODO:
 		// CHECK UPLOAD LIMIT
@@ -249,9 +260,20 @@ class ilFileDataExercise extends ilFileData
 			$now = getdate();
 			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"],
 							  $now["minutes"], $now["seconds"]);
-			//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
-			ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
+
+			if (!$is_unziped)
+			{
+				//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
+				ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
 				$savepath . "/" . $prefix . "_" . $filename);
+			}
+			else
+			{
+
+				rename($a_http_post_file['tmp_name'],
+				$savepath . "/" . $prefix . "_" . $filename);
+			}
+			
 			require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 			$result = array(
 				"filename" => $prefix . "_" . $filename,

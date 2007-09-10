@@ -177,94 +177,126 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
-		else
+
+
+		if ($_POST["cmd"]["delete"] && mktime() < $this->object->getTimestamp())
 		{
-			if ($_POST["cmd"]["delete"])
+			if (count($_POST["delivered"]))
 			{
-				if (count($_POST["delivered"]))
-				{
-					$this->object->deleteDeliveredFiles($_POST["delivered"], $ilUser->id);
-				}
-				else
-				{
-					ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
-				}
-			}
-	
-			if ($_POST["cmd"]["download"])
-			{
-				if (count($_POST["delivered"]))
-				{
-					$this->object->members_obj->downloadSelectedFiles($_POST["delivered"]);
-				}
-				else
-				{
-					ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
-				}
-			}
-	
-			$this->getTemplateFile("deliver_file", "exc");
-			$delivered_files = $this->object->getDeliveredFiles($ilUser->id);
-			$color_class = array("tblrow1", "tblrow2");
-			$counter = 0;
-			foreach ($delivered_files as $index => $file)
-			{
-				$this->tpl->setCurrentBlock("delivered_row");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
-				$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP14"], $matches);
-				$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", 
-					$matches[1], $matches[2], $matches[3], 
-					$matches[4], $matches[5], $matches[6]));
-				$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
-				$this->tpl->setVariable("DELIVERED_DATE", $date);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-			if (count($delivered_files))
-			{
-				$this->tpl->setCurrentBlock("footer_content");
-				$this->tpl->setVariable("ARROW_SIGN", ilUtil::getImagePath("arrow_downright.gif"));
-				$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
-				$this->tpl->setVariable("BUTTON_DOWNLOAD", $this->lng->txt("download"));
-				$this->tpl->parseCurrentBlock();
+				$this->object->deleteDeliveredFiles($_POST["delivered"], $ilUser->id);
 			}
 			else
 			{
-				$this->tpl->setCurrentBlock("footer_empty");
-				$this->tpl->setVariable("TEXT_NO_DELIVERED_FILES", 
-					$this->lng->txt("message_no_delivered_files"));
-				$this->tpl->parseCurrentBlock();
+				ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
 			}
-			$this->tpl->setCurrentBlock("delivered_files");
-			$this->tpl->setVariable("DELIVER_FORMACTION", 
-				$this->ctrl->getLinkTarget($this, "deliver"));
-			$this->tpl->setVariable("TEXT_DATE", $this->lng->txt("date"));
-			$this->tpl->setVariable("TEXT_DELIVERED_FILENAME", $this->lng->txt("filename"));
-			$this->tpl->setVariable("TEXT_HEADING_DELIVERED_FILES", $this->lng->txt("already_delivered_files"));
+		}
+
+		if ($_POST["cmd"]["download"])
+		{
+			if (count($_POST["delivered"]))
+			{
+				$this->object->members_obj->downloadSelectedFiles($_POST["delivered"]);
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
+			}
+		}
+
+
+		if (mktime() > $this->object->getTimestamp())
+		{
+			$this->getTemplateFile("delivered_files", "exc");
+		}
+		else
+		{
+			$this->getTemplateFile("deliver_file", "exc");
+		}
+
+		$delivered_files = $this->object->getDeliveredFiles($ilUser->id);
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($delivered_files as $index => $file)
+		{
+			$this->tpl->setCurrentBlock("delivered_row");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
+			$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP14"], $matches);
+			$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", 
+				$matches[1], $matches[2], $matches[3], 
+				$matches[4], $matches[5], $matches[6]));
+			$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
+			$this->tpl->setVariable("DELIVERED_DATE", $date);
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORMACTION", 
-				$this->ctrl->getLinkTarget($this, "deliverFile"));
-			$this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
-			$this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
-			$this->tpl->setVariable("TXT_UPLOAD_FILE", $this->lng->txt("file_add"));
+			$counter++;
+		}
+		if (count($delivered_files))
+		{
+			$this->tpl->setCurrentBlock("footer_content");
+			$this->tpl->setVariable("ARROW_SIGN", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("BUTTON_DOWNLOAD", $this->lng->txt("download"));
 			$this->tpl->parseCurrentBlock();
 		}
+		else
+		{
+			$this->tpl->setCurrentBlock("footer_empty");
+			$this->tpl->setVariable("TEXT_NO_DELIVERED_FILES", 
+				$this->lng->txt("message_no_delivered_files"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("delivered_files");
+		$this->tpl->setVariable("DELIVER_FORMACTION", 
+			$this->ctrl->getLinkTarget($this, "deliver"));
+		$this->tpl->setVariable("TEXT_DATE", $this->lng->txt("date"));
+		$this->tpl->setVariable("TEXT_DELIVERED_FILENAME", $this->lng->txt("filename"));
+		$this->tpl->setVariable("TEXT_HEADING_DELIVERED_FILES", $this->lng->txt("already_delivered_files"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", 
+			$this->ctrl->getLinkTarget($this, "deliverFile"));
+		$this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
+		$this->tpl->setVariable("TXT_UPLOAD_FILE", $this->lng->txt("file_add"));
+		$this->tpl->setVariable("TXT_UPLOAD_ZIPFILE", $this->lng->txt("header_zip"));
+		$this->tpl->parseCurrentBlock();
+		
 	}
   
 	function deliverFileObject()
 	{
-		global $ilUser;
-	
+		global $ilUser, $lng;
+
 		$this->tabs_gui->setTabActive("view");
 		$this->tabs_gui->setTabActive("exc_your_submission");
 
-		if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
+		if (!empty($_POST["cmd"][deliverUnzip]) && preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
 		{
-			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
+			$processDone = $this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile");
+			if($processDone == 1) {
+				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" .$lng->txt("archive_broken"));
+				// Always return true, error-processing is done in all error-cases
+			}
+			else if($processDone == 2) {
+				// Virus found, nothing to do
+			}			
+			else if($processDone == 3) {
+
+				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error"));
+			}
+			
 		}
+		else
+		{
+			if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
+			{
+				ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
+			}
+		}
+		
+		
 		$this->deliverObject();
 	}
   
@@ -439,6 +471,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_FILE",$this->lng->txt("file"));
 		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("upload"));
 		$this->tpl->setVariable("FORMACTION_FILE", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_HEADER_ZIP", $this->lng->txt("header_zip"));
 		$this->tpl->setVariable("CMD_FILE_SUBMIT","uploadFile");
 		$this->tpl->parseCurrentBlock();
 	}
@@ -474,6 +507,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "view");
+	}
+
+	function uploadZipObject()
+	{
+		global $rbacsystem;
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!$this->object->addUploadedFile($_FILES["file"], true))
+		{
+			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
+		}
+		$this->ctrl->redirect($this, "edit");
+	
 	}
 
 	function uploadFileObject()

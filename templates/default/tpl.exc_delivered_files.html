@@ -1,0 +1,30 @@
+<!-- BEGIN delivered_files -->
+<form  name="form_delivered_files" method="post" action="{DELIVER_FORMACTION}">
+<table class="halfwidth">
+<tr class="tbltitle">
+<th colspan="3" class="std">{TEXT_HEADING_DELIVERED_FILES}</th>
+</tr>
+<tr class="tblheader">
+<th class="std">&nbsp;</th><th class="std">{TEXT_DELIVERED_FILENAME}</th><th class="std">{TEXT_DATE}</th>
+</tr>
+<!-- BEGIN delivered_row -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}"><input type="checkbox" name="delivered[]" value="{FILE_ID}" /></td>
+<td class="{COLOR_CLASS}">{DELIVERED_FILE}</td>
+<td class="{COLOR_CLASS}">{DELIVERED_DATE}</td>
+</tr>
+<!-- END delivered_row -->
+<tr class="option_value">
+<!-- BEGIN footer_content -->
+<td class="option_value" colspan="3"><img src="{ARROW_SIGN}" />
+<input type="submit" class="submit" name="cmd[download]" value="{BUTTON_DOWNLOAD}" />
+</td>
+<!-- END footer_content -->
+<!-- BEGIN footer_empty -->
+<td class="option_value" colspan="3">{TEXT_NO_DELIVERED_FILES}</td>
+<!-- END footer_empty -->
+</tr>
+</form>
+<!-- END delivered_files -->
+</table>
+</form>
