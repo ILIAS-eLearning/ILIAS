@@ -147,12 +147,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './include/inc.header.php';
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
+
+		if($ilUser->getLogin() != $user_name && !$rbacsystem->checkAccess('read',USER_FOLDER_ID))
 		{
-			return $this->__raiseError('Check access failed.'.USER_FOLDER_ID,'Server');
+			return $this->__raiseError('Check access failed. '.USER_FOLDER_ID,'Server');
 		}
 
 		$user_id = ilObjUser::getUserIdByLogin($user_name);
+
+
 		return $user_id ? $user_id : "0";
 
 	}
