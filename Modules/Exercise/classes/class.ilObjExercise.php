@@ -104,9 +104,9 @@ class ilObjExercise extends ilObject
 
 	}
 
-	function deliverFile($a_http_post_files, $user_id)
+	function deliverFile($a_http_post_files, $user_id, $unzip = false)
 	{
-		$deliver_result = $this->file_obj->deliverFile($a_http_post_files, $user_id);
+		$deliver_result = $this->file_obj->deliverFile($a_http_post_files, $user_id, $unzip);
 		if ($deliver_result)
 		{
 			$query = sprintf("INSERT INTO exc_returned ".
@@ -128,11 +128,31 @@ class ilObjExercise extends ilObject
 		return true;
 	}
 
-	function addUploadedFile($a_http_post_files)
+	function addUploadedFile($a_http_post_files, $unzipUploadedFile = false)
 	{
-		$this->file_obj->storeUploadedFile($a_http_post_files, true);
-
-		return true;
+		global $lng;
+		if ($unzipUploadedFile && preg_match("/zip/",	$a_http_post_files["type"]) == 1)
+		{
+			$processDone = $this->processUploadedFile($_FILES["file"]["tmp_name"], "storeUploadedFile");
+			if($processDone == 1) {
+				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" .$lng->txt("archive_broken"),true);
+				// Always return true, error-processing is done in all error-cases
+			}
+			else if($processDone == 2) {
+				// Virus found, nothing to do
+			}			
+			else if($processDone == 3) {
+				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error"),true);
+			}
+			return true;
+			
+			
+		}
+		else 
+		{
+			$this->file_obj->storeUploadedFile($a_http_post_files, true);
+			return true;
+		}
 	}
 	function deleteFiles($a_files)
 	{
@@ -612,6 +632,46 @@ class ilObjExercise extends ilObject
 		}
 		return true;
 	}
+	/**
+	* processes errorhandling etc for uploaded archive
+	* @param string $tmpFile path and filename to uploaded file
+	* @param string $storageMethod deliverFile or storeUploadedFile 
+	*/
+	function processUploadedFile ($fileTmp, $storageMethod)
+	{
+		global $lng, $ilUser;
 
+		// Create unzip-directory
+		$newDir = ilUtil::ilTempnam();
+		ilUtil::makeDir($newDir);
+
+		$processDone = ilUtil::processZipFile($newDir,$fileTmp, false);
+
+		ilUtil::recursive_dirscan($newDir, $filearray);			
+		if ($processDone == 0) {
+			foreach ($filearray["file"] as $key => $filename)
+			{
+				$a_http_post_files["name"] = $filename;
+				$a_http_post_files["type"] = "other";
+				$a_http_post_files["tmp_name"] = $filearray["path"][$key]."/".$filename;
+				$a_http_post_files["error"] = 0;
+				$a_http_post_files["size"] = filesize($filearray["path"][$key]."/".$filename);
+
+				if ($storageMethod == "deliverFile")
+				{
+					$this->$storageMethod($a_http_post_files, $ilUser->id, true);
+				}
+				else if ($storageMethod == "storeUploadedFile")
+				{
+					$this->file_obj->$storageMethod($a_http_post_files, true, true);				
+				}
+			}
+
+		}
+		ilUtil::delDir($newDir);
+		return $processDone;
+
+	}
+	
 } //END class.ilObjExercise
 ?>

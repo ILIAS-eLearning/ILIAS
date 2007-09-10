@@ -157,8 +157,24 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT_AND_META", "saveAndMeta");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_TAKE_OVER_STRUCTURE", $this->lng->txt("take_over_structure"));
+		$this->tpl->setVariable("TXT_HEADER_ZIP", $this->lng->txt("header_zip"));
 		
 		$this->fillCloneTemplate('DUPLICATE','file');
+	}
+
+	/**
+	* saveUnzip object
+	*
+	* @access	public
+	*/
+	function saveUnzipObject()
+	{
+		if (preg_match("/zip/" , $_FILES["Fobject"]["type"]["file"]) == 1)
+		{
+			$this->saveObject(true);
+		}
+		$this->saveObject(false);
 	}
 
 	/**
@@ -166,7 +182,7 @@ class ilObjFileGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function saveObject()
+	function saveObject($unzipUploadedFile = false)
 	{
 		global $rbacsystem, $objDefinition;
 
@@ -187,6 +203,56 @@ class ilObjFileGUI extends ilObjectGUI
 		{
 			$_POST["Fobject"]["title"] = $_FILES["Fobject"]["name"]["file"];
 			//$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// If uploaded file contains "zip" in type and this function is called through saveUnzipObject()
+		if ($unzipUploadedFile)
+		{	
+	
+			// Create unzip-directory
+			$newDir = ilUtil::ilTempnam();
+			ilUtil::makeDir($newDir);
+			
+			//include_once("classes/class.ilObjectDefinition.php");
+			// Check if permission is granted for creation of object, if necessary
+			if (preg_match("/cat/" ,ilObject::_lookupType($_GET["ref_id"], TRUE)))
+			{
+				$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "cat");
+				$containerType = "Category";
+			}
+			else {
+				$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "fold");
+				$containerType = "Folder";			
+			}
+			
+				// (	Dir to unzip, 
+				//	Path to uploaded file, 
+				//	should a structure be created (+ permission check)?
+				//	ref_id of parent
+				//	object that contains files (folder or category)
+				$processDone = ilUtil::processZipFile(	$newDir, 
+									$_FILES["Fobject"]["tmp_name"]["file"],
+									($_POST["Fobject"]["structure"] && $permission),
+									$_GET["ref_id"],
+									$containerType);
+						
+				if ($processDone == 0) {
+					ilUtil::sendInfo($this->lng->txt("file_added"),true);					
+				}
+				else if($processDone == 1) {
+					ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" .$this->lng->txt("archive_broken"),true);
+				}
+				else if($processDone == 2) {
+					// Virus found, nothing to do				
+				}			
+				else if($processDone == 3) {
+					ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" . $this->lng->txt("zip_structure_error"),true);
+			}
+			ilUtil::delDir($newDir);
+
+
+						
+			$this->ctrl->returnToParent($this);
 		}
 
 		// create and insert file in grp_tree

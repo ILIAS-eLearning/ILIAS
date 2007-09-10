@@ -731,6 +731,28 @@ class ilObjFile extends ilObject
 	 	$this->file_storage = new ilFSStorageFile($this->getId());
 	 	return true;
 	}
+	/**
+	* storeUnzipedFile
+	*
+	* Stores Files unzipped from uploaded archive in filesystem
+	*
+	* @param string $a_upload_file
+	* @param string	$a_filename
+	*/
+
+	function storeUnzipedFile($a_upload_file, $a_filename)
+		{
+			$this->setVersion($this->getVersion() + 1);
+
+			if (@!is_dir($this->getDirectory($this->getVersion())))
+			{
+				ilUtil::makeDir($this->getDirectory($this->getVersion()));
+			}
+
+			$file = $this->getDirectory($this->getVersion())."/".$a_filename;
+			//move_uploaded_file($a_upload_file, $file);
+			rename($a_upload_file,  $file);
+	}
 
 } // END class.ilObjFile
 ?>
