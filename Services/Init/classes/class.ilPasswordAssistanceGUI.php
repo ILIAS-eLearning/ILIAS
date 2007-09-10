@@ -524,7 +524,7 @@ class ilPasswordAssistanceGUI
 			'/';
 		$login_url=$server_url."pwassist.php"
 					."?client_id=".$ilias->getClientId()
-					.";lang=".$lng->getLangKey();
+					."&lang=".$lng->getLangKey();
 //echo "-".htmlentities($login_url)."-";
 		$contact_address=$ilias->getSetting("admin_email");
 	
