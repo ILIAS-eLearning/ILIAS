@@ -422,6 +422,7 @@ class ilPasswordAssistanceGUI
 	
 		include_once "Services/Mail/classes/class.ilMailbox.php";
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
+	
 		require_once "include/inc.pwassist_session_handler.php";
 		
 	
@@ -440,21 +441,21 @@ class ilPasswordAssistanceGUI
 				$userObj->getId()
 			);
 		}
-		
+		$protocol = isset($_SERVER['HTTPS'])?"https://":"http://";
 		// Compose the mail
-		$server_url='http://'.$_SERVER['HTTP_HOST'].
+		$server_url=$protocol.$_SERVER['HTTP_HOST'].
 			substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],'/')).
 			'/';
 		// XXX - Werner Randelshofer - Insert code here to dynamically get the
 		//      the delimiter. For URL's that are sent by e-mail to a user,
 		//      it is best to use semicolons as parameter delimiter
 		$delimiter = "&";
-		$pwassist_url='http://'.$_SERVER['HTTP_HOST']
+		$pwassist_url=$protocol .$_SERVER['HTTP_HOST']
 		.str_replace("ilias.php", "pwassist.php", $_SERVER['PHP_SELF'])
 		."?client_id=".$ilias->getClientId()
 		.$delimiter."lang=".$lng->getLangKey()
 		.$delimiter."key=".$pwassist_session["pwassist_id"];
-		$alternative_pwassist_url=$_SERVER['HTTP_HOST']
+		$alternative_pwassist_url=$protocol.$_SERVER['HTTP_HOST']
 		.str_replace("ilias.php", "pwassist.php", $_SERVER['PHP_SELF'])
 		."?client_id=".$ilias->getClientId()
 		.$delimiter."lang=".$lng->getLangKey()
@@ -514,10 +515,11 @@ class ilPasswordAssistanceGUI
 		include_once "Services/Mail/classes/class.ilMailbox.php";
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 		require_once "include/inc.pwassist_session_handler.php";
-		
+		$protocol = isset($_SERVER['HTTPS'])?"https://":"http://";
+
 	
 		// Compose the mail
-		$server_url='http://'.$_SERVER['HTTP_HOST'].
+		$server_url=$protocol.$_SERVER['HTTP_HOST'].
 			substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],'/')).
 			'/';
 		$login_url=$server_url."pwassist.php"
