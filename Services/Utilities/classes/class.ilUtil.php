@@ -3282,7 +3282,7 @@ class ilUtil
 
 		// Since no rbac_pa entries are available for the system role. This function returns !all! ref_ids in the case the user
 		// is assigned to the system role
-		if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
+		if(!$rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
 		{
 			$query = "SELECT ref_id FROM object_reference AS obr LEFT JOIN object_data AS obd USING(obj_id) ".
 				"LEFT JOIN tree ON obr.ref_id = tree.child ".
@@ -3304,13 +3304,16 @@ class ilUtil
 		}
 
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array($a_operation));
-
 		$ops_id = $ops_ids[0];
+
+		$and = "AND rol_id IN(".implode(",",ilUtil::quoteArray($a_roles)).") ";
+		
 
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM rbac_pa ".
 			"LEFT JOIN object_reference AS obr  ON obr.ref_id = rbac_pa.ref_id ".
 			"LEFT JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
 			$where.
+			$and.
 			"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
 			"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").") ";
 
@@ -3814,7 +3817,7 @@ class ilUtil
 	 * @param string $a_directory Directory to unzip 
 	 * @param string $a_file Filename of archive
 	 * @param boolean structure  True if archive structure is to be overtaken
-	 * @param integer $ref_id ref_id of parent object, if null, files won´t be included in system (just checked)
+	 * @param integer $ref_id ref_id of parent object, if null, files wonï¿½t be included in system (just checked)
 	 * @param string containerType object type of created containerobjects (folder or category)
 	 * @return integer errorcode errorcode 0 - everything ok, 1 - broken file (not yet supported), 2 - virus found, 3 - flat upload not possible due to same filenames
 	 */
@@ -3920,7 +3923,7 @@ class ilUtil
 	 * @version 1.6.9.07
 	 * @param string $dir Directory to start from
 	 * @param boolean structure  True if archive structure is to be overtaken (otherwise flat inclusion)
-	 * @param integer $ref_id ref_id of parent object, if null, files won´t be included in system (just checked)
+	 * @param integer $ref_id ref_id of parent object, if null, files wonï¿½t be included in system (just checked)
 	 * @param string containerType object type of created containerobjects (folder or category)
 	 * @return integer errorcode
 	 */	
