@@ -1,9 +1,5 @@
-/*
-Copyright (c) 2007, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://developer.yahoo.net/yui/license.txt
-version: 2.2.2
-*/
+/* Copyright (c) 2006 Yahoo! Inc. All rights reserved. */
+
 /* first or middle sibling, no children */
 .ygtvtn {
 	width:16px; height:22px; 
@@ -87,7 +83,7 @@ version: 2.2.2
 .ygtvblankdepthcell { width:16px; height:22px; }
 
 /* the style of the div around each node */
-.ygtvitem {font-size:11px; }  
+.ygtvitem {font-size:11px;}  
 
 /* the style of the div around each node's collection of children */
 .ygtvchildren { }  
@@ -99,4 +95,4 @@ version: 2.2.2
 	text-decoration: none;
 }
 
-.ygtvspacer { height: 5px; width: 5px; margin: 2px; }
+.ygtvspacer { height: 10px; width: 10px; margin: 2px; }
