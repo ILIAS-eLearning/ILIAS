@@ -1444,8 +1444,9 @@ class ilPersonalProfileGUI
 		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile"),
 								 "", "", "", $showProfile);
 
-		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile2"),
+		/*$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile2"),
 								 "", "", "", $showProfile);
+		*/
 								 
 		// check google map activation
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
@@ -1542,7 +1543,7 @@ class ilPersonalProfileGUI
 	function showProfile2()
 	{
 		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng, $ilSetting;
-		
+exit; // comes later
 		$this->__initSubTabs("showProfile");
 
 		$settings = $ilias->getAllSettings();
