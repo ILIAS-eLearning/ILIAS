@@ -660,7 +660,7 @@ SeqActivity.prototype =
 						affectSatisfaction = !objD.mContributesToRollup ||
 							(this.mActiveMeasure || !this.mIsActive);
 					}
-					alert("I get set deep"+ iMeasure+ affectSatisfaction);
+					//alert("I get set deep"+ iMeasure+ affectSatisfaction);
 					obj.setObjMeasure(iMeasure, affectSatisfaction);
 					statusChange = (prev != obj.getObjStatus(false));
 				}
