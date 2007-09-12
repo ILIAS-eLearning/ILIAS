@@ -1204,7 +1204,9 @@ function updateControls(controlState)
 		toggleClass('navExit', 'disabled', (!mlaunch.mNavState.mContinueExit || activities[mlaunch.mActivityID].hideLMSUIs['exit']));
 		toggleClass('navPrevious', 'disabled', (!mlaunch.mNavState.mPrevious || activities[mlaunch.mActivityID].hideLMSUIs['previous']));
 		toggleClass('navResumeAll', 'disabled', !mlaunch.mNavState.mResume );
-		toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']);
+		if (mlaunch.mActivityID) {
+			toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']);
+		}	
 		toggleClass('navStart', 'disabled', !mlaunch.mNavState.mStart);
 		toggleClass('navSuspendAll', 'disabled', (!mlaunch.mNavState.mSuspend || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']));
 //		toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll'] instanceof Object);
