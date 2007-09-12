@@ -2570,7 +2570,10 @@ function updateNav() {
 	var disable;
 	for (i in tree) {
 		var disable=true;
-		var test=mlaunch.mNavState.mChoice[i];
+		var test=null;
+		if (mlaunch.mNavState.mChoice!=null) {
+			test=mlaunch.mNavState.mChoice[i];
+		}	
 		if (test) {
 			if (test['mIsSelectable']==true) { 
 				disable=false;
