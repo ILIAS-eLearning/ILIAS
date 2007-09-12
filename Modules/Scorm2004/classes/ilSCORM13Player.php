@@ -45,17 +45,11 @@
 class ilSCORM13Player
 {
 
-	// zum client
-	// vom client
-	// prüfmuster
-	// default wert
 	const NONE = 0;
 	const READONLY = 1;
 	const WRITEONLY = 2;
 	const READWRITE = 3;
 
-		
-		
 	static private $schema = array // order of entries matters!
 	(
 		'package' => array(
@@ -164,7 +158,7 @@ class ilSCORM13Player
 		global $ilias, $tpl, $ilCtrl, $ilUser, $lng;
 
 		
-		include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
+		//include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
 
 		
 		if ($_REQUEST['learnerId']) {
@@ -190,8 +184,8 @@ class ilSCORM13Player
 		
 		//uncomment for usage with ILIAS DB
 		
-		$pdo_dsn = ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
-		ilSCORM13DB::init($pdo_dsn[0],$pdo_dsn[1],$pdo_dsn[2]);
+		//$pdo_dsn = ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
+		//ilSCORM13DB::init($pdo_dsn[0],$pdo_dsn[1],$pdo_dsn[2]);
 		
 	}
 
@@ -200,7 +194,6 @@ class ilSCORM13Player
 	 */
 	function &executeCommand()
 	{
-		
 		global $ilAccess, $ilLog, $ilUser;
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -211,7 +204,7 @@ class ilSCORM13Player
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
 		
-		
+$ilLog->write("SCORM: Player cmd: ".$cmd);
 		
 		switch($cmd){
 			
@@ -257,10 +250,15 @@ class ilSCORM13Player
 	
 	public function getLangStrings()
 	{
+		global $ilDB, $ilUser;
+		
 		$return = array();
-		foreach (ilSCORM13DB::query('SELECT identifier, value FROM lng_data 
-			WHERE module=? AND lang_key=?', 
-			array('scorm13', 'en')) as $row) 
+		
+		$set = $ilDB->query("SELECT identifier, value FROM lng_data 
+			WHERE module = ".$ilDB->quote("scorm13").
+			" AND lang_key = ".$ilDB->quote($ilUser->getLanguage()));
+		
+		while ($row = $set->fetchRow(DB_FETCHMODE_ASSOC)) 
 		{
 			$return[$row['identifier']] = $row['value']; 
 		}
@@ -333,7 +331,7 @@ class ilSCORM13Player
 		if ($handle = opendir($base_dir)) { 
 		    // List all the files 
 		    while (false !== ($file = readdir($handle))) { 
-				if (!(strrpos($file, ".")<=1))  //skip directories and hidden files
+				if (!(strrpos($file, ".")<=1) && !is_int(strpos($file, "~")))  //skip directories and hidden files
 					$js_include_string .="		\n<script type=\"text/javascript\" src=\"$base_dir/$file\"></script>";
 		    } 
 		    closedir($handle); 
@@ -343,11 +341,17 @@ class ilSCORM13Player
 		
 	public function getCPData()
 	{
-		$packageData = ilSCORM13DB::getRecord(
+		global $ilDB;
+		
+		/*$packageData = ilSCORM13DB::getRecord(
 			'cp_package', 
 			'obj_id', 
 			$this->packageId
-		);
+		);*/
+		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
+		$packageData = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		
 		$jsdata = $packageData['jsdata'];
 		if (!$jsdata) $jsdata = 'null';
 		if ($this->jsMode) 
@@ -365,11 +369,15 @@ class ilSCORM13Player
 	
 	public function getADLActData()
 	{
-		$data = ilSCORM13DB::getRecord(
+		global $ilDB;
+		
+		/*$data = ilSCORM13DB::getRecord(
 			'cp_package', 
 			'obj_id', 
 			$this->packageId
-		);
+		);*/
+		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
+		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$activitytree=$data['activitytree'];
 		
@@ -432,6 +440,10 @@ class ilSCORM13Player
 	
 	public function persistCMIData($data = null)
 	{
+		global $ilLog;
+		
+$ilLog->write("SCORM: persistCMIData");
+		
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		$return = $this->setCMIData($this->userId, $this->packageId, $data);
 		if ($this->jsMode) 
@@ -465,6 +477,8 @@ class ilSCORM13Player
 
 	private function getCMIData($userId, $packageId) 
 	{
+		global $ilDB;
+		
 		$result = array(
 			'schema' => array(), 
 			'data' => array()
@@ -472,42 +486,203 @@ class ilSCORM13Player
 		foreach (self::$schema as $k=>&$v)
 		{
 			$result['schema'][$k] = array_keys($v);
-			$result['data'][$k] = ilSCORM13DB::query('view_cmi_' . $k, array($userId, $packageId), 
-				null, null, PDO::FETCH_NUM);
+			
+			switch ($k)
+			{
+				case "node":
+					$q = 'SELECT cmi_node.* 
+						FROM cmi_node 
+						INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id
+						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
+						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+					break;
+
+				case "comment":
+					$q = 'SELECT cmi_comment.* 
+						FROM cmi_comment 
+						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
+						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
+						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+					break;
+
+				case "correct_response":
+					$q = 'SELECT cmi_correct_response.* 
+						FROM cmi_correct_response 
+						INNER JOIN cmi_interaction 
+						ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
+						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
+						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
+						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+					break;
+
+				case "interaction":
+					$q = 'SELECT cmi_interaction.* 
+						FROM cmi_interaction 
+						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
+						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
+						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+					break;
+
+				case "objective":
+					$q = 'SELECT cmi_objective.* 
+						FROM cmi_objective 
+						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
+						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
+						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+					break;
+
+				case "package":
+					$q = 'SELECT usr_data.usr_id AS user_id, 
+						CONCAT(usr_data.firstname, " ", usr_data.lastname) AS learner_name, 
+						sahs_lm.id AS slm_id , sahs_lm.default_lesson_mode AS mode, sahs_lm.credit
+						FROM usr_data , cp_package
+						INNER JOIN sahs_lm ON cp_package.obj_id = sahs_lm.id 
+						WHERE usr_data.usr_id = '.$ilDB->quote($userId).
+						' AND sahs_lm.id = '.$ilDB->quote($packageId);
+					break;
+
+			}
+			
+			$set = $ilDB->query($q);
+			$result['data'][$k] = array();
+			while ($row = $set->fetchRow(DB_FETCHMODE_ORDERED))
+			{
+				$result['data'][$k][] = $row;
+			}
+			
+			//$result['data'][$k] = ilSCORM13DB::query('view_cmi_' . $k, array($userId, $packageId), 
+			//	null, null, PDO::FETCH_NUM);
 		}
 		return $result;
 	}
-	
 
 	private function removeCMIData($userId, $packageId, $cp_node_id=null) 
 	{
+		global $ilDB;
+		
 		$delorder = array('correct_response', 'objective', 'interaction', 'comment', 'node');
 		error_log("Delete, User:".$userId."Package".$packageId."Node: ".$cp_node_id);
 		foreach ($delorder as $k) 
 		{
 			if (is_null($cp_node_id))
 			{
-				ilSCORM13DB::exec(
+				switch($k)
+				{
+					case "response":
+					 	$q = 'DELETE FROM 
+							cmi_correct_response WHERE cmi_interaction_id IN (
+							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
+							INNER JOIN cmi_node ON cmi_node.cmi_node_id=cmi_interaction.cmi_node_id 
+							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
+							WHERE cmi_node.user_id='.$ilDB->quote($userId).
+							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+						break;
+						
+					case "interaction":
+						$q = 'DELETE FROM cmi_interaction 
+							WHERE cmi_node_id IN (
+							SELECT cmi_node.cmi_node_id FROM cmi_node 
+							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
+							WHERE cmi_node.user_id='.$ilDB->quote($userId).
+							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+						break;
+						
+					case "comment":
+						$q = 'DELETE FROM cmi_comment 
+							WHERE cmi_node_id IN (
+							SELECT cmi_node.cmi_node_id FROM cmi_node 
+							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
+							WHERE cmi_node.user_id='.$ilDB->quote($userId).
+							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+						break;
+						
+					case "objective":
+						$q = 'DELETE FROM cmi_objective 
+							WHERE cmi_node_id IN (
+							SELECT cmi_node.cmi_node_id FROM cmi_node 
+							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
+							WHERE cmi_node.user_id='.$ilDB->quote($userId).
+							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+						break;
+						
+					case "node":
+						$q = 'DELETE FROM cmi_node 
+							WHERE user_id='.$ilDB->quote($userId).' AND cp_node_id IN (
+							SELECT cp_node_id FROM cp_node 
+							WHERE slm_id='.$ilDB->quote($packageId).')';
+						break;
+				}
+				
+				$ilDB->query($q);
+				
+				/*ilSCORM13DB::exec(
 					'delete_cmi_' . $k . 's', 
 					array($userId, $packageId)
-				);
+				);*/
 			}
 			else
 			{
-				ilSCORM13DB::exec(
+				switch($k)
+				{
+					case "correct_response":
+						$q = 'DELETE FROM cmi_correct_response 
+							WHERE cmi_interaction_id IN (
+							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
+							INNER JOIN cmi_node ON cmi_node.cmi_node_id=cmi_interaction.cmi_node_id 
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+						break;
+						
+					case "interaction":
+						$q = 'DELETE FROM cmi_interaction 
+							WHERE cmi_node_id IN (
+							SELECT cmi_node.cmi_node_id FROM cmi_node 
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+						break;
+						
+					case "comment":
+					 	$q = 'DELETE FROM cmi_comment 
+							WHERE cmi_node_id IN (
+							SELECT cmi_node.cmi_node_id FROM cmi_node 
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+						break;
+
+					case "objective":
+					 	$q = 'DELETE FROM cmi_objective 
+							WHERE cmi_node_id IN (
+							SELECT cmi_node.cmi_node_id FROM cmi_node 
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+						break;
+						
+					case "node":
+						$q = 'DELETE FROM cmi_node WHERE cp_node_id='.$ilDB->quote($cp_node_id).'';
+						break;
+				}
+				
+				$ilDB->query($q);
+				
+				/* ilSCORM13DB::exec(
 					'delete_cmi_' . $k , 
 					array($cp_node_id)
 				);
+				*/
 			}
 		} 
 	}
 	
 	private function setCMIData($userId, $packageId, $data) 
 	{
+		global $ilDB, $ilLog;
+		
 		$result = array();
 		$map = array();
 		if (!$data) return;
 	
+$ilLog->write("SCORM: setCMIData -".$data."-");
+
 		// we don't want to have trouble with partially deleted or filled datasets
 		// so we try transaction mode (hopefully your RDBS supports this)
 		//ilSCORM13DB::begin();
@@ -522,6 +697,8 @@ class ilSCORM13Player
 			if (!is_array($data->$table)) continue;
 			$i=0;
 				
+$ilLog->write("SCORM: setCMIData, table -".$table."-");
+			
 			// build up numerical index for schema fields
 			foreach ($schem as &$field) 
 			{
@@ -530,7 +707,6 @@ class ilSCORM13Player
 			// now iterate through data rows from input
 			foreach ($data->$table as &$row)
 			{
-				
 				// first fill some fields that could not be set from client side
 				// namely the database id's depending on which table is processed  
 				switch ($table)
@@ -555,6 +731,7 @@ class ilSCORM13Player
 						break;
 					
 				}
+$ilLog->write("SCORM: setCMIData, row b");
 				$cp_no = $schem['cp_' . $table . '_id']['no'];						 
 				$cmi_no = $schem['cmi_' . $table . '_id']['no'];
 				
@@ -570,8 +747,9 @@ class ilSCORM13Player
 				foreach(array_keys($schem) as $key) {
 					array_push($keys,"`".$key."`");
 				}
-				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)) 
-					. ') VALUES (' . implode(', ', array_fill(0, count($schem), '?')) . ')';
+$ilLog->write("SCORM: setCMIData, row c");
+//				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)) 
+//					. ') VALUES (' . implode(', ', array_fill(0, count($schem), '?')) . ')';
 				// if we process a table we have to destroy all data on this activity 
 				// and related sub elements in interactions etc.
 				if ($table==='node') 
@@ -580,15 +758,23 @@ class ilSCORM13Player
 					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
 				}
 				// now insert the data record
-				$ret=ilSCORM13DB::exec($sql, $row);
-				
+				//$ret=ilSCORM13DB::exec($sql, $row);
+				$ret = false;
+
+				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)). 
+					') VALUES ('.implode(",", ilUtil::quoteArray($row)).')';
+				$ilDB->query($sql);
+				$ret = true;
+
 				if (!$ret)
 				{
 					$return = false;
 					break;
 				}
 				// and get the new cmi_id
-				$row[$cmi_no] = ilSCORM13DB::getLastId();
+				//$row[$cmi_no] = ilSCORM13DB::getLastId();
+				$row[$cmi_no] = $ilDB->getLastInsertId();
+				
 				// if we process a node save new id into result object that will be feedback for client
 				if ($table==='node') 
 				{
@@ -687,7 +873,6 @@ class ilSCORM13Player
 		// now show it to the user and be fine
 		readfile($path);
 		die();
-	
 	} 
 	
 }	
