@@ -966,7 +966,7 @@ function values(obj, attr)
 
 function walkItems (root, name, func, sink, depth) 
 {
-	var data, subdata;
+	var data=null, subdata=null;
 	var items = root[name];
 	var arraySink = sink && sink instanceof Array;
 	if (depth===undefined) 
@@ -980,6 +980,7 @@ function walkItems (root, name, func, sink, depth)
 		{
 			func(item, sink, depth);
 		}
+		
 		if (item && item[name]) 
 		{
 			subdata = walkItems(item, name, func, arraySink ? [] : sink, depth+1);
@@ -1024,7 +1025,21 @@ function extend(destination, source, nochain, nooverwrite) {
 
 
 /* ############### GUI ############################################ */
+function launchTarget(target) {
+	
+	mlaunch = msequencer.navigateStr(target);
+   
+	if (mlaunch.mSeqNonContent == null) {
+		//alert(activities[mlaunch.mActivityID]);	
+		//throw away API from previous sco and sync CMI and ADLTree
+		onItemUndeliver();
+		onItemDeliver(activities[mlaunch.mActivityID]);
+	} else {
+	  //call specialpage
+	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+	}
 
+}
 function launchNavType(navType) {
 	
 	//throw away API from previous sco and sync CMI and ADLTree
@@ -1085,9 +1100,7 @@ function onDocumentClick (e)
 	
 	//integration of ADL Sqeuencer
 	
-	
-//	alert("Target: "+target.id+"Tagname"+target.tagName);
-	if (target.tagName !== 'A' || !target.id) 
+	if (target.tagName !== 'A' || !target.id ||  target.className.match(/disabled/) )
 	{
 		// ignore clicks on other elements than A
 		// or non identified elements or disabled elements (non active Activities)
@@ -1096,21 +1109,8 @@ function onDocumentClick (e)
 	//handle eventes like Contine, Previous, Exit...
 	else if (target.id.substr(0, 3)==='nav') 
 	{
-		
-			
-		//do special handling for scos
-		
-		//alert("We are in"+ target.id.substr(0, 3));
-		
-		//to deprecate
-		//window.top.status = execNavigation(target.id.substr(3), target.id);
-		///
-		//alert("Function: "+target.id.substr(3));
-		
-		//calling ADL Sequencer after UI Event
 		var navType=target.id.substr(3);
-		launchNavType(navType);
-		
+		launchNavType(navType);	
 	} 
 	
 	//SCO selected by user directly (itm is used as ITEM_PREFIX)
@@ -1179,13 +1179,10 @@ function setInfo (name, values)
 	}
 } 
 
-function setToc(tocData) 
-{
-	for (var k in guiViews) 
-	{
-		guiViews[k].create(tocData);
-	}
-	document.title = tocData.title;
+function setToc() 
+{	
+	var tree=new Array();
+	buildNavTree(rootAct,"item",tree);
 }
 
 function updateToc(tocState) 
@@ -1201,18 +1198,16 @@ function updateControls(controlState)
 	//mapping
 	if (mlaunch!=null) {
 		//do it manually instead of array processing
-		toggleClass('navContinue', 'disabled', (!mlaunch.mNavState.mContinue));
-		toggleClass('navExit', 'disabled', (!mlaunch.mNavState.mContinueExit));
-		toggleClass('navPrevious', 'disabled', (!mlaunch.mNavState.mPrevious));
-		toggleClass('navResumeAll', 'disabled', !mlaunch.mNavState.mResume);
+		
+		//in case of start launch
+		toggleClass('navContinue', 'disabled', (!mlaunch.mNavState.mContinue || activities[mlaunch.mActivityID].hideLMSUIs['continue']));
+		toggleClass('navExit', 'disabled', (!mlaunch.mNavState.mContinueExit || activities[mlaunch.mActivityID].hideLMSUIs['exit']));
+		toggleClass('navPrevious', 'disabled', (!mlaunch.mNavState.mPrevious || activities[mlaunch.mActivityID].hideLMSUIs['previous']));
+		toggleClass('navResumeAll', 'disabled', !mlaunch.mNavState.mResume );
+		toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']);
 		toggleClass('navStart', 'disabled', !mlaunch.mNavState.mStart);
-		toggleClass('navSuspendAll', 'disabled', !mlaunch.mNavState.mSuspend);
+		toggleClass('navSuspendAll', 'disabled', (!mlaunch.mNavState.mSuspend || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']));
 //		toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll'] instanceof Object);
-		/*for (var k in mlaunch.mNavState) 
-		{
-			alert(k);
-			toggleClass('nav'+k.charAt().toUpperCase()+k.substr(1), 'enabled', !controlState[k]);
-		}*/
 	}	
 }
 
@@ -1360,8 +1355,51 @@ function getTocData()
 	}
 	var r = func(rootAct);
 	r.item = walkItems(rootAct, "item", func, []);
-	return r;
+	var tree=new Array();
+	gui=buildNavTree(rootAct,"item",tree);
+	return gui;
 }
+var gui;
+
+
+function buildNavTree(rootAct,name,tree){
+	
+	var tocView = all('treeView');
+	
+		//create the TreeView instance:
+	var tree = new YAHOO.widget.TreeView(tocView);
+		
+		//get a reusable reference to the root node:
+	var root = tree.getRoot();
+		
+	//display the rootNode
+	var rootNode = new YAHOO.widget.TextNode(rootAct.title, root, true);
+	rootNode.href="#this";
+	rootNode.target="_self";
+	rootNode.labelElId=ITEM_PREFIX + rootAct.id;
+	
+	build(rootAct,rootNode);
+	
+	function build(rootAct,attach){
+		if (rootAct.item) {
+			for (var i=0;i<rootAct.item.length;i++) {
+				var sub = new YAHOO.widget.TextNode(rootAct.item[i].title, attach, true);
+				sub.href="#this";
+				sub.target="_self";
+				sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
+				//further childs
+				if(rootAct.item[i].item) {
+					build(rootAct.item[i],sub);
+				}
+			}
+		}	
+	}
+	
+	tree.draw();
+	tree.expandAll();
+}
+
+
 
 function getTocState() 
 {
@@ -1553,9 +1591,13 @@ function init(config)
 
 	// Step 2: load adlActivityTree
 	var adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
+	
 	if (!adlAct) {
+		
 		return alert('Fatal: Could not load ADLActivityTree.');
+		
 	} else {	
+		
 		var tree;
 		
 		adlTree = buildADLtree(adlAct,tree);
@@ -1631,7 +1673,7 @@ function init(config)
 	load();
 	
 	//set toc-moved 
-	setToc(getTocData(), this.config.package_url);
+	setToc();
 	
 	//do a fake launch to check if TOC choice should be displayed
 	mlaunch = msequencer.navigate(NAV_NONE);
@@ -1646,11 +1688,9 @@ function init(config)
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
 	}
-//	updateControls(null);
-	updateToc(getTocState());
-	updateControls(getControlState());
-	
-   
+
+	updateNav();
+	updateControls();
 		
 }
 
@@ -1712,6 +1752,7 @@ function setParents(obj) {
 	}
 	return obj;
 }
+
 
 
 
@@ -2112,23 +2153,38 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 {
 	
 	var url = item.href, v;
-	var tocState = getTocState();
-	var controlState = getControlState();
 	// create api if associated resouce is of adl:scormType=sco
 	
 	if (item.sco)
 	{
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
-		//sclogdump(data);
+		
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};
+		
+		/*obsolete
 		for (var k in controlState) 
 		{
 			data.adl.nav.request_valid[k.toLowerCase()] = String(controlState[k]);
 		}
+		*/
 		// TODO walk tocState items for adl.nav.request_valid.{target=ID} = ...
-
+		
+		var validRequests=msequencer.mSeqTree.getValidRequests();
+		//for target IDs..do it as well
+		
+		//we only set Continue, Previous and Choice according to specification
+		data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);
+		data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);
+		var choice=validRequests['mChoice'];
+		
+		for (var k in choice) {
+			//TODO set target
+			//data.adl.nav.request_valid['choice'].{k}=true;
+			//data.adl.nav.request_valid['choice'];
+		}
+		
 		// add some global values for all sco's in package
 		data.cmi.learner_name = globalAct.learner_name;
 		data.cmi.learner_id = globalAct.learner_id;
@@ -2138,43 +2194,54 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.launch_data = item.dataFromLMS;
 		data.cmi.time_limit_action = item.timeLimitAction;
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
-	//	alert("Set: "+globalAct.user_id + globalAct.learner_name)
-		if (item.objective && (v = item.objective[0])) 
+//		sclogdump(item.objectives["$"]);
+		
+		//this works, but the implementation has to be checked (search for first primary?)
+		if (item.objectives) 
 		{
+			for (k in item.objectives) {
+				v=item.objectives[k];
+				if (v.primary==true) {
 			// REQ_74.3, compute scaled passing score from measure
-			if (v.satisfiedByMeasure && v.minNormalizedMeasure!==undefined) 
-			{
-				v = v.minNormalizedMeasure;
+					if (v.satisfiedByMeasure && v.minNormalizedMeasure!==undefined) 
+					{
+						v = v.minNormalizedMeasure;
+					}
+					else if (v.satisfiedByMeasure) 
+					{
+						v = 1.0;
+					}
+					else 
+					{
+						v = undefined;
+					}
+					data.cmi.scaled_passing_score = String(v);
+					break; //we found the unique primary objective..so stop
+				}	
 			}
-			else if (v.satisfiedByMeasure) 
-			{
-				v = 1.0;
-			}
-			else 
-			{
-				v = undefined;
-			}
-			data.cmi.scaled_passing_score = String(v);
 		}
-		// assign api for public use from sco
 		
-		//alert(toJSONString(data.cmi, ' '))
-		
+		// assign api for public use from sco- only for debug
+		pubAPI=data;
 		currentAPI = window[Runtime.apiname] = new Runtime(data, onCommit, onTerminate);
 	}
 	// deliver resource (sco)
 	scoStartTime = currentTime();
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 	// customize GUI
-	updateToc(tocState);
-	updateControls(controlState);
+	updateNav();
+	updateControls();
 }
 
 function syncCMIADLTree(){
 	//get global status
+	
 	var mPRIMARY_OBJ_ID = null;
+	
 	// Get the current completion_status
+	
 	var completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
+	
 	if (completionStatus == "not attempted") {
 		completionStatus = "incomplete";
 	}
@@ -2289,7 +2356,7 @@ function syncCMIADLTree(){
       }
 
 	  // Report the measure
-	  if( !score=="" && !score=="unknown" ) {
+	  if( score!="" && score!="unknown" ) {
 			normalScore = score;
         	msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
        }
@@ -2310,9 +2377,7 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 	// throw away the resource
 	// it may change api data in this
 	removeResource();
-	
-	
-	
+		
 	// throw away api, and try a API.Terminate before (will return "false" if already closed by SCO)
 	if (currentAPI) 
 	{
@@ -2329,8 +2394,8 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 	}
 	
 	// customize GUI
-	updateToc(getTocState());
-	updateControls(getControlState());
+	updateNav();
+	updateControls();
 }
 
 // sequencer terminated
@@ -2374,7 +2439,6 @@ function onTerminate(data)
 			navReq = {type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), target: m[2]};
 		}
 	}
-	
 	if (navReq) 
 	{
 		// will only work if no navigation is ongoing 
@@ -2386,7 +2450,11 @@ function onTerminate(data)
 		if (navReq.type!="suspend") {
 			//adlnavreq=true; 
 			//TODO fix for Unix
-			launchNavType(navReq.type);
+			if (navReq.type=="Choice") {
+				launchTarget(navReq.target);
+			} else {
+				launchNavType(navReq.type);
+			}	
 		}
 	/*	window.setTimeout( 
 			new (function (type, target) {
@@ -2443,7 +2511,7 @@ var guiViews = // for different table of content views in gui
 				elm.className = (item.href ? 'content' : 'block') + (item.isvisible ? '' : ' invisible');
 				elm.href = "#this";
 				elm.target ="_self";
-				if (item.href) {
+				if (item.hreff) {
 					elm.innerHTML = setTitle(item);
 				} else  {
 					elm.innerHTML = item.title;	
@@ -2496,6 +2564,26 @@ var guiViews = // for different table of content views in gui
 	}
 };
 
+
+function updateNav() {
+	var tree=msequencer.mSeqTree.mActivityMap;
+	var disable;
+	for (i in tree) {
+		var disable=true;
+		var test=mlaunch.mNavState.mChoice[i];
+		if (test) {
+			if (test['mIsSelectable']==true) { 
+				disable=false;
+			} else {
+				disable=true;
+			}
+		}
+		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
+		toggleClass(elm, 'disabled', disable); 
+		
+		//toggleClass(elm.parentNode, 'hidden', item.hidden);
+	}
+}
 
 // Server related Variables
 var remoteMapping = null; // mapping of userdata from client to server representation
@@ -2550,6 +2638,8 @@ var suspendedAct = null;
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
 
+//remove later
+var pubAPI=null;
 // Public interface
 window.scorm_init = init;
 

@@ -270,7 +270,7 @@ SeqObjectiveTracking.prototype =
 			if (iAffectSatisfaction)
 			{
 				if (this.mMeasure >= this.mObj.mMinMeasure)
-				{
+				{					
 					this.forceObjStatus(TRACK_SATISFIED);
 				}
 				else

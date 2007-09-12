@@ -574,6 +574,7 @@ SeqActivity.prototype =
    
 			if (this.mCurTracking != null)
 			{
+				
 				// A null objective indicates the primary objective
 				if (iObjID == null)
 				{
@@ -585,6 +586,7 @@ SeqActivity.prototype =
 				{
 					var result = null;
 					result = obj.getObjMeasure(iIsRetry, iUseLocal);
+					
 					if (result != TRACK_UNKNOWN)
 					{
 						status = true;
@@ -635,7 +637,6 @@ SeqActivity.prototype =
 			iObjID: null
 			}, iOptions);
 		var iObjID = iOptions.iObjID;
-		
 		var statusChange = false;
 
 		if (this.mIsTracked)
@@ -659,7 +660,7 @@ SeqActivity.prototype =
 						affectSatisfaction = !objD.mContributesToRollup ||
 							(this.mActiveMeasure || !this.mIsActive);
 					}
-
+					alert("I get set deep"+ iMeasure+ affectSatisfaction);
 					obj.setObjMeasure(iMeasure, affectSatisfaction);
 					statusChange = (prev != obj.getObjStatus(false));
 				}

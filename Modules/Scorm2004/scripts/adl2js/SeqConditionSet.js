@@ -153,9 +153,14 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == SATISFIED)
 			{
-				if (iTarget.getObjStatus(cond.mObjID, this.mRollup))
+				//fix HH 
+				//if (iTarget.getObjStatus(cond.mObjID, this.mRollup))
+				if (iTarget.getObjStatus(this.mRollup,cond.mObjID))
 				{
-					result = (iTarget.getObjSatisfied(cond.mObjID, this.mRollup))
+					//fix HH 
+					//result = (iTarget.getObjSatisfied(cond.mObjID, this.mRollup))
+					
+					result = (iTarget.getObjSatisfied(this.mRollup,cond.mObjID))
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
 				}
@@ -166,24 +171,33 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == OBJSTATUSKNOWN)
 			{
-				result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
+				//fix HH
+				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
+				result = iTarget.getObjStatus(this.mRollup, cond.mObjID)
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
 			else if (cond.mCondition == OBJMEASUREKNOWN)
 			{
-				result = iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup)
+				//fix HH
+				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
+				result = iTarget.getObjStatus(this.mRollup, cond.mObjID)
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
 			else if (cond.mCondition == OBJMEASUREGRTHAN)
 			{
-				if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
+				//fix HH
+				//if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
+				if (iTarget.getObjMeasureStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
-					result = (iTarget.getObjMeasure(cond.mObjID, this.mRollup) >
+					//fix HH
+					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
+					result = (iTarget.getObjStatus(this.mRollup, {iObjID: cond.mObjID}) >
 						cond.mThreshold )
 						? EVALUATE_TRUE
-						: EVALUATE_FALSE;           
+						: EVALUATE_FALSE;   
+						        
 				}
 				else
 				{
@@ -192,10 +206,15 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == OBJMEASURELSTHAN)
 			{
-				if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
+				//Fix HH
+			//	if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
+			
+				if (iTarget.getObjMeasureStatus(this.mRollup,cond.mObjID))
 				{
 					
-					result = (iTarget.getObjMeasure(cond.mObjID, this.mRollup) <
+					//fix HH
+					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
+					result = (iTarget.getObjStatus(this.mRollup, cond.mObjID) <
 						cond.mThreshold)
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
