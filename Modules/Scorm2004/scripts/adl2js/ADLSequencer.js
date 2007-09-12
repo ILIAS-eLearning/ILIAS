@@ -277,8 +277,9 @@ ADLSequencer.prototype =
 					this.mSeqTree.getCurrentActivity() == target)
 				{
 					/* boolean statusChange = */
-					target.setObjMeasure(iObjID, iMeasure);
-				
+					//fixed HH
+					//target.setObjMeasure(iObjID, iMeasure);
+					target.setObjMeasure(iMeasure, {iObjID:iObjID});
 					if (true)
 					{
 						// If the activity's status changed, it may affect other 

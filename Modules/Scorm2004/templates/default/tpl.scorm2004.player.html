@@ -7,7 +7,9 @@
 		Date.remoteOffset = (new Date()).getTime() - {TIMESTAMP};
 		//]]></script>
 		
+		<link type="text/css" href="./Modules/Scorm2004/scripts/yui/treeview/assets/tree.css" rel="stylesheet"/>
 		<link type="text/css" href="{LOCATION_STYLESHEET}" rel="stylesheet"/>
+		
 <style type="text/css" >/*<![CDATA[*/
 
 /* special SCORM 2004 Styles */
@@ -122,12 +124,6 @@
 		<table id="toolbarTable" width="100%" height="100%" style="height: 100%" cellspacing="0" cellpadding="0" border="0" summary="">
 			<tr height="1%">
 				<td>	
-					<div class="ilMainHeader" >
-						<div class="ilLogin">SCORM 2004</div>
-						<div style="padding:2px 0px 2px 15px;">
-							<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="{BASE_DIR}templates/css/images/HeaderIcon.png" alt=""/>
-							<span class="il_PDTitle">Open Source eLearning</span>
-						</div>
 						<div class="il_MainMenu" style="clear:both;">
 								<!--  
 								<a target="_blank" href="./index.php" class="MMInactive" id="ilHome">{btnHome}</a>
@@ -181,6 +177,9 @@
 		<script type="text/javascript" src="{BASE_DIR}scripts/jsmin.php?ilias={ILIAS}"></script> -->
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/adl2js/ADLTracking.js"></script>	
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/adl2js/SeqRollupRule.js"></script>	
+		<script type="text/javascript" src="./Services/YUI/js/2_2_2/yahoo/yahoo.js"></script>
+		<script type="text/javascript" src="./Services/YUI/js/2_2_2/event/event.js"></script>
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/yui/treeview/treeview.js"></script>	
 		
 		{JS_SEQUENCER}
 		

@@ -338,7 +338,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			
 			if ('_count' === path[0]) 
 			{
-				//sclogdump("Count liefert"+tdat);
 				return tdef.type !== Array ? 
 					setReturn(301, 'Data model element cannot have count', '') :
 					setReturn(0, '', (tdat && tdat.length ? tdat.length : 0).toString());
