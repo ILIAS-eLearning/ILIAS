@@ -329,7 +329,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		$this->tpl->setVariable('IC_INCOMPLETE', ilUtil::getImagePath("scorm/incomplete_s.gif",false));	
 		$this->tpl->setVariable('IC_PASSED', ilUtil::getImagePath("scorm/passed_s.gif",false));	
 		$this->tpl->setVariable('IC_FAILED', ilUtil::getImagePath("scorm/failed_s.gif",false));	
-		$this->tpl->setVariable('IC_BROWSED', ilUtil::getImagePath("scorm/browsed_s.gif",false));	
+		$this->tpl->setVariable('IC_BROWSED', ilUtil::getImagePath("scorm/browsed.gif",false));	
 		
 		//
 		$this->tpl->show("DEFAULT", false);
