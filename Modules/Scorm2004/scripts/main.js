@@ -1026,13 +1026,13 @@ function extend(destination, source, nochain, nooverwrite) {
 
 /* ############### GUI ############################################ */
 function launchTarget(target) {
+	onItemUndeliver();
 	
 	mlaunch = msequencer.navigateStr(target);
    
 	if (mlaunch.mSeqNonContent == null) {
 		//alert(activities[mlaunch.mActivityID]);	
 		//throw away API from previous sco and sync CMI and ADLTree
-		onItemUndeliver();
 		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
 	  //call specialpage
@@ -1242,11 +1242,14 @@ function setResource(id, url, base)
 	if (guiItem) 
 	{
 		removeClass(guiItem, "current");
+		removeClass(guiItem, "running");
+		
 	}
 	guiItem = all(ITEM_PREFIX + id);
 	if (guiItem)
 	{
 		addClass(guiItem, "current");
+		addClass(guiItem,"running");
 	}
 	onWindowResize();
 	//reset
@@ -1358,7 +1361,7 @@ function getTocData()
 	var r = func(rootAct);
 	r.item = walkItems(rootAct, "item", func, []);
 	var tree=new Array();
-	gui=buildNavTree(rootAct,"item",tree);
+	//gui=buildNavTree(rootAct,"item",tree);
 	return gui;
 }
 var gui;
@@ -1368,11 +1371,11 @@ function buildNavTree(rootAct,name,tree){
 	
 	var tocView = all('treeView');
 	
-		//create the TreeView instance:
-	var tree = new YAHOO.widget.TreeView(tocView);
+	//create the TreeView instance:
+	treeYUI = new YAHOO.widget.TreeView(tocView);
 		
-		//get a reusable reference to the root node:
-	var root = tree.getRoot();
+	//get a reusable reference to the root node:
+	var root = treeYUI.getRoot();
 		
 	//display the rootNode
 	var rootNode = new YAHOO.widget.TextNode(rootAct.title, root, true);
@@ -1385,7 +1388,7 @@ function buildNavTree(rootAct,name,tree){
 	function build(rootAct,attach){
 		if (rootAct.item) {
 			for (var i=0;i<rootAct.item.length;i++) {
-				var sub = new YAHOO.widget.TextNode(rootAct.item[i].title, attach, true);
+				var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
 				sub.href="#this";
 				sub.target="_self";
 				sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
@@ -1397,8 +1400,8 @@ function buildNavTree(rootAct,name,tree){
 		}	
 	}
 	
-	tree.draw();
-	tree.expandAll();
+	treeYUI.draw();
+	treeYUI.expandAll();
 }
 
 
@@ -2376,6 +2379,11 @@ function syncCMIADLTree(){
 
 function onItemUndeliver(item) // onUndeliver called from sequencing process (EndAttempt)
 {
+	
+	// customize GUI
+	updateNav();
+	updateControls();
+	
 	// throw away the resource
 	// it may change api data in this
 	removeResource();
@@ -2395,9 +2403,7 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 		if (!currentAct.dirty) currentAct.dirty = 1;
 	}
 	
-	// customize GUI
-	updateNav();
-	updateControls();
+
 }
 
 // sequencer terminated
@@ -2586,6 +2592,55 @@ function updateNav() {
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
 		toggleClass(elm, 'disabled', disable); 
 		
+		//search for the node to change
+		//set icons
+		if (activities[tree[i].mActivityID].sco) {
+			var node_stat_completion=activities[tree[i].mActivityID].completion_status;
+			//not attempted
+			if (node_stat_completion==null || node_stat_completion=="not attempted") {
+				toggleClass(elm,"not_attempted",1);
+			}
+			
+			//just in case-support not required due to spec
+			if (node_stat_completion=="browsed") {
+				toggleClass(elm,"browsed",1);
+			}
+			
+			//incomplete
+			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete") {
+				removeClass(elm,"not_attempted",1);
+				toggleClass(elm,"incomplete",1);	
+			}
+			
+			//completed
+			if (node_stat_completion=="completed") {
+				removeClass(elm,"not_attempted",1);
+				removeClass(elm,"incomplete",1);
+				toggleClass(elm,"completed",1);	
+			}
+			
+			//overwrite if we have information on success (interaction sco) - ignore success=unknown
+			
+			var node_stat_success=activities[tree[i].mActivityID].success_status;
+			if (node_stat_success=="passed" || node_stat_success=="failed" ) {
+				
+				//passed
+				if (node_stat_success=="passed") {
+					removeClass(elm,"failed",1);
+					toggleClass(elm,"passed",1);
+				//failed
+				} else {
+					removeClass(elm,"passed",1);
+					toggleClass(elm,"failed",1);
+				}
+			}
+		} else {
+			if (elm) {
+				toggleClass(elm,"asset",1);
+			}	
+		}
+		
+		
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
 	}
 }
@@ -2645,6 +2700,7 @@ var scoStartTime = null;
 
 //remove later
 var pubAPI=null;
+var treeYUI=null;
 // Public interface
 window.scorm_init = init;
 

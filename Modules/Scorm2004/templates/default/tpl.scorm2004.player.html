@@ -7,108 +7,22 @@
 		Date.remoteOffset = (new Date()).getTime() - {TIMESTAMP};
 		//]]></script>
 		
-		<link type="text/css" href="./Modules/Scorm2004/scripts/yui/treeview/assets/tree.css" rel="stylesheet"/>
 		<link type="text/css" href="{LOCATION_STYLESHEET}" rel="stylesheet"/>
-		
-<style type="text/css" >/*<![CDATA[*/
-
-/* special SCORM 2004 Styles */
-
-#scormplayer html 
-{
-	overflow: hidden;
-}
-
-#scormplayer body 
-{
-	overflow: hidden;
-}
-
-#frmResource 
-{
-	height: 100%;
-	width: 100%;
-	border: 1px inset #808080;
-	border-width: 0px;
-	xoverflow: auto;
-}
-
-/* ----------- */ 
-
-
-#treeView a {
-	display: block;
-}
-
-#treeView div {
-	margin-left: 8px;
-}
-
-#treeView a:hover {
-	text-decoration: underline;
-}
-
-/* ----------- */ 
-
-
-#scormplayer .current
-{
-	background-color: powderblue !important;
-}
-
-#scormplayer .suspended
-{
-	border-style: inset;
-}
-
-#scormplayer .disabled
-{
-	color: #A0A0A0;
-	background-color: #E0E0E0;
-	cursor: not-allowed;
-}
-#scormplayer .disabled:hover
-{
-	text-decoration: none;
-}
-
-#scormplayer .hidden
-{
-	display: none;
-}
-
-#scormplayer .invisible /* imscp:@isvisible=false */
-{
-	color: white;
-	background-color: orchid;
-}
-
-
-/* Attention: display "table" is not really supported by IE6 */
-
-.loadingState .il_MainMenu {display: none}
-.loadingState #il_PDBlock {display: none}
-.loadingState #introTable {display: table}
-.loadingState #mainTable {display: none}
-
-.playingState .il_MainMenu {display: block}
-.playingState #il_PDBlock {display: block}
-.playingState #introTable {display: none}
-.playingState #mainTable {display: table;}
-
-#treeView 
-{
-	overflow: scroll; 
-	overflow-x: hidden; 
-	width: 100%; 
-	height: 100%;
-}
-
-#tdResource div {padding: 2em;}
-
-/*]]>*/</style>
+		<link type="text/css" href="{BASE_DIR}templates/default/player.css" rel="stylesheet"/>
 
 		<base target="frmResource" />
+		
+		<style>
+			.asset { padding-left: 18px; background: url({IC_ASSET}) 0 0 no-repeat; } 
+			.completed { padding-left: 18px; background: url({IC_COMPLETED}) 0 0 no-repeat; } 
+			.not_attempted{padding-left: 18px; background: url({IC_NOTATTEMPTED}) 0 0 no-repeat;}
+			.running {padding-left: 18px; background: url({IC_RUNNING}) 0 0 no-repeat;}
+			.incomplete {padding-left: 18px; background: url({IC_INCOMPLETE}) 0 0 no-repeat;}
+			.passed {padding-left: 18px; background: url({IC_PASSED}) 0 0 no-repeat;}
+			.failed {padding-left: 18px; background: url({IC_FAILED}) 0 0 no-repeat;}
+			.browsed {padding-left: 18px; background: url({IC_BROWSED}) 0 0 no-repeat;}
+			
+		</style>
 	</head>
 	<body class="loadingState">
 
@@ -162,18 +76,15 @@
 			</tr>
 		</table>
 
-		<!-- {INCLUDE_DEBUG} -->
-
 		<!-- 
 		<script type="text/javascript" src="{BASE_DIR}scripts/jsmin.php?ilias={ILIAS}"></script> -->
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/adl2js/ADLTracking.js"></script>	
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/adl2js/SeqRollupRule.js"></script>	
+		{JS_SEQUENCER}
 		<script type="text/javascript" src="./Services/YUI/js/2_2_2/yahoo/yahoo-min.js"></script>
 		<script type="text/javascript" src="./Services/YUI/js/2_2_2/event/event-min.js"></script>
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/yui/treeview/treeview-min.js"></script>	
-		
-		{JS_SEQUENCER}
-		
+				
 		<script type="text/javascript" src="{BASE_DIR}scripts/main.js"></script>
 		<script type="text/javascript" src="{BASE_DIR}scripts/rte.js"></script>
 		<script type="text/javascript">
