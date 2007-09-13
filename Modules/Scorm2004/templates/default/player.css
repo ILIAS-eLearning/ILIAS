@@ -1,0 +1,189 @@
+/* special SCORM 2004 Styles */
+
+#scormplayer html 
+{
+	overflow: hidden;
+}
+
+#scormplayer body 
+{
+	overflow: hidden;
+}
+
+#frmResource 
+{
+	height: 100%;
+	width: 100%;
+	border: 1px inset #808080;
+	border-width: 0px;
+	xoverflow: auto;
+}
+
+
+#treeView a {
+	display: block;
+}
+
+#treeView div {
+	margin-left: 8px;
+}
+
+#treeView a:hover {
+	text-decoration: underline;
+}
+
+#scormplayer .current
+{
+	background-color: powderblue !important;
+}
+
+#scormplayer .suspended
+{
+	border-style: inset;
+}
+
+#scormplayer .disabled
+{
+	color: #A0A0A0;
+	background-color: #E0E0E0;
+	cursor: not-allowed;
+}
+#scormplayer .disabled:hover
+{
+	text-decoration: none;
+}
+
+#scormplayer .hidden
+{
+	display: none;
+}
+
+#scormplayer .invisible /* imscp:@isvisible=false */
+{
+	color: white;
+	background-color: orchid;
+}
+
+
+/* Attention: display "table" is not really supported by IE6 */
+
+.loadingState .il_MainMenu {display: none}
+.loadingState #il_PDBlock {display: none}
+.loadingState #introTable {display: table}
+.loadingState #mainTable {display: none}
+
+.playingState .il_MainMenu {display: block}
+.playingState #il_PDBlock {display: block}
+.playingState #introTable {display: none}
+.playingState #mainTable {display: table;}
+
+#treeView 
+{
+	overflow: scroll; 
+	overflow-x: hidden; 
+	width: 100%; 
+	height: 100%;
+}
+
+#tdResource div {padding: 2em;}
+
+/* Styles for YUI treeeview */
+
+/* Copyright (c) 2006 Yahoo! Inc. All rights reserved. */
+
+/* first or middle sibling, no children */
+.ygtvtn {
+	width:16px; height:22px; 
+	background: url(images/tn.gif) 0 0 no-repeat; 
+}
+
+/* first or middle sibling, collapsable */
+.ygtvtm {
+	width:16px; height:22px; 
+	cursor:pointer ;
+	background: url(images/tm.gif) 0 0 no-repeat; 
+}
+
+/* first or middle sibling, collapsable, hover */
+.ygtvtmh {
+	width:16px; height:22px; 
+	cursor:pointer ;
+	background: url(images/tmh.gif) 0 0 no-repeat; 
+}
+
+/* first or middle sibling, expandable */
+.ygtvtp {
+	width:16px; height:22px; 
+	cursor:pointer ;
+	background: url(images/tp.gif) 0 0 no-repeat; 
+}
+
+/* first or middle sibling, expandable, hover */
+.ygtvtph {
+	width:16px; height:22px; 
+	cursor:pointer ;
+	background: url(images/tph.gif) 0 0 no-repeat; 
+}
+
+/* last sibling, no children */
+.ygtvln {
+	width:16px; height:22px; 
+	background: url(images/ln.gif) 0 0 no-repeat; 
+}
+
+/* Last sibling, collapsable */
+.ygtvlm {
+	width:16px; height:22px; 
+	cursor:pointer ;
+	background: url(images/lm.gif) 0 0 no-repeat; 
+}
+
+/* Last sibling, collapsable, hover */
+.ygtvlmh {
+	width:16px; height:22px; 
+	cursor:pointer ;
+	background: url(images/lmh.gif) 0 0 no-repeat; 
+}
+
+/* Last sibling, expandable */
+.ygtvlp { 
+	width:16px; height:22px; 
+	cursor:pointer ;
+	background: url(images/lp.gif) 0 0 no-repeat; 
+}
+
+/* Last sibling, expandable, hover */
+.ygtvlph { 
+	width:16px; height:22px; cursor:pointer ;
+	background: url(images/lph.gif) 0 0 no-repeat; 
+}
+
+/* Loading icon */
+.ygtvloading { 
+	width:16px; height:22px; 
+	background: url(images/loading.gif) 0 0 no-repeat; 
+}
+
+/* the style for the empty cells that are used for rendering the depth 
+ * of the node */
+.ygtvdepthcell { 
+	width:16px; height:22px; 
+	background: url(images/vline.gif) 0 0 no-repeat; 
+}
+
+.ygtvblankdepthcell { width:16px; height:22px; }
+
+/* the style of the div around each node */
+.ygtvitem {font-size:13px;}  
+
+/* the style of the div around each node's collection of children */
+.ygtvchildren { }  
+* html .ygtvchildren { height:2%; }  
+
+/* the style of the text label in ygTextNode */
+.ygtvlabel, .ygtvlabel:link, .ygtvlabel:visited, .ygtvlabel:hover { 
+	margin-left:2px;
+	text-decoration: none;
+}
+
+.ygtvspacer { height: 10px; width: 10px; margin: 2px; }
