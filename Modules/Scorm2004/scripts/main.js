@@ -25,6 +25,21 @@
 /**
 * Log a Message
 */
+
+function toggleLog() {
+	elm = all("toggleLog");
+	if (logState==false) {
+		elm.innerHTML="Hide Log";
+		logState=true;
+		onWindowResize();
+	} else {
+		elm.innerHTML="Show Log";
+		logState=false;
+		onWindowResize();
+	}
+}
+
+
 function sclog(mess, type)
 {
 	elm = all("ilLogPre");
@@ -1292,16 +1307,25 @@ function onWindowResize()
 	var hh = (tot-elm.offsetTop-4);
 	var h = (tot-elm.offsetTop-4) + 'px';
 	elm = all("treeView");
+	var factor=1;
+	if (logState==true) {factor=0.7;}
 	if (elm) 
 	{
 		//elm.style.height = h;
-		elm.style.height = (hh * 0.5) + "px";
+		elm.style.height = (hh*factor -30 ) + "px";
 	}
 	elm = all("ilLog");
+	
+	
 	if (elm) 
 	{
-		elm.style.height = (hh * 0.5) + "px";
+		if (logState==true) {
+			elm.style.height = (hh*0.3) + "px";
+		} else {
+			elm.style.height ="0px";
+		}	
 	}
+	
 	elm = all(RESOURCE_NAME);
 	if (elm) 
 	{
@@ -2740,6 +2764,7 @@ var scoStartTime = null;
 
 //remove later
 var pubAPI=null;
+var logState=false;
 // Public interface
 window.scorm_init = init;
 
