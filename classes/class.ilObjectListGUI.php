@@ -905,8 +905,8 @@ class ilObjectListGUI
 		{
 			return;
 		}
-
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->obj_id) as $condition)
+		
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->ref_id,$this->obj_id) as $condition)
 		{
 			if(ilConditionHandler::_checkCondition($condition['id']))
 			{

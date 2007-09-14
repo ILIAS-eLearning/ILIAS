@@ -320,7 +320,7 @@ class ilRepositoryExplorer extends ilExplorer
 	{
 		global $rbacsystem,$tree,$ilDB,$ilUser;
 
-		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
+		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id))
 		{
 			return false;
 		}
@@ -460,7 +460,7 @@ class ilRepositoryExplorer extends ilExplorer
 		{
 			return true;
 		}
-		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
+		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id))
 		{
 			return false;
 		}

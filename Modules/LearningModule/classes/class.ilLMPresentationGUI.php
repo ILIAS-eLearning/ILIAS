@@ -1405,7 +1405,7 @@ class ilLMPresentationGUI
 				return $this->showNoPublicAccess($this->getCurrentPageId());
 		}
 
-		if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $this->getCurrentPageId()))
+		if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $this->getCurrentPageId()))
 		{
 			return $this->showPreconditionsOfPage($this->getCurrentPageId());
 		}
@@ -1576,8 +1576,8 @@ class ilLMPresentationGUI
 		global $ilBench;
 
 		$ilBench->start("ContentPresentation", "showPagePreconditions");
-		$conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getId(), $this->getCurrentPageId());
-		$topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getId(), $this->getCurrentPageId());
+		$conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $this->getCurrentPageId());
+		$topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getRefId(),$this->lm->getId(), $this->getCurrentPageId());
 
 		$page_id = $this->getCurrentPageId();
 
@@ -2644,7 +2644,7 @@ class ilLMPresentationGUI
 					break;
 			}
 			
-			if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $node["obj_id"]))
+			if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $node["obj_id"]))
 			{
 				$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
 			}
@@ -2773,7 +2773,7 @@ class ilLMPresentationGUI
 			}
 			
 			if ($activated &&
-				ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $node["obj_id"]))
+				ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $node["obj_id"]))
 			{
 				// output learning module header
 				if ($node["type"] == "du")
@@ -3087,7 +3087,7 @@ class ilLMPresentationGUI
 			foreach ($nodes2 as $node2)
 			{
 				if ($node2["type"] == "st"
-					&& ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $node2["obj_id"]))
+					&& ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $node2["obj_id"]))
 				{
 					for ($j=1; $j < $node2["depth"]; $j++)
 					{

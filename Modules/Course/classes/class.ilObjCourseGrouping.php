@@ -451,20 +451,6 @@ class ilObjCourseGrouping
 		return $groupings ? $groupings : array();
 	}
 
-	function _isInGrouping($a_crs_id)
-	{
-		include_once './classes/class.ilConditionHandler.php';
-
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_crs_id,'crs') as $cond)
-		{
-			if($cond['operator'] == 'not_member')
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
 	function _checkCondition($trigger_obj_id,$operator,$value)
 	{
 		// in the moment i alway return true, there are some problems with presenting the condition if it fails,
@@ -479,12 +465,12 @@ class ilObjCourseGrouping
 	* @param	integer	 object_id of one course
 	* @param	array integer ids of courses or empty array if course is not in grouping
 	*/
-	function _getGroupingCourseIds($a_course_id)
+	function _getGroupingCourseIds($a_course_ref_id,$a_course_id)
 	{
 		include_once './classes/class.ilConditionHandler.php';
 
 		// get all grouping ids the course is assigned to
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_course_id,'crs') as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_course_ref_id,$a_course_id,'crs') as $condition)
 		{
 			if($condition['trigger_type'] == 'crsg')
 			{
@@ -505,7 +491,9 @@ class ilObjCourseGrouping
 		include_once './classes/class.ilConditionHandler.php';
 
 		$trigger_ids = array();
-		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getId(),$container_obj->getType()) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getRefId(),
+			$container_obj->getId(),
+			$container_obj->getType()) as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
@@ -586,7 +574,9 @@ class ilObjCourseGrouping
 		include_once './classes/class.ilConditionHandler.php';
 
 		$trigger_ids = array();
-		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getId(),$container_obj->getType()) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getRefId(),
+			$container_obj->getId(),
+			$container_obj->getType()) as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
