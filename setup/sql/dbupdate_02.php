@@ -2299,5 +2299,58 @@ foreach($ref_ids as $ref_id)
 }
 ?>
 
+<#1064>
+<?php
+// register new object type 'mds' for meta data setttings and advanced meta data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'mds', 'Meta Data settings', -1, now(), now())";
+$this->db->query($query);
+
+// ADD NODE IN SYSTEM SETTINGS FOLDER
+// create object data entry
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('mds', '__MetaDataSettings', 'Meta Data Settings', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'mds'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add rbac operations to news settings
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+?>
+<#1065>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
+
 
 

@@ -171,6 +171,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function showFiles()
 	{
+		
 		$this->tabs_gui->setSubTabActive('md_adv_file_list');
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
