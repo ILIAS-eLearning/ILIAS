@@ -2238,3 +2238,66 @@ CREATE TABLE IF NOT EXISTS `adv_md_record` (
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1060>
+ALTER TABLE `conditions` ADD `ref_handling` TINYINT( 1 ) DEFAULT '1' NOT NULL ;
+
+<#1061>
+<?php
+// Shared preconditions for all target objects of type 'st'
+$query = "UPDATE conditions SET ref_handling = 0 ".
+	"WHERE target_type = 'st' OR trigger_type = 'crsg' ";
+$ilDB->query($query);
+?>
+<#1062>
+<?php
+// Insert lm reference id for all preconditions (target type 'st')
+$query = "SELECT id,target_obj_id FROM conditions ".
+	"WHERE target_type = 'st'";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "SELECT ref_id FROM object_reference AS obr ".
+		"JOIN lm_data AS lm ON obr.obj_id = lm_id ".
+		"WHERE lm.obj_id = ".$row->target_obj_id." ";
+	$res_ref = $ilDB->query($query);
+	$row_ref = $res_ref->fetchRow(DB_FETCHMODE_OBJECT);
+	
+	if($row_ref->ref_id)
+	{
+		$query = "UPDATE conditions SET ".
+			"target_ref_id = ".$row_ref->ref_id.' '.
+			"WHERE id = ".$row->id." ";
+		$ilDB->query($query);
+	}
+}
+?>
+<#1063>
+<?php
+global $ilLog;
+
+// Delete all conditions if course is not parent
+$query = "SELECT DISTINCT target_ref_id AS ref FROM conditions ".
+	"WHERE target_type != 'crs' AND target_type != 'st' ";
+$res = $ilDB->query($query);
+$ref_ids = array();
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_ids[] = $row->ref;
+}
+
+$tree = new ilTree(ROOT_FOLDER_ID);
+foreach($ref_ids as $ref_id)
+{
+	if(!$tree->checkForParentType($ref_id,'crs'))
+	{
+		$query = "DELETE FROM conditions ".
+			"WHERE target_ref_id = ".$ref_id." ".
+			"AND target_type != 'st' ";
+		$ilDB->query($query);
+		$ilLog->write('Delete condition for ref_id = '.$ref_id.' (not inside of course)');
+	}
+}
+?>
+
+
+

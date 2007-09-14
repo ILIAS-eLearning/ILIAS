@@ -690,6 +690,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->condHI->setBackButtons(array());
 		$this->condHI->setAutomaticValidation(false);
 		$this->condHI->setTargetType("st");
+		$this->condHI->setTargetRefId($this->content_object->getRefId());
 		$this->condHI->setTargetId($this->obj->getId());
 		$this->condHI->setTargetTitle($this->obj->getTitle());
 	}

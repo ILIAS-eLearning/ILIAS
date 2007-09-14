@@ -1272,7 +1272,7 @@ common#:#active_roles#:#Active Roles
 common#:#add#:#Add
 common#:#add_author#:#Add Author
 common#:#add_comments#:#Edit comments
-common#:#add_condition#:#Create new association
+common#:#add_condition#:#Create New Association
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
 common#:#add_new_user_defined_field#:#Add New User-defined Field
@@ -7573,3 +7573,7 @@ common#:#take_over_structure#:#Take over folder structure of archive
 common#:#msg_wrong_filetype#:#File is no zip-archive
 common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.
 common#:#archive_broken#:#Archive seems to be broken or empty.
+common#:#precondition#:#Precondition
+common#:#cond_ref_handling#:#Link Settings
+common#:#cond_ref_shared#:#Shared Preconditions for all Links
+common#:#cond_ref_unique#:#Unique Preconditions for Links

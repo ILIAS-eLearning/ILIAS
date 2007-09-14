@@ -384,7 +384,7 @@ class ilCourseObjectivePresentationGUI
 			$obj_id = $ilObjDataCache->lookupObjId($lm_id);
 			$obj_type = $ilObjDataCache->lookupType($obj_id);
 
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($lm_id,$obj_id);
 				
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($lm_id,$ilObjDataCache->lookupType($obj_id));
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($ilObjDataCache->lookupType($obj_id),$lm_id,$obj_id);
@@ -624,7 +624,7 @@ class ilCourseObjectivePresentationGUI
 			$obj_id = $ilObjDataCache->lookupObjId($tst_id);
 			$obj_type = $ilObjDataCache->lookupType($obj_id);
 
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tst_id,$obj_id);
 				
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($tst_id,$obj_type);
 			$obj_link = "ilias.php?baseClass=ilObjTestGUI&ref_id=".$tst_id."&cmd=infoScreen";
@@ -729,7 +729,7 @@ class ilCourseObjectivePresentationGUI
 				continue;
 			}
 			
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($or_id,$obj_id);
 				
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($or_id,$obj_type);
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($obj_type,$or_id,$obj_id);

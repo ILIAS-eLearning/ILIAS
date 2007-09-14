@@ -246,7 +246,7 @@ class ilCourseContentGUI
 			$ref_id = $start['item_ref_id'];
 			$type = $ilObjDataCache->lookupType($obj_id);
 
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($ref_id,$obj_id);
 
 			$obj_link = ilLink::_getLink($ref_id,$type);
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($type,$ref_id,$obj_id);

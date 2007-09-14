@@ -1410,6 +1410,9 @@ class ilContainerGUI extends ilObjectGUI
 				$old_parent = $tree->getParentId($ref_id);
 				$this->tree->moveTree($ref_id,$this->object->getRefId());
 				$rbacadmin->adjustMovedObjectPermissions($ref_id,$old_parent);
+				
+				include_once('classes/class.ilConditionHandler.php');
+				ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 			}
 			
 			/*

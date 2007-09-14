@@ -228,7 +228,7 @@ class ilConditionHandlerInterface
 		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
 
 
-		if(!count($conditions = ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType())))
+		if(!count($conditions = ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType())))
 		{
 			$this->tpl->setVariable("EMPTY_TXT",$this->lng->txt('no_conditions_found'));
 			return true;
@@ -238,6 +238,9 @@ class ilConditionHandlerInterface
 		foreach($conditions as $condition)
 		{
 			$this->tpl->setCurrentBlock("table_content");
+			
+			$this->tpl->setVariable('TRIGGER_SRC',ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.gif'));
+			$this->tpl->setVariable('TRIGGER_ALT',$this->lng->txt('obj_'.$condition['trigger_type']));
 			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($counter++,"tblrow1","tblrow2"));
 			$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckbox(0,"conditions[]",$condition['id']));
 			$this->tpl->setVariable("TITLE",$ilObjDataCache->lookupTitle($condition['trigger_obj_id']));
@@ -272,54 +275,9 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit_condition.html');
 		$this->ctrl->setParameter($this,'condition_id',(int) $_GET['condition_id']);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		// Table header
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
-		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('obj_'.$this->getTargetType()));
-		$this->tpl->setVariable("TABLE_TITLE",$this->getTargetTitle());
-		$this->tpl->setVariable("TRIGGER_TITLE",$ilObjDataCache->lookupTitle($condition['trigger_obj_id']));
-
-		// Condition selector
-		$this->tpl->setVariable("CONDITION",$this->lng->txt('condition'));
-
-		include_once "./classes/class.ilConditionHandler.php";
-		$ch_obj =& new ilConditionHandler();
-		foreach($ch_obj->getOperatorsByTargetType($condition['trigger_type']) as $operator)
-		{
-			$operators[$operator] = $this->lng->txt('condition_'.$operator);
-		}
-		$this->tpl->setVariable("SEL_CONDITION",ilUtil::formSelect($condition['operator'],
-																   "operator",
-																   $operators,
-																   false,
-																   true));
-		// Additional settings for SCO's
-		if($condition['trigger_type'] == 'sahs')
-		{
-			$this->lng->loadLanguageModule('trac');
-			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-			$lp_collections = new ilLPCollections($condition['trigger_obj_id']);
-
-			$counter = 0;
-			$this->tpl->setVariable("INFO_SCO",$this->lng->txt('trac_lp_determination_info_sco'));
-			$this->tpl->setVariable("ROWCOL_INFO",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			foreach(ilLPCollections::_getPossibleSAHSItems($condition['trigger_obj_id']) as $item_id => $sahs_item)
-			{
-				$this->tpl->setCurrentBlock("sco_row");
-				$this->tpl->setVariable("CHECK_SCO",ilUtil::formCheckbox($lp_collections->isAssigned($item_id),
-																		 'item_ids[]',
-																		 $item_id));
-				$this->tpl->setVariable("SCO_TITLE",$sahs_item['title']);
-				$this->tpl->setVariable("ROWCOL",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
 		
-		// Table footer
-		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
+		$this->initFormCondition($condition['trigger_ref_id'],(int) $_GET['condition_id'],'edit');
+		$this->tpl->setVariable('CONDITION_TABLE',$this->form->getHTML());
 	}
 
 	function updateCondition()
@@ -339,7 +297,18 @@ class ilConditionHandlerInterface
 
 		$condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
 		$condition_handler->setOperator($_POST['operator']);
+		$condition_handler->setTargetRefId($this->getTargetRefId());
 		$condition_handler->setValue('');
+		switch($this->getTargetType())
+		{
+			case 'st':
+				$condition_handler->setReferenceHandlingType($_POST['ref_handling']);
+				break;
+			
+			default:
+				$condition_handler->setReferenceHandlingType(ilConditionHandler::UNIQUE_CONDITIONS);
+				break;	
+		}
 		$condition_handler->updateCondition($condition['id']);
 
 		// Update relevant sco's
@@ -357,7 +326,7 @@ class ilConditionHandlerInterface
 		}
 
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->edit();
+		$this->listConditions();
 	}
 		
 
@@ -418,61 +387,10 @@ class ilConditionHandlerInterface
 			$this->selector();
 			return false;
 		}
-		$trigger_obj_id = $ilObjDataCache->lookupObjId((int) $_GET['source_id']);
-		$trigger_type = $ilObjDataCache->lookupType($trigger_obj_id);
-		$trigger_title = $ilObjDataCache->lookupTitle($trigger_obj_id);
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
-		$this->ctrl->setParameter($this,'source_id',(int) $_GET['source_id']);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		// Table header
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
-		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('obj_'.$this->getTargetType()));
-		$this->tpl->setVariable("ADD_CONDITION",$this->lng->txt('add_condition'));
-		$this->tpl->setVariable("TABLE_TITLE",$this->getTargetTitle());
-		$this->tpl->setVariable("TRIGGER_TITLE",$trigger_title);
-
-		// Condition selector
-		$this->tpl->setVariable("CONDITION",$this->lng->txt('condition'));
-
-		include_once "./classes/class.ilConditionHandler.php";
-		$ch_obj =& new ilConditionHandler();
-		foreach($ch_obj->getOperatorsByTargetType($trigger_type) as $operator)
-		{
-			$operators[$operator] = $this->lng->txt('condition_'.$operator);
-		}
-		$this->tpl->setVariable("SEL_CONDITION",ilUtil::formSelect(0,
-																   "operator",
-																   $operators,
-																   false,
-																   true));
-		// Additional settings for SCO's
-		if($trigger_type == 'sahs')
-		{
-			$this->lng->loadLanguageModule('trac');
-			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-			$lp_collections = new ilLPCollections($trigger_obj_id);
-
-			$counter = 0;
-			$this->tpl->setVariable("INFO_SCO",$this->lng->txt('trac_lp_determination_info_sco'));
-			$this->tpl->setVariable("ROWCOL_INFO",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			foreach(ilLPCollections::_getPossibleSAHSItems($trigger_obj_id) as $item_id => $sahs_item)
-			{
-				$this->tpl->setCurrentBlock("sco_row");
-				$this->tpl->setVariable("CHECK_SCO",ilUtil::formCheckbox($lp_collections->isAssigned($item_id),
-																		 'item_ids[]',
-																		 $item_id));
-				$this->tpl->setVariable("SCO_TITLE",$sahs_item['title']);
-				$this->tpl->setVariable("ROWCOL",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
 		
-		// Table footer
-		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
+		$this->initFormCondition((int) $_GET['source_id'],0,'add');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
+		$this->tpl->setVariable('CONDITION_TABLE',$this->form->getHTML());		
 	}
 
 
@@ -500,6 +418,16 @@ class ilConditionHandlerInterface
 		$this->ch_obj->setTargetObjId($this->getTargetId());
 		$this->ch_obj->setTargetType($this->getTargetType());
 		
+		switch($this->getTargetType())
+		{
+			case 'st':
+				$this->ch_obj->setReferenceHandlingType($_POST['ref_handling']);
+				break;
+			
+			default:
+				$this->ch_obj->setReferenceHandlingType(ilConditionHandler::UNIQUE_CONDITIONS);
+				break;	
+		}
 		// this has to be changed, if non referenced trigger are implemted
 		if(!$trigger_obj =& ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'],false))
 		{
@@ -565,7 +493,7 @@ class ilConditionHandlerInterface
 	{
 		include_once './classes/class.ilConditionHandler.php';
 
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType()) as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
@@ -595,6 +523,105 @@ class ilConditionHandlerInterface
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	/**
+	 * Init form for condition table
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function initFormCondition($a_source_id,$a_condition_id = 0,$a_mode = 'add')
+	{
+	 	$trigger_obj_id = ilObject::_lookupObjId($a_source_id);
+	 	$trigger_type = ilObject::_lookupType($trigger_obj_id);
+	 	
+	 	$condition = ilConditionHandler::_getCondition($a_condition_id);
+		
+	 	if(is_object($this->form))
+	 	{
+	 		return true;
+	 	}
+	 	include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+	 	$this->form = new ilPropertyFormGUI();
+	 	$this->ctrl->setParameter($this,'source_id',$a_source_id);
+	 	$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 	
+	 	$sel = new ilSelectInputGUI($this->lng->txt('condition'),'operator');
+		include_once "./classes/class.ilConditionHandler.php";
+		$ch_obj = new ilConditionHandler();
+		$operators[0] = $this->lng->txt('select_one');
+		foreach($ch_obj->getOperatorsByTargetType($trigger_type) as $operator)
+		{
+			$operators[$operator] = $this->lng->txt('condition_'.$operator);
+		}
+		$sel->setValue(isset($condition['operator']) ? $condition['operator'] : 0);
+		$sel->setOptions($operators);
+		$sel->setRequired(true);
+		$this->form->addItem($sel);
+	 	
+	 	if(ilConditionHandler::_isReferenceHandlingOptional($this->getTargetType()))
+	 	{
+	 		$rad_opt = new ilRadioGroupInputGUI($this->lng->txt('cond_ref_handling'),'ref_handling');
+	 		$rad_opt->setValue(isset($condition['ref_handling']) ? $condition['ref_handling'] : ilConditionHandler::SHARED_CONDITIONS);
+	 		
+	 		$opt2 = new ilRadioOption($this->lng->txt('cond_ref_shared'),ilConditionHandler::SHARED_CONDITIONS);
+	 		$rad_opt->addOption($opt2);
 
+	 		$opt1 = new ilRadioOption($this->lng->txt('cond_ref_unique'),ilConditionHandler::UNIQUE_CONDITIONS);
+	 		$rad_opt->addOption($opt1);
+	 		
+	 		$this->form->addItem($rad_opt);
+	 	}
+	 	
+		// Additional settings for SCO's
+		if($trigger_type == 'sahs')
+		{
+			$this->lng->loadLanguageModule('trac');
+			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+			$lp_collections = new ilLPCollections($trigger_obj_id);
+			
+			$cus = new ilCustomInputGUI($this->lng->txt('trac_sahs_relevant_items'),'item_ids[]');
+			$cus->setRequired(true);
+
+			$tpl = new ilTemplate('tpl.condition_handler_sco_row.html',true,true);
+			$counter = 0;
+
+			foreach(ilLPCollections::_getPossibleSAHSItems($trigger_obj_id) as $item_id => $sahs_item)
+			{
+				$tpl->setCurrentBlock("sco_row");
+				$tpl->setVariable('SCO_ID',$item_id);
+				$tpl->setVariable('SCO_TITLE',$sahs_item['title']);
+				$tpl->setVariable('CHECKED',$lp_collections->isAssigned($item_id) ? 'checked="checked"' : '');
+				$tpl->parseCurrentBlock();
+				$counter++;
+			}
+			$tpl->setVariable('INFO_SEL',$this->lng->txt('trac_lp_determination_info_sco'));
+			$cus->setHTML($tpl->get());
+			$this->form->addItem($cus);
+		}
+	 	switch($a_mode)
+	 	{
+	 		case 'edit':
+	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
+	 			$this->form->setTitle($this->lng->txt('precondition').' ('.
+	 				$this->getTargetTitle().' -> '.
+	 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_source_id)).')');
+	 			$this->form->addCommandButton('updateCondition',$this->lng->txt('save'));
+	 			$this->form->addCommandButton('listConditions',$this->lng->txt('cancel'));
+	 			break;
+	 			
+	 		
+	 		case 'add':
+	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
+	 			$this->form->setTitle($this->lng->txt('add_condition').' ('.
+	 				$this->getTargetTitle().' -> '.
+	 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_source_id)).')');
+	 			$this->form->addCommandButton('assign',$this->lng->txt('save'));
+	 			$this->form->addCommandButton('selector',$this->lng->txt('back'));
+	 			break;
+	 	}
+	 	return true;
+	}
 }
 ?>

@@ -90,7 +90,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 //echo "A-".memory_get_usage();echo "-".$full_class;
 		$ilBench->start("ilObjCourseListGUI", "1000_checkAllConditions");
-		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($this->obj_id);
+		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);
 		$ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
 //echo "B-".memory_get_usage();echo "-".$full_class;
 		$ilBench->start("ilObjCourseListGUI", "2000_getInstance");

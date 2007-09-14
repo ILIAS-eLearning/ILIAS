@@ -117,7 +117,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		$access_str = "";
 		if (!ilObjContentObject::_checkPreconditionsOfPage(
-			ilObject::_lookupObjId($_GET["ref_id"]), $a_id))
+			$_GET['ref_id'],ilObject::_lookupObjId($_GET["ref_id"]), $a_id))
 		{
 			$access_str = " (".$lng->txt("cont_no_access").")";
 		}

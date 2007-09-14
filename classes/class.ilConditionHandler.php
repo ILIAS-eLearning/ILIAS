@@ -85,6 +85,9 @@
 */
 class ilConditionHandler
 {
+	const UNIQUE_CONDITIONS = 1;
+	const SHARED_CONDITIONS = 0;
+	
 	var $db;
 	var $lng;
 	
@@ -115,6 +118,124 @@ class ilConditionHandler
 		$this->db =& $ilDB;
 		$this->lng =& $lng;
 		$this->validation = true;
+	}
+
+	/**
+	 * is reference handling optional
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string target type ILIAS obj type
+	 */
+	public static function _isReferenceHandlingOptional($a_type)
+	{
+		switch($a_type)
+		{
+			case 'st':
+				return true;
+			
+			default:
+				return false;
+		}
+	}
+	
+	/**
+	 * In the moment it is not allowed to create preconditions on objects
+	 * that are located outside of a course.
+	 * Therefore, after moving an object: check for parent type 'crs'. if that fails delete preconditions 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int reference id of moved object
+	 */
+	public static function _adjustMovedObjectConditions($a_ref_id)
+	{
+		global $tree;
+		
+		if($tree->checkForParentType($a_ref_id,'crs'))
+		{
+			// Nothing to do
+			return true;
+		}
+		
+		// Need another implementation that has better performance
+		$childs = $tree->getSubTree($tree->getNodeData($a_ref_id),false);
+		$conditions = self::_getDistinctTargetRefIds();
+		
+		foreach(array_intersect($conditions,$childs) as $target_ref)
+		{
+			if(!$tree->checkForParentType($target_ref,'crs'))
+			{
+				self::_deleteTargetConditionsByRefId($target_ref);
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Get all target ref ids
+	 *
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function _getDistinctTargetRefIds()
+	{
+		global $ilDB;
+		
+		$query = "SELECT DISTINCT target_ref_id AS ref FROM conditions ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ref_ids[] = $row->ref;
+		}
+		return $ref_ids ? $ref_ids : array();
+	}
+	
+	/**
+	 * Delete conditions by target ref id
+	 * Note: only conditions on the target type are deleted
+	 * Conditions on e.g chapters are not handled.
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int ref id of target
+	 */
+	public static function _deleteTargetConditionsByRefId($a_target_ref_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM conditions ".
+			"WHERE target_ref_id = ".$ilDB->quote($a_target_ref_id)." ".
+			"AND target_type != 'st' ";
+		$ilDB->query($query);
+		return true;
+	}
+
+	/**
+	 * set reference handling type
+	 *
+	 * @param int 
+	 * @access public
+	 * 
+	 */
+	public function setReferenceHandlingType($a_type)
+	{
+		return $this->condition_reference_type = $a_type; 	 	
+	}
+	
+	/**
+	 * get reference handling type
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getReferenceHandlingType()
+	{
+	 	return $this->condition_reference_type;
 	}
 
 	// SET GET
@@ -311,7 +432,8 @@ class ilConditionHandler
 			$ilDB->quote($this->getTargetObjId()).",".$ilDB->quote($this->getTargetType()).",".
 			$ilDB->quote($this->getTriggerRefId()).",".$ilDB->quote($this->getTriggerObjId()).",".
 			$ilDB->quote($this->getTriggerType()).",".
-			$ilDB->quote($this->getOperator()).",".$ilDB->quote($this->getValue()).")";
+			$ilDB->quote($this->getOperator()).",".$ilDB->quote($this->getValue()).", ".
+			$ilDB->quote($this->getReferenceHandlingType()).')';
 
 		$res = $this->db->query($query);
 
@@ -353,8 +475,10 @@ class ilConditionHandler
 		global $ilDB;
 		
 		$query = "UPDATE conditions SET ".
+			"target_ref_id = ".$ilDB->quote($this->getTargetRefId()).", ".
 			"operator = ".$ilDB->quote($this->getOperator()).", ".
-			"value = ".$ilDB->quote($this->getValue())." ".
+			"value = ".$ilDB->quote($this->getValue()).", ".
+			"ref_handling = ".$this->db->quote($this->getReferenceHandlingType())." ".
 			"WHERE id = ".$ilDB->quote($a_id);
 
 		$res = $this->db->query($query);
@@ -410,7 +534,7 @@ class ilConditionHandler
 
 		return true;
 	}
-
+	
 	/**
 	* get all conditions of trigger object
 	* @static
@@ -435,6 +559,7 @@ class ilConditionHandler
 			$tmp_array['trigger_type']	= $row->trigger_type;
 			$tmp_array['operator']		= $row->operator;
 			$tmp_array['value']			= $row->value;
+			$tmp_array['ref_handling']  = $row->ref_handling;
 
 			$conditions[] = $tmp_array;
 			unset($tmp_array);
@@ -445,7 +570,7 @@ class ilConditionHandler
 
 	/**
 	* get all conditions of target object
-	*
+	* @param    $a_target_ref_id    target reference id
 	* @param	$a_target_obj_id	target object id
 	* @param	$a_target_type		target object type (must be provided only
 	*								if object is not derived from ilObject
@@ -453,7 +578,7 @@ class ilConditionHandler
 	*								is e.g. the case for chapters (type = "st"))
 	* @static
 	*/
-	function _getConditionsOfTarget($a_target_obj_id, $a_target_type = "")
+	function _getConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
 	{
 		global $ilDB, $ilBench;
 
@@ -471,6 +596,14 @@ class ilConditionHandler
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($row->ref_handling == self::UNIQUE_CONDITIONS)
+			{
+				if($row->target_ref_id != $a_target_ref_id)
+				{
+					continue;
+				}
+			}
+			
 			$tmp_array['id']			= $row->id;
 			$tmp_array['target_ref_id'] = $row->target_ref_id;
 			$tmp_array['target_obj_id'] = $row->target_obj_id;
@@ -480,6 +613,7 @@ class ilConditionHandler
 			$tmp_array['trigger_type']	= $row->trigger_type;
 			$tmp_array['operator']		= $row->operator;
 			$tmp_array['value']			= $row->value;
+			$tmp_array['ref_handling']  = $row->ref_handling;
 
 			$conditions[] = $tmp_array;
 			unset($tmp_array);
@@ -509,6 +643,7 @@ class ilConditionHandler
 			$tmp_array['trigger_type']	= $row->trigger_type;
 			$tmp_array['operator']		= $row->operator;
 			$tmp_array['value']			= $row->value;
+			$tmp_array['ref_handling']  = $row->ref_handling;
 
 			return $tmp_array;
 		}
@@ -561,11 +696,11 @@ class ilConditionHandler
 	/**
 	* checks wether all conditions of a target object are fulfilled
 	*/
-	function _checkAllConditionsOfTarget($a_target_id, $a_target_type = "")
+	function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "")
 	{
 		global $ilBench;
 
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_id, $a_target_type) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type) as $condition)
 		{
 			$ilBench->start("ilConditionHandler", "checkCondition");
 			$check = ilConditionHandler::_checkCondition($condition['id']);
@@ -605,7 +740,7 @@ class ilConditionHandler
 
 		// check for circle
 		$this->target_obj_id = $target_obj->getId();
-		if($this->checkCircle($target_obj->getId()))
+		if($this->checkCircle($this->getTargetRefId(),$target_obj->getId()))
 		{
 			$this->setErrorMessage($this->lng->txt('condition_circle_created'));
 			
@@ -616,9 +751,9 @@ class ilConditionHandler
 		return true;
 	}
 
-	function checkCircle($a_obj_id)
+	function checkCircle($a_ref_id,$a_obj_id)
 	{
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_obj_id) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_ref_id,$a_obj_id) as $condition)
 		{
 			if($condition['trigger_obj_id'] == $this->target_obj_id and $condition['operator'] == $this->getOperator())
 			{
@@ -627,7 +762,7 @@ class ilConditionHandler
 			}
 			else
 			{
-				$this->checkCircle($condition['trigger_obj_id']);
+				$this->checkCircle($condition['trigger_ref_id'],$condition['trigger_obj_id']);
 			}
 		}
 		return $this->circle;

@@ -2130,7 +2130,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$waiting_list_ids[] = $waiting_data['usr_id'];
 					$message = '';
 					// Check if user is member in course grouping
-					foreach(ilObjCourseGrouping::_getGroupingCourseIds($this->object->getId()) as $course_data)
+					foreach(ilObjCourseGrouping::_getGroupingCourseIds($this->object->getRefId(),
+						$this->object->getId()) as $course_data)
 					{
 						$tmp_members = ilCourseParticipants::_getInstanceByObjId($course_data['id']);
 						if($course_data['id'] != $this->object->getId() and

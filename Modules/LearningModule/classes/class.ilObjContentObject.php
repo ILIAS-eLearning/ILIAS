@@ -910,7 +910,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* checks wether the preconditions of a page are fulfilled or not
 	*/
-	function _checkPreconditionsOfPage($cont_obj_id, $page_id)
+	function _checkPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
 		global $ilias,$ilUser,$ilErr;
 
@@ -925,7 +925,7 @@ class ilObjContentObject extends ilObject
 			{
 				if ($node["type"] == "st")
 				{
-					if (!ilConditionHandler::_checkAllConditionsOfTarget($node["child"], "st"))
+					if (!ilConditionHandler::_checkAllConditionsOfTarget($cont_ref_id,$node["child"], "st"))
 					{
 						return false;
 					}
@@ -939,7 +939,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* gets all missing preconditions of page
 	*/
-	function _getMissingPreconditionsOfPage($cont_obj_id, $page_id)
+	function _getMissingPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -955,7 +955,7 @@ class ilObjContentObject extends ilObject
 				if ($node["type"] == "st")
 				{
 					// get all preconditions of upper chapters
-					$tconds = ilConditionHandler::_getConditionsOfTarget($node["child"], "st");
+					$tconds = ilConditionHandler::_getConditionsOfTarget($cont_ref_id,$node["child"], "st");
 					foreach ($tconds as $tcond)
 					{
 						// store all missing preconditions
@@ -974,7 +974,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* get top chapter of page for that any precondition is missing
 	*/
-	function _getMissingPreconditionsTopChapter($cont_obj_id, $page_id)
+	function _getMissingPreconditionsTopChapter($cont_obj_ref_id,$cont_obj_id, $page_id)
 	{
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -990,7 +990,7 @@ class ilObjContentObject extends ilObject
 				if ($node["type"] == "st")
 				{
 					// get all preconditions of upper chapters
-					$tconds = ilConditionHandler::_getConditionsOfTarget($node["child"], "st");
+					$tconds = ilConditionHandler::_getConditionsOfTarget($cont_obj_ref_id,$node["child"], "st");
 					foreach ($tconds as $tcond)
 					{
 						// look for missing precondition
