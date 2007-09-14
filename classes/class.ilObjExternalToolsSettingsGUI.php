@@ -27,7 +27,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI, ilECSSettingsGUI
 * 
 * @extends ilObjectGUI
 */
@@ -123,6 +123,10 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), 
 				array("view","editiLinc","editDelicious", "editGoogleMaps","editjsMath", ""), "", "");
+				
+			$tabs_gui->addTarget('ecs_server_settings',
+				$this->ctrl->getLinkTargetByClass('ilecssettingsgui','settings'));
+				
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -562,13 +566,21 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilecssettingsgui':
+				include_once('Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php');
+				$this->ctrl->forwardCommand(new ilECSSettingsGUI());
+				$this->tabs_gui->setTabActive('ecs_server_settings');
+				break;
+			
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$this->tabs_gui->setTabActive('perm_settings');
 				break;
 
 			default:
+				$this->tabs_gui->setTabActive('settings');
 				if(!$cmd)
 				{
 					$cmd = "view";

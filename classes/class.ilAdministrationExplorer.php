@@ -50,7 +50,7 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function ilAdministrationExplorer($a_target)
 	{
-		global $tree,$ilCtrl;
+		global $tree,$ilCtrl,$lng;
 
 		$this->ctrl = $ilCtrl;
 
@@ -59,7 +59,6 @@ class ilAdministrationExplorer extends ilExplorer
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
 		$this->setSessionExpandVariable("expand");
-
 	}
 
 	/**

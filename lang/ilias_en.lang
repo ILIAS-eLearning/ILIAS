@@ -7577,3 +7577,5 @@ common#:#precondition#:#Precondition
 common#:#cond_ref_handling#:#Link Settings
 common#:#cond_ref_shared#:#Shared Preconditions for all Links
 common#:#cond_ref_unique#:#Unique Preconditions for Links
+administration#:#obj_mds#:#Meta Data Settings
+administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Settings
