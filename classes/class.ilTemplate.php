@@ -151,9 +151,8 @@ class ilTemplate extends ilTemplateX
 			$this->fillHeaderIcon();
 			//$this->fillNavigationHistory();
 			$this->fillCssFiles();
+			$this->fillJavaScriptFiles();
 		}
-		// moved outside the standard elements to assure JavaScript usage as well in LM Toc frames (e.g. for jsMath)
-		$this->fillJavaScriptFiles();
 
 		if ($add_ilias_footer)
 		{
@@ -256,9 +255,8 @@ class ilTemplate extends ilTemplateX
 			//$this->fillNavigationHistory();
 			$this->fillCssFiles();
 			$this->fillPageFormAction();
+			$this->fillJavaScriptFiles();
 		}
-		// moved outside the standard elements to assure JavaScript usage as well in LM Toc frames (e.g. for jsMath)
-		$this->fillJavaScriptFiles();
 		
 		if ($part == "DEFAULT" or is_bool($part))
 		{

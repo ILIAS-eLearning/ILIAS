@@ -562,7 +562,6 @@ class ilLMPresentationGUI
 		{
 			$layout = $this->lm->getLayout();
 		}
-
 		// xmldocfile is deprecated! Use domxml_open_file instead.
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
@@ -666,7 +665,7 @@ class ilLMPresentationGUI
 			}
 			else
 			{
-				$style_name = $this->ilias->account->prefs["style"].".css";;
+				$style_name = $this->ilias->account->prefs["style"].".css";
 				$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 			}
 
@@ -778,6 +777,10 @@ class ilLMPresentationGUI
 			
 			$ilBench->stop("ContentPresentation", "layout_processContentTag");
 		}
+		// TODO: Very dirty hack to force the import of JavaScripts in learning content in the FAQ frame (e.g. if jsMath is in the content)
+		// Unfortunately there is no standardized way to do this somewhere else. Calling fillJavaScripts always in ilTemplate causes multiple additions of the the js files.
+		if (strcmp($_GET["frame"], "topright") == 0) $this->tpl->fillJavaScriptFiles();
+		
 		$content =  $this->tpl->get();
 
 		if ($doShow)
@@ -1561,7 +1564,6 @@ class ilLMPresentationGUI
 		{
 			$foot = $this->ilPage($a_page_node, $this->lm->getFooterPage());
 		}
-		
 		$this->tpl->setVariable("PAGE_CONTENT", $head.$ret.$foot); 
 //echo htmlentities("-".$ret."-");
 		return $head.$ret.$foot;
