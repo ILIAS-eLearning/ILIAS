@@ -294,6 +294,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->setTextgapRating($_POST["textgap_rating"]);
+		$this->object->setIdenticalScoring($_POST["identical_scoring"]);
 		$this->object->setFixedTextLength($_POST["fixedTextLength"]);
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
@@ -610,7 +611,10 @@ class assClozeTestGUI extends assQuestionGUI
 		$cloze_text = $this->object->getClozeText();
 		$this->tpl->setVariable("VALUE_CLOZE_TEXT", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($cloze_text)));
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
-
+		$identical_scoring = $this->object->getIdenticalScoring();
+		if ($identical_scoring) $this->tpl->setVariable("CHECKED_IDENTICAL_SCORING", " checked=\"checked\"");
+		$this->tpl->setVariable("TEXT_IDENTICAL_SCORING", $this->lng->txt("identical_scoring"));
+		$this->tpl->setVariable("TEXT_IDENTICAL_SCORING_DESCRIPTION", $this->lng->txt("identical_scoring_desc"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
