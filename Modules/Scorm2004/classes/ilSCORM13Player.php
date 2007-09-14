@@ -693,7 +693,7 @@ $ilLog->write("SCORM: persistCMIData");
 		$map = array();
 		if (!$data) return;
 	
-$ilLog->write("SCORM: setCMIData -".$data."-");
+		//$ilLog->write("SCORM: setCMIData -".$data."-");
 
 		// we don't want to have trouble with partially deleted or filled datasets
 		// so we try transaction mode (hopefully your RDBS supports this)
