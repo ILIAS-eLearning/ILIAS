@@ -2597,7 +2597,7 @@ function updateNav() {
 		
 		//search for the node to change
 		//set icons
-		if (activities[tree[i].mActivityID].sco) {
+		if (activities[tree[i].mActivityID].sco && activities[tree[i].mActivityID].href) {
 			
 		
 			var node_stat_completion=activities[tree[i].mActivityID].completion_status;
@@ -2643,11 +2643,10 @@ function updateNav() {
 				}
 			}
 		} else {
-			if (elm) {
+			if (elm && activities[tree[i].mActivityID].href) {
 				toggleClass(elm,"asset",1);
 			}	
 		}
-		
 		
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
 	}
