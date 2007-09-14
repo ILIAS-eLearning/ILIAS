@@ -1195,11 +1195,7 @@ function updateToc(tocState)
 
 function updateControls(controlState) 
 {
-	//mapping
 	if (mlaunch!=null) {
-		//do it manually instead of array processing
-		
-		//in case of start launch
 		toggleClass('navContinue', 'disabled', (!mlaunch.mNavState.mContinue || activities[mlaunch.mActivityID].hideLMSUIs['continue']));
 		toggleClass('navExit', 'disabled', (!mlaunch.mNavState.mContinueExit || activities[mlaunch.mActivityID].hideLMSUIs['exit']));
 		toggleClass('navPrevious', 'disabled', (!mlaunch.mNavState.mPrevious || activities[mlaunch.mActivityID].hideLMSUIs['previous']));
@@ -1209,12 +1205,13 @@ function updateControls(controlState)
 		}	
 		toggleClass('navStart', 'disabled', !mlaunch.mNavState.mStart);
 		toggleClass('navSuspendAll', 'disabled', (!mlaunch.mNavState.mSuspend || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']));
-//		toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll'] instanceof Object);
 	}	
 }
 
 function setResource(id, url, base) 
 {
+	
+	//Internetexplorer sets the path different, if inner sco navigation is active
 	if(!(adlnavreq) || isIE()) 
 	{
 		url = base + url;
@@ -2601,8 +2598,11 @@ function updateNav() {
 		//search for the node to change
 		//set icons
 		if (activities[tree[i].mActivityID].sco) {
+			
+		
 			var node_stat_completion=activities[tree[i].mActivityID].completion_status;
 			//not attempted
+	
 			if (node_stat_completion==null || node_stat_completion=="not attempted") {
 				toggleClass(elm,"not_attempted",1);
 			}
