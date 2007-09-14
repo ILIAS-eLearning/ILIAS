@@ -451,6 +451,8 @@ assessment#:#graphical_answers#:#Graphical Answer Support
 assessment#:#graphical_answers_hide#:#Hide Graphical Answer Support
 assessment#:#graphical_answers_show#:#Show Graphical Answer Support
 assessment#:#height#:#Height
+assessment#:#identical_scoring#:#Identical Scoring
+assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. 
 assessment#:#imagemap#:#Image Map
 assessment#:#imagemap_file#:#Image Map File
 assessment#:#imagemap_source#:#Image Map Source

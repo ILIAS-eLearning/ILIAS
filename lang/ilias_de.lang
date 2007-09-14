@@ -428,6 +428,8 @@ assessment#:#graphical_answers_hide#:#Grafikunterstützung ausblenden
 assessment#:#graphical_answers_show#:#Grafikunterstützung anzeigen
 assessment#:#graphical_answers#:#Grafikunterstützung
 assessment#:#height#:#Höhe
+assessment#:#identical_scoring#:#Identische Bewertung
+assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
 assessment#:#imagemap_file#:#Imagemap Datei
 assessment#:#imagemap_source#:#Imagemap Quelltext
 assessment#:#imagemap#:#Imagemap

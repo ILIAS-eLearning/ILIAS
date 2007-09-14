@@ -75,6 +75,17 @@ class assClozeTest extends assQuestion
 	var $textgap_rating;
 
 	/**
+	* Defines the scoring for "identical solutions"
+	*
+	* If the learner selects the same solution twice 
+	* or more in different gaps, only the first choice 
+	* will be scored if identical_scoring is 0.
+	*
+	* @var boolean
+	*/
+	var $identical_scoring;
+
+	/**
 	* The fixed text length for all text fields in the cloze question
 	*
 	* @var integer
@@ -107,6 +118,7 @@ class assClozeTest extends assQuestion
 		$this->gaps = array();
 		$this->setClozeText($cloze_text);
 		$this->fixedTextLength = "";
+		$this->identical_scoring = 1;
 	}
 
 	/**
@@ -181,6 +193,7 @@ class assClozeTest extends assQuestion
 				$this->owner = $data->owner;
 				$this->question = $this->cleanQuestiontext($data->question_text);
 				$this->setFixedTextLength($data->fixed_textlen);
+				$this->setIdenticalScoring($data->identical_scoring);
 				// replacement of old syntax with new syntax
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
@@ -299,10 +312,11 @@ class assClozeTest extends assQuestion
 			if ($result == DB_OK)
 			{
 				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO %s (question_fi, textgap_rating, fixed_textlen) VALUES (%s, %s, %s)",
+				$query = sprintf("INSERT INTO %s (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
 					$this->getAdditionalTableName(),
 					$ilDB->quote($this->id . ""),
 					$ilDB->quote($this->textgap_rating . ""),
+					$ilDB->quote($this->getIdenticalScoring() . ""),
 					$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL"
 				);
 				$ilDB->query($query);
@@ -331,10 +345,11 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE %s SET textgap_rating = %s, fixed_textlen = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE %s SET textgap_rating = %s, fixed_textlen = %s, identical_scoring = %s WHERE question_fi = %s",
 				$this->getAdditionalTableName(),
 				$ilDB->quote($this->textgap_rating . ""),
 				$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL",
+				$ilDB->quote($this->getIdenticalScoring() . ""),
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
@@ -1100,6 +1115,9 @@ class assClozeTest extends assQuestion
 		}
 		$points = 0;
 		$counter = 0;
+		$solution_values_text = array(); // for identical scoring checks
+		$solution_values_select = array(); // for identical scoring checks
+		$solution_values_numeric = array(); // for identical scoring checks
 		foreach ($user_result as $gap_id => $value) 
 		{
 			if (array_key_exists($gap_id, $this->gaps))
@@ -1114,7 +1132,16 @@ class assClozeTest extends assQuestion
 							$gotpoints = $this->getTextgapPoints($answer->getAnswertext(), $value["value"], $answer->getPoints());
 							if ($gotpoints > $gappoints) $gappoints = $gotpoints;
 						}
+						if (!$this->getIdenticalScoring())
+						{
+							// check if the same solution text was already entered
+							if ((in_array($value["value"], $solution_values_text)) && ($gappoints > 0))
+							{
+								$gappoints = 0;
+							}
+						}
 						$points += $gappoints;
+						array_push($solution_values_text, $value["value"]);
 						break;
 					case CLOZE_NUMERIC:
 						$gappoints = 0;
@@ -1124,7 +1151,27 @@ class assClozeTest extends assQuestion
 							$gotpoints = $this->getNumericgapPoints($answer->getAnswertext(), $value["value"], $answer->getPoints(), $answer->getLowerBound(), $answer->getUpperBound());
 							if ($gotpoints > $gappoints) $gappoints = $gotpoints;
 						}
+						if (!$this->getIdenticalScoring())
+						{
+							// check if the same solution value was already entered
+							include_once "./Services/Math/classes/class.EvalMath.php";
+							$eval = new EvalMath();
+							$eval->suppress_errors = TRUE;
+							$found_value = FALSE;
+							foreach ($solution_values_numeric as $solval)
+							{
+								if ($eval->e($solval) == $eval->e($value["value"]))
+								{
+									$found_value = TRUE;
+								}
+							}
+							if ($found_value && ($gappoints > 0))
+							{
+								$gappoints = 0;
+							}
+						}
 						$points += $gappoints;
+						array_push($solution_values_numeric, $value["value"]);
 						break;
 					case CLOZE_SELECT:
 						if ($value["value"] >= 0)
@@ -1134,7 +1181,17 @@ class assClozeTest extends assQuestion
 								$answer = $this->gaps[$gap_id]->getItem($order);
 								if ($value["value"] == $answer->getOrder())
 								{
-									$points += $answer->getPoints();
+									$answerpoints = $answer->getPoints();
+									if (!$this->getIdenticalScoring())
+									{
+										// check if the same solution value was already entered
+										if ((in_array($answer->getAnswertext(), $solution_values_select)) && ($answerpoints > 0))
+										{
+											$answerpoints = 0;
+										}
+									}
+									$points += $answerpoints;
+									array_push($solution_values_select, $answer->getAnswertext());
 								}
 							}
 						}
@@ -1262,9 +1319,10 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_cloze SET textgap_rating = %s, fixed_textlen = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE qpl_question_cloze SET textgap_rating = %s, fixed_textlen = %s, identical_scoring = %s WHERE question_fi = %s",
 				$ilDB->quote($this->textgap_rating . ""),
 				$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL",
+				$ilDB->quote($this->getIdenticalScoring() . ""),
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
@@ -1379,6 +1437,34 @@ class assClozeTest extends assQuestion
 				$this->textgap_rating = TEXTGAP_RATING_CASEINSENSITIVE;
 				break;
 		}
+	}
+
+	/**
+	* Returns the identical scoring status of the question
+	*
+	* Returns the identical scoring status of the question
+	*
+	* @return boolean The identical scoring status
+	* @see $identical_scoring
+	* @access public
+	*/
+	function getIdenticalScoring()
+	{
+		return ($this->identical_scoring) ? 1 : 0;
+	}
+
+	/**
+	* Sets the identical scoring option for cloze questions
+	*
+	* Sets the identical scoring option for cloze questions
+	*
+	* @param boolean $a_identical_scoring The identical scoring option for cloze questions
+	* @see $identical_scoring
+	* @access public
+	*/
+	function setIdenticalScoring($a_identical_scoring)
+	{
+		$this->identical_scoring = ($a_identical_scoring) ? 1 : 0;
 	}
 
 	/**

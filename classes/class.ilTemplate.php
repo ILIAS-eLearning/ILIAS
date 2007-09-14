@@ -510,9 +510,9 @@ class ilTemplate extends ilTemplateX
 	*/
 	function blockExists($a_blockname)
 	{
-		return $this->blockvariables[$a_blockname] ? true : false;
+		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)
+		return ($this->blockvariables["content"][$a_blockname] ? true : false) | ($this->blockvariables[$a_blockname] ? true : false);
 	}
-
 
 	/**
 	* all template vars defined in $vars will be replaced automatically
