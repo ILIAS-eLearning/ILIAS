@@ -38,7 +38,7 @@
  
 
 	// enable/disabled minimization
-define('IL_OP_JSMIN', false); 
+define('IL_OP_JSMIN', true); 
 
  
 require_once('../classes/JSMin_lib.php');
@@ -74,7 +74,7 @@ function minifyJS($files, $comment = null, $closure=false)
 	return $out;
 }
 
-$filespec = '*.js';
+$filespec = array();
 
 header('Content-Type: text/javascript');
 
@@ -84,6 +84,23 @@ if (IL_OP_JSMIN || intval($_GET['minify']))
 	$ssl = !empty($_SERVER['SSL']);
 	$selfuri = 'http' . ($ssl ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . 
 		(($ssl && $port===443 || !$ssl && $port===80) ? '' : ':' . $port) . $_SERVER['REQUEST_URI'];
+		
+	//add files..do manually
+	
+	array_push($filespec, "adl2js/ADLTracking.js"); 		
+	array_push($filespec, "adl2js/SeqRollupRule.js"); 		
+	$base_dir='adl2js';
+	if ($handle = opendir($base_dir)) { 
+	    // List all the files 
+	    while (false !== ($file = readdir($handle))) { 
+			if (!(strrpos($file, ".")<=1) && !is_int(strpos($file, "~")))  //skip directories and hidden files
+				array_push($filespec,$base_dir."/".$file); 		
+		    } 
+	    closedir($handle); 
+	}
+	array_push($filespec, "main.js"); 		
+	array_push($filespec, "rte.js"); 		
+
 	$js = minifyJS($filespec, array('Compressed and minified script', $selfuri, date('c')), true);
 	//file_put_contents('jsmin.gz', gzcompress($js));
 	// you add expiry by some header here

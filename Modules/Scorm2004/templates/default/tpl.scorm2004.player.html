@@ -68,8 +68,8 @@
 				<tr valign="top">
 				<td style="width:30%" width="30%">
 					<div id="treeView"></div>
-					<div id="ilLog" style="font-size:0.8em; white-space:pre; overflow:scroll;"><pre id="ilLogPre" style="font-family:Verdana,Arial,Helvetica,sans-serif;"></pre></div>
-					<div style="vertical-align:middle; margin-left:5px"><a id="toggleLog" href="#" onclick="toggleLog();" style="font-size:11px;">Show Log</a> </div>
+					<div id="ilLog" style="font-size:9px; white-space:pre; overflow:scroll;"><pre id="ilLogPre" style="font-family:Verdana,Arial,Helvetica,sans-serif;"></pre></div>
+					<div style="vertical-align:middle; margin-left:5px"><a id="toggleLog" href="#" onclick="toggleLog();" style="font-size:11px;">Show Log</a> &nbsp; &nbsp;<a id="toggleTree" href="#" onclick="toggleTree();" style="font-size:11px;">Collapse All</a> </div>
 				</td>
 				<td style="width:70%; height:98%;" width="70%" height="98%" id="tdResource">
 					<div></div>
@@ -78,17 +78,22 @@
 			
 		</table>
 
-		<!-- 
-		<script type="text/javascript" src="{BASE_DIR}scripts/jsmin.php?ilias={ILIAS}"></script> -->
+		<!--
+		<script type="text/javascript" src="{BASE_DIR}scripts/jsmin.php"></script>
+		-->
+
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/adl2js/ADLTracking.js"></script>	
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/adl2js/SeqRollupRule.js"></script>	
 		{JS_SEQUENCER}
+		<script type="text/javascript" src="{BASE_DIR}scripts/main.js"></script>
+		<script type="text/javascript" src="{BASE_DIR}scripts/rte.js"></script>
+
 		<script type="text/javascript" src="./Services/YUI/js/2_2_2/yahoo/yahoo-min.js"></script>
 		<script type="text/javascript" src="./Services/YUI/js/2_2_2/event/event-min.js"></script>
 		<script type="text/javascript" src="./Modules/Scorm2004/scripts/yui/treeview/treeview-min.js"></script>	
-				
-		<script type="text/javascript" src="{BASE_DIR}scripts/main.js"></script>
-		<script type="text/javascript" src="{BASE_DIR}scripts/rte.js"></script>
+
+
+
 		<script type="text/javascript">
 		//<![CDATA[
 			scorm_init({JS_DATA});
