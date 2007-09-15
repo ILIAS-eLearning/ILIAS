@@ -144,7 +144,7 @@ class ilMediaItem
 			$ilDB->quote($this->getCaption()).",".
 			$ilDB->quote($this->getNr()).")";
 		$this->ilias->db->query($query);
-//echo "create_mob:$query:<br>";
+#echo "create_mob:$query:<br>";
 		$item_id = $this->ilias->db->getLastInsertId();
 		$this->setId($item_id);
 

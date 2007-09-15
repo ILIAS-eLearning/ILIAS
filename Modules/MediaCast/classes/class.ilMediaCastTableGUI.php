@@ -135,9 +135,13 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				
 			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
 			$mpl = new ilMediaPlayerGUI();
+			if (strcasecmp("Reference", $med->getLocationType()) == 0)
+				$mpl->setFile($med->getLocation());
+			else
+				$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+				
+			$mpl->setDisplayHeight($med->getHeight());
 
-			$mpl->setFile(ilObjMediaObject::_getDirectory($mob->getId())."/".
-				$med->getLocation());
 			$this->tpl->setVariable("PLAYER",
 				$mpl->getMp3PlayerHtml());
 			$this->tpl->setVariable("VAL_ID", $a_set["id"]);

@@ -492,6 +492,16 @@ class ilObjMediaObject extends ilObject
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
 	}
+	
+/**
+	* get directory for files of media object (static)
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
+	function _getURL($a_mob_id)
+	{
+		return ilUtil::getHtmlPath(ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id);
+	}
 
 	/**
 	* get directory for files of media object (static)
