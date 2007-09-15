@@ -237,7 +237,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		
 		// File
-		if ($a_mode == "edit_local" || $a_mode == "create") 
+		//if ($a_mode == "edit_local" || $a_mode == "create") 
 		{
 			$file = new ilFileInputGUI($lng->txt("file"), "file");		
 			$file->setSuffixes(array("mp3","flv","rmtp","m4v","wmv","3gp","rbs", "gif", "png"));
@@ -245,11 +245,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 
 		// Property URL
-		if ($a_mode == "edit_reference" || $a_mode == "create") 
+		//if ($a_mode == "edit_reference" || $a_mode == "create") 
 		{		
 			$text_input = new ilRegExpInputGUI($lng->txt("url"), "url");
 			$text_input->setPattern("/https?\:\/\/.+/i");
-			$text_input->setRequired($a_mode == "edit_reference");
 			$text_input->setInfo($lng->txt("mcst_reference_info"));
 			$this->form_gui->addItem($text_input);
 		}
@@ -454,7 +453,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
 			$media_item = $mob->getMediaItem("Standard");
 			$file = $mob_dir."/".$media_item->getLocation();
-			if ($_FILES['file']['name'] != "" && strcasecmp ($media_item->getLocationType(), "LocaleFile") == 0)
+			if ($_FILES['file']['name'] != "") // && strcasecmp ($media_item->getLocationType(), "LocaleFile") == 0)
 			{
 				$file = $mob_dir."/".$_FILES['file']['name'];
 				ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
@@ -464,16 +463,22 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$location = $_FILES['file']['name'];
 				$media_item->setFormat($format);
 				$media_item->setLocation($location);
+				$media_item->setLocationType("LocalFile");
 				$mob->setTitle($_FILES['file']['name']);
 				$mob->setDescription($format);
 				$media_item->setHAlign("Left");
-	
+				$media_item->setHeight(self::isAudio($format)?0:180);
 				ilUtil::renameExecutables($mob_dir);
-			} elseif ($this->form_gui->getInput ("url") && strcasecmp ($media_item->getLocationType(), "Reference") == 0)
+			} elseif ($this->form_gui->getInput ("url")) // && strcasecmp ($media_item->getLocationType(), "Reference") == 0)
 			{
 				$location = $this->form_gui->getInput ("url");
-				$file = $location;
+				$format = ilObjMediaObject::getMimeType($location);
+				$media_item->setHeight(self::isAudio($format)?0:180);
+				$media_item->setFormat($format);				
+				$media_item->setLocation($location);
+				$media_item->setLocationType("Reference");
 			}
+			
 			
 
 			// set real meta and object data
