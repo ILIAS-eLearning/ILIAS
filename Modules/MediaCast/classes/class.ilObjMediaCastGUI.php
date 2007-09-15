@@ -188,8 +188,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		global $tpl;
 		
 		$this->checkPermission("write");
-		
-		$this->initAddCastItemForm("edit");
+		$med = $this->getMediaItem($_GET["item_id"]);		
+		$this->initAddCastItemForm(strcasecmp($med->getLocationType(),"Reference") == 0? "edit_reference": "edit_local");
 		$this->getCastItemValues();
 		$tpl->setContent($this->form_gui->getHTML());
 	}
@@ -237,13 +237,24 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		
 		// File
-		$file = new ilFileInputGUI($lng->txt("file"), "file");
-		if ($a_mode == "create")
+		if ($a_mode == "edit_local" || $a_mode == "create") 
 		{
-			$file->setRequired(true);
+			$file = new ilFileInputGUI($lng->txt("file"), "file");		
+			$file->setSuffixes(array("mp3","flv","rmtp","m4v","wmv","3gp","rbs", "gif", "png"));
+			$this->form_gui->addItem($file);
 		}
-		$file->setSuffixes(array("mp3"));
-		$this->form_gui->addItem($file);
+
+		// Property URL
+		if ($a_mode == "edit_reference" || $a_mode == "create") 
+		{		
+			$text_input = new ilRegExpInputGUI($lng->txt("url"), "url");
+			$text_input->setPattern("/https?\:\/\/.+/i");
+			$text_input->setRequired($a_mode == "edit_reference");
+			$text_input->setInfo($lng->txt("mcst_reference_info"));
+			$this->form_gui->addItem($text_input);
+		}
+		
+		
 		
 		// Duration
 		$dur = new ilDurationInputGUI($lng->txt("mcst_duration"), "duration");
@@ -274,13 +285,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	public function getCastItemValues()
 	{
 		$values = array();
-		
-		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$this->mcst_item = new ilNewsItem($_GET["item_id"]);
-		
+		$med = $this->getMediaItem($_GET["item_id"]);
 		$values["title"] = $this->mcst_item->getTitle();
 		$values["description"] = $this->mcst_item->getContent();
 		$values["visibility"] = $this->mcst_item->getVisibility();
+		if (strcasecmp("Reference", $med->getLocationType()) == 0)
+			$values["url"] = $med->getLocation(); 
 		$length = explode(":", $this->mcst_item->getPlaytime());
 		$values["duration"] = array("hh" => $length[0], "mm" => $length[1], "ss" => $length[2]);
 		
@@ -292,13 +302,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function saveCastItemObject()
 	{
-		global $tpl, $ilCtrl, $ilUser;
+		global $tpl, $ilCtrl, $ilUser, $lng;
 		
 		$this->checkPermission("write");
 		
 		$this->initAddCastItemForm();
 		
-		if ($this->form_gui->checkInput())
+		if ($_POST["url"] == "" && !$_FILES['file']['tmp_name']) {
+			ilUtil::sendInfo($lng->txt("msg_input_either_file_or_url"));			
+			$this->form_gui->setValuesByPost();
+			$tpl->setContent($this->form_gui->getHTML());			
+		} 
+		else if ($this->form_gui->checkInput())
 		{
 			
 			// create dummy object in db (we need an id)
@@ -309,19 +324,31 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mob->setDescription("");
 			$mob->create();
 
-			// determine and create mob directory, move uploaded file to directory
-			//$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
-			$mob->createDirectory();
-			$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
-
 			$media_item =& new ilMediaItem();
 			$mob->addMediaItem($media_item);
 			$media_item->setPurpose("Standard");
-
-			$file = $mob_dir."/".$_FILES['file']['name'];
-			ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
-				$_FILES['file']['name'], $file);
-
+			
+			if ($this->form_gui->getInput ("url")) {
+				// http 
+				$file = $this->form_gui->getInput ("url");
+				$title = basename ($file);
+				$location = $this->form_gui->getInput ("url");
+				$locationType = "Reference";
+			} else {
+				// lokal
+				// determine and create mob directory, move uploaded file to directory
+				//$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
+				$mob->createDirectory();
+				$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
+		
+				$file = $mob_dir."/".$_FILES['file']['name'];
+				$title = $_FILES['file']['name']; 
+				$locationType = "LocalFile";
+				$location = $title;
+				ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
+					$_FILES['file']['name'], $file);				
+			}
+			
 			// determine duration
 			$duration = $this->form_gui->getInput("duration");
 			if ($duration["hh"] == 0 && $duration["mm"] == 0 && $duration["ss"] == 0)
@@ -343,13 +370,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			
 			// get mime type
 			$format = ilObjMediaObject::getMimeType($file);
-			$location = $_FILES['file']['name'];
+			
 
 			// set real meta and object data
 			$media_item->setFormat($format);
 			$media_item->setLocation($location);
-			$media_item->setLocationType("LocalFile");
-			$mob->setTitle($_FILES['file']['name']);
+			$media_item->setLocationType($locationType);
+			$media_item->setHeight(self::isAudio($format)?0:180);
+			$mob->setTitle($title);
 			$mob->setDescription($format);
 			$media_item->setHAlign("Left");
 
@@ -425,8 +453,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
 
 			$media_item = $mob->getMediaItem("Standard");
-
-			if ($_FILES['file']['name'] != "")
+			$file = $mob_dir."/".$media_item->getLocation();
+			if ($_FILES['file']['name'] != "" && strcasecmp ($media_item->getLocationType(), "LocaleFile") == 0)
 			{
 				$file = $mob_dir."/".$_FILES['file']['name'];
 				ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
@@ -436,14 +464,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$location = $_FILES['file']['name'];
 				$media_item->setFormat($format);
 				$media_item->setLocation($location);
-				$media_item->setLocationType("LocalFile");
 				$mob->setTitle($_FILES['file']['name']);
 				$mob->setDescription($format);
 				$media_item->setHAlign("Left");
 	
 				ilUtil::renameExecutables($mob_dir);
+			} elseif ($this->form_gui->getInput ("url") && strcasecmp ($media_item->getLocationType(), "Reference") == 0)
+			{
+				$location = $this->form_gui->getInput ("url");
+				$file = $location;
 			}
-			$file = $mob_dir."/".$media_item->getLocation();
+			
 
 			// set real meta and object data
 			$mob->update();
@@ -863,6 +894,30 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 
 	}
-
+	
+	/**
+	 * detect audio mimetype
+	 *
+	 * @param string $extension
+	 * @return true, if extension contains string "audio"
+	 */
+	protected static function isAudio($extension) {
+		return strpos($extension,"audio") !== false;
+	}
+	
+	/**
+	 * get MediaItem for id and updates local variable mcst_item
+	 * 
+	 * @return ilMediaItem
+	 *
+	 */
+	protected function getMediaItem ($id) {
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$this->mcst_item = new ilNewsItem($id);
+		// create dummy object in db (we need an id)
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		$mob = new ilObjMediaObject($this->mcst_item->getMobId());
+		return $mob->getMediaItem("Standard");						
+	}
 }
 ?>

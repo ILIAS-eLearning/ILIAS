@@ -32,6 +32,7 @@
 class ilMediaPlayerGUI
 {
 	var $file;
+	var $displayHeight;
 	static $nr = 1;
 
 	function __construct()
@@ -59,18 +60,36 @@ class ilMediaPlayerGUI
 	}
 
 	/**
+	 * set display height
+	 *
+	 * @param int $dHeight
+	 */
+	function setDisplayHeight ($dHeight) {
+		$this->displayHeight = $dHeight;
+	}
+	
+	/**
+	 * return display height of player.
+	 *
+	 * @return int
+	 */
+	function getDisplayHeight () {
+		return $this->displayHeight;
+	}
+	/**
 	* Get Html for MP3 Player
 	*/
 	function getMp3PlayerHtml()
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/MediaObjects/flash_mp3_player/ufo.js");
-		
-		$mp_tpl = new ilTemplate("tpl.mp3_player.html", true, true, "Services/MediaObjects");
+		//$tpl->addJavaScript("./Services/MediaObjects/flash_mp3_player/ufo.js");
+		//$mp_tpl = new ilTemplate("tpl.mp3_player.html", true, true, "Services/MediaObjects");	
+		$tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");		
+		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 		$mp_tpl->setVariable("FILE", $this->getFile());
 		$mp_tpl->setVariable("PLAYER_NR", self::$nr);
-
+		$mp_tpl->setVariable("DISPLAY_HEIGHT", $this->displayHeight + 20);		
 		self::$nr++;
 		
 		return $mp_tpl->get();

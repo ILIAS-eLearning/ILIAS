@@ -7570,3 +7570,6 @@ common#:#cond_ref_shared#:#Gleiche Vorbedingungen für alle Verknüpfungen
 common#:#cond_ref_unique#:#Unterschiedliche Vorbedingungen für Verknüpfungen
 administration#:#obj_mds#:#Metadateneinstellungen
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
+common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
+mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
+common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.

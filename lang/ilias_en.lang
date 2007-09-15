@@ -7581,3 +7581,6 @@ common#:#cond_ref_shared#:#Shared Preconditions for all Links
 common#:#cond_ref_unique#:#Unique Preconditions for Links
 administration#:#obj_mds#:#Meta Data Settings
 administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Settings
+common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
+mcst#:#mcst_reference_info#:#Provide URL pointing to resource
+common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file.
