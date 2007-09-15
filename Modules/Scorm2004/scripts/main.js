@@ -26,6 +26,21 @@
 * Log a Message
 */
 
+
+function toggleTree() {
+	elm = all("toggleTree");
+	
+	if (treeState==false) {
+		elm.innerHTML="Collapse All";
+		treeYUI.expandAll();
+		treeState=true;
+	} else {
+		elm.innerHTML="Expand All";
+		treeYUI.collapseAll();
+		treeState=false;
+	}
+}
+
 function toggleLog() {
 	elm = all("toggleLog");
 	if (logState==false) {
@@ -1200,13 +1215,6 @@ function setToc()
 	buildNavTree(rootAct,"item",tree);
 }
 
-function updateToc(tocState) 
-{
-	for (var k in guiViews) 
-	{
-		guiViews[k].update(tocState);
-	}
-}
 
 function updateControls(controlState) 
 {
@@ -1333,64 +1341,9 @@ function onWindowResize()
 	}
 }
 
-function onChoice(target) 
-{
-	//execNavigation('Choice', target.id.substr(3));
-}
 
 
 
-/* ######### SEQUENCER GENERAL ################################################## */
-
-
-function getState() 
-{
-	return state;
-}
-
-function getControlState() 
-{
-	var r = {};
-	r.start = !currentAct;
-	r.resumeAll = !currentAct && suspendedAct;
-	r.exit = !!currentAct;
-	r.exitAll = !!currentAct;
-	r.abandon = !!currentAct;	
-	r.abandonAll = !!currentAct;
-	r.suspendAll = !!currentAct;
-	r.previous = currentAct && currentAct.parent.flow &&
-			!currentAct.parent.forwardOnly &&
-			'TODO_PREVIOUS_NOT_RESULTING_IN_WALKING_OFF_TREE';
-	r['continue'] = currentAct && currentAct.parent.flow;
-			var hideLMSUI = {'previous': 0, 'continue': 0, 'exit': 0, 'exitAll': 0, 
-		'abandon': 0, 'abandonAll': 0, 'suspendAll': 0};
-	if (currentAct && currentAct.hideLMSUI) 
-	{
-		for (var i=0, ni=currentAct.hideLMSUI.length; i<ni; i++) 
-		{
-			r[currentAct.hideLMSUI[i].value] = false;
-		}
-	}
-	return r;
-}
-
-function getTocData() 
-{
-	function func(v) {
-		return {
-			id : v.id, 
-			href : v.href,
-			isvisible : v.isvisible, 
-			title : v.title 
-		};
-	}
-	var r = func(rootAct);
-	r.item = walkItems(rootAct, "item", func, []);
-	var tree=new Array();
-	//gui=buildNavTree(rootAct,"item",tree);
-	return gui;
-}
-var gui;
 
 
 function buildNavTree(rootAct,name,tree){
@@ -1432,95 +1385,13 @@ function buildNavTree(rootAct,name,tree){
 
 
 
-function getTocState() 
-{
-
-	function func(v) 
-	{
-		var disabled = false;
-		var hidden = 0; // tristate 0=visible, 1=hidden by cam, 2=hidden by sequencer
-		var parseq = v.parent ? v.parent : null;
-		if (!parseq) 
-		{
-			// nothing to do, beyond root activity 
-		}
-		else if (!parseq.choice || checkActivity(v)) 
-		{
-			disabled = true;
-		} 
-		else if (currentAct && v.index<currentAct.index && parseq.forwardOnly)  
-		{
-			return r;
-		} 
-		else if (currentAct && v.index>currentAct.index && parseq.stopForward)  
-		{
-			return r;
-		} 
-		// TODO check case 117.6 c and e
-		if (!v.isvisible)  
-		{
-			hidden = 1;
-		} 
-		else if (v.hiddenFromChoice)  
-		{
-			hidden = 2;
-		} 
-		else if (currentAct && !currentAct.choiceExit && !'TODO IS CHILD OF CURRENT')  
-		{
-			hidden = 2;
-		} 
-		else if (!parseq) 
-		{
-		} 
-		else if (parseq.preventActivation && !parseq.isActive)  
-		{
-			hidden = 2;
-		} 
-		else if (parseq.constrainChoice && 'TODO v is neither previous nor next to current')  
-		{
-			hidden = 2;
-		} 
-		return {id:v.id, disabled:disabled, hidden:hidden};
-	}
-	var r = func(rootAct);
-	r.item = walkItems(rootAct, "item", func, []);
-	return r;
-}
 
 function abortNavigation () 
 {
 	state = ABORTING; 
 }
 
-function execNavigation (type, target) 
-{
-	return;
-	if (state) 
-	{
-		return false; // already processing
-	}
-	state = RUNNING;
-	var res = exec({type:type, target:target});
-	state = WAITING;
-	if (res && res.exception) 
-	{
-		window.alert(translate(res.exception));
-	}
-	return !res || !res.exception;
-}
 
-function queryNavigation (type, target) 
-{
-	return;
-	if (state) 
-	{
-		return false; // already processing
-	}
-	state = QUERYING;
-	var res = exec({type:type, target:target});
-	state = WAITING;
-	return !res.exception;
-}
 
 
 /* ########### PLAYER loading and TRACKER ####################################### */
@@ -2420,6 +2291,7 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 	{
 		syncCMIADLTree();		
 		currentAPI.Terminate("");
+		save();
 	}
 	currentAPI = window[Runtime.apiname] = null;
 	
@@ -2518,86 +2390,6 @@ var apiIndents = // for mapping internal to api representaiton
 		'score' : ['raw', 'min', 'max', 'scaled']
 	}
 };	
-
-function setTitle(item){
-	var status_colors = 
-		{
-			'null' : 'red',
-			'unknown': 'yellow',
-			'completed': 'green'
-		};
-	var status;
-	var node_stat=activities[item.id].completion_status;
-	status="<span style=\"background-color:"+status_colors[node_stat]+"; width:4px; height:4px;\">&nbsp;&nbsp;</span>&nbsp;";	
-	var title=status+item.title;	
-	return title;	
-}
-
-var guiViews = // for different table of content views in gui
-{
-	treeView : 
-	{
-		create : function (tocData) 
-		{
-			function func(item, sink, depth) 
-			{
-				var elm = sink[depth].appendChild(sink[depth].ownerDocument.createElement('A'));
-				elm.id = ITEM_PREFIX + item.id;
-				elm.className = (item.href ? 'content' : 'block') + (item.isvisible ? '' : ' invisible');
-				elm.href = "#this";
-				elm.target ="_self";
-				if (item.hreff) {
-					elm.innerHTML = setTitle(item);
-				} else  {
-					elm.innerHTML = item.title;	
-				}
-				
-				if (item.item) 
-				{
-					sink[depth+1] = sink[depth].appendChild(elm.ownerDocument.createElement('DIV'));
-				}
-			}
-			var tocView = all('treeView');
-			tocView.innerHTML = '';
-			func(tocData, {0: tocView}, 0);
-			walkItems(tocData, "item", func, {1: tocView.lastChild}, 1);
-		},
-		update : function (tocState) 
-		{
-			function walk(items) 
-			{
-				for (var i=0, ni=items.length; i<ni; i+=1) 
-				{
-					var item = items[i];
-					var elm = all(ITEM_PREFIX + item.id);
-					if (elm) 
-					{
-						if (item.sco) {
-							elm.innerHTML = setTitle(item);
-						}
-						//test for activity tree
-						var test=mlaunch.mNavState.mChoice[item.id];
-						var disable=true;
-						if (test) {
-							if (test['mIsSelectable']==true) { 
-								disable=false;
-							}	
-						} else {
-							disable=true;
-						}
-						toggleClass(elm, 'disabled', disable); 
-						toggleClass(elm.parentNode, 'hidden', item.hidden); 
-					} 
-					if (item.item) 
-					{
-						walk(item.item); // RECURSION
-					}
-				}
-			}
-			walk([tocState]);
-		}
-	}
-};
 
 
 function updateNav() {
@@ -2727,6 +2519,9 @@ var msequencer=new ADLSequencer();
 var mlaunch=null;
 var adlnavreq=null;
 var treeYUI=null;
+var logState=false;
+var treeState=true;
+
 
 // GUI constants
 var ITEM_PREFIX = "itm";
@@ -2764,7 +2559,6 @@ var scoStartTime = null;
 
 //remove later
 var pubAPI=null;
-var logState=false;
 // Public interface
 window.scorm_init = init;
 
