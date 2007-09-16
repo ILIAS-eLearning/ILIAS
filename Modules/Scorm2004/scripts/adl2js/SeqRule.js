@@ -72,6 +72,8 @@ SeqRule.prototype =
 	
 	evaluate: function (iType, iThisActivity, iRetry)
 	{
+		sclogdump("SequencingRuleCheckSub [UP.2.1]","seq");
+	   
 		var result = SEQ_ACTION_NOACTION;
 		var doEvaluation = false;
 		

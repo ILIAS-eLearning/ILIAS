@@ -67,6 +67,8 @@ SeqRuleset.prototype =
 
 	evaluate: function (iType, iThisActivity, iRetry)
 	{
+		sclogdump("SequencingRulesCheck [UP.2]","seq");
+	   
 		var action = null;
 		
 		// Evaluate all sequencing rules of type 'iType'.

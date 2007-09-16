@@ -361,6 +361,8 @@ ADLSequencer.prototype =
 		//
 		// It also applies the Overall Sequencing Process (OP) to the
 		// indicated navigation request.
+		sclog("NavigationRequest [NB.2.1]","seq");
+      
 		var launch = new ADLLaunch();
 		
 		// Make sure an activity tree has been associated with this sequencer
@@ -494,6 +496,7 @@ ADLSequencer.prototype =
 
 	navigate: function (iRequest)
 	{
+		sclog("NavigationRequest [NB.2.1]","seq");
 		var launch = new ADLLaunch();
 		
 		// Make sure an activity tree has been associated with this sequencer
@@ -1178,6 +1181,8 @@ ADLSequencer.prototype =
 
 	evaluateExitRules: function (iTentative)
 	{
+		sclog("SequencingExitActionRulesSub [TB.2.1]","seq");
+      
 		// Clear global state
 		this.mExitCourse = false;
 		
@@ -1240,6 +1245,7 @@ ADLSequencer.prototype =
 
 	doTerminationRequest: function (iRequest, iTentative)
 	{
+		sclog("TerminationRequest [TB.2.3]","seq");
 		// The Termination Request Process may return a sequencing request
 		var seqReq = null;
 		this.mExitAll = false;
@@ -1307,6 +1313,7 @@ ADLSequencer.prototype =
 							if (result != null)
 							{
 								// This set of ifs implement TB.2.2
+								sclog("SequencingPostConditionRulesSub [TB.2.2]","seq");		                        
 								if (result == SEQ_ACTION_RETRY)
 								{
 									// Override any existing sequencing request
@@ -1536,6 +1543,8 @@ ADLSequencer.prototype =
 
 	invokeRollup: function (ioTarget, iWriteObjIDs)
 	{
+		sclog("OverallRollup [RB.1.5]","seq");
+	  
 		var rollupSet = new Array();		// Hashtable
 		
 		// Case #1 -- Rollup applies along the active path
@@ -1877,7 +1886,8 @@ ADLSequencer.prototype =
 	doSequencingRequest: function (iRequest)
 	{
 		// This method implements the Sequencing Request Process (SB.2.12)
-		
+		sclog("SequencingRequest [SB.2.12]","seq");
+	 
 		var delReq = null;
 		
 		// Clear global state
@@ -1889,7 +1899,8 @@ ADLSequencer.prototype =
 		if (iRequest == SEQ_START)
 		{
 			// This block implements the Start Sequencing Request Process (SB.2.
-			
+			sclog("StartSequencingRequest [SB.2.5]","seq");
+	    	
 			// Make sure this request will begin a new session
 			if (from == null)
 			{
@@ -1910,7 +1921,8 @@ ADLSequencer.prototype =
 		{
 			// This block implements the Resume All Sequencing Request Process
 			// (SB.2.6)
-			
+			sclog("ResumeAllSequencingRequest [SB.2.6]","seq");
+    	  
 			// Make sure this request will begin a new session
 			if (from == null)
 			{
@@ -1926,7 +1938,8 @@ ADLSequencer.prototype =
 		{
 			// This block implements the Continue Sequencing Request Process
 			// (SB.2.7)
-			
+			sclog("ContinueSequencingRequest [SB.2.7]","seq");
+    	  
 			// Make sure the session has already started
 			if (from != null)
 			{
@@ -1966,7 +1979,8 @@ ADLSequencer.prototype =
 		{
 			// This block implements the Exit Sequencing Request Process
 			// (SB.2.11)
-			
+			sclog("ExitSequencingRequest [SB.2.11]","seq");
+    	  
 			// Make sure the session has already started
 			if (from != null)
 			{
@@ -1986,7 +2000,8 @@ ADLSequencer.prototype =
 		{
 			// This block implements the Previous Sequencing Request Process
 			// (SB.2.8)
-			
+			sclog("PreviousSequencingRequest [SB.2.5]","seq");
+    	  
 			// Make sure the session has already started
 			if (from != null)
 			{
@@ -2013,6 +2028,8 @@ ADLSequencer.prototype =
 			// This block implements the Retry Sequencing Request Process
 			// (SB.2.10)
 			// Make sure the session has already started
+			sclog("RetrySequencingRequest [SB.2.10]","seq");
+    	  
 			if (from != null)
 			{
 				if (this.mExitAll || (!(from.getIsActive() || from.getIsSuspended())))
@@ -2045,7 +2062,8 @@ ADLSequencer.prototype =
 		else
 		{
 			// This block implements the Choice Sequencing Request Process (SB.2)
-			
+			sclog("ChoiceSequencingRequest [SB.2.9]","seq");
+    	  
 			// The sequencing request identifies the target activity
 			var target = this.getActivity(iRequest);
 			
@@ -2411,6 +2429,8 @@ ADLSequencer.prototype =
 
 	walkTree: function (iDirection,iPrevDirection,iEnter,iFrom,iControl)
 	{
+		sclog("FlowTreeTraversalSub [SB.2.1]","seq");
+	   
 		// This method implements Flow Subprocess SB.2.1
 		var next = null;
 		var parent = null;
@@ -2550,6 +2570,8 @@ ADLSequencer.prototype =
 	walkActivity: function (iDirection,iPrevDirection,ioFrom)
 	{
 		// This method implements Flow Subprocess SB.2.3
+		sclog("FlowActivityTraversalSub [SB.2.2]","seq");
+	   
 		var deliver = true;
 		var parent = ioFrom.at.getParent();
 		
@@ -2648,7 +2670,8 @@ ADLSequencer.prototype =
 	processFlow: function (iDirection, iEnter, ioFrom, iConChoice)
 	{
 		// This method implements Flow Subprocess SB.2.3
-		
+		sclog("FlowSub [SB.2.3]","seq");
+	   
 		var success = true;
 		var candidate = ioFrom.at;
 		
@@ -2694,6 +2717,8 @@ ADLSequencer.prototype =
 	evaluateChoiceTraversal: function (iDirection, iAt)
 	{
 		// This method implements Choice Activity Traversal Subprocess SB.2.4
+		sclog("ChoiceActivityTraversalSub [SB.2.4]","seq");
+	   
 		var success = true;
 		
 		// Make sure we have somewhere to start from
@@ -2749,6 +2774,8 @@ ADLSequencer.prototype =
 	{
 		// This method implements DB.1.  Also, if the delivery request is not
 		// tentative, it invokes the Content Delivery Environment Process.
+		sclog("DeliveryRequest [DB.1.1]","seq");
+	   
 		var deliveryOK = true;
 		
 		// Make sure the identified activity exists in the tree.
@@ -2838,6 +2865,8 @@ ADLSequencer.prototype =
 	{
 		
 		// This method implements the Content Delivery Environment Process (DB.2)
+		sclog("ContentDeliveryEnvironment [DB.2]","seq");
+	   
 		var target = this.getActivity(iTarget);
 		var done = false;
 		
@@ -2972,6 +3001,8 @@ ADLSequencer.prototype =
 	clearSuspendedActivity: function (iTarget)
 	{
 		// This method implements the Clear Supsended Activity Subprocess (DB.2)
+		sclog("ClearSuspendedActivitySub [DB.2.1]","seq");
+	   
 		var act = this.mSeqTree.getSuspendAll();
 		
 		if (iTarget == null)
@@ -3019,6 +3050,8 @@ ADLSequencer.prototype =
 	evaluateLimitConditions: function (iTarget)
 	{
 		// This is an implementation of UP.1
+		sclog("LimitConditionsCheck [UP.1]","seq");
+	   
 		var disabled = false;
 		
 		// Only test limitConditions if the activity is not active
@@ -3038,7 +3071,8 @@ ADLSequencer.prototype =
 		
 		// This is an implementation of the Terminate Descendent Attempts
 		// Process (UP.3)
-		
+		sclog("TerminateDescendentAttempts [UP.3]","seq");
+	   
 		var cur = this.mSeqTree.getFirstCandidate();
 		
 		if (cur != null)
@@ -3056,7 +3090,8 @@ ADLSequencer.prototype =
 
 	endAttempt: function (iTarget, iTentative)
 	{
-		
+		sclog("EndAttempt [UP.4]","seq");
+	   
 		// This is an implementation of the End Attempt Process (UP.4)
 		if (iTarget != null)
 		{
@@ -3145,6 +3180,8 @@ ADLSequencer.prototype =
 
 	checkActivity: function (iTarget)
 	{
+		sclog("CheckActivity [UP.5]","seq");
+	   
 		// This is an implementation of UP.5.
 		var disabled = false;
 		var result = null;
