@@ -1554,7 +1554,10 @@ class ilLMPresentationGUI
 			$page_id != $this->lm->getHeaderPage() &&
 			($page_id == 0 || $page_id != $this->lm->getFooterPage()))
 		{
-			$head = $this->ilPage($a_page_node, $this->lm->getHeaderPage());
+			if (ilLMObject::_exists($this->lm->getHeaderPage()))
+			{
+				$head = $this->ilPage($a_page_node, $this->lm->getHeaderPage());
+			}
 		}
 
 		// process footer
@@ -1562,7 +1565,10 @@ class ilLMPresentationGUI
 			$page_id != $this->lm->getFooterPage() &&
 			($page_id == 0 || $page_id != $this->lm->getHeaderPage()))
 		{
-			$foot = $this->ilPage($a_page_node, $this->lm->getFooterPage());
+			if (ilLMObject::_exists($this->lm->getFooterPage()))
+			{
+				$foot = $this->ilPage($a_page_node, $this->lm->getFooterPage());
+			}
 		}
 		$this->tpl->setVariable("PAGE_CONTENT", $head.$ret.$foot); 
 //echo htmlentities("-".$ret."-");
