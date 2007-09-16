@@ -50,6 +50,8 @@
 
 
    require_once("SeqObjective.php");
+   require_once("SeqRollupRule.php");
+
    define("TIMING_ONCE","once");
    define("TIMING_EACHNEW","onEachNewAttempt");
    define("TER_EXITALL","_EXITALL_");
@@ -58,8 +60,8 @@
 class SeqActivity{
 	
 	
-	//It's quite bad design to declare these variables public (should be public), but for later JSON serialization PHP needs this
-	//cause json_encode ignores public or public variables
+	//It's quite bad design to declare these variables public (should be private), but for later JSON serialization PHP needs this
+	//cause json_encode ignores private or protected variables
 	
 	 
 	   //SeqRuleset
@@ -163,23 +165,18 @@ class SeqActivity{
 	   public $mAuxResources = null;
 
 	  //SeqRollupRuleset
-	   public  $mRollupRules = null;
+	   public $mRollupRules = null;
 
 	   public $mActiveMeasure = true;
 
-/*
-	   public String mRequiredForSatisfied = 
-	   SeqRollupRule.ROLLUP_CONSIDER_ALWAYS;
+	   public $mRequiredForSatisfied = ROLLUP_CONSIDER_ALWAYS;
 
-	   public String mRequiredForNotSatisfied =
-	   SeqRollupRule.ROLLUP_CONSIDER_ALWAYS;
+	   public $mRequiredForNotSatisfied = ROLLUP_CONSIDER_ALWAYS;
 
-	   public String mRequiredForCompleted = 
-	   SeqRollupRule.ROLLUP_CONSIDER_ALWAYS;
+	   public $mRequiredForCompleted = ROLLUP_CONSIDER_ALWAYS;
 
-	   public String mRequiredForIncomplete = 
-	   SeqRollupRule.ROLLUP_CONSIDER_ALWAYS;
-*/
+	   public $mRequiredForIncomplete = ROLLUP_CONSIDER_ALWAYS;
+	
 	   //convert to array
 	   public $mObjectives = null;
 
