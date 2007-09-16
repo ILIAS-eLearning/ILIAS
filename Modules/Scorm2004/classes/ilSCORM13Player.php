@@ -1,41 +1,30 @@
 <?php
-/**
- * ILIAS Open Source
- * --------------------------------
- * Implementation of ADL SCORM 2004
- * 
- * This program is free software. The use and distribution terms for this software
- * are covered by the GNU General Public License Version 2
- * 	<http://opensource.org/licenses/gpl-license.php>.
- * By using this software in any fashion, you are agreeing to be bound by the terms 
- * of this license.
- * 
- * Note: This code derives from other work by the original author that has been
- * published under Common Public License (CPL 1.0). Please send mail for more
- * information to <alfred.kohnert@bigfoot.com>.
- * 
- * You must not remove this notice, or any other, from this software.
- *  
- * PRELIMINARY EDITION 
- * This is work in progress and therefore incomplete and buggy ... 
- *  
- * Content-Type: application/x-httpd-php; charset=ISO-8859-1 
- * 
- * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id$
- * @copyright: (c) 2005-2007 Alfred Kohnert
- * 
- * Business class for demonstration of current state of ILIAS SCORM 2004 
- * 
- * For security reasons this is not connected to ILIAS database
- * but uses a small fake database in slite2 format.
- * Waits on finishing other sub tasks before being connected to ILIAS.
- * 
- * "Playing" a SCORM Package to the end user
- * showing navigation and resources
- * tracking CMI API data     
- */ 
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
 
+/**
+ * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
+*/
 
 //TODO remove when database integration is finished
 //define('IL_OP_USER_NAME', 'root');
