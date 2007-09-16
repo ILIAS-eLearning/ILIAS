@@ -1,30 +1,30 @@
-/**
- * ILIAS Open Source
- * --------------------------------
- * Implementation of ADL SCORM 2004
- * 
- * This program is free software. The use and distribution terms forsetResource this software
- * are covered by the GNU General Public License Version 2
- * 	<http://opensource.org/licenses/gpl-license.php>.
- * By using this software in any fashion, you are agreeing to be bound by the terms 
- * of this license.
- * 
- * You must not remove this notice, or any other, from this software.
- * 
- * PRELIMINARY EDITION
- * This is work in progress and therefore incomplete and buggy ...
- * 
- * Content-Type: application/x-javascript; charset=ISO-8859-1
- * Modul: SCORM2004 Player Core library 
- *  
- * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id$
- * @copyright: (c) 2007 Alfred Kohnert
- */ 
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
 
 /**
-* Log a Message
+ * @author  Hendrik Holtmann <holtmann@mac.com>, Alex Killing <alex.killing@gmx.de>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
 */
+
 
 
 function toggleTree() {
