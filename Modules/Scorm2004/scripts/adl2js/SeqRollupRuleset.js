@@ -264,6 +264,8 @@ SeqRollupRuleset.prototype =
 	
 	applyMeasureRollup: function (ioThisActivity)
 	{
+		sclogdump("MeasureRollup [RB.1.1]","seq");
+	   
 		var total = 0.0;
 		var countedMeasure = 0.0;
 		

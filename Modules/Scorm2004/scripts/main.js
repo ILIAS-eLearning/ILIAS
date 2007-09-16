@@ -46,7 +46,7 @@ function toggleLog() {
 	if (logState==false) {
 		elm.innerHTML="Hide Log";
 		logState=true;
-		onWindowResize();
+		onWindowResize()
 	} else {
 		elm.innerHTML="Show Log";
 		logState=false;
@@ -57,7 +57,24 @@ function toggleLog() {
 
 function sclog(mess, type)
 {
+	
+	//switch of sequencing-logging in general, cause of slowdown
+	if (type=="seq") return;
+	
 	elm = all("ilLogPre");
+	switch (type)
+	{
+		case "cmi": 
+			mess='<font color="green">'+mess+'</font>';
+		case "info": 
+			mess='<font color="orange">'+mess+'</font>';
+		case "error": 
+			mess='<font color="red">'+mess+'</font>';
+		case "seq": 
+			mess='<font color="blue">'+mess+'</font>';	
+		default: 
+			mess=mess;
+	}
 	if (elm) 
 	{
 		elm.innerHTML = elm.innerHTML + mess + '<br />';
@@ -80,12 +97,9 @@ function sclogclear()
 /**
 * Dump a variable
 */
-function sclogdump(param, depth)
+function sclogdump(param, type)
 {
-	if (!depth)
-	{
-		depth = 0;
-	}
+	depth = 0;
 	
 	var pre = ''
 	for (var j=0; j < depth; j++)
@@ -97,15 +111,15 @@ function sclogdump(param, depth)
 	switch (typeof param)
 	{
 		case 'boolean':
-			if(param) sclog(pre + "true (boolean)"); else sclog(pre + "false (boolean)");
+			if(param) sclog(pre + "true (boolean)"); else sclog(pre + "false (boolean)",type);
 			break;
 
 		case 'number':
-			sclog(pre + param + ' (number)');
+			sclog(pre + param + ' (number)',type);
 			break;
 
 		case 'string':
-			sclog(pre + param + ' (string)');
+			sclog(pre + param + ' (string)',type);
 			break;
 
 		case 'object':
@@ -113,20 +127,20 @@ function sclogdump(param, depth)
 			{
 				sclog(pre + 'null');
 			}
-			if (param instanceof Array) sclog(pre + '(Array) {');
+			if (param instanceof Array) sclog(pre + '(Array) {',type);
 			else if (param instanceof Object) sclog(pre + '(Object) {');
 			for (var k in param)
 			{
 				//if (param.hasOwnProperty(k)) // hasOwnProperty requires Safari 1.2
 				//{
-					if (typeof param[k] != "function")
+					if (typeof param[k] != "function",type)
 					{
 						sclog(pre + '[' + k + '] => ');
 						sclogdump(param[k], depth + 1);
 					}
 				//}
 			}
-			sclog(pre + '}');
+			sclog(pre + '}',type);
 			break;
 			
 		case 'function':
@@ -134,7 +148,7 @@ function sclogdump(param, depth)
 			break;
 
 		default:
-			sclog(pre + "unknown: " + (typeof param));
+			sclog(pre + "unknown: " + (typeof param),type);
 			break;
 		
 	}
@@ -1279,6 +1293,7 @@ function setResource(id, url, base)
 	onWindowResize();
 	//reset
 	adlnavreq=false;
+	sclogdump("Launched: "+id,"info");
 }
 
 function removeResource(callback) 

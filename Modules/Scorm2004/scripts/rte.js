@@ -171,35 +171,39 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
+				sclogdump("Not initialized","error");
 				return setReturn(122, '', '');
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
+					sclogdump("201: must be string","error");					
 					return setReturn(201, 'must be string', '');
 				}
 				if (sPath==='') 
 				{
+					sclogdump("301: cannot be empty string","error");
+					
 					return setReturn(301, 'cannot be empty string', '');
 				}
 				var r = getValue(sPath, false);
 				//log.info("Returned:"+ r.toString());
-				sclogdump("Return: "+sPath + " : "+ r);
+				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
 				return error ? '' : setReturn(0, '', r); 
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
+				sclogdump("Error 123: Terminated","error");
+			
 				return setReturn(123, '', '');
 		}	
 	}
 	
 	//allows to get data even after termination
 	function GetValueIntern(sPath) {
-		setReturn(-1, 'GetValueIntern(' + sPath + ')');
+		//setReturn(-1, 'GetValueIntern(' + sPath + ')');
 		
 		var r = getValue(sPath, false);
-		sclogdump("ReturnInern: "+sPath + " : "+ r);
-		return error ? '' : setReturn(0, '', r); 
-		
-		
+		//sclogdump("ReturnInern: "+sPath + " : "+ r);
+		return error ? '' : setReturn(0, '', r); 	
 		
 	}
 	
@@ -224,18 +228,22 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function SetValue(sPath, sValue) 
 	{
 		setReturn(-1, 'SetValue(' + sPath + ', ' + sValue + ')');
-		sclogdump("Set: "+sPath+" : "+sValue);
+		sclogdump("Set: "+sPath+" : "+sValue,"cmi");
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
+				sclogdump("Error 132: not initialized","error");
 				return setReturn(132, '', 'false');
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
+					sclogdump("Error 201: must be string","error");
 					return setReturn(201, 'must be string', 'false');
 				}
 				if (sPath==='') 
 				{
+					sclogdump("Error 351: 'Param 1 cannot be empty string","error");
+					
 					return setReturn(351, 'Param 1 cannot be empty string', 'false');
 				}
 				// we do not test datatype for there are to many scorm editors out there
@@ -253,13 +261,20 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				try 
 				{
 					var r = setValue(sPath, sValue);
+					if (!error) {
+						sclogdump("SetValue-return: "+ true,"cmi");
+					} else {
+						sclogdump("SetValue-return: "+ false,"error");
+					}	
 					return error ? 'false' : 'true'; 
 				} catch (e) 
 				{
+					sclogdump("351: Exception "+e,"error");
 					return setReturn(351, 'Exception ' + e, 'false');
 				}
 				break;
 			case TERMINATED:
+				sclogdump("Error 133: Terminated","error");
 				return setReturn(133, '', 'false');
 		}
 	}
