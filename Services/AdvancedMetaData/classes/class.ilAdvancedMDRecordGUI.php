@@ -124,6 +124,11 @@ class ilAdvancedMDRecordGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 		
+		if(!isset($_POST['md']))
+		{
+			return false;
+		}
+		
 		foreach($_POST['md'] as $field_id => $value)
 		{
 			$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
