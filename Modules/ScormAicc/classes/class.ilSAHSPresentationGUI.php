@@ -91,7 +91,7 @@ class ilSAHSPresentationGUI
 		{
 			
 			case "scorm2004":
-				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
+				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php");
 				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
 				break;
 				
