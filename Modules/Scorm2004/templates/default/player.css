@@ -24,9 +24,7 @@
 	display: block;
 }
 
-#treeView div {
-	margin-left: 8px;
-}
+
 
 #treeView a:hover {
 	text-decoration: underline;
