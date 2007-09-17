@@ -815,6 +815,7 @@ class assClozeTestGUI extends assQuestionGUI
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$output = $this->object->getClozeText();
+		$ssc = $this->object->_getSuggestedSolutionCount($this->object->getId());
 		foreach ($this->object->getGaps() as $gap_index => $gap)
 		{
 			$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -850,6 +851,17 @@ class assClozeTestGUI extends assQuestionGUI
 							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
 							$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 						}
+						$gaptemplate->parseCurrentBlock();
+					}
+				}
+				if ($ssc > 0)
+				{
+					$ss = $this->object->_getSuggestedSolution($this->object->getId(), $gap_index);
+					if (count($ss))
+					{
+						$gaptemplate->setCurrentBlock("solution_hint");
+						$gaptemplate->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+						$gaptemplate->setVariable("URL_SOLUTION_HINT", $this->object->_getInternalLinkHref($ss["internal_link"]));
 						$gaptemplate->parseCurrentBlock();
 					}
 				}
