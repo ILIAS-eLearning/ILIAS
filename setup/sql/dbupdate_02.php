@@ -2349,6 +2349,10 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1066>
+ALTER TABLE `cp_package` MODIFY `jsdata` MEDIUMTEXT;
+<#1067>
+ALTER TABLE `cp_package` MODIFY `activitytree` MEDIUMTEXT;
 
 
 
