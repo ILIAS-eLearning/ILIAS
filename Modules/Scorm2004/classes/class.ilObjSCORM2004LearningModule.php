@@ -22,20 +22,17 @@
 */
 
 
-require_once "classes/class.ilObject.php";
-//require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
-require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
+require_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
 
 /**
-* Class ilObjSCORMLearningModule
+* Class ilObjSCORM2004LearningModule
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id: class.ilObjSCORMLearningModule.php 13123 2007-01-29 13:57:16Z smeyer $
 *
 * @ingroup ModulesScormAicc
 */
-class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
+class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 {
 	var $validator;
 //	var $meta_data;
@@ -66,48 +63,6 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 		return true;
 	}
 
-	function getValidationSummary()
-	{
-		if(is_object($this->validator))
-		{
-			return $this->validator->getSummary();
-		}
-		return "";
-	}
-
-	function getTrackingItems()
-	{
-		return ilObjSCORMLearningModule::_getTrackingItems($this->getId());
-	}
-
-
-	/**
-	* get all tracking items of scorm object
-	* @access static
-	*/
-	function _getTrackingItems($a_obj_id)
-	{
-		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
-		$tree = new ilSCORMTree($a_obj_id);
-		$root_id = $tree->readRootId();
-
-		$items = array();
-		$childs = $tree->getSubTree($tree->getNodeData($root_id));
-		foreach($childs as $child)
-		{
-			if($child["type"] == "sit")
-			{
-				include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-				$sc_item =& new ilSCORMItem($child["obj_id"]);
-				if ($sc_item->getIdentifierRef() != "")
-				{
-					$items[count($items)] =& $sc_item;
-				}
-			}
-		}
-
-		return $items;
-	}
 
 	/**
 	* read manifest file
@@ -255,99 +210,45 @@ class ilObjSCORM2004LearningModule extends ilObjSAHSLearningModule
 		return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias);
 	}
 
-
 	/**
 	* get all tracked items of current user
 	*/
-	function getTrackedItems()
+	function getTrackedUsers()
 	{
 		global $ilUser, $ilDB, $ilUser;
 
-		$query = "SELECT DISTINCT sco_id FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId());
+		$query = "SELECT DISTINCT user_id FROM cmi_node, cp_node WHERE".
+			" cmi_node.cp_node_id = cp_node.cp_node_id ".
+			" AND cp_node.slm_id = ".$ilDB->quote($this->getId());
 
 		$sco_set = $ilDB->query($query);
 
 		$items = array();
 		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
-			if ($sc_item->getIdentifierRef() != "")
-			{
-				$items[count($items)] =& $sc_item;
-			}
+			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
+			$items[] = array("user_full_name" => $name["lastname"].", ".
+				$name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
+				"user_id" => $sco_rec["user_id"]);
 		}
 
 		return $items;
 	}
 
-	function getTrackingDataPerUser($a_sco_id, $a_user_id)
+	/**
+	* get all tracked items of current user
+	*/
+	function deleteTrackingDataOfUsers($a_users)
 	{
 		global $ilDB;
-
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId()).
-			" AND sco_id = ".$ilDB->quote($a_sco_id).
-			" AND user_id = ".$ilDB->quote($a_user_id).
-			" ORDER BY lvalue";
-		$data_set = $ilDB->query($query);
-
-		$data = array();
-		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+		
+		foreach($a_users as $user)
 		{
-			$data[] = $data_rec;
+			$q = "DELETE FROM cmi_node WHERE user_id = ".$ilDB->quote($user).
+				" AND cp_node_id IN (SELECT cp_node_id FROM cp_node WHERE slm_id = ".
+				$ilDB->quote($this->getId()).")";
+			$ilDB->query($q);
 		}
-
-		return $data;
-	}
-
-	function getTrackingDataAgg($a_sco_id)
-	{
-		global $ilDB;
-
-		// get all users with any tracking data
-		$query = "SELECT DISTINCT user_id FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId()).
-			" AND sco_id = ".$ilDB->quote($a_sco_id);
-			//" ORDER BY user_id, lvalue";
-		$user_set = $ilDB->query($query);
-
-		$data = array();
-		while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$query = "SELECT * FROM scorm_tracking WHERE".
-				" obj_id = ".$ilDB->quote($this->getId()).
-				" AND sco_id = ".$ilDB->quote($a_sco_id).
-				" AND user_id =".$ilDB->quote($user_rec["user_id"]).
-				" AND (lvalue =".$ilDB->quote("cmi.core.lesson_status").
-				" OR lvalue =".$ilDB->quote("cmi.core.total_time").
-				" OR lvalue =".$ilDB->quote("cmi.core.score.raw").")";
-			$data_set = $ilDB->query($query);
-			$score = $time = $status = "";
-			while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				switch($data_rec["lvalue"])
-				{
-					case "cmi.core.lesson_status":
-						$status = $data_rec["rvalue"];
-						break;
-
-					case "cmi.core.total_time":
-						$time = $data_rec["rvalue"];
-						break;
-
-					case "cmi.core.score.raw":
-						$score = $data_rec["rvalue"];
-						break;
-				}
-			}
-
-			$data[] = array("user_id" => $user_rec["user_id"],
-				"score" => $score, "time" => $time, "status" => $status);
-		}
-
-		return $data;
 	}
 
 } // END class.ilObjSCORMLearningModule

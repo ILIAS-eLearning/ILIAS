@@ -147,6 +147,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				{
 					$cmd.= "Object";
 				}
+
 				$ret =& $this->$cmd();
 				break;
 		}
@@ -299,7 +300,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			
 			case "scorm2004":
-				include_once("./Modules/ScormAicc/classes/class.ilObjSCORM2004LearningModule.php");
+				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 				$newObj = new ilObjSCORM2004LearningModule();
 				break;
 
@@ -453,7 +454,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$tabs_gui->addTarget("info_short",
 			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilinfoscreengui", "", $force_active);
-
+			
 		// properties
 		$tabs_gui->addTarget("properties",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",

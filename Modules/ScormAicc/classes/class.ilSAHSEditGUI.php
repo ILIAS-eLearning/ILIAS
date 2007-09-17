@@ -31,6 +31,7 @@
 * @version $Id: class.ilSAHSPresentationGUI.php 11714 2006-07-30 17:15:55Z akill $
 *
 * @ilCtrl_Calls ilSAHSEditGUI: ilObjSCORMLearningModuleGUI, ilObjAICCLearningModuleGUI, ilObjHACPLearningModuleGUI
+* @ilCtrl_Calls ilSAHSEditGUI: ilObjSCORM2004LearningModuleGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -83,8 +84,8 @@ class ilSAHSEditGUI
 		{
 			
 			case "scorm2004":
-				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
-				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
+				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php");
+				$this->slm_gui = new ilObjSCORM2004LearningModuleGUI("", $_GET["ref_id"],true,false);
 				break;
 				
 			case "scorm":
@@ -109,7 +110,7 @@ class ilSAHSEditGUI
 			{
 				
 				case "scorm2004":
-					$this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
+					$this->ctrl->setCmdClass("ilobjscorm2004learningmodulegui");
 					break;
 					
 				case "scorm":
@@ -130,6 +131,7 @@ class ilSAHSEditGUI
 		switch($next_class)
 		{
 			case "ilobjscormlearningmodulegui":
+			case "ilobjscorm2004learningmodulegui":
 				$ret =& $this->ctrl->forwardCommand($this->slm_gui);
 				break;
 

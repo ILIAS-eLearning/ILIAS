@@ -759,6 +759,7 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
 			$this->tpl->parseCurrentBlock();
 			$arrow = true;
+			$action_row = true;
 		}
 
 		if ($arrow)
