@@ -82,6 +82,7 @@ function sclog(mess, type)
 		if (elm) 
 		{
 			elm.innerHTML = elm.innerHTML + mess + '<br />';
+			sclogscroll()
 		}
 	}
 	else
@@ -99,6 +100,7 @@ function sclogflush()
 	if (elm) 
 	{
 		elm.innerHTML = elm.innerHTML + log_buffer;
+		sclogscroll()
 	}
 	log_buffer = "";
 }
@@ -114,7 +116,6 @@ function sclogclear()
 		elm.innerHTML = '';
 	}
 }
-
 
 /**
 * Dump a variable
@@ -176,7 +177,24 @@ function sclogdump(param, type)
 	}
 }
 
-
+//var scrcnt = 0;
+/**
+* scroll the log div to the end
+*/
+function sclogscroll()
+{
+	var top = document.getElementById('ilLog').scrollTop;
+	var height = document.getElementById('ilLog').scrollHeight;
+	var offset = document.getElementById('ilLog').offsetHeight;
+	
+//alert ("Top: " + top + ", Height: " + height + ", Offset: " + offset);
+	
+	if (top < 
+		(height - offset - 1))
+	{
+		document.getElementById('ilLog').scrollTop = height - offset + 20;
+	}
+}
 
 
 /* Time related Data Types */
