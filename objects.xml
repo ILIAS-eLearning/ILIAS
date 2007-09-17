@@ -503,5 +503,8 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-
+<object name="mds" class_name="MDSettings" location="Services/MetaData/classes" module="Services/MetaData" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="settings">settings</property>
+	<property name="md_advanced_settings">md_advanced</property>
+</object>
 </objects>
