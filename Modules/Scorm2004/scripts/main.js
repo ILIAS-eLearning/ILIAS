@@ -177,7 +177,6 @@ function sclogdump(param, type)
 	}
 }
 
-//var scrcnt = 0;
 /**
 * scroll the log div to the end
 */
