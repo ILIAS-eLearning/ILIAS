@@ -25,8 +25,11 @@
  * @version $Id$
 */
 
+// settings for log
+var log_auto_flush = true;
 
 
+var log_buffer = "";
 function toggleTree() {
 	elm = all("toggleTree");
 	
@@ -54,14 +57,12 @@ function toggleLog() {
 	}
 }
 
-
 function sclog(mess, type)
 {
 	
 	//switch of sequencing-logging in general, cause of slowdown
 	if (type=="seq") return;
 	
-	elm = all("ilLogPre");
 	switch (type)
 	{
 		case "cmi": 
@@ -75,10 +76,31 @@ function sclog(mess, type)
 		default: 
 			mess=mess;
 	}
+	if (log_auto_flush)
+	{
+		elm = all("ilLogPre");
+		if (elm) 
+		{
+			elm.innerHTML = elm.innerHTML + mess + '<br />';
+		}
+	}
+	else
+	{
+		log_buffer = log_buffer + mess + '<br />';
+	}
+}
+
+/**
+* flush log
+*/
+function sclogflush()
+{
+	elm = all("ilLogPre");
 	if (elm) 
 	{
-		elm.innerHTML = elm.innerHTML + mess + '<br />';
+		elm.innerHTML = elm.innerHTML + log_buffer;
 	}
+	log_buffer = "";
 }
 
 /**
