@@ -26,7 +26,7 @@
 */
 
 // settings for log
-var log_auto_flush = true;
+var log_auto_flush = false;
 
 
 var log_buffer = "";
@@ -1284,15 +1284,12 @@ function updateControls(controlState)
 	}	
 }
 
+
 function setResource(id, url, base) 
 {
 	
-	//Internetexplorer sets the path different, if inner sco navigation is active
-	if(!(adlnavreq) || isIE()) 
-	{
-		url = base + url;
-	}
-	
+	url= base + url;
+
 	if (!top.frames[RESOURCE_NAME])
 	{
 		var elm = window.document.getElementById(RESOURCE_PARENT);
@@ -1333,6 +1330,7 @@ function setResource(id, url, base)
 	//reset
 	adlnavreq=false;
 	sclogdump("Launched: "+id,"info");
+	sclogflush();
 }
 
 function removeResource(callback) 

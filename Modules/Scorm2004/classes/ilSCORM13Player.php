@@ -230,8 +230,9 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 	
 	function getDataDirectory($mode = "filesystem")
 	{
-		$lm_data_dir = ilUtil::getWebspaceDir($mode)."/lm_data";
-		$lm_dir = $lm_data_dir."/lm_".$this->packageId;
+	 	global $ilIliasIniFile;
+		//load ressources always with absolute URL..relative URLS fail on innersco navigation on certain browsers
+		$lm_dir=$ilIliasIniFile->readVariable("server", "http_path")."/".ILIAS_WEB_DIR."/".$this->ilias->client_id ."/lm_data"."/lm_".$this->packageId;
 		return $lm_dir;
 	}
 		
