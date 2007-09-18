@@ -686,7 +686,7 @@ class ilColumnGUI
 	*/
 	function updateBlock()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilBench;
 		
 		$this->determineBlocks();
 		$i = 1;
@@ -748,6 +748,7 @@ class ilColumnGUI
 
 				$ilCtrl->setParameter($this, "block_type", $block["type"]);
 				echo $ilCtrl->getHTML($block_gui);
+				$ilBench->save();
 				exit;
 			}
 			
