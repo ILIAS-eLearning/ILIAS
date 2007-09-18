@@ -204,6 +204,7 @@ class ilFeedWriter
 	
 	function showFeed()
 	{
+		//header("Content-Type: text/xml; charset=UTF-8;");
 		echo $this->getFeed();
 	}
 }

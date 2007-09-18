@@ -302,45 +302,9 @@ class ilSCORMExplorer extends ilExplorer
 	{
 		global $lng;
 
-		/*
-		if ($a_type != "sit")
-		{
-			return;
-		}
-		else
-		{
-			$sc_object =& new ilSCORMItem($a_id);
-			if ($sc_object->getIdentifierRef() != "")
-			{
-				$trdata = $sc_object->getTrackingDataOfUser();
-
-				// credits
-				if ($trdata["mastery_score"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_credits"));
-					$tpl->setVariable("TXT_VALUE", $trdata["mastery_score"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				// total time
-				if ($trdata["total_time"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_total_time"));
-					$tpl->setVariable("TXT_VALUE", $trdata["total_time"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock("item_table");
-				$tpl->parseCurrentBlock();
-			}
-		}*/
 	}
 
-
-
-/**
+	/**
 	* Creates output
 	* recursive method
 	* @access	private
@@ -472,11 +436,9 @@ class ilSCORMExplorer extends ilExplorer
 				$tpl->parseCurrentBlock();
 				return;
 			}
-		
-			//$sc_object = & $this->getItem($a_node_id);
 
-			//$trdata = $sc_object->getTrackingDataOfUser();
-			$trdata = ilSCORMItem::_lookupTrackingDataOfUser($a_node_id);
+			$trdata = ilSCORMItem::_lookupTrackingDataOfUser($a_node_id, 0,
+				$this->slm_obj->getId());
 
 			// status
 			$status = ($trdata["cmi.core.lesson_status"] == "")
