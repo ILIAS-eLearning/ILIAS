@@ -3005,6 +3005,10 @@ news#:#news_public_feed#:#Extra RSS Feed
 news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed is provided for this item.
 news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 feed#:#feed_feed_items#:#Feed Item(s)
+feed#:#feed_proxy#:#Proxy Host
+feed#:#feed_proxy_info#:#Proxy host for socket connection
+feed#:#feed_proxy_port#:#Proxy Port
+feed#:#feed_proxy_port_info#:#Proxy port for socket connection
 feed#:#feed_loading_feed#:#Loading Feed...
 feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.
 feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories
