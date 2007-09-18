@@ -194,13 +194,12 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function __checkDirectLink()
 	{
-		if($this->single_link !== null)
+		if(isset($this->single_link[$this->obj_id]))
 		{
-			return $this->single_link;
+			return $this->single_link[$this->obj_id];
 		}
 		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-		
-		return $this->single_link = ilLinkResourceItems::_isSingular($this->obj_id);
+		return $this->single_link[$this->obj_id] = ilLinkResourceItems::_isSingular($this->obj_id);
 	}
 
 	/**
