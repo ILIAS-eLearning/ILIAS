@@ -39,7 +39,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 {
 	function ilObjectFeedWriter($a_ref_id)
 	{
-		global $ilAccess, $ilSetting, $lng;
+		global $ilSetting, $lng;
 		
 		parent::ilFeedWriter();
 		

@@ -40,7 +40,7 @@ class ilUserFeedWriter extends ilFeedWriter
 	
 	function ilUserFeedWriter($a_user_id, $a_hash)
 	{
-		global $ilSetting;
+		global $ilSetting, $lng;
 		
 		parent::ilFeedWriter();
 		
@@ -75,9 +75,30 @@ class ilUserFeedWriter extends ilFeedWriter
 			$i = 0;
 			foreach($items as $item)
 			{
+				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+				$obj_type = ilObject::_lookupType($obj_id);
+				$obj_title = ilObject::_lookupTitle($obj_id);
+
+				// not nice, to do: general solution
+				if ($obj_type == "mcst")
+				{
+					include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
+					if (!ilObjMediaCastAccess::_lookupOnline($obj_id))
+					{
+						continue;
+					}
+				}
+
 				$i++;
 				$feed_item = new ilFeedItem();
-				$feed_item->setTitle($this->prepareStr($item["title"]));
+				if ($item["content_is_lang_var"])
+				{
+					$feed_item->setTitle($obj_title.": ".$this->prepareStr($lng->txt($item["title"])));
+				}
+				else
+				{
+					$feed_item->setTitle($obj_title.": ".$this->prepareStr($item["title"]));
+				}
 				$feed_item->setDescription($this->prepareStr($item["content"]));
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);

@@ -109,7 +109,8 @@ class ilObjSCORMTracking
 				$q = "SELECT * FROM scorm_tracking WHERE ".
 					" user_id = ".$ilDB->quote($user_id).
 					" AND sco_id = ".$ilDB->quote($sahs_id).
-					" AND lvalue = ".$ilDB->quote($insert["left"]);
+					" AND lvalue = ".$ilDB->quote($insert["left"]).
+					" AND obj_id = ".$ilDB->quote($obj_id);
 				$set = $ilDB->query($q);
 				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
@@ -132,7 +133,8 @@ class ilObjSCORMTracking
 				$q = "SELECT * FROM scorm_tracking WHERE ".
 					" user_id = ".$ilDB->quote($user_id).
 					" AND sco_id = ".$ilDB->quote($sahs_id).
-					" AND lvalue = ".$ilDB->quote($update["left"]);
+					" AND lvalue = ".$ilDB->quote($update["left"]).
+					" AND obj_id = ".$ilDB->quote($obj_id);
 				$set = $ilDB->query($q);
 				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 				{

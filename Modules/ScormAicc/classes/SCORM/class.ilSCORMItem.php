@@ -249,7 +249,8 @@ class ilSCORMItem extends ilSCORMObject
 
 		$q = "SELECT * FROM scorm_tracking WHERE ".
 			"sco_id = ".$ilDB->quote($this->getId())." AND ".
-			"user_id = ".$ilDB->quote($a_user_id);
+			"user_id = ".$ilDB->quote($a_user_id).
+			" AND obj_id = ".$ilDB->quote($this->getSLMId());
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();
@@ -261,7 +262,7 @@ class ilSCORMItem extends ilSCORMObject
 		return $trdata;
 	}
 
-	function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0)
+	function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0)
 	{
 		global $ilDB, $ilUser;
 
@@ -272,7 +273,8 @@ class ilSCORMItem extends ilSCORMObject
 
 		$q = "SELECT * FROM scorm_tracking WHERE ".
 			"sco_id = ".$ilDB->quote($a_item_id)." AND ".
-			"user_id = ".$ilDB->quote($a_user_id);
+			"user_id = ".$ilDB->quote($a_user_id).
+			" AND obj_id = ".$ilDB->quote($a_obj_id);
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();
@@ -294,7 +296,8 @@ class ilSCORMItem extends ilSCORMObject
 		$ilDB->query($q);
 
 		$q = "DELETE FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId());
+			"sco_id = ".$ilDB->quote($this->getId()).
+			" AND obj_id = ".$ilDB->quote($this->getSLMId());
 		$ilDB->query($q);
 
 	}
