@@ -159,7 +159,7 @@ class ilCronClients extends PEAR
 				}
 				else
 				{
-					include_once '../classes/class.ilLog.php';
+					include_once '../Services/Logging/classes/class.ilLog.php';
 					
 					$log =& new ilLog($this->log['path'],$this->log['file']);
 					$log->write('Cron: Database not up to date. Aborting');
@@ -227,7 +227,7 @@ class ilCronClients extends PEAR
 			{
 				if($this->log['enabled'])
 				{
-					include_once '../classes/class.ilLog.php';
+					include_once '../Services/Logging/classes/class.ilLog.php';
 
 					$this->log =& new ilLog($this->log['path'],$this->log['file']);
 

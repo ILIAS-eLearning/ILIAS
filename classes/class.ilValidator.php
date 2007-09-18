@@ -147,7 +147,7 @@ class ilValidator extends PEAR
 
 			// should be available thru inc.header.php
 			// TODO: move log functionality to new class ilScanLog
-			include_once "classes/class.ilLog.php";
+			include_once "./Services/Logging/classes/class.ilLog.php";
 		
 			// Delete old scan log
 			$this->deleteScanLog();
