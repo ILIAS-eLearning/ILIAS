@@ -52,7 +52,7 @@ require_once "./classes/class.ilTemplate.php";	// modified class. needs to be me
 
 require_once "../include/inc.check_pear.php";
 require_once "./classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 
-require_once "../classes/class.ilLog.php";
+require_once "../Services/Logging/classes/class.ilLog.php";
 require_once "../Services/Utilities/classes/class.ilUtil.php";
 require_once "../classes/class.ilIniFile.php";
 require_once "../classes/class.ilDBx.php";

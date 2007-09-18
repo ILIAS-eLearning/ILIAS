@@ -105,7 +105,7 @@ class ilSurveyQuestionpoolExport
 
 		// get Log File
 		$expDir = $this->spl_obj->getExportDirectory();
-		include_once "./classes/class.ilLog.php";
+		include_once "./Services/Logging/classes/class.ilLog.php";
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");

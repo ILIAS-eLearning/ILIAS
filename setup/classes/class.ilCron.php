@@ -46,7 +46,7 @@ class ilCron
 
 	function initLog($path,$file,$client)
 	{
-		include_once '../classes/class.ilLog.php';
+		include_once '../Services/Logging/classes/class.ilLog.php';
 
 		$this->log =& new ilLog($path,$file,$client);
 
