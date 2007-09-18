@@ -209,6 +209,20 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 			5 => "5"));
 		$sel->setValue($nr_personal_desktop_feeds);
 		$form->addItem($sel);
+
+		// Proxy
+		$prox = new ilTextInputGUI($lng->txt("feed_proxy"), "proxy");
+		$prox->setInfo($lng->txt("feed_proxy_info"));
+		$prox->setValue($feed_set->get("proxy"));
+		$form->addItem($prox);
+
+		// Proxy Port
+		$proxp = new ilTextInputGUI($lng->txt("feed_proxy_port"), "proxy_port");
+		$proxp->setInfo($lng->txt("feed_proxy_port_info"));
+		$proxp->setSize(10);
+		$proxp->setMaxLength(10);
+		$proxp->setValue($feed_set->get("proxy_port"));
+		$form->addItem($proxp);
 		
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
@@ -242,6 +256,9 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		{
 			$ilSetting->set("block_activated_pdfeed", 0);
 		}
+		$feed_set->set("proxy", trim($_POST["proxy"]));
+		$feed_set->set("proxy_port", trim($_POST["proxy_port"]));
+		
 		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 		
 		$ilCtrl->redirect($this, "view");
