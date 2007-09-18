@@ -2360,4 +2360,14 @@ ALTER TABLE `cp_package` MODIFY `activitytree` MEDIUMTEXT;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1069>
+CREATE TABLE IF NOT EXISTS `il_log` (
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `level` int NOT NULL DEFAULT 0,
+  `message` varchar(250) NOT NULL default '',
+  `module` varchar(50) NOT NULL default '',
+  INDEX `created`(`created`),
+  INDEX `module`(`module`),
+  INDEX `level`(`level`)
+) Type=MyISAM;
 
