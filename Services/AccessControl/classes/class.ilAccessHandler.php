@@ -615,8 +615,10 @@ class ilAccessHandler
 		include_once($location."/class.".$full_class.".php");
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 
+		$ilBench->start("AccessControl", "5001_checkAccess_".$full_class."_check");
 		$obj_access = call_user_func(array($full_class, "_checkAccess"),
 			$a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
+		$ilBench->stop("AccessControl", "5001_checkAccess_".$full_class."_check");
 
 		if (!($obj_access === true))
 		{
