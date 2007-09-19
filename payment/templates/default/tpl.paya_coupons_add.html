@@ -26,53 +26,11 @@
 </tr>
 <tr>
 	<td class="option">{TXT_VALID_FROM}</td>
-	<td class="option_value">
-		<select name="from[day]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_from_day -->
-			<option value="{LOOP_FROM_DAY}"{LOOP_FROM_DAY_SELECTED}>{LOOP_FROM_DAY}</option>
-<!-- END loop_from_day -->
-		</select>
-		.
-		<select name="from[month]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_from_month -->
-			<option value="{LOOP_FROM_MONTH}"{LOOP_FROM_MONTH_SELECTED}>{LOOP_FROM_MONTH}</option>
-<!-- END loop_from_month -->
-		</select>
-		.
-		<select name="from[year]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_from_year -->
-			<option value="{LOOP_FROM_YEAR}"{LOOP_FROM_YEAR_SELECTED}>{LOOP_FROM_YEAR}</option>
-<!-- END loop_from_year -->
-		</select>	
-	</td>
+	<td class="option_value"><input type="checkbox" name="pc_from_enabled" id="chs_starting_date" value="1"{CHECKED_STARTING_DATE} /> <label for="chs_starting_date">{TXT_ENABLED}</label><br />{DATE_FROM}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_VADID_TILL}</td>
-	<td class="option_value">
-		<select name="till[day]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_till_day -->
-			<option value="{LOOP_TILL_DAY}"{LOOP_TILL_DAY_SELECTED}>{LOOP_TILL_DAY}</option>
-<!-- END loop_till_day -->
-		</select>
-		.
-		<select name="till[month]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_till_month -->
-			<option value="{LOOP_TILL_MONTH}"{LOOP_TILL_MONTH_SELECTED}>{LOOP_TILL_MONTH}</option>
-<!-- END loop_till_month -->
-		</select>
-		.
-		<select name="till[year]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_till_year -->
-			<option value="{LOOP_TILL_YEAR}"{LOOP_TILL_YEAR_SELECTED}>{LOOP_TILL_YEAR}</option>
-<!-- END loop_till_year -->
-		</select>	
-	</td>
+	<td class="option_value"><input type="checkbox" name="pc_till_enabled" id="chs_ending_date" value="1"{CHECKED_ENDING_DATE} /> <label for="chs_ending_date">{TXT_ENABLED}</label><br />{DATE_TILL}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_USAGE}</td>

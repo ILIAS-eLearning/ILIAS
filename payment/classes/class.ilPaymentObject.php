@@ -204,13 +204,6 @@ class ilPaymentObject
 		}
 		return 0;
 	}
-		
-
-	// only called from payment settings object. Since there is no vendor check.
-	function _getAllObjectsData()
-	{
-		;
-	}
 
 	function _getObjectsData($a_user_id)
 	{
@@ -238,6 +231,83 @@ class ilPaymentObject
 		$query = "SELECT * FROM payment_objects ".
 			"WHERE vendor_id ".$in;
 
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
+			$objects[$row->pobject_id]['ref_id'] = $row->ref_id;
+			$objects[$row->pobject_id]['status'] = $row->status;
+			$objects[$row->pobject_id]['pay_method'] = $row->pay_method;
+			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
+		}
+		return $objects ? $objects : array();
+	}
+	
+	function _getAllObjectsData()
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_objects ";
+		
+		if ($_SESSION["pay_objects"]["title_value"] != "")
+		{
+			$query .= ", object_reference AS obr ";
+			$query .= ", object_data AS od ";
+		}
+		
+		if ($_SESSION['pay_objects']['vendor'] != "")
+		{
+			$query .= ", usr_data AS ud ";
+		}
+		
+		$query .=	" WHERE 1 ";		
+		
+		if ($_SESSION["pay_objects"]["title_value"])
+		{			
+			$query .= " AND obr.ref_id = payment_objects.ref_id AND od.obj_id = obr.obj_id ";
+			
+			$search_string = "";
+			
+			$title_search = explode(" ", trim($_SESSION["pay_objects"]["title_value"]));
+			for ($i = 0; $i < count($title_search); $i++)
+			{
+				$title_search[$i] = trim($title_search[$i]);
+				
+				if ($title_search[$i] != "")
+				{
+					$search_string .= " od.title LIKE ".$ilDB->quote("%".$title_search[$i]."%")."  ";
+					
+					switch ($_SESSION["pay_objects"]["title_type"])
+					{
+						case "or" :
+								if ($i < count($title_search) - 1) $search_string .= " OR ";
+								break;
+						case "and" :
+								if ($i < count($title_search) - 1) $search_string .= " AND ";
+								break;
+					}
+				}
+			}
+			
+			if ($search_string != "")
+			{
+				$query .= " AND (" . $search_string . ") ";
+			}
+		}
+		
+		if ($_SESSION['pay_objects']['vendor'] != "")
+		{
+			$query .= " AND ud.usr_id = payment_objects.vendor_id AND login = ".$ilDB->quote($_SESSION["pay_objects"]["vendor"])." ";
+		}
+		
+			
+		if ($_SESSION["pay_objects"]["pay_method"] == "1" ||
+			$_SESSION["pay_objects"]["pay_method"] == "2" ||
+			$_SESSION["pay_objects"]["pay_method"] == "3")
+		{
+			$query .= " AND pay_method = '" . $_SESSION["pay_objects"]["pay_method"] . "' ";
+		}		
+		
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

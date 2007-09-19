@@ -1,162 +1,31 @@
-		<form action="{ACTION}" METHOD="post">
-		<table class="fullwidth">
-		
-		<!-- BEGIN addr -->
-		<tr class="tblheader"><td class="std" colspan="7">{TXT_ADDR}</td></tr>
-		<!-- BEGIN addr_header -->
-		<tr class="tblheader">
-			<td class="std"  width="4%">
-				&nbsp;
-			</td>
-			<td class="std" >
-				<b>{TXT_ADDR_LOGIN}</b>
-			</td>
-			<td class="std" >
-				<b>{TXT_ADDR_FIRSTNAME}</b>
-			</td>
-			<td class="std" >
-				<b>{TXT_ADDR_LASTNAME}</b>
-			</td>
-			<td class="std"  width="4%">
-				&nbsp;
-			</td>
-			<td class="std" >
-				<b>{TXT_ADDR_EMAIL}</b>
-			</td>
-		</tr>
-		<!-- END addr_header -->
-
-		<!-- BEGIN addr_search -->
-		<tr class="{ADDR_CSSROW}">
-			<td class="std" align="center">
-				<input type="checkbox" name="search_name[]" value="{ADDR_LOGIN_A}"/>
-			</td>
-			<td class="std"  valign="top">{ADDR_LOGIN_B}</td>
-			<td class="std"  valign="top">{ADDR_FIRSTNAME}</td>
-			<td class="std"  valign="top">{ADDR_LASTNAME}</td>
-			<td class="std" align="center">
-				<input type="checkbox" name="search_name[]" value="{ADDR_EMAIL_A}"/>
-			</td>
-			<td class="std"  valign="top">{ADDR_EMAIL_B}</td>
-		</tr>
-		<!-- END addr_search -->
-		<!-- BEGIN addr_no_content -->
-		<tr class="tblrow1">
-			<td class="std"  colspan="6" align="center">{TXT_ADDR_NO}</td>
-		</tr>
-		<!-- END addr_no_content -->
-		<!-- END addr -->
-		
-		<!-- BEGIN system -->
-		<tr class="tblheader"><td class="std" colspan="7">{TXT_SYSTEM_PERSONS}</td></tr>
-		<!-- BEGIN system_header -->
-		<tr class="tblheader" valign="top">
-			<td class="std" width="4%">
-				&nbsp;
-			</td>
-			<td class="std" >
-				<b>{TXT_SYSTEM_LOGIN}</b>
-			</td>
-			<td class="std" >
-				<b>{TXT_SYSTEM_FIRSTNAME}</b>
-			</td>
-			<td class="std" >
-				<b>{TXT_SYSTEM_LASTNAME}</b>
-			</td>
-		<!-- BEGIN smtp -->
-			<td class="std" width="4%">
-				&nbsp;
-			</td>
-			<td class="std" >
-				<b>{TXT_SYSTEM_EMAIL}</b>
-			</td>
-		<!-- END smtp -->
-		<!-- BEGIN no_smtp -->
-			<td class="std" width="4%" colspan="2">
-				&nbsp;
-			</td>
-		<!-- END no_smtp -->
-		</tr>
-		<!-- END system_header -->
-		
-		<!-- BEGIN person_search -->
-		<tr class="{CSSROW}">
-			<td class="std" align="center">	
-				<input type="checkbox" name="search_name[]" value="{PERSON_LOGIN_A}"/>
-			</td>
-			<td class="std"  valign="top">{PERSON_LOGIN_B}</td>
-			<td class="std"  valign="top">{PERSON_FIRSTNAME}</td>
-			<td class="std"  valign="top">{PERSON_LASTNAME}</td>		
-		<!-- BEGIN smtp_row -->
-			<td class="std" align="center">
-				<input type="checkbox" name="search_name[]" value="{PERSON_EMAIL_A}"/>
-			</td>
-			<td class="std"  valign="top">{PERSON_EMAIL_B}</td>
-		<!-- END smtp_row -->
-		<!-- BEGIN no_smtp_row -->
-			<td class="std"  valign="top" colspan="2">{PERSON_NO_EMAIL}</td>
-		<!-- END no_smtp_row -->
-		</tr>
-		<!-- END person_search -->
-
-		<!-- BEGIN no_system_content -->
-		<tr class="tblrow1">
-			<td class="std"  colspan="6" align="center">{TXT_SYSTEM_NO}</td>
-		</tr>
-		<!-- END no_system_content -->
-		<!-- END system -->
-		
-		<!-- BEGIN groups -->
-		<tr class="tblheader"><td class="std" colspan="7">{TXT_SYSTEM_GROUPS}</td></tr>
-		<!-- BEGIN group_headers -->
-		<tr class="tblheader" valign="top">
-			<td class="std" width="4%">
-				&nbsp;
-			</td>
-			<td class="std" >
-				<b>{TXT_GROUP_TITLE}</b>
-			</td>
-			<td class="std" colspan="4" >
-				<b>{TXT_GROUP_DESC}</b>
-			</td>
-		</tr>
-		<!-- END group_headers -->
-		
-		<!-- BEGIN group_search -->
-		<tr class="{GROUP_CSSROW}">
-			<td class="std" align="center">
-				<input type="checkbox" name="search_name[]" value="{GROUP_NAME}"/>
-			</td>
-			<td class="std"  valign="top">{GROUP_TITLE}</td>
-			<td class="std"  valign="top" colspan="4">{GROUP_DESC}</td>
-		</tr>
-		<!-- END group_search -->
-
-		<!-- BEGIN no_groups_content -->
-		<tr class="tblrow1">
-			<td class="std"  colspan="6" align="center">{TXT_GROUPS_NO}</td>
-		</tr>
-		<!-- END no_groups_content -->
-		<!-- END groups -->
-
-		<tr class="tblfooter">
-			<td class="submit"  width="4%" align="center">
-				<img src="templates/default/images/arrow_downright.gif" />
-			</td>
-			<td class="submit" colspan="5">
-		<!-- BEGIN list -->
-				<input class="submit" type="submit" name="cmd[list]" value="{BUTTON_LIST}"/>
-		<!-- END list -->	
-		<!-- BEGIN adopt -->
-				<input class="submit" type="submit" name="cmd[adopt]" value="{BUTTON_ADOPT}"/>
-		<!-- END adopt -->
-				<input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}"/>
-			</td>
-		</tr>
-
-		</table>
-		</form>
-
-	</td>
-</tr>
-</table>
+<form action="{ACTION}" method="post">
+	<table class="std">
+	<tr>
+		<td id="header-search" class="option" align="right">{TXT_SEARCH_FOR}</td>
+		<td headers="header-search" class="option_value">
+			<input name="search" value="{VALUE_SEARCH_FOR}" size="30" width="80%"/><br/>
+			<input type="checkbox" name="type_addressbook" value="address"{CHECKED_TYPE_ADDRESSBOOK} />{TXT_SEARCH_ADDRESS}<br/>
+			<input type="checkbox" name="type_system" value="system"{CHECKED_TYPE_SYSTEM} />{TXT_SEARCH_SYSTEM}<br/>
+			<input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
+			<input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}"/>
+		</td>
+	</tr>
+	</table>
+	<!-- BEGIN hits -->
+	<p>
+	{TABLE_ADDR}
+	{TABLE_USERS}
+	{TABLE_GRP}	
+	<table class="fullwidth">
+	<tr class="tblfooter">
+		<td class="submit"  width="4%" align="center">
+			 <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" />
+		</td>
+		<td class="submit">
+			<input class="submit" type="submit" name="cmd[adopt]" value="{BUTTON_ADOPT}"/>
+		</td>
+	</tr>		
+	</table>
+	</p>
+	<!-- END hits -->
+</form>

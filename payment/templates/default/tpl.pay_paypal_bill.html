@@ -34,9 +34,37 @@
 	<td nowrap valign="top">{LOOP_PRICE}</td>
 </tr>
 <!-- END loop -->
+<tr bgcolor="#CCCCCC">
+	<td width="100%" colspan="2">
+		<div align="right">
+		<table align="right">
+		<!-- BEGIN coupons -->
+		<tr>
+			<td align="right"><b>{TXT_SUBTOTAL_AMOUNT}:</b></td>
+			<td align="right"><b>{SUBTOTAL_AMOUNT}</b></td>
+		</tr>
+		<!-- BEGIN cloop -->
+		<tr>
+			<td align="right">{TXT_COUPON}:</td>
+			<td align="right">{BONUS}</td>
+		</tr>
+		<!-- END cloop -->
+		<!-- END coupons -->
+		<tr>
+			<td align="right"><b>{TXT_TOTAL_AMOUNT}:</b></td>
+			<td align="right"><b>{TOTAL_AMOUNT}</b></td>
+		</tr>
+		<!-- BEGIN vat -->
+		<tr>
+			<td align="right"><font size=-2>{TXT_VAT}:</font></td>
+			<td align="right"><font size=-2> {VAT}</font></td>
+		</tr>
+		<!-- END vat -->
+		</table>
+		</div>
+	</td>
+</tr>
 </table>
-
-<p><b>{TXT_TOTAL_AMOUNT}: {TOTAL_AMOUNT}</b><!-- BEGIN vat --><br><font size=-2>{TXT_VAT}: {VAT}</font><!-- END vat --></p>
 
 <p>{TXT_PAYMENT_TYPE}</p>
 	</td>

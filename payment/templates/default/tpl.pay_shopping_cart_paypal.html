@@ -1,5 +1,6 @@
 <!-- BEGIN loop -->
 {ITEMS_TABLE}
+<p>{COUPON_TABLE}<br /></p>
 <!-- BEGIN buy_link -->
 <p><b>{PAYPAL_HINT}:</b> {PAYPAL_INFO}</p>
 <div align="right">
@@ -14,6 +15,7 @@
 <input type="hidden" name="cancel_return" value="{CANCEL_RETURN}" />
 <input type="hidden" name="custom" value="{CUSTOM}" />
 <input type="hidden" name="page_style" value="{PAGE_STYLE}" />
+<input type="hidden" name="mc_fee" value="{MC_FEE}" />
 <!-- BEGIN loop_items -->
 <input type="hidden" name="item_name_{LOOP_ITEMS_NO}" value="{LOOP_ITEMS_NAME}" />
 <input type="hidden" name="amount_{LOOP_ITEMS_NO}" value="{LOOP_ITEMS_AMOUNT}" />

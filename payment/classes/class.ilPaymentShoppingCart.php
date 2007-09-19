@@ -30,6 +30,7 @@
 */
 include_once './payment/classes/class.ilPaymentPrices.php';
 include_once './payment/classes/class.ilPaymentObject.php';
+include_once './payment/classes/class.ilPaymentCoupons.php';
 
 class ilPaymentShoppingCart
 {
@@ -38,6 +39,8 @@ class ilPaymentShoppingCart
 	 */
 	var $user_obj = null;
 	var $db = null;
+	
+	var $coupon_obj = null;
 
 	var $sc_entries = array();
 
@@ -47,6 +50,8 @@ class ilPaymentShoppingCart
 
 		$this->user_obj =& $user_obj;
 		$this->db =& $ilDB;
+		
+		$this->coupon_obj = new ilPaymentCoupons($this->user_obj);
 
 		$this->__read();
 	}
@@ -269,6 +274,8 @@ class ilPaymentShoppingCart
 
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
 
+			
+			$f_result[$counter]["psc_id"] = $item['psc_id'];
 			$f_result[$counter]["pobject_id"] = $item['pobject_id'];
 			$f_result[$counter]["obj_id"] = $tmp_obj->getId();
 			$f_result[$counter]["typ"] = $tmp_obj->getType();
@@ -314,6 +321,58 @@ class ilPaymentShoppingCart
 
 		return (float) ($a_amount - (round(($a_amount / (1 + ($genSet->get("vat_rate") / 100.0))) * 100) / 100));
 	}
+	
+	function clearCouponItemsSession()
+	{
+		if (!empty($_SESSION["coupons"]))
+		{													
+			foreach ($_SESSION["coupons"] as $payment_type => $coupons_array)
+			{
+				if (is_array($coupons_array))
+				{
+					foreach ($coupons_array as $coupon_key => $coupon)
+					{
+						$_SESSION["coupons"][$payment_type][$coupon_key]["total_objects_coupon_price"] = 0.0;
+						$_SESSION["coupons"][$payment_type][$coupon_key]["items"] = array();						
+					}	
+				}	
+			}
+		}
+	}
+	
+	function calcDiscountPrices($coupons)
+	{
+		if (is_array($coupons))
+		{
+			$r_items = array();
+			
+			foreach ($coupons as $coupon)
+			{	
+				$this->coupon_obj->setId($coupon["pc_pk"]);
+				$this->coupon_obj->setCurrentCoupon($coupon);				
+				
+				if (is_array($coupon["items"]) && $coupon["total_objects_coupon_price"] > 0)
+				{					
+					$bonus = ($this->coupon_obj->getCouponBonus($coupon["total_objects_coupon_price"]));	
+					
+					foreach ($coupon["items"] as $item)
+					{
+						if (!array_key_exists($item["pobject_id"], $r_items))
+						{
+							$r_items[$item["pobject_id"]] = $item;
+							$r_items[$item["pobject_id"]]["discount_price"] = (float) $item["math_price"];							
+						}							
+						
+						$ratio = (float) $item["math_price"] / $coupon["total_objects_coupon_price"];
+						$r_items[$item["pobject_id"]]["discount_price"] += ($ratio * $bonus * (-1));												
+					}
+				}
+			}
 
+			return $r_items;
+		}
+		
+		return array();
+	}
 }
 ?>

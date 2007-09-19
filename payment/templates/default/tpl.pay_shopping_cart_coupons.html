@@ -14,11 +14,13 @@
 	  <!-- BEGIN used_coupons -->	  
 	  <!-- BEGIN loop -->
 	  <tr class="tblrow{LOOP_ROW}">
-	  	<td class="std">{LOOP_TXT_COUPON} {LOOP_CODE}:</td>
-	  	<td class="std">{LOOP_REMOVE}</td>
-	  </tr>
-	   <tr class="tblrow{LOOP_ROW}">
-	  	<td class="std" colspan="2">{LOOP_DESCRIPTION}</td>
+	  	<td class="std">
+	  		{LOOP_TXT_COUPON} {LOOP_CODE}:
+	  		<br /><b>{LOOP_TITLE}</b>
+	  		<!-- BEGIN description --><br />{LOOP_DESCRIPTION}<!-- END description -->
+	  		<br />{LOOP_TYPE}
+	  	</td>
+	  	<td class="std" valign="top">{LOOP_REMOVE}</td>
 	  </tr>
 	  <!-- END loop -->
 	  <!-- END used_coupons -->

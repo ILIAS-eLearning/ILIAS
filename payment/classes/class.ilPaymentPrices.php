@@ -126,6 +126,27 @@ class ilPaymentPrices
 		}
 		return $pr_str; */
 	}
+	
+	function _getPriceStringFromAmount($a_price)
+	{
+		include_once './payment/classes/class.ilPaymentCurrency.php';
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		global $lng;
+
+		$genSet = new ilGeneralSettings();
+		$unit_string = $genSet->get("currency_unit");
+
+		$pr_str = '';		
+
+		$pr_str = number_format($a_price , 2, ",", ".");
+		return $pr_str . " " . $unit_string;		
+	}
+	
+	function _getPriceFromArray($a_price)
+	{		
+		return (float) (((int) $a_price["unit_value"]) . "." . sprintf("%02d", ((int) $a_price["sub_unit_value"])));
+	}
 			
 	function _getTotalAmount($a_price_ids)
 	{

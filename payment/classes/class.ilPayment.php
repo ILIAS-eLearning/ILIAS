@@ -44,7 +44,7 @@ class ilPaymentGUI extends ilPaymentBaseGUI
 		$this->ctrl =& $ilCtrl;
 		
 		$this->ilPaymentBaseGUI();
-		$this->setMainSection($this->);
+		$this->setMainSection($this->BASE);
 		
 		// Get user object
 		$this->user_obj =& $user_obj;
