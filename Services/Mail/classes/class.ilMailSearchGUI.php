@@ -201,7 +201,7 @@ class ilMailSearchGUI
 					++$counter;
 				}							
 
-				$tbl_addr->addColumn($this->lng->txt('to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				$tbl_addr->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
 			 	$tbl_addr->addColumn($this->lng->txt('login'), 'login', "15%");
 			 	$tbl_addr->addColumn($this->lng->txt('firstname'), 'firstname', "15%");
 			 	$tbl_addr->addColumn($this->lng->txt('lastname'), 'lastname', "15%");
@@ -283,7 +283,7 @@ class ilMailSearchGUI
 					++$counter;
 				}							
 				
-				$tbl_users->addColumn($this->lng->txt('to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				$tbl_users->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
 			 	$tbl_users->addColumn($this->lng->txt('login'), 'login', '15%');
 			 	$tbl_users->addColumn($this->lng->txt('firstname'), 'firstname', '15%');
 			 	$tbl_users->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
@@ -327,7 +327,7 @@ class ilMailSearchGUI
 				}
 				$tbl_grp->setData($result);			
 
-				$tbl_grp->addColumn($this->lng->txt('to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				$tbl_grp->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
 			 	$tbl_grp->addColumn($this->lng->txt('title'), 'title', '15%');
 			 	$tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
 
