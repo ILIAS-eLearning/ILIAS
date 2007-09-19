@@ -1,0 +1,31 @@
+<!-- BEGIN confirm -->
+{CONFIRM_TABLE}
+<p>&nbsp;</p>
+<!-- END confirm -->
+<form method="post" action="{FORMACTION}">
+{THREADS_TABLE}
+<p>&nbsp;</p>
+<!-- BEGIN search -->
+<table class="std" width="">	
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_SEARCH_TITLE}</td>
+</tr>	
+<tr>
+	<td class="option"><label for="title">{TXT_TITLE}</label></td>
+	<td class="option_value" width="400px">		
+		<input type="text" size="40" id="title" maxlength="200" name="title" value="{VAL_TITLE}" />		
+	</td>
+</tr>
+<tr>
+	<td class="submit" colspan="2">
+		<div align="right">	
+			<input class="submit" type="submit" name="cmd[{SEARCH_COMMAND}]" value="{TXT_SEARCH_COMMAND}">	
+		</div>
+	</td>
+</tr>	
+</table>
+
+<p>&nbsp;</p>
+<!-- END search -->
+{FORUMS_TABLE}
+</form>

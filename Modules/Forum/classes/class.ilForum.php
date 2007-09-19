@@ -21,6 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once './Modules/Forum/classes/class.ilForumProperties.php';
+require_once './Modules/Forum/classes/class.ilObjForum.php';
+require_once './Modules/Forum/classes/class.ilForumTopic.php';
+require_once './Modules/Forum/classes/class.ilForumPost.php';
 
 /**
 * Class Forum
@@ -34,8 +38,7 @@
 class ilForum
 {
 	const SORT_TITLE = 1;
-	const SORT_DATE = 2;
-	
+	const SORT_DATE = 2;	
 	
 	/**
 	* ilias object
@@ -80,9 +83,9 @@ class ilForum
 
 	// object id
 	var $id;
-
-	var $anonymized;
-
+	
+	private $threads = array();
+	
 	/**
 	* Constructor
 	* @access	public
@@ -346,7 +349,7 @@ class ilForum
 	function getOneThread()
 	{		
 		$query = "SELECT * FROM frm_threads WHERE ( ".$this->whereCondition." )";
-		
+
 		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
 
 		$this->setWhereCondition("1");
@@ -419,94 +422,93 @@ class ilForum
 	* @return	integer	$lastInsert: new post ID
 	* @access	public
 	*/
-	function generatePost($topic, $thread, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '')
+	function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = false)
 	{
 		global $ilUser, $ilDB;
 		
-
-		$date = $date ? $date : date("Y-m-d H:i:s");
 		if ($alias != '')
 		{
 			$user = 0;
 		}
-		$pos_data = array(
-			"pos_top_fk"	=> $topic,
-			"pos_thr_fk"	=> $thread,
-			"pos_usr_id" 	=> $user,
-			"pos_usr_alias" 	=> $alias,
-			"pos_message"=> strip_tags(addslashes($message)),
-			"pos_subject"   => addslashes($subject),
-			"pos_date"		=> $date
-		);
-
-		// insert new post into frm_posts
-		$q = "INSERT INTO frm_posts ";
-		$q .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_usr_alias,pos_message,pos_subject,pos_date,notify,import_name) ";
-		$q .= "VALUES ";
-		$q .= "(".$ilDB->quote($pos_data["pos_top_fk"]).",".$ilDB->quote($pos_data["pos_thr_fk"]).",".$ilDB->quote($pos_data["pos_usr_id"]).",".$ilDB->quote($pos_data["pos_usr_alias"]).",";
-		$q .= $ilDB->quote($pos_data["pos_message"]).",".$ilDB->quote($pos_data["pos_subject"]).",".$ilDB->quote($pos_data["pos_date"]).",".$ilDB->quote($notify).",";
-		$q .= $ilDB->quote($this->getImportName()).")";
-//echo "<br>2:".htmlentities($pos_data["pos_message"]);
-		$result = $this->ilias->db->query($q);
-
-		// get last insert id and return it
-		$lastInsert = $this->ilias->db->getLastInsertId();
-		$pos_data["pos_pk"] = $lastInsert;
-
+		
+		$objNewPost = new ilForumPost();
+		$objNewPost->setForumId($forum_id);
+		$objNewPost->setThreadId($thread_id);
+		$objNewPost->setSubject($subject);
+		$objNewPost->setMessage(strip_tags(addslashes($message)));
+		$objNewPost->setUserId($user);
+		$objNewPost->setUserAlias($alias);
+		$objNewPost->setCreateDate(date("Y-m-d H:i:s"));
+		$objNewPost->setImportName($this->getImportName());
+		$objNewPost->setNotification($notify);
+		$objNewPost->setStatus($status);
+		$objNewPost->insert();
+		
 		// entry in tree-table
 		if ($parent_pos == 0)
 		{
-			$this->addPostTree($thread, $lastInsert,$date);
+			$this->addPostTree($objNewPost->getThreadId(), $objNewPost->getId(), $objNewPost->getCreateDate());
 		}
 		else
 		{
-			$this->insertPostNode($lastInsert,$parent_pos,$thread,$date);
+			$this->insertPostNode($objNewPost->getId(), $parent_pos, $objNewPost->getThreadId(), $objNewPost->getCreateDate());
 		}
 
 		// string last post
-		$lastPost = $topic."#".$thread."#".$lastInsert;
+		$lastPost = $objNewPost->getForumId()."#".$objNewPost->getThreadId()."#".$objNewPost->getId();
 			
 		// update thread
 		$q = "UPDATE frm_threads SET thr_num_posts = thr_num_posts + 1, ";
 		$q .= "thr_last_post = ".$ilDB->quote($lastPost). " ";        
-		$q .= "WHERE thr_pk = ".$ilDB->quote($thread)."";
+		$q .= "WHERE thr_pk = ".$ilDB->quote($objNewPost->getThreadId())."";
 		$result = $this->ilias->db->query($q);
 
-		// update topic
+		// update forum
 		$q = "UPDATE frm_data SET top_num_posts = top_num_posts + 1, ";
 		$q .= "top_last_post = ".$ilDB->quote($lastPost). " ";
-		$q .= "WHERE top_pk = ".$ilDB->quote($topic)."";
+		$q .= "WHERE top_pk = ".$ilDB->quote($objNewPost->getForumId())."";
 		$result = $this->ilias->db->query($q);
 
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
-		$forum_obj->markPostRead($user,$thread,$lastInsert);
+		$forum_obj->markPostRead($objNewPost->getUserId(), $objNewPost->getThreadId(), $objNewPost->getId());
 		
+		$pos_data = $objNewPost->getDataAsArray();
 		$pos_data["ref_id"] = $this->getForumRefId();
 
 		// FINALLY SEND MESSAGE
 		$this->__sendMessage($parent_pos, $pos_data);
 
 		// SEND NOTIFICATIONS ABOUT NEW POSTS IN A SPECIFIED TOPIC
-		if($this->ilias->getSetting("forum_notification") == 1)
+		if ($this->ilias->getSetting("forum_notification") == 1)
 		{
 			$pos_data["top_name"] = $forum_obj->getTitle();			
 			$this->sendForumNotifications($pos_data);
 			$this->sendThreadNotifications($pos_data);
 		}
 		
-		// Add Notification to news
-		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news_item = new ilNewsItem();
-		$news_item->setContext($forum_obj->getId(), "frm", $lastInsert, "pos");
-		$news_item->setPriority(NEWS_NOTICE);
-		$news_item->setTitle(stripslashes($pos_data["pos_subject"]));
-		$news_item->setContent(stripslashes(nl2br($this->prepareText($pos_data["pos_message"], 0))));
-		$news_item->setUserId($ilUser->getId());
-		$news_item->setVisibility(NEWS_USERS);
-		$news_item->create();
+		// Send notification to moderators if they have to enable a post
+		if (!$status && $send_activation_mail)
+		{
+			$pos_data["top_name"] = $forum_obj->getTitle();			
+			$this->sendPostActivationNotification($pos_data);
+		}
 		
-		return $lastInsert;
+		// Add Notification to news
+		if ($status)
+		{
+			include_once("./Services/News/classes/class.ilNewsItem.php");
+			$news_item = new ilNewsItem();
+			$news_item->setContext($forum_obj->getId(), 'frm', $objNewPost->getId(), 'pos');
+			$news_item->setPriority(NEWS_NOTICE);
+			$news_item->setTitle(stripslashes($objNewPost->getSubject()));
+			$news_item->setContent(stripslashes(nl2br($this->prepareText($objNewPost->getMessage(), 0))));
+			$news_item->setUserId($ilUser->getId());
+			$news_item->setVisibility(NEWS_USERS);
+			$news_item->create();
+		}
+		
+		return $objNewPost->getId();
 	}
 	
 	/**
@@ -522,54 +524,34 @@ class ilForum
 	* @return	integer	new post ID
 	* @access public
 	*/
-	function generateThread($topic, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
-	{
+	function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
+	{	
 		global $ilDB;
 		
-		$date = $date ? $date : date("Y-m-d H:i:s");
-
 		if ($alias != '')
 		{
 			$user = 0;
-		}
-
-		$thr_data = array(
-			"thr_top_fk"	=> $topic,
-			"thr_usr_id"	=> $user,
-			"thr_usr_alias"	=> $alias,
-			"thr_subject"	=> $subject,
-			"thr_date"		=> $date
-		);
+		}		
+			
+		$objNewThread = new ilForumTopic();
+		$objNewThread->setForumId($forum_id);
+		$objNewThread->setUserId($user);
+		$objNewThread->setSubject($subject);
+		$objNewThread->setCreateDate(date("Y-m-d H:i:s"));
+		$objNewThread->setImportName($this->getImportName());
+		$objNewThread->insert();
 		
-		// insert new thread into frm_threads
-		$q = "INSERT INTO frm_threads ";
-		$q .= "(thr_top_fk,thr_usr_id,thr_usr_alias,thr_subject,thr_date,thr_update,import_name) ";
-		$q .= "VALUES ";
-		$q .= "(".$ilDB->quote($thr_data["thr_top_fk"]).",".$ilDB->quote($thr_data["thr_usr_id"]).",".$ilDB->quote($thr_data["thr_usr_alias"]).",".
-			$ilDB->quote($thr_data["thr_subject"]).",".$ilDB->quote($thr_data["thr_date"]).",".$ilDB->quote($thr_data["thr_date"]).",".
-			$ilDB->quote($this->getImportName()).")";
-
-		$result = $this->ilias->db->query($q);
-
-		// get last insert id and return it
-		$lastInsert = $this->ilias->db->getLastInsertId();
-		
-		// update topic
-		$q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
-		$q .= "WHERE top_pk = " .$ilDB->quote( $topic ). "";
-		$result = $this->ilias->db->query($q);
-
 		if ($notify_posts == 1)
 		{
-			// User wants to be notified about any posts in his/her new thread
-			$q = "INSERT INTO frm_notification ";
-			$q .= "(user_id, thread_id) ";
-			$q .= "VALUES ";
-			$q .= "(".$ilDB->quote($user).",".$ilDB->quote($lastInsert).")";
-
-			$result = $this->ilias->db->query($q);
+			$objNewThread->enableNotification($user);
 		}
-		return $this->generatePost($topic, $lastInsert, $user, $message, 0, $notify, $subject, $alias, $date);
+			
+		// update forum
+		$query = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 
+				  WHERE top_pk = ".$ilDB->quote($forum_id)." ";
+		$this->ilias->db->query($query);
+		
+		return $this->generatePost($forum_id, $objNewThread->getId(), $user, $message, 0, $notify, $subject, $alias, $date);
 	}
 
 	/**
@@ -621,6 +603,136 @@ class ilForum
 		$this->ilias->db->query($q);
 
 		return true;		
+	}
+	
+	public function getAllForums()
+	{
+		$query = "SELECT * 
+				  FROM frm_data 
+				  WHERE 1 ";
+		
+		if ($this->whereCondition != '') $query .= $this->whereCondition;
+	
+		$res = $this->ilias->db->query($query);	
+		$counter = 0;
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$forums[$counter] = $row;			
+			++$counter;
+		}	
+
+		return is_array($forums) ? $forums : array();
+	}
+	
+	/**
+	* Moves all chosen threads and their posts to a new forum
+	* 
+	* @param    array	chosen thread pks
+	* @param    integer	object id of src forum
+	* @param    integer	object id of dest forum
+	* @access	public
+	*/
+	public function moveThreads($tread_ids = array(), $src_ref_id = 0, $dest_top_frm_fk = 0)
+	{	
+		$src_top_frm_fk = ilObject::_lookupObjectId($src_ref_id);		
+		
+		if (is_numeric($src_top_frm_fk) && $src_top_frm_fk > 0 && is_numeric($dest_top_frm_fk) && $dest_top_frm_fk > 0)
+		{			
+			$this->setWhereCondition(" top_frm_fk = ".$this->ilias->db->quote($src_top_frm_fk));
+			$oldFrmData = $this->getOneTopic();			
+			
+			$this->setWhereCondition(" top_frm_fk = ".$this->ilias->db->quote($dest_top_frm_fk));
+			$newFrmData = $this->getOneTopic();
+			
+			if ($oldFrmData['top_pk'] && $newFrmData['top_pk'])
+			{
+				$moved_posts = 0;
+				$moved_threads = 0;
+				$visits = 0;
+				foreach ($tread_ids as $id)
+				{
+					$objTmpThread = new ilForumTopic($id);					
+					
+					$numPosts = $objTmpThread->movePosts($src_top_frm_fk, $oldFrmData['top_pk'], $dest_top_frm_fk, $newFrmData['top_pk']);					
+					if (($last_post_string = $objTmpThread->getLastPostString()) != '')
+					{
+						$last_post_string = explode('#', $last_post_string);
+						$last_post_string[0] = $newFrmData['top_pk'];
+						$last_post_string = implode('#', $last_post_string);
+						$objTmpThread->setLastPostString($last_post_string);
+					}
+					
+					$visits += $objTmpThread->getVisits();
+					
+					$moved_posts += $numPosts;
+					++$moved_threads;
+					
+					$objTmpThread->setForumId($newFrmData['top_pk']);
+					$objTmpThread->update();
+					
+					unset($objTmpThread);
+				}				
+				
+				// update frm_data source forum
+				$query = "SELECT pos_thr_fk, pos_pk 
+						  FROM frm_posts						  
+						  WHERE 1 
+						  AND pos_top_fk = ".$this->ilias->db->quote($oldFrmData['top_pk'])." 
+						  ORDER BY pos_date DESC
+						  LIMIT 1";
+				$res = $this->ilias->db->query($query);
+				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
+				$last_post_src = $oldFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
+				
+				$query = "UPDATE frm_data
+						  SET
+						  top_num_posts = top_num_posts - ".$this->ilias->db->quote($moved_posts).",
+						  top_num_threads = top_num_threads - ".$this->ilias->db->quote($moved_threads).",
+						  visits = visits - ".$this->ilias->db->quote($visits).",
+						  top_last_post = ".$this->ilias->db->quote($last_post_src)."
+						  WHERE 1 
+						  AND top_pk = ".$this->ilias->db->quote($oldFrmData['top_pk'])." ";
+				$this->ilias->db->query($query);
+				
+				// update frm_data destination forum
+				$query = "SELECT pos_thr_fk, pos_pk 
+						  FROM frm_posts						  
+						  WHERE 1 
+						  AND pos_top_fk = ".$this->ilias->db->quote($newFrmData['top_pk'])." 
+						  ORDER BY pos_date DESC
+						  LIMIT 1";
+				$res = $this->ilias->db->query($query);
+				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
+				$last_post_dest = $newFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;							
+				
+				$query = "UPDATE frm_data
+						  SET
+						  top_num_posts = top_num_posts + ".$this->ilias->db->quote($moved_posts).",
+						  top_num_threads = top_num_threads + ".$this->ilias->db->quote($moved_threads).",
+						  visits = visits + ".$this->ilias->db->quote($visits).",
+						  top_last_post = ".$this->ilias->db->quote($last_post_dest)."
+						  WHERE 1 
+						  AND top_pk = ".$this->ilias->db->quote($newFrmData['top_pk'])." ";
+				$this->ilias->db->query($query);
+				
+				/*
+				// update news items
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+				$objNewsItem = new ilNewsItem();
+				$news_items = $objNewsItem->getNewsForRefId($src_ref_id);
+				foreach ($news_items as $news_item)
+				{
+					$tmpObjNewsItem = new ilNewsItem($news_item['id']);
+					if ($tmpObjNewsItem->getContextObjId() == $src_top_frm_fk)
+					{
+						$tmpObjNewsItem->setContextObjId($dest_top_frm_fk);
+						$tmpObjNewsItem->update();
+					}
+					unset($tmpObjNewsItem);
+				}
+				*/
+			}
+		}
 	}
 	
 	
@@ -796,34 +908,35 @@ class ilForum
 	}
 	
 	/**
-	* get all threads of given forum
-	* @param	integer	topic: forum-ID
-	* @return	object	res result identifier for use with fetchRow
+	* Get all threads of given thread
+	*
+	* @param	integer	topic: Forum-ID
+	* @return	array	this->threads array ob thread objects
 	* @access	public
 	*/
-	function getThreadList($topic)
+	function getAllThreads($a_topic_id, $is_moderator = false)
 	{
 		global $ilDB;
 		
-		$query = "SELECT frm_threads.* FROM frm_threads WHERE ".
-			"thr_top_fk = ".$ilDB->quote($topic)." ";
+		$this->threads = array();
+		
+		$query = "SELECT *, MAX(pos_date) AS post_date 
+				  FROM `frm_threads`
+				  LEFT JOIN frm_posts ON pos_thr_fk = thr_pk ";
+		if (!$is_moderator) $query .= " AND pos_status = '1' ";
+		$query .="WHERE 1
+				  AND thr_top_fk = ".$ilDB->quote($a_topic_id)."
+				  GROUP BY thr_pk
+				  ORDER BY is_sticky DESC, post_date DESC, thr_date DESC";
+		$res = $this->ilias->db->query($query);	
 
-		// DOES NOT WORK WITH UNKNOWN IMPORTED USERS
-		//
-		//$q = "SELECT frm_threads.*, usr_data.lastname FROM frm_threads, usr_data WHERE ";
-		//$q .= "thr_top_fk ='".$topic."' AND ";
-		//$q .= "thr_usr_id = usr_id";
-		//
-		if ($this->orderField != "")
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$query .= " ORDER BY ".$this->orderField;
+			$this->threads[] = new ilForumTopic($row->thr_pk);
 		}
-	
-		$res = $this->ilias->db->query($query);			
-
-		return $res;
-	}
-	
+		
+		return $this->threads;	
+	}	
 	
 	/**
 	* get all posts of given thread
@@ -851,6 +964,36 @@ class ilForum
 
 		return $res;
 	}
+	
+	public function getUserStatistic($is_moderator = false)
+	{
+		global $ilDB;
+		
+		$statistic = array();
+		
+		$query = "SELECT COUNT(f.pos_usr_id) AS ranking, u.login, u.lastname, u.firstname
+                  FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d
+                  WHERE 1 ";
+                  
+        if (!$is_moderator) $query .= " AND pos_status = '1' ";
+                  
+		$query .="AND f.pos_pk = t.pos_fk 
+				  AND t.thr_fk = th.thr_pk
+				  AND u.usr_id = f.pos_usr_id
+				  AND d.top_pk = f.pos_top_fk
+				  AND d.top_frm_fk = ".$ilDB->quote($this->getForumId())."
+                  GROUP BY pos_usr_id";
+				  
+		$res = $this->ilias->db->query ($query);
+		
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+		    $statistic[] = $row;
+		}			  
+				  
+		return is_array($statistic) ? $statistic : array(); 
+	}
+	
 	
 	/**
 	 * Get first post of thread
@@ -880,37 +1023,30 @@ class ilForum
 	*/
 	function getLastPost($lastPost)
 	{
-		global $ilDB;
+		$data = explode('#', $lastPost);
 		
-		$LP = explode("#", $lastPost);		
+		$objLastPost = new ilForumPost($data[2]);	
 
-		$q = "SELECT DISTINCT frm_posts.* FROM frm_posts WHERE ";
-		//$q = "SELECT DISTINCT frm_posts.*, usr_data.login FROM frm_posts, usr_data WHERE ";
-		$q .= "pos_top_fk = ".$ilDB->quote($LP[0])." AND ";
-		$q .= "pos_thr_fk = ".$ilDB->quote($LP[1])." AND ";
-		$q .= "pos_pk = ".$ilDB->quote($LP[2])."";
-		//$q .= "pos_usr_id = usr_id";
-
-		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);		
-		
 		// limit the message-size
-		$result["pos_message"] = $this->prepareText($result["pos_message"],2);
+		$message = $this->prepareText($objLastPost->getMessage(), 2);
 		
-		if (strpos($result["pos_message"], $this->txtQuote2) > 0)
+		if (strpos($message, $this->txtQuote2) > 0)
 		{
-			$viewPos = strrpos($result["pos_message"], $this->txtQuote2) + strlen($this->txtQuote2);
-			$result["pos_message"] = substr($result["pos_message"], $viewPos);				
+			$viewPos = strrpos($message, $this->txtQuote2) + strlen($this->txtQuote2);
+			$message = substr($message, $viewPos);				
 		}
 		
-		if (strlen($result["pos_message"]) > 40)
-			$result["pos_message"] = substr($result["pos_message"], 0, 37)."...";
+		if (strlen($message) > 40)
+		{
+			$message = substr($objLastPost->getMessage(), 0, 37).'...';
+		}
 		
-		$result["pos_message"] = stripslashes($result["pos_message"]);
+		$message = stripslashes($message);
 	
 		// convert date
-		$result["pos_date"] = $this->convertDate($result["pos_date"]);
+		$objLastPost->setCreateDate($this->convertDate($objLastPost->getCreateDate()));
 				
-		return $result;
+		return $objLastPost;
 	}	
 	
 	/**
@@ -937,7 +1073,7 @@ class ilForum
 	{
 		global $rbacreview;
 
-		return ilObjForum::_getModerators($this->getForumRefId());
+		return $this->_getModerators($this->getForumRefId());
 	}
 
 	/**
@@ -956,11 +1092,12 @@ class ilForum
 
 		foreach ($role_arr as $role_id)
 		{
-			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-
-			if ($roleObj->getTitle() == "il_frm_moderator_".$a_ref_id)
+			//$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
+			$title = ilObject::_lookupTitle($role_id);
+			if ($title == "il_frm_moderator_".$a_ref_id)			
 			{
-				return $rbacreview->assignedUsers($roleObj->getId());
+				#return $rbacreview->assignedUsers($roleObj->getId());
+				return $title = $rbacreview->assignedUsers($role_id);
 			}
 		}
 
@@ -978,40 +1115,7 @@ class ilForum
 	function _isModerator($a_ref_id, $a_usr_id)
 	{
 		return in_array($a_usr_id, ilForum::_getModerators($a_ref_id));
-	}
-
-	/**
-   	* checks edit-right for given post-ID
-	*
-	* @param	integer	$post_id: post-ID
-	* @return	boolean
-	* @access	public
-   	*/
-	function checkEditRight($post_id)
-	{
-		global $rbacsystem, $ilDB;		
-		
-		// is online-user the author of the post?	
-		$q = "SELECT * FROM frm_posts WHERE ";
-		$q .= "pos_usr_id = ".$ilDB->quote($_SESSION["AccountId"])." ";
-		$q .= "AND pos_pk = ".$ilDB->quote($post_id)."";
-		$res = $this->ilias->db->query($q);			
-		
-		// online-user is author
-		if ($res->numRows() > 0)
-		{
-			return true;
-		}
-		elseif ($rbacsystem->checkAccess("delete_post", $this->getForumRefId()))
-		{
-			return true;		
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
+	}	
 	
 	/**
    	* get number of articles from given user-ID
@@ -1020,13 +1124,32 @@ class ilForum
 	* @return	integer
 	* @access	public
    	*/
-	function countUserArticles($user)
+	function countUserArticles($a_user_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * 
+			  FROM frm_data
+			  INNER JOIN frm_posts ON pos_top_fk = top_pk 
+			  WHERE 1
+			  AND top_frm_fk = ".$ilDB->quote($this->getForumId())."
+			  AND pos_usr_id = ".$ilDB->quote($a_user_id)." ";				
+		$res = $this->ilias->db->query($q);			
+		
+		return $res->numRows();
+	}	
+	
+	public function countActiveUserArticles($a_user_id)
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM frm_posts WHERE ";
-		$q .= "pos_usr_id = ".$ilDB->quote($user)."";
-				
+		$q = "SELECT * 
+			  FROM frm_data
+			  INNER JOIN frm_posts ON pos_top_fk = top_pk
+			  WHERE 1
+			  AND top_frm_fk = ".$ilDB->quote($this->getForumId())."
+			  AND pos_status = '1'			   
+			  AND pos_usr_id = ".$ilDB->quote($a_user_id)." ";				
 		$res = $this->ilias->db->query($q);			
 		
 		return $res->numRows();
@@ -1084,7 +1207,7 @@ class ilForum
 	* @return	boolean		true on success
 	* @access	public
 	*/
-	function addPostTree($a_tree_id,$a_node_id = -1,$a_date = '')
+	function addPostTree($a_tree_id, $a_node_id = -1, $a_date = '')
 	{
 		global $ilDB;
 		
@@ -1110,7 +1233,7 @@ class ilForum
 	* @param	integer		tree_id
 	* @param	integer		parent_id (optional)
 	*/
-	function insertPostNode($a_node_id,$a_parent_id,$tree_id,$a_date = '')
+	function insertPostNode($a_node_id, $a_parent_id, $tree_id, $a_date = '')
 	{		
 		global $ilDB;
 		
@@ -1189,7 +1312,7 @@ class ilForum
 	function getPostTree($a_node)
 	{
 		global $ilDB;
-		
+
 	    $subtree = array();
 
 		$query = "SELECT * FROM frm_posts_tree ".
@@ -1341,7 +1464,8 @@ class ilForum
 					"depth"			=> $a_row->depth,
 					"id"			=> $a_row->fpt_pk,
 					"notify"		=> $a_row->notify,
-					"import_name"   => $a_row->import_name
+					"import_name"   => $a_row->import_name,
+					"pos_status"   => $a_row->pos_status
 					);
 		
 		// why this line? data should be stored without slashes in db
@@ -1461,9 +1585,15 @@ class ilForum
 	* @param	integer
 	* @return	string
 	*/
-	function prepareText($text, $edit=0, $quote_user = "")
+	function prepareText($text, $edit=0, $quote_user = "", $type = '')
 	{
 		global $lng;
+		
+		if ($type == 'export')
+		{
+			$this->replQuote1 = "<blockquote class=\"quote\"><hr size=\"1\" color=\"#000000\">"; 
+			$this->replQuote2 = "<hr size=\"1\" color=\"#000000\"/></blockquote>"; 
+		}
 
 		if ($edit == 1)
 		{
@@ -1480,7 +1610,6 @@ class ilForum
 			$startZ = substr_count ($text, "[quote");	// also count [quote="..."]
 			$endZ = substr_count ($text, "[/quote]");
 
-
 			if ($startZ > 0 || $endZ > 0)
 			{
 				// add missing opening and closing tags
@@ -1490,7 +1619,8 @@ class ilForum
 
 					for ($i = 0; $i < $diff; $i++)
 					{
-						$text .= "[/quote]";
+						if ($type == 'export') $text .= $this->txtQuote2;
+						else $text .= "[/quote]";
 					}
 				}
 				elseif ($startZ < $endZ)
@@ -1499,7 +1629,8 @@ class ilForum
 
 					for ($i = 0; $i < $diff; $i++)
 					{
-						$text = "[quote]".$text;
+						if ($type == 'export') $text .= $this->txtQuote1;
+						else $text = "[quote]".$text;
 					}
 				}
 
@@ -1517,23 +1648,30 @@ class ilForum
 			}
 		}
 		
-		// this removes real slashes of the content (e.g. in latex code)
-		//$text = stripslashes($text);		
-		if ($edit == 0)
-		{
-			$text = ilUtil::insertLatexImages($text);
+		if ($type != 'export')
+		{		
+			// this removes real slashes of the content (e.g. in latex code)
+			//$text = stripslashes($text);		
+			if ($edit == 0)
+			{
+				$text = ilUtil::insertLatexImages($text);
+			}
+			
+			if ($edit == 2)
+			{
+				$text = stripslashes($text);
+			}
+	
+			// workaround for preventing template engine
+			// from hiding text that is enclosed
+			// in curly brackets (e.g. "{a}")
+			$text = str_replace("{", "&#123;", $text);
+			$text = str_replace("}", "&#125;", $text);
 		}
-		
-		if ($edit == 2)
+		else
 		{
 			$text = stripslashes($text);
 		}
-
-		// workaround for preventing template engine
-		// from hiding text that is enclosed
-		// in curly brackets (e.g. "{a}")
-		$text = str_replace("{", "&#123;", $text);
-		$text = str_replace("}", "&#125;", $text);
 
 		return $text;
 	}
@@ -1631,12 +1769,14 @@ class ilForum
 		$message .= $this->lng->txt("forum_post_replied");
 		
 		$message .= "\n------------------------------------------------------------\n";
+		$message .= $post_data["pos_message"];
+		$message .= "\n------------------------------------------------------------\n";
 		$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
 		
 		return $message;
 	}
 
-	function getUserData($a_id,$a_import_name = 0)
+	function getUserData($a_id, $a_import_name = 0)
 	{
 		global $lng, $ilDB;
 
@@ -1651,6 +1791,7 @@ class ilForum
 				$tmp_array["firstname"]  = $row->firstname;
 				$tmp_array["lastname"]  = $row->lastname;
 				$tmp_array["public_profile"] = ilObjUser::_lookupPref($a_id, "public_profile");
+				$tmp_array["create_date"]  = $row->create_date;
 			}
 			return $tmp_array ? $tmp_array : array();
 		}
@@ -1775,25 +1916,6 @@ class ilForum
 	}
 
 	/**
-	* Disable a user's notification about new posts in a thread
-	* @param    integer	user_id	A user's ID
-	* @param    integer	thread_id	ID of the thread
-	* @return	bool	true
-	* @access	private
-	*/
-	function disableThreadNotification($user_id, $thread_id)
-	{
-		global $ilDB;
-		
-		$q = "DELETE FROM frm_notification WHERE ";
-		$q .= "user_id = ".$ilDB->quote($user_id)." AND ";
-		$q .= "thread_id = ".$ilDB->quote($thread_id)."";
-		$this->ilias->db->query($q);
-
-		return true;
-	}
-
-	/**
 	* Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0)
 	* @param    integer	user_id	A user's ID
 	* @param    integer	thread_id	ID of the thread
@@ -1877,6 +1999,69 @@ class ilForum
 			unset($tmp_mail_obj);
 		}
 	}
+	
+	function formatPostActivationNotificationSubject()
+	{
+		return $this->lng->txt('forums_notification_subject');
+	}
+	
+	function formatPostActivationNotification($post_data)
+	{		
+		$message = sprintf($this->lng->txt('forums_notification_intro'),
+								$this->ilias->ini->readVariable('client', 'name'),
+								ILIAS_HTTP_PATH)."\n\n";
+		
+		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
+		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
+		$message .= $this->lng->txt("new_post").":\n------------------------------------------------------------\n";
+		$message .= $this->lng->txt("author").": ".$post_data["pos_usr_name"]."\n";
+		$message .= $this->lng->txt("date").": ".$post_data["pos_date"]."\n";
+		$message .= $this->lng->txt("subject").": ".$post_data["pos_subject"]."\n\n";
+		if ($post_data["pos_cens"] == 1)
+		{
+			$message .= $post_data["pos_cens_com"]."\n";
+		}
+		else
+		{
+			$message .= $post_data["pos_message"]."\n";
+		}
+		$message .= "------------------------------------------------------------\n";
+	
+		$message .= sprintf($this->lng->txt('forums_notification_show_post'), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"]);
+
+
+		return $message;
+	}
+	
+	function sendPostActivationNotification($post_data)
+	{		
+		global $ilDB, $ilUser;
+		
+		if (is_array($moderators = $this->getModerators()))
+		{
+			// GET THREAD DATA
+			$q = "SELECT thr_subject FROM frm_threads WHERE ";
+			$q .= "thr_pk = ".$ilDB->quote($post_data["pos_thr_fk"])."";
+			$thread_subject = $this->ilias->db->getOne($q);
+			$post_data["thr_subject"] = $thread_subject;
+	
+			// GET AUTHOR OF NEW POST
+			$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
+			
+			$subject = $this->formatPostActivationNotificationSubject();
+			$message = $this->formatPostActivationNotification($post_data);
+			
+			foreach ($moderators as $moderator)
+			{
+				$tmp_mail_obj = new ilMail($ilUser->getId());
+				$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($moderator), '', '',
+												   $subject,
+												   $message,
+												   array(), array("system"));
+				unset($tmp_mail_obj);
+			}
+		}
+	}
 
 	function formatNotificationSubject()
 	{
@@ -1916,31 +2101,17 @@ class ilForum
 		$message .= "------------------------------------------------------------\n";
 		if ($cron == 1)
 		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), $ilIliasIniFile->readVariable("server","http_path")."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), $ilIliasIniFile->readVariable("server","http_path")."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"]);
 		}
 		else
 		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
+			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"]);
 		}
 
 		return $message;
 	}
-
-	function _isAnonymized($a_obj_id)
-	{
-		global $ilDB;
-		
-		$q = "SELECT anonymized FROM frm_settings WHERE ";
-		$q .= "obj_id = ".$ilDB->quote($a_obj_id)."";
-		return $this->ilias->db->getOne($q);
-	}
 	
-	function isAnonymized()
-	{
-		return $this->_isAnonymized($this->getForumId());
-	}
-	
-		/**
+	/**
 	 * Get thread infos of object
 	 *
 	 * @access public
