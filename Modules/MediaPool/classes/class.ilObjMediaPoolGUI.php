@@ -404,7 +404,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$cols = array("", "", "title");
 		$header_params = array("ref_id" => $_GET["ref_id"],
-			"obj_id" => $_GET["obj_id"], "cmd" => "listMedia");
+			"obj_id" => $_GET["obj_id"], "cmd" => "listMedia",
+			"baseClass" => "ilMediaPoolPresentationGUI");
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "1%", "98%"));
 
