@@ -66,6 +66,26 @@ class ilFormGUI
 	}
 
 	/**
+	* Set Target.
+	*
+	* @param	string	$a_target	Target
+	*/
+	function setTarget($a_target)
+	{
+		$this->target = $a_target;
+	}
+
+	/**
+	* Get Target.
+	*
+	* @return	string	Target
+	*/
+	function getTarget()
+	{
+		return $this->target;
+	}
+
+	/**
 	* Set Enctype Multipart/Formdata true/false.
 	*
 	* @param	boolean	$a_multipart	Enctype Multipart/Formdata true/false
@@ -86,6 +106,26 @@ class ilFormGUI
 	}
 
 	/**
+	* Set Id. If you use multiple forms on a screen you should set this value.
+	*
+	* @param	string	$a_id	Id
+	*/
+	function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	/**
+	* Get Id.
+	*
+	* @return	string	Id
+	*/
+	function getId()
+	{
+		return $this->id;
+	}
+
+	/**
 	* Get HTML.
 	*/
 	function getHTML()
@@ -96,6 +136,40 @@ class ilFormGUI
 		if ($this->getMultipart())
 		{
 			$tpl->touchBlock("multipart");
+			/*if (function_exists("apc_fetch"))
+			//
+			// Progress bar would need additional browser window (popup)
+			// to not be stopped, when form is submitted  (we can't work
+			// with an iframe or httprequest solution here)
+			//
+			{
+				$tpl->touchBlock("onsubmit");
+				
+				//onsubmit="postForm('{ON_ACT}','form_{F_ID}',1); return false;"
+				$tpl->setCurrentBlock("onsubmit");
+				$tpl->setVariable("ON_ACT", $this->getFormAction());
+				$tpl->setVariable("F_ID", $this->getId());
+				$tpl->setVariable("F_ID", $this->getId());
+				$tpl->parseCurrentBlock();
+
+				$tpl->setCurrentBlock("hidden_progress");
+				$tpl->setVariable("APC_PROGRESS_ID", uniqid());
+				$tpl->setVariable("APC_FORM_ID", $this->getId());
+				$tpl->parseCurrentBlock();
+			}*/
+		}
+		if ($this->getId() != "")
+		{
+			$tpl->setCurrentBlock("form_id");
+			$tpl->setVariable("FORM_ID", $this->getId());
+			$tpl->parseCurrentBlock();
+		}
+		
+		if ($this->getTarget() != "")
+		{
+			$tpl->setCurrentBlock("form_target");
+			$tpl->setVariable("FORM_TARGET", $this->getTarget());
+			$tpl->parseCurrentBlock();
 		}
 		return $tpl->get();
 	}

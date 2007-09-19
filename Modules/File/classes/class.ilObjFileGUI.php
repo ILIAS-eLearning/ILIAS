@@ -68,7 +68,9 @@ class ilObjFileGUI extends ilObjectGUI
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				"repository.php?cmd=infoScreen&ref_id=".$_GET["ref_id"], "file");
 		}
-		
+//var_dump($_GET);
+//var_dump($_POST);
+//var_dump($_SESSION);
 //echo "-$cmd-";
 		switch ($next_class)
 		{
@@ -115,9 +117,9 @@ class ilObjFileGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function createObject()
+	function createObject($a_reload_form = "")
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -127,40 +129,125 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 
 		// fill in saved values in case of error
-		$data = array();
-		$data["fields"] = array();
-		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-		$data["fields"]["file"] = $_SESSION["error_post_vars"]["Fobject"]["file"];
-
 		$this->getTemplateFile("new",$this->type);
 
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_file.gif'));
-		$this->tpl->setVariable("ALT_IMG", $this->lng->txt('obj_file'));
-
-		foreach ($data["fields"] as $key => $val)
+		if ($a_reload_form != "single_upload")
 		{
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-			#$this->tpl->parseCurrentBlock();
+			$this->initSingleUploadForm("create");
 		}
-		
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("SINGLE_UPLOAD_FORM", $this->single_form_gui->getHtml());
 
-		$this->tpl->setVariable("TXT_TITLE_NOTE", $this->lng->txt("if_no_title_then_filename"));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
-		$this->tpl->setVariable("TXT_SUBMIT_AND_META", $this->lng->txt("file_add_and_metadata"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("CMD_SUBMIT_AND_META", "saveAndMeta");
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		if ($a_reload_form != "zip_upload")
+		{
+			$this->initZipUploadForm("create");
+		}
+		$this->tpl->setVariable("ZIP_UPLOAD_FORM", $this->zip_form_gui->getHtml());
+
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_TAKE_OVER_STRUCTURE", $this->lng->txt("take_over_structure"));
 		$this->tpl->setVariable("TXT_HEADER_ZIP", $this->lng->txt("header_zip"));
 		
 		$this->fillCloneTemplate('DUPLICATE','file');
+	}
+
+	/**
+	* FORM: Init single upload form.
+	*
+	* @param        int        $a_mode        "create" / "update" (not implemented)
+	*/
+	public function initSingleUploadForm($a_mode = "create")
+	{
+		global $lng;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->single_form_gui = new ilPropertyFormGUI();
+		
+		// File Title
+		$in_title = new ilTextInputGUI($lng->txt("title"), "title");
+		$in_title->setInfo($this->lng->txt("if_no_title_then_filename"));
+		$in_title->setMaxLength(128);
+		$in_title->setSize(40);
+		$this->single_form_gui->addItem($in_title);
+		
+		// File Description
+		$in_descr = new ilTextAreaInputGUI($lng->txt("description"), "description");
+		$this->single_form_gui->addItem($in_descr);
+		
+		// File
+		$in_file = new ilFileInputGUI($lng->txt("file"), "upload_file");
+		$in_file->setRequired(true);
+		$this->single_form_gui->addItem($in_file);
+		
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->single_form_gui->addCommandButton("save", $this->lng->txt($this->type."_add"));
+			$this->single_form_gui->addCommandButton("saveAndMeta", $this->lng->txt("file_add_and_metadata"));
+			$this->single_form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+		}
+		else
+		{
+			//$this->single_form_gui->addCommandButton("update", $lng->txt("save"));
+			//$this->single_form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+		}
+		
+		$this->single_form_gui->setTableWidth("60%");
+		$this->single_form_gui->setTarget($this->getTargetFrame("save"));
+		$this->single_form_gui->setTitle($this->lng->txt($this->type."_new"));
+		$this->single_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+		
+		if ($a_mode == "create")
+		{
+			$this->ctrl->setParameter($this, "new_type", "file");
+		}
+		$this->single_form_gui->setFormAction($this->ctrl->getFormAction($this));
+	}
+
+	/**
+	* FORM: Init zip upload form.
+	*
+	* @param        int        $a_mode        "create" / "update" (not implemented)
+	*/
+	public function initZipUploadForm($a_mode = "create")
+	{
+		global $lng;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->zip_form_gui = new ilPropertyFormGUI();
+				
+		// File
+		$in_file = new ilFileInputGUI($lng->txt("file"), "zip_file");
+		$in_file->setRequired(true);
+		$in_file->setSuffixes(array("zip"));
+		$this->zip_form_gui->addItem($in_file);
+
+		// Take over structure
+		$in_str = new ilCheckboxInputGUI($this->lng->txt("take_over_structure"), "adopt_structure");
+		$in_str->setInfo($this->lng->txt("take_over_structure_info"));
+		$this->zip_form_gui->addItem($in_str);
+		
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->zip_form_gui->addCommandButton("saveUnzip", $this->lng->txt($this->type."_add"));
+			$this->zip_form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+		}
+		else
+		{
+			//$this->zip_form_gui->addCommandButton("update", $lng->txt("save"));
+			//$this->zip_form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+		}
+		
+		$this->zip_form_gui->setTableWidth("60%");
+		$this->zip_form_gui->setTarget($this->getTargetFrame("save"));
+		$this->zip_form_gui->setTitle($this->lng->txt("header_zip"));
+		$this->zip_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+		
+		if ($a_mode == "create")
+		{
+			$this->ctrl->setParameter($this, "new_type", "file");
+		}
+		$this->zip_form_gui->setFormAction($this->ctrl->getFormAction($this));
 	}
 
 	/**
@@ -170,49 +257,19 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function saveUnzipObject()
 	{
-		if (preg_match("/zip/" , $_FILES["Fobject"]["type"]["file"]) == 1)
+		global $rbacsystem;
+		
+		$this->initZipUploadForm("create");
+		
+		if ($this->zip_form_gui->checkInput())
 		{
-			$this->saveObject(true);
-		}
-		$this->saveObject(false);
-	}
+			$zip_file = $this->zip_form_gui->getInput("zip_file");
+			$adopt_structure = $this->zip_form_gui->getInput("adopt_structure");
 
-	/**
-	* save object
-	*
-	* @access	public
-	*/
-	function saveObject($unzipUploadedFile = false)
-	{
-		global $rbacsystem, $objDefinition;
-
-		$data = $_FILES["Fobject"];
-
-		// delete trailing '/' in filename
-		while (substr($data["name"]["file"],-1) == '/')
-		{
-			$data["name"]["file"] = substr($data["name"]["file"],0,-1);
-		}
-
-		if (empty($data["name"]["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (empty($_POST["Fobject"]["title"]))
-		{
-			$_POST["Fobject"]["title"] = $_FILES["Fobject"]["name"]["file"];
-			//$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// If uploaded file contains "zip" in type and this function is called through saveUnzipObject()
-		if ($unzipUploadedFile)
-		{	
-	
 			// Create unzip-directory
 			$newDir = ilUtil::ilTempnam();
 			ilUtil::makeDir($newDir);
-			
+		
 			//include_once("classes/class.ilObjectDefinition.php");
 			// Check if permission is granted for creation of object, if necessary
 			if (preg_match("/cat/" ,ilObject::_lookupType($_GET["ref_id"], TRUE)))
@@ -224,65 +281,97 @@ class ilObjFileGUI extends ilObjectGUI
 				$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "fold");
 				$containerType = "Folder";			
 			}
-			
-				// (	Dir to unzip, 
-				//	Path to uploaded file, 
-				//	should a structure be created (+ permission check)?
-				//	ref_id of parent
-				//	object that contains files (folder or category)
-				$processDone = ilUtil::processZipFile(	$newDir, 
-									$_FILES["Fobject"]["tmp_name"]["file"],
-									($_POST["Fobject"]["structure"] && $permission),
-									$_GET["ref_id"],
-									$containerType);
-						
-				if ($processDone == 0) {
-					ilUtil::sendInfo($this->lng->txt("file_added"),true);					
-				}
-				else if($processDone == 1) {
-					ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" .$this->lng->txt("archive_broken"),true);
-				}
-				else if($processDone == 2) {
-					// Virus found, nothing to do				
-				}			
-				else if($processDone == 3) {
-					ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" . $this->lng->txt("zip_structure_error"),true);
+		
+			// (	Dir to unzip, 
+			//	Path to uploaded file, 
+			//	should a structure be created (+ permission check)?
+			//	ref_id of parent
+			//	object that contains files (folder or category)
+			$processDone = ilUtil::processZipFile( $newDir, 
+				$zip_file["tmp_name"],
+				($adopt_structure && $permission),
+				$_GET["ref_id"],
+				$containerType);
+					
+			if ($processDone == 0) {
+				ilUtil::sendInfo($this->lng->txt("file_added"),true);					
+			}
+			else if($processDone == 1) {
+				ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" .$this->lng->txt("archive_broken"),true);
+			}
+			else if($processDone == 2) {
+				// Virus found, nothing to do				
+			}			
+			else if($processDone == 3) {
+				ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" . $this->lng->txt("zip_structure_error"),true);
 			}
 			ilUtil::delDir($newDir);
-
-
-						
 			$this->ctrl->returnToParent($this);
-		}
-
-		// create and insert file in grp_tree
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj = new ilObjFile();
-		$fileObj->setType($this->type);
-		$fileObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$fileObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$fileObj->setFileName(ilUtil::stripSlashes($_FILES["Fobject"]["name"]["file"]));
-		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
-		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
-		$fileObj->create();
-		$fileObj->createReference();
-		$fileObj->putInTree($_GET["ref_id"]);
-		$fileObj->setPermissions($_GET["ref_id"]);
-		// upload file to filesystem
-		$fileObj->createDirectory();
-		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],ilUtil::stripSlashes($_FILES["Fobject"]["name"]["file"]));
-
-		ilUtil::sendInfo($this->lng->txt("file_added"),true);
-		
-		$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
-		if ($this->ctrl->getCmd() == "saveAndMeta")
-		{
-			ilUtil::redirect($this->getReturnLocation("save",
-				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection")));
 		}
 		else
 		{
-			$this->ctrl->returnToParent($this);
+			$this->zip_form_gui->setValuesByPost();
+			$this->createObject("zip_upload");
+		}
+	}
+
+	/**
+	* save object
+	*
+	* @access	public
+	*/
+	function saveObject()
+	{
+		global $rbacsystem, $objDefinition;
+
+		$this->initSingleUploadForm("create");
+		
+		if ($this->single_form_gui->checkInput())
+		{
+			$title = $this->single_form_gui->getInput("title");
+			$description = $this->single_form_gui->getInput("description");
+			$upload_file = $this->single_form_gui->getInput("upload_file");
+
+			if (trim($title) == "")
+			{
+				$title = $upload_file["name"];
+			}
+
+			// create and insert file in grp_tree
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$fileObj = new ilObjFile();
+			$fileObj->setType($this->type);
+			$fileObj->setTitle($title);
+			$fileObj->setDescription($description);
+			$fileObj->setFileName($upload_file["name"]);
+			$fileObj->setFileType($upload_file["type"]);
+			$fileObj->setFileSize($upload_file["size"]);
+			$fileObj->create();
+			$fileObj->createReference();
+			$fileObj->putInTree($_GET["ref_id"]);
+			$fileObj->setPermissions($_GET["ref_id"]);
+			// upload file to filesystem
+			$fileObj->createDirectory();
+			$fileObj->getUploadFile($upload_file["tmp_name"],
+				$upload_file["name"]);
+	
+			ilUtil::sendInfo($this->lng->txt("file_added"),true);
+			
+			$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
+			if ($this->ctrl->getCmd() == "saveAndMeta")
+			{
+				ilUtil::redirect($this->getReturnLocation("save",
+					$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection")));
+			}
+			else
+			{
+				$this->ctrl->returnToParent($this);
+			}
+		}
+		else
+		{
+			$this->single_form_gui->setValuesByPost();
+			$this->createObject("single_upload");
 		}
 	}
 
