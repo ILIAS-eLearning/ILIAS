@@ -5202,6 +5202,24 @@ form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
 form#:#form_msg_file_wrong_file_type#:#Falscher Datei-Typ
 form#:#form_seconds#:#Sekunden
+forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
+forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
+forum#:#no_forum_available_for_moving_threads#:#Es konnte kein Forum gefunden werden, in das die ausgewählten Themen verschoben werden können.
+forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
+forum#:#to_forum#:#In Forum
+forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
+forum#:#sure_move_threads#:#Sollen die gewählten Themen wirklich verschoben werden?
+forum#:#make_topics_sticky#:#Themen "sticky" machen
+forum#:#make_topics_non_sticky#:#Themen nicht-"sticky" machen
+forum#:#make_topic_sticky#:#Thema "sticky" machen
+forum#:#make_topic_non_sticky#:#Thema nicht-"sticky" machen
+forum#:#activate_post#:#Freischalten
+forum#:#deactivate_post#:#Sperren
+forum#:#activate_post_txt#:#Möchten Sie wirklich diesen Beitrag und ggf. alle seine Folgebeiträge freischalten? Bitte beachten Sie, dass auch alle Elternbeiträge aktiviert werden.
+forum#:#deactivate_post_txt#:#Möchten Sie wirklich diesen Beitrag und alle seine Folgebeiträge sperren?
+forum#:#activate_only_current#:#Nur diesen Beitrag freischalten
+forum#:#activate_current_and_childs#:#Alle Beitrage freischalten
+forum#:#deactivate_current_and_childs#:#Alle Beitrage sperren
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
 forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS Benutzername wird nicht angezeigt).
 forum#:#forum_anonymize#:#Anonym Schreiben
@@ -5267,7 +5285,9 @@ forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#gelesen
 forum#:#new_post#:#Neue Nachricht
+forum#:#new_posts#:#Neue Nachrichten
 forum#:#thread#:#Thema
+forum#:#post_activation_desc#:#Wenn diese Option eingeschaltet ist, muss der Moderator neue Beiträge freischalten.
 gmaps#:#gmaps_api_key_desc#:#Um die Google Maps-Erweiterung nutzen zu können, müssen Sie einen Google-Map-API-Schlüssel beantragen bei:
 gmaps#:#gmaps_api_key#:#API-Schlüssel
 gmaps#:#gmaps_enable_gmaps_info#:#Aktiviere Google Maps in Persönlichen Profilen, Kursen und Gruppen
@@ -7471,6 +7491,7 @@ payment#:#pays_bmf_ca_certificate#:#Pfad zum CA-Zertifikat
 payment#:#pays_bmf_timeout#:#Timeout
 payment#:#pays_updated_bmf_settings#:#Ihre Einstellungen für BFM wurden aktualisiert.
 payment#:#pays_bmf_settings_not_valid#:#Ihre Einstellungen für BMF sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#import_use_only_textfile#:#Hinweis: Bitte verwenden Sie eine reine Textdatei mit je einem Code pro Zeile.
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin/Persönlichen Schreibtisch anzeigen.
 crs#:#crs_show_link_session#:#Sitzungen anzeigen
 crs#:#crs_hide_link_session#:#Sitzungen verbergen

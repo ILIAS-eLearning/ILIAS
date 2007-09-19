@@ -124,6 +124,9 @@
 * @version $Id$
 * 
 */
+
+require_once "Services/User/classes/class.ilObjUser.php";
+
 class ilMail
 {
 	/**
@@ -217,8 +220,11 @@ class ilMail
 	var $mail_rcp_bc;
 	var $mail_subject;
 	var $mail_message;
+	var $mail_use_placeholders = 0;
 
 	var $soap_enabled = true;
+	
+	private $mlists = null;
 
 
 	/**
@@ -231,8 +237,9 @@ class ilMail
 	{
 		require_once "classes/class.ilFileDataMail.php";
 		require_once "Services/Mail/classes/class.ilMailOptions.php";
+		require_once "Services/Mail/classes/class.ilMailingLists.php";
 
-		global $ilias, $lng;
+		global $ilias, $lng, $ilUser;
 
 		$lng->loadLanguageModule("mail");
 
@@ -244,6 +251,7 @@ class ilMail
 		$this->user_id = $a_user_id;
 		$this->mfile =& new ilFileDataMail($this->user_id);
 		$this->mail_options =& new ilMailOptions($a_user_id);
+		$this->mlists = new ilMailingLists($ilUser);
 
 		// DEFAULT: sent mail aren't stored insentbox of user.
 		$this->setSaveInSentbox(false);
@@ -381,6 +389,66 @@ class ilMail
 	function getMailObjectReferenceId()
 	{
 		return $this->mail_obj_ref_id;
+	}
+	
+	function formatNotificationSubject()
+	{
+		return $this->lng->txt('mail_notification_subject');
+	}
+		
+	function formatNotificationMessage($user_id, Array $mail_data = array())
+	{
+		global $tpl, $lng;
+		
+		$tpl =& new ilTemplate('tpl.mail_notifications.html', true, true, 'Services/Mail');
+		
+		$tpl->setVariable('TXT_RECEIVED_MAILS', sprintf($this->lng->txt('mail_received_x_new_mails'), count($mail_data)));
+				
+		$counter = 0;
+		foreach ($mail_data as $mail)
+		{
+			$tpl->setCurrentBlock('mails');
+			$tpl->setVariable('NR', $counter + 1);			
+			$tpl->setVariable('TXT_SENT', $this->lng->txt('sent'));
+			$tpl->setVariable('SEND_TIME', ilFormat::formatDate($mail['send_time']));
+			$tpl->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
+			$tpl->setVariable('SUBJECT', $mail['m_subject']);		
+			$tpl->parseCurrentBlock();
+			
+			++$counter;	
+		}		
+		
+		$message = $this->replacePlaceholders($tpl->get(), $user_id);		
+		
+		return $message;
+	}
+	
+	function getPreviousMail($a_mail_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT b.* FROM " . $this->table_mail ." AS a ".
+				 "INNER JOIN ".$this->table_mail ." AS b ON b.folder_id = a.folder_id AND b.user_id = a.user_id AND b.send_time > a.send_time ".
+				 "WHERE a.user_id = ".$ilDB->quote($this->user_id) ." ".				 
+				 "AND a.mail_id = ".$ilDB->quote($a_mail_id)." ORDER BY b.send_time ASC LIMIT 1";
+		
+		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
+		
+		return $this->mail_data; 
+	}
+	
+	function getNextMail($a_mail_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT b.* FROM " . $this->table_mail ." AS a ".
+				 "INNER JOIN ".$this->table_mail ." AS b ON b.folder_id = a.folder_id AND b.user_id = a.user_id AND b.send_time < a.send_time ".
+				 "WHERE a.user_id = ".$ilDB->quote($this->user_id) ." ".				 
+				 "AND a.mail_id = ".$ilDB->quote($a_mail_id)." ORDER BY b.send_time DESC LIMIT 1";
+		
+		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
+		
+		return $this->mail_data;
 	}
 
 	/**
@@ -605,6 +673,8 @@ class ilMail
 	*/
 	function fetchMailData($a_row)
 	{
+		if (!$a_row) return;
+		
 		return array(
 			"mail_id"         => $a_row->mail_id,
 			"user_id"         => $a_row->user_id,
@@ -619,8 +689,9 @@ class ilMail
 			"m_type"          => unserialize(stripslashes($a_row->m_type)),
 			"m_email"         => $a_row->m_email,
 			"m_subject"       => stripslashes($a_row->m_subject),
-			"m_message"       => stripslashes($a_row->m_message),
-			"import_name"	  => stripslashes($a_row->import_name));
+			"m_message"       => stripslashes($a_row->m_message),			
+			"import_name"	  => stripslashes($a_row->import_name),
+			"use_placeholders"=> $a_row->use_placeholders);
 	}
 
 	function updateDraft($a_folder_id,
@@ -632,7 +703,7 @@ class ilMail
 						 $a_m_email,
 						 $a_m_subject,
 						 $a_m_message,
-						 $a_draft_id = 0)
+						 $a_draft_id = 0, $a_use_placeholders = 0)
 	{
 		global $ilDB;
 		
@@ -647,7 +718,8 @@ class ilMail
 			"m_type = '".addslashes(serialize($a_m_type))."',".
 			"m_email = ".$ilDB->quote($a_m_email).",".
 			"m_subject = ".$ilDB->quote($a_m_subject).",".
-			"m_message = ".$ilDB->quote($a_m_message)." ".
+			"m_message = ".$ilDB->quote($a_m_message).",".
+			"use_placeholders = ".$ilDB->quote($a_use_placeholders)." ".
 			"WHERE mail_id = ".$ilDB->quote($a_draft_id)."";
 			
 		$res = $this->ilias->db->query($query);
@@ -683,12 +755,14 @@ class ilMail
 							  $a_m_email,
 							  $a_m_subject,
 							  $a_m_message,
-							  $a_user_id = 0)
+							  $a_user_id = 0, $a_use_placeholders = 0)
 	{
 		$a_user_id = $a_user_id ? $a_user_id : $this->user_id;
 
 		global $ilDB, $log;
 		//$log->write('class.ilMail->sendInternalMail to user_id:'.$a_rcp_to.' '.$a_m_message);
+
+		if ($a_use_placeholders) $a_m_message = $this->replacePlaceholders($a_m_message, $a_user_id);
 
 		$query = "INSERT INTO $this->table_mail ".
 			"SET user_id = ".$ilDB->quote($a_user_id).",".
@@ -711,6 +785,35 @@ class ilMail
 
 		return $row["id"];
 	}
+	
+	function replacePlaceholders($a_message, $a_user_id)
+	{		
+		global $lng;
+		
+		$user = new ilObjUser($a_user_id);		
+		
+		// determine salutation		
+		switch ($user->getGender())
+		{
+			case "f" :	$gender_salut = $lng->txt('gender_f');
+						break;
+			case "m" :	$gender_salut = $lng->txt('gender_m');
+						break;
+        }
+        $gender_salut = trim($gender_salut);
+
+		$a_message = str_replace("[MAIL_SALUTATION]", $gender_salut, $a_message);
+		$a_message = str_replace("[LOGIN]", $user->getLogin(), $a_message);
+		$a_message = str_replace("[FIRST_NAME]", $user->getFirstname(), $a_message);
+		$a_message = str_replace("[LAST_NAME]", $user->getLastname(), $a_message);
+		$a_message = str_replace("[ILIAS_URL]", ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID, $a_message);
+		$a_message = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_message);
+		
+		unset($user);
+	
+		return $a_message;
+	}
+	
 	/**
 	* send internal message to recipients
 	* @access	private
@@ -724,7 +827,7 @@ class ilMail
 	* @param    array 'normal' and/or 'system' and/or 'email'
 	* @return	bool
 	*/
-	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type,$a_action)
+	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type,$a_action, $a_use_placeholders = 0)
 	{
 		global $log;
 		//$log->write('class.ilMail.distributeMail '.$a_rcp_to.' '.$a_subject);
@@ -790,7 +893,7 @@ class ilMail
 			$mail_id = $this->sendInternalMail($inbox_id,$this->user_id,
 								  $a_attachments,$a_rcp_to,
 								  $a_rcp_cc,'','unread',$a_type,
-								  0,$a_subject,$a_message,$id);
+								  0,$a_subject,$a_message,$id, $a_use_placeholders);
 			if ($a_attachments)
 			{
 				$this->mfile->assignAttachmentsToDirectory($mail_id,$sent_mail_id,$a_attachments);
@@ -800,21 +903,34 @@ class ilMail
 		// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
 		$to = array();
 		$bcc = array();
-
-		if (count($as_email) == 1)
+		
+		if (!$a_use_placeholders)
 		{
-			$to[] = ilObjUser::_lookupEmail($as_email[0]); 
+			if (count($as_email) == 1)
+			{
+				$to[] = ilObjUser::_lookupEmail($as_email[0]); 
+			}
+			else
+			{
+				foreach ($as_email as $id)
+				{
+					$bcc[] = ilObjUser::_lookupEmail($id);
+				}
+			}
+			if(count($to) > 0 || count($bcc) > 0)
+			{
+				$this->sendMimeMail(implode(',',$to),'',implode(',',$bcc),$a_subject,$a_message,$a_attachments);
+			}
 		}
 		else
 		{
-			foreach ($as_email as $id)
+			if (count($as_email))
 			{
-				$bcc[] = ilObjUser::_lookupEmail($id);
+				foreach ($as_email as $id)
+				{					
+					$this->sendMimeMail(ilObjUser::_lookupEmail($id), '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
+				}
 			}
-		}
-		if(count($to) > 0 || count($bcc) > 0)
-		{
-			$this->sendMimeMail(implode(',',$to),'',implode(',',$bcc),$a_subject,$a_message,$a_attachments);
 		}
 		
 		return true;
@@ -837,7 +953,7 @@ class ilMail
 			if (! is_a($tmp_names, 'PEAR_Error'))
 			{
 				for ($i = 0;$i < count($tmp_names); $i++)
-				{
+				{					
 					if (substr($tmp_names[$i]->mailbox,0,1) === '#')
 					{
 						$role_ids = $rbacreview->searchRolesByMailboxAddressList($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
@@ -1060,7 +1176,7 @@ class ilMail
 			if (is_a($tmp_rcp, 'PEAR_Error'))
 			{
 				$colon_pos = strpos($tmp_rcp->message, ':');
-				$wrong_rcps = '<BR/>'.(($colon_pos === false) ? $tmp_rcp->message : substr($tmp_rcp->message, $colon_pos+2));
+				$wrong_rcps = '<br />'.(($colon_pos === false) ? $tmp_rcp->message : substr($tmp_rcp->message, $colon_pos+2));
 			}
 			else
 			{
@@ -1073,7 +1189,7 @@ class ilMail
 						$user_id = ($rcp->host == 'ilias') ? ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)) : false;
 						if ($user_id == false && $rcp->host == 'ilias')
 						{
-							$wrong_rcps .= "<BR/>".htmlentities($rcp->mailbox);
+							$wrong_rcps .= "<br />".htmlentities($rcp->mailbox);
 							continue;
 						}
 						
@@ -1082,23 +1198,34 @@ class ilMail
 						{
 							if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
 							{
-								$wrong_rcps .= "<BR/>".htmlentities($rcp->mailbox).
+								$wrong_rcps .= "<br />".htmlentities($rcp->mailbox).
 									" (".$this->lng->txt("user_cant_receive_mail").")";
 								continue;
 							}
 						}
+					}
+					else if (substr($rcp, 0, 7) == '#il_ml_')
+					{
+						if (!$this->mlists->mailingListExists($rcp))
+						{					
+							$wrong_rcps .= "<br />".htmlentities($rcp).	
+								" (".$this->lng->txt("mail_no_valid_mailing_list").")";
+						}
+						
+						continue;
 					}
 					else
 					{
 						$role_ids = $rbacreview->searchRolesByMailboxAddressList($rcp->mailbox.'@'.$rcp->host);
 						if (count($role_ids) == 0)
 						{
-							$wrong_rcps .= '<BR/>'.htmlentities($rcp->mailbox).
+							$wrong_rcps .= '<br />'.htmlentities($rcp->mailbox).
 								' ('.$this->lng->txt('mail_no_recipient_found').')';
 							continue;
-						} else if (count($role_ids) > 1)
+						}
+						else if (count($role_ids) > 1)
 						{
-							$wrong_rcps .= '<BR/>'.htmlentities($rcp->mailbox).
+							$wrong_rcps .= '<br/>'.htmlentities($rcp->mailbox).
 								' ('.sprintf($this->lng->txt('mail_multiple_recipients_found'), implode(',', $role_ids)).')';
 						}
 					}
@@ -1122,7 +1249,7 @@ class ilMail
 					if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
 						!ilUtil::is_email($rcp))
 					{
-						$wrong_rcps .= "<BR/>".htmlentities($rcp);
+						$wrong_rcps .= "<br />".htmlentities($rcp);
 						continue;
 					}
 
@@ -1131,22 +1258,32 @@ class ilMail
 					{
 						if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
 						{
-							$wrong_rcps .= "<BR/>".htmlentities($rcp).
+							$wrong_rcps .= "<br />".htmlentities($rcp).
 								" (".$this->lng->txt("user_cant_receive_mail").")";
 							continue;
 						}
 					}
 				}
-				elseif (ilUtil::groupNameExists(addslashes(substr($rcp,1))))
+				else if (substr($rcp, 0, 7) == '#il_ml_')
+				{
+					if (!$this->mlists->mailingListExists($rcp))
+					{					
+						$wrong_rcps .= "<br />".htmlentities($rcp).	
+							" (".$this->lng->txt("mail_no_valid_mailing_list").")";
+					}
+					
+					continue;
+				}
+				else if (ilUtil::groupNameExists(addslashes(substr($rcp,1))))
 				{
 					continue;
 				}
-				elseif(!$rbacreview->roleExists(addslashes(substr($rcp,1))))
+				else if (!$rbacreview->roleExists(addslashes(substr($rcp,1))))
 				{
-					$wrong_rcps .= "<BR/>".htmlentities($rcp).	
+					$wrong_rcps .= "<br />".htmlentities($rcp).	
 						" (".$this->lng->txt("mail_no_valid_group_role").")";
 					continue;
-				}
+				}				
 			}
 		}
 		return $wrong_rcps;
@@ -1164,6 +1301,7 @@ class ilMail
 	* @param    int as email (1,0)
 	* @param    string subject
 	* @param    string message
+	* @param    int use placeholders
 	* @return	bool
 	*/
 	function savePostData($a_user_id,
@@ -1174,7 +1312,8 @@ class ilMail
 						  $a_m_type,
 						  $a_m_email,
 						  $a_m_subject,
-						  $a_m_message)
+						  $a_m_message,
+						  $a_use_placeholders)
 	{
 		global $ilDB;
 		
@@ -1191,9 +1330,11 @@ class ilMail
 			"m_type = '".addslashes(serialize($a_m_type))."',".
 			"m_email = '',".
 			"m_subject = ".$ilDB->quote($a_m_subject).",".
-			"m_message = ".$ilDB->quote($a_m_message)."";
-
+			"m_message = ".$ilDB->quote($a_m_message).",".
+			"use_placeholders = ".$ilDB->quote($a_use_placeholders)."";
 		$res = $this->ilias->db->query($query);
+		
+		$this->getSavedData();
 
 		return true;
 	}
@@ -1210,7 +1351,7 @@ class ilMail
 		$query = "SELECT * FROM $this->table_mail_saved ".
 			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
-		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -1228,7 +1369,7 @@ class ilMail
 	* @access	public
 	* @return	array of saved data
 	*/
-	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type)
+	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type, $a_use_placeholders = 0)
 	{
 		global $lng,$rbacsystem,$log;
 		//$log->write('class.ilMail.sendMail '.$a_rcp_to.' '.$a_m_subject);
@@ -1282,6 +1423,16 @@ class ilMail
 				return $lng->txt("mail_no_attach_allowed");
 			}
 		}
+		
+		// ACTIONS FOR ALL TYPES
+		// save mail in sent box
+		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
+										$a_m_subject,$a_m_message);
+		
+		// GET RCPT OF MAILING LISTS
+		$a_rcp_to = $this->parseRcptOfMailingLists($a_rcp_to);
+		$a_rcp_cc = $this->parseRcptOfMailingLists($a_rcp_cc);
+		$a_rcp_bc = $this->parseRcptOfMailingLists($a_rcp_bc);
 
 		if (! ilMail::_usePearMail())
 		{
@@ -1305,11 +1456,7 @@ class ilMail
 			}
 		}
 		*/
-
-		// ACTIONS FOR ALL TYPES
-		// save mail in sent box
-		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
-										$a_m_subject,$a_m_message);
+				
 		if ($a_attachment)
 		{
 			$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
@@ -1332,12 +1479,13 @@ class ilMail
 								$this->__getEmailRecipients($a_rcp_bc),
 								$a_m_subject,
 								$a_m_message,
-								$a_attachment);
+								$a_attachment,
+								0);
 		}
 
 		if (in_array('system',$a_type))
 		{
-			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'system'))
+			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'system', $a_use_placeholders))
 			{
 				return $lng->txt("mail_send_error");
 			}
@@ -1346,7 +1494,7 @@ class ilMail
 		if (in_array('normal',$a_type))
 		{
 			// TRY BOTH internal and email (depends on user settings)
-			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'normal'))
+			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'normal', $a_use_placeholders))
 			{
 				return $lng->txt("mail_send_error");
 			}
@@ -1359,6 +1507,36 @@ class ilMail
 		}
 
 		return '';
+	}
+	
+	function parseRcptOfMailingLists($rcpt = '')
+	{
+		if ($rcpt == '') return $rcpt;
+		
+		$arrRcpt = $this->explodeRecipients(trim($rcpt));
+		if (!is_array($arrRcpt) || empty($arrRcpt)) return $rcpt;
+		
+		$new_rcpt = array();
+		
+		foreach ($arrRcpt as $item)
+		{
+			if (substr($item, 0, 7) == '#il_ml_')
+			{
+				if ($this->mlists->mailingListExists($item))
+				{
+					foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
+					{
+						$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+					}
+				}
+			}
+			else if ($item != '')
+			{
+				$new_rcpt[] = $item;
+			}	
+		}		
+		
+		return implode(',', $new_rcpt);
 	}
 
 	/**
@@ -1382,7 +1560,7 @@ class ilMail
 		$sent_id = $mbox->getSentFolder();
 
 		return $this->sendInternalMail($sent_id,$this->user_id,$a_attachment,$a_rcp_to,$a_rcp_cc,
-										$a_rcp_bcc,'read',$a_type,$a_as_email,$a_m_subject,$a_m_message,$this->user_id);
+										$a_rcp_bcc,'read',$a_type,$a_as_email,$a_m_subject,$a_m_message,$this->user_id, 0);
 	}
 
 
@@ -1438,7 +1616,7 @@ class ilMail
 				$attachments[] = $this->mfile->getAbsolutePath($attachment);
 			}
 			$attachments = implode(',',$attachments);
-
+			
 			$soap_client->call('sendMail',array($_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],	// session id
 												$a_rcp_to,
 												$a_rcp_cc,

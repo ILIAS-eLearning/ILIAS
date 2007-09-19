@@ -94,6 +94,15 @@ class ilCronCheck
 
 		}
 
+		// Start sending mail notifications
+		if($ilias->getSetting('mail_notification') == 1)
+		{
+			include_once './cron/classes/class.ilCronMailNotification.php';
+
+			$mail_not =& new ilCronMailNotification();
+			$mail_not->sendNotifications();
+		}
+
 	}
 }
 

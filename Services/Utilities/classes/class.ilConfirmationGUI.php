@@ -33,6 +33,7 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 */
 class ilConfirmationGUI
 {
+	private $hidden_item = array();
 	private $item = array();
 	private $use_images = false;
 	
@@ -103,6 +104,17 @@ class ilConfirmationGUI
 			$this->use_images = true;
 		}
 	}
+	
+	/**
+	* Add hidden item.
+	*
+	* @param	string	name of post variable used for id (e.g. "id[]")
+	* @param	mixed	value
+	*/
+	public function addHiddenItem($a_post_var, $a_value)
+	{
+		$this->hidden_item[] = array("var" => $a_post_var, "value" => $a_value);
+	}
 
 	/**
 	* Get confirmation screen HTML.
@@ -146,6 +158,14 @@ class ilConfirmationGUI
 			$tpl->setVariable("TXT_ITEM", $item["text"]);
 			$tpl->setVariable("VAR_ITEM", $item["var"]);
 			$tpl->setVariable("ID", $item["id"]);
+			$tpl->parseCurrentBlock();
+		}
+		
+		foreach ($this->hidden_item as $hidden_item)
+		{
+			$tpl->setCurrentBlock("hidden_item_row");
+			$tpl->setVariable("VAR_HIDDEN_VAR", $hidden_item["var"]);
+			$tpl->setVariable("VAR_HIDDEN_VALUE", $hidden_item["value"]);
 			$tpl->parseCurrentBlock();
 		}
 		

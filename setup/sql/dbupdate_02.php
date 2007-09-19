@@ -2371,3 +2371,101 @@ CREATE TABLE IF NOT EXISTS `il_log` (
   INDEX `level`(`level`)
 ) Type=MyISAM;
 
+<#1070>
+CREATE TABLE IF NOT EXISTS `addressbook_mailing_lists` (
+  `ml_id` bigint(20) NOT NULL auto_increment,
+  `user_id` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` NOT NULL,
+  `createdate` datetime NOT NULL,
+  `changedate` datetime NOT NULL,
+  PRIMARY KEY  (`ml_id`),
+  KEY `user_id` (`user_id`)
+) Type=MyISAM;
+
+<#1071>
+CREATE TABLE IF NOT EXISTS `addressbook_mailing_lists_assignments` (
+  `a_id` bigint(20) NOT NULL auto_increment,
+  `ml_id` bigint(20) NOT NULL,
+  `addr_id` bigint(20) NOT NULL,
+  PRIMARY KEY  (`a_id`),
+  KEY `ml_id` (`ml_id`),
+  KEY `addr_id` (`addr_id`)
+) Type=MyISAM;
+
+<#1072>
+ALTER TABLE `mail` ADD `use_placeholders` TINYINT( 1 ) NOT NULL ;
+ALTER TABLE `mail_saved` ADD `use_placeholders` TINYINT( 1 ) NOT NULL ;
+ALTER TABLE `mail_options` ADD `cronjob_notification` TINYINT( 1 ) NOT NULL ;
+
+<#1073>
+CREATE TABLE IF NOT EXISTS `payment_coupons` (
+  `pc_pk` bigint(20) NOT NULL auto_increment,
+  `usr_id` bigint(20) NOT NULL,
+  `pc_title` varchar(255) NOT NULL,
+  `pc_description` text NOT NULL,
+  `pc_type` enum('fix','percent') NOT NULL,
+  `pc_value` decimal(10,2) NOT NULL,
+  `pc_from` date NOT NULL,
+  `pc_till` date NOT NULL,
+  `pc_from_enabled` tinyint(1) NOT NULL default '0',
+  `pc_till_enabled` tinyint(1) NOT NULL default '0',
+  `pc_uses` int(11) NOT NULL,
+  `pc_last_change_usr_id` bigint(20) NOT NULL,
+  `pc_last_changed` datetime NOT NULL,
+  PRIMARY KEY  (`pc_pk`),
+  KEY `usr_id` (`usr_id`)
+) Type=MyISAM;
+
+<#1074>
+CREATE TABLE IF NOT EXISTS `payment_coupons_codes` (
+  `pcc_pk` bigint(20) NOT NULL auto_increment,
+  `pcc_pc_fk` bigint(20) NOT NULL,
+  `pcc_code` varchar(255) NOT NULL,
+  PRIMARY KEY  (`pcc_pk`),
+  KEY `pcc_pc_fk` (`pcc_pc_fk`),
+  KEY `pcc_pc_fk_2` (`pcc_pc_fk`)
+) Type=MyISAM;
+
+<#1075>
+CREATE TABLE IF NOT EXISTS `payment_coupons_objects` (
+  `pco_pc_fk` bigint(20) NOT NULL,
+  `ref_id` bigint(20) NOT NULL,
+  PRIMARY KEY  (`pco_pc_fk`,`ref_id`)
+) Type=MyISAM;
+
+<#1076>
+CREATE TABLE IF NOT EXISTS `payment_coupons_tracking` (
+  `pct_pk` bigint(20) NOT NULL auto_increment,
+  `pct_pcc_fk` bigint(20) NOT NULL,
+  `usr_id` bigint(20) NOT NULL,
+  `pct_date` datetime NOT NULL,
+  PRIMARY KEY  (`pct_pk`),
+  KEY `pct_pcc_fk` (`pct_pcc_fk`),
+  KEY `usr_id` (`usr_id`)
+) Type=MyISAM;
+
+<#1077>
+CREATE TABLE IF NOT EXISTS `payment_statistic_coupons` (
+  `psc_ps_fk` bigint(20) NOT NULL,
+  `psc_pc_fk` bigint(20) NOT NULL,
+  `psc_pcc_fk` bigint(20) NOT NULL,
+  KEY `psc_ps_fk` (`psc_ps_fk`),
+  KEY `psc_pc_fk` (`psc_pc_fk`),
+  KEY `psc_pcc_fk` (`psc_pcc_fk`)
+) Type=MyISAM;
+
+<#1078>
+ALTER TABLE `payment_trustees` ADD `perm_coupons` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `perm_obj`;
+ALTER TABLE `payment_settings` ADD `bmf` TEXT NOT NULL AFTER `paypal`;
+ALTER TABLE `payment_statistic` ADD `discount` CHAR( 16 ) NOT NULL AFTER `price`;
+
+<#1079>
+ALTER TABLE `frm_settings` ADD `post_activation` TINYINT( 1 ) NOT NULL ;
+ALTER TABLE `frm_posts` ADD `pos_status` TINYINT( 1 ) NOT NULL DEFAULT '1';
+ALTER TABLE `frm_threads` ADD `is_sticky` TINYINT( 1 ) NOT NULL DEFAULT '0';
+
+<#1080>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

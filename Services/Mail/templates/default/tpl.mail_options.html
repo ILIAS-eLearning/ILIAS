@@ -38,6 +38,15 @@
 	<td id="header-signature" class="option">{TXT_SIGNATURE}</td>
 	<td headers="header-signature header-options" class="option_value"><textarea name="signature" rows=10 cols=60>{CONTENT}</textarea></td>
 </tr>
+<!-- BEGIN cron_mail_notifications -->
+<tr>
+	<td id="header-cronjob-notification" class="option">{TXT_CRONJOB_NOTIFICATION}</td>
+	<td headers="header-cronjob-notification header-options" class="option_value">
+		<input type="checkbox" name="cronjob_notification" value="1" {CRONJOB_NOTIFICATION_SELECTED} />
+		<br /><span class="subtitle">{TXT_CRONJOB_NOTIFICATION_INFO}</span>
+	</td>
+</tr>
+<!-- END cron_mail_notifications -->
 <tr class="submit" align="right">
 	<td class="submit" colspan="2"><input class="submit" type=submit value="{TXT_SAVE}" name="cmd[saveOptions]"/></td>
 </tr>

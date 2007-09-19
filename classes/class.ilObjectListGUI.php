@@ -1127,6 +1127,9 @@ class ilObjectListGUI
 		{
 			return;
 		}
+		
+		include_once './payment/classes/class.ilPaymentObject.php';
+		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);
@@ -1135,6 +1138,18 @@ class ilObjectListGUI
 		
 		foreach($commands as $command)
 		{
+			if ($command['permission'] == 'join')
+			{
+				if ($this->payment_enabled &&
+					ilPaymentObject::_isBuyable($this->ref_id))
+				{
+					if (!ilPaymentObject::_hasAccess($this->ref_id))
+					{
+						$command['lang_var'] = 'buy';
+					}	
+				}
+			}
+
 			if ($command["granted"] == true )
 			{
 				if (!$command["default"] === true)

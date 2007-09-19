@@ -1,4 +1,4 @@
-    <form action="{ACTION}" method="post">
+    <form action="{ACTION}" target="{FORM_TARGET}" method="post">
 	<table class="fullwidth">
 		<TR class="{CSSROW_FROM}">
 			<TD id="header-from" class="option">{TXT_FROM}</TD>
@@ -6,7 +6,9 @@
 			<!-- BEGIN pers_image -->
 			<img style="float:left; margin-right:10px;" src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
 			<!-- END pers_image -->
-			{FROM} <br />{MAIL_LOGIN}</TD>
+			<a href="{PROFILE_LINK_FROM}">{FROM}</a><br />{MAIL_LOGIN}
+			<!-- BEGIN add --><br />{ADD_USER_BTN}<!-- END add -->
+			</TD>
 		</TR>
 		<TR class="{CSSROW_TO}">
 			<TD id="header-to" class="option">{TXT_TO}</TD>
@@ -65,7 +67,24 @@
 				<TD headers="header-message" class="std" colspan="2">{MAIL_MESSAGE}</TD>
 			</TR>
 		</TABLE>
-</body>
+<div>
+<br />
+<table class="fullwidth_invisible">
+<tr>
+	<td align="left">
+		<select name="action">
+		<!-- BEGIN movemail -->
+			<option value="{MOVEMAIL_VALUE}" {MOVEMAIL_SELECTED}>{MOVEMAIL_NAME}</option>
+		<!-- END movemail -->	  
+		</select>
+		<input type="submit" name="cmd[changeFolder]" class="submit" value="{TXT_MOVEMAIL_SEND}" />
+	</td>
+	<td align="right">{NAV_BUTTONS}</td>
+</tr>
+</table>
+
 </form>
+
+
 <!--</div>-->
 </td></tr></table>

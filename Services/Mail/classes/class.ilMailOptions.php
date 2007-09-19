@@ -57,6 +57,7 @@ class ilMailOptions
 	*/
 	var $signature;
 	var $incoming_type;
+	var $cronjob_notification;
 
 	/**
 	* Constructor
@@ -95,7 +96,9 @@ class ilMailOptions
 		}
 
         $query = "INSERT INTO $this->table_mail_options " .
-                "VALUES(" . $ilDB->quote($this->user_id) . "," . $ilDB->quote(DEFAULT_LINEBREAK) . ",'',".$ilDB->quote($incomingMail).")";
+                 "VALUES(" . $ilDB->quote($this->user_id) . ", " . 
+                 			 $ilDB->quote(DEFAULT_LINEBREAK) . ", '', " . 
+							 $ilDB->quote($incomingMail) . ", '0')";
 
         $res = $this->ilias->db->query($query);
         return true;
@@ -117,6 +120,7 @@ class ilMailOptions
 
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		
+		$this->cronjob_notification = stripslashes($row->cronjob_notification);
 		$this->signature = stripslashes($row->signature);
 		$this->linebreak = stripslashes($row->linebreak);
 		$this->incoming_type = $row->incoming_type;
@@ -135,18 +139,20 @@ class ilMailOptions
 	* @param int linebreak
 	* @return	boolean
 	*/
-	function updateOptions($a_signature, $a_linebreak,$a_incoming_type)
+	function updateOptions($a_signature, $a_linebreak,$a_incoming_type, $a_cronjob_notification)
 	{
 		global $ilDB;
 		
 		$query = "UPDATE $this->table_mail_options ".
 			"SET signature = ".$ilDB->quote($a_signature).",".
 			"linebreak = ".$ilDB->quote($a_linebreak).", ".
+			"cronjob_notification = ".$ilDB->quote($a_cronjob_notification).", ".			
 			"incoming_type = ".$ilDB->quote($a_incoming_type)." ".
 			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
 		$res = $this->ilias->db->query($query);
 
+		$this->cronjob_notification = $a_cronjob_notification;
 		$this->signature = $a_signature;
 		$this->linebreak = $a_linebreak;
 		$this->incoming_type = $a_incoming_type;
@@ -177,6 +183,16 @@ class ilMailOptions
 	{
 		return $this->incoming_type;
 	}
+	
+	function setCronjobNotification()
+	{
+		return $this->cronjob_notification;
+	}
+	function getCronjobNotification()
+	{
+		return $this->cronjob_notification;
+	}
+	
 	
 } // END class.ilFormatMail
 ?>

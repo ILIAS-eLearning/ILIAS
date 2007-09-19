@@ -123,6 +123,7 @@ class ilMailSearchCoursesGUI
 				"",
 				"",
 				"",
+				"",
 				""
 			);
 		}
@@ -154,7 +155,8 @@ class ilMailSearchCoursesGUI
 			$mail_data["m_type"],
 			$mail_data["m_email"],
 			$mail_data["m_subject"],
-			$mail_data["m_message"]
+			$mail_data["m_message"],
+			$mail_data["use_placeholders"]
 		);
 		
 		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
@@ -169,6 +171,7 @@ class ilMailSearchCoursesGUI
 			$this->umail->savePostData(
 				$ilUser->getId(),
 				array(),
+				"",
 				"",
 				"",
 				"",
@@ -195,10 +198,11 @@ class ilMailSearchCoursesGUI
 			$mail_data["m_type"],
 			$mail_data["m_email"],
 			$mail_data["m_subject"],
-			$mail_data["m_message"]
+			$mail_data["m_message"],
+			$mail_data["use_placeholders"]
 		);
 	
-		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+	#	ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
 	}
 
 	/**

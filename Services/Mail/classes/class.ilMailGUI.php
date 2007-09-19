@@ -29,7 +29,7 @@ require_once "Services/Mail/classes/class.ilMail.php";
 *
 * @defgroup ServicesMail Services/Mail
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilMailAddressbookGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI
+* @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilMailAddressbookGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
 */
 class ilMailGUI
 {
@@ -81,6 +81,9 @@ class ilMailGUI
 		if ($_GET["type"] == "new")
 		{
 			$_SESSION['rcp_to'] = $_GET['rcp_to'];
+			$_SESSION['rcp_cc'] = $_GET['rcp_cc'];
+			$_SESSION['rcp_bcc'] = $_GET['rcp_bcc'];
+			
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "mailUser");
 			$this->ctrl->redirectByClass("ilmailformgui");
 		}

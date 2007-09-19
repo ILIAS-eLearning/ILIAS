@@ -5206,6 +5206,24 @@ exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Passed
 exercise#:#exc_send_mail#:#Send Mail
 exercise#:#exc_your_submission#:#Your Submission
+forum#:#threads_moved_successfully#:#The chosen topics were moved to another forum successfully.
+forum#:#select_at_least_one_thread#:#Please select at least one topic.
+forum#:#no_forum_available_for_moving_threads#:#No forum available to move the chosen topics to.
+forum#:#move_chosen_topics#:#Move Chosen Topics
+forum#:#to_forum#:#To Forum
+forum#:#no_forum_selected#:#No forum selected for moving the chosen topics
+forum#:#sure_move_threads#:#Are you sure you want to move the chosen topics?
+forum#:#make_topics_sticky#:#Make Topics Sticky
+forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky
+forum#:#make_topic_sticky#:#Make Topic Sticky
+forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky
+forum#:#activate_post#:#Activate
+forum#:#deactivate_post#:#Deactivate
+forum#:#activate_post_txt#:#Would you really like to activate the current post and if applicable all its child posts? Please note that all parent posts will be activated, too.
+forum#:#deactivate_post_txt#:#Would you really like to deactivate the current post and all its child posts?
+forum#:#activate_only_current#:#Activate Current
+forum#:#activate_current_and_childs#:#Activate All Posts
+forum#:#deactivate_current_and_childs#:#Deactivate All Posts
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
@@ -5269,8 +5287,10 @@ forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all particip
 forum#:#frm_statistics_ranking#:#Number of Postings
 forum#:#frm_title_required#:#Please insert a title.
 forum#:#is_read#:#Mark as Read
-forum#:#new_post#:#New post
+forum#:#new_post#:#New Post
+forum#:#new_posts#:#New Posts
 forum#:#thread#:#Topic
+forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.
 grp#:#grp_registration_unlimited#:#Unlimited registration period
 ilinc#:#ilinc_member_administration#:#Edit Participants
 ilinc#:#akclassvalue1#:#Cost center 1
@@ -7498,6 +7518,7 @@ payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate
 payment#:#pays_bmf_timeout#:#Timeout
 payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.
 payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.
+payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.
 ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop
 crs#:#crs_show_link_session#:#Show sessions
 crs#:#crs_hide_link_session#:#Hide sessions
