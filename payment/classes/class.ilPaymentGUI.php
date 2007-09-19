@@ -26,7 +26,7 @@
 * @author Stefan Meyer
 * @version $Id$
 *
-* @ilCtrl_Calls ilPaymentGUI: ilPaymentShoppingCartGUI, ilPaymentBuyedObjectsGUI
+* @ilCtrl_Calls ilPaymentGUI: ilPaymentShoppingCartGUI, ilPaymentBuyedObjectsGUI, ilPurchaseBMFGUI
 *
 * @package core
 */
@@ -59,6 +59,7 @@ class ilPaymentGUI extends ilPaymentBaseGUI
 		global $tree;
 
 		$cmd = $this->ctrl->getCmd();
+
 		switch ($this->ctrl->getNextClass($this))
 		{
 			case 'ilpaymentshoppingcartgui':
@@ -79,6 +80,17 @@ class ilPaymentGUI extends ilPaymentBaseGUI
 				include_once './payment/classes/class.ilPaymentBuyedObjectsGUI.php';
 
 				$pt =& new ilPaymentBuyedObjectsGUI($this->user_obj);
+				
+				$this->ctrl->forwardCommand($pt);
+				break;
+			
+			case 'ilpurchasebmfgui':
+				$this->setSection($this->SECTION_BUYED_OBJECTS);
+				$this->buildHeader();
+
+				include_once './payment/classes/class.ilPurchaseBMFGUI.php';
+
+				$pt =& new ilPurchaseBMFGUI($this->user_obj);
 				
 				$this->ctrl->forwardCommand($pt);
 				break;

@@ -229,9 +229,10 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			$f_result[$counter][] = $tmp_obj->getTitle();
 			$f_result[$counter][] = '['.$tmp_vendor->getLogin().']';
 			$f_result[$counter][] = '['.$tmp_purchaser->getLogin().']';
-			$f_result[$counter][] = date('Y m d H:i:s',$booking['order_date']);
+			$f_result[$counter][] = date('Y-m-d H:i:s', $booking['order_date']);
 			$f_result[$counter][] = $booking['duration'];
 			$f_result[$counter][] = $booking['price'];
+			$f_result[$counter][] = $booking['discount'];
 
 			$payed_access = $booking['payed'] ? 
 				$this->lng->txt('yes') : 
@@ -837,6 +838,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("paya_order_date"),
 								   $this->lng->txt("duration"),
 								   $this->lng->txt("price_a"),
+								   $this->lng->txt("paya_coupons_coupons"),
 								   $this->lng->txt("paya_payed_access"),
 								   ''));
 		$header_params = $this->ctrl->getParameterArray($this,'');
@@ -847,6 +849,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 								  "order_date",
 								  "duration",
 								  "price",
+								  "discount",
 								  "payed_access",
 								  "options"),$header_params);
 								  /*
@@ -868,7 +871,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($a_result_set);
 
-		$tpl->setVariable("COLUMN_COUNTS",9);
+		$tpl->setVariable("COLUMN_COUNTS",10);
 		$tpl->setCurrentBlock("plain_buttons");
 		$tpl->setVariable("PBTN_NAME","excelExport");
 		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("excel_export"));

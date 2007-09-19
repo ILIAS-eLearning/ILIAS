@@ -137,6 +137,14 @@ class ilPaymentBookings
 	{
 		return $this->price;
 	}
+	function setDiscount($a_discount)
+	{
+		$this->discount = $a_discount;
+	}
+	function getDiscount()
+	{
+		return $this->discount;
+	}
 	function setPayed($a_payed)
 	{
 		$this->payed = $a_payed;
@@ -173,7 +181,7 @@ class ilPaymentBookings
 	function add()
 	{
 		$query = sprintf("INSERT INTO payment_statistic VALUES('',".
-						 "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+						 "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
 						 $this->getTransaction(),
 						 $this->getPobjectId(),
 						 $this->getCustomerId(),
@@ -182,6 +190,7 @@ class ilPaymentBookings
 						 $this->getOrderDate(),
 						 $this->getDuration(),
 						 $this->getPrice(),
+						 $this->getDiscount(),
 						 $this->getPayedStatus(),
 						 $this->getAccessStatus(),
 						 $this->getVoucher(),
@@ -189,7 +198,7 @@ class ilPaymentBookings
 
 		$this->db->query($query);
 
-		return true;
+		return $this->db->getLastInsertId();
 	}
 						 
 	function update()
@@ -238,6 +247,7 @@ class ilPaymentBookings
 			$booking[$row->booking_id]['order_date'] = $row->order_date;
 			$booking[$row->booking_id]['duration'] = $row->duration;
 			$booking[$row->booking_id]['price'] = $row->price;
+			$booking[$row->booking_id]['discount'] = $row->discount;
 			$booking[$row->booking_id]['payed'] = $row->payed;
 			$booking[$row->booking_id]['access'] = $row->access;
 			$booking[$row->booking_id]['ref_id'] = $row->ref_id;
@@ -273,6 +283,7 @@ class ilPaymentBookings
 			$booking['order_date'] = $row->order_date;
 			$booking['duration'] = $row->duration;
 			$booking['price'] = $row->price;
+			$booking['discount'] = $row->discount;			
 			$booking['payed'] = $row->payed;
 			$booking['access'] = $row->access;
 			$booking['ref_id'] = $row->ref_id;
@@ -558,6 +569,7 @@ class ilPaymentBookings
 			$this->bookings[$row->booking_id]['order_date'] = $row->order_date;
 			$this->bookings[$row->booking_id]['duration'] = $row->duration;
 			$this->bookings[$row->booking_id]['price'] = $row->price;
+			$this->bookings[$row->booking_id]['discount'] = $row->discount;
 			$this->bookings[$row->booking_id]['payed'] = $row->payed;
 			$this->bookings[$row->booking_id]['access'] = $row->access;
 			$this->bookings[$row->booking_id]['ref_id'] = $row->ref_id;
@@ -567,8 +579,7 @@ class ilPaymentBookings
 			$this->bookings[$row->booking_id]['b_vendor_id'] = $row->b_vendor_id;
 			$this->bookings[$row->booking_id]['b_pay_method'] = $row->b_pay_method;
 			$this->bookings[$row->booking_id]['voucher'] = $row->voucher;
-			$this->bookings[$row->booking_id]['transaction_extern'] = $row->transaction_extern;
-			
+			$this->bookings[$row->booking_id]['transaction_extern'] = $row->transaction_extern;			
 		}
 
 	}

@@ -945,7 +945,6 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	}
 	function __showObjectsTable($a_result_set)
 	{
-
 		$tbl =& $this->initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 

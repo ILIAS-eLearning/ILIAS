@@ -147,7 +147,7 @@ class ilBMFSettings
 	}
 	public function getBewirtschafterNr()
 	{
-		return $this->haushaltsstelle;
+		return $this->bewirtschafter_nr;
 	}
 	public function setHaushaltsstelle($a_haushaltsstelle)
 	{

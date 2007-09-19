@@ -34,6 +34,28 @@ class ilGeneralSettings
 		$this->db =& $ilDB;
 
 		$this->__getSettings();
+	}	
+	
+	/** 
+	 * Fetches and sets the primary key of the payment settings
+	 *
+	 * @access	private
+	 */
+	private function fetchSettingsId()
+	{
+		$query = "SELECT * FROM payment_settings";
+		$result = $this->db->getrow($query);
+		
+		$this->setSettingsId($result->settings_id);
+	}
+	
+	public function setSettingsId($a_settings_id = 0)
+	{
+		$this->settings_id = $a_settings_id;
+	}
+	public function getSettingsId()
+	{
+		return $this->settings_id;
 	}
 	
 	function get($a_type)
@@ -48,23 +70,52 @@ class ilGeneralSettings
 
 	function clearAll()
 	{
-		$query = "DELETE FROM payment_settings";
+		$query = "UPDATE payment_settings ";
+		$query .= "SET currency_unit = '', ";
+		$query .= "currency_subunit = '', ";
+		$query .= "address = '', ";
+		$query .= "bank_data = '', ";
+		$query .= "add_info = '', ";
+		$query .= "vat_rate = '', ";
+		$query .= "pdf_path = '' ";
+		$query .= "WHERE settings_id = '" . $this->getSettingsId() . "'";
+		
 		$this->db->query($query);
 
 		return true;
 	}
 		
 	function setAll($a_values)
-	{
-		$query = "INSERT INTO payment_settings (currency_unit, currency_subunit, address, bank_data, add_info, vat_rate, pdf_path) VALUES (";
-		$query .= "'" . $a_values["currency_unit"] . "', ";
-		$query .= "'" . $a_values["currency_subunit"] . "', ";
-		$query .= "'" . $a_values["address"] . "', ";
-		$query .= "'" . $a_values["bank_data"] . "', ";
-		$query .= "'" . $a_values["add_info"] . "', ";
-		$query .= "'" . $a_values["vat_rate"] . "', ";
-		$query .= "'" . $a_values["pdf_path"] . "')";
-		$this->db->query($query);
+	{		
+		if ($this->getSettingsId())
+		{		
+			$query = "UPDATE payment_settings ";
+			$query .= "SET currency_unit = '" . $a_values["currency_unit"] . "', ";
+			$query .= "currency_subunit = '" . $a_values["currency_subunit"] . "', ";
+			$query .= "address = '" . $a_values["address"] . "', ";
+			$query .= "bank_data = '" . $a_values["bank_data"] . "', ";
+			$query .= "add_info = '" . $a_values["add_info"] . "', ";
+			$query .= "vat_rate = '" . $a_values["vat_rate"] . "', ";
+			$query .= "pdf_path = '" . $a_values["pdf_path"] . "' ";
+			$query .= "WHERE settings_id = '" . $this->getSettingsId() . "'";
+			
+			$this->db->query($query);
+		}
+		else
+		{
+			$query = "INSERT INTO payment_settings (currency_unit, currency_subunit, address, bank_data, add_info, vat_rate, pdf_path) VALUES (";
+			$query .= "'" . $a_values["currency_unit"] . "', ";
+			$query .= "'" . $a_values["currency_subunit"] . "', ";
+			$query .= "'" . $a_values["address"] . "', ";
+			$query .= "'" . $a_values["bank_data"] . "', ";
+			$query .= "'" . $a_values["add_info"] . "', ";
+			$query .= "'" . $a_values["vat_rate"] . "', ";
+			$query .= "'" . $a_values["pdf_path"] . "')";
+			$this->db->query($query);					
+			
+			$this->setSettingsId($this->db->getLastInsertId());
+		}
+		
 
 		$this->__getSettings();
 
@@ -73,6 +124,8 @@ class ilGeneralSettings
 
 	function __getSettings()
 	{
+		$this->fetchSettingsId();
+		
 		$query = "SELECT * FROM payment_settings";
 		$result = $this->db->getrow($query);
 

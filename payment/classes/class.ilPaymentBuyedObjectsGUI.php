@@ -90,7 +90,9 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 
 			return true;
 		}
+		
 		$counter = 0;
+				
 		foreach($bookings as $booking)
 		{
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($booking['ref_id']);
@@ -134,9 +136,10 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 			*/
 			$f_result[$counter][] = '['.$tmp_vendor->getLogin().']';
 			$f_result[$counter][] = '['.$tmp_purchaser->getLogin().']';
-			$f_result[$counter][] = date('Y m d H:i:s',$booking['order_date']);
+			$f_result[$counter][] = date("Y-m-d H:i:s", $booking['order_date']);
 			$f_result[$counter][] = $booking['duration'];
 			$f_result[$counter][] = $booking['price'];
+			$f_result[$counter][] = ($booking['discount'] != '' ? $booking['discount'] : '&nbsp;');
 
 			$payed_access = $booking['payed'] ? 
 				$this->lng->txt('yes') : 
@@ -179,6 +182,7 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("paya_order_date"),
 								   $this->lng->txt("duration"),
 								   $this->lng->txt("price_a"),
+								   $this->lng->txt("paya_coupons_coupon"),
 								   $this->lng->txt("paya_payed_access")));
 		$header_params = $this->ctrl->getParameterArray($this,'');
 		$tbl->setHeaderVars(array("transaction",
@@ -188,6 +192,7 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 								  "order_date",
 								  "duration",
 								  "price",
+								  "discount",
 								  "payed_access"),$header_params);
 								  /*
 							array("cmd" => "",

@@ -78,6 +78,10 @@ class ilPaymentTrustees
 	{
 		$this->perm_obj = (bool) $a_on;
 	}
+	function toggleCouponsPermission($a_on)
+	{
+		$this->perm_coupons = (bool) $a_on;
+	}
 	function setTrusteeId($a_id)
 	{
 		$this->trustee_id = $a_id;
@@ -89,6 +93,7 @@ class ilPaymentTrustees
 			"SET vendor_id = '".$this->user_obj->getId()."', ".
 			"trustee_id = '".$this->__getTrusteeId()."', ".
 			"perm_stat = '".$this->__getStatisticPermissionStatus()."', ".
+			"perm_coupons = '".$this->__getCouponsPermissisonStatus()."', ".			
 			"perm_obj = '".$this->__getObjectPermissisonStatus()."'";
 		
 		$this->db->query($query);
@@ -106,7 +111,8 @@ class ilPaymentTrustees
 		$query = "UPDATE payment_trustees SET ".
 			"trustee_id = '".$this->__getTrusteeId()."', ".
 			"perm_stat = '".$this->__getStatisticPermissionStatus()."', ".
-			"perm_obj = '".$this->__getObjectPermissisonStatus()."' ".
+			"perm_obj = '".$this->__getObjectPermissisonStatus()."', ".
+			"perm_coupons = '".$this->__getCouponsPermissisonStatus()."' ".
 			"WHERE vendor_id = '".$this->user_obj->getId()."' ".
 			"AND trustee_id = '".$this->__getTrusteeId()."'";
 
@@ -156,6 +162,10 @@ class ilPaymentTrustees
 	{
 		return (int) $this->perm_obj;
 	}
+	function __getCouponsPermissisonStatus()
+	{
+		return (int) $this->perm_coupons;
+	}
 	function __read()
 	{
 		$this->trustees = array();
@@ -169,6 +179,7 @@ class ilPaymentTrustees
 			$this->trustees[$row->trustee_id]['trustee_id'] = $row->trustee_id;
 			$this->trustees[$row->trustee_id]['perm_stat'] = $row->perm_stat;
 			$this->trustees[$row->trustee_id]['perm_obj'] = $row->perm_obj;
+			$this->trustees[$row->trustee_id]['perm_coupons'] = $row->perm_coupons;
 		}
 	}
 
@@ -219,6 +230,23 @@ class ilPaymentTrustees
 		}
 		return false;
 	}
+	function _hasCouponsPermission($a_trustee)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM payment_trustees ".
+			"WHERE trustee_id = '".$a_trustee."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if((bool) $row->perm_coupons)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	function _hasStatisticPermissionByVendor($a_trustee,$a_vendor)
 	{
 		global $ilDB;
@@ -247,10 +275,25 @@ class ilPaymentTrustees
 		return $res->numRows() ? true : false;
 	}
 
+	function _hasCouponsPermissionByVendor($a_trustee,$a_vendor)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_trustees ".
+			"WHERE trustee_id = '".$a_trustee."' ".
+			"AND vendor_id = '".$a_vendor."' ".
+			"AND perm_coupons = '1'";
+
+		$res = $ilDB->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
 	function _hasAccess($a_usr_id)
 	{
 		return ilPaymentTrustees::_hasStatisticPermission($a_usr_id) or 
-			ilPaymentTrustees::_hasObjectPermission($a_usr_id);
+			ilPaymentTrustees::_hasObjectPermission($a_usr_id) or 
+			ilPaymentTrustees::_hasCouponsPermission($a_usr_id);
 	}
 
 	function _getVendorsForObjects($a_usr_id)
@@ -268,6 +311,40 @@ class ilPaymentTrustees
 		}
 
 		return $vendors ? $vendors : array();
+	}
+	
+	function _getVendorsForCouponsByTrusteeId($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT vendor_id FROM payment_trustees ".
+			"WHERE perm_coupons = '1' ".
+			"AND trustee_id = '".$a_usr_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$vendors[] = $row->vendor_id;
+		}
+
+		return $vendors ? $vendors : array();
+	}
+	
+	function _getTrusteesForCouponsByVendorId($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT trustee_id FROM payment_trustees ".
+			"WHERE perm_coupons = '1' ".
+			"AND vendor_id = '".$a_usr_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$trustees[] = $row->trustee_id;
+		}
+
+		return $trustees ? $trustees : array();
 	}
 
 } // END class.ilPaymentTrustees

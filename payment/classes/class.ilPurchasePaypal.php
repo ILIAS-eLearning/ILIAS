@@ -31,6 +31,7 @@
 include_once './payment/classes/class.ilPaymentObject.php';
 include_once './payment/classes/class.ilPaymentShoppingCart.php';
 include_once './payment/classes/class.ilPaypalSettings.php';
+include_once './payment/classes/class.ilPaymentCoupons.php';
 
 define('SUCCESS', 0);
 define('ERROR_OPENSOCKET', 1);
@@ -59,13 +60,20 @@ class ilPurchasePaypal
 		$this->user_obj =& $user_obj;
 		$this->db =& $ilDB;
 		$this->lng =& $lng;
+		
+		$this->coupon_obj = new ilPaymentCoupons($this->user_obj);
 
 		$this->__initShoppingCartObject();
 
-		$ppSet = new ilPaypalSettings();
+		$ppSet = ilPaypalSettings::getInstance();
 		$this->paypalConfig = $ppSet->getAll();
 
 		$this->lng->loadLanguageModule("payment");
+		
+		if (!is_array($_SESSION["coupons"]["paypal"]))
+		{
+			$_SESSION["coupons"]["paypal"] = array();
+		}
 	}
 
 	function openSocket()
@@ -82,7 +90,7 @@ class ilPurchasePaypal
 		// read the post from PayPal system and add 'cmd'
 		$req = 'cmd=_notify-synch';
 
-		$tx_token = $_GET['tx'];
+		$tx_token = $_REQUEST['tx'];		
 
 		$auth_token = $this->paypalConfig["auth_token"];
 
@@ -156,6 +164,7 @@ class ilPurchasePaypal
 
 			$bookings = $this->__saveTransaction($keyarray["txn_id"]);
 			$this->__sendBill($bookings, $keyarray);
+			$_SESSION["coupons"]["paypal"] = array();
 
 			return SUCCESS;
 		}
@@ -186,8 +195,11 @@ class ilPurchasePaypal
 		{
 			return false;
 		}
+		
+		$sc = $this->psc_obj->getShoppingCart(PAY_METHOD_PAYPAL);		
+		$this->psc_obj->clearCouponItemsSession();
 
-		if (is_array($sc = $this->psc_obj->getShoppingCart(PAY_METHOD_PAYPAL)) &&
+		if (is_array($sc) &&
 			count($sc) > 0)
 		{
 			for ($i = 0; $i < count($sc); $i++)
@@ -195,13 +207,42 @@ class ilPurchasePaypal
 				$items[$i] = array(
 					"name" => $a_array["item_name".($i+1)],
 					"amount" => $a_array["mc_gross_".($i+1)]
-				);
+				);			
+
+				if (!empty($_SESSION["coupons"]["paypal"]))
+				{											
+					$sc[$i]["math_price"] = (float) $sc[$i]["betrag"];
+								
+					$tmp_pobject =& new ilPaymentObject($this->user_obj, $sc[$i]['pobject_id']);	
+													
+					foreach ($_SESSION["coupons"]["paypal"] as $key => $coupon)
+					{					
+						$this->coupon_obj->setId($coupon["pc_pk"]);
+						$this->coupon_obj->setCurrentCoupon($coupon);
+						
+						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
+						{
+							$_SESSION["coupons"]["paypal"][$key]["total_objects_coupon_price"] += (float) $sc[$i]["betrag"];
+							$_SESSION["coupons"]["paypal"][$key]["items"][] = $sc[$i];
+						}								
+					}
+					
+					unset($tmp_pobject);
+				}				
 			}
+			
+			$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION["coupons"]["paypal"]);
 
 			$found = 0;
 			$total = 0;
 			for ($i = 0; $i < count($sc); $i++)
-			{
+			{			
+				if (array_key_exists($sc[$i]["pobject_id"], $coupon_discount_items))
+				{
+					$sc[$i]["betrag"] = round($coupon_discount_items[$sc[$i]["pobject_id"]]["discount_price"], 2);				
+					if ($sc[$i]["betrag"] < 0) $sc[$i]["betrag"] = 0.0;	
+				}				
+
 				for ($j = 0; $j < count($items); $j++)
 				{
 					if (substr($items[$j]["name"], 0, strlen($sc[$i]["obj_id"])+2) == "[".$sc[$i]["obj_id"]."]" &&
@@ -227,19 +268,56 @@ class ilPurchasePaypal
 	function __saveTransaction($a_id)
 	{
 		global $ilias, $ilUser, $ilObjDataCache;
+		
+		$sc = $this->psc_obj->getShoppingCart(PAY_METHOD_PAYPAL);
+		$this->psc_obj->clearCouponItemsSession();		
 
-		if (is_array($sc = $this->psc_obj->getShoppingCart(PAY_METHOD_PAYPAL)) &&
+		if (is_array($sc) &&
 			count($sc) > 0)
 		{
 			include_once './payment/classes/class.ilPaymentBookings.php';
 			$book_obj =& new ilPaymentBookings($this->usr_obj);
+			
+			for ($i = 0; $i < count($sc); $i++)
+			{
+				if (!empty($_SESSION["coupons"]["paypal"]))
+				{									
+					$sc[$i]["math_price"] = (float) $sc[$i]["betrag"];
+								
+					$tmp_pobject =& new ilPaymentObject($this->user_obj, $sc[$i]['pobject_id']);	
+													
+					foreach ($_SESSION["coupons"]["paypal"] as $key => $coupon)
+					{					
+						$this->coupon_obj->setId($coupon["pc_pk"]);
+						$this->coupon_obj->setCurrentCoupon($coupon);
+						
+						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
+						{
+							$_SESSION["coupons"]["paypal"][$key]["total_objects_coupon_price"] += (float) $sc[$i]["betrag"];
+							$_SESSION["coupons"]["paypal"][$key]["items"][] = $sc[$i];
+						}								
+					}
+					
+					unset($tmp_pobject);
+				}
+			}
+			
+			$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION["coupons"]["paypal"]);			
 
 			for ($i = 0; $i < count($sc); $i++)
 			{
-
 				$pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
+				$pobject =& new ilPaymentObject($this->user_obj,$sc[$i]['pobject_id']);
 
 				$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+				
+				$price = $sc[$i]["betrag"];
+				$bonus = 0.0;
+				
+				if (array_key_exists($sc[$i]["pobject_id"], $coupon_discount_items))
+				{
+					$bonus = $coupon_discount_items[$sc[$i]["pobject_id"]]["math_price"] - $coupon_discount_items[$sc[$i]["pobject_id"]]["discount_price"];	
+				}				
 
 				$book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
 				$book_obj->setPobjectId($sc[$i]["pobject_id"]);
@@ -249,11 +327,30 @@ class ilPurchasePaypal
 				$book_obj->setOrderDate(time());
 				$book_obj->setDuration($sc[$i]["dauer"]);
 				$book_obj->setPrice($sc[$i]["betrag_string"]);
+				$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : "");
 				$book_obj->setPayed(1);
 				$book_obj->setAccess(1);
 				$book_obj->setVoucher('');
 				$book_obj->setTransactionExtern($a_id);
-				$book_obj->add();
+				
+				$booking_id = $book_obj->add();
+				
+				if (!empty($_SESSION["coupons"]["paypal"]) && $booking_id)
+				{				
+					foreach ($_SESSION["coupons"]["paypal"] as $coupon)
+					{	
+						$this->coupon_obj->setId($coupon["pc_pk"]);				
+						$this->coupon_obj->setCurrentCoupon($coupon);																
+							
+						if ($this->coupon_obj->isObjectAssignedToCoupon($pobject->getRefId()))
+						{						
+							$this->coupon_obj->addCouponForBookingId($booking_id);																					
+						}				
+					}			
+				}
+	
+				unset($booking_id);
+				unset($pobject);				
 
 				$obj_id = $ilObjDataCache->lookupObjId($pobjectData["ref_id"]);
 				$obj_type = $ilObjDataCache->lookupType($obj_id);
@@ -263,15 +360,24 @@ class ilPurchasePaypal
 					"type" => $obj_type,
 					"title" => "[".$obj_id."]: " . $obj_title,
 					"duration" => $sc[$i]["dauer"],
-					"price" => $sc[$i]["betrag_string"]
+					"price" => $sc[$i]["betrag_string"],
+					"betrag" => $sc[$i]["betrag"]
 				);
 
 				$total += $sc[$i]["betrag"];
 
-				$query = "DELETE FROM payment_shopping_cart ".
-					"WHERE pobject_id = '".$sc[$i]["pobject_id"]."'";
+				
+				if ($sc[$i]["psc_id"]) $this->psc_obj->delete($sc[$i]["psc_id"]);				
+			}
 			
-				$res = $this->db->query($query);
+			if (!empty($_SESSION["coupons"]["paypal"]))
+			{				
+				foreach ($_SESSION["coupons"]["paypal"] as $coupon)
+				{	
+					$this->coupon_obj->setId($coupon["pc_pk"]);				
+					$this->coupon_obj->setCurrentCoupon($coupon);
+					$this->coupon_obj->addTracking();			
+				}			
 			}
 		}
 
@@ -292,7 +398,7 @@ class ilPurchasePaypal
 		include_once './payment/classes/class.ilGeneralSettings.php';
 		include_once './payment/classes/class.ilPaymentShoppingCart.php';
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
-		
+
 		$genSet = new ilGeneralSettings();
 
 		$tpl = new ilTemplate("./payment/templates/default/tpl.pay_paypal_bill.html", true, true, true);
@@ -327,13 +433,83 @@ class ilPurchasePaypal
 
 		for ($i = 0; $i < count($bookings["list"]); $i++)
 		{
+			$tmp_pobject =& new ilPaymentObject($this->user_obj, $bookings["list"][$i]['pobject_id']);
+			
+			$assigned_coupons = '';					
+			if (!empty($_SESSION["coupons"]["paypal"]))
+			{											
+				foreach ($_SESSION["coupons"]["paypal"] as $key => $coupon)
+				{
+					$this->coupon_obj->setId($coupon["pc_pk"]);
+					$this->coupon_obj->setCurrentCoupon($coupon);
+
+					if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
+					{
+						$assigned_coupons .= '<br />' . $this->lng->txt('paya_coupons_coupon') . ': ' . $coupon["pcc_code"];
+					}
+				}
+			}
+			
 			$tpl->setCurrentBlock("loop");
 			$tpl->setVariable("LOOP_OBJ_TYPE", utf8_decode($this->lng->txt($bookings["list"][$i]["type"])));
-			$tpl->setVariable("LOOP_TITLE", utf8_decode($bookings["list"][$i]["title"]));
+			$tpl->setVariable("LOOP_TITLE", utf8_decode($bookings["list"][$i]["title"]) . $assigned_coupons);
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
 			$tpl->setVariable("LOOP_DURATION", $bookings["list"][$i]["duration"] . " " . utf8_decode($this->lng->txt("paya_months")));
 			$tpl->setVariable("LOOP_PRICE", $bookings["list"][$i]["price"]);
 			$tpl->parseCurrentBlock("loop");
+			
+			unset($tmp_pobject);
+		}
+		
+		if (!empty($_SESSION["coupons"]["paypal"]))
+		{
+			if (count($items = $bookings["list"]))
+			{
+				$sub_total_amount = $bookings["total"];							
+
+				foreach ($_SESSION["coupons"]["paypal"] as $coupon)
+				{
+					$this->coupon_obj->setId($coupon["pc_pk"]);
+					$this->coupon_obj->setCurrentCoupon($coupon);					
+					
+					$total_object_price = 0.0;
+					$current_coupon_bonus = 0.0;
+					
+					foreach ($bookings["list"] as $item)
+					{
+						$tmp_pobject =& new ilPaymentObject($this->user_obj, $item['pobject_id']);						
+						
+						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
+						{						
+							$total_object_price += $item["betrag"];																					
+						}			
+						
+						unset($tmp_pobject);
+					}					
+					
+					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);	
+
+					$bookings["total"] += $current_coupon_bonus * (-1);
+					
+					$tpl->setCurrentBlock("cloop");
+					$tpl->setVariable("TXT_COUPON", utf8_decode($this->lng->txt("paya_coupons_coupon") . " " . $coupon["pcc_code"]));
+					$tpl->setVariable("BONUS", number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get("currency_unit"));
+					$tpl->parseCurrentBlock();
+				}
+				
+				$tpl->setVariable("TXT_SUBTOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_subtotal_amount")));
+				$tpl->setVariable("SUBTOTAL_AMOUNT", number_format($sub_total_amount, 2, ",", ".") . " " . $genSet->get("currency_unit"));
+			}
+		}
+		
+		if ($bookings["total"] < 0)
+		{			
+			$bookings["total"] = 0.0;
+			$bookings["vat"] = 0.0;
+		}
+		else
+		{
+			$bookings["vat"] = $this->psc_obj->getVat($bookings["total"]);
 		}
 
 		$tpl->setVariable("TXT_TOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_total_amount")));

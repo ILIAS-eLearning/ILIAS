@@ -138,6 +138,12 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 															 $actions,
 															 false,
 															 true);
+															 
+				$f_result[$counter][]	= ilUtil::formSelect((int) $trustee['perm_coupons'],
+															 'perm_coupons['.$trustee['trustee_id'].']',
+															 $actions,
+															 false,
+															 true);
 
 #				$link_mail = "<a target=\"_blank\" href=\"./ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".
 #					$tmp_obj->getLogin()."\"".$img_mail."</a>";
@@ -192,6 +198,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 			$this->trustee_obj->setTrusteeId($trustee['trustee_id']);
 			$this->trustee_obj->toggleStatisticPermission($_POST['perm_stat']["$trustee[trustee_id]"]);
 			$this->trustee_obj->toggleObjectPermission($_POST['perm_obj']["$trustee[trustee_id]"]);
+			$this->trustee_obj->toggleCouponsPermission($_POST['perm_coupons']["$trustee[trustee_id]"]);			
 			$this->trustee_obj->modify();
 		}
 		ilUtil::sendInfo($this->lng->txt('paya_updated_trustees'));
@@ -301,6 +308,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 			$this->trustee_obj->setTrusteeId($user_id);
 			$this->trustee_obj->toggleStatisticPermission(false);
 			$this->trustee_obj->toggleObjectPermission(true);
+			$this->trustee_obj->toggleCouponsPermission(true);
 			$this->trustee_obj->add();
 			++$counter;
 		}
@@ -356,6 +364,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$this->trustee_obj->setTrusteeId($user_id);
 		$this->trustee_obj->toggleObjectPermission(false);
 		$this->trustee_obj->toggleStatisticPermission(true);
+		$this->trustee_obj->toggleCouponsPermission(true);
 		$this->trustee_obj->add();
 
 		ilUtil::sendInfo($this->lng->txt('paya_added_trustee'));
@@ -479,7 +488,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$tpl->setCurrentBlock("plain_buttons");
 		$tpl->parseCurrentBlock();
 
-		$tpl->setVariable("COLUMN_COUNTS",7);
+		$tpl->setVariable("COLUMN_COUNTS",8);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 		$tpl->setCurrentBlock("tbl_action_button");
@@ -497,6 +506,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("paya_perm_stat"),
 								   $this->lng->txt("paya_perm_obj"),
+								   $this->lng->txt("paya_perm_coupons"),
 								   ''));
 		$tbl->setHeaderVars(array("",
 								  "login",
@@ -504,11 +514,12 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 								  "lastname",
 								  "perm_stat",
 								  "perm_obj",
+								  "perm_coupons",
 								  "options"),
 							array("cmd" => "showTrustees",
 								  "cmdClass" => "ilpaymenttrusteegui",
 								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array("4%","15%","15%","15%","20%","20%","15%"));
+		$tbl->setColumnWidth(array("4%","15%","15%","15%","15%","15%","15%","15%"));
 
 
 		$this->setTableGUIBasicData($tbl,$a_result_set);

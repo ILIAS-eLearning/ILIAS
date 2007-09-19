@@ -49,32 +49,53 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 		unset($_POST['title_type']);
 		unset($_POST['title_value']);
 		unset($_POST['type']);
-		unset($_POST['from']['day']);
-		unset($_POST['from']['month']);
-		unset($_POST['from']['year']);
-		unset($_POST['till']['day']);
-		unset($_POST['till']['month']);
-		unset($_POST['till']['year']);
+		unset($_POST['from']['d']);
+		unset($_POST['from']['m']);
+		unset($_POST['from']['y']);
+		unset($_POST['till']['d']);
+		unset($_POST['till']['m']);
+		unset($_POST['till']['y']);
+		unset($_POST['from_enabled']);
+		unset($_POST['till_enabled']);
 
 		$this->showCoupons();
+		
+		return true;
 	}
 	
 	function showCoupons()
 	{
+		include_once("Services/User/classes/class.ilObjUser.php");
+		
 		$this->showButton('addCoupon', $this->lng->txt('paya_coupons_add'));
 		
 		if ($_POST['updateView'] == '1')
-		{
+		{			
 			$_SESSION['pay_coupons']['title_type'] = $_POST['title_type'];
 			$_SESSION['pay_coupons']['title_value'] = $_POST['title_value'];
 			$_SESSION['pay_coupons']['type'] = $_POST['type'];			
-			$_SESSION['pay_coupons']['from']['day'] = $_POST['from']['day'];
-			$_SESSION['pay_coupons']['from']['month'] = $_POST['from']['month'];
-			$_SESSION['pay_coupons']['from']['year'] = $_POST['from']['year'];
-			$_SESSION['pay_coupons']['till']['day'] = $_POST['till']['day'];
-			$_SESSION['pay_coupons']['till']['month'] = $_POST['till']['month'];
-			$_SESSION['pay_coupons']['till']['year'] = $_POST['till']['year'];			
-		}		
+			$_SESSION['pay_coupons']['from']['d'] = $_POST['from']['d'];
+			$_SESSION['pay_coupons']['from']['m'] = $_POST['from']['m'];
+			$_SESSION['pay_coupons']['from']['y'] = $_POST['from']['y'];
+			$_SESSION['pay_coupons']['till']['d'] = $_POST['till']['d'];
+			$_SESSION['pay_coupons']['till']['m'] = $_POST['till']['m'];
+			$_SESSION['pay_coupons']['till']['y'] = $_POST['till']['y'];
+			$_SESSION['pay_coupons']['from_enabled'] = $_POST['from_enabled'];
+			$_SESSION['pay_coupons']['till_enabled'] = $_POST['till_enabled'];		
+		}
+		
+		$this->coupon_obj->setSearchTitleType(ilUtil::stripSlashes($_SESSION['pay_coupons']['title_type']));
+		$this->coupon_obj->setSearchTitleValue(ilUtil::stripSlashes($_SESSION['pay_coupons']['title_value']));
+		$this->coupon_obj->setSearchType(ilUtil::stripSlashes($_SESSION['pay_coupons']['type']));
+		$this->coupon_obj->setSearchFromDay(ilUtil::stripSlashes($_SESSION['pay_coupons']['from']['d']));
+		$this->coupon_obj->setSearchFromMonth(ilUtil::stripSlashes($_SESSION['pay_coupons']['from']['m']));
+		$this->coupon_obj->setSearchFromYear(ilUtil::stripSlashes($_SESSION['pay_coupons']['from']['y']));
+		$this->coupon_obj->setSearchTillDay(ilUtil::stripSlashes($_SESSION['pay_coupons']['till']['d']));
+		$this->coupon_obj->setSearchTillMonth(ilUtil::stripSlashes($_SESSION['pay_coupons']['till']['m']));
+		$this->coupon_obj->setSearchTillYear(ilUtil::stripSlashes($_SESSION['pay_coupons']['till']['y']));		
+		$this->coupon_obj->setSearchFromDateEnabled(ilUtil::stripSlashes($_SESSION['pay_coupons']['from_enabled']));
+		$this->coupon_obj->setSearchTillDateEnabled(ilUtil::stripSlashes($_SESSION['pay_coupons']['till_enabled']));
+		
 		
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paya_coupons.html', 'payment');
 		
@@ -90,64 +111,19 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("TXT_VALID_DATE_FROM",$this->lng->txt('paya_coupons_from'));
 		$this->tpl->setVariable("TXT_VALID_DATE_TILL",$this->lng->txt('paya_coupons_till'));
 		$this->tpl->setVariable("TXT_UPDATE_VIEW",$this->lng->txt('pay_update_view'));
-		$this->tpl->setVariable("TXT_RESET_FILTER",$this->lng->txt('pay_reset_filter'));
+		$this->tpl->setVariable("TXT_RESET_FILTER",$this->lng->txt('pay_reset_filter'));		
+		$this->tpl->setVariable('TXT_ENABLED', $this->lng->txt('enabled'));
+		$this->tpl->setVariable("TITLE_TYPE_" . $this->coupon_obj->getSearchTitleType(), " selected=\"selected\"");
+		$this->tpl->setVariable("TITLE_VALUE", ilUtil::prepareFormOutput($this->coupon_obj->getSearchTitleValue(), true));
+		$this->tpl->setVariable("TYPE_" . strtoupper($this->coupon_obj->getSearchType()), " selected=\"selected\"");	
+				
+				
+		if ($this->coupon_obj->getSearchFromDateEnabled()) $this->tpl->setVariable('CHECKED_STARTING_DATE', " checked=\"checked\"");
+		if ($this->coupon_obj->getSearchTillDateEnabled()) $this->tpl->setVariable('CHECKED_ENDING_DATE', " checked=\"checked\"");
+		$this->tpl->setVariable('DATE_FROM', ilUtil::makeDateSelect("from", $this->coupon_obj->getSearchFromYear(), $this->coupon_obj->getSearchFromMonth(), $this->coupon_obj->getSearchFromDay(), 2004, true, array("first_option_empty" => true)));
+		$this->tpl->setVariable('DATE_TILL', ilUtil::makeDateSelect("till", $this->coupon_obj->getSearchTillYear(), $this->coupon_obj->getSearchTillMonth(), $this->coupon_obj->getSearchTillDay(), 2004, true, array("first_option_empty" => true)));
 		
-		$this->tpl->setVariable("TITLE_TYPE_" . $_SESSION["pay_coupons"]["title_type"], " selected=\"selected\"");
-		$this->tpl->setVariable("TITLE_VALUE", ilUtil::prepareFormOutput($_SESSION["pay_coupons"]["title_value"], true));
-		$this->tpl->setVariable("TYPE_" . strtoupper($_SESSION["pay_coupons"]["type"]), " selected=\"selected\"");	
-		for ($i = 1; $i <= 31; $i++)
-		{
-			$this->tpl->setCurrentBlock("loop_from_day");
-			$this->tpl->setVariable("LOOP_FROM_DAY", $i < 10 ? "0" . $i : $i);
-			if ($_SESSION["pay_coupons"]["from"]["day"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_FROM_DAY_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_from_day");
-			$this->tpl->setCurrentBlock("loop_till_day");
-			$this->tpl->setVariable("LOOP_TILL_DAY", $i < 10 ? "0" . $i : $i);
-			if ($_SESSION["pay_coupons"]["till"]["day"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_TILL_DAY_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_till_day");
-		}
-		for ($i = 1; $i <= 12; $i++)
-		{
-			$this->tpl->setCurrentBlock("loop_from_month");
-			$this->tpl->setVariable("LOOP_FROM_MONTH", $i < 10 ? "0" . $i : $i);
-			if ($_SESSION['pay_coupons']['from']['month'] == $i)
-			{
-				$this->tpl->setVariable("LOOP_FROM_MONTH_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_from_month");
-			$this->tpl->setCurrentBlock("loop_till_month");
-			$this->tpl->setVariable("LOOP_TILL_MONTH", $i < 10 ? "0" . $i : $i);
-			if ($_SESSION['pay_coupons']['till']['month'] == $i)
-			{
-				$this->tpl->setVariable("LOOP_TILL_MONTH_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_till_month");
-		}
-		for ($i = 2004; $i <= date("Y") + 2; $i++)
-		{
-			$this->tpl->setCurrentBlock("loop_from_year");
-			$this->tpl->setVariable("LOOP_FROM_YEAR", $i);
-			if ($_SESSION["pay_coupons"]['from']['year'] == $i)
-			{
-				$this->tpl->setVariable("LOOP_FROM_YEAR_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_from_year");
-			$this->tpl->setCurrentBlock("loop_till_year");
-			$this->tpl->setVariable("LOOP_TILL_YEAR", $i);
-			if ($_SESSION['pay_coupons']['till']['year'] == $i)
-			{
-				$this->tpl->setVariable("LOOP_TILL_YEAR_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_till_year");
-		}				
-		
-		if (!count($coupons = $this->coupon_obj->getCoupons(true)))
+		if (!count($coupons = $this->coupon_obj->getCoupons()))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_coupons_not_found'));
 			//if ($_POST['updateView'] == '1') ilUtil::sendInfo($this->lng->txt('paya_coupons_not_found'));
@@ -182,9 +158,14 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 			}
 			
 			$f_result[$counter][] = $objects;			
-			$f_result[$counter][] = $coupon['pc_from'] != '0000-00-00' ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
-			$f_result[$counter][] = $coupon['pc_till'] != '0000-00-00' ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';
-			$this->ctrl->setParameter($this, 'coupon_id', $coupon['pc_pk']);
+			
+			
+			$f_result[$counter][] = ($coupon['pc_from'] != '0000-00-00' && $coupon['pc_from_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
+			$f_result[$counter][] = ($coupon['pc_till'] != '0000-00-00' && $coupon['pc_till_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';
+			$f_result[$counter][] = 
+				($coupon['pc_last_changed'] != '0000-00-00 00:00:00' ? ilFormat::formatDate($coupon['pc_last_changed']) : '') .
+				($coupon['pc_last_change_usr_id'] != '0' ? "[" . ilObjUser::_lookupLogin($coupon['pc_last_change_usr_id']) . "]" : '');
+			$this->ctrl->setParameter($this, 'coupon_id',  $coupon['pc_pk']);
 			$f_result[$counter][] = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this, "addCoupon")."\">".$this->lng->txt("edit")."</a></div>";
 					
 			++$counter;
@@ -194,7 +175,7 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 	}
 	
 	function __showCouponsTable($f_result)
-	{		
+	{
 		$tbl =& $this->initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -209,15 +190,16 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("paya_coupons_usage_of_codes"),
 								   $this->lng->txt("paya_coupons_objects"),
 								   $this->lng->txt("paya_coupons_from"),
-								   $this->lng->txt("paya_coupons_till"), ''));
+								   $this->lng->txt("paya_coupons_till"),
+								   $this->lng->txt("last_change"), ''));
 		$header_params = $this->ctrl->getParameterArray($this, '');
 		$tbl->setHeaderVars(array('pc_title',
 								  'number_of_codes',
 								  'usage_of_codes',
 								  'objects',
 								  'pc_from',
-								  'pc_till',
-								  'options'), 
+								  'pc_till',								  
+								  'last_changed'), 
 								  $header_params
 							);
 		$offset = $_GET['offset'];
@@ -239,41 +221,30 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 
 	function saveCouponForm()
 	{
-		$error = "";
+		$this->error = '';
 		
-		if ($_POST["title"] == "") $error .= "paya_coupons_title,";
-		if ($_POST["type"] == "") $error .= "paya_coupons_type,";
-		if ($_POST["value"] == "") $error .= "paya_coupons_value,";
-		else $_POST["value"] = ilFormat::checkDecimal($_POST["value"]);				
+		if ($_POST['title'] == '') $this->error .= 'paya_coupons_title,';
+		if ($_POST['type'] == '') $this->error .= 'paya_coupons_type,';
+		if ($_POST['value'] == '') $this->error .= 'paya_coupons_value,';
+		else $_POST['value'] = ilFormat::checkDecimal($_POST['value']);		
 		
-		if ($error == "")
-		{
-			$from = "";
-			$till = "";
-			
-			if (ereg("^[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}$", $_POST['from']['year']."-".$_POST['from']['month']."-".$_POST['from']['day']))
-			{
-				$from = date("Y-m-d", mktime(0, 0 , 0, $_POST['from']['month'], $_POST['from']['day'], $_POST['from']['year']));
-			}
-			
-			if (ereg("^[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}$", $_POST['till']['year']."-".$_POST['till']['month']."-".$_POST['till']['day']))
-			{
-				$till = date("Y-m-d", mktime(0, 0 , 0, $_POST['till']['month'], $_POST['till']['day'], $_POST['till']['year']));
-			}			
-			
-			$this->coupon_obj->setCouponUser($this->user_obj->getId());
-			$this->coupon_obj->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->coupon_obj->setDescription(ilUtil::stripSlashes($_POST["description"]));			
-			$this->coupon_obj->setType(ilUtil::stripSlashes($_POST["type"]));
-			$this->coupon_obj->setValue(ilUtil::stripSlashes($_POST["value"]));			
-			$this->coupon_obj->setFromDate(ilUtil::stripSlashes($from));
-			$this->coupon_obj->setTillDate(ilUtil::stripSlashes($till));
-			$this->coupon_obj->setUses(ilUtil::stripSlashes($_POST["usage"]));
-			
+		$this->coupon_obj->setId($_GET['coupon_id']);
+		$this->coupon_obj->setCouponUser($this->user_obj->getId());
+		$this->coupon_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$this->coupon_obj->setDescription(ilUtil::stripSlashes($_POST['description']));			
+		$this->coupon_obj->setType(ilUtil::stripSlashes($_POST['type']));
+		$this->coupon_obj->setValue(ilUtil::stripSlashes($_POST['value']));			
+		$this->coupon_obj->setFromDate(ilUtil::stripSlashes($_POST['from']['y']."-".$_POST['from']['m']."-".$_POST['from']['d']));
+		$this->coupon_obj->setTillDate(ilUtil::stripSlashes($_POST['till']['y']."-".$_POST['till']['m']."-".$_POST['till']['d']));
+		$this->coupon_obj->setFromDateEnabled(ilUtil::stripSlashes($_POST['pc_from_enabled']));
+		$this->coupon_obj->setTillDateEnabled(ilUtil::stripSlashes($_POST['pc_till_enabled']));
+		$this->coupon_obj->setUses(ilUtil::stripSlashes($_POST['usage']));			
+		$this->coupon_obj->setChangeDate(date('Y-m-d H:i:s'));				
+		
+		if ($this->error == '')
+		{		
 			if ($_GET['coupon_id'] != "")
-			{
-				$this->coupon_obj->setId($_GET['coupon_id']);
-				
+			{								
 				$this->coupon_obj->update();
 			}
 			else
@@ -281,129 +252,84 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 				$_GET['coupon_id'] = $this->coupon_obj->add();				 
 			}
 			
-			ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
 		}
 		else
 		{			
-			if (is_array($e = explode(",", $error)))
+			if (is_array($e = explode(',', $this->error)))
 			{				
-				$mandatory = "";
+				$mandatory = '';
 				for ($i = 0; $i < count($e); $i++)
 				{
 					$e[$i] = trim($e[$i]);
-					if ($e[$i] != "")
+					if ($e[$i] != '')
 					{
 						$mandatory .= $this->lng->txt($e[$i]);
-						if (array_key_exists($i + 1, $e) && $e[$i + 1] != "") $mandatory .= ", ";
+						if (array_key_exists($i + 1, $e) && $e[$i + 1] != '') $mandatory .= ', ';
 					}
 				}
-				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields") . ": " . $mandatory);
+				ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields') . ': ' . $mandatory);
 			}			
 		}		
 		
 		$this->addCoupon();
+		
+		return true;
 	}
 	
 	function addCoupon()
-	{
-		$coupon = array();
-		
+	{		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_coupons_add.html','payment');		
 		
 		if (isset($_GET['coupon_id']))
 		{
-			$this->ctrl->setParameter($this, "coupon_id", $_GET['coupon_id']);			
+			if ($this->error == '') $this->coupon_obj->getCouponById($_GET['coupon_id']);
 			
-			$this->__showButtons();
+			$this->ctrl->setParameter($this, 'coupon_id', $this->coupon_obj->getId());						
 			
-			$coupon = $this->coupon_obj->getCoupon($_GET['coupon_id']);	
-			
-			$from = explode("-", $coupon['pc_from']);
-			$_POST['from']['day'] = isset($_POST['from']['day']) ? $_POST['from']['day'] : $from[2];
-			$_POST['from']['month'] = isset($_POST['from']['month']) ? $_POST['from']['month'] : $from[1];
-			$_POST['from']['year'] = isset($_POST['from']['year']) ? $_POST['from']['year'] : $from[0];
-			
-			$till = explode("-", $coupon['pc_till']);
-			$_POST['till']['day'] = isset($_POST['till']['day']) ? $_POST['till']['day'] : $till[2];
-			$_POST['till']['month'] = isset($_POST['till']['month']) ? $_POST['till']['month'] : $till[1];
-			$_POST['till']['year'] = isset($_POST['till']['year']) ? $_POST['till']['year'] : $till[0];	
+			$this->__showButtons();			
 		}		
 		
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable('TXT_HEADLINE', ($this->coupon_obj->getId() != '' ? $this->lng->txt('paya_coupons_edit') : $this->lng->txt('paya_coupons_add')));
+		$this->tpl->setVariable('TXT_TITLE', $this->lng->txt('paya_coupons_title'));
+		$this->tpl->setVariable('TXT_DESCRIPTION', $this->lng->txt('paya_coupons_description'));
+		$this->tpl->setVariable('TXT_TYPE', $this->lng->txt('paya_coupons_type'));
+		$this->tpl->setVariable('TXT_FIX', $this->lng->txt('paya_coupons_fix'));
+		$this->tpl->setVariable('TXT_PERCENTAGED', $this->lng->txt('paya_coupons_percentaged'));
+		$this->tpl->setVariable('TXT_VALUE', $this->lng->txt('paya_coupons_value'));
+		$this->tpl->setVariable('TXT_ENABLED', $this->lng->txt('enabled'));
+		$this->tpl->setVariable('TXT_VALID_FROM', $this->lng->txt('paya_coupons_from'));
+		$this->tpl->setVariable('TXT_VADID_TILL', $this->lng->txt('paya_coupons_till'));
+		$this->tpl->setVariable('TXT_USAGE', $this->lng->txt('paya_coupons_availability'));
 		
-		$this->tpl->setVariable("TXT_HEADLINE", isset($_GET['coupon_id']) ? $this->lng->txt('paya_coupons_edit') : $this->lng->txt('paya_coupons_add'));
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt('paya_coupons_title'));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt('paya_coupons_description'));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt('paya_coupons_type'));
-		$this->tpl->setVariable("TXT_FIX", $this->lng->txt('paya_coupons_fix'));
-		$this->tpl->setVariable("TXT_PERCENTAGED", $this->lng->txt('paya_coupons_percentaged'));
-		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt('paya_coupons_value'));
-		$this->tpl->setVariable("TXT_VALID_FROM", $this->lng->txt('paya_coupons_from'));
-		$this->tpl->setVariable("TXT_VADID_TILL", $this->lng->txt('paya_coupons_till'));
-		$this->tpl->setVariable("TXT_USAGE", $this->lng->txt('paya_coupons_availability'));
+		$this->tpl->setVariable('TITLE', ilUtil::prepareFormOutput($this->coupon_obj->getTitle() , true));
+		$this->tpl->setVariable('DESCRIPTION', ilUtil::prepareFormOutput($this->coupon_obj->getDescription(), true));
+		$this->tpl->setVariable('TYPE_' . strtoupper($this->coupon_obj->getType()), " selected=\"selected\"");
+		$this->tpl->setVariable('VALUE', ilUtil::prepareFormOutput($this->coupon_obj->getValue(), true));
+		$this->tpl->setVariable('USAGE', ilUtil::prepareFormOutput($this->coupon_obj->getUses(), true));
 		
-		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput(isset($_POST["title"]) ? $_POST["title"] : $coupon["pc_title"] , true));
-		$this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput(isset($_POST["description"]) ? $_POST["description"] : $coupon["pc_description"], true));
-		$this->tpl->setVariable("TYPE_" . strtoupper(isset($_POST["type"]) ? $_POST["type"] : $coupon["pc_type"]), " selected=\"selected\"");
-		$this->tpl->setVariable("VALUE", ilUtil::prepareFormOutput(isset($_POST["value"]) ? $_POST["value"] : $coupon["pc_value"], true));
-		$this->tpl->setVariable("USAGE", ilUtil::prepareFormOutput(isset($_POST["usage"]) ? $_POST["usage"] : $coupon["pc_uses"], true));
+		$from_date = explode('-', $this->coupon_obj->getFromDate());
+		$from_day = $from_date[2] != '00' ? $from_date[2] : '';
+		$from_month = $from_date[1] != '00' ? $from_date[1] : '';
+		$from_year = $from_date[0] != '0000' ? $from_date[0] : '';
+			
+		$till_date = explode('-', $this->coupon_obj->getTillDate());
+		$till_day = $till_date[2] != '00' ? $till_date[2] : '';
+		$till_month = $till_date[1] != '00' ? $till_date[1] : '';
+		$till_year = $till_date[0] != '0000' ? $till_date[0] : '';
+
+		if ($this->coupon_obj->getFromDateEnabled()) $this->tpl->setVariable('CHECKED_STARTING_DATE', " checked=\"checked\"");
+		if ($this->coupon_obj->getTillDateEnabled()) $this->tpl->setVariable('CHECKED_ENDING_DATE', " checked=\"checked\"");
 		
-		for ($i = 1; $i <= 31; $i++)
-		{
-			$this->tpl->setCurrentBlock("loop_from_day");
-			$this->tpl->setVariable("LOOP_FROM_DAY", $i < 10 ? "0" . $i : $i);
-			if ($_POST["from"]["day"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_FROM_DAY_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_from_day");
-			$this->tpl->setCurrentBlock("loop_till_day");
-			$this->tpl->setVariable("LOOP_TILL_DAY", $i < 10 ? "0" . $i : $i);
-			if ($_POST["till"]["day"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_TILL_DAY_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_till_day");
-		}
-		for ($i = 1; $i <= 12; $i++)
-		{
-			$this->tpl->setCurrentBlock("loop_from_month");
-			$this->tpl->setVariable("LOOP_FROM_MONTH", $i < 10 ? "0" . $i : $i);
-			if ($_POST["from"]["month"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_FROM_MONTH_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_from_month");
-			$this->tpl->setCurrentBlock("loop_till_month");
-			$this->tpl->setVariable("LOOP_TILL_MONTH", $i < 10 ? "0" . $i : $i);
-			if ($_POST["till"]["month"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_TILL_MONTH_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_till_month");
-		}
-		for ($i = 2004; $i <= date("Y") + 2; $i++)
-		{
-			$this->tpl->setCurrentBlock("loop_from_year");
-			$this->tpl->setVariable("LOOP_FROM_YEAR", $i);
-			if ($_POST["from"]["year"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_FROM_YEAR_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_from_year");
-			$this->tpl->setCurrentBlock("loop_till_year");
-			$this->tpl->setVariable("LOOP_TILL_YEAR", $i);
-			if ($_POST["till"]["year"] == $i)
-			{
-				$this->tpl->setVariable("LOOP_TILL_YEAR_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock("loop_till_year");
-		}
+		$this->tpl->setVariable('DATE_FROM', ilUtil::makeDateSelect("from", $from_year, $from_month, $from_day, 2004));
+		$this->tpl->setVariable('DATE_TILL', ilUtil::makeDateSelect("till", $till_year, $till_month, $till_day, 2004));
 		
-		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("COUPONS", "showCoupons");
+		$this->tpl->setVariable('TXT_REQUIRED_FIELDS', $this->lng->txt('required_field'));
+		$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
+		$this->tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
+		$this->tpl->setVariable('COUPONS', 'showCoupons');
 	}
 	
 	function deleteAllCodes()
@@ -479,6 +405,8 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 			return true;
 		}		
 		
+		$this->coupon_obj->getCouponById(ilUtil::stripSlashes($_GET['coupon_id']));
+		
 		$this->ctrl->setParameter($this, 'coupon_id', $_GET['coupon_id']);		
 		$this->__showButtons();	
 		
@@ -501,9 +429,7 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();
-		}
-		
-		
+		}		
 		
 		$_SESSION['paya_delete_codes'] = $_SESSION['paya_delete_codes'] ? $_SESSION['paya_delete_codes'] : array();
 		
@@ -513,21 +439,25 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 			$f_result[$counter][]	= ilUtil::formCheckbox(in_array($code['pcc_pk'], $_SESSION['paya_delete_codes']) ? 1 : 0,
 															   "codes[]",
 															   $code['pcc_pk']);
-			$f_result[$counter][] = $code['pcc_code'];			
+			$f_result[$counter][] = $code['pcc_code'];
+			$f_result[$counter][] = $code['pcc_used']." ".strtolower($this->lng->txt('of'))." ".$this->coupon_obj->getUses();
+						
 			++$counter;
 		}
 						
 		$tbl =& $this->initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 		
+		
+		
 		$tpl->setCurrentBlock("tbl_form_header");		
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
-		$tbl->setTitle($this->lng->txt("paya_coupons_codes"), "icon_pays.gif", $this->lng->txt("paya_coupons_codes"));
-		$tbl->setHeaderNames(array('', $this->lng->txt("paya_coupons_code")));		
+		$tbl->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_codes"), "icon_pays.gif", $this->lng->txt("paya_coupons_codes"));
+		$tbl->setHeaderNames(array('', $this->lng->txt("paya_coupons_code"), $this->lng->txt('paya_coupons_usage_of_codes')));		
 		$this->ctrl->setParameter($this, "cmd", "showCodes");
 		$header_params = $this->ctrl->getParameterArray($this, '');
-		$tbl->setHeaderVars(array('', 'pcc_code'), $header_params);
+		$tbl->setHeaderVars(array('', 'pcc_code', 'paya_coupons_usage_of_codes'), $header_params);
 		$offset = $_GET['offset'];
 		$order = $_GET['sort_by'];
 		$direction = $_GET['sort_order'] ? $_GET['sort_order'] : 'desc';
@@ -538,7 +468,7 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 		$tbl->setMaxCount(count($f_result));
 		$tbl->setFooter('tblfooter', $this->lng->txt('previous'), $this->lng->txt('next'));
 		$tbl->setData($f_result);
-		$tpl->setVariable('COLUMN_COUNTS', 2);
+		$tpl->setVariable('COLUMN_COUNTS', 3);
 		
 		$tbl->enable('select_all');
 		$tbl->setFormName('cmd');
@@ -703,9 +633,11 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 		$this->__showButtons();
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_coupons_codes_generate.html','payment');
+		
+		$this->coupon_obj->getCouponById(ilUtil::stripSlashes($_GET['coupon_id']));
 				
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt('paya_coupons_code_generation'));				
+		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt('paya_coupons_code_generation'));				
 		
 		if ($view == "choice")
 		{	
@@ -796,6 +728,8 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_coupons_objects.html','payment');		
 						
 		$objects = $this->pobject->_getObjectsData($this->user_obj->getId());
+		
+		$this->coupon_obj->getCouponById(ilUtil::stripSlashes($_GET['coupon_id']));
 				
 		$counter_assigned = 0;
 		$counter_unassigned = 0;
@@ -867,7 +801,7 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 			$tpl->setCurrentBlock("tbl_form_header");		
 			$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$tpl->parseCurrentBlock();	
-			$tbl->setTitle($this->lng->txt("paya_coupons_assigned_objects"),"icon_pays.gif",$this->lng->txt("paya_coupons_assigned_objects"));
+			$tbl->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_assigned_objects"),"icon_pays.gif",$this->lng->txt("paya_coupons_assigned_objects"));
 			$tbl->setHeaderNames(array("", 
 									   $this->lng->txt("title"),
 								   	   $this->lng->txt("status"),
@@ -906,7 +840,7 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 			$tpl->setCurrentBlock("tbl_form_header");		
 			$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$tpl->parseCurrentBlock();	
-			$tbl->setTitle($this->lng->txt("paya_coupons_unassigned_objects"),"icon_pays.gif",$this->lng->txt("paya_coupons_unassigned_objects"));
+			$tbl->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_unassigned_objects"),"icon_pays.gif",$this->lng->txt("paya_coupons_unassigned_objects"));
 			$tbl->setHeaderNames(array("", 
 									   $this->lng->txt("title"),
 								   	   $this->lng->txt("status"),
@@ -988,10 +922,14 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 		$this->ctrl->setParameter($this, 'coupon_id', $_GET['coupon_id']);
 		$this->__showButtons();
 		
+		$this->coupon_obj->getCouponById(ilUtil::stripSlashes($_GET['coupon_id']));
+		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_coupons_codes_import.html','payment');
 		
+		$this->tpl->setVariable('TXT_IMPORT_HINT', $this->lng->txt('import_use_only_textfile'));
+		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));		
-		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt('paya_coupons_codes_import'));
+		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt('paya_coupons_codes_import'));
 		
 		$this->tpl->setVariable("TXT_FILE",$this->lng->txt('file'));
 		

@@ -27,7 +27,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentTrusteeGUI, ilPaymentStatisticGUI, ilPaymentObjectGUI
-* @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentBillAdminGUI
+* @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentBillAdminGUI, ilPaymentCouponGUI
 *
 * @package core
 */
@@ -110,6 +110,16 @@ class ilPaymentAdminGUI extends ilPaymentBaseGUI
 				$this->ctrl->forwardCommand($po);
 				break;
 				
+			case 'ilpaymentcoupongui':
+				$this->setSection($this->SECTION_COUPONS);
+				$this->buildHeader();
+
+				include_once './payment/classes/class.ilPaymentCouponGUI.php';
+
+				$po =& new ilPaymentCouponGUI($this->user_obj);
+				
+				$this->ctrl->forwardCommand($po);
+				break;
 
 			default:
 				$this->__forwardToDefault();

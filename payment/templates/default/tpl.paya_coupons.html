@@ -32,28 +32,7 @@
 </tr>
 <tr>
 	<td nowrap>{TXT_VALID_DATE_FROM}:</td>
-	<td nowrap>
-		<select name="from[day]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_from_day -->
-			<option value="{LOOP_FROM_DAY}"{LOOP_FROM_DAY_SELECTED}>{LOOP_FROM_DAY}</option>
-<!-- END loop_from_day -->
-		</select>
-		.
-		<select name="from[month]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_from_month -->
-			<option value="{LOOP_FROM_MONTH}"{LOOP_FROM_MONTH_SELECTED}>{LOOP_FROM_MONTH}</option>
-<!-- END loop_from_month -->
-		</select>
-		.
-		<select name="from[year]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_from_year -->
-			<option value="{LOOP_FROM_YEAR}"{LOOP_FROM_YEAR_SELECTED}>{LOOP_FROM_YEAR}</option>
-<!-- END loop_from_year -->
-		</select>
-	</td>
+	<td nowrap>{DATE_FROM}&nbsp;<input type="checkbox" name="from_enabled" id="chs_starting_date" value="1"{CHECKED_STARTING_DATE} /> <label for="chs_starting_date">{TXT_ENABLED}</label></td>
 	<td>&nbsp;</td>
 	<td nowrap colspan="2" valign="bottom">
 		<input class="submit" type="submit" name="cmd[showCoupons]" value="{TXT_UPDATE_VIEW}" />
@@ -62,28 +41,7 @@
 </tr>
 <tr>
 	<td nowrap>{TXT_VALID_DATE_TILL}:</td>
-	<td nowrap>
-		<select name="till[day]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_till_day -->
-			<option value="{LOOP_TILL_DAY}"{LOOP_TILL_DAY_SELECTED}>{LOOP_TILL_DAY}</option>
-<!-- END loop_till_day -->
-		</select>
-		.
-		<select name="till[month]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_till_month -->
-			<option value="{LOOP_TILL_MONTH}"{LOOP_TILL_MONTH_SELECTED}>{LOOP_TILL_MONTH}</option>
-<!-- END loop_till_month -->
-		</select>
-		.
-		<select name="till[year]" size="1">
-			<option value=""></option>
-<!-- BEGIN loop_till_year -->
-			<option value="{LOOP_TILL_YEAR}"{LOOP_TILL_YEAR_SELECTED}>{LOOP_TILL_YEAR}</option>
-<!-- END loop_till_year -->
-		</select>
-	</td>	
+	<td nowrap>{DATE_TILL}&nbsp;<input type="checkbox" name="till_enabled" id="chs_ending_date" value="1"{CHECKED_ENDING_DATE} /> <label for="chs_ending_date">{TXT_ENABLED}</label></td>	
 </tr>
 </table>
 </form>

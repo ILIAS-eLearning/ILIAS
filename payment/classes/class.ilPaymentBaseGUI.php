@@ -53,6 +53,7 @@ class ilPaymentBaseGUI
 		$this->SECTION_TRUSTEE = 3;
 		$this->SECTION_SHOPPING_CART = 4;
 		$this->SECTION_BUYED_OBJECTS = 5;
+		$this->SECTION_COUPONS = 6;
 
 		$this->ADMIN = 4;
 		$this->BASE = 5;
@@ -229,6 +230,21 @@ class ilPaymentBaseGUI
 												 '',
 												 '',
 												 $this->getSection() == $this->SECTION_TRUSTEE ? true : false);
+/*				$this->tpl->setCurrentBlock("tab");
+				$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_TRUSTEE ? 'tabactive' : 'tabinactive');
+				$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymenttrusteegui'));
+				$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_trustees'));
+				$this->tpl->parseCurrentBlock();*/
+			}			
+			if(ilPaymentVendors::_isVendor($this->user_obj->getId()) or 
+			   ilPaymentTrustees::_hasCouponsPermission($this->user_obj->getId()))
+			{
+				$this->tabs_gui->addSubTabTarget('paya_coupons_coupons',
+												 $this->ctrl->getLinkTargetByClass('ilpaymentcoupongui'),
+												 '',
+												 '',
+												 '',
+												 $this->getSection() == $this->SECTION_COUPONS ? true : false);
 /*				$this->tpl->setCurrentBlock("tab");
 				$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_TRUSTEE ? 'tabactive' : 'tabinactive');
 				$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymenttrusteegui'));
