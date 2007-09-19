@@ -106,6 +106,25 @@ class ilCourseParticipants
 	}
 	
 	/**
+	 * Static function to check if a user is a prticipant of a course
+	 *
+	 * @access public
+	 * @param int course ref_id
+	 * @param int user id
+	 * @static
+	 */
+	public function _isParticipant($a_ref_id,$a_usr_id)
+	{
+		global $rbacreview,$ilObjDataCache,$ilDB;
+
+		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$user_roles = $rbacreview->assignedRoles($a_usr_id);
+		
+		return count(array_intersect((array) $local_roles,(array) $user_roles)) ? true : false;
+	}
+	
+	/**
 	 * Check if user is blocked
 	 *
 	 * @access public

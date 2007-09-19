@@ -608,7 +608,7 @@ class ilAccessHandler
 		global $objDefinition, $ilBench;
 		//echo "statusCheck<br/>";
 		$ilBench->start("AccessControl", "5000_checkAccess_object_check");
-				
+
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
 		$full_class = "ilObj".$class."Access";
