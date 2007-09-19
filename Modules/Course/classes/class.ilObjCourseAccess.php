@@ -58,12 +58,18 @@ class ilObjCourseAccess extends ilObjectAccess
 		{
 			case "view":
 				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id) and ilCourseParticipants::_isParticipant($a_ref_id,$a_user_id))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
+					return false;
+				} 
+				/*				
 				if($members->isBlocked($a_user_id) and $members->isAssigned($a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
-				}					
+				}
+				*/					
 				break;
 
 			/*
@@ -81,13 +87,21 @@ class ilObjCourseAccess extends ilObjectAccess
 				break;
 			*/	
 			case 'join':
+				
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				if(ilCourseParticipants::_isParticipant($a_ref_id,$a_user_id))
+				{
+					return false;
+				}
+				/*
 				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
 				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 				if($members->isAssigned($a_user_id))
 				{
 					return false;
-				}				
+				}
+				*/				
 				break;
 		}
 
@@ -125,12 +139,20 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				
 				include_once('Modules/Course/classes/class.ilCourseParticipants.php');
+				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id) and ilCourseParticipants::_isParticipant($a_ref_id,$a_user_id))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
+					return false;
+				} 
+				
+				/*
 				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 				if($members->isBlocked($a_user_id) and $members->isAssigned($a_user_id))  
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
 				}
+				*/
 				break;
 		}
 		return true;
