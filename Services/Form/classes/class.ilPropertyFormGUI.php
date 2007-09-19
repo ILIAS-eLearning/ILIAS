@@ -434,18 +434,17 @@ class ilPropertyFormGUI extends ilFormGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			// required
-			if ($item->getType() != "non_editable_value")
-			{
-				if ($item->getRequired())
-				{
-					$this->tpl->touchBlock("required");
-					$this->required_text = true;
-				}
-			}
-			
 			if ($this->getMode() == "subform")
 			{
+				// required
+				if ($item->getType() != "non_editable_value")
+				{
+					if ($item->getRequired())
+					{
+						$this->tpl->touchBlock("sub_required");
+						$this->required_text = true;
+					}
+				}
 				$this->tpl->setCurrentBlock("sub_prop_start");
 				$this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
 				if ($item->getType() != "non_editable_value")
@@ -464,6 +463,15 @@ class ilPropertyFormGUI extends ilFormGUI
 			}
 			else
 			{
+				// required
+				if ($item->getType() != "non_editable_value")
+				{
+					if ($item->getRequired())
+					{
+						$this->tpl->touchBlock("required");
+						$this->required_text = true;
+					}
+				}
 				$this->tpl->setCurrentBlock("std_prop_start");
 				$this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
 				if ($item->getType() != "non_editable_value")

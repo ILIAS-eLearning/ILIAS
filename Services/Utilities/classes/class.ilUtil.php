@@ -3970,7 +3970,6 @@ class ilUtil
 	 */
 	function createContainer($name, $ref_id, $containerType) 
 	{
-
 		if ($containerType == "Category") 
 		{
 			include_once("./Modules/Category/classes/class.ilObjCategory.php");
@@ -4017,7 +4016,11 @@ class ilUtil
 		$fileObj->setType($this->type);
 		$fileObj->setTitle(ilUtil::stripSlashes($filename));
 		$fileObj->setFileName(ilUtil::stripSlashes($filename));
-		$fileObj->setFileType(mime_content_type($path. "/" . $filename));
+		
+		// better use this, mime_content_type is deprecated
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$fileObj->setFileType(ilObjMediaObject::getMimeType($path. "/" . $filename));
+		
 		$fileObj->setFileSize(filesize($path. "/" . $filename));
 		$fileObj->create();
 		$fileObj->createReference();

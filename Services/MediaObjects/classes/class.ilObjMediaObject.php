@@ -1023,7 +1023,7 @@ class ilObjMediaObject extends ilObject
 	* @return	string					mime type
 	* static
 	*/
-	function getMimeType ($a_file)
+	static function getMimeType ($a_file)
 	{
 		// check if mimetype detection enabled in php.ini
 		$set = ini_get("mime_magic.magicfile");

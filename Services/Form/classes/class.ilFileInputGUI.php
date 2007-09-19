@@ -117,6 +117,12 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 
+		// remove trailing '/'
+		while (substr($_FILES[$this->getPostVar()]["name"],-1) == '/')
+		{
+			$_FILES[$this->getPostVar()]["name"] = substr($_FILES[$this->getPostVar()]["name"],0,-1);
+		}
+
 		$filename = $_FILES[$this->getPostVar()]["name"];
 		$filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
 		$suffix = $filename_arr["extension"];
@@ -124,6 +130,8 @@ class ilFileInputGUI extends ilFormPropertyGUI
 		$size_bytes = $_FILES[$this->getPostVar()]["size"];
 		$temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
 		$error = $_FILES[$this->getPostVar()]["error"];
+
+		$_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
 		
 		// error handling
 		if ($error > 0)
