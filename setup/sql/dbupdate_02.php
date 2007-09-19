@@ -2376,7 +2376,7 @@ CREATE TABLE IF NOT EXISTS `addressbook_mailing_lists` (
   `ml_id` bigint(20) NOT NULL auto_increment,
   `user_id` bigint(20) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `description` NOT NULL,
+  `description` text NOT NULL,
   `createdate` datetime NOT NULL,
   `changedate` datetime NOT NULL,
   PRIMARY KEY  (`ml_id`),
