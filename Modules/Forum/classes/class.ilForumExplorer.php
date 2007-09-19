@@ -23,6 +23,7 @@
 
 require_once("./classes/class.ilExplorer.php");
 require_once("./Modules/Forum/classes/class.ilForum.php");
+require_once("./Modules/Forum/classes/class.ilForumProperties.php");
 
 /**
 * Class ilForumExplorer 
@@ -57,29 +58,41 @@ class ilForumExplorer extends ilExplorer
 	* @access private
 	*/
 	var $forum;
+	
+	/**
+	 * ilForumProperties object 
+	 * @access private
+	 */
+	private $objProperties = null;
+	
+	private $objCurrentTopic = null;
 
 	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
 	*/
-	function ilForumExplorer($a_target,$a_thread_id,$a_ref_id)
+	function ilForumExplorer($a_target, ilForumTopic $a_thread, $a_ref_id)
 	{
 		global $lng;
 
-		$lng->loadLanguageModule("forum");
+		$lng->loadLanguageModule('forum');
 
 		parent::ilExplorer($a_target);
-		$this->thread_id = $a_thread_id;
+		
 		$this->forum = new ilForum();
-		$this->forum_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id);
-		$tmp_array = $this->forum->getFirstPostNode($this->thread_id);
-		$this->root_id = $tmp_array["child"];
-
+		$this->forum_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id);		
+		
+		$this->objProperties = ilForumProperties::getInstance($this->forum_obj->getId());
+		
+		$this->objCurrentTopic = $a_thread;
+		$this->thread_id = $this->objCurrentTopic->getId();
+		$this->root_id = $this->objCurrentTopic->getFirstPostNode()->getId();
+		
 		$this->__readThreadSubject();
 
 		// max length of user fullname which is shown in explorer view
-		define(FULLNAME_MAXLENGTH,16);
+		define(FULLNAME_MAXLENGTH, 16);
 	}
 
 	/**
@@ -95,74 +108,74 @@ class ilForumExplorer extends ilExplorer
 		global $lng,$ilUser;
 		static $counter = 0;
 
-		if ($objects =  $this->forum->getPostChilds($a_parent,$this->thread_id))
+		if (is_numeric($a_parent) && $objects = $this->objCurrentTopic->getPostChilds($a_parent, 'explorer'))
 		{
 			$tab = ++$a_depth - 2;
 			
 			foreach ($objects as $key => $object)
 			{
-				if ($object["child"] != $this->root_id)
+				if ($object['child'] != $this->root_id)
 				{
 					$parent_index = $this->getIndex($object);
 				}
-				$this->format_options["$counter"]["parent"] = $object["parent"];
-				$this->format_options["$counter"]["child"] = $object["child"];
+				
+				$this->format_options[$counter]['parent'] = $object['parent'];
+				$this->format_options[$counter]['child'] = $object['child'];
 
-				#$this->format_options["$counter"]["title"] = $object["title"]." <small class=\"small\">".$object["date"]."</small>".
-				#"<small><br />".$object["subject"]."</small>";
-
-				$title = "<span style=\"white-space:nowrap;\" class=\"small\">".stripslashes($object["subject"])."</span>".
-					"<div style=\"white-space:nowrap; margin-bottom:5px;\" class=\"small\">";
-					//"<div style=\"white-space:nowrap; margin-bottom:4px;\" class=\"small\">".$lng->txt("from").": ";
-				if ($this->forum_obj->isAnonymized())
+				$title = "<span style=\"white-space:nowrap;\" class=\"small\">".stripslashes($object['subject'])."</span>".
+						 "<div style=\"white-space:nowrap; margin-bottom:5px;\" class=\"small\">";
+				if ($this->objProperties->isAnonymized())
 				{
-					if ($object["alias"] != "") $title .= stripslashes($object["alias"]);
-					else $title .= $lng->txt("forums_anonymous");
+					if ($object['alias'] != '') $title .= stripslashes($object['alias']);
+					else $title .= $lng->txt('forums_anonymous');
 				}
 				else
 				{
-					$title .= stripslashes($object["loginname"]);
+					$title .= stripslashes($object['loginname']);
 				}
-				$title .= ", ".$this->forum->convertDate($object["date"])."</div>";
+				$title .= ", ".$this->forum->convertDate($object['date'])."</div>";
 
 				$this->format_options[$counter]['title'] = $title;
-
-				$this->format_options["$counter"]["type"] = $object["type"];
-				$this->format_options["$counter"]["desc"] = "forums_the_".$object["type"];
-				$this->format_options["$counter"]["depth"] = $tab;
-				$this->format_options["$counter"]["container"] = false;
-				$this->format_options["$counter"]["visible"]	  = true;
+				$this->format_options[$counter]['type'] = $object['type'];
+				$this->format_options[$counter]['desc'] = 'forums_the_'.$object['type'];
+				$this->format_options[$counter]['depth'] = $tab;
+				$this->format_options[$counter]['container'] = false;
+				$this->format_options[$counter]['visible'] = true;
+				if (!$object['status'] && !ilForum::_isModerator($_GET['ref_id'], $ilUser->getId()))
+				{
+					$this->format_options[$counter]['visible'] = false;
+				}
 
 				// Create prefix array
 				for ($i = 0; $i < $tab; ++$i)
 				{
-					$this->format_options["$counter"]["tab"][] = 'blank';
+					$this->format_options[$counter]['tab'][] = 'blank';
 				}
 				// only if parent is expanded and visible, object is visible
-				if ($object["child"] != $this->root_id  and (!in_array($object["parent"],$this->expanded) 
-														  or !$this->format_options["$parent_index"]["visible"]))
+				if ($object['child'] != $this->root_id  && (!in_array($object['parent'], $this->expanded) 
+														|| !$this->format_options[$parent_index]['visible']))
 				{
-					$this->format_options["$counter"]["visible"] = true;
+					$this->format_options[$counter]['visible'] = true;
 				}
 				// if object exists parent is container
-				if ($object["child"] != $this->root_id)
+				if ($object['child'] != $this->root_id)
 				{
-					$this->format_options["$parent_index"]["container"] = true;
+					$this->format_options[$parent_index]['container'] = true;
 
-					if (in_array($object["parent"],$this->expanded))
+					if (in_array($object['parent'], $this->expanded))
 					{
-						$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+						$this->format_options[$parent_index]['tab'][($tab - 2)] = 'minus';
 					}
 					else
 					{
-						$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+						$this->format_options[$parent_index]['tab'][($tab - 2)] = 'minus';
 					}
 				}
 
 				++$counter;
 
 				// Recursive
-				$this->setOutput($object["child"],$a_depth);
+				$this->setOutput($object['child'], $a_depth);
 			} //foreach
 		} //if
 	} //function
@@ -177,42 +190,32 @@ class ilForumExplorer extends ilExplorer
 	{
 		global $tpl;
 		
-		$this->format_options[0]["tab"] = array();
+		$this->format_options[0]['tab'] = array();
 		$depth = $this->forum->getPostMaximumDepth($this->thread_id);
-		for ($i=0;$i<$depth;++$i)
+		for ($i = 0; $i < $depth; ++$i)
 		{
 			$this->createLines($i);
 		}
 
-		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
+		$tpl->addBlockFile('EXPLORER_TOP', 'exp_top', 'tpl.explorer_top.html');
 		
 		// set global body class
-		$tpl->setVariable("BODY_CLASS", "il_Explorer");
+		$tpl->setVariable('BODY_CLASS', 'il_Explorer');
 		
-		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
+		$tpl_tree = new ilTemplate('tpl.tree.html', true, true);
 		
-		//$tpl_tree->touchBlock("start_list_no_indent");
-		//$tpl_tree->touchBlock("element");
-		$cur_depth = -1;
-		
+		$cur_depth = -1;		
 		foreach ($this->format_options as $key => $options)
 		{
 			// end tags
-			$this->handleListEndTags($tpl_tree, $cur_depth, $options["depth"]);
+			$this->handleListEndTags($tpl_tree, $cur_depth, $options['depth']);
 			
 			// start tags
-			$this->handleListStartTags($tpl_tree, $cur_depth, $options["depth"]);
+			$this->handleListStartTags($tpl_tree, $cur_depth, $options['depth']);
 			
-			$cur_depth = $options["depth"];
+			$cur_depth = $options['depth'];
 
-			//if($key == 0)
-			//{
-				//$this->formatHeader($tpl_tree);
-			//}
-			//else
-			//{
-				$this->formatObject($tpl_tree,$options["child"],$options, $key);
-			//}
+			$this->formatObject($tpl_tree, $options['child'], $options, $key);
 		}
 		
 		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
@@ -368,7 +371,7 @@ class ilForumExplorer extends ilExplorer
 	* @param	integer
 	* @return	string
 	*/
-	function createTarget($a_type,$a_node_id)
+	function createTarget($a_type, $a_node_id)
 	{
 		if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id))
 		{
@@ -393,44 +396,42 @@ class ilForumExplorer extends ilExplorer
 	*/
 	function setExpand($a_node_id)
 	{
-		$first_node = $this->forum->getFirstPostNode($this->thread_id);
-		$first_node_id = $first_node["id"];
-		$_SESSION["fexpand"] = $_SESSION["fexpand"] ? $_SESSION["fexpand"] : array();
+		$first_node = $this->objCurrentTopic->getFirstPostNode();
 
-		// IF ISN'T SET CREATE SESSION VARIABLE
-		if(empty($_SESSION["fexpand"]) or !in_array($first_node_id,$_SESSION["fexpand"]))
+		$_SESSION['fexpand'] = $_SESSION['fexpand'] ? $_SESSION['fexpand'] : array();
+
+		// if isn't set create session variable
+		if (empty($_SESSION['fexpand']) or !in_array($first_node->getId(), $_SESSION['fexpand']))
 		{
-			$all_nodes = $this->forum->getPostTree($first_node);
-			foreach($all_nodes as $node)
+			$all_nodes = $this->objCurrentTopic->getPostTree($first_node);
+			foreach ($all_nodes as $node)
 			{
-				$tmp_array[] = $node["id"];
+				$tmp_array[] = $node->getId();
 			}
-			$_SESSION["fexpand"] = array_merge($tmp_array,$_SESSION["fexpand"]);
+			$_SESSION['fexpand'] = array_merge($tmp_array, $_SESSION['fexpand']);
 		}
-		// IF $_GET["expand"] is positive => expand this node
-		if($a_node_id > 0 && !in_array($a_node_id,$_SESSION["fexpand"]))
+		
+		// if $_get['expand'] is positive => expand this node
+		if ($a_node_id > 0 && !in_array($a_node_id, $_SESSION['fexpand']))
 		{
-			array_push($_SESSION["fexpand"],$a_node_id);
+			array_push($_SESSION['fexpand'], $a_node_id);
 		}
-		// IF $_GET["expand"] is negative => compress this node
-		if($a_node_id < 0)
+		
+		// if $_get['expand'] is negative => compress this node
+		if ($a_node_id < 0)
 		{
-			$key = array_keys($_SESSION["fexpand"],-(int) $a_node_id);
-			unset($_SESSION["fexpand"][$key[0]]);
+			$key = array_keys($_SESSION['fexpand'], -(int) $a_node_id);
+			unset($_SESSION['fexpand'][$key[0]]);
 		}
-		$this->expanded = $_SESSION["fexpand"];
+		
+		$this->expanded = $_SESSION['fexpand'];
 	}
 
 	function __readThreadSubject()
 	{
 		global $ilDB;
 		
-		$this->forum->setWhereCondition("thr_pk = ".$ilDB->quote($this->thread_id));
-		$threadData = $this->forum->getOneThread();
-
-		$this->thread_subject = $threadData["thr_subject"];
+		$this->thread_subject = $this->objCurrentTopic->getSubject();
 	}
-		
-
 } // END class.ilExplorer
 ?>

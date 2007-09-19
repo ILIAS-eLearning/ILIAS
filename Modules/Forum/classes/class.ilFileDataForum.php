@@ -57,7 +57,7 @@ class ilFileDataForum extends ilFileData
 	*/
 	function ilFileDataForum($a_obj_id = 0,$a_pos_id = 0)
 	{
-		define('FORUM_PATH','forum');
+		define('FORUM_PATH', 'forum');
 		parent::ilFileData();
 		$this->forum_path = parent::getPath()."/".FORUM_PATH;
 		

@@ -1,10 +1,10 @@
-<!-- BEGIN forum_notification -->
-<p><i>{TXT_FORUM_NOTIFICATION_ENABLED}</i></p>
-<!-- BEGIN forum_notification -->
-
 <form method="post" name="cmd" action="{FORMACTION}">
 
 <table class="fullwidth">
+<tr class="tbltitle">
+    <th class="std" colspan="7"><div style="float:right;"></div>{TXT_HEADLINE}</th>
+</tr>
+<!-- BEGIN header -->
 <tr class="tblheader">
   <td class="std" width="1%">&nbsp;</td>
   <td class="std" width="60%">{TXT_TOPIC}</td>
@@ -14,10 +14,16 @@
   <td class="std" style="text-align: center;" nowrap="nowrap">{TXT_NUM_VISITS}</td>
   <td class="std" width="20%">{TXT_LAST_POST}</td>
 </tr>
+<!-- END header -->
+<!-- BEGIN no_threads -->
+<tr class="tblrow1">
+  	<td class="std" colspan="7">{TXT_NO_THREADS}</td>
+</tr>
+<!-- END no_threads -->
 <!-- BEGIN threads_row -->
 <tr class="{ROWCOL}">
-	<td nowrap="nowrap" width="1%" valign="top"><input type="checkbox" name="forum_id[]" value="{FORUM_ID}"{CHECKBOX_CHECKED}></td>
-	<td width="60%" valign="top"><a href="{TH_HREF}">{TH_TITLE}</a><!-- BEGIN notification --><br><span class="small">{NOTIFICATION_ENABLED}</span><!-- END notification --></td>
+	<td nowrap="nowrap" width="1%" valign="top"><!-- BEGIN checkbox --><input type="checkbox" name="forum_id[]" value="{FORUM_ID}" {CHECKBOX_CHECKED} /><!-- END checkbox --></td>
+	<td width="60%" valign="top"><!-- BEGIN linked_title_a --><a href="{TH_HREF}"><!-- END linked_title_a -->{TH_TITLE}<!-- BEGIN linked_title_b --></a><!-- END linked_title_b --><!-- BEGIN notification --><br><span class="small">{NOTIFICATION_ENABLED}</span><!-- END notification --></td>
 	<td width="20%" style="text-align: center;" valign="top">{AUTHOR}</td>
 	<td style="text-align: center;" valign="top">{NUM_POSTS}</td>
 	<td style="text-align: center;" valign="top">{NEW_POSTS}</td>
@@ -37,28 +43,38 @@
  <td class="std" colspan="7">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
 </tr>
 <!-- END threads_no -->
+<!-- BEGIN select_all -->
 <tr>
 	<td class="submit" nowrap="nowrap" colspan="7">
-	<input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
+	<input type="checkbox" name="all" value="check_all" onclick="CheckAllBoxes(document.cmd);" />&nbsp;
 	<strong>{TXT_SELECT_ALL}</strong>
 	</td>
 </tr>
+<!-- END select_all -->
+<!-- BEGIN threads_actions -->
 <tr>
 	<td class="submit"  width="1%" nowrap="nowrap" colspan="7"><img src="{IMGPATH}/images/arrow_downright.gif" />
 	<select name="action">
 		<option value="html">{TXT_EXPORT_HTML}</option>
-		<!-- <option value="xml">{TXT_EXPORT_XML}</option> -->
 <!-- BEGIN option_notification -->
 		<option value="enable_notifications">{TXT_ENABLE_NOTIFICATION}</option>
 		<option value="disable_notifications">{TXT_DISABLE_NOTIFICATION}</option>
 <!-- END option_notification -->
+<!-- BEGIN make_unmake_sticky -->
+		<option value="makesticky">{TXT_MAKE_STICKY}</option>
+		<option value="unmakesticky">{TXT_UNMAKE_STICKY}</option>
+<!-- END make_unmake_sticky -->
+<!-- BEGIN move_threads -->
+		<option value="move">{TXT_MOVE_THREADS}</option>
+<!-- END move_threads -->
 	</select>
-	<input class="submit" type="submit" name="cmd[performThreadsAction]" value="{TXT_OK}"/>
+	<input class="submit" type="submit" name="cmd[performThreadsAction]" value="{TXT_OK}" />
 	</td>
 </tr>
+<!-- END threads_actions -->
 </table>
 </form>
-<!-- END threadtable -->
+
 <!-- BEGIN perma_link -->
 <div class="il_info"><br />
 {TXT_PERMA_LINK}: <a href="{PERMA_LINK}" target="{PERMA_TARGET}">{PERMA_LINK}</a>
