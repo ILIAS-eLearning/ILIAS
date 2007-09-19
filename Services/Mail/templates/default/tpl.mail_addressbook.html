@@ -1,138 +1,16 @@
-	<form action="{ACTION}" METHOD="post" name="entries">
-		<!-- BEGIN confirm_delete -->
-		<table class="fullwidth_invisible">
-		<tr>
-			<td align="center">
-				<input class="submit" type="submit" name="cmd[confirmDelete]" value="{BUTTON_CONFIRM}" />
-				<input class="submit" type="submit" name="cmd[cancelDelete]" value="{BUTTON_CANCEL}" />
-			</td>
-		</tr>
-		</table>		
-		<!-- END confirm_delete -->
-		<!-- BEGIN entry_exists -->
-		<table class="fullwidth_invisible">
-		<tr>
-			<td align="center">
-				<input type="hidden" name="entry_id[]" value="{ENTRY_EXISTS_ENTRY_ID}"/>
-				<input class="submit" type="submit" name="cmd[confirmOverwrite]" value="{ENTRY_EXISTS_BUTTON_OVERWRITE}"/>
-				<input class="submit" type="submit" name="cmd[cancelOverwrite]" value="{ENTRY_EXISTS_BUTTON_CANCEL}"/>
-			</td>
-		</tr>
-		</table>
-		<!-- END entry_exists -->
-		<!-- BEGIN linkbar -->
-		<table class="std">
-		<tr>
-			<td class="std">{LINKBAR}</td>
-		</tr>
-		</table>
-		<!-- END linkbar -->
-		<table class="std" width="80%">
-		<tr class="tblheader" valign="top">
-			<th id="header1" class="std"  width="4%" align="center">
-				&nbsp;
-			</th>
-			<th id="header2" class="std" width="19%">
-				<b>{TXT_LOGIN}</b>
-			</th>
-			<th id="header3" class="std" width="29%">
-				<b>{TXT_FIRSTNAME}</b>
-			</th>
-			<th id="header4" class="std" width="29%">
-				<b>{TXT_LASTNAME}</b>
-			</th>
-			<th id="header5" class="std" width="19%">
-				<b>{TXT_EMAIL}</b>
-			</th>
-		</tr>
-		<!-- BEGIN addr_search -->
-		<tr class="{CSSROW}">
-			<td headers="header1" class="std" align="center">
-				<input type="checkbox" name="entry_id[]" value="{ENTRY_ID}" {CHECKED} />
-			</td>
-			<td headers="header2" class="std"  valign="middle"><!-- BEGIN login_link --><a class="navigation" href="{LOGIN_LINK}">{LOGIN}</a><!-- END login_link --></td>
-			<td headers="header3" class="std"  valign="top">{FIRSTNAME}</td>
-			<td headers="header4" class="std"  valign="top">{LASTNAME}</td>
-			<!-- BEGIN no_smtp -->
-			<td headers="header5" class="std"  valign="top">{EMAIL}</td>
-			<!-- END no_smtp -->
-			<!-- BEGIN smtp -->
-			<td headers="header5" class="std"  valign="middle"><a class="navigation" href="{EMAIL_LINK}">{EMAIL_SMTP}</a></td>
-			<!-- END smtp -->
-		</tr>
-		<!-- END addr_search -->
-		<!-- BEGIN addr_no_content -->
-		<tr class="tblrow1">
-		<td class="std"  colspan="6" align="center">{TXT_ADDR_NO}</td>
-		</tr>
-		<!-- END addr_no_content -->
-		<!-- BEGIN footer -->
-		<tr class="{ROWCLASS}">
-			<td class="std" align="center">				
-				<input type="checkbox" name="chb_check_all" value="1" id="entries_active_all" onclick="setChecked('entries', 'entry_id', document.entries.entries_active_all.checked);" />
-			</td>
-			<td class="{ROWCLASS}">{SELECT_ALL}</td>
-			<td class="{ROWCLASS}" colspan="3"></td>
-		</tr>
-		<tr class="submit">
-			<td class="submit" align="center">
-				<img src="templates/default/images/arrow_downright.gif" alt="{TXT_MARKED_ENTRIES}" />
-			</td>
-			<td class="submit" colspan="4">
-				<select name="action">
-				<!-- BEGIN actions -->
-				<option value="{ACTION_NAME}" {ACTION_SELECTED}>{ACTION_VALUE}</option>
-				<!-- END actions -->
-				</select>
-				<input class="submit" type="submit" name="cmd[showAddressbook]" value="{BUTTON_SUBMIT}"/>
-			</td>
-		</tr>
-		<!-- END footer -->
-		</table>
-
-	&nbsp;
-
-		<table class="std">
-		<tr class="tblheader">
-			<th id="header-entry" class="std" colspan="2">
-				{TXT_NEW_EDIT}
-			</th>
-		</tr>
-		<tr class="{CSSROW_LOGIN}">
-			<td id="header-login" class="option">{HEADER_LOGIN}</td>
-			<td headers="header-login header-entry" class="option_value" >
-				<input type="text" name="login" value="{VALUE_LOGIN}" size="32" maxlength="40"/>
-			</td>
-		</tr>
-		<tr class="{CSSROW_FIRSTNAME}">
-			<td id="header-firstname" class="option">{HEADER_FIRSTNAME}</td>
-			<td headers="header-firstname header-entry" class="option_value" >
-				<input type="text" name="firstname" value="{VALUE_FIRSTNAME}" size="32" maxlength="40"/>
-			</td>
-		</tr>
-		<tr class="{CSSROW_LASTNAME}">
-			<td id="header-lastname" class="option">{HEADER_LASTNAME}</td>
-			<td headers="header-lastname header-entry" class="option_value" >
-				<input type="text" name="lastname" value="{VALUE_LASTNAME}" size="32" maxlength="40"/>
-			</td>
-		</tr>
-		<tr class="{CSSROW_EMAIL}">
-			<td id="header-email" class="option">{HEADER_EMAIL}</td>
-			<td headers="header-email header-entry" class="option_value">
-				<input type="text" name="email" value="{VALUE_EMAIL}" size="32" maxlength="40"/>
-			</td>
-		</tr>
-		<tr class="submit">
-			<td class="submit" colspan="2" align="right">
-				<input class="submit" type="submit" name="{BUTTON_EDIT_ADD_NAME}" value="{BUTTON_EDIT_ADD}"/>
-			</td>
-		</tr>
-		</table>
-	</form>
-
-<!--<p><a class="submit" href="{LINK_MYCOURSES}">{TXT_MYCOURSES}</a></p>
-<p><a class="submit" href="{LINK_MYGROUPS}">{TXT_MYGROUPS}</a></p>//-->
-
-	&nbsp;
-<!--</div>-->
-</td></tr></table>
+{DELETE_CONFIRMATION}
+<!-- BEGIN table -->
+<form action="{ACTION}" method="post">
+<table class="std">
+<tr>
+	<td id="header-search" class="option" align="right">{TXT_SEARCH_FOR}</td>
+	<td headers="header-search" class="option_value">
+		<input name="search_qry" value="{VALUE_SEARCH_FOR}" size="30" width="80%"/><br/>
+		<input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
+	</td>
+</tr>
+</table>
+</form>
+<br />
+{TABLE}
+<!-- END table -->

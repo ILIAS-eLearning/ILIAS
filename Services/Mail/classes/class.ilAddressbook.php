@@ -171,8 +171,17 @@ class ilAddressbook
 		global $ilDB;
 		
 		$query = "SELECT * FROM $this->table_addr ".
-			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-			"ORDER BY login,lastname";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
+		
+		if (trim($this->getSearchQuery()) != '')
+		{
+		$query .= " AND (login LIKE '%".addslashes(trim($this->getSearchQuery()))."%' ".
+				"OR firstname LIKE '%".addslashes(trim($this->getSearchQuery()))."%' ".
+				"OR lastname LIKE '%".addslashes(trim($this->getSearchQuery()))."%' ".
+				"OR email LIKE '%".addslashes(trim($this->getSearchQuery()))."%') ";
+		}
+		
+		$query .= " ORDER BY login,lastname";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -237,6 +246,10 @@ class ilAddressbook
 	{
 		global $ilDB;
 		
+		$query = "DELETE FROM addressbook_mailing_lists_assignments ".
+				 "WHERE addr_id = ".$ilDB->quote($a_addr_id)." ";
+		$this->ilias->db->query($query);
+		
 		$query = "DELETE FROM $this->table_addr ".
 			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			"AND addr_id = ".$ilDB->quote($a_addr_id)." ";
@@ -279,6 +292,15 @@ class ilAddressbook
 		}
 		
 		return 0;
+	}
+	
+	public function setSearchQuery($search_query = '')
+	{
+		$this->search_query = $search_query;
+	}
+	public function getSearchQuery()
+	{
+		return $this->search_query;
 	}
 }
 ?>

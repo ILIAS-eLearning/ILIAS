@@ -199,7 +199,16 @@ class ilDBx extends PEAR
 			return $this->db->quote($a_query);
 		}
 	}
-
+	
+	/**
+	* Wrapper to find number of rows affected by a data changing query
+	*
+	* @return integer  number of rows
+	*/
+	function affectedRows()
+	{
+		return $this->db->affectedRows();
+	}
 
 	/**
 	* getrow

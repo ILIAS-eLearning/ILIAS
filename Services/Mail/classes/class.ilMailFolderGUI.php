@@ -30,7 +30,7 @@ require_once "Services/Mail/classes/class.ilMail.php";
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailFolderGUI: ilMailAddressbookGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailOptionsGUI
+* @ilCtrl_Calls ilMailFolderGUI: ilMailAddressbookGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailOptionsGUI, ilObjUserGUI
 */
 class ilMailFolderGUI
 {
@@ -78,7 +78,7 @@ class ilMailFolderGUI
 			$_POST["action"] = "deleteMails";
 			$_POST["mail_id"] = array($_GET["mail_id"]);
 		}		
-		
+
 		$forward_class = $this->ctrl->getNextClass($this);		
 		switch($forward_class)
 		{
@@ -163,6 +163,33 @@ class ilMailFolderGUI
 		
 		return true;
 	}
+	
+	public function showUser()
+	{
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_user.html", "Services/Mail");
+		
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "showMail"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));		
+		$this->tpl->parseCurrentBlock();	
+		
+		include_once("classes/class.ilObjUserGUI.php");		
+		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+		
+		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".$user_gui->object->getLogin());
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_usr.gif"));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT", $this->lng->txt("public_profile"));
+		
+		$this->tpl->setVariable('USER_PROFILE', $user_gui->getPublicProfile("", false, true));
+		$this->tpl->show();
+		
+		return true;
+	}
 
 	public function showFolder()
 	{
@@ -192,7 +219,7 @@ class ilMailFolderGUI
 			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
 			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->parseCurrentBlock();
-		}		
+		}	
 		
 		// BEGIN MAIL ACTIONS
 		$actions = $this->mbox->getActions($_GET["mobj_id"]);
@@ -353,6 +380,14 @@ class ilMailFolderGUI
 			{
 				$tmp_user = new ilObjUser($mail["sender_id"]);
 				$this->tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
+				
+				/*$this->ctrl->setParameter("user", $tmp_user->getId());
+				$this->ctrl->getLinkTargetByClass("ilusersonlineblockgui", "showUserProfile");
+				$this->tpl->setVariable("PROFILE_LINK", "")
+				include_once("classes/class.ilObjUserGUI.php");
+				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+				*/;
+				
 				if(!($login = $tmp_user->getLogin()))
 				{
 					$login = $mail["import_name"]." (".$this->lng->txt("user_deleted").")";
@@ -693,6 +728,31 @@ class ilMailFolderGUI
 		
 		return true;
 	}
+	
+	public function changeFolder()
+	{
+		switch ($_POST["action"])
+		{
+			default:
+				if ($this->umail->moveMailsToFolder(array($_GET["mail_id"]), $_POST["action"]))
+				{
+					ilUtil::sendInfo($this->lng->txt("mail_moved"), true);
+					
+					$_GET["mobj_id"] = $_POST["action"];					
+					$this->ctrl->setParameter($this, "mobj_id", $_GET['mobj_id']);
+					$this->ctrl->redirectByClass("ilMailGUI");					
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt("mail_move_error"));
+				}
+				break;
+		}
+		
+		$this->showMail();
+		
+		return true;
+	}
 
 	public function editFolder()
 	{
@@ -849,16 +909,7 @@ class ilMailFolderGUI
 		$tplbtn->setVariable("BTN_TXT", $this->lng->txt("print"));
 		$tplbtn->setVariable("BTN_TARGET","target=\"_blank\"");
 		$tplbtn->parseCurrentBlock();
-		if($mailData["sender_id"])
-		{
-			$tplbtn->setCurrentBlock("btn_cell");
-			$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-			$this->ctrl->setParameter($this, "cmd", "add");
-			$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
-			$this->ctrl->clearParameters($this);
-			$tplbtn->setVariable("BTN_TXT", $this->lng->txt("mail_add_to_addressbook"));
-			$tplbtn->parseCurrentBlock();
-		}
+		
 		$tplbtn->setCurrentBlock("btn_cell");
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
 		$this->ctrl->setParameter($this, "action", "deleteMails");
@@ -876,6 +927,28 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
 		$this->ctrl->clearParameters($this);
 		
+		if ($mailData["sender_id"] && $mailData["sender_id"] != $ilUser->getId())
+		{
+			require_once "Services/Mail/classes/class.ilAddressbook.php";
+			$abook = new ilAddressbook($ilUser->getId());
+
+			$tmp_user = new ilObjUser($mailData["sender_id"]);
+			if ($abook->checkEntryByLogin($tmp_user->getLogin()) == 0)
+			{
+				$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
+			
+				$tplbtn->setCurrentBlock("btn_cell");
+				$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
+				$this->ctrl->setParameter($this, "cmd", "add");
+				$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+				$this->ctrl->clearParameters($this);
+				$tplbtn->setVariable("BTN_TXT", $this->lng->txt("mail_add_to_addressbook"));
+				$tplbtn->parseCurrentBlock();
+				
+				$this->tpl->setVariable("ADD_USER_BTN",$tplbtn->get());
+			}			
+		}
+		
 		// SET MAIL DATA
 		$counter = 1;
 		// FROM
@@ -883,6 +956,10 @@ class ilMailFolderGUI
 		
 		$tmp_user = new ilObjUser($mailData["sender_id"]);
 		#$tmp_user =& ilObjectFactory::getInstanceByObjId($mailData["sender_id"],false);
+		
+		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
+		$this->ctrl->setParameter($this, 'user', $tmp_user->getId());
+		$this->tpl->setVariable("PROFILE_LINK_FROM", $this->ctrl->getLinkTarget($this, "showUser"));
 		
 		$this->tpl->setVariable("FROM", $tmp_user->getFullname());
 		$this->tpl->setCurrentBlock("pers_image");
@@ -945,6 +1022,80 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(ilUtil::secureString($mailData["m_message"]))));
 		#$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars($mailData["m_message"]))));
 		
+		$isTrashFolder = false;
+		if ($this->mbox->getTrashFolder() == $_GET["mobj_id"])
+		{
+			$isTrashFolder = true;
+		}
+		$actions = $this->mbox->getActions($_GET["mobj_id"]);				
+		foreach($actions as $key => $action)
+		{
+			if($key == 'moveMails')
+			{
+				$folders = $this->mbox->getSubFolders();
+				foreach($folders as $folder)
+				{
+					if ($folder["type"] != 'trash' ||
+						!$isTrashFolder)
+					{
+						$this->tpl->setCurrentBlock("movemail");
+						$this->tpl->setVariable("MOVEMAIL_VALUE", $folder["obj_id"]);
+						if($folder["type"] != 'user_folder')
+						{
+							$this->tpl->setVariable("MOVEMAIL_NAME",$action." ".$this->lng->txt("mail_".$folder["title"]).($folder["type"] == 'trash' ? " (".$this->lng->txt("delete").")" : ""));
+						}
+						else
+						{
+							$this->tpl->setVariable("MOVEMAIL_NAME",$action." ".$folder["title"]);
+						}
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+			}
+		}	
+		if ($_SESSION["viewmode"] != "flat") $this->tpl->setVariable("FORM_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
+		$this->tpl->setVariable("TXT_MOVEMAIL_SEND", $this->lng->txt('submit'));
+		
+		// PREV- & NEXT-BUTTON
+		
+		$prevMail = $this->umail->getPreviousMail($_GET["mail_id"]);
+		$nextMail = $this->umail->getNextMail($_GET["mail_id"]);
+		
+		if (is_array($prevMail) || is_array($nextMail))
+		{			
+			$show = false;
+			
+			$tplbtn = new ilTemplate("tpl.buttons.html", true, true);			
+					
+			if ($prevMail["mail_id"])
+			{
+				$show = true;
+				
+				$tplbtn->setCurrentBlock("btn_cell");
+				$this->ctrl->setParameter($this, "mail_id", $prevMail["mail_id"]);
+				$this->ctrl->setParameter($this, "cmd", "showMail");
+				$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+				$this->ctrl->clearParameters($this);
+				$tplbtn->setVariable("BTN_TXT", $this->lng->txt("previous"));
+				$tplbtn->parseCurrentBlock();
+			}				
+			
+			if ($nextMail["mail_id"])
+			{
+				$show = true;
+				
+				$tplbtn->setCurrentBlock("btn_cell");
+				$this->ctrl->setParameter($this, "mail_id", $nextMail["mail_id"]);
+				$this->ctrl->setParameter($this, "cmd", "showMail");
+				$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+				$this->ctrl->clearParameters($this);
+				$tplbtn->setVariable("BTN_TXT", $this->lng->txt("next"));
+				$tplbtn->parseCurrentBlock();
+			}
+			
+			if ($show == true)$this->tpl->setVariable("NAV_BUTTONS", $tplbtn->get());
+		}			
+
 		$this->tpl->show();
 	}
 
@@ -1031,6 +1182,12 @@ class ilMailFolderGUI
 		}
 	}
 
+	function deliverVCard()
+	{
+		include_once("classes/class.ilObjUserGUI.php");
+		$userObj = new ilObjUserGUI("", $_GET["user"]);
+		return $userObj->deliverVCardObject();
+	}
 }
 
 ?>

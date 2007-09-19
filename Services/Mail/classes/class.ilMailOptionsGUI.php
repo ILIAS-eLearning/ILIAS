@@ -74,7 +74,7 @@ class ilMailOptionsGUI
 
 	public function saveOptions()
 	{
-		$this->umail->mail_options->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"]);
+		$this->umail->mail_options->updateOptions(ilUtil::stripSlashes($_POST["signature"]), ilUtil::stripSlashes((int) $_POST["linebreak"]), ilUtil::stripSlashes((int) $_POST["incoming_type"]), ilUtil::stripSlashes((int) $_POST['cronjob_notification']));
 #		ilUtil::sendInfo($this->lng->txt("mail_options_saved"),true);
 #		$this->ctrl->redirectByClass("ilmailfoldergui");
 		ilUtil::sendInfo($this->lng->txt("mail_options_saved"));
@@ -84,93 +84,71 @@ class ilMailOptionsGUI
 
 	public function showOptions()
 	{
-		global $ilUser;
-
+		global $ilUser, $ilias;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_options.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 
-		$folderData = $this->mbox->getFolderData($_GET["mobj_id"]);
-
-		// FORM EDIT FOLDER
-		if($folderData["type"] == 'user_folder' &&
-			!isset($_POST["cmd"]["deleteFolder"]))
-		{
-			$this->tpl->setCurrentBlock('edit');
-			$this->tpl->setVariable("FOLDER_OPTIONS",$this->lng->txt("mail_folder_options"));
-			$this->tpl->setVariable("TXT_DELETE",$this->lng->txt("delete"));
-			$this->ctrl->setParameter($this, "cmd", "post");
-			$this->tpl->setVariable("ACTION_EDIT", $this->ctrl->getLinkTarget($this));
-			$this->ctrl->clearParameters($this);
-			$this->tpl->setVariable("TXT_NAME",$this->lng->txt("mail_folder_name"));
-			$this->tpl->setVariable("FOLDER_NAME",$folderData["title"]);
-			$this->tpl->setVariable("TXT_RENAME",$this->lng->txt("rename"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// FORM ADD FOLDER
-		if(($folderData["type"] == 'user_folder' || $folderData["type"] == 'local') &&
-			!isset($_POST["cmd"]["deleteFolder"]))
-		{
-			$this->tpl->setCurrentBlock('add');
-			$this->ctrl->setParameter($this, "cmd", "post");
-			$this->tpl->setVariable("ACTION_ADD", $this->ctrl->getLinkTarget($this));
-			$this->ctrl->clearParameters($this);
-			$this->tpl->setVariable("TXT_NAME_ADD",$this->lng->txt("mail_folder_name"));
-			$this->tpl->setVariable("TXT_FOLDER_ADD",$this->lng->txt("add"));
-			$this->tpl->setVariable("FRAME_ADD", ilFrameTargetInfo::_getFrame("MainContent"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		// FORM GLOBAL OPTIONS
-		if(!isset($_POST["cmd"]["deleteFolder"]))
+		
+		$this->tpl->setCurrentBlock("options");
+	
+		// BEGIN INCOMING
+		$this->tpl->setCurrentBlock("option_inc_line");
+
+		$inc = array($this->lng->txt("mail_incoming_local"),$this->lng->txt("mail_incoming_smtp"),$this->lng->txt("mail_incoming_both"));
+		foreach($inc as $key => $option)
 		{
-			$this->tpl->setCurrentBlock("options");
-		
-			// BEGIN INCOMING
-			$this->tpl->setCurrentBlock("option_inc_line");
-
-			$inc = array($this->lng->txt("mail_incoming_local"),$this->lng->txt("mail_incoming_smtp"),$this->lng->txt("mail_incoming_both"));
-			foreach($inc as $key => $option)
-			{
-				$this->tpl->setVariable("OPTION_INC_VALUE",$key);
-				$this->tpl->setVariable("OPTION_INC_NAME",$option);
-				$this->tpl->setVariable("OPTION_INC_SELECTED",$this->umail->mail_options->getIncomingType() == $key ? "selected=\"selected\"" : "");
-				$this->tpl->parseCurrentBlock();
-			}
-		
-			// BEGIN LINEBREAK_OPTIONS
-			$this->tpl->setCurrentBlock("option_line");
-			$linebreak = $this->umail->mail_options->getLinebreak();
-			
-			for($i = 50; $i <= 80;$i++)
-			{
-				$this->tpl->setVariable("OPTION_VALUE",$i);
-				$this->tpl->setVariable("OPTION_NAME",$i);
-				if( $i == $linebreak)
-				{
-					$this->tpl->setVariable("OPTION_SELECTED","selected");
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
-			{
-				$this->tpl->setVariable('INC_DISABLED','disabled="disabled"');
-			}			
-			
-			$this->tpl->setVariable("GLOBAL_OPTIONS",$this->lng->txt("mail_global_options"));
-			$this->tpl->setVariable("TXT_INCOMING", $this->lng->txt("mail_incoming"));
-			$this->tpl->setVariable("TXT_LINEBREAK", $this->lng->txt("linebreak"));
-			$this->tpl->setVariable("TXT_SIGNATURE", $this->lng->txt("signature"));
-			$this->tpl->setVariable("CONTENT",$this->umail->mail_options->getSignature());
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-			$this->ctrl->setParameter($this, "cmd", "post");
-			$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
-			$this->ctrl->clearParameters($this);
-
+			$this->tpl->setVariable("OPTION_INC_VALUE",$key);
+			$this->tpl->setVariable("OPTION_INC_NAME",$option);
+			$this->tpl->setVariable("OPTION_INC_SELECTED",$this->umail->mail_options->getIncomingType() == $key ? "selected=\"selected\"" : "");
 			$this->tpl->parseCurrentBlock();
 		}
+	
+		// BEGIN LINEBREAK_OPTIONS
+		$this->tpl->setCurrentBlock("option_line");
+		$linebreak = $this->umail->mail_options->getLinebreak();
+		
+		for($i = 50; $i <= 80;$i++)
+		{
+			$this->tpl->setVariable("OPTION_VALUE",$i);
+			$this->tpl->setVariable("OPTION_NAME",$i);
+			if( $i == $linebreak)
+			{
+				$this->tpl->setVariable("OPTION_SELECTED","selected");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
+		{
+			$this->tpl->setVariable('INC_DISABLED','disabled="disabled"');
+		}			
+		
+		$this->tpl->setVariable("GLOBAL_OPTIONS",$this->lng->txt("mail_global_options"));
+		$this->tpl->setVariable("TXT_INCOMING", $this->lng->txt("mail_incoming"));
+		$this->tpl->setVariable("TXT_LINEBREAK", $this->lng->txt("linebreak"));
+		$this->tpl->setVariable("TXT_SIGNATURE", $this->lng->txt("signature"));
+		$this->tpl->setVariable("CONTENT",$this->umail->mail_options->getSignature());
+		
+		if ($ilias->getSetting("mail_notification"))
+		{
+			$this->tpl->setVariable("TXT_CRONJOB_NOTIFICATION", $this->lng->txt("cron_mail_notification"));
+			$this->tpl->setVariable("TXT_CRONJOB_NOTIFICATION_INFO", $this->lng->txt("mail_cronjob_notification_info"));
+			if ($this->umail->mail_options->getCronjobNotification())
+			{
+				$this->tpl->setVariable("CRONJOB_NOTIFICATION_SELECTED", " checked=\"checked\"");
+			}
+		}
+		
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		$this->ctrl->setParameter($this, "cmd", "post");
+		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->ctrl->clearParameters($this);
+
+		$this->tpl->parseCurrentBlock();
+		
 		$this->tpl->show();
 	}
 

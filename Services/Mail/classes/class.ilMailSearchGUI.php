@@ -25,6 +25,7 @@ require_once './Services/User/classes/class.ilObjUser.php';
 require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
 require_once "Services/Mail/classes/class.ilAddressbook.php";
+include_once('Services/Table/classes/class.ilTable2GUI.php');
 
 /**
 * @author Jens Conze
@@ -74,18 +75,71 @@ class ilMailSearchGUI
 
 	public function adopt()
 	{
-		$_SESSION["mail_search_results"] = $_POST["search_name"];
+		$_SESSION["mail_search_results_to"] = $_POST["search_name_to"];
+		$_SESSION["mail_search_results_cc"] = $_POST["search_name_cc"];
+		$_SESSION["mail_search_results_bcc"] = $_POST["search_name_bcc"];
+		
+		$this->saveMailData();
+		
 		$this->ctrl->returnToParent($this);
+	}
+	
+	private function saveMailData()
+	{
+		$mail_data = $this->umail->getSavedData();
+		
+		$this->umail->savePostData(
+			$mail_data["user_id"],
+			$mail_data["attachments"],
+			$mail_data["rcp_to"],
+			$mail_data["rcp_cc"],
+			$mail_data["rcp_bcc"],
+			$mail_data["m_type"],
+			$mail_data["m_email"],
+			$mail_data["m_subject"],
+			$mail_data["m_message"],
+			$mail_data["use_placeholders"]
+		);
 	}
 	
 	public function cancel()
 	{
 		$this->ctrl->returnToParent($this);
 	}
+	
+	function search()
+	{
+		$_SESSION["mail_search_search"] = $_POST["search"];
+		$_SESSION["mail_search_type_system"] = $_POST["type_system"];
+		$_SESSION["mail_search_type_addressbook"] = $_POST["type_addressbook"];
+
+		// IF NO TYPE IS GIVEN SEARCH IN BOTH 'system' and 'addressbook'
+		if(!$_SESSION["mail_search_type_system"] &&
+		   !$_SESSION["mail_search_type_addressbook"])
+		{
+			$_SESSION["mail_search_type_system"] = 1;
+			$_SESSION["mail_search_type_addressbook"] = 1;
+		}
+		if (strlen(trim($_SESSION["mail_search_search"])) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
+		}
+		else if(strlen(trim($_SESSION["mail_search_search"])) < 3)
+		{
+			$this->lng->loadLanguageModule('search');
+			ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
+		}
+		
+		$this->showResults();
+		
+		return true;
+	}
 
 	public function showResults()
-	{
+	{	
 		global $rbacsystem, $lng, $ilUser;
+		
+		$this->saveMailData();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
@@ -93,50 +147,84 @@ class ilMailSearchGUI
 		$this->ctrl->setParameter($this, "cmd", "post");
 		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
 		$this->ctrl->clearParameters($this);
-
-		if ($_GET["addressbook"])
+		
+		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
+		$this->tpl->setVariable("TXT_SEARCH_SYSTEM",$this->lng->txt("mail_search_system"));
+		$this->tpl->setVariable("TXT_SEARCH_ADDRESS",$this->lng->txt("mail_search_addressbook"));
+		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
+		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		
+		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
-			$this->tpl->setCurrentBlock("addr");
-			$abook = new ilAddressbook($ilUser->getId());
-			$entries = $abook->searchUsers(addslashes(urldecode($_GET["search"])));
-		
-			if ($entries)
-			{
-				$counter = 0;
-				$this->tpl->setCurrentBlock("addr_search");
-		
-				foreach ($entries as $entry)
-				{
-					$this->tpl->setVariable("ADDR_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-					$this->tpl->setVariable("ADDR_LOGIN_A",$entry["login"]);
-					$this->tpl->setVariable("ADDR_LOGIN_B",$entry["login"]);
-					$this->tpl->setVariable("ADDR_FIRSTNAME",$entry["firstname"]);
-					$this->tpl->setVariable("ADDR_LASTNAME",$entry["lastname"]);
-					$this->tpl->setVariable("ADDR_EMAIL_A",$entry["email"]);
-					$this->tpl->setVariable("ADDR_EMAIL_B",$entry["email"]);
-					$this->tpl->parseCurrentBlock();
-				}		
-				
-				$this->tpl->setVariable("TXT_ADDR_LOGIN",$lng->txt("login"));
-				$this->tpl->setVariable("TXT_ADDR_FIRSTNAME",$lng->txt("firstname"));
-				$this->tpl->setVariable("TXT_ADDR_LASTNAME",$lng->txt("lastname"));
-				$this->tpl->setVariable("TXT_ADDR_EMAIL",$lng->txt("email"));
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("addr_no_content");
-				$this->tpl->setVariable("TXT_ADDR_NO",$lng->txt("mail_search_no"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			// SET TXT VARIABLES ADDRESSBOOK
-			$this->tpl->setVariable("TXT_ADDR",$lng->txt("mail_addressbook"));
-			if (count($entries)) $this->tpl->setVariable("BUTTON_ADOPT",$lng->txt("adopt"));
-			$this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
 		}
 		
-		if ($_GET["system"])
+		if (!$_SESSION['mail_search_type_system'] && !$_SESSION['mail_search_type_addressbook'])
+		{
+			$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
+		}
+		else
+		{
+			if ($_SESSION['mail_search_type_addressbook']) $this->tpl->setVariable('CHECKED_TYPE_ADDRESSBOOK', "checked=\"checked\"");
+			if ($_SESSION['mail_search_type_system'])$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
+		}		
+
+		if ($_SESSION['mail_search_type_addressbook'] && strlen(trim($_SESSION["mail_search_search"])) > 3)
+		{
+			$abook = new ilAddressbook($ilUser->getId());
+			$entries = $abook->searchUsers(addslashes(urldecode($_SESSION['mail_search_search'])));
+
+			if (count($entries))
+			{
+				$tbl_addr = new ilTable2GUI($this);
+				$tbl_addr->setTitle($lng->txt('mail_addressbook'));
+				$tbl_addr->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Mail');				
+				
+				$result = array();
+				$counter = 0;		
+				foreach ($entries as $entry)
+				{
+					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', ($entry['login'] ? $entry['login'] : $entry['email'])) . 
+										          ilUtil::formCheckbox(0, 'search_name_cc[]', ($entry['login'] ? $entry['login'] : $entry['email'])) .
+										          ilUtil::formCheckbox(0, 'search_name_bcc[]', ($entry['login'] ? $entry['login'] : $entry['email']));		
+					$result[$counter]['login'] = $entry['login'];
+					$result[$counter]['firstname'] = $entry['firstname'];
+					$result[$counter]['lastname'] = $entry['lastname'];
+					
+					$id = ilObjUser::_lookupId($entry['login']);	
+					if (ilObjUser::_lookupPref($id, 'public_email') == 'y' || !$entry['login'])
+					{
+						$has_mail_addr = true;
+						$result[$counter]['email'] = $entry['email'];
+					}					
+					
+					++$counter;
+				}							
+
+				$tbl_addr->addColumn($this->lng->txt('to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+			 	$tbl_addr->addColumn($this->lng->txt('login'), 'login', "15%");
+			 	$tbl_addr->addColumn($this->lng->txt('firstname'), 'firstname', "15%");
+			 	$tbl_addr->addColumn($this->lng->txt('lastname'), 'lastname', "15%");
+			 	if ($has_mail_addr)
+			 	{
+			 		foreach ($result as $key => $val)
+			 		{
+			 			if ($val['email'] == '') $result[$key]['email'] = '&nbsp;';
+			 		}
+			 		
+			 		$tbl_addr->addColumn($this->lng->txt('email'), 'email', "15%");
+			 	}
+			 	$tbl_addr->setData($result);
+
+			 	$tbl_addr->setDefaultOrderField('login');							
+				$tbl_addr->setPrefix('addr_');			
+				$tbl_addr->enable('select_all');				
+				$tbl_addr->setSelectAllCheckbox('search_name_to');					
+
+				$this->tpl->setVariable('TABLE_ADDR', $tbl_addr->getHTML());				
+			}
+		}		
+		if ($_SESSION['mail_search_type_system'] && strlen(trim($_SESSION["mail_search_search"])) > 3)
 		{
 			include_once 'Services/Search/classes/class.ilQueryParser.php';
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -144,7 +232,7 @@ class ilMailSearchGUI
 		
 			$all_results = new ilSearchResult();
 		
-			$query_parser = new ilQueryParser(ilUtil::stripSlashes($_GET['search']));
+			$query_parser = new ilQueryParser(ilUtil::stripSlashes($_SESSION['mail_search_search']));
 			$query_parser->setCombination(QP_COMBINATION_OR);
 			$query_parser->setMinWordLength(3);
 			$query_parser->parse();
@@ -157,111 +245,115 @@ class ilMailSearchGUI
 		
 			$user_search->setFields(array('firstname'));
 			$result_obj = $user_search->performSearch();
-			$all_results->mergeEntries($result_obj);
-		
+			$all_results->mergeEntries($result_obj);		
 			
 			$user_search->setFields(array('lastname'));
 			$result_obj = $user_search->performSearch();
 			$all_results->mergeEntries($result_obj);
 		
 			$all_results->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
-		
-			$counter = 0;
-			foreach(($users = $all_results->getResults()) as $result)
+			
+			$users = $all_results->getResults();			
+			if (count($users))
 			{
-				global $rbacsystem;
-		
-#				if($rbacsystem->checkAccess("smtp_mail",$this->umail->getMailObjectReferenceId()) 
-#				   and (ilObjUser::_lookupPref($result['obj_id'],'public_email') == 'y'))
-			   if (ilObjUser::_lookupPref($result['obj_id'],'public_email') == 'y')
-				{
-					$has_mail = true;
-					$this->tpl->setCurrentBlock("smtp_row");
-					$this->tpl->setVariable("PERSON_EMAIL_A",ilObjUser::_lookupEmail($result['obj_id']));
-					$this->tpl->setVariable("PERSON_EMAIL_B",ilObjUser::_lookupEmail($result['obj_id']));
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("no_smtp_row");
-					$this->tpl->setVariable("PERSON_NO_EMAIL",'');
-					$this->tpl->parseCurrentBlock();
-				}
+				$tbl_users = new ilTable2GUI($this);
+				$tbl_users->setTitle($lng->txt('system').': '.$lng->txt('persons'));
+				$tbl_users->setRowTemplate('tpl.mail_search_users_row.html','Services/Mail');
 				
-				$name = ilObjUser::_lookupName($result['obj_id']);
-				$login = ilObjUser::_lookupLogin($result['obj_id']);
-		
-				$this->tpl->setCurrentBlock("person_search");
-				$this->tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable("PERSON_LOGIN_A",$login);
-				$this->tpl->setVariable("PERSON_LOGIN_B",$login);
-				$this->tpl->setVariable("PERSON_FIRSTNAME",$name["firstname"]);
-				$this->tpl->setVariable("PERSON_LASTNAME",$name["lastname"]);
-				$this->tpl->parseCurrentBlock();
-			}		
-		
-			if (!count($users))
-			{
-				$this->tpl->setCurrentBlock("no_system_content");
-				$this->tpl->setVariable("TXT_SYSTEM_NO",$lng->txt("mail_search_no"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_SYSTEM_LOGIN",$lng->txt("login"));
-				$this->tpl->setVariable("TXT_SYSTEM_FIRSTNAME",$lng->txt("firstname"));
-				$this->tpl->setVariable("TXT_SYSTEM_LASTNAME",$lng->txt("lastname"));
-				if ($has_mail)
+				$result = array();				
+				$counter = 0;				
+				foreach ($users as $user)
 				{
-					$this->tpl->setCurrentBlock("smtp");
-					$this->tpl->setVariable("TXT_SYSTEM_EMAIL",$lng->txt("email"));
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->touchBlock('no_smtp');
-				}
-			}
-		
-			$groups = ilUtil::searchGroups(addslashes(urldecode($_GET["search"])));
-			if (count($groups))
-			{
-				$counter = 0;
-				$this->tpl->setCurrentBlock("group_search");
-		
-				foreach ($groups as $group_data)
-				{
-					$this->tpl->setVariable("GROUP_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-					$this->tpl->setVariable("GROUP_NAME","#".$group_data["title"]);
-					$this->tpl->setVariable("GROUP_TITLE",$group_data["title"]);
-					$this->tpl->setVariable("GROUP_DESC",$group_data["description"]);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
+					$name = ilObjUser::_lookupName($user['obj_id']);
+					$login = ilObjUser::_lookupLogin($user['obj_id']);			
 
-			if (!count($groups))
-			{
-				$this->tpl->setCurrentBlock("no_groups_content");
-				$this->tpl->setVariable("TXT_GROUPS_NO",$lng->txt("mail_search_no"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_GROUP_TITLE",$lng->txt("title"));
-				$this->tpl->setVariable("TXT_GROUP_DESC",$lng->txt("description"));
-			}
+					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', $login) . 
+							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
+												  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
+					$result[$counter]['login'] = $login;
+					$result[$counter]['firstname'] = $name['firstname'];
+					$result[$counter]['lastname'] = $name['lastname'];
+					
+					if (ilObjUser::_lookupPref($user['obj_id'], 'public_email') == 'y')
+					{
+						$has_mail_usr = true;
+						$result[$counter]['email'] = ilObjUser::_lookupEmail($user['obj_id']);
+					}
+						
+					++$counter;
+				}							
+				
+				$tbl_users->addColumn($this->lng->txt('to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+			 	$tbl_users->addColumn($this->lng->txt('login'), 'login', '15%');
+			 	$tbl_users->addColumn($this->lng->txt('firstname'), 'firstname', '15%');
+			 	$tbl_users->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
+			 	if ($has_mail_usr == true)
+			 	{
+			 		foreach ($result as $key => $val)
+			 		{
+			 			if ($val['email'] == '') $result[$key]['email'] = '&nbsp;';
+			 		}
+			 		
+			 		$tbl_users->addColumn($this->lng->txt('email'), 'email', '15%');
+			 	}
+			 	$tbl_users->setData($result);
+
+			 	$tbl_users->setDefaultOrderField('login');						
+				$tbl_users->setPrefix('usr_');			
+				$tbl_users->enable('select_all');				
+				$tbl_users->setSelectAllCheckbox('search_name_to');				
+	
+				$this->tpl->setVariable('TABLE_USERS', $tbl_users->getHTML());
+			}			
 		
-			$this->tpl->setCurrentBlock("system");
-			$this->tpl->setVariable("TXT_SYSTEM_PERSONS",$lng->txt("system").": ".$lng->txt("persons"));
-			$this->tpl->setVariable("TXT_SYSTEM_GROUPS",$lng->txt("system").": ".$lng->txt("groups"));
-			if (count($users) || count($groups)) $this->tpl->setVariable("BUTTON_ADOPT",$lng->txt("adopt"));
-			$this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
-			$this->tpl->parseCurrentBlock();
-		} 		
+			$groups = ilUtil::searchGroups(addslashes(urldecode($_SESSION['mail_search_search'])));
+			if (count($groups))
+			{					
+				$tbl_grp = new ilTable2GUI($this);
+				$tbl_grp->setTitle($lng->txt('system').': '.$lng->txt('groups'));
+				$tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html','Services/Mail');
+				
+				$result = array();				
+				$counter = 0;
+				foreach ($groups as $grp)
+				{	
+					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', '#'.$grp['title']) . 
+							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', '#'.$grp['title']) .
+												  ilUtil::formCheckbox(0, 'search_name_bcc[]', '#'.$grp['title']);		
+					$result[$counter]['title'] = $grp['title'];
+					$result[$counter]['description'] = $grp['description'];
+											
+					++$counter;
+				}
+				$tbl_grp->setData($result);			
+
+				$tbl_grp->addColumn($this->lng->txt('to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+			 	$tbl_grp->addColumn($this->lng->txt('title'), 'title', '15%');
+			 	$tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
+
+			 	$tbl_grp->setDefaultOrderField('title');							
+				$tbl_grp->setPrefix('grp_');			
+				$tbl_grp->enable('select_all');				
+				$tbl_grp->setSelectAllCheckbox('search_name_to');				
+	
+				$this->tpl->setVariable('TABLE_GRP', $tbl_grp->getHTML());
+			}
+		}
+		
+		if (count($users) || count($groups) || count($entries))
+		{
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("ALT_ARROW", '');
+			$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('adopt'));	
+		}
+		else if (strlen(trim($_SESSION["mail_search_search"])) > 3)
+		{
+			$this->lng->loadLanguageModule('search');			
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+		}
+		
 		
 		$this->tpl->show();
 	}
-
 }
-
 ?>

@@ -437,7 +437,7 @@ class ilTable2GUI extends ilTableGUI
 				
 		// slice
 		$data = array_slice($data, $this->getOffset(), $this->getLimit());
-		
+
 		// fill rows
 		if(count($data) > 0)
 		{

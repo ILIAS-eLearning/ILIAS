@@ -25,13 +25,15 @@ require_once './Services/User/classes/class.ilObjUser.php';
 require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
 require_once "Services/Mail/classes/class.ilAddressbook.php";
+require_once "Services/Mail/classes/class.ilAddressbookTableGUI.php";
+
 
 /**
 * @author Jens Conze
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailAddressbookGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
+* @ilCtrl_Calls ilMailAddressbookGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
 */
 class ilMailAddressbookGUI
 {
@@ -88,6 +90,15 @@ class ilMailAddressbookGUI
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
 				break;
+			
+			case 'ilmailinglistsgui':
+				include_once 'Services/Mail/classes/class.ilMailingListsGUI.php';
+
+				$this->tabs_gui->setSubTabActive('mail_my_mailing_lists');
+
+				$this->ctrl->setReturn($this, "showAddressbook");
+				$this->ctrl->forwardCommand(new ilMailingListsGUI());
+				break;
 
 			default:
 				$this->tabs_gui->setSubTabActive('mail_my_entries');
@@ -106,166 +117,142 @@ class ilMailAddressbookGUI
 	/**
 	 * Check user's input
 	 */
-	function checkInput($confirm = false)
+	function checkInput($addr_id = 0)
 	{
-			// check if user login and e-mail-address are empty 
-			if (!strcmp(trim($_POST["login"]),"") &&
-				!strcmp(trim($_POST["email"]),""))
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_enter_login_or_email_addr"));
-				$this->error = true;
-			}
-			else if ($_POST["login"] != "" && 
-					 !(ilObjUser::_lookupId($_POST["login"])))
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_enter_valid_login"));
-				$this->error = true;
-			}
-			else if ($_POST["email"] &&
-					 !(ilUtil::is_email($_POST["email"])))
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_enter_valid_email_addr"));
-				$this->error = true;
-			}
+		// check if user login and e-mail-address are empty 
+		if (!strcmp(trim($_POST["login"]), "") &&
+			!strcmp(trim($_POST["email"]), ""))
+		{
+			ilUtil::sendInfo($this->lng->txt("mail_enter_login_or_email_addr"));
+			$error = true;
+		}
+		else if ($_POST["login"] != "" && 
+				 !(ilObjUser::_lookupId(ilUtil::stripSlashes($_POST["login"]))))
+		{
+			ilUtil::sendInfo($this->lng->txt("mail_enter_valid_login"));
+			$error = true;
+		}
+		else if ($_POST["email"] &&
+				 !(ilUtil::is_email($_POST["email"])))
+		{
+			ilUtil::sendInfo($this->lng->txt("mail_enter_valid_email_addr"));
+			$error = true;
+		}
 
-			if ($confirm == false)
-			{
-				if (($this->existingEntry = $this->abook->checkEntry($_POST["login"])) > 0 &&
-					$this->existingEntry != $_POST["entry_id"][0])
-				{
-					ilUtil::sendInfo($this->lng->txt("mail_entry_exists"));
-					$this->error = true;
-				}
-			}
+		if (($this->existingEntry = $this->abook->checkEntryByLogin(ilUtil::stripSlashes($_POST["login"]))) > 0 &&
+			(($this->existingEntry != $addr_id && $addr_id > 0) || !$addr_id))
+		{
+			ilUtil::sendInfo($this->lng->txt("mail_entry_exists"));
+			$error = true;
+		}
 
-			return $this->error ? false : true; 
+		return $error ? false : true; 
 	}
 
 	/**
-	 * Change entry
+	 * Save/edit entry
 	 */
-	function change()
+	public function saveEntry()
 	{
 		global $lng;
-
-		if(trim($_POST["entry_id"][0]) == "")
+		
+		if ($this->checkInput($_GET["addr_id"]))
 		{
-			ilUtil::sendInfo($lng->txt("mail_select_one"));
+			if ($_GET["addr_id"])
+			{
+				$this->abook->updateEntry(ilUtil::stripSlashes($_GET["addr_id"]),
+										  ilUtil::stripSlashes($_POST["login"]),
+									      ilUtil::stripSlashes($_POST["firstname"]),
+										  ilUtil::stripSlashes($_POST["lastname"]),
+										  ilUtil::stripSlashes($_POST["email"]));
+				ilUtil::sendInfo($lng->txt("mail_entry_changed"));
+			}
+			else
+			{
+				$this->abook->addEntry(ilUtil::stripSlashes($_POST["login"]),
+									   ilUtil::stripSlashes($_POST["firstname"]),
+						 			   ilUtil::stripSlashes($_POST["lastname"]),
+									   ilUtil::stripSlashes($_POST["email"]));
+				ilUtil::sendInfo($lng->txt("mail_entry_added"));
+			}
+			
+			unset($_SESSION['addr_search']);
+			
+			$this->showAddressbook();
 		}
-		else if ($this->checkInput())
+		else
 		{
-			$this->abook->updateEntry($_POST["entry_id"][0],
-								$_POST["login"],
-								$_POST["firstname"],
-								$_POST["lastname"],
-								$_POST["email"]);
-			ilUtil::sendInfo($lng->txt("mail_entry_changed"));
-
-			unset($_POST["entry_id"][0]);
-			unset($this->existingEntry);
-		}
-
-		$this->showAddressbook();
-	}	
-
-	/**
-	 * Add new entry
-	 */
-	public function add()
-	{	
-		global $lng;
-
-		if ($this->checkInput())
-		{
-			$this->abook->addEntry($_POST["login"],
-						 $_POST["firstname"],
-						 $_POST["lastname"],
-						 $_POST["email"]);
-			ilUtil::sendInfo($lng->txt("mail_entry_added"));
-
-			unset($_POST["entry_id"]);
-			unset($this->existingEntry);
-
-			$_GET["offset"] = 0;
-		}
-	
-	$this->showAddressbook();
-	}
-	
-	/**
-	 * Do not overwrite existing entry
-	 */
-	function cancelOverwrite()
-	{
-		unset($_POST["action"]);
-		unset($_POST["entry_id"]);
-		$this->showAddressbook();
-	}
-	
-	/**
-	 * Overwrite existing entry
-	 */
-	function confirmOverwrite()
-	{
-		global $lng;
-
-		if(!is_array($_POST["entry_id"]))
-		{
-			ilUtil::sendInfo($lng->txt("mail_select_one"));
-		}
-		else if ($this->checkInput(true))
-		{
-			$this->abook->updateEntry($_POST["entry_id"][0],
-								$_POST["login"],
-								$_POST["firstname"],
-								$_POST["lastname"],
-								$_POST["email"]);
-			ilUtil::sendInfo($lng->txt("mail_entry_changed"));
-
-			unset($_POST["entry_id"]);
-			unset($_POST["action"]);
-			unset($this->existingEntry);
+			$this->showAddressForm();
 		}
 		
-		$this->showAddressbook();
-	}	
+		return true;
+	}
 	
 	/**
-	 * Do not delete entry
+	 * Confirm delete entry
 	 */
-	function cancelDelete()
+	function confirmDelete()
 	{
-		unset($_POST["action"]);
-		unset($_POST["entry_id"]);
-		$this->showAddressbook();
+		global $lng;
+		
+		if (!isset($_POST['addr_id']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
+	 		$this->showAddressbook();	 		
+	 		return true;
+	 	}
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "performDelete"));
+		$c_gui->setHeaderText($this->lng->txt("mail_sure_delete_entry"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "showAddressbook");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "performDelete");
+
+		// add items to delete
+		foreach($_POST["addr_id"] as $addr_id)
+		{
+			$entry = $this->abook->getEntry($addr_id);
+			$c_gui->addItem("addr_id[]", $addr_id, $entry["login"] ? $entry["login"] : $entry["email"]);
+		}
+		
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Mail");
+		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
+		
+		$this->tpl->show();
+		
+		return true;
 	}
 	
 	/**
 	 * Delete entry
 	 */
-	function confirmDelete()
+	function performDelete()
 	{
 		global $lng;
-
-		if(!is_array($_POST["entry_id"]))
-		{
-			ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
-		}
-		else if($this->abook->deleteEntries($_POST["entry_id"]))
-		{
-			$_GET["offset"] = 0;
-			ilUtil::sendInfo($lng->txt("mail_deleted_entry"));
+		
+		if (is_array($_POST['addr_id']))
+		{			
+			if ($this->abook->deleteEntries($_POST['addr_id']))
+			{
+				ilUtil::sendInfo($lng->txt("mail_deleted_entry"));
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("mail_delete_error"));
+			}
 		}
 		else
 		{
 			ilUtil::sendInfo($lng->txt("mail_delete_error"));
 		}
 		
-		$_GET["offset"] = 0;
-
-		unset($_POST["action"]);
-		unset($_POST["entry_id"]);
 		$this->showAddressbook();
+	
+		return true;	
 	}
 
 	/**
@@ -276,6 +263,114 @@ class ilMailAddressbookGUI
 		$this->showAddressbook();
 	}
 	
+	public function showAddressForm()
+	{
+		global $rbacsystem, $lng, $ilUser;
+
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_form.html", "Services/Mail");
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();		
+		$form->setTitle($_GET['addr_id'] ? $lng->txt("mail_edit_entry") : $lng->txt("mail_new_entry"));	
+		
+		if ($_GET['addr_id'])
+		{
+			$this->ctrl->setParameter($this, 'addr_id', $_GET['addr_id']);
+		}
+		
+		$entry = $this->abook->getEntry($_GET['addr_id']);
+		$form->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
+		
+		$formItem = new ilTextInputGUI($this->lng->txt("username"), "login");
+		$formItem->setValue(isset($_POST['login']) ? ilUtil::prepareFormOutput($_POST['login'], true) : ilUtil::prepareFormOutput($entry['login']));
+		$form->addItem($formItem);
+		
+		$formItem = new ilTextInputGUI($this->lng->txt("firstname"), "firstname");
+		$formItem->setValue(isset($_POST['firstname']) ? ilUtil::prepareFormOutput($_POST['firstname'], true) : ilUtil::prepareFormOutput($entry['firstname']));
+		$form->addItem($formItem);
+		
+		$formItem = new ilTextInputGUI($this->lng->txt("lastname"), "lastname");
+		$formItem->setValue(isset($_POST['lastname']) ? ilUtil::prepareFormOutput($_POST['lastname'], true) : ilUtil::prepareFormOutput($entry['lastname']));
+		$form->addItem($formItem);
+		
+		$formItem = new ilTextInputGUI($this->lng->txt("email"), "email");
+		$formItem->setValue(isset($_POST['email']) ? ilUtil::prepareFormOutput($_POST['email'], true) : ilUtil::prepareFormOutput($entry['email']));
+		$form->addItem($formItem);
+		
+		$form->addCommandButton('saveEntry',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		$this->tpl->setVariable('FORM', $form->getHTML());
+		
+		$this->tpl->show();
+
+		return true;
+	}
+	
+	public function mailToUsers()
+	{
+		global $ilUser;
+		
+		if (!isset($_POST['addr_id']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
+	 		$this->showAddressbook();	 		
+	 		return true;
+	 	}
+	 	
+	 	$members = array();
+
+		foreach ($_POST["addr_id"] as $addr_id)
+		{
+			$entry = $this->abook->getEntry($addr_id);
+
+			array_push($members, $entry["login"]);
+		}
+		
+		if (!is_array($this->umail->getSavedData()))
+		{
+			$this->umail->savePostData(
+				$ilUser->getId(),
+				array(),
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				""
+			);
+		}
+		
+		$mail_data = $this->umail->appendSearchResult($members, "to");
+
+		$this->umail->savePostData(
+			$mail_data["user_id"],
+			$mail_data["attachments"],
+			$mail_data["rcp_to"],
+			$mail_data["rcp_cc"],
+			$mail_data["rcp_bcc"],
+			$mail_data["m_type"],
+			$mail_data["m_email"],
+			$mail_data["m_subject"],
+			$mail_data["m_message"],
+			$mail_data["use_placeholders"]
+		);
+
+		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+	}
+	
+	public function search()
+	{
+		$_SESSION['addr_search'] = $_POST['search_qry'];
+		
+		$this->showAddressbook();
+		
+		return true;
+	}
+	
 	/**
 	 * Show user's addressbook
 	 */
@@ -283,227 +378,108 @@ class ilMailAddressbookGUI
 	{
 		global $rbacsystem, $lng, $ilUser;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Mail");		
 
-		if ($_POST["cmd"]["showAddressbook"])
+		$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, "saveEntry"));
+		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
+		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("send"));
+		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("reset"));
+		if (strlen(trim($_SESSION["addr_search"])) > 0)
 		{
-			switch($_POST["action"])
-			{
-				case 'edit':
-					if(!is_array($_POST["entry_id"]))
-					{
-						unset($_POST["action"]);
-						ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
-					}
-					else if(count($_POST["entry_id"]) > 1)
-					{
-						unset($_POST["action"]);
-						ilUtil::sendInfo($lng->txt("mail_select_only_one_entry"));
-					}
-					else
-					{
-						$tmp_abook = new ilAddressbook($_SESSION["AccountId"]);
-						$data = $tmp_abook->getEntry($_POST["entry_id"][0]);
-					}
-					break;
-				case 'delete':
-					if(!is_array($_POST["entry_id"]))
-					{
-						ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
-						$this->errorDelete = true;
-					}
-					else
-					{
-						ilUtil::sendInfo($lng->txt("mail_sure_delete_entry"));
-					}
-			}
-		}
-
-		if ($_GET["offset"] == "") $_GET["offset"] = 0;
-
-		$this->ctrl->setParameter($this, "cmd", "post");
-		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
-		$this->ctrl->clearParameters($this);
-
-		$this->tpl->setVariable("TXT_ENTRIES",$lng->txt("mail_addr_entries"));
-		
-		// CASE ERROR OCCURED
-		if ((isset($_POST["cmd"]["add"]) ||
-			 isset($_POST["cmd"]["confirmOverwrite"]) ||
-			 isset($_POST["cmd"]["change"])) &&
-			$this->error)
-		{
-			$data["login"] = $_POST["login"];
-			$data["firstname"] = $_POST["firstname"];
-			$data["lastname"] = $_POST["lastname"];
-			$data["email"] = $_POST["email"];
-		}
-
-		// CASE ENTRY EXISTS
-		if ((isset($_POST["cmd"]["add"]) ||
-			 isset($_POST["cmd"]["confirmOverwrite"])) &&
-			$this->existingEntry > 0)
-		{
-			$this->tpl->setCurrentBlock("entry_exists");
-			$this->tpl->setVariable("ENTRY_EXISTS_ENTRY_ID",$this->existingEntry);
-			$this->tpl->setVariable("ENTRY_EXISTS_BUTTON_OVERWRITE",$lng->txt("overwrite"));
-			$this->tpl->setVariable("ENTRY_EXISTS_BUTTON_CANCEL",$lng->txt("cancel"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
 		}
 		
-		// CASE CONFIRM DELETE
-		if($_POST["action"] == "delete" and !$this->errorDelete and !isset($_POST["cmd"]["confirmDelete"]))
-		{
-			$this->tpl->setCurrentBlock("confirm_delete");
-			$this->tpl->setVariable("BUTTON_CONFIRM",$lng->txt("confirm"));
-			$this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// SET TXT VARIABLES ADDRESSBOOK
-		$this->tpl->setVariable("TXT_LOGIN",$lng->txt("username"));
-		$this->tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
-		$this->tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
-		$this->tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
+		$this->ctrl->setParameter($this, "cmd", "post");		
+		$tbl = new ilAddressbookTableGUI($this);
+		$tbl->setTitle($lng->txt("mail_addr_entries"));
+		$tbl->setRowTemplate("tpl.mail_addressbook_row.html", "Services/Mail");				
 
+	 	$tbl->setDefaultOrderField('login');	
+		
+		$result = array();
+		$this->abook->setSearchQuery($_SESSION['addr_search']);
 		$entries = $this->abook->getEntries();
-		$entries_count = count($entries);
 		
-		// TODO: READ FROM MAIL_OPTIONS
-		$entries_max_hits = $ilUser->getPref('hits_per_page');
+		$tbl->addColumn('', 'check', '10%');
+	 	$tbl->addColumn($this->lng->txt('login'), 'login', '20%');
+	 	$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '20%');
+		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '20%');
+		$tbl->addColumn($this->lng->txt('email'), 'email', '20%');
+		$tbl->addColumn('', 'edit', '10%');
 		
-		// SHOW ENTRIES
-		if($entries)
-		{
-			// LINKBAR
-			if($entries_count > $entries_max_hits)
-			{
-				$params = array(
-					"mobj_id"		=> $_GET["mobj_id"]);
-			}
-			$start = $_GET["offset"];
-			$linkbar = ilUtil::Linkbar($this->ctrl->getLinkTarget($this),$entries_count,$entries_max_hits,$start,$params);
-			if ($linkbar)
-			{
-				$this->tpl->setVariable("LINKBAR", $linkbar);
-			}
-			// END LINKBAR
-
+		if (count($entries))
+		{		
+			$tbl->enable('select_all');				
+			$tbl->setSelectAllCheckbox('addr_id');
+			
 			$counter = 0;
-			foreach($entries as $entry)
-			{
-				if ($counter >= $start &&
-					$counter < ($start + $entries_max_hits))
+			foreach ($entries as $entry)
+			{				
+				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'addr_id[]', $entry["addr_id"]);
+				
+				if ($entry["login"] != "")
 				{
-					if($rbacsystem->checkAccess("smtp_mail",$this->umail->getMailObjectReferenceId()))
-					{
-						$this->tpl->setCurrentBlock("smtp");
-						$this->tpl->setVariable("EMAIL_SMTP",$entry["email"]);
-						$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
-						$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["email"]));
-						$this->tpl->setVariable("EMAIL_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
-						$this->ctrl->clearParametersByClass("ilmailformgui");
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setCurrentBlock("no_smtp");
-						$this->tpl->setVariable("EMAIL",$entry["email"]);
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("addr_search");
-			
-					$this->tpl->setVariable("CSSROW", ilUtil::switchColor(++$couter,'tblrow1', 'tblrow2'));		
-					if(is_array($_POST["entry_id"]))
-					{
-						$this->tpl->setVariable("CHECKED",in_array($entry["addr_id"],$_POST["entry_id"]) ? "checked='checked'" : "");
-					}
-					$this->tpl->setVariable("ENTRY_ID",$entry["addr_id"]);
-					if ($entry["login"] != "")
-					{
-						$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
-						$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["login"]));
-						$this->tpl->setVariable("LOGIN_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
-						$this->ctrl->clearParametersByClass("ilmailformgui");
-						$this->tpl->setVariable("LOGIN",$entry["login"]);
-					}
-					$this->tpl->setVariable("FIRSTNAME",$entry["firstname"]);
-					$this->tpl->setVariable("LASTNAME",$entry["lastname"]);
-					$this->tpl->parseCurrentBlock();
+					$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
+					$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["login"]));
+					$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["login"] . "</a>";
+					$this->ctrl->clearParametersByClass("ilmailformgui");
+				}				
+				
+				$result[$counter]['firstname'] = $entry["firstname"];
+				$result[$counter]['lastname'] = $entry["lastname"];
+				
+				if ($rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
+				{
+					$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
+					$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["email"]));
+					$result[$counter]['email'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["email"] . "</a>";
+					$this->ctrl->clearParametersByClass("ilmailformgui");
 				}
-				$counter++;
-			}
+				else
+				{
+					$result[$counter]['email'] = $entry["email"];
+				}
+				
+				$this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
+				$result[$counter]['edit_text'] = $this->lng->txt("edit");
+				$result[$counter]['edit_url'] = $this->ctrl->getLinkTarget($this, "showAddressForm");
+				
+				++$counter;
+			}			
 			
-			$this->tpl->setVariable("SELECT_ALL",$lng->txt('select_all'));	
-			$this->tpl->setVariable("ROWCLASS", ilUtil::switchColor(++$couter,'tblrow1', 'tblrow2'));
-
-			$this->tpl->setVariable("BUTTON_SUBMIT",$lng->txt("submit"));
-			
-			// ACTIONS
-			$this->tpl->setCurrentBlock("actions");
-			$this->tpl->setVariable("ACTION_NAME","edit");
-			$this->tpl->setVariable("ACTION_VALUE",$lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setVariable("ACTION_NAME","delete");
-			$this->tpl->setVariable("ACTION_VALUE",$lng->txt("delete"));
-			$this->tpl->setVariable("ACTION_SELECTED",$_POST["action"] == 'delete' ? 'selected' : '');
-			$this->tpl->parseCurrentBlock();
+			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
+			$tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("addr_no_content");
-			$this->tpl->setVariable("TXT_ADDR_NO",$lng->txt("mail_search_no"));
-			$this->tpl->parseCurrentBlock();
+			$tbl->disable('header');
+			$tbl->disable('footer');
+
+			$tbl->setNoEntriesText($this->lng->txt('mail_search_no'));			
 		}
 
-		// SHOW FORM
-		$this->tpl->setVariable("CSSROW_LOGIN",'tblrow1');
-		$this->tpl->setVariable("HEADER_LOGIN",$lng->txt("username"));
-		$this->tpl->setVariable("VALUE_LOGIN",$data["login"]);
-		$this->tpl->setVariable("CSSROW_FIRSTNAME",'tblrow2');
-		$this->tpl->setVariable("HEADER_FIRSTNAME",$lng->txt("firstname"));
-		$this->tpl->setVariable("VALUE_FIRSTNAME",$data["firstname"]);
-		$this->tpl->setVariable("CSSROW_LASTNAME",'tblrow1');
-		$this->tpl->setVariable("HEADER_LASTNAME",$lng->txt("lastname"));
-		$this->tpl->setVariable("VALUE_LASTNAME",$data["lastname"]);
-		$this->tpl->setVariable("CSSROW_EMAIL",'tblrow2');
-		$this->tpl->setVariable("HEADER_EMAIL",$lng->txt("email"));
-		$this->tpl->setVariable("VALUE_EMAIL",$data["email"]);
-
-		// SUBMIT VALUE DEPENDS ON $_POST["cmd"]
-	
-		$this->tpl->setVariable("TXT_NEW_EDIT",$_POST["entry_id"][0] != "" && ($_POST["action"] == "edit" || isset($_POST["cmd"]["change"])) ? $lng->txt("mail_edit_entry") : $lng->txt("mail_new_entry"));
-		$this->tpl->setVariable("BUTTON_EDIT_ADD",$_POST["entry_id"][0] != "" && ($_POST["action"] == "edit" || isset($_POST["cmd"]["change"]))  ? $lng->txt("change") : $lng->txt("add"));
-		$this->tpl->setVariable("BUTTON_EDIT_ADD_NAME",$_POST["entry_id"][0] != "" && ($_POST["action"] == "edit" || isset($_POST["cmd"]["change"]))  ? "cmd[change]" : "cmd[add]");
+		$tbl->setData($result);
 		
-/*		$this->ctrl->setParameter($this, "cmd", "showMyCourses");
-		$this->ctrl->setParameter($this, "view", "mycourses");
-		$this->tpl->setVariable("LINK_MYCOURSES", $this->ctrl->getLinkTarget($this));
-		$this->ctrl->clearParameters($this);
-		$this->tpl->setVariable("TXT_MYCOURSES", $lng->txt("my_courses"));
-
-		$this->ctrl->setParameter($this, "cmd", "showMyGroups");
-		$this->ctrl->setParameter($this, "view", "mygroups");
-		$this->tpl->setVariable("LINK_MYGROUPS", $this->ctrl->getLinkTarget($this));
-		$this->ctrl->clearParameters($this);
-		$this->tpl->setVariable("TXT_MYGROUPS", $lng->txt("my_grps"));*/
-
+		$tbl->addCommandButton('showAddressForm', $this->lng->txt('add'));
+		
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());		
+		
 		$this->tpl->show();
+		
+		return true;
 	}
 
 	function showSubTabs()
 	{
 		$this->tabs_gui->addSubTabTarget('mail_my_entries',
 										 $this->ctrl->getLinkTarget($this));
+		$this->tabs_gui->addSubTabTarget('mail_my_mailing_lists',
+										 $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
 		$this->tabs_gui->addSubTabTarget('mail_my_courses',
 										 $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
 		$this->tabs_gui->addSubTabTarget('mail_my_groups',
-										 $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
+										 $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));		
 	}
-
 }
-
 ?>

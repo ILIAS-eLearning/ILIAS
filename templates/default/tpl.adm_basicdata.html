@@ -221,6 +221,15 @@ function toggleUserActivityTime(form)
           </select><br />
 		  <span class="subtitle">{CRON_FORUM_NOTIFICATION_DESC}</span></td>
     </tr>
+     <tr>
+      <td class="option">{TXT_CRON_MAIL_NOTIFICATION}</td>
+      <td class="option_value">
+          <select name="mail_notification">
+             <option value="0" {CRON_MAIL_NOTIFICATION_NEVER_SELECTED}>{TXT_CRON_MAIL_NOTIFICATION_NEVER}</option>
+			 <option value="1" {CRON_MAIL_NOTIFICATION_CRON_SELECTED}>{TXT_CRON_MAIL_NOTIFICATION_CRON}</option>
+          </select><br />
+		  <span class="subtitle">{CRON_MAIL_NOTIFICATION_DESC}</span></td>
+    </tr>
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_WEBSERVICES}</td>
     </tr>
