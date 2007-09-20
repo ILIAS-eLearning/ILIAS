@@ -3,7 +3,18 @@
 <td>
 <!-- BEGIN filter -->
 <form action="{FILTER_ACTION}" method="post">
-	<b>{FILTER_TXT_FILTER}</b>&nbsp;{SELECT_FILTER}&nbsp;<input class="submit" type="submit" name="cmd[{FILTER_NAME}]" value="{FILTER_VALUE}"/>&nbsp;
+	<strong>{FILTER_TXT_FILTER}</strong>&nbsp;{SELECT_FILTER}
+<!-- BEGIN filter_date -->
+	<br /><strong>{TEXT_FILTER_DATE}</strong> {DATE_SELECTION}
+<!-- END filter_date -->	
+<!-- BEGIN filter_course -->
+	<br /><strong>{TEXT_FILTER_COURSE}</strong> {COURSE_SELECTION}
+<!-- END filter_course -->	
+<!-- BEGIN filter_group -->
+	<br /><strong>{TEXT_FILTER_GROUP}</strong> {GROUP_SELECTION}
+<!-- END filter_group -->	
+	<input class="submit" type="submit" name="cmd[{FILTER_NAME}]" value="{FILTER_VALUE}"/>
+	<input class="submit" type="submit" name="cmd[resetFilter]" value="{FILTER_VALUE_RESET}"/>
 </form>
 <!-- END filter -->
 </td>

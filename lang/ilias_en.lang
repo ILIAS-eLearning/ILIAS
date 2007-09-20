@@ -1355,6 +1355,9 @@ common#:#application_date#:#Application date
 common#:#applied_users#:#Applied users
 common#:#apply#:#Apply
 common#:#apply_filter#:#Apply filter
+common#:#reset_filter#:#Reset filter
+common#:#activate#:#Set Active
+common#:#deactivate#:#Set Inactive
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
 common#:#approve_date#:#Approved on
@@ -1565,6 +1568,7 @@ mcst#:#mcst_det_playtime#:#Determine Play Time
 mcst#:#mcst_settings#:#Mediacast Settings
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.
+common#:#before#:#before
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -2486,6 +2490,8 @@ common#:#info_assigned#:#assigned
 common#:#info_available_roles#:#Available roles
 common#:#info_change_user_view#:#Change User
 common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
+common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?
+common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?
 common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>
@@ -3888,6 +3894,8 @@ common#:#user_comment#:#User comment
 common#:#user_defined_fields#:#User-defined Fields
 common#:#user_defined_list#:#Overview User-defined Fields
 common#:#user_deleted#:#User deleted
+common#:#user_activated#:#User has been approved
+common#:#user_deactivated#:#User has been disapproved
 common#:#user_detail#:#Detail Data
 common#:#user_ext_account#:#External Account
 common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP, LDAP or Radius authentication)
@@ -3925,6 +3933,9 @@ common#:#usr_added#:#User added
 common#:#usr_agreement#:#User Agreement
 common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
+common#:#usr_filter_lastlogin#:#Last login of user
+common#:#usr_filter_coursemember#:#Member of course
+common#:#usr_filter_groupmember#:#Member of group
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User

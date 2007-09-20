@@ -83,6 +83,7 @@ class ilTableGUI
 							"footer"		=>	true,
 							"linkbar"		=>	true,
 							"numinfo"		=>	true,
+							"numinfo_header"		=>	false,
 							"sort"			=>  true,
 							"hits"          =>  false,
 							"auto_sort"  	=>  true,
@@ -578,6 +579,34 @@ class ilTableGUI
 			}
 		}
 		
+		// table header numinfo
+		if ($this->enabled["numinfo_header"])
+		{
+			$start = $this->offset + 1;				// compute num info
+			$end = $this->offset + $this->limit;
+			
+			if ($end > $this->max_count or $this->limit == 0)
+			{
+				$end = $this->max_count;
+			}
+			
+			if ($this->lang_support)
+			{
+				$numinfo = "(".$this->lng->txt("dataset")." ".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
+			}
+			else
+			{
+				$numinfo = "(Dataset ".$start." - ".$end." of ".$this->max_count.")";
+			}
+			if ($this->max_count > 0)
+			{
+				//$numinfo = $this->lng->txt("no_datasets");
+				$this->tpl->setCurrentBlock("tbl_header_numinfo");
+				$this->tpl->setVariable("NUMINFO_HEADER", $numinfo);
+				$this->tpl->setVariable("COLUMN_COUNT_HEADER", $this->getColumnCount());
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 		// table footer numinfo
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{

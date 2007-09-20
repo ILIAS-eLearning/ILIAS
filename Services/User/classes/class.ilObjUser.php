@@ -2313,7 +2313,8 @@ class ilObjUser extends ilObject
 		
 		$active_filter = "";
 		$time_limit_filter = "";
-		$course_filter = " WHERE ";
+		$join_filter = " WHERE ";
+		$last_login_filter = "";
 		
 		if (is_numeric($active) && $active > -1) $active_filter = " AND active = ".$ilDB->quote($active);
 
@@ -2340,7 +2341,26 @@ class ilObjUser extends ilObject
 					break;
 				case 3:
 					// show only users without courses
-					$course_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.usr_id IS NULL AND ";
+					$join_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.usr_id IS NULL AND ";
+					break;
+				case 4:
+					$date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
+					$last_login_filter = sprintf(" AND last_login < %s", $ilDB->quote($date));
+					break;
+				case 5:
+					// show only users with a certain course membership
+					$join_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference WHERE ref_id = " .
+						$ilDB->quote($_SESSION["user_filter_data"]) . ") AND ";
+					break;
+				case 6:
+					global $rbacreview;
+					$rolf = $rbacreview->getRoleFolderOfObject($_SESSION["user_filter_data"]);
+					$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+					if (is_array($local_roles) && count($local_roles))
+					{
+						$role_ids = join("','", $local_roles);
+						$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "') AND ";
+					}
 					break;
 			}
 		}
@@ -2359,13 +2379,13 @@ class ilObjUser extends ilObject
 		else
 		{
 			$query = "SELECT usr_data.usr_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.email, usr_data.active FROM usr_data ".
-				$course_filter .
+				$join_filter .
 				"(usr_data.login LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
 				"OR usr_data.firstname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
 				"OR usr_data.lastname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
 				"OR usr_data.email LIKE ".$ilDB->quote("%".$a_search_str."%").") ".
 				"AND usr_data.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID) .
-				$active_filter . $time_limit_filter;
+				$active_filter . $time_limit_filter . $last_login_filter;
 		}
 		$res = $ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -2624,17 +2644,37 @@ class ilObjUser extends ilObject
 				$q .= "LEFT JOIN ut_online ON usr_data.usr_id = ut_online.usr_id ";
 			}
 
-			// get only active or inactive users
-			if (is_numeric($active) && ($active == 0 or $active == 1))
-				$q .= "WHERE active= ".$ilDB->quote($active);
-
-			if (is_numeric($active) && $active == 2)
-				$q .= "WHERE time_limit_unlimited='0'";
-
-			if (is_numeric($active) && $active == 3)
-				$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id
-						WHERE crs_members.usr_id IS NULL";
-
+			switch ($active)
+			{
+				case 0:
+				case 1:
+					$q .= "WHERE active= ".$ilDB->quote($active);
+					break;
+				case 2:
+					$q .= "WHERE time_limit_unlimited='0'";
+					break;
+				case 3:
+					$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.usr_id IS NULL";
+					break;
+				case 4:
+					$date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
+					$q .= sprintf("WHERE last_login < %s", $ilDB->quote($date));
+					break;
+				case 5:
+					$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference WHERE ref_id = " .
+						$ilDB->quote($_SESSION["user_filter_data"]) . ")";
+					break;
+				case 6:
+					global $rbacreview;
+					$rolf = $rbacreview->getRoleFolderOfObject($_SESSION["user_filter_data"]);
+					$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+					if (is_array($local_roles) && count($local_roles))
+					{
+						$role_ids = join("','", $local_roles);
+						$q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "')";
+					}
+					break;
+			}
 			$r = $ilDB->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
