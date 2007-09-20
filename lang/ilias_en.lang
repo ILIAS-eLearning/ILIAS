@@ -2960,6 +2960,9 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_pd_period#:#Personal Desktop News Period
+news#:#news_pd_period_info#:#Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems.
+news#:#news_indefinite#:#Indefinite
 news#:#news_loading_news#:#Loading News...
 news#:#news_no_js_click_here#:#If news are not displayed, click here.
 news#:#news_acc_cache#:#Permission Check (Minutes)
