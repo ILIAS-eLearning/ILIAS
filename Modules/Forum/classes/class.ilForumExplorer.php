@@ -244,7 +244,7 @@ class ilForumExplorer extends ilExplorer
 		if ($key == 0)
 		{
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm.gif"));
+			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm_s.gif"));
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_frm"));
 			$tpl->parseCurrentBlock();
 		}
@@ -348,7 +348,7 @@ class ilForumExplorer extends ilExplorer
 		$threadData = $frm->getOneThread();
 
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm.gif"));
+		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm_s.gif"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_frm"));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("link");

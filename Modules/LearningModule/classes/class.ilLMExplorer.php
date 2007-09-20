@@ -77,7 +77,7 @@ class ilLMExplorer extends ilExplorer
 		global $lng, $ilias;
 		
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_lm.gif",false, "output", $this->offlineMode()));
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_lm_s.gif",false, "output", $this->offlineMode()));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_".$this->lm_obj->getType()));
 		$tpl->parseCurrentBlock();
 

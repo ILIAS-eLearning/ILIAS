@@ -310,7 +310,7 @@ class ilRepositoryExplorer extends ilExplorer
 	{
 		if ($a_type != "")
 		{
-			return ilObject::_getIcon($a_obj_id, "small", $a_type);
+			return ilObject::_getIcon($a_obj_id, "tiny", $a_type);
 		}
 		
 		return parent::getImage($a_name);
@@ -527,9 +527,9 @@ class ilRepositoryExplorer extends ilExplorer
 		if ($this->ilias->getSetting("custom_icons"))
 		{
 			require_once("classes/class.ilContainer.php");
-			if (($path = ilContainer::_lookupIconPath($a_obj_id, "small")) == "")
+			if (($path = ilContainer::_lookupIconPath($a_obj_id, "tiny")) == "")
 			{
-				$path = ilUtil::getImagePath("icon_root.gif");
+				$path = ilUtil::getImagePath("icon_root_s.gif");
 			}
 		}
 

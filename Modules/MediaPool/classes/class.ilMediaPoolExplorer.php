@@ -77,7 +77,7 @@ class ilMediaPoolExplorer extends ilExplorer
 		//$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_mep.gif"));
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_mep_s.gif"));
 		$tpl->setVariable("TXT_ALT_IMG",
 			ilUtil::shortenText($this->media_pool->getTitle(), $this->textwidth, true));
 		$tpl->parseCurrentBlock();
