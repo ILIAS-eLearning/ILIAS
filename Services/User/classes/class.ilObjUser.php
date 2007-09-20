@@ -2297,57 +2297,89 @@ class ilObjUser extends ilObject
     }
 
 	/**
-	 * STATIC METHOD
-	 * get the user_ids which correspond a search string
-	 * @param	string search string
-	 * @static
-	 * @access	public
-	 */
-	function searchUsers($a_search_str, $active = 1, $a_return_ids_only = false)
+	* STATIC METHOD
+	* get the user_ids which correspond a search string
+	* @param	string search string
+	* @param boolean $active Search only for active users
+	* @param boolean $a_return_ids_only Return only an array of user id's instead of id, login, name, active status
+	* @param mixed $filter_settings Filter settings of the user administration view
+	* @static
+	* @access	public
+	*/
+	function searchUsers($a_search_str, $active = 1, $a_return_ids_only = false, $filter_settings = FALSE)
 	{
 		// NO CLASS VARIABLES IN STATIC METHODS
 		global $ilias, $ilDB;
+		
+		$active_filter = "";
+		$time_limit_filter = "";
+		$course_filter = " WHERE ";
+		
+		if (is_numeric($active) && $active > -1) $active_filter = " AND active = ".$ilDB->quote($active);
 
-        // This is a temporary hack to search users by their role
-        // See Mantis #338. This is a hack due to Mantis #337.
-        if (strtolower(substr($a_search_str, 0, 5)) == "role:")
-        {
-            $query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email ".
-                   "FROM object_data,rbac_ua,usr_data ".
-             "WHERE object_data.title LIKE ".$ilDB->quote("%".substr($a_search_str,5)."%").
-			 " and object_data.type = 'role' ".
-             "and rbac_ua.rol_id = object_data.obj_id ".
-             "and usr_data.usr_id = rbac_ua.usr_id ".
-             "AND rbac_ua.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID);
-        }
-        else
-        {
-            $query = "SELECT usr_id,login,firstname,lastname,email,active FROM usr_data ".
-                "WHERE (login LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
-                "OR firstname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
-                "OR lastname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
-                "OR email LIKE ".$ilDB->quote("%".$a_search_str."%").") ".
-                "AND usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID);
-        }
-
-        if (is_numeric($active) && $active > -1)
-        	$query .= "AND active = ".$ilDB->quote($active);
-
-        $res = $ilias->db->query($query);
-        while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-        {
-            $users[] = array(
-                "usr_id"    => $row->usr_id,
-                "login"     => $row->login,
-                "firstname" => $row->firstname,
-                "lastname"  => $row->lastname,
-                "email"     => $row->email,
-                "active"    => $row->active);
-                
-            $ids[] = $row->usr_id;
-        }
-        
-        if ($a_return_ids_only)
+		
+		if ($filter_settings !== FALSE)
+		{
+			switch ($filter_settings)
+			{
+				case -1:
+					$active_filter = "";
+					// show all users
+					break;
+				case 0:
+					$active_filter = " AND usr_data.active = " . $ilDB->quote("0");
+					// show only inactive users
+					break;
+				case 1:
+					$active_filter = " AND usr_data.active = " . $ilDB->quote("1");
+					// show only active users
+					break;
+				case 2:
+					$time_limit_filter = " AND usr_data.time_limit_unlimited = " . $ilDB->quote("0");
+					// show only users with limited access
+					break;
+				case 3:
+					// show only users without courses
+					$course_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.usr_id IS NULL AND ";
+					break;
+			}
+		}
+		// This is a temporary hack to search users by their role
+		// See Mantis #338. This is a hack due to Mantis #337.
+		if (strtolower(substr($a_search_str, 0, 5)) == "role:")
+		{
+			$query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email ".
+				"FROM object_data,rbac_ua,usr_data ".
+				"WHERE object_data.title LIKE ".$ilDB->quote("%".substr($a_search_str,5)."%").
+				" and object_data.type = 'role' ".
+				"and rbac_ua.rol_id = object_data.obj_id ".
+				"and usr_data.usr_id = rbac_ua.usr_id ".
+				"AND rbac_ua.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID);
+		}
+		else
+		{
+			$query = "SELECT usr_data.usr_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.email, usr_data.active FROM usr_data ".
+				$course_filter .
+				"(usr_data.login LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
+				"OR usr_data.firstname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
+				"OR usr_data.lastname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
+				"OR usr_data.email LIKE ".$ilDB->quote("%".$a_search_str."%").") ".
+				"AND usr_data.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID) .
+				$active_filter . $time_limit_filter;
+		}
+		$res = $ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$users[] = array(
+				"usr_id"    => $row->usr_id,
+				"login"     => $row->login,
+				"firstname" => $row->firstname,
+				"lastname"  => $row->lastname,
+				"email"     => $row->email,
+				"active"    => $row->active);
+			$ids[] = $row->usr_id;
+		}
+		if ($a_return_ids_only)
 			return $ids ? $ids : array();
 		else
 			return $users ? $users : array();

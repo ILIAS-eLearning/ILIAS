@@ -471,6 +471,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$this->tpl->setCurrentBlock("search");
 		$this->tpl->setVariable("SEARCH_TXT_SEARCH",$this->lng->txt('search'));
+		$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "user_filter", $_SESSION["user_filter"]);
 		$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormActionByClass('ilAdminUserSearchGUI','startSimple'));
 		$this->tpl->setVariable("SEARCH_NAME",'startSimple');
 		$this->tpl->setVariable("SEARCH_VALUE",$this->lng->txt('search_users'));
