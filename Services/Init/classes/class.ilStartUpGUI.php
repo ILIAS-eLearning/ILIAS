@@ -498,7 +498,7 @@ class ilStartUpGUI
 	 */
 	public function migrateAccount()
 	{
-	 	global $lng,$ilClientIniFile,$ilLog;
+	 	global $lng,$ilClientIniFile,$ilLog,$rbacadmin;
 	 	
 	 	$lng->loadLanguageModule('auth');
 	 	
@@ -534,6 +534,12 @@ class ilStartUpGUI
 			$user->setAuthMode($_SESSION['tmp_auth_mode']);
 			$user->setExternalAccount($_SESSION['tmp_external_account']);
 			$user->update();
+			
+			// Assign to default role
+			if($_SESSION['tmp_role'])
+			{
+				$rbacadmin->assignUser((int) $_SESSION['tmp_role'],$user->getId());
+			}
 
 			// Log migration
 			$ilLog->write(__METHOD__.': Migrated '.$_SESSION['tmp_external_account'].' to ILIAS account '.$user->getLogin().'.');
