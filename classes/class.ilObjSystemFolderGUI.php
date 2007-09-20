@@ -478,7 +478,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["soap_user_administration"] = $_POST["soap_user_administration"];
 
 			// data privacy
-			$settings["enable_fora_statistics"] = $_POST["enable_fora_statistics"];
+		/*	$settings["enable_fora_statistics"] = $_POST["enable_fora_statistics"]; */
 
 			$settings["suffix_repl_additional"] = $_POST["suffix_repl_additional"];
 
@@ -564,7 +564,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting("rpc_server_port",trim($_POST["rpc_server_port"]));
 
 			// data privacy
-			$this->ilias->setSetting("enable_fora_statistics",$_POST["enable_fora_statistics"]);
+		//	$this->ilias->setSetting("enable_fora_statistics",$_POST["enable_fora_statistics"]);
 
 			// forums
 			$this->ilias->setSetting('frm_store_new',$_POST['frm_store_new']);
@@ -768,9 +768,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_JAVA_SERVER_INFO",$this->lng->txt('java_server_info'));
 		$this->tpl->setVariable("TXT_JAVA_SERVER_README",$this->lng->txt('java_server_readme'));
 
-		$this->tpl->setVariable("TXT_DATA_PRIVACY",$this->lng->txt('data_privacy'));
+/*		$this->tpl->setVariable("TXT_DATA_PRIVACY",$this->lng->txt('data_privacy'));
 		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS",$this->lng->txt('enable_fora_statistics'));
-		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS_DESC",$this->lng->txt('enable_fora_statistics_desc'));
+		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS_DESC",$this->lng->txt('enable_fora_statistics_desc')); */
 
 
 		// forums
@@ -1072,10 +1072,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->tpl->setVariable("JAVA_SERVER_HOST",$settings["rpc_server_host"]);
         $this->tpl->setVariable("JAVA_SERVER_PORT",$settings["rpc_server_port"]);
 
-        if ($settings["enable_fora_statistics"])
+      /*  if ($settings["enable_fora_statistics"])
         {
             $this->tpl->setVariable("ENABLE_FORA_STATISTICS_CHECK","checked=\"checked\"");
-        }
+        }*/
 
 
 		// paths to tools

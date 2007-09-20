@@ -34,12 +34,16 @@
 class ilPrivacySettings
 {
     private static $instance = null;
-	private $db;
-	private $settings;
-
-	private $export_course;
-	private $export_confirm;
-	private $ref_id;
+		private $db;
+		private $settings;
+	
+		private $export_course;
+		private $export_confirm;
+		/**
+		* @var bool show fora statitics
+		*/
+		private $fora_statistics;
+		private $ref_id;
 
     /**
 	 * Private constructor: use _getInstance()
@@ -87,6 +91,25 @@ class ilPrivacySettings
 		$this->export_course = (bool) $a_status;
 	}
 
+
+	/**
+	*	write access to property fora statitics
+	* @param bool $a_status	value to set property
+	*/	
+	public function enableForaStatistics ($a_status) {
+		$this->fora_statistics = (bool) $a_status;
+	}
+	
+	/**
+	*	read access to property enable fora statistics
+	* @return bool true if enabled, false otherwise
+	*/
+	 public function enabledForaStatistics () {
+			return $this->fora_statistics;
+		}
+
+
+
 	public function confirmationRequired()
 	{
 		return $this->export_confirm;
@@ -106,6 +129,7 @@ class ilPrivacySettings
 	{
 	 	$this->settings->set('ps_export_confirm',(bool) $this->confirmationRequired());
 	 	$this->settings->set('ps_export_course',(bool) $this->enabledExport());
+	 	$this->settings->set('enable_fora_statistics',(bool) $this->enabledForaStatistics());
 	}
 	/**
 	 * read settings
@@ -129,6 +153,7 @@ class ilPrivacySettings
 
 		$this->export_course = (bool) $this->settings->get('ps_export_course',false);
 		$this->export_confirm = (bool) $this->settings->get('ps_export_confirm',false);
+		$this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics',false);
 
 	}
 

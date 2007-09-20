@@ -157,6 +157,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('CHECK_EXPORT_COURSE',ilUtil::formCheckbox($privacy->enabledExport() ? 1 : 0,'export_course',1));
 	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM',ilUtil::formCheckbox($privacy->confirmationRequired() ? 1 : 0,'export_confirm',1));
 
+		// Fora statistics
+	 	$this->tpl->setVariable('TXT_STATISTICS',$this->lng->txt('enable_fora_statistics'));
+	 	$this->tpl->setVariable('TXT_FORA_STATISTICS',$this->lng->txt('enable_fora_statistics_desc'));
+	 	$this->tpl->setVariable('CHECK_FORA_STATISTICS',ilUtil::formCheckbox($privacy->enabledForaStatistics() ? 1 : 0,'fora_statistics',1));
+		
 
 	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
 	}
@@ -231,6 +236,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy = ilPrivacySettings::_getInstance();
 		$privacy->enableExport((int) $_POST['export_course']);
 		$privacy->setConfirmationRequired((int) $_POST['export_confirm']);
+		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
 
         // validate settings
         $code = $privacy->validate();
