@@ -170,7 +170,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$question_id = $keys[0];
 			$points = $_POST["question"][$question_id];
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$maxpoints = assQuestion::_getMaximumPoints($question_id); 
+			$maxpoints = assQuestion::_getMaximumPoints($question_id);
 			$result = assQuestion::_setReachedPoints($_GET["active_id"], $question_id, $points, $maxpoints, $_GET["pass"]);
 			if ($result) 
 			{
