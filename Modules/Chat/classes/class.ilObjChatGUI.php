@@ -1384,7 +1384,7 @@ class ilObjChatGUI extends ilObjectGUI
 										$_REQUEST["room_id"]."&i_id=".$user["user_id"]);
 				$this->tpl->setVariable("TXT_INVITE_USER",$cmd == "invite" ? $this->lng->txt("chat_invite_user") :
 										$this->lng->txt("chat_drop_user"));
-				$this->tpl->setVariable("ONLINE_USER_NAME_A",$user["login"]);
+        		$this->tpl->setVariable("ONLINE_USER_NAME_A", $user["firstname"]." ".$user["lastname"]." (".$user["login"].")");										
 				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,'Modules/Chat'));
 				
 				$this->tpl->parseCurrentBlock();
