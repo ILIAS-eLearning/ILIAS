@@ -273,18 +273,18 @@ class ilAdminUserSearchGUI
 		$_POST["search_string"] = trim($_POST["search_string"]) ? trim($_POST["search_string"]) : trim(urldecode($_GET["search_string"]));
  		$_SESSION['us_active'] = isset($_POST['active']) ? $_POST['active'] : $_SESSION['us_active'];
 
-        if (empty($_POST["search_string"]))
-        {
-            $_POST["search_string"] = "%";
-        }
+		if (empty($_POST["search_string"]))
+		{
+			$_POST["search_string"] = "%";
+		}
 
 		// return if no user found
-		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"],$_SESSION['us_active'],true)) == 0)
+		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"],$_SESSION['us_active'],true, $_GET["user_filter"])) == 0)
 		{
-	        if ($_POST["search_string"] == "%")
-    	    {
-        	    $_POST["search_string"] = "";
-	        }
+			if ($_POST["search_string"] == "%")
+			{
+				$_POST["search_string"] = "";
+			}
 
 			$msg = $this->lng->txt("msg_no_search_result");
 
@@ -293,16 +293,17 @@ class ilAdminUserSearchGUI
 				$msg .= " ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'";
 			}
 	        
-	        if ($_GET['search'])
-	        {
-	        	global $ilErr;
+			if ($_GET['search'])
+			{
+				global $ilErr;
 				$ilErr->raiseError($msg,$ilErr->MESSAGE);
-	        }
-	        else
-	        {
+			}
+			else
+			{
 				ilUtil::sendInfo($msg, true);
+				$this->ctrl->setParameterByClass("ilobjuserfoldergui", "user_filter", $_GET["user_filter"]);
 				$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
-	        }
+			}
 		}
 		
 		if(!$_SESSION['search_append'])
