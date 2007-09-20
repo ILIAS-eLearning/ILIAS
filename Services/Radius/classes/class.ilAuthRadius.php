@@ -89,6 +89,7 @@ class ilAuthRadius extends Auth
 					$_SESSION['tmp_auth_mode'] = 'radius';
 					$_SESSION['tmp_external_account'] = $a_username;
 					$_SESSION['tmp_pass'] = $_POST['password'];
+					$_SESSION['tmp_role'] = $this->radius_settings->getDefaultRole();
 				
 					ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration');
 				}
