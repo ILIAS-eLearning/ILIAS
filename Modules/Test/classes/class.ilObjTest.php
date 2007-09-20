@@ -574,6 +574,11 @@ class ilObjTest extends ilObject
 					$ilDB->quote($active_id)
 				);
 				$result = $ilDB->query($query);
+
+				$query = sprintf("DELETE FROM tst_sequence WHERE active_fi = %s",
+					$ilDB->quote($active_id)
+				);
+				$result = $ilDB->query($query);
 			}
 		}
 
@@ -2914,9 +2919,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 			}
 		}
+		$query4 = sprintf("DELETE FROM tst_sequence USING tst_sequence, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_sequence.active_fi",
+			$ilDB->quote($this->getTestId())
+		);
 		$result = $ilDB->query($query);
 		$result = $ilDB->query($query2);
 		$result = $ilDB->query($query3);
+		$result = $ilDB->query($query4);
 
 		if ($this->isRandomTest())
 		{
@@ -2927,7 +2936,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		// remove test_active entries, because test has changed
-		$this->deleteActiveTests();
+		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
+			$ilDB->quote($this->getTestId())
+		);
+		$result = $ilDB->query($query);
 	}
 
 /**
@@ -2985,6 +2997,11 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ilDB->quote($active_id . "")
 			);
 			$result = $ilDB->query($query);
+
+			$query = sprintf("DELETE FROM tst_sequence WHERE active_fi = %s",
+				$ilDB->quote($active_id)
+			);
+			$result = $ilDB->query($query);
 		}
 	}
 
@@ -3035,76 +3052,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
 		}
 
+		$query = sprintf("DELETE FROM tst_sequence WHERE active_fi = %s",
+			$ilDB->quote($active_id)
+		);
+		$result = $ilDB->query($query);
+
 		// remove test_active entry
 		$query = sprintf("DELETE FROM tst_active WHERE active_id = %s",
 			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
-	}
-
-/**
-* Deletes all active references to this test
-*
-* Deletes all active references to this test. This is necessary, if the test has been changed to
-* guarantee the same conditions for all users.
-*
-* @access public
-*/
-	function deleteActiveTests()
-	{
-		global $ilDB;
-
-		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
-		);
-		$result = $ilDB->query($query);
-	}
-
-/**
-* Removes all question solutions for a given user
-*
-* Removes all question solutions for a given user
-* The tst_active table is not affected. Only the existing
-* solutions for all questions the user answered will be removed.
-* This resets the test to the default values
-*
-* @access public
-*/
-	function deleteResults($user_id = "")
-	{
-		global $ilDB;
-
-		if ($user_id)
-		{
-			$active_id = $this->getActiveIdOfUser($user_id);
-			$pass = $this->_getPass($active_id);
-			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s AND tst_solutions.pass = %s",
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($user_id . ""),
-				$ilDB->quote($pass . "")
-			);
-			$result = $ilDB->query($query);
-			$query = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
-			);
-			$result = $ilDB->query($query);
-			$sequence_arr = array_flip($this->questions);
-			$sequence = join($sequence_arr, ",");
-			$query = sprintf("UPDATE tst_active SET sequence = %s, lastindex = %s WHERE test_fi = %s and user_fi = %s",
-				$ilDB->quote($sequence),
-				$ilDB->quote("1"),
-				$ilDB->quote($this->getTestId()),
-				$ilDB->quote($user_id)
-			);
-			$result = $ilDB->query($query);
-
-			$query = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
-				$ilDB->quote($this->getTestId()),
-				$ilDB->quote($user_id)
-			);
-			$result = $ilDB->query($query);
-		}
 	}
 
 /**

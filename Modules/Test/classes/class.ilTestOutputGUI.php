@@ -206,52 +206,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-* Output of the learners view of an existing test
-*
-* Output of the learners view of an existing test
-*
-* @access public
-*/
-	function deleteresults() 
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_delete_results_confirm.html", "Modules/Test");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_CONFIRM_DELETE_RESULTS", $this->lng->txt("tst_confirm_delete_results"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_delete_results"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Deletes the results of the current user for the active pass
-*
-* Deletes the results of the current user for the active pass
-*
-* @access public
-*/
-	function confirmdeleteresults()
-	{
-		global $ilUser;
-		
-		$this->object->deleteResults($ilUser->id);
-		ilUtil::sendInfo($this->lng->txt("tst_confirm_delete_results_info"), true);
-		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
-	}
-	
-/**
-* Cancels the deletion of the results of the current user for the active pass
-*
-* Cancels the deletion of the results of the current user for the active pass
-*
-* @access public
-*/
-	function canceldeleteresults()
-	{
-		$this->ctrl->redirect($this, "outIntroductionPage"); 
-	}
-
-/**
 * Shows a short result overview in courses
 *
 * Shows a short result overview in courses
