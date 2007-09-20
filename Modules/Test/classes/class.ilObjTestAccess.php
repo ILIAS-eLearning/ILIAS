@@ -102,14 +102,16 @@ class ilObjTestAccess extends ilObjectAccess
 			case 'passed':
 				include_once "./Modules/Test/classes/class.ilObjTest.php";
 				$test_id = ilObjTest::_getTestIDFromObjectID($a_obj_id);
-				$active = ilObjTest::_getActiveTestUser($ilias->account->getId(), $test_id);
-				if(!is_object($active))
+				include_once "./Modules/Test/classes/class.ilTestSession.php";
+				$session = new ilTestSession();
+				$session->loadTestSession($test_id, $ilias->account->getId());
+				if(!is_object($session))
 				{
 					return false;
 				}
 				include_once "./Modules/Test/classes/class.ilObjTest.php";
-				$data =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE, $active->active_id);
-				$userdata =& $data->getParticipant($active->active_id);
+				$data =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE, $session->getActiveId());
+				$userdata =& $data->getParticipant($session->getActiveId());
 				if (is_object($userdata))
 				{
 					return $userdata->getPassed();

@@ -45,6 +45,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	var $cmdCtrl;
 	var $maxProcessingTimeReached;
 	var $endingTimeReached;
+	var $testSequence;
+	var $testSession;
 
 /**
 * ilSurveyExecutionGUI constructor
@@ -58,6 +60,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
   {
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
+		$this->testSequence = NULL;
+		$this->testSession = NULL;
 	}
 	
 	/**
@@ -65,10 +69,24 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilUser;
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this, "sequence");
 		$this->ctrl->saveParameter($this, "active_id");
+
+		include_once "./Modules/Test/classes/class.ilTestSession.php";
+		if ($_GET["active_id"])
+		{
+			include_once "./Modules/Test/classes/class.ilTestSequence.php";
+			$this->testSession = new ilTestSession($_GET["active_id"]);
+			$this->testSequence = new ilTestSequence($this->testSession->getActiveId(), $this->testSession->getPass(), $this->object->isRandomTest());
+		}
+		else
+		{
+			$this->testSession = new ilTestSession();
+			$this->testSession->loadTestSession($this->object->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->object->getTestId()]);
+		}
 
 		$cmd = $this->getCommand($cmd);
 		switch($next_class)
@@ -113,7 +131,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if ($this->canSaveResult())
 		{
 			// but only if the ending time is not reached
-			$q_id = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);
+			$q_id = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
 			if (is_numeric($q_id)) 
 			{
 				global $ilUser;
@@ -124,7 +142,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 				}
 				$pass = NULL;
-				$active_id = $this->getActiveId();
+				$active_id = $this->testSession->getActiveId();
 				if ($this->object->isRandomTest())
 				{
 					$pass = $this->object->_getPass($active_id);
@@ -175,7 +193,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function isMaxProcessingTimeReached() 
 	{
 		global $ilUser;
-		$active_id = $this->getActiveId();
+		$active_id = $this->testSession->getActiveId();
 		$starting_time = $this->object->getStartingTimeOfUser($active_id);
 		if ($starting_time === FALSE)
 		{
@@ -242,6 +260,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function outShortResult($user_question_order) 
 	{
+		// TODO: Ask Stefan
 		if(!$_GET['crs_show_result'])
 		{/*
 			$this->tpl->setCurrentBlock("percentage");
@@ -292,16 +311,14 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
+	function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = 0)
 	{
 		global $ilUser;
-	
-		if (is_object($active))
-		{
-			// create new time dataset and set start time
-			$active_time_id = $this->object->startWorkingTime($active->active_id);
-			$_SESSION["active_time_id"] = $active_time_id;
-		}
+
+		if ($sequence < 1) $sequence = $this->testSequence->getFirstSequence();
+		$active_time_id = $this->object->startWorkingTime($this->testSequence->getActiveId());
+		$_SESSION["active_time_id"] = $active_time_id;
+
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -313,43 +330,19 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 		ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
-		$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($sequence));
+		$question_gui = $this->object->createQuestionGUI("", $this->testSequence->getQuestionForSequence($sequence));
 		if ($this->object->getJavaScriptOutput())
 		{
 			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 		}
 
-		$is_postponed = false;
-		if (is_object($active))
-		{
-			$postponed_array = split(",", $active->postponed);
-			$sequence_array = split(",", $active->sequence);
-			if ((count($sequence_array)) && ($sequence > 0))
-			{
-				if (in_array($sequence_array[$sequence-1], $postponed_array))
-				{
-					$is_postponed = TRUE;
-				}
-				else
-				{
-					$is_postponed = FALSE;
-				}
-			}
-		}
+		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
 
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this, "redirectQuestion");
 
-		if($_GET['crs_show_result'])
-		{
-			$question_gui->setSequenceNumber(array_search($sequence,(array) $_SESSION['crs_sequence']) + 1);
-			$question_gui->setQuestionCount(count($_SESSION['crs_sequence']));
-		}
-		else
-		{
-			$question_gui->setSequenceNumber($sequence);
-			$question_gui->setQuestionCount(ilObjTest::_getQuestionCount($this->object->getTestId()));
-		}
+		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));
+		$question_gui->setQuestionCount($this->testSequence->getUserQuestionCount());
 		// output question
 		$user_post_solution = FALSE;
 		if (array_key_exists("previouspost", $_SESSION))
@@ -357,7 +350,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$user_post_solution = $_SESSION["previouspost"];
 			unset($_SESSION["previouspost"]);
 		}
-		if (!is_object($active)) $active = $this->object->getActiveTestUser($ilUser->getId());
 		$answer_feedback = FALSE;
 		if (($directfeedback) && ($this->object->getAnswerFeedback()))
 		{
@@ -365,7 +357,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		global $ilNavigationHistory;
 		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"), "tst");
-		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solution, $answer_feedback);
+		$question_gui->outQuestionForTest($formaction, $this->testSequence->getActiveId(), NULL, $is_postponed, $user_post_solution, $answer_feedback);
 		if ($directfeedback)
 		{
 			if ($this->object->getInstantFeedbackSolution())
@@ -379,28 +371,18 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if ($this->object->getAnswerFeedbackPoints())
 			{
 				$this->tpl->setCurrentBlock("solution_output");
-				$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($active->active_id, NULL), $question_gui->object->getMaximumPoints()));
+				$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($this->testSequence->getActiveId(), NULL), $question_gui->object->getMaximumPoints()));
 				$this->tpl->parseCurrentBlock();
 			}
 			if ($this->object->getAnswerFeedback())
 			{
 				$this->tpl->setCurrentBlock("answer_feedback");
-				$this->tpl->setVariable("ANSWER_FEEDBACK", $question_gui->getAnswerFeedbackOutput($active->active_id, NULL));
+				$this->tpl->setVariable("ANSWER_FEEDBACK", $question_gui->getAnswerFeedbackOutput($this->testSequence->getActiveId(), NULL));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
 
-		// Normally the first sequence is 1
-		// In course objective mode it is the first wrongly answered question
-		if($_GET['crs_show_result'])
-		{
-			$first_sequence = $_SESSION['crs_sequence'][0] ? $_SESSION['crs_sequence'][0] : 1;
-		}
-		else
-		{
-			$first_sequence = 1;
-		}
-		if ($sequence == $first_sequence)
+		if ($sequence == $this->testSequence->getFirstSequence())
 		{
 			$this->tpl->setCurrentBlock("prev");
 			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
@@ -454,7 +436,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->parseCurrentBlock();
 		}		
 
-		if ($finish)
+		if ($this->testSequence->getQuestionForSequence($this->testSequence->getLastSequence()) == $question_gui->object->getId())
 		{
 			if ($this->object->getListOfQuestionsEnd()) 
 			{
@@ -488,7 +470,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if ($this->object->getShowMarker())
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$solved_array = ilObjTest::_getSolvedQuestions($active->active_id, $question_gui->object->getId());
+			$solved_array = ilObjTest::_getSolvedQuestions($this->testSequence->getActiveId(), $question_gui->object->getId());
 			$solved = 0;
 			
 			if (count ($solved_array) > 0) 
@@ -653,11 +635,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				return $this->showPasswordProtectionPage();
 			}
 		}
-		if ($this->object->isRandomTest())
-		{
-			$this->object->generateRandomQuestions();
-			$this->object->loadQuestions();
-		}
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
 			$this->ctrl->redirect($this, "displayCode");
@@ -771,14 +748,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			case "next":
 				$this->sequence = $this->calculateSequence();
-				// calculate count of questions statically to prevent problems with
-				// random tests. If the numer of questions in the used questionpools
-				// has been reduced lower than the number of questions which should be
-				// chosen, the dynamic method fails because it returns the number of questions
-				// that should be chosen. This leds to an error if the test is completed
-				$questioncount = ilObjTest::_getQuestionCount($this->object->getTestId());
-				if ($this->sequence > $questioncount)
-		//			if ($this->sequence > $this->object->getQuestionCount())
+				if ($this->sequence === FALSE)
 				{
 					if ($this->object->getListOfQuestionsEnd())
 					{
@@ -791,14 +761,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				}
 				else
 				{
-					$this->object->setActiveTestUser($this->sequence);
+					$this->testSession->setLastSequence($this->sequence);
+					$this->testSession->saveToDb();
 					$this->outTestPage();
 				}
 				break;
 			case "previous":
 				$this->sequence = $this->calculateSequence();
-				$this->object->setActiveTestUser($this->sequence);
-				if (!$this->sequence)
+				$this->testSession->setLastSequence($this->sequence);
+				$this->testSession->saveToDb();
+				if ($this->sequence === FALSE)
 				{
 					$this->ctrl->redirect($this, "outIntroductionPage");
 				}
@@ -808,46 +780,114 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				}
 				break;
 			case "postpone":
-				$this->sequence = $this->calculateSequence();	
-				$postpone = $this->sequence;
-				$this->object->setActiveTestUser($this->sequence, $postpone);
+				$this->sequence = $this->calculateSequence();
+				$nextSequence = $this->testSequence->getNextSequence($this->sequence);
+				$this->testSequence->postponeSequence($this->sequence);
+				$this->testSequence->saveToDb();
+				$this->testSession->setLastSequence($nextSequence);
+				$this->testSession->saveToDb();
+				$this->sequence = $nextSequence;
 				$this->outTestPage();
 				break;
 			case "setmarked":
 				$this->sequence = $this->calculateSequence();	
-				$this->object->setActiveTestUser($this->sequence);
-				$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
+				$this->testSession->setLastSequence($this->sequence);
+				$this->testSession->saveToDb();
+				$q_id  = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
 				$this->object->setQuestionSetSolved(1, $q_id, $ilUser->getId());
 				$this->outTestPage();
 				break;
 			case "resetmarked":
 				$this->sequence = $this->calculateSequence();	
-				$this->object->setActiveTestUser($this->sequence);
-				$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
+				$this->testSession->setLastSequence($this->sequence);
+				$this->testSession->saveToDb();
+				$q_id  = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
 				$this->object->setQuestionSetSolved(0, $q_id, $ilUser->getId());
 				$this->outTestPage();
 				break;
 			case "directfeedback":
 				$this->sequence = $this->calculateSequence();	
-				$this->object->setActiveTestUser($this->sequence);
+				$this->testSession->setLastSequence($this->sequence);
+				$this->testSession->saveToDb();
 				$this->outTestPage();
 				break;
 			case "selectImagemapRegion":
 				$this->sequence = $this->calculateSequence();	
-				$this->object->setActiveTestUser($this->sequence);
+				$this->testSession->setLastSequence($this->sequence);
+				$this->testSession->saveToDb();
 				$this->outTestPage();
 				break;
 			case "summary":
 				$this->ctrl->redirect($this, "outQuestionSummary");
 				break;
 			case "start":
-			case "resume":
-				$this->sequence = $this->calculateSequence();
-				$active_id = $this->object->setActiveTestUser($this->sequence);
+				include_once "./Modules/Test/classes/class.ilTestSession.php";
+				$this->testSession = new ilTestSession();
+				$this->testSession->setTestId($this->object->getTestId());
+				$this->testSession->setUserId($ilUser->getId());
+				$this->testSession->setAnonymousId($_SESSION["tst_access_code"][$this->object->getTestId()]);
+				$this->testSession->saveToDb();
+				$active_id = $this->testSession->getActiveId();
 				$this->ctrl->setParameter($this, "active_id", $active_id);
+				$shuffle = $this->object->getShuffleQuestions();
+				if ($this->object->isRandomTest())
+				{
+					$this->object->generateRandomQuestions($this->testSession->getActiveId());
+					$this->object->loadQuestions();
+					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
+				}
+				include_once "./Modules/Test/classes/class.ilTestSequence.php";
+				$this->testSequence = new ilTestSequence($active_id, 0, $this->object->isRandomTest());
+				$this->testSequence->createNewSequence($this->object->getQuestionCount(), $shuffle);
+				$this->testSequence->saveToDb();
 				$active_time_id = $this->object->startWorkingTime($active_id);
 				$_SESSION["active_time_id"] = $active_time_id;
-				$this->readFullSequence();
+				// TODO: Implement course sequence with hidden array in ilTestSequence
+				//				$this->readFullSequence();
+				if ($this->object->getListOfQuestionsStart())
+				{
+					$this->outQuestionSummary();
+				}
+				else
+				{
+					$this->outTestPage();
+				}
+				break;
+			case "resume":
+				include_once "./Modules/Test/classes/class.ilTestSession.php";
+				$this->testSession = new ilTestSession();
+				$this->testSession->loadTestSession($this->object->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->object->getTestId()]);
+				$active_id = $this->testSession->getActiveId();
+				$this->ctrl->setParameter($this, "active_id", $active_id);
+
+				if ($this->object->isRandomTest())
+				{
+					if (!$this->object->hasRandomQuestionsForPass($active_id, $this->testSession->getPass()))
+					{
+						// create a new set of random questions
+						$this->object->generateRandomQuestions($active_id, $this->testSession->getPass());
+					}
+				}
+
+				include_once "./Modules/Test/classes/class.ilTestSequence.php";
+				$this->testSequence = new ilTestSequence($active_id, $this->testSession->getPass(), $this->object->isRandomTest());
+				if (!$this->testSequence->hasSequence())
+				{
+					$shuffle = $this->object->getShuffleQuestions();
+					if ($this->object->isRandomTest())
+					{
+						$shuffle = FALSE;
+					}
+					$this->testSequence->createNewSequence($this->object->getQuestionCount(), $shuffle);
+					$this->testSequence->saveToDb();
+				}
+				global $ilLog;
+				$ilLog->write("usersequence: " . print_r($this->testSequence->getUserSequence(), true));
+				$this->sequence = $this->testSession->getLastSequence();
+				$active_time_id = $this->object->startWorkingTime($active_id);
+				$_SESSION["active_time_id"] = $active_time_id;
+				// TODO: Implement course sequence with hidden array in ilTestSequence
+//				$this->readFullSequence();
 				if ($this->object->getListOfQuestionsStart())
 				{
 					$this->outQuestionSummary();
@@ -865,7 +905,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$ilUser->writePref("tst_javascript", $_GET["tst_javascript"]);
 				}
 				$this->sequence = $this->calculateSequence();	
-				$this->object->setActiveTestUser($this->sequence);
+				$this->testSession->setLastSequence($this->sequence);
+				$this->testSession->saveToDb();
 				$this->outTestPage();
 				break;
 		}
@@ -881,9 +922,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function calculateSequence() 
 	{
 		$sequence = $_GET["sequence"];
-		if (!$sequence) $sequence = 1;
-		$questionCount = $this->object->getQuestionCount();
-		if ($sequence > $questionCount) $sequence = $questionCount;
+		if (!$sequence) $sequence = $this->testSequence->getFirstSequence();
 		if (array_key_exists("save_error", $_GET))
 		{
 			if ($_GET["save_error"] == 1)
@@ -894,29 +933,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		switch ($_GET["activecommand"])
 		{
 			case "next":
-				if($_GET['crs_show_result'])
-				{
-					$sequence = $this->getNextSequenceByResult($sequence);
-				}
-				else
-				{
-					$sequence++;
-				}
+				$sequence = $this->testSequence->getNextSequence($sequence);
 				break;
 			case "previous":
-				if($_GET['crs_show_result'])
-				{
-					$sequence = $this->getPreviousSequenceByResult($sequence);
-				}
-				else
-				{
-					$sequence--;
-				}
+				$sequence = $this->testSequence->getPreviousSequence($sequence);
 				break;
 		}
 		
 		if ($_GET['crs_show_result'])
 		{
+			// TODO: Ask Stefan what's this for a calculation
 			if(isset($_SESSION['crs_sequence'][0]))
 			{
 				$sequence = max($sequence,$_SESSION['crs_sequence'][0]);
@@ -1134,7 +1160,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		unset($_SESSION["tst_next"]);
 		
-		$active_id = $this->getActiveId();
+		$active_id = $this->testSession->getActiveId();
 		$actualpass = $this->object->_getPass($active_id);
 		
 		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$confirm))
@@ -1166,17 +1192,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				return $this->confirmFinishTest();
 			}
 		}
-		if ($this->object->isRandomTest())
-		{
-			// create a new set of random questions if more passes are allowed
-			$maxpass = $this->object->getNrOfTries();
-			if (($maxpass == 0) || (($actualpass+1) < ($maxpass)))
-			{
-				$this->object->generateRandomQuestions($actualpass+1);
-			}
-		}
 
-		$this->object->setActiveTestUser(1, "", true);
+		$this->testSession->increasePass();
+		$this->testSession->setLastSequence(0);
+		$this->testSession->saveToDb();
 		
 		if($_GET['crs_show_result'])
 		{
@@ -1229,38 +1248,23 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// show next/previous question
-	
-		if ($this->sequence == $this->object->getQuestionCount())
-		{
-			$finish = true;
-		}
-		else
-		{
-			$finish = false;
-		}
-
 		$postpone = false;
-
 		if ($this->object->getSequenceSettings() == TEST_POSTPONE)
 		{
 			$postpone = true;
 		}
 
-		$active = $this->object->getActiveTestUser();
-
-		$user_question_order =& $this->object->getAllQuestionsForActiveUser();
-		$this->outShortResult($user_question_order);
+//		$this->outShortResult($user_question_order);
 			
 		if ($this->object->getEnableProcessingTime())
 		{
-			$this->outProcessingTime($active->active_id);
+			$this->outProcessingTime($this->testSequence->getActiveId());
 		}
 
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 		$directfeedback = 0;
 		if (strcmp($_GET["activecommand"], "directfeedback") == 0) $directfeedback = 1;
-		$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $directfeedback, $show_summary);
+		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $postpone, $directfeedback, $show_summary);
 	}
 
 /**
@@ -1301,6 +1305,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function readFullSequence()
 	{
+		// TODO: Ask Stefan
 		global $ilUser;
 
 		if(!$_GET['crs_show_result'])
@@ -1309,7 +1314,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$_SESSION['crs_sequence'] = array();
-		$active = $this->getActiveId();
+		$active = $this->testSession->getActiveId();
 		$results = $this->object->getTestResult($active);
 		for($i = $this->object->getFirstSequence();
 			$i <= $this->object->getQuestionCount();
@@ -1342,6 +1347,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function getNextSequenceByResult($a_sequence)
 	{
+		// TODO: Remove if problems with stefan are cleared
 		if(!is_array($_SESSION['crs_sequence']))
 		{
 			return 1;
@@ -1375,6 +1381,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function getPreviousSequenceByResult($a_sequence)
 	{
+		// TODO: Remove if problems with stefan are cleared
 		if(!is_array($_SESSION['crs_sequence']))
 		{
 			return 0;
@@ -1414,8 +1421,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
  */
 	function isNrOfTriesReached() 
 	{
-		$active = $this->object->getActiveTestUser();
-		return $this->object->hasNrOfTriesRestriction() && is_object($active) && $this->object->isNrOfTriesReached($active->tries);	
+		return $this->object->hasNrOfTriesRestriction() && $this->object->isNrOfTriesReached($this->testSession->getPass());	
 	}
 	
 /**
@@ -1458,7 +1464,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 		
-		$active_id = $this->getActiveId();
+		$active_id = $this->testSession->getActiveId();
 		$counted_pass = ilObjTest::_getResultPass($active_id);
 		$this->ctrl->setParameterByClass("iltestcertificategui","active_id", $active_id);
 		$this->ctrl->setParameterByClass("iltestcertificategui","pass", $counted_pass);
@@ -1473,7 +1479,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function endingTimeReached() 
 	{
 		ilUtil::sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
-		$this->object->setActiveTestUser(1, "", true);
+		$this->testSession->increasePass();
+		$this->testSession->setLastSequence(0);
+		$this->testSession->saveToDb();
 		if (!$this->object->canViewResults()) 
 		{
 			$this->outIntroductionPage();
@@ -1613,6 +1621,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	*
 	* @access public
 	*/
+	/*
+	// TODO: no longer needed?
 	function getActiveId()
 	{
 		if (array_key_exists("active_id", $_GET))
@@ -1632,7 +1642,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 		}
 	}
-	
+*/
+
 /**
 * Output of a summary of all test questions for test participants
 *
@@ -1640,12 +1651,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function outQuestionSummary() 
 	{
-		$active_id = $this->getActiveId();
+		$active_id = $this->testSession->getActiveId();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
 		$color_class = array ("tblrow1", "tblrow2");
 		$counter = 0;
 		
-		$result_array = & $this->object->getTestSummary($active_id);
+		$result_array = & $this->testSequence->getSequenceSummary();
 		$marked_questions = array();
 		if ($this->object->getShowMarker())
 		{
@@ -1659,7 +1670,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->tpl->setCurrentBlock("question");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				$this->ctrl->setParameter($this, "sequence", $value["nr"]);
+				$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
 				$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $value["title"] . "</a>");
 				$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
 				if ($this->object->getListOfQuestionsDescription())
@@ -1748,7 +1759,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$template_top->setCurrentBlock("button_print");
 			$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
 			$template_top->parseCurrentBlock();
-			$active_id = $this->getActiveId();
+			$active_id = $this->testSession->getActiveId();
 			return $this->showListOfAnswers($active_id, NULL, $template_top->get(), $template->get());
 		}
 		else
@@ -1883,7 +1894,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if (strlen($_GET["pass"])) $pass = $_GET["pass"];
 		}
 		$user_id = $ilUser->getId();
-		$active_id = $this->getActiveId();
+		$active_id = $this->testSession->getActiveId();
 		$overview = "";
 		if ($this->object->getNrOfTries() == 1)
 		{
@@ -1940,7 +1951,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$pass = null;
 		$user_id = $ilUser->getId();
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$active_id = $this->getActiveId();
+		$active_id = $this->testSession->getActiveId();
 		$hide_details = !$this->object->getShowPassDetails();
 		if ($hide_details)
 		{

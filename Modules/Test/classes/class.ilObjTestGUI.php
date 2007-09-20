@@ -4292,15 +4292,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$results = "";
 			if ($this->object->getFixedParticipants())
 			{
-				$active = $this->object->getActiveTestUser($active_id);
-				if (is_object($active))
-				{
-					$active_id = $active->active_id;
-				}
-				else
-				{
-					$active_id = -1;
-				}
+				$active_id = $this->object->getActiveIdOfUser($active_id);
 			}
 			if ($active_id > 0)
 			{
@@ -4933,12 +4925,13 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
-		$active = $this->object->getActiveTestUser();
-		$seq = 1;
-		if (is_object($active)) 
-		{
-			$seq = $active->lastindex;
-		}
+		include_once "./Modules/Test/classes/class.ilTestSession.php";
+		$testSession = new ilTestSession();
+		$testSession->loadTestSession($this->object->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->object->getTestId()]);
+		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		$testSequence = new ilTestSequence($testSession->getActiveId(), $testSession->getPass(), $this->object->isRandomTest());
+		$seq = $testSession->getLastSequence();
+
 		include_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
 		$output_gui =& new ilTestOutputGUI($this->object);
 		$this->ctrl->setParameter($output_gui, "sequence", $seq);
@@ -4972,16 +4965,16 @@ class ilObjTestGUI extends ilObjectGUI
 				$executable = $this->object->isExecutable($ilUser->getId());
 				if ($executable["executable"])
 				{
-					if (is_object($active))
+					if ($testSession->getActiveId() > 0)
 					{
 						// resume test
 						$resume_text = $this->lng->txt("tst_resume_test");
-						if ($seq < 2)
+						if (($seq < 1) || ($seq == $testSequence->getFirstSequence()))
 						{
-							$resume_text = $this->object->getStartTestLabel($active->active_id);
+							$resume_text = $this->object->getStartTestLabel($testSession->getActiveId());
 						}
-						// Commented out because this leads to problems in "normal" tests
-						if(!$_GET['crs_show_result'] or $this->object->getFirstSequence())
+
+						if(!$_GET['crs_show_result'] or $testSequence->getFirstSequence())
 						{
 							$info->addFormButton("resume", $resume_text);
 						}
@@ -4989,14 +4982,14 @@ class ilObjTestGUI extends ilObjectGUI
 					else
 					{
 						// start new test
-						$info->addFormButton("start", $this->object->getStartTestLabel($active->active_id));
+						$info->addFormButton("start", $this->object->getStartTestLabel($testSession->getActiveId()));
 					}
 				}
 				else
 				{
 					ilUtil::sendInfo($executable["errormessage"]);
 				}
-				if (is_object($active))
+				if ($testSession->getActiveId() > 0)
 				{
 					// test results button
 					if ($this->object->canShowTestResults($ilUser->getId())) 
@@ -5005,14 +4998,14 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 			}
-			if (is_object($active))
+			if ($testSession->getActiveId() > 0)
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
 					$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
 				}
 
-				if ($this->canShowCertificate($ilUser->getId(), $active->active_id))
+				if ($this->canShowCertificate($ilUser->getId(), $testSession->getActiveId()))
 				{
 					$info->addFormButton("outCertificate", $this->lng->txt("certificate_show"));
 				}
@@ -5107,7 +5100,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):$this->object->getNrOfTries());
 		if ($this->object->getNrOfTries() != 1)
 		{
-			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($active->tries == false)?$this->lng->txt("tst_no_tries"):$active->tries);
+			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($testSession->getPass() == false)?$this->lng->txt("tst_no_tries"):$testSession->getPass());
 		}
 
 		if ($this->object->getEnableProcessingTime())
@@ -5136,7 +5129,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		// forward the command
 
-		if($_GET['crs_show_result'] and !$this->object->getFirstSequence())
+		if($_GET['crs_show_result'] and !$testSequence->getFirstSequence())
 		{
 			ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
 		}			

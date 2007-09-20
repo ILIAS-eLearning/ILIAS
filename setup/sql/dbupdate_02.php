@@ -2469,3 +2469,75 @@ ALTER TABLE `frm_threads` ADD `is_sticky` TINYINT( 1 ) NOT NULL DEFAULT '0';
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1081>
+CREATE TABLE  `tst_sequence` (
+ `active_fi` INT NOT NULL ,
+ `pass` INT NOT NULL ,
+ `sequence` TEXT NOT NULL ,
+ `postponed` TEXT NULL ,
+ `hidden` TEXT NULL ,
+ `lastchange` TIMESTAMP NOT NULL
+) ENGINE = MYISAM ;
+<#1082>
+ALTER TABLE  `tst_sequence` ADD UNIQUE (
+`active_fi` ,
+`pass`
+);
+<#1083>
+<?php
+
+// convert old sequence settings into new sequence settings
+// this is a very performance-consuming step so maybe the script stops
+
+// check if the step was called previous and retrieve the last active id
+$query = "SELECT MAX(active_fi) AS max_id FROM tst_sequence";
+$result = $ilDB->query($query);
+$startid = 0;
+if ($result->numRows())
+{
+	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	if ($row["max_id"] > 0)
+	{
+		$startid = $row["max_id"];
+		// if not completed, delete the last entries
+		$remove = "DELETE FROM tst_sequence WHERE active_fi = $startid";
+		$result = $ilDB->query($remove);
+	}
+}
+
+// start from the last valid active id and convert the sequence settings
+$query = "SELECT * FROM tst_active WHERE active_id >= $startid ORDER BY active_id ASC";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$sequence_array = explode(",", $row["sequence"]);
+		if ($sequence_array === FALSE) $sequence_array = array();
+		foreach ($sequence_array as $key => $value) $sequence_array[$key] = intval($value);
+		$postponed = "NULL";
+		if (strlen($row["postponed"]))
+		{
+			$postponed_array = explode(",", $row["postponed"]);
+			foreach ($postponed_array as $key => $value) $postponed_array[$key] = intval($value);
+			if (is_array($postponed_array)) 
+			{
+				$postponed = $ilDB->quote(serialize(array_unique($postponed_array)));
+			}
+		}
+		for ($i = 0; $i < $row["tries"]; $i++)
+		{
+			$insert = sprintf("INSERT INTO tst_sequence (active_fi, pass, sequence, postponed, hidden) VALUES (%s, %s, %s, %s, NULL)",
+				$ilDB->quote($row["active_id"] . ""),
+				$ilDB->quote($i . ""),
+				$ilDB->quote(serialize($sequence_array)),
+				$postponed
+			);
+			$ilDB->query($insert);
+		}
+	}
+}
+
+?>
+<#1084>
+ALTER TABLE  `tst_test_random_question` ADD INDEX (  `pass` );

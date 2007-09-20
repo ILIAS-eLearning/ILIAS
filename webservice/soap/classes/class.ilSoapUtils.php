@@ -130,12 +130,12 @@ class ilSoapUtils extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
+		$active_id = ilObjTest::_getActiveIdOfUser($user_id, $test_id);
 		$ilDB = $GLOBALS['ilDB'];
-		if (($active->active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
+		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
 		{
 			$deletequery = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active->active_id . ""),
+				$ilDB->quote($active_id . ""),
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote($pass . "")
 			);
@@ -150,7 +150,7 @@ class ilSoapUtils extends ilSoapAdministration
 				"value2 = %s, ".
 				"points = %s, ".
 				"pass = %s",
-				$ilDB->quote($active->active_id . ""),
+				$ilDB->quote($active_id . ""),
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote($solution[$i]),
 				$ilDB->quote($solution[$i+1]),
