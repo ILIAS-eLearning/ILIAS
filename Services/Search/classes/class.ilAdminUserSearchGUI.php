@@ -772,11 +772,33 @@ class ilAdminUserSearchGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","delete");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-		$tpl->parseCurrentBlock();
-		
+		$operations = array(
+			array("name" => "delete", "lng" => "delete"),
+			array("name" => "activate", "lng" => "activate"),
+			array("name" => "deactivate", "lng" => "deactivate")
+			);
+		if (count($operations) > 0)
+		{
+			$select = "<select name=\"selectedAction\">\n";
+			foreach ($operations as $val)
+			{
+				$select .= "<option value=\"" . $val["name"] . "\"";
+				if (strcmp($_POST["selectedAction"], $val["name"]) == 0)
+				{
+					$select .= " selected=\"selected\"";
+				}
+				$select .= ">";
+				$select .= $this->lng->txt($val["lng"]);
+				$select .= "</option>";
+			}
+			$select .= "</select>";
+			$tpl->setCurrentBlock("tbl_action_select");
+			$tpl->setVariable("SELECT_ACTION", $select);
+			$tpl->setVariable("BTN_NAME", "userAction");
+			$tpl->setVariable("BTN_VALUE", $this->lng->txt("submit"));
+			$tpl->parseCurrentBlock();
+		}
+
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",7);
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
@@ -1139,13 +1161,20 @@ class ilAdminUserSearchGUI
 		ilUtil::redirect($script);
 	}
 
+	function userAction()
+	{
+		$method = $_POST["selectedAction"];
+		$_SESSION['user_" . $method . "_search'] = true;
+		$class =& $this->callback_class;
+		$class->showActionConfirmation($method);
+	}
+
 	function delete()
 	{
 		$_SESSION['user_delete_search'] = true;
 		
 		// call callback if that function does give a return value => show error message
 		$class =& $this->callback_class;
-
 		// listener redirects if everything is ok.
 		$class->deleteObject();
 	}

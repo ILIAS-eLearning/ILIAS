@@ -272,6 +272,8 @@
 	<property name="export">export</property>
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
+	<action name="activate">activate</action>
+	<action name="deactivate">deactivate</action>
 </object>
 <object name="st">
 	<property name="view">cont_pages</property>

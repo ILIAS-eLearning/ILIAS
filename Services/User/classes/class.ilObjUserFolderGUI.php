@@ -318,26 +318,85 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		} //for
 	}
+	
+	function resetFilterObject()
+	{
+		$this->viewObject(TRUE);
+	}
 
 	/**
 	* list users
 	*
 	* @access	public
 	*/
-	function viewObject()
+	function viewObject($reset_filter = FALSE)
 	{
 		global $rbacsystem;
+		global $ilUser;
 		
-		// this is a workaround for a bug in ctrl class
-		$_SESSION["usergui_cmd_node"] = $this->ctrl->getNodeIdForTargetClass($this->ctrl->getCmdNode(),"ilobjusergui");
-
-		if (isset($_POST["user_filter"]))
-		{
-			$_SESSION["user_filter"] = $_POST["user_filter"];
-		}
-		if (!isset($_SESSION["user_filter"]))
+		if ($reset_filter)
 		{
 			$_SESSION["user_filter"] = 1;
+		}
+		else
+		{
+			$_SESSION["usergui_cmd_node"] = $this->ctrl->getNodeIdForTargetClass($this->ctrl->getCmdNode(),"ilobjusergui");
+			$this->ctrl->saveParameter($this, "user_filter_date_y");
+			$this->ctrl->saveParameter($this, "user_filter_date_m");
+			$this->ctrl->saveParameter($this, "user_filter_date_d");
+			$this->ctrl->saveParameter($this, "selected_course");
+			$this->ctrl->saveParameter($this, "selected_group");
+			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "user_filter_date_y");
+			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "user_filter_date_m");
+			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "user_filter_date_d");
+			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "selected_course");
+			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "selected_group");
+			if (strlen($_GET["user_filter_date_y"].$_GET["user_filter_date_m"].$_GET["user_filter_date_d"]))
+			{
+				$_SESSION["user_filter_data"] = array(
+					"y" => $_GET["user_filter_date_y"],
+					"m" => $_GET["user_filter_date_m"],
+					"d" => $_GET["user_filter_date_d"],
+				);
+			}
+			if (strlen($_GET["selected_course"]))
+			{
+				$_SESSION["user_filter_data"] = $_GET["selected_course"];
+			}
+			if (strlen($_GET["selected_group"]))
+			{
+				$_SESSION["user_filter_data"] = $_GET["selected_group"];
+			}
+			if (isset($_POST["user_filter"]))
+			{
+				$_SESSION["user_filter"] = $_POST["user_filter"];
+				switch ($_POST["user_filter"])
+				{
+					case 4:
+						$_SESSION["user_filter_data"] = $_POST["date"];
+						$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "user_filter_date_y", $_POST["date"]["y"]);
+						$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "user_filter_date_m", $_POST["date"]["m"]);
+						$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "user_filter_date_d", $_POST["date"]["d"]);
+						$this->ctrl->setParameter($this, "user_filter_date_y", $_POST["date"]["y"]);
+						$this->ctrl->setParameter($this, "user_filter_date_m", $_POST["date"]["m"]);
+						$this->ctrl->setParameter($this, "user_filter_date_d", $_POST["date"]["d"]);
+						break;
+					case 5:
+						$_SESSION["user_filter_data"] = $_POST["courseId"];
+						$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "selected_course", $_POST["courseId"]);
+						$this->ctrl->setParameter($this, "selected_course", $_POST["courseId"]);
+						break;
+					case 6:
+						$_SESSION["user_filter_data"] = $_POST["groupId"];
+						$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "selected_group", $_POST["groupId"]);
+						$this->ctrl->setParameter($this, "selected_group", $_POST["groupId"]);
+						break;
+				}
+			}
+			if (!isset($_SESSION["user_filter"]))
+			{
+				$_SESSION["user_filter"] = 1;
+			}
 		}
 		
 		// keep offset/sorting
@@ -378,22 +437,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			if ($val["usr_id"] == ANONYMOUS_USER_ID)
 			{
-                continue;
-            }
+				continue;
+			}
             
-            // determine txt_access
+			// determine txt_access
 			if ($val["time_limit_unlimited"])
 			{
-            	$txt_access = $this->lng->txt("access_unlimited");
+				$txt_access = $this->lng->txt("access_unlimited");
 			}
-            elseif ($val["time_limit_until"] < $current_time)
-            {
-            	$txt_access = $this->lng->txt("access_expired");
-            }
-            else
-            {
-            	$txt_access = ilFormat::formatUnixTime($val["time_limit_until"]);
-            }
+			elseif ($val["time_limit_until"] < $current_time)
+			{
+				$txt_access = $this->lng->txt("access_expired");
+			}
+			else
+			{
+				$txt_access = ilFormat::formatUnixTime($val["time_limit_until"]);
+			}
             
 			//visible data part
 			$this->data["data"][] = array(
@@ -444,7 +503,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','startExtended'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user_extended"));
 		$this->tpl->parseCurrentBlock();
-		
 		// last search result
 		if ($_SESSION['rep_search']['usr'])
 		{
@@ -461,12 +519,40 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_list.html");
 		
+		switch ($_SESSION["user_filter"])
+		{
+			case 4:
+				$this->tpl->setCurrentBlock("filter_date");
+				$this->tpl->setVariable("DATE_SELECTION", ilUtil::makeDateSelect("date", $_SESSION["user_filter_data"]["y"], $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"]));
+				$this->tpl->setVariable("TEXT_FILTER_DATE", $this->lng->txt("before"));
+				$this->tpl->parseCurrentBlock();
+				break;
+			case 5:
+				$this->tpl->setCurrentBlock("filter_course");
+				$courses = ilUtil::_getObjectsByOperations("crs", "read", $ilUser->getId(), -1);
+		 		$options = ilObject::_prepareCloneSelection($courses, "crs");
+			 	$select = ilUtil::formSelect($_SESSION["user_filter_data"], "courseId" ,$options,false,true);
+				$this->tpl->setVariable("COURSE_SELECTION", $select);
+				$this->tpl->setVariable("TEXT_FILTER_COURSE", $this->lng->txt("course"));
+				$this->tpl->parseCurrentBlock();
+				break;
+			case 6:
+				$this->tpl->setCurrentBlock("filter_group");
+				$groups = ilUtil::_getObjectsByOperations("grp", "read", $ilUser->getId(), -1);
+		 		$options = ilObject::_prepareCloneSelection($groups, "grp");
+			 	$select = ilUtil::formSelect($_SESSION["user_filter_data"], "groupId" ,$options,false,true);
+				$this->tpl->setVariable("GROUP_SELECTION", $select);
+				$this->tpl->setVariable("TEXT_FILTER_GROUP", $this->lng->txt("grp"));
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
 		$this->tpl->setCurrentBlock("filter");
 		$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
 		$this->tpl->setVariable("SELECT_FILTER",$this->__buildUserFilterSelect());
 		$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("FILTER_NAME",'view');
 		$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
+		$this->tpl->setVariable("FILTER_VALUE_RESET",$this->lng->txt('reset_filter'));
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock("search");
@@ -503,16 +589,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$num = 0;
 
 		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// create table
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->object->getTitle(),"icon_usr.gif",
-					   $this->lng->txt("obj_".$this->object->getType()));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setTitle($this->object->getTitle(),"icon_usr.gif", $this->lng->txt("obj_".$this->object->getType()));
 
 		foreach ($this->data["cols"] as $val)
 		{
@@ -521,23 +604,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$tbl->setHeaderNames($header_names);
 
-		//$header_params = array("ref_id" => $this->ref_id);
 		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("","15%","15%","15%","20%","15%","20%"));
 		
 		$tbl->enable("select_all");
+		$tbl->enable("numinfo_header");
 		$tbl->setFormName("cmd");
 		$tbl->setSelectAllCheckbox("id");
 
 		// control
-        //$tbl->enable("hits");
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
-
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		
@@ -620,15 +701,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			} //for
 		}
-		
-/*		if (AUTH_DEFAULT != AUTH_LOCAL)
-		{
-			$this->showActions(false);
-		}
-		else*/
-		{
-			$this->showActions(true);
-		}
+		$this->showActions(true);
 	}
 	
 	/**
@@ -651,7 +724,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$d = $this->actions;
 		}
-
 		foreach ($d as $row)
 		{
 			if ($rbacsystem->checkAccess($row["name"],$this->object->getRefId()))
@@ -662,15 +734,24 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if (count($operations) > 0)
 		{
+			$select = "<select name=\"selectedAction\">\n";
 			foreach ($operations as $val)
 			{
-				$this->tpl->setCurrentBlock("tbl_action_btn");
-				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-				$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
-				$this->tpl->setVariable("BTN_NAME", $val["name"]);
-				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
-				$this->tpl->parseCurrentBlock();
+				$select .= "<option value=\"" . $val["name"] . "\"";
+				if (strcmp($_POST["selectedAction"], $val["name"]) == 0)
+				{
+					$select .= " selected=\"selected\"";
+				}
+				$select .= ">";
+				$select .= $this->lng->txt($val["lng"]);
+				$select .= "</option>";
 			}
+			$select .= "</select>";
+			$this->tpl->setCurrentBlock("tbl_action_select");
+			$this->tpl->setVariable("SELECT_ACTION", $select);
+			$this->tpl->setVariable("BTN_NAME", "userAction");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("submit"));
+			$this->tpl->parseCurrentBlock();
 		}
 
 		if ($with_subobjects === true)
@@ -682,6 +763,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("tbl_action_row");
 			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -743,11 +826,138 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* confirmObject
+	* cancel activation of object
 	*
 	* @access	public
 	*/
-	function confirmedDeleteObject()
+	function cancelactivateObject()
+	{
+		session_unregister("saved_post");
+
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
+
+		$this->ctrl->returnToParent($this);
+
+	}
+
+	/**
+	* Set the selected users active
+	*
+	* @access	public
+	*/
+	function confirmactivateObject()
+	{
+		global $rbacsystem, $ilUser;
+
+		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
+		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		
+		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
+		
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+			// instatiate correct object class (usr)
+			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj->setActive(TRUE, $ilUser->getId());
+			$obj->update();
+		}
+
+		// Feedback
+		ilUtil::sendInfo($this->lng->txt("user_activated"),true);
+
+		if ($_SESSION['user_activate_search'] == true)
+		{
+			session_unregister("user_activate_search");
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			ilUtil::redirect($script);
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "view");
+		}
+	}
+
+	/**
+	* cancel activation of object
+	*
+	* @access	public
+	*/
+	function canceldeactivateObject()
+	{
+		session_unregister("saved_post");
+
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
+
+		$this->ctrl->returnToParent($this);
+
+	}
+
+	/**
+	* Set the selected users inactive
+	*
+	* @access	public
+	*/
+	function confirmdeactivateObject()
+	{
+		global $rbacsystem, $ilUser;
+
+		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
+		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		
+		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
+		
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+			// instatiate correct object class (usr)
+			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj->setActive(FALSE, $ilUser->getId());
+			$obj->update();
+		}
+
+		// Feedback
+		ilUtil::sendInfo($this->lng->txt("user_deactivated"),true);
+
+		if ($_SESSION['user_deactivate_search'] == true)
+		{
+			session_unregister("user_deactivate_search");
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			ilUtil::redirect($script);
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "view");
+		}
+	}
+
+	/**
+	* cancel deletion of object
+	*
+	* @access	public
+	*/
+	function canceldeleteObject()
+	{
+		session_unregister("saved_post");
+
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
+
+		$this->ctrl->returnToParent($this);
+
+	}
+
+	/**
+	* confirm delete Object
+	*
+	* @access	public
+	*/
+	function confirmdeleteObject()
 	{
 		global $rbacsystem;
 
@@ -871,6 +1081,96 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* display activation confirmation screen
+	*/
+	function showActionConfirmation($action)
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		// SAVE POST VALUES
+		$_SESSION["saved_post"] = $_POST["id"];
+
+		unset($this->data);
+		$this->data["cols"] = array("type", "title", "description", "last_change");
+
+		foreach($_POST["id"] as $id)
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+
+			$this->data["data"]["$id"] = array(
+				"type"        => $obj_data->getType(),
+				"title"       => $obj_data->getTitle(),
+				"desc"        => $obj_data->getDescription(),
+				"last_update" => $obj_data->getLastUpdateDate());
+		}
+
+		$this->data["buttons"] = array( "cancel" . $action  => $this->lng->txt("cancel"),
+								  "confirm" . $action  => $this->lng->txt("confirm"));
+
+		$this->getTemplateFile("confirm");
+
+		ilUtil::sendInfo($this->lng->txt("info_" . $action . "_sure"));
+
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
+
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		foreach($this->data["data"] as $key => $value)
+		{
+			// BEGIN TABLE CELL
+			foreach($value as $key => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+
+				// CREATE TEXT STRING
+				if($key == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+
+	function userActionObject()
+	{
+		$this->showActionConfirmation($_POST["selectedAction"]);
+	}
+	
 	/**
      * displays user search form
      *
@@ -2934,6 +3234,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$action[0] = $this->lng->txt('usr_inactive_only');
 		$action[2] = $this->lng->txt('usr_limited_access_only');
 		$action[3] = $this->lng->txt('usr_without_courses');
+		$action[4] = $this->lng->txt('usr_filter_lastlogin');
+		$action[5] = $this->lng->txt("usr_filter_coursemember");
+		$action[6] = $this->lng->txt("usr_filter_groupmember");
 
 		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
 	}
@@ -3287,7 +3590,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("obj_usrf",
-				$this->ctrl->getLinkTarget($this, "view"), array("view","delete",""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
 		}
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
