@@ -19,7 +19,7 @@ Enter the ILIAS Administration as user root
 Configure the chat server in 'Administration -> Chat settings'
 Now you can start the chatserver by typing
 
-	java -jar YOUR_ILIAS_ROOT_DIRECTORY/chatserver/chatserver.jar YOUR_ILIAS_DATA_DIRECTORY/chat/server.ini &
+	java -jar YOUR_ILIAS_ROOT_DIRECTORY/Modules/Chat/chatserver/chatserver.jar YOUR_ILIAS_DATA_DIRECTORY/YOUR_ILIAS_CLIENT/chat/server.ini &
 
 
 To start the webserver automatically at boottime, follow these instructions:
@@ -44,6 +44,7 @@ with this content
 	ILIASDIR=/var/www/ilias		# Type in the root directory of your ILIAS installation
 	ILIAS_DATA_DIR=/var/www/data # Type in the ILIAS Data directory (outside webspace)
 	USER=wwwrun				    # Type in the user who should run the chatserver
+	CLIENT=test38x				# Type in the exact name of your ILIAS client
 
 	case "$1" in
 		start)
@@ -53,7 +54,7 @@ with this content
 				exit 1
 			fi
 			echo "Starting chat server"
-			su -c "$JAVABIN -jar $ILIASDIR/chatserver/chatserver.jar $ILIAS_DATA_DIR/chat/server.ini" $USER &
+			su -c "$JAVABIN -jar $ILIASDIR/Modules/Chat/chatserver/chatserver.jar $ILIAS_DATA_DIR/$CLIENT/chat/server.ini" $USER &
 			echo $! > /tmp/chatserver.pid
 			;;
 
