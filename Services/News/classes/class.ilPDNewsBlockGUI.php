@@ -43,7 +43,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function ilPDNewsBlockGUI()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilBench, $ilAccess;
+		global $ilCtrl, $lng, $ilUser, $ilBench, $ilAccess, $ilCtrl;
 		
 		$ilBench->start("News", "ilPDNewsBlockGUI_Constructor");
 		$news_set = new ilSetting("news");
@@ -58,9 +58,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
 
-		// do not ask two times for the data (e.g. if user displays a 
-		// single item on the personal desktop and the news block is 
-		// displayed at the same time)
 		$this->dynamic = false;
 		
 		// store current access check results
@@ -69,7 +66,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		// read access cache
 		$this->acc_cache_hit = $ilAccess->readCache(
 			((int) $news_set->get("acc_cache_mins")) * 60);
-		
+
 		if ($this->getDynamic() && !$this->acc_cache_hit)
 		{
 			$this->dynamic = true;
@@ -77,6 +74,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		}
 		else if ($this->getCurrentDetailLevel() > 0)
 		{
+			// do not ask two times for the data (e.g. if user displays a 
+			// single item on the personal desktop and the news block is 
+			// displayed at the same time)
 			if (empty(self::$st_data))
 			{
 				self::$st_data = $this->getNewsData();
@@ -278,8 +278,12 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	{
 		global $ilCtrl, $ilUser;
 		
-//return false;
-
+		if ($ilCtrl->getCmd() == "hideNotifications" ||
+			$ilCtrl->getCmd() == "showNotifications")
+		{
+			return false;
+		}
+		
 		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
 		{
 			if ($_SESSION["il_feed_js"] != "n" &&
@@ -351,6 +355,21 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		echo $this->getHTML();
 		exit;
 	}
+	
+	/**
+	* show news
+	*/
+	function showNews()
+	{
+		// workaround for dynamic mode (if cache is disabled, showNews has no data)
+		if (empty(self::$st_data))
+		{
+			$this->setData($this->getNewsData());
+		}
+
+		return parent::showNews();
+	}
+
 
 }
 

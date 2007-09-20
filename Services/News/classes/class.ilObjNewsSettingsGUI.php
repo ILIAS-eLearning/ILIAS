@@ -184,6 +184,27 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$min_sel->setOptions($min_opts);
 		$min_sel->setValue($news_set->get("acc_cache_mins"));
 		$form->addItem($min_sel);
+		
+		// PD News Period
+		$per_opts = array(
+			2 => "2 ".$lng->txt("days"),
+			3 => "3 ".$lng->txt("days"),
+			5 => "5 ".$lng->txt("days"),
+			7 => "1 ".$lng->txt("week"),
+			14 => "2 ".$lng->txt("weeks"),
+			30 => "1 ".$lng->txt("month"),
+			60 => "2 ".$lng->txt("months"),
+			120 => "3 ".$lng->txt("months"),
+			180 => "6 ".$lng->txt("months"),
+			366 =>  "1 ".$lng->txt("year"),
+			0 => $lng->txt("news_indefinite"));
+		$per_sel = new ilSelectInputGUI($lng->txt("news_pd_period"),
+			"news_pd_period");
+		$per_sel->setInfo($lng->txt("news_pd_period_info"));
+		$per_sel->setOptions($per_opts);
+		$per_sel->setValue((int) $news_set->get("pd_period"));
+		$form->addItem($per_sel);
+
 
 		// Section Header: External Web Feeds Settings
 		$sh = new ilFormSectionHeaderGUI();
@@ -245,6 +266,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$news_set->set("enable_rss_for_internal", $_POST["enable_internal_rss"]);
 		$news_set->set("max_items", $_POST["news_max_items"]);
 		$news_set->set("acc_cache_mins", $_POST["news_acc_cache_mins"]);
+		$news_set->set("pd_period", $_POST["news_pd_period"]);
 		$news_set->set("default_visibility", $_POST["news_default_visibility"]);
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 		$ilSetting->set("block_limit_pdfeed", $_POST["nr_pd_feeds"]);
