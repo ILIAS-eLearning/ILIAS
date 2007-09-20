@@ -1027,6 +1027,13 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview, $tree;
 
+		if(!$_POST['adopt'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->permObject();
+			return false;
+		}
+		
 		// for role administration check write of global role folder
 		/*
 		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
