@@ -311,6 +311,7 @@ class ilBookmarkExplorer extends ilExplorer
 			$small = ($this->getEnableSmallMode())
 				? "_s"
 				: "";
+			$small = "_s";
 			$tpl->setCurrentBlock("icon");
 			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].$small.".gif", $a_option["type"], $a_obj_id));
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);

@@ -190,7 +190,7 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 		global $lng, $ilias;
 		
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.gif"));
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root_s.gif"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 

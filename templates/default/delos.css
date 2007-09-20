@@ -998,12 +998,18 @@ div.il_ExplorerHeader
 	text-align:left;
 	font-weight: bold;
 	background-color: #FFFFFF;
+	font-size: 90%;
+}
+
+div.il_ExplorerTree
+{
+	font-size: 90%;
 }
 
 ul.il_Explorer
 {
-	margin: 0px 0px 0px 22px;
-	padding: 0px 0px;
+	margin: 0px 0px 0px 10px;
+	padding: 0px 0px 0px 0px;
 	list-style:none;
 }
 
@@ -1016,9 +1022,10 @@ ul.il_ExplorerNoIndent
 
 li.il_Explorer
 {
-	margin:0;
-	padding:0;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
 	white-space: nowrap;
+	background-color: #FFFFFF;
 }
 
 li.il_ExplorerInline

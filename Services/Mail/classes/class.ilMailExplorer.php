@@ -264,5 +264,14 @@ class ilMailExplorer extends ilExplorer
 
 		return eregi_replace("(mexpand=)(-?[0-9]+)", "\\1".$a_child, $_SERVER["REQUEST_URI"]);
 	}
+	
+	/**
+	* get image path (may be overwritten by derived classes)
+	*/
+	function getImage($a_name, $a_type = "", $a_obj_id = "")
+	{
+		return ilUtil::getImagePath("icon_".$a_type.".gif");
+	}
+
 } // END class.ilMailExplorer
 ?>
