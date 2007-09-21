@@ -2765,7 +2765,7 @@ common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
-common#:#mail_settings#:#Mail Einstellungen
+common#:#mail_settings#:#Mail
 common#:#mail_smtp_mail#:#Benutzer darf E-Mails (SMTP) senden
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
 common#:#mail_system#:#Systemnachricht
@@ -3037,7 +3037,7 @@ common#:#obj_auth#:#Authentifizierung/Neuanmeldung
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
-common#:#obj_chac#:#Chateinstellungen
+common#:#obj_chac#:#Chat
 common#:#obj_chat#:#Chat
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
@@ -3082,14 +3082,14 @@ common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
 common#:#obj_nwss_desc#:#Einstellungen für interne Nachrichten und externe Webfeeds
-common#:#obj_nwss#:#News- und Webfeed-Einstellungen
+common#:#obj_nwss#:#News und Webfeed
 common#:#obj_objf_desc#:#ILIAS-Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
-common#:#obj_pays#:#Paymenteinstellungen
+common#:#obj_pays#:#Payment
 common#:#obj_pdts_desc#:#Persönlichen Schreibtisch anpassen
-common#:#obj_pdts#:#Einstellungen für den Persönlichen Schreibtisch
+common#:#obj_pdts#:#Persönlicher Schreibtisch
 common#:#obj_pg#:#Seite
 common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
 common#:#obj_ps#:#Datenschutz und Server-Sicherheit
@@ -3109,7 +3109,7 @@ common#:#obj_seas#:#Suche
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
 common#:#obj_stys_desc#:#Enthält Einstellungen für systemweite Styles und Styles für die Anzeige von Inhalten.
-common#:#obj_stys#:#Skin/Style Einstellungen
+common#:#obj_stys#:#Skin/Style
 common#:#obj_svy_duplicate#:#Umfrage kopieren
 common#:#obj_svy_select#:#-- Bitte wählen Sie eine Umfrage aus --
 common#:#obj_svy#:#Umfrage
@@ -3364,7 +3364,7 @@ common#:#repeat_scan#:#Repeating virus scan...
 common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#repository_admin_desc#:#Rechteeinstellungen für Magazinobjekte festlegen, Entfernen oder Wiederherstellen von Objekten im Papierkorb
-common#:#repository_admin#:#Magazin, Papierkorb und Rechteeinstellungen
+common#:#repository_admin#:#Magazin, Papierkorb und Rechte
 common#:#repository_frame#:#Magazininhalt
 common#:#repository#:#Magazin
 common#:#request_membership#:#Antrag stellen
@@ -7589,7 +7589,7 @@ common#:#precondition#:#Vorbedingung
 common#:#cond_ref_handling#:#Einstellungen für Verknüpfungen
 common#:#cond_ref_shared#:#Gleiche Vorbedingungen für alle Verknüpfungen
 common#:#cond_ref_unique#:#Unterschiedliche Vorbedingungen für Verknüpfungen
-administration#:#obj_mds#:#Metadateneinstellungen
+administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
