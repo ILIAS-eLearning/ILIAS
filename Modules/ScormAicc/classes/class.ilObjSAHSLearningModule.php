@@ -408,7 +408,7 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -430,23 +430,47 @@ class ilObjSAHSLearningModule extends ilObject
 		// delete scorm learning module record
 		$q = "DELETE FROM sahs_lm WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
-
-		// remove all scorm objects and scorm tree
-		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
-		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-		$sc_tree = new ilSCORMTree($this->getId());
-		$r_id = $sc_tree->readRootId();
-		if ($r_id > 0)
+		$ilLog->write("SAHS Delete(SAHSLM), Subtype: ".$this->getSubType());
+		
+		if ($this->getSubType() == "scorm")
 		{
-			$items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
-			foreach($items as $item)
+			// remove all scorm objects and scorm tree
+			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
+			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
+			$sc_tree = new ilSCORMTree($this->getId());
+			$r_id = $sc_tree->readRootId();
+			if ($r_id > 0)
 			{
-				$sc_object =& ilSCORMObject::_getInstance($item["obj_id"]);
-				$sc_object->delete();
+				$items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
+				foreach($items as $item)
+				{
+					$sc_object =& ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
+					if (is_object($sc_object))
+					{
+						$sc_object->delete();
+					}
+				}
+				$sc_tree->removeTree($sc_tree->getTreeId());
 			}
-			$sc_tree->removeTree($sc_tree->getTreeId());
 		}
 
+		if ($this->getSubType() != "scorm")
+		{
+			// delete aicc data
+			// this is highly dependent on the database
+			$q = "DELETE FROM aicc_units USING aicc_object, aicc_units WHERE aicc_object.obj_id=aicc_units.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
+			$this->ilias->db->query($q);
+	
+			$q = "DELETE FROM aicc_course USING aicc_object, aicc_course WHERE aicc_object.obj_id=aicc_course.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
+			$this->ilias->db->query($q);
+	
+			$q = "DELETE FROM aicc_object WHERE slm_id = ".$ilDB->quote($this->getId());
+			$this->ilias->db->query($q);
+		}
+
+		$q = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
+$ilLog->write("SAHS Delete(SAHSLM): ".$q);
+		$this->ilias->db->query($q);
 
 		// always call parent delete function at the end!!
 		return true;

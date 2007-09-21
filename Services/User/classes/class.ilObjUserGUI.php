@@ -1485,7 +1485,7 @@ class ilObjUserGUI extends ilObjectGUI
                                                                                     date("Y",$time_limit_until)));
 		$this->tpl->parseCurrentBlock();
 
-
+		/*
 		if ($user_is_online)
 		{
 			// BEGIN TABLE ROLES
@@ -1516,7 +1516,9 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_active_assignment"));
 			$this->tpl->parseCurrentBlock();
 			// END ACTIVE ROLES
-		}
+		}*/
+		
+		
 		$this->__showUserDefinedFields();
 	}
 

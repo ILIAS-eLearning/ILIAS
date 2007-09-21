@@ -61,7 +61,7 @@ class ilHACPResponse {
 	}
 	
 	function sendParam() {
-		global $ilUser, $ilDB;
+		global $ilUser, $ilDB, $ilLog;
 		
 		echo "error=0\n";
 		echo "error_txt=Successful\n";
@@ -89,12 +89,16 @@ class ilHACPResponse {
 		$data["core"]["path"]="";
 		$data["core"]["score"]="";
 		
-		
+//$ilLog->write("Read Trackingdata A");
+
+		$slm_id = ilObject::_lookupObjId($this->ref_id);
 		//Read Trackingdata
 		if (is_object($ilUser)) {
 			$user_id = $ilUser->getId();
 			$stmt = "SELECT * FROM scorm_tracking WHERE user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($this->obj_id);
+					" AND sco_id = ".$ilDB->quote($this->obj_id).
+					" AND obj_id = ".$ilDB->quote($slm_id);
+//$ilLog->write("Read Trackingdata: ".$stmt);
 			$set = $ilDB->query($stmt);
 			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 			while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))	{
