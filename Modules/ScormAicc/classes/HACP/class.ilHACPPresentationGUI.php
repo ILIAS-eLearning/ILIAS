@@ -171,8 +171,9 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 		}
 		$query = "SELECT * FROM scorm_tracking WHERE".
 			" user_id = ".$ilDB->quote($ilUser->getId()).
-			" AND sco_id = ".$ilDB->quote($sahs_id);
-
+			" AND sco_id = ".$ilDB->quote($sahs_id).
+			" AND obj_id = ".$ilDB->quote($this->slm->getId());
+			
 
 		$val_set = $ilDB->query($query);
 		$re_value = array();

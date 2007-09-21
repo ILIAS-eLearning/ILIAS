@@ -288,7 +288,7 @@ class ilSCORMItem extends ilSCORMObject
 
 	function delete()
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 
 		parent::delete();
 
@@ -298,6 +298,7 @@ class ilSCORMItem extends ilSCORMObject
 		$q = "DELETE FROM scorm_tracking WHERE ".
 			"sco_id = ".$ilDB->quote($this->getId()).
 			" AND obj_id = ".$ilDB->quote($this->getSLMId());
+		$ilLog->write("SAHS Delete(ScormItem): ".$q);
 		$ilDB->query($q);
 
 	}

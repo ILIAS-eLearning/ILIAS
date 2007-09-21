@@ -74,8 +74,9 @@ else
 		{
 			list($session_id, $ref_id, $obj_id)=explode("_",$param);
 
-			session_id($session_id);
+//			session_id($session_id);
 			require_once "./include/inc.header.php";
+//$ilLog->write("Session: ".$HTTP_POST_VARS["session_id"]);
 
 			$type="hacp";
 

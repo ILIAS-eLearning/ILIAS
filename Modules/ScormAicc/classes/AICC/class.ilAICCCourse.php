@@ -282,7 +282,7 @@ class ilAICCCourse extends ilAICCObject
 
 	function delete()
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 
 		parent::delete();
 
@@ -290,7 +290,9 @@ class ilAICCCourse extends ilAICCObject
 		$ilDB->query($q);
 
 		$q = "DELETE FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId());
+			"sco_id = ".$ilDB->quote($this->getId()).
+			" AND obj_id = ".$ilDB->quote($this->getALMId());
+		$ilLog->write("SAHS Delete: ".$q);
 		$ilDB->query($q);
 
 	}
@@ -311,7 +313,8 @@ class ilAICCCourse extends ilAICCObject
 
 		$q = "SELECT * FROM scorm_tracking WHERE ".
 			"sco_id = ".$ilDB->quote($this->getId())." AND ".
-			"user_id = ".$ilDB->quote($a_user_id);
+			"user_id = ".$ilDB->quote($a_user_id).
+			" AND obj_id = ".$ilDB->quote($this->getALMId());
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();

@@ -83,15 +83,18 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 		//$data=parse_ini_file($tmpFilename, TRUE);
 		$data=$this->parseAICCData($aicc_data);
 
+		$hacp_id = ilObject::_lookupObjId($ref_id);
+		
 		//choose either insert or update to be able to inherit superclass
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $ilLog;
 		$this->update=array();
 		$this->insert=array();
 		if (is_object($ilUser)) {
 			$user_id = $ilUser->getId();
 			foreach ($data as $key=>$value) {
 				$stmt = "SELECT * FROM scorm_tracking WHERE user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($obj_id)." AND lvalue = ".$ilDB->quote($key);
+					" AND sco_id = ".$ilDB->quote($obj_id)." AND lvalue = ".$ilDB->quote($key).
+					" AND obj_id = ".$ilDB->quote($hacp_id);
 				$set = $ilDB->query($stmt);
 				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 					$this->update[] = array("left" => $key, "right" => $value);
@@ -101,7 +104,6 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 		}
 		
 		//store
-		$hacp_id = ilObject::_lookupObjId($ref_id);
 		$this->store($hacp_id, $obj_id, 0);
 		
 		$response=new ilHACPResponse($ref_id, $obj_id);

@@ -175,11 +175,12 @@ class ilSCORMObject
 	*
 	* static
 	*/
-	function &_getInstance($a_id)
+	function &_getInstance($a_id, $a_slm_id)
 	{
 		global $ilDB;
 
-		$sc_set = $ilDB->query("SELECT type FROM scorm_object WHERE obj_id =" . $ilDB->quote($a_id));
+		$sc_set = $ilDB->query("SELECT type FROM scorm_object WHERE obj_id =" . $ilDB->quote($a_id).
+			" AND slm_id = ".$ilDB->quote($a_slm_id));
 		$sc_rec = $sc_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		switch($sc_rec["type"])

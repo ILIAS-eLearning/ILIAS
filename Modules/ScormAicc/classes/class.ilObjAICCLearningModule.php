@@ -91,7 +91,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	*/
 	function delete()
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -128,6 +128,9 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		$q = "DELETE FROM aicc_object WHERE slm_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
+		$q = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilLog->write("SAHS Delete (AICC LM): ".$q);
+		$this->ilias->db->query($q);
 
 		// always call parent delete function at the end!!
 		return true;
