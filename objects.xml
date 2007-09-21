@@ -274,6 +274,7 @@
 	<action name="delete">delete</action>
 	<action name="activate">activate</action>
 	<action name="deactivate">deactivate</action>
+	<action name="export">export</action>
 </object>
 <object name="st">
 	<property name="view">cont_pages</property>

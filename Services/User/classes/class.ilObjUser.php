@@ -2315,11 +2315,12 @@ class ilObjUser extends ilObject
 		$time_limit_filter = "";
 		$join_filter = " WHERE ";
 		$last_login_filter = "";
-		
+		$without_anonymous_users = "AND usr_data.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID);
 		if (is_numeric($active) && $active > -1 && $filter_settings === FALSE) $active_filter = " AND active = ".$ilDB->quote($active);
+		global $ilLog; $ilLog->write("active = $active, filter settings = $filter_settings, active_filter = $active_filter");
 
 		
-		if ($filter_settings !== FALSE)
+		if ($filter_settings !== FALSE && strlen($filter_settings))
 		{
 			switch ($filter_settings)
 			{
@@ -2375,7 +2376,8 @@ class ilObjUser extends ilObject
 					$rol_id = $_SESSION["user_filter_data"];
 					if ($rol_id)
 					{
-						$join_filter = sprintf(" LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = %s AND ", $ilDB->quote($rol_id));;
+						$join_filter = sprintf(" LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = %s AND ", $ilDB->quote($rol_id));
+						$without_anonymous_users = "";
 					}
 					break;
 			}
@@ -2400,9 +2402,10 @@ class ilObjUser extends ilObject
 				"OR usr_data.firstname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
 				"OR usr_data.lastname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
 				"OR usr_data.email LIKE ".$ilDB->quote("%".$a_search_str."%").") ".
-				"AND usr_data.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID) .
+				$without_anonymous_users .
 				$active_filter . $time_limit_filter . $last_login_filter;
 		}
+		$ilLog->write($query);
 		$res = $ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

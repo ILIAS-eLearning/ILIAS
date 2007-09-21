@@ -1023,6 +1023,34 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 
 	/**
+	* cancel export of object
+	*
+	* @access	public
+	*/
+	function cancelexportObject()
+	{
+		session_unregister("saved_post");
+
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
+
+		$this->ctrl->returnToParent($this);
+
+	}
+
+	/**
+	* confirm export of object
+	*
+	* @access	public
+	*/
+	function confirmexportObject()
+	{
+		$user_data_filter = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
+		session_unregister("saved_post");
+		$this->object->buildExportFile($_POST["export_type"], $user_data_filter);
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
+	}
+
+	/**
 	* display deletion confirmation screen
 	*/
 	function deleteObject()
@@ -1106,6 +1134,26 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 	}
 
+	function selectExportFormat()
+	{
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("export_format_selection"));
+		$export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
+		$options = array();
+		foreach ($export_types as $type)
+		{
+			$options[$type] = $this->lng->txt($type);
+		}
+		$select = ilUtil::formSelect("userfolder_export_xml", "export_type" ,$options, false, true);
+		$this->tpl->setVariable("TXT_CONTENT", $this->lng->txt("export_format") . ": " . $select);
+		$this->tpl->setVariable("CMD_CANCEL", "cancelexport");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("CMD_OK", "confirmexport");
+		$this->tpl->setVariable("TXT_OK", $this->lng->txt("confirm"));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	/**
 	* display activation confirmation screen
 	*/
@@ -1117,6 +1165,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];
+
+		if (strcmp($action, "export") == 0) return $this->selectExportFormat();
 
 		unset($this->data);
 		$this->data["cols"] = array("type", "title", "description", "last_change");
