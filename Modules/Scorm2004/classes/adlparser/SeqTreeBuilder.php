@@ -51,7 +51,7 @@
 	require_once("SeqActivity.php");
 	
 	require_once("SeqRule.php");
-	require_once("SeqRuleSet.php");
+	require_once("SeqRuleset.php");
 	
 	require_once("SeqCondition.php");
 	require_once("SeqConditionSet.php");
