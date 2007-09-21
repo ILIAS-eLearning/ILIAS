@@ -2316,7 +2316,7 @@ class ilObjUser extends ilObject
 		$join_filter = " WHERE ";
 		$last_login_filter = "";
 		
-		if (is_numeric($active) && $active > -1) $active_filter = " AND active = ".$ilDB->quote($active);
+		if (is_numeric($active) && $active > -1 && $filter_settings === FALSE) $active_filter = " AND active = ".$ilDB->quote($active);
 
 		
 		if ($filter_settings !== FALSE)
@@ -2368,6 +2368,14 @@ class ilObjUser extends ilObject
 							$role_ids = join("','", $local_roles);
 							$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "') AND ";
 						}
+					}
+					break;
+				case 7:
+					global $rbacreview;
+					$rol_id = $_SESSION["user_filter_data"];
+					if ($rol_id)
+					{
+						$join_filter = sprintf(" LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = %s AND ", $ilDB->quote($rol_id));;
 					}
 					break;
 			}
@@ -2688,6 +2696,13 @@ class ilObjUser extends ilObject
 							$role_ids = join("','", $local_roles);
 							$q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "')";
 						}
+					}
+					break;
+				case 7:
+					$rol_id = $_SESSION["user_filter_data"];
+					if ($rol_id)
+					{
+						$q .= sprintf(" LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = %s", $ilDB->quote($rol_id));;
 					}
 					break;
 			}
