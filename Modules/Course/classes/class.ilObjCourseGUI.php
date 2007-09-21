@@ -2145,8 +2145,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"waiting_list[]",$waiting_data['usr_id']);
 					$f_result[$counter][]	= $tmp_obj->getLastname().', '.$tmp_obj->getFirstname().$message;
 					$f_result[$counter][]   = $tmp_obj->getLogin();
-					$f_result[$counter][]   = ilFormat::formatUnixTime($waiting_data["time"],true);
-
+					#$f_result[$counter][]   = ilFormat::formatUnixTime($waiting_data["time"],true);
+					$f_result[$counter][] = date('Y-m-d H:i:s',$waiting_data['time']);
 					unset($tmp_obj);
 					++$counter;
 				}
@@ -2174,7 +2174,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"subscriber[]",$member_id);
 					$f_result[$counter][]	= $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
 					$f_result[$counter][]	= $tmp_obj->getLogin();
-					$f_result[$counter][]   = ilFormat::formatUnixTime($member_data["time"],true);
+					#$f_result[$counter][]   = ilFormat::formatUnixTime($member_data["time"],true);
+					$f_result[$counter][] = date('Y-m-d H:i:s',$member_data['time']);
 
 					unset($tmp_obj);
 					++$counter;
