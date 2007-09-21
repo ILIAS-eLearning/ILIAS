@@ -2541,3 +2541,14 @@ if ($result->numRows())
 ?>
 <#1084>
 ALTER TABLE  `tst_test_random_question` ADD INDEX (  `pass` );
+
+<#1085>
+<?php
+$query = "SHOW INDEXES FROM ut_access ";
+$res = $ilDB->query($query);
+if($res->numRows() == 1)
+{
+	$query = "ALTER TABLE `ut_access` ADD INDEX ( `acc_obj_id` , `acc_sub_id` , `session_id` ) ";
+	$res = $ilDB->query($query);
+}
+?>
