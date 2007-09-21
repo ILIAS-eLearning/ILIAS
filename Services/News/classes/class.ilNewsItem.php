@@ -678,7 +678,7 @@ class ilNewsItem extends ilNewsItemGen
 		
 		$query = "SELECT DISTINCT(context_obj_id) AS obj_id FROM il_news_item".
 			" WHERE context_obj_id IN (".implode(ilUtil::quoteArray($a_obj_ids),",").")".$and;
-
+echo "<br><br>".$query;
 		$set = $ilDB->query($query);
 		$objs = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))

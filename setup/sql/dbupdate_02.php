@@ -2552,3 +2552,9 @@ if($res->numRows() == 1)
 	$res = $ilDB->query($query);
 }
 ?>
+
+<#1086>
+ALTER TABLE `il_news_item` ADD INDEX obj_id (`context_obj_id`);
+
+<#1087>
+ALTER TABLE `il_news_item` ADD INDEX c_date (`creation_date`);
