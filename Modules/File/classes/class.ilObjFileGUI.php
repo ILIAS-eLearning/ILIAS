@@ -266,13 +266,14 @@ class ilObjFileGUI extends ilObjectGUI
 			$zip_file = $this->zip_form_gui->getInput("zip_file");
 			$adopt_structure = $this->zip_form_gui->getInput("adopt_structure");
 
+			include_once ("Services/Utilities/classes/class.ilFileUtils.php");
+
 			// Create unzip-directory
 			$newDir = ilUtil::ilTempnam();
 			ilUtil::makeDir($newDir);
 		
-			//include_once("classes/class.ilObjectDefinition.php");
 			// Check if permission is granted for creation of object, if necessary
-			if (preg_match("/cat/" ,ilObject::_lookupType($_GET["ref_id"], TRUE)))
+			if (ilObject::_lookupType($_GET["ref_id"], TRUE) == "cat")
 			{
 				$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "cat");
 				$containerType = "Category";
@@ -282,12 +283,14 @@ class ilObjFileGUI extends ilObjectGUI
 				$containerType = "Folder";			
 			}
 		
-			// (	Dir to unzip, 
-			//	Path to uploaded file, 
-			//	should a structure be created (+ permission check)?
-			//	ref_id of parent
-			//	object that contains files (folder or category)
-			$processDone = ilUtil::processZipFile( $newDir, 
+			// 	processZipFile ( 
+			//		Dir to unzip, 
+			//		Path to uploaded file, 
+			//		should a structure be created (+ permission check)?
+			//		ref_id of parent
+			//		object that contains files (folder or category)  )
+			
+			$processDone = ilFileUtils::processZipFile( $newDir, 
 				$zip_file["tmp_name"],
 				($adopt_structure && $permission),
 				$_GET["ref_id"],

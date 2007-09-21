@@ -645,9 +645,10 @@ class ilObjExercise extends ilObject
 		$newDir = ilUtil::ilTempnam();
 		ilUtil::makeDir($newDir);
 
-		$processDone = ilUtil::processZipFile($newDir,$fileTmp, false);
+		include_once ("Services/Utilities/classes/class.ilFileUtils.php");
+		$processDone = ilFileUtils::processZipFile($newDir,$fileTmp, false);
 
-		ilUtil::recursive_dirscan($newDir, $filearray);			
+		ilFileUtils::recursive_dirscan($newDir, $filearray);			
 		if ($processDone == 0) {
 			foreach ($filearray["file"] as $key => $filename)
 			{
