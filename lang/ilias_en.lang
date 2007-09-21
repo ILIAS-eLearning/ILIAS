@@ -2006,6 +2006,8 @@ common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
 common#:#explorer_frame#:#Explorer Tree
 common#:#export#:#Export
+common#:#export_format_selection#:#Please select the export file format
+common#:#export_format#:#Export format
 common#:#export_group_members#:#Export group members (to Microsoft Excel)
 common#:#export_html#:#Export as HTML File
 common#:#export_xml#:#Export as XML File

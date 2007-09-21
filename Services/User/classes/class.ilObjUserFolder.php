@@ -617,7 +617,7 @@ class ilObjUserFolder extends ilObject
 	/**
 	* build xml export file
 	*/
-	function buildExportFile($a_mode = "userfolder_export_excel_x86")
+	function buildExportFile($a_mode = "userfolder_export_excel_x86", $user_data_filter = FALSE)
 	{
 		global $ilBench;
 		global $log;
@@ -642,9 +642,14 @@ class ilObjUserFolder extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-//			$datarow = array();
-			array_push($data, $row);
-//			array_push($data, $datarow);
+			if (is_array($user_data_filter))
+			{
+				if (in_array($row["usr_id"], $user_data_filter)) array_push($data, $row);
+			}
+			else
+			{
+				array_push($data, $row);
+			}
 		}
 		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 
