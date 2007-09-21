@@ -2349,17 +2349,25 @@ class ilObjUser extends ilObject
 					break;
 				case 5:
 					// show only users with a certain course membership
-					$join_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference WHERE ref_id = " .
-						$ilDB->quote($_SESSION["user_filter_data"]) . ") AND ";
+					$ref_id = $_SESSION["user_filter_data"];
+					if ($ref_id)
+					{
+						$join_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference WHERE ref_id = " .
+							$ilDB->quote($ref_id) . ") AND ";
+					}
 					break;
 				case 6:
 					global $rbacreview;
-					$rolf = $rbacreview->getRoleFolderOfObject($_SESSION["user_filter_data"]);
-					$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
-					if (is_array($local_roles) && count($local_roles))
+					$ref_id = $_SESSION["user_filter_data"];
+					if ($ref_id)
 					{
-						$role_ids = join("','", $local_roles);
-						$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "') AND ";
+						$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
+						$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+						if (is_array($local_roles) && count($local_roles))
+						{
+							$role_ids = join("','", $local_roles);
+							$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "') AND ";
+						}
 					}
 					break;
 			}
@@ -2661,17 +2669,25 @@ class ilObjUser extends ilObject
 					$q .= sprintf("WHERE last_login < %s", $ilDB->quote($date));
 					break;
 				case 5:
-					$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference WHERE ref_id = " .
-						$ilDB->quote($_SESSION["user_filter_data"]) . ")";
+					$ref_id = $_SESSION["user_filter_data"];
+					if ($ref_id)
+					{
+						$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference WHERE ref_id = " .
+							$ilDB->quote($ref_id) . ")";
+					}
 					break;
 				case 6:
 					global $rbacreview;
-					$rolf = $rbacreview->getRoleFolderOfObject($_SESSION["user_filter_data"]);
-					$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
-					if (is_array($local_roles) && count($local_roles))
+					$ref_id = $_SESSION["user_filter_data"];
+					if ($ref_id)
 					{
-						$role_ids = join("','", $local_roles);
-						$q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "')";
+						$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
+						$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+						if (is_array($local_roles) && count($local_roles))
+						{
+							$role_ids = join("','", $local_roles);
+							$q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id IN ('" . $role_ids . "')";
+						}
 					}
 					break;
 			}
