@@ -524,6 +524,7 @@ class ilRepositoryExplorer extends ilExplorer
 		global $lng, $ilias, $tree;
 
 		// custom icons
+		/*
 		if ($this->ilias->getSetting("custom_icons"))
 		{
 			require_once("classes/class.ilContainer.php");
@@ -531,7 +532,9 @@ class ilRepositoryExplorer extends ilExplorer
 			{
 				$path = ilUtil::getImagePath("icon_root_s.gif");
 			}
-		}
+		}*/
+		
+		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");
 
 		$tpl->setCurrentBlock("icon");
 		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
