@@ -538,6 +538,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		$this->checkPermission("write");
 		
+		if (!is_array($_POST["item_id"]))
+		{
+			$this->listItemsObject();
+			return;
+		}
+		
 		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$c_gui = new ilConfirmationGUI();
 		
