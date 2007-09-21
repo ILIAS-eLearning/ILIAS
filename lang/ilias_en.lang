@@ -1541,11 +1541,11 @@ common#:#obj_mcst#:#Mediacast
 common#:#objs_mcst#:#Mediacasts
 common#:#mcst_new#:#New Mediacast
 common#:#mcst_add#:#Add Mediacast
-common#:#obj_pdts#:#Personal Desktop Settings
+common#:#obj_pdts#:#Personal Desktop
 common#:#obj_pdts_desc#:#Configure the Personal Desktop
 common#:#move_blocks#:#Move Blocks
 common#:#stop_moving_blocks#:#Stop Moving Blocks
-pd#:#pd_settings#:#Personal Desktop Settings
+pd#:#pd_settings#:#Personal Desktop
 pd#:#pd_enable_block_moving#:#Enable Block Moving
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
 pd#:#pd_enable_active_users#:#Enable Active Users Block
@@ -3141,7 +3141,7 @@ common#:#obj_auth#:#Authentication and Registration
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...) and new account registration settings here.
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
-common#:#obj_chac#:#Chat Settings
+common#:#obj_chac#:#Chat
 common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
@@ -3165,7 +3165,7 @@ common#:#obj_lng#:#Language
 common#:#obj_lngf#:#Languages
 common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lo#:#LearningObject
-common#:#obj_mail#:#Mail Settings
+common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mep#:#Media Pool
 common#:#obj_mob#:#Media Object
@@ -3175,14 +3175,14 @@ common#:#obj_notf#:#Note Administration
 common#:#obj_objf#:#Object Definitions
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_owner#:#This Object is owned by
-common#:#obj_pays#:#Payment Settings
+common#:#obj_pays#:#Payment
 common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
 common#:#obj_qpl#:#Question Pool Test
 common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_role#:#Role
-common#:#obj_nwss#:#News and Web Feeds Settings
+common#:#obj_nwss#:#News and Web Feeds
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.
@@ -5322,7 +5322,7 @@ ilinc#:#ilinc_user_added#:#User account created on iLinc server
 ilinc#:#ilinc_user_id#:#iLinc UserID
 ilinc#:#ilinc_user_settings#:#iLinc User settings
 jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the Â«, Â» buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
 jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first
@@ -7526,7 +7526,7 @@ payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr
 payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle
 payment#:#pays_bmf_object_id#:#Object Id
 payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren
-payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen
+payment#:#pays_bmf_waehrungskennzeichen#:#WÃ¤hrungskennzeichen
 payment#:#pays_bmf_epayment_server#:#ePayment-Server
 payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate
 payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate
@@ -7621,7 +7621,7 @@ common#:#precondition#:#Precondition
 common#:#cond_ref_handling#:#Link Settings
 common#:#cond_ref_shared#:#Shared Preconditions for all Links
 common#:#cond_ref_unique#:#Unique Preconditions for Links
-administration#:#obj_mds#:#Meta Data Settings
+administration#:#obj_mds#:#Meta Data
 administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Settings
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
