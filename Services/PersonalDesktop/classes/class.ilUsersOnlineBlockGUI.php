@@ -236,7 +236,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 							$user_id, $user['login'], $user['firstname'], $user['lastname']
 						);
 						
-						$mail_to = urlencode($mail_to);
+						#$mail_to = urlencode($mail_to);
+						$mail_to = $user['login'];
 					}
 				}
 				
