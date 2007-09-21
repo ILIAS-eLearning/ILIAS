@@ -1404,7 +1404,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		foreach ($assigned_users as $user)
 		{
-			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$user["login"];
+			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($user["login"]);
 			
 			if ($_GET["admin_mode"] == "settings"
 				&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)

@@ -122,10 +122,13 @@ class ilMailFormGUI
 		
 		$f_message = $this->umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"]));
 		$this->umail->setSaveInSentbox(true);
+		
+		
+		
 		if($errorMessage = $this->umail->sendMail(
-				ilUtil::stripSlashes($_POST["rcp_to"]),
-				ilUtil::stripSlashes($_POST["rcp_cc"]),
-				ilUtil::stripSlashes($_POST["rcp_bcc"]),
+				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST["rcp_to"]))),
+				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST["rcp_cc"]))),
+				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST["rcp_bcc"]))),
 				ilUtil::stripSlashes($_POST["m_subject"]),$f_message,
 				$_POST["attachments"],$_POST["m_type"], $_POST['use_placeholders'])
 			)

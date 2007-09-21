@@ -894,7 +894,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		foreach ($members as $mem)
 		{
-			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem["login"];
+			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($mem["login"]);
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
 		
 			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
