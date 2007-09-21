@@ -3028,7 +3028,7 @@ common#:#nwss_write#:#News- und Webfeed-Einstellungen bearbeiten
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_adm#:#Administration
 common#:#obj_adve_desc#:#Administrationseinstellungen für erweiterte Bearbeitung wie z.B. Javascript-basierte Editoren, erlaubte HTML-Auszeichnungen etc.
-common#:#obj_adve#:#Erweiterte Bearbeitung
+common#:#obj_adve#:#Editor
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
 common#:#obj_assf#:#Test & Assessment
