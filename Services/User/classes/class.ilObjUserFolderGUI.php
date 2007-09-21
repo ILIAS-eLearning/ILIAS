@@ -346,11 +346,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ctrl->saveParameter($this, "user_filter_date_d");
 			$this->ctrl->saveParameter($this, "selected_course");
 			$this->ctrl->saveParameter($this, "selected_group");
+			$this->ctrl->saveParameter($this, "selected_role");
 			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "user_filter_date_y");
 			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "user_filter_date_m");
 			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "user_filter_date_d");
 			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "selected_course");
 			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "selected_group");
+			$this->ctrl->saveParameterByClass("ilAdminUserSearchGUI", "selected_role");
 			if (strlen($_GET["user_filter_date_y"].$_GET["user_filter_date_m"].$_GET["user_filter_date_d"]))
 			{
 				$_SESSION["user_filter_data"] = array(
@@ -366,6 +368,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			if (strlen($_GET["selected_group"]))
 			{
 				$_SESSION["user_filter_data"] = $_GET["selected_group"];
+			}
+			if (strlen($_GET["selected_role"]))
+			{
+				$_SESSION["user_filter_data"] = $_GET["selected_role"];
 			}
 			if (isset($_POST["user_filter"]))
 			{
@@ -390,6 +396,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$_SESSION["user_filter_data"] = $_POST["groupId"];
 						$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "selected_group", $_POST["groupId"]);
 						$this->ctrl->setParameter($this, "selected_group", $_POST["groupId"]);
+						break;
+					case 7:
+						$_SESSION["user_filter_data"] = $_POST["roleId"];
+						$this->ctrl->setParameterByClass("ilAdminUserSearchGUI", "selected_role", $_POST["roleId"]);
+						$this->ctrl->setParameter($this, "selected_role", $_POST["roleId"]);
 						break;
 				}
 			}
@@ -530,8 +541,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case 5:
 				$this->tpl->setCurrentBlock("filter_course");
 				$courses = ilUtil::_getObjectsByOperations("crs", "read", $ilUser->getId(), -1);
-		 		$options = ilObject::_prepareCloneSelection($courses, "crs");
-			 	$select = ilUtil::formSelect($_SESSION["user_filter_data"], "courseId" ,$options,false,true);
+				$options = ilObject::_prepareCloneSelection($courses, "crs");
+				$select = ilUtil::formSelect($_SESSION["user_filter_data"], "courseId" ,$options,false,true);
 				$this->tpl->setVariable("COURSE_SELECTION", $select);
 				$this->tpl->setVariable("TEXT_FILTER_COURSE", $this->lng->txt("course"));
 				$this->tpl->parseCurrentBlock();
@@ -539,10 +550,24 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case 6:
 				$this->tpl->setCurrentBlock("filter_group");
 				$groups = ilUtil::_getObjectsByOperations("grp", "read", $ilUser->getId(), -1);
-		 		$options = ilObject::_prepareCloneSelection($groups, "grp");
-			 	$select = ilUtil::formSelect($_SESSION["user_filter_data"], "groupId" ,$options,false,true);
+				$options = ilObject::_prepareCloneSelection($groups, "grp");
+				$select = ilUtil::formSelect($_SESSION["user_filter_data"], "groupId" ,$options,false,true);
 				$this->tpl->setVariable("GROUP_SELECTION", $select);
 				$this->tpl->setVariable("TEXT_FILTER_GROUP", $this->lng->txt("grp"));
+				$this->tpl->parseCurrentBlock();
+				break;
+			case 7:
+				global $rbacreview;
+				$this->tpl->setCurrentBlock("filter_role");
+				$roles = $rbacreview->getRolesByFilter(2, $ilUser->getId());
+				$options = array();
+				foreach ($roles as $role)
+				{
+					$options[$role["rol_id"]] = $role["title"];
+				}
+				$select = ilUtil::formSelect($_SESSION["user_filter_data"], "roleId" ,$options, false, true);
+				$this->tpl->setVariable("ROLE_SELECTION", $select);
+				$this->tpl->setVariable("TEXT_FILTER_ROLE", $this->lng->txt("role"));
 				$this->tpl->parseCurrentBlock();
 				break;
 		}
@@ -3237,6 +3262,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$action[4] = $this->lng->txt('usr_filter_lastlogin');
 		$action[5] = $this->lng->txt("usr_filter_coursemember");
 		$action[6] = $this->lng->txt("usr_filter_groupmember");
+		$action[7] = $this->lng->txt("usr_filter_role");
 
 		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
 	}

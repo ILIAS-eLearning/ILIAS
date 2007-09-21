@@ -3936,6 +3936,7 @@ common#:#usr_edit#:#Edit User
 common#:#usr_filter_lastlogin#:#Last login of user
 common#:#usr_filter_coursemember#:#Member of course
 common#:#usr_filter_groupmember#:#Member of group
+common#:#usr_filter_role#:#Assigned role
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
