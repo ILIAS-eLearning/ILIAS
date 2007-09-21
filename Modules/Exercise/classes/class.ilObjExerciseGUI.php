@@ -1048,7 +1048,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->object->members_obj->setStatusFeedbackForMember($member, 1);
 			}
 			$logins = implode($logins, ",");
-			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($logins));
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$logins);
 		}
 
 		ilUtil::sendInfo($this->lng->txt("select_one"),true);
