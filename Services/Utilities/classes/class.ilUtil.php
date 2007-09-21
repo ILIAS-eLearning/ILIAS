@@ -776,7 +776,16 @@ class ilUtil
 		if ($detectGotoLinks)
 		// replace target blank with self and text with object title.
 		{
+
 			$regExp = "<a[^>]*href=\"(".str_replace("/","\/",ILIAS_HTTP_PATH)."\/goto.php\?target=\w+_(\d+)[^\"]*)\"[^>]*>[^<]*<\/a>";
+//			echo htmlentities($regExp);
+			$ret = preg_replace_callback(
+				"/".$regExp."/i",
+				array("ilUtil", "replaceLinkProperties"),
+				$ret);
+
+			// Static links
+			$regExp = "<a[^>]*href=\"(".str_replace("/","\/",ILIAS_HTTP_PATH)."\/goto_.*[a-z0-9]+_([0-9]+)\.html)\"[^>]*>[^<]*<\/a>";
 //			echo htmlentities($regExp);
 			$ret = preg_replace_callback(
 				"/".$regExp."/i",
