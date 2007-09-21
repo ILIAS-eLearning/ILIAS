@@ -235,6 +235,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 						$mail_to = ilMail::_getUserInternalMailboxAddress(
 							$user_id, $user['login'], $user['firstname'], $user['lastname']
 						);
+						
+						$mail_to = urlencode($mail_to);
 					}
 				}
 				

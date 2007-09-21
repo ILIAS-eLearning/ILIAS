@@ -130,7 +130,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
-		ilUtil::redirect("ilias.php?baseClass=ilmailgui&type=new&rcp_to=".implode(',',$rcps));
+		ilUtil::redirect("ilias.php?baseClass=ilmailgui&type=new&rcp_to=".urlencode(implode(',',$rcps)));
 	}
 	/**
 	* canceledObject is called when operation is canceled, method links back
@@ -421,7 +421,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getContactEmail())
 		{
 			$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-			$etpl->setVariable("EMAIL_LINK","ilias.php?baseClass=ilmailgui&type=new&rcp_to=".$this->object->getContactEmail());
+			$etpl->setVariable("EMAIL_LINK","ilias.php?baseClass=ilmailgui&type=new&rcp_to=".urlencode($this->object->getContactEmail()));
 			$etpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
 			$info->addProperty($this->lng->txt("crs_contact_email"),
 				$etpl->get());

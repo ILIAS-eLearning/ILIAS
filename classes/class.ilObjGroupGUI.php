@@ -1245,7 +1245,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		foreach ($members as $mem)
 		{
-			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem["login"];
+			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($mem["login"]);
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
 		
 			//build function
@@ -1507,7 +1507,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$user =& $this->ilias->obj_factory->getInstanceByObjId($applicant->user_id);
 
-			$link_contact = "ilias.php?baseClass=ilMailGUI&mobj_id=3&type=new&rcp_to=".$user->getLogin();
+			$link_contact = "ilias.php?baseClass=ilMailGUI&mobj_id=3&type=new&rcp_to=".urlencode($user->getLogin());
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$user->getId();
 			$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			if (strcmp($_GET["check"], "all") == 0)

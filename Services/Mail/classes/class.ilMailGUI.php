@@ -80,7 +80,8 @@ class ilMailGUI
 
 		if ($_GET["type"] == "new")
 		{
-			$_SESSION['rcp_to'] = $_GET['rcp_to'];
+			$_SESSION['rcp_to'] = urldecode($_GET['rcp_to']);
+			
 			$_SESSION['rcp_cc'] = $_GET['rcp_cc'];
 			$_SESSION['rcp_bcc'] = $_GET['rcp_bcc'];
 			
