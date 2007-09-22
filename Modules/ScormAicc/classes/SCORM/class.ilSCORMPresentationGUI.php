@@ -61,12 +61,14 @@ class ilSCORMPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess, $ilLog;
+		global $ilAccess, $ilLog, $ilias, $lng;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("frameset");
 
-		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
+			(!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) ||
+			!$this->slm->getOnline()))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}

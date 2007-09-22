@@ -60,6 +60,21 @@ class ilWebAccessChecker
 	*/
 	var $file;
 
+	/**
+	* params provided with the query
+	* @var array
+	* @access private
+	*/
+	var $params;
+
+
+	/**
+	* Content-Disposition for file delivery
+	* @var string
+	* @access private
+	*/
+	var $disposition = "inline";
+
 
 	/**
 	* determined mime type
@@ -90,17 +105,19 @@ class ilWebAccessChecker
 	*/
 	function ilWebAccessChecker()
 	{
-		global $ilAccess, $lng;
+		global $ilAccess, $lng, $ilLog;
 
 		$this->lng =& $lng;
 		$this->ilAccess =& $ilAccess;
 		$this->checked_list = & $_SESSION["WebAccessChecked"];
+		$this->params = array();
 
 		// get the requested file and its type
 		$uri = parse_url($_SERVER["REQUEST_URI"]);
+		parse_str($uri["query"], $this->params);
 
 		$pattern = ILIAS_WEB_DIR . "/" . CLIENT_ID;
-		$this->subpath = substr($uri["path"], strpos($uri["path"], $pattern));
+		$this->subpath = urldecode(substr($uri["path"], strpos($uri["path"], $pattern)));
 		$this->file = realpath(ILIAS_ABSOLUTE_PATH . "/". $this->subpath);
 		
 		/* debugging
@@ -141,6 +158,8 @@ class ilWebAccessChecker
 	*/
 	function checkAccess()
 	{
+		global $ilLog;
+		
 		// extract the object id (currently only for learning modules)
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
 		$pos2 = strpos($this->subpath, "/", $pos1);
@@ -163,7 +182,7 @@ class ilWebAccessChecker
 		{
 			if (in_array($obj_id, $this->checked_list))
 			{
-				return true;
+//				return true;
 			}
 		}
 
@@ -179,6 +198,7 @@ class ilWebAccessChecker
 
 		// check, if one of the references is readable
 		$readable = false;
+
 		foreach($ref_ids as $ref_id)
 		{
 		  	if ($this->ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $obj_id))
@@ -201,36 +221,61 @@ class ilWebAccessChecker
 		}
 	}
 	
+	
+	/**
+	* Set the delivery mode for the file
+	* @param    string      "inline" or "attachment"
+	* @access	public
+	*/
+	function setDisposition($a_disposition = "inline")
+	{
+		$this->disposition = $a_disposition;
+	}
+
+	/**
+	* Get the delivery mode for the file
+	* @return   string      "inline" or "attachment"
+	* @access	public
+	*/
+	function getDisposition()
+	{
+		return $this->disposition;
+	}
+
+	
 	/**
 	* Send the requested file as if directly delivered from the web server
 	* @access	public
 	*/
 	function sendFile()
 	{
-		if (isset($_SERVER["HTTPS"]))
+		if ($this->getDisposition() == "attachment")
 		{
-			/**
-			* Copied from ilUtil - needed here?
-			* Set the following headers to make downloads work using IE in HTTPS mode.
-			*/
-			header("Pragma: ");
-			header("Cache-Control: ");
-			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
-			header("Cache-Control: post-check=0, pre-check=0", false);
+			ilUtil::deliverFile($this->file, basename($this->file));
+			exit;
 		}
 		else
 		{
-			header("Cache-Control: no-cache, must-revalidate");
-			header("Pragma: no-cache");
-		}
-		header("Content-Type: " . $this->mimetype);
-		header("Content-Length: ".(string)(filesize($this->file)));
-		header("Connection: close");
+			if (!isset($_SERVER["HTTPS"]))
+			{
+				header("Cache-Control: no-cache, must-revalidate");
+				header("Pragma: no-cache");
+			}
+			
+			header("Content-Type: " . $this->mimetype);
+			header("Content-Length: ".(string)(filesize($this->file)));
+			
+			if (isset($_SERVER["HTTPS"]))
+			{
+				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+				header('Pragma: public');
+			}
 
-		ilUtil::readFile( $this->file );
-		exit;
+			header("Connection: close");
+
+			ilUtil::readFile( $this->file);
+			exit;
+		}
 	}
 	
 	/**
