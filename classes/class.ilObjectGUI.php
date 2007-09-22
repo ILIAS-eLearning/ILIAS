@@ -2043,7 +2043,8 @@ class ilObjectGUI
 
 		$template = "tpl.".$a_type."_".$a_cmd.".html";
 
-		if (!$this->tpl->fileExists($template))
+		if (!$this->tpl->fileExists($template) &&
+			!file_exists("./templates/default/".$template))
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
