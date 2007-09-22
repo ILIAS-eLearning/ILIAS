@@ -7582,6 +7582,7 @@ ldap#:#ldap_confirm_del_role_ass#:#Rollenzuordnung löschen
 common#:#res_links#:#Repository Links###23 08 2007 new variable
 common#:#header_zip#:#Zip-Archiv hochladen
 common#:#take_over_structure#:#Ordnerstruktur des Archives übernehmen
+common#:#take_over_structure_info#:#Wenn aktiviert, werden Verzeichnisse im Archiv als Kategorien oder Ordner übernommen.
 common#:#msg_wrong_filetype#:#Datei ist kein zip-Archiv
 common#:#zip_structure_error#:#Archiv enthält gleiche Dateinamen. Upload abgebrochen
 common#:#archive_broken#:#Archiv scheint beschädigt oder leer zu sein.
