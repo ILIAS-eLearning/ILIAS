@@ -775,8 +775,12 @@ class ilAdminUserSearchGUI
 		$operations = array(
 			array("name" => "delete", "lng" => "delete"),
 			array("name" => "activate", "lng" => "activate"),
-			array("name" => "deactivate", "lng" => "deactivate")
+			array("name" => "deactivate", "lng" => "deactivate"),
+			array("name" => "accessRestrict", "lng" => "accessRestrict"),
+			array("name" => "accessFree", "lng" => "accessFree"),
+			array("name" => "export", "lng" => "export")
 			);
+
 		if (count($operations) > 0)
 		{
 			$select = "<select name=\"selectedAction\">\n";
