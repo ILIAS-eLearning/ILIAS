@@ -274,6 +274,8 @@
 	<action name="delete">delete</action>
 	<action name="activate">activate</action>
 	<action name="deactivate">deactivate</action>
+	<action name="accessRestrict">accessRestrict</action>
+	<action name="accessFree">accessFree</action>
 	<action name="export">export</action>
 </object>
 <object name="st">

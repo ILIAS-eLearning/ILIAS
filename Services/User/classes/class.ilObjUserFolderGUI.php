@@ -850,6 +850,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return false;
 	}
 
+	function cancelUserFolderAction()
+	{
+		session_unregister("saved_post");
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->returnToParent($this);
+	}
+
 	/**
 	* cancel activation of object
 	*
@@ -857,12 +864,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function cancelactivateObject()
 	{
-		session_unregister("saved_post");
-
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
-
-		$this->ctrl->returnToParent($this);
-
+		$this->cancelUserFolderAction();
 	}
 
 	/**
@@ -913,12 +915,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function canceldeactivateObject()
 	{
-		session_unregister("saved_post");
-
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
-
-		$this->ctrl->returnToParent($this);
-
+		$this->cancelUserFolderAction();
 	}
 
 	/**
@@ -961,6 +958,135 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "view");
 		}
 	}
+	
+	function cancelaccessFreeObject()
+	{
+		$this->cancelUserFolderAction();
+	}
+	
+	function confirmaccessFreeObject()
+	{
+		global $rbacsystem, $ilUser;
+
+		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
+		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		
+		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
+		
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+			// instatiate correct object class (usr)
+			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj->setTimeLimitOwner($ilUser->getId());
+			$obj->setTimeLimitUnlimited(1);
+			$obj->setTimeLimitFrom("");
+			$obj->setTimeLimitUntil("");
+			$obj->setTimeLimitMessage(0);
+			$obj->update();
+		}
+
+		// Feedback
+		ilUtil::sendInfo($this->lng->txt("access_free_granted"),true);
+
+		if ($_SESSION['user_accessFree_search'] == true)
+		{
+			session_unregister("user_accessFree_search");
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			ilUtil::redirect($script);
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "view");
+		}
+	}
+	
+	function setAccessRestrictionObject()
+	{
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("time_limit_add_time_limit_for_selected"));
+		include_once "./classes/class.ilTemplate.php";
+		$tsTemplate = new ilTemplate("tpl.time.limit.html", TRUE, TRUE);
+		$from = (array_key_exists("from", $_GET)) ? $_GET["from"] : time();
+		$until = (array_key_exists("until", $_GET)) ? $_GET["until"] : time();
+		$fromA = getdate($from);
+		$untilA = getdate($until);
+		$fromDate = ilUtil::makeDateSelect("fromDate", $fromA["year"], $fromA["mon"], $fromA["mday"]);
+		$fromTime = ilUtil::makeTimeSelect("fromTime", TRUE, $fromA["hours"], $fromA["minutes"]);
+		$untilDate = ilUtil::makeDateSelect("untilDate", $untilA["year"], $untilA["mon"], $untilA["mday"]);
+		$untilTime = ilUtil::makeTimeSelect("untilTime", TRUE, $untilA["hours"], $untilA["minutes"]);
+		$tsTemplate->setVariable("TEXT_FROM", $this->lng->txt("access_from") . ": ");
+		$tsTemplate->setVariable("TEXT_UNTIL", $this->lng->txt("access_until") . ": ");
+		$tsTemplate->setVariable("DATE_FROM", $fromDate);
+		$tsTemplate->setVariable("TIME_FROM", $fromTime);
+		$tsTemplate->setVariable("DATE_UNTIL", $untilDate);
+		$tsTemplate->setVariable("TIME_UNTIL", $untilTime);
+		$this->tpl->setVariable("TXT_CONTENT", $tsTemplate->get());
+		$this->tpl->setVariable("CMD_CANCEL", "cancelaccessRestrict");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("CMD_OK", "confirmaccessRestrict");
+		$this->tpl->setVariable("TXT_OK", $this->lng->txt("confirm"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function cancelaccessRestrictObject()
+	{
+		$this->cancelUserFolderAction();
+	}
+	
+	function confirmaccessRestrictObject()
+	{
+		$timefrom = mktime($_POST["fromTime"]["h"], $_POST["fromTime"]["m"], 0, $_POST["fromDate"]["m"], $_POST["fromDate"]["d"], $_POST["fromDate"]["y"]);
+		$timeuntil = mktime($_POST["untilTime"]["h"], $_POST["untilTime"]["m"], 0, $_POST["untilDate"]["m"], $_POST["untilDate"]["d"], $_POST["untilDate"]["y"]);
+		if ($timeuntil <= $timefrom)
+		{
+			ilUtil::sendInfo($this->lng->txt("time_limit_not_valid"), TRUE);
+			$this->ctrl->setParameter($this, "from", $timefrom);
+			$this->ctrl->setParameter($this, "until", $timeuntil);
+			$this->ctrl->redirect($this, "setAccessRestriction");
+		}
+
+		global $rbacsystem, $ilUser;
+
+		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
+		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		
+		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
+		
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+			// instatiate correct object class (usr)
+			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj->setTimeLimitOwner($ilUser->getId());
+			$obj->setTimeLimitUnlimited(0);
+			$obj->setTimeLimitFrom($timefrom);
+			$obj->setTimeLimitUntil($timeuntil);
+			$obj->setTimeLimitMessage(0);
+			$obj->update();
+		}
+
+		// Feedback
+		ilUtil::sendInfo($this->lng->txt("access_restricted"),true);
+
+		if ($_SESSION['user_accessRestrict_search'] == true)
+		{
+			session_unregister("user_accessRestrict_search");
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			ilUtil::redirect($script);
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "view");
+		}
+	}
 
 	/**
 	* cancel deletion of object
@@ -969,12 +1095,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function canceldeleteObject()
 	{
-		session_unregister("saved_post");
-
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
-
-		$this->ctrl->returnToParent($this);
-
+		$this->cancelUserFolderAction();
 	}
 
 	/**
@@ -1029,12 +1150,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function cancelexportObject()
 	{
-		session_unregister("saved_post");
-
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
-
-		$this->ctrl->returnToParent($this);
-
+		$this->cancelUserFolderAction();
 	}
 
 	/**
@@ -1167,6 +1283,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$_SESSION["saved_post"] = $_POST["id"];
 
 		if (strcmp($action, "export") == 0) return $this->selectExportFormat();
+		if (strcmp($action, "accessRestrict") == 0) return $this->setAccessRestrictionObject();
 
 		unset($this->data);
 		$this->data["cols"] = array("type", "title", "description", "last_change");
