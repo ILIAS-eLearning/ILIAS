@@ -2006,6 +2006,10 @@ common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
 common#:#explorer_frame#:#Explorer Tree
 common#:#export#:#Export
+common#:#accessRestrict#:#Set limited Access
+common#:#accessFree#:#Remove limited Access
+common#:#access_free_granted#:#Set the selected user(s) to unlimited access
+common#:#access_restricted#:#Set the selected user(s) to limited access
 common#:#export_format_selection#:#Please select the export file format
 common#:#export_format#:#Export format
 common#:#export_group_members#:#Export group members (to Microsoft Excel)
@@ -2487,6 +2491,7 @@ common#:#include_local#:#include local language file when updating language
 common#:#info#:#Information
 common#:#info_access_and_status_info#:#Access- and Statusinformation
 common#:#info_access_permissions#:#Access permissions
+common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?
 common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?
 common#:#info_assigned#:#assigned
 common#:#info_available_roles#:#Available roles
@@ -3763,7 +3768,7 @@ common#:#time#:#Time
 common#:#time_d#:#Day
 common#:#time_h#:#Hour
 common#:#time_limit#:#Access
-common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.
+common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected user(s).
 common#:#time_limit_applied_users#:#Applied users
 common#:#time_limit_from#:#From (time limit)
 common#:#time_limit_message#:#Message (time limit)
@@ -7040,6 +7045,8 @@ trac#:#stats_tracked_user#:#Selected Users
 trac#:#stats_until#:#until
 trac#:#stats_user#:#User(s)
 common#:#access_until#:#Access (until)
+common#:#access_from#:#Access (from)
+common#:#access_restrict_enter#:#Please set the period for the limited access restriction
 trac#:#stats_user_selected#:#User selected
 trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
