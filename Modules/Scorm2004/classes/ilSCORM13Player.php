@@ -230,7 +230,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 	
 	function getDataDirectory()
 	{
-		$webdir=str_replace("/ilias.php","",$_SERVER["SCRIPT_URL"]);	
+		$webdir=str_replace("/ilias.php","",$_SERVER["SCRIPT_NAME"]);	
 		//load ressources always with absolute URL..relative URLS fail on innersco navigation on certain browsers
 		$lm_dir=$webdir."/".ILIAS_WEB_DIR."/".$this->ilias->client_id ."/lm_data"."/lm_".$this->packageId;
 		return $lm_dir;
