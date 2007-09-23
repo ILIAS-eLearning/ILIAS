@@ -326,8 +326,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$media_item =& new ilMediaItem();
 			$mob->addMediaItem($media_item);
 			$media_item->setPurpose("Standard");
-			
-			if ($this->form_gui->getInput ("url")) {
+
+			if ($this->form_gui->getInput ("url"))
+			{
 				// http 
 				$file = $this->form_gui->getInput ("url");
 				$title = basename ($file);
@@ -340,12 +341,15 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$mob->createDirectory();
 				$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
 		
-				$file = $mob_dir."/".$_FILES['file']['name'];
-				$title = $_FILES['file']['name']; 
+				$file_name = ilUtil::getASCIIFilename($_FILES['file']['name']);
+				$file_name = str_replace(" ", "_", $file_name);
+				
+				$file = $mob_dir."/".$file_name;
+				$title = $file_name; 
 				$locationType = "LocalFile";
 				$location = $title;
 				ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
-					$_FILES['file']['name'], $file);				
+					$file_name, $file);				
 			}
 			
 			// determine duration
@@ -369,7 +373,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			
 			// get mime type
 			$format = ilObjMediaObject::getMimeType($file);
-			
 
 			// set real meta and object data
 			$media_item->setFormat($format);
@@ -455,16 +458,19 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$file = $mob_dir."/".$media_item->getLocation();
 			if ($_FILES['file']['name'] != "") // && strcasecmp ($media_item->getLocationType(), "LocaleFile") == 0)
 			{
-				$file = $mob_dir."/".$_FILES['file']['name'];
+				$file_name = ilUtil::getASCIIFilename($_FILES['file']['name']);
+				$file_name = str_replace(" ", "_", $file_name);
+				
+				$file = $mob_dir."/".$file_name;
 				ilUtil::moveUploadedFile($_FILES['file']['tmp_name'],
-					$_FILES['file']['name'], $file);
+					$file_name, $file);
 				// get mime type
 				$format = ilObjMediaObject::getMimeType($file);
-				$location = $_FILES['file']['name'];
+				$location = $file_name;
 				$media_item->setFormat($format);
 				$media_item->setLocation($location);
 				$media_item->setLocationType("LocalFile");
-				$mob->setTitle($_FILES['file']['name']);
+				$mob->setTitle($file_name);
 				$mob->setDescription($format);
 				$media_item->setHAlign("Left");
 				$media_item->setHeight(self::isAudio($format)?0:180);
