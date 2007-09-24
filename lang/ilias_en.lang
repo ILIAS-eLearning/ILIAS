@@ -7635,3 +7635,14 @@ administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Setti
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
 common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file.
+meta#:#md_copyright_settings#:#Copyright Settings
+meta#:#md_copyright_enabled#:#Enable Copyright Selection
+meta#:#md_copyright_selection#:#Copyright Presettings
+meta#:#md_used#:#Usage
+meta#:#md_copyright_preview#:#Copyright (Preview)
+meta#:#md_copyright_edit#:#Edit Copyright Presetting
+meta#:#md_copyright_value#:#Copyright
+meta#:#md_copyright_add#:#Add Copyright Presetting
+meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?
+meta#:#md_copyrights_deleted#:#Deleted Copyright
+meta#:#meta_cp_own#:#Own Copyright Information:

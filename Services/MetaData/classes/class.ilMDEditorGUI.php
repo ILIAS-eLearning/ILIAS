@@ -273,12 +273,23 @@ class ilMDEditorGUI
 		
 		
 		// Rights...
-		// Copyright
+		// Copyright 
+		
+		include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php');
+		
+		$copyright_gui = new ilMDCopyrightSelectionGUI(ilMDCopyrightSelectionGUI::MODE_QUICKEDIT,
+			$this->md_obj->getRBACId(),
+			$this->md_obj->getObjId());
+		$copyright_gui->fillTemplate();
+		
+		
+		/*
 		if(is_object($this->md_section = $this->md_obj->getRights()))
 		{
 			$this->tpl->setVariable("COPYRIGHT_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
 		}
 		$this->tpl->setVariable("TXT_COPYRIGHT",$this->lng->txt('meta_copyright'));
+		*/
 
 		// Educational...
 		// Typical learning time
@@ -427,17 +438,24 @@ class ilMDEditorGUI
 		}
 		$this->callListeners('General');
 		
-		//Rights...
 		// Copyright
-		if ($_POST["rights_copyright"] != "")
+		if($_POST['copyright_id'] or $_POST['rights_copyright'])
 		{
 			if(!is_object($this->md_section = $this->md_obj->getRights()))
 			{
 				$this->md_section = $this->md_obj->addRights();
 				$this->md_section->save();
 			}
-			$this->md_section->setCopyrightAndOtherRestrictions("Yes");
-			$this->md_section->setDescription(ilUtil::stripSlashes($_POST["rights_copyright"]));
+			if($_POST['copyright_id'])
+			{
+				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
+				$this->md_section->setDescription('il_copyright_entry__'.IL_INST_ID.'__'.(int) $_POST['copyright_id']);
+			}
+			else
+			{
+				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
+				$this->md_section->setDescription(ilUtil::stripSlashes($_POST["rights_copyright"]));
+			}
 			$this->md_section->update();
 		}
 		else

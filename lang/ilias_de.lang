@@ -7595,3 +7595,14 @@ administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.
+meta#:#md_copyright_settings#:#Copyright-Einstellungen
+meta#:#md_copyright_enabled#:#Copyright-Auswahl aktivieren
+meta#:#md_copyright_selection#:#Copyright Vorgaben
+meta#:#md_used#:#Verwendung (Anzahl)
+meta#:#md_copyright_preview#:#Copyright (Vorschau)
+meta#:#md_copyright_edit#:#Copyright Vorgabe bearbeiten
+meta#:#md_copyright_value#:#Copyright
+meta#:#md_copyright_add#:#Neue Vorgabe
+meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
+meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
+meta#:#meta_cp_own#:#Eigene Angabe:
