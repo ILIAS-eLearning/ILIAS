@@ -188,6 +188,9 @@ class ilTestSequence
 				"postponed" => unserialize($row["postponed"]),
 				"hidden" => unserialize($row["hidden"])
 			);
+			if (!is_array($this->sequencedata["sequence"])) $this->sequencedata["sequence"] = array();
+			if (!is_array($this->sequencedata["postponed"])) $this->sequencedata["postponed"] = array();
+			if (!is_array($this->sequencedata["hidden"])) $this->sequencedata["hidden"] = array();
 		}
 	}
 	
@@ -231,10 +234,31 @@ class ilTestSequence
 		}
 	}
 	
+	function hideQuestion($question_id)
+	{
+		if (!$this->isHiddenQuestion($question_id))
+		{
+			array_push($this->sequencedata["hidden"], intval($question_id));
+		}
+	}
+	
 	function isPostponedQuestion($question_id)
 	{
 		if (!is_array($this->sequencedata["postponed"])) return FALSE;
 		if (!in_array($question_id, $this->sequencedata["postponed"]))
+		{
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+	
+	function isHiddenQuestion($question_id)
+	{
+		if (!is_array($this->sequencedata["hidden"])) return FALSE;
+		if (!in_array($question_id, $this->sequencedata["hidden"]))
 		{
 			return FALSE;
 		}
@@ -258,6 +282,20 @@ class ilTestSequence
 		}
 	}
 	
+	function isHiddenSequence($sequence)
+	{
+		if (!array_key_exists($sequence, $this->questions)) return FALSE;
+		if (!is_array($this->sequencedata["hidden"])) return FALSE;
+		if (!in_array($this->questions[$sequence], $this->sequencedata["hidden"]))
+		{
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+	
 	function postponeSequence($sequence)
 	{
 		if (!$this->isPostponedSequence($sequence))
@@ -266,6 +304,18 @@ class ilTestSequence
 			{
 				if (!is_array($this->sequencedata["postponed"])) $this->sequencedata["postponed"] = array();
 				array_push($this->sequencedata["postponed"], intval($this->questions[$sequence]));
+			}
+		}
+	}
+	
+	function hideSequence($sequence)
+	{
+		if (!$this->isHiddenSequence($sequence))
+		{
+			if (array_key_exists($sequence, $this->questions))
+			{
+				if (!is_array($this->sequencedata["hidden"])) $this->sequencedata["hidden"] = array();
+				array_push($this->sequencedata["hidden"], intval($this->questions[$sequence]));
 			}
 		}
 	}
@@ -291,28 +341,31 @@ class ilTestSequence
 	
 	function getOrderedSequence()
 	{
-		return keys($this->questions);
+		return array_keys($this->questions);
 	}
 	
 	function getUserSequence()
 	{
-		return $this->getCorrectedSequence();
+		return $this->getCorrectedSequence(TRUE);
 	}
 
-	protected function getCorrectedSequence()
+	protected function getCorrectedSequence($with_hidden_questions = FALSE)
 	{
 		$correctedsequence = $this->sequencedata["sequence"];
-		if (is_array($this->sequencedata["hidden"]))
+		if (!$with_hidden_questions)
 		{
-			foreach ($this->sequencedata["hidden"] as $question_id)
+			if (is_array($this->sequencedata["hidden"]))
 			{
-				$foundsequence = array_search($question_id, $this->questions);
-				if ($foundsequence !== FALSE)
+				foreach ($this->sequencedata["hidden"] as $question_id)
 				{
-					$sequencekey = array_search($foundsequence, $correctedsequence);
-					if ($sequencekey !== FALSE)
+					$foundsequence = array_search($question_id, $this->questions);
+					if ($foundsequence !== FALSE)
 					{
-						unset($correctedsequence[$sequencekey]);
+						$sequencekey = array_search($foundsequence, $correctedsequence);
+						if ($sequencekey !== FALSE)
+						{
+							unset($correctedsequence[$sequencekey]);
+						}
 					}
 				}
 			}
@@ -498,6 +551,23 @@ class ilTestSequence
 		{
 			return FALSE;
 		}
+	}
+
+	function hasHiddenQuestions()
+	{
+		if ((is_array($this->sequencedata["hidden"])) && (count($this->sequencedata["hidden"]) > 0))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	function clearHiddenQuestions()
+	{
+		$this->sequencedata["hidden"] = array();
 	}
 }
 

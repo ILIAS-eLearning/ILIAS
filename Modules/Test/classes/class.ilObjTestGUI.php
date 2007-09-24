@@ -4917,6 +4917,19 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilAccess;
 		global $ilUser;
 
+		if ($_GET['crs_show_result'])
+		{
+			$this->object->hideCorrectAnsweredQuestions();
+		}
+		else
+		{
+			if ($this->object->getTestSequence()->hasHiddenQuestions())
+			{
+				$this->object->getTestSequence()->clearHiddenQuestions();
+				$this->object->getTestSequence()->saveToDb();
+			}
+		}
+		
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
@@ -4925,12 +4938,7 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
-		include_once "./Modules/Test/classes/class.ilTestSession.php";
-		$testSession = new ilTestSession();
-		$testSession->loadTestSession($this->object->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->object->getTestId()]);
-		include_once "./Modules/Test/classes/class.ilTestSequence.php";
-		$testSequence = new ilTestSequence($testSession->getActiveId(), $testSession->getPass(), $this->object->isRandomTest());
-		$seq = $testSession->getLastSequence();
+		$seq = $this->object->getTestSession()->getLastSequence();
 
 		include_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
 		$output_gui =& new ilTestOutputGUI($this->object);
@@ -4965,16 +4973,16 @@ class ilObjTestGUI extends ilObjectGUI
 				$executable = $this->object->isExecutable($ilUser->getId());
 				if ($executable["executable"])
 				{
-					if ($testSession->getActiveId() > 0)
+					if ($this->object->getTestSession()->getActiveId() > 0)
 					{
 						// resume test
 						$resume_text = $this->lng->txt("tst_resume_test");
-						if (($seq < 1) || ($seq == $testSequence->getFirstSequence()))
+						if (($seq < 1) || ($seq == $this->object->getTestSequence()->getFirstSequence()))
 						{
-							$resume_text = $this->object->getStartTestLabel($testSession->getActiveId());
+							$resume_text = $this->object->getStartTestLabel($this->object->getTestSession()->getActiveId());
 						}
 
-						if(!$_GET['crs_show_result'] or $testSequence->getFirstSequence())
+						if(!$_GET['crs_show_result'] or $this->object->getTestSequence()->getFirstSequence())
 						{
 							$info->addFormButton("resume", $resume_text);
 						}
@@ -4982,14 +4990,14 @@ class ilObjTestGUI extends ilObjectGUI
 					else
 					{
 						// start new test
-						$info->addFormButton("start", $this->object->getStartTestLabel($testSession->getActiveId()));
+						$info->addFormButton("start", $this->object->getStartTestLabel($this->object->getTestSession()->getActiveId()));
 					}
 				}
 				else
 				{
 					ilUtil::sendInfo($executable["errormessage"]);
 				}
-				if ($testSession->getActiveId() > 0)
+				if ($this->object->getTestSession()->getActiveId() > 0)
 				{
 					// test results button
 					if ($this->object->canShowTestResults($ilUser->getId())) 
@@ -4998,14 +5006,14 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 			}
-			if ($testSession->getActiveId() > 0)
+			if ($this->object->getTestSession()->getActiveId() > 0)
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
 					$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
 				}
 
-				if ($this->canShowCertificate($ilUser->getId(), $testSession->getActiveId()))
+				if ($this->canShowCertificate($ilUser->getId(), $this->object->getTestSession()->getActiveId()))
 				{
 					$info->addFormButton("outCertificate", $this->lng->txt("certificate_show"));
 				}
@@ -5100,7 +5108,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):$this->object->getNrOfTries());
 		if ($this->object->getNrOfTries() != 1)
 		{
-			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($testSession->getPass() == false)?$this->lng->txt("tst_no_tries"):$testSession->getPass());
+			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($this->object->getTestSession()->getPass() == false)?$this->lng->txt("tst_no_tries"):$this->object->getTestSession()->getPass());
 		}
 
 		if ($this->object->getEnableProcessingTime())
@@ -5129,7 +5137,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		// forward the command
 
-		if($_GET['crs_show_result'] and !$testSequence->getFirstSequence())
+		if($_GET['crs_show_result'] and !$this->object->getTestSequence()->getFirstSequence())
 		{
 			ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
 		}			

@@ -40,10 +40,12 @@ class ilExcelWriterAdapter
 
 	function ilExcelWriterAdapter($a_filename,$a_send = true)
 	{
+		global $ilias, $lng;
+		
 		$result = @include_once 'Spreadsheet/Excel/Writer.php';
 		if (!$result)
 		{
-			include_once './classes/Spreadsheet/Excel/Writer.php';
+			$ilias->raiseError($lng->txt("error_no_excel_support"), $ilias->error_obj->WARNING);
 		}
 		if($a_send)
 		{

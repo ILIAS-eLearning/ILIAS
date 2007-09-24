@@ -685,12 +685,10 @@ class ilTestServiceGUI
 		include_once './Services/User/classes/class.ilObjUser.php';
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$user = new ilObjUser($user_id);
-		include_once "./Modules/Test/classes/class.ilTestSession.php";
-		$session = new ilTestSession($active_id);
-		$t = $session->getSubmittedTimestamp();
+		$t = $this->object->getTestSession($active_id)->getSubmittedTimestamp();
 		if (!$t)
 		{
-			$t = $this->object->_getLastAccess($session->getActiveId());
+			$t = $this->object->_getLastAccess($this->object->getTestSession()->getActiveId());
 		}
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 
