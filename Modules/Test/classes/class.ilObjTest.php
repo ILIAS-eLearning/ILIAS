@@ -395,6 +395,20 @@ class ilObjTest extends ilObject
 * @var int
 */
 	var $answer_feedback;
+	
+	/**
+	* contains the test session data
+	*
+	* @var object
+	*/
+	var $testSession;
+
+	/**
+	* contains the test sequence data
+	*
+	* @var object
+	*/
+	var $testSequence;
 
 	/**
 	* Constructor
@@ -445,6 +459,8 @@ class ilObjTest extends ilObject
 		$this->fixed_participants = 0;
 		$this->setShowPassDetails(TRUE);
 		$this->setShowSolutionDetails(TRUE);
+		$this->testSession = FALSE;
+		$this->testSequence = FALSE;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -3388,125 +3404,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Calculate the question id from a test sequence number
-*
-* Calculate the question id from a test sequence number
-*
-* @param integer $sequence The sequence number of the question
-* @return integer The question id of the question with the given sequence number
-* @access	public
-*/
-/*
-	// TODO: no longer used?
-	function getQuestionIdFromActiveUserSequence($sequence)
-	{
-		global $ilUser;
-		if (strlen($sequence) == 0) $sequence = 1;
-		$active = $this->getActiveTestUser();
-		$sequence_array = explode(",", $active->sequence);
-		return $this->questions[$sequence_array[$sequence-1]];
-	}
-*/
-/**
-* Returns the the question ids of the test
-*
-* Returns the the question ids of the test. This could be done for the active
-* user as well as for the test object itself. It is also possible to sort the
-* questions in the sequence the user worked through the test
-*
-* @param integer $active_id The active id of the user
-* @param integer $pass The pass that should be examined
-* @param boolean $userorder TRUE if the question ids should be returned in the sequence the user worked through the questions during the test
-* @access public
-* @see $questions
-*/
-/*
-// TODO: no longer needed?
-	function &getQuestions($active_id = "", $pass = NULL, $userorder = FALSE)
-	{
-		if ($active_id > 0)
-		{
-			if ($this->isRandomTest())
-			{
-				$this->loadQuestions($active_id, $pass);
-			}
-			if ($userorder)
-			{
-				$result_array = array();
-				$active =& $this->getActiveTestUserFromActiveId($active_id);
-				$sequence_array = split(",", $active->sequence);
-				$index = 1;
-				foreach ($sequence_array as $sequence)
-				{
-					$result_array[$index] = $this->questions[$sequence];
-					$index++;
-				}
-				return $result_array;
-			}
-		}
-		return $this->questions;
-	}
-*/
-
-/**
-* Returns all questions of a test in users order
-*
-* Returns all questions of a test in users order
-*
-* @return array An array containing the id's and the titles of the questions
-* @access public
-*/
-/*
-// TODO: no longer needed?
-	function &getAllQuestionsForActiveUser()
-	{
-		$result_array = array();
-		$active = $this->getActiveTestUser();
-		$sequence_array = split(",", $active->sequence);
-		$all_questions = &$this->getAllQuestions();
-		$worked_questions = &$this->getWorkedQuestions($active->active_id);
-		foreach ($sequence_array as $sequence)
-		{
-			if (in_array($this->questions[$sequence], $worked_questions))
-			{
-				$all_questions[$this->questions[$sequence]]["worked"] = 1;
-			}
-			else
-			{
-				$all_questions[$this->questions[$sequence]]["worked"] = 0;
-			}
-			array_push($result_array, $all_questions[$this->questions[$sequence]]);
-		}
-		return $result_array;
-	}
-
-	function getFirstSequence()
-	{
-		global $ilUser;
-
-		$active = $this->getActiveTestUser($ilUser->getId());
-		$results = $this->getTestResult($active->active_id);
-
-		for($i = 1; $i <= $this->getQuestionCount(); $i++)
-		{
-			$qid = $this->getQuestionIdFromActiveUserSequence($i);
-
-			foreach($results as $result)
-			{
-				if($qid == $result['qid'])
-				{
-					if(!$result['max'] or $result['max'] != $result['reached'])
-					{
-						return $i;
-					}
-				}
-			}
-		}
-		return 0;
-	}
-*/
-
-/**
 * Gets the id's of all questions a user already worked through
 *
 * Gets the id's of all questions a user already worked through
@@ -3605,104 +3502,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return $result_array;
 	}
 
-/*
-	// TODO: no longer needed?
-	function &getActiveTestUserFromActiveId($active_id)
-	{
-		global $ilDB;
-		$query = sprintf("SELECT * FROM tst_active WHERE active_id = %s",
-			$ilDB->quote($active_id . "")
-		);
-		$result = $ilDB->query($query);
-		$row = NULL;
-		if ($result->numRows())
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		}
-		return $row;
-	}
-*/
-/**
-* Returns the sequence array for the active test user
-*
-* Returns the sequence array for the active test user
-*
-* @return array An array containing the sequence positions
-* @access	public
-*/
-/*
-  // TODO: no longer needed?
-	function &getActiveTestUserSequence()
-	{
-		$sequence_array = array();
-		$active = $this->getActiveTestUser();
-		if ($active)
-		{
-			$sequence = $active->sequence;
-			$sequence_array = explode(",", $sequence);
-		}
-		return $sequence_array;
-	}
-*/
-/**
-* Gets the database row of the tst_active table for the active user
-*
-* Gets the database row of the tst_active table for the active user
-*
-* @param integer $user_id The database id of the user
-* @return object The database row of the tst_active table
-* @access	public
-*/
-/*
-  // TODO: no longer needed?
-	function getActiveTestUser($user_id = "", $anonymous_id = "")
-	{
-		global $ilDB;
-		global $ilUser;
-
-		if (!$user_id)
-		{
-			$user_id = $ilUser->getId();
-		}
-		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
-		{
-			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-				$ilDB->quote($user_id),
-				$ilDB->quote($this->test_id),
-				$ilDB->quote($_SESSION["tst_access_code"][$this->getTestId()])
-			);
-		}
-		else if (strlen($anonymous_id))
-		{
-			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-				$ilDB->quote($user_id),
-				$ilDB->quote($this->test_id),
-				$ilDB->quote($anonymous_id)
-			);
-		}
-		else
-		{
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-			{
-				return NULL;
-			}
-			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-				$ilDB->quote($user_id),
-				$ilDB->quote($this->test_id)
-			);
-		}
-		$result = $ilDB->query($query);
-		if ($result->numRows())
-		{
-			$this->active = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		}
-		else
-		{
-			$this->active = null;
-		}
-		return $this->active;
-	}
-*/
 	/**
 	* Gets the active id of a given user
 	*
@@ -3759,43 +3558,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 /**
-* Gets the database row of the tst_active table for the active user
-*
-* Gets the database row of the tst_active table for the active user
-*
-* @param integer $user_id The database id of the user
-* @param integer $test_id The database id of the test
-* @return object The database row of the tst_active table
-* @access	public
-*/
-/*
-  // TODO: no longer needed?
-	function _getActiveTestUser($user_id = "", $test_id = "") {
-		global $ilDB;
-		global $ilUser;
-
-		if (!$user_id) {
-			$user_id = $ilUser->id;
-		}
-		if (!$test_id)
-		{
-			return "";
-		}
-		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-			$ilDB->quote($user_id),
-			$ilDB->quote($test_id)
-		);
-
-		$result = $ilDB->query($query);
-		if ($result->numRows()) {
-			return $result->fetchRow(DB_FETCHMODE_OBJECT);
-		} else {
-			return "";
-		}
-	}
-*/
-
-/**
 * Gets the active id of the tst_active table for the active user
 *
 * Gets the active id of the tst_active table for the active user
@@ -3834,155 +3596,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 	}
 
-/**
-* Update the data of the tst_active table for the current user
-*
-* Update the data of the tst_active table for the current user
-* The table saves the state of the active user in the test (sequence position,
-* postponed questions etc.)
-*
-* @param integer $lastindex The sequence position of the question the user last visited
-* @param integer $postpone The sequence position of a question which should be postponed
-* @param boolean $addTries Adds 1 to the number of test completions if set to true
-* @access	public
-*/
-/*
-  // TODO: no longer needed?
-	function setActiveTestUser($lastindex = 1, $postpone = "", $addTries = false)
-	{
-		global $ilDB;
-		global $ilUser;
-
-		if ($lastindex < 1) $lastindex = 1;
-
-		$old_active = $this->getActiveTestUser();
-		if ($old_active)
-		{
-			$sequence = $old_active->sequence;
-			$postponed = $old_active->postponed;
-			if ($postpone)
-			{
-				$sequence_array = split(",", $sequence);
-				$postpone_sequence = $sequence_array[$postpone-1];
-				unset($sequence_array[$postpone-1]);
-				array_push($sequence_array, $postpone_sequence);
-				$sequence = join(",", $sequence_array);
-				$postponed .= ",$postpone_sequence";
-				$postponed = preg_replace("/^,/", "", $postponed);
-			}
-			$tries = $old_active->tries;
-			if ($addTries && ($this->getNrOfResultsForPass($old_active->active_id, $old_active->tries) > 0))
-			{
-				// only add the number of tries if there are ANY results for the current
-				// test pass. Otherwise something must be wrong (doubleclick, reload etc.)
-				$tries++;
-				if ($this->getShuffleQuestions() && !$this->isRandomTest())
-				{
-					$sequence_arr = array_flip($this->questions);
-					$sequence_arr = array_values($sequence_arr);
-					$sequence_arr = $this->pcArrayShuffle($sequence_arr);
-					$sequence = join($sequence_arr, ",");
-				}
-			}
-			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s WHERE user_fi = %s AND test_fi = %s",
-				$ilDB->quote($lastindex),
-				$ilDB->quote($sequence),
-				$ilDB->quote($postponed),
-				$ilDB->quote($tries),
-				$ilDB->quote($ilUser->id),
-				$ilDB->quote($this->test_id)
-			);
-		}
-		else
-		{
-			$sequence_arr = array_flip($this->questions);
-			if ($this->getShuffleQuestions())
-			{
-				$sequence_arr = array_values($sequence_arr);
-				$sequence_arr = $this->pcArrayShuffle($sequence_arr);
-			}
-			$sequence = join($sequence_arr, ",");
-			if ($_SESSION["tst_access_code"][$this->getTestId()])
-			{
-				$anonymous_id = $ilDB->quote($_SESSION["tst_access_code"][$this->getTestId()]);
-			}
-			else
-			{
-				$anonymous_id = "NULL";
-			}
-			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, anonymous_id, sequence, postponed, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($ilUser->id),
-				$ilDB->quote($this->test_id),
-				$anonymous_id,
-				$ilDB->quote($sequence),
-				$ilDB->quote(""),
-				$ilDB->quote($lastindex),
-				$ilDB->quote(0)
-			);
-		}
-		$ilDB->query($query);
-		if ($old_active)
-		{
-			return $old_active->active_id;
-		}
-		else
-		{
-			return $ilDB->getLastInsertId();
-		}
-	}
-*/
-	/**
-	* Adds the sequence of questions for a random test to an existing active dataset
-	*
-	* Adds the sequence of questions for a random test to an existing active dataset
-	* This is called when the initial question sequence for a random test has to be
-	* created. The generation of the questions depends on the active id of the user
-	* which means that the active dataset has to be created before the question sequence
-	* exists.
-	*
-	* @param int $active_id The active id of the user
-	* @access private
-	*/
-	/*
-	// TODO: no longer needed?
-	function addQuestionSequence($active_id)
-	{
-		if ($this->isRandomTest())
-		{
-			global $ilUser;
-			global $ilDB;
-
-			$this->loadQuestions($active_id, 0);
-			if ((count($this->questions)) > $this->getQuestionCount())
-			{
-				// something went terribly wrong, so create a sequence with only the maximum number of allowed questions
-				// This section was introduced due to some random problems with the question sequence (HS, 2007-02-06)
-				global $ilLog;
-				$ilLog->write("fatal error: The number of questions is greater than the allowed question count. user id = " . $ilUser->getId() . ", active id = $active_id, questions = " . print_r($this->questions, true));
-				$sequence_arr = array();
-				for ($i = 1; $i <=  $this->getQuestionCount(); $i++)
-				{
-					$sequence_arr[$i] = $i;
-				}
-			}
-			else
-			{
-				$sequence_arr = array_flip($this->questions);
-			}
-			if ($this->getShuffleQuestions())
-			{
-				$sequence_arr = array_values($sequence_arr);
-				$sequence_arr = $this->pcArrayShuffle($sequence_arr);
-			}
-			$sequence = join($sequence_arr, ",");
-			$query = sprintf("UPDATE tst_active SET sequence = %s WHERE active_id = %s",
-				$ilDB->quote($sequence . ""),
-				$ilDB->quote($active_id . "")
-			);
-			$ilDB->query($query);
-		}
-	}
-*/
 	/**
 	* Shuffles the values of a given array
 	*
@@ -4036,7 +3649,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$pass = $this->_getPass($active_id);
 		}
-		
 		include_once "./Modules/Test/classes/class.ilTestSequence.php";
 		$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
 		$sequence = array();
@@ -8087,8 +7699,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		$active_id = $this->getActiveIdOfUser($user_id);
-		include_once "./Modules/Test/classes/class.ilTestSession.php";
-		$testSession = new ilTestSession($active_id);
 
 		if ($this->getEnableProcessingTime())
 		{
@@ -8107,14 +7717,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 
-		if ($this->hasNrOfTriesRestriction() && ($active_id > 0) && $this->isNrOfTriesReached($testSession->getPass()))
+		if ($this->hasNrOfTriesRestriction() && ($active_id > 0) && $this->isNrOfTriesReached($this->getTestSession($active_id)->getPass()))
 		{
 			$result["executable"] = false;
 			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 			return $result;
 		}
 		
-		if ($testSession->isSubmitted())
+		if ($this->getTestSession($active_id)->isSubmitted())
 		{
 			$result["executable"] = FALSE;
 			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
@@ -8155,8 +7765,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function canShowTestResults($user_id)
 	{
 		$active_id = $this->getActiveIdOfUser($user_id);
-		include_once "./Modules/Test/classes/class.ilTestSession.php";
-		$testSession = new ilTestSession($active_id);
 		if ($active > 0)
 		{
 			$starting_time = $this->getStartingTimeOfUser($active_id);
@@ -8170,7 +7778,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 		$result = TRUE;
-		if (!$this->isTestFinishedToViewResults($active_id, $testSession->getPass()) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
+		if (!$this->isTestFinishedToViewResults($active_id, $this->getTestSession($active_id)->getPass()) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
 		{
 			$result = FALSE;
 		}
@@ -9621,6 +9229,113 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilUser;
 		$assessmentSetting = new ilSetting("assessment");
 		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
+	}
+	
+	/**
+	* Creates the test session data for the active user
+	*
+	* @return object The ilTestSession object or FALSE if the creation of the object fails
+	* @access public
+	*/
+	function &createTestSession()
+	{
+		global $ilUser;
+		
+		include_once "./Modules/Test/classes/class.ilTestSession.php";
+		$testSession = FALSE;
+		$testSession = new ilTestSession();
+		$testSession->setTestId($this->getTestId());
+		$testSession->setUserId($ilUser->getId());
+		$testSession->setAnonymousId($_SESSION["tst_access_code"][$this->getTestId()]);
+		$testSession->saveToDb();
+		$this->testSession =& $testSession;
+		return $this->testSession;
+	}
+
+	/**
+	* Sets the test session data for the active user
+	*
+	* @param integer $active_id The active id of the active user
+	* @return object The ilTestSession object or FALSE if the creation of the object fails
+	* @access public
+	*/
+	function &setTestSession($active_id = "")
+	{
+		if (is_object($this->testSession) && ($this->testSession->getActiveId() > 0)) return $this->testSession;
+		
+		global $ilUser;
+		
+		include_once "./Modules/Test/classes/class.ilTestSession.php";
+		$testSession = FALSE;
+		if ($active_id > 0)
+		{
+			$testSession = new ilTestSession($active_id);
+		}
+		else
+		{
+			$testSession = new ilTestSession();
+			$testSession->loadTestSession($this->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->getTestId()]);
+		}
+		$this->testSession =& $testSession;
+		return $this->testSession;
+	}
+	
+	/**
+	* Returns the test session data for the active user
+	*
+	* @return object The ilTestSession object or FALSE if the creation of the object fails
+	* @access public
+	*/
+	function &getTestSession($active_id = "")
+	{
+		if (is_object($this->testSession) && ($this->testSession->getActiveId() > 0)) return $this->testSession;
+		return $this->setTestSession($active_id);
+	}
+	
+	function &createTestSequence($active_id, $pass, $shuffle)
+	{
+		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		$this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+		if (!$this->testSequence->hasSequence())
+		{
+			$this->testSequence->createNewSequence($this->getQuestionCount(), $shuffle);
+			$this->testSequence->saveToDb();
+		}
+	}
+	
+	function &getTestSequence($active_id = "", $pass = "")
+	{
+		if (is_object($this->testSequence) && ($this->testSequence->getActiveId() > 0)) return $this->testSequence;
+		
+		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		if (($active_id > 0) && (strlen($pass)))
+		{
+			$this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+		}
+		else
+		{
+			$this->testSequence = new ilTestSequence($this->getTestSession()->getActiveId(), $this->getTestSession()->getPass(), $this->isRandomTest());
+		}
+		return $this->testSequence;
+	}
+	
+	function hideCorrectAnsweredQuestions()
+	{
+		if ($this->getTestSession()->getActiveId() > 0)
+		{
+			$result = $this->getTestResult($this->getTestSession()->getActiveId(), $this->getTestSession()->getPass(), TRUE);
+			foreach ($result as $sequence => $question)
+			{
+				if (is_numeric($sequence))
+				{
+					if ($question["reached"] == $question["max"])
+					{
+						$this->getTestSequence()->hideQuestion($question["qid"]);
+					}
+				}
+			}
+			$this->getTestSequence()->saveToDb();
+		}
 	}
 } // END class.ilObjTest
 
