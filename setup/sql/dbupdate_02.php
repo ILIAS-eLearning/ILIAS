@@ -2558,3 +2558,25 @@ ALTER TABLE `il_news_item` ADD INDEX obj_id (`context_obj_id`);
 
 <#1087>
 ALTER TABLE `il_news_item` ADD INDEX c_date (`creation_date`);
+
+<#1088>
+DROP TABLE IF EXISTS `il_md_copyright_selections`;
+CREATE TABLE `il_md_copyright_selections` (
+  `entry_id` int(11) NOT NULL auto_increment,
+  `title` varchar(128) NOT NULL default '',
+  `description` text NOT NULL,
+  `copyright` text NOT NULL,
+  `language` varchar(2) NOT NULL default '',
+  `costs` tinyint(1) NOT NULL default '0',
+  `copyright_and_other_restrictions` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`entry_id`)
+) Type=MyISAM  AUTO_INCREMENT=1 ;
+
+
+<#1089>
+INSERT INTO `il_md_copyright_selections` VALUES (0,'Attribution Non-commercial No Derivatives', 'Creative Commons License', '<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">\r\n<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" />\r\n</a>\r\n<br />This \r\n<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a \r\n<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 License</a>.', 'en', 0, 1);
+INSERT INTO `il_md_copyright_selections` VALUES (0,'Attribution Non-commercial Share Alike (by-nc-sa)', 'Creative Commons License', '<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">\r\n<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" />\r\n</a>\r\n<br />This \r\n<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a \r\n<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 License</a>.', 'en', 0, 1);
+INSERT INTO `il_md_copyright_selections` VALUES (0,'Attribution Non-commercial (by-nc)', 'Creative Commons License', '<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">\r\n<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" />\r\n</a>\r\n<br />This \r\n<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a \r\n<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-Noncommercial 3.0 License</a>.', 'en', 0, 1);
+INSERT INTO `il_md_copyright_selections` VALUES (0,'Attribution No Derivatives (by-nd)', 'Creative Commons License', '<a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">\r\n<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nd/3.0/88x31.png" />\r\n</a>\r\n<br />This \r\n<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a \r\n<a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons Attribution-No Derivative Works 3.0 License</a>.', 'en', 0, 1);
+INSERT INTO `il_md_copyright_selections` VALUES (0,'Attribution Share Alike (by-sa)', 'Creative Commons License', '<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">\r\n<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" />\r\n</a>\r\n<br />This \r\n<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a \r\n<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>.', 'en', 0, 1);
+INSERT INTO `il_md_copyright_selections` VALUES (0,'Attribution (by)', 'Creative Commons License', '<a rel="license" href="http://creativecommons.org/licenses/by/3.0/">\r\n<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />\r\n</a>\r\n<br />This \r\n<span xmlns:dc="http://purl.org/dc/elements/1.1/" href=\\"http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a \r\n<a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>.', 'en', 0, 1);

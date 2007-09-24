@@ -111,5 +111,26 @@ class ilMDUtils
 		}
 	}
 
+	/**
+	 * Parse copyright
+	 * 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string copyright
+	 */
+	public static function _parseCopyright($a_copyright)
+	{
+		include_once('Services/MetaData/classes/class.ilMDSettings.php');
+		$settings = ilMDSettings::_getInstance();
+		if(!$settings->isCopyrightSelectionActive())
+		{
+			return $a_copyright;
+		}
+		include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+		return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
+	}
+
 
 }

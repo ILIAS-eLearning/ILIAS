@@ -205,6 +205,26 @@ class ilMDRights extends ilMDBase
 							$this->getDescription());
 		$writer->xmlEndTag('Rights');
 	}
+	
+	/**
+	 * Lookup description (copyright)
+	 *
+	 * @access public
+	 * @param int rbac_id
+	 * @param int obj_id
+	 * 
+	 */
+	public function _lookupDescription($a_rbac_id,$a_obj_id)
+	{
+	 	global $ilDB;
+	 	
+	 	$query = "SELECT description FROM il_meta_rights ".
+	 		"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
+	 		"AND obj_id = ".$ilDB->quote($a_obj_id)." ";
+	 	$res = $ilDB->query($query);
+	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	return $row->description ? $row->description : '';
+	}
 
 	// STATIC
 	function _getId($a_rbac_id,$a_obj_id)

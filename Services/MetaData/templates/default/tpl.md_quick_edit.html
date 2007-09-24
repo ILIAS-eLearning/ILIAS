@@ -113,6 +113,13 @@
 			{TXT_COPYRIGHT}<br>
 		  </td>
 		  <td class="option_value">
+		  	<!-- BEGIN copyright_selection -->
+				<input type="radio" name="copyright_id" id="cp_{COPYRIGHT_ID}" value="{COPYRIGHT_ID}" {COPYRIGHT_CHECKED} />
+					<label for="cp_{COPYRIGHT_ID}">
+						{COPYRIGHT_TITLE}				
+						<div class="il_Description">{COPYRIGHT_DESCRIPTION}</div>
+					</label>
+			<!-- END copyright_selection -->
 			<textarea rows="2" cols="50" name="rights_copyright">{COPYRIGHT_VAL}</textarea>
 		  </td>
 		</tr>
