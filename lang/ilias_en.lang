@@ -7646,3 +7646,6 @@ meta#:#md_copyright_add#:#Add Copyright Presetting
 meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?
 meta#:#md_copyrights_deleted#:#Deleted Copyright
 meta#:#meta_cp_own#:#Own Copyright Information:
+meta#:#md_adv_desc_show#:#Show Description
+meta#:#md_adv_show#:#Show
+common#:#udf_type_date#:#Date Field

@@ -7606,3 +7606,6 @@ meta#:#md_copyright_add#:#Neue Vorgabe
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
 meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
 meta#:#meta_cp_own#:#Eigene Angabe:
+meta#:#md_adv_desc_show#:#Beschreibung anzeigen
+meta#:#md_adv_show#:#Anzeigen
+common#:#udf_type_date#:#Datumsfeld
