@@ -22,7 +22,6 @@
 */
 
 /** 
-* @defgroup ServicesContainer Services/Container 
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -30,125 +29,124 @@
 * 
 * @ingroup ServicesContainer 
 */
-class ilContainerSortingSettings
+class ilContainerSorting
 {
-	const MODE_TITLE = 0;
-	const MODE_MANUAL = 1;
-	const MODE_ACTIVATION = 2;
-	
 	protected $obj_id;
-	protected $sort_mode;
-	
 	protected $db;
 	
+	protected $manual_sort_enabled = false;
+
 	/**
 	 * Constructor
 	 *
 	 * @access public
-	 * @param
+	 * @param int obj_id
 	 * 
 	 */
 	public function __construct($a_obj_id)
 	{
 	 	global $ilDB;
 	 	
-	 	$this->obj_id = $a_obj_id;
 	 	$this->db = $ilDB;
+	 	$this->obj_id = $a_obj_id;
 	 	
 	 	$this->read();
 	}
 	
 	/**
-	 * lookup sort mode
+	 * Sort
 	 *
 	 * @access public
-	 * @static
-	 *
-	 * @param int obj_id
+	 * @param array of objects by type 
+	 * 
 	 */
-	public static function _lookupSortMode($a_obj_id)
+	public function sortTreeData($a_tree_data)
 	{
-		global $ilDB;
-		
-		$query = "SELECT * FROM container_sorting_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
-		$res = $ilDB->query($query);
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if(!$this->manual_sort_enabled)
 		{
-			return $row->sort_mode;
+			return $a_tree_data;
 		}
-		return self::MODE_TITLE;
+		if(!count($a_tree_data))
+		{
+			return $a_tree_data;
+		}
+		foreach($a_tree_data as $type => $data)
+		{
+			$new_key = 0;
+			if(!is_array($this->sorting[$type]))
+			{
+				$sorted[$type] = $data;
+				continue;
+			}
+			
+			$tmp_indexes = array();
+			foreach($data as $key => $obj)
+			{
+				$tmp_indexes[$obj['child']] = $key;
+			}
+			// First sort all items that have entries in sorting table			
+			foreach($this->sorting[$type] as $ref_id => $pos)
+			{
+				$sorted[$type][$new_key++] = $data[$tmp_indexes[$ref_id]];			
+			}
+			// No append all items that are not in sorting table
+			foreach($tmp_indexes as $ref_id => $key)
+			{
+				if(!isset($this->sorting[$type][$ref_id]))
+				{
+					$sorted[$type][$new_key++] = $data[$key];
+				}
+			}
+		}
+		return $sorted ? $sorted : array(); 
 	}
 	
 	/**
-	 * is manual sorting enabled
+	 * Save post
 	 *
 	 * @access public
-	 * @param int obj_id
+	 * @param array of positions e.g array(crs => array(1,2,3),'lres' => array(3,5,6))
 	 * 
 	 */
-	public function _isManualSortingEnabled($a_obj_id)
+	public function savePost($a_type_positions)
 	{
-	 	return self::_lookupSortMode($a_obj_id) == self::MODE_MANUAL;
+	 	if(!is_array($a_type_positions))
+	 	{
+	 		return false;
+	 	}
+	 	foreach($a_type_positions as $type => $positions)
+	 	{
+	 		if(!is_array($positions))
+	 		{
+	 			continue;
+	 		}
+	 		asort($positions,SORT_NUMERIC);
+	 		$this->saveByType($type,$positions);
+	 	}
 	}
 	
 	/**
-	 * get sort mode
+	 * Save positions by type
 	 *
 	 * @access public
+	 * @param string type e.g lres,crs
+	 * @param array items
 	 * 
 	 */
-	public function getSortMode()
+	public function saveByType($a_type,$a_items)
 	{
-	 	return $this->sort_mode ? $this->sort_mode : 0;
+	 	$query = "REPLACE INTO container_sorting SET ".
+	 		"obj_id = ".$this->db->quote($this->obj_id).", ".
+	 		"type = ".$this->db->quote($a_type).", ".
+	 		"items = ".$this->db->quote(serialize($a_items))." ";
+	 	$res = $this->db->query($query);
 	}
 	
-	/**
-	 * set sort mode
-	 *
-	 * @access public
-	 * @param int MODE_TITLE | MODE_MANUAL | MODE_ACTIVATION
-	 * 
-	 */
-	public function setSortMode($a_mode)
-	{
-	 	$this->sort_mode = (int) $a_mode;
-	}
 	
 	/**
-	 * Update
-	 *
-	 * @access public
-	 * 
-	 */
-	public function update()
-	{
-		$query = "REPLACE INTO container_sorting_settings ".
-			"SET obj_id = ".$this->db->quote($this->obj_id).", ".
-			"sort_mode = ".$this->db->quote($this->sort_mode)." ";
-		$this->db->query($query);
-	}
-
-	/**
-	 * save settings
-	 *
-	 * @access public
-	 * 
-	 */
-	public function save()
-	{
-	 	$query = "INSERT INTO container_sorting_settings ".
-	 		"SET obj_id = ".$this->db->quote($this->obj_id).", ".
-	 		"sort_mode = ".$this->db->quote($this->sort_mode)." ";
-	 	$this->db->query($query);
-	}
-	
-	/**
-	 * read settings
+	 * Read
 	 *
 	 * @access private
-	 * @param
 	 * 
 	 */
 	private function read()
@@ -158,15 +156,18 @@ class ilContainerSortingSettings
 	 		return true;
 	 	}
 	 	
-	 	$query = "SELECT * FROM container_sorting_settings ".
+	 	include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+	 	$this->manual_sort_enabled = ilContainerSortingSettings::_isManualSortingEnabled($this->obj_id);
+	 	
+	 	$query = "SELECT * FROM container_sorting ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->sort_mode = $row->sort_mode;
+	 		$this->sorting[$row->type] = unserialize($row->items);
 	 	}
+		return true;	
 	}
-	
 }
 
 

@@ -399,6 +399,15 @@ class ilContainerGUI extends ilObjectGUI
 				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("link_selected_items"));
 				$tpl->setVariable("PANEL_CMD", "link");
 				$tpl->parseCurrentBlock();
+
+				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+				if(ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainerSortingSettings::MODE_MANUAL)
+				{
+					$tpl->setCurrentBlock('admin_panel_cmd');
+					$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt('sorting_save'));
+					$tpl->setVariable("PANEL_CMD", "saveSorting");
+					$tpl->parseCurrentBlock();
+				}
 			}
 			else
 			{
@@ -410,6 +419,7 @@ class ilContainerGUI extends ilObjectGUI
 				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("clear_clipboard"));
 				$tpl->setVariable("PANEL_CMD", "clear");
 				$tpl->parseCurrentBlock();
+				
 			}
 			$tpl->setCurrentBlock("admin_panel");
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
@@ -611,6 +621,9 @@ class ilContainerGUI extends ilObjectGUI
 
 		$found = false;
 
+		include_once('Services/Container/classes/class.ilContainerSorting.php');
+		$sort = new ilContainerSorting($this->object->getId());
+
 		foreach ($objects as $key => $object)
 		{
 
@@ -636,9 +649,10 @@ class ilContainerGUI extends ilObjectGUI
 					$type = $object["type"];
 					break;
 			}
-
+			
 			$this->items[$type][$key] = $object;
 		}
+		$this->items = $sort->sortTreeData($this->items);
 	}
 
 	function renderItemList($a_type = "all")
@@ -756,6 +770,7 @@ class ilContainerGUI extends ilObjectGUI
 							$this->resetRowType();
 
 							// content row
+							$this->current_position = 1;
 							foreach($item_html as $item)
 							{
 								if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
@@ -836,7 +851,6 @@ class ilContainerGUI extends ilObjectGUI
 				// to do:
 				break;
 		}
-
 		return $output_html;
 	}
 
@@ -972,6 +986,16 @@ class ilContainerGUI extends ilObjectGUI
 			$a_tpl->setVariable("ITEM_ID", $a_item_ref_id);
 			$a_tpl->parseCurrentBlock();
 			$nbsp = false;
+		}
+		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+		if($this->isActiveAdministrationPanel() && 
+			ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainerSortingSettings::MODE_MANUAL)
+		{
+			$a_tpl->setCurrentBlock('block_position');
+			$a_tpl->setVariable('POS_TYPE',$a_image_type);
+			$a_tpl->setVariable('POS_ID',$a_item_ref_id);
+			$a_tpl->setVariable('POSITION',sprintf('%.1f',$this->current_position++));
+			$a_tpl->parseCurrentBlock();
 		}
 		if ($nbsp)
 		{
@@ -2067,6 +2091,22 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	 		default:
 	 			return false;
 	 	}
+	}
+	
+	/**
+	 * Save Sorting
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function saveSortingObject()
+	{
+		include_once('Services/Container/classes/class.ilContainerSorting.php');
+		$sorting = new ilContainerSorting($this->object->getId());
+		$sorting->savePost($_POST['position']);
+		ilUtil::sendInfo($this->lng->txt('sorting_saved',true));
+		$this->ctrl->returnToParent($this);
 	}
 	
 
