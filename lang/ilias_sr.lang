@@ -7628,3 +7628,33 @@ administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Setti
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.###23 09 2007 new variable
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource###23 09 2007 new variable
 common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file###23 09 2007 new variable
+assessment#:#tst_reset_processing_time#:#Reset the maximum processing time for every test pass###25 09 2007 new variable
+assessment#:#tst_reset_processing_time_desc#:#If checked, the maximum processing time will be reset back to the defined maximum processing time after a test pass has been finished. This setting only works with an enabled maximum processing time and multiple test passes.###25 09 2007 new variable
+common#:#accessRestrict#:#Set limited Access###25 09 2007 new variable
+common#:#accessFree#:#Remove limited Access###25 09 2007 new variable
+common#:#access_free_granted#:#Set the selected user(s) to unlimited access###25 09 2007 new variable
+common#:#access_restricted#:#Set the selected user(s) to limited access###25 09 2007 new variable
+common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?###25 09 2007 new variable
+common#:#access_from#:#Access (from)###25 09 2007 new variable
+common#:#access_restrict_enter#:#Please set the period for the limited access restriction###25 09 2007 new variable
+meta#:#md_copyright_settings#:#Copyright Settings###25 09 2007 new variable
+meta#:#md_copyright_enabled#:#Enable Copyright Selection###25 09 2007 new variable
+meta#:#md_copyright_selection#:#Copyright Presettings###25 09 2007 new variable
+meta#:#md_used#:#Usage###25 09 2007 new variable
+meta#:#md_copyright_preview#:#Copyright (Preview)###25 09 2007 new variable
+meta#:#md_copyright_edit#:#Edit Copyright Presetting###25 09 2007 new variable
+meta#:#md_copyright_value#:#Copyright###25 09 2007 new variable
+meta#:#md_copyright_add#:#Add Copyright Presetting###25 09 2007 new variable
+meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?###25 09 2007 new variable
+meta#:#md_copyrights_deleted#:#Deleted Copyright###25 09 2007 new variable
+meta#:#meta_cp_own#:#Own Copyright Information:###25 09 2007 new variable
+meta#:#md_adv_desc_show#:#Show Description###25 09 2007 new variable
+meta#:#md_adv_show#:#Show###25 09 2007 new variable
+common#:#udf_type_date#:#Date Field###25 09 2007 new variable
+common#:#sorting_header#:#Content Item Sorting###25 09 2007 new variable
+common#:#sorting_title_header#:#Sort by Title###25 09 2007 new variable
+common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.###25 09 2007 new variable
+common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
+common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
+common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
+common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
