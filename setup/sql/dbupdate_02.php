@@ -2583,3 +2583,10 @@ INSERT INTO `il_md_copyright_selections` VALUES (0,'Attribution (by)', 'Creative
 
 <#1090>
 TRUNCATE TABLE `adv_md_substitutions`;
+
+<#1091>
+CREATE TABLE `container_sorting_settings` (
+`obj_id` INT( 11 ) NOT NULL ,
+`sort_mode` TINYINT( 1 ) DEFAULT '0' NOT NULL ,
+PRIMARY KEY ( `obj_id` )
+) TYPE = MYISAM ;

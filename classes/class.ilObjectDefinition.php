@@ -158,6 +158,7 @@ class ilObjectDefinition extends ilSaxParser
 		
 		return $this->obj_data[$a_obj_name]["translate"];
 	}
+	
 
 	/**
 	* Does object permits stopping inheritance?
@@ -320,6 +321,22 @@ class ilObjectDefinition extends ilSaxParser
 	function allowCopy($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["allow_copy"];
+	}
+	
+	/**
+	 * get content item sorting modes
+	 *
+	 * @access public
+	 * @param 
+	 * 
+	 */
+	public function getContentItemSortingModes($a_obj_name)
+	{
+	 	if(isset($this->obj_data[$a_obj_name]['sorting']))
+	 	{
+	 		return $this->obj_data[$a_obj_name]['sorting']['modes'] ? $this->obj_data[$a_obj_name]['sorting']['modes'] : array(); 
+	 	}
+	 	return array();
 	}
 	
 	/**
@@ -645,6 +662,11 @@ class ilObjectDefinition extends ilSaxParser
 				$this->current_tag = "action";
 				$this->current_tag_name = $a_attribs["name"];
 				$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["name"] = $a_attribs["name"];
+				break;
+				
+			case 'sorting':
+				$this->current_tag = 'sorting';
+				$this->obj_data[$this->parent_tag_name]['sorting']['modes'][] = $a_attribs['mode'];
 				break;
 		}
 	}

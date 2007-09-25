@@ -218,6 +218,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			//add template for buttons
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+			$this->showSortingSettings();
+
 			// only in administration
 			// to do: make this in repository work
 			if (false)
@@ -426,6 +428,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 			$newObj->addTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
 		}
+		
+		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+		$settings = new ilContainerSortingSettings($newObj->getId());
+		$settings->setSortMode((int) $_POST['sorting']);
+		$settings->save();
+		
 
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("cat_added"),true);
@@ -454,6 +462,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		include_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 		$this->getTemplateFile("edit",'');
+		$this->showSortingSettings();
 		$array_push = true;
 
 		if ($_SESSION["error_post_vars"])
@@ -652,6 +661,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 			
 			$this->update = $this->object->update();
 		}
+		
+		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+		$settings = new ilContainerSortingSettings($this->object->getId());
+		$settings->setSortMode((int) $_POST['sorting']);
+		$settings->update();
 
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
@@ -1470,6 +1484,40 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 
+	}
+	
+	/**
+	 * show sorting settings
+	 *
+	 * @access protected
+	 */
+	protected function showSortingSettings()
+	{
+		$this->tpl->setVariable('TXT_SORTING',$this->lng->txt('sorting_header'));
+		$this->tpl->setVariable('TXT_SORT_TITLE',$this->lng->txt('sorting_title_header'));
+		$this->tpl->setVariable('INFO_SORT_TITLE',$this->lng->txt('sorting_info_title'));
+		$this->tpl->setVariable('TXT_SORT_MANUAL',$this->lng->txt('sorting_manual_header'));
+		$this->tpl->setVariable('INFO_SORT_MANUAL',$this->lng->txt('sorting_info_manual'));
+		
+		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+		if($this->getCreationMode())
+		{
+			$settings = new ilContainerSortingSettings(0);
+		}
+		else
+		{
+			$settings = new ilContainerSortingSettings($this->object->getId());
+		}
+		
+		
+		$this->tpl->setVariable('RADIO_SORT_TITLE',ilUtil::formRadioButton(
+			$settings->getSortMode() == ilContainerSortingSettings::MODE_TITLE,
+			'sorting',
+			ilContainerSortingSettings::MODE_TITLE));
+		$this->tpl->setVariable('RADIO_SORT_MANUAL',ilUtil::formRadioButton(
+			$settings->getSortMode() == ilContainerSortingSettings::MODE_MANUAL,
+			'sorting',
+			ilContainerSortingSettings::MODE_MANUAL));
 	}
 
 

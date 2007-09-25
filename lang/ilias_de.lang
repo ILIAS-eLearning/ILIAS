@@ -7609,3 +7609,8 @@ meta#:#meta_cp_own#:#Eigene Angabe:
 meta#:#md_adv_desc_show#:#Beschreibung anzeigen
 meta#:#md_adv_show#:#Anzeigen
 common#:#udf_type_date#:#Datumsfeld
+common#:#sorting_header#:#Sortierung
+common#:#sorting_title_header#:#Nach Titel
+common#:#sorting_info_title#:#Wählen Sie diese Einstellung, um die Materialien automatisch nach ihrem Titel zu sortieren.
+common#:#sorting_manual_header#:#Manuelle Sortierung
+common#:#sorting_info_manual#:#Wenn ausgewählt, können die Materialien manuell in beliebiger Reihenfolge sortiert werden.
