@@ -122,7 +122,6 @@ class ilTestSession
 	function saveToDb()
 	{
 		global $ilDB;
-		global $ilLog;
 		
 		$submitted = ($this->isSubmitted()) ? "1" : "0";
 		$submittedTimestamp = (strlen($this->getSubmittedTimestamp())) ? $ilDB->quote($this->getSubmittedTimestamp()) : "NULL";
@@ -152,7 +151,6 @@ class ilTestSession
 			$result = $ilDB->query($query);
 			$this->active_id = $ilDB->getLastInsertId();
 		}
-		$ilLog->write($query);
 	}
 	
 	function loadTestSession($test_id, $user_id = "", $anonymous_id = "")
@@ -191,8 +189,6 @@ class ilTestSession
 				$ilDB->quote($test_id)
 			);
 		}
-		global $ilLog;
-		$ilLog->write($query);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
