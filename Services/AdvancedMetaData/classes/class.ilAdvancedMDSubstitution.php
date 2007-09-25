@@ -36,7 +36,7 @@ class ilAdvancedMDSubstitution
 	protected $db;
 	
 	protected $type;
-	protected $substitution;
+	protected $substitutions;
 	protected $enabled_desc = true;
 	protected $active = false;
 	protected $date_fields = array();
@@ -74,6 +74,25 @@ class ilAdvancedMDSubstitution
 			return self::$instances[$a_type];
 		}
 		return self::$instances[$a_type] = new ilAdvancedMDSubstitution($a_type);
+	}
+	
+	/**
+	 * Sort definitions
+	 *
+	 * @access public
+	 * @param array int field_id
+	 * 
+	 */
+	public function sortDefinitions($a_definitions)
+	{
+	 	$sorted = array();
+	 	foreach($this->substitutions as $field_id)
+	 	{
+	 		$sorted[] = $field_id;
+	 		$key = array_search($field_id,$a_definitions);
+ 			unset($a_definitions[$key]);
+	 	}
+	 	return array_merge($sorted,$a_definitions);
 	}
 	
 	/**
@@ -119,8 +138,44 @@ class ilAdvancedMDSubstitution
 	 * @param string description
 	 * 
 	 */
-	public function substitute($a_ref_id,$a_obj_id)
+	public function getParsedSubstitutions($a_ref_id,$a_obj_id)
 	{
+  		if(!count($this->getSubstitutions()))
+  		{
+  			return array();
+  		}
+  		
+  		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+  		$values = ilAdvancedMDValues::_getValuesByObjId($a_obj_id);
+		  		
+  		foreach($this->getSubstitutions() as $field_id)
+  		{
+			if(!isset($values[$field_id]) or !$values[$field_id])
+			{
+				continue;
+			}
+			if(!isset($this->active_fields[$field_id]))
+			{
+				continue;
+			}
+			if(in_array($field_id,$this->date_fields))
+			{
+				$value = ilFormat::formatUnixTime((int) $values[$field_id]);
+			}
+			else
+			{
+				$value = $values[$field_id];
+			}
+			
+			$data['name'] = $this->active_fields[$field_id];
+			$data['value'] = $value;
+			
+			
+			$substituted[] = $data;
+  		}
+  		
+  		return $substituted ? $substituted : array();
+  		/*
   		$string = $this->getSubstitutionString();
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		foreach(ilAdvancedMDValues::_getValuesByObjId($a_obj_id) as $field_id => $value)
@@ -149,6 +204,31 @@ class ilAdvancedMDSubstitution
 		// Delete all other blocks
 		$string = preg_replace('/\[IF_F_\d+\].*\[\/IF_F_\d+\]/U','',$string);
 		return $string;
+		*/
+	}
+	
+	/**
+	 * set substitutions
+	 *
+	 * @access public
+	 * @param array array of field definitions
+	 * 
+	 */
+	public function setSubstitutions($a_field_ids)
+	{
+	 	$this->substitutions = $a_field_ids;
+	}
+	
+	/**
+	 * append field to substitutions
+	 *
+	 * @access public
+	 * @param int field id
+	 * 
+	 */
+	public function appendSubstitution($a_field_id)
+	{
+	 	$this->substitutions[] = $a_field_id;
 	}
 	
 	/**
@@ -158,21 +238,21 @@ class ilAdvancedMDSubstitution
 	 * @param
 	 * 
 	 */
-	public function getSubstitutionString()
+	public function getSubstitutions()
 	{
-	 	return $this->substitution;
+	 	return $this->substitutions ? $this->substitutions : array();
 	}
 	
 	/**
-	 * Set substitution
+	 * is substituted
 	 *
 	 * @access public
-	 * @param string substitution
+	 * @param int field_id
 	 * 
 	 */
-	public function setSubstitutionString($a_substitution)
+	public function isSubstituted($a_field_id)
 	{
-	 	$this->substitution = $a_substitution;
+	 	return in_array($a_field_id,$this->getSubstitutions());
 	}
 	
 	/**
@@ -185,7 +265,7 @@ class ilAdvancedMDSubstitution
 	{
 	 	$query = "REPLACE INTO adv_md_substitutions ".
 	 		"SET obj_type = ".$this->db->quote($this->type).", ".
-	 		"substitution = ".$this->db->quote($this->getSubstitutionString()).", ".
+	 		"substitution = ".$this->db->quote(serialize($this->getSubstitutions())).", ".
 	 		"hide_description = ".$this->db->quote(!$this->isDescriptionEnabled());
 			
 	 	$res = $this->db->query($query);
@@ -203,7 +283,7 @@ class ilAdvancedMDSubstitution
 	 	$this->date_fields = ilAdvancedMDFieldDefinition::_lookupDateFields();
 	 	
 	 	// Check active status
-	 	$query = "SELECT active,field_id FROM adv_md_record AS amr ".
+	 	$query = "SELECT active,field_id,amfd.title FROM adv_md_record AS amr ".
 	 		"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
 	 		"JOIN adv_md_field_definition AS amfd ON amr.record_id = amfd.record_id ".
 	 		"WHERE active = 1 ".
@@ -212,15 +292,16 @@ class ilAdvancedMDSubstitution
 	 	$this->active = $res->numRows() ? true : false;
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->active_fields[] = $row->field_id;
+	 		$this->active_fields[$row->field_id] = $row->title;
 	 	}
 			
 	 	$query = "SELECT * FROM adv_md_substitutions ".
 	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";
 	 	$res = $this->db->query($query);
+	 	$this->substitutions = array();
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->substitution = $row->substitution;
+	 		$this->substitutions = unserialize($row->substitution);
 	 		$this->enabled_desc = !$row->hide_description;
 	 	}
 	}

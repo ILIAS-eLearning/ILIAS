@@ -112,7 +112,31 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getAssignableObjectTypes()
 	{
+	 	return array('crs');
 	 	return array('crs','rcrs');
+	}
+	
+	/**
+	 * get activate obj types
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string obj types
+	 */
+	public static function _getActivatedObjTypes()
+	{
+		global $ilDB;
+		
+		$query = "SELECT DISTINCT(obj_type) FROM adv_md_record_objs AS amo ".
+			"JOIN adv_md_record AS amr ON amo.record_id = amr.record_id ".
+			"WHERE active = 1 ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_types[] = $row->obj_type; 
+		}
+		return $obj_types ? $obj_types : array(); 
 	}
 	
 	/**
@@ -185,6 +209,8 @@ class ilAdvancedMDRecord
 		}
 		return $records;
 	}
+	
+
 	
 	/**
 	 * Delete record and all related data

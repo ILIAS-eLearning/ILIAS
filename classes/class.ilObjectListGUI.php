@@ -705,9 +705,14 @@ class ilObjectListGUI
 	 */
 	public function insertSubstitutions()
 	{
-		$this->tpl->setCurrentBlock('item_adv_substitutions');
-		$this->tpl->setVariable('ITEM_SUBSTITUTIONS',$this->substitutions->substitute($this->ref_id,$this->obj_id));
-		$this->tpl->parseCurrentBlock();
+		foreach($this->substitutions->getParsedSubstitutions($this->ref_id,$this->obj_id) as $data)
+		{
+			$this->tpl->touchBlock("std_prop");
+			$this->tpl->setCurrentBlock('item_property');
+			$this->tpl->setVariable('TXT_PROP',$data['name']);
+			$this->tpl->setVariable('VAL_PROP',$data['value']);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 

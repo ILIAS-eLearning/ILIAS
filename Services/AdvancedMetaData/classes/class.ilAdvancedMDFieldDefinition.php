@@ -169,6 +169,33 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * get active definitions by obj type
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string obj_type
+	 */
+	public static function _getActiveDefinitionsByObjType($a_type)
+	{
+		global $ilDB;
+		
+		$query = "SELECT field_id FROM adv_md_record_objs AS aro ".
+			"JOIN adv_md_record AS amr ON aro.record_id = amr.record_id ".
+			"JOIN adv_md_field_definition AS amf ON aro.record_id = amf.record_id ".
+			"WHERE active = 1 ".
+			"AND obj_type = ".$ilDB->quote($a_type)." ".
+			"ORDER BY aro.record_id,position ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$field_ids[] = $row->field_id;
+		}
+		return $field_ids ? $field_ids : array();
+	}
+	
+	
+	/**
 	 * Delete all fields by record_id
 	 *
 	 * @access public

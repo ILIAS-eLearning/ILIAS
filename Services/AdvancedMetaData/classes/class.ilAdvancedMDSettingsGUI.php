@@ -124,6 +124,26 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function updateSubstitutions()
 	{
+		
+		foreach(ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type)
+		{
+	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
+	 		$sub->setSubstitutions(array());
+			$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
+			asort($_POST['position'][$obj_type],SORT_NUMERIC);
+			foreach($_POST['position'][$obj_type] as $field_id => $pos)
+			{
+				if(isset($_POST['show'][$obj_type][$field_id]) and $_POST['show'][$obj_type][$field_id])
+				{
+					$sub->appendSubstitution($field_id);
+				}			
+			}
+			$sub->update();
+		}
+		
+	 	
+	 	/*
 	 	foreach(ilAdvancedMDRecord::_getAllRecordsByObjectType() as $obj_type => $visible_record)
 	 	{
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
@@ -132,6 +152,7 @@ class ilAdvancedMDSettingsGUI
 	 		$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
 	 		$sub->update();
 	 	}
+	 	*/
 	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
 	 	$this->showRecords();
 	 	return true;
@@ -942,15 +963,39 @@ class ilAdvancedMDSettingsGUI
 			$check->setChecked($sub->isDescriptionEnabled() ? true : false);
 			$this->form->addItem($check);
 			
-			$area = new ilTextAreaInputGUI($this->lng->txt('md_adv_substitution'),'substitution_'.$obj_type);
-			$area->setUseRte(true);
-			$area->setRteTagSet('standard');
-			$area->setValue(ilUtil::prepareFormOutput($sub->getSubstitutionString()));
-			$area->setRows(5);
-			$area->setCols(80);
-			$this->form->addItem($area);
+			#$area = new ilTextAreaInputGUI($this->lng->txt('md_adv_substitution'),'substitution_'.$obj_type);
+			#$area->setUseRte(true);
+			#$area->setRteTagSet('standard');
+			#$area->setValue(ilUtil::prepareFormOutput($sub->getSubstitutionString()));
+			#$area->setRows(5);
+			#$area->setCols(80);
+			#$this->form->addItem($area);
+
+			$definitions = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType($obj_type);
+			$definitions = $sub->sortDefinitions($definitions);
+			
+			$counter = 1;
+			foreach($definitions as $definition_id)
+			{
+				$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($definition_id);
+				
+				$check = new ilCheckboxInputGUI($def->getTitle(),'show['.$obj_type.']['.$definition_id.']');
+				$check->setValue(1);
+				$check->setOptionTitle($this->lng->txt('md_adv_show'));
+				$check->setChecked($sub->isSubstituted($definition_id));
+				
+				$pos = new ilTextInputGUI($this->lng->txt('position').':','position['.$obj_type.']['.$definition_id.']');
+				$pos->setSize(3);
+				$pos->setMaxLength(4);
+				$pos->setValue(sprintf('%.1f',$counter++));
+				$check->addSubItem($pos);
+				
+				$this->form->addItem($check);
+			}
+			
 			
 			// placeholder
+			/*
 			$custom = new ilCustomInputGUI($this->lng->txt('md_adv_placeholders'));
 			$tpl = new ilTemplate('tpl.placeholder_info.html',true,true,'Services/AdvancedMetaData');
 			foreach($records as $record)
@@ -971,6 +1016,7 @@ class ilAdvancedMDSettingsGUI
 			}
 			$custom->setHTML($tpl->get());
 			$this->form->addItem($custom);
+			*/
 		}
 		$this->form->setTitle($this->lng->txt('md_adv_substitution_table'));
 		$this->form->addCommandButton('updateSubstitutions',$this->lng->txt('save'));
