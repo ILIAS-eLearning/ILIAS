@@ -218,6 +218,15 @@ class ilObjTest extends ilObject
 	var $enable_processing_time;
 
 /**
+* Indicates wheather the maximum processing time should be reset for a new test pass or not
+*
+* Contains 0 if the processing time should not be reset, 1 if the processing time should be reset
+*
+* @var integer
+*/
+	var $reset_processing_time;
+
+/**
 * The starting time of the test
 *
 * The starting time in database timestamp format which defines the earliest starting time for the test
@@ -438,6 +447,7 @@ class ilObjTest extends ilObject
 		$this->ending_time = "";
 		$this->processing_time = "00:00:00";
 		$this->enable_processing_time = "0";
+		$this->reset_processing_time = 0;
 		$this->ects_output = 0;
 		$this->ects_fx = "";
 		$this->random_test = 0;
@@ -1211,12 +1221,12 @@ class ilObjTest extends ilObject
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, " .
 				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, show_marker, " .
-				"fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, " .
+				"fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, reset_processing_time, " .
 				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
 				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
 				"allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) " .
-				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
 				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
@@ -1235,6 +1245,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
 				$ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
+				$ilDB->quote($this->getResetProcessingTime() . ""),
 				$ilDB->quote($this->reporting_date . ""),
 				$ilDB->quote($this->starting_time . ""),
 				$ilDB->quote($this->ending_time . ""),
@@ -1286,7 +1297,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote($this->sequence_settings . ""),
@@ -1303,6 +1314,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
 				$ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
+				$ilDB->quote($this->getResetProcessingTime() . ""),
 				$ilDB->quote($this->reporting_date . ""),
 				$ilDB->quote($this->starting_time . ""),
 				$ilDB->quote($this->ending_time . ""),
@@ -1819,6 +1831,7 @@ class ilObjTest extends ilObject
 				$this->setTitleOutput($data->title_output);
 				$this->processing_time = $data->processing_time;
 				$this->enable_processing_time = $data->enable_processing_time;
+				$this->reset_processing_time = $data->reset_processing_time;
 				$this->reporting_date = $data->reporting_date;
 				$this->setShuffleQuestions($data->shuffle_questions);
 				$this->setResultsPresentation($data->results_presentation);
@@ -2625,19 +2638,33 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 
-/**
-* Returns the state of the processing time (enabled/disabled)
-*
-* Returns the state of the processing time (enabled/disabled)
-*
-* @return integer The processing time state (0 for disabled, 1 for enabled)
-* @access public
-* @see $processing_time
-*/
-  function getEnableProcessingTime()
-	{
-    return $this->enable_processing_time;
-  }
+	/**
+	* Returns the state of the processing time (enabled/disabled)
+	*
+	* Returns the state of the processing time (enabled/disabled)
+	*
+	* @return integer The processing time state (0 for disabled, 1 for enabled)
+	* @access public
+	* @see $processing_time
+	*/
+	  function getEnableProcessingTime()
+		{
+	    return $this->enable_processing_time;
+	  }
+
+	/**
+	* Returns wheather the processing time should be reset or not
+	*
+	* Returns wheather the processing time should be reset or not
+	*
+	* @return integer 0 for no reset, 1 for a reset
+	* @access public
+	* @see $reset_processing_time
+	*/
+	  function getResetProcessingTime()
+		{
+	    return $this->reset_processing_time;
+	  }
 
 /**
 * Returns the starting time of the test
@@ -2756,6 +2783,27 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->enable_processing_time = "1";
 		} else {
 			$this->enable_processing_time = "0";
+		}
+	}
+
+/**
+* Sets wheather the processing time should be reset or not
+*
+* Sets wheather the processing time should be reset or not
+*
+* @param integer $reset 1 to reset the processing time, 0 otherwise
+* @access public
+* @see $processing_time
+*/
+	function setResetProcessingTime($reset = 0)
+	{
+		if ($reset) 
+		{
+			$this->reset_processing_time = 1;
+		} 
+		else 
+		{
+			$this->reset_processing_time = 0;
 		}
 	}
 
@@ -5564,6 +5612,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				case "results_presentation":
 					$this->setResultsPresentation($metadata["entry"]);
 					break;
+				case "reset_processing_time":
+					$this->setResetProcessingTme($metadata["entry"]);
+					break;
 				case "show_solution_details":
 					$this->setShowSolutionDetails($metadata["entry"]);
 					break;
@@ -5743,6 +5794,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "author");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// reset processing time
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "reset_processing_time");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getResetProcessingTime());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// count system
@@ -6487,6 +6544,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->nr_of_tries = $this->getNrOfTries();
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
 		$newObj->processing_time = $this->getProcessingTime();
+		$newObj->reset_processing_time = $this->getResetProcessingTime();
 		$newObj->enable_processing_time = $this->getEnableProcessingTime();
 		$newObj->starting_time = $this->getStartingTime();
 		$newObj->ending_time = $this->getEndingTime();
@@ -6576,6 +6634,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->nr_of_tries = $original->getNrOfTries();
 		$newObj->setUsePreviousAnswers($original->getUsePreviousAnswers());
 		$newObj->processing_time = $original->getProcessingTime();
+		$newObj->setResetProcessingTime($original->getResetProcessingTime());
 		$newObj->enable_processing_time = $original->getEnableProcessingTime();
 		$newObj->starting_time = $original->getStartingTime();
 		$newObj->ending_time = $original->getEndingTime();
@@ -9029,6 +9088,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"UsePreviousAnswers" => $this->getUsePreviousAnswers(),
 			"ProcessingTime" => $this->getProcessingTime(),
 			"EnableProcessingTime" => $this->getEnableProcessingTime(),
+			"ResetProcessingTime" => $this->getResetProcessingTime(),
 			"StartingTime" => $this->getStartingTime(),
 			"EndingTime" => $this->getEndingTime(),
 			"ECTSOutput" => $this->getECTSOutput(),
@@ -9085,6 +9145,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setNrOfTries($testsettings["NrOfTries"]);
 			$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
 			$this->setProcessingTime($testsettings["ProcessingTime"]);
+			$this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
 			$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
 			$this->setStartingTime($testsettings["StartingTime"]);
 			$this->setEndingTime($testsettings["EndingTime"]);

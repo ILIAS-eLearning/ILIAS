@@ -863,6 +863,8 @@ assessment#:#tst_report_after_first_question#:#Offer test results when the test 
 assessment#:#tst_report_after_question#:#Allow instant verification of answers
 assessment#:#tst_report_after_test#:#Offer test results when the test is finished
 assessment#:#tst_report_after_date#:#After a fixed score reporting date
+assessment#:#tst_reset_processing_time#:#Reset the maximum processing time for every test pass
+assessment#:#tst_reset_processing_time_desc#:#If checked, the maximum processing time will be reset back to the defined maximum processing time after a test pass has been finished. This setting only works with an enabled maximum processing time and multiple test passes.
 assessment#:#tst_result_user_name#:#Test Results for %s
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_results#:#Test Results

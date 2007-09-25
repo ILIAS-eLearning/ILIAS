@@ -939,6 +939,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["enable_processing_time"] = "0";
 		}
+		$data["reset_processing_time"] = "0";
+		if ($_POST["chb_processing_time"])
+		{
+			if ($_POST["chb_reset_processing_time"])
+			{
+				$data["reset_processing_time"] = "1";
+			}
+		}
 		if ($_POST["chb_use_previous_answers"])
 		{
 			$data["use_previous_answers"] = "1";
@@ -986,6 +994,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
+		$this->object->setResetProcessingTime($data["reset_processing_time"]);
 		$this->object->setUsePreviousAnswers($data["use_previous_answers"]);
 		$this->object->setTitleOutput($data["title_output"]);
 		
@@ -1479,6 +1488,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["use_previous_answers"] = $this->object->getUsePreviousAnswers();
 		$data["title_output"] = $this->object->getTitleOutput();
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
+		$data["reset_processing_time"] = $this->object->getResetProcessingTime();
 		$data["processing_time"] = $this->object->getProcessingTime();
 		$data["random_test"] = $this->object->isRandomTest();
 		$data["password"] = $this->object->getPassword();
@@ -1654,12 +1664,18 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_NR_OF_TRIES", $data["nr_of_tries"]);
 		$this->tpl->setVariable("COMMENT_NR_OF_TRIES", $this->lng->txt("0_unlimited"));
 		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
+		$this->tpl->setVariable("TXT_RESET_PROCESSING_TIME", $this->lng->txt("tst_reset_processing_time"));
+		$this->tpl->setVariable("TEXT_RESET_PROCESSING_TIME_DESC", $this->lng->txt("tst_reset_processing_time_desc"));
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME_DESC", $this->lng->txt("tst_processing_time_desc"));
 		$time_input = ilUtil::makeTimeSelect("processing_time", false, substr($data["processing_time"], 0, 2), substr($data["processing_time"], 3, 2), substr($data["processing_time"], 6, 2));
 		$this->tpl->setVariable("MAX_PROCESSING_TIME", $time_input . " (hh:mm:ss)");
 		if ($data["enable_processing_time"]) {
 			$this->tpl->setVariable("CHECKED_PROCESSING_TIME", " checked=\"checked\"");
+		}
+		if ($data["reset_processing_time"]) 
+		{
+			$this->tpl->setVariable("CHECKED_RESET_PROCESSING_TIME", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_RANDOM_TEST", $this->lng->txt("tst_random_selection"));
 		$this->tpl->setVariable("TEXT_RANDOM_TEST_DESCRIPTION", $this->lng->txt("tst_random_test_description"));
