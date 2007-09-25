@@ -2599,3 +2599,85 @@ CREATE TABLE `container_sorting` (
   PRIMARY KEY  (`obj_id`,`type`)
 ) Type=MyISAM;
 
+<#1093>
+<?php
+// new permission
+$query = "INSERT INTO rbac_operations SET operation = 'add_thread', ".
+	"description = 'Add Threads', ".
+	"class = 'object'";
+
+$res = $ilDB->query($query);
+$new_ops_id = $ilDB->getLastInsertId();
+
+$query = "SELECT obj_id FROM object_data ".
+	"WHERE type ='typ' ".
+	"AND title = 'frm' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$typ_id = $row['obj_id'];
+
+$query = "INSERT INTO rbac_ta ".
+	"SET typ_id = ".$ilDB->quote($typ_id).", ".
+	"ops_id = ".$ilDB->quote($new_ops_id)." ";
+$ilDB->query($query);
+
+
+// Copy template permissions from 'edit_post'
+$query = "SELECT ops_id FROM rbac_operations ".
+	"WHERE operation = 'edit_post' ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$add_post_id = $row['ops_id'];
+}
+
+$query = "SELECT * FROM rbac_templates ".
+	"WHERE ops_id = ".$ilDB->quote($add_post_id)." ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$query = "INSERT INTO rbac_templates ".
+		"SET rol_id = ".$ilDB->quote($row['rol_id']).", ".
+		"type = 'frm', ".
+		"ops_id = ".$ilDB->quote($new_ops_id).", ".
+		"parent = ".$ilDB->quote($row['parent'])." ";
+	$ilDB->query($query);
+}
+?>
+
+<#1094>
+<?php
+// insert new permission add thread to all forum objects
+// Copy template permissions from 'edit_post'
+$query = "SELECT ops_id FROM rbac_operations ".
+	"WHERE operation = 'edit_post' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$add_post_id = $row['ops_id'];
+
+$query = "SELECT ops_id FROM rbac_operations ".
+	"WHERE operation = 'add_thread' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$add_thread_id = $row['ops_id'];
+
+// get all forum rbac_pa entries
+$query = "SELECT rol_id,ops_id,pa.ref_id FROM object_data AS obd ".
+	"JOIN object_reference as ore ON obd.obj_id = ore.obj_id ".
+	"JOIN rbac_pa AS pa ON ore.ref_id = pa.ref_id ".
+	"WHERE type = 'frm' ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$operations = unserialize($row->ops_id);
+	if(in_array($add_post_id,$operations))
+	{
+		$operations[] = $add_thread_id;
+		$query = "UPDATE rbac_pa SET ".
+			"ops_id = ".$ilDB->quote(serialize($operations))." ".
+			"WHERE rol_id = ".$ilDB->quote($row->rol_id)." ".
+			"AND ref_id = ".$ilDB->quote($row->ref_id)." ";
+		$ilDB->query($query);
+	}
+}
+?>
