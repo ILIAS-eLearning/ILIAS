@@ -7594,6 +7594,40 @@ administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
+common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.common#:#delete_existing_file#:#Delete Existing File###23 09 2007 new variable
+common#:#reset_filter#:#Reset filter###23 09 2007 new variable
+common#:#activate#:#Set Active###23 09 2007 new variable
+common#:#deactivate#:#Set Inactive###23 09 2007 new variable
+common#:#before#:#before###23 09 2007 new variable
+common#:#export_format_selection#:#Please select the export file format###23 09 2007 new variable
+common#:#export_format#:#Export format###23 09 2007 new variable
+common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
+common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
+news#:#news_pd_period#:#Zeitraum News auf Persönlichem Schreibtisch
+news#:#news_pd_period_info#:#Zeitraum, der für News auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
+news#:#news_indefinite#:#Unendlich
+feed#:#feed_proxy#:#Proxy Host
+feed#:#feed_proxy_info#:#Proxy Host für Netzverbindungen.
+feed#:#feed_proxy_port#:#Proxy Port
+feed#:#feed_proxy_port_info#:#Proxy port for socket connection###23 09 2007 new variable
+common#:#user_activated#:#User has been approved###23 09 2007 new variable
+common#:#user_deactivated#:#User has been disapproved###23 09 2007 new variable
+common#:#usr_filter_lastlogin#:#Last login of user###23 09 2007 new variable
+common#:#usr_filter_coursemember#:#Member of course###23 09 2007 new variable
+common#:#usr_filter_groupmember#:#Member of group###23 09 2007 new variable
+common#:#usr_filter_role#:#Assigned role###23 09 2007 new variable
+content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable
+content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
+content#:#seq_endsession#:#The current course session has ended.###23 09 2007 new variable
+content#:#seq_blocked#:#The sequencing session was blocked.###23 09 2007 new variable
+content#:#seq_nothing#:#There is no activity to deliver.###23 09 2007 new variable
+content#:#seq_error#:#An internal error in the sequencer occurred.###23 09 2007 new variable
+content#:#seq_deadlock#:#The sequencer is in a deadlock.###23 09 2007 new variable
+content#:#seq_invalidnavreq#:#The sequencer received an invalid request.###23 09 2007 new variable
+content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.###23 09 2007 new variable
+content#:#seq_abandonall#:#The current course session has been abandoned..###23 09 2007 new variable
+content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
+common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.###23 09 2007 new variable
 common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.
 meta#:#md_copyright_settings#:#Copyright-Einstellungen
 meta#:#md_copyright_enabled#:#Copyright-Auswahl aktivieren

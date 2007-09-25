@@ -7196,7 +7196,6 @@ trac#:#trac_mode_manual_info#:#A hallgatóknak el kell dönteniük, hogy állapo
 trac#:#trac_mode_objectives_info#:#A tanulmányokban való előrehaladás automatikusan kerül kiértékelésre a teljesített tanulási objektumok száma szerint.
 trac#:#trac_mode_collection_info#:#Adja meg a segédanyagokat, amelyek a tanulmányokban való előrehaladást fogják meghatározni.
 trac#:#trac_mode_scorm_info#:#A tanulmányokban való előrehaladás a SCO-k állapotával kerül meghatározásra.
-trac#:#trac_mode_test_finished_info#:#A felhasználóknak teljesen be kell fejezniük egy tesztet.
 trac#:#trac_mode_test_passed_info#:#A tesztet teljesítenie kell a felhasználónak, hogy megkapja a 'befejezett' állapotot.
 trac#:#trac_mode_exercise_returned_info#:#A 'befejezett' állapotot csak tutorok állíthatják be.
 trac#:#trac_mode_manual_by_tutor#:#Kézileg a tutor
@@ -7365,4 +7364,266 @@ crs#:#event_cloned#:#Session duplikálva
 common#:#err_check_input#:#A beállítások nem menthetők. Jelölje be a bevitelét!
 common#:#filesize#:#Fájlméret
 common#:#filetype#:#Fájltípus
-crs#:#event_files#:#Hozzárendelt fájlok
+crs#:#event_files#:#Hozzárendelt fájlokcommon#:#delete_existing_file#:#Delete Existing File###23 09 2007 new variable
+common#:#res_links#:#Repository Links###23 09 2007 new variable
+administration#:#language_administration#:#Language Administration###23 09 2007 new variable
+administration#:#language_all_modules#:#All modules###23 09 2007 new variable
+administration#:#language_change_settings#:#Change Language Settings###23 09 2007 new variable
+administration#:#language_clear_local_changes#:#Clear local changes in the database###23 09 2007 new variable
+administration#:#language_cleared_local#:#The local changes were cleared in the database.###23 09 2007 new variable
+administration#:#language_compare#:#Compare:###23 09 2007 new variable
+administration#:#language_default_entries#:# (default entries)###23 09 2007 new variable
+administration#:#language_delete_local_changes#:#Delete all local changes in the database###23 09 2007 new variable
+administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!###23 09 2007 new variable
+administration#:#language_error_read_local#:#The local language file doesn't exist or can't be read!###23 09 2007 new variable
+administration#:#language_error_write_local#:#The local language file can't be written!###23 09 2007 new variable
+administration#:#language_export_file#:#Export Language File###23 09 2007 new variable
+administration#:#language_file_imported#:#The language file %s was imported.###23 09 2007 new variable
+administration#:#language_file_scope#:#Language file scope###23 09 2007 new variable
+administration#:#language_import_file#:#Import Language File###23 09 2007 new variable
+administration#:#language_load_local_changes#:#Load local language file into the database###23 09 2007 new variable
+administration#:#language_loaded_local#:#The local language file was loaded into the database.###23 09 2007 new variable
+administration#:#language_maintain#:#Maintain###23 09 2007 new variable
+administration#:#language_maintain_local_changes#:#Maintain local changes###23 09 2007 new variable
+administration#:#language_maintenance#:#Language Maintenance###23 09 2007 new variable
+administration#:#language_mode_existing#:#Existing Entries###23 09 2007 new variable
+administration#:#language_mode_existing_delete#:#Delete existing entries###23 09 2007 new variable
+administration#:#language_mode_existing_keepall#:#Keep all existing entries###23 09 2007 new variable
+administration#:#language_mode_existing_keepnew#:#Keep all local changes###23 09 2007 new variable
+administration#:#language_mode_existing_replace#:#Replace existing entries###23 09 2007 new variable
+administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and re-import them if needed.###23 09 2007 new variable
+administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 09 2007 new variable
+administration#:#language_process_maintenance#:#Process Maintenance###23 09 2007 new variable
+administration#:#language_save_local_changes#:#Save all changes to the local language file###23 09 2007 new variable
+administration#:#language_saved_local#:#All changes were saved to the local language file.###23 09 2007 new variable
+administration#:#language_scope_commented#:#With comments from language manager###23 09 2007 new variable
+administration#:#language_scope_different#:#Different from compare language###23 09 2007 new variable
+administration#:#language_scope_equal#:#Equal to compare language###23 09 2007 new variable
+administration#:#language_scope_global#:#All entries###23 09 2007 new variable
+administration#:#language_scope_local#:#Local changes only###23 09 2007 new variable
+administration#:#language_scope_translate#:#All entries, empty for translation###23 09 2007 new variable
+administration#:#language_scope_unchanged#:#Unchanged entries only###23 09 2007 new variable
+administration#:#language_settings#:#Language Settings###23 09 2007 new variable
+administration#:#language_statistics#:#Statistics###23 09 2007 new variable
+administration#:#language_translation_disabled#:#Page translation disabled###23 09 2007 new variable
+administration#:#language_translation_enabled#:#Page translation enabled###23 09 2007 new variable
+administration#:#language_translation_mode#:#Translation mode###23 09 2007 new variable
+assessment#:#identical_scoring#:#Identical Scoring###23 09 2007 new variable
+assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. ###23 09 2007 new variable
+common#:#reset_filter#:#Reset filter###23 09 2007 new variable
+common#:#activate#:#Set Active###23 09 2007 new variable
+common#:#deactivate#:#Set Inactive###23 09 2007 new variable
+pd#:#pd_enable_bookmarks#:#Enable Bookmarks###23 09 2007 new variable
+pd#:#pd_enable_notes#:#Enable Notes###23 09 2007 new variable
+common#:#before#:#before###23 09 2007 new variable
+common#:#cron_mail_notification#:#Send Mail Notifications###23 09 2007 new variable
+common#:#cron_mail_notification_never#:#never###23 09 2007 new variable
+common#:#cron_mail_notification_cron#:#regularly per cron job###23 09 2007 new variable
+common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.###23 09 2007 new variable
+common#:#export_format_selection#:#Please select the export file format###23 09 2007 new variable
+common#:#export_format#:#Export format###23 09 2007 new variable
+common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
+common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
+common#:#buy#:#Buy###23 09 2007 new variable
+news#:#news_pd_period#:#Personal Desktop News Period###23 09 2007 new variable
+news#:#news_pd_period_info#:#Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems.###23 09 2007 new variable
+news#:#news_indefinite#:#Indefinite###23 09 2007 new variable
+news#:#news_loading_news#:#Loading News...###23 09 2007 new variable
+news#:#news_no_js_click_here#:#If news are not displayed, click here.###23 09 2007 new variable
+news#:#news_acc_cache#:#Permission Check (Minutes)###23 09 2007 new variable
+news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###23 09 2007 new variable
+feed#:#feed_proxy#:#Proxy Host###23 09 2007 new variable
+feed#:#feed_proxy_info#:#Proxy host for socket connection###23 09 2007 new variable
+feed#:#feed_proxy_port#:#Proxy Port###23 09 2007 new variable
+feed#:#feed_proxy_port_info#:#Proxy port for socket connection###23 09 2007 new variable
+common#:#user_activated#:#User has been approved###23 09 2007 new variable
+common#:#user_deactivated#:#User has been disapproved###23 09 2007 new variable
+common#:#usr_filter_lastlogin#:#Last login of user###23 09 2007 new variable
+common#:#usr_filter_coursemember#:#Member of course###23 09 2007 new variable
+common#:#usr_filter_groupmember#:#Member of group###23 09 2007 new variable
+common#:#usr_filter_role#:#Assigned role###23 09 2007 new variable
+content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable
+content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
+content#:#seq_endsession#:#The current course session has ended.###23 09 2007 new variable
+content#:#seq_blocked#:#The sequencing session was blocked.###23 09 2007 new variable
+content#:#seq_nothing#:#There is no activity to deliver.###23 09 2007 new variable
+content#:#seq_error#:#An internal error in the sequencer occurred.###23 09 2007 new variable
+content#:#seq_deadlock#:#The sequencer is in a deadlock.###23 09 2007 new variable
+content#:#seq_invalidnavreq#:#The sequencer received an invalid request.###23 09 2007 new variable
+content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.###23 09 2007 new variable
+content#:#seq_abandonall#:#The current course session has been abandoned..###23 09 2007 new variable
+content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
+forum#:#threads_moved_successfully#:#The chosen topics were moved to another forum successfully.###23 09 2007 new variable
+forum#:#select_at_least_one_thread#:#Please select at least one topic.###23 09 2007 new variable
+forum#:#no_forum_available_for_moving_threads#:#No forum available to move the chosen topics to.###23 09 2007 new variable
+forum#:#move_chosen_topics#:#Move Chosen Topics###23 09 2007 new variable
+forum#:#to_forum#:#To Forum###23 09 2007 new variable
+forum#:#no_forum_selected#:#No forum selected for moving the chosen topics###23 09 2007 new variable
+forum#:#sure_move_threads#:#Are you sure you want to move the chosen topics?###23 09 2007 new variable
+forum#:#make_topics_sticky#:#Make Topics Sticky###23 09 2007 new variable
+forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky###23 09 2007 new variable
+forum#:#make_topic_sticky#:#Make Topic Sticky###23 09 2007 new variable
+forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky###23 09 2007 new variable
+forum#:#activate_post#:#Activate###23 09 2007 new variable
+forum#:#deactivate_post#:#Deactivate###23 09 2007 new variable
+forum#:#activate_post_txt#:#Would you really like to activate the current post and if applicable all its child posts? Please note that all parent posts will be activated, too.###23 09 2007 new variable
+forum#:#deactivate_post_txt#:#Would you really like to deactivate the current post and all its child posts?###23 09 2007 new variable
+forum#:#activate_only_current#:#Activate Current###23 09 2007 new variable
+forum#:#activate_current_and_childs#:#Activate All Posts###23 09 2007 new variable
+forum#:#deactivate_current_and_childs#:#Deactivate All Posts###23 09 2007 new variable
+forum#:#new_posts#:#New Posts###23 09 2007 new variable
+forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
+mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.###23 09 2007 new variable
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.###23 09 2007 new variable
+mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List###23 09 2007 new variable
+mail#:#mail_notification_subject#:#New mail in your inbox###23 09 2007 new variable
+mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.###23 09 2007 new variable
+mail#:#mail_received_x_new_mails#:#You received %s new mails.###23 09 2007 new variable
+mail#:#send_mail_to#:#Mail to###23 09 2007 new variable
+mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###23 09 2007 new variable
+mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###23 09 2007 new variable
+mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###23 09 2007 new variable
+payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###23 09 2007 new variable
+payment#:#paya_perm_coupons#:#Edit coupons###23 09 2007 new variable
+mail#:#mail_my_mailing_lists#:#My Mailing Lists###23 09 2007 new variable
+mail#:#mail_mailing_lists#:#Mailing Lists###23 09 2007 new variable
+mail#:#mail_mailing_list#:#Mailing List###23 09 2007 new variable
+mail#:#mail_members_of_mailing_list#:#Members of Mailing List###23 09 2007 new variable
+mail#:#mail_entry_of_addressbook#:#Entry of Address Book###23 09 2007 new variable
+trac##:#trac_mode_test_finished_info#:#Users have to finish a test completely.###23 09 2007 new variable
+payment#:#paya_coupons_codes_import#:#Import Codes###23 09 2007 new variable
+payment#:#paya_coupons_add#:#Add Coupon###23 09 2007 new variable
+payment#:#paya_coupons_edit#:#Edit Coupon###23 09 2007 new variable
+payment#:#paya_coupons_coupons#:#Coupons###23 09 2007 new variable
+payment#:#paya_coupons_coupon#:#Coupon###23 09 2007 new variable
+payment#:#paya_coupons_type#:#Coupon Type###23 09 2007 new variable
+payment#:#paya_coupons_fix#:#fix###23 09 2007 new variable
+payment#:#paya_coupons_percentaged#:#percentaged###23 09 2007 new variable
+payment#:#paya_coupons_title#:#Title###23 09 2007 new variable
+payment#:#paya_coupons_number_of_codes#:#Number of Codes###23 09 2007 new variable
+payment#:#paya_coupons_usage_of_codes#:#Usage of Codes###23 09 2007 new variable
+payment#:#paya_coupons_objects#:#Objects###23 09 2007 new variable
+payment#:#paya_coupons_from#:#Valid From###23 09 2007 new variable
+payment#:#paya_coupons_till#:#Valid Till###23 09 2007 new variable
+payment#:#paya_coupons_not_available#:#No coupons created yet.###23 09 2007 new variable
+payment#:#paya_coupons_description#:#Description###23 09 2007 new variable
+payment#:#paya_coupons_value#:#Value###23 09 2007 new variable
+payment#:#paya_coupons_edit_codes#:#Edit Codes###23 09 2007 new variable
+payment#:#paya_coupons_edit_objects#:#Edit Objects###23 09 2007 new variable
+payment#:#paya_coupons_codes#:#Codes###23 09 2007 new variable
+payment#:#paya_coupons_code#:#Code###23 09 2007 new variable
+payment#:#paya_coupons_generate_codes#:#Generate Codes###23 09 2007 new variable
+payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code###23 09 2007 new variable
+payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully###23 09 2007 new variable
+payment#:#paya_coupons_code_length#:#Code Length###23 09 2007 new variable
+payment#:#paya_coupons_code_chars#:#Chars###23 09 2007 new variable
+payment#:#paya_coupons_code_generation#:#Code Generation###23 09 2007 new variable
+payment#:#paya_coupons_type_auto#:#Automatically###23 09 2007 new variable
+payment#:#paya_coupons_type_self#:#Manually###23 09 2007 new variable
+payment#:#paya_coupons_no_codes_selected#:#You did not select any code###23 09 2007 new variable
+payment#:#paya_coupons_sure_delete_selected_codes#:#Are you sure you want to delete the selected codes?###23 09 2007 new variable
+payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete all codes?###23 09 2007 new variable
+payment#:#paya_coupons_codes_not_available#:#No codes created yet.###23 09 2007 new variable
+payment#:#paya_coupons_assigned_objects#:#Assigned Objects###23 09 2007 new variable
+payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects###23 09 2007 new variable
+payment#:#paya_coupons_not_found#:#No coupons found.###23 09 2007 new variable
+payment#:#paya_coupons_not_valid#:#The coupon is not valid.###23 09 2007 new variable
+payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.###23 09 2007 new variable
+payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.###23 09 2007 new variable
+payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.###23 09 2007 new variable
+payment#:#paya_coupons_coupon_added#:#Coupon added.###23 09 2007 new variable
+payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects###23 09 2007 new variable
+payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects###23 09 2007 new variable
+payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects###23 09 2007 new variable
+payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects###23 09 2007 new variable
+payment#:#paya_coupons_no_codes_generated#:#No codes generated.###23 09 2007 new variable
+payment#:#paya_coupons_import_codes#:#Import Codes###23 09 2007 new variable
+payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!###23 09 2007 new variable
+payment#:#paya_coupon_codes_import_successful#:#Import successful.###23 09 2007 new variable
+payment#:#pays_bmf_settings#:#Settings for BMF###23 09 2007 new variable
+payment#:#pays_bmf_client_id#:#Cliend Id###23 09 2007 new variable
+payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr###23 09 2007 new variable
+payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle###23 09 2007 new variable
+payment#:#pays_bmf_object_id#:#Object Id###23 09 2007 new variable
+payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren###23 09 2007 new variable
+payment#:#pays_bmf_waehrungskennzeichen#:#WÃ¤hrungskennzeichen###23 09 2007 new variable
+payment#:#pays_bmf_epayment_server#:#ePayment-Server###23 09 2007 new variable
+payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate###23 09 2007 new variable
+payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate###23 09 2007 new variable
+payment#:#pays_bmf_timeout#:#Timeout###23 09 2007 new variable
+payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.###23 09 2007 new variable
+payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###23 09 2007 new variable
+payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
+common#:#passwd_list#:#List of Passwords###23 09 2007 new variable
+meta#:#md_advanced#:#Advanced Metadata###23 09 2007 new variable
+meta#:#md_adv_record_list#:#Datasets###23 09 2007 new variable
+meta#:#md_adv_file_list#:#Export Files###23 09 2007 new variable
+meta#:#md_record_list_table#:#Advanced Metadata Sets###23 09 2007 new variable
+meta#:#md_fields#:#Fields###23 09 2007 new variable
+meta#:#md_obj_types#:#Assigned Objekts###23 09 2007 new variable
+meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)###23 09 2007 new variable
+meta#:#md_adv_substitution#:#Text###23 09 2007 new variable
+meta#:#md_adv_placeholders#:#Placeholders###23 09 2007 new variable
+meta#:#md_adv_placeholder_for#:#Placeholder for:###23 09 2007 new variable
+meta#:#md_record_export_table#:#Export Files###23 09 2007 new variable
+meta#:#md_adv_records#:#Included Datasets###23 09 2007 new variable
+meta#:#md_adv_select_one_file#:#Please choose one file.###23 09 2007 new variable
+meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?###23 09 2007 new variable
+meta#:#md_adv_deleted_files#:#Deleted export files.###23 09 2007 new variable
+meta#:#md_adv_records_exported#:#A new export file has been created.###23 09 2007 new variable
+meta#:#md_adv_edit_record#:#Edit Dataset###23 09 2007 new variable
+meta#:#md_adv_field_table#:#Edit Fields###23 09 2007 new variable
+meta#:#md_adv_field_fields#:#Fields###23 09 2007 new variable
+meta#:#md_adv_searchable#:#Searchable###23 09 2007 new variable
+meta#:#md_adv_edit_field#:#Edit Field###23 09 2007 new variable
+meta#:#md_adv_create_field#:#Add Field###23 09 2007 new variable
+meta#:#md_adv_add_value#:#Add Value###23 09 2007 new variable
+meta#:#md_adv_no_fields#:#No Fields Defined###23 09 2007 new variable
+meta#:#md_adv_deleted_records#:#Deleted Dataset###23 09 2007 new variable
+meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?###23 09 2007 new variable
+meta#:#md_adv_added_new_record#:#Added new Dataset###23 09 2007 new variable
+meta#:#md_adv_create_record#:#Add new Dataset###23 09 2007 new variable
+meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?###23 09 2007 new variable
+barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###23 09 2007 new variable
+meta#:#md_adv_active#:#Active###23 09 2007 new variable
+common#:#default_auth_mode#:#Default Authentication Method###23 09 2007 new variable
+common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###23 09 2007 new variable
+common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###23 09 2007 new variable
+auth#:#auth_rad_migration#:#Account Migration:###23 09 2007 new variable
+auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.###23 09 2007 new variable
+auth#:#auth_account_migration#:#New ILIAS Account###23 09 2007 new variable
+auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).###23 09 2007 new variable
+auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.###23 09 2007 new variable
+ldap#:#ldap_role_assignments#:#Role Assignment###23 09 2007 new variable
+ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 09 2007 new variable
+ldap#:#ldap_assignment_type#:#Assignment Type###23 09 2007 new variable
+ldap#:#ldap_role_by_group#:#Groupmembership###23 09 2007 new variable
+ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.###23 09 2007 new variable
+ldap#:#ldap_role_grp_at#:#Attribute###23 09 2007 new variable
+ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.###23 09 2007 new variable
+ldap#:#ldap_role_grp_isdn#:#Attribute value is DN###23 09 2007 new variable
+ldap#:#ldap_role_by_attribute#:#LDAP Attribute###23 09 2007 new variable
+ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.###23 09 2007 new variable
+ldap#:#ldap_role_at_name#:#Attribute Name###23 09 2007 new variable
+ldap#:#ldap_role_at_value#:#Attribute Value###23 09 2007 new variable
+ldap#:#ldap_tbl_role_ass#:#Avtive Rules###23 09 2007 new variable
+ldap#:#ldap_rule_condition#:#condition###23 09 2007 new variable
+ldap#:#ldap_btn_add_role_ass#:#Add New Rule###23 09 2007 new variable
+ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule###23 09 2007 new variable
+ldap#:#ldap_rule_type#:#Type of Assignment###23 09 2007 new variable
+ldap#:#ldap_confirm_del_role_ass#:#Delete Role Assignment###23 09 2007 new variable
+common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
+common#:#take_over_structure#:#Adopt Structure###23 09 2007 new variable
+common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.###23 09 2007 new variable
+common#:#msg_wrong_filetype#:#File is no zip-archive###23 09 2007 new variable
+common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.###23 09 2007 new variable
+common#:#archive_broken#:#Archive seems to be broken or empty.###23 09 2007 new variable
+common#:#precondition#:#Precondition###23 09 2007 new variable
+common#:#cond_ref_handling#:#Link Settings###23 09 2007 new variable
+common#:#cond_ref_shared#:#Shared Preconditions for all Links###23 09 2007 new variable
+common#:#cond_ref_unique#:#Unique Preconditions for Links###23 09 2007 new variable
+administration#:#obj_mds#:#Meta Data###23 09 2007 new variable
+administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Settings###23 09 2007 new variable
+common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.###23 09 2007 new variable
+mcst#:#mcst_reference_info#:#Provide URL pointing to resource###23 09 2007 new variable
+common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file###23 09 2007 new variable
