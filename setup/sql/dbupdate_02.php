@@ -2681,3 +2681,5 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
+<#1095>
+ALTER TABLE `tst_tests` ADD `reset_processing_time` SMALLINT NOT NULL DEFAULT '0' AFTER `enable_processing_time`;
