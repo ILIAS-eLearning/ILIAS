@@ -7886,8 +7886,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 
 		if ($active_id < 1) return FALSE;
-		$query = sprintf("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s ORDER BY tst_times.started",
-			$ilDB->quote($active_id . "")
+		$pass = ($this->getResetProcessingTime()) ? $this->_getPass($active_id) : 0;
+		$query = sprintf("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s AND tst_times.pass = %s ORDER BY tst_times.started",
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
