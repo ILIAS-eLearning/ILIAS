@@ -145,7 +145,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$title .= ' '.$this->lng->txt('as_of').': ';
 		$title .= strftime('%Y-%m-%d %R',time());
 
-		$worksheet->writeString(0,0,$title,ilExcelUtils::_convert_text($pewa->getFormatTitle()));
+		$worksheet->writeString(0,0,ilExcelUtils::_convert_text($title),$pewa->getFormatTitle());
 
 		$worksheet->writeString(1,0,ilExcelUtils::_convert_text($this->lng->txt('login')),$pewa->getFormatHeader());
 		$worksheet->writeString(1,1,ilExcelUtils::_convert_text($this->lng->txt('lastname')),$pewa->getFormatHeader());
