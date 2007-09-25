@@ -2142,7 +2142,7 @@ common#:#frm_delete#:#Delete Forum
 common#:#frm_delete_post#:#Delete a post, censorship
 common#:#frm_edit#:#Edit Forum
 common#:#frm_edit_permission#:#Change permission settings
-common#:#frm_edit_post#:#Add new topic, posting
+common#:#frm_edit_post#:#Add new posting
 common#:#frm_new#:#New Forum
 common#:#frm_read#:#Read access to Forum
 common#:#frm_statistics_ranking#:#Ranking
@@ -7655,3 +7655,4 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.
 common#:#sorting_save#:#Save Sorting
+common#:#frm_add_thread#:#Add new topic
