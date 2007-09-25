@@ -2590,3 +2590,12 @@ CREATE TABLE `container_sorting_settings` (
 `sort_mode` TINYINT( 1 ) DEFAULT '0' NOT NULL ,
 PRIMARY KEY ( `obj_id` )
 ) TYPE = MYISAM ;
+
+<#1092>
+CREATE TABLE `container_sorting` (
+  `obj_id` int(11) NOT NULL default '0',
+  `type` varchar(5)  NOT NULL default '',
+  `items` text NOT NULL,
+  PRIMARY KEY  (`obj_id`,`type`)
+) Type=MyISAM;
+
