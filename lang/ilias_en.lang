@@ -7649,3 +7649,8 @@ meta#:#meta_cp_own#:#Own Copyright Information:
 meta#:#md_adv_desc_show#:#Show Description
 meta#:#md_adv_show#:#Show
 common#:#udf_type_date#:#Date Field
+common#:#sorting_header#:#Content Item Sorting
+common#:#sorting_title_header#:#Sort by Title
+common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.
+common#:#sorting_manual_header#:#Sort Manually
+common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.
