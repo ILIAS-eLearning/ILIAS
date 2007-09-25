@@ -3419,14 +3419,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @param integer $user_id The database id of the user working with the test
 * @access	public
 */
-	function startWorkingTime($active_id)
+	function startWorkingTime($active_id, $pass)
 	{
 		global $ilDB;
 
-		$q = sprintf("INSERT INTO tst_times (times_id, active_fi, started, finished, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+		$q = sprintf("INSERT INTO tst_times (times_id, active_fi, started, finished, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 			$ilDB->quote($active_id),
 			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
-			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S"))
+			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
+			$ilDB->quote($pass)
 		);
 		$result = $ilDB->query($q);
 		return $ilDB->getLastInsertId();
