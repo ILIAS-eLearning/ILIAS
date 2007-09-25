@@ -209,7 +209,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		global $ilUser;
 
 		if ($sequence < 1) $sequence = $this->object->getTestSequence()->getFirstSequence();
-		$active_time_id = $this->object->startWorkingTime($this->object->getTestSession()->getActiveId());
+		$active_time_id = $this->object->startWorkingTime($this->object->getTestSession()->getActiveId(), $this->object->getTestSession()->getPass());
 		$_SESSION["active_time_id"] = $active_time_id;
 
 		include_once("classes/class.ilObjStyleSheet.php");
@@ -725,7 +725,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
 				}
 				$this->object->createTestSequence($active_id, 0, $shuffle);
-				$active_time_id = $this->object->startWorkingTime($active_id);
+				$active_time_id = $this->object->startWorkingTime($this->object->getTestSession()->getActiveId(), $this->object->getTestSession()->getPass());
 				$_SESSION["active_time_id"] = $active_time_id;
 				if ($this->object->getListOfQuestionsStart())
 				{
@@ -757,7 +757,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->object->createTestSequence($active_id, $this->object->getTestSession()->getPass(), $shuffle);
 
 				$this->sequence = $this->object->getTestSession()->getLastSequence();
-				$active_time_id = $this->object->startWorkingTime($active_id);
+				$active_time_id = $this->object->startWorkingTime($active_id, $this->object->getTestSession()->getPass());
 				$_SESSION["active_time_id"] = $active_time_id;
 				if ($this->object->getListOfQuestionsStart())
 				{
