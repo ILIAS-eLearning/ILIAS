@@ -37,6 +37,11 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
+DATA WILL BE CORRUPTED.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
@@ -216,7 +221,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.8.1.tar.gz
+    ilias-3.9.0.beta.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -410,7 +415,7 @@ components:
 
 (a) MySQL database
 
-    ILIAS version 3.8.x supports MySQL 4.x and MysSQL 5.x. Using one of
+    ILIAS version 3.9.x supports MySQL 4.x and MysSQL 5.x. Using one of
     the actual binaries provided at the MySQL web site is always the best idea.
     However, if you decide to build MySQL from scratch. The following steps
     give you an idea.
@@ -651,7 +656,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.8.1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.9.0.beta.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -756,9 +761,13 @@ components:
 
 3. Updating ILIAS 3
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
+DATA WILL BE CORRUPTED.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 stable version to
-ILIAS 3.8.1.
+ILIAS 3.9.0.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -770,7 +779,7 @@ We recommend not to update from an any alpha or beta version of ILIAS 3 because
 this may cause ambiguous errors in the future. Please setup any stable version
 of ILIAS 3 from scratch.
 
-For major updates (e.g. 3.7.x -> 3.8.x) the safest proceeding is, to upgrade
+For major updates (e.g. 3.8.x -> 3.9.x) the safest proceeding is, to upgrade
 a copy of your productive system first and test whether everything works ok.
 
 Please also note that major updates usually include changes in the style
@@ -820,7 +829,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.8.1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.9.0.beta.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
