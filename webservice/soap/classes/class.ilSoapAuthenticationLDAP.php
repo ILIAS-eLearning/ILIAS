@@ -44,13 +44,52 @@ class ilSoapAuthenticationLDAP extends ilSOAPAuthentication
 
 	function __buildAuth()
 	{
+		global $ilAuth;
 		$_POST['auth_mode'] = AUTH_LDAP;
 		
 		include_once("./Services/Init/classes/class.ilInitialisation.php");
 		$init = new ilInitialisation();
-		$init->initILIAS();
-		include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
-		$this->auth = new ilAuthLDAP();
+		$init->initILIAS("soap");		
+		$this->auth = $ilAuth;
+		return true;
+	}
+	
+	function authenticate()
+	{
+		if(!$this->getClient())
+		{
+			$this->__setMessage('No client given');
+			return false;
+		}
+		if(!$this->getUsername())
+		{
+			$this->__setMessage('No username given');
+			return false;
+		}
+		// Read ilias ini
+		if(!$this->__buildDSN())
+		{
+			$this->__setMessage('Error building dsn/Wrong client Id?');
+			return false;
+		}
+		if(!$this->__setSessionSaveHandler())
+		{
+			return false;
+		}
+
+		if(!$this->__buildAuth())
+		{
+			return false;
+		}
+
+		if(!$this->auth->getAuth())
+		{
+			$this->__getAuthStatus();
+
+			return false;
+		}
+
+		$this->setSid(session_id());
 
 		return true;
 	}

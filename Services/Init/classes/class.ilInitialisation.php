@@ -787,8 +787,9 @@ class ilInitialisation
 
 	/**
 	* ilias initialisation
+	* @param string $context this is used for circumvent redirects to the login page if called e.g. by soap	
 	*/
-	function initILIAS()
+	function initILIAS($context = "web")
 	{
 		global $ilDB, $ilUser, $ilLog, $ilErr, $ilClientIniFile, $ilIliasIniFile,
 			$ilSetting, $ilias, $https, $ilObjDataCache,
@@ -1074,8 +1075,16 @@ class ilInitialisation
 				}
 				else
 				{
-					$this->goToLogin($ilAuth->getStatus());
-					exit;
+					if ($context == "web")
+					{
+						// normal access by webinterface
+						$this->goToLogin($ilAuth->getStatus());
+						exit;
+					} else {
+						// called by soapAuthenticationLdap
+						return;
+					}
+					
 				}
 				// we should not get here => public section needs no redirect smeyer
 				// exit;
