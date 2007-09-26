@@ -1220,6 +1220,7 @@ class ilObjectListGUI
 				$this->insertSubscribeCommand();
 			}
 		}
+		$this->ctrl->clearParametersByClass($this->gui_class_name);
 	}
 
 	/**
