@@ -352,7 +352,7 @@ class ilBaseAuthentication
 			case AUTH_WRONG_LOGIN:
 			default:
 				$this->__setMessageCode('Client');
-				$this->__setMessage('Wrong login or password');
+				$this->__setMessage('Wrong Login or Password');
 
 				return false;
 				
