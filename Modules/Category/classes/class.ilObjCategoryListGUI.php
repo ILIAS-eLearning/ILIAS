@@ -56,6 +56,13 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 		$this->type = "cat";
 		$this->gui_class_name = "ilobjcategorygui";
 
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+		if($this->substitutions->isActive())
+		{
+			$this->substitutions_enabled = true;
+		}
+
 		// general commands array
 		include_once('./Modules/Category/classes/class.ilObjCategoryAccess.php');
 		$this->commands = ilObjCategoryAccess::_getCommands();

@@ -441,6 +441,69 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		$this->redirectToRefId($_GET["ref_id"]);
 	}
+	
+	
+	/**
+	 * Edit extended category settings
+	 *
+	 * @access protected
+	 */
+	protected function editInfoObject()
+	{
+		$this->getSubTabs('edit');
+		$this->tabs_gui->setTabActive('edit_properties');
+		$this->tabs_gui->setSubTabActive('edit_info_settings');
+		
+		$this->initExtendedSettings();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Update info (extended meta data) 
+	 * 
+	 * @access protected
+	 */
+	protected function updateInfoObject()
+	{
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
+			'crs',$this->object->getId());
+		$record_gui->loadFromPost();
+		$record_gui->saveValues();
+
+		ilUtil::sendInfo($this->lng->txt("settings_saved"));
+		$this->editInfoObject();
+		return true;
+	}
+	
+	
+	/**
+	 * build property form for extended category settings
+	 *
+	 * @access protected
+	 */
+	protected function initExtendedSettings()
+	{
+		if(is_object($this->form))
+		{
+			return true;
+		}
+		
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setTitle($this->lng->txt('ext_cat_settings'));
+		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
+		$this->form->addCommandButton('editInfo',$this->lng->txt('cancel'));
+
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'cat',$this->object->getId());
+		$record_gui->setPropertyForm($this->form);
+		$record_gui->parse();
+		
+		return true;
+	}
+	
 
 	/**
 	* edit category
@@ -456,6 +519,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		$this->getSubTabs('edit');
 		$this->ctrl->setParameter($this,"mode","edit");
 
 		// for lang selection include metadata class
@@ -1518,6 +1582,30 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$settings->getSortMode() == ilContainerSortingSettings::MODE_MANUAL,
 			'sorting',
 			ilContainerSortingSettings::MODE_MANUAL));
+	}
+	
+	/**
+	 * Add sub tabs
+	 * @param string 
+	 * @access protected
+	 */
+	protected function getSubTabs($a_section)
+	{
+		switch($a_section)
+		{
+			case 'edit':
+				$this->tabs_gui->addSubTabTarget("edit_properties",
+												 $this->ctrl->getLinkTarget($this,'edit'),
+												 "edit", get_class($this));
+												 
+				include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+				if(in_array('cat',ilAdvancedMDRecord::_getActivatedObjTypes()))
+				{
+					$this->tabs_gui->addSubTabTarget("edit_info_settings",
+													 $this->ctrl->getLinkTarget($this,'editInfo'),
+													 "editInfo", get_class($this));
+				}
+		}
 	}
 
 
