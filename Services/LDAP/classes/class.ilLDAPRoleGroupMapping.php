@@ -367,6 +367,17 @@ class ilLDAPRoleGroupMapping
 		 		$query_obj = $this->getLDAPQueryInstance($data['server_id'],$data['url']);
 				$query_obj->modDelete($data['dn'],array($data['member'] => $external_account));
 				$this->log->write('LDAP deassign: Deassigned '.$external_account.' from group '.$data['dn']);
+				
+				// Delete from cache
+				if(is_array($this->mapping_members[$data['mapping_id']]))
+				{
+					$key = array_search($external_account,$this->mapping_members[$data['mapping_id']]);
+					if($key or $key === 0)
+					{
+						unset($this->mapping_members[$data['mapping_id']]);
+					}
+				}
+				
 	 		}
 	 		catch(ilLDAPQueryException $exc)
 			{
