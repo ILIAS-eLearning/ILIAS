@@ -358,9 +358,9 @@ class ilAdminUserSearchGUI
 
 		if(!count($this->result_obj->getResults()))
 		{
-			//ilUtil::sendInfo($this->lng->txt('search_no_match'));
-			global $ilErr;
-			$ilErr->raiseError($this->lng->txt('search_no_match'),$ilErr->MESSAGE);
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+			#global $ilErr;
+			#$ilErr->raiseError($this->lng->txt('search_no_match'),$ilErr->MESSAGE);
 		}
 		$this->__updateResults();
 		if($this->result_obj->isLimitReached())
