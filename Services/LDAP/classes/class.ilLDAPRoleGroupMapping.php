@@ -307,11 +307,12 @@ class ilLDAPRoleGroupMapping
 		 			$external_account = $this->users[$a_usr_id];
 	 			}
 	 			
-	 			if($this->isMember($external_account,$data))
-	 			{
-					$this->log->write("LDAP assign: User already assigned to group '".$data['dn']."'");
-	 			}
-				else
+	 			// Forcing modAdd since Active directory is too slow and i cannot check if a user is member or not.
+	 			#if($this->isMember($external_account,$data))
+	 			#{
+				#	$this->log->write("LDAP assign: User already assigned to group '".$data['dn']."'");
+	 			#}
+				#else
 				{
 					// Add user
 			 		$query_obj = $this->getLDAPQueryInstance($data['server_id'],$data['url']);
@@ -357,12 +358,13 @@ class ilLDAPRoleGroupMapping
 					$this->log->write('LDAP deassign: User is still assigned to role "'.$role_id.'".');
 					continue;
 				}
+				/*
 				if(!$this->isMember($external_account,$data))
 		 		{
 					$this->log->write("LDAP deassign: User not assigned to group '".$data['dn']."'");
 					continue;
 		 		}
-	
+				*/
 				// Deassign user
 		 		$query_obj = $this->getLDAPQueryInstance($data['server_id'],$data['url']);
 				$query_obj->modDelete($data['dn'],array($data['member'] => $external_account));
