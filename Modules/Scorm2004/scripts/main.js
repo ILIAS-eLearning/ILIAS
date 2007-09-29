@@ -1649,42 +1649,44 @@ function init(config)
 }
 
 
-function buildADLtree(act,obj){
-	
-	for(var index in act) { 
+function buildADLtree(act, unused){
+	var obj=new Object;
+	var obj1, res, res2;
+	for(var index in act) {
 		var value;
    		if ((index.substr(0,1) == "_") ) {
 			//create new object
 			obj = eval("new "+index.substr(1)+"()");
-			obj = buildADLtree(act[index],obj);
+			obj1 = buildADLtree(act[index],null);
+			for(var i in obj1){
+				obj[i]=obj1[i];
+			}
 		} else if ((act[index] instanceof Array)) {
 			var toset=new Array();
-			var temp=act[index];	
-			for (var i=0;i<temp.length;i++) {
-				res=buildADLtree(temp[i],obj);
+			var temp=act[index];
+			for (var i=0;i<temp.length;i++) {
+				res=buildADLtree(temp[i],null);
 				toset.push(res);
-			}	
+			}
 			if (index!="mActiveChildren") {
-				obj[index] = toset; 
-			}	  
+				obj[index] = toset;
+			}
 			//keep trees in sync
 			if (index=="mChildren") {
 				obj["mActiveChildren"]=toset;
 			}
-		} else if ((act[index] instanceof Object)){			
+		} else if ((act[index] instanceof Object)){
 			//handle object
-			res2=buildADLtree(act[index] ,obj);
-			obj[index] = res2;   		
+			res2=buildADLtree(act[index],null);
+			obj[index] = res2;
 		} else if (!(act[index] instanceof Array) && !(index.substr(0,1) == "_")){
 			value = act[index];
-			//set learner id and course id
-			if (index == "mLearnerID") {value = this.config.learner_id;}
-			if (index == "mScopeID") {value = this.config.course_id;}
 			obj[index] = value;
 		}
     }
 	return obj;
 }
+
 
 function setParents(obj) {
 	for(var index in obj) { 

@@ -1382,6 +1382,9 @@ ADLSequencer.prototype =
 							this.mExitCourse = true;
 						}
 					}
+					else {
+						seqReq = SEQ_EXIT;
+					}
 				}
 				while (exited);
 			}
