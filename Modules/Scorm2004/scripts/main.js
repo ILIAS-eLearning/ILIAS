@@ -1681,6 +1681,9 @@ function buildADLtree(act, unused){
 			obj[index] = res2;
 		} else if (!(act[index] instanceof Array) && !(index.substr(0,1) == "_")){
 			value = act[index];
+			//set learner id and course id
+			if (index == "mLearnerID") {value = this.config.learner_id;}
+			if (index == "mScopeID") {value = this.config.course_id;}
 			obj[index] = value;
 		}
     }

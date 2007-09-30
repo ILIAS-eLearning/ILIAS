@@ -859,6 +859,7 @@ SeqActivity.prototype =
 			}, iOptions);
 		var iObjID = iOptions.iObjID;
 
+ 
 		var statusChange = false;
 
 		if (this.mIsTracked)
