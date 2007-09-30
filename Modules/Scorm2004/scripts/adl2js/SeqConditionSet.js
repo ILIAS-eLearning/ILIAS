@@ -193,7 +193,7 @@ SeqConditionSet.prototype =
 				{
 					//fix HH
 					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
-					result = (iTarget.getObjStatus(this.mRollup, {iObjID: cond.mObjID}) >
+					result = (iTarget.getObjMeasure(this.mRollup, {iObjID: cond.mObjID}) >
 						cond.mThreshold )
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;   
@@ -214,7 +214,7 @@ SeqConditionSet.prototype =
 					
 					//fix HH
 					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
-					result = (iTarget.getObjStatus(this.mRollup, {iObjID:cond.mObjID}) <
+					result = (iTarget.getObjMeasure(this.mRollup, {iObjID:cond.mObjID}) <
 						cond.mThreshold)
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;

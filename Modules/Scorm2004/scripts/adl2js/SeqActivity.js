@@ -808,7 +808,6 @@ SeqActivity.prototype =
 		var iUseLocal = iOptions.iUseLocal;
 
 		var status = false;
-
 		if (this.mIsTracked)
 		{
 			if (this.mCurTracking == null)
