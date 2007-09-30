@@ -311,7 +311,7 @@ ADLSequencer.prototype =
 				{
 					//TODO here occurs some error fix it HH
 					//var statusChange = target.setObjSatisfied(iObjID, iStatus);
-					var statusChange = target.setObjSatisfied( iStatus,iObjID);
+					var statusChange = target.setObjSatisfied( iStatus,{iObjID: iObjID});
 					
 					if (statusChange)
 					{

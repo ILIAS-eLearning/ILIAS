@@ -155,12 +155,12 @@ SeqConditionSet.prototype =
 			{
 				//fix HH 
 				//if (iTarget.getObjStatus(cond.mObjID, this.mRollup))
-				if (iTarget.getObjStatus(this.mRollup,cond.mObjID))
+				if (iTarget.getObjStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
 					//fix HH 
 					//result = (iTarget.getObjSatisfied(cond.mObjID, this.mRollup))
 					
-					result = (iTarget.getObjSatisfied(this.mRollup,cond.mObjID))
+					result = (iTarget.getObjSatisfied(this.mRollup,{iObjID:cond.mObjID}))
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
 				}
@@ -173,7 +173,7 @@ SeqConditionSet.prototype =
 			{
 				//fix HH
 				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
-				result = iTarget.getObjStatus(this.mRollup, cond.mObjID)
+				result = iTarget.getObjStatus(this.mRollup, {iObjID:cond.mObjID})
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
@@ -181,7 +181,7 @@ SeqConditionSet.prototype =
 			{
 				//fix HH
 				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
-				result = iTarget.getObjStatus(this.mRollup, cond.mObjID)
+				result = iTarget.getObjStatus(this.mRollup, {iObjID:cond.mObjID})
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
@@ -209,12 +209,12 @@ SeqConditionSet.prototype =
 				//Fix HH
 			//	if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
 			
-				if (iTarget.getObjMeasureStatus(this.mRollup,cond.mObjID))
+				if (iTarget.getObjMeasureStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
 					
 					//fix HH
 					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
-					result = (iTarget.getObjStatus(this.mRollup, cond.mObjID) <
+					result = (iTarget.getObjStatus(this.mRollup, {iObjID:cond.mObjID}) <
 						cond.mThreshold)
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
