@@ -46,6 +46,8 @@ class ilExternalFeed
 	*/
 	function ilExternalFeed()
 	{
+		// IF YOU ADD THINGS HERE, THEY MAY ALSO BE ADDED TO
+		// SOME OF THE STATIC METHODS
 		$this->_createCacheDirectory();
 		$feed_set = new ilSetting("feed");
 		define('IL_FEED_PROXY_HOST', $feed_set->get("proxy"));
@@ -111,7 +113,14 @@ class ilExternalFeed
 	*/
 	static function _checkUrl($a_url)
 	{
-		ilExternalFeed::_createCacheDirectory();
+		if (!defined('IL_FEED_PROXY_HOST'))
+		{
+			ilExternalFeed::_createCacheDirectory();
+			$feed_set = new ilSetting("feed");
+			define('IL_FEED_PROXY_HOST', $feed_set->get("proxy"));
+			define('IL_FEED_PROXY_PORT', $feed_set->get("proxy_port"));
+		}
+		
 		$feed = @fetch_rss($a_url);
 		if (!$feed)
 		{
@@ -226,6 +235,13 @@ class ilExternalFeed
 	*/
 	static function _determineFeedUrl($a_url)
 	{
+		if (!defined('IL_FEED_PROXY_HOST'))
+		{
+			$feed_set = new ilSetting("feed");
+			define('IL_FEED_PROXY_HOST', $feed_set->get("proxy"));
+			define('IL_FEED_PROXY_PORT', $feed_set->get("proxy_port"));
+		}
+
 		$res = @fopen($a_url, "r");
 		
 		if (!$res)
