@@ -26,7 +26,7 @@ ADLSeqUtilities.prototype =
 		{
 			return this.satisfied[iObjID][iLearnerID][iScopeID];
 		}
-		return false;
+		return null;
 	},
 	
 	setGlobalObjMeasure: function (iObjID, iLearnerID,iScopeID, iMeasure)
