@@ -155,14 +155,14 @@ SeqConditionSet.prototype =
 			{
 				//fix HH 
 				//if (iTarget.getObjStatus(cond.mObjID, this.mRollup))
+				
 				if (iTarget.getObjStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
 					//fix HH 
 					//result = (iTarget.getObjSatisfied(cond.mObjID, this.mRollup))
-					
 					result = (iTarget.getObjSatisfied(this.mRollup,{iObjID:cond.mObjID}))
 						? EVALUATE_TRUE
-						: EVALUATE_FALSE;
+						: EVALUATE_FALSE;	
 				}
 				else
 				{
@@ -279,9 +279,11 @@ SeqConditionSet.prototype =
 			// Account for condition operator
 			if (cond.mNot && result != EVALUATE_UNKNOWN)
 			{
+				
 				result = (result == EVALUATE_FALSE)
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
+					
 			}
 		}
 		return result;
