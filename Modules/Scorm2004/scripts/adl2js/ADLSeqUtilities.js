@@ -12,6 +12,7 @@ ADLSeqUtilities.prototype =
 	// usage: adl_seq_utilities.setGlobalObjSatisfied(2, 10, "scope", true);
 	setGlobalObjSatisfied: function (iObjID, iLearnerID, iScopeID, iSatisfied)
 	{
+		//alert(iObjID+" ,  "+iLearnerID+ ", "+iScopeID+", "+iSatisfied);
 		if(this.satisfied[iObjID] == null) this.satisfied[iObjID] = new Array();
 		if(this.satisfied[iObjID][iLearnerID] == null) this.satisfied[iObjID][iLearnerID] = new Array();
 		this.satisfied[iObjID][iLearnerID][iScopeID] = iSatisfied;
@@ -30,6 +31,8 @@ ADLSeqUtilities.prototype =
 	
 	setGlobalObjMeasure: function (iObjID, iLearnerID,iScopeID, iMeasure)
 	{
+		//alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iMeasure);
+		
 		if(this.measure[iObjID] == null) this.measure[iObjID] = new Array();
 		if(this.measure[iObjID][iLearnerID] == null) this.measure[iObjID][iLearnerID] = new Array();
 		this.measure[iObjID][iLearnerID][iScopeID] = iMeasure;
@@ -37,6 +40,7 @@ ADLSeqUtilities.prototype =
 	
 	getGlobalObjMeasure: function (iObjID, iLearnerID, iScopeID)
 	{
+		//alert("GET GLOBAL"+iObjID+""+iLearnerID+""+iScopeID);
 		if (this.measure[iObjID] != null
 			&& this.measure[iObjID][iLearnerID]
 			&& this.measure[iObjID][iLearnerID][iScopeID])

@@ -2276,7 +2276,7 @@ function syncCMIADLTree(){
 
 		obj = "cmi.objectives." + i + ".score.scaled";
         objScore= currentAPI.GetValueIntern(obj);
-        if( !objScore=="" && !objScore=="unknown" ) {
+        if( objScore!="" && objScore!="unknown" ) {
 			normalScore = objScore; 
 			msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
 			if( foundPrimaryObj ){

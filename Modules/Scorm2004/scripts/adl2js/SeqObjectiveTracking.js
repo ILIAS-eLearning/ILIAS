@@ -245,6 +245,7 @@ SeqObjectiveTracking.prototype =
 	
 	setObjMeasure: function (iMeasure, iAffectSatisfaction)             
 	{
+		
 		// Validate the range of the measure
 		if (iMeasure < -1.0 || iMeasure > 1.0)
 		{
