@@ -218,8 +218,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			//add template for buttons
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-			$this->showSortingSettings();
-
 			// only in administration
 			// to do: make this in repository work
 			if (false)
@@ -367,6 +365,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+			$this->showSortingSettings();
 		}
 	}
 
