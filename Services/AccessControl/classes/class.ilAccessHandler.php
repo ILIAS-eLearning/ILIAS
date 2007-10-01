@@ -556,7 +556,14 @@ class ilAccessHandler
 	{
 		include_once('Modules/Course/classes/class.ilCourseItems.php');
 		
-		$read_arr = array_diff_key($a_ref_ids,(array) $this->ac_times);
+		$read_arr = array();
+		foreach($a_ref_ids as $ref_id)
+		{
+			if(!isset($this->ac_times[$ref_id]))
+			{
+				$read_arr[] = $ref_id;
+			}
+		}
 		if(count($read_arr))
 		{
 			$this->ac_times = (array) $this->ac_times + ilCourseItems::_readActivationTimes($read_arr);
