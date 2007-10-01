@@ -452,7 +452,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		$this->getSubTabs('edit');
 		$this->tabs_gui->setTabActive('edit_properties');
-		$this->tabs_gui->setSubTabActive('edit_info_settings');
+		$this->tabs_gui->setSubTabActive('edit_cat_settings');
 		
 		$this->initExtendedSettings();
 		$this->tpl->setContent($this->form->getHTML());
@@ -1601,7 +1601,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 				if(in_array('cat',ilAdvancedMDRecord::_getActivatedObjTypes()))
 				{
-					$this->tabs_gui->addSubTabTarget("edit_info_settings",
+					$this->tabs_gui->addSubTabTarget("edit_cat_settings",
 													 $this->ctrl->getLinkTarget($this,'editInfo'),
 													 "editInfo", get_class($this));
 				}

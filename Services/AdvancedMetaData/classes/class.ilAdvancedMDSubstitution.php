@@ -37,6 +37,9 @@ class ilAdvancedMDSubstitution
 	
 	protected $type;
 	protected $substitutions;
+	protected $bold = array();
+	protected $newline = array();
+	
 	protected $enabled_desc = true;
 	protected $active = false;
 	protected $date_fields = array();
@@ -148,16 +151,22 @@ class ilAdvancedMDSubstitution
   		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
   		$values = ilAdvancedMDValues::_getValuesByObjId($a_obj_id);
 		  		
+  		$counter = 0;
   		foreach($this->getSubstitutions() as $field_id)
   		{
-			if(!isset($values[$field_id]) or !$values[$field_id])
-			{
-				continue;
-			}
 			if(!isset($this->active_fields[$field_id]))
 			{
 				continue;
 			}
+			if(!isset($values[$field_id]) or !$values[$field_id])
+			{
+				if($this->hasNewline($field_id) and $counter)
+				{
+					$substituted[$counter-1]['newline'] = true;
+				}
+				continue;
+			}
+			
 			if(in_array($field_id,$this->date_fields))
 			{
 				$value = ilFormat::formatUnixTime((int) $values[$field_id]);
@@ -166,12 +175,19 @@ class ilAdvancedMDSubstitution
 			{
 				$value = $values[$field_id];
 			}
-			
-			$data['name'] = $this->active_fields[$field_id];
-			$data['value'] = $value;
-			
-			
-			$substituted[] = $data;
+	
+			$substituted[$counter]['name'] = $this->active_fields[$field_id];
+			$substituted[$counter]['value'] = $value;
+			$substituted[$counter]['bold'] = $this->isBold($field_id);
+			if($this->hasNewline($field_id))
+			{
+				$substituted[$counter]['newline'] = true;
+			}
+			else
+			{
+				$substituted[$counter]['newline'] = false;
+			}
+			$counter++;
   		}
   		
   		return $substituted ? $substituted : array();
@@ -214,9 +230,11 @@ class ilAdvancedMDSubstitution
 	 * @param array array of field definitions
 	 * 
 	 */
-	public function setSubstitutions($a_field_ids)
+	public function resetSubstitutions()
 	{
-	 	$this->substitutions = $a_field_ids;
+	 	$this->substitutions = array();
+	 	$this->bold = array();
+	 	$this->newline = array();
 	}
 	
 	/**
@@ -226,9 +244,17 @@ class ilAdvancedMDSubstitution
 	 * @param int field id
 	 * 
 	 */
-	public function appendSubstitution($a_field_id)
+	public function appendSubstitution($a_field_id,$a_bold = false,$a_newline = false)
 	{
 	 	$this->substitutions[] = $a_field_id;
+	 	if($a_bold)
+	 	{
+	 		$this->bold[] = $a_field_id;
+	 	}
+	 	if($a_newline)
+	 	{
+		 	$this->newline[] = $a_field_id;
+	 	} 
 	}
 	
 	/**
@@ -256,6 +282,31 @@ class ilAdvancedMDSubstitution
 	}
 	
 	/**
+	 * is bold
+	 *
+	 * @access public
+	 * @param int field_id
+	 * 
+	 */
+	public function isBold($a_field_id)
+	{
+	 	#var_dump("<pre>",$this->bold,$a_field_id,"</pre>");
+		
+	 	return in_array($a_field_id,$this->bold);
+	}
+	
+	/**
+	 * has newline
+	 *
+	 * @access public
+	 * @param int field_id
+	 * 
+	 */
+	public function hasNewline($a_field_id)
+	{
+	 	return in_array($a_field_id,$this->newline);
+	}
+	/**
 	 * update
 	 *
 	 * @access public
@@ -263,9 +314,21 @@ class ilAdvancedMDSubstitution
 	 */
 	public function update()
 	{
+	 	$counter = 0;
+	 	$substitutions = array();
+	
+	 	foreach($this->substitutions as $field_id)
+	 	{
+	 		$substitutions[$counter]['field_id'] = $field_id;
+	 		$substitutions[$counter]['bold'] = $this->isBold($field_id);
+	 		$substitutions[$counter]['newline'] = $this->hasNewline($field_id);
+	 		$counter++;
+	 	}
+	 	
+			
 	 	$query = "REPLACE INTO adv_md_substitutions ".
 	 		"SET obj_type = ".$this->db->quote($this->type).", ".
-	 		"substitution = ".$this->db->quote(serialize($this->getSubstitutions())).", ".
+	 		"substitution = ".$this->db->quote(serialize($substitutions)).", ".
 	 		"hide_description = ".$this->db->quote(!$this->isDescriptionEnabled());
 			
 	 	$res = $this->db->query($query);
@@ -299,9 +362,30 @@ class ilAdvancedMDSubstitution
 	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";
 	 	$res = $this->db->query($query);
 	 	$this->substitutions = array();
+	 	$this->bold = array();
+	 	$this->newline = array();
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->substitutions = unserialize($row->substitution);
+	 		$tmp_substitutions = unserialize($row->substitution);
+	 		if(is_array($tmp_substitutions))
+	 		{
+	 			foreach($tmp_substitutions as $substitution)
+	 			{
+	 				if($substitution['field_id'])
+	 				{
+	 					$this->substitutions[] = $substitution['field_id'];
+	 				}
+	 				if($substitution['bold'])
+	 				{
+	 					$this->bold[] = $substitution['field_id'];
+	 				}
+	 				if($substitution['newline'])
+	 				{
+	 					$this->newline[] = $substitution['field_id'];
+	 				}
+	 				
+	 			}
+	 		}
 	 		$this->enabled_desc = !$row->hide_description;
 	 	}
 	}
