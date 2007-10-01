@@ -124,19 +124,27 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function updateSubstitutions()
 	{
-		
 		foreach(ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type)
 		{
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
 	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
-	 		$sub->setSubstitutions(array());
+	 		$sub->resetSubstitutions(array());
 			$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
 			asort($_POST['position'][$obj_type],SORT_NUMERIC);
 			foreach($_POST['position'][$obj_type] as $field_id => $pos)
 			{
 				if(isset($_POST['show'][$obj_type][$field_id]) and $_POST['show'][$obj_type][$field_id])
 				{
-					$sub->appendSubstitution($field_id);
+					$newline = $bold = false;
+					if(isset($_POST['bold'][$obj_type][$field_id]) and $_POST['bold'][$obj_type][$field_id])
+					{
+						$bold = true;
+					}
+					if(isset($_POST['newline'][$obj_type][$field_id]) and $_POST['newline'][$obj_type][$field_id])
+					{
+						$newline = true;
+					}
+					$sub->appendSubstitution($field_id,$bold,$newline);
 				}			
 			}
 			$sub->update();
@@ -979,17 +987,31 @@ class ilAdvancedMDSettingsGUI
 			{
 				$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($definition_id);
 				
-				$check = new ilCheckboxInputGUI($def->getTitle(),'show['.$obj_type.']['.$definition_id.']');
+				$title = ilAdvancedMDRecord::_lookupTitle($def->getRecordId());
+				$title = $def->getTitle().' ('.$title.')';
+				
+				$check = new ilCheckboxInputGUI($title,'show['.$obj_type.']['.$definition_id.']');
 				$check->setValue(1);
 				$check->setOptionTitle($this->lng->txt('md_adv_show'));
 				$check->setChecked($sub->isSubstituted($definition_id));
 				
-				$pos = new ilTextInputGUI($this->lng->txt('position').':','position['.$obj_type.']['.$definition_id.']');
+				$pos = new ilTextInputGUI($this->lng->txt('position'),'position['.$obj_type.']['.$definition_id.']');
 				$pos->setSize(3);
 				$pos->setMaxLength(4);
 				$pos->setValue(sprintf('%.1f',$counter++));
 				$check->addSubItem($pos);
 				
+				$bold = new ilCheckboxInputGUI($this->lng->txt('bold'),'bold['.$obj_type.']['.$definition_id.']');
+				$bold->setValue(1);
+				$bold->setChecked($sub->isBold($definition_id));
+				$check->addSubItem($bold);
+
+				$bold = new ilCheckboxInputGUI($this->lng->txt('newline'),'newline['.$obj_type.']['.$definition_id.']');
+				$bold->setValue(1);
+				$bold->setChecked($sub->hasNewline($definition_id));
+				$check->addSubItem($bold);
+
+
 				$this->form->addItem($check);
 			}
 			

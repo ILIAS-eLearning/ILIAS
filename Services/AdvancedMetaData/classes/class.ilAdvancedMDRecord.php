@@ -83,6 +83,33 @@ class ilAdvancedMDRecord
 	}
 	
 	/**
+	 * Lookup title
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int record_id
+	 */
+	public static function _lookupTitle($a_record_id)
+	{
+		static $title_cache = array();
+		
+		if(isset($title_cache[$a_record_id]))
+		{
+			return $title_cache[$a_record_id];
+		}
+		
+		global $ilDB;
+		
+		$query = "SELECT title FROm adv_md_record ".
+			"WHERE record_id = ".$ilDB->quote($a_record_id)." ";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		return $title_cache[$a_record_id] = $row->title;
+	}
+	
+	/**
 	 * Lookup record Id by import id
 	 *
 	 * @access public

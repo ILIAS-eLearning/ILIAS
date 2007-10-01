@@ -7658,3 +7658,7 @@ common#:#access_restricted#:#Set the selected user(s) to limited access###25 09 
 common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?###25 09 2007 new variable
 common#:#access_from#:#Access (from)###25 09 2007 new variable
 common#:#access_restrict_enter#:#Please set the period for the limited access restriction###25 09 2007 new variable
+common#:#bold#:#Fett
+common#:#newline#:#Zeilenumbruch
+common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
+common#:#edit_cat_settings#:#Erweiterte Einstellungen

@@ -707,11 +707,21 @@ class ilObjectListGUI
 	{
 		foreach($this->substitutions->getParsedSubstitutions($this->ref_id,$this->obj_id) as $data)
 		{
+			if($data['bold'])
+			{
+				$data['name'] = '<strong>'.$data['name'].'</strong>';
+				$data['value'] = '<strong>'.$data['value'].'</strong>';
+			}
 			$this->tpl->touchBlock("std_prop");
 			$this->tpl->setCurrentBlock('item_property');
 			$this->tpl->setVariable('TXT_PROP',$data['name']);
 			$this->tpl->setVariable('VAL_PROP',$data['value']);
 			$this->tpl->parseCurrentBlock();
+
+			if($data['newline'])
+			{
+				$this->tpl->touchBlock('newline_prop');
+			}
 		}
 	}
 
@@ -1361,7 +1371,7 @@ class ilObjectListGUI
 		{
 			$this->insertNoticeProperties();
 		}
-		$ilBench->stop("ilObjectListGUI", "6500_insert_properties$type");
+		$ilBench->stop("ilObjectListGUI", "6500_insert_notice_properties$type");
 
 		// preconditions
 		$ilBench->start("ilObjectListGUI", "7000_insert_preconditions");
