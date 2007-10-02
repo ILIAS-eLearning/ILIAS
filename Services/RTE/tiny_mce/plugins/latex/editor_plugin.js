@@ -63,7 +63,7 @@ var TinyMCE_LatexPlugin = {
 					template['width']  = 600;
 					template['height'] = 300;
 
-					tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes"});
+					tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", resizable : "yes"});
 				//}
 
 				return true;
