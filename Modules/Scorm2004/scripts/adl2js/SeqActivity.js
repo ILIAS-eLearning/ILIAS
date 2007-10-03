@@ -541,7 +541,7 @@ SeqActivity.prototype =
 			if (this.mCurTracking != null)
 			{
 				if (!(this.mCurTracking.mDirtyPro && iIsRetry))
-				{
+				{					
 					status = (this.mCurTracking.mProgress != TRACK_UNKNOWN);
 				}
 			}

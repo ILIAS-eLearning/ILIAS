@@ -1127,7 +1127,6 @@ function launchNavType(navType) {
 	
 	//throw away API from previous sco and sync CMI and ADLTree
 	onItemUndeliver();
-	
 	mlaunch = new ADLLaunch();
 	
 	if (navType==='Start') {
@@ -2113,7 +2112,6 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	
 	var url = item.href, v;
 	// create api if associated resouce is of adl:scormType=sco
-	
 	if (item.sco)
 	{
 		// get data in cmi-1.3 format
