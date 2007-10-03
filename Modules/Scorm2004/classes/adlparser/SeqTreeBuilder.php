@@ -236,7 +236,7 @@
 					// Look for 'forwardOnly'
 	               	$tempVal=$curNode->getAttribute("forwardOnly");
 					if ($tempVal) {
-						$ioAct->setControlModeFlow(self::convert_to_bool($tempVal));
+						$ioAct->setControlForwardOnly(self::convert_to_bool($tempVal));
 					}
 					
 					// Look for 'useCurrentAttemptObjectiveInfo'

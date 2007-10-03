@@ -91,8 +91,9 @@ SeqConditionSet.prototype =
 					
 					for (var i = 0; i < this.mConditions.length; i++)
 					{
+						//alert("Act: "+iThisActivity.mActivityID+"Eval"+i);
 						var thisEval = this.evaluateCondition(i, iThisActivity);
-						
+						//alert("Returns: "+thisEval);
 						if (thisEval != EVALUATE_TRUE)
 						{
 							result = thisEval;
@@ -136,7 +137,6 @@ SeqConditionSet.prototype =
 	evaluateCondition: function (iIndex, iTarget)
 	{
 		var result = EVALUATE_UNKNOWN;
-		
 		// Make sure this condition exists
 		if (iIndex < this.mConditions.length)
 		{
@@ -155,14 +155,13 @@ SeqConditionSet.prototype =
 			{
 				//fix HH 
 				//if (iTarget.getObjStatus(cond.mObjID, this.mRollup))
-				
 				if (iTarget.getObjStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
 					//fix HH 
 					//result = (iTarget.getObjSatisfied(cond.mObjID, this.mRollup))
 					result = (iTarget.getObjSatisfied(this.mRollup,{iObjID:cond.mObjID}))
 						? EVALUATE_TRUE
-						: EVALUATE_FALSE;	
+						: EVALUATE_FALSE;
 				}
 				else
 				{
@@ -228,6 +227,7 @@ SeqConditionSet.prototype =
 			{
 				if (iTarget.getProgressStatus(this.mRollup))
 				{
+					alert("There is a status");
 					result = iTarget.getAttemptCompleted(this.mRollup)
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
