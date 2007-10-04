@@ -105,6 +105,17 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create group instance!','CLIENT_OBJECT_NOT_FOUND');
 		}
 
+		if(ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError("Object with ID $ref_id has been deleted.", 'CLIENT_OBJECT_DELETED');
+		}
+
+		
+		if (ilObjectFactory::getTypeByRefId($ref_id, false) !="grp") 
+		{
+			return $this->__raiseError('Reference id does not point to a group!','CLIENT_WRONG_TYPE');				
+		}
+
 
 		include_once 'classes/class.ilGroupImportParser.php';
 		$xml_parser = new ilGroupImportParser($grp_xml, -1);
@@ -147,7 +158,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		if(ilObject::_isInTrash($ref_id))
 		{
-			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_OBJECT_DELETED');
+			return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'CLIENT_OBJECT_DELETED');
 		}
 
 
