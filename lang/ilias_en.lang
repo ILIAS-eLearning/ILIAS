@@ -5449,13 +5449,13 @@ mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_notification_subject#:#New mail in your inbox
-mail#:#mail_nacc_admin_mail#:#Mail address of Administrator.
-mail#:#mail_nacc_client_name#:#Client Name.
-mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.
-mail#:#mail_nacc_login#:#Login Account.
+mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
+mail#:#mail_nacc_client_name#:#Client Name
+mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
+mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
-mail#:#mail_nacc_salutation#:#Salutation.
+mail#:#mail_nacc_salutation#:#Salutation
 mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.

@@ -5554,8 +5554,8 @@ mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
 mail#:#mail_nacc_client_name#:#Name des Mandanten
-mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systema.
-mail#:#mail_nacc_login#:#Login-Account.
+mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
+mail#:#mail_nacc_login#:#Login-Account
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
 mail#:#mail_nacc_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer mit Passwort angelegt wurde.
 mail#:#mail_nacc_salutation#:#Anrede
@@ -5563,7 +5563,7 @@ mail#:#mail_nacc_target_block#:#Dieser Textblock wird nur eingefügt, wenn ein Z
 mail#:#mail_nacc_target_title#:#Titel des Zielobjekts, z. B. der Kurstitel
 mail#:#mail_nacc_target_type#:#Typ des Zielobjekts, z. B. "Kurs" für ein Kursobjekt
 mail#:#mail_nacc_target#:#URL des Zielobjekts, z. B. ein Kurs, auf den von außerhalb von ILIAS verlinkt wird.
-mail#:#mail_nacc_use_placeholder#:#Die folgenden Platzhalter können verwendet werden:
+mail#:#mail_nacc_use_placeholder#:#Die folgenden Platzhalter können verwendet werden
 mail#:#mail_new_entry#:#Neuer Eintrag
 mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Anhänge beinhalten
