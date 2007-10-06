@@ -110,13 +110,13 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		if ($a_set["content"] != "")
 		{
 			$this->tpl->setCurrentBlock("content");
-			$this->tpl->setVariable("VAL_CONTENT", $a_set["content"]);
+			$this->tpl->setVariable("VAL_CONTENT", ilUtil::makeClickable( $a_set["content"], true));
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($a_set["content_long"] != "")
 		{
 			$this->tpl->setCurrentBlock("long");
-			$this->tpl->setVariable("VAL_LONG_CONTENT", $a_set["content_long"]);
+			$this->tpl->setVariable("VAL_LONG_CONTENT", ilUtil::makeClickable($a_set["content_long"], true));
 			$this->tpl->parseCurrentBlock();
 		}
 		
