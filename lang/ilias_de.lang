@@ -2765,7 +2765,7 @@ common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
-common#:#mail_settings#:#Mail
+common#:#mail_settings#:#Mail Einstellungen
 common#:#mail_smtp_mail#:#Benutzer darf E-Mails (SMTP) senden
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
 common#:#mail_system#:#Systemnachricht
