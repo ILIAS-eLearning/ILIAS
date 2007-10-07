@@ -261,7 +261,117 @@ class ilFileUtils
 
 		$fileObj->storeUnzipedFile($path. "/" . $filename,ilUtil::stripSlashes($filename));
 
-	}	
+	}
+	
+	
+	/**
+	*	decodes base encoded file row by row to prevent memory exhaust
+	* @param string $filename	name of file to read
+	* @param string $fileout name where to put decoded file
+	*/
+	function fastBase64Decode ($filein, $fileout) 
+	{
+		$fh = fopen($filein, 'rb');
+		$fh2= fopen($fileout, 'wb');
+		$chunksize = 1024;
+		
+		while (!feof ($fh)) {
+			$chunk = fgets($fh, $chunksize);
+			if ($chunk === false) 
+			{
+				break;
+			}
+			fwrite ($fh2, base64_decode($chunk));			
+		}
+		fclose ($fh);
+		fclose ($fh2);
+		return true;
+	}
+
+	/**
+	*	decodes base encoded file row by row to prevent memory exhaust
+	* @param string $filename	name of file to read
+	* @return string base decoded content
+	*/
+	function fastBase64Encode ($filein, $fileout) 
+	{
+		$fh = fopen($filein, 'rb');
+		$fh2= fopen($fileout, 'wb');
+		$chunksize = 76;
+		
+		while (feof ($fh)) {
+			$chunk = fgets($fh, $chunksize);
+			if ($chunk === false) 
+			{
+				break;
+			}
+			$chunk .= '\n';
+			fwrite ($fh2, base64_encode($chunk));			
+		}
+		fclose ($fh);
+		fclose ($fh2);
+	}			
+	
+	/**
+	*
+  * fast compressing the file with the zlib-extension without memory consumption
+	*
+  * @param string $in filename
+  * @param string $out filename
+  * @param string $level compression level from 1 to 9 
+  * @return bool
+	*/
+	function fastGZip ($in, $out, $level="9")
+	{
+    if (!file_exists ($in) || !is_readable ($in))
+        return false;
+    if ((!file_exists ($out) && !is_writable (dirname ($out)) || (file_exists($out) && !is_writable($out)) ))
+        return false;
+    
+    $in_file = fopen ($in, "rb");
+    if (!$out_file = gzopen ($out, "wb".$param)) {
+        return false;
+    }
+    
+    while (!feof ($in_file)) {
+        $buffer = fgets ($in_file, 4096);
+        gzwrite ($out_file, $buffer, 4096);
+    }
+
+    fclose ($in_file);
+    gzclose ($out_file);
+    
+    return true;
+	}
+
+	/**
+	 * fast uncompressing the file with the zlib-extension without memory consumption
+	 *	 
+	 * @param string $in filename
+	 * @param string $out filename
+	 * @return bool
+	 * 
+	*/
+	function fastGunzip ($in, $out)
+	{
+    if (!file_exists ($in) || !is_readable ($in))
+        return false;
+    if ((!file_exists ($out) && !is_writable (dirname ($out)) || (file_exists($out) && !is_writable($out)) ))
+        return false;
+
+    $in_file = gzopen ($in, "rb");
+    $out_file = fopen ($out, "wb");
+
+    while (!gzeof ($in_file)) {
+        $buffer = gzread ($in_file, 4096);
+        fwrite ($out_file, $buffer, 4096);
+    }
+ 
+    gzclose ($in_file);
+    fclose ($out_file);
+    
+    return true;
+  }
 	
 } // END class.ilFileUtils
 
