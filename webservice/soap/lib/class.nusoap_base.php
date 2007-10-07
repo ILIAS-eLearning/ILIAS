@@ -35,7 +35,7 @@ http://www.nusphere.com
 /* load classes
 
 // necessary classes
-require_once('class.soapclient.php');
+require_once('class.soap_client.php');
 require_once('class.soap_val.php');
 require_once('class.soap_parser.php');
 require_once('class.soap_fault.php');
@@ -50,6 +50,10 @@ require_once('class.wsdl.php');
 // server class
 require_once('class.soap_server.php');*/
 
+// class variable emulation
+// cf. http://www.webkreator.com/php/techniques/php-static-class-variables.html
+$GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
+
 /**
 *
 * nusoap_base
@@ -59,52 +63,102 @@ require_once('class.soap_server.php');*/
 * @access   public
 */
 class nusoap_base {
-
+	/**
+	 * Identification for HTTP headers.
+	 *
+	 * @var string
+	 * @access private
+	 */
 	var $title = 'NuSOAP';
-	var $version = '0.6.7';
+	/**
+	 * Version for HTTP headers.
+	 *
+	 * @var string
+	 * @access private
+	 */
+	var $version = '0.7.2';
+	/**
+	 * CVS revision for HTTP headers.
+	 *
+	 * @var string
+	 * @access private
+	 */
 	var $revision = '$Revision$';
-	var $error_str = false;
+    /**
+     * Current error string (manipulated by getError/setError)
+	 *
+	 * @var string
+	 * @access private
+	 */
+	var $error_str = '';
+    /**
+     * Current debug string (manipulated by debug/appendDebug/clearDebug/getDebug/getDebugAsXMLComment)
+	 *
+	 * @var string
+	 * @access private
+	 */
     var $debug_str = '';
-	// toggles automatic encoding of special characters as entities
-	// (should always be true, I think)
+    /**
+	 * toggles automatic encoding of special characters as entities
+	 * (should always be true, I think)
+	 *
+	 * @var boolean
+	 * @access private
+	 */
 	var $charencoding = true;
+	/**
+	 * the debug level for this instance
+	 *
+	 * @var	integer
+	 * @access private
+	 */
+	var $debugLevel;
 
     /**
-	*  set schema version
+	* set schema version
 	*
-	* @var      XMLSchemaVersion
+	* @var      string
 	* @access   public
 	*/
 	var $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
 	
     /**
-	*  set charset encoding for outgoing messages
+	* charset encoding for outgoing messages
 	*
-	* @var      soap_defencoding
+	* @var      string
 	* @access   public
 	*/
-	//var $soap_defencoding = 'UTF-8';
     var $soap_defencoding = 'ISO-8859-1';
+	//var $soap_defencoding = 'UTF-8';
 
 	/**
-	*  load namespace uris into an array of uri => prefix
+	* namespaces in an array of prefix => uri
 	*
-	* @var      namespaces
+	* this is "seeded" by a set of constants, but it may be altered by code
+	*
+	* @var      array
 	* @access   public
 	*/
 	var $namespaces = array(
 		'SOAP-ENV' => 'http://schemas.xmlsoap.org/soap/envelope/',
 		'xsd' => 'http://www.w3.org/2001/XMLSchema',
 		'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-		'SOAP-ENC' => 'http://schemas.xmlsoap.org/soap/encoding/',
-		'si' => 'http://soapinterop.org/xsd');
+		'SOAP-ENC' => 'http://schemas.xmlsoap.org/soap/encoding/'
+		);
+
+	/**
+	* namespaces used in the current context, e.g. during serialization
+	*
+	* @var      array
+	* @access   private
+	*/
 	var $usedNamespaces = array();
 
 	/**
-	* load types into typemap array
+	* XML Schema types in an array of uri => (array of xml type => php type)
 	* is this legacy yet?
 	* no, this is used by the xmlschema class to verify type => namespace mappings.
-	* @var      typemap
+	* @var      array
 	* @access   public
 	*/
 	var $typemap = array(
@@ -112,11 +166,17 @@ class nusoap_base {
 		'string'=>'string','boolean'=>'boolean','float'=>'double','double'=>'double','decimal'=>'double',
 		'duration'=>'','dateTime'=>'string','time'=>'string','date'=>'string','gYearMonth'=>'',
 		'gYear'=>'','gMonthDay'=>'','gDay'=>'','gMonth'=>'','hexBinary'=>'string','base64Binary'=>'string',
+		// abstract "any" types
+		'anyType'=>'string','anySimpleType'=>'string',
 		// derived datatypes
 		'normalizedString'=>'string','token'=>'string','language'=>'','NMTOKEN'=>'','NMTOKENS'=>'','Name'=>'','NCName'=>'','ID'=>'',
 		'IDREF'=>'','IDREFS'=>'','ENTITY'=>'','ENTITIES'=>'','integer'=>'integer','nonPositiveInteger'=>'integer',
 		'negativeInteger'=>'integer','long'=>'integer','int'=>'integer','short'=>'integer','byte'=>'integer','nonNegativeInteger'=>'integer',
 		'unsignedLong'=>'','unsignedInt'=>'','unsignedShort'=>'','unsignedByte'=>'','positiveInteger'=>''),
+	'http://www.w3.org/2000/10/XMLSchema' => array(
+		'i4'=>'','int'=>'integer','boolean'=>'boolean','string'=>'string','double'=>'double',
+		'float'=>'double','dateTime'=>'string',
+		'timeInstant'=>'string','base64Binary'=>'string','base64'=>'string','ur-type'=>'array'),
 	'http://www.w3.org/1999/XMLSchema' => array(
 		'i4'=>'','int'=>'integer','boolean'=>'boolean','string'=>'string','double'=>'double',
 		'float'=>'double','dateTime'=>'string',
@@ -127,22 +187,128 @@ class nusoap_base {
 	);
 
 	/**
-	*  entities to convert
+	* XML entities to convert
 	*
-	* @var      xmlEntities
+	* @var      array
 	* @access   public
+	* @deprecated
+	* @see	expandEntities
 	*/
 	var $xmlEntities = array('quot' => '"','amp' => '&',
 		'lt' => '<','gt' => '>','apos' => "'");
 
 	/**
-	* adds debug data to the class level debug string
+	* constructor
+	*
+	* @access	public
+	*/
+	function nusoap_base() {
+		$this->debugLevel = $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel;
+	}
+
+	/**
+	* gets the global debug level, which applies to future instances
+	*
+	* @return	integer	Debug level 0-9, where 0 turns off
+	* @access	public
+	*/
+	function getGlobalDebugLevel() {
+		return $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel;
+	}
+
+	/**
+	* sets the global debug level, which applies to future instances
+	*
+	* @param	int	$level	Debug level 0-9, where 0 turns off
+	* @access	public
+	*/
+	function setGlobalDebugLevel($level) {
+		$GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = $level;
+	}
+
+	/**
+	* gets the debug level for this instance
+	*
+	* @return	int	Debug level 0-9, where 0 turns off
+	* @access	public
+	*/
+	function getDebugLevel() {
+		return $this->debugLevel;
+	}
+
+	/**
+	* sets the debug level for this instance
+	*
+	* @param	int	$level	Debug level 0-9, where 0 turns off
+	* @access	public
+	*/
+	function setDebugLevel($level) {
+		$this->debugLevel = $level;
+	}
+
+	/**
+	* adds debug data to the instance debug string with formatting
 	*
 	* @param    string $string debug data
 	* @access   private
 	*/
 	function debug($string){
-		$this->debug_str .= get_class($this).": $string\n";
+		if ($this->debugLevel > 0) {
+			$this->appendDebug($this->getmicrotime().' '.get_class($this).": $string\n");
+		}
+	}
+
+	/**
+	* adds debug data to the instance debug string without formatting
+	*
+	* @param    string $string debug data
+	* @access   public
+	*/
+	function appendDebug($string){
+		if ($this->debugLevel > 0) {
+			// it would be nice to use a memory stream here to use
+			// memory more efficiently
+			$this->debug_str .= $string;
+		}
+	}
+
+	/**
+	* clears the current debug data for this instance
+	*
+	* @access   public
+	*/
+	function clearDebug() {
+		// it would be nice to use a memory stream here to use
+		// memory more efficiently
+		$this->debug_str = '';
+	}
+
+	/**
+	* gets the current debug data for this instance
+	*
+	* @return   debug data
+	* @access   public
+	*/
+	function &getDebug() {
+		// it would be nice to use a memory stream here to use
+		// memory more efficiently
+		return $this->debug_str;
+	}
+
+	/**
+	* gets the current debug data for this instance as an XML comment
+	* this may change the contents of the debug data
+	*
+	* @return   debug data as an XML comment
+	* @access   public
+	*/
+	function &getDebugAsXMLComment() {
+		// it would be nice to use a memory stream here to use
+		// memory more efficiently
+		while (strpos($this->debug_str, '--')) {
+			$this->debug_str = str_replace('--', '- -', $this->debug_str);
+		}
+    	return "<!--\n" . $this->debug_str . "\n-->";
 	}
 
 	/**
@@ -165,7 +331,7 @@ class nusoap_base {
 	/**
 	* returns error string if present
 	*
-	* @return   boolean $string error string
+	* @return   mixed error string or false
 	* @access   public
 	*/
 	function getError(){
@@ -188,7 +354,7 @@ class nusoap_base {
 	/**
 	* detect if array is a simple array or a struct (associative array)
 	*
-	* @param	$val	The PHP array
+	* @param	mixed	$val	The PHP array
 	* @return	string	(arraySimple|arrayStruct)
 	* @access	private
 	*/
@@ -206,16 +372,30 @@ class nusoap_base {
 	* serializes PHP values in accordance w/ section 5. Type information is
 	* not serialized if $use == 'literal'.
 	*
-	* @return	string
+	* @param	mixed	$val	The value to serialize
+	* @param	string	$name	The name (local part) of the XML element
+	* @param	string	$type	The XML schema type (local part) for the element
+	* @param	string	$name_ns	The namespace for the name of the XML element
+	* @param	string	$type_ns	The namespace for the type of the element
+	* @param	array	$attributes	The attributes to serialize as name=>value pairs
+	* @param	string	$use	The WSDL "use" (encoded|literal)
+	* @return	string	The serialized element, possibly with child elements
     * @access	public
 	*/
 	function serialize_val($val,$name=false,$type=false,$name_ns=false,$type_ns=false,$attributes=false,$use='encoded'){
+		$this->debug("in serialize_val: name=$name, type=$type, name_ns=$name_ns, type_ns=$type_ns, use=$use");
+		$this->appendDebug('value=' . $this->varDump($val));
+		$this->appendDebug('attributes=' . $this->varDump($attributes));
+		
     	if(is_object($val) && get_class($val) == 'soapval'){
         	return $val->serialize($use);
         }
-		$this->debug( "in serialize_val: $val, $name, $type, $name_ns, $type_ns, $attributes, $use");
-		// if no name, use item
-		$name = (!$name|| is_numeric($name)) ? 'soapVal' : $name;
+		// force valid name if necessary
+		if (is_numeric($name)) {
+			$name = '__numeric_' . $name;
+		} elseif (! $name) {
+			$name = 'noname';
+		}
 		// if name has ns, add ns prefix to name
 		$xmlns = '';
         if($name_ns){
@@ -236,8 +416,22 @@ class nusoap_base {
 		$atts = '';
 		if($attributes){
 			foreach($attributes as $k => $v){
-				$atts .= " $k=\"$v\"";
+				$atts .= " $k=\"".$this->expandEntities($v).'"';
 			}
+		}
+		// serialize null value
+		if (is_null($val)) {
+			if ($use == 'literal') {
+				// TODO: depends on minOccurs
+	        	return "<$name$xmlns $atts/>";
+        	} else {
+				if (isset($type) && isset($type_prefix)) {
+					$type_str = " xsi:type=\"$type_prefix:$type\"";
+				} else {
+					$type_str = '';
+				}
+	        	return "<$name$xmlns$type_str $atts xsi:nil=\"true\"/>";
+        	}
 		}
         // serialize if an xsd built-in primitive type
         if($type != '' && isset($this->typemap[$this->XMLSchemaVersion][$type])){
@@ -251,22 +445,14 @@ class nusoap_base {
 				$val = $this->expandEntities($val);
 			}
 			if ($use == 'literal') {
-	        	return "<$name$xmlns>$val</$name>";
+	        	return "<$name$xmlns $atts>$val</$name>";
         	} else {
-	        	return "<$name$xmlns xsi:type=\"xsd:$type\">$val</$name>";
+	        	return "<$name$xmlns $atts xsi:type=\"xsd:$type\">$val</$name>";
         	}
         }
 		// detect type and serialize
 		$xml = '';
 		switch(true) {
-			case ($type == '' && is_null($val)):
-				if ($use == 'literal') {
-					// TODO: depends on nillable
-					$xml .= "<$name$xmlns/>";
-				} else {
-					$xml .= "<$name$xmlns xsi:nil=\"true\"/>";
-				}
-				break;
 			case (is_bool($val) || $type == 'boolean'):
         		if ($type == 'boolean') {
 	        		$val = $val ? 'true' : 'false';
@@ -302,7 +488,12 @@ class nusoap_base {
 				}
 				break;
 			case is_object($val):
-				$name = get_class($val);
+				if (! $name) {
+					$name = get_class($val);
+					$this->debug("In serialize_val, used class name $name as element name");
+				} else {
+					$this->debug("In serialize_val, do not override name $name for element name for class " . get_class($val));
+				}
 				foreach(get_object_vars($val) as $k => $v){
 					$pXml = isset($pXml) ? $pXml.$this->serialize_val($v,$k,false,false,false,false,$use) : $this->serialize_val($v,$k,false,false,false,false,$use);
 				}
@@ -325,11 +516,12 @@ class nusoap_base {
 								$tt = gettype($v);
 	                        }
 							$array_types[$tt] = 1;
+							// TODO: for literal, the name should be $name
 							$xml .= $this->serialize_val($v,'item',false,false,false,false,$use);
 							++$i;
 						}
 						if(count($array_types) > 1){
-							$array_typename = 'xsd:ur-type';
+							$array_typename = 'xsd:anyType';
 						} elseif(isset($tt) && isset($this->typemap[$this->XMLSchemaVersion][$tt])) {
 							if ($tt == 'integer') {
 								$tt = 'int';
@@ -366,9 +558,10 @@ class nusoap_base {
 						} else if (isset($type) && isset($type_prefix)) {
 							$type_str = " xsi:type=\"$type_prefix:$type\"";
 						} else {
-							$type_str = " xsi:type=\"SOAP-ENC:Array\"";
+							$type_str = " xsi:type=\"SOAP-ENC:Array\" SOAP-ENC:arrayType=\"xsd:anyType[0]\"";
 						}
 					}
+					// TODO: for array in literal, there is no wrapper here
 					$xml = "<$name$xmlns$type_str$atts>".$xml."</$name>";
 				} else {
 					// got a struct
@@ -404,32 +597,47 @@ class nusoap_base {
 	}
 
     /**
-    * serialize message
+    * serializes a message
     *
-    * @param string body
-    * @param string headers optional
-    * @param array namespaces optional
-    * @param string style optional (rpc|document)
-    * @param string use optional (encoded|literal)
-    * @return string message
+    * @param string $body the XML of the SOAP body
+    * @param mixed $headers optional string of XML with SOAP header content, or array of soapval objects for SOAP headers
+    * @param array $namespaces optional the namespaces used in generating the body and headers
+    * @param string $style optional (rpc|document)
+    * @param string $use optional (encoded|literal)
+    * @param string $encodingStyle optional (usually 'http://schemas.xmlsoap.org/soap/encoding/' for encoded)
+    * @return string the message
     * @access public
     */
-    function serializeEnvelope($body,$headers=false,$namespaces=array(),$style='rpc',$use='encoded'){
+    function serializeEnvelope($body,$headers=false,$namespaces=array(),$style='rpc',$use='encoded',$encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'){
     // TODO: add an option to automatically run utf8_encode on $body and $headers
     // if $this->soap_defencoding is UTF-8.  Not doing this automatically allows
     // one to send arbitrary UTF-8 characters, not just characters that map to ISO-8859-1
+
+	$this->debug("In serializeEnvelope length=" . strlen($body) . " body (max 1000 characters)=" . substr($body, 0, 1000) . " style=$style use=$use encodingStyle=$encodingStyle");
+	$this->debug("headers:");
+	$this->appendDebug($this->varDump($headers));
+	$this->debug("namespaces:");
+	$this->appendDebug($this->varDump($namespaces));
 
 	// serialize namespaces
     $ns_string = '';
 	foreach(array_merge($this->namespaces,$namespaces) as $k => $v){
 		$ns_string .= " xmlns:$k=\"$v\"";
 	}
-	if($style == 'rpc' && $use == 'encoded') {
-		$ns_string = ' SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"' . $ns_string;
+	if($encodingStyle) {
+		$ns_string = " SOAP-ENV:encodingStyle=\"$encodingStyle\"$ns_string";
 	}
 
 	// serialize headers
 	if($headers){
+		if (is_array($headers)) {
+			$xml = '';
+			foreach ($headers as $header) {
+				$xml .= $this->serialize_val($header, false, false, false, false, false, $use);
+			}
+			$headers = $xml;
+			$this->debug("In serializeEnvelope, serialzied array of headers to $headers");
+		}
 		$headers = "<SOAP-ENV:Header>".$headers."</SOAP-ENV:Header>";
 	}
 	// serialize envelope
@@ -443,15 +651,23 @@ class nusoap_base {
 	"</SOAP-ENV:Envelope>";
     }
 
+	/**
+	 * formats a string to be inserted into an HTML stream
+	 *
+	 * @param string $str The string to format
+	 * @return string The formatted string
+	 * @access public
+	 * @deprecated
+	 */
     function formatDump($str){
 		$str = htmlspecialchars($str);
 		return nl2br($str);
     }
 
 	/**
-	* contracts a qualified name
+	* contracts (changes namespace to prefix) a qualified name
 	*
-	* @param    string $string qname
+	* @param    string $qname qname
 	* @return	string contracted qname
 	* @access   private
 	*/
@@ -474,7 +690,7 @@ class nusoap_base {
 	}
 
 	/**
-	* expands a qualified name
+	* expands (changes prefix to namespace) a qualified name
 	*
 	* @param    string $string qname
 	* @return	string expanded qname
@@ -501,8 +717,8 @@ class nusoap_base {
     * returns the local part of a prefixed string
     * returns the original string, if not prefixed
     *
-    * @param string
-    * @return string
+    * @param string $str The prefixed string
+    * @return string The local part
     * @access public
     */
 	function getLocalPart($str){
@@ -518,8 +734,8 @@ class nusoap_base {
     * returns the prefix part of a prefixed string
     * returns false, if not prefixed
     *
-    * @param string
-    * @return mixed
+    * @param string $str The prefixed string
+    * @return mixed The prefix or false if there is no prefix
     * @access public
     */
 	function getPrefix($str){
@@ -532,10 +748,9 @@ class nusoap_base {
 
 	/**
     * pass it a prefix, it returns a namespace
-	* returns false if no namespace registered with the given prefix
     *
-    * @param string
-    * @return mixed
+    * @param string $prefix The prefix
+    * @return mixed The namespace, false if no namespace has the specified prefix
     * @access public
     */
 	function getNamespaceFromPrefix($prefix){
@@ -550,8 +765,8 @@ class nusoap_base {
     * returns the prefix for a given namespace (or prefix)
     * or false if no prefixes registered for the given namespace
     *
-    * @param string
-    * @return mixed
+    * @param string $ns The namespace
+    * @return mixed The prefix, false if the namespace has no prefixes
     * @access public
     */
 	function getPrefixFromNamespace($ns) {
@@ -564,6 +779,31 @@ class nusoap_base {
 		return false;
 	}
 
+	/**
+    * returns the time in ODBC canonical form with microseconds
+    *
+    * @return string The time in ODBC canonical form with microseconds
+    * @access public
+    */
+	function getmicrotime() {
+		if (function_exists('gettimeofday')) {
+			$tod = gettimeofday();
+			$sec = $tod['sec'];
+			$usec = $tod['usec'];
+		} else {
+			$sec = time();
+			$usec = 0;
+		}
+		return strftime('%Y-%m-%d %H:%M:%S', $sec) . '.' . sprintf('%06d', $usec);
+	}
+
+	/**
+	 * Returns a string with the output of var_dump
+	 *
+	 * @param mixed $data The variable to var_dump
+	 * @return string The output of var_dump
+	 * @access public
+	 */
     function varDump($data) {
 		ob_start();
 		var_dump($data);
@@ -641,6 +881,13 @@ function iso8601_to_timestamp($datestr){
 	}
 }
 
+/**
+* sleeps some number of microseconds
+*
+* @param    string $usec the number of microseconds to sleep
+* @access   public
+* @deprecated
+*/
 function usleepWindows($usec)
 {
 	$start = gettimeofday();
