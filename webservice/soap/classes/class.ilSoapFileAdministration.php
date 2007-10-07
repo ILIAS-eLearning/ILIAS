@@ -85,12 +85,14 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		include_once './Modules/File/classes/class.ilObjFile.php';
 
 		$file = new ilObjFile();
-        try
+    try
         {
 
     		$fileXMLParser = new ilFileXMLParser($file, $file_xml);
-    		$fileXMLParser->start();
-            $file->create();
+
+    		if ($fileXMLParser->start()) 
+    		{
+          $file->create();
         	$file->createReference();
         	$file->putInTree($target_id);
         	$file->setPermissions($target_id);
@@ -98,13 +100,16 @@ class ilSoapFileAdministration extends ilSoapAdministration
         	// we now can save the file contents since we know the obj id now.
         	$fileXMLParser->setFileContents();
 
-            return $file->getRefId();
+          return $file->getRefId();
+        } else 
+        {
+        	return $this->__raiseError("Could not add file", "Server");
+        } 
 
         } catch(ilFileException $exception) {
-            return $this->__raiseError($exception->getMessage(),
-									   $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
+          return $this->__raiseError($exception->getMessage(), $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
         }
-	}
+	   }
 
 
     /**
