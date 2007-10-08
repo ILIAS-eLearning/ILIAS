@@ -286,7 +286,7 @@ class assClozeTestGUI extends assQuestionGUI
 /*		if (($result) and ($_POST["cmd"]["add"]))
 		{
 			// You cannot create gaps before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_create_gaps"));
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_create_gaps"));
 			$_POST["cmd"]["add"] = "";
 		}
 */

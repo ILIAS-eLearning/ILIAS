@@ -96,7 +96,7 @@ class assFlashAppGUI extends assQuestionGUI
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_flashapp_question.html", "Modules/TestQuestionPool");
 		if ($this->error)
 		{
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 		}
 		// call to other question data i.e. estimated working time block
 		$this->outOtherQuestionData();
@@ -194,7 +194,7 @@ class assFlashAppGUI extends assQuestionGUI
 				}
 				else
 				{
-					sendInfo($this->lng->txt("too_many_empty_parameters"));
+					ilUtil::sendInfo($this->lng->txt("too_many_empty_parameters"));
 				}
 			}
 			if (!strlen($javaapplet))
@@ -676,7 +676,7 @@ class assFlashAppGUI extends assQuestionGUI
 		{
 			if ($this->writePostData())
 			{
-				sendInfo($this->getErrorMessage());
+				ilUtil::sendInfo($this->getErrorMessage());
 				$this->editQuestion();
 				return;
 			}
