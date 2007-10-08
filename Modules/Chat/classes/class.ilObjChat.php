@@ -277,7 +277,7 @@ class ilObjChat extends ilObject
 		$body .= "\n";
 		$body .= $lang->txt("chat_chatroom_body")." ".$this->chat_room->getTitle()."\n\n";
 		$body .= $lang->txt('chat_to_chat_body');
-		$body .= (': '.ILIAS_HTTP_PATH."/Modules/Chat/chat.php?room_id=".$room_id."&ref_id=".$this->getRefId());
+		$body .= (': '.ILIAS_HTTP_PATH."/chat.php?room_id=".$room_id."&ref_id=".$this->getRefId());
 
 		return $body;
 	}
