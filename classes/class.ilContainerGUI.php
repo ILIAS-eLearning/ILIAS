@@ -775,11 +775,11 @@ class ilContainerGUI extends ilObjectGUI
 							{
 								if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 								{
-									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $type);
+									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],$type);
 								}
 								else
 								{
-									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"]);
+									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],$type);
 								}
 							}
 

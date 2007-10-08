@@ -2685,3 +2685,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ALTER TABLE `tst_tests` ADD `reset_processing_time` SMALLINT NOT NULL DEFAULT '0' AFTER `enable_processing_time`;
 <#1096>
 ALTER TABLE `tst_times` ADD `pass` TINYINT NOT NULL DEFAULT '0' AFTER `finished` ;
+
+<#1097>
+TRUNCATE TABLE `container_sorting`;
