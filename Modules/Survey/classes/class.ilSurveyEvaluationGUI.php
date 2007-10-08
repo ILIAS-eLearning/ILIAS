@@ -304,7 +304,7 @@ class ilSurveyEvaluationGUI
 			case EVALUATION_ACCESS_OFF:
 				if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 				{
-					sendInfo($this->lng->txt("permission_denied"));
+					ilUtil::sendInfo($this->lng->txt("permission_denied"));
 					return;
 				}
 				break;
@@ -312,7 +312,7 @@ class ilSurveyEvaluationGUI
 				include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
 				if (!($rbacsystem->checkAccess("write",$_GET["ref_id"]) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId())))
 				{
-					sendInfo($this->lng->txt("permission_denied"));
+					ilUtil::sendInfo($this->lng->txt("permission_denied"));
 					return;
 				}
 				break;
