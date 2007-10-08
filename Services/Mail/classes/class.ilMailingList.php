@@ -46,10 +46,11 @@ class ilMailingList
 		$this->db = $ilDB;
 		$this->user = $user;
 		
-		$this->setId($id);
-		$this->setUserId($this->user->getId());
+		$this->mail_id = $id;
+		$this->user_id = $this->user->getId();
 		
-		$this->read();		
+	
+		$this->read();
 	}
 	
 	public function insert()
@@ -58,31 +59,31 @@ class ilMailingList
 				."(ml_id, user_id, title, description, createdate, changedate) "
 				."VALUES ( "
 				."'', "
-				.$this->db->quote($this->getUserId()).", "
-				.$this->db->quote($this->getTitle()).", "
-				.$this->db->quote($this->getDescription()).", "
-				.$this->db->quote($this->getCreatedate()).", "
+				.$this->db->quote($this->user_id).", "
+				.$this->db->quote($this->title).", "
+				.$this->db->quote($this->description).", "
+				.$this->db->quote($this->createdate).", "
 				."'' "
 				.") ";
 		$this->db->query($query);	
 		
-		$this->setId($this->db->getLastInsertId());
+		$this->mail_id = $this->db->getLastInsertId();
 		
 		return true;
 	}
 	
 	public function update()
 	{
-		if ($this->getId() && $this->getUserId())
+		if ($this->mail_id && $this->user_id)
 		{
 			$query = "UPDATE addressbook_mailing_lists "
 					."SET "				
-					."title = " . $this->db->quote($this->getTitle()) . ", "
-					."description = " . $this->db->quote($this->getDescription()) . ", "
-					."changedate = " . $this->db->quote($this->getChangedate()) . " "
+					."title = " . $this->db->quote($this->title) . ", "
+					."description = " . $this->db->quote($this->description) . ", "
+					."changedate = " . $this->db->quote($this->changedate) . " "
 					."WHERE 1 "
-					."AND ml_id = " . $this->db->quote($this->getId()) . " "
-					."AND user_id = " . $this->db->quote($this->getUserId()). " ";
+					."AND ml_id = " . $this->db->quote($this->mail_id) . " "
+					."AND user_id = " . $this->db->quote($this->user_id). " ";
 					
 			$this->db->query($query);
 			
@@ -96,14 +97,14 @@ class ilMailingList
 	
 	public function delete()
 	{
-		if ($this->getId() && $this->getUserId())
+		if ($this->mail_id && $this->user_id)
 		{
 			$this->deassignAllEntries();
 			
 			$query = "DELETE FROM addressbook_mailing_lists "
 					."WHERE 1 "
-					."AND ml_id = " . $this->db->quote($this->getId()) . " "
-					."AND user_id = " . $this->db->quote($this->getUserId()) . " ";
+					."AND ml_id = " . $this->db->quote($this->mail_id) . " "
+					."AND user_id = " . $this->db->quote($this->user_id) . " ";
 			
 			$this->db->query($query);
 			
@@ -117,23 +118,23 @@ class ilMailingList
 	
 	private function read()
 	{		
-		if ($this->getId() && $this->getUserId())
+		if ($this->mail_id && $this->user_id)
 		{
 			$query = "SELECT * FROM addressbook_mailing_lists "
 					."WHERE 1 "
-					."AND ml_id = " . $this->db->quote($this->getId()) . " "
-					."AND user_id = " . $this->db->quote($this->getUserId()) . " ";
+					."AND ml_id = " . $this->db->quote($this->mail_id) . " "
+					."AND user_id = " . $this->db->quote($this->user_id) . " ";
 	
-			$result = $this->db->getrow($query);
+			$row = $this->db->getRow($query);
 	
-			if (is_object($result))
+			if (is_object($row))
 			{
-				$this->setId($result->ml_id);
-				$this->setUserId($result->user_id);
-				$this->setTitle($result->title);
-				$this->setDescription($result->description);
-				$this->setCreatedate($resutl->createdate);
-				$this->setChangedate($resutl->changedae);		
+				$this->mail_id = $row->ml_id;
+				$this->user_id = $row->user_id;
+				$this->title = $row->title;
+				$this->description = $row->description;
+				$this->createdate = $row->createdate;
+				$this->changedate = $row->changedae;		
 			}
 		}
 		
@@ -145,7 +146,7 @@ class ilMailingList
 		$query = "SELECT * FROM addressbook_mailing_lists_assignments "
 				."INNER JOIN addressbook ON addressbook.addr_id = addressbook_mailing_lists_assignments.addr_id "
 				."WHERE 1 "
-				."AND ml_id = " . $this->db->quote($this->getId()) . " ";
+				."AND ml_id = " . $this->db->quote($this->mail_id) . " ";
 		$res = $this->db->query($query);
 
 		$entries = array();
@@ -173,7 +174,7 @@ class ilMailingList
 				."(a_id, ml_id, addr_id) "
 				."VALUES ( "
 				."'', "
-				.$this->db->quote($this->getId()).", "
+				.$this->db->quote($this->mail_id).", "
 				.$this->db->quote($addr_id)." "
 				.") ";
 		$this->db->query($query);
@@ -196,7 +197,7 @@ class ilMailingList
 	{
 		$query = "DELETE FROM addressbook_mailing_lists_assignments "
 				."WHERE 1 "
-				."AND ml_id = " . $this->db->quote($this->getId()) . " ";
+				."AND ml_id = " . $this->db->quote($this->mail_id) . " ";
 		
 		$this->db->query($query);
 		

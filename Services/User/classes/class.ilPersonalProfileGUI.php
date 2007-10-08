@@ -1245,7 +1245,7 @@ class ilPersonalProfileGUI
 
 		$this->lng->loadLanguageModule("mail");
 
-		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"]);
+		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"], ilUtil::stripSlashes((int) $_POST['cronjob_notification']));
 		ilUtil::sendInfo($this->lng->txt("mail_options_saved"),true);
 
 		$this->showMailOptions();
@@ -1253,7 +1253,7 @@ class ilPersonalProfileGUI
 
 	function showMailOptions()
 	{
-		global $ilUser;
+		global $ilUser, $ilias;
 
 		$this->__initSubTabs("showMailOptions");
 
@@ -1304,6 +1304,16 @@ class ilPersonalProfileGUI
 		$this->tpl->setVariable("TXT_SIGNATURE", $this->lng->txt("signature"));
 		$this->tpl->setVariable("CONTENT",$mailOptions->getSignature());
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		if ($ilias->getSetting("mail_notification"))
+		{
+			$this->tpl->setVariable("TXT_CRONJOB_NOTIFICATION", $this->lng->txt("cron_mail_notification"));
+			$this->tpl->setVariable("TXT_CRONJOB_NOTIFICATION_INFO", $this->lng->txt("mail_cronjob_notification_info"));
+			if ($mailOptions->getCronjobNotification())
+			{
+				$this->tpl->setVariable("CRONJOB_NOTIFICATION_SELECTED", " checked=\"checked\"");
+			}
+		}
 
 		$this->tpl->show();
 	}

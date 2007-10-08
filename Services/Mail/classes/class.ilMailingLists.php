@@ -78,7 +78,17 @@ class ilMailingLists
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{			
-			$entries[$counter] = new ilMailingList($this->user, $row->ml_id);
+			$tmpObj = new ilMailingList($this->user, 0);
+			$tmpObj->setId($row->ml_id);
+			$tmpObj->setUserId($row->user_id);
+			$tmpObj->setTitle($row->title);
+			$tmpObj->setDescription($row->description);
+			$tmpObj->setCreatedate($row->createdate);
+			$tmpObj->setChangedate($row->changedae);
+			
+			$entries[$counter] = $tmpObj;
+			
+			unset($tmpObj);
 			
 			++$counter;
 		}

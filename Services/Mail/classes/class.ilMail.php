@@ -1098,7 +1098,7 @@ class ilMail
 					else
 					{
 						// Roles
-						$role_ids = $rbacreview->searchRolesByMailboxAddressList($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
+						$role_ids = $rbacreview->searchRolesByMailboxAddressList($rcp->mailbox.'@'.$rcp->host);
 						foreach($role_ids as $role_id)
 						{
 							foreach($rbacreview->assignedUsers($role_id) as $usr_id)
@@ -1204,11 +1204,11 @@ class ilMail
 							}
 						}
 					}
-					else if (substr($rcp, 0, 7) == '#il_ml_')
+					else if (substr($rcp->mailbox, 0, 7) == '#il_ml_')
 					{
-						if (!$this->mlists->mailingListExists($rcp))
+						if (!$this->mlists->mailingListExists($rcp->mailbox))
 						{					
-							$wrong_rcps .= "<br />".htmlentities($rcp).	
+							$wrong_rcps .= "<br />".htmlentities($rcp->mailbox).	
 								" (".$this->lng->txt("mail_no_valid_mailing_list").")";
 						}
 						
@@ -1441,7 +1441,7 @@ class ilMail
 			$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"substitute");
 			$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"substitute");
 		}
-		
+
 		// COUNT EMAILS
 		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
 		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
@@ -1520,20 +1520,40 @@ class ilMail
 		
 		foreach ($arrRcpt as $item)
 		{
-			if (substr($item, 0, 7) == '#il_ml_')
+			if (ilMail::_usePearMail())
 			{
-				if ($this->mlists->mailingListExists($item))
+				if (substr($item->mailbox, 0, 7) == '#il_ml_')
 				{
-					foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
+					if ($this->mlists->mailingListExists($item->mailbox))
 					{
-						$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+						foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
+						{
+							$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+						}
 					}
 				}
+				else
+				{
+					$new_rcpt[] = $item->mailbox;
+				}
 			}
-			else if ($item != '')
+			else
 			{
-				$new_rcpt[] = $item;
-			}	
+				if (substr($item, 0, 7) == '#il_ml_')
+				{
+					if ($this->mlists->mailingListExists($item))
+					{
+						foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
+						{
+							$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+						}
+					}	
+				}
+				else
+				{
+					$new_rcpt[] = $item;
+				}
+			}		
 		}		
 		
 		return implode(',', $new_rcpt);

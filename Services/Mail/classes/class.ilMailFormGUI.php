@@ -137,7 +137,7 @@ class ilMailFormGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_message_send",true));
+			ilUtil::sendInfo($this->lng->txt("mail_message_send", true));
 			#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
 			$this->ctrl->redirectByClass("ilmailfoldergui");
 		}

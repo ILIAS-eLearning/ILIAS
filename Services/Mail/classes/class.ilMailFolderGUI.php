@@ -290,11 +290,12 @@ class ilMailFolderGUI
 			$this->tpl->setVariable("TXT_FOLDERS", $this->lng->txt("mail_change_to_folder"));
 			$this->tpl->setVariable("FOLDER_VALUE",$this->lng->txt("submit"));
 			$this->tpl->parseCurrentBlock();
+			
+			#$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
+			$this->tpl->setVariable("ACTION_FLAT", $this->ctrl->getLinkTarget($this));
+			#$this->ctrl->clearParameters($this);
 		}
-		// END SHOW_FOLDER
-		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-		$this->tpl->setVariable("ACTION_FLAT", $this->ctrl->getLinkTarget($this));
-		$this->ctrl->clearParameters($this);
+		// END SHOW_FOLDER		
 		
 		// BEGIN MAILS
 		$mailData = $this->umail->getMailsOfFolder($_GET["mobj_id"]);
