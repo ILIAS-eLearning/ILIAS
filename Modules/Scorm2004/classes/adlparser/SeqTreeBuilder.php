@@ -90,23 +90,27 @@
 	  	
 	  	$root = $this->buildNode($default_organization,$seqCollection,$doc);
 	  	
+		//return no data please check
+		$objectivesGlobalToSystem = $default_organization->getAttributeNS("http://www.adlnet.org/xsd/adlseq_v1p3","objectivesGlobalToSystem");
 	
+		$org = $default_organization->getAttribute("identifier");
+		
+		//default true
+		$globaltosystem = 1;
+		
+		if ($objectivesGlobalToSystem=="false") {
+			$globaltosystem = 0;
+		}
+		
+		echo "$objectivesGlobalToSystem : $org\n";
+		
 		//assign SeqActivity to top node
 		$c_root['_SeqActivity']=$root;
-	  	$tree['mRoot'] = $c_root;
-	  	
-		//is set at later point..don't return
-	  	$tree['mLearnerID'] = null;
-	  	$tree['mScopeID'] = null;
-	  	$tree['mCourseID'] = null;
+				
+		$ret['global'] = $globaltosystem;
+		$ret['tree'] = $c_root;
 		
-		
-		//add classname to structure
-		$c_tree['_SeqActivityTree']=$tree;
-		
-		//don't return
-		
-		return $c_root;
+		return $ret;
 	  	
 	  }
 	  
