@@ -3090,7 +3090,7 @@ common#:#select_page#:#Select Page
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_access_item#:#You have no permission to access this item.
-common#:#no_access_item_public#:#This item cannot be accessed in the public area.
+common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissons.
 common#:#no_access_link_object#:#You are not allowed to link this object
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
