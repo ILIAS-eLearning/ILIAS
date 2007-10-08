@@ -420,6 +420,24 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		}
 	}
 	
+	
+	
+	
+	public function getSuspendData(){
+		global $ilDB,$ilUser;
+		$set = $ilDB->query("SELECT * FROM cp_suspend WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
+		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$gobjective_data=$data['data'];
+		header('Content-Type: text/plain; charset=UTF-8');
+		print($gobjective_data);
+	}
+	
+	public function suspendADLActData()
+	{
+		global $ilDB, $ilUser;
+		$set = $ilDB->query("REPLACE INTO cp_suspend (data,obj_id,user_id) values (".$ilDB->quote(file_get_contents('php://input')).",".$ilDB->quote($this->packageId).",".$ilUser->getID().")");		
+	}
+	
 	public function readGObjective(){
 		global $ilDB,$ilUser;
 		$set = $ilDB->query("SELECT * FROM cmi_gobjective WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
@@ -437,8 +455,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			print_r($gobjective_data);	
 		}
 	}
-	
-	
+		
 	public function writeGObjective()
 	{
 		global $ilDB, $ilUser;
