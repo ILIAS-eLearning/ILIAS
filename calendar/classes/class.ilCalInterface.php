@@ -557,7 +557,7 @@ class ilCalInterface
 			case 'crs':
 				$tmp_obj->initCourseMemberObject();
 
-				$members = $tmp_obj->members_obj->getAssignedUsers();
+				$members = $tmp_obj->members_obj->getParticipants();
 				break;
 		}				
 
@@ -647,7 +647,7 @@ class ilCalInterface
 			case 'crs':
 				$tmp_obj->initCourseMemberObject();
 
-				return count($tmp_obj->members_obj->getAssignedUsers()); 
+				return count($tmp_obj->members_obj->getParticipants()); 
 		}
 
 		#//gain access to ilias-variables
