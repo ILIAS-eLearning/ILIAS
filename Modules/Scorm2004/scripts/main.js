@@ -937,7 +937,7 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 	}
 	else
 	{
-		return null;
+		return r.content;
 	}
 }
 	
@@ -1000,7 +1000,11 @@ function parseJSONString (s)
 		} 
 	} catch (e) {}
 	throw new SyntaxError('parseJSONString: ' + s.substr(0, 200));*/
-	return window.eval('(' + s + ')');
+	if (s.length>1) {
+		return window.eval('(' + s + ')');
+	} else {
+		return null;
+	}	
 	
 }
 
@@ -1127,8 +1131,10 @@ function launchNavType(navType) {
 	
 	//throw away API from previous sco and sync CMI and ADLTree
 	onItemUndeliver();
-	mlaunch = new ADLLaunch();
+	if (navType!='SuspendAll') {
 	
+		mlaunch = new ADLLaunch();
+	}
 	if (navType==='Start') {
 		mlaunch = msequencer.navigate(NAV_START);
 	}
@@ -1154,7 +1160,18 @@ function launchNavType(navType) {
 	}
 	
 	if (navType==='SuspendAll') {
-		mlaunch = msequencer.navigate(NAV_SUSPENDALL);
+	//	mlaunch = msequencer.navigate(NAV_SUSPENDALL);
+		showLightbox();
+		
+	//	var suspendData=serialize(msequencer.mSeqTree.mCurActivity.mActivityID);
+				
+		if (typeof headers !== "object") {headers = {};}
+		headers['Accept'] = 'text/javascript';
+		headers['Accept-Charset'] = 'UTF-8';
+		var r = sendAndLoad(this.config.suspend_url, mlaunch.mActivityID, null, null, null, headers);
+		
+		setTimeout("self.close();",5000) 
+		return;
 	}
 	
 	if (navType==='Previous') {
@@ -1628,6 +1645,10 @@ function init(config)
 	//set toc-moved 
 	setToc();
 	
+	//load global objectives
+	
+	loadGlobalObj();
+	
 	//do a fake launch to check if TOC choice should be displayed
 	mlaunch = msequencer.navigate(NAV_NONE);
 	
@@ -1641,12 +1662,32 @@ function init(config)
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
 	}
-
-	updateNav();
+	
 	updateControls();
+	updateNav();
+	//
+	//to improve
+	var suspend =  sendJSONRequest(this.config.get_suspend_url);
+	
+	if (suspend.length>0) {
+		onItemDeliver(activities[suspend]);
+		toggleClass('navContinue', 'disabled', false);
+		
+		//toremove enable continue
+	}
+
+	
 		
 }
 
+function loadGlobalObj() {
+	var globalObj =  this.config.globalobj_data || sendJSONRequest(this.config.get_gobjective_url);
+	if (globalObj!=null) {
+		adl_seq_utilities.satisfied=globalObj.satisfied;
+		adl_seq_utilities.measure=globalObj.measure;
+		adl_seq_utilities.status=globalObj.status
+	}
+}
 
 function buildADLtree(act, unused){
 	var obj=new Object;
@@ -2347,6 +2388,7 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 		syncCMIADLTree();		
 		currentAPI.Terminate("");
 		save();
+		save_global_objectives();		
 	}
 	currentAPI = window[Runtime.apiname] = null;
 	
@@ -2358,6 +2400,16 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 	}
 	
 
+}
+
+function save_global_objectives() {
+	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || adl_seq_utilities.status!=null  ) {
+		//save
+		//alert(toJSONString(this.adl_seq_utilities));
+		result = this.config.gobjective_url 
+			? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
+			: {};
+	}
 }
 
 // sequencer terminated

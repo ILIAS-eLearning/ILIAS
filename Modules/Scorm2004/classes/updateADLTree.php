@@ -61,9 +61,10 @@
 				//create new parser
 				$builder=new SeqTreeBuilder();
 				$ret=$builder->buildNodeSeqTree($toparse);
-				$adltree=mysql_escape_string(json_encode($ret));
-				$result_update = mysql_query("UPDATE cp_package SET activitytree='$adltree' WHERE(obj_id=$id)") or die(mysql_error());
-				echo "Updated activitytree for: ".$dirs[$i]." \n";
+				$global=$ret['global'];
+				$adltree=mysql_escape_string(json_encode($ret['tree']));
+				$result_update = mysql_query("UPDATE cp_package SET activitytree='$adltree',global_to_system='$global' WHERE(obj_id=$id)") or die(mysql_error());
+				echo "Updated activitytree for: ".$dirs[$i]." Global:".$global." \n";
 			}
 		}
 	}

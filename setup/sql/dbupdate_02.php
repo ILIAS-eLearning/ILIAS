@@ -2688,3 +2688,22 @@ ALTER TABLE `tst_times` ADD `pass` TINYINT NOT NULL DEFAULT '0' AFTER `finished`
 
 <#1097>
 TRUNCATE TABLE `container_sorting`;
+
+<#1098>
+ALTER TABLE `cp_package` ADD `global_to_system` TINYINT NOT NULL DEFAULT '1';
+
+<#1099>
+CREATE TABLE `cmi_gobjective` (
+  `user_id` int(11) default NULL,
+  `jsdata` MEDIUMTEXT,
+  `obj_id` int(11) default NULL,
+  UNIQUE KEY `user_obj` (`user_id`,`obj_id`)
+) TYPE = MYISAM;
+
+<#1100>
+CREATE TABLE `cp_suspend` (
+  `data` MEDIUMTEXT,
+  `user_id` int(11) default NULL,
+  `obj_id` int(11) default NULL,
+  UNIQUE KEY `user_obj` (`user_id`,`obj_id`)
+) TYPE=MyISAM;

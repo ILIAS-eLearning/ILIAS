@@ -2,9 +2,9 @@
 // FAKE: only the functions used in rollup procedure
 function ADLSeqUtilities()  
 {
-	this.satisfied = new Array();
-	this.measure = new Array();
-	this.status = new Array();
+	this.satisfied = new Object();
+	this.measure = new Object();
+	this.status = new Object();
 	
 }
 ADLSeqUtilities.prototype = 
@@ -13,8 +13,8 @@ ADLSeqUtilities.prototype =
 	setGlobalObjSatisfied: function (iObjID, iLearnerID, iScopeID, iSatisfied)
 	{
 		//alert(iObjID+" ,  "+iLearnerID+ ", "+iScopeID+", "+iSatisfied);
-		if(this.satisfied[iObjID] == null) this.satisfied[iObjID] = new Array();
-		if(this.satisfied[iObjID][iLearnerID] == null) this.satisfied[iObjID][iLearnerID] = new Array();
+		if(this.satisfied[iObjID] == null) this.satisfied[iObjID] = new Object();
+		if(this.satisfied[iObjID][iLearnerID] == null) this.satisfied[iObjID][iLearnerID] = new Object();
 		this.satisfied[iObjID][iLearnerID][iScopeID] = iSatisfied;
 	},
 	
@@ -33,8 +33,8 @@ ADLSeqUtilities.prototype =
 	{
 		//alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iMeasure);
 		
-		if(this.measure[iObjID] == null) this.measure[iObjID] = new Array();
-		if(this.measure[iObjID][iLearnerID] == null) this.measure[iObjID][iLearnerID] = new Array();
+		if(this.measure[iObjID] == null) this.measure[iObjID] = new Object();
+		if(this.measure[iObjID][iLearnerID] == null) this.measure[iObjID][iLearnerID] = new Object();
 		this.measure[iObjID][iLearnerID][iScopeID] = iMeasure;
 	},
 	
@@ -52,7 +52,7 @@ ADLSeqUtilities.prototype =
 	
 	setCourseStatus: function (iCourseID, iLearnerID, iSatisfied, iMeasure, iCompleted)
 	{
-		if(this.status[iCourseID] == null) this.status[iCourseID] = new Array();
+		if(this.status[iCourseID] == null) this.status[iCourseID] = new Object();
 		this.status[iCourseID][iLearnerID] =
 			{satisfied: iSatisfied, measure: iMeasure, completed: iCompleted};
 	}

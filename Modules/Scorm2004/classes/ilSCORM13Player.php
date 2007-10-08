@@ -203,8 +203,24 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 				
 			case 'adlact':
 				$this->getADLActData();
+				break;	
+				
+			case 'suspend':
+				$this->suspendADLActData();
 				break;		
 			
+			case 'getSuspend':	
+				$this->getSuspendData();
+				break;
+				
+			case 'gobjective':
+				$this->writeGObjective();
+				break;		
+
+			case 'getGobjective':	
+				$this->readGObjective();
+				break;
+				
 			case 'cmi':
 				if ($_SERVER['REQUEST_METHOD']=='POST') {
 					$this->persistCMIData();
@@ -269,6 +285,10 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			'cmi_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"],
 			'adlact_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=adlact&ref_id='.$_GET["ref_id"],
 			'specialpage_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=specialPage&ref_id='.$_GET["ref_id"],
+			'suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=suspend&ref_id='.$_GET["ref_id"],
+			'get_suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSuspend&ref_id='.$_GET["ref_id"],
+			'gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=gobjective&ref_id='.$_GET["ref_id"],
+			'get_gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getGobjective&ref_id='.$_GET["ref_id"],
 			
 			'learner_id' => (string) $ilUser->getID(),
 			'course_id' => (string) $this->packageId,
@@ -369,6 +389,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		}
 	}
 	
+	
 	public function getADLActData()
 	{
 		global $ilDB;
@@ -397,6 +418,31 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			$activitytree = json_decode($activitytree);
 			print_r($activitytree);	
 		}
+	}
+	
+	public function readGObjective(){
+		global $ilDB,$ilUser;
+		$set = $ilDB->query("SELECT * FROM cmi_gobjective WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
+		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$gobjective_data=$data['jsdata'];
+		if ($this->jsMode) 
+		{
+			header('Content-Type: text/javascript; charset=UTF-8');
+			print($gobjective_data);
+		}
+		else
+		{
+			header('Content-Type: text/plain; charset=UTF-8');
+			$gobjective_data = json_decode($gobjective_data);
+			print_r($gobjective_data);	
+		}
+	}
+	
+	
+	public function writeGObjective()
+	{
+		global $ilDB, $ilUser;
+		$set = $ilDB->query("REPLACE INTO cmi_gobjective (jsdata,obj_id,user_id) values (".$ilDB->quote(file_get_contents('php://input')).",".$ilDB->quote($this->packageId).",".$ilUser->getID().")");		
 	}
 	
 	

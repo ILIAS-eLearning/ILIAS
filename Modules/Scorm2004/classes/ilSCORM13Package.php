@@ -374,7 +374,8 @@ $ilLog->write("SCORM: il_import");
 		$ilDB->query("UPDATE cp_package SET ".
 			" xmldata = ".$ilDB->quote($x->asXML()).",".
 			" jsdata = ".$ilDB->quote(json_encode($j)).",".
-			" activitytree = ".$ilDB->quote(json_encode($adl_tree)).
+			" activitytree = ".$ilDB->quote(json_encode($adl_tree['tree'])).
+			" global_to_system = ".$ilDB->quote($adl_tree['global']).
 			" WHERE obj_id = ".$ilDB->quote($this->packageId));
 				
 	  	/*ilSCORM13DB::setRecord(
