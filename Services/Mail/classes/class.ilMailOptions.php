@@ -137,18 +137,26 @@ class ilMailOptions
 	* update user options
 	* @param string Signature
 	* @param int linebreak
+	* @param int incoming_type
+	* @param int cronjob_notification
 	* @return	boolean
 	*/
-	function updateOptions($a_signature, $a_linebreak,$a_incoming_type, $a_cronjob_notification)
+	function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification)
 	{
-		global $ilDB;
+		global $ilDB, $ilias;
 		
-		$query = "UPDATE $this->table_mail_options ".
-			"SET signature = ".$ilDB->quote($a_signature).",".
-			"linebreak = ".$ilDB->quote($a_linebreak).", ".
-			"cronjob_notification = ".$ilDB->quote($a_cronjob_notification).", ".			
-			"incoming_type = ".$ilDB->quote($a_incoming_type)." ".
-			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
+		$query = 'UPDATE '.$this->table_mail_options.' 
+				  SET
+				  signature = '.$ilDB->quote($a_signature).', 
+			      linebreak = '.$ilDB->quote($a_linebreak).', ';		
+		if ($ilias->getSetting('mail_notification'))
+		{		
+			$query .= 'cronjob_notification = '.$ilDB->quote($a_cronjob_notification).', ';
+		}
+						
+		$query .='incoming_type = '.$ilDB->quote($a_incoming_type).'
+				  WHERE 1
+				  AND user_id = '.$ilDB->quote($this->user_id).' ';			
 
 		$res = $this->ilias->db->query($query);
 
