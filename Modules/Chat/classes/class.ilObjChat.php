@@ -270,14 +270,20 @@ class ilObjChat extends ilObject
 		global $ilClientIniFile;
 		
 		$room_id = $this->chat_room->getRoomId();
+		$room_title = $this->chat_room->getTitle();
 
 		$body = sprintf($this->lng->txt("chat_notification_intro"), $ilClientIniFile->readVariable("client","name"), ILIAS_HTTP_PATH)."\n\n";
 		$body .= $lang->txt("chat_invitation_body")." ";
 		$body .= $this->ilias->account->getFullname();
 		$body .= "\n";
-		$body .= $lang->txt("chat_chatroom_body")." ".$this->chat_room->getTitle()."\n\n";
+		$body .= $lang->txt("chat_chatroom_body").' '.$this->getTitle();
+		if ($room_title != '')
+		{
+			$body .= ', '.$room_title;
+		}
+		$body .= "\n\n";
 		$body .= $lang->txt('chat_to_chat_body');
-		$body .= (': '.ILIAS_HTTP_PATH."/chat.php?room_id=".$room_id."&ref_id=".$this->getRefId());
+		$body .= ': '.ILIAS_HTTP_PATH."/chat.php?room_id=".$room_id."&ref_id=".$this->getRefId();
 
 		return $body;
 	}

@@ -988,6 +988,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		// LOAD FRAMESET
 		$this->tpl = new ilTemplate("tpl.chat_start.html",false,false,'Modules/Chat');
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		if ($_GET["p_id"])
 		{
 			$this->tpl->setVariable("USER_TARGET","chat.php?cmd=showUserFrame&ref_id=".

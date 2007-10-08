@@ -317,10 +317,23 @@ class ilMailFormGUI
 
 	public function showSearchForm()
 	{
+		global $ilUser;
+
 		$this->tpl->setCurrentBlock("search");
 		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
 		$this->tpl->setVariable("TXT_SEARCH_SYSTEM",$this->lng->txt("mail_search_system"));
 		$this->tpl->setVariable("TXT_SEARCH_ADDRESS",$this->lng->txt("mail_search_addressbook"));
+
+		if ($pref = $ilUser->getPref("mail_search"))
+		{
+				if ($pref == "system" || $pref == "all") $this->tpl->setVariable("SEARCH_SYSTEM_CHECKED", "checked=\"checked\"");
+				if ($pref == "addressbook" || $pref == "all") $this->tpl->setVariable("SEARCH_ADDRESS_CHECKED", "checked=\"checked\"");
+		}
+		else
+		{
+				$this->tpl->setVariable("SEARCH_SYSTEM_CHECKED", "checked=\"checked\"");
+		}
+
 		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
 		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
 		if (strlen(trim($_POST['search'])) > 0)
@@ -346,6 +359,7 @@ class ilMailFormGUI
 		{
 			$_SESSION["mail_search_type_system"] = 1;
 			$_SESSION["mail_search_type_addressbook"] = 1;
+			$ilUser->writePref("mail_search", "all");
 		}
 		if (strlen(trim($_SESSION["mail_search_search"])) == 0)
 		{
