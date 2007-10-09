@@ -51,7 +51,7 @@ class ilCronMailNotification
 		global $ilias;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
-		include_once "./classes/class.ilObjUser.php";
+		include_once './Services/User/classes/class.ilObjUser.php';
 		include_once "./classes/class.ilLanguage.php";
 
 		$query = "SELECT mail.* " 
@@ -72,14 +72,14 @@ class ilCronMailNotification
 		$user_id = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if ($user_id != 0 || $row->user_id != $user_id) $user_id = $row->user_id;
-			
-			$users[$row->user_id][] = $row;				 
+			if ($user_id == 0 || $row['user_id'] != $user_id) $user_id = $row['user_id'];
+
+			$users[$user_id][] = $row;				 
 		}
 		
 		$numRows = 0;
 		foreach ($users as $user_id => $mail_data)
-		{		
+		{
 			$tmp_mail_obj = new ilMail($user_id);			
 			
 			include_once "Services/Mail/classes/class.ilMimeMail.php";
@@ -87,8 +87,7 @@ class ilCronMailNotification
 			$mmail = new ilMimeMail();
 			$mmail->autoCheck(false);
 			$mmail->From('noreply');
-			$mmail->To("mjansen@databay.de");
-
+			$mmail->To(ilObjUser::_lookupEmail($user_id));					
 			$mmail->Subject($tmp_mail_obj->formatNotificationSubject());
 			$mmail->Body($tmp_mail_obj->formatNotificationMessage($user_id, $mail_data));
 			
