@@ -25,6 +25,7 @@ include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+include_once('Services/User/classes/class.ilUserDefinedData.php');
 
 define("IL_MEMBER_EXPORT_CSV_FIELD_SEPERATOR",',');
 define("IL_MEMBER_EXPORT_CSV_STRING_DELIMITER",'"');
@@ -127,7 +128,15 @@ class ilMemberExport
 					$this->csv->addColumn($this->lng->txt('ps_agreement_accepted'));
 					break;
 				default:
-					if(substr($field,0,4) == 'cdf_')
+					if(substr($field,0,4) == 'udf_')
+					{
+						$field_id = explode('_',$field);
+						include_once('Services/User/classes/class.ilUserDefinedFields.php');
+						$udf = ilUserDefinedFields::_getInstance();
+						$def = $udf->getDefinition($field_id[1]);
+						$this->csv->addColumn($def['field_name']);						
+					}
+					elseif(substr($field,0,4) == 'cdf_')
 					{
 						$field_id = explode('_',$field);
 						$this->csv->addColumn(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]));
@@ -143,9 +152,16 @@ class ilMemberExport
 		// Add user data
 		foreach($this->user_ids as $usr_id)
 		{
+			$udf_data = new ilUserDefinedData($usr_id);
+			
 			foreach($all_fields as $field)
 			{
 				// Handle course defined fields
+				if($this->addUserDefinedField($udf_data,$field))
+				{
+					continue;
+				}
+				
 				if($this->addCourseField($usr_id,$field))
 				{
 					continue;
@@ -335,6 +351,31 @@ class ilMemberExport
 	 	$this->csv->addColumn('');
 	 	return true;
 	 	
+	}
+	
+	/**
+	 * Add user defined fields
+	 *
+	 * @access private
+	 * @param object user defined data object
+	 * @param int field
+	 * 
+	 */
+	private function addUserDefinedField($udf_data,$a_field)
+	{
+	 	if(substr($a_field,0,4) != 'udf_')
+	 	{
+	 		return false;
+	 	}
+	 	if(!$this->privacy->confirmationRequired() or $this->agreement[$udf_data->getUserId()]['accepted'])
+	 	{
+	 		$field_info = explode('_',$a_field);
+	 		$field_id = $field_info[1];
+	 		$value = $udf_data->get($field_id);
+	 		$this->csv->addColumn($value);
+	 		return true;
+	 	}
+	 	$this->csv->addColumn('');
 	}
 }
 

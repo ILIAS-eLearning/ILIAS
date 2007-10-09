@@ -146,6 +146,25 @@ class ilUserDefinedFields
 		return $searchable_definition ? $searchable_definition : array();
 	}
 
+	/**
+	 * get
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getCourseExportableFields()
+	{
+		foreach($this->definitions as $id => $definition)
+		{
+			if($definition['course_export'])
+			{
+				$cexp_definition[$id] = $definition;
+			}
+		}
+		return $cexp_definition ? $cexp_definition : array();
+	}
+
 
 	function setFieldName($a_name)
 	{
