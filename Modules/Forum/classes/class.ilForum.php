@@ -2145,6 +2145,26 @@ class ilForum
 			$threads[$row->thr_pk] = $row->thr_subject;
 		}
 		return $threads ? $threads : array();
+	}	
+	
+	public function limitMsgString($message)
+	{		
+		// limit the message-size
+		$message = $this->prepareText($message, 2);
+
+		if (strpos($message, $this->txtQuote2) > 0)
+		{
+			
+			$viewPos = strrpos($message, $this->txtQuote2) + strlen($this->txtQuote2);
+			$message = substr($message, $viewPos);				
+		}
+		
+		if (strlen($message) > 40)
+		{
+			$message = substr($message, 0, 37).'...';
+		}
+		
+		return $this->prepareText($message);
 	}
 		
 

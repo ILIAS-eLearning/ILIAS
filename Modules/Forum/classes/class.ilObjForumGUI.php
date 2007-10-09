@@ -2045,6 +2045,8 @@ class ilObjForumGUI extends ilObjectGUI
 										
 					if (($_GET['action'] != 'delete' &&
 						 $_GET['action'] != 'censor' &&
+						 $_GET['action'] != 'showreply' &&
+						 $_GET['action'] != 'showedit' &&
 						 !$this->displayConfirmPostActivation() &&
 						 !$this->displayConfirmPostDeactivation()
 						 ) || $this->objCurrentPost->getId() != $node->getId())
