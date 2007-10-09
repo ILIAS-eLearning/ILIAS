@@ -1358,6 +1358,14 @@ class ilObjChatGUI extends ilObjectGUI
 				{
 					continue;
 				}
+
+				if ($counter > 0 &&
+					$counter == count($users)-2 &&
+					($counter%2) == 0)
+				{
+					$this->tpl->touchBlock("online_empty_col");
+				}
+	
 				if(!($counter%2))
 				{
 					$this->tpl->touchBlock("online_row_start");
@@ -1392,7 +1400,7 @@ class ilObjChatGUI extends ilObjectGUI
 										"&ref_id=".$this->ref_id."&room_id=".
 										$_REQUEST["room_id"]."&i_id=".$user["user_id"]);
 				$this->tpl->setVariable("TXT_INVITE_USER",$cmd == "invite" ? $this->lng->txt("chat_invite_user") :
-										$this->lng->txt("chat_drop_user"));
+										$this->lng->txt("chat_disinvite_user"));
         		$this->tpl->setVariable("ONLINE_USER_NAME_A", $user["firstname"]." ".$user["lastname"]." (".$user["login"].")");										
 				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,'Modules/Chat'));
 				

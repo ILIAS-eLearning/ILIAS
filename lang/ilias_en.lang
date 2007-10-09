@@ -7671,3 +7671,4 @@ common#:#frm_moderate_frm#:#Delete a post, censorship
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.
+chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom
