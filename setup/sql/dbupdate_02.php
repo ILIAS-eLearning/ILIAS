@@ -2726,3 +2726,6 @@ $res = $ilDB->query($query);
 ALTER TABLE `chat_invitations` ADD `chat_id` INT( 11 ) NOT NULL FIRST ;
 
 ALTER TABLE `chat_invitations` DROP PRIMARY KEY, ADD PRIMARY KEY(`chat_id`,`room_id`,`guest_id`);
+
+<#1104>
+TRUNCATE TABLE `chat_invitations`;
