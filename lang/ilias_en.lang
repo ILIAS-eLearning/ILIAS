@@ -7668,3 +7668,6 @@ auth#:#auth_radius_charset#:#Character Encoding
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.
 common#:#frm_add_post#:#Add new post
 common#:#frm_moderate_frm#:#Delete a post, censorship
+chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.
+chat#:#chat_user_invited_public#:#The user was invited to the public chat.
+chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.
