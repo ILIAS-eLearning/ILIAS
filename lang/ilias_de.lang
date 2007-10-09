@@ -7668,3 +7668,6 @@ auth#:#auth_radius_charset#:#Zeichenkodierung
 auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die für die Kommunikation mit dem Radius Server genutzt werden soll. Wählen Sie im Zweifelsfall UTF-8.
 common#:#frm_add_post#:#Forumbeitrag anlegen
 common#:#frm_moderate_frm#:#Forumbeiträge löschen, Zensur
+chat#:#chat_user_dropped_private#:#Der Benutzer wurde aus dem privaten Chatraum ausgeladen/entfernt.
+chat#:#chat_user_invited_public#:#Der Benutzer wurde in den öffentlichen Chat eingeladen.
+chat#:#chat_user_invited_private#:#Der Benutzer wurde in den privaten Chatraum eingeladen.

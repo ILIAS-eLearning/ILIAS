@@ -1239,7 +1239,14 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->object->chat_room->invite((int) $_GET["i_id"]);
 			$this->object->sendMessage((int) $_GET["i_id"]);
-			ilUtil::sendInfo($this->lng->txt("chat_user_invited"),true);
+			if ($this->object->chat_room->getRoomId() > 0)
+			{
+				ilUtil::sendInfo($this->lng->txt("chat_user_invited_private"),true);
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("chat_user_invited_public"),true);
+			}
 			$this->showFrames();
 		}
 	}
@@ -1257,14 +1264,14 @@ class ilObjChatGUI extends ilObjectGUI
 		// Create room
 		$this->object->chat_room->setOwnerId($ilUser->getId());
 		$this->object->chat_room->setTitle(ilObjUser::_lookupLogin($ilUser->getId()). 
-										   ' <-> '.
+										   ' : '.
 										   ilObjUser::_lookupLogin($_GET['usr_id']));
 
 		// only add room if it doesn't exist
 		if(!$id = $this->object->chat_room->lookupRoomId())
 		{
 			$id = $this->object->chat_room->add();
-			ilUtil::sendInfo($this->lng->txt("chat_user_invited"),true);
+			ilUtil::sendInfo($this->lng->txt("chat_user_invited_private"),true);
 		}
 			
 
@@ -1289,7 +1296,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->object->server_comm->setKickedUser($tmp_user->getLogin());
 			$this->object->server_comm->setType("kick");
 			$this->object->server_comm->send();
-			ilUtil::sendInfo($this->lng->txt("chat_user_dropped"),true);
+			ilUtil::sendInfo($this->lng->txt("chat_user_dropped_private"),true);
 			$this->showFrames();
 		}
 	}
@@ -1344,6 +1351,7 @@ class ilObjChatGUI extends ilObjectGUI
 		else
 		{
 			$counter = 0;
+
 			foreach($users as $user)
 			{
 				if($user["user_id"] == $_SESSION["AccountId"])

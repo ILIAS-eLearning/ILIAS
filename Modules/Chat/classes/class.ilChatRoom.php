@@ -131,7 +131,8 @@ class ilChatRoom
 		global $ilDB;
 		
 		$query = "REPLACE INTO chat_invitations ".
-			"SET room_id = ".$ilDB->quote( $this->getRoomId() ).", ".
+			"SET chat_id = ".$ilDB->quote( $this->getObjId() ).", ".
+			"room_id = ".$ilDB->quote( $this->getRoomId() ).", ".
 			"guest_id = ".$ilDB->quote( $a_id ).", ".
 			"invitation_time = ".time();
 
@@ -142,7 +143,8 @@ class ilChatRoom
 		global $ilDB;
 		
 		$query = "DELETE FROM chat_invitations ".
-			"WHERE room_id = ".$ilDB->quote( $this->getRoomId() )." ".
+			"WHERE chat_id = ".$ilDB->quote( $this->getObjId() )." ".
+			"AND room_id = ".$ilDB->quote( $this->getRoomId() )." ".
 			"AND guest_id = ".$ilDB->quote( $a_id )."";
 
 		$res = $this->ilias->db->query($query);
@@ -151,9 +153,10 @@ class ilChatRoom
 	function visited($a_id)
 	{
 		global $ilDB;
-		
+	
 		$query = "UPDATE chat_invitations SET guest_informed = 1 ".
-			"WHERE room_id = ".$ilDB->quote( $this->getRoomId() )." ".
+			"WHERE chat_id = ".$ilDB->quote( $this->getObjId() )." ".
+			"AND room_id = ".$ilDB->quote( $this->getRoomId() )." ".
 			"AND guest_id = ".$ilDB->quote( $a_id )."";
 
 		$res = $this->ilias->db->query($query);
@@ -161,7 +164,8 @@ class ilChatRoom
 	
 	function checkAccess()
 	{
-		if($this->getRoomId())
+		if ($this->getObjId() ||
+			$this->getRoomId())
 		{
 			if(!$this->isInvited($this->getUserId()) and !$this->isOwner())
 			{
@@ -180,6 +184,7 @@ class ilChatRoom
 		
 		$query = "SELECT * FROM chat_invitations AS ci JOIN chat_rooms AS ca ".
 			"WHERE ci.room_id = ca.room_id ".
+			"AND ci.chat_id = ".$ilDB->quote($this->getObjId())." ".
 			"AND ci.room_id = ".$ilDB->quote($this->getRoomId())." ".
 			"AND owner = ".$ilDB->quote($this->getOwnerId())." ".
 			"AND ci.guest_id = ".$ilDB->quote($a_id)."";
@@ -556,10 +561,27 @@ class ilChatRoom
 
 	function getAllRooms()
 	{
-		global $ilObjDataCache,$ilUser;
+		global $ilObjDataCache,$ilUser,$rbacsystem;
 
 		$obj_ids = array();
 		$unique_chats = array();
+
+		$pub_chat_id = ilObjChat::_getPublicChatRefId();
+		if($rbacsystem->checkAccess('read',$pub_chat_id))
+		{
+			$obj_id = $ilObjDataCache->lookupObjId($pub_chat_id);
+			if(!in_array($obj_id,$obj_ids))
+			{
+				$unique_data['child'] = $pub_chat_id;
+				$unique_data['title'] = $ilObjDataCache->lookupTitle($obj_id);
+				$unique_data['obj_id'] = $obj_id;
+				$unique_data['ref_id'] = $pub_chat_id;
+				
+				$unique_chats[] = $unique_data;
+				$obj_ids[] = $obj_id;
+			}
+		}
+
 		foreach(ilUtil::_getObjectsByOperations("chat","read",$ilUser->getId(),-1) as $chat_id)
 		{
 			$obj_id = $ilObjDataCache->lookupObjId($chat_id);
@@ -682,7 +704,8 @@ class ilChatRoom
 		}
 
 		$query = "SELECT * FROM chat_invitations ".
-			"WHERE room_id = ".$ilDB->quote($this->getRoomId())."";
+			"WHERE chat_id = ".$ilDB->quote($this->getObjId())." ";
+			"AND room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
