@@ -216,7 +216,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 				ilFrameTargetInfo::_getFrame('MainContent').
 				"\" href=\"repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&target=true&pos_pk=".
 				$objLastPost->getId()."&thr_pk=".$objLastPost->getThreadId()."&ref_id=".
-				$this->ref_id."#".$objLastPost->getId()."\">".$frm->prepareText($objLastPost->getMessage())."</a> ".
+				$this->ref_id."#".$objLastPost->getId()."\">".$frm->limitMsgString($objLastPost->getMessage())."</a> ".
 				strtolower($lng->txt('from'))."&nbsp;";
 				
 				if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
