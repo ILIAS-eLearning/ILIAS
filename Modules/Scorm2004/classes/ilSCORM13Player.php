@@ -289,7 +289,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			'get_suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSuspend&ref_id='.$_GET["ref_id"],
 			'gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=gobjective&ref_id='.$_GET["ref_id"],
 			'get_gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getGobjective&ref_id='.$_GET["ref_id"],
-			
+			'scope'=>$this->getScope(),
 			'learner_id' => (string) $ilUser->getID(),
 			'course_id' => (string) $this->packageId,
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
@@ -420,7 +420,14 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		}
 	}
 	
-	
+	public function getScope(){
+		global $ilDB,$ilUser;
+		$set = $ilDB->query("SELECT global_to_system FROM cp_package WHERE (obj_id = ".$ilDB->quote($this->packageId).")");
+		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$gystem=$data['global_to_system'];
+		if ($gystem==1) {$gsystem="null";} else {$gsystem=$this->packageId;}
+		return $gsystem;
+	}
 	
 	
 	public function getSuspendData(){

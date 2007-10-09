@@ -1575,7 +1575,7 @@ function init(config)
 	    adlTree= setParents(adlTree);
 		//assign Tree
 		//scope equals courseID 
-		var actTree = new SeqActivityTree(this.config.course_id,this.config.learner_id,this.config.course_id,adlTree);
+		var actTree = new SeqActivityTree(this.config.course_id,this.config.learner_id,this.config.scope,adlTree);
 	//	actTree.setLearnerID(this.config.learner_id);
 		//actTree.setRoot(adlTree);
 		actTree.setDepths();
@@ -1723,7 +1723,7 @@ function buildADLtree(act, unused){
 			value = act[index];
 			//set learner id and course id
 			if (index == "mLearnerID") {value = this.config.learner_id;}
-			if (index == "mScopeID") {value = this.config.course_id;}
+			if (index == "mScopeID") {value = this.config.scope;}
 			obj[index] = value;
 		}
     }
