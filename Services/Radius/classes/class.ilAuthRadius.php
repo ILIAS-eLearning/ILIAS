@@ -49,6 +49,16 @@ class ilAuthRadius extends Auth
 		
 		// Read setting of LDAP server
 		$this->initSettings();
+		
+		// Convert password to latin1
+		if($this->radius_settings->getCharset() == ilRadiusSettings::RADIUS_CHARSET_LATIN1)
+		{
+			#$_POST['username'] = utf8_decode($_POST['username']);
+			$_POST['password'] = utf8_decode($_POST['password']);
+			$this->log->write(__METHOD__.': Decoded username and password to latin1.');
+		}
+		
+		
 		parent::Auth('RADIUS',$this->radius_settings->toPearAuthArray(),'',false);
 		
 		// Set callbacks

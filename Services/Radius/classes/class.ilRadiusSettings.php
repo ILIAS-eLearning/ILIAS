@@ -31,6 +31,10 @@
 */
 class ilRadiusSettings
 {
+	const RADIUS_CHARSET_UTF8 = 0;
+	const RADIUS_CHARSET_LATIN1 = 1;
+	
+	
 	private $settings;
 	private $db;
 	private static $instance = null;
@@ -196,6 +200,29 @@ class ilRadiusSettings
 	}
 	
 	/**
+	 * get charset
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getCharset()
+	{
+	 	return $this->charset ? 1 : 0;
+	}
+	
+	/**
+	 * set charset
+	 *
+	 * @access public
+	 * @param int charset
+	 * 
+	 */
+	public function setCharset($a_charset)
+	{
+	 	$this->charset = $a_charset;
+	}
+	
+	/**
 	 * Save settings
 	 *
 	 * @access public
@@ -213,6 +240,7 @@ class ilRadiusSettings
 		$this->settings->set('radius_name',$this->getName());
 		$this->settings->set('radius_creation',$this->enabledCreation() ? 1 : 0);
 		$this->settings->set('radius_migration',$this->isAccountMigrationEnabled() ? 1 : 0);
+		$this->settings->set('radius_charset',$this->getCharset() ? 1 : 0);
 		
 		$counter = 0;
 		foreach($this->getServers() as $server)
@@ -305,6 +333,7 @@ class ilRadiusSettings
 	 	$this->setName($all_settings['radius_name']);
 	 	$this->enableCreation($all_settings['radius_creation']);
 	 	$this->enableAccountMigration($all_settings['radius_migration']);
+	 	$this->setCharset($all_settings['radius_charset']);
 	 	
 		$query = "SELECT value FROM settings WHERE keyword LIKE 'radius_server%' ORDER BY keyword ASC";
 		$res = $this->db->query($query);

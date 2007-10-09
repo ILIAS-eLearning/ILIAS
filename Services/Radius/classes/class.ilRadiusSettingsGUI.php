@@ -144,6 +144,14 @@ class ilRadiusSettingsGUI
 		$text->setMaxLength(32);
 		$form->addItem($text);
 		
+		$encoding = new ilSelectInputGUI($this->lng->txt('auth_radius_charset'),'charset');
+		$encoding->setRequired(true);
+		$encoding->setOptions($this->prepareCharsetSelection());
+		$encoding->setValue($this->settings->getCharset());
+		$encoding->setInfo($this->lng->txt('auth_radius_charset_info'));
+		$form->addItem($encoding);
+		
+		
 		$check = new ilCheckboxInputGUI($this->lng->txt('auth_radius_sync'),'sync');
 		$check->setInfo($this->lng->txt('auth_radius_sync_info'));
 		$check->setChecked($this->settings->enabledCreation() ? 1 : 0);
@@ -185,6 +193,7 @@ class ilRadiusSettingsGUI
 	 	$this->settings->setDefaultRole((int) $_POST['role']);
 	 	$this->settings->enableCreation((int) $_POST['sync']);
 	 	$this->settings->enableAccountMigration((int) $_POST['migration']);
+	 	$this->settings->setCharset((int) $_POST['charset']);
 	 	
 	 	if(!$this->settings->validateRequired())
 	 	{
@@ -241,6 +250,18 @@ class ilRadiusSettingsGUI
 		}
 		
 		return $select;
+	}
+	
+	/**
+	 * Get charset options
+	 *
+	 * @access private
+	 * 
+	 */
+	private function prepareCharsetSelection()
+	{
+	 	return $select = array(ilRadiusSettings::RADIUS_CHARSET_UTF8 => 'UTF-8',
+	 			ilRadiusSettings::RADIUS_CHARSET_LATIN1 => 'ISO-8859-1');
 	}
 	
 }
