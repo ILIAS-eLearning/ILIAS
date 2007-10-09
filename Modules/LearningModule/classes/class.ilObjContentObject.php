@@ -112,7 +112,7 @@ class ilObjContentObject extends ilObject
 		$roles[] = $roleObj->getId();
 
 		// copy permissions from author template to new role
-		$rbacadmin->copyRolePermission($this->getAuthorRoleTemplateId(), 8, $rfoldObj->getRefId(), $roleObj->getId());
+		$rbacadmin->copyRolePermissions($this->getAuthorRoleTemplateId(), 8, $rfoldObj->getRefId(), $roleObj->getId());
 
 		// grant all allowed operations of role to current learning module
 		$rbacadmin->grantPermission($roleObj->getId(),

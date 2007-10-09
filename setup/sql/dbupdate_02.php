@@ -2707,3 +2707,18 @@ CREATE TABLE `cp_suspend` (
   `obj_id` int(11) default NULL,
   UNIQUE KEY `user_obj` (`user_id`,`obj_id`)
 ) TYPE=MyISAM;
+
+<#1101>
+<?php
+$query = "UPDATE rbac_operations SET operation = 'add_post' WHERE operation = 'edit_post' ";
+$res = $ilDB->query($query);
+
+?>
+
+<#1102>
+<?php
+$query = "UPDATE rbac_operations SET operation = 'moderate_frm' WHERE operation = 'delete_post' ";
+$res = $ilDB->query($query);
+
+?>
+
