@@ -197,6 +197,15 @@ class ilForumProperties
 	{
 		return $this->anonymized;
 	}		
+	static function _isAnonymized($a_obj_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT anonymized FROM frm_settings WHERE ";
+		$q .= "obj_id = ".$ilDB->quote($a_obj_id)."";
+		return $ilDB->getOne($q);
+	}
+	
 	public function setPostActivation($a_post_activation)
 	{
 		$this->post_activation_enabled = $a_post_activation;

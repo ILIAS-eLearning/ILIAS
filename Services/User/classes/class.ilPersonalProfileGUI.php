@@ -1245,7 +1245,7 @@ class ilPersonalProfileGUI
 
 		$this->lng->loadLanguageModule("mail");
 
-		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"], ilUtil::stripSlashes((int) $_POST['cronjob_notification']));
+		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"],(int) $_POST["cronjob_notification"]);
 		ilUtil::sendInfo($this->lng->txt("mail_options_saved"),true);
 
 		$this->showMailOptions();
