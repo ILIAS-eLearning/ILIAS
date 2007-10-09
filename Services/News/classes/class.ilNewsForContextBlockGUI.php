@@ -379,7 +379,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$this->tpl->setVariable("VAL_TITLE", $news["title"]);
+			$this->tpl->setVariable("VAL_TITLE", ilUtil::stripSlashes($news["title"]));
 		}
 		
 		if ($news["user_read"] > 0)
@@ -420,12 +420,47 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		ilNewsItem::_setRead($ilUser->getId(), $_GET["news_id"]);
 		
+		if ($_GET["news_context"] > 0)
+		{
+			$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
+			$obj_type = ilObject::_lookupType($obj_id);
+			$obj_title = ilObject::_lookupTitle($obj_id);
+		}
+
 		// user
 		if ($news->getUserId() > 0)
 		{
 			$tpl->setCurrentBlock("user_info");
-			$user_obj = new ilObjUser($news->getUserId());
-			$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+			if ($obj_type == "frm")
+			{
+				include_once("./Modules/Forum/classes/class.ilForumProperties.php");
+				if (ilForumProperties::_isAnonymized($news->getContextObjId()))
+				{
+					if ($news->getContextSubObjType() == "pos" &&
+						$news->getContextSubObjId() > 0)
+					{
+						include_once("./Modules/Forum/classes/class.ilForumPost.php");
+						$post = new ilForumPost($news->getContextSubObjId());
+						if ($post->getUserAlias() != "") $tpl->setVariable("VAL_AUTHOR", ilUtil::stripSlashes($post->getUserAlias()));
+						else $tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
+					}
+					else
+					{
+						$tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
+						
+					}
+				}
+				else
+				{
+					$user_obj = new ilObjUser($news->getUserId());
+					$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+				}
+			}
+			else
+			{
+				$user_obj = new ilObjUser($news->getUserId());
+				$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+			}
 			$tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 			$tpl->parseCurrentBlock();
 		}
@@ -491,10 +526,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		// context / title
 		if ($_GET["news_context"] > 0)
 		{
-			$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
-			$obj_type = ilObject::_lookupType($obj_id);
-			$obj_title = ilObject::_lookupTitle($obj_id);
-			
 			// forum hack, not nice
 			$add = "";
 			if ($obj_type == "frm" && $news->getContextSubObjType() == "pos"
@@ -533,7 +564,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$tpl->setVariable("VAL_TITLE", $news->getTitle());			// title
+			$tpl->setVariable("VAL_TITLE", ilUtil::stripSlashes($news->getTitle()));			// title
 		}
 
 		// creation date

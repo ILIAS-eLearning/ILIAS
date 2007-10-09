@@ -64,12 +64,44 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
+		// context
+		$obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
+		$obj_type = ilObject::_lookupType($obj_id);
+		$obj_title = ilObject::_lookupTitle($obj_id);
+			
 		// user
 		if ($a_set["user_id"] > 0)
 		{
 			$this->tpl->setCurrentBlock("user_info");
-			$user_obj = new ilObjUser($a_set["user_id"]);
-			$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+			if ($obj_type == "frm")
+			{
+				include_once("./Modules/Forum/classes/class.ilForumProperties.php");
+				if (ilForumProperties::_isAnonymized($a_set["context_obj_id"]))
+				{
+					if ($a_set["context_sub_obj_type"] == "pos" &&
+						$a_set["context_sub_obj_id"] > 0)
+					{
+						include_once("./Modules/Forum/classes/class.ilForumPost.php");
+						$post = new ilForumPost($a_set["context_sub_obj_id"]);
+						if ($post->getUserAlias() != "") $this->tpl->setVariable("VAL_AUTHOR", ilUtil::stripSlashes($post->getUserAlias()));
+						else $this->tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
+					}
+					else
+					{
+						$this->tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
+					}
+				}
+				else
+				{
+					$user_obj = new ilObjUser($a_set["user_id"]);
+					$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+				}
+			}
+			else
+			{
+				$user_obj = new ilObjUser($a_set["user_id"]);
+				$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+			}
 			$this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -133,11 +165,6 @@ class ilPDNewsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// context
-		$obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
-		$obj_type = ilObject::_lookupType($obj_id);
-		$obj_title = ilObject::_lookupTitle($obj_id);
-			
 		// forum hack, not nice
 		$add = "";
 		if ($obj_type == "frm" && $a_set["context_sub_obj_type"] == "pos"
@@ -173,7 +200,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);			// title
+			$this->tpl->setVariable("VAL_TITLE", ilUtil::stripSlashes($a_set["title"]));			// title
 		}
 
 		// creation date

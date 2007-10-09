@@ -539,6 +539,7 @@ class ilForum
 		$objNewThread->setSubject($subject);
 		$objNewThread->setCreateDate(date("Y-m-d H:i:s"));
 		$objNewThread->setImportName($this->getImportName());
+		$objNewThread->setUserAlias($alias);
 		$objNewThread->insert();
 		
 		if ($notify_posts == 1)
