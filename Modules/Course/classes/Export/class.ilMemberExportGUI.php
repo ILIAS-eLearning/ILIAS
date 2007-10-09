@@ -27,6 +27,7 @@ include_once('Modules/Course/classes/Export/class.ilMemberExport.php');
 include_once('Modules/Course/classes/class.ilFileDataCourse.php');
 include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+include_once('Services/User/classes/class.ilUserDefinedFields.php');
 
 /**  
 * 
@@ -141,6 +142,17 @@ class ilMemberExportGUI
 			$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$this->lng->txt($field));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$udf = ilUserDefinedFields::_getInstance();
+		foreach($course_exp = $udf->getCourseExportableFields() as $field_id => $udf_data)
+		{
+			$this->tpl->setCurrentBlock('user_data_row');
+			$this->tpl->setVariable('CHECK_EXPORT_USER_DATA',ilUtil::formCheckbox($this->exportSettings->enabled('udf_'.$field_id),
+				'export_members[udf_'.$field_id.']',1));
+			$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$udf_data['field_name']);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		
 		$cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
 		foreach($cdf_fields as $field_obj)

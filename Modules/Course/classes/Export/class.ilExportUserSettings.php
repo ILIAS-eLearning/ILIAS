@@ -107,6 +107,7 @@ class ilExportUserSettings
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		include_once('Services/User/classes/class.ilUserDefinedFields.php');
 
 		$field_info = ilExportFieldsInfo::_getInstance();
 
@@ -125,6 +126,13 @@ class ilExportUserSettings
 		 		$fields[] = $field; 
 	 		}
 	 	}
+	 	
+	 	$udf = ilUserDefinedFields::_getInstance();
+	 	foreach($udf->getCourseExportableFields() as $field_id => $udf_data)
+	 	{
+	 		$fields[] = 'udf_'.$field_id;
+	 	}
+	 	
 	 	// Add course specific fields
 		foreach(ilCourseDefinedFieldDefinition::_getFields($this->obj_id) as $field_obj)
 		{
