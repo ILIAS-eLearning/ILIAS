@@ -208,16 +208,16 @@ class ilObjectSearchFactory
 		if($search_settings->enabledIndex())
 		{
 			// FULLTEXT
-			include_once 'Services/Search/classes/Fulltext/class.ilFulltextMediacastSearch.php';
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextMediaCastSearch.php';
 			
-			return new ilFulltextMediacastSearch($query_parser);
+			return new ilFulltextMediaCastSearch($query_parser);
 		}
 		else
 		{
 			// LIKE
-			include_once 'Services/Search/classes/Like/class.ilLikeMediacastSearch.php';
+			include_once 'Services/Search/classes/Like/class.ilLikeMediaCastSearch.php';
 
-			return new ilLikeMediacastSearch($query_parser);
+			return new ilLikeMediaCastSearch($query_parser);
 		}
 
 	}
