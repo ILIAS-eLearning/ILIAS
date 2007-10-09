@@ -7672,3 +7672,4 @@ chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the priv
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.
 chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom
+chat#:#chat_no_online_users#:#No further users online.
