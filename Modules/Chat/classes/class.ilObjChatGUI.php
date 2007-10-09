@@ -1345,7 +1345,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if(count($users) <= 1)
 		{
 			$this->tpl->setCurrentBlock("no_actice");
-			$this->tpl->setVariable("NO_ONLINE_USERS",$this->lng->txt("chat_no_active_users"));
+			$this->tpl->setVariable("NO_ONLINE_USERS",$this->lng->txt("chat_no_online_users"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
