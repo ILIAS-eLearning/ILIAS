@@ -7664,3 +7664,5 @@ common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
 common#:#edit_cat_settings#:#Erweiterte Einstellungen
 common#:#mail_search_groups_not_found#:#Es wurden keine Gruppen gefunden, in denen Sie Mitglied sind.
 common#:#mail_search_courses_not_found#:#Es wurden keine Kurse gefunden, in denen Sie Mitglied sind.
+auth#:#auth_radius_charset#:#Zeichenkodierung
+auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die für die Kommunikation mit dem Radius Server genutzt werden soll. Wählen Sie im Zweifelsfall UTF-8.
