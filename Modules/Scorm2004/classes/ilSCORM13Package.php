@@ -499,7 +499,7 @@ $ilLog->write("SCORM: il_import");
 					$values[] = $ilDB->quote($attr->value);
 				}
 				//ilSCORM13DB::setRecord('cp_' . $node->nodeName, $a);
-				$ilDB->query("INSERT INTO cp_".$node->nodeName.
+				$ilDB->query("INSERT INTO cp_".strtolower($node->nodeName).
 					" (".implode($names, ",").") VALUES ".
 					"(".implode($values, ",").
 					")");
