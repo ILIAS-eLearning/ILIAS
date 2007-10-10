@@ -1842,7 +1842,7 @@ common#:#drop#:#Entfernen
 common#:#edit_comments#:#Kommentare für ausgewählte Benutzer bearbeiten
 common#:#edit_content#:#Inhalt bearbeiten
 common#:#edit_data#:#Daten bearbeiten
-common#:#edit_grouping#:#Mitgliedsschaft-Beschänkung bearbeiten
+common#:#edit_grouping#:#Mitgliedschaftsbeschränkung bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_page_content#:#Seiteninhalt bearbeiten
 common#:#edit_page#:#Seite bearbeiten
@@ -2203,10 +2203,10 @@ common#:#group_status_closed#:#Geschlossen
 common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die Rollenvorlage 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen wird.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann mit dem ausgewählten Beitrittsverfahren in die Gruppe beitreten.<br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
 common#:#group_status_public#:#Öffentlich
 common#:#group_status#:#Gruppe ist
-common#:#grouping_select_exactly_one#:#Bitte wählen Sie genau eine Mitgliedsschaft-Beschränkung aus.
+common#:#grouping_select_exactly_one#:#Bitte wählen Sie genau eine Mitgliedschaftsbeschränkung aus.
 common#:#groupings_assigned_obj_crs#:#Zugeordnete Kurse
 common#:#groupings_assigned_obj_grp#:#Zugeordnete Gruppen
-common#:#groupings#:#Mitgliedsschaft-Beschränkungen
+common#:#groupings#:#Mitgliedschaftsbeschränkung
 common#:#groups_overview#:#Gruppenübersicht
 common#:#groups#:#Gruppen
 common#:#grp_a#:#eine Gruppe
@@ -2369,7 +2369,7 @@ common#:#icla_deleted#:#LearnLinc-Seminarräume gelöscht
 common#:#icla_edit#:#LearnLinc-Seminarraum bearbeiten
 common#:#icla_new#:#Neuer LearnLinc-Seminarraum
 common#:#icla#:#LearnLinc-Seminarraum
-common#:#icon_settings#:#Symbol-Einstellungen
+common#:#icon_settings#:#Kurs-Icon
 common#:#icons_in_header#:#Kopfleiste
 common#:#icons_in_item_rows#:#Objektliste
 common#:#icons_in_typed_lists_info#:#Bestimmt, wo die Objektsymbole in der Objektliste dargestellt werden. Diese Einstellung ist wirksam bei Sortierung nach Objekttyp im Magazin und auf dem Persönlichen Schreibtisch.
@@ -4447,7 +4447,7 @@ crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
-crs#:#crs_add_grouping#:#Neue Mitgliedsschaft-Beschränkung
+crs#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_member#:#Mitglied(er) hinzufügen
@@ -4544,7 +4544,7 @@ crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
 crs#:#crs_grouping#:#Kursgruppierung
 crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
 crs#:#crs_groupings#:#Kursgruppierungen
-crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedsschaft-Beschränkung wurde angelegt.
+crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem anderen verknüpften Kurs sind, können Sie diesem Kurs nicht beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Kurse:
@@ -4579,7 +4579,7 @@ crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
 crs#:#crs_info_reg_direct#:#Sie können direkt diesem Kurs beitreten.
 crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_reg#:#Aufnahmeverfahren
-crs#:#crs_info_settings#:#Kursinformationen
+crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
@@ -5298,11 +5298,11 @@ gmaps#:#gmaps_settings#:#Google Maps-Einstellungen
 gmaps#:#gmaps_std_location_desc#:#Breitengrad / Längengrad. Klicken Sie auf die Mappe, um den Standort festzulegen.
 gmaps#:#gmaps_std_location#:#Standort Installation
 gmaps#:#gmaps_zoom_level#:#Vergrößerungsgrad
-grp#:#crs_add_grouping#:#Neue Mitgliedsschaft-Beschränkung
-grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedsschaft-Beschränkung entfernt werden soll ?
-grp#:#crs_grouping_deleted#:#Die Mitgliedsschaft-Beschränkung wurde gelöscht.
+grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
+grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
+grp#:#crs_grouping_deleted#:#Die Mitgliedschaftsbeschränkung wurde gelöscht.
 grp#:#crs_grouping_select_one#:#Bitte treffen Sie eine Auswahl.
-grp#:#crs_grp_added_grouping#:#Eine neue Mitgliedsschaft-Beschränkung wurde angelegt.
+grp#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 grp#:#crs_grp_assign_crs#:#Gruppen-Zuordnung
 grp#:#crs_grp_enter_title#:#Bitte füllen Sie alle notwendigen Felder aus.
 grp#:#crs_grp_info_reg#:#Sie können Sie nur für eine der folgenden Gruppen anmelden:
