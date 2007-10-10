@@ -171,13 +171,11 @@ class ilMemberExportGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if($a_deliver_file)
+		if($a_deliver_file and 0)
 		{
 			$this->tpl->setCurrentBlock('iframe');
 			$this->tpl->setVariable('SOURCE',$this->ctrl->getLinkTarget($this,'deliverData'));
 		}
-		
-		// TODO: Add udf fields
 	}
 	
 	/**
@@ -433,6 +431,7 @@ class ilMemberExportGUI
 		$this->fss_export->addMemberExportFile($this->export->getCSVString(),$filename);
 
 		$_SESSION['member_export_filename'] = $filename;
+		
 	 	$this->show(true);
 	}
 	

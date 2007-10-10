@@ -49,7 +49,7 @@ class ilMediaCastSearch extends ilAbstractSearch
 	{
 		// Search in glossary term
 		
-		$this->setFields(array('instruction'));
+		$this->setFields(array('title','content'));
 
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
