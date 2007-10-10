@@ -101,6 +101,22 @@ class ilObjChatGUI extends ilObjectGUI
 
 		return true;
 	}
+	
+	/**
+	 * Cancel
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function cancelObject()
+	{
+		unset($_SESSION["room_id_rename"]);
+		unset($_SESSION["room_id_delete"]);
+		unset($_SESSION['saved_post']);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"));
+		$this->ctrl->redirect($this);
+	}
 
 	/**
 	* should be overwritten to add object specific items
@@ -332,16 +348,6 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->showFrames();
 		}
 	}
-
-
-
-	function cancelObject()
-	{
-		unset($_SESSION["room_id_rename"]);
-		unset($_SESSION["room_id_delete"]);
-		parent::cancelObject();
-	}
-
 
 	function viewObject()
 	{
