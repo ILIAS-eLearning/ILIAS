@@ -4236,7 +4236,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function mailMembersObject()
 	{
-		global $rbacreview, $ilErr, $ilAccess;
+		global $rbacreview, $ilErr, $ilAccess, $ilObjDataCache;			
+		include_once('classes/class.ilObjRole.php');
+
 
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
@@ -4271,7 +4273,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->setVariable("CHECK_MAILBOX",ilUtil::formCheckbox(1,'roles[]',
 					htmlspecialchars($role_addr)
 			));
-			$this->tpl->setVariable("MAILBOX",$role_addr);
+			$this->tpl->setVariable("MAILBOX",ilObjRole::_getTranslation($ilObjDataCache->lookupTitle($role_id)). " (" . $role_addr . ")");
+
 			$this->tpl->parseCurrentBlock();
 		}
 	}
