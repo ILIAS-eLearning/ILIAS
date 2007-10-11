@@ -2729,3 +2729,15 @@ ALTER TABLE `chat_invitations` DROP PRIMARY KEY, ADD PRIMARY KEY(`chat_id`,`room
 
 <#1104>
 TRUNCATE TABLE `chat_invitations`;
+
+<#1105>
+DROP TABLE IF EXISTS `cmi_gobjective`;
+CREATE TABLE `cmi_gobjective` (
+  `user_id` int(11) default NULL,
+  `satisfied` varchar(50) default NULL,
+  `measure` varchar(50) default NULL,
+  `scope_id` int(11) default NULL,
+  `status` varchar(50) default NULL,
+  `objective_id` varchar(255) default NULL,
+  UNIQUE KEY `gobjective` (`user_id`,`objective_id`,`scope_id`)
+) ENGINE=MyISAM;

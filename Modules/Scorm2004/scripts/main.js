@@ -1682,7 +1682,7 @@ function init(config)
 
 function loadGlobalObj() {
 	var globalObj =  this.config.globalobj_data || sendJSONRequest(this.config.get_gobjective_url);
-	if (globalObj!=null) {
+	if (globalObj) {
 		adl_seq_utilities.satisfied=globalObj.satisfied;
 		adl_seq_utilities.measure=globalObj.measure;
 		adl_seq_utilities.status=globalObj.status

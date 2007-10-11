@@ -445,11 +445,44 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		$set = $ilDB->query("REPLACE INTO cp_suspend (data,obj_id,user_id) values (".$ilDB->quote(file_get_contents('php://input')).",".$ilDB->quote($this->packageId).",".$ilUser->getID().")");		
 	}
 	
+	
 	public function readGObjective(){
 		global $ilDB,$ilUser;
-		$set = $ilDB->query("SELECT * FROM cmi_gobjective WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
-		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
-		$gobjective_data=$data['jsdata'];
+		$package=$ilDB->quote($this->packageId);
+		$user=$ilDB->quote($ilUser->getID());
+		
+		$q ="SELECT * FROM cmi_gobjective
+			WHERE(user_id=$user AND (scope_id=0 OR scope_id=$package))"
+		;
+		
+		$set = $ilDB->query($q);
+		
+		while ($row = $set->fetchRow(DB_FETCHMODE_ASSOC)) {
+			$learner=$row['user_id'];
+			$objective_id=$row['objective_id'];
+			if ($row['scope_id']==0) {
+				$scope="null"; 
+			} else {
+				$scope=$row['scope_id'];
+			}
+			
+			if ($row['satisfied']!=NULL) {
+				$toset=$row['satisfied'];
+				$g_data->{"satisfied"}->{$objective_id}->{$learner}->{$scope}=$toset;
+			}
+			
+			if ($row['measure']!=NULL) {
+				$toset=$row['measure'];
+				$g_data->{"measure"}->{$objective_id}->{$learner}->{$scope}=$toset;
+			}
+			
+			if ($row['status']!=NULL) {
+				$toset=$row['status'];
+				$g_data->{"status"}->{$objective_id}->{$learner}->{$scope}=$toset;
+			}
+			
+		}
+		$gobjective_data=json_encode($g_data);
 		if ($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
@@ -462,11 +495,60 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			print_r($gobjective_data);	
 		}
 	}
-		
+	
+	
+	//saves global_objectives to database	
 	public function writeGObjective()
 	{
 		global $ilDB, $ilUser;
-		$set = $ilDB->query("REPLACE INTO cmi_gobjective (jsdata,obj_id,user_id) values (".$ilDB->quote(file_get_contents('php://input')).",".$ilDB->quote($this->packageId).",".$ilUser->getID().")");		
+		$user=$ilUser->getID();
+		$package=$this->packageId;
+		//get json string
+		$g_data = json_decode(file_get_contents('php://input'));
+		//iterate over assoziative array
+		foreach ($g_data as $key => $value) {
+			
+			//objective 
+			//learner = ilias learner id
+			//scope = null / course
+		    foreach($value as $skey => $svalue) {
+		    	//we always have objective and learner id
+		    	if ($g_data->$key->$skey->$user->$package) {
+		    		$o_value=$g_data->$key->$skey->$user->$package;
+		    		$scope=$ilDB->quote($packageId);
+		    	} else {
+		    		//scope 0
+		    		$o_value=$g_data->$key->$skey->$user->{"null"};
+		    		//has to be converted to NULL in JS Later
+		    		$scope=0;
+		    	}
+		    	//insert into database
+		    	$objective_id=$ilDB->quote($skey);
+		    	$toset=$ilDB->quote($o_value);
+		    	$dbuser=$ilDB->quote($ilUser->getID());
+		    	//check for existence (if not, create)
+		    	if ($key=="satisfied") {
+		    		$q ="INSERT INTO cmi_gobjective 
+		    			(objective_id,user_id,satisfied,scope_id) 
+		    			values ($objective_id,$dbuser,$toset,$scope)
+		    			ON DUPLICATE KEY UPDATE satisfied=$toset";
+		    	}
+		    	if ($key=="measure") {
+		    		$q ="INSERT INTO cmi_gobjective 
+		    			(objective_id,user_id,measure,scope_id) 
+		    			values ($objective_id,$dbuser,$toset,$scope)
+		    			ON DUPLICATE KEY UPDATE measure=$toset";
+		    	}
+		    	if ($key=="status") {
+		    		$q ="INSERT INTO cmi_gobjective 
+		    			(objective_id,user_id,status,scope_id) 
+		    			values ($objective_id,$dbuser,$toset,$scope)
+		    			ON DUPLICATE KEY UPDATE status=$toset";
+		    	}	
+		    	$set = $ilDB->query($q);
+		    }
+		    
+		}
 	}
 	
 	
