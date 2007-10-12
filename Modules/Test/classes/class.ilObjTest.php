@@ -1361,11 +1361,10 @@ class ilObjTest extends ilObject
 					}
 				}
 				$changes = join($changed_fields, ", ");
-				if (count($changed_fields) == 0)
+				if (count($changed_fields) > 0)
 				{
-					$changes = $this->lng->txtlng("assessment", "log_no_test_fields_changed", ilObjAssessmentFolder::_getLogLanguage());
+					$this->logAction($this->lng->txtlng("assessment", "log_modified_test", ilObjAssessmentFolder::_getLogLanguage()) . " [".$changes."]");
 				}
-				$this->logAction($this->lng->txtlng("assessment", "log_modified_test", ilObjAssessmentFolder::_getLogLanguage()) . " [".$changes."]");
 			}
     }
 		if (!$properties_only)
