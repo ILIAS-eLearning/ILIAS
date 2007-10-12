@@ -33,7 +33,6 @@
 
 
 
-class ilSoapFunctions {
 	// These functions are wrappers for soap, since it cannot register methods inside classes
 
 	// USER ADMINISTRATION
@@ -669,5 +668,4 @@ class ilSoapFunctions {
 
 		return $sua->getIMSManifestXML($sid,$ref_id);
 	}
-}
 ?>
