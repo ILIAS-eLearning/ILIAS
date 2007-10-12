@@ -50,7 +50,7 @@ class ilNusoapUserAdministrationAdapter
 		define('SERVICE_USE','encoded');
 
 		$this->server =& new soap_server();
-
+		$this->server->decodeUTF8( false );
 		if($a_use_wsdl)
 		{
 			$this->__enableWSDL();
