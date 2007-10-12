@@ -222,7 +222,7 @@ class ilMail
 	var $mail_message;
 	var $mail_use_placeholders = 0;
 
-	var $soap_enabled = true;
+	var $soap_enabled = false;
 	
 	private $mlists = null;
 
@@ -1636,7 +1636,7 @@ class ilMail
 				$attachments[] = $this->mfile->getAbsolutePath($attachment);
 			}
 			$attachments = implode(',',$attachments);
-			
+
 			$soap_client->call('sendMail',array($_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],	// session id
 												$a_rcp_to,
 												$a_rcp_cc,
