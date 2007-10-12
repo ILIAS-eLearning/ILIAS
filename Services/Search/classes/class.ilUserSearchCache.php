@@ -36,6 +36,7 @@ class ilUserSearchCache
 {
 	const DEFAULT_SEARCH = 0;
 	const ADVANCED_SEARCH = 1;
+	const ADVANCED_MD_SEARCH = 4;
 
 	private static $instance = null;
 	private $db;

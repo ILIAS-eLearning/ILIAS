@@ -7673,3 +7673,6 @@ chat#:#chat_user_invited_public#:#Der Benutzer wurde in den öffentlichen Chat e
 chat#:#chat_user_invited_private#:#Der Benutzer wurde in den privaten Chatraum eingeladen.
 chat#:#chat_disinvite_user#:#Benutzer aus privatem Chatraum ausladen/entfernen
 chat#:#chat_no_online_users#:#Es sind keine weiteren Benutzer online.
+search#:#search_lom#:#LOM Metadaten
+search#:#search_adv_md#:#Erweiterte Metadaten
+search#:#adv_md_search_title#:#Suche in den erweiterterten Metadaten
