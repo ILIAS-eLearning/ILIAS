@@ -38,7 +38,7 @@ class ilSearchBaseGUI
 {
 	var $settings = null;
 
-	var $ctrl = null;
+	protected $ctrl = null;
 	var $ilias = null;
 	var $lng = null;
 	var $tpl = null;

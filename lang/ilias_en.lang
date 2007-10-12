@@ -7672,3 +7672,6 @@ chat#:#chat_user_invited_public#:#The user was invited to the public chat.
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.
 chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom
 chat#:#chat_no_online_users#:#No further users online.
+search#:#search_lom#:#LOM Metadata
+search#:#search_adv_md#:#Extended Metadata
+search#:#adv_md_search_title#:#Search in Extended Metadata

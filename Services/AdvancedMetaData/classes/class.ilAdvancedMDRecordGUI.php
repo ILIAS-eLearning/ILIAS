@@ -44,6 +44,7 @@ class ilAdvancedMDRecordGUI
 	
 	private $form;
 	private $values = array();
+	private $search_values = array();
 
 	/**
 	 * Constructor
@@ -53,7 +54,7 @@ class ilAdvancedMDRecordGUI
 	 * @param int obj_type
 	 * 
 	 */
-	public function __construct($a_mode,$a_obj_type = '',$a_obj_id)
+	public function __construct($a_mode,$a_obj_type = '',$a_obj_id = '')
 	{
 		global $lng;
 	 	
@@ -73,6 +74,17 @@ class ilAdvancedMDRecordGUI
 	public function setPropertyForm($form)
 	{
 	 	$this->form = $form;
+	}
+	
+	/**
+	 * Set values for search form
+	 *
+	 * @access public
+	 * 
+	 */
+	public function setSearchValues($a_values)
+	{
+	 	$this->search_values = $a_values;
 	}
 	
 	
@@ -227,6 +239,106 @@ class ilAdvancedMDRecordGUI
 	 	}
 	}
 	
+	/**
+	 * Parse search 
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function parseSearch()
+	{
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		foreach(ilAdvancedMDRecord::_getActiveSearchableRecords() as $record)
+		{ 
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($record->getTitle());
+			$this->form->addItem($section);
+			
+			foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record->getRecordId()) as $field)
+			{
+				if(!$field->isSearchable())
+				{
+					continue;
+				}
+	 			switch($field->getFieldType())
+	 			{
+	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+
+						$group = new ilRadioGroupInputGUI('','boolean['.$field->getFieldId().']');
+						$group->setValue(isset($this->search_values['boolean'][$field->getFieldId()]) ? 
+							$this->search_values['boolean'][$field->getFieldId()] : 0);
+						$radio_option = new ilRadioOption($this->lng->txt("search_any_word"),0);
+						$radio_option->setValue(0);
+						$group->addOption($radio_option);
+						$radio_option = new ilRadioOption($this->lng->txt("search_all_words"),1);
+						$radio_option->setValue(1);
+						$group->addOption($radio_option);
+						
+						$text = new ilTextInputGUI($field->getTitle(),$field->getFieldId());
+						$text->setValue(isset($this->search_values[$field->getFieldId()]) ?
+							$this->search_values[$field->getFieldId()] :
+							'');
+						$text->setSize(30);
+						$text->setMaxLength(255);
+						
+						
+						$text->addSubItem($group);
+						$this->form->addItem($text);
+	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+	 					$select = new ilSelectInputGUI($field->getTitle(),$field->getFieldId());
+	 					$select->setValue(isset($this->search_values[$field->getFieldId()]) ?
+	 						$this->search_values[$field->getFieldId()] :
+	 						0);
+						$options = array(0 => $this->lng->txt('search_any'));
+						$counter = 1;
+						foreach($field->getFieldValues() as $key => $value)
+						{
+							$options[$counter++] = $value;	
+						}
+						$select->setOptions($options);
+						$this->form->addItem($select);	 					
+	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+	 					$check = new ilCheckboxInputGUI($field->getTitle(),$field->getFieldId());
+	 					$check->setValue(1);
+	 					$check->setChecked(isset($this->search_values[$field->getFieldId()]) ?
+	 						$this->search_values[$field->getFieldId()] : 0);
+	 				
+	 					$time = new ilDateTimeInputGUI($this->lng->txt('from'),'date_start['.$field->getFieldId().']');
+	 					$time->setShowTime(false);
+						if(isset($this->search_values['date_start'][$field->getFieldId()]))
+						{
+							$time->setUnixTime($this->toUnixTime($this->search_values['date_start'][$field->getFieldId()]['date']));							
+						}
+						else
+						{
+							$time->setUnixTime(time());
+						}
+	 					$check->addSubItem($time);
+
+	 					$time = new ilDateTimeInputGUI($this->lng->txt('until'),'date_end['.$field->getFieldId().']');
+	 					$time->setShowTime(false);
+						if(isset($this->search_values['date_end'][$field->getFieldId()]))
+						{
+							$time->setUnixTime($this->toUnixTime($this->search_values['date_end'][$field->getFieldId()]['date']));							
+						}
+						else
+						{
+		 					$time->setUnixTime(time() + 60 * 60 * 24 * 31);
+						}
+	 					$check->addSubItem($time);
+
+	 					$this->form->addItem($check);
+	 					break;
+	 			}
+			}
+		}
+	}
+	
 	private function parseInfoPage()
 	{
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
@@ -243,11 +355,17 @@ class ilAdvancedMDRecordGUI
 	 			switch($def->getFieldType())
 	 			{
 	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-	 					$this->info->addProperty($def->getTitle(),$value->getValue());
+	 					if($value->getValue())
+	 					{
+		 					$this->info->addProperty($def->getTitle(),$value->getValue());
+	 					}
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-	 					$this->info->addProperty($def->getTitle(),$value->getValue());
+	 					if($value->getValue())
+	 					{
+	 						$this->info->addProperty($def->getTitle(),$value->getValue());
+	 					}
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:

@@ -143,6 +143,7 @@ class ilAdvancedMDFieldDefinition
 		return self::$instances[$a_field_id] = new ilAdvancedMDFieldDefinition($a_field_id);
 	}
 	
+
 	/**
 	 * get definitions
 	 *
@@ -186,6 +187,28 @@ class ilAdvancedMDFieldDefinition
 			"WHERE active = 1 ".
 			"AND obj_type = ".$ilDB->quote($a_type)." ".
 			"ORDER BY aro.record_id,position ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$field_ids[] = $row->field_id;
+		}
+		return $field_ids ? $field_ids : array();
+	}
+	
+	/**
+	 * Get searchable definition ids
+	 *
+	 * @access public
+	 * @static
+	 */
+	public static function _getSearchableDefinitionIds()
+	{
+		global $ilDB;
+		
+		$query = "SELECT field_id FROM adv_md_record AS amr ".
+			"JOIN adv_md_field_definition AS amfd USING (record_id) ".
+			"WHERE active = 1 ".
+			"AND searchable = 1";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

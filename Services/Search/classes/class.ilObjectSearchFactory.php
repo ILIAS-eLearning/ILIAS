@@ -352,5 +352,19 @@ class ilObjectSearchFactory
 		
 		return new ilLikeUserDefinedFieldSearch($query_parser);
 	}
+	
+	/**
+	 * get advanced meta data search instance
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param object query parser
+	 */
+	public static function _getAdvancedMDSearchInstance($query_parser)
+	{
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDLikeSearch.php');
+		return new ilAdvancedMDLikeSearch($query_parser);
+	}
 }
 ?>

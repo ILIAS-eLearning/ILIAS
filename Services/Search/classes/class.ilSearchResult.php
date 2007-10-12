@@ -35,6 +35,7 @@ include_once('Services/Search/classes/class.ilUserSearchCache.php');
 
 define('DEFAULT_SEARCH',0);
 define('ADVANCED_SEARCH',1);
+define('ADVANCED_MD_SEARCH',4);
 
 class ilSearchResult
 {
