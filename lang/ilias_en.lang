@@ -474,7 +474,6 @@ assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
 assessment#:#log_mark_removed#:#Mark removed
 assessment#:#log_modified_test#:#The test was modified
-assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
 assessment#:#log_question_removed#:#Question removed
