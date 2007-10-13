@@ -1548,7 +1548,7 @@ ADLSequencer.prototype =
 	{
 		sclog("OverallRollup [RB.1.5]","seq");
 	  
-		var rollupSet = new Array();		// Hashtable
+		var rollupSet = new Object();		// Hashtable
 		
 		// Case #1 -- Rollup applies along the active path
 		if (ioTarget == this.mSeqTree.getCurrentActivity())
@@ -1598,8 +1598,8 @@ ADLSequencer.prototype =
 			}
 			
 			// Remove the Current Activity from the rollup set
-			//delete rollupSet[ioTarget.getID()];
-			rollupSet.splice(ioTarget.getID(),1);
+			delete rollupSet[ioTarget.getID()];
+			//rollupSet.splice(ioTarget.getID(),1);
 		}
 		
 		// Case #2 -- Rollup applies when the state of a global shared objective
@@ -1637,10 +1637,15 @@ ADLSequencer.prototype =
 			}
 		}
 		
+		//count properties
+		var count=0;
+		for (x in rollupSet) {
+			count++;
+		}
+		
 		// Perform the deterministic rollup extension
-		while (rollupSet.length != 0)
+		while (count>0)
 		{
-			alert(rollupSet.length);
 			
 			// Find the deepest activity
 			var deepest = null;
@@ -1664,7 +1669,14 @@ ADLSequencer.prototype =
 			
 			if (deepest != null)
 			{
-				this.doOverallRollup(deepest, rollupSet);
+				//JS does not write back modified function parameters
+				rollupSet=this.doOverallRollup(deepest, rollupSet);
+				count=0;
+				for (x in rollupSet) {
+						count++;
+				}
+				
+				//rollupSet cound properties
 				
 				// If rollup was performed on the root, set the course's status
 				if (deepest == this.mSeqTree.getRoot())
@@ -1714,8 +1726,9 @@ ADLSequencer.prototype =
 		rollupRules.evaluate(ioTarget);
 		
 		// Remove this activity from the rollup set
-		//delete ioRollupSet[ioTarget.getID()];
-		ioRollupSet.splice(ioTarget.getID(),1);
+		delete ioRollupSet[ioTarget.getID()];
+		//ioRollupSet.splice(ioTarget.getID(),1);
+		return ioRollupSet;
 	},
 
 	prepareClusters: function ()

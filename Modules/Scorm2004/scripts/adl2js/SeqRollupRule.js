@@ -99,7 +99,6 @@ SeqRollupRule.prototype =
 	{
 		// Evaluate 'this' rollup rule, using the activity's children
 		var result = false;
-		
 		if (this.mChildActivitySet == ROLLUP_SET_ALL)
 		{
 			result = this.evaluateAll(iChildren);
@@ -256,7 +255,6 @@ SeqRollupRule.prototype =
 			{
 				considered = true;
 				var eval = this.mConditions.evaluate(tempActivity);
-				
 				result = result && (eval == EVALUATE_TRUE);
 				emptySet = emptySet && (eval == EVALUATE_UNKNOWN);
 			}

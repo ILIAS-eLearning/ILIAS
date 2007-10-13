@@ -77,7 +77,7 @@ SeqActivityTree.prototype =
 	setRoot: function (iRoot) { this.mRoot = iRoot; },
 	getRoot: function () { return this.mRoot; },
 	setLastLeaf: function (iLastLeaf) { this.mLastLeaf = iLastLeaf; },
-	getLastLeaf: function () { this.mLastLeaf; },
+	getLastLeaf: function () { return this.mLastLeaf; },
 	setValidRequests: function (iValidRequests) { this.mValidReq = iValidRequests; },
 	getValidRequests: function () { return this.mValidReq; },
 	getCurrentActivity: function () { return this.mCurActivity; },
