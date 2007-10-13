@@ -60,6 +60,8 @@ function toggleLog() {
 function sclog(mess, type)
 {
 	
+	//log.info(mess);
+	//return;
 	//switch of sequencing-logging in general, cause of slowdown
 	if (type=="seq") return;
 	
@@ -2340,6 +2342,8 @@ function syncCMIADLTree(){
       if( masteryStatus=="passed" )
       {
 		//alert("SET");
+		//alert("Set passed"+" "+mPRIMARY_OBJ_ID);
+		
          msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "satisfied");
       }
       else if( masteryStatus=="failed" )
@@ -2357,6 +2361,7 @@ function syncCMIADLTree(){
 	  // Report the measure
 	  if( score!="" && score!="unknown" ) {
 			normalScore = score;
+			//alert("Set score"+score+" "+mPRIMARY_OBJ_ID);
         	msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
        }
 
@@ -2405,7 +2410,6 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 function save_global_objectives() {
 	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || adl_seq_utilities.status!=null  ) {
 		//save
-		//alert(toJSONString(this.adl_seq_utilities));
 		result = this.config.gobjective_url 
 			? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
 			: {};

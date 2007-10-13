@@ -227,7 +227,7 @@ SeqConditionSet.prototype =
 			{
 				if (iTarget.getProgressStatus(this.mRollup))
 				{
-					alert("There is a status");
+					//alert("There is a status");
 					result = iTarget.getAttemptCompleted(this.mRollup)
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;

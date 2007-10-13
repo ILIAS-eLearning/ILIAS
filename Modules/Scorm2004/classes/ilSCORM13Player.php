@@ -451,10 +451,13 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		$package=$ilDB->quote($this->packageId);
 		$user=$ilDB->quote($ilUser->getID());
 		
-		$q ="SELECT * FROM cmi_gobjective
-			WHERE(user_id=$user AND (scope_id=0 OR scope_id=$package))"
-		;
+		//$q ="SELECT * FROM cmi_gobjective
+		//	WHERE(user_id=$user AND (scope_id=0 OR scope_id=$package))"
+		//;
 		
+		  $q="SELECT * FROM cmi_gobjective, cp_node,cp_mapinfo WHERE(cp_node.slm_id=$package AND cp_node.nodeName='mapinfo'  AND cp_node.cp_node_id=cp_mapinfo.cp_node_id  AND cmi_gobjective.objective_id=cp_mapinfo.targetObjectiveID)
+			GROUP BY objective_id,scope_id";
+			
 		$set = $ilDB->query($q);
 		
 		while ($row = $set->fetchRow(DB_FETCHMODE_ASSOC)) {

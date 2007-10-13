@@ -12,7 +12,7 @@ ADLSeqUtilities.prototype =
 	// usage: adl_seq_utilities.setGlobalObjSatisfied(2, 10, "scope", true);
 	setGlobalObjSatisfied: function (iObjID, iLearnerID, iScopeID, iSatisfied)
 	{
-		//alert(iObjID+" ,  "+iLearnerID+ ", "+iScopeID+", "+iSatisfied);
+	//	alert(iObjID+" ,  "+iLearnerID+ ", "+iScopeID+", "+iSatisfied);
 		if(this.satisfied[iObjID] == null) this.satisfied[iObjID] = new Object();
 		if(this.satisfied[iObjID][iLearnerID] == null) this.satisfied[iObjID][iLearnerID] = new Object();
 		this.satisfied[iObjID][iLearnerID][iScopeID] = iSatisfied;
@@ -31,7 +31,7 @@ ADLSeqUtilities.prototype =
 	
 	setGlobalObjMeasure: function (iObjID, iLearnerID,iScopeID, iMeasure)
 	{
-		//alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iMeasure);
+	//	alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iMeasure);
 		
 		if(this.measure[iObjID] == null) this.measure[iObjID] = new Object();
 		if(this.measure[iObjID][iLearnerID] == null) this.measure[iObjID][iLearnerID] = new Object();
