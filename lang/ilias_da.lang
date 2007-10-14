@@ -668,11 +668,11 @@ common#:#created#:#Opret dato
 common#:#cron_forum_notification#:#Send forum advisering
 common#:#cron_forum_notification_cron#:#regularly per cron job###23 Dec 2005 new variable
 common#:#cron_forum_notification_desc#:#Hvis aktiveret får alle brugere der ønsker advisering om bestemte emner i fora tilsendt en email.
-common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
+common#:#cron_forum_notification_directly#:#Øjeblikkeligt ved nye indlæg
 common#:#cron_forum_notification_never#:#aldrig
-common#:#cron_mail_notification#:#Send Mail Notifications###16 08 2007 new variable
-common#:#cron_mail_notification_never#:#never###16 08 2007 new variable
-common#:#cron_mail_notification_cron#:#regularly per cron job###16 08 2007 new variable
+common#:#cron_mail_notification#:#Send mail advisering.
+common#:#cron_mail_notification_never#:#Aldrig
+common#:#cron_mail_notification_cron#:#I forbindelse med cron job
 common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.###16 08 2007 new variable
 common#:#cron_jobs#:#Cron jobs###21 Apr 2005 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation. Et cronjob er en automatiseret proces, som er prædefineret. Se yderligere i INSTALL-dokumentatio
@@ -1461,12 +1461,12 @@ common#:#is_already_your#:#er allerede din
 common#:#item#:#Ting
 common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
-common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
+common#:#java_server_info#:#Hvis aktiveret er det muligt at søge i PDF, HTML filer og HTML-læremoduler.
 common#:#java_server_no_connection#:#Attention: Kan ikke tilslutte til Java server.
 common#:#java_server_port#:#Port
-common#:#java_server_readme#:#Setup informations
+common#:#java_server_readme#:#Opsætnings information
 common#:#join#:#Tilmeld
-common#:#buy#:#Buy###16 08 2007 new variable
+common#:#buy#:#Køb
 common#:#kb#:#KByte###21 Apr 2005 new variable
 common#:#keywords#:#Nøgleord
 common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
@@ -1709,19 +1709,19 @@ common#:#mob#:#Medie objekter
 common#:#module#:#modul
 common#:#modules#:#Moduler
 common#:#month_01_long#:#Januar
-common#:#month_01_short#:#Jan###21 Apr 2005 new variable
+common#:#month_01_short#:#jan
 common#:#month_02_long#:#Feburar
-common#:#month_02_short#:#Feb###21 Apr 2005 new variable
+common#:#month_02_short#:#feb
 common#:#month_03_long#:#Marts
-common#:#month_03_short#:#Mar###21 Apr 2005 new variable
+common#:#month_03_short#:#mar
 common#:#month_04_long#:#April###21 Apr 2005 new variable
-common#:#month_04_short#:#Apr###21 Apr 2005 new variable
+common#:#month_04_short#:#apr
 common#:#month_05_long#:#Maj
 common#:#month_05_short#:#Maj
 common#:#month_06_long#:#Juni
-common#:#month_06_short#:#Jun###21 Apr 2005 new variable
+common#:#month_06_short#:#jun
 common#:#month_07_long#:#Juli
-common#:#month_07_short#:#Jul###21 Apr 2005 new variable
+common#:#month_07_short#:#jul
 common#:#month_08_long#:#August###21 Apr 2005 new variable
 common#:#month_08_short#:#Aug###21 Apr 2005 new variable
 common#:#month_09_long#:#September###21 Apr 2005 new variable
@@ -4120,10 +4120,10 @@ news#:#news_acc_cache#:#Permission Check (Minutes)###25 07 2007 new variable
 news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to nonaccessible items.###25 07 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
-news#:#news_related_to#:#Related to###02 04 2007 new variable
-news#:#news_all_items#:#All Items###02 04 2007 new variable
-news#:#news_edit_news_settings#:#Edit Settings###25 02 2007 new variable
-news#:#news_enable_internal_news#:#Enable Internal News###25 02 2007 new variable
+news#:#news_related_to#:#Relateret til
+news#:#news_all_items#:#Alt
+news#:#news_edit_news_settings#:#Ret indstillinger
+news#:#news_enable_internal_news#:#Aktiver interne nyheder
 news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.###25 02 2007 new variable
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
 news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.###25 02 2007 new variable
