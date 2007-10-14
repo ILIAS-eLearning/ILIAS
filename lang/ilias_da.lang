@@ -1610,8 +1610,8 @@ common#:#local_language_file#:#Lokal sprogfil
 common#:#local_language_files#:#Lokale sprogfiler
 common#:#local_languages_already_installed#:#Den valgte sprogfil er allerede installeret
 common#:#locator#:#Placering:
-common#:#location#:#Location###08 12 2006 new variable
-common#:#log_in#:#Login###17 Aug 2005 new variable
+common#:#location#:#Placering
+common#:#log_in#:#Login
 common#:#logic_and#:#og
 common#:#logic_or#:#eller
 common#:#login_as#:#Logget ind som
@@ -4189,19 +4189,19 @@ delic#:#delic_add_to_delicious#:#Føj til del.icio.us
 delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens###25 02 2007 new variable
 delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile###25 02 2007 new variable
-gmaps#:#gmaps_api_key#:#API Key###25 02 2007 new variable
-gmaps#:#gmaps_public_profile_info#:#Show location in your public profile.###02 04 2007 new variable
-gmaps#:#gmaps_enable_gmaps#:#Enable Google Maps###02 04 2007 new variable
+gmaps#:#gmaps_api_key#:#API nøgle
+gmaps#:#gmaps_public_profile_info#:#Vis placering i offentlig profil
+gmaps#:#gmaps_enable_gmaps#:#Aktiver Google Maps
 gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
 gmaps#:#gmaps_zoom_level#:#Zoom Level###02 04 2007 new variable
 gmaps#:#gmaps_settings#:#Google Maps Settings###25 02 2007 new variable
 gmaps#:#gmaps_extt_gmaps#:#Google Maps###25 02 2007 new variable
 gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
-gmaps#:#gmaps_std_location#:#Default Location###25 02 2007 new variable
-gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.###25 02 2007 new variable
-jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
-jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
-jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
+gmaps#:#gmaps_std_location#:#Standardplacering
+gmaps#:#gmaps_std_location_desc#:#Brede / længdegrad. Klik på kortet for at sætte position.
+jsmath#:#jsmath_extt_jsmath#:#jsMath
+jsmath#:#jsmath_settings#:#jsMath indstillinger
+jsmath#:#jsmath_enable_jsmath#:#Aktiver jsMath
 jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.###29 05 2007 new variable
 jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath###29 05 2007 new variable
 jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;###29 05 2007 new variable
