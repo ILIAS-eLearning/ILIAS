@@ -209,7 +209,7 @@ common#:#type#:#Type###21 Apr 2005 new variable
 common#:#user#:#Bruger
 common#:#weeks#:#Uger
 common#:#year#:#Year
-common#:#hide_own_online_status#:#Hide My Online Status###30 05 2007 new variable
+common#:#hide_own_online_status#:#Skjul min onlinestatus
 common#:#3rd_party_software#:#3. partssoftware
 common#:#DD.MM.YYYY#:#DD.MM.ÅÅÅÅ
 common#:#HH#:#TT:MM
@@ -2818,7 +2818,7 @@ common#:#zip#:#Postnummer
 common#:#zipcode#:#Postnummer
 common#:#no_start_file#:#No Start File.###29 11 2006 new variable
 common#:#select_one#:#Please select one.###08 12 2006 new variable
-common#:#access_until#:#Access until###25 02 2007 new variable
+common#:#access_until#:#Adgang til
 common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
 common#:#edit_grouping#:#Edit Membership Limitation###05 10 2006 new variable
 common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###05 10 2006 new variable
@@ -2917,12 +2917,12 @@ common#:#passwd_list#:#List of Passwords###30 07 2007 new variable
 common#:#default_auth_mode#:#Default Authentication Method###16 08 2007 new variable
 common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###16 08 2007 new variable
 common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###16 08 2007 new variable
-search#:#search_user_extended#:#Extended User Search###09 06 2007 new variable
-search#:#search_user_simple#:#Simple User Search###09 06 2007 new variable
-search#:#last_search_result#:#Last Search Result###09 06 2007 new variable
+search#:#search_user_extended#:#Udviddet brugersøgning
+search#:#search_user_simple#:#Simpel brugersøgning
+search#:#last_search_result#:#Seneste søgeresultat
 search#:#search_results#:#Søgeresultater
-search#:#search_users#:#Search User###19 06 2007 new variable
-search#:#until#:#up to###20 Jun 2005 new variable
+search#:#search_users#:#Søg bruger
+search#:#until#:#Indtil
 search#:#search_active#:#Include active users###21 Apr 2005 new variable
 search#:#search_inactive#:#Include inactive users###21 Apr 2005 new variable
 search#:#search_user#:#Brugere
