@@ -1,4 +1,4 @@
-ï»¿/**
+﻿ï»¿/**
 * ILIAS language file 
 *
 * @module		language file Danish
@@ -5678,13 +5678,13 @@ mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification
 mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
 mail#:#search_bc_recipient#:#Søg BCC modtager
 mail#:#search_cc_recipient#:#Søg CC modtager
-mail#:#send_mail_to#:#Mail to###16 08 2007 new variable
-mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###16 08 2007 new variable
+mail#:#send_mail_to#:#Mail til
+mail#:#mail_no_valid_mailing_list#:#Ingen gyldig mailingliste
 mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###16 08 2007 new variable
 mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###16 08 2007 new variable
-mail#:#mail_list_members#:#List members###18 12 2006 new variable
-mail#:#mail_members_added_addressbook#:#Members added to addressbook###18 12 2006 new variable
-mail#:#mail_in_addressbook#:#Already in addressbook###18 12 2006 new variable
+mail#:#mail_list_members#:#Liste over medlemmer
+mail#:#mail_members_added_addressbook#:#Medlemmer tilføjet til adressebog
+mail#:#mail_in_addressbook#:#Er allerede i adressebog.
 mail#:#mail_select_only_one_entry#:#Please select only one entry.###25 02 2007 new variable
 mail#:#mail_select_course#:#Please select at least one course.###25 02 2007 new variable
 mail#:#mail_select_group#:#Please select at least one group.###25 02 2007 new variable
@@ -6615,26 +6615,26 @@ rbac#:#perm_use_local_policy#:#Brug lokal rettighed
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
 registration#:#reg_add_assignment#:#New Assignment
 registration#:#reg_added_assignment#:#Added new assignment.
-registration#:#reg_approve#:#Registration with Approvement
+registration#:#reg_approve#:#Registrering med godkendelse
 registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.
 registration#:#reg_available_roles#:#Mulige roller:
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
 registration#:#reg_direct#:#Direkte registrering
 registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.
-registration#:#reg_disabled#:#No Registration Possible
-registration#:#reg_domain#:#Domain
-registration#:#reg_email#:#Automatic Role Assignment
-registration#:#reg_email_role_assignment#:#Role Assignment By Domain
+registration#:#reg_disabled#:#Registrering ikke mulig
+registration#:#reg_domain#:#Domæne
+registration#:#reg_email#:#Automatisk rolletildeling
+registration#:#reg_email_role_assignment#:#Rolletildeling efter domæne
 registration#:#reg_fixed#:#Selection From Specified List
-registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.
-registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.
-registration#:#reg_mail_body_profile#:#Profile data:
+registration#:#reg_info_pwd#:#Hvis aktiveret sendes passwords automatisk til nye brugere pr. mail.
+registration#:#reg_mail_body_approve#:#Du har allerede registreret på ILIAS og modtaget en mail med dine kontoinformationer. Din konto er nu blevet aktiveret af en administrator.
+registration#:#reg_mail_body_profile#:#Profilinformationer:
 registration#:#reg_mail_body_profile_changed#:#Din profil er blevet ændret !
 registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.
-registration#:#reg_mail_new_user_body#:#A new user has been registered.
-registration#:#reg_missing_domain#:#Please fill out all fields.
-registration#:#reg_missing_role#:#Please fill out all fields.
+registration#:#reg_mail_new_user_body#:#En ny bruger er blevet registreret. 
+registration#:#reg_missing_domain#:#Udflyld venligst alle felter.
+registration#:#reg_missing_role#:#Udfyld venligst alle felter.
 registration#:#reg_notification#:#Advisering
 registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.
 registration#:#reg_role_assignment#:#Rolletildeling
@@ -6645,22 +6645,22 @@ registration#:#reg_settings_header#:#New Registration Settings
 registration#:#reg_type#:#Tilmeldingsmetode
 registration#:#reg_unknown_recipients#:#The following logins are not valid:
 registration#:#registration_settings#:#Nyoprettelser
-registration#:#reg_access_limitations#:#Access Limitation###25 02 2007 new variable
-registration#:#reg_enable_access_limitations#:#Enable Access Limitation###25 02 2007 new variable
-registration#:#reg_access_limitation_limited_until#:#Access is limited until###25 02 2007 new variable
+registration#:#reg_access_limitations#:#Adgangsbegrænsning
+registration#:#reg_enable_access_limitations#:#Aktiver adgangsbegrænsning
+registration#:#reg_access_limitation_limited_until#:#Adgang er begrænset til
 registration#:#reg_access_limitation_limited_time#:#After registration access for###25 02 2007 new variable
-registration#:#reg_access_limitation_none#:#Unlimited access###25 02 2007 new variable
+registration#:#reg_access_limitation_none#:#Ubegrænset adgang
 registration#:#reg_access_limitation_missing_mode#:#Please choose for all roles an Access Limitation Mode###25 02 2007 new variable
 registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an outdated access limitation!###25 02 2007 new variable
 registration#:#reg_role_access_limitations#:#Define access limitations of Roles for new registered Users###25 02 2007 new variable
-registration#:#reg_access_limitation_mode#:#Access Limitation Mode###25 02 2007 new variable
-registration#:#reg_access_limitation_mode_unlimited#:#No access limitation###25 02 2007 new variable
+registration#:#reg_access_limitation_mode#:#Adgangsbegrænsnings indstilling
+registration#:#reg_access_limitation_mode_unlimited#:#Ingen adgangsbegrænsning
 registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date###25 02 2007 new variable
 registration#:#reg_access_limitation_mode_relative#:#Limited access for a fixed time period after registration###25 02 2007 new variable
 registration#:#auth_radius_name#:#Name of RADIUS Configuration###02 04 2007 new variable
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration###02 04 2007 new variable
-registration#:#auth_radius_sync#:#User Synchronization###02 04 2007 new variable
-registration#:#auth_radius_role_select#:#Role:###02 04 2007 new variable
+registration#:#auth_radius_sync#:#Bruger synkronisering
+registration#:#auth_radius_role_select#:#Rolle
 registration#:#auth_radius_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###02 04 2007 new variable
 style#:#sty_all#:#All
 style#:#sty_background#:#Background
@@ -6674,17 +6674,17 @@ style#:#sty_border_color#:#Border Color
 style#:#sty_border_style#:#Border Style
 style#:#sty_border_width#:#Border Width
 style#:#sty_bottom#:#Bottom
-style#:#sty_clear#:#Clear
-style#:#sty_color#:#Colour
+style#:#sty_clear#:#Ryd
+style#:#sty_color#:#Farve
 style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles
 style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue?
 style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
 style#:#sty_create_ind_style#:#Lav personlig præsentation
 style#:#sty_create_new_stylesheet#:#Create new Style
-style#:#sty_cursor#:#Cursor
+style#:#sty_cursor#:#Markør
 style#:#sty_default_style#:#Default Style
 style#:#sty_font_family#:#Font Family
-style#:#sty_font_size#:#Font Size
+style#:#sty_font_size#:#Skriftstørrelse
 style#:#sty_font_stretch#:#Font Stretch
 style#:#sty_font_style#:#Font Style
 style#:#sty_font_variant#:#Font Variant
@@ -6692,10 +6692,10 @@ style#:#sty_font_weight#:#Font Weight
 style#:#sty_import_stylesheet#:#Import Style
 style#:#sty_individual_style#:#Individual Style
 style#:#sty_individual_styles#:#Individual Styles
-style#:#sty_left#:#Left
+style#:#sty_left#:#Venstre
 style#:#sty_letter_spacing#:#Letter Spacing
-style#:#sty_line_height#:#Line Height
-style#:#sty_margin#:#Margin
+style#:#sty_line_height#:#Linjehøjde
+style#:#sty_margin#:#Margen
 style#:#sty_margin_and_padding#:#Margin and Padding
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
@@ -7564,20 +7564,20 @@ common#:#export_format_selection#:#Please select the export file format###23 09 
 common#:#export_format#:#Export format###23 09 2007 new variable
 common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
 common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
-news#:#news_pd_period#:#Personal Desktop News Period###23 09 2007 new variable
-news#:#news_pd_period_info#:#Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems.###23 09 2007 new variable
-news#:#news_indefinite#:#Indefinite###23 09 2007 new variable
-feed#:#feed_proxy#:#Proxy Host###23 09 2007 new variable
+news#:#news_pd_period#:#Mit Skrivebord nyhedsperiode
+news#:#news_pd_period_info#:#Bestemmer den tidsperiode nyheder findes på Mit Skrivebord. Vælg lave værdier hvis du oplever problemer med ydelsen af systemet.
+news#:#news_indefinite#:#Uendelig
+feed#:#feed_proxy#:#Proxy Vært
 feed#:#feed_proxy_info#:#Proxy host for socket connection###23 09 2007 new variable
-feed#:#feed_proxy_port#:#Proxy Port###23 09 2007 new variable
+feed#:#feed_proxy_port#:#Proxy port
 feed#:#feed_proxy_port_info#:#Proxy port for socket connection###23 09 2007 new variable
-common#:#user_activated#:#User has been approved###23 09 2007 new variable
-common#:#user_deactivated#:#User has been disapproved###23 09 2007 new variable
-common#:#usr_filter_lastlogin#:#Last login of user###23 09 2007 new variable
-common#:#usr_filter_coursemember#:#Member of course###23 09 2007 new variable
-common#:#usr_filter_groupmember#:#Member of group###23 09 2007 new variable
-common#:#usr_filter_role#:#Assigned role###23 09 2007 new variable
-content#:#Pages#:#Pages###23 09 2007 new variable
+common#:#user_activated#:#Brugeren er blevet godkendt.
+common#:#user_deactivated#:#Brugeren er ikke godkendt.
+common#:#usr_filter_lastlogin#:#Brugerens sidste login
+common#:#usr_filter_coursemember#:#Medlem af kursus
+common#:#usr_filter_groupmember#:#Medlem af gruppe
+common#:#usr_filter_role#:#Tilknyttet rolle.
+content#:#Pages#:#Sider
 content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable
 content#:#cont_reference#:#Reference###23 09 2007 new variable
 content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
@@ -7592,25 +7592,23 @@ content#:#seq_abandonall#:#The current course session has been abandoned..###23 
 content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
 dateplaner#:#Text#:#Text###23 09 2007 new variable
 dateplaner#:#View#:#View:###23 09 2007 new variable
-forum#:#threads_moved_successfully#:#The chosen topics were moved to another forum successfully.###23 09 2007 new variable
-forum#:#select_at_least_one_thread#:#Please select at least one topic.###23 09 2007 new variable
-forum#:#no_forum_available_for_moving_threads#:#No forum available to move the chosen topics to.###23 09 2007 new variable
-forum#:#move_chosen_topics#:#Move Chosen Topics###23 09 2007 new variable
-forum#:#to_forum#:#To Forum###23 09 2007 new variable
-forum#:#no_forum_selected#:#No forum selected for moving the chosen topics###23 09 2007 new variable
-forum#:#sure_move_threads#:#Are you sure you want to move the chosen topics?###23 09 2007 new variable
-forum#:#make_topics_sticky#:#Make Topics Sticky###23 09 2007 new variable
-forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky###23 09 2007 new variable
-forum#:#make_topic_sticky#:#Make Topic Sticky###23 09 2007 new variable
-forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky###23 09 2007 new variable
-forum#:#activate_post#:#Activate###23 09 2007 new variable
-forum#:#deactivate_post#:#Deactivate###23 09 2007 new variable
+forum#:#threads_moved_successfully#:#De valgte emner blev flyttet til andet fora.
+forum#:#select_at_least_one_thread#:#Vælg mindst et emne.
+forum#:#no_forum_available_for_moving_threads#:#Der er intet forum hvor de valgte emner kan flyttes til.
+forum#:#move_chosen_topics#:#Flyt valgte emner.
+forum#:#to_forum#:#Til forum
+forum#:#no_forum_selected#:#Intet forum valgt til at flytte emnerne til.
+forum#:#sure_move_threads#:#Er du sikker på du ønsker at flytte de valgte emner?
+forum#:#make_topics_sticky#:#Få emner til at klistre
+forum#:#make_topics_non_sticky#:#Få emner til at ophøre med at klistre
+forum#:#activate_post#:#Aktiver
+forum#:#deactivate_post#:#Deaktiver
 forum#:#activate_post_txt#:#Would you really like to activate the current post and if applicable all its child posts? Please note that all parent posts will be activated, too.###23 09 2007 new variable
 forum#:#deactivate_post_txt#:#Would you really like to deactivate the current post and all its child posts?###23 09 2007 new variable
-forum#:#activate_only_current#:#Activate Current###23 09 2007 new variable
-forum#:#activate_current_and_childs#:#Activate All Posts###23 09 2007 new variable
-forum#:#deactivate_current_and_childs#:#Deactivate All Posts###23 09 2007 new variable
-forum#:#new_posts#:#New Posts###23 09 2007 new variable
+forum#:#activate_only_current#:#Aktiver den nuværende
+forum#:#activate_current_and_childs#:#Aktiver alle indlæg
+forum#:#deactivate_current_and_childs#:#Deaktiver alle indlæg
+forum#:#new_posts#:#Nye indlæg
 forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
 common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
@@ -7646,15 +7644,15 @@ meta#:#md_copyright_edit#:#Edit Copyright Presetting###25 09 2007 new variable
 meta#:#md_copyright_value#:#Copyright###25 09 2007 new variable
 meta#:#md_copyright_add#:#Add Copyright Presetting###25 09 2007 new variable
 meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?###25 09 2007 new variable
-meta#:#md_copyrights_deleted#:#Deleted Copyright###25 09 2007 new variable
-meta#:#meta_cp_own#:#Own Copyright Information:###25 09 2007 new variable
-meta#:#md_adv_desc_show#:#Show Description###25 09 2007 new variable
-meta#:#md_adv_show#:#Show###25 09 2007 new variable
-common#:#udf_type_date#:#Date Field###25 09 2007 new variable
+meta#:#md_copyrights_deleted#:#Slettede copyright
+meta#:#meta_cp_own#:#Egen copyrightinformation
+meta#:#md_adv_desc_show#:#Vis beskrivelse
+meta#:#md_adv_show#:#Vis
+common#:#udf_type_date#:#Datofelt
 common#:#sorting_header#:#Content Item Sorting###25 09 2007 new variable
-common#:#sorting_title_header#:#Sort by Title###25 09 2007 new variable
+common#:#sorting_title_header#:#Sorter efter titel.
 common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.###25 09 2007 new variable
-common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
-common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
-common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+common#:#sorting_manual_header#:#Manuel sortering
+common#:#sorting_info_manual#:#Denne indstilling gør det muligt at sortere elementer manuelt.
+common#:#sorting_save#:#Gem sortering
+common#:#frm_add_thread#:#Tilføj nyt emne
