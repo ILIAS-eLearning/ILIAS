@@ -325,9 +325,9 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#disable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu deaktivieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#duplicate_qpl#:#Fragenpool für Test duplizieren
-assessment#:#duplicate_tst#:#Test duplizieren
-assessment#:#duplicate#:#Duplizieren
+assessment#:#duplicate_qpl#:#Fragenpool für Test kopieren
+assessment#:#duplicate_tst#:#Test kopieren
+assessment#:#duplicate#:#Kopieren
 assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
 assessment#:#ects_fill_out_all_values#:#Bitte geben Sie einen Wert für jede ECTS-Note an!
 assessment#:#ects_grade_a_short#:#HERVORRAGEND
@@ -559,7 +559,7 @@ assessment#:#qpl_delete_no_deleteable_questions#:#Alle Fragen, die Sie löschen 
 assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu löschen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_display_fullsize_image#:#Klicken Sie hier, um die Originalgrafik anzuzeigen!
-assessment#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage zum Duplizieren aus!
+assessment#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus!
 assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu bearbeiten!
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
@@ -869,11 +869,11 @@ assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
-assessment#:#tst_select_qpls#:#Bitte wählen Sie einen Fragenpool zum Duplizieren aus
+assessment#:#tst_select_qpls#:#Bitte wählen Sie einen Fragenpool zum Kopieren aus
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage platzieren
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren
 assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
-assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
+assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Kopieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
@@ -958,7 +958,7 @@ assessment#:#tt_online_exam#:#Online Prüfung
 assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#tt_varying_randomtest#:#Wechselnder Zufallstest
 assessment#:#unlimited#:#unbegrenzt
-assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
+assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool kopieren und nach Ihren Vorstellungen verändern.
 assessment#:#unlock#:#Entsperren
 assessment#:#upload_image#:#Bild hochladen
 assessment#:#upload_imagemap#:#Imagemap hochladen
@@ -3043,19 +3043,19 @@ common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
-common#:#obj_exc_duplicate#:#Übung duplizieren
+common#:#obj_exc_duplicate#:#Übung kopieren
 common#:#obj_exc_select#:#-- Bitte wählen Sie eine Übung aus --
 common#:#obj_exc#:#Übung
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_feed#:#Webfeed
-common#:#obj_file_duplicate#:#Datei duplizieren
+common#:#obj_file_duplicate#:#Datei kopieren
 common#:#obj_file_select#:#-- Bitte wählen Sie eine Datei aus --
 common#:#obj_file#:#Datei
 common#:#obj_fold_duplicate#:#Ordner kopieren
 common#:#obj_fold_select#:#-- Bitte wählen Sie einen Ordner aus --
 common#:#obj_fold#:#Ordner
-common#:#obj_frm_duplicate#:#Forum duplizieren
+common#:#obj_frm_duplicate#:#Forum kopieren
 common#:#obj_frm_select#:#-- Bitte wählen Sie ein Forum aus --
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
@@ -3129,13 +3129,13 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_usrf#:#Benutzerkonten
-common#:#obj_webr_duplicate#:#Web-Links duplizieren
+common#:#obj_webr_duplicate#:#Web-Links kopieren
 common#:#obj_webr_select#:#-- Bitte wählen Sie einen Web-Link aus --
 common#:#obj_webr#:#Web-Links
 common#:#obj#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
 common#:#object_copy_in_progress#:#Der Kopiervorgang wurde gestartet.
-common#:#object_duplicated#:#Objekt dupliziert
+common#:#object_duplicated#:#Objekt kopiert
 common#:#object_imported#:#Objekt importiert
 common#:#object#:#Objekt
 common#:#objects#:#Objekte
@@ -6871,8 +6871,8 @@ survey#:#dp_standard_beliefs_true_false#:#Standard-Vorstellungen (wahr-falsch)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard-Vorstellungen (wahr-unentschlossen-falsch)
 survey#:#dp_standard_beliefs_true5#:#Standard-Vorstellungen (eindeutig wahr-wahr-unentschlossen-falsch-eindeutig falsch)
 survey#:#dp_standard_numbers#:#Standard-Zahlen
-survey#:#duplicate_svy#:#Umfrage duplizieren
-survey#:#duplicate#:#Duplizieren
+survey#:#duplicate_svy#:#Umfrage kopieren
+survey#:#duplicate#:#Kopieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
 survey#:#edit_heading#:#Textblock bearbeiten
@@ -7039,7 +7039,7 @@ survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens 
 survey#:#qpl_delete_phrase_select_none#:#Bitte wählen Sie mindestens eine Phrase aus, die Sie löschen wollen!
 survey#:#qpl_delete_rbac_error#:#Sie verfügen nicht über die erforderlichen Rechte, um die Frage(n) zu löschen!
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
-survey#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie duplizieren wollen!
+survey#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie kopieren wollen!
 survey#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie exportieren wollen!
 survey#:#qpl_past_questions_confirmation#:#Sind Sie sicher, dass Sie die folgenden Fragen in den Fragenpool einfügen wollen?
 survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.
@@ -7163,7 +7163,7 @@ survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetrete
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#svy_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem die importierten Fragen abgelegt werden sollen
-survey#:#svy_select_surveys#:#Bitte wählen Sie eine Umfrage zum duplizieren aus
+survey#:#svy_select_surveys#:#Bitte wählen Sie eine Umfrage zum kopieren aus
 survey#:#svy_selected_user_data_deleted#:#Die Umfragedatensätze der ausgewählten Teilnehmerinnen und Teilnehmer wurden erfolgreich gelöscht
 survey#:#svy_show_questiontitles#:#Fragentitel in der Umfrage anzeigen
 survey#:#svy_size#:#Größe
@@ -7188,7 +7188,7 @@ survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
 survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folgenden Frage/des folgenden Fragenblocks:
 survey#:#view_phrase#:#Phrase ansehen
-survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
+survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch kopieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#wrong_categories_selected_for_insert#:#ILIAS konnte die geplante Aktion nicht durchführen. Bitte stellen Sie sicher, dass nur genau eine Antwort als Zielposition ausgewählt wurde!
 survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangsschlüssel zu verwenden.
@@ -7510,8 +7510,8 @@ mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Nachrichten im
 common#:#err_auth_ldap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die LDAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#ext_acccount_required#:#Bitte geben Sie den Namen des externen Benutzerkontos ein.
 crs#:#event_select_one#:#-- Bitte wählen Sie eine Sitzung zum Kopieren aus --
-crs#:#events_clone_title#:#Sitzung duplizieren
-crs#:#event_clone_btn#:#Sitzung duplizieren
+crs#:#events_clone_title#:#Sitzung kopieren
+crs#:#event_clone_btn#:#Sitzung kopieren
 crs#:#event_cloned#:#Die Sitzung wurde kopiert
 common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
 common#:#filesize#:#Dateigröße
