@@ -1688,9 +1688,9 @@ function init(config)
 function loadGlobalObj() {
 	var globalObj =  this.config.globalobj_data || sendJSONRequest(this.config.get_gobjective_url);
 	if (globalObj) {
-		adl_seq_utilities.satisfied=globalObj.satisfied;
-		adl_seq_utilities.measure=globalObj.measure;
-		adl_seq_utilities.status=globalObj.status
+		if (globalObj.satisfied){adl_seq_utilities.satisfied=globalObj.satisfied;}
+		if (globalObj.measure) {adl_seq_utilities.measure=globalObj.measure;}
+		if (globalObj.status) {adl_seq_utilities.status=globalObj.status;}
 	}
 }
 
@@ -2284,7 +2284,7 @@ function syncCMIADLTree(){
 	if( objs != null ) {
 		for(var j = 0; j < objs.length; j++ ) {
 			obj = objs[j];
-			if( obj.mContributesToRollup ) {
+			if( obj.mContributesToRollup==true ) {
 				if( obj.mObjID != null ){
                       primaryObjID = obj.mObjID;
          		}
@@ -2309,7 +2309,7 @@ function syncCMIADLTree(){
         objMS= currentAPI.GetValueIntern(obj);
 		if( objMS=="passed" ) {
             msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "satisfied");
-            if( foundPrimaryObj )
+            if( foundPrimaryObj==true )
             {
                setPrimaryObjSuccess = true;
             }
@@ -2318,7 +2318,7 @@ function syncCMIADLTree(){
         {
              msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "notSatisfied");
 
-             if( foundPrimaryObj )
+             if( foundPrimaryObj==true)
              {
                 setPrimaryObjSuccess = true;
              }
@@ -2333,7 +2333,7 @@ function syncCMIADLTree(){
         if( objScore!="" && objScore!="unknown" ) {
 			normalScore = objScore; 
 			msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
-			if( foundPrimaryObj ){
+			if( foundPrimaryObj==true ){
  				setPrimaryObjScore = true;
 			}
 			
@@ -2367,7 +2367,7 @@ function syncCMIADLTree(){
       }
       else
       {
-         if( !setPrimaryObjSuccess )
+         if( setPrimaryObjSuccess==false )
          {
             msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "unknown");
          }
@@ -2381,7 +2381,7 @@ function syncCMIADLTree(){
        }
 
 	   else{
-            if( !setPrimaryObjScore )
+            if( setPrimaryObjScore==false )
             {
                msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
             }
