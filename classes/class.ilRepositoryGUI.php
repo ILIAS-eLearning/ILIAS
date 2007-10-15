@@ -191,7 +191,13 @@ class ilRepositoryGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree, $rbacsystem, $ilias, $lng, $objDefinition;
+		global $tree, $rbacsystem, $ilias, $lng, $objDefinition,$ilUser;
+		
+		// Check for incomplete profile
+		if($ilUser->getProfileIncomplete())
+		{
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
 
 		// check creation mode
 		// determined by "new_type" parameter

@@ -64,7 +64,14 @@ class ilSearchController
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
+		
+		// Check for incomplete profile
+		if($ilUser->getProfileIncomplete())
+		{
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
+		
 
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 

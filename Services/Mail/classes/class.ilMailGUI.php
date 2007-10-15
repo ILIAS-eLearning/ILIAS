@@ -66,6 +66,15 @@ class ilMailGUI
 
 	public function executeCommand()
 	{
+		global $ilUser;
+		
+		// Check for incomplete profile
+		if($ilUser->getProfileIncomplete())
+		{
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
+		
+		
 		if ($_GET["type"] == "search_res")
 		{
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "searchResults");
