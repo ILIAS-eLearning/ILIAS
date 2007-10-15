@@ -56,8 +56,10 @@ class ilAuthUtils
 	*/
 	function _initAuth()
 	{
-		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile;
+		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile,$ilBench;
 //var_dump($_SESSION);
+		$ilBench->start('Auth','initAuth');
+
 		// check whether settings object is available
 		if (!is_object($ilSetting))
 		{
@@ -211,9 +213,10 @@ class ilAuthUtils
 				break;
 			
 			case AUTH_LDAP:
-
+				$ilBench->start('Auth','Auth_LDAP');
 				include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
 				$ilAuth = new ilAuthLDAP();
+				$ilBench->stop('Auth','Auth_LDAP');
 				/*
 				$settings = $ilSetting->getAll();
 				// build option string for PEAR::Auth
@@ -272,6 +275,8 @@ class ilAuthUtils
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
 		$GLOBALS['ilAuth'] =& $ilAuth;
+		
+		$ilBench->stop('Auth','initAuth');
 	}
 	
 	function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
