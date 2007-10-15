@@ -3845,7 +3845,7 @@ common#:#udf_name_already_exists#:#This field name already exists. Please choose
 common#:#udf_no_entries#:#Please enter minimum one value.
 common#:#udf_no_name_given#:#Please enter a field name.
 common#:#udf_type_select#:#Select Box (fixed values)
-common#:#udf_type_text#:#Text Field (optional values)
+common#:#udf_type_text#:#Text (optional values)
 common#:#udf_update_select_field#:#Edit Select Box
 common#:#udf_update_success#:#Saved modifications.
 common#:#udf_update_text_field#:#Edit Text Field
@@ -7569,8 +7569,8 @@ meta#:#md_adv_record_list#:#Datasets
 meta#:#md_adv_file_list#:#Export Files
 meta#:#md_record_list_table#:#Advanced Metadata Sets
 meta#:#md_fields#:#Fields
-meta#:#md_obj_types#:#Assigned Objekts
-meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)
+meta#:#md_obj_types#:#Assigned Objects
+meta#:#md_adv_substitution_table#:#Presentation in the Repository/Personal Desktop
 meta#:#md_adv_substitution#:#Text
 meta#:#md_adv_placeholders#:#Placeholders
 meta#:#md_adv_placeholder_for#:#Placeholder for:
@@ -7585,13 +7585,13 @@ meta#:#md_adv_field_table#:#Edit Fields
 meta#:#md_adv_field_fields#:#Fields
 meta#:#md_adv_searchable#:#Searchable
 meta#:#md_adv_edit_field#:#Edit Field
-meta#:#md_adv_create_field#:#Add Field
+meta#:#md_adv_create_field#:#New Field
 meta#:#md_adv_add_value#:#Add Value
 meta#:#md_adv_no_fields#:#No Fields Defined
 meta#:#md_adv_deleted_records#:#Deleted Dataset
 meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?
-meta#:#md_adv_added_new_record#:#Added new Dataset
-meta#:#md_adv_create_record#:#Add new Dataset
+meta#:#md_adv_added_new_record#:#Added new dataset
+meta#:#md_adv_create_record#:#New Dataset
 meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?
 barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.
 meta#:#md_adv_active#:#Active
@@ -7649,7 +7649,7 @@ meta#:#md_copyrights_deleted#:#Deleted Copyright
 meta#:#meta_cp_own#:#Own Copyright Information:
 meta#:#md_adv_desc_show#:#Show Description
 meta#:#md_adv_show#:#Show
-common#:#udf_type_date#:#Date Field
+common#:#udf_type_date#:#Date
 common#:#sorting_header#:#Content Item Sorting
 common#:#sorting_title_header#:#Sort by Title
 common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.
@@ -7676,3 +7676,4 @@ search#:#search_lom#:#LOM Metadata
 search#:#search_adv_md#:#Extended Metadata
 search#:#adv_md_search_title#:#Search in Extended Metadata
 ps#:#ps_edit_text_field#:#Edit Text Field
+meta#:#md_adv_import_record#:#Import Metadata Set
