@@ -21,7 +21,7 @@
 */
 /*
 	JS port of ADL SeqRollupRuleset.java
-	@author Alex Killing <alex.killing@gmx.de>
+	@author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>
 	
 	This .js file is GPL licensed (see above) but based on
 	SeqRollupRuleset.java by ADL Co-Lab, which is licensed as:

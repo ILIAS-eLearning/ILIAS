@@ -40,6 +40,7 @@ ADLSeqUtilities.prototype =
 	
 	getGlobalObjMeasure: function (iObjID, iLearnerID, iScopeID)
 	{
+	
 		//alert("GET GLOBAL"+iObjID+""+iLearnerID+""+iScopeID);
 		if (this.measure[iObjID] != null
 			&& this.measure[iObjID][iLearnerID]

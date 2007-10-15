@@ -2150,7 +2150,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
-	
+	save_global_objectives();
 	save();
 }
 
@@ -2424,7 +2424,6 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 
 function save_global_objectives() {
 	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || adl_seq_utilities.status!=null  ) {
-		//save
 		result = this.config.gobjective_url 
 			? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
 			: {};

@@ -455,7 +455,9 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		//	WHERE(user_id=$user AND (scope_id=0 OR scope_id=$package))"
 		//;
 		
-		  $q="SELECT * FROM cmi_gobjective, cp_node,cp_mapinfo WHERE(cp_node.slm_id=$package AND cp_node.nodeName='mapinfo'  AND cp_node.cp_node_id=cp_mapinfo.cp_node_id  AND cmi_gobjective.objective_id=cp_mapinfo.targetObjectiveID)
+		$q="SELECT * FROM cmi_gobjective, cp_node,cp_mapinfo WHERE(cmi_gobjective.objective_id!='-course_overall_status-' AND 
+			cmi_gobjective.status IS NULL AND cp_node.slm_id=$package AND cp_node.nodeName='mapinfo'  AND 
+			cp_node.cp_node_id=cp_mapinfo.cp_node_id  AND cmi_gobjective.objective_id=cp_mapinfo.targetObjectiveID)
 			GROUP BY objective_id,scope_id";
 			
 		$set = $ilDB->query($q);
@@ -478,11 +480,12 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 				$toset=$row['measure'];
 				$g_data->{"measure"}->{$objective_id}->{$learner}->{$scope}=$toset;
 			}
-			
+			/* do not restore course status
 			if ($row['status']!=NULL) {
 				$toset=$row['status'];
 				$g_data->{"status"}->{$objective_id}->{$learner}->{$scope}=$toset;
 			}
+			*/
 			
 		}
 		$gobjective_data=json_encode($g_data);
@@ -509,6 +512,8 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		//get json string
 		$g_data = json_decode(file_get_contents('php://input'));
 		//iterate over assoziative array
+		echo var_dump($g_data);
+		if ($g_data==null) {return null;}
 		foreach ($g_data as $key => $value) {
 			
 			//objective 
@@ -543,14 +548,19 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		    			ON DUPLICATE KEY UPDATE measure=$toset";
 		    	}
 		    	if ($key=="status") {
+					//special handling for status
+					$completed=$ilDB->quote($g_data->$key->$skey->$user->{completed});
+					$measure=$ilDB->quote($g_data->$key->$skey->$user->{measure});
+					$satisfied=$ilDB->quote($g_data->$key->$skey->$user->{satisfied});
+					$obj=$ilDB->quote("-course_overall_status-");	
+					$pkg_id=$ilDB->quote($this->packageId);
 		    		$q ="INSERT INTO cmi_gobjective 
-		    			(objective_id,user_id,status,scope_id) 
-		    			values ($objective_id,$dbuser,$toset,$scope)
-		    			ON DUPLICATE KEY UPDATE status=$toset";
+		    			(user_id,status,scope_id,measure,satisfied,objective_id) 
+		    			values ($dbuser,$completed,$pkg_id,$measure,$satisfied,$obj)
+		    			ON DUPLICATE KEY UPDATE status=$completed,measure=$measure,satisfied=$satisfied";
 		    	}	
 		    	$set = $ilDB->query($q);
 		    }
-		    
 		}
 	}
 	
@@ -594,6 +604,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			print(var_export($data, true));
 		}
 	}
+	
 	
 	public function persistCMIData($data = null)
 	{
