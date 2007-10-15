@@ -1418,7 +1418,7 @@ ADLSequencer.prototype =
 				}
 				
 				// Start any subsequent seqencing request from the root
-				this.mSeqTree.setFirstCandidate(ret);
+				this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
 			}
 			else
 			{
