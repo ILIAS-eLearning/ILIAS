@@ -79,6 +79,10 @@ class ilAuthLDAP extends Auth
 	 */
 	protected function loginObserver($a_username)
 	{
+		global $ilBench;
+		
+		
+		$ilBench->start('Auth','LDAPLoginObserver');
 		$user_data = array_change_key_case($this->getAuthData(),CASE_LOWER);
 		
 		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
@@ -93,14 +97,17 @@ class ilAuthLDAP extends Auth
 				$_SESSION['tmp_external_account'] = $a_username;
 				$_SESSION['tmp_pass'] = $_POST['password'];
 				
+				$ilBench->stop('Auth','LDAPLoginObserver');
 				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration');
 			}
 
 			// Refresh or create user data
+			$ilBench->start('Auth','LDAPUserSynchronization');
 			$this->initLDAPAttributeToUser();
 			$this->ldap_attr_to_user->setUserData($users);
 			$this->ldap_attr_to_user->refresh();
 			$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
+			$ilBench->stop('Auth','LDAPUserSynchronization');
 		}
 
 		if(!$user_data['ilInternalAccount'])
@@ -108,10 +115,12 @@ class ilAuthLDAP extends Auth
 			// No syncronisation allowed => create Error
 			$this->status = AUTH_LDAP_NO_ILIAS_USER;
 			$this->logout();
+			$ilBench->stop('Auth','LDAPLoginObserver');
 			return;
 		}
 		// Finally setAuth
 		$this->setAuth($user_data['ilInternalAccount']);
+		$ilBench->stop('Auth','LDAPLoginObserver');
 		return;
 		
 	}
