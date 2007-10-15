@@ -1582,6 +1582,9 @@ function init(config)
 		//actTree.setRoot(adlTree);
 		actTree.setDepths();
 		actTree.setTreeCount();		
+		
+		actTree.scanObjectives();
+		
 		msequencer.setActivityTree(actTree);	
 		
 	}		
@@ -2147,6 +2150,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
+	
 	save();
 }
 
@@ -2238,26 +2242,35 @@ function syncCMIADLTree(){
 	//get global status
 	
 	var mPRIMARY_OBJ_ID = null;
+	var masteryStatus = null;
+	var sessionTime = null;
+	var entry = null;
+	var normalScore=-1.0;
+	var completionStatus=null;
+	var SCOEntry=null; 
 	
 	// Get the current completion_status
 	
-	var completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
+	SCOEntry = currentAPI.GetValueIntern("cmi.exit");
+	
+	
+    completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
 	
 	if (completionStatus == "not attempted") {
 		completionStatus = "incomplete";
 	}
 	
 	// Get the current success_status
-    var masteryStatus = currentAPI.GetValueIntern("cmi.success_status");
+    masteryStatus = currentAPI.GetValueIntern("cmi.success_status");
 	//alert(masteryStatus);
     // Get the current entry
-	var entry = currentAPI.GetValueIntern("cmi.entry");
+	SCOEntry = currentAPI.GetValueIntern("cmi.entry");
 	
 	// Get the current scaled score
-    var score = currentAPI.GetValueIntern("cmi.score.scaled");
+    score = currentAPI.GetValueIntern("cmi.score.scaled");
 
     // Get the current session time
-    var sessionTime = currentAPI.GetValueIntern("cmi.session_time");
+    sessionTime = currentAPI.GetValueIntern("cmi.session_time");
 
 	//get current activity
 	var act = msequencer.mSeqTree.getActivity(mlaunch.mActivityID);
@@ -2334,9 +2347,11 @@ function syncCMIADLTree(){
 	// Report the completion status
     msequencer.setAttemptProgressStatus(mlaunch.mActivityID, completionStatus);
     
-	//we don't support resume at the moment
-	
-	//report the success status
+	if (SCOEntry=="resume" ) {
+         msequencer.reportSuspension(mlaunch.mActivityID, true);
+    } else {
+         msequencer.reportSuspension(mlaunch.mActivityID, false);
+    }	
 	
 	// Report the success status
       if( masteryStatus=="passed" )

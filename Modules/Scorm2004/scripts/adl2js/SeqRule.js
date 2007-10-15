@@ -157,7 +157,7 @@ SeqRule.prototype =
 			// Make sure we have a valid target activity 
 			if (iThisActivity != null)
 			{
-				if (this.mConditions.evaluate(iThisActivity, iRetry) == EVALUATE_TRUE)
+				if (this.mConditions.evaluate(iThisActivity, {iIsRetry:iRetry}) == EVALUATE_TRUE)
 				{
 					result = this.mAction;
 				}

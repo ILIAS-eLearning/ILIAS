@@ -386,7 +386,7 @@ SeqActivityTree.prototype =
 								
 								if (actList == null)
 								{
-									actList = new Object();
+									actList = new Array();
 								}
 								
 								actList[actList.length] = walk.getID();

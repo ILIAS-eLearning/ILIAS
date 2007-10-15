@@ -487,7 +487,6 @@ SeqActivity.prototype =
 	getAttemptCompleted: function (iIsRetry)
 	{
 		var progress = TRACK_UNKNOWN;
-		
 		if (this.mIsTracked)
 		{
 			if (this.mCurTracking == null)

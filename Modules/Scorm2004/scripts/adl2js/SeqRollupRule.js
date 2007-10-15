@@ -249,7 +249,6 @@ SeqRollupRule.prototype =
 		{
 			// Look at the next child for evaluation 
 			tempActivity = iChildren[i];
-			
 			// Make sure the child is included in rollup 
 			if (this.isIncluded(tempActivity))
 			{

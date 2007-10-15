@@ -502,7 +502,6 @@ ADLSequencer.prototype =
 		// Make sure an activity tree has been associated with this sequencer
 		if (this.mSeqTree == null)
 		{
-			alert("Firefox lost mSeqTree");
 			// No activity tree, therefore nothing to do
 			//    -- inform the caller of the error.
 			launch.mSeqNonContent = LAUNCH_ERROR;
@@ -1235,7 +1234,7 @@ ADLSequencer.prototype =
 					this.terminateDescendentAttempts(exitAt);
 					
 					// End the attempt on the 'exited' activity
-					this.endAttempt(exitAt, false);
+					exitAt=this.endAttempt(exitAt, false);
 				}
 				// Sequencing requests begin at the 'exited' activity
 				this.mSeqTree.setFirstCandidate(exitAt);
@@ -1281,7 +1280,7 @@ ADLSequencer.prototype =
 			{
 			
 				// End the attempt on the current activity
-				this.endAttempt(cur, iTentative);
+				cur=this.endAttempt(cur, iTentative);
 				
 				// Evaluate exit action rules
 				this.evaluateExitRules(iTentative);
@@ -1354,7 +1353,7 @@ ADLSequencer.prototype =
 									else
 									{
 										this.mSeqTree.setFirstCandidate(process);
-										this.endAttempt(process, iTentative);
+										process=this.endAttempt(process, iTentative);
 										exited = true;
 									}
 								}
@@ -1407,7 +1406,7 @@ ADLSequencer.prototype =
 				var process = this.mSeqTree.getFirstCandidate();
 				if (process.getIsActive())
 				{
-					this.endAttempt(process, false);
+					process=this.endAttempt(process, false);
 				}
 				
 				this.terminateDescendentAttempts(this.mSeqTree.getRoot());
@@ -1419,7 +1418,7 @@ ADLSequencer.prototype =
 				}
 				
 				// Start any subsequent seqencing request from the root
-				this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
+				this.mSeqTree.setFirstCandidate(ret);
 			}
 			else
 			{
@@ -1642,7 +1641,8 @@ ADLSequencer.prototype =
 		for (x in rollupSet) {
 			count++;
 		}
-		
+		sclogdump(ioTarget.mActivityID,"error");
+		sclogdump(rollupSet,"error");
 		// Perform the deterministic rollup extension
 		while (count>0)
 		{
@@ -1670,7 +1670,13 @@ ADLSequencer.prototype =
 			if (deepest != null)
 			{
 				//JS does not write back modified function parameters
-				rollupSet=this.doOverallRollup(deepest, rollupSet);
+				//rollupSet=this.doOverallRollup(deepest, rollupSet);
+				
+				retf=this.doOverallRollup(deepest, rollupSet);
+				
+				rollupSet=retf.ioRollupSet;
+				deepest=retf.ioTarget;
+				
 				count=0;
 				for (x in rollupSet) {
 						count++;
@@ -1723,12 +1729,17 @@ ADLSequencer.prototype =
 		}
 		
 		// Apply the rollup processes to the activity
-		rollupRules.evaluate(ioTarget);
+		ioTarget=rollupRules.evaluate(ioTarget);
 		
 		// Remove this activity from the rollup set
 		delete ioRollupSet[ioTarget.getID()];
+		
+		//new return object
+		var ret=new Object();
+		ret.ioRollupSet=ioRollupSet;
+		ret.ioTarget=ioTarget;
 		//ioRollupSet.splice(ioTarget.getID(),1);
-		return ioRollupSet;
+		return ret;
 	},
 
 	prepareClusters: function ()
@@ -1747,7 +1758,7 @@ ADLSequencer.prototype =
 					{
 						if (!walk.getSelection())
 						{
-							this.doSelection(walk);
+							walk=this.doSelection(walk);
 							walk.setSelection(true);
 						}
 					}
@@ -1756,7 +1767,7 @@ ADLSequencer.prototype =
 					{
 						if (!walk.getRandomized())
 						{
-							this.doRandomize(walk);
+							walk=this.doRandomize(walk);
 							walk.setRandomized(true);
 						}
 					}
@@ -1850,6 +1861,8 @@ ADLSequencer.prototype =
 				}
 			}
 		}
+		//we have to return this, cause JS does no write back to function parameters
+		return ioCluster;
 	},
 
 	doRandomize: function (ioCluster)
@@ -1897,6 +1910,7 @@ ADLSequencer.prototype =
 				ioCluster.setChildren(reorder, false);
 			}
 		}
+		return ioCluster;
 	},
 
 	doSequencingRequest: function (iRequest)
@@ -1980,10 +1994,10 @@ ADLSequencer.prototype =
 						// If the Continue Navigation Request failed here, 
 						// we walked off the tree -- end the Sequencing Session
 						this.terminateDescendentAttempts(this.mSeqTree.getRoot());
-						this.endAttempt(this.mSeqTree.getRoot(), false);
+						ret=this.endAttempt(this.mSeqTree.getRoot(), false);
 						
 						// Start any subsequent seqencing request from the root
-						this.mSeqTree.setFirstCandidate(this.mSeqTree.getRoot());
+						this.mSeqTree.setFirstCandidate(ret);
 						
 						// The sequencing session is over -- set global state
 						this.mEndSession = true;
@@ -2339,7 +2353,7 @@ ADLSequencer.prototype =
 									common != null)
 								{
 									this.terminateDescendentAttempts(common);
-									this.endAttempt(common, false);
+									common=this.endAttempt(common, false);
 									
 									// Move the current activity
 									this.mSeqTree.setCurrentActivity(target);
@@ -2586,7 +2600,7 @@ ADLSequencer.prototype =
 	walkActivity: function (iDirection,iPrevDirection,ioFrom)
 	{
 		// This method implements Flow Subprocess SB.2.3
-		sclog("FlowActivityTraversalSub [SB.2.2]","seq");
+		sclog("FlowActivityTraversalSub [SB.2.]","seq");
 	   
 		var deliver = true;
 		var parent = ioFrom.at.getParent();
@@ -2612,8 +2626,10 @@ ADLSequencer.prototype =
 			
 			if (skippedRules != null)
 			{
+				//alert("Check prerules");
 				result = skippedRules.evaluate(RULE_TYPE_SKIPPED, 
 					ioFrom.at, this.mRetry);
+				//alert("Result Prerules"+result);
 			}
 			// If the rule evaluation did not return null, the activity is skipped
 			if (result != null)
@@ -3098,7 +3114,7 @@ ADLSequencer.prototype =
 			
 			while (walk != common)
 			{
-				this.endAttempt(walk, false);
+				walk=this.endAttempt(walk, false);
 				walk = walk.getParent();
 			}
 		}
@@ -3164,13 +3180,13 @@ ADLSequencer.prototype =
 					{
 						if (iTarget.getSelectionTiming() == TIMING_EACHNEW)
 						{
-							this.doSelection(iTarget);
+							iTarget=this.doSelection(iTarget);
 							iTarget.setSelection(true);
 						}
 						
 						if (iTarget.getRandomTiming() == TIMING_EACHNEW)
 						{
-							this.doRandomize(iTarget);
+							iTarget=this.doRandomize(iTarget);
 							iTarget.setRandomized(true);
 						}
 					}
@@ -3192,6 +3208,7 @@ ADLSequencer.prototype =
 				this.invokeRollup(iTarget, null);            
 			}
 		}
+		return iTarget;
 	},
 
 	checkActivity: function (iTarget)

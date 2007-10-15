@@ -52,8 +52,13 @@ ADLSeqUtilities.prototype =
 	
 	setCourseStatus: function (iCourseID, iLearnerID, iSatisfied, iMeasure, iCompleted)
 	{
+		//fix for IE
+		if (this.status==null) {
+			this.status = new Object();
+		}
+		
 		if(this.status[iCourseID] == null) this.status[iCourseID] = new Object();
-		this.status[iCourseID][iLearnerID] =
+			this.status[iCourseID][iLearnerID] =
 			{satisfied: iSatisfied, measure: iMeasure, completed: iCompleted};
 	}
 }
