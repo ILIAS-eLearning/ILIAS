@@ -21,7 +21,7 @@
 */
 /*
 	JS port of ADL SeqConditionSet.java
-	@author Alex Killing <alex.killing@gmx.de>
+	@author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>
 	
 	This .js file is GPL licensed (see above) but based on
 	SeqConditionSet.java by ADL Co-Lab, which is licensed as:

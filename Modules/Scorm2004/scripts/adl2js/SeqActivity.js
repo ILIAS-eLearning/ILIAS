@@ -21,7 +21,7 @@
 */
 /*
 	JS port of ADL SeqActivity.java
-	@author Alex Killing <alex.killing@gmx.de>
+	@author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>
 	
 	This .js file is GPL licensed (see above) but based on
 	SeqActivity.java by ADL Co-Lab, which is licensed as:
