@@ -81,7 +81,7 @@ SeqRollupRuleset.prototype =
 			if (ioThisActivity.getChildren(false) != null)
 			{
 				// Step 3.1 -- apply the Measure Rollup Process
-				this.applyMeasureRollup(ioThisActivity);
+				ioThisActivity=this.applyMeasureRollup(ioThisActivity);
 				
 				var satisfiedRule = false;
 				var completedRule = false;
@@ -207,6 +207,7 @@ SeqRollupRuleset.prototype =
 				for (var i = 0; i < this.mRollupRules.length; i++)
 				{
 					var rule = this.mRollupRules[i];
+					//alert("EVAL CHILDREN FOR: "+ioThisActivity.mActivityID);
 					var result = rule.evaluate(ioThisActivity.getChildren(false));
 					
 					// Track state changes
@@ -260,6 +261,7 @@ SeqRollupRuleset.prototype =
 				}
 			}
 		}
+		return ioThisActivity;
 	},
 	
 	applyMeasureRollup: function (ioThisActivity)
@@ -300,6 +302,7 @@ SeqRollupRuleset.prototype =
 		{
 			ioThisActivity.clearObjMeasure();
 		}
+	  	return ioThisActivity;
 	},
    
 	size: function ()
