@@ -222,7 +222,7 @@ class ilMail
 	var $mail_message;
 	var $mail_use_placeholders = 0;
 
-	var $soap_enabled = false;
+	var $soap_enabled = true;
 	
 	private $mlists = null;
 
