@@ -450,12 +450,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		global $ilDB,$ilUser;
 		$package=$ilDB->quote($this->packageId);
 		$user=$ilDB->quote($ilUser->getID());
-		
-		//$q ="SELECT * FROM cmi_gobjective
-		//	WHERE(user_id=$user AND (scope_id=0 OR scope_id=$package))"
-		//;
-		
-		$q="SELECT * FROM cmi_gobjective, cp_node,cp_mapinfo WHERE(cmi_gobjective.objective_id!='-course_overall_status-' AND 
+		$q="SELECT * FROM cmi_gobjective, cp_node,cp_mapinfo WHERE(cmi_gobjective.objective_id<>'-course_overall_status-' AND
 			cmi_gobjective.status IS NULL AND cp_node.slm_id=$package AND cp_node.nodeName='mapinfo'  AND 
 			cp_node.cp_node_id=cp_mapinfo.cp_node_id  AND cmi_gobjective.objective_id=cp_mapinfo.targetObjectiveID)
 			GROUP BY objective_id,scope_id";
@@ -480,13 +475,6 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 				$toset=$row['measure'];
 				$g_data->{"measure"}->{$objective_id}->{$learner}->{$scope}=$toset;
 			}
-			/* do not restore course status
-			if ($row['status']!=NULL) {
-				$toset=$row['status'];
-				$g_data->{"status"}->{$objective_id}->{$learner}->{$scope}=$toset;
-			}
-			*/
-			
 		}
 		$gobjective_data=json_encode($g_data);
 		if ($this->jsMode) 
