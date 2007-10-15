@@ -3771,7 +3771,7 @@ common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. 
 common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
 common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
 common#:#udf_type_select#:#Auswahlliste (feste Werte)
-common#:#udf_type_text#:#Textfeld (beliebige Werte)
+common#:#udf_type_text#:#Text (beliebige Werte)
 common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_success#:#Die Daten wurden aktualisiert.
 common#:#udf_update_text_field#:#Textfeld bearbeiten
@@ -7528,7 +7528,7 @@ meta#:#md_adv_file_list#:#Exportdateien###30 07 2007 new variable
 meta#:#md_record_list_table#:#Erweiterte Metadatensätze###30 07 2007 new variable
 meta#:#md_fields#:#Felder###30 07 2007 new variable
 meta#:#md_obj_types#:#Zugeordnete Objekte###30 07 2007 new variable
-meta#:#md_adv_substitution_table#:#Ersetzungen (Darstellung im Magazin)###30 07 2007 new variable
+meta#:#md_adv_substitution_table#:#Darstellung im Magazin###30 07 2007 new variable
 meta#:#md_adv_substitution#:#Text###30 07 2007 new variable
 meta#:#md_adv_placeholders#:#Platzhalter###30 07 2007 new variable
 meta#:#md_adv_placeholder_for#:#Platzhalter für:###30 07 2007 new variable
@@ -7641,7 +7641,7 @@ meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
 meta#:#meta_cp_own#:#Eigene Angabe:
 meta#:#md_adv_desc_show#:#Beschreibung anzeigen
 meta#:#md_adv_show#:#Anzeigen
-common#:#udf_type_date#:#Datumsfeld
+common#:#udf_type_date#:#Datum
 common#:#sorting_header#:#Sortierung
 common#:#sorting_title_header#:#Nach Titel
 common#:#sorting_info_title#:#Wählen Sie diese Einstellung, um die Materialien automatisch nach ihrem Titel zu sortieren.
@@ -7677,3 +7677,4 @@ search#:#search_lom#:#LOM Metadaten
 search#:#search_adv_md#:#Erweiterte Metadaten
 search#:#adv_md_search_title#:#Suche in den erweiterterten Metadaten
 ps#:#ps_edit_text_field#:#Textfeld bearbeiten
+meta#:#md_adv_import_record#:#Datensatz importieren
