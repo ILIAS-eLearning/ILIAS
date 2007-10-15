@@ -413,8 +413,7 @@ class ilLinkChecker
 		{
 			for($i = 0;$i < count($matches[0]); ++$i)
 			{
-				$url_data = parse_url($matches[1][$i]);
-
+				$url_data = @parse_url($matches[1][$i]);
 				// continue if mailto link
 				if($url_data['scheme'] == 'mailto')
 				{
@@ -448,7 +447,7 @@ class ilLinkChecker
 
 		foreach($check_links = $link_res_obj->getCheckItems($this->getCheckPeriod()) as $item_data)
 		{
-				$url_data = parse_url($item_data['target']);
+				$url_data = @parse_url($item_data['target']);
 				
 				// PUH, HTTP_REQUEST needs a beginning http://
 				if(!$url_data['scheme'])
@@ -489,7 +488,6 @@ class ilLinkChecker
 			{
 				continue;
 			}
-
 			$req =& new HTTP_Request($link['complete']);
 			$req->sendRequest();
 
