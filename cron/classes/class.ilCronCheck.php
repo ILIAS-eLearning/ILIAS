@@ -57,6 +57,15 @@ class ilCronCheck
 			$check_ua->check();
 		}
 
+		// Start lucene indexer
+		if($ilias->getSetting("cron_lucene_index"))
+		{
+			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
+
+			$lucene_ind =& new ilLuceneIndexer();
+			$lucene_ind->index();
+		}
+
 		// Start Link check
 		if($ilias->getSetting('cron_link_check'))
 		{
@@ -74,14 +83,6 @@ class ilCronCheck
 
 			$check_lnk =& new ilCronWebResourceCheck();
 			$check_lnk->check();
-		}
-		// Start lucene indexer
-		if($ilias->getSetting("cron_lucene_index"))
-		{
-			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
-
-			$lucene_ind =& new ilLuceneIndexer();
-			$lucene_ind->index();
 		}
 
 		// Start sending forum notifications
