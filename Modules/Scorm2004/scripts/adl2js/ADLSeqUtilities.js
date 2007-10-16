@@ -48,7 +48,7 @@ ADLSeqUtilities.prototype =
 		{
 			return this.measure[iObjID][iLearnerID][iScopeID];
 		}
-		return 0.0;
+		return null;
 	},
 	
 	setCourseStatus: function (iCourseID, iLearnerID, iSatisfied, iMeasure, iCompleted)

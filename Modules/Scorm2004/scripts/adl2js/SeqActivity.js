@@ -510,7 +510,7 @@ SeqActivity.prototype =
 	{
 		var statusChange = false;
 		
-		if (this.mIsTracked)
+		if (this.mIsTracked==true)
 		{
 			// Validate state data
 			if (iProgress == TRACK_UNKNOWN ||
@@ -535,11 +535,11 @@ SeqActivity.prototype =
 	getProgressStatus: function (iIsRetry)
 	{
 		var status = false;
-		if (this.mIsTracked)
+		if (this.mIsTracked==true)
 		{
 			if (this.mCurTracking != null)
 			{
-				if (!(this.mCurTracking.mDirtyPro && iIsRetry))
+				if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
 				{					
 					status = (this.mCurTracking.mProgress != TRACK_UNKNOWN);
 				}
@@ -561,7 +561,7 @@ SeqActivity.prototype =
 		
 		var status = false;
 
-		if (this.mIsTracked)
+		if (this.mIsTracked==true)
 		{
 			if (this.mCurTracking == null)
 			{
@@ -807,7 +807,7 @@ SeqActivity.prototype =
 		var iUseLocal = iOptions.iUseLocal;
 
 		var status = false;
-		if (this.mIsTracked)
+		if (this.mIsTracked==true)
 		{
 			if (this.mCurTracking == null)
 			{
@@ -817,23 +817,22 @@ SeqActivity.prototype =
 				track.mAttempt = this.mNumAttempt;
 				this.mCurTracking = track;
 			}
-   			
-			if (this.mCurTracking != null)
+   				
+			else if (this.mCurTracking != null)
 			{
-				// A null objective indicates the primary objective
-				if (iObjID == null)
-				{
+				
+				if (iObjID == null) {
 					iObjID = this.mCurTracking.mPrimaryObj;
 				}
-
+				
 				var obj = this.mCurTracking.mObjectives[iObjID];
 
 				if (obj != null)
 				{
 					var objData = obj.getObj();
 					
-					if (!objData.mSatisfiedByMeasure || this.mActiveMeasure ||
-						!this.mIsActive)
+					if (objData.mSatisfiedByMeasure==false || this.mActiveMeasure==true ||
+						this.mIsActive==false)
 					{              
 						var result = null;
 						result = obj.getObjStatus(iIsRetry);

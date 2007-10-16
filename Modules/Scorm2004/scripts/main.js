@@ -2300,9 +2300,8 @@ function syncCMIADLTree(){
 	// Get the current completion_status
 	
 	SCOEntry = currentAPI.GetValueIntern("cmi.exit");
-	//
-	//if (SCOEntry=="suspend") {return;}
 	
+		
     completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
 	
 	if (completionStatus == "not attempted") {
@@ -2725,7 +2724,7 @@ var DISABLED_ACTIONS = /^disabled$/i;
 // SEQUENCER Variables
 var state = WAITING; 
 var currentAct = null;
-var suspendedAct = null;
+var SCOEntryedAct = null;
 
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
