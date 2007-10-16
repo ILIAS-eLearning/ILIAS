@@ -296,7 +296,7 @@ SeqObjectiveTracking.prototype =
 		// if satisfied by measure, ensure that it has been set if a measure is
 		// avaliable.
 
-		if (this.mObj.mSatisfiedByMeasure)
+		if (this.mObj.mSatisfiedByMeasure==true)
 		{
 			done = true;
 			var measure = null;
@@ -308,17 +308,20 @@ SeqObjectiveTracking.prototype =
 					this.mLearnerID, this.mScopeID);
 			}
 			
-			if (this.mHasMeasure && measure == null)
+			if (this.mHasMeasure==true && measure == null)
 			{
-				if (this.mHasMeasure && !(iIsRetry && this.mDirtyObj))
+				if (this.mHasMeasure==true && !(iIsRetry==true && this.mDirtyObj==true))
 				{
 					measure = parseFloat(this.mMeasure);
 				}
 			}
 
 			var val = -999.0;
-			val = parseFloat(measure);
-
+			
+			if (measure!=null) {
+				val = parseFloat(measure);
+			}
+				
 			// Validate the range of the measure
 			if ( val < -1.0 || val > 1.0 )
 			{
@@ -337,7 +340,7 @@ SeqObjectiveTracking.prototype =
 			}
 		}
 
-		if (!done)
+		if (done==false)
 		{
 			// Is there a 'read' objective map?
 			if (this.mReadStatus != null)
@@ -352,11 +355,11 @@ SeqObjectiveTracking.prototype =
 				}
 			}
 
-			if (this.mHasSatisfied && (!done || iUseLocal))
+			if (this.mHasSatisfied==true && (done==false || iUseLocal==true))
 			{
-				if (this.mHasSatisfied && !(iIsRetry && this.mDirtyObj))
+				if (this.mHasSatisfied==true && !(iIsRetry==true && this.mDirtyObj==true))
 				{
-					if (this.mSatisfied)
+					if (this.mSatisfied==true)
 					{
 						ret = TRACK_SATISFIED;
 					}
@@ -396,16 +399,16 @@ SeqObjectiveTracking.prototype =
 			}
 		}
 
-		if (this.mHasMeasure && (!done || iUseLocal ))
+		if (this.mHasMeasure==true && (done==false || iUseLocal==true ))
 		{
-			if (this.mHasMeasure && !(iIsRetry && this.mDirtyObj))
+			if (this.mHasMeasure==true && !(iIsRetry==true && this.mDirtyObj==true))
 			{
 				ret = this.mMeasure;
 			}
 		}
 
 		if (ret != TRACK_UNKNOWN &&
-			this.mObj.mSatisfiedByMeasure && !(iIsRetry && this.mDirtyObj))
+			this.mObj.mSatisfiedByMeasure==true && !(iIsRetry==true && this.mDirtyObj==true))
 		{
 			var val = -999.0;
 			val = ret;
