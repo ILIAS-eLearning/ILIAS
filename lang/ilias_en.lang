@@ -2288,7 +2288,7 @@ common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
-common#:#grp_msg_membership_annulled#:#You left the group
+common#:#grp_msg_membership_annulled#:#Cancelled membership.
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#grp_new#:#New Group
 common#:#grp_new_search#:#New search
