@@ -418,6 +418,24 @@ class ilForumPost
 		return false;
 	}
 	
+	public function hasReplies()
+	{
+		if ($this->id && $this->rgt && $this->lft)
+		{
+			$query = "SELECT *
+				 	  FROM frm_posts_tree			  		 
+				  	  WHERE 1 
+				  	  AND lft > ".$this->db->quote($this->lft)." AND rgt < ".$this->db->quote($this->rgt)." 
+				  	  AND thr_fk = ".$this->db->quote($this->thread_id);
+		
+			$res = $this->db->query($query);
+
+			return $res->numRows() ? true : false;
+		}
+		
+		return false;
+	}
+	
 	public function isOwner($a_user_id = 0)
 	{
 		if ($this->user_id && $a_user_id)

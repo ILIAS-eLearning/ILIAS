@@ -87,7 +87,7 @@ class ilForumExplorer extends ilExplorer
 		
 		$this->objCurrentTopic = $a_thread;
 		$this->thread_id = $this->objCurrentTopic->getId();
-		$this->root_id = $this->objCurrentTopic->getFirstPostNode()->getId();
+		$this->root_id = $this->objCurrentTopic->getFirstPostNode()->getId();	
 		
 		$this->__readThreadSubject();
 
@@ -190,11 +190,18 @@ class ilForumExplorer extends ilExplorer
 	{
 		global $tpl;
 		
-		$this->format_options[0]['tab'] = array();
-		$depth = $this->forum->getPostMaximumDepth($this->thread_id);
-		for ($i = 0; $i < $depth; ++$i)
-		{
-			$this->createLines($i);
+		$first_node = $this->objCurrentTopic->getFirstPostNode();
+		$this->objCurrentTopic->setOrderField('frm_posts_tree.rgt');
+		$subtree_nodes = $this->objCurrentTopic->getPostTree($first_node);			
+		
+		if (count($subtree_nodes))
+		{		
+			$this->format_options[0]['tab'] = array();
+			$depth = $this->forum->getPostMaximumDepth($this->thread_id);
+			for ($i = 0; $i < $depth; ++$i)
+			{
+				$this->createLines($i);
+			}
 		}
 
 		$tpl->addBlockFile('EXPLORER_TOP', 'exp_top', 'tpl.explorer_top.html');
@@ -204,21 +211,24 @@ class ilForumExplorer extends ilExplorer
 		
 		$tpl_tree = new ilTemplate('tpl.tree.html', true, true);
 		
-		$cur_depth = -1;		
-		foreach ($this->format_options as $key => $options)
-		{
-			// end tags
-			$this->handleListEndTags($tpl_tree, $cur_depth, $options['depth']);
+		if (count($subtree_nodes))
+		{		
+			$cur_depth = -1;		
+			foreach ($this->format_options as $key => $options)
+			{
+				// end tags
+				$this->handleListEndTags($tpl_tree, $cur_depth, $options['depth']);
+				
+				// start tags
+				$this->handleListStartTags($tpl_tree, $cur_depth, $options['depth']);
+				
+				$cur_depth = $options['depth'];
+	
+				$this->formatObject($tpl_tree, $options['child'], $options, $key);
+			}
 			
-			// start tags
-			$this->handleListStartTags($tpl_tree, $cur_depth, $options['depth']);
-			
-			$cur_depth = $options['depth'];
-
-			$this->formatObject($tpl_tree, $options['child'], $options, $key);
+			$this->handleListEndTags($tpl_tree, $cur_depth, -1);
 		}
-		
-		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
 		
 		return $tpl_tree->get();
 	}
@@ -404,6 +414,7 @@ class ilForumExplorer extends ilExplorer
 		if (empty($_SESSION['fexpand']) or !in_array($first_node->getId(), $_SESSION['fexpand']))
 		{
 			$all_nodes = $this->objCurrentTopic->getPostTree($first_node);
+			$tmp_array = array();
 			foreach ($all_nodes as $node)
 			{
 				$tmp_array[] = $node->getId();
