@@ -467,6 +467,8 @@ class ilObjCourseGrouping
 	*/
 	function _getGroupingCourseIds($a_course_ref_id,$a_course_id)
 	{
+		global $tree;
+
 		include_once './classes/class.ilConditionHandler.php';
 
 		// get all grouping ids the course is assigned to
@@ -475,7 +477,11 @@ class ilObjCourseGrouping
 			if($condition['trigger_type'] == 'crsg')
 			{
 				foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$condition['trigger_obj_id']) as $target_condition)
-				{
+				{                              
+					if($tree->isDeleted($target_condition['target_ref_id']))
+					{
+						continue;
+					}
 					$course_ids[] = array('id'			=> $target_condition['target_obj_id'],
 										  'unique'		=> $target_condition['value']);
 				}

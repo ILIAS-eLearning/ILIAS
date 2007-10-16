@@ -89,7 +89,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 				break;
 
 			default:
-				$this->tabs_gui->setTabActive('settings');
+				$this->tabs_gui->setTabActive('md_copyright');
 				$this->initMDSettings();
 				if(!$cmd || $cmd == 'view')
 				{
@@ -114,7 +114,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("md_copyright",
 				$this->ctrl->getLinkTarget($this, "settings"),
 				array("settings", "view"));
 
@@ -339,6 +339,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$check = new ilCheckboxInputGUI($this->lng->txt('md_copyright_enabled'),'active');
 		$check->setChecked($this->md_settings->isCopyrightSelectionActive());
 		$check->setValue(1);
+		$check->setInfo($this->lng->txt('md_copyright_enable_info'));
 		$this->form->addItem($check);
 	}
 	

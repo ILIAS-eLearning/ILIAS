@@ -7570,9 +7570,9 @@ common#:#filetype#:#File Type
 crs#:#event_files#:#Assigned Files
 common#:#passwd_list#:#List of Passwords
 meta#:#md_advanced#:#Advanced Metadata
-meta#:#md_adv_record_list#:#Datasets
+meta#:#md_adv_record_list#:#Datasets and Presentation
 meta#:#md_adv_file_list#:#Export Files
-meta#:#md_record_list_table#:#Advanced Metadata Sets
+meta#:#md_record_list_table#:#Available Metadata Sets
 meta#:#md_fields#:#Fields
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_adv_substitution_table#:#Presentation in the Repository/Personal Desktop
@@ -7636,8 +7636,8 @@ common#:#precondition#:#Precondition
 common#:#cond_ref_handling#:#Link Settings
 common#:#cond_ref_shared#:#Shared Preconditions for all Links
 common#:#cond_ref_unique#:#Unique Preconditions for Links
-administration#:#obj_mds#:#Meta Data
-administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Settings
+administration#:#obj_mds#:#Metadata
+administration#:#obj_mds_desc#:#Configure Metadata and Advanced Metadata Settings
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
 common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file.
@@ -7682,3 +7682,5 @@ search#:#search_adv_md#:#Extended Metadata
 search#:#adv_md_search_title#:#Search in Extended Metadata
 ps#:#ps_edit_text_field#:#Edit Text Field
 meta#:#md_adv_import_record#:#Import Metadata Set
+meta#:#md_copyright#:#Copyright
+meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
