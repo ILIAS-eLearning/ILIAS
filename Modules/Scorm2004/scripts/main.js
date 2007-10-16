@@ -59,7 +59,7 @@ function toggleLog() {
 
 function sclog(mess, type)
 {
-	return;
+	
 	//log.info(mess);
 	//return;
 	//switch of sequencing-logging in general, cause of slowdown
@@ -98,7 +98,6 @@ function sclog(mess, type)
 */
 function sclogflush()
 {
-	return;
 	elm = all("ilLogPre");
 	if (elm) 
 	{
@@ -2201,6 +2200,10 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
 //		sclogdump(item.objectives["$"]);
 		
+		//get shared objectie data and sync to CMI
+		
+		
+		
 		//this works, but the implementation has to be checked (search for first primary?)
 		if (item.objectives) 
 		{
@@ -2231,13 +2234,55 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		currentAPI = window[Runtime.apiname] = new Runtime(data, onCommit, onTerminate);
 	}
 	// deliver resource (sco)
-	scoStartTime = currentTime();
 	// customize GUI
+	
+	syncSharedCMI(item);
+	
+	
 	updateNav();
 	updateControls();
+	
+	scoStartTime = currentTime();
+	
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 
 }
+
+
+function syncSharedCMI(item) {
+	var mStatusVector = msequencer.getObjStatusSet(item.id);
+    var mObjStatus = new ADLObjStatus();
+	var obj;
+	var err
+	if( mStatusVector != null ) {
+		for(i = 0; i < mStatusVector.length; i++ ) {
+		 	mObjStatus = mStatusVector[i];
+		    
+		    // Set the objectives id
+           	obj = "cmi.objectives." + i + ".id";
+            err = currentAPI.SetValueIntern(obj,mObjStatus.mObjID);
+		    
+			// Set the objectives success status
+            obj = "cmi.objectives." + i + ".success_status";
+
+			if( mObjStatus.mStatus.toLowerCase()=="satisfied" )
+            {
+	           err = currentAPI.SetValueIntern(obj,"passed");
+            }
+            else if( mObjStatus.mStatus.toLowerCase()=="notsatisfied")
+            {
+	           err = currentAPI.SetValueIntern(obj,"failed");
+            }
+			// Set the objectives scaled score
+            obj = "cmi.objectives." + i + ".score.scaled";
+			if( mObjStatus.mHasMeasure==true && mObjStatus.mMeasure!=0 ) {
+				err = currentAPI.SetValueIntern(obj,mObjStatus.mMeasure);
+			}
+            
+		}
+	}	
+}
+
 
 function syncCMIADLTree(){
 	//get global status
@@ -2249,11 +2294,14 @@ function syncCMIADLTree(){
 	var normalScore=-1.0;
 	var completionStatus=null;
 	var SCOEntry=null; 
+	var suspended = false;
+    
 	
 	// Get the current completion_status
 	
 	SCOEntry = currentAPI.GetValueIntern("cmi.exit");
-	
+	//
+	//if (SCOEntry=="suspend") {return;}
 	
     completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
 	

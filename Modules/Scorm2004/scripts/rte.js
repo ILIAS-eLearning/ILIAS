@@ -218,6 +218,24 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		var tokens = path.split('.');
 		return walk(cmiItem, Runtime.models[tokens[0]], tokens, null, sudo, {parent:[]});
 	}	
+	
+	
+	//allows to set data ignroding the status
+	function SetValueIntern(sPath,sValue) {
+		//setReturn(-1, 'GetValueIntern(' + sPath + ')');
+		if (typeof sValue === "number") 
+		{
+			sValue = sValue.toFixed(3);
+		}
+		else 
+		{
+			sValue = String(sValue);
+		}
+		var r = setValue(sPath, sValue);
+		//sclogdump("ReturnInern: "+sPath + " : "+ r);
+		return error ? '' : setReturn(0, '', r); 	
+		
+	}
 
 	/**
 	 * Update or create data element entry 
@@ -590,6 +608,7 @@ if (window.order_matters)
 		'GetValue' : GetValue,
 		'GetValueIntern' : GetValueIntern,		
 		'SetValue' : SetValue,
+		'SetValueIntern' : SetValueIntern,
 		'Commit' : Commit,
 		'GetLastError' : GetLastError,
 		'GetErrorString' : GetErrorString,
@@ -644,8 +663,8 @@ Runtime.methods =
 	'Terminate' : 'Terminate', 
 	'GetValue' : 'GetValue', 
 	'GetValueIntern' : 'GetValueIntern', 
-	
 	'SetValue' : 'SetValue', 
+	'SetValueIntern' : 'SetValueIntern',
 	'Commit' : 'Commit', 
 	'GetLastError' : 'GetLastError', 
 	'GetErrorString' : 'GetErrorString', 
