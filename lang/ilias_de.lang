@@ -5220,6 +5220,9 @@ forum#:#deactivate_post_txt#:#Möchten Sie wirklich diesen Beitrag und alle sein
 forum#:#activate_only_current#:#Nur diesen Beitrag freischalten
 forum#:#activate_current_and_childs#:#Alle Beitrage freischalten
 forum#:#deactivate_current_and_childs#:#Alle Beitrage sperren
+forum#:#forums_post_and_children_were_deactivated#:#Der Beitrag und seine Folgebeiträge wurden deaktiviert.
+forum#:#forums_post_and_children_were_activated#:#Der Beitrag und seine Folgebeiträge wurden aktiviert.
+forum#:#forums_post_was_activated#:#Der Beitrag wurde aktiviert.
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
 forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS Benutzername wird nicht angezeigt).
 forum#:#forum_anonymize#:#Anonym Schreiben
@@ -5256,6 +5259,8 @@ forum#:#forums_overview#:#Übersicht Foren
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
+forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde eingetragen, muss aber von einem Moderator aktiviert werden.
+forum#:#forums_no_posts_available#:#Dieses Thema hat noch keine Beiträge oder der Startbeitrag wurde vom Moderator deaktiviert.
 forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_print_thread#:#Thread ausdrucken

@@ -84,6 +84,12 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		
+		// workaround for new cancel button in edit/reply-post view, because form action does not "support" cmd=post
+		if ($_POST['cmd']['cancelPost'] != '')
+		{
+			$cmd = key($_POST['cmd']);
+		}	
 
 		$exclude_cmds = array('showExplorer', 'viewThread',
 							  'showThreadNotification',
@@ -91,9 +97,9 @@ class ilObjForumGUI extends ilObjectGUI
 					     	  'performPostActivation', 'performPostDeactivation', 'performPostAndChildPostsActivation',
 					     	  'askForPostActivation', 'askForPostDeactivation',
 					     	  'toggleThreadNotification', 'toggleThreadNotificationTab',
-					     	  'toggleStickiness'
+					     	  'toggleStickiness', 'cancelPost'
 					     	  );
-		
+
 		if (!is_array($exclude_cmds) || !in_array($cmd, $exclude_cmds))
 		{
 			$this->prepareOutput();
@@ -1100,7 +1106,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$tpl->addBlockFile('CONTENT', 'content', 'tpl.explorer.html');
 		$tpl->setVariable('IMG_SPACE', ilUtil::getImagePath('spacer.gif', false));
-		
+	
 		$exp = new ilForumExplorer("./repository.php?cmd=viewThread&cmdClass=ilobjforumgui&thr_pk=".$this->objCurrentTopic->getId()."&ref_id=".$_GET['ref_id'], $this->objCurrentTopic, (int) $_GET['ref_id']);
 		$exp->setTargetGet('pos_pk');
 		
@@ -1185,6 +1191,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
 		{
 			$this->objCurrentPost->deactivatePostAndChildPosts();
+			ilUtil::sendInfo($this->lng->txt('forums_post_and_children_were_deactivated'), true);
 		}		
 		
 		$this->viewThreadObject();
@@ -1206,6 +1213,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
 		{
 			$this->objCurrentPost->activatePostAndChildPosts();
+			ilUtil::sendInfo($this->lng->txt('forums_post_and_children_were_activated'), true);
 		}
 		
 		$this->viewThreadObject();
@@ -1220,6 +1228,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
 		{
 			$this->objCurrentPost->activatePost();
+			ilUtil::sendInfo($this->lng->txt('forums_post_was_activated'), true);
 		}
 		
 		$this->viewThreadObject();
@@ -1343,6 +1352,15 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->objCurrentTopic->makeSticky();
 			}
 		}
+		
+		$this->viewThreadObject();
+		
+		return true;
+	}
+	
+	public function cancelPostObject()
+	{
+		$_GET['action'] = '';
 		
 		$this->viewThreadObject();
 		
@@ -1546,12 +1564,13 @@ class ilObjForumGUI extends ilObjectGUI
 						
 						$status = 1;
 						$send_activation_mail = false;
+						
 						if ($this->objProperties->isPostActivationEnabled())
 						{
-							if (!$ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))								
+							if (!$ilAccess->checkAccess('moderate_frm', '', (int) $this->object->getRefId()))								
 							{
 								$status = 0;
-								$send_activation_mail = true;
+								$send_activation_mail = true;								
 							}
 							else if ($this->objCurrentPost->isAnyParentDeactivated())
 							{
@@ -1570,13 +1589,22 @@ class ilObjForumGUI extends ilObjectGUI
 													  $status,
 													  $send_activation_mail);
 							
-						ilUtil::sendInfo($lng->txt('forums_post_new_entry'));
+						
+						if (!$ilAccess->checkAccess('moderate_frm', '', (int) $this->object->getRefId())
+							&& $status == 0)								
+						{
+							ilUtil::sendInfo($lng->txt('forums_post_needs_to_be_activated'));
+						}
+						else
+						{
+							ilUtil::sendInfo($lng->txt('forums_post_new_entry'));
+						}
+						
 						if (isset($_FILES['userfile']))
 						{
 							$tmp_file_obj =& new ilFileDataForum($forumObj->getId(), $newPost);
 							$tmp_file_obj->storeUploadedFile($_FILES['userfile']);
-						}
-		
+						}		
 					}
 					else
 					{
@@ -1622,8 +1650,13 @@ class ilObjForumGUI extends ilObjectGUI
 			$first_node = $this->objCurrentTopic->getFirstPostNode();
 			$this->objCurrentTopic->setOrderField($orderField);
 			$subtree_nodes = $this->objCurrentTopic->getPostTree($first_node);
-		
-			$posNum = count($subtree_nodes);		
+				
+			// no posts
+			if (!$posNum = count($subtree_nodes))
+			{
+				ilUtil::sendInfo($this->lng->txt('forums_no_posts_available'));	
+			}			
+					
 			$pageHits = $frm->getPageHits();
 
 			$z = 0;
@@ -1667,6 +1700,8 @@ class ilObjForumGUI extends ilObjectGUI
 			// generate post-dates
 			foreach ($subtree_nodes as $node)
 			{
+				$this->ctrl->clearParameters($this);
+				
 				if ($this->objCurrentPost->getId() && $this->objCurrentPost->getId() == $node->getId())
 				{
 					$jump++;
@@ -1691,12 +1726,13 @@ class ilObjForumGUI extends ilObjectGUI
 				}
 		
 				if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
-				{							
-					if (($node->isOwner($ilUser->getId()) && $ilAccess->checkAccess('add_post', '', $_GET['ref_id'])) ||
-					      $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
+				{				
+					if ($this->objCurrentPost->getId() == $node->getId())
 					{
+						# actions for "active" post						
+						
 						// reply/edit
-						if (($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit') && $this->objCurrentPost->getId() == $node->getId())
+						if ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit')
 						{
 							// edit attachments
 							if (count($file_obj->getFilesOfPost()) && $_GET['action'] == 'showedit')
@@ -1809,7 +1845,9 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->parseCurrentBlock();
 							}
 
-							$tpl->setVariable('SUBMIT', $lng->txt('submit'));
+							$tpl->setVariable('SUBMIT', $lng->txt('submit'));							
+							$tpl->setVariable('CANCEL_FORM_TXT', $lng->txt('cancel'));
+														
 							$tpl->setVariable('RESET', $lng->txt('reset'));
 							$this->ctrl->setParameter($this, 'action', 'ready_'.$_GET['action']);
 							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
@@ -1820,240 +1858,210 @@ class ilObjForumGUI extends ilObjectGUI
 							$this->ctrl->clearParameters($this);
 							$tpl->parseCurrentBlock('reply_post');
 		
-						} // if (($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit') && $this->objCurrentPost->getId() == $node->getId())
-						else
-						{						
-							if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
-							{						
-								// delete actions
-								if ($_GET['action'] == 'delete' && $this->objCurrentPost->getId() == $node->getId())
-								{
-									// confirmation: delete
-									
-									$tpl->setCurrentBlock('kill_cell');
-									$tpl->setVariable('KILL_ANKER', $node->getId());
-									$tpl->setVariable('KILL_SPACER', "<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\" />");
-									$tpl->setVariable('TXT_KILL', $lng->txt('forums_info_delete_post'));
-									$this->ctrl->setParameter($this, 'action', 'ready_delete');
-									$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-									$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-									$this->ctrl->setParameter($this, 'offset', $Start);
-									$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-									$tpl->setVariable('DEL_FORMACTION', $this->ctrl->getLinkTarget($this, 'showThreadFrameset'));
-									$this->ctrl->clearParameters($this);
-									$t_frame = ilFrameTargetInfo::_getFrame('MainContent');
-									$tpl->setVariable('DEL_FORM_TARGET', $t_frame);
-									$tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
-									$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('confirm'));
-									$tpl->parseCurrentBlock('kill_cell');
-								}
-								else if ($this->objCurrentPost->getId() != $node->getId() || 
-										 ($_GET['action'] != 'censor' &&
-										  !$this->displayConfirmPostActivation() &&
-										  !$this->displayConfirmPostDeactivation()
-										 ))
-								{
-									// button: delete
-									
-									$tpl->setCurrentBlock('del_cell');
-									
-									$this->ctrl->setParameter($this, 'action', 'delete');
-									$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-									$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-									$this->ctrl->setParameter($this, 'offset', $Start);
-									$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-									$tpl->setVariable('DEL_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-									$this->ctrl->clearParameters($this);
-									$tpl->setVariable('DEL_BUTTON', $lng->txt('delete'));
-									$tpl->parseCurrentBlock('del_cell');								
-								}
-		
-								// censorship								
-								if ($_GET['action'] == 'censor' && $this->objCurrentPost->getId() == $node->getId())
-								{
-									// confirmation: censor
-									
-									$tpl->setCurrentBlock('censorship_cell');
-									$tpl->setVariable('CENS_ANKER', $node->getId());
-									$tpl->setVariable('CENS_SPACER',"<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">");
-									$this->ctrl->setParameter($this, 'action', 'ready_censor');
-									$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-									$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-									$this->ctrl->setParameter($this, 'offset', $Start);
-									$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-									$tpl->setVariable('CENS_FORMACTION', $this->ctrl->getLinkTarget($this, 'viewThread'));
-									$this->ctrl->clearParameters($this);
-									$tpl->setVariable('TXT_CENS_MESSAGE', $lng->txt('forums_the_post'));
-									$tpl->setVariable('TXT_CENS_COMMENT', $lng->txt('forums_censor_comment').':');
-									$tpl->setVariable('CENS_MESSAGE', $frm->prepareText($node->getCensorshipComment(), 2));
-									$tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
-									$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('confirm'));
-		
-									if ($node->isCensored())
-									{
-										$tpl->setVariable('TXT_CENS', $lng->txt('forums_info_censor2_post'));
-										$tpl->setVariable('CANCEL_BUTTON', $lng->txt('yes'));
-										$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('no'));
-									}
-									else
-									{
-										$tpl->setVariable('TXT_CENS', $lng->txt('forums_info_censor_post'));
-									}
-		
-									$tpl->parseCurrentBlock('censorship_cell');
-								}
-								else if ($this->objCurrentPost->getId() != $node->getId() || 
-										 ($_GET['action'] != 'delete' && 
-										  !$this->displayConfirmPostActivation() &&
-										  !$this->displayConfirmPostDeactivation()
-										 ))
-								{
-									// button: censor									
-									
-									$tpl->setCurrentBlock('cens_cell');
-									$this->ctrl->setParameter($this, 'action', 'censor');
-									$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-									$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-									$this->ctrl->setParameter($this, 'offset', $Start);
-									$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);									
-									$tpl->setVariable('CENS_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-									$this->ctrl->clearParameters($this);
-									$tpl->setVariable('CENS_BUTTON', $lng->txt('censorship'));
-									$tpl->parseCurrentBlock('cens_cell');
-								}
-								
-								// activation/deactivation
+						} // if ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit')
+						else if ($_GET['action'] == 'delete')
+						{
+							if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
+							   ($node->isOwner($ilUser->getId()) && !$node->hasReplies()))
+							{
+								// confirmation: delete							
+								$tpl->setCurrentBlock('kill_cell');
+								$tpl->setVariable('KILL_ANKER', $node->getId());
+								$tpl->setVariable('KILL_SPACER', "<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\" />");
+								$tpl->setVariable('TXT_KILL', $lng->txt('forums_info_delete_post'));
+								$this->ctrl->setParameter($this, 'action', 'ready_delete');
 								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
 								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 								$this->ctrl->setParameter($this, 'offset', $Start);
-								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);								
-								if ($this->displayConfirmPostActivation() && $this->objCurrentPost->getId() == $node->getId())
-								{		
-									// confirmation: activate
-																
-									$tpl->setCurrentBlock('confirm_activation');
-									
-									$tpl->setVariable('ACT_FORMACTION', $this->ctrl->getFormAction($this, 'performPostActivation'));
-									$tpl->setVariable('ACT_SPACER', "<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\" />");
-									$tpl->setVariable('ACT_ANKER', $node->getId());
-									$tpl->setVariable('TXT_ACT', $lng->txt('activate_post_txt'));
-									
-									$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('activate_only_current'));
-									$tpl->setVariable('CMD_CONFIRM', 'performPostActivation');
-									$tpl->setVariable('CONFIRM_BRANCH_BUTTON', $lng->txt('activate_current_and_childs'));
-									$tpl->setVariable('CMD_CONFIRM_BRANCH', 'performPostAndChildPostsActivation');
-									$tpl->setVariable('CANCEL_BUTTON',$lng->txt('cancel'));
-									$tpl->setVariable('CMD_CANCEL', 'cancelPostActivation');
-									
-									$tpl->parseCurrentBlock('confirm_activation');
-								}
-								else if ($this->displayConfirmPostDeactivation() && $this->objCurrentPost->getId() == $node->getId())
-								{
-									// confirmation: deactivate
-
-									$tpl->setCurrentBlock('confirm_deactivation');
-									
-									$tpl->setVariable('DEACT_FORMACTION', $this->ctrl->getFormAction($this, 'performPostDeactivation'));
-									$tpl->setVariable('DEACT_SPACER', "<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\" />");
-									$tpl->setVariable('DEACT_ANKER', $node->getId());
-									$tpl->setVariable('TXT_DEACT', $lng->txt('deactivate_post_txt'));
-									
-									$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('deactivate_current_and_childs'));
-									$tpl->setVariable('CMD_CONFIRM', 'performPostDeactivation');
-									$tpl->setVariable('CANCEL_BUTTON',$lng->txt('cancel'));
-									$tpl->setVariable('CMD_CANCEL', 'cancelPostDeactivation');
-									
-									$tpl->parseCurrentBlock('confirm_deactivation');										
-								}
-								else if ($this->objCurrentPost->getId() != $node->getId() || 
-									 ($_GET["action"] != "delete" &&
-									  $_GET["action"] != "censor"
-									 ))
-								{
-									// button: activation/deactivation
-									
-									$tpl->setCurrentBlock('activate_deactivate_cell');					
-
-									if ($node->isActivated())
-									{
-										$tpl->setVariable('ACTIVATE_DEACTIVATE_BUTTON', $lng->txt('deactivate_post'));
-										$tpl->setVariable('ACTIVATE_DEACTIVATE_LINK', $this->ctrl->getLinkTarget($this, 'askForPostDeactivation', $node->getId()));
-									}
-									else
-									{
-										$tpl->setVariable('ACTIVATE_DEACTIVATE_BUTTON', $lng->txt('activate_post'));
-										$tpl->setVariable('ACTIVATE_DEACTIVATE_LINK', $this->ctrl->getLinkTarget($this, 'askForPostActivation', $node->getId()));
-									}									
-									
-									$tpl->parseCurrentBlock('activate_deactivate_cell');
-								}								
-								$this->ctrl->clearParameters($this);		
-							} // if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
-		
-							if ($this->objCurrentPost->getId() != $node->getId() || 
-								 ($_GET['action'] != 'delete' &&
-								  $_GET['action'] != 'censor' &&
-								  !$this->displayConfirmPostActivation() &&
-								  !$this->displayConfirmPostDeactivation()
-								 ))
-							{
-								// button: edit article
-								if ((($node->isOwner($ilUser->getId()) && $ilAccess->checkAccess('add_post', '', $_GET['ref_id'])) ||
-									  $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id'])) &&									
-									  !$node->isCensored())
-								{
-									$tpl->setCurrentBlock('edit_cell');
-									$this->ctrl->setParameter($this, 'action', 'showedit');
-									$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-									$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-									$this->ctrl->setParameter($this, 'offset', $Start);
-									$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-									$tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-									$tpl->setVariable('EDIT_BUTTON', $lng->txt('edit'));
-									$this->ctrl->clearParameters($this);
-									$tpl->parseCurrentBlock('edit_cell');
-								}			
-								
-								if ($ilAccess->checkAccess('add_post', '', $_GET['ref_id']) && !$node->isCensored())
-								{
-									// button: reply
-									$tpl->setCurrentBlock('reply_cell');
-									$this->ctrl->setParameter($this, 'action', 'showreply');
-									$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-									$this->ctrl->setParameter($this, 'offset', $Start);
-									$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-									$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-									$tpl->setVariable('REPLY_LINK',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-									$tpl->setVariable('REPLY_BUTTON', $lng->txt('reply'));
-									$tpl->parseCurrentBlock('reply_cell');
-									$this->ctrl->clearParameters($this);
-								}							
-							}							
-		
-							$tpl->setVariable('SPACER', "<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\" />");		
-						}
-					} // if
-					
-					// anker for every post
-					$tpl->setVariable('POST_ANKER', $node->getId());
-					
-					//permanent link for every post																
-					$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
-					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
-					$tpl->setVariable('PERMA_TARGET', '_top');
-					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.gif'));					
-										
-					if (($_GET['action'] != 'delete' &&
-						 $_GET['action'] != 'censor' &&
-						 $_GET['action'] != 'showreply' &&
-						 $_GET['action'] != 'showedit' &&
-						 !$this->displayConfirmPostActivation() &&
-						 !$this->displayConfirmPostDeactivation()
-						 ) || $this->objCurrentPost->getId() != $node->getId())
-					{					
-						if (!$node->isRead($ilUser->getId()))
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('DEL_FORMACTION', $this->ctrl->getLinkTarget($this, 'showThreadFrameset'));
+								$this->ctrl->clearParameters($this);
+								$t_frame = ilFrameTargetInfo::_getFrame('MainContent');
+								$tpl->setVariable('DEL_FORM_TARGET', $t_frame);
+								$tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
+								$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('confirm'));
+								$tpl->parseCurrentBlock('kill_cell');
+							}
+						} // else if ($_GET['action'] == 'delete')
+						else if ($_GET['action'] == 'censor')
 						{
-							// button: mark read
+							if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+							{
+								// confirmation: censor / remove censorship								
+								$tpl->setCurrentBlock('censorship_cell');
+								$tpl->setVariable('CENS_ANKER', $node->getId());
+								$tpl->setVariable('CENS_SPACER',"<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">");
+								$this->ctrl->setParameter($this, 'action', 'ready_censor');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('CENS_FORMACTION', $this->ctrl->getLinkTarget($this, 'viewThread'));
+								$this->ctrl->clearParameters($this);
+								$tpl->setVariable('TXT_CENS_MESSAGE', $lng->txt('forums_the_post'));
+								$tpl->setVariable('TXT_CENS_COMMENT', $lng->txt('forums_censor_comment').':');
+								$tpl->setVariable('CENS_MESSAGE', $frm->prepareText($node->getCensorshipComment(), 2));
+								$tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
+								$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('confirm'));
+	
+								if ($node->isCensored())
+								{
+									$tpl->setVariable('TXT_CENS', $lng->txt('forums_info_censor2_post'));
+									$tpl->setVariable('CANCEL_BUTTON', $lng->txt('yes'));
+									$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('no'));
+								}
+								else
+								{
+									$tpl->setVariable('TXT_CENS', $lng->txt('forums_info_censor_post'));
+								}
+	
+								$tpl->parseCurrentBlock('censorship_cell');
+							}
+						}
+						else if ($this->displayConfirmPostActivation())
+						{
+							if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+							{
+								// confirmation: activate															
+								$tpl->setCurrentBlock('confirm_activation');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('ACT_FORMACTION', $this->ctrl->getFormAction($this, 'performPostActivation'));
+								$tpl->setVariable('ACT_SPACER', "<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">");
+								$tpl->setVariable('ACT_ANKER', $node->getId());
+								$tpl->setVariable('TXT_ACT', $lng->txt('activate_post_txt'));								
+								$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('activate_only_current'));
+								$tpl->setVariable('CMD_CONFIRM', 'performPostActivation');
+								$tpl->setVariable('CONFIRM_BRANCH_BUTTON', $lng->txt('activate_current_and_childs'));
+								$tpl->setVariable('CMD_CONFIRM_BRANCH', 'performPostAndChildPostsActivation');
+								$tpl->setVariable('CANCEL_BUTTON',$lng->txt('cancel'));
+								$tpl->setVariable('CMD_CANCEL', 'cancelPostActivation');
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock('confirm_activation');
+							}
+						} // else if ($this->displayConfirmPostActivation())
+						else if ($this->displayConfirmPostDeactivation())
+						{
+							if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+							{
+								// confirmation: deactivate	
+								$tpl->setCurrentBlock('confirm_deactivation');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('DEACT_FORMACTION', $this->ctrl->getFormAction($this, 'performPostDeactivation'));
+								$tpl->setVariable('DEACT_SPACER', "<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">");
+								$tpl->setVariable('DEACT_ANKER', $node->getId());
+								$tpl->setVariable('TXT_DEACT', $lng->txt('deactivate_post_txt'));
+								$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('deactivate_current_and_childs'));
+								$tpl->setVariable('CMD_CONFIRM', 'performPostDeactivation');
+								$tpl->setVariable('CANCEL_BUTTON',$lng->txt('cancel'));
+								$tpl->setVariable('CMD_CANCEL', 'cancelPostDeactivation');
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock('confirm_deactivation');
+							}
+						} // else if ($this->displayConfirmPostDeactivation())
+					} // if ($this->objCurrentPost->getId() == $node->getId())				
+					
+					if ($this->objCurrentPost->getId() != $node->getId() ||
+						($_GET['action'] != 'showreply' &&
+						 $_GET['action'] != 'showedit' &&
+						 $_GET['action'] != 'censor' &&
+						 $_GET['action'] != 'delete' &&
+						 !$this->displayConfirmPostDeactivation() &&
+						 !$this->displayConfirmPostActivation()
+						))
+					{
+						# buttons for every post except the "active"						
+						if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
+						   ($node->isOwner($ilUser->getId()) && !$node->hasReplies()))
+						{
+							// button: delete							
+							$tpl->setCurrentBlock('del_cell');							
+							$this->ctrl->setParameter($this, 'action', 'delete');
+							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+							$this->ctrl->setParameter($this, 'offset', $Start);
+							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+							$tpl->setVariable('DEL_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
+							$tpl->setVariable('DEL_BUTTON', $lng->txt('delete'));
+							$this->ctrl->clearParameters($this);
+							$tpl->parseCurrentBlock('del_cell');
+						}
+						
+						if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+						{	
+							// button: censor							
+							$tpl->setCurrentBlock('cens_cell');
+							$this->ctrl->setParameter($this, 'action', 'censor');
+							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+							$this->ctrl->setParameter($this, 'offset', $Start);
+							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);									
+							$tpl->setVariable('CENS_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
+							$tpl->setVariable('CENS_BUTTON', $lng->txt('censorship'));
+							$this->ctrl->clearParameters($this);
+							$tpl->parseCurrentBlock('cens_cell');
+							
+							// button: activation/deactivation							
+							$tpl->setCurrentBlock('activate_deactivate_cell');
+							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+							$this->ctrl->setParameter($this, 'offset', $Start);
+							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+							if ($node->isActivated())
+							{
+								$tpl->setVariable('ACTIVATE_DEACTIVATE_BUTTON', $lng->txt('deactivate_post'));
+								$tpl->setVariable('ACTIVATE_DEACTIVATE_LINK', $this->ctrl->getLinkTarget($this, 'askForPostDeactivation', $node->getId()));
+							}
+							else
+							{
+								$tpl->setVariable('ACTIVATE_DEACTIVATE_BUTTON', $lng->txt('activate_post'));
+								$tpl->setVariable('ACTIVATE_DEACTIVATE_LINK', $this->ctrl->getLinkTarget($this, 'askForPostActivation', $node->getId()));
+							}			
+							$this->ctrl->clearParameters($this);			
+							$tpl->parseCurrentBlock('activate_deactivate_cell');
+						}
+						
+						// button: edit article
+						if (($node->isOwner($ilUser->getId()) ||
+							 $ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id'])) &&									
+							 !$node->isCensored())
+						{
+							$tpl->setCurrentBlock('edit_cell');
+							$this->ctrl->setParameter($this, 'action', 'showedit');
+							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+							$this->ctrl->setParameter($this, 'offset', $Start);
+							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+							$tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+							$tpl->setVariable('EDIT_BUTTON', $lng->txt('edit'));
+							$this->ctrl->clearParameters($this);
+							$tpl->parseCurrentBlock('edit_cell');
+						}			
+						
+						// button: reply
+						if ($ilAccess->checkAccess('add_post', '', (int) $_GET['ref_id']) && 
+							!$node->isCensored())
+						{							
+							$tpl->setCurrentBlock('reply_cell');
+							$this->ctrl->setParameter($this, 'action', 'showreply');
+							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+							$this->ctrl->setParameter($this, 'offset', $Start);
+							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+							$tpl->setVariable('REPLY_LINK',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+							$tpl->setVariable('REPLY_BUTTON', $lng->txt('reply'));
+							$this->ctrl->clearParameters($this);
+							$tpl->parseCurrentBlock('reply_cell');							
+						}
+						
+						// button: mark read
+						if (!$node->isRead($ilUser->getId()))
+						{	
 							$tpl->setCurrentBlock('read_cell');
 							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
 							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
@@ -2065,19 +2073,29 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->parseCurrentBlock();
 						}										
 						
+						// button: print
 						if (!$node->isCensored())
-						{
-							// button: print
+						{							
 							$tpl->setCurrentBlock('print_cell');
 							$this->ctrl->setParameterByClass('ilforumexportgui', 'print_post', $node->getId());
 							$this->ctrl->setParameterByClass('ilforumexportgui', 'top_pk', $node->getForumId());
 							$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_pk', $node->getThreadId());
 							$tpl->setVariable('PRINT_LINK',	$this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printPost'));
 							$tpl->setVariable('PRINT_BUTTON', $lng->txt('print'));
-							$tpl->parseCurrentBlock();				
+							$this->ctrl->clearParameters($this);
+							$tpl->parseCurrentBlock();									
 						}
-					}
+					} // if ($this->objCurrentPost->getId() != $node->getId())	
 					
+					// anker for every post					
+					$tpl->setVariable('POST_ANKER', $node->getId());
+					
+					//permanent link for every post																
+					$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
+					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
+					$tpl->setVariable('PERMA_TARGET', '_top');
+					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.gif'));					
+										
 					// download post attachments
 					$tmp_file_obj =& new ilFileDataForum($forumObj->getId(), $node->getId());
 					if (count($tmp_file_obj->getFilesOfPost()))
@@ -2103,7 +2121,7 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 		
 					$tpl->setCurrentBlock('posts_row');
-					$rowCol = ilUtil::switchColor($z,'tblrow1','tblrow2');
+					$rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					if ((  $_GET['action'] != 'delete' && $_GET['action'] != 'censor' && 
 						   !$this->displayConfirmPostActivation() && !$this->displayConfirmPostDeactivation()
 						) 

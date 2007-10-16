@@ -5247,6 +5247,9 @@ forum#:#deactivate_post_txt#:#Would you really like to deactivate the current po
 forum#:#activate_only_current#:#Activate Current
 forum#:#activate_current_and_childs#:#Activate All Posts
 forum#:#deactivate_current_and_childs#:#Deactivate All Posts
+forum#:#forums_post_and_children_were_deactivated#:#The post and all its child posts were deactivated.
+forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.
+forum#:#forums_post_was_activated#:#The post was activated.
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
@@ -5283,7 +5286,9 @@ forum#:#forums_notification_subject#:#New post in a forum topic
 forum#:#forums_overview#:#Forums Overview
 forum#:#forums_post_deleted#:#Article has been deleted
 forum#:#forums_post_modified#:#Article has been modified
-forum#:#forums_post_new_entry#:#New article has been created
+forum#:#forums_post_new_entry#:#A new article has been created
+forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.
+forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.
 forum#:#forums_posts#:#All articles
 forum#:#forums_posts_not_available#:#Articles Not Available
 forum#:#forums_print_thread#:#Print Topic
