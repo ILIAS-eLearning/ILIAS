@@ -267,7 +267,6 @@ SeqRollupRuleset.prototype =
 	applyMeasureRollup: function (ioThisActivity)
 	{
 		sclogdump("MeasureRollup [RB.1.1]","seq");
-	   
 		var total = 0.0;
 		var countedMeasure = 0.0;
 		
@@ -282,18 +281,21 @@ SeqRollupRuleset.prototype =
 				// Make sure a non-zero weight is defined
 				if (child.getObjMeasureWeight() > 0.0)
 				{
-					countedMeasure += child.getObjMeasureWeight();
+					countedMeasure =parseFloat(countedMeasure) +parseFloat(child.getObjMeasureWeight());
+					//alert("LOOK FOR MEASURE for: "+child.mActivityID+"is :"+child.getObjMeasure(false));
 					
 					// If a measure is defined for the child
 					if (child.getObjMeasureStatus(false))
 					{
-						total += child.getObjMeasureWeight() * 
-							child.getObjMeasure(false);
+						total = parseFloat(total) + parseFloat(child.getObjMeasureWeight() * child.getObjMeasure(false));
+							
 					}
 				}
 			}
 		}
 		
+		
+		//check for counted measure
 		if (countedMeasure > 0.0)
 		{
 			ioThisActivity.setObjMeasure(total / countedMeasure);

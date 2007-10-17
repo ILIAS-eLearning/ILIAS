@@ -2424,7 +2424,6 @@ function syncCMIADLTree(){
 	  // Report the measure
 	  if( score!="" && score!="unknown" ) {
 			normalScore = score;
-			//alert("Set score"+score+" "+mPRIMARY_OBJ_ID);
         	msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
        }
 
