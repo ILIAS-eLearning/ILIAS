@@ -3149,7 +3149,7 @@ common#:#obj_auth#:#Authentication and Registration
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...) and new account registration settings here.
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
-common#:#obj_chac#:#Chat
+common#:#obj_chac#:#Chat Server
 common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
