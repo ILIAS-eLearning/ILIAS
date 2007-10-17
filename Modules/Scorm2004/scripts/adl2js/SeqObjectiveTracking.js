@@ -256,7 +256,6 @@ SeqObjectiveTracking.prototype =
 		{
 			this.mHasMeasure = true;
 			this.mMeasure = iMeasure;
-
 			// Set any global objectives
 			if (this.mWriteMeasure != null)
 			{

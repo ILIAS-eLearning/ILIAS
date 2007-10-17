@@ -204,7 +204,6 @@ SeqConditionSet.prototype =
 			{
 				//Fix HH
 			//	if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
-			
 				if (iTarget.getObjMeasureStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
 					
