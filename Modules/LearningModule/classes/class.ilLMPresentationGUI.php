@@ -780,6 +780,8 @@ class ilLMPresentationGUI
 		// TODO: Very dirty hack to force the import of JavaScripts in learning content in the FAQ frame (e.g. if jsMath is in the content)
 		// Unfortunately there is no standardized way to do this somewhere else. Calling fillJavaScripts always in ilTemplate causes multiple additions of the the js files.
 		if (strcmp($_GET["frame"], "topright") == 0) $this->tpl->fillJavaScriptFiles();
+		if (strcmp($_GET["frame"], "right") == 0) $this->tpl->fillJavaScriptFiles();
+		if (strcmp($_GET["frame"], "botright") == 0) $this->tpl->fillJavaScriptFiles();
 		
 		$content =  $this->tpl->get();
 
