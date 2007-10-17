@@ -1600,23 +1600,14 @@ class ilObjQuestionPool extends ilObject
 *
 * @access public
 */
-	function _clone($obj_id)
+	function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		$original = new ilObjQuestionPool($obj_id, false);
-		$original->loadFromDb();
-		
-		$newObj = new ilObjQuestionPool();
-		$newObj->setType("qpl");
-		$newObj->setTitle($original->getTitle() . " (".ilFormat::formatDate(ilFormat::unixtimestamp2datetime()).")");
-		$newObj->setDescription($original->getDescription());
-		$newObj->create(true);
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->setOnline($original->getOnline());
+		global $ilLog;
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj->setOnline($this->getOnline());
 		$newObj->saveToDb();
 		// clone the questions in the question pool
-		$questions =& $original->getQplQuestions();
+		$questions =& $this->getQplQuestions();
 		foreach ($questions as $question_id)
 		{
 			$newObj->copyQuestion($question_id, $newObj->getId());
@@ -1624,13 +1615,12 @@ class ilObjQuestionPool extends ilObject
 		
 		// clone meta data
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md = new ilMD($original->getId(),0,$original->getType());
+		$md = new ilMD($this->getId(),0,$this->getType());
 		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
 
 		// update the metadata with the new title of the question pool
 		$newObj->updateMetaData();
-		
-		return $newObj->getRefId();
+		return $newObj;
 	}
 	
 	function &getQuestionTypes($all_tags = FALSE)

@@ -2966,34 +2966,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
-	* form for new survey object duplication
-	*/
-	function cloneAllObject()
-	{
-		parent::cloneAllObject();
-		return true;
-		
-		// Everything is done in parent class
-		
-		/*
-		if ($_POST["svy"] < 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("svy_select_surveys"));
-			$this->createObject();
-			return;
-		}
-		include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$ref_id = ilObjSurvey::_clone($_POST["svy"]);
-		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
-
-		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
-			"&baseClass=ilObjSurveyGUI");
-		*/
-	}
-	
-	/**
 	* form for new survey object import
 	*/
 	function importFileObject()

@@ -1592,7 +1592,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
-			$qpls =& ilObjQuestionPool::_getAvailableQuestionpools(TRUE, FALSE, FALSE, TRUE);
+			$qpls =& ilObjQuestionPool::_getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE);
 			if (count($qpls) > 0)
 			{
 				foreach ($qpls as $key => $value)
@@ -1661,22 +1661,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 	}
 
-	/**
-	* form for new test object duplication
-	*/
-	function cloneAllObject()
-	{
-		if ($_POST["qpl"] < 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_select_qpls"));
-			$this->createObject();
-			return;
-		}
-		$ref_id = ilObjQuestionPool::_clone($_POST["qpl"]);
-		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
-		ilUtil::redirect("ilias.php?ref_id=$ref_id&baseClass=ilObjQuestionPoolGUI");
-	}
-	
 	/**
 	* form for new questionpool object import
 	*/
@@ -1938,6 +1922,39 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 	}
+
+	/**
+	* Redirect script to call a test with the question pool reference id
+	* 
+	* Redirect script to call a test with the question pool reference id
+	*
+	* @param integer $a_target The reference id of the question pool
+	* @access	public
+	*/
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("write", "", $a_target))
+		{
+			$_GET["baseClass"] = "ilObjQuestionPoolGUI";
+			$_GET["cmd"] = "questions";
+			$_GET["ref_id"] = $a_target;
+			include_once("ilias.php");
+			exit;
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}	
 
 } // END class.ilObjQuestionPoolGUI
 ?>

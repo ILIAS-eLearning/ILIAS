@@ -122,6 +122,12 @@ switch($target_type)
 		require_once("./Modules/Test/classes/class.ilObjTestGUI.php");
 		ilObjTestGUI::_goto($target_id);
 		break;
+	
+	// test question pools
+	case "qpl":
+		require_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php");
+		ilObjQuestionPoolGUI::_goto($target_id);
+		break;
 
 	// new implementation: ok
 	case "svy":

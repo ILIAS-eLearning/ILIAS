@@ -4366,6 +4366,7 @@ class ilObjSurvey extends ilObject
 
 		$question_pointer = array();
 		// clone the questions
+		$mapping = array();
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach ($this->questions as $key => $question_id)
 		{
@@ -4375,9 +4376,11 @@ class ilObjSurvey extends ilObject
 			$question->saveToDb($original_id);
 			$newObj->questions[$key] = $question->getId();
 			$question_pointer[$question_id] = $question->getId();
+			$mapping[$question_id] = $question->getId();
 		}
 
 		$newObj->saveToDb();		
+		$newObj->cloneTextblocks($mapping);
 
 		// clone the questionblocks
 		$questionblocks = array();
@@ -4438,122 +4441,40 @@ class ilObjSurvey extends ilObject
 		}
 		return $newObj;
 	}
-
-/**
-* Creates a 1:1 copy of the object and places the copy in a given repository
-* 
-* Creates a 1:1 copy of the object and places the copy in a given repository
-*
-* @access public
-*/
-	function _clone($obj_id)
+	
+	function getTextblock($question_id)
 	{
 		global $ilDB;
-		
-		$original = new ilObjSurvey($obj_id, false);
-		$original->loadFromDb();
-		
-		$newObj = new ilObjSurvey();
-		$newObj->setType("svy");
-		$newObj->setTitle($original->getTitle());
-		$newObj->setDescription($original->getDescription());
-		$newObj->create(true);
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-//		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-		
-		$newObj->author = $original->getAuthor();
-		$newObj->introduction = $original->getIntroduction();
-		$newObj->outro = $original->getOutro();
-		$newObj->status = $original->getStatus();
-		$newObj->evaluation_access = $original->getEvaluationAccess();
-		$newObj->start_date = $original->getStartDate();
-		$newObj->startdate_enabled = $original->getStartDateEnabled();
-		$newObj->end_date = $original->getEndDate();
-		$newObj->enddate_enabled = $original->getEndDateEnabled();
-		$newObj->invitation = $original->getInvitation();
-		$newObj->invitation_mode = $original->getInvitationMode();
-		$newObj->anonymize = $original->getAnonymize();
-
-		$question_pointer = array();
-		// clone the questions
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		foreach ($original->questions as $key => $question_id)
-		{
-			$question = ilObjSurvey::_instanciateQuestion($question_id);
-			$question->id = -1;
-			$original_id = SurveyQuestion::_getOriginalId($question_id);
-			$question->saveToDb($original_id);
-			$newObj->questions[$key] = $question->getId();
-			$question_pointer[$question_id] = $question->getId();
-		}
-
-		$newObj->saveToDb();		
-
-		// clone the questionblocks
-		$questionblocks = array();
-		$questionblock_questions = array();
-		$query = sprintf("SELECT * FROM survey_questionblock_question WHERE survey_fi = %s",
-			$ilDB->quote($original->getSurveyId() . "")
+		$query = sprintf("SELECT * FROM survey_survey_question WHERE question_fi = %s",
+			$ilDB->quote($question_id . "")
 		);
 		$result = $ilDB->query($query);
-		if ($result->numRows() > 0)
+		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				array_push($questionblock_questions, $row);
-				$questionblocks[$row["questionblock_fi"]] = $row["questionblock_fi"];
-			}
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["heading"];
 		}
-		// create new questionblocks
-		foreach ($questionblocks as $key => $value)
+		else
 		{
-			$questionblock = ilObjSurvey::_getQuestionblock($key);
-			$questionblock_id = ilObjSurvey::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"]);
-			$questionblocks[$key] = $questionblock_id;
+			return "";
 		}
-		// create new questionblock questions
-		foreach ($questionblock_questions as $key => $value)
-		{
-			$clonequery = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
-				$ilDB->quote($newObj->getSurveyId() . ""),
-				$ilDB->quote($questionblocks[$value["questionblock_fi"]] . ""),
-				$ilDB->quote($question_pointer[$value["question_fi"]] . "")
-			);
-			$cloneresult = $ilDB->query($clonequery);
-		}
-		
-		// clone the constraints
-		$constraints = ilObjSurvey::_getConstraints($original->getSurveyId());
-		foreach ($constraints as $key => $constraint)
-		{
-			$newObj->addConstraint($question_pointer[$constraint["for_question"]], $question_pointer[$constraint["question"]], $constraint["relation_id"], $constraint["value"]);
-		}
-		
-		// clone the obligatory states
-		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
-			$ilDB->quote($original->getSurveyId() . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() > 0)
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$clonequery = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($newObj->getSurveyId() . ""),
-					$ilDB->quote($question_pointer[$row["question_fi"]] . ""),
-					$ilDB->quote($row["obligatory"])
-				);
-				$cloneresult = $ilDB->query($clonequery);
-			}
-		}
+	}
 
-		// clone meta data
-		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md = new ilMD($original->getId(),0,$original->getType());
-		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
-		return $newObj->getRefId();
+	/**
+	* Clones the textblocks of survey questions
+	* 
+	* Clones the textblocks of survey questions
+	*
+	* @access public
+	*/
+	function cloneTextblocks($mapping)
+	{
+		foreach ($mapping as $original_id => $new_id)
+		{
+			$textblock = $this->getTextblock($original_id);
+			include_once "./classes/class.ilObjAdvancedEditing.php";
+			$this->saveHeading(ilUtil::stripSlashes($textblock, TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $new_id);
+		}
 	}
 
 	/**
