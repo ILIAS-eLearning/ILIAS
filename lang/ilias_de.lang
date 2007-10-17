@@ -3037,7 +3037,7 @@ common#:#obj_auth#:#Authentifizierung/Neuanmeldung
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
-common#:#obj_chac#:#Chat
+common#:#obj_chac#:#Chat Server
 common#:#obj_chat#:#Chat
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
