@@ -1027,17 +1027,21 @@ Runtime.models =
 				completion_status : {type: CompletionState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
 					// special case see Chap. 4.2.4.1
 					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm  = currentAPI.GetValue("cmi.completion_threshold");
-					var score = currentAPI.GetValue("cmi.progress_measure");
-					if (norm==="") {
-					} else if (score==="") {
-						state = "unknown";
-					} else if (Number(score) < Number(norm)) {
-						state = "incomplete";
-					} else {
-						state = "completed";
+					var norm  = currentAPI.GetValueIntern("cmi.completion_threshold");
+					var score = currentAPI.GetValueIntern("cmi.progress_measure");
+					
+					
+					if (norm!="" && score!="") {
+						if (Number(score) < Number(norm)) {
+							state = "incomplete";
+						} else {
+							state = "completed";
+						}
 					}
-					currentAPI.SetValue('cmi.completion_status', state);
+					else if (state=="undefined") {
+						state = "unknown";
+					}
+					currentAPI.SetValueIntern('cmi.completion_status', state);
 					return state;
 				}},
 				completion_threshold : {type: RealType, min: 0, max: 1, permission: READONLY},
