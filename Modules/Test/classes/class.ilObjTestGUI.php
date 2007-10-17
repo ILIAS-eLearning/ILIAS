@@ -197,15 +197,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* form for new test object duplication
-	*/
-	function cloneAllObject()
-	{
-		parent::cloneAllObject();
-		return true;
-	}
-	
-	/**
 	* save object
 	* @access	public
 	*/
