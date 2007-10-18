@@ -668,11 +668,11 @@ class ilMailFormGUI
 		$this->tpl->setVariable("TXT_MSG_SAVE", $this->lng->txt("save_message"));
 		
 		// MAIL DATA
-		$this->tpl->setVariable("RCP_TO", htmlspecialchars($mailData["rcp_to"]));
-		$this->tpl->setVariable("RCP_CC", htmlspecialchars($mailData["rcp_cc"]));
-		$this->tpl->setVariable("RCP_BCC",htmlspecialchars($mailData["rcp_bcc"]));
+		$this->tpl->setVariable("RCP_TO", htmlspecialchars(ilUtil::stripSlashes($mailData["rcp_to"])));
+		$this->tpl->setVariable("RCP_CC", htmlspecialchars(ilUtil::stripSlashes($mailData["rcp_cc"])));
+		$this->tpl->setVariable("RCP_BCC", htmlspecialchars(ilUtil::stripSlashes($mailData["rcp_bcc"])));
 		
-		$this->tpl->setVariable("M_SUBJECT",htmlspecialchars($mailData["m_subject"]));
+		$this->tpl->setVariable("M_SUBJECT", htmlspecialchars(ilUtil::stripSlashes($mailData["m_subject"])));
 		
 		if (is_array($mailData["attachments"]) &&
 			count($mailData["attachments"]))
