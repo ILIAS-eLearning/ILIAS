@@ -498,8 +498,8 @@ SeqActivity.prototype =
 			}
 			
 			// make sure the current state is valid
-			if (!(this.mCurTracking.mDirtyPro && iIsRetry))
-			{
+			if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
+			{	
 				progress = this.mCurTracking.mProgress;
 			}
 		}
@@ -1057,12 +1057,12 @@ SeqActivity.prototype =
 				// status -- Set existing data to 'dirty'.  When a new attempt on a
 				// a child activity begins, the new tracking information will be 
 				// 'clean'.
-				if (this.mUseCurObj)
+				if (this.mUseCurObj==true)
 				{
 					temp.setDirtyObj();
 				}
 				
-				if (this.mUseCurPro)
+				if (this.mUseCurPro==true)
 				{
 					temp.setDirtyPro();
 				}
@@ -1084,7 +1084,7 @@ SeqActivity.prototype =
 			{
 				var temp = this.mActiveChildren[i];
 				
-				if (this.mUseCurObj)
+				if (this.mUseCurObj==true)
 				{
 					temp.setDirtyObj();
 				}
@@ -1105,7 +1105,7 @@ SeqActivity.prototype =
 			for (var i = 0; i < this.mActiveChildren.length; i++)
 			{
 				var temp = this.mActiveChildren[i];
-				if (this.mUseCurPro)
+				if (this.mUseCurPro==true)
 				{
 					temp.setDirtyPro();
 				}

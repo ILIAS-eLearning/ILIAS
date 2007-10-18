@@ -380,11 +380,10 @@ SeqRollupRule.prototype =
 		}
 		
 		var result = false;
-		if (!emptySet) 
+		if (emptySet==false) 
 		{
 			result = (count >= parseFloat(((this.mMinPercent * countAll) + 0.5)));
 		}
-		
 		return result;
 	}
 	

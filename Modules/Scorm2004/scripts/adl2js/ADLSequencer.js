@@ -1227,7 +1227,7 @@ ADLSequencer.prototype =
 			if (exited != null)
 			{
 				// If this was a 'real' evaluation, end the appropriate attempts.
-				if (!iTentative)
+				if (iTentative==false)
 				{
 					// If an activity exited, end attempts at all remaining cluster
 					// on the 'active' branch.
@@ -2911,9 +2911,9 @@ ADLSequencer.prototype =
 		
 		var cur = this.mSeqTree.getFirstCandidate();
 		
-		if (cur != null  && !done)
+		if (cur != null  && done==false)
 		{
-			if (cur.getIsActive())
+			if (cur.getIsActive()==true)
 			{
 				oLaunch.mSeqNonContent = LAUNCH_ERROR;
 				oLaunch.mEndSession = this.mEndSession;
@@ -2921,7 +2921,7 @@ ADLSequencer.prototype =
 			}
 		}
 		
-		if (!done)
+		if (done==false)
 		{
 			// Clear any 'suspended' activity
 			this.clearSuspendedActivity(target);

@@ -1038,7 +1038,7 @@ Runtime.models =
 							state = "completed";
 						}
 					}
-					else if (state=="undefined") {
+					else if (state=="undefined" || state=="") {
 						state = "unknown";
 					}
 					currentAPI.SetValueIntern('cmi.completion_status', state);
@@ -1122,8 +1122,9 @@ Runtime.models =
 				session_time : {type: Interval, permission: WRITEONLY},
 				success_status : {type: SuccessState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
 					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm=currentAPI.GetValue("cmi.scaled_passing_score");
-					var score=currentAPI.GetValue("cmi.score");
+					var norm=currentAPI.GetValueIntern("cmi.scaled_passing_score");
+					var score=currentAPI.GetValueIntern("cmi.score");
+					
 					if (norm && score) {
 						score=Number(score);
 						norm=Number(norm);
@@ -1135,7 +1136,23 @@ Runtime.models =
 						state = "unknown";
 					  }
 					} 
-					currentAPI.SetValue('cmi.success_status', state);
+					
+					/*
+					var done=false;
+					if (norm!="") {
+						if (score!="") {
+							if (score>=norm) {
+								state = "passed";
+							} else {
+								state = "failed";
+							}	
+						} else {
+							state="unknown";
+						}
+					} 
+					*/
+					
+					currentAPI.SetValueIntern('cmi.success_status', state);
 					return state;
 				}},
 				suspend_data : {type: CharacterString, max: 64000, permission: READWRITE},
