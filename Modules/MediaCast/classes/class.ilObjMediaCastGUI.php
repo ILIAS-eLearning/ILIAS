@@ -240,7 +240,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		//if ($a_mode == "edit_local" || $a_mode == "create") 
 		{
 			$file = new ilFileInputGUI($lng->txt("file"), "file");		
-			$file->setSuffixes(array("mp3","flv","rmtp","m4v","3gp","rbs", "gif", "png"));
+			$file->setSuffixes(array("mp3","flv","gif", "png"));
 			$this->form_gui->addItem($file);
 		}
 
