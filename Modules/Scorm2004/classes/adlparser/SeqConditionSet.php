@@ -62,13 +62,9 @@
 		public $mConditions = null;
   		public $mRetry =  false;
  		public $mRollup = false;
-
-		public function __construct() {
-
-		}
 		
-		public function SeqConditionSet($iRollup)
-	   	{
+		public function __construct($iRollup)
+	   	{	
 	      	$this->mRollup = $iRollup;
 	   	}
 

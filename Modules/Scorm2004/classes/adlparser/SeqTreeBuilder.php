@@ -726,7 +726,7 @@
 	
 	public static function extractSeqRuleConditions($iNode) {
 		$tempVal = null;
-	    $condSet = new SeqConditionSet();
+	    $condSet = new SeqConditionSet(false);
 
 	    $conditions = array();
 		$tempVal=$iNode->getAttribute("conditionCombination");
