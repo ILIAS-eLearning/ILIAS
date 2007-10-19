@@ -36,138 +36,138 @@
 <!-- language file start -->
 3rd_party_software#:#3rd Party Software
 3rdparty#:#3rd Party add-ons
-absolute_path#:#Absolute path
+absolute_path#:#Absolute Path
 access#:#Access
-access_status#:#Access status
+access_status#:#Access Status
 admin_login#:#Login as Administrator
 antivir#:#AntiVir
 available_clients#:#Available Clients
-available_languages#:#available languages
-back#:#back
-cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory
+available_languages#:#Available Languages
+back#:#Back
+cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory.
 change#:#Change
-change_basic_settings#:#Change basic settings
-change_password#:#Change password
-change_sort_direction#:#Change sort direction
+change_basic_settings#:#Change Basic Settings
+change_password#:#Change Password
+change_sort_direction#:#Change Sort Direction
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-check_failed_convert#:#Testing convert failed
-check_failed_htmldoc#:#Testing FOP failed
-check_failed_htmldoc#:#Testing HTMLdoc failed
-check_failed_java#:#Testing Java failed
-check_failed_latex#:#Testing LaTeX CGI script failed
-check_failed_unzip#:#Testing unzip failed
-check_failed_zip#:#Testing zip failed
-choose_language#:#Choose your language
+check_failed_convert#:#Testing convert failed.
+check_failed_htmldoc#:#Testing FOP failed.
+check_failed_htmldoc#:#Testing HTMLdoc failed.
+check_failed_java#:#Testing Java failed.
+check_failed_latex#:#Testing LaTeX CGI script failed.
+check_failed_unzip#:#Testing unzip failed.
+check_failed_zip#:#Testing zip failed.
+choose_language#:#Choose your Language
 choose_languages#:#Please choose additional languages and/or remove selected languages.
-choose_password#:#Please choose a password
+choose_password#:#Please choose a password.
 city#:#City, State
 clamav#:#ClamAV
 clean_command#:#Clean Command
 client#:#Client
-client_access_mode_changed#:#Client's access mode changed
+client_access_mode_changed#:#Client's access mode changed.
 client_data#:#Client Information
 client_id#:#Client ID
 client_info#:#Description
 client_institution#:#Institution
 client_login#:#Login with your Client ID
 client_name#:#Name
-client_setup_not_finished#:#Client setup is not finished yet
+client_setup_not_finished#:#Client setup is not finished yet.
 collation#:#Collation
 contact#:#Contact Information
 contact_data#:#Contact Information
 convert_path#:#Path to Convert
-convert_path_comment#:#required for displaying thumbnails of images
-could_not_create_logfile#:#Could not create log file
+convert_path_comment#:#Required for displaying thumbnails of images.
+could_not_create_logfile#:#Could not create log file.
 country#:#Country
-create#:#create
-create_datadir_failed#:#Creation of data directory failed
-create_new_client#:#Create new client
-create_webdir_failed#:#Creation of web directory failed
+create#:#Create
+create_datadir_failed#:#Creation of data directory failed.
+create_new_client#:#Create new Client
+create_webdir_failed#:#Creation of web directory failed.
 ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.
 ctrl_structure#:#Control Structure
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. 
 ctrl_structure_reloaded#:#Control Structure Reloaded.
-data_path#:#data path
-database#:#database
-database_create#:#Create database
-database_exists#:#database exists
-database_install#:#Install database
-database_installed#:#Database installed
-database_is_uptodate#:#Your database is up-to-date
-database_needs_update#:#Your database needs an update
+data_path#:#Data Path
+database#:#Database
+database_create#:#Create Database
+database_exists#:#Database Exists
+database_install#:#Install Database
+database_installed#:#Database installed.
+database_is_uptodate#:#Your database is up-to-date.
+database_needs_update#:#Your database needs an update.
 database_not_exists_create_first#:#Database does not exist. Please create the database first.
-database_ready#:#database is ready.
-database_update#:#update database
-database_version#:#current database version
+database_ready#:#Database is ready.
+database_update#:#Update Database
+database_version#:#Current Database Version
 datadir_path#:#Path to Data Directory
 datadir_path_comment1#:#Mandatory
-datadir_path_comment2#:#cannot be changed in this setup version
+datadir_path_comment2#:#Cannot be changed in this setup version.
 datadir_webspacedir_match#:#The path to your data directory points to the same directory where your web space directory is located. Please choose another directory.
-date#:#date
-db_conn#:#Database connection
+date#:#Date
+db_conn#:#Database Connection
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')
-db_host#:#database host
-db_name#:#database name
-db_needs_update#:#Database needs update
-db_not_installed#:#Database not installed
-db_pass#:#database password
-db_type#:#database type
-db_user#:#database user
-db_version#:#database version
-default#:#default
-default_client_changed#:#Changed default client
-default_language#:#Default language
-delete#:#delete
-delete_confirm#:#Confirm client deletion
+db_host#:#Database Host
+db_name#:#Database Name
+db_needs_update#:#Database needs update.
+db_not_installed#:#Database not installed.
+db_pass#:#Database Password
+db_type#:#Database Type
+db_user#:#Database User
+db_version#:#Database Version
+default#:#Default
+default_client_changed#:#Changed default client.
+default_language#:#Default Language
+delete#:#Delete
+delete_confirm#:#Confirm Client Deletion
 delete_info#:#Are you sure?
 details#:#Details
-dir_exists_create#:#Directory already exists. uncheck 'create' to select this directory as your data directory
-disable#:#disable
-disable_check#:#disable check
-disable_logging#:#disable logging
-disabled#:#disabled
-display_clientlist#:#Display client selection
+dir_exists_create#:#Directory already exists. uncheck 'create' to select this directory as your data directory.
+disable#:#Disable
+disable_check#:#Disable Check
+disable_logging#:#Disable Logging
+disabled#:#Disabled
+display_clientlist#:#Client selection is accessible for users.
 duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
-email#:#Email
-email_not_valid#:#Invalid email address
+email#:#e-Mail
+email_not_valid#:#Invalid e-Mail Address
 en_by_default#:#(English is installed by default and cannot be deleted).
-enable#:#enable
-enabled#:#enabled
+enable#:#Enable
+enabled#:#Enabled
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!
-enter_password#:#Please enter password
+enter_password#:#Please Enter Password
 env_ok#:#Ok. Sounds good.
 env_using#:#ILIAS 3 will be running on
 env_warning#:#ILIAS 3 was only tested on Linux and Windows using Apache web server!<br />However, ILIAS 3 may work with your environment too.
 environment#:#Environment
-err_create_database_failed#:#creation of database failed
-err_wrong_login#:#Wrong login
-error_recipient#:#Error recipient
+err_create_database_failed#:#Creation of Database Failed.
+err_wrong_login#:#Wrong Login
+error_recipient#:#Error Recipient
 example#:#Example
-feedback_recipient#:#Feedback recipient
+feedback_recipient#:#Feedback Recipient
 file_does_not_exist#:#File does not exist.
-file_version#:#file version
+file_version#:#File Version
 fill_both_fields#:#Please fill out both fields!
 fill_out_required_fields#:#Please fill out all fields marked as required.
-filled_out#:#filled out correctly
-finish#:#Finish setup
-finish_initial_setup_first#:#Please finish initial setup first
-finish_setup#:#Finishing setup
-firstname#:#First name
+filled_out#:#filled out correctly.
+finish#:#Finish Setup
+finish_initial_setup_first#:#Please finish initial setup first.
+finish_setup#:#Finishing Setup
+firstname#:#First Name
 fop_path#:#Path to FOP
-fop_path_comment#:#required to generate PDF documents
-hide_clientlist#:#Hide client selection
+fop_path_comment#:#Required to generate PDF documents.
+hide_clientlist#:#Client Selection is hidden for users.
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
-htmldoc_path_comment#:#required to generate PDF documents
-http_path#:#HTTP path
+htmldoc_path_comment#:#Required to generate PDF documents.
+http_path#:#HTTP Path
 id#:#ID
-ilias_db_mode#:#ILIAS database mode
+ilias_db_mode#:#ILIAS Database Mode
 ilias_homepage#:#ILIAS Homepage
 ilias_nic#:#NIC Registration
 ilias_nic_id#:#NIC ID
-ilias_setup#:#ILIAS 3 setup
+ilias_setup#:#ILIAS 3 Setup
 ilias_version#:#ILIAS version
-include_local#:#include local
+include_local#:#Include Local
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asterisk must be filled out. All information is stored in your database. On the next screen you may register your installation at the ILIAS-NIC server; registration transmits this data to the ILIAS-NIC server.
 info_text_db#:#The database does not exist or is empty. Click the button below to install your database. If a database with the chosen name does not yet exist, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail (i.e. due to restricted access permissions), please contact the system administrator of the database server and ask him to create a database with desired name prior to installing ILIAS.
@@ -190,33 +190,33 @@ info_text_pathes#:#ILIAS 3 supports multiple clients with different databases. B
 ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
 ini_client_id_invalid#:#The client ID you entered contains invalid characters
 ini_client_id_no_change#:#Client ID cannot be changed in this version after client directories has been created successfully.
-ini_client_id_too_long#:#Client ID too long
-ini_client_id_too_short#:#Client ID too short
-ini_db_name_exists#:#already exists! Please choose another database name
-ini_no_client_id#:#No client ID given.
-ini_no_db_host#:#No hostname
-ini_no_db_name#:#no database name
-ini_no_db_user#:#No database username
-inifile#:#ini-file
-inifile_can_write#:#ILIAS 3 setup can write your ini-file.
-inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check write permissions first.
-inifile_content#:#Your ini-file has this content:
-inifile_exists#:#An ini-file exists. Note that this Installation process deletes previous settings.
+ini_client_id_too_long#:#Client ID too long.
+ini_client_id_too_short#:#Client ID too short.
+ini_db_name_exists#:#already exists! Please choose another database name.
+ini_no_client_id#:#No Client ID given.
+ini_no_db_host#:#No hostname.
+ini_no_db_name#:#no database name.
+ini_no_db_user#:#No database username.
+inifile#:#ini-File
+inifile_can_write#:#ILIAS 3 Setup can write your ini-File.
+inifile_cannot_write#:#ILIAS 3 Setup cannot write your ini-File. Please check write permissions first.
+inifile_content#:#Your ini-File has this content:
+inifile_exists#:#An ini-File exists. Note that this Installation process deletes previous settings.
 inifile_fill_all#:#Please fill out all fields.
-inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
-inifile_written#:#The ini-file has been successfully saved on your host.
-input_error#:#Input error
+inifile_firsttime#:#No ini-File present! It seems this is the first start of ILIAS 3.
+inifile_written#:#The ini-File has been successfully saved on your host.
+input_error#:#Input Error
 inst_identification#:#Installation Identification
-inst_name#:#installation name
-install#:#install
+inst_name#:#Installation Name
+install#:#Install
 installation#:#Installation
-installed#:#installed
+installed#:#Installed
 installed_local#:#Installed With Local
 institution#:#Institution
-intro_install#:#This is the main page of ILIAS 3 setup. From here you can step through the installation.
-ip_address#:#IP address
+intro_install#:#This is the main page of ILIAS 3 Setup. From here you can step through the installation.
+ip_address#:#IP Address
 java_path#:#Path to Java
-java_path_comment#:#required for SCORM Learning modules
+java_path_comment#:#Required for SCORM Learning Modules.
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
@@ -233,7 +233,7 @@ lang_lt#:#Lithuanian
 lang_min_one_language#:#You must install at least one language!
 lang_nl#:#Dutch
 lang_no#:#Norwegisch
-lang_none_installed#:#No language installed
+lang_none_installed#:#No language installed.
 lang_not_installed_default#:#The language you selected as the default language is not installed!
 lang_pl#:#Polish
 lang_pt#:#Portuguese
@@ -252,67 +252,70 @@ language#:#language
 languages#:#languages
 languages_installed#:#Language(s) installed
 lastname#:#Last name
-latex_url_comment#:#required for LaTeX support in ILIAS
+latex_url_comment#:#Required for LaTeX support in ILIAS.
 list#:#list
-list_disabled#:#Client selection disabled
-list_enabled#:#Client selection enabled
-log_path#:#Path to log file
-log_path_comment#:#enter with file name. File will be created.
+list_disabled#:#Client Selection Disabled
+list_enabled#:#Client Selection Enabled
+log_path#:#Path to Log File
+log_path_comment#:#Enter with file name. File will be created.
 logged_out#:#You logged out.
 logging#:#Logging
-login#:#login
-login_invalid#:#Login invalid
-login_to_ilias#:#login to ILIAS
-logout#:#logout
-main_datadir_outside_webspace#:#Main data directory outside web space
-missing_data#:#Missing data
+login#:#Login
+login_invalid#:#Login invalid.
+login_to_ilias#:#Login to ILIAS
+logout#:#Logout
+main_datadir_outside_webspace#:#Main Data Directory outside Web Space
+missing_data#:#Missing Data
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
 name#:#Name
-new#:#new
+new#:#New
+new_client#:#New Client
+list_clients#:#List Clients
+basic_settings#:#Basic Settings
 next#:#Next
 nic_not_disabled#:#No NIC-ID & not disabled
-nic_reg_disable#:#skip NIC registration
-nic_reg_disable_comment#:#(register later)
-nic_reg_disabled#:#NIC registration disabled
-nic_reg_email#:#register via Email
-nic_reg_enabled#:#NIC registration enabled!
-nic_reg_enter_checksum#:#Enter sent checksum
-nic_reg_enter_correct_id#:#Please enter correct nic_id
+nic_reg_disable#:#Skip NIC Registration
+nic_reg_disable_comment#:#(Register Later)
+nic_reg_disabled#:#NIC Registration Disabled
+nic_reg_email#:#Register via e-Mail
+nic_reg_enabled#:#NIC registration enabled.
+nic_reg_enter_checksum#:#Enter sent Checksum
+nic_reg_enter_correct_id#:#Please enter correct nic_id.
 nic_reg_enter_id#:#Enter sent NIC ID
-nic_reg_failed#:#NIC registration failed
-nic_reg_online#:#register online
+nic_reg_failed#:#NIC registration failed.
+nic_reg_online#:#Register Online
 nic_registration#:#NIC Registration
-no_changes#:#No changes.
+no_changes#:#No Changes.
 no_client_id#:#No Client ID given
-no_client_name#:#NO CLIENT NAME
-no_clients_available#:#No Clients available
-no_database#:#No database
+no_client_name#:#No Client Name
+no_clients_available#:#No Clients Available
+no_database#:#No Database
 no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator
 no_db_update_file#:#dbupdate.php not found!
-no_latex_url#:#No LaTeX CGI script URL given
-no_password#:#No password given
-no_path_convert#:#No convert path given
-no_path_datadir#:#No data directory given
-no_path_fop#:#No FOP path given
-no_path_given#:#No path given
-no_path_htmldoc#:#No HTMLdoc path given
-no_path_java#:#No Java path given
-no_path_log#:#No log path given
-no_path_unzip#:#No unzip path given
-no_path_zip#:#No zip path given
-no_setup_pass_given#:#No setup password given
-no_username#:#No username given
-no_valid_client_id#:#No valid client ID
+no_latex_url#:#No LaTeX CGI script URL given.
+no_password#:#No password given.
+no_path_convert#:#No convert path given.
+no_path_datadir#:#No data directory given.
+no_path_fop#:#No FOP path given.
+no_path_given#:#No path given.
+no_path_htmldoc#:#No HTMLdoc path given.
+no_path_java#:#No Java path given.
+no_path_log#:#No log path given.
+no_path_unzip#:#No unzip path given.
+no_path_zip#:#No zip path given.
+no_setup_pass_given#:#No setup password given.
+no_username#:#No username given.
+no_valid_client_id#:#No valid client ID.
 none#:#None
-not_connected_to_db#:#You are not connected to database
-online#:#online
+not_connected_to_db#:#You are not connected to database.
+online#:#Online
 or#:#or
 out_of_webspace#:#(out of web space)
-overall_status#:#Overall status
+overall_status#:#Overall Status
 overview#:#Overview
-pass_does_not_match#:#Entered passwords does not match
-password#:#password
+pass_does_not_match#:#Entered passwords does not match.
+password#:#Password
 password_changed#:#Password changed.
 password_empty#:#No password given!
 password_enter_old#:#You must enter your old password first!
@@ -322,8 +325,8 @@ password_not_match#:#New Password entered does not match!
 password_old_wrong#:#Old password entered is wrong!
 password_retype#:#Retype new password
 password_same#:#Old and new password are the same!
-password_set#:#Password saved
-path_not_set#:#Path not set
+password_set#:#Password saved.
+path_not_set#:#Path not set.
 path_to_convert#:#Path to Convert
 path_to_fop#:#Path to FOP
 path_to_htmldoc#:#Path to HTMLdoc
@@ -332,109 +335,116 @@ path_to_unzip#:#Path to Unzip
 path_to_zip#:#Path to Zip
 pathes#:#Paths
 phone#:#Phone
-port#:#port
+port#:#Oort
 position#:#Position
 pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS 3.
 pre_cookies_enabled#:#Cookies enabled
 pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
-pre_folder_create#:#New folders creatable in ILIAS 3 folder
+pre_folder_create#:#New folders creatable in ILIAS 3 folder.
 pre_folder_create_error#:#Cannot create subfolders! Please check your permission settings in your filesystem!
-pre_folder_write#:#Writable ILIAS 3 folder
+pre_folder_write#:#Writable ILIAS 3 folder.
 pre_folder_write_error#:#Cannot write in ILIAS 3 folder! Please check your permission settings in your filesystem!
 pre_intro#:#Let us first see if your environment meets all requirements to install and run ILIAS 3 on your system.
 pre_javascript_comment#:#You may run ILIAS without JavaScript, but some interface features will be missing.
-pre_javascript_enabled#:#JavaScript enabled
-pre_php_version#:#PHP version
+pre_javascript_enabled#:#JavaScript Enabled
+pre_php_version#:#PHP Version
 pre_php_version_3#:#Your PHP version is much too old for using ILIAS 3! Please upgrade PHP.
 pre_php_version_4.1#:#PEAR classes won't work properly with this version! Please upgrade PHP.
 pre_php_version_4.2#:#DOMXML and XSLT support won't work properly with this version!
 pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own risk.
-pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!
+pre_php_version_unknown#:#ILIAS Setup don't know this version. Use with own risk!
 preliminaries#:#Preliminaries
 prev#:#Previous
 reload#:#Reload
-required_field#:#required fields
+required_field#:#Required Fields
 reset#:#Reset
-root_access#:#root access
+root_access#:#Root Access
 safe_mode_enabled#:#Safe mode is enabled!
 save#:#Save
 save_error#:#Save Error!
-saved_successfully#:#Saved successfully
+saved_successfully#:#Saved Successfully
 scan_command#:#Scan Command
 select_client#:#Select a Client
 server_info#:#Server Information
-server_software#:#Server software
+server_software#:#Server Software
 set_default_client#:#Set Default Client
-set_newpasswd#:#Please enter new password
-set_oldpasswd#:#Please enter old password
-settings_changed#:#Settings changed
-settings_saved#:#Settings saved
-setup#:#setup
+set_newpasswd#:#Please enter new password.
+set_oldpasswd#:#Please enter old password.
+settings_changed#:#Settings changed.
+settings_saved#:#Settings saved.
+setup#:#Setup
 setup_3rdparty_data#:#Setup third party add-ons
-setup_basic_settings#:#Setup basic settings
+setup_basic_settings#:#Setup Basic Settings
 setup_contact_data#:#Setup Contact Information
-setup_database#:#setup database
-setup_database_desc#:#setup the database
+setup_database#:#Setup Database
+setup_database_desc#:#Setup the Database
 setup_db_first#:#Please setup your database first!
-setup_finished#:#Setup finished
+setup_finished#:#Setup Finished
 setup_first_client#:#Set up your first Client
-setup_ini_first#:#Please create your ini-file first!
-setup_inifile#:#create ini-file
-setup_inifile_desc#:#create the ini-file for your installation
-setup_languages#:#Install languages
-setup_languages_desc#:#install additional languages
+setup_ini_first#:#Please create your ini-File first!
+setup_inifile#:#Create ini-File
+setup_inifile_desc#:#Create the ini-File for your installation.
+setup_languages#:#Install Languages
+setup_languages_desc#:#Install Additional Languages
 setup_login#:#Login to Setup
-setup_mainmenu#:#Setup main menu
-setup_menu#:#setup menu
-setup_nic_desc#:#registration of your installation at ILIAS-NIC-Server
-setup_not_finished#:#Setup not finished
+setup_mainmenu#:#Setup Main Menu
+setup_menu#:#Setup Menu
+setup_nic_desc#:#Registration of your installation at ILIAS-NIC-Server
+setup_not_finished#:#Setup not Finished
 setup_pass#:#Password
 setup_pass2#:#Retype password
-setup_pass_title#:#Set master password
-setup_password#:#create password
-setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
+setup_pass_title#:#Set Master Password
+setup_password#:#Create Password
+setup_password_desc#:#Create a password to access the setup-routine later on (i.e. to update your database)
 setup_process_status#:#Setup Process Status
-setup_process_step_3rdparty#:#Third party add-ons
-setup_process_step_contact#:#Enter contact information
-setup_process_step_db#:#Install/Update database
-setup_process_step_finish#:#Finish installation
-setup_process_step_ini#:#Setup basic data
-setup_process_step_lang#:#Install system languages
+setup_process_step_3rdparty#:#Third Party Add-Ons
+setup_process_step_contact#:#Enter Contact Information
+setup_process_step_db#:#Install/Update Database
+setup_process_step_finish#:#Finish Installation
+setup_process_step_ini#:#Setup Basic Data
+setup_process_step_lang#:#Install System Languages
 setup_process_step_nic#:#Register at ILIAS-NIC
 setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
-setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to
+setup_welcome#:#Welcome to ILIAS 3 Setup. This setup-routine helps you to
 sophos#:#Sophos
 sort_by_this_column#:#Sort by this column
 status#:#Status
-status_3rdparty_false#:#3rd party add-ons missing
-status_3rdparty_ok#:#3rd party add-ons installed
-status_3rdparty_problems#:#3rd party add-ons problems
+status_3rdparty_false#:#3rd Party Add-Ons Missing
+status_3rdparty_ok#:#3rd Party Add-Ons Installed
+status_3rdparty_problems#:#3rd Party Add-Ons Problems
 step#:#Step
 street#:#Street
 submit#:#Submit
-tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location
-tiny_nothing_to_do#:#The editor is installed, there is nothing to do
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location.
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do.
 tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.
 tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE
-tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG Editor
 title#:#Title
 tools#:#Tools
 unknown_client_id#:#Unknown Client
-unknown_command#:#Unknown command
-unknown_display_mode#:#Unknown display mode
+unknown_command#:#Unknown Command
+unknown_display_mode#:#Unknown Display Mode
 unzip#:#Extract
 unzip_path#:#Path to Unzip
-unzip_path_comment#:#required for importing learning modules
-update_applied#:#Update applied
-update_error#:#Error while updating
+unzip_path_comment#:#Required for Importing Learning Modules
+update_applied#:#Update Applied
+update_error#:#Error while Updating
 update_not_found#:#Update not found!
-url_to_latex#:#URL to LaTeX CGI script
-username#:#username
+url_to_latex#:#URL to LaTeX CGI Script
+username#:#Username
 version#:#Version
 virus_scanner#:#Virus Scanner
-webspace_dir#:#web space data path
+webspace_dir#:#Web Space Data Path
 with#:#with
-wrong_password#:#Wrong password!
+wrong_password#:#Wrong Password!
 zip_path#:#Path to Zip
-zip_path_comment#:#required for exporting learning modules
-zipcode#:#Zip code
+zip_path_comment#:#Required for Exporting Learning Modules.
+zipcode#:#Zip Code
+step_ini#:#ini-File
+step_db#:#Database
+step_lang#:#Languages
+step_contact#:#Contact
+step_nic#:#NIC
+step_finish#:#Finish
+step_access#:#Access
