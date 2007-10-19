@@ -2247,8 +2247,9 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 
 
 	//clear existing completion status in case of 2nd attempt
-    err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
-	
+	if (currentAPI) {
+    	err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
+	}
 	
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 	
