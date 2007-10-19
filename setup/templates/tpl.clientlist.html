@@ -1,16 +1,17 @@
 {MESSAGE}
-<div class="il_Header">
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-<tr>
-	<td><h1>{TXT_HEADER}</h1></td>
-	<td nowrap="1" align="right">{TXT_LISTSTATUS}</td>
+<div style="float:right; margin:10px 0px;">
+<form method="GET" action="setup.php">
+<table class="std">
+<tr class="std">
+<td class="option_value">{TXT_LISTSTATUS}<input type="hidden" name="cmd" value="togglelist" />
+<input type="submit" class="submit" value="{TXT_TOGGLELIST}" />
+</td>
 </tr>
-<tr>
-	<td>&nbsp;</td>
-	<td align="right">[<a href="setup.php?cmd=togglelist">{TXT_TOGGLELIST}</a>]</td>
-</tr>
-
 </table>
+</form>
 </div>
-<p>{TXT_INFO}</p>
+<div class="il_Header">
+<h1>{TXT_HEADER}</h1>
+</div>
+<p style="clear:both;">{TXT_INFO}</p>
 {CLIENT_LIST}

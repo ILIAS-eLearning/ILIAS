@@ -2741,3 +2741,6 @@ CREATE TABLE `cmi_gobjective` (
   `objective_id` varchar(255) default NULL,
   UNIQUE KEY `gobjective` (`user_id`,`objective_id`,`scope_id`)
 ) ENGINE=MyISAM;
+
+<#1106>
+ALTER TABLE usr_session MODIFY session_id VARCHAR(80);

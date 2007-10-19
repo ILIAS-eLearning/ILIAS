@@ -516,18 +516,18 @@ class ilSetupGUI extends ilSetup
 				if ($this->display_mode == "view" or $this->cmd == "clientlist" or $this->cmd == "changepassword" or $this->cmd == "mastersettings")
 				{
 					$this->tpl->setCurrentBlock("add_client");
-					$this->tpl->setVariable("TXT_ADD_CLIENT",ucfirst($this->lng->txt("new")));
+					$this->tpl->setVariable("TXT_ADD_CLIENT",ucfirst($this->lng->txt("new_client")));
 					$this->tpl->parseCurrentBlock();
 				}
 
 				// client list link
 				$this->tpl->setCurrentBlock("display_list");
-				$this->tpl->setVariable("TXT_LIST",ucfirst($this->lng->txt("list")));
+				$this->tpl->setVariable("TXT_LIST",ucfirst($this->lng->txt("list_clients")));
 				$this->tpl->parseCurrentBlock();
 
 				// edit paths link
 				$this->tpl->setCurrentBlock("edit_pathes");
-				$this->tpl->setVariable("TXT_EDIT_PATHES",$this->lng->txt("pathes"));
+				$this->tpl->setVariable("TXT_EDIT_PATHES",$this->lng->txt("basic_settings"));
 				$this->tpl->parseCurrentBlock();
 
 				// change password link
@@ -549,7 +549,9 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_OK",$this->lng->txt("change"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");
-		$this->tpl->setVariable("LOCATION_STYLESHEET","./templates/blueshadow.css");
+		//$this->tpl->setVariable("LOCATION_STYLESHEET","./templates/blueshadow.css");
+		$this->tpl->setVariable("LOCATION_STYLESHEET","../templates/default/delos.css");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","../templates/default/delos_cont.css");
 		$this->tpl->setVariable("TXT_ILIAS_VERSION", "ILIAS ".ILIAS_VERSION);
 		$this->tpl->setVariable("TXT_SETUP",$this->lng->txt("setup"));
 		$this->tpl->setVariable("VERSION", $this->version);
@@ -1631,7 +1633,7 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl->addBlockFile("STATUS_PANEL","status_panel","tpl.status_panel.html");
 
-		$this->tpl->setVariable("TXT_OVERALL_STATUS",$this->lng->txt("overall_status"));
+		$this->tpl->setVariable("TXT_OVERALL_STATUS", $this->lng->txt("overall_status"));
 		// display status
 		if ($this->client->status)
 		{
@@ -1639,7 +1641,7 @@ class ilSetupGUI extends ilSetup
 			{
 				$status = ($val["status"]) ? $OK : "&nbsp;";
 				$this->tpl->setCurrentBlock("status_row");
-				$this->tpl->setVariable("TXT_STEP",$key.":&nbsp;");
+				$this->tpl->setVariable("TXT_STEP", $this->lng->txt("step_".$key));
 				$this->tpl->setVariable("TXT_STATUS",$status);
 				$this->tpl->setVariable("TXT_COMMENT",$val["comment"]);
 				$this->tpl->parseCurrentBlock();

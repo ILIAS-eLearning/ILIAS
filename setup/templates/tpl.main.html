@@ -6,6 +6,7 @@
 	<title>ILIAS 3 {PAGETITLE}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="../Services/Javascript/js/Basic.js"></script>
 </head>
@@ -13,88 +14,52 @@
 <style>
 body { margin:0px; }
 </style>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr class="btnbar">
-    <td width="1%" height="1"></td>
-    <td width="48%" height="1"></td>
-    <td width="40%" height="1"></td>
-    <td width="10%" height="1"></td>
-    <td width="1%" height="1"></td>
-  </tr>
-  <tr class="btnbar">
-	<td align="left"><img class="spacer" src="../setup/templates/images/spacer.gif" border="0" width="10" height="1" /></td>
-    <td>
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="3"><img class="spacer" border="0" src="../setup/templates/images/spacer.gif" width="1" height="4" /></td>
-        </tr>
-		<tr>
-          <td align="left"><a href="http://www.ilias.de" target="_blank"><img border="0" src="../templates/default/images/ilias_logo.png" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a></td>
-          <td align="left"><img class="spacer" src="../setup/templates/images/spacer.gif" border="0" width="10" height="1" /></td>
-          <td class="menu">{TXT_SETUP} {TXT_ACCESS_MODE}</td>
-        </tr>
-        <tr>
-          <td colspan="3"><img class="spacer" border="0" src="../setup/templates/images/spacer.gif" width="1" height="5" /></td>
-        </tr>
-	  </table>
-	</td>
-	<td>
-	<table align="right">
-  	  <tr>
+<div class="ilMainHeader">
+	<div class="ilLogin">
+		<form name="languageselection" method="get" style="margin:0;">
+		<input type="hidden" name="cmd" value="{VAL_CMD}" />
+		<select name="lang" onChange="this.form.submit()">
+		<option value="">{TXT_CHOOSE_LANGUAGE}</option>
+		<!-- BEGIN languages -->
+		<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
+		<!-- END languages -->
+		</select>
+		<input class="submit" type="submit" value="{TXT_OK}"/>
+		</form>
+	</div>
+	<div style="padding:2px 0px 2px 15px;">
+		<a href="http://www.ilias.de" target="_blank"><img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="../templates/default/images/HeaderIcon.png" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a>
+		<span class="il_PDTitle">{TXT_SETUP} {TXT_ACCESS_MODE}</span>
+	</div>
+	<div class="il_MainMenu" style="clear:both;">
 <!-- BEGIN add_client -->
-		<td>
-		[<a class="menu" href="setup.php?cmd=newclient">{TXT_ADD_CLIENT}</a>]
-	    </td>
+		<a class="MMInactive" href="setup.php?cmd=newclient">{TXT_ADD_CLIENT}</a>
 <!-- END add_client -->
 <!-- BEGIN display_list -->
-		<td>
-		[<a class="menu" href="setup.php?cmd=clientlist">{TXT_LIST}</a>]
-	    </td>
+		<a class="MMInactive" href="setup.php?cmd=clientlist">{TXT_LIST}</a>
 <!-- END display_list -->
 <!-- BEGIN edit_pathes -->
-		<td>
-		[<a class="menu" href="setup.php?cmd=mastersettings">{TXT_EDIT_PATHES}</a>]
-	    </td>
+		<a class="MMInactive" href="setup.php?cmd=mastersettings">{TXT_EDIT_PATHES}</a>
 <!-- END edit_pathes -->
 <!-- BEGIN change_password -->
-		<td>
-		[<a class="menu" href="setup.php?cmd=changepassword">{TXT_CHANGE_PASSWORD}</a>]
-	    </td>
+		<a class="MMInactive" href="setup.php?cmd=changepassword">{TXT_CHANGE_PASSWORD}</a>
 <!-- END change_password -->
 <!-- BEGIN logout -->
-		<td>
-		[<a class="menu" href="setup.php?cmd=logout">{TXT_LOGOUT}</a>]
-	    </td>
+		<a class="MMInactive" href="setup.php?cmd=logout">{TXT_LOGOUT}</a>
 <!-- END logout -->
-	  </tr>
-	</table>
-	</td>
-	<td nowrap="true" valign="middle">
+		&nbsp;
+	</div>
+</div>
 
-	<form name="languageselection" method="get" style="margin:0;">
-	<input type="hidden" name="cmd" value="{VAL_CMD}" />
-	<select name="lang" onChange="this.form.submit()">
-	<option value="">{TXT_CHOOSE_LANGUAGE}</option>
-	<!-- BEGIN languages -->
-	<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
-	<!-- END languages -->
-	</select>
-	<input class="submit" type="submit" value="{TXT_OK}"/>
-	</form>
-
-	</td>
-	<td align="left"><img class="spacer" src="../setup/templates/images/spacer.gif" border="0" width="10" height="1" /></td>
-  </tr>
-</table>
 <table class="fullwidth_invisible_padding">
   <tr>
     <td width="10px"></td>
     <td>
 {CONTENT}
-    <p align="center"><small>{TXT_ILIAS_VERSION} ({TXT_SETUP} {TXT_VERSION} {VERSION})</small></p>
     </td>
     <td width="10px"></td>
   </tr>
 </table>
+<p style="text-align:center;"><small>{TXT_ILIAS_VERSION} ({TXT_SETUP} {TXT_VERSION} {VERSION})</small></p>
 </body>
 </html>
