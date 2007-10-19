@@ -4340,9 +4340,9 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function saveClientIPObject()
 	{
-		if (is_array($_POST["invited_users"])) 
+		if (is_array($_POST["chbUser"])) 
 		{
-			foreach ($_POST["invited_users"] as $user_id)
+			foreach ($_POST["chbUser"] as $user_id)
 			{
 				$this->object->setClientIP($user_id, $_POST["clientip_".$user_id]);
 			}
