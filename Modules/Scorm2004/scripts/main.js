@@ -59,7 +59,7 @@ function toggleLog() {
 
 function sclog(mess, type)
 {
-	
+	return;
 	//log.info(mess);
 	//return;
 	//switch of sequencing-logging in general, cause of slowdown
@@ -98,6 +98,7 @@ function sclog(mess, type)
 */
 function sclogflush()
 {
+	return;
 	elm = all("ilLogPre");
 	if (elm) 
 	{

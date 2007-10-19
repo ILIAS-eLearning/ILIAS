@@ -160,10 +160,14 @@ SeqRule.prototype =
 				if (this.mConditions.evaluate(iThisActivity, {iIsRetry:iRetry}) == EVALUATE_TRUE)
 				{
 					result = this.mAction;
+					
 				}
 			}
 		}
 		
+		if (iType==RULE_TYPE_EXIT) {
+			//alert("EXIT RULE result: "+result);
+		}
 		return result;
 	}
 }

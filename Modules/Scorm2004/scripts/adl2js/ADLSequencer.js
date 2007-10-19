@@ -1215,7 +1215,6 @@ ADLSequencer.prototype =
 				{
 					exited = exitRules.evaluate(RULE_TYPE_EXIT, parent, false);
 				}
-				
 				// If the rule evaluation did not return null, the activity must
 				// have exited.
 				if (exited != null)
