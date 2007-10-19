@@ -77,7 +77,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	{
 		global $lng, $tpl;
 		
-		include_once("./Modules/SCORM2004/classes/class.ilSCORM2004TrackingTableGUI.php");
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004TrackingTableGUI.php");
 		$table_gui = new ilSCORM2004TrackingTableGUI($this, "showTrackingItems");
 				
 		$tr_data_sets = $this->object->getTrackedUsers();
