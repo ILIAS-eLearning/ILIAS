@@ -34,7 +34,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#3rd Party Software
+3rd_party_software#:#3rd Party Tools
 3rdparty#:#3rd Party add-ons
 absolute_path#:#Absolute Path
 access#:#Access
@@ -50,13 +50,13 @@ change_basic_settings#:#Change Basic Settings
 change_password#:#Change Password
 change_sort_direction#:#Change Sort Direction
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-check_failed_convert#:#Testing convert failed.
+check_failed_convert#:#Convert command not found.
 check_failed_htmldoc#:#Testing FOP failed.
-check_failed_htmldoc#:#Testing HTMLdoc failed.
-check_failed_java#:#Testing Java failed.
+check_failed_htmldoc#:#HTMLdoc command not found.
+check_failed_java#:#Java command not found.
 check_failed_latex#:#Testing LaTeX CGI script failed.
-check_failed_unzip#:#Testing unzip failed.
-check_failed_zip#:#Testing zip failed.
+check_failed_unzip#:#Unzip command not found.
+check_failed_zip#:#Zip command not found.
 choose_language#:#Choose your Language
 choose_languages#:#Please choose additional languages and/or remove selected languages.
 choose_password#:#Please choose a password.
@@ -76,7 +76,7 @@ collation#:#Collation
 contact#:#Contact Information
 contact_data#:#Contact Information
 convert_path#:#Path to Convert
-convert_path_comment#:#Required for displaying thumbnails of images.
+convert_path_comment#:#Required for displaying thumbnails of images, e.g. '/your_path/convert'.
 could_not_create_logfile#:#Could not create log file.
 country#:#Country
 create#:#Create
@@ -158,7 +158,7 @@ fop_path_comment#:#Required to generate PDF documents.
 hide_clientlist#:#Client Selection is hidden for users.
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
-htmldoc_path_comment#:#Required to generate PDF documents.
+htmldoc_path_comment#:#Optional to generate PDF documents, e.g. '/your_path/htmldoc'.
 http_path#:#HTTP Path
 id#:#ID
 ilias_db_mode#:#ILIAS Database Mode
@@ -216,7 +216,7 @@ institution#:#Institution
 intro_install#:#This is the main page of ILIAS 3 Setup. From here you can step through the installation.
 ip_address#:#IP Address
 java_path#:#Path to Java
-java_path_comment#:#Required for SCORM Learning Modules.
+java_path_comment#:#Optional for validating SCORM Learning Modules, e.g. '/your_path/java'.
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
@@ -252,12 +252,12 @@ language#:#language
 languages#:#languages
 languages_installed#:#Language(s) installed
 lastname#:#Last name
-latex_url_comment#:#Required for LaTeX support in ILIAS.
+latex_url_comment#:#Optional LaTeX support in ILIAS.
 list#:#list
 list_disabled#:#Client Selection Disabled
 list_enabled#:#Client Selection Enabled
 log_path#:#Path to Log File
-log_path_comment#:#Enter with file name. File will be created.
+log_path_comment#:#E.g. '/path_to_log_dir/ilias3.log' (File will be created)
 logged_out#:#You logged out.
 logging#:#Logging
 login#:#Login
@@ -319,7 +319,7 @@ password#:#Password
 password_changed#:#Password changed.
 password_empty#:#No password given!
 password_enter_old#:#You must enter your old password first!
-password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings later again.
+password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings again later.
 password_new_master#:#Set new master password
 password_not_match#:#New Password entered does not match!
 password_old_wrong#:#Old password entered is wrong!
@@ -427,7 +427,7 @@ unknown_command#:#Unknown Command
 unknown_display_mode#:#Unknown Display Mode
 unzip#:#Extract
 unzip_path#:#Path to Unzip
-unzip_path_comment#:#Required for Importing Learning Modules
+unzip_path_comment#:#Required for extracting import files, e.g. '/your_path/unzip'.
 update_applied#:#Update Applied
 update_error#:#Error while Updating
 update_not_found#:#Update not found!
@@ -439,7 +439,7 @@ webspace_dir#:#Web Space Data Path
 with#:#with
 wrong_password#:#Wrong Password!
 zip_path#:#Path to Zip
-zip_path_comment#:#Required for Exporting Learning Modules.
+zip_path_comment#:#Required for building export files, e.g. '/your_path/zip'.
 zipcode#:#Zip Code
 step_ini#:#ini-File
 step_db#:#Database
@@ -448,3 +448,6 @@ step_contact#:#Contact
 step_nic#:#NIC
 step_finish#:#Finish
 step_access#:#Access
+determine_tools_paths#:#Try to Determine Tools Paths
+client_deleted#:#Client deleted.
+create_directory#:#Create Directory

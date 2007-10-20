@@ -1090,15 +1090,9 @@ class ilSetup extends PEAR
 			// convert backslashes to forwardslashes
 			$convert_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"]));
 
-			if (empty($convert_path))
+			if (($err = $this->testConvert($convert_path)) != "")
 			{
-				$this->error = "no_path_convert";
-				return false;
-			}
-			
-			if (!$this->testConvert($convert_path))
-			{
-				$this->error = "check_failed_convert";
+				$this->error = $err;
 				return false;
 			}
 		}
@@ -1342,8 +1336,20 @@ class ilSetup extends PEAR
 	* @param	string		convert path
 	* @return	boolean		true -> OK | false -> not OK	
 	*/
-	function testConvert ($a_convert_path)
+	function testConvert($a_convert_path)
 	{
+		if (trim($a_convert_path) == "")
+		{
+			return "no_path_convert";
+		}
+		if (!is_file($a_convert_path))
+		{
+			return "check_failed_convert";
+		}
+		
+		return "";
+		
+/*
 		// generate gif with convert
 		if (file_exists(ILIAS_ABSOLUTE_PATH."/images/test.gif"))
 		{
@@ -1362,6 +1368,7 @@ class ilSetup extends PEAR
 		{
 			return false;
 		}
+*/
 	}
 
 	/**
@@ -1372,11 +1379,25 @@ class ilSetup extends PEAR
 	*/
 	function testJava ($a_java_path)
 	{
+		// java is optional, so empty path is ok
+		if (trim($a_java_path) == "")
+		{
+			return "";
+		}
+		
+		if (!is_file($a_java_path))
+		{
+			return "check_failed_java";
+		}
+		
+		return "";
+/*
 		exec($a_java_path, $out, $back);
 	
 		unset($out);
 	
 		return ($back != 1) ? false : true;
+*/
 	}
 
 	/**
@@ -1387,17 +1408,23 @@ class ilSetup extends PEAR
 	*/
 	function testLatex($a_latex_url)
 	{
+		// latex is optional, so empty path is ok
+		if (trim($a_latex_url) == "")
+		{
+			return "";
+		}
+				
 		// open the URL
 		include_once "class.ilHttpRequest.php";
 		$http = new ilHttpRequest(ilUtil::stripSlashes($a_latex_url) . "?x_0");
-		$result = $http->downloadToString();
+		$result = @$http->downloadToString();
 		if ((strpos((substr($result, 0, 5)), "PNG") !== FALSE) || (strpos((substr($result, 0, 5)), "GIF") !== FALSE))
 		{
-			return true;
+			return "";
 		}
 		else
 		{
-			return false;
+			return "check_failed_latex";;
 		}
 	}
 	
@@ -1409,6 +1436,17 @@ class ilSetup extends PEAR
 	*/
 	function testZip ($a_zip_path)
 	{
+		if (trim($a_zip_path) == "")
+		{
+			return "no_path_zip";
+		}
+		if (!is_file($a_zip_path))
+		{
+			return "check_failed_zip";
+		}
+		
+		return "";
+/*
 		// create test file and run zip
 		$fp = fopen(ILIAS_ABSOLUTE_PATH."/test.dat", "w");
 			
@@ -1439,6 +1477,7 @@ class ilSetup extends PEAR
 			unlink(ILIAS_ABSOLUTE_PATH."/test.dat");
 			return false;
 		}
+*/
 	}
 	
 	
@@ -1450,6 +1489,17 @@ class ilSetup extends PEAR
 	*/
 	function testUnzip ($a_unzip_path)
 	{
+		if (trim($a_unzip_path) == "")
+		{
+			return "no_path_unzip";
+		}
+		if (!is_file($a_unzip_path))
+		{
+			return "check_failed_unzip";
+		}
+		
+		return "";
+/*
 		$curDir = getcwd();
 				
 		chdir(ILIAS_ABSOLUTE_PATH);
@@ -1473,6 +1523,7 @@ class ilSetup extends PEAR
 		{
 			return false;
 		}
+*/
 	}
 
 	/**
@@ -1483,6 +1534,20 @@ class ilSetup extends PEAR
 	*/
 	function testHtmldoc($a_htmldoc_path)
 	{
+		// java is optional, so empty path is ok
+		if (trim($a_htmldoc_path) == "")
+		{
+			return "";
+		}
+
+		if (!is_file($a_htmldoc_path))
+		{
+			return "check_failed_htmldoc";
+		}
+		
+		return "";
+
+		
 		$curDir = getcwd();
 				
 		chdir(ILIAS_ABSOLUTE_PATH);
