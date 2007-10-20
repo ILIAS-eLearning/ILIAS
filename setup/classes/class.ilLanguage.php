@@ -665,5 +665,9 @@ class ilLanguage
 		
 		return true;
 	}
+	
+	function loadLanguageModule()
+	{
+	}
 } // END class.ilLanguage
 ?>

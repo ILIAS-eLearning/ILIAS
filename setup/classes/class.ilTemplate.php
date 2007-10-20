@@ -37,7 +37,8 @@ class ilTemplate extends ilTemplateX
 	* @var	array
 	*/
 	var $vars;
-
+	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
+	
 	/**
 	* Aktueller Block
 	* Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
@@ -72,6 +73,8 @@ class ilTemplate extends ilTemplateX
 	{
 		header('Content-type: text/html; charset=UTF-8');
 
+		$this->fillJavaScriptFiles();
+		
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 		if ($_SESSION["message"] || $_SESSION["info"])
 		{
@@ -140,5 +143,34 @@ class ilTemplate extends ilTemplateX
 	{
 		return $this->blockvariables["content"][$a_blockname] ? true : false;
 	}
+	
+	/**
+	* Add a javascript file that should be included in the header.
+	*/
+	function addJavaScript($a_js_file)
+	{
+		if (!in_array($a_js_file, $this->js_files))
+		{
+			$this->js_files[] = $a_js_file;
+		}
+	}
+
+	function fillJavaScriptFiles()
+	{
+		global $ilias,$ilTabs;
+		if ($this->blockExists("js_file"))
+		{
+			foreach($this->js_files as $file)
+			{
+				if (is_file($file) || substr($file, 0, 4) == "http")
+				{
+					$this->setCurrentBlock("js_file");
+					$this->setVariable("JS_FILE", $file);
+					$this->parseCurrentBlock();
+				}
+			}
+		}
+	}
+
 }
 ?>

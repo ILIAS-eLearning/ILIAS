@@ -3,78 +3,97 @@
 <table class="std">
 <!-- BEGIN setup_datadir -->
 	<tr class="tblheader">
-      <td class="std" colspan="4">{TXT_DATADIR_TITLE}</td>
+      <td class="std" colspan="2">{TXT_DATADIR_TITLE}</td>
     </tr>
     <tr>
       <td class="option">{TXT_DATADIR_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="form[datadir_path]" value="{DATADIR_PATH}" /></td>
-      <td class="option_value"><input type="checkbox" name="form[chk_datadir_path]" value="1" id="chk_datadir_path" {CHK_DATADIR_PATH}/><label for="chk_datadir_path">{TXT_CREATE}</label></td>
-	  </td>
-      <td class="option_desc">{TXT_DATADIR_COMMENT1}</td>
+    </tr>
+    <tr>
+      <td class="option"><label for="chk_datadir_path">{TXT_CREATE}</label></td>
+      <td class="option_value"><input type="checkbox" name="form[chk_datadir_path]" value="1" id="chk_datadir_path" {CHK_DATADIR_PATH}/></td>
     </tr>
 <!-- END setup_datadir -->
 <!-- BEGIN display_datadir -->
 	<tr class="tblheader">
-      <td class="std" colspan="4">{TXT_DATADIR_TITLE}</td>
+      <td class="std" colspan="2">{TXT_DATADIR_TITLE}</td>
     </tr>
     <tr>
-      <td class="option" nowrap="nowrap">{TXT_DATADIR_PATH}</td>
-      <td class="option_value">{DATADIR_PATH}</td>
-      <td class="option_desc" colspan="2">{TXT_DATADIR_COMMENT2}</td>
+      <td class="option" nowrap="nowrap">{TXT_DATADIR_PATH}
+	  </td>
+      <td class="option_value">{DATADIR_PATH}
+	  <br /><span class="subtitle">{TXT_DATADIR_COMMENT2}</span>
+	  </td>
     </tr>
 <!-- END display_datadir -->
 
 <!-- BEGIN setup_log -->
 	<tr class="tblheader">
-      <td class="std" colspan="4">{TXT_LOG_TITLE}</td>
+      <td class="std" colspan="2">{TXT_LOG_TITLE}</td>
     </tr>
     <tr>
       <td class="option">{TXT_LOG_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[log_path]" value="{LOG_PATH}" /></td>
-      <td class="option_value" nowrap="nowrap"><input type="checkbox" name="form[chk_log_status]" value="1" id="chk_log_status" {CHK_LOG_STATUS}/><label for="chk_log_status">{TXT_DISABLE_LOGGING}</label></td>
-      <td class="option_desc">{TXT_LOG_COMMENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[log_path]" value="{LOG_PATH}" />
+	  <br /><span class="subtitle">{TXT_LOG_COMMENT}</span>
+	  </td>
+    </tr>
+    <tr>
+      <td class="option"><label for="chk_log_status">{TXT_DISABLE_LOGGING}</label></td>
+	  <td class="option_value"><input type="checkbox" name="form[chk_log_status]" value="1" id="chk_log_status" {CHK_LOG_STATUS}/></td>
     </tr>
 <!-- END setup_log -->
 
 <!-- BEGIN setup_tools -->
 	<tr class="tblheader">
-      <td class="std" colspan="4">{TXT_TOOLS_TITLE}<span class="asterisk">*</span></td>
+      <td class="std" colspan="2">{TXT_TOOLS_TITLE}<span class="asterisk">*</span></td>
     </tr>
     <tr>
       <td class="option">{TXT_CONVERT_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[convert_path]" value="{CONVERT_PATH}" /></td>
-      <td class="option_value" nowrap="nowrap"><input type="checkbox" name="form[chk_convert_path]" value="1" id="chk_convert_path" {CHK_CONVERT_PATH}/><label for="chk_convert_path">{TXT_DISABLE_CHECK}</label></td>
-      <td class="option_desc">{TXT_CONVERT_COMMENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[convert_path]" value="{CONVERT_PATH}" />
+	  <br /><span class="subtitle">{TXT_CONVERT_COMMENT}
+	  <!-- BEGIN warning_convert --><br /><img src="../templates/default/images/icon_alert_s.gif" border="0"/> {TXT_WARNING_CONVERT}<!-- END warning_convert -->
+	  </span>
+	  </td>
     </tr>
     <tr>
       <td class="option">{TXT_ZIP_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[zip_path]" value="{ZIP_PATH}" /></td>
-      <td class="option_value" nowrap="nowrap"><input type="checkbox" name="form[chk_zip_path]" value="1" id="chk_zip_path" {CHK_ZIP_PATH}/><label for="chk_zip_path">{TXT_DISABLE_CHECK}</label></td>
-      <td class="option_desc">{TXT_ZIP_COMMENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[zip_path]" value="{ZIP_PATH}" />
+	  <br /><span class="subtitle">{TXT_ZIP_COMMENT}
+	  <!-- BEGIN warning_zip --><br /><img src="../templates/default/images/icon_alert_s.gif" border="0"/> {TXT_WARNING_ZIP}<!-- END warning_zip -->
+	  </span>
+	  </td>
     </tr>
     <tr>
       <td class="option">{TXT_UNZIP_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[unzip_path]" value="{UNZIP_PATH}" /></td>
-      <td class="option_value" nowrap="nowrap"><input type="checkbox" name="form[chk_unzip_path]" value="1" id="chk_unzip_path" {CHK_UNZIP_PATH}/><label for="chk_unzip_path">{TXT_DISABLE_CHECK}</label></td>
-      <td class="option_desc">{TXT_UNZIP_COMMENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[unzip_path]" value="{UNZIP_PATH}" />
+	  <br /><span class="subtitle">{TXT_UNZIP_COMMENT}
+	  <!-- BEGIN warning_unzip --><br /><img src="../templates/default/images/icon_alert_s.gif" border="0"/> {TXT_WARNING_UNZIP}<!-- END warning_unzip -->
+	  </span>
+	  </td>
     </tr>
     <tr>
       <td class="option">{TXT_JAVA_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[java_path]" value="{JAVA_PATH}" /></td>
-      <td class="option_value" nowrap="nowrap"><input type="checkbox"  name="form[chk_java_path]" value="1" id="chk_java_path" {CHK_JAVA_PATH}/><label for="chk_java_path">{TXT_DISABLE_CHECK}</label></td>
-      <td class="option_desc">{TXT_JAVA_COMMENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="form[java_path]" value="{JAVA_PATH}" />
+	  <br /><span class="subtitle">{TXT_JAVA_COMMENT}
+	  <!-- BEGIN warning_java --><br /><img src="../templates/default/images/icon_alert_s.gif" border="0"/> {TXT_WARNING_JAVA}<!-- END warning_java -->
+	  </span>
+	  </td>
     </tr>
     <tr>
       <td class="option">{TXT_HTMLDOC_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="250" name="form[htmldoc_path]" value="{HTMLDOC_PATH}" /></td>
-      <td class="option_value" nowrap="nowrap"><input type="checkbox"  name="form[chk_htmldoc_path]" value="1" id="chk_htmldoc_path" {CHK_HTMLDOC_PATH}/><label for="chk_htmldoc_path">{TXT_DISABLE_CHECK}</label></td>
-      <td class="option_desc">{TXT_HTMLDOC_COMMENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="250" name="form[htmldoc_path]" value="{HTMLDOC_PATH}" />
+	  <br /><span class="subtitle">{TXT_HTMLDOC_COMMENT}
+	  <!-- BEGIN warning_htmldoc --><br /><img src="../templates/default/images/icon_alert_s.gif" border="0"/> {TXT_WARNING_HTMLDOC}<!-- END warning_htmldoc -->
+	  </span>
+	  </td>
     </tr>
     <tr>
       <td class="option">{TXT_LATEX_URL}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="250" name="form[latex_url]" value="{LATEX_URL}" /></td>
-      <td class="option_value" nowrap="nowrap"><input type="checkbox"  name="form[chk_latex_url]" value="1" id="chk_latex_url" {CHK_LATEX_URL}/><label for="chk_latex_url">{TXT_DISABLE_CHECK}</label></td>
-      <td class="option_desc">{TXT_LATEX_URL_COMMENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="250" name="form[latex_url]" value="{LATEX_URL}" />
+	  <br /><span class="subtitle">{TXT_LATEX_URL_COMMENT}
+	  <!-- BEGIN warning_latex --><br /><img src="../templates/default/images/icon_alert_s.gif" border="0"/> {TXT_WARNING_LATEX}<!-- END warning_latex -->
+	  </span>
+	  </td>
     </tr>
     <tr>
       <td class="option">{TXT_VIRUS_SCANNER}</td>
@@ -86,20 +105,14 @@
 		  <option value="clamav" {STYPE_CLAMAV}>{TXT_CLAMAV}</option>
 		</select>
       </td>
-      <td class="option_value" nowrap="nowrap">&nbsp;</td>
-      <td class="option_desc">&nbsp;</td>
     </tr>
     <tr>
       <td class="option">{TXT_SCAN_COMMAND}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="form[scan_command]" value="{SCAN_COMMAND}" /></td>
-      <td class="option_value" nowrap="nowrap">&nbsp;</td>
-      <td class="option_desc">&nbsp;</td>
     </tr>
     <tr>
       <td class="option">{TXT_CLEAN_COMMAND}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="form[clean_command]" value="{CLEAN_COMMAND}" /></td>
-      <td class="option_value" nowrap="nowrap">&nbsp;</td>
-      <td class="option_desc">&nbsp;</td>
     </tr>
 	<!--
     <tr>
@@ -113,12 +126,13 @@
 
 <!-- BEGIN setup_pass -->
 <tr class="tblheader">
-	<td class="std" colspan="4">{TXT_SETUP_PASS_TITLE}</td>
+	<td class="std" colspan="2">{TXT_SETUP_PASS_TITLE}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_SETUP_PASS}</td>
-	<td class="option_value"><input type="password" name="form[setup_pass]" maxlength="40" size="40" value="{SETUP_PASS}"/></td>
-    <td colspan="2" rowspan="2" class="option_desc">{TXT_SETUP_PASS_COMMENT}</td>
+	<td class="option_value"><input type="password" name="form[setup_pass]" maxlength="40" size="40" value="{SETUP_PASS}"/>
+	<br /><span class="subtitle">{TXT_SETUP_PASS_COMMENT}</span>
+	</td>
 </tr>
 <tr>
 	<td class="option">{TXT_SETUP_PASS2}</td>
@@ -126,10 +140,14 @@
 </tr>
 <!-- END setup_pass -->
 <tr>
-	<td class="submit" colspan="4">
+	<td class="submit" colspan="2">
 	<span class="asterisk">*</span><span class="small"> {TXT_ENTER_DIR_AND_FILENAME}</span>
-	<div align="right"><input class="submit" type="submit" name="cmd[{SUBMIT_CMD}]" value="{TXT_SAVE}"/></div>
+	<div align="right">
+		<input class="submit" type="submit" name="cmd[{CMD_DET_TOOLS_PATH}]" value="{TXT_DET_TOOLS_PATH}"/>
+		<input class="submit" type="submit" name="cmd[{SUBMIT_CMD}]" value="{TXT_SAVE}"/>
+	</div>
 	</td>
 </tr>
 </table>
 </form>
+<br />

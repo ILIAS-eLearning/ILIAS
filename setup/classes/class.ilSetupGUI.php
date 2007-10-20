@@ -164,6 +164,10 @@ class ilSetupGUI extends ilSetup
 			case "install":
 				$this->displayMasterSetup();
 				break;
+				
+			case "determineToolsPathInstall":
+				$this->determineToolsPathInstall();
+				break;
 
 			default:
 				$this->displayError($this->lng->txt("unknown_command"));
@@ -192,6 +196,11 @@ class ilSetupGUI extends ilSetup
 			case "mastersettings":
 				$this->setDisplayMode("view");
 				$this->changeMasterSettings();
+				break;
+				
+			case "determineToolsPath":
+				$this->setDisplayMode("view");
+				$this->determineToolsPath();
 				break;
 
 			case "changedefault":
@@ -770,7 +779,7 @@ class ilSetupGUI extends ilSetup
 	/**
 	 * display master setup form & process form input
 	 */
-	function displayMasterSetup()
+	function displayMasterSetup($a_det = false)
 	{
 		if ($_POST["form"])
 		{
@@ -784,10 +793,15 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}
 
-			if (!$this->checkToolsSetup($_POST["form"]))
+			if ($a_det)
+			{
+				$_POST["form"] = $this->determineTools($_POST["form"]);
+			}
+			
+			/*if (!$this->checkToolsSetup($_POST["form"]))
 			{
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
-			}
+			}*/
 			
 			if (!$this->checkPasswordSetup($_POST["form"]))
 			{
@@ -801,7 +815,7 @@ class ilSetupGUI extends ilSetup
 			
 			ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 			
-			ilUtil::redirect("setup.php?cmd=startup");
+			ilUtil::redirect("setup.php?cmd=mastersettings");
 		}
 
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
@@ -820,6 +834,9 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_first_install")."<br/>".$this->lng->txt("info_text_pathes"));
+		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
+		$this->tpl->setVariable("CMD_DET_TOOLS_PATH", "determineToolsPathInstall");
+
 		
 		if ($this->safe_mode)
 		{
@@ -836,7 +853,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("main_datadir_outside_webspace"));
 		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("datadir_path"));
 		$this->tpl->setVariable("TXT_DATADIR_COMMENT1", $this->lng->txt("datadir_path_comment1"));
-		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("create"));
+		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("create_directory"));
 		// values
 		//echo $this->ini->readVariable($this->ini->readVariable("server","presetting"),"data_dir");
 		if ($_SESSION["error_post_vars"]["form"])
@@ -1214,9 +1231,56 @@ class ilSetupGUI extends ilSetup
 	}
 
 	/**
+	* Determine tools paths
+	*/
+	function determineToolsPath()
+	{
+		$this->changeMasterSettings(true);
+	}
+	
+	/**
+	* Determine tools paths
+	*/
+	function determineToolsPathInstall()
+	{
+		$this->displayMasterSetup(true);
+	}
+	
+	/**
+	* Determine Tools
+	*/
+	function determineTools($a_tools)
+	{
+		$tools = array("convert", "zip", "unzip", "java", "htmldoc");
+		$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin");
+		foreach($tools as $tool)
+		{
+			// try which command
+			unset($ret);
+			@exec("which ".$tool, $ret);
+			if (substr($ret[0], 0, 3) != "no " && substr($ret[0], 0, 1) == "/")
+			{
+				$a_tools[$tool."_path"] = $ret[0];
+				continue;
+			}
+			
+			// try common directories
+			foreach($dirs as $dir)
+			{
+				if (is_file($dir."/".$tool))
+				{
+					$a_tools[$tool."_path"] = $dir."/".$tool;
+					continue;
+				}
+			}
+		}
+		return $a_tools;
+	}
+	
+	/**
 	 * display master settings and process form input
 	 */
-	function changeMasterSettings()
+	function changeMasterSettings($a_det = false)
 	{
 		if ($_POST["form"])
 		{
@@ -1225,18 +1289,23 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}
 
-			if (!$this->checkToolsSetup($_POST["form"]))
+			/*if (!$this->checkToolsSetup($_POST["form"]))
 			{
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
-			}
+			}*/
 
+			if ($a_det)
+			{
+				$_POST["form"] = $this->determineTools($_POST["form"]);
+			}
+			
 			if (!$this->updateMasterSettings($_POST["form"]))
 			{
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}
 
 			ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
-			ilUtil::redirect("setup.php");
+			ilUtil::redirect("setup.php?cmd=mastersettings");
 		}
 
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
@@ -1253,6 +1322,8 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("SUBMIT_CMD", "mastersettings");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
+		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
+		$this->tpl->setVariable("CMD_DET_TOOLS_PATH", "determineToolsPath");
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
 		
 		if ($this->safe_mode)
@@ -1324,33 +1395,50 @@ class ilSetupGUI extends ilSetup
 		// values
 		if ($_SESSION["error_post_vars"])
 		{
-			$this->tpl->setVariable("CONVERT_PATH", $_SESSION["error_post_vars"]["form"]["convert_path"]);
-			$this->tpl->setVariable("ZIP_PATH", $_SESSION["error_post_vars"]["form"]["zip_path"]);
-			$this->tpl->setVariable("UNZIP_PATH", $_SESSION["error_post_vars"]["form"]["unzip_path"]);
-			$this->tpl->setVariable("JAVA_PATH", $_SESSION["error_post_vars"]["form"]["java_path"]);
-			$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
-			$this->tpl->setVariable("LATEX_URL", $_SESSION["error_post_vars"]["form"]["latex_url"]);
-			$this->tpl->setVariable("FOP_PATH", $_SESSION["error_post_vars"]["form"]["fop_path"]);
-			$this->tpl->setVariable("STYPE_".
-				strtoupper($_SESSION["error_post_vars"]["form"]["vscanner_type"]), " selected=\"1\" ");
-			$this->tpl->setVariable("SCAN_COMMAND", $_SESSION["error_post_vars"]["form"]["scan_command"]);
-			$this->tpl->setVariable("CLEAN_COMMAND", $_SESSION["error_post_vars"]["form"]["clean_command"]);
+			$vals = $_SESSION["error_post_vars"]["form"];
 		}
 		else
 		{
-			$this->tpl->setVariable("CONVERT_PATH", $this->ini->readVariable("tools","convert"));
-			$this->tpl->setVariable("ZIP_PATH", $this->ini->readVariable("tools","zip"));
-			$this->tpl->setVariable("UNZIP_PATH",$this->ini->readVariable("tools","unzip"));
-			$this->tpl->setVariable("JAVA_PATH",$this->ini->readVariable("tools","java"));
-			$this->tpl->setVariable("HTMLDOC_PATH",$this->ini->readVariable("tools","htmldoc"));
-			$this->tpl->setVariable("LATEX_URL",$this->ini->readVariable("tools","latex"));
-			$this->tpl->setVariable("FOP_PATH",$this->ini->readVariable("tools","fop"));
-			$this->tpl->setVariable("STYPE_".
-				strtoupper($this->ini->readVariable("tools", "vscantype")), " selected=\"1\" ");
-			$this->tpl->setVariable("SCAN_COMMAND", $this->ini->readVariable("tools", "scancommand"));
-			$this->tpl->setVariable("CLEAN_COMMAND", $this->ini->readVariable("tools", "cleancommand"));
+			$vals["convert_path"] = $this->ini->readVariable("tools","convert");
+			$vals["zip_path"] = $this->ini->readVariable("tools","zip");
+			$vals["unzip_path"] = $this->ini->readVariable("tools","unzip");
+			$vals["java_path"] = $this->ini->readVariable("tools","java");
+			$vals["htmldoc_path"] = $this->ini->readVariable("tools","htmldoc");
+			$vals["latex_url"] = $this->ini->readVariable("tools","latex");
+			$vals["fop_path"] = $this->ini->readVariable("tools","fop");
+			$vals["vscanner_type"] = $this->ini->readVariable("tools", "vscantype");
+			$vals["scan_command"] = $this->ini->readVariable("tools", "scancommand");
+			$vals["clean_command"] = $this->ini->readVariable("tools", "cleancommand");
+		}
+		
+		$tools = array("convert" => "testConvert", "zip" => "testZip",
+			"unzip" => "testUnzip", "java" => "testJava", "htmldoc" => "testHtmldoc",
+			"latex" => "testLatex");
+		foreach ($tools as $tool => $func)
+		{
+			$end = ($tool == "latex")
+				? "url"
+				: "path";
+			if (($err = $this->$func($vals[$tool."_".$end])) != "")
+			{
+				$this->tpl->setCurrentBlock("warning_".$tool);
+				$this->tpl->setVariable("TXT_WARNING_".strtoupper($tool), $this->lng->txt($err));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
+		$this->tpl->setVariable("CONVERT_PATH", $vals["convert_path"]);
+		$this->tpl->setVariable("ZIP_PATH", $vals["zip_path"]);
+		$this->tpl->setVariable("UNZIP_PATH", $vals["unzip_path"]);
+		$this->tpl->setVariable("JAVA_PATH", $vals["java_path"]);
+		$this->tpl->setVariable("HTMLDOC_PATH", $vals["htmldoc_path"]);
+		$this->tpl->setVariable("LATEX_URL", $vals["latex_url"]);
+		$this->tpl->setVariable("FOP_PATH", $vals["fop_path"]);
+		$this->tpl->setVariable("STYPE_".
+			strtoupper($vals["vscanner_type"]), " selected=\"1\" ");
+		$this->tpl->setVariable("SCAN_COMMAND", $vals["scan_command"]);
+		$this->tpl->setVariable("CLEAN_COMMAND", $vals["clean_command"]);
+		
 		$chk_convert_path = ($_SESSION["error_post_vars"]["form"]["chk_convert_path"]) ? $checked : "";
 		$chk_zip_path = ($_SESSION["error_post_vars"]["form"]["chk_zip_path"]) ? $checked : "";
 		$chk_unzip_path = ($_SESSION["error_post_vars"]["form"]["chk_unzip_path"]) ? $checked : "";
@@ -1368,6 +1456,11 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("CHK_LATEX_URL", $chk_latex_url);
 		$this->tpl->setVariable("CHK_FOP_PATH", $chk_fop_path);
 		$this->tpl->parseCurrentBlock();
+		
+		$this->btn_next_on = true;
+		$this->btn_next_lng = "Create Client >>";
+		$this->btn_next_cmd = "newclient";
+
 	}
 
 	/**
@@ -2703,5 +2796,55 @@ class ilSetupGUI extends ilSetup
 		
 		ilUtil::redirect("setup.php");
 	}
+	
+	/**
+	* FORM: Init form.
+	*
+	* @param        int        $a_mode        Form Edit Mode ("edit")
+	*/
+	/*
+	public function initBasicSettingsForm($a_mode = "edit")
+	{
+		global $lng;
+		
+		chdir ("..");
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		chdir ("./setup");
+		
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		$this->form_gui->setTitle($this->lng->txt("change_basic_settings"));
+		
+		// Property Title
+		$text_input = new ilTextInputGUI($lng->txt("block_feed_block_title"), "block_title");
+		$text_input->setInfo("");
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(200);
+		$this->form_gui->addItem($text_input);
+		
+		// Property FeedUrl
+		$text_input = new ilTextInputGUI($lng->txt("block_feed_block_feed_url"), "block_feed_url");
+		$text_input->setInfo($lng->txt("block_feed_block_feed_url_info"));
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(250);
+		$this->form_gui->addItem($text_input);
+		
+		
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form_gui->addCommandButton("save", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelSave", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("update", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+		}
+		
+		$this->form_gui->setTitle($lng->txt("block_feed_block_head"));
+		$this->form_gui->setFormAction("setup.php?cmd=gateway");
+	}*/
+	
 } // END class.ilSetupGUI
 ?>
