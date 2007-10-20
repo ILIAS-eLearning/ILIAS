@@ -81,7 +81,7 @@ could_not_create_logfile#:#Could not create log file.
 country#:#Country
 create#:#Create
 create_datadir_failed#:#Creation of data directory failed.
-create_new_client#:#Create new Client
+create_new_client#:#Create New Client
 create_webdir_failed#:#Creation of web directory failed.
 ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.
 ctrl_structure#:#Control Structure

@@ -1458,7 +1458,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->parseCurrentBlock();
 		
 		$this->btn_next_on = true;
-		$this->btn_next_lng = "Create Client >>";
+		$this->btn_next_lng = $this->lng->txt("create_new_client")." >>";
 		$this->btn_next_cmd = "newclient";
 
 	}
