@@ -434,9 +434,20 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		global $ilDB,$ilUser;
 		$set = $ilDB->query("SELECT * FROM cp_suspend WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
 		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
-		$gobjective_data=$data['data'];
-		header('Content-Type: text/plain; charset=UTF-8');
-		print($gobjective_data);
+		$suspend_data=$data['data'];
+		if ($this->jsMode) 
+		{
+			header('Content-Type: text/javascript; charset=UTF-8');
+			print($suspend_data);
+		}
+		else
+		{
+			header('Content-Type: text/plain; charset=UTF-8');
+			$gobjective_data = json_decode($gobjective_data);
+			print_r($suspend_data);	
+		}
+		//delete delivered suspend data
+		$del = $ilDB->query("DELETE FROM cp_suspend WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
 	}
 	
 	public function suspendADLActData()
