@@ -2744,3 +2744,6 @@ CREATE TABLE `cmi_gobjective` (
 
 <#1106>
 ALTER TABLE usr_session MODIFY session_id VARCHAR(80);
+
+<#1107>
+CREATE UNIQUE INDEX user_obj ON cp_suspend (user_id,obj_id);

@@ -1134,10 +1134,8 @@ function launchNavType(navType) {
 	
 	//throw away API from previous sco and sync CMI and ADLTree
 	onItemUndeliver();
-	if (navType!='SuspendAll') {
 	
-		mlaunch = new ADLLaunch();
-	}
+	mlaunch = new ADLLaunch();
 	if (navType==='Start') {
 		mlaunch = msequencer.navigate(NAV_START);
 	}
@@ -1164,17 +1162,67 @@ function launchNavType(navType) {
 	
 	if (navType==='SuspendAll') {
 	//	mlaunch = msequencer.navigate(NAV_SUSPENDALL);
-		showLightbox();
+		//showLightbox();
 		
 	//	var suspendData=serialize(msequencer.mSeqTree.mCurActivity.mActivityID);
-				
+		mlaunch = msequencer.navigate(NAV_SUSPENDALL);
+								
 		if (typeof headers !== "object") {headers = {};}
 		headers['Accept'] = 'text/javascript';
 		headers['Accept-Charset'] = 'UTF-8';
-		var r = sendAndLoad(this.config.suspend_url, mlaunch.mActivityID, null, null, null, headers);
 		
-		setTimeout("self.close();",5000) 
-		return;
+		//look for tracking
+		var acts=msequencer.mSeqTree.mActivityMap;
+		var curtracking = new Object();
+		var tracking = new Object();
+		var states = new Object();
+		var root = new Object();
+		//save root elements
+		for (var element in msequencer) {
+			if (!(msequencer[element] instanceof Object)) {
+				root[element]=msequencer[element];
+			}
+		}
+		
+		for (var element in acts) {
+			curtracking[element]=acts[element].mCurTracking;
+			tracking[element]=acts[element].mTracking;
+			//iterate over other properties
+			if (!states[element]) {states[element]=new Object();}
+			for (subelement in acts[element]) {
+				if (!(acts[element][subelement] instanceof Object) && !(acts[element][subelement] instanceof Array) ) {
+					states[element][subelement]=acts[element][subelement];
+				}
+			}
+		}
+		
+
+		
+		var validreq=msequencer.mSeqTree.mValidReq;
+		
+		//just IDs
+		var lastleaf=msequencer.mSeqTree.mLastLeaf;
+		var firstcandidate=msequencer.mSeqTree.mFirstCandidate.mActivityID;
+		var suspendall=msequencer.mSeqTree.mSuspendAll.mActivityID;
+		var curactivity=msequencer.mSeqTree.mCurActivity.mActivityID;
+	
+		var suspendedTree= new Object();
+		suspendedTree['mCurTracking']=curtracking;
+		suspendedTree['mTracking']=tracking;
+		suspendedTree['States']=states;
+		suspendedTree['mCurActivity']=null;
+		suspendedTree['mValidReq']=validreq;
+		suspendedTree['mLastLeaf']=lastleaf;
+		suspendedTree['mFirstCandidate']=firstcandidate;
+		suspendedTree['mSuspendAll']=suspendall;
+		suspendedTree['root']=root;
+		
+		
+		var r = sendAndLoad(this.config.suspend_url, toJSONString(suspendedTree), null, null, null, headers);
+
+		
+		//setTimeout("self.close();",5000) 
+		//return;
 	}
 	
 	if (navType==='Previous') {
@@ -1585,6 +1633,7 @@ function init(config)
 		actTree.setTreeCount();		
 		
 		actTree.scanObjectives();
+		actTree.buildActivityMap();
 		
 		msequencer.setActivityTree(actTree);	
 		
@@ -1655,35 +1704,103 @@ function init(config)
 	
 	loadGlobalObj();
 	
-	//do a fake launch to check if TOC choice should be displayed
-	mlaunch = msequencer.navigate(NAV_NONE);
 	
-	if (mlaunch.mNavState.mStart) {
-		//launch first activity //assume course has not be launched before
-		mlaunch = msequencer.navigate(NAV_START);
-	} 
+	//get suspend data
+	//to improve
+	suspendData =  sendJSONRequest(this.config.get_suspend_url);
+	var wasSuspended=false;
+	var wasFirstSession;
+	if (suspendData) {
+		if (suspendData!=null) {
+			wasSuspended=true;
+		}
+	}
+	
+	if (wasSuspended==true) {
+		wasSuspended = true;
+        wasFirstSession = false;
+		for (var element in suspendData.mTracking) {
+			msequencer.mSeqTree.mActivityMap[element].mTracking=suspendData.mTracking[element];
+		}
+		
+		//cur
+		var cur=suspendData.mCurActivity;
+		msequencer.mSeqTree.mCurActivity=null;
+		
+		var first=suspendData.mFirstCandidate;
+		msequencer.mSeqTree.mFirstCandidate=null;
+		
+		msequencer.mSeqTree.mLastLeaf=suspendData.mLastLeaf;
+		var suspendAll=suspendData.mSuspendAll;
+		msequencer.mSeqTree.mSuspendAll=msequencer.mSeqTree.mActivityMap[suspendAll];
+		var valid=suspendData.mValidReq;
+		msequencer.mSeqTree.mValidReq=valid;
+		
+		
+		
+		//set root
+		for (var element in suspendData.root) {
+			msequencer[element]=suspendData.root[element];
+		}
+		//set states
+		for (var element in suspendData.States) {
+			//collect data
+			var source=suspendData.States[element];
+			for (var subelement in source) {
+				msequencer.mSeqTree.mActivityMap[element][subelement]=source[subelement];
+			}
+		}
+		
+		//set curtracking
+		//lets scan first an assign then
+		var tempCur=new Object();
+		for (var element in suspendData.mCurTracking) {
+			tempCur[element]=new ADLTracking;
+			for (var subelement in suspendData.mCurTracking[element]) {	
+				if (subelement!="mObjectives") {
+					tempCur[element][subelement]=suspendData.mCurTracking[element][subelement];
+				} else {
+					for (var obj in suspendData.mCurTracking[element]["mObjectives"] ) {
+						tempCur[element]["mObjectives"][obj]=new SeqObjectiveTracking();
+						//iterate over prop
+						for (var prop in suspendData.mCurTracking[element]["mObjectives"][obj]) {
+							tempCur[element]["mObjectives"][obj][prop]=suspendData.mCurTracking[element]["mObjectives"][obj][prop];
+						}
+					}
+				}
+			}
+		}
+		
+		for (var element in tempCur) {
+			//collect data
+				msequencer.mSeqTree.mActivityMap[element]["mCurTracking"]=tempCur[element];
+		}
+		
+	}	
+	
+	
+	
+	if (wasSuspended==true) {
+	 	mlaunch = msequencer.navigate(NAV_RESUMEALL );
+	} else {
+		//do a fake launch to check if TOC choice should be displayed
+		mlaunch = msequencer.navigate(NAV_NONE);
+	
+		if (mlaunch.mNavState.mStart) {
+			//launch first activity //assume course has not be launched before
+			mlaunch = msequencer.navigate(NAV_START);
+		} 
+	}
+	
 	if (mlaunch.mSeqNonContent == null) {
 		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
-	  //call specialpage
-	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+  		//call specialpage
+  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
 	}
 	
 	updateControls();
 	updateNav();
-	//
-	//to improve
-	var suspend =  sendJSONRequest(this.config.get_suspend_url);
-	
-	if (suspend.length>0) {
-		onItemDeliver(activities[suspend]);
-		toggleClass('navContinue', 'disabled', false);
-		
-		//toremove enable continue
-	}
-
-	
-		
 }
 
 function loadGlobalObj() {
