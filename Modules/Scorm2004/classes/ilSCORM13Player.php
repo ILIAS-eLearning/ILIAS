@@ -522,7 +522,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		    	//we always have objective and learner id
 		    	if ($g_data->$key->$skey->$user->$package) {
 		    		$o_value=$g_data->$key->$skey->$user->$package;
-		    		$scope=$ilDB->quote($packageId);
+		    		$scope=$ilDB->quote($package);
 		    	} else {
 		    		//scope 0
 		    		$o_value=$g_data->$key->$skey->$user->{"null"};
