@@ -1778,8 +1778,6 @@ function init(config)
 		
 	}	
 	
-	
-	
 	if (wasSuspended==true) {
 	 	mlaunch = msequencer.navigate(NAV_RESUMEALL );
 	} else {
@@ -2366,6 +2364,8 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	//clear existing completion status in case of 2nd attempt
 	if (currentAPI) {
     	err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
+    	err = currentAPI.SetValueIntern("cmi.success_status","unknown");
+
 	}
 	
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
