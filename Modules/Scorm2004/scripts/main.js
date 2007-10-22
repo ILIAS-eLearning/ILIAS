@@ -1313,7 +1313,11 @@ function loadPage(src) {
 		} 
 		
 		RESOURCE_NAME= "SPECIALPAGE";
-		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:100%;"></iframe>';
+	//	window.location.href=src;
+	//	elm.innerHTML = '<iframe frameborder="0" id=res" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:100%;"></iframe>';
+		var resContainer = window.document.getElementById("res");
+		resContainer.src=src;
+		resContainer.name=RESOURCE_NAME;
 		onWindowResize();
 }
 
@@ -1369,7 +1373,10 @@ function setResource(id, url, base)
 		{
 			h = self.innerHeight-60;
 		} 
-		elm.innerHTML = '<iframe frameborder="0" name="' + RESOURCE_NAME + '" src="' + url +	'"  style="width: 100%; height:100%;"></iframe>';	
+		var resContainer = window.document.getElementById("res");
+		resContainer.src=url;
+		resContainer.name=RESOURCE_NAME;
+		//elm.innerHTML = '<iframe frameborder="0" id="res" name="' + RESOURCE_NAME + '" src="' + url +	'"  style="width: 100%; height:100%;"></iframe>';	
 	} 
 	else 
 	{			
@@ -1407,7 +1414,6 @@ function removeResource(callback)
 		removeClass(guiItem, "current");
 	}
 	/*
-	var elm = all(RESOURCE_PARENT);
 	if (elm)
 	{
 		elm.innerHTML = '<div>'+translate('resource_undelivered')+'</div>';
@@ -1427,7 +1433,7 @@ function onWindowResize()
 	if (self.innerHeight && navigator.userAgent.indexOf("Safari") != -1) // needed for Webkit based browsers
 
 	{
-			hd = self.innerHeight;
+		hd = self.innerHeight;
 	} 
 	var tot = hd ? hd : hb;
 	var elm = all(RESOURCE_TOP);
@@ -1453,7 +1459,7 @@ function onWindowResize()
 		}	
 	}
 	
-	elm = all(RESOURCE_NAME);
+	elm = all("res");
 	if (elm) 
 	{
 		elm.style.height = h;
@@ -2367,7 +2373,6 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
     	err = currentAPI.SetValueIntern("cmi.success_status","unknown");
 
 	}
-	
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 	
 
