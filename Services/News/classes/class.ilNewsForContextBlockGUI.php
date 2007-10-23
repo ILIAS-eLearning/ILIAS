@@ -84,7 +84,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$news_item = new ilNewsItem();
 		$news_item->setContextObjId($ilCtrl->getContextObjId());
 		$news_item->setContextObjType($ilCtrl->getContextObjType());
-		return $news_item->getNewsForRefId($_GET["ref_id"]);
+		
+		// workaround, better: reduce constructor and introduce
+		//$prevent_aggregation = $this->getProperty("prevent_aggregation");
+		if ($ilCtrl->getContextObjType() == "frm")
+		{
+			$prevent_aggregation = true;
+		}
+		
+		return $news_item->getNewsForRefId($_GET["ref_id"], false, false, 0,
+			$prevent_aggregation);
 	}
 		
 	/**
@@ -312,6 +321,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 		
 		// remove notifications if hidden
+/*
 		if (($this->view == "hide_notifications") && $this->show_view_selection)
 		{
 			$rset = array();
@@ -324,6 +334,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			}
 			$this->data = $rset;
 		}
+*/
 	}
 	
 	/**
@@ -342,45 +353,60 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		// notification
 		if ($news["priority"] == 0)
 		{
+/*
 			$this->tpl->setCurrentBlock("notification");
 			$this->tpl->setVariable("CHAR_NOT", $lng->txt("news_first_letter_of_word_notification"));
 			$this->tpl->parseCurrentBlock();
+*/
 		}
 
+		
+		// title image type
 		if ($news["ref_id"] > 0)
 		{
-			$type = in_array($news["context_obj_type"], array("sahs", "lm", "dbk", "htlm"))
+			if ($news["agg_ref_id"] > 0)
+			{
+				$obj_id = ilObject::_lookupObjId($news["agg_ref_id"]);
+				$type = ilObject::_lookupType($obj_id);
+				$context_ref = $news["agg_ref_id"];
+			}
+			else
+			{
+				$obj_id = $news["context_obj_id"];
+				$type = $news["context_obj_type"];
+				$context_ref = $news["ref_id"];
+			}
+			
+			$lang_type = in_array($type, array("sahs", "lm", "dbk", "htlm"))
 				? "lres"
-				: "obj_".$news["context_obj_type"];
+				: "obj_".$type;
 
 			$this->tpl->setCurrentBlock("news_context");
-			$this->tpl->setVariable("TYPE", $lng->txt($type));
+			$this->tpl->setVariable("TYPE", $lng->txt($lang_type));
 			$this->tpl->setVariable("IMG_TYPE",
-				ilObject::_getIcon($news["context_obj_id"], "tiny", $news["context_obj_type"]));
-			$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($news["context_obj_id"]));
+				ilObject::_getIcon($obj_id, "tiny", $type));
+			$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($obj_id));
 			if ($news["user_read"] > 0)
 			{
 				$this->tpl->setVariable("TITLE_CLASS", 'class="light"');
 			}
 			
 			$this->tpl->parseCurrentBlock();
-			$ilCtrl->setParameter($this, "news_context", $news["ref_id"]);
+			$ilCtrl->setParameter($this, "news_context", $context_ref);
 		}
 		else
 		{
 			$ilCtrl->setParameter($this, "news_context", "");
 		}
 
-		if ($news["content_is_lang_var"])
-		{
-			$this->tpl->setVariable("VAL_TITLE", $lng->txt($news["title"]));
-		}
-		else
-		{
-			$this->tpl->setVariable("VAL_TITLE", ilUtil::stripSlashes($news["title"]));
-		}
+		// title
+		$this->tpl->setVariable("VAL_TITLE", ilNewsItem::determineNewsTitle
+			($news["context_obj_type"], $news["title"], $news["content_is_lang_var"],
+			$news["agg_ref_id"], $news["aggregation"]));
+		
 		
 		if ($news["user_read"] > 0)
 		{
@@ -418,159 +444,216 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		
 		$tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
 
-		ilNewsItem::_setRead($ilUser->getId(), $_GET["news_id"]);
-		
-		if ($_GET["news_context"] > 0)
+		// get current item in data set
+		$previous = $next = "";
+		$c = current($this->data);
+		$curr_cnt = 1;
+		while($c["id"] > 0 &&
+			 $c["id"] != $_GET["news_id"])
 		{
-			$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
-			$obj_type = ilObject::_lookupType($obj_id);
-			$obj_title = ilObject::_lookupTitle($obj_id);
+			$previous = $c;
+			$c = next($this->data);
+			$curr_cnt++;
 		}
-
-		// user
-		if ($news->getUserId() > 0)
+		
+		// collect news items to show
+		$news_list = array();
+		if (is_array($c["aggregation"]))	// we have an aggregation
 		{
-			$tpl->setCurrentBlock("user_info");
-			if ($obj_type == "frm")
+			//$agg_obj_id = ilObject::_lookupObjId($c["agg_ref_id"]);
+			//$agg_obj_type = ilObject::_lookupType($agg_obj_id);
+			//$agg_obj_title = ilObject::_lookupObjId($agg_obj_id);
+			$news_list[] = array("ref_id" => $c["agg_ref_id"],
+				"agg_ref_id" => $c["agg_ref_id"],
+				"aggregation" => $c["aggregation"],
+				"user_id" => "",
+				"content_type" => "text",
+				"mob_id" => 0,
+				"visibility" => "",
+				"content" => "",
+				"content_long" => "",
+				"update_date" => $news->getUpdateDate(),
+				"creation_date" => "",
+				"content_is_lang_var" => false,
+				"loc_context" => $_GET["news_context"],
+				"context_obj_type" => $news->getContextObjType(),
+				"title" => "");
+
+			foreach($c["aggregation"] as $c_item)
 			{
-				include_once("./Modules/Forum/classes/class.ilForumProperties.php");
-				if (ilForumProperties::_isAnonymized($news->getContextObjId()))
+				ilNewsItem::_setRead($ilUser->getId(), $c_item["id"]);
+				//$c_item["loc_context"] = $c_item["ref_id"];	//  this confuses
+				$c_item["loc_stop"] = $_GET["news_context"];
+				$news_list[] = $c_item;
+			}
+		}
+		else								// no aggregation, simple news item
+		{
+			$news_list[] = array("ref_id" => $_GET["news_context"],
+				"user_id" => $news->getUserId(),
+				"content_type" => $news->getContentType(),
+				"mob_id" => $news->getMobId(),
+				"visibility" => $news->getVisibility(),
+				"priority" => $news->getPriority(),
+				"content" => $news->getContent(),
+				"content_long" => $news->getContentLong(),
+				"update_date" => $news->getUpdateDate(),
+				"creation_date" => $news->getCreationDate(),
+				"context_sub_obj_type" => $news->getContextSubObjType(),
+				"context_sub_obj_id" => $news->getContextSubObjId(),
+				"content_is_lang_var" => $news->getContentIsLangVar(),
+				"loc_context" => $_GET["news_context"],
+				"title" => $news->getTitle());
+			ilNewsItem::_setRead($ilUser->getId(), $_GET["news_id"]);
+		}
+			
+		foreach ($news_list as $item)
+		{
+			// user
+			if ($item["user_id"] > 0)
+			{
+				$tpl->setCurrentBlock("user_info");
+				$user_obj = new ilObjUser($item["user_id"]);
+				$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+				$tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
+				$tpl->parseCurrentBlock();
+			}
+			
+			// media player
+			if ($item["content_type"] == NEWS_AUDIO &&
+				$item["mob_id"] > 0 && ilObject::_exists($item["mob_id"]))
+			{
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+				$mob = new ilObjMediaObject($item["mob_id"]);
+				$med = $mob->getMediaItem("Standard");
+				$mpl = new ilMediaPlayerGUI();
+				$mpl->setFile(ilObjMediaObject::_getDirectory($mob->getId())."/".
+					$med->getLocation());
+				$tpl->setCurrentBlock("player");
+				$tpl->setVariable("PLAYER",
+					$mpl->getMp3PlayerHtml());
+				$tpl->parseCurrentBlock();
+			}
+			
+			// access
+			if ($enable_internal_rss && $item["visibility"] != "")
+			{
+				$tpl->setCurrentBlock("access");
+				$tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
+				if ($item["visibility"] == NEWS_PUBLIC ||
+					($item["priority"] == 0 &&
+					ilBlockSetting::_lookup("news", "public_notifications",
+					0, $obj_id)))
 				{
-					if ($news->getContextSubObjType() == "pos" &&
-						$news->getContextSubObjId() > 0)
-					{
-						include_once("./Modules/Forum/classes/class.ilForumPost.php");
-						$post = new ilForumPost($news->getContextSubObjId());
-						if ($post->getUserAlias() != "") $tpl->setVariable("VAL_AUTHOR", ilUtil::stripSlashes($post->getUserAlias()));
-						else $tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
-					}
-					else
-					{
-						$tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
-						
-					}
+					$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
 				}
 				else
 				{
-					$user_obj = new ilObjUser($news->getUserId());
-					$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+					$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
 				}
+				$tpl->parseCurrentBlock();
 			}
-			else
+	
+			// content
+			if (trim($item["content"]) != "")		// content
 			{
-				$user_obj = new ilObjUser($news->getUserId());
-				$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+				$tpl->setCurrentBlock("content");
+				$tpl->setVariable("VAL_CONTENT", ilUtil::makeClickable($item["content"]));
+				$tpl->parseCurrentBlock();
 			}
-			$tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
-			$tpl->parseCurrentBlock();
-		}
-		
-		// media player
-		if ($news->getContentType() == NEWS_AUDIO &&
-			$news->getMobId() > 0 && ilObject::_exists($news->getMobId()))
-		{
-			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-			$mob = new ilObjMediaObject($news->getMobId());
-			$med = $mob->getMediaItem("Standard");
-			$mpl = new ilMediaPlayerGUI();
-			$mpl->setFile(ilObjMediaObject::_getDirectory($mob->getId())."/".
-				$med->getLocation());
-			$tpl->setCurrentBlock("player");
-			$tpl->setVariable("PLAYER",
-				$mpl->getMp3PlayerHtml());
-			$tpl->parseCurrentBlock();
-		}
-		
-		// access
-		if ($enable_internal_rss)
-		{
-			$tpl->setCurrentBlock("access");
-			$tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-			if ($news->getVisibility() == NEWS_PUBLIC ||
-				($news->getPriority() == 0 &&
-				ilBlockSetting::_lookup("news", "public_notifications",
-				0, $obj_id)))
+			if (trim($item["content_long"]) != "")	// long content
 			{
-				$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+				$tpl->setCurrentBlock("long");
+				$tpl->setVariable("VAL_LONG_CONTENT", ilUtil::makeClickable($item["content_long"]));
+				$tpl->parseCurrentBlock();
 			}
-			else
+			if ($item["update_date"] != $item["creation_date"])		// update date
 			{
-				$tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+				$tpl->setCurrentBlock("ni_update");
+				$tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
+				$tpl->setVariable("VAL_LAST_UPDATE",
+					ilFormat::formatDate($item["update_date"], "datetime", true));
+				$tpl->parseCurrentBlock();
 			}
-			$tpl->parseCurrentBlock();
-		}
-
-		// content
-		if (trim($news->getContent()) != "")		// content
-		{
-			$tpl->setCurrentBlock("content");
-			$tpl->setVariable("VAL_CONTENT", ilUtil::makeClickable($news->getContent(), true));
-			$tpl->parseCurrentBlock();
-		}
-		if (trim($news->getContentLong()) != "")	// long content
-		{
-			$tpl->setCurrentBlock("long");
-			$tpl->setVariable("VAL_LONG_CONTENT", ilUtil::makeClickable($news->getContentLong(), true));
-			$tpl->parseCurrentBlock();
-		}
-		if ($news->getUpdateDate() != $news->getCreationDate())		// update date
-		{
-			$tpl->setCurrentBlock("ni_update");
-			$tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
-			$tpl->setVariable("VAL_LAST_UPDATE",
-				ilFormat::formatDate($news->getUpdateDate(), "datetime", true));
-			$tpl->parseCurrentBlock();
-		}
-		
-		// context / title
-		if ($_GET["news_context"] > 0)
-		{
-			// forum hack, not nice
-			$add = "";
-			if ($obj_type == "frm" && $news->getContextSubObjType() == "pos"
-				&& $news->getContextSubObjId() > 0)
-			{
-				include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
-				$pos = $news->getContextSubObjId();
-				$thread = ilObjForumAccess::_getThreadForPosting($pos);
-				if ($thread > 0)
-				{
-					$add = "_".$thread."_".$pos;
-				}
-			}
-			$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
-				$obj_type."_".$_GET["news_context"].$add;
-
 			
-			$tpl->setCurrentBlock("context");
-			$cont_loc = new ilLocatorGUI();
-			$cont_loc->addContextItems($_GET["news_context"], true);
-			$tpl->setVariable("CONTEXT_LOCATOR",
-				$cont_loc->getHTML());
-			$tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
-			$tpl->setVariable("CONTEXT_TITLE", $obj_title);
-			$tpl->setVariable("IMG_CONTEXT_TITLE",
-				ilObject::_getIcon($obj_id, "big", $obj_type));
+			// creation date
+			if ($item["creation_date"] != "")
+			{
+				$tpl->setCurrentBlock("ni_update");
+				$tpl->setVariable("VAL_CREATION_DATE",
+					ilFormat::formatDate($item["creation_date"], "datetime", true));
+				$tpl->setVariable("TXT_CREATED", $lng->txt("created"));
+				$tpl->parseCurrentBlock();
+			}
+
+						
+			// context / title
+			if ($_GET["news_context"] > 0)
+			{
+				//$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
+				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+				$obj_type = ilObject::_lookupType($obj_id);
+				$obj_title = ilObject::_lookupTitle($obj_id);
+				
+				// forum hack, not nice
+				$add = "";
+				if ($obj_type == "frm" && $item["context_sub_obj_type"] == "pos"
+					&& $item["context_sub_obj_id"] > 0)
+				{
+					include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
+					$pos = $item["context_sub_obj_id"];
+					$thread = ilObjForumAccess::_getThreadForPosting($pos);
+					if ($thread > 0)
+					{
+						$add = "_".$thread."_".$pos;
+					}
+				}
+				//$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+				//	$obj_type."_".$_GET["news_context"].$add;
+				$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+					$obj_type."_".$item["ref_id"].$add;
+	
+				
+				$tpl->setCurrentBlock("context");
+				if ($item["loc_context"] != "")
+				{
+					$cont_loc = new ilLocatorGUI();
+					$cont_loc->addContextItems($item["loc_context"], true,
+						$item["loc_stop"]);
+					$tpl->setVariable("CONTEXT_LOCATOR",
+						$cont_loc->getHTML());
+				}
+				
+//var_dump($item);
+				if ($item["no_context_title"] !== true)
+				{
+					$tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
+					$tpl->setVariable("CONTEXT_TITLE", $obj_title);
+					$tpl->setVariable("IMG_CONTEXT_TITLE",
+						ilObject::_getIcon($obj_id, "big", $obj_type));
+				}
+				$tpl->parseCurrentBlock();
+	
+				$tpl->setVariable("HREF_TITLE", $url_target);
+			}
+			
+			// title
+			//if ($item["content_is_lang_var"])
+			//{
+				$tpl->setVariable("VAL_TITLE",
+					ilNewsItem::determineNewsTitle($item["context_obj_type"],
+					$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"],
+					$item["aggregation"]));
+			//}
+			//else
+			//{
+			//	$tpl->setVariable("VAL_TITLE", $item["title"]);			// title
+			//}
+			
+			$tpl->setCurrentBlock("item");
 			$tpl->parseCurrentBlock();
-
-			$tpl->setVariable("HREF_TITLE", $url_target);
 		}
-		
-		// title
-		if ($news->getContentIsLangVar())
-		{
-			$tpl->setVariable("VAL_TITLE", $lng->txt($news->getTitle()));
-		}
-		else
-		{
-			$tpl->setVariable("VAL_TITLE", ilUtil::stripSlashes($news->getTitle()));			// title
-		}
-
-		// creation date
-		$tpl->setVariable("VAL_CREATION_DATE",
-			ilFormat::formatDate($news->getCreationDate(), "datetime", true));
-		$tpl->setVariable("TXT_CREATED", $lng->txt("created"));
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
@@ -587,18 +670,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
 		$this->addCloseCommand($content_block);
 
-		// previous / next item
-		$previous = $next = "";
-		$c = current($this->data);
-		$curr_cnt = 1;
-		while($c["id"] > 0 &&
-			 $c["id"] != $_GET["news_id"])
-		{
-			$previous = $c;
-			$c = next($this->data);
-			$curr_cnt++;
-		}
-		
 		// previous
 		if ($previous != "")
 		{
@@ -677,6 +748,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	function showViewFooter()
 	{
 		global $ilUser, $lng, $ilCtrl;
+		
+		return;		// notifications always shown
 		
 		$this->clearFooterLinks();
 		$this->addFooterLink("[".$lng->txt("news_first_letter_of_word_notification")."] ".

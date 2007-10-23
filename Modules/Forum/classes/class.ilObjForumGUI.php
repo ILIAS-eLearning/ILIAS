@@ -3080,6 +3080,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule('frm');
 		$column_gui->setBlockProperty('news', 'title', $lng->txt('frm_latest_postings'));
+		$column_gui->setBlockProperty("news", "prevent_aggregation", true);
 		
 		$column_gui->setRepositoryMode(true);
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))

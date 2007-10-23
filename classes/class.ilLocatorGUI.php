@@ -47,6 +47,27 @@ class ilLocatorGUI
 
 		$this->lng =& $lng;	
 		$this->entries = array();
+		$this->setTextOnly(false);
+	}
+
+	/**
+	* Set Only text, no HTML.
+	*
+	* @param	boolean	$a_textonly	Only text, no HTML
+	*/
+	function setTextOnly($a_textonly)
+	{
+		$this->textonly = $a_textonly;
+	}
+
+	/**
+	* Get Only text, no HTML.
+	*
+	* @return	boolean	Only text, no HTML
+	*/
+	function getTextOnly()
+	{
+		return $this->textonly;
 	}
 
 	/**
@@ -81,7 +102,7 @@ class ilLocatorGUI
 				{
 					continue;
 				}
-				if ($row["title"] == "ILIAS")
+				if ($row["title"] == "ILIAS" && $row["type"] == "root")
 				{
 					$row["title"] = $this->lng->txt("repository");
 				}
@@ -134,7 +155,7 @@ class ilLocatorGUI
 		}
 	}
 	
-	function addContextItems($a_ref_id, $a_omit_node = false)
+	function addContextItems($a_ref_id, $a_omit_node = false, $a_stop = 0)
 	{
 		global $tree;
 		
@@ -143,18 +164,26 @@ class ilLocatorGUI
 			$path = $tree->getPathFull($a_ref_id);
 			
 			// we want to show the full path, from the major container to the item
-			// (folders are not! treated as containers here)
+			// (folders are not! treated as containers here), at least one parent item
 			$r_path = array_reverse($path);
 			$first = "";
+			$omit = array();
+			$do_omit = false;
 			foreach ($r_path as $key => $row)
 			{
 				if ($first == "")
 				{
-					if (in_array($row["type"], array("root", "cat", "grp", "crs")))
+					if (in_array($row["type"], array("root", "cat", "grp", "crs")) &&
+						$row["child"] != $a_ref_id)
 					{
 						$first = $row["child"];
 					}
 				}
+				if ($a_stop == $row["child"])
+				{
+					$do_omit = true;
+				}
+				$omit[$row["child"]] = $do_omit;
 			}
 
 			$add_it = false;
@@ -165,9 +194,15 @@ class ilLocatorGUI
 					$add_it = true;
 				}
 				
-				if ($add_it &&
+				
+				if ($add_it && !$omit[$row["child"]] &&
 					(!$a_omit_node || ($row["child"] != $a_ref_id)))
 				{
+//echo "-".ilObject::_lookupTitle($row["obj_id"])."-";
+					if ($row["title"] == "ILIAS" && $row["type"] == "root")
+					{
+						$row["title"] = $this->lng->txt("repository");
+					}
 					$this->addItem($row["title"],
 						"./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".$row["type"]."_".$row["child"],
 						"_top", $row["child"]);
@@ -212,7 +247,14 @@ class ilLocatorGUI
 	{
 		global $lng, $ilSetting;
 		
-		$loc_tpl = new ilTemplate("tpl.locator.html", true, true);
+		if ($this->getTextOnly())
+		{
+			$loc_tpl = new ilTemplate("tpl.locator_text_only.html", true, true);
+		}
+		else
+		{
+			$loc_tpl = new ilTemplate("tpl.locator.html", true, true);
+		}
 		
 		$items = $this->getItems();
 		$first = true;
@@ -265,7 +307,7 @@ class ilLocatorGUI
 			$loc_tpl->touchBlock("locator");
 		}
 		
-		return $loc_tpl->get();
+		return trim($loc_tpl->get());
 	}
 
 

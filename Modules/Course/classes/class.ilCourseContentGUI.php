@@ -489,12 +489,16 @@ class ilCourseContentGUI
 		}
 		
 		// Configure Settings, if administration panel is on
-		if ($this->container_gui->isActiveAdministrationPanel())
+		if ($this->is_tutor)
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
 			//$column_gui->setBlockProperty("news", "public_notifications_option", true);
 			$column_gui->setBlockProperty("news", "default_visibility_option", true);
 			$column_gui->setBlockProperty("news", "hide_news_block_option", true);
+		}
+		
+		if ($this->container_gui->isActiveAdministrationPanel())
+		{
 			$column_gui->setAdminCommands(true);
 		}
 	}

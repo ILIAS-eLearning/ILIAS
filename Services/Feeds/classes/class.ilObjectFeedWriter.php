@@ -74,17 +74,26 @@ class ilObjectFeedWriter extends ilFeedWriter
 			}
 		}
 
+		$cont_loc = new ilLocatorGUI();
+		$cont_loc->addContextItems($a_ref_id, true);
+		$cont_loc->setTextOnly(true);
+		$loc = $cont_loc->getHTML();
+		if (trim($loc) != "")
+		{
+			$loc = " [".$loc."] ";
+		}
+		
 		$news_item = new ilNewsItem();
 		$news_item->setContextObjId($obj_id);
 		$news_item->setContextObjType($obj_type);
-		$items = $news_item->getNewsForRefId($a_ref_id, true);
+		$items = $news_item->getNewsForRefId($a_ref_id, true, false, 0, true);
 		if ($ilSetting->get('short_inst_name') != "")
 		{
-			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".$obj_title);
+			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".$loc.$obj_title);
 		}
 		else
 		{
-			$this->setChannelTitle("ILIAS"." - ".$obj_title);
+			$this->setChannelTitle("ILIAS"." - ".$loc.$obj_title);
 		}
 		$this->setChannelAbout(ILIAS_HTTP_PATH);
 		$this->setChannelLink(ILIAS_HTTP_PATH);
@@ -97,14 +106,22 @@ class ilObjectFeedWriter extends ilFeedWriter
 			$obj_title = ilObject::_lookupTitle($item["context_obj_id"]);
 			
 			$feed_item = new ilFeedItem();
-			if ($item["content_is_lang_var"])
+			
+			$title = ilNewsItem::determineNewsTitle
+				($item["context_obj_type"], $item["title"], $item["content_is_lang_var"],
+				$item["agg_ref_id"], $item["aggregation"]);
+				
+			// path
+			$cont_loc = new ilLocatorGUI();
+			$cont_loc->addContextItems($item["ref_id"], true, $a_ref_id);
+			$cont_loc->setTextOnly(true);
+			$loc = $cont_loc->getHTML();
+			if (trim($loc) != "")
 			{
-				$feed_item->setTitle($obj_title.": ".$this->prepareStr($lng->txt($item["title"])));
+				$loc = "[".$loc."]";
 			}
-			else
-			{
-				$feed_item->setTitle($obj_title.": ".$this->prepareStr($item["title"]));
-			}
+
+			$feed_item->setTitle($loc." ".$obj_title.": ".$this->prepareStr($title));
 			$feed_item->setDescription($this->prepareStr($item["content"]));
 			$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 				"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);

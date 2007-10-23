@@ -132,7 +132,8 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Get all news items for a user.
 	*/
-	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false)
+	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false,
+		$a_prevent_aggregation = false)
 	{
 		global $ilAccess, $ilUser, $ilBench;
 		
@@ -184,7 +185,7 @@ class ilNewsItem extends ilNewsItemGen
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news = $news_item->getNewsForRefId($ref_id, $a_only_public, false,
-				$news_set->get("pd_period"));
+				$news_set->get("pd_period"), $a_prevent_aggregation);
 			$ilBench->stop("News", "getNewsForRefId_getNews");
 
 			$ilBench->start("News", "getNewsForRefId_mergeNews");
@@ -206,18 +207,20 @@ class ilNewsItem extends ilNewsItemGen
 	* Get News For Ref Id.
 	*/
 	function getNewsForRefId($a_ref_id, $a_only_public = false, $a_stopnesting = false,
-		$a_time_period = 0)
+		$a_time_period = 0, $a_prevent_aggregation = false)
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
 		if ($obj_type == "cat" && !$a_stopnesting)
 		{
-			return $this->getAggregatedChildNewsData($a_ref_id, $a_only_public, $a_time_period);
+			$news = $this->getAggregatedChildNewsData($a_ref_id, $a_only_public, $a_time_period,
+				$a_prevent_aggregation);
 		}
 		else if (($obj_type == "grp" || $obj_type == "crs") &&
 			!$a_stopnesting)
 		{
-			return $this->getAggregatedNewsData($a_ref_id, $a_only_public, $a_time_period);
+			$news = $this->getAggregatedNewsData($a_ref_id, $a_only_public, $a_time_period,
+				$a_prevent_aggregation);
 		}
 		else
 		{
@@ -244,14 +247,21 @@ class ilNewsItem extends ilNewsItemGen
 			{
 				unset($news[$un]);
 			}
-			return $news;
 		}
+		
+		if (!$a_prevent_aggregation)
+		{
+			$news = $this->aggregateForums($news);
+		}
+		
+		return $news;
 	}
 	
 	/**
-	* Get news aggregation (e.g. for courses)
+	* Get news aggregation (e.g. for courses, groups)
 	*/
-	function getAggregatedNewsData($a_ref_id, $a_only_public = false, $a_time_period = 0)
+	function getAggregatedNewsData($a_ref_id, $a_only_public = false, $a_time_period = 0,
+		$a_prevent_aggregation = false)
 	{
 		global $tree, $ilAccess, $ilBench, $ilObjDataCache;
 		
@@ -319,24 +329,106 @@ class ilNewsItem extends ilNewsItemGen
 		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period);
 		
 		$ilBench->start("News", "getAggregatedNewsData_mergeAndSort");
+		
+		$to_del = array();
 		foreach ($news as $k => $v)
 		{
 			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
 		}
+		
 		$data = ilNewsItem::mergeNews($data, $news);
 		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
-		$ilBench->stop("News", "getAggregatedNewsData_mergeAndSort");
 		
+		if (!$a_prevent_aggregation)
+		{
+			$data = $this->aggregateFiles($data, $a_ref_id);
+		}
+		
+//var_dump($data);
+		
+		$ilBench->stop("News", "getAggregatedNewsData_mergeAndSort");
 		$ilBench->stop("News", "getAggregatedNewsData");
 		
 		return $data;
 	}
 	
+	function aggregateForums($news)
+	{
+		$to_del = array();
+		$forums = array();
+		
+		// aggregate
+		foreach ($news as $k => $v)
+		{
+			if ($news[$k]["context_obj_type"] == "frm")
+			{
+				if ($forums[$news[$k]["context_obj_id"]] == "")
+				{
+					$forums[$news[$k]["context_obj_id"]] = $k;
+				}
+				else
+				{
+					$to_del[] = $k;
+				}
+				
+				$news[$k]["no_context_title"] = true;
+				$news[$forums[$news[$k]["context_obj_id"]]]["aggregation"][$k]
+					= $news[$k];
+				$news[$k]["agg_ref_id"]
+					= $news[$k]["ref_id"];
+				$news[$k]["content"] = "";
+				$news[$k]["content_long"] = "";
+			}
+		}
+		
+		// delete double entries
+		foreach($to_del as $k)
+		{
+			unset($news[$k]);
+		}
+//var_dump($news[14]["aggregation"]);
+
+		
+		return $news;
+	}
+	
+	function aggregateFiles($news, $a_ref_id)
+	{
+		$first_file = "";
+		$to_del = array();
+		foreach ($news as $k => $v)
+		{
+			// aggregate file related news
+			if ($news[$k]["context_obj_type"] == "file")
+			{
+				if ($first_file == "")
+				{
+					$first_file = $k;
+				}
+				else
+				{
+					$to_del[] = $k;
+				}
+				$news[$first_file]["aggregation"][$k] = $news[$k];
+				$news[$first_file]["agg_ref_id"] = $a_ref_id;
+				$news[$first_file]["ref_id"] = $a_ref_id;
+			}
+		}
+		
+		foreach($to_del as $v)
+		{
+			unset($news[$v]);
+		}
+		
+		return $news;
+	}
+
+	
 	/**
 	* Get news aggregation for child objects (e.g. for categories)
 	*/
 	function getAggregatedChildNewsData($a_ref_id, $a_only_public = false,
-		$a_time_period = 0)
+		$a_time_period = 0, $a_prevent_aggregation = false)
 	{
 		global $tree, $ilAccess, $ilBench;
 		
@@ -389,6 +481,11 @@ class ilNewsItem extends ilNewsItemGen
 		
 		// sort and return
 		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+		
+		if (!$a_prevent_aggregation)
+		{
+			$data = $this->aggregateFiles($data, $a_ref_id);
+		}
 		
 		$ilBench->stop("News", "getAggregatedChildNewsData");
 		
@@ -686,6 +783,81 @@ class ilNewsItem extends ilNewsItemGen
 			$objs[] = $rec["obj_id"];
 		}
 		return $objs;
+	}
+	
+	/**
+	* Determine title for news item entry
+	*/
+	static function determineNewsTitle($a_context_obj_type, $a_title, $a_content_is_lang_var,
+		$a_agg_ref_id = 0, $a_aggregation = "")
+	{
+		global $lng;
+
+		if ($a_agg_ref_id > 0)
+		{
+			$cnt = count($a_aggregation);
+			
+			// forums
+			if ($a_context_obj_type == "frm")
+			{
+				if ($cnt > 1)
+				{
+					return sprintf($lng->txt("news_x_postings"), $cnt);
+				}
+				else
+				{
+					return $lng->txt("news_1_postings");
+				}
+			}
+			else	// files
+			{
+				$up_cnt = $cr_cnt = 0;
+				foreach($a_aggregation as $item)
+				{
+					if ($item["title"] == "file_updated")
+					{
+						$up_cnt++;
+					}
+					else
+					{
+						$cr_cnt++;
+					}
+				}
+				$sep = "";
+				if ($cr_cnt == 1)
+				{
+					$tit = $lng->txt("news_1_file_created");
+					$sep = "<br />";
+				}
+				else if ($cr_cnt > 1)
+				{
+					$tit = sprintf($lng->txt("news_x_files_created"), $cr_cnt);
+					$sep = "<br />";
+				}
+				if ($up_cnt == 1)
+				{
+					$tit .= $sep.$lng->txt("news_1_file_updated");
+				}
+				else if ($up_cnt > 1)
+				{
+					$tit .= $sep.sprintf($lng->txt("news_x_files_created"), $up_cnt);
+				}
+				return $tit;
+			}
+		}
+		else
+		{
+			if ($a_content_is_lang_var)
+			{
+				return $lng->txt($a_title);
+			}
+			else
+			{
+				return $a_title;
+			}
+		}
+		
+		return "";
 	}
 }
 ?>

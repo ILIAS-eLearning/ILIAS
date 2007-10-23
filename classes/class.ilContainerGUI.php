@@ -1827,12 +1827,16 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		}
 		
 		$column_gui->setRepositoryItems($this->items);
-		if ($this->isActiveAdministrationPanel())
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
 			//$column_gui->setBlockProperty("news", "public_notifications_option", true);
 			$column_gui->setBlockProperty("news", "default_visibility_option", true);
 			$column_gui->setBlockProperty("news", "hide_news_block_option", true);
+		}
+		
+		if ($this->isActiveAdministrationPanel())
+		{
 			$column_gui->setAdminCommands(true);
 		}
 	}

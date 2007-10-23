@@ -71,6 +71,7 @@ class ilTableGUI
 	var $action_buttons;  // action buttons in the table footer
 	
 	var $prefix;				// prefix for sort and offset fields if you have two or more tables on a page that you want to sort separately
+	var $base = "";				// base script (deprecated)
 	
 	// default settings for enabled/disabled table modules 
 	var $enabled = array(	"table"			=>  true,
@@ -649,7 +650,12 @@ class ilTableGUI
 							"prev"	=> $this->footer_previous,
 							"next"	=> $this->footer_next,
 							);
-			$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$this->max_count,$this->limit,$this->offset,$params,$layout);
+							
+			$base = ($this->getBase() == "")
+				? basename($_SERVER["PHP_SELF"])
+				: $this->getBase();
+
+			$linkbar = ilUtil::Linkbar($base,$this->max_count,$this->limit,$this->offset,$params,$layout);
 			$this->tpl->setCurrentBlock("tbl_footer_linkbar");
 			$this->tpl->setVariable("LINKBAR", $linkbar);
 			$this->tpl->parseCurrentBlock();
@@ -775,6 +781,26 @@ class ilTableGUI
 	function getStyle($a_element)
 	{
 		return $this->styles[$a_element];
+	}
+
+	/**
+	* Set Base script name (deprecated, only use this for workarounds).
+	*
+	* @param	string	$a_base	Base script name (deprecated, only use this for workarounds)
+	*/
+	function setBase($a_base)
+	{
+		$this->base = $a_base;
+	}
+
+	/**
+	* Get Base script name (deprecated, only use this for workarounds).
+	*
+	* @return	string	Base script name (deprecated, only use this for workarounds)
+	*/
+	function getBase()
+	{
+		return $this->base;
 	}
 
 	/*
