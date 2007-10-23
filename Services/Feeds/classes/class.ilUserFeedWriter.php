@@ -44,6 +44,8 @@ class ilUserFeedWriter extends ilFeedWriter
 		
 		parent::ilFeedWriter();
 		
+		//$lng->loadLanguageModule("news");
+		
 		if ($a_user_id == "" || $a_hash == "")
 		{
 			return;
@@ -59,7 +61,7 @@ class ilUserFeedWriter extends ilFeedWriter
 
 		if ($a_hash == $hash)
 		{
-			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true);
+			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true);
 			if ($ilSetting->get('short_inst_name') != "")
 			{
 				$this->setChannelTitle($ilSetting->get('short_inst_name'));
@@ -91,15 +93,22 @@ class ilUserFeedWriter extends ilFeedWriter
 
 				$i++;
 				$feed_item = new ilFeedItem();
-				if ($item["content_is_lang_var"])
-				{
-					$feed_item->setTitle($obj_title.": ".$this->prepareStr($lng->txt($item["title"])));
-				}
-				else
-				{
-					$feed_item->setTitle($obj_title.": ".$this->prepareStr($item["title"]));
-				}
-				$feed_item->setDescription($this->prepareStr($item["content"]));
+				$title = ilNewsItem::determineNewsTitle
+					($item["context_obj_type"], $item["title"], $item["content_is_lang_var"],
+					$item["agg_ref_id"], $item["aggregation"]);
+
+				// path
+				$cont_loc = new ilLocatorGUI();
+				$cont_loc->addContextItems($item["ref_id"], true);
+				$cont_loc->setTextOnly(true);
+				$loc = "[".$cont_loc->getHTML()."]";
+				
+				// title
+				$feed_item->setTitle($loc." ".$obj_title.": ".$this->prepareStr(str_replace("<br />", " ", $title)));
+								
+				// description
+				$content = $this->prepareStr($item["content"]);
+				$feed_item->setDescription($content);
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
 				$feed_item->setAbout($feed_item->getLink()."&amp;il_about_feed=".$item["id"]);

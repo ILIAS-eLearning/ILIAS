@@ -299,6 +299,8 @@ class ilGlossaryPresentationGUI
 
 		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
 		// render table
+		
+		$tbl->setBase("ilias.php");
 		$tbl->render();
 
 		if (count($term_list) > 0)
