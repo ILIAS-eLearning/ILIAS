@@ -670,7 +670,7 @@ assessment#:#set_filter#:#Set Filter
 assessment#:#set_manual_feedback#:#Set Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
-assessment#:#show_user_answers#:#Show User's Marked Anwers
+assessment#:#show_user_answers#:#Show User's Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#solution_hint#:#Suggested Solution
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
