@@ -5215,7 +5215,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$tabs_gui->addTarget("tst_browse_for_questions",
 				$this->ctrl->getLinkTarget($this, "browseForQuestions"),
 				array("browseForQuestions", "filter", "resetFilter", "resetTextFilter", "insertQuestions"),
-				"", ""
+				"", "", TRUE
 			);
 		}
 	}
