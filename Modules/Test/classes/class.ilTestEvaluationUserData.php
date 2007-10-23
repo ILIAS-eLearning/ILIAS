@@ -398,6 +398,7 @@ class ilTestEvaluationUserData
 				$reached += $question["reached"];
 			}
 		}
+		$reached = ($reached < 0) ? 0 : $reached;
 		return $reached;
 	}
 
