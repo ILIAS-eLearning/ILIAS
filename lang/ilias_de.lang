@@ -2013,7 +2013,7 @@ common#:#file_add#:#Datei hochladen
 common#:#file_added#:#Datei hochgeladen
 common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_copy#:#Datei kopieren
-common#:#file_created#:#Eine neue Datei wurde hinzugefügt
+common#:#file_created#:#Die Datei wurde hinzugefügt.
 common#:#file_delete#:#Datei löschen
 common#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_edit#:#Datei bearbeiten
@@ -2027,7 +2027,7 @@ common#:#file_notice#:#Bitte beachten Sie bei Ihrem Dateiupload die Uploadgrenze
 common#:#file_read#:#Datei runterladen
 common#:#file_suffix_repl_info#:#Dateien mit diesen Endungen (komma-separiert) erhalten als Dateiendung ".sec", wenn Sie in den Webspace hochgeladen werden. Dies geschieht standardmässig für folgende Endungen:
 common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
-common#:#file_updated#:#Die Datei wurde aktualisiert
+common#:#file_updated#:#Die Datei wurde aktualisiert.
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#file_visible#:#Datei ist sichtbar
@@ -7685,3 +7685,9 @@ ps#:#ps_edit_text_field#:#Textfeld bearbeiten
 meta#:#md_adv_import_record#:#Datensatz importieren
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_enable_info#:#Aktivieren Sie diese Einstellung, um eine vordefinierte Copyright-Auswahl anzubieten.
+news#:#news_x_files_created#:#Es wurden %s Dateien hinzugefügt.
+news#:#news_x_files_updated#:#Es wurden %s Dateien aktualisiert.
+news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
+news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.
+news#:#news_x_postings#:#%s Beiträge hinzugefügt.
+news#:#news_1_postings#:#Es wurde ein Beitrag hinzugefügt.
