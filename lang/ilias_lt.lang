@@ -303,7 +303,6 @@ assessment#:#log_mark_added#:#Pažymys įvestas
 assessment#:#log_mark_changed#:#Pažymys pakeistas
 assessment#:#log_mark_removed#:#Pažymys pašalintas
 assessment#:#log_modified_test#:#Testas buvo redaguotas
-assessment#:#log_no_test_fields_changed#:#Išsaugota, bet nieko nekeista
 assessment#:#log_question_added#:#Klausimas įkeltas ties (vieta)
 assessment#:#log_question_position_changed#:#Klausimo vieta pasikeitė
 assessment#:#log_question_removed#:#Klausimas ištrintas
@@ -7658,3 +7657,36 @@ common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
 common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
+news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
+news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
+news#:#news_1_file_updated#:#1 File has been updated.###23 10 2007 new variable
+news#:#news_x_postings#:#%s Postings have been added.###23 10 2007 new variable
+news#:#news_1_postings#:#1 Posting has been added.###23 10 2007 new variable
+forum#:#forums_post_and_children_were_deactivated#:#The post and all its child posts were deactivated.###23 10 2007 new variable
+forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.###23 10 2007 new variable
+forum#:#forums_post_was_activated#:#The post was activated.###23 10 2007 new variable
+forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.###23 10 2007 new variable
+forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.###23 10 2007 new variable
+common#:#bold#:#Bold###23 10 2007 new variable
+common#:#newline#:#Newline###23 10 2007 new variable
+common#:#ext_cat_settings#:#Edit Advanced Category Settings###23 10 2007 new variable
+common#:#edit_cat_settings#:#Advanced Category Settings###23 10 2007 new variable
+common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.###23 10 2007 new variable
+common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
+auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
+auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
+common#:#frm_add_post#:#Add new post###23 10 2007 new variable
+common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
+chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
+chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
+chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom###23 10 2007 new variable
+chat#:#chat_no_online_users#:#No further users online.###23 10 2007 new variable
+search#:#search_lom#:#LOM Metadata###23 10 2007 new variable
+search#:#search_adv_md#:#Extended Metadata###23 10 2007 new variable
+search#:#adv_md_search_title#:#Search in Extended Metadata###23 10 2007 new variable
+ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
+meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
+meta#:#md_copyright#:#Copyright###23 10 2007 new variable
+meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
