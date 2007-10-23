@@ -2325,7 +2325,7 @@ common#:#hist_dbk_pg_update#:#Page changed.
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_file_create#:#File created, file name is "%1".
-common#:#file_created#:#A new file has been added.
+common#:#file_created#:#File has been added.
 common#:#file_updated#:#File has been updated.
 common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2.
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
@@ -2974,6 +2974,12 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_x_files_created#:#%s Files have been added.
+news#:#news_x_files_updated#:#%s Files have been updated.
+news#:#news_1_file_created#:#1 File has been added.
+news#:#news_1_file_updated#:#1 File has been updated.
+news#:#news_x_postings#:#%s Postings have been added.
+news#:#news_1_postings#:#1 Posting has been added.
 news#:#news_pd_period#:#Personal Desktop News Period
 news#:#news_pd_period_info#:#Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems.
 news#:#news_indefinite#:#Indefinite
