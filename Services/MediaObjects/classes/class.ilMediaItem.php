@@ -664,17 +664,26 @@ class ilMediaItem
 	}
 
 	/**
+	* Get name of image map work copy file
 	*
+	* @param	string		Get name, for copy of external referenced image
 	*/
-	function getMapWorkCopyName()
+	function getMapWorkCopyName($a_reference_copy = false)
 	{
 		$file_arr = explode("/", $this->getLocation());
-		$file = $file_arr[count($file_arr) - 1];
-		$file_arr = explode(".", $file);
+		$o_file = $file_arr[count($file_arr) - 1];
+		$file_arr = explode(".", $o_file);
 		unset($file_arr[count($file_arr) - 1]);
 		$file = implode($file_arr, ".");
 
-		return $this->getWorkDirectory()."/".$file.".".$this->getMapWorkCopyType();
+		if (!$a_reference_copy)
+		{
+			return $this->getWorkDirectory()."/".$file.".".$this->getMapWorkCopyType();
+		}
+		else
+		{
+			return $this->getWorkDirectory()."/l_copy_".$o_file;
+		}
 	}
 
 	/**
@@ -758,11 +767,49 @@ class ilMediaItem
 	*/
 	function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
 	{
+		global $lng;
+		
 		$this->createWorkDirectory();
-		ilUtil::convertImage($this->getDirectory()."/".$this->getLocation(),
-			$this->getMapWorkCopyName(),
-			$this->getMapWorkCopyType());
+		
+//echo "-".$this->getLocationType()."-";
+//echo "-".$this->getLocation()."-";
+		if ($this->getLocationType() != "Reference")
+		{
+			ilUtil::convertImage($this->getDirectory()."/".$this->getLocation(),
+				$this->getMapWorkCopyName(),
+				$this->getMapWorkCopyType());
+		}
+		else
+		{
+			// first copy the external file, if necessary
+			if (!is_file($this->getMapWorkCopyName(true)) || (filesize($this->getMapWorkCopyName(true)) == 0))
+			{
+				$handle = @fopen($this->getLocation(), "r");
+				$lcopy = fopen($this->getMapWorkCopyName(true), "w");
+				if ($handle && $lcopy)
+				{
+					while (!feof($handle))
+					{
+						$content = fread($handle, 4096);
+						fwrite($lcopy, $content);
+					}
+				}
+				@fclose($lcopy);
+				@fclose($handle);
+			}
+			
+			// now, create working copy
+			ilUtil::convertImage($this->getMapWorkCopyName(true),
+				$this->getMapWorkCopyName(),
+				$this->getMapWorkCopyType());
+		}
 
+		if (!is_file($this->getMapWorkCopyName()))
+		{
+			ilUtil::sendInfo($lng->txt("cont_map_file_not_generated"));
+			return false;
+		}
+		
 		$this->buildMapWorkImage();
 
 		// draw map areas
@@ -779,6 +826,8 @@ class ilMediaItem
 		}
 
 		$this->saveMapWorkImage();
+		
+		return true;
 	}
 
 
