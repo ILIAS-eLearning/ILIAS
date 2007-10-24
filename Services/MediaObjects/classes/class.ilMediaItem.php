@@ -811,6 +811,19 @@ class ilMediaItem
 		}
 		
 		$this->buildMapWorkImage();
+		
+		// determine ratios
+		$size = @getimagesize($this->getMapWorkCopyName());
+		$x_ratio = 1;
+		if ($size[0] > 0 && $this->getWidth() > 0)
+		{
+			$x_ratio = $this->getWidth() / $size[0];
+		}
+		$y_ratio = 1;
+		if ($size[1] > 0 && $this->getHeight() > 0)
+		{
+			$y_ratio = $this->getHeight() / $size[1];
+		}
 
 		// draw map areas
 		for ($i=0; $i < count($this->mapareas); $i++)
@@ -821,7 +834,8 @@ class ilMediaItem
 				)
 			{
 				$area =& $this->mapareas[$i];
-				$area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
+				$area->draw($this->getMapWorkImage(), $this->color1, $this->color2, true,
+					$x_ratio, $y_ratio);
 			}
 		}
 
@@ -841,12 +855,26 @@ class ilMediaItem
 	{
 		$this->buildMapWorkImage();
 
+		// determine ratios
+		$size = @getimagesize($this->getMapWorkCopyName());
+		$x_ratio = 1;
+		if ($size[0] > 0 && $this->getWidth() > 0)
+		{
+			$x_ratio = $this->getWidth() / $size[0];
+		}
+		$y_ratio = 1;
+		if ($size[1] > 0 && $this->getHeight() > 0)
+		{
+			$y_ratio = $this->getHeight() / $size[1];
+		}
+
 		// add new area to work image
 		$area = new ilMapArea();
 		$area->setShape($a_shape);
 //echo "addAreaToMap:".$a_shape.":<br>";
 		$area->setCoords($a_coords);
-		$area->draw($this->getMapWorkImage(), $this->color1, $this->color2, false);
+		$area->draw($this->getMapWorkImage(), $this->color1, $this->color2, false,
+			$x_ratio, $y_ratio);
 
 		$this->saveMapWorkImage();
 	}
