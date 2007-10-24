@@ -1922,6 +1922,21 @@
 				</xsl:call-template>
 			</iframe>
 		</xsl:when>
+		
+		<!-- mp4 -->
+		<xsl:when test="$type = 'video/mp4'">
+			<embed pluginspage="http://www.apple.com/quicktime/download/">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">attributes</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
+			</embed>
+		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->
 		<xsl:otherwise>
