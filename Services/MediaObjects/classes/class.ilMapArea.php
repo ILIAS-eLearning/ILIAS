@@ -481,20 +481,24 @@ class ilMapArea
 	*
 	* @param	boolean		$a_close_poly		close polygon
 	*/
-	function draw(&$a_image, $a_col1, $a_col2, $a_close_poly = true)
+	function draw(&$a_image, $a_col1, $a_col2, $a_close_poly = true,
+		$a_x_ratio = 1, $a_y_ratio = 1)
 	{
 		switch ($this->getShape())
 		{
 			case "Rect" :
-				$this->drawRect($a_image, $this->getCoords(), $a_col1, $a_col2);
+				$this->drawRect($a_image, $this->getCoords(), $a_col1, $a_col2,
+					$a_x_ratio, $a_y_ratio);
 				break;
 
 			case "Circle" :
-				$this->drawCircle($a_image, $this->getCoords(), $a_col1, $a_col2);
+				$this->drawCircle($a_image, $this->getCoords(), $a_col1, $a_col2,
+					$a_x_ratio, $a_y_ratio);
 				break;
 
 			case "Poly" :
-				$this->drawPoly($a_image, $this->getCoords(), $a_col1, $a_col2, $a_close_poly);
+				$this->drawPoly($a_image, $this->getCoords(), $a_col1, $a_col2, $a_close_poly,
+					$a_x_ratio, $a_y_ratio);
 				break;
 		}
 	}
@@ -528,13 +532,18 @@ class ilMapArea
 	* @param	int			$c1			color identifier 1
 	* @param	int			$c2			color identifier 2
 	*/
-	function drawRect(&$im,$coords,$c1,$c2)
+	function drawRect(&$im,$coords,$c1,$c2,$a_x_ratio = 1, $a_y_ratio = 1)
 	{
 		$coord=explode(",", $coords);
-		$this->drawLine($im, $coord[0], $coord[1], $coord[0], $coord[3], $c1, $c2);
-		$this->drawLine($im, $coord[0], $coord[3], $coord[2], $coord[3], $c1, $c2);
-		$this->drawLine($im, $coord[2], $coord[3], $coord[2], $coord[1], $c1, $c2);
-		$this->drawLine($im, $coord[2], $coord[1], $coord[0], $coord[1], $c1, $c2);
+
+		$this->drawLine($im, $coord[0] / $a_x_ratio, $coord[1] / $a_y_ratio,
+			$coord[0] / $a_x_ratio, $coord[3] / $a_y_ratio, $c1, $c2);
+		$this->drawLine($im, $coord[0] / $a_x_ratio, $coord[3] / $a_y_ratio,
+			$coord[2] / $a_x_ratio, $coord[3] / $a_y_ratio, $c1, $c2);
+		$this->drawLine($im, $coord[2] / $a_x_ratio, $coord[3] / $a_y_ratio,
+			$coord[2] / $a_x_ratio, $coord[1] / $a_y_ratio, $c1, $c2);
+		$this->drawLine($im, $coord[2] / $a_x_ratio, $coord[1] / $a_y_ratio,
+			$coord[0] / $a_x_ratio, $coord[1] / $a_y_ratio, $c1, $c2);
 	}
 
 
@@ -548,7 +557,7 @@ class ilMapArea
 	* @param	int			$c3			color identifier 2
 	* @param	boolean		$closed		true: the first and the last point will be connected with a line
 	*/
-	function drawPoly(&$im, $coords, $c1, $c2, $closed)
+	function drawPoly(&$im, $coords, $c1, $c2, $closed,$a_x_ratio = 1, $a_y_ratio = 1)
 	{
 		if ($closed)
 		{
@@ -570,8 +579,9 @@ class ilMapArea
 
 		for($i=0; $i<$anz-$p; $i++)
 		{
-			$this->drawLine($im, $c[$i*2], $c[$i*2+1], $c[($i*2+2)%(2*$anz)],
-				$c[($i*2+3)%(2*$anz)], $c1, $c2);
+			$this->drawLine($im, $c[$i*2] / $a_x_ratio, $c[$i*2+1] / $a_y_ratio,
+				$c[($i*2+2)%(2*$anz)] / $a_x_ratio,
+				$c[($i*2+3)%(2*$anz)] / $a_y_ratio, $c1, $c2);
 		}
 	}
 
@@ -585,12 +595,15 @@ class ilMapArea
 	* @param	int			$c1			color identifier 1
 	* @param	int			$c3			color identifier 2
 	*/
-	function drawCircle(&$im, $coords, $c1, $c2)
+	function drawCircle(&$im, $coords, $c1, $c2,$a_x_ratio = 1, $a_y_ratio = 1)
 	{
 		$c = explode(",", $coords);
-		imagearc($im, $c[0], $c[1], ($c[2]+1)*2, ($c[2]+1)*2, 1, 360, $c1);
-		imagearc($im, $c[0], $c[1], ($c[2]-1)*2, ($c[2]-1)*2, 1, 360, $c1);
-		imagearc($im, $c[0], $c[1], $c[2]*2, $c[2]*2, 1, 360, $c2);
+		imagearc($im, $c[0] / $a_x_ratio, $c[1] / $a_y_ratio,
+			($c[2]+1)*2 / $a_x_ratio, ($c[2]+1)*2 / $a_y_ratio, 1, 360, $c1);
+		imagearc($im, $c[0] / $a_x_ratio, $c[1] / $a_y_ratio,
+			($c[2]-1)*2 / $a_x_ratio, ($c[2]-1)*2 / $a_y_ratio, 1, 360, $c1);
+		imagearc($im, $c[0] / $a_x_ratio, $c[1] / $a_y_ratio,
+			$c[2]*2 / $a_x_ratio, $c[2]*2 / $a_y_ratio, 1, 360, $c2);
 	}
 
 	/**
