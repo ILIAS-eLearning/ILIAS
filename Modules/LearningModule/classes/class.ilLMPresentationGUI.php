@@ -1042,6 +1042,12 @@ class ilLMPresentationGUI
 		include_once("./classes/class.ilTemplate.php");
 		$tpl_menu =& new ilTemplate("tpl.lm_sub_menu.html", true, true, true);
 
+		$pg_id = $this->getCurrentPageId();
+		if ($pg_id == 0)
+		{
+			return;
+		}
+
 		// edit learning module
 		if (!$this->offlineMode())
 		{
@@ -1094,6 +1100,12 @@ class ilLMPresentationGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
+		$pg_id = $this->getCurrentPageId();
+		if ($pg_id == 0)
+		{
+			return;
+		}
+		
 		$notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
@@ -1263,6 +1275,7 @@ class ilLMPresentationGUI
 
 			if ($succ_node["type"] != "pg")
 			{
+				return 0;
 				$this->tpl = new ilTemplate("tpl.main.html", true, true);
 				$this->ilias->raiseError($this->lng->txt("cont_no_page"),$this->ilias->error_obj->FATAL);
 				$this->tpl->show();
@@ -1430,6 +1443,14 @@ class ilLMPresentationGUI
 		else
 		{
 			$page_id = $a_page_id;
+		}
+		
+		// no page found
+		if ($page_id == 0)
+		{
+			$cont = $this->lng->txt("cont_no_page");
+			$this->tpl->setVariable("PAGE_CONTENT", $cont);
+			return $cont;
 		}
 		
 		$ilBench->start("ContentPresentation", "ilPage_getPageObject");
@@ -2689,7 +2710,7 @@ class ilLMPresentationGUI
 		$ilBench->start("ContentPresentation", "PrintView");
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-		
+
 		// set style sheets
 		if (!$this->offlineMode())
 		{
@@ -2742,30 +2763,35 @@ class ilLMPresentationGUI
 		// get header and footer
 		if ($this->lm->getFooterPage() > 0)
 		{
-			$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getFooterPage());
-			$page_object_gui =& new ilPageObjectGUI($page_object);
-
-			// determine target frames for internal links
-			$page_object_gui->setLinkFrame($_GET["frame"]);
-			$page_object_gui->setOutputMode("print");
-			$page_object_gui->setPresentationTitle("");
-			$footer_page_content = $page_object_gui->showPage();
+			if (ilLMObject::_exists($this->lm->getFooterPage()))
+			{
+				$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getFooterPage());
+				$page_object_gui =& new ilPageObjectGUI($page_object);
+	
+				// determine target frames for internal links
+				$page_object_gui->setLinkFrame($_GET["frame"]);
+				$page_object_gui->setOutputMode("print");
+				$page_object_gui->setPresentationTitle("");
+				$footer_page_content = $page_object_gui->showPage();
+			}
 		}
 		if ($this->lm->getHeaderPage() > 0)
 		{
-			$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getHeaderPage());
-			$page_object_gui =& new ilPageObjectGUI($page_object);
-
-			// determine target frames for internal links
-			$page_object_gui->setLinkFrame($_GET["frame"]);
-			$page_object_gui->setOutputMode("print");
-			$page_object_gui->setPresentationTitle("");
-			$header_page_content = $page_object_gui->showPage();
+			if (ilLMObject::_exists($this->lm->getHeaderPage()))
+			{
+				$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getHeaderPage());
+				$page_object_gui =& new ilPageObjectGUI($page_object);
+	
+				// determine target frames for internal links
+				$page_object_gui->setLinkFrame($_GET["frame"]);
+				$page_object_gui->setOutputMode("print");
+				$page_object_gui->setPresentationTitle("");
+				$header_page_content = $page_object_gui->showPage();
+			}
 		}
 
 		foreach ($nodes as $node_key => $node)
 		{
-
 			// print all subchapters/subpages if higher chapter
 			// has been selected
 			if ($node["depth"] <= $act_level)

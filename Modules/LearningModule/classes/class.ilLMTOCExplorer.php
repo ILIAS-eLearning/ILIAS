@@ -110,6 +110,20 @@ class ilLMTOCExplorer extends ilLMExplorer
 	}
 
 	
+	function isClickable($a_type, $a_node_id)
+	{
+		if ($a_type == "st")
+		{
+			$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
+			$a_node_id = $a_node["child"];
+			if ($a_node_id == 0)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	* build link target
 	*/

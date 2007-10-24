@@ -201,10 +201,19 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		}
 	}
 
-	/*function isClickable($a_type, $a_obj_id)
+	function isClickable($a_type, $a_node_id)
 	{
+		if ($a_type == "st")
+		{
+			$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
+			$a_node_id = $a_node["child"];
+			if ($a_node_id == 0)
+			{
+				return false;
+			}
+		}
 		return true;
-	}*/
+	}
 
 	/**
 	* get image path (may be overwritten by derived classes)
