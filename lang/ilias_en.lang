@@ -4052,6 +4052,7 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#HTML export#:#HTML Export
+content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add menu entry >>
