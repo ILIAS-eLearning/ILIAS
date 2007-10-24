@@ -1132,6 +1132,12 @@ function launchTarget(target) {
 }
 function launchNavType(navType) {
 	
+	
+	//if suspendAll set cmi.exit to suspend for active SCO
+	if (navType=="SuspendAll") {
+		err = currentAPI.SetValueIntern("cmi.exit","suspend");
+		err = currentAPI.SetValueIntern("cmi.entry","resume");
+   	}
 	//throw away API from previous sco and sync CMI and ADLTree
 	onItemUndeliver();
 	
@@ -1343,15 +1349,15 @@ function setToc()
 function updateControls(controlState) 
 {
 	if (mlaunch!=null) {
-		toggleClass('navContinue', 'disabled', (!mlaunch.mNavState.mContinue || activities[mlaunch.mActivityID].hideLMSUIs['continue']));
-		toggleClass('navExit', 'disabled', (!mlaunch.mNavState.mContinueExit || activities[mlaunch.mActivityID].hideLMSUIs['exit']));
-		toggleClass('navPrevious', 'disabled', (!mlaunch.mNavState.mPrevious || activities[mlaunch.mActivityID].hideLMSUIs['previous']));
-		toggleClass('navResumeAll', 'disabled', !mlaunch.mNavState.mResume );
+		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || activities[mlaunch.mActivityID].hideLMSUIs['continue']==true));
+		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || activities[mlaunch.mActivityID].hideLMSUIs['exit']==true));
+		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || activities[mlaunch.mActivityID].hideLMSUIs['previous']==true));
+		toggleClass('navResumeAll', 'disabled', mlaunch.mNavState.mResume==false );
 		if (mlaunch.mActivityID) {
-			toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']);
+			toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']==true);
 		}	
-		toggleClass('navStart', 'disabled', !mlaunch.mNavState.mStart);
-		toggleClass('navSuspendAll', 'disabled', (!mlaunch.mNavState.mSuspend || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']));
+		toggleClass('navStart', 'disabled', mlaunch.mNavState.mStart==false);
+		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']==true));
 	}	
 }
 
@@ -2104,7 +2110,12 @@ function getAPI(cp_node_id)
 		for (k in model.children) 
 		{
 			var mod = model.children[k];
-			var dat = data[k];
+			var dat;
+			if (data!=null) {
+			 	dat = data[k];
+			} else {
+				dat=null;
+			}
 			if (mod.type===Object) 
 			{
 				api[k] = {};
@@ -2151,6 +2162,9 @@ function getAPI(cp_node_id)
 	
 	// reference to live data
 	var data = activitiesByCAM[cp_node_id];
+
+	//set data=null to null if not suspend
+	
 	// start recursive process to add current cmi subelements
 	getAPIWalk(Runtime.models.cmi.cmi, data, api.cmi);
 
@@ -2223,7 +2237,19 @@ function setAPI(cp_node_id, api)
 			}
 		}
 	}
-		
+	
+	
+	/*
+	//check for suspend
+	var stat=activitiesByCAM[cp_node_id];
+
+	if (stat.exit!="suspend") {
+		//virginize tracking data
+		for (var k in Runtime.models.cmi.cmi) {
+			
+		}
+	}	
+	*/
 	// reference to live data
 	var data = activitiesByCAM[cp_node_id];
 
@@ -2353,6 +2379,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		
 		// assign api for public use from sco- only for debug
 		pubAPI=data;
+		
 		currentAPI = window[Runtime.apiname] = new Runtime(data, onCommit, onTerminate);
 	}
 	// deliver resource (sco)
@@ -2632,11 +2659,7 @@ function onTerminate(data)
 			navReq = {type: "exitAll"};
 		case "time-out":
 			navReq = {type: "exitAll"};
-			// abort ongoing navigation
-			abortNavigation();
-			break;
 		default : // "", "normal"
-		
 			break;
 	}
 	
