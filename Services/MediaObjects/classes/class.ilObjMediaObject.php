@@ -613,7 +613,7 @@ class ilObjMediaObject extends ilObject
 
 					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
-						$item->getLocation()."</Location>";
+						$this->handleAmps($item->getLocation())."</Location>";
 
 					// Format
 					$xml.= "<Format>".$item->getFormat()."</Format>";
@@ -708,7 +708,16 @@ class ilObjMediaObject extends ilObject
 		return $xml;
 	}
 
-
+	/**
+	* Replace "&" (if not an "&amp;") with "&amp;"
+	*/
+	function handleAmps($a_str)
+	{
+		$a_str = str_replace("&amp;", "&", $a_str);
+		$a_str = str_replace("&", "&amp;", $a_str);
+		return $a_str;
+	}
+	
 	/**
 	* export XML
 	*/
@@ -1099,6 +1108,7 @@ class ilObjMediaObject extends ilObject
 			'.eps'    => 'application/postscript',
 			'.etx'    => 'text/x-setext',
 			'.exe'    => 'application/octet-stream',
+			'.flv'    => 'video/x-flv',
 			'.gif'    => 'image/gif',
 			'.gtar'   => 'application/x-gtar',
 			'.gz'     => 'application/gzip',
@@ -1131,10 +1141,13 @@ class ilObjMediaObject extends ilObject
 			'.mpe'    => 'video/mpeg',
 			'.mpeg'   => 'video/mpeg',
 			'.mpg'    => 'video/mpeg',
+			'.mp4'    => 'video/mp4',
+			'.mv4'    => 'video/mp4',
 			'.ms'     => 'application/x-troff-ms',
 			'.nc'     => 'application/x-netcdf',
 			'.nws'    => 'message/rfc822',
 			'.o'      => 'application/octet-stream',
+			'.ogg'    => 'application/ogg',
 			'.obj'    => 'application/octet-stream',
 			'.oda'    => 'application/oda',
 			'.p12'    => 'application/x-pkcs12',
