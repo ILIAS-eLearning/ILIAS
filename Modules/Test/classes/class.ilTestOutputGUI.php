@@ -1062,11 +1062,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		if (!$this->object->canViewResults()) 
 		{
-			$this->outIntroductionPage($maxprocessingtimereached);
+			$this->outIntroductionPage();
 		}
 		else
 		{
-			$this->outIntroductionPage();
+			$this->ctrl->redirect($this, "outUserResultsOverview");
 		}
 	}
 	
@@ -1227,7 +1227,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$this->outResults();
+			$this->outUserResultsOverview();
 		}
 	}
 	

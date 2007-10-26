@@ -63,7 +63,7 @@ public class ilFO2PDF {
             logger.info("Started transformation. FO -> PDF.");
             FopFactory fopFactory = FopFactory.newInstance();
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-            
+//            foUserAgent.setTargetResolution(300);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);

@@ -735,13 +735,23 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
 		$keys2 = $keys;
-		if ($this->object->getShuffle())
+		if (is_array($user_post_solution))
 		{
-			if (($this->object->getShuffle() == 3) || ($this->object->getShuffle() == 1))
-				$keys = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
-			if (($this->object->getShuffle() == 2) || ($this->object->getShuffle() == 1))
-				$keys2 = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
+			$keys = $_SESSION["matching_keys"];
+			$keys2 = $_SESSION["matching_keys2"];
 		}
+		else
+		{
+			if ($this->object->getShuffle())
+			{
+				if (($this->object->getShuffle() == 3) || ($this->object->getShuffle() == 1))
+					$keys = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
+				if (($this->object->getShuffle() == 2) || ($this->object->getShuffle() == 1))
+					$keys2 = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
+			}
+		}
+		$_SESSION["matching_keys"] = $keys;
+		$_SESSION["matching_keys2"] = $keys2;
 
 		if ($active_id)
 		{
