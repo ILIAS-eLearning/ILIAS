@@ -676,11 +676,20 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
 		// shuffle output
-		$keys = array_keys($this->object->answers);
-		if ($this->object->getShuffle())
+		$keys = array();
+		if (is_array($user_post_solution))
 		{
-			$keys = $this->object->pcArrayShuffle($keys);
+			$keys = $_SESSION["ordering_keys"];
 		}
+		else
+		{
+			$keys = array_keys($this->object->answers);
+			if ($this->object->getShuffle())
+			{
+				$keys = $this->object->pcArrayShuffle($keys);
+			}
+		}
+		$_SESSION["ordering_keys"] = $keys;
 
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);

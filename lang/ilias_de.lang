@@ -391,7 +391,7 @@ assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
-assessment#:#export#:#Exportieren
+assessment#:#export#:#Export
 assessment#:#externalscript_additional_parameters_hint#:#Geben Sie zusätzliche Skriptparameter in der Schlüssel/Wert-Kodierung an und trennen Sie mehrere Schlüssel/Wert-Paare durch einen Zeilenvorschub, z.B. <p>schluessel1=Hallo<br />schluessel2=Welt</p>
 assessment#:#externalscript_additional_parameters#:#Skriptparameter
 assessment#:#externalscript_use_kvc#:#Bitte verwenden Sie Schlüssel/Wert-Kodierung für die Skriptparameter!
@@ -1012,7 +1012,7 @@ barometer#:#required#:#Pflicht
 barometer#:#save_vote#:#Wertung abgeben
 barometer#:#save#:#Speichern
 barometer#:#skip#:#Überspringen
-barometer#:#statistics#:#Statististiken
+barometer#:#statistics#:#Statististik
 barometer#:#status#:#Status
 barometer#:#table#:#Tabelle
 barometer#:#text_answer#:#Textantwort
