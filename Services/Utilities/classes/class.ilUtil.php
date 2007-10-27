@@ -757,26 +757,52 @@ class ilUtil
 	*/
 	function makeClickable($a_text, $detectGotoLinks = false)
 	{
-		// URL mit ://-Angabe
-		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])",
-		"<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
-
+		// New code, uses MediaWiki Sanitizer
+		$ret = $a_text;
+		
 		// www-URL ohne ://-Angabe
 		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
-		"\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+			"\\1http://\\2\\3", $ret);
 
 		// ftp-URL ohne ://-Angabe
 		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
-		"\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+			"\\1ftp://\\2\\3", $ret);
+		
+		// E-Mail (this does not work as expected, users must add mailto: manually)
+		//$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
+		//	"mailto:\\1", $ret);
 
-		// E-Mail
-		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
-		"<a  href=\"mailto:\\1\">\\1</a>", $ret);
+		include_once("./Services/Utilities/classes/class.ilMWParserAdapter.php");
+		$parser = new ilMWParserAdapter();
+		$ret = $parser->replaceFreeExternalLinks($ret);
+			
+		//
+		// Old Behaviour is unsafe, Thanks to L4teral
+		//
+		/*
+			// URL mit ://-Angabe
+			$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])",
+			"<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
+	
+			// www-URL ohne ://-Angabe
+			$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
+			"\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+	
+			// ftp-URL ohne ://-Angabe
+			$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
+			"\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+	
+			// E-Mail
+			$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
+			"<a  href=\"mailto:\\1\">\\1</a>", $ret);
+		}
+		*/
 
+		// Should be Safe
+		
 		if ($detectGotoLinks)
 		// replace target blank with self and text with object title.
 		{
-
 			$regExp = "<a[^>]*href=\"(".str_replace("/","\/",ILIAS_HTTP_PATH)."\/goto.php\?target=\w+_(\d+)[^\"]*)\"[^>]*>[^<]*<\/a>";
 //			echo htmlentities($regExp);
 			$ret = preg_replace_callback(
@@ -811,6 +837,7 @@ class ilUtil
 	{
 		$link = $matches[0];
 		$ref_id = $matches[2];
+
 		if ($ref_id > 0)
 		{
 			$obj_id = ilObject::_lookupObjId($ref_id);
