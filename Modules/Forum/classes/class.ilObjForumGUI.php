@@ -684,7 +684,7 @@ class ilObjForumGUI extends ilObjectGUI
 		ilUtil::redirect('repository.php?cmd=frameset&ref_id='.$_GET['ref_id']);
 
 	}
-	
+
 	function performImportObject()
 	{
 		$this->__initFileObject();
@@ -1638,11 +1638,11 @@ class ilObjForumGUI extends ilObjectGUI
 				// insert censorship
 				elseif ($_POST['confirm'] != '' && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($formData['cens_message'], $this->objCurrentPost->getId(), 1);
+					$frm->postCensorship(ilUtil::stripSlashes($formData['cens_message']), $this->objCurrentPost->getId(), 1);
 				}
 				elseif ($_POST['cancel'] != '' && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($formData['cens_message'], $this->objCurrentPost->getId());
+					$frm->postCensorship(ilUtil::stripSlashes($formData['cens_message']), $this->objCurrentPost->getId());
 				}
 			}			
 
@@ -1774,35 +1774,36 @@ class ilObjForumGUI extends ilObjectGUI
 							{
 								$tpl->setVariable('TXT_FORM_MESSAGE', $lng->txt('forums_edit_post'));
 							}
-		
+
 							if ($_GET['action'] == 'showreply')
 							{
 								if ($this->objProperties->isAnonymized())
 								{
 									$tpl->setVariable('ALIAS_VALUE',
 										($_GET['show_post'] == 1 ?
-											ilUtil::prepareFormOutput(stripslashes($_POST['formData']['alias'])) :
+											ilUtil::prepareFormOutput($_POST['formData']['alias'], true) :
 											''));
 								}
+
 								$tpl->setVariable('SUBJECT_VALUE',
 									($_GET['show_post'] == 1 ?
-										ilUtil::prepareFormOutput(stripslashes($_POST['formData']['subject'])) :
-										ilUtil::prepareFormOutput(stripslashes($this->objCurrentTopic->getSubject()))));
+										ilUtil::prepareFormOutput($_POST['formData']['subject'], true) :
+										ilUtil::prepareFormOutput($this->objCurrentTopic->getSubject())));
 
 								if (!empty($_POST['addQuote']))
 								{
 									$tpl->setVariable('MESSAGE_VALUE',
 										($_GET['show_post'] == 1 ?
-											ilUtil::prepareFormOutput(stripslashes($_POST['formData']['message'])) :
+											ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
 											$frm->prepareText($node->getMessage(), 1, $node->getLoginName())."\n".
-											ilUtil::prepareFormOutput(stripslashes($_POST['formData']['message']))
+											ilUtil::prepareFormOutput($_POST['formData']['message'], true)
 											));
 								}
 								else
 								{
 									$tpl->setVariable('MESSAGE_VALUE',
 										($_GET['show_post'] == 1 ?
-											ilUtil::prepareFormOutput(stripslashes($_POST['formData']['message'])) :
+											ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
 											''));
 								}
 							}
@@ -1810,11 +1811,11 @@ class ilObjForumGUI extends ilObjectGUI
 							{
 								$tpl->setVariable('SUBJECT_VALUE',
 									($_GET['show_post'] == 1 ?
-										ilUtil::prepareFormOutput(stripslashes($_POST['formData']['subject'])) :
-										ilUtil::prepareFormOutput(stripslashes($node->getSubject()))));
+										ilUtil::prepareFormOutput($_POST['formData']['subject'], true) :
+										ilUtil::prepareFormOutput($node->getSubject())));
 								$tpl->setVariable('MESSAGE_VALUE',
 									($_GET['show_post'] == 1 ?
-										ilUtil::prepareFormOutput(stripslashes($_POST['formData']['message'])) :
+										ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
 										$frm->prepareText($node->getMessage(), 2)));
 							}
 							
@@ -2291,20 +2292,20 @@ class ilObjForumGUI extends ilObjectGUI
 		
 					if ($node->isRead($ilUser->getId()))
 					{
-						$tpl->setVariable('SUBJECT', stripslashes($node->getSubject()));
+						$tpl->setVariable('SUBJECT', $node->getSubject());
 					}
 					else
 					{
 						if ($forumObj->isNew($ilUser->getId(), $node->getThreadId(), $node->getId()))
 						{
-							$tpl->setVariable('SUBJECT', '<i><b>'.stripslashes($node->getSubject()).'</b></i>');
+							$tpl->setVariable('SUBJECT', '<i><b>'.$node->getSubject().'</b></i>');
 							$tpl->setVariable('TXT_MARK_ICON', $this->lng->txt('new'));
 							$tpl->setVariable('IMG_MARK_ICON', ilUtil::getImagePath('icon_new.gif'));
 						}
 						else
 						{
 							
-							$tpl->setVariable('SUBJECT', '<b>'.stripslashes($node->getSubject()).'</b>');
+							$tpl->setVariable('SUBJECT', '<b>'.$node->getSubject().'</b>');
 							$tpl->setVariable('TXT_MARK_ICON', $this->lng->txt('unread'));
 							$tpl->setVariable('IMG_MARK_ICON', ilUtil::getImagePath('icon_unread.gif'));
 						}
@@ -2315,7 +2316,7 @@ class ilObjForumGUI extends ilObjectGUI
 					
 					if ($node->isCensored())
 					{
-						$tpl->setVariable('POST', "<span class=\"moderator\">".nl2br(stripslashes($node->getCensorshipComment()))."</span>");
+						$tpl->setVariable('POST', "<span class=\"moderator\">".nl2br($node->getCensorshipComment())."</span>");
 					}
 					else
 					{
@@ -2336,13 +2337,14 @@ class ilObjForumGUI extends ilObjectGUI
 									$spanClass = 'moderator';
 							}
 						}
+
 						if ($spanClass != "")
 						{
-							$tpl->setVariable('POST', "<span class=\"".$spanClass."\">".nl2br(stripslashes($node->getMessage()))."</span>");
+							$tpl->setVariable('POST', "<span class=\"".$spanClass."\">".nl2br($node->getMessage())."</span>");
 						}
 						else
 						{
-							$tpl->setVariable('POST', nl2br(stripslashes($node->getMessage())));
+							$tpl->setVariable('POST', nl2br($node->getMessage()));
 						}
 					}
 		
@@ -2725,7 +2727,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->tpl->setVariable('TXT_SEARCH_TITLE', $this->lng->txt('search'));
 			$this->tpl->setVariable('TXT_TITLE', $this->lng->txt('title'));
 			$this->tpl->setVariable('TXT_SEARCH_COMMAND', $this->lng->txt('search'));
-			$this->tpl->setVariable('VAL_TITLE', htmlspecialchars(stripslashes($_POST['title'])));
+			$this->tpl->setVariable('VAL_TITLE', ilUtil::prepareFormOutput($_POST['title'], true));
 		}
 		
 		if (($_SESSION['forums_search_submitted'] && is_object($query_parser) && $query_parser->validate()) || 
@@ -2840,9 +2842,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setCurrentBlock('new_thread');
 		$tpl->setVariable('TXT_REQUIRED_FIELDS', $lng->txt('required_field'));
 		$tpl->setVariable('TXT_SUBJECT', $lng->txt('forums_thread'));
-		$tpl->setVariable('SUBJECT_VALUE', ilUtil::prepareFormOutput(stripslashes($_POST['formData']['subject'])));
+		$tpl->setVariable('SUBJECT_VALUE', ilUtil::prepareFormOutput($_POST['formData']['subject'], true));
 		$tpl->setVariable('TXT_MESSAGE', $lng->txt('forums_the_post'));
-		$tpl->setVariable('MESSAGE_VALUE', ilUtil::prepareFormOutput(stripslashes($_POST['formData']['message'])));
+		$tpl->setVariable('MESSAGE_VALUE', ilUtil::prepareFormOutput($_POST['formData']['message'], true));
 		if ($this->objProperties->isAnonymized())
 		{
 			$tpl->setVariable('TXT_ALIAS', $lng->txt('forums_your_name'));
@@ -2955,7 +2957,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$frm->updateVisits($topicData['top_pk']);
 			// on success: change location
 			$frm->setWhereCondition('thr_top_fk = '.$ilDB->quote($topicData['top_pk']).' AND thr_subject = '.
-									$ilDB->quote($formData['subject']).' AND thr_num_posts = 1');		
+									$ilDB->quote(ilUtil::stripSlashes($formData['subject'])).' AND thr_num_posts = 1');		
 	
 			ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
 		}
