@@ -64,6 +64,12 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to create groups','Server');
 		}
 
+		if(ilObject::_isInTrash($target_id))
+		{
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+		}
+
+
 		// Start import
 		include_once("classes/class.ilObjGroup.php");
 		include_once 'classes/class.ilGroupImportParser.php';
@@ -81,6 +87,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
+
+
 
 		if(!is_numeric($ref_id))
 		{
