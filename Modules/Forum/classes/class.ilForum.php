@@ -301,8 +301,8 @@ class ilForum
 
 		$this->setWhereCondition("1");
 
-		$result["top_name"] = trim(stripslashes($result["top_name"]));
-		$result["top_description"] = nl2br(stripslashes($result["top_description"]));
+		$result["top_name"] = trim($result["top_name"]);
+		$result["top_description"] = nl2br($result["top_description"]);
 
 		return $result;
 	}
@@ -335,8 +335,8 @@ class ilForum
 		$query = "SELECT * FROM frm_data WHERE top_frm_fk = ".$ilDB->quote($a_obj_id);
 
 		$result = $ilDB->getRow($query, DB_FETCHMODE_ASSOC);
-		$result["top_name"] = trim(stripslashes($result["top_name"]));
-		$result["top_description"] = nl2br(stripslashes($result["top_description"]));
+		$result["top_name"] = trim($result["top_name"]);
+		$result["top_description"] = nl2br($result["top_description"]);
 
 		return $result;
 	}
@@ -354,7 +354,7 @@ class ilForum
 
 		$this->setWhereCondition("1");
 		
-		$result["thr_subject"] = trim(stripslashes($result["thr_subject"]));
+		$result["thr_subject"] = trim($result["thr_subject"]);
 				
 		return $result;	
 	}
@@ -376,7 +376,7 @@ class ilForum
 		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 					
 		$result["pos_date"] = $this->convertDate($result["pos_date"]);		
-		$result["pos_message"] = nl2br(stripslashes($result["pos_message"]));
+		$result["pos_message"] = nl2br($result["pos_message"]);
 					
 		return $result;
 	}
@@ -435,7 +435,7 @@ class ilForum
 		$objNewPost->setForumId($forum_id);
 		$objNewPost->setThreadId($thread_id);
 		$objNewPost->setSubject($subject);
-		$objNewPost->setMessage(strip_tags(addslashes($message)));
+		$objNewPost->setMessage(strip_tags($message));
 		$objNewPost->setUserId($user);
 		$objNewPost->setUserAlias($alias);
 		$objNewPost->setCreateDate(date("Y-m-d H:i:s"));
@@ -501,8 +501,8 @@ class ilForum
 			$news_item = new ilNewsItem();
 			$news_item->setContext($forum_obj->getId(), 'frm', $objNewPost->getId(), 'pos');
 			$news_item->setPriority(NEWS_NOTICE);
-			$news_item->setTitle(stripslashes($objNewPost->getSubject()));
-			$news_item->setContent(stripslashes(nl2br($this->prepareText($objNewPost->getMessage(), 0))));
+			$news_item->setTitle($objNewPost->getSubject());
+			$news_item->setContent(nl2br($this->prepareText($objNewPost->getMessage(), 0)));
 			$news_item->setUserId($ilUser->getId());
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
@@ -1042,7 +1042,7 @@ class ilForum
 			$message = substr($objLastPost->getMessage(), 0, 37).'...';
 		}
 		
-		$message = stripslashes($message);
+		$result["pos_message"] = $result["pos_message"];
 	
 		// convert date
 		$objLastPost->setCreateDate($this->convertDate($objLastPost->getCreateDate()));
@@ -1603,7 +1603,7 @@ class ilForum
 				? '="'.$quote_user.'"'
 				: "";
 
-			$text = "[quote$lname]".stripslashes($text)."[/quote]";
+			$text = "[quote$lname]".$text."[/quote]";
 		}
 		else
 		{
@@ -1658,20 +1658,16 @@ class ilForum
 				$text = ilUtil::insertLatexImages($text);
 			}
 			
-			if ($edit == 2)
+	/*		if ($edit == 2)
 			{
 				$text = stripslashes($text);
-			}
+			}*/
 	
 			// workaround for preventing template engine
 			// from hiding text that is enclosed
 			// in curly brackets (e.g. "{a}")
 			$text = str_replace("{", "&#123;", $text);
 			$text = str_replace("}", "&#125;", $text);
-		}
-		else
-		{
-			$text = stripslashes($text);
 		}
 
 		return $text;
@@ -1853,7 +1849,7 @@ class ilForum
 			/* Insert forum notification */ 
 			$q = "INSERT INTO frm_notification (user_id, frm_id) VALUES (";
 			$q .= $ilDB->quote($user_id).", ";
-			$q .= $this->id.")";
+			$q .= $ilDB->quote($this->id).")";
 			$this->ilias->db->query($q);
 		}
 
@@ -1872,7 +1868,7 @@ class ilForum
 		
 		$q = "DELETE FROM frm_notification WHERE ";
 		$q .= "user_id = ".$ilDB->quote($user_id)." AND ";
-		$q .= "frm_id = ".$this->id."";
+		$q .= "frm_id = ".$ilDB->quote($this->id)."";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -1890,7 +1886,7 @@ class ilForum
 		
 		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
 		$q .= "user_id = ".$ilDB->quote($user_id)." AND ";
-		$q .= "frm_id = ".$this->id;
+		$q .= "frm_id = ".$ilDB->quote($this->id);
 		return $this->ilias->db->getOne($q);
 	}
 
