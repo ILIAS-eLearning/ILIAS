@@ -49,6 +49,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
      * @return int reference id in the tree, 0 if not successful
      */
 	function addFile ($sid, $target_id, $file_xml) {
+
    	    if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -64,7 +65,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
 		if(ilObject::_isInTrash($target_id))
 		{
-			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'Client');
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
 		}
 
    		// Check access
@@ -105,7 +106,6 @@ class ilSoapFileAdministration extends ilSoapAdministration
         {
         	return $this->__raiseError("Could not add file", "Server");
         } 
-
         } catch(ilFileException $exception) {
           return $this->__raiseError($exception->getMessage(), $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
         }
