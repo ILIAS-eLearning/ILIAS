@@ -368,9 +368,11 @@ class ilContObjParser extends ilMDSaxParser
 			}
 			$obj_dir = $origin_id;
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
-			$target_dir = ilUtil::getDataDir()."/files/file_".$file_id;
-
-//echo "copy from $source_dir to $target_dir <br>";
+			
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$file_obj = new ilObjFile($file_id, false);
+			//$target_dir = ilUtil::getDataDir()."/files/file_".$file_id;
+			$target_dir = $file_obj->getDirectory();
 			if (@is_dir($source_dir))
 			{
 				// make target directory
@@ -383,6 +385,9 @@ class ilContObjParser extends ilMDSaxParser
 					ilUtil::rCopy($source_dir, $target_dir);
 				}
 			}
+			$test = $file_obj->determineFilesize();
+echo "<br>-$test-";
+			$file_obj->update();
 		}
 	}
 	
