@@ -369,6 +369,7 @@ class ilSurveyExecutionGUI
 		else
 		{
 			$page_error = "";
+			unset($_SESSION["svy_errors"]);
 		}
 
 		$direction = 0;
