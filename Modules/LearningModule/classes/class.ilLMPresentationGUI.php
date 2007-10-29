@@ -2615,6 +2615,13 @@ class ilLMPresentationGUI
 		foreach ($nodes as $node)
 		{
 
+			// check page activation
+			if ($node["type"] == "pg" &&
+				!ilLMPageObject::_lookupActive($node["obj_id"]))
+			{
+				continue;
+			}
+
 			// indentation
 			for ($i=0; $i<$node["depth"]; $i++)
 			{
@@ -2622,7 +2629,7 @@ class ilLMPresentationGUI
 				$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
 				$this->tpl->parseCurrentBlock();
 			}
-
+			
 			// output title
 			$this->tpl->setCurrentBlock("lm_item");
 
@@ -2792,6 +2799,13 @@ class ilLMPresentationGUI
 
 		foreach ($nodes as $node_key => $node)
 		{
+			// check page activation
+			if ($node["type"] == "pg" &&
+				!ilLMPageObject::_lookupActive($node["obj_id"]))
+			{
+				continue;
+			}
+			
 			// print all subchapters/subpages if higher chapter
 			// has been selected
 			if ($node["depth"] <= $act_level)
