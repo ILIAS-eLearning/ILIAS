@@ -258,6 +258,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=".
 				$_GET["mail_id"]."&mobj_id".$_GET["mobj_id"]."&type=read",
 				$lng->txt("inbox"));
+			
+			$ilCtrl->setParameter($this, 'mail_id', (int) $_GET['mail_id']);		
+			$content_block->addBlockCommand($ilCtrl->getLinkTarget($this, 'deleteMail'), $lng->txt('delete'));
+				
+				
 		}
 		else
 		{
@@ -279,29 +284,27 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	{
 		global $lng, $ilCtrl;
 		
-		$lng->loadLanguageModule("mail");
+		$lng->loadLanguageModule('mail');
 		
-		$umail = new ilMail($_SESSION["AccountId"]);
-		$mbox = new ilMailBox($_SESSION["AccountId"]);
+		$umail = new ilMail($_SESSION['AccountId']);
+		$mbox = new ilMailBox($_SESSION['AccountId']);
 
 		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
-		if(!$_GET["mobj_id"])
+		if(!$_GET['mobj_id'])
 		{
-			$_GET["mobj_id"] = $mbox->getInboxFolder();
+			$_GET['mobj_id'] = $mbox->getInboxFolder();
 		}
 
-		if ($umail->moveMailsToFolder(array($_GET["mail_id"]),
+		if ($umail->moveMailsToFolder(array($_GET['mail_id']),
 			$mbox->getTrashFolder()))
 		{
-			ilUtil::sendInfo($lng->txt("mail_moved_to_trash"), true);
+			ilUtil::sendInfo($lng->txt('mail_moved_to_trash'), true);
 		}
 		else
 		{
-			ilUtil::sendInfo($lng->txt("mail_move_error"), true);
+			ilUtil::sendInfo($lng->txt('mail_move_error'), true);
 		}
-		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
-
 }
-
 ?>

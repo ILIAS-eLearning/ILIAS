@@ -67,7 +67,6 @@ class ilMailGUI
 	public function executeCommand()
 	{
 		global $ilUser;
-		
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
 		{
@@ -146,7 +145,7 @@ class ilMailGUI
 			$_SESSION["viewmode"] = $_GET["viewmode"];
 			$this->ctrl->setCmd("setViewMode");
 		}
-
+		
 		$this->forwardClass = $this->ctrl->getNextClass($this);
 
 		if ($this->ctrl->getCmd() != "showMenu")

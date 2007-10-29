@@ -111,35 +111,24 @@ class ilMailFormGUI
 
 	public function sendMessage()
 	{
-		if ($_POST['use_placeholders'] && ($_POST["rcp_bcc"] != '' || $_POST['rcp_cc'] != ''))
-		{
-			ilUtil::sendInfo($this->lng->txt("mail_rcpt_only_to"));
-			
-			$this->showForm();
-		
-			return true;	
-		}		
-		
-		$f_message = $this->umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"]));
-		$this->umail->setSaveInSentbox(true);
-		
-		
+		$f_message = $this->umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST['m_message']));
+		$this->umail->setSaveInSentbox(true);		
 		
 		if($errorMessage = $this->umail->sendMail(
-				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST["rcp_to"]))),
-				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST["rcp_cc"]))),
-				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST["rcp_bcc"]))),
-				ilUtil::stripSlashes($_POST["m_subject"]),$f_message,
-				$_POST["attachments"],$_POST["m_type"], $_POST['use_placeholders'])
+				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST['rcp_to']))),
+				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST['rcp_cc']))),
+				htmlspecialchars_decode(ilUtil::stripSlashes(htmlspecialchars($_POST['rcp_bcc']))),
+				ilUtil::stripSlashes($_POST['m_subject']), $f_message,
+				$_POST['attachments'], $_POST['m_type'], $_POST['use_placeholders'])
 			)
 		{
 			ilUtil::sendInfo($errorMessage);
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_message_send", true));
+			ilUtil::sendInfo($this->lng->txt('mail_message_send', true));
 			#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
-			$this->ctrl->redirectByClass("ilmailfoldergui");
+			$this->ctrl->redirectByClass('ilmailfoldergui');
 		}
 
 		$this->showForm();
@@ -147,18 +136,9 @@ class ilMailFormGUI
 
 	public function saveDraft()
 	{	
-		if ($_POST['use_placeholders'] && ($_POST["rcp_bcc"] != '' || $_POST['rcp_cc'] != ''))
+		if(!$_POST['m_subject'])
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_rcpt_only_to"));
-			
-			$this->showForm();
-		
-			return true;	
-		}
-		
-		if(!$_POST["m_subject"])
-		{
-			$_POST["m_subject"] = "No title";
+			$_POST['m_subject'] = 'No title';
 		}
 
 		$draftsId = $this->mbox->getDraftsFolder();
@@ -454,7 +434,7 @@ class ilMailFormGUI
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		
 		$this->lng->loadLanguageModule("crs");
-		$this->tpl->setVariable("BUTTON_TO",$this->lng->txt("search_user"));
+		$this->tpl->setVariable("BUTTON_TO",$this->lng->txt("search_recipients"));
 		$this->tpl->setVariable("BUTTON_COURSES_TO",$this->lng->txt("mail_my_courses"));
 		$this->tpl->setVariable("BUTTON_GROUPS_TO",$this->lng->txt("mail_my_groups"));		
 
@@ -660,8 +640,15 @@ class ilMailFormGUI
 		$this->tpl->setVariable("TXT_MSG_CONTENT", $this->lng->txt("message_content"));
 		
 		// PLACEHOLDERS		
-		$this->tpl->setVariable("TXT_PLACEHOLDERS_ADVISE", $this->lng->txt("mail_use_placeholders"));
-		if ($mailData['use_placeholders']) $this->tpl->setVariable("CHECKED_USE_PLACEHOLDERS", " checked=\"checked\"");
+		$this->tpl->setVariable('TXT_ACTIVATE_PLACEHOLDERS', $this->lng->txt('activate_serial_letter_placeholders'));
+		if ($mailData['use_placeholders'])
+		{
+			$this->tpl->setVariable('CHECKED_USE_PLACEHOLDERS', ' checked="checked"');			
+		}
+		else
+		{
+			$this->tpl->touchBlock('hide_placeholders');
+		}
 		
 		// BUTTONS
 		$this->tpl->setVariable("TXT_SEND", $this->lng->txt("send"));
@@ -696,17 +683,17 @@ class ilMailFormGUI
 		$this->tpl->setVariable("M_MESSAGE",ilUtil::stripSlashes($mailData["m_message"]));
 		$this->tpl->parseCurrentBlock();
 		
-		$this->tpl->setVariable("TXT_USE_PLACEHOLDERS", $this->lng->txt("mail_nacc_use_placeholder"));
-		$this->tpl->setVariable("TXT_MAIL_SALUTATION", $this->lng->txt("mail_nacc_salutation"));
-		$this->tpl->setVariable("TXT_FIRST_NAME", $this->lng->txt("firstname"));
-		$this->tpl->setVariable("TXT_LAST_NAME", $this->lng->txt("lastname"));
-		$this->tpl->setVariable("TXT_LOGIN", $this->lng->txt("mail_nacc_login"));		
-		$this->tpl->setVariable("TXT_ILIAS_URL", $this->lng->txt("mail_nacc_ilias_url"));
-		$this->tpl->setVariable("TXT_CLIENT_NAME", $this->lng->txt("mail_nacc_client_name"));
+		
+		$this->tpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
+		$this->tpl->setVariable('TXT_PLACEHOLDERS_ADVISE', sprintf($this->lng->txt('placeholders_advise'), '<br />'));		
+		$this->tpl->setVariable('TXT_MAIL_SALUTATION', $this->lng->txt('mail_nacc_salutation'));
+		$this->tpl->setVariable('TXT_FIRST_NAME', $this->lng->txt('firstname'));
+		$this->tpl->setVariable('TXT_LAST_NAME', $this->lng->txt('lastname'));
+		$this->tpl->setVariable('TXT_LOGIN', $this->lng->txt('mail_nacc_login'));		
+		$this->tpl->setVariable('TXT_ILIAS_URL', $this->lng->txt('mail_nacc_ilias_url'));
+		$this->tpl->setVariable('TXT_CLIENT_NAME', $this->lng->txt('mail_nacc_client_name'));		
 
 		$this->tpl->show();
 	}
-
 }
-
 ?>

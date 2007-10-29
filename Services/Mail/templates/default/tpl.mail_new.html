@@ -64,7 +64,7 @@
 		<td id="header-content" class="option" >{TXT_MSG_CONTENT}</td>
 		<td headers="header-content" class="option_value">
 			<textarea name="m_message" id="m_message" rows="10" cols="60">{M_MESSAGE}</textarea>
-			<br /><input type="checkbox" name="use_placeholders" value="1"{CHECKED_USE_PLACEHOLDERS} />{TXT_PLACEHOLDERS_ADVISE}
+			<br /><input type="checkbox" name="use_placeholders" onclick="togglePlaceholdersBox(this.checked);" value="1"{CHECKED_USE_PLACEHOLDERS} />{TXT_ACTIVATE_PLACEHOLDERS}
 		</td>
 	</tr>
 	<tr>
@@ -73,23 +73,41 @@
 		<input class="submit" type="submit" name="cmd[saveDraft]" value="{TXT_MSG_SAVE}"/>
 		</td>
 	</tr>
-	<tr>
-	<td class="option_value" colspan="2">
-		<div class="il_Description">
-		<b>{TXT_USE_PLACEHOLDERS}</b>:<br /><br />
-		<b><span onclick="insertTextIntoTextField(this.innerHTML, 'm_message');">[MAIL_SALUTATION]</span></b>: {TXT_MAIL_SALUTATION}<br />
-		<b><span onclick="insertTextIntoTextField(this.innerHTML, 'm_message');">[FIRST_NAME]</span></b>: {TXT_FIRST_NAME}<br />
-		<b><span onclick="insertTextIntoTextField(this.innerHTML, 'm_message');">[LAST_NAME]</span></b>: {TXT_LAST_NAME}<br />
-		<b><span onclick="insertTextIntoTextField(this.innerHTML, 'm_message');">[LOGIN]</span></b>: {TXT_LOGIN}<br />			
-		<b><span onclick="insertTextIntoTextField(this.innerHTML, 'm_message');">[ILIAS_URL]</span></b>: {TXT_ILIAS_URL}<br />
-		<b><span onclick="insertTextIntoTextField(this.innerHTML, 'm_message');">[CLIENT_NAME]</span></b>: {TXT_CLIENT_NAME}			
-		</div>
+	<tr<!-- BEGIN hide_placeholders --> style="display: none;"<!-- END hide_placeholders --> id="placeholders_box">
+		<td class="option_value" colspan="2">
+			<div class="il_Description">
+			<b>{TXT_USE_PLACEHOLDERS}</b>:<br />
+			{TXT_PLACEHOLDERS_ADVISE}<br />
+			<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[MAIL_SALUTATION]</a></b>: {TXT_MAIL_SALUTATION}<br />
+			<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[FIRST_NAME]</a></b>: {TXT_FIRST_NAME}<br />
+			<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[LAST_NAME]</a></b>: {TXT_LAST_NAME}<br />
+			<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[LOGIN]</a></b>: {TXT_LOGIN}<br />			
+			<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[ILIAS_URL]</a></b>: {TXT_ILIAS_URL}<br />
+			<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[CLIENT_NAME]</a></b>: {TXT_CLIENT_NAME}			
+			</div>
 		</td>
 	</tr>
 	</table>
 </form>
 
 <script type="text/javascript" language="JavaScript">
+function togglePlaceholdersBox(status)
+{
+	phObj = document.getElementById('placeholders_box');
+
+	if (phObj)
+	{
+		if (status == true && phObj.style.display == 'none')
+		{
+			 phObj.style.display = '';
+		}
+		else
+		{
+			phObj.style.display = 'none';
+		}
+	}
+}
+
 function insertTextIntoTextField(text, obj_id)
 {
     if (text && obj_id)
