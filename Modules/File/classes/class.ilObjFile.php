@@ -451,6 +451,28 @@ class ilObjFile extends ilObject
 		return ilObjFileAccess::_lookupVersion($a_id);
 	}
 
+	/**
+	* Determine File Size
+	*/
+	function determineFileSize()
+	{
+		$file = $this->getDirectory($this->getVersion())."/".$this->getFileName();
+
+		// if not found lookup for file in file object's main directory for downward c	ompability
+		if (@!is_file($file))
+		{
+			$file = $this->getDirectory()."/".$this->getFileName();
+		}
+		
+		$size = @filesize($file);
+		if ($size > 0)
+		{
+			$this->setFilesize($size);
+		}
+		
+		return $size;
+	}
+	
 	function sendFile($a_hist_entry_id = null)
 	{	
 		if (is_null($a_hist_entry_id))
