@@ -1417,7 +1417,15 @@ class ilContObjParser extends ilMDSaxParser
 				if ($this->in_media_item)
 				{
 					$this->media_item->setLocationType($this->loc_type);
-					$this->media_item->setLocation(trim($this->chr_data));
+					if ($this->loc_type == "Reference")
+					{
+						$this->media_item->setLocation(str_replace("&", "&amp;", trim($this->chr_data)));
+					}
+					else
+					{
+						$this->media_item->setLocation(trim($this->chr_data));
+					}
+		//echo "-".$this->media_item->getLocation()."-";
 				}
 				if ($this->in_file_item)
 				{
