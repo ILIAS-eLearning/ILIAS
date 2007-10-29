@@ -859,5 +859,29 @@ class ilNewsItem extends ilNewsItemGen
 		
 		return "";
 	}
+	
+	
+	/**
+	* Get first new id of news set related to a certain context
+	*/
+	static function getFirstNewsIdForContext($a_context_obj_id,
+		$a_context_obj_type, $a_context_sub_obj_id = "", $a_context_sub_obj_type = "")
+	{
+		global $ilDB;
+		
+		// Determine how many rows should be deleted
+		$query = "SELECT * ".
+			"FROM il_news_item ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($a_context_obj_id).
+				" AND context_obj_type = ".$ilDB->quote($a_context_obj_type).
+				" AND context_sub_obj_id = ".$ilDB->quote($a_context_sub_obj_id).
+				" AND context_sub_obj_type = ".$ilDB->quote($a_context_sub_obj_type);
+				
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $rec["id"];
+	}
 }
 ?>
