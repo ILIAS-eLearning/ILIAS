@@ -386,7 +386,6 @@ class ilContObjParser extends ilMDSaxParser
 				}
 			}
 			$test = $file_obj->determineFilesize();
-echo "<br>-$test-";
 			$file_obj->update();
 		}
 	}
