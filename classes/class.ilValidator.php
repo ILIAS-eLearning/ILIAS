@@ -1993,7 +1993,7 @@ restore starts here
 	 */
 	function deleteScanLog()
 	{
-		unlink(CLIENT_DATA_DIR."/".$this->scan_log_file);
+		@unlink(CLIENT_DATA_DIR."/".$this->scan_log_file);
 	}
 
 	function readScanLog()
