@@ -189,9 +189,9 @@ class ilMailSearchGUI
 										          ilUtil::formCheckbox(0, 'search_name_bcc[]', ($entry['login'] ? $entry['login'] : $entry['email']));		
 					$result[$counter]['login'] = $entry['login'];
 					$result[$counter]['firstname'] = $entry['firstname'];
-					$result[$counter]['lastname'] = $entry['lastname'];
+					$result[$counter]['lastname'] = $entry['lastname'];	
 					
-					$id = ilObjUser::_lookupId($entry['login']);	
+					$id = ilObjUser::_lookupId($entry['login']);						
 					if (ilObjUser::_lookupPref($id, 'public_email') == 'y' || !$entry['login'])
 					{
 						$has_mail_addr = true;
@@ -271,8 +271,18 @@ class ilMailSearchGUI
 							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
 												  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
 					$result[$counter]['login'] = $login;
-					$result[$counter]['firstname'] = $name['firstname'];
-					$result[$counter]['lastname'] = $name['lastname'];
+					
+					
+					if (ilObjUser::_lookupPref($id, 'public_profile') == 'y')
+					{
+						$result[$counter]['firstname'] = $name['firstname'];
+						$result[$counter]['lastname'] = $name['lastname'];
+					}
+					else
+					{
+						$result[$counter]['firstname'] = '';
+						$result[$counter]['lastname'] = '';
+					}
 					
 					if (ilObjUser::_lookupPref($user['obj_id'], 'public_email') == 'y')
 					{
@@ -350,8 +360,7 @@ class ilMailSearchGUI
 		{
 			$this->lng->loadLanguageModule('search');			
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
-		}
-		
+		}		
 		
 		$this->tpl->show();
 	}

@@ -795,19 +795,18 @@ class ilMail
 		// determine salutation		
 		switch ($user->getGender())
 		{
-			case "f" :	$gender_salut = $lng->txt('gender_f');
+			case 'f':	$gender_salut = $lng->txt('salutation_f');
 						break;
-			case "m" :	$gender_salut = $lng->txt('gender_m');
+			case 'm':	$gender_salut = $lng->txt('salutation_m');
 						break;
         }
-        $gender_salut = trim($gender_salut);
 
-		$a_message = str_replace("[MAIL_SALUTATION]", $gender_salut, $a_message);
-		$a_message = str_replace("[LOGIN]", $user->getLogin(), $a_message);
-		$a_message = str_replace("[FIRST_NAME]", $user->getFirstname(), $a_message);
-		$a_message = str_replace("[LAST_NAME]", $user->getLastname(), $a_message);
-		$a_message = str_replace("[ILIAS_URL]", ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID, $a_message);
-		$a_message = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_message);
+		$a_message = str_replace('[MAIL_SALUTATION]', $gender_salut, $a_message);
+		$a_message = str_replace('[LOGIN]', $user->getLogin(), $a_message);
+		$a_message = str_replace('[FIRST_NAME]', $user->getFirstname(), $a_message);
+		$a_message = str_replace('[LAST_NAME]', $user->getLastname(), $a_message);
+		$a_message = str_replace('[ILIAS_URL]', ILIAS_HTTP_PATH.'/login.php?client_id='.CLIENT_ID, $a_message);
+		$a_message = str_replace('[CLIENT_NAME]', CLIENT_NAME, $a_message);
 		
 		unset($user);
 	
@@ -830,82 +829,74 @@ class ilMail
 	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type,$a_action, $a_use_placeholders = 0)
 	{
 		global $log;
-		//$log->write('class.ilMail.distributeMail '.$a_rcp_to.' '.$a_subject);
-		include_once "Services/Mail/classes/class.ilMailbox.php";
+
+		include_once 'Services/Mail/classes/class.ilMailbox.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
 
-		if (! ilMail::_usePearMail())
+		if (!ilMail::_usePearMail())
 		{
 			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
-			$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"resubstitute");
-			$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"resubstitute");
-			$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"resubstitute");
+			$a_rcp_to = $this->__substituteRecipients($a_rcp_to, 'resubstitute');
+			$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc, 'resubstitute');
+			$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc, 'resubstitute');
 		}
-
-		$as_email = array();
 
 		$mbox =& new ilMailbox();
-
-		$rcp_ids = $this->getUserIds(trim($a_rcp_to).",".trim($a_rcp_cc).",".trim($a_rcp_bcc));
-
-		foreach($rcp_ids as $id)
-		{
-			$tmp_mail_options =& new ilMailOptions($id);
-
-			// DETERMINE IF THE USER CAN READ INTERNAL MAILS
-			$tmp_user =& new ilObjUser($id);
-			$tmp_user->read();
-			$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() 
-				&& $tmp_user->getActive() && $tmp_user->checkTimeLimit();
-
-			// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
-			if (in_array('system', $a_type) && ! $user_can_read_internal_mails)
+		
+		if (!$a_use_placeholders) # No Placeholders
+		{			
+			$rcp_ids = $this->getUserIds(trim($a_rcp_to).','.trim($a_rcp_cc).','.trim($a_rcp_bcc));
+			
+			$as_email = array();
+						
+			foreach($rcp_ids as $id)
 			{
-				//$log->write('class.ilMail.distributeMail user_id:'.$id.' suppress mail system message because user can not read internal mail');				
-				continue;
-			}
-
-			// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS MAIL
-			// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
-			if (! $user_can_read_internal_mails ||
-				$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
-			{
-				$as_email[] = $id;
-				//$log->write('class.ilMail.distributeMail user_id:'.$id.' suppress mail because user can not/wants not read internal mail');				
-				continue;
-			}
-
-			if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-			{
-				$as_email[] = $id;
-			}
-
-			/*if ($a_action == 'system')
-			{
-				$inbox_id = 0;
-			}
-			else
-			{*/
+				$tmp_mail_options =& new ilMailOptions($id);
+	
+				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
+				$tmp_user =& new ilObjUser($id);
+				$tmp_user->read();
+				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() && 
+											    $tmp_user->getActive() && 
+											    $tmp_user->checkTimeLimit();
+	
+				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails)
+				{
+					continue;
+				}
+	
+				// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS/HER MAIL
+				// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
+				if (!$user_can_read_internal_mails ||
+					$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+				{
+					$as_email[] = $id;
+					continue;
+				}
+	
+				if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+				{
+					$as_email[] = $id;
+				}
+	
 				$mbox->setUserId($id);
 				$inbox_id = $mbox->getInboxFolder();
-			//}
-
-			$mail_id = $this->sendInternalMail($inbox_id,$this->user_id,
-								  $a_attachments,$a_rcp_to,
-								  $a_rcp_cc,'','unread',$a_type,
-								  0,$a_subject,$a_message,$id, $a_use_placeholders);
-			if ($a_attachments)
-			{
-				$this->mfile->assignAttachmentsToDirectory($mail_id,$sent_mail_id,$a_attachments);
+	
+				$mail_id = $this->sendInternalMail($inbox_id, $this->user_id,
+									  $a_attachments, $a_rcp_to,
+									  $a_rcp_cc, '', 'unread', $a_type,
+									  0, $a_subject, $a_message, $id, 0);
+				if ($a_attachments)
+				{
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+				}
 			}
-		}
-
-		// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
-		$to = array();
-		$bcc = array();
-		
-		if (!$a_use_placeholders)
-		{
+			
+			// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
+			$to = array();
+			$bcc = array();
+			
 			if (count($as_email) == 1)
 			{
 				$to[] = ilObjUser::_lookupEmail($as_email[0]); 
@@ -917,13 +908,67 @@ class ilMail
 					$bcc[] = ilObjUser::_lookupEmail($id);
 				}
 			}
+			
 			if(count($to) > 0 || count($bcc) > 0)
 			{
-				$this->sendMimeMail(implode(',',$to),'',implode(',',$bcc),$a_subject,$a_message,$a_attachments);
+				$this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $a_message, $a_attachments);
 			}
 		}
-		else
+		else # Use Placeholders
 		{
+			// to
+			$rcp_ids_replace = $this->getUserIds(trim($a_rcp_to));
+			
+			// cc / bcc
+			$rcp_ids_no_replace = $this->getUserIds(trim($a_rcp_cc).','.trim($a_rcp_bcc));
+			
+			$as_email = array();			
+			
+			// to
+			foreach($rcp_ids_replace as $id)
+			{
+				$tmp_mail_options =& new ilMailOptions($id);
+	
+				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
+				$tmp_user =& new ilObjUser($id);
+				$tmp_user->read();
+				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
+											    $tmp_user->getActive() &&
+											    $tmp_user->checkTimeLimit();
+	
+				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails)
+				{
+					continue;
+				}
+	
+				// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS MAIL
+				// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
+				if (!$user_can_read_internal_mails ||
+					$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+				{
+					$as_email[] = $id;
+					continue;
+				}
+	
+				if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+				{
+					$as_email[] = $id;
+				}
+	
+				$mbox->setUserId($id);
+				$inbox_id = $mbox->getInboxFolder();
+	
+				$mail_id = $this->sendInternalMail($inbox_id, $this->user_id,
+									  $a_attachments, $a_rcp_to,
+									  $a_rcp_cc, '', 'unread', $a_type,
+									  0, $a_subject, $a_message, $id, 1);
+				if ($a_attachments)
+				{
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+				}
+			}
+			
 			if (count($as_email))
 			{
 				foreach ($as_email as $id)
@@ -931,11 +976,64 @@ class ilMail
 					$this->sendMimeMail(ilObjUser::_lookupEmail($id), '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
 				}
 			}
-		}
+			
+			$as_email = array();
+			
+			// cc / bcc
+			foreach($rcp_ids_no_replace as $id)
+			{
+				$tmp_mail_options =& new ilMailOptions($id);
+	
+				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
+				$tmp_user =& new ilObjUser($id);
+				$tmp_user->read();
+				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() 
+					&& $tmp_user->getActive() && $tmp_user->checkTimeLimit();
+	
+				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails)
+				{
+					continue;
+				}
+	
+				// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS MAIL
+				// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
+				if (!$user_can_read_internal_mails ||
+					$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+				{
+					$as_email[] = $id;
+					continue;
+				}
+	
+				if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+				{
+					$as_email[] = $id;
+				}
+	
+				$mbox->setUserId($id);
+				$inbox_id = $mbox->getInboxFolder();
+	
+				$mail_id = $this->sendInternalMail($inbox_id, $this->user_id,
+									  $a_attachments, $a_rcp_to,
+									  $a_rcp_cc, '', 'unread', $a_type,
+									  0, $a_subject, $a_message, $id, 0);
+				if ($a_attachments)
+				{
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+				}
+			}
+			
+			if (count($as_email))
+			{
+				foreach ($as_email as $id)
+				{					
+					$this->sendMimeMail(ilObjUser::_lookupEmail($id), '', '', $a_subject, $a_message, $a_attachments);
+				}
+			}
+		}	
 		
 		return true;
-	}
-	
+	}	
 
 	/**
 	* get user_ids

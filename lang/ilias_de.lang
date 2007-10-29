@@ -5596,7 +5596,6 @@ mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge g
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die markierten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Nachrichten gelöscht werden sollen?
-mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_to#:#An
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
 mail#:#search_bc_recipient#:#BC-Empfänger suchen
@@ -5605,8 +5604,9 @@ mail#:#send_mail_to#:#Mail an
 mail#:#mail_cronjob_notification_info#:#Hier können Sie eine regelmäßige Benachrichtung über neue Mails aktivieren.
 mail#:#mail_no_valid_mailing_list#:#Kein Gültiger Verteiler
 mail#:#mail_received_x_new_mails#:#Sie haben %s neue Nachrichten erhalten.
-mail#:#mail_use_placeholders#:#Platzhalter benutzen (Empfänger können nur in das "An"-Feld geschrieben werden)
-mail#:#mail_rcpt_only_to#:#Da die Nutzung der Platzhalter aktiviert wurde, können nur Empfänger in das "An"-Feld geschrieben werden.
+mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
+mail#:#placeholders_advise#:#Platzhalter werden nur für Empfänger im An-Feld ersetzt.%sEmpfänger im CC- und BCC-Feld erhalten Mails ohne ersetzte Platzhalter.  
+mail#:#search_recipients#:#Empfänger suchen
 mcst#:#mcst_add_new_item#:#Neues Mediacast-Objekt hinzufügen
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
