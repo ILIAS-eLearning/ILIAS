@@ -581,6 +581,18 @@ class ilForum
 		{
 			$this->updateThread($thr_pk,$subject);
 		}
+		
+		// Change news item accordingly
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
+			"frm", $pos_pk, "pos");
+		if ($news_id > 0)
+		{
+			$news_item = new ilNewsItem($news_id);
+			$news_item->setTitle($subject);
+			$news_item->setContent(nl2br($this->prepareText($message, 0)));
+			$news_item->update();
+		}
 
 		return true;		
 	}
@@ -757,6 +769,34 @@ class ilForum
 				 "WHERE pos_pk = ".$ilDB->quote($pos_pk)."";
 		$this->ilias->db->query($q);
 	
+		// Change news item accordingly
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
+			"frm", $pos_pk, "pos");
+		if ($news_id > 0)
+		{
+			if ($cens > 0)		// censor
+			{
+				$news_item = new ilNewsItem($news_id);
+				//$news_item->setTitle($subject);
+				$news_item->setContent(nl2br($this->prepareText($message, 0)));
+				$news_item->update();
+			}
+			else				// revoke censorship
+			{
+				// get original message
+				$q = "SELECT * FROM frm_posts ".
+					"WHERE pos_pk = ".$ilDB->quote($pos_pk)."";
+				$set = $ilDB->query($q);
+				$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+				
+				$news_item = new ilNewsItem($news_id);
+				//$news_item->setTitle($subject);
+				$news_item->setContent(nl2br($this->prepareText($rec["pos_message"], 0)));
+				$news_item->update();
+			}
+		}
+
 		return true;		
 	}
 	
@@ -808,6 +848,23 @@ class ilForum
 					 "WHERE top_frm_fk = ".$ilDB->quote($this->id)."";
 			$this->ilias->db->query($query2);
 			
+			// delete all related news
+			$q = "SELECT * FROM frm_posts ".
+				"WHERE pos_thr_fk = ".$ilDB->quote($p_node["tree"])."";
+			$posset = $this->ilias->db->query($q);
+			while ($posrec = $posset->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+				$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
+					"frm", $posrec["pos_pk"], "pos");
+				if ($news_id > 0)
+				{
+					$news_item = new ilNewsItem($news_id);
+					$news_item->delete();
+				}
+			}
+			
+			
 			// delete all posts of this thread
 			$query3 = "DELETE FROM frm_posts ".
 					 "WHERE pos_thr_fk = ".$ilDB->quote($p_node["tree"])."";					 
@@ -821,6 +878,16 @@ class ilForum
 				$query = "DELETE FROM frm_posts ".
 						 "WHERE pos_pk = ".$ilDB->quote($del_id[$i])."";					 
 				$this->ilias->db->query($query);
+				
+				// delete related news item
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+				$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
+					"frm", $del_id[$i], "pos");
+				if ($news_id > 0)
+				{
+					$news_item = new ilNewsItem($news_id);
+					$news_item->delete();
+				}
 			}
 			
 			// update num_posts in frm_threads
