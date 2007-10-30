@@ -676,8 +676,9 @@ class ilUtil
 			}
 		}
 
-		// Wenn Hits gr?sser Limit, zeige Links an
-		if ($AHits > $ALimit)
+		// show links, if hits greater limit
+		// or offset > 0 (can be > 0 due to former setting)
+		if ($AHits > $ALimit || $AOffset > 0)
 		{
 			if (!empty($AParams))
 			{
@@ -700,6 +701,7 @@ class ilUtil
 			if ($AOffset >= 1)
 			{
 				$prevoffset = $AOffset - $ALimit;
+				if ($prevoffset < 0) $prevoffset = 0;
 				$LinkBar .= "<a".$layout_link." href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
 			}
 
