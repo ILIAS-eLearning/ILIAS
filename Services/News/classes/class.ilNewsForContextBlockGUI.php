@@ -87,10 +87,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		
 		// workaround, better: reduce constructor and introduce
 		//$prevent_aggregation = $this->getProperty("prevent_aggregation");
-		if ($ilCtrl->getContextObjType() == "frm")
-		{
+//		if ($ilCtrl->getContextObjType() == "frm")
+//		{
 			$prevent_aggregation = true;
-		}
+//		}
 		
 		return $news_item->getNewsForRefId($_GET["ref_id"], false, false, 0,
 			$prevent_aggregation);
