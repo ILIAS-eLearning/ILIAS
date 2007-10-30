@@ -540,7 +540,7 @@
 		// Look for 'rollupProgressCompletion'
       	$tempVal = $iNode->getAttribute("rollupProgressCompletion");
 		if($tempVal) {
-			$ioAct->setIsProgressRolledUp($tempVal);
+			$ioAct->setIsProgressRolledUp(self::convert_to_bool($tempVal));
 			
 		}
 		$children = $iNode->childNodes;

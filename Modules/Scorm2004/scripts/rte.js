@@ -1227,6 +1227,16 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	{
 		data.cmi.success_status = 'incomplete';
 	}
-	data.cmi.entry = (suspended ? 'resume' : '');
+	//if suspended
+	if (suspended) {
+		data.cmi.session_time = session_time.toString();
+		total_time.add(session_time);
+		data.cmi.total_time = total_time.toString();
+		data.cmi.entry="resume";
+		//clear session time
+	    //data.cmi.session_time="";
+	} else {
+		data.cmi.entry="";
+	}
 };
 

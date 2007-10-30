@@ -109,7 +109,7 @@ SeqRollupRuleset.prototype =
 				}
 				
 				// If no satisfied rule is defined, use default objective rollup
-				if (!satisfiedRule)
+				if (satisfiedRule==false)
 				{
 					if (this.mRollupRules == null )
 					{
@@ -156,7 +156,7 @@ SeqRollupRuleset.prototype =
 				}
 				
 				// If no completion rule is defined, use default completion rollup
-				if (!completedRule)
+				if (completedRule==false)
 				{
 					if (this.mRollupRules == null)
 					{
@@ -209,7 +209,7 @@ SeqRollupRuleset.prototype =
 					var rule = this.mRollupRules[i];
 					//alert("EVAL CHILDREN FOR: "+ioThisActivity.mActivityID);
 					var result = rule.evaluate(ioThisActivity.getChildren(false));
-					
+				
 					// Track state changes
 					switch (result)
 					{

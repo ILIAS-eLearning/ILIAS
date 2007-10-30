@@ -99,6 +99,7 @@ SeqRollupRule.prototype =
 	{
 		// Evaluate 'this' rollup rule, using the activity's children
 		var result = false;
+	
 		if (this.mChildActivitySet == ROLLUP_SET_ALL)
 		{
 			result = this.evaluateAll(iChildren);
@@ -152,6 +153,7 @@ SeqRollupRule.prototype =
 					this.mAction == ROLLUP_ACTION_INCOMPLETE )
 				{
 					include = iActivity.getIsProgressRolledUp();
+					
 				}
 			}
 			else
@@ -250,10 +252,15 @@ SeqRollupRule.prototype =
 			// Look at the next child for evaluation 
 			tempActivity = iChildren[i];
 			// Make sure the child is included in rollup 
-			if (this.isIncluded(tempActivity))
+			if (this.isIncluded(tempActivity)==true)
 			{
+			
 				considered = true;
 				var eval = this.mConditions.evaluate(tempActivity);
+				var parent=tempActivity.getParent().mActivityID;
+					if (parent=="RU-07c" && this.mAction==ROLLUP_ACTION_COMPLETED) {
+								alert("Rollup for : "+parent+"Activity: "+tempActivity.mActivityID);
+					}
 				result = result && (eval == EVALUATE_TRUE);
 				emptySet = emptySet && (eval == EVALUATE_UNKNOWN);
 			}
