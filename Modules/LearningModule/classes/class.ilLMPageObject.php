@@ -399,39 +399,6 @@ class ilLMPageObject extends ilLMObject
 		if($a_mode == IL_PAGE_TITLE)
 		{
 			$nr = "";
-
-			/*
-			if ($a_include_numbers)
-			{
-				if ($tree->isInTree($pg_rec["obj_id"]))
-				{
-					// get page tree node
-					$query = "SELECT * FROM lm_tree WHERE child = ".
-						$ilDB->quote($a_pg_id)." AND lm_id = ".
-						$ilDB->quote($pg_rec["lm_id"]);
-					$tree_set = $ilDB->query($query);
-					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
-					$depth = $tree_node["depth"];
-
-					//$nr = $tree->getChildSequenceNumber($tree_node)." ";
-					$nr = " ";
-					$dot = "";
-					for ($i = $depth - 1; $i > 1; $i --)
-					{
-						// get next parent tree node
-						$query = "SELECT * FROM lm_tree WHERE child = ".
-						$ilDB->quote($tree_node["parent"])." AND lm_id = ".
-						$ilDB->quote($pg_rec["lm_id"]);
-						$tree_set = $ilDB->query($query);
-						$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
-						$seq = $tree->getChildSequenceNumber($tree_node);
-
-						$nr = $seq.$dot.$nr;
-						$dot = ".";
-					}
-				}
-			}*/
-			
 			return $nr.$pg_rec["title"];
 		}
 
@@ -442,16 +409,22 @@ class ilLMPageObject extends ilLMObject
 			$cnt_str = "";
 			if(count($childs) > 1)
 			{
-				$cur_cnt = 0;
+				$cnt = 0;
 				foreach($childs as $child)
 				{
-					$cur_cnt++;
+					if ($child["type"] != "pg" || ilLMPageObject::_lookupActive($child["obj_id"]))
+					{
+						$cnt++;
+					}
 					if($child["obj_id"] == $pg_rec["obj_id"])
 					{
-						break;
+						$cur_cnt = $cnt;
 					}
 				}
-				$cnt_str = " (".$cur_cnt."/".count($childs).")";
+				if ($cnt > 1)
+				{
+					$cnt_str = " (".$cur_cnt."/".$cnt.")";
+				}
 			}
 			require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 			//$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
