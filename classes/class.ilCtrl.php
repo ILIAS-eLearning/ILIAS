@@ -35,6 +35,7 @@ class ilCtrl
 	var $parent;			// parent array (reverse forward)
 	var $save_parameter;	// save parameter array
 	var $return;			// return commmands
+	var $call_hist = array();	// calling history
 
 	/**
 	* control class constructor
@@ -176,6 +177,11 @@ class ilCtrl
 			$current_node = $this->current_node;
 			
 			$this->current_node = $nr;
+
+			if (DEVMODE == "1")
+			{
+				$this->call_hist[] = get_class($a_gui_object);
+			}
 			
 			$html = $a_gui_object->executeCommand();
 			
@@ -209,6 +215,11 @@ class ilCtrl
 			
 			// set current node to new gui class
 			$this->current_node = $nr;
+			
+			if (DEVMODE == "1")
+			{
+				$this->call_hist[] = get_class($a_gui_object);
+			}
 			
 			// get block
 			$html = $a_gui_object->getHTML();
@@ -402,7 +413,14 @@ class ilCtrl
 		return $this->tab;
 	}
 
-
+	/**
+	* Get controller call history
+	*/
+	function getCallHistory()
+	{
+		return $this->call_hist;
+	}
+	
 	/**
 	* Get call structure of class context. This method must be called
 	* for the top level gui class in the leading php script. It must be

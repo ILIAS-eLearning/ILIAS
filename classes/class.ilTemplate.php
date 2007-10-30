@@ -392,7 +392,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function addILIASFooter()
 	{
-		global $ilias, $ilClientIniFile;
+		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB;
 
 		$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
 		$this->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
@@ -441,6 +441,30 @@ class ilTemplate extends ilTemplateX
 				$this->setVariable("VALIDATION",
 					ilValidatorAdapter::validate($template2->get("DEFAULT",
 					false, false, false, true), $_GET["do_dev_validate"]));
+				$this->parseCurrentBlock();
+			}
+			
+			// controller history
+			if (is_object($ilCtrl))
+			{
+				$hist = $ilCtrl->getCallHistory();
+				foreach($hist as $entry)
+				{
+					$this->setCurrentBlock("c_entry");
+					$this->setVariable("C_ENTRY", $entry);
+					if (is_object($ilDB))
+					{
+						$set = $ilDB->query("SELECT file FROM ctrl_classfile WHERE LOWER(class) ".
+							" = ".$ilDB->quote(strtolower($entry)));
+						$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+						if ($rec["file"] != "")
+						{
+							$this->setVariable("C_FILE", "[".$rec["file"]."]");
+						}
+					}
+					$this->parseCurrentBlock();
+				}
+				$this->setCurrentBlock("call_history");
 				$this->parseCurrentBlock();
 			}
 		}
