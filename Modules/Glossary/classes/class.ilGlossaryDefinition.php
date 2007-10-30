@@ -585,7 +585,21 @@ class ilGlossaryDefinition
 		return true;
 	}
 
+	/**
+	* Looks up term id for a definition id
+	*
+	* @param	int		$a_def_id		definition id
+	*/
+	function _lookupTermId($a_def_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($a_def_id);
+		$def_set = $ilDB->query($q);
+		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
 
+		return $def_rec["term_id"];
+	}
 } // END class ilGlossaryDefinition
 
 ?>

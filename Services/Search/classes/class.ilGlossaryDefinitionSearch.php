@@ -57,7 +57,7 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
 		$query = "SELECT glo_id,gt.id  ".
 			$locate.
 			"FROM glossary_term as gt JOIN ".
-			"glossary_definition USING(id) ".
+			"glossary_definition ON (gt.id = glossary_definition.term_id) ".
 			$where;
 
 		$res = $this->db->query($query);
@@ -65,6 +65,7 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
 		{
 			$this->search_result->addEntry($row->glo_id,'glo',$this->__prepareFound($row),$row->id);
 		}
+//var_dump($this->search_result->entries["179"]["child"]);
 		return $this->search_result;
 	}
 }
