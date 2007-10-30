@@ -2557,7 +2557,7 @@ class ilLMPresentationGUI
 		{
 			return;
 		}
-
+		
 		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 
 		$ilBench->start("ContentPresentation", "PrintViewSelection");
@@ -2697,6 +2697,38 @@ class ilLMPresentationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		// check for free page
+		if ($_GET["obj_id"] > 0 && !$this->lm_tree->isInTree($_GET["obj_id"]))
+		{
+			$this->tpl->setCurrentBlock("indent");
+			$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("indent");
+			$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("lm_item");
+			$this->tpl->setVariable("TXT_TITLE",
+				ilLMPageObject::_getPresentationTitle($_GET["obj_id"],
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+			
+			if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+			{
+				if (!ilLMObject::_isPagePublic($_GET["obj_id"]))
+				{
+					$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
+					$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
+				}
+			}
+			$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg.gif"));
+			$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
+
+			$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		
 		$this->tpl->show();
 
 		$ilBench->stop("ContentPresentation", "PrintViewSelection");
@@ -2705,7 +2737,7 @@ class ilLMPresentationGUI
 	/**
 	* show print view
 	*/
-	function showPrintView()
+	function showPrintView($a_free_page = 0)
 	{
 		global $ilBench,$ilUser;
 
@@ -2797,6 +2829,18 @@ class ilLMPresentationGUI
 			}
 		}
 
+		// add free selected pages
+		foreach($_POST["item"] as $k => $item)
+		{
+			if ($item == "y" && $k > 0 && !$this->lm_tree->isInTree($k))
+			{
+				if (ilLMObject::_lookupType($k) == "pg")
+				{
+					$nodes[] = array("obj_id" => $k, "type" => "pg", "free" => true);
+				}
+			}
+		}
+		
 		foreach ($nodes as $node_key => $node)
 		{
 			// check page activation
@@ -2821,7 +2865,7 @@ class ilLMPresentationGUI
 					$activated = false;
 				}
 			}
-			
+
 			if ($activated &&
 				ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $node["obj_id"]))
 			{
@@ -2830,7 +2874,7 @@ class ilLMPresentationGUI
 				{
 					$output_header = true;
 				}
-
+				
 				// output chapter title
 				if ($node["type"] == "st")
 				{
@@ -2841,7 +2885,7 @@ class ilLMPresentationGUI
 							continue;
 						}
 					}
-					
+
 					$chap =& new ilStructureObject($this->lm, $node["obj_id"]);
 					$this->tpl->setCurrentBlock("print_chapter");
 
@@ -2892,7 +2936,7 @@ class ilLMPresentationGUI
 					$page_object_gui->setOutputMode("print");
 					$page_object_gui->setPresentationTitle("");
 					
-					if ($this->lm->getPageHeader() == IL_PAGE_TITLE)
+					if ($this->lm->getPageHeader() == IL_PAGE_TITLE || $node["free"] === true)
 					{
 						$page_title = ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 								$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
