@@ -370,6 +370,7 @@ class ilGlossaryDefinition
 	{
 		$this->page_object->buildDom();
 		$text = $this->page_object->getFirstParagraphText();
+
 		//$this->setShortText(ilUtil::shortenText($text, 180, true));
 		$text = str_replace("<br/>", "<br>", $text);
 		$text = strip_tags($text, "<br>");
