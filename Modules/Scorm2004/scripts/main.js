@@ -199,6 +199,278 @@ function sclogscroll()
 }
 
 
+function timeStringParse(iTime, ioArray)    
+{
+  var mInitArray=new Array();
+  var mTempArray2= new Array(); 
+  mTempArray2[0]="0";
+  mTempArray2[1]="0";
+  mTempArray2[2]="0";
+	
+  var mDate = "0";
+  var mTime = "0";
+
+  // make sure the string is not null
+  if ( iTime == null )
+  {
+      return;
+  }
+     
+  // make sure that the string has the right format to split
+  if ( ( iTime.length == 1 ) || ( iTime.indexOf("P") == -1 ) )
+  {
+      return;
+  }
+     mInitArray = iTime.split("P");
+
+     // T is present so split into day and time part
+     // when "P" is first character in string, rest of string goes in
+     // array index 1
+     if ( mInitArray[1].indexOf("T") != -1 )
+     {
+        mTempArray2 = mInitArray[1].split("T");
+        mDate =  mTempArray2[0];
+        mTime =  mTempArray2[1];
+     }
+     else
+     {
+        mDate =  mInitArray[1];
+     }
+
+     // Y is present so get year
+     if ( mDate.indexOf("Y") != -1 )
+     {
+        mInitArray = mDate.split("Y");
+        tempInt = mInitArray[0];
+        ioArray[0] = tempInt;
+     }
+     else
+     {
+        mInitArray[1] = mDate;
+     }
+
+     // M is present so get month
+     if ( mDate.indexOf("M") != -1 )
+     {
+        mTempArray2 = mInitArray[1].split("M");
+        tempInt = mTempArray2[0];
+        ioArray[1] = tempInt;
+     }
+     else
+     {
+        if ( mInitArray.length != 2 )
+        {
+           mTempArray2[1] = "";
+        }
+        else
+        {               
+           mTempArray2[1] = mInitArray[1];
+        }
+     }
+
+     // D is present so get day
+     if ( mDate.indexOf("D") != -1 )
+     {
+        mInitArray = mTempArray2[1].split("D");
+        tempInt = mInitArray[0];
+        ioArray[2] = tempInt;
+     }
+     else
+     {
+        mInitArray = new Array();
+		mInitArray[0]="";
+		mInitArray[1]="";
+		
+     }
+
+     // if string has time portion
+     if ( mTime.equals!="0")
+     {
+        // H is present so get hour
+        if ( mTime.indexOf("H") != -1 )
+        {
+           mInitArray =  mTime.split("H");
+           tempInt = mInitArray[0];
+           ioArray[3] = tempInt;
+        }
+        else
+        {
+           mInitArray[1] = mTime;
+        }
+
+        // M is present so get minute
+        if ( mTime.indexOf("M") != -1 )
+        {
+           mTempArray2 = mInitArray[1].split("M");
+           tempInt = mTempArray2[0];
+           ioArray[4] = tempInt;
+        }
+        else
+        {
+           if ( mInitArray.length != 2 )
+           {
+              mTempArray2[1] = "";
+           }
+           else
+           {               
+              mTempArray2[1] = mInitArray[1];
+           }
+        }
+
+        // S is present so get seconds
+        if ( mTime.indexOf("S") != -1 )
+        {
+           mInitArray = mTempArray2[1].split("S");
+
+           if ( mTime.indexOf(".") != -1)
+           {
+              // split requires this regular expression for "."
+              mTempArray2 = mInitArray[0].split(".");
+
+              // correct for case such as ".2"
+              if ( mTempArray2[1].length == 1 )
+              {
+                 mTempArray2[1] = mTempArray2[1] + "0";
+              }
+
+              tempInt2 = mTempArray2[1];
+              ioArray[6] = tempInt2;
+              tempInt = mTempArray2[0];
+              ioArray[5] = tempInt;
+           }
+           else
+           {
+              tempInt = mInitArray[0];
+              ioArray[5] = tempInt;
+           }
+        }
+     }
+
+  return ioArray;
+}
+
+
+function addTimes(iTimeOne,iTimeTwo) {
+	  var mTimeString = null;
+      var multiple = 1;
+      mFirstTime = new Array();
+      mSecondTime = new Array();
+
+      for (var i = 0; i < 7; i++)
+      {
+         mFirstTime[i] = 0;
+         mSecondTime[i] = 0;
+      }
+
+      mFirstTime=timeStringParse(iTimeOne, mFirstTime); 
+      mSecondTime=timeStringParse(iTimeTwo, mSecondTime);
+	   // add first and second time arrays  
+      for (var i = 0; i < 7; i++)
+      {
+	     mFirstTime[i] =parseInt(mFirstTime[i]) + parseInt(mSecondTime[i]);
+      }
+	
+	// adjust seconds, minutes, hours, and days if addition
+      // results in too large a number
+      if ( mFirstTime[6] > 99 )
+      {
+         multiple = mFirstTime[6] / 100;
+         mFirstTime[6] = mFirstTime[6] % 100;
+         mFirstTime[5] += multiple;
+      }
+
+      if ( mFirstTime[5] > 59 )
+      {
+         multiple = mFirstTime[5] / 60;
+         mFirstTime[5] = mFirstTime[5] % 60;
+         mFirstTime[4] += multiple;
+      }
+      if ( mFirstTime[4] > 59 )
+      {
+         multiple = mFirstTime[4] / 60;
+         mFirstTime[4] = mFirstTime[4] % 60;
+         mFirstTime[3] += multiple;
+      }
+
+      if ( mFirstTime[3] > 23 )
+      {
+         multiple = mFirstTime[3] / 24;
+         mFirstTime[3] = mFirstTime[3] % 24;
+         mFirstTime[2] += multiple;
+      }
+	
+	  // create the new timeInterval string
+      mTimeString = "P";
+      if ( mFirstTime[0] != 0 )
+      {
+         tempInt = mFirstTime[0];
+         mTimeString +=  tempInt.toString();
+         mTimeString += "Y";
+      }
+      if ( mFirstTime[1] != 0 )
+      {
+         tempInt = mFirstTime[1];
+         mTimeString +=  tempInt.toString();
+         mTimeString +=  "M";
+      }
+
+      if ( mFirstTime[2] != 0 )
+      {
+         tempInt = mFirstTime[2];
+         mTimeString +=  tempInt.toString();
+         mTimeString += "D";
+      }
+
+      if ( ( mFirstTime[3] != 0 ) || ( mFirstTime[4] != 0 ) 
+           || ( mFirstTime[5] != 0 ) || (mFirstTime[6] != 0) )
+      {
+         mTimeString +=  "T";
+      }
+
+      if ( mFirstTime[3] != 0 )
+      {
+         tempInt = mFirstTime[3];
+         mTimeString +=  tempInt.toString();
+         mTimeString +=  "H";
+      }
+
+      if ( mFirstTime[4] != 0 )
+      {
+         tempInt =mFirstTime[4];
+         mTimeString +=  tempInt.toString();
+         mTimeString += "M";
+      }
+
+      if ( mFirstTime[5] != 0 )
+      {
+         tempInt = mFirstTime[5];
+         mTimeString +=  tempInt.toString();
+      }
+
+      if ( mFirstTime[6] != 0 )
+      {
+         if ( mFirstTime[5] == 0 )
+         {
+            mTimeString += "0";
+         }
+         mTimeString += ".";
+         if ( mFirstTime[6] < 10 )
+         {
+            mTimeString += "0";
+         }
+         tempInt2 = mFirstTime[6];
+         mTimeString +=  tempInt2.toString();
+      }
+      if ( ( mFirstTime[5] != 0 ) || ( mFirstTime[6] != 0 ) )
+      {
+         mTimeString += "S";
+      }
+
+      return mTimeString;
+}
+
+
+
 /* Time related Data Types */
 
 function Duration (mixed) 
