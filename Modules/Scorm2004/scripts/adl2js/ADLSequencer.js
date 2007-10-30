@@ -1214,6 +1214,7 @@ ADLSequencer.prototype =
 				if (exitRules != null)
 				{
 					exited = exitRules.evaluate(RULE_TYPE_EXIT, parent, false);
+					alert("RESULT For EXIT:"+exited);
 				}
 				// If the rule evaluation did not return null, the activity must
 				// have exited.
@@ -2058,7 +2059,6 @@ ADLSequencer.prototype =
 			// (SB.2.10)
 			// Make sure the session has already started
 			sclog("RetrySequencingRequest [SB.2.10]","seq");
-    	  
 			if (from != null)
 			{
 				if (this.mExitAll || (!(from.getIsActive() || from.getIsSuspended())))
@@ -2070,7 +2070,7 @@ ADLSequencer.prototype =
 
 						// Set 'Retry' flag
 						this.setRetry(true);
-						
+			    	  	
 						var success = this.processFlow(FLOW_FORWARD, true, walk, false);
 						
 						// Reset 'Retry' flag
@@ -2627,7 +2627,7 @@ ADLSequencer.prototype =
 			{
 				//alert("Check prerules");
 				result = skippedRules.evaluate(RULE_TYPE_SKIPPED, 
-					ioFrom.at, this.mRetry);
+					ioFrom.at, false);
 				//alert("Result Prerules"+result);
 			}
 			// If the rule evaluation did not return null, the activity is skipped
@@ -3224,7 +3224,7 @@ ADLSequencer.prototype =
 		if (disabledRules != null)
 		{
 			result = disabledRules.evaluate(RULE_TYPE_DISABLED,
-				iTarget, this.mRetry);
+				iTarget, false);
 		}
 		
 		// If the rule evaluation did not return null, the activity must

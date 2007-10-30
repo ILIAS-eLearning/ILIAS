@@ -157,17 +157,15 @@ SeqRule.prototype =
 			// Make sure we have a valid target activity 
 			if (iThisActivity != null)
 			{
+			
 				if (this.mConditions.evaluate(iThisActivity, {iIsRetry:iRetry}) == EVALUATE_TRUE)
-				{
+				{	
 					result = this.mAction;
 					
 				}
 			}
 		}
 		
-		if (iType==RULE_TYPE_EXIT) {
-			//alert("EXIT RULE result: "+result);
-		}
 		return result;
 	}
 }

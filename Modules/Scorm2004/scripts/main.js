@@ -2411,8 +2411,10 @@ function syncSharedCMI(item) {
     var mObjStatus = new ADLObjStatus();
 	var obj;
 	var err
+	//for first attempt
+	
 	if( mStatusVector != null ) {
-		for(i = 0; i < mStatusVector.length; i++ ) {
+	/*	for(i = 0; i < mStatusVector.length; i++ ) {
 		 	mObjStatus = mStatusVector[i];
 		    
 		    // Set the objectives id
@@ -2437,7 +2439,48 @@ function syncSharedCMI(item) {
 			}
             
 		}
+		*/
+		//Variante 2, check for existence of SCO data from last run
+		
+		for(i = 0; i < mStatusVector.length; i++ ) {
+		    var idx=-1;
+			mObjStatus = mStatusVector[i];
+			// Set the objectives id
+			//Get existing objectives
+			var objCount = currentAPI.GetValueIntern("cmi.objectives._count");
+            for( var j = 0; j < objCount; j++ ) {
+				var obj = "cmi.objectives." + j + ".id";
+				var nr = currentAPI.GetValueIntern(obj);
+				if (nr==mObjStatus.mObjID) {
+					idx=j;
+					break;
+				}
+				
+			}
+			if (idx!=-1) {
+				// Set the objectives success status
+	        	obj = "cmi.objectives." + idx + ".success_status";
+
+				if( mObjStatus.mStatus.toLowerCase()=="satisfied" )
+	        	{
+		       		err = currentAPI.SetValueIntern(obj,"passed");
+	        	}
+	          	else if( mObjStatus.mStatus.toLowerCase()=="notsatisfied")
+	        	{
+       				err = currentAPI.SetValueIntern(obj,"failed");
+	        	}
+				// Set the objectives scaled score
+	        	obj = "cmi.objectives." + idx + ".score.scaled";
+				if( mObjStatus.mHasMeasure==true && mObjStatus.mMeasure!=0 ) {
+					err = currentAPI.SetValueIntern(obj,mObjStatus.mMeasure);
+				}
+	      	}
+		}	
+		
 	}	
+	//
+	
+	
 }
 
 
@@ -2554,8 +2597,11 @@ function syncCMIADLTree(){
     
 	if (SCOEntry=="resume" ) {
          msequencer.reportSuspension(mlaunch.mActivityID, true);
+		 // preserve session state
     } else {
          msequencer.reportSuspension(mlaunch.mActivityID, false);
+		//clear state data for this attempt
+
     }	
 	
 	// Report the success status
@@ -2572,10 +2618,10 @@ function syncCMIADLTree(){
       }
       else
       {
-         if( setPrimaryObjSuccess==false )
-         {
+          if( setPrimaryObjSuccess==false )
+          {
             msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "unknown");
-         }
+          }
       }
 
 	  // Report the measure
@@ -2590,10 +2636,7 @@ function syncCMIADLTree(){
                msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
             }
        }
-	
-    
-    
-}
+	}
 
 function onItemUndeliver(item) // onUndeliver called from sequencing process (EndAttempt)
 {
@@ -2612,7 +2655,9 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 		syncCMIADLTree();		
 		currentAPI.Terminate("");
 		save();
+		var stat = currentAPI.GetValueIntern("cmi.entry");
 		save_global_objectives();		
+			
 	}
 	currentAPI = window[Runtime.apiname] = null;
 	
@@ -2623,6 +2668,7 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 		if (!currentAct.dirty) currentAct.dirty = 1;
 	}
 	
+
 
 }
 
