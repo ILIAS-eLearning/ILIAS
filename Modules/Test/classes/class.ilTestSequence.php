@@ -528,7 +528,7 @@ class ilTestSequence
 				$key++;
 			}
 		}
-		return $result_array();
+		return $result_array;
 	}
 	
 	function getPass()
