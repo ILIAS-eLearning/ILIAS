@@ -306,6 +306,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function setValue(path, value, sudo) 
 	{
+
 		var tokens = path.split('.');
 		return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
 		
@@ -1215,28 +1216,30 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	var suspended = data.cmi.exit==="suspend";
 	var not_attempted = data.cmi.completion_status==="not attempted";
 	var success = (/^(completed|passed|failed)$/).test(data.cmi.success_status, true);
-	var session_time = new Duration(data.cmi.session_time || (currentTime() - msec));
-	var total_time = new Duration(data.cmi.total_time, true);
-	if (normal) 
+	var session_time;
+	if (data.cmi.session_time==undefined) {
+		var interval=(currentTime() - msec)/1000;
+		var dur= new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
+		session_time =dur.format(FORMAT_SCHEMA); 
+	} else {
+		session_time=data.cmi.session_time;
+	}
+	//var total_time = new Duration(data.cmi.total_time, true);
+	if (normal || suspended) 
 	{
 		data.cmi.session_time = session_time.toString();
-		total_time.add(session_time);
+		total_time=addTimes(data.cmi.total_time.toString(),session_time);
 		data.cmi.total_time = total_time.toString();
+		data.cmi.entry="";
+		if (suspended) {
+			data.cmi.entry="resume";
+		    data.cmi.session_time="";
+		}
 	}
 	if (not_attempted) 
 	{
 		data.cmi.success_status = 'incomplete';
 	}
-	//if suspended
-	if (suspended) {
-		data.cmi.session_time = session_time.toString();
-		total_time.add(session_time);
-		data.cmi.total_time = total_time.toString();
-		data.cmi.entry="resume";
-		//clear session time
-	    //data.cmi.session_time="";
-	} else {
-		data.cmi.entry="";
-	}
+
 };
 
