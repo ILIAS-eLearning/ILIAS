@@ -31,6 +31,7 @@
 * @author Manfred Thaler <manfred.thaler@endo7.com>
 * @version $Id$
 *
+* @ilCtrl_Calls ilBookmarkAdministrationGUI:
 */
 
 require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkExplorer.php");
