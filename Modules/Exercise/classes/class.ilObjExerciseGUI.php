@@ -64,7 +64,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function createObject()
 	{
 		parent::createObject();
-	
+
+		$this->tpl->setVariable("INSTRUCTION",
+			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["instruction"], true));
+
 		// SET ADDITIONAL TEMPLATE VARIABLES
 		$this->tpl->setVariable("TXT_INSTRUCTION",$this->lng->txt("exc_instruction"));
 		$this->tpl->setVariable("TXT_EDIT_UNTIL",$this->lng->txt("exc_edit_until"));
