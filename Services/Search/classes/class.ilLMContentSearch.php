@@ -67,6 +67,14 @@ class ilLMContentSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			// workaround to get term ids for definition ids (which is not the same!!!)
+			if ($row->parent_type == "gdf")
+			{
+				// it is not a page id anymore now, it is a term id
+				include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+				$row->page_id = ilGlossaryDefinition::_lookupTermId($row->page_id);
+			}
+
 			$this->search_result->addEntry($row->parent_id,$row->parent_type,$this->__prepareFound($row),$row->page_id);
 		}
 
