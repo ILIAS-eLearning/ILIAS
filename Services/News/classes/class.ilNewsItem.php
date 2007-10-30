@@ -207,7 +207,7 @@ class ilNewsItem extends ilNewsItemGen
 	* Get News For Ref Id.
 	*/
 	function getNewsForRefId($a_ref_id, $a_only_public = false, $a_stopnesting = false,
-		$a_time_period = 0, $a_prevent_aggregation = false)
+		$a_time_period = 0, $a_prevent_aggregation = true)
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
