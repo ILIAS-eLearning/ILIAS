@@ -732,11 +732,12 @@ class assSingleChoice extends assQuestion
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
-					$query = sprintf("INSERT INTO qpl_answer_singlechoice (answer_id, question_fi, answertext, points, aorder) VALUES (NULL, %s, %s, %s, %s)",
+					$query = sprintf("INSERT INTO qpl_answer_singlechoice (answer_id, question_fi, answertext, points, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s)",
 						$ilDB->quote($this->original_id. ""),
 						$ilDB->quote($answer_obj->getAnswertext(). ""),
 						$ilDB->quote($answer_obj->getPoints() . ""),
-						$ilDB->quote($answer_obj->getOrder() . "")
+						$ilDB->quote($answer_obj->getOrder() . ""),
+						$ilDB->quote($answer_obj->getImage() . "")
 					);
 					$answer_result = $ilDB->query($query);
 				}

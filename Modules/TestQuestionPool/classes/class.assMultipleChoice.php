@@ -744,12 +744,13 @@ class assMultipleChoice extends assQuestion
 				{
 					$answer_obj = $this->answers[$key];
 					$points_unchecked = $answer_obj->getPointsUnchecked();
-					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, points_unchecked) VALUES (NULL, %s, %s, %s, %s, %s)",
+					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, points_unchecked, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 						$ilDB->quote($this->original_id. ""),
 						$ilDB->quote($answer_obj->getAnswertext(). ""),
 						$ilDB->quote($answer_obj->getPoints() . ""),
 						$ilDB->quote($answer_obj->getOrder() . ""),
-						$ilDB->quote($points_unchecked . "")
+						$ilDB->quote($points_unchecked . ""),
+						$ilDB->quote($answer_obj->getImage() . "")
 					);
 					$answer_result = $ilDB->query($query);
 				}
