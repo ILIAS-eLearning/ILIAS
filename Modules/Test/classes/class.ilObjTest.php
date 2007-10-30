@@ -8105,7 +8105,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 			if (!$a_value && $this->getListOfQuestions())
 			{
-				if ($this->getListOfQuestionsEnd())
+				if ($this->getListOfQuestionsDescription())
 				{
 					$this->show_summary = $this->show_summary ^ 8;
 				}
