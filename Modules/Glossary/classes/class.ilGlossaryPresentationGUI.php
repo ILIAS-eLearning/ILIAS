@@ -323,8 +323,7 @@ class ilGlossaryPresentationGUI
 
 					//
 					$this->tpl->setCurrentBlock("definition");
-					$short_str = ilPCParagraph::xml2output($def["short_text"]);
-					
+					$short_str = $def["short_text"];
 					// replace tex
 					// if a tex end tag is missing a tex end tag
 					$ltexs = strrpos($short_str, "[tex]");
@@ -347,6 +346,7 @@ class ilGlossaryPresentationGUI
 						$short_str = ilUtil::buildLatexImages($short_str,
 							$this->getOfflineDirectory());
 					}
+					$short_str = ilPCParagraph::xml2output($short_str);
 					
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();

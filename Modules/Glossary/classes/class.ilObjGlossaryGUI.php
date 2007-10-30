@@ -798,7 +798,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 					// text
 					$this->tpl->setCurrentBlock("definition");
-					$short_str = ilPCParagraph::xml2output($def["short_text"]);
+					$short_str = $def["short_text"];
 					
 					// replace tex
 					// if a tex end tag is missing a tex end tag
@@ -814,6 +814,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
 					}
 					$short_str = ilUtil::insertLatexImages($short_str);
+					$short_str = ilPCParagraph::xml2output($short_str);
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
 
