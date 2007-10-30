@@ -142,7 +142,7 @@ class ilLanguage
 	 */
 	function ilLanguage($a_lang_key)
 	{
-		global $ilias,$log,$ilIliasIniFile,$ilUser;
+		global $ilias,$log,$ilIliasIniFile,$ilUser,$ilSetting;
 
 		// store used modules and topics in a global variable
 		// ($lng seems to be initialized more than once)
@@ -179,6 +179,10 @@ class ilLanguage
 		$this->cust_lang_path = ILIAS_ABSOLUTE_PATH."/Customizing/global/lang";
 
 		$this->lang_default = $ilIliasIniFile->readVariable("language","default");
+		if (is_object($ilSetting) && $ilSetting->get("language") != "")
+		{
+			$this->lang_default = $ilSetting->get("language");
+		}
 		$this->lang_user = $ilUser->prefs["language"];
 		
 		$langs = $this->getInstalledLanguages();
