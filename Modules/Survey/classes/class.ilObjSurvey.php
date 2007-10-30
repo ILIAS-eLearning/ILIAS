@@ -4201,6 +4201,8 @@ class ilObjSurvey extends ilObject
 		if (!$isXml && !$isZip)
 		{
 			$error = $this->lng->txt("import_wrong_file_type");
+			global $ilLog;
+			$ilLog->write("Survey: Import error. Filetype was \"" . $file_info["type"] ."\"");
 		}
 		if (strlen($error) == 0)
 		{
