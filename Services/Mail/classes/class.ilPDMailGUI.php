@@ -40,7 +40,7 @@ class ilPDMailGUI
 	*/
 	function getPDMailHTML($a_mail_id, $a_mobj_id)
 	{
-		global $lng, $rbacsystem;
+		global $lng, $rbacsystem, $ilias;
 		
 		$lng->loadLanguageModule("mail");
 		
