@@ -23,7 +23,7 @@
 <!-- BEGIN threads_row -->
 <tr class="{ROWCOL}">
 	<td nowrap="nowrap" width="1%" valign="top"><!-- BEGIN checkbox --><input type="checkbox" name="forum_id[]" value="{FORUM_ID}" {CHECKBOX_CHECKED} /><!-- END checkbox --></td>
-	<td width="60%" valign="top"><!-- BEGIN linked_title_a --><a href="{TH_HREF}"><!-- END linked_title_a -->{TH_TITLE}<!-- BEGIN linked_title_b --></a><!-- END linked_title_b --><!-- BEGIN notification --><br><span class="small">{NOTIFICATION_ENABLED}</span><!-- END notification --></td>
+	<td width="60%" valign="top"><!-- BEGIN is_closed -->[{TXT_IS_CLOSED}] <!-- END is_closed --><!-- BEGIN is_sticky -->[{TXT_IS_STICKY}] <!-- END is_sticky --><!-- BEGIN linked_title_a --><a href="{TH_HREF}"><!-- END linked_title_a -->{TH_TITLE}<!-- BEGIN linked_title_b --></a><!-- END linked_title_b --><!-- BEGIN notification --><br><span class="small">{NOTIFICATION_ENABLED}</span><!-- END notification --></td>
 	<td width="20%" style="text-align: center;" valign="top">{AUTHOR}</td>
 	<td style="text-align: center;" valign="top">{NUM_POSTS}</td>
 	<td style="text-align: center;" valign="top">{NEW_POSTS}</td>
@@ -54,8 +54,8 @@
 <!-- BEGIN threads_actions -->
 <tr>
 	<td class="submit"  width="1%" nowrap="nowrap" colspan="7"><img src="{IMGPATH}/images/arrow_downright.gif" />
-	<select name="action">
-		<option value="html">{TXT_EXPORT_HTML}</option>
+	<select name="action">		
+		<option value="">{TXT_PLEASE_CHOOSE}</option>
 <!-- BEGIN option_notification -->
 		<option value="enable_notifications">{TXT_ENABLE_NOTIFICATION}</option>
 		<option value="disable_notifications">{TXT_DISABLE_NOTIFICATION}</option>
@@ -67,6 +67,11 @@
 <!-- BEGIN move_threads -->
 		<option value="move">{TXT_MOVE_THREADS}</option>
 <!-- END move_threads -->
+<!-- BEGIN close_reopen_threads -->
+		<option value="close">{TXT_CLOSE_THREADS}</option>
+		<option value="reopen">{TXT_REOPEN_THREADS}</option>
+<!-- END close_reopen_threads -->
+		<option value="html">{TXT_EXPORT_HTML}</option>
 	</select>
 	<input class="submit" type="submit" name="cmd[performThreadsAction]" value="{TXT_OK}" />
 	</td>

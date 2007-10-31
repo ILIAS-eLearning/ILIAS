@@ -57,6 +57,8 @@ class ilForumTopic
 	
 	private $is_sticky = 0;
 	
+	private $is_closed = 0;
+	
 	private $orderField = '';
 	
 	private $posts = array();
@@ -65,6 +67,17 @@ class ilForumTopic
 	
 	private $is_moderator = false;
 	
+	/**
+	* Constructor
+	*
+	* Returns an object of a forum topic. The constructor calls the private method read()
+	* to load the topic data from database into the object.
+	*
+	* @param  	integer	$a_id			primary key of a forum topic (optional)
+	* @param  	bool	$a_is_moderator	moderator-status of the current user (optional)
+	* 
+	* @access	public
+	*/
 	public function __construct($a_id = 0, $a_is_moderator = false)
 	{
 		global $ilDB;
@@ -75,6 +88,12 @@ class ilForumTopic
 		$this->read();
 	}
 	
+	/**
+	* Inserts the object data into database
+	*
+	* @return 	bool	true in case of success, false in case of failure
+	* @access 	public
+	*/
 	public function insert()
 	{			
 		if ($this->forum_id)
@@ -90,6 +109,7 @@ class ilForumTopic
 					."thr_num_posts = " . $this->db->quote($this->num_posts). ", "
 					."thr_last_post = " . $this->db->quote($this->last_post_string). ", "
 					."is_sticky = " . $this->db->quote($this->is_sticky). ", "
+					."is_closed = " . $this->db->quote($this->is_closed). ", "
 					."import_name = " . $this->db->quote($this->import_name). " ";
 			$this->db->query($query);
 			
@@ -101,6 +121,12 @@ class ilForumTopic
 		return false;	
 	}
 	
+	/**
+	* Updates an existing topic
+	*
+	* @return 	bool	true in case of success, false in case of failure
+	* @access 	public
+	*/
 	public function update()
 	{
 		if ($this->id)
@@ -117,8 +143,17 @@ class ilForumTopic
 
 			return true;
 		}
+		
+		return false;
 	}
 	
+	/**
+	* Reads the data of the current object id from database and loads it into the object.
+	*
+	* @return  	bool	true in case of success, false in case of failure
+	* 
+	* @access 	private
+	*/
 	private function read()
 	{
 		if ($this->id)
@@ -144,6 +179,7 @@ class ilForumTopic
 				$this->last_post_string = $row->thr_last_post;
 				$this->visits = $row->visits;
 				$this->is_sticky = $row->is_sticky;
+				$this->is_closed = $row->is_closed;
 				$this->frm_obj_id = $row->frm_obj_id;
 				
 				return true;
@@ -155,11 +191,23 @@ class ilForumTopic
 		return false;
 	}
 	
+	/**
+	* Calls the private method read() to load the topic data from database into the object.
+	*
+	* @return  	bool	true in case of success, false in case of failure
+	* @access 	public
+	*/
 	public function reload()
 	{
 		return $this->read();
 	}
 	
+	/**
+	* Fetches the primary key of the first post node of the current topic from database and returns it.
+	*
+	* @return  	integer		primary key of the first post node
+	* @access 	public
+	*/
 	public function getFirstPostId()
 	{
 		$query = "SELECT *
@@ -173,6 +221,11 @@ class ilForumTopic
 		return $row->pos_fk ? $row->pos_fk : 0;
 	}
 	
+	/**
+	* Updates the visit counter of the current topic.
+	* 
+	* @access	public
+	*/
 	public function updateVisits()
 	{
 		$checkTime = time() - (60 * 60);
@@ -192,7 +245,14 @@ class ilForumTopic
 		return true;
 	}
 	
-	function getLastThreadAccess($a_user_id)
+	/**
+	* Fetches and returns a timestamp of the last topic access.
+	* 
+	* @param  	integer		$a_user_id		user id
+	* @return	integer		timestamp of last thread access
+	* @access	public
+	*/
+	public function getLastThreadAccess($a_user_id)
 	{		
 		$query = "SELECT * 
 				  FROM frm_thread_access 
@@ -213,6 +273,13 @@ class ilForumTopic
 		return $last_access;
 	}
 	
+	/**
+	* Fetches and returns the number of posts for the given user id.
+	* 
+	* @param  	integer		$a_user_id		user id
+	* @return	integer		number of posts
+	* @access	public
+	*/
 	public function countPosts()
 	{
 		$query = "SELECT COUNT(*) AS cnt
@@ -227,6 +294,13 @@ class ilForumTopic
 		return $rec['cnt'];
 	}
 	
+	/**
+	* Fetches and returns the number of active posts for the given user id.
+	* 
+	* @param  	integer		$a_user_id		user id
+	* @return	integer		number of active posts
+	* @access	public
+	*/
 	public function countActivePosts()
 	{
 		$query = "SELECT COUNT(*) AS cnt
@@ -242,6 +316,13 @@ class ilForumTopic
 		return $rec['cnt'];
 	}
 	
+	/**
+	* Fetches and returns the number of read posts for the given user id.
+	* 
+	* @param  	integer		$a_user_id		user id
+	* @return	integer		number of read posts
+	* @access	public
+	*/
 	public function countReadPosts($a_user_id)
 	{
 		$query = "SELECT COUNT(*) AS cnt				  
@@ -256,8 +337,15 @@ class ilForumTopic
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
-	}
+	}	
 	
+	/**
+	* Fetches and returns the number of read active posts for the given user id.
+	* 
+	* @param  	integer		$a_user_id		user id
+	* @return	integer		number of read active posts
+	* @access	public
+	*/
 	public function countReadActivePosts($a_user_id)
 	{
 		$query = "SELECT COUNT(*) AS cnt				  
@@ -275,6 +363,13 @@ class ilForumTopic
 		return $rec['cnt'];
 	}
 	
+	/**
+	* Fetches and returns the number of new posts for the given user id.
+	* 
+	* @param  	integer		$a_user_id		user id
+	* @return	integer		number of new posts
+	* @access	public
+	*/
 	public function countNewPosts($a_user_id)
 	{
 		$timest = $this->getLastThreadAccess($a_user_id);
@@ -295,6 +390,13 @@ class ilForumTopic
 		return $rec['cnt'];
 	}
 	
+	/**
+	* Fetches and returns the number of new active posts for the given user id.
+	* 
+	* @param  	integer		$a_user_id		user id
+	* @return	integer		number of new active posts
+	* @access	public
+	*/
 	public function countNewActivePosts($a_user_id)
 	{
 		$timest = $this->getLastThreadAccess($a_user_id);
@@ -316,6 +418,12 @@ class ilForumTopic
 		return $rec['cnt'];
 	}	
 	
+	/**
+	* Fetches and returns an object of the first post in the current topic.
+	* 
+	* @return	ilForumPost		object of a post
+	* @access	public
+	*/
 	public function getFirstPostNode()
 	{		
 		$query = "SELECT pos_pk
@@ -332,6 +440,12 @@ class ilForumTopic
 		return new ilForumPost($row->pos_pk);
 	}
 	
+	/**
+	* Fetches and returns an object of the last post in the current topic.
+	* 
+	* @return	ilForumPost		object of the last post
+	* @access	public
+	*/
 	public function getLastPost()
 	{
 		if ($this->id)
@@ -353,6 +467,12 @@ class ilForumTopic
 		return false;
 	}
 	
+	/**
+	* Fetches and returns an object of the last active post in the current topic.
+	* 
+	* @return	ilForumPost		object of the last active post
+	* @access	public
+	*/
 	public function getLastActivePost()
 	{
 		if ($this->id)
@@ -375,6 +495,14 @@ class ilForumTopic
 		return false;
 	}
  
+ 	/**
+	* Fetches and returns an array of posts from the post tree, starting with the node object passed by
+	* the first paramter.
+	* 
+	* @param    ilForumPost	$a_post_node	node-object of a post
+	* @return	array		array of post objects
+	* @access	public
+	*/
 	public function getPostTree(ilForumPost $a_post_node)
 	{
 		global $ilUser;
@@ -438,11 +566,11 @@ class ilForumTopic
 	/**
 	* Moves all posts within the current thread to a new forum
 	* 
-	* @param    integer	object id of current forum
-	* @param    integer	pk of old forum
-	* @param    integer	object id of new forum
-	* @param    integer	pk of new forum
-	* @return	integer	number of afffected rows by updating posts
+	* @param    integer 	$old_obj_id object id of the current forum
+	* @param    integer 	$old_pk		primary key of old forum
+	* @param    integer 	$new_obj_id	object id of the new forum
+	* @param    integer 	$new_pk		primary key of new forum
+	* @return	integer 	number of afffected rows by updating posts
 	* @access	public
 	*/
 	public function movePosts($old_obj_id, $old_pk, $new_obj_id, $new_pk)
@@ -472,6 +600,16 @@ class ilForumTopic
 		return 0;
 	}
 	
+	/**
+	* Fetches and returns an array of posts from the post tree, starting with the node id passed by
+	* the first paramter. If the second parameter $type is set to 'explorer',
+	* the data will be returned different because of compatibility issues in explorer view.
+	* 
+	* @param    integer		$a_node_id		id of starting node
+	* @param    string		$type			'explorer' or '' (optional)
+	* @return	array		array of posts
+	* @access	public
+	*/
 	public function getPostChilds($a_node_id, $type = '')
 	{
 		$childs = array();
@@ -518,10 +656,10 @@ class ilForumTopic
 	}	
 	
 	/**
-	* Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0)
-	* @param    integer	user_id	A user's ID
-	* @return	integer	Result
-	* @access	private
+	* Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0).
+	* @param    integer		$a_user_id		id of an user
+	* @return	bool		true in case of success, false in case of failure
+	* @access	public
 	*/
 	public function isNotificationEnabled($a_user_id)
 	{
@@ -533,17 +671,17 @@ class ilForumTopic
 					  AND user_id = ".$this->db->quote($a_user_id)."  
 					  AND thread_id = ".$this->db->quote($this->id)." ";
 			
-			return $this->db->getOne($query);
+			return ($this->db->getOne($query)) ? true : false;
 		}
 		
 		return false;		
 	}
 	
 	/**
-	* Enable a user's notification about new posts in a thread
-	* @param    integer	user_id	A user's ID
-	* @return	bool	true
-	* @access	private
+	* Enable a user's notification about new posts in a thread.
+	* @param    integer	$a_user_id		id of an user
+	* @return	bool	true in case of success, false in case of failure
+	* @access	public
 	*/
 	public function enableNotification($a_user_id)
 	{
@@ -566,10 +704,10 @@ class ilForumTopic
 	}
 	
 	/**
-	* Disable a user's notification about new posts in a thread
-	* @param    integer	user_id	A user's ID
-	* @return	bool	true
-	* @access	private
+	* Disable a user's notification about new posts in a thread.
+	* @param    integer	$a_user_id		id of an user
+	* @return	bool	true in case of success, false in case of failure
+	* @access	public
 	*/
 	public function disableNotification($a_user_id)
 	{
@@ -588,6 +726,12 @@ class ilForumTopic
 		return false;
 	}
 	
+	/**
+	* Sets the current topic sticky. 
+	*
+	* @return  	bool	true in case of success, false in case of failure
+	* @access 	public
+	*/
 	public function makeSticky()
 	{
 		if ($this->id && !$this->is_sticky)
@@ -607,6 +751,12 @@ class ilForumTopic
 		return false;
 	}
 	
+	/**
+	* Sets the current topic non-sticky. 
+	*
+	* @return  	bool	true in case of success, false in case of failure
+	* @access 	public
+	*/
 	public function unmakeSticky()
 	{
 		if ($this->id && $this->is_sticky)
@@ -619,6 +769,56 @@ class ilForumTopic
 			$this->db->query($query);
 			
 			$this->is_sticky = 0;
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	* Closes the current topic.
+	*
+	* @return  	bool	true in case of success, false in case of failure
+	* @access 	public
+	*/
+	public function close()
+	{
+		if ($this->id && !$this->is_closed)
+		{
+			$query = "UPDATE frm_threads 
+				      SET is_closed = '1'
+					  WHERE 1 
+					  AND thr_pk = ".$this->db->quote($this->id)." ";
+			
+			$this->db->query($query);
+			
+			$this->is_closed = 1;
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	* Reopens the current topic.
+	*
+	* @return  	bool	true in case of success, false in case of failure
+	* @access 	public
+	*/
+	public function reopen()
+	{
+		if ($this->id && $this->is_closed)
+		{
+			$query = "UPDATE frm_threads 
+				      SET is_closed = '0'
+					  WHERE 1 
+					  AND thr_pk = ".$this->db->quote($this->id)." ";
+			
+			$this->db->query($query);
+			
+			$this->is_closed = 0;
 			
 			return true;
 		}
@@ -721,6 +921,14 @@ class ilForumTopic
 	public function isSticky()
 	{
 		return $this->is_sticky == 1 ? true : false;
+	}
+	public function setClosed($a_closed)
+	{
+		$this->is_closed = $a_closed;
+	}
+	public function isClosed()
+	{
+		return $this->is_closed == 1 ? true : false;
 	}
 	function setOrderField($a_order_field)
 	{
