@@ -1229,7 +1229,7 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	if (normal || suspended) 
 	{
 		data.cmi.session_time = session_time.toString();
-		total_time=addTimes(data.cmi.total_time.toString(),session_time);
+		total_time=addTimes(data.cmi.total_time.toString(),data.cmi.session_time);
 		data.cmi.total_time = total_time.toString();
 		data.cmi.entry="";
 		if (suspended) {
