@@ -6770,8 +6770,8 @@ survey#:#anonymize_registered_user#:#Anonymisierter Zugang
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, an einer anoymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Zugangsschlüssel automatisch generiert wird.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
-survey#:#anonymize_with_code#:#Anonymisierung mit personalisiertem Zugriff über einen Zugangsschlüssel
-survey#:#anonymize_without_code#:#Anonymisierung mit freiem Zugriff auf die Umfrage
+survey#:#anonymize_with_code#:#Zugriff über einen Zugangsschlüssel
+survey#:#anonymize_without_code#:#Freier Zugriff
 survey#:#anonymous_with_personalized_survey#:#Sie müssen im ILIAS System angemeldet sein, um eine personalisierte Umfrage ausführen zu dürfen!
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
@@ -6780,7 +6780,7 @@ survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Fra
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage hinzufügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
-survey#:#browse_for_questions#:#Nach Fragen durchsuchen
+survey#:#browse_for_questions#:#Fragen hinzufügen
 survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangsschlüssel für die Umfrage zu erzeugen!
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten!
@@ -7025,9 +7025,10 @@ survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antwort
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_used#:#nicht verwendet
 survey#:#obligatory#:#verpflichtend
-survey#:#off#:#aus
+survey#:#off#:#Aus
 survey#:#offline#:#offline (nicht aktiviert)
-survey#:#on#:#an
+survey#:#on#:#An
+survey#:#on_additional#:#An, und zusätzlich
 survey#:#online_description#:#Eine Umfrage kann nur durchgeführt werden, wenn Sie aktiviert (online) ist
 survey#:#online#:#online (aktiviert)
 survey#:#or#:#oder
@@ -7135,7 +7136,7 @@ survey#:#survey_next#:#Weiter >>
 survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehmer eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
 survey#:#survey_previous#:#<< Zurück
-survey#:#survey_question_editor#:#Fragenliste bearbeiten
+survey#:#survey_question_editor#:#Fragenliste
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Fragen

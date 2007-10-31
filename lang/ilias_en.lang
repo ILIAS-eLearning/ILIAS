@@ -6533,10 +6533,9 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_personalized#:#Personalized Survey
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
-survey#:#anonymize_survey#:#Anonymize Survey Data
 survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.
-survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
-survey#:#anonymize_without_code#:#Anonymization with free access to the survey
+survey#:#anonymize_with_code#:#Access with survey codes
+survey#:#anonymize_without_code#:#Free access
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
@@ -6545,7 +6544,7 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#before#:#before
-survey#:#browse_for_questions#:#Browse for Questions
+survey#:#browse_for_questions#:#Add Questions
 survey#:#cancel_survey#:#Suspend the Survey
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!
@@ -6790,11 +6789,10 @@ survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#not used
 survey#:#obligatory#:#obligatory
-survey#:#off#:#off
+survey#:#off#:#Off
 survey#:#offline#:#offline
-survey#:#on#:#on
-survey#:#online#:#online
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online
+survey#:#on#:#On
+survey#:#on_additional#:#On, and additional
 survey#:#or#:#or
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation
@@ -6902,7 +6900,7 @@ survey#:#survey_next#:#Next >>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<< Previous
-survey#:#survey_question_editor#:#Edit survey questions
+survey#:#survey_question_editor#:#List of Questions
 survey#:#survey_question_obligatory#:#This question is obligatory. You must answer the question!
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions

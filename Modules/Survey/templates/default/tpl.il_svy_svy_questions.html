@@ -4,14 +4,14 @@
 <!-- END move -->
 <!-- BEGIN browser_actions -->
 <p><input type="submit" class="submit" name="cmd[browseForQuestions]" value="{BUTTON_INSERT_QUESTION}" />
-&nbsp;{TEXT_OR}&nbsp;
-<input type="submit" class="submit" name="cmd[searchQuestions]" value="{BUTTON_SEARCH_QUESTION}" />
 &nbsp;{TEXT_CREATE_NEW}&nbsp;
 <select name="sel_question_types">
 <!-- BEGIN QTypes -->
 <option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>
 <!-- END QTypes -->
-</select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /></p>
+</select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" />
+<input class="submit" type="submit" name="cmd[addHeading]" value="{HEADING}" />
+</p>
 <!-- END browser_actions -->
 <table class="fullwidth">
 <thead>
@@ -96,7 +96,7 @@
 <tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
 <!-- BEGIN QFooter -->
-<tr class="tblfooter"><td>{ARROW}</td><td colspan="8">
+<tr class="tblfooter"><td>{ARROW}</td><td colspan="6">
 <input class="submit" type="submit" name="cmd[removeQuestions]" value="{REMOVE}" />
 <input class="submit" type="submit" name="cmd[defineQuestionblock]" value="{QUESTIONBLOCK}" />
 <input class="submit" type="submit" name="cmd[unfoldQuestionblock]" value="{UNFOLD}" />
@@ -105,15 +105,9 @@
 <input type="submit" class="submit" name="cmd[insertQuestionsBefore]" value="{INSERT_BEFORE}" />
 <input type="submit" class="submit" name="cmd[insertQuestionsAfter]" value="{INSERT_AFTER}" />
 <!-- END move_buttons -->
-</td></tr>
-<!-- END QFooter -->
-<!-- BEGIN actionbuttons -->
-<tr class="tblfooter">
-	<td class="submit" colspan="9" align="right">
-		<input class="submit" type="submit" name="cmd[saveObligatory]" value="{SAVE}" />
-		<input class="submit" type="submit" name="cmd[addHeading]" value="{HEADING}" />
-	</td>
+</td>
+<td colspan="2" style="text-align: right;"><input class="submit" type="submit" name="cmd[saveObligatory]" value="{SAVE}" /></td>
 </tr>
-<!-- END actionbuttons -->
+<!-- END QFooter -->
 </table>
 </form>
