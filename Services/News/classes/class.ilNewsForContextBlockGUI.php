@@ -446,8 +446,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		// get current item in data set
 		$previous = $next = "";
+		reset($this->data);
 		$c = current($this->data);
 		$curr_cnt = 1;
+
 		while($c["id"] > 0 &&
 			 $c["id"] != $_GET["news_id"])
 		{
