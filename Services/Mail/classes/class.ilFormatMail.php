@@ -81,6 +81,42 @@ class ilFormatMail extends ilMail
 		}
 		return $this->mail_data["m_subject"] = "RE: ".$this->mail_data["m_subject"];
 	}
+	
+	/**
+	* get reply recipients for cc
+	* @access	public
+	* @return string
+	*/
+	function formatReplyRecipientsForCC()
+	{
+		global $ilUser;
+		
+		if(empty($this->mail_data))
+		{
+			return '';
+		}
+		
+		$newCC = array();
+		
+		foreach (explode(',', $this->mail_data['rcp_to']) as $to)
+		{
+			if (trim($to) != '' && $ilUser->getLogin() != trim($to))
+			{
+				$newCC[] = trim($to);
+			}
+		}
+		
+		foreach (explode(',', $this->mail_data['rcp_cc']) as $cc)
+		{
+			if (trim($cc) != '' && $ilUser->getLogin() != trim($cc))
+			{
+				$newCC[] = trim($cc);
+			}
+		}
+		
+		return ($this->mail_data['rcp_cc'] = implode(', ', $newCC));
+	}
+	
 	/**
 	* get reply recipient
 	* @access	public
