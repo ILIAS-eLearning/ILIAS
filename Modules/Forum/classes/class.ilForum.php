@@ -503,7 +503,7 @@ class ilForum
 			$news_item->setPriority(NEWS_NOTICE);
 			$news_item->setTitle($objNewPost->getSubject());
 			$news_item->setContent(nl2br($this->prepareText($objNewPost->getMessage(), 0)));
-			$news_item->setUserId($ilUser->getId());
+			$news_item->setUserId($user);
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
 		}
