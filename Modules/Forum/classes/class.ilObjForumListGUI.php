@@ -138,7 +138,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 				$moderators .= ", ";
 			}
 			
-			if (ilObjUser::_lookupPref($MODS[$i], 'public_profile') == 'y' || $MODS[$i] == $ilUser->getId())
+			if (ilObjUser::_lookupPref($MODS[$i], 'public_profile') == 'y')
 			{
 				$moderators .= "<a class=\"il_ItemProperty\" target=\"".
 				ilFrameTargetInfo::_getFrame("MainContent").
@@ -147,7 +147,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			}
 			else
 			{
-					$moderators .= ilObjUser::_lookupLogin($MODS[$i]);
+				$moderators .= ilObjUser::_lookupLogin($MODS[$i]);
 			}			
 		}
 		$props[] = array('alert' => false, 'property' => $lng->txt('forums_moderators'),
