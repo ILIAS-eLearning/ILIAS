@@ -2744,3 +2744,6 @@ CREATE TABLE `cmi_gobjective` (
 
 <#1106>
 ALTER TABLE usr_session MODIFY session_id VARCHAR(80);
+
+<#1107>
+ALTER TABLE frm_threads ADD is_closed TINYINT( 1 ) NOT NULL DEFAULT '0';

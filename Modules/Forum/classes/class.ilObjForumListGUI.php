@@ -137,10 +137,18 @@ class ilObjForumListGUI extends ilObjectListGUI
 			{
 				$moderators .= ", ";
 			}
-			$moderators .= "<a class=\"il_ItemProperty\" target=\"".
+			
+			if (ilObjUser::_lookupPref($MODS[$i], 'public_profile') == 'y' || $MODS[$i] == $ilUser->getId())
+			{
+				$moderators .= "<a class=\"il_ItemProperty\" target=\"".
 				ilFrameTargetInfo::_getFrame("MainContent").
 				"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
 				$MODS[$i]."&offset=".$Start."\">".ilObjUser::_lookupLogin($MODS[$i])."</a>";
+			}
+			else
+			{
+					$moderators .= ilObjUser::_lookupLogin($MODS[$i]);
+			}			
 		}
 		$props[] = array('alert' => false, 'property' => $lng->txt('forums_moderators'),
 			'value' => $moderators);

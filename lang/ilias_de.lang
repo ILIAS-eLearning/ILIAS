@@ -5203,15 +5203,20 @@ form#:#form_msg_file_wrong_file_type#:#Falscher Datei-Typ
 form#:#form_seconds#:#Sekunden
 forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
+forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#no_forum_available_for_moving_threads#:#Es konnte kein Forum gefunden werden, in das die ausgewählten Themen verschoben werden können.
 forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
 forum#:#to_forum#:#In Forum
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
 forum#:#sure_move_threads#:#Sollen die gewählten Themen wirklich verschoben werden?
+forum#:#sticky#:#sticky
 forum#:#make_topics_sticky#:#Themen "sticky" machen
 forum#:#make_topics_non_sticky#:#Themen nicht-"sticky" machen
 forum#:#make_topic_sticky#:#Thema "sticky" machen
 forum#:#make_topic_non_sticky#:#Thema nicht-"sticky" machen
+forum#:#topic_close#:#geschlossen
+forum#:#close_topics#:#Schließen
+forum#:#reopen_topics#:#Wiedereröffnen
 forum#:#activate_post#:#Freischalten
 forum#:#deactivate_post#:#Sperren
 forum#:#activate_post_txt#:#Möchten Sie wirklich diesen Beitrag und ggf. alle seine Folgebeiträge freischalten? Bitte beachten Sie, dass auch alle Elternbeiträge aktiviert werden.
@@ -5231,6 +5236,7 @@ forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_available#:#Verfügbare Foren
 forum#:#forums_censor_comment#:#Bemerkung des Zensors
+forum#:#post_censored_comment_by_moderator#:#Beitrag Zensiert, Bemerkung des Moderators
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_count#:#Anzahl Foren
@@ -5289,7 +5295,7 @@ forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#gelesen
 forum#:#new_post#:#Neue Nachricht
-forum#:#new_posts#:#Neue Nachrichten
+forum#:#activate_new_posts#:#Freischalten neuer Nachrichten
 forum#:#thread#:#Thema
 forum#:#post_activation_desc#:#Wenn diese Option eingeschaltet ist, muss der Moderator neue Beiträge freischalten.
 gmaps#:#gmaps_api_key_desc#:#Um die Google Maps-Erweiterung nutzen zu können, müssen Sie einen Google-Map-API-Schlüssel beantragen bei:
