@@ -389,7 +389,8 @@ class ilMDGeneral extends ilMDBase
 		if(!count($identifiers))
 		{
 			include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
-			$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId());
+			$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),
+				$this->getObjType());		// added type, alex, 31 Oct 2007
 			$ide->setExportMode(true);
 			$ide->toXML($writer,true);
 		}
