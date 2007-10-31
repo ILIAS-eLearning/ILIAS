@@ -2371,6 +2371,7 @@ function getAPI(cp_node_id)
 	{
 		if (dat!=undefined && dat!==null) 
 		{
+		
 			api[k] = dat.toString();
 		}
 	}
@@ -2391,9 +2392,22 @@ function getAPI(cp_node_id)
 			if (mod.type===Object) 
 			{
 				api[k] = {};
+				
 				for (var i=mod.mapping.length; i--;)
 				{
-					getAPISet(mod.mapping[i], dat, api[k]);
+					//TODO include in recursion
+					if (k=="score") {
+							var d=new Object();
+							d['scaled']=data['scaled'];
+							d['raw']=data['raw'];
+							d['min']=data['min'];
+							d['max']=data['max'];
+							
+							api[k]=d;
+					
+					} else {
+						getAPISet(mod.mapping[i], dat, api[k]);
+				    }
 				}
 			}
 			else if (mod.type===Array) 
@@ -2412,6 +2426,19 @@ function getAPI(cp_node_id)
 					if (mod.mapping && !mod.mapping.func(dat[i])) continue;
 					var d = getAPIWalk(mod, dat[i], {});
 					var idname = 'cmi_'+ k.substr(0, k.length-1) + '_id';
+					//TODO include in recursion
+					if (dat[i]['scaled']) {
+						d['score']['scaled']=dat[i]['scaled'];
+					}
+					if (dat[i]['max']) {
+						d['score']['max']=dat[i]['max'];
+					}
+					if (dat[i]['min']) {
+						d['score']['min']=dat[i]['min'];
+					}
+					if (dat[i]['raw']) {
+						d['score']['raw']=dat[i]['raw'];
+					}
 					if (dat[i]['objectiveID']) {
 						d['id'] = dat[i]['objectiveID'];
 					} else {
@@ -2926,9 +2953,12 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 	{
 		syncCMIADLTree();		
 		currentAPI.Terminate("");
-		save();
 		var stat = currentAPI.GetValueIntern("cmi.entry");
-		save_global_objectives();		
+		save_global_objectives();
+		//sync dynamic objectives to ActivityTree
+		syncDynObjectives();
+		save();
+	
 			
 	}
 	currentAPI = window[Runtime.apiname] = null;
@@ -2943,6 +2973,38 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 
 
 }
+
+
+function syncDynObjectives(){
+	var objectives=pubAPI.cmi.objectives;
+	var act=activities[mlaunch.mActivityID].objectives;
+	for (var i=0;i<objectives.length;i++) {
+		var id=objectives[i].id;
+		var obj=objectives[i];
+		//check for property
+		if (!act.id) {
+			act[id]=new Objective();
+			act[id]['objectiveID']=id;
+			//iterate over obj properties
+			for (var element in obj) {
+				if (element!="id" && element!="cmi_objective_id") {
+					if (element!="score") {
+						act[id][element]=obj[element];
+					}
+					//if score then step deeper
+					if (element=="score") {
+						for (var subelement in obj[element]) {
+							act[id][subelement]=obj[element][subelement];
+						}
+					}
+				}	
+			}
+			
+		}
+	}
+
+}
+
 
 function save_global_objectives() {
 	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || adl_seq_utilities.status!=null  ) {
