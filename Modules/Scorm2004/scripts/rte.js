@@ -402,13 +402,14 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			tdat = tdat ? tdat : new Array();
 			tdat2 = tdat[token2];
 			token3 = path[0] || null;
-						
+			//alert(tdat.length+ "compared to:"+token2);
+		
 			if (setter)
 			{
-				if (token2 > tdat.length) 
+				/*if (token2 > tdat.length) 
 				{
 					return setReturn(351, 'Data model element collection set out of order');
-				}
+				}*/
 				if (tdef.maxOccur && token2+1 > tdef.maxOccur) 
 				{
 					return setReturn(301, '');
