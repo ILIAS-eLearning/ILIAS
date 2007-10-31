@@ -654,9 +654,9 @@ Activity.prototype =
 	isvisible : true,
 	language : null,
 	location : null,
-	max : 0,
+	max : null,
 	measureSatisfactionIfActive : true,
-	min : 0,
+	min : null,
 	modified : 0,
 	objectiveMeasureWeight : 1.0,
 	objectiveSetByContent : false,
@@ -665,7 +665,7 @@ Activity.prototype =
 	preventActivation : false,
 	progress_measure : null,
 	randomizationTiming : 'never',
-	raw : 0,
+	raw : null,
 	reorderChildren : false,
 	requiredForCompleted : 'always',
 	requiredForIncomplete : 'always',
@@ -674,7 +674,7 @@ Activity.prototype =
 	resourceId : null,
 	rollupObjectiveSatisfied : true,
 	rollupProgressCompletion : true,
-	scaled : 0,
+	scaled : null,
 	selectCount : 0,
 	selectionTiming : 'never',
 	session_time : 0,
@@ -2979,6 +2979,7 @@ function syncDynObjectives(){
 	var objectives=pubAPI.cmi.objectives;
 	var act=activities[mlaunch.mActivityID].objectives;
 	for (var i=0;i<objectives.length;i++) {
+	  if (objectives[i].id) {
 		var id=objectives[i].id;
 		var obj=objectives[i];
 		//check for property
@@ -3002,7 +3003,7 @@ function syncDynObjectives(){
 			
 		}
 	}
-
+  }
 }
 
 
