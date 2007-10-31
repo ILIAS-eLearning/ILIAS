@@ -241,8 +241,8 @@ function timeStringParse(iTime, ioArray)
      if ( mDate.indexOf("Y") != -1 )
      {
         mInitArray = mDate.split("Y");
-        tempInt = mInitArray[0];
-        ioArray[0] = tempInt;
+        tempInt = parseInt(mInitArray[0],10);
+        ioArray[0] = parseInt(tempInt,10);
      }
      else
      {
@@ -253,8 +253,8 @@ function timeStringParse(iTime, ioArray)
      if ( mDate.indexOf("M") != -1 )
      {
         mTempArray2 = mInitArray[1].split("M");
-        tempInt = mTempArray2[0];
-        ioArray[1] = tempInt;
+        tempInt = parseInt(mTempArray2[0],10);
+        ioArray[1] = parseInt(tempInt,10);
      }
      else
      {
@@ -272,8 +272,8 @@ function timeStringParse(iTime, ioArray)
      if ( mDate.indexOf("D") != -1 )
      {
         mInitArray = mTempArray2[1].split("D");
-        tempInt = mInitArray[0];
-        ioArray[2] = tempInt;
+        tempInt = parseInt(mInitArray[0],10);
+        ioArray[2] = parseInt(tempInt,10);
      }
      else
      {
@@ -290,8 +290,8 @@ function timeStringParse(iTime, ioArray)
         if ( mTime.indexOf("H") != -1 )
         {
            mInitArray =  mTime.split("H");
-           tempInt = mInitArray[0];
-           ioArray[3] = tempInt;
+           tempInt = parseInt(mInitArray[0],10);
+           ioArray[3] = parseInt(tempInt,10);
         }
         else
         {
@@ -302,8 +302,8 @@ function timeStringParse(iTime, ioArray)
         if ( mTime.indexOf("M") != -1 )
         {
            mTempArray2 = mInitArray[1].split("M");
-           tempInt = mTempArray2[0];
-           ioArray[4] = tempInt;
+           tempInt = parseInt(mTempArray2[0],10);
+           ioArray[4] = parseInt(tempInt,10);
         }
         else
         {
@@ -333,15 +333,15 @@ function timeStringParse(iTime, ioArray)
                  mTempArray2[1] = mTempArray2[1] + "0";
               }
 
-              tempInt2 = mTempArray2[1];
-              ioArray[6] = tempInt2;
-              tempInt = mTempArray2[0];
-              ioArray[5] = tempInt;
+              tempInt2 = parseInt(mTempArray2[1],10);
+              ioArray[6] = parseInt(tempInt2,10);
+              tempInt = parseInt(mTempArray2[0],10);
+              ioArray[5] = parseInt(tempInt,10);
            }
            else
            {
-              tempInt = mInitArray[0];
-              ioArray[5] = tempInt;
+              tempInt = parseInt(mInitArray[0],10);
+              ioArray[5] = parseInt(tempInt,10);
            }
         }
      }
@@ -367,56 +367,56 @@ function addTimes(iTimeOne,iTimeTwo) {
 	   // add first and second time arrays  
       for (var i = 0; i < 7; i++)
       {
-	     mFirstTime[i] =parseInt(mFirstTime[i]) + parseInt(mSecondTime[i]);
+	     mFirstTime[i] =parseInt(mFirstTime[i],10) + parseInt(mSecondTime[i],10);
       }
 	
 	// adjust seconds, minutes, hours, and days if addition
       // results in too large a number
       if ( mFirstTime[6] > 99 )
       {
-         multiple = mFirstTime[6] / 100;
+         multiple = parseFloat(mFirstTime[6] / 100);
          mFirstTime[6] = mFirstTime[6] % 100;
-         mFirstTime[5] += multiple;
+         mFirstTime[5] = parseInt(mFirstTime[5],10) + multiple;
       }
 
       if ( mFirstTime[5] > 59 )
       {
-         multiple = mFirstTime[5] / 60;
+         multiple = parseFloat(mFirstTime[5] / 60);
          mFirstTime[5] = mFirstTime[5] % 60;
-         mFirstTime[4] += multiple;
+         mFirstTime[4] =parseInt(mFirstTime[4],10)+ multiple;
       }
       if ( mFirstTime[4] > 59 )
       {
-         multiple = mFirstTime[4] / 60;
+         multiple = parseFloat(mFirstTime[4] / 60);
          mFirstTime[4] = mFirstTime[4] % 60;
-         mFirstTime[3] += multiple;
+         mFirstTime[3] =parseInt(mFirstTime[3],10) + multiple;
       }
 
       if ( mFirstTime[3] > 23 )
       {
-         multiple = mFirstTime[3] / 24;
+         multiple = parseFloat(mFirstTime[3] / 24);
          mFirstTime[3] = mFirstTime[3] % 24;
-         mFirstTime[2] += multiple;
+         mFirstTime[2] = parseInt(mFirstTime[2],10)+ multiple;
       }
 	
 	  // create the new timeInterval string
       mTimeString = "P";
       if ( mFirstTime[0] != 0 )
       {
-         tempInt = mFirstTime[0];
+         tempInt = parseInt(mFirstTime[0],10);
          mTimeString +=  tempInt.toString();
          mTimeString += "Y";
       }
       if ( mFirstTime[1] != 0 )
       {
-         tempInt = mFirstTime[1];
+         tempInt = parseInt(mFirstTime[1],10);
          mTimeString +=  tempInt.toString();
          mTimeString +=  "M";
       }
 
       if ( mFirstTime[2] != 0 )
       {
-         tempInt = mFirstTime[2];
+         tempInt = parseInt(mFirstTime[2],10);
          mTimeString +=  tempInt.toString();
          mTimeString += "D";
       }
@@ -429,21 +429,21 @@ function addTimes(iTimeOne,iTimeTwo) {
 
       if ( mFirstTime[3] != 0 )
       {
-         tempInt = mFirstTime[3];
+         tempInt = parseInt(mFirstTime[3],10);
          mTimeString +=  tempInt.toString();
          mTimeString +=  "H";
       }
 
       if ( mFirstTime[4] != 0 )
       {
-         tempInt =mFirstTime[4];
+         tempInt =parseInt(mFirstTime[4],10);
          mTimeString +=  tempInt.toString();
          mTimeString += "M";
       }
 
       if ( mFirstTime[5] != 0 )
       {
-         tempInt = mFirstTime[5];
+         tempInt = parseInt(mFirstTime[5],10);
          mTimeString +=  tempInt.toString();
       }
 
@@ -458,7 +458,7 @@ function addTimes(iTimeOne,iTimeTwo) {
          {
             mTimeString += "0";
          }
-         tempInt2 = mFirstTime[6];
+         tempInt2 = parseInt(mFirstTime[6],10);
          mTimeString +=  tempInt2.toString();
       }
       if ( ( mFirstTime[5] != 0 ) || ( mFirstTime[6] != 0 ) )
@@ -1393,7 +1393,6 @@ function launchTarget(target) {
 	mlaunch = msequencer.navigateStr(target);
    
 	if (mlaunch.mSeqNonContent == null) {
-		//alert(activities[mlaunch.mActivityID]);	
 		//throw away API from previous sco and sync CMI and ADLTree
 		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
@@ -1406,7 +1405,7 @@ function launchNavType(navType) {
 	
 	
 	//if suspendAll set cmi.exit to suspend for active SCO
-	if (navType=="SuspendAll") {
+	if (navType==='SuspendAll') {
 		err = currentAPI.SetValueIntern("cmi.exit","suspend");
 		err = currentAPI.SetValueIntern("cmi.entry","resume");
    	}
@@ -2695,9 +2694,17 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 
 	//clear existing completion status in case of 2nd attempt
 	if (currentAPI) {
-    	err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
-    	err = currentAPI.SetValueIntern("cmi.success_status","unknown");
-
+		if (currentAPI.GetValueIntern("cmi.entry")!="resume") {
+    		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
+    		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
+			err = currentAPI.SetValueIntern("suspend_data","ab-initio");
+		} 
+		//previous session has ended
+		if (item.exit=="time-out") {
+			//session has ended, reset times to defaults
+			err = currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");
+			err = currentAPI.SetValueIntern("cmi.total_time","PT0H0M0S");	
+		}
 	}
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 	
@@ -3036,10 +3043,11 @@ function onTerminate(data)
 		case "suspend":
 			navReq = {type: "suspend"};
 			break;
-		case "logout":
+		case "logout":  //depcracated
 			navReq = {type: "exitAll"};
 		case "time-out":
 			navReq = {type: "exitAll"};
+			//learner atttempt has ended
 		default : // "", "normal"
 			break;
 	}
