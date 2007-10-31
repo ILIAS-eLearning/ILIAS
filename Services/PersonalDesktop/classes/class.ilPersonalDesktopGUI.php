@@ -490,7 +490,7 @@ class ilPersonalDesktopGUI
 	*/
 	function setTabs()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilSetting;
 		
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		
@@ -524,12 +524,16 @@ class ilPersonalDesktopGUI
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
 			// news
-			$inc_type = ($ilCtrl->getNextClass() == "ilpdnewsgui")
-				? "tabactive"
-				: "tabinactive";
-			$inhalt1[] = array($inc_type,
-				$this->ctrl->getLinkTargetByClass("ilpdnewsgui"),
-				$this->lng->txt("news"));
+			if ($ilSetting->get("block_activated_news"))
+			{
+				$inc_type = ($ilCtrl->getNextClass() == "ilpdnewsgui")
+					? "tabactive"
+					: "tabinactive";
+					
+				$inhalt1[] = array($inc_type,
+					$this->ctrl->getLinkTargetByClass("ilpdnewsgui"),
+					$this->lng->txt("news"));
+			}
 
 			// user calendar
 			if ($this->ilias->getSetting("enable_calendar"))
