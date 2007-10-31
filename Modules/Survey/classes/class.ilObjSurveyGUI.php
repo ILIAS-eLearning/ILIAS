@@ -203,7 +203,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 		if (!$hasDatasets)
 		{
-			$this->object->setAnonymize($_POST["anonymize"]);
+			$anonymize = $_POST["anonymize"];
+			if ($anonymize)
+			{
+				$codes = $_POST["codes"];
+				$anonymize += $codes;
+			}
+			$this->object->setAnonymize($anonymize);
 		}
 		if ($_POST["showQuestionTitles"])
 		{
@@ -331,8 +337,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getIntroduction())));
 		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
 		$this->tpl->setVariable("VALUE_OUTRO", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getOutro())));
-		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
-		$this->tpl->setVariable("ONLINE_DESCRIPTION", $this->lng->txt("online_description"));
+		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("online"));
 		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));
 		$this->tpl->setVariable("VALUE_START_DATE", ilUtil::makeDateSelect("start_date", $this->object->getStartYear(), $this->object->getStartMonth(), $this->object->getStartDay()));
 		$this->tpl->setVariable("IMG_START_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
@@ -343,12 +348,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_END_DATE_CALENDAR", $this->lng->txt("open_calendar"));
 		$this->tpl->setVariable("TEXT_EVALUATION_ACCESS", $this->lng->txt("evaluation_access"));
 		$this->tpl->setVariable("DESCRIPTION_EVALUATION_ACCESS", $this->lng->txt("evaluation_access_description"));
-		$this->tpl->setVariable("VALUE_ONLINE", $this->lng->txt("online"));
 		$this->tpl->setVariable("TEXT_ENABLED", $this->lng->txt("enabled"));
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("evaluation_access_off"));
 		$this->tpl->setVariable("VALUE_ALL", $this->lng->txt("evaluation_access_all"));
 		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
-		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
+
+		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymization"));
 
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 		if ($hasDatasets)
@@ -357,20 +362,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->setVariable("DESCRIPTION_ANONYMIZATION", $this->lng->txt("anonymize_survey_description"));
-		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("anonymize_personalized"));
-		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("anonymize_with_code"));
-		$this->tpl->setVariable("ANON_VALUE_FREEACCESS", $this->lng->txt("anonymize_without_code"));
-		
+		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("off"));
+		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("on_additional"));
+		$this->tpl->setVariable("VALUE_NOCODES", $this->lng->txt("anonymize_without_code"));
+		$this->tpl->setVariable("VALUE_CODES", $this->lng->txt("anonymize_with_code"));
 		switch ($this->object->getAnonymize())
 		{
 			case ANONYMIZE_OFF:
 				$this->tpl->setVariable("ANON_CHECKED_OFF", " checked=\"checked\"");
+				$this->tpl->setVariable("CHECKED_CODES", " checked=\"checked\"");
 				break;
 			case ANONYMIZE_ON:
 				$this->tpl->setVariable("ANON_CHECKED_ON", " checked=\"checked\"");
+				$this->tpl->setVariable("CHECKED_CODES", " checked=\"checked\"");
 				break;
 			case ANONYMIZE_FREEACCESS:
-				$this->tpl->setVariable("ANON_CHECKED_FREEACCESS", " checked=\"checked\"");
+				$this->tpl->setVariable("ANON_CHECKED_ON", " checked=\"checked\"");
+				$this->tpl->setVariable("CHECKED_NOCODES", " checked=\"checked\"");
 				break;
 		}
 		
@@ -952,138 +960,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-/**
-* Execute a search for survey questions
-*
-* Execute a search for survey questions
-*
-* @access private
-*/
-	function searchQuestionsExecuteObject()
-	{
-		include_once "./Modules/Survey/classes/class.SurveySearch.php";
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$search = new SurveySearch(ilUtil::stripSlashes($_POST["search_term"]), $_POST["concat"], $_POST["search_field"], $_POST["search_type"]);
-		$search->search();
-		$results =& $search->search_results;
-		if (count($results))
-		{
-			$this->searchQuestionsObject($results);
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("no_search_results"));
-			$this->searchQuestionsObject();
-		}
-	}
-	
-/**
-* Creates a form to search questions for inserting
-*
-* Creates a form to search questions for inserting
-*
-* @param mixed $search_results Array containing search results of a search for survey questions
-* @access public
-*/
-	function searchQuestionsObject($search_results = false)
-	{
-		$this->questionsSubtabs("questions");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_search_questions.html", "Modules/Survey");
-
-		if (is_array($search_results))
-		{
-			$classes = array("tblrow1", "tblrow2");
-			$counter = 0;
-			$spls =& $this->object->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
-			$existing_questions =& $this->object->getExistingQuestions();
-			foreach ($search_results as $data)
-			{
-				if ((!in_array($data["question_id"], $existing_questions)) && (array_key_exists($data["obj_fi"], $spls)))
-				{
-					$this->tpl->setCurrentBlock("result_row");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-					$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
-					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-					$this->tpl->setVariable("QUESTION_POOL", $spls[$data["obj_fi"]]);
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-			}
-			$this->tpl->setCurrentBlock("search_results");
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$this->tpl->setVariable("RESULT_IMAGE", ilUtil::getImagePath("icon_spl_b.gif"));
-			$this->tpl->setVariable("ALT_IMAGE", $this->lng->txt("found_questions"));
-			$this->tpl->setVariable("TEXT_QUESTION_TITLE", $this->lng->txt("title"));
-			$this->tpl->setVariable("TEXT_QUESTION_DESCRIPTION", $this->lng->txt("description"));
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("question_type"));
-			$this->tpl->setVariable("TEXT_QUESTION_AUTHOR", $this->lng->txt("author"));
-			$this->tpl->setVariable("TEXT_QUESTION_POOL", $this->lng->txt("obj_spl"));
-			$this->tpl->setVariable("BTN_INSERT", $this->lng->txt("insert"));
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-			$this->tpl->setVariable("FOUND_QUESTIONS", $this->lng->txt("found_questions"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		ilUtil::sendInfo();
-		$questiontypes = &$this->object->getQuestiontypes();
-		foreach ($questiontypes as $questiontype)
-		{
-			$this->tpl->setCurrentBlock("questiontypes");
-			$this->tpl->setVariable("VALUE_QUESTION_TYPE", $questiontype);
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($questiontype));
-			if (strcmp($_POST["search_type"], $questiontype) == 0)
-			{
-				$this->tpl->setVariable("SELECTED_SEARCH_TYPE", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		switch ($_POST["search_field"])
-		{
-			case "title":
-				$this->tpl->setVariable("CHECKED_TITLE", " selected=\"selected\"");
-				break;
-			case "description":
-				$this->tpl->setVariable("CHECKED_DESCRIPTION", " selected=\"selected\"");
-				break;
-			case "author":
-				$this->tpl->setVariable("CHECKED_AUTHOR", " selected=\"selected\"");
-				break;
-			case "questiontext":
-				$this->tpl->setVariable("CHECKED_QUESTIONTEXT", " selected=\"selected\"");
-				break;
-			case "default":
-				$this->tpl->setVariable("CHECKED_ALL", " selected=\"selected\"");
-				break;
-		}
-		$this->tpl->setVariable("TEXT_SEARCH_TERM", $this->lng->txt("search_term"));
-		$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
-		$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
-		$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
-		$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
-		if ($_POST["concat"] == 1)
-		{
-			$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_SEARCH_FOR", $this->lng->txt("search_for"));
-		$this->tpl->setVariable("SEARCH_FIELD_ALL", $this->lng->txt("search_field_all"));
-		$this->tpl->setVariable("SEARCH_FIELD_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("SEARCH_FIELD_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("SEARCH_FIELD_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("SEARCH_FIELD_QUESTIONTEXT", $this->lng->txt("question"));
-		$this->tpl->setVariable("SEARCH_TYPE_ALL", $this->lng->txt("search_type_all"));
-		$this->tpl->setVariable("BTN_SEARCH", $this->lng->txt("search"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "searchQuestions") . "&search_question=1&browsetype=1&insert_question=1");
-		$this->tpl->parseCurrentBlock();
-	}
-
 /**
 * Creates a confirmation form to remove questions from the survey
 *
@@ -2008,10 +1884,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
 				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("actionbuttons");
 				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
-				$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -2057,10 +1930,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
 		{
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));
-			$this->tpl->setVariable("BUTTON_SEARCH_QUESTION", $this->lng->txt("search_questions"));
-			$this->tpl->setVariable("TEXT_OR", " " . strtolower($this->lng->txt("or")));
 			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
 			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
+			$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
 		}
 		if ($hasDatasets)
 		{
@@ -4093,8 +3965,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 			$tabs_gui->addTarget("survey_questions",
 				 $this->ctrl->getLinkTarget($this,'questions'),
-				 array("questions", "browseForQuestions", "searchQuestions", "createQuestion",
-				 "searchQuestionsExecute",
+				 array("questions", "browseForQuestions", "createQuestion",
 				 "filterQuestions", "resetFilterQuestions", "changeDatatype", "insertQuestions",
 				 "removeQuestions", "cancelRemoveQuestions", "confirmRemoveQuestions",
 				 "defineQuestionblock", "saveDefineQuestionblock", "cancelDefineQuestionblock",

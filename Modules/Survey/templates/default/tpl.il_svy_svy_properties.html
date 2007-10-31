@@ -1,32 +1,41 @@
 <form name="frm_properties" action="{FORM_ACTION}" method="post">
 <table class="std">
+	<tr>
+		<td class="option"><label for="status">{TEXT_STATUS}</label></td>
+		<td class="option_value">
+			<input type="checkbox" name="status" id="status" value="1"{CHECKED_STATUS} />
+		</td>
+	</tr>
 <tr>
-  <td class="option"><label for="introduction">{TEXT_INTRODUCTION}</label></td>
-  <td class="option_value">
+	<td class="option"><label for="introduction">{TEXT_INTRODUCTION}</label></td>
+	<td class="option_value">
 		<textarea name="introduction" id="introduction" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_INTRODUCTION}</textarea>
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="status">{TEXT_STATUS}</label></td>
-  <td class="option_value">
-		<input type="checkbox" name="status" id="status" value="1"{CHECKED_STATUS} /> <label for="status">{VALUE_ONLINE}</label>
+	<td class="option"><label for="checked_start_date">{TEXT_START_DATE}</label></td>
+	<td class="option_value"><input type="checkbox" name="checked_start_date" id="checked_start_date" value="1"{CHECKED_START_DATE} /> <label for="checked_start_date">{TEXT_ENABLED}</label><br>{VALUE_START_DATE} <input type="image" alt="{TXT_START_DATE_CALENDAR}" title="{TXT_START_DATE_CALENDAR}" src="{IMG_START_DATE_CALENDAR}" id="btn_cal_start_date" /></td>
+</tr>
+<tr>
+	<td class="option"><label for="checked_end_date">{TEXT_END_DATE}</label></td>
+	<td class="option_value"><input type="checkbox" name="checked_end_date" id="checked_end_date" value="1"{CHECKED_END_DATE} /> <label for="checked_end_date">{TEXT_ENABLED}</label><br>{VALUE_END_DATE} <input type="image" alt="{TXT_END_DATE_CALENDAR}" title="{TXT_END_DATE_CALENDAR}" src="{IMG_END_DATE_CALENDAR}" id="btn_cal_end_date" /></td>
+</tr>
+<tr>
+	<td class="option"><label for="anonymize_off">{TEXT_ANONYMIZATION}</label></td>
+	<td class="option_value">
+		<input type="radio" name="anonymize" id="anonymize_no" value="0"{ANON_CHECKED_OFF}{DISABLED_ANONYMIZATION} /> <label for="anonymize_no">{ANON_VALUE_OFF}</label><br />
+		<input type="radio" name="anonymize" id="anonymize_yes" value="1"{ANON_CHECKED_ON}{DISABLED_ANONYMIZATION} /> <label for="anonymize_yes">{ANON_VALUE_ON}</label><br />
+		<span style="padding-left:2em"><input type="radio" name="codes" id="nocodes" value="1"{CHECKED_NOCODES}{DISABLED_ANONYMIZATION} /> <label for="nocodes">{VALUE_NOCODES}</label></span><br />
+		<span style="padding-left:2em"><input type="radio" name="codes" id="codes" value="0"{CHECKED_CODES}{DISABLED_ANONYMIZATION} /> <label for="codes">{VALUE_CODES}</label></span>
 		<br />
-		<div class="il_Description_no_margin">{ONLINE_DESCRIPTION}</div>
+		<div class="il_Description_no_margin">{DESCRIPTION_ANONYMIZATION}</div>
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="checked_start_date">{TEXT_START_DATE}</label></td>
-  <td class="option_value"><input type="checkbox" name="checked_start_date" id="checked_start_date" value="1"{CHECKED_START_DATE} /> <label for="checked_start_date">{TEXT_ENABLED}</label><br>{VALUE_START_DATE} <input type="image" alt="{TXT_START_DATE_CALENDAR}" title="{TXT_START_DATE_CALENDAR}" src="{IMG_START_DATE_CALENDAR}" id="btn_cal_start_date" /></td>
-</tr>
-<tr>
-  <td class="option"><label for="checked_end_date">{TEXT_END_DATE}</label></td>
-  <td class="option_value"><input type="checkbox" name="checked_end_date" id="checked_end_date" value="1"{CHECKED_END_DATE} /> <label for="checked_end_date">{TEXT_ENABLED}</label><br>{VALUE_END_DATE} <input type="image" alt="{TXT_END_DATE_CALENDAR}" title="{TXT_END_DATE_CALENDAR}" src="{IMG_END_DATE_CALENDAR}" id="btn_cal_end_date" /></td>
-</tr>
-<tr>
-  <td class="option">
+	<td class="option">
 		<label for="evaluation_access_off">{TEXT_EVALUATION_ACCESS}</label>
 	</td>
-  <td class="option_value">
+	<td class="option_value">
 		<input type="radio" name="evaluation_access" id="evaluation_access_off" value="0"{CHECKED_OFF} /> <label for="evaluation_access_off">{VALUE_OFF}</label><br />
 		<input type="radio" name="evaluation_access" id="evaluation_access_participants" value="2"{CHECKED_PARTICIPANTS} /> <label for="evaluation_access_participants">{VALUE_PARTICIPANTS}</label><br />
 		<input type="radio" name="evaluation_access" id="evaluation_access_all" value="1"{CHECKED_ALL} /> <label for="evaluation_access_all">{VALUE_ALL}</label>
@@ -35,22 +44,12 @@
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="anonymize_off">{TEXT_ANONYMIZATION}</label></td>
-  <td class="option_value">
-		<input type="radio" name="anonymize" id="anonymize_off" value="0"{ANON_CHECKED_OFF}{DISABLED_ANONYMIZATION} /> <label for="anonymize_off">{ANON_VALUE_OFF}</label><br />
-		<input type="radio" name="anonymize" id="anonymize_on" value="1"{ANON_CHECKED_ON}{DISABLED_ANONYMIZATION} /> <label for="anonymize_on">{ANON_VALUE_ON}</label><br />
-		<input type="radio" name="anonymize" id="anonymize_freeaccess" value="2"{ANON_CHECKED_FREEACCESS}{DISABLED_ANONYMIZATION} /> <label for="anonymize_freeaccess">{ANON_VALUE_FREEACCESS}</label>
-		<br />
-		<div class="il_Description_no_margin">{DESCRIPTION_ANONYMIZATION}</div>
-	</td>
+	<td class="option"></td>
+	<td class="option_value"><input type="checkbox" id="showQuestionTitles" name="showQuestionTitles" value="1"{QUESTIONTITLES_CHECKED} /> <label for="showQuestionTitles">{TEXT_SHOW_QUESTIONTITLES}</label></td>
 </tr>
 <tr>
-  <td class="option"></td>
-  <td class="option_value"><input type="checkbox" id="showQuestionTitles" name="showQuestionTitles" value="1"{QUESTIONTITLES_CHECKED} /> <label for="showQuestionTitles">{TEXT_SHOW_QUESTIONTITLES}</label></td>
-</tr>
-<tr>
-  <td class="option"><label for="outro">{TEXT_OUTRO}</label></td>
-  <td class="option_value">
+	<td class="option"><label for="outro">{TEXT_OUTRO}</label></td>
+	<td class="option_value">
 	<textarea id="outro" name="outro" cols="80" rows="10">{VALUE_OUTRO}</textarea>
 	</td>
 </tr>
