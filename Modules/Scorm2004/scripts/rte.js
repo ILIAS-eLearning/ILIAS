@@ -1032,15 +1032,18 @@ Runtime.models =
 					var norm  = currentAPI.GetValueIntern("cmi.completion_threshold");
 					var score = currentAPI.GetValueIntern("cmi.progress_measure");
 					
-					
-					if (norm!="" && score!="") {
-						if (Number(score) < Number(norm)) {
-							state = "incomplete";
+					if (norm) {
+						if (norm!="" && score!="") {
+							if (Number(score) < Number(norm)) {
+								state = "incomplete";
+							} else {
+								state = "completed";
+							}
 						} else {
-							state = "completed";
+							state="unknown";
 						}
-					}
-					else if (state=="undefined" || state=="") {
+					}	
+					if (state=="undefined" || state=="") {
 						state = "unknown";
 					}
 					currentAPI.SetValueIntern('cmi.completion_status', state);
@@ -1124,20 +1127,21 @@ Runtime.models =
 				session_time : {type: Interval, permission: WRITEONLY},
 				success_status : {type: SuccessState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
 					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm=currentAPI.GetValueIntern("cmi.scaled_passing_score");
-					var score=currentAPI.GetValueIntern("cmi.score");
-					
-					if (norm && score) {
-						score=Number(score);
-						norm=Number(norm);
-					   if (score>=norm) {
-						state = "passed";
-					  } else if (score<norm) {
-						state = "failed";
-					  } else {
-						state = "unknown";
-					  }
-					} 
+					var norm=pubAPI.cmi.scaled_passing_score;
+					var score=pubAPI.cmi.score.scaled;
+					if (norm) {
+						norm=parseFloat(norm);
+						if (norm && score) {
+							score=parseFloat(score);
+					   		if (score>=norm) {
+								state = "passed";
+					  		} else if (score<norm) {
+								state = "failed";
+					  		} 
+						} else {
+							state="unknown";
+						}
+					}
 					
 					/*
 					var done=false;
@@ -1153,8 +1157,7 @@ Runtime.models =
 						}
 					} 
 					*/
-					
-					currentAPI.SetValueIntern('cmi.success_status', state);
+					pubAPI.cmi.successs_status=state;
 					return state;
 				}},
 				suspend_data : {type: CharacterString, max: 64000, permission: READWRITE},
@@ -1232,7 +1235,7 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 		total_time=addTimes(data.cmi.total_time.toString(),data.cmi.session_time);
 		data.cmi.total_time = total_time.toString();
 		data.cmi.entry="";
-		if (suspended) {
+		if (data.cmi.exit==="suspend") {
 			data.cmi.entry="resume";
 		    data.cmi.session_time="";
 		}
