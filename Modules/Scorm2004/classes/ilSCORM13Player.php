@@ -72,6 +72,7 @@ class ilSCORM13Player
 			'created' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'credit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'delivery_speed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'entry' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'exit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'language' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'launch_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),

@@ -645,6 +645,7 @@ Activity.prototype =
 	dataFromLMS : null,
 	delivery_speed : 0,
 	endTimeLimit : 0,
+	entry : 'ab-initio',
 	exit : null,
 	flow : false,
 	foreignId: 0,
@@ -675,6 +676,7 @@ Activity.prototype =
 	rollupObjectiveSatisfied : true,
 	rollupProgressCompletion : true,
 	scaled : null,
+	scaled_passing_score: null,
 	selectCount : 0,
 	selectionTiming : 'never',
 	session_time : 0,
@@ -1405,9 +1407,13 @@ function launchNavType(navType) {
 	
 	
 	//if suspendAll set cmi.exit to suspend for active SCO
-	if (navType==='SuspendAll') {
-		err = currentAPI.SetValueIntern("cmi.exit","suspend");
-		err = currentAPI.SetValueIntern("cmi.entry","resume");
+	if (navType=='SuspendAll') {
+		pubAPI.cmi.exit="suspend";
+		pubAPI.cmi.entry="resume";		
+		//sync
+		activities[msequencer.mSeqTree.mCurActivity.mActivityID].exit="suspend";
+		activities[msequencer.mSeqTree.mCurActivity.mActivityID].entry="resume";
+		
    	}
 	//throw away API from previous sco and sync CMI and ADLTree
 	onItemUndeliver();
@@ -2667,9 +2673,9 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 					}
 					else 
 					{
-						v = undefined;
+						v = null;
 					}
-					data.cmi.scaled_passing_score = String(v);
+					data.cmi.scaled_passing_score = v;
 					break; //we found the unique primary objective..so stop
 				}	
 			}
@@ -2694,16 +2700,32 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 
 	//clear existing completion status in case of 2nd attempt
 	if (currentAPI) {
-		if (currentAPI.GetValueIntern("cmi.entry")!="resume") {
+		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
+			//provide us with a clean data set
     		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
     		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
-			err = currentAPI.SetValueIntern("suspend_data","ab-initio");
+			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
+			pubAPI.cmi.entry="ab-initio";
+			pubAPI.cmi.suspend_data=null;
+			pubAPI.cmi.total_time="PT0H0M0S";
 		} 
+		
+		//set resume manually if suspendALL happened before
+		if (item.exit=="suspend") {
+			pubAPI.cmi.entry="resume";
+			//clean suspend
+			pubAPI.cmi.exit="";
+			//reset score
+		//	pubAPI.cmi.scaled=null;
+			
+		}
+		
 		//previous session has ended
-		if (item.exit=="time-out") {
+		if (item.exit=="time-out" || item.exit=="logout") {
 			//session has ended, reset times to defaults
 			err = currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");
-			err = currentAPI.SetValueIntern("cmi.total_time","PT0H0M0S");	
+			//accessthrough pubAPI
+			pubAPI.cmi.total_time="PT0H0M0S";
 		}
 	}
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
@@ -2959,8 +2981,9 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 	if (currentAPI) 
 	{
 		syncCMIADLTree();		
+		var stat = pubAPI.cmi.exit;
+		
 		currentAPI.Terminate("");
-		var stat = currentAPI.GetValueIntern("cmi.entry");
 		save_global_objectives();
 		//sync dynamic objectives to ActivityTree
 		syncDynObjectives();
@@ -3044,9 +3067,9 @@ function onTerminate(data)
 			navReq = {type: "suspend"};
 			break;
 		case "logout":  //depcracated
-			navReq = {type: "exitAll"};
+			navReq = {type: "ExitAll"};
 		case "time-out":
-			navReq = {type: "exitAll"};
+			navReq = {type: "ExitAll"};
 			//learner atttempt has ended
 		default : // "", "normal"
 			break;
