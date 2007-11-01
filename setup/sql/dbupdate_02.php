@@ -2747,3 +2747,6 @@ ALTER TABLE usr_session MODIFY session_id VARCHAR(80);
 
 <#1107>
 ALTER TABLE frm_threads ADD is_closed TINYINT( 1 ) NOT NULL DEFAULT '0';
+
+<#1108>
+ALTER TABLE cmi_node ADD entry varchar(255) AFTER delivery_speed;
