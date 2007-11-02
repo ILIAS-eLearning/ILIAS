@@ -5669,7 +5669,6 @@ mail#:#mail_sure_delete_entry#:#Er du sikker på du vil slette følgende emne
 mail#:#mail_sure_delete_file#:#Filen vil blive slettet permanent
 mail#:#mail_sure_delete_folder#:#Mappen og dens indhold vil blive slettet permant
 mail#:#mail_to#:#Til
-mail#:#mail_to_search#:#Til søgning
 mail#:#mail_user_addr_n_valid#:#Følgende brugere har ingen gyldig email adresse
 mail#:#mail_empty_trash#:#Empty Trash###09 07 2007 new variable
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###09 07 2007 new variable
@@ -5679,8 +5678,6 @@ mail#:#search_bc_recipient#:#Søg BCC modtager
 mail#:#search_cc_recipient#:#Søg CC modtager
 mail#:#send_mail_to#:#Mail til
 mail#:#mail_no_valid_mailing_list#:#Ingen gyldig mailingliste
-mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###16 08 2007 new variable
-mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###16 08 2007 new variable
 mail#:#mail_list_members#:#Liste over medlemmer
 mail#:#mail_members_added_addressbook#:#Medlemmer tilføjet til adressebog
 mail#:#mail_in_addressbook#:#Er allerede i adressebog.
@@ -6781,7 +6778,6 @@ survey#:#warning_question_not_complete#:#Spørgeskemaet er ikke færdigt!
 survey#:#back#:#<< Tilbage
 survey#:#categories#:#Svar
 survey#:#offline#:#Deaktiveret
-survey#:#online#:#Aktiveret
 survey#:#search_for#:#Søg efter
 survey#:#select_questionpool#:#Vælg en spørgs,ålsgruppe for at gemme spørgsmålet
 survey#:#end_date#:#Slutdato
@@ -6803,7 +6799,6 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_personalized#:#Ingen anonymisering
 survey#:#anonymize_registered_user#:#Anonymized survey access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###21 Apr 2005 new variable
-survey#:#anonymize_survey#:#Anonymiser spørgeskemadata
 survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###15 11 2006 new variable
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
 survey#:#anonymize_without_code#:#Anonymisering med fri adgang til undersøgelsen
@@ -6950,7 +6945,6 @@ survey#:#introduction#:#Introduktion
 survey#:#introduction_manage_phrases#:#Håndtere dine egne sætninger som er til rådighed for alle de ordinale (ordenstal = 1. 2. 3. osv.) spørgsmål som du laver
 survey#:#invitation#:#Invitation###21 Apr 2005 new variable
 survey#:#invitation_mode#:#Invitations mode
-survey#:#invite_participants#:#Inviter deltagere
 survey#:#invited_groups#:#Inviterede grupper
 survey#:#invited_users#:#Inviterede brugere
 survey#:#label_resume_survey#:#Indtast din 32-cifrede spørgeskemakode
@@ -7023,7 +7017,6 @@ survey#:#not_used#:#ikke brugt###
 survey#:#obligatory#:#obligatorisk
 survey#:#off#:#Deaktiveret
 survey#:#on#:#Aktiveret
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
 survey#:#ordinal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#orientation#:#Orientering
 survey#:#outro#:#Final statement
@@ -7607,7 +7600,6 @@ forum#:#deactivate_post_txt#:#Would you really like to deactivate the current po
 forum#:#activate_only_current#:#Aktiver den nuværende
 forum#:#activate_current_and_childs#:#Aktiver alle indlæg
 forum#:#deactivate_current_and_childs#:#Deaktiver alle indlæg
-forum#:#new_posts#:#Nye indlæg
 forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
 common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
@@ -7690,3 +7682,31 @@ ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
 meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
 meta#:#md_copyright#:#Copyright###23 10 2007 new variable
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
+news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.###02 11 2007 new variable
+news#:#news_rss_period#:#RSS Period###02 11 2007 new variable
+news#:#news_period_x_days#:#Last %s Days###02 11 2007 new variable
+news#:#news_period_1_week#:#Last Week###02 11 2007 new variable
+news#:#news_period_x_weeks#:#Last %s Weeks###02 11 2007 new variable
+news#:#news_period_1_month#:#Last Month###02 11 2007 new variable
+news#:#news_period_x_months#:#Last %s Months###02 11 2007 new variable
+news#:#news_period_1_year#:#Last Year###02 11 2007 new variable
+news#:#news_allow_shorter_periods#:#Allow Shorter Periods###02 11 2007 new variable
+news#:#news_allow_longer_periods#:#Allow Longer Periods###02 11 2007 new variable
+news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.###02 11 2007 new variable
+news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.###02 11 2007 new variable
+news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.###02 11 2007 new variable
+news#:#news_hide_news_per_date#:#Show News After###02 11 2007 new variable
+news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.###02 11 2007 new variable
+news#:#news_hide_news_date#:#Starting Date###02 11 2007 new variable
+content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.###02 11 2007 new variable
+forum#:#topics_please_select_one_action#:#Please select an action.###02 11 2007 new variable
+forum#:#sticky#:#sticky###02 11 2007 new variable
+forum#:#topic_close#:#close###02 11 2007 new variable
+forum#:#close_topics#:#Close###02 11 2007 new variable
+forum#:#reopen_topics#:#Reopen###02 11 2007 new variable
+forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator###02 11 2007 new variable
+forum#:#activate_new_posts#:#Activate Posts###02 11 2007 new variable
+mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
+mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
+mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
+survey#:#on_additional#:#On, and additional###02 11 2007 new variable

@@ -4839,7 +4839,6 @@ mail#:#mail_sure_delete_entry#:#Weet u zeker dat u de volgende bijdragen wilt ve
 mail#:#mail_sure_delete_file#:#Het bestand zal verwijderd worden
 mail#:#mail_sure_delete_folder#:#De map en de inhoud zullen verwijderd worden
 mail#:#mail_to#:#Naar
-mail#:#mail_to_search#:#zoeken
 mail#:#mail_user_addr_n_valid#:#De volgende gebruikers hebben geen geldig emailadres
 mail#:#search_bc_recipient#:#Zoek BCC-ontvanger
 mail#:#search_cc_recipient#:#Zoek CC-ontvanger
@@ -5841,7 +5840,6 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_personalized#:#Geen anonimiteit
 survey#:#anonymize_registered_user#:#Anonieme toetstoegang
 survey#:#anonymize_resume_introduction#:#Gelieve uw vragenlijsttoegangscode in te geven. Het werd verzonden naar uw ILIAS inbox toen u het onderzoek begon.
-survey#:#anonymize_survey#:#Anonymize survey data
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
 survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymous_with_personalized_survey#:#U moet een geregistreerde gebruiker zijn om een gepersonaliseerd vragenlijst in werking te stellen!
@@ -6012,7 +6010,6 @@ survey#:#introduction#:#Introductie
 survey#:#introduction_manage_phrases#:#Beheer uw eigen zinnen. Deze staan tot uw beschikking  bij alle ordinale vragen, die u creëert of wijzigt.
 survey#:#invitation#:#Uitnodiging
 survey#:#invitation_mode#:#Uitnodigingsmodus
-survey#:#invite_participants#:#Nodig deelnemer uit
 survey#:#invited_groups#:#Uitgenodigde groepen
 survey#:#invited_users#:#Uitgenodigde gebruikers
 survey#:#label_resume_survey#:#Geef uw  32 digit vragenlijst code
@@ -6063,7 +6060,6 @@ survey#:#obligatory#:#Verplicht
 survey#:#off#:#Uit
 survey#:#offline#:#Offline
 survey#:#on#:#Aan
-survey#:#online#:#online
 survey#:#or#:#of
 survey#:#ordinal_question_not_checked#:#Controleer een van de gegeven antwoorden!
 survey#:#orientation#:#Orientatie
@@ -6855,7 +6851,6 @@ survey#:#metric_subtype_description_interval#:#De gelijkwaardige intervallen tus
 survey#:#metric_subtype_description_rationonabsolute#:#Naast de intervalmeting zijn er ook zinvolle verhoudingen tussen willekeurige paren aantallen. De nulwaarde op een verhoudingsschaal is niet willekeurig. De meeste fysieke hoeveelheden, zoals lengte in centimeters of duur in seconden worden gemeten op verhoudingsschalen.
 survey#:#metric_subtype_description_ratioabsolute#:#De verhouding absolute meting gebruikt natuurlijke getallen niet willekeurig op het  nulpunt bijvoorbeeld het aantal kinderen in een familie of een waarschijnlijkheid.
 survey#:#multiple_choice_subtype_description#:#Kies Meerkeuze (Een reactie) als u de deelnemers slechts één antwoord wilt laten selecteren en Meerkeuze (Veelvoudige Reactie) als u de deelnemers één of meerdere antwoorden wilt laten selecteren.
-survey#:#online_description#:#Een vragenlijst kan enkele opgestart worden door een Ilias gebruiker, indien hij online is.
 survey#:#results#:#Resultaten
 survey#:#show_questiontext#:#Toon de vraag
 survey#:#show_questiontext_description#:#Als deze checkbox wordt geselecteerd voor elke vraag in het vraagblok zal de vraagtekst worden getoond. Als deze checkbox niet wordt geselecteerd zal de vraagtekst van elke vraag in het vraagblok worden verborgen.
@@ -7424,8 +7419,6 @@ mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification
 mail#:#mail_received_x_new_mails#:#You received %s new mails.###23 08 2007 new variable
 mail#:#send_mail_to#:#Mail to###23 08 2007 new variable
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###23 08 2007 new variable
-mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###23 08 2007 new variable
-mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###23 08 2007 new variable
 payment#:#pay_bmf_description_payment_type#:#Please select how to pay.###23 08 2007 new variable
 payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###23 08 2007 new variable
 payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.###23 08 2007 new variable
@@ -7609,7 +7602,6 @@ forum#:#deactivate_post_txt#:#Would you really like to deactivate the current po
 forum#:#activate_only_current#:#Activate Current###23 09 2007 new variable
 forum#:#activate_current_and_childs#:#Activate All Posts###23 09 2007 new variable
 forum#:#deactivate_current_and_childs#:#Deactivate All Posts###23 09 2007 new variable
-forum#:#new_posts#:#New Posts###23 09 2007 new variable
 forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
 common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
@@ -7690,3 +7682,31 @@ ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
 meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
 meta#:#md_copyright#:#Copyright###23 10 2007 new variable
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
+news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.###02 11 2007 new variable
+news#:#news_rss_period#:#RSS Period###02 11 2007 new variable
+news#:#news_period_x_days#:#Last %s Days###02 11 2007 new variable
+news#:#news_period_1_week#:#Last Week###02 11 2007 new variable
+news#:#news_period_x_weeks#:#Last %s Weeks###02 11 2007 new variable
+news#:#news_period_1_month#:#Last Month###02 11 2007 new variable
+news#:#news_period_x_months#:#Last %s Months###02 11 2007 new variable
+news#:#news_period_1_year#:#Last Year###02 11 2007 new variable
+news#:#news_allow_shorter_periods#:#Allow Shorter Periods###02 11 2007 new variable
+news#:#news_allow_longer_periods#:#Allow Longer Periods###02 11 2007 new variable
+news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.###02 11 2007 new variable
+news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.###02 11 2007 new variable
+news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.###02 11 2007 new variable
+news#:#news_hide_news_per_date#:#Show News After###02 11 2007 new variable
+news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.###02 11 2007 new variable
+news#:#news_hide_news_date#:#Starting Date###02 11 2007 new variable
+content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.###02 11 2007 new variable
+forum#:#topics_please_select_one_action#:#Please select an action.###02 11 2007 new variable
+forum#:#sticky#:#sticky###02 11 2007 new variable
+forum#:#topic_close#:#close###02 11 2007 new variable
+forum#:#close_topics#:#Close###02 11 2007 new variable
+forum#:#reopen_topics#:#Reopen###02 11 2007 new variable
+forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator###02 11 2007 new variable
+forum#:#activate_new_posts#:#Activate Posts###02 11 2007 new variable
+mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
+mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
+mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
+survey#:#on_additional#:#On, and additional###02 11 2007 new variable

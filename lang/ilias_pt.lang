@@ -4275,7 +4275,6 @@ mail#:#mail_sure_delete_entry#:#Tem a certeza que deseja apagar as seguintes ent
 mail#:#mail_sure_delete_file#:#O ficheiro será removido permanentemente###07 Apr 2005 content changed
 mail#:#mail_sure_delete_folder#:#A pasta e os seus conteúdos serão removidos permanentemente###14 Sep 2004 content changed
 mail#:#mail_to#:#To###03 Nov 2005 new variable
-mail#:#mail_to_search#:#Para procurar###07 Apr 2005 content changed
 mail#:#mail_user_addr_n_valid#:#Os seguintes utilizadores não têm endereço de email válido###14 Sep 2004 content changed
 mail#:#search_bc_recipient#:#Procurar Recipiente BC###14 Sep 2004 content changed
 mail#:#search_cc_recipient#:#Procurar Recipiente CC###07 Apr 2005 content changed
@@ -5147,7 +5146,6 @@ survey#:#already_completed_survey#:#You have already completed the survey! You a
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.###09 Dec 2004 new variable
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
-survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###20 Dec 2004 new variable
 survey#:#answer#:#Answer###27 May 2004 new variable
 survey#:#apply#:#Apply###21 May 2004 new variable
@@ -5312,7 +5310,6 @@ survey#:#introduction#:#Introduction###23 May 2004 new variable
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.###28 Jun 2004 new variable
 survey#:#invitation#:#Invitation###27 May 2004 new variable
 survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
-survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
 survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
 survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
@@ -5362,7 +5359,6 @@ survey#:#obligatory#:#obligatory###24 May 2004 new variable
 survey#:#off#:#off###23 May 2004 new variable
 survey#:#offline#:#offline###23 May 2004 new variable
 survey#:#on#:#on###23 May 2004 new variable
-survey#:#online#:#online###23 May 2004 new variable
 survey#:#or#:#or###24 May 2004 new variable
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#orientation#:#Orientation###18 Nov 2004 new variable
@@ -6713,7 +6709,6 @@ survey#:#metric_subtype_description_interval#:#Equivalent intervals between meas
 survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###25 02 2007 new variable
 survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###25 02 2007 new variable
 survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###25 02 2007 new variable
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###25 02 2007 new variable
 survey#:#outro#:#Final Statement###25 02 2007 new variable
 survey#:#please_select#:#-- please select --###25 02 2007 new variable
 survey#:#results#:#Results###25 02 2007 new variable
@@ -7385,8 +7380,6 @@ mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification
 mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
 mail#:#send_mail_to#:#Mail to###16 08 2007 new variable
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###16 08 2007 new variable
-mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###16 08 2007 new variable
-mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###16 08 2007 new variable
 payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###16 08 2007 new variable
 payment#:#paya_perm_coupons#:#Edit coupons###16 08 2007 new variable
 mail#:#mail_my_mailing_lists#:#My Mailing Lists###16 08 2007 new variable
@@ -7609,7 +7602,6 @@ forum#:#deactivate_post_txt#:#Would you really like to deactivate the current po
 forum#:#activate_only_current#:#Activate Current###23 09 2007 new variable
 forum#:#activate_current_and_childs#:#Activate All Posts###23 09 2007 new variable
 forum#:#deactivate_current_and_childs#:#Deactivate All Posts###23 09 2007 new variable
-forum#:#new_posts#:#New Posts###23 09 2007 new variable
 forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
 common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
@@ -7690,3 +7682,31 @@ ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
 meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
 meta#:#md_copyright#:#Copyright###23 10 2007 new variable
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
+news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.###02 11 2007 new variable
+news#:#news_rss_period#:#RSS Period###02 11 2007 new variable
+news#:#news_period_x_days#:#Last %s Days###02 11 2007 new variable
+news#:#news_period_1_week#:#Last Week###02 11 2007 new variable
+news#:#news_period_x_weeks#:#Last %s Weeks###02 11 2007 new variable
+news#:#news_period_1_month#:#Last Month###02 11 2007 new variable
+news#:#news_period_x_months#:#Last %s Months###02 11 2007 new variable
+news#:#news_period_1_year#:#Last Year###02 11 2007 new variable
+news#:#news_allow_shorter_periods#:#Allow Shorter Periods###02 11 2007 new variable
+news#:#news_allow_longer_periods#:#Allow Longer Periods###02 11 2007 new variable
+news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.###02 11 2007 new variable
+news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.###02 11 2007 new variable
+news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.###02 11 2007 new variable
+news#:#news_hide_news_per_date#:#Show News After###02 11 2007 new variable
+news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.###02 11 2007 new variable
+news#:#news_hide_news_date#:#Starting Date###02 11 2007 new variable
+content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.###02 11 2007 new variable
+forum#:#topics_please_select_one_action#:#Please select an action.###02 11 2007 new variable
+forum#:#sticky#:#sticky###02 11 2007 new variable
+forum#:#topic_close#:#close###02 11 2007 new variable
+forum#:#close_topics#:#Close###02 11 2007 new variable
+forum#:#reopen_topics#:#Reopen###02 11 2007 new variable
+forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator###02 11 2007 new variable
+forum#:#activate_new_posts#:#Activate Posts###02 11 2007 new variable
+mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
+mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
+mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
+survey#:#on_additional#:#On, and additional###02 11 2007 new variable

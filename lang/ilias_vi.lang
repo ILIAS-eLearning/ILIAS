@@ -4280,7 +4280,6 @@ mail#:#mail_sure_delete_entry#:#Bạn có chắc chắn xóa (các) mục sau kh
 mail#:#mail_sure_delete_file#:#File sẽ bị xóa vĩnh viễn
 mail#:#mail_sure_delete_folder#:#Thư mục và nội dung bên trong sẽ bị xóa vĩnh viễn
 mail#:#mail_to#:#Người nhận
-mail#:#mail_to_search#:#Tìm kiếm người nhận
 mail#:#mail_user_addr_n_valid#:#Những người sử dụng sau không có địa chỉ email hợp lệ
 mail#:#search_bc_recipient#:#Tìm kiếm người đồng nhận ẩn
 mail#:#search_cc_recipient#:#Tìm kiếm người đồng nhận
@@ -5151,7 +5150,6 @@ survey#:#already_completed_survey#:#Bạn đã hoàn thành khảo sát! Bạn k
 survey#:#anonymize_anonymous_introduction#:#Khảo sát này vô danh hóa tất cả thông tin người sử dụng. Để truy cập khảo sát, bạn phải sử dụng mã khảo sát 32-ký tự do người tạo/người duy trì khảo sát này cung cấp<br />Hãy nhập vào ô phía dưới.
 survey#:#anonymize_key_introduction#:#Khảo sát này vô danh hóa tất cả thông tin người sử dụng. Để truy cập khảo sát, mã 32-ký tự sẽ được tạo bởi hệ thống và được gửi tới hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát (sau khi trả lời câu hỏi thứ nhất). Mã truy cập khảo sát là<br /><span class="bold">%s</span><br />Hãy nhập nó vào ô phía dưới.
 survey#:#anonymize_resume_introduction#:#Hãy nhập vào mã truy cập khảo sát để tiếp tục khảo sát. Thư chứa mã đã được gửi vào hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát.
-survey#:#anonymize_survey#:#Vô danh hóa thông tin khảo sát
 survey#:#anonymous_with_personalized_survey#:#Bạn phải là người sử dụng đã đăng ký để chạy một khảo sát có tính cá nhân!
 survey#:#answer#:#Trả lời
 survey#:#apply#:#Áp dụng
@@ -5316,7 +5314,6 @@ survey#:#introduction#:#Giới thiệu
 survey#:#introduction_manage_phrases#:#Quản lý các cụm từ của bạn, có thể sử dụng được trong tất cả câu hỏi sắp thứ tự bạn sửa/xóa.
 survey#:#invitation#:#Mời
 survey#:#invitation_mode#:#Phương thức mời
-survey#:#invite_participants#:#Mời người sử dụng
 survey#:#invited_groups#:#Nhóm đã mời
 survey#:#invited_users#:#Đã mời những người sử dụng
 survey#:#label_resume_survey#:#Nhập vào 32 chữ số mã số khảo sát
@@ -5366,7 +5363,6 @@ survey#:#obligatory#:#bắt buộc
 survey#:#off#:#tắt
 survey#:#offline#:#offline
 survey#:#on#:#bật
-survey#:#online#:#online
 survey#:#or#:#hoặc
 survey#:#ordinal_question_not_checked#:#Hãy đánh dấu một trong các câu trả lời cho trước!
 survey#:#orientation#:#Hướng
@@ -6720,7 +6716,6 @@ survey#:#metric_subtype_description_interval#:#Equivalent intervals between meas
 survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###25 02 2007 new variable
 survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###25 02 2007 new variable
 survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###25 02 2007 new variable
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###25 02 2007 new variable
 survey#:#outro#:#Final Statement###25 02 2007 new variable
 survey#:#please_select#:#-- please select --###25 02 2007 new variable
 survey#:#results#:#Results###25 02 2007 new variable
@@ -7392,8 +7387,6 @@ mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification
 mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
 mail#:#send_mail_to#:#Mail to###16 08 2007 new variable
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###16 08 2007 new variable
-mail#:#mail_use_placeholders#:#Use Placeholders (recipients can only be inserted into the "To" field)###16 08 2007 new variable
-mail#:#mail_rcpt_only_to#:#Because of activating placeholders you can only insert recipients into the "To" field.###16 08 2007 new variable
 payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###16 08 2007 new variable
 payment#:#paya_perm_coupons#:#Edit coupons###16 08 2007 new variable
 mail#:#mail_my_mailing_lists#:#My Mailing Lists###16 08 2007 new variable
@@ -7616,7 +7609,6 @@ forum#:#deactivate_post_txt#:#Would you really like to deactivate the current po
 forum#:#activate_only_current#:#Activate Current###23 09 2007 new variable
 forum#:#activate_current_and_childs#:#Activate All Posts###23 09 2007 new variable
 forum#:#deactivate_current_and_childs#:#Deactivate All Posts###23 09 2007 new variable
-forum#:#new_posts#:#New Posts###23 09 2007 new variable
 forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
 common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
@@ -7697,3 +7689,31 @@ ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
 meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
 meta#:#md_copyright#:#Copyright###23 10 2007 new variable
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
+news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.###02 11 2007 new variable
+news#:#news_rss_period#:#RSS Period###02 11 2007 new variable
+news#:#news_period_x_days#:#Last %s Days###02 11 2007 new variable
+news#:#news_period_1_week#:#Last Week###02 11 2007 new variable
+news#:#news_period_x_weeks#:#Last %s Weeks###02 11 2007 new variable
+news#:#news_period_1_month#:#Last Month###02 11 2007 new variable
+news#:#news_period_x_months#:#Last %s Months###02 11 2007 new variable
+news#:#news_period_1_year#:#Last Year###02 11 2007 new variable
+news#:#news_allow_shorter_periods#:#Allow Shorter Periods###02 11 2007 new variable
+news#:#news_allow_longer_periods#:#Allow Longer Periods###02 11 2007 new variable
+news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.###02 11 2007 new variable
+news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.###02 11 2007 new variable
+news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.###02 11 2007 new variable
+news#:#news_hide_news_per_date#:#Show News After###02 11 2007 new variable
+news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.###02 11 2007 new variable
+news#:#news_hide_news_date#:#Starting Date###02 11 2007 new variable
+content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.###02 11 2007 new variable
+forum#:#topics_please_select_one_action#:#Please select an action.###02 11 2007 new variable
+forum#:#sticky#:#sticky###02 11 2007 new variable
+forum#:#topic_close#:#close###02 11 2007 new variable
+forum#:#close_topics#:#Close###02 11 2007 new variable
+forum#:#reopen_topics#:#Reopen###02 11 2007 new variable
+forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator###02 11 2007 new variable
+forum#:#activate_new_posts#:#Activate Posts###02 11 2007 new variable
+mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
+mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
+mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
+survey#:#on_additional#:#On, and additional###02 11 2007 new variable

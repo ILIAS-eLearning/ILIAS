@@ -2974,6 +2974,18 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.
+news#:#news_rss_period#:#RSS Period
+news#:#news_period_x_days#:#Last %s Days
+news#:#news_period_1_week#:#Last Week
+news#:#news_period_x_weeks#:#Last %s Weeks
+news#:#news_period_1_month#:#Last Month
+news#:#news_period_x_months#:#Last %s Months
+news#:#news_period_1_year#:#Last Year
+news#:#news_allow_shorter_periods#:#Allow Shorter Periods
+news#:#news_allow_longer_periods#:#Allow Longer Periods
+news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.
+news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.
 news#:#news_x_files_created#:#%s Files have been added.
 news#:#news_x_files_updated#:#%s Files have been updated.
 news#:#news_1_file_created#:#1 File has been added.
@@ -3001,6 +3013,10 @@ news#:#news_notifications#:#Notifications
 news#:#news_news_item_head#:#News Item
 news#:#news_hide_news_block#:#Hide News Block
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
+news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.
+news#:#news_hide_news_per_date#:#Show News After
+news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.
+news#:#news_hide_news_date#:#Starting Date
 news#:#news_default_visibility#:#Default Access
 news#:#news_news_item_title#:#Headline
 news#:#news_news_item_content#:#Text
@@ -3015,7 +3031,7 @@ news#:#news_news_item_visibility#:#Access
 news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Subscribe
 news#:#news_unsubscribe#:#Unsubscribe
-news#:#news_internal_news#:#Internal News
+news#:#news_internal_news#:#News
 news#:#news_get_feed_url#:#Get Feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'
 news#:#news_get_feed_title#:#Personal Feed URL
