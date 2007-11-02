@@ -7603,9 +7603,9 @@ common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert 
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.
 common#:#delete_existing_file#:#Delete Existing File###23 09 2007 new variable
-common#:#reset_filter#:#Reset filter###23 09 2007 new variable
-common#:#activate#:#Set Active###23 09 2007 new variable
-common#:#deactivate#:#Set Inactive###23 09 2007 new variable
+common#:#reset_filter#:#Filter zurücksetzen
+common#:#activate#:#Aktivieren
+common#:#deactivate#:#Deaktivieren
 common#:#before#:#before###23 09 2007 new variable
 common#:#export_format_selection#:#Please select the export file format###23 09 2007 new variable
 common#:#export_format#:#Export format###23 09 2007 new variable
@@ -7656,8 +7656,8 @@ common#:#sorting_manual_header#:#Manuelle Sortierung
 common#:#sorting_info_manual#:#Wenn ausgewählt, können die Materialien manuell in beliebiger Reihenfolge sortiert werden.
 common#:#sorting_save#:#Sortierung speichern
 common#:#frm_add_thread#:#Forumthema anlegen
-assessment#:#tst_reset_processing_time#:#Reset the maximum processing time for every test pass###25 09 2007 new variable
-assessment#:#tst_reset_processing_time_desc#:#If checked, the maximum processing time will be reset back to the defined maximum processing time after a test pass has been finished. This setting only works with an enabled maximum processing time and multiple test passes.###25 09 2007 new variable
+assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
+assessment#:#tst_reset_processing_time_desc#:#Wenn diese Option ausgewählt ist, wird die bereits abgelaufene Bearbeitungsdauer nach jedem abgeschlossenen Testdurchlauf wieder zurückgesetzt, so dass wieder die maximale Bearbeitungsdauer zur Verfügung steht. Die Einstellung funktioniert nur, wenn eine maximale Bearbeitungsdauer festgelegt ist und mehrere Testdurchläufe erlaubt sind
 common#:#accessRestrict#:#Set limited Access###25 09 2007 new variable
 common#:#accessFree#:#Remove limited Access###25 09 2007 new variable
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access###25 09 2007 new variable
