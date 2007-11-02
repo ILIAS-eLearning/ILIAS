@@ -112,7 +112,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	{
 		global $ilUser, $ilAccess;
 		
-		$data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
+		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
+		$data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId(), false,
+			false, $per);
 		if (!$this->acc_cache_hit)
 		{
 			$ilAccess->storeCache();
@@ -151,6 +153,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			case "showNews":
 			case "showFeedUrl":
+			case "editSettings":
 				return IL_SCREEN_CENTER;
 				break;
 			
@@ -212,8 +215,13 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
+		// set footer info
+		$this->setFooterInfo($lng->txt("news_block_information"), true);
+		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
+		$allow_longer_periods = $news_set->get("allow_longer_periods");
 		
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
@@ -223,7 +231,37 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTarget($this, "showFeedUrl"),
-				$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.gif"));
+				$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.gif"), true);
+		}
+
+		if ($allow_shorter_periods || $allow_longer_periods)
+		{
+			$this->addBlockCommand(
+				$ilCtrl->getLinkTarget($this, "editSettings"),
+				$lng->txt("settings"));
+		}
+			
+		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
+
+		if ($per > 0)
+		{
+			switch ($per)
+			{
+				case 2:
+				case 3:
+				case 5: $per_str = sprintf($lng->txt("news_period_x_days"), $per); break;
+				case 7: $per_str = $lng->txt("news_period_1_week"); break;
+				case 14: $per_str = sprintf($lng->txt("news_period_x_weeks"), 2); break;
+				case 30: $per_str = $lng->txt("news_period_1_month"); break;
+				case 60: $per_str = sprintf($lng->txt("news_period_x_months"), 2); break;
+				case 120: $per_str = sprintf($lng->txt("news_period_x_months"), 4); break;
+				case 180: $per_str = sprintf($lng->txt("news_period_x_months"), 6); break;
+				case 366: $per_str = $lng->txt("news_period_1_year"); break;
+			}
+			if ($per_str != "")
+			{
+				$this->setTitle($this->getTitle().' <span style="font-weight:normal;">- '.$per_str."</span>");
+			}
 		}
 
 		if ($this->getCurrentDetailLevel() == 0)
@@ -370,6 +408,97 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		return parent::showNews();
 	}
 
+	/**
+	* Show settings screen.
+	*/
+	function editSettings()
+	{
+		global $ilUser, $lng, $ilCtrl, $ilSetting;
+		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
+		$allow_longer_periods = $news_set->get("allow_longer_periods");
+		$default_per = $news_set->get("pd_period");
+
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
+			
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt("news_settings"));
+		$form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+		
+		$per_opts = array(
+			2 => "2 ".$lng->txt("days"),
+			3 => "3 ".$lng->txt("days"),
+			5 => "5 ".$lng->txt("days"),
+			7 => "1 ".$lng->txt("week"),
+			14 => "2 ".$lng->txt("weeks"),
+			30 => "1 ".$lng->txt("month"),
+			60 => "2 ".$lng->txt("months"),
+			120 => "4 ".$lng->txt("months"),
+			180 => "6 ".$lng->txt("months"),
+			366 =>  "1 ".$lng->txt("year"));
+			
+		$unset = array();
+		foreach($per_opts as $k => $opt)
+		{
+			if (!$allow_shorter_periods && ($k < $default_per)) $unset[$k] = $k;
+			if (!$allow_longer_periods && ($k > $default_per)) $unset[$k] = $k;
+		}
+		foreach($unset as $k)
+		{
+			unset($per_opts[$k]);
+		}
+		
+		$per_sel = new ilSelectInputGUI($lng->txt("news_pd_period"),
+			"news_pd_period");
+		//$per_sel->setInfo($lng->txt("news_pd_period_info"));
+		$per_sel->setOptions($per_opts);
+		$per_sel->setValue((int) $per);
+		$form->addItem($per_sel);
+
+		//$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
+		//	"1", $public_feed, $lng->txt("news_public_feed_info"));
+		//if ($this->getProperty("public_notifications_option"))
+		//{
+		//	$form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
+		//		"1", $public, $lng->txt("news_notifications_public_info"));
+		//}
+		$form->addCommandButton("saveSettings", $lng->txt("save"));
+		$form->addCommandButton("cancelSettings", $lng->txt("cancel"));
+		$form->setFormAction($ilCtrl->getFormaction($this));
+		
+		return $form->getHTML();
+	}
+
+	/**
+	* Cancel settings.
+	*/
+	function cancelSettings()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->returnToParent($this);
+	}
+	
+	/**
+	* Save settings.
+	*/
+	function saveSettings()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		
+		ilBlockSetting::_write($this->getBlockType(), "news_pd_period",
+			$_POST["news_pd_period"],
+			$ilUser->getId(), $this->block_id);
+			
+		$ilCtrl->returnToParent($this);
+	}
 
 }
 

@@ -307,6 +307,60 @@ abstract class ilBlockGUI
 	}
 
 	/**
+	* Set Footer Info.
+	*
+	* @param	string	$a_footerinfo	Footer Info
+	*/
+	function setFooterInfo($a_footerinfo, $a_hide_and_icon = false)
+	{
+		if ($a_hide_and_icon)
+		{
+			$this->footerinfo_icon = $a_footerinfo;
+		}
+		else
+		{
+			$this->footerinfo = $a_footerinfo;
+		}
+	}
+
+	/**
+	* Get Footer Info.
+	*
+	* @return	string	Footer Info
+	*/
+	function getFooterInfo($a_hide_and_icon = false)
+	{
+		if ($a_hide_and_icon)
+		{
+			return $this->footerinfo_icon;
+		}
+		else
+		{
+			return $this->footerinfo;
+		}
+	}
+
+	/**
+	* Set Subtitle.
+	*
+	* @param	string	$a_subtitle	Subtitle
+	*/
+	function setSubtitle($a_subtitle)
+	{
+		$this->subtitle = $a_subtitle;
+	}
+
+	/**
+	* Get Subtitle.
+	*
+	* @return	string	Subtitle
+	*/
+	function getSubtitle()
+	{
+		return $this->subtitle;
+	}
+
+	/**
 	* Set Ref Id (only used if isRepositoryObject() is true).
 	*
 	* @param	int	$a_refid	Ref Id
@@ -485,11 +539,12 @@ abstract class ilBlockGUI
 	* @param	string	$a_href		command link target
 	* @param	string	$a_text		text
 	*/
-	function addBlockCommand($a_href, $a_text, $a_target = "", $a_img = "")
+	function addBlockCommand($a_href, $a_text, $a_target = "", $a_img = "", $a_right_aligned = false)
 	{
 		return $this->block_commands[] = 
 			array("href" => $a_href,
-				"text" => $a_text, "target" => $a_target, "img" => $a_img);
+				"text" => $a_text, "target" => $a_target, "img" => $a_img,
+				"right" => $a_right_aligned);
 	}
 
 	/**
@@ -679,6 +734,15 @@ abstract class ilBlockGUI
 			}
 		}
 
+		// footer info
+		if ($this->getFooterInfo() != "")
+		{
+			$this->tpl->setCurrentBlock("footer_information");
+			$this->tpl->setVariable("FOOTER_INFO", $this->getFooterInfo());
+			$this->tpl->setVariable("FICOLSPAN", $this->getColSpan());
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// commands
 		if (count($this->getBlockCommands()) > 0)
 		{
@@ -1181,6 +1245,18 @@ abstract class ilBlockGUI
 					$this->tpl->touchBlock("det_item");
 				}
 			}
+			
+			// info + icon in detail row
+			if ($this->getFooterInfo(true) != "")
+			{
+				$this->tpl->setCurrentBlock("det_info");
+				$this->tpl->setVariable("INFO_TEXT", $this->getFooterInfo(true));
+				$this->tpl->setVariable("ALT_DET_INFO", $lng->txt("info_short"));
+				$this->tpl->setVariable("DI_BLOCK_ID", $this->getBlockType()."_".$this->getBlockId());
+				$this->tpl->setVariable("IMG_DET_INFO", ilUtil::getImagePath("icon_info_s.gif"));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("detail_setting");
 			$this->tpl->setVariable("TXT_DETAILS", $lng->txt("details"));
 			$this->tpl->setVariable("DCOLSPAN", $this->getColSpan());

@@ -243,6 +243,8 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
+		$ok = true;
+		
 		$_POST[$this->getPostVar()]["date"]["y"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["y"]);
 		$_POST[$this->getPostVar()]["date"]["m"] = 
@@ -255,7 +257,21 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["m"]);
 		$_POST[$this->getPostVar()]["time"]["s"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["s"]);
-			
+
+		// verify date
+		$timestamp = mktime(0,0,0,
+			$_POST[$this->getPostVar()]["date"]["m"],
+			$_POST[$this->getPostVar()]["date"]["d"],
+			$_POST[$this->getPostVar()]["date"]["y"]);
+
+		if ($_POST[$this->getPostVar()]["date"]["d"] != (int) date("d",$timestamp) ||
+			$_POST[$this->getPostVar()]["date"]["m"] != (int) date("m",$timestamp) ||
+			$_POST[$this->getPostVar()]["date"]["y"] != (int) date("Y",$timestamp))
+		{
+			$this->setAlert($lng->txt("exc_date_not_valid"));
+			$ok = false;
+		}
+		
 		$_POST[$this->getPostVar()]["time"] =
 			str_pad($_POST[$this->getPostVar()]["time"]["h"], 2 , "0", STR_PAD_LEFT).":".
 			str_pad($_POST[$this->getPostVar()]["time"]["m"], 2 , "0", STR_PAD_LEFT).":".
@@ -265,10 +281,8 @@ class ilDateTimeInputGUI extends ilFormPropertyGUI
 			str_pad($_POST[$this->getPostVar()]["date"]["y"], 4 , "0", STR_PAD_LEFT)."-".
 			str_pad($_POST[$this->getPostVar()]["date"]["m"], 2 , "0", STR_PAD_LEFT)."-".
 			str_pad($_POST[$this->getPostVar()]["date"]["d"], 2 , "0", STR_PAD_LEFT);
-			
-		// todo: future checks, e.g. > other datetime property
-			
-		return true;
+
+		return $ok;
 	}
 
 	/**

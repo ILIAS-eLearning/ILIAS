@@ -80,3 +80,20 @@ function ilBlockJSHandler(block_id, sUrl)
 	
 	return false;
 }
+
+function ilBlockToggleInfo(block_id)
+{
+	var block_span = document.getElementById('det_info_' + block_id);
+
+	if (block_span)
+	{
+		if (block_span.style.display == 'none')
+		{
+			block_span.style.display = "";
+		}
+		else
+		{
+			block_span.style.display = "none";
+		}
+	}
+}

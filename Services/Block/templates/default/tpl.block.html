@@ -20,6 +20,7 @@
 <!-- END header_commands -->
 <!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" /><!-- END block_img -->
 {BLOCK_TITLE}
+<!-- BEGIN block_subtitle --><div>{BLOCK_SUBTITLE}</div><!-- END block_subtitle -->
 </th>
 </tr>
 <!-- BEGIN top_row -->
@@ -50,6 +51,14 @@
 	<!-- BEGIN det_link --><a href="{DHREF}" <!-- BEGIN onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END onclick -->><img border="0" style="margin: 0px 1px 1px 1px;" alt="{ALT_LINK}" src="{SRC_LINK}"/></a><!-- END det_link -->
 	<!-- END det_item -->
 	</div>
+	<!-- BEGIN det_info -->
+	<img style="cursor:help;" alt="{ALT_DET_INFO}" src="{IMG_DET_INFO}" border="0" onclick="ilBlockToggleInfo('{DI_BLOCK_ID}');" />
+	<div class="small" style="clear:both; margin-top:2px;">
+	<span id="det_info_{DI_BLOCK_ID}" style="display:none;">{INFO_TEXT}</span>
+	<noscript>{INFO_TEXT}
+	</noscript>
+	</div>
+	<!-- END det_info -->
 	</td>
 </tr>
 <!-- END detail_setting -->
@@ -67,6 +76,11 @@
 	</td>
 </tr>
 <!-- END foot_row -->
+<!-- BEGIN footer_information -->
+<tr><td class="submit" colspan="{FICOLSPAN}"><div class="small">
+{FOOTER_INFO}
+</div></td></tr>
+<!-- END footer_information -->
 <!-- BEGIN block_commands -->
 <tr><td class="submit" colspan="{CCOLSPAN}">
 <!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->

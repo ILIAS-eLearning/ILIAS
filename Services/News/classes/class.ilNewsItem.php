@@ -133,7 +133,7 @@ class ilNewsItem extends ilNewsItemGen
 	* Get all news items for a user.
 	*/
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false,
-		$a_prevent_aggregation = false)
+		$a_prevent_aggregation = false, $a_per = 0)
 	{
 		global $ilAccess, $ilUser, $ilBench;
 		
@@ -141,6 +141,8 @@ class ilNewsItem extends ilNewsItemGen
 		
 		$news_item = new ilNewsItem();
 		$news_set = new ilSetting("news");
+		
+		$per = $a_per;
 
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
@@ -185,7 +187,7 @@ class ilNewsItem extends ilNewsItemGen
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news = $news_item->getNewsForRefId($ref_id, $a_only_public, false,
-				$news_set->get("pd_period"), $a_prevent_aggregation);
+				$per, $a_prevent_aggregation);
 			$ilBench->stop("News", "getNewsForRefId_getNews");
 
 			$ilBench->start("News", "getNewsForRefId_mergeNews");
@@ -211,23 +213,39 @@ class ilNewsItem extends ilNewsItemGen
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
+		
+		// get starting date
+		$starting_date = "";
+		if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat")
+		{
+			include_once("./Services/Block/classes/class.ilBlockSetting.php");
+			$hide_news_per_date = ilBlockSetting::_lookup("news", "hide_news_per_date",
+				0, $obj_id);
+			if ($hide_news_per_date)
+			{
+				$starting_date = ilBlockSetting::_lookup("news", "hide_news_date",
+					0, $obj_id);
+			}
+		}
+		
 		if ($obj_type == "cat" && !$a_stopnesting)
 		{
 			$news = $this->getAggregatedChildNewsData($a_ref_id, $a_only_public, $a_time_period,
-				$a_prevent_aggregation);
+				$a_prevent_aggregation, $starting_date);
 		}
 		else if (($obj_type == "grp" || $obj_type == "crs") &&
 			!$a_stopnesting)
 		{
 			$news = $this->getAggregatedNewsData($a_ref_id, $a_only_public, $a_time_period,
-				$a_prevent_aggregation);
+				$a_prevent_aggregation, $starting_date);
 		}
 		else
 		{
 			$news_item = new ilNewsItem();
 			$news_item->setContextObjId($obj_id);
 			$news_item->setContextObjType($obj_type);
-			$news = $news_item->queryNewsForContext($a_only_public, $a_time_period);
+			$news = $news_item->queryNewsForContext($a_only_public, $a_time_period,
+				$starting_date);
 			$unset = array();
 			foreach ($news as $k => $v)
 			{
@@ -261,7 +279,7 @@ class ilNewsItem extends ilNewsItemGen
 	* Get news aggregation (e.g. for courses, groups)
 	*/
 	function getAggregatedNewsData($a_ref_id, $a_only_public = false, $a_time_period = 0,
-		$a_prevent_aggregation = false)
+		$a_prevent_aggregation = false, $a_starting_date = "")
 	{
 		global $tree, $ilAccess, $ilBench, $ilObjDataCache;
 		
@@ -326,7 +344,8 @@ class ilNewsItem extends ilNewsItemGen
 		$ilBench->stop("News", "getAggregatedNewsData_getContexts");
 		
 		// sort and return
-		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period);
+		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period,
+			$a_starting_date);
 		
 		$ilBench->start("News", "getAggregatedNewsData_mergeAndSort");
 		
@@ -428,7 +447,7 @@ class ilNewsItem extends ilNewsItemGen
 	* Get news aggregation for child objects (e.g. for categories)
 	*/
 	function getAggregatedChildNewsData($a_ref_id, $a_only_public = false,
-		$a_time_period = 0, $a_prevent_aggregation = false)
+		$a_time_period = 0, $a_prevent_aggregation = false, $a_starting_date = "")
 	{
 		global $tree, $ilAccess, $ilBench;
 		
@@ -472,7 +491,8 @@ class ilNewsItem extends ilNewsItemGen
 				"obj_type" => $node["type"]);
 		}
 		
-		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period);
+		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period,
+			$a_starting_date);
 		foreach ($news as $k => $v)
 		{
 			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
@@ -507,7 +527,8 @@ class ilNewsItem extends ilNewsItemGen
 	* Query NewsForContext
 	*
 	*/
-	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0)
+	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0,
+		$a_starting_date = "")
 	{
 		global $ilDB, $ilUser;
 		
@@ -515,6 +536,11 @@ class ilNewsItem extends ilNewsItemGen
 			? " AND (TO_DAYS(now()) - TO_DAYS(creation_date)) <= ".((int)$a_time_period)
 			: "";
 		
+		if ($a_starting_date != "")
+		{
+			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date)." ";
+		}
+
 		if ($a_for_rss_use)
 		{
 			$query = "SELECT * ".
@@ -562,7 +588,7 @@ class ilNewsItem extends ilNewsItemGen
 	* @param	array	$a_contexts		array of array("obj_id", "obj_type")
 	*/
 	public function queryNewsForMultipleContexts($a_contexts, $a_for_rss_use = false,
-		$a_time_period = 0)
+		$a_time_period = 0, $a_starting_date = "")
 	{
 		global $ilDB, $ilUser, $ilBench;
 		
@@ -571,6 +597,11 @@ class ilNewsItem extends ilNewsItemGen
 		$and = ($a_time_period > 0)
 			? " AND (TO_DAYS(now()) - TO_DAYS(creation_date)) <= ".((int)$a_time_period)
 			: "";
+			
+		if ($a_starting_date != "")
+		{
+			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date)." ";
+		}
 		
 		$ids = array();
 		$type = array();
@@ -882,6 +913,42 @@ class ilNewsItem extends ilNewsItemGen
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		return $rec["id"];
+	}
+	
+	function _lookupUserPDPeriod($a_user_id)
+	{
+		global $ilSetting;
+		
+		$news_set = new ilSetting("news");
+		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
+		$allow_longer_periods = $news_set->get("allow_longer_periods");
+		$default_per = $news_set->get("pd_period");
+		
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		$per = ilBlockSetting::_lookup("pdnews", "news_pd_period",
+			$a_user_id, 0);
+
+		// news period information
+		if ($per <= 0 ||
+			(!$allow_shorter_periods && ($per < $default_per)) ||
+			(!$allow_longer_periods && ($per > $default_per))
+			)
+		{
+			$per = $default_per;
+		}
+		
+		return $per;
+	}
+	
+	function _lookupRSSPeriod()
+	{
+		$news_set = new ilSetting("news");
+		$rss_period = $news_set->get("rss_period");
+		if ($rss_period == 0)		// default to two weeks
+		{
+			$rss_period = 14;
+		}
+		return $rss_period;
 	}
 }
 ?>

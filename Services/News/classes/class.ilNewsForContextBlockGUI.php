@@ -136,6 +136,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				break;
 				
 			case "editSettings":
+			case "saveSettings":
 				return IL_SCREEN_FULL;
 				break;
 			
@@ -214,6 +215,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 		
+		$hide_block = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_block",
+			0, $this->block_id);
+		if ($hide_block)
+		{
+			$this->setFooterInfo($lng->txt("news_hidden_news_block"));
+		}
+
 		if ($this->getProperty("title") != "")
 		{
 			$this->setTitle($this->getProperty("title"));
@@ -484,7 +492,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			foreach($c["aggregation"] as $c_item)
 			{
 				ilNewsItem::_setRead($ilUser->getId(), $c_item["id"]);
-				//$c_item["loc_context"] = $c_item["ref_id"];	//  this confuses
+				$c_item["loc_context"] = $c_item["ref_id"];
 				$c_item["loc_stop"] = $_GET["news_context"];
 				$news_list[] = $c_item;
 			}
@@ -653,7 +661,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			//	$tpl->setVariable("VAL_TITLE", $item["title"]);			// title
 			//}
 			
+			$row_css = ($row_css != "tblrow1")
+				? "tblrow1"
+				: "tblrow2";
+			
 			$tpl->setCurrentBlock("item");
+			$tpl->setVariable("ITEM_ROW_CSS", $row_css);
 			$tpl->parseCurrentBlock();
 		}
 		
@@ -835,6 +848,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function editSettings()
 	{
+		$this->initSettingsForm();
+		return $this->settings_form->getHTML();
+	}
+	
+	/**
+	* Init setting form
+	*/
+	function initSettingsForm()
+	{
 		global $ilUser, $lng, $ilCtrl, $ilSetting;
 		
 		$news_set = new ilSetting("news");
@@ -846,10 +868,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			0, $this->block_id);
 		$hide_block = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_block",
 			0, $this->block_id);
+		$hide_news_per_date = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_per_date",
+			0, $this->block_id);
+		$hide_news_date = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_date",
+			0, $this->block_id);
+		$hide_news_date = explode(" ", $hide_news_date);
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setTitle($lng->txt("news_settings"));
-		$form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+		$this->settings_form = new ilPropertyFormGUI();
+		$this->settings_form->setTitle($lng->txt("news_settings"));
+		$this->settings_form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
 		
 		// hide news block for learners
 		if ($this->getProperty("hide_news_block_option"))
@@ -858,7 +886,23 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				"hide_news_block");
 			$ch->setInfo($lng->txt("news_hide_news_block_info"));
 			$ch->setChecked($hide_block);
-			$form->addItem($ch);
+			$this->settings_form->addItem($ch);
+			
+			$hnpd = new ilCheckboxInputGUI($lng->txt("news_hide_news_per_date"),
+				"hide_news_per_date");
+			$hnpd->setInfo($lng->txt("news_hide_news_per_date_info"));
+			$hnpd->setChecked($hide_news_per_date);
+			
+				$dt_prop = new ilDateTimeInputGUI($lng->txt("news_hide_news_date"),
+					"hide_news_date");
+				$dt_prop->setDate($hide_news_date[0]);
+				$dt_prop->setTime($hide_news_date[1]);
+				$dt_prop->setShowTime(true);
+				//$dt_prop->setInfo($lng->txt("news_hide_news_date_info"));
+				$hnpd->addSubItem($dt_prop);
+				
+			$this->settings_form->addItem($hnpd);
+			
 		}
 		
 		// default visibility
@@ -882,7 +926,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
 			$radio_group->setRequired(false);
 			$radio_group->setValue($default_visibility);
-			$form->addItem($radio_group);
+			$this->settings_form->addItem($radio_group);
 		}
 
 		// public notifications
@@ -893,7 +937,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				"notifications_public");
 			$ch->setInfo($lng->txt("news_notifications_public_info"));
 			$ch->setChecked($public);
-			$form->addItem($ch);
+			$this->settings_form->addItem($ch);
 		}
 
 		// extra rss feed
@@ -903,22 +947,20 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				"notifications_public_feed");
 			$ch->setInfo($lng->txt("news_public_feed_info"));
 			$ch->setChecked($public_feed);
-			$form->addItem($ch);
+			$this->settings_form->addItem($ch);
 		}
 
 		
-		//$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
+		//$this->settings_form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
 		//	"1", $public_feed, $lng->txt("news_public_feed_info"));
 		//if ($this->getProperty("public_notifications_option"))
 		//{
-		//	$form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
+		//	$this->settings_form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
 		//		"1", $public, $lng->txt("news_notifications_public_info"));
 		//}
-		$form->addCommandButton("saveSettings", $lng->txt("save"));
-		$form->addCommandButton("cancelSettings", $lng->txt("cancel"));
-		$form->setFormAction($ilCtrl->getFormaction($this));
-		
-		return $form->getHTML();
+		$this->settings_form->addCommandButton("saveSettings", $lng->txt("save"));
+		$this->settings_form->addCommandButton("cancelSettings", $lng->txt("cancel"));
+		$this->settings_form->setFormAction($ilCtrl->getFormaction($this));
 	}
 	
 	/**
@@ -938,23 +980,42 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl;
 		
-		$news_set = new ilSetting("news");
-		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		$this->initSettingsForm();
 		
-		if ($enable_internal_rss)
+		if ($this->settings_form->checkInput())
 		{
-			ilBlockSetting::_write($this->getBlockType(), "public_notifications", $_POST["notifications_public"],
-				0, $this->block_id);
-			ilBlockSetting::_write($this->getBlockType(), "public_feed", $_POST["notifications_public_feed"],
-				0, $this->block_id);
-			ilBlockSetting::_write($this->getBlockType(), "default_visibility", $_POST["default_visibility"],
-				0, $this->block_id);
-		}
-		ilBlockSetting::_write($this->getBlockType(), "hide_news_block", $_POST["hide_news_block"],
-			0, $this->block_id);
-
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 			
-		$ilCtrl->returnToParent($this);
+			if ($enable_internal_rss)
+			{
+				ilBlockSetting::_write($this->getBlockType(), "public_notifications", $_POST["notifications_public"],
+					0, $this->block_id);
+				ilBlockSetting::_write($this->getBlockType(), "public_feed", $_POST["notifications_public_feed"],
+					0, $this->block_id);
+				ilBlockSetting::_write($this->getBlockType(), "default_visibility", $_POST["default_visibility"],
+					0, $this->block_id);
+			}
+			
+			if ($this->getProperty("hide_news_block_option"))
+			{
+				ilBlockSetting::_write($this->getBlockType(), "hide_news_block", $_POST["hide_news_block"],
+					0, $this->block_id);
+				ilBlockSetting::_write($this->getBlockType(), "hide_news_per_date", $_POST["hide_news_per_date"],
+					0, $this->block_id);
+//echo "-".$this->getBlockType()."-".$this->block_id."-"; // news obj_id
+				ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
+					$_POST["hide_news_date"]["date"]." ".$_POST["hide_news_date"]["time"],
+					0, $this->block_id);
+			}
+				
+			$ilCtrl->returnToParent($this);
+		}
+		else
+		{
+			$this->settings_form->setValuesByPost();
+			return $this->settings_form->getHtml();
+		}
 	}
 
 	/**
