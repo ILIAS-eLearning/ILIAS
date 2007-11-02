@@ -123,7 +123,6 @@ class ilObjTestListGUI extends ilObjectListGUI
 		global $lng, $ilUser;
 
 		$props = array();
-
 		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 		if (!ilObjTestAccess::_lookupCreationComplete($this->obj_id))
 		{

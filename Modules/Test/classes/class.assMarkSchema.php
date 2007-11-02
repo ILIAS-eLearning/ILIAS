@@ -342,6 +342,62 @@ class ASS_MarkSchema
 		return false;
   }
   
+	/**
+	* Returns the matching mark for a given percentage
+	* 
+	* Returns the matching mark for a given percentage
+	*
+	* @param int $test_id The database id of the test
+	* @param double $percentage A percentage value between 0 and 100
+	* @return mixed The mark object, if a matching mark was found, false otherwise
+	* @access public
+	* @see $mark_steps
+	*/
+	function _getMatchingMark($test_id, $percentage)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level DESC",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($percentage >= $row["minimum_level"])
+			{
+				return $row;
+			}
+		}
+		return FALSE;
+	}
+
+	/**
+	* Returns the matching mark for a given percentage
+	* 
+	* Returns the matching mark for a given percentage
+	*
+	* @param int $test_id The database id of the test
+	* @param double $percentage A percentage value between 0 and 100
+	* @return mixed The mark object, if a matching mark was found, false otherwise
+	* @access public
+	* @see $mark_steps
+	*/
+	function _getMatchingMarkFromObjId($a_obj_id, $percentage)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT tst_mark.* FROM tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.obj_fi = %s ORDER BY minimum_level DESC",
+			$ilDB->quote($a_obj_id . "")
+		);
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($percentage >= $row["minimum_level"])
+			{
+				return $row;
+			}
+		}
+		return FALSE;
+	}
+	
 /**
 * Check the marks for consistency
 * 

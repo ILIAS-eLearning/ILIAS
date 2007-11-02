@@ -2750,3 +2750,38 @@ ALTER TABLE frm_threads ADD is_closed TINYINT( 1 ) NOT NULL DEFAULT '0';
 
 <#1108>
 ALTER TABLE cmi_node ADD entry varchar(255) AFTER delivery_speed;
+<#1109>
+DROP TABLE IF EXISTS `tst_test_pass_result`;
+CREATE TABLE `tst_test_pass_result` (
+  `active_fi` int(11) NOT NULL default '0',
+  `pass` int(11) NOT NULL default '0',
+  `points` double NOT NULL default '0',
+  `TIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  UNIQUE KEY `active_fi` (`active_fi`,`pass`)
+);
+<#1110>
+<?php
+$query = "SELECT DISTINCT(pass), active_fi FROM tst_test_result ORDER BY active_fi";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$querysum = sprintf("SELECT SUM(points) AS reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+			$ilDB->quote($row["active_fi"] . ""),
+			$ilDB->quote($row["pass"] . "")
+		);
+		$resultsum = $ilDB->query($querysum);
+		if ($resultsum->numRows() > 0)
+		{
+			$rowsum = $resultsum->fetchRow(DB_FETCHMODE_ASSOC);
+			$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s",
+				$ilDB->quote($row["active_fi"] . ""),
+				$ilDB->quote($row["pass"] . ""),
+				$ilDB->quote((($rowsum["reachedpoints"]) ? $rowsum["reachedpoints"] : 0) . "")
+			);
+			$ilDB->query($newresultquery);
+		}
+	}
+}
+?>

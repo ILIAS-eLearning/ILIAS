@@ -2964,6 +2964,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ilDB->quote($this->getTestId()),
 				$ilDB->quote($question_id)
 			);
+			$query4 = sprintf("DELETE FROM tst_test_pass_result USING tst_test_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_pass_result.active_fi",
+				$ilDB->quote($this->getTestId())
+			);
 		} 
 		else 
 		{
@@ -2976,19 +2979,23 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
 				$ilDB->quote($this->getTestId())
 			);
+			$query4 = sprintf("DELETE FROM tst_test_pass_result USING tst_test_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_pass_result.active_fi",
+				$ilDB->quote($this->getTestId())
+			);
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 			}
 		}
-		$query4 = sprintf("DELETE FROM tst_sequence USING tst_sequence, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_sequence.active_fi",
+		$query5 = sprintf("DELETE FROM tst_sequence USING tst_sequence, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_sequence.active_fi",
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($query);
 		$result = $ilDB->query($query2);
 		$result = $ilDB->query($query3);
 		$result = $ilDB->query($query4);
+		$result = $ilDB->query($query5);
 
 		if ($this->isRandomTest())
 		{
@@ -3032,9 +3039,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
 				$ilDB->quote($active_id . "")
 			);
+			$query4 = sprintf("DELETE FROM tst_test_pass_result WHERE active_fi = %s",
+				$ilDB->quote($active_id . "")
+			);
 			$result = $ilDB->query($query);
 			$result = $ilDB->query($query2);
 			$result = $ilDB->query($query3);
+			$result = $ilDB->query($query4);
 
 			if ($this->isRandomTest())
 			{
@@ -3095,9 +3106,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
 			$ilDB->quote($active_id . "")
 		);
+		$query4 = sprintf("DELETE FROM tst_test_pass_result WHERE active_fi = %s",
+			$ilDB->quote($active_id . "")
+		);
 		$result = $ilDB->query($query);
 		$result = $ilDB->query($query2);
 		$result = $ilDB->query($query3);
+		$result = $ilDB->query($query4);
 
 		if ($this->isRandomTest())
 		{
@@ -3672,7 +3687,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		return $array;
 	}
-
+	
 	/**
 	* Calculates the results of a test for a given user
 	*
@@ -4910,54 +4925,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
 			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 			$times[$row->active_fi] += ($epoch_2 - $epoch_1);
-		}
-		$max_time = 0;
-		$counter = 0;
-		foreach ($times as $key => $value)
-		{
-			$max_time += $value;
-			$counter++;
-		}
-		if ($counter)
-		{
-			$average_time = round($max_time / $counter);
-		}
-			else
-		{
-			$average_time = 0;
-		}
-		return $average_time;
-	}
-
-/**
-* Returns the average processing time for all passed tests
-*
-* Returns the average processing time for all passed tests
-*
-* @return integer The average processing time for all passed tests
-* @access public
-*/
-	function evalTotalPassedAverageTime()
-	{
-		global $ilDB;
-
-		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-		$passed_users =& ilObjTest::_getPassedUsers($this->getId());
-		$q = sprintf("SELECT tst_times.*, tst_active.active_id FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
-			$ilDB->quote($this->getTestId())
-		);
-		$result = $ilDB->query($q);
-		$times = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (in_array($row->active_id, $passed_users))
-			{
-				preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
-				$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
-				$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$times[$row->active_id] += ($epoch_2 - $epoch_1);
-			}
 		}
 		$max_time = 0;
 		$counter = 0;
@@ -8321,36 +8288,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->results_presentation = $this->results_presentation ^ 8;
 			}
 		}
-	}
-
-/**
-* Returns an array containing the user ids of all users who passed the test
-*
-* Returns an array containing the user ids of all users who passed the test,
-* regardless if they fnished the test with the finish test button or not. Only
-* the reached points are counted
-*
-* @param integer $test_id Test id of the test
-* @return array An array containing the user ids of the users who passed the test
-* @access public
-*/
-	function &_getPassedUsers($a_obj_id)
-	{
-		$passed_users = array();
-		$test_id =  ilObjTest::_getTestIDFromObjectID($a_obj_id);
-		$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE);
-		if (is_object($results))
-		{
-			$participants =& $results->getParticipants();
-			foreach ($participants as $active_id => $participant)
-			{
-				if (is_object($participant) && $participant->getPassed())
-				{
-					array_push($passed_users, $active_id);
-				}
-			}
-		}
-		return $passed_users;
 	}
 
 	/**
