@@ -2484,7 +2484,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		$selection_mode = $ilUser->getPref("tst_question_selection_mode_equal");
 		$total = $this->object->evalTotalPersons();
-		$available_qpl =& $this->object->getAvailableQuestionpools(true, $selection_mode, FALSE, TRUE, TRUE);
+		$available_qpl =& $this->object->getAvailableQuestionpools(TRUE, $selection_mode, FALSE, TRUE, TRUE);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$qpl_question_count = array();
 		foreach ($available_qpl as $key => $value)

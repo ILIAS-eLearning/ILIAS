@@ -904,13 +904,35 @@ class assQuestion
 			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()), $reached_points), $active_id, $this->getId());
 		}
 
+		// update test pass results
+		$this->_updateTestPassResults($active_id, $pass);
+
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
-
 		ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(),$active_id,$this->getId());
 		
 	}
 
+	function _updateTestPassResults($active_id, $pass)
+	{
+		global $ilDB;
+		// update test pass results
+		$query = sprintf("SELECT SUM(points) AS reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . ""),
+				$ilDB->quote((($row["reachedpoints"]) ? $row["reachedpoints"] : 0) . "")
+			);
+			$ilDB->query($newresultquery);
+		}
+	}
 /**
 * Logs an action into the Test&Assessment log
 * 
@@ -2351,6 +2373,7 @@ class assQuestion
 			{
 				return FALSE;
 			}
+			assQuestion::_updateTestPassResults($active_id, $pass);
 			// finally update objective result
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';

@@ -88,6 +88,95 @@ class ilObjTestAccess extends ilObjectAccess
 
 		return true;
 	}
+	
+	/**
+	* Returns the maximum number of points available for a test pass
+	*
+	* Returns the maximum number of points available for a test pass
+	*
+	* @param boolean $random TRUE if the test is a random test, otherwise FALSE
+	* @param int $test_id The test id
+	* @param int $pass The test pass
+	* @return int The available points for the test pass
+	*/
+	function _getMaxPointsForTestPass($random, $user_id, $test_id, $pass)
+	{
+		global $ilDB;
+		$max = 0;
+		if ($random)
+		{
+			$query = sprintf("SELECT SUM(qpl_questions.points) AS maxpoints FROM tst_test_random_question, qpl_questions, tst_active WHERE tst_active.active_id = tst_test_random_question.active_fi AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_active.test_fi = %s AND tst_test_random_question.pass = %s AND tst_active.user_fi = %s",
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($pass . ""),
+				$ilDB->quote($user_id . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$max = $row["maxpoints"];
+			}
+		}
+		else
+		{
+			$query = sprintf("SELECT SUM(qpl_questions.points) AS maxpoints FROM tst_test_question, qpl_questions WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = %s",
+				$ilDB->quote($test_id . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$max = $row["maxpoints"];
+			}
+		}
+		return $max;
+	}
+	
+	/**
+	* Returns TRUE if the user with the user id $user_id passed the test with the object id $a_obj_id
+	*
+	* Returns TRUE if the user with the user id $user_id passed the test with the object id $a_obj_id
+	*
+	* @param int $user_id The user id
+	* @param int $a_obj_id The object id
+	* @return boolean TRUE if the user passed the test, FALSE otherwise
+	*/
+	function _isPassed($user_id, $a_obj_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests, object_data WHERE object_data.obj_id = tst_tests.obj_fi AND tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND object_data.obj_id = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($a_obj_id . "")
+		);
+		$result = $ilDB->query($query);
+		$points = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($points, $row);
+		}
+		$reached = 0;
+		$max = 0;
+		if ($points[0]["pass_scoring"] == 0)
+		{
+			$reached = $points[count($points)-1]["points"];
+			$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
+		}
+		else
+		{
+			foreach ($points as $row)
+			{
+				if ($row["points"] > $reached) 
+				{
+					$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+					$reached = $row["points"];
+				}
+			}
+		}
+		include_once "./Modules/Test/classes/class.assMarkSchema.php";
+		$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+		$mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
+		return ($mark["passed"]) ? TRUE : FALSE;
+	}
 
 	/**
 	* check condition
@@ -100,26 +189,7 @@ class ilObjTestAccess extends ilObjectAccess
 		switch($a_operator)
 		{
 			case 'passed':
-				include_once "./Modules/Test/classes/class.ilObjTest.php";
-				$test_id = ilObjTest::_getTestIDFromObjectID($a_obj_id);
-				include_once "./Modules/Test/classes/class.ilTestSession.php";
-				$session = new ilTestSession();
-				$session->loadTestSession($test_id, $ilias->account->getId());
-				if(!is_object($session))
-				{
-					return false;
-				}
-				include_once "./Modules/Test/classes/class.ilObjTest.php";
-				$data =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE, $session->getActiveId());
-				$userdata =& $data->getParticipant($session->getActiveId());
-				if (is_object($userdata))
-				{
-					return $userdata->getPassed();
-				}
-				else
-				{
-					return FALSE;
-				}
+				return ilObjTestAccess::_isPassed($ilias->account->getId(), $a_obj_id);
 				break;
 
 			case 'finished':
@@ -487,29 +557,60 @@ function _getQuestionCount($test_id)
 */
 	function &_getPassedUsers($a_obj_id)
 	{
+		global $ilDB;
+
 		$passed_users = array();
-		include_once './Modules/Test/classes/class.ilObjTest.php';
-		$test_id =  ilObjTest::_getTestIDFromObjectID($a_obj_id);
-		$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE);
-		if (is_object($results))
+		$query = sprintf("SELECT tst_active.user_fi FROM tst_active, tst_tests WHERE tst_tests.test_id = tst_active.test_fi AND tst_tests.obj_fi = %s",
+			$ilDB->quote($a_obj_id . "")
+		);
+		$userresult = $ilDB->query($query);
+		if ($userresult->numRows())
 		{
-			$participants =& $results->getParticipants();
-			foreach ($participants as $participant)
+			while ($userrow = $userresult->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (is_object($participant))
+				$user_id = $userrow["user_fi"];
+				$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests, object_data WHERE object_data.obj_id = tst_tests.obj_fi AND tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND object_data.obj_id = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote($a_obj_id . "")
+				);
+				$result = $ilDB->query($query);
+				$points = array();
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					array_push($passed_users, 
-						array(
-							"user_id" => $participant->getUserID(),
-							"max_points" => $participant->getMaxpoints(),
-							"reached_points" => $participant->getReached(),
-							"mark_short" => $participant->getMark(),
-							"mark_official" => $participant->getMarkOfficial(),
-							"passed" => $participant->getPassed(),
-							"failed" => (!$participant->getPassed())
-						)
-					);
+					array_push($points, $row);
 				}
+				$reached = 0;
+				$max = 0;
+				if ($points[0]["pass_scoring"] == 0)
+				{
+					$reached = $points[count($points)-1]["points"];
+					$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
+				}
+				else
+				{
+					foreach ($points as $row)
+					{
+						if ($row["points"] > $reached) 
+						{
+							$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+							$reached = $row["points"];
+						}
+					}
+				}
+				include_once "./Modules/Test/classes/class.assMarkSchema.php";
+				$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+				$mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
+				array_push($passed_users, 
+					array(
+						"user_id" => $user_id,
+						"max_points" => $max,
+						"reached_points" => $reached,
+						"mark_short" => $mark["short_name"],
+						"mark_official" => $mark["official_name"],
+						"passed" => ($mark["passed"]) ? TRUE : FALSE,
+						"failed" => (!$mark["passed"]) ? TRUE : FALSE
+					)
+				);
 			}
 		}
 		return $passed_users;

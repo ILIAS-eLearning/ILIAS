@@ -416,11 +416,12 @@ class assTextQuestion extends assQuestion
 				$ilDB->quote($pass . "")
 			);
 			$result = $ilDB->query($query);
-			return true;
+			$this->_updateTestPassResults($active_id, $pass);
+			return TRUE;
 		}
 			else
 		{
-			return false;
+			return TRUE;
 		}
 	}
 

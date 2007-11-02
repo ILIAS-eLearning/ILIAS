@@ -4013,7 +4013,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (($ilAccess->checkAccess("write", "", $this->ref_id)) || ($ilAccess->checkAccess("invite", "", $this->ref_id)))
 		{
 			// invite
-			$tabs_gui->addTarget("invite_participants",
+			$tabs_gui->addTarget("invitation",
 				 $this->ctrl->getLinkTarget($this, "invite"),
 				 array("invite", "saveInvitationStatus",
 				 "cancelInvitationStatus", "searchInvitation", "inviteUserGroup",
