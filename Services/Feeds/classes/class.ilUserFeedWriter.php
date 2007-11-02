@@ -58,10 +58,13 @@ class ilUserFeedWriter extends ilFeedWriter
 		}
 
 		$hash = ilObjUser::_lookupFeedHash($a_user_id);
+		
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$rss_period = ilNewsItem::_lookupRSSPeriod();
 
 		if ($a_hash == $hash)
 		{
-			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true);
+			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true, $rss_period);
 			if ($ilSetting->get('short_inst_name') != "")
 			{
 				$this->setChannelTitle($ilSetting->get('short_inst_name'));

@@ -135,6 +135,12 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$disable_repository_feeds = $feed_set->get("disable_rep_feeds");
 		$nr_personal_desktop_feeds = $ilSetting->get("block_limit_pdfeed");
 		
+		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
+		$allow_longer_periods = $news_set->get("allow_longer_periods");
+	
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$rss_period = ilNewsItem::_lookupRSSPeriod();
+		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -154,6 +160,22 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$cb_prop->setValue("1");
 		$cb_prop->setInfo($lng->txt("news_enable_internal_rss_info"));
 		$cb_prop->setChecked($enable_internal_rss);
+
+			// RSS News Period
+			$rssp_opts = array(
+				2 => "2 ".$lng->txt("days"),
+				3 => "3 ".$lng->txt("days"),
+				5 => "5 ".$lng->txt("days"),
+				7 => "1 ".$lng->txt("week"),
+				14 => "2 ".$lng->txt("weeks"),
+				30 => "1 ".$lng->txt("month"),
+				60 => "2 ".$lng->txt("months"));
+			$rssp_sel = new ilSelectInputGUI($lng->txt("news_rss_period"),
+				"news_rss_period");
+			$rssp_sel->setOptions($rssp_opts);
+			$rssp_sel->setValue((int) $rss_period);
+			$cb_prop->addSubItem($rssp_sel);
+
 		$form->addItem($cb_prop);
 		
 		// Default Visibility
@@ -194,7 +216,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 			14 => "2 ".$lng->txt("weeks"),
 			30 => "1 ".$lng->txt("month"),
 			60 => "2 ".$lng->txt("months"),
-			120 => "3 ".$lng->txt("months"),
+			120 => "4 ".$lng->txt("months"),
 			180 => "6 ".$lng->txt("months"),
 			366 =>  "1 ".$lng->txt("year"),
 			0 => $lng->txt("news_indefinite"));
@@ -205,6 +227,21 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$per_sel->setValue((int) $news_set->get("pd_period"));
 		$form->addItem($per_sel);
 
+		// Allow user to choose lower values
+		$sp_prop = new ilCheckboxInputGUI($lng->txt("news_allow_shorter_periods"),
+			"allow_shorter_periods");
+		$sp_prop->setValue("1");
+		$sp_prop->setInfo($lng->txt("news_allow_shorter_periods_info"));
+		$sp_prop->setChecked($allow_shorter_periods);
+		$form->addItem($sp_prop);
+
+		// Allow user to choose higher values
+		$lp_prop = new ilCheckboxInputGUI($lng->txt("news_allow_longer_periods"),
+			"allow_longer_periods");
+		$lp_prop->setValue("1");
+		$lp_prop->setInfo($lng->txt("news_allow_longer_periods_info"));
+		$lp_prop->setChecked($allow_longer_periods);
+		$form->addItem($lp_prop);
 
 		// Section Header: External Web Feeds Settings
 		$sh = new ilFormSectionHeaderGUI();
@@ -268,6 +305,10 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$news_set->set("acc_cache_mins", $_POST["news_acc_cache_mins"]);
 		$news_set->set("pd_period", $_POST["news_pd_period"]);
 		$news_set->set("default_visibility", $_POST["news_default_visibility"]);
+		$news_set->set("allow_shorter_periods", $_POST["allow_shorter_periods"]);
+		$news_set->set("allow_longer_periods", $_POST["allow_longer_periods"]);
+		$news_set->set("rss_period", $_POST["news_rss_period"]);
+		
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 		$ilSetting->set("block_limit_pdfeed", $_POST["nr_pd_feeds"]);
 		if ($_POST["nr_pd_feeds"] > 0)

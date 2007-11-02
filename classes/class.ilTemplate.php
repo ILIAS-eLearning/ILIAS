@@ -315,7 +315,13 @@ class ilTemplate extends ilTemplateX
 	
 	function fillJavaScriptFiles()
 	{
-		global $ilias,$ilTabs;
+		global $ilias,$ilTabs,$ilSetting;
+		
+		if (is_object($ilSetting))		// maybe this one can be removed
+		{
+			$vers = "?vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+		}
+		
 		if ($this->blockExists("js_file"))
 		{
 			foreach($this->js_files as $file)
@@ -323,7 +329,7 @@ class ilTemplate extends ilTemplateX
 				if (is_file($file) || substr($file, 0, 4) == "http")
 				{
 					$this->setCurrentBlock("js_file");
-					$this->setVariable("JS_FILE", $file);
+					$this->setVariable("JS_FILE", $file.$vers);
 					$this->parseCurrentBlock();
 				}
 			}
