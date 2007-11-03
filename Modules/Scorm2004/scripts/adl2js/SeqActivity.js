@@ -529,9 +529,6 @@ SeqActivity.prototype =
 				statusChange = !(prev == iProgress);
 			}
 		}
-		if (this.mActivityID=="RU-07c") {
-			alert("Set: "+this.mActivityID+"Progress to: "+iProgress );
-		}
 		return statusChange;
 	},
 	
@@ -548,9 +545,6 @@ SeqActivity.prototype =
 				}
 			}
 		}
-		if (this.mActivityID=="RU-07c") {
-			alert("Check: "+this.mActivityID+"Res: "+status+"Act: "+this.mCurTracking.mProgress );
-		} 
 		return status;
 	},
 	
