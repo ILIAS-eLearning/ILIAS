@@ -16,5 +16,15 @@
 <!-- BEGIN bipolar_end -->
 	<td id="matrix" class="bipolar" rowspan="{ROWSPAN}"{STYLE}>{TEXT_BIPOLAR_END}</td>
 <!-- END bipolar_end -->
+<!-- BEGIN neutral_answer -->
+	<td id="matrix" class="center"{STYLE}>
+<!-- BEGIN neutral_radiobutton -->
+		<input type="radio" name="matrix_{QUESTION_ID}_{ROW}" value="{VALUE}"{CHECKED_RADIOBUTTON} />
+<!-- END neutral_radiobutton -->
+<!-- BEGIN neutral_checkbox -->
+		<input type="checkbox" name="matrix_{QUESTION_ID}_{ROW}[]" value="{VALUE}"{CHECKED_CHECKBOX} />
+<!-- END neutral_checkbox -->
+	</td>
+<!-- END neutral_answer -->
 </tr>
 

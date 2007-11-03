@@ -235,35 +235,29 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		$tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if ($this->object->getSubtype() == 0)
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 		{
-			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+			$tplheaders->setCurrentBlock("bipolar_start");
+			$style = array();
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
+			if (count($style) > 0)
 			{
-				$tplheaders->setCurrentBlock("bipolar_start");
-				$style = array();
-				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
-				if (count($style) > 0)
-				{
-					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-				}
-				$tplheaders->parseCurrentBlock();
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			}
+			$tplheaders->parseCurrentBlock();
 		}
 		// column headers
-		$headers = $this->object->getColumnCount();
-		$columncount = $headers;
-		if (strlen($this->object->getNeutralColumn())) $columncount++;
 		for ($i = 0; $i < $this->object->getColumnCount(); $i++)
 		{
 			$style = array();
 			if ($this->object->getColumnSeparators() == 1)
 			{
-				if (($i < $this->object->getColumnCount() - 1) || (!$this->object->getNeutralColumnSeparator()))
+				if (($i < $this->object->getColumnCount() - 1))
 				{
 					array_push($style, "border-right: 1px solid $bordercolor!important");
 				}
 			}
-			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $columncount, "%"));
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $this->object->getColumnCount(), "%"));
 			$tplheaders->setCurrentBlock("column_header");
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getColumn($i)));
 			$tplheaders->setVariable("CLASS", "center");
@@ -279,7 +273,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getNeutralColumn()));
 			$tplheaders->setVariable("CLASS", "rsep");
 			$style = array();
-			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $columncount, "%"));
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%"));
 			if ($this->object->getNeutralColumnSeparator())
 			{
 				array_push($style, "border-left: $neutralstyle!important;\"");
@@ -289,22 +283,18 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			}
 			$tplheaders->parseCurrentBlock();
-			$headers++;
 		}
-		if ($this->object->getSubtype() == 0)
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 		{
-			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+			$tplheaders->setCurrentBlock("bipolar_end");
+			$style = array();
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
+			if (count($style) > 0)
 			{
-				$tplheaders->setCurrentBlock("bipolar_end");
-				$style = array();
-				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
-				if (count($style) > 0)
-				{
-					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-				}
-				$tplheaders->parseCurrentBlock();
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			}
-		}		
+			$tplheaders->parseCurrentBlock();
+		}
 
 		$style = array();
 		array_push($style, sprintf("width: %.2f%s!important", $layout["percent_row"], "%"));
@@ -322,31 +312,31 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		for ($i = 0; $i < $this->object->getRowCount(); $i++)
 		{
 			$tplrow = new ilTemplate("tpl.il_svy_out_matrix_row.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-			for ($j = 0; $j < $headers; $j++)
+			for ($j = 0; $j < $this->object->getColumnCount(); $j++)
 			{
+				if (($i == 0) && ($j == 0))
+				{
+					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+					{
+						$tplrow->setCurrentBlock("bipolar_start");
+						$tplrow->setVariable("TEXT_BIPOLAR_START", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)));
+						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+						$tplrow->parseCurrentBlock();
+					}
+				}
+				if (($i == 0) && ($j == $this->object->getColumnCount()-1))
+				{
+					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+					{
+						$tplrow->setCurrentBlock("bipolar_end");
+						$tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
+						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+						$tplrow->parseCurrentBlock();
+					}
+				}
 				switch ($this->object->getSubtype())
 				{
 					case 0:
-						if (($i == 0) && ($j == 0))
-						{
-							if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-							{
-								$tplrow->setCurrentBlock("bipolar_start");
-								$tplrow->setVariable("TEXT_BIPOLAR_START", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)));
-								$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
-								$tplrow->parseCurrentBlock();
-							}
-						}
-						if (($i == 0) && ($j == $headers-1))
-						{
-							if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-							{
-								$tplrow->setCurrentBlock("bipolar_end");
-								$tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
-								$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
-								$tplrow->parseCurrentBlock();
-							}
-						}
 						$tplrow->setCurrentBlock("radiobutton");
 						$tplrow->setVariable("QUESTION_ID", $this->object->getId());
 						$tplrow->setVariable("ROW", $i);
@@ -383,17 +373,79 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				}
 				$tplrow->setCurrentBlock("answer");
 				$style = array();
-				if ((strlen($this->object->getNeutralColumn())) && ($j == $headers-1))
-				{
-					if ($this->object->getNeutralColumnSeparator())
-					{
-						array_push($style, "border-left: $neutralstyle!important");
-					}
-				}
 				
 				if ($this->object->getColumnSeparators() == 1)
 				{
-					if ($j < $headers - 1)
+					if ($j < $this->object->getColumnCount() - 1)
+					{
+						array_push($style, "border-right: 1px solid $bordercolor!important");
+					}
+				}
+
+				if ($this->object->getRowSeparators() == 1)
+				{
+					if ($i < $this->object->getRowCount() - 1)
+					{
+						array_push($style, "border-bottom: 1px solid $bordercolor!important");
+					}
+				}
+				if (count($style))
+				{
+					$tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+				}
+				$tplrow->parseCurrentBlock();
+
+			}
+			
+			if (strlen($this->object->getNeutralColumn()))
+			{
+				$j = $this->object->getRowCount();
+				switch ($this->object->getSubtype())
+				{
+					case 0:
+						$tplrow->setCurrentBlock("neutral_radiobutton");
+						$tplrow->setVariable("QUESTION_ID", $this->object->getId());
+						$tplrow->setVariable("ROW", $i);
+						$tplrow->setVariable("VALUE", $j);
+						if (is_array($working_data))
+						{
+							foreach ($working_data as $data)
+							{
+								if (($data["value"] == $j) && ($data["row"] == $i))
+								{
+									$tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
+								}
+							}
+						}
+						$tplrow->parseCurrentBlock();
+						break;
+					case 1:
+						$tplrow->setCurrentBlock("neutral_checkbox");
+						$tplrow->setVariable("QUESTION_ID", $this->object->getId());
+						$tplrow->setVariable("ROW", $i);
+						$tplrow->setVariable("VALUE", $j);
+						if (is_array($working_data))
+						{
+							foreach ($working_data as $data)
+							{
+								if (($data["value"] == $j) && ($data["row"] == $i))
+								{
+									$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
+								}
+							}
+						}
+						$tplrow->parseCurrentBlock();
+						break;
+				}
+				$tplrow->setCurrentBlock("neutral_answer");
+				$style = array();
+				if ($this->object->getNeutralColumnSeparator())
+				{
+					array_push($style, "border-left: $neutralstyle!important");
+				}
+				if ($this->object->getColumnSeparators() == 1)
+				{
+					if ($j < $this->object->getColumnCount() - 1)
 					{
 						array_push($style, "border-right: 1px solid $bordercolor!important");
 					}
@@ -412,6 +464,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				}
 				$tplrow->parseCurrentBlock();
 			}
+
 			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($this->object->getRow($i)));
 			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
 			if ($this->object->getRowSeparators() == 1)
@@ -471,35 +524,29 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		$tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if ($this->object->getSubtype() == 0)
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 		{
-			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+			$tplheaders->setCurrentBlock("bipolar_start");
+			$style = array();
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
+			if (count($style) > 0)
 			{
-				$tplheaders->setCurrentBlock("bipolar_start");
-				$style = array();
-				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
-				if (count($style) > 0)
-				{
-					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-				}
-				$tplheaders->parseCurrentBlock();
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			}
+			$tplheaders->parseCurrentBlock();
 		}
 		// column headers
-		$headers = $this->object->getColumnCount();
-		$columncount = $headers;
-		if (strlen($this->object->getNeutralColumn())) $columncount++;
 		for ($i = 0; $i < $this->object->getColumnCount(); $i++)
 		{
 			$style = array();
 			if ($this->object->getColumnSeparators() == 1)
 			{
-				if (($i < $this->object->getColumnCount() - 1) || (!$this->object->getNeutralColumnSeparator()))
+				if (($i < $this->object->getColumnCount() - 1))
 				{
 					array_push($style, "border-right: 1px solid $bordercolor!important");
 				}
 			}
-			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $columncount, "%"));
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $this->object->getColumnCount(), "%"));
 			$tplheaders->setCurrentBlock("column_header");
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getColumn($i)));
 			$tplheaders->setVariable("CLASS", "center");
@@ -515,7 +562,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getNeutralColumn()));
 			$tplheaders->setVariable("CLASS", "rsep");
 			$style = array();
-			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $columncount, "%"));
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%"));
 			if ($this->object->getNeutralColumnSeparator())
 			{
 				array_push($style, "border-left: $neutralstyle!important;\"");
@@ -525,22 +572,18 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			}
 			$tplheaders->parseCurrentBlock();
-			$headers++;
 		}
-		if ($this->object->getSubtype() == 0)
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 		{
-			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+			$tplheaders->setCurrentBlock("bipolar_end");
+			$style = array();
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
+			if (count($style) > 0)
 			{
-				$tplheaders->setCurrentBlock("bipolar_end");
-				$style = array();
-				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
-				if (count($style) > 0)
-				{
-					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-				}
-				$tplheaders->parseCurrentBlock();
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			}
-		}		
+			$tplheaders->parseCurrentBlock();
+		}
 
 		$style = array();
 		array_push($style, sprintf("width: %.2f%s!important", $layout["percent_row"], "%"));
@@ -558,31 +601,31 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		for ($i = 0; $i < $this->object->getRowCount(); $i++)
 		{
 			$tplrow = new ilTemplate("tpl.il_svy_qpl_matrix_printview_row.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-			for ($j = 0; $j < $headers; $j++)
+			for ($j = 0; $j < $this->object->getColumnCount(); $j++)
 			{
+				if (($i == 0) && ($j == 0))
+				{
+					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+					{
+						$tplrow->setCurrentBlock("bipolar_start");
+						$tplrow->setVariable("TEXT_BIPOLAR_START", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)));
+						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+						$tplrow->parseCurrentBlock();
+					}
+				}
+				if (($i == 0) && ($j == $this->object->getColumnCount()-1))
+				{
+					if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+					{
+						$tplrow->setCurrentBlock("bipolar_end");
+						$tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
+						$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+						$tplrow->parseCurrentBlock();
+					}
+				}
 				switch ($this->object->getSubtype())
 				{
 					case 0:
-						if (($i == 0) && ($j == 0))
-						{
-							if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-							{
-								$tplrow->setCurrentBlock("bipolar_start");
-								$tplrow->setVariable("TEXT_BIPOLAR_START", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)));
-								$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
-								$tplrow->parseCurrentBlock();
-							}
-						}
-						if (($i == 0) && ($j == $headers-1))
-						{
-							if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
-							{
-								$tplrow->setCurrentBlock("bipolar_end");
-								$tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
-								$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
-								$tplrow->parseCurrentBlock();
-							}
-						}
 						$tplrow->setCurrentBlock("radiobutton");
 						$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
 						$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
@@ -599,17 +642,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				}
 				$tplrow->setCurrentBlock("answer");
 				$style = array();
-				if ((strlen($this->object->getNeutralColumn())) && ($j == $headers-1))
-				{
-					if ($this->object->getNeutralColumnSeparator())
-					{
-						array_push($style, "border-left: $neutralstyle!important");
-					}
-				}
 				
 				if ($this->object->getColumnSeparators() == 1)
 				{
-					if ($j < $headers - 1)
+					if ($j < $this->object->getColumnCount() - 1)
 					{
 						array_push($style, "border-right: 1px solid $bordercolor!important");
 					}
@@ -628,6 +664,55 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				}
 				$tplrow->parseCurrentBlock();
 			}
+
+			if (strlen($this->object->getNeutralColumn()))
+			{
+				$j = $this->object->getRowCount();
+				switch ($this->object->getSubtype())
+				{
+					case 0:
+						$tplrow->setCurrentBlock("neutral_radiobutton");
+						$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+						$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+						$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+						$tplrow->parseCurrentBlock();
+						break;
+					case 1:
+						$tplrow->setCurrentBlock("neutral_checkbox");
+						$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+						$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
+						$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+						$tplrow->parseCurrentBlock();
+						break;
+				}
+				$tplrow->setCurrentBlock("neutral_answer");
+				$style = array();
+				if ($this->object->getNeutralColumnSeparator())
+				{
+					array_push($style, "border-left: $neutralstyle!important");
+				}
+				if ($this->object->getColumnSeparators() == 1)
+				{
+					if ($j < $this->object->getColumnCount() - 1)
+					{
+						array_push($style, "border-right: 1px solid $bordercolor!important");
+					}
+				}
+
+				if ($this->object->getRowSeparators() == 1)
+				{
+					if ($i < $this->object->getRowCount() - 1)
+					{
+						array_push($style, "border-bottom: 1px solid $bordercolor!important");
+					}
+				}
+				if (count($style))
+				{
+					$tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+				}
+				$tplrow->parseCurrentBlock();
+			}
+
 			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($this->object->getRow($i)));
 			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
 			if ($this->object->getRowSeparators() == 1)
@@ -702,12 +787,13 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
  **/
 	function saveLayout()
 	{
-		$this->object->saveLayout($_POST["percent_row"], $_POST['percent_columns'], $_POST['percent_bipolar_adjective1'], $_POST['percent_bipolar_adjective2']);
+		$this->object->saveLayout($_POST["percent_row"], $_POST['percent_columns'], $_POST['percent_bipolar_adjective1'], $_POST['percent_bipolar_adjective2'], $_POST["percent_neutral"]);
 		$percent_values = array(
 			"percent_row" => $_POST["percent_row"],
 			"percent_columns" => $_POST["percent_columns"],
 			"percent_bipolar_adjective1" => $_POST['percent_bipolar_adjective1'],
-			"percent_bipolar_adjective2" => $_POST['percent_bipolar_adjective2']
+			"percent_bipolar_adjective2" => $_POST['percent_bipolar_adjective2'],
+			"percent_neutral" => $_POST["percent_neutral"]
 		);
 		$this->object->setLayout($percent_values);
 		$this->layout();
@@ -735,10 +821,16 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective2"] . "%\"");
 			$template->parseCurrentBlock();
 		}
+		if (strlen($this->object->getNeutralColumn()))
+		{
+			$template->setCurrentBlock("bipolar_end");
+			$template->setVariable("VALUE_PERCENT_NEUTRAL", " value=\"" . $percent_values["percent_neutral"] . "\"");
+			$template->setVariable("STYLE_NEUTRAL", " style=\"width:" . $percent_values["percent_neutral"] . "%\"");
+			$template->parseCurrentBlock();
+		}
 		$template->setVariable("VALUE_PERCENT_ROW", " value=\"" . $percent_values["percent_row"] . "\"");
 		$template->setVariable("STYLE_ROW", " style=\"width:" . $percent_values["percent_row"] . "%\"");
 		$counter = $this->object->getColumnCount();
-		if (strlen($this->object->getNeutralColumn())) $counter++;
 		$template->setVariable("COLSPAN_COLUMNS", $counter);
 		$template->setVariable("VALUE_PERCENT_COLUMNS", " value=\"" . $percent_values["percent_columns"] . "\"");
 		$template->setVariable("STYLE_COLUMNS", " style=\"width:" . $percent_values["percent_columns"] . "%\"");
