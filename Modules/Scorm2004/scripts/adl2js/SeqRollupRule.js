@@ -258,9 +258,6 @@ SeqRollupRule.prototype =
 				considered = true;
 				var eval = this.mConditions.evaluate(tempActivity);
 				var parent=tempActivity.getParent().mActivityID;
-					if (parent=="RU-07c" && this.mAction==ROLLUP_ACTION_COMPLETED) {
-								alert("Rollup for : "+parent+"Activity: "+tempActivity.mActivityID);
-					}
 				result = result && (eval == EVALUATE_TRUE);
 				emptySet = emptySet && (eval == EVALUATE_UNKNOWN);
 			}

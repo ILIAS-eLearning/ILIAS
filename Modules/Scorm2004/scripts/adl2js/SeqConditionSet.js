@@ -56,9 +56,9 @@ var COMBINATION_ANY = "any";
 
 function SeqConditionSet(iRollup)
 {
-	if (iRollup)
+	if (iRollup==true)
 	{
-		mRollup = iRollup;
+		this.mRollup = iRollup;
 	}
 }
 
@@ -221,9 +221,6 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == COMPLETED)
 			{
-				if (iTarget.mActivityID=="RU-07c") {
-					alert("Check: "+iTarget.mActivityID+"Res: "+this.mRollup);
-				}
 				
 				if (iTarget.getProgressStatus(this.mRollup))
 				{

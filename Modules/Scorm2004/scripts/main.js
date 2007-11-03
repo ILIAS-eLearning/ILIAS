@@ -1626,15 +1626,15 @@ function setToc()
 function updateControls(controlState) 
 {
 	if (mlaunch!=null) {
-		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || activities[mlaunch.mActivityID].hideLMSUIs['continue']==true));
-		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || activities[mlaunch.mActivityID].hideLMSUIs['exit']==true));
-		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || activities[mlaunch.mActivityID].hideLMSUIs['previous']==true));
+		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || activities[mlaunch.mActivityID].hideLMSUIs['continue']));
+		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || activities[mlaunch.mActivityID].hideLMSUIs['exit']));
+		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || activities[mlaunch.mActivityID].hideLMSUIs['previous']));
 		toggleClass('navResumeAll', 'disabled', mlaunch.mNavState.mResume==false );
 		if (mlaunch.mActivityID) {
-			toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']==true);
+			toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']);
 		}	
 		toggleClass('navStart', 'disabled', mlaunch.mNavState.mStart==false);
-		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']==true));
+		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']));
 	}	
 }
 
@@ -2715,9 +2715,6 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			pubAPI.cmi.entry="resume";
 			//clean suspend
 			pubAPI.cmi.exit="";
-			//reset score
-		//	pubAPI.cmi.scaled=null;
-			
 		}
 		
 		//previous session has ended

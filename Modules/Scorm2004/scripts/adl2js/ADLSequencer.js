@@ -1214,7 +1214,6 @@ ADLSequencer.prototype =
 				if (exitRules != null)
 				{
 					exited = exitRules.evaluate(RULE_TYPE_EXIT, parent, false);
-					alert("RESULT For EXIT:"+exited);
 				}
 				// If the rule evaluation did not return null, the activity must
 				// have exited.
@@ -2937,6 +2936,7 @@ ADLSequencer.prototype =
 				begin[begin.length] = walk;
 				walk = walk.getParent();
 			}
+			
 			
 			if (begin.length > 0)
 			{
