@@ -158,13 +158,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->rowSeparators = 0;
 		$this->columnSeparators = 0;
 		$this->neutralColumnSeparator = 1;
-		$this->layout = array(
-			"percent_row" => 30,
-			"percent_columns" => 40,
-			"percent_bipolar_adjective1" => 10,
-			"percent_bipolar_adjective2" => 10,
-			"percent_neutral" => 10
-		);
 	}
 	
 /**
@@ -2300,9 +2293,52 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		);
 		$ilDB->query($query);
 	}
-	
+
 	function getLayout()
 	{
+		if (!is_array($this->layout) || count($this->layout) == 0)
+		{
+			if ($this->hasBipolarAdjectives() && $this->hasNeutralColumn())
+			{
+				$this->layout = array(
+					"percent_row" => 30,
+					"percent_columns" => 40,
+					"percent_bipolar_adjective1" => 10,
+					"percent_bipolar_adjective2" => 10,
+					"percent_neutral" => 10
+				);
+			}
+			elseif ($this->hasBipolarAdjectives())
+			{
+				$this->layout = array(
+					"percent_row" => 30,
+					"percent_columns" => 50,
+					"percent_bipolar_adjective1" => 10,
+					"percent_bipolar_adjective2" => 10,
+					"percent_neutral" => 0
+				);
+			}
+			elseif ($this->hasNeutralColumn())
+			{
+				$this->layout = array(
+					"percent_row" => 30,
+					"percent_columns" => 50,
+					"percent_bipolar_adjective1" => 0,
+					"percent_bipolar_adjective2" => 0,
+					"percent_neutral" => 20
+				);
+			}
+			else
+			{
+				$this->layout = array(
+					"percent_row" => 30,
+					"percent_columns" => 70,
+					"percent_bipolar_adjective1" => 0,
+					"percent_bipolar_adjective2" => 0,
+					"percent_neutral" => 0
+				);
+			}
+		}
 		return $this->layout;
 	}
 	
@@ -2315,16 +2351,44 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		else
 		{
 			$this->layout = unserialize($layout);
-			if (!is_array($this->layout))
-			{
-				$this->layout = array(
-					"percent_row" => 30,
-					"percent_columns" => 40,
-					"percent_bipolar_adjective1" => 10,
-					"percent_bipolar_adjective2" => 10,
-					"percent_neutral" => 10
-				);
-			}
+		}
+	}
+	
+	/**
+	 * Returns TRUE if bipolar adjectives exist
+	 *
+	 * Returns TRUE if bipolar adjectives exist
+	 *
+	 * @return boolean TRUE if bipolar adjectives exist, FALSE otherwise
+	 **/
+	function hasBipolarAdjectives()
+	{
+		if ((strlen($this->getBipolarAdjective(0))) && (strlen($this->getBipolarAdjective(1))))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	/**
+	 * Returns TRUE if a neutral column exists
+	 *
+	 * Returns TRUE if a neutral column exists
+	 *
+	 * @return boolean TRUE if a neutral column exists, FALSE otherwise
+	 **/
+	function hasNeutralColumn()
+	{
+		if (strlen($this->getNeutralColumn()))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
 		}
 	}
 }
