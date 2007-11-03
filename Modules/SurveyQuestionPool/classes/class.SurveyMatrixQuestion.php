@@ -160,9 +160,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->neutralColumnSeparator = 1;
 		$this->layout = array(
 			"percent_row" => 30,
-			"percent_columns" => 50,
+			"percent_columns" => 40,
 			"percent_bipolar_adjective1" => 10,
-			"percent_bipolar_adjective2" => 10
+			"percent_bipolar_adjective2" => 10,
+			"percent_neutral" => 10
 		);
 	}
 	
@@ -2282,7 +2283,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
  * @param double $percent_bipolar_adjective2 The width in percent for the second bipolar adjective
  * @return void
  **/
-	function saveLayout($percent_row, $percent_columns, $percent_bipolar_adjective1 = "", $percent_bipolar_adjective2 = "")
+	function saveLayout($percent_row, $percent_columns, $percent_bipolar_adjective1 = "", $percent_bipolar_adjective2 = "", $percent_neutral)
 	{
 		global $ilDB;
 		
@@ -2290,7 +2291,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			"percent_row" => $percent_row,
 			"percent_columns" => $percent_columns,
 			"percent_bipolar_adjective1" => $percent_bipolar_adjective1,
-			"percent_bipolar_adjective2" => $percent_bipolar_adjective2
+			"percent_bipolar_adjective2" => $percent_bipolar_adjective2,
+			"percent_neutral" => $percent_neutral
 		);
 		$query = sprintf("UPDATE survey_question_matrix SET layout = %s WHERE question_fi = %s",
 			$ilDB->quote(serialize($layout) . ""),
@@ -2317,9 +2319,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			{
 				$this->layout = array(
 					"percent_row" => 30,
-					"percent_columns" => 50,
+					"percent_columns" => 40,
 					"percent_bipolar_adjective1" => 10,
-					"percent_bipolar_adjective2" => 10
+					"percent_bipolar_adjective2" => 10,
+					"percent_neutral" => 10
 				);
 			}
 		}
