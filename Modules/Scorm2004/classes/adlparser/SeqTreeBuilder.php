@@ -366,7 +366,7 @@
 	            else if ($curNode->localName == "constrainedChoiceConsiderations") {
 					
 					// Look for 'preventActivation'
-	               	$tempVal=$curNode->getAttribute("constrainedChoiceConsiderations");
+	               	$tempVal=$curNode->getAttribute("preventActivation");
 					if ($tempVal) {
 						$ioAct->setPreventActivation(self::convert_to_bool($tempVal));
 					}

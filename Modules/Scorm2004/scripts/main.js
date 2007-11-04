@@ -1625,16 +1625,17 @@ function setToc()
 
 function updateControls(controlState) 
 {
+	
 	if (mlaunch!=null) {
-		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || activities[mlaunch.mActivityID].hideLMSUIs['continue']));
-		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || activities[mlaunch.mActivityID].hideLMSUIs['exit']));
-		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || activities[mlaunch.mActivityID].hideLMSUIs['previous']));
+		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object"));
+		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object"));
+		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object"));
 		toggleClass('navResumeAll', 'disabled', mlaunch.mNavState.mResume==false );
 		if (mlaunch.mActivityID) {
-			toggleClass('navExitAll', 'disabled', activities[mlaunch.mActivityID].hideLMSUIs['exitAll']);
+			toggleClass('navExitAll', 'disabled', typeof(activities[mlaunch.mActivityID].hideLMSUIs['exitAll'])=="object");
 		}	
 		toggleClass('navStart', 'disabled', mlaunch.mNavState.mStart==false);
-		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || activities[mlaunch.mActivityID].hideLMSUIs['suspendAll']));
+		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object"));
 	}	
 }
 
@@ -1775,10 +1776,14 @@ function buildNavTree(rootAct,name,tree){
 	function build(rootAct,attach){
 		if (rootAct.item) {
 			for (var i=0;i<rootAct.item.length;i++) {
-				var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
-				sub.href="#this";
-				sub.target="_self";
-				sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
+				//only include if visible
+				var id=rootAct.item[i].id;
+				if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") { 
+					var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
+					sub.href="#this";
+					sub.target="_self";
+					sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
+				}	
 				//further childs
 				if(rootAct.item[i].item) {
 					build(rootAct.item[i],sub);
@@ -1986,8 +1991,6 @@ function init(config)
 	// Step 2: load tracking data
 	load();
 	
-	//set toc-moved 
-	setToc();
 	
 	//load global objectives
 	
@@ -2085,6 +2088,9 @@ function init(config)
   		//call specialpage
   		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
 	}
+	
+	//set toc-moved 
+	//setToc();
 	
 	updateControls();
 	updateNav();
@@ -3127,6 +3133,9 @@ var apiIndents = // for mapping internal to api representaiton
 
 
 function updateNav() {
+	
+	//first set it
+	setToc();
 	var tree=msequencer.mSeqTree.mActivityMap;
 	var disable;
 	for (i in tree) {
