@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, ExternalAccount?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?)>
 
 <!--
 Id is ILIAS ID or unique identifier for this xml file
@@ -99,6 +99,7 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT iLincID (#PCDATA)>
 <!ELEMENT iLincLogin (#PCDATA)>
 <!ELEMENT iLincPasswd (#PCDATA)>
+<!ELEMENT ExternalAccount (#PCDATA)>
 <!ELEMENT UserDefinedField (#PCDATA)>
 <!ATTLIST UserDefinedField
     Id CDATA #REQUIRED
