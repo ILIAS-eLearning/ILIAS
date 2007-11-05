@@ -7710,3 +7710,5 @@ news#:#news_hide_news_per_date#:#Nachrichten ab Datum anzeigen
 news#:#news_hide_news_per_date_info#:#Es werden nur Nachrichten ab einem bestimmten Datum angezeigt.
 news#:#news_hide_news_date#:#Startdatum
 content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht generiert werden.
+grp#:#grp_deleted_export_files#:#Die ausgewählten Dateien wurden gelöscht.
+grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.

@@ -377,12 +377,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if(!count($_POST['file']))
 		{
-			ilUtil::sendInfo('grp_select_one_file');
+			ilUtil::sendInfo($this->lng->txt('grp_select_one_file'));
 		}
 		else
 		{
-			$this->object->deleteExportFiles(ilUtil::stripSlashes($_POST['file']));
-			ilUtil::sendInfo('grp_deleted_export_files');
+			$this->object->deleteExportFiles($_POST['file']);
+			ilUtil::sendInfo($this->lng->txt('grp_deleted_export_files'));
 		}
 
 		$this->listExportFilesObject();
@@ -394,13 +394,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		if(!count($_POST['file']))
 		{
-			ilUtil::sendInfo('grp_select_one_file');
+			ilUtil::sendInfo($this->lng->txt('grp_select_one_file'));
 			$this->listExportFilesObject();
 			return false;
 		}
 		if(count($_POST['file']) > 1)
 		{
-			ilUtil::sendInfo('grp_select_one_file_only');
+			ilUtil::sendInfo($this->lng->txt('grp_select_one_file_only'));
 			$this->listExportFilesObject();
 			return false;
 		}
@@ -408,7 +408,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->downloadExportFile(ilUtil::stripSlashes($_POST['file'][0]));
 		
 		// If file wasn't sent
-		ilUtil::sendInfo('grp_error_sending_file');
+		ilUtil::sendInfo($this->lng->txt('grp_error_sending_file'));
 		
 		return true;
 	}
