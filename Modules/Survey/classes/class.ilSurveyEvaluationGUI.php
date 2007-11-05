@@ -375,22 +375,26 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
 		$this->tpl->setVariable("MEDIAN", $this->lng->txt("median"));
 		$this->tpl->setVariable("ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
-		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
-		$this->tpl->setVariable("VALUE_DETAIL", $details);
-		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) 
+		{
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
+			$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+			$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
+			$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+			if ($details)
+			{
+				$this->tpl->setVariable("CMD_EXPORT", "evaluationdetails");
+			}
+			else
+			{
+				$this->tpl->setVariable("CMD_EXPORT", "evaluation");
+			}
+		}
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("VALUE_DETAIL", $details);
 		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
-		if ($details)
-		{
-			$this->tpl->setVariable("CMD_EXPORT", "evaluationdetails");
-		}
-		else
-		{
-			$this->tpl->setVariable("CMD_EXPORT", "evaluation");
-		}
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -530,6 +534,13 @@ class ilSurveyEvaluationGUI
 	*/
 	function evaluationuser()
 	{
+		global $ilAccess;
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			ilUtil::sendInfo($this->lng->txt("no_permission"), TRUE);
+			$this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
+		}
 		if (!is_array($_POST))
 		{
 			$_POST = array();

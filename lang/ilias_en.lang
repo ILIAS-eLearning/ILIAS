@@ -3741,7 +3741,7 @@ common#:#svy#:#Survey
 common#:#svy_add#:#Add survey
 common#:#svy_delete#:#Delete survey
 common#:#svy_edit_permission#:#Change permission settings
-common#:#svy_evaluation#:#Evaluation
+common#:#svy_evaluation#:#Statistics
 common#:#svy_finished#:#finished
 common#:#svy_invite#:#Invite users to a survey
 common#:#svy_new#:#New survey
@@ -6677,7 +6677,7 @@ survey#:#error_add_heading#:#Please enter a text for the text block!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
-survey#:#evaluation#:#Evaluation
+survey#:#evaluation#:#Statistics
 survey#:#evaluation_access#:#Evaluation Access
 survey#:#evaluation_access_all#:#Evaluation Access for All Users
 survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)

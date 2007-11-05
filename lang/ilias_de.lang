@@ -3642,7 +3642,7 @@ common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_copy#:#Umfrage kopieren
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
-common#:#svy_evaluation#:#Evaluation
+common#:#svy_evaluation#:#Statistik
 common#:#svy_finished#:#beendet
 common#:#svy_invite#:#NutzerInnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
@@ -6902,7 +6902,7 @@ survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfra
 survey#:#evaluation_access_off#:#Nicht verfügbar
 survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmende der Umfrage
 survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#evaluation#:#Evaluation
+survey#:#evaluation#:#Statistik
 survey#:#existing_constraints#:#Bestehende Vorbedingungen
 survey#:#exit#:#Beenden
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
