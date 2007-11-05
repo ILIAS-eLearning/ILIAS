@@ -68,7 +68,7 @@ class ilObjectStatusGUI
 			}
 			else
 			{
-				include_once('class.ilObjUser.php');
+				include_once('Services/User/classes/class.ilObjUser.php');
 				$user_id = ilObjUser::_lookupId($_POST['Fuserid']);
 				$this->user = $ilias->obj_factory->getInstanceByObjId($user_id,false);
 			}
@@ -224,8 +224,6 @@ class ilObjectStatusGUI
 	{
 		global $rbacreview;
 		
-		include_once ('class.ilObjRole.php');
-
 		$assigned_valid_roles = array();
 
 		foreach ($this->valid_roles as $role)
@@ -321,10 +319,7 @@ class ilObjectStatusGUI
 
 		$path = array_reverse($tree->getPathId($this->object->getRefId()));
 		
-		include_once ('class.ilObjRole.php');
-
 		$counter = 0;
-
 		foreach ($this->valid_roles as $role)
 		{
 			$result_set[$counter][] = in_array($role['obj_id'],$this->user_roles) ? $icon_ok : $icon_not_ok;
