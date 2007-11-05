@@ -2353,7 +2353,6 @@ class ilObjectGUI
 		unset($_SESSION['wizard_search_title']);
 		$this->tpl->addBlockFile(strtoupper($a_tpl_varname),strtolower($a_tpl_varname),'tpl.obj_duplicate.html');
 	 	$this->ctrl->setParameter($this,'new_type',$a_type);
-	 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this));
 	 	$this->tpl->setVariable('TYPE_IMG3',ilUtil::getImagePath('icon_'.$a_type.'.gif'));
 	 	$this->tpl->setVariable('ALT_IMG3',$this->lng->txt('obj_'.$a_type));
 	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt('obj_'.$a_type.'_duplicate'));
@@ -2363,11 +2362,13 @@ class ilObjectGUI
 	 	
 		if($this->copyWizardHasOptions(self::COPY_WIZARD_NEEDS_PAGE))
 		{
+		 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this,'cloneWizardPage'));
 		 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('btn_next'));
 		 	$this->tpl->setVariable('CMD_WIZARD','cloneWizardPage');
 		}
 		else
 		{
+		 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this,'cloneAll'));
 		 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('obj_'.$a_type.'_duplicate'));
 		 	$this->tpl->setVariable('CMD_WIZARD','cloneAll');
 		}
@@ -2389,7 +2390,7 @@ class ilObjectGUI
 		
 		$this->tpl->addBlockFile(strtoupper($a_tpl_varname),strtolower($a_tpl_varname),'tpl.obj_duplicate_search.html');
 	 	$this->ctrl->setParameter($this,'new_type',$a_type);
-	 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this));
+	 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this,'searchCloneSource'));
 	 	$this->tpl->setVariable('TYPE_IMG3',ilUtil::getImagePath('icon_'.$a_type.'.gif'));
 	 	$this->tpl->setVariable('ALT_IMG3',$this->lng->txt('obj_'.$a_type));
 	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt('obj_'.$a_type.'_duplicate'));
