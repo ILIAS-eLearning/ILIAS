@@ -297,6 +297,7 @@ SeqObjectiveTracking.prototype =
 
 		if (this.mObj.mSatisfiedByMeasure==true)
 		{
+			
 			done = true;
 			var measure = null;
 			
