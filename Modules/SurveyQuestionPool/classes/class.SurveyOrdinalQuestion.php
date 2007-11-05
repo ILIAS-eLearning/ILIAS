@@ -866,7 +866,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	* @return The HTML code for the precondition value selection
 	* @access public
 	*/
-	function getPreconditionSelectValue()
+	function getPreconditionSelectValue($default = "")
 	{
 		global $lng;
 		
@@ -877,6 +877,10 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			$template->setCurrentBlock("option_v");
 			$template->setVariable("OPTION_VALUE", $i);
 			$template->setVariable("OPTION_TEXT", ($i+1) . " - " . $this->categories->getCategory($i));
+			if ($i == $default)
+			{
+				$template->setVariable("OPTION_CHECKED", " selected=\"selected\"");
+			}
 			$template->parseCurrentBlock();
 		}
 		$template->setVariable("SELECT_VALUE", $lng->txt("step") . " 3: " . $lng->txt("select_value"));

@@ -2782,6 +2782,30 @@ class ilObjSurvey extends ilObject
 		return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_obj_id, $could_be_offline, $showPath);
 	}
 	
+	/**
+	* Returns a precondition with a given id
+	* 
+	* Returns a precondition with a given id
+	*
+	* @access public
+	*/
+	function getPrecondition($id)
+	{
+		global $ilDB;
+		
+		$result_array = array();
+		$query = sprintf("SELECT survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_constraint.constraint_id = %s",
+			$ilDB->quote($id . "")
+		);
+		$result = $ilDB->query($query);
+		$pc = array();
+		if ($result->numRows())
+		{
+			$pc = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+		return $pc;
+	}
+	
 /**
 * Returns the constraints to a given question or questionblock
 * 
@@ -2890,6 +2914,39 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
+	/**
+	* Updates a precondition
+	* 
+	* Updates a precondition
+	*
+	* @param integer $precondition_id The id of the original precondition
+	* @param integer $to_question_id The question id of the question where to add the constraint
+	* @param integer $if_question_id The question id of the question which defines a precondition
+	* @param integer $relation The database id of the relation
+	* @param mixed $value The value compared with the relation
+	* @access public
+	*/
+		function updateConstraint($to_question_id, $if_question_id, $relation, $value)
+		{
+			global $ilDB;
+			$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+				$ilDB->quote($to_question_id . ""),
+				$ilDB->quote($this->getSurveyId() . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$query = sprintf("UPDATE survey_constraint SET question_fi = %s, relation_fi = %s, value = %s WHERE constraint_id = %s",
+					$ilDB->quote($if_question_id),
+					$ilDB->quote($relation),
+					$ilDB->quote($value),
+					$ilDB->quote($row["constraint_fi"])
+				);
+				$result = $ilDB->query($query);
+			}
+		}
+
 /**
 * Returns all available relations
 * 

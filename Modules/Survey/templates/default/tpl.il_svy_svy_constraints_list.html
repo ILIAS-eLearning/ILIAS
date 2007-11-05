@@ -4,61 +4,46 @@
 <thead>
 	<tr class="tblheader">
 		<th colspan="4">{CONSTRAINTS_HEADER}</th>
+		<th>{DEFINED_PRECONDITIONS}</th>
 	</tr>
 </thead>
 <!-- BEGIN constraint_section -->
-<tr class="{COLOR_CLASS}">
-	<td width="25"><!-- BEGIN include_elements --><input type="checkbox" name="includeElements[]" value="{QUESTION_NR}" /><!-- END include_elements --></td>
-	<td width="25">{QUESTION_NR}.</td>
-	<td width="25"><img src="{ICON_HREF}" alt="{ICON_ALT}" /></td>
-	<td>{TYPE}{TITLE}</td>
-</tr>
-<!-- BEGIN description -->
-<!-- <p>{DESCRIPTION}</p>  -->
-<!-- END description -->
-<!-- BEGIN question -->
-<tr class="{COLOR_CLASS}">
-	<td colspan="3"></td>
+<tr class="{COLOR_CLASS}" style="vertical-align: top;">
+	<td width="25"><!-- BEGIN include_elements --><input type="checkbox" name="includeElements[]" value="{QUESTION_NR}" id="{QUESTION_NR}" /><!-- END include_elements --></td>
+	<td width="25"><label for="{QUESTION_NR}">{QUESTION_NR}.</label></td>
+	<td width="25"><label for="{QUESTION_NR}"><img src="{ICON_HREF}" alt="{ICON_ALT}" /></label></td>
+	<td><label for="{QUESTION_NR}">{TYPE}{TITLE}</label></td>
 	<td>
-<table class="fullwidth">
-<thead>
-<tr class="tblheader">
-	<th colspan="3">{DEFINED_PRECONDITIONS}</th>
+		<!-- BEGIN constraint -->
+		<input type="checkbox" name="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}" id="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}" value="1" /> 
+		<label for="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}">{CONSTRAINT_TEXT}</label>
+		<a class="il_ContainerItemCommand" href="{EDIT_PRECONDITION}">{TEXT_EDIT_PRECONDITION}</a>
+		<br />
+		<!-- END constraint -->
+	</td>
 </tr>
-</thead>
-<!-- BEGIN empty_row -->
-<tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}" colspan="2">{EMPTY_TEXT}</td>
-</tr>
-<!-- END empty_row -->
-<!-- BEGIN constraint -->
-<tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}" width="25"><input type="checkbox" name="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}" value="1" /></td>
-<td class="{COLOR_CLASS}">{CONSTRAINT_TEXT}</td>
-</tr>
-<!-- END constraint -->
-<!-- BEGIN delete_button -->
-<tr>
-	<td class="submit">{ARROW}</td>
-	<td class="submit" align="left"><input type="submit" class="submit" name="cmd[deleteConstraints]" value="{BTN_DELETE}" /></td>
-</tr>
-<!-- END delete_button -->
-</table>
-</td>
-</tr>
-<!--br /-->
-<!-- END question -->
 <!-- END constraint_section -->
 <!-- BEGIN selectall -->
 <tr>
 	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('form_constraints', 'includeElements', document.form_constraints.chb_check_all.checked);" /></td>
   <td class="{COLOR_CLASS}" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+	<td class="{COLOR_CLASS}">
+<!-- BEGIN selectall_preconditions -->
+		<input type="checkbox" id="chb_check_all_preconditions" name="chb_check_all_preconditions" value="1" onclick="setChecked('form_constraints', 'constraint_', document.form_constraints.chb_check_all_preconditions.checked);" />
+  	<label for="chb_check_all_preconditions"><strong>{SELECT_ALL_PRECONDITIONS}</strong></label>
+<!-- END selectall_preconditions -->
+	</td>
 </tr>
 <!-- END selectall -->
 <!-- BEGIN buttons -->
 <tr>
 	<td class="submit">{ARROW}</td>
 	<td class="submit" align="left" colspan="3"><input type="submit" class="submit" name="cmd[createConstraints]" value="{BTN_CREATE_CONSTRAINTS}" /></td>
+	<td class="submit">
+<!-- BEGIN delete_button -->
+		{ARROW} <input type="submit" class="submit" name="cmd[deleteConstraints]" value="{BTN_DELETE}" />
+<!-- END delete_button -->
+	</td>
 </tr>
 <!-- END buttons -->
 </table>

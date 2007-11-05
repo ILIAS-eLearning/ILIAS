@@ -2077,7 +2077,7 @@ class SurveyQuestion
 	* @return The HTML code for the precondition value selection
 	* @access public
 	*/
-	function getPreconditionSelectValue()
+	function getPreconditionSelectValue($default = "")
 	{
 		// overwrite in inherited classes
 	}
@@ -2094,7 +2094,7 @@ class SurveyQuestion
 	function getPreconditionValueOutput($value)
 	{
 		// overwrite in inherited classes
-		return "";
+		return $value;
 	}
 
 /**

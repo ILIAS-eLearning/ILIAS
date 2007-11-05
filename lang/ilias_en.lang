@@ -7709,6 +7709,7 @@ search#:#adv_md_search_title#:#Search in Extended Metadata
 ps#:#ps_edit_text_field#:#Edit Text Field
 meta#:#md_adv_import_record#:#Import Metadata Set
 meta#:#md_copyright#:#Copyright
+survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
 grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_select_one_file#:#Please select one file.

@@ -1030,15 +1030,22 @@ class SurveyMetricQuestion extends SurveyQuestion
 	* @return The HTML code for the precondition value selection
 	* @access public
 	*/
-	function getPreconditionSelectValue()
+	function getPreconditionSelectValue($default = "")
 	{
 		global $lng;
 		
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_svy_svy_precondition_select_value_textfield.html", TRUE, TRUE, "Modules/Survey");
-		$template->setCurrentBlock("textfield");
-		$template->setVariable("TEXTFIELD_VALUE", "");
-		$template->parseCurrentBlock();
+		if (strlen($default))
+		{
+			$template->setCurrentBlock("textfield");
+			$template->setVariable("TEXTFIELD_VALUE", " value=\"" . ilUtil::prepareFormOutput($default) . "\"");
+			$template->parseCurrentBlock();
+		}
+		else
+		{
+			$template->touchBlock("textfield");
+		}
 		$template->setVariable("SELECT_VALUE", $lng->txt("step") . " 3: " . $lng->txt("enter_value"));
 		return $template->get();
 	}
