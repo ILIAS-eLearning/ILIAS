@@ -124,6 +124,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 	function viewObject()
 	{
+		global $ilAccess,$ilErr;
+		
+		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);	
+		}
+		
+		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
@@ -777,7 +785,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("TARGET",$target);
 		$this->tpl->setVariable("TXT_ACTIVE",$this->lng->txt('active'));
 		$this->tpl->setVariable("TXT_CHECK",$this->lng->txt('webr_disable_check'));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required'));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required_field'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('add'));
 		$this->tpl->setVariable("CMD_SUBMIT",'addItem');
@@ -1115,9 +1123,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$rbacreview;
+		global $rbacsystem,$rbacreview,$ilAccess;
 
-		if ($rbacsystem->checkAccess('read',$this->object->getRefId()))
+		if ($ilAccess->checkAccess('read','',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, "view"), array("", "view"),
@@ -1132,7 +1140,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				"");
 		}
 		
-		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
 			// this is not nice. tabs should be displayed in ilcoursegui
 			// not via ilrepositorygui, then next_class == ilinfoscreengui
