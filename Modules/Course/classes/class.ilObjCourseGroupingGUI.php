@@ -253,7 +253,7 @@ class ilObjCourseGroupingGUI
 		$this->tpl->setVariable("TXT_UNAM",$this->lng->txt('unambiguousness'));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required_field'));
 		$this->tpl->setVariable("CMD_SUBMIT",'add');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('add'));
+		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('btn_add'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 	}
 
