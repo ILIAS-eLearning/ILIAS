@@ -3175,8 +3175,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @access private
 	*/
-	function addConstraintForm($step, &$survey_questions, $questions = false)
+	function addConstraintForm($step, $postvalues, &$survey_questions, $questions = FALSE)
 	{
+		$this->ctrl->saveParameter($this, "preid");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", "Modules/Survey");
 		if (is_array($questions))
 		{
@@ -3185,25 +3186,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("option_q");
 				$this->tpl->setVariable("OPTION_VALUE", $question["question_id"]);
 				$this->tpl->setVariable("OPTION_TEXT", $question["title"] . " (" . $this->lng->txt($question["type_tag"]) . ")");
-				if ($question["question_id"] == $_POST["q"])
+				if ($question["question_id"] == $postvalues["q"])
 				{
 					$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
 				}
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
 		if ($step > 1)
 		{
 			$relations = $this->object->getAllRelations();
 			foreach ($relations as $rel_id => $relation)
 			{
-				if (in_array($relation["short"], $survey_questions[$_POST["q"]]["availableRelations"]))
+				if (in_array($relation["short"], $survey_questions[$postvalues["q"]]["availableRelations"]))
 				{
 					$this->tpl->setCurrentBlock("option_r");
 					$this->tpl->setVariable("OPTION_VALUE", $rel_id);
 					$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
-					if ($rel_id == $_POST["r"])
+					if ($rel_id == $postvalues["r"])
 					{
 						$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
 					}
@@ -3217,12 +3217,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($step > 2)
 		{
-			$variables =& $this->object->getVariables($_POST["q"]);
-			$question_type = $survey_questions[$_POST["q"]]["type_tag"];
+			$variables =& $this->object->getVariables($postvalues["q"]);
+			$question_type = $survey_questions[$postvalues["q"]]["type_tag"];
 			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
 			$question = new $question_type();
-			$question->loadFromDb($_POST["q"]);
-			$select_value = $question->getPreconditionSelectValue();
+			$question->loadFromDb($postvalues["q"]);
+			$select_value = $question->getPreconditionSelectValue($postvalues["v"]);
 			$this->tpl->setCurrentBlock("select_value");
 			$this->tpl->setVariable("SELECT_VALUE", $select_value);
 			$this->tpl->parseCurrentBlock();
@@ -3272,6 +3272,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function constraintsAddObject()
 	{
+		if (strlen($_POST["v"]) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("msg_enter_value_for_valid_constraint"));
+			return $this->constraintStep3Object();
+		}
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$structure =& $_SESSION["constraintstructure"];
 		$include_elements = $_SESSION["includeElements"];
@@ -3281,7 +3286,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				foreach ($structure[$elementCounter] as $key => $question_id)
 				{
-					$this->object->addConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
+					if (strlen($_GET["preid"]))
+					{
+						$this->object->updateConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
+					}
+					else
+					{
+						$this->object->addConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
+					}
 				}
 			}
 		}
@@ -3301,8 +3313,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$option_questions = array();
-		array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
-		$this->addConstraintForm(3, $survey_questions, $option_questions);
+		if (strlen($_GET["precondition"]))
+		{
+			$pc = $this->object->getPrecondition($_GET["precondition"]);
+			$postvalues = array(
+				"q" => $pc["question_fi"],
+				"r" => $pc["relation_id"],
+				"v" => $pc["value"]
+			);
+			$this->ctrl->setParameter($this, "preid", $_GET["precondition"]);
+			array_push($option_questions, array("question_id" => $pc["question_fi"], "title" => $survey_questions[$pc["question_fi"]]["title"], "type_tag" => $survey_questions[$pc["question_fi"]]["type_tag"]));
+			$this->addConstraintForm(3, $postvalues, $survey_questions, $option_questions);
+		}
+		else
+		{
+			array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
+			$this->addConstraintForm(3, $_POST, $survey_questions, $option_questions);
+		}
 	}
 	
 	/**
@@ -3317,7 +3344,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$option_questions = array();
 		array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
-		$this->addConstraintForm(2, $survey_questions, $option_questions);
+		$this->addConstraintForm(2, $_POST, $survey_questions, $option_questions);
 	}
 	
 	/**
@@ -3353,7 +3380,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
 			$this->ctrl->redirect($this, "constraints");
 		}
-		$this->addConstraintForm(1, $survey_questions, $option_questions);
+		$this->addConstraintForm(1, $_POST, $survey_questions, $option_questions);
 	}
 	
 	/**
@@ -3398,6 +3425,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
+	function editPreconditionObject()
+	{
+		$_SESSION["includeElements"] = array($_GET["start"]);
+		$this->ctrl->setParameter($this, "precondition", $_GET["precondition"]);
+		$this->ctrl->setParameter($this, "start", $_GET["start"]);
+		$this->ctrl->redirect($this, "constraintStep3");
+	}
+	
 	/**
 	* Administration page for survey constraints
 	*
@@ -3432,6 +3467,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$last_questionblock_title = "";
 		$counter = 1;
+		$hasPreconditions = FALSE;
 		$structure = array();
 		$colors = array("tblrow1", "tblrow2");
 		foreach ($survey_questions as $question_id => $data)
@@ -3473,6 +3509,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$rowcount = 0;
 					if (count($constraints))
 					{
+						$hasPreconditions = TRUE;
 						foreach ($constraints as $constraint)
 						{
 							$this->tpl->setCurrentBlock("constraint");
@@ -3480,29 +3517,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$this->tpl->setVariable("SEQUENCE_ID", $counter);
 							$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
 							$this->tpl->setVariable("COLOR_CLASS", $colors[$rowcount % 2]);
+							$this->tpl->setVariable("TEXT_EDIT_PRECONDITION", $this->lng->txt("edit"));
+							$this->ctrl->setParameter($this, "precondition", $constraint["id"]);
+							$this->ctrl->setParameter($this, "start", $counter);
+							$this->tpl->setVariable("EDIT_PRECONDITION", $this->ctrl->getLinkTarget($this, "editPrecondition"));
+							$this->ctrl->setParameter($this, "precondition", "");
+							$this->ctrl->setParameter($this, "start", "");
 							$rowcount++;
 							$this->tpl->parseCurrentBlock();
 						}
-						if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
-						{
-							$this->tpl->setCurrentBlock("delete_button");
-							$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-							include_once "./Services/Utilities/classes/class.ilUtil.php";
-							$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-							$this->tpl->parseCurrentBlock();
-						}
 					}
-					else
-					{
-						$this->tpl->setCurrentBlock("empty_row");
-						$this->tpl->setVariable("EMPTY_TEXT", $this->lng->txt("no_available_constraints"));
-						$this->tpl->setVariable("COLOR_CLASS", $colors[$rowcount % 2]);
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("question");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("DEFINED_PRECONDITIONS", $this->lng->txt("existing_constraints"));
-					$this->tpl->parseCurrentBlock();
 				}
 				if ($counter != 1)
 				{
@@ -3533,7 +3557,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 			$counter++;
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			if ($hasPreconditions)
+			{
+				$this->tpl->setVariable("SELECT_ALL_PRECONDITIONS", $this->lng->txt("select_all"));
+			}
 			$this->tpl->parseCurrentBlock();
+
+			if ($hasPreconditions)
+			{
+				$this->tpl->setCurrentBlock("delete_button");
+				$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->tpl->setCurrentBlock("buttons");
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
@@ -3542,6 +3579,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("CONSTRAINTS_INTRODUCTION", $this->lng->txt("constraints_introduction"));
+		$this->tpl->setVariable("DEFINED_PRECONDITIONS", $this->lng->txt("existing_constraints"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "constraints"));
 		$this->tpl->setVariable("CONSTRAINTS_HEADER", $this->lng->txt("constraints_list_of_entities"));
 		$this->tpl->parseCurrentBlock();
@@ -4007,7 +4045,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$tabs_gui->addTarget("constraints",
 				 $this->ctrl->getLinkTarget($this, "constraints"),
 				 array("constraints", "constraintStep1", "constraintStep2",
-				 "constraintStep3", "constraintsAdd", "createConstraints"),
+				 "constraintStep3", "constraintsAdd", "createConstraints",
+				"editPrecondition"),
 				 "");
 		}
 		if (($ilAccess->checkAccess("write", "", $this->ref_id)) || ($ilAccess->checkAccess("invite", "", $this->ref_id)))
