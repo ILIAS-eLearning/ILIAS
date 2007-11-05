@@ -3923,6 +3923,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function setEvalSubtabs()
 	{
 		global $ilTabs;
+		global $ilAccess;
 
 		$ilTabs->addSubTabTarget(
 			"svy_eval_cumulated", 
@@ -3938,12 +3939,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 			""
 		);
 		
-		$ilTabs->addSubTabTarget(
-			"svy_eval_user", 
-			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationuser"), 
-			array("evaluationuser"),	
-			""
-		);
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilTabs->addSubTabTarget(
+				"svy_eval_user", 
+				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationuser"), 
+				array("evaluationuser"),	
+				""
+			);
+		}
 	}
 
 	function setBrowseForQuestionsSubtabs()
