@@ -31,7 +31,7 @@ ADLSeqUtilities.prototype =
 	
 	setGlobalObjMeasure: function (iObjID, iLearnerID,iScopeID, iMeasure)
 	{
-	//	alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iMeasure);
+	   // alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iMeasure);
 		
 		if(this.measure[iObjID] == null) this.measure[iObjID] = new Object();
 		if(this.measure[iObjID][iLearnerID] == null) this.measure[iObjID][iLearnerID] = new Object();

@@ -1058,7 +1058,7 @@ Runtime.models =
 					children: {
 						correct_responses: {maxOccur: 250, type: Array, permission: READWRITE, 
 							children: {
-								pattern : {type: ResponseType, permission: READWRITE, dependsOn: '.id .type'}
+								pattern : {type: ResponseType, permission: READWRITE, dependsOnOn: '.id .type'}
 							}
 						},
 						description:  {type: LocalizedString, max: 250, permission: READWRITE, dependsOn: 'id'},

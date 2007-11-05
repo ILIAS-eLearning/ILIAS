@@ -751,10 +751,10 @@ Objective.prototype =
 	objectiveID : null,
 	completion_status : 0,
 	description : null,
-	max : 0,
-	min : 0,
-	raw : 0,
-	scaled : 0,
+	max : null,
+	min : null,
+	raw : null,
+	scaled : null,
 	progress_measure : null,
 	success_status : null,
 	scope : "local",
@@ -1479,7 +1479,6 @@ function launchNavType(navType) {
 			}
 		}
 		
-
 		
 		var validreq=msequencer.mSeqTree.mValidReq;
 		
@@ -1751,10 +1750,6 @@ function onWindowResize()
 }
 
 
-
-
-
-
 function buildNavTree(rootAct,name,tree){
 	
 	var tocView = all('treeView');
@@ -1764,12 +1759,18 @@ function buildNavTree(rootAct,name,tree){
 		
 	//get a reusable reference to the root node:
 	var root = treeYUI.getRoot();
-		
-	//display the rootNode
-	var rootNode = new YAHOO.widget.TextNode(rootAct.title, root, true);
-	rootNode.href="#this";
-	rootNode.target="_self";
-	rootNode.labelElId=ITEM_PREFIX + rootAct.id;
+	
+	//root node only when in TOC
+	if (mlaunch.mNavState.mChoice!=null) {
+		var id=rootAct.id;
+		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
+			//display the rootNode
+			var rootNode = new YAHOO.widget.TextNode(rootAct.title, root, true);
+			rootNode.href="#this";
+			rootNode.target="_self";
+			rootNode.labelElId=ITEM_PREFIX + rootAct.id;
+		}	
+	}
 	
 	build(rootAct,rootNode);
 	
@@ -1778,12 +1779,14 @@ function buildNavTree(rootAct,name,tree){
 			for (var i=0;i<rootAct.item.length;i++) {
 				//only include if visible
 				var id=rootAct.item[i].id;
-				if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") { 
-					var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
-					sub.href="#this";
-					sub.target="_self";
-					sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
-				}	
+				if (mlaunch.mNavState.mChoice!=null) {
+					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") { 
+						var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
+						sub.href="#this";
+						sub.target="_self";
+						sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
+					}	
+				}
 				//further childs
 				if(rootAct.item[i].item) {
 					build(rootAct.item[i],sub);
@@ -2548,18 +2551,6 @@ function setAPI(cp_node_id, api)
 		}
 	}
 	
-	
-	/*
-	//check for suspend
-	var stat=activitiesByCAM[cp_node_id];
-
-	if (stat.exit!="suspend") {
-		//virginize tracking data
-		for (var k in Runtime.models.cmi.cmi) {
-			
-		}
-	}	
-	*/
 	// reference to live data
 	var data = activitiesByCAM[cp_node_id];
 
@@ -2625,16 +2616,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};
 		
-		/*obsolete
-		for (var k in controlState) 
-		{
-			data.adl.nav.request_valid[k.toLowerCase()] = String(controlState[k]);
-		}
-		*/
-		// TODO walk tocState items for adl.nav.request_valid.{target=ID} = ...
-		
 		var validRequests=msequencer.mSeqTree.getValidRequests();
-		//for target IDs..do it as well
 		
 		//we only set Continue, Previous and Choice according to specification
 		data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);
@@ -2656,13 +2638,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.launch_data = item.dataFromLMS;
 		data.cmi.time_limit_action = item.timeLimitAction;
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
-//		sclogdump(item.objectives["$"]);
-		
-		//get shared objectie data and sync to CMI
-		
-		
-		
-		//this works, but the implementation has to be checked (search for first primary?)
+
 		if (item.objectives) 
 		{
 			for (k in item.objectives) {
@@ -2708,6 +2684,8 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	if (currentAPI) {
 		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
 			//provide us with a clean data set
+			//pubAPI.cmi=Runtime.models.cmi;
+			//explicitly set some entries
     		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
     		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
 			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
@@ -2909,7 +2887,7 @@ function syncCMIADLTree(){
 
 		obj = "cmi.objectives." + i + ".score.scaled";
         objScore= currentAPI.GetValueIntern(obj);
-        if( objScore!="" && objScore!="unknown" ) {
+        if( objScore!="" && objScore!="unknown" && objScore!=null ) {
 			normalScore = objScore; 
 			msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
 			if( foundPrimaryObj==true ){
@@ -2956,7 +2934,7 @@ function syncCMIADLTree(){
       }
 
 	  // Report the measure
-	  if( score!="" && score!="unknown" ) {
+	  if( score!="" && score!="unknown") {
 			normalScore = score;
         	msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
        }
