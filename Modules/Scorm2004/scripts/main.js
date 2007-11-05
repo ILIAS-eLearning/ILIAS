@@ -2433,7 +2433,7 @@ function getAPI(cp_node_id)
 				if (mod.mapping) 
 				{
 				//TODO-this needs a fix!!!
-				//	dat = data[mod.mapping.name];
+					//dat = data[mod.mapping.name];
 				}
 				for (i in dat) 
 				{
