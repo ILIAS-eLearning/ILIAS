@@ -2222,6 +2222,13 @@ class ilUserImportParser extends ilSaxParser
 	 					return true;
 	 				}
 	 				break;
+	 			case 'matriculation':
+	 				if(!strlen($user_obj->getMatriculation()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+
 	 			default:
 	 				continue;
 	 		}
