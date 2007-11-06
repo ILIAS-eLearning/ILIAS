@@ -306,7 +306,8 @@ class ilObjFileGUI extends ilObjectGUI
 				// Virus found, nothing to do				
 			}			
 			else if($processDone == 3) {
-				ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" . $this->lng->txt("zip_structure_error"),true);
+				// Error message already sent (in processZipFile)
+				//ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" . $this->lng->txt("zip_structure_error"),true);
 			}
 			ilUtil::delDir($newDir);
 			$this->ctrl->returnToParent($this);

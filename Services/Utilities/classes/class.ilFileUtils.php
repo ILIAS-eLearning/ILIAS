@@ -80,23 +80,35 @@ class ilFileUtils
 				ilUtil::sendInfo($lng->txt("file_is_infected")."<br />".
 				$vir[1], true);
 				return 2;
+				
 			}
 			else
 			{
 				if ($vir[1] != "")
 				{
 					ilUtil::sendInfo($vir[1], true);
+					return 2;
 				}
 			}
+			
 		}
 		
 		// If archive is to be used "flat"
 		if (!$structure) 
-		{
-			foreach (array_count_values($filearray["file"]) as $value)
+		{	
+			foreach (array_count_values($filearray["file"]) as $key => $value)
 			{
 				// Archive contains same filenames in different directories 
-				if ($value != "1") return 3;
+				if ($value != "1") 
+				{	
+					$doublettes .= " '" . $key . "'";
+					
+				}	
+			}
+			if (isset($doublettes))
+			{
+				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error") . $doublettes , true);
+				return 3;
 			}
 		}
 

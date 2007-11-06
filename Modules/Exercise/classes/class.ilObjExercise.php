@@ -142,7 +142,8 @@ class ilObjExercise extends ilObject
 				// Virus found, nothing to do
 			}			
 			else if($processDone == 3) {
-				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error"),true);
+				// already reported in processUploadedFile
+				//ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error"),true);
 			}
 			return true;
 			
