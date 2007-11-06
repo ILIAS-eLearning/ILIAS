@@ -87,7 +87,8 @@ class ilCourseContentGUI
 				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
 				$this->tabs_gui->clearSubTabs();
 				$this->ctrl->setReturn($this,'');
-				$item_adm_gui = new ilCourseItemAdministrationGUI($this->container_obj,(int) $_GET['item_id']);
+				
+				$item_adm_gui = new ilCourseItemAdministrationGUI($this->container_obj,(int) $_REQUEST['item_id']);
 				$this->ctrl->forwardCommand($item_adm_gui);
 				break;
 
