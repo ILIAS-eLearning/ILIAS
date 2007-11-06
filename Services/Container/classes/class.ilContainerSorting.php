@@ -87,7 +87,10 @@ class ilContainerSorting
 			// First sort all items that have entries in sorting table			
 			foreach($this->sorting[$type] as $ref_id => $pos)
 			{
-				$sorted[$type][$new_key++] = $data[$tmp_indexes[$ref_id]];			
+				if(is_array($data[$tmp_indexes[$ref_id]]))
+				{
+					$sorted[$type][$new_key++] = $data[$tmp_indexes[$ref_id]];
+				}
 			}
 			// No append all items that are not in sorting table
 			foreach($tmp_indexes as $ref_id => $key)
