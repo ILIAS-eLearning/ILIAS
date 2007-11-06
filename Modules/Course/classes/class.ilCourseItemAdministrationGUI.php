@@ -332,6 +332,22 @@ class ilCourseItemAdministrationGUI
 		
 		if(!is_object($this->items_obj))
 		{
+			$parent_ref = $tree->getParentId($this->item_id);
+			$cont_obj = ilObjectFactory::getInstanceByRefId($parent_ref,false);
+			
+			if($cont_obj->getType() == 'crs')
+			{
+				$this->items_obj =& new ilCourseItems($cont_obj,$cont_obj->getRefId());
+			}
+			else
+			{
+				// lookup crs_obj
+				$crs_ref_id = $tree->checkForParentType($cont_obj->getRefId(),'crs');
+				$crs_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id);
+
+				$this->items_obj =& new ilCourseItems($crs_obj,$cont_obj->getRefId());
+			}
+			/*
 			if($ilObjDataCache->lookupType($this->container_obj->getId()) == 'crs')
 			{
 				$this->items_obj =& new ilCourseItems($this->container_obj,$this->container_obj->getRefId());
@@ -344,6 +360,7 @@ class ilCourseItemAdministrationGUI
 
 				$this->items_obj =& new ilCourseItems($crs_obj,$this->container_obj->getRefId());
 			}
+			*/
 		}
 		return true;
 	}
