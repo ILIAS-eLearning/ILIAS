@@ -1357,7 +1357,7 @@ class ilObjChatGUI extends ilObjectGUI
 		else
 		{
 			$counter = 0;
-
+			$user_obj =& new ilObjUser();
 			foreach($users as $user)
 			{
 				if($user["user_id"] == $_SESSION["AccountId"])
@@ -1407,7 +1407,19 @@ class ilObjChatGUI extends ilObjectGUI
 										$_REQUEST["room_id"]."&i_id=".$user["user_id"]);
 				$this->tpl->setVariable("TXT_INVITE_USER",$cmd == "invite" ? $this->lng->txt("chat_invite_user") :
 										$this->lng->txt("chat_disinvite_user"));
-        		$this->tpl->setVariable("ONLINE_USER_NAME_A", $user["firstname"]." ".$user["lastname"]." (".$user["login"].")");										
+				
+				$user_obj->setId($user["user_id"]);
+				$user_obj->read();
+				
+				if($user_obj->getPref('public_profile') == 'y')
+				{
+        	$this->tpl->setVariable("ONLINE_USER_NAME_A", $user["firstname"]." ".$user["lastname"]." (".$user["login"].")");										
+				}
+				else
+				{
+					$this->tpl->setVariable("ONLINE_USER_NAME_A", $user["login"]);										
+				}
+
 				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,'Modules/Chat'));
 				
 				$this->tpl->parseCurrentBlock();
