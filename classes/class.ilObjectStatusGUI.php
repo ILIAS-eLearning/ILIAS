@@ -224,6 +224,7 @@ class ilObjectStatusGUI
 	{
 		global $rbacreview;
 		
+		include_once ('classes/class.ilObjRole.php');
 		$assigned_valid_roles = array();
 
 		foreach ($this->valid_roles as $role)
@@ -247,6 +248,7 @@ class ilObjectStatusGUI
 					$role['ops'] = $rbacreview->getRoleOperationsOnObject($role["obj_id"],$this->object->getRefId());
 				}
 				
+				include_once('classes/class.ilObjRole.php');
 				$role['translation'] = str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"]));
 				$assigned_valid_roles[] = $role;
 			}
@@ -313,12 +315,15 @@ class ilObjectStatusGUI
 	{
 		global $lng,$rbacreview,$tree;
 
+		include_once('classes/class.ilObjRole.php');
+
 		// icon handlers
 		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
 		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$lng->txt("info_not_assigned")."\" title=\"".$lng->txt("info_not_assigned")."\" border=\"0\" vspace=\"0\"/>";
 
 		$path = array_reverse($tree->getPathId($this->object->getRefId()));
 		
+		include_once ('classes/class.ilObjRole.php');
 		$counter = 0;
 		foreach ($this->valid_roles as $role)
 		{

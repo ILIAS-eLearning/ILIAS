@@ -53,7 +53,6 @@ class ilAuthLDAP extends Auth
 		$this->initServer();
 		$this->initContainer();
 		parent::Auth($this->ldap_container,$this->ldap_server->toPearAuthArray(),'',false);
-		
 		$this->initLogObserver();		
 		
 		// Set callbacks
@@ -98,7 +97,7 @@ class ilAuthLDAP extends Auth
 				$_SESSION['tmp_pass'] = $_POST['password'];
 				
 				$ilBench->stop('Auth','LDAPLoginObserver');
-				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration');
+				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');
 			}
 
 			// Refresh or create user data

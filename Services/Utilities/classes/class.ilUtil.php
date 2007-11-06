@@ -3320,7 +3320,7 @@ class ilUtil
 
 		// Since no rbac_pa entries are available for the system role. This function returns !all! ref_ids in the case the user
 		// is assigned to the system role
-		if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
+		if(!$rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
 		{
 			$query = "SELECT ref_id FROM object_reference AS obr LEFT JOIN object_data AS obd USING(obj_id) ".
 				"LEFT JOIN tree ON obr.ref_id = tree.child ".
@@ -3339,12 +3339,22 @@ class ilUtil
 				$ref_ids[] = $row->ref_id;
 			}
 			return $ref_ids ? $ref_ids : array();
+		} // End Administrators
+		
+		// Check ownership if it is not asked for edit_permission or a create permission
+		if($a_operation == 'edit_permissions' or strpos($a_operation,'create') !== false)
+		{
+			$check_owner = ") ";
+		}
+		else
+		{
+			$check_owner = "OR owner = ".$ilDB->quote($a_usr_id).") ";
 		}
 
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array($a_operation));
 		$ops_id = $ops_ids[0];
 
-		$and = "AND rol_id IN(".implode(",",ilUtil::quoteArray($a_roles)).") ";
+		$and = "AND ((rol_id IN(".implode(",",ilUtil::quoteArray($a_roles)).") ";
 		
 
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM rbac_pa ".
@@ -3353,7 +3363,8 @@ class ilUtil
 			$where.
 			$and.
 			"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
-			"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").") ";
+			"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").")) ".
+			$check_owner;
 
 		$res = $ilDB->query($query);
 		$counter = 0;
