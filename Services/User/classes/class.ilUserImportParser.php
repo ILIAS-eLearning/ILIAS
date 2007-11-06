@@ -50,6 +50,10 @@ class ilUserImportParser extends ilSaxParser
 	var $time_limit_set = false;
 	var $time_limit_owner_set = false;
 
+	/**
+	* boolean to determine if look and skin should be updated
+	*/
+	var $updateLookAndSkin = false;	
 	var $folder_id;
 	var $roles;
 	/**
@@ -462,6 +466,7 @@ class ilUserImportParser extends ilSaxParser
 				$this->auth_mode_set = false;
 				$this->time_limit_set = false;
 				$this->time_limit_owner_set = false;	
+				$this->updateLookAndSkin = false;
 				$this->skin = "";
 				$this->style = "";
 				$this->personalPicture = null;
@@ -1096,12 +1101,10 @@ class ilUserImportParser extends ilSaxParser
 							//insert user data in table user_data
 							$this->userObj->saveAsNew(false);
 
-
-							// Set default prefs
+							// Set default prefs						
 							$this->userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
 							$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
-							// save user preferences (skin and style)
-
+							
 							$this->userObj->writePrefs();
 
 							if (is_array($this->personalPicture))
@@ -1232,8 +1235,11 @@ class ilUserImportParser extends ilSaxParser
 							}							
 
 							// save user preferences (skin and style)
-							$updateUser->setPref("skin", $this->userObj->getPref("skin"));
-							$updateUser->setPref("style", $this->userObj->getPref("style"));
+							if ($this->updateLookAndSkin)
+							{
+								$updateUser->setPref("skin", $this->userObj->getPref("skin"));
+								$updateUser->setPref("style", $this->userObj->getPref("style"));
+							}
 							$updateUser->writePrefs();
 							
 							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
@@ -1460,6 +1466,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "Look":
+				$this->updateLookAndSkin = false;
 				if (!$this->hideSkin)
 				{
 					// TODO: what to do with disabled skins? is it possible to change the skin via import?
@@ -1471,6 +1478,7 @@ class ilUserImportParser extends ilSaxParser
 							{
 								$this->userObj->setPref("skin", $this->skin);
 								$this->userObj->setPref("style", $this->style);
+								$this->updateLookAndSkin = true;
 							}
 						}
 					}
