@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+
 
 /** 
 * 
@@ -58,7 +60,7 @@ class ilCourseAgreement
 	 	
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	 	
-	 	if($this->privacy->confirmationRequired())
+	 	if($this->privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 	 	{
 		 	$this->read();
 	 	}
@@ -255,7 +257,7 @@ class ilCourseAgreement
 	 */
 	public function agreementRequired()
 	{
-	 	if(!$this->privacy->confirmationRequired())
+	 	if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 	 	{
 	 		return false;
 	 	}

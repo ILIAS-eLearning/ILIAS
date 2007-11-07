@@ -406,13 +406,15 @@ class ilCourseRegisterGUI
 	{
 		global $ilUser;
 		
-		if(!$this->privacy->confirmationRequired())
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');		
+		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->course_obj_id))
 		{
 			return false;
 		}
 		
-		$this->showCourseDefinedFields();
 		
+		$this->showCourseDefinedFields();
+
 		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 		$fields_info = ilExportFieldsInfo::_getInstance();
 		
@@ -538,7 +540,8 @@ class ilCourseRegisterGUI
 	 	{
 	 		return true;
 	 	}
-		if(!$this->privacy->confirmationRequired())
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->course_obj_id))
 		{
 			return true;
 		}
@@ -553,7 +556,8 @@ class ilCourseRegisterGUI
 	 */
 	private function setAccepted($a_status)
 	{
-		if(!$this->privacy->confirmationRequired())
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->course_obj_id))
 		{
 			return true;
 		}

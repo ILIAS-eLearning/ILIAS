@@ -222,7 +222,8 @@ class ilMemberExport
 											
 					default:
 						// Check aggreement
-						if(!$this->privacy->confirmationRequired() or $this->agreement[$usr_id]['accepted'])
+						if((!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_getFields($this->obj_id))
+							or $this->agreement[$usr_id]['accepted'])
 						{
 							$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
 						}
@@ -340,7 +341,8 @@ class ilMemberExport
 	 	{
 	 		return false;
 	 	}
-	 	if(!$this->privacy->confirmationRequired() or $this->agreement[$a_usr_id]['accepted'])
+	 	if((!$this->privacy->confirmationRequired() and ilCourseDefinedFieldDefinition::_getFields($this->obj_id)) 
+	 		or $this->agreement[$a_usr_id]['accepted'])
 	 	{
 	 		$field_info = explode('_',$a_field);
 	 		$field_id = $field_info[1];
@@ -367,7 +369,8 @@ class ilMemberExport
 	 	{
 	 		return false;
 	 	}
-	 	if(!$this->privacy->confirmationRequired() or $this->agreement[$udf_data->getUserId()]['accepted'])
+	 	if((!$this->privacy->confirmationRequired() and ilCourseDefinedFieldDefinition::_getFields($this->obj_id))
+	 		 or $this->agreement[$udf_data->getUserId()]['accepted'])
 	 	{
 	 		$field_info = explode('_',$a_field);
 	 		$field_id = $field_info[1];
