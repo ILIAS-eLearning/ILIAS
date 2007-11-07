@@ -1,0 +1,315 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+/** 
+* @defgroup ServicesWebServicesECS Services/WebServices/ECS
+* 
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+* 
+* 
+* @ingroup ServicesWebServicesECS
+*/
+class ilECSSettings
+{
+	const PROTOCOL_HTTP = 0;
+	const PROTOCOL_HTTPS = 1; 
+	
+	protected static $instance = null;
+
+	private $active = false;
+	private $server;
+	private $protocol;
+	private $port;
+	private $cert_path;
+	private $polling;
+	private $import_id;
+
+	/**
+	 * Singleton contructor
+	 *
+	 * @access private
+	 */
+	private function __construct()
+	{
+	 	$this->initStorage();
+	 	$this->read();
+	}
+	
+	/**
+	 * singleton getInstance
+	 *
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function _getInstance()
+	{
+		if(self::$instance)
+		{
+			return self::$instance;
+		}
+		return self::$instance = new ilECSSettings();
+	}
+	
+	/**
+	 * en/disable ecs functionality
+	 *
+	 * @access public
+	 * @param bool status
+	 * 
+	 */
+	public function setEnabledStatus($a_status)
+	{
+	 	$this->active = $a_status;
+	}
+	
+	/**
+	 * is enabled
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isEnabled()
+	{
+	 	return $this->active;
+	}
+	
+	/**
+	 * set server 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function setServer($a_server)
+	{
+	 	$this->server = $a_server;
+	}
+	
+	/**
+	 * get server
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getServer()
+	{
+	 	return $this->server;
+	}
+	
+	/**
+	 * set protocol
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function setProtocol($a_prot)
+	{
+	 	$this->protocol = $a_prot;
+	}
+
+	/**
+	 * get protocol
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getProtocol()
+	{
+	 	return $this->protocol;
+	}
+	
+	/**
+	 * set port
+	 *
+	 * @access public
+	 * @param int port
+	 * 
+	 */
+	public function setPort($a_port)
+	{
+	 	$this->port = $a_port;
+	}
+	
+	/**
+	 * get port
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getPort()
+	{
+	 	return $this->port;
+	}
+	
+	/**
+	 * set polling time
+	 *
+	 * @access public
+	 * @param int polling time
+	 * 
+	 */
+	public function setPollingTime($a_time)
+	{
+	 	$this->polling = $a_time;
+	}
+	
+	/**
+	 * get polling time
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getPollingTime()
+	{
+	 	return $this->polling;
+	}
+	
+	/**
+	 * get polling time seconds (<60)
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getPollingTimeSeconds()
+	{
+	 	return (int) ($this->polling % 60);
+	}
+	
+	/**
+	 * get polling time minutes
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getPollingTimeMinutes()
+	{
+	 	return (int) ($this->polling / 60);
+	}
+	
+	/**
+	 * Set polling time
+	 *
+	 * @access public
+	 *
+	 * @param int minutes
+	 * @param int seconds
+	 */
+	public function setPollingTimeMS($a_min,$a_sec)
+	{
+		$this->setPollingTime(60 * $a_min + $a_sec);
+	}
+	
+	/**
+	 * set 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function setCertPath($a_path)
+	{
+	 	$this->cert_path = $a_path;
+	}
+
+	/**
+	 * get certificate path
+	 *
+	 * @access public
+	 */
+	public function getCertPath()
+	{
+	 	return $this->cert_path;
+	}
+	
+	/**
+	 * set import id
+	 * Object of category, that store new remote courses
+	 *
+	 * @access public
+	 * 
+	 */
+	public function setImportId($a_id)
+	{
+	 	$this->import_id = $a_id;
+	}
+	
+	/**
+	 * get import id
+	 *
+	 * @access public
+	 */
+	public function getImportId()
+	{
+	 	return $this->import_id;
+	}
+	
+	/**
+	 * save settings
+	 *
+	 * @access public
+	 * 
+	 */
+	public function save()
+	{
+	 	$this->storage->set('active',(int) $this->isEnabled());
+	 	$this->storage->set('server',$this->getServer());
+	 	$this->storage->set('port',$this->getPort());
+	 	$this->storage->set('protocol',$this->getProtocol());
+	 	$this->storage->set('cert_path',$this->getCertPath());
+	 	$this->storage->set('import_id',$this->getImportId());
+	 	$this->storage->set('polling',$this->getPollingTime());
+	}
+	
+	/**
+	 * Init storage class (ilSetting)
+	 * @access private
+	 * 
+	 */
+	private function initStorage()
+	{
+	 	include_once('./Services/Administration/classes/class.ilSetting.php');
+	 	$this->storage = new ilSetting('ecs');
+	}
+	
+	/**
+	 * Read settings
+	 *
+	 * @access private
+	 */
+	private function read()
+	{
+		$this->setServer($this->storage->get('server'));
+		$this->setProtocol($this->storage->get('protocol'));
+		$this->setPort($this->storage->get('port'));
+		$this->setCertPath($this->storage->get('cert_path'));
+		$this->setPollingTime($this->storage->get('polling',128));
+		$this->setImportId($this->storage->get('import_id'));
+		$this->setEnabledStatus((int) $this->storage->get('active'));
+	}
+}
+?>
