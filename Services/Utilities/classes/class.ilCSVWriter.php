@@ -41,6 +41,7 @@ class ilCSVWriter
 	private $separator = ',';
 	private $delimiter = '"';
 	private $new_line = "\n";
+	private $doUTF8Decoding = false;
 	
 	private $first_entry = true;
 	
@@ -92,6 +93,17 @@ class ilCSVWriter
 	}
 	
 	/**
+	* set to true if you want to utf8 decode for output.
+	* 
+	* @param	doUTF8Decoding boolean	if set to true file is written using a utf8decode before writing values
+	*
+	*/
+	public function setDoUTF8Decoding($doUTF8Decoding) 
+	{
+		$this->doUTF8Decoding = $doUTF8Decoding ? true : false;
+	}
+	
+	/**
 	 * Add Column. Will be quoted automatically
 	 *
 	 * @access public
@@ -132,7 +144,7 @@ class ilCSVWriter
 	 */
 	private function quote($a_str)
 	{
-	 	return str_replace($this->delimiter,$this->delimiter.$this->delimiter,$a_str);
+	 	return str_replace($this->delimiter,$this->delimiter.$this->delimiter, ($this->doUTF8Decoding) ? utf8_decode( $a_str ) : $a_str);
 	}
 }
 
