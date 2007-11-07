@@ -522,9 +522,20 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			// user
 			if ($item["user_id"] > 0)
 			{
+				// get login
+				if (ilObjUser::_exists($item["user_id"])) 
+				{
+					$user = new ilObjUser($item["user_id"]);
+					$displayname = $user->getLogin();
+				} else 
+				{
+					// this should actually not happen, since news entries 
+					// should be deleted when the user is going to be removed
+					$displayname = "&lt;". strtolower($lng->txt("deleted")) ."&gt;";
+				}
+			
 				$tpl->setCurrentBlock("user_info");
-				$user_obj = new ilObjUser($item["user_id"]);
-				$tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+				$tpl->setVariable("VAL_AUTHOR", $displayname);
 				$tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 				$tpl->parseCurrentBlock();
 			}
