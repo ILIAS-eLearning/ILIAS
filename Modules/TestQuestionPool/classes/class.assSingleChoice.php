@@ -882,12 +882,12 @@ class assSingleChoice extends assQuestion
 				if (!copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
 				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
 				{
 					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
 			}
 		}
@@ -911,12 +911,12 @@ class assSingleChoice extends assQuestion
 				if (!copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
 				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
 				{
 					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this), $ilLog->ERROR);
+					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
 			}
 		}
