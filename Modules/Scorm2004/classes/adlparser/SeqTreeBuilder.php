@@ -101,9 +101,7 @@
 		if ($objectivesGlobalToSystem=="false") {
 			$globaltosystem = 0;
 		}
-		
-		echo "$objectivesGlobalToSystem : $org\n";
-		
+				
 		//assign SeqActivity to top node
 		$c_root['_SeqActivity']=$root;
 				
