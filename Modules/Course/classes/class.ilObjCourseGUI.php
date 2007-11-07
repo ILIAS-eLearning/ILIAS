@@ -514,10 +514,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
 		
-		if($privacy->confirmationRequired() or $privacy->enabledExport())
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		if($privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledExport())
 		{
 			include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
-			include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 			
 			$field_info = ilExportFieldsInfo::_getInstance();
 		
@@ -1368,7 +1368,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 				$privacy = ilPrivacySettings::_getInstance();
 				if($rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()) and
-					(($privacy->enabledExport() and $privacy->confirmationRequired()) or
+					($privacy->enabledExport() or
 						ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())))
 				{
 					$this->tabs_gui->addSubTabTarget('user_fields',
@@ -4551,7 +4551,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$privacy = ilPrivacySettings::_getInstance();
 		
 		// Check agreement
-		if($privacy->confirmationRequired() and !ilCourseAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
+		if(($privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) 
+			and !ilCourseAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
 		{
 			return false;
 		}

@@ -114,7 +114,7 @@ class ilExportUserSettings
 	 	$fields[] = 'role';
 	 	// Append agreement info
 	 	$privacy = ilPrivacySettings::_getInstance();
-	 	if($privacy->confirmationRequired())
+	 	if($privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 	 	{
 	 		$fields[] = 'agreement';
 	 	}

@@ -24,6 +24,7 @@
 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 
 /** 
 * 
@@ -124,7 +125,7 @@ class ilCourseAgreementGUI
 		$this->tpl->setVariable('TXT_AGREEMENT',$this->lng->txt('crs_user_agreement'));
 		$this->tpl->setVariable('TXT_INFO_AGREEMENT',$this->lng->txt('crs_info_agreement'));
 
-		if($this->privacy->confirmationRequired())
+		if($this->privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 		{
 			$this->tpl->setCurrentBlock('agreement');
 			$this->tpl->setVariable('CHECK_AGREE',ilUtil::formCheckbox(0,'agreed',1));
@@ -263,7 +264,7 @@ class ilCourseAgreementGUI
 	 	{
 	 		return true;
 	 	}
-		if(!$this->privacy->confirmationRequired())
+		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 		{
 			return true;
 		}
