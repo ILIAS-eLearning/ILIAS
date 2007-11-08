@@ -7713,3 +7713,5 @@ survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
 grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_select_one_file#:#Please select one file.
+assessment#:#passes_finished#:#%s passes
+assessment#:#pass_finished#:#%s pass

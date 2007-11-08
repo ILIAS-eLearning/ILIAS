@@ -5095,6 +5095,18 @@ class ilObjSurvey extends ilObject
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			return $row["TIMESTAMP14"];
 		}
+		else
+		{
+			$query = sprintf("SELECT TIMESTAMP+0 AS TIMESTAMP14 FROM survey_finished WHERE finished_id = %s",
+				$ilDB->quote($finished_id . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				return $row["TIMESTAMP14"];
+			}
+		}
 		return "";
 	}
 

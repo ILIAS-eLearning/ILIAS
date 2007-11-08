@@ -19,16 +19,29 @@
 					<xsl:attribute name="page-width"><xsl:value-of select="$pagewidth"></xsl:value-of></xsl:attribute>
 						<fo:region-body>
 							<xsl:attribute name="margin"><xsl:value-of select="$marginbody"/></xsl:attribute>
-							<xsl:if test="$backgroundimage">
-								<xsl:attribute name="background-image">
-									<xsl:value-of select="concat('url(', $backgroundimage, ')')"></xsl:value-of>
-								</xsl:attribute>
-							</xsl:if>
 						</fo:region-body>
+					<xsl:if test="$backgroundimage">
+						<fo:region-before region-name="background-image" extent="0"/>
+					</xsl:if>
 				</fo:simple-page-master>
 			</fo:layout-master-set>
 			
 			<fo:page-sequence>
+				<xsl:if test="$backgroundimage">
+					<fo:static-content flow-name="background-image">
+						<fo:block-container absolute-position="absolute" top="0cm" left="0cm" z-index="0">
+							<fo:block>
+								<fo:external-graphic>
+									<xsl:attribute name="src">
+										<xsl:value-of select="concat('url(', $backgroundimage, ')')"></xsl:value-of>
+									</xsl:attribute>
+									<xsl:attribute name="content-height"><xsl:value-of select="$pageheight"></xsl:value-of></xsl:attribute>
+									<xsl:attribute name="content-width"><xsl:value-of select="$pagewidth"></xsl:value-of></xsl:attribute>
+								</fo:external-graphic>
+							</fo:block>
+						</fo:block-container>
+					</fo:static-content>
+				</xsl:if>	
 				<xsl:attribute name="master-reference"><xsl:value-of select="//title"/></xsl:attribute>
 				<xsl:attribute name="line-height">1.4em</xsl:attribute>
 				<fo:flow>
