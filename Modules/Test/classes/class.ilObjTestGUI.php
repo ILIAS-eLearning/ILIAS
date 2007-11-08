@@ -68,7 +68,12 @@ class ilObjTestGUI extends ilObjectGUI
 	function &executeCommand()
 	{
 		global $ilAccess, $ilNavigationHistory;
-		
+
+		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
+		{
+			global $ilias;
+			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+		}
 		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -81,7 +86,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "tst");
 		}
-		
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -4426,7 +4430,6 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		$rowclass = array("tblrow1", "tblrow2");
-		
 		switch($a_type)
 		{
 			case "iv_usr":
@@ -4435,6 +4438,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
+					$passes = ($data->tries) ? (($data->tries == 1) ? sprintf($this->lng->txt("pass_finished"), $data->tries) : sprintf($this->lng->txt("passes_finished"), $data->tries)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->usr_id);
@@ -4443,7 +4447,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
 					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished.$passes:$passes);
 					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started:"&nbsp;");
 					if (strlen($data->usr_id))
 					{
@@ -4506,6 +4510,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
+					$passes = ($data->tries) ? (($data->tries == 1) ? sprintf($this->lng->txt("pass_finished"), $data->tries) : sprintf($this->lng->txt("passes_finished"), $data->tries)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->active_id);
@@ -4513,7 +4518,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_LOGIN", $data->login);
 					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished.$passes:$passes);
 					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started:"&nbsp;");
 					if (strlen($data->active_id))
 					{
@@ -4563,7 +4568,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "usr":
-				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
 				$counter = 0;
 				foreach ($data_array as $data)
 				{

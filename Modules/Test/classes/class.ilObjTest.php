@@ -6921,7 +6921,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			if (is_numeric($user_id))
 			{
-				$query = sprintf("SELECT tst_active.active_id, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
+				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
 					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
@@ -6951,7 +6951,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			if (is_numeric($user_id))
 			{
-				$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
 					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
@@ -6964,7 +6964,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 			else
 			{
-				$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
 					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
@@ -6992,7 +6992,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($this->getAnonymity())
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.user_fi AS usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 				$ilDB->quote($this->lng->txt("unknown")),
 				$ilDB->quote($this->getTestId())
@@ -7000,7 +7000,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		else
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 				$ilDB->quote($this->getTestId())
 			);

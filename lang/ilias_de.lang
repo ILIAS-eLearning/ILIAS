@@ -7712,3 +7712,5 @@ news#:#news_hide_news_date#:#Startdatum
 content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht generiert werden.
 grp#:#grp_deleted_export_files#:#Die ausgewählten Dateien wurden gelöscht.
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
+assessment#:#passes_finished#:#%s Durchläufe
+assessment#:#pass_finished#:#%s Durchlauf
