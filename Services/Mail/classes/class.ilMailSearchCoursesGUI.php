@@ -391,7 +391,7 @@ class ilMailSearchCoursesGUI
 					$this->tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
 					$this->tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
 					$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$ilObjDataCache->lookupTitle($crs_id));
-					$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
+					$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"));
 					$this->tpl->parseCurrentBlock();
 				}
 			}

@@ -385,7 +385,7 @@ class ilMailSearchGroupsGUI
 						$this->tpl->setVariable("LOOP_MEMBERS_LOGIN",$member["login"]);
 						$this->tpl->setVariable("LOOP_MEMBERS_NAME",$member["lastname"].", ".$member["firstname"]);
 						$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$group_obj->getTitle());
-						$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntry($member["login"]) ? $lng->txt("yes") : $lng->txt("no"));
+						$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntryByLogin($member["login"]) ? $lng->txt("yes") : $lng->txt("no"));
 						$this->tpl->parseCurrentBlock();
 					}
 				}
