@@ -319,7 +319,7 @@ class ilTemplate extends ilTemplateX
 		
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
-			$vers = "?vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
 		}
 		
 		if ($this->blockExists("js_file"))
@@ -329,7 +329,7 @@ class ilTemplate extends ilTemplateX
 				if (is_file($file) || substr($file, 0, 4) == "http")
 				{
 					$this->setCurrentBlock("js_file");
-					$this->setVariable("JS_FILE", $file.$vers);
+					$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file,$vers));
 					$this->parseCurrentBlock();
 				}
 			}
