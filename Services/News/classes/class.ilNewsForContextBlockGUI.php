@@ -635,26 +635,32 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
 					$obj_type."_".$item["ref_id"].$add;
 	
-				
-				$tpl->setCurrentBlock("context");
-				if ($item["loc_context"] != "")
+				$context_opened = false;				
+				if ($item["loc_context"] != null && $item["loc_context"] != $item["loc_stop"])
 				{
+
+					$tpl->setCurrentBlock("context");
+					$context_opened = true;
 					$cont_loc = new ilLocatorGUI();
-					$cont_loc->addContextItems($item["loc_context"], true,
-						$item["loc_stop"]);
-					$tpl->setVariable("CONTEXT_LOCATOR",
-						$cont_loc->getHTML());
+					$cont_loc->addContextItems($item["loc_context"], true, $item["loc_stop"]);
+					$tpl->setVariable("CONTEXT_LOCATOR", $cont_loc->getHTML());
 				}
 				
 //var_dump($item);
 				if ($item["no_context_title"] !== true)
 				{
+					if (!$context_opened) 
+					{
+						$tpl->setCurrentBlock("context");						
+					}	
 					$tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
 					$tpl->setVariable("CONTEXT_TITLE", $obj_title);
-					$tpl->setVariable("IMG_CONTEXT_TITLE",
-						ilObject::_getIcon($obj_id, "big", $obj_type));
+					$tpl->setVariable("IMG_CONTEXT_TITLE", ilObject::_getIcon($obj_id, "big", $obj_type));
 				}
-				$tpl->parseCurrentBlock();
+				if ($context_opened)
+				{
+					$tpl->parseCurrentBlock();
+				}
 	
 				$tpl->setVariable("HREF_TITLE", $url_target);
 			}
@@ -662,7 +668,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			// title
 			//if ($item["content_is_lang_var"])
 			//{
-				$tpl->setVariable("VAL_TITLE",
+				$tpl->setVariable("VAL_TITLE", 
 					ilNewsItem::determineNewsTitle($item["context_obj_type"],
 					$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"],
 					$item["aggregation"]));
