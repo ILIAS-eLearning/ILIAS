@@ -130,7 +130,7 @@ class ilCurlConnection
 	 */
 	public final function exec()
 	{
-	 	if(@$res = curl_exec($this->ch) === false)
+	 	if((@$res = curl_exec($this->ch)) === false)
 	 	{
 			if(strlen($err = curl_error($this->ch)))
 			{
