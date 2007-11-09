@@ -90,6 +90,19 @@ class ilECSSettingsGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_settings.html','Services/WebServices/ECS');
 		$this->tpl->setVariable('SETTINGS_TABLE',$this->form->getHTML());
 		
+		include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
+		include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
+		
+		try
+		{
+			$connector = new ilECSConnector();
+			$res = $connector->getResources(4);
+			var_dump("<pre>",$res->getResult(),"</pre>");
+		}
+		catch(ilECSConnectorException $exc)
+		{
+			var_dump("<pre>",$exc->getMessage(),"</pre>");
+		}		
 		
 	}
 	
@@ -107,6 +120,7 @@ class ilECSSettingsGUI
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'settings'));
 		$this->form->setTitle($this->lng->txt('ecs_settings'));
 		
 		$ena = new ilCheckboxInputGUI($this->lng->txt('ecs_active'),'active');
@@ -120,8 +134,10 @@ class ilECSSettingsGUI
 		$this->form->addItem($ser);
 		
 		$pro = new ilSelectInputGUI($this->lng->txt('ecs_protocol'),'protocol');
-		$pro->setOptions(array(ilECSSettings::PROTOCOL_HTTP => $this->lng->txt('http'),
-				ilECSSettings::PROTOCOL_HTTPS => $this->lng->txt('https')));
+		// fixed to https
+		#$pro->setOptions(array(ilECSSettings::PROTOCOL_HTTP => $this->lng->txt('http'),
+		#		ilECSSettings::PROTOCOL_HTTPS => $this->lng->txt('https')));
+		$pro->setOptions(array(ilECSSettings::PROTOCOL_HTTPS => 'HTTPS'));
 		$pro->setValue($this->settings->getProtocol());
 		$pro->setRequired(true);
 		$this->form->addItem($pro);
@@ -133,11 +149,16 @@ class ilECSSettingsGUI
 		$por->setRequired(true);
 		$this->form->addItem($por);
 		
-		$cer = new ilTextInputGUI($this->lng->txt('ecs_cert'),'cert');
-		$cer->setValue($this->settings->getCertPath());
+		$cer = new ilTextInputGUI($this->lng->txt('ecs_client_cert'),'client_cert');
+		$cer->setValue($this->settings->getClientCertPath());
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 		
+		$cer = new ilTextInputGUI($this->lng->txt('ecs_ca_cert'),'ca_cert');
+		$cer->setValue($this->settings->getCACertPath());
+		$cer->setRequired(true);
+		$this->form->addItem($cer);
+
 		$loc = new ilFormSectionHeaderGUI();
 		$loc->setTitle($this->lng->txt('ecs_local_settings'));
 		$this->form->addItem($loc);
@@ -173,14 +194,23 @@ class ilECSSettingsGUI
 		$this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
 		$this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
 		$this->settings->setProtocol(ilUtil::stripSlashes($_POST['protocol']));
-		$this->settings->setCertPath(ilUtil::stripSlashes($_POST['cert_path']));
+		$this->settings->setClientCertPath(ilUtil::stripSlashes($_POST['client_cert']));
+		$this->settings->setCACertPath(ilUtil::stripSlashes($_POST['ca_cert']));
 		$this->settings->setImportId(ilUtil::stripSlashes($_POST['import_id']));
 		$this->settings->setPollingTimeMS((int) $_POST['polling']['mm'],(int) $_POST['polling']['ss']);
 		$this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
 		
-		$this->settings->save();
-		$this->lng->txt('settings_saved');
+		if($this->settings->validate())
+		{
+			$this->settings->save();
+			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields'));
+		}
 		$this->settings();
+		return true;
 	}
 
 
@@ -193,6 +223,45 @@ class ilECSSettingsGUI
 	{	
 		include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
 		$this->settings = ilECSSettings::_getInstance();
+	}
+	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function json()
+	{
+	 	$json = '[
+			  {
+			    "courseID": "133244AX",
+			    "lecturer": [
+			        "Prof. Dr. Stephan Nu\u00dfberger",
+			        "Dipl.-Ing. Markus Sewald"
+			    ],
+			    "credits": "12",
+			    "status": "online",
+			    "lang": "de_DE",
+			    "title": "Methoden der molekularen Biophysik",
+			    "start": "01.05.08",
+			    "etype": "application\/ecs-course",
+			    "courseType": "Vorlesung",
+			    "study_courses": ["Technische Biologie", "Elektrotechnik"],
+			    "term": "SS 08",
+			    "semesterHours": "2.0 SWS",
+			    "url": "https:\/\/ilias3.uni-stuttgart.de\/goto.php?target=crs_2737&client_id=Uni_Stuttgart",
+			    "timePlace": {
+			      "cycle": "w\u00f6ch.",
+			      "room": "Raum M 9.120",
+			      "day": "Donnerstag",
+			      "time": "17:15-18:45 Uhr"
+				    }
+			  		}
+					]';
+		$obj = json_decode($json);
+		
 	}
 }
 

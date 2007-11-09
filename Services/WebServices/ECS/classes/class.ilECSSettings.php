@@ -33,7 +33,9 @@
 class ilECSSettings
 {
 	const PROTOCOL_HTTP = 0;
-	const PROTOCOL_HTTPS = 1; 
+	const PROTOCOL_HTTPS = 1;
+	
+	public $fisch = 5;
 	
 	protected static $instance = null;
 
@@ -41,7 +43,8 @@ class ilECSSettings
 	private $server;
 	private $protocol;
 	private $port;
-	private $cert_path;
+	private $client_cert_path;
+	private $ca_cert_path;
 	private $polling;
 	private $import_id;
 
@@ -117,6 +120,28 @@ class ilECSSettings
 	public function getServer()
 	{
 	 	return $this->server;
+	}
+	
+	/**
+	 * get complete server uri
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getServerURI()
+	{
+	 	switch($this->getProtocol())
+	 	{
+	 		case self::PROTOCOL_HTTP:
+	 			$uri = 'http://';
+	 			break;
+	 			
+	 		case self::PROTOCOL_HTTPS:
+	 			$uri = 'https://';
+	 			break;
+	 	}
+	 	$uri .= $this->getServer().':'.$this->getPort();
+	 	return $uri;
 	}
 	
 	/**
@@ -231,9 +256,9 @@ class ilECSSettings
 	 * @param
 	 * 
 	 */
-	public function setCertPath($a_path)
+	public function setClientCertPath($a_path)
 	{
-	 	$this->cert_path = $a_path;
+	 	$this->client_cert_path = $a_path;
 	}
 
 	/**
@@ -241,9 +266,32 @@ class ilECSSettings
 	 *
 	 * @access public
 	 */
-	public function getCertPath()
+	public function getClientCertPath()
 	{
-	 	return $this->cert_path;
+	 	return $this->client_cert_path;
+	}
+	
+	/**
+	 * set ca cert path
+	 *
+	 * @access public
+	 * @param string ca cert path
+	 * 
+	 */
+	public function setCACertPath($a_ca)
+	{
+	 	$this->ca_cert_path = $a_ca;
+	}
+	
+	/**
+	 * get ca cert path
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getCACertPath()
+	{
+	 	return $this->ca_cert_path;
 	}
 	
 	/**
@@ -269,6 +317,27 @@ class ilECSSettings
 	}
 	
 	/**
+	 * Validate settings
+	 *
+	 * @access public
+	 * @param void
+	 * @return bool 
+	 * 
+	 */
+	public function validate()
+	{
+	 	if(!$this->isEnabled())
+	 	{
+	 		return true;
+	 	}
+		if(!$this->getServer() or !$this->getPort() or !$this->getClientCertPath() or !$this->getCACertPath())
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * save settings
 	 *
 	 * @access public
@@ -280,7 +349,8 @@ class ilECSSettings
 	 	$this->storage->set('server',$this->getServer());
 	 	$this->storage->set('port',$this->getPort());
 	 	$this->storage->set('protocol',$this->getProtocol());
-	 	$this->storage->set('cert_path',$this->getCertPath());
+	 	$this->storage->set('client_cert_path',$this->getClientCertPath());
+	 	$this->storage->set('ca_cert_path',$this->getCACertPath());
 	 	$this->storage->set('import_id',$this->getImportId());
 	 	$this->storage->set('polling',$this->getPollingTime());
 	}
@@ -306,7 +376,8 @@ class ilECSSettings
 		$this->setServer($this->storage->get('server'));
 		$this->setProtocol($this->storage->get('protocol'));
 		$this->setPort($this->storage->get('port'));
-		$this->setCertPath($this->storage->get('cert_path'));
+		$this->setClientCertPath($this->storage->get('client_cert_path'));
+		$this->setCACertPath($this->storage->get('ca_cert_path'));
 		$this->setPollingTime($this->storage->get('polling',128));
 		$this->setImportId($this->storage->get('import_id'));
 		$this->setEnabledStatus((int) $this->storage->get('active'));
