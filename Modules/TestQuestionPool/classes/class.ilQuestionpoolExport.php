@@ -215,6 +215,7 @@ class ilQuestionpoolExport
 		include_once "./classes/class.ilExcelWriterAdapter.php";
 		$adapter = new ilExcelWriterAdapter($this->export_dir . "/" . $this->filename, FALSE);
 		$workbook = $adapter->getWorkbook();
+		$workbook->setVersion(8); // Use Excel97/2000 Format
 		$format_bold =& $workbook->addFormat();
 		$format_bold->setBold();
 		$format_percent =& $workbook->addFormat();
