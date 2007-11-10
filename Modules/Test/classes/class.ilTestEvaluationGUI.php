@@ -722,6 +722,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle())) . ".xls";
 		$workbook = $adapter->getWorkbook();
+		$workbook->setVersion(8); // Use Excel97/2000 Format
 		// Creating a worksheet
 		$format_bold =& $workbook->addFormat();
 		$format_bold->setBold();

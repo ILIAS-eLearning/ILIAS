@@ -188,6 +188,7 @@ class ilSurveyEvaluationGUI
 				$excelfile = ilUtil::ilTempnam();
 				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 				$workbook = $adapter->getWorkbook();
+				$workbook->setVersion(8); // Use Excel97/2000 Format
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
@@ -460,6 +461,7 @@ class ilSurveyEvaluationGUI
 				$excelfile = ilUtil::ilTempnam();
 				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 				$workbook = $adapter->getWorkbook();
+				$workbook->setVersion(8); // Use Excel97/2000 Format
 				// Creating a worksheet
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
