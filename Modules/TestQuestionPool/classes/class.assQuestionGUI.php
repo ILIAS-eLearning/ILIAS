@@ -408,8 +408,12 @@ class assQuestionGUI
 		}
 	}
 
-	function originalSyncForm()
+	function originalSyncForm($return_to)
 	{
+		if (strlen($return_to))
+		{
+			$this->ctrl->setParameter($this, "return_to", $return_to);
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_sync_original.html", "Modules/TestQuestionPool");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
@@ -426,16 +430,53 @@ class assQuestionGUI
 		{
 			$this->object->syncWithOriginal();
 		}
-		$_GET["ref_id"] = $_GET["calling_test"];
-		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+		if (strlen($_GET["return_to"]))
+		{
+			$this->ctrl->redirect($this, $_GET["return_to"]);
+		}
+		else
+		{
+			$_GET["ref_id"] = $_GET["calling_test"];
+			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+		}
 	}
 
 	function cancelSync()
 	{
-		$_GET["ref_id"] = $_GET["calling_test"];
-		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+		if (strlen($_GET["return_to"]))
+		{
+			$this->ctrl->redirect($this, $_GET["return_to"]);
+		}
+		else
+		{
+			$_GET["ref_id"] = $_GET["calling_test"];
+			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+		}
 	}
 		
+	/**
+	* Saves the feedback for a single choice question
+	*
+	* Saves the feedback for a single choice question
+	*
+	* @access public
+	*/
+	function saveFeedback()
+	{
+		global $ilUser;
+		
+		$originalexists = $this->object->_questionExists($this->object->original_id);
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+		{
+			$this->originalSyncForm("feedback");
+		}
+		else
+		{
+			$this->feedback();
+		}
+	}
+	
 	/**
 	* save question
 	*/
