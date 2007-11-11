@@ -4262,6 +4262,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function showUserAnswersObject()
 	{
+		if (count($_POST))
+		{
+			$_SESSION["show_user_results"] = $_POST["chbUser"];
+		}
 		$this->showUserResults($show_pass_details = FALSE, $show_answers = TRUE);
 	}
 
@@ -4288,7 +4292,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", TRUE, TRUE, "Modules/Test");
 		
-		if (count($_POST["chbUser"]) == 0)
+		if (count($_SESSION["show_user_results"]) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("select_one_user"), TRUE);
 			$this->ctrl->redirect($this, "participants");
@@ -4297,7 +4301,7 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 		$serviceGUI =& new ilTestServiceGUI($this->object);
 		$count = 0;
-		foreach ($_POST["chbUser"] as $key => $active_id)
+		foreach ($_SESSION["show_user_results"] as $key => $active_id)
 		{
 			$count++;
 			$results = "";
@@ -4307,9 +4311,9 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			if ($active_id > 0)
 			{
-				$results = $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers);
+				$results = $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers, ($_GET["hide_ilias_content"]) ? TRUE : FALSE);
 			}
-			if ($count < count($_POST["chbUser"]))
+			if ($count < count($_SESSION["show_user_results"]))
 			{
 				$template->touchBlock("break");
 			}
@@ -4319,6 +4323,17 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
 		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
+		if ($_GET["hide_ilias_content"] == 1)
+		{
+			$this->ctrl->setParameter($this, "hide_ilias_content", 0);
+			$template->setVariable("HIDE_CONTENT_TEXT", $this->lng->txt("output_full_details"));
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "hide_ilias_content", 1);
+			$template->setVariable("HIDE_CONTENT_TEXT", $this->lng->txt("output_less_details"));
+		}
+		$template->setVariable("HIDE_CONTENT_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", $this->ctrl->getCmd()));
 		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 		$template->setVariable("PRINT_URL", "javascript:window.print();");
 		

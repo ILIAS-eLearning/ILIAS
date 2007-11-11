@@ -1485,6 +1485,16 @@ class assQuestion
 		}
 	}
 	
+	function syncXHTMLMediaObjectsOfQuestion()
+	{
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		foreach ($mobs as $mob)
+		{
+			ilObjMediaObject::_saveUsage($mob, "qpl:html", $this->original_id);
+		}
+	}
+	
 	function copyPageOfQuestion($a_q_id)
 	{
 		if ($a_q_id > 0)
@@ -1906,6 +1916,7 @@ class assQuestion
 			}
 		}
 		$this->syncFeedbackGeneric();
+		$this->syncXHTMLMediaObjectsOfQuestion();
 	}
 
 	function createRandomSolution($test_id, $user_id)
