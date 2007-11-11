@@ -1892,6 +1892,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 
 		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestoutputgui", "outParticipantsPassDetails");
+		$user_data = $this->getResultsUserdata($active_id, TRUE);
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
