@@ -390,7 +390,7 @@ class assNumericGUI extends assQuestionGUI
 		{
 			// get page object output
 			$pageoutput = $this->getILIASPage();
-			$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", "<div class=\"ilc_Question\">" . $solutionoutput . "</div>", $pageoutput);
+			$solutionoutput = "<div class=\"ilias_content\">" . preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", "</div><div class=\"ilc_Question\">" . $solutionoutput . "</div><div class=\"ilias_content\">", $pageoutput) . "</div>";
 		}
 		return $solutionoutput;
 	}
