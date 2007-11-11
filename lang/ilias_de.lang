@@ -7606,7 +7606,7 @@ common#:#delete_existing_file#:#Delete Existing File###23 09 2007 new variable
 common#:#reset_filter#:#Filter zurücksetzen
 common#:#activate#:#Aktivieren
 common#:#deactivate#:#Deaktivieren
-common#:#before#:#before###23 09 2007 new variable
+common#:#before#:#vor
 common#:#export_format_selection#:#Please select the export file format###23 09 2007 new variable
 common#:#export_format#:#Export format###23 09 2007 new variable
 common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
@@ -7620,10 +7620,10 @@ feed#:#feed_proxy_port#:#Proxy Port
 feed#:#feed_proxy_port_info#:#Proxy port for socket connection###23 09 2007 new variable
 common#:#user_activated#:#User has been approved###23 09 2007 new variable
 common#:#user_deactivated#:#User has been disapproved###23 09 2007 new variable
-common#:#usr_filter_lastlogin#:#Last login of user###23 09 2007 new variable
-common#:#usr_filter_coursemember#:#Member of course###23 09 2007 new variable
-common#:#usr_filter_groupmember#:#Member of group###23 09 2007 new variable
-common#:#usr_filter_role#:#Assigned role###23 09 2007 new variable
+common#:#usr_filter_lastlogin#:#Letztes Login eines Benutzers
+common#:#usr_filter_coursemember#:#Mitglied eines Kurses
+common#:#usr_filter_groupmember#:#Mitglied einer Gruppe
+common#:#usr_filter_role#:#Zugewiesene Rolle
 content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable
 content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
 content#:#seq_endsession#:#The current course session has ended.###23 09 2007 new variable
