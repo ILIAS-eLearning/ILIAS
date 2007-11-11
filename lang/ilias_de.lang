@@ -7714,3 +7714,5 @@ grp#:#grp_deleted_export_files#:#Die ausgewählten Dateien wurden gelöscht.
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#pass_finished#:#%s Durchlauf
+assessment#:#output_full_details#:#Alle Details anzeigen
+assessment#:#output_less_details#:#Weniger Details anzeigen

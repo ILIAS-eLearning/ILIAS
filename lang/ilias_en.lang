@@ -7715,3 +7715,5 @@ grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_select_one_file#:#Please select one file.
 assessment#:#passes_finished#:#%s passes
 assessment#:#pass_finished#:#%s pass
+assessment#:#output_full_details#:#Show full details
+assessment#:#output_less_details#:#Show less details

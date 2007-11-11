@@ -264,7 +264,7 @@ class ilTestServiceGUI
 * @return string HTML code of the list of answers
 * @access public
 */
-	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE, $only_answered_questions = FALSE)
+	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE, $only_answered_questions = FALSE, $show_question_only = FALSE)
 	{
 		$maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
@@ -284,7 +284,7 @@ class ilTestServiceGUI
 					$template->setVariable("COUNTER_QUESTION", $counter.". ");
 					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 
-					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE, $this->object->getShowSolutionFeedback());
+					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
 
 					$template->setVariable("SOLUTION_OUTPUT", $result_output);
 					$maintemplate->setCurrentBlock("printview_question");
@@ -782,7 +782,7 @@ class ilTestServiceGUI
 	*
 	* @access public
 	*/
-	function getResultsOfUserOutput($active_id, $pass, $show_pass_details = TRUE, $show_answers = TRUE)
+	function getResultsOfUserOutput($active_id, $pass, $show_pass_details = TRUE, $show_answers = TRUE, $show_question_only = FALSE)
 	{
 		global $ilias, $tpl;
 
@@ -813,7 +813,7 @@ class ilTestServiceGUI
 
 			if ($show_answers)
 			{
-				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, FALSE, $show_question_only);
 			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
