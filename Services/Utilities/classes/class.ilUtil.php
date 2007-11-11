@@ -3320,7 +3320,7 @@ class ilUtil
 
 		// Since no rbac_pa entries are available for the system role. This function returns !all! ref_ids in the case the user
 		// is assigned to the system role
-		if(!$rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
+		if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
 		{
 			$query = "SELECT ref_id FROM object_reference AS obr LEFT JOIN object_data AS obd USING(obj_id) ".
 				"LEFT JOIN tree ON obr.ref_id = tree.child ".
