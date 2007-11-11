@@ -1905,6 +1905,7 @@ class assQuestion
 				ilInternalLink::_saveLink("qst", $this->original_id, $matches[2], $matches[3], $matches[1]);
 			}
 		}
+		$this->syncFeedbackGeneric();
 	}
 
 	function createRandomSolution($test_id, $user_id)
@@ -2555,6 +2556,39 @@ class assQuestion
 			{
 				$duplicatequery = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($this->getId() . ""),
+					$ilDB->quote($row["correctness"] . ""),
+					$ilDB->quote($row["feedback"] . "")
+				);
+				$duplicateresult = $ilDB->query($duplicatequery);
+			}
+		}
+	}
+	
+	function syncFeedbackGeneric()
+	{
+		global $ilDB;
+
+		$feedback = "";
+
+		// delete generic feedback of the original
+		$deletequery = sprintf("DELETE FROM qpl_feedback_generic WHERE question_fi = %s",
+			$ilDB->quote($this->original_id . "")
+		);
+		$result = $ilDB->query($deletequery);
+			
+		// get generic feedback of the actual question
+		$query = sprintf("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+
+		// save generic feedback to the original
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$duplicatequery = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
+					$ilDB->quote($this->original_id . ""),
 					$ilDB->quote($row["correctness"] . ""),
 					$ilDB->quote($row["feedback"] . "")
 				);

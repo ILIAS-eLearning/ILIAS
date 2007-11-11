@@ -699,6 +699,46 @@ class assMultipleChoice extends assQuestion
 		return true;
 	}
 
+	/**
+	* Synchronizes the single answer feedback with an original question
+	*
+	* Synchronizes the single answer feedback with an original question
+	*
+	* @access public
+	*/
+	function syncFeedbackSingleAnswers()
+	{
+		global $ilDB;
+
+		$feedback = "";
+
+		// delete generic feedback of the original
+		$deletequery = sprintf("DELETE FROM qpl_feedback_multiplechoice WHERE question_fi = %s",
+			$ilDB->quote($this->original_id . "")
+		);
+		$result = $ilDB->query($deletequery);
+			
+		// get generic feedback of the actual question
+		$query = sprintf("SELECT * FROM qpl_feedback_multiplechoice WHERE question_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+
+		// save generic feedback to the original
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$duplicatequery = sprintf("INSERT INTO qpl_feedback_multiplechoice VALUES (NULL, %s, %s, %s, NULL)",
+					$ilDB->quote($this->original_id . ""),
+					$ilDB->quote($row["answer"] . ""),
+					$ilDB->quote($row["feedback"] . "")
+				);
+				$duplicateresult = $ilDB->query($duplicatequery);
+			}
+		}
+	}
+
 	function syncWithOriginal()
 	{
 		global $ilDB;
@@ -755,6 +795,7 @@ class assMultipleChoice extends assQuestion
 					$answer_result = $ilDB->query($query);
 				}
 			}
+			$this->syncFeedbackSingleAnswers();
 			parent::syncWithOriginal();
 		}
 	}

@@ -234,7 +234,7 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 		$this->object->cleanupMediaObjectUsage();
 
 		// additional feedback processing
-		$this->feedback();
+		parent::saveFeedback();
 	}
 
 	/**

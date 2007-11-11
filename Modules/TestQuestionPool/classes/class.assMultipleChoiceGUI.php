@@ -944,7 +944,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		}
 		$this->object->cleanupMediaObjectUsage();
-		$this->feedback();
+		parent::saveFeedback();
 	}
 
 	/**
