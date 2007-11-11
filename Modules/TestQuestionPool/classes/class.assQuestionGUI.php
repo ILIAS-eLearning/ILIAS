@@ -725,6 +725,32 @@ class assQuestionGUI
 		$this->editQuestion();
 	}
 	
+	/**
+	* get context path in content object tree
+	*
+	* @param	int		$a_endnode_id		id of endnode
+	* @param	int		$a_startnode_id		id of startnode
+	*/
+	function getContextPath($cont_obj, $a_endnode_id, $a_startnode_id = 1)
+	{
+		$path = "";
+
+		$tmpPath = $cont_obj->getLMTree()->getPathFull($a_endnode_id, $a_startnode_id);
+
+		// count -1, to exclude the learning module itself
+		for ($i = 1; $i < (count($tmpPath) - 1); $i++)
+		{
+			if ($path != "")
+			{
+				$path .= " > ";
+			}
+
+			$path .= $tmpPath[$i]["title"];
+		}
+
+		return $path;
+	}
+
 	function linkChilds()
 	{
 		switch ($_SESSION["search_link_type"])
@@ -734,21 +760,53 @@ class assQuestionGUI
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());
+				$shownpages = array();
+				$tree = $cont_obj->getLMTree();
+				$chapters = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
 				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
 				$this->getQuestionTemplate();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", "Modules/TestQuestionPool");
-				foreach($pages as $page)
+				foreach ($chapters as $chapter)
 				{
-					if($page["type"] == $_SESSION["search_link_type"])
+					$chapterpages = $tree->getChildsByType($chapter["obj_id"], "pg");
+					foreach ($chapterpages as $page)
+					{
+						if($page["type"] == $_SESSION["search_link_type"])
+						{
+							array_push($shownpages, $page["obj_id"]);
+							$this->tpl->setCurrentBlock("linktable_row");
+							$this->tpl->setVariable("TEXT_LINK", $page["title"]);
+							$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
+							$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
+							$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+							if ($tree->isInTree($page["obj_id"]))
+							{
+								$path_str = $this->getContextPath($cont_obj, $page["obj_id"]);
+							}
+							else
+							{
+								$path_str = "---";
+							}
+							$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
+							$this->tpl->parseCurrentBlock();
+							$counter++;
+						}
+					}
+				}
+				foreach ($pages as $page)
+				{
+					if (!in_array($page["obj_id"], $shownpages))
 					{
 						$this->tpl->setCurrentBlock("linktable_row");
 						$this->tpl->setVariable("TEXT_LINK", $page["title"]);
 						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
 						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
 						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+						$path_str = "---";
+						$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
 						$this->tpl->parseCurrentBlock();
 						$counter++;
 					}
