@@ -298,23 +298,29 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			if (!$is_postponed)
 			{
-				$this->tpl->setCurrentBlock("postpone");
-				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("postpone_bottom");
-				$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
-				$this->tpl->parseCurrentBlock();
+				if (!$finish)
+				{
+					$this->tpl->setCurrentBlock("postpone");
+					$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("postpone_bottom");
+					$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 		
 		if ($this->object->getListOfQuestions()) 
 		{
-			$this->tpl->setCurrentBlock("summary");
-			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("summary_bottom");
-			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
-			$this->tpl->parseCurrentBlock();
+			if (!(($finish) && ($this->object->getListOfQuestionsEnd())))
+			{
+				$this->tpl->setCurrentBlock("summary");
+				$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("summary_bottom");
+				$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		if ($this->object->getShowCancel()) 
