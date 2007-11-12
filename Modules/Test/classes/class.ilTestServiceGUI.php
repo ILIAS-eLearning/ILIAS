@@ -708,13 +708,13 @@ class ilTestServiceGUI
 		$invited_user = array_pop($this->object->getInvitedUsers($user_id));
 		if (strlen($invited_user->clientip))
 		{
-			$this->tpl->setCurrentBlock("user_clientip");
-			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("matriculation"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_clientip_value");
-			$this->tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_clientip_separator");
+			$template->setCurrentBlock("user_clientip");
+			$template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("user_clientip_value");
+			$template->setVariable("VALUE_CLIENT_IP", $invited_user->clientip);
+			$template->parseCurrentBlock();
+			$template->touchBlock("user_clientip_separator");
 			$title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user->clientip;
 		}
 
@@ -811,9 +811,15 @@ class ilTestServiceGUI
 				$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestservicegui", "getResultsOfUserOutput", $command_solution_details);
 			}
 
+			$user_id = $this->object->_getUserIdFromActiveId($active_id);
+			$showAllAnswers = TRUE;
+			if ($this->object->isExecutable($user_id))
+			{
+				$showAllAnswers = FALSE;
+			}
 			if ($show_answers)
 			{
-				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, FALSE, $show_question_only);
+				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, $showAllAnswers, $show_question_only);
 			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);

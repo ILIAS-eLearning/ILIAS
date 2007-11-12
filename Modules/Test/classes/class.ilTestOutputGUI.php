@@ -1040,7 +1040,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$template_top->setCurrentBlock("button_print");
 				$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
 				$template_top->parseCurrentBlock();
-	
+
 				$this->showListOfAnswers($active_id, NULL, $template_top->get(), $template->get());
 				return;
 			}
@@ -1529,22 +1529,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "Modules/Test");
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
-	
-		if (strlen($top_data))
-		{
-			$this->tpl->setCurrentBlock("top_data");
-			$this->tpl->setVariable("TOP_DATA", $top_data);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if (strlen($bottom_data))
-		{
-			$this->tpl->setCurrentBlock("bottom_data");
-			$this->tpl->setVariable("BOTTOM_DATA", $bottom_data);
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 
 		$counter = 1;
@@ -1567,6 +1551,22 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$counter ++;
 			}
 		}
+
+		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if (strlen($top_data))
+		{
+			$this->tpl->setCurrentBlock("top_data");
+			$this->tpl->setVariable("TOP_DATA", $top_data);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if (strlen($bottom_data))
+		{
+			$this->tpl->setCurrentBlock("bottom_data");
+			$this->tpl->setVariable("BOTTOM_DATA", $bottom_data);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
 		$user_data = $this->getResultsUserdata($active_id, TRUE);
@@ -1576,14 +1576,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-
 		$invited_user =& $this->object->getInvitedUsers($ilUser->getId());
 		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") . 
 			": " . $invited_user[$ilUser->getId()]->clientip . " - " . 
 			$this->lng->txt("matriculation") . ": " . 
 			$invited_user[$ilUser->getId()]->matriculation;
 		$this->tpl->setVariable("PAGETITLE", $pagetitle);
+		$this->tpl->parseCurrentBlock();
 	}
  
 /**
@@ -1623,7 +1622,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$signature = $this->getResultsSignature();
 			$result_array =& $this->object->getTestResult($active_id, $pass);
-			$answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, TRUE);
+			$active_data =& $this->object->getActiveTestUserFromActiveId($active_id);
+			$showAllAnswers = TRUE;
+			if ($this->object->isExecutable($active_data->user_fi))
+			{
+				$showAllAnswers = FALSE;
+			}
+			$answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, $showAllAnswers);
 			$this->tpl->setVariable("PASS_DETAILS", $answers);
 		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
