@@ -469,6 +469,7 @@ class ilObjTest extends ilObject
 		$this->fixed_participants = 0;
 		$this->setShowPassDetails(TRUE);
 		$this->setShowSolutionDetails(TRUE);
+		$this->setShowSolutionAnswersOnly(FALSE);
 		$this->testSession = FALSE;
 		$this->testSequence = FALSE;
 		global $lng;
@@ -8172,6 +8173,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 	}
 
+	/**
+	* Returns if the full solution (including ILIAS content) should be presented to the solution or not
+	*
+	* Returns if the full solution (including ILIAS content) should be presented to the solution or not
+	*
+	* @return boolean TRUE if the full solution should be presented in the solution output, FALSE otherwise
+	* @access public
+	*/
+		function getShowSolutionAnswersOnly()
+		{
+			if (($this->results_presentation & 16) > 0)
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+
 /**
 * Sets the combined results presentation value
 *
@@ -8288,6 +8309,59 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->results_presentation = $this->results_presentation ^ 8;
 			}
 		}
+	}
+
+	/**
+	* Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
+	*
+	* Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
+	*
+	* @param boolean $a_full TRUE if the full solution should be shown in the solution output, FALSE otherwise
+	* @access public
+	*/
+		function setShowSolutionAnswersOnly($a_full = TRUE)
+		{
+			if ($a_full)
+			{
+				$this->results_presentation = $this->results_presentation | 16;
+			}
+			else
+			{
+				if ($this->getShowSolutionAnswersOnly())
+				{
+					$this->results_presentation = $this->results_presentation ^ 16;
+				}
+			}
+		}
+
+/**
+* Returns an array containing the user ids of all users who passed the test
+*
+* Returns an array containing the user ids of all users who passed the test,
+* regardless if they fnished the test with the finish test button or not. Only
+* the reached points are counted
+*
+* @param integer $test_id Test id of the test
+* @return array An array containing the user ids of the users who passed the test
+* @access public
+*/
+	function &_getPassedUsers($a_obj_id)
+	{
+		$passed_users = array();
+		$test_id =  ilObjTest::_getTestIDFromObjectID($a_obj_id);
+		$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE);
+		if (is_object($results))
+		{
+			$participants =& $results->getParticipants();
+			foreach ($participants as $active_id => $participant)
+			{
+				if (is_object($participant) && $participant->getPassed())
+				{
+					array_push($passed_users, $active_id);
+				}
+			}
+		}
+		return $passed_users;
 	}
 
 	/**

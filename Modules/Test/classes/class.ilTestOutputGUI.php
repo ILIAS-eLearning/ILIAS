@@ -1503,6 +1503,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);
@@ -1553,6 +1557,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 		if (strlen($top_data))
 		{
 			$this->tpl->setCurrentBlock("top_data");
@@ -1647,6 +1655,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 	}
 
 /**
@@ -1752,6 +1764,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$template->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 		$templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
 		
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
@@ -1831,6 +1847,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 	}
 
 /**
@@ -1879,6 +1899,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 	}
 	
 /**
@@ -1949,6 +1973,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 	}
 }
 ?>

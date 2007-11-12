@@ -338,6 +338,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 		
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 	}
 	
 	/**
