@@ -4278,6 +4278,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function showPassOverviewObject()
 	{
+		if (count($_POST))
+		{
+			$_SESSION["show_user_results"] = $_POST["chbUser"];
+		}
 		$this->showUserResults($show_pass_details = TRUE, $show_answers = FALSE);
 	}
 	

@@ -1922,6 +1922,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
 			}
 		}
+		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
 
 		$this->tpl->parseCurrentBlock();
 
