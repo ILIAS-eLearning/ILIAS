@@ -1061,6 +1061,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_solution_printview"] = ($_POST["chb_show_solution_printview"] == 1) ? 1 : 0;
 		$data["show_solution_feedback"] = ($_POST["chb_show_solution_feedback"] == 1) ? 1 : 0;
 		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
+		$data["show_solution_answers_only"] = $_POST["chb_show_solution_answers_only"];
 		$data["show_pass_details"] = $_POST["chb_show_pass_details"];
 		$data["results_access"] = $_POST["results_access"];
 		
@@ -1072,6 +1073,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setAnswerFeedback($data["answer_feedback"]);
 		$this->object->setAnswerFeedbackPoints($data["answer_feedback_points"]);
 		$this->object->setShowSolutionDetails($data["show_solution_details"]);
+		$this->object->setShowSolutionAnswersOnly($data["show_solution_answers_only"]);
 		$this->object->setShowPassDetails($data["show_pass_details"]);
 		$this->object->setScoreReporting($data["results_access"]);
 		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
@@ -1125,6 +1127,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
 		$data["show_solution_feedback"] = $this->object->getShowSolutionFeedback();
 		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
+		$data["show_solution_answers_only"] = $this->object->getShowSolutionAnswersOnly();
 		$data["show_pass_details"] = $this->object->getShowPassDetails();
 		$data["results_access"] = $this->object->getScoreReporting();
 
@@ -1311,6 +1314,11 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($data["show_solution_details"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_ANSWERS_ONLY", $this->lng->txt("tst_show_solution_answers_only"));
+		if ($data["show_solution_answers_only"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_ANSWERS_ONLY", " checked=\"checked\"");
 		}
 
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_FEEDBACK", $this->lng->txt("tst_show_solution_feedback"));
@@ -4315,7 +4323,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			if ($active_id > 0)
 			{
-				$results = $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers, ($_GET["hide_ilias_content"]) ? TRUE : FALSE);
+				$results = $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers, FALSE);
 			}
 			if ($count < count($_SESSION["show_user_results"]))
 			{
@@ -4327,22 +4335,15 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
 		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
-		if ($_GET["hide_ilias_content"] == 1)
-		{
-			$this->ctrl->setParameter($this, "hide_ilias_content", 0);
-			$template->setVariable("HIDE_CONTENT_TEXT", $this->lng->txt("output_full_details"));
-		}
-		else
-		{
-			$this->ctrl->setParameter($this, "hide_ilias_content", 1);
-			$template->setVariable("HIDE_CONTENT_TEXT", $this->lng->txt("output_less_details"));
-		}
-		$template->setVariable("HIDE_CONTENT_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", $this->ctrl->getCmd()));
 		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 		$template->setVariable("PRINT_URL", "javascript:window.print();");
 		
 		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		if ($this->object->getShowSolutionAnswersOnly())
+		{
+			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+		}
 	}
 
 	function removeParticipantObject()
