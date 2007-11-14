@@ -124,8 +124,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "view"), 
 				array("view","editiLinc","editDelicious", "editGoogleMaps","editjsMath", ""), "", "");
 				
-			$tabs_gui->addTarget('ecs_server_settings',
-				$this->ctrl->getLinkTargetByClass('ilecssettingsgui','settings'));
+			#$tabs_gui->addTarget('ecs_server_settings',
+			#	$this->ctrl->getLinkTargetByClass('ilecssettingsgui','settings'));
 				
 		}
 
