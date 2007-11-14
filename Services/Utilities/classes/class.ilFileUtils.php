@@ -32,6 +32,9 @@
 *
 * @ingroup	ServicesUtilities
 */
+include_once 'Services/Utilities/classes/class.ilFileUtilsException.php';
+
+
 class ilFileUtils
 {
 	/**
@@ -44,14 +47,14 @@ class ilFileUtils
 	 * @param boolean structure  True if archive structure is to be overtaken
 	 * @param integer $ref_id ref_id of parent object, if null, files wont be included in system (just checked)
 	 * @param string containerType object type of created containerobjects (folder or category)
-	 * @return integer errorcode errorcode 0 - everything ok, 1 - broken file (not yet supported), 2 - virus found, 3 - flat upload not possible due to same filenames
+	 * @throws ilFileUtilsException
 	 */
 	 
 	function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null) {
 
 		global $lng;
 		include_once("class.ilUtil.php");
-
+				
 		$pathinfo = pathinfo($a_file);
 		$file = $pathinfo["basename"];
 
@@ -66,7 +69,8 @@ class ilFileUtils
 
 		// if there are no files unziped (->broken file!)
 		if (empty($filearray)) {
-			return 1;
+			throw new ilFileUtilsException($lng->txt("archive_broken"), ilFileUtilsException::$BROKEN_FILE);
+			break;
 		}
 
 		// virus handling
@@ -75,19 +79,17 @@ class ilFileUtils
 			$vir = ilUtil::virusHandling($filearray[path][$key], $value);
 			if (!$vir[0])
 			{
-				// Unlink file, send info and return errorcode 2 - virus found
+				// Unlink file and throw exception
 				unlink($a_file);
-				ilUtil::sendInfo($lng->txt("file_is_infected")."<br />".
-				$vir[1], true);
-				return 2;
-				
+				throw new ilFileUtilsException($lng->txt("file_is_infected")."<br />".$vir[1], ilFileUtilsException::$INFECTED_FILE);
+				break;
 			}
 			else
 			{
 				if ($vir[1] != "")
 				{
-					ilUtil::sendInfo($vir[1], true);
-					return 2;
+					throw new ilFileUtilsException($vir[1], ilFileUtilsException::$INFECTED_FILE);
+					break;
 				}
 			}
 			
@@ -107,8 +109,9 @@ class ilFileUtils
 			}
 			if (isset($doublettes))
 			{
-				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error") . $doublettes , true);
-				return 3;
+				throw new ilFileUtilsException($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error") . $doublettes , 
+								ilFileUtilsException::$DOUBLETTES_FOUND);
+				break;
 			}
 		}
 
@@ -117,7 +120,6 @@ class ilFileUtils
 		{
 			ilFileUtils::createObjects ($a_directory, $structure, $ref_id, $containerType);
 		}
-		return 0;
 		
 	}
 

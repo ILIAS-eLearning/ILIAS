@@ -288,27 +288,24 @@ class ilObjFileGUI extends ilObjectGUI
 			//		Path to uploaded file, 
 			//		should a structure be created (+ permission check)?
 			//		ref_id of parent
-			//		object that contains files (folder or category)  )
+			//		object that contains files (folder or category)  
+			//		should sendInfo be persistent?)
 			
-			$processDone = ilFileUtils::processZipFile( $newDir, 
-				$zip_file["tmp_name"],
-				($adopt_structure && $permission),
-				$_GET["ref_id"],
-				$containerType);
-					
-			if ($processDone == 0) {
+			try 
+			{
+				$processDone = ilFileUtils::processZipFile( $newDir, 
+					$zip_file["tmp_name"],
+					($adopt_structure && $permission),
+					$_GET["ref_id"],
+					$containerType,
+					true);
 				ilUtil::sendInfo($this->lng->txt("file_added"),true);					
 			}
-			else if($processDone == 1) {
-				ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" .$this->lng->txt("archive_broken"),true);
+			catch (ilFileUtilsException $e) 
+			{
+				ilUtil::sendInfo($e->getMessage(), true);
 			}
-			else if($processDone == 2) {
-				// Virus found, nothing to do				
-			}			
-			else if($processDone == 3) {
-				// Error message already sent (in processZipFile)
-				//ilUtil::sendInfo($this->lng->txt("exc_upload_error") . "<br />" . $this->lng->txt("zip_structure_error"),true);
-			}
+		
 			ilUtil::delDir($newDir);
 			$this->ctrl->returnToParent($this);
 		}
