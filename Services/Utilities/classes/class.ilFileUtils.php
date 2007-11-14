@@ -42,7 +42,7 @@ class ilFileUtils
 	 * @param string $a_directory Directory to unzip 
 	 * @param string $a_file Filename of archive
 	 * @param boolean structure  True if archive structure is to be overtaken
-	 * @param integer $ref_id ref_id of parent object, if null, files won�t be included in system (just checked)
+	 * @param integer $ref_id ref_id of parent object, if null, files wont be included in system (just checked)
 	 * @param string containerType object type of created containerobjects (folder or category)
 	 * @return integer errorcode errorcode 0 - everything ok, 1 - broken file (not yet supported), 2 - virus found, 3 - flat upload not possible due to same filenames
 	 */
@@ -51,7 +51,7 @@ class ilFileUtils
 
 		global $lng;
 		include_once("class.ilUtil.php");
-		
+
 		$pathinfo = pathinfo($a_file);
 		$file = $pathinfo["basename"];
 

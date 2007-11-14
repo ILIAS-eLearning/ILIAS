@@ -133,7 +133,7 @@ class ilObjExercise extends ilObject
 		global $lng;
 		if ($unzipUploadedFile && preg_match("/zip/",	$a_http_post_files["type"]) == 1)
 		{
-			$processDone = $this->processUploadedFile($_FILES["file"]["tmp_name"], "storeUploadedFile");
+			$processDone = $this->processUploadedFile($a_http_post_files["tmp_name"], "storeUploadedFile");
 			if($processDone == 1) {
 				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" .$lng->txt("archive_broken"),true);
 				// Always return true, error-processing is done in all error-cases
@@ -146,8 +146,6 @@ class ilObjExercise extends ilObject
 				//ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error"),true);
 			}
 			return true;
-			
-			
 		}
 		else 
 		{
