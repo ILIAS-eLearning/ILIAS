@@ -50,7 +50,7 @@ class ilGoogleMapGUI
 		if ($gm_set->get("api_key") != "")
 		{
 			$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
-				$gm_set->get("api_key"));
+				$gm_set->get("api_key"), false);
 			$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
 			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
 		}

@@ -93,14 +93,20 @@ class ilPDNewsTableGUI extends ilTable2GUI
 				}
 				else
 				{
-					$user_obj = new ilObjUser($a_set["user_id"]);
-					$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+					if (ilObject::_exists($a_set["user_id"]))
+					{
+						$user_obj = new ilObjUser($a_set["user_id"]);
+						$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+					}
 				}
 			}
 			else
 			{
-				$user_obj = new ilObjUser($a_set["user_id"]);
-				$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+				if (ilObject::_exists($a_set["user_id"]))
+				{
+					$user_obj = new ilObjUser($a_set["user_id"]);
+					$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+				}
 			}
 			$this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 			$this->tpl->parseCurrentBlock();

@@ -292,7 +292,15 @@ class ilNewsItem extends ilNewsItemGen
 		// get subtree
 		$ilBench->start("News", "getAggregatedNewsData_getSubTree");
 		$cur_node = $tree->getNodeData($a_ref_id);
-		$nodes = $tree->getSubTree($cur_node, true);
+
+		if ($cur_node["lft"] != "")		// should never be empty
+		{
+			$nodes = $tree->getSubTree($cur_node, true);
+		}
+		else
+		{
+			$nodes = array();
+		}
 		
 		// preload object data cache
 		$ref_ids = array();

@@ -2992,7 +2992,8 @@ class ilObjUser extends ilObject
 			$items = array();
 			while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if ($tree->isInTree($item_rec["ref_id"]))
+				if ($tree->isInTree($item_rec["ref_id"])
+					&& $item_rec["type"] != "rolf")
 				{
 					$parent_ref = $tree->getParentId($item_rec["ref_id"]);
 					$par_left = $tree->getLeftValue($parent_ref);

@@ -102,15 +102,27 @@ class ilPDNewsGUI
 		include_once("Services/News/classes/class.ilNewsItem.php");
 		
 		// get news
-		$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($ilUser->getId());
+		//$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($ilUser->getId());
+		
+		$ref_ids = array();
+		$obj_ids = array();
 		if ($ilUser->prefs["pd_items_news"] != "n")
 		{
 			$pd_items = $ilUser->getDesktopItems();
 			foreach($pd_items as $item)
 			{
 				$ref_ids[] = $item["ref_id"];
+				$obj_ids[] = $item["obj_id"];
 			}
 		}
+		
+		$sel_ref_id = ($_GET["news_ref_id"] > 0)
+			? $_GET["news_ref_id"]
+			: $ilUser->getPref("news_sel_ref_id");
+		
+		// todo: time period
+		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
+		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $per);
 		
 		// related objects (contexts) of news
 		$news_tpl->setCurrentBlock("related_option");
@@ -119,11 +131,24 @@ class ilPDNewsGUI
 		$news_tpl->parseCurrentBlock();
 		
 		$conts = array();
+		$sel_has_news = false;
 		foreach ($ref_ids as $ref_id)
 		{
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$title = ilObject::_lookupTitle($obj_id);
-			$conts[$ref_id] = $title;
+			if (in_array($obj_id, $news_obj_ids))
+			{
+				$conts[$ref_id] = $title;
+				if ($sel_ref_id == $ref_id)
+				{
+					$sel_has_news = true;
+				}
+			}
+		}
+		// reset selected news ref id, if no news are given for id
+		if (!$sel_has_news)
+		{
+			$sel_ref_id = "";
 		}
 		asort($conts);
 		foreach($conts as $ref_id => $title)
@@ -131,7 +156,7 @@ class ilPDNewsGUI
 			$news_tpl->setCurrentBlock("related_option");
 			$news_tpl->setVariable("VAL_RELATED", $ref_id);
 			$news_tpl->setVariable("TXT_RELATED", $title);
-			if ($_GET["news_ref_id"] == $ref_id)
+			if ($sel_ref_id == $ref_id)
 			{
 				$news_tpl->setVariable("SEL", ' selected="selected" ');
 			}
@@ -145,17 +170,19 @@ class ilPDNewsGUI
 		$news_tpl->parseCurrentBlock();
 		
 		$nitem = new ilNewsItem();
-		if ($_GET["news_ref_id"] > 0)
+		if ($sel_ref_id > 0)
 		{
-			$obj_id = ilObject::_lookupObjId($_GET["news_ref_id"]);
+			$obj_id = ilObject::_lookupObjId($sel_ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
 			$nitem->setContextObjId($obj_id);
 			$nitem->setContextObjType($obj_type);
-			$news_items = $nitem->getNewsForRefId($_GET["news_ref_id"]);
+			$news_items = $nitem->getNewsForRefId($sel_ref_id, false,
+				false, $per, true);
 		}
 		else
 		{
-			$news_items = $nitem->_getNewsItemsOfUser($ilUser->getId());
+			$news_items = $nitem->_getNewsItemsOfUser($ilUser->getId(), false,
+				true, $per);
 		}
 				
 		include_once("./Services/News/classes/class.ilPDNewsTableGUI.php");
@@ -172,7 +199,10 @@ class ilPDNewsGUI
 	*/
 	function changeRelatedObject()
 	{
+		global $ilUser;
+		
 		$this->ctrl->setParameter($this, "news_ref_id", $_POST["news_ref_id"]);
+		$ilUser->writePref("news_sel_ref_id", $_POST["news_ref_id"]);
 		$this->ctrl->redirect($this, "view");
 	}
 

@@ -520,7 +520,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		foreach ($news_list as $item)
 		{
 			// user
-			if ($item["user_id"] > 0)
+			if ($item["user_id"] > 0 && ilObject::_exists($item["user_id"]))
 			{
 				// get login
 				if (ilObjUser::_exists($item["user_id"])) 
