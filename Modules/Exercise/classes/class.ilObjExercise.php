@@ -133,19 +133,11 @@ class ilObjExercise extends ilObject
 		global $lng;
 		if ($unzipUploadedFile && preg_match("/zip/",	$a_http_post_files["type"]) == 1)
 		{
-			$processDone = $this->processUploadedFile($a_http_post_files["tmp_name"], "storeUploadedFile");
-			if($processDone == 1) {
-				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" .$lng->txt("archive_broken"),true);
-				// Always return true, error-processing is done in all error-cases
-			}
-			else if($processDone == 2) {
-				// Virus found, nothing to do
-			}			
-			else if($processDone == 3) {
-				// already reported in processUploadedFile
-				//ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error"),true);
-			}
+
+			$this->processUploadedFile($_FILES["file"]["tmp_name"], "storeUploadedFile", true);
 			return true;
+			
+			
 		}
 		else 
 		{
@@ -635,8 +627,9 @@ class ilObjExercise extends ilObject
 	* processes errorhandling etc for uploaded archive
 	* @param string $tmpFile path and filename to uploaded file
 	* @param string $storageMethod deliverFile or storeUploadedFile 
+	* @param boolean $persistentErrorMessage Defines whether sendInfo will be persistent or not
 	*/
-	function processUploadedFile ($fileTmp, $storageMethod)
+	function processUploadedFile ($fileTmp, $storageMethod, $persistentErrorMessage)
 	{
 		global $lng, $ilUser;
 
@@ -645,10 +638,12 @@ class ilObjExercise extends ilObject
 		ilUtil::makeDir($newDir);
 
 		include_once ("Services/Utilities/classes/class.ilFileUtils.php");
-		$processDone = ilFileUtils::processZipFile($newDir,$fileTmp, false);
+		
+		try 
+		{
+			$processDone = ilFileUtils::processZipFile($newDir,$fileTmp, false);
+			ilFileUtils::recursive_dirscan($newDir, $filearray);			
 
-		ilFileUtils::recursive_dirscan($newDir, $filearray);			
-		if ($processDone == 0) {
 			foreach ($filearray["file"] as $key => $filename)
 			{
 				$a_http_post_files["name"] = $filename;
@@ -666,8 +661,15 @@ class ilObjExercise extends ilObject
 					$this->file_obj->$storageMethod($a_http_post_files, true, true);				
 				}
 			}
+			ilUtil::sendInfo($this->lng->txt("file_added"),$persistentErrorMessage);					
 
+		} 
+		catch (ilFileUtilsException $e) 
+		{
+			ilUtil::sendInfo($e->getMessage(), $persistentErrorMessage);
 		}
+		
+
 		ilUtil::delDir($newDir);
 		return $processDone;
 

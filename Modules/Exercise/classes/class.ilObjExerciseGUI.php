@@ -277,18 +277,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		if (!empty($_POST["cmd"][deliverUnzip]) && preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
 		{
-			$processDone = $this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile");
-			if($processDone == 1) {
-				ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" .$lng->txt("archive_broken"));
-				// Always return true, error-processing is done in all error-cases
-			}
-			else if($processDone == 2) {
-				// Virus found, nothing to do
-			}			
-			else if($processDone == 3) {
-				// Error message already sent (in processUploadedFile)
-				//ilUtil::sendInfo($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error"));
-			}
+			$this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false);
 			
 		}
 		else
