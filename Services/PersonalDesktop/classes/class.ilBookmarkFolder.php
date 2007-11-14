@@ -246,8 +246,17 @@ class ilBookmarkFolder
 		$tree->setTableNames('bookmark_tree','bookmark_data');
 
 		$root_node = $tree->getNodeData($tree->getRootId());
-		$bmf = $tree->getSubTree($root_node, false, "bmf");
-		$bm = $tree->getSubTree($root_node, false, "bm");
+		
+		if ($root_node["lft"] != "")
+		{
+			$bmf = $tree->getSubTree($root_node, false, "bmf");
+			$bm = $tree->getSubTree($root_node, false, "bm");
+		}
+		else
+		{
+			$bmf = array("dummy");
+			$bm = array();
+		}
 		
 		return array("folders" => (int) count($bmf) - 1, "bookmarks" => (int) count($bm));
 	}

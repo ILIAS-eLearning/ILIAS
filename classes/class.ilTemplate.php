@@ -51,7 +51,8 @@ class ilTemplate extends ilTemplateX
 	*/
 	var $activeBlock;
 	
-	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
+	var $js_files = array(0 => "Services/JavaScript/js/Basic.js");		// list of JS files that should be included
+	var $js_files_vp = array("Services/JavaScript/js/Basic.js" => true);	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
 
 	/**
@@ -329,7 +330,16 @@ class ilTemplate extends ilTemplateX
 				if (is_file($file) || substr($file, 0, 4) == "http")
 				{
 					$this->setCurrentBlock("js_file");
-					$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file,$vers));
+
+					if ($this->js_files_vp[$file])
+					{
+						$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file,$vers));
+					}
+					else
+					{
+						$this->setVariable("JS_FILE", $file);
+					}
+					
 					$this->parseCurrentBlock();
 				}
 			}
@@ -1013,11 +1023,12 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Add a javascript file that should be included in the header.
 	*/
-	function addJavaScript($a_js_file)
+	function addJavaScript($a_js_file, $a_add_version_parameter = true)
 	{
 		if (!in_array($a_js_file, $this->js_files))
 		{
 			$this->js_files[] = $a_js_file;
+			$this->js_files_vp[$a_js_file] = $a_add_version_parameter;
 		}
 	}
 
