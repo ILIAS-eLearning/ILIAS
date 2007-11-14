@@ -86,7 +86,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
+		
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
