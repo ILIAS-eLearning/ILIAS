@@ -7715,3 +7715,4 @@ grp#:#grp_deleted_export_files#:#Die ausgewählten Dateien wurden gelöscht.
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#pass_finished#:#%s Durchlauf
+survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable

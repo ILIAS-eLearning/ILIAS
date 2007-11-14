@@ -2128,7 +2128,7 @@ common#:#forum_notify_me_generally#:#Please inform me about any new contribution
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forums#:#Forums
 common#:#forums_articles#:#Articles
-common#:#forums_last_post#:#Last Article
+common#:#forums_last_post#:#Latest Article
 common#:#forums_moderators#:#Moderators
 common#:#forums_new_articles#:#New Articles
 common#:#forums_overview#:#Forums Overview
@@ -5261,12 +5261,12 @@ forum#:#move_chosen_topics#:#Move Chosen Topics
 forum#:#to_forum#:#To Forum
 forum#:#no_forum_selected#:#No forum selected for moving the chosen topics
 forum#:#sure_move_threads#:#Are you sure you want to move the chosen topics?
-forum#:#sticky#:#sticky
+forum#:#sticky#:#Sticky
 forum#:#make_topics_sticky#:#Make Topics Sticky
 forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky
 forum#:#make_topic_sticky#:#Make Topic Sticky
 forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky
-forum#:#topic_close#:#close
+forum#:#topic_close#:#Closed
 forum#:#close_topics#:#Close
 forum#:#reopen_topics#:#Reopen
 forum#:#activate_post#:#Activate

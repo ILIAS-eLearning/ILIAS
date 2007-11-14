@@ -7710,3 +7710,9 @@ mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
 mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
 survey#:#on_additional#:#On, and additional###02 11 2007 new variable
+assessment#:#tst_show_solution_answers_only#:#Results print view (answers only)###14 11 2007 new variable
+survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
+grp#:#grp_deleted_export_files#:#Deleted export files.###14 11 2007 new variable
+grp#:#grp_select_one_file#:#Please select one file.###14 11 2007 new variable
+assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
+assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
