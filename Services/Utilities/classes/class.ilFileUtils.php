@@ -53,7 +53,7 @@ class ilFileUtils
 	function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null) {
 
 		global $lng;
-		include_once("class.ilUtil.php");
+		include_once("Services/Utilities/classes/class.ilUtil.php");
 				
 		$pathinfo = pathinfo($a_file);
 		$file = $pathinfo["basename"];

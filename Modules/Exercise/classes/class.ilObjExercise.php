@@ -134,7 +134,7 @@ class ilObjExercise extends ilObject
 		if ($unzipUploadedFile && preg_match("/zip/",	$a_http_post_files["type"]) == 1)
 		{
 
-			$this->processUploadedFile($_FILES["file"]["tmp_name"], "storeUploadedFile", true);
+			$this->processUploadedFile($a_http_post_files["tmp_name"], "storeUploadedFile", true);
 			return true;
 			
 			
