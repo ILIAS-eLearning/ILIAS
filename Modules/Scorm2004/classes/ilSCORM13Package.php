@@ -30,14 +30,17 @@
 require_once "./Modules/Scorm2004/classes/ilSCORM13Package.php";
 require_once "./Modules/Scorm2004/classes/adlparser/SeqTreeBuilder.php";
 
-//include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
 
 class ilSCORM13Package
 {
 
 	const DB_ENCODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13.xsl';
+	const CONVERT_XSL   = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
 	const DB_DECODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
-	const VALIDATE_XSD = './Modules/Scorm2004/templates/xsd/op/op-scorm13.xsd';
+	const VALIDATE_XSD  = './Modules/Scorm2004/templates/xsd/op/op-scorm13.xsd';
+	
+	const WRAPPER_HTML  = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+	const WRAPPER_JS  	= './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 	
 
 	private $packageFile;
@@ -270,6 +273,54 @@ class ilSCORM13Package
 		}
 	}
 
+
+
+	public function convert_1_2_to_2004() {
+		##check manifest-file for version. Check for schemaversion as this is a required element for SCORM 2004
+		##accept 2004 3rd Edition an CAM 1.3 as valid schemas
+		
+		$doc = new DomDocument();
+	  	$doc->load($this->imsmanifestFile);
+	  	$elements = $doc->getElementsByTagName("schemaversion");
+		$schema=$elements->item(0)->nodeValue;
+		if (strtolower($schema)=="cam 1.3" || strtolower($schema)=="2004 3rd edition") {
+			//no conversion
+			$this->converted=false;
+			return true;
+			
+		} else {
+			$this->converted=true;
+			//convert to SCORM 2004
+			
+			//first copy wrappers
+			$wrapperdir=$this->packageFolder."/GenericRunTimeWrapper1.0_aadlc";
+			mkdir($wrapperdir);
+			copy(self::WRAPPER_HTML,$wrapperdir."/GenericRunTimeWrapper.htm");
+			copy(self::WRAPPER_JS,$wrapperdir."/SCOPlayerWrapper.js");
+			
+			//copy schema
+			
+			
+			//backup manifestfile
+			$this->backupManifest=$this->packageFolder."/imsmanifest.xml.back";
+			$ret=copy($this->imsmanifestFile,$this->backupManifest);
+			
+			//transform manifest file
+			$this->totransform = new DOMDocument;
+		  	$this->totransform->async = false;
+			$this->totransform->load($this->imsmanifestFile);
+			$this->newmaninfest = $this->transform($this->totransform, self::CONVERT_XSL,$this->imsmanifestFile);
+			if (!$this->newmaninfest)
+		  	{
+		  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
+		  		return false;
+		  	} else {
+				return true;
+			}	
+		}
+		
+	}
+
 	/**
 	* Imports an extracted SCORM 2004 module from ilias-data dir into database
 	*
@@ -284,7 +335,13 @@ $ilLog->write("SCORM: il_import");
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
 	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
-	  	//step 1 - parse Manifest-File
+		//check manifest, if manifest is already SCORM 2004..otherwise convert
+		if (!$this->convert_1_2_to_2004()) {
+			$this->diagnostic[] = 'The uploaded package could not be converted to SCORM 2004.';
+		  	return false;
+		}
+				
+	  	//step 1 - parse Manifest-File and validate
 	  	$this->imsmanifest = new DOMDocument;
 	  	$this->imsmanifest->async = false;
 	  	if (!@$this->imsmanifest->load($this->imsmanifestFile))
