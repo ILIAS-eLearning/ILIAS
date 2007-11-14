@@ -76,6 +76,27 @@ class ilLDAPQuery
 		$this->connect();
 	}
 	
+	/**
+	 * Get one user by login name
+	 *
+	 * @access public
+	 * @param string login name
+	 * @return array of user data
+	 */
+	public function fetchUser($a_name)
+	{
+		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
+		
+		if(!$this->readUserData($a_name))
+		{
+			return array();
+		}
+		else
+		{
+			return $this->users;
+		}
+	}
+	
 	
 	/**
 	 * Fetch all users 
@@ -354,7 +375,7 @@ class ilLDAPQuery
 			unset($tmp_result);
 			return false;
 		}
-
+		
 		if($user_data = $tmp_result->get())
 		{
 			if(isset($user_data['useraccountcontrol']))
@@ -370,6 +391,7 @@ class ilLDAPQuery
 			$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount('ldap',$user_ext);
 			$this->users[$user_ext] = $user_data;
 		}
+		return true;
 	}
 	
 	/**
