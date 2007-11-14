@@ -519,7 +519,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		if(!$this->object->addUploadedFile($_FILES["file"], true))
+
+		if(!$this->object->addUploadedFile($_FILES["zipfile"], true))
 		{
 			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
 		}
@@ -530,6 +531,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function uploadFileObject()
 	{
 		global $rbacsystem;
+
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
