@@ -895,7 +895,6 @@ class ilCtrl
 	function setCmdClass($a_cmd_class)
 	{
 		$a_cmd_class = strtolower($a_cmd_class);
-
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_cmd_class);
 		$_GET["cmdClass"] = $a_cmd_class;
 		$_GET["cmdNode"] = $nr;
