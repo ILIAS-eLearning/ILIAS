@@ -251,5 +251,37 @@ class ilMDContribute extends ilMDBase
 		}
 		return $ids ? $ids : array();
 	}
+	
+	/**
+	 * Lookup authors
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int rbac_id
+	 * @param int obj_id
+	 * @param string obj_type
+	 * @return array string authors
+	 */
+	public static function _lookupAuthors($a_rbac_id,$a_obj_id,$a_obj_type)
+	{
+		global $ilDB;
+		
+		
+		// Ask for 'author' later to use indexes 
+		$query = "SELECT entity,ent.parent_type,role FROM il_meta_entity as ent ".
+			"JOIN il_meta_contribute as con ON ent.parent_id = con.meta_contribute_id ".
+			"WHERE  ent.rbac_id = ".$ilDB->quote($a_rbac_id)." ".
+			"AND ent.obj_id = ".$ilDB->quote($a_obj_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->role == 'Author' and $row->parent_type == 'meta_contribute')
+			{
+				$authors[] = trim($row->entity);
+			}
+		}
+		return $authors ? $authors : array();
+	}
 }
 ?>

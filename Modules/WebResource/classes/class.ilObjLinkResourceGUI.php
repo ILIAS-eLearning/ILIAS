@@ -106,6 +106,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 					
 				break;
 		}
+		
+		if(!$this->getCreationMode())
+		{
+			// Fill meta header tags
+			include_once('Services/MetaData/classes/class.ilMDUtils.php');
+			ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'webr');
+		}
 		return true;
 	}
 	
