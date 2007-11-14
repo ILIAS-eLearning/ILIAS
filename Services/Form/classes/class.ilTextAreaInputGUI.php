@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+
 /**
 * This class represents a text area property in a property form.
 *
