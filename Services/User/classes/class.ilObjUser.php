@@ -3483,9 +3483,11 @@ class ilObjUser extends ilObject
 		}
 		foreach($a_data as $field => $data)
 		{
-			$new_data[$field] = ilUtil::stripSlashes($data);
+			#$new_data[$field] = ilUtil::stripSlashes($data);
+			// Assign it directly to avoid update problems of unchangable fields 
+			$this->user_defined_data[$field] = $data;
 		}
-		$this->user_defined_data = $new_data;
+		#$this->user_defined_data = $new_data;
 
 		return true;
 	}

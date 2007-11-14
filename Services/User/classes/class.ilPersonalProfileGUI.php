@@ -1499,23 +1499,37 @@ class ilPersonalProfileGUI
 			if($definition['field_type'] == UDF_TYPE_TEXT)
 			{
 				$this->tpl->setCurrentBlock("field_text");
-				$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
 				$this->tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($user_defined_data[$field_id]));
 				if(!$definition['changeable'])
 				{
 					$this->tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
+					$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
+				}
+				else
+				{
+					$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
 				}
 				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
+				if($definition['changeable'])
+				{
+					$name = 'udf['.$definition['field_id'].']';
+					$disabled = false;
+				}
+				else
+				{
+					$name = '';
+					$disabled = true;
+				}
 				$this->tpl->setCurrentBlock("field_select");
 				$this->tpl->setVariable("SELECT_BOX",ilUtil::formSelect($user_defined_data[$field_id],
-																		'udf['.$definition['field_id'].']',
+																		$name,
 																		$this->user_defined_fields->fieldValuesToSelectArray(
 																			$definition['field_values']),
 																		false,
-																		true));
+																		true,0,'','',$disabled));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("user_defined");
