@@ -249,6 +249,7 @@ class ilTemplate extends ilTemplateX
 		if($a_fill_tabs)
 		{
 			$this->setContentStyle();
+			$this->fillContentLanguage();
 			$this->fillWindowTitle();
 			$this->fillMainMenu();
 			$this->fillTabs();
@@ -277,6 +278,34 @@ class ilTemplate extends ilTemplateX
 		}
 
 		$this->handleReferer();
+	}
+	
+	
+	/**
+	 * Add current user language to meta tags
+	 *
+	 * @access public
+	 * 
+	 */
+	public function fillContentLanguage()
+	{
+	 	global $ilUser,$lng;
+	 	
+	 	if(is_object($ilUser))
+	 	{
+	 		if($ilUser->getLanguage())
+	 		{
+		 		$this->setVariable('META_CONTENT_LANGUAGE',$ilUser->getLanguage());
+		 		return true;
+	 		}
+	 		if(is_object($lng))
+	 		{
+		 		$this->setVariable('META_CONTENT_LANGUAGE',$lng->getDefaultLanguage());
+		 		return true;
+	 		}
+	 	}
+ 		$this->setVariable('META_CONTENT_LANGUAGE','en');
+		return true;	 	
 	}
 
 	function fillWindowTitle()

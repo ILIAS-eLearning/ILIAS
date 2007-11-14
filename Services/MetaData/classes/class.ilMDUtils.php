@@ -109,6 +109,15 @@ class ilMDUtils
 			$tpl->setVariable('MH_META_CONTENT',$key_string);
 			$tpl->parseCurrentBlock();
 		}
+		include_once('Services/MetaData/classes/class.ilMDContribute.php');
+		foreach(ilMDContribute::_lookupAuthors($a_rbac_id,$a_obj_id,$a_type) as $author)
+		{
+			$tpl->setCurrentBlock('mh_meta_item');
+			$tpl->setVariable('MH_META_NAME','author');
+			$tpl->setVariable('MH_META_CONTENT',$author);
+			$tpl->parseCurrentBlock();
+		}
+		
 	}
 
 	/**
