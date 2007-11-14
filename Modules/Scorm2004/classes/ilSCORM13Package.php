@@ -276,6 +276,8 @@ class ilSCORM13Package
 
 
 	public function convert_1_2_to_2004() {
+		global $ilDB, $ilLog;
+		
 		##check manifest-file for version. Check for schemaversion as this is a required element for SCORM 2004
 		##accept 2004 3rd Edition an CAM 1.3 as valid schemas
 		
@@ -300,7 +302,6 @@ class ilSCORM13Package
 			
 			//copy schema
 			
-			
 			//backup manifestfile
 			$this->backupManifest=$this->packageFolder."/imsmanifest.xml.back";
 			$ret=copy($this->imsmanifestFile,$this->backupManifest);
@@ -309,14 +310,11 @@ class ilSCORM13Package
 			$this->totransform = new DOMDocument;
 		  	$this->totransform->async = false;
 			$this->totransform->load($this->imsmanifestFile);
+			$ilLog->write("SCORM: about to transform to SCORM 2004");
+			
 			$this->newmaninfest = $this->transform($this->totransform, self::CONVERT_XSL,$this->imsmanifestFile);
-			if (!$this->newmaninfest)
-		  	{
-		  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
-		  		return false;
-		  	} else {
-				return true;
-			}	
+			$ilLog->write("SCORM: Transoformation completed");
+			return true;
 		}
 		
 	}
@@ -336,10 +334,11 @@ $ilLog->write("SCORM: il_import");
 	  	$this->packageId=$packageId;
 	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
 		//check manifest, if manifest is already SCORM 2004..otherwise convert
-		if (!$this->convert_1_2_to_2004()) {
+		if ($this->convert_1_2_to_2004()==false) {
 			$this->diagnostic[] = 'The uploaded package could not be converted to SCORM 2004.';
 		  	return false;
 		}
+		$ilLog->write("SCORM: converted");
 				
 	  	//step 1 - parse Manifest-File and validate
 	  	$this->imsmanifest = new DOMDocument;
@@ -350,6 +349,8 @@ $ilLog->write("SCORM: il_import");
 	  		return false;
 	  	}
     
+		$ilLog->write("SCORM: parse");
+
 	  	//step 2 tranform
 	  	$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
     
@@ -358,6 +359,7 @@ $ilLog->write("SCORM: il_import");
 	  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
 	  		return false;
 	  	}
+		$ilLog->write("SCORM: normalize");
 	
 	  	//step 3 validation -just for normalized XML
 	  	if (!$this->validate($this->manifest, self::VALIDATE_XSD))
@@ -370,9 +372,12 @@ $ilLog->write("SCORM: il_import");
 			$this->diagnostic[] = 'normalized XML is not conform to ' . self::VALIDATE_XSD;
 	  		return false;
 	  	}
+		$ilLog->write("SCORM: validate");
 	
 //	  	ilSCORM13DB::begin();
 	  	$this->dbImport($this->manifest);
+		$ilLog->write("SCORM: import new");
+	
 //	  	ilSCORM13DB::commit();
 	  	//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
@@ -442,6 +447,8 @@ $ilLog->write("SCORM: il_import");
 	  		'jsdata' => json_encode($j),
 			'activitytree' => json_encode($adl_tree)
 	  		), 'obj_id');*/
+		$ilLog->write("SCORM: import update");
+	
 	  	return $j['item']['title'];
 	  }
 	/**
