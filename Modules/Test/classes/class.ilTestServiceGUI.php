@@ -284,6 +284,7 @@ class ilTestServiceGUI
 					$template->setVariable("COUNTER_QUESTION", $counter.". ");
 					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 
+					$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
 
 					$template->setVariable("SOLUTION_OUTPUT", $result_output);
@@ -344,7 +345,8 @@ class ilTestServiceGUI
 						$template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("points"));
 					}
 					
-					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, FALSE, $this->object->getShowSolutionFeedback());
+					$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
+					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
 					if ($this->object->getShowSolutionFeedback())
 					{
 						$scoretemplate->setCurrentBlock("feedback");
@@ -754,8 +756,9 @@ class ilTestServiceGUI
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
 		$template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
-		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, FALSE, $this->object->getShowSolutionFeedback());
-		$best_output = $question_gui->getSolutionOutput("", NULL, FALSE, FALSE, FALSE);
+		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
+		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
+		$best_output = $question_gui->getSolutionOutput("", NULL, FALSE, FALSE, $show_question_only);
 		$template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
 		$template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
 		$maxpoints = $question_gui->object->getMaximumPoints();
