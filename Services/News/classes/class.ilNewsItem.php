@@ -133,7 +133,7 @@ class ilNewsItem extends ilNewsItemGen
 	* Get all news items for a user.
 	*/
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false,
-		$a_prevent_aggregation = false, $a_per = 0)
+		$a_prevent_aggregation = false, $a_per = 0, &$a_cnt = NULL)
 	{
 		global $ilAccess, $ilUser, $ilBench;
 		
@@ -189,6 +189,12 @@ class ilNewsItem extends ilNewsItemGen
 			$news = $news_item->getNewsForRefId($ref_id, $a_only_public, false,
 				$per, $a_prevent_aggregation);
 			$ilBench->stop("News", "getNewsForRefId_getNews");
+			
+			// counter
+			if (!is_null($a_cnt))
+			{
+				$a_cnt[$ref_id] = count($news);
+			}
 
 			$ilBench->start("News", "getNewsForRefId_mergeNews");
 			$data = ilNewsItem::mergeNews($data, $news);
