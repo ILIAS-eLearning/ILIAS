@@ -7717,3 +7717,7 @@ grp#:#grp_deleted_export_files#:#Deleted export files.
 grp#:#grp_select_one_file#:#Please select one file.
 assessment#:#passes_finished#:#%s passes
 assessment#:#pass_finished#:#%s pass
+rbac#:#recf_edit_permission#:#Change permission settings
+rbac#:#recf_visible#:#Restored Objects are visible 
+rbac#:#recf_read#:#Read access to Restored Objects
+rbac#:#recf_write#:#Edit Restored Objects

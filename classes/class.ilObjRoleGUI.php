@@ -60,7 +60,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
 	{
-		global $tree;
+		global $tree,$lng;
+		
+		$lng->loadLanguageModule('rbac');
 		
 		//TODO: move this to class.ilias.php
 		define("USER_FOLDER_ID",7);
