@@ -101,27 +101,65 @@ class ilPDNewsGUI
 		include_once("Services/News/classes/class.ilNewsSubscription.php");
 		include_once("Services/News/classes/class.ilNewsItem.php");
 		
-		// get news
-		//$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($ilUser->getId());
+		// period
+		$per = ($_SESSION["news_pd_news_per"] != "")
+			? $_SESSION["news_pd_news_per"]
+			: ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
+		$news_set = new ilSetting("news");
+		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
+		$allow_longer_periods = $news_set->get("allow_longer_periods");
+		$default_per = $news_set->get("pd_period");
+
+		$per_opts = array(
+			2 => sprintf($lng->txt("news_period_x_days"), 2),
+			3 => sprintf($lng->txt("news_period_x_days"), 3),
+			5 => sprintf($lng->txt("news_period_x_days"), 5),
+			7 => $lng->txt("news_period_1_week"),
+			14 => sprintf($lng->txt("news_period_x_weeks"), 2),
+			30 => $lng->txt("news_period_1_month"),
+			60 => sprintf($lng->txt("news_period_x_months"), 2),
+			120 => sprintf($lng->txt("news_period_x_months"), 4),
+			180 => sprintf($lng->txt("news_period_x_months"), 6),
+			366 =>  $lng->txt("news_period_1_year"));
+			
+		$unset = array();
+		foreach($per_opts as $k => $opt)
+		{
+			if (!$allow_shorter_periods && ($k < $default_per)) $unset[$k] = $k;
+			if (!$allow_longer_periods && ($k > $default_per)) $unset[$k] = $k;
+		}
+		foreach($unset as $k)
+		{
+			unset($per_opts[$k]);
+		}
+		foreach($per_opts as $k => $v)
+		{
+			$news_tpl->setCurrentBlock("per_option");
+			$news_tpl->setVariable("VAL_PER", $k);
+			$news_tpl->setVariable("TXT_PER", $v);
+			if ($k == $per)
+			{
+				$news_tpl->setVariable("SEL_PER", ' selected="selected" ');
+			}
+			$news_tpl->parseCurrentBlock();
+		}
 		
 		$ref_ids = array();
 		$obj_ids = array();
-		if ($ilUser->prefs["pd_items_news"] != "n")
-		{
+		//if ($ilUser->prefs["pd_items_news"] != "n")
+		//{
 			$pd_items = $ilUser->getDesktopItems();
 			foreach($pd_items as $item)
 			{
 				$ref_ids[] = $item["ref_id"];
 				$obj_ids[] = $item["obj_id"];
 			}
-		}
+		//}
 		
 		$sel_ref_id = ($_GET["news_ref_id"] > 0)
 			? $_GET["news_ref_id"]
 			: $ilUser->getPref("news_sel_ref_id");
 		
-		// todo: time period
-		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
 		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $per);
 		
 		// related objects (contexts) of news
@@ -136,15 +174,22 @@ class ilPDNewsGUI
 		{
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$title = ilObject::_lookupTitle($obj_id);
-			if (in_array($obj_id, $news_obj_ids))
-			{
+			
+			//if (in_array($obj_id, $news_obj_ids))	// this does not work, since news can come
+			//{										// from "lower" objects in category
 				$conts[$ref_id] = $title;
 				if ($sel_ref_id == $ref_id)
 				{
 					$sel_has_news = true;
 				}
-			}
+			//}
 		}
+		
+		$cnt = array();
+		$nitem = new ilNewsItem();
+		$news_items = $nitem->_getNewsItemsOfUser($ilUser->getId(), false,
+			true, $per, $cnt);
+
 		// reset selected news ref id, if no news are given for id
 		if (!$sel_has_news)
 		{
@@ -155,7 +200,7 @@ class ilPDNewsGUI
 		{
 			$news_tpl->setCurrentBlock("related_option");
 			$news_tpl->setVariable("VAL_RELATED", $ref_id);
-			$news_tpl->setVariable("TXT_RELATED", $title);
+			$news_tpl->setVariable("TXT_RELATED", $title." (".(int) $cnt[$ref_id].")");
 			if ($sel_ref_id == $ref_id)
 			{
 				$news_tpl->setVariable("SEL", ' selected="selected" ');
@@ -169,7 +214,6 @@ class ilPDNewsGUI
 		$news_tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
 		$news_tpl->parseCurrentBlock();
 		
-		$nitem = new ilNewsItem();
 		if ($sel_ref_id > 0)
 		{
 			$obj_id = ilObject::_lookupObjId($sel_ref_id);
@@ -179,17 +223,21 @@ class ilPDNewsGUI
 			$news_items = $nitem->getNewsForRefId($sel_ref_id, false,
 				false, $per, true);
 		}
-		else
-		{
-			$news_items = $nitem->_getNewsItemsOfUser($ilUser->getId(), false,
-				true, $per);
-		}
 				
 		include_once("./Services/News/classes/class.ilPDNewsTableGUI.php");
 		$pd_news_table = new ilPDNewsTableGUI($this, "view");
 		$pd_news_table->setData($news_items);
 
-		$news_tpl->setVariable("NEWS", $pd_news_table->getHTML());
+		if (count($news_items) > 0)
+		{
+			$news_tpl->setVariable("NEWS", $pd_news_table->getHTML());
+		}
+		else
+		{
+			$news_tpl->setCurrentBlock("no_news");
+			$news_tpl->setVariable("NO_NEWS", $lng->txt("news_no_news_items"));
+			$news_tpl->parseCurrentBlock();
+		}
 
 		$tpl->setContent($news_tpl->get());
 	}
@@ -203,6 +251,10 @@ class ilPDNewsGUI
 		
 		$this->ctrl->setParameter($this, "news_ref_id", $_POST["news_ref_id"]);
 		$ilUser->writePref("news_sel_ref_id", $_POST["news_ref_id"]);
+		if ($_POST["news_per"] > 0)
+		{
+			$_SESSION["news_pd_news_per"] = $_POST["news_per"];
+		}
 		$this->ctrl->redirect($this, "view");
 	}
 
