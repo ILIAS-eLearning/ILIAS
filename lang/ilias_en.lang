@@ -6016,12 +6016,12 @@ meta#:#meta_new_element#:#New Element
 meta#:#meta_no#:#No
 meta#:#meta_no_annotation#:#No metadata available for the Annotation section.
 meta#:#meta_no_classification#:#No metadata available for the Classification section.
-meta#:#meta_no_educational#:#No metadata available for Educational section.
-meta#:#meta_no_lifecycle#:#No metadata available for Lifecycle section.
-meta#:#meta_no_meta_metadata#:#No metadata available for Meta-Metadata section.
+meta#:#meta_no_educational#:#No metadata available for the Educational section.
+meta#:#meta_no_lifecycle#:#No metadata available for the Lifecycle section.
+meta#:#meta_no_meta_metadata#:#No metadata available for the Meta-Metadata section.
 meta#:#meta_no_relation#:#No metadata available for the Relation section.
 meta#:#meta_no_rights#:#No metadata available for the Rights section.
-meta#:#meta_no_technical#:#No metadata available for Technical section.
+meta#:#meta_no_technical#:#No metadata available for the Technical section.
 meta#:#meta_none#:#None
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite
