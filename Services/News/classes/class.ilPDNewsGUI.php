@@ -108,7 +108,7 @@ class ilPDNewsGUI
 		$news_set = new ilSetting("news");
 		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
 		$allow_longer_periods = $news_set->get("allow_longer_periods");
-		$default_per = $news_set->get("pd_period");
+		$default_per = ilNewsItem::_lookupDefaultPDPeriod();
 
 		$per_opts = array(
 			2 => sprintf($lng->txt("news_period_x_days"), 2),

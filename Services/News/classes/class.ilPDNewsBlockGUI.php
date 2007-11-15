@@ -419,9 +419,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
 		$allow_longer_periods = $news_set->get("allow_longer_periods");
-		$default_per = $news_set->get("pd_period");
 
 		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$default_per = ilNewsItem::_lookupDefaultPDPeriod();
 		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
 			
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");

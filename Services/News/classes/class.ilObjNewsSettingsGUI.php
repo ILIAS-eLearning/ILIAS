@@ -218,13 +218,12 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 			60 => "2 ".$lng->txt("months"),
 			120 => "4 ".$lng->txt("months"),
 			180 => "6 ".$lng->txt("months"),
-			366 =>  "1 ".$lng->txt("year"),
-			0 => $lng->txt("news_indefinite"));
+			366 =>  "1 ".$lng->txt("year"));
 		$per_sel = new ilSelectInputGUI($lng->txt("news_pd_period"),
 			"news_pd_period");
 		$per_sel->setInfo($lng->txt("news_pd_period_info"));
 		$per_sel->setOptions($per_opts);
-		$per_sel->setValue((int) $news_set->get("pd_period"));
+		$per_sel->setValue((int) ilNewsItem::_lookupDefaultPDPeriod());
 		$form->addItem($per_sel);
 
 		// Allow user to choose lower values
