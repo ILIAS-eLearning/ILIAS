@@ -210,7 +210,7 @@
 <object name="lng" class_name="Language" location="classes" checkbox="1" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
 </object>
-<object name="lngf" class_name="LanguageFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<object name="lngf" class_name="LanguageFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" devmode="0">
 	<subobj name="lng">lng</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
