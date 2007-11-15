@@ -2965,7 +2965,7 @@ common#:#new_list_password#:#Weitere Vorschläge
 common#:#new_lowercase#:#neu
 common#:#new_mail#:#Neue Mail!
 common#:#new#:#Neu
-common#:#news#:#News
+common#:#news#:#Nachrichten
 common#:#next#:#weiter
 common#:#nickname#:#Benutzername
 common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemeldet sein und entsprechende Zugriffsrechte besitzen.
@@ -6176,6 +6176,7 @@ meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
 news#:#news_all_items#:#Alle Nachrichten
+news#:#news_no_news_items#:#Keine Nachrichten vorhanden.
 news#:#news_block_news_for_context#:#Nachrichten
 news#:#news_default_visibility#:#Standardzugriff
 news#:#news_edit_news_settings#:#Einstellungen bearbeiten

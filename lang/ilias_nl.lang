@@ -7716,3 +7716,4 @@ grp#:#grp_deleted_export_files#:#Deleted export files.###14 11 2007 new variable
 grp#:#grp_select_one_file#:#Please select one file.###14 11 2007 new variable
 assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
 assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
+news#:#news_no_news_items#:#No news available.###15 11 2007 new variable

@@ -2975,6 +2975,7 @@ block_html#:#block_html_block_head#:#HTML Block
 block_html#:#block_html_block_title#:#Title
 block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
+news#:#news_no_news_items#:#No news available.
 news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.
 news#:#news_rss_period#:#RSS Period
 news#:#news_period_x_days#:#Last %s Days
