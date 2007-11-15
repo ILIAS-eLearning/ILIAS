@@ -1179,7 +1179,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tbl = new ilTableGUI($output);
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("grp_mem_change_status"),"icon_usr_b.gif",$this->lng->txt("grp_mem_change_status"));
+		$tbl->setTitle($this->lng->txt("grp_mem_change_status"),"icon_usr.gif",$this->lng->txt("grp_mem_change_status"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role")));
 		$tbl->setHeaderVars(array("login","firstname","lastname","last_visit","role"),$this->ctrl->getParameterArray($this,"",false));
@@ -1208,6 +1208,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	function membersObject()
 	{
 		global $rbacsystem,$ilBench,$ilDB,$ilUser;
+		
+		include_once('Services/Tracking/classes/class.ilLearningProgress.php');
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
 		$this->__setSubTabs('members');
@@ -1275,14 +1277,15 @@ class ilObjGroupGUI extends ilContainerGUI
 			$result_set[$counter][] = $mem["firstname"];
 			$result_set[$counter][] = $mem["lastname"];
 			
-			if(strcmp(substr($mem['last_login'],0,4),'0000') == 0)
+			$progress = ilLearningProgress::_getProgress($mem['id'],$this->object->getId());
+			if(isset($progress['access_time']) and $progress['access_time'])
 			{
-				$result_set[$counter][] = $this->lng->txt('no_date');
+				$unix = $progress['access_time'];
+				$result_set[$counter][] = date('Y-m-d H:i',$unix);
 			}
 			else
-			{			
-				$unix = ilFormat::datetime2unixTS($mem['last_login']);
-				$result_set[$counter][] = date('Y-m-d H:i',$unix);
+			{
+				$result_set[$counter][] = $this->lng->txt('no_date');
 			}
 			$result_set[$counter][] = $str_member_roles;
 			$result_set[$counter][] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
@@ -1577,7 +1580,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI($output);
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
+		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr.gif",$this->lng->txt("group_applicants"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("fullname"),$this->lng->txt("subject"),$this->lng->txt("application_date"),$this->lng->txt("grp_options")));
 		$tbl->setHeaderVars(array("","username","fullname","subject","date","functions"),$this->ctrl->getParameterArray($this,"ShownewRegistrations",false));
@@ -2099,7 +2102,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr.gif",$this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -2162,7 +2165,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr.gif",$this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_role"),
 								   $this->lng->txt("grp_count_members")));
@@ -2222,7 +2225,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr.gif",$this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_grp"),
 								   $this->lng->txt("grp_count_members")));
@@ -2301,7 +2304,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("members"),"icon_usr_b.gif",$this->lng->txt("group_members"));
+		$tbl->setTitle($this->lng->txt("members"),"icon_usr.gif",$this->lng->txt("group_members"));
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
