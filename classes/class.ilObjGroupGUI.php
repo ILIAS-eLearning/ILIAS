@@ -1305,11 +1305,18 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	function membersGalleryObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilAccess, $ilUser;
 		
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
+		
+		// Unsubscribe
+		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
+		   $this->object->isMember($ilUser->getId()))
+		{
+			$this->__showButton($this->ctrl->getLinkTarget($this,'RemoveMember')."&mem_id=".$ilUser->getId(),$this->lng->txt("grp_unsubscribe"));
+		}
 		
 		$this->__setSubTabs('members');
 		
@@ -1416,7 +1423,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function mailMembersObject()
 	{
-		global $rbacreview;
+		global $rbacreview, $ilObjDataCache;
+		include_once('classes/class.ilObjRole.php');
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
 
@@ -1438,7 +1446,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->tpl->setVariable("CHECK_MAILBOX",ilUtil::formCheckbox(1,'roles[]',
 					htmlspecialchars($role_addr)
 			));
-			$this->tpl->setVariable("MAILBOX",$role_addr);
+			$this->tpl->setVariable("MAILBOX",ilObjRole::_getTranslation($ilObjDataCache->lookupTitle($role_id)) . " (".$role_addr.")");
 			$this->tpl->parseCurrentBlock();
 		}
 	}
