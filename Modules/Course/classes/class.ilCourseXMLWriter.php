@@ -272,7 +272,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		$attr['maxMembers'] = $this->course_obj->getSubscriptionMaxMembers();
 		$attr['notification'] = $this->course_obj->getSubscriptionNotify() ? 'Yes' : 'No';
-		$attr['waitinList'] = $this->course_obj->enabledWaitingList() ? 'Yes' : 'No';
+		$attr['waitingList'] = $this->course_obj->enabledWaitingList() ? 'Yes' : 'No';
 
 		$this->xmlStartTag('Registration',$attr);
 		
