@@ -221,12 +221,6 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getDevMode($a_obj_name)
 	{
-		// always return false if devmode is enabled
-		if (DEVMODE)
-		{
-			return false;
-		}
-		
 		return (bool) $this->obj_data[$a_obj_name]["devmode"];
 	}
 
@@ -238,12 +232,6 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getDevModeAll()
 	{
-		// always return empty array if devmode is enabled
-		if (DEVMODE)
-		{
-			return array();
-		}
-
 		$types = array_keys($this->obj_data);
 		
 		foreach ($types as $type)

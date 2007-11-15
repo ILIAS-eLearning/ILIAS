@@ -501,9 +501,13 @@ class ilObjRole extends ilObject
 			 "JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
 			 "JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
 		$r = $ilDB->query($q);
-
+		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($objDefinition->getDevMode($row->title))
+			{
+				continue;
+			}
 			// FILTER SUBOJECTS OF adm OBJECT
 			#if(in_array($row->title,$to_filter))
 			#{
@@ -519,7 +523,6 @@ class ilObjRole extends ilObject
 																"name"		=> $lng->txt($row->title."_".$row->operation)
 															   );
 		}
-		
 		return array($rbac_objects,$rbac_operations);
 	}
 } // END class.ilObjRole
