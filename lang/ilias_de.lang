@@ -7717,3 +7717,7 @@ grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#pass_finished#:#%s Durchlauf
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
+rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
+rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
+rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
