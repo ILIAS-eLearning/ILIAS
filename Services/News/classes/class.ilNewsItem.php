@@ -929,6 +929,18 @@ class ilNewsItem extends ilNewsItemGen
 		return $rec["id"];
 	}
 	
+	function _lookupDefaultPDPeriod()
+	{
+		$news_set = new ilSetting("news");
+		$per = $news_set->get("pd_period");
+		if ($per == 0)
+		{
+			$per = 30;
+		}
+		
+		return $per;
+	}
+	
 	function _lookupUserPDPeriod($a_user_id)
 	{
 		global $ilSetting;
@@ -936,7 +948,7 @@ class ilNewsItem extends ilNewsItemGen
 		$news_set = new ilSetting("news");
 		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
 		$allow_longer_periods = $news_set->get("allow_longer_periods");
-		$default_per = $news_set->get("pd_period");
+		$default_per = ilNewsItem::_lookupDefaultPDPeriod();
 		
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		$per = ilBlockSetting::_lookup("pdnews", "news_pd_period",
