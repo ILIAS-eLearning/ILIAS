@@ -43,7 +43,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
-		$this->setType("text");
+		$this->setInputType("text");
 	}
 
 	/**
@@ -115,6 +115,29 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		return $this->size;
 	}
+	
+	/**
+	 * set input type
+	 *
+	 * @access public
+	 * @param string input type password | text
+	 * 
+	 */
+	public function setInputType($a_type)
+	{
+	 	$this->input_type = $a_type;
+	}
+	
+	/**
+	 * get input type
+	 *
+	 * @access public
+	 */
+	public function getInputType()
+	{
+	 	return $this->input_type;
+	}
+	
 
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
@@ -145,6 +168,16 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	function insert(&$a_tpl)
 	{
 		$a_tpl->setCurrentBlock("prop_text");
+		
+		switch($this->getInputType())
+		{
+			case 'password':
+				$a_tpl->setVariable('PROP_INPUT_TYPE','password');
+				break;			
+			case 'text':
+			default:
+				$a_tpl->setVariable('PROP_INPUT_TYPE','text');
+		}
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("PROPERTY_VALUE",

@@ -45,6 +45,8 @@ class ilECSSettings
 	private $port;
 	private $client_cert_path;
 	private $ca_cert_path;
+	private $key_path;
+	private $key_pathword;
 	private $polling;
 	private $import_id;
 
@@ -295,6 +297,52 @@ class ilECSSettings
 	}
 	
 	/**
+	 * get key path
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getKeyPath()
+	{
+	 	return $this->key_path;
+	}
+	
+	/**
+	 * set key path
+	 *
+	 * @access public
+	 * @param string key path
+	 * 
+	 */
+	public function setKeyPath($a_path)
+	{
+	 	$this->key_path = $a_path;
+	}
+	
+	/**
+	 * get key password
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getKeyPassword()
+	{
+	 	return $this->key_password;
+	}
+	
+	/**
+	 * set key password
+	 *
+	 * @access public
+	 * @param string key password
+	 * 
+	 */
+	public function setKeyPassword($a_pass)
+	{
+		$this->key_password = $a_pass;	
+	}
+	
+	/**
 	 * set import id
 	 * Object of category, that store new remote courses
 	 *
@@ -330,7 +378,8 @@ class ilECSSettings
 	 	{
 	 		return true;
 	 	}
-		if(!$this->getServer() or !$this->getPort() or !$this->getClientCertPath() or !$this->getCACertPath())
+		if(!$this->getServer() or !$this->getPort() or !$this->getClientCertPath() or !$this->getCACertPath()
+			or !$this->getKeyPath() or !$this->getKeyPassword())
 		{
 			return false;
 		}
@@ -351,6 +400,8 @@ class ilECSSettings
 	 	$this->storage->set('protocol',$this->getProtocol());
 	 	$this->storage->set('client_cert_path',$this->getClientCertPath());
 	 	$this->storage->set('ca_cert_path',$this->getCACertPath());
+	 	$this->storage->set('key_path',$this->getKeyPath());
+	 	$this->storage->set('key_password',$this->getKeyPassword());
 	 	$this->storage->set('import_id',$this->getImportId());
 	 	$this->storage->set('polling',$this->getPollingTime());
 	}
@@ -378,6 +429,8 @@ class ilECSSettings
 		$this->setPort($this->storage->get('port'));
 		$this->setClientCertPath($this->storage->get('client_cert_path'));
 		$this->setCACertPath($this->storage->get('ca_cert_path'));
+		$this->setKeyPath($this->storage->get('key_path'));
+		$this->setKeyPassword($this->storage->get('key_password'));
 		$this->setPollingTime($this->storage->get('polling',128));
 		$this->setImportId($this->storage->get('import_id'));
 		$this->setEnabledStatus((int) $this->storage->get('active'));
