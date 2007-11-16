@@ -97,7 +97,25 @@ class ilECSSettingsGUI
 		{
 			$connector = new ilECSConnector();
 			$res = $connector->getResources();
-			var_dump("<pre>",$res->getResult(),"</pre>");
+			#var_dump("<pre>",$res->getResult(),"</pre>");
+			
+			#$connector = new ilECSConnector();
+			#$res = $connector->addResource(json_encode($res->getResult()));
+			#var_dump("<pre>",$res->getResult(),"</pre>");
+			
+			#$connector = new ilECSConnector();
+			#$res = $connector->deleteResource(4);
+			#var_dump("<pre>",$res->getResult(),"</pre>");
+			
+			$json_arr = $res->getResult();
+			$json_arr[0]->lecturer[] = 'Stefan Meyer';
+			$json_arr[0]->credits = 99;
+			
+			$connector = new ilECSConnector();
+			$res = $connector->updateResource($json_arr[0]->eid,json_encode($json_arr[0]));
+			
+			var_dump("<pre>",$res->getResult(),$res->getPlainResultString(),"</pre>");
+			
 		}
 		catch(ilECSConnectorException $exc)
 		{
