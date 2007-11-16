@@ -106,8 +106,8 @@ class ilECSConnector
 	 			$this->curl->setOpt(CURLOPT_RETURNTRANSFER,true);
 	 			$this->curl->setOpt(CURLE_SSL_PEER_CERTIFICATE,$this->settings->getCACertPath());
 	 			$this->curl->setOpt(CURLOPT_SSLCERT,$this->settings->getClientCertPath());
-	 			$this->curl->setOpt(CURLOPT_SSLKEY,'/home/smeyer/certs/ecs/databay-key.pem');
-	 			$this->curl->setOpt(CURLOPT_SSLKEYPASSWD,'******');
+	 			$this->curl->setOpt(CURLOPT_SSLKEY,$this->settings->getKeyPath());
+	 			$this->curl->setOpt(CURLOPT_SSLKEYPASSWD,$this->settings->getKeyPassword());
 				
 	 		}
 	 	}

@@ -96,7 +96,7 @@ class ilECSSettingsGUI
 		try
 		{
 			$connector = new ilECSConnector();
-			$res = $connector->getResources(4);
+			$res = $connector->getResources();
 			var_dump("<pre>",$res->getResult(),"</pre>");
 		}
 		catch(ilECSConnectorException $exc)
@@ -159,6 +159,17 @@ class ilECSSettingsGUI
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 
+		$cer = new ilTextInputGUI($this->lng->txt('ecs_cert_key'),'key_path');
+		$cer->setValue($this->settings->getKeyPath());
+		$cer->setRequired(true);
+		$this->form->addItem($cer);
+		
+		$cer = new ilTextInputGUI($this->lng->txt('ecs_key_password'),'key_password');
+		$cer->setValue($this->settings->getKeyPassword());
+		$cer->setInputType('password');
+		$cer->setRequired(true);
+		$this->form->addItem($cer);
+
 		$loc = new ilFormSectionHeaderGUI();
 		$loc->setTitle($this->lng->txt('ecs_local_settings'));
 		$this->form->addItem($loc);
@@ -196,6 +207,8 @@ class ilECSSettingsGUI
 		$this->settings->setProtocol(ilUtil::stripSlashes($_POST['protocol']));
 		$this->settings->setClientCertPath(ilUtil::stripSlashes($_POST['client_cert']));
 		$this->settings->setCACertPath(ilUtil::stripSlashes($_POST['ca_cert']));
+		$this->settings->setKeyPath(ilUtil::stripSlashes($_POST['key_path']));
+		$this->settings->setKeyPassword(ilUtil::stripSlashes($_POST['key_password']));
 		$this->settings->setImportId(ilUtil::stripSlashes($_POST['import_id']));
 		$this->settings->setPollingTimeMS((int) $_POST['polling']['mm'],(int) $_POST['polling']['ss']);
 		$this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
@@ -223,45 +236,6 @@ class ilECSSettingsGUI
 	{	
 		include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
 		$this->settings = ilECSSettings::_getInstance();
-	}
-	
-	/**
-	 * 
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function json()
-	{
-	 	$json = '[
-			  {
-			    "courseID": "133244AX",
-			    "lecturer": [
-			        "Prof. Dr. Stephan Nu\u00dfberger",
-			        "Dipl.-Ing. Markus Sewald"
-			    ],
-			    "credits": "12",
-			    "status": "online",
-			    "lang": "de_DE",
-			    "title": "Methoden der molekularen Biophysik",
-			    "start": "01.05.08",
-			    "etype": "application\/ecs-course",
-			    "courseType": "Vorlesung",
-			    "study_courses": ["Technische Biologie", "Elektrotechnik"],
-			    "term": "SS 08",
-			    "semesterHours": "2.0 SWS",
-			    "url": "https:\/\/ilias3.uni-stuttgart.de\/goto.php?target=crs_2737&client_id=Uni_Stuttgart",
-			    "timePlace": {
-			      "cycle": "w\u00f6ch.",
-			      "room": "Raum M 9.120",
-			      "day": "Donnerstag",
-			      "time": "17:15-18:45 Uhr"
-				    }
-			  		}
-					]';
-		$obj = json_decode($json);
-		
 	}
 }
 
