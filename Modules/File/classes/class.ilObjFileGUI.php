@@ -437,9 +437,9 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilAccess;
 
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -480,7 +480,16 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function sendFileObject()
 	{
-		$this->object->sendFile($_GET["hist_id"]);
+		global $ilAccess;
+		
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		{
+			$this->object->sendFile($_GET["hist_id"]);
+		}
+		else
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
 		return true;
 	}
 
@@ -492,9 +501,9 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function versionsObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilAccess;
 
-		if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
@@ -587,13 +596,13 @@ class ilObjFileGUI extends ilObjectGUI
 	// get tabs
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilAccess;
 		
 //echo "-".$this->ctrl->getCmd()."-";
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
@@ -606,27 +615,27 @@ class ilObjFileGUI extends ilObjectGUI
 				 "", "", $force_active);
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("edit",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "");
 		}
 		
 		// meta data 
-		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass(array('ilobjfilegui','ilmdeditorgui'),'listSection'),
 				 "", 'ilmdeditorgui');
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("versions",
 				$this->ctrl->getLinkTarget($this, "versions"), "versions", get_class($this));
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
+		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
