@@ -93,7 +93,7 @@ class ilECSResult
 	 	switch($this->result_type)
 	 	{
 	 		case self::RESULT_TYPE_JSON:
-				$this->result = json_decode($this->result_string,true);
+				$this->result = json_decode($this->result_string);
 				break;
 	 	}
 	 	return true;

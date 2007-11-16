@@ -62,7 +62,7 @@ class ilECSConnector
 	 * @access public
 	 * @param int e-content id
 	 * @return object ECSResult
-	 * @throws 
+	 * @throws ECSConnectorException 
 	 */
 	public function getResources($a_econtent_id = 0)
 	{
@@ -83,6 +83,115 @@ class ilECSConnector
 	 	{
 	 		throw new ilECSConnectorException('Error calling ECS service: '.$exc->getMessage());
 	 	}
+	}
+	
+	/**
+	 * Add resource
+	 *
+	 * @access public
+	 * @param string post data 
+	 * @throws ECSConnectorException 
+	 * 
+	 */
+	public function addResource($a_post)
+	{
+	 	$this->path_postfix = '/econtents';
+	 	
+	 	try 
+	 	{
+	 		$this->prepareConnection();
+	 		$this->curl->setOpt(CURLOPT_POST,true);
+	 		$this->curl->setOpt(CURLOPT_POSTFIELDS,$a_post);
+			$res = $this->call();
+			
+			return new ilECSResult($res);
+	 	}
+	 	catch(ilCurlConnectionException $exc)
+	 	{
+	 		throw new ilECSConnectorException('Error calling ECS service: '.$exc->getMessage());
+	 	}
+	}
+	
+	/**
+	 * update resource
+	 *
+	 * @access public
+	 * @param int econtent id
+	 * @param string post content
+	 * @throws ECSConnectorException
+	 */
+	public function updateResource($a_econtent_id,$a_post_string)
+	{
+	 	$this->path_postfix = '/econtents';
+	 	
+	 	if($a_econtent_id)
+	 	{
+	 		$this->path_postfix .= ('/'.(int) $a_econtent_id);
+	 	}
+	 	else
+	 	{
+	 		throw new ilECSConnectorException('Error calling updateResource: No content id given.');
+	 	}
+	 	try 
+	 	{
+	 		$this->prepareConnection();
+	 		$this->curl->setOpt(CURLOPT_PUT,true);
+	 		
+	 		$fp = fopen('ecs_content.txt','w');
+	 		fwrite($fp,$a_post_string);
+	 		fclose($fp);
+	 		
+	 		#$this->curl->setOpt(CURLOPT_POSTFIELDS,$a_post_string);
+
+			$this->curl->setOpt(CURLOPT_UPLOAD,true);
+	 		$this->curl->setOpt(CURLOPT_INFILESIZE,filesize('ecs_content.txt'));
+			$fp = fopen('ecs_content.txt','r');
+	 		$this->curl->setOpt(CURLOPT_INFILE,$fp);
+	 		#fclose($fp);
+	 		
+			$res = $this->call();
+			
+			return new ilECSResult($res);
+	 	}
+	 	catch(ilCurlConnectionException $exc)
+	 	{
+	 		throw new ilECSConnectorException('Error calling ECS service: '.$exc->getMessage());
+	 	}
+	}
+	
+	/**
+	 * Delete resource
+	 *
+	 * @access public
+	 * @param string econtent id
+	 * @throws ECSConnectorException 
+	 */
+	public function deleteResource($a_econtent_id)
+	{
+	 	$this->path_postfix = '/econtents';
+	 	
+	 	if($a_econtent_id)
+	 	{
+	 		$this->path_postfix .= ('/'.(int) $a_econtent_id);
+	 	}
+	 	else
+	 	{
+	 		throw new ilECSConnectorException('Error calling deleteResource: No content id given.');
+	 	}
+	
+	 	try 
+	 	{
+	 		$this->prepareConnection();
+	 		$this->curl->setOpt(CURLOPT_CUSTOMREQUEST,'DELETE');
+			$res = $this->call();
+			
+			return new ilECSResult($res);
+	 	}
+	 	catch(ilCurlConnectionException $exc)
+	 	{
+	 		throw new ilECSConnectorException('Error calling ECS service: '.$exc->getMessage());
+	 	}
+	 	
 	}
 	
 	/**
