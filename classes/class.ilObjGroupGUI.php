@@ -1003,7 +1003,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function removeMemberObject()
 	{
-		global $rbacreview,$ilUser;
+		global $rbacreview,$ilUser,$ilAccess;
 		$user_ids = array();
 
 		if (isset($_POST["user_id"]))
@@ -1022,11 +1022,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if (count($user_ids) == 1 and $this->ilias->account->getId() != $user_ids[0])
 		{
+			if(!$ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
+			{
+				$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
+			}
+			
+			// Disabled: "edit_permission" is sufficent
+			/*			
 			if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
 				and !in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
 			{
 				$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
 			}
+			*/
 		}
 		//bool value: says if $users_ids contains current user id
 		$is_dismiss_me = array_search($this->ilias->account->getId(),$user_ids);
@@ -1096,7 +1104,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function changeMemberObject()
 	{
-		global $rbacreview,$ilUser;
+		global $rbacreview,$ilUser,$ilAccess;
 		
 		if ($_GET["sort_by"] == "title" or $_GET["sort_by"] == "")
 		{
@@ -1119,8 +1127,15 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
 
+		// Disabled: it shouldn't be required to group admin. "edit_permission" is enough.
+		/*
 		if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
 			and !in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
+		{
+			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
+		}
+		*/
+		if(!$ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
 		{
 			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
 		}

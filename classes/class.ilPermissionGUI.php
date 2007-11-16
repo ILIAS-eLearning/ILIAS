@@ -349,6 +349,10 @@ class ilPermissionGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
 		}
+		if(!strlen($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		// if the current object is no role folder, create one
 		if ($this->gui_obj->object->getType() != "rolf")
