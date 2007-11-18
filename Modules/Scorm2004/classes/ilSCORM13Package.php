@@ -294,6 +294,17 @@ class ilSCORM13Package
 			$this->converted=true;
 			//convert to SCORM 2004
 			
+			//check for broken SCORM 1.2 manifest file (missing organization default-common error in a lot of manifest files)
+			$organizations = $doc->getElementsByTagName("organizations");
+			$default=$organizations->item(0)->getAttribute("default");
+		  	if ($default=="" || $default==null) {
+				//lookup identifier
+			  	$organization = $doc->getElementsByTagName("organization");
+				$ident=$organization->item(0)->getAttribute("identifier");
+				$organizations->item(0)->setAttribute("default",$ident);
+			}
+			
+			
 			//first copy wrappers
 			$wrapperdir=$this->packageFolder."/GenericRunTimeWrapper1.0_aadlc";
 			mkdir($wrapperdir);
@@ -307,9 +318,7 @@ class ilSCORM13Package
 			$ret=copy($this->imsmanifestFile,$this->backupManifest);
 			
 			//transform manifest file
-			$this->totransform = new DOMDocument;
-		  	$this->totransform->async = false;
-			$this->totransform->load($this->imsmanifestFile);
+			$this->totransform = $doc;
 			$ilLog->write("SCORM: about to transform to SCORM 2004");
 			
 			$this->newmaninfest = $this->transform($this->totransform, self::CONVERT_XSL,$this->imsmanifestFile);
