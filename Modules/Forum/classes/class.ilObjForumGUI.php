@@ -758,7 +758,7 @@ class ilObjForumGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function saveObject()
+	function saveObject($a_prevent_redirect = false)
 	{
 		global $rbacadmin, $ilDB, $ilUser;
 
@@ -804,12 +804,17 @@ class ilObjForumGUI extends ilObjectGUI
 			$ilDB->quote($top_data["top_mods"]).",'".$top_data["top_date"]."',".$ilDB->quote($top_data["top_usr_id"]).")";
 		$this->ilias->db->query($q);
 
+		$this->object = $forumObj;
+		
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt('frm_added'), true);
 		
 		$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());
 
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread'));		
+		if (!$a_prevent_redirect)
+		{
+			ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread'));
+		}
 	}
 
 	function getTabs(&$tabs_gui)
@@ -2988,7 +2993,7 @@ class ilObjForumGUI extends ilObjectGUI
 	/**
 	* Add New Thread.
 	*/
-	function addThreadObject()
+	function addThreadObject($a_prevent_redirect = false)
 	{
 		global $lng, $tpl, $ilDB, $ilUser;
 		
@@ -2996,10 +3001,10 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm =& $forumObj->Forum;
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
-		
+
 		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));
 		$topicData = $frm->getOneTopic();
-
+var_dump($topicData);
 		$formData = $_POST['formData'];
 	
 		// check form-dates
@@ -3008,7 +3013,6 @@ class ilObjForumGUI extends ilObjectGUI
 		if (trim($formData['subject']) == '') $errors .= $lng->txt('forums_thread').', ';
 		if (trim($formData['message']) == '') $errors .= $lng->txt('forums_the_post').', ';
 		if ($errors != '') $errors = substr($errors, 0, strlen($errors) - 2);
-
 		if ($errors != '')
 		{
 			$this->createThreadObject($errors);
@@ -3045,8 +3049,7 @@ class ilObjForumGUI extends ilObjectGUI
 			{
 				$tmp_file_obj =& new ilFileDataForum($forumObj->getId(), $newPost);
 				$tmp_file_obj->storeUploadedFile($_FILES['userfile']);
-			}		
-			
+			}
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
 			$frm->setWhereCondition('top_pk = '.$ilDB->quote($topicData['top_pk']));
@@ -3055,7 +3058,14 @@ class ilObjForumGUI extends ilObjectGUI
 			$frm->setWhereCondition('thr_top_fk = '.$ilDB->quote($topicData['top_pk']).' AND thr_subject = '.
 									$ilDB->quote(ilUtil::stripSlashes($formData['subject'])).' AND thr_num_posts = 1');		
 	
-			ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
+			if (!$a_prevent_redirect)
+			{
+				ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
+			}
+			else
+			{
+				return $newPost;
+			}
 		}
 	}	
 	
