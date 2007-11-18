@@ -438,7 +438,21 @@ class ilForum
 		$objNewPost->setMessage(strip_tags($message));
 		$objNewPost->setUserId($user);
 		$objNewPost->setUserAlias($alias);
-		$objNewPost->setCreateDate(date("Y-m-d H:i:s"));
+		if ($date == "")
+		{
+			$objNewPost->setCreateDate(date("Y-m-d H:i:s"));
+		}
+		else
+		{
+			if (strpos($date, "-") >  0)		// in mysql format
+			{
+				$objNewPost->setCreateDate($date);
+			}
+			else								// a timestamp
+			{
+				$objNewPost->setCreateDate(date("Y-m-d H:i:s", $date));
+			}
+		}
 		$objNewPost->setImportName($this->getImportName());
 		$objNewPost->setNotification($notify);
 		$objNewPost->setStatus($status);
@@ -453,7 +467,8 @@ class ilForum
 		{
 			$this->insertPostNode($objNewPost->getId(), $parent_pos, $objNewPost->getThreadId(), $objNewPost->getCreateDate());
 		}
-
+echo "<br>->".$objNewPost->getId()."-".$parent_pos."-".$objNewPost->getThreadId()."-".
+	$objNewPost->getCreateDate()."-".$forum_id."-".$message."-".$user."-";
 		// string last post
 		$lastPost = $objNewPost->getForumId()."#".$objNewPost->getThreadId()."#".$objNewPost->getId();
 			
@@ -537,7 +552,21 @@ class ilForum
 		$objNewThread->setForumId($forum_id);
 		$objNewThread->setUserId($user);
 		$objNewThread->setSubject($subject);
-		$objNewThread->setCreateDate(date("Y-m-d H:i:s"));
+		if ($date == "")
+		{
+			$objNewThread->setCreateDate(date("Y-m-d H:i:s"));
+		}
+		else
+		{
+			if (strpos($date, "-") >  0)		// in mysql format
+			{
+				$objNewThread->setCreateDate($date);
+			}
+			else								// a timestamp
+			{
+				$objNewThread->setCreateDate(date("Y-m-d H:i:s", $date));
+			}
+		}
 		$objNewThread->setImportName($this->getImportName());
 		$objNewThread->setUserAlias($alias);
 		$objNewThread->insert();
