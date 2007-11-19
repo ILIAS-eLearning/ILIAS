@@ -87,7 +87,18 @@ class ilMWFakery
 		if( $escape ) {
 			$text = htmlspecialchars( $text );
 		}
-		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+		
+		// handle images
+		$urlpath = parse_url($url, PHP_URL_PATH);
+		$pi = pathinfo($urlpath);
+		if (in_array(strtolower($pi["extension"]), array("jpg", "jpeg", "gif", "png")))
+		{
+			return '<img src="'.$url.'" border="0" />';
+		}
+		else
+		{
+			return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+		}
 		//return '<a href="'.$url.'"'.$style.'>'.$text.'</a>';
 	}
 	
