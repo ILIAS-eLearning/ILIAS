@@ -4251,7 +4251,7 @@ class ilObjSurvey extends ilObject
 		{
 			$isXml = TRUE;
 		}
-		if (strcmp($file_info["type"], "application/zip") == 0)
+		if (strpos($file_info["type"], "zip") !== FALSE)
 		{
 			$isZip = TRUE;
 		}
