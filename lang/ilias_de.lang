@@ -800,7 +800,7 @@ assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_postpone_description#:#Wenn diese Option ausgewählt ist, können Teilnehmer einzelne Fragen für die Bearbeitung an das Ende des Tests zurückstellen.
 assessment#:#tst_postpone#:#Fragen zurückstellen
-assessment#:#tst_print_date#:#Datum des Ausdruck
+assessment#:#tst_print_date#:#Datum des Ausdrucks
 assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
 assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer startet zu dem Zeitpunkt an dem Teilnehmer zum ersten Mal einen Test starten und endet nach Ablauf der hier angegebenen Stunden, Minuten und Sekunden.
