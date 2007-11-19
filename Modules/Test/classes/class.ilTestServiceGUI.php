@@ -662,13 +662,20 @@ class ilTestServiceGUI
 */
 	function getResultsSignature()
 	{
-		// output of time/date and signature
-		$template = new ilTemplate("tpl.il_as_tst_results_userdata_signature.html", TRUE, TRUE, "Modules/Test");
-		$template->setVariable("TXT_DATE", $this->lng->txt("date"));
-		$template->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", time()));
-		$template->setVariable("TXT_SIGNATURE", $this->lng->txt("tst_signature"));
-		$template->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
-		return $template->get();
+		if ($this->object->getShowSolutionSignature() && !$this->object->getAnonymity())
+		{
+			// output of time/date and signature
+			$template = new ilTemplate("tpl.il_as_tst_results_userdata_signature.html", TRUE, TRUE, "Modules/Test");
+			$template->setVariable("TXT_DATE", $this->lng->txt("date"));
+			$template->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", time()));
+			$template->setVariable("TXT_SIGNATURE", $this->lng->txt("tst_signature"));
+			$template->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
+			return $template->get();
+		}
+		else
+		{
+			return "";
+		}
 	}
 	
 /**
