@@ -467,8 +467,8 @@ class ilForum
 		{
 			$this->insertPostNode($objNewPost->getId(), $parent_pos, $objNewPost->getThreadId(), $objNewPost->getCreateDate());
 		}
-echo "<br>->".$objNewPost->getId()."-".$parent_pos."-".$objNewPost->getThreadId()."-".
-	$objNewPost->getCreateDate()."-".$forum_id."-".$message."-".$user."-";
+//echo "<br>->".$objNewPost->getId()."-".$parent_pos."-".$objNewPost->getThreadId()."-".
+//	$objNewPost->getCreateDate()."-".$forum_id."-".$message."-".$user."-";
 		// string last post
 		$lastPost = $objNewPost->getForumId()."#".$objNewPost->getThreadId()."#".$objNewPost->getId();
 			
