@@ -1068,11 +1068,11 @@ class ilForum
 		
 		$statistic = array();
 		
-		$query = "SELECT COUNT(f.pos_usr_id) AS ranking, u.login, u.lastname, u.firstname
-                  FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d
-                  WHERE 1 ";
-                  
-        if (!$is_moderator) $query .= " AND pos_status = '1' ";
+ 		$query = "SELECT COUNT(f.pos_usr_id) as ranking, u.login, IF(p.value<>'n',u.lastname,'') as lastname, IF (p.value<>'n',u.firstname,'') as firstname 
+ 						FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d , usr_pref p
+						WHERE p.usr_id = u.usr_id AND p.keyword='public_profile'";
+		               
+		if (!$is_moderator) $query .= " AND pos_status = '1' ";
                   
 		$query .="AND f.pos_pk = t.pos_fk 
 				  AND t.thr_fk = th.thr_pk
