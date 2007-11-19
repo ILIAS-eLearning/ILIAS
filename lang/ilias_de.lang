@@ -889,7 +889,7 @@ assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
-assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
+assessment#:#tst_show_solution_printview#:#Liste der Antworten anzeigen
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an.
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jedem Testdurchlauf neu mischen.
