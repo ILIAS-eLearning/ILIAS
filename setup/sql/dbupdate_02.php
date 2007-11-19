@@ -2785,3 +2785,19 @@ if ($result->numRows())
 	}
 }
 ?>
+<#1111>
+<?php
+$query = "SELECT * FROM tst_tests";
+$result = $ilDB->query($query);
+if ($result->numRows())
+{
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$querynew = sprintf("UPDATE tst_tests SET results_presentation = %s WHERE test_id = %s",
+			$ilDB->quote(($row["results_presentation"] | 32) . ""),
+			$ilDB->quote($row["test_id"] . "")
+		);
+		$querynew = $ilDB->query($querynew);
+	}
+}
+?>

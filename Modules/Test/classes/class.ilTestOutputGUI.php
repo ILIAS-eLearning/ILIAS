@@ -1637,9 +1637,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$signature = $this->getResultsSignature();
 			$result_array =& $this->object->getTestResult($active_id, $pass);
-			$active_data =& $this->object->getActiveTestUserFromActiveId($active_id);
+			$user_id =& $this->object->_getUserIdFromActiveId($active_id);
 			$showAllAnswers = TRUE;
-			if ($this->object->isExecutable($active_data->user_fi))
+			if ($this->object->isExecutable($user_id))
 			{
 				$showAllAnswers = FALSE;
 			}

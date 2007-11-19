@@ -1062,6 +1062,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_solution_feedback"] = ($_POST["chb_show_solution_feedback"] == 1) ? 1 : 0;
 		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
 		$data["show_solution_answers_only"] = $_POST["chb_show_solution_answers_only"];
+		$data["show_solution_signature"] = $_POST["chb_show_solution_signature"];
 		$data["show_pass_details"] = $_POST["chb_show_pass_details"];
 		$data["results_access"] = $_POST["results_access"];
 		
@@ -1074,6 +1075,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setAnswerFeedbackPoints($data["answer_feedback_points"]);
 		$this->object->setShowSolutionDetails($data["show_solution_details"]);
 		$this->object->setShowSolutionAnswersOnly($data["show_solution_answers_only"]);
+		$this->object->setShowSolutionSignature($data["show_solution_signature"]);
 		$this->object->setShowPassDetails($data["show_pass_details"]);
 		$this->object->setScoreReporting($data["results_access"]);
 		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
@@ -1128,6 +1130,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_solution_feedback"] = $this->object->getShowSolutionFeedback();
 		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
 		$data["show_solution_answers_only"] = $this->object->getShowSolutionAnswersOnly();
+		$data["show_solution_signature"] = $this->object->getShowSolutionSignature();
 		$data["show_pass_details"] = $this->object->getShowPassDetails();
 		$data["results_access"] = $this->object->getScoreReporting();
 
@@ -1319,6 +1322,18 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($data["show_solution_answers_only"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_ANSWERS_ONLY", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_SIGNATURE", $this->lng->txt("tst_show_solution_signature"));
+		if ($this->object->getAnonymity())
+		{
+			$this->tpl->setVariable("DISABLED_SHOW_SOLUTION_SIGNATURE", " disabled=\"disabled\"");
+		}
+		else
+		{
+			if ($data["show_solution_signature"])
+			{
+				$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_SIGNATURE", " checked=\"checked\"");
+			}
 		}
 
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_FEEDBACK", $this->lng->txt("tst_show_solution_feedback"));

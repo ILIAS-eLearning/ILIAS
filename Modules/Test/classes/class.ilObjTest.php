@@ -470,6 +470,7 @@ class ilObjTest extends ilObject
 		$this->setShowPassDetails(TRUE);
 		$this->setShowSolutionDetails(TRUE);
 		$this->setShowSolutionAnswersOnly(FALSE);
+		$this->setShowSolutionSignature(TRUE);
 		$this->testSession = FALSE;
 		$this->testSequence = FALSE;
 		global $lng;
@@ -8193,6 +8194,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 
+		/**
+		* Returns if the signature field should be shown in the test results
+		*
+		* Returns if the signature field should be shown in the test results
+		*
+		* @return boolean TRUE if the signature field should be shown, FALSE otherwise
+		* @access public
+		*/
+		function getShowSolutionSignature()
+		{
+			if (($this->results_presentation & 32) > 0)
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+
 /**
 * Sets the combined results presentation value
 *
@@ -8330,6 +8351,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 				if ($this->getShowSolutionAnswersOnly())
 				{
 					$this->results_presentation = $this->results_presentation ^ 16;
+				}
+			}
+		}
+
+		/**
+		* Set to TRUE, if the signature field should be shown in the solution
+		*
+		* Set to TRUE, if the signature field should be shown in the solution
+		*
+		* @param boolean $a_signature TRUE if the signature field should be shown, FALSE otherwise
+		* @access public
+		*/
+		function setShowSolutionSignature($a_signature = TRUE)
+		{
+			if ($a_signature)
+			{
+				$this->results_presentation = $this->results_presentation | 32;
+			}
+			else
+			{
+				if ($this->getShowSolutionSignature())
+				{
+					$this->results_presentation = $this->results_presentation ^ 32;
 				}
 			}
 		}
