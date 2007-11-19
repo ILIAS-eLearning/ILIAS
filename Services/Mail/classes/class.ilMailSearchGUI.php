@@ -253,7 +253,7 @@ class ilMailSearchGUI
 		
 			$all_results->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
 			
-			$users = $all_results->getResults();			
+			$users = $all_results->getResults();
 			if (count($users))
 			{
 				$tbl_users = new ilTable2GUI($this);
@@ -263,8 +263,7 @@ class ilMailSearchGUI
 				$result = array();				
 				$counter = 0;				
 				foreach ($users as $user)
-				{
-					$name = ilObjUser::_lookupName($user['obj_id']);
+				{					
 					$login = ilObjUser::_lookupLogin($user['obj_id']);			
 
 					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', $login) . 
@@ -272,9 +271,9 @@ class ilMailSearchGUI
 												  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
 					$result[$counter]['login'] = $login;
 					
-					
-					if (ilObjUser::_lookupPref($id, 'public_profile') == 'y')
+					if (ilObjUser::_lookupPref($user['obj_id'], 'public_profile') == 'y')
 					{
+						$name = ilObjUser::_lookupName($user['obj_id']);
 						$result[$counter]['firstname'] = $name['firstname'];
 						$result[$counter]['lastname'] = $name['lastname'];
 					}
