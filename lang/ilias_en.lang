@@ -44,6 +44,8 @@ administration#:#clean#:#Clean up
 common#:#access_expired#:#expired
 common#:#enable_ext_lang_maint#:#Enable Extended Maintenance
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
+common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
+common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.
 common#:#delete_existing_file#:#Delete Existing File
 common#:#res_links#:#Repository Links
 common#:#short_inst_name#:#Short Title
@@ -2698,6 +2700,7 @@ common#:#lng#:#Language
 common#:#lngf#:#Languages
 common#:#lngf_edit_permission#:#Change permission settings
 common#:#lngf_read#:#Read access to Language settings
+common#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lngf_visible#:#Language settings are visible
 common#:#lo#:#Learning Object
 common#:#lo_available#:#Overview Learning Modules & Courses
@@ -7493,7 +7496,7 @@ trac#:#trac_mode_manual_info#:#Users have to decide whether their status is comp
 trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.
 trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.
 trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.
-trac##:#trac_mode_test_finished_info#:#Users have to finish a test completely.
+trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.
 trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
 trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor

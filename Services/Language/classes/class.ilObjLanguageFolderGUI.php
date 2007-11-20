@@ -68,11 +68,22 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		//add template for buttons
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
-			$this->ctrl->getLinkTarget($this, "refresh"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("refresh_languages"));
-		$this->tpl->parseCurrentBlock();
+		if ($ilSetting->get("lang_ext_maintenance") == "1")
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTarget($this, "confirmRefresh"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("refresh_languages"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTarget($this, "refresh"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("refresh_languages"));
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",
@@ -81,21 +92,24 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		
 		// extended language maintenance
-		if ($ilSetting->get("lang_ext_maintenance") == "1")
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTarget($this, "disableExtendedLanguageMaintenance"));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("disable_ext_lang_maint"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTarget($this, "enableExtendedLanguageMaintenance"));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("enable_ext_lang_maint"));
-			$this->tpl->parseCurrentBlock();
+			if ($ilSetting->get("lang_ext_maintenance") == "1")
+			{
+				$this->tpl->setCurrentBlock("btn_cell");
+				$this->tpl->setVariable("BTN_LINK",
+					$this->ctrl->getLinkTarget($this, "disableExtendedLanguageMaintenance"));
+				$this->tpl->setVariable("BTN_TXT",$this->lng->txt("disable_ext_lang_maint"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("btn_cell");
+				$this->tpl->setVariable("BTN_LINK",
+					$this->ctrl->getLinkTarget($this, "enableExtendedLanguageMaintenance"));
+				$this->tpl->setVariable("BTN_TXT",$this->lng->txt("enable_ext_lang_maint"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		//prepare objectlist
@@ -153,13 +167,16 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			}
 
 			// make language name clickable
-			if ($ilSetting->get("lang_ext_maintenance") == "1")
+			if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 			{
-				if (substr($lang_data["description"],0,9) == "installed")
+				if ($ilSetting->get("lang_ext_maintenance") == "1")
 				{
-					$this->ctrl->setParameterByClass("ilobjlanguageextgui","obj_id",$lang_data["obj_id"]);
-					$url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui","");
-					$lang_data["name"] = '<a href="'.$url.'">'.$lang_data["name"].'</a>';
+					if (substr($lang_data["description"],0,9) == "installed")
+					{
+						$this->ctrl->setParameterByClass("ilobjlanguageextgui","obj_id",$lang_data["obj_id"]);
+						$url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui","");
+						$lang_data["name"] = '<a href="'.$url.'">'.$lang_data["name"].'</a>';
+					}
 				}
 			}
 
@@ -670,6 +687,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		return true;
 	}
 	
+	/**
+	* Enable extended language maintenance.
+	*/
 	function enableExtendedLanguageMaintenanceObject()
 	{
 		global $ilSetting, $ilCtrl;
@@ -678,12 +698,30 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "view");
 	}
 	
+	/**
+	* Disable extended language maintenance.
+	*/
 	function disableExtendedLanguageMaintenanceObject()
 	{
 		global $ilSetting, $ilCtrl;
 		
 		$ilSetting->set("lang_ext_maintenance", 0);
 		$ilCtrl->redirect($this, "view");
+	}
+	
+	function confirmRefreshObject()
+	{
+		global $ilCtrl, $lng;
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$conf_screen = new ilConfirmationGUI();
+		$conf_screen->setFormAction($ilCtrl->getFormAction($this));
+		$conf_screen->setHeaderText($lng->txt("lang_refresh_confirm"));
+		$conf_screen->addItem("d", "d", $lng->txt("lang_refresh_confirm_info"));
+		$conf_screen->setCancel($lng->txt("cancel"), "view");
+		$conf_screen->setConfirm($lng->txt("ok"), "refresh");
+		
+		$this->tpl->setContent($conf_screen->getHTML());
 	}
 	
 	

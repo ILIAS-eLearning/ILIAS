@@ -52,7 +52,7 @@ class ilObjLanguageAccess
 		if ($ilUser->getId())
 		{
 			$ref_id = ilObjLanguageAccess::_lookupLangFolderRefId();
-			return $rbacsystem->checkAccess("read,visible", (int) $ref_id);
+			return $rbacsystem->checkAccess("write", (int) $ref_id);
 		}
 		return false;
 	}

@@ -393,7 +393,7 @@ class ilObjLanguageExt extends ilObjLanguage
 	{
 		global $ilDB;
 		
-		$q = "SELECT module FROM lng_modules WHERE ".
+		$q = "SELECT DISTINCT module FROM lng_data WHERE ".
 			" lang_key = ".$ilDB->quote($a_lang_key).
 			" order by module";
 		$set = $ilDB->query($q);

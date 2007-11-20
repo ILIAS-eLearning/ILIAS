@@ -7242,7 +7242,6 @@ trac#:#trac_mode_manual_info#:#Los usuarios deberán decidir por sí mismos si s
 trac#:#trac_mode_objectives_info#:#El progreso de aprendizaje será calculado automáticamente de acuerdo al número de objetivos de aprendizaje superados
 trac#:#trac_mode_collection_info#:#Defina los materiales que determinarán automáticamente el status general de progreso
 trac#:#trac_mode_scorm_info#:#El status del progreso de aprendizaje será determinado por el status de los SCO's
-trac##:#trac_mode_test_finished_info#:#El usuario tiene que finalizar un test completamente.
 trac#:#trac_mode_test_passed_info#:#El test tiene que ser superado por un usuario para recibir el status 'Completado'.
 trac#:#trac_mode_exercise_returned_info#:#El status 'Completado' sólo puede ser definido por los tutores.
 trac#:#trac_mode_manual_by_tutor#:#De forma manual por el tutor
@@ -7724,3 +7723,4 @@ rbac#:#recf_visible#:#Restored Objects are visible ###20 11 2007 new variable
 rbac#:#recf_read#:#Read access to Restored Objects###20 11 2007 new variable
 rbac#:#recf_write#:#Edit Restored Objects###20 11 2007 new variable
 grp#:#grp_unsubscribe#:#Unsubscrib###20 11 2007 new variable
+trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###20 11 2007 new variable
