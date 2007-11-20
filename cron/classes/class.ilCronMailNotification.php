@@ -52,7 +52,7 @@ class ilCronMailNotification
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
-		include_once "./classes/class.ilLanguage.php";
+		include_once "./Services/Language/classes/class.ilLanguage.php";
 
 		$query = "SELECT mail.* " 
 				 ."FROM mail_options "

@@ -661,7 +661,7 @@ class ilRegistrationGUI
 	{
 		global $ilias;
 		
-		include_once 'classes/class.ilLanguage.php';
+		include_once './Services/Language/classes/class.ilLanguage.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
         include_once "Services/Mail/classes/class.ilFormatMail.php";
 

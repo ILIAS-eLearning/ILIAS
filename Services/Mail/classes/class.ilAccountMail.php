@@ -271,7 +271,7 @@ return true;*/
 						
 					// this looks complicated, but we may have no initilised $lng object here
 					// if mail is send during user creation in authentication
-					include_once("./classes/class.ilLanguage.php");
+					include_once("./Services/Language/classes/class.ilLanguage.php");
 					$a_string  = str_replace("[TARGET_TYPE]",
 						ilLanguage::_lookupEntry($a_lang, "common", "obj_".$tarr[0]),
 						$a_string);
