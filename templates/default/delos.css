@@ -58,6 +58,23 @@ input.fullwidth_marked {
 
 /* ---------------- alternating tablerowcolors ----------------- */
 
+/*
+.tblrow2 {
+	background-color: #FFFFFF;
+	color:#222222;
+	padding:3px;
+	background-image: url(images/rowback.gif);
+	background-repeat:repeat-x;
+}
+
+.tblrow1 {
+	background-color:#FFFFFF;
+	color:#222222;
+	padding:3px;
+	background-image: url(images/rowback.gif);
+	background-repeat:repeat-x;
+}*/
+
 .tblrow2 {
 	background-color: #F1F1F1;
 	color:#222222;

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "classes/class.ilObjLanguage.php";
+require_once "./Services/Language/classes/class.ilObjLanguage.php";
 
 /**
 * Class ilObjLanguageExt
