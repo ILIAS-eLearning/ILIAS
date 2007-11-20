@@ -579,7 +579,7 @@ class ilPasswordAssistanceGUI
 		global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
 		
 		require_once "include/inc.pwassist_session_handler.php";
-		require_once "classes/class.ilLanguage.php";
+		require_once "./Services/Language/classes/class.ilLanguage.php";
 		
 		// Retrieve form data
 		if ($pwassist_id == "") 

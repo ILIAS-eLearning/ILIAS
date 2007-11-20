@@ -2801,3 +2801,8 @@ if ($result->numRows())
 	}
 }
 ?>
+
+<#1112>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
