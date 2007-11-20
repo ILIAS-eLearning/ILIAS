@@ -58,7 +58,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function viewObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilSetting;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -79,6 +79,24 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "checkLanguage"));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("check_languages"));
 		$this->tpl->parseCurrentBlock();
+		
+		// extended language maintenance
+		if ($ilSetting->get("lang_ext_maintenance") == "1")
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTarget($this, "disableExtendedLanguageMaintenance"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("disable_ext_lang_maint"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTarget($this, "enableExtendedLanguageMaintenance"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("enable_ext_lang_maint"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		//prepare objectlist
 		$this->data = array();
@@ -135,11 +153,14 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			}
 
 			// make language name clickable
-			if (substr($lang_data["description"],0,9) == "installed")
+			if ($ilSetting->get("lang_ext_maintenance") == "1")
 			{
-				$this->ctrl->setParameterByClass("ilobjlanguageextgui","obj_id",$lang_data["obj_id"]);
-				$url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui","");
-				$lang_data["name"] = '<a href="'.$url.'">'.$lang_data["name"].'</a>';
+				if (substr($lang_data["description"],0,9) == "installed")
+				{
+					$this->ctrl->setParameterByClass("ilobjlanguageextgui","obj_id",$lang_data["obj_id"]);
+					$url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui","");
+					$lang_data["name"] = '<a href="'.$url.'">'.$lang_data["name"].'</a>';
+				}
 			}
 
 			// visible data part
@@ -648,5 +669,23 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		}
 		return true;
 	}
+	
+	function enableExtendedLanguageMaintenanceObject()
+	{
+		global $ilSetting, $ilCtrl;
+		
+		$ilSetting->set("lang_ext_maintenance", 1);
+		$ilCtrl->redirect($this, "view");
+	}
+	
+	function disableExtendedLanguageMaintenanceObject()
+	{
+		global $ilSetting, $ilCtrl;
+		
+		$ilSetting->set("lang_ext_maintenance", 0);
+		$ilCtrl->redirect($this, "view");
+	}
+	
+	
 } // END class.ilObjLanguageFolderGUI
 ?>

@@ -269,14 +269,6 @@ class ilTemplate extends ilTemplateX
 			parent::show($part);
 		}
 		
-		// output translation link
-		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
-		if (ilObjLanguageAccess::_checkTranslate())
-		{
-			include_once("Services/Language/classes/class.ilObjLanguageExtGUI.php");
-			echo ilObjLanguageExtGUI::_getTranslationLink();
-		}
-
 		$this->handleReferer();
 	}
 	
@@ -437,10 +429,23 @@ class ilTemplate extends ilTemplateX
 	*/
 	function addILIASFooter()
 	{
-		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB;
+		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting;
 
 		$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
 		$this->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
+
+		// output translation link
+		if ($ilSetting->get("lang_ext_maintenance") == "1")
+		{
+			include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+			if (ilObjLanguageAccess::_checkTranslate())
+			{
+				include_once("Services/Language/classes/class.ilObjLanguageExtGUI.php");
+				$this->setVariable("TRANSLATION_LINK",
+					ilObjLanguageExtGUI::_getTranslationLink());
+			}
+		}
+
 		if (DEVMODE)
 		{
 			$mem_usage = "";

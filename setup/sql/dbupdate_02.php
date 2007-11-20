@@ -2806,3 +2806,9 @@ if ($result->numRows())
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1113>
+DELETE FROM lng_data WHERE identifier='cont_Reference';
+ALTER TABLE lng_data DROP PRIMARY KEY;
+ALTER TABLE lng_data MODIFY identifier VARCHAR(60);
+<#1114>
+ALTER TABLE lng_data ADD PRIMARY KEY (module, identifier, lang_key);

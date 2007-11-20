@@ -412,7 +412,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_LocalFile"));
-		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_Reference"));
+		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
 		$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
 		if ($std_item->getLocationType() == "LocalFile")
 		{
@@ -481,7 +481,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
 
 			$this->tpl->setVariable("TXT_FULL_FILE", $this->lng->txt("cont_LocalFile"));
-			$this->tpl->setVariable("TXT_FULL_REFERENCE", $this->lng->txt("cont_Reference"));
+			$this->tpl->setVariable("TXT_FULL_REFERENCE", $this->lng->txt("cont_reference"));
 			$this->tpl->setVariable("TXT_FULL_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
 			if ($full_item->getLocationType() == "LocalFile")
 			{
