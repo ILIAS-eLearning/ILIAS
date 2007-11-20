@@ -42,6 +42,8 @@ administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
 common#:#access_expired#:#expired
+common#:#enable_ext_lang_maint#:#Enable Extended Maintenance
+common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#delete_existing_file#:#Delete Existing File
 common#:#res_links#:#Repository Links
 common#:#short_inst_name#:#Short Title
@@ -4102,7 +4104,6 @@ content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
-content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman i, ii, ...  
 content#:#cont_TableContent#:#Table Content

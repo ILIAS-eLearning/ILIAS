@@ -3488,7 +3488,6 @@ content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
-content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_TableContent#:#Table Content
@@ -7717,3 +7716,11 @@ grp#:#grp_select_one_file#:#Please select one file.###14 11 2007 new variable
 assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
 assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
 news#:#news_no_news_items#:#No news available.###15 11 2007 new variable
+common#:#enable_ext_lang_maint#:#Enable Extended Maintenance###20 11 2007 new variable
+common#:#disable_ext_lang_maint#:#Disable Extended Maintenance###20 11 2007 new variable
+assessment#:#tst_show_solution_signature#:#Show Signature Placeholder###20 11 2007 new variable
+rbac#:#recf_edit_permission#:#Change permission settings###20 11 2007 new variable
+rbac#:#recf_visible#:#Restored Objects are visible ###20 11 2007 new variable
+rbac#:#recf_read#:#Read access to Restored Objects###20 11 2007 new variable
+rbac#:#recf_write#:#Edit Restored Objects###20 11 2007 new variable
+grp#:#grp_unsubscribe#:#Unsubscrib###20 11 2007 new variable

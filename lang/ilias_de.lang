@@ -4282,7 +4282,6 @@ content#:#cont_Rect#:#Rechteck
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_ref_images#:#Referenzierte Bilder
 content#:#cont_reference#:#Referenz
-content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_removeiln#:#Internen Link entfernen ?
@@ -7723,3 +7722,5 @@ rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
+common#:#enable_ext_lang_maint#:#Enable Extended Maintenance###20 11 2007 new variable
+common#:#disable_ext_lang_maint#:#Disable Extended Maintenance###20 11 2007 new variable

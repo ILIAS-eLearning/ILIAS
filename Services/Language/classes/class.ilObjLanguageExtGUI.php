@@ -147,7 +147,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_edit_items.html", $this->module);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_edit_items.html", "Services/Language");
 
 		// set the language to compare with
         $compare = $this->getPar('compare', $this->lng->getDefaultLanguage());
@@ -379,7 +379,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		// render the table rows
-        $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lang_items_row.html",$this->module);
+        $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lang_items_row.html", "Services/Language");
 		foreach ($list as $data)
 		{
 			if (strlen($data["translation"]) <= $this->inputsize)
@@ -453,7 +453,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function importObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_file_import.html", $this->module);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_file_import.html", "Services/Language");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("language_import_file"));
@@ -513,7 +513,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	{
 		$scope = $_POST["scope"] ? $_POST["scope"] : "global";
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_file_export.html", $this->module);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_file_export.html", "Services/Language");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("language_export_file"));
@@ -543,7 +543,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		global $ilUser;
 		
 		$this->object->readLanguageFile();
-        $tpl = new ilTemplate("tpl.lang_file_header.html",true,true, $this->module);
+        $tpl = new ilTemplate("tpl.lang_file_header.html",true,true, "Services/Language");
 
 		$version = "_"
 			. str_replace(".", "_", substr(ILIAS_VERSION, 0, strpos(ILIAS_VERSION, " ")))
@@ -648,7 +648,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 					$this->object->readLanguageFile();
 					$translations = $this->object->getChangedTranslations();
 
-	        		$tpl = new ilTemplate("tpl.lang_file_header.html",true,true, $this->module);
+	        		$tpl = new ilTemplate("tpl.lang_file_header.html",true,true, "Services/Language");
 					$tpl->setCurrentBlock('local');
 					$tpl->setVariable('BASED_ON', $this->object->getLangFileParam('version'));
 					$tpl->parseCurrentBlock();
@@ -708,7 +708,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 				break;
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_maintenance.html", $this->module);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_maintenance.html", "Services/Language");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_MAINTENANCE",$this->lng->txt("language_maintenance"));
 		$this->tpl->setVariable("TXT_MAINTAIN_LOCAL",$this->lng->txt("language_maintain_local_changes"));
@@ -749,7 +749,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		}
 		$translate = $ilSetting->get($translate_key, false);
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_settings.html", $this->module);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_settings.html", "Services/Language");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SETTINGS",$this->lng->txt("language_settings"));
@@ -793,7 +793,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$data[] = $total;
 
 		// prepare the templates for output
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_statistics.html", $this->module);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_statistics.html", "Services/Language");
 		$this->tpl->addBlockFile("TABLE_STATISTICS", "table_statistics", "tpl.table.html");
 		$this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
@@ -919,7 +919,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		if ($this->_isPageTranslation())
 		{
 			// show the pure translation page without menu, tabs etc.
-			$this->tpl->addBlockFile("CONTENT","content","tpl.adm_translate.html",$this->module);
+			$this->tpl->addBlockFile("CONTENT","content","tpl.adm_translate.html","Services/Language");
 			$this->tpl->setHeaderPageTitle($this->lng->txt("translation"));
 			$this->tpl->setTitle($this->lng->txt("translation"). " "
 									.$this->lng->txt("meta_l_".$this->object->key));
@@ -1003,7 +1003,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		// prevent translation link on translation screen
 		// check setting of translation mode
 		if (ilObjLanguageExtGUI::_isPageTranslation()
-		or !$ilSetting->get("lang_translate_".$lng->getLangKey()))
+			or !$ilSetting->get("lang_translate_".$lng->getLangKey()))
 		{
 			return "";
 		}
@@ -1016,7 +1016,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			."&cmdClass=ilobjlanguageextgui"
 			."&view_mode=translate";
 
-		$tpl = new ilTemplate("tpl.translation_link.html",true,true, ILIAS_LANGUAGE_MODULE);
+		$tpl = new ilTemplate("tpl.translation_link.html",true,true, "Services/Language");
 
 		foreach($lng->getUsedModules() as $module => $dummy)
 		{
