@@ -34,8 +34,8 @@
 
  */
 
-require_once "classes/class.ilObjLanguage.php";
-require_once "class.ilObjectGUI.php";
+require_once "./Services/Language/classes/class.ilObjLanguage.php";
+require_once "./classes/class.ilObjectGUI.php";
 
 class ilObjLanguageFolderGUI extends ilObjectGUI
 {
