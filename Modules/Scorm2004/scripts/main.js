@@ -29,7 +29,7 @@
 var log_auto_flush = false;
 
 //enable for improved performance
-var disable_all_logging=true;
+var disable_all_logging=false;
 
 var log_buffer = "";
 function toggleTree() {
@@ -2978,12 +2978,12 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 		syncCMIADLTree();		
 		var stat = pubAPI.cmi.exit;
 		
-		currentAPI.Terminate("");
 		save_global_objectives();
 		//sync dynamic objectives to ActivityTree
 		syncDynObjectives();
 		save();
-	
+		//currentAPI.Terminate("");
+		
 			
 	}
 	currentAPI = window[Runtime.apiname] = null;
