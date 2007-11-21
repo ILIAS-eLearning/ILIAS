@@ -206,7 +206,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("ALT_SENDER", $user->getLogin());
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("long");
-			$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
+			if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+			{
+				$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
+			}
 			$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
 			$this->tpl->setVariable("NEW_MAIL_DATE", substr($mail["send_time"],0,10));
 			$this->tpl->setVariable("TXT_FROM", $lng->txt("from"));

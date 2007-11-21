@@ -381,11 +381,6 @@ class ilMail
 		}
 	}
 
-	/**
-	* get mail object reference id
-	* @return integer mail_obj_ref_id
-	* @access	public
-	*/
 	function getMailObjectReferenceId()
 	{
 		return $this->mail_obj_ref_id;
@@ -421,6 +416,78 @@ class ilMail
 		$message = $this->replacePlaceholders($tpl->get(), $user_id);		
 		
 		return $message;
+	}
+	
+	/**
+ 	 * Prepends the fullname of each ILIAS login name (is user has a public profile) found
+ 	 * in the passed string and brackets the ILIAS login name afterwards.
+	 *
+	 * @param	string	$users	String containing to, cc or bcc recipients
+	 *
+	 * @return	string	Formatted names
+	 * 
+	 * @access 	public
+	 */
+	public function formatNamesForOutput($users = '')
+	{
+		$users = trim($users);
+		if($users)
+		{
+			if(strstr($users, ','))
+			{
+				$rcp_to_array = array();
+				
+				$recipients = explode(',', $users);
+				foreach($recipients as $recipient)
+				{
+					$recipient = trim($recipient);
+					if($uid = ilObjUser::_lookupId($recipient))
+					{
+						$tmp_obj = new ilObjUser($uid);
+
+						if(ilObjUser::_lookupPref($uid, 'public_profile') == 'y')
+						{								
+							$rcp_to_array[] = $tmp_obj->getFullname().' ['.$recipient.']';
+						}
+						else
+						{
+							$rcp_to_array[] = $recipient;
+						}
+						unset($tmp_obj);		
+					}
+					else
+					{
+						$rcp_to_array[] = $recipient;
+					}							
+				}
+
+				return trim(implode(', ', $rcp_to_array));
+			}
+			else
+			{
+				if($uid = ilObjUser::_lookupId($users))
+				{
+					$tmp_obj = new ilObjUser($uid);
+					if(ilObjUser::_lookupPref($uid, 'public_profile') == 'y')
+					{
+						return $tmp_obj->getFullname().' ['.$users.']';
+					}
+					else
+					{
+						unset($tmp_obj);
+						return $users;
+					}					
+				}
+				else
+				{
+					return $users;
+				}
+			}
+		}
+		else
+		{
+			return $this->lng->txt('not_available');
+		}
 	}
 	
 	function getPreviousMail($a_mail_id)

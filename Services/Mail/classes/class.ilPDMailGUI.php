@@ -89,7 +89,10 @@ class ilPDMailGUI
 
 		// FROM
 		$tpl->setVariable("TXT_FROM", $lng->txt("from"));
-		$tpl->setVariable("FROM", $tmp_user->getFullname());
+		if(ilObjUser::_lookupPref($mail_data['sender_id'], 'public_profile') == 'y')
+		{
+			$tpl->setVariable("FROM", $tmp_user->getFullname());
+		}
 
 		if(!($login = $tmp_user->getLogin()))
 		{
@@ -99,14 +102,14 @@ class ilPDMailGUI
 
 		// TO
 		$tpl->setVariable("TXT_TO", $lng->txt("mail_to"));
-		$tpl->setVariable("TO", $mail_data["rcp_to"]);
+		$tpl->setVariable("TO", $umail->formatNamesForOutput($mail_data['rcp_to']));
 		
 		// CC
 		if($mail_data["rcp_cc"])
 		{
 			$tpl->setCurrentBlock("cc");
 			$tpl->setVariable("TXT_CC",$lng->txt("cc"));
-			$tpl->setVariable("CC",$mail_data["rcp_cc"]);
+			$tpl->setVariable("CC", $umail->formatNamesForOutput($mail_data['rcp_cc']));
 			$tpl->parseCurrentBlock();
 		}
 		// SUBJECT
