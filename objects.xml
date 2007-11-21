@@ -443,7 +443,7 @@
 	<property name="settings">settings</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="auth" class_name="AuthSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<object name="auth" class_name="AuthSettings" location="Services/Authentication/classes" module="Services/Authentication" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 </object>
