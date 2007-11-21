@@ -109,6 +109,9 @@ class ilObjRoleTemplate extends ilObject
 				$filter = array_keys($obj_data);
 				$filter[] = 'crs';
 				break;
+			case "il_frm_moderator":
+				$filter[] = 'frm';
+				break;
 		}
 		
 		return $filter;

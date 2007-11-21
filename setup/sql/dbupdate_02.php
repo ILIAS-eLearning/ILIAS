@@ -2831,3 +2831,27 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1117>
+<?php
+// FORUM MODERATOR TEMPLATE
+$query = "INSERT 
+		  INTO object_data (type, title, description, owner, create_date, last_update) 
+		  VALUES ('rolt', 'il_frm_moderator', 'Moderator template for forum moderators', -1, NOW(), NOW())";
+$this->db->query($query);
+
+$frm_modetator_tpl_id = $this->db->getLastInsertId();
+
+$frm_modetator_ops = array(1, 2, 3, 4, 6, 9, 10, 58, 62);
+foreach ($frm_modetator_ops as $op_id)
+{
+	$query = "INSERT
+			  INTO rbac_templates 
+		 	  VALUES (".$this->db->quote($frm_modetator_tpl_id).", 'frm', ".$this->db->quote($op_id).", 8)";
+	$this->db->query($query);
+}
+
+$query = "INSERT
+		  INTO rbac_fa 
+		  VALUES (".$this->db->quote($frm_modetator_tpl_id).", 8, 'n', 'n')";
+$this->db->query($query);
+?>
