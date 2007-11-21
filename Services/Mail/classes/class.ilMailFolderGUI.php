@@ -178,7 +178,7 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));		
 		$this->tpl->parseCurrentBlock();	
 		
-		include_once("classes/class.ilObjUserGUI.php");		
+		include_once 'Services/User/classes/class.ilObjUserGUI.php';		
 		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 		
 		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".$user_gui->object->getLogin());
@@ -362,25 +362,20 @@ class ilMailFolderGUI
 			{
 				$this->tpl->setVariable("CHECKBOX_CHECKED",in_array($mail["mail_id"],$_POST["mail_id"]) ? 'checked' : "");
 			}
-		
+
 			// GET FULLNAME OF SENDER
-			
 			if($_GET['mobj_id'] == $this->mbox->getSentFolder() ||
 				$_GET['mobj_id'] == $this->mbox->getDraftsFolder())
 			{
-				if($mail['rcp_to'])
-				{
-					$this->tpl->setVariable("MAIL_LOGIN",str_replace(",", ", ", $mail['rcp_to']));
-				}
-				else
-				{
-					$this->tpl->setVariable("MAIL_LOGIN",$this->lng->txt('not_available'));
-				}
+				$this->tpl->setVariable('MAIL_LOGIN', $this->umail->formatNamesForOutput($mail['rcp_to']));				
 			}
 			else
 			{
 				$tmp_user = new ilObjUser($mail["sender_id"]);
-				$this->tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
+				if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+				{
+					$this->tpl->setVariable('MAIL_FROM', $tmp_user->getFullname());
+				}
 				
 				/*$this->ctrl->setParameter("user", $tmp_user->getId());
 				$this->ctrl->getLinkTargetByClass("ilusersonlineblockgui", "showUserProfile");
@@ -952,17 +947,21 @@ class ilMailFolderGUI
 		
 		// SET MAIL DATA
 		$counter = 1;
+		
 		// FROM
-		$this->tpl->setVariable("TXT_FROM", $this->lng->txt("from"));
+		$this->tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
 		
-		$tmp_user = new ilObjUser($mailData["sender_id"]);
-		#$tmp_user =& ilObjectFactory::getInstanceByObjId($mailData["sender_id"],false);
+		$tmp_user = new ilObjUser($mailData['sender_id']);
 		
-		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		$this->ctrl->setParameter($this, 'user', $tmp_user->getId());
-		$this->tpl->setVariable("PROFILE_LINK_FROM", $this->ctrl->getLinkTarget($this, "showUser"));
+		$this->ctrl->setParameter($this, 'mail_id', $_GET['mail_id']);
+		$this->ctrl->setParameter($this, 'user', $tmp_user->getId());		
 		
-		$this->tpl->setVariable("FROM", $tmp_user->getFullname());
+		if(ilObjUser::_lookupPref($mailData['sender_id'], 'public_profile') == 'y')
+		{
+			$this->tpl->setVariable('PROFILE_LINK_FROM', $this->ctrl->getLinkTarget($this, 'showUser'));
+			$this->tpl->setVariable('FROM', $tmp_user->getFullname());
+		}	
+		
 		$this->tpl->setCurrentBlock("pers_image");
 		$this->tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
 		$this->tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
@@ -974,30 +973,31 @@ class ilMailFolderGUI
 			$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
 		}
 		$this->tpl->setVariable("MAIL_LOGIN",$login);
-		$this->tpl->setVariable("CSSROW_FROM",++$counter%2 ? 'tblrow1' : 'tblrow2');
+		$this->tpl->setVariable("CSSROW_FROM", (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		// TO
-		$this->tpl->setVariable("TXT_TO", $this->lng->txt("mail_to"));
-		$this->tpl->setVariable("TO", $mailData["rcp_to"]);
-		$this->tpl->setVariable("CSSROW_TO",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
+		$this->tpl->setVariable('TXT_TO', $this->lng->txt('mail_to'));		
+		$this->tpl->setVariable('TO', $this->umail->formatNamesForOutput($mailData['rcp_to']));	
+		$this->tpl->setVariable('CSSROW_TO', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		
 		// CC
-		if($mailData["rcp_cc"])
+		if($mailData['rcp_cc'])
 		{
-			$this->tpl->setCurrentBlock("cc");
-			$this->tpl->setVariable("TXT_CC",$this->lng->txt("cc"));
-			$this->tpl->setVariable("CC",$mailData["rcp_cc"]);
-			$this->tpl->setVariable("CSSROW_CC",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
+			$this->tpl->setCurrentBlock('cc');
+			$this->tpl->setVariable('TXT_CC',$this->lng->txt('cc'));
+			$this->tpl->setVariable('CC', $this->umail->formatNamesForOutput($mailData['rcp_cc']));
+			$this->tpl->setVariable('CSSROW_CC', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		// SUBJECT
-		$this->tpl->setVariable("TXT_SUBJECT",$this->lng->txt("subject"));
-		$this->tpl->setVariable("SUBJECT",htmlspecialchars($mailData["m_subject"]));
-		$this->tpl->setVariable("CSSROW_SUBJ",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
+		$this->tpl->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
+		$this->tpl->setVariable('SUBJECT', htmlspecialchars($mailData['m_subject']));
+		$this->tpl->setVariable('CSSROW_SUBJ', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		
 		// DATE
-		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
-		$this->tpl->setVariable("DATE", ilFormat::formatDate($mailData["send_time"]));
-		$this->tpl->setVariable("CSSROW_DATE",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
+		$this->tpl->setVariable('TXT_DATE', $this->lng->txt('date'));
+		$this->tpl->setVariable('DATE', ilFormat::formatDate($mailData['send_time']));
+		$this->tpl->setVariable('CSSROW_DATE', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		
 		// ATTACHMENTS
 		if($mailData["attachments"])
@@ -1098,7 +1098,7 @@ class ilMailFolderGUI
 		}			
 
 		$this->tpl->show();
-	}
+	}	
 
 	public function printMail()
 	{
@@ -1185,10 +1185,9 @@ class ilMailFolderGUI
 
 	function deliverVCard()
 	{
-		include_once("classes/class.ilObjUserGUI.php");
-		$userObj = new ilObjUserGUI("", $_GET["user"]);
+		include_once 'Services/User/classes/class.ilObjUserGUI.php';
+		$userObj = new ilObjUserGUI('', $_GET['user']);
 		return $userObj->deliverVCardObject();
 	}
 }
-
 ?>
