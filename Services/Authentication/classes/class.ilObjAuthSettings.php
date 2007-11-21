@@ -30,7 +30,7 @@
 * @extends ilObject
 */
 
-require_once "class.ilObject.php";
+include_once "./classes/class.ilObject.php";
 
 class ilObjAuthSettings extends ilObject
 {
