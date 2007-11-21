@@ -200,6 +200,15 @@ class ilLPCollections
 					$items[$item->getId()]['title'] = $item->getTitle();
 				}
 				return $items ? $items : array();
+
+			case 'scorm2004':
+				include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
+
+				foreach(ilObjSCORM2004LearningModule::_getTrackingItems($target_id) as $item)
+				{
+					$items[$item["id"]]['title'] = $item["title"];
+				}
+				return $items ? $items : array();
 		}
 		return array();
 	}

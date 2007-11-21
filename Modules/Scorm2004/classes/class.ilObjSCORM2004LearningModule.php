@@ -250,6 +250,37 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$ilDB->query($q);
 		}
 	}
+	
+	/**
+	* get all tracking items of scorm object
+	*
+	* currently a "hack" for learning progress only
+	*
+	* @access static
+	*/
+	function _getTrackingItems($a_obj_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT cp_item.cp_node_id as id, cp_item.title as title FROM cp_node, cp_item, cp_resource WHERE slm_id = ".
+			$ilDB->quote($a_obj_id).
+			" AND cp_node.cp_node_id = cp_item.cp_node_id ".
+			" AND cp_item.resourceId = cp_resource.id ".
+			" AND cp_resource.scormType = 'sco' ".
+			" ORDER BY id ";
+
+		$item_set = $ilDB->query($q);
+			
+		$items = array();
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$items[] = array("id" => $item_rec["id"],
+				"title" => $item_rec["title"]);
+		}
+
+		return $items;
+	}
+
 
 } // END class.ilObjSCORMLearningModule
 ?>
