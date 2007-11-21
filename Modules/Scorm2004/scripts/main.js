@@ -28,6 +28,8 @@
 // settings for log
 var log_auto_flush = false;
 
+//enable for improved performance
+var disable_all_logging=true;
 
 var log_buffer = "";
 function toggleTree() {
@@ -59,12 +61,14 @@ function toggleLog() {
 
 function sclog(mess, type)
 {
-	return;
+	if (disable_all_logging) {
+		return;
+	}	
 	//log.info(mess);
 	//return;
 	//switch of sequencing-logging in general, cause of slowdown
 	if (type=="seq") return;
-	
+	log_auto_flush=true;
 	switch (type)
 	{
 		case "cmi": 
@@ -1583,6 +1587,16 @@ function setState(newState)
 }
 
 function loadPage(src) {
+	
+		//deactivate all controls
+		toggleClass('navContinue', 'disabled', true);
+		toggleClass('navExit', 'disabled', true);
+		toggleClass('navPrevious', 'disabled', true);
+		toggleClass('navResumeAll', 'disabled', true);
+		toggleClass('navExitAll', 'disabled', true);
+		toggleClass('navStart', 'disabled',true);
+		toggleClass('navSuspendAll', 'disabled', true);
+		
 		var elm = window.document.getElementById(RESOURCE_PARENT);
 		if (!elm) 
 		{
@@ -1600,7 +1614,7 @@ function loadPage(src) {
 		var resContainer = window.document.getElementById("res");
 		resContainer.src=src;
 		resContainer.name=RESOURCE_NAME;
-		onWindowResize();
+		onWindowResize();	
 }
 
 
