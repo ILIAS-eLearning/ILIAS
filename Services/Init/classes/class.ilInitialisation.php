@@ -860,7 +860,7 @@ class ilInitialisation
 		$this->initLog();
 
 		// $ilAuth initialisation
-		require_once("classes/class.ilAuthUtils.php");
+		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
 

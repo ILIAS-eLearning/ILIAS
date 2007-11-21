@@ -97,7 +97,6 @@ class ilAuthUtils
 			// no sesssion found
 			if ($_POST['username'] != '' and $_POST['password'] != '')
 			{
-				//include_once(ILIAS_ABSOLUTE_PATH.'/classes/class.ilAuthUtils.php');
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
 				
 				if ($user_auth_mode == AUTH_CAS && $ilSetting->get("cas_allow_local"))

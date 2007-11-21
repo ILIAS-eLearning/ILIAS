@@ -31,7 +31,7 @@
 * @package ilias
 */
 include_once 'Auth/Auth.php';
-include_once './classes/class.ilBaseAuthentication.php';
+include_once './Services/Authentication/classes/class.ilBaseAuthentication.php';
 
 class ilSoapAuthentication extends ilBaseAuthentication
 {

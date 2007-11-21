@@ -397,7 +397,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$this->__setMessage('');
 		
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$allow_empty_password = ilAuthUtils::_needsExternalAccountByAuthMode(
 			ilAuthUtils::_getAuthMode($user_data['auth_mode']));
 

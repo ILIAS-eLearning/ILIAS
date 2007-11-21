@@ -189,7 +189,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$reg_roles = ilObjRole::_lookupRegisterAllowed();
 		
 		// auth mode selection
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
 
 		foreach ($reg_roles as $role)

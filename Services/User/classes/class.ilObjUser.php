@@ -3191,7 +3191,7 @@ class ilObjUser extends ilObject
 			return $this->auth_mode;
 		}
 
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		return ilAuthUtils::_getAuthMode($this->auth_mode);
 	}
 
@@ -3234,7 +3234,7 @@ class ilObjUser extends ilObject
 	{
 	 	global $ilDB,$ilSetting;
 
-	 	include_once('classes/class.ilAuthUtils.php');
+	 	include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 	 	if($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode',AUTH_LOCAL)) == $a_auth_mode)
 	 	{
 	 		$or = "OR auth_mode = 'default' ";
