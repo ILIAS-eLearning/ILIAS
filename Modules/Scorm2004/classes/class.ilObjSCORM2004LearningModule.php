@@ -287,6 +287,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		$q = "SELECT * FROM cmi_gobjective ".
 			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
+			" AND objective_id = ".$ilDB->quote("-course_overall_status-").
 			" AND user_id = ".$ilDB->quote($a_user_id);
 
 		$status_set = $ilDB->query($q);
@@ -305,6 +306,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		$q = "SELECT * FROM cmi_gobjective ".
 			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
+			" AND objective_id = ".$ilDB->quote("-course_overall_status-").
 			" AND user_id = ".$ilDB->quote($a_user_id);
 
 		$status_set = $ilDB->query($q);
@@ -323,6 +325,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		$q = "SELECT * FROM cmi_gobjective ".
 			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
+			" AND objective_id = ".$ilDB->quote("-course_overall_status-").
 			" AND user_id = ".$ilDB->quote($a_user_id);
 
 		$status_set = $ilDB->query($q);
