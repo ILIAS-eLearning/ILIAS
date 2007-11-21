@@ -38,140 +38,6 @@ class ilSCORM2004Tracking
 	{
 	}
 
-/*
-	function extractData()
-	{
-		$this->insert = array();
-		if (is_array($_GET["iL"]))
-		{
-			foreach($_GET["iL"] as $key => $value)
-			{
-				$this->insert[] = array("left" => $value, "right" => $_GET["iR"][$key]);
-			}
-		}
-		if (is_array($_POST["iL"]))
-		{
-			foreach($_POST["iL"] as $key => $value)
-			{
-				$this->insert[] = array("left" => $value, "right" => $_POST["iR"][$key]);
-			}
-		}
-
-		$this->update = array();
-		if (is_array($_GET["uL"]))
-		{
-			foreach($_GET["uL"] as $key => $value)
-			{
-				$this->update[] = array("left" => $value, "right" => $_GET["uR"][$key]);
-			}
-		}
-		if (is_array($_POST["uL"]))
-		{
-			foreach($_POST["uL"] as $key => $value)
-			{
-				$this->update[] = array("left" => $value, "right" => $_POST["uR"][$key]);
-			}
-		}
-	}
-*/
-	
-/*
-	function store($obj_id=0, $sahs_id=0, $extractData=1)
-	{
-		global $ilDB, $ilUser;
-
-		if (empty($obj_id))
-		{
-			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-		}
-		
-		if (empty($sahs_id))
-			$sahs_id = ($_GET["sahs_id"] != "")	? $_GET["sahs_id"] : $_POST["sahs_id"];
-			
-		if ($extractData==1)
-			$this->extractData();
-
-		if (is_object($ilUser))
-		{
-			$user_id = $ilUser->getId();
-		}
-
-		// writing to scorm test log
-		$f = fopen("./Modules/ScormAicc/log/scorm.log", "a");
-		fwrite($f, "\nCALLING SCORM store()\n");
-		if ($obj_id <= 1)
-		{
-			fwrite($f, "Error: No obj_id given.\n");
-		}
-		else
-		{
-			foreach($this->insert as $insert)
-			{
-				$q = "SELECT * FROM scorm_tracking WHERE ".
-					" user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($sahs_id).
-					" AND lvalue = ".$ilDB->quote($insert["left"]).
-					" AND obj_id = ".$ilDB->quote($obj_id);
-				$set = $ilDB->query($q);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					fwrite($f, "Error Insert, left value already exists. L:".$insert["left"].",R:".
-						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
-				}
-				else
-				{
-					$q = "INSERT INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES ".
-						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($obj_id).",".
-						$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
-					$ilDB->query($q);
-					fwrite($f, "Insert - L:".$insert["left"].",R:".
-						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
-				}
-			}
-			foreach($this->update as $update)
-			{
-				$q = "SELECT * FROM scorm_tracking WHERE ".
-					" user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($sahs_id).
-					" AND lvalue = ".$ilDB->quote($update["left"]).
-					" AND obj_id = ".$ilDB->quote($obj_id);
-				$set = $ilDB->query($q);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					$q = "REPLACE INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES ".
-						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($obj_id).",".
-						$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
-					$ilDB->query($q);
-					fwrite($f, "Update - L:".$update["left"].",R:".
-						$update["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
-				}
-				else
-				{
-					fwrite($f, "ERROR Update, left value does not exist. L:".$update["left"].",R:".
-						$update["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
-				}
-			}
-		}
-		fclose($f);
-	}
-*/
-	
-/*
-	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
-	{
-		global $ilDB, $ilUser;
-
-		$q = "INSERT INTO scorm_tracking (user_id, sco_id, lvalue, rvalue, obj_id) ".
-			" VALUES (".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($a_sahs_id).
-			",".$ilDB->quote($a_lval).",".$ilDB->quote($a_rval).
-			",".$ilDB->quote($a_obj_id).")";
-		$ilDB->query($q);
-
-	}
-*/
-
 	function _getInProgress($scorm_item_id,$a_obj_id)
 	{
 		
@@ -267,6 +133,27 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 */
 	}
 
+	function _getCountCompletedPerUser($a_scorm_item_ids,$a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT cmi_node.user_id as user_id, COUNT(user_id) as completed FROM cp_node, cmi_node ".
+			"WHERE cp_node.cp_node_id IN(".implode(",",ilUtil::quoteArray($a_scorm_item_ids)).
+			") AND cp_node.cp_node_id = cmi_node.cp_node_id".
+			" AND cp_node.slm_id = ".$ilDB->quote($a_obj_id).
+			" AND completion_status = 'completed' ".
+			" GROUP BY cmi_node.user_id";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$users[$row->user_id] = $row->completed;
+		}
+
+		return $users ? $users : array();
+	}
+
+	
 	function _getProgressInfo($a_obj_id)
 	{
 		global $ilDB;
@@ -300,6 +187,40 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		return $info;
 	}
 	
+	function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT cp_node.cp_node_id as id, cmi_node.user_id as user_id, ".
+			" cmi_node.completion_status as completion, cmi_node.success_status as success ".
+			" FROM cp_node, cmi_node ".
+			"WHERE cp_node.cp_node_id IN(".implode(",",ilUtil::quoteArray($a_scorm_item_ids)).
+			") AND cp_node.cp_node_id = cmi_node.cp_node_id".
+			" AND cp_node.slm_id = ".$ilDB->quote($a_obj_id);
+
+		$res = $ilDB->query($query);
+
+		$info['completed'] = array();
+		$info['failed'] = array();
+		$info['in_progress'] = array();
+
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// if any data available, set in progress.
+			$info['in_progress'][$row["id"]][] = $row["user_id"];
+			if ($row["completion"] == "completed" || $row["success"] == "passed")
+			{
+				$info['completed'][$row["id"]][] = $row["user_id"];
+			}
+			if ($row["success"] == "failed")
+			{
+				$info['failed'][$row["id"]][] = $row["user_id"];
+			}
+		}
+
+		return $info;
+	}
+
 	/**
 	* 
 	*/
