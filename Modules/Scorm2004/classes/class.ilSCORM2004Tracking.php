@@ -283,7 +283,6 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-var_dump($row);
 			if (self::_isCompleted($row["status"], $row["status"]))
 			{
 				$info['completed'][] = $row["user_id"];
