@@ -254,7 +254,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	/**
 	* get all tracking items of scorm object
 	*
-	* currently a "hack" for learning progress only
+	* currently a for learning progress only
 	*
 	* @access static
 	*/

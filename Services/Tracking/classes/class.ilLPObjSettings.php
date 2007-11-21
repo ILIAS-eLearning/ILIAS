@@ -44,6 +44,7 @@ define("LP_MODE_TEST_PASSED",8);
 define("LP_MODE_EXERCISE_RETURNED",9);
 define("LP_MODE_EVENT",10);
 define("LP_MODE_MANUAL_BY_TUTOR",11);
+define("LP_MODE_SCORM_PACKAGE",12);
 
 define("LP_DEFAULT_VISITS",30);
 
@@ -240,17 +241,39 @@ class ilLPObjSettings
 
 			case 'sahs':
 				include_once './Services/Tracking/classes/class.ilLPCollections.php';
+				include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+				$subtype = ilObjSAHSLearningModule::_lookupSubType($this->getObjId());
 				
-				if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
+				if ($subtype != "scorm2004")
 				{
-					return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+					if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
+					{
+						return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+					}
+					if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
+					{
+						return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+									 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+					}
+					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
 				}
-				if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
+				else
 				{
+					if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
+					{
+						return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'),
+							LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
+					}
+					if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
+					{
+						return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+							LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'),
+							LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+					}
 					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-								 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+						LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
 				}
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
+				break;
 
 			case 'tst':
 				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
@@ -364,6 +387,8 @@ class ilLPObjSettings
 			case LP_MODE_EXERCISE_RETURNED:
 				return $lng->txt('trac_mode_exercise_returned_info');
 
+			case LP_MODE_SCORM_PACKAGE:
+				return $lng->txt('trac_mode_scorm_package_info');
 		}
 		
 	}
