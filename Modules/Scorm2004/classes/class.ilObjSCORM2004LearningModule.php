@@ -281,6 +281,59 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		return $items;
 	}
 
+	static function _getStatus($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM cmi_gobjective ".
+			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
+			" AND user_id = ".$ilDB->quote($a_user_id);
+
+		$status_set = $ilDB->query($q);
+
+		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $status_rec["status"];
+		}
+
+		return false;
+	}
+
+	static function _getSatisfied($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM cmi_gobjective ".
+			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
+			" AND user_id = ".$ilDB->quote($a_user_id);
+
+		$status_set = $ilDB->query($q);
+
+		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $status_rec["satisfied"];
+		}
+
+		return false;
+	}
+
+	static function _getMeasure($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM cmi_gobjective ".
+			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
+			" AND user_id = ".$ilDB->quote($a_user_id);
+
+		$status_set = $ilDB->query($q);
+
+		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $status_rec["measure"];
+		}
+
+		return false;
+	}
 
 } // END class.ilObjSCORMLearningModule
 ?>

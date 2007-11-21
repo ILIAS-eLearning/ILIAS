@@ -423,7 +423,6 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 	
-	
 	/**
 	* add ILIAS footer
 	*/
@@ -482,7 +481,7 @@ class ilTemplate extends ilTemplateX
 					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility").
 					'">Accessibility</a>');
 			}
-			if (!empty($_GET["do_dev_validate"]))
+			if (!empty($_GET["do_dev_validate"]) && $this->blockExists("xhtml_validation"))
 			{
 				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
 				$template2 = ilPHP::cloneObject($this);
@@ -495,7 +494,8 @@ class ilTemplate extends ilTemplateX
 			}
 			
 			// controller history
-			if (is_object($ilCtrl))
+			if (is_object($ilCtrl) && $this->blockExists("c_entry") &&
+				$this->blockExists("call_history"))
 			{
 				$hist = $ilCtrl->getCallHistory();
 				foreach($hist as $entry)

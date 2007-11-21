@@ -87,6 +87,10 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusObjectives.php';
 				return 'ilLPStatusObjectives';
 
+			case LP_MODE_SCORM_PACKAGE:
+				include_once 'Services/Tracking/classes/class.ilLPStatusSCORMPackage.php';
+				return 'ilLPStatusSCORMPackage';
+
 			default:
 				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
 				exit;
