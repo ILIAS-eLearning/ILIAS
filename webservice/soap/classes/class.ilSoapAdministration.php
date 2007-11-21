@@ -33,7 +33,7 @@
    */
 
 include_once './webservice/soap/lib/nusoap.php';
-include_once ("./classes/class.ilAuthUtils.php");		// to get auth mode constants
+include_once ("./Services/Authentication/classes/class.ilAuthUtils.php");		// to get auth mode constants
 
 define ('SOAP_CLIENT_ERROR', 1);
 define ('SOAP_SERVER_ERROR', 2);

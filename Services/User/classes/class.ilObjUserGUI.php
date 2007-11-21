@@ -417,7 +417,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_IM_AIM",$this->lng->txt("im_aim"));
 		$this->tpl->setVariable("TXT_IM_SKYPE",$this->lng->txt("im_skype"));
 
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		if(ilAuthUtils::_isExternalAccountEnabled())
 		{
 			$this->tpl->setCurrentBlock("ext_account");
@@ -470,7 +470,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		// auth mode selection
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
 
 		// preselect previous chosen auth mode otherwise default auth mode
@@ -899,7 +899,7 @@ class ilObjUserGUI extends ilObjectGUI
         global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
 			,$ilSetting;
 			
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 			
 
         //load ILIAS settings
@@ -1187,7 +1187,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// external account
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		if(ilAuthUtils::_isExternalAccountEnabled())
 		{
 			$this->tpl->setCurrentBlock("ext_account");
@@ -1251,7 +1251,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CURRENT_IP_ALERT",$this->lng->txt("current_ip_alert"));
 		
 		// auth mode selection
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
 //var_dump($active_auth_modes);
 		// preselect previous chosen auth mode otherwise default auth mode
@@ -1530,7 +1530,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
         global $ilias, $rbacsystem, $rbacadmin, $ilSetting;
         
-        include_once('classes/class.ilAuthUtils.php');
+        include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -1595,7 +1595,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// Do password checks only if auth mode allows password modifications
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		if(ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['Fobject']['auth_mode'])))
 		{
 			// check passwords
@@ -1678,7 +1678,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$userObj->create();
 		
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		if(ilAuthUtils::_isExternalAccountEnabled())
 		{
 			$userObj->setExternalAccount($_POST["Fobject"]["ext_account"]);
@@ -1754,7 +1754,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
         global $ilias, $rbacsystem, $rbacadmin,$ilUser;
 
-		include_once('classes/class.ilAuthUtils.php');
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
