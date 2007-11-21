@@ -337,6 +337,20 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		return false;
 	}
+	
+	static function _lookupItemTitle($a_node_id)
+	{
+		global $ilDB;
+		
+		$r = $ilDB->query("SELECT * FROM cp_item ".
+			" WHERE cp_node_id = ".$ilDB->quote($a_node_id));
+		if ($i = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $i["title"];
+		}
+		return "";
+	}
 
-} // END class.ilObjSCORMLearningModule
+
+} // END class.ilObjSCORM2004LearningModule
 ?>
