@@ -7147,6 +7147,7 @@ trac#:#trac_mode_exercise_returned#:#Exercise Solved
 trac#:#trac_mode_manual#:#Manual by Learner
 trac#:#trac_mode_objectives#:#Automatic by Learning Objectives
 trac#:#trac_mode_scorm#:#Automatic by Collection of SCORM Items
+trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status
 trac#:#trac_mode_scorm_aicc#:#Automatic by Collection of SCORM Items
 trac#:#trac_mode_test_finished#:#Test Finished
 trac#:#trac_mode_test_passed#:#Test Passed
@@ -7495,7 +7496,8 @@ trac#:#trac_mode_visits_info#:#Define the number of visits that is required for 
 trac#:#trac_mode_manual_info#:#Users have to decide whether their status is completed or not.
 trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.
 trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.
-trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.
+trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of selected SCO's.
+trac#:#trac_mode_scorm_package_info#:#The learning progress status will be determined by the SCORM course package status directly.
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.
 trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
