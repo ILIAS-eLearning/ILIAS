@@ -2855,3 +2855,47 @@ $query = "INSERT
 		  VALUES (".$this->db->quote($frm_modetator_tpl_id).", 8, 'n', 'n')";
 $this->db->query($query);
 ?>
+<#1118>
+<?php
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'join' ";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$join_ops_id = $row["ops_id"];
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'leave' ";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$leave_ops_id = $row["ops_id"];
+
+$types = array("lm", "sahs", "glo", "webr");
+
+foreach($types as $type)
+{
+	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+		" AND title = '".$type."'";
+	$res = $this->db->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+	$typ_id = $row["obj_id"];
+	if ($typ_id > 0)
+	{
+		$q = ("DELETE FROM rbac_ta WHERE typ_id = ".$ilDB->quote($typ_id)." AND ops_id = ".
+			$ilDB->quote($join_ops_id));
+		$ilDB->query($q);
+//echo "<br>$q";
+		$q = ("DELETE FROM rbac_ta WHERE typ_id = ".$ilDB->quote($typ_id)." AND ops_id = ".
+			$ilDB->quote($leave_ops_id));
+		$ilDB->query($q);
+//echo "<br>$q";
+		$q = ("DELETE FROM rbac_templates WHERE type = ".$ilDB->quote($type)." AND ops_id = ".
+			$ilDB->quote($join_ops_id));
+		$ilDB->query($q);
+//echo "<br>$q";
+		$q = ("DELETE FROM rbac_templates WHERE type = ".$ilDB->quote($type)." AND ops_id = ".
+			$ilDB->quote($leave_ops_id));
+		$ilDB->query($q);
+//echo "<br>$q";
+	}
+}
+
+?>
