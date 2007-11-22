@@ -461,6 +461,7 @@ class ilLDAPQuery
 		}
 		else
 		{
+			ldap_set_option($this->lh,LDAP_OPT_REFERRALS,false);
 			$this->log->write(__METHOD__.': Switching referrals to false.');
 		}
 		// Start TLS
