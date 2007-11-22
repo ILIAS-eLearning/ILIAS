@@ -134,12 +134,14 @@ class ilLDAPRoleAssignments
 		$default_role = array('id' => $this->default_role,
 	 			'type' => 'Global',
 	 			'action' => 'Attach');
-		
+	 			
+		/*
 	 	if(!count($this->att_mappings))
 	 	{
 	 		$ilLog->write(__METHOD__.': Using default role');
 	 		return $default_role;
 	 	}
+	 	*/
 	 	$roles = array();
 	 	foreach($this->att_mappings as $name => $values)
 	 	{
@@ -199,6 +201,7 @@ class ilLDAPRoleAssignments
 			{
 				$user_cmp = $a_ldap_account;
 			}
+			$ilLog->write(__METHOD__.': Read cached entry.');
 			return in_array($user_cmp,$this->grp_members[$a_dn]);
 		}
 	 	try
@@ -213,6 +216,7 @@ class ilLDAPRoleAssignments
 	 		$res = $query->query($a_dn,'objectclass=*',IL_LDAP_SCOPE_BASE,array($this->grp_mappings[$a_dn]['attribute']));
 	 		
 			$member_data = $res->get();
+			
 			if(!isset($member_data[$this->grp_mappings[$a_dn]['attribute']]))
 			{
 				return false;
