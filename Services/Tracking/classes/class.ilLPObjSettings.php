@@ -336,6 +336,10 @@ class ilLPObjSettings
 
 			case LP_MODE_EXERCISE_RETURNED:
 				return $lng->txt('trac_mode_exercise_returned');
+			
+			case LP_MODE_SCORM_PACKAGE:
+				return $lng->txt('trac_mode_scorm_package');
+				
 
 		}
 	}
