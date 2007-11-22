@@ -27,7 +27,7 @@
 * @author	Helmuth Antholzer <helmuth.antholzer@maguma.com>
 * @version	$Id$
 */	
-		include_once('../../survey/phplot/phplot.php');
+		include_once('../../Modules/SurveyQuestionPool/phplot/phplot.php');
 		
 		$data = unserialize(base64_decode($_GET['data']));
 		$legend = unserialize(base64_decode($_GET['legend']));
