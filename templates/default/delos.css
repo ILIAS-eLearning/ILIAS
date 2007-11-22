@@ -1391,6 +1391,7 @@ a.postunread, a.postunread:visited
 a.postnew, a.postnew:visited
 {
     font-style: italic;
+	font-weight: bold;
 }
 
 blockquote.ilForumQuote
