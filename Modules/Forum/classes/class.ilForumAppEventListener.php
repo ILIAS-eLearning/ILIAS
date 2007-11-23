@@ -22,14 +22,13 @@
 */
 
 /**
-* Interface for event handling. See class.ilAppEventHandler.php for
-* more information.
+* Forum listener. Listens to events of other components.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @ingroup ServicesEventHandling
+* @ingroup ModulesForum
 */
-interface ilAppEventListener
+class ilForumAppEventListener
 {
 	/**
 	* Handle an event in a listener.
@@ -38,6 +37,19 @@ interface ilAppEventListener
 	* @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
 	* @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
 	*/
-	static function handleEvent($a_component, $a_event, $a_parameter);
+	static function handleEvent($a_component, $a_event, $a_parameter)
+	{
+		switch($a_component)
+		{
+			case "Services/News":
+				switch ($a_event)
+				{
+					case "readNews":
+//var_dump($a_parameter);
+						break;
+				}
+				break;
+		}
+	}
 }
 ?>

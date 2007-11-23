@@ -424,6 +424,18 @@ class ilInitialisation
 		$GLOBALS['ilDB'] =& $ilDB;
 	}
 
+	/**
+	* initialise event handler ilAppEventHandler
+	*/
+	function initEventHandling()
+	{
+		global $ilAppEventHandler;
+
+		// build dsn of database connection and connect
+		require_once("./Services/EventHandling/classes/class.ilAppEventHandler.php");
+		$ilAppEventHandler = new ilAppEventHandler();
+		$GLOBALS['ilAppEventHandler'] =& $ilAppEventHandler;
+	}
 
 	/**
 	* set session handler to db
@@ -822,6 +834,8 @@ class ilInitialisation
 		// CLIENT_ID determination
 		$this->determineClient();
 
+		// $ilAppEventHandler initialisation
+		$this->initEventHandling();
 
 		// $ilClientIniFile initialisation
 		if (!$this->initClientIniFile())
@@ -1178,6 +1192,9 @@ class ilInitialisation
 		// include common code files
 		$this->requireCommonIncludes();
 		global $ilBench;
+
+		// $ilAppEventHandler initialisation
+		$this->initEventHandling();
 
 		// set error handler (to do: check preconditions for error handler to work)
 		$ilBench->start("Core", "HeaderInclude_GetErrorHandler");

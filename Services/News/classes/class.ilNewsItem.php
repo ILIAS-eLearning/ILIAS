@@ -675,11 +675,14 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	function _setRead($a_user_id, $a_news_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilAppEventHandler;
 		
 		$q = "REPLACE INTO il_news_read (user_id, news_id) VALUES (".
 			$ilDB->quote($a_user_id).",".$ilDB->quote($a_news_id).")";
 		$ilDB->query($q);
+echo "1";
+		$ilAppEventHandler->raise("Services/News", "readNews",
+			array("user_id" => $a_user_id, "news_id" => $a_news_id));
 	}
 	
 	

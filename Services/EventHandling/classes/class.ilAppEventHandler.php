@@ -79,10 +79,10 @@ class ilAppEventHandler
 			foreach ($this->listener[$a_component] as $listener)
 			{
 				// detemine class and file
-				$comp = explode("/", $a_component);
+				$comp = explode("/", $listener);
 				$class = "il".$comp[1]."AppEventListener";
-				$file = "./".$comp."/classes/class.".$class.".php";
-				
+				$file = "./".$listener."/classes/class.".$class.".php";
+
 				// if file exists, call listener
 				if (is_file($file))
 				{
