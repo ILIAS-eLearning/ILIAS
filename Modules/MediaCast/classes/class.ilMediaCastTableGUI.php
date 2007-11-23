@@ -139,7 +139,6 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$mpl->setFile($med->getLocation());
 			else
 				$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
-				
 			$mpl->setDisplayHeight($med->getHeight());
 
 			$this->tpl->setVariable("PLAYER",

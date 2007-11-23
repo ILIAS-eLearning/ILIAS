@@ -682,9 +682,24 @@ class ilNewsItem extends ilNewsItemGen
 		$ilDB->query($q);
 
 		$ilAppEventHandler->raise("Services/News", "readNews",
-			array("user_id" => $a_user_id, "news_id" => $a_news_id));
+			array("user_id" => $a_user_id, "news_ids" => array($a_news_id)));
 	}
 	
+	/**
+	* Set item unread.
+	*/
+	function _setUnread($a_user_id, $a_news_id)
+	{
+		global $ilDB, $ilAppEventHandler;
+		
+		$q = "DELETE FROM il_news_read (user_id, news_id) VALUES (".
+			" WHERE user_id = ".$ilDB->quote($a_user_id).
+			" AND news_id = ".$ilDB->quote($a_news_id);
+		$ilDB->query($q);
+
+		$ilAppEventHandler->raise("Services/News", "unreadNews",
+			array("user_id" => $a_user_id, "news_ids" => array($a_news_id)));
+	}
 	
 	/**
 	* Merges two sets of news

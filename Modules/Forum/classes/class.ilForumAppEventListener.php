@@ -45,7 +45,8 @@ class ilForumAppEventListener
 				switch ($a_event)
 				{
 					case "readNews":
-//var_dump($a_parameter);
+						// here we could set postings to read, if news is
+						// read (has to be implemented)
 						break;
 				}
 				break;
