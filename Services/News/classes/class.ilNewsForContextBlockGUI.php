@@ -549,8 +549,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$mob = new ilObjMediaObject($item["mob_id"]);
 				$med = $mob->getMediaItem("Standard");
 				$mpl = new ilMediaPlayerGUI();
-				$mpl->setFile(ilObjMediaObject::_getDirectory($mob->getId())."/".
-					$med->getLocation());
+				if (strcasecmp("Reference", $med->getLocationType()) == 0)
+					$mpl->setFile($med->getLocation());
+				else
+					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+				$mpl->setDisplayHeight($med->getHeight());
 				$tpl->setCurrentBlock("player");
 				$tpl->setVariable("PLAYER",
 					$mpl->getMp3PlayerHtml());
