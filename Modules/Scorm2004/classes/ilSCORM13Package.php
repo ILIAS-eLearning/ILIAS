@@ -89,11 +89,7 @@ class ilSCORM13Package
 	{
 		$this->packagesFolder = IL_OP_PACKAGES_FOLDER;
 		$this->load($packageId);
-		$this->userId = $GLOBALS['USER']['usr_id'];
-		//ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
-//		$pdo_dsn=ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
-//		ilSCORM13DB::init($pdo_dsn[0],$pdo_dsn[1],$pdo_dsn[2]);		
-	  	
+		$this->userId = $GLOBALS['USER']['usr_id'];	  	
 	}
 	
 	public function load($packageId)
@@ -109,14 +105,8 @@ class ilSCORM13Package
 		$lm_data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($packageId));
 		$pg_data = $set->fetchRow(DB_FETCHMODE_ASSOC);
-		
-		/*$this->packageData = array_merge(
-		ilSCORM13DB::getRecord('sahs_lm', 'id', $packageId),
-		ilSCORM13DB::getRecord('cp_package', 'obj_id', $packageId)
-		);*/
-		
-		$this->packageData = array_merge($lm_data, $pg_data);
 
+		$this->packageData = array_merge($lm_data, $pg_data);
 		$this->packageId = $packageId;
 		$this->packageFolder = $this->packagesFolder . '/' . $packageId;
 		$this->packageFile = $this->packageFolder . '.zip';
@@ -162,15 +152,6 @@ class ilSCORM13Package
 	public function removeCMIData()
 	{
 		global $ilDB;
-		
-		// remove CMI entries
-/*		ilSCORM13DB::exec("DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
-		ilSCORM13DB::exec("DELETE FROM cmi_objective WHERE cmi_objective.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
-		ilSCORM13DB::exec("DELETE FROM cmi_objective WHERE cmi_objective.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
-		ilSCORM13DB::exec("DELETE FROM cmi_interaction WHERE cmi_interaction.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
-		ilSCORM13DB::exec("DELETE FROM cmi_comment WHERE cmi_comment.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
-		ilSCORM13DB::exec("DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=$this->packageId)");
-*/
 		$ilDB->query("DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=".
 			$ilDB->quote($this->packageId).")");
 		$ilDB->query("DELETE FROM cmi_objective WHERE cmi_objective.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=".
@@ -183,8 +164,6 @@ class ilSCORM13Package
 			$ilDB->quote($this->packageId).")");
 		$ilDB->query("DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
 			$ilDB->quote($this->packageId).")");
-
-		//$row = ilSCORM13DB::getRecord("cp_package", "obj_id",$this->packageId);
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->$packageId));
 		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
