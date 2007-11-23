@@ -36,6 +36,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 {
 	var $validator;
 //	var $meta_data;
+	
+	const CONVERT_XSL   = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+	const WRAPPER_HTML  = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+	const WRAPPER_JS  	= './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
 	/**
 	* Constructor
@@ -204,12 +208,79 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			}
 		}
 			
+		
+		//check for SCORM 1.2 
+		$this->convert_1_2_to_2004($manifest_file);
+		
 		// start SCORM 2004 package parser/importer
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
 		$newPack = new ilSCORM13Package();
 		return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias);
 	}
 
+
+
+	public function convert_1_2_to_2004($manifest) {
+		global $ilDB, $ilLog;
+		
+		##check manifest-file for version. Check for schemaversion as this is a required element for SCORM 2004
+		##accept 2004 3rd Edition an CAM 1.3 as valid schemas
+		
+		//set variables
+		$this->packageFolder=$this->getDataDirectory();
+		$this->imsmanifestFile=$manifest;
+		$doc = new DomDocument();
+	  	$doc->load($this->imsmanifestFile);
+	  	$elements = $doc->getElementsByTagName("schemaversion");
+		$schema=$elements->item(0)->nodeValue;
+		if (strtolower($schema)=="cam 1.3" || strtolower($schema)=="2004 3rd edition") {
+			//no conversion
+			$this->converted=false;
+			return true;
+			
+		} else {
+			$this->converted=true;
+			//convert to SCORM 2004
+			
+			//check for broken SCORM 1.2 manifest file (missing organization default-common error in a lot of manifest files)
+			$organizations = $doc->getElementsByTagName("organizations");
+			$default=$organizations->item(0)->getAttribute("default");
+		  	if ($default=="" || $default==null) {
+				//lookup identifier
+			  	$organization = $doc->getElementsByTagName("organization");
+				$ident=$organization->item(0)->getAttribute("identifier");
+				$organizations->item(0)->setAttribute("default",$ident);
+			}
+					
+			//first copy wrappers
+			$wrapperdir=$this->packageFolder."/GenericRunTimeWrapper1.0_aadlc";
+			mkdir($wrapperdir);
+			copy(self::WRAPPER_HTML,$wrapperdir."/GenericRunTimeWrapper.htm");
+			copy(self::WRAPPER_JS,$wrapperdir."/SCOPlayerWrapper.js");
+			
+			//backup manifestfile
+			$this->backupManifest=$this->packageFolder."/imsmanifest.xml.back";
+			$ret=copy($this->imsmanifestFile,$this->backupManifest);
+			
+			//transform manifest file
+			$this->totransform = $doc;
+			$ilLog->write("SCORM: about to transform to SCORM 2004");
+			
+			$xsl = new DOMDocument;
+			$xsl->async = false;
+			$xsl->load(self::CONVERT_XSL);
+			$prc = new XSLTProcessor;
+			$r = @$prc->importStyleSheet($xsl);
+			
+			file_put_contents($this->imsmanifestFile, $prc->transformToXML($this->totransform));
+
+			$ilLog->write("SCORM: Transoformation completed");
+			return true;
+		}
+		
+	}
+	
+	
 	/**
 	* get all tracked items of current user
 	*/
