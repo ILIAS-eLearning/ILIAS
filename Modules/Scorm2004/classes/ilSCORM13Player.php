@@ -25,11 +25,6 @@
  * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
  * @version $Id$
 */
-
-//TODO remove when database integration is finished
-//define('IL_OP_USER_NAME', 'root');
-//define('IL_OP_USER_PASSWORD', '');
-
 	
 class ilSCORM13Player
 {
@@ -146,10 +141,6 @@ class ilSCORM13Player
 	{
 		
 		global $ilias, $tpl, $ilCtrl, $ilUser, $lng;
-
-		
-		//include_once ("./Modules/Scorm2004/classes/ilSCORM13DB.php");
-
 		
 		if ($_REQUEST['learnerId']) {
 				$this->userId = $_REQUEST['learnerId'];
@@ -169,13 +160,6 @@ class ilSCORM13Player
 				
         $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
 		$this->userId=$ilUser->getID();
-
-		//ilSCORM13DB::init("sqlite2:".ILIAS_ABSOLUTE_PATH."/Modules/Scorm2004/data/sqlite2.db", "sqlite");
-		
-		//uncomment for usage with ILIAS DB
-		
-		//$pdo_dsn = ilSCORM13DB::il_to_pdo_dsn(IL_DSN);
-		//ilSCORM13DB::init($pdo_dsn[0],$pdo_dsn[1],$pdo_dsn[2]);
 		
 	}
 
@@ -365,12 +349,6 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 	public function getCPData()
 	{
 		global $ilDB;
-		
-		/*$packageData = ilSCORM13DB::getRecord(
-			'cp_package', 
-			'obj_id', 
-			$this->packageId
-		);*/
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
 		$packageData = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -394,19 +372,11 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 	public function getADLActData()
 	{
 		global $ilDB;
-		
-		/*$data = ilSCORM13DB::getRecord(
-			'cp_package', 
-			'obj_id', 
-			$this->packageId
-		);*/
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
 		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$activitytree=$data['activitytree'];
-		
-		//add the appropriate classes
-		
+				
 		if (!$activitytree) $activitytree = 'null';
 		if ($this->jsMode) 
 		{
@@ -566,7 +536,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 	
 	
 	public function specialPage() {
-		//mapping constants
+
 		global $lng;
 		
 		$specialpages = array (
@@ -610,7 +580,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 	{
 		global $ilLog;
 		
-$ilLog->write("SCORM: persistCMIData");
+		$ilLog->write("SCORM: persistCMIData");
 		
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		$return = $this->setCMIData($this->userId, $this->packageId, $data);
@@ -721,9 +691,7 @@ $ilLog->write("SCORM: persistCMIData");
 			{
 				$result['data'][$k][] = $row;
 			}
-			
-			//$result['data'][$k] = ilSCORM13DB::query('view_cmi_' . $k, array($userId, $packageId), 
-			//	null, null, PDO::FETCH_NUM);
+
 		}
 		return $result;
 	}
@@ -786,11 +754,7 @@ $ilLog->write("SCORM: persistCMIData");
 				}
 				
 				$ilDB->query($q);
-				
-				/*ilSCORM13DB::exec(
-					'delete_cmi_' . $k . 's', 
-					array($userId, $packageId)
-				);*/
+
 			}
 			else
 			{
@@ -831,12 +795,7 @@ $ilLog->write("SCORM: persistCMIData");
 				}
 				
 				$ilDB->query($q);
-				
-				/* ilSCORM13DB::exec(
-					'delete_cmi_' . $k , 
-					array($cp_node_id)
-				);
-				*/
+
 			}
 		} 
 	}
@@ -849,14 +808,6 @@ $ilLog->write("SCORM: persistCMIData");
 		$map = array();
 		if (!$data) return;
 	
-		//$ilLog->write("SCORM: setCMIData -".$data."-");
-
-		// we don't want to have trouble with partially deleted or filled datasets
-		// so we try transaction mode (hopefully your RDBS supports this)
-		//ilSCORM13DB::begin();
-
-		// we have to specify the exact order to add records
-		// since there are dependencies
 		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
 
 		foreach ($tables as $table)
@@ -916,17 +867,13 @@ $ilLog->write("SCORM: setCMIData, row b");
 					array_push($keys,"`".$key."`");
 				}
 $ilLog->write("SCORM: setCMIData, row c");
-//				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)) 
-//					. ') VALUES (' . implode(', ', array_fill(0, count($schem), '?')) . ')';
-				// if we process a table we have to destroy all data on this activity 
-				// and related sub elements in interactions etc.
+
 				if ($table==='node') 
 				{
 					error_log("Lets remove old data");
 					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
 				}
-				// now insert the data record
-				//$ret=ilSCORM13DB::exec($sql, $row);
+
 				$ret = false;
 
 				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)). 
@@ -939,8 +886,7 @@ $ilLog->write("SCORM: setCMIData, row c");
 					$return = false;
 					break;
 				}
-				// and get the new cmi_id
-				//$row[$cmi_no] = ilSCORM13DB::getLastId();
+
 				$row[$cmi_no] = $ilDB->getLastInsertId();
 				
 				// if we process a node save new id into result object that will be feedback for client

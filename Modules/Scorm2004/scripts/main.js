@@ -29,9 +29,20 @@
 var log_auto_flush = false;
 
 //enable for improved performance
-var disable_all_logging=false;
+var disable_all_logging=true;
+
+
 
 var log_buffer = "";
+
+//disable logging controls
+
+if (disable_all_logging==true) {
+	elm = all("toggleLog");
+	elm.innerHTML="";
+}
+
+
 function toggleTree() {
 	elm = all("toggleTree");
 	
@@ -1615,6 +1626,8 @@ function loadPage(src) {
 		resContainer.src=src;
 		resContainer.name=RESOURCE_NAME;
 		onWindowResize();	
+		save_global_objectives();
+		
 }
 
 

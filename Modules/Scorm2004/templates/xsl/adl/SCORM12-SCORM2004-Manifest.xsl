@@ -186,9 +186,11 @@
 			<metadata>
 				<schema>ADL SCORM</schema>
 				<schemaversion>CAM 1.3</schemaversion>
-				<xsl:if test="cpin:metadata">
-					<xsl:apply-templates select="cpin:metadata/*"/>
-				</xsl:if>
+				<!--
+					<xsl:if test="cpin:metadata">
+						<xsl:apply-templates select="cpin:metadata/*"/>
+					</xsl:if>
+				!-->
 			</metadata>
 			<xsl:apply-templates select="*"/>
 		</xsl:element>
@@ -292,10 +294,11 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<!-- delete this and include LRM-LOM.xsl for metadata transformation -->
+	<!-- delete this and include LRM-LOM.xsl for metadata transformation 
 	<xsl:template match="imsmd:lom">
 		<xsl:copy-of select="."/>
 	</xsl:template>
+	-->
 
 	<xsl:template name="namespaceTransformer">
 		<xsl:param name="oldNamespace"/>

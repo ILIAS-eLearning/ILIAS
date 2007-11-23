@@ -1640,8 +1640,8 @@ ADLSequencer.prototype =
 		for (x in rollupSet) {
 			count++;
 		}
-		sclogdump(ioTarget.mActivityID,"error");
-		sclogdump(rollupSet,"error");
+		//sclogdump(ioTarget.mActivityID,"error");
+		//sclogdump(rollupSet,"error");
 		// Perform the deterministic rollup extension
 		while (count>0)
 		{
