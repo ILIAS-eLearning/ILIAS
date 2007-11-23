@@ -22,14 +22,14 @@
 */
 
 /**
-* Abstract class for event handling. See class.ilAppEventHandler.php for
+* Interface for event handling. See class.ilAppEventHandler.php for
 * more information.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 * @ingroup EventHandling
 */
-class ilAppEventListener
+interface ilAppEventListener
 {
 	/**
 	* Handle an event in a listener.
@@ -38,8 +38,6 @@ class ilAppEventListener
 	* @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
 	* @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
 	*/
-	abstract static function handleEvent($a_component, $a_event, $a_parameter = "")
-	{
-	}
+	static function handleEvent($a_component, $a_event, $a_parameter);
 }
 ?>

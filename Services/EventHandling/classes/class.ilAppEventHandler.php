@@ -40,8 +40,8 @@
 * $this->listener["Services/User"] = array("Services/News");
 * This information will go to xml files in the future.
 * 
-* A component has to implement a listener class derived from
-* Services/EventHandling/classes/class.ilAppEventListener.php
+* A component has to implement a listener class that implements
+* Services/EventHandling/interfaces/interface.ilAppEventListener.php
 *
 * The location must be <component>/classes/class.il<comp_name>AppEventListener.php,
 * e.g. ./Services/News/classes/class.ilNewsAppEventListener.php
