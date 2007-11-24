@@ -30,8 +30,15 @@
 			<tr height="1%">
 				<td class="submit">	
 						<div style="clear:both; margin: 1px 8px 3px 8px;" class="il_ContainerItemCommands">
+							
+								<a target="_self" href="#" class="il_ContainerItemCommand" onclick="toggleView();" id="treeToggle">Hide Tree</a>
+								&nbsp;
+							
 								<a target="_self" href="#" class="il_ContainerItemCommand" id="navStart">{btnStart}</a>
+								<!--
+								
 								<a target="_self" href="#" class="il_ContainerItemCommand" id="navResumeAll">{btnResumeAll}</a>
+								-->
 
 								<a target="_self" href="#" class="il_ContainerItemCommand" id="navExit">{btnExit}</a>
 								<a target="_self" href="#" class="il_ContainerItemCommand" id="navExitAll">{btnExitAll}</a>
@@ -63,12 +70,12 @@
 		<table id="mainTable" width="100%" height="100%" style="width: 100%; height: 100%"
 			cellspacing="0" cellpadding="0" border="0" summary="">
 				<tr valign="top">
-				<td style="width:30%" width="30%">
+				<td style="width:25%" width="25%" id="leftView">
 					<div id="treeView"></div>
 					<div id="ilLog" style="font-size:9px; white-space:pre; overflow:scroll;"><pre id="ilLogPre" style="font-family:Verdana,Arial,Helvetica,sans-serif;"></pre></div>
-					<div style="vertical-align:middle; margin-left:5px"><a id="toggleLog" href="#" onclick="toggleLog();" style="font-size:11px;">Show Log</a> &nbsp; &nbsp;<a id="toggleTree" href="#" onclick="toggleTree();" style="font-size:11px;">Collapse All</a> </div>
+					<div id="treeControls" style="vertical-align:middle; margin-left:5px"><a id="toggleLog" href="#" onclick="toggleLog();" style="font-size:11px;">Show Log</a> &nbsp; &nbsp;<a id="toggleTree" href="#" onclick="toggleTree();" style="font-size:11px;">Collapse All</a> </div>
 				</td>
-				<td style="width:70%; height:98%;" width="70%" height="98%" id="tdResource">
+				<td style="width:75%; height:98%;" width="75%" height="98%" id="tdResource">
 					<iframe id="res" style="width: 100%; height:100%;" frameborder="0"></iframe>
 				</td>
 			</tr>

@@ -42,6 +42,34 @@ if (disable_all_logging==true) {
 	elm.innerHTML="";
 }
 
+function toggleView() {
+	elm_left = all("leftView");
+	elm_right= all("tdResource");
+	elm_tree = all("treeView");
+	elm_log = all("ilLog");
+	elm_controls = all("treeControls");
+	elm_toggle=all("treeToggle");
+	
+	if (treeView==false) {
+		elm_left.style.width='25%';
+		elm_right.style.width='75%';
+		elm_tree.style.display='block';
+		elm_log.style.display='block';
+		elm_controls.style.display='block';
+		elm_toggle.innerHTML="Hide Tree";
+		treeView=true;
+	} else {
+		elm_left.style.width='0%';
+		elm_right.style.width='100%';
+		elm_tree.style.display='none';
+		elm_log.style.display='none';
+		elm_controls.style.display='none';
+		elm_toggle.innerHTML="Show Tree";
+
+		treeView=false;
+	}
+}
+
 
 function toggleTree() {
 	elm = all("toggleTree");
@@ -140,6 +168,9 @@ function sclogclear()
 */
 function sclogdump(param, type)
 {
+	if (disable_all_logging) {
+		return;
+	}
 	depth = 0;
 	
 	var pre = ''
@@ -2028,7 +2059,6 @@ function init(config)
 	
 	
 	//get suspend data
-	//to improve
 	suspendData =  sendJSONRequest(this.config.get_suspend_url);
 	var wasSuspended=false;
 	var wasFirstSession;
@@ -2101,7 +2131,7 @@ function init(config)
 	}	
 	
 	if (wasSuspended==true) {
-	 	mlaunch = msequencer.navigate(NAV_RESUMEALL );
+	 	mlaunch = msequencer.navigate(NAV_RESUMEALL);
 	} else {
 		//do a fake launch to check if TOC choice should be displayed
 		mlaunch = msequencer.navigate(NAV_NONE);
@@ -2116,14 +2146,26 @@ function init(config)
 		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
   		//call specialpage
-  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+		//check for single sco - SCORM 1.2 support
+		var count=0;
+		var tolaunch=null;
+		for (var myitem in mlaunch.mNavState.mChoice) {
+			if (mlaunch.mNavState.mChoice[myitem].mInChoice==true && mlaunch.mNavState.mChoice[myitem].mIsSelectable==true && mlaunch.mNavState.mChoice[myitem].mIsEnabled==true) {
+				tolaunch=mlaunch.mNavState.mChoice[myitem].mID;
+				count=count+1;
+			}
+		} 
+		if (count==1 && tolaunch!=null) {
+			toggleView();
+			launchTarget(tolaunch);
+		} else {
+			loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);	
+		}
 	}
-	
-	//set toc-moved 
-	//setToc();
 	
 	updateControls();
 	updateNav();
+	
 }
 
 function loadGlobalObj() {
@@ -3304,6 +3346,8 @@ var SCOEntryedAct = null;
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
+
+var treeView=true;
 
 //remove later
 var pubAPI=null;
