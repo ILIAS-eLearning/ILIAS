@@ -1982,8 +1982,7 @@ function init(config)
 		//assign Tree
 		//scope equals courseID 
 		var actTree = new SeqActivityTree(this.config.course_id,this.config.learner_id,this.config.scope,adlTree);
-	//	actTree.setLearnerID(this.config.learner_id);
-		//actTree.setRoot(adlTree);
+
 		actTree.setDepths();
 		actTree.setTreeCount();		
 		
@@ -1999,8 +1998,6 @@ function init(config)
 	for (var i=seqs.length; i--;)
 	{
 		seq = seqs.pop();
-		
-// TODO This is error-prone, since seq.id maybe an already used index
 		seqs[seq.id] = seq;
 		delete seq.foreignId;
 	}
