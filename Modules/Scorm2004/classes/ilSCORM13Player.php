@@ -29,6 +29,8 @@
 class ilSCORM13Player
 {
 
+	const ENABLE_GZIP = 1;
+	
 	const NONE = 0;
 	const READONLY = 1;
 	const WRITEONLY = 2;
@@ -182,6 +184,10 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		
 		switch($cmd){
 			
+			case 'getRTEjs':
+				$this->getRTEjs();
+				break;
+				
 			case 'cp':
 				$this->getCPData();
 				break;
@@ -227,7 +233,21 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		
 	}
 	
-
+	function getRTEjs()
+	{
+		$filename="rte-min.js";
+		$js_data = file_get_contents("./Modules/Scorm2004/scripts/buildrte/".$filename);
+		if (self::ENABLE_GZIP==1) {
+			//header('Content-Encoding: gzip');
+			//header('Content-Type: application/x-gzip');
+			ob_start("ob_gzhandler");
+			header('Content-Type: text/javascript; charset=UTF-8');
+		} else {
+			header('Content-Type: text/javascript; charset=UTF-8');
+		}
+		echo $js_data;
+	}
+	
 	
 	function getDataDirectory()
 	{
@@ -310,7 +330,6 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		$this->tpl->setVariable('CSS_NEEDED', '');
 		$this->tpl->setVariable('JS_NEEDED', '');
 		$this->tpl->setVariable('JS_DATA', json_encode($config));
-		$this->tpl->setVariable('JS_SEQUENCER',$this->includeADLSequencer());
 		list($tsfrac, $tsint) = explode(' ', microtime());
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
@@ -326,25 +345,15 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		$this->tpl->setVariable('IC_FAILED', ilUtil::getImagePath("scorm/failed_s.gif",false));	
 		$this->tpl->setVariable('IC_BROWSED', ilUtil::getImagePath("scorm/browsed.gif",false));	
 		
+		//include scripts
+		$this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getRTEjs&ref_id='.$_GET["ref_id"]);	
+		
 		//
 		$this->tpl->show("DEFAULT", false);
 	}
 	
 	
-	
-	public function includeADLSequencer()
-	{
-		$base_dir='./Modules/Scorm2004/scripts/adl2js';
-		if ($handle = opendir($base_dir)) { 
-		    // List all the files 
-		    while (false !== ($file = readdir($handle))) { 
-				if (!(strrpos($file, ".")<=1) && !is_int(strpos($file, "~")))  //skip directories and hidden files
-					$js_include_string .="		\n<script type=\"text/javascript\" src=\"$base_dir/$file\"></script>";
-		    } 
-		    closedir($handle); 
-		}
-		return $js_include_string;
-	}
+
 		
 	public function getCPData()
 	{

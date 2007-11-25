@@ -1,4 +1,4 @@
-// Build: 20071124231745 
+// Build: 20071125022626 
 
 function ADLAuxiliaryResource()
 {}
@@ -1853,13 +1853,13 @@ return action;},size:function()
 {if(this.mRules!=null)
 {return this.mRules.length;}
 return 0;}}
-var log_auto_flush=false;var disable_all_logging=true;var log_buffer="";if(disable_all_logging==true){elm=all("toggleLog");elm.innerHTML="";}
+var log_auto_flush=false;var log_buffer="";if(disable_all_logging==true){elm=all("toggleLog");elm.innerHTML="";}
 function toggleView(){elm_left=all("leftView");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width='25%';elm_right.style.width='75%';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML="Hide Tree";treeView=true;}else{elm_left.style.width='0%';elm_right.style.width='100%';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML="Show Tree";treeView=false;}}
 function toggleTree(){elm=all("toggleTree");if(treeState==false){elm.innerHTML="Collapse All";treeYUI.expandAll();treeState=true;}else{elm.innerHTML="Expand All";treeYUI.collapseAll();treeState=false;}}
 function toggleLog(){elm=all("toggleLog");if(logState==false){elm.innerHTML="Hide Log";logState=true;onWindowResize()}else{elm.innerHTML="Show Log";logState=false;onWindowResize();}}
 function sclog(mess,type)
 {if(disable_all_logging){return;}
-if(type=="seq")return;log_auto_flush=true;switch(type)
+if(type=="seq"&&disable_sequencer_logging==true)return;log_auto_flush=true;switch(type)
 {case"cmi":mess='<font color="green">'+mess+'</font>';case"info":mess='<font color="orange">'+mess+'</font>';case"error":mess='<font color="red">'+mess+'</font>';case"seq":mess='<font color="blue">'+mess+'</font>';default:mess=mess;}
 if(log_auto_flush)
 {elm=all("ilLogPre");if(elm)
