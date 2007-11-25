@@ -303,6 +303,7 @@ class assClozeTestImport extends assQuestionImport
 			$m = $this->object->QTIMaterialToString($material);
 			$feedbacksgeneric[$correctness] = $m;
 		}
+		$questiontext = $this->object->getQuestion();
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
 			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -320,24 +321,25 @@ class assClozeTestImport extends assQuestionImport
 					$importfile = ilObjQuestionPool::_getImportDirectory() . "/" . $_SESSION["qpl_import_subdir"] . "/" . $mob["uri"];
 				}
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
-				$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->object->getQuestion()), 1));
+				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
 				foreach ($feedbacks as $ident => $material)
 				{
-					$feedbacks[$ident] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+					$feedbacks[$ident] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
 				}
 				foreach ($feedbacksgeneric as $correctness => $material)
 				{
-					$feedbacksgeneric[$correctness] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+					$feedbacksgeneric[$correctness] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
 				}
 			}
 		}
+		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
 		foreach ($feedbacks as $ident => $material)
 		{
-			//$this->object->saveFeedbackSingleAnswer($ident, $material);
+			//$this->object->saveFeedbackSingleAnswer($ident, ilRTE::_replaceMediaObjectImageSrc($material, 1));
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
-			$this->object->saveFeedbackGeneric($correctness, $material);
+			$this->object->saveFeedbackGeneric($correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1));
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
