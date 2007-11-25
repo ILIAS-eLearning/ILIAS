@@ -770,6 +770,7 @@ assessment#:#tst_missing_marks#:#Sie haben kein Notenschema für den Test angege
 assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzugefügt! Bitte fügen Sie dem Test wenigstens eine Frage hinzu.
 assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 assessment#:#tst_must_be_online_exam#:#Diese Option ist nur bei Online-Prüfungen verfügbar!
+assessment#:#tst_no_export_randomtest#:#Leider können Tests mit einer zufälligen Auswahl von Fragen nicht exportiert werden, da alle beteiligten Fragenpools komplett exportiert werden müssten, was zu einer zu hohen Komplexität der Exportdateien führt.
 assessment#:#tst_no_evaluation_data#:#Es liegen (noch) keine Nutzerdaten vor.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!

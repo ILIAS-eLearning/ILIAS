@@ -250,11 +250,18 @@ class ilObjTestGUI extends ilObjectGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// create export file button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile")."&mode=xml");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
-		$this->tpl->parseCurrentBlock();
+		if ($this->object->isRandomTest())
+		{
+			ilUtil::sendInfo($this->lng->txt("tst_no_export_randomtest"));
+		}
+		else
+		{
+			// create export file button
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile")."&mode=xml");
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		// create export test results button
 		$this->tpl->setCurrentBlock("btn_cell");
