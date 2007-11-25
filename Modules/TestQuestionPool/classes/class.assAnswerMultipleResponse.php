@@ -84,7 +84,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
 		}
 		else
 		{
-			return sprintf("%.1f", round($this->points_unchecked, 1));
+			return $this->points_unchecked;
 		}
   }
 
