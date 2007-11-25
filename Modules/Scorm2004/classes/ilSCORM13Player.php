@@ -25,7 +25,9 @@
  * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
  * @version $Id$
 */
-	
+require_once("./Services/YUI/classes/class.ilYuiUtil.php");
+
+
 class ilSCORM13Player
 {
 
@@ -259,30 +261,9 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		
 	
 	
-	public function getLangStrings()
-	{
-		global $ilDB, $ilUser;
-		
-		$return = array();
-		
-		$set = $ilDB->query("SELECT identifier, value FROM lng_data 
-			WHERE module = ".$ilDB->quote("scorm13").
-			" AND lang_key = ".$ilDB->quote($ilUser->getLanguage()));
-		
-		while ($row = $set->fetchRow(DB_FETCHMODE_ASSOC)) 
-		{
-			$return[$row['identifier']] = $row['value']; 
-		}
-		return $return;
-	}	
-	
-	
-	
-
 	public function getPlayer()
 	{
-		global $ilUser;
-		
+		global $ilUser,$lng;
 		// player basic config data
 		$config = array
 		(
@@ -303,37 +284,27 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			'package_url' =>  $this->getDataDirectory()."/"
 		);
 		
-		// TODO  replace with ILIAS languages
-		$langstrings = $this->getLangStrings();
-		
-		$langstrings['btnStart'] = 'Start';
-		$langstrings['btnResumeAll'] = 'Resume All';
-		$langstrings['btnBackward'] = 'backward';
-		$langstrings['btnForward'] = 'Forward';
-		$langstrings['btnExit'] = 'Exit';
-		$langstrings['btnExitAll'] = 'Exit All';
-		$langstrings['btnAbandon'] = 'Abandon';
-		$langstrings['btnAbandonAll'] = 'Abandon All';
-		$langstrings['btnSuspendAll'] = 'Suspend All';
-		$langstrings['btnPrevious'] = 'Previous';
-		$langstrings['btnContinue'] = 'Next';
-		$langstrings['lblChoice'] = 'Select a choice from the tree.';
-		
+		//language strings
+		$langstrings['btnStart'] = $lng->txt('scplayer_start');
+		$langstrings['btnExit'] = $lng->txt('scplayer_exit');
+		$langstrings['btnExitAll'] = $lng->txt('scplayer_exitall');
+		$langstrings['btnSuspendAll'] = $lng->txt('scplayer_suspendall');
+		$langstrings['btnPrevious'] = $lng->txt('scplayer_previous');
+		$langstrings['btnContinue'] = $lng->txt('scplayer_continue');		
+		$langstrings['btnhidetree']=$lng->txt('scplayer_hidetree');
+		$langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
 		$config['langstrings'] = $langstrings;
 		
+		//template variables	
 		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
-		$this->tpl->setVariable('DEBUG', 1);
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->setVariable('CSS_NEEDED', '');
-		$this->tpl->setVariable('JS_NEEDED', '');
 		$this->tpl->setVariable('JS_DATA', json_encode($config));
 		list($tsfrac, $tsint) = explode(' ', microtime());
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
-		$this->tpl->setVariable('ILIAS', '1');	
 		
 		//set icons path
 		$this->tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset_s.gif",false));	
@@ -348,7 +319,6 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		//include scripts
 		$this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getRTEjs&ref_id='.$_GET["ref_id"]);	
 		
-		//
 		$this->tpl->show("DEFAULT", false);
 	}
 	
@@ -564,6 +534,11 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		$this->tpl = new ilTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt($specialpages[$this->page]));
+		if ($this->page!="_TOC_") {
+			$this->tpl->setVariable('CLOSE_WINDOW',$lng->txt('seq_close'));
+		} else {
+			$this->tpl->setVariable('CLOSE_WINDOW',"");	
+		}
 		$this->tpl->show("DEFAULT", false);
 				
 	}
