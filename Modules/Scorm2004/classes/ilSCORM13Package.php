@@ -176,7 +176,7 @@ class ilSCORM13Package
 	* @access       public
 	* @return       string title of package
 	*/
-	public function il_import($packageFolder,$packageId,$ilias){
+	public function il_import($packageFolder,$packageId,$ilias,$validate){
 		global $ilDB, $ilLog;
 		
 $ilLog->write("SCORM: il_import");
@@ -206,16 +206,17 @@ $ilLog->write("SCORM: il_import");
 		$ilLog->write("SCORM: normalize");
 	
 	  	//step 3 validation -just for normalized XML
-	  	if (!$this->validate($this->manifest, self::VALIDATE_XSD))
-	  	{
-			error_log("Validation failed");
+		if ($validate=="y") {
+	  		if (!$this->validate($this->manifest, self::VALIDATE_XSD))
+	  		{
 			
-			$ilias->raiseError("<b>Validation Error(s):</b><br> Normalized XML is not conform to ". self::VALIDATE_XSD,
-			$ilias->error_obj->WARNING);
-				
-			$this->diagnostic[] = 'normalized XML is not conform to ' . self::VALIDATE_XSD;
-	  		return false;
-	  	}
+				$ilias->raiseError("<b>The uploaded SCORM 1.2 / SCORM 2004 is not valid. You can try to import the package without the validation option checked on your own risk. </b><br><br>Validation Error(s):</b><br> Normalized XML is not conform to ". self::VALIDATE_XSD,
+				$ilias->error_obj->WARNING);
+			//	
+				//$this->diagnostic[] = 'normalized XML is not conform to ' . self::VALIDATE_XSD;
+	  		//	return false;
+	  		}
+		}
 		$ilLog->write("SCORM: validate");
 	
 //	  	ilSCORM13DB::begin();

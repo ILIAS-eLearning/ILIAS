@@ -1,4 +1,4 @@
-// Build: 20071125173025 
+// Build: 20071126001951 
 
 function ADLAuxiliaryResource()
 {}
@@ -2233,7 +2233,7 @@ onWindowResize();adlnavreq=false;sclogdump("Launched: "+id,"info");sclogflush();
 function removeResource(callback)
 {if(guiItem)
 {removeClass(guiItem,"current");}
-if(typeof(callback)==='function')
+var resContainer=window.document.getElementById("res");resContainer.src="about:blank";resContainer.name=RESOURCE_NAME;if(typeof(callback)==='function')
 {callback();}}
 function onWindowResize()
 {var hd=document.documentElement.clientHeight;var hb=document.body.clientHeight;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)
@@ -2419,7 +2419,7 @@ return c;}
 function onWindowLoad()
 {attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
-{save_global_objectives();save();}
+{onItemUndeliver();save_global_objectives();save();}
 function onItemDeliver(item)
 {var url=item.href,v;if(item.sco)
 {var data=getAPI(item.foreignId);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var choice=validRequests['mChoice'];for(var k in choice){}
@@ -2469,9 +2469,10 @@ else
 if(score!=""&&score!="unknown"){normalScore=score;msequencer.setAttemptObjMeasure(mlaunch.mActivityID,mPRIMARY_OBJ_ID,normalScore);}
 else{if(setPrimaryObjScore==false)
 {msequencer.clearAttemptObjMeasure(mlaunch.mActivityID,mPRIMARY_OBJ_ID);}}}
-function onItemUndeliver(item)
-{updateNav();updateControls();removeResource();if(currentAPI)
-{syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();syncDynObjectives();save();}
+function onItemUndeliver()
+{updateNav();updateControls();removeResource();undeliverFinish();}
+function undeliverFinish(){if(currentAPI)
+{syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();syncDynObjectives();save();if(state!=2){}}
 currentAPI=window[Runtime.apiname]=null;if(currentAct)
 {currentAct.accessed=currentTime()/1000;if(!currentAct.dirty)currentAct.dirty=1;}}
 function syncDynObjectives(){var objectives=pubAPI.cmi.objectives;var act=activities[mlaunch.mActivityID].objectives;for(var i=0;i<objectives.length;i++){if(objectives[i].id){var id=objectives[i].id;var obj=objectives[i];if(!act.id){act[id]=new Objective();act[id]['objectiveID']=id;for(var element in obj){if(element!="id"&&element!="cmi_objective_id"){if(element!="score"){act[id][element]=obj[element];}
@@ -2500,6 +2501,9 @@ var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_sta
 function isIE(versionNumber){var detect=navigator.userAgent.toLowerCase();if(!(navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase)){return false;}else{if(detect.indexOf('msie')+1){var ver=function(){var rv=-1;if(navigator.appName=='Microsoft Internet Explorer'){var ua=navigator.userAgent;var re=new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");if(re.exec(ua)!=null){rv=parseFloat(RegExp.$1);}}
 return rv;};var valid=true;if((ver>-1)&&(ver<versionNumber)){valid=false;}
 return valid;}else{return false}}}
+function pausecomp(millis)
+{var date=new Date();var curDate=null;do{curDate=new Date();}
+while(curDate-date<millis);}
 var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItem;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var currentAct=null;var SCOEntryedAct=null;var currentAPI;var scoStartTime=null;var treeView=true;var pubAPI=null;window.scorm_init=init;
 function Runtime(cmiItem,onCommit,onTerminate,onDebug)
 {function GetLastError()

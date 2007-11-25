@@ -1142,21 +1142,6 @@ Runtime.models =
 							state="unknown";
 						}
 					}
-					
-					/*
-					var done=false;
-					if (norm!="") {
-						if (score!="") {
-							if (score>=norm) {
-								state = "passed";
-							} else {
-								state = "failed";
-							}	
-						} else {
-							state="unknown";
-						}
-					} 
-					*/
 					pubAPI.cmi.successs_status=state;
 					return state;
 				}},

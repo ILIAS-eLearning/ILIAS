@@ -1,0 +1,46 @@
+<form action="{FORMACTION}" name="post" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_PROPERTIES}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_ONLINE}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_ONLINE}" value="{VAL_ONLINE}" {CHK_ONLINE}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_LESSON_MODE}
+	</td>
+	<td>
+	{SEL_LESSON_MODE}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_CREDIT_MODE}
+	</td>
+	<td>
+	{SEL_CREDIT_MODE}
+	</td>
+</tr>
+
+
+
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>
+
+

@@ -52,6 +52,77 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		#$this->tabs_gui =& new ilTabsGUI();
 	}
 
+
+	/**
+	* scorm 2004 module properties
+	*/
+	function properties()
+	{
+		global $rbacsystem, $tree, $tpl;
+
+		// edit button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view link
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",
+			"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+		$this->tpl->parseCurrentBlock();
+
+		// scorm lm properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm2004_properties.html", "Modules/Scorm2004");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+
+		// online
+		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
+		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
+		$this->tpl->setVariable("VAL_ONLINE", "y");
+		if ($this->object->getOnline())
+		{
+			$this->tpl->setVariable("CHK_ONLINE", "checked");
+		}
+
+		// default lesson mode
+		$this->tpl->setVariable("TXT_LESSON_MODE", $this->lng->txt("cont_def_lesson_mode"));
+		$lesson_modes = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
+			"browse" => $this->lng->txt("cont_sc_less_mode_browse"));
+		$sel_lesson = ilUtil::formSelect($this->object->getDefaultLessonMode(),
+			"lesson_mode", $lesson_modes, false, true);
+		$this->tpl->setVariable("SEL_LESSON_MODE", $sel_lesson);
+
+		// credit mode
+		$this->tpl->setVariable("TXT_CREDIT_MODE", $this->lng->txt("cont_credit_mode"));
+		$credit_modes = array("credit" => $this->lng->txt("cont_credit_on"),
+			"no_credit" => $this->lng->txt("cont_credit_off"));
+		$sel_credit = ilUtil::formSelect($this->object->getCreditMode(),
+			"credit_mode", $credit_modes, false, true);
+		$this->tpl->setVariable("SEL_CREDIT_MODE", $sel_credit);
+
+		
+
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+
+	}
+
+	/**
+	* save scorm 2004 module properties
+	*/
+	function saveProperties()
+	{
+		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->setCreditMode($_POST["credit_mode"]);
+		$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
+		$this->object->update();
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+	
 	/**
 	* assign scorm object to scorm gui object
 	*/

@@ -215,7 +215,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// start SCORM 2004 package parser/importer
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
 		$newPack = new ilSCORM13Package();
-		return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias);
+		return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias,$_POST["validate"]);
 	}
 
 
@@ -251,6 +251,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				$ident=$organization->item(0)->getAttribute("identifier");
 				$organizations->item(0)->setAttribute("default",$ident);
 			}
+			
+			//validate the fixed mainfest. If it's still not valid, don't transform an throw error
+			
 					
 			//first copy wrappers
 			$wrapperdir=$this->packageFolder."/GenericRunTimeWrapper1.0_aadlc";

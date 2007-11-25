@@ -1455,7 +1455,8 @@ function launchNavType(navType) {
 		activities[msequencer.mSeqTree.mCurActivity.mActivityID].entry="resume";
 		
    	}
-	//throw away API from previous sco and sync CMI and ADLTree
+
+	//throw away API from previous sco and sync CMI and ADLTree, no api...SCO has to care for termination
 	onItemUndeliver();
 	
 	mlaunch = new ADLLaunch();
@@ -1484,10 +1485,6 @@ function launchNavType(navType) {
 	}
 	
 	if (navType==='SuspendAll') {
-	//	mlaunch = msequencer.navigate(NAV_SUSPENDALL);
-		//showLightbox();
-		
-	//	var suspendData=serialize(msequencer.mSeqTree.mCurActivity.mActivityID);
 		mlaunch = msequencer.navigate(NAV_SUSPENDALL);
 								
 		if (typeof headers !== "object") {headers = {};}
@@ -1539,12 +1536,7 @@ function launchNavType(navType) {
 		suspendedTree['mSuspendAll']=suspendall;
 		suspendedTree['root']=root;
 		
-		
 		var r = sendAndLoad(this.config.suspend_url, toJSONString(suspendedTree), null, null, null, headers);
-
-		
-		//setTimeout("self.close();",5000) 
-		//return;
 	}
 	
 	if (navType==='Previous') {
@@ -1752,15 +1744,11 @@ function removeResource(callback)
 	{
 		removeClass(guiItem, "current");
 	}
-	/*
-	if (elm)
-	{
-		elm.innerHTML = '<div>'+translate('resource_undelivered')+'</div>';
-	}
-	*/
-	//open('about:blank', RESOURCE_NAME);
+	var resContainer = window.document.getElementById("res");
+	resContainer.src="about:blank";
+	resContainer.name=RESOURCE_NAME;
 	if (typeof(callback) === 'function') 
-	{
+	{	
 		callback();
 	}  
 }
@@ -2663,6 +2651,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
+	onItemUndeliver();
 	save_global_objectives();
 	save();
 }
@@ -2775,7 +2764,6 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	}
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 	
-
 }
 
 
@@ -2786,35 +2774,7 @@ function syncSharedCMI(item) {
 	var err
 	//for first attempt
 	
-	if( mStatusVector != null ) {
-	/*	for(i = 0; i < mStatusVector.length; i++ ) {
-		 	mObjStatus = mStatusVector[i];
-		    
-		    // Set the objectives id
-           	obj = "cmi.objectives." + i + ".id";
-            err = currentAPI.SetValueIntern(obj,mObjStatus.mObjID);
-		    
-			// Set the objectives success status
-            obj = "cmi.objectives." + i + ".success_status";
-
-			if( mObjStatus.mStatus.toLowerCase()=="satisfied" )
-            {
-	           err = currentAPI.SetValueIntern(obj,"passed");
-            }
-            else if( mObjStatus.mStatus.toLowerCase()=="notsatisfied")
-            {
-	           err = currentAPI.SetValueIntern(obj,"failed");
-            }
-			// Set the objectives scaled score
-            obj = "cmi.objectives." + i + ".score.scaled";
-			if( mObjStatus.mHasMeasure==true && mObjStatus.mMeasure!=0 ) {
-				err = currentAPI.SetValueIntern(obj,mObjStatus.mMeasure);
-			}
-            
-		}
-		*/
-		//Variante 2, check for existence of SCO data from last run
-		
+	if( mStatusVector != null ) {		
 		for(i = 0; i < mStatusVector.length; i++ ) {
 		    var idx=-1;
 			mObjStatus = mStatusVector[i];
@@ -2980,8 +2940,6 @@ function syncCMIADLTree(){
 	// Report the success status
       if( masteryStatus=="passed" )
       {
-		//alert("SET");
-		//alert("Set passed"+" "+mPRIMARY_OBJ_ID);
 		
          msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "satisfied");
       }
@@ -3011,17 +2969,20 @@ function syncCMIADLTree(){
        }
 	}
 
-function onItemUndeliver(item) // onUndeliver called from sequencing process (EndAttempt)
+function onItemUndeliver() // onUndeliver called from sequencing process (EndAttempt)
 {
 	
 	// customize GUI
 	updateNav();
 	updateControls();
-	
+		
 	// throw away the resource
 	// it may change api data in this
 	removeResource();
-		
+	undeliverFinish();
+}
+
+function undeliverFinish(){
 	// throw away api, and try a API.Terminate before (will return "false" if already closed by SCO)
 	if (currentAPI) 
 	{
@@ -3032,8 +2993,9 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 		//sync dynamic objectives to ActivityTree
 		syncDynObjectives();
 		save();
-		//currentAPI.Terminate("");
-		
+		if (state!=2) {
+			//currentAPI.Terminate("");
+		}
 			
 	}
 	currentAPI = window[Runtime.apiname] = null;
@@ -3044,11 +3006,7 @@ function onItemUndeliver(item) // onUndeliver called from sequencing process (En
 		currentAct.accessed = currentTime()/1000;
 		if (!currentAct.dirty) currentAct.dirty = 1;
 	}
-	
-
-
 }
-
 
 function syncDynObjectives(){
 	var objectives=pubAPI.cmi.objectives;
@@ -3286,6 +3244,14 @@ if(!(navigator && navigator.userAgent && navigator.userAgent.toLowerCase)) {
   	    }
 }
 
+function pausecomp(millis) 
+{
+	var date = new Date();
+	var curDate = null;
+
+	do { curDate = new Date(); } 
+	while(curDate-date < millis);
+}
 
 // Server related Variables
 var remoteMapping = null; // mapping of userdata from client to server representation
