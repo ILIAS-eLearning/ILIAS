@@ -8614,6 +8614,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 				}
 			}
 		}
+		global $ilLog;
+		$ilLog->write(print_r($_SESSION["import_mob_xhtml"], true));
 		return $result;
 	}
 

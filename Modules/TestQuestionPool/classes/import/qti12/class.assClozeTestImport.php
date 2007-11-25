@@ -292,18 +292,17 @@ class assClozeTestImport extends assQuestionImport
 		$this->object->setQuestion($clozetext);
 		$this->object->saveToDb();
 
+		// handle the import of media objects in XHTML code
 		foreach ($feedbacks as $ident => $material)
 		{
 			$m = $this->object->QTIMaterialToString($material);
-			$this->object->saveFeedbackSingleAnswer($ident, $m);
+			$feedbacks[$ident] = $m;
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
 			$m = $this->object->QTIMaterialToString($material);
-			$this->object->saveFeedbackGeneric($correctness, $m);
+			$feedbacksgeneric[$correctness] = $m;
 		}
-
-		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
 			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -322,9 +321,25 @@ class assClozeTestImport extends assQuestionImport
 				}
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->object->getQuestion()), 1));
+				foreach ($feedbacks as $ident => $material)
+				{
+					$feedbacks[$ident] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+				}
+				foreach ($feedbacksgeneric as $correctness => $material)
+				{
+					$feedbacksgeneric[$correctness] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+				}
 			}
-			$this->object->saveToDb();
 		}
+		foreach ($feedbacks as $ident => $material)
+		{
+			//$this->object->saveFeedbackSingleAnswer($ident, $material);
+		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$this->object->saveFeedbackGeneric($correctness, $material);
+		}
+		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
 		{
 			foreach ($item->suggested_solutions as $suggested_solution)
