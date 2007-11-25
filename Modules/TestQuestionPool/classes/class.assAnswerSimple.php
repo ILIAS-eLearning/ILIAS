@@ -140,7 +140,7 @@ class ASS_AnswerSimple
 		}
 		else
 		{
-			return sprintf("%.1f", round($this->points, 1));
+			return $this->points;
 		}
 	}
 	
