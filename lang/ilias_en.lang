@@ -2693,8 +2693,8 @@ common#:#lm_new#:#New ILIAS Learning Module
 common#:#lm_read#:#Read access to ILIAS Learning Module
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
-common#:#lm_type_scorm#:#SCORM 1.2
-common#:#lm_type_scorm2004#:#SCORM 2004
+common#:#lm_type_scorm#:#SCORM 1.2 (Java-RTE)
+common#:#lm_type_scorm2004#:#SCORM 1.2/2004 (JavaScript-RTE) 
 common#:#lm_visible#:#ILIAS Learning Module is visible
 common#:#lm_write#:#Edit ILIAS Learning Module
 common#:#lng#:#Language
@@ -4552,6 +4552,15 @@ content#:#seq_invalidnavreq#:#The sequencer received an invalid request.
 content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.
 content#:#seq_abandonall#:#The current course session has been abandoned..
 content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.
+content#:#seq_close#:#Please close the player-window.
+content#:#scplayer_showtree#:#Show Tree
+content#:#scplayer_hidetree#:#Hide Tree
+content#:#scplayer_continue#:#Continue
+content#:#scplayer_previous#:#Previous
+content#:#scplayer_suspendall#:#Suspend All
+content#:#scplayer_exitall#:#Exit All
+content#:#scplayer_exit#:#Exit
+content#:#scplayer_start#:#Start
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#add_event#:#Add Session
 crs#:#assigned#:#Assigned
