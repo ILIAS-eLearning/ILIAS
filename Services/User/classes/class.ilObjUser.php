@@ -984,23 +984,23 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		//DELETE
-		$q = "DELETE FROM usr_pref ".
-			 "WHERE usr_id= ".$ilDB->quote($a_usr_id)." ".
-			 "AND keyword= ".$ilDB->quote($a_keyword);
-		$ilDB->query($q);
-
-		//INSERT
-		if (strlen($a_value) > 0)
+		$query = "";
+		if (strlen($a_value))
 		{
-			$q = "INSERT INTO usr_pref ".
-				 "(usr_id, keyword, value) ".
-				 "VALUES ".
-				 "(".$ilDB->quote($a_usr_id).",".
-				 $ilDB->quote($a_keyword).",".
-				 $ilDB->quote($a_value).")";
-			$ilDB->query($q);
+			$query = sprintf("REPLACE INTO usr_pref VALUES (%s, %s, %s)",
+					$ilDB->quote($a_usr_id),
+					$ilDB->quote($a_keyword),
+					$ilDB->quote($a_value)
+				);
 		}
+		else
+		{
+			$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+				$ilDB->quote($a_usr_id),
+				$ilDB->quote($a_keyword)
+			);
+		}
+		$ilDB->query($query);
 	}
 
 	/**
