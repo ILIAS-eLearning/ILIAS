@@ -173,11 +173,6 @@ class assNumericImport extends assQuestionImport
 		$this->object->setMaxChars($maxchars);
 		$this->object->addRange($lowerlimit, $upperlimit, $points);
 		$this->object->saveToDb();
-		foreach ($feedbacksgeneric as $correctness => $material)
-		{
-			$m = $this->object->QTIMaterialToString($material);
-			$this->object->saveFeedbackGeneric($correctness, $m);
-		}
 		if (count($item->suggested_solutions))
 		{
 			foreach ($item->suggested_solutions as $suggested_solution)
@@ -185,6 +180,11 @@ class assNumericImport extends assQuestionImport
 				$this->object->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
 			}
 			$this->object->saveToDb();
+		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$feedbacksgeneric[$correctness] = $m;
 		}
 		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
@@ -206,9 +206,17 @@ class assNumericImport extends assQuestionImport
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 				$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->object->getQuestion()), 1));
+				foreach ($feedbacksgeneric as $correctness => $material)
+				{
+					$feedbacksgeneric[$correctness] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+				}
 			}
-			$this->object->saveToDb();
 		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$this->object->saveFeedbackGeneric($correctness, $material);
+		}
+		$this->object->saveToDb();
 		if ($tst_id > 0)
 		{
 			$q_1_id = $this->object->getId();

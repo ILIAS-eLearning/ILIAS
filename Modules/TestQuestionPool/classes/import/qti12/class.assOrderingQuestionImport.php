@@ -229,11 +229,6 @@ class assOrderingQuestionImport extends assQuestionImport
 			}
 		}
 		$this->object->saveToDb();
-		foreach ($feedbacksgeneric as $correctness => $material)
-		{
-			$m = $this->object->QTIMaterialToString($material);
-			$this->object->saveFeedbackGeneric($correctness, $m);
-		}
 		if (count($item->suggested_solutions))
 		{
 			foreach ($item->suggested_solutions as $suggested_solution)
@@ -271,6 +266,11 @@ class assOrderingQuestionImport extends assQuestionImport
 				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 			}
 		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$feedbacksgeneric[$correctness] = $m;
+		}
 		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
@@ -297,9 +297,17 @@ class assOrderingQuestionImport extends assQuestionImport
 					$answer_obj =& $answers[$key];
 					$answer_obj->setAnswertext(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $answer_obj->getAnswertext()), 1));
 				}
+				foreach ($feedbacksgeneric as $correctness => $material)
+				{
+					$feedbacksgeneric[$correctness] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+				}
 			}
-			$this->object->saveToDb();
 		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$this->object->saveFeedbackGeneric($correctness, $material);
+		}
+		$this->object->saveToDb();
 		if ($tst_id > 0)
 		{
 			$q_1_id = $this->object->getId();

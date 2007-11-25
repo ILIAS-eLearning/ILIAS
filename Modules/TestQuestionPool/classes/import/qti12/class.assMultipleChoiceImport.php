@@ -248,16 +248,6 @@ class assMultipleChoiceImport extends assQuestionImport
 			$this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);
 		}
 		$this->object->saveToDb();
-		foreach ($feedbacks as $ident => $material)
-		{
-			$m = $this->object->QTIMaterialToString($material);
-			$this->object->saveFeedbackSingleAnswer($ident, $m);
-		}
-		foreach ($feedbacksgeneric as $correctness => $material)
-		{
-			$m = $this->object->QTIMaterialToString($material);
-			$this->object->saveFeedbackGeneric($correctness, $m);
-		}
 		foreach ($answers as $answer)
 		{
 			if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0))
@@ -288,6 +278,16 @@ class assMultipleChoiceImport extends assQuestionImport
 			}
 		}
 		// handle the import of media objects in XHTML code
+		foreach ($feedbacks as $ident => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$feedbacks[$ident] = $m;
+		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$feedbacksgeneric[$correctness] = $m;
+		}
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
 			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -313,9 +313,25 @@ class assMultipleChoiceImport extends assQuestionImport
 					$answer_obj =& $answers[$key];
 					$answer_obj->setAnswertext(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $answer_obj->getAnswertext()), 1));
 				}
+				foreach ($feedbacks as $ident => $material)
+				{
+					$feedbacks[$ident] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+				}
+				foreach ($feedbacksgeneric as $correctness => $material)
+				{
+					$feedbacksgeneric[$correctness] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+				}
 			}
-			$this->object->saveToDb();
 		}
+		foreach ($feedbacks as $ident => $material)
+		{
+			$this->object->saveFeedbackSingleAnswer($ident, $material);
+		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$this->object->saveFeedbackGeneric($correctness, $material);
+		}
+		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
 		{
 			foreach ($item->suggested_solutions as $suggested_solution)

@@ -202,11 +202,6 @@ class assJavaAppletImport extends assQuestionImport
 			}
 			$this->object->saveToDb();
 		}
-		foreach ($feedbacksgeneric as $correctness => $material)
-		{
-			$m = $this->object->QTIMaterialToString($material);
-			$this->object->saveFeedbackGeneric($correctness, $m);
-		}
 		$javaapplet =& base64_decode($applet->getContent());
 		$javapath = $this->object->getJavaPath();
 		if (!file_exists($javapath))
@@ -228,6 +223,11 @@ class assJavaAppletImport extends assQuestionImport
 			fclose($fh);
 		}
 		// handle the import of media objects in XHTML code
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$feedbacksgeneric[$correctness] = $m;
+		}
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
 			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -247,9 +247,17 @@ class assJavaAppletImport extends assQuestionImport
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 				$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->object->getQuestion()), 1));
+				foreach ($feedbacksgeneric as $correctness => $material)
+				{
+					$feedbacksgeneric[$correctness] = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material), 1);
+				}
 			}
-			$this->object->saveToDb();
 		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$this->object->saveFeedbackGeneric($correctness, $material);
+		}
+		$this->object->saveToDb();
 		if ($tst_id > 0)
 		{
 			$q_1_id = $this->object->getId();
