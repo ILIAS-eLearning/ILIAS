@@ -52,7 +52,7 @@ function toggleView() {
 		elm_tree.style.display='block';
 		elm_log.style.display='block';
 		elm_controls.style.display='block';
-		elm_toggle.innerHTML="Hide Tree";
+		elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];
 		treeView=true;
 	} else {
 		elm_left.style.width='0%';
@@ -60,7 +60,7 @@ function toggleView() {
 		elm_tree.style.display='none';
 		elm_log.style.display='none';
 		elm_controls.style.display='none';
-		elm_toggle.innerHTML="Show Tree";
+		elm_toggle.innerHTML=this.config.langstrings['btnshowtree'];
 
 		treeView=false;
 	}
@@ -1624,14 +1624,17 @@ function setState(newState)
 
 function loadPage(src) {
 	
-		//deactivate all controls
-		toggleClass('navContinue', 'disabled', true);
-		toggleClass('navExit', 'disabled', true);
-		toggleClass('navPrevious', 'disabled', true);
-		toggleClass('navResumeAll', 'disabled', true);
-		toggleClass('navExitAll', 'disabled', true);
-		toggleClass('navStart', 'disabled',true);
-		toggleClass('navSuspendAll', 'disabled', true);
+		//deactivate all controls, if session has ended
+		if (mlaunch.mSeqNonContent!="_TOC_") {
+			toggleClass('navContinue', 'disabled', true);
+			toggleClass('navExit', 'disabled', true);
+			toggleClass('navPrevious', 'disabled', true);
+			toggleClass('navResumeAll', 'disabled', true);
+			toggleClass('navExitAll', 'disabled', true);
+			toggleClass('navStart', 'disabled',true);
+			toggleClass('navSuspendAll', 'disabled', true);
+			toggleClass('treeToggle', 'disabled', true);
+		}
 		
 		var elm = window.document.getElementById(RESOURCE_PARENT);
 		if (!elm) 
@@ -1645,13 +1648,15 @@ function loadPage(src) {
 		} 
 		
 		RESOURCE_NAME= "SPECIALPAGE";
-	//	window.location.href=src;
-	//	elm.innerHTML = '<iframe frameborder="0" id=res" name="' + RESOURCE_NAME + '" src="' + src +	'"  style="width: 100%; height:100%;"></iframe>';
 		var resContainer = window.document.getElementById("res");
 		resContainer.src=src;
 		resContainer.name=RESOURCE_NAME;
 		onWindowResize();	
 		save_global_objectives();
+		
+		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_") {
+			toggleView();
+		}
 		
 }
 
@@ -1711,7 +1716,6 @@ function setResource(id, url, base)
 		var resContainer = window.document.getElementById("res");
 		resContainer.src=url;
 		resContainer.name=RESOURCE_NAME;
-		//elm.innerHTML = '<iframe frameborder="0" id="res" name="' + RESOURCE_NAME + '" src="' + url +	'"  style="width: 100%; height:100%;"></iframe>';	
 	} 
 	else 
 	{			

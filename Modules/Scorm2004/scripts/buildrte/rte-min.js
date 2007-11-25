@@ -1,4 +1,4 @@
-// Build: 20071125022626 
+// Build: 20071125173025 
 
 function ADLAuxiliaryResource()
 {}
@@ -1854,7 +1854,7 @@ return action;},size:function()
 {return this.mRules.length;}
 return 0;}}
 var log_auto_flush=false;var log_buffer="";if(disable_all_logging==true){elm=all("toggleLog");elm.innerHTML="";}
-function toggleView(){elm_left=all("leftView");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width='25%';elm_right.style.width='75%';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML="Hide Tree";treeView=true;}else{elm_left.style.width='0%';elm_right.style.width='100%';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML="Show Tree";treeView=false;}}
+function toggleView(){elm_left=all("leftView");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width='25%';elm_right.style.width='75%';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];treeView=true;}else{elm_left.style.width='0%';elm_right.style.width='100%';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML=this.config.langstrings['btnshowtree'];treeView=false;}}
 function toggleTree(){elm=all("toggleTree");if(treeState==false){elm.innerHTML="Collapse All";treeYUI.expandAll();treeState=true;}else{elm.innerHTML="Expand All";treeYUI.collapseAll();treeState=false;}}
 function toggleLog(){elm=all("toggleLog");if(logState==false){elm.innerHTML="Hide Log";logState=true;onWindowResize()}else{elm.innerHTML="Show Log";logState=false;onWindowResize();}}
 function sclog(mess,type)
@@ -2202,11 +2202,12 @@ else if(target.target==="_blank")
 e.stop();}
 function setState(newState)
 {replaceClass(document.body,guiState+'State',newState+'State');guiState=newState;}
-function loadPage(src){toggleClass('navContinue','disabled',true);toggleClass('navExit','disabled',true);toggleClass('navPrevious','disabled',true);toggleClass('navResumeAll','disabled',true);toggleClass('navExitAll','disabled',true);toggleClass('navStart','disabled',true);toggleClass('navSuspendAll','disabled',true);var elm=window.document.getElementById(RESOURCE_PARENT);if(!elm)
+function loadPage(src){if(mlaunch.mSeqNonContent!="_TOC_"){toggleClass('navContinue','disabled',true);toggleClass('navExit','disabled',true);toggleClass('navPrevious','disabled',true);toggleClass('navResumeAll','disabled',true);toggleClass('navExitAll','disabled',true);toggleClass('navStart','disabled',true);toggleClass('navSuspendAll','disabled',true);toggleClass('treeToggle','disabled',true);}
+var elm=window.document.getElementById(RESOURCE_PARENT);if(!elm)
 {return window.alert("Window Container not found");}
 var h=elm.clientHeight-20;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)
 {h=self.innerHeight-60;}
-RESOURCE_NAME="SPECIALPAGE";var resContainer=window.document.getElementById("res");resContainer.src=src;resContainer.name=RESOURCE_NAME;onWindowResize();save_global_objectives();}
+RESOURCE_NAME="SPECIALPAGE";var resContainer=window.document.getElementById("res");resContainer.src=src;resContainer.name=RESOURCE_NAME;onWindowResize();save_global_objectives();if(treeView==true&&mlaunch.mSeqNonContent!="_TOC_"){toggleView();}}
 function setInfo(name,values)
 {var elm=all('infoLabel');var txt=translate(name,values);if(elm)
 {window.top.document.title=elm.innerHTML=txt;}}
