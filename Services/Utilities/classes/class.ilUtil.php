@@ -2581,12 +2581,12 @@ class ilUtil
 
 		if ($array_sortorder == "asc")
 		{
-			return strcasecmp($a[$array_sortby], $b[$array_sortby]);
+			return strnatcasecmp($a[$array_sortby], $b[$array_sortby]);
 		}
 
 		if ($array_sortorder == "desc")
 		{
-			return strcasecmp($b[$array_sortby], $a[$array_sortby]);
+			return strnatcasecmp($b[$array_sortby], $a[$array_sortby]);
 		}
 	}
 
