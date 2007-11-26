@@ -1,4 +1,4 @@
-// Build: 20071126001951 
+// Build: 20071126010818 
 
 function ADLAuxiliaryResource()
 {}
@@ -2419,7 +2419,7 @@ return c;}
 function onWindowLoad()
 {attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
-{onItemUndeliver();save_global_objectives();save();}
+{onItemUndeliver(true);save_global_objectives();save();}
 function onItemDeliver(item)
 {var url=item.href,v;if(item.sco)
 {var data=getAPI(item.foreignId);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var choice=validRequests['mChoice'];for(var k in choice){}
@@ -2469,8 +2469,9 @@ else
 if(score!=""&&score!="unknown"){normalScore=score;msequencer.setAttemptObjMeasure(mlaunch.mActivityID,mPRIMARY_OBJ_ID,normalScore);}
 else{if(setPrimaryObjScore==false)
 {msequencer.clearAttemptObjMeasure(mlaunch.mActivityID,mPRIMARY_OBJ_ID);}}}
-function onItemUndeliver()
-{updateNav();updateControls();removeResource();undeliverFinish();}
+function onItemUndeliver(noControls)
+{if(noControls!=true){updateNav();updateControls();}
+removeResource();undeliverFinish();}
 function undeliverFinish(){if(currentAPI)
 {syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();syncDynObjectives();save();if(state!=2){}}
 currentAPI=window[Runtime.apiname]=null;if(currentAct)
