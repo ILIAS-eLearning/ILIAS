@@ -272,6 +272,7 @@ class assOrderingQuestionImport extends assQuestionImport
 			$feedbacksgeneric[$correctness] = $m;
 		}
 		$questiontext = $this->object->getQuestion();
+		$answers =& $this->object->getAnswers();
 		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
@@ -292,7 +293,6 @@ class assOrderingQuestionImport extends assQuestionImport
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
-				$answers =& $this->object->getAnswers();
 				foreach ($answers as $key => $value)
 				{
 					$answer_obj =& $answers[$key];
