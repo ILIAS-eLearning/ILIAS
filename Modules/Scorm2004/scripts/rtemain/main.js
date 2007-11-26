@@ -2651,7 +2651,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
-	onItemUndeliver();
+	onItemUndeliver(true);
 	save_global_objectives();
 	save();
 }
@@ -2969,13 +2969,14 @@ function syncCMIADLTree(){
        }
 	}
 
-function onItemUndeliver() // onUndeliver called from sequencing process (EndAttempt)
+function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
 {
 	
 	// customize GUI
-	updateNav();
-	updateControls();
-		
+	if (noControls!=true) {
+		updateNav();
+		updateControls();
+	}	
 	// throw away the resource
 	// it may change api data in this
 	removeResource();
