@@ -39,10 +39,8 @@ class ilPrivacySettings
 	
 		private $export_course;
 		private $export_confirm;
-		/**
-		* @var bool show fora statitics
-		*/
 		private $fora_statistics;
+		private $access_times;
 		private $ref_id;
 
     /**
@@ -119,6 +117,29 @@ class ilPrivacySettings
 	{
 		$this->export_confirm = (bool) $a_status;
 	}
+	
+	/**
+	 * Show group last access times
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function showAccessTimes($a_status)
+	{
+	 	$this->show_access_times = $a_status;
+	}
+	
+	/**
+	 * check if group access time are visible
+	 *
+	 * @access public
+	 * 
+	 */
+	public function enabledAccessTimes()
+	{
+	 	return (bool) $this->show_access_times;
+	}
 
 	/**
 	 * Save settings
@@ -130,6 +151,7 @@ class ilPrivacySettings
 	 	$this->settings->set('ps_export_confirm',(bool) $this->confirmationRequired());
 	 	$this->settings->set('ps_export_course',(bool) $this->enabledExport());
 	 	$this->settings->set('enable_fora_statistics',(bool) $this->enabledForaStatistics());
+	 	$this->settings->set('ps_access_times',(bool) $this->enabledAccessTimes());
 	}
 	/**
 	 * read settings
@@ -154,6 +176,7 @@ class ilPrivacySettings
 		$this->export_course = (bool) $this->settings->get('ps_export_course',false);
 		$this->export_confirm = (bool) $this->settings->get('ps_export_confirm',false);
 		$this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics',false);
+		$this->show_access_times = (bool) $this->settings->get('ps_access_times',false);
 
 	}
 

@@ -1225,6 +1225,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $rbacsystem,$ilBench,$ilDB,$ilUser;
 		
 		include_once('Services/Tracking/classes/class.ilLearningProgress.php');
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		
+		$privacy = ilPrivacySettings::_getInstance();
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members.html");
 		$this->__setSubTabs('members');
@@ -1292,15 +1295,18 @@ class ilObjGroupGUI extends ilContainerGUI
 			$result_set[$counter][] = $mem["firstname"];
 			$result_set[$counter][] = $mem["lastname"];
 			
-			$progress = ilLearningProgress::_getProgress($mem['id'],$this->object->getId());
-			if(isset($progress['access_time']) and $progress['access_time'])
+			if($privacy->enabledAccessTimes())
 			{
-				$unix = $progress['access_time'];
-				$result_set[$counter][] = date('Y-m-d H:i',$unix);
-			}
-			else
-			{
-				$result_set[$counter][] = $this->lng->txt('no_date');
+				$progress = ilLearningProgress::_getProgress($mem['id'],$this->object->getId());
+				if(isset($progress['access_time']) and $progress['access_time'])
+				{
+					$unix = $progress['access_time'];
+					$result_set[$counter][] = date('Y-m-d H:i',$unix);
+				}
+				else
+				{
+					$result_set[$counter][] = $this->lng->txt('no_date');
+				}
 			}
 			$result_set[$counter][] = $str_member_roles;
 			$result_set[$counter][] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
@@ -2267,6 +2273,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
         global $rbacsystem,$ilBench;
         
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+        
 		$ilBench->start("GroupGUI", "__showMembersTable");
 
 		$actions = array("RemoveMember"  => $this->lng->txt("remove"),"changeMember"  => $this->lng->txt("change"));
@@ -2324,17 +2333,35 @@ class ilObjGroupGUI extends ilContainerGUI
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			//user must be administrator
-			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
-			$tbl->setHeaderVars(array("","login","firstname","lastname","date","role","functions"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("","22%","22%","22%","22%","10%"));
+			if($privacy->enabledAccessTimes())
+			{
+				//user must be administrator
+				$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
+				$tbl->setHeaderVars(array("","login","firstname","lastname","date","role","functions"),$this->ctrl->getParameterArray($this,"",false));
+				$tbl->setColumnWidth(array("","22%","22%","22%","22%","10%"));
+			}
+			else
+			{
+				$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
+				$tbl->setHeaderVars(array("","login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
+				$tbl->setColumnWidth(array("","30%","30%","30%","10%"));
+			}
 		}
 		else
 		{
 			//user must be member
-			$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
-			$tbl->setHeaderVars(array("login","firstname","lastname","date","role","functions"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("22%","22%","22%","22%","10%"));
+			if($privac->enabledAccessTimes())
+			{
+				$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
+				$tbl->setHeaderVars(array("login","firstname","lastname","date","role","functions"),$this->ctrl->getParameterArray($this,"",false));
+				$tbl->setColumnWidth(array("22%","22%","22%","22%","10%"));
+			}
+			else
+			{
+				$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
+				$tbl->setHeaderVars(array("login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
+				$tbl->setColumnWidth(array("30%","30%","30%","10%"));
+			}
 		}
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");

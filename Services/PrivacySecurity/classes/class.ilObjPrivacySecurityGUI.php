@@ -152,10 +152,12 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('TXT_PROFILE_EXPORT',$this->lng->txt('ps_profile_export'));
 	 	$this->tpl->setVariable('TXT_EXPORT_COURSE',$this->lng->txt('ps_export_course'));
 	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM',$this->lng->txt('ps_export_confirm'));
+	 	$this->tpl->setVariable('TXT_GRP_ACCESS',$this->lng->txt('ps_show_grp_access'));
 
 	 	// Check export
 	 	$this->tpl->setVariable('CHECK_EXPORT_COURSE',ilUtil::formCheckbox($privacy->enabledExport() ? 1 : 0,'export_course',1));
 	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM',ilUtil::formCheckbox($privacy->confirmationRequired() ? 1 : 0,'export_confirm',1));
+	 	$this->tpl->setVariable('CHECK_GRP_ACCESS',ilUtil::formCheckbox($privacy->enabledAccessTimes() ? 1 : 0,'access_times',1));
 
 		// Fora statistics
 	 	$this->tpl->setVariable('TXT_STATISTICS',$this->lng->txt('enable_fora_statistics'));
@@ -230,13 +232,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		}
 
 
-		/**
-		 * @var ilPrivacySettings
-		 */
 		$privacy = ilPrivacySettings::_getInstance();
 		$privacy->enableExport((int) $_POST['export_course']);
 		$privacy->setConfirmationRequired((int) $_POST['export_confirm']);
 		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
+		$privacy->showAccessTimes((int) $_POST['access_times']);
 
         // validate settings
         $code = $privacy->validate();
@@ -246,7 +246,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         {
             $msg = $this->getErrorMessage ($code);
             ilUtil::sendInfo($msg);
-        } else
+        } 
+        else
         {
             $privacy->save();
 		    include_once('Modules/Course/classes/class.ilCourseAgreement.php');
