@@ -2899,3 +2899,6 @@ foreach($types as $type)
 }
 
 ?>
+
+<#1119>
+ALTER TABLE cmi_node ADD TIMESTAMP TIMESTAMP;
