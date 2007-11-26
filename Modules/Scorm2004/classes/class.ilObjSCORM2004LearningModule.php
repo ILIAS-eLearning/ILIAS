@@ -361,7 +361,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$data = array();
 		while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$query = "SELECT * FROM cmi_node WHERE".
+			$query = "SELECT *,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM cmi_node WHERE".
 				" cp_node_id = ".$ilDB->quote($_GET["obj_id"]).
 				" AND user_id =".$ilDB->quote($user_rec["user_id"]);
 			$data_set = $ilDB->query($query);
@@ -372,17 +372,22 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				if ($data_rec["success_status"]!="") {
 					$status = $data_rec["success_status"];
 				} else {
-					$status = $data_rec["completion_status"];
+					if ($data_rec["completion_status"]=="") {
+						$status="unknown";
+					} else {
+						$status = $data_rec["completion_status"];
+					}	
 				}
 				
-				$time = self::_ISODurationToCentisec($data_rec["session_time"]);
+				$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
 				
 				$score = $data_rec["scaled"];
 				
+				$last_access=ilFormat::formatDate(date("Y-m-d H:i:s", $data_rec["last_access"]));				
 			}
 
 			$data[] = array("user_id" => $user_rec["user_id"],
-				"score" => $score, "time" => $time, "status" => $status);
+				"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access);
 		}
 
 		return $data;
