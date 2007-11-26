@@ -245,7 +245,7 @@ function showTrackingItem()
 	// load template for table
 	$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 	// load template for table content data
-	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_item.html", "Modules/ScormAicc");
+	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm2004_track_item.html", "Modules/Scorm2004");
 
 	$num = 2;
 
@@ -262,7 +262,7 @@ function showTrackingItem()
 
 	$tbl->setHeaderNames(array($this->lng->txt("name"),
 		$this->lng->txt("cont_status"), $this->lng->txt("cont_time"),
-		$this->lng->txt("cont_score")));
+		$this->lng->txt("cont_score"), $this->lng->txt("cont_last_access")));
 
 	$header_params = array("ref_id" => $this->ref_id, "cmd" => $_GET["cmd"],
 		"cmdClass" => get_class($this), "obj_id" => $_GET["obj_id"]);
@@ -277,16 +277,12 @@ function showTrackingItem()
 	$tbl->setOffset($_GET["offset"]);
 	$tbl->setMaxCount($this->maxcount);
 
-	//$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-	//$this->showActions(true);
-
 	// footer
 	$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 	#$tbl->disable("footer");
 
 	$tr_data = $this->object->getTrackingDataAgg($_GET["obj_id"]);
 
-	//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 	$tbl->setMaxCount(count($tr_data));
 	$tr_data = array_slice($tr_data, $_GET["offset"], $_GET["limit"]);
 
@@ -303,11 +299,14 @@ function showTrackingItem()
 					$user->getFirstname());
 				$this->ctrl->setParameter($this, "user_id", $data["user_id"]);
 				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				$this->tpl->setVariable("LINK_USER",
-					$this->ctrl->getLinkTarget($this, "showTrackingItemPerUser"));
+				/*$this->tpl->setVariable("LINK_USER",
+					$this->ctrl->getLinkTarget($this, "showTrackingItemPerUser"));*/
 				$this->tpl->setVariable("VAL_TIME", $data["time"]);
 				$this->tpl->setVariable("VAL_STATUS", $data["status"]);
 				$this->tpl->setVariable("VAL_SCORE", $data["score"]);
+				
+				//convert last access to local value
+				$this->tpl->setVariable("VAL_TIMESTAMP",$data["last_access"]);
 
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
