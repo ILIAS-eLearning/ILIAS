@@ -219,7 +219,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}
 
 
-
+	public function fixReload() {		
+		$out = file_get_contents($this->imsmanifestFile);
+		$check ='/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
+		$replace="xmlns=\"http://www.imsproject.org/xsd/imscp_rootv1p1p2\"";
+		$out=preg_replace($check, $replace, $out);
+		file_put_contents($this->imsmanifestFile, $out);
+	}
+	
+	
 	public function convert_1_2_to_2004($manifest) {
 		global $ilDB, $ilLog;
 		
@@ -230,6 +238,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$this->packageFolder=$this->getDataDirectory();
 		$this->imsmanifestFile=$manifest;
 		$doc = new DomDocument();
+		
+		//fix reload errors before loading
+		$this->fixReload();
 	  	$doc->load($this->imsmanifestFile);
 	  	$elements = $doc->getElementsByTagName("schemaversion");
 		$schema=$elements->item(0)->nodeValue;

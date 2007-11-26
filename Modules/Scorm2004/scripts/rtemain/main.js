@@ -2651,7 +2651,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
-	onItemUndeliver(true);
+	onItemUndeliver();
 	save_global_objectives();
 	save();
 }
@@ -3033,8 +3033,7 @@ function syncDynObjectives(){
 						}
 					}
 				}	
-			}
-			
+			}	
 		}
 	}
   }
