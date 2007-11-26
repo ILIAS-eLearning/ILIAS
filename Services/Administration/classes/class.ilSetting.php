@@ -86,6 +86,22 @@ class ilSetting
 	}
 	
 	/**
+	 * Delete all settings of a current module
+	 *
+	 * @access public
+	 * 
+	 */
+	public function deleteAll()
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM settings WHERE module = ".$ilDB->quote($this->module)." ";
+		$ilDB->query($query);
+		$this->settings = array();
+		return true;
+	}
+	
+	/**
 	* delete one value from settingstable
 	* @access	public
 	* @param	string	keyword
@@ -102,7 +118,8 @@ class ilSetting
 
 		return true;
 	}
-
+	
+	
 
 	/**
 	* read all values from settingstable
