@@ -325,6 +325,130 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		}
 	}
 	
+	
+	function getTrackedItems()
+	{
+		global $ilUser, $ilDB, $ilUser;
+
+		$query = "SELECT DISTINCT cmi_node.cp_node_id AS id".
+			" FROM cp_node, cmi_node WHERE slm_id = ".
+			$ilDB->quote($this->getId()).
+			" AND cp_node.cp_node_id = cmi_node.cp_node_id ".
+			" ORDER BY cp_node.cp_node_id ";
+			
+		$sco_set = $ilDB->query($query);
+
+		$items = array();
+		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$item['id']=$sco_rec["id"];
+			$item['title']=self::_lookupItemTitle($sco_rec["id"]);
+			$items[count($items)] =$item;
+		
+		}
+		return $items;
+	}
+	
+	
+	function getTrackingDataAgg($a_sco_id)
+	{
+		global $ilDB;
+
+		// get all users with any tracking data
+		$query = "SELECT DISTINCT user_id FROM cmi_node WHERE".
+			" cp_node_id = ".$ilDB->quote($_GET["obj_id"]);
+		$user_set = $ilDB->query($query);
+		$data = array();
+		while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$query = "SELECT * FROM cmi_node WHERE".
+				" cp_node_id = ".$ilDB->quote($_GET["obj_id"]).
+				" AND user_id =".$ilDB->quote($user_rec["user_id"]);
+			$data_set = $ilDB->query($query);
+			$score = $time = $status = "";
+			while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				
+				if ($data_rec["success_status"]!="") {
+					$status = $data_rec["success_status"];
+				} else {
+					$status = $data_rec["completion_status"];
+				}
+				
+				$time = self::_ISODurationToCentisec($data_rec["session_time"]);
+				
+				$score = $data_rec["scaled"];
+				
+			}
+
+			$data[] = array("user_id" => $user_rec["user_id"],
+				"score" => $score, "time" => $time, "status" => $status);
+		}
+
+		return $data;
+	}
+	
+
+	/**
+	* convert ISO 8601 Timeperiods to centiseconds
+	* ta
+	*
+	* @access static
+	*/
+	function _ISODurationToCentisec($str) {
+	    $aV = array(0, 0, 0, 0, 0, 0);
+	    $bErr = false;
+	    $bTFound = false;
+	    if (strpos($str,"P") != 0) {
+	        $bErr = true;
+	    }
+	    if (!$bErr) {
+	        $aT =  array("Y", "M", "D", "H", "M", "S");
+	        $p = 0;
+	 		$i = 0;
+	        $str = substr($str,1);
+	        for ($i = 0; $i < count($aT); $i++) {
+	            if (strpos($str,"T")===0) {
+	                $str = substr($str,1);
+	                $i = max($i, 3);
+	                $bTFound = true;
+	            }
+	            $p = strpos($str,$aT[$i]);
+				
+	            if ($p > -1) {
+	                if ($i == 1 && strpos($str,"T") > -1 && strpos($str,"T") < $p) {
+	                    continue;
+	                }
+	                if ($aT[$i] == "S") {
+	                    $aV[$i] = substr($str,0, $p);
+					
+	                } else {
+	                    $aV[$i] = intval(substr($str,0, $p));
+	                }
+	                if (!is_numeric($aV[$i])) {
+	                    $bErr = true;
+	                    break;
+	                } else if ($i > 2 && !$bTFound) {
+	                    $bErr = true;
+	                    break;
+	                }
+	                $str = substr($str,$p + 1);
+			
+	            }
+	        }
+	        if (!$bErr && strlen($str) != 0) {
+	            $bErr = true;
+				
+	        }
+	    }
+	
+	    if ($bErr) {
+	        return;
+	    }
+	    return $aV[0] * 3155760000 + $aV[1] * 262980000 + $aV[2] * 8640000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
+	}
+	
+	
 	/**
 	* get all tracking items of scorm object
 	*
@@ -332,6 +456,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*
 	* @access static
 	*/
+	
 	function _getTrackingItems($a_obj_id)
 	{
 		global $ilDB;
