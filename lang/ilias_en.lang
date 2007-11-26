@@ -7741,3 +7741,8 @@ rbac#:#recf_read#:#Read access to Restored Objects
 rbac#:#recf_write#:#Edit Restored Objects
 grp#:#grp_unsubscribe#:#Unsubscribe
 ps#:#ps_show_grp_access#:#Show last access time of group participants
+administration#:#auth_auth_mode_determination#:#Authentication Method Determination (for Login)
+administration#:#auth_kind_determination#:#Kind of Determination
+administration#:#auth_by_user#:#By the User
+administration#:#auth_automatic#:#Fixed Sequence
+administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods. 

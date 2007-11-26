@@ -176,8 +176,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				break;
 		}
 		
-		// roles table
+		// auth mode determinitation
+	 	if($this->initAuthModeDetermination())
+	 	{
+	 		$this->tpl->setVariable('TABLE_AUTH_DETERMINATION',$this->form->getHTML());
+	 	}
 		
+		// roles table
 		$this->tpl->setVariable("FORMACTION_ROLES",
 			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_AUTH_ROLES", $this->lng->txt("auth_active_roles"));
@@ -1383,6 +1388,104 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt("auth_mode_roles_changed"),true);
 		$this->ctrl->redirect($this,'authSettings');
 	}
+	
+	/**
+	 * init auth mode determinitation form
+	 *
+	 * @access protected
+	 */
+	protected function initAuthModeDetermination()
+	{
+		if(is_object($this->form))
+		{
+			return true;
+		}
+		// Are there any authentication methods that support automatic determination ?
+	
+	 	include_once('Services/Authentication/classes/class.ilAuthModeDetermination.php');
+	 	$det = ilAuthModeDetermination::_getInstance();
+		if($det->getCountActiveAuthModes() <= 1)
+		{
+			return false;
+		}		
+		
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setTableWidth('100%');
+		$this->form->setTitle($this->lng->txt('auth_auth_mode_determination'));
+		$this->form->addCommandButton('updateAuthModeDetermination',$this->lng->txt('save'));
+		$this->form->addCommandButton('authSettings',$this->lng->txt('cancel'));
+		
+		$kind = new ilRadioGroupInputGUI($this->lng->txt('auth_kind_determination'),'kind');
+		$kind->setInfo($this->lng->txt('auth_mode_determination_info'));
+		$kind->setValue($det->getKind());
+		$kind->setRequired(true);
+		
+		$option_user = new ilRadioOption($this->lng->txt('auth_by_user'),0);
+		$kind->addOption($option_user);
+		
+		$option_determination = new ilRadioOption($this->lng->txt('auth_automatic'),1);
+		
+		include_once('Services/Authentication/classes/class.ilAuthUtils.php');
+		
+		$auth_sequenced = $det->getAuthModeSequence();
+		$counter = 1;
+		foreach($auth_sequenced as $auth_mode)
+		{
+			switch($auth_mode)
+			{
+				case AUTH_LDAP:
+					$text = $this->lng->txt('auth_ldap');
+					break;
+				case AUTH_RADIUS:
+					$text = $this->lng->txt('auth_radius');
+					break;
+				case AUTH_LOCAL:
+					$text = $this->lng->txt('auth_local');
+					break;
+			}
+			
+			
+			$pos = new ilTextInputGUI($text,'position['.$auth_mode.']');
+			$pos->setValue($counter++);
+			$pos->setSize(1);
+			$pos->setMaxLength(1);
+			$option_determination->addSubItem($pos);
+		}		
+		$kind->addOption($option_determination);
+		$this->form->addItem($kind);
+		return true;
+	}
+	
+	/**
+	 * update auth mode determination
+	 *
+	 * @access public
+	 * 
+	 */
+	public function updateAuthModeDeterminationObject()
+	{
+	 	include_once('Services/Authentication/classes/class.ilAuthModeDetermination.php');
+	 	$det = ilAuthModeDetermination::_getInstance();
+	 	
+	 	$det->setKind((int) $_POST['kind']);
+	
+		$pos = $_POST['position'] ? $_POST['position'] : array();
+		asort($pos,SORT_NUMERIC);
+		
+		$counter = 0;
+	 	foreach($pos as $auth_mode => $dummy)
+	 	{
+	 		$position[$counter++] = $auth_mode;  
+	 	}
+	 	$det->setAuthModeSequence($position ? $position : array());
+	 	$det->save();
+	 	
+	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
+	 	$this->authSettingsObject();
+	}
+	
 
 	function &executeCommand()
 	{

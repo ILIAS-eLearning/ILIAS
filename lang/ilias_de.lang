@@ -7726,3 +7726,8 @@ common#:#enable_ext_lang_maint#:#Enable Extended Maintenance###20 11 2007 new va
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance###20 11 2007 new variable
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###20 11 2007 new variable
 ps#:#ps_show_grp_access#:#Anzeige der letzten Zugriffszeit von Gruppenteilnehmern
+administration#:#auth_auth_mode_determination#:#Bestimmung der Authentifizierungsmethode beim Login
+administration#:#auth_kind_determination#:#Art der Bestimmung
+administration#:#auth_by_user#:#Durch den Benutzer
+administration#:#auth_automatic#:#Festgelegte Reihenfolge
+administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgebenen Reihenfolge überprüft werden sollen.
