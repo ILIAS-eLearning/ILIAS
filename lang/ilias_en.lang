@@ -4303,6 +4303,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Keyword
+content#:#cont_last_access#:#Last Access
 content#:#cont_link#:#Link
 content#:#cont_link_area#:#Link Area
 content#:#cont_link_ext#:#Link (external)
