@@ -255,10 +255,9 @@ function showTrackingItem()
 	$tbl = new ilTableGUI();
 
 	include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-	$sc_item =& new ilSCORMItem($_GET["obj_id"]);
 
 	// title & header columns
-	$tbl->setTitle($sc_item->getTitle());
+	$tbl->setTitle(ilObjSCORM2004LearningModule::_lookupItemTitle($_GET["obj_id"]));
 
 	$tbl->setHeaderNames(array($this->lng->txt("name"),
 		$this->lng->txt("cont_status"), $this->lng->txt("cont_time"),
