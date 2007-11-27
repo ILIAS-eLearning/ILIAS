@@ -534,7 +534,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 		$this->tpl = new ilTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt($specialpages[$this->page]));
-		if ($this->page!="_TOC_") {
+		if ($this->page!="_TOC_" && $this->page!="_SEQABANDON_" && $this->page!="_SEQABANDONALL_" ) {
 			$this->tpl->setVariable('CLOSE_WINDOW',$lng->txt('seq_close'));
 		} else {
 			$this->tpl->setVariable('CLOSE_WINDOW',"");	

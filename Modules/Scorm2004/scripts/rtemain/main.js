@@ -1617,7 +1617,7 @@ function setState(newState)
 function loadPage(src) {
 	
 		//deactivate all controls, if session has ended
-		if (mlaunch.mSeqNonContent!="_TOC_") {
+		if (mlaunch.mSeqNonContent!="_TOC_" && mlaunch.mSeqNonContent!="_SEQABANDON_" && mlaunch.mSeqNonContent!="_SEQABANDONALL_" ) {
 			toggleClass('navContinue', 'disabled', true);
 			toggleClass('navExit', 'disabled', true);
 			toggleClass('navPrevious', 'disabled', true);
@@ -1646,7 +1646,7 @@ function loadPage(src) {
 		onWindowResize();	
 		save_global_objectives();
 		
-		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_") {
+		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_" && mlaunch.mSeqNonContent!="_SEQABANDON_" && mlaunch.mSeqNonContent!="_SEQABANDONALL_") {
 			toggleView();
 		}
 		
@@ -1802,8 +1802,7 @@ function buildNavTree(rootAct,name,tree){
 		
 	//get a reusable reference to the root node:
 	var root = treeYUI.getRoot();
-	
-	
+		
 	//root node only when in TOC
 	if (mlaunch.mNavState.mChoice!=null) {
 		var id=rootAct.id;
@@ -2651,7 +2650,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
-	onItemUndeliver();
+	onItemUndeliver(true);
 	save_global_objectives();
 	save();
 }
