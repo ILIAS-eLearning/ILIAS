@@ -179,7 +179,7 @@ class ilSCORM13Package
 	public function il_import($packageFolder,$packageId,$ilias,$validate){
 		global $ilDB, $ilLog;
 		
-$ilLog->write("SCORM: il_import");
+//$ilLog->write("SCORM: il_import");
 		
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
@@ -193,7 +193,7 @@ $ilLog->write("SCORM: il_import");
 	  		return false;
 	  	}
     
-		$ilLog->write("SCORM: parse");
+//		$ilLog->write("SCORM: parse");
 
 	  	//step 2 tranform
 	  	$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
@@ -203,7 +203,7 @@ $ilLog->write("SCORM: il_import");
 	  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
 	  		return false;
 	  	}
-		$ilLog->write("SCORM: normalize");
+//		$ilLog->write("SCORM: normalize");
 	
 	  	//step 3 validation -just for normalized XML
 		if ($validate=="y") {
@@ -217,11 +217,11 @@ $ilLog->write("SCORM: il_import");
 	  		//	return false;
 	  		}
 		}
-		$ilLog->write("SCORM: validate");
+//		$ilLog->write("SCORM: validate");
 	
 //	  	ilSCORM13DB::begin();
 	  	$this->dbImport($this->manifest);
-		$ilLog->write("SCORM: import new");
+//		$ilLog->write("SCORM: import new");
 	
 //	  	ilSCORM13DB::commit();
 	  	//step 5
@@ -292,7 +292,7 @@ $ilLog->write("SCORM: il_import");
 	  		'jsdata' => json_encode($j),
 			'activitytree' => json_encode($adl_tree)
 	  		), 'obj_id');*/
-		$ilLog->write("SCORM: import update");
+//		$ilLog->write("SCORM: import update");
 	
 	  	return $j['item']['title'];
 	  }
