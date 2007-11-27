@@ -7531,36 +7531,36 @@ news#:#news_loading_news#:#News werden geladen ...
 news#:#news_no_js_click_here#:#Werden die News nicht angezeigt, klicken Sie bitte hier.
 news#:#news_acc_cache#:#Abfrage Berechtigungen (Minuten)
 news#:#news_acc_cache_info#:#Zeit, nach der die Leseberechtigung der News-Einträge geprüft wird (nur persönlicher Schreibtisch). Bei '0' wird immer geprüft. Höhere Werte verbessern die Performanz, können aber dazu führen, dass die referenzierten Repositoryressourcen nicht mehr zugreifbar sind, falls Berechtigungen verändert wurden.
-common#:#passwd_list#:#Passwortliste###30 07 2007 new variable
-meta#:#md_advanced#:#Erweiterte Metadaten###30 07 2007 new variable
-meta#:#md_adv_record_list#:#Datensätze und Darstellung###30 07 2007 new variable
-meta#:#md_adv_file_list#:#Exportdateien###30 07 2007 new variable
-meta#:#md_record_list_table#:#Verfügbare Metadatensätze###30 07 2007 new variable
-meta#:#md_fields#:#Felder###30 07 2007 new variable
-meta#:#md_obj_types#:#Zugeordnete Objekte###30 07 2007 new variable
-meta#:#md_adv_substitution_table#:#Darstellung im Magazin###30 07 2007 new variable
-meta#:#md_adv_substitution#:#Text###30 07 2007 new variable
-meta#:#md_adv_placeholders#:#Platzhalter###30 07 2007 new variable
-meta#:#md_adv_placeholder_for#:#Platzhalter für:###30 07 2007 new variable
-meta#:#md_record_export_table#:#Exportdateien###30 07 2007 new variable
-meta#:#md_adv_records#:#Enthaltene Datensätze###30 07 2007 new variable
-meta#:#md_adv_select_one_file#:#Bitte wählen Sie eine Datei aus.###30 07 2007 new variable
-meta#:#md_adv_delete_files_sure#:#Sind Sie sicher, dass die folgenden Dateien gelöscht werden sollen?###30 07 2007 new variable
-meta#:#md_adv_deleted_files#:#Die Dateien wurden gelöscht.###30 07 2007 new variable
-meta#:#md_adv_records_exported#:#Eine neue Exportdatei wurde angelegt.###30 07 2007 new variable
-meta#:#md_adv_edit_record#:#Datensatz bearbeiten###30 07 2007 new variable
-meta#:#md_adv_field_table#:#Felder bearbeiten###30 07 2007 new variable
-meta#:#md_adv_field_fields#:#Felder###30 07 2007 new variable
-meta#:#md_adv_searchable#:#Durchsuchbar###30 07 2007 new variable
-meta#:#md_adv_edit_field#:#Feld bearbeiten###30 07 2007 new variable
-meta#:#md_adv_create_field#:#Neues Feld hinzufügen###30 07 2007 new variable
-meta#:#md_adv_add_value#:#Neuer Wert###30 07 2007 new variable
-meta#:#md_adv_no_fields#:#Keine Felder definiert###30 07 2007 new variable
-meta#:#md_adv_deleted_records#:#Der Datensatz wurde gelöscht###30 07 2007 new variable
-meta#:#md_adv_delete_fields_sure#:#Sind Sie sicher, dass die folgenden Felddefinitionen gelöscht werden sollen?###30 07 2007 new variable
-meta#:#md_adv_added_new_record#:#Ein neuer Datensatz wurde angelegt.###30 07 2007 new variable
-meta#:#md_adv_create_record#:#Neuen Datensatz anlegen###30 07 2007 new variable
-meta#:#md_adv_delete_record_sure#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?###30 07 2007 new variable
+common#:#passwd_list#:#Passwortliste
+meta#:#md_advanced#:#Erweiterte Metadaten
+meta#:#md_adv_record_list#:#Datensätze und Darstellung
+meta#:#md_adv_file_list#:#Exportdateien
+meta#:#md_record_list_table#:#Verfügbare Metadatensätze
+meta#:#md_fields#:#Felder
+meta#:#md_obj_types#:#Zugeordnete Objekte
+meta#:#md_adv_substitution_table#:#Darstellung im Magazin
+meta#:#md_adv_substitution#:#Text
+meta#:#md_adv_placeholders#:#Platzhalter
+meta#:#md_adv_placeholder_for#:#Platzhalter für:
+meta#:#md_record_export_table#:#Exportdateien
+meta#:#md_adv_records#:#Enthaltene Datensätze
+meta#:#md_adv_select_one_file#:#Bitte wählen Sie eine Datei aus.
+meta#:#md_adv_delete_files_sure#:#Sind Sie sicher, dass die folgenden Dateien gelöscht werden sollen?
+meta#:#md_adv_deleted_files#:#Die Dateien wurden gelöscht.
+meta#:#md_adv_records_exported#:#Eine neue Exportdatei wurde angelegt.
+meta#:#md_adv_edit_record#:#Datensatz bearbeiten
+meta#:#md_adv_field_table#:#Felder bearbeiten
+meta#:#md_adv_field_fields#:#Felder
+meta#:#md_adv_searchable#:#Durchsuchbar
+meta#:#md_adv_edit_field#:#Feld bearbeiten
+meta#:#md_adv_create_field#:#Neues Feld hinzufügen
+meta#:#md_adv_add_value#:#Neuer Wert
+meta#:#md_adv_no_fields#:#Keine Felder definiert
+meta#:#md_adv_deleted_records#:#Der Datensatz wurde gelöscht
+meta#:#md_adv_delete_fields_sure#:#Sind Sie sicher, dass die folgenden Felddefinitionen gelöscht werden sollen?
+meta#:#md_adv_added_new_record#:#Ein neuer Datensatz wurde angelegt.
+meta#:#md_adv_create_record#:#Neuen Datensatz anlegen
+meta#:#md_adv_delete_record_sure#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 barometer#:#barometer_conflict_anon_req#:#Anonymisierung und Typ: 'Pflicht' sind zusammen nicht möglich. Bitte wählen Sie nur eine dieser Optionen aus.
 meta#:#md_adv_active#:#Aktiv
 common#:#default_auth_mode#:#Default Authentifizierungsmethode
