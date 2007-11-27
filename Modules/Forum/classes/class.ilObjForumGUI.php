@@ -3004,7 +3004,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));
 		$topicData = $frm->getOneTopic();
-var_dump($topicData);
+
 		$formData = $_POST['formData'];
 	
 		// check form-dates
