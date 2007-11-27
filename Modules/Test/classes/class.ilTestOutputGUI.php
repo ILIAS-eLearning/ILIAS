@@ -1021,6 +1021,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 		global $ilias;
+		global $ilAuth;
 		
 		unset($_SESSION["tst_next"]);
 		
@@ -1030,8 +1031,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$confirm))
 		{		
 			$this->object->setActiveTestSubmitted($ilUser->getId());
-			$ilias->auth->setIdle($ilias->ini->readVariable("session","expire"), false);
-			$ilias->auth->setExpire(0);
+			$ilAuth->setIdle($ilias->ini->readVariable("session","expire"), false);
+			$ilAuth->setExpire(0);
 		}
 		
 		if (($confirm) && ($actualpass == $this->object->getNrOfTries() - 1))
