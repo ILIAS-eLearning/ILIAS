@@ -1,4 +1,5 @@
-// Build: 20071126010818 
+// Build: 20071127015704 
+// Release: ILIAS 3.9 RELEASE
 
 function ADLAuxiliaryResource()
 {}
@@ -2202,12 +2203,12 @@ else if(target.target==="_blank")
 e.stop();}
 function setState(newState)
 {replaceClass(document.body,guiState+'State',newState+'State');guiState=newState;}
-function loadPage(src){if(mlaunch.mSeqNonContent!="_TOC_"){toggleClass('navContinue','disabled',true);toggleClass('navExit','disabled',true);toggleClass('navPrevious','disabled',true);toggleClass('navResumeAll','disabled',true);toggleClass('navExitAll','disabled',true);toggleClass('navStart','disabled',true);toggleClass('navSuspendAll','disabled',true);toggleClass('treeToggle','disabled',true);}
+function loadPage(src){if(mlaunch.mSeqNonContent!="_TOC_"&&mlaunch.mSeqNonContent!="_SEQABANDON_"&&mlaunch.mSeqNonContent!="_SEQABANDONALL_"){toggleClass('navContinue','disabled',true);toggleClass('navExit','disabled',true);toggleClass('navPrevious','disabled',true);toggleClass('navResumeAll','disabled',true);toggleClass('navExitAll','disabled',true);toggleClass('navStart','disabled',true);toggleClass('navSuspendAll','disabled',true);toggleClass('treeToggle','disabled',true);}
 var elm=window.document.getElementById(RESOURCE_PARENT);if(!elm)
 {return window.alert("Window Container not found");}
 var h=elm.clientHeight-20;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)
 {h=self.innerHeight-60;}
-RESOURCE_NAME="SPECIALPAGE";var resContainer=window.document.getElementById("res");resContainer.src=src;resContainer.name=RESOURCE_NAME;onWindowResize();save_global_objectives();if(treeView==true&&mlaunch.mSeqNonContent!="_TOC_"){toggleView();}}
+RESOURCE_NAME="SPECIALPAGE";var resContainer=window.document.getElementById("res");resContainer.src=src;resContainer.name=RESOURCE_NAME;onWindowResize();save_global_objectives();if(treeView==true&&mlaunch.mSeqNonContent!="_TOC_"&&mlaunch.mSeqNonContent!="_SEQABANDON_"&&mlaunch.mSeqNonContent!="_SEQABANDONALL_"){toggleView();}}
 function setInfo(name,values)
 {var elm=all('infoLabel');var txt=translate(name,values);if(elm)
 {window.top.document.title=elm.innerHTML=txt;}}
