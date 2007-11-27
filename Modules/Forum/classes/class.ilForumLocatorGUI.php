@@ -125,11 +125,12 @@ class ilForumLocatorGUI
 			
 			if ($row["child"] > 0)
 			{
+				$icon_path = ilObject::_getIcon($row['obj_id'], 'tiny', $row['type']);
+				
 				$this->tpl->setCurrentBlock("locator_img");
-				$this->tpl->setVariable("IMG_SRC",
-					ilUtil::getImagePath("icon_".$row["type"]."_s.gif"));
-				$this->tpl->setVariable("IMG_ALT",
-					$lng->txt("obj_".$type));
+				$this->tpl->setVariable("IMG_SRC", $icon_path);
+				#$this->tpl->setVariable("IMG_SRC", ilUtil::getImagePath("icon_".$row["type"]."_s.gif"));
+				$this->tpl->setVariable("IMG_ALT", $lng->txt("obj_".$row['type']));
 				$this->tpl->parseCurrentBlock();
 			}
 
