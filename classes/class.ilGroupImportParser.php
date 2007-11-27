@@ -335,7 +335,8 @@ class ilGroupImportParser extends ilSaxParser
 		$this->group_obj->setRegistrationFlag($flag);
 		if($this->group_data['expiration'])
 		{
-			$this->group_obj->setExpirationDateTime(date('Y.m.d H:i:s',$this->group_data['expiration']));
+			#$this->group_obj->setExpirationDateTime(date('Y-m-d H:i:s',$this->group_data['expiration']));
+			$this->group_obj->updateExpiration(date('YmdHis',$this->group_data['expiration']));
 		}
 		$this->group_obj->setPassword($this->group_data['password']);
 

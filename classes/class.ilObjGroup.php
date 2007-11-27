@@ -924,14 +924,12 @@ class ilObjGroup extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM grp_data WHERE grp_id = ".
+		$query = "SELECT UNIX_TIMESTAMP(expiration) as timest FROM grp_data WHERE grp_id = ".
 			$ilDB->quote($this->getId());
 
 		$res = $this->ilias->db->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		$datetime = $row["expiration"];
-
-		return ($timest = ilFormat::datetime2unixTS($datetime)) ? $timest : 0;
+		return $row['timest'];
 	}
 
 
