@@ -4562,6 +4562,7 @@ content#:#scplayer_suspendall#:#Suspend All
 content#:#scplayer_exitall#:#Exit All
 content#:#scplayer_exit#:#Exit
 content#:#scplayer_start#:#Start
+content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#add_event#:#Add Session
 crs#:#assigned#:#Assigned
