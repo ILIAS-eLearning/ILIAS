@@ -35,7 +35,9 @@
 require_once "./include/inc.header.php";
 require_once "./Modules/Chat/classes/class.ilChatController.php";
 
-if(!$ilias->auth->getAuth() or !$rbacsystem->checkAccess("read",(int) $_GET["ref_id"]))
+global $ilAuth;
+
+if(!$ilAuth->getAuth() or !$rbacsystem->checkAccess("read",(int) $_GET["ref_id"]))
 {
 	$_GET["cmd"] = "closeFrame";
 }

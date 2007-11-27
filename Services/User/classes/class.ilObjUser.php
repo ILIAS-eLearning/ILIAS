@@ -2172,10 +2172,10 @@ class ilObjUser extends ilObject
      */
 	function checkUserId()
 	{
-		global $ilDB;
+		global $ilDB,$ilAuth;
 
 		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
-			$ilDB->quote($this->ilias->auth->getUsername()));
+			$ilDB->quote($ilAuth->getUsername()));
 		//query has got a result
 		if ($r->numRows() > 0)
 		{
@@ -2195,10 +2195,10 @@ class ilObjUser extends ilObject
      */
     function isCurrentUserActive()
     {
-		global $ilDB;
+		global $ilDB,$ilAuth;
 
         $r = $this->ilias->db->query("SELECT active FROM usr_data WHERE login= ".
-			$ilDB->quote($this->ilias->auth->getUsername()));
+			$ilDB->quote($ilAuth->getUsername()));
         //query has got a result
         if ($r->numRows() > 0)
         {

@@ -52,10 +52,12 @@ if (
 	$ilias->raiseError($message,$ilias->error_obj->WARNING);
 }
 
+global $ilAuth;
+
 // Shibboleth login
 if (!empty($_SERVER[$ilias->getSetting("shib_login")]))
 {
-	$ilias->auth->login();
+	$ilAuth->login();
 }
 
 // We only get here if we didn't login successfully
