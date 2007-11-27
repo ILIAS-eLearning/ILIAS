@@ -575,26 +575,46 @@ class ilForumTopic
 	*/
 	public function movePosts($old_obj_id, $old_pk, $new_obj_id, $new_pk)
 	{
+		global $ilDB;
+		
 		if ($this->id)
 		{			
 			$query = "UPDATE frm_user_read
-					  SET obj_id = ".$this->db->quote($new_obj_id)."
+					  SET obj_id = ".$ilDB->quote($new_obj_id)."
 					  WHERE 1
-					  AND thread_id = ".$this->db->quote($this->id)." ";					 
-			$res = $this->db->query($query);
+					  AND thread_id = ".$ilDB->quote($this->id)." ";					 
+			$res = $ilDB->query($query);
 			
 			$query = "UPDATE frm_thread_access
-					  SET obj_id = ".$this->db->quote($new_obj_id)."
+					  SET obj_id = ".$ilDB->quote($new_obj_id)."
 					  WHERE 1
-					  AND thread_id = ".$this->db->quote($this->id)." ";					 
-			$res = $this->db->query($query);
+					  AND thread_id = ".$ilDB->quote($this->id)." ";					 
+			$res = $ilDB->query($query);
 			
 			$query = "UPDATE frm_posts
-					  SET pos_top_fk = ".$this->db->quote($new_pk)."
+					  SET pos_top_fk = ".$ilDB->quote($new_pk)."
 					  WHERE 1
-					  AND pos_thr_fk = ".$this->db->quote($this->id)." ";					 
-			$res = $this->db->query($query);			
-			return $this->db->affectedRows();
+					  AND pos_thr_fk = ".$ilDB->quote($this->id)." ";					 
+			$res = $ilDB->query($query);
+			$ar = $ilDB->affectedRows();
+			
+			// update all related news
+			$posts = $ilDB->query("SELECT * FROM frm_posts ".
+				" WHERE pos_thr_fk = ".$ilDB->quote($this->id));
+			$old_obj_id = ilForum::_lookupObjIdForForumId($old_pk);
+			$new_obj_id = ilForum::_lookupObjIdForForumId($new_pk);
+			while($post = $posts->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+				$news_id = ilNewsItem::getFirstNewsIdForContext($old_obj_id,
+					"frm", $post["pos_pk"], "pos");
+				$news_item = new ilNewsItem($news_id);
+				$news_item->setContextObjId($new_obj_id);
+				$news_item->update();
+				//echo "<br>-".$post["pos_pk"]."-".$old_obj_id."-".$new_obj_id."-";
+			}
+			
+			return $ar;
 		}
 		
 		return 0;

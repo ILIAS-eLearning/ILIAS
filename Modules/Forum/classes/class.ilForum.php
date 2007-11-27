@@ -2260,5 +2260,17 @@ class ilForum
 		return $this->prepareText($message);
 	}
 		
+	function _lookupObjIdForForumId($a_for_id)
+	{
+		global $ilDB;
+		
+		$forum = $ilDB->query("SELECT * FROM frm_data ".
+				" WHERE top_pk = ".$ilDB->quote($a_for_id));
+		if ($fdata = $forum->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $fdata["top_frm_fk"];
+		}
+		return false;
+	}
 
 } // END class.Forum
