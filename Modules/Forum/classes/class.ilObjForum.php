@@ -623,22 +623,25 @@ class ilObjForum extends ilObject
 	*/
 	function initDefaultRoles()
 	{
-		global $rbacadmin,$rbacreview;
+		global $rbacadmin,$rbacreview,$ilDB;
+
+		// Create a local role folder
+		$rolf_obj = $this->createRoleFolder();
+
+		// CREATE Moderator role
+		$role_obj = $rolf_obj->createRole("il_frm_moderator_".$this->getRefId(),"Moderator of forum obj_no.".$this->getId());
+		$roles[] = $role_obj->getId();
 		
-		// create a local role folder
-		$rfoldObj = $this->createRoleFolder();
+		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
+		$query = "SELECT obj_id FROM object_data ".
+			" WHERE type='rolt' AND title='il_frm_moderator'";
 
-		// create moderator role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("il_frm_moderator_".$this->getRefId(),"Moderator of forum obj_no.".$this->getId());
-		$roles[] = $roleObj->getId();
+		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
+		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
-		// grant permissions: visible,read,write,edit_post,delete_post
-		//$permissions = array(1,2,3,4,6,9,10);
-		$permissions = $rbacreview->getOperationsOnTypeString('frm');
-		$rbacadmin->grantPermission($roles[0],$permissions,$this->getRefId());
-
-		unset($rfoldObj);
-		unset($roleObj);
+		// SET OBJECT PERMISSIONS OF COURSE OBJECT
+		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"frm",$rolf_obj->getRefId());
+		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
 
 		return $roles ? $roles : array();
 	}
