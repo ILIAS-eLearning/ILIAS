@@ -2350,7 +2350,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		else
 		{
 			//user must be member
-			if($privac->enabledAccessTimes())
+			if($privacy->enabledAccessTimes())
 			{
 				$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
 				$tbl->setHeaderVars(array("login","firstname","lastname","date","role","functions"),$this->ctrl->getParameterArray($this,"",false));
