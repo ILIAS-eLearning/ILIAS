@@ -7589,7 +7589,7 @@ ldap#:#ldap_btn_add_role_ass#:#Neue Regel anlegen
 ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
 ldap#:#ldap_rule_type#:#Art der Zuordnung
 ldap#:#ldap_confirm_del_role_ass#:#Rollenzuordnung löschen
-common#:#res_links#:#Repository Links###23 08 2007 new variable
+common#:#res_links#:#Verknüpfungen im Magazin
 common#:#header_zip#:#Zip-Archiv hochladen
 common#:#take_over_structure#:#Ordnerstruktur des Archives übernehmen
 common#:#take_over_structure_info#:#Wenn aktiviert, werden Verzeichnisse im Archiv als Kategorien oder Ordner übernommen.
@@ -7605,14 +7605,14 @@ administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.
-common#:#delete_existing_file#:#Delete Existing File###23 09 2007 new variable
+common#:#delete_existing_file#:#Bestehende Datei Löschen
 common#:#reset_filter#:#Filter zurücksetzen
 common#:#activate#:#Aktivieren
 common#:#deactivate#:#Deaktivieren
 common#:#before#:#vor
-common#:#export_format_selection#:#Please select the export file format###23 09 2007 new variable
-common#:#export_format#:#Export format###23 09 2007 new variable
-common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
+common#:#export_format_selection#:#Bitte wählen Sie das Format der Exportdatei.
+common#:#export_format#:#Exportformat
+common#:#info_activate_sure#:#Sind sie sicher, dass Sie die folgenden Benutzer als aktive Benutzer bestätigen wollen?
 common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
 news#:#news_pd_period#:#Zeitraum News auf Persönlichem Schreibtisch
 news#:#news_pd_period_info#:#Zeitraum, der für News auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
@@ -7620,24 +7620,24 @@ news#:#news_indefinite#:#Unendlich
 feed#:#feed_proxy#:#Proxy Host
 feed#:#feed_proxy_info#:#Proxy Host für Netzverbindungen.
 feed#:#feed_proxy_port#:#Proxy Port
-feed#:#feed_proxy_port_info#:#Proxy port for socket connection###23 09 2007 new variable
-common#:#user_activated#:#User has been approved###23 09 2007 new variable
+feed#:#feed_proxy_port_info#:#Proxy Port für Netzverbindung
+common#:#user_activated#:#Benutzer wurde bestätigt.
 common#:#user_deactivated#:#User has been disapproved###23 09 2007 new variable
 common#:#usr_filter_lastlogin#:#Letztes Login eines Benutzers
 common#:#usr_filter_coursemember#:#Mitglied eines Kurses
 common#:#usr_filter_groupmember#:#Mitglied einer Gruppe
 common#:#usr_filter_role#:#Zugewiesene Rolle
-content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable
-content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
-content#:#seq_endsession#:#The current course session has ended.###23 09 2007 new variable
-content#:#seq_blocked#:#The sequencing session was blocked.###23 09 2007 new variable
-content#:#seq_nothing#:#There is no activity to deliver.###23 09 2007 new variable
-content#:#seq_error#:#An internal error in the sequencer occurred.###23 09 2007 new variable
-content#:#seq_deadlock#:#The sequencer is in a deadlock.###23 09 2007 new variable
-content#:#seq_invalidnavreq#:#The sequencer received an invalid request.###23 09 2007 new variable
-content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.###23 09 2007 new variable
-content#:#seq_abandonall#:#The current course session has been abandoned..###23 09 2007 new variable
-content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
+content#:#cont_delete_track_data#:#Lösche Trackingdaten
+content#:#seq_coursecomplete#:#Der aktuelle Kurs wurde vollständig bearbeitet.
+content#:#seq_endsession#:#Die aktuelle Kurssitzung wurde beendet.
+content#:#seq_blocked#:#Zugriff verweigert.
+content#:#seq_nothing#:#Keine Aktivität gefunden.
+content#:#seq_error#:#Es ist ein interner Ausnahmefehler im Sequencer aufgetreten.
+content#:#seq_deadlock#:#Fehler: Der Sequencer befindet sich in einem Deadlock.
+content#:#seq_invalidnavreq#:#Fehler: Der Sequencer erhielt eine ungültige Anfrage.
+content#:#seq_abandon#:#Die Anfrage wurde durchgeführt.
+content#:#seq_abandonall#:#Die Kurssitzung wurde abgebrochen.
+content#:#seq_toc#:#Bitte wählen Sie eine Lektion aus der Übersicht auf der linken Seite.
 meta#:#md_copyright_settings#:#Copyright-Einstellungen
 meta#:#md_copyright_enabled#:#Copyright-Auswahl aktivieren
 meta#:#md_copyright_selection#:#Copyright Vorgaben
@@ -7661,13 +7661,13 @@ common#:#sorting_save#:#Sortierung speichern
 common#:#frm_add_thread#:#Forumthema anlegen
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
 assessment#:#tst_reset_processing_time_desc#:#Wenn diese Option ausgewählt ist, wird die bereits abgelaufene Bearbeitungsdauer nach jedem abgeschlossenen Testdurchlauf wieder zurückgesetzt, so dass wieder die maximale Bearbeitungsdauer zur Verfügung steht. Die Einstellung funktioniert nur, wenn eine maximale Bearbeitungsdauer festgelegt ist und mehrere Testdurchläufe erlaubt sind
-common#:#accessRestrict#:#Set limited Access###25 09 2007 new variable
-common#:#accessFree#:#Remove limited Access###25 09 2007 new variable
-common#:#access_free_granted#:#Set the selected user(s) to unlimited access###25 09 2007 new variable
-common#:#access_restricted#:#Set the selected user(s) to limited access###25 09 2007 new variable
+common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
+common#:#accessFree#:#Beschränkten Zugriff Deaktivieren
+common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.
+common#:#access_restricted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer deaktivieren.
 common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?###25 09 2007 new variable
 common#:#access_from#:#Access (from)###25 09 2007 new variable
-common#:#access_restrict_enter#:#Please set the period for the limited access restriction###25 09 2007 new variable
+common#:#access_restrict_enter#:#Bitte setzen Sie den Zugriffszeitraum.
 common#:#bold#:#Fett
 common#:#newline#:#Zeilenumbruch
 common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
@@ -7722,12 +7722,28 @@ rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
-common#:#enable_ext_lang_maint#:#Enable Extended Maintenance###20 11 2007 new variable
-common#:#disable_ext_lang_maint#:#Disable Extended Maintenance###20 11 2007 new variable
-trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###20 11 2007 new variable
+common#:#enable_ext_lang_maint#:#Aktiviere erweiterte Sprachenverwaltung
+common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
+trac#:#trac_mode_test_finished_info#:#Benutzer müssen einen Test komplett beenden
 ps#:#ps_show_grp_access#:#Anzeige der letzten Zugriffszeit von Gruppenteilnehmern
 administration#:#auth_auth_mode_determination#:#Bestimmung der Authentifizierungsmethode beim Login
 administration#:#auth_kind_determination#:#Art der Bestimmung
 administration#:#auth_by_user#:#Durch den Benutzer
 administration#:#auth_automatic#:#Festgelegte Reihenfolge
 administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgebenen Reihenfolge überprüft werden sollen.
+common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
+common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen, lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen werden dabei möglicherweise überschrieben. Dies "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen.
+common#:#lngf_write#:#Schreibzugriff, wird für erweiterte Sprachverwaltung benötigt.
+content#:#cont_last_access#:#Letzter Zugriff
+content#:#seq_close#:#Bitte schliessen sie das Fenster des SCORM Lernmoduls.
+content#:#scplayer_showtree#:#Baum Anzeigen
+content#:#scplayer_hidetree#:#Baum Verbergen
+content#:#scplayer_continue#:#Weiter
+content#:#scplayer_previous#:#Zurück
+content#:#scplayer_suspendall#:#Bearbeitung Unterbrechen
+content#:#scplayer_exitall#:#Bearbeitung Beenden
+content#:#scplayer_exit#:#Schliessen
+content#:#scplayer_start#:#Start
+content#:#scplayer_phpmysqlcheck#:#Sie benötigen MYSQL 4.1 oder höher und JSON-support um die JavaScript-RTE zu nutzen.
+trac#:#trac_mode_scorm_package#:#Automatisch durch SCORM-Kursstatus
+trac#:#trac_mode_scorm_package_info#:#Der Lernfortschrittsstatus wird durch den Gesamtstatus des SCORM-Moduls bestimmt.
