@@ -1081,8 +1081,8 @@ class ilInitialisation
 				$this->initLanguage();
 
 				if ($ilSetting->get("pub_section") &&
-					($ilAuth->status == "" || $ilAuth->status == AUTH_EXPIRED ||
-						$ilAuth->status == AUTH_IDLED) &&
+					($ilAuth->getStatus() == "" || $ilAuth->getStatus() == AUTH_EXPIRED ||
+						$ilAuth->getStatus() == AUTH_IDLED) &&
 					$_GET["reloadpublic"] != "1")
 				{
 					$this->goToPublicSection();

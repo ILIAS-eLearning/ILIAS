@@ -79,6 +79,19 @@ class ilAuthModeDetermination
 	}
 
 	/**
+	 * is manual selection  
+	 *
+	 * @access public
+
+	 *
+	 * @param
+	 */
+	public function isManualSelection()
+	{
+		return $this->kind == self::TYPE_MANUAL;
+	}
+
+	/**
 	 * get kind
 	 *
 	 * @access public
@@ -151,7 +164,7 @@ class ilAuthModeDetermination
 	 	$counter = 0;
 	 	foreach($this->position as $auth_mode)
 	 	{
-	 		$this->settings->set((string) $counter,$auth_mode);
+	 		$this->settings->set((string) $counter++,$auth_mode);
 	 	}
 	}
 	

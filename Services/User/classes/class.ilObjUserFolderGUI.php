@@ -1130,6 +1130,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// Feedback
 		ilUtil::sendInfo($this->lng->txt("user_deleted"),true);
+		
+		// now unset the delete users in session
+		unset($_SESSION['saved_post']);
 
 		if ($_SESSION['user_delete_search'] == true)
 		{
