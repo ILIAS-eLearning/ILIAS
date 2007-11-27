@@ -2756,7 +2756,7 @@ CREATE TABLE `tst_test_pass_result` (
   `active_fi` int(11) NOT NULL default '0',
   `pass` int(11) NOT NULL default '0',
   `points` double NOT NULL default '0',
-  `TIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL,
   UNIQUE KEY `active_fi` (`active_fi`,`pass`)
 );
 <#1110>
