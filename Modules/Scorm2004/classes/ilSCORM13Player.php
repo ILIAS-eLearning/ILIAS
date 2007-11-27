@@ -182,7 +182,7 @@ class ilSCORM13Player
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
 		
-$ilLog->write("SCORM: Player cmd: ".$cmd);
+//$ilLog->write("SCORM: Player cmd: ".$cmd);
 		
 		switch($cmd){
 			
@@ -564,7 +564,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 	{
 		global $ilLog;
 		
-		$ilLog->write("SCORM: persistCMIData");
+//		$ilLog->write("SCORM: persistCMIData");
 		
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		$return = $this->setCMIData($this->userId, $this->packageId, $data);
@@ -800,7 +800,7 @@ $ilLog->write("SCORM: Player cmd: ".$cmd);
 			if (!is_array($data->$table)) continue;
 			$i=0;
 				
-$ilLog->write("SCORM: setCMIData, table -".$table."-");
+//$ilLog->write("SCORM: setCMIData, table -".$table."-");
 			
 			// build up numerical index for schema fields
 			foreach ($schem as &$field) 
@@ -834,7 +834,7 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 						break;
 					
 				}
-$ilLog->write("SCORM: setCMIData, row b");
+//$ilLog->write("SCORM: setCMIData, row b");
 				$cp_no = $schem['cp_' . $table . '_id']['no'];						 
 				$cmi_no = $schem['cmi_' . $table . '_id']['no'];
 				
@@ -850,7 +850,7 @@ $ilLog->write("SCORM: setCMIData, row b");
 				foreach(array_keys($schem) as $key) {
 					array_push($keys,"`".$key."`");
 				}
-$ilLog->write("SCORM: setCMIData, row c");
+//$ilLog->write("SCORM: setCMIData, row c");
 
 				if ($table==='node') 
 				{
