@@ -7739,3 +7739,26 @@ rbac#:#recf_read#:#Read access to Restored Objects###20 11 2007 new variable
 rbac#:#recf_write#:#Edit Restored Objects###20 11 2007 new variable
 grp#:#grp_unsubscribe#:#Unsubscrib###20 11 2007 new variable
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###20 11 2007 new variable
+common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?###27 11 2007 new variable
+common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.###27 11 2007 new variable
+assessment#:#tst_no_export_randomtest#:#You cannot export a test with random selection of questions, because every used question pool has to be exported too which leads to enormous complexity of the export files.###27 11 2007 new variable
+common#:#lngf_write#:#Write access, needed for extended language maintenance###27 11 2007 new variable
+content#:#cont_last_access#:#Last Access###27 11 2007 new variable
+content#:#seq_close#:#Please close the player-window.###27 11 2007 new variable
+content#:#scplayer_showtree#:#Show Tree###27 11 2007 new variable
+content#:#scplayer_hidetree#:#Hide Tree###27 11 2007 new variable
+content#:#scplayer_continue#:#Continue###27 11 2007 new variable
+content#:#scplayer_previous#:#Previous###27 11 2007 new variable
+content#:#scplayer_suspendall#:#Suspend All###27 11 2007 new variable
+content#:#scplayer_exitall#:#Exit All###27 11 2007 new variable
+content#:#scplayer_exit#:#Exit###27 11 2007 new variable
+content#:#scplayer_start#:#Start###27 11 2007 new variable
+content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE###27 11 2007 new variable
+trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status###27 11 2007 new variable
+trac#:#trac_mode_scorm_package_info#:#The learning progress status will be determined by the SCORM course package status directly.###27 11 2007 new variable
+ps#:#ps_show_grp_access#:#Show last access time of group participants###27 11 2007 new variable
+administration#:#auth_auth_mode_determination#:#Authentication Method Determination (for Login)###27 11 2007 new variable
+administration#:#auth_kind_determination#:#Kind of Determination###27 11 2007 new variable
+administration#:#auth_by_user#:#By the User###27 11 2007 new variable
+administration#:#auth_automatic#:#Fixed Sequence###27 11 2007 new variable
+administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.###27 11 2007 new variable

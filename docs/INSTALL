@@ -37,10 +37,6 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
-DATA WILL BE CORRUPTED.
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
@@ -54,14 +50,15 @@ under RedHat and Debian. With minor modifications it should also apply to
 other Linux distributions, Solaris and other Unix systems. Some of the
 packages used are quite old, you can replace them with newer versions. The
 exact procedure how to install them may be different, please see also the
-documentation of these tools.
+documentation of these tools. Please also note, that most of these tools are
+already installed in default configurations of many Linux/Unix distributions.
 
 You should also consider to try one of the distribution related instructions
 provided at http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
 
 The following third-party software is necessary for running ILIAS. Release
-numbers refer to the version tested and recommended for use with ILIAS. Like
-ILIAS itself, all these programs are available as Open Source software.
+numbers refer to the version tested. Like ILIAS itself, all these programs are
+available as Open Source software.
 
     - Apache 1.3.29            http://www.apache.org
     - MySQL 4.0.18             http://www.mysql.com
@@ -221,7 +218,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.9.0.beta.tar.gz
+    ilias-3.9.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -656,7 +653,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.9.0.beta.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.9.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -761,11 +758,6 @@ components:
 
 3. Updating ILIAS 3
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
-DATA WILL BE CORRUPTED.
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 stable version to
 ILIAS 3.9.0.
 
@@ -829,7 +821,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.9.0.beta.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.9.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
