@@ -1953,6 +1953,8 @@ class ilObjUser extends ilObject
     */
     function syncActive()
     {
+        global $ilAuth;
+        
         $storedActive   = 0;
         if ($this->getStoredActive($this->id))
         {
@@ -1968,7 +1970,7 @@ class ilObjUser extends ilObject
         if ((!empty($storedActive) && empty($currentActive)) ||
                 (empty($storedActive) && !empty($currentActive)))
         {
-            $this->setActive($currentActive, $this->getUserIdByLogin($this->ilias->auth->getUsername()));
+            $this->setActive($currentActive, $this->getUserIdByLogin($ilAuth->getUsername()));
         }
     }
 

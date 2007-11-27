@@ -30,6 +30,8 @@ define ("AUTH_SHIBBOLETH",5);
 define ("AUTH_CAS",6);
 define ("AUTH_SOAP",7);
 
+define('AUTH_MULTIPLE',20);
+
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
 define('AUTH_RADIUS_NI_ILIAS_USER',-300);
@@ -253,6 +255,11 @@ class ilAuthUtils
 				$ilAuth =& $ilSOAPAuth;
 				break;
 				
+			case AUTH_MULTIPLE:
+				include_once('./Services/Authentication/classes/class.ilAuthMultiple.php');
+				$ilAuth = new ilAuthMultiple();
+				break;
+				
 			default:
 				// build option string for PEAR::Auth
 				$auth_params = array(
@@ -285,7 +292,15 @@ class ilAuthUtils
 		if(isset($_POST['auth_mode']))
 		{
 			return (int) $_POST['auth_mode'];
-		}		
+		}
+		
+		include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
+		$det = ilAuthModeDetermination::_getInstance();
+		
+		if(!$det->isManualSelection())
+		{
+			return AUTH_MULTIPLE;
+		}	
 
 
 		$db =& $ilDB;
