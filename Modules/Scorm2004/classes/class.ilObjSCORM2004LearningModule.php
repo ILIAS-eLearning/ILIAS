@@ -73,7 +73,13 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	* @access	public
 	*/
 	function readObject()
-	{
+	{	
+		global $ilias, $lng;
+		
+		//check for MYSQL 4.1 and json_encode,json_decode 
+		if (!function_exists('json_encode') ||  !function_exists('json_decode') || !self::isMysql4_1OrHigher()) {
+			$ilias->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilias->error_obj->WARNING);
+		}
 		
 		// the seems_utf8($str) function
 		include_once("include/inc.utf8checker.php");
@@ -403,6 +409,24 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		return $data;
 	}
+	
+	/**
+	* check for Mysql Version
+	* 
+	*
+	* @access static
+	*/
+	function isMysql4_1OrHigher()
+	        {
+	                $version = explode(".", mysql_get_server_info());
+	                if ((int)$version[0] >= 5 ||
+	                        ((int)$version[0] == 4 && (int)$version[1] >= 1))
+	                {  
+	                        return true;
+	                }  
+
+	                return false;
+	        }
 	
 
 	/**
