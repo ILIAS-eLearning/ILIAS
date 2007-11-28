@@ -847,7 +847,7 @@ class ilMail
 			"m_message = ".$ilDB->quote($a_m_message)." ";
 
 		$res = $this->ilias->db->query($query);
-		$query = "SELECT LAST_INSERT_ID() as id FROM $this->table_mail";
+		$query = "SELECT LAST_INSERT_ID() as id";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_ASSOC);
 
 		return $row["id"];
