@@ -38,6 +38,7 @@ class ilAuthMultiple
 	protected $auth = null;
 	protected $auth_modes = null;
 	protected $current_auth_modes = null;
+	protected $first_auth_method = true;
 	
 	/**
 	 * Constructor
@@ -50,9 +51,10 @@ class ilAuthMultiple
 	 	include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
 		$this->settings = ilAuthModeDetermination::_getInstance();
 		
-		
 		$this->auth_modes = $this->settings->getAuthModeSequence();
+		
 		$this->initNextAuthObject();
+		$this->first_auth_method = false;
 	}
 	
 	/**
@@ -203,7 +205,10 @@ class ilAuthMultiple
 				$this->auth = new Auth("DB", $auth_params,"",false);
 				break;				
 	 	}
-	 	$this->auth->start();
+	 	if(!$this->first_auth_method)
+	 	{
+	 		$this->auth->start();
+	 	}
 	 	return true;
 	}
 	
