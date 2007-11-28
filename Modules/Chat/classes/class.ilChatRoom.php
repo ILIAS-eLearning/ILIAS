@@ -507,7 +507,7 @@ class ilChatRoom
 		global $tree;
 		global $ilDB;
 
-		$query = "SELECT DISTINCT(cr.room_id) as room_id,owner,title,chat_id FROM chat_rooms AS cr NATURAL LEFT JOIN chat_invitations ".
+		$query = "SELECT DISTINCT(cr.room_id) as room_id,owner,title,cr.chat_id as chat_id FROM chat_rooms AS cr NATURAL LEFT JOIN chat_invitations ".
 			"WHERE (owner = ".$ilDB->quote($this->getUserId()).") ".
 			"OR (guest_id = ".$ilDB->quote($this->getUserId()).")";
 
