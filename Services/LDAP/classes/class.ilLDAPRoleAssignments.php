@@ -131,18 +131,10 @@ class ilLDAPRoleAssignments
 	{
 		global $ilLog;
 		
-		$default_role = array('id' => $this->default_role,
+		$default_roles[] = array('id' => $this->default_role,
 	 			'type' => 'Global',
 	 			'action' => 'Attach');
-	 			
-		/*
-	 	if(!count($this->att_mappings))
-	 	{
-	 		$ilLog->write(__METHOD__.': Using default role');
-	 		return $default_role;
-	 	}
-	 	*/
-	 	$roles = array();
+	 	$ilLog->write(__METHOD__.': Fetch assignable roles...');
 	 	foreach($this->att_mappings as $name => $values)
 	 	{
 	 		if(!isset($a_user_att[$name]))
@@ -174,7 +166,7 @@ class ilLDAPRoleAssignments
 	 		}
 	 	}
 	 	
-	 	return $roles ? $roles : $default_role;
+	 	return $roles ? $roles : $default_roles;
 	}
 	
 	

@@ -1113,7 +1113,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete"),$this->ilias->error_obj->WARNING);
 		}
 		
-		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
+		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();
 		
 		if (in_array($_SESSION["AccountId"],$_SESSION["saved_post"]))
 		{
@@ -1132,7 +1132,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt("user_deleted"),true);
 		
 		// now unset the delete users in session
-		unset($_SESSION['saved_post']);
+		#unset($_SESSION['saved_post']);
 
 		if ($_SESSION['user_delete_search'] == true)
 		{
