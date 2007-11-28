@@ -163,11 +163,11 @@ assessment#:#certificate_right#:#Right
 assessment#:#certificate_bottom#:#Bottom
 assessment#:#certificate_left#:#Left
 assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
+assessment#:#certificate_a4_landscape#:#A4 Horizontal (210 mm x 297 mm)
 assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
+assessment#:#certificate_a5_landscape#:#A5 Horizontal (148 mm x 210 mm)
 assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
+assessment#:#certificate_letter_landscape#:#Letter Horizontal (8.5 inch x 11 inch)
 assessment#:#certificate_custom#:#Personalizado...
 assessment#:#certificate_edit#:#Crear/editar una plantilla de certificado
 assessment#:#certificate_export#:#Exportar Certificado
@@ -7345,270 +7345,270 @@ search#:#search_users#:#Buscar Usuarios
 common#:#wizard_title_info#:#Por favor introduzca el título del objeto que quiere duplicar.
 common#:#wizard_search_list#:#Su búsqueda produjo los siguientes resultados. Por favor seleccione uno.
 forum#:#forum_add_quote#:#Añadir cita
-mail#:#mail_folder_edit#:#Edit Folder###09 07 2007 new variable
-mail#:#mail_empty_trash#:#Empty Trash###09 07 2007 new variable
-mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###09 07 2007 new variable
-common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
-common#:#ext_acccount_required#:#Please enter the name of the external account.###09 07 2007 new variable
-crs#:#event_select_one#:#-- Please select one session --###09 07 2007 new variable
-crs#:#events_clone_title#:#Duplicate Session###09 07 2007 new variable
-crs#:#event_clone_btn#:#Duplicate Session###09 07 2007 new variable
-crs#:#event_cloned#:#The Session has been duplicated.###09 07 2007 new variable
-common#:#err_check_input#:#The settings could not be saved. Please check your input.###09 07 2007 new variable
-common#:#filesize#:#File Size###09 07 2007 new variable
-common#:#filetype#:#File Type###09 07 2007 new variable
-crs#:#event_files#:#Assigned File###09 07 2007 new variable
-news#:#news_loading_news#:#Loading News...###25 07 2007 new variable
-news#:#news_no_js_click_here#:#If news are not displayed, click here.###25 07 2007 new variable
-news#:#news_acc_cache#:#Permission Check (Minutes)###25 07 2007 new variable
-news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###25 07 2007 new variable
-common#:#passwd_list#:#List of Passwords###30 07 2007 new variable
-pd#:#pd_enable_bookmarks#:#Enable Bookmarks###16 08 2007 new variable
-pd#:#pd_enable_notes#:#Enable Notes###16 08 2007 new variable
-common#:#cron_mail_notification#:#Send Mail Notifications###16 08 2007 new variable
-common#:#cron_mail_notification_never#:#never###16 08 2007 new variable
-common#:#cron_mail_notification_cron#:#regularly per cron job###16 08 2007 new variable
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.###16 08 2007 new variable
-common#:#buy#:#Buy###16 08 2007 new variable
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.###16 08 2007 new variable
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.###16 08 2007 new variable
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List###16 08 2007 new variable
-mail#:#mail_notification_subject#:#New mail in your inbox###16 08 2007 new variable
-mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.###16 08 2007 new variable
+mail#:#mail_folder_edit#:#Editar Carpeta
+mail#:#mail_empty_trash#:#Vaciar Papelera
+mail#:#mail_empty_trash_confirmation#:#¿Está seguro de que quiere eliminar todos los correos de la papelera?
+common#:#err_auth_ldap_no_ilias_user#:#La identificación falló. Autenticación LDAP exitosa, pero no existe el usuario ILIAS correspondiente. Por favor, contacte con su administrador de sistema.
+common#:#ext_acccount_required#:#Por favor introduzca el nombre de la cuenta externa.
+crs#:#event_select_one#:#-- Por favor seleccione un evento --
+crs#:#events_clone_title#:#Duplicar Evento
+crs#:#event_clone_btn#:#Duplicar evento
+crs#:#event_cloned#:#El evento ha sido duplicado.
+common#:#err_check_input#:#La configuración no pudo ser guardada. Por favor compruebe sus datos.
+common#:#filesize#:#Tamaño de fichero
+common#:#filetype#:#Tipo de fichero
+crs#:#event_files#:#Ficheros asignados
+news#:#news_loading_news#:#Cargando noticias...
+news#:#news_no_js_click_here#:#Si las noticias no se muestran, haga click aquí.
+news#:#news_acc_cache#:#Comprobación de permisos (minutos)
+news#:#news_acc_cache_info#:#Comprobar permisos de lectura para las noticas cada x minutos (sólo escritorio personal). '0' significa siempre. Valores más altos mejoran el rendimiento, pero las noticias pueden enlazar a items no accesibles.
+common#:#passwd_list#:#Lista de contraseñas
+pd#:#pd_enable_bookmarks#:#Habilitar favoritos
+pd#:#pd_enable_notes#:#Habilitar post-its
+common#:#cron_mail_notification#:#Enviar notificaciones por correo
+common#:#cron_mail_notification_never#:#nunca
+common#:#cron_mail_notification_cron#:#regularmente por medio de un cron
+common#:#cron_mail_notification_desc#:#Si se habilita, todos los usuarios que quieran ser informados sobre nuevos correos, obtendrán una notificación por correo externo.
+common#:#buy#:#Comprar
+mail#:#mail_mailing_lists_no_addressbook_entries#:#Aún no tiene entradas en la agenda.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Ya ha asignado todas las entradas de su agenda a esta lista de correo
+mail#:#mail_assign_entry_to_mailing_list#:#Asignar una entrada de su agenda a la lista de correo
+mail#:#mail_notification_subject#:#Nuevo correo en su bandeja de entrada
+mail#:#mail_cronjob_notification_info#:#Puede activar una notificación periódica sobre nuevo correo aquí.
 mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
-mail#:#send_mail_to#:#Mail to###16 08 2007 new variable
-mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###16 08 2007 new variable
-payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###16 08 2007 new variable
-payment#:#paya_perm_coupons#:#Edit coupons###16 08 2007 new variable
-mail#:#mail_my_mailing_lists#:#My Mailing Lists###16 08 2007 new variable
-mail#:#mail_mailing_lists#:#Mailing Lists###16 08 2007 new variable
-mail#:#mail_mailing_list#:#Mailing List###16 08 2007 new variable
-mail#:#mail_members_of_mailing_list#:#Members of Mailing List###16 08 2007 new variable
-mail#:#mail_entry_of_addressbook#:#Entry of Address Book###16 08 2007 new variable
-payment#:#paya_coupons_codes_import#:#Import Codes###16 08 2007 new variable
-payment#:#paya_coupons_add#:#Add Coupon###16 08 2007 new variable
-payment#:#paya_coupons_edit#:#Edit Coupon###16 08 2007 new variable
-payment#:#paya_coupons_coupons#:#Coupons###16 08 2007 new variable
-payment#:#paya_coupons_coupon#:#Coupon###16 08 2007 new variable
-payment#:#paya_coupons_type#:#Coupon Type###16 08 2007 new variable
+mail#:#send_mail_to#:#Enviar correo a
+mail#:#mail_no_valid_mailing_list#:#Lista de correo no válida
+payment#:#pay_bmf_subtotal_amount#:#Cantidad subtotal
+payment#:#paya_perm_coupons#:#Editar cupones
+mail#:#mail_my_mailing_lists#:#Mis Listas de Correo
+mail#:#mail_mailing_lists#:#Listas de correo
+mail#:#mail_mailing_list#:#Lista de correo
+mail#:#mail_members_of_mailing_list#:#Miembros de la lista de correo
+mail#:#mail_entry_of_addressbook#:#Entrada de agenda
+payment#:#paya_coupons_codes_import#:#Importar códigos
+payment#:#paya_coupons_add#:#Añadir cupón
+payment#:#paya_coupons_edit#:#Editar cupón
+payment#:#paya_coupons_coupons#:#Cupones
+payment#:#paya_coupons_coupon#:#Cupon
+payment#:#paya_coupons_type#:#Tipo de cupón
 payment#:#paya_coupons_fix#:#fix###16 08 2007 new variable
-payment#:#paya_coupons_percentaged#:#percentaged###16 08 2007 new variable
-payment#:#paya_coupons_title#:#Title###16 08 2007 new variable
-payment#:#paya_coupons_number_of_codes#:#Number of Codes###16 08 2007 new variable
-payment#:#paya_coupons_usage_of_codes#:#Usage of Codes###16 08 2007 new variable
-payment#:#paya_coupons_objects#:#Objects###16 08 2007 new variable
-payment#:#paya_coupons_from#:#Valid From###16 08 2007 new variable
-payment#:#paya_coupons_till#:#Valid Till###16 08 2007 new variable
-payment#:#paya_coupons_not_available#:#No coupons created yet.###16 08 2007 new variable
-payment#:#paya_coupons_description#:#Description###16 08 2007 new variable
-payment#:#paya_coupons_value#:#Value###16 08 2007 new variable
-payment#:#paya_coupons_edit_codes#:#Edit Codes###16 08 2007 new variable
-payment#:#paya_coupons_edit_objects#:#Edit Objects###16 08 2007 new variable
-payment#:#paya_coupons_codes#:#Codes###16 08 2007 new variable
-payment#:#paya_coupons_code#:#Code###16 08 2007 new variable
-payment#:#paya_coupons_generate_codes#:#Generate Codes###16 08 2007 new variable
-payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code###16 08 2007 new variable
-payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully###16 08 2007 new variable
-payment#:#paya_coupons_code_length#:#Code Length###16 08 2007 new variable
-payment#:#paya_coupons_code_chars#:#Chars###16 08 2007 new variable
-payment#:#paya_coupons_code_generation#:#Code Generation###16 08 2007 new variable
-payment#:#paya_coupons_type_auto#:#Automatically###16 08 2007 new variable
-payment#:#paya_coupons_type_self#:#Manually###16 08 2007 new variable
-payment#:#paya_coupons_no_codes_selected#:#You did not select any code###16 08 2007 new variable
-payment#:#paya_coupons_sure_delete_selected_codes#:#Are you sure you want to delete the selected codes?###16 08 2007 new variable
-payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete all codes?###16 08 2007 new variable
-payment#:#paya_coupons_codes_not_available#:#No codes created yet.###16 08 2007 new variable
-payment#:#paya_coupons_assigned_objects#:#Assigned Objects###16 08 2007 new variable
-payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects###16 08 2007 new variable
-payment#:#paya_coupons_not_found#:#No coupons found.###16 08 2007 new variable
-payment#:#paya_coupons_not_valid#:#The coupon is not valid.###16 08 2007 new variable
-payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.###16 08 2007 new variable
-payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.###16 08 2007 new variable
-payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.###16 08 2007 new variable
-payment#:#paya_coupons_coupon_added#:#Coupon added.###16 08 2007 new variable
-payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
-payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
-payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
-payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
-payment#:#paya_coupons_no_codes_generated#:#No codes generated.###16 08 2007 new variable
-payment#:#paya_coupons_import_codes#:#Import Codes###16 08 2007 new variable
-payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!###16 08 2007 new variable
-payment#:#paya_coupon_codes_import_successful#:#Import successful.###16 08 2007 new variable
-payment#:#pays_bmf_settings#:#Settings for BMF###16 08 2007 new variable
-payment#:#pays_bmf_client_id#:#Cliend Id###16 08 2007 new variable
+payment#:#paya_coupons_percentaged#:#porcentuado
+payment#:#paya_coupons_title#:#Título
+payment#:#paya_coupons_number_of_codes#:#Número de códigos
+payment#:#paya_coupons_usage_of_codes#:#Uso de códigos
+payment#:#paya_coupons_objects#:#Objetos
+payment#:#paya_coupons_from#:#Válido desde
+payment#:#paya_coupons_till#:#Válido hasta
+payment#:#paya_coupons_not_available#:#No se crearon cupones todavía
+payment#:#paya_coupons_description#:#Descripción
+payment#:#paya_coupons_value#:#Valor
+payment#:#paya_coupons_edit_codes#:#Editar códigos
+payment#:#paya_coupons_edit_objects#:#Editar objetos
+payment#:#paya_coupons_codes#:#Códigos
+payment#:#paya_coupons_code#:#Código
+payment#:#paya_coupons_generate_codes#:#Generar códigos
+payment#:#paya_coupons_availability#:#Número máximo de usos de un código
+payment#:#paya_coupons_code_deleted_successfully#:#Eliminado con éxito
+payment#:#paya_coupons_code_length#:#Longitud de código
+payment#:#paya_coupons_code_chars#:#Caracteres
+payment#:#paya_coupons_code_generation#:#Generación de código
+payment#:#paya_coupons_type_auto#:#Automáticamente
+payment#:#paya_coupons_type_self#:#Manualmente
+payment#:#paya_coupons_no_codes_selected#:#No seleccionó ningún código
+payment#:#paya_coupons_sure_delete_selected_codes#:#¿Está seguro de que quiere eliminar los códigos seleccionados?
+payment#:#paya_coupons_sure_delete_all_codes#:#¿Está seguro de que quiere eliminar todos los códigos?
+payment#:#paya_coupons_codes_not_available#:#No se crearon códigos todavía
+payment#:#paya_coupons_assigned_objects#:#Objetos asignados
+payment#:#paya_coupons_unassigned_objects#:#Objetos no asignados
+payment#:#paya_coupons_not_found#:#No se encontraron cupones.
+payment#:#paya_coupons_not_valid#:#El cupón no es válido.
+payment#:#paya_coupons_no_object_assigned#:#No se asignaron objetos al cupón.
+payment#:#paya_coupons_coupon_not_found#:#No se encontró cupón para el código introducido.
+payment#:#paya_coupons_already_in_use#:#El código introducido pertenece al mismo cupón que otro código ya en uso.
+payment#:#paya_coupons_coupon_added#:#Cupón añadido.
+payment#:#paya_coupons_fix_selected_objects#:#%s %s descuento en la cantidad total de objetos seleccionados
+payment#:#paya_coupons_fix_all_objects#:#%s %s descuento en la cantidad total de todos los objetos
+payment#:#paya_coupons_percentaged_selected_objects#:#%s %s descuento en la cantidad total de objetos seleccionados
+payment#:#paya_coupons_percentaged_all_objects#:#%s %s descuento en la cantidad total de todos los objetos
+payment#:#paya_coupons_no_codes_generated#:#No se generaron códigos.
+payment#:#paya_coupons_import_codes#:#Importar códigos
+payment#:#paya_coupons_import_error_opening_file#:#Error abriendo el fichero de importación
+payment#:#paya_coupon_codes_import_successful#:#Importación exitosa-
+payment#:#pays_bmf_settings#:#Configuración para BMF
+payment#:#pays_bmf_client_id#:#Client Id
 payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr###16 08 2007 new variable
 payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle###16 08 2007 new variable
 payment#:#pays_bmf_object_id#:#Object Id###16 08 2007 new variable
 payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren###16 08 2007 new variable
 payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen###16 08 2007 new variable
-payment#:#pays_bmf_epayment_server#:#ePayment-Server###16 08 2007 new variable
-payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate###16 08 2007 new variable
-payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate###16 08 2007 new variable
-payment#:#pays_bmf_timeout#:#Timeout###16 08 2007 new variable
-payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.###16 08 2007 new variable
-payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###16 08 2007 new variable
-meta#:#md_advanced#:#Advanced Metadata###16 08 2007 new variable
-meta#:#md_adv_record_list#:#Datasets###16 08 2007 new variable
-meta#:#md_adv_file_list#:#Export Files###16 08 2007 new variable
-meta#:#md_record_list_table#:#Advanced Metadata Sets###16 08 2007 new variable
-meta#:#md_fields#:#Fields###16 08 2007 new variable
-meta#:#md_obj_types#:#Assigned Objekts###16 08 2007 new variable
-meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)###16 08 2007 new variable
-meta#:#md_adv_substitution#:#Text###16 08 2007 new variable
-meta#:#md_adv_placeholders#:#Placeholders###16 08 2007 new variable
-meta#:#md_adv_placeholder_for#:#Placeholder for:###16 08 2007 new variable
-meta#:#md_record_export_table#:#Export Files###16 08 2007 new variable
-meta#:#md_adv_records#:#Included Datasets###16 08 2007 new variable
-meta#:#md_adv_select_one_file#:#Please choose one file.###16 08 2007 new variable
-meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?###16 08 2007 new variable
-meta#:#md_adv_deleted_files#:#Deleted export files.###16 08 2007 new variable
-meta#:#md_adv_records_exported#:#A new export file has been created.###16 08 2007 new variable
-meta#:#md_adv_edit_record#:#Edit Dataset###16 08 2007 new variable
-meta#:#md_adv_field_table#:#Edit Fields###16 08 2007 new variable
-meta#:#md_adv_field_fields#:#Fields###16 08 2007 new variable
-meta#:#md_adv_searchable#:#Searchable###16 08 2007 new variable
-meta#:#md_adv_edit_field#:#Edit Field###16 08 2007 new variable
-meta#:#md_adv_create_field#:#Add Field###16 08 2007 new variable
-meta#:#md_adv_add_value#:#Add Value###16 08 2007 new variable
-meta#:#md_adv_no_fields#:#No Fields Defined###16 08 2007 new variable
-meta#:#md_adv_deleted_records#:#Deleted Dataset###16 08 2007 new variable
-meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?###16 08 2007 new variable
-meta#:#md_adv_added_new_record#:#Added new Dataset###16 08 2007 new variable
-meta#:#md_adv_create_record#:#Add new Dataset###16 08 2007 new variable
-meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?###16 08 2007 new variable
-barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###16 08 2007 new variable
-meta#:#md_adv_active#:#Active###16 08 2007 new variable
-common#:#default_auth_mode#:#Default Authentication Method###16 08 2007 new variable
-common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###16 08 2007 new variable
-common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###16 08 2007 new variable
-auth#:#auth_rad_migration#:#Account Migration:###16 08 2007 new variable
-auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.###16 08 2007 new variable
-auth#:#auth_account_migration#:#New ILIAS Account###16 08 2007 new variable
-auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).###16 08 2007 new variable
-auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created###16 08 2007 new variable
+payment#:#pays_bmf_epayment_server#:#Servidor ePayment
+payment#:#pays_bmf_client_certificate#:#Ruta al Certificado-Cliente
+payment#:#pays_bmf_ca_certificate#:#Ruta al Certificado-CA
+payment#:#pays_bmf_timeout#:#Timeout
+payment#:#pays_updated_bmf_settings#:#Su configuración para BMF fue actualizada.
+payment#:#pays_bmf_settings_not_valid#:#Su configuración para BMF no es válida. Por favor, compruebe si todos los campos han sido rellenados correctamente
+meta#:#md_advanced#:#Metadatos avanzados
+meta#:#md_adv_record_list#:#Conjuntos de datos
+meta#:#md_adv_file_list#:#Exportar ficheros
+meta#:#md_record_list_table#:#Conjuntos de Metadatos avanzados
+meta#:#md_fields#:#Campos
+meta#:#md_obj_types#:#Objetos asignados
+meta#:#md_adv_substitution_table#:#Sustituciones (Presentación en Contenidos/Escritorio Personal)
+meta#:#md_adv_substitution#:#Texto
+meta#:#md_adv_placeholders#:#Variables
+meta#:#md_adv_placeholder_for#:#Variable para:
+meta#:#md_record_export_table#:#Exportar ficheros
+meta#:#md_adv_records#:#Conjuntos de datos incluídos
+meta#:#md_adv_select_one_file#:#Por favor escoja un fichero.
+meta#:#md_adv_delete_files_sure#:#¿Realmente quiere eliminar los siguientes ficheros?
+meta#:#md_adv_deleted_files#:#Ficheros de exportación eliminados.
+meta#:#md_adv_records_exported#:#Se ha creado un nuevo fichero de exportación.
+meta#:#md_adv_edit_record#:#Editar conjunto de datos
+meta#:#md_adv_field_table#:#Editar campos
+meta#:#md_adv_field_fields#:#Campos
+meta#:#md_adv_searchable#:#Indexado
+meta#:#md_adv_edit_field#:#Editar campo
+meta#:#md_adv_create_field#:#Añadir campo
+meta#:#md_adv_add_value#:#Añadir valor
+meta#:#md_adv_no_fields#:#No hay campos definidos
+meta#:#md_adv_deleted_records#:#Conjunto de datos eliminados
+meta#:#md_adv_delete_fields_sure#:#¿Realmente quiere eliminar las siguientes definiciones de campo?
+meta#:#md_adv_added_new_record#:#Nuevo conjunto de datos añadido
+meta#:#md_adv_create_record#:#Añadir nuevo conjunto de datos
+meta#:#md_adv_delete_record_sure#:#¿Realmente quiere eliminar los siguientes conjuntos de datos?
+barometer#:#barometer_conflict_anon_req#:#El anonimato no puede ser combinado con el tipo 'Requerido'. Por favor escoja una de estas opciones.
+meta#:#md_adv_active#:#Activo
+common#:#default_auth_mode#:#Método de autenticación por defecto
+common#:#default_auth_mode_info#:#Por favor escoja el método de autenticación preseleccionado para la página de entrada.
+common#:#err_auth_radius_no_ilias_user#:#Fallo en la identificación. Autenticación Radius exitosa, pero no existe usuario ILIAS correspondiente.
+auth#:#auth_rad_migration#:#Migración de cuenta:
+auth#:#auth_rad_migration_info#:#Activar esta opción para dar a los nuevos usuarios la posibilidad de migrar sus cuentas ILIAS existentes a autenticación RADIUS.
+auth#:#auth_account_migration#:#Nueva cuenta ILIAS
+auth#:#auth_info_migrate#:#Si ya tiene una cuenta ILIAS introduzca nombre de usuario y contraseña para migrar sus datos personales (Correos, Resultados de Tests...)
+auth#:#auth_info_add#:#Escoja esta opción si nunca se registró antes en ILIAS. Un nueva cuenta será creada.
 common#:#res_links#:#Repository Links###23 08 2007 new variable
-administration#:#language_administration#:#Language Administration###23 08 2007 new variable
-administration#:#language_all_modules#:#All modules###23 08 2007 new variable
-administration#:#language_change_settings#:#Change Language Settings###23 08 2007 new variable
-administration#:#language_clear_local_changes#:#Clear local changes in the database###23 08 2007 new variable
-administration#:#language_cleared_local#:#The local changes were cleared in the database.###23 08 2007 new variable
-administration#:#language_compare#:#Compare:###23 08 2007 new variable
-administration#:#language_default_entries#:# (default entries)###23 08 2007 new variable
-administration#:#language_delete_local_changes#:#Delete all local changes in the database###23 08 2007 new variable
-administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!###23 08 2007 new variable
-administration#:#language_error_read_local#:#The local language file doesn't exist or can't be read!###23 08 2007 new variable
-administration#:#language_error_write_local#:#The local language file can't be written!###23 08 2007 new variable
-administration#:#language_export_file#:#Export Language File###23 08 2007 new variable
-administration#:#language_file_imported#:#The language file %s was imported.###23 08 2007 new variable
-administration#:#language_file_scope#:#Language file scope###23 08 2007 new variable
-administration#:#language_import_file#:#Import Language File###23 08 2007 new variable
-administration#:#language_load_local_changes#:#Load local language file into the database###23 08 2007 new variable
-administration#:#language_loaded_local#:#The local language file was loaded into the database.###23 08 2007 new variable
-administration#:#language_maintain#:#Maintain###23 08 2007 new variable
-administration#:#language_maintain_local_changes#:#Maintain local changes###23 08 2007 new variable
-administration#:#language_maintenance#:#Language Maintenance###23 08 2007 new variable
-administration#:#language_mode_existing#:#Existing Entries###23 08 2007 new variable
-administration#:#language_mode_existing_delete#:#Delete existing entries###23 08 2007 new variable
-administration#:#language_mode_existing_keepall#:#Keep all existing entries###23 08 2007 new variable
-administration#:#language_mode_existing_keepnew#:#Keep all local changes###23 08 2007 new variable
-administration#:#language_mode_existing_replace#:#Replace existing entries###23 08 2007 new variable
-administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and re-import them if needed.###23 08 2007 new variable
-administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
-administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
-administration#:#language_save_local_changes#:#Save all changes to the local language file###23 08 2007 new variable
-administration#:#language_saved_local#:#All changes were saved to the local language file.###23 08 2007 new variable
-administration#:#language_scope_commented#:#With comments from language manager###23 08 2007 new variable
-administration#:#language_scope_different#:#Different from compare language###23 08 2007 new variable
-administration#:#language_scope_equal#:#Equal to compare language###23 08 2007 new variable
-administration#:#language_scope_global#:#All entries###23 08 2007 new variable
-administration#:#language_scope_local#:#Local changes only###23 08 2007 new variable
-administration#:#language_scope_translate#:#All entries, empty for translation###23 08 2007 new variable
-administration#:#language_scope_unchanged#:#Unchanged entries only###23 08 2007 new variable
-administration#:#language_settings#:#Language Settings###23 08 2007 new variable
-administration#:#language_statistics#:#Statistics###23 08 2007 new variable
-administration#:#language_translation_disabled#:#Page translation disabled###23 08 2007 new variable
-administration#:#language_translation_enabled#:#Page translation enabled###23 08 2007 new variable
-administration#:#language_translation_mode#:#Translation mode###23 08 2007 new variable
-ldap#:#ldap_role_assignments#:#Role Assignment###23 08 2007 new variable
-ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 08 2007 new variable
-ldap#:#ldap_assignment_type#:#Assignment Type###23 08 2007 new variable
-ldap#:#ldap_role_by_group#:#Groupmembership###23 08 2007 new variable
-ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.###23 08 2007 new variable
-ldap#:#ldap_role_grp_at#:#Attribute###23 08 2007 new variable
-ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.###23 08 2007 new variable
-ldap#:#ldap_role_grp_isdn#:#Attribute value is DN###23 08 2007 new variable
-ldap#:#ldap_role_by_attribute#:#LDAP Attribute###23 08 2007 new variable
-ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.###23 08 2007 new variable
-ldap#:#ldap_role_at_name#:#Attribute Name###23 08 2007 new variable
-ldap#:#ldap_role_at_value#:#Attribute Value###23 08 2007 new variable
-ldap#:#ldap_tbl_role_ass#:#Avtive Rules###23 08 2007 new variable
-ldap#:#ldap_rule_condition#:#condition###23 08 2007 new variable
-ldap#:#ldap_btn_add_role_ass#:#Add New Rule###23 08 2007 new variable
-ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule###23 08 2007 new variable
-ldap#:#ldap_rule_type#:#Type of Assignment###23 08 2007 new variable
-ldap#:#ldap_confirm_del_role_ass#:#Delete Role Assignmen###23 08 2007 new variable
-common#:#delete_existing_file#:#Delete Existing File###23 09 2007 new variable
-assessment#:#identical_scoring#:#Identical Scoring###23 09 2007 new variable
-assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. ###23 09 2007 new variable
-common#:#reset_filter#:#Reset filter###23 09 2007 new variable
-common#:#activate#:#Set Active###23 09 2007 new variable
-common#:#deactivate#:#Set Inactive###23 09 2007 new variable
-common#:#before#:#before###23 09 2007 new variable
-common#:#export_format_selection#:#Please select the export file format###23 09 2007 new variable
-common#:#export_format#:#Export format###23 09 2007 new variable
-common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
-common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
-news#:#news_pd_period#:#Personal Desktop News Period###23 09 2007 new variable
-news#:#news_pd_period_info#:#Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems.###23 09 2007 new variable
-news#:#news_indefinite#:#Indefinite###23 09 2007 new variable
-feed#:#feed_proxy#:#Proxy Host###23 09 2007 new variable
-feed#:#feed_proxy_info#:#Proxy host for socket connection###23 09 2007 new variable
-feed#:#feed_proxy_port#:#Proxy Port###23 09 2007 new variable
-feed#:#feed_proxy_port_info#:#Proxy port for socket connection###23 09 2007 new variable
-common#:#user_activated#:#User has been approved###23 09 2007 new variable
-common#:#user_deactivated#:#User has been disapproved###23 09 2007 new variable
-common#:#usr_filter_lastlogin#:#Last login of user###23 09 2007 new variable
-common#:#usr_filter_coursemember#:#Member of course###23 09 2007 new variable
-common#:#usr_filter_groupmember#:#Member of group###23 09 2007 new variable
-common#:#usr_filter_role#:#Assigned role###23 09 2007 new variable
-content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable
-content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
-content#:#seq_endsession#:#The current course session has ended.###23 09 2007 new variable
+administration#:#language_administration#:#Administración de Idiomas
+administration#:#language_all_modules#:#Todos los módulos
+administration#:#language_change_settings#:#Modificar Configuración de Idioma
+administration#:#language_clear_local_changes#:#Limpiar todos los cambios locales en la base de datos
+administration#:#language_cleared_local#:#Los cambios locales fueron limpiados de la base de datos.
+administration#:#language_compare#:#Comparar:
+administration#:#language_default_entries#:# (entradas por defecto)
+administration#:#language_delete_local_changes#:#Eliminar todos los cambios locales en la base de datos
+administration#:#language_error_clear_local#:#Los cambios locales no puedieron ser limpiados en la base de datos
+administration#:#language_error_read_local#:#El fichero de idioma local no existe o no puede ser leído
+administration#:#language_error_write_local#:#El fichero de idioma local no puede ser escrito
+administration#:#language_export_file#:#Exportar fichero de idioma
+administration#:#language_file_imported#:#El fichero de idioma %s fue importado.
+administration#:#language_file_scope#:#Ámbito del fichero de idioma
+administration#:#language_import_file#:#Importar fichero de idioma
+administration#:#language_load_local_changes#:#Cargar fichero de idioma local en la base de datos
+administration#:#language_loaded_local#:#El fichero de idioma local fue cargado en la base de datos
+administration#:#language_maintain#:#Mantener
+administration#:#language_maintain_local_changes#:#Mantener cambios locales
+administration#:#language_maintenance#:#Mantenimiento de idioma
+administration#:#language_mode_existing#:#Entradas existentes
+administration#:#language_mode_existing_delete#:#Eliminar entrada existentes
+administration#:#language_mode_existing_keepall#:#Mantener todas las entradas existentes
+administration#:#language_mode_existing_keepnew#:#Mantener todos los cambios locales
+administration#:#language_mode_existing_replace#:#Reemplazar entradas existentes
+administration#:#language_note_save_local#:#Por favor guarde sus cambios al fichero de idioma local regularmente. Si no tiene permisos de escritura en los ficheros de idioma personalizados, puede exportar los cambios locales y reimportarlos si lo necesita.
+administration#:#language_note_translation#:#El modo de traducción de página se activa para cada idioma por separado. Además el usuario necesita permisos de lectura y visibilidad en la carpeta de idioma.
+administration#:#language_process_maintenance#:#Mantenimiento de proceso
+administration#:#language_save_local_changes#:#Guardar todos los cambios al fichero de idioma local
+administration#:#language_saved_local#:#Todos los cambios fueron salvados al fichero de idioma local
+administration#:#language_scope_commented#:#Con comentarios desde el gestor de idiomas
+administration#:#language_scope_different#:#Diferente con el idioma comparado
+administration#:#language_scope_equal#:#Igual al idioma comparado
+administration#:#language_scope_global#:#Todas las entradas
+administration#:#language_scope_local#:#Sólamente cambios locales
+administration#:#language_scope_translate#:#Todas las entradas, vacías para traducción
+administration#:#language_scope_unchanged#:#Sólamente entradas no modificadas
+administration#:#language_settings#:#Configuración de idioma
+administration#:#language_statistics#:#Estadísticas
+administration#:#language_translation_disabled#:#Traducción de página deshabilitada
+administration#:#language_translation_enabled#:#Traducción de página habilitada
+administration#:#language_translation_mode#:#Modo de traducción
+ldap#:#ldap_role_assignments#:#Asignación de rol
+ldap#:#ldap_add_role_ass_rule#:#Nueva regla para asignación de rol
+ldap#:#ldap_assignment_type#:#Tipo de asignación
+ldap#:#ldap_role_by_group#:#Pertenencia a grupo
+ldap#:#ldap_role_grp_info#:#Miembros de un grupo LDAP específico asignado al rol ILIAS dado
+ldap#:#ldap_role_grp_at#:#Atributo
+ldap#:#ldap_role_grp_dn_info#:#Por favor introduzca el "Distinguished Name" del grupo LDAP.
+ldap#:#ldap_role_grp_isdn#:#El valor atributo es DN
+ldap#:#ldap_role_by_attribute#:#Atributo LDAP
+ldap#:#ldap_role_at_info#:#La asignación está basada en un atributo específico en el perfil de usuario LDAP.
+ldap#:#ldap_role_at_name#:#Nombre de Atributo
+ldap#:#ldap_role_at_value#:#Valor de Atributo
+ldap#:#ldap_tbl_role_ass#:#Reglas activas
+ldap#:#ldap_rule_condition#:#condición
+ldap#:#ldap_btn_add_role_ass#:#Añadir nueva regla
+ldap#:#ldap_edit_role_ass_rule#:#Editar regla de asignación de rol
+ldap#:#ldap_rule_type#:#Tipo de asignación
+ldap#:#ldap_confirm_del_role_ass#:#Eliminar regla de asignación
+common#:#delete_existing_file#:#Eliminar fichero existente
+assessment#:#identical_scoring#:#Puntuación idéntica
+assessment#:#identical_scoring_desc#:#Si se selecciona, los huecos con soluciones idénticas serán puntuadas, incluso si se usó la misma solución dos o más veces. Si no se selecciona, sólo la primera ocurrencia de la misma solución será puntuada.
+common#:#reset_filter#:#Resetear filtro
+common#:#activate#:#Poner activa
+common#:#deactivate#:#Poner inactiva
+common#:#before#:#antes
+common#:#export_format_selection#:#Por favor seleccione el formato de fichero de exportación
+common#:#export_format#:#Formato de exportación
+common#:#info_activate_sure#:#¿Está seguro de que quiere aprobar los siguientes usuario(s) como usuario(s) activo(s)?
+common#:#info_deactivate_sure#:#¿Está seguro de que quiere no quiere admitir a los siguiente(s) usuario(s) como usuario(s) activo(s)?
+news#:#news_pd_period#:#Período de Noticias en el Escritorio Personal
+news#:#news_pd_period_info#:#Define el período de tiempo usado para las noticas en el escritorio personal. Seleccione valores bajos, si experimenta problemas de rendimiento.
+news#:#news_indefinite#:#Indefinido
+feed#:#feed_proxy#:#Proxy Host
+feed#:#feed_proxy_info#:#Proxy host para conexión socket
+feed#:#feed_proxy_port#:#Proxy Port
+feed#:#feed_proxy_port_info#:#Proxy port para conexión socket
+common#:#user_activated#:#El usuario ha sido admitido
+common#:#user_deactivated#:#El usuario no ha sido admitido
+common#:#usr_filter_lastlogin#:#Último acceso del usuario
+common#:#usr_filter_coursemember#:#Miembro del curso
+common#:#usr_filter_groupmember#:#Miembro del grupo
+common#:#usr_filter_role#:#Rol asignado
+content#:#cont_delete_track_data#:#Eliminar datos de seguimiento
+content#:#seq_coursecomplete#:#El curso actual ha sido completado.
+content#:#seq_endsession#:#La sessión del curso actual ha terminado.
 content#:#seq_blocked#:#The sequencing session was blocked.###23 09 2007 new variable
-content#:#seq_nothing#:#There is no activity to deliver.###23 09 2007 new variable
-content#:#seq_error#:#An internal error in the sequencer occurred.###23 09 2007 new variable
-content#:#seq_deadlock#:#The sequencer is in a deadlock.###23 09 2007 new variable
-content#:#seq_invalidnavreq#:#The sequencer received an invalid request.###23 09 2007 new variable
-content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.###23 09 2007 new variable
-content#:#seq_abandonall#:#The current course session has been abandoned..###23 09 2007 new variable
-content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
-forum#:#threads_moved_successfully#:#The chosen topics were moved to another forum successfully.###23 09 2007 new variable
-forum#:#select_at_least_one_thread#:#Please select at least one topic.###23 09 2007 new variable
-forum#:#no_forum_available_for_moving_threads#:#No forum available to move the chosen topics to.###23 09 2007 new variable
-forum#:#move_chosen_topics#:#Move Chosen Topics###23 09 2007 new variable
-forum#:#to_forum#:#To Forum###23 09 2007 new variable
-forum#:#no_forum_selected#:#No forum selected for moving the chosen topics###23 09 2007 new variable
-forum#:#sure_move_threads#:#Are you sure you want to move the chosen topics?###23 09 2007 new variable
-forum#:#make_topics_sticky#:#Make Topics Sticky###23 09 2007 new variable
-forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky###23 09 2007 new variable
-forum#:#make_topic_sticky#:#Make Topic Sticky###23 09 2007 new variable
-forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky###23 09 2007 new variable
-forum#:#activate_post#:#Activate###23 09 2007 new variable
-forum#:#deactivate_post#:#Deactivate###23 09 2007 new variable
-forum#:#activate_post_txt#:#Would you really like to activate the current post and if applicable all its child posts? Please note that all parent posts will be activated, too.###23 09 2007 new variable
-forum#:#deactivate_post_txt#:#Would you really like to deactivate the current post and all its child posts?###23 09 2007 new variable
-forum#:#activate_only_current#:#Activate Current###23 09 2007 new variable
-forum#:#activate_current_and_childs#:#Activate All Posts###23 09 2007 new variable
-forum#:#deactivate_current_and_childs#:#Deactivate All Posts###23 09 2007 new variable
-forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
-payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
-common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
-common#:#take_over_structure#:#Adopt Structure###23 09 2007 new variable
-common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.###23 09 2007 new variable
-common#:#msg_wrong_filetype#:#File is no zip-archive###23 09 2007 new variable
-common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.###23 09 2007 new variable
-common#:#archive_broken#:#Archive seems to be broken or empty.###23 09 2007 new variable
-common#:#precondition#:#Precondition###23 09 2007 new variable
+content#:#seq_nothing#:#No hay ejercicio para enviar.
+content#:#seq_error#:#Ocurrió un error interno en el secuenciador.
+content#:#seq_deadlock#:#El sequenciador está en un 'deadlock'.
+content#:#seq_invalidnavreq#:#El sequenciador recibió una petición inválida.
+content#:#seq_abandon#:#Se recibió y procesó un "Abandon Navigation Request"
+content#:#seq_abandonall#:#La sesión del curso actual ha sido abandonada.
+content#:#seq_toc#:#Desde la tabla de contenidos en la izquierda, escoja una actividad para empezar el curso.
+forum#:#threads_moved_successfully#:#Las cadenas seleccionadas fueron movidos a otro foro con éxito.
+forum#:#select_at_least_one_thread#:#Por favor seleccione al menos una cadena.
+forum#:#no_forum_available_for_moving_threads#:#No hay foro disponible para mover las cadenas seleccionadas.
+forum#:#move_chosen_topics#:#Mover cadenas seleccionadas
+forum#:#to_forum#:#Al foro
+forum#:#no_forum_selected#:#No se seleccionó un foro para mover las cadenas seleccionadas
+forum#:#sure_move_threads#:#¿Está seguro de que quiere mover las cadenas seleccionadas?
+forum#:#make_topics_sticky#:#Configurar como 'Sticky Threads'
+forum#:#make_topics_non_sticky#:#Configurar como 'Non-Sticky Threads'
+forum#:#make_topic_sticky#:#Configurar como 'Sticky Thread'
+forum#:#make_topic_non_sticky#:#Configurar como 'Non-Sticky Thread'
+forum#:#activate_post#:#Activar
+forum#:#deactivate_post#:#Desactivar
+forum#:#activate_post_txt#:#¿Realmente quiere activar el mensaje actual y si se puede aplicar todos sus mensajes hijos? Por favor, note que todos los mensajes padre serán activados también.
+forum#:#deactivate_post_txt#:#¿Realmente quiere desactivar el mensaje actual y todos los mensajes hijos relacionados?
+forum#:#activate_only_current#:#Activar actual
+forum#:#activate_current_and_childs#:#Activar todos los mensajes
+forum#:#deactivate_current_and_childs#:#Desactivar todos los mensajes
+forum#:#post_activation_desc#:#Si se habilita, el moderador tiene que activar los nuevos mensajes.
+payment#:#import_use_only_textfile#:#Pista: Por favor use un fichero de texto plano con un código por línea
+common#:#header_zip#:#Cargar Archivo Zip
+common#:#take_over_structure#:#Adoptar Estructura
+common#:#take_over_structure_info#:#Si se activa, los directorios en el fichero zip serán mapeados a categorías o, si se usan en grupos o cursos, a carpetas
+common#:#msg_wrong_filetype#:#El fichero no es un archivo-zip
+common#:#zip_structure_error#:#El archivo contiene los mismos nombres de fichero, carga abortada
+common#:#archive_broken#:#El archivo parece estar corrupto o vacío.
+common#:#precondition#:#Precondición
 common#:#cond_ref_handling#:#Link Settings###23 09 2007 new variable
 common#:#cond_ref_shared#:#Shared Preconditions for all Links###23 09 2007 new variable
 common#:#cond_ref_unique#:#Unique Preconditions for Links###23 09 2007 new variable
