@@ -2701,7 +2701,7 @@ common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#No puede asignar usuarios al rol de administrador si no está asignado a ese rol
 common#:#msg_no_title#:#Por favor introduzca un título.
-common#:#msg_input_is_required#:#This input is required. Please enter a value.
+common#:#msg_input_is_required#:#Esta entrada es requerida. Por favor introduzca un valor.
 common#:#msg_no_type_accessible#:#Lo siento, no tiene permisos para acceder a ningún [type] de esta lista.
 common#:#msg_no_type_available#:#Lo siento, no hay ningún [type] disponible en este momento.
 common#:#msg_no_url#:#No introdujo una URL
@@ -3512,7 +3512,7 @@ common#:#tst_new#:#Nuevo test
 common#:#tst_no_content#:#No hay tests disponibles
 common#:#tst_read#:#Acceso de lectura al Test
 common#:#tst_run#:#Ejecutar
-common#:#tst_tst_statistics#:#Access to Test Statistics
+common#:#tst_tst_statistics#:#Acceso a estadísticas del test
 common#:#tst_statistical_evaluation#:#Estadísticas
 common#:#tst_upload_file#:#Cargar archivo
 common#:#tst_user_not_invited#:#Usted no debe realizar este examen.
@@ -6819,61 +6819,61 @@ ldap#:#ldap_server_bind_dn#:#User DN
 ldap#:#ldap_server_bind_pass#:#Password
 ldap#:#ldap_authentication_settings#:#Configuración de Autenticación
 ldap#:#ldap_user_dn#:#User DN
-ldap#:#ldap_user_scope#:#Search Scope
-ldap#:#ldap_user_attribute#:#Attribute for Login Name
-ldap#:#ldap_search_filter#:#LDAP Filter
-ldap#:#ldap_group_restrictions#:#Group Restrictions
+ldap#:#ldap_user_scope#:#Ámbito de Búsqueda
+ldap#:#ldap_user_attribute#:#Atributo para Login Name
+ldap#:#ldap_search_filter#:#Filtro LDAP
+ldap#:#ldap_group_restrictions#:#Restricciones de Grupo
 ldap#:#ldap_group_dn#:#Group DN
-ldap#:#ldap_group_scope#:#Search Scope
-ldap#:#ldap_group_filter#:#LDAP Filter
-ldap#:#ldap_group_name#:#Group Name
-ldap#:#ldap_group_attribute#:#Atributo para Grupos for Group
-ldap#:#ldap_memberisdn#:#Attribute Value is DN
-ldap#:#ldap_user_sync#:#User Synchronization Settings
+ldap#:#ldap_group_scope#:#Ámbito de búsqueda
+ldap#:#ldap_group_filter#:#Filtro LDAP
+ldap#:#ldap_group_name#:#Nombre de Grupo
+ldap#:#ldap_group_attribute#:#Atributo para Grupos
+ldap#:#ldap_memberisdn#:#El Valor del Atributo es DN
+ldap#:#ldap_user_sync#:#Configuración de Sincronización de Usuarios
 ldap#:#ldap_moment_sync#:#Tipo de Sincronización
-ldap#:#ldap_sync_login#:#On Login
-ldap#:#ldap_sync_cron#:#Per Cron-Job
+ldap#:#ldap_sync_login#:#Al identificarse
+ldap#:#ldap_sync_cron#:#Por cron-job
 ldap#:#ldap_global_role_assignment#:#Asignación de Rol ILIAS
-ldap#:#ldap_group_member#:#Group Member Attribute
+ldap#:#ldap_group_member#:#Atributo para Miembro de Grupo
 ldap#:#ldap_scope_one#:#One
 ldap#:#ldap_scope_sub#:#Sub
 ldap#:#ldap_scope_base#:#Base
 ldap#:#ldap_server_name_info#:#Por favor escoja un nombre para esta configuración LDAP.
 ldap#:#ldap_server_url_info#:#Una URL completamente cualificada para especificar el protocolo, url y puerto para conectar. E.g "ldap://ldap.ilias.de:389"
 ldap#:#ldap_server_version_info#:#versión LDAP a usar, normalmente 3.
-ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.
-ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.
-ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".
-ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)(userfilter)).
-ldap#:#ldap_group_dn_info#:#Gets prepended to basedn when searching for groups.
-ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)(groupfilter)).
-ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose "Attribute Value is DN" if the member attribute is the distinguished name of the users.
-ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of to authenticate successfully.
-ldap#:#ldap_group_attribute_info#:#The group attribute to search for.
-ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
-ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to.
-ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose "Sub"
-ldap#:#ldap_settings#:#Server Settings
-ldap#:#ldap_user_mapping#:#User Profile Mapping
-ldap#:#ldap_role_mapping#:#LDAP-Group -> Role Mapping
-ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile
-ldap#:#ldap_mapping_template#:#Template for objectClass:
+ldap#:#ldap_referrals_info#:#Si se activa, determina si la librería LDAP automáticamente sigue los 'referrals' devueltos por servidores LDAP o no.
+ldap#:#ldap_search_base_info#:#Será añadido al basedn al buscar usuarios.
+ldap#:#ldap_user_scope_info#:#Ámbito para la búsqueda de usuarios. Si no está seguro, escoja "Sub".
+ldap#:#ldap_filter_info#:#Filtro que será añadido a la filtro de búsqueda de este modo: (&(userattr=username)(userfilter)).
+ldap#:#ldap_group_dn_info#:#Será añadido al basedn al buscar en grupos.
+ldap#:#ldap_group_filter_info#:#Filtro que será añadido al filtro de búsqueda al buscar un grupo: (&(groupattr=group)(memberattr=username)(groupfilter)).
+ldap#:#ldap_group_member_info#:#El atributo del grupo donde el userdn puede ser encontrado. Escoja "Attribute Value is DN" si el atributo del miembro es el 'distinguished name' de los usuarios.
+ldap#:#ldap_group_name_info#:#El nombre de los usuarios de grupo del que los usuarios tienen que ser miembros para autentificarse con éxito.
+ldap#:#ldap_group_attribute_info#:#El atributo de grupo para buscar.
+ldap#:#ldap_user_sync_info#:#Define si los nuevos usuarios serán automáticamente creados al identificarse o regularmente por un cron-job.
+ldap#:#ldap_global_role_info#:#Por favor escoja un rol ILIAS al que los nuevos usuarios serán asignados.
+ldap#:#ldap_group_scope_info#:#Ámbito para la búsqueda de grupos. Si no está seguro escoja "Sub"
+ldap#:#ldap_settings#:#Configuración del servidor
+ldap#:#ldap_user_mapping#:#Mapear Perfil de Usuario
+ldap#:#ldap_role_mapping#:#Mapear Grupo-LDAP -> Rol
+ldap#:#ldap_mapping_table#:#Asignación de Atributos LDAP al Perfil de usuario ILIAS.
+ldap#:#ldap_mapping_template#:#Plantilla para objectClass:
 ldap#:#ldap_update_field_info#:#Actualizar automáticamente
-ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings
+ldap#:#ldap_role_settings#:#Configuración de Sincronización de Grupos LDAP
 ldap#:#ldap_role_active#:#Habilitar Sincronización de Grupos
-ldap#:#ldap_role_bind_user#:#Usern DN
-ldap#:#ldap_role_bind_pass#:#Password
-ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.
-ldap#:#ldap_role_bind_pass_info#:#Password
+ldap#:#ldap_role_bind_user#:#User DN
+ldap#:#ldap_role_bind_pass#:#Contraseña
+ldap#:#ldap_role_bind_user_info#:#Por favor introduzca un 'distinguished name' de una cuenta de usuario LDAP. Este usuario necesitará acceso de escritura para los grupos LDAP.
+ldap#:#ldap_role_bind_pass_info#:#Contraseña
 ldap#:#ldap_new_role_assignment#:#Añadir Nuevo Rol -> Asignación de Grupo
 ldap#:#ldap_ilias_role#:#Rol ILIAS
-ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.
-ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.
-ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
+ldap#:#ldap_role_info#:#Introduzca el nombre de un rol ILIAS que controlará la pertenencia al grupo LDAP.
+ldap#:#ldap_dn_info#:#Introduzca el 'distinguished name' del grupo LDAP.
+ldap#:#ldap_member_info#:#El atributo del objeto grupo donde el 'user dn' puede ser encontrado.
 common#:#auth_selection#:#Entrar a
 common#:#authenticate_ilias#:#Entrar a ILIAS
 common#:#authenticate_with#:#Entrar a:
-ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.
+ldap#:#ldap_missing_bind_user#:#Ha escogido "Bind as User": Por favor introduzca un nombre de usuario LDAP y contraseña válidos.
 ldap#:#ldap_missing_role_assignment#:#Por favor escoja un rol global al que los nuevos usuarios serán asignados.
 ldap#:#ldap_tls_conflict#:#LDAP-TLS no puede ser usado en combinación con LDAPv2. Por favor escoja LDAP version "3" o deshabilitar soporte TLS.
 ldap#:#ldap_role_group_assignments#:#Rol existente -> Asignación de Grupos
@@ -7252,7 +7252,7 @@ ldap#:#ldap_group_user_filter#:#Filtro de Usuarios
 ldap#:#ldap_group_optional_info#:#Si se habilita, la pertenencia a grupo no se requiere para una autenticación exitosa. Por favor introduzca un filtro de usuario para los miembros de estos grupos::<br />(&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_server_short#:#URL del servidor:
 ldap#:#ldap_group_dn_short#:#Group DN:
-ldap#:#ldap_group_member_short#:#Attribute:
+ldap#:#ldap_group_member_short#:#Atributo:
 ldap#:#ldap_ilias_role_short#:#Role:
 pwassist#:#pwassist_no_email_found#:#No puede usar la asistencia de contraseñas, ya que no hay dirección e-mail para la cuenta de usuario introducida.
 ldap#:#ldap_info_text#:#Texto de Información
