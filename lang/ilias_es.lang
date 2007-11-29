@@ -7375,7 +7375,7 @@ mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Ya ha asignado toda
 mail#:#mail_assign_entry_to_mailing_list#:#Asignar una entrada de su agenda a la lista de correo
 mail#:#mail_notification_subject#:#Nuevo correo en su bandeja de entrada
 mail#:#mail_cronjob_notification_info#:#Puede activar una notificación periódica sobre nuevo correo aquí.
-mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
+mail#:#mail_received_x_new_mails#:#Has recibido %s nuevos correos.
 mail#:#send_mail_to#:#Enviar correo a
 mail#:#mail_no_valid_mailing_list#:#Lista de correo no válida
 payment#:#pay_bmf_subtotal_amount#:#Cantidad subtotal
@@ -7486,7 +7486,7 @@ auth#:#auth_rad_migration_info#:#Activar esta opción para dar a los nuevos usua
 auth#:#auth_account_migration#:#Nueva cuenta ILIAS
 auth#:#auth_info_migrate#:#Si ya tiene una cuenta ILIAS introduzca nombre de usuario y contraseña para migrar sus datos personales (Correos, Resultados de Tests...)
 auth#:#auth_info_add#:#Escoja esta opción si nunca se registró antes en ILIAS. Un nueva cuenta será creada.
-common#:#res_links#:#Repository Links###23 08 2007 new variable
+common#:#res_links#:#Enlaces del repositorio
 administration#:#language_administration#:#Administración de Idiomas
 administration#:#language_all_modules#:#Todos los módulos
 administration#:#language_change_settings#:#Modificar Configuración de Idioma
@@ -7574,7 +7574,7 @@ common#:#usr_filter_role#:#Rol asignado
 content#:#cont_delete_track_data#:#Eliminar datos de seguimiento
 content#:#seq_coursecomplete#:#El curso actual ha sido completado.
 content#:#seq_endsession#:#La sessión del curso actual ha terminado.
-content#:#seq_blocked#:#The sequencing session was blocked.###23 09 2007 new variable
+content#:#seq_blocked#:#La sesión de secuenciación fue bloqueada.
 content#:#seq_nothing#:#No hay ejercicio para enviar.
 content#:#seq_error#:#Ocurrió un error interno en el secuenciador.
 content#:#seq_deadlock#:#El sequenciador está en un 'deadlock'.
@@ -7609,141 +7609,141 @@ common#:#msg_wrong_filetype#:#El fichero no es un archivo-zip
 common#:#zip_structure_error#:#El archivo contiene los mismos nombres de fichero, carga abortada
 common#:#archive_broken#:#El archivo parece estar corrupto o vacío.
 common#:#precondition#:#Precondición
-common#:#cond_ref_handling#:#Link Settings###23 09 2007 new variable
-common#:#cond_ref_shared#:#Shared Preconditions for all Links###23 09 2007 new variable
-common#:#cond_ref_unique#:#Unique Preconditions for Links###23 09 2007 new variable
-administration#:#obj_mds#:#Meta Data###23 09 2007 new variable
-administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Settings###23 09 2007 new variable
-common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.###23 09 2007 new variable
-mcst#:#mcst_reference_info#:#Provide URL pointing to resource###23 09 2007 new variable
-common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file###23 09 2007 new variable
-assessment#:#tst_reset_processing_time#:#Reset the maximum processing time for every test pass###25 09 2007 new variable
-assessment#:#tst_reset_processing_time_desc#:#If checked, the maximum processing time will be reset back to the defined maximum processing time after a test pass has been finished. This setting only works with an enabled maximum processing time and multiple test passes.###25 09 2007 new variable
-common#:#accessRestrict#:#Set limited Access###25 09 2007 new variable
-common#:#accessFree#:#Remove limited Access###25 09 2007 new variable
-common#:#access_free_granted#:#Set the selected user(s) to unlimited access###25 09 2007 new variable
-common#:#access_restricted#:#Set the selected user(s) to limited access###25 09 2007 new variable
-common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?###25 09 2007 new variable
-common#:#access_from#:#Access (from)###25 09 2007 new variable
-common#:#access_restrict_enter#:#Please set the period for the limited access restriction###25 09 2007 new variable
-meta#:#md_copyright_settings#:#Copyright Settings###25 09 2007 new variable
-meta#:#md_copyright_enabled#:#Enable Copyright Selection###25 09 2007 new variable
-meta#:#md_copyright_selection#:#Copyright Presettings###25 09 2007 new variable
-meta#:#md_used#:#Usage###25 09 2007 new variable
-meta#:#md_copyright_preview#:#Copyright (Preview)###25 09 2007 new variable
-meta#:#md_copyright_edit#:#Edit Copyright Presetting###25 09 2007 new variable
-meta#:#md_copyright_value#:#Copyright###25 09 2007 new variable
-meta#:#md_copyright_add#:#Add Copyright Presetting###25 09 2007 new variable
-meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?###25 09 2007 new variable
-meta#:#md_copyrights_deleted#:#Deleted Copyright###25 09 2007 new variable
-meta#:#meta_cp_own#:#Own Copyright Information:###25 09 2007 new variable
-meta#:#md_adv_desc_show#:#Show Description###25 09 2007 new variable
-meta#:#md_adv_show#:#Show###25 09 2007 new variable
-common#:#udf_type_date#:#Date Field###25 09 2007 new variable
-common#:#sorting_header#:#Content Item Sorting###25 09 2007 new variable
-common#:#sorting_title_header#:#Sort by Title###25 09 2007 new variable
-common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.###25 09 2007 new variable
-common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
-common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
-common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
-news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
-news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
-news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
-news#:#news_1_file_updated#:#1 File has been updated.###23 10 2007 new variable
-news#:#news_x_postings#:#%s Postings have been added.###23 10 2007 new variable
-news#:#news_1_postings#:#1 Posting has been added.###23 10 2007 new variable
-forum#:#forums_post_and_children_were_deactivated#:#The post and all its child posts were deactivated.###23 10 2007 new variable
-forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.###23 10 2007 new variable
-forum#:#forums_post_was_activated#:#The post was activated.###23 10 2007 new variable
-forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.###23 10 2007 new variable
-forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.###23 10 2007 new variable
-common#:#bold#:#Bold###23 10 2007 new variable
-common#:#newline#:#Newline###23 10 2007 new variable
-common#:#ext_cat_settings#:#Edit Advanced Category Settings###23 10 2007 new variable
-common#:#edit_cat_settings#:#Advanced Category Settings###23 10 2007 new variable
-common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.###23 10 2007 new variable
-common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
-auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
-auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
-chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
-chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
-chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
-chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom###23 10 2007 new variable
-chat#:#chat_no_online_users#:#No further users online.###23 10 2007 new variable
-search#:#search_lom#:#LOM Metadata###23 10 2007 new variable
-search#:#search_adv_md#:#Extended Metadata###23 10 2007 new variable
-search#:#adv_md_search_title#:#Search in Extended Metadata###23 10 2007 new variable
-ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
-meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
-meta#:#md_copyright#:#Copyright###23 10 2007 new variable
-meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
-news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.###02 11 2007 new variable
-news#:#news_rss_period#:#RSS Period###02 11 2007 new variable
-news#:#news_period_x_days#:#Last %s Days###02 11 2007 new variable
-news#:#news_period_1_week#:#Last Week###02 11 2007 new variable
-news#:#news_period_x_weeks#:#Last %s Weeks###02 11 2007 new variable
-news#:#news_period_1_month#:#Last Month###02 11 2007 new variable
-news#:#news_period_x_months#:#Last %s Months###02 11 2007 new variable
-news#:#news_period_1_year#:#Last Year###02 11 2007 new variable
-news#:#news_allow_shorter_periods#:#Allow Shorter Periods###02 11 2007 new variable
-news#:#news_allow_longer_periods#:#Allow Longer Periods###02 11 2007 new variable
-news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.###02 11 2007 new variable
-news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.###02 11 2007 new variable
-news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.###02 11 2007 new variable
-news#:#news_hide_news_per_date#:#Show News After###02 11 2007 new variable
-news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.###02 11 2007 new variable
-news#:#news_hide_news_date#:#Starting Date###02 11 2007 new variable
-content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.###02 11 2007 new variable
-forum#:#topics_please_select_one_action#:#Please select an action.###02 11 2007 new variable
-forum#:#sticky#:#sticky###02 11 2007 new variable
-forum#:#topic_close#:#close###02 11 2007 new variable
-forum#:#close_topics#:#Close###02 11 2007 new variable
-forum#:#reopen_topics#:#Reopen###02 11 2007 new variable
-forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator###02 11 2007 new variable
-forum#:#activate_new_posts#:#Activate Posts###02 11 2007 new variable
-mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
-mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
-mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
+common#:#cond_ref_handling#:#Configuración de enlaces
+common#:#cond_ref_shared#:#Precondiciones compartidas para todos los enlaces
+common#:#cond_ref_unique#:#Precondiciones únicas para los enlaces
+administration#:#obj_mds#:#Meta Datos
+administration#:#obj_mds_desc#:#Configuración de Metadatos y Metadatos avanzados
+common#:#msg_input_does_not_match_regexp#:#Por favor introduzca un valor válido.
+mcst#:#mcst_reference_info#:#Ofrezca una URL apuntando a un recurso
+common#:#msg_input_either_file_or_url#:#Tiene que ofrecer una URL o fichero
+assessment#:#tst_reset_processing_time#:#Resetear el tiempo de proceso máximo para cada ejecución de un test
+assessment#:#tst_reset_processing_time_desc#:#Si se marca, el tiempo de proceso máximo se reseteará al tiempo de proceso máximo definido después de que la ejecución de un test haya finalizado. Esta configuración tan sólo funciona con tiempo de proceso máximo habilitado y múltiples ejecuciones de test.
+common#:#accessRestrict#:#Configurar acceso limitado
+common#:#accessFree#:#Eliminar acceso limitado
+common#:#access_free_granted#:#Configurar los usuarios seleccionados con acceso ilimitado
+common#:#access_restricted#:#Configurar los usuarios seleccionados con acceso limitado
+common#:#info_accessFree_sure#:#¿Está seguro de que quiere eliminar el acceso limitado para los siguiente(s) usuario(s)?
+common#:#access_from#:#Acceso (desde)
+common#:#access_restrict_enter#:#Por favor configure el período para la restricción de acceso limitado
+meta#:#md_copyright_settings#:#Configuración de Copyright
+meta#:#md_copyright_enabled#:#Habilitar Selección de Copyright
+meta#:#md_copyright_selection#:#Preselección de Copyright
+meta#:#md_used#:#Uso
+meta#:#md_copyright_preview#:#Copyright (Previsualización)
+meta#:#md_copyright_edit#:#Editar Preselección de Copyright
+meta#:#md_copyright_value#:#Copyright
+meta#:#md_copyright_add#:#Añadir preselección de Copyright
+meta#:#md_delete_cp_sure#:#¿Realmente quieres eliminar las siguientes entradas?
+meta#:#md_copyrights_deleted#:#Copyright eliminado
+meta#:#meta_cp_own#:#Información de Copyright propia:
+meta#:#md_adv_desc_show#:#Mostrar descripción
+meta#:#md_adv_show#:#Mostrar
+common#:#udf_type_date#:#Campo Fecha
+common#:#sorting_header#:#Ordenación de los items de contenido
+common#:#sorting_title_header#:#Ordenar por título
+common#:#sorting_info_title#:#Escoger este modo para ordenar items automáticamente por título.
+common#:#sorting_manual_header#:#Ordenar manualmente
+common#:#sorting_info_manual#:#Este modo le ofrece la posibilidad de ordenar los items de forma manual.
+common#:#sorting_save#:#Guardar ordenación
+common#:#frm_add_thread#:#Añadir nueva cadena
+news#:#news_x_files_created#:#%s ficheros han sido añadidos.
+news#:#news_x_files_updated#:#%s ficheros han sido actualizados.
+news#:#news_1_file_created#:#1 fichero ha sido añadido.
+news#:#news_1_file_updated#:#1 fichero ha sido actualizado.
+news#:#news_x_postings#:#%s mensajes han sido añadidos.
+news#:#news_1_postings#:#1 mensaje ha sido añadido.
+forum#:#forums_post_and_children_were_deactivated#:#El mensaje y todos sus mensajes 'hijos' fueron desactivados.
+forum#:#forums_post_and_children_were_activated#:#El mensaje y todos sus mensajes 'hijos' fueron activados.
+forum#:#forums_post_was_activated#:#El mensaje fue activado.
+forum#:#forums_post_needs_to_be_activated#:#Un nuevo artículo ha sido creado, pero necesita ser activado por un moderador.
+forum#:#forums_no_posts_available#:#Esta cadena aún no tiene mensajes o el moderador desactivó el primer mensaje.
+common#:#bold#:#Negrita
+common#:#newline#:#Nueva línea
+common#:#ext_cat_settings#:#Editar configuración avanzada de categoría
+common#:#edit_cat_settings#:#Configuración avanzada de categoría
+common#:#mail_search_groups_not_found#:#No se encontraron grupos a los que pertenezca como miembro.
+common#:#mail_search_courses_not_found#:#No se encontraron cursos a los que pertenezca como miembro.
+auth#:#auth_radius_charset#:#Codificación de caracteres
+auth#:#auth_radius_charset_info#:#Por favor escoja la codificación de caracteres para la comunicación con el servidor radius. Si no está seguro, escoja UTF-8.
+common#:#frm_add_post#:#Añadir nuevo mensaje
+common#:#frm_moderate_frm#:#Eliminar un mensaje, censurar
+chat#:#chat_user_dropped_private#:#El usuario fue desinvitado/eliminado de la sala privada de chat.
+chat#:#chat_user_invited_public#:#El usuario fue invitado al chat público.
+chat#:#chat_user_invited_private#:#El usuario fue invitado a la sala privada de chat.
+chat#:#chat_disinvite_user#:#Desinvitar/eliminar usuario de la sala privada de chat.
+chat#:#chat_no_online_users#:#No hay más usuarios conectados.
+search#:#search_lom#:#Metadatos LOM
+search#:#search_adv_md#:#Metadata extendidos
+search#:#adv_md_search_title#:#Buscar en los metadatos extendidos
+ps#:#ps_edit_text_field#:#Editar Campo de texto
+meta#:#md_adv_import_record#:#Importar Conjunto de Metadatos
+meta#:#md_copyright#:#Copyright
+meta#:#md_copyright_enable_info#:#Escoja esta opción para ofrecer una selección de copyrights predefinidos
+news#:#news_block_information#:#El bloque <b>Noticias</b> lista todas las noticias relacionadas con los <b>Items</b> seleccionados en el escritorio personal.
+news#:#news_rss_period#:#Período RSS
+news#:#news_period_x_days#:#Últimos %s días
+news#:#news_period_1_week#:#Última semana
+news#:#news_period_x_weeks#:#Últimas %s semanas
+news#:#news_period_1_month#:#Último mes
+news#:#news_period_x_months#:#Últimos %s meses
+news#:#news_period_1_year#:#Último año
+news#:#news_allow_shorter_periods#:#Permitir períodos más cortos
+news#:#news_allow_longer_periods#:#Permitir períodos más largos
+news#:#news_allow_shorter_periods_info#:#Los usuarios pueden seleccionar períodos más cortos en el escritorio personal.
+news#:#news_allow_longer_periods_info#:#Los usuario pueden seleccionar períodos más largos de noticias en el escritorio personal.
+news#:#news_hidden_news_block#:#El bloque está actualmente oculto en la vista del alumno.
+news#:#news_hide_news_per_date#:#Mostrar noticias después
+news#:#news_hide_news_per_date_info#:#Sólo las noticias que son más nuevas que una fecha concreta serán mostradas.
+news#:#news_hide_news_date#:#Fecha de inicio
+content#:#cont_map_file_not_generated#:#Ha sido imposible generar un fichero mapa para edición.
+forum#:#topics_please_select_one_action#:#Por favor seleccione una acción.
+forum#:#sticky#:#sticky
+forum#:#topic_close#:#cerrar
+forum#:#close_topics#:#Cerrar
+forum#:#reopen_topics#:#Reabrir
+forum#:#post_censored_comment_by_moderator#:#Mensaje censurado, comentario por el moderador
+forum#:#activate_new_posts#:#Activar mensajes
+mail#:#activate_serial_letter_placeholders#:#Activatar variables letras-serie
+mail#:#placeholders_advise#:#Las variables sólo se resuelven para destinatarios en el campo To.%s Destinatarios en el campo CC y BCC tendrán variables no resueltas.
+mail#:#search_recipients#:#Buscar destinatarios.
 survey#:#on_additional#:#On, and additional###02 11 2007 new variable
-assessment#:#tst_show_solution_answers_only#:#Results print view (answers only)###14 11 2007 new variable
-survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
-grp#:#grp_deleted_export_files#:#Deleted export files.###14 11 2007 new variable
-grp#:#grp_select_one_file#:#Please select one file.###14 11 2007 new variable
-assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
-assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
-news#:#news_no_news_items#:#No news available.###15 11 2007 new variable
-common#:#enable_ext_lang_maint#:#Enable Extended Maintenance###20 11 2007 new variable
-common#:#disable_ext_lang_maint#:#Disable Extended Maintenance###20 11 2007 new variable
-assessment#:#tst_show_solution_signature#:#Show Signature Placeholder###20 11 2007 new variable
-rbac#:#recf_edit_permission#:#Change permission settings###20 11 2007 new variable
-rbac#:#recf_visible#:#Restored Objects are visible ###20 11 2007 new variable
-rbac#:#recf_read#:#Read access to Restored Objects###20 11 2007 new variable
-rbac#:#recf_write#:#Edit Restored Objects###20 11 2007 new variable
-grp#:#grp_unsubscribe#:#Unsubscrib###20 11 2007 new variable
-trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###20 11 2007 new variable
-common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?###27 11 2007 new variable
-common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.###27 11 2007 new variable
-assessment#:#tst_no_export_randomtest#:#You cannot export a test with random selection of questions, because every used question pool has to be exported too which leads to enormous complexity of the export files.###27 11 2007 new variable
-common#:#lngf_write#:#Write access, needed for extended language maintenance###27 11 2007 new variable
-content#:#cont_last_access#:#Last Access###27 11 2007 new variable
-content#:#seq_close#:#Please close the player-window.###27 11 2007 new variable
-content#:#scplayer_showtree#:#Show Tree###27 11 2007 new variable
-content#:#scplayer_hidetree#:#Hide Tree###27 11 2007 new variable
-content#:#scplayer_continue#:#Continue###27 11 2007 new variable
-content#:#scplayer_previous#:#Previous###27 11 2007 new variable
-content#:#scplayer_suspendall#:#Suspend All###27 11 2007 new variable
-content#:#scplayer_exitall#:#Exit All###27 11 2007 new variable
-content#:#scplayer_exit#:#Exit###27 11 2007 new variable
-content#:#scplayer_start#:#Start###27 11 2007 new variable
-content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE###27 11 2007 new variable
-trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status###27 11 2007 new variable
-trac#:#trac_mode_scorm_package_info#:#The learning progress status will be determined by the SCORM course package status directly.###27 11 2007 new variable
-ps#:#ps_show_grp_access#:#Show last access time of group participants###27 11 2007 new variable
-administration#:#auth_auth_mode_determination#:#Authentication Method Determination (for Login)###27 11 2007 new variable
-administration#:#auth_kind_determination#:#Kind of Determination###27 11 2007 new variable
-administration#:#auth_by_user#:#By the User###27 11 2007 new variable
-administration#:#auth_automatic#:#Fixed Sequence###27 11 2007 new variable
-administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.###27 11 2007 new variable
+assessment#:#tst_show_solution_answers_only#:#Vista de impresión de resultados (respuestas sólo)
+survey#:#msg_enter_value_for_valid_constraint#:#Por favor introduzca un valor para crear una precondición válida
+grp#:#grp_deleted_export_files#:#Fichero de exportación eliminados.
+grp#:#grp_select_one_file#:#Por favor seleccione un fichero.
+assessment#:#passes_finished#:#%s ejecuciones
+assessment#:#pass_finished#:#%s ejecución
+news#:#news_no_news_items#:#No hay noticias disponibles.
+common#:#enable_ext_lang_maint#:#Habilitar mantenimiento extendido
+common#:#disable_ext_lang_maint#:#Deshabilitar mantenimiento extendido
+assessment#:#tst_show_solution_signature#:#Mostrar variable de firma
+rbac#:#recf_edit_permission#:#Modificar configuración de permisos
+rbac#:#recf_visible#:#Los objetos restaurados son visibles
+rbac#:#recf_read#:#Acceso de lectura a objetos restaurados
+rbac#:#recf_write#:#Editar objetos restaurados
+grp#:#grp_unsubscribe#:#Darse de baja
+trac#:#trac_mode_test_finished_info#:#Los usuarios tienen que finalizar un test completamente.
+common#:#lang_refresh_confirm#:#¿Realmente quiere actualizar todos los idiomas?
+common#:#lang_refresh_confirm_info#:#El mantenimiento extendido de idiomas está actuamente activado. Actualizar los idiomas carga todos los datos de idioma desde los fichero de idioma de ILIAS en la base de datos. Los cambios locales (en la base de datos) serán sobreescritos, si no se exportan antes. Esto no afecta a los ficheros "*.lang.local"  en el directorio de personalización.
+assessment#:#tst_no_export_randomtest#:#No puede exportar un test con selección aleatoria de preguntas, porque cada banco de preguntas tiene que ser exportado también, lo que conlleva una enorme complejidad de los ficheros de exportación.
+common#:#lngf_write#:#Acceso de escritura, necesitado para mantenimento de idioma extendido.
+content#:#cont_last_access#:#Último acceso
+content#:#seq_close#:#Por favor cierre la ventana del visor
+content#:#scplayer_showtree#:#mostrar árbol
+content#:#scplayer_hidetree#:#ocultar árbol
+content#:#scplayer_continue#:#continuar
+content#:#scplayer_previous#:#anterior
+content#:#scplayer_suspendall#:#suspender todo
+content#:#scplayer_exitall#:#salir de todo
+content#:#scplayer_exit#:#salir
+content#:#scplayer_start#:#comenzar
+content#:#scplayer_phpmysqlcheck#:#Necesita MYSQL 4.1 o superior y soporte JSON en PHP para usar el RTE JavaScript
+trac#:#trac_mode_scorm_package#:#Automático por estado del curso SCORM
+trac#:#trac_mode_scorm_package_info#:#El estado de progreso de aprendizaje será determinado por el paquete SCORM directamente
+ps#:#ps_show_grp_access#:#Mostrar última fecha de acceso de participantes del grupo
+administration#:#auth_auth_mode_determination#:#Determinación del método de autenticación (para identificarse)
+administration#:#auth_kind_determination#:#Tipo de determinación
+administration#:#auth_by_user#:#Por usuario
+administration#:#auth_automatic#:#Sequencia prefijada
+administration#:#auth_mode_determination_info#:#Escoger si los usuarios tienen que seleccionar su método de autenticación en la pantalla de entrada o si es gestionado por una secuencia prefijada de métodos de autenticación
