@@ -3045,7 +3045,7 @@ common#:#permission#:#permiso
 common#:#permission_denied#:#permiso denegado
 common#:#permission_settings#:#Configuración de permisos
 common#:#permission_settings_info#:#Este formulario determina qué rol tiene permiso para hacer determinadas acciones con el objeto actual '%s'.
-common#:#person_title#:#estado civil
+common#:#person_title#:#Trato (D./Dña./Dr./etc)
 common#:#personal_data#:#Información personal
 common#:#personal_desktop#:#Escritorio Personal
 common#:#personal_picture#:#Foto personal
