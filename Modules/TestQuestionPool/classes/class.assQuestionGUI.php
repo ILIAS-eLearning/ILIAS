@@ -408,7 +408,7 @@ class assQuestionGUI
 		}
 	}
 
-	function originalSyncForm($return_to)
+	function originalSyncForm($return_to = "")
 	{
 		if (strlen($return_to))
 		{
