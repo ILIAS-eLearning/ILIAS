@@ -87,16 +87,18 @@ class ilGeneralSettings
 		
 	function setAll($a_values)
 	{		
+		global $ilDB;
+
 		if ($this->getSettingsId())
 		{		
 			$query = "UPDATE payment_settings ";
-			$query .= "SET currency_unit = '" . $a_values["currency_unit"] . "', ";
-			$query .= "currency_subunit = '" . $a_values["currency_subunit"] . "', ";
-			$query .= "address = '" . $a_values["address"] . "', ";
-			$query .= "bank_data = '" . $a_values["bank_data"] . "', ";
-			$query .= "add_info = '" . $a_values["add_info"] . "', ";
-			$query .= "vat_rate = '" . $a_values["vat_rate"] . "', ";
-			$query .= "pdf_path = '" . $a_values["pdf_path"] . "' ";
+			$query .= "SET currency_unit = " . $ilDB->quote($a_values["currency_unit"]) . ", ";
+			$query .= "currency_subunit = " . $ilDB->quote($a_values["currency_subunit"]) . ", ";
+			$query .= "address = " . $ilDB->quote($a_values["address"]) . ", ";
+			$query .= "bank_data = " . $ilDB->quote($a_values["bank_data"]) . ", ";
+			$query .= "add_info = " . $ilDB->quote($a_values["add_info"]) . ", ";
+			$query .= "vat_rate = " . $ilDB->quote($a_values["vat_rate"]) . ", ";
+			$query .= "pdf_path = " . $ilDB->quote($a_values["pdf_path"]) . " ";
 			$query .= "WHERE settings_id = '" . $this->getSettingsId() . "'";
 			
 			$this->db->query($query);
@@ -104,13 +106,13 @@ class ilGeneralSettings
 		else
 		{
 			$query = "INSERT INTO payment_settings (currency_unit, currency_subunit, address, bank_data, add_info, vat_rate, pdf_path) VALUES (";
-			$query .= "'" . $a_values["currency_unit"] . "', ";
-			$query .= "'" . $a_values["currency_subunit"] . "', ";
-			$query .= "'" . $a_values["address"] . "', ";
-			$query .= "'" . $a_values["bank_data"] . "', ";
-			$query .= "'" . $a_values["add_info"] . "', ";
-			$query .= "'" . $a_values["vat_rate"] . "', ";
-			$query .= "'" . $a_values["pdf_path"] . "')";
+			$query .= $ilDB->quote($a_values["currency_unit"]) . ", ";
+			$query .= $ilDB->quote($a_values["currency_subunit"]) . ", ";
+			$query .= $ilDB->quote($a_values["address"]) . ", ";
+			$query .= $ilDB->quote($a_values["bank_data"]) . ", ";
+			$query .= $ilDB->quote($a_values["add_info"]) . ", ";
+			$query .= $ilDB->quote($a_values["vat_rate"]) . ", ";
+			$query .= $ilDB->quote($a_values["pdf_path"]) . ")";
 			$this->db->query($query);					
 			
 			$this->setSettingsId($this->db->getLastInsertId());

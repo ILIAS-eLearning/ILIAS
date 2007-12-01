@@ -7584,11 +7584,11 @@ payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file
 payment#:#paya_coupon_codes_import_successful#:#Import successful.
 payment#:#pays_bmf_settings#:#Settings for BMF
 payment#:#pays_bmf_client_id#:#Cliend Id
-payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr
+payment#:#pays_bmf_bewirtschafter_nr#:#Operator No.
 payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle
 payment#:#pays_bmf_object_id#:#Object Id
-payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren
-payment#:#pays_bmf_waehrungskennzeichen#:#WÃ¤hrungskennzeichen
+payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Dunning Procedure Id
+payment#:#pays_bmf_waehrungskennzeichen#:#Currency (e.g. EUR)
 payment#:#pays_bmf_epayment_server#:#ePayment-Server
 payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate
 payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate

@@ -258,6 +258,8 @@ class ilBMFSettings
 	 */
 	public function save()
 	{
+		global $ilDB;
+		
 		$values = array(
 			"mandantNr" => $this->getClientId(),
 			"bewirtschafterNr" => $this->getBewirtschafterNr(),
@@ -274,13 +276,13 @@ class ilBMFSettings
 		if ($this->getSettingsId())
 		{		
 			$query = "UPDATE payment_settings "
-					."SET bmf = '" . addslashes(serialize($values)). "' "
+					."SET bmf = " . $ilDB->quote(serialize($values)). " "
 					."WHERE settings_id = '" . $this->getSettingsId() . "'";
 			$this->db->query($query);
 		}
 		else
 		{
-			$query = "INSERT INTO payment_settings (bmf) VALUES ('" . addslashes(serialize($values)). "') ";
+			$query = "INSERT INTO payment_settings (bmf) VALUES (" . $ilDB->quote(serialize($values)). ") ";
 			
 			$this->db->query($query);		
 			

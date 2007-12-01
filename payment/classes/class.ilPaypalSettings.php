@@ -214,6 +214,8 @@ class ilPaypalSettings
 	 */
 	public function save()
 	{
+		global $ilDB;
+		
 		$values = array(
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
@@ -226,13 +228,13 @@ class ilPaypalSettings
 		if ($this->getSettingsId())
 		{		
 			$query = "UPDATE payment_settings "
-					."SET paypal = '" . addslashes(serialize($values)). "' "
+					."SET paypal = " . $ilDB->quote(serialize($values)). " "
 					."WHERE settings_id = '" . $this->getSettingsId() . "'";
 			$this->db->query($query);
 		}
 		else
 		{
-			$query = "INSERT INTO payment_settings (paypal) VALUES ('" . addslashes(serialize($values)). "') ";
+			$query = "INSERT INTO payment_settings (paypal) VALUES (" . $ilDB->quote(serialize($values)). ") ";
 			
 			$this->db->query($query);		
 			
