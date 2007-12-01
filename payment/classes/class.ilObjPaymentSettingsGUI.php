@@ -1671,13 +1671,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$genSet->clearAll();
 		$values = array(
-			"currency_unit" => $_POST['currency_unit'],
-			"currency_subunit" => $_POST['currency_subunit'],
-			"address" => $_POST['address'],
-			"bank_data" => $_POST['bank_data'],
-			"add_info" => $_POST['add_info'],
-			"vat_rate" => (float) str_replace(",", ".", $_POST['vat_rate']),
-			"pdf_path" => $_POST['pdf_path']
+			"currency_unit" => ilUtil::stripSlashes($_POST['currency_unit']),
+			"currency_subunit" => ilUtil::stripSlashes($_POST['currency_subunit']),
+			"address" => ilUtil::stripSlashes($_POST['address']),
+			"bank_data" => ilUtil::stripSlashes($_POST['bank_data']),
+			"add_info" => ilUtil::stripSlashes($_POST['add_info']),
+			"vat_rate" => (float) str_replace(",", ".", ilUtil::stripSlashes($_POST['vat_rate'])),
+			"pdf_path" => ilUtil::stripSlashes($_POST['pdf_path'])
 		);
 		$genSet->setAll($values);
 		$this->generalSettingsObject();
