@@ -1519,7 +1519,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["password"] = $this->object->getPassword();
 		$data["allowedUsers"] = $this->object->getAllowedUsers();
 		$data["allowedUsersTimeGap"] = $this->object->getAllowedUsersTimeGap();
-		if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
+		if (!$this->object->getEnableProcessingTime())
 		{
 			$proc_time = $this->object->getEstimatedWorkingTime();
 			$data["processing_time"] = sprintf("%02d:%02d:%02d",
