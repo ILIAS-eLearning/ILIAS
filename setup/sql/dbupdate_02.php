@@ -2902,3 +2902,10 @@ foreach($types as $type)
 
 <#1119>
 ALTER TABLE cmi_node ADD TIMESTAMP TIMESTAMP;
+
+<#1120>
+CREATE TABLE `ecs_export` (
+`obj_id` INT( 11 ) NOT NULL ,
+`econtent_id` INT( 11 ) NOT NULL ,
+PRIMARY KEY ( `obj_id` )
+) TYPE = MYISAM ;
