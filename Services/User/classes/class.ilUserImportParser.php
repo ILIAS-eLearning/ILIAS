@@ -1566,7 +1566,7 @@ class ilUserImportParser extends ilSaxParser
 						{
 							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_insert"));
 						}
-						if (is_null($this->userObj->getGender()))
+						if (is_null($this->userObj->getGender()) && $this->isFieldRequired("gender"))
 						{
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Gender", "Insert"));
 						}
@@ -2097,7 +2097,8 @@ class ilUserImportParser extends ilSaxParser
 	 	{
 	 		if(substr($field,0,8) == 'require_' and $value == 1)
 	 		{
-	 			$this->required_fields[] = substr($field,8);
+	 			$value = substr($field,8);
+	 			$this->required_fields[$value] = $value;
 	 		}
 	 	}
 	 	return $this->required_fields ? $this->required_fields : array();
@@ -2234,6 +2235,19 @@ class ilUserImportParser extends ilSaxParser
 	 		}
 	 	}
 	 	return false;
+	}
+	
+	/**
+	*	determine if a field $fieldname is to a required field (global setting)
+	*
+	* @param	$fieldname	string value of fieldname, e.g. gender
+	* @return true, if field of required fields contains fieldname as key, false otherwise.
+	**/
+	protected function isFieldRequired ($fieldname) 
+	{
+		$requiredFields = $this->readRequiredFields();
+		$fieldname = strtolower(trim($fieldname));
+		return array_key_exists($fieldname, $requiredFields);
 	}
 
 }
