@@ -2909,3 +2909,5 @@ CREATE TABLE `ecs_export` (
 `econtent_id` INT( 11 ) NOT NULL ,
 PRIMARY KEY ( `obj_id` )
 ) TYPE = MYISAM ;
+<#1121>
+ALTER TABLE `survey_category` CHANGE `title` `title` VARCHAR( 255 ) NOT NULL;
