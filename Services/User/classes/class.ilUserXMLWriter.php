@@ -249,6 +249,11 @@ class ilUserXMLWriter extends ilXmlWriter
 			$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]),"auth_mode");
 		}
 
+		if (strlen($row["ext_account"])>0)
+		{
+			$this->__addElement ("ExternalAccount", $row["ext_account"], null, "ext_account");
+		}
+
 	    if ($this->canExport("skin_style"))
 	    {
 
@@ -269,7 +274,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		$msgrs = array ("skype" => "im_skype", "yahoo" => "im_yahoo", "msn"=>"im_msn", "aim"=>"im_aim", "icq"=>"im_icq", "delicious" => "delicious", "external" => "ext_account");
 		foreach ($msgrs as $type => $fieldname) {
-			$this->__addElement("AccountInfo", $row[$fieldname], array("Type" => $type));
+			$this->__addElement("AccountInfo", $row[$fieldname], array("Type" => $type), "instant_messengers");
 		}
 
 		$this->__addElement("GMapsInfo", null, array (
