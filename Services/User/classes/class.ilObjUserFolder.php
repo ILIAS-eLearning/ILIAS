@@ -611,6 +611,7 @@ class ilObjUserFolder extends ilObject
 		array_push($export_settings, "ilinc_passwd");
 		array_push($export_settings, "client_ip");
 		array_push($export_settings, "auth_mode");
+		array_push($export_settings, "ext_account");
 		return $export_settings;
 	}
 
