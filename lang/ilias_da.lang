@@ -485,15 +485,15 @@ common#:#cannot_uninstall_systemlanguage#:#Du kan ikke afinstallere systemsproge
 common#:#cannot_unzip_file#:#Kan ikke udpakke fil.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###21 Apr 2005 new variable
 common#:#cat#:#Kategori
-common#:#mcst#:#MediaCast###25 02 2007 new variable
-common#:#obj_mcst#:#MediaCast###25 02 2007 new variable
-common#:#objs_mcst#:#MediaCasts###25 02 2007 new variable
-common#:#mcst_new#:#New MediaCast###25 02 2007 new variable
-common#:#mcst_add#:#Add MediaCast###25 02 2007 new variable
-common#:#obj_pdts#:#Personal Desktop Settings###02 04 2007 new variable
+common#:#mcst#:#MediaCast
+common#:#obj_mcst#:#MediaCast
+common#:#objs_mcst#:#MediaCasts
+common#:#mcst_new#:#Ny mediaCast
+common#:#mcst_add#:#Tilføj mediaCast###25 02 2007 new variable
+common#:#obj_pdts#:#Skrivebords indstillinger
 common#:#obj_pdts_desc#:#Configure the Personal Desktop###02 04 2007 new variable
-common#:#move_blocks#:#Move Blocks###02 04 2007 new variable
-common#:#stop_moving_blocks#:#Stop Moving Blocks###02 04 2007 new variable
+common#:#move_blocks#:#Flyt blokke
+common#:#stop_moving_blocks#:#Stop blokflytning
 common#:#cat_a#:#en kategori
 common#:#cat_add#:#Tilføj kategori
 common#:#cat_added#:#Kategori tilføjet
@@ -537,7 +537,7 @@ common#:#cat_visible#:#Kategorien er synlig
 common#:#cat_write#:#Rediger kategori
 common#:#categories#:#Kategorier
 common#:#categories_imported#:#Import af kategorier er gennemført
-common#:#cc#:#CC###21 Apr 2005 new variable
+common#:#cc#:#CC
 common#:#cen#:#Centrabegivenhed###
 common#:#cen_add#:#Tilføj Centrabegivenhed
 common#:#cen_added#:#Centrabegivenhed tilføjet
@@ -588,10 +588,10 @@ common#:#chat_read#:#Læse/skriveadgang til chat
 common#:#chat_users_active#:#Active users
 common#:#chat_visible#:#Chat er synlig
 common#:#chat_write#:#Rediger chat
-common#:#check#:#Check###21 Apr 2005 new variable
-common#:#checked#:#Checked###09 06 2007 new variable
-common#:#unchecked#:#Unchecked###09 06 2007 new variable
-common#:#textbox#:#Textbox###13 06 2007 new variable
+common#:#check#:#Afkryds
+common#:#checked#:#Afkrydset
+common#:#unchecked#:#Ikke afkrydset
+common#:#textbox#:#Textboks
 common#:#check_all#:#Afkryds alle
 common#:#check_langfile#:#Check venligst din sprogfil
 common#:#check_languages#:#Kontroller sprog
@@ -620,8 +620,8 @@ common#:#client_ip#:#Klient IP
 common#:#clipboard#:#Udklipsholder
 common#:#close#:#Luk
 common#:#close_window#:#Luk vindue
-common#:#cnt_new#:#(%s New)
-common#:#collapse#:#Collapse###28 Feb 2006 new variable
+common#:#cnt_new#:#(%s nye)
+common#:#collapse#:#Fold sammen
 common#:#comma_separated#:#Kommasepareret
 common#:#comment#:#Kommentar
 common#:#compose#:#Ny mail
@@ -647,7 +647,7 @@ common#:#content#:#Indhold
 common#:#content_styles#:#Content Styles###21 Apr 2005 new variable
 common#:#context#:#Kontekst
 common#:#continue_work#:#Fortsæt
-common#:#contra#:#Contra###23 Dec 2005 new variable
+common#:#contra#:#Kontra
 common#:#cookies_howto#:#Hvordan tillader du cookies
 common#:#copied_object#:#Kopieret Objekt
 common#:#copy#:#Kopier
@@ -740,7 +740,7 @@ common#:#cut#:#Klip
 common#:#cutPage#:#Klip
 common#:#daily#:#dagligt
 common#:#data_privacy#:#Data Privacy Settings
-common#:#database#:#Database###21 Apr 2005 new variable
+common#:#database#:#Database
 common#:#database_version#:#Nuværende databaseversion
 common#:#dataset#:#Ting
 common#:#date#:#Dato
@@ -792,9 +792,9 @@ common#:#descending_order#:#Faldende sortering
 common#:#description#:#Beskrivelse
 common#:#desired_password#:#Ønsket password
 common#:#desktop_items#:#Personlige skrivebordsobjekter
-common#:#details#:#Details###11 Mar 2005 new variable
-common#:#disable#:#disable###21 Apr 2005 new variable
-common#:#disable_check#:#Disable check###11 Mar 2005 new variable
+common#:#details#:#Detaljer
+common#:#disable#:#deaktiver
+common#:#disable_check#:#deaktiver kontrol
 common#:#domain#:#Domæne
 common#:#down#:#Nede
 common#:#download#:#Download###21 Apr 2005 new variable
@@ -1179,7 +1179,7 @@ common#:#grp_err_error#:#En fejl opstod
 common#:#grp_err_last_member#:#Sidste medlem kan ikke fjernes, fjern venligst gruppen istedet for.
 common#:#grp_err_member_could_not_be_removed#:#bruger kan ikke blive fjernet.
 common#:#grp_err_no_permission#:#du har ikke rettigeder til denne handling
-common#:#grp_err_registration_data#:#Skriv venligst et password, udløbsdatoen og tidsforløb for en gyldig deltagelsesperiode !###23 Dec 2005 content changed
+common#:#grp_err_registration_data#:#Skriv venligst et password, udløbsdatoen og tidsforløb for en gyldig deltagelsesperiode!
 common#:#grp_header_edit_members#:#ændre medlem
 common#:#grp_join#:#Brugeren kan tilmelde sig gruppen
 common#:#grp_leave#:#Brugeren kan forlade gruppen
@@ -1229,7 +1229,7 @@ common#:#hist_dbk_pg_create#:#Page created.
 common#:#hist_dbk_pg_cut#:#Side klippet fra kapitel '%1' [%2].
 common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].
 common#:#hist_dbk_pg_update#:#Page changed.
-common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
+common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] klippet ud af kapitel.
 common#:#hist_dbk_st_paste_page#:#Side '%1' [%2] er indsat i kapitel.
 common#:#hist_file_create#:#Fil oprettet, filnavn '%1'.
 common#:#file_created#:#Ny fil tilføjet
@@ -1322,7 +1322,7 @@ common#:#ilias_version#:#ILIAS version
 common#:#ilinc_add_user#:#Tilføj bruger(e)###06 Sep 2005 new variable
 common#:#ilinc_akclassvalue#:#Cost center
 common#:#ilinc_akclassvalues#:#Cost centers
-common#:#ilinc_classroom_always_open#:#Classroom is always open###17 Aug 2005 new variable
+common#:#ilinc_classroom_always_open#:#Klasseværelset er altid åbent
 common#:#ilinc_classroom_closed#:#Klasseværrelse er lukket
 common#:#ilinc_classroom_open#:#Classroom is open###17 Aug 2005 new variable
 common#:#ilinc_classrooms#:#iLinc Classrooms###21 Apr 2005 new variable
@@ -1467,7 +1467,7 @@ common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Opsætnings information
 common#:#join#:#Tilmeld
 common#:#buy#:#Køb
-common#:#kb#:#KByte###21 Apr 2005 new variable
+common#:#kb#:#KByte
 common#:#keywords#:#Nøgleord
 common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
 common#:#lang_cs#:#Czech###21 Apr 2005 new variable
@@ -1496,12 +1496,12 @@ common#:#lang_ru#:#Russian###10 05 2007 new variable
 common#:#lang_sep_decimal#:#.###21 Apr 2005 new variable
 common#:#lang_sep_thousand#:#,###21 Apr 2005 new variable
 common#:#lang_sq#:#Albansk
-common#:#lang_sr#:#Serbian###20 Jun 2005 new variable
+common#:#lang_sr#:#Serbisk
 common#:#lang_sv#:#Svensk
 common#:#lang_timeformat#:#H:i:s###21 Apr 2005 new variable
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uk#:#Ukrainian###17 Aug 2005 new variable
-common#:#lang_version#:#1###21 Apr 2005 new variable
+common#:#lang_version#:#1
 common#:#lang_vi#:#vietnamesisk
 common#:#lang_xx#:#brugervalgte
 common#:#lang_zh#:#simple kinesisk
@@ -1512,7 +1512,7 @@ common#:#languages#:#Sprog
 common#:#languages_already_installed#:#De valgte Sprog er allerede installeret
 common#:#languages_already_uninstalled#:#De valgte sprog er allerede afinstalleret
 common#:#languages_updated#:#Alle installerede sprog er blevet opdateret
-common#:#last_access#:#Last access:###21 Apr 2005 new variable
+common#:#last_access#:#Sidste adgang:
 common#:#last_change#:#Sidste ændring
 common#:#last_edited_on#:#Sidst redigeret
 common#:#last_login#:#Last login###28 Feb 2006 new variable
@@ -1693,13 +1693,13 @@ common#:#mep_not_insert_already_exist#:#The following items have not been insert
 common#:#mep_read#:#Læs indhold i mediebeholder
 common#:#mep_visible#:#Mediabeholder er synlig
 common#:#mep_write#:#Rediger indhold i mediebeholder
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
-common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+common#:#mcst_delete#:#Slet Mediacast
+common#:#feed_delete#:#Slet Web feed
 common#:#message#:#Besked
 common#:#message_content#:#Indhold
 common#:#message_no_delivered_files#:#Du har ikke fremsendt en fil!
 common#:#message_to#:#Besked til:
-common#:#meta_data#:#Metadata###21 Apr 2005 new variable
+common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrer
 common#:#min_time#:#Minimum tid
 common#:#minute#:#Minute
@@ -1722,25 +1722,25 @@ common#:#month_06_long#:#Juni
 common#:#month_06_short#:#jun
 common#:#month_07_long#:#Juli
 common#:#month_07_short#:#jul
-common#:#month_08_long#:#August###21 Apr 2005 new variable
-common#:#month_08_short#:#Aug###21 Apr 2005 new variable
-common#:#month_09_long#:#September###21 Apr 2005 new variable
-common#:#month_09_short#:#Sep###21 Apr 2005 new variable
+common#:#month_08_long#:#August
+common#:#month_08_short#:#Aug
+common#:#month_09_long#:#September
+common#:#month_09_short#:#Sep
 common#:#month_10_long#:#Oktober
 common#:#month_10_short#:#Okt
-common#:#month_11_long#:#November###21 Apr 2005 new variable
-common#:#month_11_short#:#Nov###21 Apr 2005 new variable
-common#:#month_12_long#:#December###21 Apr 2005 new variable
-common#:#month_12_short#:#Dec###21 Apr 2005 new variable
-common#:#monthly#:#monthly###11 Mar 2005 new variable
+common#:#month_11_long#:#November
+common#:#month_11_short#:#Nov
+common#:#month_12_long#:#December
+common#:#month_12_short#:#Dec
+common#:#monthly#:#månedligt
 common#:#move#:#Flyt
-common#:#move_up#:#Move Up###29 11 2006 new variable
-common#:#move_down#:#Move Down###29 11 2006 new variable
+common#:#move_up#:#Flyt op
+common#:#move_down#:#Flyt ned
 common#:#moveChapter#:#Flyt
 common#:#movePage#:#Flyt
 common#:#move_selected_items#:#Flyt valgte
 common#:#move_to#:#Flyt til
-common#:#move_users_to_style#:#Move users to style###21 Apr 2005 new variable
+common#:#move_users_to_style#:#Flyt brugere til stil
 common#:#msg_cancel#:#Handling annulleret
 common#:#msg_changes_ok#:#ændringerne er ok
 common#:#msg_clear_clipboard#:#Udklipsholder er tømt
@@ -1825,7 +1825,7 @@ common#:#msg_roleassignment_changed#:#Rolletildeling er ændret
 common#:#msg_sysrole_not_deletable#:#Systemrollen kan ikke fjernes
 common#:#msg_sysrole_not_editable#:#Rettigheder for systemrollen kan ikke ændres. Systemrollen sikrer alle tilknyttede brugere ubegrænset tilgang til alle objekter og funktioner.
 common#:#msg_trash_empty#:#Der er ingen slettede objekter
-common#:#msg_undeleted#:#Object(s) undeleted.###21 Apr 2005 new variable
+common#:#msg_undeleted#:#Objekt(er) reetableret.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:###21 Apr 2005 new variable
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.###21 Apr 2005 new variable
 common#:#msg_userassignment_changed#:#Rolletildeling ændret
@@ -1842,36 +1842,36 @@ common#:#new_appointment#:#Ny aftale
 common#:#new_folder#:#Ny mappe
 common#:#new_group#:#Ny Gruppe
 common#:#new_language#:#Nyt sprog
-common#:#new_list_password#:#New suggestions###21 Apr 2005 new variable
-common#:#new_lowercase#:#new###21 Apr 2005 new variable
+common#:#new_list_password#:#Nye forslag
+common#:#new_lowercase#:#ny
 common#:#new_mail#:#Ny mail!
 common#:#news#:#Nyheder
-common#:#html_block#:#HTML Block###25 02 2007 new variable
-common#:#feed#:#News Feed###25 02 2007 new variable
-common#:#obj_feed#:#Web Feed###02 04 2007 new variable
-common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
+common#:#html_block#:#HTML bolk
+common#:#feed#:#Nyheds feed
+common#:#obj_feed#:#Web feed
+common#:#objs_feed#:#Web feeds
 common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
-common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
+common#:#feed_visible#:#Web feed er synligt
+common#:#feed_read#:#Læseadgang til Web feed
 common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
 common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+common#:#mcst_visible#:#MediaCast er synligt
+common#:#mcst_read#:#Læseadgang til MediaCast###02 04 2007 new variable
+common#:#mcst_write#:#Rediger MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
-common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
+common#:#cat_create_feed#:#Opret web feed
+common#:#grp_create_feed#:#Opret web feed
+common#:#crs_create_feed#:#Opret web feed
+common#:#cat_create_mcst#:#Opret MediaCast
+common#:#grp_create_mcst#:#Opret MediaCast
+common#:#crs_create_mcst#:#Opret MediaCast
 common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#access_users#:#Logged in Users###02 04 2007 new variable
-common#:#access_public#:#Public###02 04 2007 new variable
-common#:#access_scope#:#Access###02 04 2007 new variable
+common#:#access_public#:#Offentlig
+common#:#access_scope#:#Adgang
 common#:#activate_block#:#Aktiver
 common#:#next#:#næste
 common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.###02 04 2007 new variable
@@ -7710,8 +7710,8 @@ mail#:#search_recipients#:#Søg modtagere
 survey#:#on_additional#:#On, and additional###02 11 2007 new variable
 assessment#:#tst_show_solution_answers_only#:#Results print view (answers only)###14 11 2007 new variable
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
-grp#:#grp_deleted_export_files#:#Deleted export files.###14 11 2007 new variable
-grp#:#grp_select_one_file#:#Please select one file.###14 11 2007 new variable
+grp#:#grp_deleted_export_files#:#Eksportfiler slettet
+grp#:#grp_select_one_file#:#Vælg venligst en fil
 assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
 assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
 news#:#news_no_news_items#:#No news available.###15 11 2007 new variable
