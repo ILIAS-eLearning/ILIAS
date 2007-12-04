@@ -1232,16 +1232,16 @@ common#:#hist_dbk_pg_update#:#Page changed.
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_dbk_st_paste_page#:#Side '%1' [%2] er indsat i kapitel.
 common#:#hist_file_create#:#Fil oprettet, filnavn '%1'.
-common#:#file_created#:#A new file has been added.###25 02 2007 new variable
-common#:#file_updated#:#File has been updated.###25 02 2007 new variable
+common#:#file_created#:#Ny fil tilføjet
+common#:#file_updated#:#Filen er blevet opdateret
 common#:#hist_file_replace#:#Fil erstattet, nyt navn '%1', ny version er %2
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
-common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_create#:#Side oprettet.
 common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].
 common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].
-common#:#hist_lm_pg_update#:#Page changed.
-common#:#hist_lm_st_create#:#Chapter created.
+common#:#hist_lm_pg_update#:#Side ændret.
+common#:#hist_lm_st_create#:#Kapitel ændret.
 common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_no_entries#:#No entries in history.###21 Apr 2005 new variable
@@ -2016,7 +2016,7 @@ common#:#obj_webr#:#Webresurse###11 Mar 2005 new variable
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt er tilføjet
 common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
-common#:#object_imported#:#Object imported###23 Dec 2005 new variable
+common#:#object_imported#:#Objekt importeret
 common#:#objects#:#Objekter
 common#:#objf#:#Objektdefinitioner
 common#:#objf_edit_permission#:#ændrer rettighedsindstillinger
@@ -2025,7 +2025,7 @@ common#:#objf_visible#:#Objektdefinitioner er synlige
 common#:#objf_write#:#Rediger Objektdefinitioner
 common#:#objs_alm#:#AICC Lærer moduler
 common#:#objs_cat#:#Kategorier
-common#:#objs_chat#:#Chats###21 Apr 2005 new variable
+common#:#objs_chat#:#Chats
 common#:#objs_confirm#:#Bekræft handling
 common#:#objs_crs#:#Kurser
 common#:#objs_dbk#:#Digilibbog
@@ -2038,7 +2038,7 @@ common#:#objs_glo#:#Ordbøger
 common#:#objs_grp#:#Grupper
 common#:#objs_hlm#:#HACP Læremoduler
 common#:#objs_htlm#:#HTML Læremoduler
-common#:#objs_icla#:#iLinc Classrooms###21 Apr 2005 new variable
+common#:#objs_icla#:#iLinc klasseværelse
 common#:#objs_icrs#:#iLinc kurser
 common#:#objs_lm#:#ILIAS Læremoduler
 common#:#objs_lng#:#Sprog
@@ -2181,7 +2181,7 @@ common#:#publication#:#Udgivelse
 common#:#publication_date#:#Udgivelsesdato
 common#:#published#:#Udgivet
 common#:#publishing_organisation#:#Udgivende organisation
-common#:#purpose#:#Purpose###21 Apr 2005 new variable
+common#:#purpose#:#Formål
 common#:#qpl#:#Spørgsmål til test
 common#:#qpl_add#:#tilføj spørgsmål til test
 common#:#qpl_delete#:#Slet spørgsmål til test
@@ -2189,12 +2189,12 @@ common#:#qpl_edit_permission#:#Ændre rettighedsindstillinger
 common#:#qpl_new#:#Ny spørgsmål til test
 common#:#qpl_read#:#Read access to Question Pool for Test###21 Apr 2005 new variable
 common#:#qpl_upload_file#:#Upload fil
-common#:#qpl_visible#:#Question Pool for Test is visible###21 Apr 2005 new variable
-common#:#qpl_write#:#Edit Question Pool for Test###21 Apr 2005 new variable
-common#:#quarterly#:#quarterly###11 Mar 2005 new variable
+common#:#qpl_visible#:#Spørgsmålssamling til tests er synlig
+common#:#qpl_write#:#Rediger spørgsmålssamling til tests
+common#:#quarterly#:#Kvartalvis
 common#:#query_data#:#Forespørg data
 common#:#question#:#Spørgsmål
-common#:#question_pools#:#Question pools###21 Apr 2005 new variable
+common#:#question_pools#:#Spørgsmålssamlinger
 common#:#quit#:#Afbryd
 common#:#quote#:#Citat
 common#:#read#:#Læs
@@ -6821,12 +6821,12 @@ survey#:#category#:#Svar
 survey#:#category_delete_confirm#:#Er du sikker på at du vil slette følgende kategorier?
 survey#:#category_delete_select_none#:#Marker mindst et svar for at slette det!
 survey#:#category_nr_selected#:#Antal brugere der har valgt dette svar
-survey#:#chart#:#Chart###21 Apr 2005 new variable
+survey#:#chart#:#Graf
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###21 Apr 2005 new variable
 survey#:#codes#:#Adgangskoder
-survey#:#combobox#:#Combobox###21 Apr 2005 new variable
+survey#:#combobox#:#Kombobox
 survey#:#confirm_remove_heading#:#Er du sikker på du vil fjerne overskriften?
-survey#:#constraint_add#:#Add precondition
+survey#:#constraint_add#:#Tilføj forudsætning
 survey#:#constraints#:#Bindinger
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it.
@@ -7195,7 +7195,7 @@ trac#:#stats_hour#:#h
 trac#:#stats_interval#:#Interval
 trac#:#stats_interval_dwell_time#:#Interval of Dwell Time
 trac#:#stats_interval_page_access#:#Interval of Access to Pages
-trac#:#stats_last#:#Last
+trac#:#stats_last#:#Sidste
 trac#:#stats_legend#:#Legend
 trac#:#stats_measurable_hits#:#Measurable Hits (Hits within a Session)
 trac#:#stats_minute#:#m
@@ -7432,7 +7432,7 @@ ldap#:#ldap_user_mapping#:#User Profile Mapping###08 12 2006 new variable
 ldap#:#ldap_role_mapping#:#LDAPGroup > Role Mapping###08 12 2006 new variable
 ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile###08 12 2006 new variable
 ldap#:#ldap_mapping_template#:#Template for objectClass:###08 12 2006 new variable
-ldap#:#ldap_update_field_info#:#Update automatically###08 12 2006 new variable
+ldap#:#ldap_update_field_info#:#Opdater automatisk
 ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings###08 12 2006 new variable
 ldap#:#ldap_role_active#:#Enable Group Synchronization###08 12 2006 new variable
 ldap#:#ldap_role_bind_user#:#Usern DN###08 12 2006 new variable
@@ -7481,21 +7481,21 @@ ldap#:#ldap_btn_add_role_ass#:#Add New Rule###23 08 2007 new variable
 ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule###23 08 2007 new variable
 ldap#:#ldap_rule_type#:#Type of Assignment###23 08 2007 new variable
 ldap#:#ldap_confirm_del_role_ass#:#Delete Role Assignmen###23 08 2007 new variable
-ps#:#show_privacy#:#Privacy###22 12 2006 new variable
-ps#:#show_security#:#Security###25 02 2007 new variable
-ps#:#ps_export_files#:#Export Files###25 02 2007 new variable
-ps#:#ps_size#:#Files Size###25 02 2007 new variable
-ps#:#ps_select_one#:#Please select one export file###25 02 2007 new variable
-ps#:#ps_delete_export_files#:#Deleted export files###25 02 2007 new variable
-ps#:#ps_export_settings#:#Export Settings###25 02 2007 new variable
+ps#:#show_privacy#:#Privacy
+ps#:#show_security#:#Sikkerhed
+ps#:#ps_export_files#:#Eksportfiler
+ps#:#ps_size#:#Filstørrelser
+ps#:#ps_select_one#:#Vælg venligst en eksportfil
+ps#:#ps_delete_export_files#:#Slettede eksportfiler
+ps#:#ps_export_settings#:#Eksport indstillinger
 ps#:#ps_user_selection#:#Participants Selection###25 02 2007 new variable
-ps#:#ps_export_admin#:#Administrators###25 02 2007 new variable
-ps#:#ps_export_tutor#:#Tutors###25 02 2007 new variable
-ps#:#ps_export_member#:#Members###25 02 2007 new variable
-ps#:#ps_export_sub#:#Subscribers###25 02 2007 new variable
+ps#:#ps_export_admin#:#Administratorer
+ps#:#ps_export_tutor#:#Tutorer
+ps#:#ps_export_member#:#Medlemmer
+ps#:#ps_export_sub#:#Abonnenter
 ps#:#ps_export_wait#:#Users on the Waiting List###25 02 2007 new variable
-ps#:#ps_export_user_data#:#Data Types###25 02 2007 new variable
-ps#:#ps_export_data#:#Data Types of the Personal Profile###25 02 2007 new variable
+ps#:#ps_export_user_data#:#Datatyper
+ps#:#ps_export_data#:#Datatyper for personlig profil
 ps#:#ps_perform_export#:#Start CSVExport###25 02 2007 new variable
 ps#:#ps_privacy_protection#:#Privacy Settings###25 02 2007 new variable
 ps#:#ps_security_protection#:#Security Settings###25 02 2007 new variable
@@ -7511,8 +7511,8 @@ ps#:#ps_cdf_no_fields#:#No User Fields Defined###25 02 2007 new variable
 ps#:#ps_field_type#:#Field Type###25 02 2007 new variable
 ps#:#ps_type_txt_long#:#Text Field (Optional Values)###25 02 2007 new variable
 ps#:#ps_type_select_long#:#Selection Box (Fixed Values)###25 02 2007 new variable
-ps#:#ps_new_text_field#:#Add new Text Field###25 02 2007 new variable
-ps#:#ps_name_field#:#Name###25 02 2007 new variable
+ps#:#ps_new_text_field#:#Tilføj nyt tekst felt
+ps#:#ps_name_field#:#Navn
 ps#:#ps_type_text#:#Text Field###25 02 2007 new variable
 ps#:#ps_type_select#:#Select Field###25 02 2007 new variable
 ps#:#ps_new_select_field#:#New Selection Box###25 02 2007 new variable
