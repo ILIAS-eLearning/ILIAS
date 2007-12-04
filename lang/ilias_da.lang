@@ -4112,10 +4112,10 @@ mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as att
 block_html#:#block_html_block_head#:#HTML Block###25 02 2007 new variable
 block_html#:#block_html_block_title#:#Title###25 02 2007 new variable
 block_html#:#block_html_block_content#:#Content###25 02 2007 new variable
-news#:#news_block_news_for_context#:#News###18 12 2006 new variable
-news#:#news_loading_news#:#Loading News...###25 07 2007 new variable
-news#:#news_no_js_click_here#:#If news are not displayed, click here.###25 07 2007 new variable
-news#:#news_acc_cache#:#Permission Check (Minutes)###25 07 2007 new variable
+news#:#news_block_news_for_context#:#Nyheder
+news#:#news_loading_news#:#Henter nyheder
+news#:#news_no_js_click_here#:#Klik her hvis ingen nyheder vises.
+news#:#news_acc_cache#:#Rettighedskontrol (minutter)
 news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to nonaccessible items.###25 07 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
@@ -4133,23 +4133,23 @@ news#:#news_hide_news_block#:#Hide News Block###10 05 2007 new variable
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.###10 05 2007 new variable
 news#:#news_default_visibility#:#Default Access###10 05 2007 new variable
 news#:#news_news_item_title#:#Headline###25 02 2007 new variable
-news#:#news_news_item_content#:#Text###25 02 2007 new variable
-news#:#news_news_item_content_long#:#Long Text###25 02 2007 new variable
-news#:#news_news_item_content_long_info#:#This text will not be published via RSS.###25 02 2007 new variable
-news#:#news_visibility_users#:#Logged in Users###18 12 2006 new variable
-news#:#news_visibility_public#:#Public###18 12 2006 new variable
-news#:#news_news_item_visibility#:#Access###25 02 2007 new variable
-news#:#news_news_items#:#News Item(s)###25 02 2007 new variable
-news#:#news_subscribe#:#Subscribe###25 02 2007 new variable
-news#:#news_unsubscribe#:#Unsubscribe###25 02 2007 new variable
-news#:#news_internal_news#:#Internal News###25 02 2007 new variable
-news#:#news_get_feed_url#:#Get Feed URL###25 02 2007 new variable
+news#:#news_news_item_content#:#Tekst
+news#:#news_news_item_content_long#:#Lang tekst
+news#:#news_news_item_content_long_info#:#Denne tekst publiceres ikke med RSS
+news#:#news_visibility_users#:#Brugere logged ind
+news#:#news_visibility_public#:#Offentlig
+news#:#news_news_item_visibility#:#Adgang
+news#:#news_news_items#:#Nyhed(er)
+news#:#news_subscribe#:#Abonner
+news#:#news_unsubscribe#:#Uabonner
+news#:#news_internal_news#:#Interne nyheder
+news#:#news_get_feed_url#:#Hent feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'###25 02 2007 new variable
-news#:#news_get_feed_title#:#Personal Feed URL###25 02 2007 new variable
+news#:#news_get_feed_title#:#Personlig feed URL
 news#:#news_get_feed_info#:#This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.###25 02 2007 new variable
 news#:#news_feed_url#:#Feed URL###25 02 2007 new variable
-news#:#news_settings#:#News Settings###25 02 2007 new variable
-news#:#news_notifications_public#:#Public Notifications###25 02 2007 new variable
+news#:#news_settings#:#Nyhedsindstillinger
+news#:#news_notifications_public#:#Offentlige adviseringer
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.###25 02 2007 new variable
 news#:#news_public_feed#:#Extra Feed URL###25 02 2007 new variable
 news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.###25 02 2007 new variable
@@ -4187,12 +4187,12 @@ delic#:#delic_settings#:#del.icio.us indstillinger
 delic#:#delic_add_to_delicious#:#Føj til del.icio.us
 delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens###25 02 2007 new variable
-delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile###25 02 2007 new variable
+delic#:#delic_user_profile#:#Aktiver del.icio.us kontoindstillinger i brugerprofil
 gmaps#:#gmaps_api_key#:#API nøgle
 gmaps#:#gmaps_public_profile_info#:#Vis placering i offentlig profil
 gmaps#:#gmaps_enable_gmaps#:#Aktiver Google Maps
 gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
-gmaps#:#gmaps_zoom_level#:#Zoom Level###02 04 2007 new variable
+gmaps#:#gmaps_zoom_level#:#Zoom niveau
 gmaps#:#gmaps_settings#:#Google Maps Settings###25 02 2007 new variable
 gmaps#:#gmaps_extt_gmaps#:#Google Maps###25 02 2007 new variable
 gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
@@ -7645,21 +7645,21 @@ common#:#sorting_manual_header#:#Manuel sortering
 common#:#sorting_info_manual#:#Denne indstilling gør det muligt at sortere elementer manuelt.
 common#:#sorting_save#:#Gem sortering
 common#:#frm_add_thread#:#Tilføj nyt emne
-news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
-news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
-news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
-news#:#news_1_file_updated#:#1 File has been updated.###23 10 2007 new variable
-news#:#news_x_postings#:#%s Postings have been added.###23 10 2007 new variable
-news#:#news_1_postings#:#1 Posting has been added.###23 10 2007 new variable
-forum#:#make_topic_sticky#:#Make Topic Sticky###23 10 2007 new variable
-forum#:#make_topic_non_sticky#:#Make Topic Non-Sticky###23 10 2007 new variable
-forum#:#forums_post_and_children_were_deactivated#:#The post and all its child posts were deactivated.###23 10 2007 new variable
+news#:#news_x_files_created#:#%s filer er blevet tilføjet
+news#:#news_x_files_updated#:#%s filer er blevet opdateret
+news#:#news_1_file_created#:#1 fil tilføjet
+news#:#news_1_file_updated#:#1 fil opdateret
+news#:#news_x_postings#:#%s indlæg er blevet tilføjet
+news#:#news_1_postings#:#1 indlæg er blevet tilføjet
+forum#:#make_topic_sticky#:#Lad emnet klistre
+forum#:#make_topic_non_sticky#:#Stop klister for emnet
+forum#:#forums_post_and_children_were_deactivated#:#Dette indlæg og alle underindlæg er deaktiveret
 forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.###23 10 2007 new variable
-forum#:#forums_post_was_activated#:#The post was activated.###23 10 2007 new variable
+forum#:#forums_post_was_activated#:#Indlæget er aktiveret
 forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.###23 10 2007 new variable
 forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.###23 10 2007 new variable
-common#:#bold#:#Bold###23 10 2007 new variable
-common#:#newline#:#Newline###23 10 2007 new variable
+common#:#bold#:#Fed
+common#:#newline#:#Ny linje
 common#:#ext_cat_settings#:#Edit Advanced Category Settings###23 10 2007 new variable
 common#:#edit_cat_settings#:#Advanced Category Settings###23 10 2007 new variable
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.###23 10 2007 new variable
@@ -7682,31 +7682,31 @@ meta#:#md_copyright#:#Copyright###23 10 2007 new variable
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
 news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.###02 11 2007 new variable
 news#:#news_rss_period#:#RSS Period###02 11 2007 new variable
-news#:#news_period_x_days#:#Last %s Days###02 11 2007 new variable
-news#:#news_period_1_week#:#Last Week###02 11 2007 new variable
-news#:#news_period_x_weeks#:#Last %s Weeks###02 11 2007 new variable
-news#:#news_period_1_month#:#Last Month###02 11 2007 new variable
-news#:#news_period_x_months#:#Last %s Months###02 11 2007 new variable
-news#:#news_period_1_year#:#Last Year###02 11 2007 new variable
-news#:#news_allow_shorter_periods#:#Allow Shorter Periods###02 11 2007 new variable
-news#:#news_allow_longer_periods#:#Allow Longer Periods###02 11 2007 new variable
-news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.###02 11 2007 new variable
-news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.###02 11 2007 new variable
+news#:#news_period_x_days#:#Sidste %s dage
+news#:#news_period_1_week#:#Sidste uge
+news#:#news_period_x_weeks#:#Sidste %s uger
+news#:#news_period_1_month#:#Sidste måned
+news#:#news_period_x_months#:#Sidste %s måneder
+news#:#news_period_1_year#:#Sidste år
+news#:#news_allow_shorter_periods#:#Tillad kortere perioder
+news#:#news_allow_longer_periods#:#Tillad længere perioder
+news#:#news_allow_shorter_periods_info#:#Brugere må vælge kortere nyhedsperioder på skrivebordet.
+news#:#news_allow_longer_periods_info#:#Brugere må vælge længere nyhedsperioder på skrivebordet.
 news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.###02 11 2007 new variable
-news#:#news_hide_news_per_date#:#Show News After###02 11 2007 new variable
-news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.###02 11 2007 new variable
-news#:#news_hide_news_date#:#Starting Date###02 11 2007 new variable
+news#:#news_hide_news_per_date#:#Vis nyheder efter
+news#:#news_hide_news_per_date_info#:#Kun nyheder fra en bestemt dato vises.
+news#:#news_hide_news_date#:#Startdato
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.###02 11 2007 new variable
 forum#:#topics_please_select_one_action#:#Please select an action.###02 11 2007 new variable
 forum#:#sticky#:#sticky###02 11 2007 new variable
-forum#:#topic_close#:#close###02 11 2007 new variable
-forum#:#close_topics#:#Close###02 11 2007 new variable
-forum#:#reopen_topics#:#Reopen###02 11 2007 new variable
-forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator###02 11 2007 new variable
-forum#:#activate_new_posts#:#Activate Posts###02 11 2007 new variable
+forum#:#topic_close#:#luk
+forum#:#close_topics#:#Luk
+forum#:#reopen_topics#:#Genåben
+forum#:#post_censored_comment_by_moderator#:#Indlæg censureret, kommentar af moderator
+forum#:#activate_new_posts#:#Aktive indlæg
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
 mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
-mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
+mail#:#search_recipients#:#Søg modtagere
 survey#:#on_additional#:#On, and additional###02 11 2007 new variable
 assessment#:#tst_show_solution_answers_only#:#Results print view (answers only)###14 11 2007 new variable
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
@@ -7729,11 +7729,11 @@ common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently 
 assessment#:#tst_no_export_randomtest#:#You cannot export a test with random selection of questions, because every used question pool has to be exported too which leads to enormous complexity of the export files.###27 11 2007 new variable
 common#:#lngf_write#:#Write access, needed for extended language maintenance###27 11 2007 new variable
 content#:#cont_last_access#:#Last Access###27 11 2007 new variable
-content#:#seq_close#:#Please close the player-window.###27 11 2007 new variable
+content#:#seq_close#:#Luk venligst afspilningsvinduet
 content#:#scplayer_showtree#:#Show Tree###27 11 2007 new variable
-content#:#scplayer_hidetree#:#Hide Tree###27 11 2007 new variable
-content#:#scplayer_continue#:#Continue###27 11 2007 new variable
-content#:#scplayer_previous#:#Previous###27 11 2007 new variable
+content#:#scplayer_hidetree#:#Skjul træ
+content#:#scplayer_continue#:#Fortsæt
+content#:#scplayer_previous#:#Forrige
 content#:#scplayer_suspendall#:#Suspend All###27 11 2007 new variable
 content#:#scplayer_exitall#:#Exit All###27 11 2007 new variable
 content#:#scplayer_exit#:#Exit###27 11 2007 new variable
