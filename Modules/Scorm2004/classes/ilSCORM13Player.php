@@ -217,7 +217,7 @@ class ilSCORM13Player
 			case 'cmi':
 				if ($_SERVER['REQUEST_METHOD']=='POST') {
 					$this->persistCMIData();
-					error_log("Saved CMI Data");
+					//error_log("Saved CMI Data");
 				} else {
 					$this->fetchCMIData();
 				}
@@ -685,7 +685,7 @@ class ilSCORM13Player
 		global $ilDB;
 		
 		$delorder = array('correct_response', 'objective', 'interaction', 'comment', 'node');
-		error_log("Delete, User:".$userId."Package".$packageId."Node: ".$cp_node_id);
+		//error_log("Delete, User:".$userId."Package".$packageId."Node: ".$cp_node_id);
 		foreach ($delorder as $k) 
 		{
 			if (is_null($cp_node_id))
@@ -854,7 +854,7 @@ class ilSCORM13Player
 
 				if ($table==='node') 
 				{
-					error_log("Lets remove old data");
+					//error_log("Lets remove old data");
 					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
 				}
 
