@@ -48,6 +48,7 @@ class ilLocatorGUI
 		$this->lng =& $lng;	
 		$this->entries = array();
 		$this->setTextOnly(false);
+		$this->offline = false;
 	}
 
 	/**
@@ -58,6 +59,16 @@ class ilLocatorGUI
 	function setTextOnly($a_textonly)
 	{
 		$this->textonly = $a_textonly;
+	}
+	
+	function setOffline($a_offline)
+	{
+		$this->offline = $a_offline;
+	}
+
+	function getOffline()
+	{
+		return $this->offline;
 	}
 
 	/**
@@ -273,7 +284,8 @@ class ilLocatorGUI
 					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 					$type = ilObject::_lookupType($obj_id);
 					
-					$icon_path = ilObject::_getIcon($obj_id, "tiny", $type);
+					$icon_path = ilObject::_getIcon($obj_id, "tiny", $type,
+						$this->getOffline());
 					
 					$loc_tpl->setCurrentBlock("locator_img");					
 					$loc_tpl->setVariable("IMG_SRC", $icon_path);
