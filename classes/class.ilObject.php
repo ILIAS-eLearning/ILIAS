@@ -235,7 +235,7 @@ class ilObject
 		{
 			$message = "ilObject::read(): Type mismatch. Object with obj_id: ".$this->id." ".
 				"was instantiated by type '".$this->type."'. DB type is: ".$obj["type"];
-				
+
 			// write log entry
 			$log->write($message);
 				

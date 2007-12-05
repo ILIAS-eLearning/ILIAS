@@ -674,15 +674,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// add course members button, in case the exercise is inside a course
 		$parent_id = $tree->getParentId($_GET["ref_id"]);
-		$obj = new ilObject($parent_id, true);
-		$type = $obj->getType();
+		$parent_obj_id = ilObject::_lookupObjId($parent_id);
+		$type = ilObject::_lookupType($parent_obj_id);
+		//$obj = new ilObject($parent_id, true);
+		//$type = $obj->getType();
 
 		// search for a parent course
 		while ($parent_id != 1 && $type != "crs")
 		{
 			$parent_id = $tree->getParentId($parent_id);
-			$obj = new ilObject($parent_id, true);
-			$type = $obj->getType();
+			$parent_obj_id = ilObject::_lookupObjId($parent_id);
+			$type = ilObject::_lookupType($parent_obj_id);
+
+			//$obj = new ilObject($parent_id, true);
+			//$type = $obj->getType();
 		}
 
 		if ($type == "crs") 
