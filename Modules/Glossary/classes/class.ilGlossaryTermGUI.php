@@ -86,6 +86,24 @@ class ilGlossaryTermGUI
 		}
 	}
 
+	/**
+	 * set offline directory to offdir
+	 *
+	 * @param offdir contains diretory where to store files
+	 */
+	function setOfflineDirectory ($offdir) {
+		$this->offline_directory = $offdir;
+	}
+
+
+	/**
+	 * get offline directory
+	 * @return directory where to store offline files
+	 */
+	function getOfflineDirectory () {
+		return $this->offline_directory;
+	}
+
 
 	function setGlossary(&$a_glossary)
 	{
@@ -234,6 +252,7 @@ class ilGlossaryTermGUI
 			else
 			{
 				$page_gui->setOutputMode("offline");
+				$page_gui->setOfflineDirectory($this->getOfflineDirectory());
 			}
 
 			//$page_gui->setOutputMode("edit");

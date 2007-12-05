@@ -1006,7 +1006,14 @@ class ilLMPresentationGUI
 	function ilLMHead()
 	{
 		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.gif"));
+		if ($this->offlineMode())
+		{
+			$this->tpl->setVariable("IMG_HEADER", "./images/icon_lm.gif");
+		}
+		else
+		{
+			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.gif"));
+		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("lm_head");
 		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
@@ -1178,6 +1185,10 @@ class ilLMPresentationGUI
 				ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
 				"repository.php?cmd=frameset&amp;ref_id=".$par_id,
 				ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
+		}
+		else
+		{
+			$ilLocator->setOffline(true);
 		}
 
 		if($this->lm_tree->isInTree($a_id))
@@ -1878,7 +1889,9 @@ class ilLMPresentationGUI
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 		$term_gui->setLinkXML($link_xml);
 
+		$term_gui->setOfflineDirectory($this->getOfflineDirectory());
 		$term_gui->output($this->offlineMode());
+		
 		//$term_gui->listDefinitions($this->offlineMode());
 
 		$ilBench->stop("ContentPresentation", "ilGlossary");

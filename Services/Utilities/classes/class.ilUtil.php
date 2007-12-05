@@ -3441,34 +3441,36 @@ class ilUtil
 			{
 				$cnt = (int) $GLOBALS["teximgcnt"]++;
 				// get image from cgi and write it to file
-				$fpr = fopen($a_cgi."?".rawurlencode($found[1]), "r");
+				$fpr = @fopen($a_cgi."?".rawurlencode($found[1]), "r");
 				$lcnt = 0;
-				while(!feof($fpr))
+				if ($fpr)
 				{
-					$buf = fread($fpr, 1024);
-					if ($lcnt == 0)
+					while(!feof($fpr))
 					{
-						if (is_int(strpos(strtoupper(substr($buf, 0, 5)), "GIF")))
+						$buf = fread($fpr, 1024);
+						if ($lcnt == 0)
 						{
-							$suffix = "gif";
+							if (is_int(strpos(strtoupper(substr($buf, 0, 5)), "GIF")))
+							{
+								$suffix = "gif";
+							}
+							else
+							{
+								$suffix = "png";
+							}
+							$fpw = fopen($a_dir."/teximg/img".$cnt.".".$suffix, "w");
 						}
-						else
-						{
-							$suffix = "png";
-						}
-						$fpw = fopen($a_dir."/teximg/img".$cnt.".".$suffix, "w");
+						$lcnt++;
+						fwrite($fpw, $buf);
 					}
-					$lcnt++;
-					fwrite($fpw, $buf);
+					fclose($fpw);
+					fclose($fpr);
 				}
-				fclose($fpw);
-				fclose($fpr);
 
 				// replace tex-tag
 				$img_str = "./teximg/img".$cnt.".".$suffix;
 				$result_text = str_replace($found[0],
 					'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
-
 			}
 		}
 

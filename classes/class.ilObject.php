@@ -1617,7 +1617,8 @@ class ilObject
 		return true;	 	
 	}
 	
-	public function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "")
+	public function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
+		$a_offline = false)
 	{
 		global $ilSetting;
 		
@@ -1659,7 +1660,14 @@ class ilObject
 			default: $suff = "_b"; break;
 		}
 		
-		return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+		if (!$a_offline)
+		{
+			return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+		}
+		else
+		{
+			return "./images/icon_".$a_type.$suff.".gif";
+		}
 	}
 	
 } // END class.ilObject
