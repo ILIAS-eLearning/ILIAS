@@ -97,7 +97,7 @@ class ilMailSearchCoursesGUI
 			else
 			{
 				ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
-				$this->showCourseMembers();
+				$this->showMembers();
 			}
 		}
 		else
@@ -158,8 +158,9 @@ class ilMailSearchCoursesGUI
 			$mail_data["m_message"],
 			$mail_data["use_placeholders"]
 		);
-		
-		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+
+		$this->ctrl->returnToParent($this);
+		#ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
 	}
 
 	function mailMembers()
@@ -201,8 +202,9 @@ class ilMailSearchCoursesGUI
 			$mail_data["m_message"],
 			$mail_data["use_placeholders"]
 		);
-	
-	#	ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+
+		$this->ctrl->returnToParent($this);
+		#ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
 	}
 
 	/**
