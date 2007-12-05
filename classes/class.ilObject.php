@@ -166,7 +166,7 @@ class ilObject
 	*/
 	function read($a_force_db = false)
 	{
-		global $objDefinition, $ilBench, $ilDB;
+		global $objDefinition, $ilBench, $ilDB, $log;
 
 		$ilBench->start("Core", "ilObject_read");
 
@@ -229,6 +229,20 @@ class ilObject
 		}
 
 		$this->id = $obj["obj_id"];
+		
+		// check type match 
+		if ($this->type != $obj["type"])
+		{
+			$message = "ilObject::read(): Type mismatch. Object with obj_id: ".$this->id." ".
+				"was instantiated by type '".$this->type."'. DB type is: ".$obj["type"];
+				
+			// write log entry
+			$log->write($message);
+				
+			// raise error
+			$this->ilias->raiseError("ilObject::read(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
+		}
+		
 		$this->type = $obj["type"];
 		$this->title = $obj["title"];
 		$this->desc = $obj["description"];
