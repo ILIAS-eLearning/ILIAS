@@ -2911,3 +2911,7 @@ PRIMARY KEY ( `obj_id` )
 ) TYPE = MYISAM ;
 <#1121>
 ALTER TABLE `survey_category` CHANGE `title` `title` VARCHAR( 255 ) NOT NULL;
+<#1122>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
