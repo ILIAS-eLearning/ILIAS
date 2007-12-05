@@ -1230,6 +1230,20 @@ class ilObject
 		// delete object_data entry
 		if ((!$this->referenced) || ($this->countReferences() == 1))
 		{
+			// check type match
+			$db_type = ilObject::_lookupType($this->getId());
+			if ($this->type != $db_type)
+			{
+				$message = "ilObject::delete(): Type mismatch. Object with obj_id: ".$this->id." ".
+					"was instantiated by type '".$this->type."'. DB type is: ".$db_type;
+					
+				// write log entry
+				$log->write($message);
+					
+				// raise error
+				$this->ilias->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
+			}
+
 			// delete entry in object_data
 			$q = "DELETE FROM object_data ".
 				"WHERE obj_id = ".$ilDB->quote($this->getId());
