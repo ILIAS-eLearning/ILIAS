@@ -1226,7 +1226,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $ilDB;
 	    $query = array();
 
-	    $allowed_fields = array ("firstname","lastname","email","login","matriculation","institut","department","title");
+	    $allowed_fields = array ("firstname","lastname","email","login","matriculation","institut","department","title","ext_account");
 
 	    foreach ($a_keyfields as $keyfield)
 	    {
