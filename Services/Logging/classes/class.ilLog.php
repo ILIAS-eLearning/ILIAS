@@ -256,6 +256,19 @@ class ilLog
 		}
 	}
 	
+	public function logStack($a_message = '')
+	{
+ 		try
+ 		{
+ 			throw new Exception($a_message);
+ 		}
+ 		catch(Exception $e)
+ 		{
+	 		$this->write($e->getTraceAsString());
+ 		}
+	}
+	
+	
 	private function open()
 	{
 		if(!$this->fp)

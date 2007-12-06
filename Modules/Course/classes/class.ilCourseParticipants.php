@@ -115,9 +115,17 @@ class ilCourseParticipants
 	 */
 	public function _isParticipant($a_ref_id,$a_usr_id)
 	{
-		global $rbacreview,$ilObjDataCache,$ilDB;
+		global $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
 
 		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
+		{
+			$course_title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($a_ref_id));
+			$ilLog->write(__METHOD__.': Found course without role folder. Course ref_id: '.$a_ref_id.', course title: '.$course_title);
+			$ilLog->logStack();
+			
+			return false;
+		}
 		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
 		$user_roles = $rbacreview->assignedRoles($a_usr_id);
 		
@@ -778,9 +786,17 @@ class ilCourseParticipants
 	 */
 	private function readParticipants()
 	{
-		global $rbacreview,$ilObjDataCache;
+		global $rbacreview,$ilObjDataCache,$ilLog;
 		
 		$rolf = $rbacreview->getRoleFolderOfObject($this->course_ref_id);
+		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
+		{
+			$course_title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($this->course_ref_id));
+			$ilLog->write(__METHOD__.': Found course without role folder. Course ref_id: '.$this->course_ref_id.', course title: '.$course_title);
+			$ilLog->logStack();
+			return false;
+		}
+		
 		$this->course_roles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
 
 		$users = array();
