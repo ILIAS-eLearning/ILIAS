@@ -14,12 +14,6 @@ This Java server has been tested with Sun Java Runtime Environment 1.4.2.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
 
-Try:
-bash$ export LC_CTYPE=en_EN.UTF-8
-
-to set the default character encoding for the Java Virtual Machine to utf-8, 
-before starting the RPC-Server
-
 ILIAS needs the pear XML_RPC library.
 
 
@@ -57,13 +51,9 @@ LogFile = /var/log/ilServer.log # Choose a filename. The LogFile will be created
 
 4) Start the server:
 
-Set the default character encoding:
-
-bash$ export LC_CTYPE=en_EN.UTF-8
-
 Start the server:
 
-bash$ java -jar ilServer.jar ilServer.properties &
+bash$ java -Dfile.encoding=UTF-8 -jar ilServer.jar ilServer.properties &
 
 You will receive the PROCESS_ID of the started RPC-Server
 
@@ -150,7 +140,7 @@ case "$1" in
 			exit 1
 		fi
 		echo "Starting RPC server"
-		$JAVABIN -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.properties $USER &
+		$JAVABIN -Dfile.encoding=UTF-8 -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.properties $USER &
 		echo $! > /tmp/rpcserver.pid
 		;;
 
