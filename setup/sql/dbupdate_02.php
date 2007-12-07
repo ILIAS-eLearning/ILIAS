@@ -2923,4 +2923,12 @@ PRIMARY KEY ( `obj_id` )
 ) TYPE = MYISAM ;
 
 <#1124>
-ALTER TABLE `remote_course_settings` ADD `remote_link` TEXT NOT NULL ;
+CREATE TABLE IF NOT EXISTS `remote_course_settings` (
+  `obj_id` int(11) NOT NULL default '0',
+  `local_information` text NOT NULL,
+  `availability_type` tinyint(1) NOT NULL default '0',
+  `start` int(11) NOT NULL default '0',
+  `end` int(11) NOT NULL default '0',
+  `remote_link` text NOT NULL,
+  PRIMARY KEY  (`obj_id`)
+) Type=MyISAM;
