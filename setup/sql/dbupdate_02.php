@@ -2915,3 +2915,10 @@ ALTER TABLE `survey_category` CHANGE `title` `title` VARCHAR( 255 ) NOT NULL;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1121>
+CREATE TABLE `ecs_import` (
+`obj_id` INT( 11 ) NOT NULL ,
+`econtent_id` INT( 11 ) NOT NULL ,
+PRIMARY KEY ( `obj_id` )
+) TYPE = MYISAM ;
+
