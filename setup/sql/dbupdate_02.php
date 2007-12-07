@@ -2922,3 +2922,5 @@ CREATE TABLE `ecs_import` (
 PRIMARY KEY ( `obj_id` )
 ) TYPE = MYISAM ;
 
+<#1124>
+ALTER TABLE `remote_course_settings` ADD `remote_link` TEXT NOT NULL ;
