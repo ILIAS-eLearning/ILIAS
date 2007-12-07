@@ -3690,7 +3690,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						if (!$this->object->checkSurveyCode($_POST["anonymous_id"]))
 						{
-							ilUtil::sendInfo("wrong_survey_code_used");
+							ilUtil::sendInfo($this->lng->txt("wrong_survey_code_used"));
 						}
 						else
 						{
@@ -3701,7 +3701,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						if (!$this->object->checkSurveyCode($_SESSION["anonymous_id"]))
 						{
-							ilUtil::sendInfo("wrong_survey_code_used");
+							ilUtil::sendInfo($this->lng->txt("wrong_survey_code_used"));
 						}
 						else
 						{
