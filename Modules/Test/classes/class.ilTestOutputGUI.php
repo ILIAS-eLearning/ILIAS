@@ -1106,7 +1106,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			return;
 		}
 			
-		if (($this->object->getInstantFeedbackSolution() == 1) || ($this->object->getAnswerFeedback() == 1))
+		if (($this->object->getInstantFeedbackSolution() == 1) || ($this->object->getAnswerFeedback() == 1) || ($this->object->getAnswerFeedbackPoints() == 1))
 		{
 			$this->tpl->setCurrentBlock("direct_feedback");
 			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("check"));
@@ -1767,7 +1767,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$template->setVariable("USER_MARK", $statement["mark"]);
 		if (strlen($statement["markects"]))
 		{
-			$template->setVariable("USER_MARK_ECTS", $statement["mark"]);
+			$template->setVariable("USER_MARK_ECTS", $statement["markects"]);
 		}
 		$template->parseCurrentBlock();
 
@@ -1839,7 +1839,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("USER_MARK", $statement["mark"]);
 			if (strlen($statement["markects"]))
 			{
-				$this->tpl->setVariable("USER_MARK_ECTS", $statement["mark"]);
+				$this->tpl->setVariable("USER_MARK_ECTS", $statement["markects"]);
 			}
 		}
 		
@@ -1901,7 +1901,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("USER_MARK", $statement["mark"]);
 		if (strlen($statement["markects"]))
 		{
-			$this->tpl->setVariable("USER_MARK_ECTS", $statement["mark"]);
+			$this->tpl->setVariable("USER_MARK_ECTS", $statement["markects"]);
 		}
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
@@ -1965,7 +1965,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("USER_MARK", $statement["mark"]);
 			if (strlen($statement["markects"]))
 			{
-				$this->tpl->setVariable("USER_MARK_ECTS", $statement["mark"]);
+				$this->tpl->setVariable("USER_MARK_ECTS", $statement["markects"]);
 			}
 		}
 		
@@ -1976,6 +1976,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("PASS_DETAILS", $overview);
+		$this->tpl->setVariable("USER_DETAILS", $user_data);
 		$uname = $this->object->userLookupFullName($user_id);
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 		$this->tpl->parseCurrentBlock();

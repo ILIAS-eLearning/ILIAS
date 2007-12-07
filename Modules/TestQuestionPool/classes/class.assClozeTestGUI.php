@@ -903,7 +903,18 @@ class assClozeTestGUI extends assQuestionGUI
 					}
 					else
 					{
-						$solutiontext = $gap->getItem($found["value2"])->getAnswertext();
+						$item = $gap->getItem($found["value2"]);
+						if (is_object($item))
+						{
+							$solutiontext = $item->getAnswertext();
+						}
+						else
+						{
+							for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
+							{
+								$solutiontext .= "&nbsp;";
+							}
+						}
 					}
 					$gaptemplate->setVariable("SOLUTION", $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
