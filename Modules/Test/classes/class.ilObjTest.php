@@ -9112,7 +9112,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setAnswerFeedback($testsettings["AnswerFeedback"]);
 			$this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
 			$this->setResultsPresentation($testsettings["ResultsPresentation"]);
-			$this->setShowSolutionPrintview($testsettings["ShowSolutionPrintview"]);
 			$this->setAnonymity($testsettings["Anonymity"]);
 			$this->setShowCancel($testsettings["ShowCancel"]);
 			$this->setShowMarker($testsettings["ShowMarker"]);

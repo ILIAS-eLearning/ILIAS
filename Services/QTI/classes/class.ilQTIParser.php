@@ -1240,9 +1240,9 @@ class ilQTIParser extends ilSaxParser
 			case "material":
 				if ($this->material)
 				{
-					if (strcmp($this->material->getLabel(), "suggested_solution") == 0)
+					$mat = $this->material->getMaterial(0);
+					if ((strcmp($mat["type"], "mattext") == 0) && (strcmp($mat["material"]->getLabel(), "suggested_solution") == 0))
 					{
-						$mat = $this->material->getMaterial(0);
 						$this->item->addSuggestedSolution($mat["material"], $this->gap_index);
 					}
 					if ($this->in_objectives)

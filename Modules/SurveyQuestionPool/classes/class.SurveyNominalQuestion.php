@@ -807,7 +807,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		else
 		{
 			array_push($a_array, $this->lng->txt("skipped"));
-			if ($question_data["subtype"] == SUBTYPE_MCMR)
+			if ($this->getSubtype() == SUBTYPE_MCMR)
 			{
 				for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 				{

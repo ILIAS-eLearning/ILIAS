@@ -833,7 +833,7 @@ class ilTestServiceGUI
 			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-			$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
+			//$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
 			$template->setVariable("PASS_DETAILS", $detailsoverview);
 
 			$signature = $this->getResultsSignature();
@@ -844,7 +844,7 @@ class ilTestServiceGUI
 		$template->setVariable("USER_MARK", $statement["mark"]);
 		if (strlen($statement["markects"]))
 		{
-			$template->setVariable("USER_MARK_ECTS", $statement["mark"]);
+			$template->setVariable("USER_MARK_ECTS", $statement["markects"]);
 		}
 		$template->parseCurrentBlock();
 
