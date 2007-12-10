@@ -103,6 +103,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ctrl->getTargetScript() == 'role.php' ||
 			$this->ctrl->getTargetScript() == 'fblm_edit.php' ||
 			$this->ctrl->getTargetScript() == 'chat.php' ||
+			strtolower($_GET["baseClass"]) == 'ilchathandlergui' ||
 			strtolower($_GET["baseClass"]) == 'illmeditorgui' ||
 			strtolower($_GET["baseClass"]) == 'ilexercisehandlergui' ||
 			strtolower($_GET["baseClass"]) == 'illinkresourcehandlergui' ||
