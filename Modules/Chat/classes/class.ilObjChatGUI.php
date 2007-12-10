@@ -49,8 +49,6 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 
-		#define("ILIAS_MODULE","chat");
-		
 		$this->type = "chat";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 
@@ -2063,6 +2061,17 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
+	
+	public function addLocatorItems()
+	{
+		global $ilLocator;
+		
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ''), '', $_GET['ref_id']);
+		}
+	}
+	
 
 }
 // END class.ilObjChatGUI
