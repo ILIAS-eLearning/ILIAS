@@ -7746,4 +7746,8 @@ administration#:#auth_auth_mode_determination#:#Authentication Method Determinat
 administration#:#auth_kind_determination#:#Kind of Determination
 administration#:#auth_by_user#:#By the User
 administration#:#auth_automatic#:#Fixed Sequence
-administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods. 
+administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.
+rbac#:#mds_edit_permission#:#Change permission settings
+rbac#:#mds_visible#:#Metadata settings are visible
+rbac#:#mds_read#:#Read access to Metadata settings
+rbac#:#mds_write#:#Edit Metadata settings
