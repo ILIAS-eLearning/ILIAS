@@ -1859,9 +1859,9 @@ common#:#mcst_visible#:#MediaCast er synligt
 common#:#mcst_read#:#Læseadgang til MediaCast###02 04 2007 new variable
 common#:#mcst_write#:#Rediger MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
+common#:#nwss_visible#:#Nyheds og web feeds indstillinger er synlige
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
-common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
+common#:#nwss_write#:#Rediger nyheds og web feeds indstillinger
 common#:#cat_create_feed#:#Opret web feed
 common#:#grp_create_feed#:#Opret web feed
 common#:#crs_create_feed#:#Opret web feed
@@ -1980,7 +1980,7 @@ common#:#obj_qpl#:#Spørgsmålsbibliotek
 common#:#obj_recf#:#Gendannede objekter
 common#:#obj_recf_desc#:#Indeholder gendannede objekter fra systemcheck.
 common#:#obj_role#:#Rolle
-common#:#obj_nwss#:#News and Web Feeds Settings###25 02 2007 new variable
+common#:#obj_nwss#:#Nyheds og web feed indstillinger
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.###25 02 2007 new variable
 common#:#obj_rolf#:#Roller
 common#:#obj_rolf_desc#:#Administrer dine roller her.
@@ -4116,23 +4116,23 @@ news#:#news_block_news_for_context#:#Nyheder
 news#:#news_loading_news#:#Henter nyheder
 news#:#news_no_js_click_here#:#Klik her hvis ingen nyheder vises.
 news#:#news_acc_cache#:#Rettighedskontrol (minutter)
-news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to nonaccessible items.###25 07 2007 new variable
-news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
+news#:#news_acc_cache_info#:#Kontroller læserettigheder for nyheder hvert x minut (gælder det personlige skrivebord). '0' betyder hver gang. Højere værdier forbedrer ydelsen men nyheder kan linke til utilgængeligt indhold.
+news#:#news_nr_of_items#:#Maksimalt antal nyheder pr. objekt
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Relateret til
 news#:#news_all_items#:#Alt
 news#:#news_edit_news_settings#:#Ret indstillinger
 news#:#news_enable_internal_news#:#Aktiver interne nyheder
-news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.###25 02 2007 new variable
+news#:#news_enable_internal_news_info#:#Aktiverer nyheds blokke i kategotier, kurser, grupper og andre objekter. Brugere kan abonnere på nyheder og nyheder præsenteres på det personlige skrivebord.
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
-news#:#news_enable_internal_rss_info#:#Allows to publish news items via RSS. These items will be accessible outside of the system without authentication.###25 02 2007 new variable
+news#:#news_enable_internal_rss_info#:#Tillader publicering af nyheder via RSS. Disse nyheder vil være tilgængelige uden for systemet uden autentifikation (logon).
 news#:#news_first_letter_of_word_notification#:#N###25 02 2007 new variable
-news#:#news_notifications#:#Notifications###10 05 2007 new variable
-news#:#news_news_item_head#:#News Item###18 12 2006 new variable
-news#:#news_hide_news_block#:#Hide News Block###10 05 2007 new variable
-news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.###10 05 2007 new variable
+news#:#news_notifications#:#Adviseringer
+news#:#news_news_item_head#:#Nyhed
+news#:#news_hide_news_block#:#Skjul nyhedsbolk
+news#:#news_hide_news_block_info#:#Skjul blokken i den studerende/brugerens visning. Nyhedsblokken er kun synlig for brugere med skriverettigheder.
 news#:#news_default_visibility#:#Default Access###10 05 2007 new variable
-news#:#news_news_item_title#:#Headline###25 02 2007 new variable
+news#:#news_news_item_title#:#Overskrift
 news#:#news_news_item_content#:#Tekst
 news#:#news_news_item_content_long#:#Lang tekst
 news#:#news_news_item_content_long_info#:#Denne tekst publiceres ikke med RSS
@@ -7680,8 +7680,8 @@ ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
 meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
 meta#:#md_copyright#:#Copyright###23 10 2007 new variable
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
-news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.###02 11 2007 new variable
-news#:#news_rss_period#:#RSS Period###02 11 2007 new variable
+news#:#news_block_information#:#<b>Nyhedsblokken</b> viser alle de nyheder som er relateret til dine <i>personlige</i> ting som du har valgt på dit skrivebord.
+news#:#news_rss_period#:#RSS periode
 news#:#news_period_x_days#:#Sidste %s dage
 news#:#news_period_1_week#:#Sidste uge
 news#:#news_period_x_weeks#:#Sidste %s uger
