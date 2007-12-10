@@ -7747,3 +7747,7 @@ content#:#scplayer_start#:#Start
 content#:#scplayer_phpmysqlcheck#:#Sie benötigen MYSQL 4.1 oder höher und JSON-support um die JavaScript-RTE zu nutzen.
 trac#:#trac_mode_scorm_package#:#Automatisch durch SCORM-Kursstatus
 trac#:#trac_mode_scorm_package_info#:#Der Lernfortschrittsstatus wird durch den Gesamtstatus des SCORM-Moduls bestimmt.
+rbac#:#mds_edit_permission#:#Rechteeinstellung ändern
+rbac#:#mds_visible#:#Metadata-Einstellungen sind sichtbar
+rbac#:#mds_read#:#Lesezugriff auf Metadata-Einstellungen
+rbac#:#mds_write#:#Schreibzugriff auf Metadata-Einstellungen
