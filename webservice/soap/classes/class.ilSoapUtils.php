@@ -120,49 +120,6 @@ class ilSoapUtils extends ilSoapAdministration
 		return ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
 	}
 	
-	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
-	{
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-
-		// Include main header
-		include_once './include/inc.header.php';
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$active_id = ilObjTest::_getActiveIdOfUser($user_id, $test_id);
-		$ilDB = $GLOBALS['ilDB'];
-		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
-		{
-			$deletequery = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
-			);
-			$ilDB->query($deletequery);
-		}
-		for($i = 0; $i < count($solution); $i += 3)
-		{
-			$query = sprintf("INSERT INTO tst_solutions ".
-				"SET active_fi = %s, ".
-				"question_fi = %s, ".
-				"value1 = %s, ".
-				"value2 = %s, ".
-				"points = %s, ".
-				"pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($solution[$i]),
-				$ilDB->quote($solution[$i+1]),
-				$ilDB->quote($solution[$i+2]),
-				$ilDB->quote($pass . "")
-			);
-
-			$ilDB->query($query);
-		}
-		return true;
-	}
-	
 	/**
 	 * clone object dependencies (e.g. course start objects, preconditions ...)
 	 *

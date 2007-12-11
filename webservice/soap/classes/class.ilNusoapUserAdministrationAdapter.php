@@ -48,7 +48,7 @@ class ilNusoapUserAdministrationAdapter
 		define('SERVICE_NAMESPACE','urn:ilUserAdministration');
 		define('SERVICE_STYLE','rpc');
 		define('SERVICE_USE','encoded');
-
+		global $debug; $debug = true;
 		$this->server =& new soap_server();
 		$this->server->decode_utf8 = false;
 		if($a_use_wsdl)
@@ -788,6 +788,20 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS saveQuesionResult(): Typically called from Java Applet questions. Only for internal usage '.
+								'Sntax, parameters may change in future releases');
+
+		$this->server->register('saveQuestion',
+								array('sid' => 'xsd:string',
+									  'active_id' => 'xsd:long',
+									  'question_id' => 'xsd:long',
+									  'pass' => 'xsd:int',
+									  'solution' => 'tns:stringArray'),
+								array('status' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#saveQuestion',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS saveQuestion(): Saves the result of a question in a given test pass for the active test user. The active user is identified by the active ID, which assigns a user to a test.'.
 								'Sntax, parameters may change in future releases');
 
 		$this->server->register('getStructureObjects',
