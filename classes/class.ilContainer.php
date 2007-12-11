@@ -305,6 +305,80 @@ class ilContainer extends ilObject
 		return false;
 	}
 	
+
+	/**
+	 * clone all objects according to this container
+	 *
+	 * @param string $session_id
+	 * @param string $client_id
+	 * @param string $new_type
+	 * @param int $ref_id
+	 * @param int $clone_source
+	 * @param array $options
+	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
+	 */
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options)
+	{
+		global $ilLog;
+		
+		include_once('classes/class.ilLink.php');
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		
+		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser;
+			
+		// Save wizard options
+		$copy_id = ilCopyWizardOptions::_allocateCopyId();
+		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+		$wizard_options->saveOwner($ilUser->getId());
+		$wizard_options->saveRoot($clone_source);
+			
+		// add entry for source container
+		$wizard_options->initContainer($clone_source, $ref_id);
+		
+		foreach($options as $source_id => $option)
+		{
+			$wizard_options->addEntry($source_id,$option);
+		}
+		$wizard_options->read();
+		$wizard_options->storeTree($clone_source);
+		
+		// Duplicate session to avoid logout problems with backgrounded SOAP calls
+		$new_session_id = duplicate_session($session_id); 
+		
+		// Start cloning process using soap call
+		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+
+		$soap_client = new ilSoapClient();
+		$soap_client->setTimeout(30);
+		$soap_client->setResponseTimeout(30);
+		$soap_client->enableWSDL(true);
+
+		$ilLog->write(__METHOD__.': Trying to call Soap client...');
+		if($soap_client->init())
+		{
+			$ilLog->write(__METHOD__.': Calling soap clone method...');
+			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$client_id, $copy_id));
+		}
+		else
+		{
+			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
+			$wizard_options->disableSOAP();
+			$wizard_options->read();			
+			include_once('./webservice/soap/include/inc.soap_functions.php');
+			$res = ilClone($new_session_id.'::'.$client_id, $copy_id);
+		}
+				
+		// Check if copy is in progress
+		if(ilCopyWizardOptions::_isFinished($copy_id))
+		{
+			return $res;
+		}
+		else
+		{
+			return $ref_id;
+		}	
+	}
+	
 	
 } // END class.ilObjCategory
 ?>

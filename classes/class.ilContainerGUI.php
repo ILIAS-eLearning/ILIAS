@@ -2006,75 +2006,35 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser;
 		
 	 	$new_type = $_REQUEST['new_type'];
-	 	if(!$rbacsystem->checkAccess('create',(int) $_GET['ref_id'],$new_type))
+	 	$ref_id = (int) $_GET['ref_id'];
+	 	$clone_source = (int) $_REQUEST['clone_source'];
+	 	
+	 	if(!$rbacsystem->checkAccess('create', $ref_id,$new_type))
 	 	{
 	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
 	 	}
-		if(!(int) $_REQUEST['clone_source'])
+		if(!$clone_source)
 		{
 			ilUtil::sendInfo($this->lng->txt('select_one'));
 			$this->createObject();
 			return false;
 		}
-		if(!$ilAccess->checkAccess('write','',(int) $_REQUEST['clone_source'],$new_type))
+		if(!$ilAccess->checkAccess('write','', $clone_source,$new_type))
 		{
 	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
 		}
-		
-		// Save wizard options
-		$copy_id = ilCopyWizardOptions::_allocateCopyId();
-		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
-		$wizard_options->saveOwner($ilUser->getId());
-		$wizard_options->saveRoot((int) $_REQUEST['clone_source']);
-		
+
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
+		$result = $this->object->cloneAllObject ($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);		
 		
-		// add entry for source container
-		$wizard_options->initContainer((int) $_REQUEST['clone_source'],(int) $_GET['ref_id']);
-		foreach($options as $source_id => $option)
-		{
-			$wizard_options->addEntry($source_id,$option);
-		}
-		$wizard_options->read();
-		$wizard_options->storeTree((int) $_REQUEST['clone_source']);
-		
-		// Duplicate session to avoid logout problems with backgrounded SOAP calls
-		$new_session_id = duplicate_session($_COOKIE['PHPSESSID']); 
-		
-		// Start cloning process using soap call
-		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-
-		$soap_client = new ilSoapClient();
-		$soap_client->setTimeout(30);
-		$soap_client->setResponseTimeout(30);
-		$soap_client->enableWSDL(true);
-
-		$ilLog->write(__METHOD__.': Trying to call Soap client...');
-		if($soap_client->init())
-		{
-			$ilLog->write(__METHOD__.': Calling soap clone method...');
-			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id));
-		}
-		else
-		{
-			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
-			$wizard_options->disableSOAP();
-			$wizard_options->read();			
-			include_once('./webservice/soap/include/inc.soap_functions.php');
-			$res = ilClone($new_session_id.'::'.$_COOKIE['ilClientId'],$copy_id);
-		}
-		
-
 		// Check if copy is in progress
-		if(ilCopyWizardOptions::_isFinished($copy_id))
-		{
-			ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
-			ilUtil::redirect('repository.php?ref_id='.$res);
-		}
-		else
+		if ($result == $ref_id)
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
-			ilUtil::redirect('repository.php?ref_id='.(int) $_GET['ref_id']);
+			ilUtil::redirect('repository.php?ref_id='.$ref_id);
+		} else {
+			ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
+			ilUtil::redirect('repository.php?ref_id='.$result);			
 		}	
 	}
 
