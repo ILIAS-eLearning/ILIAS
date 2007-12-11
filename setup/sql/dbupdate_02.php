@@ -2932,3 +2932,13 @@ CREATE TABLE IF NOT EXISTS `remote_course_settings` (
   `remote_link` text NOT NULL,
   PRIMARY KEY  (`obj_id`)
 ) Type=MyISAM;
+
+<#1125>
+<?php
+$query = "show tables like 'cp_hidelmsui'";
+$res = $this->db->query($query);
+if(!$res->numRows()) {
+	$query="RENAME TABLE cp_hideLMSUI to cp_hidelmsui";
+  	$res = $this->db->query($query);
+}
+?>
