@@ -1000,7 +1000,7 @@ class ilRbacReview
 	*/
 	function getRolesOfRoleFolder($a_ref_id,$a_nonassignable = true)
 	{
-		global $ilBench,$ilDB;
+		global $ilBench,$ilDB,$ilLog;
 		
 		$ilBench->start("RBAC", "review_getRolesOfRoleFolder");
 
@@ -1008,6 +1008,7 @@ class ilRbacReview
 		{
 			$message = get_class($this)."::getRolesOfRoleFolder(): No ref_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			
 		}
 		
 		if ($a_nonassignable === false)
@@ -1188,7 +1189,7 @@ class ilRbacReview
 	*/
 	function getOperationsOfRole($a_rol_id,$a_type,$a_parent = 0)
 	{
-		global $ilDB;
+		global $ilDB,$ilLog;
 		
 		if (!isset($a_rol_id) or !isset($a_type))
 		{
@@ -1196,6 +1197,7 @@ class ilRbacReview
 					   "role_id: ".$a_rol_id.
 					   "type: ".$a_type.
 					   "parent_id: ".$a_parent;
+			$ilLog->logStack("Missing parameter! ");
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 

@@ -948,6 +948,15 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 		{
 			$node_id = $node_data['child'];
 			
+			// If $node_data['type'] is not set, this means there is a tree entry without
+			// object_reference and/or object_data entry
+			// Continue in this case
+			if(!$node_data['type'])
+			{
+				$ilLog->write(__METHOD__.': No type give. Choosing next tree entry.');
+				continue;
+			}
+			
 			if(!$node_id)
 			{
 				$ilLog->write(__METHOD__.': Missing subtree node_id');
