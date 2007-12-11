@@ -490,12 +490,20 @@
 
 	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 	{
-		include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		include_once './webservice/soap/classes/class.ilSoapAssessment.php';
 
-		$sou =& new ilSoapUtils();
-		$sou->disableSOAPCheck();
+		$sass =& new ilSoapAssessment();
 
-		return $sou->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
+		return $sass->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
+	}
+
+	function saveQuestion($sid,$active_id,$question_id,$pass,$solution)
+	{
+		include_once './webservice/soap/classes/class.ilSoapAssessment.php';
+
+		$sass =& new ilSoapAssessment();
+
+		return $sass->saveQuestion($sid,$active_id,$question_id,$pass,$solution);
 	}
 
 	function saveTempFileAsMediaObject($sid,$name,$tmp_name)
