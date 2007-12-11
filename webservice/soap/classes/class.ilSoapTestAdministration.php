@@ -32,9 +32,9 @@
    */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
-class ilSoapAssessment extends ilSoapAdministration
+class ilSoapTestAdministration extends ilSoapAdministration
 {
-	function ilSoapAssessment()
+	function ilSoapTestAdministration()
 	{
 		parent::ilSoapAdministration();
 	}
