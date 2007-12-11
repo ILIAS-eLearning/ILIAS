@@ -506,6 +506,15 @@
 		return $sass->saveQuestion($sid,$active_id,$question_id,$pass,$solution);
 	}
 
+	function getQuestionSolution($sid,$active_id,$question_id,$pass)
+	{
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$sass =& new ilSoapTestAdministration();
+
+		return $sass->getQuestionSolution($sid,$active_id,$question_id,$pass);
+	}
+
 	function saveTempFileAsMediaObject($sid,$name,$tmp_name)
 	{
 		include_once './webservice/soap/classes/class.ilSoapUtils.php';

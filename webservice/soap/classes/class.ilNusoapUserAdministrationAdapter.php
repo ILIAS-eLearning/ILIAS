@@ -787,8 +787,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#saveQuestionResult',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS saveQuesionResult(): Typically called from Java Applet questions. Only for internal usage '.
-								'Sntax, parameters may change in future releases');
+								'ILIAS saveQuesionResult: Typically called from an external assessment question to save the user input. DEPRECATED since ILIAS 3.9');
 
 		$this->server->register('saveQuestion',
 								array('sid' => 'xsd:string',
@@ -801,8 +800,19 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#saveQuestion',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS saveQuestion(): Saves the result of a question in a given test pass for the active test user. The active user is identified by the active ID, which assigns a user to a test.'.
-								'Sntax, parameters may change in future releases');
+								'ILIAS saveQuestion: Saves the result of a question in a given test pass for the active test user. The active user is identified by the active ID, which assigns a user to a test.');
+
+		$this->server->register('getQuestionSolution',
+								array('sid' => 'xsd:string',
+									  'active_id' => 'xsd:long',
+									  'question_id' => 'xsd:int',
+									  'pass' => 'xsd:int'),
+								array('solution' => 'tns:stringArray'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getQuestionSolution',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getQuestionSolution: Typically called from external assessment questions to retrieve the previous input of a user.');
 
 		$this->server->register('getStructureObjects',
 								array('sid' => 'xsd:string',
