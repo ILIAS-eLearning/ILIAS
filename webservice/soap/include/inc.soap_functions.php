@@ -490,18 +490,18 @@
 
 	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 	{
-		include_once './webservice/soap/classes/class.ilSoapAssessment.php';
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
 
-		$sass =& new ilSoapAssessment();
+		$sass =& new ilSoapTestAdministration();
 
 		return $sass->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
 	}
 
 	function saveQuestion($sid,$active_id,$question_id,$pass,$solution)
 	{
-		include_once './webservice/soap/classes/class.ilSoapAssessment.php';
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
 
-		$sass =& new ilSoapAssessment();
+		$sass =& new ilSoapTestAdministration();
 
 		return $sass->saveQuestion($sid,$active_id,$question_id,$pass,$solution);
 	}
