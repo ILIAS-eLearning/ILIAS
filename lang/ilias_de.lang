@@ -4582,7 +4582,7 @@ crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administ
 crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
-crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
+crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_learning_materials#:#Materialien
 crs#:#crs_list_users#:#Benutzer auflisten
