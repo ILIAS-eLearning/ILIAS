@@ -136,7 +136,7 @@ class ilCopyWizardOptions
 	 	$query = "INSERT INTO copy_wizard_options ".
 	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
 	 		"source_id = ".$this->db->quote(self::OWNER_KEY).", ".
-	 		"options = '".addslashes(serialize(array($a_user_id)))."'";
+	 		"options = ".$this->db->quote(serialize(array($a_user_id)))."";
 	 	$this->db->query($query);
 		return true;
 	}
@@ -153,7 +153,7 @@ class ilCopyWizardOptions
 	 	$query = "INSERT INTO copy_wizard_options ".
 	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
 	 		"source_id = ".$this->db->quote(self::ROOT_NODE).", ".
-	 		"options = '".addslashes(serialize(array($a_root)))."'";
+	 		"options = ".$this->db->quote(serialize(array($a_root)))."";
 	 	$this->db->query($query);
 		return true;
 		
@@ -184,7 +184,7 @@ class ilCopyWizardOptions
 	 	$query = "INSERT INTO copy_wizard_options ".
 	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
 	 		"source_id = ".$this->db->quote(self::DISABLE_SOAP).", ".
-	 		"options = '".addslashes(serialize(array(1)))."'";
+	 		"options = ".$this->db->quote(serialize(array(1)))."";
 	 	$this->db->query($query);
 	}
 	
@@ -262,13 +262,13 @@ class ilCopyWizardOptions
 		$a_tree_structure = $this->tmp_tree;
 		
 	 	$query = "UPDATE copy_wizard_options ".
-			"SET options = '".addslashes(serialize($a_tree_structure))."' ".
+			"SET options = ".$this->db->quote(serialize($a_tree_structure))." ".
 			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
 			"AND source_id = 0 ";
 		$res = $this->db->query($query);
 
 	 	$query = "INSERT INTO copy_wizard_options ".
-			"SET options = '".addslashes(serialize($a_tree_structure))."', ".
+			"SET options = ".$this->db->quote(serialize($a_tree_structure)).", ".
 			"copy_id = ".$this->db->quote($this->copy_id).", ".
 			"source_id = -1 ";
 		$res = $this->db->query($query);
@@ -329,7 +329,7 @@ class ilCopyWizardOptions
 		
 		$this->options[$a_id] = array_slice($this->options[$a_id],1);
 		$query = "UPDATE copy_wizard_options ".
-			"SET options = '".addslashes(serialize($this->options[$a_id]))."' ".
+			"SET options = ".$this->db->quote(serialize($this->options[$a_id]))." ".
 			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
 			"AND source_id = ".$this->db->quote($a_id)." ";
 			;
@@ -408,7 +408,7 @@ class ilCopyWizardOptions
 		$query 	= "INSERT INTO copy_wizard_options ".
 			"SET copy_id = ".$this->db->quote($this->copy_id).", ".
 			"source_id = ".$this->db->quote($a_source_id).", ".
-			"options = '".addslashes(serialize($a_options))."' ";
+			"options = ".$this->db->quote(serialize($a_options))." ";
 		$res = $this->db->query($query);
 		return true;
 	}
@@ -430,14 +430,14 @@ class ilCopyWizardOptions
 		$mappings = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$mappings = unserialize(stripslashes($row->options));
+			$mappings = unserialize($row->options);
 		}
 		$mappings[$a_source_id] = $a_target_id;
 		
 		$query = "REPLACE INTO copy_wizard_options ".
 			"SET copy_id = ".$this->db->quote($this->copy_id).", ".
 			"source_id = -2, ".
-			"options = '".addslashes(serialize($mappings))."'";
+			"options = ".$this->db->quote(serialize($mappings))."";
 		$this->db->query($query);
 		return true;				
 	}
@@ -486,7 +486,7 @@ class ilCopyWizardOptions
 	 	$this->options = array();
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->options[$row->source_id] = unserialize(stripslashes($row->options));
+	 		$this->options[$row->source_id] = unserialize($row->options);
 	 	}
 
 		return true;
@@ -504,6 +504,8 @@ class ilCopyWizardOptions
 		global $tree;
 		
 	 	$this->tmp_tree[] = $tree->getNodeData($a_source_id);
+	 	
+	 	
 	 	foreach($tree->getChilds($a_source_id) as $sub_nodes)
 	 	{
 	 		$sub_node_ref_id = $sub_nodes['child'];
