@@ -141,17 +141,33 @@ class ilLDAPRoleAssignments
 	 		{
 	 			continue;
 	 		}
-	 		$user_val = strtolower($a_user_att[$name]);
-	 		if(!isset($this->att_mappings[$name][$user_val]))
-	 		{
-	 			continue;
-	 		}
-	 		
-	 		$role = $this->att_mappings[$name][$user_val];
-	 		$ilLog->write(__METHOD__.': Found role mapping for '.$a_external_name.' => '.ilObject::_lookupTitle($role));
-	 		$roles[] = array('id' => $role,
-	 			'type' => 'Global',
-	 			'action' => 'Attach');
+			
+			if(!is_array($a_user_att[$name]))
+			{
+				$attribute_val = array(0 => $a_user_att[$name]);
+			}
+			else
+			{
+				$attribute_val = $a_user_att[$name];
+			}
+
+			foreach($attribute_val as $value)
+			{
+				$value = strtolower($value);
+		 		if(!isset($this->att_mappings[$name][$value]))
+		 		{
+	 				continue;
+	 			}
+	 			else
+	 			{
+			 		$role = $this->att_mappings[$name][$value];
+			 		$ilLog->write(__METHOD__.': Found role mapping for '.$a_external_name.' => '.ilObject::_lookupTitle($role));
+			 		$roles[] = array('id' => $role,
+			 			'type' => 'Global',
+			 			'action' => 'Attach');
+			 		break;
+	 			}
+			}
 	 	}
 	 	// Check group membership
 	 	foreach($this->grp_mappings as $dn => $mapping_data)
@@ -183,55 +199,32 @@ class ilLDAPRoleAssignments
 	{
 		global $ilLog;
 		
-		if(isset($this->grp_members[$a_dn]))
+		if($this->grp_mappings[$a_dn]['isdn'])
 		{
-			if($this->grp_mappings[$a_dn]['isdn'])
-			{
-				$user_cmp = $a_user_data['dn'];
-			}
-			else
-			{
-				$user_cmp = $a_ldap_account;
-			}
-			$ilLog->write(__METHOD__.': Read cached entry.');
-			return in_array($user_cmp,$this->grp_members[$a_dn]);
+			$user_cmp = $a_user_data['dn'];
 		}
-	 	try
-	 	{
-			$this->grp_members[$a_dn] = array();
-
-	 		include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
-	 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-	 		
+		else
+		{
+			$user_cmp = $a_ldap_account;
+		}
+		
+ 		include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
+ 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+				
+ 		
+ 		try
+ 		{
 	 		$query = new ilLDAPQuery($this->server);
 	 		$query->bind();
-	 		$res = $query->query($a_dn,'objectclass=*',IL_LDAP_SCOPE_BASE,array($this->grp_mappings[$a_dn]['attribute']));
-	 		
-			$member_data = $res->get();
-			
-			if(!isset($member_data[$this->grp_mappings[$a_dn]['attribute']]))
-			{
-				return false;
-			}
-			if(!is_array($member_data[$this->grp_mappings[$a_dn]['attribute']]))
-			{
-				$this->grp_members[$a_dn][] = $member_data[$this->grp_mappings[$a_dn]['attribute']];
-			}
-			else
-			{
-				$this->grp_members[$a_dn] = $member_data[$this->grp_mappings[$a_dn]['attribute']];
-			}
-			// Check membership by ldap account or dn
-			if($this->grp_mappings[$a_dn]['isdn'])
-			{
-				$user_cmp = $a_user_data['dn'];
-			}
-			else
-			{
-				$user_cmp = $a_ldap_account;
-			}
-			return in_array($user_cmp,$this->grp_members[$a_dn]);
-	 	}
+	 		$res = $query->query($a_dn,
+							sprintf('(%s=%s)',
+								$this->grp_mappings[$a_dn]['attribute'],
+								$user_cmp),
+							IL_LDAP_SCOPE_BASE,
+							array('dn'));
+
+			return $res->numRows() ? true : false;
+ 		}
 		catch(ilLDAPQueryException $e)
 		{
 			$ilLog->write(__METHOD__.': Caught Exception: '.$e->getMessage());
