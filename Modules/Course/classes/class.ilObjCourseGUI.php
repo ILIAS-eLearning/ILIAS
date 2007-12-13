@@ -3451,11 +3451,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 
-		$this->tabs_gui->setTabActive('members');
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
 		
 		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
+		$this->tabs_gui->setSubTabActive('crs_members_gallery');
+		
 
 		// Unsubscribe
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
