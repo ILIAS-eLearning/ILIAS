@@ -107,6 +107,7 @@ class ilObjExercise extends ilObject
 	function deliverFile($a_http_post_files, $user_id, $unzip = false)
 	{
 		$deliver_result = $this->file_obj->deliverFile($a_http_post_files, $user_id, $unzip);
+//var_dump($deliver_result);
 		if ($deliver_result)
 		{
 			$query = sprintf("INSERT INTO exc_returned ".

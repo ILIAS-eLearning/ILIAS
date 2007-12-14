@@ -1523,7 +1523,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
   
-		//echo "-".$next_class."-".$cmd."-"; exit;
+//echo "-".$next_class."-".$cmd."-"; exit;
   		switch($next_class)
 		{
 			case "ilinfoscreengui":
