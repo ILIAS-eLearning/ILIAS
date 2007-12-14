@@ -591,6 +591,7 @@ components:
     They can be obtained directly from the Web using the PEAR command line
     installer that comes with PHP:
 
+        /opt/ilias/bin/pear install DB
         /opt/ilias/bin/pear install Auth
         /opt/ilias/bin/pear install HTML_Template_IT
         /opt/ilias/bin/pear install HTTP_Request
