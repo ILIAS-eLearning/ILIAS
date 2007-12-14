@@ -296,13 +296,24 @@ class ilInternalLinkGUI
 		{
 			$chapterRowBlock .= "_js";
 		}
+
+		$obj_id = ilObject::_lookupObjId($_SESSION["il_link_cont_obj"]);
+		$type = ilObject::_lookupType($obj_id);
 		
 		switch($this->link_type)
 		{
 			// page link
 			case "PageObject":
-				require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-				$cont_obj =& new ilObjContentObject($_SESSION["il_link_cont_obj"], true);
+				if ($type == "lm")
+				{
+					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+					$cont_obj =& new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
+				}
+				else if ($type == "dbk")
+				{
+					require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
+					$cont_obj =& new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
+				}
 
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -414,8 +425,18 @@ class ilInternalLinkGUI
 
 			// chapter link
 			case "StructureObject":
-				require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-				$cont_obj =& new ilObjContentObject($_SESSION["il_link_cont_obj"], true);
+			
+	//echo "-$type-".$_SESSION["il_link_cont_obj"]."-";
+				if ($type == "lm")
+				{
+					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+					$cont_obj =& new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
+				}
+				else if ($type == "dbk")
+				{
+					require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
+					$cont_obj =& new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
+				}
 
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
