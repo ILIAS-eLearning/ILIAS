@@ -787,7 +787,7 @@ class ilCourseParticipants
 	private function readParticipants()
 	{
 		global $rbacreview,$ilObjDataCache,$ilLog;
-		
+
 		$rolf = $rbacreview->getRoleFolderOfObject($this->course_ref_id);
 		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
 		{
