@@ -137,12 +137,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		$filter = 0;
 		$filtertext = "";
+		$filterby = "";
 		$passedonly = FALSE;
 		// set filter was pressed
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("set_filter")) == 0)
 		{
 			$filter = 1;
 			$filtertext = trim($_POST["userfilter"]);
+			$filterby = $_POST["filterby"];
 			if ($_POST["passedonly"] == 1)
 			{
 				$passedonly = TRUE;
@@ -151,12 +153,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			// save the filter for later usage
 			$ilUser->writePref("tst_stat_filter_passed_" . $this->object->getTestId(), ($passedonly) ? 1 : 0);
 			$ilUser->writePref("tst_stat_filter_text_" . $this->object->getTestId(), $filtertext);
+			$ilUser->writePref("tst_stat_filter_by_" . $this->object->getTestId(), $filterby);
 		}
 		else
 		{
 			if (array_key_exists("g_userfilter", $_GET))
 			{
 				$filtertext = $_GET["g_userfilter"];
+				$filterby = $_GET["g_filterby"];
 			}
 			else
 			{
@@ -165,6 +169,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				if ($pref !== FALSE)
 				{
 					$filtertext = $pref;
+				}
+				$pref = $ilUser->getPref("tst_stat_filter_by_" . $this->object->getTestId());
+				if ($pref !== FALSE)
+				{
+					$filterby = $pref;
 				}
 			}
 			if (array_key_exists("g_passedonly", $_GET))
@@ -189,13 +198,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$filter = 0;
 			$filtertext = "";
+			$filterby = "name";
 			$passedonly = FALSE;
 			$ilUser->deletePref("tst_stat_filter_passed_" . $this->object->getTestId());
 			$ilUser->deletePref("tst_stat_filter_text_" . $this->object->getTestId());
+			$ilUser->deletePref("tst_stat_filter_by_" . $this->object->getTestId());
 		}
 		if (strlen($filtertext))
 		{
 			$this->ctrl->setParameter($this, "g_userfilter", $filtertext);
+			$this->ctrl->setParameter($this, "g_filterby", $filterby);
 		}
 		if ($passedonly)
 		{
@@ -240,9 +252,42 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$remove = FALSE;
 			if (strlen($filtertext))
 			{
-				if (!@preg_match("/$filtertext/i", $userdata->getName()))
+				switch ($filterby)
 				{
-					$remove = TRUE;
+					case "name":
+						if (!@preg_match("/$filtertext/i", $userdata->getName()))
+						{
+							$remove = TRUE;
+						}
+						break;
+					case "group":
+						include_once "./classes/class.ilObjUser.php";
+						$groups = ilObjUser::getGroupMemberships($userdata->getUserId());
+						$foundfilter = FALSE;
+						foreach ($groups as $groupid)
+						{
+							$title = ilObject::_lookupTitle($groupid);
+							if (@preg_match("/$filtertext/i", $title))
+							{
+								$foundfilter = TRUE;
+							}
+						}
+						if (!$foundfilter) $remove = TRUE;
+						break;
+					case "course":
+						include_once "./classes/class.ilObjUser.php";
+						$courses = ilObjUser::getCourseMemberships($userdata->getUserId());
+						$foundfilter = FALSE;
+						foreach ($courses as $courseid)
+						{
+							$title = ilObject::_lookupTitle($courseid);
+							if (@preg_match("/$filtertext/i", $title))
+							{
+								$foundfilter = TRUE;
+							}
+						}
+						if (!$foundfilter) $remove = TRUE;
+						break;
 				}
 			}
 			if ($passedonly)
@@ -301,9 +346,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("EVALUATION_DATA", $tableoutput);
 
 		$template = new ilTemplate("tpl.il_as_tst_evaluation_filter.html", TRUE, TRUE, "Modules/Test");
+		$filters = array("name" => $this->lng->txt("name"), "group" => $this->lng->txt("grp"), "course" => $this->lng->txt("crs"));
+		foreach ($filters as $value => $name)
+		{
+			$template->setCurrentBlock("filterby");
+			$template->setVariable("FILTER_BY_NAME", $name);
+			$template->setVariable("FILTER_BY_VALUE", $value);
+			if (strcmp($filterby, $value) == 0)
+			{
+				$template->setVariable("FILTER_BY_SELECTED", " selected=\"selected\"");
+			}
+			$template->parseCurrentBlock();
+		}
 		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$template->setVariable("TEXT_FILTER_USERS", $this->lng->txt("filter_users"));
+		$template->setVariable("TEXT_FILTER_USERS", $this->lng->txt("filter"));
 		$template->setVariable("TEXT_FILTER", $this->lng->txt("set_filter"));
+		$template->setVariable("TEXT_BY", $this->lng->txt("by"));
 		$template->setVariable("TEXT_RESET_FILTER", $this->lng->txt("reset_filter"));
 		$template->setVariable("TEXT_PASSEDONLY", $this->lng->txt("passed_only"));
 		if ($passedonly)
