@@ -275,11 +275,15 @@ class ilFileDataExercise extends ilFileData
 			}
 			
 			require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-			$result = array(
-				"filename" => $prefix . "_" . $filename,
-				"fullname" => $savepath . "/" . $prefix . "_" . $filename,
-				"mimetype" =>	ilObjMediaObject::getMimeType($savepath . "/" . $prefix . "_" . $filename)
-			);
+
+			if (is_file($savepath . "/" . $prefix . "_" . $filename))
+			{
+				$result = array(
+					"filename" => $prefix . "_" . $filename,
+					"fullname" => $savepath . "/" . $prefix . "_" . $filename,
+					"mimetype" =>	ilObjMediaObject::getMimeType($savepath . "/" . $prefix . "_" . $filename)
+				);
+			}
 		}
 		return $result;
 	}
