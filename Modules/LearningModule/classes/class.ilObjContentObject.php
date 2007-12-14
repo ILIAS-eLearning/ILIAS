@@ -1466,7 +1466,7 @@ class ilObjContentObject extends ilObject
 					{
 						if ($int_link["Type"] == "MediaObject")
 						{
-							include_once("./Services/COPage/classes/Pages/class.ilInternalLink.php");
+							include_once("./Services/COPage/classes/class.ilInternalLink.php");
 							$l_id = ilInternalLink::_extractObjIdOfTarget($int_link["Target"]);
 							if (ilObject::_exists($l_id))
 							{
