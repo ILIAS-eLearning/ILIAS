@@ -261,7 +261,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						}
 						break;
 					case "group":
-						include_once "./classes/class.ilObjUser.php";
+						include_once "./Services/User/classes/class.ilObjUser.php";
 						$groups = ilObjUser::getGroupMemberships($userdata->getUserId());
 						$foundfilter = FALSE;
 						foreach ($groups as $groupid)
@@ -275,7 +275,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						if (!$foundfilter) $remove = TRUE;
 						break;
 					case "course":
-						include_once "./classes/class.ilObjUser.php";
+						include_once "./Services/User/classes/class.ilObjUser.php";
 						$courses = ilObjUser::getCourseMemberships($userdata->getUserId());
 						$foundfilter = FALSE;
 						foreach ($courses as $courseid)
