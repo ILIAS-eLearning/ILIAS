@@ -608,10 +608,7 @@ class ilRepositorySearchGUI
 								  "login",
 								  "firstname",
 								  "lastname"),
-							array("ref_id" => $_GET['ref_id'],
-								  "cmd" => $a_cmd,
-								  "cmdClass" => "ilrepositorysearchgui",
-								  "cmdNode" => $_GET["cmdNode"]));
+							$this->ctrl->getParameterArray($this,$a_cmd));
 
 		$tbl->setColumnWidth(array("","33%","33%","33%"));
 
@@ -658,10 +655,7 @@ class ilRepositorySearchGUI
 		$tbl->setHeaderVars(array("",
 								  "title",
 								  "nr_members"),
-							array("ref_id" => $_GET['ref_id'],
-								  "cmd" => "show",
-								  "cmdClass" => "ilrepositorysearchgui",
-								  "cmdNode" => $_GET["cmdNode"]));
+							$this->ctrl->getParameterArray($this,'show'));
 
 		$tbl->setColumnWidth(array("","80%","19%"));
 
@@ -708,10 +702,7 @@ class ilRepositorySearchGUI
 		$tbl->setHeaderVars(array("",
 								  "title",
 								  "nr_members"),
-							array("ref_id" => $_GET['ref_id'],
-								  "cmd" => "show",
-								  "cmdClass" => "ilrepositorysearchgui",
-								  "cmdNode" => $_GET["cmdNode"]));
+							$this->ctrl->getParameterArray($this,'show'));
 
 		$tbl->setColumnWidth(array("","80%","19%"));
 
