@@ -1172,7 +1172,7 @@ class ilCourseParticipants
 		foreach($this->getNotificationRecipients() as $usr_id)
 		{
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false);
-			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
+			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
 			unset($tmp_user);
 		}
 		return true;
