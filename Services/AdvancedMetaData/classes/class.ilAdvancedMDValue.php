@@ -86,7 +86,7 @@ class ilAdvancedMDValue
 	 */
 	public function __toString()
 	{
-	 	return $this->getValue();
+	 	return $this->value;
 	}
 	
 	/**
