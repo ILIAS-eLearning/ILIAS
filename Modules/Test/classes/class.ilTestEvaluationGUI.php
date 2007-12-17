@@ -358,7 +358,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "outEvaluation"));
 		$template->setVariable("TEXT_FILTER_USERS", $this->lng->txt("filter"));
 		$template->setVariable("TEXT_FILTER", $this->lng->txt("set_filter"));
 		$template->setVariable("TEXT_BY", $this->lng->txt("by"));
