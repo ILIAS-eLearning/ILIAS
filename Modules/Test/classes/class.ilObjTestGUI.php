@@ -689,7 +689,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		// create new questionpool object
-		$newObj = new ilObjTest(true);
+		$newObj = new ilObjTest(0, true);
 		// set type of questionpool object
 		$newObj->setType($_GET["new_type"]);
 		// set title of questionpool object to "dummy"
