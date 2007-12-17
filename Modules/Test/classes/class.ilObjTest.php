@@ -3060,9 +3060,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				include_once ('./Services/User/classes/class.ilObjUser.php');
-				$uname = ilObjUser::_lookupName($this->_getUserIdFromActiveId($active_id));
-				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
+				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
 			}
 		}
 
@@ -3127,9 +3125,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			include_once ('./Services/User/classes/class.ilObjUser.php');
-			$uname = ilObjUser::_lookupName($this->_getUserIdFromActiveId($active_id));
-			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
+			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
 		}
 
 		$query = sprintf("DELETE FROM tst_sequence WHERE active_fi = %s",
