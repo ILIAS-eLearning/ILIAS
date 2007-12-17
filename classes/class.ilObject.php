@@ -1548,6 +1548,9 @@ class ilObject
 		// copy local roles
 		$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());
 		
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		ilAdvancedMDValues::_cloneValues($this->getId(),$new_obj->getId());
+		
 		return $new_obj;
 	}
 	

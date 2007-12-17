@@ -64,6 +64,45 @@ class ilAdvancedMDValues
 	}
 	
 	/**
+	 * Clone Advanced Meta Data
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int source obj_id
+	 * @param int target obj_id
+	 */
+	public static function _cloneValues($a_source_id,$a_target_id)
+	{
+		global $ilLog;
+		
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
+		
+		
+		if(!count($defs = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType(ilObject::_lookupType($a_source_id))))
+		{
+			$ilLog->write(__METHOD__.': No advanced meta data found.');
+			return true;
+		}
+		
+		$ilLog->write(__METHOD__.': Start cloning advanced meta data.');
+		
+		foreach(self::_getValuesByObjId($a_source_id) as $field_id => $value)
+		{
+			if(!in_array($field_id,$defs))
+			{
+				continue;
+			}
+			$new_value = new ilAdvancedMDValue($field_id,$a_target_id);
+			$new_value->setValue($value);
+			$new_value->save();
+			
+		}
+		return true;		
+	}
+	
+	/**
 	 * Get xml of object values
 	 *
 	 * @access public
