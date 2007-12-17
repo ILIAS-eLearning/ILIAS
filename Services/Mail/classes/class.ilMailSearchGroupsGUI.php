@@ -97,7 +97,7 @@ class ilMailSearchGroupsGUI
 			else
 			{
 				ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
-				$this->showGroupMembers();
+				$this->showMembers();
 			}
 		}
 		else
