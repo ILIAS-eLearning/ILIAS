@@ -134,7 +134,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?cmd=infoScreen&baseClass=ilObjTestGUI&ref_id=".$a_node_id;
 
 			case 'svy':
-				return "ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilObjSurveyGUI&cmd=infoScreen&ref_id=".$a_node_id;
 
 			case 'spl':
 				return "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&cmd=questions&ref_id=".$a_node_id;
