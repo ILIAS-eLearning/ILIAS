@@ -761,7 +761,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("confirm_delete");
 			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-			$this->tpl->setVariable("CONFIRM_CMD",'performDeleteObject');
+			$this->tpl->setVariable("CONFIRM_CMD",'performObjectDelete');
 			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('confirm'));
 			$this->tpl->parseCurrentBlock();
 		}
