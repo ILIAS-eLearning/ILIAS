@@ -518,8 +518,8 @@ assessment#:#output_mode#:#Ausgabemodus
 assessment#:#output#:#Ausgabe
 assessment#:#participants_data#:#Teilnehmerdaten
 assessment#:#participants_evaluation#:#Statistik für alle Teilnehmer
-assessment#:#participants_invitation_description#:#Sie können diesen Test nur für eine ausgewählte Gruppe von festen Teilnehmenden zugreifbar machen. Aktivieren Sie bitte das obige Kontrollkästchen und Speichern Sie ihre Eingabe, um diese Funktionalität für den Test hinzuzufügen.
-assessment#:#participants_invitation_search_introduction#:#Um feste Teilnehmende zu disem Test einzuladen, geben Sie bitte die gewünschten Namen in das untere Suchfeld ein und wählen Sie dann aus den Ergebnissen die festen Teilnehmenden aus, die Sie einladen wollen. Alle festen Teilnehmenden werden in die benachbarte Rubrik &quot;Daten der Teilnehmenden&quot; hinzugefügt
+assessment#:#participants_invitation_description#:#Sie können diesen Test nur für eine ausgewählte Gruppe von festen Teilnehmern zugreifbar machen. Aktivieren Sie bitte das obige Kontrollkästchen und speichern Sie Ihre Eingabe, um diese Funktionalität für den Test hinzuzufügen.
+assessment#:#participants_invitation_search_introduction#:#Um feste Teilnehmer zu diesem Test einzuladen, geben Sie bitte die gewünschten Namen in das untere Suchfeld ein und wählen Sie dann aus den Ergebnissen die festen Teilnehmer aus, die Sie einladen wollen. Alle festen Teilnehmer werden in die benachbarte Rubrik &quot;Daten der Teilnehmer&quot; hinzugefügt
 assessment#:#participants_invitation#:#Feste Teilnehmer
 assessment#:#participants#:#Teilnehmer
 assessment#:#pass#:#Durchlauf
@@ -720,8 +720,8 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwo
 assessment#:#tst_finish_confirm_list_of_answers_button#:#Nein, zurück zur Liste der Antworten
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finished#:#Beendet
-assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmende, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmend nicht verändern!
-assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmende zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmende in diesem Test. Wenn Sie diese Teilnehmenden entfernen, werden die Testergebnisse der Teilnehmenden nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
+assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
+assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmer zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmer in diesem Test. Wenn Sie diese Teilnehmer entfernen, werden die Testergebnisse der Teilnehmer nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
 assessment#:#tst_fixed_participating_users#:#Feste Teilnehmer in diesem Test
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
@@ -744,14 +744,14 @@ assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
 assessment#:#tst_instant_feedback#:#Sofortige Rückmeldung - Diese Informationen werden nach der Beantwortung einer Frage angezeigt
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
 assessment#:#tst_introduction#:#Einleitender Text
-assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmende hinzugefügt
-assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmende hinzugefügt
-assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmende hinzugefügt
-assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmende hinzugefügt
+assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
+assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmer hinzugefügt
+assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmer hinzugefügt
+assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_list_of_answers_show#:#Liste der Antworten anzeigen
 assessment#:#tst_list_of_answers#:#Liste der Antworten
-assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmende den Test beenden
-assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmende die erste Frage bearbeiten
+assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmer den Test beenden
+assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmer die erste Frage bearbeiten
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen in der Fragenübersicht anzeigen
 assessment#:#tst_list_of_questions_yes#:#Ja, und zusätzlich
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
@@ -784,7 +784,7 @@ assessment#:#tst_no_tries#:#keine
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
-assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmenden zu diesem Test hinzugefügt
+assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmer zu diesem Test hinzugefügt
 assessment#:#tst_participants_no#:#Der Test wurde von niemandem gestartet!
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_pass_best_pass#:#Den besten Testdurchlauf bewerten
@@ -6812,7 +6812,7 @@ survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie den Textblock entfer
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraint_add#:#Vorbedingung hinzufügen
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbediungungen besitzen, da es keine vorherigen Einträge gibt
-survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmenden, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.
+survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmer, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.
 survey#:#constraints_list_of_entities#:#Verfügbare Umfrage-Elemente für Vorbedingungen
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Vorbedingungen verwendet werden können.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
@@ -6904,7 +6904,7 @@ survey#:#evaluation_access_all#:#Evaluationszugriff für alle ILIAS-Nutzer(innen
 survey#:#evaluation_access_description#:#Normalerweise ist der Zugang zur Umfragestatistik nur ILIAS-Benutzern mit Schreibrechten für die Umfrage gestattet (Evaluationszugang = aus)
 survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
 survey#:#evaluation_access_off#:#Nicht verfügbar
-survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmende der Umfrage
+survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmer der Umfrage
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#evaluation#:#Statistik
 survey#:#existing_constraints#:#Bestehende Vorbedingungen
@@ -7155,7 +7155,7 @@ survey#:#SurveyNominalQuestion#:#Nominale Frage
 survey#:#SurveyOrdinalQuestion#:#Ordinale Frage
 survey#:#SurveyTextQuestion#:#Textfrage
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
-survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmende der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
+survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
