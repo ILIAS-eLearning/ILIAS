@@ -33,6 +33,8 @@
 
 require_once "./classes/class.ilObject.php";
 
+define('USER_FOLDER_ID',7);
+
 class ilObjUserFolder extends ilObject
 {
 	/**
@@ -761,6 +763,29 @@ class ilObjUserFolder extends ilObject
 		}
 		return array();
 	}
+	
+	/**
+	 * Update user folder assignment
+	 * Typically called after deleting a category with local user accounts.
+	 * These users will be assigned to the global user folder. 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int old_id
+	 * @param int new id
+	 */
+	public static function _updateUserFolderAssignment($a_old_id,$a_new_id)
+	{
+		global $ilDB;
+		
+		$query = "UPDATE usr_data SET time_limit_owner = ".$ilDB->quote($a_new_id)." ".
+			"WHERE time_limit_owner = ".$ilDB->quote($a_old_id)." ";
+		$ilDB->query($query);
+		
+		return true;
+	}
+	
 
 } // END class.ilObjUserFolder
 ?>
