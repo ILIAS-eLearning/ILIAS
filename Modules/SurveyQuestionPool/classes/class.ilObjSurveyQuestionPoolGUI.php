@@ -777,7 +777,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
+			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate_question"));
 			$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
 			if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
 			{
