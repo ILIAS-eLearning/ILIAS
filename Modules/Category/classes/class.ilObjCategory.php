@@ -72,10 +72,13 @@ class ilObjCategory extends ilContainer
 		{
 			return false;
 		}
+		
 		// put here category specific stuff
+		include_once('./Services/User/classes/class.ilObjUserFolder.php');
+		ilObjUserFolder::_updateUserFolderAssignment($this->ref_id,USER_FOLDER_ID);		
+
 		$query = "DELETE FROM object_translation WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($query);
-		
 		return true;
 	}
 	
