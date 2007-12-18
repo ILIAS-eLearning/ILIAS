@@ -6885,7 +6885,7 @@ survey#:#dp_standard_beliefs_true_undecided_false#:#Standard-Vorstellungen (wahr
 survey#:#dp_standard_beliefs_true5#:#Standard-Vorstellungen (eindeutig wahr-wahr-unentschlossen-falsch-eindeutig falsch)
 survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate_svy#:#Umfrage kopieren
-survey#:#duplicate#:#Kopieren
+survey#:#duplicate#:#Duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
 survey#:#edit_heading#:#Textblock bearbeiten
