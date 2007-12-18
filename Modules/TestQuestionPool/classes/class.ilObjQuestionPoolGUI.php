@@ -921,7 +921,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
+			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate_question"));
 			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
 			$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
 			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
