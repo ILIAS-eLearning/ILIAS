@@ -268,14 +268,16 @@ class ilFeedbackGUI
 		$tpl->parseCurrentBlock();
 		return($tpl->get());
 	}
+	
 
 	/**
 	* Edit screen for single feedback item.
 	*/
-	function edit(){
+	function edit()
+	{
 		include_once('Services/Feedback/classes/class.ilFeedback.php');
 
-		$ilFB = new ilFeedback($_GET['barometer_id']);
+		$ilFB = new ilFeedback($_REQUEST['barometer_id']);
 		$tpl = new ilTemplate("tpl.feedback_edit.html", true, true, "Services/Feedback");
 
 		$data['title'] = $_POST['title'] ? $_POST['title'] : $ilFB->getTitle();
@@ -291,14 +293,14 @@ class ilFeedbackGUI
 			$data['start_day'] = $_POST['start_day'] ? $_POST['start_day'] : date('d',$ilFB->getStarttime());
 			$data['start_month'] =$_POST['start_month'] ? $_POST['start_month'] : date('m',$ilFB->getStarttime());
 			$data['start_year'] = $_POST['start_year'] ? $_POST['start_year'] :date('Y',$ilFB->getStarttime());
-			$data['start_hour'] = $_POST['start_hour'] ? $_POST['start_hour'] :date('h',$ilFB->getStarttime());
+			$data['start_hour'] = $_POST['start_hour'] ? $_POST['start_hour'] :date('H',$ilFB->getStarttime());
 			$data['start_minute'] = $_POST['start_minute'] ? $_POST['start_minute'] :date('i',$ilFB->getStarttime());
 		}
 		if($ilFB->getEndtime()>=0||isset($_POST['end_day'])){
 			$data['end_day'] = $_POST['end_day'] ? $_POST['end_day'] :date('d',$ilFB->getEndtime());
 			$data['end_month'] = $_POST['end_month'] ? $_POST['end_month'] :date('m',$ilFB->getEndtime());
 			$data['end_year'] = $_POST['end_year'] ? $_POST['end_year'] :date('Y',$ilFB->getEndtime());
-			$data['end_hour'] = $_POST['end_hour'] ? $_POST['end_hour'] :date('h',$ilFB->getEndtime());
+			$data['end_hour'] = $_POST['end_hour'] ? $_POST['end_hour'] :date('H',$ilFB->getEndtime());
 			$data['end_minute'] = $_POST['end_minute'] ? $_POST['end_minute'] :date('i',$ilFB->getEndtime());
 		}
 
@@ -313,7 +315,7 @@ class ilFeedbackGUI
 		$tpl->setVariable("ALT_FEEDB", $this->lng->txt("feedb_edit_feedback"));
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$tpl->setVariable("VALUE_TITLE",$data['title']);
-		//$tpl->setVariable("TXT_TEXT", $this->lng->txt("text"));
+		$tpl->setVariable("TXT_TOP_TEXT", $this->lng->txt("text"));
 		$tpl->setVariable("TXT_TIME", $this->lng->txt("feedb_time"));
 		$tpl->setVariable("VALUE_TEXT", $data['description']);
 		$tpl->setVariable("TXT_ANONYMOUS", $this->lng->txt("anonymous"));
@@ -405,13 +407,13 @@ class ilFeedbackGUI
 		$tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$tpl->setVariable("CMD_SUBMIT", "update");
 		$tpl->parseCurrentBlock();
-		return($tpl->get());
+		return $tpl->get();
 
 	}
 	function update(){
 		$this->update=1;
 
-		$this->save();
+		return $this->save();
 	}
 	function save(){
 	//print_r($_POST);
@@ -423,10 +425,11 @@ class ilFeedbackGUI
 		
 		if($_POST['anonymous'] and $_POST['type'])
 		{
-			ilUtil::sendInfo($this->lng->txt('barometer_conflict_anon_req'),true);
-			$this->ctrl->setParameter($this,'barometer_id',(int) $_GET['barometer_id']);
-			$this->ctrl->redirect($this,'edit');
-			return false;
+			ilUtil::sendInfo($this->lng->txt('barometer_conflict_anon_req'));
+			#$this->ctrl->setParameter($this,'barometer_id',(int) $_GET['barometer_id']);
+			#$this->ctrl->redirect($this,'edit');
+			--$_POST['extra_votes'];
+			return $this->edit();
 		}
 		foreach ($_POST['vote'] as $k=>$v)
 		{
@@ -436,9 +439,13 @@ class ilFeedbackGUI
 				$vote_cnt++;
 			}
 		}
-		if(($_POST['title']=='')||($_POST['text']=='')|| $vote_cnt<3){
-			$this->ctrl->setParameter($this,'a','32');
-			$ilias->raiseError($this->lng->txt('missing_fields'),$ilias->error_obj->MESSAGE);
+		if(($_POST['title']=='')||($_POST['text']=='')|| $vote_cnt<3)
+		{
+			ilUtil::sendInfo($this->lng->txt('missing_fields'));
+			--$_POST['extra_votes'];
+			return $this->edit();
+			#$this->ctrl->setParameter($this,'a','32');
+			#$ilias->raiseError($this->lng->txt('missing_fields'),$ilias->error_obj->MESSAGE);
 		}
 		$ilFeedback = new  ilFeedback();
 		$ilFeedback->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -467,10 +474,12 @@ class ilFeedbackGUI
 			ilUtil::stripSlashes($_POST['first_vote_best']));
 		$ilFeedback->setObjId($params['obj_id']);
 		$ilFeedback->setRefId($params['ref_id']);
-		if($this->update==1){
+		if($this->update == 1 && $_GET['barometer_id'])
+		{
 			$ilFeedback->setId($_GET['barometer_id']);
 			$ilFeedback->update();
-		}else
+		}
+		else
 			$ilFeedback->create();
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList'));
 
