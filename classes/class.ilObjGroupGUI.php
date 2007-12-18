@@ -1127,14 +1127,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
 
-		// Disabled: it shouldn't be required to group admin. "edit_permission" is enough.
-		/*
-		if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
-			and !in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
-		{
-			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
-		}
-		*/
 		if(!$ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
 		{
 			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
@@ -1692,9 +1684,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function updateMemberStatusObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilAccess;
 
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()) )
+		if (!$ilAccess->checkAccess("edit_permission",'',$this->object->getRefId()) )
 		{
 			$this->ilErr->raiseError("permission_denied",$this->ilErr->MESSAGE);
 		}
