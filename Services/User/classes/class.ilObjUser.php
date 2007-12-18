@@ -2675,7 +2675,21 @@ class ilObjUser extends ilObject
 					$q .= "WHERE time_limit_unlimited='0'";
 					break;
 				case 3:
-					$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.usr_id IS NULL";
+					$qtemp = $q . ", rbac_ua, object_data WHERE rbac_ua.rol_id = object_data.obj_id AND object_data.title LIKE '%crs%' AND usr_data.usr_id = rbac_ua.usr_id";
+					$r = $ilDB->query($qtemp);
+					$course_users = array();
+					while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						array_push($course_users, $row["usr_id"]);
+					}
+					if (count($course_users))
+					{
+						$q .= " WHERE usr_data.usr_id NOT IN ('" . join($course_users, "','") . "')";
+					}
+					else
+					{
+						$q = "";
+					}
 					break;
 				case 4:
 					$date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
