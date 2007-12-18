@@ -241,7 +241,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 				}
 				else
 				{
-					if ($objLastPost->getUserId() && ilObject::_exists($objLastPost->getUserId()) && $last_user['public_profile'] != 'n')
+					if ($objLastPost->getUserId() && ilObject::_exists($objLastPost->getUserId()) && $last_user['public_profile'] == 'y')
 					{
 						$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
 						ilFrameTargetInfo::_getFrame('MainContent').
