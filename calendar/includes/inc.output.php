@@ -68,9 +68,17 @@ function doOutput($template) {
 		//$template	= str_replace("{p3p_link}",
 		//	'<LINK href="'.ilUtil::getP3PLocation().'" rel="P3Pv1" />',
 		//	$template);
+		if(@!file_exists('.'.DATEPLANER_ROOT_DIR.$templatefolder.'/'.$actualtemplate.'/'.$DP_Style.'.css'))
+		{
+			$css		= '<LINK href=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/".$DP_Style.'.css" type="text/css" rel="stylesheet" />';
+			$template	= str_replace("{css}","$css",$template);
+		}
+		else
+		{
+			$css		= '<LINK href=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate.'/delos.css" type="text/css" rel="stylesheet" />';
+			$template	= str_replace("{css}","$css",$template);
+		}
 
-		$css		= '<LINK href=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/".$DP_Style.'.css" type="text/css" rel="stylesheet" />';
-        $template	= str_replace("{css}","$css",$template);
-        echo $template;
+	    echo $template;
 	}
 ?>
