@@ -2934,11 +2934,8 @@ CREATE TABLE IF NOT EXISTS `remote_course_settings` (
 ) Type=MyISAM;
 
 <#1125>
-<?php
-$query = "show tables like 'cp_hidelmsui'";
-$res = $this->db->query($query);
-if(!$res->numRows()) {
-	$query="RENAME TABLE cp_hideLMSUI to cp_hidelmsui";
-  	$res = $this->db->query($query);
-}
-?>
+DROP TABLE IF EXISTS cp_hidelmsui;
+DROP TABLE IF EXISTS cp_hideLMSUI;
+CREATE TABLE cp_hidelmsui(`cp_node_id` INTEGER, `value` VARCHAR(50) );
+ALTER TABLE cp_hidelmsui ADD PRIMARY KEY(cp_node_id);
+CREATE INDEX ss_sequencing_id ON cp_hidelmsui(value);
