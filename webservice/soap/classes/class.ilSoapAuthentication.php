@@ -116,7 +116,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	{
 	 	global $ilDB;
 	 	
-		include_once('./classes/class.ilObjUser.php');
+		include_once('./Services/User/classes/class.ilObjUser.php');
 		include_once('./Services/Administration/classes/class.ilSetting.php');
 		
 		$GLOBALS['ilSetting'] = new ilSetting();
