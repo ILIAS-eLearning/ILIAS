@@ -3347,6 +3347,17 @@ class ilObjUser extends ilObject
 			return $usr["login"];
 		}
 		
+		// For compatibility, check for login (no ext_account entry given)
+		$query = "SELECT login FROM usr_data ".
+			"WHERE login = ".$ilDB->quote($a_account)." ".
+			"AND auth_mode = ".$ilDB->quote($a_auth)." ";
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			$usr = $res->fetchRow(DB_FETCHMODE_ASSOC);
+			return $usr['login'];
+		}
+		
 		// If auth_default == $a_auth => check for login
 		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
 		{
