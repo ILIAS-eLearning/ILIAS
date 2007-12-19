@@ -736,6 +736,7 @@ class ilUserImportParser extends ilSaxParser
 	function assignToRole($a_user_obj, $a_role_id)
 	{
 		require_once "classes/class.ilObjRole.php";
+		include_once('./classes/class.ilObject.php');
 		#require_once "Modules/Course/classes/class.ilObjCourse.php";
 		#require_once "Modules/Course/classes/class.ilCourseParticipants.php";
 
@@ -744,45 +745,23 @@ class ilUserImportParser extends ilSaxParser
 		// If it is a course role, use the ilCourseMember object to assign
 		// the user to the role
 		
-		$role_obj = $this->getRoleObject($a_role_id);
-		// No special handling for courses required anymore
-		/*		
-		if (substr($role_obj->getTitle(),0,6) == 'il_crs')
+		$rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
+		$obj_id = $rbacreview->getObjectOfRole($a_role_id);
+		switch($type = ilObject::_lookupType($obj_id))
 		{
-			$crsmembers_obj = $this->getCourseMembersObjectForRole($a_role_id);
-
-			switch (substr($role_obj->getTitle(),0,12))
-			{
-				case 'il_crs_admin' :
-					$crs_role = IL_CRS_ADMIN;
-					$crs_status = $crsmembers_obj->STATUS_NO_NOTIFY;
-					break;
-				case 'il_crs_tutor' :
-					$crs_role = IL_CRS_TUTOR;
-					$crs_status = $crsmembers_obj->STATUS_NO_NOTIFY;
-					break;
-				case 'il_crs_membe' :
-				default :
-					$crs_role = IL_CRS_MEMBER;
-					$crs_status = $crsmembers_obj->STATUS_UNBLOCKED;
-					break;
-			}
-
-			if ($crsmembers_obj->isAssigned($a_user_obj->getId()))
-			{
-				$crsmembers_obj->update($a_user_obj->getId(), $crs_role, $crs_status, false);
-			}
-			else
-			{
-				$crsmembers_obj->add($a_user_obj, $crs_role);
-			}
+			case 'grp':
+			case 'crs':
+				$ref_ids = ilObject::_getAllReferences($obj_id);
+				$ref_id = current((array) $ref_ids);
+				if($ref_id)
+				{
+					ilObjUser::_addDesktopItem($a_user_obj->getId(),$ref_id,$type);
+				}
+				
+			default:
+				;			
 		}
-		*/
-		// If it is not a course role, use RBAC to assign the user to the role
-		#else
-		{
-			$rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
-		}
+		$rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
 	}
 	/**
 	 * Get array of parent role ids from cache.
