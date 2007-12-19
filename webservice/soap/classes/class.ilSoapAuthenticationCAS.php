@@ -116,6 +116,10 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		{
 			return false;
 		}
+		if(!$this->__checkAgreement('cas'))
+		{
+			return false;
+		}
 
 		if(!$this->__buildAuth())
 		{
