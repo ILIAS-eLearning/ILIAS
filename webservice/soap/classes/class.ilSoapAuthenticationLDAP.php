@@ -76,6 +76,10 @@ class ilSoapAuthenticationLDAP extends ilSOAPAuthentication
 		{
 			return false;
 		}
+		if(!$this->__checkAgreement('ldap'))
+		{
+			return false;
+		}
 
 		if(!$this->__buildAuth())
 		{

@@ -74,7 +74,10 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		{
 			return false;
 		}
-
+		if(!$this->__checkAgreement('local'))
+		{
+			return false;
+		}
 		if(!$this->__buildAuth())
 		{
 			return false;
@@ -101,6 +104,37 @@ class ilSoapAuthentication extends ilBaseAuthentication
 
 		return true;
 	}
+	
+	/**
+	 * Check if user agreement is accepted
+	 *
+	 * @access protected
+	 * @param string auth_mode local,ldap or cas
+	 * 
+	 */
+	protected function __checkAgreement($a_auth_mode)
+	{
+	 	global $ilDB;
+	 	
+		include_once('./classes/class.ilObjUser.php');
+		include_once('./Services/Administration/classes/class.ilSetting.php');
+		
+		$GLOBALS['ilSetting'] = new ilSetting();
+		
+		if(!$login = ilObjUser::_checkExternalAuthAccount($a_auth_mode,$this->getUsername()))
+		{
+			// User does not exist
+			return true;
+		}
+		
+		if(!ilObjUser::_hasAcceptedAgreement($login))
+		{
+			$this->__setMessage('User aggrement no accepted.');
+			return false;
+		}
+		return true;
+	}
+	
 
 
 	function validateSession()

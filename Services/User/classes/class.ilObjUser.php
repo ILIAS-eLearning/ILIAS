@@ -1343,6 +1343,31 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	 * Check if user has accepted the agreement
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _hasAcceptedAgreement($a_username)
+	{
+		global $ilDB;
+		
+		if($a_username == 'root')
+		{
+			return true;
+		}
+		
+		$query = "SELECT usr_id FROM usr_data ".
+			"WHERE login = ".$ilDB->quote($a_username)." ".
+			"AND agree_date != '0000-00-00 00:00:00'";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+
+
+	/**
 	* check wether user has accepted user agreement
 	*/
 	function hasAcceptedUserAgreement()
