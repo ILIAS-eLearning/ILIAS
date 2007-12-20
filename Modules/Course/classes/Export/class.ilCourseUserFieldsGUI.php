@@ -176,7 +176,7 @@ class ilCourseUserFieldsGUI
 		}
 		$cdf = new ilCourseDefinedFieldDefinition($this->obj_id,(int) $_GET['field_id']);
 		
-		$name = isset($_POST['cmd']) ? $_POST['field_name'] : $cdf->getName();
+		$name = isset($_POST['cmd']) ? ilUtil::prepareFormOutput($_POST['field_name'],true) : ilUtil::prepareFormOutput($cdf->getName());
 		$required = isset($_POST['cmd']) ? $_POST['required'] : $cdf->isRequired();		
 
 		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
@@ -204,7 +204,7 @@ class ilCourseUserFieldsGUI
 			$this->ctrl->setParameter($this,'del_field',$i - 1);
 			$this->tpl->setVariable('DELETE',$this->lng->txt('delete'));
 			$this->tpl->setVariable('LINK_DELETE',$this->ctrl->getLinkTarget($this,'deleteField'));
-			$this->tpl->setVariable('FIELD_NAME',$value);
+			$this->tpl->setVariable('FIELD_NAME',ilUtil::prepareFormOutput($value));
 			$this->tpl->setVariable("TXT_VALUES",$this->lng->txt('ps_cdf_value').' '.($i++));
 			$this->tpl->parseCurrentBlock();
 		}
