@@ -3612,7 +3612,7 @@ class ilLMPresentationGUI
 						$pg_node = $this->lm_tree->fetchSuccessorNode($a_obj_id, "pg");
 						$a_obj_id = $pg_node["obj_id"];
 					}
-					if ($a_frame != "")
+					if ($a_frame != "" && $a_frame != "_blank")
 					{
 						if ($a_frame != "toc")
 						{
