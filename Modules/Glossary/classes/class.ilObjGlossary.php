@@ -952,11 +952,14 @@ class ilObjGlossary extends ilObject
 		}
 
 		// delete terms
-		$terms = $this->getTermList();
-		foreach ($terms as $term)
+		if (!$this->isVirtual())
 		{
-			$term_obj =& new ilGlossaryTerm($term["id"]);
-			$term_obj->delete();
+			$terms = $this->getTermList();
+			foreach ($terms as $term)
+			{
+				$term_obj =& new ilGlossaryTerm($term["id"]);
+				$term_obj->delete();
+			}
 		}
 		
 		// delete glossary data entry
