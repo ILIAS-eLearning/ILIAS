@@ -1457,33 +1457,13 @@ class ilObjContentObject extends ilObject
 				$media_obj->exportXML($a_xml_writer, $a_inst);
 				$media_obj->exportFiles($a_target_dir);
 				
-				// get linked media objects (map areas)
-				$med_items = $media_obj->getMediaItems();
-				foreach($med_items as $med_item)
-				{
-					$int_links = ilMapArea::_getIntLinks($med_item->getId());
-					foreach ($int_links as $k => $int_link)
-					{
-						if ($int_link["Type"] == "MediaObject")
-						{
-							include_once("./Services/COPage/classes/class.ilInternalLink.php");
-							$l_id = ilInternalLink::_extractObjIdOfTarget($int_link["Target"]);
-							if (ilObject::_exists($l_id))
-							{
-								if (!in_array($l_id, $linked_mobs) && 
-									!in_array($l_id, $this->mob_ids))
-								{
-									$linked_mobs[] = $l_id;
-								}
-							}
-						}
-					}
-				}
-
+				$lmobs = $media_obj->getLinkedMediaObjects($this->mob_ids);
+				$linked_mobs = array_merge($linked_mobs, $lmobs);
+				
 				unset($media_obj);
 			}
 		}
-		
+
 		// linked mobs (in map areas)
 		foreach ($linked_mobs as $mob_id)
 		{
@@ -1812,11 +1792,20 @@ class ilObjContentObject extends ilObject
 
 		// export all media objects
 		$ilBench->start("ExportHTML", "exportHTMLMediaObjects");
+		$linked_mobs = array();
 		foreach ($this->offline_mobs as $mob)
 		{
 			if (ilObject::_exists($mob))
 			{
-				$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank");
+				$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs);
+			}
+		}
+		$linked_mobs2 = array();				// mobs linked in link areas
+		foreach ($linked_mobs as $mob)
+		{
+			if (ilObject::_exists($mob))
+			{
+				$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs2);
 			}
 		}
 		$_GET["obj_type"]  = "MediaObject";
@@ -1927,7 +1916,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* export media object to html
 	*/
-	function exportHTMLMOB($a_target_dir, &$a_lm_gui, $a_mob_id, $a_frame = "")
+	function exportHTMLMOB($a_target_dir, &$a_lm_gui, $a_mob_id, $a_frame, &$a_linked_mobs)
 	{
 		global $tpl;
 
@@ -1983,6 +1972,8 @@ class ilObjContentObject extends ilObject
 			fwrite($fp, $content);
 			fclose($fp);
 		}
+		$linked_mobs = $mob_obj->getLinkedMediaObjects();
+		$a_linked_mobs = array_merge($a_linked_mobs, $linked_mobs);
 	}
 	
 	/**
