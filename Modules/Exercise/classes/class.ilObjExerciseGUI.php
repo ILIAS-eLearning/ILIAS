@@ -555,9 +555,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			switch($_POST["action"])
 			{
 				case "save_status":
-					$this->__saveStatus();
-					ilUtil::sendInfo($this->lng->txt("exc_status_saved"),true);
-				break;
+					$users = $this->__saveStatus();
+					break;
+					
 				case "send_member":
 					if(!count($_POST["member"]))
 					{
@@ -1370,8 +1370,26 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
+//var_dump($_POST["member"]);
+//var_dump($_POST["id"]);
+		
+		$saved_for = array();
+		
 		foreach($_POST["id"] as $key => $value)
 		{
+			if (count($_POST["member"]) > 0 && $_POST["member"][$key] != "1")
+			{
+				continue;
+			}
+			else
+			{
+				if (count($_POST["member"]) > 0)
+				{
+					$uname = ilObjUser::_lookupName($key);
+					$saved_for[] = $uname["lastname"].", ".$uname["firstname"];
+				}
+			}
+			
 			$this->object->members_obj->setStatusForMember($key, $_POST["status"][$key]);
 			//$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
 			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
@@ -1388,6 +1406,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$marks_obj->setComment(ilUtil::stripSlashes($_POST['lcomment'][$key]));
 			$marks_obj->update();
 		}
+		if (count($saved_for) > 0)
+		{
+			$save_for_str = "(".implode($saved_for, " - ").")";
+		}
+		ilUtil::sendInfo($this->lng->txt("exc_status_saved")." ".$save_for_str,true);
 		return true;
 	}
 
