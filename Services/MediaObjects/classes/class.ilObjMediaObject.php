@@ -1344,5 +1344,43 @@ class ilObjMediaObject extends ilObject
 		return $media_object;
 	}
 	
+	/**
+	* Get all media objects linked in map areas of this media object
+	*/
+	function getLinkedMediaObjects($a_ignore = "")
+	{
+		$linked = array();
+		
+		if (!is_array($a_ignore))
+		{
+			$a_ignore = array();
+		}
+		
+		// get linked media objects (map areas)
+		$med_items = $this->getMediaItems();
+
+		foreach($med_items as $med_item)
+		{
+			$int_links = ilMapArea::_getIntLinks($med_item->getId());
+			foreach ($int_links as $k => $int_link)
+			{
+				if ($int_link["Type"] == "MediaObject")
+				{
+					include_once("./Services/COPage/classes/class.ilInternalLink.php");
+					$l_id = ilInternalLink::_extractObjIdOfTarget($int_link["Target"]);
+					if (ilObject::_exists($l_id))
+					{
+						if (!in_array($l_id, $linked) && 
+							!in_array($l_id, $a_ignore))
+						{
+							$linked[] = $l_id;
+						}
+					}
+				}
+			}
+		}
+//var_dump($linked);
+		return $linked;
+	}
 }
 ?>
