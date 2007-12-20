@@ -220,7 +220,7 @@ class ilGlossaryPresentationGUI
 			$this->ctrl->setParameter($this, "offset", 0);
 			$this->ctrl->setParameter($this, "oldoffset", $oldoffset);
 			$this->tpl->setVariable("FORMACTION1",
-				$this->ctrl->getFormAction($this));
+				$this->ctrl->getFormAction($this, "searchTerms"));
 			$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
 			$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
 			$this->tpl->setVariable("TXT_CLEAR", $this->lng->txt("clear"));

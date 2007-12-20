@@ -667,7 +667,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// glossary term list template
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_list.html", true);
-		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this, "addTerm"));
 		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
 		$this->tpl->setVariable("TXT_ADD2", $this->lng->txt("add"));
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
