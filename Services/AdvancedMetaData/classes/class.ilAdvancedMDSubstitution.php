@@ -41,6 +41,7 @@ class ilAdvancedMDSubstitution
 	protected $newline = array();
 	
 	protected $enabled_desc = true;
+	protected $enabled_field_names = true;
 	protected $active = false;
 	protected $date_fields = array();
 	protected $active_fields = array();
@@ -130,6 +131,29 @@ class ilAdvancedMDSubstitution
 	public function enableDescription($a_status)
 	{
 	 	$this->enabled_desc = $a_status;
+	}
+	
+	/**
+	 * is field name enabled
+	 *
+	 * @access public
+	 * 
+	 */
+	public function enabledFieldNames()
+	{
+	 	return (bool) $this->hide_field_names;
+	}
+	
+	/**
+	 * enable field names
+	 *
+	 * @access public
+	 * @param bool enable/disable status
+	 * 
+	 */
+	public function enableFieldNames($a_status)
+	{
+	 	$this->hide_field_names = $a_status;
 	}
 	
 	/**
@@ -329,7 +353,9 @@ class ilAdvancedMDSubstitution
 	 	$query = "REPLACE INTO adv_md_substitutions ".
 	 		"SET obj_type = ".$this->db->quote($this->type).", ".
 	 		"substitution = ".$this->db->quote(serialize($substitutions)).", ".
-	 		"hide_description = ".$this->db->quote(!$this->isDescriptionEnabled());
+	 		"hide_description = ".$this->db->quote(!$this->isDescriptionEnabled()).', '.
+	 		"hide_field_names = ".$this->db->quote(!$this->enabledFieldNames());
+			
 			
 	 	$res = $this->db->query($query);
 	}
@@ -387,6 +413,7 @@ class ilAdvancedMDSubstitution
 	 			}
 	 		}
 	 		$this->enabled_desc = !$row->hide_description;
+	 		$this->enabled_field_names = !$row->hide_field_names;
 	 	}
 	}
 }
