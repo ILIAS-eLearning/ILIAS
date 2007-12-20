@@ -184,7 +184,7 @@ class ilCourseAgreementGUI
 			{
 				case IL_CDF_TYPE_SELECT:
 					$this->tpl->setCurrentBlock('sel_row');
-					$this->tpl->setVariable('SEL_SELECT',ilUtil::formSelect($field_obj->getIdByValue($course_user_data->getValue()),
+					$this->tpl->setVariable('SEL_SELECT',ilUtil::formSelect($course_user_data->getValue(),
 																			'cdf['.$field_obj->getId().']',
 																			$field_obj->prepareSelectBox(),
 																			false,
@@ -230,7 +230,7 @@ class ilCourseAgreementGUI
 			switch($field_obj->getType())
 			{
 				case IL_CDF_TYPE_SELECT:
-					$value = $field_obj->getValueById($_POST['cdf'][$field_obj->getId()]);
+					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
 					break;
 				
 				case IL_CDF_TYPE_TEXT:

@@ -304,7 +304,7 @@ class ilCourseDefinedFieldDefinition
 		
 		foreach($this->values as $value)
 		{
-			$options[] = $value;
+			$options[$value] = $value;
 		}
 		return $options;
 	}
@@ -382,7 +382,7 @@ class ilCourseDefinedFieldDefinition
 	 		"SET obj_id = ".$this->db->quote($this->getObjId()).", ".
 	 		"field_name = ".$this->db->quote($this->getName()).", ".
 	 		"field_type = ".$this->db->quote($this->getType()).", ".
-	 		"field_values = '".addslashes(serialize($this->getValues()))."', ".
+	 		"field_values = ".$this->db->quote(serialize($this->getValues())).", ".
 	 		"field_required = ".$ilDB->quote($this->isRequired())." ";
 	 	$res = $this->db->query($query);
 	 	$this->id = $this->db->getLastInsertId();
@@ -402,7 +402,7 @@ class ilCourseDefinedFieldDefinition
 	 	$query = "UPDATE crs_defined_field_definitions ".
 	 		"SET field_name = ".$this->db->quote($this->getName()).", ".
 	 		"field_type = ".$this->db->quote($this->getType()).", ".
-	 		"field_values = '".addslashes(serialize($this->getValues()))."', ".
+	 		"field_values = ".$this->db->quote(serialize($this->getValues())).", ".
 	 		"field_required = ".$ilDB->quote($this->isRequired())." ".
 	 		"WHERE field_id = ".$this->db->quote($this->getId())." ".
 	 		"AND obj_id = ".$this->db->quote($this->getObjId());
@@ -446,7 +446,7 @@ class ilCourseDefinedFieldDefinition
 	 	
 		$this->setName($row->field_name);
 		$this->setType($row->field_type);
-		$this->setValues(unserialize(stripslashes($row->field_values)));
+		$this->setValues(unserialize($row->field_values));
 		$this->enableRequired($row->field_required);
 	}
 }
