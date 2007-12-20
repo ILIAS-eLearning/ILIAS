@@ -317,7 +317,8 @@ class ilMainMenuGUI
 				}
 	
 				$this->tpl->setVariable("TXT_OK", $lng->txt("ok"));
-				$this->tpl->setVariable("LANG_FORM_ACTION", "repository.php?ref_id=".$_GET["ref_id"]);
+				//$this->tpl->setVariable("LANG_FORM_ACTION", "repository.php?ref_id=".$_GET["ref_id"]);
+				$this->tpl->setVariable("LANG_FORM_ACTION", "#");
 				$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 	
 				$this->tpl->setCurrentBlock("userisanonymous");
