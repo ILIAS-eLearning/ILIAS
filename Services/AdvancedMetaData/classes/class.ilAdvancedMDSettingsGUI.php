@@ -130,6 +130,7 @@ class ilAdvancedMDSettingsGUI
 	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
 	 		$sub->resetSubstitutions(array());
 			$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
+			$sub->enableFieldNames(true);
 			asort($_POST['position'][$obj_type],SORT_NUMERIC);
 			foreach($_POST['position'][$obj_type] as $field_id => $pos)
 			{

@@ -2939,3 +2939,6 @@ DROP TABLE IF EXISTS cp_hideLMSUI;
 CREATE TABLE cp_hidelmsui(`cp_node_id` INTEGER, `value` VARCHAR(50) );
 ALTER TABLE cp_hidelmsui ADD PRIMARY KEY(cp_node_id);
 CREATE INDEX ss_sequencing_id ON cp_hidelmsui(value);
+
+<#1126>
+ALTER TABLE `adv_md_substitutions` ADD `hide_field_names` TINYINT NOT NULL ;
