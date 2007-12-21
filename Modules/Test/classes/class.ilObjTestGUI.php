@@ -4970,11 +4970,14 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilAccess;
 		global $ilUser;
 
+		// Disabled
+		/*
 		if ($_GET['crs_show_result'])
 		{
 			$this->object->hideCorrectAnsweredQuestions();
 		}
 		else
+		*/
 		{
 			if ($this->object->getTestSequence()->hasHiddenQuestions())
 			{
@@ -5034,8 +5037,8 @@ class ilObjTestGUI extends ilObjectGUI
 						{
 							$resume_text = $this->object->getStartTestLabel($this->object->getTestSession()->getActiveId());
 						}
-
-						if(!$_GET['crs_show_result'] or $this->object->getTestSequence()->getFirstSequence())
+						// Disabled
+						#if(!$_GET['crs_show_result'] or $this->object->getTestSequence()->getFirstSequence())
 						{
 							$info->addFormButton("resume", $resume_text);
 						}
@@ -5192,7 +5195,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if($_GET['crs_show_result'] and !$this->object->getTestSequence()->getFirstSequence())
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
+			#ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
 		}			
 
 		$this->ctrl->forwardCommand($info);
