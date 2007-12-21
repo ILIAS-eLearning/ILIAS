@@ -2942,3 +2942,46 @@ CREATE INDEX ss_sequencing_id ON cp_hidelmsui(value);
 
 <#1126>
 ALTER TABLE `adv_md_substitutions` ADD `hide_field_names` TINYINT NOT NULL ;
+
+<#1127>
+<?php
+
+// Add template permissions to root node for Author and Co-Author template
+
+// get author and co-author obj_ids
+$query = "SELECT obj_id FROm object_data ".
+	"WHERE type = 'rolt' ".
+	"AND title = 'Author' ".
+	"OR title = 'Co-Author' ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "DELETE FROM rbac_templates WHERE ".
+		"rol_id = ".$ilDB->quote($row->obj_id)." ".
+		"AND type = 'root' ".
+		"AND ops_id = 2 ".
+		"AND parent = 8";
+	$ilDB->query($query);
+	
+	$query = "INSERT INTO rbac_templates SET ".
+		"rol_id = ".$ilDB->quote($row->obj_id).", ".
+		"type = 'root', ".
+		"ops_id = 2, ".
+		"parent = 8";
+	$ilDB->query($query);
+
+	$query = "DELETE FROM rbac_templates WHERE ".
+		"rol_id = ".$ilDB->quote($row->obj_id)." ".
+		"AND type = 'root' ".
+		"AND ops_id = 3 ".
+		"AND parent = 8";
+	$ilDB->query($query);
+
+	$query = "INSERT INTO rbac_templates SET ".
+		"rol_id = ".$ilDB->quote($row->obj_id).", ".
+		"type = 'root', ".
+		"ops_id = 3, ".
+		"parent = 8";
+	$ilDB->query($query);
+}
+?>
