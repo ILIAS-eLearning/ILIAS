@@ -32,6 +32,8 @@
 	<subobj name="ps" max="1">ps</subobj>
 	<subobj name="nwss" max="1">nwss</subobj>
 	<subobj name="pdts" max="1">pdts</subobj>
+	<subobj name="mds" max="1">pdts</subobj>
+	<subobj name="pays" max="1">pdts</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="check">system_check</property>
