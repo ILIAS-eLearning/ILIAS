@@ -55,6 +55,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function ilObjRoleTemplateGUI($a_data,$a_id,$a_call_by_reference)
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule('rbac');
+		
 		$this->type = "rolt";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		$this->rolf_ref_id =& $this->ref_id;
@@ -221,6 +225,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($objDefinition->getDevMode($row->title))
+			{
+				continue;
+			}
 			// FILTER SUBOJECTS OF adm OBJECT
 			if(in_array($row->title,$to_filter))
 			{
