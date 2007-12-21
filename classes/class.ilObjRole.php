@@ -494,7 +494,6 @@ class ilObjRole extends ilObject
 	function __getPermissionDefinitions()
 	{
 		global $ilDB, $lng, $objDefinition;		
-		#$to_filter = $objDefinition->getSubobjectsToFilter();
 
 		// build array with all rbac object types
 		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".

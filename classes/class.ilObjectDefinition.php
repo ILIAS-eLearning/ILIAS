@@ -434,7 +434,7 @@ class ilObjectDefinition extends ilSaxParser
 		}
 		// ADD adm and root object
 		$tmp_subs[] = "adm";
-		$tmp_subs[] = "root";
+		#$tmp_subs[] = "root";
 
 		return $tmp_subs ? $tmp_subs : array();
 	}
