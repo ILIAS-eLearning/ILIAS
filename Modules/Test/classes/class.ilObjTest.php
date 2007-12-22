@@ -7003,7 +7003,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ilDB->quote($this->getTestId())
 			);
 		}
-		return $this->getArrayData($q, "active_id");
+		$data = $this->getArrayData($q, "active_id");
+		foreach ($data as $index => $participant)
+		{
+			if (strlen(trim($participant->firstname.$participant->lastname)) == 0)
+			{
+				$data[$index]->lastname = $this->lng->txt("deleted_user");
+			}
+		}
+		return $data;
 	}
 
 /**

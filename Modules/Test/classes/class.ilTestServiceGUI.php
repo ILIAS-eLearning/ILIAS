@@ -693,7 +693,15 @@ class ilTestServiceGUI
 		$template = new ilTemplate("tpl.il_as_tst_results_userdata.html", TRUE, TRUE, "Modules/Test");
 		include_once './Services/User/classes/class.ilObjUser.php';
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$user = new ilObjUser($user_id);
+		if (is_array(ilObjUser::_lookupId($user_id)))
+		{
+			$user = new ilObjUser($user_id);
+		}
+		else
+		{
+			$user = new ilObjUser();
+			$user->setLastname($this->lng->txt("deleted_user"));
+		}
 		$t = $this->object->getTestSession($active_id)->getSubmittedTimestamp();
 		if (!$t)
 		{

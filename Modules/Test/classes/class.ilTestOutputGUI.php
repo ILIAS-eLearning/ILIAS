@@ -1870,8 +1870,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function outParticipantsResultsOverview()
 	{
-		global $ilUser;
-		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_overview_participants.html", "Modules/Test");
 
 		$active_id = $_GET["active_id"];
@@ -1883,7 +1881,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$overview = $this->getPassOverview($active_id, "iltestoutputgui", "outParticipantsPassDetails");
-
 		$this->tpl->setVariable("PASS_OVERVIEW", $overview);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("back"));
