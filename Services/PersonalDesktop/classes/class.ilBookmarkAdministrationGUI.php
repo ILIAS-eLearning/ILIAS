@@ -866,8 +866,15 @@ return;
 			list($type, $id) = explode(":", $id);
 
 			// get node data and subtree nodes
-			$node_data = $this->tree->getNodeData($id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
+			if ($this->tree->isInTree($id))
+			{
+				$node_data = $this->tree->getNodeData($id);
+				$subtree_nodes = $this->tree->getSubTree($node_data);
+			}
+			else
+			{
+				continue;
+			}
 
 			// delete tree
 			$this->tree->deleteTree($node_data);

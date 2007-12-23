@@ -3039,12 +3039,16 @@ class ilObjUser extends ilObject
 					$parent_ref = $tree->getParentId($item_rec["ref_id"]);
 					$par_left = $tree->getLeftValue($parent_ref);
 					$par_left = sprintf("%010d", $par_left);
-					$items[$par_left.$item_rec["title"].$item_rec["ref_id"]] =
+					
+					
+					$title = ilObject::_lookupTitle($item_rec["obj_id"]);
+					$desc = ilObject::_lookupDescription($item_rec["obj_id"]);
+					$items[$par_left.$title.$item_rec["ref_id"]] =
 						array("ref_id" => $item_rec["ref_id"],
 							"obj_id" => $item_rec["obj_id"],
 							"type" => $item_rec["type"],
-							"title" => $item_rec["title"],
-							"description" => $item_rec["description"],
+							"title" => $title,
+							"description" => $desc,
 							"parent_ref" => $parent_ref);
 				}
 			}
@@ -3071,10 +3075,12 @@ class ilObjUser extends ilObject
 				$item_set = $ilDB->query($q);
 				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+					$title = ilObject::_lookupTitle($item_rec["obj_id"]);
+					$desc = ilObject::_lookupDescription($item_rec["obj_id"]);
+					$items[$title.$a_type.$item_rec["ref_id"]] =
 						array("ref_id" => $item_rec["ref_id"],
 						"obj_id" => $item_rec["obj_id"], "type" => $a_type,
-						"title" => $item_rec["title"], "description" => $item_rec["description"]);
+						"title" => $title, "description" => $desc);
 				}
 
 			}

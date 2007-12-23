@@ -65,6 +65,7 @@ class ilPageObjectGUI
 	var $question_html;
 	var $activation = false;
 	var $activated = true;
+	var $enabledinternallinks = true;
 
 	/**
 	* Constructor
@@ -398,6 +399,26 @@ class ilPageObjectGUI
 	function getEnabledActivation()
 	{
 		return $this->activation;
+	}
+	
+	/**
+	* Set Enable internal links.
+	*
+	* @param	boolean	$a_enabledinternallinks	Enable internal links
+	*/
+	function setEnabledInternalLinks($a_enabledinternallinks)
+	{
+		$this->enabledinternallinks = $a_enabledinternallinks;
+	}
+
+	/**
+	* Get Enable internal links.
+	*
+	* @return	boolean	Enable internal links
+	*/
+	function getEnabledInternalLinks()
+	{
+		return $this->enabledinternallinks;
 	}
 
 	/**

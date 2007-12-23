@@ -867,7 +867,9 @@ class ilObject
 	{
 		global $ilObjDataCache;
 
-		return $ilObjDataCache->lookupTitle($a_id);
+		$tit = $ilObjDataCache->lookupTitle($a_id);
+//echo "<br>LOOKING-$a_id-:$tit";		
+		return $tit;
 	}
 
 	/**

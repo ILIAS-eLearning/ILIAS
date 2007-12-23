@@ -272,7 +272,8 @@ class ilAdminUserSearchGUI
 		
 		$_POST["search_string"] = trim($_POST["search_string"]) ? trim($_POST["search_string"]) : trim(urldecode($_GET["search_string"]));
  		$_SESSION['us_active'] = isset($_POST['active']) ? $_POST['active'] : $_SESSION['us_active'];
-
+		$_SESSION['us_active'] = $_SESSION["user_filter"];
+		
 		if (empty($_POST["search_string"]))
 		{
 			$_POST["search_string"] = "%";
