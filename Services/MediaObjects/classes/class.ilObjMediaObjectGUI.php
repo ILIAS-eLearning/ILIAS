@@ -41,6 +41,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	var $ctrl;
 	var $header;
 	var $target_script;
+	var $enabledmapareas = true;
 
 	function ilObjMediaObjectGUI($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
 	{
@@ -66,6 +67,26 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function getHeader()
 	{
 		return $this->header;
+	}
+
+	/**
+	* Set Enable map areas.
+	*
+	* @param	boolean	$a_enabledmapareas	Enable map areas
+	*/
+	function setEnabledMapAreas($a_enabledmapareas)
+	{
+		$this->enabledmapareas = $a_enabledmapareas;
+	}
+
+	/**
+	* Get Enable map areas.
+	*
+	* @return	boolean	Enable map areas
+	*/
+	function getEnabledMapAreas()
+	{
+		return $this->enabledmapareas;
 	}
 
 	function assignObject()
@@ -2355,7 +2376,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 			// link areas
 			$st_item =& $this->object->getMediaItem("Standard");
-			if (is_object($st_item))
+			if (is_object($st_item) && $this->getEnabledMapAreas())
 			{
 				$format = $st_item->getFormat();
 				if (substr($format, 0, 5) == "image")

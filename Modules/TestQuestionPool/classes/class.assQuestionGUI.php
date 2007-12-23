@@ -317,6 +317,7 @@ class assQuestionGUI
 		$page =& new ilPageObject("qpl", $this->object->getId());
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->setTemplateTargetVar($a_temp_var);
+		$page_gui->setEnabledInternalLinks(false);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".

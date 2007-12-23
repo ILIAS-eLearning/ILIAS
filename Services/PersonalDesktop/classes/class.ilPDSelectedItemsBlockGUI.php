@@ -268,6 +268,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 			$title = $type["title"];
 			
 			$items = $ilUser->getDesktopItems($type);
+//var_dump($items);
 			$item_html = array();
 			
 			if ($this->getCurrentDetailLevel() == 3)

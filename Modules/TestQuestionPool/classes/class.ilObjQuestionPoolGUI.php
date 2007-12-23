@@ -143,6 +143,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "questions");
 				$page =& new ilPageObject("qpl", $_GET["q_id"]);
 				$page_gui =& new ilPageObjectGUI($page);
+				$page_gui->setEnabledInternalLinks(false);
 				if (strlen($this->ctrl->getCmd()) == 0)
 				{
 					$this->ctrl->setCmdClass(get_class($page_gui));

@@ -370,6 +370,7 @@ class ilPageEditorGUI
 							$cont_obj->getTitle());
 						$this->displayLocator("mob");
 						$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getId(),false, false);
+						$mob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 						$mob_gui->setBackTitle($this->page_back_title);
 						$mob_gui->getTabs($this->tabs_gui);
 					}
@@ -381,6 +382,7 @@ class ilPageEditorGUI
 				else
 				{
 					$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
+					$mob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 					$mob_gui->getTabs($this->tabs_gui);
 					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
 						ilObject::_lookupTitle($_GET["mob_id"]));
