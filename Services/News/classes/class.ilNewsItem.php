@@ -903,7 +903,7 @@ class ilNewsItem extends ilNewsItemGen
 				}
 				else if ($up_cnt > 1)
 				{
-					$tit .= $sep.sprintf($lng->txt("news_x_files_created"), $up_cnt);
+					$tit .= $sep.sprintf($lng->txt("news_x_files_updated"), $up_cnt);
 				}
 				return $tit;
 			}
