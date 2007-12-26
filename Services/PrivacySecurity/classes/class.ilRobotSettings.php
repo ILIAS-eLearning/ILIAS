@@ -105,10 +105,13 @@ class ilRobotSettings
 	 */
 	public function checkModRewrite()
 	{
-	 	if(in_array('mod_rewrite',apache_get_modules()))
-	 	{
-	 		return true;
-	 	}
+		if (function_exists("apache_get_modules"))
+		{
+			if(in_array('mod_rewrite',apache_get_modules()))
+			{
+				return true;
+			}
+		}
 	 	return false;
 	}
 	
