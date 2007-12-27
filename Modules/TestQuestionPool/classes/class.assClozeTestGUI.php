@@ -752,65 +752,6 @@ class assClozeTestGUI extends assQuestionGUI
 				$user_solution = array();
 			}
 		}
-		else
-		{
-			// create the "best" solutions
-			for ($i = 0; $i < $this->object->getGapCount(); $i++)
-			{
-				$gap = $this->object->getGap($i);
-				if (is_object($gap))
-				{
-					switch ($gap->getType())
-					{
-						case CLOZE_SELECT:
-							$maxpoints = 0;
-							$foundindex = -1;
-							foreach ($gap->getItems() as $answer)
-							{
-								if ($answer->getPoints() > $maxpoints)
-								{
-									$maxpoints = $answer->getPoints();
-									$foundindex = $answer->getOrder();
-								}
-							}
-							array_push($user_solution, array("value1" => $i, "value2" => $foundindex));
-							break;
-						case CLOZE_TEXT:
-							$best_solutions = array();
-							foreach ($gap->getItems() as $answer)
-							{
-								if (is_array($best_solutions[$answer->getPoints()]))
-								{
-									array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
-								}
-								else
-								{
-									$best_solutions[$answer->getPoints()] = array();
-									array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
-								}
-							}
-							krsort($best_solutions, SORT_NUMERIC);
-							reset($best_solutions);
-							$found = current($best_solutions);
-							array_push($user_solution, array("value1" => $i, "value2" => join(" " . $this->lng->txt("or") . " ", $found)));
-							break;
-						case CLOZE_NUMERIC:
-							$maxpoints = 0;
-							$foundvalue = "";
-							foreach ($gap->getItems() as $answer)
-							{
-								if ($answer->getPoints() >= $maxpoints)
-								{
-									$maxpoints = $answer->getPoints();
-									$foundvalue = $answer->getAnswertext();
-								}
-							}
-							array_push($user_solution, array("value1" => $i, "value2" => $foundvalue));
-							break;
-					}
-				}
-			}
-		}
 
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -878,59 +819,80 @@ class assClozeTestGUI extends assQuestionGUI
 			{
 				case CLOZE_TEXT:
 					$solutiontext = "";
-					if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
+					if ($active_id > 0)
 					{
-						for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
-						{
-							$solutiontext .= "&nbsp;";
-						}
-					}
-					else
-					{
-						$solutiontext = $found["value2"];
-					}
-					$gaptemplate->setVariable("SOLUTION", $solutiontext);
-					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
-					break;
-				case CLOZE_SELECT:
-					$solutiontext = "";
-					if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
-					{
-						for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
-						{
-							$solutiontext .= "&nbsp;";
-						}
-					}
-					else
-					{
-						$item = $gap->getItem($found["value2"]);
-						if (is_object($item))
-						{
-							$solutiontext = $item->getAnswertext();
-						}
-						else
+						if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
 						{
 							for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
 							{
 								$solutiontext .= "&nbsp;";
 							}
 						}
+						else
+						{
+							$solutiontext = $found["value2"];
+						}
+					}
+					else
+					{
+						$solutiontext = $gap->getBestSolutionOutput();
+					}
+					$gaptemplate->setVariable("SOLUTION", $solutiontext);
+					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
+					break;
+				case CLOZE_SELECT:
+					$solutiontext = "";
+					if ($active_id > 0)
+					{
+						if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
+						{
+							for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
+							{
+								$solutiontext .= "&nbsp;";
+							}
+						}
+						else
+						{
+							$item = $gap->getItem($found["value2"]);
+							if (is_object($item))
+							{
+								$solutiontext = $item->getAnswertext();
+							}
+							else
+							{
+								for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
+								{
+									$solutiontext .= "&nbsp;";
+								}
+							}
+						}
+					}
+					else
+					{
+						$solutiontext = $gap->getBestSolutionOutput();
 					}
 					$gaptemplate->setVariable("SOLUTION", $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
 				case CLOZE_NUMERIC:
 					$solutiontext = "";
-					if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
+					if ($active_id > 0)
 					{
-						for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
+						if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
 						{
-							$solutiontext .= "&nbsp;";
+							for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++)
+							{
+								$solutiontext .= "&nbsp;";
+							}
+						}
+						else
+						{
+							$solutiontext = $found["value2"];
 						}
 					}
 					else
 					{
-						$solutiontext = $found["value2"];
+						$solutiontext = $gap->getBestSolutionOutput();
 					}
 					$gaptemplate->setVariable("SOLUTION", $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);

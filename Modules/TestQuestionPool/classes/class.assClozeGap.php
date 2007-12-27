@@ -396,6 +396,49 @@ class assClozeGap
 		}
 		return $keys;
 	}
+	
+	function getBestSolutionOutput()
+	{
+		global $lng;
+		switch ($this->getType())
+		{
+			case CLOZE_TEXT:
+			case CLOZE_SELECT:
+				$best_solutions = array();
+				foreach ($this->getItems() as $answer)
+				{
+					if (is_array($best_solutions[$answer->getPoints()]))
+					{
+						array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+					}
+					else
+					{
+						$best_solutions[$answer->getPoints()] = array();
+						array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+					}
+				}
+				krsort($best_solutions, SORT_NUMERIC);
+				reset($best_solutions);
+				$found = current($best_solutions);
+				return join(" " . $lng->txt("or") . " ", $found);
+				break;
+			case CLOZE_NUMERIC:
+				$maxpoints = 0;
+				$foundvalue = "";
+				foreach ($this->getItems() as $answer)
+				{
+					if ($answer->getPoints() >= $maxpoints)
+					{
+						$maxpoints = $answer->getPoints();
+						$foundvalue = $answer->getAnswertext();
+					}
+				}
+				return $foundvalue;
+				break;
+			default:
+				return "";
+		}
+	}
 }
 
 ?>
