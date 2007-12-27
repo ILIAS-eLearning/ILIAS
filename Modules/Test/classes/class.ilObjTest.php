@@ -1242,7 +1242,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getShowCancel() . ""),
 				$ilDB->quote($this->getShowMarker() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
-				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$ilDB->quote(sprintf("%d", $this->getNrOfTries()) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
 				$ilDB->quote($this->processing_time . ""),
@@ -1311,7 +1311,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getShowCancel() . ""),
 				$ilDB->quote($this->getShowMarker() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
-				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
+				$ilDB->quote(sprintf("%d", $this->getNrOfTries()) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
 				$ilDB->quote($this->processing_time . ""),
@@ -1366,6 +1366,56 @@ class ilObjTest extends ilObject
 				if (count($changed_fields) > 0)
 				{
 					$this->logAction($this->lng->txtlng("assessment", "log_modified_test", ilObjAssessmentFolder::_getLogLanguage()) . " [".$changes."]");
+				}
+			}
+			if ($this->evalTotalPersons() > 0)
+			{
+				// reset the finished status of participants if the nr of test passes did change
+				
+				if ($this->getNrOfTries() > 0)
+				{
+					// set all unfinished tests with nr of passes >= allowed passes finished
+					$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s AND tries >= %s AND submitted = 0",
+						$ilDB->quote($this->getTestId() . ""),
+						$ilDB->quote($this->getNrOfTries() . "")
+					);
+					$aresult = $ilDB->query($query);
+					while ($row = $aresult->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$newquery = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = NOW() WHERE active_id = %s",
+							$ilDB->quote($row["active_id"] . "")
+						);
+						$newresult = $ilDB->query($newquery);
+					}
+
+					// set all finished tests with nr of passes >= allowed passes not finished
+					$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s AND tries < %s AND submitted = 1",
+						$ilDB->quote($this->getTestId() . ""),
+						$ilDB->quote($this->getNrOfTries() . "")
+					);
+					$aresult = $ilDB->query($query);
+					while ($row = $aresult->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$newquery = sprintf("UPDATE tst_active SET submitted = 0, submittimestamp = NULL WHERE active_id = %s",
+							$ilDB->quote($row["active_id"] . "")
+						);
+						$newresult = $ilDB->query($newquery);
+					}
+				}
+				else
+				{
+					// set all finished tests with nr of passes >= allowed passes not finished
+					$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s AND submitted = 1",
+						$ilDB->quote($this->getTestId() . "")
+					);
+					$aresult = $ilDB->query($query);
+					while ($row = $aresult->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$newquery = sprintf("UPDATE tst_active SET submitted = 0, submittimestamp = NULL WHERE active_id = %s",
+							$ilDB->quote($row["active_id"] . "")
+						);
+						$newresult = $ilDB->query($newquery);
+					}
 				}
 			}
     }
