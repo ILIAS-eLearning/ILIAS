@@ -1623,10 +1623,10 @@ class ilObjForumGUI extends ilObjectGUI
 						}						
 
 						$newPost = $frm->generatePost($topicData['top_pk'], $this->objCurrentTopic->getId(),
-													  ($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()), ilUtil::stripSlashes($formData['message']),
+													  ($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()), $this->handleFormInput($formData['message']),
 													  $_GET['pos_pk'], $_POST['notify'],
 													  $formData['subject']
-														? ilUtil::stripSlashes($formData['subject'])
+														? $this->handleFormInput($formData['subject'])
 														:  $this->objCurrentTopic->getSubject(),
 													  ilUtil::stripSlashes($formData['alias']),
 													  '',
@@ -1652,8 +1652,8 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 					else
 					{
-						$this->objCurrentPost->setSubject($formData['subject'] ? ilUtil::stripSlashes($formData['subject']) :  $this->objCurrentPost->getSubject());
-						$this->objCurrentPost->setMessage(ilUtil::stripSlashes($formData['message']));
+						$this->objCurrentPost->setSubject($formData['subject'] ? $this->handleFormInput($formData['subject']) :  $this->objCurrentPost->getSubject());
+						$this->objCurrentPost->setMessage($this->handleFormInput($formData['message']));
 						$this->objCurrentPost->setNotification($_POST['notify'] ? 1 : 0);
 						$this->objCurrentPost->setChangeDate(date("Y-m-d H:i:s"));
 						$this->objCurrentPost->setUpdateUserId($ilUser->getId());
@@ -1682,11 +1682,11 @@ class ilObjForumGUI extends ilObjectGUI
 				// insert censorship
 				elseif ($_POST['confirm'] != '' && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship(ilUtil::stripSlashes($formData['cens_message']), $this->objCurrentPost->getId(), 1);
+					$frm->postCensorship($this->handleFormInput($formData['cens_message']), $this->objCurrentPost->getId(), 1);
 				}
 				elseif ($_POST['cancel'] != '' && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship(ilUtil::stripSlashes($formData['cens_message']), $this->objCurrentPost->getId());
+					$frm->postCensorship($this->handleFormInput($formData['cens_message']), $this->objCurrentPost->getId());
 				}
 			}			
 
@@ -1831,8 +1831,8 @@ class ilObjForumGUI extends ilObjectGUI
 
 								$tpl->setVariable('SUBJECT_VALUE',
 									($_GET['show_post'] == 1 ?
-										ilUtil::prepareFormOutput($_POST['formData']['subject'], true) :
-										ilUtil::prepareFormOutput($this->objCurrentTopic->getSubject())));
+										$this->forwardInputToOutput($_POST['formData']['subject']) :
+										$this->prepareFormOutput($this->objCurrentTopic->getSubject())));
 
 								if (!empty($_POST['addQuote']))
 								{
@@ -1855,8 +1855,8 @@ class ilObjForumGUI extends ilObjectGUI
 							{
 								$tpl->setVariable('SUBJECT_VALUE',
 									($_GET['show_post'] == 1 ?
-										ilUtil::prepareFormOutput($_POST['formData']['subject'], true) :
-										ilUtil::prepareFormOutput($node->getSubject())));
+										$this->forwardInputToOutput($_POST['formData']['subject']) :
+										$this->prepareFormOutput($node->getSubject())));
 								$tpl->setVariable('MESSAGE_VALUE',
 									($_GET['show_post'] == 1 ?
 										ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
@@ -2943,9 +2943,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setCurrentBlock('new_thread');
 		$tpl->setVariable('TXT_REQUIRED_FIELDS', $lng->txt('required_field'));
 		$tpl->setVariable('TXT_SUBJECT', $lng->txt('forums_thread'));
-		$tpl->setVariable('SUBJECT_VALUE', ilUtil::prepareFormOutput($_POST['formData']['subject'], true));
+		$tpl->setVariable('SUBJECT_VALUE', $this->forwardInputToOutput($_POST['formData']['subject']));
 		$tpl->setVariable('TXT_MESSAGE', $lng->txt('forums_the_post'));
-		$tpl->setVariable('MESSAGE_VALUE', ilUtil::prepareFormOutput($_POST['formData']['message'], true));
+		$tpl->setVariable('MESSAGE_VALUE', $this->forwardInputToOutput($_POST['formData']['message']));
 		if ($this->objProperties->isAnonymized())
 		{
 			$tpl->setVariable('TXT_ALIAS', $lng->txt('forums_your_name'));
@@ -3025,8 +3025,8 @@ class ilObjForumGUI extends ilObjectGUI
 				$newPost = $frm->generateThread(
 								$topicData['top_pk'],
 								0,
-								ilUtil::stripSlashes($formData['subject']),
-								ilUtil::stripSlashes($formData['message']),
+								$this->handleFormInput($formData['subject']),
+								$this->handleFormInput($formData['message']),
 								$formData['notify'],
 								$formData['notify_posts'],
 								ilUtil::stripSlashes($formData['alias'])
@@ -3037,8 +3037,8 @@ class ilObjForumGUI extends ilObjectGUI
 				$newPost = $frm->generateThread(
 								$topicData['top_pk'],
 								$ilUser->getId(),
-								ilUtil::stripSlashes($formData['subject']),
-								ilUtil::stripSlashes($formData['message']),
+								$this->handleFormInput($formData['subject']),
+								$this->handleFormInput($formData['message']),
 								$formData['notify'],
 								$formData['notify_posts']
 				);
@@ -3296,5 +3296,39 @@ class ilObjForumGUI extends ilObjectGUI
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ''), '', $_GET['ref_id']);
 		}
 	}
+
+	/**
+	* Handle subject and message text input. < and > are escaped
+	* because HTML is not allowed.
+	*
+	* @param	string		$a_text		input text
+	*/
+	function handleFormInput($a_text)
+	{
+		$a_text = str_replace("<", "&lt;", $a_text);
+		$a_text = str_replace(">", "&gt;", $a_text);
+		$a_text = ilUtil::stripSlashes($a_text);
+		
+		return $a_text;
+	}
+	
+	/**
+	*
+	*/
+	function prepareFormOutput($a_text)
+	{
+		$a_text = str_replace("&lt;", "<", $a_text);
+		$a_text = str_replace("&gt;", ">", $a_text);
+		$a_text = ilUtil::prepareFormOutput($a_text);
+		return $a_text;
+	}
+	
+	function forwardInputToOutput($a_text)
+	{
+		$a_text = $this->handleFormInput($a_text);
+		$a_text = $this->prepareFormOutput($a_text);
+		return $a_text;
+	}
+
 } // END class.ilObjForumGUI
 ?>
