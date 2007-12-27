@@ -7762,3 +7762,7 @@ administration#:#auth_kind_determination#:#Kind of Determination###27 11 2007 ne
 administration#:#auth_by_user#:#By the User###27 11 2007 new variable
 administration#:#auth_automatic#:#Fixed Sequence###27 11 2007 new variable
 administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.###27 11 2007 new variable
+rbac#:#mds_edit_permission#:#Change permission settings###28 12 2007 new variable
+rbac#:#mds_visible#:#Metadata settings are visible###28 12 2007 new variable
+rbac#:#mds_read#:#Read access to Metadata settings###28 12 2007 new variable
+rbac#:#mds_write#:#Edit Metadata setting###28 12 2007 new variable
