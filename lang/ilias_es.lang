@@ -7747,3 +7747,7 @@ administration#:#auth_kind_determination#:#Tipo de determinación
 administration#:#auth_by_user#:#Por usuario
 administration#:#auth_automatic#:#Sequencia prefijada
 administration#:#auth_mode_determination_info#:#Escoger si los usuarios tienen que seleccionar su método de autenticación en la pantalla de entrada o si es gestionado por una secuencia prefijada de métodos de autenticación
+rbac#:#mds_edit_permission#:#Change permission settings###28 12 2007 new variable
+rbac#:#mds_visible#:#Metadata settings are visible###28 12 2007 new variable
+rbac#:#mds_read#:#Read access to Metadata settings###28 12 2007 new variable
+rbac#:#mds_write#:#Edit Metadata setting###28 12 2007 new variable
