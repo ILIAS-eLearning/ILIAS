@@ -2985,3 +2985,38 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
+<#1128>
+DROP TABLE IF EXISTS il_wiki_data;
+CREATE TABLE il_wiki_data
+(
+	id int NOT NULL PRIMARY KEY,
+	startpage varchar(200) NOT NULL DEFAULT '',
+	short varchar(20) NOT NULL DEFAULT '',
+	online TINYINT DEFAULT 0
+);
+<#1129>
+DROP TABLE IF EXISTS il_wiki_page;
+CREATE TABLE il_wiki_page
+(
+	id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	title varchar(200) NOT NULL DEFAULT '',
+	wiki_id int NOT NULL
+);
+<#1130>
+DROP TABLE IF EXISTS page_history;
+CREATE TABLE page_history
+(
+	page_id int NOT NULL DEFAULT 0,
+	parent_type varchar(4) NOT NULL DEFAULT '',
+	hdate datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	parent_id int,
+	nr int,
+	user int,
+	content mediumtext,
+	PRIMARY KEY (page_id, parent_type, hdate)
+);
+<#1131>
+ALTER TABLE page_object ADD COLUMN user int DEFAULT 0;
+ALTER TABLE page_object ADD COLUMN view_cnt int DEFAULT 0;
+ALTER TABLE page_object ADD COLUMN last_change TIMESTAMP;
+ALTER TABLE page_object ADD COLUMN created DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
