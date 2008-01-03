@@ -726,8 +726,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function deleteQuestionsObject()
 	{
-//echo "<br>ilObjQuestionPoolGUI->deleteQuestions()";
-		// duplicate button was pressed
 		if (count($_POST["q_id"]) < 1)
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"), true);
@@ -817,26 +815,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* duplicate a question
-	*/
-	function duplicateObject()
-	{
-		// duplicate button was pressed
-		if (count($_POST["q_id"]) > 0)
-		{
-			foreach ($_POST["q_id"] as $key => $value)
-			{
-				$this->object->duplicateQuestion($value);
-			}
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("qpl_duplicate_select_none"), true);
-		}
-		$this->ctrl->redirect($this, "questions");
-	}
-
-	/**
 	* export question
 	*/
 	function exportQuestionObject()
@@ -922,7 +900,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate_question"));
 			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
 			$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
 			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
@@ -1767,7 +1744,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$tabs_gui->addTarget("edit_properties",
 											 $url,
 											 array("questions", "filter", "resetFilter", "createQuestion", 
-													 "importQuestions", "deleteQuestions", "duplicate", 
+													 "importQuestions", "deleteQuestions",  
 													 "view", "preview", "editQuestion", "exec_pg",
 													 "addItem", "upload", "save", "cancel", "addSuggestedSolution",
 													 "cancelExplorer", "linkChilds", "removeSuggestedSolution",
@@ -1858,7 +1835,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$tabs_gui->addTarget("assQuestions",
 			 $this->ctrl->getLinkTarget($this, "questions"),
 			 array("questions", "filter", "resetFilter", "createQuestion", 
-			 	"importQuestions", "deleteQuestions", "duplicate", 
+			 	"importQuestions", "deleteQuestions",  
 				"view", "preview", "editQuestion", "exec_pg",
 				"addItem", "upload", "save", "cancel", "addSuggestedSolution",
 				"cancelExplorer", "linkChilds", "removeSuggestedSolution",
