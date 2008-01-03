@@ -1196,7 +1196,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->getTemplateFile("create", $new_type);
 
 			include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
-			
+			$this->fillCloneTemplate('DUPLICATE','spl');
+			$this->tpl->setCurrentBlock("adm_content");
+
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
@@ -1227,12 +1229,15 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("TXT_IMPORT_SPL", $this->lng->txt("import_spl"));
 			$this->tpl->setVariable("TXT_SPL_FILE", $this->lng->txt("spl_upload_file"));
+			$this->tpl->setVariable("NEW_TYPE", $this->type);
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 
 			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_spl.gif'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_spl"));
 			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_spl.gif'));
 			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_spl"));
+
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 
@@ -1407,5 +1412,36 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 	}
 
+	/**
+	* Redirect script to call a survey question pool reference id
+	* 
+	* Redirect script to call a survey question pool reference id
+	*
+	* @param integer $a_target The reference id of the question pool
+	* @access	public
+	*/
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+		if ($ilAccess->checkAccess("write", "", $a_target))
+		{
+			$_GET["baseClass"] = "ilObjSurveyQuestionPoolGUI";
+			$_GET["cmd"] = "questions";
+			$_GET["ref_id"] = $a_target;
+			include_once("ilias.php");
+			exit;
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}	
 } // END class.ilObjSurveyQuestionPoolGUI
 ?>

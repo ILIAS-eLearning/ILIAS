@@ -98,6 +98,89 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 
 	/**
+	* Creates a 1:1 copy of the object and places the copy in a given repository
+	* 
+	* Creates a 1:1 copy of the object and places the copy in a given repository
+	*
+	* @access public
+	*/
+		function cloneObject($a_target_id,$a_copy_id = 0)
+		{
+			global $ilLog;
+			$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+			$newObj->setOnline($this->getOnline());
+			$newObj->saveToDb();
+			// clone the questions in the question pool
+			$questions =& $this->getQuestions();
+			foreach ($questions as $question_id)
+			{
+				$newObj->copyQuestion($question_id, $newObj->getId());
+			}
+
+			// clone meta data
+			include_once "./Services/MetaData/classes/class.ilMD.php";
+			$md = new ilMD($this->getId(),0,$this->getType());
+			$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
+
+			// update the metadata with the new title of the question pool
+			$newObj->updateMetaData();
+			return $newObj;
+		}
+
+		function &createQuestion($question_type, $question_id = -1)
+		{
+			if ((!$question_type) and ($question_id > 0))
+			{
+				$question_type = $this->getQuestiontype($question_id);
+			}
+
+			include_once "./Modules/SurveyQuestionPool/classes/class.".$question_type."GUI.php";
+			$question_type_gui = $question_type . "GUI";
+			$question =& new $question_type_gui();
+
+			if ($question_id > 0)
+			{
+				$question->object->loadFromDb($question_id);
+			}
+
+			return $question;
+		}
+
+		/**
+		* Copies a question into another question pool
+		*
+		* Copies a question into another question pool
+		*
+		* @param integer $question_id Database id of the question
+		* @param integer $questionpool_to Database id of the target questionpool
+		* @access public
+		*/
+		function copyQuestion($question_id, $questionpool_to)
+		{
+			$question_gui =& $this->createQuestion("", $question_id);
+			if ($question_gui->object->getObjId() == $questionpool_to)
+			{
+				// the question is copied into the same question pool
+				$this->duplicateQuestion($question_id);
+			}
+			else
+			{
+				// the question is copied into another question pool
+				$newtitle = $question_gui->object->getTitle(); 
+				if ($question_gui->object->questionTitleExists($question_gui->object->getTitle(), $questionpool_to))
+				{
+					$counter = 2;
+					while ($question_gui->object->questionTitleExists($question_gui->object->getTitle() . " ($counter)", $questionpool_to))
+					{
+						$counter++;
+					}
+					$newtitle = $question_gui->object->getTitle() . " ($counter)";
+				}
+				$question_gui->object->copyObject($this->getId(), $newtitle);
+			}
+		}
+
+	/**
 	* Loads a ilObjQuestionpool object from a database
 	*
 	* Loads a ilObjQuestionpool object from a database
@@ -417,7 +500,6 @@ class ilObjSurveyQuestionPool extends ilObject
   function duplicateQuestion($question_id, $obj_id = "") 
 	{
 		global $ilUser;
-		
 		$questiontype = $this->getQuestiontype($question_id);
 		include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
 		$question = new $questiontype();

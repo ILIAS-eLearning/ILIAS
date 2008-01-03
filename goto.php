@@ -129,6 +129,11 @@ switch($target_type)
 		ilObjQuestionPoolGUI::_goto($target_id);
 		break;
 
+	case "spl":
+		require_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolGUI.php");
+		ilObjSurveyQuestionPoolGUI::_goto($target_id);
+		break;
+
 	// new implementation: ok
 	case "svy":
 		require_once("./Modules/Survey/classes/class.ilObjSurveyGUI.php");
