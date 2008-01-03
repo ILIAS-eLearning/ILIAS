@@ -350,7 +350,6 @@ assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#duplicate_question#:#Duplicate
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!
 assessment#:#ects_grade#:#ECTS Grade
@@ -579,7 +578,6 @@ assessment#:#qpl_delete_no_deleteable_questions#:#All questions you tried to del
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
-assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it
 assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
@@ -6680,7 +6678,6 @@ survey#:#dp_standard_beliefs_true_false#:#Standard Beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard Beliefs (true-undecided-false)
 survey#:#dp_standard_numbers#:#Standard Numbers
 survey#:#duplicate#:#Duplicate
-survey#:#duplicate_question#:#Duplicate
 survey#:#duplicate_svy#:#Duplicate Survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the preconditions
@@ -6846,7 +6843,6 @@ survey#:#qpl_define_questionblock_select_missing#:#Please select a least two que
 survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it
 survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
-survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!
 survey#:#qpl_export_select_none#:#Please check at least one question to export it
 survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?
 survey#:#qpl_phrases_deleted#:#Phrase(s) deleted.

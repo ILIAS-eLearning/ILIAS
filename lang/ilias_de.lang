@@ -325,7 +325,6 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#disable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu deaktivieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#duplicate_question#:#Duplizieren
 assessment#:#duplicate_qpl#:#Fragenpool für Test kopieren
 assessment#:#duplicate_tst#:#Test kopieren
 assessment#:#duplicate#:#Kopieren
@@ -559,7 +558,6 @@ assessment#:#qpl_delete_no_deleteable_questions#:#Alle Fragen, die Sie löschen 
 assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu löschen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_display_fullsize_image#:#Klicken Sie hier, um die Originalgrafik anzuzeigen!
-assessment#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage zum Duplizieren aus!
 assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu bearbeiten!
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
@@ -6891,7 +6889,6 @@ survey#:#dp_standard_beliefs_true5#:#Standard-Vorstellungen (eindeutig wahr-wahr
 survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate_svy#:#Umfrage kopieren
 survey#:#duplicate#:#Kopieren
-survey#:#duplicate_question#:#Duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
 survey#:#edit_heading#:#Textblock bearbeiten
@@ -7056,7 +7053,6 @@ survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens 
 survey#:#qpl_delete_phrase_select_none#:#Bitte wählen Sie mindestens eine Phrase aus, die Sie löschen wollen!
 survey#:#qpl_delete_rbac_error#:#Sie verfügen nicht über die erforderlichen Rechte, um die Frage(n) zu löschen!
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
-survey#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie duplizieren wollen!
 survey#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie exportieren wollen!
 survey#:#qpl_past_questions_confirmation#:#Sind Sie sicher, dass Sie die folgenden Fragen in den Fragenpool einfügen wollen?
 survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.

@@ -252,33 +252,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->questionsObject();
 	}	
 	
-/**
-* Duplicates checked questions in the questionpool
-*
-* Duplicates checked questions in the questionpool
-*
-* @access public
-*/
-	function duplicateObject()
-	{
-    // create an array of all checked checkboxes
-    $checked_questions = array();
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/cb_(\d+)/", $key, $matches)) {
-        array_push($checked_questions, $matches[1]);
-      }
-    }
-		
-		if (count($checked_questions) > 0) {
-			foreach ($checked_questions as $key => $value) {
-				$this->object->duplicateQuestion($value);
-			}
-		} elseif (count($checked_questions) == 0) {
-			ilUtil::sendInfo($this->lng->txt("qpl_duplicate_select_none"));
-		}
-		$this->questionsObject();
-	}
-
 	/**
 	* export a question
 	*/
@@ -777,7 +750,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate_question"));
 			$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
 			if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
 			{
@@ -1372,7 +1344,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$tabs_gui->addTarget("survey_questions",
 			 $this->ctrl->getLinkTarget($this,'questions'),
 			 array("questions", "filter", "reset", "createQuestion", 
-			 "importQuestions", "deleteQuestions", "duplicate", "copy", "paste", 
+			 "importQuestions", "deleteQuestions", "copy", "paste", 
 			 "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
 			 "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
 			 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
