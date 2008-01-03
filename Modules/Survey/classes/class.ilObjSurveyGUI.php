@@ -3829,6 +3829,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$questionGUI = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
 					if (is_object($questionGUI))
 					{
+						if (strlen($question["heading"]))
+						{
+							$template->setCurrentBlock("textblock");
+							$template->setVariable("TEXTBLOCK", $question["heading"]);
+							$template->parseCurrentBlock();
+						}
 						$template->setCurrentBlock("question");
 						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"]));
 						$template->parseCurrentBlock();
