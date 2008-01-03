@@ -350,8 +350,7 @@ assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#duplicate_qpl#:#Duplicate Question Pool for Test
-assessment#:#duplicate_tst#:#Duplicate Test
+assessment#:#duplicate_question#:#Duplicate
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!
 assessment#:#ects_grade#:#ECTS Grade
@@ -1598,9 +1597,9 @@ common#:#cat_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_icrs#:#Create LearnLinc Seminar
 common#:#cat_create_lm#:#Create ILIAS Learning Module
 common#:#cat_create_mep#:#Create Media Pool
-common#:#cat_create_qpl#:#Create Question Pool for Test
+common#:#cat_create_qpl#:#Create Question Pool Test
 common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#cat_create_spl#:#Create Question Pool for Survey
+common#:#cat_create_spl#:#Create Question Pool Survey
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
 common#:#cat_create_url#:#Create URL
@@ -1787,9 +1786,9 @@ common#:#crs_create_htlm#:#Create HTML Learning Module
 common#:#crs_create_icrs#:#Create LearnLinc Seminar
 common#:#crs_create_lm#:#Create ILIAS Learning Module
 common#:#crs_create_mep#:#Create Media Pool
-common#:#crs_create_qpl#:#Create Question Pool for Test
+common#:#crs_create_qpl#:#Create Question Pool Test
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#crs_create_spl#:#Create Question Pool for Survey
+common#:#crs_create_spl#:#Create Question Pool Survey
 common#:#crs_create_svy#:#Create Survey
 common#:#crs_create_tst#:#Create Test
 common#:#crs_create_webr#:#Create Web Resource
@@ -2101,9 +2100,9 @@ common#:#fold_create_htlm#:#Create HTML Learning Module
 common#:#fold_create_icrs#:#Create LearnLinc Seminar
 common#:#fold_create_lm#:#Create ILIAS Learning Module
 common#:#fold_create_mep#:#Create Media Pool
-common#:#fold_create_qpl#:#Create Question Pool for Test
+common#:#fold_create_qpl#:#Create Question Pool Test
 common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#fold_create_spl#:#Create Question Pool for Survey
+common#:#fold_create_spl#:#Create Question Pool Survey
 common#:#fold_create_svy#:#Create Survey
 common#:#fold_create_tst#:#Create Test
 common#:#fold_create_webr#:#Create Web Resource
@@ -2260,9 +2259,9 @@ common#:#grp_create_htlm#:#Create HTML Learning Module
 common#:#grp_create_icrs#:#Create LearnLinc Seminar
 common#:#grp_create_lm#:#Create ILIAS Learning Module
 common#:#grp_create_mep#:#Create Media Pool
-common#:#grp_create_qpl#:#Create Question Pool for Test
+common#:#grp_create_qpl#:#Create Question Pool Test
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#grp_create_spl#:#Create Question Pool for Survey
+common#:#grp_create_spl#:#Create Question Pool Survey
 common#:#grp_create_svy#:#Create Survey
 common#:#grp_create_tst#:#Create Test
 common#:#grp_create_webr#:#Create Web Resource
@@ -2480,11 +2479,11 @@ common#:#import_grp#:#Import group
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import ILIAS Learning module
-common#:#import_qpl#:#Import Question pool Test
+common#:#import_qpl#:#Import Question Pool Test
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_root_user#:#Import Root User
 common#:#import_sahs#:#Import SCORM/AICC Package
-common#:#import_spl#:#Import Question pool Survey
+common#:#import_spl#:#Import Question Pool Survey
 common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
 common#:#import_users#:#Import Users
@@ -3256,7 +3255,7 @@ common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#obj_webr#:#Web Resource
 common#:#object#:#Object
 common#:#object_added#:#Object added
-common#:#object_duplicated#:#Object duplicated
+common#:#object_duplicated#:#Object copied
 common#:#object_imported#:#Object imported
 common#:#objects#:#Objects
 common#:#objf#:#Object definitions
@@ -3426,18 +3425,18 @@ common#:#published#:#Published
 common#:#publishing_organisation#:#Publishing Organization
 common#:#purpose#:#Purpose
 common#:#qpl#:#Question Pool Test
-common#:#qpl_add#:#Add question pool for test
-common#:#qpl_delete#:#Delete Question Pool for Test
+common#:#qpl_add#:#Add Question Pool Test
+common#:#qpl_delete#:#Delete Question Pool Test
 common#:#qpl_edit_permission#:#Change permission settings
-common#:#qpl_new#:#New question pool for test
-common#:#qpl_read#:#Read access to Question Pool for Test
+common#:#qpl_new#:#New Question Pool Test
+common#:#qpl_read#:#Read access to Question Pool Test
 common#:#qpl_upload_file#:#Upload file
-common#:#qpl_visible#:#Question Pool for Test is visible
-common#:#qpl_write#:#Edit Question Pool for Test
+common#:#qpl_visible#:#Question Pool Test is visible
+common#:#qpl_write#:#Edit Question Pool Test
 common#:#quarterly#:#quarterly
 common#:#query_data#:#Query data
 common#:#question#:#Question
-common#:#question_pools#:#Question pools
+common#:#question_pools#:#Question Pools
 common#:#quit#:#Quit
 common#:#quote#:#Quote
 common#:#read#:#Read
@@ -3709,14 +3708,14 @@ common#:#soap_user_administration_desc#:#If enabled, all user accounts can be ad
 common#:#sort_by_this_column#:#Sort by this column
 common#:#spacer#:#Spacer
 common#:#spl#:#Question Pool Survey
-common#:#spl_add#:#Add question pool for survey
-common#:#spl_delete#:#Delete Question Pool for Survey
+common#:#spl_add#:#Add Question Pool Survey
+common#:#spl_delete#:#Delete Question Pool Survey
 common#:#spl_edit_permission#:#Change permission settings
-common#:#spl_new#:#New question pool for survey
-common#:#spl_read#:#Read access to Question Pool for Survey
+common#:#spl_new#:#New Question Pool Survey
+common#:#spl_read#:#Read access to Question Pool Survey
 common#:#spl_upload_file#:#Upload file
-common#:#spl_visible#:#Question Pool for Survey is visible
-common#:#spl_write#:#Edit Question Pool for Survey
+common#:#spl_visible#:#Question Pool Survey is visible
+common#:#spl_write#:#Edit Question Pool Survey
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#a chapter
 common#:#st_add#:#Add chapter
@@ -6681,6 +6680,7 @@ survey#:#dp_standard_beliefs_true_false#:#Standard Beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard Beliefs (true-undecided-false)
 survey#:#dp_standard_numbers#:#Standard Numbers
 survey#:#duplicate#:#Duplicate
+survey#:#duplicate_question#:#Duplicate
 survey#:#duplicate_svy#:#Duplicate Survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the preconditions
@@ -6895,7 +6895,7 @@ survey#:#select_option#:#--- Please select an option ---
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
 survey#:#select_prior_question#:#Select a prior question
 survey#:#select_questionpool#:#Please select a question pool to store the created question
-survey#:#select_questionpool_short#:#Question Pool for Survey
+survey#:#select_questionpool_short#:#Question Pool Survey
 survey#:#select_relation#:#Select a Relation
 survey#:#select_svy_option#:#--- Please select a survey ---
 survey#:#select_target_position_for_move#:#Please select a target position to move the answers and press one of the insert buttons!
@@ -7441,7 +7441,11 @@ mail#:#mail_new_entry#:#New Entry
 mail#:#mail_edit_entry#:#Edit Entry
 mail#:#mail_select_attachment#:#Please select an attachment for download.
 common#:#obj_tst_duplicate#:#Copy Test
+common#:#obj_qpl_duplicate#:#Copy Question Pool Test
+common#:#obj_spl_duplicate#:#Copy Question Pool Survey
 common#:#obj_tst_select#:#-- Please select one Test --
+common#:#obj_qpl_select#:#-- Please select one Question Pool Test --
+common#:#obj_spl_select#:#-- Please select one Question Pool Survey --
 common#:#obj_svy_duplicate#:#Copy Survey
 common#:#obj_svy_select#:#-- Please select one Survey --
 common#:#obj_crs_duplicate#:#Copy Course

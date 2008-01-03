@@ -239,28 +239,30 @@ class SurveyQuestion
 * @return boolean The result of the title check
 * @access public
 */
-  function questionTitleExists($title, $questionpool_object = "") 
+	function questionTitleExists($title, $questionpool_object = "") 
 	{
+		global $ilDB;
+		
 		$refwhere = "";
-		if (strcmp($questionpool_reference, "") != 0)
+		if (strcmp($questionpool_object, "") != 0)
 		{
 			$refwhere = sprintf(" AND obj_fi = %s",
-				$this->ilias->db->quote($questionpool_object)
+				$ilDB->quote($questionpool_object)
 			);
 		}
-    $query = sprintf("SELECT question_id FROM survey_question WHERE title = %s$refwhere",
-      $this->ilias->db->quote($title)
-    );
-    $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		$query = sprintf("SELECT question_id FROM survey_question WHERE title = %s$refwhere",
+			$ilDB->quote($title)
+		);
+		$result = $ilDB->query($query);
+		if (strcmp(strtolower(get_class($result)), db_result) == 0) 
 		{
-      if ($result->numRows() == 1) 
+			if ($result->numRows() == 1) 
 			{
-        return TRUE;
-      }
-    }
-    return FALSE;
-  }
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
 
 /**
 * Sets the title string
@@ -755,6 +757,39 @@ class SurveyQuestion
 		return $clone->getId();
 	}
 
+	/**
+	* Copies an assOrderingQuestion object
+	*
+	* Copies an assOrderingQuestion object
+	*
+	* @access public
+	*/
+	function copyObject($target_questionpool, $title = "")
+	{
+		if ($this->getId() <= 0)
+		{
+			// The question has not been saved. It cannot be copied
+			return;
+		}
+		$clone = $this;
+		$original_id = SurveyQuestion::_getOriginalId($this->getId());
+		$clone->setId(-1);
+		$source_questionpool = $this->getObjId();
+		$clone->setObjId($target_questionpool);
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		
+		$clone->saveToDb();
+
+		// duplicate the materials
+		$clone->duplicateMaterials($original_id);
+		// copy XHTML media objects
+		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		return $clone->getId();
+	}
+	
 /**
 * Increases the media object usage counter when a question is duplicated
 *

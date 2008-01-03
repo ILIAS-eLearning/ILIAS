@@ -46,34 +46,6 @@
 		</td>
 	</tr>
 </table>
-
-<br />
-<table class="std" width="60%">
-	<tr class="tbltitle">
-		<th class="std" colspan="2">
-			<img src="{TYPE_IMG3}" style="vertical-align:middle;" alt="{ALT_IMG3}" title="{ALT_IMG3}" border="0" vspace="0" />
-			{TXT_DUPLICATE_QPL}
-		</th>
-	</tr>
-	<tr>
-		<td class="option">{TXT_SELECT_QPL}</td>
-		<td class="option_value">
-		<select name="clone_source">
-		<option value="0">{OPTION_SELECT_QPL}</option>
-	<!-- BEGIN option_qpl -->	
-		<option value="{OPTION_VALUE_QPL}"{OPTION_SELECTED_QPL}>{TXT_OPTION_QPL}</option>
-	<!-- END option_qpl -->	
-		</select>
-		</td>
-	</tr>
-	<tr>
-		<td class="submit" align="right" colspan="2">
-			<input class="submit" type="submit" name="cmd[cloneAll]" value="{TXT_DUPLICATE}" />
-			<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
-		</td>
-	</tr>
-</table>
-
 <input type="hidden" name="new_type" value="{NEW_TYPE}" />
 </form>
-
+{DUPLICATE}

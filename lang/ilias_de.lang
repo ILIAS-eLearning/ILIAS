@@ -325,6 +325,7 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#disable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu deaktivieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
+assessment#:#duplicate_question#:#Duplizieren
 assessment#:#duplicate_qpl#:#Fragenpool für Test kopieren
 assessment#:#duplicate_tst#:#Test kopieren
 assessment#:#duplicate#:#Kopieren
@@ -3121,7 +3122,11 @@ common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_trac_desc#:#Benutzerzugriff Tracking-Daten
 common#:#obj_trac#:#Zugriffsstatistiken
 common#:#obj_tst_duplicate#:#Test kopieren
+common#:#obj_qpl_duplicate#:#Fragenpool für Test kopieren
+common#:#obj_spl_duplicate#:#Fragenpool für Umfrage kopieren
 common#:#obj_tst_select#:#-- Bitte wählen Sie einen Test aus --
+common#:#obj_qpl_select#:#-- Bitte wählen Sie einen Fragenpool für Test aus --
+common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfrage aus --
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
@@ -6886,6 +6891,7 @@ survey#:#dp_standard_beliefs_true5#:#Standard-Vorstellungen (eindeutig wahr-wahr
 survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate_svy#:#Umfrage kopieren
 survey#:#duplicate#:#Kopieren
+survey#:#duplicate_question#:#Duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
 survey#:#edit_heading#:#Textblock bearbeiten

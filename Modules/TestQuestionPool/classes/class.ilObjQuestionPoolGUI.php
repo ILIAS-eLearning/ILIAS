@@ -1593,22 +1593,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
-			$qpls =& ilObjQuestionPool::_getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE);
-			if (count($qpls) > 0)
-			{
-				foreach ($qpls as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("option_qpl");
-					$this->tpl->setVariable("OPTION_VALUE_QPL", $key);
-					$this->tpl->setVariable("TXT_OPTION_QPL", $value["title"]);
-					if ($_POST["qpl"] == $key)
-					{
-						$this->tpl->setVariable("OPTION_SELECTED_QPL", " selected=\"selected\"");				
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			
+
+			$this->fillCloneTemplate('DUPLICATE','qpl');
 			$this->tpl->setCurrentBlock("adm_content");
 
 			// fill in saved values in case of error
@@ -1631,8 +1617,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			$this->ctrl->setParameter($this, "new_type", $this->type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-			//	$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -1646,17 +1630,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("NEW_TYPE", $this->type);
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 
-			$this->tpl->setVariable("TXT_DUPLICATE_QPL", $this->lng->txt("duplicate_qpl"));
-			$this->tpl->setVariable("TXT_SELECT_QPL", $this->lng->txt("obj_qpl"));
-			$this->tpl->setVariable("OPTION_SELECT_QPL", $this->lng->txt("select_qpl_option"));
-			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
-
 			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_qpl.gif'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_qpl"));
 			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_qpl.gif'));
 			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_qpl"));
-			$this->tpl->setVariable("TYPE_IMG3", ilUtil::getImagePath('icon_qpl.gif'));
-			$this->tpl->setVariable("ALT_IMG3",$this->lng->txt("obj_qpl"));
 
 			$this->tpl->parseCurrentBlock();
 		}
