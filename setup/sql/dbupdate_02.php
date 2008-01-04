@@ -3020,3 +3020,8 @@ ALTER TABLE page_object ADD COLUMN user int DEFAULT 0;
 ALTER TABLE page_object ADD COLUMN view_cnt int DEFAULT 0;
 ALTER TABLE page_object ADD COLUMN last_change TIMESTAMP;
 ALTER TABLE page_object ADD COLUMN created DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
+
+<#1132>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

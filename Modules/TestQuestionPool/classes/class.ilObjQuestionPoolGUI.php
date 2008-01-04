@@ -67,7 +67,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilLocator, $ilAccess, $ilNavigationHistory;
+		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl;
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -141,8 +141,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->lng->loadLanguageModule("content");
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
-				$page =& new ilPageObject("qpl", $_GET["q_id"]);
-				$page_gui =& new ilPageObjectGUI($page);
+				//$page =& new ilPageObject("qpl", $_GET["q_id"]);
+				$page_gui =& new ilPageObjectGUI("qpl", $_GET["q_id"]);
+				$page_gui->setEditPreview(true);
+				$page_gui->setEnabledTabs(false);
 				$page_gui->setEnabledInternalLinks(false);
 				if (strlen($this->ctrl->getCmd()) == 0)
 				{
@@ -159,7 +161,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
 				$page_gui->setPresentationTitle($question->getTitle());
 				$ret =& $this->ctrl->forwardCommand($page_gui);
+				$tpl->setContent($ret);
 				break;
+				
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -976,7 +980,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("edit_link");
 				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
+				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "edit"));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("QTab");
@@ -1702,8 +1706,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				// edit page
 				$tabs_gui->addTarget("edit_content",
-												 $this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
-												 array("view", "insert", "exec_pg"),
+												 $this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"),
+												 array("edit", "insert", "exec_pg"),
 												 "", "", $force_active);
 			}
 	

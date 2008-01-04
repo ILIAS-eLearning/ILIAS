@@ -34,7 +34,7 @@ require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPageObjectGUI: ilPageObjectGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilLMPageObjectGUI: ilPageObjectGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -72,13 +72,15 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $tpl;
+		
 #echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":"; flush();
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
+			/*case 'ilmdeditorgui':
 
 				$this->setTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
@@ -88,7 +90,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$md_gui->addObserver($this->obj,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
-				break;
+				break;*/
 
 			case "ilpageobjectgui":
 
@@ -98,12 +100,19 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$showViewInFrameset = true;
 
 				$this->ctrl->setReturn($this, "view");
-				$page_object =& $this->obj->getPageObject();
+/*				$page_object =& $this->obj->getPageObject();
 				$page_object->buildDom();
 				$page_object->addUpdateListener($this, "updateHistory");
 				$int_links = $page_object->getInternalLinks();
 				$link_xml = $this->getLinkXML($int_links);
-				$page_gui =& new ilPageObjectGUI($page_object);
+*/
+//				$page_gui =& new ilPageObjectGUI($page_object);
+				$page_gui =& new ilPageObjectGUI($this->obj->content_object->getType(),
+					$this->obj->getId());
+				$page_gui->setEditPreview(true);
+				$page_gui->activateMetaDataEditor($this->content_object->getID(),
+					$this->obj->getId(), $this->obj->getType(),
+					$this->obj, "MDUpdateListener");
 
 				// set page view link
 				if ($showViewInFrameset)
@@ -134,8 +143,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setEnabledActivation(true);
 				$page_gui->setActivationListener($this, "activatePage");
 				$page_gui->setActivated($this->obj->getActive());
-				$ret =& $this->ctrl->forwardCommand($page_gui);
+				
+				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+				$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
+				
+				$ret = $this->ctrl->forwardCommand($page_gui);
 				//$ret =& $page_gui->executeCommand();
+				$tpl->setContent($ret);
 				break;
 
 			default:
@@ -148,13 +162,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	/*
 	* display content of page (edit view)
 	*/
-	function view()
+	function edit()
 	{
 //echo "<br>umschuss";
 		$this->ctrl->setCmdClass("ilpageobjectgui");
-		$this->ctrl->setCmd("view");
+		$this->ctrl->setCmd("edit");
 		$this->executeCommand();
-		$this->setTabs();
+		//$this->setTabs();
 	}
 
 	/*

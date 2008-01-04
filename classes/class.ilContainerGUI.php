@@ -243,7 +243,7 @@ class ilContainerGUI extends ilObjectGUI
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs", "mcst",
+					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs", "mcst", "wiki",
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
 													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr',"feed",'rcrs')))
 					{
@@ -682,7 +682,7 @@ class ilContainerGUI extends ilObjectGUI
 				// all item types
 				$type_ordering = array(
 					"cat", "fold", "crs","rcrs", "icrs", "icla", "grp", "chat", "frm", "lres",
-					"glo", "webr", "mcst", "file", "exc",
+					"glo", "webr", "mcst", "wiki", "file", "exc",
 					"tst", "svy", "mep", "qpl", "spl");
 
 				$cur_obj_type = "";

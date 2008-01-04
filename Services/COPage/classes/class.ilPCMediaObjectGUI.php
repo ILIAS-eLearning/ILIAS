@@ -33,6 +33,8 @@ require_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilPCMediaObjectGUI: ilObjMediaObjectGUI
+*
 * @ingroup ServicesCOPage
 */
 // Todo: extend ilObjMediaObjectGUI !?
@@ -51,11 +53,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
-	function _forwards()
-	{
-		return array();
-	}
-
 	function setHeader($a_title = "")
 	{
 		$this->header = $a_title;
@@ -66,6 +63,56 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		return $this->header;
 	}
 
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $tpl, $lng;
+		
+		// get next class that processes or forwards current command
+		$next_class = $this->ctrl->getNextClass($this);
+//echo "-".$next_class."-";
+		// get current command
+		$cmd = $this->ctrl->getCmd();
+
+		if (is_object ($this->content_obj))
+		{
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+			$this->getTabs($this->tabs_gui);
+			$tpl->setVariable("HEADER", $lng->txt("mob").": ".
+				$this->content_obj->getMediaObject()->getTitle());
+//			$this->displayLocator("mob");	// ??? von pageeditorgui
+			$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
+			$mob_gui->setBackTitle($this->page_back_title);
+			$mob_gui->getTabs($this->tabs_gui);
+		}
+		else
+		{
+		}
+
+		switch($next_class)
+		{
+			case "ilobjmediaobjectgui":
+				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+				$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
+					$cont_obj->getMediaObject->getTitle());
+				$this->displayLocator("mob");
+				$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getMediaObject()->getId(),false, false);
+				$mob_gui->setBackTitle($this->page_back_title);
+				$mob_gui->getTabs($this->tabs_gui);
+				$ret =& $this->ctrl->forwardCommand($mob_gui);
+				break;
+			
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
 
 	/**
 	* insert new media object form
@@ -101,7 +148,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
-
 	}
 
 	/**
@@ -120,18 +166,21 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 
 		// create dummy object in db (we need an id)
-		$this->content_obj = new ilObjMediaObject();
-		$this->content_obj->setTitle($title);
-		$this->content_obj->setDescription("");
-		$this->content_obj->create();
+		include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
+		$this->content_obj = new ilPCMediaObject($this->dom);
+		$this->content_obj->createMediaObject();
+		$media_obj = $this->content_obj->getMediaObject();
+		$media_obj->setTitle($title);
+		
+		$media_obj->setDescription("");
+		$media_obj->create();
 
 		// determine and create mob directory, move uploaded file to directory
-		//$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
-		$this->content_obj->createDirectory();
-		$mob_dir = ilObjMediaObject::_getDirectory($this->content_obj->getId());
+		$media_obj->createDirectory();
+		$mob_dir = ilObjMediaObject::_getDirectory($media_obj->getId());
 
 		$media_item =& new ilMediaItem();
-		$this->content_obj->addMediaItem($media_item);
+		$media_obj->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
 
 		if ($_POST["standard_type"] == "File")
@@ -141,7 +190,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			if (!ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
 				$_FILES['standard_file']['name'], $file, false))
 			{
-				$this->content_obj->delete();
+				$media_obj->delete();
 				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 				return;
 			}
@@ -163,7 +212,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$media_item->setFormat($format);
 			$media_item->setLocation($location);
 			$media_item->setLocationType("LocalFile");
-			$this->content_obj->setTitle($_FILES['standard_file']['name']);
+			$media_obj->setTitle($_FILES['standard_file']['name']);
 		}
 		else	// standard type: reference
 		{
@@ -171,10 +220,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$media_item->setFormat($format);
 			$media_item->setLocation($_POST["standard_reference"]);
 			$media_item->setLocationType("Reference");
-			$this->content_obj->setTitle($_POST["standard_reference"]);
+			$media_obj->setTitle($_POST["standard_reference"]);
 		}
 
-		$this->content_obj->setDescription($format);
+		$media_obj->setDescription($format);
 
 		// determine width and height of known image types
 		if ($_POST["standard_size"] == "original")
@@ -213,7 +262,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		if ($_POST["fullscreen"] == "y")
 		{
 			$media_item =& new ilMediaItem();
-			$this->content_obj->addMediaItem($media_item);
+			$media_obj->addMediaItem($media_item);
 			$media_item->setPurpose("Fullscreen");
 
 			// file
@@ -226,7 +275,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					if (!ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
 						$_FILES['full_file']['name'], $file, false))
 					{
-						$this->content_obj->delete();
+						$media_obj->delete();
 						$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 						return;
 					}
@@ -301,11 +350,13 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		}
 		ilUtil::renameExecutables($mob_dir);
-		$this->content_obj->update();
+		$media_obj->update();
 
 		if ($a_create_alias)
 		{
-			$this->content_obj->setDom($this->dom);
+			// need a pcmediaobject here
+			//$this->node = $this->createPageContentNode();
+			
 			$this->content_obj->createAlias($this->pg_obj, $this->hier_id);
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
@@ -335,7 +386,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
-		$std_item =& $this->content_obj->getMediaItem("Standard");
+		$std_item =& $this->content_obj->getMediaObject()->getMediaItem("Standard");
 //echo htmlentities($this->dom->dump_node($std_alias_item->item_node));
 		// edit media alias template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", "Services/COPage");
@@ -402,11 +453,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 
 		// fullscreen view
-		if($this->content_obj->hasFullScreenItem())
+		if($this->content_obj->getMediaObject()->hasFullScreenItem())
 		{
 			$this->tpl->setCurrentBlock("fullscreen");
 			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
-			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+			$full_item =& $this->content_obj->getMediaObject()->getMediaItem("Fullscreen");
 
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
 			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
@@ -528,7 +579,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$std_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["mob_parameters"]))));
 		}
 
-		if($this->content_obj->hasFullscreenItem())
+		if($this->content_obj->getMediaObject()->hasFullscreenItem())
 		{
 			if ($_POST["fullscreen"] ==  "y")
 			{
@@ -590,34 +641,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	}
 
 	/**
-	* execute command
-	*/
-	function &executeCommand()
-	{
-		// get next class that processes or forwards current command
-		$next_class = $this->ctrl->getNextClass($this);
-
-		// get current command
-		$cmd = $this->ctrl->getCmd();
-
-		switch($next_class)
-		{
-			default:
-				$ret =& $this->$cmd();
-				break;
-		}
-
-		return $ret;
-	}
-
-
-	/**
 	* copy media object to clipboard
 	*/
 	function copyToClipboard()
 	{
-		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
-			, $this->content_obj->getTitle());
+		$this->ilias->account->addObjectToClipboard($this->content_obj->getMediaObject()->getId(), $this->content_obj->getMediaObject()->getType()
+			, $this->content_obj->getMediaObject()->getTitle());
 		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"), true);
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
@@ -685,19 +714,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function getTabs(&$tab_gui, $a_create = false)
 	{
-		global $ilCtrl;
-
-		if ($a_create)
+		global $ilCtrl, $ilTabs;
+//var_dump($GLOBALS);
+		if (!$a_create)
 		{
-/*
-			$tab_gui->addTarget("cont_back",
-				$ilCtrl->getParentReturn($this), "",
-				"");
-*/
-		}
-		else
-		{
-			$tab_gui->addTarget("cont_mob_inst_prop",
+			$ilTabs->addTarget("cont_mob_inst_prop",
 				$ilCtrl->getLinkTarget($this, "editAlias"), "editAlias",
 				get_class($this));
 		}

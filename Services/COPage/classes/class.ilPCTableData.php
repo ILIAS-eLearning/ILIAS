@@ -38,15 +38,11 @@ class ilPCTableData extends ilPageContent
 	var $dom;
 
 	/**
-	* Constructor
-	* @access	public
+	* Init page content component.
 	*/
-	function ilPCTableData(&$a_dom)
+	function init()
 	{
-		parent::ilPageContent();
 		$this->setType("td");
-
-		$this->dom =& $a_dom;
 	}
 
 	/**

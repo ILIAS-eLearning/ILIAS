@@ -314,8 +314,8 @@ class assQuestionGUI
 	{
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		$page =& new ilPageObject("qpl", $this->object->getId());
-		$page_gui =& new ilPageObjectGUI($page);
+		//$page =& new ilPageObject("qpl", $this->object->getId());
+		$page_gui =& new ilPageObjectGUI("qpl", $this->object->getId());
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setEnabledInternalLinks(false);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
@@ -342,8 +342,8 @@ class assQuestionGUI
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$this->lng->loadLanguageModule("content");
-		$page =& new ilPageObject("qpl", $this->object->getId());
-		$page_gui =& new ilPageObjectGUI($page);
+		//$page =& new ilPageObject("qpl", $this->object->getId());
+		$page_gui =& new ilPageObjectGUI("qpl", $this->object->getId());
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);
@@ -400,7 +400,7 @@ class assQuestionGUI
 			if ($_GET["q_id"] > 0)
 			{
 				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
-				$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+				$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
 			}
 			else
 			{
@@ -524,7 +524,7 @@ class assQuestionGUI
 					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), false);
 				}
 				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
-				$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+				$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
 			}
 		}
 		else

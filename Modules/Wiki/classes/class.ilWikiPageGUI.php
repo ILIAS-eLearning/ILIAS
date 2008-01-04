@@ -145,7 +145,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		return parent::preview();
 	}
 	
-	function getHTML()
+	function showPage()
 	{
 		global $tpl, $ilCtrl;
 		
@@ -163,7 +163,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->setTemplateOutput(false);
 		$this->setPresentationTitle($this->getWikiPage()->getTitle());
 		$this->getWikiPage()->increaseViewCnt();
-		$output = parent::getHTML();
+		$output = parent::showPage();
 		
 		return $output;
 	}

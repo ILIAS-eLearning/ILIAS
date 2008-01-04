@@ -102,7 +102,7 @@ class ilLMPageObject extends ilLMObject
 		parent::read();
 
 		$this->page_object =& new ilPageObject($this->content_object->getType(),
-			$this->id, $this->halt_on_error);
+			$this->id, 0, $this->halt_on_error);
 
 		$ilBench->stop("ContentPresentation", "ilLMPageObject_read");
 	}

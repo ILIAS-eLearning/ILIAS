@@ -598,6 +598,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "view");
 		//$this->displayBasicSettings();
 	}
+	
+	function createWikiTablesObject()
+	{
+		include_once("./Modules/Wiki/classes/class.ilWikiDBCreator.php");
+		ilWikiDBCreator::createTables();
+		$this->viewObject();
+	}
 
 	/**
 	* displays ILIAS basic settings form
@@ -606,12 +613,18 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function displayBasicSettings()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
 
 		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
 
 		$settings = $this->ilias->getAllSettings();
 
+		// temp wiki stuff
+		$this->tpl->setVariable("HREF_CREATE_WIKI_TABLE",
+			$ilCtrl->getLinkTarget($this, "createWikiTables"));
+			
+			
+		
 		$this->tpl->setVariable("TXT_BASIC_DATA", $this->lng->txt("basic_data"));
 
 		////////////////////////////////////////////////////////////

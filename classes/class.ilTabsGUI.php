@@ -111,7 +111,6 @@ class ilTabsGUI
 	function addTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "", $a_activate = false,
 		$a_dir_text = false)
 	{
-		
 		if(!$a_cmdClass)
 		{
 			$a_cmdClass = array();

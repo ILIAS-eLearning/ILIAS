@@ -2355,22 +2355,24 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 	function getTabs(&$tabs_gui)
 	{
+		global $ilTabs;
+		
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject"
 			&& $this->object->getId() > 0)
 		{
 			// object properties
-			$tabs_gui->addTarget("cont_mob_prop",
+			$ilTabs->addTarget("cont_mob_prop",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit",
 				get_class($this));
 
 			// object files
-			$tabs_gui->addTarget("cont_mob_files",
+			$ilTabs->addTarget("cont_mob_files",
 				$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
 				get_class($this));
 
 			// object usages
-			$tabs_gui->addTarget("cont_mob_usages",
+			$ilTabs->addTarget("cont_mob_usages",
 				$this->ctrl->getLinkTarget($this, "showUsages"), "showUsages",
 				get_class($this));
 
@@ -2381,13 +2383,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $st_item->getFormat();
 				if (substr($format, 0, 5) == "image")
 				{
-					$tabs_gui->addTarget("cont_map_areas",
+					$ilTabs->addTarget("cont_map_areas",
 						$this->ctrl->getLinkTarget($this, "editMapAreas"), "editMapAreas",
 						get_class($this));
 				}
 			}
 
-			$tabs_gui->addTarget("meta_data",
+			$ilTabs->addTarget("meta_data",
 				$this->ctrl->getLinkTargetByClass(
 					array("ilobjmediaobjectgui", "ilmdeditorgui"),'listSection'),
 				"", "ilmdeditorgui");

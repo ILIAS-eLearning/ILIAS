@@ -37,17 +37,13 @@ class ilPCQuestion extends ilPageContent
 {
 	var $dom;
 	var $q_node;			// node of Paragraph element
-
+	
 	/**
-	* Constructor
-	* @access	public
+	* Init page content component.
 	*/
-	function ilPCQuestion(&$a_dom)
+	function init()
 	{
-		parent::ilPageContent();
-		$this->setType("par");
-
-		$this->dom =& $a_dom;
+		$this->setType("pcqst");
 	}
 
 	function setNode(&$a_node)
@@ -61,11 +57,5 @@ class ilPCQuestion extends ilPageContent
 	{
 		echo "ERROR: PCQuestion create"; exit;
 	}
-
-	function getType()
-	{
-		return "pcqst";
-	}
-
 }
 ?>

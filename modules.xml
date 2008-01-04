@@ -45,6 +45,9 @@
 	<module name="MediaCast" dir="Modules/MediaCast">
 		<baseclass name="ilMediaCastHandlerGUI" dir="classes" />
 	</module>
+	<module name="Wiki" dir="Modules/Wiki">
+		<baseclass name="ilWikiHandlerGUI" dir="classes" />
+	</module>
 	<module name="Chat" dir="Modules/Chat">
 		<baseclass name="ilChatHandlerGUI" dir="classes" />
 	</module>
