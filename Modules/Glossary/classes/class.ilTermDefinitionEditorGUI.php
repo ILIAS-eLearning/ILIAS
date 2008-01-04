@@ -66,6 +66,8 @@ class ilTermDefinitionEditorGUI
 
 	function &executeCommand()
 	{
+		global $tpl;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -105,6 +107,7 @@ class ilTermDefinitionEditorGUI
 
 		switch ($next_class)
 		{
+			/*
 			case "ilmdeditorgui":
 				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.gif"));
 				$gloss_loc->display();
@@ -115,7 +118,7 @@ class ilTermDefinitionEditorGUI
 				//$md_gui->addObserver($this->definition,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
-				break;
+				break;*/
 
 
 			case "ilpageobjectgui":
@@ -131,7 +134,12 @@ class ilTermDefinitionEditorGUI
 				$this->ctrl->setReturn($this, "listDefinitions");
 				$page =& $this->definition->getPageObject();
 				$page->addUpdateListener($this, "saveShortText");
-				$page_gui =& new ilPageObjectGUI($page);
+				$page_gui =& new ilPageObjectGUI("gdf", $this->definition->getId());
+				$page_gui->setEditPreview(true);
+				$page_gui->activateMetaDataEditor($this->glossary->getId(),
+					$this->definition->getId(), "gdf");
+				//	$this->obj, "MDUpdateListener");
+				
 				$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
@@ -152,7 +160,7 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setPresentationTitle($this->term->getTerm());
 				//$page_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_gui);
-
+				$tpl->setContent($ret);
 				break;
 
 			default:
@@ -201,8 +209,9 @@ class ilTermDefinitionEditorGUI
 	function getTabs(&$tabs_gui)
 	{
 		// edit page
+/*
 		$tabs_gui->addTarget("edit",
-			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
+			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"), "edit",
 			"ilPageObjectGUI");
 
 		// preview page
@@ -214,6 +223,8 @@ class ilTermDefinitionEditorGUI
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
 			"", "ilmdeditorgui");
+*/
+
 /*
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",

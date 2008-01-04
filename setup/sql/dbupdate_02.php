@@ -3025,3 +3025,8 @@ ALTER TABLE page_object ADD COLUMN created DATETIME NOT NULL DEFAULT '0000-00-00
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1133>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

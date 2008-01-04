@@ -74,9 +74,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		global $tpl;
 		
-#echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":"; flush();
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		
+//echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":".
+//	":nextClass:".$next_class.":"; flush();
 
 		switch($next_class)
 		{
