@@ -133,7 +133,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 			case "pg":
 				$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $a_node_id);
 				return $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI",
-					"view", array($this->gui_class));
+					"edit", array($this->gui_class));
 				break;
 
 			case "st":

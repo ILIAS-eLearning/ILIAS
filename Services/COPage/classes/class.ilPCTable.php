@@ -1,24 +1,24 @@
 <?php
 /*
-+-----------------------------------------------------------------------------+
-| ILIAS open source                                                           |
-+-----------------------------------------------------------------------------+
-| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-|                                                                             |
-| This program is free software; you can redistribute it and/or               |
-| modify it under the terms of the GNU General Public License                 |
-| as published by the Free Software Foundation; either version 2              |
-| of the License, or (at your option) any later version.                      |
-|                                                                             |
-| This program is distributed in the hope that it will be useful,             |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-| GNU General Public License for more details.                                |
-|                                                                             |
-| You should have received a copy of the GNU General Public License           |
-| along with this program; if not, write to the Free Software                 |
-| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-+-----------------------------------------------------------------------------+
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
 */
 
 require_once("./Services/COPage/classes/class.ilPageContent.php");
@@ -40,15 +40,11 @@ class ilPCTable extends ilPageContent
 
 
 	/**
-	* Constructor
-	* @access	public
+	* Init page content component.
 	*/
-	function ilPCTable(&$a_dom)
+	function init()
 	{
-		parent::ilPageContent();
 		$this->setType("tab");
-
-		$this->dom =& $a_dom;
 	}
 
 	function setNode(&$a_node)
@@ -59,7 +55,7 @@ class ilPCTable extends ilPageContent
 
 	function create(&$a_pg_obj, $a_hier_id)
 	{
-		$this->node =& $this->dom->create_element("PageContent");
+		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
 		$this->tab_node =& $this->dom->create_element("Table");
 		$this->tab_node =& $this->node->append_child($this->tab_node);
@@ -80,7 +76,7 @@ class ilPCTable extends ilPageContent
 		// insert data if given
 		if ($a_data != "")
 		{
-			$new_pg =& $this->dom->create_element("PageContent");
+			$new_pg =& $this->createPageContentNode(false);
 			$new_par =& $this->dom->create_element("Paragraph");
 			$new_par =& $new_pg->append_child($new_par);
 			$new_par->set_attribute("Language", $a_lang);

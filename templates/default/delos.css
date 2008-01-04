@@ -2208,3 +2208,64 @@ div.il_Tutor
 	text-align:center;
 	overflow: hidden;
 }
+
+/* COPage Comparison */
+
+div.ilEditModified
+{
+	border-left-width: 3px;
+	padding-left: 5px;
+	border-left-style: solid;
+	border-left-color: #8080FF;
+	border-bottom-width: 3px;
+	padding-bottom: 5px;
+	border-bottom-style: solid;
+	border-bottom-color: #8080FF;
+	margin-bottom: 2px;
+}
+
+div.ilEditDeleted
+{
+	border-left-width: 3px;
+	padding-left: 5px;
+	border-left-style: solid;
+	border-left-color: #FF8080;
+	border-bottom-width: 3px;
+	padding-bottom: 5px;
+	border-bottom-style: solid;
+	border-bottom-color: #FF8080;
+	margin-bottom: 2px;
+}
+
+div.ilEditNew
+{
+	border-left-width: 3px;
+	padding-left: 5px;
+	border-left-style: solid;
+	border-left-color: #80FF80;
+	border-bottom-width: 3px;
+	padding-bottom: 5px;
+	border-bottom-style: solid;
+	border-bottom-color: #80FF80;
+	margin-bottom: 2px;
+}
+
+span.ilDiffDel
+{
+	background-color: #FFC0C0;
+}
+
+span.ilDiffIns
+{
+	background-color: #C0FFC0;
+}
+
+a.ilWikiPageMissing:link, a.ilWikiPageMissing:visited
+{
+	color: red;
+}
+
+a.ilWikiPageMissing:hover
+{
+	color: black;
+}

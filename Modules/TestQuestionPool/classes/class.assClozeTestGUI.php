@@ -1133,8 +1133,8 @@ class assClozeTestGUI extends assQuestionGUI
 			{
 				// edit page
 				$ilTabs->addTarget("edit_content",
-					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
-					array("view", "insert", "exec_pg"),
+					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"),
+					array("edit", "insert", "exec_pg"),
 					"", "", $force_active);
 			}
 	

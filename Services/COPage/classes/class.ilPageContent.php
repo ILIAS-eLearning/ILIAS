@@ -34,36 +34,59 @@
 *
 * @ingroup ServicesCOPage
 */
-class ilPageContent
+abstract class ilPageContent
 {
-	var $ilias;
-	var $type;
-	var $hier_id; 				// hierarchical editing id
-	var $node;
+	//var $type;		// type
+	var $hier_id; 		// hierarchical editing id
+	var $node;			// node in page xml
+	var $dom;			// dom object
 
 	/**
-	* Constructor
-	* @access	public
+	* Constructor.
+	*
+	* All initialisation in derived classes should go to the
+	* init() function
 	*/
-	function ilPageContent()
+	final function __construct($a_dom)
 	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
+		$this->dom = $a_dom;
+		$this->init();
+		if ($this->getType() == "")
+		{
+			die ("Error: ilPageContent::init() did not set type");
+		}
 	}
+	
+	/**
+	* Init object. This function must be overwritten and at least set
+	* the content type.
+	*/
+	abstract function init();
 
-
-	function setType($a_type)
+	/**
+	* Set Type. Must be called in constructor.
+	*
+	* @param	string	$a_type		type of page content component
+	*/
+	final protected function setType($a_type)
 	{
 		$this->type = $a_type;
 	}
 
+	/**
+	* Get type of page content
+	*
+	* @return	string		Type as defined by the page content component
+	*/
 	function getType()
 	{
 		return $this->type;
 	}
 
 	/**
+	* Set xml node of page content.
+	*
+	* @param	object	$a_node		node object
 	*/
 	function setNode(&$a_node)
 	{
@@ -72,6 +95,9 @@ class ilPageContent
 	
 
 	/**
+	* Get xml node of page content.
+	*
+	* @return	object				node object
 	*/
 	function &getNode()
 	{
@@ -80,7 +106,9 @@ class ilPageContent
 
 
 	/**
-	* set hierarchical id
+	* Set hierarchical ID in xml structure
+	*
+	* @param	string		$a_hier_id		Hierarchical ID.
 	*/
 	function setHierId($a_hier_id)
 	{
@@ -88,7 +116,7 @@ class ilPageContent
 	}
 
 	/**
-	* get hierarchical id
+	* Get hierarchical id
 	*/
 	function getHierId()
 	{
@@ -96,32 +124,44 @@ class ilPageContent
 	}
 
 	/**
-	* static class method
-	* increases an hierarchical editing id at lowest level (last number)
+	* Increases an hierarchical editing id at lowest level (last number)
+	*
+	* @param	string	$ed_id		hierarchical ID
+	*
+	* @return	string				hierarchical ID (increased)
 	*/
-	function incEdId($ed_id)
+	final static function incEdId($ed_id)
 	{
 		$id = explode("_", $ed_id);
 		$id[count($id) - 1]++;
+		
 		return implode($id, "_");
 	}
 
 	/**
-	* static class method
-	* decreases an hierarchical editing id at lowest level (last number)
+	* Decreases an hierarchical editing id at lowest level (last number)
+	*
+	* @param	string	$ed_id		hierarchical ID
+	*
+	* @return	string				hierarchical ID (decreased)
 	*/
-	function decEdId($ed_id)
+	final static function decEdId($ed_id)
 	{
 		$id = explode("_", $ed_id);
 		$id[count($id) - 1]--;
+
 		return implode($id, "_");
 	}
 
 	/**
-	* static class method
-	* check, if two ids are in same container
+	* Check, if two ids are in same container.
+	*
+	* @param	string	$ed_id1		hierachical ID 1
+	* @param	string	$ed_id2		hierachical ID 2
+	*
+	* @return	boolean				true/false
 	*/
-	function haveSameContainer($ed_id1, $ed_id2)
+	final static function haveSameContainer($ed_id1, $ed_id2)
 	{
 		$id1 = explode("_", $ed_id1);
 		$id2 = explode("_", $ed_id1);
@@ -142,52 +182,52 @@ class ilPageContent
 	}
 
 	/**
-	 * boolean accessor to enable/disable a paragraph
-	 */
-	 
-	 function setEnabled ($value) 
-	 {
-			if (is_object($this->node))
-			{
-				$this->node->set_attribute("Enabled", $value);
-			}
-	 }
-	 
-	 
-	 /**
-	  * boolean is PageContent enabled? 
-	  * 
-	  */
-	  
-	function isEnabled ()
+	* Set Enabled value for page content component.
+	*
+	* @param	string	$value		"True" | "False"
+	*
+	*/
+	function setEnabled($value) 
 	{
-	  	if (is_object($this->node) && $this->node->has_attribute("Enabled"))
-	  	{
-	  		$compare = $this->node->get_attribute("Enabled");	  			  		
-	  	} 
-	  	else $compare = "True";
-	  	
-		return strcasecmp($compare,"true") == 0;
+		if (is_object($this->node))
+		{
+			$this->node->set_attribute("Enabled", $value);
+		}
 	}
-
-
-	  /**
-	  * enable page content
-	  */
+	 
+	/**
+	* Enable page content.
+	*/
 	function enable() 
 	{
-//		echo "enable<br>";
-		$this->setEnabled ("True");
+		$this->setEnabled("True");
 	}
 	  
-	  /**
-	  * disable page content
-	  */
+	/**
+	* Disable page content.
+	*/
 	function disable() 	
 	{
-//		echo "disable<br>";
-		$this->setEnabled ("False");
+		$this->setEnabled("False");
 	}
 
+	/**
+	* Check whether page content is enabled.
+	*
+	* @return	boolean			true/false
+	*/
+	final function isEnabled()
+	{
+		if (is_object($this->node) && $this->node->has_attribute("Enabled"))
+		{
+			$compare = $this->node->get_attribute("Enabled");	  			  		
+		} 
+		else
+		{
+			$compare = "True";
+		}
+		
+		return strcasecmp($compare,"true") == 0;
+	}
 }
 ?>

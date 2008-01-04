@@ -40,15 +40,11 @@ class ilPCParagraph extends ilPageContent
 	var $par_node;			// node of Paragraph element
 
 	/**
-	* Constructor
-	* @access	public
+	* Init page content component.
 	*/
-	function ilPCParagraph(&$a_dom)
+	function init()
 	{
-		parent::ilPageContent();
 		$this->setType("par");
-
-		$this->dom =& $a_dom;
 	}
 
 	function setNode(&$a_node)
@@ -59,7 +55,7 @@ class ilPCParagraph extends ilPageContent
 
 
 	function createAtNode (&$node) {
-		$this->node =& $this->dom->create_element("PageContent");
+		$this->node = $this->createPageContentNode();
 		$this->par_node =& $this->dom->create_element("Paragraph");
 		$this->par_node =& $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
@@ -161,11 +157,16 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
+	* Get characteristic of paragraph.
 	*
+	* @return	string		characteristic
 	*/
 	function getCharacteristic()
 	{
-		return $this->par_node->get_attribute("Characteristic");
+		if (is_object($this->par_node))
+		{
+			return $this->par_node->get_attribute("Characteristic");
+		}
 	}
 
 

@@ -3860,6 +3860,11 @@ class ilUtil
 		return $size;
 	}
 	
+	function randomhash()
+	{
+		return md5(rand(1,9999999) + str_replace(" ", "", (string) microtime()));
+	}
+
 } // END class.ilUtil
 
 

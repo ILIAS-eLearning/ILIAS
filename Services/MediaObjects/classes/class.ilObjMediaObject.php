@@ -48,11 +48,6 @@ class ilObjMediaObject extends ilObject
 	var $is_alias;
 	var $origin_id;
 	var $id;
-
-	var $dom;
-	var $hier_id;
-	var $node;
-	var $mob_node;
 	var $media_items;
 	var $contains_int_link;
 
@@ -66,16 +61,7 @@ class ilObjMediaObject extends ilObject
 		$this->media_items = array();
 		$this->contains_int_link = false;
 		$this->type = "mob";
-//echo "<br>ilObjMediaObject:Constructor:$a_id:";
 		parent::ilObject($a_id, false);
-
-		/*
-		if($a_id != 0)
-		{
-			$this->read();
-		}*/
-
-
 	}
 
 	function setRefId()
@@ -761,39 +747,6 @@ class ilObjMediaObject extends ilObject
 	//////
 
 	/**
-	* set dom object
-	*/
-	function setDom(&$a_dom)
-	{
-		$this->dom =& $a_dom;
-	}
-
-	/**
-	* set PageContent node
-	*/
-	function setNode($a_node)
-	{
-		$this->node =& $a_node;							// page content node
-		$this->mob_node =& $a_node->first_child();			// MediaObject node
-	}
-
-	/**
-	* get PageContent node
-	*/
-	function &getNode()
-	{
-		return $this->node;
-	}
-
-	/**
-	* set hierarchical edit id
-	*/
-	function setHierId($a_hier_id)
-	{
-		$this->hier_id = $a_hier_id;
-	}
-
-	/**
 	* content parser set this flag to true, if the media object contains internal links
 	* (this method should only be called by the import parser)
 	*
@@ -811,93 +764,6 @@ class ilObjMediaObject extends ilObject
 	function containsIntLink()
 	{
 		return $this->contains_int_link;
-	}
-
-
-	function createAlias(&$a_pg_obj, $a_hier_id)
-	{
-		$this->node =& $this->dom->create_element("PageContent");
-		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
-		$this->mob_node =& $this->dom->create_element("MediaObject");
-		$this->mob_node =& $this->node->append_child($this->mob_node);
-		$this->mal_node =& $this->dom->create_element("MediaAlias");
-		$this->mal_node =& $this->mob_node->append_child($this->mal_node);
-		$this->mal_node->set_attribute("OriginId", "il__mob_".$this->getId());
-
-		// standard view
-		$item_node =& $this->dom->create_element("MediaAliasItem");
-		$item_node =& $this->mob_node->append_child($item_node);
-		$item_node->set_attribute("Purpose", "Standard");
-		$media_item =& $this->getMediaItem("Standard");
-
-		$layout_node =& $this->dom->create_element("Layout");
-		$layout_node =& $item_node->append_child($layout_node);
-		if ($media_item->getWidth() > 0)
-		{
-			$layout_node->set_attribute("Width", $media_item->getWidth());
-		}
-		if ($media_item->getHeight() > 0)
-		{
-			$layout_node->set_attribute("Height", $media_item->getHeight());
-		}
-		$layout_node->set_attribute("HorizontalAlign", "Left");
-
-		// caption
-		if ($media_item->getCaption() != "")
-		{
-			$cap_node =& $this->dom->create_element("Caption");
-			$cap_node =& $item_node->append_child($cap_node);
-			$cap_node->set_attribute("Align", "bottom");
-			$cap_node->set_content($media_item->getCaption());
-		}
-
-		$pars = $media_item->getParameters();
-		foreach($pars as $par => $val)
-		{
-			$par_node =& $this->dom->create_element("Parameter");
-			$par_node =& $item_node->append_child($par_node);
-			$par_node->set_attribute("Name", $par);
-			$par_node->set_attribute("Value", $val);
-		}
-
-		// fullscreen view
-		$fullscreen_item =& $this->getMediaItem("Fullscreen");
-		if (is_object($fullscreen_item))
-		{
-			$item_node =& $this->dom->create_element("MediaAliasItem");
-			$item_node =& $this->mob_node->append_child($item_node);
-			$item_node->set_attribute("Purpose", "Fullscreen");
-
-			// width and height
-			$layout_node =& $this->dom->create_element("Layout");
-			$layout_node =& $item_node->append_child($layout_node);
-			if ($fullscreen_item->getWidth() > 0)
-			{
-				$layout_node->set_attribute("Width", $fullscreen_item->getWidth());
-			}
-			if ($fullscreen_item->getHeight() > 0)
-			{
-				$layout_node->set_attribute("Height", $fullscreen_item->getHeight());
-			}
-
-			// caption
-			if ($fullscreen_item->getCaption() != "")
-			{
-				$cap_node =& $this->dom->create_element("Caption");
-				$cap_node =& $item_node->append_child($cap_node);
-				$cap_node->set_attribute("Align", "bottom");
-				$cap_node->set_content($fullscreen_item->getCaption());
-			}
-
-			$pars = $fullscreen_item->getParameters();
-			foreach($pars as $par => $val)
-			{
-				$par_node =& $this->dom->create_element("Parameter");
-				$par_node =& $item_node->append_child($par_node);
-				$par_node->set_attribute("Name", $par);
-				$par_node->set_attribute("Value", $val);
-			}
-		}
 	}
 
 	/**
@@ -1245,55 +1111,8 @@ class ilObjMediaObject extends ilObject
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
 	}
 
-
 	/**
-	 * boolean accessor to enable/disable a paragraph
-	 */
-	 
-	 function setEnabled ($value) 
-	 {
-		if (is_object($this->node))
-		{
-			$this->node->set_attribute("Enabled", $value);
-		}
-	 }
-	 
-	 
-	 /**
-	  * boolean is PageContent enabled? 
-	  * 
-	  */
-	  
-	  function isEnabled ()
-	  {
-	  	if (is_object($this->node) && $this->node->has_attribute("Enabled"))
-	  	{
-	  		$compare = $this->node->get_attribute("Enabled");	  			  		
-	  	} 
-	  	else $compare = "True";
-	  		
-	  	return $compare == "True";
-	  }
-
-
-	  /**
-	  * enable page content
-	  */
-	  function enable() 
-	  {
-			$this->setEnabled ("True");
-	  }
-	  
-	  /**
-	  * disable page content
-	  */
-	  function disable() 
-	  {
-			$this->setEnabled ("False");
-	  } 
-
-	/**
-	* create new media object in dom and update page in db and return new media object
+	* create new media object and update page in db and return new media object
 	*/
 	function &_saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
 	{

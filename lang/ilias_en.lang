@@ -1541,6 +1541,31 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat#:#Category
+common#:#wiki#:#Wiki
+common#:#obj_wiki#:#Wiki
+common#:#objs_wiki#:#Wikis
+common#:#wiki_new#:#New Wiki
+common#:#wiki_add#:#Add Wiki
+wiki#:#wiki_settings#:#Wiki Settings
+wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
+wiki#:#wiki_start_page#:#Start Page
+wiki#:#wiki_start_page_title#:#Start Page Title
+wiki#:#wiki_main_page#:#Main Page
+wiki#:#wiki_short_title#:#Short Title
+wiki#:#wiki_short_title_desc#:#This title will be used in permanent links to the Wiki.
+wiki#:#wiki_article#:#Article
+wiki#:#wiki_discussion#:#Discussion
+wiki#:#wiki_edit#:#Edit
+wiki#:#wiki_history#:#History
+wiki#:#wiki_navigation#:#Navigation
+wiki#:#wiki_recent_changes#:#Recent Changes
+wiki#:#wiki_what_links_here#:#What Links Here?
+wiki#:#wiki_print_view#:#Print View
+wiki#:#wiki_random_page#:#Random Page
+wiki#:#wiki_all_pages#:#All Pages
+wiki#:#wiki_new_pages#:#New Pages
+wiki#:#wiki_popular_pages#:#Popular Pages
+wiki#:#wiki_media_list#:#Media List
 common#:#mcst#:#Mediacast
 common#:#obj_mcst#:#Mediacast
 common#:#objs_mcst#:#Mediacasts
@@ -4073,6 +4098,17 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
+content#:#cont_revision#:#Revision
+content#:#cont_pc_new#:#New Content
+content#:#cont_pc_modified#:#Modified Content
+content#:#cont_pc_deleted#:#Deleted Content
+content#:#cont_page_compare#:#Compare Selected Revisions
+content#:#cont_previous_rev#:#Previous Revision
+content#:#cont_next_rev#:#Next Revision
+content#:#cont_latest_rev#:#Latest Revision
+content#:#content_page_history#:#Page History
+content#:#content_current#:#Current
+content#:#content_last#:#Last
 content#:#HTML export#:#HTML Export
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#PDF export#:#PDF Export

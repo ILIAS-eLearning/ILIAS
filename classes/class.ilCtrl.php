@@ -36,6 +36,7 @@ class ilCtrl
 	var $save_parameter;	// save parameter array
 	var $return;			// return commmands
 	var $call_hist = array();	// calling history
+	var $debug = array();
 
 	/**
 	* control class constructor
@@ -54,6 +55,17 @@ class ilCtrl
 			("ilrepositorygui", "ilpersonaldesktopgui",
 			"illmpresentationgui", "illmeditorgui",
 			"iladministrationgui");
+	}
+	
+	function debug($str)
+	{
+//echo "<br>".$str;
+		$this->debug[] = $str;
+	}
+	
+	function getDebug()
+	{
+		return $this->debug;
 	}
 	
 	/**
@@ -180,7 +192,8 @@ class ilCtrl
 
 			if (DEVMODE == "1")
 			{
-				$this->call_hist[] = get_class($a_gui_object);
+				$this->call_hist[] = array("class" => get_class($a_gui_object),
+					"mode" => "execComm", "cmd" => $this->getCmd());
 			}
 			
 			$html = $a_gui_object->executeCommand();
@@ -218,7 +231,8 @@ class ilCtrl
 			
 			if (DEVMODE == "1")
 			{
-				$this->call_hist[] = get_class($a_gui_object);
+				$this->call_hist[] = array("class" => get_class($a_gui_object),
+					"mode" => "getHtml", "cmd" => $this->getCmd());
 			}
 			
 			// get block

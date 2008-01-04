@@ -143,7 +143,7 @@ class ilPageEditorGUI
 	*/
 	function &executeCommand()
 	{
-//echo "execute";
+$this->ctrl->debug("ilPageEditorGUI->execute");
 		$cmd = $this->ctrl->getCmd();
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
@@ -153,7 +153,7 @@ class ilPageEditorGUI
 			$hier_id = $_POST["new_hier_id"];
 		}
 //echo "GEThier_id:".$_GET["hier_id"]."<br>";
-//echo "hier_id:".$hier_id."<br>";
+$this->ctrl->debug("hier_id:".$hier_id);
 
 		$new_type = (isset($_GET["new_type"]))
 			? $_GET["new_type"]
@@ -183,13 +183,14 @@ class ilPageEditorGUI
 		$com = explode("_", $cmd);
 		$cmd = $com[0];
 
-//echo "type:$type:cmd:$cmd:";
+$this->ctrl->debug("hier_id:$hier_id:cmd:$cmd:");
 		$next_class = $this->ctrl->getNextClass($this);
 
 		// determine content type
 		if ($cmd == "insert" || $cmd == "create")
 		{
 			$ctype = $com[1];
+			if ($ctype == "mob") $ctype = "media";
 		}
 		else
 		{
@@ -226,19 +227,23 @@ class ilPageEditorGUI
 			{
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
+$this->ctrl->debug("gettingContentObject (no linked media)");
 					$cont_obj =& $this->page->getContentObject($hier_id);
 					$ctype = $cont_obj->getType();
 				}
 			}
 		}
-
+$this->ctrl->debug("+ctype:".$ctype."+");
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 
-		if ($ctype != "mob" || !is_object ($cont_obj))
+		if ($ctype != "media" || !is_object ($cont_obj))
 		{
-			$this->tpl->setVariable("HEADER", $this->getHeader());
+			if ($this->getHeader() != "")
+			{
+				$this->tpl->setVariable("HEADER", $this->getHeader());
+			}
 			$this->displayLocator();
 		}
 
@@ -248,7 +253,7 @@ class ilPageEditorGUI
 		$this->ctrl->setParameter($this, "hier_id", $hier_id);
 		$this->ctrl->setCmd($cmd);
 		//$next_class = $this->ctrl->getNextClass($this);
-
+$this->ctrl->debug("+next_class:".$next_class."+");
 		if ($next_class == "")
 		{
 			switch($ctype)
@@ -269,7 +274,7 @@ class ilPageEditorGUI
 					$this->ctrl->setCmdClass("ilPCTableDataGUI");
 					break;
 
-				case "mob":
+				case "media":
 					$this->ctrl->setCmdClass("ilPCMediaObjectGUI");
 					break;
 
@@ -350,15 +355,16 @@ class ilPageEditorGUI
 
 			// PC Media Object
 			case "ilpcmediaobjectgui":
-			case "ilobjmediaobjectgui":
-				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+			//case "ilobjmediaobjectgui":
+				//include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 				include_once ("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
 
 				$this->tabs_gui->clearTargets();
 
-				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
-				{
+//				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
+//				{
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
+					/*
 					if (is_object ($cont_obj))
 					{
 						//$this->tpl->setCurrentBlock("header_image");
@@ -378,7 +384,8 @@ class ilPageEditorGUI
 					{
 						$pcmob_gui->getTabs($this->tabs_gui, true);
 					}
-				}
+					*/
+/*				}
 				else
 				{
 					$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
@@ -387,19 +394,29 @@ class ilPageEditorGUI
 					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
 						ilObject::_lookupTitle($_GET["mob_id"]));
 				}
+*/
 
 				#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
-				if ($next_class == "ilpcmediaobjectgui")
-				{
-					//$pcmob_gui->executeCommand();
+//				if ($next_class == "ilpcmediaobjectgui")
+//				{
 					$ret =& $this->ctrl->forwardCommand($pcmob_gui);
-				}
+/*				}
 				else
 				{
-					//$ret =& $mob_gui->executeCommand();
 					$ret =& $this->ctrl->forwardCommand($mob_gui);
 				}
+*/
+				break;
+
+			
+			// only for "linked" media
+			case "ilobjmediaobjectgui":
+				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
+				$mob_gui->getTabs($this->tabs_gui);
+				$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
+					ilObject::_lookupTitle($_GET["mob_id"]));
+				$ret =& $this->ctrl->forwardCommand($mob_gui);
 				break;
 
 			// List

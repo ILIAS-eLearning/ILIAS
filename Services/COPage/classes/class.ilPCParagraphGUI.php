@@ -76,9 +76,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilUser, $ilias;
 		
-		// set tabs
-		$this->setTabs();
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "Services/COPage");
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
@@ -256,9 +253,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	function insert()
 	{
 		global $ilUser;
-
-		// set tabs
-		$this->setTabs();
 
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "Services/COPage");
@@ -538,36 +532,5 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$popup->show($_GET["ptype"]);
 		exit;
 	}
-
-	/**
-	* output tabs
-	*/
-	function setTabs()
-	{
-		global $ilTabs;
-
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($ilTabs);
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-
-	/**
-	* adds tabs to tab gui object
-	*
-	* @param	object		$tabs_gui		ilTabsGUI object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		// back to upper context
-		/*
-		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "",
-			"");
-		*/
-	}
-
-
 }
 ?>

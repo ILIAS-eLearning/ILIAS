@@ -252,6 +252,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		array("title" => $this->lng->txt("objs_file"), "types" => "file"),
 		array("title" => $this->lng->txt("objs_webr"), "types" => "webr"),
 		array("title" => $this->lng->txt("objs_mcst"), "types" => "mcst"),
+		array("title" => $this->lng->txt("objs_wiki"), "types" => "wiki"),
 		array("title" => $this->lng->txt("objs_exc"), "types" => "exc"),
 		array("title" => $this->lng->txt("objs_tst"), "types" => "tst"),
 		array("title" => $this->lng->txt("objs_svy"), "types" => "svy"),

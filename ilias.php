@@ -33,6 +33,26 @@
 */
 
 require_once "./include/inc.header.php";
+
+/*function myErrorHandler($errno, $errstr, $errfile, $errline)
+{
+	global $ilCtrl;
+echo "<br>".$errstr;
+	switch ($errno)
+	{
+    case E_USER_ERROR:
+	case E_USER_WARNING:
+        echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
+        echo "  Fatal error on line $errline in file $errfile";
+        echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+        echo "Aborting...<br />\n";
+        exit(1);
+        break;
+	}
+	return false;
+}
+$old_error_handler = set_error_handler("myErrorHandler");*/
+
 global $ilCtrl, $ilBench, $ilLog;
 
 $ilCtrl->setTargetScript("ilias.php");

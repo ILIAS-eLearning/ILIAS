@@ -73,9 +73,6 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		// set tabs
-		$this->setTabs();
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", "Services/COPage");
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
@@ -182,9 +179,6 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	function insert()
 	{
 		global $ilUser;
-
-		// set tabs
-		$this->setTabs();
 
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", "Services/COPage");
@@ -374,35 +368,6 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	function cancelCreate()
 	{
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-	}
-
-
-	/**
-	* output tabs
-	*/
-	function setTabs()
-	{
-		global $ilTabs;
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($ilTabs);
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-
-	/**
-	* adds tabs to tab gui object
-	*
-	* @param	object		$tabs_gui		ilTabsGUI object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		// back to upper context
-		/*
-		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "",
-			"");
-		*/
 	}
 
 	function upload () {

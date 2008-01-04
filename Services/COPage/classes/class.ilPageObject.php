@@ -57,7 +57,7 @@ class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_3_7.dtd";
+	var $cur_dtd = "ilias_pg_3_10.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;
@@ -71,7 +71,7 @@ class ilPageObject
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObject($a_parent_type, $a_id = 0, $a_halt = true)
+	function ilPageObject($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_halt = true)
 	{
 		global $ilias;
 
@@ -86,6 +86,7 @@ class ilPageObject
 		$this->dom_builded = false;
 		$this->halt_on_error = $a_halt;
 		$this->page_not_found = false;
+		$this->old_nr = $a_old_nr;
 		$this->encoding = "UTF-8";
 		if($a_id != 0)
 		{
@@ -107,10 +108,22 @@ class ilPageObject
 
 		$ilBench->start("ContentPresentation", "ilPageObject_read");
 
-		$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($this->id)." ".
-			"AND parent_type=".$ilDB->quote($this->getParentType());
-		$pg_set = $this->ilias->db->query($query);
-		if (!($this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC)))
+		if ($this->old_nr == 0)
+		{
+			$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($this->id)." ".
+				"AND parent_type=".$ilDB->quote($this->getParentType());
+			$pg_set = $this->ilias->db->query($query);
+			$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+		else
+		{
+			$query = "SELECT * FROM page_history WHERE page_id = ".$ilDB->quote($this->id)." ".
+				"AND parent_type=".$ilDB->quote($this->getParentType()).
+				" AND nr = ".$ilDB->quote($this->old_nr);
+			$pg_set = $this->ilias->db->query($query);
+			$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+		if (!$this->page_record)
 		{
 			if ($this->halt_on_error)
 			{
@@ -125,6 +138,7 @@ class ilPageObject
 		}
 		$this->xml = $this->page_record["content"];
 		$this->setParentId($this->page_record["parent_id"]);
+		$this->user = $this->page_record["user"];
 
 		$ilBench->stop("ContentPresentation", "ilPageObject_read");
 	}
@@ -280,8 +294,11 @@ class ilPageObject
 						return $tab;
 
 					case "MediaObject":
-						require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-//echo "ilPageObject::getContentObject:nodename:".$child_node->node_name().":<br>";
+if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
+
+						//require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+						require_once("./Services/COPage/classes/class.ilPCMediaObject.php");
+						
 						$mal_node =& $child_node->first_child();
 //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
 						$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
@@ -293,8 +310,11 @@ class ilPageObject
 							$mob_id = 0;
 						}
 
-						$mob =& new ilObjMediaObject($mob_id);
-						$mob->setDom($this->dom);
+						//$mob =& new ilObjMediaObject($mob_id);
+						$mob =& new ilPCMediaObject($this->dom);
+						$mob->readMediaObject($mob_id);
+						
+						//$mob->setDom($this->dom);
 						$mob->setNode($cont_node);
 						$mob->setHierId($a_hier_id);
 						return $mob;
@@ -558,7 +578,22 @@ class ilPageObject
 		}
 	}
 
+	/**
+	* Set content of paragraph
+	*
+	* @param	string	$a_hier_id		Hier ID
+	* @param	string	$a_content		Content
+	*/
+	function setParagraphContent($a_hier_id, $a_content)
+	{
+		$node = $this->getContentNode($a_hier_id);
+		if (is_object($node))
+		{
+			$node->set_content($a_content);
+		}
+	}
 
+	
 	/**
 	* lm parser set this flag to true, if the page contains intern links
 	* (this method should only be called by the import parser)
@@ -1085,11 +1120,11 @@ class ilPageObject
 			$this->setXMLContent("<PageObject></PageObject>");
 		}
 		// create object
-		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
+		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, created) VALUES ".
 			"(".$ilDB->quote($this->getId()).",".
 			$ilDB->quote($this->getParentId()).",".
 			$ilDB->quote($this->getXMLContent()).
-			", ".$ilDB->quote($this->getParentType()).")";
+			", ".$ilDB->quote($this->getParentType()).", now())";
 		if(!$this->ilias->db->checkQuerySize($query))
 		{
 			$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
@@ -1138,9 +1173,9 @@ class ilPageObject
 	/**
 	* update complete page content in db (dom xml content is used)
 	*/
-	function update($a_validate = true)
+	function update($a_validate = true, $a_no_history = false)
 	{
-		global $lng, $ilDB;
+		global $lng, $ilDB, $ilUser, $ilLog, $ilCtrl;
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
@@ -1150,13 +1185,49 @@ class ilPageObject
 		{
 			$errors = $this->validateDom();
 		}
+//var_dump($errors);
+//echo "-".htmlentities($this->getXMLFromDom())."-"; exit;
 		if(empty($errors))
 		{
 			$content = $this->getXMLFromDom();
-//echo "-$content-"; exit;
+
+			// this needs to be locked
+
+			// write history entry
+			$old_set = $ilDB->query("SELECT * FROM page_object WHERE ".
+				"page_id = ".$ilDB->quote($this->getId())." AND ".
+				"parent_type = ".$ilDB->quote($this->getParentType()));
+			$last_nr_set = $ilDB->query("SELECT max(nr) as mnr FROM page_history WHERE ".
+				"page_id = ".$ilDB->quote($this->getId())." AND ".
+				"parent_type = ".$ilDB->quote($this->getParentType()));
+			$last_nr = $last_nr_set->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($old_rec = $old_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				// only save, if something has changed
+//$ilCtrl->debug("-".$content."-".$old_rec["content"]."-");
+//echo htmlentities($old_rec["content"]);
+				if (($content != $old_rec["content"]) && !$a_no_history)
+				{
+					if ($old_rec["content"] != "<PageObject></PageObject>")
+					{
+						$h_query = "REPLACE INTO page_history ".
+							"(page_id, parent_type, hdate, parent_id, content, user, nr) VALUES (".
+							$ilDB->quote($old_rec["page_id"]).",".
+							$ilDB->quote($old_rec["parent_type"]).",".
+							"now(),".
+							$ilDB->quote($old_rec["parent_id"]).",".
+							$ilDB->quote($old_rec["content"]).",".
+							$ilDB->quote($old_rec["user"]).",".
+							$ilDB->quote($last_nr["mnr"] + 1).")";
+						$ilDB->query($h_query);
+					}
+				}
+			}
+
 			$query = "UPDATE page_object ".
 				"SET content = ".$ilDB->quote($content)." ".
 				", parent_id= ".$ilDB->quote($this->getParentId())." ".
+				", user= ".$ilDB->quote($ilUser->getId())." ".
 				" WHERE page_id = ".$ilDB->quote($this->getId()).
 				" AND parent_type= ".$ilDB->quote($this->getParentType());
 			if(!$this->ilias->db->checkQuerySize($query))
@@ -1996,7 +2067,106 @@ class ilPageObject
 	}
 	
 
-	function send_paragraph ($par_id, $filename) {
+	/**
+	* Check, whether (all) page content hashes are set
+	*/
+	function checkPCIds()
+	{
+		$this->builddom();
+		$mydom = $this->dom;
+		$path = "//PageContent[not(@PCID)]";
+		$xpc = xpath_new_context($mydom);
+		$res = & xpath_eval($xpc, $path);
+
+		if (count ($res->nodeset) > 0)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	* Insert Page Content IDs
+	*/
+	function insertPCIds()
+	{
+		$this->builddom();
+		$mydom = $this->dom;
+		
+		$pcids = array();
+		
+		// get existing ids
+		$path = "//PageContent[@PCID]";
+		$xpc = xpath_new_context($mydom);
+		$res = & xpath_eval($xpc, $path);
+
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$node = $res->nodeset[$i];
+			$pcids[] = $node->get_attribute("PCID");
+		}
+		
+		// add missing ones
+		$path = "//PageContent[not(@PCID)]";
+		$xpc = xpath_new_context($mydom);
+		$res = & xpath_eval($xpc, $path);
+
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$node = $res->nodeset[$i];
+			$id = ilUtil::randomHash(10, $pcids);
+			$pcids[] = $id;
+//echo "setting-".$id."-";
+			$res->nodeset[$i]->set_attribute("PCID", $id);
+		}
+	}
+	
+	/**
+	* Get page contents hashes
+	*/
+	function getPageContentsHashes()
+	{
+		$this->builddom();
+		$this->addHierIds();
+		$mydom = $this->dom;
+		
+		// get existing ids
+		$path = "//PageContent";
+		$xpc = xpath_new_context($mydom);
+		$res = & xpath_eval($xpc, $path);
+
+		$hashes = array();
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$hier_id = $res->nodeset[$i]->get_attribute("HierId");
+			$pc_id = $res->nodeset[$i]->get_attribute("PCID");
+			$dump = $mydom->dump_node($res->nodeset[$i]);
+			if (($hpos = strpos($dump, ' HierId="'.$hier_id.'"')) > 0)
+			{
+				$dump = substr($dump, 0, $hpos).
+					substr($dump, $hpos + strlen(' HierId="'.$hier_id.'"'));
+			}
+			
+			$childs = $res->nodeset[$i]->child_nodes();
+			$content = "";
+			if ($childs[0] && $childs[0]->node_name() == "Paragraph")
+			{
+				$content = $mydom->dump_node($childs[0]);
+				$content = substr($content, strpos($content, ">") + 1,
+					strrpos($content, "<") - (strpos($content, ">") + 1));
+				
+			}
+			//$hashes[$hier_id] =
+			//	array("PCID" => $pc_id, "hash" => md5($dump));
+			$hashes[$pc_id] =
+				array("hier_id" => $hier_id, "hash" => md5($dump), "content" => $content);
+		}
+		
+		return $hashes;
+	}
+	
+	function send_paragraph ($par_id, $filename)
+	{
 		$this->builddom();
 
 		$mydom = $this->dom;
@@ -2086,6 +2256,237 @@ class ilPageObject
 		}
 
 		return false;
+	}
+
+	/**
+	* Get History Entries
+	*/
+	function getHistoryEntries()
+	{
+		global $ilDB;
+		
+		$h_query = "SELECT * FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId()).
+			" AND parent_type = ".$ilDB->quote($this->getParentType()).
+			" ORDER BY hdate DESC";
+		
+		$hset = $ilDB->query($h_query);
+		$hentries = array();
+
+		while ($hrec = $hset->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$hentries[] = $hrec;
+		}
+		
+		return $hentries;
+	}
+	
+	/**
+	* Get information about a history entry, its predecessor and
+	* its successor.
+	*
+	* @param	int		$a_nr		Nr of history entry
+	*/
+	function getHistoryInfo($a_nr)
+	{
+		global $ilDB;
+		
+		$h_query = "SELECT * FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId()).
+			" AND parent_type = ".$ilDB->quote($this->getParentType()).
+			" AND nr in (".
+				$ilDB->quote($a_nr - 1).",".$ilDB->quote($a_nr).",".$ilDB->quote($a_nr + 1).")".
+			" ORDER BY hdate DESC";
+		
+		$hset = $ilDB->query($h_query);
+		$ret = array();
+
+		while ($hrec = $hset->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			switch ($hrec["nr"])
+			{
+				case ($a_nr - 1):
+					$ret["previous"] = $hrec;
+					break;
+					
+				case ($a_nr):
+					$ret["current"] = $hrec;
+					break;
+
+				case ($a_nr + 1):
+					$ret["next"] = $hrec;
+					break;
+			}
+		}
+		return $ret;
+	}
+	
+	function addChangeDivClasses($a_hashes)
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "/*[1]";
+		$res =& xpath_eval($xpc, $path);
+		$rnode = $res->nodeset[0];
+
+//echo "A";
+		foreach($a_hashes as $pc_id => $h)
+		{
+//echo "B";
+			if ($h["change"] != "")
+			{
+//echo "<br>C-".$h["hier_id"]."-".$h["change"]."-";
+				$dc_node = $this->dom->create_element("DivClass");
+				$dc_node->set_attribute("HierId", $h["hier_id"]);
+				$dc_node->set_attribute("Class", "ilEdit".$h["change"]);
+				$dc_node = $rnode->append_child($dc_node);
+			}
+		}
+	}
+	
+	/**
+	* Compares to revisions of the page
+	*
+	* @param	int		$a_left		Nr of first revision
+	* @param	int		$a_right	Nr of second revision
+	*/
+	function compareVersion($a_left, $a_right)
+	{
+		global $ilDB;
+		
+		// get page objects
+		$l_page = new ilPageObject($this->getParentType(), $this->getId(), $a_left);
+		$r_page = new ilPageObject($this->getParentType(), $this->getId(), $a_right);
+		
+		$l_hashes = $l_page->getPageContentsHashes();
+		$r_hashes = $r_page->getPageContentsHashes();
+		
+		// determine all deleted and changed page elements
+		foreach ($l_hashes as $pc_id => $h)
+		{
+			if (!isset($r_hashes[$pc_id]))
+			{
+				$l_hashes[$pc_id]["change"] = "Deleted";
+			}
+			else
+			{
+				if ($l_hashes[$pc_id]["hash"] != $r_hashes[$pc_id]["hash"])
+				{
+					$l_hashes[$pc_id]["change"] = "Modified";
+					$r_hashes[$pc_id]["change"] = "Modified";
+					
+					include_once("./Services/COPage/mediawikidiff/class.WordLevelDiff.php");
+					// if modified element is a paragraph, highlight changes
+					if ($l_hashes[$pc_id]["content"] != "" &&
+						$r_hashes[$pc_id]["content"] != "")
+					{
+						$wldiff = new WordLevelDiff(array($l_hashes[$pc_id]["content"]),
+							array($r_hashes[$pc_id]["content"]));
+						$new_left = $wldiff->orig();
+						$new_right = $wldiff->closing();
+						$l_page->setParagraphContent($l_hashes[$pc_id]["hier_id"], $new_left[0]);
+						$r_page->setParagraphContent($l_hashes[$pc_id]["hier_id"], $new_right[0]);
+					}
+				}
+			}
+		}
+		
+		// determine all new paragraphs
+		foreach ($r_hashes as $pc_id => $h)
+		{
+			if (!isset($l_hashes[$pc_id]))
+			{
+				$r_hashes[$pc_id]["change"] = "New";
+			}
+		}
+		
+		$l_page->addChangeDivClasses($l_hashes);
+		$r_page->addChangeDivClasses($r_hashes);
+		
+		return array("l_page" => $l_page, "r_page" => $r_page,
+			"l_changes" => $l_hashes, "r_changes" => $r_hashes);
+	}
+	
+	/**
+	* increase view cnt
+	*/
+	function increaseViewCnt()
+	{
+		global $ilDB;
+		
+		$q = "UPDATE page_object ".
+			" SET view_cnt = view_cnt + 1 ".
+			" WHERE page_id = ".$ilDB->quote($this->getId()).
+			" AND parent_type = ".$ilDB->quote($this->getParentType());
+		$ilDB->query($q);
+	}
+	
+	/**
+	* Get recent pages changes for parent object.
+	*
+	* @param	string	$a_parent_type	Parent Type
+	* @param	int		$a_parent_id	Parent ID
+	* @param	int		$a_period		Time Period
+	*/
+	static function getRecentChanges($a_parent_type, $a_parent_id, $a_period = 30)
+	{
+		global $ilDB;
+		
+		$page_changes = array();
+		
+		$q = "SELECT * FROM page_object ".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
+			" AND parent_type = ".$ilDB->quote($a_parent_type).
+			" AND (TO_DAYS(now()) - TO_DAYS(last_change)) <= ".((int)$a_period);
+		$set = $ilDB->query($q);
+		while($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$page_changes[] = array("date" => $page["last_change"],
+				"id" => $page["page_id"], "type" => "page");
+		}
+
+		$q = "SELECT * FROM page_history ".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
+			" AND parent_type = ".$ilDB->quote($a_parent_type).
+			" AND (TO_DAYS(now()) - TO_DAYS(hdate)) <= ".((int)$a_period);
+		$set = $ilDB->query($q);
+		while ($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$page_changes[] = array("date" => $page["hdate"],
+				"id" => $page["page_id"], "type" => "hist");
+		}
+		
+		$page_changes = ilUtil::sortArray($page_changes, "date", "desc");
+		
+		return $page_changes;
+	}
+	
+	/**
+	* Get new pages.
+	*
+	* @param	string	$a_parent_type	Parent Type
+	* @param	int		$a_parent_id	Parent ID
+	*/
+	static function getNewPages($a_parent_type, $a_parent_id)
+	{
+		global $ilDB;
+		
+		$pages = array();
+		
+		$q = "SELECT * FROM page_object ".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
+			" AND parent_type = ".$ilDB->quote($a_parent_type).
+			" ORDER BY created DESC";
+		$set = $ilDB->query($q);
+		while($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($page["created"] != "0000-00-00 00:00:00")
+			{
+				$pages[] = array("created" => $page["created"],
+					"id" => $page["page_id"]);
+			}
+		}
+
+		return $pages;
 	}
 
 }

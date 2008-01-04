@@ -21,6 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
+// note: the values are derived from ilObjCourse constants
+// to enable easy migration from course view setting to container view setting
+define('IL_CNTR_VIEW_STANDARD',0);
+define('IL_CNTR_VIEW_OBJECTIVE',1);
+define('IL_CNTR_VIEW_TIMING',2);
+define('IL_CNTR_VIEW_ARCHIVE',3);
+define('IL_CNTR_VIEW_CUSTOM',4);
+
 
 /**
 * Class ilContainer
@@ -47,6 +55,8 @@ class ilContainer extends ilObject
 	{
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
+	
+	
 	
 	/**
 	* Create directory for the container.

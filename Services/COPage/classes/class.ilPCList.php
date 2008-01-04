@@ -35,20 +35,14 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCList extends ilPageContent
 {
-	var $dom;
 	var $list_node;
 
-
 	/**
-	* Constructor
-	* @access	public
+	* Init page content component.
 	*/
-	function ilPCList(&$a_dom)
+	function init()
 	{
-		parent::ilPageContent();
 		$this->setType("list");
-
-		$this->dom =& $a_dom;
 	}
 
 	function setNode(&$a_node)
@@ -60,7 +54,7 @@ class ilPCList extends ilPageContent
 	function create(&$a_pg_obj, $a_hier_id)
 	{
 //echo "::".is_object($this->dom).":";
-		$this->node =& $this->dom->create_element("PageContent");
+		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
 		$this->list_node =& $this->dom->create_element("List");
 		$this->list_node =& $this->node->append_child($this->list_node);

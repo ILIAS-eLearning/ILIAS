@@ -501,17 +501,30 @@ class ilTemplate extends ilTemplateX
 				foreach($hist as $entry)
 				{
 					$this->setCurrentBlock("c_entry");
-					$this->setVariable("C_ENTRY", $entry);
+					$this->setVariable("C_ENTRY", $entry["class"]);
 					if (is_object($ilDB))
 					{
 						$set = $ilDB->query("SELECT file FROM ctrl_classfile WHERE LOWER(class) ".
-							" = ".$ilDB->quote(strtolower($entry)));
+							" = ".$ilDB->quote(strtolower($entry["class"])));
 						$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+						$add = $entry["mode"]." - ".$entry["cmd"];
 						if ($rec["file"] != "")
 						{
-							$this->setVariable("C_FILE", "[".$rec["file"]."]");
+							$add.= " - ".$rec["file"];
 						}
+						$this->setVariable("C_FILE", $add);
 					}
+					$this->parseCurrentBlock();
+				}
+				$this->setCurrentBlock("call_history");
+				$this->parseCurrentBlock();
+				
+				// debug hack
+				$debug = $ilCtrl->getDebug();
+				foreach($debug as $d)
+				{
+					$this->setCurrentBlock("c_entry");
+					$this->setVariable("C_ENTRY", $d);
 					$this->parseCurrentBlock();
 				}
 				$this->setCurrentBlock("call_history");

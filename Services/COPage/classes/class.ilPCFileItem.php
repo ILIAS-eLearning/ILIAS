@@ -38,17 +38,12 @@ class ilPCFileItem extends ilPageContent
 	var $dom;
 
 	/**
-	* Constructor
-	* @access	public
+	* Init page content component.
 	*/
-	function ilPCFileItem(&$a_dom)
+	function init()
 	{
-		parent::ilPageContent();
 		$this->setType("flit");
-
-		$this->dom =& $a_dom;
 	}
-
 
 	/**
 	* insert new list item after current one
@@ -146,7 +141,5 @@ class ilPCFileItem extends ilPageContent
 		$li_copy =& $prev->insert_before($li_copy, $prev);
 		$li->unlink($li);
 	}
-
-
 }
 ?>

@@ -73,8 +73,6 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
-		$this->setTabs();
-
 		// new list form (list item number)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.list_new.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_list"));
@@ -139,8 +137,6 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		$this->setTabs();
-		
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.list_properties.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_list_properties"));
@@ -192,34 +188,5 @@ class ilPCListGUI extends ilPageContentGUI
 			$this->edit();
 		}
 	}
-
-	/**
-	* output tabs
-	*/
-	function setTabs()
-	{
-		global $ilTabs;
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($ilTabs);
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-
-	/**
-	* adds tabs to tab gui object
-	*
-	* @param	object		$tabs_gui		ilTabsGUI object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		// back to upper context
-/*
-		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "",
-			"");
-*/
-	}
-
 }
 ?>

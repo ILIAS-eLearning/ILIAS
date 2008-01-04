@@ -38,17 +38,12 @@ class ilPCListItem extends ilPageContent
 	var $dom;
 
 	/**
-	* Constructor
-	* @access	public
+	* Init page content component.
 	*/
-	function ilPCListItem(&$a_dom)
+	function init()
 	{
-		parent::ilPageContent();
 		$this->setType("li");
-
-		$this->dom =& $a_dom;
 	}
-
 
 	/**
 	* insert new list item after current one

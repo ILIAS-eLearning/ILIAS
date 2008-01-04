@@ -56,6 +56,7 @@ $target_type = $target_arr[0];
 $target_id = $target_arr[1];
 $target_ref_id = $target_arr[2];		// optional for pages
 
+
 // if anonymous and goto is not granted: go to login page
 include_once("Services/Init/classes/class.ilStartUpGUI.php");
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && !ilStartUpGUI::_checkGoto($_GET["target"]))
@@ -199,6 +200,12 @@ switch($target_type)
 	case "mcst":
 		require_once("./Modules/MediaCast/classes/class.ilObjMediaCastGUI.php");
 		ilObjMediaCastGUI::_goto($target_id);
+		break;
+
+	// new implementation: ok
+	case "wiki":
+		require_once("./Modules/Wiki/classes/class.ilObjWikiGUI.php");
+		ilObjWikiGUI::_goto($target_id, $target_arr[2]);
 		break;
 		
 	case "icrs":
