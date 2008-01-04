@@ -611,7 +611,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->tpl->setVariable("LINK_EDIT_DEF",
 						$this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
 						"iltermdefinitioneditorgui",
-						"ilpageobjectgui"), "view"));
+						"ilpageobjectgui"), "edit"));
 					$this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr").($j+1));
 					$this->tpl->parseCurrentBlock();
 					$sep = ", ";
@@ -792,7 +792,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->tpl->setVariable("LINK_EDIT",
 						$this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
 						"iltermdefinitioneditorgui",
-						"ilpageobjectgui"), "view"));
+						"ilpageobjectgui"), "edit"));
 					$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$this->tpl->parseCurrentBlock();
 
@@ -877,7 +877,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
 		$this->ctrl->redirectByClass(array("ilglossarytermgui",
-			"iltermdefinitioneditorgui", "ilpageobjectgui"), "view");
+			"iltermdefinitioneditorgui", "ilpageobjectgui"), "edit");
 	}
 
 	/**
@@ -939,8 +939,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
 
 		$definition =& new ilGlossaryDefinition($_GET["def"]);
-		$page =& new ilPageObject("gdf", $definition->getId());
-		$page_gui =& new ilPageObjectGUI($page);
+		//$page =& new ilPageObject("gdf", $definition->getId());
+		$page_gui =& new ilPageObjectGUI("gdf", $definition->getId());
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$output = $page_gui->preview();
@@ -1580,7 +1580,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
 		$this->ctrl->redirectByClass(array("ilglossarytermgui",
-			"iltermdefinitioneditorgui", "ilpageobjectgui"), "view");
+			"iltermdefinitioneditorgui", "ilpageobjectgui"), "edit");
 		
 	}
 
