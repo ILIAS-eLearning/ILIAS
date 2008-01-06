@@ -499,7 +499,7 @@ class ilGroupImportParser extends ilSaxParser
 
 	function __initGroupObject()
 	{
-		include_once "classes/class.ilObjGroup.php";
+		include_once "./Modules/Group/classes/class.ilObjGroup.php";
 
 		if ($this->mode == ilGroupImportParser::$CREATE)
 		{
@@ -513,7 +513,7 @@ class ilGroupImportParser extends ilSaxParser
 
 	function __initFolderObject()
 	{
-		include_once "classes/class.ilObjFolder.php";
+		include_once "./Modules/Folder/classes/class.ilObjFolder.php";
 
 		$this->folder_obj =& new ilObjFolder();
 

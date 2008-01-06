@@ -1339,7 +1339,7 @@ class ilObjSurvey extends ilObject
 					$ilDB->quote($this->getSurveyId())
 				);
 				$result = $ilDB->query($query);
-				include_once "./classes/class.ilObjGroup.php";
+				include_once "./Modules/Group/classes/class.ilObjGroup.php";
 				include_once './Services/User/classes/class.ilObjUser.php';
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
@@ -3049,7 +3049,7 @@ class ilObjSurvey extends ilObject
 */
 	function inviteGroup($group_id)
 	{
-		include_once "./classes/class.ilObjGroup.php";
+		include_once "./Modules/Group/classes/class.ilObjGroup.php";
 		$group = new ilObjGroup($group_id);
 		$members = $group->getGroupMemberIds();
 		foreach ($members as $user_id)

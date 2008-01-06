@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -7162,7 +7162,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
 	function inviteGroup($group_id)
 	{
-		include_once "./classes/class.ilObjGroup.php";
+		include_once "./Modules/Group/classes/class.ilObjGroup.php";
 		$group = new ilObjGroup($group_id);
 		$members = $group->getGroupMemberIds();
 		include_once './Services/User/classes/class.ilObjUser.php';

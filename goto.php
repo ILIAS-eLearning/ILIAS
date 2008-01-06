@@ -180,13 +180,13 @@ switch($target_type)
 
 	// new implementation: ok
 	case "grp":
-		require_once("classes/class.ilObjGroupGUI.php");
+		require_once("./Modules/Group/classes/class.ilObjGroupGUI.php");
 		ilObjGroupGUI::_goto($target_id);
 		break;
 		
 	// new implementation: ok (smeyer) 
 	case 'fold':
-		require_once("classes/class.ilObjFolderGUI.php");
+		require_once("./Modules/Folder/classes/class.ilObjFolderGUI.php");
 		ilObjFolderGUI::_goto($target_id);
 		break;
 	
@@ -216,7 +216,7 @@ switch($target_type)
 	
 	// new implementation: ok
 	case 'root':
-		require_once('classes/class.ilObjRootFolderGUI.php');
+		require_once('./Modules/RootFolder/classes/class.ilObjRootFolderGUI.php');
 		ilObjRootFolderGUI::_goto($target_id);
 		break;
 }

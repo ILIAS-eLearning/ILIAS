@@ -237,7 +237,7 @@ class ilSearch
 					break;
 
 				case "grp":
-					include_once "./classes/class.ilObjGroup.php";
+					include_once "./Modules/Group/classes/class.ilObjGroup.php";
 
 					$this->act_type = 'grp';
 					$result["grp"] = ilObjGroup::_search($this);

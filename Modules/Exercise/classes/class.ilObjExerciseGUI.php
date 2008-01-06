@@ -1223,7 +1223,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			case "usr":
 				return $a_result;
 			case "grp":
-				include_once "./classes/class.ilObjGroup.php";
+				include_once "./Modules/Group/classes/class.ilObjGroup.php";
 	
 				$all_members = array();
 				foreach($a_result as $group)

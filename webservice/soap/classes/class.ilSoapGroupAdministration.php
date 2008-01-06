@@ -71,7 +71,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 
 		// Start import
-		include_once("classes/class.ilObjGroup.php");
+		include_once("./Modules/Group/classes/class.ilObjGroup.php");
 		include_once 'classes/class.ilGroupImportParser.php';
 		$xml_parser = new ilGroupImportParser($grp_xml,$target_id);
 		$new_ref_id = $xml_parser->startParsing();
@@ -106,7 +106,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}
 
 		// Start import
-		include_once("classes/class.ilObjGroup.php");
+		include_once("./Modules/Group/classes/class.ilObjGroup.php");
 
 		if(!$grp = ilObjectFactory::getInstanceByRefId($ref_id, false))
 		{

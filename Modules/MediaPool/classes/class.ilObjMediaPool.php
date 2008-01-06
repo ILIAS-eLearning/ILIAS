@@ -23,8 +23,8 @@
 
 
 require_once "classes/class.ilObject.php";
-require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
-require_once("classes/class.ilObjFolder.php");
+require_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
+require_once("./Modules/Folder/classes/class.ilObjFolder.php");
 
 /** @defgroup ModulesMediaPool Modules/MediaPool
  */
@@ -143,7 +143,7 @@ class ilObjMediaPool extends ilObject
 					break;
 
 				case "fold":
-					include_once("classes/class.ilObjFolder.php");
+					include_once("./Modules/Folder/classes/class.ilObjFolder.php");
 					$fold = new ilObjFolder($child["obj_id"], false);
 					$fold->delete();
 					break;

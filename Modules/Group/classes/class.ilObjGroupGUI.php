@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilContainerGUI.php";
+include_once "./classes/class.ilRegisterGUI.php";
+
 /**
 * Class ilObjGroupGUI
 *
@@ -35,10 +38,6 @@
 *
 * @extends ilObjectGUI
 */
-
-include_once "class.ilContainerGUI.php";
-include_once "class.ilRegisterGUI.php";
-
 class ilObjGroupGUI extends ilContainerGUI
 {
 	/**
@@ -2009,7 +2008,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			return false;
 		}
 		
-		include_once 'classes/class.ilObjGroup.php';
+		include_once './Modules/Group/classes/class.ilObjGroup.php';
 
 		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],(int) $_GET['ref_id']))
 		{

@@ -1,7 +1,7 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE objects SYSTEM "./objects.dtd">
 <objects xmlns="http://www.w3.org" version="$Id$">
-<object name="root" class_name="RootFolder" location="classes" checkbox="0" inherit="0" translate="0" rbac="1" system="1">
+<object name="root" class_name="RootFolder" location="Modules/RootFolder/classes" module="Modules/RootFolder" checkbox="0" inherit="0" translate="0" rbac="1" system="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="adm" max="1">adm</subobj>
 	<property name="view">view_content</property>
@@ -14,7 +14,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="adm" class_name="SystemFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<object name="adm" class_name="SystemFolder" location="Modules/SystemFolder/classes" module="Modules/SystemFolder" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<subobj name="usrf" max="1">usrf</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="objf" max="1">objf</subobj>
@@ -120,7 +120,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="fold" class_name="Folder" location="classes" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
+<object name="fold" class_name="Folder" location="Modules/Folder/classes" module="Modules/Folder" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
 	<subobj name="fold">fold</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
@@ -159,7 +159,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="copy">copy</action>
 </object>
-<object name="grp" class_name="Group" location="classes" checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1">
+<object name="grp" class_name="Group" location="Modules/Group/classes" module="Modules/Group" checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1">
 	<subobj name="fold">fold</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>
@@ -237,7 +237,7 @@
 	<property name="listFiles" module="1">list_files</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="mail" class_name="Mail" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
+<object name="mail" class_name="Mail" location="Services/Mail/classes" module="Services/Mail" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 	<property name="import">mail_import</property>
@@ -247,6 +247,7 @@
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 </object>
+<!-- to go -->
 <object name="role" class_name="Role" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">default_perm_settings</property>

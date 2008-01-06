@@ -22,31 +22,31 @@
 */
 
 
+include_once "./classes/class.ilObjectListGUI.php";
+
 /**
-* Class ilObjRootFolderListGUI
+* Class ilObjGroupListGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
 * @extends ilObjectListGUI
 */
-
-
-include_once "class.ilObjectListGUI.php";
-
-class ilObjRootFolderListGUI extends ilObjectListGUI
+class ilObjGroupListGUI extends ilObjectListGUI
 {
 	/**
 	* constructor
 	*
 	*/
-	function ilObjRootFolderListGUI()
+	function ilObjGroupListGUI()
 	{
 		$this->ilObjectListGUI();
 	}
 
 	/**
 	* initialisation
+	*
+	* this method should be overwritten by derived classes
 	*/
 	function init()
 	{
@@ -55,29 +55,61 @@ class ilObjRootFolderListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
-		$this->type = "root";
-		$this->gui_class_name = "ilobjrootfoldergui";
+		$this->info_screen_enabled = true;
+		$this->type = "grp";
+		$this->gui_class_name = "ilobjgroupgui";
 
 		// general commands array
-		include_once('class.ilObjRootFolderAccess.php');
-		$this->commands = ilObjRootFolderAccess::_getCommands();
+		include_once('./Modules/Group/classes/class.ilObjGroupAccess.php');
+		$this->commands = ilObjGroupAccess::_getCommands();
 	}
 
 	/**
-	* Get command link url.
+	* Overwrite this method, if link target is not build by ctrl class
+	* (e.g. "lm_presentation.php", "forum.php"). This is the case
+	* for all links now, but bringing everything to ilCtrl should
+	* be realised in the future.
 	*
-	* @param	int			$a_ref_id		reference id
 	* @param	string		$a_cmd			command
 	*
 	*/
 	function getCommandLink($a_cmd)
 	{
-		// separate method for this line
-		$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		switch($a_cmd)
+		{
+			case "view":
+			case "join":
+				// using ilCtrl does not work on personal desktop
+				//$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $this->ref_id);
+				//$cmd_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
+				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				break;
+
+			case "edit":
+			default:
+				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				break;
+		}
 
 		return $cmd_link;
 	}
 
 
-} // END class.ilObjRootFolderGUI
+	/**
+	* Get item properties
+	*
+	* @return	array		array of property arrays:
+	*						"alert" (boolean) => display as an alert property (usually in red)
+	*						"property" (string) => property name
+	*						"value" (string) => property value
+	*/
+	function getProperties()
+	{
+		global $lng, $rbacsystem;
+
+		$props = array();
+
+		return $props;
+	}
+} // END class.ilObjGroupListGUI
 ?>
