@@ -315,6 +315,7 @@ class ilDBx extends PEAR
 	*/
 	function autoExecute($a_tablename,$a_fields,$a_mode = DB_AUTOQUERY_INSERT,$a_where = false)
 	{
+		$this->db->loadModule('Extended');
 		$res = $this->db->autoExecute($a_tablename,$a_fields,$a_mode,$a_where);
 
 		if (DB::isError($res))
