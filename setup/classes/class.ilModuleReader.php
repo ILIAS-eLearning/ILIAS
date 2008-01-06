@@ -33,22 +33,15 @@
 class ilModuleReader extends ilSaxParser
 {
 
-	function ilModuleReader()
+	function ilModuleReader($a_path)
 	{
-		$this->executed = false;
-		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/modules.xml");
+		parent::ilSaxParser($a_path);
 	}
 	
 	function getModules()
 	{
-		if (!$this->executed)
-		{
-			$this->clearTables();
-			$this->startParsing();
-			$this->executed = true;
-		}
+		$this->startParsing();
 	}
-
 	
 	function setHandlers($a_xml_parser)
 	{
@@ -61,7 +54,7 @@ class ilModuleReader extends ilSaxParser
 	/**
 	* clear the tables
 	*/
-	function clearTables()
+	static function clearTables()
 	{
 		global $ilDB;
 

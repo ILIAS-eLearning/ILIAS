@@ -1,0 +1,7 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	name="PersonalDesktop" short="pdsk" dir="Services/PersonalDesktop">
+	<baseclasses>
+		<baseclass name="ilPersonalDesktopGUI" dir="classes" />
+	</baseclasses>
+</service>

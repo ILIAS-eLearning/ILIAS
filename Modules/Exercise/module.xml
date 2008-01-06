@@ -1,0 +1,7 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	name="Exercise" short="exc" dir="Modules/Exercise">
+	<baseclasses>
+		<baseclass name="ilExerciseHandlerGUI" dir="classes" />
+	</baseclasses>
+</module>

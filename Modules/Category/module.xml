@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object short="cat" class_name="Category" dir="classes" checkbox="1"
-			checkbox="1" inherit="1" translate="db" rbac="1"
+			inherit="1" translate="db" rbac="1"
 			default_nr="10" force_active="1">
 			<subobj name="cat">cat</subobj>
 			<subobj name="crs">crs</subobj>
