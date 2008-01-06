@@ -23,7 +23,7 @@
 
 
 /**
-* Class ilObjFolderListGUI
+* Class ilObjRootFolderListGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
@@ -34,13 +34,13 @@
 
 include_once "class.ilObjectListGUI.php";
 
-class ilObjFolderListGUI extends ilObjectListGUI
+class ilObjRootFolderListGUI extends ilObjectListGUI
 {
 	/**
 	* constructor
 	*
 	*/
-	function ilObjFolderListGUI()
+	function ilObjRootFolderListGUI()
 	{
 		$this->ilObjectListGUI();
 	}
@@ -55,12 +55,12 @@ class ilObjFolderListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
-		$this->type = "fold";
-		$this->gui_class_name = "ilobjfoldergui";
+		$this->type = "root";
+		$this->gui_class_name = "ilobjrootfoldergui";
 
 		// general commands array
-		include_once('class.ilObjFolderAccess.php');
-		$this->commands = ilObjFolderAccess::_getCommands();
+		include_once('./Modules/RootFolder/classes/class.ilObjRootFolderAccess.php');
+		$this->commands = ilObjRootFolderAccess::_getCommands();
 	}
 
 	/**
@@ -79,5 +79,5 @@ class ilObjFolderListGUI extends ilObjectListGUI
 	}
 
 
-} // END class.ilObjFolderListGUI
+} // END class.ilObjRootFolderGUI
 ?>

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -81,7 +81,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 
 			case 'grp':
 				
-				include_once 'classes/class.ilObjGroup.php';
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
 
 				$members = ilObjGroup::_getMembers($a_obj_id);
 				// diff in progress and completed (use stored result in LPStatusWrapper)
@@ -162,7 +162,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		
-		include_once 'classes/class.ilObjGroup.php';
+		include_once './Modules/Group/classes/class.ilObjGroup.php';
 		$members = ilObjGroup::_getMembers($a_obj_id);
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".

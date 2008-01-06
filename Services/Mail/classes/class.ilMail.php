@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1163,7 +1163,7 @@ class ilMail
 					if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
 					{
 						include_once("./classes/class.ilObjectFactory.php");
-						include_once('./classes/class.ilObjGroup.php');
+						include_once('./Modules/Group/classes/class.ilObjGroup.php');
 						
 						foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
 						{
@@ -1302,7 +1302,7 @@ class ilMail
 				{
 					// GROUP THINGS
 					include_once("./classes/class.ilObjectFactory.php");
-					include_once('./classes/class.ilObjGroup.php');
+					include_once('./Modules/Group/classes/class.ilObjGroup.php');
 	
 					// Fix 
 					foreach(ilObjGroup::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)

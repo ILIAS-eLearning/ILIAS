@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilObject.php";
 
 /**
 * Class ilObjFolder
@@ -30,9 +31,6 @@
 *
 * @extends ilObject
 */
-
-require_once "class.ilObject.php";
-
 class ilObjFolder extends ilObject
 {
 	var $folder_tree;

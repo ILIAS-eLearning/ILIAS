@@ -2021,7 +2021,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "grp":
-				include_once "./classes/class.ilObjGroup.php";
+				include_once "./Modules/Group/classes/class.ilObjGroup.php";
 				$counter = 0;
 				foreach ($id_array as $group_id)
 				{

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
+include_once("./classes/class.ilObjectAccess.php");
 
 /**
 * Class ilObjGroupAccess
@@ -57,7 +57,7 @@ class ilObjGroupAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "info":
-				include_once 'class.ilObjGroup.php';
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
 
 				if(ilObjGroup::_isMember($a_user_id,$a_ref_id))
 				{
@@ -70,7 +70,7 @@ class ilObjGroupAccess extends ilObjectAccess
 				break;
 				
 			case "join":
-				include_once 'class.ilObjGroup.php';
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
 
 				if(ilObjGroup::_isMember($a_user_id,$a_ref_id))
 				{

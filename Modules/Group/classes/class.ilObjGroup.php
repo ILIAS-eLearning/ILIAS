@@ -21,6 +21,16 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+//TODO: function getRoleId($groupRole) returns the object-id of grouprole
+
+require_once "./classes/class.ilContainer.php";
+
+define('GRP_REGISTRATION_DIRECT',0);
+define('GRP_REGISTRATION_REQUEST',1);
+define('GRP_REGISTRATION_PASSWORD',2);
+
+
 /**
 * Class ilObjGroup
 *
@@ -31,16 +41,6 @@
 *
 * @extends ilObject
 */
-
-//TODO: function getRoleId($groupRole) returns the object-id of grouprole
-
-require_once "class.ilContainer.php";
-
-define('GRP_REGISTRATION_DIRECT',0);
-define('GRP_REGISTRATION_REQUEST',1);
-define('GRP_REGISTRATION_PASSWORD',2);
-
-
 class ilObjGroup extends ilContainer
 {
 	/**

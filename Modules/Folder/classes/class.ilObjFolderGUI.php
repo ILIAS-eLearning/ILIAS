@@ -35,7 +35,7 @@
 * @extends ilObjectGUI
 */
 
-require_once "class.ilContainerGUI.php";
+require_once "./classes/class.ilContainerGUI.php";
 
 class ilObjFolderGUI extends ilContainerGUI
 {
@@ -211,7 +211,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 
 		// create and insert Folder in grp_tree
-		include_once("classes/class.ilObjFolder.php");
+		include_once("./Modules/Folder/classes/class.ilObjFolder.php");
 		$folderObj = new ilObjFolder(0,$this->withReferences());
 		$folderObj->setType($this->type);
 		$folderObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));

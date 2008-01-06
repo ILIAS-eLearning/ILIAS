@@ -219,7 +219,7 @@ class ilFileUtils
 		}
 		if ($containerType == "Folder")
 		{
-			include_once("./classes/class.ilObjFolder.php");
+			include_once("./Modules/Folder/classes/class.ilObjFolder.php");
 			$newObj = new ilObjFolder();
 			$newObj->setType("fold");		
 		}

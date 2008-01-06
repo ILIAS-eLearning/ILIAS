@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilObject.php";
 
 /**
 * Class ilObjMail
@@ -31,9 +32,6 @@
 *
 * @extends	ilObject
 */
-
-require_once "class.ilObject.php";
-
 class ilObjMail extends ilObject
 {
 	/**
