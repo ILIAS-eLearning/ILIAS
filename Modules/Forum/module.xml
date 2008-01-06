@@ -1,0 +1,12 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	name="Forum" short="frm" dir="Modules/Forum">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="frm" class_name="Forum" location="Modules/Forum/classes"
+			module="Modules/Forum" checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
+</module>
