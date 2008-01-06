@@ -1,0 +1,16 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	name="Group" short="grp" dir="Modules/Group">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="grp" class_name="Group" dir="classes"
+			checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+			<parent short="cat">cat</parent>
+			<parent short="crs">crs</parent>
+			<parent short="grp">grp</parent>
+			<parent short="fold">fold</parent>
+		</object>
+	</objects>
+</module>

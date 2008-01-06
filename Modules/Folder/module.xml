@@ -1,0 +1,15 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	name="Folder" short="fold" dir="Modules/Folder">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="fold" class_name="Folder" location="Modules/Folder/classes"
+			module="Modules/Folder" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+			<parent short="fold">fold</parent>
+			<parent short="grp">grp</parent>
+			<parent short="crs">crs</parent>
+		</object>
+	</objects>
+</module>
