@@ -236,7 +236,14 @@ class ilSaxParser
 			require_once ('./classes/class.ilSaxParserException.php');			
 			throw new ilSaxParserException ($message, $code);
 		} else {
-			$this->ilias->raiseError($message, $code);
+			if (is_object($this->ilias))
+			{
+				$this->ilias->raiseError($message, $code);
+			}
+			else
+			{
+				die($message);
+			}
 		}
 		return false;
 	}

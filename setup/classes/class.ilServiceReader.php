@@ -33,20 +33,14 @@
 class ilServiceReader extends ilSaxParser
 {
 
-	function ilServiceReader()
+	function ilServiceReader($a_path)
 	{
-		$this->executed = false;
-		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/services.xml");
+		parent::ilSaxParser($a_path);
 	}
 	
 	function getServices()
 	{
-		if (!$this->executed)
-		{
-			$this->clearTables();
-			$this->startParsing();
-			$this->executed = true;
-		}
+		$this->startParsing();
 	}
 
 	

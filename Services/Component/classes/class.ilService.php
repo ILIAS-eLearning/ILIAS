@@ -25,52 +25,53 @@
 include_once("./Services/Component/classes/class.ilComponent.php");
 
 /**
-* ILIAS Module (Modules are ressources that can be added to the
-* ILIAS repository)
+* ILIAS Service (A service provides cross-sectional functionalities, used by 
+* other components)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @ingroup ServicesComponent
 */
-abstract class ilModule extends ilComponent
+abstract class ilService extends ilComponent
 {
 	/**
-	* Get all available core modules. Core modules are located in the
-	* main ILIAS/Modules folder and provide a module.xml file that
-	* includes information about the module.
+	* Get all available core services. Core services are located in the
+	* main ILIAS/Services folder and provide a service.xml file that
+	* includes information about the service. (please note that currently
+	* only a few services provide a service.xml file)
 	*
-	* @return	array		array of module names (strings)
+	* @return	array		array of services (assoc array, "name", "dir")
 	*/
-	final static function getAvailableCoreModules()
+	final static function getAvailableCoreServices()
 	{
-		$modules_dir = ILIAS_ABSOLUTE_PATH."/Modules";
+		$services_dir = ILIAS_ABSOLUTE_PATH."/Services";
 
-		if (!@is_dir($modules_dir))
+		if (!@is_dir($services_dir))
 		{
 			return array();
 		}
 
 		// read current directory
-		$dir = opendir($modules_dir);
+		$dir = opendir($services_dir);
 
-		$modules = array();
+		$services = array();
 		while($file = readdir($dir))
 		{
 			if ($file != "." and
 				$file != "..")
 			{
 				// directories
-				if (@is_dir($modules_dir."/".$file))
+				if (@is_dir($services_dir."/".$file))
 				{
-					if (@is_file($modules_dir."/".$file."/module.xml"))
+					if (@is_file($services_dir."/".$file."/service.xml"))
 					{
-						$modules[] = array("module" => $file, "dir" => $file);
+						$services[] = array("service" => $file, "dir" => $file);
 					}
 				}
 			}
 		}
-		return $modules;
+		return $services;
 	}
 }
 ?>

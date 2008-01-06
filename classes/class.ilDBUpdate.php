@@ -278,12 +278,31 @@ class ilDBUpdate
 		require_once "./classes/class.ilModuleReader.php";
 		require_once "./classes/class.ilServiceReader.php";
 		require_once "./classes/class.ilCtrlStructureReader.php";
-		$ilModuleReader = new ilModuleReader();
-		$ilModuleReader->getModules();
-		$ilServiceReader = new ilServiceReader();
-		$ilServiceReader->getServices();
+		chdir("..");
+		require_once "./Services/Component/classes/class.ilModule.php";
+		require_once "./Services/Component/classes/class.ilService.php";
+		$modules = ilModule::getAvailableCoreModules();
+		$services = ilService::getAvailableCoreServices();
+		chdir("./setup");
+
+		ilModuleReader::clearTables();
+		foreach($modules as $module)
+		{
+			$mr = new ilModuleReader(ILIAS_ABSOLUTE_PATH."/Modules/".$module["dir"]."/module.xml");
+			$mr->getModules();
+			unset($mr);
+		}
+		
+		ilServiceReader::clearTables();
+		foreach($services as $service)
+		{
+			$sr = new ilServiceReader(ILIAS_ABSOLUTE_PATH."/Services/".$service["dir"]."/service.xml");
+			$sr->getServices();
+			unset($sr);
+		}
+		
 		$ilCtrlStructureReader->readStructure();
-				
+		
 		return true;
 	}
 
