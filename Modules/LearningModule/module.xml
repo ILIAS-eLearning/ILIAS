@@ -1,0 +1,28 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	name="ILIASLearningModule" short="lm" dir="Modules/LearningModule">
+	<baseclasses>
+		<baseclass name="ilLMEditorGUI" dir="classes" />
+		<baseclass name="ilLMPresentationGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object short="lm" class_name="LearningModule" dir="classes" checkbox="1"
+			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
+			default_nr="130">
+			<subobj short="rolf" max="1">rolf</subobj>
+			<parent short="cat">cat</parent>
+			<parent short="crs">crs</parent>
+			<parent short="grp">grp</parent>
+			<parent short="fold">fold</parent>
+		</object>
+		<object short="dbk" class_name="DlBook" dir="classes" checkbox="1"
+			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
+			default_nr="170">
+			<subobj short="rolf" max="1">rolf</subobj>
+			<parent short="cat">cat</parent>
+			<parent short="crs">crs</parent>
+			<parent short="grp">grp</parent>
+			<parent short="fold">fold</parent>
+		</object>
+	</objects>
+</module>

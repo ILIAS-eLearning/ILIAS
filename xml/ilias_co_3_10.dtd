@@ -65,7 +65,7 @@
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (((MetaData, PageContent*) | PageAlias), Layout?)>
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -470,6 +470,12 @@
 	QRef CDATA #REQUIRED
 >
 
+<!-- Section -->
+<!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
+<!ELEMENT Section (PageContent*)>
+<!ATTLIST List
+	StyleClass CDATA #IMPLIED
+>
 
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->

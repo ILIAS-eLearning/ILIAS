@@ -301,6 +301,10 @@ assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
 assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
+common#:#obj_cmps#:#Modules, Services and Plugins
+common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.
+common#:#cmps_edit_settings#:#Settings
+cmps#:#cmps_modules#:#Modules
 common#:#user_profile_instant_messengers#:#Instant Messengers
 common#:#instant_messengers#:#Instant Messengers
 common#:#im_icq#:#ICQ
@@ -4260,6 +4264,7 @@ content#:#cont_ed_insert_list#:#Insert List
 content#:#cont_ed_insert_media#:#Insert Media
 content#:#cont_ed_insert_par#:#Insert Paragr.
 content#:#cont_ed_insert_table#:#Insert Table
+content#:#cont_ed_insert_section#:#Insert Section
 content#:#cont_ed_item_down#:#Move Item Down
 content#:#cont_ed_item_up#:#Move Item Up
 content#:#cont_ed_moveafter#:#Move After
