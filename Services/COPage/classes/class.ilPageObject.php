@@ -531,7 +531,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xml = "<LVs>";
 		$lang_vars = array("ed_insert_par", "ed_insert_code",
 			"ed_insert_table", "ed_insert_media", "ed_insert_list",
-			"ed_insert_filelist", "ed_paste_clip", "ed_edit",
+			"ed_insert_filelist", "ed_paste_clip", "ed_edit", "ed_insert_section",
 			"ed_edit_prop", "ed_delete", "ed_moveafter", "ed_movebefore",
 			"ed_go", "ed_new_row_after", "ed_new_row_before",
 			"ed_new_col_after", "ed_new_col_before", "ed_delete_col",

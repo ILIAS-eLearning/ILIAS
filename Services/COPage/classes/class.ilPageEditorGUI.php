@@ -183,7 +183,7 @@ $this->ctrl->debug("hier_id:".$hier_id);
 		$com = explode("_", $cmd);
 		$cmd = $com[0];
 
-$this->ctrl->debug("hier_id:$hier_id:cmd:$cmd:");
+//$this->ctrl->debug("hier_id:$hier_id:cmd:$cmd:");
 		$next_class = $this->ctrl->getNextClass($this);
 
 		// determine content type
@@ -296,6 +296,10 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 
 				case "pcqst":
 					$this->ctrl->setCmdClass("ilPCQuestionGUI");
+					break;
+
+				case "sec":
+					$this->ctrl->setCmdClass("ilPCSectionGUI");
 					break;
 			}
 			$next_class = $this->ctrl->getNextClass($this);

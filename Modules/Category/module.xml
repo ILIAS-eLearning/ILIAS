@@ -1,0 +1,38 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	name="Category" short="cat" dir="Modules/Category">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="cat" class_name="Category" dir="classes" checkbox="1"
+			checkbox="1" inherit="1" translate="db" rbac="1"
+			default_nr="10" force_active="1">
+			<subobj name="cat">cat</subobj>
+			<subobj name="crs">crs</subobj>
+			<subobj name="rcrs">crs</subobj>
+			<subobj name="grp">grp</subobj>
+			<subobj name="chat">chat</subobj>
+			<subobj name="frm">frm</subobj>
+			<subobj name="feed">feed</subobj>
+			<subobj name="file">file</subobj>
+			<subobj name="webr">webr</subobj>
+			<subobj name="mcst">mcst</subobj>
+			<subobj name="wiki">wiki</subobj>
+			<subobj name="lm">lm</subobj>
+			<subobj name="htlm">htlm</subobj>
+			<subobj name="sahs">sahs</subobj>
+			<subobj name="dbk">dbk</subobj>
+			<subobj name="glo">glo</subobj>
+			<subobj name="exc">exc</subobj>
+			<subobj name="tst">tst</subobj>
+			<subobj name="svy">svy</subobj>
+			<subobj name="mep">mep</subobj>
+			<subobj name="qpl">qpl</subobj>
+			<subobj name="spl">spl</subobj>
+			<subobj name="icrs">icrs</subobj>
+			<subobj name="rolf" max="1">rolf</subobj>
+			<parent short="cat">cat</parent>
+			<parent short="root">root</parent>
+		</object>
+	</objects>
+</module>

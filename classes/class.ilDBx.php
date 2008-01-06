@@ -24,7 +24,8 @@
 
 
 //pear DB abstraction layer
-require_once ("DB.php");
+//require_once ("DB.php");
+require_once ("MDB2.php");
 
 /**
 * Database Wrapper
@@ -90,7 +91,12 @@ class ilDBx extends PEAR
 		$this->dsn = $dsn;
 
 		//connect to database
-		$this->db = DB::connect($this->dsn, true);
+		//$this->db = DB::connect($this->dsn, true);
+		$this->db = MDB2::connect($this->dsn);
+		
+		// set empty value portability to PEAR::DB behaviour
+		$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
+		$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
 
 		//check error
 		if (DB::isError($this->db)) {
@@ -184,6 +190,8 @@ class ilDBx extends PEAR
 	{
 		if ($null_as_empty_string)
 		{
+			// second test against 0 is crucial for MDB2
+			//if ($a_query == "" && $a_query !== 0)
 			if ($a_query == "")
 			{
 				$a_query = "";
@@ -221,7 +229,9 @@ class ilDBx extends PEAR
 	*/
 	function getRow($sql,$mode = DB_FETCHMODE_OBJECT)
 	{
-		$r = $this->db->getrow($sql,$mode);
+		$set = $this->query($sql);
+		$r = $set->fetchRow($mode);
+		//$r = $this->db->getrow($sql,$mode);
 
 		if (DB::isError($r))
 		{

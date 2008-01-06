@@ -503,6 +503,12 @@
 		<xsl:with-param name="command">insert_flst</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
 	</xsl:call-template>
+
+	<!-- insert section -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_sec</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
+	</xsl:call-template>
 	
 	<!-- paste from clipboard -->
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
