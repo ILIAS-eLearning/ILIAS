@@ -1345,7 +1345,7 @@ class ilObject
 		}
 		else
 		{
-			include_once ("classes/class.ilObjRoleFolder.php");
+			include_once ("./Services/AccessControl/classes/class.ilObjRoleFolder.php");
 			$rfoldObj = new ilObjRoleFolder();
 			$rfoldObj->setTitle($this->getId());
 			$rfoldObj->setDescription(" (ref_id ".$this->getRefId().")");

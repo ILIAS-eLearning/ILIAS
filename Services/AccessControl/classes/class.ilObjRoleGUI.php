@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "./classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjRoleGUI
@@ -482,7 +482,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		// save
-		include_once("class.ilObjRole.php");
+		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
 		$roleObj = new ilObjRole();
 		$roleObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$roleObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
@@ -1761,7 +1761,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function __search($a_search_string,$a_search_for)
 	{
-		include_once("class.ilSearch.php");
+		include_once("./classes/class.ilSearch.php");
 
 		$this->lng->loadLanguageModule("content");
 		$search =& new ilSearch($_SESSION["AccountId"]);

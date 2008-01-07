@@ -1,0 +1,15 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	name="Object" short="obj" dir="Services/Object">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="typ" class_name="TypeDefinition" dir="classes"
+			checkbox="0" inherit="0" translate="0" rbac="0">
+		</object>
+		<object short="objf" class_name="ObjectFolder" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1" system="1">
+			<subobj name="typ">typ</subobj>
+		</object>
+	</objects>
+</service>

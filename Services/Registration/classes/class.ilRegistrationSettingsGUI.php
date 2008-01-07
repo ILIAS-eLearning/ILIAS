@@ -187,7 +187,7 @@ class ilRegistrationSettingsGUI
 
 	function editRoles()
 	{
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
 		global $ilAccess,$ilErr,$rbacreview;
 		
@@ -320,7 +320,7 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("BTN_CANCEL",$lng->txt('cancel'));
 
 		$counter = 0;
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 			
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
@@ -452,7 +452,7 @@ class ilRegistrationSettingsGUI
 
 		$this->__initRoleAccessLimitations();
 		
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
@@ -489,7 +489,7 @@ class ilRegistrationSettingsGUI
 
 	function __prepareRoleList()
 	{
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
@@ -501,7 +501,7 @@ class ilRegistrationSettingsGUI
 
 	function __prepareAutomaticRoleList()
 	{
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$this->__initRoleAssignments();
 		
 		foreach($this->assignments_obj->getAssignments() as $assignment)
@@ -534,7 +534,7 @@ class ilRegistrationSettingsGUI
 		
 		$this->__initRoleAccessLimitations();
 		
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
@@ -632,7 +632,7 @@ class ilRegistrationSettingsGUI
 
 	function __buildRoleSelection($assignment_id)
 	{
-		include_once 'classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
 		global $rbacreview;
 

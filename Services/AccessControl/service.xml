@@ -1,0 +1,19 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	name="AccessControl" short="rbac" dir="Services/AccessControl">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="rolf" class_name="RoleFolder" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+			<subobj name="rolt">rolt</subobj>
+			<subobj name="role">role</subobj>
+		</object>
+		<object short="role" class_name="Role"
+			checkbox="1" inherit="0" translate="0" rbac="0">
+		</object>
+		<object short="rolt" class_name="RoleTemplate"
+			checkbox="1" inherit="0" translate="0" rbac="0">
+		</object>
+	</objects>
+</service>

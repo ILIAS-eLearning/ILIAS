@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "./classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjRoleFolderGUI
@@ -129,7 +129,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
         $counter = 0;
         
-        include_once ('class.ilObjRole.php');
+        include_once ('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		foreach ($role_list as $role)
 		{

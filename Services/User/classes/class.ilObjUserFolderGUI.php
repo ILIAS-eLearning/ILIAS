@@ -1728,7 +1728,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tabs_gui->clearTargets();
 		}
 
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 		
 		global $rbacreview, $rbacsystem, $tree, $lng;
@@ -2074,7 +2074,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tabs_gui->clearTargets();
 		}
 		
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 
 		global $rbacreview, $rbacsystem, $tree, $lng;

@@ -237,7 +237,7 @@ class ilObjUserGUI extends ilObjectGUI
 			// allow only 'assign_users' marked roles if called from category
 			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 			{
-				include_once './classes/class.ilObjRole.php';
+				include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
@@ -2036,7 +2036,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$rbacadmin->assignUser($role,$this->object->getId(),false);
 		}
 		
-        include_once "./classes/class.ilObjRole.php";
+        include_once "./Services/AccessControl/classes/class.ilObjRole.php";
 
 		// update object data entry (to update last modification date)
 		$this->object->update();
@@ -2094,7 +2094,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         $counter = 0;
         
-        include_once ('./classes/class.ilObjRole.php');
+        include_once ('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		foreach ($role_list as $role)
 		{

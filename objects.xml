@@ -242,31 +242,30 @@
 	<property name="perm">perm_settings</property>
 	<property name="import">mail_import</property>
 </object>
-<object name="objf" class_name="ObjectFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1" system="1">
+<object name="objf" class_name="ObjectFolder" location="Services/Object/classes" module="Services/Object" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1" system="1">
 	<subobj name="typ">typ</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 </object>
-<!-- to go -->
-<object name="role" class_name="Role" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
+<object name="role" class_name="Role" location="Services/AccessControl/classes" module="Services/AccessControl" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">default_perm_settings</property>
 	<property name="userassignment">user_assignment</property>
 	<property name="listDesktopItems">desktop_items</property>
 </object>
-<object name="rolf" class_name="RoleFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<object name="rolf" class_name="RoleFolder" location="Services/AccessControl/classes" module="Services/AccessControl" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<subobj name="rolt">rolt</subobj>
 	<subobj name="role">role</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="rolt" class_name="RoleTemplate" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
+<object name="rolt" class_name="RoleTemplate" location="Services/AccessControl/classes" module="Services/AccessControl" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">default_perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="typ" class_name="TypeDefinition" location="classes" checkbox="0" inherit="0" translate="0" rbac="0">
+<object name="typ" class_name="TypeDefinition" location="Services/Object/classes" module="Services/Object" checkbox="0" inherit="0" translate="0" rbac="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_operations</property>
 </object>
@@ -288,6 +287,7 @@
 	<action name="accessFree">accessFree</action>
 	<action name="export">export</action>
 </object>
+<!-- to go -->
 <object name="st">
 	<property name="view">cont_pages</property>
 	<property name="subchap">cont_subchapters</property>

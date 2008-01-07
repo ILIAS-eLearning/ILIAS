@@ -881,7 +881,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	 	}
 	 	foreach($real_local as $role)
 	 	{
-			include_once ("classes/class.ilObjRole.php");
+			include_once ("./Services/AccessControl/classes/class.ilObjRole.php");
 	 		$orig = new ilObjRole($role);
 	 		$orig->read();
 	 		

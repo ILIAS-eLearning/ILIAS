@@ -1064,7 +1064,7 @@ class ilRbacReview
 	*/
 	function getGlobalAssignableRoles()
 	{
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
 		foreach($this->getGlobalRoles() as $role_id)
 		{

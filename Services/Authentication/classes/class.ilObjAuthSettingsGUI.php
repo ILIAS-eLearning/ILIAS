@@ -190,7 +190,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ROLE_AUTH_MODE", $this->lng->txt("auth_role_auth_mode"));
 		$this->tpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
 		
-		include_once("classes/class.ilObjRole.php");
+		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
 		$reg_roles = ilObjRole::_lookupRegisterAllowed();
 		
 		// auth mode selection
@@ -1382,7 +1382,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		include_once('classes/class.ilObjRole.php');
+		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 		ilObjRole::_updateAuthMode($_POST['Fobject']);
 		
 		ilUtil::sendInfo($this->lng->txt("auth_mode_roles_changed"),true);

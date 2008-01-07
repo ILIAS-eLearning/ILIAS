@@ -1439,7 +1439,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	function mailMembersObject()
 	{
 		global $rbacreview, $ilObjDataCache;
-		include_once('classes/class.ilObjRole.php');
+		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
 

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -597,7 +597,7 @@ class ilRegistrationGUI
 		global $ilDB,$ilias,$ilErr,$lng;
 
 		// validate role
-		include_once("classes/class.ilObjRole.php");
+		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
 		if ($this->registration_settings->roleSelectionEnabled() and 
 			!ilObjRole::_lookupAllowRegister($_POST["user"]["default_role"]))
 		{
@@ -638,7 +638,7 @@ class ilRegistrationGUI
 		}
 		
 		// TODO put query in a function
-		include_once("classes/class.ilObjRole.php");
+		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
 		$reg_roles = ilObjRole::_lookupRegisterAllowed();
 
 		$rol = array();
