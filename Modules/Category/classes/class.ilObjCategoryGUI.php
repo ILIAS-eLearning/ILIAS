@@ -96,7 +96,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->checkPermission("read");
 				$this->prepareOutput();
 				$this->getSubItems();
-				include_once("classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
 				$this->renderObject();
@@ -141,7 +141,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				}
 
 				$this->prepareOutput();
-				include_once("classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
 

@@ -33,8 +33,8 @@
 * @extends ilObjectGUI
 */
 
-require_once "class.ilObjectGUI.php";
-require_once "class.ilObjStyleSheet.php";
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Style/classes/class.ilObjStyleSheet.php";
 
 class ilObjStyleSheetGUI extends ilObjectGUI
 {
@@ -596,7 +596,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 //echo "HH"; exit;
 		$class_name = "ilObjStyleSheet";
-		require_once("classes/class.ilObjStyleSheet.php");
+		require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$newObj = new ilObjStyleSheet();
 		$newObj->setTitle($_POST["style_title"]);
 		$newObj->setDescription($_POST["style_description"]);
@@ -699,7 +699,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 
 		$class_name = "ilObjStyleSheet";
-		require_once("classes/class.ilObjStyleSheet.php");
+		require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$newObj = new ilObjStyleSheet();
 		//$newObj->setTitle();
 		//$newObj->setDescription($_POST["style_description"]);

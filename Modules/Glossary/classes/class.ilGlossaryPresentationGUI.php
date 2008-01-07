@@ -597,7 +597,7 @@ class ilGlossaryPresentationGUI
 	function media($a_mode = "media")
 	{
 		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
-		include_once("classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));

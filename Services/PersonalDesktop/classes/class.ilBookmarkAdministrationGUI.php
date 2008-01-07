@@ -852,7 +852,7 @@ return;
 	*/
 	function confirm()
 	{
-		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
+		global $tree, $rbacsystem, $rbacadmin;
 
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_SESSION["saved_post"]))
@@ -904,92 +904,19 @@ return;
 	}
 
 
-
-	/**
-	* display copy, paste, ... actions
-	*/
-	function showActions()
-	{
-		global $objDefinition;
-
-		$notoperations = array();
-		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
-		if (empty($_SESSION["clipboard"]))
-		{
-			$notoperations[] = "paste";
-			$notoperations[] = "clear";
-		}
-		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
-		if ($_SESSION["clipboard"])
-		{
-			$notoperations[] = "cut";
-			$notoperations[] = "copy";
-			$notoperations[] = "link";
-		}
-
-		$operations = array();
-
-		$d = $objDefinition->getActions("bmf");
-
-		foreach ($d as $row)
-		{
-			if (!in_array($row["name"], $notoperations))
-			{
-				$operations[] = $row;
-			}
-		}
-
-		if (count($operations)>0)
-		{
-			foreach ($operations as $val)
-			{
-				$this->tpl->setCurrentBlock("operation_btn");
-				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
-				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("operation");
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-
 	/**
 	* display subobject addition selection
 	*/
 	function showPossibleSubObjects()
 	{
-		global $objDefinition;
-		$d = $objDefinition->getCreatableSubObjects("bmf");
 		$actions = array(
 				"delete"=>$this->lng->txt("delete"),
 				"export"=>$this->lng->txt("export"),
 				"sendmail"=>$this->lng->txt("bkm_sendmail"),
 		);
 
-		if (count($d) > 0)
-		{
-			foreach ($d as $row)
-			{
-				$count = 0;
-				if ($row["max"] > 0)
-				{
-					//how many elements are present?
-					for ($i=0; $i<count($this->data["ctrl"]); $i++)
-					{
-						if ($this->data["ctrl"][$i]["type"] == $row["name"])
-						{
-							$count++;
-						}
-					}
-				}
-				if ($row["max"] == "" || $count < $row["max"])
-				{
-					$subobj[] = $row["name"];
-				}
-			}
-		}
-
+		$subobj = array("bm", "bmf");
+		
 		if (is_array($subobj))
 		{
 			//build form

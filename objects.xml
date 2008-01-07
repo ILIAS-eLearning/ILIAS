@@ -288,36 +288,10 @@
 	<action name="export">export</action>
 </object>
 <!-- to go -->
-<object name="st">
-	<property name="view">cont_pages</property>
-	<property name="subchap">cont_subchapters</property>
-	<property name="listConditions">preconditions</property>
-	<subobj name="st">st</subobj>
-	<subobj name="pg">pg</subobj>
-	<action name="delete">delete</action>
-</object>
-<object name="pg">
-	<property name="view">edit</property>
-	<property name="preview">cont_preview</property>
-	<property name="editMeta">meta_data</property>
-	<property name="clipboard">clipboard</property>
-	<subobj name="par">par</subobj>
-</object>
-<object name="bmf" class_name="BookmarkFolder" checkbox="1" inherit="0" translate="0" rbac="0">
-	<subobj name="bmf">bmf</subobj>
-	<subobj name="bm">bm</subobj>
-	<action name="delete">delete</action>
-</object>
-<object name="bm" class_name="Bookmark" checkbox="1" inherit="0" translate="0" rbac="0">
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
-	<action name="delete_favorite">delete_favorite</action>
-</object>
-<object name="sty" class_name="StyleSheet" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
+<object name="sty" class_name="StyleSheet" location="Services/Style/classes" module="Services/Style" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="view">cont_content</property>
 </object>
-<object name="stys" class_name="StyleSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<object name="stys" class_name="StyleSettings" location="Services/Style/classes" module="Services/Style" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<subobj name="sty">sty</subobj>
 	<property name="editBasicSettings">basic_settings</property>
 	<property name="editSystemStyles">system_styles</property>

@@ -114,7 +114,7 @@ class ilInitialisation
 		require_once "classes/class.ilFormat.php";
 		require_once "classes/class.ilSaxParser.php";
 		require_once "classes/class.ilObjectDefinition.php";
-		require_once "classes/class.ilStyleDefinition.php";
+		require_once "./Services/Style/classes/class.ilStyleDefinition.php";
 		require_once "./Services/Tree/classes/class.ilTree.php";
 		require_once "./Services/Language/classes/class.ilLanguage.php";
 		require_once "./Services/Logging/classes/class.ilLog.php";
@@ -535,7 +535,7 @@ class ilInitialisation
 
 		if ($_GET['skin']  && $_GET['style'])
 		{
-			include_once("classes/class.ilObjStyleSettings.php");
+			include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 			if ($styleDefinition->styleExists($_GET['skin'], $_GET['style']) &&
 				ilObjStyleSettings::_lookupActivatedStyle($_GET['skin'], $_GET['style']))
 			{
@@ -545,7 +545,7 @@ class ilInitialisation
 		}
 		if ($_SESSION['skin'] && $_SESSION['style'])
 		{
-			include_once("classes/class.ilObjStyleSettings.php");
+			include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 			if ($styleDefinition->styleExists($_SESSION['skin'], $_SESSION['style']) &&
 				ilObjStyleSettings::_lookupActivatedStyle($_SESSION['skin'], $_SESSION['style']))
 			{

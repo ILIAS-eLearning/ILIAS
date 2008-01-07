@@ -30,7 +30,7 @@
 *
 * @extends ilSaxParser
 */
-require_once("classes/class.ilSaxParser.php");
+require_once("./classes/class.ilSaxParser.php");
 
 class ilStyleDefinition extends ilSaxParser
 {
