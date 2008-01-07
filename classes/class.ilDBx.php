@@ -378,9 +378,10 @@ class ilDBx extends PEAR
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
 		}
 		$res = $this->db->query($query);
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->max_allowed_packet_size = $row->Value;
+			$this->max_allowed_packet_size = $row->value;
 		}
 		#var_dump("<pre>",$this->max_allowed_packet_size,"<pre>");
 		return true;

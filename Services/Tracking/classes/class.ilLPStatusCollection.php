@@ -62,7 +62,7 @@ class ilLPStatusCollection extends ilLPStatus
 				return $users;
 
 			case 'grp':
-				include_once 'classes/class.ilObjGroup.php';
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
 				$members = ilObjGroup::_getMembers($a_obj_id);
 
 				// diff in progress and completed (use stored result in LPStatusWrapper)
@@ -112,14 +112,14 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 				$members = $members_obj->getParticipants();
 				$users = array_intersect($members,(array) $users);
 				break;
 				
 			case 'grp':
-				include_once 'classes/class.ilObjGroup.php';
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
 				$members = ilObjGroup::_getMembers($a_obj_id);
 				$users = array_intersect($members,(array) $users);
 				break;
@@ -171,13 +171,13 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 				$users = array_intersect($member_obj->getParticipants(),(array) $users);
 				break;
 
 			case 'grp':
-				include_once 'classes/class.ilObjGroup.php';
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
 				$members = ilObjGroup::_getMembers($a_obj_id);
 				$users = array_intersect($members,(array) $users);
 				break;
@@ -213,7 +213,7 @@ class ilLPStatusCollection extends ilLPStatus
 				break;
 				
 			case 'grp':
-				include_once 'classes/class.ilObjGroup.php';
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
 				$members = ilObjGroup::_getMembers($a_obj_id);
 				$users = array_intersect($members,(array) $users);
 				break;

@@ -1125,6 +1125,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$ilDB->quote($this->getParentId()).",".
 			$ilDB->quote($this->getXMLContent()).
 			", ".$ilDB->quote($this->getParentType()).", now())";
+
 		if(!$this->ilias->db->checkQuerySize($query))
 		{
 			$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
