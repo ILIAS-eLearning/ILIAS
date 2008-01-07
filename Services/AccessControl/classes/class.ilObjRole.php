@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "class.ilObject.php";
+require_once "./classes/class.ilObject.php";
 
 /**
 * Class ilObjRole
@@ -326,7 +326,7 @@ class ilObjRole extends ilObject
 				$rbacadmin->deleteRole($this->getId(),$this->getParent());
 
 				// Delete ldap role group mappings
-				include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php');
+				include_once('./Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php');
 				ilLDAPRoleGroupMappingSettings::_deleteByRole($this->getId());
 
 				// delete object_data entry

@@ -134,7 +134,7 @@ class ilCategoryImportParser extends ilSaxParser
 				  }
  
 				  include_once ("classes/class.ilObject.php");
-				  include_once ("classes/class.ilObjRole.php");
+				  include_once ("./Services/AccessControl/classes/class.ilObjRole.php");
   
 				  // create a rolefolder
 				  $rolfObj = $this->category->createRoleFolder("Local roles","Role Folder of category obj_no. ".$this->category->getRefId());

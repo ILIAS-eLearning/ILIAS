@@ -2190,7 +2190,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem,$ilObjDataCache;
 		
-		include_once('classes/class.ilObjRole.php');
+		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
@@ -4239,7 +4239,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function mailMembersObject()
 	{
 		global $rbacreview, $ilErr, $ilAccess, $ilObjDataCache;			
-		include_once('classes/class.ilObjRole.php');
+		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
 
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());

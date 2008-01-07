@@ -644,7 +644,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 		include_once './Services/User/classes/class.ilUserImportParser.php';
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once './classes/class.ilObjectFactory.php';
 		global $rbacreview, $rbacsystem, $tree, $lng,$ilUser;
 
@@ -1024,7 +1024,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		include_once './classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		global $ilDB, $rbacreview, $rbacsystem, $tree,$ilUser;
 
 

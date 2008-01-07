@@ -2058,7 +2058,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "role":
-				include_once "./classes/class.ilObjRole.php";
+				include_once "./Services/AccessControl/classes/class.ilObjRole.php";
 				$counter = 0;
 				foreach ($id_array as $role_id)
 				{

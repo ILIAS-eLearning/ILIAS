@@ -3621,7 +3621,7 @@ class ilObjUser extends ilObject
 	*/
 	function getProfileAsString(&$a_language)
 	{
-		include_once 'classes/class.ilObjRole.php';
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once 'classes/class.ilFormat.php';
 
 		global $lng,$rbacreview;

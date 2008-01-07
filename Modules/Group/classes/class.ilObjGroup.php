@@ -1143,7 +1143,7 @@ class ilObjGroup extends ilContainer
 	{
 		global $ilDB,$ilBench;
 
-		include_once ('class.ilObjRole.php');
+		include_once ('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		$ilBench->start("Group", "getMemberRolesTitle");
 

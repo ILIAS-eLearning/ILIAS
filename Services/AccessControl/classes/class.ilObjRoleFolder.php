@@ -22,7 +22,7 @@
 */
 
 
-require_once "class.ilObject.php";
+require_once "./classes/class.ilObject.php";
 
 /**
 * Class ilObjRoleFolder
@@ -103,7 +103,7 @@ class ilObjRoleFolder extends ilObject
 	{
 		global $rbacadmin, $rbacreview;
 		
-		include_once ("classes/class.ilObjRole.php");
+		include_once ("./Services/AccessControl/classes/class.ilObjRole.php");
 		$roleObj = new ilObjRole();
 		$roleObj->setTitle($a_title);
 		$roleObj->setDescription($a_desc);

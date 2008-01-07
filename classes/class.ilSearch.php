@@ -261,7 +261,7 @@ class ilSearch
 					break;
 
 				case "role":
-					include_once "./classes/class.ilObjRole.php";
+					include_once "./Services/AccessControl/classes/class.ilObjRole.php";
 
 					$this->act_type = 'role';
 					$result["role"] = ilObjRole::_search($this);

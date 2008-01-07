@@ -535,7 +535,7 @@ class ilObjiLincCourse extends ilObject
 	{
 		global $ilDB,$ilBench;
 		
-		include_once ('classes/class.ilObjRole.php');
+		include_once ('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		$str_member_roles ="";
 
