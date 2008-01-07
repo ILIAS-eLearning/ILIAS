@@ -693,7 +693,7 @@ class ilPersonalProfileGUI
 		}
 		
 		// get all templates
-		include_once("classes/class.ilObjStyleSettings.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		$templates = $styleDefinition->getAllTemplates();
 		
 		if ($this->userSettingVisible("skin_style"))
@@ -1979,7 +1979,7 @@ exit; // comes later
 		}
 
 		// skin/style
-		include_once("classes/class.ilObjStyleSettings.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		$templates = $styleDefinition->getAllTemplates();
 		if ($this->userSettingVisible("skin_style"))
 		{

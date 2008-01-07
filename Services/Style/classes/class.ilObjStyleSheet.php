@@ -22,7 +22,7 @@
 */
 
 
-require_once "classes/class.ilObject.php";
+require_once "./classes/class.ilObject.php";
 
 /**
 * Class ilObjStyleSheet
@@ -866,7 +866,7 @@ class ilObjStyleSheet extends ilObject
 		global $ilDB;
 		
 		parent::create();		
-		include_once("classes/class.ilStyleImportParser.php");
+		include_once("./Services/Style/classes/class.ilStyleImportParser.php");
 		$importParser = new ilStyleImportParser($a_file, $this);
 		$importParser->startParsing();
 		

@@ -105,7 +105,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 			case "ilobjstylesheetgui":
 				$this->addLocations();
-				include_once ("classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "properties");
 				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -1308,7 +1308,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$style_file = $newObj->getImportDirectory()."/".$subdir."/style.xml";
 		if (is_file($style_file))
 		{
-			require_once("classes/class.ilObjStyleSheet.php");
+			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet();
 			$style->createFromXMLFile($style_file);
 			$newObj->writeStyleSheetId($style->getId());

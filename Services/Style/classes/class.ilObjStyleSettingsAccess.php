@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
+include_once("./classes/class.ilObjectAccess.php");
 
 /**
 * Class ilObjRootFolderAccess

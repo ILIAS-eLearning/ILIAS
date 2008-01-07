@@ -64,7 +64,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		$this->obj =& $a_pg_obj;
 		$this->obj->setLMId($this->content_object->getId());
-		$this->actions = $this->objDefinition->getActions($this->obj->getType());
 	}
 
 	/**

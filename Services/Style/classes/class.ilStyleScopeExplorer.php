@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilExplorer.php");
+include_once("./classes/class.ilExplorer.php");
 
 /**
 * Class ilStyleScopyExplorer

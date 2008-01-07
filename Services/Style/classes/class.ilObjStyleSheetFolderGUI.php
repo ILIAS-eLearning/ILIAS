@@ -36,7 +36,7 @@
 // THIS CLASS IS CURRENTLY NOT IN USE
 //
 //
-include_once "class.ilObjectGUI.php";
+include_once "./classes/class.ilObjectGUI.php";
 
 class ilObjStyleSheetFolderGUI extends ilObjectGUI
 {
@@ -143,7 +143,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 
 		$this->showActions(true);
 
-		include_once ("classes/class.ilObjStyleSheet.php");
+		include_once ("./Services/Style/classes/class.ilObjStyleSheet.php");
 		
 		$fixed_style = $ilias->getSetting("fixed_content_style_id");
 		$default_style = $ilias->getSetting("default_content_style_id");

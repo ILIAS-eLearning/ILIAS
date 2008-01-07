@@ -32,7 +32,7 @@
 * @extends ilObjectGUI
 */
 
-include_once "class.ilObjectGUI.php";
+include_once "./classes/class.ilObjectGUI.php";
 
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {
@@ -290,7 +290,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->showActions(true);
 		$table_empty = true;
 
-		include_once ("classes/class.ilObjStyleSheet.php");
+		include_once ("./Services/Style/classes/class.ilObjStyleSheet.php");
 		
 		$fixed_style = $ilias->getSetting("fixed_content_style_id");
 		$default_style = $ilias->getSetting("default_content_style_id");
@@ -858,7 +858,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function saveActiveStylesObject()
 	{
-		include_once("classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$styles = $this->object->getStyles();
 		foreach($styles as $style)
 		{
@@ -942,7 +942,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.explorer.html");
 		
-		include_once ("classes/class.ilStyleScopeExplorer.php");
+		include_once ("./Services/Style/classes/class.ilStyleScopeExplorer.php");
 		$exp = new ilStyleScopeExplorer("repository.php?cmd=goto");
 		$exp->setExpandTarget("repository.php?cmd=showTree");
 		$exp->setTargetGet("ref_id");
@@ -976,7 +976,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		global $ilias;
 		
-		include_once("classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		if ($_GET["cat"] == 0)
 		{
 			$_GET["cat"] == "";

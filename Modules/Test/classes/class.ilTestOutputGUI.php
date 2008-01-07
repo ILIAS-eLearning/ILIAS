@@ -212,7 +212,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$active_time_id = $this->object->startWorkingTime($this->object->getTestSession()->getActiveId(), $this->object->getTestSession()->getPass());
 		$_SESSION["active_time_id"] = $active_time_id;
 
-		include_once("classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 		ilObjStyleSheet::getContentStylePath(0));
@@ -1500,7 +1500,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
 
-		include_once("classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();

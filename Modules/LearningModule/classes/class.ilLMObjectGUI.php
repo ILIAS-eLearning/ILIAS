@@ -38,7 +38,6 @@ class ilLMObjectGUI
 	var $tpl;
 	var $lng;
 	var $obj;
-	var $objDefinition;
 	var $ctrl;
 	var $content_object;
 	var $actions;
@@ -51,13 +50,12 @@ class ilLMObjectGUI
 	*/
 	function ilLMObjectGUI(&$a_content_obj)
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
+		global $ilias, $tpl, $lng, $ilCtrl;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
-		$this->objDefinition =& $objDefinition;
 		$this->content_object =& $a_content_obj;
 	}
 
@@ -247,36 +245,6 @@ class ilLMObjectGUI
 		$this->ctrl->redirect($this, $_GET["backcmd"]);
 	}
 
-
-	/**
-	* display subobject selection
-	*
-	* @param	string		$a_type		parent object type
-	*/
-	function showPossibleSubObjects($a_type)
-	{
-		$d = $this->objDefinition->getCreatableSubObjects($a_type);
-		if (count($d) > 0)
-		{
-			foreach ($d as $row)
-			{
-				$subobj[] = $row["name"];
-			}
-		}
-
-		if (is_array($subobj))
-		{
-			//build form
-			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-			//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setCurrentBlock("add_object");
-			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("BTN_NAME", "create");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$this->tpl->parseCurrentBlock();
-		}
-	}
 
 	/**
 	* output a cell in object list

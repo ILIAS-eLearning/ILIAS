@@ -22,7 +22,7 @@
 */
 
 
-require_once("classes/class.ilSaxParser.php");
+require_once("./classes/class.ilSaxParser.php");
 
 /**
 * Style Import Parser

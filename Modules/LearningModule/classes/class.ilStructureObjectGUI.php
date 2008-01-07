@@ -61,7 +61,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function setStructureObject(&$a_st_object)
 	{
 		$this->obj =& $a_st_object;
-		$this->actions = $this->objDefinition->getActions("st");
 	}
 	
 	
@@ -723,12 +722,22 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $ilTabs;
 
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
-		//$this->getTabs($tabs_gui);
-		$ilTabs->getTargetsByObjectType($this, "st");
+		// pages
+		$ilTabs->addTarget("cont_pages",
+			 $this->ctrl->getLinkTarget($this,'view'),
+			 "view", get_class($this));
 
+		// subchapters
+		$ilTabs->addTarget("cont_subchapters",
+			 $this->ctrl->getLinkTarget($this,'subchap'),
+			 "subchap", get_class($this));
+
+		// preconditions
+		$ilTabs->addTarget("preconditions",
+			 $this->ctrl->getLinkTarget($this, 'listConditions'),
+			 "listConditions", get_class($this));
+
+		// metadata
 		$ilTabs->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");

@@ -228,7 +228,7 @@ class ilObjUser extends ilObject
 			}
 
 			//check skin-setting
-			include_once("./classes/class.ilStyleDefinition.php");
+			include_once("./Services/Style/classes/class.ilStyleDefinition.php");
 			if ($this->prefs["skin"] == "" ||
 				!ilStyleDefinition::skinExists($this->prefs["skin"]))
 			{

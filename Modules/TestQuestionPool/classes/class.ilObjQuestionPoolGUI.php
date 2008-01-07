@@ -109,7 +109,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			case "ilpageobjectgui":
-				include_once("classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));

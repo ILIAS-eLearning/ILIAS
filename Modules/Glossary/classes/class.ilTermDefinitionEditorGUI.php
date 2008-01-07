@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilObjStyleSheet.php");
+require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 require_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 /**

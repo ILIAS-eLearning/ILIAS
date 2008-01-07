@@ -540,7 +540,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$selected_style = $this->ilias->ini->readVariable("layout","style");;
 			$selected_skin = $this->ilias->ini->readVariable("layout","skin");;
 		}
-		include_once("classes/class.ilObjStyleSettings.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		foreach ($templates as $template)
 		{
 			// get styles for skin
@@ -1321,7 +1321,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$selected_skin = $this->object->skin;	
 		}
 		
-		include("classes/class.ilObjStyleSettings.php");
+		include("./Services/Style/classes/class.ilObjStyleSettings.php");
 		if (count($templates) > 0 && is_array ($templates))
 		{
 			foreach ($templates as $template)
