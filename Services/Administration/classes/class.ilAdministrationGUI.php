@@ -42,11 +42,12 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSystemFolderGUI, ilObjRoleFolderGUI, ilObjAuthSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjChatServerGUI, ilObjLanguageFolderGUI, ilObjMailGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjObjectFolderGUI, ilObjPaymentSettingsGUI, ilObjRecoveryFolderGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI, ilObjTaxonomyFolderGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjPersonalDesktopSettingsGUI, ilObjMediaCastGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjCalendarSettingsGUI
 */
 class ilAdministrationGUI
 {
@@ -119,7 +120,6 @@ class ilAdministrationGUI
 		{
 			$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
 		}
-
 		// check creation mode
 		// determined by "new_type" parameter
 		$new_type = $_POST["new_type"]
@@ -129,7 +129,7 @@ class ilAdministrationGUI
 		{
 			$this->creation_mode = true;
 		}
-
+	
 		// determine next class
 		if ($this->creation_mode)
 		{
@@ -147,6 +147,7 @@ class ilAdministrationGUI
 		else
 		{
 			$next_class = $this->ctrl->getNextClass($this);
+			
 		}
 
 		if (($next_class == "iladministrationgui" || $next_class == ""
@@ -289,6 +290,7 @@ class ilAdministrationGUI
 			$fs_gui->setSideFrameSource(
 				$this->ctrl->getLinkTarget($this, "showTree"));
 		}
+		
 		$fs_gui->show();
 		exit;
 	}

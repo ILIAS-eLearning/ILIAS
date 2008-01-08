@@ -402,11 +402,7 @@
 	<action name="clear">clear</action>
 	<action name="removeFromSystem">btn_remove_system</action>
 </object>
-<object name="tax" class_name="Taxonomy" location="classes" checkbox="1" translate="0" rbac="1" devmode="1">
-	<property name="edit">edit_properties</property>
-</object>
-<object name="taxf" class_name="TaxonomyFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1" system="1">
-	<subobj name="tax" import="1">tax</subobj>
+<object name="cals" class_name="CalendarSettings" location="Services/Calendar/classes" module="Services/Calendar" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1">
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>

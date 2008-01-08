@@ -3097,4 +3097,24 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1140>
+<?php
 
+// Use deprecated taxonomy folder definition for calendar settings
+$query = "UPDATE object_data SET title = 'cals', description = 'Calendar Settings' WHERE type = 'typ' AND title = 'taxf'";
+$ilDB->query($query);
+
+$query = "UPDATE object_data SET type = 'cals', title = 'Calendar Settings', description = 'Configure Calendar Settings here' WHERE type = 'taxf'";
+$ilDB->query($query);
+?>
+
+<#1141>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#1142>
+<?php
+$query = "DELETE FROM rbac_operations WHERE operation = 'create_tax'";
+$ilDB->query($query);
+?>
