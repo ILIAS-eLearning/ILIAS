@@ -1343,7 +1343,7 @@ class ilLMPresentationGUI
 		}
 
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
-		$page_object_gui =& new ilPageObjectGUI($page_object);
+		$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
 
 		// Update personal desktop items
 		$this->ilias->account->setDesktopItemParameters($_SESSION["tr_id"], $this->lm->getType(),$page_id);
@@ -1475,7 +1475,7 @@ class ilLMPresentationGUI
 		$ilBench->stop("ContentPresentation", "ilPage_getInternalLinks");
 		
 		$ilBench->start("ContentPresentation", "ilPage_getPageObjectGUI");
-		$page_object_gui =& new ilPageObjectGUI($page_object);
+		$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
 		$page_object_gui->setTemplateOutput(false);
 		$ilBench->stop("ContentPresentation", "ilPage_getPageObjectGUI");
 		
@@ -2817,8 +2817,8 @@ class ilLMPresentationGUI
 		{
 			if (ilLMObject::_exists($this->lm->getFooterPage()))
 			{
-				$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getFooterPage());
-				$page_object_gui =& new ilPageObjectGUI($page_object);
+				//$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getFooterPage());
+				$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $this->lm->getFooterPage());
 	
 				// determine target frames for internal links
 				$page_object_gui->setLinkFrame($_GET["frame"]);
@@ -2831,8 +2831,8 @@ class ilLMPresentationGUI
 		{
 			if (ilLMObject::_exists($this->lm->getHeaderPage()))
 			{
-				$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getHeaderPage());
-				$page_object_gui =& new ilPageObjectGUI($page_object);
+				//$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getHeaderPage());
+				$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $this->lm->getHeaderPage());
 	
 				// determine target frames for internal links
 				$page_object_gui->setLinkFrame($_GET["frame"]);
@@ -2938,7 +2938,7 @@ class ilLMPresentationGUI
 					// get page
 					$page_id = $node["obj_id"];
 					$page_object =& new ilPageObject($this->lm->getType(), $page_id);
-					$page_object_gui =& new ilPageObjectGUI($page_object);
+					$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
 
 					// get lm page
 					$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
@@ -3081,7 +3081,7 @@ class ilLMPresentationGUI
 						$this->tpl->parseCurrentBlock();
 					}
 					$page =& new ilPageObject("gdf", $def["id"]);
-					$page_gui =& new ilPageObjectGUI($page);
+					$page_gui =& new ilPageObjectGUI("gdf", $def["id"]);
 					$page_gui->setTemplateOutput(false);
 					$page_gui->setOutputMode("print");
 
