@@ -1,0 +1,12 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	name="File" short="file" dir="Modules/File">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="file" class_name="File" location="Modules/File/classes"
+			module="Modules/File" checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
+</module>
