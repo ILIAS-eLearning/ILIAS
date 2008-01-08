@@ -4,4 +4,9 @@
 	<baseclasses>
 		<baseclass name="ilPersonalDesktopGUI" dir="classes" />
 	</baseclasses>
+	<objects>
+		<object short="pdts" class_name="PersonalDesktopSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+		</object>
+	</objects>
 </service>

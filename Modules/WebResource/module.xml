@@ -4,4 +4,10 @@
 	<baseclasses>
 		<baseclass name="ilLinkResourceHandlerGUI" dir="classes" />
 	</baseclasses>
+	<objects>
+		<object short="webr" class_name="LinkResource" dir="classes"
+			checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
 </module>
