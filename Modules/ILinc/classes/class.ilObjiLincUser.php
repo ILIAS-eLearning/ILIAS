@@ -146,7 +146,7 @@ class ilObjiLincUser
 	// create user account on iLinc server
 	function add()
 	{
-		include_once ('class.ilnetucateXMLAPI.php');
+		include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 
 		$this->ilincAPI = new ilnetucateXMLAPI();
 
@@ -183,7 +183,7 @@ class ilObjiLincUser
 	// edit user account on iLinc server
 	function edit()
 	{
-		include_once ('class.ilnetucateXMLAPI.php');
+		include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 
 		$this->ilincAPI = new ilnetucateXMLAPI();
 
@@ -223,7 +223,7 @@ class ilObjiLincUser
 	 */
 	function find($a_id = '',$a_login = '', $a_fullname = '')
 	{
-		include_once ('class.ilnetucateXMLAPI.php');
+		include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 
 		$this->ilincAPI = new ilnetucateXMLAPI();
 

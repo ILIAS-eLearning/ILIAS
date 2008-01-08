@@ -3122,4 +3122,8 @@ $ilDB->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1144>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

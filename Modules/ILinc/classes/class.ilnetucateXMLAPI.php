@@ -1,6 +1,6 @@
 <?php
 
-require_once "class.ilnetucateResponse.php";
+require_once "./Modules/ILinc/classes/class.ilnetucateResponse.php";
 require_once "./classes/class.ilXmlWriter.php";
 
 /**

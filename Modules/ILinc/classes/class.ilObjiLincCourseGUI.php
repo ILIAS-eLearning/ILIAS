@@ -81,7 +81,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$checkbox_access = ilUtil::formCheckbox($this->object->activated,"Fobject[activated]",1);
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","Modules/ILinc");
 
 		// display akclassvalues 
 		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
@@ -209,9 +209,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 				
 		// when creating new ilinc course we first create it on ilinc server
-		include_once ('class.ilnetucateXMLAPI.php');
+		include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 		$ilinc = new ilnetucateXMLAPI();
 		$ilinc->addCourse($_POST["Fobject"]);
+		
 		$response = $ilinc->sendRequest();
 		
 		if ($response->isError())
@@ -355,7 +356,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	
 	function __search($a_search_string,$a_search_for)
 	{
-		include_once("classes/class.ilSearch.php");
+		include_once("./classes/class.ilSearch.php");
 
 		$this->lng->loadLanguageModule("content");
 		$search =& new ilSearch($_SESSION["AccountId"]);
@@ -853,7 +854,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($lng->txt("ilinc_server_not_active"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_members.html","ilinc");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_members.html","Modules/ILinc");
 		$this->__setSubTabs('members');
 		
 		$this->lng->loadLanguageModule('ilinc');
@@ -999,7 +1000,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilobjilincclassroomgui":
-				include_once ('class.ilObjiLincClassroomGUI.php');
+				include_once ('./Modules/ILinc/classes/class.ilObjiLincClassroomGUI.php');
 				$icla_gui = new ilObjiLincClassroomGUI($_GET['class_id'],$this->ref_id);
 				$ret =& $this->ctrl->forwardCommand($icla_gui);
 				break;
@@ -1637,7 +1638,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
 			$mem_status = $this->object->getMemberRoles($member_id);
 
-			include_once ('class.ilObjiLincUser.php');
+			include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 			$ilinc_user = new ilObjiLincUser($member);
 						
 			$ilinc_status = $this->object->checkiLincMemberStatus($ilinc_user->id,$docent_ids,$student_ids);
@@ -1770,7 +1771,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					// check if user is already registered on iLinc server
 					$user_obj = new ilObjUser($user_id);
 					
-					include_once ('class.ilObjiLincUser.php');
+					include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 					$ilinc_user = new ilObjiLincUser($user_obj);
 					
 					if (!$ilinc_user->id)
@@ -1813,7 +1814,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					else
 					{
 						//echo "5";
-						include_once ('class.ilObjiLincUser.php');
+						include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 						$ilinc_user = new ilObjiLincUser($user);
 						$users_to_register[$ilinc_user->id] = ILINC_MEMBER_STUDENT;
 					}
@@ -1871,7 +1872,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function displayEditForm($fields,$akclassvalues)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","Modules/ILinc");
 
 		foreach ($fields as $key => $val)
 		{
@@ -1998,7 +1999,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	    
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 	    
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.icrs_members_gallery.html','ilinc');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.icrs_members_gallery.html','Modules/ILinc');
 	    
 		$this->__setSubTabs('members');
 		
