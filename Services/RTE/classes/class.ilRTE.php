@@ -143,7 +143,7 @@ class ilRTE
 	
 	function _getRTEClassname()
 	{
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$editor = ilObjAdvancedEditing::_getRichTextEditor();
 		switch ($editor)
 		{

@@ -757,7 +757,7 @@ class assImagemapQuestion extends assQuestion
 			);
 
 			$result = $ilDB->query($query);
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
@@ -765,7 +765,7 @@ class assImagemapQuestion extends assQuestion
 		}
 		else
 		{
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());

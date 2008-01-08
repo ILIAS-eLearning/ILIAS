@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilObjectGUI.php";
+
 /**
 * Class ilObjAssessmentFolderGUI
 *
@@ -31,9 +33,6 @@
 *
 * @extends ilObjectGUI
 */
-
-include_once "class.ilObjectGUI.php";
-
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
 	/**

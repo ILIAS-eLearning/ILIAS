@@ -1633,7 +1633,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		global $lng;
 		
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
 		$lng->loadLanguageModule("assessment");
 		$query = "SELECT * FROM qpl_question_type";

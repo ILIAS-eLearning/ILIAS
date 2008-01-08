@@ -408,7 +408,6 @@
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
 </object>
-<!-- to go -->
 <object name="trac" class_name="UserTracking" location="Services/Tracking/classes" module="Services/Tracking" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<property name="trackingDataQueryForm">tracking_data</property>
 	<property name="settings">settings</property>
@@ -416,12 +415,13 @@
 	<property name="learningProgress">learning_progress</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="assf" class_name="AssessmentFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<object name="assf" class_name="AssessmentFolder" location="Modules/Test/classes" module="Modules/Test" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<property name="settings">settings</property>
 	<property name="logs">logs</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="adve" class_name="AdvancedEditing" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<!-- to go -->
+<object name="adve" class_name="AdvancedEditing" location="Services/AdvancedEditing/classes" module="Services/AdvancedEditing" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<property name="settings">settings</property>
 	<property name="perm">perm_settings</property>
 </object>

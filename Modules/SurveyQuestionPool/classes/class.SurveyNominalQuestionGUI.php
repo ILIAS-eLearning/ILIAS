@@ -512,7 +512,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		}
 		$this->object->setSubtype($_POST["type"]);
 		$this->object->setOrientation($_POST["orientation"]);
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		$this->object->setQuestiontext($questiontext);
 		if ($_POST["obligatory"])

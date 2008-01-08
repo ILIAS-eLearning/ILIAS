@@ -236,7 +236,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		global $lng;
 		
-		include_once("./classes/class.ilObjAdvancedEditing.php");
+		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
 		
 		$_POST[$this->getPostVar()] = ($this->getUseRte())
 			? ilUtil::stripSlashes($_POST[$this->getPostVar()], true,

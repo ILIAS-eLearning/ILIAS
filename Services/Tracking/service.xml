@@ -1,0 +1,11 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	name="Tracking" short="trac" dir="Services/Tracking">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="trac" class_name="UserTracking" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+		</object>
+	</objects>
+</service>

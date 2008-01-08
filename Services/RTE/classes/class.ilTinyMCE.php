@@ -115,7 +115,7 @@ class ilTinyMCE extends ilRTE
 	*/
 	function addRTESupport($obj_id, $obj_type, $a_module = "")
 	{
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if (array_key_exists("show_rte", $_POST))
 		{
 			ilObjAdvancedEditing::_setRichTextEditorUserState($_POST["show_rte"]);

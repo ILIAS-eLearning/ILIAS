@@ -3118,3 +3118,8 @@ $ilCtrlStructureReader->getStructure();
 $query = "DELETE FROM rbac_operations WHERE operation = 'create_tax'";
 $ilDB->query($query);
 ?>
+<#1143>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

@@ -564,7 +564,7 @@ class ilContainerGUI extends ilObjectGUI
 	function savePageContentObject()
 	{
 		include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
 		

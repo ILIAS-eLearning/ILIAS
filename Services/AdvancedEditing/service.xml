@@ -1,0 +1,11 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	name="AdvancedEditing" short="adve" dir="Services/AdvancedEditing">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="adve" class_name="AdvancedEditing" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+		</object>
+	</objects>
+</service>

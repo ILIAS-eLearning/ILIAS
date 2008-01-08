@@ -74,7 +74,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoring();
 		if (count($scoring) == 0)
 		{
@@ -190,7 +190,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		{
 			$feedbacks = array_keys($_POST["feedback"]);
 			$question_id = $feedbacks[0];
-			include_once "./classes/class.ilObjAdvancedEditing.php";
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$feedback = ilUtil::stripSlashes($_POST["feedback"][$question_id], FALSE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$result = $this->object->saveManualFeedback($_GET["active_id"], $question_id, $_GET["pass"], $feedback);
 			if ($result) 
