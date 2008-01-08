@@ -287,7 +287,6 @@
 	<action name="accessFree">accessFree</action>
 	<action name="export">export</action>
 </object>
-<!-- to go -->
 <object name="sty" class_name="StyleSheet" location="Services/Style/classes" module="Services/Style" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="view">cont_content</property>
 </object>
@@ -376,9 +375,8 @@
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
-	
 </object>
-<object name="recf" class_name="RecoveryFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+<object name="recf" class_name="RecoveryFolder" location="Services/Administration/classes" module="Services/Administration" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="fold">fold</subobj>
 	<subobj name="crs">crs</subobj>
@@ -414,6 +412,7 @@
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
 </object>
+<!-- to go -->
 <object name="trac" class_name="UserTracking" location="Services/Tracking/classes" module="Services/Tracking" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
 	<property name="trackingDataQueryForm">tracking_data</property>
 	<property name="settings">settings</property>

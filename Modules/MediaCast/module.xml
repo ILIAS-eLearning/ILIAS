@@ -4,4 +4,10 @@
 	<baseclasses>
 		<baseclass name="ilMediaCastHandlerGUI" dir="classes" />
 	</baseclasses>
+	<objects>
+		<object short="mcst" class_name="MediaCast" location="Modules/MediaCast/classes"
+			module="Modules/MediaCast" checkbox="1" inherit="1" allow_link="1" rbac="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
 </module>

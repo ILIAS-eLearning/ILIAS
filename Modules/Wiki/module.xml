@@ -4,4 +4,10 @@
 	<baseclasses>
 		<baseclass name="ilWikiHandlerGUI" dir="classes" />
 	</baseclasses>
+	<objects>
+		<object short="wiki" class_name="Wiki" location="Modules/Wiki/classes"
+			module="Modules/Wiki" checkbox="1" inherit="1" allow_link="1" rbac="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
 </module>

@@ -4,4 +4,15 @@
 	<baseclasses>
 		<baseclass name="ilChatHandlerGUI" dir="classes" />
 	</baseclasses>
+	<objects>
+		<object short="chat" class_name="Chat" location="Modules/Chat/classes"
+			module="Modules/Chat"
+			checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1" allow_copy="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+		<object short="chac" class_name="ChatServer" location="Modules/Chat/classes"
+			module="Modules/Chat"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+		</object>
+	</objects>
 </module>

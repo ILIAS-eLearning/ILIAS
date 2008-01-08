@@ -4,4 +4,10 @@
 	<baseclasses>
 		<baseclass name="ilExerciseHandlerGUI" dir="classes" />
 	</baseclasses>
+	<objects>
+		<object short="exc" class_name="Exercise" location="Modules/Exercise/classes"
+			module="Modules/Exercise" checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
 </module>
