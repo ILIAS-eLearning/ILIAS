@@ -100,7 +100,7 @@ class ilGlossaryExport
 
         $result = $this->db->query($query);
 
-        while (is_array($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) )
+        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
 		{
 			if ($row["type"] == "st")
 			{
@@ -121,7 +121,7 @@ class ilGlossaryExport
                 $query = "SELECT * FROM page_object WHERE page_id='".$row["obj_id"]."' ";
 				$result2 = $this->db->query($query);
 
-				$row2 = $result2->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
 
 				$PO = $row2["content"]."\n";
 

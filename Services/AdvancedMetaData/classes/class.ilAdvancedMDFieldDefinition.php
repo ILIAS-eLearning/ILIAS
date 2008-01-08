@@ -80,7 +80,7 @@ class ilAdvancedMDFieldDefinition
 		$query = "SELECT import_id FROM adv_md_field_definition ".
 			"WHERE field_id = ".$ilDB->quote($a_field_id)." ";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['import_id'] ? $row['import_id'] : '';
 	}
 	
@@ -99,7 +99,7 @@ class ilAdvancedMDFieldDefinition
 		$query = "SELECT field_id FROM adv_md_field_definition ".
 			"WHERE import_id = ".$ilDB->quote($a_import_id)." ";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['field_id'] ? $row['field_id'] : 0;
 	}
 	
@@ -119,7 +119,7 @@ class ilAdvancedMDFieldDefinition
 		$res = $ilDB->query($query);
 		
 		$date_fields = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$date_fields[] = $row->field_id; 
 		}
@@ -162,7 +162,7 @@ class ilAdvancedMDFieldDefinition
 			"ORDER BY position ";
 		$res = $ilDB->query($query);
 		$defs = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$defs[] = self::_getInstanceByFieldId($row->field_id);
 		}
@@ -188,7 +188,7 @@ class ilAdvancedMDFieldDefinition
 			"AND obj_type = ".$ilDB->quote($a_type)." ".
 			"ORDER BY aro.record_id,position ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$field_ids[] = $row->field_id;
 		}
@@ -210,7 +210,7 @@ class ilAdvancedMDFieldDefinition
 			"WHERE active = 1 ".
 			"AND searchable = 1";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$field_ids[] = $row->field_id;
 		}
@@ -233,7 +233,7 @@ class ilAdvancedMDFieldDefinition
 		$query = "SELECT field_id FROM adv_md_field_definition ".
 			"WHERE record_id = ".$ilDB->quote($a_record_id);
 		$res = $ilDB->query($query);	
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 		 	// Delete values
 		 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
@@ -641,7 +641,7 @@ class ilAdvancedMDFieldDefinition
 		$query = "SELECT * FROM adv_md_field_definition ".
 			"WHERE field_id = ".$this->db->quote($this->getFieldId())." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->record_id = $row->record_id;
 			$this->import_id = $row->import_id;
@@ -666,7 +666,7 @@ class ilAdvancedMDFieldDefinition
 		$query = "SELECT max(position) as pos FROM adv_md_field_definition ".
 			"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->pos;
 		}

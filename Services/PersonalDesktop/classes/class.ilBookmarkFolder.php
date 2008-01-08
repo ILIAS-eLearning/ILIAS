@@ -92,7 +92,7 @@ class ilBookmarkFolder
 		}
 		else
 		{
-			$bmf = $bmf_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->setTitle($bmf["title"]);
 			$this->setParent($this->tree->getParentId($this->getId()));
 		}
@@ -192,7 +192,7 @@ class ilBookmarkFolder
 
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".$ilDB->quote($a_bmf_id);
 		$bmf_set = $ilDB->query($q);
-		$bmf = $bmf_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $bmf["title"];
 	}

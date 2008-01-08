@@ -167,7 +167,7 @@ class ilObjMediaCast extends ilObject
 		$query = "SELECT * FROM il_media_cast_data WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setOnline($rec["online"]);
 		$this->setPublicFiles($rec["public_files"]);

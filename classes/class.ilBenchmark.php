@@ -139,7 +139,7 @@ class ilBenchmark
 			" ORDER BY benchmark";
 		$bench_set = $ilDB->query($q);
 		$eva = array();
-		while($bench_rec = $bench_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($bench_rec = $bench_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$eva[] = array("benchmark" => $bench_rec["benchmark"],
 				"cnt" => $bench_rec["cnt"], "duration" => $bench_rec["avg_dur"],
@@ -158,7 +158,7 @@ class ilBenchmark
 
 		$q = "SELECT COUNT(*) AS cnt FROM benchmark";
 		$cnt_set = $ilDB->query($q);
-		$cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $cnt_rec["cnt"];
 	}
@@ -226,7 +226,7 @@ class ilBenchmark
 		$mod_set = $ilDB->query($q);
 
 		$modules = array();
-		while ($mod_rec = $mod_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($mod_rec = $mod_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$modules[$mod_rec["module"]] = $mod_rec["module"];
 		}

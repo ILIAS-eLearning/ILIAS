@@ -281,7 +281,7 @@ class ilForum
 		if ($this->orderField != "")
 			$q .= " ORDER BY ".$this->orderField;
 
-		$res = $this->ilias->db->getRow($q, MDB2_FETCHMODE_ASSOC);
+		$res = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 
 		$this->setWhereCondition("1");
 
@@ -297,7 +297,7 @@ class ilForum
 	{
 		$query = "SELECT * FROM frm_data WHERE ( ".$this->whereCondition." )";
 
-		$result = $this->ilias->db->getRow($query, MDB2_FETCHMODE_ASSOC);
+		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
 
 		$this->setWhereCondition("1");
 
@@ -334,7 +334,7 @@ class ilForum
 
 		$query = "SELECT * FROM frm_data WHERE top_frm_fk = ".$ilDB->quote($a_obj_id);
 
-		$result = $ilDB->getRow($query, MDB2_FETCHMODE_ASSOC);
+		$result = $ilDB->getRow($query, DB_FETCHMODE_ASSOC);
 		$result["top_name"] = trim($result["top_name"]);
 		$result["top_description"] = nl2br($result["top_description"]);
 
@@ -350,7 +350,7 @@ class ilForum
 	{		
 		$query = "SELECT * FROM frm_threads WHERE ( ".$this->whereCondition." )";
 
-		$result = $this->ilias->db->getRow($query, MDB2_FETCHMODE_ASSOC);
+		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
 
 		$this->setWhereCondition("1");
 		
@@ -373,7 +373,7 @@ class ilForum
 		$q .= "pos_pk = ".$ilDB->quote($post)." AND ";
 		$q .= "pos_usr_id = usr_id";		
 
-		$result = $this->ilias->db->getRow($q, MDB2_FETCHMODE_ASSOC);
+		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 					
 		$result["pos_date"] = $this->convertDate($result["pos_date"]);		
 		$result["pos_message"] = nl2br($result["pos_message"]);
@@ -387,7 +387,7 @@ class ilForum
 		
 		$query = "SELECT * FROM frm_posts WHERE pos_pk = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $row;
 		}
@@ -400,7 +400,7 @@ class ilForum
 
 		$query = "SELECT * FROM frm_posts WHERE pos_pk = ".$ilDB->quote($a_id)."";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->pos_message;
 		}
@@ -657,7 +657,7 @@ class ilForum
 	
 		$res = $this->ilias->db->query($query);	
 		$counter = 0;
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$forums[$counter] = $row;			
 			++$counter;
@@ -723,7 +723,7 @@ class ilForum
 						  ORDER BY pos_date DESC
 						  LIMIT 1";
 				$res = $this->ilias->db->query($query);
-				$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);				
+				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
 				$last_post_src = $oldFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
 				
 				$query = "UPDATE frm_data
@@ -744,7 +744,7 @@ class ilForum
 						  ORDER BY pos_date DESC
 						  LIMIT 1";
 				$res = $this->ilias->db->query($query);
-				$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);				
+				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
 				$last_post_dest = $newFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;							
 				
 				$query = "UPDATE frm_data
@@ -817,7 +817,7 @@ class ilForum
 				$q = "SELECT * FROM frm_posts ".
 					"WHERE pos_pk = ".$ilDB->quote($pos_pk)."";
 				$set = $ilDB->query($q);
-				$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 				
 				$news_item = new ilNewsItem($news_id);
 				//$news_item->setTitle($subject);
@@ -881,7 +881,7 @@ class ilForum
 			$q = "SELECT * FROM frm_posts ".
 				"WHERE pos_thr_fk = ".$ilDB->quote($p_node["tree"])."";
 			$posset = $this->ilias->db->query($q);
-			while ($posrec = $posset->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($posrec = $posset->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
@@ -941,7 +941,7 @@ class ilForum
 			{
 				$z = 0;
 
-				while ($selData = $res1->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($selData = $res1->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					if ($z > 0)
 					{
@@ -983,7 +983,7 @@ class ilForum
 		{
 			$z = 0;
 
-			while ($selData = $res2->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($selData = $res2->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($z > 0)
 				{
@@ -1027,7 +1027,7 @@ class ilForum
 				  ORDER BY is_sticky DESC, post_date DESC, thr_date DESC";
 		$res = $this->ilias->db->query($query);	
 
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->threads[] = new ilForumTopic($row->thr_pk);
 		}
@@ -1083,7 +1083,7 @@ class ilForum
 				  
 		$res = $this->ilias->db->query ($query);
 		
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 		    $statistic[] = $row;
 		}			  
@@ -1107,7 +1107,7 @@ class ilForum
 			"WHERE thr_fk = ".$ilDB->quote($a_thread_id)." ".
 			"AND parent_pos = 0";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return $row->pos_fk ? $row->pos_fk : 0;
 	}
@@ -1423,7 +1423,7 @@ class ilForum
 //echo ":".$this->orderField.":<br>";
 		$res = $this->ilias->db->query($query);
 
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$subtree[] = $this->fetchPostNodeData($row);
 		}
@@ -1460,7 +1460,7 @@ class ilForum
 
 		if ($count > 0)
 		{
-			while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$childs[] = $this->fetchPostNodeData($row);
 			}
@@ -1492,7 +1492,7 @@ class ilForum
 
 		$res = $this->ilias->db->query($query);
 		
-		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $this->fetchPostNodeData($row);
 	}
@@ -1512,7 +1512,7 @@ class ilForum
 				 "AND pos_pk = ".$ilDB->quote($post_id)."";
 		$res = $this->ilias->db->query($query);
 		
-		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $this->fetchPostNodeData($row);
 	}
@@ -1607,7 +1607,7 @@ class ilForum
 			"AND parent_pos = ".$ilDB->quote($a_node["parent"])."";
 		$res = $this->ilias->db->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$a_node["lft"] = $row->lft;
 			$a_node["rgt"] = $row->rgt;
@@ -1623,7 +1623,7 @@ class ilForum
 		
 		$del_id = array();
 		
-		while ($treeData = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($treeData = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$del_id[] = $treeData["pos_fk"];
 		}
@@ -1784,7 +1784,7 @@ class ilForum
 		$q .= "pos_pk = ".$ilDB->quote($pos_pk)." AND ";
 		$q .= "pos_top_fk = top_pk";
 
-		$result = $this->ilias->db->getRow($q, MDB2_FETCHMODE_ASSOC);
+		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 
 		return $result;
 	}
@@ -1877,7 +1877,7 @@ class ilForum
 		{
 			$query = "SELECT * FROM usr_data WHERE usr_id = ".$ilDB->quote($a_id)."";
 			$res = $this->ilias->db->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$tmp_array["usr_id"] = $row->usr_id;
 				$tmp_array["login"]  = $row->login;
@@ -1931,7 +1931,7 @@ class ilForum
 				$res->numRows() > 0)
 			{
 				$thread_ids = "";
-				while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 				{								
 					$thread_ids .= $row["thread_id"].",";
 				}
@@ -2046,7 +2046,7 @@ class ilForum
 		$q .= "thread_id = ".$ilDB->quote($post_data["pos_thr_fk"])." AND ";
 		$q .= "user_id <> ".$ilDB->quote($_SESSION["AccountId"])."";
 		$res = $this->ilias->db->query($q);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{								
 			// SEND NOTIFICATIONS BY E-MAIL
 			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
@@ -2081,7 +2081,7 @@ class ilForum
 		$q .= "frm_notification.user_id <> ".$ilDB->quote($_SESSION["AccountId"])." ";
 		$q .= "GROUP BY frm_notification.user_id";
 		$res = $this->ilias->db->query($q);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{								
 			// SEND NOTIFICATIONS BY E-MAIL
 			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
@@ -2233,7 +2233,7 @@ class ilForum
 			"WHERE top_frm_fk = ".$ilDB->quote($a_obj_id)." ".
 			"ORDER BY ".$sort;
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$threads[$row->thr_pk] = $row->thr_subject;
 		}
@@ -2266,7 +2266,7 @@ class ilForum
 		
 		$forum = $ilDB->query("SELECT * FROM frm_data ".
 				" WHERE top_pk = ".$ilDB->quote($a_for_id));
-		if ($fdata = $forum->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($fdata = $forum->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $fdata["top_frm_fk"];
 		}

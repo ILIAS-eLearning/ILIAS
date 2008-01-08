@@ -198,7 +198,7 @@ class ilObjUser extends ilObject
 
 		if ($r->numRows() > 0)
 		{
-			$data = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 			// convert password storage layout used by table usr_data into
 			// storage layout used by class ilObjUser
@@ -623,7 +623,7 @@ class ilObjUser extends ilObject
 		$query = "SELECT email FROM usr_data WHERE usr_id = ".$ilDB->quote((int) $a_user_id);
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->email;
 		}
@@ -638,7 +638,7 @@ class ilObjUser extends ilObject
 			$ilDB->quote((int) $a_user_id);
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->gender;
 		}
@@ -653,7 +653,7 @@ class ilObjUser extends ilObject
 			$ilDB->quote((int) $a_user_id);
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->client_ip;
 		}
@@ -671,7 +671,7 @@ class ilObjUser extends ilObject
 		$q = "SELECT firstname, lastname, title FROM usr_data".
 			" WHERE usr_id =".$ilDB->quote($a_user_id);
 		$user_set = $ilDB->query($q);
-		$user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return array("user_id" => $a_user_id,
 			"firstname" => $user_rec["firstname"],
 			"lastname" => $user_rec["lastname"],
@@ -688,7 +688,7 @@ class ilObjUser extends ilObject
 		$q = "SELECT login FROM usr_data".
 			" WHERE usr_id =".$ilDB->quote($a_user_id);
 		$user_set = $ilDB->query($q);
-		$user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $user_rec["login"];
 	}
 
@@ -702,7 +702,7 @@ class ilObjUser extends ilObject
 		$q = "SELECT usr_id FROM usr_data".
 			" WHERE login =".$ilDB->quote($a_user_str);
 		$user_set = $ilDB->query($q);
-		$user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $user_rec["usr_id"];
 	}
 
@@ -716,7 +716,7 @@ class ilObjUser extends ilObject
 		$q = "SELECT last_login FROM usr_data".
 			" WHERE usr_id =".$ilDB->quote($a_user_id);
 		$user_set = $ilDB->query($q);
-		$user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $user_rec["last_login"];
 	}
 
@@ -886,7 +886,7 @@ class ilObjUser extends ilObject
 			 "WHERE login = ".$ilDB->quote($a_user_login)."";
 		$user_set = $ilias->db->query($q);
 
-		if ($user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($user_rec["i2passwd"] != "")
 			{
@@ -906,7 +906,7 @@ class ilObjUser extends ilObject
 
 		$user_set = $ilias->db->query($q);
 
-		if ($user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($user_rec["i2passwd"] == ilObjUser::_makeIlias2Password($a_pw))
 			{
@@ -1067,7 +1067,7 @@ class ilObjUser extends ilObject
 			"AND keyword = ".$ilDB->quote($a_keyword);
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->value;
 		}
@@ -1094,7 +1094,7 @@ class ilObjUser extends ilObject
 			$ilDB->quote($this->id);
 		$r = $this->ilias->db->query($q);
 
-		while($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->prefs[$row["keyword"]] = $row["value"];
 		} // while
@@ -1301,7 +1301,7 @@ class ilObjUser extends ilObject
 
 		// fill array
 		$result = array();
-		while($record = $rst->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($record = $rst->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result[] = array(
 			"timestamp"	=>	$record->timestamp,
@@ -1330,7 +1330,7 @@ class ilObjUser extends ilObject
 
 		// fill array
 		$result = array();
-		while($record = $rst->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($record = $rst->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result[] = array(
 			"timestamp"	=>	$record->timestamp,
@@ -1806,7 +1806,7 @@ class ilObjUser extends ilObject
 			$ilDB->quote($a_usr_id)." AND keyword = 'language'";
 		$r = $ilDB->query($q);
 
-		while($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $row['value'];
 		}
@@ -1822,7 +1822,7 @@ class ilObjUser extends ilObject
 			" WHERE usr_id = ".$ilDB->quote($a_usr_id);
 		$usr_set = $ilDB->query($q);
 
-		if($usr_rec = $usr_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($usr_rec["passwd"] == md5($a_pw))
 			{
@@ -2012,7 +2012,7 @@ class ilObjUser extends ilObject
         $query = "SELECT active FROM usr_data ".
             "WHERE usr_id = ".$ilDB->quote($a_id);
 
-        $row = $ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+        $row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
         return $row->active ? true : false;
     }
@@ -2181,7 +2181,7 @@ class ilObjUser extends ilObject
 			"WHERE time_limit_owner = ".$ilDB->quote($a_parent_id);
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->applied_users[] = $row->usr_id;
 
@@ -2252,7 +2252,7 @@ class ilObjUser extends ilObject
 		$query = "SELECT usr_id FROM usr_data ".
 			"WHERE login = ".$ilDB->quote($a_login);
 
-		$row = $ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->usr_id ? $row->usr_id : 0;
 	}
@@ -2274,7 +2274,7 @@ class ilObjUser extends ilObject
 
  		$res = $ilias->db->query($query);
  		$ids = array ();
-        while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+        while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
         {
             $ids[] = $row->login;
         }
@@ -2299,7 +2299,7 @@ class ilObjUser extends ilObject
 		$query = "SELECT usr_id FROM usr_data ".
 			"WHERE email = ".$ilDB->quote($a_email);
 
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		return $row->usr_id ? $row->usr_id : 0;
 	}
 
@@ -2318,7 +2318,7 @@ class ilObjUser extends ilObject
         $query = "SELECT login FROM usr_data ".
             "WHERE usr_id = ".$ilDB->quote($a_userid);
 
-        $row = $ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+        $row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
         return $row->login ? $row->login : false;
     }
@@ -2434,7 +2434,7 @@ class ilObjUser extends ilObject
 		}
 		$ilLog->write($query);
 		$res = $ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$users[] = array(
 				"usr_id"    => $row->usr_id,
@@ -2488,7 +2488,7 @@ class ilObjUser extends ilObject
 
 		$counter = 0;
 
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result_data[$counter++]["id"]				=  $row->usr_id;
 
@@ -2619,7 +2619,7 @@ class ilObjUser extends ilObject
 		$query = "SELECT login FROM usr_data ";
 
 		$res = $ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$logins[] = $row->login;
 		}
@@ -2641,7 +2641,7 @@ class ilObjUser extends ilObject
 		$where = ("WHERE usr_id IN(".implode(",",ilUtil::quoteArray($a_user_ids)).") ");
 		$query = "SELECT * FROM usr_data ".$where;
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$user_data["$row[usr_id]"] = $row;
 		}
@@ -2703,7 +2703,7 @@ class ilObjUser extends ilObject
 					$qtemp = $q . ", rbac_ua, object_data WHERE rbac_ua.rol_id = object_data.obj_id AND object_data.title LIKE '%crs%' AND usr_data.usr_id = rbac_ua.usr_id";
 					$r = $ilDB->query($qtemp);
 					$course_users = array();
-					while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+					while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 					{
 						array_push($course_users, $row["usr_id"]);
 					}
@@ -2752,7 +2752,7 @@ class ilObjUser extends ilObject
 			}
 			$r = $ilDB->query($q);
 
-			while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$result_arr[] = $row;
 			}
@@ -2775,7 +2775,7 @@ class ilObjUser extends ilObject
 
 		$cnt_set = $ilDB->query($q);
 
-		$cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $cnt_rec["cnt"];
 	}
@@ -2796,7 +2796,7 @@ class ilObjUser extends ilObject
 		$sty_set = $ilDB->query($q);
 
 		$styles = array();
-		while($sty_rec = $sty_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($sty_rec = $sty_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$styles[] = $sty_rec["skin"].":".$sty_rec["style"];
 		}
@@ -2818,7 +2818,7 @@ class ilObjUser extends ilObject
 
 		$usr_set = $ilDB->query($q);
 
-		while ($usr_rec = $usr_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			ilObjUser::_writePref($usr_rec["usr_id"], "skin", $a_to_skin);
 			ilObjUser::_writePref($usr_rec["usr_id"], "style", $a_to_style);
@@ -3031,7 +3031,7 @@ class ilObjUser extends ilObject
 
 			$item_set = $ilDB->query($q);
 			$items = array();
-			while ($item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($tree->isInTree($item_rec["ref_id"])
 					&& $item_rec["type"] != "rolf")
@@ -3073,7 +3073,7 @@ class ilObjUser extends ilObject
 					"ORDER BY title";
 
 				$item_set = $ilDB->query($q);
-				while ($item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$title = ilObject::_lookupTitle($item_rec["obj_id"]);
 					$desc = ilObject::_lookupDescription($item_rec["obj_id"]);
@@ -3131,7 +3131,7 @@ class ilObjUser extends ilObject
 			$type_str;
 		$objs = $this->ilias->db->query($q);
 		$objects = array();
-		while ($obj = $objs->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($obj["type"] == "mob")
 			{
@@ -3160,7 +3160,7 @@ class ilObjUser extends ilObject
 			"type = ".$ilDB->quote($a_type);
 		$user_set = $ilDB->query($q);
 		$users = array();
-		while ($user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$users[] = $user_rec["user_id"];
 		}
@@ -3193,7 +3193,7 @@ class ilObjUser extends ilObject
 			$ilDB->quote($i2_id);
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$id = $row->obj_id;
 		}
@@ -3295,7 +3295,7 @@ class ilObjUser extends ilObject
 	 		$or;
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($row->auth_mode == 'default')
 			{
@@ -3348,7 +3348,7 @@ class ilObjUser extends ilObject
 		$r = $ilDB->query("SELECT * FROM usr_data WHERE ".
 			" ext_account = ".$ilDB->quote($a_account)." AND ".
 			" auth_mode = ".$ilDB->quote($a_auth));
-		if ($usr = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($usr = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $usr["login"];
 		}
@@ -3360,7 +3360,7 @@ class ilObjUser extends ilObject
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
-			$usr = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$usr = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			return $usr['login'];
 		}
 		
@@ -3373,7 +3373,7 @@ class ilObjUser extends ilObject
 				"AND auth_mode = 'default'";
 			
 			$res = $ilDB->query($query);
-			if ($usr = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+			if ($usr = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				return $usr["login"];
 			}
@@ -3384,7 +3384,7 @@ class ilObjUser extends ilObject
 				"AND auth_mode = 'default'";
 			
 			$res = $ilDB->query($query);
-			if ($usr = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+			if ($usr = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				return $usr["login"];
 			}
@@ -3402,7 +3402,7 @@ class ilObjUser extends ilObject
 		$r = $ilDB->query("SELECT count(*) AS cnt, auth_mode FROM usr_data ".
 			"GROUP BY auth_mode");
 		$cnt_arr = array();
-		while($cnt = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($cnt = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$cnt_arr[$cnt["auth_mode"]] = $cnt["cnt"];
 		}
@@ -3432,7 +3432,7 @@ class ilObjUser extends ilObject
 
 		$users = array();
 
-		while ($usr_rec = $usr_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$users[$usr_rec["usr_id"]] = $usr_rec["login"];
 		}
@@ -3585,7 +3585,7 @@ class ilObjUser extends ilObject
 			"WHERE usr_id = ".$ilDB->quote($this->getId());
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->user_defined_data = $row;
 		}
@@ -3774,7 +3774,7 @@ class ilObjUser extends ilObject
 			$query = "SELECT feed_hash from usr_data WHERE usr_id = ".
 				$ilDB->quote($a_user_id);
 			$set = $ilDB->query($query);
-			if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+			if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if (strlen($rec["feed_hash"]) == 32)
 				{
@@ -3879,7 +3879,7 @@ class ilObjUser extends ilObject
 		 $r = $ilDB->query($query);
 
 		 $data = array();
-         while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+         while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
          {
                $data[] = $row;
          }
@@ -3909,7 +3909,7 @@ class ilObjUser extends ilObject
 		//echo $query;
 		$result = $ilDB->query($query);
 		$data = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			array_push($data, $row);
 		}
@@ -3946,7 +3946,7 @@ class ilObjUser extends ilObject
 
   	    $r = $ilDB->query($query);
 
-		while($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$mem_arr[] = $row;
 		}
@@ -3994,7 +3994,7 @@ class ilObjUser extends ilObject
 		#echo $query;
 		$r = $ilDB->query($query);
 		$data = array();
-		while($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$data[] = $row;
 		}

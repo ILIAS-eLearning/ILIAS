@@ -500,7 +500,7 @@ class ilObjContentObject extends ilObject
 				" AND style_data.standard = 0 ".
 				" AND content_object.stylesheet > 0";
 			$style_set = $ilDB->query($q);
-			while($style_rec = $style_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				// assign learning modules to new style
 				$q = "UPDATE content_object SET ".
@@ -532,7 +532,7 @@ class ilObjContentObject extends ilObject
 		$q = "SELECT stylesheet FROM content_object ".
 			" WHERE id = ".$ilDB->quote($a_cont_obj_id);
 		$res = $ilDB->query($q);
-		$sheet = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$sheet = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $sheet["stylesheet"];
 	}
@@ -548,7 +548,7 @@ class ilObjContentObject extends ilObject
 			" WHERE stylesheet = ".$ilDB->quote($a_style_id);
 		$res = $ilDB->query($q);
 		$obj_ids = array();
-		while($cont = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($cont = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$obj_ids[] = $cont["id"];
 		}
@@ -567,7 +567,7 @@ class ilObjContentObject extends ilObject
 		$q = "SELECT count(*) as cnt FROM content_object ".
 			" WHERE stylesheet = ".$ilDB->quote($a_style_id);
 		$cset = $ilDB->query($q);
-		$crow = $cset->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return (int) $crow["cnt"];
 	}
@@ -585,7 +585,7 @@ class ilObjContentObject extends ilObject
 			" WHERE stylesheet = style_data.id ".
 			" AND standard = 0";
 		$cset = $ilDB->query($q);
-		$crow = $cset->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return (int) $crow["cnt"];
 	}
@@ -600,7 +600,7 @@ class ilObjContentObject extends ilObject
 		$q = "SELECT count(*) as cnt FROM content_object ".
 			" WHERE stylesheet = 0";
 		$cset = $ilDB->query($q);
-		$crow = $cset->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return (int) $crow["cnt"];
 	}
@@ -799,7 +799,7 @@ class ilObjContentObject extends ilObject
 		
 		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setLayout($lm_rec["default_layout"]);
 		$this->setStyleSheetId($lm_rec["stylesheet"]);
 		$this->setPageHeader($lm_rec["page_header"]);
@@ -875,7 +875,7 @@ class ilObjContentObject extends ilObject
 
 		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
@@ -1140,13 +1140,13 @@ class ilObjContentObject extends ilObject
 
 				$counter = 0;
 				$ids = array();
-				while($row = $res1->fetchRow(MDB2_FETCHMODE_OBJECT))
+				while($row = $res1->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					$ids[] = $row->ref_id;
 					$result[$counter]["id"]		=  $row->ref_id;
 					++$counter;
 				}
-				while($row = $res2->fetchRow(MDB2_FETCHMODE_OBJECT))
+				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					if(in_array($row->ref_id,$ids))
 					{
@@ -1188,7 +1188,7 @@ class ilObjContentObject extends ilObject
 				$ilBench->stop("Search", "ilObjContentObject_search_content");
 
 				$counter = 0;
-				while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					$result[$counter]["id"]	= $row->ref_id;
 					$result[$counter]["page_id"] = $row->page_id;
@@ -1244,7 +1244,7 @@ class ilObjContentObject extends ilObject
 		{
 			$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($node["child"]);
 			$obj_set = $ilDB->query($q);
-			$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 			if (!$obj_rec)
 			{
 				$node_data = $tree->getNodeData($node["child"]);
@@ -1258,7 +1258,7 @@ class ilObjContentObject extends ilObject
 		{
 			$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($node["parent"]);
 			$obj_set = $ilDB->query($q);
-			$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 			if ($obj_rec["type"] == "pg")
 			{
 				$node_data = $tree->getNodeData($node["child"]);

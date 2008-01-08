@@ -134,7 +134,7 @@ class ilMDKeyword extends ilMDBase
 				"WHERE meta_keyword_id = ".$ilDB->quote($this->getMetaId());
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -175,7 +175,7 @@ class ilMDKeyword extends ilMDBase
 			"ORDER BY meta_keyword_id ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_keyword_id;
 		}
@@ -202,7 +202,7 @@ class ilMDKeyword extends ilMDBase
 			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND obj_type = ".$ilDB->quote($a_type)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($row->keyword)
 			{

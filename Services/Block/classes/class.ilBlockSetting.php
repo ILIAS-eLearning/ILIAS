@@ -44,7 +44,7 @@ class ilBlockSetting
 			$ilDB->quote($a_setting)." AND block_id = ".
 			$ilDB->quote($a_block_id);
 		$set = $ilDB->query($query);
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $rec["value"];
 		}

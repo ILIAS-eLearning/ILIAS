@@ -76,7 +76,7 @@ class ilMailingLists
 		$entries = array();
 		
 		$counter = 0;
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{			
 			$tmpObj = new ilMailingList($this->user, 0);
 			$tmpObj->setId($row->ml_id);

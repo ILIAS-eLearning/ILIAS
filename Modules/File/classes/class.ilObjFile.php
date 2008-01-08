@@ -260,7 +260,7 @@ class ilObjFile extends ilObject
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId());
 		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
@@ -408,7 +408,7 @@ class ilObjFile extends ilObject
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return ilUtil::stripSlashes($row->file_name);
 	}
@@ -420,7 +420,7 @@ class ilObjFile extends ilObject
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		$size = $row->file_size;
 		if ($a_as_string)
@@ -672,7 +672,7 @@ class ilObjFile extends ilObject
 		$q = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($this->getId());
 		$us_set = $ilDB->query($q);
 		$ret = array();
-		while($us_rec = $us_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
 				"id" => $us_rec["usage_id"]);
@@ -698,7 +698,7 @@ class ilObjFile extends ilObject
 			" AND usage_type = ".$ilDB->quote($a_type);
 		$file_set = $ilDB->query($q);
 		$ret = array();
-		while($file_rec = $file_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($file_rec = $file_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[$file_rec["id"]] = $file_rec["id"];
 		}

@@ -125,7 +125,7 @@ class ilRoleDesktopItem
 			"AND role_item_id = ".$ilDB->quote($a_role_item_id)." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$item['item_id'] = $row->item_id;
 			$item['item_type'] = $row->item_type;
@@ -144,7 +144,7 @@ class ilRoleDesktopItem
 			"WHERE role_id = ".$this->db->quote($this->getRoleId())." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// TODO this check must be modified for non tree objects
 			if(!$tree->isInTree($row->item_id))

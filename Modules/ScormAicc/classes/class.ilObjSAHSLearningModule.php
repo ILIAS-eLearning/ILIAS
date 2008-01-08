@@ -95,7 +95,7 @@ class ilObjSAHSLearningModule extends ilObject
 		parent::read();
 		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 		$this->setAutoReview(ilUtil::yn2tf($lm_rec["auto_review"]));
 		$this->setAPIAdapterName($lm_rec["api_adapter"]);
@@ -114,7 +114,7 @@ class ilObjSAHSLearningModule extends ilObject
 		
 		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
@@ -130,7 +130,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($a_obj_id);
 		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $obj_rec["type"];
 	}

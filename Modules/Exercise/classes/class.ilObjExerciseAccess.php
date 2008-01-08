@@ -66,7 +66,7 @@ class ilObjExerciseAccess extends ilObjectAccess
 		$q = "SELECT time_stamp FROM exc_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id);
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		if ($rec["time_stamp"] - time() <= 0)
 		{

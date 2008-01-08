@@ -375,7 +375,7 @@ class ilTree
 		if ($count > 0)
 		{
 			//$ilBench->start("Tree", "getChilds_fetchNodeData");
-			while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$childs[] = $this->fetchNodeData($row);
 			}
@@ -441,7 +441,7 @@ class ilTree
 			 "ORDER BY ".$this->table_tree.".lft";
 		$r = $this->ilDB->query($q);
 		
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$childs[] = $this->fetchNodeData($row);
 		}
@@ -502,7 +502,7 @@ class ilTree
 					"WHERE child = '".$a_parent_id."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
 				$res = $this->ilDB->query($q);
-				$r = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 				if ($r->parent == NULL)
 				{
@@ -548,7 +548,7 @@ class ilTree
 						'WHERE child = '.$a_parent_id.' '.
 						'AND '.$this->tree_pk.' = '.$this->tree_id;
 					$res = $this->ilDB->query($q);
-					$r = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$r = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
 									
 					if ($r['parent'] == NULL)
@@ -580,7 +580,7 @@ class ilTree
 							'WHERE parent = '.$a_parent_id.' '.
 							'AND '.$this->tree_pk.' = '.$this->tree_id;
 						$res = $this->ilDB->query($q);
-						$r = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+						$r = $res->fetchRow(DB_FETCHMODE_ASSOC);
 						if (isset($r['max_rgt']))
 						{
 							// If the parent has children, we compute the available space
@@ -635,7 +635,7 @@ class ilTree
 						"WHERE child = '".$a_parent_id."' ".
 						"AND ".$this->tree_pk." = '".$this->tree_id."'";
 					$res = $this->ilDB->query($q);
-					$r = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+					$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 					if ($r->parent == NULL)
 					{
@@ -682,7 +682,7 @@ class ilTree
 					"WHERE child = '".$a_pos."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
 				$res = $this->ilDB->query($q);
-				$r = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 				// crosscheck parents of sibling and new node (must be identical)
 				if ($r->parent != $a_parent_id)
@@ -785,7 +785,7 @@ class ilTree
 
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if($a_with_data)
 			{
@@ -873,7 +873,7 @@ class ilTree
 			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$a_node['lft'] = $row->lft;
 			$a_node['rgt'] = $row->rgt;
@@ -970,7 +970,7 @@ class ilTree
 
 		$r = $this->ilDB->query($q);
 		$takeId = $a_startnode_id == 0;
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($takeId || $row['child'] == $a_startnode_id)
 			{
@@ -1018,7 +1018,7 @@ class ilTree
 		{
 			return array();
 		}
-		$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		$nodeDepth = $row['depth'];
 		$parentId = $row['parent'];
 			//$this->writelog('getIdsUsingAdjacencyMap depth='.$nodeDepth);
@@ -1076,7 +1076,7 @@ class ilTree
 			{
 				return array();
 			}
-			$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 			
 			$takeId = $takeId || $this->root_id == $a_startnode_id;			
 			if ($takeId) $pathIds[] = $this->root_id;
@@ -1136,7 +1136,7 @@ class ilTree
 
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$lft[] = $row->lft;
 			$rgt[] = $row->rgt;
@@ -1166,7 +1166,7 @@ class ilTree
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "ORDER BY lft";
 		$r1 = $this->ilDB->query($q);
-		while ($row = $r1->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $r1->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 //echo "tree:".$row[$this->tree_pk].":lft:".$row["lft"].":rgt:".$row["rgt"].":child:".$row["child"].":<br>";
 			if (($row["child"] == 0) && $a_no_zero_child)
@@ -1192,7 +1192,7 @@ class ilTree
 				}
 
 				// get object data
-				$obj_ref = $r2->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$obj_ref = $r2->fetchRow(DB_FETCHMODE_ASSOC);
 
 				$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$obj_ref[$this->obj_pk]."'";
 				$r3 = $this->ilDB->query($q);
@@ -1260,7 +1260,7 @@ class ilTree
 				 "AND ".$this->tree_pk." = '".$this->tree_id."'";
 
 			$res = $this->ilDB->query($q);
-			$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 			return $row->depth;
 		}
@@ -1302,7 +1302,7 @@ class ilTree
 			 "WHERE ".$this->table_tree.".child = ".$this->ilDB->quote($a_node_id)." ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
-		$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		$row[$this->tree_pk] = $this->tree_id;
 
 		return $this->fetchNodeData($row);
@@ -1358,7 +1358,7 @@ class ilTree
 				 "AND NOT lang_default = 1";
 			$r = $this->ilDB->query($q);
 
-			$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 			if ($row)
 			{
@@ -1446,7 +1446,7 @@ class ilTree
 			 "AND v.".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
 
-		$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $this->fetchNodeData($row);
 	}
@@ -1545,7 +1545,7 @@ class ilTree
 			 "AND parent = '0'";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$left = $row->lft;
 			$right = $row->rgt;
@@ -1559,7 +1559,7 @@ class ilTree
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$data[] = $this->fetchNodeData($row);
 		}
@@ -1629,7 +1629,7 @@ class ilTree
 			 "AND child = '".$a_node_id."' ";
 		$r = $this->ilDB->query($q);
 
-		while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$lft = $row->lft;
 			$rgt = $row->rgt;
@@ -1642,7 +1642,7 @@ class ilTree
 		$r = $this->ilDB->query($q);
 
 		$subnodes = array();
-		while($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$subnodes[] = $row['child'];
 		}
@@ -1708,7 +1708,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE child = '".$a_node_id."'";
 		$s = $this->ilDB->query($q);
-		$r = $s->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$r = $s->fetchRow(DB_FETCHMODE_ASSOC);
 
 		if ($r[$this->tree_pk] < 0)
 		{
@@ -1743,7 +1743,7 @@ class ilTree
 				"AND ".$this->table_tree.".parent = '".$a_parent_id."' ";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$saved[] = $this->fetchNodeData($row);
 		}
@@ -1769,7 +1769,7 @@ class ilTree
 			 "AND ".$this->tree_pk."='".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
 
-		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $row->parent;
 	}
@@ -1792,7 +1792,7 @@ class ilTree
 			 "AND ".$this->tree_pk."='".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
 
-		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $row->lft;
 	}
@@ -1822,7 +1822,7 @@ class ilTree
 			"AND ".$this->table_tree.".".$this->tree_pk."=".$this->ilDB->quote($this->tree_id);
 		$r = $this->ilDB->query($q);
 
-		$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $row["cnt"];
 	}
@@ -1838,7 +1838,7 @@ class ilTree
 		$query = "SELECT child FROM $this->table_tree ".
 			"WHERE parent = '0'".
 			"AND ".$this->tree_pk." = '".$this->tree_id."'";
-		$row = $this->ilDB->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilDB->getRow($query,DB_FETCHMODE_OBJECT);
 
 		$this->root_id = $row->child;
 		return $this->root_id;
@@ -1897,7 +1897,7 @@ class ilTree
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
-		$curr_node = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		// get data of successor node
 		$type_where = ($a_type != "")
@@ -1917,7 +1917,7 @@ class ilTree
 		}
 		else
 		{
-			$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 			return $this->fetchNodeData($row);
 		}
 	}
@@ -1941,7 +1941,7 @@ class ilTree
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
-		$curr_node = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		// get data of predecessor node
 		$type_where = ($a_type != "")
@@ -1961,7 +1961,7 @@ class ilTree
 		}
 		else
 		{
-			$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 			return $this->fetchNodeData($row);
 		}
 	}
@@ -2140,7 +2140,7 @@ class ilTree
 		$res = $this->ilDB->query($query);
 
 		$counter = (int) $lft_childs = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$lft_childs[$row->child] = $row->parent;
 			++$counter;
@@ -2173,7 +2173,7 @@ class ilTree
 
 		$res = $this->ilDB->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$parent_childs[$a_node_id] = $row->parent;
 			++$counter;
@@ -2193,7 +2193,7 @@ class ilTree
 			"WHERE parent = '".$a_node_id."'";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// RECURSION
 			$this->__getSubTreeByParentRelation($row->child,$parent_childs);
@@ -2271,7 +2271,7 @@ class ilTree
 				$this->log->write(__METHOD__.' Objects not found in tree!',$this->log->FATAL);
 				$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
             }
-            while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+            while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
             {
                     if($row->child == $a_source_id)
                     {

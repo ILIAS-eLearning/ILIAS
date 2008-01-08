@@ -98,7 +98,7 @@ class ilBookmark
 		}
 		else
 		{
-			$bm = $bm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$bm = $bm_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->setTitle($bm["title"]);
 			$this->setDescription($bm["description"]);
 			$this->setTarget($bm["target"]);

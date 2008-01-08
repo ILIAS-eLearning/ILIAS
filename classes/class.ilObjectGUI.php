@@ -918,7 +918,7 @@ class ilObjectGUI
 		
 		$r = $this->ilias->db->query($q);
 
-		while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// only continue recursion if fetched node wasn't touched already!
 			if (!in_array($row->tree,$a_checked))

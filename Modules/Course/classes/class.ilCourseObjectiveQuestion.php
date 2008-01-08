@@ -241,7 +241,7 @@ class ilCourseObjectiveQuestion
 			"ORDER BY title ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$test['test_objective_id'] = $row->test_objective_id;
 			$test['objective_id']		= $row->objective_id;
@@ -265,7 +265,7 @@ class ilCourseObjectiveQuestion
 			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$test['test_objective_id'] = $row->test_objective_id;
 			$test['objective_id']		= $row->objective_id;
@@ -436,7 +436,7 @@ class ilCourseObjectiveQuestion
 			"WHERE qst_ass_id = ".$ilDB->quote($qst_id)." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$test_rid = $row->ref_id;
 			$test_oid = $row->obj_id;
@@ -500,7 +500,7 @@ class ilCourseObjectiveQuestion
 			"ORDER BY title";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$tree->isInTree($row->ref_id) or !$tree->isGrandChild($container_ref_id,$row->ref_id))
 			{
@@ -535,7 +535,7 @@ class ilCourseObjectiveQuestion
 			"AND question_id = ".$ilDB->quote($a_question_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$objective_id = $row->objective_id;
 		}

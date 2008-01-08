@@ -1195,7 +1195,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
   	     $data = array();
 
-		 while($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		 while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		 {
 		      $data[] = $row;
 		 }

@@ -67,7 +67,7 @@ class ilSearchSettings
 			"AND object_reference.obj_id = object_data.obj_id";
 			
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return $seas_ref_id = $row->ref_id;
 	}

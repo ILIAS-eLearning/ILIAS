@@ -66,7 +66,7 @@ class ilLuceneIndexer
 
 		$counter = 0;
 		$files = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			++$counter;
 			$bname = ilUtil::getDataDir();
@@ -107,7 +107,7 @@ class ilLuceneIndexer
 		$query = "SELECT * FROM object_data WHERE type = 'htlm'";
 		$res = $this->db->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			++$counter;
 			$lms[$row->obj_id] = ILIAS_ABSOLUTE_PATH.'/'.ILIAS_WEB_DIR.'/'.CLIENT_ID.'/lm_data/lm_'.$row->obj_id;

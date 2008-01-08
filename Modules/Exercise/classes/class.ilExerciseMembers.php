@@ -407,7 +407,7 @@ class ilExerciseMembers
 			$ilDB->quote($this->getObjId());
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$delivered[] = $row;
 		}
@@ -431,7 +431,7 @@ class ilExerciseMembers
 		$delivered_files = array();
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				array_push($delivered_files, $row);
 			}
@@ -459,7 +459,7 @@ class ilExerciseMembers
 			if ($result->numRows())
 			{
 				$result_array = array();
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					array_push($result_array, $row);
 				}
@@ -496,7 +496,7 @@ class ilExerciseMembers
 				" usr_id = ".$ilDB->quote($a_member_id)." AND ".
 				" tutor_id = ".$ilDB->quote($ilUser->getId());
 			$lu_set = $ilDB->query($q);
-			if ($lu_rec = $lu_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+			if ($lu_rec = $lu_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($lu_rec["download_time"] > 0)
 				{
@@ -516,14 +516,14 @@ class ilExerciseMembers
 		$count = $result->numRows();
 		if ($count == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->downloadSingleFile($row["filename"], $row["filetitle"]);
 		}
 		else if ($count > 0)
 		{
 			$array_files = array();
 			$filename = "";
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$filename = $row["filename"];
 				$pathinfo = pathinfo($filename);
@@ -570,7 +570,7 @@ class ilExerciseMembers
 			if ($result->numRows())
 			{
 				$array_found = array();
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					array_push($array_found, $row);
 				}
@@ -734,7 +734,7 @@ class ilExerciseMembers
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId());
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$tmp_arr_members[] = $row->usr_id;
 			$tmp_arr_notice[$row->usr_id] = $row->notice;
@@ -764,7 +764,7 @@ class ilExerciseMembers
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId());
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[] = array("usr_id" => $row->usr_id,
 							"notice" => $row->notice,
@@ -808,7 +808,7 @@ class ilExerciseMembers
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->ud;
 		}
@@ -825,7 +825,7 @@ class ilExerciseMembers
 			"AND returned = 1";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->ud;
 		}
@@ -845,7 +845,7 @@ class ilExerciseMembers
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND status = 'passed'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->usr_id;
 		}
@@ -860,7 +860,7 @@ class ilExerciseMembers
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND status = 'failed'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->usr_id;
 		}
@@ -882,7 +882,7 @@ class ilExerciseMembers
 			"AND usr_id = ".$ilDB->quote($a_user_id);
 
 		$res = $ilDB->query($query);
-		if($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $row["status"];
 		}

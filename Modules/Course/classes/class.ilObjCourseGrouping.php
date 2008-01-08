@@ -186,7 +186,7 @@ class ilObjCourseGrouping
 		// READ this id
 		$query = "SELECT LAST_INSERT_ID() as last";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setId($row->last);
 		}
@@ -258,7 +258,7 @@ class ilObjCourseGrouping
 			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
@@ -268,7 +268,7 @@ class ilObjCourseGrouping
 			"WHERE crs_grp_id = ".$ilDB->quote($this->getId())." ";
 		$res = $this->db->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setUniqueField($row->unique_field);
 			$this->setContainerRefId($row->crs_ref_id);
@@ -313,7 +313,7 @@ class ilObjCourseGrouping
 		$query = "SELECT * FROM object_data WHERE type = 'crsg' ORDER BY title";
 		$res = $ilDB->query($query);
 		$groupings = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$groupings[] = $row->obj_id;
 		}
@@ -444,7 +444,7 @@ class ilObjCourseGrouping
 			"WHERE crs_id = ".$ilDB->quote($a_course_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$groupings[] = $row->crs_grp_id;
 		}

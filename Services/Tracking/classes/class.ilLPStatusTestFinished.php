@@ -54,7 +54,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 			"AND test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_fi;
 		}
@@ -73,7 +73,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 			"AND test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_fi;
 		}

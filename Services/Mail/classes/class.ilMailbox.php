@@ -148,7 +148,7 @@ class ilMailbox
 		$query = "SELECT * FROM ".$this->table_mail_obj_data." ".
 				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND type = 'inbox'";
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id;
 	}
@@ -164,7 +164,7 @@ class ilMailbox
 		$query = "SELECT * FROM ".$this->table_mail_obj_data ." ".
 				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND type = 'drafts'";
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id;
 	}
@@ -180,7 +180,7 @@ class ilMailbox
 		$query = "SELECT * FROM ".$this->table_mail_obj_data ." ".
 				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND type = 'trash'";
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id;
 	}
@@ -196,7 +196,7 @@ class ilMailbox
 		$query = "SELECT * FROM $this->table_mail_obj_data ".
 				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			 	 "AND type = 'sent'";
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id;
 	}
@@ -254,7 +254,7 @@ class ilMailbox
 		$query = "SELECT mail_id FROM mail WHERE folder_id = 0 AND user_id = ".$ilDB->quote($a_user_id)." ".
 			"AND m_status = 'unread'";
 
-		$row = $ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		
 		if($row->mail_id)
 		{
@@ -267,7 +267,7 @@ class ilMailbox
 				 "AND mo.type = 'inbox' ".
 				 "AND m.user_id = ".$ilDB->quote($a_user_id)." ".
 			 	 "AND m.m_status = 'unread'";
-		$row = $ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row ? $row->mail_id : 0;
 	}
@@ -293,7 +293,7 @@ class ilMailbox
 		$query = "SELECT count(*) as cnt FROM mail WHERE folder_id = 0 AND user_id = ".$ilDB->quote($a_user_id)." ".
 			"AND m_status = 'unread'";
 
-		$row = $ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		$query = "SELECT count(*) as cnt FROM mail AS m,mail_obj_data AS mo ".
 				 "WHERE m.user_id = mo.user_id ".
@@ -301,7 +301,7 @@ class ilMailbox
 				 "AND mo.type = 'inbox' ".
 				 "AND m.user_id = ".$ilDB->quote($a_user_id)." ".
 			 	 "AND m.m_status = 'unread'";
-		$row2 = $ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row2 = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		
 		return $row->cnt + $row2->cnt;
 	}
@@ -405,7 +405,7 @@ class ilMailbox
 		$query = "SELECT obj_id FROM $this->table_mail_obj_data ".
 				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND title = ".$ilDB->quote($a_folder_name)." ";
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id ? true : false;
 	}
@@ -461,7 +461,7 @@ class ilMailbox
 		$query = "SELECT MAX(obj_id) FROM $this->table_mail_obj_data ";
 		$res = $this->ilias->db->query($query);
 
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $row["MAX(obj_id)"] ? $row["MAX(obj_id)"] : 0;
 		}
@@ -480,7 +480,7 @@ class ilMailbox
 				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND obj_id = ".$ilDB->quote($a_obj_id)." ";
 
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return array(
 					"title"    => stripslashes($row->title),
@@ -498,7 +498,7 @@ class ilMailbox
 
 		$query = "SELECT * FROM $this->table_tree ".
 				 "WHERE child = ".$ilDB->quote($a_obj_id)." ";
-		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 	
 		return $row->parent;
 	}
@@ -522,7 +522,7 @@ class ilMailbox
 			$query = "SELECT obj_id,type FROM $this->table_mail_obj_data ".
 				"WHERE user_id = ".$ilDB->quote($this->user_id). " ".
 				"AND title = ".$ilDB->quote($key)." ";
-			$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
+			$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 			
 			$user_folder[] = array(
 				"title"    => $key,
@@ -538,7 +538,7 @@ class ilMailbox
 
 		$res = $this->ilias->db->query($query);
 
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$user_folder[] = array(
 				"title"      => stripslashes($row->title),

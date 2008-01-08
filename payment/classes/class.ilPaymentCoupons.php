@@ -110,7 +110,7 @@ class ilPaymentCoupons
 		}
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->coupons[$row->pc_pk]['pc_pk'] = $row->pc_pk;
 			$this->coupons[$row->pc_pk]['usr_id'] = $row->usr_id;
@@ -436,7 +436,7 @@ class ilPaymentCoupons
 				  AND pc_pk = ".$this->db->quote($a_coupon_id)." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{			
 			$this->setId($row->pc_pk);
 			$this->setCouponUser($row->usr_id);
@@ -476,7 +476,7 @@ class ilPaymentCoupons
 		$query = "SELECT * FROM payment_coupons_objects WHERE 1 AND pco_pc_fk = ".$this->db->quote($a_coupon_id);
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->objects[] = $row->ref_id;
 		}		
@@ -495,7 +495,7 @@ class ilPaymentCoupons
 				  GROUP BY pcc_pk";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->codes[$row->pcc_pk]['pcc_pk'] = $row->pcc_pk;
 			$this->codes[$row->pcc_pk]['pcc_code'] = $row->pcc_code;
@@ -516,7 +516,7 @@ class ilPaymentCoupons
 				  AND pcc_pc_fk = ".$this->db->quote($a_coupon_id);
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->used_codes[$row->pct_pk]['pct_pk'] = $row->pct_pk;
 			$this->used_codes[$row->pct_pk]['pcc_code'] = $row->pcc_code;
@@ -537,7 +537,7 @@ class ilPaymentCoupons
 				  AND pcc_code = ".$this->db->quote($a_coupon_code). " ";
 
 		$res = $this->db->query($query);
-		if (is_object($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT)))
+		if (is_object($row = $res->fetchRow(DB_FETCHMODE_OBJECT)))
 		{
 			$coupon['pc_pk'] = $row->pc_pk;			
 			$coupon['pc_title'] = $row->pc_title;
@@ -598,7 +598,7 @@ class ilPaymentCoupons
 
 			$this->db->query($query);
 			$res = $this->db->query($query);
-			$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 			
 			if ($row->used_coupons >= $coupon["pc_uses"]) return $this->COUPON_TOO_MUCH_USED;
 		}
@@ -640,7 +640,7 @@ class ilPaymentCoupons
 				  AND pcc_pk = ".$this->db->quote($a_code_id)." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$code['pcc_pk'] = $row->pcc_pk;
 			$code['pcc_pc_fk'] = $row->pcc_pc_fk;

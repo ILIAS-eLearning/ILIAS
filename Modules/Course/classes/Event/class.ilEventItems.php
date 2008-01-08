@@ -114,7 +114,7 @@ class ilEventItems
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$items[] = $row->item_id;
 		}
@@ -136,7 +136,7 @@ class ilEventItems
 		$query = "SELECT * FROM event_items ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id);
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$items[] = $row->item_id;
 		}
@@ -203,7 +203,7 @@ class ilEventItems
 
 		$res = $this->db->query($query);
 		$this->items = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($tree->isDeleted($row->item_id))
 			{

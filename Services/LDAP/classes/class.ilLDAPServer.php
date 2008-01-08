@@ -73,7 +73,7 @@ class ilLDAPServer
 			"WHERE active = 1 ".
 			"ORDER BY name ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -95,7 +95,7 @@ class ilLDAPServer
 			"ORDER BY name";
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -117,7 +117,7 @@ class ilLDAPServer
 			"WHERE active = 1 ".
 			"AND role_sync_active = 1 ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -163,7 +163,7 @@ class ilLDAPServer
 		
 		$query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -779,7 +779,7 @@ class ilLDAPServer
 #		var_dump("<pre>",$query,"</pre>");
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->toggleActive($row->active);
 			$this->setName($row->name);

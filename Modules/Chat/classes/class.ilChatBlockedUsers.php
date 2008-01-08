@@ -149,7 +149,7 @@ class ilChatBlockedUsers
 			"WHERE chat_id = ".$ilDB->quote($this->id)."";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->blocked[] = $row->usr_id;
 		}

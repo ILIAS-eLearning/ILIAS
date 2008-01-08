@@ -164,7 +164,7 @@ class ilRbacSystem
 
 			$ops = array();
 
-			while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
@@ -200,7 +200,7 @@ class ilRbacSystem
 		
 		$r = $this->ilDB->query($q);
 
-		while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops_id = $row->ops_id;
 		}
@@ -211,7 +211,7 @@ class ilRbacSystem
 		
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 		}

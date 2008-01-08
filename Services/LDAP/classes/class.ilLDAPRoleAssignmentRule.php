@@ -83,7 +83,7 @@ class ilLDAPRoleAssignmentRule
 	 	
 	 	$query = "SELECT rule_id FROM ldap_role_assignments ";
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$rules[] = self::_getInstanceByRuleId($row->rule_id);
 	 	}
@@ -423,7 +423,7 @@ class ilLDAPRoleAssignmentRule
 	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId())." ";
 		
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 			$this->setServerId($row->server_id);
 			$this->setType($row->type);

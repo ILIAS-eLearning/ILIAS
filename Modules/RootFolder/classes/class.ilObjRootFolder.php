@@ -145,7 +145,7 @@ class ilObjRootFolder extends ilContainer
 		$num = 0;
 
 		$data["Fobject"] = array();
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data["Fobject"][$num]= array("title"	=> $row->title,
 										  "desc"	=> $row->description,

@@ -165,7 +165,7 @@ class ilContainerSorting
 	 	$query = "SELECT * FROM container_sorting ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ";
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->sorting[$row->type] = unserialize($row->items);
 	 	}

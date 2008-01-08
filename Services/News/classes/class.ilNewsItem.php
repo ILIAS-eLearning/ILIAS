@@ -104,7 +104,7 @@ class ilNewsItem extends ilNewsItemGen
 					" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType());
 	
 			$set = $ilDB->query($query);
-			$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 					
 			// if we have more records than allowed, delete them
 			if (($rec["cnt"] > $max_items) && $this->getContextObjId() > 0)
@@ -120,7 +120,7 @@ class ilNewsItem extends ilNewsItemGen
 						" LIMIT ".($rec["cnt"] - $max_items);
 	
 				$del_set = $ilDB->query($query);
-				while ($del_item = $del_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($del_item = $del_set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$del_news = new ilNewsItem($del_item["id"]);
 					$del_news->delete();
@@ -581,7 +581,7 @@ class ilNewsItem extends ilNewsItemGen
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if (!$a_for_rss_use || ($rec["visibility"] == NEWS_PUBLIC ||
 				($rec["priority"] == 0 &&
@@ -649,7 +649,7 @@ class ilNewsItem extends ilNewsItemGen
 
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($type[$rec["context_obj_id"]] == $rec["context_obj_type"])
 			{
@@ -807,7 +807,7 @@ class ilNewsItem extends ilNewsItemGen
 			
 		$news_set = $ilDB->query($query);
 		
-		while ($news = $news_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($news = $news_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$news_obj = new ilNewsItem($news["id"]);
 			$news_obj->delete();
@@ -821,7 +821,7 @@ class ilNewsItem extends ilNewsItemGen
 		$query = "SELECT title FROM il_news_item WHERE id = ".
 			$ilDB->quote($a_news_id);
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $rec["title"];
 	}
 	
@@ -841,7 +841,7 @@ class ilNewsItem extends ilNewsItemGen
 
 		$set = $ilDB->query($query);
 		$objs = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$objs[] = $rec["obj_id"];
 		}
@@ -942,7 +942,7 @@ class ilNewsItem extends ilNewsItemGen
 				" AND context_sub_obj_type = ".$ilDB->quote($a_context_sub_obj_type);
 				
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		return $rec["id"];
 	}

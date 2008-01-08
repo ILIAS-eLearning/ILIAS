@@ -136,7 +136,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $ilDB->query($q);
-		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
@@ -164,7 +164,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
 		$acc_set = $ilDB->query($q);
 
-		if ($acc_rec = $acc_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($acc_rec = $acc_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$mtree = new ilTree($lm_id);
 			$mtree->setTableNames('lm_tree','lm_data');

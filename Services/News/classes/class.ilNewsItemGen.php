@@ -470,7 +470,7 @@ class ilNewsItemGen
 		$query = "SELECT * FROM il_news_item WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setTitle($rec["title"]);
 		$this->setContent($rec["content"]);
@@ -557,7 +557,7 @@ class ilNewsItemGen
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$result[] = $rec;
 		}
@@ -587,7 +587,7 @@ class ilNewsItemGen
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$result[] = $rec;
 		}

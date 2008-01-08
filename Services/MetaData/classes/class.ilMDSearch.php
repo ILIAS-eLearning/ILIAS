@@ -115,7 +115,7 @@ class ilMDSearch
 			"ORDER BY meta_keyword_id DESC";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
 		}

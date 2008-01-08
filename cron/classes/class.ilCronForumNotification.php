@@ -54,7 +54,7 @@ class ilCronForumNotification
 		$frm =& $forumObj->Forum;
 
 		$numRows = 0;
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($row["pos_usr_id"] != $row["user_id"])
 			{

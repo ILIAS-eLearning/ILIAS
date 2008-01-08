@@ -145,7 +145,7 @@ class ilTimingAccepted
 			"WHERE crs_id = ".$ilDB->quote($this->getCourseId())." ".
 			"AND usr_id = ".$this->getUserId()."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setVisible($row->visible);
 			$this->setRemark($row->remark);

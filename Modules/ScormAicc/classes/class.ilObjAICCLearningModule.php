@@ -160,7 +160,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 			"AND type = 'sau'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$items[$row->obj_id]['obj_id'] = $row->obj_id;
 			$items[$row->obj_id]['title'] = $row->title;
@@ -202,7 +202,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		$sco_set = $ilDB->query($query);
 
 		$items = array();
-		while($sco_rec = $sco_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");	
 			$ac_item =& new ilAICCUnit($sco_rec["sco_id"]);
@@ -224,7 +224,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		$data_set = $ilDB->query($query);
 
 		$data = array();
-		while($data_rec = $data_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$data[] = $data_rec;
 		}

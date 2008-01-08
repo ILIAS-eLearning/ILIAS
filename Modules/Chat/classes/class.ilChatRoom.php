@@ -219,7 +219,7 @@ class ilChatRoom
 			"ORDER BY commit_timestamp ";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[] = $row->message;
 		}
@@ -334,7 +334,7 @@ class ilChatRoom
 			"AND room_id = ".$ilDB->quote($this->room_id)." ".
 			"AND last_conn_timestamp > ".time()." - 40";
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->usr_id;
 		}
@@ -352,7 +352,7 @@ class ilChatRoom
 			"AND last_conn_timestamp > ".time()." - 40";
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->chat_id;
 		}
@@ -433,7 +433,7 @@ class ilChatRoom
 		{
 			for ($i = 0; $i < $num; $i++)
 			{
-				$data = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 				$this->ilias->db->query("DELETE FROM chat_record_data WHERE record_id = ".$ilDB->quote($data["record_id"])."");
 			}
 			
@@ -468,7 +468,7 @@ class ilChatRoom
 			"AND owner = ".$ilDB->quote($this->getOwnerId())."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->room_id;
 		}
@@ -512,7 +512,7 @@ class ilChatRoom
 			"OR (guest_id = ".$ilDB->quote($this->getUserId()).")";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[$row->room_id]["room_id"] = $row->room_id;
 			$data[$row->room_id]["chat_id"] = $row->chat_id;
@@ -531,7 +531,7 @@ class ilChatRoom
 			"AND owner = ".$ilDB->quote($this->getUserId())."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[$row->room_id]["room_id"] = $row->room_id;
 			$data[$row->room_id]["owner"] = $row->owner;
@@ -549,7 +549,7 @@ class ilChatRoom
 			"WHERE chat_id = ".$ilDB->quote($this->getObjId())."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[$row->room_id]["room_id"] = $row->room_id;
 			$data[$row->room_id]["owner"] = $row->owner;
@@ -630,7 +630,7 @@ class ilChatRoom
 			"AND room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->number_lines;
 		}
@@ -647,7 +647,7 @@ class ilChatRoom
 			"GROUP BY null";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$entry_id = $row->entry_id;
 		}
@@ -697,7 +697,7 @@ class ilChatRoom
 			"WHERE room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
 			$this->setOwnerId($row->owner);
@@ -708,7 +708,7 @@ class ilChatRoom
 			"AND room_id = ".$ilDB->quote($this->getRoomId())."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->guests[] = $row->guest_id;
 		}

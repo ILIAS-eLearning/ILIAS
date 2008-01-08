@@ -68,7 +68,7 @@ function db_session_read($session_id)
 
 	$q = "SELECT data FROM usr_session WHERE session_id = '".addslashes($session_id)."'";
 	$r = $ilDB->query($q);
-	$data = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+	$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 	return $data["data"];
 }
@@ -165,7 +165,7 @@ function duplicate_session($a_session_id)
 	$query = "SELECT * FROM usr_session ".
 		"WHERE session_id = ".$ilDB->quote($a_session_id);
 	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	{
 		db_session_write($new_session,$row->data);
 		return $new_session;

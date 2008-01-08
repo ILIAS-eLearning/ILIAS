@@ -329,7 +329,7 @@ class ilSCORM13Player
 	{
 		global $ilDB;
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
-		$packageData = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$packageData = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		
 		$jsdata = $packageData['jsdata'];
@@ -352,7 +352,7 @@ class ilSCORM13Player
 	{
 		global $ilDB;
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
-		$data = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$activitytree=$data['activitytree'];
 				
@@ -373,7 +373,7 @@ class ilSCORM13Player
 	public function getScope(){
 		global $ilDB,$ilUser;
 		$set = $ilDB->query("SELECT global_to_system FROM cp_package WHERE (obj_id = ".$ilDB->quote($this->packageId).")");
-		$data = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		$gystem=$data['global_to_system'];
 		if ($gystem==1) {$gsystem="null";} else {$gsystem=$this->packageId;}
 		return $gsystem;
@@ -383,7 +383,7 @@ class ilSCORM13Player
 	public function getSuspendData(){
 		global $ilDB,$ilUser;
 		$set = $ilDB->query("SELECT * FROM cp_suspend WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
-		$data = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		$suspend_data=$data['data'];
 		if ($this->jsMode) 
 		{
@@ -418,7 +418,7 @@ class ilSCORM13Player
 			
 		$set = $ilDB->query($q);
 		
-		while ($row = $set->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+		while ($row = $set->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$learner=$row['user_id'];
 			$objective_id=$row['objective_id'];
 			if ($row['scope_id']==0) {

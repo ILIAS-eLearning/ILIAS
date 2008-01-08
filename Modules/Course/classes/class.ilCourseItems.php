@@ -105,7 +105,7 @@ class ilCourseItems
 	 		return false;
 	 	}
 	 	$new_items = new ilCourseItems($this->course_obj,$a_target_id);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		if(!isset($mappings[$row->parent_id]) or !$mappings[$row->parent_id])
 	 		{
@@ -543,7 +543,7 @@ class ilCourseItems
 			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($tree->getParentId($row->obj_id) != $this->getParentId())
 			{
@@ -562,7 +562,7 @@ class ilCourseItems
 			"AND parent_id = ".$ilDB->quote($this->getParentId())." ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$position = $row->position;
 		}
@@ -597,7 +597,7 @@ class ilCourseItems
 			"AND parent_id = ".$ilDB->quote($a_item['parent'])." ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$a_item["timing_type"] = $row->timing_type;
 			$a_item["timing_start"]		= $row->timing_start;
@@ -712,7 +712,7 @@ class ilCourseItems
 			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$max = $row->last_position;
 		}
@@ -728,7 +728,7 @@ class ilCourseItems
 			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$node_a["position"] = $row->position;
 			$node_a["obj_id"]	  = $row->obj_id;
@@ -740,7 +740,7 @@ class ilCourseItems
 			"ORDER BY position DESC";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->__isMovable($row->obj_id))
 			{
@@ -763,7 +763,7 @@ class ilCourseItems
 			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$node_a["position"] = $row->position;
 			$node_a["obj_id"]	  = $row->obj_id;
@@ -775,7 +775,7 @@ class ilCourseItems
 			"ORDER BY position ASC";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->__isMovable($row->obj_id))
 			{
@@ -886,7 +886,7 @@ class ilCourseItems
 		$query = "SELECT * FROM crs_items ".
 			"WHERE obj_id = '".$a_item_id."'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data['parent_id'] = $row->parent_id;
 			$data['obj_id'] = $row->obj_id;
@@ -954,7 +954,7 @@ class ilCourseItems
 			"WHERE obj_id = ".$ilDB->quote($a_item_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($row->activation_unlimited)
 			{
@@ -987,7 +987,7 @@ class ilCourseItems
 	 	$query = "SELECT obj_id,timing_type,timing_start,timing_end,visible FROM crs_items ".
 	 		"WHERE obj_id IN (".implode(',',$a_ref_ids).")";
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$ac_times[(string) $row->obj_id]['obj_id'] = $row->obj_id;
 	 		$ac_times[(string) $row->obj_id]['timing_type'] = $row->timing_type;

@@ -142,7 +142,7 @@ class ilAICCObject
 		$q = "SELECT * FROM aicc_object WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setTitle($obj_rec["title"]);
 		$this->setType($obj_rec["type"]);
 		$this->setALMId($obj_rec["alm_id"]);
@@ -201,7 +201,7 @@ class ilAICCObject
 
 		$sc_set = $ilDB->query("SELECT type FROM aicc_object WHERE obj_id =".$ilDB->quote($a_id).
 			" AND slm_id = ".$ilDB->quote($a_slm_id));
-		$sc_rec = $sc_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$sc_rec = $sc_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		switch($sc_rec["type"])
 		{

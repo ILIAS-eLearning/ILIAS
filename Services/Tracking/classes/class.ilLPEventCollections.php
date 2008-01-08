@@ -115,7 +115,7 @@ class ilLPEventCollections
 
 		$query = "SELECT * FROM ut_lp_event_collections WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!ilEvent::_exists($row->item_id))
 			{
@@ -139,7 +139,7 @@ class ilLPEventCollections
 
 		$query = "SELECT * FROM ut_lp_event_collections WHERE obj_id = ".$this->db->quote($this->obj_id)."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!ilEvent::_exists($row->item_id))
 			{

@@ -218,7 +218,7 @@ class ilObjUserFolder extends ilObject
 				$ilDB->quote($row["usr_id"])
 			);
 			$rbacresult = $ilDB->query($query);
-			while ($rbacrow = $rbacresult->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$type = "";
 				if ($rbacrow["assign"] == "y")
@@ -294,7 +294,7 @@ class ilObjUserFolder extends ilObject
 				$r = $ilDB->query($q);
 				if ($r->numRows() == 1)
 				{
-					$personal_picture_data = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$personal_picture_data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 					$personal_picture = $personal_picture_data["value"];
 					$webspace_dir = ilUtil::getWebspaceDir();
 					$image_file = $webspace_dir."/usr_images/".$personal_picture;
@@ -573,7 +573,7 @@ class ilObjUserFolder extends ilObject
 		$profile_fields =& ilObjUserFolder::getProfileFields();
 		$query = "SELECT * FROM `settings` WHERE keyword LIKE '%usr_settings_export_%' AND value = '1'";
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if (preg_match("/usr_settings_export_(.*)/", $row["keyword"], $setting))
 			{
@@ -643,7 +643,7 @@ class ilObjUserFolder extends ilObject
 		$data = array();
 		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language' ORDER BY usr_data.lastname, usr_data.firstname";
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if (is_array($user_data_filter))
 			{
@@ -757,7 +757,7 @@ class ilObjUserFolder extends ilObject
 		$set = $ilDB->query("SELECT * FROM usr_new_account_mail ".
 			" WHERE lang = ".$ilDB->quote($a_lang));
 
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $rec;
 		}

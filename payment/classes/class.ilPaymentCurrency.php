@@ -37,7 +37,7 @@ class ilPaymentCurrency
 		$query = "SELECT * FROM payment_currencies ";
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$currencies[$row->currency_id]['currency_id']		= $row->currency_id;
 			$currencies[$row->currency_id]['unit']				= $row->unit;
@@ -53,7 +53,7 @@ class ilPaymentCurrency
 			"WHERE currency_id = '".$a_currency_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$currencies['currency_id']		= $row->currency_id;
 			$currencies['unit']				= $row->unit;
@@ -69,7 +69,7 @@ class ilPaymentCurrency
 			"WHERE currency_id = '".$a_currency_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->unit;
 		}
@@ -83,7 +83,7 @@ class ilPaymentCurrency
 			"WHERE currency_id = '".$a_currency_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->subunit;
 		}

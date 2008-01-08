@@ -88,7 +88,7 @@ class ilObjForum extends ilObject
 		$query = "SELECT thr_subject FROM frm_threads ".
 			"WHERE thr_pk = ".$ilDB->quote($a_thread_id)."";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->thr_subject;
 		}
@@ -113,7 +113,7 @@ class ilObjForum extends ilObject
 				"WHERE top_frm_fk = ".$ilDB->quote($a_frm_id)."";
 
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$topic_id = $row->top_pk;
 			}
@@ -123,7 +123,7 @@ class ilObjForum extends ilObject
 				"WHERE pos_top_fk = ".$ilDB->quote($topic_id)."";
 
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$num_posts = $row->num_posts;
 			}
@@ -133,7 +133,7 @@ class ilObjForum extends ilObject
 				"AND usr_id = ".$ilDB->quote($a_usr_id)."";
 
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$count_read = $row->count_read;
 			}
@@ -148,7 +148,7 @@ class ilObjForum extends ilObject
 				"WHERE pos_thr_fk = ".$ilDB->quote($a_thread_id)."";
 
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$num_posts = $row->num_posts;
 			}
@@ -160,7 +160,7 @@ class ilObjForum extends ilObject
 				"AND thread_id = ".$ilDB->quote($a_thread_id)."";
 
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$count_read = $row->count_read;
 			}
@@ -183,7 +183,7 @@ class ilObjForum extends ilObject
 			"WHERE pos_thr_fk = ".$ilDB->quote($a_thread_id)."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->markPostRead($a_usr_id,$a_thread_id,$row->pos_pk);
 		}
@@ -199,7 +199,7 @@ class ilObjForum extends ilObject
 			"AND top_pk = thr_top_fk ";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->markThreadRead($a_usr_id,$row->thr_pk);
 		}
@@ -275,7 +275,7 @@ class ilObjForum extends ilObject
 
 			$res = $this->ilias->db->query($query);
 			
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$counter += $this->__getCountNew($a_usr_id,$row->pos_thr_fk);
 			}
@@ -302,7 +302,7 @@ class ilObjForum extends ilObject
 			"AND pos_usr_id != ".$ilDB->quote($a_usr_id)."";
 		
 		$res  =  $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->isRead($a_usr_id,$row->pos_pk))
 			{
@@ -637,7 +637,7 @@ class ilObjForum extends ilObject
 		$query = "SELECT obj_id FROM object_data ".
 			" WHERE type='rolt' AND title='il_frm_moderator'";
 
-		$res = $this->ilias->db->getRow($query, MDB2_FETCHMODE_OBJECT);
+		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
 		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
 		// SET OBJECT PERMISSIONS OF COURSE OBJECT
@@ -662,7 +662,7 @@ class ilObjForum extends ilObject
 		$mod_title = 'il_frm_moderator_'.$a_ref_id;
 	 	$query = "SELECT * FROM object_data WHERE title = ".$ilDB->quote($mod_title);
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		return $row->obj_id;
 	 	}
@@ -694,7 +694,7 @@ class ilObjForum extends ilObject
 			"AND usr_id = ".$ilDB->quote( $a_usr_id )."";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$last_access = $row->access_old;
 		}

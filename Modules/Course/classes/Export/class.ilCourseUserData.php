@@ -83,7 +83,7 @@ class ilCourseUserData
 			$where;
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$user_data[$row->usr_id][$row->field_id] = $row->value;
 		}
@@ -119,7 +119,7 @@ class ilCourseUserData
 			"AND value != '' ".
 			$and;
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return $row->num_entries == count($required);
 	}
@@ -219,7 +219,7 @@ class ilCourseUserData
 	 		"WHERE usr_id = ".$this->db->quote($this->user_id)." ".
 	 		"AND field_id = ".$this->db->quote($this->field_id);
 	 	$res = $this->db->query($query);
-	 	$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 		$this->setValue($row->value);			
 			

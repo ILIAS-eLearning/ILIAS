@@ -232,7 +232,7 @@ class ilEventAppointment
 			"ORDER BY starting_time";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$appointments[] =& new ilEventAppointment($row->appointment_id);
 		}
@@ -262,7 +262,7 @@ class ilEventAppointment
 		$query = "SELECT * FROM event_appointment ".
 			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId())." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setEventId($row->event_id);
 			$this->setStartingTime($row->starting_time);
