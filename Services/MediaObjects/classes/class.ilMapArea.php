@@ -125,7 +125,7 @@ class ilMapArea
 		$q = "SELECT max(nr) AS max_nr FROM map_area WHERE item_id=".
 			$ilDB->quote($a_item_id);
 		$max_set = $this->ilias->db->query($q);
-		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$max_rec = $max_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $max_rec["max_nr"];
 	}
@@ -141,7 +141,7 @@ class ilMapArea
 			$ilDB->quote($this->getItemId()).
 			" AND nr=".$ilDB->quote($this->getNr());
 		$area_set = $this->ilias->db->query($q);
-		$area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$area_rec = $area_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		$this->setShape($area_rec["shape"]);
 //echo $area_rec["Shape"];
@@ -186,7 +186,7 @@ class ilMapArea
 //echo "maparea::resolve<br>";
 		$q = "SELECT * FROM map_area WHERE item_id=".$ilDB->quote($a_item_id);
 		$area_set = $this->ilias->db->query($q);
-		while ($area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($area_rec = $area_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$target = $area_rec["target"];
 			$type = $area_rec["type"];
@@ -220,7 +220,7 @@ class ilMapArea
 
 		$links = array();
 
-		while ($area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($area_rec = $area_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$target = $area_rec["target"];
 			$type = $area_rec["type"];

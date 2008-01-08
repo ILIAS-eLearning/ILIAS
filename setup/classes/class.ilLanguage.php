@@ -332,7 +332,7 @@ class ilLanguage
 				"AND description LIKE 'installed%'";
 		$r = $this->db->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$arr[] = $row->title;
 		}
@@ -354,7 +354,7 @@ class ilLanguage
 				"AND description = 'installed_local'";
 		$r = $this->db->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$arr[] = $row->title;
 		}
@@ -374,7 +374,7 @@ class ilLanguage
 				"WHERE type = 'lng'";
 		$r = $this->db->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$arr[$row->title]["obj_id"] = $row->obj_id;
 			$arr[$row->title]["status"] = $row->description;
@@ -575,7 +575,7 @@ class ilLanguage
 						" lang_key = ".$ilDB->quote($this->key).
 						" AND module = ".$ilDB->quote($module);
 					$set = $ilDB->query($q);
-					$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+					$row = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 					$arr2 = unserialize($row["lang_array"]);
 					if (is_array($arr2))
 					{

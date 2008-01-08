@@ -508,7 +508,7 @@ class assFlashAppGUI extends assQuestionGUI
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return array("user_id" => $row["user_fi"], "test_id" => $row["test_fi"]);
 		}
 		else

@@ -114,7 +114,7 @@ class ilLinkChecker
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$invalid[] = array('page_id' => $row->page_id,
 							   'url'	 => $row->url);
@@ -136,7 +136,7 @@ class ilLinkChecker
 			$query = "SELECT MAX(last_check) as last_check FROM link_check ".
 				"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ";
 		}
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 
 		return $row->last_check ? $row->last_check : 0;
 	}
@@ -191,7 +191,7 @@ class ilLinkChecker
 				"AND parent_type = 'lm'";
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$pages[] = array('page_id' => $row->page_id,
 								 'content' => $row->content,
@@ -204,7 +204,7 @@ class ilLinkChecker
 				"WHERE parent_type = 'lm'";
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$pages[] = array('page_id' => $row->page_id,
 								 'content' => $row->content,
@@ -254,7 +254,7 @@ class ilLinkChecker
 			"AND lang_key = ".$ilDB->quote($language)."";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$value = $row->value;
 		}
@@ -266,7 +266,7 @@ class ilLinkChecker
 				"AND lang_key = 'en'";
 			
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$value = $row->value;
 			}
@@ -280,7 +280,7 @@ class ilLinkChecker
 		
 		$query = "SELECT email FROM usr_data WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 
 		$data['email'] = $row->email;
 
@@ -288,7 +288,7 @@ class ilLinkChecker
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND keyword = 'language'";
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 
 		$data['lang'] = $row->value;
 
@@ -302,7 +302,7 @@ class ilLinkChecker
 		$query = "SELECT title FROM object_data ".
 			"WHERE obj_id = ".$ilDB->quote($a_lm_obj_id)." ";
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 
 		return $row->title;
 	}
@@ -514,7 +514,7 @@ class ilLinkChecker
 		$query = "SELECT lm_id FROM lm_data ".
 			"WHERE obj_id = '".$a_page_id."'";
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 
 		return $row->lm_id ? $row->lm_id : 0;
 	}

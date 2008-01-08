@@ -330,7 +330,7 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $ilDB->query($query);
 		$questionblocks = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($questionblocks, $row["questionblock_fi"]);
 		}
@@ -391,7 +391,7 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $ilDB->query($query);
 		$active_array = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($active_array, $row["finished_id"]);
 		}
@@ -427,7 +427,7 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($finished_id . "")
 			);
 			$result = $ilDB->query($query);
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 			$query = sprintf("DELETE FROM survey_answer WHERE active_fi = %s",
 				$ilDB->quote($row["finished_id"] . "")
@@ -452,7 +452,7 @@ class ilObjSurvey extends ilObject
 		$participants = array();
 		if ($result->numRows() > 0)
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$userdata = $this->getUserDataFromActiveId($row["finished_id"]);
 				$participants[$userdata["sortname"] . $userdata["active_id"]] = $userdata;
@@ -696,7 +696,7 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $ilDB->query($query);
 		$questions = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($questions, $row["question_id"]);
 			$title = $row["title"];
@@ -848,7 +848,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$old_questions[$row["question_fi"]] = $row;
 			}
@@ -890,7 +890,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["anonymous_id"];
 		}
 		else
@@ -935,7 +935,7 @@ class ilObjSurvey extends ilObject
     $result = $ilDB->query($query);
     if ($result->numRows() == 1) 
 		{
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
       return $data->type_tag;
     } 
 		else 
@@ -999,71 +999,68 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-  function loadFromDb()
-  {
+	function loadFromDb()
+	{
 		global $ilDB;
-    $query = sprintf("SELECT * FROM survey_survey WHERE obj_fi = %s",
-      $ilDB->quote($this->getId())
-    );
-    $result = $ilDB->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		$query = sprintf("SELECT * FROM survey_survey WHERE obj_fi = %s",
+			$ilDB->quote($this->getId())
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1) 
 		{
-      if ($result->numRows() == 1) 
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->survey_id = $data->survey_id;
+			if (strlen($this->getAuthor()) == 0)
 			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->survey_id = $data->survey_id;
-				if (strlen($this->getAuthor()) == 0)
-				{
-					$this->saveAuthorToMetadata($data->author);
-				}
-				$this->author = $this->getAuthor();
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
-				if (strcmp($data->outro, "survey_finished") == 0)
-				{
-					$this->setOutro($this->lng->txt("survey_finished"));
-				}
-				else
-				{
-					$this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data->outro, 1));
-				}
-				$this->status = $data->status;
-				$this->invitation = $data->invitation;
-				$this->invitation_mode = $data->invitation_mode;
-				$this->display_question_titles = $data->show_question_titles;
-				$this->start_date = $data->startdate;
-				if (!$data->startdate)
-				{
-					$this->startdate_enabled = 0;
-				}
-				else
-				{
-					$this->startdate_enabled = 1;
-				}
-        $this->end_date = $data->enddate;
-				if (!$data->enddate)
-				{
-					$this->enddate_enabled = 0;
-				}
-				else
-				{
-					$this->enddate_enabled = 1;
-				}
-				switch ($data->anonymize)
-				{
-					case ANONYMIZE_OFF:
-					case ANONYMIZE_ON:
-					case ANONYMIZE_FREEACCESS:
-						$this->setAnonymize($data->anonymize);
-						break;
-					default:
-						$this->setAnonymize(ANONYMIZE_OFF);
-						break;
-				}
-        $this->evaluation_access = $data->evaluation_access;
-				$this->loadQuestionsFromDb();
-      }
-    }
+				$this->saveAuthorToMetadata($data->author);
+			}
+			$this->author = $this->getAuthor();
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
+			if (strcmp($data->outro, "survey_finished") == 0)
+			{
+				$this->setOutro($this->lng->txt("survey_finished"));
+			}
+			else
+			{
+				$this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data->outro, 1));
+			}
+			$this->status = $data->status;
+			$this->invitation = $data->invitation;
+			$this->invitation_mode = $data->invitation_mode;
+			$this->display_question_titles = $data->show_question_titles;
+			$this->start_date = $data->startdate;
+			if (!$data->startdate)
+			{
+				$this->startdate_enabled = 0;
+			}
+			else
+			{
+				$this->startdate_enabled = 1;
+			}
+			$this->end_date = $data->enddate;
+			if (!$data->enddate)
+			{
+				$this->enddate_enabled = 0;
+			}
+			else
+			{
+				$this->enddate_enabled = 1;
+			}
+			switch ($data->anonymize)
+			{
+				case ANONYMIZE_OFF:
+				case ANONYMIZE_ON:
+				case ANONYMIZE_FREEACCESS:
+					$this->setAnonymize($data->anonymize);
+					break;
+				default:
+					$this->setAnonymize(ANONYMIZE_OFF);
+					break;
+			}
+			$this->evaluation_access = $data->evaluation_access;
+			$this->loadQuestionsFromDb();
+		}
 	}
 
 /**
@@ -1082,7 +1079,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->survey_id)
 		);
 		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 		{
 			$this->questions[$data->sequence] = $data->question_fi;
 		}
@@ -1310,7 +1307,7 @@ class ilObjSurvey extends ilObject
 			{
 				$query = "SELECT usr_id FROM usr_data";
 				$result = $ilDB->query($query);
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
 						$ilDB->quote($row["usr_id"]),
@@ -1326,7 +1323,7 @@ class ilObjSurvey extends ilObject
 					$ilDB->quote($this->getSurveyId())
 				);
 				$result = $ilDB->query($query);
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
 						$ilDB->quote($row["user_fi"]),
@@ -1341,7 +1338,7 @@ class ilObjSurvey extends ilObject
 				$result = $ilDB->query($query);
 				include_once "./Modules/Group/classes/class.ilObjGroup.php";
 				include_once './Services/User/classes/class.ilObjUser.php';
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					$group = new ilObjGroup($row["group_fi"]);
 					$members = $group->getGroupMemberIds();
@@ -1871,7 +1868,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 		{
 			array_push($existing_questions, $data->original_id);
 		}
@@ -2213,7 +2210,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$titles[$row->questionblock_id] = $row->title;
 		}
@@ -2237,7 +2234,7 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $ilDB->query($query);
 		$survey_id = "";
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$titles[$row["question_fi"]] = $row["title"];
 			$survey_id = $row["survey_fi"];
@@ -2248,7 +2245,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		$resultarray = array();
 		$counter = 1;
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if (array_key_exists($row["question_fi"], $titles))
 			{
@@ -2275,7 +2272,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($ids, $row->question_id);
 		}
@@ -2298,7 +2295,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $row;
 	}
 	
@@ -2318,7 +2315,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $row;
 	}
 
@@ -2418,7 +2415,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
 				$ilDB->quote($row->constraint_fi)
@@ -2474,7 +2471,7 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $ilDB->query($query);
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$question =& $this->_instanciateQuestion($row["question_id"]);
 			$questionrow = $question->_getQuestionDataArray($row["question_id"]);
@@ -2499,7 +2496,7 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$questionblocks[$row->question_fi] = $row;
 			}			
@@ -2527,9 +2524,9 @@ class ilObjSurvey extends ilObject
 					$ilDB->quote($question_id . "")
 				);
 				$result = $ilDB->query($query);
-				if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+				if ($result->numRows() > 0) 
 				{
-					while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+					while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 					{
 						array_push($answers, $data->title);
 					}
@@ -2554,7 +2551,7 @@ class ilObjSurvey extends ilObject
 		$query = "SELECT type_tag FROM survey_questiontype";
 		$result = $ilDB->query($query);
 		$result_array = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($result_array, $row->type_tag);
 		}
@@ -2578,7 +2575,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				if (!array_key_exists($row["question_fi"], $obligatory_questions))
 				{
@@ -2623,7 +2620,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$obligatory_states[$row["question_fi"]] = $row["obligatory"];
 			}
@@ -2648,7 +2645,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$all_questions[$row["question_id"]] = $row;
 		}
@@ -2661,7 +2658,7 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$questionblocks["$row->question_fi"] = $row;
 			}			
@@ -2801,7 +2798,7 @@ class ilObjSurvey extends ilObject
 		$pc = array();
 		if ($result->numRows())
 		{
-			$pc = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$pc = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		return $pc;
 	}
@@ -2823,7 +2820,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{	
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question_type = SurveyQuestion::_getQuestionType($row->question_fi);
@@ -2851,7 +2848,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($survey_id . "")
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{		
 			array_push($result_array, array("id" => $row->constraint_id, "for_question" => $row->for_question, "question" => $row->question_fi, "short" => $row->shortname, "long" => $row->longname, "relation_id" => $row->relation_id, "value" => $row->value));
 		}
@@ -2875,7 +2872,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$result_array[$row->sequence] = $row;
 		}
@@ -2936,7 +2933,7 @@ class ilObjSurvey extends ilObject
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$query = sprintf("UPDATE survey_constraint SET question_fi = %s, relation_fi = %s, value = %s WHERE constraint_id = %s",
 					$ilDB->quote($if_question_id),
 					$ilDB->quote($relation),
@@ -2961,7 +2958,7 @@ class ilObjSurvey extends ilObject
 		$result_array = array();
 		$query = "SELECT * FROM survey_relation";
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if ($short_as_key)
 			{
@@ -3109,7 +3106,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($result_array, $row->user_fi);
 		}
@@ -3133,7 +3130,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($result_array, $row->group_fi);
 		}
@@ -3182,7 +3179,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() >= 1)
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($result_array, $row);
 			}
@@ -3234,7 +3231,7 @@ class ilObjSurvey extends ilObject
 		$insert_id = 0;
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$insert_id = $row["finished_id"];
 		}
 		return $insert_id;
@@ -3349,7 +3346,7 @@ class ilObjSurvey extends ilObject
 		}			
 		else
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$_SESSION["finished_id"] = $row["finished_id"];
 			return (int)$row["state"];
 		}
@@ -3377,7 +3374,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["question_fi"];
 		}
 	}
@@ -3478,7 +3475,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($users, $row);
 			}
@@ -3511,7 +3508,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($users, $row);
 			}
@@ -3557,7 +3554,7 @@ class ilObjSurvey extends ilObject
 		);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && ($this->getAnonymize() == 0))
 			{
 				include_once './Services/User/classes/class.ilObjUser.php';
@@ -3603,7 +3600,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if (!is_array($answers[$row["question_fi"]]))
 			{
@@ -3681,7 +3678,7 @@ class ilObjSurvey extends ilObject
 		$result_array = array();
 		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN ('" . join($question_ids, "','") . "')";
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($result_array, $row);
 		}
@@ -3695,7 +3692,7 @@ class ilObjSurvey extends ilObject
 		$result_array = array();
     $query = "SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN ('" . join($questionblock_ids, "','") . "') ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($row["questionblock_id"] != $qbid)
 			{
@@ -3818,7 +3815,7 @@ class ilObjSurvey extends ilObject
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($rows, $row);
 			}
@@ -3893,7 +3890,7 @@ class ilObjSurvey extends ilObject
 		$questionblock_ids = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($questionblock_ids, $row["questionblock_id"]);
 			}
@@ -3914,7 +3911,7 @@ class ilObjSurvey extends ilObject
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$questions_array =& $this->getQuestionblockQuestions($row["questionblock_id"]);
 				$counter = 1;
@@ -3968,7 +3965,7 @@ class ilObjSurvey extends ilObject
 		$questiontypes = array();
 		$query = "SELECT * FROM survey_questiontype ORDER BY type_tag";
 		$query_result = $ilDB->query($query);
-		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($questiontypes, $row["type_tag"]);
 		}
@@ -4377,7 +4374,7 @@ class ilObjSurvey extends ilObject
 				implode("','", $surveys)
 			);
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				if ($use_object_id)
 				{
@@ -4450,7 +4447,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($questionblock_questions, $row);
 				$questionblocks[$row["questionblock_fi"]] = $row["questionblock_fi"];
@@ -4488,7 +4485,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$clonequery = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($newObj->getSurveyId() . ""),
@@ -4510,7 +4507,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["heading"];
 		}
 		else
@@ -4705,7 +4702,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["ref_id"];
 		}
 		return 0;
@@ -4742,7 +4739,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["anonymous_id"];
 		}
 		else
@@ -4834,7 +4831,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		$export = "";
 		$lang = ($_POST["lang"] != 1) ? "&amp;lang=" . $_POST["lang"] : "";
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if (in_array($row["survey_key"], $a_array) || (count($a_array) == 0))
 			{
@@ -4885,7 +4882,7 @@ class ilObjSurvey extends ilObject
 		$counter = $offset+1;
 		if ($result->numRows() > 0)
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$created = ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date");
 
@@ -4987,7 +4984,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$access_code = $row["survey_key"];
 		}
 		return $access_code;
@@ -5092,7 +5089,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["TIMESTAMP14"];
 		}
 		else
@@ -5103,7 +5100,7 @@ class ilObjSurvey extends ilObject
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				return $row["TIMESTAMP14"];
 			}
 		}

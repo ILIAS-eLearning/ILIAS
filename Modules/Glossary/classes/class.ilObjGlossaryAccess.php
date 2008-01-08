@@ -122,7 +122,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $ilDB->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}

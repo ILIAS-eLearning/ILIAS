@@ -187,7 +187,7 @@ class ilConditionHandler
 		
 		$query = "SELECT DISTINCT target_ref_id AS ref FROM conditions ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ref_ids[] = $row->ref;
 		}
@@ -439,7 +439,7 @@ class ilConditionHandler
 
 		$query = "SELECT LAST_INSERT_ID() AS last FROM conditions";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$last_id = $row->last;
 		}
@@ -548,7 +548,7 @@ class ilConditionHandler
 			" AND trigger_type = ".$ilDB->quote($a_trigger_obj_type)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$tmp_array['id']			= $row->id;
 			$tmp_array['target_ref_id'] = $row->target_ref_id;
@@ -594,7 +594,7 @@ class ilConditionHandler
 			" AND target_type = ".$ilDB->quote($a_target_type);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($row->ref_handling == self::UNIQUE_CONDITIONS)
 			{
@@ -632,7 +632,7 @@ class ilConditionHandler
 			"WHERE id = ".$ilDB->quote($a_id);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$tmp_array['id']			= $row->id;
 			$tmp_array['target_ref_id'] = $row->target_ref_id;

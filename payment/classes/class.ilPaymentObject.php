@@ -122,7 +122,7 @@ class ilPaymentObject
 		$query = "SELECT LAST_INSERT_ID() as new_id";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->new_id;
 		}
@@ -164,7 +164,7 @@ class ilPaymentObject
 			"WHERE ref_id = '".$a_ref_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->pobject_id;
 		}
@@ -198,7 +198,7 @@ class ilPaymentObject
 
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->pm;
 		}
@@ -232,7 +232,7 @@ class ilPaymentObject
 			"WHERE vendor_id ".$in;
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
 			$objects[$row->pobject_id]['ref_id'] = $row->ref_id;
@@ -309,7 +309,7 @@ class ilPaymentObject
 		}		
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
 			$objects[$row->pobject_id]['ref_id'] = $row->ref_id;
@@ -331,7 +331,7 @@ class ilPaymentObject
 
 		if (is_object($res))
 		{
-			return $res->fetchRow(DB_FETCHMODE_ASSOC);
+			return $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 
 		return false;
@@ -372,7 +372,7 @@ class ilPaymentObject
 			"AND (status = '1' OR status = '2')";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if(!ilPaymentBookings::_hasAccess($row->pobject_id))
 			{
@@ -393,7 +393,7 @@ class ilPaymentObject
 			"AND (status = '1' OR status = '2')";
 
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		return ilPaymentBookings::_getActivation($row->pobject_id);
 	}
 	function _isBuyable($a_ref_id)
@@ -405,7 +405,7 @@ class ilPaymentObject
 			"AND (status = 1 or status = 2)";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -421,7 +421,7 @@ class ilPaymentObject
 			"AND po.pobject_id = psc.pobject_id";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -437,7 +437,7 @@ class ilPaymentObject
 				"WHERE pobject_id = '".$this->getPobjectId()."'";
 
 			$res = $this->db->query($query);
-			while($row =& $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row =& $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$this->setRefId($row->ref_id);
 				$this->setStatus($row->status);

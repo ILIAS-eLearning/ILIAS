@@ -113,7 +113,7 @@ class ilObjTestAccess extends ilObjectAccess
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$max = $row["maxpoints"];
 			}
 		}
@@ -125,7 +125,7 @@ class ilObjTestAccess extends ilObjectAccess
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$max = $row["maxpoints"];
 			}
 		}
@@ -150,7 +150,7 @@ class ilObjTestAccess extends ilObjectAccess
 		);
 		$result = $ilDB->query($query);
 		$points = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($points, $row);
 		}
@@ -246,7 +246,7 @@ class ilObjTestAccess extends ilObjectAccess
 		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 		}
 
 		if (!$row->complete)
@@ -298,7 +298,7 @@ class ilObjTestAccess extends ilObjectAccess
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$test_id = $row["test_id"];
 		}
 		return $test_id;
@@ -320,7 +320,7 @@ class ilObjTestAccess extends ilObjectAccess
 		$test_id = "";
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$test_id = $row["test_fi"];
 		}
 		else
@@ -334,7 +334,7 @@ class ilObjTestAccess extends ilObjectAccess
 		if ($result->numRows())
 		{
 			// standard test
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($questions, $row);
 			}
@@ -349,7 +349,7 @@ class ilObjTestAccess extends ilObjectAccess
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					array_push($questions, $row);
 				}
@@ -378,7 +378,7 @@ class ilObjTestAccess extends ilObjectAccess
 		$found = $result->numRows();
 		if ($found)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			// check for at least: title, author and minimum of 1 mark step
 			if ((strlen($row["title"])) &&
 				(strlen($row["author"])) &&
@@ -435,7 +435,7 @@ class ilObjTestAccess extends ilObjectAccess
 		{
 			return 0;
 		}
-		$test = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$test = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $test;
 	}
 	
@@ -469,7 +469,7 @@ function _getQuestionCount($test_id)
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$num = $row["questioncount"];
 			}
 		}
@@ -503,7 +503,7 @@ function _getQuestionCount($test_id)
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			if ($row["fixed_participants"])
 			{
 				$query = sprintf("SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
@@ -513,7 +513,7 @@ function _getQuestionCount($test_id)
 				$result = $ilDB->query($query);
 				if ($result->numRows())
 				{
-					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 					if (strcmp($row["clientip"],"")!=0 && strcmp($row["clientip"],$_SERVER["REMOTE_ADDR"])!=0)
 					{
 						return $lng->txt("tst_user_wrong_clientip");
@@ -566,7 +566,7 @@ function _getQuestionCount($test_id)
 		$userresult = $ilDB->query($query);
 		if ($userresult->numRows())
 		{
-			while ($userrow = $userresult->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($userrow = $userresult->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$user_id = $userrow["user_fi"];
 				$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests, object_data WHERE object_data.obj_id = tst_tests.obj_fi AND tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND object_data.obj_id = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
@@ -575,7 +575,7 @@ function _getQuestionCount($test_id)
 				);
 				$result = $ilDB->query($query);
 				$points = array();
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					array_push($points, $row);
 				}

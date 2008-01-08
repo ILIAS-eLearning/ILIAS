@@ -177,29 +177,26 @@ class assClozeTest extends assQuestion
 			$this->getAdditionalTableName()
 		);
 		$result = $ilDB->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		if ($result->numRows() == 1)
 		{
-			if ($result->numRows() == 1) 
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $question_id;
-				$this->obj_id = $data->obj_fi;
-				$this->title = $data->title;
-				$this->comment = $data->comment;
-				$this->solution_hint = $data->solution_hint;
-				$this->original_id = $data->original_id;
-				$this->author = $data->author;
-				$this->points = $data->points;
-				$this->owner = $data->owner;
-				$this->question = $this->cleanQuestiontext($data->question_text);
-				$this->setFixedTextLength($data->fixed_textlen);
-				$this->setIdenticalScoring($data->identical_scoring);
-				// replacement of old syntax with new syntax
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
-				$this->setTextgapRating($data->textgap_rating);
-				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-			}
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $question_id;
+			$this->obj_id = $data->obj_fi;
+			$this->title = $data->title;
+			$this->comment = $data->comment;
+			$this->solution_hint = $data->solution_hint;
+			$this->original_id = $data->original_id;
+			$this->author = $data->author;
+			$this->points = $data->points;
+			$this->owner = $data->owner;
+			$this->question = $this->cleanQuestiontext($data->question_text);
+			$this->setFixedTextLength($data->fixed_textlen);
+			$this->setIdenticalScoring($data->identical_scoring);
+			// replacement of old syntax with new syntax
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
+			$this->setTextgapRating($data->textgap_rating);
+			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 
 			// open the cloze gaps with all answers
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
@@ -208,10 +205,10 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($question_id)
 			);
 			$result = $ilDB->query($query);
-			if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+			if ($result->numRows() > 0)
 			{
 				$this->gaps = array();
-				while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC)) 
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) 
 				{
 					switch ($data["cloze_type"])
 					{
@@ -1103,7 +1100,7 @@ class assClozeTest extends assQuestion
 		);
 		$result = $ilDB->query($query);
 		$user_result = array();
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 		{
 			if (strcmp($data->value2, "") != 0)
 			{

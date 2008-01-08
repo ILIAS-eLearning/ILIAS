@@ -112,7 +112,7 @@ class ilObjSCORMTracking
 					" AND lvalue = ".$ilDB->quote($insert["left"]).
 					" AND obj_id = ".$ilDB->quote($obj_id);
 				$set = $ilDB->query($q);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+				if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					fwrite($f, "Error Insert, left value already exists. L:".$insert["left"].",R:".
 						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
@@ -136,7 +136,7 @@ class ilObjSCORMTracking
 					" AND lvalue = ".$ilDB->quote($update["left"]).
 					" AND obj_id = ".$ilDB->quote($obj_id);
 				$set = $ilDB->query($q);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+				if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					$q = "REPLACE INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES ".
 						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
@@ -194,7 +194,7 @@ class ilObjSCORMTracking
 		
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$in_progress[$row->sco_id][] = $row->user_id;
 		}
@@ -221,7 +221,7 @@ class ilObjSCORMTracking
 			"AND ( rvalue = 'completed' ".
 			"OR rvalue = 'passed')";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_id;
 		}
@@ -247,7 +247,7 @@ class ilObjSCORMTracking
 			"AND lvalue = 'cmi.core.lesson_status' ".
 			"AND rvalue = 'failed'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_id;
 		}
@@ -272,7 +272,7 @@ class ilObjSCORMTracking
 			"GROUP BY user_id";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$users[$row->user_id] = $row->completed;
 		}
@@ -293,7 +293,7 @@ class ilObjSCORMTracking
 
 		$info['completed'] = array();
 		$info['failed'] = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			switch($row->rvalue)
 			{

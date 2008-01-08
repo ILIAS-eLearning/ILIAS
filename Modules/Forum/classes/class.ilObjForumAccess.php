@@ -90,7 +90,7 @@ class ilObjForumAccess extends ilObjectAccess
 		
 		$set = $ilDB->query("SELECT pos_thr_fk FROM frm_posts WHERE pos_pk = ".
 			$ilDB->quote($a_pos_id));
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		return $rec["pos_thr_fk"];
 	}

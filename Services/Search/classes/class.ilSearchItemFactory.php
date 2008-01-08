@@ -54,7 +54,7 @@ class ilSearchItemFactory
 			"WHERE obj_id = '".$a_obj_id."'";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$type = $row->type;
 		}

@@ -223,7 +223,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
 		$r = $this->ilias->db->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($objDefinition->getDevMode($row->title))
 			{

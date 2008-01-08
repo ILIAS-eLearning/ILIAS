@@ -82,7 +82,7 @@ class ilObjGlossary extends ilObject
 
 		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($this->getId());
 		$gl_set = $this->ilias->db->query($q);
-		$gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$gl_rec = $gl_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($gl_rec["online"]));
 		$this->setVirtualMode($gl_rec["virtual"]);
 		$this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
@@ -185,7 +185,7 @@ class ilObjGlossary extends ilObject
 
 		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $ilDB->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}

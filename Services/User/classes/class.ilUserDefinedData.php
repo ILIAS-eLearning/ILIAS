@@ -116,7 +116,7 @@ class ilUserDefinedData
 		$query = "SELECT * FROM usr_defined_data ".
 			"WHERE usr_id = ".$this->db->quote($this->usr_id)."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			foreach($row as $field => $data)
 			{

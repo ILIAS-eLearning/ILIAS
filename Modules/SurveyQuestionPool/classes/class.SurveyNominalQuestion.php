@@ -134,7 +134,7 @@ class SurveyNominalQuestion extends SurveyQuestion
     $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		else
 		{
@@ -150,50 +150,47 @@ class SurveyNominalQuestion extends SurveyQuestion
 * @param integer $id The database id of the nominal survey question
 * @access public
 */
-  function loadFromDb($id) 
+	function loadFromDb($id) 
 	{
 		global $ilDB;
-    $query = sprintf("SELECT survey_question.*, survey_question_nominal.* FROM survey_question, survey_question_nominal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_nominal.question_fi",
-      $ilDB->quote($id)
-    );
-    $result = $ilDB->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		$query = sprintf("SELECT survey_question.*, survey_question_nominal.* FROM survey_question, survey_question_nominal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_nominal.question_fi",
+			$ilDB->quote($id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1) 
 		{
-      if ($result->numRows() == 1) 
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $data->question_id;
-				$this->title = $data->title;
-				$this->description = $data->description;
-				$this->obj_id = $data->obj_fi;
-				$this->author = $data->author;
-				$this->subtype = $data->subtype;
-				$this->orientation = $data->orientation;
-				$this->obligatory = $data->obligatory;
-				$this->owner = $data->owner_fi;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-				$this->complete = $data->complete;
-				$this->original_id = $data->original_id;
-      }
-      // loads materials uris from database
-      $this->loadMaterialFromDb($id);
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $data->question_id;
+			$this->title = $data->title;
+			$this->description = $data->description;
+			$this->obj_id = $data->obj_fi;
+			$this->author = $data->author;
+			$this->subtype = $data->subtype;
+			$this->orientation = $data->orientation;
+			$this->obligatory = $data->obligatory;
+			$this->owner = $data->owner_fi;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
+			$this->complete = $data->complete;
+			$this->original_id = $data->original_id;
+			// loads materials uris from database
+			$this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
-      $query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
-        $ilDB->quote($id)
-      );
-      $result = $ilDB->query($query);
-      if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+			$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+				$ilDB->quote($id)
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows() > 0) 
 			{
-        while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 				{
 					$this->categories->addCategory($data->title);
-        }
-      }
-    }
+				}
+			}
+		}
 		parent::loadFromDb($id);
-  }
+	}
 
 /**
 * Returns true if the question is complete for use
@@ -633,7 +630,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		$numrows = $result->numRows();
 		
 		// count the answers for every answer value
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$cumulated["$row->value"]++;
 		}
@@ -837,7 +834,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$ilDB->quote($this->getId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$category = $this->categories->getCategory($row["value"]);
 			if (!is_array($answers[$row["active_fi"]]))

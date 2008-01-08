@@ -158,7 +158,7 @@ class ilCourseDefinedFieldDefinition
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND field_required = 1";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$req_fields[] = $row->field_id;
 		}
@@ -183,7 +183,7 @@ class ilCourseDefinedFieldDefinition
 		
 		$res = $ilDB->query($query);
 		$fields = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$fields[] = $row->field_name;
 		}
@@ -206,7 +206,7 @@ class ilCourseDefinedFieldDefinition
 	 		"WHERE obj_id = ".$ilDB->quote($a_container_id)." ".
 	 		"ORDER BY ".$ilDB->quote($a_sort);
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	 	{
 	 		$field_ids[] = $row->field_id;
 	 	}
@@ -229,7 +229,7 @@ class ilCourseDefinedFieldDefinition
 			"WHERE field_id = ".$ilDB->quote($a_field_id);
 		
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		return $row->field_name ? $row->field_name : '';
 	}
@@ -442,7 +442,7 @@ class ilCourseDefinedFieldDefinition
 	 		"AND obj_id = ".$this->db->quote($this->getObjId())." ";
 	 	
 	 	$res = $this->db->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 	 	
 		$this->setName($row->field_name);
 		$this->setType($row->field_type);

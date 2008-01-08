@@ -42,7 +42,7 @@ class ilLMObjectFactory
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id);
 		$obj_set = $ilias->db->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		switch($obj_rec["type"])
 		{

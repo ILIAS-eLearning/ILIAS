@@ -136,7 +136,7 @@ class ASS_MarkSchema
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					$oldmarks[$row["minimum_level"]] = $row;
 				}
@@ -174,7 +174,7 @@ class ASS_MarkSchema
 			$newmarks = array();
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					$newmarks[$row["minimum_level"]] = $row;
 				}
@@ -235,22 +235,24 @@ class ASS_MarkSchema
 * @param integer $test_id A unique key which defines the test in the database
 * @access public
 */
-  function loadFromDb($test_id)
-  {
+	function loadFromDb($test_id)
+	{
 		global $ilDB;
 		
-    if (!$test_id) return;
-    $query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
-      $ilDB->quote($test_id)
-    );
+		if (!$test_id) return;
+		$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
+			$ilDB->quote($test_id)
+		);
 
-    $result = $ilDB->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        $this->addMarkStep($data->short_name, $data->official_name, $data->minimum_level, $data->passed);
-      }
-    }
-  }
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
+			{
+				$this->addMarkStep($data->short_name, $data->official_name, $data->minimum_level, $data->passed);
+			}
+		}
+	}
   
 /**
 * Empties the mark schema and removes all mark steps
@@ -260,9 +262,10 @@ class ASS_MarkSchema
 * @access public
 * @see $mark_steps
 */
-  function flush() {
-    $this->mark_steps = array();
-  }
+	function flush() 
+	{
+		$this->mark_steps = array();
+	}
   
 /**
 * Sorts the mark schema using the minimum level values
@@ -360,7 +363,7 @@ class ASS_MarkSchema
 			$ilDB->quote($test_id . "")
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($percentage >= $row["minimum_level"])
 			{
@@ -388,7 +391,7 @@ class ASS_MarkSchema
 			$ilDB->quote($a_obj_id . "")
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($percentage >= $row["minimum_level"])
 			{

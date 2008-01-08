@@ -70,7 +70,7 @@ class ilCronMailNotification
 		$users = array();
 		
 		$user_id = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($user_id == 0 || $row['user_id'] != $user_id) $user_id = $row['user_id'];
 

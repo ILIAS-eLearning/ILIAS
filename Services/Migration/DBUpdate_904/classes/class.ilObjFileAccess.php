@@ -33,7 +33,7 @@ class ilObjFileAccess
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 		return $row->version;
 	}
@@ -47,7 +47,7 @@ class ilObjFileAccess
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageFile.php');
 		$fss = new ilFSStorageFile($a_id);

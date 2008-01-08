@@ -277,7 +277,7 @@ class ilChatServerCommunicator
 			"WHERE type = 'chac'";
 		
 		$res = $ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ref_id = $row->ref_id;
 		}

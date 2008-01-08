@@ -76,7 +76,7 @@ class ilCourseObjectiveResult
 			"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives))." ) ".
 			"AND user_id = ".$ilDB->quote($a_user_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$accomplished[] = $row->objective_id;
 		}
@@ -102,7 +102,7 @@ class ilCourseObjectiveResult
 				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
 				"AND user_id = ".$ilDB->quote($a_user_id)." ";
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$finished[] = $row->objective_id;
 			}
@@ -114,7 +114,7 @@ class ilCourseObjectiveResult
 				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
 				"AND user_id = ".$ilDB->quote($a_user_id)."";
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$finished[] = $row->objective_id;
 			}
@@ -224,7 +224,7 @@ class ilCourseObjectiveResult
 			"AND user_id = ".$ilDB->quote($this->getUserId())."";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -306,7 +306,7 @@ class ilCourseObjectiveResult
 			"AND q1.objective_id = q2.objective_id ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$objectives['all_objectives'][$row->ob] = $row->ob;
 			$objectives['all_questions'][$row->qid] = $row->qid;
@@ -331,7 +331,7 @@ class ilCourseObjectiveResult
 			"WHERE t.objective_id IN (".implode(",",ilUtil::quoteArray($a_all_objectives)).")";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$objectives[$row->obj."_".$row->ref]['questions'][$row->question_id] = $row->question_id;
 			$objectives[$row->obj."_".$row->ref]['tst_status'] = $row->tst_status;
@@ -355,7 +355,7 @@ class ilCourseObjectiveResult
 		$query = "SELECT question_id,points FROM qpl_questions ".
 			"WHERE question_id IN(".implode(",",ilUtil::quoteArray($objectives['all_questions'])).")";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$objectives['all_question_points'][$row->question_id]['max_points'] = $row->points;
 		}
@@ -366,7 +366,7 @@ class ilCourseObjectiveResult
 			"AND question_fi IN (".implode(",",ilUtil::quoteArray($objectives['all_questions'])).") ".
 			"GROUP BY question_fi,user_fi";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$objectives['all_question_points'][$row->question_fi]['reached_points'] = $row->reached;
 		}
@@ -436,7 +436,7 @@ class ilCourseObjectiveResult
 			"IN (".implode(",",ilUtil::quoteArray($objective_ids)).") ".
 			"GROUP BY t1.crs_id";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$query = "SELECT COUNT(cs.objective_id) AS num_passed FROM crs_objective_status AS cs ".
 				"JOIN crs_objectives AS co ON cs.objective_id = co.objective_id ".
@@ -444,7 +444,7 @@ class ilCourseObjectiveResult
 				"AND user_id = ".$ilDB->quote($a_user_id)." ";
 
 			$user_res = $ilDB->query($query);
-			while($user_row = $user_res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($user_row = $user_res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				if($user_row->num_passed == $row->num)
 				{

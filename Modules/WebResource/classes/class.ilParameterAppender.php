@@ -196,7 +196,7 @@ class ilParameterAppender
 
 		$res = $ilDB->query("SELECT * FROM webr_params WHERE link_id = ".
 			$ilDB->quote((int) $a_link_id));
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$params[$row->param_id]['name'] = $row->name;
 			$params[$row->param_id]['value'] = $row->value;

@@ -132,7 +132,7 @@ class ilTimingPlaned
 			"WHERE item_id = ".$ilDB->quote($a_item_id)." ".
 			"AND usr_id = ".$a_usr_id." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$data['planed_start'] = $row->planed_start;
 			$data['planed_end'] = $row->planed_end;
@@ -148,7 +148,7 @@ class ilTimingPlaned
 		$query = "SELECT * FROM crs_timings_planed ".
 			"WHERE item_id = ".$ilDB->quote($a_item_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$data[$row->usr_id]['start'] = $row->planed_start;
 			$data[$row->usr_id]['end']   = $row->planed_end;
@@ -182,7 +182,7 @@ class ilTimingPlaned
 			"WHERE item_id = ".$ilDB->quote($this->getItemId())." ".
 			"AND usr_id = ".$ilDB->quote($this->getUserId())." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setPlanedStartingTime($row->planed_start);
 			$this->setPlanedEndingTime($row->planed_end);

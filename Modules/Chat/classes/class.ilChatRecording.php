@@ -137,7 +137,7 @@ class ilChatRecording
 		$status = false;
 		if ($res->numRows() > 0)
 		{
-			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+			$data = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$status = true;
 		}
 
@@ -222,7 +222,7 @@ class ilChatRecording
 
 		if ($res->numRows() > 0)
 		{
-			$id = $res->fetchRow(DB_FETCHMODE_ASSOC);
+			$id = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$this->setRecordId($id["record_id"]);
 
 			$this->getRecord();
@@ -245,7 +245,7 @@ class ilChatRecording
 		{
 			for ($i = 0; $i < $num; $i++)
 			{
-				$data[] = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$data[] = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			}
 			return $data;
 		}
@@ -304,7 +304,7 @@ class ilChatRecording
 			$html = "";
 			for ($i = 0; $i < $num; $i++)
 			{
-				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$data = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$html .= $data["message"] . "<br />\n";
 			}
 		}

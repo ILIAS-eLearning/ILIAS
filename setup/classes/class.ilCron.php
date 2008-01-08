@@ -61,7 +61,7 @@ class ilCron
 			"AND lang_key = '".$language."'";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$value = $row->value;
 		}
@@ -97,7 +97,7 @@ class ilCron
 
 		$res = $this->db->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			include_once '../Services/Mail/classes/class.ilMimeMail.php';
 
@@ -112,7 +112,7 @@ class ilCron
 			$query = "SELECT email FROM usr_data WHERE usr_id = '".$data['owner']."'";
 			
 			$res2 = $this->db->query($query);
-			while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res2->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$from = $row->email;
 			}
@@ -159,7 +159,7 @@ class ilCron
 			"WHERE keyword = '".$a_keyword."'";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->value ? $row->value : 0;
 		}

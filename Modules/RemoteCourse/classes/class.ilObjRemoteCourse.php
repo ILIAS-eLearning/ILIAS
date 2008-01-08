@@ -72,7 +72,7 @@ class ilObjRemoteCourse extends ilObject
 		$query = "SELECT * FROM remote_course_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		switch($row->availability_type)
 		{
 			case self::ACTIVATION_UNLIMITED:
@@ -243,7 +243,7 @@ class ilObjRemoteCourse extends ilObject
 		$query = "SELECT * FROM remote_course_settings ".
 			"WHERE obj_id = ".$this->db->quote($this->getId())." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setLocalInformation($row->local_information);
 			$this->setAvailabilityType($row->availability_type);

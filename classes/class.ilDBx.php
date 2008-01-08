@@ -227,7 +227,7 @@ class ilDBx extends PEAR
 	* @param string
 	* @return object DB
 	*/
-	function getRow($sql,$mode = DB_FETCHMODE_OBJECT)
+	function getRow($sql,$mode = MDB2_FETCHMODE_OBJECT)
 	{
 		$set = $this->query($sql);
 		$r = $set->fetchRow($mode);
@@ -260,9 +260,20 @@ class ilDBx extends PEAR
 	* @param String query
 	* @return resource
 	*/
-	function prepare($query)
+	function prepare($query, $types = NULL, $result_types = NULL)
 	{
-		return $this->db->prepare($query);
+		return $this->db->prepare($query, $types, $result_types);
+	}
+	
+	/**
+	* Wrapper for Pear nextID
+	* @param String $seq_name
+	* @param boolean $ondemand
+	* @return resource
+	*/
+	function nextID($seq_name, $ondemand = true)
+	{
+		return $this->db->nextID($seq_name, $ondemand);
 	}
 
 	/**
@@ -355,7 +366,7 @@ class ilDBx extends PEAR
 		{
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
 		}
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$version = $row->Value;
 		}
@@ -378,10 +389,9 @@ class ilDBx extends PEAR
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
 		}
 		$res = $this->db->query($query);
-
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
-			$this->max_allowed_packet_size = $row->value;
+			$this->max_allowed_packet_size = $row->Value;
 		}
 		#var_dump("<pre>",$this->max_allowed_packet_size,"<pre>");
 		return true;
@@ -486,7 +496,7 @@ class ilDBx extends PEAR
 		$res = $this->db->query($query);
 		if ($res->numRows())
 		{
-			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($data = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				if (strcmp($data["Field"], $a_column_name) == 0)
 				{

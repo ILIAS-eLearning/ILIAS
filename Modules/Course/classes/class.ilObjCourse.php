@@ -321,7 +321,7 @@ class ilObjCourse extends ilContainer
 
 		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->view_mode;
 		}
@@ -440,7 +440,7 @@ class ilObjCourse extends ilContainer
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$type = $row->activation_type;
 			$start = $row->activation_start;
@@ -475,7 +475,7 @@ class ilObjCourse extends ilContainer
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$type = $row->subscription_limitation_type;
 			$reg_start = $row->subscription_start;
@@ -1013,7 +1013,7 @@ class ilObjCourse extends ilContainer
 		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId())."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setSyllabus($row->syllabus);
 			$this->setContactName($row->contact_name);
@@ -1109,7 +1109,7 @@ class ilObjCourse extends ilContainer
 		$query = "SELECT obj_id FROM object_data ".
 			" WHERE type='rolt' AND title='il_crs_admin'";
 
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
+		$res = $this->ilias->db->getRow($query, MDB2_FETCHMODE_OBJECT);
 		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
 		// SET OBJECT PERMISSIONS OF COURSE OBJECT
@@ -1128,7 +1128,7 @@ class ilObjCourse extends ilContainer
 		// SET PERMISSION TEMPLATE OF NEW LOCAL ROLE
 		$query = "SELECT obj_id FROM object_data ".
 			" WHERE type='rolt' AND title='il_crs_tutor'";
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
+		$res = $this->ilias->db->getRow($query, MDB2_FETCHMODE_OBJECT);
 		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
 		// SET OBJECT PERMISSIONS OF COURSE OBJECT
@@ -1147,7 +1147,7 @@ class ilObjCourse extends ilContainer
 		// SET PERMISSION TEMPLATE OF NEW LOCAL ROLE
 		$query = "SELECT obj_id FROM object_data ".
 			" WHERE type='rolt' AND title='il_crs_member'";
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
+		$res = $this->ilias->db->getRow($query, MDB2_FETCHMODE_OBJECT);
 		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 		
 		// SET OBJECT PERMISSIONS OF COURSE OBJECT
@@ -1265,7 +1265,7 @@ class ilObjCourse extends ilContainer
 		
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
 	}

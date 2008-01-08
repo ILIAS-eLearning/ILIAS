@@ -82,7 +82,7 @@ class ilCourseAgreement
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$user_data[$row->usr_id]['accepted'] = $row->accepted;
 			$user_data[$row->usr_id]['acceptance_time'] = $row->acceptance_time;
@@ -145,7 +145,7 @@ class ilCourseAgreement
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id);
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		return $row->accepted == 1 ? true : false;
 	}
@@ -336,7 +336,7 @@ class ilCourseAgreement
 	 		"AND obj_id = ".$this->db->quote($this->obj_id)." ";
 	 		
 	 	$res = $this->db->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 	 	$this->accepted = $row->accepted;
 	 	$this->acceptance_time = $row->acceptance_time;
 	}

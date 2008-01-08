@@ -90,7 +90,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
       $ilDB->quote($phrase_id)
     );
     $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
@@ -122,7 +122,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			$ilDB->quote($ilUser->id)
     );
     $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
@@ -154,7 +154,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
     $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		else
 		{
@@ -170,50 +170,46 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 * @param integer $id The database id of the ordinal survey question
 * @access public
 */
-  function loadFromDb($id) 
+	function loadFromDb($id) 
 	{
 		global $ilDB;
-    $query = sprintf("SELECT survey_question.*, survey_question_ordinal.* FROM survey_question, survey_question_ordinal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_ordinal.question_fi",
-      $ilDB->quote($id)
-    );
-    $result = $ilDB->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		$query = sprintf("SELECT survey_question.*, survey_question_ordinal.* FROM survey_question, survey_question_ordinal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_ordinal.question_fi",
+			$ilDB->quote($id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1) 
 		{
-      if ($result->numRows() == 1) 
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $data->question_id;
-				$this->title = $data->title;
-				$this->description = $data->description;
-				$this->obj_id = $data->obj_fi;
-				$this->orientation = $data->orientation;
-				$this->author = $data->author;
-				$this->owner = $data->owner_fi;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-				$this->obligatory = $data->obligatory;
-				$this->complete = $data->complete;
-				$this->original_id = $data->original_id;
-      }
-      // loads materials uris from database
-      $this->loadMaterialFromDb($id);
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $data->question_id;
+			$this->title = $data->title;
+			$this->description = $data->description;
+			$this->obj_id = $data->obj_fi;
+			$this->orientation = $data->orientation;
+			$this->author = $data->author;
+			$this->owner = $data->owner_fi;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
+			$this->obligatory = $data->obligatory;
+			$this->complete = $data->complete;
+			$this->original_id = $data->original_id;
+			// loads materials uris from database
+			$this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
-
-      $query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
-        $ilDB->quote($id)
-      );
-      $result = $ilDB->query($query);
-      if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+			$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+				$ilDB->quote($id)
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows() > 0) 
 			{
-        while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 				{
 					$this->categories->addCategory($data->title);
-        }
-      }
-    }
+				}
+			}
+		}
 		parent::loadFromDb($id);
-  }
+	}
 
 /**
 * Returns true if the question is complete for use
@@ -645,7 +641,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 		
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$cumulated["$row->value"]++;
 		}
@@ -803,7 +799,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			$ilDB->quote($this->getId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$category = $this->categories->getCategory($row["value"]);
 			$answers[$row["active_fi"]] = $row["value"] + 1 . " - " . $category;

@@ -319,7 +319,7 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$this->setOnline($row["online"]);
 		}
 	}
@@ -387,7 +387,7 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 			return $data->type_tag;
 		}
 		else
@@ -449,7 +449,7 @@ class ilObjQuestionPool extends ilObject
 			$ilDB->quote("$question_id"));
 
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 		return $row->solution_count;
 	}
@@ -615,7 +615,7 @@ class ilObjQuestionPool extends ilObject
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($rows, $row);
 			}
@@ -680,7 +680,7 @@ class ilObjQuestionPool extends ilObject
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($rows, $row);
 			}
@@ -1019,7 +1019,7 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		$questions = array();
 
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($questions, $row["question_id"]);
 		}
@@ -1038,7 +1038,7 @@ class ilObjQuestionPool extends ilObject
 		$questions = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($questions, $row["question_id"]);
 			}
@@ -1112,7 +1112,7 @@ class ilObjQuestionPool extends ilObject
 			$query .= " AND complete = '1'";
 		}
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $row["question_count"];
 	}
 	
@@ -1164,7 +1164,7 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["online"];
 		}
 		return 0;
@@ -1197,7 +1197,7 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			if ($row["equal_points"] == 1)
 			{
 				return 1;
@@ -1235,7 +1235,7 @@ class ilObjQuestionPool extends ilObject
 					{
 						include_once "./Services/COPage/classes/class.ilPageObject.php";
 						$page = new ilPageObject("qpl", $question_object["question_id"]);
-						$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+						$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 						$source_questionpool = $row["obj_fi"];
 						// change the questionpool id in the qpl_questions table
 						$query = sprintf("UPDATE qpl_questions SET obj_fi = %s WHERE question_id = %s",
@@ -1331,7 +1331,7 @@ class ilObjQuestionPool extends ilObject
 			$ilDB->quote($object_id . "")
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{		
 			include_once "./classes/class.ilObject.php";
 			if ($rbacsystem->checkAccess("write", $row["ref_id"]) && (ilObject::_hasUntrashedReference($row["obj_id"])))
@@ -1362,7 +1362,7 @@ class ilObjQuestionPool extends ilObject
 		$query_result = $ilDB->query($query);
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($result, $row);
 			}
@@ -1393,7 +1393,7 @@ class ilObjQuestionPool extends ilObject
 		if ($query_result->numRows())
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				if (!assQuestion::_isUsedInRandomTest($row["question_id"]))
 				{
@@ -1471,7 +1471,7 @@ class ilObjQuestionPool extends ilObject
 		if ($query_result->numRows())
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				if (assQuestion::_isUsedInRandomTest($row["question_id"]))
 				{
@@ -1546,7 +1546,7 @@ class ilObjQuestionPool extends ilObject
 				);
 			}
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$add = TRUE;
 				if ($equal_points)
@@ -1587,7 +1587,7 @@ class ilObjQuestionPool extends ilObject
 			$ilDB->quote($this->getId() . "")
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($questions, $row["question_id"]);
 		}
@@ -1639,7 +1639,7 @@ class ilObjQuestionPool extends ilObject
 		$query = "SELECT * FROM qpl_question_type";
 		$result = $ilDB->query($query);
 		$types = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
 			{
@@ -1669,7 +1669,7 @@ class ilObjQuestionPool extends ilObject
 			$ilDB->quote($this->getId() . "")
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($questions, $row);
 		}

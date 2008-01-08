@@ -12,7 +12,7 @@ function ilMDConvert($table,$fields,$key)
 		$where;
 
 	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	{
 		$query = "UPDATE $table ";
 

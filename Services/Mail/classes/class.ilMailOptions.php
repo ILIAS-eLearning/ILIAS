@@ -118,7 +118,7 @@ class ilMailOptions
 		$query = "SELECT * FROM $this->table_mail_options ".
 			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 		
 		$this->cronjob_notification = stripslashes($row->cronjob_notification);
 		$this->signature = stripslashes($row->signature);

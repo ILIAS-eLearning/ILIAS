@@ -56,7 +56,7 @@ class ilAdvancedMDValues
 		$res = $ilDB->query($query);
 		
 		self::$cached_values[$a_obj_id] = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			self::$cached_values[$a_obj_id][$row->field_id] = $row->value;
 		}
@@ -126,7 +126,7 @@ class ilAdvancedMDValues
 		$xml_writer->xmlStartTag('AdvancedMetaData');	
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
 			$value = ilAdvancedMDValue::_getInstance($a_obj_id,$row->field_id);
@@ -150,7 +150,7 @@ class ilAdvancedMDValues
 		$query = "SELECT obj_id,field_id,value FROM adv_md_values ".
 			"WHERE obj_id IN (".implode("','",$obj_ids).")";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			self::$cached_values[$row->obj_id][$row->field_id] = $row->value;
 		}

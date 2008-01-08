@@ -77,7 +77,7 @@ class ilObjChat extends ilObject
 		$mod_title = 'il_chat_moderator_'.$a_ref_id;
 	 	$query = "SELECT * FROM object_data WHERE title = ".$ilDB->quote($mod_title);
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	 	{
 	 		return $row->obj_id;
 	 	}
@@ -199,7 +199,7 @@ class ilObjChat extends ilObject
 		{
 			for ($i = 0; $i < $num; $i++)
 			{
-				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$data = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$this->ilias->db->query("DELETE FROM chat_record_data WHERE record_id = ".$ilDB->quote($data["record_id"])."");
 			}
 			

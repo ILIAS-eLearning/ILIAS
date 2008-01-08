@@ -117,7 +117,7 @@ class ilObjStyleSheetFolder extends ilObject
 			" AND style_id = obj.obj_id";
 
 		$style_set = $ilDB->query($q);
-		while ($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($style_rec = $style_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$this->styles[$style_rec["style_id"]] =
 				array("id" => $style_rec["style_id"],

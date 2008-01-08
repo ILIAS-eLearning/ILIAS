@@ -73,7 +73,7 @@ class ilObjRole extends ilObject
 		$query = "SELECT assign_users FROM role_data WHERE role_id = ".$ilDB->quote($a_role_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->assign_users ? true : false;
 		}
@@ -93,7 +93,7 @@ class ilObjRole extends ilObject
 
 		if ($r->numRows() > 0)
 		{
-			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$data = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 			// fill member vars in one shot
 			$this->assignData($data);
@@ -207,7 +207,7 @@ class ilObjRole extends ilObject
 		$r = $ilDB->query($q);
 	
 		$roles = array();
-		while ($role = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($role = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$roles[] = array("id" => $role["obj_id"],
 							 "title" => $role["title"],
@@ -232,7 +232,7 @@ class ilObjRole extends ilObject
 			
 		$role_set = $ilDB->query($q);
 		
-		if ($role_rec = $role_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($role_rec = $role_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($role_rec["allow_register"])
 			{
@@ -396,7 +396,7 @@ class ilObjRole extends ilObject
 
 		$counter = 0;
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$result_data[$counter++]["id"]				=  $row->obj_id;
 		}
@@ -466,7 +466,7 @@ class ilObjRole extends ilObject
 	 	$query = "SELECT * FROM role_data ".
 	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode);
 	 	$res = $ilDB->query($query);
-	 	while($row  = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row  = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	 	{
 	 		$roles[] = $row->role_id;
 	 	}
@@ -501,7 +501,7 @@ class ilObjRole extends ilObject
 			 "JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
 		$r = $ilDB->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($objDefinition->getDevMode($row->title))
 			{

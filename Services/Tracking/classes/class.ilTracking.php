@@ -74,7 +74,7 @@ class ilTracking {
 		." user_id = ".$ilDB->quote($ilUser->getId())
 		." order by acc_time desc limit 1 ";
 		$res = $ilDB->query($q);
-		return $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 	}
 	
 	function _hasEntry($a_obj_id, $a_obj_type,$a_sub_id = 0, $a_sub_type = "")
@@ -88,7 +88,7 @@ class ilTracking {
 			"AND acc_obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND acc_sub_id = ".$ilDB->quote($a_sub_id);
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		return $row->num_entries ? true : false;
 	}

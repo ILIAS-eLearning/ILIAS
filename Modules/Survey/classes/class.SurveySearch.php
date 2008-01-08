@@ -190,8 +190,9 @@ class SurveySearch
 		$result = $this->ilDB->query($query);
 		$result_array = array();
 		global $rbacsystem;
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($result->numRows() > 0) 
+		{
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				if (($row["complete"] == 1) and ($rbacsystem->checkAccess('write', $row["ref_id"])))
 				{

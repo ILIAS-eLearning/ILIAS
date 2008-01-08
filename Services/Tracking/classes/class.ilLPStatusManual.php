@@ -126,7 +126,7 @@ class ilLPStatusManual extends ilLPStatus
 			"AND completed = '1'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->user_id;
 		}
@@ -144,7 +144,7 @@ class ilLPStatusManual extends ilLPStatus
 			"WHERE obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if(!in_array($row->user_id,$completed))
 			{
@@ -168,7 +168,7 @@ class ilLPStatusManual extends ilLPStatus
 			"WHERE obj_id = '".$a_obj_id."' AND obj_type = 'crs'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if(!in_array($row->user_id,$completed) and in_array($row->user_id,$members))
 			{
@@ -191,7 +191,7 @@ class ilLPStatusManual extends ilLPStatus
 			"WHERE obj_id = '".$a_obj_id."' AND obj_type = 'grp'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if(!in_array($row->user_id,$completed) and in_array($row->user_id,$members))
 			{

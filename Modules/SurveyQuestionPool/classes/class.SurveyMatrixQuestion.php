@@ -531,7 +531,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$ilDB->quote($ilUser->id)
     );
     $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
@@ -563,7 +563,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		else
 		{
@@ -579,49 +579,46 @@ class SurveyMatrixQuestion extends SurveyQuestion
 * @param integer $id The database id of the matrix question
 * @access public
 */
-  function loadFromDb($id) 
+	function loadFromDb($id) 
 	{
 		global $ilDB;
-    $query = sprintf("SELECT survey_question.*, survey_question_matrix.* FROM survey_question, survey_question_matrix WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_matrix.question_fi",
-      $ilDB->quote($id)
-    );
-    $result = $ilDB->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		$query = sprintf("SELECT survey_question.*, survey_question_matrix.* FROM survey_question, survey_question_matrix WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_matrix.question_fi",
+			$ilDB->quote($id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1) 
 		{
-      if ($result->numRows() == 1) 
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $data->question_id;
-				$this->title = $data->title;
-				$this->description = $data->description;
-				$this->obj_id = $data->obj_fi;
-				$this->author = $data->author;
-				$this->owner = $data->owner_fi;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-				$this->obligatory = $data->obligatory;
-				$this->complete = $data->complete;
-				$this->original_id = $data->original_id;
-				$this->setSubtype($data->subtype);
-				$this->setBipolarAdjective(0, $data->bipolar_adjective1);
-				$this->setBipolarAdjective(1, $data->bipolar_adjective2);
-				$this->setRowSeparators($data->row_separators);
-				$this->setNeutralColumnSeparator($data->neutral_column_separator);
-				$this->setColumnSeparators($data->column_separators);
-				$this->setLayout($data->layout);
-      }
-      // loads materials uris from database
-      $this->loadMaterialFromDb($id);
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $data->question_id;
+			$this->title = $data->title;
+			$this->description = $data->description;
+			$this->obj_id = $data->obj_fi;
+			$this->author = $data->author;
+			$this->owner = $data->owner_fi;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
+			$this->obligatory = $data->obligatory;
+			$this->complete = $data->complete;
+			$this->original_id = $data->original_id;
+			$this->setSubtype($data->subtype);
+			$this->setBipolarAdjective(0, $data->bipolar_adjective1);
+			$this->setBipolarAdjective(1, $data->bipolar_adjective2);
+			$this->setRowSeparators($data->row_separators);
+			$this->setNeutralColumnSeparator($data->neutral_column_separator);
+			$this->setColumnSeparators($data->column_separators);
+			$this->setLayout($data->layout);
+			// loads materials uris from database
+			$this->loadMaterialFromDb($id);
 
 			$this->flushColumns();
 
-      $query = sprintf("SELECT survey_variable.*, survey_category.title, survey_category.neutral FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
-        $ilDB->quote($id)
-      );
-      $result = $ilDB->query($query);
-      if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+			$query = sprintf("SELECT survey_variable.*, survey_category.title, survey_category.neutral FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+				$ilDB->quote($id)
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows() > 0) 
 			{
-        while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 				{
 					if ($data->neutral == 0)
 					{
@@ -631,20 +628,20 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					{
 						$this->setNeutralColumn($data->title);
 					}
-        }
-      }
+				}
+			}
 			
 			$query = sprintf("SELECT * FROM survey_question_matrix_rows WHERE question_fi = %s ORDER BY sequence",
 				$ilDB->quote($id . "")
 			);
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$this->addRow($row["title"]);
 			}
-    }
+		}
 		parent::loadFromDb($id);
-  }
+	}
 
 /**
 * Returns true if the question is complete for use
@@ -809,7 +806,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		if ($result->numRows()) 
 		{
 			$insert = TRUE;
-			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				if (strcmp($row->title, $columntext) == 0)
 				{
@@ -1408,7 +1405,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			case 0:
 			case 1:
-				while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					$cumulated[$row->value]++;
 				}
@@ -1506,7 +1503,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			case 0:
 			case 1:
-				while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					$cumulated[$row->value]++;
 				}
@@ -1945,7 +1942,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 		$results = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$column = $this->getColumn($row["value"]);
 			if (!is_array($answers[$row["active_fi"]])) $answers[$row["active_fi"]] = array();

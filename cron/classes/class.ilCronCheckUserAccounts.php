@@ -57,7 +57,7 @@ class ilCronCheckUserAccounts
 
 		$res = $this->db->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			include_once 'Services/Mail/classes/class.ilMimeMail.php';
 
@@ -97,7 +97,7 @@ class ilCronCheckUserAccounts
 			"AND lang_key = '".$language."'";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$value = $row->value;
 		}

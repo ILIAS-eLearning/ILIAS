@@ -591,7 +591,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			);
 
 			$rbacresult = $ilDB->query($query);
-			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($rbacrow = $rbacresult->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 					if ($rbacrow["assign"] != "y")
 						continue;

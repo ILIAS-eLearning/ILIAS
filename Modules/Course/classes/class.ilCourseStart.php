@@ -257,7 +257,7 @@ class ilCourseStart
 			"WHERE crs_id = ".$ilDB->quote($this->getId())." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($tree->isInTree($row->item_ref_id))
 			{

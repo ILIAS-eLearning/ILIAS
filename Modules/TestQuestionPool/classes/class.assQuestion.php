@@ -310,12 +310,9 @@ class assQuestion
 			$ilDB->quote($title)
 			);
 		$result = $ilDB->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		if ($result->numRows() == 1)
 		{
-			if ($result->numRows() == 1)
-			{
-				return TRUE;
-			}
+			return TRUE;
 		}
 		return FALSE;
 	}
@@ -692,7 +689,7 @@ class assQuestion
 		$sequence = 1;
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 			$sequence = $data->seq + 1;
 		}
 		$query = sprintf("INSERT INTO dum_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
@@ -727,7 +724,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$points = $row["points"];
 		}
 		return $points;
@@ -752,7 +749,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		else return array();
 	}
@@ -798,7 +795,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return array(
 				"internal_link" => $row["internal_link"],
 				"import_id" => $row["import_id"]
@@ -838,7 +835,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$points = $row["points"];
 		}
 		return $points;
@@ -924,7 +921,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s",
 				$ilDB->quote($active_id . ""),
 				$ilDB->quote($pass . ""),
@@ -1090,7 +1087,7 @@ class assQuestion
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$pass = $row["maxpass"];
 			}
 			else
@@ -1106,7 +1103,7 @@ class assQuestion
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-		while	($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while	($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($values, $row);
 		}
@@ -1131,7 +1128,7 @@ class assQuestion
 			$ilDB->quote($question_id . "")
 		);
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$count = $row["question_count"];
 
 		$query = sprintf("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_random_question, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.active_fi = tst_active.active_id",
@@ -1160,7 +1157,7 @@ class assQuestion
 			$ilDB->quote($question_id . "")
 		);
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 		if ($row->original_id > 0)
 		{
 			return TRUE;
@@ -1213,7 +1210,7 @@ class assQuestion
 			$ilDB->quote($question_id));
 
 		$result = $ilDB->query($query);
-		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 		return $data->type_tag;
 	}
@@ -1304,7 +1301,7 @@ class assQuestion
     	$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$obj_id = $row["obj_fi"];
 		}
 		else
@@ -1388,7 +1385,7 @@ class assQuestion
 			return 0;
 		}
 		$found_id = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($found_id, $row->question_id);
 		}
@@ -1420,7 +1417,7 @@ class assQuestion
 			return 0;
 		}
 		$found_id = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($found_id, $row->question_id);
 		}
@@ -1428,7 +1425,7 @@ class assQuestion
 			join($found_id, "','"));
 		$result = $ilDB->query($query);
 		$answers = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$reached = $row->points; 
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -1466,7 +1463,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["title"];
 		}
 		else
@@ -1537,7 +1534,7 @@ class assQuestion
     );
     $result = $ilDB->query($query);
     if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
       return $data->type_tag;
     } else {
       return "";
@@ -1564,7 +1561,7 @@ class assQuestion
     );
     $result = $ilDB->query($query);
     if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_ASSOC);
+      $data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
       return $data["title"];
     } else {
       return "";
@@ -1590,7 +1587,7 @@ class assQuestion
 		$this->suggested_solutions = array();
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$this->suggested_solutions[$row["subquestion_index"]] = array(
 					"internal_link" => $row["internal_link"],
@@ -1779,7 +1776,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$internal_link = $row["internal_link"];
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -1810,7 +1807,7 @@ class assQuestion
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches))
 					{
@@ -1875,7 +1872,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			if ($row["original_id"] > 0)
 			{
 				return $row["original_id"];
@@ -2050,7 +2047,7 @@ class assQuestion
     $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["maxpass"];
 		}
 		else
@@ -2084,7 +2081,7 @@ class assQuestion
     $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$qpl_object_id = $row["obj_fi"];
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			return ilObjQuestionPool::_isWriteable($qpl_object_id, $user_id);
@@ -2371,7 +2368,7 @@ class assQuestion
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$old_points = $row["points"];
 			}
 			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
@@ -2466,7 +2463,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["question_type_id"];
 		}
 		return 0;
@@ -2537,7 +2534,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
@@ -2563,7 +2560,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$duplicatequery = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($this->getId() . ""),
@@ -2596,7 +2593,7 @@ class assQuestion
 		// save generic feedback to the original
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$duplicatequery = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($this->original_id . ""),
@@ -2647,7 +2644,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		$instances = array();
 		$ids = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($ids, $row["question_id"]);
 		}
@@ -2657,7 +2654,7 @@ class assQuestion
 				$ilDB->quote($question_id . "")
 			);
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$instances[$row["obj_id"]] = $row["title"];
 			}
@@ -2665,7 +2662,7 @@ class assQuestion
 				$ilDB->quote($question_id . "")
 			);
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$instances[$row["obj_id"]] = $row["title"];
 			}
@@ -2678,7 +2675,7 @@ class assQuestion
 			);
 			$result = $ilDB->query($query);
 			$refs = array();
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($refs, $row["ref_id"]);
 			}
@@ -2718,7 +2715,7 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return array("user_id" => $row["user_fi"], "test_id" => $row["test_fi"]);
 		}
 		else

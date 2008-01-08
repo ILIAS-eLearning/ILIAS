@@ -54,7 +54,7 @@ class ilRegistrationRoleAccessLimitations
 		$res = $this->db->query($query);
 
 		$this->access_limitations = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->access_limitations[$row->role_id]['id'] =  $row->role_id;
 			$this->access_limitations[$row->role_id]['absolute'] = $row->limit_absolute;

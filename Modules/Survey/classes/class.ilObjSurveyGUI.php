@@ -1910,7 +1910,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM survey_questiontype";
 			$query_result = $this->ilias->db->query($query);
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($data = $query_result->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));

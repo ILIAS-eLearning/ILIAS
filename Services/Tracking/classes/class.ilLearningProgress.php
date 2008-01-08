@@ -80,7 +80,7 @@ class ilLearningProgress
 			"AND obj_id = '".$a_obj_id."'";
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$progress['lp_id'] = $row->lp_id;
 			$progress['obj_id'] = $row->obj_id;

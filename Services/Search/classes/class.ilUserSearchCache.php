@@ -291,7 +291,7 @@ class ilUserSearchCache
 	 		"AND search_type = ".$this->db->quote($this->search_type);
 		
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	 	{
 	 		$this->search_result = unserialize(stripslashes($row->search_result));
 	 		if(strlen($row->checked))

@@ -335,7 +335,7 @@ class assFlashApp extends assQuestion
 		{
 			if ($result->numRows() == 1)
 			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 				$this->id = $question_id;
 				$this->title = $data->title;
 				$this->comment = $data->comment;
@@ -593,7 +593,7 @@ class assFlashApp extends assQuestion
 		);
 		$result = $ilDB->query($query);
 		$points = 0;
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$points += $data->points;
 		}
@@ -628,7 +628,7 @@ class assFlashApp extends assQuestion
 		$result = $ilDB->query($query);
 		$counter = 0;
 		$user_result = array();
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$true = 0;
 			if ($data->points > 0)

@@ -368,7 +368,7 @@ class ilEvent
 		$query = "SELECT * FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			ilEvent::_delete($row->event_id);
 		}
@@ -390,7 +390,7 @@ class ilEvent
 
 		$query = "SELECT * FROM event WHERE event_id = ".$ilDB->quote($a_event_id)."";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -407,7 +407,7 @@ class ilEvent
 			"ORDER BY starting_time";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$events[] =& new ilEvent($row->event_id);
 		}
@@ -445,7 +445,7 @@ class ilEvent
 		// read event data
 		$query = "SELECT * FROM event WHERE event_id = ".$ilDB->quote($this->event_id)." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setObjId($row->obj_id);
 			$this->setTitle($row->title);

@@ -72,7 +72,7 @@ class ilGlossaryDefinition
 		
 		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
 		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$def_rec = $def_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		$this->setTermId($def_rec["term_id"]);
 		$this->setShortText($def_rec["short_text"]);
@@ -185,7 +185,7 @@ class ilGlossaryDefinition
 		// get maximum definition number
 		$q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = ".$ilDB->quote($this->getTermId());
 		$max_set = $this->ilias->db->query($q);
-		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$max_rec = $max_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$max = (int) $max_rec["max_nr"];
 
 		// insert new definition record
@@ -203,7 +203,7 @@ class ilGlossaryDefinition
 		// get number
 		$q = "SELECT nr FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
 		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$def_rec = $def_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setNr($def_rec["nr"]);
 
 		// meta data will be created by
@@ -230,7 +230,7 @@ class ilGlossaryDefinition
 		// be sure to get the right number
 		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
 		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$def_rec = $def_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setNr($def_rec["nr"]);
 
 		// update numbers of other definitions
@@ -273,7 +273,7 @@ class ilGlossaryDefinition
 		// be sure to get the right number
 		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
 		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$def_rec = $def_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setNr($def_rec["nr"]);
 
 		if ($this->getNr() < 2)
@@ -315,14 +315,14 @@ class ilGlossaryDefinition
 		// be sure to get the right number
 		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
 		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$def_rec = $def_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setNr($def_rec["nr"]);
 
 		// get max number
 		$q = "SELECT max(nr) as max_nr FROM glossary_definition WHERE term_id = ".
 			$ilDB->quote($this->getTermId());
 		$max_set = $this->ilias->db->query($q);
-		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$max_rec = $max_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		if ($this->getNr() >= $max_rec["max_nr"])
 		{
@@ -406,7 +406,7 @@ class ilGlossaryDefinition
 		$q = "SELECT * FROM glossary_definition WHERE term_id = ".$ilDB->quote($a_term_id).
 			" ORDER BY nr";
 		$def_set = $ilDB->query($q);
-		while ($def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($def_rec = $def_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$defs[] = array("term_id" => $def_rec["term_id"],
 				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"],
@@ -597,7 +597,7 @@ class ilGlossaryDefinition
 		
 		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($a_def_id);
 		$def_set = $ilDB->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$def_rec = $def_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $def_rec["term_id"];
 	}

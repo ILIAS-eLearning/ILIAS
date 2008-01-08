@@ -71,7 +71,7 @@ class ilSCORMResources extends ilSCORMObject
 		$q = "SELECT * FROM sc_resources WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setXmlBase($obj_rec["xml_base"]);
 	}
 

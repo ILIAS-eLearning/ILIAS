@@ -197,7 +197,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$this->setOnline($row["online"]);
 		}
 	}
@@ -272,7 +272,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 		$found_questions = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$this->removeQuestion($row["question_id"]);
 		}
@@ -410,7 +410,7 @@ class ilObjSurveyQuestionPool extends ilObject
     );
     $result = $this->ilias->db->query($query);
     if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 			return $data->type_tag;
     } else {
       return;
@@ -446,7 +446,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			return false;
 		}
 		$result_array = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($result_array, $row);
 		}
@@ -482,7 +482,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			join($question_array, "','")
 		);
     $result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			array_push($result_array, $row);
 		}
@@ -598,7 +598,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($rows, $row);
 			}
@@ -828,7 +828,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				array_push($questions, $row["question_id"]);
 			}
@@ -909,7 +909,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["online"];
 		}
 		return 0;
@@ -934,7 +934,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$ilDB->quote($object_id . "")
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{		
 			include_once "./classes/class.ilObject.php";
 			if ($rbacsystem->checkAccess("write", $row["ref_id"]) && (ilObject::_hasUntrashedReference($row["obj_id"])))
@@ -960,7 +960,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$questiontypes = array();
 		$query = "SELECT * FROM survey_questiontype ORDER BY type_tag";
 		$query_result = $ilDB->query($query);
-		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			array_push($questiontypes, $row["type_tag"]);
 		}
@@ -999,7 +999,7 @@ class ilObjSurveyQuestionPool extends ilObject
 				);
 			}
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$title = (($showPath) ? $titles[$row["ref_id"]] : $row["title"]);
 

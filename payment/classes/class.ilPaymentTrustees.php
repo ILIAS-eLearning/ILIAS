@@ -174,7 +174,7 @@ class ilPaymentTrustees
 			"WHERE vendor_id = '".$this->user_obj->getId()."'";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->trustees[$row->trustee_id]['trustee_id'] = $row->trustee_id;
 			$this->trustees[$row->trustee_id]['perm_stat'] = $row->perm_stat;
@@ -204,7 +204,7 @@ class ilPaymentTrustees
 			"WHERE trustee_id = '".$a_trustee."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if((bool) $row->perm_stat)
 			{
@@ -221,7 +221,7 @@ class ilPaymentTrustees
 			"WHERE trustee_id = '".$a_trustee."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if((bool) $row->perm_obj)
 			{
@@ -238,7 +238,7 @@ class ilPaymentTrustees
 			"WHERE trustee_id = '".$a_trustee."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if((bool) $row->perm_coupons)
 			{
@@ -305,7 +305,7 @@ class ilPaymentTrustees
 			"AND trustee_id = '".$a_usr_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$vendors[] = $row->vendor_id;
 		}
@@ -322,7 +322,7 @@ class ilPaymentTrustees
 			"AND trustee_id = '".$a_usr_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$vendors[] = $row->vendor_id;
 		}
@@ -339,7 +339,7 @@ class ilPaymentTrustees
 			"AND vendor_id = '".$a_usr_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$trustees[] = $row->trustee_id;
 		}

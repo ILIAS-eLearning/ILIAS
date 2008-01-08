@@ -235,25 +235,22 @@ class assNumeric extends assQuestion
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		if ($result->numRows() == 1)
 		{
-			if ($result->numRows() == 1)
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $question_id;
-				$this->title = $data->title;
-				$this->comment = $data->comment;
-				$this->solution_hint = $data->solution_hint;
-				$this->original_id = $data->original_id;
-				$this->obj_id = $data->obj_fi;
-				$this->author = $data->author;
-				$this->owner = $data->owner;
-				$this->points = $data->points;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-				$this->maxchars = $data->maxNumOfChars;
-				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-			}
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $question_id;
+			$this->title = $data->title;
+			$this->comment = $data->comment;
+			$this->solution_hint = $data->solution_hint;
+			$this->original_id = $data->original_id;
+			$this->obj_id = $data->obj_fi;
+			$this->author = $data->author;
+			$this->owner = $data->owner;
+			$this->points = $data->points;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
+			$this->maxchars = $data->maxNumOfChars;
+			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 
 			$query = sprintf("SELECT * FROM qpl_numeric_range WHERE question_fi = %s ORDER BY aorder ASC",
 				$ilDB->quote($question_id)
@@ -262,9 +259,9 @@ class assNumeric extends assQuestion
 			$result = $ilDB->query($query);
 
 			include_once "./Modules/TestQuestionPool/classes/class.assNumericRange.php";
-			if (strcmp(strtolower(get_class($result)), db_result) == 0)
+			if ($result->numRows() > 0)
 			{
-				while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					array_push($this->ranges, new assNumericRange($data["lowerlimit"], $data["upperlimit"], $data["points"], $data["aorder"]));
 				}
@@ -555,7 +552,7 @@ class assNumeric extends assQuestion
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-		$data = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		$enteredvalue = $data["value1"];
 		//if (!is_numeric($enteredvalue)) return 0;
@@ -603,7 +600,7 @@ class assNumeric extends assQuestion
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 		$update = $row->solution_id;
 		if ($update)
 		{

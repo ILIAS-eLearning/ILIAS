@@ -97,7 +97,7 @@ class ilAdvancedMDRecord
 			"JOIN adv_md_field_definition USING (record_id) ".
 			"WHERE searchable = 1 AND active = 1";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$records[] = self::_getInstanceByRecordId($row->record_id);
 		}
@@ -126,7 +126,7 @@ class ilAdvancedMDRecord
 		$query = "SELECT title FROm adv_md_record ".
 			"WHERE record_id = ".$ilDB->quote($a_record_id)." ";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		return $title_cache[$a_record_id] = $row->title;
 	}
@@ -146,7 +146,7 @@ class ilAdvancedMDRecord
 		$query = "SELECT record_id FROM adv_md_record ".
 			"WHERE import_id = ".$ilDB->quote($a_ilias_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->record_id;
 		}
@@ -181,7 +181,7 @@ class ilAdvancedMDRecord
 			"JOIN adv_md_record AS amr ON amo.record_id = amr.record_id ".
 			"WHERE active = 1 ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$obj_types[] = $row->obj_type; 
 		}
@@ -202,7 +202,7 @@ class ilAdvancedMDRecord
 		
 		$query = "SELECT record_id FROM adv_md_record ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$records[] = ilAdvancedMDRecord::_getInstanceByRecordId($row->record_id);
 		}
@@ -225,7 +225,7 @@ class ilAdvancedMDRecord
 		
 		$query = "SELECT * FROM adv_md_record_objs ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$records[$row->obj_type][] = self::_getInstanceByRecordId($row->record_id);
 		}
@@ -252,7 +252,7 @@ class ilAdvancedMDRecord
 			"AND obj_type = ".$ilDB->quote($a_obj_type)." ";
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$records[] = self::_getInstanceByRecordId($row->record_id);
 		}
@@ -560,7 +560,7 @@ class ilAdvancedMDRecord
 	 	$query = "SELECT * FROM adv_md_record ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setImportId($row->import_id);
 			$this->setActive($row->active);
@@ -570,7 +570,7 @@ class ilAdvancedMDRecord
 		$query = "SELECT * FROM adv_md_record_objs ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	 	{
 	 		$this->obj_types[] = $row->obj_type;
 	 	}

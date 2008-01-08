@@ -292,7 +292,7 @@ class ilNote
 		$q = "SELECT * FROM note WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($q);
-		$note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$note_rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setAllData($note_rec);
 	}
 	
@@ -334,7 +334,7 @@ class ilNote
 		$q = "SELECT * FROM note WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($q);
-		$note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$note_rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $note_rec["creation_date"];
 	}
@@ -349,7 +349,7 @@ class ilNote
 		$q = "SELECT * FROM note WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($q);
-		$note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$note_rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $note_rec["update_date"];
 	}
@@ -381,7 +381,7 @@ class ilNote
 
 		$set = $ilDB->query($q);
 		$notes = array();
-		while($note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($note_rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($a_filter != "")
 			{
@@ -417,7 +417,7 @@ class ilNote
 		$ilDB->quote($q);
 		$set = $ilDB->query($q);
 		$notes = array();
-		while($note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($note_rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$cnt = count($notes);
 			$notes[$cnt] = new ilNote();
@@ -442,7 +442,7 @@ class ilNote
 		$ilDB->quote($q);
 		$set = $ilDB->query($q);
 		$reps = array();
-		while($rep_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rep_rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
 		}

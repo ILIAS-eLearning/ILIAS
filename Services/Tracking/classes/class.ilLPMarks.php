@@ -125,7 +125,7 @@ class ilLPMarks
 			"AND obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return (bool) $row->completed;
 		}
@@ -141,7 +141,7 @@ class ilLPMarks
 			"AND obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->mark;
 		}
@@ -158,7 +158,7 @@ class ilLPMarks
 			"AND obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->comment;
 		}
@@ -171,7 +171,7 @@ class ilLPMarks
 		$res = $this->db->query("SELECT * FROM ut_lp_marks ".
 								"WHERE obj_id = ".$this->db->quote($this->obj_id)." ".
 								"AND usr_id = '".(int) $this->usr_id."'");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->has_entry = true;
 			$this->completed = (int) $row->completed;

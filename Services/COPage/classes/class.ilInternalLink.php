@@ -89,7 +89,7 @@ class ilInternalLink
 			"target_inst = ".$ilDB->quote($a_target_inst);
 		$source_set = $ilias->db->query($q);
 		$sources = array();
-		while ($source_rec = $source_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($source_rec = $source_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$sources[$source_rec["source_type"].":".$source_rec["source_id"]] =
 				array("type" => $source_rec["source_type"], "id" => $source_rec["source_id"]);
@@ -116,7 +116,7 @@ class ilInternalLink
 
 		$target_set = $ilDB->query($q);
 		$targets = array();
-		while ($target_rec = $target_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($target_rec = $target_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$targets[$target_rec["target_type"].":".$target_rec["target_id"].":".$target_rec["target_inst"]] =
 				array("type" => $target_rec["target_type"], "id" => $target_rec["target_id"],

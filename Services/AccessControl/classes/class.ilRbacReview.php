@@ -196,7 +196,7 @@ class ilRbacReview
 				$r = $this->ilDB->query($q);
 
 				$count = 0;
-				while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					$role_ids[] = $row->obj_id;
 					$count++;
@@ -215,7 +215,7 @@ class ilRbacReview
 						"AND t.tree = 1 ";
 					$r = $this->ilDB->query($q);
 
-					while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+					while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 					{
 						$role_ids[] = $row->obj_id;
 					}
@@ -250,7 +250,7 @@ class ilRbacReview
 					"WHERE title IN (".$titleList.") ".
 					"AND type='role'";
 				$r = $this->ilDB->query($q);
-				while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+				while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					$role_ids[] = $row->obj_id;
 				}
@@ -340,7 +340,7 @@ class ilRbacReview
 				"WHERE rdat.obj_id = ".$this->ilDB->quote($a_role_id)." ".
 				"AND fa.assign = 'y' ";
 			$r = $this->ilDB->query($q);
-			if (! ($row = $r->fetchRow(DB_FETCHMODE_OBJECT)))
+			if (! ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT)))
 			{
 				//$log->write('class.ilRbacReview->getMailboxAddress('.$a_role_id.'): error role does not exist');
 				return null; // role does not exist
@@ -365,7 +365,7 @@ class ilRbacReview
 				"WHERE title = ".$this->ilDB->quote($object_title)." ".
 				"AND tree.tree = 1";
 			$r = $this->ilDB->query($q);
-			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 			// If the object title is not unique, we get rid of the domain.
 			if ($row->count > 1)
@@ -435,7 +435,7 @@ class ilRbacReview
 			}
 
 			$r = $this->ilDB->query($q);
-			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 			// if the local_part is not unique, we use the unambiguous role title 
 			//   instead for the local part of the mailbox address
@@ -472,7 +472,7 @@ class ilRbacReview
 				"WHERE obj_id = ".$this->ilDB->quote($a_role_id);
 			$r = $this->ilDB->query($q);
 
-			if ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			if ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				return '#'.$row->title;
 			}
@@ -509,7 +509,7 @@ class ilRbacReview
 			 $clause;
 		$r = $this->ilDB->query($q);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -554,7 +554,7 @@ class ilRbacReview
 				 "HAVING child ".$in;
 			$r = $this->ilDB->query($q);
 
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$roles = $this->getRoleListByObject($row->child,$a_templates);
 
@@ -637,7 +637,7 @@ class ilRbacReview
 			 "AND rbac_fa.parent = ".$ilDB->quote($a_ref_id)." ";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$row["desc"] = $row["description"];
 			$row["user_id"] = $row["owner"];
@@ -669,7 +669,7 @@ class ilRbacReview
 			 "AND rbac_fa.assign = 'y'";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$row["desc"] = $row["description"];
 			$row["user_id"] = $row["owner"];
@@ -704,7 +704,7 @@ class ilRbacReview
 			"ORDER BY dat.title";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$role_list[] = $row;
 		}
@@ -734,7 +734,7 @@ class ilRbacReview
 			;
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$roles_data[] = $row;
 		}
@@ -855,7 +855,7 @@ class ilRbacReview
                  "WHERE rbac_ua.rol_id=".$ilDB->quote($a_rol_id)." ";
             $r = $this->ilDB->query($q);
 
-            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+            while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
             {
                 $result_arr[] = $row;
             }
@@ -865,7 +865,7 @@ class ilRbacReview
 		    $q = "SELECT usr_id FROM rbac_ua WHERE rol_id=".$ilDB->quote($a_rol_id)." ";
             $r = $this->ilDB->query($q);
 
-            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+            while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
             {
                 array_push($result_arr,$row["usr_id"]);
             }
@@ -903,7 +903,7 @@ class ilRbacReview
 		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$role_arr[] = $row->rol_id;
 		}
@@ -982,7 +982,7 @@ class ilRbacReview
 			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".$where;
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$folders[] = $row->parent;
 		}
@@ -1022,7 +1022,7 @@ class ilRbacReview
 
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$rol_id[] = $row->rol_id;
 		}
@@ -1089,7 +1089,7 @@ class ilRbacReview
 		$q = "SELECT DISTINCT parent FROM rbac_fa";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$parent[] = $row->parent;
 		}
@@ -1146,7 +1146,7 @@ class ilRbacReview
 		$query = "SELECT * FROM rbac_operations ORDER BY ops_id ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ops[] = array('ops_id' => $row->ops_id,
 						   'operation' => $row->operation,
@@ -1168,7 +1168,7 @@ class ilRbacReview
 		$query = "SELECT * FROM rbac_operations WHERE ops_id = ".$ilDB->quote($ops_id)." ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ops = array('ops_id' => $row->ops_id,
 						 'operation' => $row->operation,
@@ -1215,7 +1215,7 @@ class ilRbacReview
 			 "AND parent = ".$ilDB->quote($a_parent)."";
 		$r  = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ops_arr[] = $row->ops_id;
 		}
@@ -1232,7 +1232,7 @@ class ilRbacReview
 			"AND ref_id = ".$ilDB->quote($a_ref_id)." ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ops = unserialize(stripslashes($row->ops_id));
 		}
@@ -1259,7 +1259,7 @@ class ilRbacReview
 		$q = "SELECT * FROM rbac_ta WHERE typ_id = ".$ilDB->quote($a_typ_id)." ";
 		$r = $this->ilDB->query($q);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ops_id[] = $row->ops_id;
 		}
@@ -1280,7 +1280,7 @@ class ilRbacReview
 		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($a_type)." ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $this->getOperationsOnType($row->obj_id);
 		}
@@ -1326,7 +1326,7 @@ class ilRbacReview
 		$q = "SELECT tree FROM tree WHERE child =".$ilDB->quote($a_node_id)." ";
 		$r = $this->ilDB->query($q);
 		
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		if (!$row)
 		{
@@ -1404,7 +1404,7 @@ class ilRbacReview
 			 "AND rbac_fa.assign = ".$ilDB->quote($assign)." ";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
             $prefix = (substr($row["title"],0,3) == "il_") ? true : false;
 
@@ -1439,7 +1439,7 @@ class ilRbacReview
 			 "WHERE title=".$ilDB->quote($a_type)." AND type='typ'";
 		$r = $ilDB->query($q);
 		
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 		return $row->obj_id;
 	}
 
@@ -1466,7 +1466,7 @@ class ilRbacReview
 
 		$query = "SELECT ops_id FROM rbac_operations ".$where;
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ops_ids[] = $row->ops_id;
 		}
@@ -1523,7 +1523,7 @@ class ilRbacReview
 			 $and;
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$rol_id[] = $row->rol_id;
 		}
@@ -1678,7 +1678,7 @@ class ilRbacReview
 			"AND assign = 'y' ".
 			"AND rol_id = ".$ilDB->quote($a_role_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$obj_id = $row->obj_id;
 		}

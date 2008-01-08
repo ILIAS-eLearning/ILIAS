@@ -143,7 +143,7 @@ class ilContainer extends ilObject
 				" id = ".$ilDB->quote($a_id)." AND ".
 				" keyword = ".$ilDB->quote($a_keyword);
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		return $rec["value"];
 	}

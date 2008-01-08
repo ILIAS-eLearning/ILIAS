@@ -51,7 +51,7 @@ class ilSetting
 		$query = "SELECT * FROM settings WHERE module=" . $ilDB->quote($this->module);
 		$res = $ilDB->query($query);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$this->setting[$row["keyword"]] = $row["value"];
 		}

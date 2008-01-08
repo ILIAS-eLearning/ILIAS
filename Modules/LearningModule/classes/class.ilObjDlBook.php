@@ -88,7 +88,7 @@ class ilObjDlBook extends ilObjContentObject
                   AND lm_tree.lft > ".$ilDB->quote($left)." and lm_tree.rgt < ".$ilDB->quote($right)."
                   ORDER BY lm_tree.lft";
         $result = $this->ilias->db->query($query);
-        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+        while (is_array($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) ) 
 		{
 			if ($row["type"] == "st") 
 			{
@@ -109,7 +109,7 @@ class ilObjDlBook extends ilObjContentObject
                 $query = "SELECT * FROM page_object WHERE page_id= ".$ilDB->quote($row["obj_id"]);
 				$result2 = $this->ilias->db->query($query);
 		
-				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+				$row2 = $result2->fetchRow(MDB2_FETCHMODE_ASSOC);
 				
 				$PO = $row2["content"]."\n";
 
@@ -157,7 +157,7 @@ class ilObjDlBook extends ilObjContentObject
 			$ilDB->quote($this->getRefId())." AND object_reference.obj_id=object_data.obj_id ";
         $result = $this->ilias->db->query($query);
 
-		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$objRow = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		$obj_id = $objRow["obj_id"];
 
@@ -186,7 +186,7 @@ class ilObjDlBook extends ilObjContentObject
                   AND lm_tree.depth = 1
                   ORDER BY lm_tree.lft";
         $result = $this->ilias->db->query($query);
-        $treeData = $result->fetchRow(DB_FETCHMODE_ASSOC);
+        $treeData = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 
         $xml .= $this->exportRekursiv($obj_id,2, $treeData["lft"], $treeData["rgt"]);
 
@@ -212,7 +212,7 @@ class ilObjDlBook extends ilObjContentObject
                 //vd($query);
                 $first = true;
                 $result = $this->ilias->db->query($query);
-                while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
+                while (is_array($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) )
                 {
                     if($first) 
                     {
@@ -503,14 +503,14 @@ class ilObjDlBook extends ilObjContentObject
 
 				$counter = 0;
 				$ids = array();
-				while($row = $res1->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res1->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					$ids[] = $row->ref_id;
 					$result[$counter]["id"]		=  $row->ref_id;
 
 					++$counter;
 				}
-				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res2->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					if(in_array($row->ref_id,$ids))
 					{
@@ -537,7 +537,7 @@ class ilObjDlBook extends ilObjContentObject
 				$ilBench->stop("Search", "ilObjDlBook_search_content");
 
 				$counter = 0;
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					$result[$counter]["id"]		= $row->ref_id;
 					$result[$counter]["page_id"] = $row->page_id;
@@ -564,7 +564,7 @@ class ilObjDlBook extends ilObjContentObject
 			"WHERE id = ".$ilDB->quote($this->ref_id)." ";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$tmp_tr_ids[] = $row->tr_id;
 		}

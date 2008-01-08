@@ -76,7 +76,7 @@ class ilLPStatusObjectives extends ilLPStatus
 			"WHERE obj_id = '".$a_obj_id."' AND obj_type = 'crs'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if(!in_array($row->user_id,$completed) and in_array($row->user_id,$members))
 			{
@@ -129,7 +129,7 @@ class ilLPStatusObjectives extends ilLPStatus
 			"WHERE ".$in;
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$status_info['completed'][$row->objective_id][] = $row->user_id;
 			$status_info['objective_result'][$row->user_id][$row->objective_id] = $row->objective_id;
@@ -139,7 +139,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		$query = "SELECT * FROM crs_objectives ".
 			"WHERE ".$in;
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$status_info['objective_title'][$row->objective_id] = $row->title;
 			$status_info['objective_description'][$row->objective_id] = $row->description;

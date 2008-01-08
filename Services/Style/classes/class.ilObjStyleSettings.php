@@ -118,7 +118,7 @@ class ilObjStyleSettings extends ilObject
 			" AND style_data.id = obj.obj_id";
 
 		$style_set = $ilDB->query($q);
-		while ($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($style_rec = $style_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$this->styles[$style_rec["style_id"]] =
 				array("id" => $style_rec["style_id"],
@@ -140,7 +140,7 @@ class ilObjStyleSettings extends ilObject
 			" AND style = ".$ilDB->quote($a_style);
 		
 		$cnt_set = $ilDB->query($q);
-		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		if ($cnt_rec["cnt"] > 0)
 		{

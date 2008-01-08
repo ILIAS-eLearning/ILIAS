@@ -71,7 +71,7 @@ class ilMDCopyrightSelectionEntry
 		
 		$query = "SELECT entry_id FROM il_md_copyright_selections ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$entries[] = new ilMDCopyrightSelectionEntry($row->entry_id);
 		}
@@ -98,7 +98,7 @@ class ilMDCopyrightSelectionEntry
 		$query = "SELECT copyright FROM il_md_copyright_selections ".
 			"WHERE entry_id = ".$ilDB->quote($entry_id)." ";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		return $row->copyright ? $row->copyright : '';
 	}
 	
@@ -365,7 +365,7 @@ class ilMDCopyrightSelectionEntry
 	 	$query = "SELECT * FROM il_md_copyright_selections ".
 	 		"WHERE entry_id = ".$this->db->quote($this->entry_id)." ";
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	 	{
 	 		$this->setTitle($row->title);
 	 		$this->setDescription($row->description);
@@ -379,7 +379,7 @@ class ilMDCopyrightSelectionEntry
 	 	$query = "SELECT count(meta_rights_id) as used FROM il_meta_rights ".
 	 		"WHERE description = 'il_copyright_entry__".IL_INST_ID.'__'.$this->getEntryId()."'";
 	 	$res = $this->db->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 	 	$this->usage = $row->used;
 	}
 }

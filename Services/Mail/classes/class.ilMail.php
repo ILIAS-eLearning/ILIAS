@@ -370,7 +370,7 @@ class ilMail
 					"AND object_reference.obj_id = object_data.obj_id";
 			$res = $this->ilias->db->query($query);
 
-			while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$this->mail_obj_ref_id = $row["ref_id"];
 			}
@@ -499,7 +499,7 @@ class ilMail
 				 "WHERE a.user_id = ".$ilDB->quote($this->user_id) ." ".				 
 				 "AND a.mail_id = ".$ilDB->quote($a_mail_id)." ORDER BY b.send_time ASC LIMIT 1";
 		
-		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT));
 		
 		return $this->mail_data; 
 	}
@@ -513,7 +513,7 @@ class ilMail
 				 "WHERE a.user_id = ".$ilDB->quote($this->user_id) ." ".				 
 				 "AND a.mail_id = ".$ilDB->quote($a_mail_id)." ORDER BY b.send_time DESC LIMIT 1";
 		
-		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT));
 		
 		return $this->mail_data;
 	}
@@ -538,7 +538,7 @@ class ilMail
 		
 		$res = $this->ilias->db->query($query);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($row->sender_id and !ilObjectFactory::ObjectIdExists($row->sender_id))
 			{
@@ -638,7 +638,7 @@ class ilMail
 			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			"AND mail_id = ".$ilDB->quote($a_mail_id)." ";
 		
-		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT));
 		
 		return $this->mail_data; 
 	}
@@ -848,7 +848,7 @@ class ilMail
 
 		$res = $this->ilias->db->query($query);
 		$query = "SELECT LAST_INSERT_ID() as id";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_ASSOC);
+		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_ASSOC);
 
 		return $row["id"];
 	}
@@ -1516,7 +1516,7 @@ class ilMail
 		$query = "SELECT * FROM $this->table_mail_saved ".
 			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
-		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query, MDB2_FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}

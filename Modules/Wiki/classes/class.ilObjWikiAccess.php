@@ -153,7 +153,7 @@ class ilObjWikiAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM il_wiki_data WHERE id = ".$ilDB->quote($a_id);
 		$wk_set = $ilDB->query($q);
-		$wk_rec = $wk_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$wk_rec = $wk_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $wk_rec["online"];
 	}
@@ -169,7 +169,7 @@ class ilObjWikiAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM il_wiki_data WHERE id = ".$ilDB->quote($a_id);
 		$wk_set = $ilDB->query($q);
-		$wk_rec = $wk_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$wk_rec = $wk_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $wk_rec["public_files"];
 	}

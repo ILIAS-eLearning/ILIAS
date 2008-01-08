@@ -51,7 +51,7 @@ class ilChatInvitations
 		$q = "SELECT count(*) as invitations FROM chat_invitations WHERE guest_id = ".$ilDB->quote($a_user_id)." ".
 			 "AND guest_informed = 0 ".
 			 "AND invitation_time > ".(time() - 2 * 60 * 60)." ";
-		$row = $ilias->db->getRow($q,DB_FETCHMODE_OBJECT);
+		$row = $ilias->db->getRow($q,MDB2_FETCHMODE_OBJECT);
 		
 		return $row->invitations;
 	}

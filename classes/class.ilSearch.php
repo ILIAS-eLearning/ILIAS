@@ -495,7 +495,7 @@ class ilSearch
 
 			if ($res->numRows())
 			{
-				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 				$this->setResult(unserialize(stripslashes($row->search_result)));
 			}
 			else

@@ -87,7 +87,7 @@ class ilObjSystemFolder extends ilObject
 
 		$num = 0;
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$data["Fobject"][$num]= array("title"	=> $row->title,
 										  "desc"	=> ilUtil::shortenText($row->description,MAXLENGTH_OBJ_DESC,true),
@@ -135,7 +135,7 @@ class ilObjSystemFolder extends ilObject
 		$q = "SELECT obj_id FROM object_data ".
 			"WHERE type = 'adm'";
 		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 		return $row->obj_id;
 	}
@@ -150,7 +150,7 @@ class ilObjSystemFolder extends ilObject
 			"WHERE obj_id = ".$ilDB->quote($id)." ".
 			"AND lang_default = 1";
 		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 		$title = $row->title;
 
 		$q = "SELECT title,description FROM object_translation ".
@@ -159,7 +159,7 @@ class ilObjSystemFolder extends ilObject
 			$ilDB->quote($this->ilias->account->getPref("language"))." ".
 			"AND NOT lang_default = 1";
 		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 		if ($row)
 		{
@@ -179,7 +179,7 @@ class ilObjSystemFolder extends ilObject
 			"WHERE obj_id = ".$ilDB->quote($id)." ".
 			"AND lang_default = 1";
 		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 		$description = $row->description;
 
 		$q = "SELECT title,description FROM object_translation ".
@@ -188,7 +188,7 @@ class ilObjSystemFolder extends ilObject
 			$ilDB->quote($this->ilias->account->getPref("language"))." ".
 			"AND NOT lang_default = 1";
 		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 		if ($row)
 		{

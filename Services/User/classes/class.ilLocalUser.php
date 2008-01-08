@@ -83,7 +83,7 @@ class ilLocalUser
 		$query = "SELECT DISTINCT(time_limit_owner) as parent_id FROM usr_data ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($rbacsystem->checkAccess('read_users',$row->parent_id) or $rbacsystem->checkAccess('cat_administrate_users',$row->parent_id))
 			{
@@ -125,7 +125,7 @@ class ilLocalUser
 		$query = "SELECT usr_id FROM usr_data ".$where;
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$users[] = $row->usr_id;
 		}
