@@ -7795,6 +7795,6 @@ rbac#:#mds_write#:#Edit Metadata settings
 common#:#obj_calendar#:#Calendar
 common#:#obj_cals_desc#:#General Calendar settings.
 rbac#:#cals_edit_permission#:#Change permission settings
-rbac#:#cals_visible#:#Calender settings are visible
-rbac#:#cals_read#:#Read access to Calender settings
-rbac#:#cals_write#:#Edit Calender settings
+rbac#:#cals_visible#:#Calendar settings are visible
+rbac#:#cals_read#:#Read access to Calendar settings
+rbac#:#cals_write#:#Edit Calendar settings
