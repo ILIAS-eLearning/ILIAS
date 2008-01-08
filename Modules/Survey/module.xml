@@ -4,4 +4,11 @@
 	<baseclasses>
 		<baseclass name="ilObjSurveyGUI" dir="classes" />
 	</baseclasses>
+	<objects>
+		<object short="svy" class_name="Survey" location="Modules/Survey/classes"
+			module="Modules/Survey"
+			checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
 </module>

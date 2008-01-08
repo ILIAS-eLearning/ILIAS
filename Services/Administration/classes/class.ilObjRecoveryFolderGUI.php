@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilContainerGUI.php";
+
 /**
 * Class ilObjRecoveryFolderGUI
 *
@@ -31,9 +33,6 @@
 *
 * @extends ilObjectGUI
 */
-
-require_once "class.ilContainerGUI.php";
-
 class ilObjRecoveryFolderGUI extends ilContainerGUI
 {
 	/**

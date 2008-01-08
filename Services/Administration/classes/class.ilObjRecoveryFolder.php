@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+require_once "./classes/class.ilObject.php";
+
 /**
 * Class ilObjRecoveryFolder
 * 
@@ -29,9 +32,6 @@
 *
 * @extends ilObject
 */
-
-require_once "class.ilObject.php";
-
 class ilObjRecoveryFolder extends ilObject
 {
 	/**
