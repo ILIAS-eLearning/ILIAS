@@ -898,7 +898,7 @@ class assQuestion
 			$ilDB->quote($reached_points . "")
 		);
 		$result = $ilDB->query($query);
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()), $reached_points), $active_id, $this->getId());
@@ -952,7 +952,7 @@ class assQuestion
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$original_id = assQuestion::_getOriginalId($question_id);
 		}
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromActiveID($active_id), $logtext, $question_id, $original_id);
 	}
@@ -976,7 +976,7 @@ class assQuestion
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$original_id = assQuestion::_getOriginalId($question_id);
 		}
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromActiveID($active_id), $logtext, $question_id, $original_id);
 	}
@@ -2391,7 +2391,7 @@ class assQuestion
 			include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 			ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
 
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				global $lng;
@@ -2689,7 +2689,7 @@ class assQuestion
 
 	function _needsManualScoring($question_id)
 	{
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoringTypes();
 		$questiontype = assQuestion::_getQuestionType($question_id);
 		if (in_array($questiontype, $scoring))

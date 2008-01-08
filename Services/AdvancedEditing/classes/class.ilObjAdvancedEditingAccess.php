@@ -21,17 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
+include_once("./classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjRootFolderAccess
+* Class ilObjAdvancedEditingAccess
 *
 *
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 */
-class ilObjAssessmentFolderAccess extends ilObjectAccess
+class ilObjAdvancedEditingAccess extends ilObjectAccess
 {
 
 

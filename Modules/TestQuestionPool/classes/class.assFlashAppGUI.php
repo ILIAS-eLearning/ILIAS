@@ -330,7 +330,7 @@ class assFlashAppGUI extends assQuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
@@ -802,7 +802,7 @@ class assFlashAppGUI extends assQuestionGUI
 	*/
 	function saveFeedback()
 	{
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		$this->object->cleanupMediaObjectUsage();

@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilObject.php";
+
 /**
 * Class ilObjAdvancedEditing
 *
@@ -29,9 +31,6 @@
 *
 * @extends ilObject
 */
-
-require_once "class.ilObject.php";
-
 class ilObjAdvancedEditing extends ilObject
 {
 	var $setting;

@@ -296,7 +296,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->object->setTextgapRating($_POST["textgap_rating"]);
 		$this->object->setIdenticalScoring($_POST["identical_scoring"]);
 		$this->object->setFixedTextLength($_POST["fixedTextLength"]);
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->object->setClozeText($cloze_text);
 		// adding estimated working time
@@ -1068,7 +1068,7 @@ class assClozeTestGUI extends assQuestionGUI
 	*/
 	function saveFeedback()
 	{
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		$this->object->cleanupMediaObjectUsage();

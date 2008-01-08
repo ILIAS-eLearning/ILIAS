@@ -127,7 +127,7 @@ class ASS_MarkSchema
 		global $ilDB;
 
 		$oldmarks = array();
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
@@ -444,7 +444,7 @@ class ASS_MarkSchema
 	function logAction($test_id, $logtext = "")
 	{
 		global $ilUser;
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", TRUE, $_GET["ref_id"]);
 	}
 }

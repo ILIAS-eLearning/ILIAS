@@ -1215,7 +1215,7 @@ class ilObjTest extends ilObject
 		// cleanup RTE images
 		$this->cleanupMediaobjectUsage();
 
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if ($this->test_id == -1)
 		{
 			// Create new dataset
@@ -1342,7 +1342,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->test_id)
 			);
 			$result = $ilDB->query($query);
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
@@ -1444,7 +1444,7 @@ class ilObjTest extends ilObject
 		global $ilDB;
 
 		$oldquestions = array();
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
@@ -1474,7 +1474,7 @@ class ilObjTest extends ilObject
 			);
 			$result = $ilDB->query($query);
 		}
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
@@ -1748,7 +1748,7 @@ class ilObjTest extends ilObject
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$result = $ilDB->query($query);
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			if (strcmp($total_questions, "NULL") == 0) $total_questions = '0';
@@ -1769,7 +1769,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		// delete existing random questionpools
     $query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
 			$ilDB->quote($this->getTestId())
@@ -2976,7 +2976,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function removeQuestion($question_id)
 	{
 		$question =& ilObjTest::_instanciateQuestion($question_id);
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
@@ -3034,7 +3034,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$query4 = sprintf("DELETE FROM tst_test_pass_result USING tst_test_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_pass_result.active_fi",
 				$ilDB->quote($this->getTestId())
 			);
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
@@ -3107,7 +3107,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$result = $ilDB->query($query);
 			}
 
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
@@ -3172,7 +3172,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$result = $ilDB->query($query);
 		}
 
-		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
@@ -3230,7 +3230,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ilDB->quote($data->test_question_id)
 			);
 			$result = $ilDB->query($query);
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence-1), $question_id);
@@ -3280,7 +3280,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ilDB->quote($data->test_question_id)
 			);
 			$result = $ilDB->query($query);
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence+1), $question_id);
@@ -3346,7 +3346,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		else
 		{
-			include_once ("./classes/class.ilObjAssessmentFolder.php");
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " . $sequence, $duplicate_id);
@@ -6806,7 +6806,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$original_id = assQuestion::_getOriginalId($question_id);
 		}
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		ilObjAssessmentFolder::_addLog($ilUser->getId(), $this->getId(), $logtext, $question_id, $original_id, TRUE, $this->getRefId());
 	}
 
@@ -8590,7 +8590,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$result = $ilDB->query($query);
 			if ($result->numRows() >= $nr_of_users)
 			{
-				include_once "./classes/class.ilObjAssessmentFolder.php";
+				include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 				{
 					$this->logAction($this->lng->txtlng("assessment", "log_could_not_enter_test_due_to_simultaneous_users", ilObjAssessmentFolder::_getLogLanguage()));

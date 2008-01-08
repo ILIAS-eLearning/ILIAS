@@ -310,7 +310,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
 		}
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		$this->object->setQuestiontext($questiontext);
 		if ($_POST["obligatory"])

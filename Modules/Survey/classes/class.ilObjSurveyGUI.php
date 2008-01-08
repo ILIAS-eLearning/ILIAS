@@ -194,7 +194,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->setEndDate(sprintf("%04d-%02d-%02d", $_POST["end_date"]["y"], $_POST["end_date"]["m"], $_POST["end_date"]["d"]));
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
 
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		$this->object->setIntroduction($introduction);
 		$outro = ilUtil::stripSlashes($_POST["outro"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
@@ -1259,7 +1259,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$insertbefore = $_POST["insertbefore_original"];
 			}
-			include_once "./classes/class.ilObjAdvancedEditing.php";
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$this->object->saveHeading(ilUtil::stripSlashes($_POST["heading"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $insertbefore);
 			$this->ctrl->redirect($this, "questions");
 		}

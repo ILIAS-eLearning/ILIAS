@@ -871,7 +871,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["show_cancel"] = $_POST["chb_show_cancel"];
 		$data["show_marker"] = ($_POST["chb_show_marker"] ? 1 : 0);
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
-		include_once "./classes/class.ilObjAdvancedEditing.php";
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$data["introduction"] = $introduction;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["chb_postpone"]);
@@ -3698,7 +3698,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_status.html", "Modules/Test");
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			include_once "./classes/class.ilObjAssessmentFolder.php";
+			include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 			$log =& ilObjAssessmentFolder::_getLog("19700101000000", strftime("%Y%m%d%H%M%S"), $this->object->getId(), TRUE);
 			if (count($log))
 			{
@@ -5605,7 +5605,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
 					 "");
 
-				include_once "./classes/class.ilObjAssessmentFolder.php";
+				include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 				$scoring = ilObjAssessmentFolder::_getManualScoring();
 				if (count($scoring))
 				{

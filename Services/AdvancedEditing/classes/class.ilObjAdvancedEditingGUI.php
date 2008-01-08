@@ -32,7 +32,7 @@
 * @extends ilObjectGUI
 */
 
-include_once "class.ilObjectGUI.php";
+include_once "./classes/class.ilObjectGUI.php";
 
 class ilObjAdvancedEditingGUI extends ilObjectGUI
 {
@@ -305,7 +305,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		if ($xpage_id > 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("cat_pages_undone"), true);
-			include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+			include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");
 			$xpage = new ilXHTMLPage($xpage_id);
 			$xpage->undo();
 		}
@@ -324,14 +324,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilSetting;
 
-		include_once("classes/class.ilContainer.php");
+		include_once("./classes/class.ilContainer.php");
 		$xpage_id = ilContainer::_lookupContainerSetting(
 			ilObject::_lookupObjId($_POST["cat_id"]),
 			"xhtml_page");
 		if ($xpage_id > 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("cat_pages_clear"), true);
-			include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+			include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");
 			$xpage = new ilXHTMLPage($xpage_id);
 			$xpage->clear();
 		}

@@ -189,7 +189,7 @@ class ilHtmlBlockGUIGen extends ilBlockGUI
 	*/
 	public function saveHtmlBlock()
 	{
-		include_once("./classes/class.ilObjAdvancedEditing.php");
+		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
 		if ($this->checkInputHtmlBlock())
 		{
 			$this->html_block = new ilHtmlBlock();
