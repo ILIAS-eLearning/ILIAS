@@ -33,7 +33,7 @@
 */
 
 
-include_once "classes/class.ilObjectListGUI.php";
+include_once "./classes/class.ilObjectListGUI.php";
 
 class ilObjiLincClassroomListGUI extends ilObjectListGUI
 {
@@ -61,7 +61,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjilincclassroomgui";
 
 		// general commands array
-		include_once('class.ilObjiLincClassroomAccess.php');
+		include_once('./Modules/ILinc/classes/class.ilObjiLincClassroomAccess.php');
 		$this->commands = ilObjiLincClassroomAccess::_getCommands();
 	}
 	
@@ -334,7 +334,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		$props = array();
 
 		// docent
-		include_once ('ilinc/classes/class.ilObjiLincClassroom.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincClassroom.php');
 		$docent = ilObjiLincClassroom::_getDocent($a_item['instructoruserid']);
 				
 		if (!$docent)

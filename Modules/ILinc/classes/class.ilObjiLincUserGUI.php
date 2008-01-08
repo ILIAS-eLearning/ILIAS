@@ -32,8 +32,8 @@
 *
 */
 
-require_once ('class.ilnetucateXMLAPI.php');
-require_once ('class.ilObjiLincUser.php');
+require_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
+require_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 
 class ilObjiLincUserGUI
 {
@@ -142,7 +142,7 @@ class ilObjiLincUserGUI
 			$submit_button_title = $this->lng->txt("refresh");
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_usr_edit.html","ilinc");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_usr_edit.html","Modules/ILinc");
 		
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("ilinc_user_settings"));

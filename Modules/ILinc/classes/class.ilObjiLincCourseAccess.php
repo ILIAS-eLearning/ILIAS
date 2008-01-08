@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
+include_once("./classes/class.ilObjectAccess.php");
 
 /**
 * Class ilObjiLincCourseAccess
@@ -57,7 +57,7 @@ class ilObjiLincCourseAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "info":
-				include_once 'ilinc/classes/class.ilObjiLincCourse.php';
+				include_once './Modules/ILinc/classes/class.ilObjiLincCourse.php';
 
 				if(ilObjiLincCourse::_isMember($a_user_id,$a_obj_id))
 				{
@@ -70,7 +70,7 @@ class ilObjiLincCourseAccess extends ilObjectAccess
 				break;
 
 			case 'join':
-				include_once 'ilinc/classes/class.ilObjiLincCourse.php';
+				include_once './Modules/ILinc/classes/class.ilObjiLincCourse.php';
 
 				if(ilObjiLincCourse::_isMember($a_user_id,$a_ref_id))
 				{
@@ -82,7 +82,7 @@ class ilObjiLincCourseAccess extends ilObjectAccess
 		switch ($a_permission)
 		{
 			case "visible":
-				include_once 'ilinc/classes/class.ilObjiLincCourse.php';
+				include_once './Modules/ILinc/classes/class.ilObjiLincCourse.php';
 
 				if(!($activated = ilObjiLincCourse::_isActivated($a_obj_id)))
 				{

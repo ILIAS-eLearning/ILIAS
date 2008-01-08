@@ -32,7 +32,7 @@
 */
 
 
-include_once "classes/class.ilObjectListGUI.php";
+include_once "./classes/class.ilObjectListGUI.php";
 
 class ilObjiLincCourseListGUI extends ilObjectListGUI
 {
@@ -59,7 +59,7 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjilinccoursegui";
 
 		// general commands array
-		include_once('class.ilObjiLincCourseAccess.php');
+		include_once('./Modules/ILinc/classes/class.ilObjiLincCourseAccess.php');
 		$this->commands = ilObjiLincCourseAccess::_getCommands();
 	}
 	
@@ -94,7 +94,7 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("ilinc/classes/class.ilObjiLincCourse.php");
+		include_once("./Modules/ILinc/classes/class.ilObjiLincCourse.php");
 
 		if (!ilObjiLincCourse::_isActivated($this->obj_id))
 		{

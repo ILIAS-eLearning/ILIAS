@@ -31,7 +31,7 @@
 */
 
 require_once ('./classes/class.ilObject.php');
-require_once ('class.ilnetucateXMLAPI.php');
+require_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 
 class ilObjiLincClassroom extends ilObject
 {
@@ -116,7 +116,7 @@ class ilObjiLincClassroom extends ilObject
 	function joinClass(&$a_user_obj,$a_ilinc_class_id)
 	{
 		
-		include_once ('class.ilObjiLincUser.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		$this->ilincAPI->joinClass($ilinc_user,$a_ilinc_class_id);

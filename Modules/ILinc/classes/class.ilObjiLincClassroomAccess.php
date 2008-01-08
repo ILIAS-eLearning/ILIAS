@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
+include_once("./classes/class.ilObjectAccess.php");
 
 /**
 * Class ilObjiLincClassroomAccess
@@ -76,7 +76,7 @@ class ilObjiLincClassroomAccess extends ilObjectAccess
 				}
 				
 				// non members cannot join
-				include_once ('ilinc/classes/class.ilObjiLincCourse.php');
+				include_once ('./Modules/ILinc/classes/class.ilObjiLincCourse.php');
 				
 				if (!ilObjiLincCourse::_isMember($user_id,$a_ref_id))
 				{

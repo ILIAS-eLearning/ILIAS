@@ -33,7 +33,7 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
-include_once "class.ilObjiLincClassroom.php";
+include_once "./Modules/ILinc/classes/class.ilObjiLincClassroom.php";
 
 class ilObjiLincClassroomGUI extends ilObjectGUI
 {
@@ -96,7 +96,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		//$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
 		//$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","ilinc");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","Modules/ILinc");
 		
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
@@ -139,7 +139,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
 		{
 			$icrs_obj_id = ilObject::_lookupObjectId($this->parent);
-			include_once('class.ilObjiLincCourse.php');
+			include_once('./Modules/ILinc/classes/class.ilObjiLincCourse.php');
 			$akclassvalues = ilObjiLincCourse::_getAKClassValues($icrs_obj_id);
 			
 			$this->tpl->setVariable("TXT_AKCLASSVALUE1", $this->lng->txt("akclassvalue1"));
@@ -169,7 +169,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
 		{
 			$icrs_obj_id = ilObject::_lookupObjectId($this->parent);
-			include_once('class.ilObjiLincCourse.php');
+			include_once('./Modules/ILinc/classes/class.ilObjiLincCourse.php');
 			$akclassvalues = ilObjiLincCourse::_getAKClassValues($icrs_obj_id);
 			
 			$_POST['Fobject']['akclassvalue1'] = $akclassvalues[0];
@@ -233,7 +233,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	function displayEditForm($fields)
 	{
 		//$this->getTemplateFile("edit");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","ilinc");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","Modules/ILinc");
 
 		foreach ($fields as $key => $val)
 		{
@@ -279,7 +279,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
 		{
 			$icrs_obj_id = ilObject::_lookupObjectId($this->parent);
-			include_once('class.ilObjiLincCourse.php');
+			include_once('./Modules/ILinc/classes/class.ilObjiLincCourse.php');
 			$akclassvalues = ilObjiLincCourse::_getAKClassValues($icrs_obj_id);
 			
 			$this->tpl->setVariable("TXT_AKCLASSVALUE1", $this->lng->txt("akclassvalue1"));

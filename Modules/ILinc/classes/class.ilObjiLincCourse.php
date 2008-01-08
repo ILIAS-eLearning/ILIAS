@@ -32,7 +32,7 @@
 */
 
 require_once ('./classes/class.ilObject.php');
-require_once ('class.ilnetucateXMLAPI.php');
+require_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 
 class ilObjiLincCourse extends ilObject
 {
@@ -667,7 +667,7 @@ class ilObjiLincCourse extends ilObject
 		
 		foreach ($response->data['classes'] as $class_id => $data2)
 		{
-			include_once("class.ilObjiLincClassroom.php");
+			include_once("./Modules/ILinc/classes/class.ilObjiLincClassroom.php");
 			$icla_obj = new ilObjiLincClassroom($class_id,$this->ref_id);
 			
 			if (!$icla_obj->update($data))
@@ -689,7 +689,7 @@ class ilObjiLincCourse extends ilObject
 	{
 		//$data = $a_user_obj->getiLincData();
 
-		include_once ('class.ilObjiLincUser.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		if (!$ilinc_user->id and !$ilinc_user->login)
@@ -703,7 +703,7 @@ class ilObjiLincCourse extends ilObject
 	// create user account on iLinc server
 	function addUser(&$a_user_obj)
 	{
-		include_once ('class.ilObjiLincUser.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		return $ilinc_user->add();
@@ -735,7 +735,7 @@ class ilObjiLincCourse extends ilObject
 		
 		$docents = $this->getiLincMemberIds(true);
 		
-		include_once ('class.ilObjiLincUser.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		if (in_array($ilinc_user->id,$docents))
@@ -757,7 +757,7 @@ class ilObjiLincCourse extends ilObject
 			$a_instructor = "False";
 		}
 		
-		include_once ('class.ilObjiLincUser.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		$user[] = array('id' => $ilinc_user->id, 'instructor' => $a_instructor);
@@ -818,7 +818,7 @@ class ilObjiLincCourse extends ilObject
 	// unregister user from course on iLinc server
 	function unregisterUser($a_user_obj)
 	{
-		include_once ('class.ilObjiLincUser.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		// do not send request if user is not registered at iLinc server at all
@@ -871,7 +871,7 @@ class ilObjiLincCourse extends ilObject
 	
 	function userLogin(&$a_user_obj)
 	{
-		include_once ('class.ilObjiLincUser.php');
+		include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		$this->ilincAPI->userLogin($ilinc_user);
