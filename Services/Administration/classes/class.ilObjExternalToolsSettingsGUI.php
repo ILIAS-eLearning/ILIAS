@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilObjectGUI.php";
+
+
 /**
 * Class ilObjExternalToolsSettingsGUI
 *
@@ -31,9 +34,6 @@
 * 
 * @extends ilObjectGUI
 */
-
-require_once "class.ilObjectGUI.php";
-
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
 	/**
@@ -567,7 +567,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilecssettingsgui':
-				include_once('Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php');
+				include_once('./Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php');
 				$this->ctrl->forwardCommand(new ilECSSettingsGUI());
 				$this->tabs_gui->setTabActive('ecs_server_settings');
 				break;

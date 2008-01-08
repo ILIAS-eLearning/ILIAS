@@ -5,9 +5,12 @@
 		<baseclass name="ilAdministrationGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object short="recf" class_name="RecoveryFolder" location="Services/Administration/classes"
-			module="Services/Administration"
+		<object short="recf" class_name="RecoveryFolder" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+			<subobj name="rolf" max="1">rolf</subobj>
+		</object>
+		<object short="extt" class_name="ExternalToolsSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1">
 			<subobj name="rolf" max="1">rolf</subobj>
 		</object>
 	</objects>

@@ -1,0 +1,11 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	name="Calendar" short="cal" dir="Services/Calendar">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object short="cals" class_name="CalendarSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1">
+		</object>
+	</objects>
+</service>

@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilObject.php";
+
 /**
 * Class ilObjExternalToolsSettings
 * 
@@ -29,9 +31,6 @@
 *
 * @extends ilObject
 */
-
-require_once "class.ilObject.php";
-
 class ilObjExternalToolsSettings extends ilObject
 {
 	/**
