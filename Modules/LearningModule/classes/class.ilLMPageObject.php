@@ -385,7 +385,7 @@ class ilLMPageObject extends ilLMObject
 		// select
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_pg_id);
 		$pg_set = $ilDB->query($query);
-		$pg_rec = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$pg_rec = $pg_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		if($a_mode == IL_NO_HEADER)
 		{

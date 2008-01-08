@@ -209,7 +209,7 @@ class ilStructureObject extends ilLMObject
 		// get chapter data
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_st_id);
 		$st_set = $ilDB->query($query);
-		$st_rec = $st_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$st_rec = $st_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		$tree = new ilTree($st_rec["lm_id"]);
 		$tree->setTableNames('lm_tree','lm_data');
@@ -224,7 +224,7 @@ class ilStructureObject extends ilLMObject
 					$ilDB->quote($a_st_id)." AND lm_id = ".
 					$ilDB->quote($st_rec["lm_id"]);
 				$tree_set = $ilDB->query($query);
-				$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+				$tree_node = $tree_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$depth = $tree_node["depth"];
 
 				$nr = $tree->getChildSequenceNumber($tree_node, "st")." ";
@@ -235,7 +235,7 @@ class ilStructureObject extends ilLMObject
 						$ilDB->quote($tree_node["parent"])." AND lm_id = ".
 						$ilDB->quote($st_rec["lm_id"]);
 					$tree_set = $ilDB->query($query);
-					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+					$tree_node = $tree_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 					$seq = $tree->getChildSequenceNumber($tree_node, "st");
 
 					$nr = $seq.".".$nr;

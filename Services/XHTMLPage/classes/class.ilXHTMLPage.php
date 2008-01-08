@@ -101,7 +101,7 @@ class ilXHTMLPage
 		
 		$set = $ilDB->query("SELECT * FROM xhtml_page WHERE id = ".
 			$ilDB->quote($this->getId()));
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$this->setContent($rec["content"]);
 		}

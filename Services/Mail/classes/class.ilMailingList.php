@@ -152,7 +152,7 @@ class ilMailingList
 		$entries = array();
 		
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{			
 			$entries[$counter] = array('a_id' => $row->a_id, 
 									   'addr_id' => $row->addr_id,

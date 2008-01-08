@@ -72,7 +72,7 @@ class ilHistory
 			" obj_id = ".$ilDB->quote($a_obj_id)." AND ".
 			" obj_type = ".$ilDB->quote($a_obj_type)." ORDER BY hdate DESC limit 1";
 		$last_entry_set = $ilDB->query($last_entry_sql);
-		$last_entry = $last_entry_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$last_entry = $last_entry_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		// note: insert is forced if last entry already has a comment and a 
 		// new comment is given too OR
@@ -137,7 +137,7 @@ class ilHistory
 		$hist_set = $ilDB->query($query);
 
 		$hist_items = array();
-		while ($hist_rec = $hist_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($hist_rec = $hist_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$hist_items[] = array("date" => $hist_rec["hdate"],
 				"user_id" => $hist_rec["usr_id"],
@@ -158,7 +158,7 @@ class ilHistory
 				" ORDER BY h.hdate DESC";
 				
 			$hist_set = $ilDB->query($query);
-			while ($hist_rec = $hist_set->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($hist_rec = $hist_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$hist_items[] = array("date" => $hist_rec["hdate"],
 					"user_id" => $hist_rec["usr_id"],
@@ -218,7 +218,7 @@ class ilHistory
 		$q = "SELECT * FROM history WHERE obj_id = ".$ilDB->quote($a_src_id);
 		$r = $ilDB->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$q = "INSERT INTO history (obj_id, obj_type, action, hdate, usr_id, info_params, user_comment) VALUES ".
 				 "(".
@@ -249,7 +249,7 @@ class ilHistory
 		$q = "SELECT * FROM history WHERE id = ".$ilDB->quote($a_hist_entry_id);
 		$r = $ilDB->query($q);
 		
-		return $r->fetchRow(DB_FETCHMODE_ASSOC);
+		return $r->fetchRow(MDB2_FETCHMODE_ASSOC);
 	}
 } // END class.ilHistory
 ?>

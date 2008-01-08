@@ -235,7 +235,7 @@ class ilClient
 		
 		$tables = array();
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$tables[] = implode($row);
 		}
@@ -424,7 +424,7 @@ class ilClient
 		$q = "SELECT * FROM settings";
 		$r = $this->db->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$arr[$row["keyword"]] = $row["value"];
 		}

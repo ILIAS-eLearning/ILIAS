@@ -216,7 +216,7 @@ class ilForumTopic
 				  AND thr_fk = ".$this->db->quote($this->id)." 
 			      AND parent_pos = '0' ";
 		$res = $this->db->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		return $row->pos_fk ? $row->pos_fk : 0;
 	}
@@ -261,7 +261,7 @@ class ilForumTopic
 				  AND usr_id = ".$this->db->quote($a_user_id)." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$last_access = $row->access_old;
 		}
@@ -289,7 +289,7 @@ class ilForumTopic
 
 		$res = $this->db->query($query);
 		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
@@ -311,7 +311,7 @@ class ilForumTopic
 
 		$res = $this->db->query($query);
 		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
@@ -334,7 +334,7 @@ class ilForumTopic
 
 		$res = $this->db->query($query);
 		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}	
@@ -358,7 +358,7 @@ class ilForumTopic
 
 		$res = $this->db->query($query);
 		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
@@ -385,7 +385,7 @@ class ilForumTopic
 		
 		$res = $this->db->query($query);
 		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
@@ -413,7 +413,7 @@ class ilForumTopic
 		
 		$res = $this->db->query($query);
 		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}	
@@ -435,7 +435,7 @@ class ilForumTopic
 
 		$res = $this->db->query($query);
 		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		
 		return new ilForumPost($row->pos_pk);
 	}
@@ -459,7 +459,7 @@ class ilForumTopic
 	
 			$res = $this->db->query($query);
 			
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 			
 			return new ilForumPost($row->pos_pk);
 		}
@@ -487,7 +487,7 @@ class ilForumTopic
 	
 			$res = $this->db->query($query);
 			
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 			
 			return new ilForumPost($row->pos_pk);
 		}
@@ -527,7 +527,7 @@ class ilForumTopic
 		$res = $this->db->query($query);
 		
 		$deactivated = array();
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$tmp_object = new ilForumPost($row->pos_pk);
 
@@ -603,7 +603,7 @@ class ilForumTopic
 				" WHERE pos_thr_fk = ".$ilDB->quote($this->id));
 			$old_obj_id = ilForum::_lookupObjIdForForumId($old_pk);
 			$new_obj_id = ilForum::_lookupObjIdForForumId($new_pk);
-			while($post = $posts->fetchRow(DB_FETCHMODE_ASSOC))
+			while($post = $posts->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($old_obj_id,
@@ -651,7 +651,7 @@ class ilForumTopic
 		{
 			$active_count = 0;
 			
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$tmp_obj = new ilForumPost($row->pos_pk);
 				

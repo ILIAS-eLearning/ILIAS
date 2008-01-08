@@ -236,7 +236,7 @@ class ilFeedback {
 		global $ilDB;
 		$q = "SELECT * FROM feedback_items WHERE fb_id=".$ilDB->quote($this->id);
 		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 			$this->setAllData($row);
 
 
@@ -248,7 +248,7 @@ class ilFeedback {
 		global $ilDB;
 		$q = "SELECT * FROM feedback_items WHERE obj_id=".$ilDB->quote($this->obj_id);
 		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 			$this->setAllData($row);
 
 	}
@@ -260,7 +260,7 @@ class ilFeedback {
 		global $ilDB;
 		$q = "SELECT * FROM feedback_items WHERE ref_id=".$ilDB->quote($this->ref_id);
 		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 			$this->setAllData($row);
 
 	}
@@ -276,7 +276,7 @@ class ilFeedback {
 			" ((starttime<=UNIX_TIMESTAMP() AND".
 			" endtime>=UNIX_TIMESTAMP()) OR(starttime<=0 AND endtime<=0))";
 		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 			$this->setAllData($row);
 	}
 
@@ -306,7 +306,7 @@ class ilFeedback {
 		}
 		$res = $ilDB->query($q);
 		$i = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC)){
 			$barometers[$i] = new ilFeedback();
 			$barometers[$i]->setAllData($row);
 			$i++;
@@ -359,11 +359,11 @@ class ilFeedback {
 			"user_id=".$ilDB->quote($a_user_id)." ORDER BY votetime DESC";;
 		$res = $ilDB->query($q);
 
-		$row_results = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row_results = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$q = "SELECT * FROM feedback_items WHERE ".
 			"fb_id = ".$ilDB->quote($a_fb_id);
 		$res1 = $ilDB->query($q);
-		$row_items = $res1->fetchRow(DB_FETCHMODE_ASSOC);
+		$row_items = $res1->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		// check end time
 		if (!($row_items["starttime"]<=time() && $row_items["endtime"]>=time()))
@@ -410,7 +410,7 @@ class ilFeedback {
 		$n=0;
 		$pvt='';
 		$datapie[0][0] = 'Vote';
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC)){
 
 			if(!isset($tmp[$row['user_id']]))
 				$tmp[$row['user_id']]=$j++;
@@ -464,7 +464,7 @@ class ilFeedback {
 
 		$res = $ilDB->query($q);
 		$i=0;
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC)){
 			$data[$i]['user'] = $row['login'];
 			$data[$i]['votetime'] = $row['timelabel'];
 			$data[$i]['note'] = $row['note'];
@@ -485,7 +485,7 @@ class ilFeedback {
 
 		$res = $ilDB->query($q);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC)){
  			$users[$row['user_id']] = $row['login'];
 		}
 		return($users);

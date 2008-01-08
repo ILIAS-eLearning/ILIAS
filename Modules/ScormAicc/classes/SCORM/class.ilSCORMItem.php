@@ -165,7 +165,7 @@ class ilSCORMItem extends ilSCORMObject
 		$q = "SELECT * FROM sc_item WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setImportId($obj_rec["import_id"]);
 		$this->setIdentifierRef($obj_rec["identifierref"]);
 		if (strtolower($obj_rec["isvisible"]) == "false")
@@ -254,7 +254,7 @@ class ilSCORMItem extends ilSCORMObject
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();
-		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($track_rec = $track_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
@@ -278,7 +278,7 @@ class ilSCORMItem extends ilSCORMObject
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();
-		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($track_rec = $track_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
@@ -321,7 +321,7 @@ class ilSCORMItem extends ilSCORMObject
 			"AND type = 'sit'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$item_ids[] = $row->obj_id;
 		}
@@ -336,7 +336,7 @@ class ilSCORMItem extends ilSCORMObject
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->title;
 		}

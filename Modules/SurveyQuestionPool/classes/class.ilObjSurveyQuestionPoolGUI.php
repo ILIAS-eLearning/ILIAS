@@ -327,7 +327,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$counter = 0;
 		if ($query_result->numRows() > 0)
 		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($data = $query_result->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				if (in_array($data->question_id, $checked_questions))
 				{

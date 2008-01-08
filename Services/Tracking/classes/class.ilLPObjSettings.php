@@ -158,7 +158,7 @@ class ilLPObjSettings
 			"WHERE obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->visits;
 		}
@@ -201,7 +201,7 @@ class ilLPObjSettings
 			"WHERE obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->mode;
 		}
@@ -439,7 +439,7 @@ class ilLPObjSettings
 	function __read()
 	{
 		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = ".$this->db->quote($this->obj_id)." ");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->is_stored = true;
 			$this->obj_type = $row->obj_type;

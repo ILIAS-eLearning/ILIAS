@@ -58,7 +58,7 @@ class ilMDOrComposite extends ilMDRequirement
 				"GROUP BY or_composite_id";
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$this->or_composite_id = $row->orc;
 			}
@@ -163,7 +163,7 @@ class ilMDOrComposite extends ilMDRequirement
 			"AND or_composite_id > 0 ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->or_composite_id;
 		}

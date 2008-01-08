@@ -184,7 +184,7 @@ class ilObjFileBasedLM extends ilObject
 
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 		$this->setStartFile($lm_rec["startfile"]);
 
@@ -273,7 +273,7 @@ class ilObjFileBasedLM extends ilObject
 		
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$lm_rec = $lm_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}

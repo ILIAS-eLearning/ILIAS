@@ -587,7 +587,7 @@ class ilValidator extends PEAR
 			 ")";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (!in_array($row->type,$this->object_types_exclude))
 			{
@@ -650,7 +650,7 @@ class ilValidator extends PEAR
 			 "AND object_data.type='rolf'";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->invalid_rolefolders[] = array(
 												"obj_id"		=> $row->obj_id,
@@ -673,7 +673,7 @@ class ilValidator extends PEAR
 			 "AND object_data.type='rolf'";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->invalid_rolefolders[] = array(
 												"obj_id"		=> $row->obj_id,
@@ -730,7 +730,7 @@ class ilValidator extends PEAR
 			 "AND object_data.type='rolf'";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->invalid_rolefolders[] = array(
 												"obj_id"		=> $row->obj_id,
@@ -753,7 +753,7 @@ class ilValidator extends PEAR
 			 "AND object_data.type='rolf'";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->invalid_rolefolders[] = array(
 												"obj_id"		=> $row->obj_id,
@@ -825,7 +825,7 @@ class ilValidator extends PEAR
 			 "OR object_data.type NOT IN (".$this->rbac_object_types.")";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->invalid_references[] = array(
 											"ref_id"	=> $row->ref_id,
@@ -886,7 +886,7 @@ class ilValidator extends PEAR
 			 "WHERE object_reference.ref_id IS NULL or object_data.obj_id IS NULL";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->invalid_childs[] = array(
 											"child"		=> $row->child,
@@ -950,7 +950,7 @@ class ilValidator extends PEAR
 			 "WHERE (T2.tree!=1 OR T2.tree IS NULL) AND T1.parent!=0";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			// exclude deleted nodes
 			if ($row->deleted === NULL)
@@ -1008,7 +1008,7 @@ class ilValidator extends PEAR
 			 " ORDER BY deleted";
 		$r = $this->db->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->deleted_objects[] = array(
 											"child"			=> $row->child,
@@ -2052,7 +2052,7 @@ restore starts here
 		$q = 'SELECT child FROM tree GROUP BY child HAVING COUNT(*) > 1';
 		$r = $this->db->query($q);
 		$duplicateNodes = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$duplicateNodes[] = $row->child;
 		}		
@@ -2087,7 +2087,7 @@ restore starts here
 		// The previous number is used for gap checking
 		$previousNumber = 0; 
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			// If there is no entry in table tree for the object, we display it here
 			if (is_null($row->child))

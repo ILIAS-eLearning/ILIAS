@@ -193,7 +193,7 @@ class ilObjUserTracking extends ilObject
 		$q = "SELECT count(*) AS cnt FROM ut_access";
 		$cnt_set = $ilDB->query($q);
 
-		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $cnt_rec["cnt"];
 	}
@@ -209,7 +209,7 @@ class ilObjUserTracking extends ilObject
 			" GROUP BY month ORDER BY month DESC";
 		$min_set = $ilDB->query($q);
 		$months = array();
-		while ($min_rec = $min_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($min_rec = $min_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$months[] = array("month" => $min_rec["month"],
 				"cnt" => $min_rec["cnt"], "user_cnt" => $min_rec["user_cnt"]);
@@ -228,7 +228,7 @@ class ilObjUserTracking extends ilObject
 			"date_add('$a_month-01', INTERVAL 1 MONTH)";
 
 		$cnt_set = $ilDB->query($q);
-		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 //echo "cnt:".$cnt_rec["cnt"].":date:".$cnt_rec["d"].":";
 
 		return $cnt_rec["cnt"];
@@ -250,7 +250,7 @@ class ilObjUserTracking extends ilObject
 		$cnt_set = $ilDB->query($q);
 
 		$acc = array();
-		while ($cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$name = ilObjUser::_lookupName($cnt_rec["user_id"]);
 
@@ -278,7 +278,7 @@ class ilObjUserTracking extends ilObject
 		//echo "q:".$q;
 
 		$acc = array();
-		while ($cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($cnt_rec["cnt"] != "")
 			{
@@ -299,7 +299,7 @@ class ilObjUserTracking extends ilObject
 		$q = "SELECT spent_time FROM ut_learning_progress"
 			." WHERE obj_id = " . $ilDB->quote($a_obj_id);
 		$res = $ilDB->query($q);
-		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$data = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $data["spent_time"];
 	}
 
@@ -318,7 +318,7 @@ class ilObjUserTracking extends ilObject
 
 		$cnt_set = $ilDB->query($q);
 		$acc = array();
-		while($cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($cnt_rec = $cnt_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$name = ilObjUser::_lookupName($cnt_rec["user_id"]);
 
@@ -362,7 +362,7 @@ class ilObjUserTracking extends ilObject
 		//echo $q;
 		$author = $ilDB->query($q);
 		$all = array();
-		while ($aauthor = $author->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($aauthor = $author->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$all[] = array("title" => $aauthor["title"],
 					"obj_id" =>$aauthor["obj_id"]);
@@ -381,7 +381,7 @@ class ilObjUserTracking extends ilObject
 		//echo $q."<br>";
 		$lms = $ilDB->query($q);
 		$all = array();
-		while ($alms = $lms->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($alms = $lms->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$all[] = array("title" => $alms["title"],
 					"obj_id" =>$alms["obj_id"]);
@@ -398,7 +398,7 @@ class ilObjUserTracking extends ilObject
 		global $ilDB;
 		$q ="SELECT obj_id FROM object_data WHERE type = ".$ilDB->quote($type)." and title=".$ilDB->quote($title);
 		$id = $ilDB->query($q);
-		$obj_id = $id->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_id = $id->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $obj_id["obj_id"];
 	}
 	

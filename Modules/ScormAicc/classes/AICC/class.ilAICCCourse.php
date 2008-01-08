@@ -210,7 +210,7 @@ class ilAICCCourse extends ilAICCObject
 		$q = "SELECT * FROM aicc_course WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setCourseCreator($obj_rec["course_creator"]);
 		$this->setCourseId($obj_rec["course_id"]);
 		$this->setCourseSystem($obj_rec["course_system"]);
@@ -318,7 +318,7 @@ class ilAICCCourse extends ilAICCObject
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();
-		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($track_rec = $track_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}

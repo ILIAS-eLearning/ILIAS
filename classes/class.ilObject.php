@@ -202,7 +202,7 @@ class ilObject
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
-			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$obj = $object_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		else
 		{
@@ -225,7 +225,7 @@ class ilObject
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
-			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$obj = $object_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 
 		$this->id = $obj["obj_id"];
@@ -256,7 +256,7 @@ class ilObject
 			// Read long description
 			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id);
 			$res = $this->ilias->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$this->setDescription($row->description);
 			}
@@ -278,7 +278,7 @@ class ilObject
 				 "AND lang_code = ".$ilDB->quote($this->ilias->account->getCurrentLanguage())." ".
 				 "AND NOT lang_default = 1";
 			$r = $this->ilias->db->query($q);
-			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 			if ($row)
 			{
@@ -448,7 +448,7 @@ class ilObject
 			"WHERE import_id = ".$ilDB->quote($a_import_id)." ".
 			"ORDER BY create_date DESC";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -620,7 +620,7 @@ class ilObject
 		$q = "SELECT last_update, create_date FROM object_data".
 			 " WHERE obj_id = ".$ilDB->quote($this->id);
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->last_update = $obj_rec["last_update"];
 		$this->create_date = $obj_rec["create_date"];
 
@@ -659,7 +659,7 @@ class ilObject
 		$q = "SELECT last_update FROM object_data".
 			 " WHERE obj_id = ".$ilDB->quote($this->getId());
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->last_update = $obj_rec["last_update"];
 
 		if($objDefinition->isRBACObject($this->getType()))
@@ -805,7 +805,7 @@ class ilObject
         $q = "SELECT last_update FROM object_data".
              " WHERE obj_id = ".$ilDB->quote($this->getId());
         $obj_set = $this->ilias->db->query($q);
-        $obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+        $obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
         $this->last_update = $obj_rec["last_update"];
 
         return true;
@@ -826,7 +826,7 @@ class ilObject
 			" ORDER BY create_date DESC LIMIT 1";
 		$obj_set = $ilDB->query($q);
 
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return $obj_rec["obj_id"];
 		}
@@ -850,7 +850,7 @@ class ilObject
 		$obj_set = $ilDB->query($q);
 		$ref = array();
 
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$ref[$obj_rec["ref_id"]] = $obj_rec["ref_id"];
 		}
@@ -1051,7 +1051,7 @@ class ilObject
 		}
 
 		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $obj_rec["type"];
 	}
@@ -1113,7 +1113,7 @@ class ilObject
 		$obj_set = $ilDB->query($q);
 
 		$objects = array();
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ((!$a_omit_trash) || ilObject::_hasUntrashedReference($obj_rec["obj_id"]))
 			{
@@ -1463,7 +1463,7 @@ class ilObject
 		$arr = array();
 		if ($r->numRows() > 0)
 		{
-			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$row["desc"] = $row["description"];
 				$arr[$row["obj_id"]] = $row;
@@ -1495,7 +1495,7 @@ class ilObject
 		$res = $ilDB->query($query);
 		
 		$options[0] = $lng->txt('obj_'.$new_type.'_select');
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if(strlen($title = $row->obj_title) > 40)
 			{

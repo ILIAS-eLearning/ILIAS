@@ -102,7 +102,7 @@ class ilExternalFeedBlock extends ilCustomBlock
 		$query = "SELECT * FROM il_external_feed_block WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		$this->setFeedUrl($rec["feed_url"]);
 

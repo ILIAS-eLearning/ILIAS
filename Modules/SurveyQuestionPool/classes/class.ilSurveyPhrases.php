@@ -64,7 +64,7 @@ class ilSurveyPhrases
       $ilDB->quote($ilUser->getId())
     );
     $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
@@ -109,7 +109,7 @@ class ilSurveyPhrases
       $ilDB->quote($phrase_id)
     );
     $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{

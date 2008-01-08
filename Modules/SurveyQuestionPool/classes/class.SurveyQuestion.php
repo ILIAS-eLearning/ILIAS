@@ -254,12 +254,9 @@ class SurveyQuestion
 			$ilDB->quote($title)
 		);
 		$result = $ilDB->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		if ($result->numRows() == 1) 
 		{
-			if ($result->numRows() == 1) 
-			{
-				return TRUE;
-			}
+			return TRUE;
 		}
 		return FALSE;
 	}
@@ -577,7 +574,7 @@ class SurveyQuestion
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				return $row["obligatory"];
 			}
 			else
@@ -852,7 +849,7 @@ class SurveyQuestion
 		$this->material = array();
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$this->material = array(
 					"internal_link" => $row["internal_link"],
@@ -881,7 +878,7 @@ class SurveyQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			if ($row["complete"] == 1)
 			{
 				return TRUE;
@@ -1060,16 +1057,16 @@ class SurveyQuestion
 * @param integer $question_id A unique key which defines the survey question in the database
 * @access public
 */
-  function loadMaterialFromDb($question_id)
-  {
-    $query = sprintf("SELECT * FROM survey_question_material WHERE question_fi = %s",
-      $this->ilias->db->quote($question_id)
-    );
-    $result = $this->ilias->db->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+	function loadMaterialFromDb($question_id)
+	{
+		$query = sprintf("SELECT * FROM survey_question_material WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() > 0) 
 		{
-    	$this->materials = array();
-    	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+			$this->materials = array();
+			while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 			{
 				$this->addMaterials($data->materials_file, $data->materials);
 			}
@@ -1101,7 +1098,7 @@ class SurveyQuestion
 		if ($result->numRows()) 
 		{
 			$insert = TRUE;
-			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				if (strcmp($row->title, $categorytext) == 0)
 				{
@@ -1164,7 +1161,7 @@ class SurveyQuestion
     $result = $this->ilias->db->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$obj_id = $row["obj_fi"];
 		}
 		else
@@ -1181,7 +1178,7 @@ class SurveyQuestion
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s",
 				$this->ilias->db->quote($row->constraint_id)
@@ -1198,7 +1195,7 @@ class SurveyQuestion
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
 				$this->ilias->db->quote($row->constraint_fi)
@@ -1292,7 +1289,7 @@ class SurveyQuestion
     $result = $ilDB->query($query);
     if ($result->numRows() == 1) 
 		{
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
       return $data->type_tag;
     } 
 		else 
@@ -1322,7 +1319,7 @@ class SurveyQuestion
     $result = $ilDB->query($query);
     if ($result->numRows() == 1) 
 		{
-      $data = $result->fetchRow(DB_FETCHMODE_ASSOC);
+      $data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
       return $data["title"];
     } 
 		else 
@@ -1349,7 +1346,7 @@ class SurveyQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			if ($row["original_id"] > 0)
 			{
 				return $row["original_id"];
@@ -1376,7 +1373,7 @@ class SurveyQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["ref_id"];
 		}
 		return 0;
@@ -1420,7 +1417,7 @@ class SurveyQuestion
 			$this->ilias->db->quote($phrase_id)
 		);
     $result = $this->ilias->db->query($query);
-		if ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return $row["title"];
 		}
@@ -1602,7 +1599,7 @@ class SurveyQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$internal_link = $row["internal_link"];
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
@@ -1633,7 +1630,7 @@ class SurveyQuestion
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches))
 					{
@@ -1705,7 +1702,7 @@ class SurveyQuestion
     $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$qpl_object_id = $row["obj_fi"];
 			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id, $user_id);
@@ -1733,7 +1730,7 @@ class SurveyQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["questiontype_id"];
 		}
 		else

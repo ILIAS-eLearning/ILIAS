@@ -252,7 +252,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			" keyword = ".$this->db->quote("cas_uri");
 		$res = $this->db->query($query);
 		$cas_set = array();
-		while ($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$cas_set[$rec["keyword"]] = $rec["value"];
 		}

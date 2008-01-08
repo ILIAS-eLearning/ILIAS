@@ -113,7 +113,7 @@ class ilPageObject
 			$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($this->id)." ".
 				"AND parent_type=".$ilDB->quote($this->getParentType());
 			$pg_set = $this->ilias->db->query($query);
-			$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->page_record = $pg_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		else
 		{
@@ -121,7 +121,7 @@ class ilPageObject
 				"AND parent_type=".$ilDB->quote($this->getParentType()).
 				" AND nr = ".$ilDB->quote($this->old_nr);
 			$pg_set = $this->ilias->db->query($query);
-			$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->page_record = $pg_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		if (!$this->page_record)
 		{
@@ -156,7 +156,7 @@ class ilPageObject
 		$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($a_id)." ".
 			"AND parent_type= ".$ilDB->quote($a_parent_type);
 		$set = $ilDB->query($query);
-		if ($row = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($row = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return true;
 		}
@@ -644,7 +644,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// access to db table object_reference is not allowed here!
         $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id=".
 			$ilDB->quote($_GET["ref_id"]));
-        $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+        $row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
 
         include_once("./classes/class.ilNestedSetXML.php");
         $nested = new ilNestedSetXML();
@@ -1201,8 +1201,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$last_nr_set = $ilDB->query("SELECT max(nr) as mnr FROM page_history WHERE ".
 				"page_id = ".$ilDB->quote($this->getId())." AND ".
 				"parent_type = ".$ilDB->quote($this->getParentType()));
-			$last_nr = $last_nr_set->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($old_rec = $old_set->fetchRow(DB_FETCHMODE_ASSOC))
+			$last_nr = $last_nr_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			if ($old_rec = $old_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				// only save, if something has changed
 //$ilCtrl->debug("-".$content."-".$old_rec["content"]."-");
@@ -2251,7 +2251,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			" content LIKE '%PageContent Enabled=\"False\"%'";
 		$obj_set = $ilDB->query($query);
 		
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return true;
 		}
@@ -2274,7 +2274,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$hset = $ilDB->query($h_query);
 		$hentries = array();
 
-		while ($hrec = $hset->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($hrec = $hset->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$hentries[] = $hrec;
 		}
@@ -2302,7 +2302,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$hset = $ilDB->query($h_query);
 		$ret = array();
 
-		while ($hrec = $hset->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($hrec = $hset->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			switch ($hrec["nr"])
 			{
@@ -2439,7 +2439,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			" AND parent_type = ".$ilDB->quote($a_parent_type).
 			" AND (TO_DAYS(now()) - TO_DAYS(last_change)) <= ".((int)$a_period);
 		$set = $ilDB->query($q);
-		while($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($page = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$page_changes[] = array("date" => $page["last_change"],
 				"id" => $page["page_id"], "type" => "page");
@@ -2450,7 +2450,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			" AND parent_type = ".$ilDB->quote($a_parent_type).
 			" AND (TO_DAYS(now()) - TO_DAYS(hdate)) <= ".((int)$a_period);
 		$set = $ilDB->query($q);
-		while ($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($page = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$page_changes[] = array("date" => $page["hdate"],
 				"id" => $page["page_id"], "type" => "hist");
@@ -2478,7 +2478,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			" AND parent_type = ".$ilDB->quote($a_parent_type).
 			" ORDER BY created DESC";
 		$set = $ilDB->query($q);
-		while($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($page = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($page["created"] != "0000-00-00 00:00:00")
 			{

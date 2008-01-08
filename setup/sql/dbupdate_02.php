@@ -114,7 +114,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -122,7 +122,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -169,7 +169,7 @@ $query = "SHOW COLUMNS FROM survey_question_matrix";
 $res = $ilDB->query($query);
 if ($res->numRows())
 {
-	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($data = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 	{
 		if (strcmp($data["Field"], "layout") == 0)
 		{
@@ -380,7 +380,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilObjFileAccess.php'
 $query = "SELECT obj_id FROM object_data WHERE type = 'file' ORDER BY obj_id";
 $res = $ilDB->query($query);
 $file_ids = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$file_ids[] = $row->obj_id;
 }
@@ -491,7 +491,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -499,7 +499,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -593,7 +593,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageEvent.php
 $query = "SELECT DISTINCT(event_id) as event_ids FROM event_file";
 $res = $ilDB->query($query);
 $event_ids = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$event_ids[] = $row->event_ids;
 }
@@ -659,7 +659,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageCourse.ph
 $query = "SELECT DISTINCT(archive_id) as archive_ids,archive_name,course_id FROM crs_archives";
 $res = $ilDB->query($query);
 $archive_ids = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$archive_ids[$row->archive_ids]['id'] = $row->archive_ids;
 	$archive_ids[$row->archive_ids]['name'] = $row->archive_name;
@@ -808,7 +808,7 @@ if(!$res->numRows())
 	# Fetch old settings from settings_table
 	$query = "SELECT * FROM settings WHERE keyword LIKE('ldap_%')";
 	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	{
 		$ldap_old[$row->keyword] = $row->value;
 	}
@@ -932,7 +932,7 @@ $res = $ilDB->query($query);
 // copy permission id
 $query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
 $res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 $ops_id = $row->ops_id;
 
 $all_types = array('cat','chat','crs','dbk','exc','file','fold','frm','glo','grp','htlm','icrs','lm','mcst','sahs','svy','tst','webr');
@@ -940,7 +940,7 @@ foreach($all_types as $type)
 {
 	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = '".$type."'";
 	$res = $ilDB->query($query);
-	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 	
 	$query = "INSERT INTO rbac_ta SET typ_id = '".$row->obj_id."', ops_id = '".$ops_id."'";
 	$ilDB->query($query);
@@ -963,7 +963,7 @@ ALTER TABLE `tmp_migration` ADD INDEX `obj_parent_type` ( `obj_id` , `parent` , 
 // copy permission id
 $query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
 $res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 $ops_id = $row->ops_id;
 
 $all_types = array('cat','chat','crs','dbk','exc','file','fold','frm','glo','grp','htlm','icrs','lm','mcst','sahs','svy','tst','webr');
@@ -972,7 +972,7 @@ $query = "SELECT * FROM rbac_templates ".
 	"AND ops_id = 4 ".
 	"ORDER BY rol_id,parent";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	// CHECK done
 	$query = "SELECT * FROM tmp_migration ".
@@ -1017,7 +1017,7 @@ ALTER TABLE `tmp_migration` ADD INDEX `rol_ref_passed` ( `rol_id` , `ref_id` , `
 // copy permission id
 $query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
 $res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 $ops_id = (int) $row->ops_id;
 
 $all_types = array('cat','chat','crs','dbk','exc','file','fold','frm','glo','grp','htlm','icrs','lm','mcst','sahs','svy','tst','webr');
@@ -1029,7 +1029,7 @@ $query = "SELECT rol_id,ops_id,pa.ref_id AS ref_id FROM rbac_pa AS pa ".
 	"WHERE obd.type IN ('".implode("','",$all_types)."') ".
 	"ORDER BY rol_id,pa.ref_id ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	// CHECK done
 	$query = "SELECT * FROM tmp_migration ".
@@ -1217,7 +1217,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -1225,7 +1225,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -1277,7 +1277,7 @@ $ilCtrlStructureReader->getStructure();
 $found = false;
 $query = 'SHOW COLUMNS FROM `ldap_server_settings`';
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	if($row->Field == 'group_optional')
 	{
@@ -1302,7 +1302,7 @@ ENUM('scorm','aicc','hacp','scorm2004');
 $found = false;
 $query = 'SHOW COLUMNS FROM `ldap_role_group_mapping`';
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	if($row->Field == 'mapping_info')
 	{
@@ -1329,7 +1329,7 @@ if (!$ilDB->tableColumnExists("qpl_questionpool", "questioncount"))
 <?php
 	$query = "SELECT * FROM qpl_questionpool";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 	{
 		if ($row["questioncount"] == 0)
 		{
@@ -1337,7 +1337,7 @@ if (!$ilDB->tableColumnExists("qpl_questionpool", "questioncount"))
 				$ilDB->quote($row["obj_fi"] . "")
 			);
 			$cresult = $ilDB->query($cquery);
-			$crow = $cresult->fetchRow(DB_FETCHMODE_ASSOC);
+			$crow = $cresult->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$uquery = sprintf("UPDATE qpl_questionpool SET questioncount = %s WHERE obj_fi = %s",
 				$ilDB->quote($crow["question_count"]),
 				$ilDB->quote($row["obj_fi"])
@@ -1415,7 +1415,7 @@ CREATE TABLE `tmp_svy_migration` (`answer_id` int(11) NOT NULL default '0');
 	global $ilLog;
 	
 	$res = $ilDB->query("SELECT MAX(answer_id) as max_id FROM tmp_svy_migration ");
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 	{
 		$max_id = $row->max_id;
 	}
@@ -1424,7 +1424,7 @@ CREATE TABLE `tmp_svy_migration` (`answer_id` int(11) NOT NULL default '0');
 	$result = $ilDB->query($query);
 	if ($result->numRows())
 	{
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$active_id = 0;
 			$activequery = "";
@@ -1450,7 +1450,7 @@ CREATE TABLE `tmp_svy_migration` (`answer_id` int(11) NOT NULL default '0');
 				$activeresult = $ilDB->query($activequery);
 				if ($activeresult->numRows() == 1)
 				{
-					$activerow = $activeresult->fetchRow(DB_FETCHMODE_ASSOC);
+					$activerow = $activeresult->fetchRow(MDB2_FETCHMODE_ASSOC);
 					$active_id = $activerow["finished_id"];
 				}
 			}
@@ -1522,7 +1522,7 @@ ALTER TABLE `tst_tests` ADD `results_presentation` INT NOT NULL DEFAULT '3' AFTE
 	$result = $ilDB->query($query);
 	if ($result->numRows())
 	{
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$results_presentation = 1;
 			if ($row["show_solution_details"])
@@ -1559,7 +1559,7 @@ $q = "SELECT up1.usr_id as usr_id FROM usr_pref AS up1, usr_pref AS up2 ".
 
 $usr_set = $ilDB->query($q);
 
-while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
+while ($usr_rec = $usr_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 {
 	$q = "UPDATE usr_pref SET value = ".$ilDB->quote("default").
 		" WHERE usr_id = ".$ilDB->quote($usr_rec["usr_id"]).
@@ -1594,7 +1594,7 @@ $ilCtrlStructureReader->getStructure();
 $found = false;
 $query = 'SHOW COLUMNS FROM `ldap_role_group_mapping`';
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	if($row->Field == 'mapping_info_type')
 	{
@@ -1618,7 +1618,7 @@ ALTER TABLE `chat_invitations` ADD `invitation_time` INT( 11 ) NOT NULL AFTER `g
 $query = "SELECT * FROM object_data WHERE type = 'typ' AND title = 'recf'";
 $res = $ilDB->query($query);
 
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$recf_id = $row->obj_id;
 }
@@ -1669,14 +1669,14 @@ CHANGE `rcp_bcc` `rcp_bcc` TEXT NULL DEFAULT NULL;
 
 $query = "SELECT * FROM crs_members WHERE blocked = 1";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$obj_id = $row->obj_id;
 	$usr_id = $row->usr_id;
 	
 	$query = "SELECT obj_id FROM object_data WHERE description = 'Member of course obj_no.".$obj_id."'";
 	$res_role_id = $ilDB->query($query);
-	while($row_role_id = $res_role_id->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row_role_id = $res_role_id->fetchRow(MDB2_FETCHMODE_OBJECT))
 	{
 		$role_id = $row_role_id->obj_id;
 		
@@ -1711,7 +1711,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilObjFileAccess.php'
 $query = "SELECT obj_id FROM object_data WHERE type = 'file' ORDER BY obj_id";
 $res = $ilDB->query($query);
 $file_ids = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$file_ids[] = $row->obj_id;
 }
@@ -1787,7 +1787,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageEvent.php
 $query = "SELECT DISTINCT(event_id) as event_ids FROM event_file";
 $res = $ilDB->query($query);
 $event_ids = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$event_ids[] = $row->event_ids;
 }
@@ -1855,7 +1855,7 @@ include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageCourse.ph
 $query = "SELECT DISTINCT(archive_id) as archive_ids,archive_name,course_id FROM crs_archives";
 $res = $ilDB->query($query);
 $archive_ids = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$archive_ids[$row->archive_ids]['id'] = $row->archive_ids;
 	$archive_ids[$row->archive_ids]['name'] = $row->archive_name;
@@ -2254,13 +2254,13 @@ $ilDB->query($query);
 $query = "SELECT id,target_obj_id FROM conditions ".
 	"WHERE target_type = 'st'";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$query = "SELECT ref_id FROM object_reference AS obr ".
 		"JOIN lm_data AS lm ON obr.obj_id = lm_id ".
 		"WHERE lm.obj_id = ".$row->target_obj_id." ";
 	$res_ref = $ilDB->query($query);
-	$row_ref = $res_ref->fetchRow(DB_FETCHMODE_OBJECT);
+	$row_ref = $res_ref->fetchRow(MDB2_FETCHMODE_OBJECT);
 	
 	if($row_ref->ref_id)
 	{
@@ -2280,7 +2280,7 @@ $query = "SELECT DISTINCT target_ref_id AS ref FROM conditions ".
 	"WHERE target_type != 'crs' AND target_type != 'st' ";
 $res = $ilDB->query($query);
 $ref_ids = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$ref_ids[] = $row->ref;
 }
@@ -2314,7 +2314,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -2322,7 +2322,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -2495,7 +2495,7 @@ $result = $ilDB->query($query);
 $startid = 0;
 if ($result->numRows())
 {
-	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 	if ($row["max_id"] > 0)
 	{
 		$startid = $row["max_id"];
@@ -2510,7 +2510,7 @@ $query = "SELECT * FROM tst_active WHERE active_id >= $startid ORDER BY active_i
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 	{
 		$sequence_array = explode(",", $row["sequence"]);
 		if ($sequence_array === FALSE) $sequence_array = array();
@@ -2613,7 +2613,7 @@ $query = "SELECT obj_id FROM object_data ".
 	"WHERE type ='typ' ".
 	"AND title = 'frm' ";
 $res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 $typ_id = $row['obj_id'];
 
 $query = "INSERT INTO rbac_ta ".
@@ -2626,7 +2626,7 @@ $ilDB->query($query);
 $query = "SELECT ops_id FROM rbac_operations ".
 	"WHERE operation = 'edit_post' ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 {
 	$add_post_id = $row['ops_id'];
 }
@@ -2634,7 +2634,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 $query = "SELECT * FROM rbac_templates ".
 	"WHERE ops_id = ".$ilDB->quote($add_post_id)." ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 {
 	$query = "INSERT INTO rbac_templates ".
 		"SET rol_id = ".$ilDB->quote($row['rol_id']).", ".
@@ -2652,13 +2652,13 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 $query = "SELECT ops_id FROM rbac_operations ".
 	"WHERE operation = 'edit_post' ";
 $res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 $add_post_id = $row['ops_id'];
 
 $query = "SELECT ops_id FROM rbac_operations ".
 	"WHERE operation = 'add_thread' ";
 $res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 $add_thread_id = $row['ops_id'];
 
 // get all forum rbac_pa entries
@@ -2667,7 +2667,7 @@ $query = "SELECT rol_id,ops_id,pa.ref_id FROM object_data AS obd ".
 	"JOIN rbac_pa AS pa ON ore.ref_id = pa.ref_id ".
 	"WHERE type = 'frm' ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$operations = unserialize($row->ops_id);
 	if(in_array($add_post_id,$operations))
@@ -2765,7 +2765,7 @@ $query = "SELECT DISTINCT(pass), active_fi FROM tst_test_result ORDER BY active_
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 	{
 		$querysum = sprintf("SELECT SUM(points) AS reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s",
 			$ilDB->quote($row["active_fi"] . ""),
@@ -2774,7 +2774,7 @@ if ($result->numRows())
 		$resultsum = $ilDB->query($querysum);
 		if ($resultsum->numRows() > 0)
 		{
-			$rowsum = $resultsum->fetchRow(DB_FETCHMODE_ASSOC);
+			$rowsum = $resultsum->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s",
 				$ilDB->quote($row["active_fi"] . ""),
 				$ilDB->quote($row["pass"] . ""),
@@ -2791,7 +2791,7 @@ $query = "SELECT * FROM tst_tests";
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 	{
 		$querynew = sprintf("UPDATE tst_tests SET results_presentation = %s WHERE test_id = %s",
 			$ilDB->quote(($row["results_presentation"] | 32) . ""),
@@ -2860,12 +2860,12 @@ $this->db->query($query);
 
 $query = "SELECT * FROM rbac_operations WHERE operation = 'join' ";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 $join_ops_id = $row["ops_id"];
 
 $query = "SELECT * FROM rbac_operations WHERE operation = 'leave' ";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 $leave_ops_id = $row["ops_id"];
 
 $types = array("lm", "sahs", "glo", "webr");
@@ -2875,7 +2875,7 @@ foreach($types as $type)
 	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
 		" AND title = '".$type."'";
 	$res = $this->db->query($query);
-	$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+	$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 	$typ_id = $row["obj_id"];
 	if ($typ_id > 0)
 	{
@@ -2954,7 +2954,7 @@ $query = "SELECT obj_id FROm object_data ".
 	"AND title = 'Author' ".
 	"OR title = 'Co-Author' ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 {
 	$query = "DELETE FROM rbac_templates WHERE ".
 		"rol_id = ".$ilDB->quote($row->obj_id)." ".
@@ -3045,7 +3045,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -3053,7 +3053,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);

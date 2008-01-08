@@ -147,7 +147,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 		}
 		if (!$row->complete)
 		{
@@ -170,7 +170,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 		}
 
 		return $row->evaluation_access;
@@ -205,7 +205,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["anonymize"];
 		}
 		else
@@ -249,7 +249,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 				$result = $ilDB->query($q);
 				if ($result->numRows() == 1)
 				{
-					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 					if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"]))
 					{
 						return true;
@@ -272,7 +272,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 		);
 		$result = $ilDB->query($q);
 		if ($result->numRows() == 1) {
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 		}
 
 		return $row->status;
@@ -296,7 +296,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 			if ($row->anonymize == 1)
 			{
 				$q = sprintf("SELECT * FROM survey_finished, survey_anonymous WHERE survey_finished.survey_fi = %s AND survey_finished.survey_fi = survey_anonymous.survey_fi AND survey_anonymous.user_key = %s AND survey_anonymous.survey_key = survey_finished.anonymous_id",
@@ -314,7 +314,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 			$result = $ilDB->query($q);
 			if ($result->numRows() == 1)
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 				$finished = (int)$row->state;
 			}
 		}

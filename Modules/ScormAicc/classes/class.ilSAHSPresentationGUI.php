@@ -337,7 +337,7 @@ class ilSAHSPresentationGUI
 
 		$val_set = $ilDB->query($query);
 		$re_value = array();
-		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($val_rec = $val_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 			$val_rec["rvalue"] = str_replace("\r", "\n", $val_rec["rvalue"]);

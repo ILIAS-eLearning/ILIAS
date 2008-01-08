@@ -179,7 +179,7 @@ class ilSearchResultExplorer extends ilExplorer
 			"AND parent = '0'";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			define(ROOT_ID,$row->child);
 		}

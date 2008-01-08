@@ -99,7 +99,7 @@ class ilAddressbook
 				"WHERE user_id = '".$this->user_id."'";
 		}
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$entries[] = array(
 				"login"      => ($row->login),
@@ -184,7 +184,7 @@ class ilAddressbook
 		$query .= " ORDER BY login,lastname";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$entries[] = array(
 				"addr_id"    => $row->addr_id,
@@ -209,7 +209,7 @@ class ilAddressbook
 			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			"AND addr_id = ".$ilDB->quote($a_addr_id)." ";
 
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 
 		return array(
 			"addr_id"    => $row->addr_id,

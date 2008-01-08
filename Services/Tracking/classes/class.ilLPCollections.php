@@ -267,7 +267,7 @@ class ilLPCollections
 		}
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
 			{
@@ -324,7 +324,7 @@ class ilLPCollections
 			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->getObjId()."'";
 		}
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if($ilObjDataCache->lookupType($this->getObjId()) != 'sahs')
 			{

@@ -76,7 +76,7 @@ class ilPaymentPrices
 
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$price['duration'] = $row->duration;
 			$price['currency'] = $row->currency;
@@ -348,7 +348,7 @@ class ilPaymentPrices
 			"ORDER BY duration";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->prices[$row->price_id]['pobject_id'] = $row->pobject_id;
 			$this->prices[$row->price_id]['price_id'] = $row->price_id;

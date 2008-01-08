@@ -158,7 +158,7 @@ class ilTestSequence
 			$result = $ilDB->query($query);
 		}
 		$index = 1;
-		while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$this->questions[$index++] = $data["question_fi"];
 		}
@@ -182,7 +182,7 @@ class ilTestSequence
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$this->sequencedata = array(
 				"sequence" => unserialize($row["sequence"]),
 				"postponed" => unserialize($row["postponed"]),

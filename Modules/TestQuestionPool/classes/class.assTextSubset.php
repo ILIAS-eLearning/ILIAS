@@ -247,26 +247,23 @@ class assTextSubset extends assQuestion
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		if ($result->numRows() == 1)
 		{
-			if ($result->numRows() == 1)
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $question_id;
-				$this->title = $data->title;
-				$this->comment = $data->comment;
-				$this->solution_hint = $data->solution_hint;
-				$this->original_id = $data->original_id;
-				$this->obj_id = $data->obj_fi;
-				$this->author = $data->author;
-				$this->owner = $data->owner;
-				$this->points = $data->points;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-				$this->correctanswers = $data->correctanswers;
-				$this->text_rating = $data->textgap_rating;
-				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-			}
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $question_id;
+			$this->title = $data->title;
+			$this->comment = $data->comment;
+			$this->solution_hint = $data->solution_hint;
+			$this->original_id = $data->original_id;
+			$this->obj_id = $data->obj_fi;
+			$this->author = $data->author;
+			$this->owner = $data->owner;
+			$this->points = $data->points;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
+			$this->correctanswers = $data->correctanswers;
+			$this->text_rating = $data->textgap_rating;
+			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 
 			$query = sprintf("SELECT * FROM qpl_answer_textsubset WHERE question_fi = %s ORDER BY aorder ASC",
 				$ilDB->quote($question_id)
@@ -274,9 +271,9 @@ class assTextSubset extends assQuestion
 			$result = $ilDB->query($query);
 
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerSimple.php";
-			if (strcmp(strtolower(get_class($result)), db_result) == 0)
+			if ($result->numRows() > 0)
 			{
-				while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					array_push($this->answers, new ASS_AnswerSimple($data["answertext"], $data["points"], $data["aorder"]));
 				}
@@ -622,7 +619,7 @@ class assTextSubset extends assQuestion
 		);
 		$result = $ilDB->query($query);
 		$points = 0;
-		while ($data = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$enteredtext = $data["value1"];
 			$index = $this->isAnswerCorrect($available_answers, $enteredtext);

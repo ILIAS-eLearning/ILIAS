@@ -240,7 +240,7 @@ class ilEventFile
 			"WHERE event_id = ".$ilDB->quote($a_event_id)."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$files[] =& new ilEventFile($row->file_id);
 		}
@@ -259,7 +259,7 @@ class ilEventFile
 		// read file data
 		$query = "SELECT * FROM event_file WHERE file_id = ".$ilDB->quote($this->file_id)."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setFileName($row->file_name);
 			$this->setFileSize($row->file_size);

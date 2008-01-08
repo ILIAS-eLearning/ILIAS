@@ -103,7 +103,7 @@ class ilSCORMObject
 		$q = "SELECT * FROM scorm_object WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setTitle($obj_rec["title"]);
 		$this->setType($obj_rec["type"]);
 		$this->setSLMId($obj_rec["slm_id"]);
@@ -123,7 +123,7 @@ class ilSCORMObject
 		
 		$set = $ilDB->query($q);
 		$items = array();
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$items[] = $rec["id"];
 		}
@@ -181,7 +181,7 @@ class ilSCORMObject
 
 		$sc_set = $ilDB->query("SELECT type FROM scorm_object WHERE obj_id =" . $ilDB->quote($a_id).
 			" AND slm_id = ".$ilDB->quote($a_slm_id));
-		$sc_rec = $sc_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$sc_rec = $sc_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		switch($sc_rec["type"])
 		{

@@ -192,7 +192,7 @@ class ilCronClients extends PEAR
 			"WHERE keyword = 'db_version'";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$db_version = $row->value;
 		}

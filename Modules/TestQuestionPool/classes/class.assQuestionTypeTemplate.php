@@ -212,16 +212,13 @@ class assQuestionTypeTemplate extends assQuestion
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		if ($result->numRows() == 1)
 		{
-			if ($result->numRows() == 1)
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_ASSOC);
-				$this->setId($question_id);
-				$this->setTitle($data["title"]);
-				$this->setComment($data["comment"]);
-				// ... and so on
-			}
+			$data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$this->setId($question_id);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["comment"]);
+			// ... and so on
 		}
 
 		// call the parent class to load the suggested solutions
@@ -421,7 +418,7 @@ class assQuestionTypeTemplate extends assQuestion
 			$ilDB->quote($activepass . "")
 		);
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 		$update = $row->solution_id;
 		if ($update)
 		{

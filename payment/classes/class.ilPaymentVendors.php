@@ -109,7 +109,7 @@ class ilPaymentVendors
 		$query = "SELECT * FROM payment_vendors ";
 		$res = $this->db->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->vendors[$row->vendor_id]['vendor_id'] = $row->vendor_id;
 			$this->vendors[$row->vendor_id]['cost_center'] = $row->cost_center;
@@ -138,7 +138,7 @@ class ilPaymentVendors
 			"WHERE vendor_id = '".$a_usr_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->cost_center;
 		}

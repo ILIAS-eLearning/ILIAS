@@ -365,7 +365,7 @@ class ilUserDefinedFields
 		$res = $this->db->query($query);
 
 		$this->definitions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->definitions[$row->field_id]['field_id'] = $row->field_id;
 			$this->definitions[$row->field_id]['field_name'] = $row->field_name;

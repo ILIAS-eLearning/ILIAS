@@ -377,46 +377,46 @@ class assImagemapQuestion extends assQuestion
 * @param integer $question_id A unique key which defines the multiple choice test in the database
 * @access public
 */
-  function loadFromDb($question_id)
-  {
+	function loadFromDb($question_id)
+	{
 		global $ilDB;
 
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_imagemap.* FROM qpl_questions, qpl_question_imagemap WHERE question_id = %s AND qpl_questions.question_id = qpl_question_imagemap.question_fi",
-      $ilDB->quote($question_id)
-    );
-    $result = $ilDB->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-      if ($result->numRows() == 1) {
-        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-        $this->id = $question_id;
-				$this->obj_id = $data->obj_fi;
-        $this->title = $data->title;
-        $this->comment = $data->comment;
-        $this->author = $data->author;
-				$this->original_id = $data->original_id;
-				$this->solution_hint = $data->solution_hint;
-        $this->owner = $data->owner;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-        $this->image_filename = $data->image_file;
-        $this->points = $data->points;
-        $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-      }
-      $query = sprintf("SELECT * FROM qpl_answer_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
-        $ilDB->quote($question_id)
-      );
-      $result = $ilDB->query($query);
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_imagemap.* FROM qpl_questions, qpl_question_imagemap WHERE question_id = %s AND qpl_questions.question_id = qpl_question_imagemap.question_fi",
+			$ilDB->quote($question_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $question_id;
+			$this->obj_id = $data->obj_fi;
+			$this->title = $data->title;
+			$this->comment = $data->comment;
+			$this->author = $data->author;
+			$this->original_id = $data->original_id;
+			$this->solution_hint = $data->solution_hint;
+			$this->owner = $data->owner;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
+			$this->image_filename = $data->image_file;
+			$this->points = $data->points;
+			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+
+			$query = sprintf("SELECT * FROM qpl_answer_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
+				$ilDB->quote($question_id)
+			);
+			$result = $ilDB->query($query);
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
-      if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+			if ($result->numRows() > 0)
 			{
-        while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
 				{
-          array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->coords, $data->area));
-        }
-      }
-    }
+					array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->coords, $data->area));
+				}
+			}
+		}
 		parent::loadFromDb($question_id);
-  }
+	}
 
 /**
 * Gets the imagemap file name
@@ -696,7 +696,7 @@ class assImagemapQuestion extends assQuestion
 			$ilDB->quote($pass . "")
 		);
     $result = $ilDB->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (strcmp($data->value1, "") != 0)
 			{
@@ -935,7 +935,7 @@ class assImagemapQuestion extends assQuestion
 		// save generic feedback to the original
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$duplicatequery = sprintf("INSERT INTO qpl_feedback_imagemap VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($this->original_id . ""),
@@ -968,7 +968,7 @@ class assImagemapQuestion extends assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
@@ -994,7 +994,7 @@ class assImagemapQuestion extends assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$duplicatequery = sprintf("INSERT INTO qpl_feedback_imagemap VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($this->getId() . ""),

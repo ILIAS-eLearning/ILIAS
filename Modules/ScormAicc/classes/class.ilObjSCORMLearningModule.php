@@ -261,7 +261,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$sco_set = $ilDB->query($query);
 
 		$items = array();
-		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sco_rec = $sco_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
 			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
@@ -286,7 +286,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$data_set = $ilDB->query($query);
 
 		$data = array();
-		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($data_rec = $data_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$data[] = $data_rec;
 		}
@@ -306,7 +306,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$user_set = $ilDB->query($query);
 
 		$data = array();
-		while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$query = "SELECT * FROM scorm_tracking WHERE".
 				" obj_id = ".$ilDB->quote($this->getId()).
@@ -317,7 +317,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				" OR lvalue =".$ilDB->quote("cmi.core.score.raw").")";
 			$data_set = $ilDB->query($query);
 			$score = $time = $status = "";
-			while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+			while($data_rec = $data_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				switch($data_rec["lvalue"])
 				{

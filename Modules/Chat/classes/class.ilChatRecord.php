@@ -127,7 +127,7 @@ class ilChatRecord
 		$data = array();
 		if ($res->numRows() > 0)
 		{
-			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+			$data = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		$this->setRecord($data);
 	}
@@ -207,7 +207,7 @@ class ilChatRecord
 
 		if ($res->numRows() > 0)
 		{
-			$id = $res->fetchRow(DB_FETCHMODE_ASSOC);
+			$id = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$this->setRecordId($id["record_id"]);
 
 			$this->getRecord();

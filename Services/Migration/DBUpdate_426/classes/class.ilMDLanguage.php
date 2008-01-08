@@ -126,7 +126,7 @@ class ilMDLanguage extends ilMDBase
 				"WHERE meta_language_id = ".$ilDB->quote($this->getMetaId());
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -162,7 +162,7 @@ class ilMDLanguage extends ilMDBase
 			"AND parent_type = ".$ilDB->quote($a_parent_type);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_language_id;
 		}

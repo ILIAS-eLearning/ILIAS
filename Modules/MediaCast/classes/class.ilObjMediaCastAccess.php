@@ -153,7 +153,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM il_media_cast_data WHERE id = ".$ilDB->quote($a_id);
 		$mc_set = $ilDB->query($q);
-		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$mc_rec = $mc_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $mc_rec["online"];
 	}
@@ -169,7 +169,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM il_media_cast_data WHERE id = ".$ilDB->quote($a_id);
 		$mc_set = $ilDB->query($q);
-		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$mc_rec = $mc_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $mc_rec["public_files"];
 	}

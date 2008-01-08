@@ -211,7 +211,7 @@ class ilAdvancedMDValue
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ".
 	 		"AND field_id = ".$this->db->quote($this->field_id)." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setValue($row->value);
 			$this->toggleDisabledStatus((bool) $row->disabled);

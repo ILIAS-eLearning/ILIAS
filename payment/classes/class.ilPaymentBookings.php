@@ -238,7 +238,7 @@ class ilPaymentBookings
 			"ORDER BY order_date DESC";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$booking[$row->booking_id]['booking_id'] = $row->booking_id;
 			$booking[$row->booking_id]['transaction'] = $row->transaction;
@@ -274,7 +274,7 @@ class ilPaymentBookings
 			"AND booking_id = '".$a_booking_id."'";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$booking['booking_id'] = $row->booking_id;
 			$booking['transaction'] = $row->transaction;
@@ -308,7 +308,7 @@ class ilPaymentBookings
 			"WHERE b_vendor_id = '".$a_vendor_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->bid;
 		}
@@ -323,7 +323,7 @@ class ilPaymentBookings
 			"WHERE customer_id = '".$a_vendor_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->bid;
 		}
@@ -337,7 +337,7 @@ class ilPaymentBookings
 			"WHERE pobject_id = '".$a_pobject_id."'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			return $row->bid;
 		}
@@ -357,7 +357,7 @@ class ilPaymentBookings
 			"AND access = '1'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$orderDateYear = date("Y", $row->order_date);
 			$orderDateMonth = date("m", $row->order_date);
@@ -400,7 +400,7 @@ class ilPaymentBookings
 			"AND access = '1'";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$orderDateYear = date("Y", $row->order_date);
 			$orderDateMonth = date("m", $row->order_date);
@@ -443,7 +443,7 @@ class ilPaymentBookings
 					"WHERE pay_method = '1'";
 
 				$res = $ilDB->query($query);
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					return $row->bid;
 				}
@@ -454,7 +454,7 @@ class ilPaymentBookings
 					"WHERE pay_method = '2'";
 
 				$res = $ilDB->query($query);
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					return $row->bid;
 				}
@@ -465,7 +465,7 @@ class ilPaymentBookings
 					"WHERE pay_method = '3'";
 
 				$res = $ilDB->query($query);
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					return $row->bid;
 				}
@@ -560,7 +560,7 @@ class ilPaymentBookings
 		$query .= "ORDER BY order_date DESC";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->bookings[$row->booking_id]['booking_id'] = $row->booking_id;
 			$this->bookings[$row->booking_id]['transaction'] = $row->transaction;

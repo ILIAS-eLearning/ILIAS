@@ -376,7 +376,7 @@ class ilLinkResourceItems
 			"WHERE link_id = ".$ilDB->quote($a_link_id);
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
@@ -402,7 +402,7 @@ class ilLinkResourceItems
 			"AND link_id = ".$ilDB->quote($a_link_id);
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;
@@ -427,7 +427,7 @@ class ilLinkResourceItems
 			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId());
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$items[$row->link_id]['title']				= $row->title;
 			$items[$row->link_id]['description']		= $row->description;
@@ -516,7 +516,7 @@ class ilLinkResourceItems
 
 		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".
 			$ilDB->quote($a_webr_id)." AND active = '1'");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;

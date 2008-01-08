@@ -115,7 +115,7 @@ class ilObjStyleSheet extends ilObject
 		$q = "SELECT * FROM style_data ".
 			" WHERE id = ".$ilDB->quote($a_id);
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		return (boolean) $sty["uptodate"];
 	}
@@ -154,7 +154,7 @@ class ilObjStyleSheet extends ilObject
 		$q = "SELECT * FROM style_data ".
 			" WHERE id = ".$ilDB->quote($a_id);
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		return (boolean) $sty["standard"];
 	}
@@ -181,7 +181,7 @@ class ilObjStyleSheet extends ilObject
 		$q = "SELECT * FROM style_data ".
 			" WHERE id = ".$ilDB->quote($a_id);
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		return (boolean) $sty["active"];
 	}
@@ -206,7 +206,7 @@ class ilObjStyleSheet extends ilObject
 			" WHERE standard = 1".$and_str;
 		$res = $ilDB->query($q);
 		$styles = array();
-		while($sty = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sty = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if (!$a_exclude_default_style || $default_style != $sty["id"])
 			{
@@ -245,7 +245,7 @@ class ilObjStyleSheet extends ilObject
 		$q = "SELECT * FROM style_data, object_data ".
 			" WHERE object_data.obj_id = style_data.id ";
 		$style_set = $ilDB->query($q);
-		while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($style_rec = $style_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$clonable = false;
 			if ($style_rec["standard"] == 1)
@@ -417,7 +417,7 @@ class ilObjStyleSheet extends ilObject
 			$def = array();
 			$q = "SELECT * FROM style_parameter WHERE style_id = ".$ilDB->quote($a_from_style);
 			$par_set = $ilDB->query($q);
-			while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			while($par_rec = $par_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$def[] = array("tag" => $par_rec["tag"], "class" => $par_rec["class"],
 					"parameter" => $par_rec["parameter"] ,"value" => $par_rec["value"]);
@@ -579,7 +579,7 @@ class ilObjStyleSheet extends ilObject
 		$ctag = "";
 		$cclass = "";
 		$this->style = array();
-		while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($style_rec = $style_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($style_rec["tag"] != $ctag || $style_rec["class"] != $cclass)
 			{
@@ -601,7 +601,7 @@ class ilObjStyleSheet extends ilObject
 		
 		$q = "SELECT * FROM style_data WHERE id = ".$ilDB->quote($this->getId());
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setUpToDate((boolean) $sty["uptodate"]);
 		$this->setScope($sty["category"]);
 		

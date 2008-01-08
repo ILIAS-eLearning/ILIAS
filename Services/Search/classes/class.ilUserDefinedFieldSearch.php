@@ -54,7 +54,7 @@ class ilUserDefinedFieldSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->usr_id,'usr',$this->__prepareFound($row));
 		}

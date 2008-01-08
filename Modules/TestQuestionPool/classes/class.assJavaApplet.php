@@ -377,26 +377,23 @@ class assJavaApplet extends assQuestion
 		);
 		$result = $ilDB->query($query);
 
-		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		if ($result->numRows() == 1)
 		{
-			if ($result->numRows() == 1)
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $question_id;
-				$this->title = $data->title;
-				$this->comment = $data->comment;
-				$this->obj_id = $data->obj_fi;
-				$this->author = $data->author;
-				$this->points = $data->points;
-				$this->owner = $data->owner;
-				$this->original_id = $data->original_id;
-				$this->javaapplet_filename = $data->image_file;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-				$this->solution_hint = $data->solution_hint;
-				$this->splitParams($data->params);
-				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-			}
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $question_id;
+			$this->title = $data->title;
+			$this->comment = $data->comment;
+			$this->obj_id = $data->obj_fi;
+			$this->author = $data->author;
+			$this->points = $data->points;
+			$this->owner = $data->owner;
+			$this->original_id = $data->original_id;
+			$this->javaapplet_filename = $data->image_file;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
+			$this->solution_hint = $data->solution_hint;
+			$this->splitParams($data->params);
+			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 		}
 		parent::loadFromDb($question_id);
 	}
@@ -692,7 +689,7 @@ class assJavaApplet extends assQuestion
 		);
 		$result = $ilDB->query($query);
 		$points = 0;
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$points += $data->points;
 		}
@@ -727,7 +724,7 @@ class assJavaApplet extends assQuestion
 		$result = $ilDB->query($query);
 		$counter = 1;
 		$user_result = array();
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$true = 0;
 			if ($data->points > 0)

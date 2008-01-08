@@ -86,7 +86,7 @@ class SurveyTextQuestion extends SurveyQuestion
     $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		}
 		else
 		{
@@ -102,38 +102,35 @@ class SurveyTextQuestion extends SurveyQuestion
 * @param integer $id The database id of the text survey question
 * @access public
 */
-  function loadFromDb($id) 
+	function loadFromDb($id) 
 	{
 		global $ilDB;
-    $query = sprintf("SELECT survey_question.*, survey_question_text.* FROM survey_question, survey_question_text WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_text.question_fi",
-      $ilDB->quote($id)
-    );
-    $result = $ilDB->query($query);
-    if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+		$query = sprintf("SELECT survey_question.*, survey_question_text.* FROM survey_question, survey_question_text WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_text.question_fi",
+			$ilDB->quote($id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
 		{
-      if ($result->numRows() == 1) 
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $data->question_id;
-				$this->title = $data->title;
-				$this->description = $data->description;
-				$this->obj_id = $data->obj_fi;
-				$this->author = $data->author;
-				$this->obligatory = $data->obligatory;
-				$this->owner = $data->owner_fi;
-				$this->original_id = $data->original_id;
-				$this->maxchars = $data->maxchars;
-				$this->textwidth = $data->width;
-				$this->textheight = $data->height;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-				$this->complete = $data->complete;
-      }
-      // loads materials uris from database
-      $this->loadMaterialFromDb($id);
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $data->question_id;
+			$this->title = $data->title;
+			$this->description = $data->description;
+			$this->obj_id = $data->obj_fi;
+			$this->author = $data->author;
+			$this->obligatory = $data->obligatory;
+			$this->owner = $data->owner_fi;
+			$this->original_id = $data->original_id;
+			$this->maxchars = $data->maxchars;
+			$this->textwidth = $data->width;
+			$this->textheight = $data->height;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
+			$this->complete = $data->complete;
+			// loads materials uris from database
+			$this->loadMaterialFromDb($id);
 		}
 		parent::loadFromDb($id);
-  }
+	}
 
 /**
 * Returns true if the question is complete for use
@@ -403,7 +400,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["maxchars"];
 		}
 		return 0;
@@ -514,7 +511,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 		
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$cumulated["$row->value"]++;
 			array_push($textvalues, $row->textanswer);
@@ -611,7 +608,7 @@ class SurveyTextQuestion extends SurveyQuestion
 			$ilDB->quote($this->getId())
 		);
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$answers[$row["active_fi"]] = $row["textanswer"];
 		}

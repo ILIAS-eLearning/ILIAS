@@ -58,7 +58,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'tst',$this->__prepareFound($row));
 		}
@@ -77,7 +77,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'qpl',$this->__prepareFound($row));
 		}
@@ -96,7 +96,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'svy',$this->__prepareFound($row));
 		}
@@ -115,7 +115,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'spl',$this->__prepareFound($row));
 		}

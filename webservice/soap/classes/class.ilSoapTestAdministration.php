@@ -145,7 +145,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
 					array_push($solution, $row["value1"]);
 					array_push($solution, $row["value2"]);

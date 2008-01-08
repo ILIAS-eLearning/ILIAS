@@ -506,7 +506,7 @@ class ilTemplate extends ilTemplateX
 					{
 						$set = $ilDB->query("SELECT file FROM ctrl_classfile WHERE LOWER(class) ".
 							" = ".$ilDB->quote(strtolower($entry["class"])));
-						$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+						$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
 						$add = $entry["mode"]." - ".$entry["cmd"];
 						if ($rec["file"] != "")
 						{

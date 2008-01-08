@@ -204,7 +204,7 @@ class ilLMObject
 			$ilBench->start("ContentPresentation", "ilLMObject_read_getData");
 			$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($this->id);
 			$obj_set = $this->ilias->db->query($query);
-			$this->data_record = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->data_record = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$ilBench->stop("ContentPresentation", "ilLMObject_read_getData");
 		}
 
@@ -243,7 +243,7 @@ class ilLMObject
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_obj_id);
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $obj_rec["title"];
 	}
@@ -254,7 +254,7 @@ class ilLMObject
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_obj_id);
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $obj_rec["type"];
 	}
@@ -547,7 +547,7 @@ class ilLMObject
 		$q = "SELECT * FROM lm_data WHERE import_id = ".$ilDB->quote($a_import_id)." ".
 			" ORDER BY create_date DESC LIMIT 1";
 		$obj_set = $ilDB->query($q);
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$lm_id = ilLMObject::_lookupContObjID($obj_rec["obj_id"]);
 
@@ -580,7 +580,7 @@ class ilLMObject
 		
 		$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id);
 		$obj_set = $ilDB->query($q);
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return true;
 		}
@@ -607,7 +607,7 @@ class ilLMObject
 			"ORDER BY title";
 		$obj_set = $ilDB->query($query);
 		$obj_list = array();
-		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$obj_list[] = array("obj_id" => $obj_rec["obj_id"],
 								"title" => $obj_rec["title"],
@@ -631,7 +631,7 @@ class ilLMObject
 		$obj_set = $this->ilias->db->query($query);
 
 		require_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
-		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$lm_obj =& ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"],false);
 
@@ -653,7 +653,7 @@ class ilLMObject
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id)."";
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return $obj_rec["lm_id"];
 	}
@@ -667,7 +667,7 @@ class ilLMObject
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id);
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($obj_rec["active"]);
 	}

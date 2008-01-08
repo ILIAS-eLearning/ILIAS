@@ -118,7 +118,7 @@ class ilFileDataMail extends ilFileData
 		$query = "SELECT path FROM mail_attachment ".
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
 		
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,MDB2_FETCHMODE_OBJECT);
 		$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;
 
 		if(file_exists($path))
@@ -425,7 +425,7 @@ class ilFileDataMail extends ilFileData
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)." ";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			$path = $row->path;
 		}
@@ -435,7 +435,7 @@ class ilFileDataMail extends ilFileData
 				"WHERE path = ".$ilDB->quote($path)." ";
 
 			$res = $this->ilias->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$cnt_mail_id = $row->count_mail_id;
 			}

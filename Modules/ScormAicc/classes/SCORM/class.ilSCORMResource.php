@@ -139,7 +139,7 @@ class ilSCORMResource extends ilSCORMObject
 		$q = "SELECT * FROM sc_resource WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$this->setImportId($obj_rec["import_id"]);
 		$this->setResourceType($obj_rec["resourcetype"]);
 		$this->setScormType($obj_rec["scormtype"]);
@@ -150,7 +150,7 @@ class ilSCORMResource extends ilSCORMObject
 		$q = "SELECT * FROM sc_resource_file WHERE res_id = ".$ilDB->quote($this->getId()).
 			" ORDER BY nr";
 		$file_set = $this->ilias->db->query($q);
-		while ($file_rec = $file_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($file_rec = $file_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$res_file =& new ilSCORMResourceFile();
 			$res_file->setHref($file_rec["href"]);
@@ -160,7 +160,7 @@ class ilSCORMResource extends ilSCORMObject
 		$q = "SELECT * FROM sc_resource_dependency WHERE res_id = ".$ilDB->quote($this->getId()).
 			" ORDER BY nr";
 		$dep_set = $this->ilias->db->query($q);
-		while ($dep_rec = $dep_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($dep_rec = $dep_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$res_dep =& new ilSCORMResourceDependency();
 			$res_dep->setIdentifierRef($dep_rec["identifierref"]);
@@ -182,7 +182,7 @@ class ilSCORMResource extends ilSCORMObject
 		$id_set = $this->ilias->db->query($q);
 		$ilBench->stop("SCORMResource", "readByIdRef_Query");
 		
-		if ($id_rec = $id_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($id_rec = $id_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$this->setId($id_rec["id"]);
 			$this->read();
@@ -199,7 +199,7 @@ class ilSCORMResource extends ilSCORMObject
 		"AND ob.slm_id = ".$ilDB->quote($a_slm_id);
 
 		$id_set = $ilDB->query($q);
-		if ($id_rec = $id_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($id_rec = $id_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return $id_rec["id"];
 		}
@@ -212,7 +212,7 @@ class ilSCORMResource extends ilSCORMObject
 		
 		$q = "SELECT scormtype FROM sc_resource WHERE obj_id = ".$ilDB->quote($a_obj_id);
 		$st_set = $ilDB->query($q);
-		if ($st_rec = $st_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($st_rec = $st_set->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return $st_rec["scormtype"];
 		}

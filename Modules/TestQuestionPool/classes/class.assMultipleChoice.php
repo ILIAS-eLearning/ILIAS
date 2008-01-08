@@ -242,25 +242,22 @@ class assMultipleChoice extends assQuestion
     $query = sprintf("SELECT qpl_questions.*, qpl_question_multiplechoice.* FROM qpl_questions, qpl_question_multiplechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_multiplechoice.question_fi",
 		$ilDB->quote($question_id));
 		$result = $ilDB->query($query);
-		if (strcmp(strtolower(get_class($result)), db_result) == 0)
+		if ($result->numRows() == 1)
 		{
-			if ($result->numRows() == 1)
-			{
-				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-				$this->id = $question_id;
-				$this->title = $data->title;
-				$this->comment = $data->comment;
-				$this->solution_hint = $data->solution_hint;
-				$this->original_id = $data->original_id;
-				$this->obj_id = $data->obj_fi;
-				$this->author = $data->author;
-				$this->owner = $data->owner;
-				$this->points = $data->points;
-				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-				$this->setShuffle($data->shuffle);
-				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-			}
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$this->id = $question_id;
+			$this->title = $data->title;
+			$this->comment = $data->comment;
+			$this->solution_hint = $data->solution_hint;
+			$this->original_id = $data->original_id;
+			$this->obj_id = $data->obj_fi;
+			$this->author = $data->author;
+			$this->owner = $data->owner;
+			$this->points = $data->points;
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
+			$this->setShuffle($data->shuffle);
+			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 
 			$query = sprintf("SELECT * FROM qpl_answer_multiplechoice WHERE question_fi = %s ORDER BY aorder ASC",
 				$ilDB->quote($question_id));
@@ -268,9 +265,9 @@ class assMultipleChoice extends assQuestion
 			$result = $ilDB->query($query);
 
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-			if (strcmp(strtolower(get_class($result)), db_result) == 0)
+			if ($result->numRows() > 0)
 			{
-				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					$imagefilename = $this->getImagePath() . $data->imagefile;
 					if (!@file_exists($imagefilename))
@@ -605,7 +602,7 @@ class assMultipleChoice extends assQuestion
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (strcmp($data->value1, "") != 0)
 			{
@@ -727,7 +724,7 @@ class assMultipleChoice extends assQuestion
 		// save generic feedback to the original
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$duplicatequery = sprintf("INSERT INTO qpl_feedback_multiplechoice VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($this->original_id . ""),
@@ -1027,7 +1024,7 @@ class assMultipleChoice extends assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
@@ -1053,7 +1050,7 @@ class assMultipleChoice extends assQuestion
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$duplicatequery = sprintf("INSERT INTO qpl_feedback_multiplechoice VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($this->getId() . ""),

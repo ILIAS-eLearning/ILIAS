@@ -96,7 +96,7 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 					" AND sco_id = ".$ilDB->quote($obj_id)." AND lvalue = ".$ilDB->quote($key).
 					" AND obj_id = ".$ilDB->quote($hacp_id);
 				$set = $ilDB->query($stmt);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+				if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
 					$this->update[] = array("left" => $key, "right" => $value);
 				else
 					$this->insert[] = array("left" => $key, "right" => $value);
