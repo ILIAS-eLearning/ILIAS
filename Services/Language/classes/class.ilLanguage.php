@@ -231,7 +231,7 @@ class ilLanguage
 			);
 			$r = $this->ilias->db->query($query);
 	
-			if  ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+			if  ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				// remember the used topics
 				$this->used_topics[$a_topic] = $a_topic;
@@ -308,7 +308,7 @@ class ilLanguage
 				"AND module = '$a_module'";
 		$r = $this->ilias->db->query($query);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->text[$row->identifier] = $row->value;
 		}
@@ -318,7 +318,7 @@ class ilLanguage
 				"WHERE lang_key = ".$ilDB->quote($lang_key)." " .
 				"AND module = ".$ilDB->quote($a_module);
 		$r = $ilDB->query($query);
-		$row = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$new_text = unserialize($row["lang_array"]);
 		if (is_array($new_text))
@@ -355,7 +355,7 @@ class ilLanguage
 			
 		$set = $ilDB->query($q);
 		
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		if ($rec["value"] != "")
 		{

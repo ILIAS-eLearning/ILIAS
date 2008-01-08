@@ -129,7 +129,7 @@ class ilUserResult
 				"AND user_id = '".$this->getUserId()."'";
 
 			$res = $this->ilias->db->query($query);
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setTitle($row->title);
 				$this->setTarget(unserialize(stripslashes($row->target)));

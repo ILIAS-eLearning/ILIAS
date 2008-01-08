@@ -233,7 +233,7 @@ class ilCustomBlock
 		$query = "SELECT * FROM il_custom_block WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setContextObjId($rec["context_obj_id"]);
 		$this->setContextObjType($rec["context_obj_type"]);
@@ -298,7 +298,7 @@ class ilCustomBlock
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$result[] = $rec;
 		}
@@ -325,7 +325,7 @@ class ilCustomBlock
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$result[] = $rec;
 		}
@@ -348,7 +348,7 @@ class ilCustomBlock
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$result[] = $rec;
 		}
@@ -376,7 +376,7 @@ class ilCustomBlock
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$result[] = $rec;
 		}

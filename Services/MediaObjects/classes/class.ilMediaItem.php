@@ -228,7 +228,7 @@ class ilMediaItem
 		if ($query != "")
 		{
 			$item_set = $this->ilias->db->query($query);
-			$item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 			$this->setLocation($item_rec["location"]);
 			$this->setLocationType($item_rec["location_type"]);
@@ -247,7 +247,7 @@ class ilMediaItem
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
 				$ilDB->quote($this->getId());
 			$par_set = $this->ilias->db->query($query);
-			while ($par_rec = $par_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$this->setParameter($par_rec["name"], $par_rec["value"]);
 			}
@@ -291,7 +291,7 @@ class ilMediaItem
 		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob_id)." ".
 			"AND purpose = ".$ilDB->quote($a_purpose);
 		$set = $ilDB->query($query);
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $rec["location"];
 		}
@@ -313,7 +313,7 @@ class ilMediaItem
 		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob->getId())." ".
 			"ORDER BY nr";
 		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$media_item =& new ilMediaItem();
 			$media_item->setNr($item_rec["nr"]);
@@ -333,7 +333,7 @@ class ilMediaItem
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
 				$ilDB->quote($item_rec["id"]);
 			$par_set = $this->ilias->db->query($query);
-			while ($par_rec = $par_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$media_item->setParameter($par_rec["name"], $par_rec["value"]);
 			}
@@ -362,7 +362,7 @@ class ilMediaItem
 		$query = "SELECT * FROM media_item WHERE mob_id = ".
 			$ilDB->quote($a_mob_id);
 		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			// delete all parameters of media item
 			$query = "DELETE FROM mob_parameter WHERE med_item_id = ".
@@ -1022,7 +1022,7 @@ class ilMediaItem
 		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob_id)." ".
 			"ORDER BY nr";
 		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			ilMapArea::_resolveIntLinks($item_rec["id"]);
 		}
@@ -1043,7 +1043,7 @@ class ilMediaItem
 
 		$item_set = $this->ilias->db->query($query);
 		$links = array();
-		while ($item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$map_links = ilMapArea::_getIntLinks($item_rec["id"]);
 			foreach($map_links as $key => $map_link)

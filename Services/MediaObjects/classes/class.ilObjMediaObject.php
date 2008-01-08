@@ -790,7 +790,7 @@ class ilObjMediaObject extends ilObject
 			"usage_id = ".$ilDB->quote($a_id);
 		$mobs = array();
 		$mob_set = $ilDB->query($q);
-		while($mob_rec = $mob_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($mob_rec = $mob_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$mobs[$mob_rec["id"]] = $mob_rec["id"];
 		}
@@ -830,7 +830,7 @@ class ilObjMediaObject extends ilObject
 			$ilDB->quote($this->getId());
 		$us_set = $ilDB->query($q);
 		$ret = array();
-		while($us_rec = $us_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
 				"id" => $us_rec["usage_id"]);
@@ -840,7 +840,7 @@ class ilObjMediaObject extends ilObject
 		$q = "SELECT DISTINCT mep_id FROM mep_tree WHERE child = ".
 			$ilDB->quote($this->getId());
 		$us_set = $ilDB->query($q);
-		while($us_rec = $us_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[] = array("type" => "mep",
 				"id" => $us_rec["mep_id"]);
@@ -852,7 +852,7 @@ class ilObjMediaObject extends ilObject
 			" AND area.link_type='int' ".
 			" AND area.target = ".$ilDB->quote("il__mob_".$this->getId());
 		$us_set = $ilDB->query($q);
-		while($us_rec = $us_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[] = array("type" => "map",
 				"id" => $us_rec["mob_id"]);

@@ -72,7 +72,7 @@ class ilGlossaryTerm
 		
 		$q = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($this->id);
 		$term_set = $this->ilias->db->query($q);
-		$term_rec = $term_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setTerm($term_rec["term"]);
 		$this->setImportId($term_rec["import_id"]);
@@ -95,7 +95,7 @@ class ilGlossaryTerm
 		$q = "SELECT * FROM glossary_term WHERE import_id = ".$ilDB->quote($a_import_id).
 			" ORDER BY create_date DESC LIMIT 1";
 		$term_set = $ilDB->query($q);
-		while ($term_rec = $term_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$glo_id = ilGlossaryTerm::_lookGlossaryID($term_rec["id"]);
 
@@ -128,7 +128,7 @@ class ilGlossaryTerm
 
 		$q = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($a_id);
 		$obj_set = $ilDB->query($q);
-		if ($obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return true;
 		}
@@ -317,7 +317,7 @@ class ilGlossaryTerm
 
 		$query = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($term_id);
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $obj_rec["glo_id"];
 	}
@@ -331,7 +331,7 @@ class ilGlossaryTerm
 
 		$query = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($term_id);
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $obj_rec["term"];
 	}
@@ -345,7 +345,7 @@ class ilGlossaryTerm
 
 		$query = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($term_id);
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $obj_rec["language"];
 	}
@@ -380,7 +380,7 @@ class ilGlossaryTerm
 		$q = "SELECT * FROM glossary_term WHERE glo_id ".$where.$searchterm." ORDER BY language, term";
 		$term_set = $ilDB->query($q);
 
-		while ($term_rec = $term_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$terms[] = array("term" => $term_rec["term"],
 				"language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"]);

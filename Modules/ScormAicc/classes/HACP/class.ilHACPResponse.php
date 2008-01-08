@@ -100,8 +100,8 @@ class ilHACPResponse {
 					" AND obj_id = ".$ilDB->quote($slm_id);
 //$ilLog->write("Read Trackingdata: ".$stmt);
 			$set = $ilDB->query($stmt);
-			$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
-			while ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))	{
+			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))	{
 				$key=$rec["lvalue"];
 				$value=$rec["rvalue"];
 				$arr=explode(".", $key);

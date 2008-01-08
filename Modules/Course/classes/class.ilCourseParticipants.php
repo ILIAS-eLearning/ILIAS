@@ -432,7 +432,7 @@ class ilCourseParticipants
 	 		"WHERE notification = 1 ".
 	 		"AND obj_id = ".$ilDB->quote($this->course_id)." ";
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		if($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id))
 	 		{
@@ -848,7 +848,7 @@ class ilCourseParticipants
 	 		"WHERE obj_id = ".$ilDB->quote($this->course_id)." ";
 	 	$res = $ilDB->query($query);
 	 	$this->participants_status = array();
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->participants_status[$row->usr_id]['blocked'] = $row->blocked;
 	 		$this->participants_status[$row->usr_id]['notification']  = $row->notification;
@@ -1016,7 +1016,7 @@ class ilCourseParticipants
 
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -1036,7 +1036,7 @@ class ilCourseParticipants
 
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -1053,7 +1053,7 @@ class ilCourseParticipants
 			"ORDER BY sub_time ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// DELETE SUBSCRIPTION IF USER HAS BEEN DELETED
 			if(!ilObjectFactory::getInstanceByObjId($row->usr_id,false))
@@ -1074,7 +1074,7 @@ class ilCourseParticipants
 			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data["time"] = $row->sub_time;
 			$data["usr_id"] = $row->usr_id;
@@ -1225,7 +1225,7 @@ class ilCourseParticipants
 			"AND obj_id = ".$ilDB->quote($this->course_id)."";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id))
 			{

@@ -99,7 +99,7 @@ class ilLDAPRoleAssignments
 			"WHERE type = ".ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE." ".
 			"AND server_id = ".$ilDB->quote($a_server_id)." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$attributes[] = strtolower(trim($row->att));
 		}
@@ -244,7 +244,7 @@ class ilLDAPRoleAssignments
 	 		"WHERE server_id = ".$this->db->quote($this->server_id)." ".
 	 		"AND type = ".ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE." ";
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->att_mappings[strtolower($row->att_name)][strtolower($row->att_value)] = $row->role_id;
 	 		$this->all_roles[$row->role_id] = $row->role_id;
@@ -263,7 +263,7 @@ class ilLDAPRoleAssignments
 	 		"WHERE server_id = ".$this->db->quote($this->server_id)." ".
 	 		"AND type = ".ilLDAPRoleAssignmentRule::TYPE_GROUP." ";
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->grp_mappings[strtolower($row->dn)]['attribute'] = strtolower($row->attribute);
 	 		$this->grp_mappings[strtolower($row->dn)]['isdn'] = $row->isdn;

@@ -79,7 +79,7 @@ class ilNewsSubscription
 			$ilDB->quote($a_ref_id)." AND user_id = ".
 			$ilDB->quote($a_user_id);
 		$set = $ilDB->query($query);
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return true;
 		}
@@ -104,7 +104,7 @@ class ilNewsSubscription
 			$ilDB->quote($a_user_id);
 		$set = $ilDB->query($query);
 		$ref_ids = array();
-		while ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ref_ids[] = $rec["ref_id"];
 		}

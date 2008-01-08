@@ -95,7 +95,7 @@ class ilObjLanguageAccess
 		$q = "SELECT ref_id FROM object_reference r, object_data d".
 		" WHERE r.obj_id = d.obj_id AND d.type='lngf'";
 		$set = $ilDB->query($q);
-		$row = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['ref_id'];
 	}
 	
@@ -116,7 +116,7 @@ class ilObjLanguageAccess
 		" WHERE type = 'lng' ".
 		" AND title = ".$ilDB->quote($a_key);
 		$set = $ilDB->query($q);
-		$row = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['obj_id'];
 	}
 }

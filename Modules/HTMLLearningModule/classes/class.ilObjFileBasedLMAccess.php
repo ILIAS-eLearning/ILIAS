@@ -122,7 +122,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($rec["online"]);
 	}
@@ -136,7 +136,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		$start_file = $rec["startfile"];
 		$dir = ilUtil::getWebspaceDir()."/lm_data/lm_".$a_id;
 		

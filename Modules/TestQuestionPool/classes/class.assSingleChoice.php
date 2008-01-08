@@ -140,33 +140,6 @@ class assSingleChoice extends assQuestion
 			// Neuen Datensatz schreiben
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			/*
-			$query = $ilDB->prepare(
-				"INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, " .
-				" question_text, points, working_time, complete, created, original_id, TIMESTAMP) " . 
-				" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-				array("integer", "integer", "integer", "text", "text", "text", "integer",
-					"text", "float", "time", "text", "text", "integer", "timestamp"
-				),
-				MDB2_PREPARE_MANIP
-			);
-			$newid = $ilDB->nextID("insert_single_choice");
-			$data = array(
-				$newid, $this->getQuestionTypeID(), $this->getObjId(), $this->getTitle(), $this->getComment(), $this->getAuthor(), $this->getOwner(),
-					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), $this->getMaximumPoints(), $estw_time, $complete, $created, $original_id, "NULL"
-			);
-			$affectedRows = $query->execute($data);
-			if ($affectedRows == 1)
-			{
-				$query = $ilDB->prepare(
-					"INSERT INTO qpl_question_singlechoice (question_fi, shuffle) VALUES (?, ?)",
-					array("integer", "text"),
-					MDB2_PREPARE_MANIP
-				);
-				$data = array($newid, $this->getShuffle());
-				$affectedRows = $query->execute($data);
-				$this->setId($newid);
-			}*/
 			
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getQuestionTypeID() . ""),

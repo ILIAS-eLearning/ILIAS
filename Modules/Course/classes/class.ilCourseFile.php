@@ -250,7 +250,7 @@ class ilCourseFile
 			"WHERE course_id = ".$ilDB->quote($a_course_id)."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$files[] =& new ilCourseFile($row->file_id);
 		}
@@ -267,7 +267,7 @@ class ilCourseFile
 		// read file data
 		$query = "SELECT * FROM crs_file WHERE file_id = '".$this->file_id."'";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setFileName($row->file_name);
 			$this->setFileSize($row->file_size);

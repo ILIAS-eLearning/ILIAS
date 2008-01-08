@@ -398,7 +398,7 @@ class ilObjLanguageExt extends ilObjLanguage
 			" order by module";
 		$set = $ilDB->query($q);
 
-		while ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$modules[] = $rec["module"];
 		}
@@ -454,7 +454,7 @@ class ilObjLanguageExt extends ilObjLanguage
 		$set = $ilDB->query($q);
 
 		$trans = array();
-		while ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$trans[$rec["module"].$lng->separator.$rec["identifier"]] = $rec["value"];
 		}
@@ -505,7 +505,7 @@ class ilObjLanguageExt extends ilObjLanguage
 				" lang_key = ".$ilDB->quote($a_lang_key).
 				" AND module = ".$ilDB->quote($module);
 			$set = $ilDB->query($q);
-			$row = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
 			$arr = unserialize($row["lang_array"]);
 			if (is_array($arr))
 			{

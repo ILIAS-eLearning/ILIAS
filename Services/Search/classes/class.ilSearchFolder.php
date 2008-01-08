@@ -266,7 +266,7 @@ class ilSearchFolder
 
 		$res = $this->ilias->db->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
 			$this->setParentId($row->parent);
@@ -317,7 +317,7 @@ class ilSearchFolder
 			"AND parent = '0'";
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setRootId($row->child);
 		}

@@ -1321,7 +1321,7 @@ class ilUtil
 		"ORDER BY lastname, firstname";
 		$r = $ilias->db->query($q);
 
-		while ($user = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($atime <= 0
 				|| $user["ctime"] + $atime > $ctime)
@@ -1367,7 +1367,7 @@ class ilUtil
 		"AND fa.assign = 'y' ".
 		"AND dat.type IN ('grp','crs')";
 		$r = $ilias->db->query($q);
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$groups_and_courses_of_user[] = $row["obj_id"];
 		}
@@ -1401,7 +1401,7 @@ class ilUtil
 		}
 		$r = $ilias->db->query($q);
 
-		while ($user = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($atime <= 0
 				|| $user["ctime"] + $atime > $ctime)
@@ -2438,7 +2438,7 @@ class ilUtil
 
 		$users = array();
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$users[] = $row->user_id;
 		} // while
@@ -2837,7 +2837,7 @@ class ilUtil
 
 		$res = $ilDB->query($q);
 
-		while ($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// STORE DATA IN ARRAY WITH KEY obj_id
 			// SO DUPLICATE ENTRIES ( LINKED OBJECTS ) ARE UNIQUE
@@ -3329,7 +3329,7 @@ class ilUtil
 
 			$res = $ilDB->query($query);
 			$counter = 0;
-			while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				
 				if($counter++ >= $limit)
@@ -3368,7 +3368,7 @@ class ilUtil
 
 		$res = $ilDB->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($counter >= $limit)
 			{
@@ -3706,7 +3706,7 @@ class ilUtil
 			"ORDER BY ".$a_field;
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->$a_id_name;
 		}

@@ -126,7 +126,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -149,7 +149,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -170,7 +170,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -191,7 +191,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}

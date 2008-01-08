@@ -103,7 +103,7 @@ class ilHtmlBlock extends ilCustomBlock
 		$query = "SELECT * FROM il_html_block WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setContent($rec["content"]);
 

@@ -44,7 +44,7 @@ class ilOnlineTracking
 
 		$query = "SELECT * FROM ut_online WHERE usr_id = '".$a_user_id."'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$access_time = $row->access_time;
 			$online_time = $row->online_time;
@@ -82,7 +82,7 @@ class ilOnlineTracking
 		{
 			return false;
 		}
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$access_time = $row->access_time;
 			$online_time = $row->online_time;

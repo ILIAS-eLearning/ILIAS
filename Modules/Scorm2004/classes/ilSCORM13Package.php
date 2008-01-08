@@ -102,9 +102,9 @@ class ilSCORM13Package
 		}
 		
 		$set = $ilDB->query("SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($packageId));
-		$lm_data = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$lm_data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($packageId));
-		$pg_data = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$pg_data = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->packageData = array_merge($lm_data, $pg_data);
 		$this->packageId = $packageId;
@@ -144,7 +144,7 @@ class ilSCORM13Package
 
 		//$row = ilSCORM13DB::getRecord("cp_package", "obj_id",$this->packageId);
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->$packageId));
-		$row = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		print($row["xmldata"]);
 	}
@@ -165,7 +165,7 @@ class ilSCORM13Package
 		$ilDB->query("DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
 			$ilDB->quote($this->packageId).")");
 		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->$packageId));
-		$row = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $row["xmldata"];
 	}

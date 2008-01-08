@@ -102,7 +102,7 @@ class ilLDAPRoleGroupMappingSettings
 			"WHERE lss.active = 1 ".
 			"AND lss.role_sync_active = 1 ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data['server_id']		= $row->server_id;
 			$data['url']			= $row->url;
@@ -292,7 +292,7 @@ class ilLDAPRoleGroupMappingSettings
 	 		"ORDER BY title,dn";
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->mappings[$row->mapping_id]['dn'] 					= $row->dn;
 			$this->mappings[$row->mapping_id]['url']					= $row->url;

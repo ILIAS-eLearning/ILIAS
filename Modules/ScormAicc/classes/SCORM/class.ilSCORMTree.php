@@ -98,7 +98,7 @@ class ilSCORMTree extends ilTree
 
 		if ($count > 0)
 		{
-			while ($row = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$childs[] = $this->fetchNodeData($row);
 			}

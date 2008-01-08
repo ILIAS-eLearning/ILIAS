@@ -173,7 +173,7 @@ class ilExportUserSettings
 	 	$query = "SELECT * FROM member_export_user_settings WHERE user_id = ".$this->db->quote($this->user_id);
 	 	$res = $this->db->query($query);
 		
-	 	if($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+	 	if($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->settings = unserialize(stripslashes($row->settings));
 	 	}

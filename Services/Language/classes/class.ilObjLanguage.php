@@ -351,7 +351,7 @@ class ilObjLanguage extends ilObject
 						" lang_key = ".$ilDB->quote($this->key).
 						" AND module = ".$ilDB->quote($module);
 					$set = $ilDB->query($q);
-					$row = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
 					$arr2 = unserialize($row["lang_array"]);
 					if (is_array($arr2))
 					{

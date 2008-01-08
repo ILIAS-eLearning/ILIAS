@@ -315,7 +315,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$sco_set = $ilDB->query($query);
 
 		$items = array();
-		while($sco_rec = $sco_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
 			$items[] = array("user_full_name" => $name["lastname"].", ".
@@ -356,7 +356,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$sco_set = $ilDB->query($query);
 
 		$items = array();
-		while($sco_rec = $sco_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$item['id']=$sco_rec["id"];
 			$item['title']=self::_lookupItemTitle($sco_rec["id"]);
@@ -376,14 +376,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			" cp_node_id = ".$ilDB->quote($_GET["obj_id"]);
 		$user_set = $ilDB->query($query);
 		$data = array();
-		while($user_rec = $user_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$query = "SELECT *,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM cmi_node WHERE".
 				" cp_node_id = ".$ilDB->quote($_GET["obj_id"]).
 				" AND user_id =".$ilDB->quote($user_rec["user_id"]);
 			$data_set = $ilDB->query($query);
 			$score = $time = $status = "";
-			while($data_rec = $data_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				
 				if ($data_rec["success_status"]!="") {
@@ -491,14 +491,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$item_set = $ilDB->query($q);
 			
 		$items = array();
-		while ($item_rec = $item_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$s2 = $ilDB->query("SELECT cp_resource.* ".
 				" FROM cp_node, cp_resource WHERE slm_id = ".
 				$ilDB->quote($a_obj_id).
 				" AND cp_node.cp_node_id = cp_resource.cp_node_id ".
 				" AND cp_resource.id = ".$ilDB->quote($item_rec["resourceId"]));
-			if ($res = $s2->fetchRow(MDB2_FETCHMODE_ASSOC))
+			if ($res = $s2->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				if ($res["scormType"] == "sco")
 				{
@@ -522,7 +522,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		$status_set = $ilDB->query($q);
 
-		if ($status_rec = $status_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $status_rec["status"];
 		}
@@ -541,7 +541,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		$status_set = $ilDB->query($q);
 
-		if ($status_rec = $status_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $status_rec["satisfied"];
 		}
@@ -560,7 +560,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		$status_set = $ilDB->query($q);
 
-		if ($status_rec = $status_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $status_rec["measure"];
 		}
@@ -574,7 +574,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		$r = $ilDB->query("SELECT * FROM cp_item ".
 			" WHERE cp_node_id = ".$ilDB->quote($a_node_id));
-		if ($i = $r->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($i = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $i["title"];
 		}

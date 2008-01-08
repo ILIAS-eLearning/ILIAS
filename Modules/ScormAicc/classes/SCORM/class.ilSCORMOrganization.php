@@ -78,7 +78,7 @@ class ilSCORMOrganization extends ilSCORMObject
 		$q = "SELECT * FROM sc_organization WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setImportId($obj_rec["import_id"]);
 		$this->setStructure($obj_rec["structure"]);
 	}

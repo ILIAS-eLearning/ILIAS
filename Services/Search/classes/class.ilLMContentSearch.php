@@ -65,7 +65,7 @@ class ilLMContentSearch extends ilAbstractSearch
 			
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// workaround to get term ids for definition ids (which is not the same!!!)
 			if ($row->parent_type == "gdf")

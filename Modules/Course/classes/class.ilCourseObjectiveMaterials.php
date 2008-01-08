@@ -185,7 +185,7 @@ class ilCourseObjectiveMaterials
 			"ORDER BY obd.title ";
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ref_ids[] = $row->ref_id;
 		}
@@ -364,7 +364,7 @@ class ilCourseObjectiveMaterials
 			"ORDER BY obd.title,lmd.title";
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$tree->isInTree($row->ref_id) or !$tree->isGrandChild($container_ref_id,$row->ref_id))
 			{

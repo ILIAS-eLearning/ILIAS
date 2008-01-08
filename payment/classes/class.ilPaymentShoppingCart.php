@@ -122,7 +122,7 @@ class ilPaymentShoppingCart
 
 		if (is_object($r))
 		{
-			return $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+			return $r->fetchRow(DB_FETCHMODE_ASSOC);
 		}
 	}
 
@@ -210,7 +210,7 @@ class ilPaymentShoppingCart
 		
 		$res = $this->db->query($query);
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->sc_entries[$row->psc_id]["psc_id"] = $row->psc_id;
 			$this->sc_entries[$row->psc_id]["customer_id"] = $row->customer_id; 

@@ -98,7 +98,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
 		
 		// check class
@@ -179,7 +179,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
 
 		// check class
@@ -253,7 +253,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $object_rec["type"];
 	}
 }

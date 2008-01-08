@@ -108,7 +108,7 @@ class ilCtrl
 		$q = "SELECT * FROM module_class WHERE LOWER(class) = ".
 			$ilDB->quote($baseClass);
 		$mc_set = $ilDB->query($q);
-		$mc_rec = $mc_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$module = $mc_rec["module"];
 		$class = $mc_rec["class"];
 		$class_dir = $mc_rec["dir"];
@@ -120,7 +120,7 @@ class ilCtrl
 				$ilDB->quote($module);
 	
 			$m_set = $ilDB->query($q);
-			$m_rec = $m_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->module_dir = $m_rec["dir"];
 			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";
 		}
@@ -131,7 +131,7 @@ class ilCtrl
 				$ilDB->quote($baseClass);
 
 			$mc_set = $ilDB->query($q);
-			$mc_rec = $mc_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$service = $mc_rec["service"];
 			$class = $mc_rec["class"];
 			$class_dir = $mc_rec["dir"];
@@ -148,7 +148,7 @@ class ilCtrl
 				$ilDB->quote($service);
 	
 			$m_set = $ilDB->query($q);
-			$m_rec = $m_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->service_dir = $m_rec["dir"];
 			
 			include_once $this->service_dir."/".$class_dir."/class.".$class.".php";;
@@ -464,7 +464,7 @@ class ilCtrl
 			$q = "SELECT * FROM ctrl_structure WHERE root_class = ".
 				$ilDB->quote($a_class);
 			$set = $ilDB->query($q);
-			$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->call_node = unserialize($rec["call_node"]);
 			$this->forward = unserialize($rec["forward"]);
 			$this->parent = unserialize($rec["parent"]);
@@ -551,7 +551,7 @@ class ilCtrl
 		$call_set = $ilDB->query($q);
 		//$forw = array();
 		$a_parent = $a_nr;
-		while($call_rec = $call_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($call_rec = $call_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$a_nr = $this->readCallStructure($call_rec["child"], $a_nr, $a_parent);
 			$forw[] = $call_rec["child"];
@@ -749,7 +749,7 @@ class ilCtrl
 		$q = "SELECT * FROM ctrl_classfile WHERE class = ".$ilDB->quote($a_class_name);
 
 		$class_set = $ilDB->query($q);
-		$class_rec = $class_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$class_rec = $class_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $class_rec["file"];
 	}

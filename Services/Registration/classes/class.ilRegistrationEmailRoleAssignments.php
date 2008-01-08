@@ -169,7 +169,7 @@ class ilRegistrationRoleAssignments
 		$res = $this->db->query($query);
 
 		$this->assignments = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->assignments[$row->assignment_id]['id'] =  $row->assignment_id;
 			$this->assignments[$row->assignment_id]['role'] = $row->role;

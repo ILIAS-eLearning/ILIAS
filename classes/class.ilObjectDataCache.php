@@ -167,7 +167,7 @@ class ilObjectDataCache
 		
 		$query = "SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($a_ref_id);
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->reference_cache[$a_ref_id] = $row['obj_id'];
 		}
@@ -193,7 +193,7 @@ class ilObjectDataCache
 		$query = "SELECT * FROM object_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id);
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->object_data_cache[$a_obj_id]['title'] = $row->title;
 			$this->object_data_cache[$a_obj_id]['description'] = $row->description;
@@ -217,7 +217,7 @@ class ilObjectDataCache
 					 "AND NOT lang_default = 1";
 				$r = $ilDB->query($q);
 
-				$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+				$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 				if ($row)
 				{
 					$this->object_data_cache[$a_obj_id]['title'] = $row->title;
@@ -253,7 +253,7 @@ class ilObjectDataCache
 		$query = "SELECT * FROM object_data WHERE obj_id IN (".
 			implode(",",ilUtil::quoteArray($a_obj_ids)).")";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 //echo "<br>store_obj-".$row->obj_id."-".$row->type."-".$row->title."-";
 			$this->object_data_cache[$row->obj_id]['title'] = $row->title;
@@ -277,7 +277,7 @@ class ilObjectDataCache
 					 "AND NOT lang_default = 1";
 				$r = $ilDB->query($q);
 
-				$row2 = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+				$row2 = $r->fetchRow(DB_FETCHMODE_OBJECT);
 				if ($row2)
 				{
 					$this->object_data_cache[$row->obj_id]['title'] = $row2->title;
@@ -299,7 +299,7 @@ class ilObjectDataCache
 			implode(",",ilUtil::quoteArray($a_ref_ids)).")";
 		$res = $this->db->query($query);
 		$obj_ids = array();
-		while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->reference_cache[$row['ref_id']] = $row['obj_id'];
 //echo "<br>store_ref-".$row['ref_id']."-".$row['obj_id']."-";

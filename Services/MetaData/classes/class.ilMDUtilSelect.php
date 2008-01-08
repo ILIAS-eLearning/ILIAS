@@ -218,7 +218,7 @@ class ilMDUtilSelect
 		{
 			return '';
 		}
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(strlen($row->forma))
 			{

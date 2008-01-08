@@ -129,7 +129,7 @@ class ilLinkCheckNotify
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->usr_id;
 		}
@@ -144,7 +144,7 @@ class ilLinkCheckNotify
 		$query = "SELECT * FROM link_check_report ";
 
 		$res = $db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$usr_ids[$row->usr_id][] = $row->obj_id;
 		}

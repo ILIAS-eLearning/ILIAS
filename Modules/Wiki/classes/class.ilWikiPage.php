@@ -137,7 +137,7 @@ class ilWikiPage extends ilPageObject
 		$query = "SELECT * FROM il_wiki_page WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setTitle($rec["title"]);
 		$this->setWikiId($rec["wiki_id"]);
@@ -182,7 +182,7 @@ class ilWikiPage extends ilPageObject
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id);
 		$set = $ilDB->query($query);
 		
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$wiki_page = new ilWikiPage($rec["id"]);
 			$wiki_page->delete();
@@ -200,7 +200,7 @@ class ilWikiPage extends ilPageObject
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
 			" AND title = ".$ilDB->quote($a_title);
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return true;
 		}
@@ -219,7 +219,7 @@ class ilWikiPage extends ilPageObject
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
 			" AND title = ".$ilDB->quote($a_title);
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $rec["id"];
 		}
@@ -237,7 +237,7 @@ class ilWikiPage extends ilPageObject
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE id = ".$ilDB->quote($a_page_id);
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $rec["title"];
 		}
@@ -261,7 +261,7 @@ class ilWikiPage extends ilPageObject
 		$set = $ilDB->query($query);
 		
 		$pages = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$pages[] = $rec;
 		}
@@ -297,7 +297,7 @@ class ilWikiPage extends ilPageObject
 		$set = $ilDB->query($query);
 		
 		$pages = array();
-		while ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$pages[] = $rec;
 		}
@@ -321,7 +321,7 @@ class ilWikiPage extends ilPageObject
 		$set = $ilDB->query($query);
 		
 		$pages = array();
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return true;
 		}
@@ -362,7 +362,7 @@ class ilWikiPage extends ilPageObject
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
 			" AND title = ".$ilDB->quote($a_title);
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $rec["id"];
 		}
@@ -387,7 +387,7 @@ class ilWikiPage extends ilPageObject
 		$set = $ilDB->query($query);
 		
 		$pages = array();
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$pages[] = $rec;
 		}
@@ -408,7 +408,7 @@ class ilWikiPage extends ilPageObject
 		$query = "SELECT count(*) as cnt FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id);
 		$s = $ilDB->query($query);
-		$r = $s->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$r = $s->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		return $r["cnt"];
 	}
@@ -436,7 +436,7 @@ class ilWikiPage extends ilPageObject
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
 			" LIMIT $rand, 1";
 		$s = $ilDB->query($query);
-		$r = $s->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$r = $s->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		return $r["title"];
 	}

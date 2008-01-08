@@ -290,7 +290,7 @@ class ilObjExercise extends ilObject
 			"WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setInstruction($row->instruction);
 			$this->setTimestamp($row->time_stamp);
@@ -333,7 +333,7 @@ class ilObjExercise extends ilObject
 		$q = "SELECT * FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId());
 		$set = $ilDB->query($q);
-		while($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if (ilObject::_exists($rec["usr_id"]) &&
 				(ilObject::_lookupType($rec["usr_id"]) == "usr"))
@@ -371,7 +371,7 @@ class ilObjExercise extends ilObject
 
 		$usr_set = $ilDB->query($q);
 
-		$array=$usr_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
 		if ($array["timestamp"]==NULL)
 		{
 			return false;
@@ -444,7 +444,7 @@ class ilObjExercise extends ilObject
 
   		$usr_set = $ilDB->query($q);
 
-  		$array=$usr_set->fetchRow(MDB2_FETCHMODE_ASSOC);
+  		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		if (count($array)==0)
 		{
@@ -469,7 +469,7 @@ class ilObjExercise extends ilObject
 			" WHERE sent_time <> '0000-00-00 00:00:00'".
 			" AND obj_id = ".$ilDB->quote($a_exc_id);
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		if ($rec["cnt"] > 0)
 		{
@@ -501,7 +501,7 @@ class ilObjExercise extends ilObject
   		$new_up_set = $ilDB->query($q);
 
 		$new_up = array();
-  		while ($new_up_rec = $new_up_set->fetchRow(MDB2_FETCHMODE_ASSOC))
+  		while ($new_up_rec = $new_up_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$new_up[] = $new_up_rec["id"];
 		}
@@ -522,7 +522,7 @@ class ilObjExercise extends ilObject
 		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
 
   		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return ilUtil::getMySQLTimestamp($rec["status_time"]);
 		}
@@ -541,7 +541,7 @@ class ilObjExercise extends ilObject
 		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
 
   		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return ilUtil::getMySQLTimestamp($rec["sent_time"]);
 		}
@@ -560,7 +560,7 @@ class ilObjExercise extends ilObject
 		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
 
   		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return ilUtil::getMySQLTimestamp($rec["feedback_time"]);
 		}

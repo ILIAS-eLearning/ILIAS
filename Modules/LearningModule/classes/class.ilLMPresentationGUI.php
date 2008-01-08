@@ -309,7 +309,7 @@ class ilLMPresentationGUI
 				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id=".
 					$ilDB->quote($_GET["ref_id"])." AND object_reference.obj_id=object_data.obj_id ";
 				$result = $this->ilias->db->query($query);
-				$objRow = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				$_GET["obj_id"] = $objRow["obj_id"];
 
 				$query = "SELECT * FROM lm_data WHERE lm_id = ".$ilDB->quote($objRow["obj_id"]).
@@ -318,7 +318,7 @@ class ilLMPresentationGUI
 
 				$page = 0;
 				$showpage = 0;
-				while (is_array($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) )
+				while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
 				{
 
 					$page++;
@@ -484,7 +484,7 @@ class ilLMPresentationGUI
 			$ilDB->quote($_GET["ref_id"])." AND object_reference.obj_id=object_data.obj_id ";
 		$result = $this->ilias->db->query($query);
 
-		$objRow = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$filename = preg_replace('/[^a-z0-9_]/i', '_', $objRow["title"]);
 

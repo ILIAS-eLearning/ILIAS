@@ -2455,7 +2455,7 @@ class ilSetupGUI extends ilSetup
 
 		$q = "SELECT count(*) as cnt FROM ctrl_calls";
 		$cset = $this->client->db->query($q);
-		$crec = $cset->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$crec = $cset->fetchRow(DB_FETCHMODE_ASSOC);
 		if ($crec["cnt"] == 0)
 		{
 			$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",

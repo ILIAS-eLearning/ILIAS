@@ -132,7 +132,7 @@ class ilLMMenuEditor
 			 
 		$r = $this->db->query($q);
 
-		while($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$entries[] = array('id'		=> $row->id,
 							   'title'	=> $row->title,
@@ -192,7 +192,7 @@ class ilLMMenuEditor
 		$q = "SELECT * FROM lm_menu WHERE id = ".$this->db->quote($a_id);
 		$r = $this->db->query($q);
 
-		$row = $this->db->getRow($q,MDB2_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($q,DB_FETCHMODE_OBJECT);
 		
 		$this->setTitle($row->title);
 		$this->setTarget($row->target);

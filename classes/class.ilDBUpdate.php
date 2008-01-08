@@ -154,7 +154,7 @@ class ilDBUpdate
 			 "WHERE keyword = 'db_version'";
 		$r = $this->db->query($q);
 			
-		$row = $r->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 			
 		$this->currentVersion = (integer) $row->value;
 
@@ -438,7 +438,7 @@ class ilDBUpdate
 	
 		$query = "ANALYZE TABLE ".$table;	
 		$res = $this->db->query($query);
-		$row = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row;
 	}
 	

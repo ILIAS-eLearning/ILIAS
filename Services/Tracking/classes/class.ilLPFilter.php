@@ -231,7 +231,7 @@ class ilLPFilter
 			$this->__add();
 		}
 
-		while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->filter_type = $row->filter_type;
 			$this->root_node = $row->root_node;

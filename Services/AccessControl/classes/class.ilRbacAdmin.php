@@ -543,7 +543,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 			 "AND parent = ".$ilDB->quote($a_source_parent)." ";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".
@@ -613,7 +613,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
                         "AND s1.ops_id = s2.ops_id";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".

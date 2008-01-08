@@ -90,7 +90,7 @@ function db_pwassist_session_read($pwassist_id)
 	$q = "SELECT * FROM usr_pwassist ".
 	"WHERE pwassist_id = '".addslashes($pwassist_id)."'";
 	$r = $ilias->db->query($q);
-	$data = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+	$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 	return $data;
 }
@@ -110,7 +110,7 @@ function db_pwassist_session_find($user_id)
 	$q = "SELECT * FROM usr_pwassist ".
 		"WHERE user_id = '".addslashes($user_id)."'";
 	$r = $ilias->db->query($q);
-	$data = $r->fetchRow(MDB2_FETCHMODE_ASSOC);
+	$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 	return $data;
 }
