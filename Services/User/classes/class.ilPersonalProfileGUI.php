@@ -956,12 +956,12 @@ class ilPersonalProfileGUI
 		// ilinc upload pic
 		if ($this->userSettingVisible("upload") and $this->ilias->getSetting("ilinc_active"))
 		{
-			include_once ('ilinc/classes/class.ilObjiLincUser.php');
+			include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 			$ilinc_user = new ilObjiLincUser($ilUser);
 				
 			if ($ilinc_user->id)
 			{
-				include_once ('ilinc/classes/class.ilnetucateXMLAPI.php');
+				include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 				$ilincAPI = new ilnetucateXMLAPI();
 				
 				$ilincAPI->uploadPicture($ilinc_user);
@@ -1698,12 +1698,12 @@ exit; // comes later
 			// ilinc link as info
 			if ($this->userSettingVisible("upload") and $this->ilias->getSetting("ilinc_active"))
 			{
-				include_once ('ilinc/classes/class.ilObjiLincUser.php');
+				include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
 				$ilinc_user = new ilObjiLincUser($ilUser);
 					
 				if ($ilinc_user->id)
 				{
-					include_once ('ilinc/classes/class.ilnetucateXMLAPI.php');
+					include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 					$ilincAPI = new ilnetucateXMLAPI();
 					$ilincAPI->uploadPicture($ilinc_user);
 					$response = $ilincAPI->sendRequest("uploadPicture");
