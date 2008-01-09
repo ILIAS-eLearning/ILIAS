@@ -1692,7 +1692,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if ($hide_details)
 		{
 			$executable = $this->object->isExecutable($ilUser->getId());
-			if (!$executable["executable"])  $hide_details = FALSE;
+//			if (!$executable["executable"]) $hide_details = FALSE;
 		}
 		if (($this->object->getNrOfTries() == 1) && (!$hide_details))
 		{
