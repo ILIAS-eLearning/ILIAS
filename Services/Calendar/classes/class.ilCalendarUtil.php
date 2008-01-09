@@ -172,7 +172,7 @@ class ilCalendarUtil
 				'Asia/Kabul' => 'GMT+4:00: Kabul', 
 				'Asia/Karachi' => 'GMT+5:00: Islamabad, Karachi, Taschkent', 
 				'Asia/Yekaterinburg' => 'GMT+5:00: Yekaterinburg',
-				'IST' => 'GMT+5:30: New Dehli',
+				'Asia/Calcutta' => 'GMT+5:30: New Dehli',
 				'Asia/Katmandu' => 'GMT+5:45: Katmandu',
 				'Asia/Novosibirsk' => 'GMT+6:00: Almaty, Novosibirsk', 
 				'Asia/Dhaka' => 'GMT+6:00: Astana, Dhaka', 
