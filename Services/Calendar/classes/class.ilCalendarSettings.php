@@ -34,6 +34,9 @@ include_once('Services/Calendar/classes/class.ilTimeZone.php');
 */
 class ilCalendarSettings
 {
+	const WEEK_START_MONDAY = 1;
+	const WEEK_START_SUNDAY = 0;
+	
 	private static $instance = null;
 
 	private $storage = null;
