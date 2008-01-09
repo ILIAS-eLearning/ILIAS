@@ -201,9 +201,9 @@ class ilClient
 
 		$this->setDSN();
 
-		$this->db = DB::connect($this->dsn,true);
+		$this->db = MDB2::connect($this->dsn,true);
 
-		if (DB::isError($this->db))
+		if (MDB2::isError($this->db))
 		{
 			$this->error = $this->db->getMessage()."! not_connected_to_db";
 			return false;
@@ -359,9 +359,9 @@ class ilClient
 	function checkDatabaseHost()
 	{
 		//connect to databasehost
-		$db = DB::connect($this->dsn_host);
+		$db = MDB2::connect($this->dsn_host);
 
-		if (DB::isError($db))
+		if (MDB2::isError($db))
 		{
 			$this->error = $db->getMessage()."! Please check database hostname, username & password.";
 			return false;
@@ -377,9 +377,9 @@ class ilClient
 	function checkDatabaseExists()
 	{
 		//try to connect to database
-		$db = DB::connect($this->dsn);
+		$db = MDB2::connect($this->dsn);
 
-		if (DB::isError($db))
+		if (MDB2::isError($db))
 		{
 			return false;
 		}

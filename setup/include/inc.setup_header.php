@@ -33,7 +33,6 @@ define("DEBUG",false);
 
 //include files from PEAR
 require_once "PEAR.php";
-require_once "DB.php";
 
 // wrapper for php 4.3.2 & higher
 @include_once "HTML/ITX.php";
