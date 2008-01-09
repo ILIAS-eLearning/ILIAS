@@ -6608,6 +6608,9 @@ survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.
 survey#:#anonymize_with_code#:#Access with survey codes
+survey#:#info_anonymize_with_code#:#Anonymized Survey with Survey Code Access
+survey#:#info_anonymize_registered_user#:#Anonymized Survey
+survey#:#info_anonymize_without_code#:#Anonymized Survey without Access Restrictions
 survey#:#anonymize_without_code#:#Free access
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
