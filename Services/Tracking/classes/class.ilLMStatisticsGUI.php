@@ -61,7 +61,7 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 			$LMSeitenanz[$rLehrmodulID[$row[3]]]++;
 		}
 
-		$year = array (2004, 2005, 2006, 2007);
+		$year = array (2004, 2005, 2006, 2007, 2008, 2009, 2010);
 		$month = array (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 		$day = array (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31);
 
