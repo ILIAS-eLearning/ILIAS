@@ -27,6 +27,13 @@
 //require_once ("DB.php");
 require_once ("MDB2.php");
 
+define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
+define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
+
+//echo "-".DB_FETCHMODE_ASSOC."-";
+//echo "+".DB_FETCHMODE_OBJECT."+";
+
+
 /**
 * Database Wrapper
 *
@@ -99,7 +106,7 @@ class ilDBx extends PEAR
 		$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
 
 		//check error
-		if (DB::isError($this->db)) {
+		if (MDB2::isError($this->db)) {
 			$this->raiseError($this->db->getMessage(), $this->error_class->FATAL);
 		}
 
@@ -147,7 +154,7 @@ class ilDBx extends PEAR
 	{
 		$r = $this->db->query($sql);
 
-		if (DB::isError($r))
+		if (MDB2::isError($r))
 		{
 			$err = "<br>Details: ".mysql_error();
 			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
@@ -170,16 +177,19 @@ class ilDBx extends PEAR
 	*/
 	function getOne($sql)
 	{
-		$r = $this->db->getOne($sql);
+		//$r = $this->db->getOne($sql);
+		$set = $this->db->query($sql);
+		
+		if (MDB2::isError($set))
+		{
+			$this->raiseError($set->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
+			return;
+		}
+		
+		$r = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		if (DB::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $r[0];
+
 	} //end function
 
 
@@ -233,7 +243,7 @@ class ilDBx extends PEAR
 		$r = $set->fetchRow($mode);
 		//$r = $this->db->getrow($sql,$mode);
 
-		if (DB::isError($r))
+		if (MDB2::isError($r))
 		{
 			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
 		}
@@ -275,7 +285,7 @@ class ilDBx extends PEAR
 	{
 		$res = $this->db->executeMultiple($stmt,$data);
 
-		if (DB::isError($res))
+		if (MDB2::isError($res))
 		{
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
 		}
@@ -295,7 +305,7 @@ class ilDBx extends PEAR
 	{
 		$res = $this->db->execute($stmt,$data);
 
-		if (DB::isError($res))
+		if (MDB2::isError($res))
 		{
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
 		}
@@ -318,7 +328,7 @@ class ilDBx extends PEAR
 		$this->db->loadModule('Extended');
 		$res = $this->db->autoExecute($a_tablename,$a_fields,$a_mode,$a_where);
 
-		if (DB::isError($res))
+		if (MDB2::isError($res))
 		{
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
 		}
@@ -351,7 +361,7 @@ class ilDBx extends PEAR
 		// GET MYSQL VERSION
 		$query = "SHOW VARIABLES LIKE 'version'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
+		if(MDB2::isError($res))
 		{
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
 		}
@@ -366,14 +376,14 @@ class ilDBx extends PEAR
 			ini_get("post_max_size");
 			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
 			$this->db->query($query);
-			if(DB::isError($res))
+			if(MDB2::isError($res))
 			{
 				$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
 			}
 		}
 		// STORE NEW max_size in member variable
 		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
-		if(DB::isError($res))
+		if(MDB2::isError($res))
 		{
 			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
 		}

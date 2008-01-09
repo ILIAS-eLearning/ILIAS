@@ -88,7 +88,7 @@ class ilInitialisation
 
 		// Major PEAR Includes
 		require_once "PEAR.php";
-		require_once "DB.php";
+		//require_once "DB.php";
 		require_once "Auth/Auth.php";
 
 		// HTML_Template_IT support

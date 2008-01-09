@@ -314,7 +314,7 @@ class ilNestedSetXML
 		// {{{
 		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_tag_fk=tag_pk AND ns_book_fk='$obj_id' AND ns_type='$type' ORDER BY ns_l";
 		$result = $this->db->query($query);
-		if (DB::isError($result))
+		if (MDB2::isError($result))
 		{
 			die($this->className."::checkTable(): ".$result->getMessage().":<br>".$q);
 		}
