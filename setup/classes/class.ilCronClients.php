@@ -33,7 +33,7 @@
 */
 
 include_once 'PEAR.php';
-include_once 'DB.php';
+include_once 'MDB2.php';
 
 class ilCronClients extends PEAR
 {
@@ -177,9 +177,9 @@ class ilCronClients extends PEAR
 			$this->db_data['host']."/".
 			$this->db_data['name'];
 
-		$this->db = DB::connect($dsn,true);
+		$this->db = MDB2::connect($dsn,true);
 
-		if (DB::isError($this->db))
+		if (MDB2::isError($this->db))
 		{
 			return false;
 		}
