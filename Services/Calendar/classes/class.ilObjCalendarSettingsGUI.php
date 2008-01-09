@@ -49,7 +49,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng = $lng;
-		$this->lng->loadLanguageModule('calendar');
+		$this->lng->loadLanguageModule('dateplaner');
+		$this->lng->loadLanguageModule('jscalendar');
 	}
 
 	/**
@@ -103,6 +104,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
+		
+		
 		global $rbacsystem, $ilAccess;
 
 		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
@@ -125,7 +128,27 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	*/
 	public function settings()
 	{
+		$this->tabs_gui->setTabActive('settings');
+		$this->initFormSettings();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.settings.html','Services/Calendar');
+		$this->tpl->setVariable('CAL_SETTINGS',$this->form->getHTML());
+		return true;
+	}
+	
+	/**
+	 * save settings
+	 *
+	 * @access protected
+	 */
+	protected function save()
+	{
+		$this->settings->setEnabled((int) $_POST['enable']);
+		$this->settings->setDefaultWeekStart((int) $_POST['default_week_start']);
+		$this->settings->setDefaultTimeZone(ilUtil::stripSlashes($_POST['default_timezone']));
+		$this->settings->save();
+		
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->settings();
 	}
 
 	/**
@@ -139,5 +162,51 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings = ilCalendarSettings::_getInstance();
 	}
 	
+	/**
+	 * Init settings property form
+	 *
+	 * @access protected
+	 */
+	protected function initFormSettings()
+	{
+		if(is_object($this->form))
+		{
+			return true;
+		}
+		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setTitle($this->lng->txt('cal_global_settings'));
+		$this->form->addCommandButton('save',$this->lng->txt('save'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		$check = new ilCheckboxInputGUI($this->lng->txt('enable_calendar'),'enable');
+		$check->setValue(1);
+		$check->setChecked($this->settings->isEnabled() ? true : false);
+		$this->form->addItem($check);
+		
+		$server_tz = new ilNonEditableValueGUI($this->lng->txt('cal_server_tz'));
+		$server_tz->setValue(ilTimeZone::_getDefaultTimeZone());
+		$this->form->addItem($server_tz);
+		
+		$select = new ilSelectInputGUI($this->lng->txt('cal_def_timezone'),'default_timezone');
+		$select->setOptions(ilCalendarUtil::_getShortTimeZoneList());
+		$select->setInfo($this->lng->txt('cal_def_timezone_info'));
+		$select->setValue($this->settings->getDefaultTimeZone());
+		$this->form->addItem($select);
+		
+		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_def_week_start'),'default_week_start');
+		$radio->setValue($this->settings->getDefaultWeekStart());
+	
+		$option = new ilRadioOption($this->lng->txt('l_su'),0);
+		$radio->addOption($option);
+		$option = new ilRadioOption($this->lng->txt('l_mo'),1);
+		$radio->addOption($option);
+		
+		
+		$this->form->addItem($radio);
+	}
 }
 ?>

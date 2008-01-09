@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Services/Calendar/classes/class.ilTimeZone.php');
+
 /** 
 * Stores all calendar relevant settings.
 * 
@@ -34,6 +36,11 @@ class ilCalendarSettings
 {
 	private static $instance = null;
 
+	private $storage = null;
+	private $timezone = null;
+	private $week_start = 0;
+	private $enabled = false;
+
 	/**
 	 * singleton contructor
 	 *
@@ -42,9 +49,76 @@ class ilCalendarSettings
 	 */
 	private function __construct()
 	{
-			 	
+	 	$this->initStorage();
+		$this->read();			 	
 	}
 	
+	/**
+	 * set enabled
+	 *
+	 * @access public
+	 * 
+	 */
+	public function setEnabled($a_enabled)
+	{
+	 	$this->enabled = $a_enabled;
+	}
+	
+	/**
+	 * is calendar enabled
+	 *
+	 * @access public
+	 * 
+	 */
+	public function isEnabled()
+	{
+	 	return (bool) $this->enabled;
+	}
+	
+	/**
+	 * set week start
+	 *
+	 * @access public
+	 * 
+	 */
+	public function setDefaultWeekStart($a_start)
+	{
+	 	$this->week_start = $a_start;
+	}
+	
+	/**
+	 * get default week start
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getDefaultWeekStart()
+	{
+	 	return $this->week_start;
+	}
+	
+	/**
+	 * set default timezone
+	 *
+	 * @access public
+	 */
+	public function setDefaultTimeZone($a_zone)
+	{
+	 	$this->timezone = $a_zone;
+	}
+	
+	/**
+	 * get derfault time zone
+	 *
+	 * @access public
+	 */
+	public function getDefaultTimeZone()
+	{
+	 	return $this->timezone;
+	}
+
+	
+
 	/**
 	 * get singleton instance
 	 *
@@ -59,6 +133,43 @@ class ilCalendarSettings
 			return self::$instance;
 		}
 		return self::$instance = new ilCalendarSettings();
+	}
+	
+	/**
+	 * save 
+	 *
+	 * @access public
+	 */
+	public function save()
+	{
+	 	$this->storage->set('enabled',(int) $this->isEnabled());
+	 	$this->storage->set('default_timezone',$this->getDefaultTimeZone());
+	 	$this->storage->set('default_week_start',$this->getDefaultWeekStart());
+	}
+
+	/**
+	 * Read settings
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function read()
+	{
+		$this->setEnabled($this->storage->get('enabled'));
+		$this->setDefaultTimeZone($this->storage->get('default_timezone',ilTimeZone::_getDefaultTimeZone()));
+		$this->setDefaultWeekStart($this->storage->get('default_week_start',self::WEEK_START_MONDAY));
+	}
+	
+	/**
+	 * Init storage class (ilSetting)
+	 * @access private
+	 * 
+	 */
+	private function initStorage()
+	{
+	 	include_once('./Services/Administration/classes/class.ilSetting.php');
+	 	$this->storage = new ilSetting('calendar');
 	}
 }
 ?>

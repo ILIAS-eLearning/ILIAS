@@ -115,5 +115,86 @@ class ilCalendarUtil
 		
 		self::$init_done = "done";
 	}
+	
+	/**
+	 * get short timezone list
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _getShortTimeZoneList()
+	{
+		return array(
+				'Pacific/Samoa' => 'GMT-11: Midway Islands, Samoa', 
+				'US/Hawaii' => 'GMT-10:00: Hawaii, Polynesia', 
+				'US/Alaska' => 'GMT-9:00: Alaska', 
+				'America/Los_Angeles' => 'GMT-8:00: Tijuana, Los Angeles, Seattle, Vancouver', 
+				'US/Arizona' => 'GMT-7:00: Arizona', 
+				'America/Chihuahua' => 'GMT-7:00: Chihuahua, La Paz, Mazatlan', 
+				'America/Denver' => 'GMT-7:00: Arizona, Denver, Salt Lake City, Calgary', 
+				'America/Chicago' => 'GMT-6:00: Chicago, Dallas, Kansas City, Winnipeg', 
+				'America/Monterrey' => 'GMT-6:00: Guadalajara, Mexico City, Monterrey', 
+				'Canada/Saskatchewan' => 'GMT-6:00: Saskatchewan', 
+				'US/Central' => 'GMT-6:00: Central America', 
+				'America/Bogota' => 'GMT-5:00: Bogota, Lima, Quito', 
+				'US/East-Indiana' => 'GMT-5:00: East-Indiana', 
+				'America/New_York' => 'GMT-5:00: New York, Miami, Atlanta, Detroit, Toronto', 
+				'Canada/Atlantic' => 'GMT-4:00: Atlantic (Canada)', 
+				'America/La_Paz' => 'GMT-4:00: Carcas, La Paz', 
+				'America/Santiago' => 'GMT-4:00: Santiago', 
+				'Canada/Newfoundland' => 'GMT-3:00: Newfoundland', 
+				'Brazil/East' => 'GMT-3:00: Sao Paulo', 
+				'America/Argentina/Buenos_Aires' => 'GMT-3:00: Buenes Aires, Georgtown', 
+				'GMT+3' => 'GMT-3:00: Greenland, Uruguay, Surinam', 
+				'Atlantic/Cape_Verde' => 'GMT-2:00: Cape Verde, Greenland, South Georgia', 
+				'Atlantic/Azores' => 'GMT-1:00: Azores', 
+				'Africa/Casablanca' => 'GMT+0:00: Casablanca, Monrovia', 
+				'Europe/London' => 'GMT+0:00: Dublin, Edinburgh, Lisbon, London', 
+				'Europe/Berlin' => 'GMT+1:00: Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna', 
+				'Europe/Belgrade' => 'GMT+1:00: Belgrade, Bratislava, Budapest, Ljubljana, Prague', 
+				'Europe/Paris' => 'GMT+1:00: Brussels, Copenhagen, Paris, Madrid', 
+				'Europe/Sarajevo' => 'GMT+1:00: Sarajevo, Skopje, Warsaw, Zagreb', 
+				'Africa/Lagos' => 'GMT+1:00: West-Central Africa', 
+				'Europe/Athens' => 'GMT+2:00: Athens, Beirut, Istanbul, Minsk', 
+				'Europe/Bucharest' => 'GMT+2:00: Bucharest', 
+				'Africa/Harare' => 'GMT+2:00: Harare, Pratoria', 
+				'Europe/Helsinki' => 'GMT+2:00: Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius', 
+				'Asia/Jerusalem' => 'GMT+2:00: Jerusalem', 
+				'Africa/Cairo' => 'GMT+2:00: Cairo', 
+				'Asia/Baghdad' => 'GMT+3:00: Baghdad', 
+				'Asia/Kuwait' => 'GMT+3:00: Kuwait, Riyadh', 
+				'Europe/Moscow' => 'GMT+3:00: Moscow, Saint Petersburg', 
+				'Africa/Nairobi' => 'GMT+3:00: Nairobi,Teheran', 
+				'Asia/Muscat' => 'GMT+4:00: Abu Dhabi, Muscat', 
+				'Asia/Baku' => 'GMT+4:00: Baku, Tbilisi, Erivan', 
+				'Asia/Kabul' => 'GMT+4:00: Kabul', 
+				'Asia/Karachi' => 'GMT+5:00: Islamabad, Karachi, Taschkent', 
+				'Asia/Yekaterinburg' => 'GMT+5:00: Yekaterinburg',
+				'IST' => 'GMT+5:30: New Dehli',
+				'Asia/Katmandu' => 'GMT+5:45: Katmandu',
+				'Asia/Novosibirsk' => 'GMT+6:00: Almaty, Novosibirsk', 
+				'Asia/Dhaka' => 'GMT+6:00: Astana, Dhaka', 
+				'Asia/Rangoon' => 'GMT+6:00: Sri Jayawardenepura, Rangoon', 
+				'Asia/Jakarta' => 'GMT+7:00: Bangkok, Hanoi, Jakarta', 
+				'Asia/Krasnoyarsk' => 'GMT+7:00: Krasnoyarsk', 
+				'Asia/Irkutsk' => 'GMT+8:00: Irkutsk, Ulan Bator', 
+				'Asia/Singapore' => 'GMT+8:00: Kuala Lumpour, Singapore', 
+				'Asia/Hong_Kong' => 'GMT+8:00: Beijing, Chongqing, Hong kong, Urumchi', 
+				'Australia/Perth' => 'GMT+8:00: Perth', 
+				'Asia/Taipei' => 'GMT+8:00: Taipei', 
+				'Asia/Yakutsk' => 'GMT+9:00: Yakutsk', 
+				'Asia/Tokyo' => 'GMT+9:00: Osaka, Sapporo, Tokyo', 
+				'Asia/Seoul' => 'GMT+9:00: Seoul, Darwin, Adelaide', 
+				'Australia/Brisbane' => 'GMT+10:00: Brisbane', 
+				'Australia/Sydney' => 'GMT+10:00: Canberra, Melbourne, Sydney', 
+				'Pacific/Guam' => 'GMT+10:00: Guam, Port Moresby', 
+				'Australia/Hobart' => 'GMT+10:00: Hobart', 
+				'Asia/Vladivostok' => 'GMT+10:00: Vladivostok', 
+				'Asia/Magadan' => 'GMT+11:00: Salomon Islands, New Caledonia, Magadan', 
+				'Pacific/Auckland' => 'GMT+12:00: Auckland, Wellington', 
+				'Pacific/Fiji' => 'GMT+12:00: Fiji, Kamchatka, Marshall-Islands'); 
+	}
 }
 ?>
