@@ -3771,15 +3771,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case ANONYMIZE_ON:
 				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 				{
-					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_with_code"));
+					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_with_code"));
 				}
 				else
 				{
-					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_registered_user"));
+					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_registered_user"));
 				}
 				break;
 			case ANONYMIZE_FREEACCESS:
-				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_without_code"));
+				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_without_code"));
 				break;
 		}
 		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";

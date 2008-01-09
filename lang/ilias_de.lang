@@ -6777,6 +6777,9 @@ survey#:#anonymize_registered_user#:#Anonymisierter Zugang
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, an einer anoymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Zugangsschlüssel automatisch generiert wird.
 survey#:#anonymize_with_code#:#Zugriff über einen Zugangsschlüssel
+survey#:#info_anonymize_with_code#:#Anonymisierte Umfrage mit Zugriff über einen Zugangsschlüssel
+survey#:#info_anonymize_registered_user#:#Anonymisierte Umfrage
+survey#:#info_anonymize_without_code#:#Anonymisierte Umfrage ohne Zugangsbeschränkung
 survey#:#anonymize_without_code#:#Freier Zugriff
 survey#:#anonymous_with_personalized_survey#:#Sie müssen im ILIAS System angemeldet sein, um eine personalisierte Umfrage ausführen zu dürfen!
 survey#:#answer#:#Antwort
