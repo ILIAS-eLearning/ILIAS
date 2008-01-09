@@ -1622,7 +1622,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function questionsObject() 
 	{
 		$this->handleWriteAccess();
-		$this->questionsSubtabs("questions");
 		global $rbacsystem;
 
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
@@ -1940,6 +1939,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
+		$this->questionsSubtabs("questions");
 	}
 
 	/**
