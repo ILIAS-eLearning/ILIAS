@@ -101,6 +101,8 @@ class ilDBx extends PEAR
 		//$this->db = DB::connect($this->dsn, true);
 		$this->db = MDB2::connect($this->dsn);
 		
+		$this->loadMDB2Extensions();
+		
 		// set empty value portability to PEAR::DB behaviour
 		$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
 		$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
@@ -319,13 +321,12 @@ class ilDBx extends PEAR
 	* Wrapper for Pear autoExecute
 	* @param string tablename
 	* @param array fields values
-	* @param int DB_AUTOQUERY_INSERT or DB_AUTOQUERY_UPDATE
+	* @param int MDB2_AUTOQUERY_INSERT or MDB2_AUTOQUERY_UPDATE
 	* @param string where condition (e.g. "obj_id = '7' AND ref_id = '5'")
 	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
 	*/
-	function autoExecute($a_tablename,$a_fields,$a_mode = DB_AUTOQUERY_INSERT,$a_where = false)
+	function autoExecute($a_tablename,$a_fields,$a_mode = MDB2_AUTOQUERY_INSERT,$a_where = false)
 	{
-		$this->db->loadModule('Extended');
 		$res = $this->db->autoExecute($a_tablename,$a_fields,$a_mode,$a_where);
 
 		if (MDB2::isError($res))
@@ -350,9 +351,6 @@ class ilDBx extends PEAR
 			return true;
 		}
 	}
-
-	
-
 
 	// PRIVATE
 	function setMaxAllowedPacket()
@@ -505,6 +503,21 @@ class ilDBx extends PEAR
 			}
 		}
 		return $column_visibility;
+	}
+	
+	/**
+	 * load additional mdb2 extensions and set their constants 
+	 *
+	 * @access protected
+	 */
+	protected function loadMDB2Extensions()
+	{
+		$this->db->loadModule('Extended');
+		define('DB_AUTOQUERY_SELECT',MDB2_AUTOQUERY_SELECT);
+		define('DB_AUTOQUERY_INSERT',MDB2_AUTOQUERY_INSERT);
+		define('DB_AUTOQUERY_UPDATE',MDB2_AUTOQUERY_UPDATE);
+		define('DB_AUTOQUERY_DELETE',MDB2_AUTOQUERY_DELETE);
+	
 	}
 
 } //end Class
