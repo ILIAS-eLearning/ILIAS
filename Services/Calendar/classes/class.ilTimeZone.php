@@ -44,21 +44,28 @@ class ilTimeZone
 {
 	const UTC = 'UTC';
 	
+	public static $instances = array();
+
 	protected static $default_timezone = '';
 	protected static $current_timezone = '';
 	
+	protected $log;
 	protected $timezone = "UTC";
 
 	/**
 	 * Create new timezone object
 	 * If no timezone is given, the default server timezone is chosen. 
 	 *
-	 * @access public
+	 * @access private
 	 * @param string valid timezone
 	 * 
 	 */
-	public function __construct($a_timezone = '')
+	private function __construct($a_timezone)
 	{
+		global $ilLog;
+
+		$this->log = $ilLog;
+
 		if($a_timezone)
 		{
 			$this->timezone = $a_timezone;
@@ -74,31 +81,94 @@ class ilTimeZone
 	}
 	
 	/**
+	 * get instance by timezone
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param string valid php timezone
+	 * @throws ilTimeZoneException
+	 */
+	public static function _getInstance($a_tz = '')
+	{
+		global $ilLog;
+		
+		if(!$a_tz)
+		{
+			$a_tz = self::_getDefaultTimeZone();
+		}
+		
+		if(isset(self::$instances[$a_tz]))
+		{
+			$instance = self::$instances[$a_tz];
+		}
+		else
+		{
+			$instance = self::$instances[$a_tz] = new ilTimeZone($a_tz);
+		}
+		// now validate timezone setting
+		if(!$instance->validateTZ())
+		{
+			$ilLog->write(__METHOD__.': Unsupported timezone given: Timzone: '.$a_tz);
+			throw new ilTimeZoneException('Unsupported timezone given.');
+		}
+		return $instance;
+	}
+	
+	/**
 	 * Switch timezone to given timezone
 	 *
 	 * @access public
 	 */
 	public function switchTZ()
 	{
-	 	self::_switchTimeZone($this->timezone);
+	 	try
+	 	{
+		 	self::_switchTimeZone($this->timezone);
+		 	return true;
+	 	}
+	 	catch(ilTimeZoneException $exc)
+	 	{
+			// Shouldn't happen since this has been checked during initialisation
+			$this->log->write(__METHOD__.': Unsupported timezone given: Timzone: '.$this->timezone);
+	 		return false;
+	 	}
 	}
 	
 	/**
 	 * Restore default timezone
 	 *
 	 * @access public
-	 * @throws ilTimeZoneException
 	 */
 	public function restoreTZ()
 	{
 	 	try
 	 	{
 	 		self::_switchTimeZone(self::$default_timezone);
+	 		return true;
 	 	}
 	 	catch(ilTimeZoneExxception $e)
 	 	 {
-	 	 	throw $e;
+			// Shouldn't happen since this has been checked during initialisation
+			$this->log->write(__METHOD__.': Unsupported timezone given: Timzone: '.$this->timezone);
+			return false;
 	 	 }
+	}
+	
+	/**
+	 * validate timezone
+	 *
+	 * @access public
+	 * 
+	 */
+	public function validateTZ()
+	{
+	 	// this is done by switching to the current tz
+		if($this->switchTZ() and $this->restoreTZ())
+		{
+			return true;
+	 	}
+ 		return false;
 	}
 	
 	/**
@@ -108,7 +178,7 @@ class ilTimeZone
 	 * @static
 	 * @throws ilTimeZoneException
 	 */
-	public static function _switchTimeZone($a_timezone)
+	protected static function _switchTimeZone($a_timezone)
 	{
 		global $ilLog;
 		
