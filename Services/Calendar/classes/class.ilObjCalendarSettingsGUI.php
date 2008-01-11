@@ -128,6 +128,36 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	*/
 	public function settings()
 	{
+		/*
+		include_once('./Services/Calendar/classes/class.ilDateTime.php');
+		
+		$time = microtime(true);
+		try
+		{
+			for($i = 0;$i < 2;$i++)
+			{
+				#if($i % 2 or 1)
+				if($i %2)
+				{
+					$date = new ilDateTime('2007-02-29',ilDateTime::FORMAT_DATE,'Asia/Katmandu');
+					$unix = $date->getUnixTime();
+					echo 'Date: '.date('Y-m-d H:i:s',$unix).'<br />';
+				}
+				else
+				{
+					$date = new ilDateTime('2007-02-29 12:00:00',ilDateTime::FORMAT_DATETIME,'Europe/Berlin');
+					$unix = $date->getUnixTime();
+					echo 'DateTime: '.date('Y-m-d H:i:s',$unix).'<br />';
+				}
+			}
+			echo microtime(true) -$time;
+		}
+		catch(ilDateTimeException $e)
+		{
+			var_dump("<pre>",$e->getMessage(),"</pre>");
+		}
+		*/
+
 		$this->tabs_gui->setTabActive('settings');
 		$this->initFormSettings();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.settings.html','Services/Calendar');
