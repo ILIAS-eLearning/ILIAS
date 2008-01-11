@@ -38,6 +38,8 @@ class ilDateTime
 	const FORMAT_DATETIME = 1;
 	const FORMAT_DATE = 2;
 	const FORMAT_UNIX = 3;
+	
+	const FORMAT_FKT_DATE = 4;
 
 	protected $log;
 	
@@ -94,6 +96,19 @@ class ilDateTime
 	 	return $this->unix;
 	}
 	
+
+	/**
+	 * get UTC offset
+	 *
+	 * @access public
+	 * @return offset to utc in seconds 
+	 */
+	public function getUTCOffset()
+	{
+	 	$this->timezone->switchTZ();
+	 	return mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);
+	}
+	
 	/**
 	 * set date
 	 *
@@ -142,6 +157,52 @@ class ilDateTime
 
 	 	}
 	 	return true;
+	}
+	
+	/**
+	 * get formatted date 
+	 *
+	 * @access public
+	 * @param int format type
+	 * @param string format string
+	 * @param string a specific timezone
+	 */
+	public function get($a_format,$a_format_str = '',$a_tz = '')
+	{
+		if($a_tz)
+		{
+			try
+			{
+				$timezone = ilTimeZone::_getInstance($a_tz);
+			}
+			catch(ilTimeZoneException $exc)
+			{
+				$this->log->write(__METHOD__.': Invalid timezone given. Timezone: '.$a_tz);
+			}
+		}
+		else
+		{
+			$timezone = $this->timezone;
+		}
+
+	 	$timezone->switchTZ();
+	 	switch($a_format)
+	 	{
+	 		case self::FORMAT_UNIX:
+	 			$date = $this->getUnixTime();
+	 			break;
+	 		case self::FORMAT_DATE:
+				$date = date('Y-m-d',$this->getUnixTime());
+				break;
+			case self::FORMAT_DATETIME:
+				$date = date('Y-m-d H:i:s',$this->getUnixTime());
+				break;
+			case self::FORMAT_FKT_DATE:
+				$date = date($a_format_str,$this->getUnixTime());
+				break;	
+	 	}
+		$timezone->restoreTZ();
+		return $date;
 	}
 }
 ?>
