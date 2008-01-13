@@ -415,6 +415,10 @@ class assJavaAppletGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "active_id");
+		$template->setVariable("PARAM_VALUE", $active_id);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "question_id");
 		$template->setVariable("PARAM_VALUE", $this->object->getId());
 		$template->parseCurrentBlock();
@@ -634,6 +638,10 @@ class assJavaAppletGUI extends assQuestionGUI
 		{
 			$template->setVariable("PARAM_VALUE", "1");
 		}
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("appletparam");
+		$template->setVariable("PARAM_NAME", "active_id");
+		$template->setVariable("PARAM_VALUE", $active_id);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_id");
