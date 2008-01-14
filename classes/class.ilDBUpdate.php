@@ -212,7 +212,7 @@ class ilDBUpdate
 					//query is complete
 					$q .= " ".substr($sql[$i],0,-1);
 					$r = $db->query($q);
-					if (DB::isError($r))
+					if (MDB2::isError($r))
 					{
 						$this->error = $r->getMessage();
 						return false;
