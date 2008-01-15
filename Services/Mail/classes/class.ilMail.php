@@ -1699,7 +1699,7 @@ class ilMail
 				}
 				else
 				{
-					$new_rcpt[] = $item->mailbox;
+					$new_rcpt[] = $item->mailbox.'@'.$item->host;
 				}
 			}
 			else
