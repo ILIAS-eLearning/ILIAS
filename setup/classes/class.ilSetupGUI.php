@@ -1855,7 +1855,7 @@ class ilSetupGUI extends ilSetup
 				include_once "../Services/AccessControl/classes/class.ilRbacSystem.php";
 				include_once "../Services/Tree/classes/class.ilTree.php";
 				include_once "../classes/class.ilSaxParser.php";
-				include_once "../classes/class.ilObjectDefinition.php";
+				include_once "../Services/Object/classes/class.ilObjectDefinition.php";
 
 				// referencing db handler in language class
 				$this->lng->setDbHandler($this->client->db);

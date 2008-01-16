@@ -4,9 +4,11 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="feed" class_name="ExternalFeed" location="Modules/ExternalFeed/classes"
-			module="Modules/ExternalFeed"
+		<object id="feed" class_name="ExternalFeed" dir="classes"
 			checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1" sideblock="1">
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="grp">grp</parent>
 		</object>
 	</objects>
 </module>

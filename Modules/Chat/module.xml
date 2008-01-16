@@ -5,14 +5,18 @@
 		<baseclass name="ilChatHandlerGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object short="chat" class_name="Chat" location="Modules/Chat/classes"
-			module="Modules/Chat"
+		<object id="chat" class_name="Chat" dir="classes"
 			checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1" allow_copy="1">
-			<subobj name="rolf" max="1">rolf</subobj>
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
 		</object>
-		<object short="chac" class_name="ChatServer" location="Modules/Chat/classes"
-			module="Modules/Chat"
+		<object id="chac" class_name="ChatServer" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
 </module>

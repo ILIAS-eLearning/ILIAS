@@ -1024,5 +1024,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
+
 } // END class.ilObjStyleSettingsGUI
 ?>

@@ -316,13 +316,15 @@ class ilNewsItem extends ilNewsItemGen
 			$ref_ids[] = $node["child"];
 			$obj_ids[] = $node["obj_id"];
 		}
+		$ilBench->stop("News", "getAggregatedNewsData_getSubTree");
 		
+		$ilBench->start("News", "getAggregatedNewsData_preloadActivationTimes");
 		$ilObjDataCache->preloadReferenceCache($ref_ids);
 		if (!$a_only_public)
 		{
 			$ilAccess->preloadActivationTimes($ref_ids);
 		}
-		$ilBench->stop("News", "getAggregatedNewsData_getSubTree");
+		$ilBench->stop("News", "getAggregatedNewsData_preloadActivationTimes");
 		
 		// no check, for which of the objects any news are available
 		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period);

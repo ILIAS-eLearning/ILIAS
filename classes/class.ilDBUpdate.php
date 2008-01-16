@@ -273,11 +273,13 @@ class ilDBUpdate
 		{
 			$this->updateMsg = "no_changes";
 		}
-		
+//global $ilDB; $ilDB->query("UPDATE settings SET value='1146' WHERE keyword='db_version'");
+
 		// read module and service information into db
 		require_once "./classes/class.ilModuleReader.php";
 		require_once "./classes/class.ilServiceReader.php";
 		require_once "./classes/class.ilCtrlStructureReader.php";
+
 		chdir("..");
 		require_once "./Services/Component/classes/class.ilModule.php";
 		require_once "./Services/Component/classes/class.ilService.php";
@@ -292,7 +294,7 @@ class ilDBUpdate
 			$mr->getModules();
 			unset($mr);
 		}
-		
+
 		ilServiceReader::clearTables();
 		foreach($services as $service)
 		{

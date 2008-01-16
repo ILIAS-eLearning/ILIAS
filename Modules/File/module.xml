@@ -4,9 +4,14 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="file" class_name="File" location="Modules/File/classes"
-			module="Modules/File" checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1">
-			<subobj name="rolf" max="1">rolf</subobj>
+		<object id="file" class_name="File" dir="classes"
+			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
 		</object>
 	</objects>
 </module>

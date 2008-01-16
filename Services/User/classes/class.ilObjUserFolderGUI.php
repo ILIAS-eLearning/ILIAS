@@ -740,10 +740,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$operations = array();
-
+//var_dump($this->actions);
 		if ($this->actions == "")
 		{
-			$d = $this->objDefinition->getActions($this->object->getType());
+			$d = array(
+				"delete" => array("name" => "delete", "lng" => "delete"),
+				"activate" => array("name" => "activate", "lng" => "activate"),
+				"deactivate" => array("name" => "deactivate", "lng" => "deactivate"),
+				"accessRestrict" => array("name" => "accessRestrict", "lng" => "accessRestrict"),
+				"accessFree" => array("name" => "accessFree", "lng" => "accessFree"),
+				"export" => array("name" => "export", "lng" => "export")
+			);
 		}
 		else
 		{

@@ -1913,7 +1913,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			exit;
 		}
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-	}	
+	}
 
 } // END class.ilObjQuestionPoolGUI
 ?>

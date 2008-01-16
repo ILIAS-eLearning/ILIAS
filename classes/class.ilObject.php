@@ -1525,16 +1525,13 @@ class ilObject
 	{
 		global $objDefinition,$ilUser,$rbacadmin;
 		
-		$module = $objDefinition->getModule($this->getType());
-		$module_dir = ($module == "")
-			? ""
-			: $module."/";
+		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
 		
 		$title = $this->prependCopyInfo($a_copy_id);
 
 		// create instance
-		include_once($module_dir."classes/class.".$class_name.".php");
+		include_once($location."/class.".$class_name.".php");
 		$new_obj = new $class_name(0, false);
 		$new_obj->setOwner($ilUser->getId());
 		$new_obj->setTitle($title);

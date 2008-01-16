@@ -53,7 +53,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$lng->loadLanguageModule("content");
 		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		$this->actions = $this->objDefinition->getActions("lm");
 	}
 
 	/**

@@ -81,6 +81,7 @@ class ilTabsGUI
 		$this->back_2_frame = $a_frame;
 	}
 	
+/*	Deprecated
 	function getTargetsByObjectType(&$a_gui_obj, $a_type)
 	{
 		global $ilCtrl;
@@ -94,6 +95,7 @@ class ilTabsGUI
 				$row["name"], get_class($a_gui_obj));
 		}
 	}
+*/
 
 	/**
 	* Add a target to the tabbed menu. If no target has set $a_activate to

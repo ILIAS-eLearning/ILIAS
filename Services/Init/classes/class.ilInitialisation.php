@@ -113,7 +113,7 @@ class ilInitialisation
 		require_once './Services/User/classes/class.ilObjUser.php';
 		require_once "classes/class.ilFormat.php";
 		require_once "classes/class.ilSaxParser.php";
-		require_once "classes/class.ilObjectDefinition.php";
+		require_once "./Services/Object/classes/class.ilObjectDefinition.php";
 		require_once "./Services/Style/classes/class.ilStyleDefinition.php";
 		require_once "./Services/Tree/classes/class.ilTree.php";
 		require_once "./Services/Language/classes/class.ilLanguage.php";
@@ -928,7 +928,7 @@ class ilInitialisation
 		$ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
 		$objDefinition = new ilObjectDefinition();
 		$GLOBALS['objDefinition'] =& $objDefinition;
-		$objDefinition->startParsing();
+//		$objDefinition->startParsing();
 		$ilBench->stop("Core", "HeaderInclude_getObjectDefinitions");
 
 		// $ilAccess and $rbac... initialisation

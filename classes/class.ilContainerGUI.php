@@ -1145,6 +1145,22 @@ class ilContainerGUI extends ilObjectGUI
 	}
 
 	/**
+	* Get Actions
+	*/
+	function getActions()
+	{
+		// standard actions for container
+		return array(
+			"cut" => array("name" => "cut", "lng" => "cut"),
+			"delete" => array("name" => "delete", "lng" => "delete"),
+			"link" => array("name" => "link", "lng" => "link"),
+			"paste" => array("name" => "paste", "lng" => "paste"),
+			"clear" => array("name" => "clear", "lng" => "clear")
+		);
+	}
+
+	
+	/**
 	* unsubscribe item
 	*/
 	function removeFromDeskObject()

@@ -31,6 +31,8 @@
 * @extends ilObjectGUI
 */
 
+// Whole class may be deprecated.
+
 class ilObjectGUIAdapter
 {
 	var $gui_obj;
@@ -110,6 +112,7 @@ class ilObjectGUIAdapter
 	* set admin tabs
 	* @access	public
 	*/
+/*	Deprecated
 	function setAdminTabs()
 	{
 		global $rbacsystem;
@@ -117,7 +120,7 @@ class ilObjectGUIAdapter
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
-		$properties = $this->objDefinition->getProperties($this->getType());
+//		$properties = $this->objDefinition->getProperties($this->getType());
 
 		foreach($properties as $key => $row)
 		{
@@ -206,7 +209,7 @@ class ilObjectGUIAdapter
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
+*/
 
 	// PRIVATE METHODS
 	function __initGUIObject($a_call_by_reference,$a_prepare_output = true)
@@ -228,13 +231,11 @@ class ilObjectGUIAdapter
 
 		// INITIATE GUI CLASS
 		$class_name = $objDefinition->getClassName($this->getType());
-		$module_name = $objDefinition->getModule($this->getType());
-		
-		$module_dir = $module_name ? $module_name."/" : "";
+		$location = $objDefinition->getLocation($this->getType());
 		$class_constr = "ilObj".$class_name."GUI";
 
 		//INCLUDE CLASS
-		include_once "./".$module_dir."classes/class.ilObj".$class_name."GUI.php";
+		include_once $location."/class.ilObj".$class_name."GUI.php";
 
 		// CALL CONSTRUCTOR
 		$this->gui_obj =& new $class_constr(array(),$this->getId(),$a_call_by_reference,$a_prepare_output);

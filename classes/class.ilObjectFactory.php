@@ -114,14 +114,11 @@ class ilObjectFactory
 			return false;
 		}
 
-		// get module
-		$module = $objDefinition->getModule($object_rec["type"]);
-		$module_dir = ($module == "")
-			? ""
-			: $module."/";
+		// get location
+		$location = $objDefinition->getLocation($object_rec["type"]);
 
 		// create instance
-		include_once($module_dir."classes/class.".$class_name.".php");
+		include_once($location."/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($a_obj_id);
 		$obj->setObjDataRecord($object_rec);
@@ -196,14 +193,11 @@ class ilObjectFactory
 			return false;
 		}
 
-		// get module
-		$module = $objDefinition->getModule($object_rec["type"]);
-		$module_dir = ($module == "")
-			? ""
-			: $module."/";
+		// get location
+		$location = $objDefinition->getLocation($object_rec["type"]);
 
 		// create instance
-		include_once($module_dir."classes/class.".$class_name.".php");
+		include_once($location."/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
 		$obj->setRefId($a_ref_id);

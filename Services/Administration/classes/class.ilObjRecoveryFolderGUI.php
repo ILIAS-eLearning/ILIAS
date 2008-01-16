@@ -149,5 +149,19 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 	{
 		$this->sub_objects = "";
 	}
+	
+	/**
+	* Get Actions
+	*/
+	function getActions()
+	{
+		// standard actions for container
+		return array(
+			"cut" => array("name" => "cut", "lng" => "cut"),
+			"clear" => array("name" => "clear", "lng" => "clear"),
+			"removeFromSystem" => array("name" => "removeFromSystem", "lng" => "btn_remove_system")
+		);
+	}
+
 } // END class.ilObjRecoveryFolderGUI
 ?>

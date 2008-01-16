@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./classes/class.ilObjDefReader.php");
+
 /**
 * Class ilServiceReader
 *
@@ -30,12 +32,12 @@
 * @version $Id$
 *
 */
-class ilServiceReader extends ilSaxParser
+class ilServiceReader extends ilObjDefReader
 {
 
 	function ilServiceReader($a_path)
 	{
-		parent::ilSaxParser($a_path);
+		parent::ilObjDefReader($a_path);
 	}
 	
 	function getServices()
@@ -55,7 +57,7 @@ class ilServiceReader extends ilSaxParser
 	/**
 	* clear the tables
 	*/
-	function clearTables()
+	static function clearTables()
 	{
 		global $ilDB;
 
@@ -80,12 +82,13 @@ class ilServiceReader extends ilSaxParser
 	{
 		global $ilDB;
 
-		$this->current_tag = $a_name;
+		parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
 		
 		switch ($a_name)
 		{
 			case 'service':
-				$this->current_module = $a_attribs["name"];
+				$this->current_service = $a_attribs["name"];
+				$this->current_component = "Services/".$a_attribs["name"];
 				$q = "INSERT INTO service (name, dir) VALUES ".
 					"(".$ilDB->quote($a_attribs["name"]).",".
 					$ilDB->quote($a_attribs["dir"]).")";
@@ -94,7 +97,7 @@ class ilServiceReader extends ilSaxParser
 				
 			case 'baseclass':
 				$q = "INSERT INTO service_class (service, class, dir) VALUES ".
-					"(".$ilDB->quote($this->current_module).",".
+					"(".$ilDB->quote($this->current_service).",".
 					$ilDB->quote($a_attribs["name"]).",".
 					$ilDB->quote($a_attribs["dir"]).")";
 				$ilDB->query($q);
@@ -112,6 +115,7 @@ class ilServiceReader extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+		parent::handlerEndTag($a_xml_parser,$a_name);
 	}
 
 			
@@ -124,6 +128,8 @@ class ilServiceReader extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
+		parent::handlerCharacterData($a_xml_parser,$a_data);
+		
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 		$a_data = preg_replace("/\n/","",$a_data);
 		$a_data = preg_replace("/\t+/","",$a_data);

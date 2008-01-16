@@ -1329,7 +1329,5 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
-
-
 } // END class.ilObjLinkResource
 ?>
