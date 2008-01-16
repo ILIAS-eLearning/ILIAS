@@ -4,15 +4,15 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="rolf" class_name="RoleFolder" dir="classes"
+		<object id="rolf" class_name="RoleFolder" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
-			<subobj name="rolt">rolt</subobj>
-			<subobj name="role">role</subobj>
+			<subobj id="rolt">rolt</subobj>
+			<subobj id="role">role</subobj>
 		</object>
-		<object short="role" class_name="Role"
+		<object id="role" class_name="Role" dir="classes"
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
-		<object short="rolt" class_name="RoleTemplate"
+		<object id="rolt" class_name="RoleTemplate" dir="classes"
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
 	</objects>

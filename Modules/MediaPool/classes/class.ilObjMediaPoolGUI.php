@@ -128,7 +128,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			case "ilobjmediaobjectgui":
 
 				//$cmd.="Object";
-				if ($cmd == "create")
+				if ($cmd == "create" || $cmd == "save" || $cmd == "cancel")
 				{
 					$ret_obj = $_GET["obj_id"];
 					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", 0, false, false);

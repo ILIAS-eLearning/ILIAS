@@ -1057,14 +1057,11 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
 //echo ":".$_GET["new_type"].":".$_POST["new_type"].":";
-		$module = $objDefinition->getModule($_GET["new_type"]);
-		$module_dir = ($module == "")
-			? ""
-			: $module."/";
+		$location = $objDefinition->getLocation($_GET["new_type"]);
 
 			// create and insert object in objecttree
 		$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
-		include_once($module_dir."classes/class.".$class_name.".php");
+		include_once($location."/class.".$class_name.".php");
 		$newObj = new $class_name();
 		$newObj->setType($_GET["new_type"]);
 		$newObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
@@ -1094,7 +1091,8 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->WARNING);
 		}
 
-		$imp_obj =$this->objDefinition->getImportObjects($this->object->getType());
+/*		Deprecated
+//		$imp_obj =$this->objDefinition->getImportObjects($this->object->getType());
 
 		if (!in_array($_POST["new_type"], $imp_obj))
 		{
@@ -1102,6 +1100,7 @@ class ilObjectGUI
 				" ".$this->lng->txt("obj_".$_POST["new_type"]),
 				$this->ilias->error_obj->MESSAGE);
 		}
+*/
 		// no general implementation of this feature, the specialized classes
 		// must provide further processing
 	}
@@ -1905,7 +1904,7 @@ class ilObjectGUI
 
 		if ($this->actions == "")
 		{
-			$d = $this->objDefinition->getActions($this->object->getType());
+			$d = $this->getActions();
 			//$d = $this->objDefinition->getActions($_GET["type"]);
 		}
 		else
@@ -1957,6 +1956,14 @@ class ilObjectGUI
 	}
 
 	/**
+	* Get Actions
+	*/
+	function getActions()
+	{
+		return array();
+	}
+	
+	/**
 	* show possible subobjects (pulldown menu)
 	*
 	* @access	public
@@ -1995,11 +2002,12 @@ class ilObjectGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					$subobj[] = $row["name"];
-
+/* deprecated
 					if ($row["import"] == "1")	// import allowed?
 					{
 						$import = true;
 					}
+*/
 				}
 			}
 		}
@@ -2008,6 +2016,7 @@ class ilObjectGUI
 		{
 			// show import button if at least one
 			// object type can be imported
+/* deprecated
 			if ($import)
 			{
 				$this->tpl->setCurrentBlock("import_object");
@@ -2015,6 +2024,7 @@ class ilObjectGUI
 				$this->tpl->setVariable("TXT_IMP", $this->lng->txt("import"));
 				$this->tpl->parseCurrentBlock();
 			}
+*/
 
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);

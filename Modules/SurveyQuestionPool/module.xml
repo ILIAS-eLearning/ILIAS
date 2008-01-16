@@ -5,10 +5,14 @@
 		<baseclass name="ilObjSurveyQuestionPoolGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object short="spl" class_name="SurveyQuestionPool" location="Modules/SurveyQuestionPool/classes"
-			module="Modules/SurveyQuestionPool"
+		<object id="spl" class_name="SurveyQuestionPool" dir="classes"
 			checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
-			<subobj name="rolf" max="1">rolf</subobj>
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
 		</object>
 	</objects>
 </module>

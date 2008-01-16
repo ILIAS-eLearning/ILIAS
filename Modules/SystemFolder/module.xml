@@ -4,28 +4,9 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object name="adm" class_name="SystemFolder" location="classes"
+		<object id="adm" class_name="SystemFolder" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
-			<subobj name="usrf" max="1">usrf</subobj>
-			<subobj name="rolf" max="1">rolf</subobj>
-			<subobj name="objf" max="1">objf</subobj>
-			<subobj name="lngf" max="1">lngf</subobj>
-			<subobj name="mail" max="1">mail</subobj>
-			<subobj name="chac" max="1">chac</subobj>
-			<subobj name="recf" max="1">recf</subobj>
-			<subobj name="trac" max="1">trac</subobj>
-			<subobj name="auth" max="1">auth</subobj>
-			<subobj name="assf" max="1">assf</subobj>
-			<subobj name="adve" max="1">adve</subobj>
-			<subobj name="stys" max="1">stys</subobj>
-			<subobj name="seas" max="1">seas</subobj>
-			<subobj name="extt" max="1">extt</subobj>
-			<subobj name="ps" max="1">ps</subobj>
-			<subobj name="nwss" max="1">nwss</subobj>
-			<subobj name="cmps" max="1">cmps</subobj>
-			<subobj name="pdts" max="1">pdts</subobj>
-			<subobj name="mds" max="1">pdts</subobj>
-			<subobj name="pays" max="1">pdts</subobj>
+			<subobj id="rolf" max="1">rolf</subobj>
 		</object>
 	</objects>
 </module>

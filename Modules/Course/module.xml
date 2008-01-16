@@ -4,9 +4,11 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="crs" class_name="Course" location="Modules/Course/classes"
-			module="Modules/Course" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
-			<subobj name="rolf" max="1">rolf</subobj>
+		<object id="crs" class_name="Course" dir="classes"
+			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="recf">recf</parent>
 		</object>
 	</objects>
 </module>

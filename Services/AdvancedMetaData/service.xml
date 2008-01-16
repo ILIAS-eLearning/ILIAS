@@ -1,11 +1,8 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
-	name="AdvancedMetaData" short="meta" dir="Services/AdvancedMetaData">
+	name="AdvancedMetaData" short="amet" dir="Services/AdvancedMetaData">
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="mds" class_name="MDSettings" dir="classes"
-			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
-		</object>
 	</objects>
 </service>

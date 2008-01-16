@@ -724,6 +724,21 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->tpl->setContent($conf_screen->getHTML());
 	}
 	
+	/**
+	* Get Actions
+	*/
+	function getActions()
+	{
+		// standard actions for container
+		return array(
+			"install" => array("name" => "install", "lng" => "install"),
+			"installLocal" => array("name" => "installLocal", "lng" => "install_local"),
+			"uninstall" => array("name" => "uninstall", "lng" => "uninstall"),
+			"setSystemLanguage" => array("name" => "setSystemLanguage", "lng" => "setSystemLanguage"),
+			"setUserLanguage" => array("name" => "setUserLanguage", "lng" => "setUserLanguage")
+		);
+	}
+
 	
 } // END class.ilObjLanguageFolderGUI
 ?>

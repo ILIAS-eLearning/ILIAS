@@ -550,17 +550,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 										   'Server');
 			}
 
-
-
 			// call gui object method
 			$class_name = $objDefinition->getClassName($object_data['type']);
-			$module = $objDefinition->getModule($object_data['type']);
-			$module_dir = ($module == "")
-				? ""
-				: $module."/";
+			$location = $objDefinition->getLocation($object_data['type']);
 
 			$class_constr = "ilObj".$class_name;
-			require_once("./".$module_dir."classes/class.ilObj".$class_name.".php");
+			require_once($location."/class.ilObj".$class_name.".php");
 
 			$newObj = new $class_constr();
 

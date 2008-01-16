@@ -1,14 +1,19 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
-	name="SAHSLearningModule" short="sahs" dir="Modules/ScormAicc">
+	name="ScormAicc" short="sahs" dir="Modules/ScormAicc">
 	<baseclasses>
 		<baseclass name="ilSAHSPresentationGUI" dir="classes" />
 		<baseclass name="ilSAHSEditGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object short="sahs" class_name="SAHSLearningModule" dir="classes"
+		<object id="sahs" class_name="SAHSLearningModule" dir="classes"
 			checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
-			<subobj name="rolf" max="1">rolf</subobj>
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
 		</object>
 	</objects>
 </module>

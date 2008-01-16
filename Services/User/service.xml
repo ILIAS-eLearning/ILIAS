@@ -4,13 +4,14 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="usr" class_name="User" dir="classes"
+		<object id="usr" class_name="User" dir="classes"
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
-		<object short="usrf" class_name="UserFolder" dir="classes"
+		<object id="usrf" class_name="UserFolder" dir="classes"
 			checkbox="0" inherit="1" translate="sys" rbac="1" system="1">
-			<subobj name="rolf" max="1">rolf</subobj>
-			<subobj name="usr">usr</subobj>
+			<subobj id="rolf" max="1">rolf</subobj>
+			<subobj id="usr">usr</subobj>
+			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
 </service>

@@ -4,8 +4,9 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="trac" class_name="UserTracking" dir="classes"
+		<object id="trac" class_name="UserTracking" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
 </service>

@@ -3130,4 +3130,42 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1146>
+CREATE TABLE il_object_def (
+	id	CHAR(10) NOT NULL PRIMARY KEY,
+	class_name	VARCHAR(200) NOT NULL,
+	component VARCHAR(200) NOT NULL,
+	location VARCHAR(250) NOT NULL,
+	checkbox TINYINT NOT NULL,
+	inherit TINYINT NOT NULL,
+	translate CHAR(5) NOT NULL,
+	devmode TINYINT NOT NULL,
+	allow_link TINYINT NOT NULL,
+	allow_copy TINYINT NOT NULL,
+	rbac TINYINT NOT NULL,
+	system TINYINT NOT NULL
+);
+<#1147>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1148>
+CREATE TABLE il_object_subobj (
+	parent	CHAR(10) NOT NULL,
+	subobj	CHAR(10) NOT NULL,
+	PRIMARY KEY (parent, subobj)
+);
+<#1149>
+ALTER TABLE il_object_subobj ADD COLUMN max TINYINT NOT NULL;
+
+<#1150>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1151>
+ALTER TABLE il_object_def ADD COLUMN sideblock TINYINT NOT NULL;
+<#1152>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

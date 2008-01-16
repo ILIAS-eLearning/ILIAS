@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -31,7 +31,8 @@
 *
 * @extends PEAR
 */
-class ilObjectDefinition extends ilSaxParser
+//class ilObjectDefinition extends ilSaxParser
+class ilObjectDefinition
 {
 	/**
 	* // TODO: var is not used
@@ -63,9 +64,92 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function ilObjectDefinition()
 	{
-		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
+		global $ilias;
+		
+		$this->readDefinitionData();
+		$this->ilias = $ilias;
+
+		//parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
 	}
 
+	
+/*
+	function startParsing()
+	{
+		global $ilDB;
+		
+		$ret = parent::startParsing();
+		
+		// checked:
+		// - location: ok
+		// - class_name: ok
+		// - checkbox: ok
+		// - inherit: ok
+		// - translate: ok
+		// - devmode: ok
+		// - allow_link: ok
+		// - allow_copy: ok
+		// - rbac: ok
+		// - system: ok
+		// - sideblock: ok
+		// - subobj/max: ok
+		
+		return $ret;
+	}
+*/
+	
+	/**
+	* Read object definition data
+	*/
+	function readDefinitionData()
+	{
+		global $ilDB;
+		
+		$this->obj_data = array();
+		
+		$set = $ilDB->query("SELECT * FROM il_object_def");
+		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->obj_data[$rec["id"]] = array(
+				"name" => $rec["id"],
+				"class_name" => $rec["class_name"],
+				"location" => $rec["location"],
+				"checkbox" => $rec["checkbox"],
+				"inherit" => $rec["inherit"],
+				"component" => $rec["component"],
+				"translate" => $rec["translate"],
+				"devmode" => $rec["devmode"],
+				"allow_link" => $rec["allow_link"],
+				"allow_copy" => $rec["allow_copy"],
+				"rbac" => $rec["rbac"],
+				"system" => $rec["system"],
+				"sideblock" => $rec["sideblock"]);
+			$this->obj_data[$rec["id"]]["subobjects"] = array();
+			
+			// get subobjects
+			$set2 = $ilDB->query("SELECT * FROM il_object_subobj WHERE parent = ".
+				$ilDB->quote($rec["id"]));
+			while ($rec2 = $set2->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$max = $rec2["max"];
+				if ($max <= 0)				// for backward compliance
+				{
+					$max = "";
+				}
+				$this->obj_data[$rec["id"]]["subobjects"][$rec2["subobj"]] = array(
+					"name" => $rec2["subobj"],
+					"max" => $max,
+					"lng" => $rec2["subobj"]
+					);
+			}
+		}
+		
+//var_dump($this->obj_data["root"]);
+//var_dump($this->obj_data2["root"]);
+
+	}
+	
+	
 // PUBLIC METHODS
 
 	/**
@@ -74,10 +158,12 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
 	* @access	public
 	*/
+/*	Deprecated, use more specialized functions instead
 	function getDefinition($a_obj_name)
 	{
 		return $this->obj_data[$a_obj_name];
 	}
+*/
 
 	/**
 	* get class name by type
@@ -109,10 +195,12 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
 	* @access	public
 	*/
+/*	Deprecated, use getLocation instead
 	function getModule($a_obj_name)
 	{
 		return $this->obj_data[$a_obj_name]["module"];
 	}
+*/
 
 
 	/**
@@ -177,6 +265,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
 	* @access	public
 	*/
+/*	Deprecated
 	function getProperties($a_obj_name)
 	{
 		// dirty hack, has to be implemented better, if ilias.php
@@ -212,6 +301,7 @@ class ilObjectDefinition extends ilSaxParser
 			return $props;
 		}
 	}
+*/
 
 	/**
 	* get devmode status by type
@@ -311,6 +401,22 @@ class ilObjectDefinition extends ilSaxParser
 		return (bool) $this->obj_data[$a_obj_name]["allow_copy"];
 	}
 	
+	/**
+	 * get content item sorting modes
+	 *
+	 * @access public
+	 * @param 
+	 * 
+	 */
+	public function getContentItemSortingModes($a_obj_name)
+	{
+	 	if(isset($this->obj_data[$a_obj_name]['sorting']))
+	 	{
+	 		return $this->obj_data[$a_obj_name]['sorting']['modes'] ? $this->obj_data[$a_obj_name]['sorting']['modes'] : array(); 
+	 	}
+	 	return array();
+	}
+
 	
 	/**
 	* get all subobjects by type
@@ -342,7 +448,7 @@ class ilObjectDefinition extends ilSaxParser
 
 			return $subs;
 		}
-
+		
 		return $subs;
 	}
 
@@ -448,7 +554,7 @@ class ilObjectDefinition extends ilSaxParser
 				unset($subobjects[$type]);
 			}
 		}
-
+//var_dump($subobjects);
 		return $subobjects;
 	}
 
@@ -458,6 +564,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
  	* @access	public
 	*/
+/*	Deprecated, derive from ilObjectGUI->getActions() instead
 	function getActions($a_obj_name)
 	{
 		$ret = (is_array($this->obj_data[$a_obj_name]["actions"])) ?
@@ -465,6 +572,7 @@ class ilObjectDefinition extends ilSaxParser
 			array();
 		return $ret;
 	}
+*/
 
 	/**
 	* get default property by type
@@ -472,6 +580,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
 	* @access	public
 	*/
+/*	Deprecated
 	function getFirstProperty($a_obj_name)
 	{
 		if (defined("ILIAS_MODULE"))
@@ -495,17 +604,20 @@ class ilObjectDefinition extends ilSaxParser
 			}
 		}
 	}
-
+*/
+	
 	/**
 	* get name of property by type
 	*
 	* @param	string	object type
 	* @access	public
 	*/
+/*	Deprecated
 	function getPropertyName($a_cmd, $a_obj_name)
 	{
 		return $this->obj_data[$a_obj_name]["properties"][$a_cmd]["lng"];
 	}
+*/
 
 	/**
 	* get a string of all subobjects by type
@@ -533,6 +645,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
 	* @access	public
 	*/
+/*	Deprecated
 	function getImportObjects($a_obj_type)
 	{
 		$imp = array();
@@ -550,6 +663,7 @@ class ilObjectDefinition extends ilSaxParser
 
 		return $imp;
 	}
+*/
 	
 	/**
 	 * Check if object type is container ('crs','fold','grp' ...)
@@ -576,12 +690,14 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	ressouce	internal xml_parser_handler
 	* @access	private
 	*/
+/*
 	function setHandlers($a_xml_parser)
 	{
 		xml_set_object($a_xml_parser,$this);
 		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
+*/
 
 	/**
 	* start tag handler
@@ -591,6 +707,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	array		element attributes
 	* @access	private
 	*/
+/*
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
 		switch ($a_name)
@@ -637,8 +754,13 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["name"] = $a_attribs["name"];
 				break;
 				
+			case 'sorting':
+				$this->current_tag = 'sorting';
+				$this->obj_data[$this->parent_tag_name]['sorting']['modes'][] = $a_attribs['mode'];
+				break;
 		}
 	}
+*/
 
 	/**
 	* end tag handler
@@ -647,6 +769,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string		data
 	* @access	private
 	*/
+/*
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
@@ -671,6 +794,7 @@ class ilObjectDefinition extends ilSaxParser
 			}
 		}
 	}
+*/
 
 	/**
 	* end tag handler
@@ -679,11 +803,13 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string		element tag name
 	* @access	private
 	*/
+/*
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
 		$this->current_tag = '';
 		$this->current_tag_name = '';
 	}
+*/
 
 	function __filterObjects(&$subobjects)
 	{

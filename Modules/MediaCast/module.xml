@@ -5,9 +5,14 @@
 		<baseclass name="ilMediaCastHandlerGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object short="mcst" class_name="MediaCast" location="Modules/MediaCast/classes"
-			module="Modules/MediaCast" checkbox="1" inherit="1" allow_link="1" rbac="1">
-			<subobj name="rolf" max="1">rolf</subobj>
+		<object id="mcst" class_name="MediaCast" dir="classes"
+			checkbox="1" inherit="1" allow_link="1" rbac="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
 		</object>
 	</objects>
 </module>

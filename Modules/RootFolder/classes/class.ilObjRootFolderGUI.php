@@ -518,6 +518,16 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	}
 
 	/**
+	* Get Actions
+	*/
+	function getActions()
+	{
+		$d = parent::getActions();
+		unset($d["link"]);			// in root folder we have only categories (cannot be linked)
+		return $d;
+	}
+	
+	/**
 	* goto target group
 	*/
 	function _goto($a_target)

@@ -4,12 +4,13 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object short="cat" class_name="Category" dir="classes" checkbox="1"
+		<object id="cat" class_name="Category" dir="classes" checkbox="1"
 			inherit="1" translate="db" rbac="1"
 			default_nr="10" force_active="1">
-			<subobj name="rolf" max="1">rolf</subobj>
-			<parent short="cat">cat</parent>
-			<parent short="root">root</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
 		</object>
 	</objects>
 </module>
