@@ -78,8 +78,6 @@
 	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
-	<sorting mode="title" />
-	<sorting mode="manual" />
 </object>
 <object name="dbk" class_name="DlBook" location="Modules/LearningModule/classes" module="Modules/LearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
