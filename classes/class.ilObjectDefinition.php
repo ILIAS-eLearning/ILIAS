@@ -311,21 +311,6 @@ class ilObjectDefinition extends ilSaxParser
 		return (bool) $this->obj_data[$a_obj_name]["allow_copy"];
 	}
 	
-	/**
-	 * get content item sorting modes
-	 *
-	 * @access public
-	 * @param 
-	 * 
-	 */
-	public function getContentItemSortingModes($a_obj_name)
-	{
-	 	if(isset($this->obj_data[$a_obj_name]['sorting']))
-	 	{
-	 		return $this->obj_data[$a_obj_name]['sorting']['modes'] ? $this->obj_data[$a_obj_name]['sorting']['modes'] : array(); 
-	 	}
-	 	return array();
-	}
 	
 	/**
 	* get all subobjects by type
@@ -652,10 +637,6 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["name"] = $a_attribs["name"];
 				break;
 				
-			case 'sorting':
-				$this->current_tag = 'sorting';
-				$this->obj_data[$this->parent_tag_name]['sorting']['modes'][] = $a_attribs['mode'];
-				break;
 		}
 	}
 
