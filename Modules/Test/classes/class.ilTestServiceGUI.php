@@ -282,7 +282,7 @@ class ilTestServiceGUI
 					$question_gui = $this->object->createQuestionGUI("", $question);
 
 					$template->setVariable("COUNTER_QUESTION", $counter.". ");
-					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+					$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
 
 					$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
@@ -334,7 +334,7 @@ class ilTestServiceGUI
 					$scoretemplate = new ilTemplate("tpl.il_as_tst_manual_scoring_points.html", TRUE, TRUE, "Modules/Test");
 					$this->tpl->setCurrentBlock("printview_question");
 					$template->setVariable("COUNTER_QUESTION", $counter.". ");
-					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+					$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
 					$points = $question_gui->object->getMaximumPoints();
 					if ($points == 1)
 					{
@@ -779,11 +779,11 @@ class ilTestServiceGUI
 		$maxpoints = $question_gui->object->getMaximumPoints();
 		if ($maxpoints == 1)
 		{
-			$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+			$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
 		}
 		else
 		{
-			$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+			$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
 		}
 		$template->setVariable("SOLUTION_OUTPUT", $result_output);
 		$template->setVariable("BEST_OUTPUT", $best_output);

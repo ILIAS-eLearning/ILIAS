@@ -3384,6 +3384,28 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return $titles;
 	}
 
+	/**
+	* Returns the title of a test question
+	*
+	* Returns the title of a test question and checks if the title output is allowed.
+	* If not, the localized text "question" will be returned.
+	*
+	* @param string $title The original title of the question
+	* @return string The title for the question title output
+	* @access public
+	*/
+	function getQuestionTitle($title)
+	{
+		if ($this->getTitleOutput() == 2)
+		{
+			return $this->lng->txt("ass_question");
+		}
+		else
+		{
+			return $title;
+		}
+	}
+
 /**
 * Returns the dataset for a given question id
 *
@@ -3808,7 +3830,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$row = array(
 				"nr" => "$key",
-				"title" => ilUtil::prepareFormOutput($info["title"]),
+				"title" => ilUtil::prepareFormOutput($this->getQuestionTitle($info["title"])),
 				"max" => $max_points,
 				"reached" => $reached_points,
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",

@@ -360,6 +360,7 @@ class assQuestionGUI
 				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed);
 				break;
 			case 2:
+				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount()).$postponed);
 				break;
 			case 0:
 			default:
