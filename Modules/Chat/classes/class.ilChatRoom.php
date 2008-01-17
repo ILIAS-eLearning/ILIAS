@@ -428,7 +428,7 @@ class ilChatRoom
 		$query = "SELECT record_id FROM chat_records WHERE 
 					room_id = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)

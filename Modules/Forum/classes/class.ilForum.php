@@ -1926,7 +1926,7 @@ class ilForum
 					"frm_data.top_frm_fk = ".$this->id." " .
 					"GROUP BY frm_notification.thread_id";
 			$res = $this->ilias->db->query($q);
-			if (!DB::isError($res) &&
+			if (!ilDBx::isDbError($res) &&
 				is_object($res) &&
 				$res->numRows() > 0)
 			{

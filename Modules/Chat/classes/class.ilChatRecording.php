@@ -131,7 +131,7 @@ class ilChatRecording
 		$query = "SELECT * FROM chat_records WHERE 
 					record_id = " . $ilDB->quote( $this->getRecordId() ) . "";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecording::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$data = array();
 		$status = false;
@@ -174,12 +174,12 @@ class ilChatRecording
 					title = ".$ilDB->quote((($a_title == "") ? "-N/A-" : $a_title)).", 
 					start_time = '" . time() . "'";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) 
+		if (ilDBx::isDbError($res)) 
 			die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$query = "SELECT LAST_INSERT_ID()";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) 
+		if (ilDBx::isDbError($res)) 
 			die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		if ($res->numRows() > 0)
@@ -200,7 +200,7 @@ class ilChatRecording
 					chat_id = ".$ilDB->quote($this->getObjId())." AND 
 					room_id = ".$ilDB->quote($this->getRoomId())."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecording::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$this->setRecordId(0);
 
@@ -218,7 +218,7 @@ class ilChatRecording
 					start_time > 0 AND 
 					end_time = 0";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecording::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		if ($res->numRows() > 0)
 		{
@@ -239,7 +239,7 @@ class ilChatRecording
 		$query = "SELECT * FROM chat_records WHERE 
 					chat_id = ".$ilDB->quote($this->getObjId())."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::getRecordings(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecording::getRecordings(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		if (($num = $res->numRows()) > 0)
 		{
@@ -280,12 +280,12 @@ class ilChatRecording
 		$query = "DELETE FROM chat_records WHERE 
 					record_id = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$query = "DELETE FROM chat_record_data WHERE 
 					record_id = ".$ilDB->quote($a_id)."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 	}
 
 	function exportMessages()
@@ -296,7 +296,7 @@ class ilChatRecording
 					record_id = ".$ilDB->quote($this->getRecordId())." ORDER BY 
 					msg_time ASC";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::exportMessages(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecording::exportMessages(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$html = "";
 		if (($num = $res->numRows()) > 0)

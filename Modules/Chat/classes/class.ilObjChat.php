@@ -194,7 +194,7 @@ class ilObjChat extends ilObject
 		$query = "SELECT record_id FROM chat_records WHERE 
 					chat_id = ".$ilDB->quote($this->getId())."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)

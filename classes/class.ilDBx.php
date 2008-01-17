@@ -520,5 +520,13 @@ class ilDBx extends PEAR
 	
 	}
 
+	/**
+	* Check error
+	*/
+	static function isDbError($a_res)
+	{
+		return MDB2::isError($a_res);
+	}
+	
 } //end Class
 ?>
