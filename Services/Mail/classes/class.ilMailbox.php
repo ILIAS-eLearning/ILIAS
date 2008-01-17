@@ -318,8 +318,7 @@ class ilMailbox
 		++$root_id;
 
 		$query = "INSERT INTO $this->table_mail_obj_data ".
-				 "SET obj_id = ".$ilDB->quote($root_id).",".
-				 "user_id = ".$ilDB->quote($this->user_id).", ".
+				 "SET user_id = ".$ilDB->quote($this->user_id).", ".
 				 "title = 'a_root',".
 				 "type = 'root'";
 		$res = $this->ilias->db->query($query);
@@ -331,8 +330,7 @@ class ilMailbox
 			++$last_id;
 
 			$query = "INSERT INTO $this->table_mail_obj_data ".
-					 "SET obj_id = ".$ilDB->quote($last_id).", ".
-					 "user_id = ".$ilDB->quote($this->user_id).", ".
+					 "SET user_id = ".$ilDB->quote($this->user_id).", ".
 					 "title = ".$ilDB->quote($key).", ".
 					 "type = ".$ilDB->quote($folder);
 			$res = $this->ilias->db->query($query);
@@ -453,18 +451,12 @@ class ilMailbox
 		return true;
 	}
 
-	// TODO: can be substituted by ilUtil::getLastInsertId
+	// DONE: can be substituted by ilUtil::getLastInsertId
 	function getLastInsertId()
 	{
 		global $ilDB;
-
-		$query = "SELECT MAX(obj_id) FROM $this->table_mail_obj_data ";
-		$res = $this->ilias->db->query($query);
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			return $row["MAX(obj_id)"] ? $row["MAX(obj_id)"] : 0;
-		}
+		
+		return $ilDB->getLastInsertId();
 	}
 	
 	/**
