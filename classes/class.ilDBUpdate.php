@@ -226,7 +226,10 @@ class ilDBUpdate
 			} //if
 		} //for
 		if ($q != "")
+		{
 			echo "incomplete_statement: ".$q."<br>";
+			return false;
+		}
 		return true;
 	}
 

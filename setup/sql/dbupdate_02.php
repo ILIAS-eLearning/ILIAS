@@ -3168,4 +3168,10 @@ ALTER TABLE il_object_def ADD COLUMN sideblock TINYINT NOT NULL;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#1153>
+CREATE TABLE il_request_token (
+	user_id		INT NOT NULL,
+	token		CHAR(64),
+	stamp		TIMESTAMP NOT NULL,
+	INDEX uid (user_id)
+);
