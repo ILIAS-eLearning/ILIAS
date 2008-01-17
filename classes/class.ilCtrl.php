@@ -860,18 +860,35 @@ class ilCtrl
 		$cmd = $_GET["cmd"];
 		if($cmd == "post")
 		{
+			// verify command
+			if ($this->verified_cmd != "")
+			{
+				return $this->verified_cmd;
+			}
+			else
+			{
+				if (!$this->verifyToken())
+				{
+					return "";
+				}
+			}
+			
 			if (is_array($_POST["cmd"]))
 			{
 				reset($_POST["cmd"]);
 			}
 			$cmd = @key($_POST["cmd"]);
+			$this->verified_cmd = $cmd;
+			
 			if($cmd == "" && isset($_POST["select_cmd"]))		// selected command in multi-list (table2)
 			{
 				$cmd = $_POST["selected_cmd"];
+				$this->verified_cmd = $cmd;
 			}
 			if($cmd == "")
 			{
 				$cmd = $_GET["fallbackCmd"];
+				$this->verified_cmd = $cmd;
 			}
 		}
 		if($cmd == "")
@@ -942,13 +959,80 @@ class ilCtrl
 	function getFormActionByClass($a_class, $a_fallback_cmd = "")
 	{
 		$a_class = strtolower($a_class);
+		
+		$this->getRequestToken();
 
 		$script = $this->getLinkTargetByClass($a_class, "post");
 		if ($a_fallback_cmd != "")
 		{
 			$script = ilUtil::appendUrlParameterString($script, "fallbackCmd=".$a_fallback_cmd);
 		}
+		$script = ilUtil::appendUrlParameterString($script, "rtoken=".$this->getRequestToken());
+		
 		return $script;
+	}
+	
+	/**
+	* Get request token.
+	*/
+	function getRequestToken()
+	{
+		global $ilDB, $ilUser;
+		
+		if ($this->rtoken != "")
+		{
+			return $this->rtoken;
+		}
+		else
+		{
+			$this->rtoken = md5(uniqid(rand(), true));
+			if (is_object($ilDB) && is_object($ilUser))
+			{
+				$ilDB->query("INSERT INTO il_request_token (user_id, token) VALUES ".
+					"(".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($this->rtoken).")");
+					
+				return $this->rtoken;
+			}
+		}
+		return "";
+	}
+	
+	/**
+	* Verify Token
+	*/
+	function verifyToken()
+	{
+		global $ilDB, $ilUser;
+		
+		if ($_GET["rtoken"] == "")
+		{
+			echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
+			return false;
+		}
+		
+		if (is_object($ilUser) && is_object($ilDB))
+		{
+			$set = $ilDB->query("SELECT * FROM il_request_token WHERE ".
+				" user_id = ".$ilDB->quote($ilUser->getId())." AND ".
+				" token = ".$ilDB->quote($_GET["rtoken"]));
+			if ($set->numRows() > 0)
+			{
+				$ilDB->query("DELETE FROM il_request_token WHERE ".
+					" user_id = ".$ilDB->quote($ilUser->getId())." AND ".
+					" token = ".$ilDB->quote($_GET["rtoken"]));
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;		// do not verify, if user or db object is missing
+		}
+		
+		return false;
 	}
 
 	function redirect(&$a_gui_obj, $a_cmd = "", $a_anchor = "")
