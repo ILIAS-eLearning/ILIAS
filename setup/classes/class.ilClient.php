@@ -46,7 +46,7 @@ class ilClient
 	* Constructor
 	* @param	string	client id
 	*/
-	function ilClient($a_client_id = 0)
+	function ilClient($a_client_id, $a_db_connections)
 	{
 		if ($a_client_id)
 		{
@@ -54,6 +54,8 @@ class ilClient
 			$this->ini_file_path = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId()."/client.ini.php";
 		}
 
+		$this->db_connections = $a_db_connections;
+		
 		// set path default.ini
 		$this->client_defaults = ILIAS_ABSOLUTE_PATH."/setup/client.master.ini.php";
 	}
@@ -201,7 +203,24 @@ class ilClient
 
 		$this->setDSN();
 
-		$this->db = MDB2::connect($this->dsn,true);
+//echo "A";
+/*		if (is_object($this->db))
+		{
+			if (!MDB2::isError($this->db))
+			{
+				$this->db->disconnect();
+			}
+			else
+			{
+				echo "+".$this->db->getMessage()."+";
+			}
+//echo "A";
+		}
+*/
+//if (!is_object($this->db))
+//{
+		$this->db = $this->db_connections->connectDB($this->dsn);
+//}
 
 		if (MDB2::isError($this->db))
 		{
@@ -359,7 +378,7 @@ class ilClient
 	function checkDatabaseHost()
 	{
 		//connect to databasehost
-		$db = MDB2::connect($this->dsn_host);
+		$db = $this->db_connections->connectHost($this->dsn_host);
 
 		if (MDB2::isError($db))
 		{
@@ -377,7 +396,7 @@ class ilClient
 	function checkDatabaseExists()
 	{
 		//try to connect to database
-		$db = MDB2::connect($this->dsn);
+		$db = $this->db_connections->connectDB($this->dsn);
 
 		if (MDB2::isError($db))
 		{
@@ -392,6 +411,11 @@ class ilClient
 		return true;
 	}
 
+	function reconnect()
+	{
+		$this->db = $this->db_connections->connectDB($this->dsn);
+	}
+	
 	/**
 	* read one value from settings table
 	* @access	public
@@ -402,14 +426,24 @@ class ilClient
 	{
 		$q = "SELECT value FROM settings WHERE keyword='".$a_keyword."'";
 		$r = $this->db->query($q);
+		
+/*if ($r->db->database_name == "ilias3blabla")
+{
+	var_dump($r);
+}*/
 
 		if ($r->numRows() > 0)
 		{
 			$row = $r->fetchRow();
+/*if ($r->db->database_name == "ilias3blabla")
+{//
+	var_dump($row);
+}*/
 			return $row[0];
 		}
 		else
 		{
+//echo "-nosetting-";
 			return false;
 		}
 	}
@@ -441,8 +475,28 @@ class ilClient
 	*/
 	function setSetting($a_key, $a_val)
 	{
-		$q = "REPLACE INTO settings SET keyword = '".$a_key."', value = '".$a_val."'";
-		$this->db->query($q);
+		//$q = "REPLACE INTO settings SET keyword = '".$a_key."', value = '".$a_val."'";
+		//$r = $this->db->query($q);
+
+//echo "<br><b>SETTING:$a_key-$a_val-</b>";
+		
+		$q = "REPLACE INTO settings (keyword,value) VALUES ('".$a_key."', '".$a_val."')";
+		$r = $this->db->query($q);
+
+		$set = $this->db->query("SELECT * FROM settings WHERE keyword = '".$a_key."'");
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+if ($a_key == "setup_ok")
+{
+//	nj();
+}
+		
+/*if ($set->db->database_name == "ilias3blabla")
+{
+	var_dump($set);
+	var_dump($rec);
+}*/
+
 		
 		return true;
 	}

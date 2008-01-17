@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./classes/class.ilDBConnections.php");
+
 /**
 * Setup class
 *
@@ -30,7 +32,6 @@
 * @author	Sascha Hofmann <shofmann@databay.de> 
 * @version	$Id$
 */
-
 class ilSetup extends PEAR
 {
 	var $ini;			// ini file object
@@ -75,6 +76,7 @@ class ilSetup extends PEAR
 	
 	var $auth;					// current user is authenticated? (true)
 	var $access_mode;			// if "admin", admin functions are enabled
+	
 
 	/**
 	* constructor
@@ -87,6 +89,8 @@ class ilSetup extends PEAR
 		global $log;
 
 		$this->PEAR();
+		
+		$this->db_connections = new ilDBConnections();
 		
 		define("ILIAS_MODULE","setup");
 		
@@ -256,8 +260,8 @@ class ilSetup extends PEAR
 		}
 		
 		//create database
-		$db = DB::connect($this->client->dsn_host);
-		if (DB::isError($db))
+		$db = $this->db_connections->connectHost($this->client->dsn_host);
+		if (MDB2::isError($db))
 		{
 			$this->error = "connection_failed";
 			return false;
@@ -275,7 +279,7 @@ class ilSetup extends PEAR
 		}
 		$r = $db->query($sql);
 
-		if (DB::isError($r))
+		if (MDB2::isError($r))
 		{
 			$this->error = "create_database_failed";
 			return false;
@@ -674,7 +678,7 @@ class ilSetup extends PEAR
 			return false;
 		}
 
-		$this->client = new ilClient($a_client_id);
+		$this->client = new ilClient($a_client_id, $this->db_connections);
 
 		if (!$this->client->init())
 		{
@@ -703,12 +707,12 @@ class ilSetup extends PEAR
 			}
 			else
 			{
-				$client = new ilClient();
+				$client = new ilClient(0, $this->db_connections);
 			}
 		}
 		
 		$status = array();
-		$status["ini"] = $this->checkClientIni($client);
+		$status["ini"] = $this->checkClientIni($client);		// check this one
 		$status["db"] = $this->checkClientDatabase($client);
 		
 		if ($status["db"]["status"] === false and $status["db"]["update"] !== true)

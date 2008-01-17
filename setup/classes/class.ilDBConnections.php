@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,61 +21,34 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+
 /**
-* client management
+* Administrates DB connections in setup.
 *
-* @author Sascha Hofmann <shofmann@databay.de> 
-* @version $Id$
-*
+* Manage DB Connections
 */
-
-class ilClientList
+class ilDBConnections
 {
-	var $ini;			// ini file object
-	var $path;			// clients base dir
-	var $error = "";	// error text
-	
-	function ilClientList($a_db_connections)
-	{		
-		$this->db_connections = $a_db_connections;
-		$this->path = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR;
-		$this->init();
+	var $db;
+	var $log;
+
+	function ilDBConnections()
+	{
+		$this->connections = array();
 	}
 
-	/**
-	* load all clients into clientlist
-	*/
-	function init()
+	function connectHost($a_dsn_host)
 	{
-		// set path to directory where clients reside
-		$d = dir($this->path);
-		$tmpPath = getcwd();
-		chdir ($this->path);
-
-		// get available lang-files
-		while ($entry = $d->read())
-		{
-			if (is_file($this->path."/".$entry."/client.ini.php"))
-			{
-				$client = new ilClient($entry, $this->db_connections);
-				$client->init();
-				
-				$this->clients[$entry] = $client;
-				
-				unset($client);
-			}
-		}
-
-		chdir($tmpPath);
+//echo "<br>connectingHost:".$a_dsn_host;
+		$db = MDB2::connect($this->client->dsn_host);
+		return $db;
 	}
 	
-	/**
-	* get all clients
-	* @return	array	array with client objects
-	*/
-	function getClients()
+	function connectDB($a_dsn_db)
 	{
-		return ($this->clients) ? $this->clients : array();
+//echo "<br>connectingDB:".$a_dsn_db;
+		return MDB2::connect($a_dsn_db);
 	}
 }
 ?>

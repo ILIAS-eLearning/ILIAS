@@ -122,7 +122,7 @@ class ilChatRecord
 		$query = "SELECT * FROM chat_records WHERE 
 					record_id = ".$ilDB->quote($this->getRecordId())."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecord::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecord::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$data = array();
 		if ($res->numRows() > 0)
@@ -161,11 +161,11 @@ class ilChatRecord
 					title = ".$ilDB->quote($a_title).", 
 					start_time = '" . time() . "'";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$query = "SELECT LAST_INSERT_ID()";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		if ($res->numRows() > 0)
 		{
@@ -185,7 +185,7 @@ class ilChatRecord
 					chat_id = ".$ilDB->quote($this->getRefId())." AND 
 					room_id = ".$ilDB->quote($this->getRoomId())."";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecord::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecord::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		$this->setRecordId(0);
 
@@ -203,7 +203,7 @@ class ilChatRecord
 					start_time > 0 AND 
 					end_time = 0";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecord::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		if (ilDBx::isDbError($res)) die("ilChatRecord::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
 		if ($res->numRows() > 0)
 		{

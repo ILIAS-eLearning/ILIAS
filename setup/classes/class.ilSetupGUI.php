@@ -1042,7 +1042,7 @@ class ilSetupGUI extends ilSetup
 		
 		$_GET["sort_by"] = ($_GET["sort_by"]) ? $_GET["sort_by"] : "name";
 
-		$clientlist = new ilClientList();
+		$clientlist = new ilClientList($this->db_connections);
 		$list = $clientlist->getClients();
 
 		if (count($list) == 0)
@@ -2571,25 +2571,35 @@ class ilSetupGUI extends ilSetup
 	{
 		$this->checkDisplayMode("finish_setup");
 
+//echo "<b>1</b>";
 		if ($this->validateSetup())
 		{
 			$txt_info = $this->lng->txt("info_text_finish1");
 			$this->setButtonNext("login_new","login");
+//echo "<b>2</b>";
+			$this->client->reconnect();		// if this is not done, the writing of
+											// the setup_ok fails (with MDB2 and a larger
+											// client list), alex 17.1.2008
 			$this->client->setSetting("setup_ok",1);
+//$this->client->setSetting("zzz", "Z");
+//echo "<b>3</b>";
 			$this->client->status["finish"]["status"] = true;
+//echo "<b>4</b>";
 		}
 		else
 		{
 			$txt_info = $this->lng->txt("info_text_finish2");
 		}
 		
+//echo "<b>5</b>";
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_finish.html");
 		$this->tpl->setVariable("TXT_INFO",$txt_info);
 		
 		$this->setButtonPrev("nic");
-		
+//echo "<b>6</b>";
 		$this->checkPanelMode();
+//echo "<b>7</b>";
 	}
 	
 	/**
@@ -2677,7 +2687,7 @@ class ilSetupGUI extends ilSetup
 	{
 		if ($_POST["form"])
 		{
-			$client = new ilClient($_POST["form"]["default"]);
+			$client = new ilClient($_POST["form"]["default"], $this->db_connections);
 
 			if (!$client->init())
 			{
@@ -2720,9 +2730,11 @@ class ilSetupGUI extends ilSetup
 			}
 		}
 		
-		$clientlist = new ilClientList();
+//$this->client->setSetting("zzz", "V");
+		$clientlist = new ilClientList($this->db_connections);
+//$this->client->setSetting("zzz", "W");
 		$list = $clientlist->getClients();
-		
+//$this->client->setSetting("zzz", "X");
 		if (count($list) == 1)
 		{
 			$this->ini->setVariable("clients","default",$this->client->getId());
@@ -2731,7 +2743,7 @@ class ilSetupGUI extends ilSetup
 			$this->client->ini->setVariable("client","access",1);
 			$this->client->ini->write();
 		}
-
+//$this->client->setSetting("zzz", "Y");
 		return true;
 	}
 	
