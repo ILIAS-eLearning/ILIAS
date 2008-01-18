@@ -2023,6 +2023,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 			$rows  	 = "<TR valign=\"top\">";
 			$rownumbers = "";
+			$linenumbers= "";
 
 			//if we have to show line numbers
 			if (strcmp($showlinenumbers,"y")==0)
