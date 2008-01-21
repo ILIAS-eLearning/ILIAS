@@ -78,7 +78,7 @@ class ilObjDefReader extends ilSaxParser
 			case 'object':
 				$this->current_object = $a_attribs["id"];
 				$q = "REPLACE INTO il_object_def (id, class_name, component,location,".
-					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,sideblock,system) VALUES (".
+					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,sideblock,system) VALUES (".
 					$ilDB->quote($a_attribs["id"]).",".
 					$ilDB->quote($a_attribs["class_name"]).",".
 					$ilDB->quote($this->current_component).",".
@@ -90,6 +90,7 @@ class ilObjDefReader extends ilSaxParser
 					$ilDB->quote((int) $a_attribs["allow_link"]).",".
 					$ilDB->quote((int) $a_attribs["allow_copy"]).",".
 					$ilDB->quote((int) $a_attribs["rbac"]).",".
+					$ilDB->quote((int) $a_attribs["default_pos"]).",".
 					$ilDB->quote((int) $a_attribs["sideblock"]).",".
 					$ilDB->quote((int) $a_attribs["system"]).")";
 				$ilDB->query($q);

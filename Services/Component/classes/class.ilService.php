@@ -36,6 +36,16 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 abstract class ilService extends ilComponent
 {
 	/**
+	* Get Component Type.
+	*
+	* @return	string	Component Type
+	*/
+	final static function getComponentType()
+	{
+		return IL_COMP_MODULE;
+	}
+	
+	/**
 	* Get all available core services. Core services are located in the
 	* main ILIAS/Services folder and provide a service.xml file that
 	* includes information about the service. (please note that currently
@@ -66,7 +76,7 @@ abstract class ilService extends ilComponent
 				{
 					if (@is_file($services_dir."/".$file."/service.xml"))
 					{
-						$services[] = array("service" => $file, "dir" => $file);
+						$services[] = array("subdir" => $file);
 					}
 				}
 			}

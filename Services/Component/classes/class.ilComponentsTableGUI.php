@@ -47,12 +47,18 @@ class ilComponentsTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		$this->addColumn("");
-		$this->setEnableHeader(false);
+		$this->addColumn($lng->txt("cmps_module"));
+		$this->addColumn($lng->txt("cmps_rep_object"));
+		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_component.html",
 			"Services/Component");
 		$this->getComponents();
+		$this->setDefaultOrderField("subdir");
+		$this->setLimit(10000);
+		
+		// save options command
+		$this->addCommandButton("saveOptions", $lng->txt("cmps_save_options"));
 
 		if ($this->mode == IL_CMPS_MODULES)
 		{
@@ -89,9 +95,44 @@ class ilComponentsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilSetting;
 		
-		$this->tpl->setVariable("TXT_MODULE_NAME", $a_set["module"]);
+		$rep_types = 
+			ilComponent::getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $a_set["subdir"]);
+		foreach ($rep_types as $rt)
+		{
+			$this->tpl->setCurrentBlock("rep_object");
+			$this->tpl->setVariable("TXT_REP_OBJECT",
+				$rt["class_name"]);
+			$this->tpl->setVariable("TXT_REP_OBJECT_ID",
+				$rt["id"]);
+				
+			// add new position
+			$this->tpl->setVariable("TXT_ADD_NEW_POS",
+				$lng->txt("cmps_add_new_rank"));
+			$this->tpl->setVariable("VAR_POS",
+				"obj_pos[".$rt["id"]."]");
+			$pos = ($ilSetting->get("obj_add_new_pos_".$rt["id"]) > 0)
+				? $ilSetting->get("obj_add_new_pos_".$rt["id"])
+				: $rt["default_pos"];
+			$this->tpl->setVariable("VAL_POS",
+				ilUtil::prepareFormOutput($pos));
+				
+			// disable creation
+			$this->tpl->setVariable("TXT_DISABLE_CREATION",
+				$lng->txt("cmps_disable_creation"));
+			$this->tpl->setVariable("VAR_DISABLE_CREATION",
+				"obj_dis_creation[".$rt["id"]."]");
+			if ($ilSetting->get("obj_dis_creation_".$rt["id"]))
+			{
+				$this->tpl->setVariable("CHECKED_DISABLE_CREATION",
+					' checked="checked" ');
+			}
+			
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setVariable("TXT_MODULE_NAME", $a_set["subdir"]);
 	}
 
 }

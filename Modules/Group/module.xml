@@ -4,7 +4,7 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="grp" class_name="Group" dir="classes"
+		<object id="grp" class_name="Group" dir="classes" default_pos="50"
 			checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>

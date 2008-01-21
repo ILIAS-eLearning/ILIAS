@@ -5,10 +5,13 @@
 		<baseclass name="ilLMEditorGUI" dir="classes" />
 		<baseclass name="ilLMPresentationGUI" dir="classes" />
 	</baseclasses>
+	<objectgroups>
+		<objectgroup id="lres" name="LearningResources"/>
+	</objectgroups>
 	<objects>
 		<object id="lm" class_name="LearningModule" dir="classes" checkbox="1"
 			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
-			default_nr="130">
+			default_pos="120">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
@@ -18,7 +21,7 @@
 		</object>
 		<object id="dbk" class_name="DlBook" dir="classes" checkbox="1"
 			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
-			default_nr="170">
+			default_pos="150">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>

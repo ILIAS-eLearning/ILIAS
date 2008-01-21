@@ -4,14 +4,14 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="icrs" class_name="iLincCourse" dir="classes"
+		<object id="icrs" class_name="iLincCourse" dir="classes" default_pos="230"
 			checkbox="1" inherit="1" translate="0" rbac="1" devmode="0">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="grp">grp</parent>
 		</object>
-		<object id="icla" class_name="iLincClassroom" dir="classes"
+		<object id="icla" class_name="iLincClassroom" dir="classes" default_pos="240"
 			checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">
 			<parent id="icrs">icrs</parent>
 		</object>

@@ -22,6 +22,10 @@
 */
 
 
+define ("IL_COMP_MODULE", "Modules");
+define ("IL_COMP_SERVICE", "Services");
+define ("IL_COMP_PLUGIN", "Plugins");
+
 /**
 * @defgroup ServicesComponent Services/Component
 *
@@ -55,5 +59,70 @@ abstract class ilComponent
 	abstract function getVersion();
 	
 	abstract function isCore();
+	
+	abstract static function getComponentType();
+	
+	/**
+	* Set Name.
+	*
+	* @param	string	$a_name	Name
+	*/
+	function setName($a_name)
+	{
+		$this->name = $a_name;
+	}
+
+	/**
+	* Get Name.
+	*
+	* @return	string	Name
+	*/
+	function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	* Set Sub Directory.
+	*
+	* @param	string	$a_subdirectory	Sub Directory
+	*/
+	function setSubDirectory($a_subdirectory)
+	{
+		$this->subdirectory = $a_subdirectory;
+	}
+
+	/**
+	* Get Sub Directory.
+	*
+	* @return	string	Sub Directory
+	*/
+	function getSubDirectory()
+	{
+		return $this->subdirectory;
+	}
+	
+	/**
+	* Get all repository object types of component
+	*/
+	static function getRepositoryObjectTypesForComponent($a_component_type,
+		$a_component_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM il_object_def WHERE component = ".
+			$ilDB->quote($a_component_type."/".$a_component_name));
+			
+		$types = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($rec["system"] != 1)
+			{
+				$types[] = $rec;
+			}
+		}
+		
+		return $types;
+	}
 }
 ?>

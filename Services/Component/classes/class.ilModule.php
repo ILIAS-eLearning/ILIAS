@@ -36,6 +36,16 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 abstract class ilModule extends ilComponent
 {
 	/**
+	* Get Component Type.
+	*
+	* @return	string	Component Type
+	*/
+	final static function getComponentType()
+	{
+		return IL_COMP_MODULE;
+	}
+	
+	/**
 	* Get all available core modules. Core modules are located in the
 	* main ILIAS/Modules folder and provide a module.xml file that
 	* includes information about the module.
@@ -65,7 +75,7 @@ abstract class ilModule extends ilComponent
 				{
 					if (@is_file($modules_dir."/".$file."/module.xml"))
 					{
-						$modules[] = array("module" => $file, "dir" => $file);
+						$modules[] = array("subdir" => $file);
 					}
 				}
 			}

@@ -302,9 +302,14 @@ assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
 assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
 common#:#obj_cmps#:#Modules, Services and Plugins
+common#:#cmps_module#:#Module
+common#:#cmps_disable_creation#:#Disable Creation
+common#:#cmps_rep_object#:#Repository Object Type
+common#:#cmps_add_new_rank#:#Position in Add-New-Object List
 common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.
 common#:#cmps_edit_settings#:#Settings
 cmps#:#cmps_modules#:#Modules
+cmps#:#cmps_save_options#:#Save Options
 common#:#user_profile_instant_messengers#:#Instant Messengers
 common#:#instant_messengers#:#Instant Messengers
 common#:#im_icq#:#ICQ

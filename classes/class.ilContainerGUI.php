@@ -243,9 +243,11 @@ class ilContainerGUI extends ilObjectGUI
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs", "mcst", "wiki",
-													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
-													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr',"feed",'rcrs')))
+					//if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs", "mcst", "wiki",
+					//								 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
+					//								 "htlm","fold","linkr","file","icrs","icla","crsg",'webr',"feed",'rcrs')))
+					//{
+					if (!in_array($row["name"], array("rolf")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{

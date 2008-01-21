@@ -4,7 +4,7 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="crs" class_name="Course" dir="classes"
+		<object id="crs" class_name="Course" dir="classes" default_pos="20"
 			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
