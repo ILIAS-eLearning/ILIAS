@@ -57,6 +57,10 @@ class ilObjDefReader extends ilSaxParser
 		
 		$q = "DELETE FROM il_object_subobj";
 		$ilDB->query($q);
+		
+		$q = "DELETE FROM il_object_group";
+		$ilDB->query($q);
+
 	}
 
 	/**
@@ -78,7 +82,7 @@ class ilObjDefReader extends ilSaxParser
 			case 'object':
 				$this->current_object = $a_attribs["id"];
 				$q = "REPLACE INTO il_object_def (id, class_name, component,location,".
-					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,sideblock,system) VALUES (".
+					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,sideblock,grp,system) VALUES (".
 					$ilDB->quote($a_attribs["id"]).",".
 					$ilDB->quote($a_attribs["class_name"]).",".
 					$ilDB->quote($this->current_component).",".
@@ -92,6 +96,7 @@ class ilObjDefReader extends ilSaxParser
 					$ilDB->quote((int) $a_attribs["rbac"]).",".
 					$ilDB->quote((int) $a_attribs["default_pos"]).",".
 					$ilDB->quote((int) $a_attribs["sideblock"]).",".
+					$ilDB->quote($a_attribs["group"]).",".
 					$ilDB->quote((int) $a_attribs["system"]).")";
 				$ilDB->query($q);
 				break;
@@ -108,6 +113,12 @@ class ilObjDefReader extends ilSaxParser
 					$ilDB->quote($a_attribs["id"]).",".
 					$ilDB->quote($this->current_object).",".
 					$ilDB->quote($a_attribs["max"]).")");
+				break;
+
+			case "objectgroup":
+				$ilDB->query("INSERT INTO il_object_group (id, name) VALUES (".
+					$ilDB->quote($a_attribs["id"]).",".
+					$ilDB->quote($a_attribs["name"]).")");
 				break;
 		}
 	}

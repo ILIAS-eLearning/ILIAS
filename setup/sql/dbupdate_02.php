@@ -3182,3 +3182,16 @@ ALTER TABLE il_object_def ADD COLUMN default_pos INT NOT NULL;
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1156>
+CREATE TABLE il_object_group (
+	id		CHAR(10) NOT NULL PRIMARY KEY,
+	name	VARCHAR(200)
+);
+
+<#1157>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1158>
+ALTER TABLE il_object_def ADD COLUMN grp CHAR(10) NOT NULL;
+

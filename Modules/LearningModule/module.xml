@@ -6,7 +6,7 @@
 		<baseclass name="ilLMPresentationGUI" dir="classes" />
 	</baseclasses>
 	<objectgroups>
-		<objectgroup id="lres" name="LearningResources"/>
+		<objectgroup id="lres" name="LearningResources" default_pres_pos="100"/>
 	</objectgroups>
 	<objects>
 		<object id="lm" class_name="LearningModule" dir="classes" checkbox="1"

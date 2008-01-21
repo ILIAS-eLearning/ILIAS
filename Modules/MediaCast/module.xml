@@ -5,7 +5,7 @@
 		<baseclass name="ilMediaCastHandlerGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object id="mcst" class_name="MediaCast" dir="classes" default_pos="110"
+		<object id="mcst" class_name="MediaCast" dir="classes" default_pos="110" default_pres_pos="130"
 			checkbox="1" inherit="1" allow_link="1" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>

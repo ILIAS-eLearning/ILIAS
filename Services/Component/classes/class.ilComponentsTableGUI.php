@@ -95,17 +95,30 @@ class ilComponentsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilSetting;
+		global $lng, $ilCtrl, $ilSetting, $objDefinition;
 		
 		$rep_types = 
 			ilComponent::getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $a_set["subdir"]);
 		foreach ($rep_types as $rt)
 		{
+			// group
+			if ($rt["grp"] != "")
+			{
+				$this->tpl->setCurrentBlock("group");
+				$this->tpl->setVariable("TXT_GROUP", $lng->txt("cmps_group"));
+				$gi = $objDefinition->getGroup($rt["grp"]);
+				$this->tpl->setVariable("VAL_GROUP", $gi["name"]);
+				$this->tpl->setVariable("VAL_GROUP_ID", $rt["grp"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("rep_object");
 			$this->tpl->setVariable("TXT_REP_OBJECT",
 				$rt["class_name"]);
 			$this->tpl->setVariable("TXT_REP_OBJECT_ID",
 				$rt["id"]);
+			$this->tpl->setVariable("IMG_REP_OBJECT",
+				ilUtil::getImagePath("icon_".$rt["id"].".gif"));
 				
 			// add new position
 			$this->tpl->setVariable("TXT_ADD_NEW_POS",

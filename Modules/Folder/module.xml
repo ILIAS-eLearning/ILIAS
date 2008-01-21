@@ -4,7 +4,7 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="fold" class_name="Folder" dir="classes" default_pos="40"
+		<object id="fold" class_name="Folder" dir="classes" default_pos="40" default_pres_pos="20"
 			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="fold">fold</parent>

@@ -6,7 +6,7 @@
 		<baseclass name="ilGlossaryPresentationGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object id="glo" class_name="Glossary" dir="classes" default_pos="160"
+		<object id="glo" class_name="Glossary" dir="classes" default_pos="160" default_pres_pos="110"
 			checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>

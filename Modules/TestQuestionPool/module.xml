@@ -5,7 +5,7 @@
 		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object id="qpl" class_name="QuestionPool" dir="classes" default_pos="210"
+		<object id="qpl" class_name="QuestionPool" dir="classes" default_pos="210" default_pres_pos="200"
 			checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
