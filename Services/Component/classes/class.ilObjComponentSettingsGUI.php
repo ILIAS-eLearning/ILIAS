@@ -130,5 +130,42 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$this->tpl->setContent($comp_table->getHTML());
 	}
 
+	/**
+	* Save Options.
+	*/
+	function saveOptions()
+	{
+		global $ilSetting, $ilCtrl;
+		
+		// disable creation
+		if (is_array($_POST["obj_dis_creation"]))
+		{
+			foreach($_POST["obj_dis_creation"] as $k => $v)
+			{
+				$ilSetting->set("obj_dis_creation_".$k, $v);
+			}
+		}
+
+		// disable creation
+		if (is_array($_POST["obj_pos"]))
+		{
+			foreach($_POST["obj_pos"] as $k => $v)
+			{
+				$ilSetting->set("obj_dis_creation_".$k, $_POST["obj_dis_creation"][$k]);
+			}
+		}
+		
+		// add new position
+		if (is_array($_POST["obj_pos"]))
+		{
+			reset($_POST["obj_pos"]);
+			foreach($_POST["obj_pos"] as $k => $v)
+			{
+				$ilSetting->set("obj_add_new_pos_".$k, $v);
+			}
+		}
+		
+		$ilCtrl->redirect($this, "editSettings");
+	}
 }
 ?>

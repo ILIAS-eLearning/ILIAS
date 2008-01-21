@@ -123,6 +123,7 @@ class ilObjectDefinition
 				"allow_copy" => $rec["allow_copy"],
 				"rbac" => $rec["rbac"],
 				"system" => $rec["system"],
+				"default_pos" => $rec["default_pos"],
 				"sideblock" => $rec["sideblock"]);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 			
@@ -428,6 +429,8 @@ class ilObjectDefinition
 	*/
 	function getSubObjects($a_obj_type,$a_filter = true)
 	{
+		global $ilSetting;
+		
 		$subs = array();
 
 		if ($subobjects = $this->obj_data[$a_obj_type]["subobjects"])
@@ -442,11 +445,22 @@ class ilObjectDefinition
 			{
 				if ($sub["module"] != "n")
 				{
-					$subs[$data] = $sub;
+					if (!($ilSetting->get("obj_dis_creation_".$data)))
+					{
+						$subs[$data] = $sub;
+						
+						// determine position
+						$pos = ($ilSetting->get("obj_add_new_pos_".$data) > 0)
+							? (int) $ilSetting->get("obj_add_new_pos_".$data)
+							: (int) $this->obj_data[$data]["default_pos"];
+						$subs[$data]["pos"] = $pos;
+					}
 				}
 			}
 
-			return $subs;
+			$subs2 = ilUtil::sortArray($subs, "pos", ASC, true, true);
+
+			return $subs2;
 		}
 		
 		return $subs;
@@ -454,12 +468,12 @@ class ilObjectDefinition
 
 	/**
 	* Get all subobjects by type.
-        * This function returns all subobjects allowed by the provided object type
-        * and all its subobject types recursively.
-        *
-        * This function is used to create local role templates. It is important,
-        * that we do not filter out any objects here!
-        *
+	* This function returns all subobjects allowed by the provided object type
+	* and all its subobject types recursively.
+	*
+	* This function is used to create local role templates. It is important,
+	* that we do not filter out any objects here!
+	*
 	*
 	* @param	string	object type
 	* @access	public
@@ -554,7 +568,7 @@ class ilObjectDefinition
 				unset($subobjects[$type]);
 			}
 		}
-//var_dump($subobjects);
+
 		return $subobjects;
 	}
 

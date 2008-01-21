@@ -3175,3 +3175,10 @@ CREATE TABLE il_request_token (
 	stamp		TIMESTAMP NOT NULL,
 	INDEX uid (user_id)
 );
+<#1154>
+ALTER TABLE il_object_def ADD COLUMN default_pos INT NOT NULL;
+<#1155>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

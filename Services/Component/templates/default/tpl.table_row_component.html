@@ -1,5 +1,15 @@
 <tr class="{CSS_ROW}">
-<td class="std">
+<td class="std" valign="top">
 {TXT_MODULE_NAME}
+</td>
+<td class="std">
+<!-- BEGIN rep_object -->
+<div style="margin: 0px 0px 10px 0px;">{TXT_REP_OBJECT} [{TXT_REP_OBJECT_ID}]
+<div class="small">
+{TXT_ADD_NEW_POS}: <input type="text" name="{VAR_POS}" value="{VAL_POS}" size="3" maxlength="3" /><br />
+{TXT_DISABLE_CREATION}: <input type="checkbox" value="1" name="{VAR_DISABLE_CREATION}" {CHECKED_DISABLE_CREATION} />
+</div>
+</div>
+<!-- END rep_object -->
 </td>
 </tr>

@@ -4,7 +4,7 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="feed" class_name="ExternalFeed" dir="classes"
+		<object id="feed" class_name="ExternalFeed" dir="classes" default_pos="80"
 			checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1" sideblock="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>

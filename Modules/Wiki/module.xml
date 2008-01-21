@@ -5,7 +5,7 @@
 		<baseclass name="ilWikiHandlerGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object id="wiki" class_name="Wiki" dir="classes"
+		<object id="wiki" class_name="Wiki" dir="classes" default_pos="115"
 			checkbox="1" inherit="1" allow_link="1" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
