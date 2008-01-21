@@ -5,7 +5,7 @@
 		<baseclass name="ilChatHandlerGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object id="chat" class_name="Chat" dir="classes" default_pos="60"
+		<object id="chat" class_name="Chat" dir="classes" default_pos="60" default_pres_pos="80"
 			checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1" allow_copy="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>

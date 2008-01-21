@@ -122,6 +122,7 @@ class ilObjectDefinition
 				"allow_link" => $rec["allow_link"],
 				"allow_copy" => $rec["allow_copy"],
 				"rbac" => $rec["rbac"],
+				"group" => $rec["group"],
 				"system" => $rec["system"],
 				"default_pos" => $rec["default_pos"],
 				"sideblock" => $rec["sideblock"]);
@@ -145,6 +146,13 @@ class ilObjectDefinition
 			}
 		}
 		
+		$set = $ilDB->query("SELECT * FROM il_object_group");
+		$this->obj_group = array();
+		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->obj_group[$rec["id"]] = $rec;
+		}
+
 //var_dump($this->obj_data["root"]);
 //var_dump($this->obj_data2["root"]);
 
@@ -203,6 +211,13 @@ class ilObjectDefinition
 	}
 */
 
+	/**
+	* Get Group information
+	*/
+	function getGroup($a_id)
+	{
+		return $this->obj_group[$a_id];
+	}
 
 	/**
 	* should the object get a checkbox (needed for 'cut','copy' ...)

@@ -5,7 +5,7 @@
 		<baseclass name="ilObjTestGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object id="tst" class_name="Test" dir="classes" default_pos="180"
+		<object id="tst" class_name="Test" dir="classes" default_pos="180" default_pres_pos="170"
 			checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>

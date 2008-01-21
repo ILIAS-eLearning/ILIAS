@@ -302,6 +302,7 @@ assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
 assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
 common#:#obj_cmps#:#Modules, Services and Plugins
+common#:#cmps_group#:#Group
 common#:#cmps_module#:#Module
 common#:#cmps_disable_creation#:#Disable Creation
 common#:#cmps_rep_object#:#Repository Object Type
