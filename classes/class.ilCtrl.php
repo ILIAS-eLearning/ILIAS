@@ -30,6 +30,8 @@
 */
 class ilCtrl
 {
+	const IL_RTOKEN_NAME = 'rtoken';
+	
 	var $target_script;
 	var $forward;			// forward array
 	var $parent;			// parent array (reverse forward)
@@ -967,9 +969,20 @@ class ilCtrl
 		{
 			$script = ilUtil::appendUrlParameterString($script, "fallbackCmd=".$a_fallback_cmd);
 		}
-		$script = ilUtil::appendUrlParameterString($script, "rtoken=".$this->getRequestToken());
+		$script = ilUtil::appendUrlParameterString($script, self::IL_RTOKEN_NAME.'='.$this->getRequestToken());
 		
 		return $script;
+	}
+	
+	/**
+	 * append request token as url parameter
+	 *
+	 * @access public
+	 * 
+	 */
+	public function appendRequestTokenParameterString($a_url)
+	{
+		return ilUtil::appendUrlParameterString($a_url, self::IL_RTOKEN_NAME.'='.$this->getRequestToken());
 	}
 	
 	/**
@@ -1014,12 +1027,12 @@ class ilCtrl
 		{
 			$set = $ilDB->query("SELECT * FROM il_request_token WHERE ".
 				" user_id = ".$ilDB->quote($ilUser->getId())." AND ".
-				" token = ".$ilDB->quote($_GET["rtoken"]));
+				" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME]));
 			if ($set->numRows() > 0)
 			{
 				$ilDB->query("DELETE FROM il_request_token WHERE ".
 					" user_id = ".$ilDB->quote($ilUser->getId())." AND ".
-					" token = ".$ilDB->quote($_GET["rtoken"]));
+					" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME]));
 				return true;
 			}
 			else
