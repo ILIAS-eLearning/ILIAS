@@ -204,7 +204,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showPossibleSubObjects()
 	{
-		global $ilAccess;
+		global $ilAccess,$ilCtrl;
 
 		$found = false;
 		$cmd = ($this->cmd != "")
@@ -277,8 +277,9 @@ class ilContainerGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("FORMSTYLE",'display:inline');
 			}
-			$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->object->getRefId().
-				"&cmd=post");
+			$formaction = "repository.php?ref_id=".$this->object->getRefId()."&cmd=post";
+			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
+			$this->tpl->setVariable("H_FORMACTION",$formaction);
 			// possible subobjects
 			$opts = ilUtil::formSelect("", "new_type", $subobj);
 			$this->tpl->setVariable("SELECT_OBJTYPE_REPOS", $opts);
