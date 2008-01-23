@@ -2044,14 +2044,17 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		}
 
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
-		$result = $this->object->cloneAllObject ($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);		
+		$orig = ilObjectFactory::getInstanceByRefId($clone_source);
+		$result = $orig->cloneAllObject($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);
 		
 		// Check if copy is in progress
 		if ($result == $ref_id)
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
 			ilUtil::redirect('repository.php?ref_id='.$ref_id);
-		} else {
+		} 
+		else 
+		{
 			ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
 			ilUtil::redirect('repository.php?ref_id='.$result);			
 		}	
