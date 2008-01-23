@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="cat" class_name="Category" dir="classes" checkbox="1"
-			inherit="1" translate="db" rbac="1" default_pres_pos="10"
+			inherit="1" translate="db" allow_copy="1" rbac="1" default_pres_pos="10"
 			default_pos="10" force_active="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
