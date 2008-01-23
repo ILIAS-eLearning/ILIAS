@@ -52,7 +52,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		//$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "cat";
-		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		$this->ilContainerGUI($a_data,(int) $a_id,$a_call_by_reference,false);
 	}
 
 	function &executeCommand()
@@ -368,6 +368,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 			$this->showSortingSettings();
 		}
+		
+		$this->fillCloneTemplate('CLONE_WIZARD','cat');
 	}
 
 	/**

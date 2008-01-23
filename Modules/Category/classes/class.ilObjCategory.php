@@ -165,7 +165,39 @@ class ilObjCategory extends ilContainer
 
 		return true;
 	}
-
+	
+	/**
+	 * Clone course (no member data)
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB,$ilUser;
 		
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+	 	include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+	 	ilContainerSortingSettings::_cloneSettings($this->getId(),$new_obj->getId());
+	 	
+	 	$first = true;
+	 	$translations = $this->getTranslations();
+	 	if(is_array($translations['Fobject']))
+	 	{
+		 	foreach($translations['Fobject'] as $num => $translation)
+		 	{
+		 		$new_obj->addTranslation($translation['title'],$translation['desc'],$translation['lang'],$first);
+		 		
+		 		if($first)
+		 		{
+		 			$first = false;
+		 		}
+		 	}
+	 	}
+	 	return $new_obj;
+	}
 } // END class.ilObjCategory
 ?>
