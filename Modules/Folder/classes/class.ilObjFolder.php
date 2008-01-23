@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilObject.php";
+require_once "./classes/class.ilContainer.php";
 
 /**
 * Class ilObjFolder
@@ -31,7 +31,7 @@ require_once "./classes/class.ilObject.php";
 *
 * @extends ilObject
 */
-class ilObjFolder extends ilObject
+class ilObjFolder extends ilContainer
 {
 	var $folder_tree;
 	
@@ -44,7 +44,7 @@ class ilObjFolder extends ilObject
 	function ilObjFolder($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "fold";
-		$this->ilObject($a_id,$a_call_by_reference);
+		$this->ilObjContainer($a_id,$a_call_by_reference);
 	}
 
 	function setFolderTree($a_tree)
