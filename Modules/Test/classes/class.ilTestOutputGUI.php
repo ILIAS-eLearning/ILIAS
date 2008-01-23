@@ -1750,7 +1750,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 	
-			if (!$hide_details)
+			if (!$hide_details && $this->object->canShowSolutionPrintview())
 			{
 				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
 			}
