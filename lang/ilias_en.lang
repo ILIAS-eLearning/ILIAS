@@ -7807,3 +7807,7 @@ rbac#:#cals_edit_permission#:#Change permission settings
 rbac#:#cals_visible#:#Calendar settings are visible
 rbac#:#cals_read#:#Read access to Calendar settings
 rbac#:#cals_write#:#Edit Calendar settings
+common#:#obj_cat_duplicate#:#Copy Category
+common#:#obj_cat_select#:#-- Please select one Category --
+common#:#cat_wizard_page#:#Copy Category (Step 2/2)
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.

@@ -7762,3 +7762,6 @@ rbac#:#cals_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cals_visible#:#Kalender-Einstellungen sind sichtbar
 rbac#:#cals_read#:#Lesezugriff auf Kalender-Einstellungen
 rbac#:#cals_write#:#Schreibzugriff auf Kalender-Einstellungen
+common#:#obj_cat_duplicate#:#Kategorie kopieren
+common#:#obj_cat_select#:#-- Bitte wählen Sie einen Kategorie aus --
+common#:#cat_copy_threads_info#:#Bitte wählen Sie aus welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.

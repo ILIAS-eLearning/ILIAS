@@ -94,6 +94,34 @@ class ilContainerSortingSettings
 	}
 	
 	/**
+	 * Clone settings
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int orig obj_id
+	 * @þaram int new obj_id
+	 */
+	public static function _cloneSettings($a_old_id,$a_new_id)
+	{
+		global $ilLog;
+		global $ilDB;
+		
+		$query = "SELECT sort_mode FROM container_sorting_settings ".
+			"WHERE obj_id = ".$ilDB->quote($a_old_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow())
+		{
+			$query = "REPLACE INTO container_sorting_settings ".
+				"SET obj_id = ".$ilDB->quote($a_new_id).", ".
+				"sort_mode = ".$ilDB->quote($row[0])." ";
+				
+			$ilDB->query($query);
+		}
+		return true;
+	}
+	
+	/**
 	 * get sort mode
 	 *
 	 * @access public
