@@ -733,10 +733,7 @@ class ilMailFolderGUI
 				if ($this->umail->moveMailsToFolder(array($_GET["mail_id"]), $_POST["action"]))
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_moved"), true);
-					
-					$_GET["mobj_id"] = $_POST["action"];					
-					$this->ctrl->setParameter($this, "mobj_id", $_GET['mobj_id']);
-					$this->ctrl->redirectByClass("ilMailGUI");					
+					$this->ctrl->redirectByClass("ilMailGUI");
 				}
 				else
 				{
