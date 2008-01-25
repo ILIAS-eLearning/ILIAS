@@ -481,7 +481,7 @@ class ilMailFolderGUI
 	
 	public function deleteFolder()
 	{		
-		if ($_SESSION["viewmode"] != "flat")
+		if ($_SESSION["viewmode"] == "tree")
 		{					
 			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=confirmdelete_folderdata");
 		}
@@ -513,7 +513,7 @@ class ilMailFolderGUI
 		}
 		else
 		{			
-			if ($_SESSION["viewmode"] != "flat")
+			if ($_SESSION["viewmode"] == "tree")
 			{
 				ilUtil::sendInfo($this->lng->txt("mail_error_delete"), true);
 				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=confirmdelete_folderdata");					
@@ -530,7 +530,7 @@ class ilMailFolderGUI
 	
 	public function cancelDeleteFolder()
 	{
-		if ($_SESSION["viewmode"] != "flat")
+		if ($_SESSION["viewmode"] == "tree")
 		{
 			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
 		}
@@ -543,7 +543,7 @@ class ilMailFolderGUI
 
 	public function cancelEnterFolderData()
 	{		
-		if ($_SESSION["viewmode"] != "flat")
+		if ($_SESSION["viewmode"] == "tree")
 		{
 			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&target=ilmailfoldergui");					
 		}
@@ -556,14 +556,14 @@ class ilMailFolderGUI
 	
 	public function saveFolderSettings()
 	{
-		if (isset($_POST["folder_name_add"]) && $_SESSION["viewmode"] != "flat") $_SESSION["folder_name_add"] = $_POST['folder_name_add'];
+		if (isset($_POST["folder_name_add"]) && $_SESSION["viewmode"] == "tree") $_SESSION["folder_name_add"] = $_POST['folder_name_add'];
 
 		$tmp_data = $this->mbox->getFolderData($_GET["mobj_id"]);
 		if ($tmp_data["title"] != $_POST["folder_name_add"])
 		{
 			if ($_POST["folder_name_add"] == "")
 			{				
-				if ($_SESSION["viewmode"] != "flat")
+				if ($_SESSION["viewmode"] == "tree")
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_insert_folder_name"), true);
 					ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
@@ -584,7 +584,7 @@ class ilMailFolderGUI
 				}
 				else
 				{					
-					if ($_SESSION["viewmode"] != "flat")
+					if ($_SESSION["viewmode"] == "tree")
 					{
 						ilUtil::sendInfo($this->lng->txt("mail_folder_exists"), true);
 						ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
@@ -599,7 +599,7 @@ class ilMailFolderGUI
 			}
 		}		
 		
-		if ($_SESSION["viewmode"] != "flat")
+		if ($_SESSION["viewmode"] == "tree")
 		{
 			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=enter_folderdata");					
 		}
@@ -612,11 +612,11 @@ class ilMailFolderGUI
 	
 	public function saveSubFolderSettings()
 	{
-		if (isset($_POST["folder_name_add"]) && $_SESSION["viewmode"] != "flat") $_SESSION["folder_name_add"] = ilUtil::stripSlashes($_POST['folder_name_add']);
+		if (isset($_POST["folder_name_add"]) && $_SESSION["viewmode"] == "tree") $_SESSION["folder_name_add"] = ilUtil::stripSlashes($_POST['folder_name_add']);
 		
 		if (empty($_POST['folder_name_add']))
 		{	
-			if ($_SESSION["viewmode"] != "flat")
+			if ($_SESSION["viewmode"] == "tree")
 			{
 				ilUtil::sendInfo($this->lng->txt("mail_insert_folder_name"), true);
 				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=add_subfolder");					
@@ -632,7 +632,7 @@ class ilMailFolderGUI
 		{
 			unset($_SESSION["folder_name_add"]);		
 						
-			if ($_SESSION["viewmode"] != "flat")
+			if ($_SESSION["viewmode"] == "tree")
 			{
 				ilUtil::sendInfo($this->lng->txt("mail_folder_created"), true);
 				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]);					
@@ -646,7 +646,7 @@ class ilMailFolderGUI
 		}
 		else
 		{
-			if ($_SESSION["viewmode"] != "flat")
+			if ($_SESSION["viewmode"] == "tree")
 			{
 				ilUtil::sendInfo($this->lng->txt("mail_folder_exists"), true);
 				ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$_GET["mobj_id"]."&type=add_subfolder");					
@@ -1051,7 +1051,7 @@ class ilMailFolderGUI
 				}
 			}
 		}	
-		if ($_SESSION["viewmode"] != "flat") $this->tpl->setVariable("FORM_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
+		if ($_SESSION["viewmode"] == "tree") $this->tpl->setVariable("FORM_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
 		$this->tpl->setVariable("TXT_MOVEMAIL_SEND", $this->lng->txt('submit'));
 		
 		// PREV- & NEXT-BUTTON
