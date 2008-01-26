@@ -809,7 +809,7 @@ class assClozeTestGUI extends assQuestionGUI
 			}
 			if ($result_output)
 			{
-				$points = $this->object->getMaximumGapPoints($found["value1"]);
+				$points = $this->object->getMaximumGapPoints($gap_index);
 				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
 				$gaptemplate->setCurrentBlock("result_output");
 				$gaptemplate->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));

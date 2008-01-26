@@ -7811,3 +7811,5 @@ common#:#obj_cat_duplicate#:#Copy Category
 common#:#obj_cat_select#:#-- Please select one Category --
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
+survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.
+survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.

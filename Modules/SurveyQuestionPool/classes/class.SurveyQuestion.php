@@ -1513,25 +1513,28 @@ class SurveyQuestion
 					switch ($type)
 					{
 						case "lm":
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-							$cont_obj =& new ilObjContentObject($target_id, true);
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
 						case "pg":
 							include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
-							$cont_obj =& new ilObjContentObject($lm_id, false);
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj = $cont_obj_gui->object;
 							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
 							include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
-							$cont_obj =& new ilObjContentObject($lm_id, false);
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj = $cont_obj_gui->object;
 							$st_obj =& new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;

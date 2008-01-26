@@ -2173,21 +2173,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		// add groups to invitation
+		$error = "";
 		if (is_array($_POST["group_select"]))
 		{
+			$invited = 0;
 			foreach ($_POST["group_select"] as $group_id)
 			{
-				$this->object->inviteGroup($group_id);
+				$invited += $this->object->inviteGroup($group_id);
+			}
+			if ($invited == 0)
+			{
+				$error .= $this->lng->txt("no_user_of_group_invited");
 			}
 		}
 		// add roles to invitation
 		if (is_array($_POST["role_select"]))
 		{
+			$invited = 0;
 			foreach ($_POST["role_select"] as $role_id)
 			{
-				$this->object->inviteRole($role_id);
+				$invited += $this->object->inviteRole($role_id);
+			}
+			if ($invited == 0)
+			{
+				$error .= $this->lng->txt("no_user_of_group_invited");
 			}
 		}
+		if (strlen($error)) ilUtil::sendInfo($error, TRUE);	
 		$this->ctrl->redirect($this, "invite");
 	}
 
@@ -2201,6 +2213,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function inviteObject()
 	{
+		global $ilAccess;
 		global $rbacsystem;
 
 		if ((!$rbacsystem->checkAccess("visible,invite", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -2258,10 +2271,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							if (!in_array($result_array["id"], $invited_users))
 							{
-								array_push($users, $result_array["id"]);
+								if ($ilAccess->checkAccessOfUser($result_array["id"], "read", "", $this->object->getRefId(), "svy", $this->object->getId()))
+								{
+									array_push($users, $result_array["id"]);
+								}
 							}
 						}
-						$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_users"), $buttons);
+						if (count($users))
+						{
+							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_users"), $buttons);
+						}
+						else
+						{
+							ilUtil::sendInfo($this->lng->txt("search_no_match"));
+						}
 					}
 					$searchresult = array();
 					if ($searchresult = $search->getResultByType("grp"))

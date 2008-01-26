@@ -60,6 +60,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			);
 			$ilDB->query($deletequery);
 		}
+		$saved_solutions = FALSE;
 		for($i = 0; $i < count($solution); $i += 3)
 		{
 			$query = sprintf("INSERT INTO tst_solutions ".
@@ -76,10 +77,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$ilDB->quote($solution[$i+2]),
 				$ilDB->quote($pass . "")
 			);
-
+			$saved_solutions = TRUE;
 			$ilDB->query($query);
 		}
-		return true;
+		return $saved_solutions;
 	}
 
 	function saveQuestion($sid,$active_id,$question_id,$pass,$solution)

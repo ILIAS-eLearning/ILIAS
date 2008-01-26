@@ -2,6 +2,7 @@
 
 tinyMCE.addToLang('',{
 theme_style_select : '-- CSS-Stile --',
+theme_code : 'Quelltext',
 theme_code_desc : 'HTML-Quelltext editieren',
 theme_code_title : 'HTML-Quelltexteditor',
 theme_code_wordwrap : 'Zeilenumbruch',
