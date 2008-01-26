@@ -375,8 +375,9 @@ class SurveyQuestionGUI
 		{
 			case "pg":
 				include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
+				$cont_obj = $cont_obj_gui->object;
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());
 				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$color_class = array("tblrow1", "tblrow2");
@@ -405,8 +406,9 @@ class SurveyQuestionGUI
 				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
+				$cont_obj = $cont_obj_gui->object;
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
 				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));

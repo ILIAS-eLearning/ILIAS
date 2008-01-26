@@ -1290,6 +1290,7 @@ class ilObjSurvey extends ilObject
   function setInvitation($invitation = 0) 
 	{
 		global $ilDB;
+		global $ilAccess;
     $this->invitation = $invitation;
 		// remove the survey from the personal desktops
 		$query = sprintf("DELETE FROM desktop_item WHERE type = %s AND item_id = %s",
@@ -1309,12 +1310,15 @@ class ilObjSurvey extends ilObject
 				$result = $ilDB->query($query);
 				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
-					$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
-						$ilDB->quote($row["usr_id"]),
-						$ilDB->quote($this->getRefId()),
-						$ilDB->quote("svy")
-					);
-					$insertresult = $ilDB->query($query);
+					if ($ilAccess->checkAccessOfUser($row["usr_id"], "read", "", $this->getRefId(), "svy", $this->getId()))
+					{
+						$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
+							$ilDB->quote($row["usr_id"]),
+							$ilDB->quote($this->getRefId()),
+							$ilDB->quote("svy")
+						);
+						$insertresult = $ilDB->query($query);
+					}
 				}
 			}
 			else
@@ -3036,59 +3040,73 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
-/**
-* Invites a group to a survey
-* 
-* Invites a group to a survey
-*
-* @param integer $group_id The database id of the invited group
-* @access public
-*/
-	function inviteGroup($group_id)
-	{
-		include_once "./Modules/Group/classes/class.ilObjGroup.php";
-		$group = new ilObjGroup($group_id);
-		$members = $group->getGroupMemberIds();
-		foreach ($members as $user_id)
+	/**
+	* Invites a group to a survey
+	* 
+	* Invites a group to a survey
+	*
+	* @param integer $group_id The database id of the invited group
+	* @access public
+	*/
+		function inviteGroup($group_id)
 		{
-			$this->inviteUser($user_id);
-			if ($this->getInvitation() == INVITATION_ON)
+			global $ilAccess;
+			$invited = 0;
+			include_once "./Modules/Group/classes/class.ilObjGroup.php";
+			$group = new ilObjGroup($group_id);
+			$members = $group->getGroupMemberIds();
+			foreach ($members as $user_id)
 			{
-				if (ilObjUser::_lookupLogin($user_id))
+				if ($ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
 				{
-					$userObj = new ilObjUser($user_id);
-					$userObj->addDesktopItem($this->getRefId(), "svy");
+					$this->inviteUser($user_id);
+					if ($this->getInvitation() == INVITATION_ON)
+					{
+						if (ilObjUser::_lookupLogin($user_id))
+						{
+							$userObj = new ilObjUser($user_id);
+							$userObj->addDesktopItem($this->getRefId(), "svy");
+							$invited++;
+						}
+					}
 				}
 			}
+			return $invited;
 		}
-	}
-	
-/**
-* Invites a role to a survey
-* 
-* Invites a role to a survey
-*
-* @param integer $role_id The database id of the invited role
-* @access public
-*/
-	function inviteRole($role_id)
-	{
-		global $rbacreview;
-		$members = $rbacreview->assignedUsers($role_id);
-		foreach ($members as $user_id)
+
+	/**
+	* Invites a role to a survey
+	* 
+	* Invites a role to a survey
+	*
+	* @param integer $role_id The database id of the invited role
+	* @access public
+	*/
+		function inviteRole($role_id)
 		{
-			$this->inviteUser($user_id);
-			if ($this->getInvitation() == INVITATION_ON)
+			global $rbacreview;
+			global $ilAccess;
+			$invited = 0;
+			$members = $rbacreview->assignedUsers($role_id);
+			foreach ($members as $user_id)
 			{
-				if (ilObjUser::_lookupLogin($user_id))
+				if ($ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
 				{
-					$userObj = new ilObjUser($user_id);
-					$userObj->addDesktopItem($this->getRefId(), "svy");
+					$this->inviteUser($user_id);
+					if ($this->getInvitation() == INVITATION_ON)
+					{
+						if (ilObjUser::_lookupLogin($user_id))
+						{
+							$userObj = new ilObjUser($user_id);
+							$userObj->addDesktopItem($this->getRefId(), "svy");
+							$invited++;
+						}
+					}
 				}
 			}
+			return $invited;
 		}
-	}
-	
+
 /**
 * Returns a list of all invited users in a survey
 * 
