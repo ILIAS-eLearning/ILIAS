@@ -978,42 +978,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Duplicates the ilObjTest object
-*
-* Duplicates the ilObjTest object
-*
-* @access public
-*/
-  function duplicate()
-	{
-		global $ilDB;
-
-    $clone = $this;
-    $clone->setId(-1);
-    $counter = 2;
-    while ($this->testTitleExists($this->get_title() . " ($counter)")) {
-      $counter++;
-    }
-    $clone->setTitle($this->get_title() . " ($counter)");
-    $clone->setOwner($this->ilias->account->id);
-    $clone->setAuthor($this->ilias->account->fullname);
-    $clone->saveToDb($ilDB);
-    // Duplicate questions
-    $query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
-      $ilDB->quote($this->getId())
-    );
-    $result = $ilDB->query($query);
-    while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) {
-      $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-        $ilDB->quote($clone->getId()),
-        $ilDB->quote($data->question_fi),
-        $ilDB->quote($data->sequence)
-      );
-      $insert_result = $ilDB->query($query);
-    }
-  }
-
-/**
 * Returns true, if a test is complete for use
 *
 * Returns true, if a test is complete for use
@@ -6531,13 +6495,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	
 	
 	/**
-	 * Clone object
-	 *
-	 * @access public
-	 * @param int ref id of parent container
-	 * @param int copy id
-	 * @return object new test object
-	 */
+	* Clone object
+	*
+	* @access public
+	* @param int ref id of parent container
+	* @param int copy id
+	* @return object new test object
+	*/
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB,$ilLog;
@@ -6545,59 +6509,52 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$this->loadFromDb();
 		
 		// Copy settings
-	 	$newObj = parent::cloneObject($a_target_id,$a_copy_id);
-	 	$this->cloneMetaData($newObj);
-
-	    #$counter = 2;
-	    #while ($newObj->testTitleExists($newObj->getTitle() . " ($counter)"))
-		#{
-    	#  $counter++;
-    	#}
-    	
-		$newObj->setAuthor($this->getAuthor());
-		$newObj->setTitleOutput($this->getTitleOutput());
-		$newObj->setPassScoring($this->getPassScoring());
-		#$newObj->setTitle($this->getTitle() . " ($counter)");
-		#$newObj->setDescription($this->getDescription());
-		#$newObj->create(true);
-		#$newObj->createReference();
-		#$newObj->putInTree($_GET["ref_id"]);
-		#$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->introduction = $this->getIntroduction();
-		$newObj->mark_schema = $this->mark_schema;
-		$newObj->sequence_settings = $this->getSequenceSettings();
-		$newObj->score_reporting = $this->getScoreReporting();
-		$newObj->instant_verification = $this->getInstantFeedbackSolution();
-		$newObj->answer_feedback = $this->getAnswerFeedback();
-		$newObj->answer_feedback_points = $this->getAnswerFeedbackPoints();
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$this->cloneMetaData($newObj);
 		$newObj->setAnonymity($this->getAnonymity());
+		$newObj->setAnswerFeedback($this->getAnswerFeedback());
+		$newObj->setAnswerFeedbackPoints($this->getAnswerFeedbackPoints());
+		$newObj->setAuthor($this->getAuthor());
+		$newObj->setCountSystem($this->getCountSystem());
+		$newObj->setECTSFX($this->getECTSFX());
+		$newObj->setECTSGrades($this->getECTSGrades());
+		$newObj->setECTSOutput($this->getECTSOutput());
+		$newObj->setEnableProcessingTime($this->getEnableProcessingTime());
+		$newObj->setEndingTime($this->getEndingTime());
+		$newObj->setFixedParticipants($this->getFixedParticipants());
+		$newObj->setInstantFeedbackSolution($this->getInstantFeedbackSolution());
+		$newObj->setIntroduction($this->getIntroduction());
+		$newObj->setListOfQuestionsSettings($this->getListOfQuestionsSettings());
+		$newObj->setMCScoring($this->getMCScoring());
+		$newObj->setNrOfTries($this->getNrOfTries());
+		$newObj->setPassScoring($this->getPassScoring());
+		$newObj->setPassword($this->getPassword());
+		$newObj->setProcessingTime($this->getProcessingTime());
+		$newObj->setRandomQuestionCount($this->getRandomQuestionCount());
+		$newObj->setRandomTest($this->getRandomTest());
+		$newObj->setReportingDate($this->getReportingDate());
+		$newObj->setResetProcessingTime($this->getResetProcessingTime());
+		$newObj->setResultsPresentation($this->getResultsPresentation());
+		$newObj->setScoreCutting($this->getScoreCutting());
+		$newObj->setScoreReporting($this->getScoreReporting());
+		$newObj->setSequenceSettings($this->getSequenceSettings());
 		$newObj->setShowCancel($this->getShowCancel());
 		$newObj->setShowMarker($this->getShowMarker());
-		$newObj->reporting_date = $this->getReportingDate();
-		$newObj->nr_of_tries = $this->getNrOfTries();
+		$newObj->setShuffleQuestions($this->getShuffleQuestions());
+		$newObj->setStartingTime($this->getStartingTime());
+		$newObj->setTitleOutput($this->getTitleOutput());
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
-		$newObj->processing_time = $this->getProcessingTime();
-		$newObj->reset_processing_time = $this->getResetProcessingTime();
-		$newObj->enable_processing_time = $this->getEnableProcessingTime();
-		$newObj->starting_time = $this->getStartingTime();
-		$newObj->ending_time = $this->getEndingTime();
-		$newObj->ects_output = $this->ects_output;
-		$newObj->ects_fx = $this->ects_fx;
-		$newObj->ects_grades = $this->ects_grades;
-		$newObj->random_test = $this->random_test;
-		$newObj->random_question_count = $this->random_question_count;
-		$newObj->setCountSystem($this->getCountSystem());
-		$newObj->setMCScoring($this->getMCScoring());
+		$newObj->mark_schema = clone $this->mark_schema;
 		$newObj->saveToDb();
 		
 		if ($this->isRandomTest())
 		{
-			$newObj->saveRandomQuestionCount($newObj->random_question_count);
+			$newObj->saveRandomQuestionCount($newObj->getRandomQuestionCount());
 			$this->cloneRandomQuestions($newObj->getTestId());
 		}
 		else
 		{
-			include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+			include_once("./Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
 			$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
 			
 			// clone the questions
@@ -6606,7 +6563,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				$question = ilObjTest::_instanciateQuestion($question_id);
 				$newObj->questions[$key] = $question->duplicate();
-	//			$question->id = -1;
 				$original_id = assQuestion::_getOriginalId($question_id);
 				$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
 				$question->saveToDb($original_id);
@@ -6618,9 +6574,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 						$newObj->getRefId().'_'.$newObj->questions[$key]);
 			}
 		}
-
 		$newObj->saveToDb();
-
 		return $newObj;
 	}
 
