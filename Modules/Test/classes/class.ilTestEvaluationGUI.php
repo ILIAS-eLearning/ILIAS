@@ -129,16 +129,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
 
-		$data =& $this->object->getCompleteEvaluationData(FALSE);
-		if (count($data->getParticipants()) == 0)
-		{
-			$this->tpl->setVariable("EVALUATION_DATA", $this->lng->txt("tst_no_evaluation_data"));
-			return;
-		}
 		$filter = 0;
 		$filtertext = "";
 		$filterby = "";
 		$passedonly = FALSE;
+		$setting = new ilSetting("assessment");
 		// set filter was pressed
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("set_filter")) == 0)
 		{
@@ -151,9 +146,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			if ((strlen($filtertext) == 0) && ($passedonly == FALSE)) $filter = 0;
 			// save the filter for later usage
-			$ilUser->writePref("tst_stat_filter_passed_" . $this->object->getTestId(), ($passedonly) ? 1 : 0);
-			$ilUser->writePref("tst_stat_filter_text_" . $this->object->getTestId(), $filtertext);
-			$ilUser->writePref("tst_stat_filter_by_" . $this->object->getTestId(), $filterby);
+			$setting->set("tst_stat_filter_passed_" . $this->object->getTestId(), ($passedonly) ? 1 : 0);
+			$setting->set("tst_stat_filter_text_" . $this->object->getTestId(), $filtertext);
+			$setting->set("tst_stat_filter_by_" . $this->object->getTestId(), $filterby);
 		}
 		else
 		{
@@ -165,12 +160,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			else
 			{
 				// try to read the filter from the users preferences
-				$pref = $ilUser->getPref("tst_stat_filter_text_" . $this->object->getTestId());
+				$pref = $setting->get("tst_stat_filter_text_" . $this->object->getTestId());
 				if ($pref !== FALSE)
 				{
 					$filtertext = $pref;
 				}
-				$pref = $ilUser->getPref("tst_stat_filter_by_" . $this->object->getTestId());
+				$pref = $setting->get("tst_stat_filter_by_" . $this->object->getTestId());
 				if ($pref !== FALSE)
 				{
 					$filterby = $pref;
@@ -186,7 +181,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			else
 			{
 				// try to read the filter from the users preferences
-				$pref = $ilUser->getPref("tst_stat_filter_passed_" . $this->object->getTestId());
+				$pref = $setting->get("tst_stat_filter_passed_" . $this->object->getTestId());
 				if ($pref !== FALSE)
 				{
 					$passedonly = ($pref) ? TRUE : FALSE;
@@ -200,9 +195,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$filtertext = "";
 			$filterby = "name";
 			$passedonly = FALSE;
-			$ilUser->deletePref("tst_stat_filter_passed_" . $this->object->getTestId());
-			$ilUser->deletePref("tst_stat_filter_text_" . $this->object->getTestId());
-			$ilUser->deletePref("tst_stat_filter_by_" . $this->object->getTestId());
+			$setting->delete("tst_stat_filter_passed_" . $this->object->getTestId());
+			$setting->delete("tst_stat_filter_text_" . $this->object->getTestId());
+			$setting->delete("tst_stat_filter_by_" . $this->object->getTestId());
 		}
 		if (strlen($filtertext))
 		{
@@ -247,49 +242,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$evaluation_rows = array();
 		$counter = 1;
+		$data =& $this->object->getCompleteEvaluationData(FALSE, $filterby, $filtertext);
+		if (count($data->getParticipants()) == 0)
+		{
+			$this->tpl->setVariable("EVALUATION_DATA", $this->lng->txt("tst_no_evaluation_data"));
+		}
 		foreach ($data->getParticipants() as $active_id => $userdata)
 		{
 			$remove = FALSE;
-			if (strlen($filtertext))
-			{
-				switch ($filterby)
-				{
-					case "name":
-						if (!@preg_match("/$filtertext/i", $userdata->getName()))
-						{
-							$remove = TRUE;
-						}
-						break;
-					case "group":
-						include_once "./Services/User/classes/class.ilObjUser.php";
-						$groups = ilObjUser::getGroupMemberships($userdata->getUserId());
-						$foundfilter = FALSE;
-						foreach ($groups as $groupid)
-						{
-							$title = ilObject::_lookupTitle($groupid);
-							if (@preg_match("/$filtertext/i", $title))
-							{
-								$foundfilter = TRUE;
-							}
-						}
-						if (!$foundfilter) $remove = TRUE;
-						break;
-					case "course":
-						include_once "./Services/User/classes/class.ilObjUser.php";
-						$courses = ilObjUser::getCourseMemberships($userdata->getUserId());
-						$foundfilter = FALSE;
-						foreach ($courses as $courseid)
-						{
-							$title = ilObject::_lookupTitle($courseid);
-							if (@preg_match("/$filtertext/i", $title))
-							{
-								$foundfilter = TRUE;
-							}
-						}
-						if (!$foundfilter) $remove = TRUE;
-						break;
-				}
-			}
 			if ($passedonly)
 			{
 				if ($userdata->getPassed() == FALSE)
@@ -341,9 +301,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$counter++;
 			}
 		}
-		$table->setData($evaluation_rows);
-		$tableoutput = $table->render();
-		$this->tpl->setVariable("EVALUATION_DATA", $tableoutput);
+		if (count($data->getParticipants()) > 0)
+		{
+			$table->setData($evaluation_rows);
+			$tableoutput = $table->render();
+			$this->tpl->setVariable("EVALUATION_DATA", $tableoutput);
+		}
 
 		$template = new ilTemplate("tpl.il_as_tst_evaluation_filter.html", TRUE, TRUE, "Modules/Test");
 		$filters = array("name" => $this->lng->txt("name"), "group" => $this->lng->txt("grp"), "course" => $this->lng->txt("crs"));
@@ -374,26 +337,29 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		$filteroutput = $template->get();
 		
-		$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
-		$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
-		if (!$this->object->getAnonymity())
+		if (count($data->getParticipants()) > 0)
 		{
-			include_once "./Modules/Test/classes/class.ilTestCertificate.php";
-			if (ilTestCertificate::_isComplete($this->object->getId()))
+			$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
+			$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
+			if (!$this->object->getAnonymity())
 			{
-				$template->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
+				include_once "./Modules/Test/classes/class.ilTestCertificate.php";
+				if (ilTestCertificate::_isComplete($this->object->getId()))
+				{
+					$template->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
+				}
 			}
+			$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+			$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
+			$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+			$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
+			$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
+			$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportEvaluation"));
+			$exportoutput = $template->get();
+			$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 		}
-		$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
-		$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-		$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
-		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportEvaluation"));
-		$exportoutput = $template->get();
 
 		$this->tpl->setVariable("EVALUATION_FILTER", $filteroutput);
-		$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 		
 		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
 		if ($this->object->getShowSolutionAnswersOnly())

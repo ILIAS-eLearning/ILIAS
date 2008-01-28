@@ -4412,14 +4412,38 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return $qpass;
 	}
 	
-	function &getCompleteEvaluationData($withStatistics = TRUE)
+	function &getCompleteEvaluationData($withStatistics = TRUE, $filterby = "", $filtertext = "")
 	{
 		global $ilDB;
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
 		$data = new ilTestEvaluationData($this->getTestId());
-		
+		$filter = "";
+		if (!$withStatistics)
+		{
+			if (!$this->getAnonymity())
+			{
+				if (strlen($filtertext))
+				{
+					switch ($filterby)
+					{
+						case "name":
+							$filter = sprintf(" AND (usr_data.firstname LIKE %s OR usr_data.lastname LIKE %s OR usr_data.title LIKE %s OR usr_data.login LIKE %s)",
+								$ilDB->quote("%%" . $filtertext . "%%"),
+								$ilDB->quote("%%" . $filtertext . "%%"),
+								$ilDB->quote("%%" . $filtertext . "%%"),
+								$ilDB->quote("%%" . $filtertext . "%%")
+							);
+							break;
+						case "group":
+							break;
+						case "course":
+							break;
+					}
+				}
+			}
+		}
 		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
 			"qpl_questions.points AS maxpoints " .
@@ -4427,7 +4451,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
-			"AND tst_active.test_fi = %s " .
+			"AND tst_active.test_fi = %s$filter " .
 			"ORDER BY active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTestId() . "")
 		);
@@ -4435,20 +4459,64 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$pass = NULL;
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			if (!$data->participantExists($row["active_fi"]))
+			$remove = FALSE;
+			if (!$withStatistics)
 			{
-				$data->addParticipant($row["active_fi"], new ilTestEvaluationUserData());
-				$data->getParticipant($row["active_fi"])->setName($this->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
-				$data->getParticipant($row["active_fi"])->setLogin($row["login"]);
-				$data->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
+				if (!$this->getAnonymity())
+				{
+					if (strlen($filtertext))
+					{
+						switch ($filterby)
+						{
+							case "group":
+								include_once "./Services/User/classes/class.ilObjUser.php";
+								$groups = ilObjUser::getGroupMemberships($row["usr_id"]);
+								$foundfilter = FALSE;
+								foreach ($groups as $groupid)
+								{
+									$title = ilObject::_lookupTitle($groupid);
+									if (@preg_match("/$filtertext/i", $title))
+									{
+										$foundfilter = TRUE;
+									}
+								}
+								if (!$foundfilter) $remove = TRUE;
+								break;
+							case "course":
+								include_once "./Services/User/classes/class.ilObjUser.php";
+								$courses = ilObjUser::getCourseMemberships($row["usr_id"]);
+								$foundfilter = FALSE;
+								foreach ($courses as $courseid)
+								{
+									$title = ilObject::_lookupTitle($courseid);
+									if (@preg_match("/$filtertext/i", $title))
+									{
+										$foundfilter = TRUE;
+									}
+								}
+								if (!$foundfilter) $remove = TRUE;
+								break;
+						}
+					}
+				}
 			}
-			if (!is_object($data->getParticipant($row["active_fi"])->getPass($row["pass"])))
+			if (!$remove)
 			{
-				$pass = new ilTestEvaluationPassData();
-				$pass->setPass($row["pass"]);
-				$data->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
+				if (!$data->participantExists($row["active_fi"]))
+				{
+					$data->addParticipant($row["active_fi"], new ilTestEvaluationUserData());
+					$data->getParticipant($row["active_fi"])->setName($this->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
+					$data->getParticipant($row["active_fi"])->setLogin($row["login"]);
+					$data->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
+				}
+				if (!is_object($data->getParticipant($row["active_fi"])->getPass($row["pass"])))
+				{
+					$pass = new ilTestEvaluationPassData();
+					$pass->setPass($row["pass"]);
+					$data->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
+				}
+				$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["maxpoints"], $row["points"]);
 			}
-			$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["maxpoints"], $row["points"]);
 		}
 
 		foreach (array_keys($data->getParticipants()) as $active_id)
