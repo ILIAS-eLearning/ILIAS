@@ -7814,3 +7814,6 @@ common#:#cat_wizard_page#:#Copy Category (Step 2/2)
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.
 survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.
+payment#:#object_deleted#:#Object Deleted
+payment#:#user_deleted#:#User Deleted
+payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.
