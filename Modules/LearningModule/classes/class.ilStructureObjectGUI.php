@@ -305,7 +305,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		if($cnt == 0)
 		{
 			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", 2);
+			$this->tpl->setVariable("NUM_COLS", 3);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->parseCurrentBlock();
 		}

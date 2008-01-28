@@ -163,7 +163,7 @@ class ilLMObjectGUI
 //echo "<br>lmobjectgui_formaction";
 //echo ":".$this->ctrl->getFormAction($this, "", true).":";
 		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this, "", true));
+			$this->ctrl->getFormAction($this, "save", true));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
