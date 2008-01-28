@@ -1002,7 +1002,7 @@ class ilObjectGUI
 				}
 			}
 			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));

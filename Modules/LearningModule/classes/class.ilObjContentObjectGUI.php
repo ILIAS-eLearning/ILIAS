@@ -976,7 +976,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			//	"adm_object.php?cmd=gateway&ref_id=".
 			//	$_GET["ref_id"]."&new_type=".$new_type));
 			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
 
 
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
