@@ -504,8 +504,8 @@ class ilObjGroup extends ilContainer
 				else
 				{
 					$this->leave($a_user_id);
-					$member = new ilObjUser($a_user_id);
-					$member->dropDesktopItem($this->getRefId(), "grp");
+					#$member = new ilObjUser($a_user_id);
+					#$member->dropDesktopItem($this->getRefId(), "grp");
 
 					return "";
 				}
