@@ -98,7 +98,7 @@ class ilComponentsTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl, $ilSetting, $objDefinition;
 		
 		$rep_types = 
-			ilComponent::getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $a_set["subdir"]);
+			$objDefinition->getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $a_set["subdir"]);
 		foreach ($rep_types as $rt)
 		{
 			// group

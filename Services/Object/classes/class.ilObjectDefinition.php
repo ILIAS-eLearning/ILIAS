@@ -122,7 +122,7 @@ class ilObjectDefinition
 				"allow_link" => $rec["allow_link"],
 				"allow_copy" => $rec["allow_copy"],
 				"rbac" => $rec["rbac"],
-				"group" => $rec["group"],
+				"group" => $rec["grp"],
 				"system" => $rec["system"],
 				"default_pos" => $rec["default_pos"],
 				"sideblock" => $rec["sideblock"]);
@@ -217,6 +217,14 @@ class ilObjectDefinition
 	function getGroup($a_id)
 	{
 		return $this->obj_group[$a_id];
+	}
+
+	/**
+	* Get Group of object type
+	*/
+	function getGroupOfObj($a_obj_name)
+	{
+		return $this->obj_data[$a_obj_name]["group"];
 	}
 
 	/**
@@ -578,7 +586,8 @@ class ilObjectDefinition
 		// remove object types in development from list
 		foreach ($sub_types as $type)
 		{
-			if ($this->getDevMode($type))
+			
+			if ($this->getDevMode($type) || $this->isSystemObject($type))
 			{
 				unset($subobjects[$type]);
 			}
@@ -893,6 +902,78 @@ class ilObjectDefinition
 	function isSideBlock($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["sideblock"];
+	}
+
+	/**
+	* Get all repository object types of component
+	*/
+	static function getRepositoryObjectTypesForComponent($a_component_type,
+		$a_component_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM il_object_def WHERE component = ".
+			$ilDB->quote($a_component_type."/".$a_component_name));
+			
+		$types = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($rec["system"] != 1)
+			{
+				$types[] = $rec;
+			}
+		}
+		
+		return $types;
+	}
+
+	/**
+	* Get grouped repository object types
+	*/
+	static function getGroupedRepositoryObjectTypes($a_parent_obj_type)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM il_object_group");
+		$groups = array();
+		while ($gr_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$groups[$gr_rec["id"]] = $gr_rec;
+		}
+			
+		if (!is_array($a_parent_obj_type))
+		{
+			$set = $ilDB->query("SELECT il_object_def.* FROM il_object_def, il_object_subobj ".
+				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
+				" parent = ".$ilDB->quote($a_parent_obj_type).
+				" AND subobj = id ");
+		}
+		else
+		{
+			$set = $ilDB->query("SELECT DISTINCT (id) as sid, il_object_def.* FROM il_object_def, il_object_subobj ".
+				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
+				" parent IN (".implode(",",ilUtil::quoteArray($a_parent_obj_type)).") ".
+				" AND subobj = id ");
+		}
+			
+		$grouped_obj = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($rec["grp"] != "")
+			{
+				$grouped_obj[$rec["grp"]]["pos"] = $groups[$rec["grp"]]["default_pres_pos"];
+				$grouped_obj[$rec["grp"]]["objs"][] = $rec["id"];
+			}
+			else
+			{
+				$grouped_obj[$rec["id"]]["pos"] = $rec["default_pres_pos"];
+				$grouped_obj[$rec["id"]]["objs"][] = $rec["id"];
+			}
+		}
+
+		$ret = ilUtil::sortArray($grouped_obj, "pos", ASC, true, true);
+
+		return $ret;
 	}
 
 }

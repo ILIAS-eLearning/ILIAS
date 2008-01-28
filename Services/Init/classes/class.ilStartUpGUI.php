@@ -729,8 +729,10 @@ class ilStartUpGUI
 		// load table content data
 		require_once("setup/classes/class.ilClientList.php");
 		require_once("setup/classes/class.ilClient.php");
+		require_once("setup/classes/class.ilDBConnections.php");
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
-		$clientlist = new ilClientList();
+		$this->db_connections = new ilDBConnections();
+		$clientlist = new ilClientList($this->db_connections);
 		$list = $clientlist->getClients();
 
 		if (count($list) == 0)

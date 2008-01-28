@@ -82,7 +82,7 @@ class ilObjDefReader extends ilSaxParser
 			case 'object':
 				$this->current_object = $a_attribs["id"];
 				$q = "REPLACE INTO il_object_def (id, class_name, component,location,".
-					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,sideblock,grp,system) VALUES (".
+					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,default_pres_pos,sideblock,grp,system) VALUES (".
 					$ilDB->quote($a_attribs["id"]).",".
 					$ilDB->quote($a_attribs["class_name"]).",".
 					$ilDB->quote($this->current_component).",".
@@ -95,6 +95,7 @@ class ilObjDefReader extends ilSaxParser
 					$ilDB->quote((int) $a_attribs["allow_copy"]).",".
 					$ilDB->quote((int) $a_attribs["rbac"]).",".
 					$ilDB->quote((int) $a_attribs["default_pos"]).",".
+					$ilDB->quote((int) $a_attribs["default_pres_pos"]).",".
 					$ilDB->quote((int) $a_attribs["sideblock"]).",".
 					$ilDB->quote($a_attribs["group"]).",".
 					$ilDB->quote((int) $a_attribs["system"]).")";
@@ -116,9 +117,11 @@ class ilObjDefReader extends ilSaxParser
 				break;
 
 			case "objectgroup":
-				$ilDB->query("INSERT INTO il_object_group (id, name) VALUES (".
+				$ilDB->query("INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (".
 					$ilDB->quote($a_attribs["id"]).",".
-					$ilDB->quote($a_attribs["name"]).")");
+					$ilDB->quote($a_attribs["name"]).",".
+					$ilDB->quote($a_attribs["default_pres_pos"]).
+					")");
 				break;
 		}
 	}
