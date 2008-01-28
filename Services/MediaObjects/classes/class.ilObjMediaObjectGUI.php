@@ -1207,10 +1207,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$tbl->setTitle($this->lng->txt("cont_mob_usages"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
-		$tbl->setHeaderNames(array($this->lng->txt("container"),
-			$this->lng->txt("context")));
+		//$tbl->setHeaderNames(array($this->lng->txt("container")));
+		$tbl->disable("header");
 
-		$cols = array("object", "context");
+		$cols = array("object");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
 			"cmd" => "showUsages", "hier_id" => $_GET["hier_id"], "cmdClass" => "ilObjMediaObjectGUI");
 		$tbl->setHeaderVars($cols, $header_params);
@@ -1274,10 +1274,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 						switch ($cont_type)
 						{
 							case "lm":
+								require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+								require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+								$lm_obj =& new ilObjLearningModule($page_obj->getParentId(), false);
+								$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_".$cont_type).
+									": ".$lm_obj->getTitle().", ".$this->lng->txt("page").": ".
+									ilLMObject::_lookupTitle($page_obj->getId()));
+								break;
 							case "dbk":
 								require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 								require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-								$lm_obj =& new ilObjContentObject($page_obj->getParentId(), false);
+								$lm_obj =& new ilObjDlBook($page_obj->getParentId(), false);
 								$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_".$cont_type).
 									": ".$lm_obj->getTitle().", ".$this->lng->txt("page").": ".
 									ilLMObject::_lookupTitle($page_obj->getId()));
