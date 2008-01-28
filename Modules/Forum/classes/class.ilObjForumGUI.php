@@ -201,7 +201,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$form->addItem($ti_prop);
 		
 		$tai_prop = new ilTextAreaInputGUI($this->lng->txt('desc'), 'desc');
-		$tai_prop->setValue($this->object->getDescription());
+		$tai_prop->setValue($this->object->getLongDescription());
 		$tai_prop->setRows(5);
 		$tai_prop->setCols(50);
 		$form->addItem($tai_prop);

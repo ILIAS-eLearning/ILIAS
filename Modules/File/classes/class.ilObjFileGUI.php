@@ -450,12 +450,12 @@ class ilObjFileGUI extends ilObjectGUI
 		{
 			// fill in saved values in case of error
 			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$fields["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"], true);
 		}
 		else
 		{
 			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
-			$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
+			$fields["desc"] = ilUtil::prepareFormOutput($this->object->getLongDescription());
 		}
 		
 		$this->getTemplateFile("edit");
