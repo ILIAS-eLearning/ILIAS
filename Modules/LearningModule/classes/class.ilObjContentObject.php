@@ -1860,6 +1860,10 @@ class ilObjContentObject extends ilObject
 			$image_dir."/icon_st.gif");
 		copy(ilUtil::getImagePath("icon_pg.gif", false, "filesystem"),
 			$image_dir."/icon_pg.gif");
+		copy(ilUtil::getImagePath("icon_st_s.gif", false, "filesystem"),
+			$image_dir."/icon_st_s.gif");
+		copy(ilUtil::getImagePath("icon_pg_s.gif", false, "filesystem"),
+			$image_dir."/icon_pg_s.gif");
 		copy(ilUtil::getImagePath("icon_lm.gif", false, "filesystem"),
 			$image_dir."/icon_lm.gif");
 		copy(ilUtil::getImagePath("icon_lm_s.gif", false, "filesystem"),
