@@ -1412,8 +1412,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			if ($_GET["admin_mode"] == "settings"
 				&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)
 			{
-				$link_change = $this->ctrl->getLinkTargetByClass("ilobjusergui", "edit");
-				$link_change = "ilias.php?ref_id=7&admin_mode=settings&obj_id=".$user["usr_id"]."&cmd=edit&cmdClass=ilobjusergui&cmdNode=1396&baseClass=ilAdministrationGUI";
+				$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", 7);
+				$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]);
+				$link_change = $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
+				$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", $_GET["ref_id"]);
 			}
 
 			$this->ctrl->setParameter($this, "user_id", $user["usr_id"]);
