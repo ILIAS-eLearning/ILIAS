@@ -384,7 +384,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilUtil::prepareFormOutput($this->object->getTitle());
 		$desc  = $_SESSION["error_post_vars"]["Fobject"]["desc"] ?
 		$_SESSION["error_post_vars"]["Fobject"]["desc"] :
-		$this->object->getDescription();
+		$this->object->getLongDescription();
 	
 		$instruction  = $_SESSION["error_post_vars"]["Fobject"]["instruction"] ?
 		$_SESSION["error_post_vars"]["Fobject"]["instruction"] :

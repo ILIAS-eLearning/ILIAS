@@ -787,7 +787,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
 		// description
 		$des = new ilTextAreaInputGUI($lng->txt("description"), "description");
-		$des->setValue($this->object->getDescription());
+		$des->setValue($this->object->getLongDescription());
 		$this->form_gui->addItem($des);
 
 		// Online

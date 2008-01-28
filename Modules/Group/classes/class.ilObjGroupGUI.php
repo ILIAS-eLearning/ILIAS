@@ -724,7 +724,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		else
 		{
 			$data["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
-			$data["desc"] = $this->object->getDescription();
+			$data["desc"] = ilUtil::prepareFormOutput($this->object->getLongDescription());
 			$data["registration"] = $this->object->getRegistrationFlag();
 			$data["password"] = $this->object->getPassword();
 			$datetime = $this->object->getExpirationDateTime();
