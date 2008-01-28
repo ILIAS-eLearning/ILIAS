@@ -45,7 +45,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		parent::__construct("wpg", $a_id, $a_old_nr);
 		
 		// content style
-		include_once("./classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));

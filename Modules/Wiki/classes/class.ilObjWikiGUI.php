@@ -423,9 +423,13 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 	}
 
-	function _goto($a_target, $a_page = "")
+	function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
+		
+		$tarr = explode("_", $a_target);
+		$a_target = (int)$tarr[0];
+		$a_page = $tarr[1];
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
