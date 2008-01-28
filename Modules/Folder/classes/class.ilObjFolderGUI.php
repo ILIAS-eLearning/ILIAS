@@ -190,7 +190,10 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		
-		$this->fillCloneTemplate('CLONE_WIZARD','fold');
+		if($this->withReferences())
+		{
+			$this->fillCloneTemplate('CLONE_WIZARD','fold');	
+		}
 		
 	}
 
