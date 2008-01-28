@@ -7765,3 +7765,6 @@ rbac#:#cals_write#:#Schreibzugriff auf Kalender-Einstellungen
 common#:#obj_cat_duplicate#:#Kategorie kopieren
 common#:#obj_cat_select#:#-- Bitte wählen Sie einen Kategorie aus --
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+payment#:#object_deleted#:#Objekt gelöscht
+payment#:#user_deleted#:#Benutzer gelöscht
+payment#:#statistics_filter_advice#:#Bitte tätigen Sie die gewünschten Filtereinstellungen und klicken Sie anschließend auf "Ansicht aktualisieren"

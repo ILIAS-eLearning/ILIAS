@@ -1170,7 +1170,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		unset($_POST["access"]);
 		unset($_POST["customer"]);
 		unset($_POST["pay_method"]);
-
+		unset($_POST["updateView"]);
 		ilUtil::sendInfo($this->lng->txt('paya_filter_reseted'));
 
 		return $this->statisticObject();
@@ -1190,6 +1190,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if ($_POST["updateView"] == 1)
 		{
+			$_SESSION["pay_statistics"]["updateView"] = true;
 			$_SESSION["pay_statistics"]["transaction_type"] = $_POST["transaction_type"];
 			$_SESSION["pay_statistics"]["transaction_value"] = $_POST["transaction_value"];
 			$_SESSION["pay_statistics"]["from"]["day"] = $_POST["from"]["day"];
@@ -1287,6 +1288,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock("loop_til_year");
 		}
+		
+		if(!$_SESSION['pay_statistics']['updateView'])
+		{
+			$this->tpl->setVariable('FILTER_MESSAGE', $this->lng->txt('statistics_filter_advice'));
+			return true;
+		}
 
 		$this->__initBookingObject();
 
@@ -1303,13 +1310,41 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
 			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
 			"\" border=\"0\" vspace=\"0\"/>";
+
+		include_once 'Services/User/classes/class.ilObjUser.php';
+		$object_title_cache = array();
+		$user_title_cache = array();
 		
 		$counter = 0;
 		foreach($bookings as $booking)
 		{
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($booking['ref_id']);
-			$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
-			$tmp_purchaser =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
+			if(array_key_exists($booking['ref_id'], $object_title_cache))
+			{
+				$tmp_obj = $object_title_cache[$booking['ref_id']];
+			}
+			else
+			{
+				$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($booking['ref_id']));				
+				$object_title_cache[$booking['ref_id']] = $tmp_obj;
+			}
+			if(array_key_exists($booking['b_vendor_id'], $user_title_cache))
+			{
+				$tmp_vendor = $user_title_cache[$booking['b_vendor_id']];
+			}
+			else
+			{
+				$tmp_vendor = ilObjUser::_lookupLogin($booking['b_vendor_id']);
+				$user_title_cache[$booking['b_vendor_id']] = $tmp_vendor;
+			}
+			if(array_key_exists($booking['customer_id'], $user_title_cache))
+			{
+				$tmp_purchaser = $user_title_cache[$booking['customer_id']];
+			}
+			else
+			{
+				$tmp_purchaser = ilObjUser::_lookupLogin($booking['customer_id']);
+				$user_title_cache[$booking['customer_id']] = $tmp_purchaser;
+			}
 			
 			$transaction = $booking['transaction_extern'];
 			switch ($booking['b_pay_method'])
@@ -1325,9 +1360,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					break;
 			}
 			$f_result[$counter][] = $transaction;
-			$f_result[$counter][] = $tmp_obj->getTitle();
-			$f_result[$counter][] = '['.$tmp_vendor->getLogin().']';
-			$f_result[$counter][] = '['.$tmp_purchaser->getLogin().']';
+			$f_result[$counter][] = ($tmp_obj != '' ?  $tmp_obj : $this->lng->txt('object_deleted'));
+			$f_result[$counter][] = ($tmp_vendor != '' ?  '['.$tmp_vendor.']' : $this->lng->txt('user_deleted'));
+			$f_result[$counter][] = ($tmp_purchaser != '' ?  '['.$tmp_purchaser.']' : $this->lng->txt('user_deleted'));
 			$f_result[$counter][] = date("Y-m-d H:i:s", $booking['order_date']);
 			$f_result[$counter][] = $booking['duration'];
 			$f_result[$counter][] = $booking['price'];
@@ -1392,19 +1427,26 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$booking = $bookings[(int) $_GET['booking_id']];
 
 		// get customer_obj
-		$tmp_user =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
+		$tmp_user = ilObjectFactory::getInstanceByObjId($booking['customer_id'], false);
 
 		$this->tpl->setVariable("STAT_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
-		$this->tpl->setVariable("TITLE",$tmp_user->getFullname().' ['.$tmp_user->getLogin().']');
+		if(is_object($tmp_user))
+		{
+			$this->tpl->setVariable('TITLE', $tmp_user->getFullname().' ['.$tmp_user->getLogin().']');
+		}
+		else
+		{
+			$this->tpl->setVariable('TITLE', $this->lng->txt('user_deleted'));
+		}
 
 		// TXT
-		$pObj =& new ilPaymentObject($this->user_obj, $booking["pobject_id"]);
-		$tmp_obj =& ilObjectFactory::getInstanceByRefId($pObj->getRefId());
+		$pObj = new ilPaymentObject($this->user_obj, $booking["pobject_id"]);
+		$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($pObj->getRefId()));				
 
 		$this->tpl->setVariable("TXT_OBJECT",$this->lng->txt('title'));
-		$this->tpl->setVariable("OBJECT",$tmp_obj->getTitle());
+		$this->tpl->setVariable("OBJECT", ($tmp_obj != '' ?  $tmp_obj : $this->lng->txt('object_deleted')));
 
 		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
 		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
@@ -1417,9 +1459,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TRANSACTION",$booking['transaction']);
 
-		$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
-
-		$this->tpl->setVariable("VENDOR",$tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']');
+		$tmp_vendor = ilObjectFactory::getInstanceByObjId($booking['b_vendor_id'], false);
+		if(is_object($tmp_vendor))
+		{
+			$this->tpl->setVariable('VENDOR', $tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']');
+		}
+		else
+		{
+			$this->tpl->setVariable('VENDOR', $this->lng->txt('user_deleted'));
+		}
 
 		switch($booking['b_pay_method'])
 		{
@@ -1898,12 +1946,40 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$worksheet->writeString(1,8,ilExcelUtils::_convert_text($this->lng->txt('price_a')),$pewa->getFormatHeader());
 		$worksheet->writeString(1,9,ilExcelUtils::_convert_text($this->lng->txt('paya_payed_access')),$pewa->getFormatHeader());
 
+		include_once 'Services/User/classes/class.ilObjUser.php';
+		$object_title_cache = array();
+		$user_title_cache = array();
+
 		$counter = 2;
 		foreach($bookings as $booking)
 		{
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($booking['ref_id']);
-			$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
-			$tmp_purchaser =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
+			if(array_key_exists($booking['ref_id'], $object_title_cache))
+			{
+				$tmp_obj = $object_title_cache[$booking['ref_id']];
+			}
+			else
+			{
+				$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($booking['ref_id']));				
+				$object_title_cache[$booking['ref_id']] = $tmp_obj;
+			}
+			if(array_key_exists($booking['b_vendor_id'], $user_title_cache))
+			{
+				$tmp_vendor = $user_title_cache[$booking['b_vendor_id']];
+			}
+			else
+			{
+				$tmp_vendor = ilObjUser::_lookupLogin($booking['b_vendor_id']);
+				$user_title_cache[$booking['b_vendor_id']] = $tmp_vendor;
+			}
+			if(array_key_exists($booking['customer_id'], $user_title_cache))
+			{
+				$tmp_purchaser = $user_title_cache[$booking['customer_id']];
+			}
+			else
+			{
+				$tmp_purchaser = ilObjUser::_lookupLogin($booking['customer_id']);
+				$user_title_cache[$booking['customer_id']] = $tmp_purchaser;
+			}
 			
 			switch ($booking['b_pay_method'])
 			{
@@ -1919,10 +1995,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			}
 			$worksheet->writeString($counter,0,ilExcelUtils::_convert_text($pay_method));
 			$worksheet->writeString($counter,1,ilExcelUtils::_convert_text($booking['transaction_extern']));
-			$worksheet->writeString($counter,2,ilExcelUtils::_convert_text($tmp_obj->getTitle()));
-			$worksheet->writeString($counter,3,ilExcelUtils::_convert_text($tmp_vendor->getLogin()));
-			$worksheet->writeString($counter,4,ilExcelUtils::_convert_text(ilPaymentVendors::_getCostCenter($tmp_vendor->getId())));
-			$worksheet->writeString($counter,5,ilExcelUtils::_convert_text($tmp_purchaser->getLogin()));
+			$worksheet->writeString($counter,2,ilExcelUtils::_convert_text(($tmp_obj != '' ? $tmp_obj : $this->lng->txt('object_deleted'))));
+			$worksheet->writeString($counter,3,ilExcelUtils::_convert_text(($tmp_vendor != '' ? $tmp_vendor : $this->lng->txt('user_deleted'))));
+			$worksheet->writeString($counter,4,ilExcelUtils::_convert_text(ilPaymentVendors::_getCostCenter($booking['b_vendor_id'])));
+			$worksheet->writeString($counter,5,ilExcelUtils::_convert_text(($tmp_purchaser != '' ? $tmp_purchaser : $this->lng->txt('user_deleted'))));
 			$worksheet->writeString($counter,6,strftime('%Y-%m-%d %R',$booking['order_date']));
 			/*
 			$worksheet->write($counter,5,ilUtil::excelTime(date('Y',$booking['order_date']),
