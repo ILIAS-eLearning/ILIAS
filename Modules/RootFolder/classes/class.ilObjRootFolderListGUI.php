@@ -32,7 +32,7 @@
 */
 
 
-include_once "class.ilObjectListGUI.php";
+include_once "./classes/class.ilObjectListGUI.php";
 
 class ilObjRootFolderListGUI extends ilObjectListGUI
 {

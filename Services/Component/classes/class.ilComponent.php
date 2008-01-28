@@ -102,27 +102,5 @@ abstract class ilComponent
 		return $this->subdirectory;
 	}
 	
-	/**
-	* Get all repository object types of component
-	*/
-	static function getRepositoryObjectTypesForComponent($a_component_type,
-		$a_component_name)
-	{
-		global $ilDB;
-		
-		$set = $ilDB->query("SELECT * FROM il_object_def WHERE component = ".
-			$ilDB->quote($a_component_type."/".$a_component_name));
-			
-		$types = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if ($rec["system"] != 1)
-			{
-				$types[] = $rec;
-			}
-		}
-		
-		return $types;
-	}
 }
 ?>

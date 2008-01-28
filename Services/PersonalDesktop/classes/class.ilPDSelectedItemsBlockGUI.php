@@ -240,43 +240,33 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		}
 		
 		$output = false;
-		$types = array(
-		array("title" => $this->lng->txt("objs_cat"), "types" => "cat"),
-		array("title" => $this->lng->txt("objs_fold"), "types" => "fold"),
-		array("title" => $this->lng->txt("objs_crs"), "types" => "crs"),
-		array("title" => $this->lng->txt("objs_grp"), "types" => "grp"),
-		array("title" => $this->lng->txt("objs_chat"), "types" => "chat"),
-		array("title" => $this->lng->txt("objs_frm"), "types" => "frm"),
-		array("title" => $this->lng->txt("learning_resources"),"types" => array("lm", "htlm", "sahs", "dbk")),
-		array("title" => $this->lng->txt("objs_glo"), "types" => "glo"),
-		array("title" => $this->lng->txt("objs_file"), "types" => "file"),
-		array("title" => $this->lng->txt("objs_webr"), "types" => "webr"),
-		array("title" => $this->lng->txt("objs_mcst"), "types" => "mcst"),
-		array("title" => $this->lng->txt("objs_wiki"), "types" => "wiki"),
-		array("title" => $this->lng->txt("objs_exc"), "types" => "exc"),
-		array("title" => $this->lng->txt("objs_tst"), "types" => "tst"),
-		array("title" => $this->lng->txt("objs_svy"), "types" => "svy"),
-		array("title" => $this->lng->txt("objs_mep"), "types" => "mep"),
-		array("title" => $this->lng->txt("objs_qpl"), "types" => "qpl"),
-		array("title" => $this->lng->txt("objs_spl"), "types" => "spl"),
-		array("title" => $this->lng->txt("objs_icrs"), "types" => "icrs"),
-		array("title" => $this->lng->txt("objs_icla"), "types" => "icla")
-		);
 		
-		foreach ($types as $type)
+		$objtype_groups = $objDefinition->getGroupedRepositoryObjectTypes(
+			array("cat", "crs", "grp", "fold"));
+
+		$types = array();
+		foreach($objtype_groups as $grp => $grpdata)
 		{
-			$type = $type["types"];
-			$title = $type["title"];
+			$types[] = array(
+				"grp" => $grp,
+				"title" => $this->lng->txt("objs_".$grp),
+				"types" => $grpdata["objs"]);
+		}
+
+		foreach ($types as $t)
+		{
 			
+			$type = $t["types"];
+			$title = $t["title"];
+			$grp = $t["grp"];
+
 			$items = $ilUser->getDesktopItems($type);
 //var_dump($items);
 			$item_html = array();
 			
 			if ($this->getCurrentDetailLevel() == 3)
 			{
-				$rel_header = (is_array($type))
-				? "th_lres"
-				: "th_".$type;
+				$rel_header = "th_".$grp;
 			}
 			
 			if (count($items) > 0)
@@ -347,11 +337,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 					{
 						if ($ilSetting->get("icon_position_in_lists") == "item_rows")
 						{
-							$this->addHeaderRow($tpl, $type, false);
+							$this->addHeaderRow($tpl, $grp, false);
 						}
 						else
 						{
-							$this->addHeaderRow($tpl, $type);
+							$this->addHeaderRow($tpl, $grp);
 						}
 						$this->resetRowType();
 					}
@@ -362,7 +352,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 						if ($this->getCurrentDetailLevel() < 3 ||
 						$ilSetting->get("icon_position_in_lists") == "item_rows")
 						{
-							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $type, $rel_header);
+							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $grp, $rel_header);
 						}
 						else
 						{
@@ -531,18 +521,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	*/
 	function addHeaderRow(&$a_tpl, $a_type, $a_show_image = true)
 	{
-		if (!is_array($a_type))
-		{
-			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
-			$title = $this->lng->txt("objs_".$a_type);
-			$header_id = "th_".$a_type;
-		}
-		else
-		{
-			$icon = ilUtil::getImagePath("icon_lm.gif");
-			$title = $this->lng->txt("learning_resources");
-			$header_id = "th_lres";
-		}
+		$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+		$title = $this->lng->txt("objs_".$a_type);
+		$header_id = "th_".$a_type;
+
 		if ($a_show_image)
 		{
 			$a_tpl->setCurrentBlock("container_header_row_image");

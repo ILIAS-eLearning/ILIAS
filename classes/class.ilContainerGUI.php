@@ -614,11 +614,29 @@ class ilContainerGUI extends ilObjectGUI
 	}
 
 	/**
+	* Get grouped repository object types.
+	*
+	* @return	array	array of object types
+	*/
+	function getGroupedObjTypes()
+	{
+		global $objDefinition;
+		
+		if (empty($this->type_grps))
+		{
+			$this->type_grps = $objDefinition->getGroupedRepositoryObjectTypes($this->object->getType());
+		}
+		return $this->type_grps;
+	}
+	
+	/**
 	* get all subitems of the container
 	*/
 	function getSubItems()
 	{
 		global $objDefinition, $ilBench;
+
+		$type_grps = $this->getGroupedObjTypes();
 
 		$objects = $this->tree->getChilds($this->object->getRefId(), "title");
 
@@ -635,24 +653,14 @@ class ilContainerGUI extends ilObjectGUI
 			{
 				continue;
 			}
-
-			// group together types (e.g. ILIAS learning modules
-			// and SCORM learning modules to learning materials)
-			switch ($object["type"])
-			{
-				// learning material
-				case "sahs":
-				case "lm":
-				case "dbk":
-				case "htlm":
-					$type = "lres";
-					break;
-
-				default:
-					$type = $object["type"];
-					break;
-			}
 			
+			// group object type groups together (e.g. learning resources)
+			$type = $objDefinition->getGroupOfObj($object["type"]);
+			if ($type == "")
+			{
+				$type = $object["type"];
+			}
+						
 			$this->items[$type][$key] = $object;
 		}
 		$this->items = $sort->sortTreeData($this->items);
@@ -667,6 +675,8 @@ class ilContainerGUI extends ilObjectGUI
 		$output_html = "";
 		$this->clearAdminCommandsDetermination();
 		
+		$type_grps = $this->getGroupedObjTypes();
+		
 		switch ($a_type)
 		{
 			// render all items list
@@ -680,13 +690,13 @@ class ilContainerGUI extends ilObjectGUI
 					$xpage = new ilXHTMLPage($xpage_id);
 					$output_html.= $xpage->getContent();
 				}
-
-
+				
 				// all item types
+				/*
 				$type_ordering = array(
 					"cat", "fold", "crs","rcrs", "icrs", "icla", "grp", "chat", "frm", "lres",
 					"glo", "webr", "mcst", "wiki", "file", "exc",
-					"tst", "svy", "mep", "qpl", "spl");
+					"tst", "svy", "mep", "qpl", "spl");*/
 
 				$cur_obj_type = "";
 				$overall_tpl =& $this->newBlockTemplate();
@@ -694,7 +704,7 @@ class ilContainerGUI extends ilObjectGUI
 				$first = true;
 				
 				// iterate all types
-				foreach ($type_ordering as $type)
+				foreach ($type_grps as $type => $v)
 				{
 					// set template (overall or type specific)
 					if (is_int(strpos($output_html, "[list-".$type."]")))
@@ -908,16 +918,8 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function addHeaderRow(&$a_tpl, $a_type, $a_show_image = true)
 	{
-		if ($a_type != "lres")
-		{
-			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
-			$title = $this->lng->txt("objs_".$a_type);
-		}
-		else
-		{
-			$icon = ilUtil::getImagePath("icon_lm.gif");
-			$title = $this->lng->txt("learning_resources");
-		}
+		$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+		$title = $this->lng->txt("objs_".$a_type);
 		
 		if ($a_show_image)
 		{
@@ -954,16 +956,8 @@ class ilContainerGUI extends ilObjectGUI
 		$nbsp = true;
 		if ($a_image_type != "")
 		{
-			if ($a_image_type != "lres")
-			{
-				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
-				$alt = $this->lng->txt("obj_".$a_image_type);
-			}
-			else
-			{
-				$icon = ilUtil::getImagePath("icon_lm.gif");
-				$alt = $this->lng->txt("learning_resource");
-			}
+			$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
+			$alt = $this->lng->txt("obj_".$a_image_type);
 			
 			// custom icon
 			if ($this->ilias->getSetting("custom_icons") &&
@@ -1021,14 +1015,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		$a_tpl->touchBlock($this->cur_row_type);
 		
-		if ($a_type != "lres")
-		{
-			$type = $this->lng->txt("obj_".$a_type);
-		}
-		else
-		{
-			$type = $this->lng->txt("learning_resource");
-		}
+		$type = $this->lng->txt("obj_".$a_type);
 		$a_message = str_replace("[type]", $type, $a_message);
 		
 		$a_tpl->setVariable("ROW_NBSP", "&nbsp;");
