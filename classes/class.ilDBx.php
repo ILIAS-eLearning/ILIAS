@@ -104,8 +104,11 @@ class ilDBx extends PEAR
 		$this->loadMDB2Extensions();
 		
 		// set empty value portability to PEAR::DB behaviour
-		$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
-		$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
+		if (!$this->isDbError($this->db))
+		{
+			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
+			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
+		}
 
 		//check error
 		if (MDB2::isError($this->db)) {
@@ -512,12 +515,14 @@ class ilDBx extends PEAR
 	 */
 	protected function loadMDB2Extensions()
 	{
-		$this->db->loadModule('Extended');
-		define('DB_AUTOQUERY_SELECT',MDB2_AUTOQUERY_SELECT);
-		define('DB_AUTOQUERY_INSERT',MDB2_AUTOQUERY_INSERT);
-		define('DB_AUTOQUERY_UPDATE',MDB2_AUTOQUERY_UPDATE);
-		define('DB_AUTOQUERY_DELETE',MDB2_AUTOQUERY_DELETE);
-	
+		if (!$this->isDbError($this->db))
+		{
+			$this->db->loadModule('Extended');
+			define('DB_AUTOQUERY_SELECT',MDB2_AUTOQUERY_SELECT);
+			define('DB_AUTOQUERY_INSERT',MDB2_AUTOQUERY_INSERT);
+			define('DB_AUTOQUERY_UPDATE',MDB2_AUTOQUERY_UPDATE);
+			define('DB_AUTOQUERY_DELETE',MDB2_AUTOQUERY_DELETE);
+		}
 	}
 
 	/**

@@ -3194,16 +3194,11 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#1158>
 ALTER TABLE il_object_def ADD COLUMN grp CHAR(10) NOT NULL;
-<#1159>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
 
 <#1159>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
 <#1160>
 ALTER TABLE il_object_def ADD COLUMN default_pres_pos INT NOT NULL;
 
