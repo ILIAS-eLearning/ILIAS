@@ -451,7 +451,8 @@ class ilMailFormGUI
 				$mailData["m_message"] = $this->umail->appendSignature();
 				// NO ATTACHMENTS FOR REPLIES
 				$mailData["attachments"] = array();
-				$mailData["rcp_cc"] = $this->umail->formatReplyRecipientsForCC();
+				//$mailData["rcp_cc"] = $this->umail->formatReplyRecipientsForCC();
+				$mailData["rcp_cc"] = '';
 				$mailData["rcp_to"] = $this->umail->formatReplyRecipient();	
 				$_SESSION["mail_id"] = "";
 				break;
