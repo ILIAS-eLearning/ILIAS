@@ -74,7 +74,10 @@ class ilObjectDefinition extends ilSaxParser
 		// removing this line leads to segmentation faults in
 		// learning module editor with
 		// - PHP 5.2.1, libxml 2.6.22, libxslt 1.1.15
+		// - PHP 5.2.0-8+etch7, libxml 2.6.27, libxslt 1.1.19
 		// (needs further investigation)
+		// OK with:
+		// - PHP 5.1.2, libxml 2.6.24, libxslt 1.1.15
 		$this->startParsing();
 	}
 
