@@ -7818,3 +7818,4 @@ payment#:#object_deleted#:#Object Deleted
 payment#:#user_deleted#:#User Deleted
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.
 mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
+payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.

@@ -82,6 +82,17 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 	function showDetails()
 	{
+		if($this->object->getType() == 'crs' && $this->object->getSubscriptionMaxMembers() > 0)
+		{
+			$this->object->initCourseMemberObject();
+			
+			if($this->object->getSubscriptionMaxMembers() <= $this->object->members_obj->getCountMembers())
+			{			  
+				ilUtil::sendInfo($this->lng->txt('pay_crs_max_members_exceeded'));
+				return false;
+			}
+		}
+		
 		$this->__initPaymentObject();
 		$this->__initPricesObject();
 		$this->__initShoppingCartObject();
@@ -225,6 +236,17 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 	function addToShoppingCart()
 	{
+		if($this->object->getType() == 'crs' && $this->object->getSubscriptionMaxMembers() > 0)
+		{
+			$this->object->initCourseMemberObject();
+			
+			if($this->object->getSubscriptionMaxMembers() <= $this->object->members_obj->getCountMembers())
+			{			  
+				ilUtil::sendInfo($this->lng->txt('pay_crs_max_members_exceeded'));
+				return false;
+			}
+		}
+		
 		if(!isset($_POST['price_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_select_price'));
