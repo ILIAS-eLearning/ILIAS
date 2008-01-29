@@ -32,7 +32,7 @@
 * @extends PEAR
 */
 //class ilObjectDefinition extends ilSaxParser
-class ilObjectDefinition
+class ilObjectDefinition extends ilSaxParser
 {
 	/**
 	* // TODO: var is not used
@@ -69,7 +69,12 @@ class ilObjectDefinition
 		$this->readDefinitionData();
 		$this->ilias = $ilias;
 
-		//parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
+		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
+		
+		// removing this line leads to segmentation faults with
+		// - PHP 5.2.1, libxml 2.6.22, libxslt 1.1.15
+		//
+		$this->startParsing();
 	}
 
 	
@@ -738,14 +743,12 @@ class ilObjectDefinition
 	* @param	ressouce	internal xml_parser_handler
 	* @access	private
 	*/
-/*
 	function setHandlers($a_xml_parser)
 	{
 		xml_set_object($a_xml_parser,$this);
 		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
-*/
 
 	/**
 	* start tag handler
@@ -755,60 +758,22 @@ class ilObjectDefinition
 	* @param	array		element attributes
 	* @access	private
 	*/
-/*
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
 		switch ($a_name)
 		{
-			case 'objects':
-				$this->current_tag = '';
-				break;
 			case 'object':
 				$this->parent_tag_name = $a_attribs["name"];
-				$this->current_tag = '';
-				$this->obj_data["$a_attribs[name]"]["name"] = $a_attribs["name"];
-				$this->obj_data["$a_attribs[name]"]["class_name"] = $a_attribs["class_name"];
-				$this->obj_data["$a_attribs[name]"]["location"] = $a_attribs["location"];
-				$this->obj_data["$a_attribs[name]"]["checkbox"] = $a_attribs["checkbox"];
-				$this->obj_data["$a_attribs[name]"]["inherit"] = $a_attribs["inherit"];
-				$this->obj_data["$a_attribs[name]"]["module"] = $a_attribs["module"];
-				$this->obj_data["$a_attribs[name]"]["translate"] = $a_attribs["translate"];
-				$this->obj_data["$a_attribs[name]"]["devmode"] = $a_attribs["devmode"];
-				$this->obj_data["$a_attribs[name]"]["allow_link"] = $a_attribs["allow_link"];
-				$this->obj_data["$a_attribs[name]"]["allow_copy"] = $a_attribs["allow_copy"];
-				$this->obj_data["$a_attribs[name]"]["rbac"] = $a_attribs["rbac"];
-				$this->obj_data["$a_attribs[name]"]["system"] = $a_attribs["system"];
-				$this->obj_data["$a_attribs[name]"]["sideblock"] = $a_attribs["sideblock"];
-				break;
-			case 'subobj':
-				$this->current_tag = "subobj";
-				$this->current_tag_name = $a_attribs["name"];
-				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["name"] = $a_attribs["name"];
-				// NUMBER OF ALLOWED SUBOBJECTS (NULL means no limit)
-				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["max"] = $a_attribs["max"];
-				// also allow import ("1" means yes)
-				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["import"] = $a_attribs["import"];
-				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["module"] = $a_attribs["module"];
 				break;
 			case 'property':
 				$this->current_tag = "property";
 				$this->current_tag_name = $a_attribs["name"];
-				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"] = $a_attribs["name"];
+//				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"] = $a_attribs["name"];
 				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["module"] = $a_attribs["module"];
-				break;
-			case 'action':
-				$this->current_tag = "action";
-				$this->current_tag_name = $a_attribs["name"];
-				$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["name"] = $a_attribs["name"];
-				break;
-				
-			case 'sorting':
-				$this->current_tag = 'sorting';
-				$this->obj_data[$this->parent_tag_name]['sorting']['modes'][] = $a_attribs['mode'];
+//echo '<br>$this->obj_data["'.$this->parent_tag_name.'"]["properties"]["'.$this->current_tag_name.'"]["module"] = "'.$a_attribs["module"].'";';
 				break;
 		}
 	}
-*/
 
 	/**
 	* end tag handler
@@ -817,32 +782,9 @@ class ilObjectDefinition
 	* @param	string		data
 	* @access	private
 	*/
-/*
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
-		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
-		$a_data = preg_replace("/\n/","",$a_data);
-		$a_data = preg_replace("/\t+/","",$a_data);
-
-		if (!empty($a_data))
-		{
-			switch ($this->current_tag)
-			{
-				case "subobj":
-					$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["lng"] .= $a_data;
-					break;
-				case "action" :
-					$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["lng"] .= $a_data;
-					break;
-				case "property" :
-					$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["lng"] .= $a_data;
-					break;
-				default:
-					break;
-			}
-		}
 	}
-*/
 
 	/**
 	* end tag handler
@@ -851,14 +793,13 @@ class ilObjectDefinition
 	* @param	string		element tag name
 	* @access	private
 	*/
-/*
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
 		$this->current_tag = '';
 		$this->current_tag_name = '';
 	}
-*/
 
+	
 	function __filterObjects(&$subobjects)
 	{
 		foreach($subobjects as $type => $data)
