@@ -209,8 +209,6 @@ function nextMenuClick() {
 var openedMenu="";
 function doMouseClick(e,id,ctype) 
 {
-	// dies ist n�tig, weil wenn zwei Layer �bereinander liegen von beiden ein Event ausgel�st wird.
-	// Jetzt wird aber bei einem Klick das Men� geblockt f�r einen halbe sekunde.
 	if(menuBlocked || mouseUpBlocked) return;
 	menuBlocked = true;
 	setTimeout("nextMenuClick()",100);
@@ -355,9 +353,7 @@ function followmouse1(e)
         }
         
     }
-    
     moveDragDropSymbol();
-    
 }
 
 function doKeyDown(e) 
@@ -368,13 +364,13 @@ function doKeyDown(e)
     if(kc==17) 
 	{
         dd.elements.contextmenu.hide();
-        oldMposx = Mposx;
-        oldMposy = Mposy;
-        mouseIsDown = true;        
-    }
+	oldMposx = Mposx;
+	oldMposy = Mposy;
+	mouseIsDown = true;
+	}
 }
 
-function doKeyUp(e) 
+function doKeyUp(e)
 {
     if (!e) var e = window.event;
     kc = e.keyCode;
