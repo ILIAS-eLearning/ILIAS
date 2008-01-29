@@ -111,6 +111,12 @@ class ilMailFormGUI
 
 	public function sendMessage()
 	{
+		if($_POST['m_message'] != ilUtil::secureString($_POST['m_message'], true))
+		{				
+			ilUtil::sendInfo($this->lng->txt('advice_mail_body_secured'));			
+			return $this->showForm();
+		}
+		
 		$f_message = $this->umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST['m_message']));
 		$this->umail->setSaveInSentbox(true);		
 		
