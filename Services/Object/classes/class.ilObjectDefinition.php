@@ -71,9 +71,10 @@ class ilObjectDefinition extends ilSaxParser
 
 		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
 		
-		// removing this line leads to segmentation faults with
+		// removing this line leads to segmentation faults in
+		// learning module editor with
 		// - PHP 5.2.1, libxml 2.6.22, libxslt 1.1.15
-		//
+		// (needs further investigation)
 		$this->startParsing();
 	}
 
