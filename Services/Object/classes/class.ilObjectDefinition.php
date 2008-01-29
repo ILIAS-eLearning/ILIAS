@@ -595,7 +595,17 @@ class ilObjectDefinition
 
 		return $subobjects;
 	}
-
+	
+/*	function getCreatableObjectTypes()
+	{
+		$s1 = $this->getSubObjects("cat");
+		$s2 = $this->getSubObjects("grp");
+		$s3 = $this->getSubObjects("fold");
+		
+//var_dump($s1);
+//var_dump($s2);
+	}
+*/
 	/**
 	* get possible actions by type
 	*
