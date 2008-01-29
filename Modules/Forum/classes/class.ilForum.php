@@ -298,8 +298,9 @@ class ilForum
 		$query = "SELECT * FROM frm_data WHERE ( ".$this->whereCondition." )";
 
 		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
-
 		$this->setWhereCondition("1");
+		
+		if(is_null($result)) return NULL;
 
 		$result["top_name"] = trim($result["top_name"]);
 		$result["top_description"] = nl2br($result["top_description"]);
@@ -694,7 +695,7 @@ class ilForum
 				foreach ($tread_ids as $id)
 				{
 					$objTmpThread = new ilForumTopic($id);					
-					
+
 					$numPosts = $objTmpThread->movePosts($src_top_frm_fk, $oldFrmData['top_pk'], $dest_top_frm_fk, $newFrmData['top_pk']);					
 					if (($last_post_string = $objTmpThread->getLastPostString()) != '')
 					{
