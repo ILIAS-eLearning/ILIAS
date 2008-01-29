@@ -494,6 +494,27 @@ class ilForumTopic
 		
 		return false;
 	}
+	
+	public function getAllPosts()
+	{				
+	    $posts = array();
+		
+		if($this->id)
+		{
+			$query = "SELECT pos_pk
+					  FROM frm_posts				
+					  WHERE 1 
+					  AND pos_thr_fk = ".$this->db->quote($this->id);
+			
+			$res = $this->db->query($query);		
+			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$posts[$row->pos_pk] = $row;
+			}
+		}
+		
+		return is_array($posts) ? $posts : array();
+	}
  
  	/**
 	* Fetches and returns an array of posts from the post tree, starting with the node object passed by
@@ -578,31 +599,44 @@ class ilForumTopic
 		global $ilDB;
 		
 		if ($this->id)
-		{			
+		{
+			$nodes = $this->getAllPosts();
+			if(is_array($nodes))
+			{
+				// Move attachments
+				foreach($nodes as $node)
+				{
+					$file_obj = new ilFileDataForum((int)$old_obj_id, (int)$node->pos_pk);
+					$file_obj->moveFilesOfPost((int)$new_obj_id);
+					unset($file_obj);
+				}
+			}
+			
 			$query = "UPDATE frm_user_read
 					  SET obj_id = ".$ilDB->quote($new_obj_id)."
 					  WHERE 1
 					  AND thread_id = ".$ilDB->quote($this->id)." ";					 
 			$res = $ilDB->query($query);
-			
+
 			$query = "UPDATE frm_thread_access
 					  SET obj_id = ".$ilDB->quote($new_obj_id)."
 					  WHERE 1
 					  AND thread_id = ".$ilDB->quote($this->id)." ";					 
 			$res = $ilDB->query($query);
-			
+
 			$query = "UPDATE frm_posts
 					  SET pos_top_fk = ".$ilDB->quote($new_pk)."
 					  WHERE 1
-					  AND pos_thr_fk = ".$ilDB->quote($this->id)." ";					 
+					  AND pos_thr_fk = ".$ilDB->quote($this->id)." ";			  		 
 			$res = $ilDB->query($query);
-			$ar = $ilDB->affectedRows();
-			
+
 			// update all related news
 			$posts = $ilDB->query("SELECT * FROM frm_posts ".
 				" WHERE pos_thr_fk = ".$ilDB->quote($this->id));
 			$old_obj_id = ilForum::_lookupObjIdForForumId($old_pk);
+
 			$new_obj_id = ilForum::_lookupObjIdForForumId($new_pk);
+
 			while($post = $posts->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -614,7 +648,7 @@ class ilForumTopic
 				//echo "<br>-".$post["pos_pk"]."-".$old_obj_id."-".$new_obj_id."-";
 			}
 			
-			return $ar;
+			return count($nodes);
 		}
 		
 		return 0;

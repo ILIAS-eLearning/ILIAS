@@ -2858,16 +2858,19 @@ class ilObjForumGUI extends ilObjectGUI
 				foreach ($forums_ref_ids as $ref_id)
 				{
 					if (ilObject::_lookupObjectId($_GET['ref_id']) != ilObject::_lookupObjectId($ref_id))
-					{	
-						$this->object->Forum->setWhereCondition(" top_frm_fk = '".ilObject::_lookupObjectId($ref_id)."' ");		
-						$frmData = $this->object->Forum->getOneTopic();
-						$check = 0;			
-						if (isset($_POST['obj_id']) && $_POST['obj_id'] == ilObject::_lookupObjectId($ref_id)) $check = 1;  
-									
-						$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'obj_id', $frmData['top_frm_fk']);
-						$result[$counter]['top_name'] = $frmData['top_name'];
-						
-						++$counter;
+					{
+						$this->object->Forum->setWhereCondition(" top_frm_fk = '".ilObject::_lookupObjectId($ref_id)."' ");
+							
+						if(!is_null($frmData = $this->object->Forum->getOneTopic()))
+						{
+							$check = 0;			
+							if (isset($_POST['obj_id']) && $_POST['obj_id'] == ilObject::_lookupObjectId($ref_id)) $check = 1;  
+										
+							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'obj_id', $frmData['top_frm_fk']);
+							$result[$counter]['top_name'] = $frmData['top_name'];
+							
+							++$counter;
+						}
 					}			
 				}	 	
 			}
@@ -2876,17 +2879,18 @@ class ilObjForumGUI extends ilObjectGUI
 				foreach ($forums as $obj_id => $val)
 				{
 					if (ilObject::_lookupObjectId($_GET['ref_id']) != $obj_id)
-					{
+					{	
 						$this->object->Forum->setWhereCondition(" top_frm_fk = '".$obj_id."' ");		
-						$frmData = $this->object->Forum->getOneTopic();
-
-						$check = 0;			
-						if (isset($_POST['obj_id']) && $_POST['obj_id'] == $obj_id) $check = 1;  
-									
-						$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'obj_id', $obj_id);
-						$result[$counter]['top_name'] = $frmData['top_name'];
-						
-						++$counter;
+						if(!is_null($frmData = $this->object->Forum->getOneTopic()))				
+						{
+							$check = 0;			
+							if (isset($_POST['obj_id']) && $_POST['obj_id'] == $obj_id) $check = 1;  
+										
+							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'obj_id', $obj_id);
+							$result[$counter]['top_name'] = $frmData['top_name'];
+							
+							++$counter;
+						}
 					}			
 				}
 			}

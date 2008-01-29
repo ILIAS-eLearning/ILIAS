@@ -148,6 +148,38 @@ class ilFileDataForum extends ilFileData
 		closedir($dp);
 		return $files;
 	}
+	
+	public function moveFilesOfPost($a_new_frm_id = 0)
+	{
+		if((int)$a_new_frm_id)
+		{
+			$dp = opendir($this->forum_path);
+	
+			while($file = readdir($dp))
+			{
+				if(is_dir($file))
+				{
+					continue;
+				}
+				list($obj_id,$rest) = split('_',$file,2);
+				if($obj_id == $this->obj_id)
+				{
+					list($pos_id,$rest) = split('_',$rest,2);
+					if($pos_id == $this->getPosId())
+					{
+						if(!is_dir($this->forum_path.'/'.$file))
+						{
+							@rename($this->forum_path.'/'.$file, $this->forum_path.'/'.$a_new_frm_id.'_'.$this->pos_id.'_'.$rest);
+						}
+					}
+				}
+			}
+			closedir($dp);
+			return true;
+		}
+		
+		return false;
+	}
 
 	function ilClone($a_new_obj_id,$a_new_pos_id)
 	{
