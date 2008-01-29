@@ -7768,3 +7768,4 @@ common#:#cat_copy_threads_info#:#Bitte wählen Sie aus welche Materialien der Ka
 payment#:#object_deleted#:#Objekt gelöscht
 payment#:#user_deleted#:#Benutzer gelöscht
 payment#:#statistics_filter_advice#:#Bitte tätigen Sie die gewünschten Filtereinstellungen und klicken Sie anschließend auf "Ansicht aktualisieren"
+mail#:#advice_mail_body_secured#:#Aus Ihrer Nachricht wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie die vom System bereinigte Nachricht und schicken Sie die Mail erneut ab.
