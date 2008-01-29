@@ -7769,3 +7769,4 @@ payment#:#object_deleted#:#Objekt gelöscht
 payment#:#user_deleted#:#Benutzer gelöscht
 payment#:#statistics_filter_advice#:#Bitte tätigen Sie die gewünschten Filtereinstellungen und klicken Sie anschließend auf "Ansicht aktualisieren"
 mail#:#advice_mail_body_secured#:#Aus Ihrer Nachricht wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie die vom System bereinigte Nachricht und schicken Sie die Mail erneut ab.
+payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für diesen Kurs ist bereits erreicht. Deswegen können Sie diesen Kurs momentan leider nicht kaufen.
