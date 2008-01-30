@@ -69,8 +69,8 @@ available as Open Source software.
     - IJG JPEG (libjpeg) 6b    ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
     - ImageMagick 6.0.1        http://www.imagemagick.org
     - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
-    - libxml2 2.6.9            http://www.xmlsoft.org
-    - libxslt 1.1.6            http://www.xmlsoft.org
+    - libxml2 2.6.31           http://www.xmlsoft.org
+    - libxslt 1.1.22            http://www.xmlsoft.org
 
 
 Please read the MySQL chapter if you plan to migrate from an existing 
@@ -212,8 +212,8 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/mysql-4.0.18.tar.gz
     tar -xzf tarballs/apache_1.3.29.tar.gz
     tar -xzf tarballs/php-5.1.4.tar.gz
-    tar -xzf tarballs/libxml2-2.6.9.tar.gz
-    tar -xzf tarballs/libxslt-1.1.6.tar.gz
+    tar -xzf tarballs/libxml2-2.6.31.tar.gz
+    tar -xzf tarballs/libxslt-1.1.22.tar.gz
 
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
@@ -385,7 +385,7 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
 
 (g) libxml
 
-        cd /opt/ilias/src/libxml2-2.6.9
+        cd /opt/ilias/src/libxml2-2.6.31
         ./configure \
         --prefix=/opt/ilias \
         --without-python
@@ -395,7 +395,7 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
 
 (h) libxslt
 
-        cd /opt/ilias/src/libxslt-1.1.6
+        cd /opt/ilias/src/libxslt-1.1.22
         ./configure \
         --prefix=/opt/ilias \
         --with-libxml-prefix=/opt/ilias \

@@ -1160,7 +1160,7 @@ class ilObjectGUI
 			$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "update"));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));

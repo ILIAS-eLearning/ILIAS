@@ -195,7 +195,7 @@ class ilFileSystemGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.directory.html", false);
 
 		$this->ctrl->setParameter($this, "cdir", $cur_subdir);
-		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this, "createDirectory"));
 		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
 		$this->tpl->setVariable("TXT_NEW_FILE", $this->lng->txt("cont_new_file"));
 		$this->tpl->setVariable("CMD_NEW_DIR", "createDirectory");
@@ -416,7 +416,7 @@ class ilFileSystemGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.file_rename.html", false);
 
 		$this->ctrl->setParameter($this, "old_name", ilUtil::stripSlashes($_POST["file"][0]));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "renameFile"));
 		if (@is_dir($file))
 		{
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("rename_dir"));

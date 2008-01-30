@@ -360,7 +360,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			// global
 			$this->ctrl->setParameter($this, "mode", "create");
 			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
@@ -642,7 +642,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// global
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "update"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));

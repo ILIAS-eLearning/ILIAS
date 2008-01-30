@@ -243,7 +243,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 
 		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
 
 		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
 		//															   $_GET["ref_id"]."&new_type=".$new_type));
@@ -438,7 +438,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// glossary properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glossary_properties.html", true);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this,"saveProperties"));
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_glo_properties"));
 
 		// online
@@ -1458,62 +1458,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 		}
 
-	}
-
-	/**
-	* edit permissions
-	*/
-	function perm()
-	{
-		echo "Deprecated"; exit;
-		
-		//$this->prepareOutput();
-		//$this->setFormAction("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=addRole");
-		//$this->setFormAction("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=permSave");
-		//$this->permObject();
-	}
-
-	/**
-	* save permissions
-	*/
-	function permSave()
-	{
-		echo "Deprecated"; exit;
-		
-		//$this->setReturnLocation("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
-		//$this->permSaveObject();
-	}
-	
-	/**
-	* info permissions
-	*/
-	function info()
-	{
-		echo "Deprecated"; exit;
-		
-		//$this->infoObject();
-	}
-
-	/**
-	* add a local role
-	*/
-	function addRole()
-	{
-		echo "Deprecated"; exit;
-		
-		//$this->setReturnLocation("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
-		//$this->addRoleObject();
-	}
-
-	/**
-	* show owner
-	*/
-	function owner()
-	{
-		echo "Deprecated"; exit;
-		
-		//$this->prepareOutput();
-		//$this->ownerObject();
 	}
 
 	/**

@@ -141,6 +141,7 @@ class ilObjFileGUI extends ilObjectGUI
 		{
 			$this->initZipUploadForm("create");
 		}
+
 		$this->tpl->setVariable("ZIP_UPLOAD_FORM", $this->zip_form_gui->getHtml());
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -468,7 +469,7 @@ class ilObjFileGUI extends ilObjectGUI
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this, "update").$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));

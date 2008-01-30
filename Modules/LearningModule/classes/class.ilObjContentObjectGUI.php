@@ -3204,7 +3204,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "saveMenuEntry"));
 		$this->tpl->setVariable("TXT_NEW_ENTRY", $this->lng->txt("lm_menu_new_entry"));
 		$this->tpl->setVariable("TXT_TARGET", $this->lng->txt("lm_menu_entry_target"));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("lm_menu_entry_title"));

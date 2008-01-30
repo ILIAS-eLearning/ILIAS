@@ -189,7 +189,7 @@ class ilGlossaryTermGUI
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_edit.html", true);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "updateTerm"));
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_term"));
 		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
 		$this->tpl->setVariable("INPUT_TERM", "term");
@@ -503,7 +503,7 @@ class ilGlossaryTermGUI
 		$term_id = $_GET["term_id"];
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "saveDefinition"));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("gdf_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("gdf_add"));
