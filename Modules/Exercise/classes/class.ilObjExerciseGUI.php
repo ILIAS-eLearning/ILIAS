@@ -418,7 +418,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 		$this->tpl->setVariable("TXT_INSTRUCTION", $this->lng->txt("exc_instruction"));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("exc_edit_exercise"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "update"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));

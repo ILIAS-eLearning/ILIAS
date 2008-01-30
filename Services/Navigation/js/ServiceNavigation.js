@@ -16,6 +16,11 @@ function ilInitLastVisitedNav()
 	if (obj)
 		obj.style.display='block';
 
+	// get all spans
+	obj = document.getElementById('ilNavHistoryDivPH');
+	if (obj)
+		obj.style.display='block';
+
 }
 
 /**

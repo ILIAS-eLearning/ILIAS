@@ -185,7 +185,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$this->prepareOutput();
 						$folder_gui =& new ilObjFolderGUI("", 0, false, false);
 						$folder_gui->setFormAction("save",
-							$this->ctrl->getFormActionByClass("ilobjfoldergui"));
+							$this->ctrl->getFormActionByClass("ilobjfoldergui", "save"));
 						$folder_gui->createObject();
 						$this->tpl->show();
 						break;
@@ -204,7 +204,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$this->prepareOutput();
 						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
 						$this->ctrl->setParameter($this, "foldereditmode", "1");
-						$folder_gui->setFormAction("update", $this->ctrl->getFormActionByClass("ilobjfoldergui"));
+						$folder_gui->setFormAction("update", $this->ctrl->getFormActionByClass("ilobjfoldergui", "update"));
 						$folder_gui->editObject();
 						$this->tpl->show();
 						break;

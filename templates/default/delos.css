@@ -752,6 +752,7 @@ a.MMInactive:link, a.MMInactive:visited
 	text-decoration:none;
 	margin: 0px 0px 5px 15px;
 	font-weight: normal;
+	white-space: nowrap;
 }
 
 a.MMInactive:hover
@@ -772,6 +773,7 @@ a.MMActive:link, a.MMActive:visited
 	text-decoration:none;
 	margin: 0px 0px 5px 15px;
 	font-weight: normal;
+	white-space: nowrap;
 }
 
 a.MMActive:hover
