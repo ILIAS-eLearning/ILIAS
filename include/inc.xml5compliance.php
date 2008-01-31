@@ -40,7 +40,7 @@ function domxml_open_file($filename)
 /*
 * ##added
 */
-function domxml_open_mem($str, $mode = DOMXML_LOAD_PARSING, &$error = NULL)
+function domxml_open_mem($str, $mode = DOMXML_LOAD_PARSING, $error = NULL)
 {
 	$doc = new php4DOMDocument($str, false);
 	if (!$doc->success)
@@ -166,7 +166,7 @@ class php4DOMDocument
 	}
 
 	// ##added
-	function validate(&$error)
+	function validate($error)
 	{
 		$ok = $this->myDOMDocument->validate();
 		if (!$ok)
@@ -299,7 +299,7 @@ class php4DOMElement extends php4DOMNode
 		$text = str_replace("&gt;", ">", $text);
 		$text = str_replace("&amp;", "&", $text);
 		
-		$text_node =& new DOMText();
+		$text_node = new DOMText();
 		$text_node->appendData($text);
 		if (is_object($this->myDOMNode->firstChild))
 		{
@@ -314,7 +314,7 @@ class php4DOMElement extends php4DOMNode
 	// ##added
 	function get_content()
 	{
-		$text_node =& $this->myDOMNode->firstChild;
+		$text_node = $this->myDOMNode->firstChild;
 
 		if (is_object($text_node))
 		{
@@ -351,9 +351,9 @@ class php4DOMNode
 //echo "BH";
 		//if (strtolower(get_class($newnode)) != "php4domcdatasection")
 		//{
-			$doc =& $this->myDOMNode->ownerDocument;
+			$doc = $this->myDOMNode->ownerDocument;
 	//echo "<br>BH1:".get_class($newnode).":";
-			$newnode->myDOMNode =& $doc->importNode($newnode->myDOMNode, true);
+			$newnode->myDOMNode = $doc->importNode($newnode->myDOMNode, true);
 	//echo "BH2";
 			return new php4DOMElement($this->myDOMNode->appendChild($newnode->myDOMNode));
 		//}
@@ -416,11 +416,11 @@ class php4DOMNode
 		// sometimes the node to unlink is passed
 		if (!is_object($aDomNode))
 		{
-			$aDomNode =& $this;
+			$aDomNode = $this;
 			//$aDomNode = $this;
 		}
 
-		$parent =& $aDomNode->myDOMNode->parentNode;
+		$parent = $aDomNode->myDOMNode->parentNode;
 		if (is_object($parent))
 		{
 			$parent->removeChild($aDomNode->myDOMNode);
@@ -456,30 +456,30 @@ class php4DOMNode
 	function insert_before($newnode,$refnode)
 	{
 		//echo "BH";
-		$doc =& $this->myDOMNode->ownerDocument;
-		$newnode->myDOMNode =& $doc->importNode($newnode->myDOMNode, true);
+		$doc = $this->myDOMNode->ownerDocument;
+		$newnode->myDOMNode = $doc->importNode($newnode->myDOMNode, true);
 		
-		$mydomnode =& $this->myDOMNode;
-		$mynewnode =& $newnode->myDOMNode;
-		$myrefnode =& $refnode->myDOMNode;
+		$mydomnode = $this->myDOMNode;
+		$mynewnode = $newnode->myDOMNode;
+		$myrefnode = $refnode->myDOMNode;
 		try
 		{
-			$domel =& $mydomnode->insertBefore($mynewnode,$myrefnode);
+			$domel = $mydomnode->insertBefore($mynewnode,$myrefnode);
 		}
 		catch (DOMException $exception)
 		{
 			// php 4 accepted $this == $refnode -> switch to parent of $this
-			$mydomnode =& $this->myDOMNode->parentNode;
-			$domel =& $mydomnode->insertBefore($mynewnode,$myrefnode);
+			$mydomnode = $this->myDOMNode->parentNode;
+			$domel = $mydomnode->insertBefore($mynewnode,$myrefnode);
 		}
-		$el =& new php4DOMElement($domel);
+		$el = new php4DOMElement($domel);
 		return $el;
 	}
 
 	// ## changed
 	function last_child()
 	{
-		$last =& $this->myDOMNode->lastChild;
+		$last = $this->myDOMNode->lastChild;
 
 		if (is_object($last))
 		{
@@ -494,7 +494,7 @@ class php4DOMNode
 	// ## changed
 	function next_sibling()
 	{
-		$next =& $this->myDOMNode->nextSibling;
+		$next = $this->myDOMNode->nextSibling;
 
 		if (is_object($next))
 		{
@@ -531,7 +531,7 @@ class php4DOMNode
 	// ## changed
 	function parent_node()
 	{
-		$parent =& $this->myDOMNode->parentNode;
+		$parent = $this->myDOMNode->parentNode;
 
 		if (is_object($parent))
 		{
@@ -546,7 +546,7 @@ class php4DOMNode
 	// ## changed
 	function previous_sibling()
 	{
-		$prev =& $this->myDOMNode->previousSibling;
+		$prev = $this->myDOMNode->previousSibling;
 
 		if (is_object($prev))
 		{
