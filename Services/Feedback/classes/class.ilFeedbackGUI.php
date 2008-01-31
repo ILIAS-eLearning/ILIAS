@@ -762,8 +762,7 @@ class ilFeedbackGUI
 
 		$feedback = new ilFeedback();
 		$feedback->setId($_GET['fb_id']);
-		$feedback->getBarometer()
-;
+		$feedback->getBarometer();
 		$feedback->setVote(ilUtil::stripSlashes($_POST['vote']));
 		$feedback->setNote(ilUtil::stripSlashes($_POST['text_answer']));
 		if($feedback->getAnonymous())

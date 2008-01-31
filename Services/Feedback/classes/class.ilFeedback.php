@@ -336,7 +336,7 @@ class ilFeedback {
 		global $ilDB;
 		//Save Only if there is not already a result from this user for this barometer
 
-		if($this->canVote($this->user_id,$this->id)==1){
+		if($this->canVote($this->user_id,$this->id)==1 || $this->user_id == 0){
 			$q = "INSERT INTO feedback_results (".
 				"fb_id,user_id,vote,note,votetime) VALUES (".
 				$ilDB->quote($this->id).", ".
