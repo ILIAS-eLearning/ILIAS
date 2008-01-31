@@ -169,7 +169,7 @@ class assClozeTestGUI extends assQuestionGUI
 				// text gap answer
 				$gap = $matches[2];
 				$order = $matches[3];
-				$this->object->addGapAnswer($gap, $order, $value);
+				$this->object->addGapAnswer($gap, $order, ilUtil::stripSlashes($value));
 			}
 		}
 	}
@@ -189,7 +189,7 @@ class assClozeTestGUI extends assQuestionGUI
 			{
 				$gap = $matches[1];
 				$order = $matches[2];
-				$this->object->setGapAnswerPoints($gap, $order, $value);
+				$this->object->setGapAnswerPoints($gap, $order, ilUtil::stripSlashes($value));
 			}
 		}
 	}
