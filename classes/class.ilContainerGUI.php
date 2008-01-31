@@ -786,14 +786,7 @@ class ilContainerGUI extends ilObjectGUI
 							$this->current_position = 1;
 							foreach($item_html as $item)
 							{
-								if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
-								{
-									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],$type);
-								}
-								else
-								{
-									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],$type);
-								}
+								$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],$type);
 							}
 
 							// store type specific templates in array
@@ -954,7 +947,7 @@ class ilContainerGUI extends ilObjectGUI
 		$a_tpl->touchBlock($this->cur_row_type);
 		
 		$nbsp = true;
-		if ($a_image_type != "")
+		if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 		{
 			$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
 			$alt = $this->lng->txt("obj_".$a_image_type);
