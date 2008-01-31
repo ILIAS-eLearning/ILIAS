@@ -124,7 +124,8 @@ class ilPDFeedbackBlockGUI extends ilBlockGUI
 		{
 			// do not show feedback for tutors/admins
 			if (!$ilAccess->checkAccess("write", "", $feedback->getRefId())
-				&& $feedback->canVote($ilUser->getId(), $feedback->getId()) == 1)
+				&& $feedback->canVote($ilUser->getId(), $feedback->getId()) == 1
+				&& !$feedback->getAnonymous())
 			{
 				$this->feedbacks[] = array (
 					"id" => $feedback->getId(),

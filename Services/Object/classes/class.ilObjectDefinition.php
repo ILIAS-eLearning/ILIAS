@@ -81,7 +81,12 @@ class ilObjectDefinition extends ilSaxParser
 		// (needs further investigation)
 		// OK with:
 		// - PHP 5.1.2, libxml 2.6.24, libxslt 1.1.15
-		$this->startParsing();
+		
+		//
+		// Replacing all "=&" with "=" in xml5compliance seems to solve the problem
+		//
+		
+//		$this->startParsing();
 	}
 
 	
