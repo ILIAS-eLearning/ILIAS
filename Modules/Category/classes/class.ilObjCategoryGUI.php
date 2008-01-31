@@ -1165,7 +1165,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('administrate_users');
 
 		$roles = $this->__getAssignableRoles();
-
+		
 		if(!count($roles))
 		{
 			#ilUtil::sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
@@ -1192,9 +1192,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 														 $disabled);
 			$f_result[$counter][] = $role_obj->getTitle();
 			$f_result[$counter][] = $role_obj->getDescription();
-			$f_result[$counter][] = $role['role_type'] == 'local' ? 
-				$this->lng->txt('local') :
-				$this->lng->txt('global');
+			$f_result[$counter][] = $role['role_type'] == 'global' ? 
+				$this->lng->txt('global') :
+				$this->lng->txt('local');
 			
 			unset($role_obj);
 			++$counter;
