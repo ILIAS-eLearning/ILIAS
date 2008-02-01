@@ -477,7 +477,7 @@ class ilStartUpGUI
 	 	{
 	 		ilUtil::sendInfo($a_message);
 	 	}
-		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this,'migrateAccount'));
 		$tpl->setVariable('TXT_ACCOUNT_MIGRATION',$lng->txt('auth_account_migration'));
 		$tpl->setVariable('INFO_MIGRATE',$lng->txt('auth_info_migrate'));
 		$tpl->setVariable('INFO_ADD',$lng->txt('auth_info_add'));
