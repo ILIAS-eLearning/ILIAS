@@ -63,23 +63,109 @@ abstract class ilComponent
 	abstract static function getComponentType();
 	
 	/**
-	* Set Name.
-	*
-	* @param	string	$a_name	Name
-	*/
-	function setName($a_name)
-	{
-		$this->name = $a_name;
-	}
-
-	/**
 	* Get Name.
 	*
 	* @return	string	Name
 	*/
-	function getName()
+	abstract function getName();
+
+	function __construct()
 	{
-		return $this->name;
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
+			$ilDB->quote($this->getComponentType())." AND name = ".
+			$ilDB->quote($this->getName()));
+			
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$this->setId($rec["id"]);
+		$this->setPluginSlots(ilComponent::lookupPluginSlots(
+			$this->getComponentType(), $this->getName()));
+	}
+	
+	/**
+	* Set Id.
+	*
+	* @param	string	$a_id	Id
+	*/
+	final function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	/**
+	* Get Id.
+	*
+	* @return	string	Id
+	*/
+	final function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	* Set Plugin Slots.
+	*
+	* @param	array	$a_pluginslots	Plugin Slots
+	*/
+	final function setPluginSlots($a_pluginslots)
+	{
+		$this->pluginslots = $a_pluginslots;
+	}
+
+	/**
+	* Get Plugin Slots.
+	*
+	* @return	array	Plugin Slots
+	*/
+	final function getPluginSlots()
+	{
+		return $this->pluginslots;
+	}
+
+	/**
+	* Get component object.
+	*
+	* @param	string	$a_ctype	IL_COMP_MODULE | IL_COMP_SERVICE
+	* @param	string	$a_cname	component name
+	*/
+	final static function getComponentObject($a_ctype, $a_cname)
+	{
+		global $ilDB;
+		
+		// this check is done due to security reasons
+		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
+			$ilDB->quote($a_ctype)." AND name = ".$ilDB->quote($a_cname));
+		if ($set->numRows() == 0)
+		{
+			return null;
+		}
+		
+		switch ($a_ctype)
+		{
+			case IL_COMP_MODULE:
+				if (is_file("./Modules/".$a_cname."/classes/class.il".$a_cname."Module.php"))
+				{
+					include_once("./Modules/".$a_cname."/classes/class.il".$a_cname."Module.php");
+					$class = "il".$a_cname."Module";
+					$comp = new $class();
+					return $comp;
+				}
+				break;
+				
+			case IL_COMP_SERVICE:
+				if (is_file("./Services/".$a_cname."/classes/class.il".$a_cname."Service.php"))
+				{
+					include_once("./Services/".$a_cname."/classes/class.il".$a_cname."Service.php");
+					$class = "il".$a_cname."Service";
+					$comp = new $class();
+					return $comp;
+				}
+				break;
+		}
+		
+		return null;
 	}
 
 	/**
@@ -102,5 +188,75 @@ abstract class ilComponent
 		return $this->subdirectory;
 	}
 	
+	/**
+	* Lookup all plugin slots of a component
+	*/
+	static function lookupPluginSlots($a_type, $a_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM il_pluginslot WHERE component = ".
+			$ilDB->quote($a_type."/".$a_name));
+		$ps = array();
+//echo "<br>".$a_type."/".$a_name;
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$rec["dir"] = "Customizing/global/plugins/".$a_type."/".$a_name."/".$rec["name"];
+			$rec["dir_pres"] = "Customizing/global/plugins/<br />".$a_type."/".$a_name."/".$rec["name"];
+			$rec["lang_prefix"] = ilComponent::lookupId($a_type,$a_name)."_".$rec["id"]."_";
+			$ps[$rec["id"]] = $rec;
+		}
+		return $ps;
+	}
+	
+	/**
+	* Get name of plugin slot.
+	*
+	* @param	string	$a_id	Plugin Slot ID
+	*/
+	function getPluginSlotName($a_id)
+	{
+		$slots = $this->getPluginSlots();
+		
+		return $slots[$a_id]["name"];
+	}
+
+	/**
+	* Get directory of plugin slot.
+	*
+	* @param	string	$a_id	Plugin Slot ID
+	*/
+	function getPluginSlotDirectory($a_id)
+	{
+		$slots = $this->getPluginSlots();
+		
+		return "Customizing/global/plugins/".$this->getComponentType()."/".
+			$this->getName()."/".$slots[$a_id]["name"];
+	}
+	
+	/**
+	* Get language prefix for plugin slot.
+	*
+	* @param	string	$a_id	Plugin Slot ID
+	*/
+	function getPluginSlotLanguagePrefix($a_id)
+	{
+		$slots = $this->getPluginSlots();
+		return $this->getId()."_".$slots[$a_id]["id"]."_";
+	}
+	
+	/**
+	* Lookup ID of a component
+	*/
+	static function lookupId($a_type, $a_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
+			$ilDB->quote($a_type)." AND name = ".$ilDB->quote($a_name));
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $rec["id"];
+	}
 }
 ?>

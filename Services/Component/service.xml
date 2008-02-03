@@ -1,6 +1,6 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
-	name="Component" short="comp" dir="Services/Component">
+	id="comp">
 	<baseclasses>
 	</baseclasses>
 	<objects>

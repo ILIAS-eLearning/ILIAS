@@ -2,7 +2,8 @@
 <td class="std" valign="top">
 {TXT_MODULE_NAME}
 </td>
-<td class="std">
+<!-- BEGIN rep_object_td -->
+<td class="std" valign="top">{DUMMY}
 <!-- BEGIN rep_object -->
 <div style="margin: 0px 0px 10px 0px;"><img alt="{TXT_REP_OBJECT}" src="{IMG_REP_OBJECT}" border="0"/>&nbsp;{TXT_REP_OBJECT} [{TXT_REP_OBJECT_ID}]
 <div class="small">
@@ -14,5 +15,20 @@
 </div>
 </div>
 <!-- END rep_object -->
+</td>
+<!-- END rep_object_td -->
+<td class="std" valign="top">
+<!-- BEGIN slot -->
+{SLOT_NAME} [{SLOT_ID}]
+<div class="small" style="margin: 3px 0px;">
+<b>{TXT_DIR}</b>:<br />
+{SLOT_DIR}
+</div>
+<div class="small" style="margin: 3px 0px;">
+<b>{TXT_LANG_PREFIX}</b>:<br />
+{LANG_PREFIX}
+</div>
+<div class="small" style="text-align:right;"><a href="{HREF_SHOW_SLOT}">{TXT_SHOW_SLOT}</a></div>
+<!-- END slot -->
 </td>
 </tr>

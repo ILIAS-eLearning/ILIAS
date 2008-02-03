@@ -22,19 +22,22 @@
 */
 
 /**
-* Object definition reader (reads objects tags in module.xml and service.xml files
+* Component definition reader (reads common tags in module.xml and service.xml files)
+* Name is misleading and should be ilComponentDefReader instead.
 *
 * Reads reads module information of modules.xml files into db
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id: class.ilModuleReader.php 15675 2008-01-06 13:53:17Z akill $
+* @version $Id$
 *
 */
 class ilObjDefReader extends ilSaxParser
 {
-
-	function ilModuleReader($a_path)
+	function ilObjDefReader($a_path, $a_name, $a_type)
 	{
+		$this->name = $a_name;
+		$this->type = $a_type;
+//echo "-".$this->name."-".$this->type."-";
 		parent::ilSaxParser($a_path);
 	}
 	
@@ -61,6 +64,11 @@ class ilObjDefReader extends ilSaxParser
 		$q = "DELETE FROM il_object_group";
 		$ilDB->query($q);
 
+		$q = "DELETE FROM il_pluginslot";
+		$ilDB->query($q);
+		
+		$q = "DELETE FROM il_component";
+		$ilDB->query($q);
 	}
 
 	/**
@@ -122,6 +130,15 @@ class ilObjDefReader extends ilSaxParser
 					$ilDB->quote($a_attribs["name"]).",".
 					$ilDB->quote($a_attribs["default_pres_pos"]).
 					")");
+				break;
+				
+			case "pluginslot":
+				$this->current_object = $a_attribs["id"];
+				$q = "INSERT INTO il_pluginslot (component, id, name) VALUES (".
+					$ilDB->quote($this->current_component).",".
+					$ilDB->quote($a_attribs["id"]).",".
+					$ilDB->quote($a_attribs["name"]).")";
+				$ilDB->query($q);
 				break;
 		}
 	}

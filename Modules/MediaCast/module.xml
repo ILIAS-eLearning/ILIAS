@@ -1,6 +1,6 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
-	name="MediaCast" short="mcst" dir="Modules/MediaCast">
+	id="mcst">
 	<baseclasses>
 		<baseclass name="ilMediaCastHandlerGUI" dir="classes" />
 	</baseclasses>

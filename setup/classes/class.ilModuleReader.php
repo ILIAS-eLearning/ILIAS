@@ -35,9 +35,9 @@ include_once("./classes/class.ilObjDefReader.php");
 class ilModuleReader extends ilObjDefReader
 {
 
-	function ilModuleReader($a_path)
+	function ilModuleReader($a_path, $a_name, $a_type)
 	{
-		parent::ilObjDefReader($a_path);
+		parent::ilObjDefReader($a_path, $a_name, $a_type);
 	}
 	
 	function getModules()
@@ -63,12 +63,8 @@ class ilModuleReader extends ilObjDefReader
 		// only this one clears parents tables (not service reader)
 		parent::clearTables();
 
-		$q = "DELETE FROM module";
-		$ilDB->query($q);
-
 		$q = "DELETE FROM module_class";
 		$ilDB->query($q);
-
 	}
 
 
@@ -89,17 +85,18 @@ class ilModuleReader extends ilObjDefReader
 		switch ($a_name)
 		{
 			case 'module':
-				$this->current_module = $a_attribs["name"];
-				$this->current_component = "Modules/".$a_attribs["name"];
-				$q = "INSERT INTO module (name, dir) VALUES ".
-					"(".$ilDB->quote($a_attribs["name"]).",".
-					$ilDB->quote($a_attribs["dir"]).")";
+				$this->current_module = $this->name;
+				$this->current_component = $this->type."/".$this->name;
+				$q = "INSERT INTO il_component (type, name, id) VALUES ".
+					"(".$ilDB->quote($this->type).",".
+					$ilDB->quote($this->name).",".
+					$ilDB->quote($a_attribs["id"]).")";
 				$ilDB->query($q);
 				break;
 				
 			case 'baseclass':
 				$q = "INSERT INTO module_class (module, class, dir) VALUES ".
-					"(".$ilDB->quote($this->current_module).",".
+					"(".$ilDB->quote($this->name).",".
 					$ilDB->quote($a_attribs["name"]).",".
 					$ilDB->quote($a_attribs["dir"]).")";
 				$ilDB->query($q);

@@ -3205,3 +3205,37 @@ ALTER TABLE il_object_def ADD COLUMN default_pres_pos INT NOT NULL;
 <#1161>
 ALTER TABLE il_object_group ADD COLUMN default_pres_pos INT NOT NULL;
 
+<#1162>
+CREATE TABLE il_pluginslot (
+	component VARCHAR(200),
+	id	CHAR(10),
+	name VARCHAR (200),
+	PRIMARY KEY (component, id)
+);
+
+<#1163>
+CREATE TABLE il_component (
+	type CHAR(10),
+	name VARCHAR(200),
+	id CHAR(10),
+	PRIMARY KEY (type, id)
+);
+<#1164>
+DROP TABLE module;
+
+<#1165>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1166>
+DROP TABLE service;
+
+<#1167>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1168>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

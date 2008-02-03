@@ -1,6 +1,6 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
-	name="Administration" short="adm" dir="Services/Administration">
+	id="adm">
 	<baseclasses>
 		<baseclass name="ilAdministrationGUI" dir="classes" />
 	</baseclasses>

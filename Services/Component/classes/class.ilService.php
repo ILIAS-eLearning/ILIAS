@@ -42,9 +42,22 @@ abstract class ilService extends ilComponent
 	*/
 	final static function getComponentType()
 	{
-		return IL_COMP_MODULE;
+		return IL_COMP_SERVICE;
 	}
 	
+	/**
+	* Get Name.
+	*
+	* @return	string	Name
+	*/
+	final function getName()
+	{
+		// class is always il<ModuleName>Service
+		$class = get_class($this);
+		
+		return substr($class, 2, strlen($class) - 9);
+	}
+
 	/**
 	* Get all available core services. Core services are located in the
 	* main ILIAS/Services folder and provide a service.xml file that
