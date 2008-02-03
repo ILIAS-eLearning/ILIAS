@@ -302,15 +302,28 @@ assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
 assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
 common#:#obj_cmps#:#Modules, Services and Plugins
-common#:#cmps_group#:#Group
-common#:#cmps_module#:#Module
-common#:#cmps_disable_creation#:#Disable Creation
-common#:#cmps_rep_object#:#Repository Object Type
-common#:#cmps_add_new_rank#:#Position in Add-New-Object List
+cmps#:#cmps_group#:#Group
+cmps#:#cmps_module#:#Module
+cmps#:#cmps_dir#:#Directory
+cmps#:#cmps_show_details#:#Show Details
+cmps#:#cmps_plugin_slot#:#Plugin Slot
+cmps#:#cmps_component#:#Component
+cmps#:#cmps_lang_prefix#:#Language Variables Prefix
+cmps#:#cmps_disable_creation#:#Disable Creation
+cmps#:#cmps_rep_object#:#Repository Object Type
+cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List
+cmps#:#cmps_plugin_dirs#:#Plugin Directories
+cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes
 common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.
-common#:#cmps_edit_settings#:#Settings
+cmps#:#cmps_edit_settings#:#Settings
 cmps#:#cmps_modules#:#Modules
+cmps#:#cmps_services#:#Services
+cmps#:#cmps_service#:#Service
 cmps#:#cmps_save_options#:#Save Options
+cmps#:#cmps_main_dir#:#Main Directory
+cmps#:#cmps_plugin_file#:#Plugin File
+cmps#:#cmps_lang_files#:#Language Files
+cmps#:#cmps_db_update#:#Database Update Script
 common#:#user_profile_instant_messengers#:#Instant Messengers
 common#:#instant_messengers#:#Instant Messengers
 common#:#im_icq#:#ICQ

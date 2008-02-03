@@ -25,8 +25,13 @@
 include_once("./Services/Component/classes/class.ilComponent.php");
 
 /**
-* ILIAS Module (Modules are ressources that can be added to the
-* ILIAS repository)
+* ILIAS Module
+*
+* Modules handle resource object types (one or more), that can be
+* added to the repository, e.g. forums, glossaries, ...
+*
+* Modules are ILIAS components, like services. Services can also handle
+* resource object types, but only administrative ones.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -35,6 +40,15 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 */
 abstract class ilModule extends ilComponent
 {
+	
+	/**
+	* Constructor: read information on component
+	*/
+	function __construct()
+	{
+		parent::__construct();
+	}
+	
 	/**
 	* Get Component Type.
 	*
@@ -45,6 +59,19 @@ abstract class ilModule extends ilComponent
 		return IL_COMP_MODULE;
 	}
 	
+	/**
+	* Get Name.
+	*
+	* @return	string	Name
+	*/
+	final function getName()
+	{
+		// class is always il<ModuleName>Module
+		$class = get_class($this);
+		
+		return substr($class, 2, strlen($class) - 8);
+	}
+
 	/**
 	* Get all available core modules. Core modules are located in the
 	* main ILIAS/Modules folder and provide a module.xml file that

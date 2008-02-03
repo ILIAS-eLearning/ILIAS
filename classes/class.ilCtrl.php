@@ -118,12 +118,12 @@ class ilCtrl
 		if ($module != "")
 		{
 			// get module information
-			$q = "SELECT * FROM module WHERE name = ".
+			$q = "SELECT * FROM il_component WHERE name = ".
 				$ilDB->quote($module);
 	
 			$m_set = $ilDB->query($q);
 			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
-			$this->module_dir = $m_rec["dir"];
+			$this->module_dir = $m_rec["type"]."/".$m_rec["name"];
 			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";
 		}
 		else		// check whether class belongs to a service
@@ -146,12 +146,12 @@ class ilCtrl
 			}
 
 			// get service information
-			$q = "SELECT * FROM service WHERE name = ".
+			$q = "SELECT * FROM il_component WHERE name = ".
 				$ilDB->quote($service);
 	
 			$m_set = $ilDB->query($q);
 			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
-			$this->service_dir = $m_rec["dir"];
+			$this->service_dir = $m_rec["type"]."/".$m_rec["name"];
 			
 			include_once $this->service_dir."/".$class_dir."/class.".$class.".php";;
 		}

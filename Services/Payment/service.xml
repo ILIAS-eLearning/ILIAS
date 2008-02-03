@@ -1,6 +1,6 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
-	name="Payment" short="auth" dir="Services/Payment">
+	id="paym">
 	<baseclasses>
 	</baseclasses>
 	<objects>

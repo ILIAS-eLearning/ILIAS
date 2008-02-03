@@ -35,9 +35,9 @@ include_once("./classes/class.ilObjDefReader.php");
 class ilServiceReader extends ilObjDefReader
 {
 
-	function ilServiceReader($a_path)
+	function ilServiceReader($a_path, $a_name, $a_type)
 	{
-		parent::ilObjDefReader($a_path);
+		parent::ilObjDefReader($a_path, $a_name, $a_type);
 	}
 	
 	function getServices()
@@ -60,9 +60,6 @@ class ilServiceReader extends ilObjDefReader
 	static function clearTables()
 	{
 		global $ilDB;
-
-		$q = "DELETE FROM service";;
-		$ilDB->query($q);
 
 		$q = "DELETE FROM service_class";;
 		$ilDB->query($q);
@@ -87,17 +84,18 @@ class ilServiceReader extends ilObjDefReader
 		switch ($a_name)
 		{
 			case 'service':
-				$this->current_service = $a_attribs["name"];
-				$this->current_component = "Services/".$a_attribs["name"];
-				$q = "INSERT INTO service (name, dir) VALUES ".
-					"(".$ilDB->quote($a_attribs["name"]).",".
-					$ilDB->quote($a_attribs["dir"]).")";
+				$this->current_service = $this->name;
+				$this->current_component = $this->type."/".$this->name;
+				$q = "INSERT INTO il_component (type, name, id) VALUES ".
+					"(".$ilDB->quote($this->type).",".
+					$ilDB->quote($this->name).",".
+					$ilDB->quote($a_attribs["id"]).")";
 				$ilDB->query($q);
 				break;
 				
 			case 'baseclass':
 				$q = "INSERT INTO service_class (service, class, dir) VALUES ".
-					"(".$ilDB->quote($this->current_service).",".
+					"(".$ilDB->quote($this->name).",".
 					$ilDB->quote($a_attribs["name"]).",".
 					$ilDB->quote($a_attribs["dir"]).")";
 				$ilDB->query($q);
