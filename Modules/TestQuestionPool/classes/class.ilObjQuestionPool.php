@@ -1522,13 +1522,13 @@ class ilObjQuestionPool extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE)
+	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, $permission = "read")
 	{
 		global $ilUser;
 		global $ilDB;
 
 		$result_array = array();
-		$qpls = ilUtil::_getObjectsByOperations("qpl","read", $ilUser->getId(), -1);
+		$qpls = ilUtil::_getObjectsByOperations("qpl", $permission, $ilUser->getId(), -1);
 		$titles = ilObject::_prepareCloneSelection($qpls, "qpl");
 		if (count($qpls))
 		{
