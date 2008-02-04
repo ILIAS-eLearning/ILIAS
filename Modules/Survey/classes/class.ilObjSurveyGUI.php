@@ -1082,7 +1082,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilUser;
 		$this->questionsSubtabs("questions");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_qpl_select.html", "Modules/Survey");
-		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, TRUE, "write");
+		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, TRUE, TRUE, "write");
 		foreach ($questionpools as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("option");
