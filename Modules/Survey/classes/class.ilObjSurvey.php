@@ -2777,10 +2777,10 @@ class ilObjSurvey extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = FALSE)
+	function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = FALSE, $permission = "read")
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-		return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_obj_id, $could_be_offline, $showPath);
+		return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_obj_id, $could_be_offline, $showPath, $permission);
 	}
 	
 	/**
