@@ -2789,7 +2789,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		$this->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
-		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE);
+		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, "write");
 		if (count($questionpools) == 0)
 		{
 			$this->tpl->setCurrentBlock("option");
