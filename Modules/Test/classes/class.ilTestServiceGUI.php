@@ -693,7 +693,7 @@ class ilTestServiceGUI
 		$template = new ilTemplate("tpl.il_as_tst_results_userdata.html", TRUE, TRUE, "Modules/Test");
 		include_once './Services/User/classes/class.ilObjUser.php';
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		if (is_array(ilObjUser::_lookupId($user_id)))
+		if (strlen(ilObjUser::_lookupLogin($user_id)) > 0)
 		{
 			$user = new ilObjUser($user_id);
 		}
