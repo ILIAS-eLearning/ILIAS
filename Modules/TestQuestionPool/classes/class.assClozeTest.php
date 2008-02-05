@@ -1232,7 +1232,7 @@ class assClozeTest extends assQuestion
 		{
 			if (preg_match("/^gap_(\d+)/", $key, $matches)) 
 			{ 
-				$value = ilUtil::stripSlashes($value);
+				$value = ilUtil::stripSlashes($value, TRUE);
 				if (strlen($value))
 				{
 					$gap = $this->getGap($matches[1]);

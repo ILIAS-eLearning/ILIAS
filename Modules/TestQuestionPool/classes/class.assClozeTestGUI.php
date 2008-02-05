@@ -830,12 +830,12 @@ class assClozeTestGUI extends assQuestionGUI
 						}
 						else
 						{
-							$solutiontext = $found["value2"];
+							$solutiontext = ilUtil::prepareFormOutput($found["value2"]);
 						}
 					}
 					else
 					{
-						$solutiontext = $gap->getBestSolutionOutput();
+						$solutiontext = ilUtil::prepareFormOutput($gap->getBestSolutionOutput());
 					}
 					$gaptemplate->setVariable("SOLUTION", $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
@@ -856,7 +856,7 @@ class assClozeTestGUI extends assQuestionGUI
 							$item = $gap->getItem($found["value2"]);
 							if (is_object($item))
 							{
-								$solutiontext = $item->getAnswertext();
+								$solutiontext = ilUtil::prepareFormOutput($item->getAnswertext());
 							}
 							else
 							{
@@ -869,7 +869,7 @@ class assClozeTestGUI extends assQuestionGUI
 					}
 					else
 					{
-						$solutiontext = $gap->getBestSolutionOutput();
+						$solutiontext = ilUtil::prepareFormOutput($gap->getBestSolutionOutput());
 					}
 					$gaptemplate->setVariable("SOLUTION", $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
@@ -887,12 +887,12 @@ class assClozeTestGUI extends assQuestionGUI
 						}
 						else
 						{
-							$solutiontext = $found["value2"];
+							$solutiontext = ilUtil::prepareFormOutput($found["value2"]);
 						}
 					}
 					else
 					{
-						$solutiontext = $gap->getBestSolutionOutput();
+						$solutiontext = ilUtil::prepareFormOutput($gap->getBestSolutionOutput());
 					}
 					$gaptemplate->setVariable("SOLUTION", $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
