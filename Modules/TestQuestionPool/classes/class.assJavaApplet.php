@@ -971,6 +971,7 @@ class assJavaApplet extends assQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
+			$params = $this->buildParams();
 			$query = sprintf("UPDATE qpl_question_javaapplet SET image_file = %s, params = %s WHERE question_fi = %s",
 				$ilDB->quote($this->javaapplet_filename . ""),
 				$ilDB->quote($params . ""),
