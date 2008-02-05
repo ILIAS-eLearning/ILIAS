@@ -5678,7 +5678,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 					$this->setResultsPresentation($metadata["entry"]);
 					break;
 				case "reset_processing_time":
-					$this->setResetProcessingTme($metadata["entry"]);
+					$this->setResetProcessingTime($metadata["entry"]);
 					break;
 				case "show_solution_details":
 					$this->setShowSolutionDetails($metadata["entry"]);
