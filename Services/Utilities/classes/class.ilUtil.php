@@ -181,25 +181,30 @@ class ilUtil
 	*
 	* @access	public
 	*/
-	function getStyleSheetLocation($mode = "output")
+	function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
 	{
 		global $ilias;
 
 		// add version as parameter to force reload for new releases
+		$stylesheet_name = (strlen($a_css_name)) ? $a_css_name : $ilias->account->prefs["style"].".css";
+		if (strlen($a_css_location) && (strcmp(substr($a_css_location, -1), "/") != 0)) $a_css_location = $a_css_location . "/";
+
+		$filename = "";
+		if ($ilias->account->skin != "default")
+		{
+			$filename = "./Customizing/global/skin/".$ilias->account->skin."/".$a_css_location.$stylesheet_name;
+		}
+		if (strlen($filename) == 0 || !file_exists($filename))
+		{
+			$filename = "./" . $a_css_location . "templates/".$ilias->account->skin."/".$stylesheet_name;
+		}
+		$vers = "";
 		if ($mode != "filesystem")
 		{
 			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
-
-		if ($ilias->account->skin == "default")
-		{
-			return "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css".$vers;
-		}
-		else
-		{
-			return "./Customizing/global/skin/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css".$vers;
-		}
+		return $filename . $vers;
 	}
 
 	/**

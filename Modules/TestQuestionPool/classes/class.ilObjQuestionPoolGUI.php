@@ -1235,7 +1235,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_SUBMIT", $this->lng->txt("submit"));
 		$this->tpl->setVariable("PRINT", $this->lng->txt("print"));
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		$this->tpl->setVariable("PAGETITLE", " - " . ilUtil::prepareFormOutput(ilObjQuestionPool::_getFullPathToQpl($this->object->getRefId()) . " > " . $this->object->getTitle()));
 	}
 

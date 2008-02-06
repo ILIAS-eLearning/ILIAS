@@ -2116,7 +2116,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// add imports for YUI menu
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initMenu();
-		$this->tpl->addCss("./Modules/TestQuestionPool/templates/default/tpl.text_filter.css");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "tpl.text_filter.css", "Modules/TestQuestionPool"));
 
 		// add title text filter
 		$titlefilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -4361,10 +4361,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("PRINT_URL", "javascript:window.print();");
 		
 		$this->tpl->setVariable("ADM_CONTENT", $template->get());
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content", "Modules/Test"), "print");
 		}
 	}
 
@@ -4418,7 +4418,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", "Modules/Test");
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		
 		global $ilUser;		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));

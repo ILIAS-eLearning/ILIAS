@@ -371,7 +371,9 @@ class ilTemplate extends ilTemplateX
 	{
 		foreach($this->css_files as $css)
 		{
-			if (is_file($css["file"]))
+			$filename = $css["file"];
+			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
+			if (is_file($filename))
 			{
 				$this->setCurrentBlock("css_file");
 				$this->setVariable("CSS_FILE", $css["file"]);
