@@ -400,7 +400,7 @@ class ilTestServiceGUI
 * @return string HTML code of the pass details overview
 * @access public
 */
-	function getPassDetailsOverview(&$result_array, $active_id, $pass, $targetclass = "", $targetcommandsort = "", $targetcommanddetails = "", $standard_header = TRUE)
+	function getPassDetailsOverview($result_array, $active_id, $pass, $targetclass = "", $targetcommandsort = "", $targetcommanddetails = "", $standard_header = TRUE)
 	{
 		global $ilUser;
 
