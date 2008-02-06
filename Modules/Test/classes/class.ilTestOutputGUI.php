@@ -1509,10 +1509,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
@@ -1564,10 +1564,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 		}
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 		if (strlen($top_data))
 		{
@@ -1662,10 +1662,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 	}
 
@@ -1771,10 +1771,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		$template->parseCurrentBlock();
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 		$templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
 		
@@ -1854,10 +1854,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 	}
 
@@ -1903,10 +1903,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 	}
 	
@@ -1978,10 +1978,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 	}
 }

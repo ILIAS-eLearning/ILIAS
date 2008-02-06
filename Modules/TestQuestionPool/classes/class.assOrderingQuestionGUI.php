@@ -708,7 +708,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			
 			// BEGIN: add additional stylesheet for javascript enabled ordering questions
 			$this->tpl->setCurrentBlock("AdditionalStyle");
-			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "./Modules/TestQuestionPool/templates/default/test_javascript.css");
+			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
 			$this->tpl->parseCurrentBlock();
 			// END: add additional stylesheet for javascript enabled ordering questions
 			

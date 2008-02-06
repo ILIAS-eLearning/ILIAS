@@ -361,10 +361,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$this->tpl->setVariable("EVALUATION_FILTER", $filteroutput);
 		
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss("./Modules/Test/templates/default/test_print_hide_content.css", "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 	}
 	
@@ -386,7 +386,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, "outEvaluation");
 		}
 		
-		$this->tpl->addCss("./Modules/Test/templates/default/test_print.css", "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 
 		$data =& $this->object->getCompleteEvaluationData();
 		$this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
