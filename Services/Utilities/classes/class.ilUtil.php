@@ -201,7 +201,7 @@ class ilUtil
 		}
 		if (strlen($filename) == 0 || !file_exists($filename))
 		{
-			$filename = "./" . $a_css_location . "templates/".$ilias->account->skin."/".$stylesheet_name;
+			$filename = "./" . $a_css_location . "templates/default/".$stylesheet_name;
 		}
 		$vers = "";
 		if ($mode != "filesystem")
