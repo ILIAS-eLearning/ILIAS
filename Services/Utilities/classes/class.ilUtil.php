@@ -179,6 +179,11 @@ class ilUtil
 	/**
 	* get full style sheet file name (path inclusive) of current user
 	*
+	* @param $mode string Output mode of the style sheet ("output" or "filesystem"). !"filesystem" generates the ILIAS 
+	* version number as attribute to force the reload of the style sheet in a different ILIAS version
+	* @param $a_css_name string The name of the style sheet. If empty, the default style name will be chosen
+	* @param $a_css_location string The location of the style sheet e.g. a module path. This parameter only makes sense
+	* when $a_css_name is used
 	* @access	public
 	*/
 	function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
