@@ -4364,7 +4364,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
-			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content", "Modules/Test"), "print");
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 	}
 
