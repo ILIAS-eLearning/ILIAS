@@ -402,15 +402,6 @@ class ilContainerGUI extends ilObjectGUI
 				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("link_selected_items"));
 				$tpl->setVariable("PANEL_CMD", "link");
 				$tpl->parseCurrentBlock();
-
-				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-				if(ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainerSortingSettings::MODE_MANUAL)
-				{
-					$tpl->setCurrentBlock('admin_panel_cmd');
-					$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt('sorting_save'));
-					$tpl->setVariable("PANEL_CMD", "saveSorting");
-					$tpl->parseCurrentBlock();
-				}
 			}
 			else
 			{
@@ -424,6 +415,19 @@ class ilContainerGUI extends ilObjectGUI
 				$tpl->parseCurrentBlock();
 				
 			}
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
+				&& in_array($this->object->getType(), array("cat", "root")))
+			{
+				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+				if(ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainerSortingSettings::MODE_MANUAL)
+				{
+					$tpl->setCurrentBlock('admin_panel_cmd');
+					$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt('sorting_save'));
+					$tpl->setVariable("PANEL_CMD", "saveSorting");
+					$tpl->parseCurrentBlock();
+				}
+			}
+
 			$tpl->setCurrentBlock("admin_panel");
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 			$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
