@@ -2995,7 +2995,15 @@ class ilUtil
 				// files
 				if (@is_file($a_dir."/".$file))
 				{
+					// first check for files with trailing dot
+					if(strrpos($file,'.') == (strlen($file) - 1))
+					{
+						rename($a_dir.'/'.$file,substr($a_dir.'/'.$file,0,-1));
+						$file = substr($file,0,-1);
+					} 
+
 					$path_info = pathinfo($a_dir."/".$file);
+					
 					if (strtolower($path_info["extension"]) ==
 					strtolower($a_old_suffix))
 					{
