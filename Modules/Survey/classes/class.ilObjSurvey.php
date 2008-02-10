@@ -4891,7 +4891,7 @@ class ilObjSurvey extends ilObject
 		if (strlen($offset) == 0) $offset = 0;
 		if (strlen($limit) == 0) $limit = 10;
 		
-		$order = "ORDER BY survey_finished.anonymous_id ASC";
+		$order = "ORDER BY TIMESTAMP14, survey_key ASC";
 		$codes = array();
 		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key) $order LIMIT $offset,$limit",
 			$ilDB->quote($this->getSurveyId() . "")
@@ -4902,7 +4902,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				$created = ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date");
+				$created = ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($row["TIMESTAMP14"]));
 
 				$url = "";
 				
