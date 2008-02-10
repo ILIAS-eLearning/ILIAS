@@ -7539,38 +7539,20 @@ function loadQuestions($active_id = "", $pass = NULL)
 		function _getMaxPass($active_id)
 		{
 			global $ilDB;
-			$query = sprintf("SELECT tries FROM tst_active WHERE active_id = %s",
+			$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE active_fi = %s",
 				$ilDB->quote($active_id . "")
 			);
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
 				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-				$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE pass = %s AND active_fi = %s",
-					$ilDB->quote($row["tries"] . ""),
-					$ilDB->quote($active_id . "")
-				);
-				$result = $ilDB->query($query);
-				if ($result->numRows() > 0)
-				{
-					return $row["tries"];
-				}
-				else
-				{
-					if ($row["tries"] > 0)
-					{
-						return $row["tries"] - 1;
-					}
-					else
-					{
-						return $row["tries"];
-					}
-				}
+				$max = $row["maxpass"];
 			}
 			else
 			{
-				return 0;
+				$max = 0;
 			}
+			return $max;
 		}
 
 /**
@@ -7630,20 +7612,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		else
 		{
-			$counted_pass = ilObjTest::_getPass($active_id);
-			global $ilDB;
-			$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($counted_pass . "")
-			);
-			$result = $ilDB->query($query);
-			if ($result->numRows() == 0)
-			{
-				// There was no answer answered in the actual pass, so the last pass is
-				// $counted_pass - 1
-				$counted_pass -= 1;
-			}
-			if ($counted_pass < 0) $counted_pass = 0;
+			$counted_pass = ilObjTest::_getMaxPass($active_id);
 		}
 		return $counted_pass;
 	}
