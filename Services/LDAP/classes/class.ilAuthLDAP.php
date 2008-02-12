@@ -44,7 +44,7 @@ class ilAuthLDAP extends Auth
 	private $force_creation = false;
 	
 // BEGIN WebDAV Constructor with parameters
-        public function ilAuthLDAP($options = '')
+    public function ilAuthLDAP($options = '')
 // END WebDAV Constructor with parameters
 	{
 		global $ilLog;
