@@ -185,14 +185,16 @@ class ilAuthMultiple
 	 	{
 	 		case AUTH_LDAP:
 	 			$ilLog->write(__METHOD__.': Current Authentication method is LDAP.');
-				include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
-				$this->auth = new ilAuthLDAP();
+       			include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
+				$auth_params['sessionName'] = "_authhttp".md5(CLIENT_ID);
+				$this->auth = new ilAuthLDAP($auth_params);
 				break;
 				
 			case AUTH_RADIUS:
 	 			$ilLog->write(__METHOD__.': Current Authentication method is RADIUS.');
 				include_once('Services/Radius/classes/class.ilAuthRadius.php');
-				$this->auth = new ilAuthRadius();
+				$auth_params['sessionName'] = "_authhttp".md5(CLIENT_ID);
+				$this->auth = new ilAuthRadius($auth_params);
 				break;
 			case AUTH_LOCAL:
 	 			$ilLog->write(__METHOD__.': Current Authentication method is ILIAS DB.');
@@ -202,6 +204,7 @@ class ilAuthMultiple
 											'usernamecol' => $ilClientIniFile->readVariable("auth", "usercol"),
 											'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
 											);
+				$auth_params['sessionName'] = "_authhttp".md5(CLIENT_ID);
 				$this->auth = new Auth("DB", $auth_params,"",false);
 				break;				
 	 	}

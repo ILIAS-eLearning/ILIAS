@@ -41,7 +41,7 @@ class ilAuthRadius extends Auth
 	
 	private $force_creation = false;
 	
-	public function __construct()
+	public function __construct($a_options)
 	{
 		global $ilLog;
 		
@@ -57,9 +57,17 @@ class ilAuthRadius extends Auth
 			$_POST['password'] = utf8_decode($_POST['password']);
 			$this->log->write(__METHOD__.': Decoded username and password to latin1.');
 		}
+		if(is_array($a_options))
+		{
+			$options = array_merge($this->ldap_server->toPearAuthArray(), $options);
+		}
+		else
+		{
+			$options = $this->ldap_server->toPearAuthArray();
+		}
 		
 		
-		parent::Auth('RADIUS',$this->radius_settings->toPearAuthArray(),'',false);
+		parent::Auth('RADIUS',$options,'',false);
 		
 		// Set callbacks
 		$this->setCallbacks();
