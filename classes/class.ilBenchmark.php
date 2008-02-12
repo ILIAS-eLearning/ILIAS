@@ -234,6 +234,18 @@ class ilBenchmark
 		return $modules;
 	}
 
+	// BEGIN WebDAV: Get measured time.
+	/**
+	* Get measurement.
+	*
+	* @return	Measurement in milliseconds.
+	*/
+	function getMeasuredTime($a_module, $a_bench)
+	{
+		return $this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1];
+	}
+	// END WebDAV: Get measured time.
+
 }
 
 ?>

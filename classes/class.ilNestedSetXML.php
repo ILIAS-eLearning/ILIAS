@@ -1416,13 +1416,18 @@ class ilNestedSetXML
 
 
 		// FINALLY DELETE
-		$in = " IN ('";
-		$in .= implode("','", $tag_fks);
-		$in .= "')";
-		
-		$ilDB->query("DELETE FROM xmlparam WHERE tag_fk ".$in);
-		$ilDB->query("DELETE FROM xmlvalue WHERE tag_fk ".$in);
-		$ilDB->query("DELETE FROM xmltags  WHERE tag_pk ".$in);
+		// BEGIN WebDAV: Object deletion failed if no tag_fks was present.
+		if ($tag_fks != null)
+		{
+			$in = " IN ('";
+			$in .= implode("','", $tag_fks);
+			$in .= "')";
+
+			$ilDB->query("DELETE FROM xmlparam WHERE tag_fk ".$in);
+			$ilDB->query("DELETE FROM xmlvalue WHERE tag_fk ".$in);
+			$ilDB->query("DELETE FROM xmltags  WHERE tag_pk ".$in);
+		}
+		// END WebDAV Object deletion failed if no tag_fks was present.
 
 		#$ilBench->stop('NestedSet','deleteAllChildMetaData');
 		return true;

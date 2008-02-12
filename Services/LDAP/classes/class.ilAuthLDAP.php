@@ -43,7 +43,9 @@ class ilAuthLDAP extends Auth
 	
 	private $force_creation = false;
 	
-	public function __construct()
+// BEGIN WebDAV Constructor with parameters
+        public function ilAuthLDAP($options = '')
+// END WebDAV Constructor with parameters
 	{
 		global $ilLog;
 		
@@ -52,7 +54,18 @@ class ilAuthLDAP extends Auth
 		// Read setting of LDAP server
 		$this->initServer();
 		$this->initContainer();
-		parent::Auth($this->ldap_container,$this->ldap_server->toPearAuthArray(),'',false);
+		// BEGIN WebDAV: Constructor with parameters
+		if (is_array($options))
+		{
+			$options = array_merge($this->ldap_server->toPearAuthArray(), $options);
+		}
+		else
+		{
+			$options = $this->ldap_server->toPearAuthArray();
+		}
+		parent::Auth($this->ldap_container,$options,'',false);
+		// END WebDAV
+		
 		$this->initLogObserver();		
 		
 		// Set callbacks

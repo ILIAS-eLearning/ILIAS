@@ -134,11 +134,14 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		}
 		else
 		{
+			// BEGIN Usability Distinguish between status and participation
 			if (!ilObjSurveyAccess::_lookupCreationComplete($this->obj_id))
 			{
 				// no completion
-				$props[] = array("alert" => true, "property" => $lng->txt("status"),
-					"value" => $lng->txt("svy_warning_survey_not_complete"));
+				$props[] = array("alert" => true, 
+					"property" => $lng->txt("participation"),
+					"value" => $lng->txt("svy_warning_survey_not_complete"),
+					'propertyNameVisible' => false);
 			}
 			else
 			{
@@ -161,10 +164,11 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 					{
 						$stat = $this->lng->txt("svy_not_started");
 					}
-					$props[] = array("alert" => false, "property" => $lng->txt("status"),
-						"value" => $stat);
+					$props[] = array("alert" => false, "property" => $lng->txt("participation"),
+						"value" => $stat, 'propertyNameVisible' => false);
 				}
 			}
+			// END Usability Distinguish between status and participation
 		}
 
 		return $props;

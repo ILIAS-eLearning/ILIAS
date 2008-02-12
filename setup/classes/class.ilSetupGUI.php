@@ -2485,9 +2485,39 @@ class ilSetupGUI extends ilSetup
 			$this->displayTools();
 			return;
 		}
-		
+
 		// referencing does not work in dbupdate-script
 		$GLOBALS["ilDB"] = new ilDbx($this->client->dsn);
+// BEGIN WebDAV
+		// read module and service information into db
+		require_once "./classes/class.ilModuleReader.php";
+		require_once "./classes/class.ilServiceReader.php";
+		require_once "./classes/class.ilCtrlStructureReader.php";
+
+		chdir("..");
+		require_once "./Services/Component/classes/class.ilModule.php";
+		require_once "./Services/Component/classes/class.ilService.php";
+		$modules = ilModule::getAvailableCoreModules();
+		$services = ilService::getAvailableCoreServices();
+		chdir("./setup");
+
+		ilModuleReader::clearTables();
+		foreach($modules as $module)
+		{
+			$mr = new ilModuleReader(ILIAS_ABSOLUTE_PATH."/Modules/".$module["subdir"]."/module.xml");
+			$mr->getModules();
+			unset($mr);
+		}
+
+		ilServiceReader::clearTables();
+		foreach($services as $service)
+		{
+			$sr = new ilServiceReader(ILIAS_ABSOLUTE_PATH."/Services/".$service["subdir"]."/service.xml");
+			$sr->getServices();
+			unset($sr);
+		}
+// END WebDAV
+
 		$ilCtrlStructureReader->readStructure(true);
 		ilUtil::sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
 		$this->displayTools();

@@ -31,6 +31,7 @@ require_once "./classes/class.ilContainerGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI
 * 
 * @ingroup ModulesCategory
@@ -175,6 +176,18 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, ""),
 				array("view", ""), "", "", $force_active);
+
+			//BEGIN ChangeEvent add info tab to category object
+			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTargetByClass(
+				 array("ilobjcategorygui", "ilinfoscreengui"), "showSummary"),
+				 array("showSummary","", "infoScreen"),
+				 "", "", $force_active);
+			//END ChangeEvent add info tab to category object
 		}
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
@@ -441,9 +454,80 @@ class ilObjCategoryGUI extends ilContainerGUI
 		ilUtil::sendInfo($this->lng->txt("cat_added"),true);
 		//$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		
+		// BEGIN ChangeEvent: Record object creation
+		global $ilUser;
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			ilChangeEvent::_recordWriteEvent($newObj->getId(), $ilUser->getId(), 'create');
+		}
+		// END ChangeEvent: Record object creation
+
 		$this->redirectToRefId($_GET["ref_id"]);
 	}
 	
+	// BEGIN ChangeEvent show info screen on category object
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function showSummaryObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->enablePrivateNotes();
+		
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$info->enableNews();
+		}
+
+		// no news editing for files, just notifications
+		$info->enableNewsEditing(false);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
+			if ($enable_internal_rss)
+			{
+				$info->setBlockProperty("news", "settings", true);
+				$info->setBlockProperty("news", "public_notifications_option", true);
+			}
+		}
+
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		// BEGIN WebDAV Display locking information
+		// BEGIN ChangeEvent Display owner and file reads.
+		$info->addObjectSections($this->object);
+		// END ChangeEvent Display owner and file reads.
+		// END WebDAV Display locking information
+
+		// forward the command
+		$this->ctrl->forwardCommand($info);
+	}
+	// END ChangeEvent show info screen on category object
 	
 	/**
 	 * Edit extended category settings
@@ -732,6 +816,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$settings = new ilContainerSortingSettings($this->object->getId());
 		$settings->setSortMode((int) $_POST['sorting']);
 		$settings->update();
+
+		// BEGIN ChangeEvent: Record update
+		global $ilUser;
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+		}
+		// END ChangeEvent: Record update
 
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));

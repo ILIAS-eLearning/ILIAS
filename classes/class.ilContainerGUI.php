@@ -294,6 +294,18 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function renderObject()
 	{
+		// BEGIN ChangeEvent: record read event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			if ($this->object != null)
+			{
+				global $ilUser;
+				ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
+			}
+		}
+		// END ChangeEvent: record read event.
+
 		$this->getCenterColumnHTML(true);
 		if ($this->type == 'cat' || $this->type == 'grp')
 		{
@@ -364,6 +376,7 @@ class ilContainerGUI extends ilObjectGUI
 	function showAdministrationPanel(&$tpl)
 	{
 		global $ilAccess, $ilSetting;
+		global $ilUser;
 		
 		if ($this->isActiveAdministrationPanel())
 		{
@@ -391,6 +404,10 @@ class ilContainerGUI extends ilObjectGUI
 			$tpl->setCurrentBlock("admin_panel_cmd");
 			$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("delete_selected_items"));
 			$tpl->setVariable("PANEL_CMD", "delete");
+			// BEGIN WebDAV: Show check all / uncheck all buttons
+			$tpl->setVariable("TXT_CHECK_ALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECK_ALL", $this->lng->txt("uncheck_all"));
+			// END WebDAV: Show check all / uncheck all buttons
 			$tpl->parseCurrentBlock();
 			if (!$_SESSION["clipboard"])
 			{
@@ -398,6 +415,12 @@ class ilContainerGUI extends ilObjectGUI
 				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("move_selected_items"));
 				$tpl->setVariable("PANEL_CMD", "cut");
 				$tpl->parseCurrentBlock();
+				// BEGIN WebDAV: Support a copy command in the repository
+				$tpl->setCurrentBlock("admin_panel_cmd");
+				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("copy_selected_items"));
+				$tpl->setVariable("PANEL_CMD", "copy");
+				$tpl->parseCurrentBlock();
+				// END WebDAV: Support a copy command in the repository
 				$tpl->setCurrentBlock("admin_panel_cmd");
 				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("link_selected_items"));
 				$tpl->setVariable("PANEL_CMD", "link");
@@ -437,8 +460,12 @@ class ilContainerGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, "item_ref_id", "");
 			$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
 		}
+		// BEGIN WebDAV: Always show administration commands button except for anonymous
 		else if ($this->adminCommands || (is_object($this->object) && 
-			$ilAccess->checkAccess("write", "", $this->object->getRefId())))
+			($ilAccess->checkAccess("write", "", $this->object->getRefId()) ||
+			$ilUser->getId() != ANONYMOUS_USER_ID)
+			))
+		// END WebDAV: Always show administration commands button except for anonymous
 		{
 			#$this->__showTimingsButton($tpl);
 
@@ -657,6 +684,14 @@ class ilContainerGUI extends ilObjectGUI
 			{
 				continue;
 			}
+			// BEGIN WebDAV: Don't display hidden files.
+			require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+			if (!$this->isActiveAdministrationPanel() && ilObjFileAccess::_isFileHidden($object['title']))
+			{
+				continue;
+			}
+			// END WebDAV: Don't display hidden files.
+
 			
 			// group object type groups together (e.g. learning resources)
 			$type = $objDefinition->getGroupOfObj($object["type"]);
@@ -756,8 +791,16 @@ class ilContainerGUI extends ilObjectGUI
 							$ilBench->stop("ilContainerGUI", "0210_getListHTML");
 							if ($html != "")
 							{
-								$item_html[] = array("html" => $html, "item_ref_id" => $item["ref_id"]
-									, "item_obj_id" => $item["obj_id"]);
+								// BEGIN WebDAV: Use $item_list_gui to determine icon image type
+								$item_html[] = array(
+									"html" => $html, 
+									"item_ref_id" => $item["ref_id"],
+									"item_obj_id" => $item["obj_id"],
+									'item_icon_image_type' => (method_exists($item_list_gui, 'getIconImageType')) ?
+											$item_list_gui->getIconImageType() :
+											$item['type']
+									);
+								// END WebDAV: Use $item_list_gui to determine icon image type
 							}
 						}
 
@@ -790,7 +833,9 @@ class ilContainerGUI extends ilObjectGUI
 							$this->current_position = 1;
 							foreach($item_html as $item)
 							{
-								$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],$type);
+								// BEGIN WebDAV: Use $item_list_gui to determine image type
+								$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $item['item_icon_image_type']);
+								// END WebDAV: Use $item_list_gui to determine image type
 							}
 
 							// store type specific templates in array
@@ -1350,6 +1395,11 @@ class ilContainerGUI extends ilObjectGUI
 	function pasteObject()
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log,$tree;
+		global $ilUser;
+
+		// BEGIN ChangeEvent: Record paste event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		// END ChangeEvent: Record paste event.
 
 //var_dump($_SESSION["clipboard"]);exit;
 		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
@@ -1426,6 +1476,31 @@ class ilContainerGUI extends ilObjectGUI
 		$ref_ids = $_SESSION["clipboard"]["ref_ids"];
 		unset($_SESSION["clipboard"]["ref_ids"]);
 
+		// BEGIN WebDAV: Support a Copy command in the repository
+		// process COPY command
+		if ($_SESSION["clipboard"]["cmd"] == "copy")
+		{
+			foreach($ref_ids as $ref_id)
+			{
+				$revIdMapping = array(); 
+				$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, null);
+
+				// BEGIN ChangeEvent: Record copy event.
+				if (ilChangeEvent::_isActive() )
+				{
+					$oldNode_data = $tree->getNodeData($ref_id);
+					$old_parent_data = $tree->getParentNodeData($ref_id);
+					$newNode_data = $tree->getNodeData($newRef);
+					ilChangeEvent::_recordReadEvent($oldNode_data['obj_id'], $ilUser->getId());
+					ilChangeEvent::_recordWriteEvent($newNode_data['obj_id'], $ilUser->getId(), 'add', 
+						$this->object->getId());
+					ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());
+				}
+				// END ChangeEvent: Record copy event.
+			}
+			$log->write("ilObjectGUI::pasteObject(), copy finished");
+		}
+		// END WebDAV: Support a Copy command in the repository
 
 		// process CUT command
 		if ($_SESSION["clipboard"]["cmd"] == "cut")
@@ -1440,121 +1515,20 @@ class ilContainerGUI extends ilObjectGUI
 				
 				include_once('classes/class.ilConditionHandler.php');
 				ilConditionHandler::_adjustMovedObjectConditions($ref_id);
-			}
-			
-			/*
-			// get subtrees
-			foreach($ref_ids as $ref_id)
-			{
-				// get node data
-				$top_node = $this->tree->getNodeData($ref_id);
 
-				// get subnodes of top nodes
-				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
-			}
-
-			// STEP 1: Move all subtrees to trash
-			$log->write("ilObjectGUI::pasteObject(), (1/3) move subtrees to trash");
-
-			foreach($ref_ids as $ref_id)
-			{
-				$tnodes = $this->tree->getSubtree($this->tree->getNodeData($ref_id));
-
-				foreach ($tnodes as $tnode)
+				// BEGIN ChangeEvent: Record cut event.
+				if (ilChangeEvent::_isActive() )
 				{
-					$rbacadmin->revokePermission($tnode["child"],0,false);
-					
-					// we don't remove the item from the personal desktop,
-					// just due to moving it
-					//$affected_users = ilUtil::removeItemFromDesktops($tnode["child"]);
+					$node_data = $tree->getNodeData($ref_id);
+					$old_parent_data = $tree->getNodeData($old_parent);
+					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'remove', 
+						$old_parent_data['obj_id']);
+					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
+						$this->object->getId());
+					ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
 				}
-
-				$this->tree->saveSubTree($ref_id);
-				$this->tree->deleteTree($this->tree->getNodeData($ref_id));
+				// END PATCH ChangeEvent: Record cut event.
 			}
-
-			// STEP 2: Move all subtrees to new location
-			$log->write("ilObjectGUI::pasteObject(), (2/3) move subtrees to new location");
-
-			// TODO: this whole put in place again stuff needs revision. Permission settings get lost.
-			foreach ($subnodes as $key => $subnode)
-			{
-$log->write("ilObjectGUI::pasteObject(), 0");
-				// first paste top_node ...
-				$rbacadmin->revokePermission($key,0,false);
-$log->write("ilObjectGUI::pasteObject(), 1");
-				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
-$log->write("ilObjectGUI::pasteObject(), 2");
-				$obj_data->putInTree($this->object->getRefId());
-$log->write("ilObjectGUI::pasteObject(), 3");
-				$obj_data->setPermissions($key);
-$log->write("ilObjectGUI::pasteObject(), 4");
-				// log entry
-				$log->write("ilObjectGUI::pasteObject(), inserted top node. ref_id: $key,".
-					" rgt: ".$subnode[0]["rgt"].", lft: ".$subnode[0]["lft"].", parent: ".$subnode[0]["parent"].",".
-					" obj_id: ".$obj_data->getId().", type: ".$obj_data->getType().
-					", title: ".$obj_data->getTitle());
-
-				// ... remove top_node from list ...
-				array_shift($subnode);
-
-				// ... insert subtree of top_node if any subnodes exist
-				if (count($subnode) > 0)
-				{
-					foreach ($subnode as $node)
-					{
-						$rbacadmin->revokePermission($node["child"],0,false);
-						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-						$obj_data->putInTree($node["parent"]);
-						$obj_data->setPermissions($node["parent"]);
-
-						// log entry
-						$log->write("ilObjectGUI::pasteObject(), inserted subnode. ref_id: ".$node["child"].",".
-							" rgt: ".$node["rgt"].", lft: ".$node["lft"].", parent: ".$node["parent"].",".
-							" obj_id: ".$obj_data->getId().", type: ".$obj_data->getType().
-							", title: ".$obj_data->getTitle());
-					}
-				}
-			}
-
-			// STEP 3: Remove trashed objects from system
-			$log->write("ilObjectGUI::pasteObject(), (3/3) remove trashed subtrees from system");
-
-			foreach ($ref_ids as $ref_id)
-			{
-				// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-				$saved_tree = new ilTree(-(int)$ref_id);
-				$node_data = $saved_tree->getNodeData($ref_id);
-				$subtree_nodes = $saved_tree->getSubTree($node_data);
-
-				// remember already checked deleted node_ids
-				$checked[] = -(int) $ref_id;
-
-				// dive in recursive manner in each already deleted subtrees and remove these objects too
-				$this->removeDeletedNodes($ref_id, $checked, false);
-
-				// delete save tree
-				$this->tree->deleteTree($node_data);
-
-				// write log entry
-				$log->write("ilObjectGUI::pasteObject(), deleted tree, tree_id: ".$node_data["tree"].
-					", child: ".$node_data["child"]);
-			}
-
-
-			$log->write("ilObjectGUI::pasteObject(), cut finished");
-
-			// inform other objects in hierarchy about paste operation
-			//$this->object->notify("paste",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
-
-			// inform other objects in hierarchy about cut operation
-			// the parent object where cut occured
-			$tmp_object = $this->ilias->obj_factory->getInstanceByRefId($_SESSION["clipboard"]["parent"]);
-			//$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$ref_ids);
-			unset($tmp_object);
-			
-			*/
-			
 		} // END CUT
 
 		// process LINK command
@@ -1606,6 +1580,15 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 						", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
 
 				}
+				// BEGIN ChangeEvent: Record link event.
+				if (ilChangeEvent::_isActive() )
+				{
+					$node_data = $tree->getNodeData($new_ref_id);
+					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
+						$this->object->getId());
+					ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
+				}
+				// END PATCH ChangeEvent: Record link event.
 
 				// ... insert subtree of top_node if any subnodes exist ...
 				if (count($subnode) > 0)
@@ -1683,7 +1666,13 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		{
 			ilUtil::sendInfo($this->lng->txt("msg_cut_copied"),true);
 		}
-		else
+		// BEGIN WebDAV: Support copy command in repository
+		else if ($last_cmd == "copy")
+		{
+			ilUtil::sendInfo($this->lng->txt("msg_copied"),true);
+		}
+		else if ($last_command == 'link')
+		// END WebDAV: Support copy command in repository
 		{
 			ilUtil::sendInfo($this->lng->txt("msg_linked"),true);
 		}
@@ -1692,6 +1681,69 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 
 	} // END PASTE
 
+	// BEGIN WebDAV: Support copy command in repository
+	/**
+	* copy object(s) out from a container and write the information to clipboard
+	*
+	*
+	* @access	public
+	*/
+	function copyObject()
+	{
+		global $rbacsystem;
+		
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
+
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// FOR ALL OBJECTS THAT SHOULD BE COPIED
+		foreach ($_POST["id"] as $ref_id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $this->tree->getNodeData($ref_id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
+
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
+
+			// CHECK VIEW AND READ PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
+			foreach ($subtree_nodes as $node)
+			{
+				if($node['type'] == 'rolf')
+				{
+					continue;
+				}
+				
+				if (!$rbacsystem->checkAccess('view,read',$node["ref_id"]))
+				{
+					$no_copy[] = $node["ref_id"];
+				}
+			}
+		}
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'view,read'
+		if (count($no_copy))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".implode(',',$this->getTitlesByRefId($no_copy)),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["cmd"] = ($_GET["cmd"] != "" && $_GET["cmd"] != "post")
+			? $_GET["cmd"]
+			: key($_POST["cmd"]);
+		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
+
+		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"),true);
+
+		$this->ctrl->returnToParent($this);
+
+	} // END COPY
+	// BEGIN WebDAV: Support copy command in repository
 
 
 	/**
@@ -2079,6 +2131,63 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 		$this->ctrl->returnToParent($this);
 	}
 	
+	// BEGIN WebDAV: Support a copy command in the repository
+	/**
+	* Recursively clones all nodes of the RBAC tree.
+	* 
+	* @access	private
+	* @param	integer ref_id of source object
+	* @param	integer ref_id of destination object
+	* @param	array	mapping new_ref_id => old_ref_id
+	* @param	string the new name of the copy (optional).
+	* @return	The ref_id pointing to the cloned object.
+	*/
+	function cloneNodes($srcRef,$dstRef,&$mapping, $newName=null)
+	{
+		global $tree;
+		global $ilias;
+		
+		// clone the source node
+		$srcObj =& $ilias->obj_factory->getInstanceByRefId($srcRef);
+		error_log(__METHOD__.' cloning srcRef='.$srcRef.' dstRef='.$dstRef.'...');
+		$newRef = $srcObj->cloneObject($dstRef)->getRefId();
+		error_log(__METHOD__.' ...cloning... newRef='.$newRef.'...');
+		
+		// We must immediately apply a new name to the object, to
+		// prevent confusion of WebDAV clients about having two objects with identical
+		// name in the repository.
+		if (! is_null($newName))
+		{
+			$newObj =& $ilias->obj_factory->getInstanceByRefId($newRef);
+			$newObj->setTitle($newName);
+			$newObj->write();
+			unset($newObj);
+		}
+		unset($srcObj);
+		$mapping[$newRef] = $srcRef;
+
+		// clone all children of the source node
+		$children = $tree->getChilds($srcRef);
+		foreach ($tree->getChilds($srcRef) as $child)
+		{
+			// Don't clone role folders, because it does not make sense to clone local roles
+			// FIXME - Maybe it does make sense (?)
+			if ($child["type"] != 'rolf')
+			{
+				$this->cloneNodes($child["ref_id"],$newRef,$mapping);
+			}
+			else
+			{
+				if (count($rolf = $tree->getChildsByType($newRef,"rolf")))
+				{
+					$mapping[$rolf[0]["ref_id"]] = $child["ref_id"];
+				}
+			}
+		}
+		error_log(__METHOD__.' ...cloned srcRef='.$srcRef.' dstRef='.$dstRef.' newRef='.$newRef);
+		return $newRef;
+	}
+	// END PATCH WebDAV: Support a copy command in the repository
 
 }
 ?>

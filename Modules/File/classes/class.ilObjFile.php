@@ -45,6 +45,7 @@ class ilObjFile extends ilObject
 	
 	private $file_storage = null;
 
+
 	/**
 	* Constructor
 	* @access	public
@@ -71,9 +72,26 @@ class ilObjFile extends ilObject
 	*/
 	function create($a_upload = false)
 	{
+		$new_id = parent::create();
+
+		//BEGIN WebDAV Move Property creation into a method of its own.
+		$this->createProperties($a_upload);
+		//END WebDAV Move Property creation into a method of its own.
+
+		return $new_id;		
+	}
+	//BEGIN WebDAV: Move Property creation into a method of its own.
+	/**
+	 * The basic properties of a file object are stored in table object_data.
+	 * This is not sufficient for a file object. Therefore we create additional
+	 * properties in table file_data.
+	 * This method has been put into a separate operation, to allow a WebDAV Null resource
+	 * (class.ilObjNull.php) to become a file object.
+	 */
+	function createProperties($a_upload = false)
+	{
 		global $ilDB;
 		
-		$new_id = parent::create();
 		// Create file directory
 		$this->initFileStorage();
 		$this->file_storage->create();
@@ -108,8 +126,8 @@ class ilObjFile extends ilObject
 		{
 			$this->createMetaData();
 		}
-		return $new_id;		
 	}
+	//END WebDAV: Move Property creation into a method of its own.
 	
 	/**
 	* create file object meta data
@@ -181,7 +199,9 @@ class ilObjFile extends ilObject
 
 		if ($a_version)
 		{
-			$version_subdir = "/".sprintf("%03d", $a_version);
+			// BEGIN WebDAV Avoid double slash before version subdirectory
+			$version_subdir = sprintf("%03d", $a_version);
+			// END WebDAV Avoid  double slash before version subdirectory
 		}
 		
 		if(!is_object($this->file_storage))
@@ -360,6 +380,38 @@ class ilObjFile extends ilObject
 	{
 		return $this->filesize;
 	}
+
+	// END PATCH WebDAV Encapsulate file access in ilObjFile class.
+	function getFile($a_hist_entry_id = null)
+	{
+		if (is_null($a_hist_entry_id))
+		{
+			$file = $this->getDirectory($this->getVersion())."/".$this->getFileName();
+		}
+		else
+		{
+			require_once("classes/class.ilHistory.php");
+			$entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
+			
+			if ($entry === false)
+			{
+				return false;
+			}
+
+			$data = explode(",",$entry["info_params"]);
+			
+			// bugfix: first created file had no version number
+			// this is a workaround for all files created before the bug was fixed
+			if (empty($data[1]))
+			{
+				$data[1] = "1";
+			}
+
+			$file = $this->getDirectory($data[1])."/".$data[0];
+		}
+		return $file;
+	}
+	// END PATCH WebDAV Encapsulate file access in ilObjFile class.
 	
 	function setVersion($a_version)
 	{
@@ -416,30 +468,10 @@ class ilObjFile extends ilObject
 
 	function _lookupFileSize($a_id, $a_as_string = false)
 	{
-		global $ilDB;
-
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
-		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
-		$size = $row->file_size;
-		if ($a_as_string)
-		{
-			if ($size > 1000000)
-			{
-				return round($size/1000000,1)." MB";
-			}
-			else if ($size > 1000)
-			{
-				return round($size/1000,1)." KB";
-			}
-			else
-			{
-				return $size." Bytes";
-			}
-			
-		}
-		return $size;
+		// BEGIN WebDAV: Use lookupFileSize function of class ilObjFileAccess
+	    include_once("./Modules/File/classes/class.ilObjFileAccess.php");
+		return ilObjFileAccess::_lookupFileSize($a_id, $a_as_string, true);
+		// END WebDAV: Use lookupFileSize function of class ilObjFileAccess
 	}
 	
 	/**
@@ -454,23 +486,33 @@ class ilObjFile extends ilObject
 	/**
 	* Determine File Size
 	*/
-	function determineFileSize()
+	function determineFileSize($a_hist_entry_id = null)
 	{
-		$file = $this->getDirectory($this->getVersion())."/".$this->getFileName();
+		if (is_null($a_hist_entry_id))
+		{
+			$file = $this->getDirectory($this->getVersion())."/".$this->getFileName();
+		}
+		else
+		{
+			require_once("classes/class.ilHistory.php");
+			$entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
+			
+			if ($entry === false)
+			{
+				return false;
+			}
 
-		// if not found lookup for file in file object's main directory for downward c	ompability
-		if (@!is_file($file))
-		{
-			$file = $this->getDirectory()."/".$this->getFileName();
+			$data = explode(",",$entry["info_params"]);
+			
+			// bugfix: first created file had no version number
+			// this is a workaround for all files created before the bug was fixed
+			if (empty($data[1]))
+			{
+				$data[1] = "1";
+			}
+			$file = $this->getDirectory($data[1])."/".$data[0];
 		}
-		
-		$size = @filesize($file);
-		if ($size > 0)
-		{
-			$this->setFilesize($size);
-		}
-		
-		return $size;
+		$this->setFileSize(filesize($file));
 	}
 	
 	function sendFile($a_hist_entry_id = null)
@@ -512,22 +554,83 @@ class ilObjFile extends ilObject
 				$file = $this->getDirectory()."/".$data[0];
 			}
 
-			if (@is_file($file))
-			{
-				ilUtil::deliverFile($file, $data[0]);
-				return true;
-			}
+			// BEGIN WebDAV removed duplicated code
+			// END WebDAV removed duplicated code
 		}
 
 		if (@is_file($file))
 		{
-			ilUtil::deliverFile($file, $this->getFileName());
+			// BEGIN WebDAV: Deliver file with title, file type, and eventually as inline object.
+			ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType(), $this->isInline());
+			// END WebDAV: Deliver file with title, file type, and eventually as inline object.
 			return true;
 		}
 
 		return false;
 	}
 
+	// BEGIN WebDAV: Get file extension, determine if file is inline, guess file type.
+	/**
+	 * Returns the extension of the file name converted to lower-case.
+	 * e.g. returns 'pdf' for 'document.pdf'.
+	 */
+	function getFileExtension() {
+		require_once 'class.ilObjFileAccess.php';
+		return ilObjFileAccess::_getFileExtension($this->getTitle());
+	}
+	/**
+	 * Returns true, if this file should be displayed inline in a browser
+	 * window. This is especially useful for PDF documents, HTML pages,
+	 * and for images which are directly supported by the browser.
+	 */
+	function isInline() {
+		require_once 'class.ilObjFileAccess.php';
+		return ilObjFileAccess::_isFileInline($this->getTitle());
+	}
+	// END WebDAV: Get file extension, determine if file is inline, guess file type.
+	
+	/**
+	 * Guesses the file type based on the current values returned by getFileType()
+	 * and getFileExtension().
+	 * If getFileType() returns 'application/octet-stream', the file extension is
+	 * used to guess a more accurate file type.
+	 */
+	function guessFileType() {
+		$fileType = $this->getFileType();
+		if (strlen($fileType) == 0) {	
+			$fileType = 'application/octet-stream';
+		}
+
+		// Firefox browser assigns 'application/x-pdf' to PDF files, but
+		// it can only handle them if the have the mime-type 'application/pdf'.
+		if ($fileType == 'application/x-pdf')
+		{
+			$fileType = 'application/pdf';
+		}
+
+		if ($fileType == 'application/octet-stream')
+		{
+			$fileExtension = $this->getFileExtension();
+			$mimeArray = array(
+				'mpeg' => 'video/mpeg',
+				'mp3' => 'audio/mpeg',
+				'pdf' => 'application/pdf',
+				'gif' => 'image/gif',
+				'jpg' => 'image/jpg',
+				'png' => 'image/png',
+				'htm' => 'text/html',
+				'html' => 'text/html',
+				'wma' => 'video/x-ms-wma',
+				'wmv' => 'video/x-ms-wmv',
+				'swf' => 'application/x-shockwave-flash',
+			);
+			if (array_key_exists($fileExtension, $mimeArray))
+			{
+				$fileType = $mimeArray[$fileExtension];
+			}
+		}
+		return $fileType;
+	}
 	
 	/**
 	 * Clone
@@ -775,6 +878,7 @@ class ilObjFile extends ilObject
 			//move_uploaded_file($a_upload_file, $file);
 			rename($a_upload_file,  $file);
 	}
+
 
 } // END class.ilObjFile
 ?>

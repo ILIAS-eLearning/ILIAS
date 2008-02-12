@@ -490,6 +490,20 @@ class ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
+		// BEGIN WebDAV Get mount webfolder link.
+		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+		if ($a_cmd == 'mount_webfolder' && ilDavServer::_isActive()) {
+				$davServer = new ilDAVServer();
+
+				// XXX: The following is a very dirty, ugly trick. 
+				//        To mount URI needs to be put into two attributes:
+				//        href and folder. This hack returns both attributes
+				//        like this:  http://...mount_uri..." folder="http://...folder_uri...
+				return $davServer->getMountURI($this->ref_id).
+							'" folder="'.$davServer->getFolderURI($this->ref_id);
+		}
+		// END WebDAV Get mount webfolder link.
+
 		// don't use ctrl here in the moment
 		return 'repository.php?ref_id='.$this->ref_id.'&cmd='.$a_cmd;
 
@@ -526,7 +540,7 @@ class ilObjectListGUI
 	*						"property" (string) => property name
 	*						"value" (string) => property value
 	*/
-	function getProperties($a_item = '')
+	public function getProperties($a_item = '')
 	{
 		$props = array();
 		// please list alert properties first
@@ -534,6 +548,110 @@ class ilObjectListGUI
 		// $props[] = array("alert" => true, "property" => "Status", "value" => "Offline");
 		// $props[] = array("alert" => false, "property" => ..., "value" => ...);
 		// ...
+
+		// BEGIN ebDAV Display locking information
+		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+		if (ilDavServer::_isActive()) 
+		{
+			global $ilias, $lng;
+			
+			// Show lock info
+			require_once('Services/WebDAV/classes/class.ilDAVLocks.php');
+			$davLocks = new ilDAVLocks();
+			if ($ilias->account->getId() != ANONYMOUS_USER_ID)
+			{
+				$locks =& $davLocks->getLocksOnObject($this->obj_id);
+				if (count($locks) > 0)
+				{
+					$lockUser = new ilObjUser($locks[0]['ilias_owner']);
+					
+					$props[] = array(
+						"alert" => false, 
+						"property" => $lng->txt("in_use_by"),
+						"value" => $lockUser->getLogin(),
+						"link" => 	"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI',
+					);
+				}
+			}
+			// END WebDAV Display locking information
+			// BEGIN WebDAV Display warning for invisible Unix files and files with special characters
+			if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+					"value" => $lng->txt("filename_special_filename"),
+					'propertyNameVisible' => false);
+			} 
+			else if (preg_match('/^\\./', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_visibility"),
+					"value" => $lng->txt("filename_hidden_unix_file"),
+					'propertyNameVisible' => false);
+			}
+			else if (preg_match('/~$/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_visibility"),
+					"value" => $lng->txt("filename_hidden_backup_file"),
+					'propertyNameVisible' => false);
+			}
+			else if (preg_match('/[\\/]/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+					"value" => $lng->txt("filename_special_characters"),
+					'propertyNameVisible' => false);
+			} 
+			else if (preg_match('/[\\\\\\/:*?"<>|]/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+					"value" => $lng->txt("filename_windows_special_characters"),
+					'propertyNameVisible' => false);
+			}
+			else if (preg_match('/\\.$/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+					"value" => $lng->txt("filename_windows_empty_extension"),
+					'propertyNameVisible' => false);
+			} 
+			else if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+					"value" => $lng->txt("filename_special_filename"),
+					'propertyNameVisible' => false);
+			} 
+			else if (preg_match('/#/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+					"value" => $lng->txt("filename_windows_webdav_issue"),
+					'propertyNameVisible' => false);
+			}
+		}
+		// END WebDAV Display warning for invisible files and files with special characters
+		// BEGIN ChangeEvent: display changes.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilias, $lng, $ilUser;
+			if ($ilias->account->getId() != ANONYMOUS_USER_ID)
+			{
+				$state = ilChangeEvent::_lookupChangeState($this->obj_id, $ilUser->getId());
+				if ($state > 0)
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("event"),
+						"value" => $lng->txt(($state == 1) ? 'state_unread' : 'state_changed'),
+						'propertyNameVisible' => false);
+				}
+				else
+				{
+					$state = ilChangeEvent::_lookupInsideChangeState($this->obj_id, $ilUser->getId());
+					if ($state > 0)
+					{
+						$props[] = array("alert" => false, "property" => $lng->txt("event"),
+							"value" => $lng->txt('state_changed_inside'),
+							'propertyNameVisible' => false);
+					}
+				}
+			}
+		}
+		// END ChangeEvent: display changes.
 
 		return $props;
 	}
@@ -581,7 +699,7 @@ class ilObjectListGUI
 	/**
 	* add a custom command
 	*/
-	function addCustomCommand($a_link, $a_lang_var, $a_frame = "")
+	public function addCustomCommand($a_link, $a_lang_var, $a_frame = "")
 	{
 		$this->cust_commands[] =
 			array("link" => $a_link, "lang_var" => $a_lang_var,
@@ -612,7 +730,7 @@ class ilObjectListGUI
 	*					"granted" => true/false: command granted or not
 	*					"access_info" => access info object (to do: implementation)
 	*/
-	function getCommands()
+	public function getCommands()
 	{
 		global $ilAccess, $ilBench;
 
@@ -622,6 +740,16 @@ class ilObjectListGUI
 			$permission = $command["permission"];
 			$cmd = $command["cmd"];
 			$lang_var = $command["lang_var"];
+
+			// BEGIN WebDAV: Suppress commands that don't make sense for anonymous users.
+			// Suppress commands that don't make sense for anonymous users
+			global $ilias;
+			if ($ilias->account->getId() == ANONYMOUS_USER_ID &&
+				$command['enable_anonymous'] == 'false')
+			{
+				continue;
+			}
+			// END WebDAV: Suppress commands that don't make sense for anonymous users.
 
 			// all access checking should be made within $ilAccess and
 			// the checkAccess of the ilObj...Access classes
@@ -656,6 +784,19 @@ class ilObjectListGUI
 		return $ref_commands;
 	}
 
+	// BEGIN WebDAV: Visualize object state in its icon.
+	/**
+	* Returns the icon image type.
+	* For most objects, this is same as the object type, e.g. 'cat','fold'.
+	* We can return here other values, to express a specific state of an object,
+	* e.g. 'crs_offline", and/or to express a specific kind of object, e.g.
+	* 'file_inline'.
+	*/
+	public function getIconImageType() 
+	{
+		return $this->type;
+	}
+	// END WebDAV: Visualize object state in its icon.
 
 	/**
 	* insert item title
@@ -664,7 +805,7 @@ class ilObjectListGUI
 	* @param	object		$a_tpl		template object
 	* @param	string		$a_title	item title
 	*/
-	function insertTitle()
+	public function insertTitle()
 	{
 		if (!$this->default_command || !$this->getCommandsStatus())
 		{
@@ -825,6 +966,13 @@ class ilObjectListGUI
 		{
 			foreach($props as $prop)
 			{
+				// BEGIN WebDAV: Display a separator between properties.
+				if ($cnt > 1)
+				{
+					$this->tpl->touchBlock("separator_prop");
+				}
+				// END PATCH WebDAV: Display a separator between properties.
+
 				if ($prop["alert"] == true)
 				{
 					$this->tpl->touchBlock("alert_prop");
@@ -837,14 +985,26 @@ class ilObjectListGUI
 				{
 					$this->tpl->touchBlock("newline_prop");
 				}
-				if (isset($prop["property"]))
+				//BEGIN WebDAV: Support hidden property names.
+				if (isset($prop["property"]) && $prop['propertyNameVisible'] !== false)
+				//END WebDAV: Support hidden property names.
 				{
 					$this->tpl->setCurrentBlock("prop_name");
 					$this->tpl->setVariable("TXT_PROP", $prop["property"]);
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("item_property");
-				$this->tpl->setVariable("VAL_PROP", $prop["value"]);
+				//BEGIN WebDAV: Support links in property values.
+				if ($prop['link'])
+				{
+					$this->tpl->setVariable("LINK_PROP", $prop['link']);
+					$this->tpl->setVariable("LINK_VAL_PROP", $prop["value"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("VAL_PROP", $prop["value"]);
+				}
+				//END WebDAV: Support links in property values.
 				$this->tpl->parseCurrentBlock();
 
 				$cnt++;

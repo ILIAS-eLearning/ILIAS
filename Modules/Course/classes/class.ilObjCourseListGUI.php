@@ -56,7 +56,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = true;
-		$this->info_screen_enabled = true;
+		//$this->info_screen_enabled = true;
 		$this->type = "crs";
 		$this->gui_class_name = "ilobjcoursegui";
 		
@@ -116,7 +116,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	{
 		global $lng, $ilUser;
 
-		$props = array();
+		// BEGIN WebDAV: Get parent properties
+		// BEGIN ChangeEvent: Get parent properties
+		$props = parent::getProperties();
+		// END ChangeEvent: Get parent properties
+		// END WebDAV: Get parent properties
 
 		// offline
 		include_once 'Modules/Course/classes/class.ilObjCourse.php';

@@ -69,6 +69,21 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 	}
 
 	/**
+	* Get command target frame.
+	*
+	* Overwrite this method if link frame is not current frame
+	*
+	* @param	string		$a_cmd			command
+	*
+	* @return	string		command target frame
+	*/
+	function getCommandFrame($a_cmd)
+	{
+		// BEGIN WebDAV
+		return ($a_cmd == 'mount_webfolder') ? '_blank' : parent::getCommandFrame($a_cmd);
+		// END WebDAV
+	}
+	/**
 	* Get command link url.
 	*
 	* @param	int			$a_ref_id		reference id
@@ -77,8 +92,29 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		// separate method for this line
-		$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		// BEGIN WebDAV
+		switch ($a_cmd) 
+		{
+			case 'mount_webfolder' :
+				require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+				if (ilDAVServer::_isActive())
+				{
+					$davServer = new ilDAVServer();
+					
+					// FIXME: The following is a very dirty, ugly trick. 
+					//        To mount URI needs to be put into two attributes:
+					//        href and folder. This hack returns both attributes
+					//        like this:  http://...mount_uri..." folder="http://...folder_uri...
+					$cmd_link = $davServer->getMountURI($this->ref_id).
+								'" folder="'.$davServer->getFolderURI($this->ref_id);
+				}
+				break;
+			default :
+				// separate method for this line
+				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				break;
+		}
+		// END WebDAV
 
 		return $cmd_link;
 	}

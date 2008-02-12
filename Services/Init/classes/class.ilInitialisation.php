@@ -79,6 +79,11 @@ class ilInitialisation
 		$ilBench =& new ilBenchmark();
 		$GLOBALS['ilBench'] =& $ilBench;
 
+		// BEGIN WebDAV: Measure response time until footer is displayed on form
+		// The stop statement is in class.ilTemplate.php function add ILIAS footer
+		$ilBench->start("Core", "ElapsedTimeUntilFooter");
+		// END WebDAV: Measure response time until footer is displayed on form
+
 		$ilBench->start("Core", "HeaderInclude");
 
 		// start the StopWatch
@@ -90,6 +95,9 @@ class ilInitialisation
 		require_once "PEAR.php";
 		//require_once "DB.php";
 		require_once "Auth/Auth.php";
+		// BEGIN WebDAV: HTTP Authentication.
+		require_once "Auth/HTTP.php";
+		// END WebDAV: HTTP Authentication.
 
 		// HTML_Template_IT support
 		// (location changed with 4.3.2 & higher)
@@ -650,6 +658,19 @@ class ilInitialisation
 		{
 			die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 		}
+
+		// BEGIN WebDAV: Don't do a redirect to the public area, if the user
+		//             performs a get request.
+		if (ilPlugin::isPluginActive('ilUsabilityPlugin'))
+		{
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$_SESSION["AccountId"] = ANONYMOUS_USER_ID;
+				$this->initUserAccount();
+				return;
+			}
+		}
+		// END WebDAV: Don't do a redirect to the public area, if the user
 
 		// if target given, try to go there
 		if ($_GET["target"] != "")

@@ -463,7 +463,22 @@ class ilSCORMPresentationGUI
 			.$lng->txt("cont_total_time").  ": "
 			.$_GET["totime"]
 		);
-		$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
+
+		// BEGIN Bugfix proceed to the next SCO
+		//$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
+		$launch_id = $_GET['launch'];
+		if ($launch_id == 'null' || $launch_id == null) {
+			require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
+			$mtree = new ilSCORMTree($this->slm->getId());
+			$node_data = $mtree->fetchSuccessorNode($_GET['sahs_id']);
+			if ($node_data)
+			{
+				$launch_id = $node_data['child'];
+			}
+		}
+		$this->tpl->setVariable("SCO_LAUNCH_ID", $launch_id);
+		// END Bugfix proceed to the next SCO	
+
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}

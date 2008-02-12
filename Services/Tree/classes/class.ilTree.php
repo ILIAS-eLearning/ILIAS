@@ -1123,6 +1123,89 @@ class ilTree
 		return $pathIds;
 	}
 
+	// BEGIN WebDAV: toNodePath function added
+	/**
+	* Converts a path consisting of object titles into a path consisting of tree nodes.
+	* Comparison is non-case sensitive.
+	*
+	* @access	public
+	* @param	Array	Path array with object titles.
+	*                       e.g. array('ILIAS','English','Course A')
+	* @return	array	ordered path info (depth,parent,child,obj_id,type,title)
+	*               or null, if the title path can not be converted into a node path.
+	*/
+	function toNodePath($titlePath)
+	{
+		//$this->writelog('toNodePath('.implode('/',$titlePath));
+		global $ilDB, $log;
+		
+		require_once('include/Unicode/UtfNormal.php');
+
+				
+		// Convert title path into Unicode Normal Form C
+		// This is needed to ensure that we can compare title path strings with
+		// strings from the database.
+		$inClause = 'd.title IN (';
+		for ($i=0; $i < count($titlePath); $i++)
+		{
+			$titlePath[$i] = strtolower(UtfNormal::toNFC($titlePath[$i]));
+			if ($i > 0) $inClause .= ',';
+			$inClause .= $ilDB->quote($titlePath[$i]);
+		}
+		$inClause .= ')';
+
+		// Fetch all rows that are potential path elements
+		if ($this->table_obj_reference)
+		{
+			$joinClause = 'JOIN '.$this->table_obj_reference.' AS r ON t.child=r.'.$this->ref_pk.' '.
+				'JOIN '.$this->table_obj_data.' AS d ON r.'.$this->obj_pk.'=d.'.$this->obj_pk;
+		}
+		else
+		{
+			$joinClause = 'JOIN '.$this->table_obj_data.' AS d ON t.child=d.'.$this->obj_pk;
+		}
+		$q = 'SELECT t.depth, t.parent, t.child, d.'.$this->obj_pk.' AS obj_id, d.type, d.title '.
+			'FROM '.$this->table_tree.' AS t '.
+			$joinClause.' '.
+			'WHERE '.$inClause.' '.
+			'AND t.depth <= '.count($titlePath).' '.
+			'AND t.tree = 1';
+		$r = $ilDB->query($q);
+		
+		$rows = array();
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$row['title'] = UtfNormal::toNFC($row['title']);
+			$row['ref_id'] = $row['child'];
+			$rows[] = $row;
+		}
+		
+		// Extract the path elements from the fetched rows
+		$nodePath = array();
+		$parent = 0;
+		for ($i = 0; $i < count($titlePath); $i++) {
+			foreach ($rows as $row) {
+				if ($row['parent'] == $parent && 
+				strtolower($row['title']) == $titlePath[$i])
+				{
+					$nodePath[] = $row;
+					$parent = $row['child'];
+					break;
+				}
+			}
+			// Abort if we haven't found a path element for the current depth
+			if (count($nodePath) != $i + 1)
+			{
+				//$log->write('ilTree.toNodePath('.var_export($titlePath,true).'):null');
+				return null;
+			}
+		}
+		// Return the node path
+		//$log->write('ilTree.toNodePath('.var_export($titlePath,true).'):'.var_export($nodePath,true));
+		return $nodePath;
+	}
+	// END WebDAV: toNodePath function added
+
 	/**
 	* check consistence of tree
 	* all left & right values are checked if they are exists only once
@@ -1278,7 +1361,10 @@ class ilTree
 	* @param	integer		node id
 	* @return	array		2-dim (int/str) node_data
 	*/
-	function getNodeData($a_node_id)
+	// BEGIN WebDAV: Pass tree id to this method
+	//function getNodeData($a_node_id)
+	function getNodeData($a_node_id, $a_tree_pk = null)
+	// END PATCH WebDAV: Pass tree id to this method
 	{
 		if (!isset($a_node_id))
 		{
@@ -1297,10 +1383,14 @@ class ilTree
 			}
 		}
 
+		// BEGIN WebDAV: Pass tree id to this method
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
-			 "WHERE ".$this->table_tree.".child = ".$this->ilDB->quote($a_node_id)." ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
+			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".
+			 (($a_tree_pk === null) ? $this->tree_id : $a_tree_pk).
+			 "'";
+		// END WebDAV: Pass tree id to this method
 		$r = $this->ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		$row[$this->tree_pk] = $this->tree_id;

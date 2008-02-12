@@ -1,0 +1,2035 @@
+<?php
+// BEGIN WebDAV
+/*
+        +-----------------------------------------------------------------------------+
+        | ILIAS open source                                                           |
+        +-----------------------------------------------------------------------------+
+        | Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+        |                                                                             |
+        | This program is free software; you can redistribute it and/or               |
+        | modify it under the terms of the GNU General Public License                 |
+        | as published by the Free Software Foundation; either version 2              |
+        | of the License, or (at your option) any later version.                      |
+        |                                                                             |
+        | This program is distributed in the hope that it will be useful,             |
+        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+        | GNU General Public License for more details.                                |
+        |                                                                             |
+        | You should have received a copy of the GNU General Public License           |
+        | along with this program; if not, write to the Free Software                 |
+        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+        +-----------------------------------------------------------------------------+
+*/
+
+require_once "Server.php";
+require_once "class.ilDAVLocks.php";
+require_once "class.ilDAVProperties.php";
+require_once 'class.ilObjectDAV.php';
+
+require_once "Services/User/classes/class.ilObjUser.php";
+require_once('include/Unicode/UtfNormal.php');
+require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+    
+/**
+* Class ilDAVServer
+*
+* Provides access to objects in the repository of ILIAS by means of the WebDAV protocol.
+* This class is never directly invoked from HTTP. It is always invoked by the
+* script /ilias3/webdav.php.
+*
+* FIXME - We aren't able to handle filenames that contain a slash / character.
+*
+*
+*
+* @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
+* @version $Id: class.ilDAVServer.php,v 1.0 2005/07/08 12:00:00 wrandelshofer Exp $
+*
+* @package webdav
+*/
+class ilDAVServer extends HTTP_WebDAV_Server 
+{
+	/**
+	* Cached object handler.
+	* This is a private variable of function getObject.
+	*/
+	private $cachedObjectDAV;
+	
+	/**
+	* Handler for locks.
+	*/
+	private $locks;
+	/**
+	* Handler for properties.
+	*/
+	private $properties;
+	
+	/**
+	 * The operating system of the WebDAV client.
+	 * This is 'windows', 'unix' or 'unknown'.
+	 * (Mac OS X considered as 'unix'.).
+	 */
+	private $clientOS = 'unknown';
+	/**
+	 * The flavor of the operating system of the WebDAV client.
+	 * This is 'xp', 'osx', or 'unknown'.
+	 */
+	private $clientOSFlavor = 'unknown';
+	/**
+	 * The name of some well known browsers, that need special support.
+	 * This is either "konqueror", or unknown.
+	 */
+	private $clientBrowser = 'unknown';
+
+	/**
+     * The WebDAVServer prints lots of log messages to the ilias log, if this	
+	 * variable is set to true.
+	 */
+	private $isDebug = true;
+	
+	/** 
+	* Constructor
+	*
+	* @param void
+	*/
+	public function ilDAVServer() 
+	{
+		$this->writelog("<constructor>");
+	
+		// Initialize the WebDAV server and create 
+		// locking and property support objects
+		$this->HTTP_WebDAV_Server();
+		$this->locks =& new ilDAVLocks();
+		$this->properties =& new ilDAVProperties();
+		//$this->locks->createTable();
+		//$this->properties->createTable();
+		
+		
+		// Guess operating system, operating system flavor and browser of the webdav client
+		//
+		// - We need to know the operating system in order to properly
+		// hide hidden resources in directory listings.
+		//
+		// - We need the operating system flavor and the browser to
+		// properly support mounting of a webdav folder.
+		//
+		$userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+		$this->writelog('userAgent='.$userAgent);
+		if (strpos($userAgent,'windows') !== false
+		|| strpos($userAgent,'microsoft') !== false)
+		{
+			$this->clientOS = 'windows';
+			$this->clientOSFlavor = 'xp';
+			
+		} else if (strpos($userAgent,'darwin') !== false
+                || strpos($userAgent,'macintosh') !== false
+		|| strpos($userAgent,'linux') !== false
+		|| strpos($userAgent,'solaris') !== false
+		|| strpos($userAgent,'aix') !== false
+		|| strpos($userAgent,'unix') !== false
+		)
+		{
+			$this->clientOS = 'unix';
+			if (strpos($userAgent,'linux') !== false)
+			{
+				$this->clientOSFlavor = 'linux';
+			} 
+			else if (strpos($userAgent,'macintosh') !== false)
+			{
+				$this->clientOSFlavor = 'osx';
+			} 
+		}
+		if (strpos($userAgent,'konqueror') !== false)
+		{
+			$this->clientBrowser = 'konqueror';
+		}
+		$this->writelog('userAgent='.$userAgent);
+	}
+		
+	/**
+	 * Serves a WebDAV request.
+	 */        
+	public function serveRequest() 
+	{
+		// die quickly if plugin is deactivated
+		if (!self::_isActive())
+		{
+			$this->http_status('403 Forbidden');
+			echo '<html><body><h1>Sorry</h1>'.
+				'<p><b>Please enable the WebDAV plugin in the ILIAS Administration panel.</b></p>'.
+				'<p>You can only access this page, if WebDAV is enabled on this server.</p>'.
+				'</body></html>';
+			return;
+		}
+	
+		try {
+			$start = time();
+				$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' ...');
+			parent::serveRequest();
+			$end = time();
+					$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' done status='.$this->_http_status.' elapsed='.($end - $start));
+					$this->writelog('---');
+		} catch (Exception $e) {
+                	$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' caught exception: '.$e->getMessage().'\n'.$e->getTraceAsString());
+		}
+	}
+	
+	/**
+	* We do not implement this method, because authentication is done by
+	* ilias3/webdav.php.
+	*
+	* @access private
+	* @param  string  HTTP Authentication type (Basic, Digest, ...)
+	* @param  string  Username
+	* @param  string  Password
+	* @return bool    true on successful authentication
+	* /
+	public function check_auth($type, $user, $pass) 
+	{
+			$this->writelog('check_auth type='.$type.' user='.$user.' pass='.$pass);
+	
+			if (! $user)
+			{
+			return false;
+			}
+		return true;
+	}*/
+
+	/**
+	 * Encodes an URL.
+	 * This function differs from the PHP urlencode() function in the following
+	 * way:
+	 * - Unicode characters are composed into Unicode Normal Form NFC
+	 *   This ensures that WebDAV clients running on Windows and Mac OS X
+	 *   treat resource names that contain diacritic marks in the same way.
+	 * - Slash characters '/' are preserved
+	 *   This ensures that path components are properly recognized by
+	 *   WebDAV clients.
+	 * - Space characters are encoded as '%20' instead of '+'.
+	 *   This ensures proper handling of spaces by WebDAV clients.
+	 */
+	private function davUrlEncode($path)
+	{
+		// We compose the path to Unicode Normal Form NFC
+		// This ensures that diaeresis and other special characters
+		// are treated uniformly on Windows and on Mac OS X
+		$path = UtfNormal::toNFC($path);
+		
+		$c = explode('/',$path);
+		for ($i = 0; $i < count($c); $i++)
+		{
+			$c[$i] = str_replace('+','%20',urlencode($c[$i]));
+		}
+		return implode('/',$c);
+	}
+
+	/**
+	* PROPFIND method handler
+	*
+	* @param  array  general parameter passing array
+	* @param  array  return array for file properties
+	* @return bool   true on success
+	*/
+	public function PROPFIND(&$options, &$files) 
+	{
+		//global $tree;
+
+		$this->writelog('PROPFIND(options:'.var_export($options, true).' files:'.var_export($files, true).'.)');
+		$this->writelog('PROPFIND '.$options['path']);
+
+		// get dav object for path
+		$path =& $this->davDeslashify($options['path']);
+		$objDAV =& $this->getObject($path);
+
+		// prepare property array
+		$files['files'] = array();
+
+		// sanity check
+		if (is_null($objDAV)) {
+			return false;
+		}
+		if (! $objDAV->isPermitted('visible,read')) {
+			return '403 Forbidden';
+		}
+
+		// store information for the requested path itself
+		// FIXME : create display name for object.
+		$encodedPath = $this->davUrlEncode($path);
+		$files['files'][] =& $this->fileinfo($encodedPath, $encodedPath, $objDAV);
+
+		// information for contained resources requested?
+		if (!empty($options['depth']))  { // TODO check for is_dir() first?
+			// read directory contents
+			$childrenDAV =& $objDAV->childrenWithPermission('visible');
+			foreach ($childrenDAV as $childDAV)
+			{
+				// On duplicate names, work with the older object (the one with the
+				// smaller object id).
+				foreach ($childrenDAV as $duplChildDAV)
+				{
+					if ($duplChildDAV->getObjectId() < $childDAV->getObjectId() &&
+							$duplChildDAV->getResourceName() == $childDAV->getResourceName())
+					{
+						continue 2;
+					}
+				}
+				
+				// only add visible objects to the file list
+				if ($this->isVisibleChild($childDAV))
+				{
+					$this->writelog('PROPFIND() child ref_id='.$childDAV->getRefId());
+					$files['files'][] =& $this->fileinfo(
+						$encodedPath.'/'.$this->davUrlEncode($childDAV->getResourceName()),
+						$encodedPath.'/'.$this->davUrlEncode($childDAV->getDisplayName()),
+						$childDAV
+					);
+				}
+			}
+			// TODO recursion needed if "Depth: infinite"
+			// According to RFC 2518, Chapter 8.1, we MUST support this feature
+		}
+
+		// Record read event but don't catch up with write events, because
+		// with WebDAV, a user can not see all objects contained in a folder.
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			ilChangeEvent::_recordReadEvent($objDAV->getObjectId(), $ilUser->getId(), false);
+		}
+
+		// ok, all done
+		$this->writelog('PROPFIND():true options='.var_export($options, true).' files='.var_export($files,true));
+		return true;
+	}
+        
+	/**
+     * Returns true, if the resource is a visible child of a collection.
+	 * Note, that resources which are not a visible child can still be a WebDAV client,
+	 * if the client knows the resource name.
+	 *
+	 * - We hide all Null Resources who haven't got an active lock
+	 * - We hide all files with the prefix "." from Windows DAV Clients.
+	 * - We hide all files which contain characters that are not allowed on Windows from Windows DAV Clients.
+	 * - We hide the files with the prefix " ~$" or the name "Thumbs.db" from Unix DAV Clients.
+	 */	
+	private function isVisibleChild(&$objDAV)
+	{
+		// Hide null resources which haven't got an active lock
+		if ($objDAV->isNullResource()) {
+			if (count($this->locks->getLocks($objDAV)) == 0) {
+				return;
+			}
+		}
+	
+		$name = $objDAV->getResourceName();
+		$isVisibleChild = true;
+		switch ($this->clientOS)
+		{
+		case 'unix' :
+			// Hide files which start with '~$'.
+			$isVisibleChild = 
+				$name != 'Thumbs.db'
+				&& substr($name, 0, 2) != '~$';
+			break;
+		case 'windows' :
+			// Hide files that start with '.'.
+			$isVisibleChild = substr($name, 0, 1) != '.';
+			// Hide files which contain \ / : * ? " < > |
+			$isVisibleChild &= !preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
+			break;
+		}
+		$this->writelog($this->clientOS.' '.$name.' '.$isVisibleChild);
+		return $isVisibleChild;
+	}
+	
+	/**
+	* Creates file info properties for a single file/resource
+	*
+	* @param  string  resource path
+	* @param  ilObjectDAV  resource DAV object
+	* @return array   resource properties
+	*/
+	private function fileinfo($resourcePath, $displayPath, &$objDAV) 
+	{
+		global $ilias;
+
+		$this->writelog('fileinfo('.$resourcePath.')');
+		// create result array
+		$info = array();
+		/* MAC OS X does not like trailing slash
+		if ($objDAV->isCollection())
+		{
+			$info['path'] =& $this->davUrlEncode($resourcePath.'/');
+		} else {
+			$info['path'] =& $this->davUrlEncode($resourcePath);
+		}*/
+		$info['path'] =& $resourcePath;
+
+		$info['props'] = array();
+
+		// no special beautified displayname here ...
+		$info["props"][] =& $this->mkprop("displayname", $displayPath);
+
+		// creation and modification time
+		$info["props"][] =& $this->mkprop("creationdate", $objDAV->getCreationTimestamp());
+		$info["props"][] =& $this->mkprop("getlastmodified", $objDAV->getModificationTimestamp());
+
+		// directory (WebDAV collection)
+		$info["props"][] =& $this->mkprop("resourcetype", $objDAV->getResourceType());
+		$info["props"][] =& $this->mkprop("getcontenttype", $objDAV->getContentType());             
+		$info["props"][] =& $this->mkprop("getcontentlength", $objDAV->getContentLength());
+
+		// Only show supported locks for users who have write permission
+		if ($objDAV->isPermitted('write'))
+		{
+			$info["props"][] =& $this->mkprop("supportedlock",
+				'<D:lockentry>'
+					.'<D:lockscope><D:exclusive/></D:lockscope>'
+					.'<D:locktype><D:write/></D:locktype>'
+				.'</D:lockentry>'
+				.'<D:lockentry>'
+					.'<D:lockscope><D:shared/></D:lockscope>'
+					.'<D:locktype><D:write/></D:locktype>'
+				.'</D:lockentry>'
+			);
+		}
+
+		// Maybe we should only show locks on objects for users who have write permission.
+		// But if we don't show these locks, users who have write permission in an object
+		// further down in a hierarchy can't see who is locking their object.
+		$locks = $this->locks->getLocks($objDAV);
+		$lockdiscovery = '';
+		foreach ($locks as $lock)
+		{
+			// DAV Clients expects to see their own owner name in
+			// the locks. Since these names are not unique (they may
+			// just be the name of the local user running the DAV client)
+			// we return the ILIAS user name in all other cases.
+			if ($lock['ilias_owner'] == $ilias->account->getId())
+			{
+				$owner = $lock['dav_owner'];
+			} else {
+				$owner = '<D:href>'.$this->getLogin($lock['ilias_owner']).'</D:href>';
+			}
+			$this->writelog('lockowner='.$owner.' ibi:'.$lock['ilias_owner'].' davi:'.$lock['dav_owner']);
+
+			$lockdiscovery .= 
+			'<D:activelock>'
+				.'<D:lockscope><D:'.$lock['scope'].'/></D:lockscope>'
+				//.'<D:locktype><D:'.$lock['type'].'/></D:locktype>'
+				.'<D:locktype><D:write/></D:locktype>'
+				.'<D:depth>'.$lock['depth'].'</D:depth>'
+				.'<D:owner>'.$owner.'</D:owner>'
+
+				// more than a million is considered an absolute timestamp
+				// less is more likely a relative value
+				.'<D:timeout>Second-'.(($lock['expires'] > 1000000) ? $lock['expires']-time():$lock['expires']).'</D:timeout>'
+				.'<D:locktoken><D:href>'.$lock['token'].'</D:href></D:locktoken>'
+			.'</D:activelock>'
+			;
+		}
+		if (strlen($lockdiscovery) > 0)
+		{
+			$info["props"][] =& $this->mkprop("lockdiscovery", $lockdiscovery);
+		}
+	
+		// get additional properties from database
+		$properties = $this->properties->getAll($objDAV);
+		foreach ($properties as $prop)
+		{
+			$info["props"][] = $this->mkprop($prop['namespace'], $prop['name'], $prop['value']);
+		}
+	
+		$this->writelog('fileinfo():'.var_export($info, true));
+
+		return $info;
+	}
+
+	/**
+	* GET method handler.
+	*
+	* If the path denotes a directory, and if URL contains the query string "mount",
+	* a WebDAV mount-request is sent to the client.
+	* If the path denotes a directory, and if URL contains the query string "mount-instructions",
+	* instructions for mounting the directory are sent to the client.
+	* 
+	* @param  array  parameter passing array
+	* @return bool   true on success
+	*/
+	public function GET(&$options) 
+	{
+		global $ilUser;
+	
+		$this->writelog('GET('.var_export($options, true).')');
+		$this->writelog('GET('.$options['path'].')');
+
+		// get dav object for path
+		$path = $this->davDeslashify($options['path']);
+		$objDAV =& $this->getObject($path);
+                
+		// sanity check
+		if (is_null($objDAV) || $objDAV->isNullResource()) 
+		{
+			return false;
+		}
+
+		if (! $objDAV->isPermitted('visible,read')) 
+		{
+			return '403 Forbidden';
+		}
+
+		//  is this a collection?
+		if ($objDAV->isCollection())
+		{
+			if (isset($_GET['mount']))
+			{
+				return $this->mountDir($objDAV, $options);
+			} else if (isset($_GET['mount-instructions']))
+			{
+				return $this->showMountInstructions($objDAV, $options);
+			} else {
+				return $this->getDir($objDAV, $options);
+			}
+		}
+		// detect content type
+		$options['mimetype'] =& $objDAV->getContentType();
+		// detect modification time
+		// see rfc2518, section 13.7
+		// some clients seem to treat this as a reverse rule
+		// requiring a Last-Modified header if the getlastmodified header was set
+		$options['mtime'] =& $objDAV->getModificationTimestamp();
+
+		// detect content length
+		$options['size'] =& $objDAV->getContentLength();
+
+		// get content as stream or as data array
+		$options['stream'] =& $objDAV->getContentStream();
+		if (is_null($options['stream']))
+		{
+			$options['data'] =& $objDAV->getContentData();
+		}
+		
+		// Record read event and catch up write events
+		if (ilChangeEvent::isActive())
+		{
+			ilChangeEvent::_recordReadEvent($objDAV->getObjectId(), $ilUser->getId());
+		}
+		$this->writelog('GET:'.var_export($options, true));
+	
+		return true;
+	}
+	/**
+	* Mount method handler for directories
+	*
+	* Mounting is done according to the internet draft "Mounting WebDAV servers"
+	* "draft-reschke-webdav-mount-latest". 
+	* See
+	* http://greenbytes.de/tech/webdav/draft-reschke-webdav-mount-latest.html
+	*
+	* @param  ilObjectDAV  dav object handler
+	* @return This function does not return. It exits PHP.
+	*/
+	private function mountDir(&$objDAV, &$options) 
+	{
+		// Always show instructions.
+		// Once there is a browser that supports this feature, add an if-statement
+		// here, that shows instructions or creates the XML reply as implemented below.
+		$this->showMountInstructions($objDav, $options);
+		exit;
+		/*
+		$path = $this->davDeslashify($options['path']);
+		
+		header('Content-Type: application/davmount+xml');
+		
+		echo "<dm:mount xmlns:dm=\"http://purl.org/NET/webdav/mount\">\n";
+		echo "  </dm:url>".$this->base_uri."</dm:url>\n";
+		echo "  </dm:open>$path</dm:open>\n";
+		echo "</dm:mount>\n";
+		*/
+		exit;
+		
+	}
+	/**
+	* Mount instructions method handler for directories
+	*
+	* @param  ilObjectDAV  dav object handler
+	* @return This function does not return. It exits PHP.
+	*/
+	private function showMountInstructions(&$objDAV, &$options) 
+	{
+		$path = $this->davDeslashify($options['path']);
+		
+		// The $path variable may contain a path
+		// string that has been shortened, in order to make it mountable
+		// by Internet Explorer (IE). - We don't know this for sure though.		
+		// The following steps converts the path into a verbose davPath
+		// which is human readable, and we create a short version for IE.
+		$objectPath = $this->toObjectPath($path);
+		$fullPath = '';
+		foreach ($objectPath as $object)
+		{
+			$fullPath .= '/'.$this->davUrlEncode($object->getResourceName());
+		}
+		if (count($objectPath) > 2)
+		{
+			$shortenedPath = '/ref_'.
+				$objectPath[count($objectPath) - 2]->getRefId().'/'.
+				$this->davUrlEncode($objectPath[count($objectPath) - 1]->getResourceName());
+		} else {
+			$shortenedPath = $fullPath;
+		}
+		// Prepend client id to path
+		$shortenedPath = '/'.CLIENT_ID.$shortenedPath;
+		$fullPath = '/'.CLIENT_ID.$fullPath;
+
+		$konquerorUri = (@$_SERVER["HTTPS"] === "on" ? "webdavs" : "webdav").
+				substr($this->base_uri, strrpos($this->base_uri,':'));
+				;
+		$nautilusUri = (@$_SERVER["HTTPS"] === "on" ? "davs" : "dav").
+				substr($this->base_uri, strrpos($this->base_uri,':'));
+				;
+		header('Content-Type: text/html');
+		
+		echo "<html>\n";
+		echo "  <head>\n";
+		echo "  <title>\"".$objectPath[count($objectPath) - 1]->getResourceName()."\" als Webordner öffnen</title>\n";
+		echo "  </head>\n";
+		echo "  <body>\n";
+		echo "  <h2>\"".$objectPath[count($objectPath) - 1]->getResourceName()."\" als Webordner öffnen</h2>\n";
+		echo "  <p>Über einen Webordner können Sie ILIAS ähnlich benutzen, wie einen Ordner ".
+			"auf Ihrer Festplatte.<br>";
+		echo "  Mit folgenden Schritten können Sie den Webordner öffnen.</p>";
+		if ($this->clientOS == 'windows' ||
+			$this->clientOS == 'unknown' 
+		)
+		{
+			echo "  <h3>Windows XP mit Internet Explorer</h3>\n";
+			echo "  <font size=-1>(Microsoft Office muss auf Ihrem Computer installiert sein.)</font><p>";
+			echo "  <ol>";
+			echo "  <li>Starten Sie den Internet Explorer.</li>";
+			echo "  <li>Wählen Sie das Menü <b>&laquo;Datei &gt; Öffnen...&raquo;</b></li>";
+			echo "  <li>Geben Sie folgende Adresse in das Feld <b>&laquo;Öffnen&raquo;</b> ein:<br>";
+			echo "<b>".$this->base_uri.$shortenedPath."</b>";
+			echo "</li>";
+			echo "  <li>Kreuzen Sie die Option <b>&laquo;Als Webordner öffnen&raquo;</b> an.</li>";
+			echo "  <li>Klicken Sie auf <b>&laquo;OK&raquo;</b>.</li>";
+			echo "  </ol>";
+			echo "  <h3>Windows XP ohne Internet Explorer</h3>\n";
+			echo "  <font size=-1>(Microsoft Office muss auf Ihrem Computer installiert sein.)</font><p>";
+			echo "  <ol>";
+			echo "  <li>Starten Sie den Windows Explorer.</li>";
+			echo "  <li>Wählen Sie das Menü <b>&laquo;Extras &gt; Netzlaufwerk verbinden...&raquo;</b>.<br>Dies öffnet ein Dialogfenster.</li>";
+			echo "  <li>Klicken Sie im Dialogfenster auf den Link <b>&laquo;Onlinespeicherplatz anfordern oder mit einem Netzwerkserver verbinden&raquo;.</b><br>Dies öffnet einen Assistenten.</li>";
+			echo "  <li>Klicken Sie im Assistenten auf <b>&laquo;Weiter&raquo;</b>.</li>";
+			echo "  <li>Wählen Sie <b>&laquo;Eine andere Netzwerkressource auswählen&raquo;</b> und klicken Sie auf <b>&laquo;Weiter&raquo;</b>.</li>";
+			echo "  <li>Geben Sie im Feld <b>&laquo;Internet- oder Netzwerkadresse&raquo;</b> folgende Adresse ein:<br>";
+			echo "<b>".$this->base_uri.$shortenedPath."</b>";
+			echo "</li>";
+			echo "  <li>Klicken Sie auf <b>&laquo;Weiter&raquo;</b>.</li>";
+			echo "  <li>Geben Sie Ihren Benutzernamen und Ihr Passwort für ILIAS ein, und klicken Sie auf <b>&laquo;OK&raquo;</b>.</li>";
+			echo "  </ol>";
+		}
+		/*if ($this->clientOSFlavor == 'osx' ||
+			$this->clientOS == 'unknown' 
+		)*/
+		{
+			echo "  <h3>Mac OS X</h3>\n";
+			echo "  <font size=-1>(Mac OS X 10.4.3 oder höher muss auf Ihrem Computer installiert sein.)</font><p>";
+			echo "  <ol>";
+			echo "  <li>Starten Sie den Finder.</li>";
+			echo "  <li>Wählen Sie das Menü <b>&laquo;Gehe zu &gt; Mit Server verbinden...&raquo;</b>.</li>";
+			echo "  <li>Geben Sie folgende Adresse ein:<br>";
+			echo "<b>".$this->base_uri.$fullPath."</b>";
+			echo "</li>";
+			echo "  <li>Klicken Sie auf <b>&laquo;Verbinden&raquo;</b>.</li>";
+			echo "  <li>Geben Sie Ihren Benutzernamen und Ihr Kennwort für ILIAS ein.</li>";
+			echo "  <li>Klicken Sie auf <b>&laquo;OK&raquo;</b><br>Der ILIAS Ordner erscheint nun als Webordner im Finder.</li>";
+			echo "  </ol>";
+		}
+		/*if ($this->clientOS == 'unix' ||
+			$this->clientOS == 'unknown' 
+		)*/
+		{
+			echo "  <h3>Linux mit Konqueror Browser</h3>\n";
+			echo "  <ol>";
+			echo "  <li>Starten Sie den Konqueror Browser.</li>";
+			echo "  <li>Geben Sie folgende Adresse ein:<br>";
+			echo "<b>".$konquerorUri.$fullPath."</b>";
+			echo "</li>";
+			echo "  <li>Drücken Sie die Eingabetaste.</li>";
+			echo "  </ol>";
+			/*
+			echo "  <h3>Linux mit Nautilus Dateimanager</h3>\n";
+			echo "  <ol>";
+			echo "  <li>Starten Sie den Nautilus Dateimanager.</li>";
+			echo "  <li>Geben Sie folgende Adresse ein:<br>";
+			echo "<b>".$nautilusUri.$fullPath."</b>";
+			echo "</li>";
+			echo "  <li>Drücken Sie die Eingabetaste.</li>";
+			echo "  </ol>";
+			*/
+		}
+		echo "  </body>\n";
+		echo "</html>\n";
+		
+		exit;
+	}
+	/**
+	* GET method handler for directories
+	*
+	* This is a very simple mod_index lookalike.
+	* See RFC 2518, Section 8.4 on GET/HEAD for collections
+	*
+	* @param  ilObjectDAV  dav object handler
+	* @return void    function has to handle HTTP response itself
+	*/
+	private function getDir(&$objDAV, &$options) 
+	{
+		global $ilias;
+		
+		$path = $this->davDeslashify($options['path']);
+		
+		// The URL of a directory must end with a slash.
+		// If it does not we are redirecting the browser.
+		// The slash is required, because we are using relative links in the
+		// HTML code we are generating below.
+		if ($path.'/' != $options['path'])
+		{
+			header('Location: '.$this->base_uri.$path.'/');
+			exit;
+		}
+		
+		header('Content-Type: text/html; charset=UTF-8');
+		
+		// fixed width directory column format
+		$format = "%15s  %-19s  %-s\n";
+		
+		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		echo "<html><head>\n";
+		//echo "<title>Index of \"$path\"</title>\n";
+		echo "<title>Inhalt von \"$path\"</title>\n";
+		
+		// Create "anchorClick" behaviour for for Internet Explorer
+		// This allows to create a link to a webfolder
+		echo "<style type=\"text/css\">\n";
+		echo "<!--\n";
+		echo "a {\n";
+		echo "  behavior:url(#default#AnchorClick);\n";
+		echo "}\n";
+		echo "-->\n";
+		echo "</style>\n";
+		
+		echo "</head><body>\n";
+		
+		//echo "<h3>Index of \"";
+		echo "<h3>Inhalt von \"";
+		$pathComponents = explode('/',$path);
+		$uriComponents = array();
+		foreach ($pathComponents as $component)
+		{
+			$uriComponents[] = $this->davUrlEncode($component);
+		}
+		for ($i = 0; $i < count($pathComponents); $i++)
+		{
+			$displayName = htmlspecialchars($pathComponents[$i]);
+			if ($i != 0) {
+				echo '/';
+			}
+			$uriPath = implode('/', array_slice($uriComponents,0,$i + 1));
+			echo '<a href="'.$this->base_uri.$uriPath.'/">'.$displayName.'</a>';
+		}
+		echo "\"</h3>\n";
+	    
+		// Display user id
+		if ($ilias->account->getLogin() == 'anonymous')
+		{
+			//echo "<p><font size=\"-1\">You are not logged in.</font><br>\n";
+			echo "<p><font size=\"-1\">Sie sind nicht angemeldet.</font><br>\n";
+		} else {
+			/*
+			echo "<p><font size=\"-1\">Logged in as "
+				.$ilias->account->getFirstname().' '
+				.$ilias->account->getLastname().' '
+				.'"'.$ilias->account->getLogin().'"'
+				.' at client "'.$ilias->getClientId().'".'
+				."</font><br>\n";
+			*/
+			echo "<p><font size=\"-1\">Angemeldet als "
+				.$ilias->account->getFirstname().' '
+				.$ilias->account->getLastname().' '
+				.'"'.$ilias->account->getLogin().'"'
+				.' auf Mandant "'.$ilias->getClientId().'".'
+				."</font><p>\n";
+		}
+		
+		// Create "open as webfolder" link 
+		$href = $this->base_uri.$uriPath;
+		// IE can not mount long paths. If the path has more than one element, we 
+		// create a relative path with a ref-id.
+		if (count($pathComponents) > 2)
+		{
+			$hrefIE = $this->base_uri.'/'.CLIENT_ID.'/ref_'.$objDAV->getRefId();
+		} else {
+		 	$hrefIE = $href;
+		}
+		echo "<font size=\"-1\">Sie sind möglicherweise hierher gelangt, weil Ihr Browser Webordner ".
+			"nicht direkt öffnen kann. Lesen Sie die <a href=\"$href?mount-instructions\">Anleitung</a> ".
+			"zum Öffnen von Webordnern.".
+			"</font></p>\n";
+		echo "<font size=\"-1\">Diese Seite als Webordner öffnen mit \n"
+			."<a href=\"$hrefIE\" folder=\"$hrefIE\">Internet Explorer</a>, \n"
+			."<a href=\"webdav".substr($href,4)."\">Konqueror</a>, \n"
+			."<a href=\"$href?mount\">anderem Browser</a>. \n"
+			."</font></p>\n";
+		/*
+		echo "<font size=\"-1\">Open this page as webfolder with \n"
+			."<a href=\"$hrefIE\" folder=\"$hrefIE\">Internet Explorer</a>, \n"
+			."<a href=\"webdav".substr($href,4)."\">Konqueror</a>, \n"
+			."<a href=\"$href?mount\">other</a> browser. \n"
+			."</font></p>\n";
+		echo "<font size=\"-1\">If opening a webfolder does not work, ".
+			"read the <a href=\"$href?mount-instructions\">mount instructions</a>. \n"
+			."</font></p>\n";
+		*/
+	    
+		echo "<pre>";
+		printf($format, "Size", "Last modified", "Filename");
+		echo "<hr>";
+	
+		$children =& $objDAV->childrenWithPermission('visible');
+		foreach ($children as $childDAV) {
+			if ($childDAV->isCollection() && $this->isVisibleChild($childDAV))
+			{
+				$name = $this->davUrlEncode($childDAV->getResourceName());
+				printf($format, 
+					'-',
+					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
+					"<a href='".$name.'/'."'>".$childDAV->getDisplayName()."</a>");
+			}
+		}
+		foreach ($children as $childDAV) {
+			if ($childDAV->isFile() && $this->isVisibleChild($childDAV))
+			{
+				$name = $this->davUrlEncode($childDAV->getResourceName());
+				printf($format, 
+					number_format($childDAV->getContentLength()),
+					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
+					"<a href='".$name."/'>".$childDAV->getDisplayName()."</a>");
+			}
+		}
+		foreach ($children as $childDAV) {
+			if ($childDAV->isNullResource() && $this->isVisibleChild($childDAV))
+			{
+				$name = $this->davUrlEncode($childDAV->getResourceName());
+				printf($format, 
+					'Lock',
+					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
+					"<a href='".$name."'>".$childDAV->getDisplayName()."</a>");
+			}
+		}
+	
+		echo "</pre>";
+	
+		echo "</body></html>\n";
+	
+		exit;
+	}
+
+        
+	/**
+	* PUT method handler
+	* 
+	* @param  array  parameter passing array
+	* @return bool   true on success
+	*/
+	public function PUT(&$options) 
+	{
+		global $ilUser;
+		
+		$this->writelog('PUT('.var_export($options, true).')');
+		$this->writelog('PUT '.$options['path']);
+
+		$path = $this->davDeslashify($options['path']);
+		$parent = dirname($path);
+		$name = $this->davBasename($path);
+
+		// get dav object for path
+		$parentDAV =& $this->getObject($parent);
+
+		// sanity check
+		if (is_null($parentDAV) || ! $parentDAV->isCollection()) {
+			return '409 Conflict';
+		}
+
+		$objDAV =& $this->getObject($path);
+		if (is_null($objDAV))
+		{
+			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()))
+			{
+				return '403 Forbidden';
+			}
+			$options["new"] = true;
+			$objDAV =& $parentDAV->createFile($name);
+			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type']);
+			$objDAV->setContentType($options['content_type']);
+			$objDAV->setContentLength($options['content_length']);
+			$objDAV->write();
+			
+			// Record write event
+			if (ilChangeEvent::_isActive())
+			{
+				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
+			}
+		} 
+		else if ($objDAV->isNullResource()) 
+		{
+			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()))
+			{
+				return '403 Forbidden';
+			}
+			$options["new"] = false;
+			$objDAV =& $parentDAV->createFileFromNull($name, $objDAV);
+			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type']);
+			$objDAV->setContentType($options['content_type']);
+			$objDAV->setContentLength($options['content_length']);
+			$objDAV->write();
+			
+			// Record write event
+			if (ilChangeEvent::_isActive())
+			{
+				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
+			}
+		}
+		else 
+		{
+			if (! $objDAV->isPermitted('write'))
+			{
+				return '403 Forbidden';
+			}
+			$options["new"] = false;
+			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type']);
+			$objDAV->setContentType($options['content_type']);
+			$objDAV->setContentLength($options['content_length']);
+			$objDAV->write();
+			
+			// Record write event
+			if (ilChangeEvent::_isActive())
+			{
+				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'update');
+			}
+		}
+		$out =& $objDAV->getContentOutputStream();
+		$this->writelog('PUT outputstream='.$out);
+		return $out;
+	}
+
+
+	/**
+		* MKCOL method handler
+		*
+		* @param  array  general parameter passing array
+		* @return bool   true on success
+		*/
+	public function MKCOL($options) 
+	{
+		global $ilUser;
+		
+		$this->writelog('MKCOL('.var_export($options, true).')');
+		$this->writelog('MKCOL '.$options['path']);
+
+		$path =& $this->davDeslashify($options['path']);
+		$parent =& dirname($path);
+		$name =& $this->davBasename($path);
+
+		// No body parsing yet
+		if(!empty($_SERVER["CONTENT_LENGTH"])) {
+			return "415 Unsupported media type";
+		}
+
+		// Check if an object with the path already exists.
+		$objDAV =& $this->getObject($path);
+		if (! is_null($objDAV)) 
+		{
+			return '405 Method not allowed';
+		}
+
+		// get parent dav object for path
+		$parentDAV =& $this->getObject($parent);
+
+		// sanity check
+		if (is_null($parentDAV) || ! $parentDAV->isCollection()) 
+		{
+			return '409 Conflict';
+		}
+
+		if (! $parentDAV->isPermitted('create',$parentDAV->getILIASCollectionType())) 
+		{
+			return '403 Forbidden';
+		}
+
+		// XXX Implement code that Handles null resource here
+
+		$objDAV = $parentDAV->createCollection($name);
+		
+		if ($objDAV != null)
+		{
+			// Record write event
+			if (ilChangeEvent::_isActive())
+			{
+				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
+			}
+		}
+		
+		$result = ($objDAV != null) ? "201 Created" : "409 Conflict";
+		return $result;
+	}
+        
+        
+	/**
+	* DELETE method handler
+	*
+	* @param  array  general parameter passing array
+	* @return bool   true on success
+	*/
+	public function DELETE($options) 
+	{
+		global $ilUser;
+		
+		$this->writelog('DELETE('.var_export($options, true).')');
+		$this->writelog('DELETE '.$options['path']);
+
+		// get dav object for path
+		$path =& $this->davDeslashify($options['path']);
+		$parentDAV =& $this->getObject(dirname($path));
+		$objDAV =& $this->getObject($path);
+
+		// sanity check
+		if (is_null($objDAV) || $objDAV->isNullResource()) 
+		{
+			return '404 Not Found';
+		}
+		if (! $objDAV->isPermitted('delete')) 
+		{
+			return '403 Forbidden';
+		}
+
+		$parentDAV->remove($objDAV);
+		
+		// Record write event
+		if (ilChangeEvent::_isActive())
+		{
+			ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'delete', $parentDAV->getObjectId());
+		}
+		
+		return '204 No Content';
+	}
+
+	/**
+	* MOVE method handler
+	*
+	* @param  array  general parameter passing array
+	* @return bool   true on success
+	*/
+	public function MOVE($options) 
+	{
+		global $ilUser;
+		
+		$this->writelog('MOVE('.var_export($options, true).')');
+		$this->writelog('MOVE '.$options['path'].' '.$options['dest']);
+
+		// Get path names
+		$src = $this->davDeslashify($options['path']);
+		$srcParent = dirname($src);
+		$srcName = $this->davBasename($src);
+		$dst = $this->davDeslashify($options['dest']);
+		
+		$dstParent = dirname($dst);
+		$dstName = $this->davBasename($dst);
+		$this->writelog('move '.$dst.'   dstname='.$dstName);
+		// Source and destination must not be the same
+		if ($src == $dst)
+		{
+				return '409 Conflict (source and destination are the same)';
+		}
+
+		// Destination must not be in a subtree of source
+		if (substr($dst,strlen($src)+1) == $src.'/')
+		{
+				return '409 Conflict (destination is in subtree of source)'; 
+		}
+
+		// Get dav objects for path
+		$srcDAV =& $this->getObject($src);
+		$dstDAV =& $this->getObject($dst);
+		$srcParentDAV =& $this->getObject($srcParent);
+		$dstParentDAV =& $this->getObject($dstParent);
+
+		// Source must exist
+		if ($srcDAV == null)
+		{
+				return '409 Conflict (source does not exist)';
+		}
+
+		// Overwriting is only allowed, if overwrite option is set to 'T'
+		$isOverwritten = false;
+		if ($dstDAV != null)
+		{
+				if ($options['overwrite'] == 'T')
+				{
+						// Delete the overwritten destination
+						if ($dstDAV->isPermitted('delete'))
+						{
+								$dstParentDAV->remove($dstDAV);
+								$dstDAV = null;
+								$isOverwritten = true;
+						} else {
+								return '403 Not Permitted';
+						}
+				} else {
+						return '412 Precondition Failed';
+				}
+		}
+
+		// Parents of destination must exist
+		if ($dstParentDAV == null)
+		{
+				return '409 Conflict (parent of destination does not exist)';
+		}
+
+		if ($srcParent == $dstParent)
+		{
+				// Rename source, if source and dest are in same parent
+
+				// Check permission
+				if (! $srcDAV->isPermitted('write')) 
+				{
+						return '403 Forbidden';
+				}
+	$this->writelog('rename dstName='.$dstName);
+				$srcDAV->setResourceName($dstName);
+				$srcDAV->write();
+		} else {
+				// Move source, if source and dest are in same parent
+
+
+				if (! $srcDAV->isPermitted('delete')) 
+				{
+						return '403 Forbidden';
+				}
+
+				if (! $dstParentDAV->isPermitted('create', $srcDAV->getILIASType()))
+				{
+						return '403 Forbidden';
+				}
+				$dstParentDAV->addMove($srcDAV, $dstName);
+		}
+		
+		// Record write event
+		if (ilChangeEvent::_isActive())
+		{
+			if ($isOverwritten)
+			{
+				ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'rename');
+			}
+			else
+			{
+				ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'remove', $srcParentDAV->getObjectId());
+				ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'add', $dstParentDAV->getObjectId());
+			}
+		}
+		
+		return ($isOverwritten) ? '204 No Content' : '201 Created';
+	}
+
+	/**
+	 * COPY method handler
+	 *
+	 * @param  array  general parameter passing array
+	 * @return bool   true on success
+	 */
+	public function COPY($options, $del=false) 
+	{
+		global $ilUser;
+		$this->writelog('COPY('.var_export($options, true).' ,del='.$del.')');
+		$this->writelog('COPY '.$options['path'].' '.$options['dest']);
+
+		// no copying to different WebDAV Servers
+		if (isset($options["dest_url"])) {
+			return "502 bad gateway";
+		}
+
+		$src = $this->davDeslashify($options['path']);
+		$srcParent = dirname($src);
+		$srcName = $this->davBasename($src);
+		$dst = $this->davDeslashify($options['dest']);
+		$dstParent = dirname($dst);
+		$dstName = $this->davBasename($dst);
+
+		// sanity check
+		if ($src == $dst)
+		{
+			return '409 Conflict'; // src and dst are the same
+		}
+
+		if (substr($dst,strlen($src)+1) == $src.'/')
+		{
+			return '409 Conflict'; // dst is in subtree of src
+		}
+
+		$this->writelog('COPY src='.$src.' dst='.$dst);
+		// get dav object for path
+		$srcDAV =& $this->getObject($src);
+		$dstDAV =& $this->getObject($dst);
+		$dstParentDAV =& $this->getObject($dstParent);
+
+		if (is_null($srcDAV) || $srcDAV->isNullResource())
+		{
+			return '409 Conflict'; // src does not exist
+		}
+		if (is_null($dstParentDAV) || $dstParentDAV->isNullResource())
+		{
+			return '409 Conflict'; // parent of dst does not exist
+		}
+		$isOverwritten = false;
+
+		// XXX Handle nulltype for dstDAV
+		if (! is_null($dstDAV))
+		{
+			if ($options['overwrite'] == 'T')
+			{
+				if ($dstDAV->isPermitted('delete'))
+				{
+					$dstParentDAV->remove($dstDAV);
+					if (ilChangeEvent::_isActive())
+					{
+						ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'delete', $dstParentDAV->getObjectId());
+					}
+					
+					$dstDAV = null;
+					$isOverwritten = true;
+				} else {
+					return '403 Forbidden';
+				}
+			} else {
+					return '412 Precondition Failed';
+			}
+		}
+
+		if (! $dstParentDAV->isPermitted('create', $srcDAV->getILIASType()))
+		{
+			return '403 Forbidden';
+		}
+		$dstDAV = $dstParentDAV->addCopy($srcDAV, $dstName);
+
+		// Record write event
+		if (ilChangeEvent::_isActive())
+		{
+			ilChangeEvent::_recordReadEvent($srcDAV->getObjectId(), $ilUser->getId());
+			ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'create', $dstParentDAV->getObjectId());
+		}
+
+		return ($isOverwritten) ? '204 No Content' : '201 Created';
+	}
+	
+	/**
+		* PROPPATCH method handler
+		*
+		* @param  array  general parameter passing array
+		* @return bool   true on success
+		*/
+	public function PROPPATCH(&$options) 
+	{
+		$this->writelog('PROPPATCH(options='.var_export($options, true).')');
+		$this->writelog('PROPPATCH '.$options['path']);
+
+		// get dav object for path
+		$path =& $this->davDeslashify($options['path']);
+		$objDAV =& $this->getObject($path);
+	
+		// sanity check
+		if (is_null($objDAV) || $objDAV->isNullResource()) return false;
+	
+		$isPermitted = $objDAV->isPermitted('write');
+		foreach($options['props'] as $key => $prop) {
+			if (!$isPermitted || $prop['ns'] == 'DAV:') 
+			{
+				$options['props'][$key]['status'] = '403 Forbidden';
+			} else {
+				$this->properties->put($objDAV, $prop['ns'],$prop['name'],$prop['val']);
+			}
+		}
+	
+		return "";
+	}
+
+
+	/**
+		* LOCK method handler
+		*
+		* @param  array  general parameter passing array
+		* @return bool   true on success
+		*/
+	public function LOCK(&$options) 
+	{
+		global $ilias;
+		$this->writelog('LOCK('.var_export($options, true).')');
+		$this->writelog('LOCK '.$options['path']);
+
+		// Check if an object with the path exists.
+		$path =& $this->davDeslashify($options['path']);
+		$objDAV =& $this->getObject($path);
+		// Handle null-object locking
+		// --------------------------
+		if (is_null($objDAV)) 
+		{
+			$this->writelog('LOCK handling null-object locking...');
+
+			// If the name does not exist, we create a null-object for it
+			if (isset($options["update"]))
+			{
+				$this->writelog('LOCK lock-update failed on non-existing null-object.');
+				return '412 Precondition Failed';
+			}
+
+			$parent = dirname($path);
+			$parentDAV =& $this->getObject($parent);
+			if (is_null($parentDAV))
+			{
+				$this->writelog('LOCK lock failed on non-existing path to null-object.');
+				return '404 Not Found';
+			}
+			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()) && 
+				! $parentDAV->isPermitted('create', $parentDAV->getILIASCollectionType())) 
+			{
+				$this->writelog('LOCK lock failed - creation of null object not permitted.');
+				return '403 Forbidden';
+			}
+
+			$objDAV =& $parentDAV->createNull($this->davBasename($path));
+			$this->writelog('created null resource for '.$path);
+		}
+
+		// --------------------- 
+		if (! $objDAV->isNullResource() && ! $objDAV->isPermitted('write')) 
+		{
+			$this->writelog('LOCK lock failed - user has no write permission.');
+			return '403 Forbidden';
+		}
+
+		// XXX - Check if there are other locks on the resource
+		if (!isset($options['timeout']) || is_array($options['timeout']))
+		{
+			$options["timeout"] = time()+360; // 6min. 
+		}
+
+		if(isset($options["update"])) { // Lock Update
+			$this->writelog('LOCK update token='.var_export($options,true));
+			$success = $this->locks->updateLock(
+				$objDAV,
+				$options['update'],
+				$options['timeout']
+			);
+			if ($success)
+			{
+				$data = $this->locks->getLock($objDAV, $options['update']);
+				if ($data['ilias_owner'] == $ilias->account->getId())
+				{
+					$owner = $data['dav_owner'];
+				} else {
+					$owner = '<D:href>'.$this->getLogin($data['ilias_owner']).'</D:href>';
+				}
+				$options['owner'] = $owner;
+				$options['locktoken'] = $data['token'];
+				$options['timeout'] = $data['expires'];
+				$options['depth'] = $data['depth'];
+				$options['scope'] = $data['scope'];
+				$options['type'] = $data['scope'];
+			}
+
+		} else {
+			$this->writelog('LOCK create new lock');
+
+			// XXX - Attempting to create a recursive exclusive lock
+			// on a collection must fail, if any of nodes in the subtree
+			// of the collection already has a lock.
+			// XXX - Attempting to create a recursive shared lock
+			// on a collection must fail, if any of nodes in the subtree
+			// of the collection already has an exclusive lock.
+			//$owner = (strlen(trim($options['owner'])) == 0) ? $ilias->account->getLogin() : $options['owner'];
+			$this->writelog('lock owner='.$owner);
+			$success = $this->locks->lock(
+				$objDAV,
+				$ilias->account->getId(),
+				trim($options['owner']),
+				$options['locktoken'],
+				$options['timeout'],
+				$options['depth'],
+				$options['scope']
+			);
+		}
+
+		return ($success) ? '204 No Content' : false;
+		//return $success;
+	}
+
+	/**
+		* UNLOCK method handler
+		*
+		* @param  array  general parameter passing array
+		* @return bool   true on success
+		*/
+	public function UNLOCK(&$options) 
+	{
+		global $log, $ilias;
+		$this->writelog('UNLOCK(options='.var_export($options, true).')');
+		$this->writelog('UNLOCK '.$options['path']);
+
+		// Check if an object with the path exists.
+		$path =& $this->davDeslashify($options['path']);
+		$objDAV =& $this->getObject($path);
+		if (is_null($objDAV)) {
+			return '404 Not Found';
+		}
+		if (! $objDAV->isPermitted('write')) {
+			return '403 Forbidden';
+		}
+
+		$success = $this->locks->unlock(
+			$objDAV,
+			$options['token']
+		);
+
+		// Delete null resource object if there are no locks associated to 
+		// it anymore
+		if ($objDAV->isNullResource() 
+		&& count($this->locks->getLocks($objDAV)) == 0)
+		{
+			$parent = dirname($this->davDeslashify($options['path']));
+			$parentDAV =& $this->getObject($parent);
+			$parentDAV->remove($objDAV);
+		}
+	
+		// Workaround for Mac OS X: We must return 200 here instead of
+		// 204.
+		//return ($success) ? '204 No Content' : '412 Precondition Failed';
+		return ($success) ? '200 OK' : '412 Precondition Failed';
+	}
+
+	/**
+		* checkLock() helper
+		*
+		* @param  string resource path to check for locks
+		* @return array with the following entries: {
+		*    type => "write"
+		*    scope => "exclusive" | "shared"
+		*    depth => 0 | -1
+		*    owner => string
+		*    token => string
+		*    expires => timestamp
+		*/
+	protected function checkLock($path) 
+	{
+		global $ilias;
+
+		$this->writelog('checkLock('.$path.')');
+		$result = null;
+
+		// get dav object for path
+		//$objDAV = $this->getObject($path);
+
+		// convert DAV path into ilObjectDAV path 
+		$objPath = $this->toObjectPath($path);
+		if (! is_null($objPath))
+		{
+			$objDAV = $objPath[count($objPath) - 1];
+			$locks = $this->locks->getLocksOnPath($objPath);
+			foreach ($locks as $lock)
+			{
+				$isLastPathComponent = $lock['obj_id'] == $objDAV->getObjectId()
+				&& $lock['node_id'] == $objDAV->getNodeId();
+
+				// Check all locks on last object in path,
+				// but only locks with depth infinity on parent objects.
+				if ($isLastPathComponent || $lock['depth'] == 'infinity')
+				{ 
+					// DAV Clients expects to see their own owner name in
+					// the locks. Since these names are not unique (they may
+					// just be the name of the local user running the DAV client)
+					// we return the ILIAS user name in all other cases.
+					if ($lock['ilias_owner'] == $ilias->account->getId())
+					{
+						$owner = $lock['dav_owner'];
+					} else {
+						$owner = $this->getLogin($lock['ilias_owner']);
+					}
+
+					// FIXME - Shouldn't we collect all locks instead of
+					//         using an arbitrary one?
+					$result = array(
+						"type"    => "write",
+						"obj_id"   => $lock['obj_id'],
+						"node_id"   => $lock['node_id'],
+						"scope"   => $lock['scope'],
+						"depth"   => $lock['depth'],
+						"owner"   => $owner,
+						"token"   => $lock['token'],
+						"expires" => $lock['expires']
+					);
+					if ($lock['scope'] == 'exclusive')
+					{
+						// If there is an exclusive lock in the path, it 
+						// takes precedence over all non-exclusive locks in
+						// parent nodes. Therefore we can can finish collecting
+						// locks.
+						break;
+					}
+				}
+			}
+		}
+		$this->writelog('checkLock('.$path.'):'.var_export($result,true));
+
+		return $result;
+	}
+
+	/**
+	* Returns the login for the specified user id, or null if
+	* the user does not exist.
+	*/
+	protected function getLogin($userId)
+	{
+		$login = ilObjUser::_lookupLogin($userId);
+		$this->writelog('getLogin('.$userId.'):'.var_export($login,true));
+		return $login;
+	}
+	
+
+	/**
+	* Gets a DAV object for the specified path.
+	*
+	* @param  String davPath A DAV path expression.
+	* @return ilObjectDAV object or null, if the path does not denote an object.
+	*/
+	private function getObject($davPath)
+	{
+		global $tree;
+
+		
+		// If the second path elements starts with 'file_', the following 
+		// characters of the path element directly identify the ref_id of
+		// a file object.
+		$davPathComponents = split('/',substr($davPath,1));
+		if (count($davPathComponents) > 1 && 
+			substr($davPathComponents[1],0,5) == 'file_')
+		{
+			$ref_id = substr($davPathComponents[1],5);
+			$nodePath = $tree->getPathFull($ref_id, $tree->root_id);
+
+			// Poor IE needs this, in order to successfully display
+			// PDF documents
+			header('Pragma: private');
+		}
+		else
+		{
+			$titlePath = $this->toTitlePath($davPath);
+			if (count($titlePath) == 0)
+			{
+				//$nodePath = null;
+				return ilObjectDAV::createObject(-1,'mountPoint');
+			}
+			else
+			{
+				$nodePath = $tree->toNodePath($titlePath);
+			}
+		}
+		if (is_null($nodePath))
+		{
+			return null;
+		} else {
+			$top = $nodePath[count($nodePath)  - 1];
+			return ilObjectDAV::createObject($top['ref_id'],$top['type']);
+		}
+	}
+	/**
+	* Converts a DAV path into an array of DAV objects.
+	*
+	* @param  String davPath A DAV path expression.
+	* @return array<ilObjectDAV> object or null, if the path does not denote an object.
+	*/
+	private function toObjectPath($davPath)
+	{
+		$this->writelog('toObjectPath('.$davPath);
+		global $tree;
+	
+		$titlePath = $this->toTitlePath($davPath);
+		$nodePath = $tree->toNodePath($titlePath);
+		if (is_null($nodePath))
+		{
+			return null;
+		} else {
+			$objectPath = array();
+			foreach ($nodePath as $node)
+			{
+				$pathElement = ilObjectDAV::createObject($node['ref_id'],$node['type']);
+				if (is_null($pathElement)) 
+				{
+					break;
+				}
+				$objectPath[] = $pathElement;
+			}
+			return $objectPath;
+		}
+	}
+	
+	/**
+	 * Converts a DAV path into an array of path titles.
+	 * The returned array is granted to represent an absolute path.
+	 *
+	 * The first component of a DAV Path is the ILIAS client id. The following
+	 * component either denote an absolute path, or a relative path starting at 
+	 * a ref_id. 
+	 *
+     * @param  String davPath A DAV path expression.
+	 * @return Array<String> An Array of path titles.
+	 */
+	private function toTitlePath($davPath)
+	{
+		global $tree;
+	
+		// Split the davPath into path titles
+		$titlePath = split('/',substr($davPath,1));
+		
+		// Remove the client id from the beginning of the title path
+		if (count($titlePath) > 0) 
+		{
+			array_shift($titlePath);
+		}
+		
+		// If the last path title is empty, remove it
+		if (count($titlePath) > 0 && $titlePath[count($titlePath) - 1] == '')
+		{
+			array_pop($titlePath);
+		}
+
+		// If the path is a relative folder path, convert it into an absolute path
+		if (count($titlePath) > 0 && substr($titlePath[0],0,4) == 'ref_')
+		{
+			$ref_id = substr($titlePath[0],4);
+
+			$nodePath =& $tree->getPathFull($ref_id, $tree->root_id);
+			$relativeTitlePath = $titlePath;
+			$titlePath = array();
+			for ($i = 0; $i < count($nodePath); $i++)
+			{
+				$titlePath[] = $nodePath[$i]['title'];
+			}
+			for ($i = 1; $i < count($relativeTitlePath); $i++)
+			{
+				$titlePath[] = $relativeTitlePath[$i];
+			}
+		}
+		$this->writelog('toTitlePath():'.var_export($titlePath,true));		
+		return $titlePath;
+	}
+        /**
+        * davDeslashify - make sure path does not end in a slash
+        *
+        * @param   string directory path
+        * @returns string directory path without trailing slash
+        */
+	private function davDeslashify($path) 
+	{
+		$path = UtfNormal::toNFC($path);
+	
+		if ($path[strlen($path)-1] == '/') {
+			$path = substr($path,0, strlen($path) - 1);
+		}
+		$this->writelog('davDeslashify:'.$path);
+		return $path;
+	}
+	
+	/**
+	 * Private implementation of PHP basename() function.
+	 * The PHP basename() function does not work properly with filenames that contain
+	 * international characters.
+	 * e.g. basename('/x/ö') returns 'x' instead of 'ö'
+	 */
+	private function davBasename($path)
+	{
+		$components = split('/',$path);
+		return count($components) == 0 ? '' : $components[count($components) - 1];
+	}
+	
+	/**
+	* Writes a message to the logfile.,
+	*
+	* @param  message String.
+	* @return void.
+	*/
+	protected function writelog($message) 
+	{
+		// Only write log message, if we are in debug mode
+		if ($this->isDebug)
+		{
+			global $log, $ilias;
+			if ($log)
+			{
+				if ($message == '---')
+				{
+						$log->write('');
+				} else {
+						$log->write(
+								$ilias->account->getLogin()
+						.' '.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT']
+						.' ilDAVServer.'.str_replace("\n",";",$message)
+							);
+				}
+			}
+			else
+			{
+				$fh = fopen('/opt/ilias/log/ilias.log', 'a');
+				fwrite($fh, date('Y-m-d H:i:s '));
+				fwrite($fh, str_replace("\n",";",$message));
+				fwrite($fh, "\n\n");
+				fclose($fh);
+			}
+		}
+	}
+	
+	/**
+	 * Returns an URI for mounting the repository object as a webfolder.
+	 * The URI can be used as the value of a "href" attribute attribute
+	 * inside of an HTML anchor tag "<a>".
+	 *
+	 * Note: The current implementation will always return a 'mount-instructions'
+	 * URI, because there is no known browser yet, which supports webdav mounting.
+	 *
+	 * Note: The ressource name may be an illegal file name for the Windows operating system.
+	 * We do not do anything about that, because IE and Firefox on Windows use the Folder URI
+	 * instead of the Mount URI to mount a webfolder. Also, other WebDAV clients on Windows may
+	 * be able to handle such resource names.
+	 *
+	 * @param refId of the repository object.
+	 * @param nodeId of a childnode of the repository object. 
+	 * @param ressourceName ressource name (if known), to reduce SQL queries
+	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
+	 */
+	public function getMountURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
+	{
+		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
+					"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+		
+		if (! is_null($ressourceName) && ! is_null($parentRefId))
+		{
+			// Quickly create URI from the known data without needing SQL queries
+			$uri = $baseUri.'/ref_'.$parentRefId.'/'.$ressourceName.'/';
+		} else {
+			// Create URI and use some SQL queries to get the missing data
+			global $tree;
+			$nodePath = $tree->getPathFull($refId);
+			
+			if (is_null($nodePath)) 
+			{
+				// No object path? Mount ILIAS root directory
+				$uri = $baseUri.'?mount-instructions';
+			} else {
+				if ($this->clientOS == 'windows')
+				{
+					// Windows is unable to mount a full-length DAV path.
+					// Therefore we shorten it to two elements.
+					if (count($nodePath) > 2)
+					{
+						$uri = $baseUri.'/ref_'.
+							$nodePath[count($nodePath) - 2]['child'].'/'.
+							$this->davUrlEncode($nodePath[count($nodePath) - 1]['title']).
+							'/';
+					} else {
+						$uri = $baseUri;
+						foreach ($nodePath as $node)
+						{
+							$uri .= '/'.$this->davUrlEncode($node['title']);
+						}
+						$uri .=	'/';
+					}
+				} else if ($this->clientBrowser == 'konqueror') {
+					$baseUri = ($_SERVER["HTTPS"] === "on" ? "webdavs:" : "webdav:");
+					$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+					$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).
+						'/webdav.php/'.CLIENT_ID;
+					$uri = $baseUri;
+					foreach ($nodePath as $node)
+					{
+						$uri .= '/'.$this->davUrlEncode($node['title']);
+					}
+				} else {
+					$uri = $baseUri;
+					foreach ($nodePath as $node)
+					{
+						$uri .= '/'.$this->davUrlEncode($node['title']);
+					}
+					$uri .=	'/?mount-instructions';
+				}
+			}
+		}
+		return $uri;
+	}
+	/**
+	 * Returns an URI for mounting the repository object as a webfolder using Internet Explorer
+	 * and Firefox with the "openwebfolder" plugin.
+	 * The FolderURI is only in effect on Windows. Therefore we don't need to deal with other
+	 * pecularities.
+	 *
+	 * The URI can be used as the value of a "folder" attribute
+	 * inside of an HTML anchor tag "<a>".
+	 *
+	 * @param refId of the repository object.
+	 * @param nodeId of a childnode of the repository object. 
+	 * @param ressourceName ressource name (if known), to reduce SQL queries
+	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
+	 */
+	public function getFolderURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
+	{
+		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
+				"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+		
+		if (! is_null($ressourceName) && ! is_null($parentRefId))
+		{
+			// Quickly create URI from the known data without needing SQL queries
+			
+			
+			// Windows is unable to mount a ressource with a longer name than 91 characters,
+			// of with a name with the following characters: \ / : * ? " < > | '
+			// or with a name which contains a + character, an accent character or a comma.
+			if (strlen($baseUri.$this->davUrlEncode($ressourceName)) > 91 || 
+				preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\+\x80-\xff]|,/', $ressourceName) > 0)
+			{
+				$uri = $baseUri.'/ref_'.$refId.'/';
+			} else {
+				$uri = $baseUri.'/ref_'.$parentRefId.'/'.$this->davUrlEncode($ressourceName).'/';
+			}
+		} else {
+			// Create URI and use some SQL queries to get the missing data
+			global $tree;
+			$nodePath = $tree->getPathFull($refId);
+			
+			if (is_null($nodePath)) 
+			{
+				// No object path? Mount ILIAS root directory
+				$uri = $baseUri.'/';
+			} else {
+				$ressourceName = $nodePath[count($nodePath) - 1]['title'];
+				// Windows is unable to mount a ressource with a longer name than 91 characters,
+				// of with a name with the following characters: \ / : * ? " < > | '
+				// or with a name which contains a + character or an accent character.
+				
+				if (strlen($baseUri.$this->davUrlEncode($ressourceName)) > 91 || 
+				preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\+\x80-\xff]|,/', $ressourceName) > 0)
+				{
+					$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 1]['child'].'/';
+				} else if (count($nodePath) > 2)
+				{
+					// Windows is unable to mount a full-length DAV path.
+					// Therefore we shorten it to two elements.
+					$uri = $baseUri.'/ref_'.
+						$nodePath[count($nodePath) - 2]['child'].'/'.
+						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title']).'/';
+				} else {
+					$uri = $baseUri;
+					foreach ($nodePath as $node)
+					{
+						$uri .= '/'.$this->davUrlEncode($node['title']);
+					}
+					$uri .= '/';
+				}
+			}
+		}
+		return $uri;
+	}
+	/**
+	 * Returns an URI for getting a object using WebDAV by its name.
+	 *
+	 * WebDAV clients can use this URI to access the object from ILIAS.
+	 *
+	 * @param refId of the object.
+	 * @param ressourceName object title (if known), to reduce SQL queries
+	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
+	 *
+	 * @return Returns the URI or null if the URI can not be constructed.
+	 */
+	public function getObjectURI($refId, $ressourceName = null, $parentRefId = null)
+	{
+		$nodeId = 0;
+		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
+				"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+		
+		if (! is_null($ressourceName) && ! is_null($parentRefId))
+		{
+			// Quickly create URI from the known data without needing SQL queries
+			$uri = $baseUri.'/ref_'.$parentRefId.'/'.$this->davUrlEncode($ressourceName);
+		} else {
+			// Create URI and use some SQL queries to get the missing data
+			global $tree;
+			$nodePath = $tree->getPathFull($refId);
+			
+			if (is_null($nodePath) || count($nodePath) < 2)   
+			{
+				// No object path? Return null - file is not in repository.
+				$uri = null;
+			} else {
+				$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 2]['child'].'/'.
+						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title']);
+			}
+		}
+		return $uri;
+	}
+
+	/**
+	 * Returns an URI for getting a file object using WebDAV.
+	 *
+	 * Browsers can use this URI to download a file from ILIAS.
+	 *
+	 * Note: This could be the same URI that is returned by getObjectURI.
+	 * But we use a different URI, because we want to use the regular
+	 * ILIAS authentication method, if no session exists, and we
+	 * want to be able to download a file from the repository, even if
+	 * the name of the file object is not unique.
+	 *
+	 * @param refId of the file object.
+	 * @param ressourceName title of the file object (if known), to reduce SQL queries
+	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
+	 *
+	 * @return Returns the URI or null if the URI can not be constructed.
+	 */
+	public function getFileURI($refId, $ressourceName = null, $parentRefId = null)
+	{
+		$nodeId = 0;
+		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
+				"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+		
+		if (! is_null($ressourceName) && ! is_null($parentRefId))
+		{
+			// Quickly create URI from the known data without needing SQL queries
+			$uri = $baseUri.'/file_'.$refId.'/'.$this->davUrlEncode($ressourceName);
+		} else {
+			// Create URI and use some SQL queries to get the missing data
+			global $tree;
+			$nodePath = $tree->getPathFull($refId);
+			
+			if (is_null($nodePath) || count($nodePath) < 2)   
+			{
+				// No object path? Return null - file is not in repository.
+				$uri = null;
+			} else {
+				$uri = $baseUri.'/file_'.$nodePath[count($nodePath) - 1]['child'].'/'.
+						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title']);
+			}
+		}
+		return $uri;
+	}
+	/**
+	* Static getter. Returns true, if the WebDAV server is active.
+	* 
+	* @return	boolean	value
+	*/
+	public static function _isActive()
+	{
+		global $ilClientIniFile;
+		return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
+	}
+
+	/**
+	* Gets the default WebDAV mount instructions.
+	*
+	* @return String HTML text with placeholders.
+	*/
+	public static function _getDefaultWebfolderMountInstructions() 
+	{
+		$default_instructions =
+			"<p>Follow the instructions below, to open \"[WEBFOLDER_TITLE]\" as a webfolder:</p>\n"
+			."[IF_WINDOWS]\n"
+			."<h2>Instructions for Windows XP with Internet Explorer</h2>\n"
+			."<ol>\n"
+			."<li>Start Internet Explorer</li>\n"
+			."<li>Choose the menu 'File &gt; Open...'</li>\n"
+			."<li>In the 'Open' field enter the following address:<br/>\n"
+			."<b>[WEBFOLDER_URL]</b></li>\n"
+			."<li>Select the 'Open as web-folder' option, then select 'OK'.</li>\n"
+			."<li>Enter your login and password, and select 'OK'.</li>\n"
+			."</ol>\n"
+			."<h2>Instructions for Windows XP without Internet Explorer</h2>\n"
+			."<ol>\n"
+			."<li>Double-click the 'My Network Places' icon on the Desktop.</li>\n"
+			."<li>Click on Add Network Place from the Network Tasks menu on the left side of the window.</li>\n"
+			."<li>The Add a Network Place wizard will open, select Next.</li>\n"
+			."<li>Select the Choose Another Network Location option, and select Next.\n"
+			."<li>In the Internet or Network Address field enter<br/>
+					<b>[WEBFOLDER_URL]</b><br/>then select Next.</li>\n"
+			."<li>Enter your login and password, and select OK.</li>\n"
+			."</ol>\n"
+			."[/IF_WINDOWS]\n"
+			."[IF_MAC]\n"
+			."<h2>Instructions for Mac OS X</h2>\n"
+			."<ol>\n"
+			."<li>Open the Finder</li>\n"
+			."<li>Choose the menu Go &gt; Connect to server...</li>\n"
+			."<li>In the address field enter the following address:<br/>\n"
+			."<b>[WEBFOLDER_URL]</b></li>\n"
+			."<li>Select Connect.</li>\n"
+			."<li>Enter your login and password, and select OK.</li>\n"
+			."</ol>\n"
+			."[/IF_MAC]\n"
+			."[IF_LINUX]\n"
+			."<h2>Instructions for Linux</h2>\n"
+			."<ol>\n"
+			."<li>Start the Konqueror browser</li>\n"
+			."<li>In the address field enter the following address:<br/>\n"
+			."<b>[WEBFOLDER_URL]</b></li>\n"
+			."<li>Press the Enter key.</li>\n"
+			."<li>Enter your login and password, and select OK.</li>\n"
+			."</ol>\n"
+			."[/IF_LINUX]\n"
+			."<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>\n"
+			;
+		return $default_instructions;
+	}
+
+	/**
+	* Gets Webfolder mount instructions for the specified webfolder.
+	*
+	* @param String Title of the webfolder
+	* @param String Mount URL of the webfolder
+	* @param String Operating system: 'WINDOWS', 'MAC', 'LINUX' or 'UNKNOWN'.
+	* @return String HTML text.
+	*/
+	public static function _getWebfolderMountInstructionsFor($webfolderTitle, $webfolderURL, $operatingSystem = 'UNKNOWN') 
+	{
+		global $ilSetting;
+
+		$settings = new ilSetting('file_access');
+		$str = $settings->get('webfolder_mount_instructions', '');
+		if (strlen($str) == 0)	
+		{
+			$str = ilObjFileAccessSettings::_getDefaultWebfolderMountInstructions();
+		}
+
+		$str = str_replace("[WEBFOLDER_TITLE]", $webfolderTitle, $str);
+		$str = str_replace("[WEBFOLDER_URL]", $webfolderURL, $str);
+		$str = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"), $str);
+
+		if ($operatingSystem != 'UNKNOWN')
+		{
+			$str = preg_replace('/\[IF_'.$operatingSystem.'\]((?:.|\n)*)\[\/IF_'.$operatingSystem.'\]/','\1', $str);
+			$str = preg_replace('/\[IF_([A-Z_]+)\](?:(?:.|\n)*)\[\/IF_\1\]/','', $str);
+		}
+		else
+		{
+			$str = preg_replace('/\[IF_([A-Z_]+)\]((?:.|\n)*)\[\/IF_\1\]/','\2', $str);
+		}
+		return $str;
+	}
+}
+// END WebDAV
+?>

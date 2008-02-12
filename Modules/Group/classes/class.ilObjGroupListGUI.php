@@ -55,7 +55,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
-		$this->info_screen_enabled = true;
+		//$this->info_screen_enabled = true;
 		$this->type = "grp";
 		$this->gui_class_name = "ilobjgroupgui";
 
@@ -85,6 +85,23 @@ class ilObjGroupListGUI extends ilObjectListGUI
 				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
 				break;
 
+			// BEGIN WebDAV: Mount Webfolder.
+			case 'mount_webfolder' :
+				require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+				if (ilDAVServer::_isActive())
+				{
+					$davServer = new ilDAVServer();
+					
+					// XXX: The following is a very dirty, ugly trick. 
+					//        To mount URI needs to be put into two attributes:
+					//        href and folder. This hack returns both attributes
+					//        like this:  http://...mount_uri..." folder="http://...folder_uri...
+					$cmd_link = $davServer->getMountURI($this->ref_id).
+								'" folder="'.$davServer->getFolderURI($this->ref_id);
+				break;
+				} // fall through if plugin is not active
+			// END Mount Webfolder.
+
 			case "edit":
 			default:
 				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
@@ -111,5 +128,29 @@ class ilObjGroupListGUI extends ilObjectListGUI
 
 		return $props;
 	}
+
+	// BEGIN WebDAV mount_webfolder in _blank frame
+	/**
+	* Get command target frame.
+	*
+	* Overwrite this method if link frame is not current frame
+	*
+	* @param	string		$a_cmd			command
+	*
+	* @return	string		command target frame
+	*/
+	function getCommandFrame($a_cmd)
+	{
+		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+		if (ilDAVServer::_isActive())
+		{
+			return ($a_cmd == 'mount_webfolder') ? '_blank' : '';
+		}
+		else
+		{
+			return '';
+		}
+	}
+	// END WebDAV mount_webfolder in _blank frame
 } // END class.ilObjGroupListGUI
 ?>

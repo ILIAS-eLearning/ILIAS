@@ -1645,8 +1645,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// schedule
 		$info->addSection($this->lng->txt("exc_schedule"));
+		// BEGIN Usability: Use ilFormat to format date consistently
+		require_once 'classes/class.ilFormat.php';
 		$info->addProperty($this->lng->txt("exc_edit_until"),
-			date("H:i, d.m.Y",$this->object->getTimestamp()));
+			ilFormat::formatDate(ilFormat::unixtimestamp2datetime($this->object->getTimestamp()), 'datetime', true));
+		// END Usability: Use ilFormat to format date consistently
 		
 		if ($this->object->getTimestamp()-time() <= 0)
 		{
@@ -1655,6 +1658,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 		else
 		{
 			$time_diff = ilUtil::int2array($this->object->getTimestamp()-time(),null);
+			// BEGIN Usability: Never display seconds
+			unset($time_diff['seconds']);
+			// END Usability: Never display seconds
+			// BEGIN Usability: Don't display minutes, if it takes days
+			if (isset($time_diff['days']))
+			{
+				unset($time_diff['minutes']);
+			}
+			// END Usability: Don't display minutes, if it takes days
+			// BEGIN Usability: Don't display hours, if it takes months
+			if (isset($time_diff['months']))
+			{
+				unset($time_diff['hours']);
+			}
+			// END Usability: Don't display minutes, if it takes months
 			$time_str = ilUtil::timearray2string($time_diff);
 		}
 		$info->addProperty($this->lng->txt("exc_time_to_send"),

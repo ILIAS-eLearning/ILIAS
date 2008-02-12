@@ -179,7 +179,25 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		#$this->tpl->setVariable("NUMBER_RECORDS", $this->object->getRecordsTotal());
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
-		$this->__showActivationSelect();
+		// BEGIN ChangeEvent
+		$this->tpl->setVariable('TXT_USER_TRACKING', $this->lng->txt('trac_user_activities'));
+		$this->tpl->setVariable('TXT_LEARNING_PROGRESS_TRACKING', $this->lng->txt('trac_learning_progress'));
+		$this->tpl->setVariable('TXT_CHANGE_EVENT_TRACKING', $this->lng->txt('trac_repository_changes'));
+		if($this->object->getActivationStatus() == UT_ACTIVE_BOTH ||
+			$this->object->getActivationStatus() == UT_ACTIVE_UT)
+		{
+			$this->tpl->setVariable('USER_TRACKING_CHECKED', ' checked="1" ');
+		}
+		if($this->object->getActivationStatus() == UT_ACTIVE_BOTH ||
+			$this->object->getActivationStatus() == UT_ACTIVE_LP)
+		{
+			$this->tpl->setVariable('LEARNING_PROGRESS_TRACKING_CHECKED', ' checked="1" ');
+		}
+		if($this->object->isChangeEventTrackingEnabled())
+		{
+			$this->tpl->setVariable('CHANGE_EVENT_TRACKING_CHECKED', ' checked="1" ');
+		}
+		// END ChangeEvent
 		
 		// Anonymized
 		if(!$this->object->_enabledUserRelatedData())
@@ -198,7 +216,19 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		$this->object->setActivationStatus((int) $_POST['act_track']);
+		// BEGIN ChangeEvent
+		if ($_POST['user_tracking'] == '1')
+		{
+			$activation_status = ($_POST['learning_progress_tracking'] == '1') ? UT_ACTIVE_BOTH : UT_ACTIVE_UT;
+		}
+		else
+		{
+			$activation_status = ($_POST['learning_progress_tracking'] == '1') ? UT_ACTIVE_LP : UT_INACTIVE_BOTH;
+		}
+		$this->object->setActivationStatus($activation_status);
+		$this->object->setChangeEventTrackingEnabled($_POST['change_event_tracking'] == '1');
+		// END ChangeEvent
+		
 		$this->object->enableUserRelatedData((int) !$_POST['user_related']);
 		$this->object->setValidTimeSpan($_POST['valid_request']);
 
@@ -1467,29 +1497,5 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$res = $this->ilias->db->query($q);
 		return $res->numRows();
 	}
-
-	function __showActivationSelect()
-	{
-		$options = array(UT_ACTIVE_UT => $this->lng->txt('trac_active_ut_only'),
-						 UT_ACTIVE_LP => $this->lng->txt('trac_active_lp_only'),
-						 UT_ACTIVE_BOTH => $this->lng->txt('trac_active_both'),
-						 UT_INACTIVE_BOTH => $this->lng->txt('trac_inactive_both'));
-
-		foreach($options as $val => $txt)
-		{
-			$this->tpl->setCurrentBlock("option");
-
-			if($this->object->getActivationStatus() == $val)
-			{
-				$this->tpl->setVariable("OPT_SELECTED",'selected="selected"');
-			}
-			$this->tpl->setVariable("OPT_VAL",$val);
-			$this->tpl->setVariable("OPT_TXT",$txt);
-			$this->tpl->parseCurrentBlock();
-		}
-		return true;
-	}	
-
-	
 } 
 ?>

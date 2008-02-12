@@ -87,6 +87,16 @@ class ilObjFileListGUI extends ilObjectListGUI
 	{
 		switch($a_cmd)
 		{
+			// BEGIN WebDAV: View inline objects in a blank window
+			case 'sendfile' :
+				require_once('class.ilObjFileAccess.php');
+				if (ilObjFileAccess::_isFileInline($this->title))
+				{
+					$frame = '_blank';
+				}
+				break;
+			// END WebDAV View inline objects in a blank window
+
 			case "":
 				$frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
 				break;
@@ -97,6 +107,34 @@ class ilObjFileListGUI extends ilObjectListGUI
 		return $frame;
 	}
 
+	// BEGIN WebDAV: getIconImageType.
+	/**
+	* Returns the icon image type.
+	* For most objects, this is same as the object type, e.g. 'cat','fold'.
+	* We can return here other values, to express a specific state of an object,
+	* e.g. 'crs_offline", and/or to express a specific kind of object, e.g.
+	* 'file_inline'.
+	*/
+	function getIconImageType() 
+	{
+		include_once('class.ilObjFileAccess.php');
+		
+		return ilObjFileAccess::_isFileInline($this->title) ? $this->type.'_inline' : $this->type;
+	}
+	// END WebDAV: getIconImageType.
+
+	// BEGIN WebDAV: Suppress filename extension from title.
+	/**
+	 * getTitle overwritten in class.ilObjLinkResourceList.php 
+	 *
+	 * @return string title
+	 */
+	function getTitle()
+	{
+		// Remove filename extension from title
+		return preg_replace('/\\.[a-z0-9]+\\z/i','', $this->title);
+	}
+	// END WebDAV: Suppress filename extension from title.
 
 
 	/**
@@ -116,14 +154,24 @@ class ilObjFileListGUI extends ilObjectListGUI
 		// to do: implement extra smaller file info object
 		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
+		// BEGIN WebDAV: Only display relevant information.
 		$props[] = array("alert" => false, "property" => $lng->txt("type"),
-			"value" => ilObjFileAccess::_lookupSuffix($this->obj_id));
+			"value" => ilObjFileAccess::_lookupSuffix($this->obj_id),
+			'propertyNameVisible' => false
+			);
 		$props[] = array("alert" => false, "property" => $lng->txt("size"),
-			"value" => ilObjFileAccess::_lookupFileSize($this->obj_id, true));
+			"value" => ilObjFileAccess::_lookupFileSize($this->obj_id, true),
+			'propertyNameVisible' => false);
+		$version = ilObjFileAccess::_lookupVersion($this->obj_id);
+		if ($version > 1)
+		{
+			$props[] = array("alert" => false, "property" => $lng->txt("version"),
+				"value" => $version);
+		}
 		$props[] = array("alert" => false, "property" => $lng->txt("last_update"),
-			"value" => ilObject::_lookupLastUpdate($this->obj_id, true));
-		$props[] = array("alert" => false, "property" => $lng->txt("version"),
-			"value" => ilObjFileAccess::_lookupVersion($this->obj_id));
+			"value" => ilObject::_lookupLastUpdate($this->obj_id, true),
+			'propertyNameVisible' => false);
+		// END WebDAV: Only display relevant information.
 
 		return $props;
 	}

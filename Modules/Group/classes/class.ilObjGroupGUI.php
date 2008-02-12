@@ -639,6 +639,15 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
 		
+		// BEGIN ChangeEvent: Record save object.
+		require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($groupObj->getId(), $ilUser->getId(), 'create');
+		}
+		// END ChangeEvent: Record save object.
+
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("grp_added"),true);
 
@@ -690,6 +699,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$this->update = $this->object->update();
+
+		// BEGIN ChangeEvents: Record update Object.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+		}
+		// END PATCH ChangeEvents: Record update Object.
 
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this,"")));
@@ -2891,6 +2909,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		$date_times = $this->object->getExpirationDateTime();
 		$info->addProperty($this->lng->txt('group_registration_time'),
 						   $date_times[0].' '.$date_times[1]);
+
+		// BEGIN WebDAV Display locking information
+		// BEGIN ChangeEvent: Display owner and file reads.
+		$info->addObjectSections($this->object);
+		// END ChangeEvent: Display file reads.
+		// END WebDAV Display locking information
+
+
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}

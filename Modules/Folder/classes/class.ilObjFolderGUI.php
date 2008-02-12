@@ -31,6 +31,9 @@
 *
 * @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
+* // BEGIN ChangeEvent add info tab to folder object
+* @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI
+* // END ChangeEvent add info tab to folder object
 *
 * @extends ilObjectGUI
 */
@@ -68,6 +71,14 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 		else
 		{
+			// BEGIN ChangeEvent record read event
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				global $ilUser;
+				ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
+			}
+			// END ChangeEvent record read event
 			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 			$course_content_obj = new ilCourseContentGUI($this);
 			
@@ -239,6 +250,15 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		$folderObj->putInTree($a_parent);
 			
+		// BEGIN ChangeEvent: Record write event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($folderObj->getId(), $ilUser->getId(), 'create');
+		}
+		// END ChangeEvent: Record write event.
+
 		ilUtil::sendInfo($this->lng->txt("fold_added"),true);
 		$this->ctrl->returnToParent($this);
 		//$this->ctrl->redirect($this,"");
@@ -255,6 +275,15 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 
+		// BEGIN ChangeEvent: Record write event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+		}
+		// END ChangeEvent: Record write event.
+		
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		if ($a_return_to_parent)
@@ -267,6 +296,64 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 	}
 
+	// BEGIN ChangeEvent show info screen on folder object
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function showSummaryObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->enablePrivateNotes();
+		
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$info->enableNews();
+		}
+
+		// no news editing for files, just notifications
+		$info->enableNewsEditing(false);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
+			if ($enable_internal_rss)
+			{
+				$info->setBlockProperty("news", "settings", true);
+				$info->setBlockProperty("news", "public_notifications_option", true);
+			}
+		}
+
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		$info->addObjectSections($this->object);
+
+		// forward the command
+		$this->ctrl->forwardCommand($info);
+	}
+	// END ChangeEvent show info screen on folder object
 
 	// get tabs
 	function getTabs(&$tabs_gui)

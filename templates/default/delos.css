@@ -22,6 +22,16 @@ body.il_Explorer {
 	color:#ffffff;
 }
 
+/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer. 
+ * All skins which want to support mounting of Webfolders using Internet Explorer
+ * must explicitly enable AnchorClick behavior.
+ */
+a {
+  behavior: url(#default#AnchorClick);
+}
+/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
+
+
 a.menu:link, a.menu:visited {
 	color:#a0c0ff;
 }

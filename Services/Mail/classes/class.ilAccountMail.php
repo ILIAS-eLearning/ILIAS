@@ -229,6 +229,9 @@ return true;*/
 		$a_string = str_replace("[LOGIN]", $a_user->getLogin(), $a_string);
 		$a_string = str_replace("[FIRST_NAME]", $a_user->getFirstname(), $a_string);
 		$a_string = str_replace("[LAST_NAME]", $a_user->getLastname(), $a_string);
+		// BEGIN Mail Include E-Mail Address in account mail
+		$a_string = str_replace("[EMAIL]", $a_user->getEmail(), $a_string);
+		// END Mail Include E-Mail Address in account mail
 		$a_string  = str_replace("[PASSWORD]", $this->getUserPassword(), $a_string);
 		$a_string  = str_replace("[ILIAS_URL]",
 			ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID, $a_string);
