@@ -987,7 +987,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 				}
 				case "grp":
 					$member_ids = $object->getGroupMemberIds();
-					$data = ilObjUser::_getUserForGroup($member_ids, $active);
+					$data = ilObjUser::_getUsersForGroup($member_ids, $active);
 					break;
 			}
 
