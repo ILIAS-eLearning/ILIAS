@@ -3430,3 +3430,7 @@ CREATE TABLE il_plugin (
 	PRIMARY KEY (component_type, component_name, slot_id, name)
 );
 
+<#1171>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
