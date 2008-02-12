@@ -661,6 +661,7 @@ class ilInitialisation
 
 		// BEGIN WebDAV: Don't do a redirect to the public area, if the user
 		//             performs a get request.
+		/*
 		if (ilPlugin::isPluginActive('ilUsabilityPlugin'))
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -670,6 +671,7 @@ class ilInitialisation
 				return;
 			}
 		}
+		*/
 		// END WebDAV: Don't do a redirect to the public area, if the user
 
 		// if target given, try to go there
