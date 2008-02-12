@@ -2504,7 +2504,8 @@ class ilSetupGUI extends ilSetup
 		ilModuleReader::clearTables();
 		foreach($modules as $module)
 		{
-			$mr = new ilModuleReader(ILIAS_ABSOLUTE_PATH."/Modules/".$module["subdir"]."/module.xml");
+			$mr = new ilModuleReader(ILIAS_ABSOLUTE_PATH."/Modules/".$module["subdir"]."/module.xml",
+				$module["subdir"], "Modules");
 			$mr->getModules();
 			unset($mr);
 		}
@@ -2512,7 +2513,8 @@ class ilSetupGUI extends ilSetup
 		ilServiceReader::clearTables();
 		foreach($services as $service)
 		{
-			$sr = new ilServiceReader(ILIAS_ABSOLUTE_PATH."/Services/".$service["subdir"]."/service.xml");
+			$sr = new ilServiceReader(ILIAS_ABSOLUTE_PATH."/Services/".$service["subdir"]."/service.xml",
+				$service["subdir"], "Services");
 			$sr->getServices();
 			unset($sr);
 		}
