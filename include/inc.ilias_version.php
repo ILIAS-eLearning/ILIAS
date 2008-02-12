@@ -31,4 +31,5 @@
 * @package ilias-core
 */
 define("ILIAS_VERSION", "3.10.0 Pre-Alpha-2");
+define("ILIAS_VERSION_NUMERIC", "3.10.0");			// must be always x.y.z: x, y and z are numbers
 ?>

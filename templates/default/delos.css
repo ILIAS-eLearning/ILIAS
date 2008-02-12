@@ -454,6 +454,26 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_Containe
 	font-size: 70%;
 }
 
+/*Link, Visited, Hover, Focus, Activ*/
+a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited, a.il_ContainerItemCommand2:hover
+{
+	font-size: 100%;
+	text-decoration: underline;
+	white-space: nowrap;
+}
+
+div.il_ContainerItemCommands2
+{
+	text-align: right;
+	font-size: 80%;
+	margin: 0px 3px 3px 3px;
+}
+
+div.il_ContainerListItem
+{
+	margin: 2px 0px;
+}
+
 div.il_ContainerItemCommands
 {
 	padding-bottom: 2px;

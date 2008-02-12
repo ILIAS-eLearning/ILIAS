@@ -317,13 +317,23 @@ cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes
 common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.
 cmps#:#cmps_edit_settings#:#Settings
 cmps#:#cmps_modules#:#Modules
+cmps#:#cmps_plugins#:#Plugins
+cmps#:#cmps_plugin#:#Plugin
 cmps#:#cmps_services#:#Services
 cmps#:#cmps_service#:#Service
 cmps#:#cmps_save_options#:#Save Options
 cmps#:#cmps_main_dir#:#Main Directory
 cmps#:#cmps_plugin_file#:#Plugin File
+cmps#:#cmps_db_update#:#DB Update Script
+cmps#:#cmps_available#:#Available
+cmps#:#cmps_missing#:#Missing
+cmps#:#cmps_class_file#:#Class File
 cmps#:#cmps_lang_files#:#Language Files
-cmps#:#cmps_db_update#:#Database Update Script
+cmps#:#cmps_database#:#Database
+cmps#:#cmps_languages#:#Languages
+cmps#:#cmps_basic_files#:#Basic Files
+cmps#:#cmps_name#:#Name
+cmps#:#cmps_id#:#ID
 common#:#user_profile_instant_messengers#:#Instant Messengers
 common#:#instant_messengers#:#Instant Messengers
 common#:#im_icq#:#ICQ
