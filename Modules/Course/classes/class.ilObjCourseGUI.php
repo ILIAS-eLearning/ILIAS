@@ -533,6 +533,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$info->enableLearningProgress(true);
 
+		// BEGIN WebDAV: Display locking information
+		// BEGIN ChangeEvent: Display owner and file reads.
+		$info->addObjectSections($this->object);
+		// END WebDAV: Display locking information
+		// END ChangeEvent: Display owner and file reads.
+
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}
@@ -1004,6 +1010,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->validate())
 		{
 			$this->object->update();
+
+			// BEGIN ChangeEvent: Record write event
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				global $ilUser;
+				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'create');
+			}
+			// END ChangeEvent: Record write event
+
 			ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		}
 		else
@@ -1486,6 +1502,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$newObj->initCourseMemberObject();
 		$newObj->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
 		
+		// BEGIN ChangeEvent: Record write event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($newObj->getId(), $ilUser->getId(), 'create');
+		}
+		// END ChangeEvent: Record write event.
+
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("crs_added"),true);
 		

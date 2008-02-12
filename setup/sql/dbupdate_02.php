@@ -3238,4 +3238,179 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1169>
+<?php
+// BEGIN WebDAV
 
+// ----------------
+// BEGIN Undo previous calls to this update function
+
+// delete 'facs'-objects
+$query = "SELECT d.obj_id, r.ref_id"
+		." FROM object_data AS d"
+		." LEFT JOIN object_reference AS r ON r.obj_id=d.obj_id"
+		." WHERE type ='facs'"
+		;
+$result = $ilDB->query($query);
+while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+	$obj_id = $row['obj_id'];
+	$ref_id = $row['ref_id'];
+	if ($ref_id !== null)
+	{
+		$ilDB->query("DELETE FROM tree WHERE child=".$ilDB->quote($ref_id));
+		$ilDB->query("DELETE FROM object_reference WHERE ref_id=".$ilDB->quote($ref_id));
+	}
+	$ilDB->query("DELETE FROM object_data WHERE obj_id=".$ilDB->quote($obj_id));
+}
+
+// delete 'facs' object type
+$query = "SELECT obj_id FROM object_data"
+		." WHERE type ='typ' AND title ='facs'"
+		;
+$result = $ilDB->query($query);
+while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+	$typ_id = $row['obj_id'];
+	$ilDB->query("DELETE FROM rbac_ta WHERE typ_id=".$ilDB->quote($typ_id));
+	$ilDB->query("DELETE FROM object_data WHERE obj_id=".$ilDB->quote($typ_id));
+}
+
+// ----------------
+
+
+// REGISTER NEW OBJECT TYPE 'facs' for File Access settings object
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'facs', 'File Access settings object', -1, now(), now())";
+$ilDB->query($query);
+$typ_id =  $ilDB->getLastInsertId();
+
+// REGISTER RBAC OPERATIONS FOR OBJECT TYPE
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
+		."  (".$ilDB->quote($typ_id).",'1')"
+		.", (".$ilDB->quote($typ_id).",'2')"
+		.", (".$ilDB->quote($typ_id).",'3')"
+		.", (".$ilDB->quote($typ_id).",'4')"
+		;
+$ilDB->query($query);
+
+// ADD NODE IN SYSTEM SETTINGS FOLDER
+// create object data entry
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('facs', '__File Access', 'File Access settings', -1, now(), now())";
+$ilDB->query($query);
+$obj_id = $ilDB->getLastInsertId();
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES(".$ilDB->quote($obj_id).")";
+$res = $ilDB->query($query);
+$ref_id = $ilDB->getLastInsertId();
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+
+			
+// Create data table for WebDAV Locks
+// IMPORTANT: To prevent data loss on installations which use the HSLU-patches,
+//            the WebDAV tables must only be created if the do not exist yet, 
+//            and the tables must be created exactly like this. The tables may
+//            be altered in subsequent update scripts however.
+//            For performance reasons, all these tables should be InnoDB tables,
+//            but they are currently created with the default table engine, in
+//            order not to require configuration changes for MySQL.
+$q = "CREATE TABLE IF NOT EXISTS dav_lock ( ".
+" token varchar(255) NOT NULL default '', ".
+" obj_id int(11) NOT NULL default 0, ".
+" node_id int(11) NOT NULL default 0, ".
+" ilias_owner int(11) NOT NULL default 0, ".
+" dav_owner varchar(200) default null, ".
+" expires int(11) NOT NULL default 0, ".
+" depth int(11) NOT NULL default 0, ".
+" type char(1) NOT NULL default 'w', ".
+" scope char(1) NOT NULL default 's', ".
+" PRIMARY KEY (token), ".
+" UNIQUE KEY token (token), ".
+" KEY path (obj_id,node_id), ".
+" KEY path_3 (obj_id,node_id,token), ".
+" KEY expires (expires) ".
+")"; //") ENGINE=InnoDB;";
+$r = $ilDB->db->query($q);
+if ($ilDB->isError($r) || $ilDB->isError($r->result))
+{
+	return 'could\'nt create table "dav_lock": '.
+	(($ilDB->isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
+}
+// Create data table for WebDAV Properties
+$q = "CREATE TABLE IF NOT EXISTS dav_property ( ".
+" obj_id int(11) NOT NULL default 0, ".
+" node_id int(11) NOT NULL default 0, ".
+" ns varchar(120) NOT NULL default 'DAV:', ".
+" name varchar(120) NOT NULL default '', ".
+" value text, ".
+" PRIMARY KEY (obj_id,node_id,name,ns), ".
+" KEY path (obj_id,node_id) ".
+")"; //") ENGINE=InnoDB;";
+$r = $ilDB->db->query($q);
+if ($ilDB->isError($r) || $ilDB->isError($r->result))
+{
+	return 'could\'nt create table "dav_property": '.
+	(($ilDB->isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
+}
+// END WebDAV
+
+// BEGIN ChangeEvent
+// IMPORTANT: To prevent data loss on installations which use the HSLU-patches,
+//            the ChangeEvent tables must only be created if the do not exist yet, 
+//            and the tables must be created exactly like this. The tables may
+//            be altered in subsequent update scripts however.
+//            For performance reasons, all these tables should be InnoDB tables,
+//            but they are currently created with the default table engine, in
+//            order not to require configuration changes for MySQL.
+// Create tables for events on objects
+$q = "CREATE TABLE IF NOT EXISTS write_event ( ".
+" obj_id INT(11) NOT NULL DEFAULT 0, ".
+" parent_obj_id INT(11) NOT NULL DEFAULT 0, ".
+" usr_id INT(11) NOT NULL DEFAULT 0, ".
+" action VARCHAR(8) NOT NULL DEFAULT '', ".
+" ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, ".
+" PRIMARY KEY (obj_id, ts, parent_obj_id, action), ".
+" KEY parent_key (parent_obj_id, ts) ".
+")"; //") ENGINE=InnoDB";
+$r = $ilDB->db->query($q);
+
+$q = "CREATE TABLE IF NOT EXISTS read_event ( ".
+" obj_id INT(11) NOT NULL DEFAULT 0, ".
+" usr_id INT(11) NOT NULL DEFAULT 0, ".
+" ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, ".
+" read_count int(11) NOT NULL DEFAULT 0, ".
+" PRIMARY KEY (obj_id, usr_id) ".
+")"; //") ENGINE=InnoDB";
+$r = $ilDB->db->query($q);
+
+$q = "CREATE TABLE IF NOT EXISTS catch_write_events ( ".
+" obj_id int(11) NOT NULL default 0, ".
+" usr_id int(11) NOT NULL default 0, ".
+" ts timestamp NOT NULL default current_timestamp, ".
+" PRIMARY KEY (obj_id, usr_id) ".
+")"; //") ENGINE=InnoDB";
+$r = $ilDB->db->query($q);
+
+// Track existing write events. This MUST always be done, when change event tracking
+// is activated. If it is not done, change event tracking will not work as expected.
+$q = "INSERT IGNORE INTO write_event ".
+	"(obj_id,parent_obj_id,usr_id,action,ts) ".
+	"SELECT r1.obj_id,r2.obj_id,d.owner,'create',d.create_date ".
+	"FROM object_data AS d ".
+	"JOIN object_reference AS r1 ON d.obj_id=r1.obj_id ".
+	"JOIN tree AS t ON t.child=r1.ref_id ".
+	"JOIN object_reference as r2 on r2.ref_id=t.parent ";
+$r = $ilDB->db->query($q);
+
+// activate change event tracking:
+$q = "REPLACE INTO settings ".
+	"(module, keyword, value) VALUES ".
+	"('common', ''enable_change_event_tracking', '1')";
+$r = $ilDB->db->query($q);
+// END ChangeEvent
+
+?>

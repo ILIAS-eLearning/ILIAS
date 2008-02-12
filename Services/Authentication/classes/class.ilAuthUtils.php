@@ -29,6 +29,9 @@ define ("AUTH_SCRIPT",4);
 define ("AUTH_SHIBBOLETH",5);
 define ("AUTH_CAS",6);
 define ("AUTH_SOAP",7);
+// BEGIN WebDAV: Add support for HTTP authentication
+define ("AUTH_HTTP",8);
+// END WebDAV: Add support for HTTP authentication
 
 define('AUTH_MULTIPLE',20);
 
@@ -118,6 +121,20 @@ class ilAuthUtils
 			$user_auth_mode = AUTH_LOCAL;
 		}
 		
+	// BEGIN WebDAV: Share session between browser and WebDAV client.
+	// The realm is needed to support a common session between Auth_HTTP and Auth.
+	// It also helps us to distinguish between parallel sessions run on different clients.
+	// Common session only works if we use a common session name starting with "_authhttp".
+	// We must use the "_authttp" prefix, because it is hardcoded in the session name of
+	// class Auth_HTTP.
+	// Whenever we use Auth_HTTP, we need to explicitly switch off "sessionSharing", because
+	// it interfers with the session mechanism of the other Auth modules. If we would
+	// keep this switched on, then users could steal each others session, which would cause
+	// a major security breach.
+	$realm = CLIENT_ID;
+	//$this->writelog('ilias.php realm='.$realm);
+	// END WebDAV: Share session between browser and WebDAV client.
+
 //var_dump($_SESSION);
 //echo "1-".$ilSetting->get("soap_auth_active")."-";
 		// if soap authentication activated and soap credentials given
@@ -134,6 +151,9 @@ class ilAuthUtils
 					"server_uri" => $ilSetting->get("soap_auth_uri"),
 					"https" => $ilSetting->get("soap_auth_use_https"),
 					"namespace" => $ilSetting->get("soap_auth_namespace"),
+					// BEGIN WebDAV: Share session between browser and WebDAV client.
+					'sessionName' => "_authhttp".md5($realm),
+					// END WebDAV: Share session between browser and WebDAV client.
 					"use_dotnet" => $ilSetting->get("soap_auth_use_dotnet")
 					);
 				// this starts already the session, AccountId is '' _authsession is null
@@ -166,7 +186,11 @@ class ilAuthUtils
 					"server_version" => CAS_VERSION_2_0,
 					"server_hostname" => $ilSetting->get("cas_server"),
 					"server_port" => $ilSetting->get("cas_port"),
-					"server_uri" => $ilSetting->get("cas_uri"));
+					"server_uri" => $ilSetting->get("cas_uri"),
+					// BEGIN PATCH WebDAV: Share session between browser and WebDAV client.
+					'sessionName' => "_authhttp".md5($realm)
+					// END PATCH WebDAV: Share session between browser and WebDAV client.
+					);
 //echo "II";
 //var_dump($_SESSION);
 				$ilCASAuth = new ilCASAuth($auth_params);
@@ -210,32 +234,64 @@ class ilAuthUtils
 											);
 				// We use MySQL as storage container
 				// this starts already the session, AccountId is '' _authsession is null
-				$ilAuth = new Auth("DB", $auth_params,"",false);
+				// BEGIN WebDAV: Support HTTP authentication for WebDAV clients.				
+				if (WebDAV_Authentication == 'HTTP')
+				{
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					$auth_params['sessionSharing'] = false;
+					require_once 'class.ilAuthContainerDB.php';
+					$authContainerDB = new ilAuthContainerDB($auth_params);
+					$ilAuth = new Auth_HTTP($authContainerDB, $auth_params,"",false);
+					$ilAuth->setRealm($realm);
+				}
+				else
+				{
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					require_once 'class.ilAuthContainerDB.php';
+					$authContainerDB = new ilAuthContainerDB($auth_params);
+					$ilAuth = new Auth($authContainerDB, $auth_params,"",false);
+				}
+				// END WebDAV: Support HTTP authentication for WebDAV clients.				
 				break;
 			
 			case AUTH_LDAP:
-				$ilBench->start('Auth','Auth_LDAP');
-				include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
-				$ilAuth = new ilAuthLDAP();
-				$ilBench->stop('Auth','Auth_LDAP');
-				/*
-				$settings = $ilSetting->getAll();
-				// build option string for PEAR::Auth
-				$auth_params = array(
-											'host'		=> $settings["ldap_server"],
-											'port'		=> $settings["ldap_port"],
-											'basedn'	=> $settings["ldap_basedn"],
-											'userdn'	=> $settings["ldap_search_base"],
-											'useroc'	=> $settings["ldap_objectclass"],
-											'userattr'	=> $settings["ldap_login_key"]
-											);
-				$ilAuth = new Auth("LDAP", $auth_params,"",false);
-				*/
+				// BEGIN WebDAV: Support HTTP Authentication for WebDAV clients.
+				// XXX - ilAuthLDAP and ilAuthLDAPHTTP should follow the PEAR design for Auth
+				//       objects consisting of a frontend part and a backend part.
+				// XXX - This hole patch should be revised, because WebDAV_Authentication
+				//       specifies a frontend part.
+				if (WebDAV_Authentication == 'HTTP')
+				{
+        			include_once 'Services/LDAP/classes/class.ilAuthLDAPHTTP.php';
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					$auth_params['sessionSharing'] = false;
+        			$ilAuth = new ilAuthLDAPHTTP($auth_params);
+					$ilAuth->setRealm($realm);
+				}
+				else
+				{
+        			include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+        			$ilAuth = new ilAuthLDAP($auth_params);
+				}
+				// END WebDAV: Support HTTP Authentication for WebDAV clients.
 				break;
 				
 			case AUTH_RADIUS:
-				include_once('Services/Radius/classes/class.ilAuthRadius.php');
-				$ilAuth = new ilAuthRadius();
+				// BEGIN PATCH WebDAV: Support HTTP Authentication for WebDAV clients.
+				if (WebDAV_Authentication == 'HTTP')
+				{
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					$auth_params['sessionSharing'] = false;
+					$ilAuth = new Auth_HTTP("RADIUS", $auth_params,"",false);
+					$ilAuth->setRealm($realm);
+				}
+				else
+				{
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					$ilAuth = new Auth("RADIUS", $auth_params,"",false);
+				}
+				// END PATCH WebDAV: Support HTTP Authentication for WebDAV clients.
 				break;
 			
 				
@@ -269,9 +325,25 @@ class ilAuthUtils
 											'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
 											);
 				// We use MySQL as storage container
-//var_dump($_SESSION);
-				$ilAuth = new Auth("DB", $auth_params,"",false);
-//var_dump($_SESSION);
+				// BEGIN WebDAV: Support HTTP Authentication for WebDAV clients.
+				if (WebDAV_Authentication == 'HTTP')
+				{
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					$auth_params['sessionSharing'] = false;
+					//$ilAuth = new Auth_HTTP("DB", $auth_params,"",false);
+					require_once 'class.ilAuthContainerDB.php';
+					$authContainerDB = new ilAuthContainerDB($auth_params);
+					$ilAuth = new Auth_HTTP($authContainerDB, $auth_params,"",false);
+					$ilAuth->setRealm($realm);
+				}
+				else
+				{
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					require_once 'class.ilAuthContainerDB.php';
+					$authContainerDB = new ilAuthContainerDB($auth_params);
+					$ilAuth = new Auth($authContainerDB, $auth_params,"",false);
+				}
+				// END WebDAV: Support HTTP Authentication for WebDAV clients.
 				break;
 
 		}

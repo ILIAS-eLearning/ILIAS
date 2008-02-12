@@ -48,6 +48,9 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjPersonalDesktopSettingsGUI, ilObjMediaCastGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCalendarSettingsGUI
+* // BEGIN WebDAV
+* @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI
+* // END WebDAV
 */
 class ilAdministrationGUI
 {

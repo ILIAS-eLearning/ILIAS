@@ -346,6 +346,16 @@ class ilCourseContentGUI
 	*/
 	function view()
 	{
+		// BEGIN ChangeEvent: record read event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
+			ilChangeEvent::_recordReadEvent($obj_id, $ilUser->getId());
+		}
+		// END ChangeEvent: record read event.
+
 		$this->getCenterColumnHTML();
 		$this->tpl->setRightContent($this->getRightColumnHTML());
 	}
@@ -632,7 +642,14 @@ class ilCourseContentGUI
 				{
 					continue;
 				}
-				if(strlen($html = $this->__getItemHTML($cont_data,true)))
+				// BEGIN WebDAV: Render icon using list icon gui
+				$item_list_gui = $this->__getItemGUI($cont_data);
+					
+				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
+														$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
+			
+				if (strlen($html))
+				// END WebDAV: Render icon using list icon gui
 				{
 					 /* Disabled: no manual sort
 					 foreach($this->__getOptions($cont_data,$num) as $key => $image)
@@ -660,8 +677,9 @@ class ilCourseContentGUI
 					 // change row color
 					 $tpl->setVariable("ITEM_HTML",$html);
 					 $tpl->setVariable("MATERIAL_ROWCOL", ilUtil::switchColor($counter,"tblrow1","tblrow2"));
-					 $tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($cont_data['type'],$cont_data['obj_id'],'small'));
-					 #$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
+					// BEGIN WebDAV: Render icon using list icon gui
+					 $tpl->setVariable("TYPE_IMG", ilUtil::getTypeIconPath($item_list_gui->getIconImageType(),$cont_data['obj_id'],'small'));
+					// END WebDAV: Render icon using list icon gui
 					 $tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				 }
 
@@ -772,8 +790,25 @@ class ilCourseContentGUI
 			{
 				continue;
 			}
+			// BEGIN WebDAV: Don't display hidden Files.
+			if (! $this->container_gui->isActiveAdministrationPanel())
+			{
+				require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+				if (ilObjFileAccess::_isFileHidden($cont_data['title']))
+				{
+					continue;
+				}
+			}
+			// END WebDAV: Don't display hidden Files.
 			
-			if($html = $this->__getItemHTML($cont_data))
+			// BEGIN WebDAV: Render icon using list icon gui
+			$item_list_gui = $this->__getItemGUI($cont_data);
+				
+			$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
+													$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
+		
+			if(strlen($html))
+			// END WebDAV: Render icon using list icon gui
 			{
 				foreach($this->__getOptions($cont_data,$num) as $key => $image)
 				{
@@ -799,14 +834,17 @@ class ilCourseContentGUI
 				// change row color
 				$tpl->setVariable("ITEM_HTML",$html);
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-				#$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
-				$tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($cont_data['type'],$cont_data['obj_id'],'small'));
+				// BEGIN WebDAV: Render icon using list icon gui
+				$tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($item_list_gui->getIconImageType(),$cont_data['obj_id'],'small'));
+				// END WebDAV: Render icon using list icon gui
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->parseCurrentBlock();
+				// BEGIN WebDAV: increment counter only, if item is visible
 				// increment counter
+				$num++;
+				// END WebDAV: increment counter only, if item is visible
 			}
-			$num++;
 		}
 
 		// create table
@@ -1742,8 +1780,8 @@ class ilCourseContentGUI
 	}
 
 
-
-	function __getItemHTML($cont_data,$a_show_path = false)
+	// BEGIN WebDAV: Get Icon of Item from List Item GUI
+	function __getItemGUI($cont_data,$a_show_path = false)
 	{
 		include_once './classes/class.ilObjectListGUIFactory.php';
 
@@ -1808,14 +1846,9 @@ class ilCourseContentGUI
 											 'activation');
 		}
 
-		$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
-												$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-	
-		$this->container_gui->determineAdminCommands($cont_data['ref_id'],
-													 $item_list_gui->adminCommandsIncluded());
-		
-		return $html;
+		return $item_list_gui;
 	}
+	// ENDWebDAV: Get Icon of Item from List Item GUI
 
 	function __getOptions($cont_data,$num)
 	{

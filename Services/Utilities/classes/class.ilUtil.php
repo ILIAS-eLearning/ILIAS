@@ -1160,11 +1160,30 @@ class ilUtil
 			{
 				$len = $a_len;
 			}
-			$a_str = ilStr::subStr($a_str,0,$len);
-
-			if ($a_dots)
+			// BEGIN WebDAV 
+			//             - Shorten names in the middle, before the filename extension
+			//             Workaround for Windows WebDAV Client:
+			//             Use the unicode ellipsis symbol for shortening instead of
+			//             three full stop characters.
+			$p = strrpos($a_str, '.');
+			if ($p === false || $p == 0 || strlen($a_str) - $p > $a_len)
 			{
-				$a_str .= "...";
+				$a_str = ilStr::subStr($a_str,0,$len);
+				if ($a_dots)
+				{
+					$a_str .= "\xe2\x80\xa6"; // UTF-8 encoding for Unicode ellipsis character.
+				}
+			}
+			else
+			{
+				if ($a_dots)
+				{
+					$a_str = ilStr::subStr($a_str,0,$len - (strlen($a_str) - $p + 1))."\xe2\x80\xa6".substr($a_str, $p);
+				}
+				else
+				{
+					$a_str = ilStr::subStr($a_str,0,$len - (strlen($a_str) - $p + 1)).substr($a_str, $p);
+				}
 			}
 		}
 
@@ -1324,11 +1343,13 @@ class ilUtil
 			$where = "WHERE user_id = ".$ilDB->quote($a_user_id)." ";
 		}
 
-		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login,ctime FROM usr_session ".
+		// BEGIN WebDAV: Fetch max(ctime) of a user
+		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login,max(ctime) AS ctime FROM usr_session ".
 		"LEFT JOIN usr_data ON user_id=usr_id ".$where.
 		"AND expires>UNIX_TIMESTAMP() ".
 		"GROUP BY user_id ".
 		"ORDER BY lastname, firstname";
+		// ENDWebDAV: Fetch max(ctime) of a user
 		$r = $ilias->db->query($q);
 
 		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1703,12 +1724,21 @@ class ilUtil
 		exit;
 	}
 
+	// BEGIN WebDAV: Show file in browser or provide it as attachment
 	/**
 	*   deliver file for download via browser.
+	* @param $mime Mime of the file
+	* @param $isInline Set this to true, if the file shall be shown in browser
 	*/
-	function deliverFile($a_file, $a_filename,$a_mime = '')
+	function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false)
 	{
-		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
+		if ($isInline) {
+			$disposition = "inline"; // "inline" to view file in browser
+		} else {
+			$disposition =  "attachment"; // "attachment" to download to hard disk
+			//$a_mime = "application/octet-stream"; // override mime type to ensure that no browser tries to show the file anyway.
+		}
+	// END WebDAV: Show file in browser or provide it as attachment
 
 		if(strlen($a_mime))
 		{
@@ -1718,22 +1748,9 @@ class ilUtil
 		{
 			$mime = "application/octet-stream"; // or whatever the mime type is
 		}
-		if (isset($_SERVER["HTTPS"]))
-		{
-			// Added different handling for IE and HTTPS => send pragma after content informations
-
-			/**
-			* We need to set the following headers to make downloads work using IE in HTTPS mode.
-			*/
-			#header("Pragma: ");
-			#header("Pragma: no-cache");
-			#header("Cache-Control: ");
-			#header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-			#header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			#header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
-			##header("Cache-Control: post-check=0, pre-check=0", false);
-		}
-		else if ($disposition == "attachment")
+	// BEGIN WebDAV: Removed broken HTTPS code.
+	// END WebDAV: Removed broken HTTPS code.
+		if ($disposition == "attachment")
 		{
 			header("Cache-control: private");
 		}
@@ -2635,6 +2652,12 @@ class ilUtil
 	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false,
 		$a_keep_keys = false)
 	{
+		// BEGIN WebDAV: Provide a 'stable' sort algorithm
+		if (! $a_keep_keys) {
+			return self::stableSortArray($array,$a_array_sortby,$a_array_sortorder,$a_numeric,$a_keep_keys);
+		}
+		// END WebDAV Provide a 'stable' sort algorithm
+
 		global $array_sortby,$array_sortorder;
 
 		$array_sortby = $a_array_sortby;
@@ -2673,6 +2696,85 @@ class ilUtil
 
 		return $array;
 	}
+	// BEGIN WebDAV: Provide a 'stable' sort algorithm
+	/**
+	* Sort an aray using a stable sort algorithm, which preveserves the sequence
+    * of array elements which have the same sort value.
+    * To sort an array by multiple sort keys, invoke this function for each sort key.
+	*
+	* @param	array	array to sort
+	* @param	string	sort_column
+	* @param	string	sort_order (ASC or DESC)
+	* @param	bool	sort numeric?
+	*
+	* @return	array	sorted array
+	*/
+	function stableSortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false) 
+	{
+		global $array_sortby,$array_sortorder;
+
+		$array_sortby = $a_array_sortby;
+
+		if ($a_array_sortorder == "desc")
+		{
+			$array_sortorder = "desc";
+		}
+		else
+		{
+			$array_sortorder = "asc";
+		}
+
+		// Create a copy of the array values for sorting
+		$sort_array = array_values($array);
+
+		if($a_numeric)
+		{
+			ilUtil::mergesort($sort_array, array("ilUtil", "sort_func_numeric"));
+		}
+		else
+		{
+			ilUtil::mergesort($sort_array, array("ilUtil", "sort_func"));
+		}
+		return $sort_array;
+	}
+	function mergesort(&$array, $cmp_function = 'strcmp') {
+		 // Arrays of size < 2 require no action.
+		 if (count($array) < 2) return;
+
+		 // Split the array in half
+		 $halfway = count($array) / 2;
+		 $array1 = array_slice($array, 0, $halfway);
+		 $array2 = array_slice($array, $halfway);
+
+		 // Recurse to sort the two halves
+		 ilUtil::mergesort($array1, $cmp_function);
+		 ilUtil::mergesort($array2, $cmp_function);
+
+		 // If all of $array1 is <= all of $array2, just append them.
+		 if (call_user_func($cmp_function, end($array1), $array2[0]) < 1) {
+			 $array = array_merge($array1, $array2);
+			 return;
+		 }
+
+		 // Merge the two sorted arrays into a single sorted array
+		 $array = array();
+		 $ptr1 = $ptr2 = 0;
+		 while ($ptr1 < count($array1) && $ptr2 < count($array2)) {
+			 if (call_user_func($cmp_function, $array1[$ptr1], $array2[$ptr2]) < 1) {
+				 $array[] = $array1[$ptr1++];
+			 }
+			 else {
+				 $array[] = $array2[$ptr2++];
+			 }
+		 }
+
+		 // Merge the remainder
+		 while ($ptr1 < count($array1)) $array[] = $array1[$ptr1++];
+		 while ($ptr2 < count($array2)) $array[] = $array2[$ptr2++];
+
+		 return;
+	 }
+	// END WebDAV: Provide a 'stable' sort algorithm
 
 	/**
 	* Make a multi-dimensional array to have only DISTINCT values for a certain "column".

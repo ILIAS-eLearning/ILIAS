@@ -15,11 +15,9 @@
 			{TXT_ACTIVATE_TRACKING}
 		  </td>
 		  <td class="option_value">
-			<select name="act_track" size="0">
-			  <!-- BEGIN option -->
-			  <option value="{OPT_VAL}" {OPT_SELECTED}>{OPT_TXT}</option> 
-			  <!-- END option -->
-			</select>
+			<input type="CHECKBOX" name="user_tracking" value="1" {USER_TRACKING_CHECKED}/> {TXT_USER_TRACKING}<br/>
+			<input type="CHECKBOX" name="learning_progress_tracking" value="1" {LEARNING_PROGRESS_TRACKING_CHECKED}/> {TXT_LEARNING_PROGRESS_TRACKING}<br/>
+			<input type="CHECKBOX" name="change_event_tracking" value="1" {CHANGE_EVENT_TRACKING_CHECKED}/> {TXT_CHANGE_EVENT_TRACKING}<br/>
 		  </td>
 		</tr>
 		<tr>

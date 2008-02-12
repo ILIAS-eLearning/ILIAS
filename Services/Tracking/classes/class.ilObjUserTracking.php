@@ -45,6 +45,13 @@ class ilObjUserTracking extends ilObject
 {
 	var $valid_time_span = null;
 
+	// BEGIN ChangeEvent
+	/**
+	 * This variable holds the enabled state of the change event tracking.
+	 */
+	private $is_change_event_tracking_enabled = null;
+	// BEGIN ChangeEvent
+
 
 	/**
 	* Constructor
@@ -161,6 +168,28 @@ class ilObjUserTracking extends ilObject
 		return (int) $ilias->getSetting("tracking_time_span",DEFAULT_TIME_SPAN);
 	}
 
+	// BEGIN ChangeEvent
+	/**
+	* Sets the changeEventTrackingEnabled property.
+	* 
+	* @param	boolean	new value
+	* @return	void
+	*/
+	public function setChangeEventTrackingEnabled($newValue)
+	{
+		$this->is_change_event_tracking_enabled = $newValue;
+	}
+	/**
+	* Gets the changeEventTrackingEnabled property.
+	* 
+	* @return	boolean	value
+	*/
+	public function isChangeEventTrackingEnabled()
+	{
+		return $this->is_change_event_tracking_enabled;
+	}
+	// END ChangeEvent
+
 	function updateSettings()
 	{
 		global $ilias;
@@ -168,6 +197,22 @@ class ilObjUserTracking extends ilObject
 		$ilias->setSetting("enable_tracking",$this->getActivationStatus());
 		$ilias->setSetting("save_user_related_data",$this->enabledUserRelatedData() ? 1 : 0);
 		$ilias->setSetting("tracking_time_span",$this->getValidTimeSpan());
+
+		// BEGIN ChangeEvent
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		if ($this->is_change_event_tracking_enabled != ilChangeEvent::_isActive())
+		{
+			if ($this->is_change_event_tracking_enabled)
+			{
+				ilChangeEvent::_activate();
+			}
+			else
+			{
+				ilChangeEvent::_deactivate();
+			}
+		}
+		// END ChangeEvent
+
 
 		return true;
 	}
@@ -451,6 +496,11 @@ class ilObjUserTracking extends ilObject
 		$this->status = $ilias->getSetting('enable_tracking',UT_INACTIVE_BOTH);
 		$this->enableUserRelatedData($ilias->getSetting("save_user_related_data",0));
 		$this->setValidTimeSpan($ilias->getSetting("tracking_time_span",DEFAULT_TIME_SPAN));
+
+		// BEGIN ChangeEvent
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		$this->is_change_event_tracking_enabled = ilChangeEvent::_isActive();
+		// END ChangeEvent
 
 		return true;
 	}

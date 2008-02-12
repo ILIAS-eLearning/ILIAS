@@ -337,12 +337,25 @@ class ilFormat
 			return date($a_timeformat,mktime($h,$i,$s,1,1,1999));		
 		}
 		
-		if ($a_mode == "date")
-		{
-			return date($a_dateformat,mktime($h,$i,$s,$m,$d,$y));		
-		}
+		// BEGIN WebDAV: Display relative date.
+		$timestamp = mktime($h,$i,$s,$m,$d,$y);
+		$now = time();
+		$minuteswest = gettimeofday(false);
+		$minuteswest = $minuteswest['minuteswest'];
+		$today = $now - $now % (24 * 60 * 60) + $minuteswest * 60;
+		$isToday = $today <= $timestamp && $timestamp < $today + 24 * 60 * 60;
+		$isYesterday = $today - 24 * 60 * 60 <= $timestamp && $timestamp < $today;
+		$isTomorrow = $today + 24 * 60 * 60 <= $timestamp && $timestamp < $today + 48 * 60 * 60;
 
-		return date($a_dateformat." ".$a_timeformat,mktime($h,$i,$s,$m,$d,$y));		
+		global $lng;
+		$date = ($isToday) ? $lng->txt('today') : 
+				(($isYesterday) ? $lng->txt('yesterday') : 
+				(($isTomorrow) ? $lng->txt('tomorrow') : 
+				date($a_dateformat,mktime($h,$i,$s,$m,$d,$y))))
+				;
+				
+		return ($a_mode == "date") ? $date : $date.' '.date($a_timeformat,mktime($h,$i,$s,$m,$d,$y));
+		// END WebDAV: Display relative date.
 	}
 	
 	/**

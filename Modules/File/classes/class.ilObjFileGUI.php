@@ -25,6 +25,7 @@
 
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./Modules/File/classes/class.ilObjFile.php";
+require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 
 /**
 * GUI class for file objects.
@@ -324,7 +325,7 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $objDefinition;
+		global $rbacsystem, $objDefinition, $ilUser;
 
 		$this->initSingleUploadForm("create");
 		
@@ -338,11 +339,36 @@ class ilObjFileGUI extends ilObjectGUI
 			{
 				$title = $upload_file["name"];
 			}
+			else
+			{
+				// BEGIN WebDAV: Enforce filename extension in object title.
+				// If the file extension does not match the one in the title, append it to the title
+				$fileExtension = ilObjFileAccess::_getFileExtension($data["name"]["file"]);
+				$titleExtension = ilObjFileAccess::_getFileExtension($_POST['Fobject']['title']);
+				if ($titleExtension != $fileExtension)
+				{
+					if (strlen($titleExtension) == 0)
+					{
+						$_POST['Fobject']['title'] .= (substr($_POST['Fobject']['title'], -1) == '.') ? $fileExtension : '.'.$fileExtension;
+					}
+					else
+					{
+						$_POST['Fobject']['title'] = substr($_POST['Fobject']['title'], -strlen($titleExtension)).$fileExtension;
+					}
+				}
+				// END WebDAV: Enforce filename extension in object title.
+			}
 
 			// create and insert file in grp_tree
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$fileObj = new ilObjFile();
-			$fileObj->setType($this->type);
+			// BEGIN WebDAV: Workaround for Firefox: Enforce filetype application/pdf for filetype application/x-pdf
+			$fileObj->setFileType(
+					$_FILES["Fobject"]["type"]["file"] == 'application/x-pdf' ?
+						'application/pdf' :
+						$_FILES["Fobject"]["type"]["file"]
+				);
+			// END WebDAV: Workaround for Firefox: Enforce filetype application/pdf for filetype application/x-pdf
 			$fileObj->setTitle($title);
 			$fileObj->setDescription($description);
 			$fileObj->setFileName($upload_file["name"]);
@@ -357,6 +383,13 @@ class ilObjFileGUI extends ilObjectGUI
 			$fileObj->getUploadFile($upload_file["tmp_name"],
 				$upload_file["name"]);
 	
+			// BEGIN ChangeEvent: Record write event.
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
+			}
+			// END ChangeEvent: Record write event.
 			ilUtil::sendInfo($this->lng->txt("file_added"),true);
 			
 			$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
@@ -409,8 +442,27 @@ class ilObjFileGUI extends ilObjectGUI
 
 		if (empty($_POST["Fobject"]["title"]))
 		{
-			$_POST["Fobject"]["title"] = $_FILES["Fobject"]["name"]["file"];
+			$filename = empty($data["name"]["file"]) ? $this->object->getFileName() : $data["name"]["file"];
+			$_POST["Fobject"]["title"] = $filename;
 		}
+
+		// BEGIN WebDAV: Enforce filename extension in object title.
+		// If the file extension does not match the one in the title, append it to the title
+		$filename = empty($data["name"]["file"]) ? $this->object->getFileName() : $data["name"]["file"];
+		$fileExtension = ilObjFileAccess::_getFileExtension($filename);
+		$titleExtension = ilObjFileAccess::_getFileExtension($_POST['Fobject']['title']);
+		if ($titleExtension != $fileExtension)
+		{
+				if (strlen($titleExtension) == 0)
+				{
+					$_POST['Fobject']['title'] .= (substr($_POST['Fobject']['title'], -1) == '.') ? $fileExtension : '.'.$fileExtension;
+				}
+				else
+				{
+					$_POST['Fobject']['title'] = substr($_POST['Fobject']['title'],0,-strlen($titleExtension)).$fileExtension;
+				}
+		}
+		// END WebDAV: Enforce filename extension in object title.
 
 		if (!empty($data["name"]["file"]))
 		{
@@ -424,6 +476,18 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 
 		$this->update = $this->object->update();
+
+		// BEGIN ChangeEvent: Record update event.
+		if (!empty($data["name"]["file"]))
+		{
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				global $ilUser;
+				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+			}
+		}
+		// END ChangeEvent: Record update event.
 
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 //echo "-".$this->ctrl->getLinkTarget($this)."-";
@@ -485,6 +549,16 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
+			// BEGIN ChangeEvent: Record read event.
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				global $ilUser;
+				// Record read event and catchup with write events
+				ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
+			}
+			// END ChangeEvent: Record read event.
+
 			$this->object->sendFile($_GET["hist_id"]);
 		}
 		else
@@ -549,6 +623,12 @@ class ilObjFileGUI extends ilObjectGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
+		// BEGIN WebDAV Display locking information
+		// BEGIN ChangeEvent Display owner and file reads.
+		$info->addObjectSections($this->object);
+		// END ChangeEvent Display owner and file reads.
+		// END WebDAV Display locking information
+
 		if ($ilAccess->checkAccess("read", "sendfile", $this->ref_id))
 		{
 			$info->addButton($this->lng->txt("file_read"), $this->ctrl->getLinkTarget($this, "sendfile"));
@@ -582,8 +662,10 @@ class ilObjFileGUI extends ilObjectGUI
 		$info->addSection($this->lng->txt("file_info"));
 		$info->addProperty($this->lng->txt("filename"),
 			$this->object->getFileName());
+		// BEGIN WebDAV Guess file type.
 		$info->addProperty($this->lng->txt("type"),
-			$this->object->getFileType());
+				$this->object->guessFileType());
+		// END WebDAV Guess file type.
 		$info->addProperty($this->lng->txt("size"),
 			ilObjFile::_lookupFileSize($this->object->getId(), true));
 		$info->addProperty($this->lng->txt("version"),

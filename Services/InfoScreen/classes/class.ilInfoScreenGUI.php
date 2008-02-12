@@ -413,6 +413,97 @@ class ilInfoScreenGUI
 	}
 
 	/**
+	* add standard object section
+	*/
+	function addObjectSections($a_obj)
+	{
+		global $lng;
+
+		$this->addSection($lng->txt("description"));
+
+		// BEGIN ChangeEvent: Display standard object info
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				if (ilObjUser::_lookupEmail($a_obj->getOwner()) === false)
+				{
+					$this->addProperty($lng->txt("owner"),$lng->txt('deleted_user_account'));
+				}
+				else
+				{
+					$ownerObj = new ilObjUser($a_obj->getOwner());
+					$this->addProperty($lng->txt("owner"),
+						$ownerObj->getFirstname().' '.
+						$ownerObj->getLastname().' '.
+						$ownerObj->getLogin(),
+						"./ilias.php?user=".$ownerObj->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+						);
+				}
+
+				global $ilUser;
+				$readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
+				$count_users = 0;
+				$count_members = 0;
+				$count_user_reads = 0;
+				$count_anonymous_reads = 0;
+				foreach ($readEvents as $evt)
+				{
+					if ($evt['usr_id'] == ANONYMOUS_USER_ID)
+					{
+						$count_anonymous_reads += $evt['read_count'];
+					}
+					else
+					{
+						$count_user_reads += $evt['read_count'];
+						$count_users++;
+						/* to do: if ($evt['user_id'] is member of $this->getRefId())
+						{
+							$count_members++;
+						}*/
+					}
+				}
+				if ($count_anonymous_reads > 0)
+				{
+					$this->addProperty($this->lng->txt("readcount_anonymous_users"),$count_anonymous_reads);
+				}
+				$this->addProperty($this->lng->txt("readcount_users"),$count_user_reads);
+				$this->addProperty($this->lng->txt("accesscount_registered_users"),$count_users);
+			}
+		}
+		// BEGIN WebDAV: Display locking information
+		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+		if (ilDAVServer::_isActive())
+		{
+			global $ilias, $ilUser;
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				$davLocks = new ilDAVLocks();
+
+				// Show lock info
+				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
+				{
+					$locks =& $davLocks->getLocksOnObject($a_obj->getId());
+					if (count($locks) > 0)
+					{
+						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
+
+						$this->addProperty($this->lng->txt("in_use_by"),
+							$lockUser->getFirstname().' '.$lockUser->getLastname().' '.$lockUser->getLogin(),
+							"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+						);
+					}
+				}
+			}
+		}
+		// END WebDAV: Display locking information
+
+
+	}
+	// END ChangeEvent: Display standard object info
+	/**
 	* show summary page
 	*/
 	function showSummary()
