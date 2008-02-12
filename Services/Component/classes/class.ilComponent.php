@@ -258,5 +258,64 @@ abstract class ilComponent
 		
 		return $rec["id"];
 	}
+	
+	/**
+	* Check version number.
+	*/
+	static final function checkVersionNumber($a_ver)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("cmps");
+		
+		$parts = explode(".", $a_ver);
+		
+		if (count($parts) != 3)
+		{
+			return $lng->txt("cmps_version_nr_format_error");
+		}
+		
+		if (!is_numeric($parts[0]) || !is_numeric($parts[1]) || !is_numeric($parts[2]))
+		{
+			return $lng->txt("cmps_version_nr_parts_not_numeric");
+		}
+		
+		return $parts;
+	}
+	
+	/**
+	* Check whether version number is greater than another version number
+	*
+	* @param	$a_ver1		array	version number as array as returned by checkVersionNumber()
+	* @param	$a_ver2		array	version number as array as returned by checkVersionNumber()
+	*
+	* $return	boolean		true, if $a_ver1 is greater than $a_ver2
+	*/
+	static final function isVersionGreater($a_ver1, $a_ver2)
+	{
+		if ($a_ver1[0] > $a_ver2[0])
+		{
+			return true;
+		}
+		else if ($a_ver1[0] < $a_ver2[0])
+		{
+			return false;
+		}
+		else if ($a_ver1[1] > $a_ver2[1])
+		{
+			return true;
+		}
+		else if ($a_ver1[1] < $a_ver2[1])
+		{
+			return false;
+		}
+		else if ($a_ver1[2] > $a_ver2[2])
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
 }
 ?>

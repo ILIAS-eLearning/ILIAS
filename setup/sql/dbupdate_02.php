@@ -3414,3 +3414,19 @@ $r = $ilDB->db->query($q);
 // END ChangeEvent
 
 ?>
+
+<#1170>
+CREATE TABLE il_plugin (
+	component_type CHAR(10),
+	component_name VARCHAR(90),
+	slot_id CHAR(10),
+	name VARCHAR(40),
+	id CHAR(10),
+	last_update_version CHAR(10),
+	current_version CHAR(10),
+	ilias_min_version CHAR(10),
+	ilias_max_version CHAR(10),
+	active TINYINT,
+	PRIMARY KEY (component_type, component_name, slot_id, name)
+);
+

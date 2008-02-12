@@ -126,8 +126,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $ilSetting;
 
-		$comp_set = new ilSetting("cmps");
-
 		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
 		$comp_table = new ilComponentsTableGUI($this, "listModules");
 		
@@ -228,10 +226,19 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$ptpl->setVariable("VAL_PLUGIN_LANG_PREFIX",
 			$comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
 		
+		// plugins table
+		include_once("./Services/Component/classes/class.ilPluginsTableGUI.php");
+		$plugins_table = new ilPluginsTableGUI($this, "showPluginSlot",
+			$_GET["ctype"], $_GET["cname"], $_GET["slot_id"]);
+		$ptpl->setVariable("PLUGIN_LIST", $plugins_table->getHTML());
+
+		// set content and title
 		$tpl->setContent($ptpl->get());
 		$tpl->setTitle($comp->getComponentType()."/".$comp->getName().": ".
 			$lng->txt("cmps_plugin_slot")." \"".$comp->getPluginSlotName($_GET["slot_id"])."\"");
 		$tpl->setDescription("");
+		
+
 	}
 }
 ?>

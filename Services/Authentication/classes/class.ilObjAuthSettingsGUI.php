@@ -1098,7 +1098,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function editSOAPObject()
 	{
-		global $rbacsystem, $rbacreview, $ilSetting;
+		global $rbacsystem, $rbacreview, $ilSetting, $ilCtrl, $lng;
 		
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -1108,7 +1108,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('auth_soap');
 		
 		// get template
-		$this->getTemplateFile("soap");
+		$stpl = new ilTemplate("tpl.auth_soap.html", true, true, "");
+		
+		//$this->getTemplateFile("soap");
 		
 		// get all settings
 		$settings = $ilSetting->getAll();
@@ -1118,66 +1120,66 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			if ($_SESSION["error_post_vars"]["soap"]["active"] == "1")
 			{
-				$this->tpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
+				$stpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
 			}
 			if ($_SESSION["error_post_vars"]["soap"]["use_https"] == "1")
 			{
-				$this->tpl->setVariable("CHK_USE_HTTPS", "checked=\"checked\"");
+				$stpl->setVariable("CHK_USE_HTTPS", "checked=\"checked\"");
 			}
 			if ($_SESSION["error_post_vars"]["soap"]["create_users"] == "1")
 			{
-				$this->tpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
+				$stpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
 			}
 			if ($_SESSION["error_post_vars"]["soap"]["allow_local"] == "1")
 			{
-				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
+				$stpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
 			}
 			if ($_SESSION["error_post_vars"]["soap"]["account_mail"] == "1")
 			{
-				$this->tpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
+				$stpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
 			}
 			if ($_SESSION["error_post_vars"]["soap"]["use_dotnet"] == "1")
 			{
-				$this->tpl->setVariable("CHK_USEDOTNET", "checked=\"checked\"");
+				$stpl->setVariable("CHK_USEDOTNET", "checked=\"checked\"");
 			}
 			
-			$this->tpl->setVariable("SOAP_SERVER", $_SESSION["error_post_vars"]["soap"]["server"]);
-			$this->tpl->setVariable("SOAP_PORT", $_SESSION["error_post_vars"]["soap"]["port"]);
-			$this->tpl->setVariable("SOAP_URI", $_SESSION["error_post_vars"]["soap"]["uri"]);
-			$this->tpl->setVariable("SOAP_NAMESPACE", $_SESSION["error_post_vars"]["soap"]["namespace"]);
+			$stpl->setVariable("SOAP_SERVER", $_SESSION["error_post_vars"]["soap"]["server"]);
+			$stpl->setVariable("SOAP_PORT", $_SESSION["error_post_vars"]["soap"]["port"]);
+			$stpl->setVariable("SOAP_URI", $_SESSION["error_post_vars"]["soap"]["uri"]);
+			$stpl->setVariable("SOAP_NAMESPACE", $_SESSION["error_post_vars"]["soap"]["namespace"]);
 			$current_default_role = $_SESSION["error_post_vars"]["soap"]["user_default_role"];
 		}
 		else
 		{
 			if ($settings["soap_auth_active"] == "1")
 			{
-				$this->tpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
+				$stpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
 			}
 			if ($settings["soap_auth_use_https"] == "1")
 			{
-				$this->tpl->setVariable("CHK_USE_HTTPS", "checked=\"checked\"");
+				$stpl->setVariable("CHK_USE_HTTPS", "checked=\"checked\"");
 			}
 			if ($settings["soap_auth_create_users"] == "1")
 			{
-				$this->tpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
+				$stpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
 			}
 			if ($settings["soap_auth_allow_local"] == "1")
 			{
-				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
+				$stpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
 			}
 			if ($settings["soap_auth_account_mail"] == "1")
 			{
-				$this->tpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
+				$stpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
 			}
 			if ($settings["soap_auth_use_dotnet"] == "1")
 			{
-				$this->tpl->setVariable("CHK_USE_DOTNET", "checked=\"checked\"");
+				$stpl->setVariable("CHK_USE_DOTNET", "checked=\"checked\"");
 			}
 			
-			$this->tpl->setVariable("SOAP_SERVER", $settings["soap_auth_server"]);
-			$this->tpl->setVariable("SOAP_PORT", $settings["soap_auth_port"]);
-			$this->tpl->setVariable("SOAP_URI", $settings["soap_auth_uri"]);
-			$this->tpl->setVariable("SOAP_NAMESPACE", $settings["soap_auth_namespace"]);
+			$stpl->setVariable("SOAP_SERVER", $settings["soap_auth_server"]);
+			$stpl->setVariable("SOAP_PORT", $settings["soap_auth_port"]);
+			$stpl->setVariable("SOAP_URI", $settings["soap_auth_uri"]);
+			$stpl->setVariable("SOAP_NAMESPACE", $settings["soap_auth_namespace"]);
 			$current_default_role = $settings["soap_auth_user_default_role"];
 		}
 		
@@ -1195,36 +1197,69 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$selectElement = ilUtil::formSelect($current_default_role,
 			"soap[user_default_role]", $roles, false, true);
 		
-		$this->tpl->setVariable("SOAP_USER_DEFAULT_ROLE", $selectElement);		
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("COLSPAN", 3);
-		$this->tpl->setVariable("TXT_SOAP_TITLE", $this->lng->txt("auth_soap_auth"));
-		$this->tpl->setVariable("TXT_SOAP_DESC", $this->lng->txt("auth_soap_auth_desc"));
-		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
-		$this->tpl->setVariable("TXT_SOAP_ACTIVE", $this->lng->txt("active"));
-		$this->tpl->setVariable("TXT_SOAP_SERVER", $this->lng->txt("server"));
-		$this->tpl->setVariable("TXT_SOAP_SERVER_DESC", $this->lng->txt("auth_soap_server_desc"));
-		$this->tpl->setVariable("TXT_SOAP_PORT", $this->lng->txt("port"));
-		$this->tpl->setVariable("TXT_SOAP_PORT_DESC", $this->lng->txt("auth_soap_port_desc"));
-		$this->tpl->setVariable("TXT_SOAP_URI", $this->lng->txt("uri"));
-		$this->tpl->setVariable("TXT_SOAP_URI_DESC", $this->lng->txt("auth_soap_uri_desc"));
-		$this->tpl->setVariable("TXT_SOAP_NAMESPACE", $this->lng->txt("auth_soap_namespace"));
-		$this->tpl->setVariable("TXT_SOAP_NAMESPACE_DESC", $this->lng->txt("auth_soap_namespace_desc"));
-		$this->tpl->setVariable("TXT_USE_DOTNET", $this->lng->txt("auth_soap_use_dotnet"));
-		$this->tpl->setVariable("TXT_USE_HTTPS", $this->lng->txt("auth_soap_use_https"));
-		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
-		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_soap_create_users_desc"));
-		$this->tpl->setVariable("TXT_ACCOUNT_MAIL", $this->lng->txt("user_send_new_account_mail"));
-		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_DESC", $this->lng->txt("auth_new_account_mail_desc"));
-		$this->tpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
-		$this->tpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE_DESC",
+		$stpl->setVariable("SOAP_USER_DEFAULT_ROLE", $selectElement);		
+		$stpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$stpl->setVariable("COLSPAN", 3);
+		$stpl->setVariable("TXT_SOAP_TITLE", $this->lng->txt("auth_soap_auth"));
+		$stpl->setVariable("TXT_SOAP_DESC", $this->lng->txt("auth_soap_auth_desc"));
+		$stpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+		$stpl->setVariable("TXT_SOAP_ACTIVE", $this->lng->txt("active"));
+		$stpl->setVariable("TXT_SOAP_SERVER", $this->lng->txt("server"));
+		$stpl->setVariable("TXT_SOAP_SERVER_DESC", $this->lng->txt("auth_soap_server_desc"));
+		$stpl->setVariable("TXT_SOAP_PORT", $this->lng->txt("port"));
+		$stpl->setVariable("TXT_SOAP_PORT_DESC", $this->lng->txt("auth_soap_port_desc"));
+		$stpl->setVariable("TXT_SOAP_URI", $this->lng->txt("uri"));
+		$stpl->setVariable("TXT_SOAP_URI_DESC", $this->lng->txt("auth_soap_uri_desc"));
+		$stpl->setVariable("TXT_SOAP_NAMESPACE", $this->lng->txt("auth_soap_namespace"));
+		$stpl->setVariable("TXT_SOAP_NAMESPACE_DESC", $this->lng->txt("auth_soap_namespace_desc"));
+		$stpl->setVariable("TXT_USE_DOTNET", $this->lng->txt("auth_soap_use_dotnet"));
+		$stpl->setVariable("TXT_USE_HTTPS", $this->lng->txt("auth_soap_use_https"));
+		$stpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
+		$stpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_soap_create_users_desc"));
+		$stpl->setVariable("TXT_ACCOUNT_MAIL", $this->lng->txt("user_send_new_account_mail"));
+		$stpl->setVariable("TXT_ACCOUNT_MAIL_DESC", $this->lng->txt("auth_new_account_mail_desc"));
+		$stpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
+		$stpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE_DESC",
 			$this->lng->txt("auth_soap_user_default_role_desc"));
-		$this->tpl->setVariable("TXT_ALLOW_LOCAL", $this->lng->txt("auth_allow_local"));
-		$this->tpl->setVariable("TXT_ALLOW_LOCAL_DESC", $this->lng->txt("auth_soap_allow_local_desc"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "saveSOAP");
+		$stpl->setVariable("TXT_ALLOW_LOCAL", $this->lng->txt("auth_allow_local"));
+		$stpl->setVariable("TXT_ALLOW_LOCAL_DESC", $this->lng->txt("auth_soap_allow_local_desc"));
+		$stpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$stpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$stpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$stpl->setVariable("CMD_SUBMIT", "saveSOAP");
+		
+		// test form
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle("Test Request");
+		$text_prop = new ilTextInputGUI("ext_uid", "ext_uid");
+		$form->addItem($text_prop);
+		$text_prop2 = new ilTextInputGUI("soap_pw", "soap_pw");
+		$form->addItem($text_prop2);
+		$cb = new ilCheckboxInputGUI("new_user", "new_user");
+		$form->addItem($cb);
+		 
+		$form->addCommandButton("testSoapAuthConnection",
+			"Send");
+		
+		if ($ilCtrl->getCmd() == "testSoapAuthConnection")
+		{
+			include_once("./Services/SOAPAuth/classes/class.ilSOAPAuth.php");
+			$ret = "<br />".ilSOAPAuth::testConnection(
+				ilUtil::stripSlashes($_POST["ext_uid"]),
+				ilUtil::stripSlashes($_POST["soap_pw"]),
+				(boolean) $_POST["new_user"]
+				);
+		}
+			
+		$stpl->setVariable("TEST_FORM", $form->getHtml().$ret);
+		$this->tpl->setContent($stpl->get());
+	}
+	
+	function testSoapAuthConnectionObject()
+	{
+		$this->editSOAPObject();
 	}
 	
 	/**

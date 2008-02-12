@@ -83,6 +83,70 @@ class ilSOAPAuth extends Auth
 	}
 	
 	/**
+	* Test connection with values of soap auth administration settings
+	*/
+	static function testConnection($a_ext_uid, $a_soap_pw, $a_new_user)
+	{
+		global $ilSetting;
+		
+		$settings = $ilSetting->getAll();
+		
+		$server_hostname = $settings["soap_auth_server"];
+		$server_port = (int) $settings["soap_auth_port"];
+		$server_uri = $settings["soap_auth_uri"];
+		$namespace = $settings["soap_auth_namespace"];
+		$use_dotnet = $settings["soap_auth_use_dotnet"];
+		if ($settings["soap_auth_use_https"])
+		{
+			$uri = "https://";
+		}
+		else
+		{
+			$uri = "http://";
+		}
+		
+		$uri.= $server_hostname;
+		
+		if ($server_port > 0)
+		{
+			$uri.= ":".$server_port;
+		}
+
+		if ($server_uri != "")
+		{
+			$uri.= "/".$server_uri;
+		}
+
+		$soap_client = new soap_client($uri);
+		if ($err = $soap_client->getError()) 
+		{
+			return "SOAP Authentication Initialisation Error: ".$err;
+		}
+		
+		$soapAction = "";
+		$nspref = "";
+		if ($use_dotnet)
+		{
+			$soapAction = $namespace."/isValidSession";
+			$nspref = "ns1:";
+		}
+		
+		$valid = $soap_client->call('isValidSession',
+			array($nspref.'ext_uid' => $a_ext_uid,
+				$nspref.'soap_pw' => $a_soap_pw,
+				$nspref.'new_user' => $a_new_user),
+			$namespace,
+			$soapAction);
+			
+		return
+			"<br>== Request ==".
+			'<br><pre>' . htmlspecialchars(str_replace("\" ", "\"\n ", str_replace(">", ">\n", $soap_client->request)), ENT_QUOTES) . '</pre><br>'.
+			"<br>== Response ==".
+			"<br>Valid: -".$valid["valid"]."-".
+			'<br><pre>' . htmlspecialchars(str_replace("\" ", "\"\n ", str_replace(">", ">\n", $soap_client->response)), ENT_QUOTES) . '</pre>';
+	}
+	
+	/**
 	* soap validation lookup: call isValidSession service
 	* of soap server
 	*

@@ -58,32 +58,19 @@ abstract class ilPlugin
 	*/
 	abstract function getVersion();
 
+	/**
+	* Get Id. ID is a short alphanumeric identifier (best 3-5 letters)
+	* that will be part of language variable and database table prefixes.
+	*
+	* @return	string	Id
+	*/
+	abstract function getId();
 
 	/**
 	* Constructor
 	*/
 	function __construct()
 	{
-	}
-	
-	/**
-	* Set Id.
-	*
-	* @param	string	$a_id	Id
-	*/
-	final function setId($a_id)
-	{
-		$this->id = $a_id;
-	}
-
-	/**
-	* Get Id.
-	*
-	* @return	string	Id
-	*/
-	final function getId()
-	{
-		return $this->id;
 	}
 
 	/**
@@ -176,10 +163,143 @@ abstract class ilPlugin
 	/**
 	* Object initialization. Can be overwritten by derived class
 	*/
-	protected function init()
+	protected function pluginInit()
 	{
 	}
 
+	/**
+	* Check possible activation
+	*/
+	final public function checkActivationPossible()
+	{
+		$result = $this->__checkActivationPossible();
+		
+		if ($result === true)
+		{
+			return $this->pluginCheckActivationPossible();
+		}
+		
+		return $result;
+	}
+	
+	/**
+	* Check possible activation (internal default checks)
+	*/
+	final private function __checkActivationPossible()
+	{
+		global $lng;
+		
+		// check whether current version has been successfully run its update
+		if ($this->getLastUpdatedVersion() != $this->getVersion())
+		{
+			return $lng->txt("cmps_plugin_needs_update");
+		}
+		
+		return true;
+	}
+	
+	/**
+	* Check whether activation is possible.
+	*/
+	abstract protected function pluginCheckActivationPossible();
+
+	/**
+	* Check whether 
+	*/
+	public final function isActivated()
+	{
+		global $ilSetting;
+		
+		if ($this->getLastUpdatedVersion() == $this->getVersion() &&
+			$ilSetting->get("plugin_active_".getPrefix()))
+		{
+			return $this->pluginIsActivated();
+		}
+		
+		return false;
+	}
+	
+	/**
+	* Check activation, may be overwritten by plugin
+	*/
+	protected function pluginIsActivated()
+	{
+		return true;
+	}
+	
+	/**
+	* Check whether update is needed.
+	*/
+	public final function checkUpdateNeeded()
+	{
+		if ($this->getLastUpdatedVersion() != $this->getVersion())
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	* Check whether update is possible
+	*/
+	public final function checkUpdatePossible()
+	{
+		if (!$this->__checkUpdatePossible())
+		{
+			return $this->__checkUpdatePossible();
+		}
+		
+		return $this->pluginCheckUpdatePossible();
+	}
+	
+	/**
+	* Default check for possible update
+	*/
+	final private function __checkUpdatePossible()
+	{
+		global $lng;
+		
+		$l = $this->getLastUpdatedVersion();
+		$c = $this->getVersion();
+		
+		$lver = ilComponent::checkVersionNumber($l);
+		if (!is_array($lver))
+		{
+			return $lver;
+		}
+		$cver = ilComponent::checkVersionNumber($c);
+		if (!is_array($cver))
+		{
+			return $lver;
+		}
+		
+		if (!ilComponent::isVersionGreater($cver, $lver))
+		{
+			return $lng->txt("cmps_plugin_current_code_older_than_last_updated");
+		}
+		
+		return true;
+	}
+	
+	/**
+	* Check whether update is possible, may be overwritten by derived class.
+	*/
+	protected function pluginCheckUpdatePossible()
+	{
+		return true;
+	}
+	
+	/**
+	* Get version from last update.
+	*/
+	function getLastUpdatedVersion()
+	{
+		global $ilSetting;
+		
+		return $ilSetting->get("plugin_".$this->getPrefix()."_up_version");
+	}
+	
 	/**
 	* Get plugin object.
 	*
@@ -200,9 +320,10 @@ abstract class ilPlugin
 			return null;
 		}
 		
-		$file = "./Customizing/global/plugins/".$ilDB->quote($a_ctype)."/".
-			$ilDB->quote($a_cname)."/".$ilDB->quote($a_sname)."/".
-			$ilDB->quote($a_pname)."/classes/class.il".$ilDB->quote($a_pname)."Plugin.php";
+		$file = "./Customizing/global/plugins/".$a_ctype."/".
+			$a_cname."/".$a_sname."/".
+			$a_pname."/classes/class.il".$a_pname."Plugin.php";
+
 		if (is_file($file))
 		{
 			include_once($file);
@@ -213,7 +334,7 @@ abstract class ilPlugin
 			$plugin->setSlot($a_sname);
 			$plugin->setName($a_pname);
 			$plugin->__init();		// default initialization
-			$plugin->init();		// individual part of initialization
+			$plugin->pluginInit();		// individual part of initialization
 			return $plugin;
 		}
 		
@@ -221,17 +342,19 @@ abstract class ilPlugin
 	}
 	
 	/**
-	* Lookup ID of a component
+	* Get prefix for tables and language variables
 	*/
-	final static function lookupId($a_type, $a_name)
+	final function getPrefix()
 	{
-		global $ilDB;
+		if ($this->prefix == "")
+		{
+			$this->prefix = ilComponent::lookupId($this->getComponentType(),
+				$this->getComponentName())."_".
+				ilPluginSlot::lookupSlotId($this->getComponentType(),
+				$this->getComponentName(), $this->getSlot)."_".$this->getId();
+		}
 		
-		$set = $ilDB->query("SELECT * FROM il_plugin WHERE ".
-			" name = ".$ilDB->quote($a_name));
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
-		
-		return $rec["id"];
+		return $this->prefix;
 	}
 }
 ?>
