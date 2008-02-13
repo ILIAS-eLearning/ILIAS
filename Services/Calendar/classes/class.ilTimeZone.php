@@ -81,6 +81,17 @@ class ilTimeZone
 	}
 	
 	/**
+	 * get identifier
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getIdentifier()
+	{
+	 	return $this->timezone;
+	}
+	
+	/**
 	 * get instance by timezone
 	 *
 	 * @access public
@@ -109,7 +120,6 @@ class ilTimeZone
 		// now validate timezone setting
 		if(!$instance->validateTZ())
 		{
-			$ilLog->write(__METHOD__.': Unsupported timezone given: Timzone: '.$a_tz);
 			throw new ilTimeZoneException('Unsupported timezone given.');
 		}
 		return $instance;
