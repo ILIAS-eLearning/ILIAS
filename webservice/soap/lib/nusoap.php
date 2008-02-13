@@ -6616,9 +6616,15 @@ class soap_client extends nusoap_base  {
 			$this->debug("operation '$operation' not present.");
 			return false;
 		} else {
+			
 			// no WSDL
 			//$this->namespaces['ns1'] = $namespace;
 			$nsPrefix = 'ns' . rand(1000, 9999);
+			
+$nsPrefix = 'ns1';			// patched, alex killing 11.2.2008 (otherwise soap auth fails.
+							// we need to use the same namespace prefix for parameters as well
+							// unfortunately these cannot be passed, see class.ilSOAPAuth.php
+
 			// serialize 
 			$payload = '';
 			if (is_string($params)) {
