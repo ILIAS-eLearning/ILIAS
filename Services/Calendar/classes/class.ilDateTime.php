@@ -185,23 +185,27 @@ class ilDateTime
 			$timezone = $this->timezone;
 		}
 
-	 	$timezone->switchTZ();
 	 	switch($a_format)
 	 	{
 	 		case self::FORMAT_UNIX:
 	 			$date = $this->getUnixTime();
 	 			break;
 	 		case self::FORMAT_DATE:
+			 	$timezone->switchTZ();
 				$date = date('Y-m-d',$this->getUnixTime());
+				$timezone->restoreTZ();
 				break;
 			case self::FORMAT_DATETIME:
+			 	$timezone->switchTZ();
 				$date = date('Y-m-d H:i:s',$this->getUnixTime());
+				$timezone->restoreTZ();
 				break;
 			case self::FORMAT_FKT_DATE:
+			 	$timezone->switchTZ();
 				$date = date($a_format_str,$this->getUnixTime());
+				$timezone->restoreTZ();
 				break;	
 	 	}
-		$timezone->restoreTZ();
 		return $date;
 	}
 }

@@ -57,7 +57,7 @@ class ilCalendarEntry
 	 * @param int cal_entry id
 	 * 
 	 */
-	public function __construct($a_id)
+	public function __construct($a_id = 0)
 	{
 		global $ilDB,$ilLog;
 		
@@ -194,6 +194,7 @@ class ilCalendarEntry
 	}
 	
 	
+	
 	/**
 	 * @access protected
 	 * @param
@@ -210,9 +211,9 @@ class ilCalendarEntry
 			$this->setLocation($row['location']);
 			$this->setFurtherInformations($row['further_informations']);
 			$this->setFullday((bool) $row['is_fullday']);
+			
 			$this->start = new ilDateTime($row['start'],ilDateTime::FORMAT_DATETIME);
 			$this->end = new ilDateTime($row['end'],ilDateTime::FORMAT_DATETIME);
-			
 		}
 		
 	}
