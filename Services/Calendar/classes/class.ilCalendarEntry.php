@@ -71,6 +71,49 @@ class ilCalendarEntry
 	}
 	
 	/**
+	 * get start
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getStart()
+	{
+		return $this->start;
+		
+	}
+	
+	/**
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function setStart(ilDateTime $a_start)
+	{
+		$this->start = $a_start;
+	}
+	
+	/**
+	 * get end
+	 * @access public
+	 * @return ilDateTime end
+	 */
+	public function getEnd()
+	{
+		return $this->end;
+	}
+	
+	/**
+	 * set end
+	 * @access public
+	 * @param
+	 */
+	public function setEnd($a_end)
+	{
+		$this->end = $a_end;
+	}
+	
+	/**
 	 * get cal entry id
 	 *
 	 * @access public

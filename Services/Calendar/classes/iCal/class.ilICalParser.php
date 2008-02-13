@@ -37,6 +37,8 @@ include_once('./Services/Calendar/classes/class.ilTimeZoneException.php');
 */
 class ilICalParser
 {
+	const COMPONENT_EVENT = 1;
+	
 	const INPUT_STRING = 1;
 	const INPUT_FILE = 2;
 	
@@ -77,8 +79,6 @@ class ilICalParser
 	 */
 	public function parse()
 	{
-		include_once('./Services/Calendar/lib/parse_ics.php');
-		
 		$this->timezone = ilTimeZone::_getInstance();
 		
 		$lines = $this->tokenize($this->ical,ilICalUtils::ICAL_EOL);
@@ -94,7 +94,7 @@ class ilICalParser
 				$line = $line.substr($lines[$i + $offset],1);
 				$offset++;
 			}
-			$i += $offset - 1;
+			$i += ($offset - 1);
 
 			// Parse this line
 			$this->parseLine($line);
@@ -111,15 +111,24 @@ class ilICalParser
 		switch(trim($line))
 		{
 			case 'BEGIN:VEVENT':
-				#$this->log->write(__METHOD__.': BEGIN VEVENT');
+				$this->log->write(__METHOD__.': BEGIN VEVENT');
 			
 				// start new vevent
-				$this->current_obj = new ilCalendarEntry();
+				$this->component = self::COMPONENT_EVENT;
+				$this->entry = new ilCalendarEntry();
 				break;
 			
+			case 'END:VEVENT':
+				if($date = $this->entry->getStart())
+				{
+					echo $date->get(ilDateTime::FORMAT_DATETIME,'','Asia/Katmandu').'<br />';
+				}
+				break;
+
 			case 'BEGIN:VTIMEZONE':
 				$this->log->write(__METHOD__.': BEGIN VTIMEZONE');
 				break;
+				
 			
 			
 			default:
@@ -127,7 +136,6 @@ class ilICalParser
 				$this->parseParameters($param,$values);
 				#$this->log->write(__METHOD__.': Found param: '.$param);
 				break;
-									
 		}
 	
 	}
@@ -139,13 +147,23 @@ class ilICalParser
 	 */
 	protected function parseParameters($a_param,$a_values)
 	{
-		
 		// TODO: split semicolon seperated parameters
 		switch($a_param)
 		{
 			case 'TZID':
 				$this->log->write(__METHOD__.': Found TZID => '.$a_values);
 				$this->switchTZ($a_values);
+				break;
+				
+			case 'DTSTART':
+				// DSTART without TYPE or TIMEZONE
+				switch($this->component)
+				{
+					case self::COMPONENT_EVENT:
+						$this->log->write(__METHOD__.': Found Datetime => '.$a_values);
+						$this->entry->setStart(new ilDateTime($a_values,ilDateTime::FORMAT_DATETIME,$this->timezone->getIdentifier()));
+						break;
+				}
 				break;
 		}
 	}
