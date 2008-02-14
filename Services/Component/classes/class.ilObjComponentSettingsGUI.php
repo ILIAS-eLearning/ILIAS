@@ -126,10 +126,18 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $ilSetting;
 
+		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
+		
+		$tpl->setVariable("HREF_REFRESH_PLUGINS_INFORMATION",
+			$ilCtrl->getLinkTarget($this, "refreshPluginsInformation"));
+		$tpl->setVariable("TXT_REFRESH_PLUGINS_INFORMATION",
+			$lng->txt("cmps_refresh_plugins_inf"));
+		
 		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
 		$comp_table = new ilComponentsTableGUI($this, "listModules");
 		
-		$this->tpl->setContent($comp_table->getHTML());
+		$tpl->setVariable("TABLE", $comp_table->getHTML());
+		$this->tpl->setContent($tpl->get());
 	}
 
 	/**
@@ -139,10 +147,19 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $ilSetting;
 
+		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
+		
+		$ilCtrl->setParameter($this, "mode", IL_COMP_SERVICE);
+		$tpl->setVariable("HREF_REFRESH_PLUGINS_INFORMATION",
+			$ilCtrl->getLinkTarget($this, "refreshPluginsInformation"));
+		$tpl->setVariable("TXT_REFRESH_PLUGINS_INFORMATION",
+			$lng->txt("cmps_refresh_plugins_inf"));
+
 		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
 		$comp_table = new ilComponentsTableGUI($this, "listServices", IL_COMP_SERVICE);
 		
-		$this->tpl->setContent($comp_table->getHTML());
+		$tpl->setVariable("TABLE", $comp_table->getHTML());
+		$this->tpl->setContent($tpl->get());
 	}
 
 	/**
@@ -237,8 +254,32 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$tpl->setTitle($comp->getComponentType()."/".$comp->getName().": ".
 			$lng->txt("cmps_plugin_slot")." \"".$comp->getPluginSlotName($_GET["slot_id"])."\"");
 		$tpl->setDescription("");
+	}
+	
+	/**
+	* Refresh plugins information
+	*/
+	function refreshPluginsInformation()
+	{
+		global $ilCtrl;
 		
-
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		ilPlugin::refreshPluginXmlInformation();
+		
+		if ($_GET["mode"] == IL_COMP_SERVICE)
+		{
+			$ilCtrl->redirect($this, "listServices");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "listModules");
+		}
+	}
+	
+	function activatePlugin()
+	{
+		$pl = ilPlugin::getPluginObject($this->getComponentType(), $this->getComponentName(),
+			$this->getSlotName(), $plugin["name"]);
 	}
 }
 ?>

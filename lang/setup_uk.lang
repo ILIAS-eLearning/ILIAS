@@ -439,3 +439,16 @@ url_to_latex#:#URL to LaTeX CGI script###07 09 2006 new variable
 virus_scanner#:#Virus Scanner###07 09 2006 new variable
 clamav#:#ClamAV###20 06 2007 new variable
 lang_et#:#Estonian###20 06 2007 new variable
+new_client#:#New Client###14 02 2008 new variable
+list_clients#:#List Clients###14 02 2008 new variable
+basic_settings#:#Basic Settings###14 02 2008 new variable
+step_ini#:#ini-File###14 02 2008 new variable
+step_db#:#Database###14 02 2008 new variable
+step_lang#:#Languages###14 02 2008 new variable
+step_contact#:#Contact###14 02 2008 new variable
+step_nic#:#NIC###14 02 2008 new variable
+step_finish#:#Finish###14 02 2008 new variable
+step_access#:#Access###14 02 2008 new variable
+determine_tools_paths#:#Try to Determine Tools Paths###14 02 2008 new variable
+client_deleted#:#Client deleted.###14 02 2008 new variable
+create_directory#:#Create Directory###14 02 2008 new variable
