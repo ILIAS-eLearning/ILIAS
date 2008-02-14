@@ -30,6 +30,7 @@ include_once('./Services/Calendar/classes/class.ilTimeZoneException.php');
 include_once('./Services/Calendar/classes/iCal/class.ilICalComponent.php');
 include_once('./Services/Calendar/classes/iCal/class.ilICalProperty.php');
 include_once('./Services/Calendar/classes/iCal/class.ilICalParameter.php');
+include_once('./Services/Calendar/classes/iCal/class.ilICalValue.php');
 
 /** 
 * 
@@ -174,9 +175,7 @@ class ilICalParser
 			
 			case 'END:VEVENT':
 				$this->log->write(__METHOD__.': END VEVENT');
-				
 				var_dump("<pre>",$this->getContainer(),"</pre>");
-				
 				
 				// TODO: save to ilCalEntry
 				$this->dropContainer();
@@ -244,11 +243,32 @@ class ilICalParser
 			}
 		}
 		
+		// Split value part
+		$substituted_values = str_replace('\;','',$a_value_part);
+		
+		$values = array();
+		if($splitted_values = explode(';',$substituted_values))
+		{
+			$counter = 0;
+			foreach($splitted_values as $value)
+			{
+				// Split by '='
+				if($splitted_value_values = explode('=',$value))
+				{
+					$values[$counter]['param'] = $splitted_value_values[0];
+					$values[$counter]['value'] = $splitted_value_values[1];
+				}
+				++$counter;
+			}
+		}
+
+		// Return if there are no values		
 		if(!count($items))
 		{
 			$this->log->write(__METHOD__.': Cannot parse parameter: '.$a_param_part.', value: '.$a_value_part);
 			return false;
 		}
+		
 		
 		$counter = 0;
 		foreach($items as $item)
@@ -259,6 +279,15 @@ class ilICalParser
 				$parameter = new ilICalProperty($item['param'],$item['value']);
 				$this->getContainer()->addItem($parameter);
 				$this->pushContainer($parameter);
+				
+				if(count($values) > 1)
+				{
+					foreach($values as $value)
+					{
+						$value = new ilICalValue($value['param'],$value['value']);
+						$this->getContainer()->addItem($value);
+					}
+				}
 			}
 			else
 			{
