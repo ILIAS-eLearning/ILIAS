@@ -3930,7 +3930,7 @@ class ilObjUser extends ilObject
 		// quote all ids
 		$ids = array();
 		foreach ($a_mem_ids as $mem_id) {
-			$ids = $ilDB->quote($a_mem_ids);
+			$ids [] = $ilDB->quote($mem_id);
 		}
 
 		$query = "SELECT usr_data.*, usr_pref.value AS language
