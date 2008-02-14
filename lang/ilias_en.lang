@@ -303,6 +303,7 @@ assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
 common#:#obj_cmps#:#Modules, Services and Plugins
 cmps#:#cmps_group#:#Group
+cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information
 cmps#:#cmps_module#:#Module
 cmps#:#cmps_dir#:#Directory
 cmps#:#cmps_show_details#:#Show Details

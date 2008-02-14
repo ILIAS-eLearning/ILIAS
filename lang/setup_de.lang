@@ -432,7 +432,20 @@ wrong_password#:#Falsches Passwort!
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ
-lang_el#:#Greek###07 09 2006 new variable
-lang_ru#:#Russian###07 09 2006 new variable
-lang_vi#:#Vietnamese###07 09 2006 new variable
-lang_et#:#Estonian###20 06 2007 new variable
+lang_el#:#Griechisch
+lang_ru#:#Russisch
+lang_vi#:#Vietnamesisch
+lang_et#:#Estnisch
+new_client#:#Neuer Mandant
+list_clients#:#Alle Mandanten
+basic_settings#:#Grundeinstellungen
+step_ini#:#ini-File
+step_db#:#Datenbank
+step_lang#:#Sprachen
+step_contact#:#Kontakt
+step_nic#:#NIC
+step_finish#:#Beenden
+step_access#:#Zugriff
+determine_tools_paths#:#Pfade Automatisch Ermitteln
+client_deleted#:#Mandant Gelöscht
+create_directory#:#Verzeichnis Anlegen

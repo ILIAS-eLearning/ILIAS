@@ -356,5 +356,68 @@ abstract class ilPlugin
 		
 		return $this->prefix;
 	}
+	
+	/**
+	* Reload plugin information from plugin.xml files into db
+	*/
+	static function refreshPluginXmlInformation()
+	{
+		include_once("./Services/Component/classes/class.ilPluginSlot.php");
+		include_once("./Services/Component/classes/class.ilPluginReader.php");
+		
+		// modules
+		include_once("./Services/Component/classes/class.ilModule.php");
+		$modules = ilModule::getAvailableCoreModules();
+		foreach ($modules as $module)
+		{
+			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE, $module["subdir"]);
+			foreach($plugin_slots as $slot)
+			{
+				$slot_obj = new ilPluginSlot(IL_COMP_MODULE, $module["subdir"], $slot["id"]);
+				$plugins = $slot_obj->getPluginsInformation();
+				foreach ($plugins as $plugin)
+				{
+					$reader = new ilPluginReader($plugin["xml_file_path"], IL_COMP_MODULE,
+						$module["subdir"], $slot["id"], $plugin["name"]);
+					$reader->startParsing();
+				}
+			}
+		}
+
+		// services
+		include_once("./Services/Component/classes/class.ilService.php");
+		$services = ilService::getAvailableCoreServices();
+		foreach ($services as $service)
+		{
+			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $service["subdir"]);
+			foreach($plugin_slots as $slot)
+			{
+				$slot_obj = new ilPluginSlot(IL_COMP_SERVICE, $service["subdir"], $slot["id"]);
+				$plugins = $slot_obj->getPluginsInformation();
+				foreach ($plugins as $plugin)
+				{
+					$reader = new ilPluginReader($plugin["xml_file_path"], IL_COMP_SERVICE,
+						$service["subdir"], $slot["id"], $plugin["name"]);
+					$reader->startParsing();
+				}
+			}
+		}
+	}
+	
+	/**
+	* Lookup information data in il_plugin
+	*/
+	static function lookupStoredData($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM il_plugin WHERE ".
+				" component_type = ".$ilDB->quote($a_ctype)." AND ".
+				" component_name = ".$ilDB->quote($a_cname)." AND ".
+				" slot_id = ".$ilDB->quote($a_slot_id)." AND ".
+				" name = ".$ilDB->quote($a_pname);
+
+		$ilDB->query($q);
+	}
 }
 ?>
