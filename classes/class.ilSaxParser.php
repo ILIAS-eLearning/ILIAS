@@ -188,7 +188,7 @@ class ilSaxParser
 	{
 		if(!($fp = fopen($this->xml_file,'r')))
 		{
-			$this->handleError("Cannot open xml file",$this->ilias->error_obj->FATAL);
+			$this->handleError("Cannot open xml file \"".$this->xml_file."\"",$this->ilias->error_obj->FATAL);
 		}
 		return $fp;
 	}

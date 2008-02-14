@@ -365,9 +365,15 @@ class ilCtrl
 			$par = $this->call_node[$par]["parent"];
 		}
 
+		// BEGIN Plugins: Make ILIAS robust against unknown object types
+		/*
 		echo "ERROR: Can't find target class $a_class for node $a_par_node ".
 			"(".$this->call_node[$a_par_node]["class"].").<br>";
-		exit;
+		exit;*/
+		error_log( "ERROR: Can't find target class $a_class for node $a_par_node ".
+			"(".$this->call_node[$a_par_node]["class"].")");
+		return $a_par_node;
+		// END Plugins: Make ILIAS robust against unknown object types	
 	}
 
 	/**
@@ -1016,7 +1022,7 @@ class ilCtrl
 	function verifyToken()
 	{
 		global $ilDB, $ilUser;
-		
+
 		if ($_GET["rtoken"] == "")
 		{
 			echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
