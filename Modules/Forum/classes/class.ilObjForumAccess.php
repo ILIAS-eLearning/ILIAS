@@ -94,6 +94,18 @@ class ilObjForumAccess extends ilObjectAccess
 		
 		return $rec["pos_thr_fk"];
 	}
+	//BEGIN DiskQuota: Get used disk space
+	/**
+	 * Returns the number of bytes used on the harddisk for forum attachments,
+	 * by the user with the specified user id.
+	 * @param int user id.
+	 */
+	public static function _getDiskSpaceUsedBy($user_id, $as_string = false)
+	{
+		require_once "Modules/Forum/classes/class.ilFileDataForum.php";
+		return ilFileDataForum::_getDiskSpaceUsedBy($user_id, $as_string);	
+	}
+	//END DiskQuota: Get used disk space
 }
 
 ?>

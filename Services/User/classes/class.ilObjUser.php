@@ -1926,7 +1926,7 @@ class ilObjUser extends ilObject
     }
 
     /**
-    * get date the user account was activated
+    * get the date when the user account was approved
     * @access   public
     * @return   string      date of last update
     */
@@ -1934,6 +1934,18 @@ class ilObjUser extends ilObject
     {
         return $this->approve_date;
     }
+
+	// BEGIN DiskQuota: show when user accepted user agreement
+    /**
+    * get the date when the user accepted the user agreement
+    * @access   public
+    * @return   string      date of last update
+    */
+    function getAcceptDate()
+    {
+        return $this->accept_date;
+    }
+	// END DiskQuota: show when user accepted user agreement
 
     /**
     * set user active state and updates system fields appropriately
@@ -2198,6 +2210,24 @@ class ilObjUser extends ilObject
 	function checkUserId()
 	{
 		global $ilDB,$ilAuth;
+
+		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
+		require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
+		if (ilDAVServer::_isActive()) 
+		{
+			require_once ('Services/Authentication/classes/class.ilAuthContainerDB.php');
+			$username = ilAuthContainerDB::toUsernameWithoutDomain($this->ilias->auth->getUsername());
+			$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
+				$ilDB->quote($username));
+		}
+		else
+		{
+			$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
+				$ilDB->quote($this->ilias->auth->getUsername()));
+		}
+		// END WebDAV: Strip Microsoft Domain Names from logins
+
+
 
 		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
 			$ilDB->quote($ilAuth->getUsername()));
@@ -3495,21 +3525,25 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
+		// BEGIN DiskQuota: Fetch all user preferences in a single query
 		$query = "SELECT * FROM usr_pref WHERE ".
-			"keyword = 'public_upload' ".
-			"AND value = 'y' ".
+			"keyword IN ('public_upload','public_profile') ".
 			"AND usr_id = ".$ilDB->quote($a_usr_id);
 
 		$res = $ilDB->query($query);
-		$upload = $res->numRows() ? true : false;
-
-		$query = "SELECT * FROM usr_pref WHERE ".
-			"keyword = 'public_profile' ".
-			"AND value = 'y' ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id);
-
-		$res = $ilDB->query($query);
-		$profile = $res->numRows() ? true : false;
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			switch ($row['keyword'])
+			{
+				case 'public_upload' :
+					$upload = $row['value'] == 'y';
+					break;
+				case 'public_profile' :
+					$profile = $row['value'] == 'y';
+					break;
+			}
+		}
+		// END DiskQuota: Fetch all user preferences in a single query
 
 		if(defined('ILIAS_MODULE'))
 		{
@@ -3518,7 +3552,16 @@ class ilObjUser extends ilObject
 		$webspace_dir .= ('./'.ilUtil::getWebspaceDir());
 
 		$image_dir = $webspace_dir."/usr_images";
-		$thumb_file = $image_dir."/usr_".$a_usr_id."_".$a_size.".jpg";
+		// BEGIN DiskQuota: Support 'big' user images
+		if ($a_size == 'big')
+		{
+				$thumb_file = $image_dir."/usr_".$a_usr_id.".jpg";
+		}
+		else
+		{
+				$thumb_file = $image_dir."/usr_".$a_usr_id."_".$a_size.".jpg";
+		}
+		// END DiskQuota: Support 'big' user images
 
 		if((($upload && $profile) || $a_force_pic)
 			&& @is_file($thumb_file))

@@ -379,7 +379,11 @@ class ilObjUserGUI extends ilObjectGUI
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{
 			$this->tpl->setCurrentBlock("inform_user");
-			if (true)
+
+			// BEGIN DiskQuota Remember the state of the "send info mail" checkbox
+			$sendInfoMail = $ilUser->getPref('send_info_mails') == 'y';
+			if ($sendInfoMail)
+			// END DiskQuota Remember the state of the "send info mail" checkbox
 			{
 				$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
 			}
@@ -962,6 +966,53 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["auth_mode"] = $this->object->getAuthMode();
 		$data["fields"]["ext_account"] = $this->object->getExternalAccount();
 
+		// BEGIN DiskQuota Get Picture, Owner, Last login, Approve Date and AcceptDate
+		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("personal_picture"));
+		$webspace_dir = ilUtil::getWebspaceDir("output");
+		$full_img = $this->object->getPref("profile_image");
+		$last_dot = strrpos($full_img, ".");
+		$small_img = substr($full_img, 0, $last_dot).
+				"_small".substr($full_img, $last_dot, strlen($full_img) - $last_dot);
+		$image_file = $webspace_dir."/usr_images/".$small_img;
+
+		if (@is_file($image_file))
+		{
+			$this->tpl->setCurrentBlock("pers_image");
+			$this->tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
+			$this->tpl->setVariable("ALT_IMG_PERSONAL",$this->lng->txt("personal_picture"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("remove_pic");
+			$this->tpl->setVariable("TXT_REMOVE_PIC", $this->lng->txt("remove_personal_picture"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("content");
+		}
+
+		$this->tpl->setCurrentBlock("upload_pic");
+		$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("userfile"));
+		$this->tpl->setVariable("USER_FILE", $this->lng->txt("user_file"));
+		$data["fields"]["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
+		$data["fields"]["last_login"] = $this->object->getLastLogin();
+		$data["fields"]["approve_date"] = $this->object->getApproveDate();
+		$data["fields"]["accept_date"] = $this->object->getAcceptDate();
+		// END DiskQuota Get Picture, Owner, Last login, Approve Date and AcceptDate
+
+		// BEGIN DiskQuota, Show disk space used
+		require_once "Modules/File/classes/class.ilObjFileAccess.php";
+		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
+		require_once "Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+		require_once "Services/Mail/classes/class.ilObjMailAccess.php";
+		require_once "Modules/Forum/classes/class.ilObjForumAccess.php";
+		$this->tpl->setVariable('TXT_DISK_SPACE_USED',$this->lng->txt('disk_space_used'));
+		$this->tpl->setVariable('DISK_SPACE_USED',
+			ilObjFileAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjFileBasedLMAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjSAHSLearningModuleAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjMailAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjForumAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'
+		);
+		// END DiskQuota, Show disk space used
+
 		if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
 		{
 			$user_is_online = false;
@@ -1434,8 +1485,10 @@ class ilObjUserGUI extends ilObjectGUI
 		// inform user about changes option
 		$this->tpl->setCurrentBlock("inform_user");
 
-
-		if (true)
+		// BEGIN DiskQuota Remember the state of the "send info mail" checkbox
+		$sendInfoMail = $ilUser->getPref('send_info_mails') == 'y';
+		if ($sendInfoMail)
+		// END DiskQuota Remember the state of the "send info mail" checkbox
 		{
 			$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
 		}
@@ -1521,6 +1574,125 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		$this->__showUserDefinedFields();
 	}
+
+// BEGIN DiskQuota: Allow administrators to edit user picture
+	/**
+	* upload user image
+	*
+	* (original method by ratana ty)
+	*/
+	function uploadUserPictureObject()
+	{
+		global $ilUser, $rbacsystem;
+
+
+		// User folder
+		if($this->usrf_ref_id == USER_FOLDER_ID and 
+			!$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+		// if called from local administration $this->usrf_ref_id is category id 
+		// Todo: this has to be fixed. Do not mix user folder id and category id
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			// check if user is assigned to category
+			if(!$rbacsystem->checkAccess('cat_administrate_users',$this->object->getTimeLimitOwner()))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+		{
+			if ($_FILES["userfile"]["size"] == 0)
+			{
+				ilUtil::sendInfo($this->lng->txt("msg_no_file"));
+			}
+			else
+			{
+				
+				$webspace_dir = ilUtil::getWebspaceDir();
+				$image_dir = $webspace_dir."/usr_images";
+				$store_file = "usr_".$this->object->getId()."."."jpg";
+			
+				// store filename
+				$this->object->setPref("profile_image", $store_file);
+				$this->object->update();
+					
+				// move uploaded file
+				$uploaded_file = $image_dir."/upload_".$this->object->getId()."pic";
+
+				if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
+					$uploaded_file, false))
+				{
+					ilUtil::sendInfo($this->lng->txt("upload_error", true));
+					$this->ctrl->redirect($this, "showProfile");
+				}
+				chmod($uploaded_file, 0770);
+			
+				// take quality 100 to avoid jpeg artefacts when uploading jpeg files
+				// taking only frame [0] to avoid problems with animated gifs
+				$show_file  = "$image_dir/usr_".$this->object->getId().".jpg"; 
+				$thumb_file = "$image_dir/usr_".$this->object->getId()."_small.jpg";
+				$xthumb_file = "$image_dir/usr_".$this->object->getId()."_xsmall.jpg"; 
+				$xxthumb_file = "$image_dir/usr_".$this->object->getId()."_xxsmall.jpg";
+				$uploaded_file = ilUtil::escapeShellArg($uploaded_file);
+				$show_file = ilUtil::escapeShellArg($show_file);
+				$thumb_file = ilUtil::escapeShellArg($thumb_file);
+				$xthumb_file = ilUtil::escapeShellArg($xthumb_file);
+				$xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
+				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
+				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
+				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
+				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
+			}
+		}
+		
+		$this->editObject();
+	}
+
+	/**
+	* remove user image
+	*/
+	function removeUserPictureObject()
+	{
+		$webspace_dir = ilUtil::getWebspaceDir();
+		$image_dir = $webspace_dir."/usr_images";
+		$file = $image_dir."/usr_".$this->object->getID()."."."jpg";
+		$thumb_file = $image_dir."/usr_".$this->object->getID()."_small.jpg";
+		$xthumb_file = $image_dir."/usr_".$this->object->getID()."_xsmall.jpg";
+		$xxthumb_file = $image_dir."/usr_".$this->object->getID()."_xxsmall.jpg";
+		$upload_file = $image_dir."/upload_".$this->object->getID();
+	
+		// remove user pref file name
+		$this->object->setPref("profile_image", "");
+		$this->object->update();
+		ilUtil::sendInfo($this->lng->txt("user_image_removed"));
+	
+		if (@is_file($file))
+		{
+			unlink($file);
+		}
+		if (@is_file($thumb_file))
+		{
+			unlink($thumb_file);
+		}
+		if (@is_file($xthumb_file))
+		{
+			unlink($xthumb_file);
+		}
+		if (@is_file($xxthumb_file))
+		{
+			unlink($xxthumb_file);
+		}
+		if (@is_file($upload_file))
+		{
+			unlink($upload_file);
+		}
+	
+		$this->editObject();
+	}
+// END DiskQuota: Allow administrators to edit user picture
 
 	/**
 	* save user data
@@ -1716,6 +1888,12 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$msg = $this->lng->txt("user_added");
 		
+		// BEGIN DiskQuota: Remember the state of the "send info mail" checkbox
+		global $ilUser;
+		$ilUser->setPref('send_info_mails', ($_POST["send_mail"] != "") ? 'y' : 'n');
+		$ilUser->writePrefs();
+		// END DiskQuota: Remember the state of the "send info mail" checkbox
+
 		// send new account mail
 		if ($_POST["send_mail"] != "")
 		{
@@ -1968,6 +2146,12 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
+
+		// BEGIN DiskQuota: Remember the state of the "send info mail" checkbox
+		global $ilUser;
+		$ilUser->setPref('send_info_mails', ($_POST["send_mail"] != "") ? 'y' : 'n');
+		$ilUser->writePrefs();
+		// END DiskQuota: Remember the state of the "send info mail" checkbox
 
 		$mail_message = $this->__sendProfileMail();
 		$msg = $this->lng->txt('saved_successfully').$mail_message;

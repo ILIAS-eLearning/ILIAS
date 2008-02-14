@@ -33,8 +33,18 @@ include_once("classes/class.ilObjectAccess.php");
 */
 class ilObjMailAccess extends ilObjectAccess
 {
-
-
+	//BEGIN DiskQuota: Get used disk space
+	/**
+	 * Returns the number of bytes used on the harddisk for mail attachments,
+	 * by the user with the specified user id.
+	 * @param int user id.
+	 */
+	public static function _getDiskSpaceUsedBy($user_id, $as_string = false)
+	{
+		require_once "classes/class.ilFileDataMail.php";
+		return ilFileDataMail::_getDiskSpaceUsedBy($user_id, $as_string);	
+	}
+	//END DiskQuota: Get used disk space
 }
 
 ?>

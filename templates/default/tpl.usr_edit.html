@@ -1,5 +1,5 @@
 <table class="std">
-<form action="{FORMACTION}" {TARGET} method="post">
+<form action="{FORMACTION}" {TARGET} method="post" ENCTYPE="MULTIPART/FORM-DATA">
     <tr class="tblheader">
         <td class="std" colspan="2">
             <table class="invisible_border" width="100%">
@@ -68,15 +68,56 @@
     </tr>
     <tr>
         <td class="option">{TXT_CREATE_DATE}</td>
-        <td class="option_value">{CREATE_DATE}<input type="hidden" name="Fobject[create_date]"  value="{CREATE_DATE}" /></td>
+        <td class="option_value">{CREATE_DATE} {OWNER}<input type="hidden" name="Fobject[create_date]"  value="{CREATE_DATE}" /></td>
     </tr>
     <tr>
         <td class="option">{TXT_APPROVE_DATE}</td>
         <td class="option_value">{APPROVE_DATE}<input type="hidden" name="Fobject[approve_date]"  value="{APPROVE_DATE}" /></td>
     </tr>
     <tr>
+        <td class="option">{TXT_ACCEPT_DATE}</td>
+        <td class="option_value">{ACCEPT_DATE}<input type="hidden" name="Fobject[accept_date]"  value="{ACCEPT_DATE}" /></td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_LAST_LOGIN}</td>
+        <td class="option_value">{LAST_LOGIN}<input type="hidden" name="Fobject[last_login]"  value="{LAST_LOGIN}" /></td>
+    </tr>
+    <tr>
         <td class="option">{TXT_ACTIVE}</td>
         <td class="option_value"><input type="checkbox" name="Fobject[active]"  value="1" {ACTIVE} /></td>
+    </tr>
+<!-- BEGIN time_limit -->
+	  <tr>
+		<td class="option">{TXT_TIME_LIMIT}</td>
+		<td class="option_value">
+		  <table cellspacing=0 cellpadding=0 border=0>
+			<tr>
+			  <td>{TIME_LIMIT_UNLIMITED}</td>
+			  <td>&nbsp;</td>
+			  <td>{TXT_TIME_LIMIT_UNLIMITED}</td>
+			</tr>
+		  </table>
+		  <table cellspacing=0 cellpadding=0 border=0>
+			<tr>
+			  <td valign=top><b>{TXT_TIME_LIMIT_FROM}</b></td>
+			  <td>&nbsp;</td>
+			  <td valign=top nowrap>{SELECT_TIME_LIMIT_FROM_DAY}&nbsp;&nbsp;{SELECT_TIME_LIMIT_FROM_MONTH}&nbsp;{SELECT_TIME_LIMIT_FROM_YEAR}<br>{SELECT_TIME_LIMIT_FROM_HOUR}:&nbsp;{SELECT_TIME_LIMIT_FROM_MINUTE}</td>
+			  <td valign=top><b>{TXT_TIME_LIMIT_UNTIL}</b></td>
+			  <td>&nbsp;</td><td valign=top nowrap>{SELECT_TIME_LIMIT_UNTIL_DAY}&nbsp;&nbsp;{SELECT_TIME_LIMIT_UNTIL_MONTH}&nbsp;{SELECT_TIME_LIMIT_UNTIL_YEAR}<br>{SELECT_TIME_LIMIT_UNTIL_HOUR}:&nbsp;{SELECT_TIME_LIMIT_UNTIL_MINUTE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <!-- END time_limit -->
+	  <!-- BEGIN show_limit -->
+	  <tr>
+		<td class="option">{SHOW_TXT_TIME_LIMIT}</td>
+		<td class="option_value">{SHOW_TIME}</td>
+	  </tr>
+	  <!-- END show_limit -->
+    <tr>
+        <td class="option">{TXT_DISK_SPACE_USED}</td>
+        <td class="option_value">{DISK_SPACE_USED}</td>
     </tr>
     <tr class="tblheader">
         <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
@@ -100,7 +141,29 @@
         <td class="option">{TXT_TITLE}</td>
         <td class="option_value"><input type="text" name="Fobject[title]" value="{TITLE}" size="40" maxlength="32" /></td>
     </tr>
-        <tr class="tblheader">
+<!-- BEGIN upload -->
+    <tr>
+	<td class="option">{TXT_UPLOAD}
+	    <!-- BEGIN pers_image -->
+	    <br />
+	    <img src="{IMG_PERSONAL}" alt="{ALT_IMG_PERSONAL}" border="0" />
+	    <!-- END pers_image -->
+	</td>
+	<td class="option_value"><input type="file" name="userfile"{DISABLED_UPLOAD} />
+	    <!-- BEGIN upload_pic -->
+	    <input class="submit" type="submit" name="cmd[uploadUserPicture]" value="{UPLOAD}" />
+	    <!-- END upload_pic -->
+	    <!-- BEGIN remove_pic -->
+	    <br /><br />
+	    <input class="submit" type="submit" name="cmd[removeUserPicture]" value="{TXT_REMOVE_PIC}" />
+	    <!-- END remove_pic -->
+	    <!-- BEGIN ilinc_upload_pic -->
+	    <br /><i>{TXT_ILINC_UPLOAD}<a href="{ILINC_UPLOAD_LINK}" target="_blank">{ILINC_UPLOAD_LINKTXT}</a></i>
+	    <!-- END ilinc_upload_pic -->
+	</td>
+    </tr>
+<!-- END upload -->
+    <tr class="tblheader">
         <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
     </tr>
     <tr>
@@ -295,35 +358,6 @@
     <td class="option" colspan="2">{TXT_INFORM_USER_MAIL} <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
   </tr>
 <!-- END inform_user -->
-<!-- BEGIN time_limit -->
-	  <tr>
-		<td class="option">{TXT_TIME_LIMIT}</td>
-		<td class="option_value">
-		  <table cellspacing=0 cellpadding=0 border=0>
-			<tr>
-			  <td>{TIME_LIMIT_UNLIMITED}</td>
-			  <td>&nbsp;</td>
-			  <td>{TXT_TIME_LIMIT_UNLIMITED}</td>
-			</tr>
-		  </table>
-		  <table cellspacing=0 cellpadding=0 border=0>
-			<tr>
-			  <td valign=top><b>{TXT_TIME_LIMIT_FROM}</b></td>
-			  <td>&nbsp;</td>
-			  <td valign=top nowrap>{SELECT_TIME_LIMIT_FROM_DAY}&nbsp;&nbsp;{SELECT_TIME_LIMIT_FROM_MONTH}&nbsp;{SELECT_TIME_LIMIT_FROM_YEAR}<br>{SELECT_TIME_LIMIT_FROM_HOUR}:&nbsp;{SELECT_TIME_LIMIT_FROM_MINUTE}</td>
-			  <td valign=top><b>{TXT_TIME_LIMIT_UNTIL}</b></td>
-			  <td>&nbsp;</td><td valign=top nowrap>{SELECT_TIME_LIMIT_UNTIL_DAY}&nbsp;&nbsp;{SELECT_TIME_LIMIT_UNTIL_MONTH}&nbsp;{SELECT_TIME_LIMIT_UNTIL_YEAR}<br>{SELECT_TIME_LIMIT_UNTIL_HOUR}:&nbsp;{SELECT_TIME_LIMIT_UNTIL_MINUTE}</td>
-			</tr>
-		  </table>
-		</td>
-	  </tr>
-	  <!-- END time_limit -->
-	  <!-- BEGIN show_limit -->
-	  <tr>
-		<td class="option">{SHOW_TXT_TIME_LIMIT}</td>
-		<td class="option_value">{SHOW_TIME}</td>
-	  </tr>
-	  <!-- END show_limit -->
     <tr>
         <td class="submit" colspan="2">
             <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>

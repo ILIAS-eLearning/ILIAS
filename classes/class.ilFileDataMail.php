@@ -485,5 +485,44 @@ class ilFileDataMail extends ilFileData
 			$this->ilias->getSetting("mail_maxsize_attach") :
 			ini_get("upload_max_filesize");
 	}
+
+	//BEGIN DiskQuota: Get used disk space
+	/**
+	 * Returns the number of bytes used on the harddisk for mail attachments,
+	 * by the user with the specified user id.
+	 * @param int user id.
+	 */
+	public static function _getDiskSpaceUsedBy($user_id, $as_string = false)
+	{
+		// XXX - This method is extremely slow. We should
+		// use a cache to speed it up, for example, we should
+		// store the disk space used in table mail_attachment.
+		global $ilDB, $lng;
+		
+		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."mail";
+		
+		$q = "SELECT path ".
+			"FROM mail_attachment AS ma ".
+			"JOIN mail AS m ON ma.mail_id=m.mail_id ".
+			"WHERE m.user_id = ".$ilDB->quote($user_id);
+		$result_set = $ilDB->query($q);
+		$size = 0;
+		$count = 0;
+		while($row = $result_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$attachment_path = $mail_data_dir.DIRECTORY_SEPARATOR.$row['path'];
+			$attachment_size = ilUtil::dirsize($attachment_path);
+			if ($attachment_size != -1)
+			{
+				$size += $attachment_size;
+			}
+			$count++;
+		}
+		include_once("Modules/File/classes/class.ilObjFileAccess.php");
+		return ($as_string) ? 
+			$count.' '.$lng->txt('mail_attachments').', '.ilObjFileAccess::_sizeToString($size) : 
+			$size;
+	}
+	//END DiskQuota: Get used disk space
 }
 ?>
