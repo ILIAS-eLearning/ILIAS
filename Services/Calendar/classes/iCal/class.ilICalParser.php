@@ -93,8 +93,10 @@ class ilICalParser
 
 			// Check for next multilines (they start with a space)
 			$offset = 1;
-			while(isset($lines[$i + $offset]) and strpos($lines[$i + $offset],' ') === 0)
-			{
+			while(isset($lines[$i + $offset]) and
+				(strpos($lines[$i + $offset],ilICalUtils::ICAL_SPACE) === 0) or
+				(strpos($lines[$i + $offset],ilICalUtils::ICAL_TAB) === 0))
+			{	
 				$lines[$i + $offset] = str_replace(ilICalUtils::ICAL_EOL,'',$lines[$i + $offset]);
 				$line = $line.substr($lines[$i + $offset],1);
 				$offset++;
@@ -175,7 +177,7 @@ class ilICalParser
 			
 			case 'END:VEVENT':
 				$this->log->write(__METHOD__.': END VEVENT');
-				var_dump("<pre>",$this->getContainer(),"</pre>");
+				#var_dump("<pre>",$this->getContainer(),"</pre>");
 				
 				// TODO: save to ilCalEntry
 				$this->dropContainer();

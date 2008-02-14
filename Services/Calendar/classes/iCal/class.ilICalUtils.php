@@ -31,7 +31,8 @@
 class ilICalUtils
 {
 	const ICAL_EOL = "\r\n";
-	
+	const ICAL_SPACE = " ";
+	const ICAL_TAB = "\t";
 }
 
 
