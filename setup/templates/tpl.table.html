@@ -1,70 +1,95 @@
+<script type="text/javascript">
+<!--
+function setCheckboxes(a_form, a_varname, a_elements, a_check)
+{
+	for(i=0;i<a_elements.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_varname + a_elements[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_varname + a_elements[i]].checked = a_check;
+    	}
+    }
+
+    return true;
+}
+//-->
+</script>
 <!-- BEGIN tbl_form_header -->
-<form action="{FORMACTION}" name="ObjectItems" method="post" target="{ACTIONTARGET}">
+<form action="{FORMACTION}" name="cmd" method="post" target="{ACTIONTARGET}">
 <!-- END tbl_form_header -->
-<table class="{CSS_TABLE}">
+<!-- BEGIN tbl_table_start -->
+<table class="{CSS_TABLE}" {WIDTH}>
+<!-- END tbl_table_start -->
 <!-- BEGIN tbl_header_title -->
   <tr class="tbltitle">
-    <td colspan="{COLUMN_COUNT}">
-	<table class="fullwidth_invisible">
-	  <tr class="tbltitle">
-<!-- BEGIN tbl_header_title_icon -->
-	    <td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
-<!-- END tbl_header_title_icon -->
-		<td class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
-<!-- BEGIN tbl_header_title_help -->
-		<td align="right"><a href="#" onclick="return popup_window('{TBL_HELP_LINK}',60,90,20,80);"><img src="{TBL_HELP_IMG}" alt="{TBL_HELP_IMG_ALT}" title="{TBL_HELP_IMG_ALT}" border="0" align="right" /></a></td>
-<!-- END tbl_header_title_help -->
-	  </tr>
-	</table>
-    </td>
+    <th class="std" colspan="{COLUMN_COUNT}">
+<!-- BEGIN tbl_header_title_icon --><img src="{TBL_TITLE_IMG}" style="vertical-align:middle" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />
+<!-- END tbl_header_title_icon -->{TBL_TITLE}
+    </th>
   </tr>
 <!-- END tbl_header_title -->
+<!-- BEGIN tbl_header_numinfo -->
+  <tr class="std">
+    <td class="std" colspan="{COLUMN_COUNT_HEADER}">
+			{NUMINFO_HEADER}
+    </td>
+  </tr>
+<!-- END tbl_header_numinfo -->
+<!-- BEGIN tbl_header -->
   <tr class="tblheader">
+<!-- BEGIN tbl_header_no_link -->
+		<th class="std"{TBL_COLUMN_WIDTH_NO_LINK}>{TBL_HEADER_CELL_NO_LINK}</th>
+<!-- END tbl_header_no_link -->
 <!-- BEGIN tbl_header_cell -->
-    <td class="std"{TBL_COLUMN_WIDTH}>
+    <th class="std" nowrap="nowrap"{TBL_COLUMN_WIDTH}>
 	  <a class="tblheader" href="{TBL_ORDER_LINK}" alt="{TBL_ORDER_ALT}" title="{TBL_ORDER_ALT}">{TBL_HEADER_CELL}
 <!-- BEGIN tbl_order_image -->
-	  <img src="{IMG_ORDER_DIR}" border="0" valign="absmiddle" />
+	  <img src="{IMG_ORDER_DIR}" border="0" style="vertical-align: middle;" />
 <!-- END tbl_order_image -->
 	  </a>
-	</td>
+	</th>
 <!-- END tbl_header_cell -->
   </tr>
+<!-- END tbl_header -->
 <!-- BEGIN tbl_content_row -->
   <tr class="{ROWCOLOR}">
 <!-- BEGIN tbl_content_cell -->
-    <td class="std">{TBL_CONTENT_CELL}</td>
+    <td class="std" colspan="{TBL_COL_SPAN}">{TBL_CONTENT_CELL}
+<!-- BEGIN tbl_cell_subtitle -->
+	<br/><div class="il_Description">{TBL_CELL_SUBTITLE}&nbsp;</div>
+<!-- END tbl_cell_subtitle -->
+    </td>
 <!-- END tbl_content_cell -->
   </tr>
 <!-- END tbl_content_row -->
 {TBL_CONTENT}
 <!-- BEGIN tbl_footer -->
   <tr class="tblfooter">
-    <td colspan="{COLUMN_COUNT}">
-	<table class="fullwidth_invisible">
-	  <tr class="tblfooter">
-	    <td>
-<!-- BEGIN tbl_footer_numinfo -->
-          {NUMINFO}
-<!-- END tbl_footer_numinfo -->
-	    &nbsp;</td>
-<!-- BEGIN tbl_footer_linkbar -->
-	    <td class="tblfooter" align="right">{LINKBAR}</td>
-<!-- END tbl_footer_linkbar -->
-	  </tr>
-	</table>	
+    <td colspan="{COLUMN_COUNT}" class="tblfooter">
+<!-- BEGIN select_all_checkbox -->
+		<input type="checkbox" name="{SELECT_PREFIX}chb_select_all" id="{SELECT_PREFIX}chb_select_all" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{SELECT_PREFIX}chb_select_all.checked);" />
+		<label for="{SELECT_PREFIX}chb_select_all"><strong>{SELECT_ALL_TXT_SELECT_ALL}</strong></label>
+		<br />
+<!-- END select_all_checkbox -->
+	<div style="float:left;">
+		<!-- BEGIN tbl_footer_numinfo -->
+		{NUMINFO}
+		<!-- END tbl_footer_numinfo -->
+		<!-- BEGIN tbl_footer_info -->
+		<br /><font class="quote">{INFO_TEXT}</font>
+		<!-- END tbl_footer_info -->
+	</div>
+	<div style="text-align:right;">
+		<!-- BEGIN tbl_footer_linkbar -->
+			{LINKBAR}
+		<!-- END tbl_footer_linkbar -->
+	</div>
 	</td>
   </tr>
 <!-- END tbl_footer -->
 <!-- BEGIN tbl_action_row -->
   <tr>
 	<td class="submit" colspan="{COLUMN_COUNTS}" align="left">
-	<table width="100%" cellpadding="0" cellspacing="0" border="0">
-	  <tr>
-		<td align="left" width="10">
-		  <img src="{TPLPATH}/images/arrow_downright.gif" border="0" />
-		</td>
-		<td align="left">&nbsp;
+		<div style="float:left;">
+		  <img src="../templates/default/images/arrow_downright.gif" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
 <!-- BEGIN tbl_action_select -->
 				  {SELECT_ACTION}&nbsp;
 				  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
@@ -72,22 +97,39 @@
 <!-- BEGIN tbl_action_btn -->
 		  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
 <!-- END tbl_action_btn -->
-		</td>
+<!-- BEGIN tbl_action_plain_select -->
+				  {SELECT_ACTION}&nbsp;
+<!-- END tbl_action_plain_select -->
+<!-- BEGIN tbl_action_toggle_checkboxes -->
+    [<a href="" onclick="setCheckboxes('cmd','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
+    [<a href="" onclick="setCheckboxes('cmd','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
+<!-- END tbl_action_toggle_checkboxes -->
+		</div>
 <!-- BEGIN add_object -->
-	<td align="right" valign="top">
+	<div style="text-align:right;">
 		{SELECT_OBJTYPE}
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
 <!-- BEGIN import_object -->
 		<input class="submit" type="submit" name="cmd[{BTN_IMP}]" value="{TXT_IMP}" />
 <!-- END import_object -->
-	</td>
+	</div>
 <!-- END add_object -->
-	  </tr>
-	</table>
+<!-- BEGIN plain_buttons -->
+			  <div style="text-align:right;">
+<!-- BEGIN input_text -->
+				<input class="std" type="text" name="{PB_TXT_NAME}" value="{PB_TXT_VALUE}" />
+<!-- END input_text -->
+<!-- BEGIN plain_button -->
+				<input class="submit" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" />
+<!-- END plain_button -->
+			  </div>
+<!-- END plain_buttons -->
     </td>
   </tr>
 <!-- END tbl_action_row -->
+<!-- BEGIN tbl_table_end -->
 </table>
+<!-- END tbl_table_end -->
 <!-- BEGIN save_object -->
 <br />
 <input class="submit" type="submit" value="{BTN_VALUE}" />
