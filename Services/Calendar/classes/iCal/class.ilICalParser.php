@@ -27,6 +27,10 @@ include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 include_once('./Services/Calendar/classes/class.ilTimeZoneException.php');
 
+include_once('./Services/Calendar/classes/iCal/class.ilICalComponent.php');
+include_once('./Services/Calendar/classes/iCal/class.ilICalProperty.php');
+include_once('./Services/Calendar/classes/iCal/class.ilICalParameter.php');
+
 /** 
 * 
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -37,8 +41,6 @@ include_once('./Services/Calendar/classes/class.ilTimeZoneException.php');
 */
 class ilICalParser
 {
-	const COMPONENT_EVENT = 1;
-	
 	const INPUT_STRING = 1;
 	const INPUT_FILE = 2;
 	
@@ -47,6 +49,8 @@ class ilICalParser
 	protected $ical = '';
 	protected $file = '';
 	protected $timezone = null;
+
+	protected $container = array();
 
 	/**
 	 * Constructor
@@ -102,6 +106,50 @@ class ilICalParser
 	}
 	
 	/**
+	 * get container 
+	 *
+	 * @access protected
+	 */
+	protected function getContainer()
+	{
+		return $this->container[count($this->container) - 1];
+	}
+	
+	/**
+	 * set container
+	 *
+	 * @access protected
+	 * @param ilICalItem 
+	 */
+	protected function setContainer($a_container)
+	{
+		$this->container = array($a_container);
+	}
+	
+	/**
+	 * pop la
+	 *
+	 * @access protected
+	 */
+	protected function dropContainer()
+	{
+		return array_pop($this->container);
+	}
+	
+	/**
+	 * push container
+	 *
+	 * @access protected
+	 * @param ilICalItem
+	 */
+	protected function pushContainer($a_container)
+	{
+		$this->container[] = $a_container;
+		
+	}
+	
+	
+	/**
 	 * parse a line
 	 *
 	 * @access protected
@@ -110,63 +158,118 @@ class ilICalParser
 	{
 		switch(trim($line))
 		{
+			case 'BEGIN:VCALENDAR':
+				$this->log->write(__METHOD__.': BEGIN VCALENDAR');
+				$this->setContainer(new ilICalComponent('VCALENDAR'));
+				break;
+				
+			case 'END:VCALENDAR':
+				$this->log->write(__METHOD__.': END VCALENDAR');
+				break;
+			
 			case 'BEGIN:VEVENT':
 				$this->log->write(__METHOD__.': BEGIN VEVENT');
-			
-				// start new vevent
-				$this->component = self::COMPONENT_EVENT;
-				$this->entry = new ilCalendarEntry();
+				$this->pushContainer(new ilICalComponent('VEVENT'));
 				break;
 			
 			case 'END:VEVENT':
-				if($date = $this->entry->getStart())
-				{
-					echo $date->get(ilDateTime::FORMAT_DATETIME,'','Asia/Katmandu').'<br />';
-				}
+				$this->log->write(__METHOD__.': END VEVENT');
+				
+				var_dump("<pre>",$this->getContainer(),"</pre>");
+				
+				
+				// TODO: save to ilCalEntry
+				$this->dropContainer();
 				break;
 
 			case 'BEGIN:VTIMEZONE':
 				$this->log->write(__METHOD__.': BEGIN VTIMEZONE');
+				$container = new ilICalComponent('VTIMEZONE');
+				$this->pushContainer($container);
 				break;
 				
-			
+			case 'END:VTIMEZONE':
+				$this->log->write(__METHOD__.': END VTIMEZONE');
+				
+				if($tzid = $this->getContainer()->getItemsByName('TZID'))
+				{
+					$this->switchTZ($tzid[0]->getValue());
+				} 
+				$this->dropContainer();
+				break;
 			
 			default:
-				list($param,$values) = $this->splitLine($line);
-				$this->parseParameters($param,$values);
-				#$this->log->write(__METHOD__.': Found param: '.$param);
+				if(strpos(trim($line),'BEGIN') === 0)
+				{
+					$this->log->write(__METHOD__.': Do not handling line:'.$line);
+					continue;
+				}
+				list($params,$values) = $this->splitLine($line);
+				$this->storeItems($params,$values);
 				break;
 		}
 	
 	}
 	
 	/**
-	 * parse parameters
+	 * store items
 	 *
 	 * @access protected
 	 */
-	protected function parseParameters($a_param,$a_values)
+	protected function storeItems($a_param_part,$a_value_part)
 	{
-		// TODO: split semicolon seperated parameters
-		switch($a_param)
+		// Check for a semicolon in param part and split it.
+		
+		$items = array();
+		if($splitted_param = explode(';',$a_param_part))
 		{
-			case 'TZID':
-				$this->log->write(__METHOD__.': Found TZID => '.$a_values);
-				$this->switchTZ($a_values);
-				break;
-				
-			case 'DTSTART':
-				// DSTART without TYPE or TIMEZONE
-				switch($this->component)
+			$counter = 0;
+			foreach($splitted_param as $param)
+			{
+				if(!$counter)
 				{
-					case self::COMPONENT_EVENT:
-						$this->log->write(__METHOD__.': Found Datetime => '.$a_values);
-						$this->entry->setStart(new ilDateTime($a_values,ilDateTime::FORMAT_DATETIME,$this->timezone->getIdentifier()));
-						break;
+					$items[$counter]['param'] = $param;
+					$items[$counter]['value'] = $a_value_part; 
 				}
-				break;
+				else
+				{
+					// Split by '='
+					if($splitted_param_values = explode('=',$param))
+					{
+						$items[$counter]['param'] = $splitted_param_values[0];
+						$items[$counter]['value'] = $splitted_param_values[1];
+					}
+				}
+				++$counter;
+			}
 		}
+		
+		if(!count($items))
+		{
+			$this->log->write(__METHOD__.': Cannot parse parameter: '.$a_param_part.', value: '.$a_value_part);
+			return false;
+		}
+		
+		$counter = 0;
+		foreach($items as $item)
+		{
+			if(!$counter)
+			{
+				// First is ical-Parameter
+				$parameter = new ilICalProperty($item['param'],$item['value']);
+				$this->getContainer()->addItem($parameter);
+				$this->pushContainer($parameter);
+			}
+			else
+			{
+				$value = new ilICalParameter($item['param'],$item['value']);
+				$this->getContainer()->addItem($value);
+			}
+			++$counter;
+		}
+		$this->dropContainer();
 	}
+	
 	
 	/**
 	 * parse parameters
@@ -186,6 +289,7 @@ class ilICalParser
 		{
 			$this->log->write(__METHOD__.': Found invalid parameter: '.$a_line);
 		}
+		
 		return array('','');
 	}
 	
@@ -238,6 +342,4 @@ class ilICalParser
 		}		
 	}
 }
-
-
 ?>
