@@ -1144,6 +1144,8 @@ class ilSetupGUI extends ilSetup
 		// build table
 		include_once "../Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
+		$tbl->disable("sort");
+		//$tbl->enable("header");
 
 		$num = 0;
 
