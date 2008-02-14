@@ -1528,6 +1528,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 
 		$result_array = array();
+		$permission = (strlen($permission) == 0) ? "read" : $permission;
 		$qpls = ilUtil::_getObjectsByOperations("qpl", $permission, $ilUser->getId(), -1);
 		$titles = ilObject::_prepareCloneSelection($qpls, "qpl");
 		if (count($qpls))
