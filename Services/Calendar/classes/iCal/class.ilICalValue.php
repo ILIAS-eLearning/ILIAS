@@ -21,103 +21,35 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
+
 /** 
-* Abstract base class for all ical items (Component, Parameter and Value) 
+* Used for storage og multiple values
+* E.g RRULE:FREQ=WEEKLY;COUNT=20;INTERVAL=2;BYDAY=TU
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
 * 
-* @ingroup ServicesCalendar 
+* @ingroup ServicesCalendar
 */
-
-abstract class ilICalItem
+class ilICalValue extends ilICalItem
 {
-	protected $name = '';
-	protected $value = '';
-	protected $items = array();
-	
 	/**
 	 * Constructor
 	 *
 	 * @access public
 	 * @param string name
-	 * 
-	 */
-	public function __construct($a_name,$a_value = '')
-	{
-	 	$this->name = $a_name;
-	 	$this->value = $a_value;
-	}
-	
-	/**
-	 * set value
-	 *
-	 * @access public
 	 * @param string value
 	 * 
 	 */
-	public function setValue($a_value)
+	public function __construct($a_name,$a_value)
 	{
-	 	$this->value = $a_value;
+	 	parent::__construct($a_name,$a_value);
 	}
 	
-	/**
-	 * get value
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getValue()
-	{
-	 	return $this->value;
-	}
 	
-	/**
-	 * get items
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getItems()
-	{
-		return $this->items ? $this->items : array();	 	
-	}
-	
-	/**
-	 * get name
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getName()
-	{
-	 	return $this->name;
-	}
-	
-	/**
-	 * Get items by name
-	 * 
-	 * @access public
-	 * @param string name
-	 * 
-	 */
-	public function getItemsByName($a_name)
-	{
-		return array();
-	}
-	
-	/**
-	 * Add item
-	 *
-	 * @access public
-	 *
-	 * @param ilICalItem 
-	 */
-	public function addItem($a_item)
-	{
-		$this->items[] = $a_item;
-	}
-}
+} 
+
 
 ?>
