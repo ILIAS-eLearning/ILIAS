@@ -1625,13 +1625,10 @@ class ilMail
 		if ($a_attachment)
 		{
 			$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
-			// ARE THERE INTERNAL MAILS
-			if ($c_emails < $c_rcp)
+
+			if ($error = $this->mfile->saveFiles($sent_id,$a_attachment))
 			{
-				if ($error = $this->mfile->saveFiles($sent_id,$a_attachment))
-				{
-					return $error;
-				}
+				return $error;
 			}
 		}
 
@@ -1957,8 +1954,10 @@ class ilMail
 				{
 					if ($a_only_email)
 					{
-						// Mails which aren't on the ilias host are external
-						if ($to->host != 'ilias')
+						// Addresses which aren't on the ilias host, and 
+						// which have a mailbox which does not start with '#',
+						// are external e-mail addresses
+						if ($to->host != 'ilias' && substr($to->mailbox,0,1) != '#')
 						{
 							++$counter;
 						}
