@@ -71,7 +71,7 @@ class ilDateTime
 		 	
 		 	if(!$a_date)
 		 	{
-		 		$this->setDate(time(),self::FORMAT_UNIX);
+		 		$this->setDate(0,self::FORMAT_UNIX);
 		 	}
 		 	else
 		 	{
@@ -146,7 +146,10 @@ class ilDateTime
 
 			case self::FORMAT_DATE:
 				// Pure dates are not timezone sensible.
+				$timezone = ilTimeZone::_getInstance('UTC');
+				$timezone->switchTZ();
 				$unix = strtotime($a_date);
+				$timezone->restoreTZ();
 				if(!$unix or $unix == false)
 				{
 					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);

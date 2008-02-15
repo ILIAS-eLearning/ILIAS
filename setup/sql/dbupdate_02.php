@@ -3434,3 +3434,42 @@ CREATE TABLE il_plugin (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1172>
+CREATE TABLE IF NOT EXISTS `cal_entries` (
+  `cal_id` int(11) NOT NULL auto_increment,
+  `title` text collate utf8_unicode_ci NOT NULL,
+  `description` text collate utf8_unicode_ci NOT NULL,
+  `location` text collate utf8_unicode_ci NOT NULL,
+  `fullday` tinyint(1) NOT NULL default '0',
+  `start` datetime NOT NULL default '0000-00-00 00:00:00',
+  `end` datetime NOT NULL default '0000-00-00 00:00:00',
+  `informations` text collate utf8_unicode_ci NOT NULL,
+  `public` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`cal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+<#1173>
+CREATE TABLE IF NOT EXISTS `cal_recurrence_rules` (
+  `rule_id` int(11) NOT NULL auto_increment,
+  `cal_id` int(11) NOT NULL default '0',
+  `cal_recurrence` int(1) NOT NULL default '0',
+  `freq_type` varchar(20) collate utf8_unicode_ci NOT NULL default '',
+  `freq_until_date` date NOT NULL default '0000-00-00',
+  `freq_until_time` time NOT NULL default '00:00:00',
+  `freq_until_count` int(4) NOT NULL default '0',
+  `intervall` int(4) NOT NULL default '0',
+  `byday` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `byweekno` int(3) NOT NULL default '0',
+  `bymonth` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `bymonthday` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `byyearday` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `bysetpos` int(3) NOT NULL default '0',
+  `weekstart` varchar(2) collate utf8_unicode_ci NOT NULL default '',
+  PRIMARY KEY  (`rule_id`),
+  KEY `cal_id` (`cal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `cal_recurrence_rules`
+  ADD CONSTRAINT `cal_recurrence_rules_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal_entries` (`cal_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+

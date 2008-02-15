@@ -39,7 +39,6 @@ class ilCalendarEntry
 	protected $log;
 	protected $db;
 	
-	protected 
 	
 	protected $entry_id;
 	protected $title;
@@ -47,7 +46,7 @@ class ilCalendarEntry
 	protected $location;
 	protected $further_informations;
 	protected $start = null;
-	protected $is_fullday;
+	protected $fullday;
 	protected $end = null;
 
 	/**
@@ -71,6 +70,35 @@ class ilCalendarEntry
 	}
 	
 	/**
+	 * delete entry
+	 *
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function _delete($a_entry_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM cal_entries ".
+			"WHERE cal_id = ".$ilDB->quote($a_entry_id)." ";
+		$ilDB->query($query);
+		return true;
+	}
+	
+	/**
+	 * get entry id
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getEntryId()
+	{
+	 	return $this->entry_id;
+	}
+	
+	
+	/**
 	 * get start
 	 *
 	 * @access public
@@ -78,7 +106,7 @@ class ilCalendarEntry
 	 */
 	public function getStart()
 	{
-		return $this->start;
+		return $this->start ? $this->start : new ilDateTime();
 		
 	}
 	
@@ -100,7 +128,7 @@ class ilCalendarEntry
 	 */
 	public function getEnd()
 	{
-		return $this->end;
+		return $this->end ? $this->end : new ilDataTime();
 	}
 	
 	/**
@@ -111,16 +139,6 @@ class ilCalendarEntry
 	public function setEnd($a_end)
 	{
 		$this->end = $a_end;
-	}
-	
-	/**
-	 * get cal entry id
-	 *
-	 * @access public
-	 */
-	public function getEntryId()
-	{
-	 	return $this->entry_id;
 	}
 	
 	/**
@@ -223,7 +241,7 @@ class ilCalendarEntry
 	 */
 	public function setFullday($a_fullday)
 	{
-	 	$this->is_fullday = (bool) $a_fullday;
+	 	$this->fullday = (bool) $a_fullday;
 	}
 	
 	/**
@@ -233,7 +251,54 @@ class ilCalendarEntry
 	 */
 	public function isFullday()
 	{
-	 	return (bool) $this->is_fullday;
+	 	return (bool) $this->fullday;
+	}
+	
+	/**
+	 * update
+	 *
+	 * @access public
+	 * 
+	 */
+	public function update()
+	{
+	 	$query = "UPDATE cal_entries ".
+	 		"SET title = ".$this->db->quote($this->getTitle()).", ".
+	 		"description = ".$this->db->quote($this->getDescription()).", ".
+	 		"location = ".$this->db->quote($this->getLocation()).", ".
+	 		"fullday = ".($this->isFullday() ? 1 : 0).", ".
+	 		"start = ".$this->db->quote($this->getStart()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
+	 		"end = ".$this->db->quote($this->getEnd()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
+	 		"informations = ".$this->db->quote($this->getFurtherInformations()).", ".
+	 		"public = 0 ".
+	 		"WHERE cal_id = ".$this->db->quote($this->getEntryId())." ";
+			
+	 		
+	 	$res = $this->db->query($query);
+		return true;
+	}
+	
+	/**
+	 * save one entry
+	 *
+	 * @access public
+	 * 
+	 */
+	public function save()
+	{
+	 	$query = "INSERT INTO cal_entries ".
+	 		"SET title = ".$this->db->quote($this->getTitle()).", ".
+	 		"description = ".$this->db->quote($this->getDescription()).", ".
+	 		"location = ".$this->db->quote($this->getLocation()).", ".
+	 		"fullday = ".($this->isFullday() ? 1 : 0).", ".
+	 		"start = ".$this->db->quote($this->getStart()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
+	 		"end = ".$this->db->quote($this->getEnd()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
+	 		"informations = ".$this->db->quote($this->getFurtherInformations()).", ".
+	 		"public = 0 ";
+	 		
+	 	$res = $this->db->query($query);
+		$this->entry_id = $this->db->getLastInsertId();		
+		return true;
 	}
 	
 	
@@ -247,20 +312,17 @@ class ilCalendarEntry
 	{
 	 	$query = "SELECT * FROM cal_entries WHERE cal_id = ".$this->db->quote($this->getEntryId())." ";
 	 	$res = $this->db->query($query);
-		while($row = $res->fetchRow())
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->setTitle($row['title']);
-			$this->setDescription($row['description']);
-			$this->setLocation($row['location']);
-			$this->setFurtherInformations($row['further_informations']);
-			$this->setFullday((bool) $row['is_fullday']);
-			
-			$this->start = new ilDateTime($row['start'],ilDateTime::FORMAT_DATETIME);
-			$this->end = new ilDateTime($row['end'],ilDateTime::FORMAT_DATETIME);
+			$this->setTitle($row->title);
+			$this->setDescription($row->description);
+			$this->setLocation($row->location);
+			$this->setFurtherInformations($row->informations);
+			$this->setFullday((bool) $row->fullday);
+			$this->start = new ilDateTime($row->start,ilDateTime::FORMAT_DATETIME,'UTC');
+			$this->end = new ilDateTime($row->end,ilDateTime::FORMAT_DATETIME,'UTC');
 		}
 		
 	}
 }
-
-
 ?>
