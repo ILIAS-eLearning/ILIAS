@@ -1389,7 +1389,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
 				$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
-				$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $value["title"] . "</a>");
+				$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $this->object->getQuestionTitle($value["title"]) . "</a>");
 				$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
 				if ($this->object->getListOfQuestionsDescription())
 				{
