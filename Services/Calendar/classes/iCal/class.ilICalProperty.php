@@ -54,7 +54,7 @@ class ilICalProperty extends ilICalItem
 	 * @param string name
 	 * 
 	 */
-	public function getItemsByName($a_name)
+	public function getItemsByName($a_name,$a_recursive = true)
 	{
 	 	foreach($this->getItems() as $item)
 	 	{

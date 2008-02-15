@@ -49,7 +49,7 @@ class ilICalParser
 
 	protected $ical = '';
 	protected $file = '';
-	protected $timezone = null;
+	protected $default_timezone = null;
 
 	protected $container = array();
 
@@ -84,7 +84,7 @@ class ilICalParser
 	 */
 	public function parse()
 	{
-		$this->timezone = ilTimeZone::_getInstance();
+		$this->default_timezone = ilTimeZone::_getInstance();
 		
 		$lines = $this->tokenize($this->ical,ilICalUtils::ICAL_EOL);
 	 	for($i = 0; $i < count($lines); $i++)
@@ -148,7 +148,6 @@ class ilICalParser
 	protected function pushContainer($a_container)
 	{
 		$this->container[] = $a_container;
-		
 	}
 	
 	
@@ -177,9 +176,9 @@ class ilICalParser
 			
 			case 'END:VEVENT':
 				$this->log->write(__METHOD__.': END VEVENT');
-				#var_dump("<pre>",$this->getContainer(),"</pre>");
 				
-				// TODO: save to ilCalEntry
+				$this->writeEvent();
+				
 				$this->dropContainer();
 				break;
 
@@ -194,7 +193,8 @@ class ilICalParser
 				
 				if($tzid = $this->getContainer()->getItemsByName('TZID'))
 				{
-					$this->switchTZ($tzid[0]->getValue());
+					$this->default_timezone = $this->getTZ($tzid[0]->getValue());
+					$this->switchTZ($this->default_timezone);
 				} 
 				$this->dropContainer();
 				break;
@@ -335,11 +335,11 @@ class ilICalParser
 	}
 	
 	/**
-	 * Switch timezone
+	 * get timezone
 	 *
 	 * @access protected
 	 */
-	protected function switchTZ($a_timezone)
+	protected function getTZ($a_timezone)
 	{
 		$parts = explode('/',$a_timezone);
 		$tz = array_pop($parts);
@@ -356,21 +356,152 @@ class ilICalParser
 		
 		try
 		{
-			if($this->timezone->getIdentifier() == $timezone)
+			if($this->default_timezone->getIdentifier() == $timezone)
 			{
-				return true;
+				return $this->default_timezone;
 			}
 			else
 			{
-				$this->log->write(__METHOD__.': Switched to timezone: '.$timezone);
-				$this->timezone = ilTimeZone::_getInstance($timezone);
+				$this->log->write(__METHOD__.': Found new timezone: '.$timezone);
+				return ilTimeZone::_getInstance($timezone);
 			}
+		}
+		catch(ilTimeZoneException $e)
+		{
+			$this->log->write(__METHOD__.': Found invalid timezone: '.$timezone);
+			return $this->default_timezone;
+		}		
+	
+	}
+	
+	/**
+	 * Switch timezone
+	 *
+	 * @access protected
+	 */
+	protected function switchTZ(ilTimeZone $timezone)
+	{
+		try
+		{
+			$timezone->switchTZ();
 		}
 		catch(ilTimeZoneException $e)
 		{
 			$this->log->write(__METHOD__.': Found invalid timezone: '.$timezone);
 			return false;
 		}		
+	}
+	
+	/**
+	 * restore time
+	 *
+	 * @access protected
+	 */
+	protected function restoreTZ()
+	{
+		$this->default_timezone->restoreTZ();
+	}
+	
+	/**
+	 * write a new event
+	 *
+	 * @access protected
+	 */
+	protected function writeEvent()
+	{
+		$entry = new ilCalendarEntry();
+		
+		// Search for summary
+		foreach($this->getContainer()->getItemsByName('SUMMARY',false) as $item)
+		{
+			if(is_a($item,'ilICalProperty'))
+			{
+				$entry->setTitle($this->purgeString($item->getValue()));
+				break;
+			}
+		}
+		// Search description
+		foreach($this->getContainer()->getItemsByName('DESCRIPTION',false) as $item)
+		{
+			if(is_a($item,'ilICalProperty'))
+			{
+				$entry->setDescription($this->purgeString($item->getValue()));
+				break;
+			}
+		}
+		
+		// Search location
+		foreach($this->getContainer()->getItemsByName('LOCATION',false) as $item)
+		{
+			if(is_a($item,'ilICalProperty'))
+			{
+				$entry->setLocation($this->purgeString($item->getValue()));
+				break;
+			}
+		}
+		
+		foreach($this->getContainer()->getItemsByName('DTSTART') as $start)
+		{
+			$fullday = false;
+			foreach($start->getItemsByName('VALUE') as $type)
+			{
+				if($type->getValue() == 'DATE')
+				{
+					$fullday = true;
+				}
+			}
+			$start_tz = $this->default_timezone;
+			foreach($start->getItemsByName('TZID') as $param)
+			{
+				$start_tz = $this->getTZ($param->getValue());
+			}
+			
+			$start = new ilDateTime($start->getValue(),
+				$fullday ? ilDateTime::FORMAT_DATE : ilDateTime::FORMAT_DATETIME,
+				$start_tz->getIdentifier());
+				
+			$entry->setStart($start);
+			$entry->setFullday($fullday);
+		}
+		
+		foreach($this->getContainer()->getItemsByName('DTEND') as $end)
+		{
+			$fullday = false;
+			foreach($end->getItemsByName('VALUE') as $type)
+			{
+				if($type->getValue() == 'DATE')
+				{
+					$fullday = true;
+				}
+			}
+			$end_tz = $this->default_timezone;
+			foreach($end->getItemsByName('TZID') as $param)
+			{
+				$end_tz = $this->getTZ($param->getValue());
+			}
+			
+			$end = new ilDateTime($end->getValue(),
+				$fullday ? ilDateTime::FORMAT_DATE : ilDateTime::FORMAT_DATETIME,
+				$end_tz->getIdentifier());
+				
+			$entry->setEnd($end);
+			$entry->setFullday($fullday);
+		}
+		$entry->save();
+	}
+	
+	/**
+	 * purge string
+	 *
+	 * @access protected
+	 */
+	protected function purgeString($a_string)
+	{
+		$a_string = str_replace("\;",";",$a_string);
+		$a_string = str_replace("\,",",",$a_string);
+		$a_string = str_replace("\:",":",$a_string);
+		return ilUtil::stripSlashes($a_string);
+		
 	}
 }
 ?>

@@ -45,18 +45,6 @@ class ilICalParameter extends ilICalItem
 	{
 	 	parent::__construct($a_name,$a_value);
 	}
-	
-	/**
-	 * get items by name
-	 *
-	 * @access public
-	 * @param string name
-	 * 
-	 */
-	public function getItemsByName($a_name)
-	{
-		return array();
-	}	
 }
 
 

@@ -55,7 +55,7 @@ class ilICalComponent extends ilICalItem
 	 * @param string name
 	 * 
 	 */
-	public function getItemsByName($a_name)
+	public function getItemsByName($a_name,$a_recursive = true)
 	{
 	 	foreach($this->getItems() as $item)
 	 	{
@@ -63,10 +63,13 @@ class ilICalComponent extends ilICalItem
 	 		{
 	 			$found[] = $item;
 	 		}
-			foreach($item->getItemsByName($a_name) as $hit)
-			{
-				$found[] = $hit;
-			}
+	 		if($a_recursive)
+	 		{
+				foreach($item->getItemsByName($a_name) as $hit)
+				{
+					$found[] = $hit;
+				}
+	 		}
 	 	}
 	 	return $found ? $found : array();
 	}
