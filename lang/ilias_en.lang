@@ -305,6 +305,9 @@ common#:#obj_cmps#:#Modules, Services and Plugins
 cmps#:#cmps_group#:#Group
 cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information
 cmps#:#cmps_module#:#Module
+cmps#:#cmps_version#:#Version
+cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
+cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
 cmps#:#cmps_dir#:#Directory
 cmps#:#cmps_show_details#:#Show Details
 cmps#:#cmps_plugin_slot#:#Plugin Slot
