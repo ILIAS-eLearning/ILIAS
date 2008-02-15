@@ -417,7 +417,11 @@ abstract class ilPlugin
 				" slot_id = ".$ilDB->quote($a_slot_id)." AND ".
 				" name = ".$ilDB->quote($a_pname);
 
-		$ilDB->query($q);
+		$set = $ilDB->query($q);
+		
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $rec;
 	}
 }
 ?>
