@@ -7984,7 +7984,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
 	function getListOfQuestions()
 	{
-		if ($this->getTitleOutput() == 2) return FALSE; // No test titles => List of Questions makes no sense
 		if (($this->show_summary & 1) > 0)
 		{
 			return TRUE;

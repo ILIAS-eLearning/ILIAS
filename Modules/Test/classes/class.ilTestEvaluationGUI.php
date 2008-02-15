@@ -912,8 +912,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 							}
 						}
 						$worksheet->write($row, $col++, ilExcelUtils::_convert_text($pass+1));
-						foreach ($data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestions() as $question_data)
+						foreach ($data->getParticipant($active_id)->getQuestions($pass) as $question)
 						{
+							$question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
 							$worksheet->write($row, $col, ilExcelUtils::_convert_text($question_data["reached"]));
 							if ($this->object->isRandomTest())
 							{
