@@ -76,6 +76,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 
 	function start()
 	{
+		global $rbacreview;
 		if (!is_array($this->roles))
 			return false;
 
@@ -90,7 +91,18 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 			{
 				continue;
 			}
-
+			$rolf_list = $rbacreview->getFoldersAssignedToRole($role["obj_id"], false);
+			$continue = true;
+			foreach ($rolf_list as $rolf) {      	        
+    		// only list roles that are not set to status "deleted"
+    		if (!$rbacreview->isDeleted($rolf))
+				{
+      		$continue = false;
+				}
+			}
+			if ($continue)
+				continue;
+			
 			$attrs = array(	'role_type' => ucwords($role["role_type"]), 
 				'id' => "il_".IL_INST_ID."_role_".$role["obj_id"]);
 
