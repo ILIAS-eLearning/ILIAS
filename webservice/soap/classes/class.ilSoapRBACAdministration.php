@@ -324,6 +324,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid ref id given. Please choose an existing reference id of an ILIAS object',
 									   'Client');
 		}
+		
+		if(ilObject::_isInTrash($target_id))
+		{
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+		}
+
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
 
 		$xml_parser =& new ilObjectXMLParser($role_xml);
@@ -394,6 +400,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		}
 
 
+		if(ilObject::_isInTrash($target_id))
+		{
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+		}
 
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
 
@@ -482,6 +492,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid user id given.',
 									   'Client');
 		}
+		
+		if(ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+		}
+
 
 
 		// check visible for all upper tree entries
