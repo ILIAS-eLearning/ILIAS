@@ -455,11 +455,17 @@ class ilICalParser
 			{
 				$start_tz = $this->getTZ($param->getValue());
 			}
-			
-			$start = new ilDateTime($start->getValue(),
-				$fullday ? ilDateTime::FORMAT_DATE : ilDateTime::FORMAT_DATETIME,
-				$start_tz->getIdentifier());
-				
+			if($fullday)
+			{
+				$start = new ilDate($start->getValue(),
+					ilDateTime::FORMAT_DATE);
+			}
+			else
+			{
+				$start = new ilDateTime($start->getValue(),
+					ilDateTime::FORMAT_DATETIME,
+					$start_tz->getIdentifier());
+			}
 			$entry->setStart($start);
 			$entry->setFullday($fullday);
 		}
@@ -479,11 +485,17 @@ class ilICalParser
 			{
 				$end_tz = $this->getTZ($param->getValue());
 			}
-			
-			$end = new ilDateTime($end->getValue(),
-				$fullday ? ilDateTime::FORMAT_DATE : ilDateTime::FORMAT_DATETIME,
-				$end_tz->getIdentifier());
-				
+			if($fullday)
+			{
+				$end = new ilDate($end->getValue(),
+					ilDateTime::FORMAT_DATE);
+			}
+			else
+			{
+				$end = new ilDateTime($end->getValue(),
+					ilDateTime::FORMAT_DATETIME,
+					$end_tz->getIdentifier());
+			}
 			$entry->setEnd($end);
 			$entry->setFullday($fullday);
 		}
@@ -523,6 +535,11 @@ class ilICalParser
 				$rec->setFrequenceUntilCount($value->getValue());
 				break;						
 			}
+			foreach($recurrence->getItemsByName('UNTIL') as $until)
+			{
+				$rec->setFrequenceUntilDate(new ilDate($until->getValue(),ilDateTime::FORMAT_DATE));
+				break;
+			}
 			foreach($recurrence->getItemsByName('INTERVAL') as $value)
 			{
 				$rec->setInterval($value->getValue());
@@ -530,8 +547,6 @@ class ilICalParser
 			}
 			foreach($recurrence->getItemsByName('BYDAY') as $value)
 			{
-				var_dump("<pre>",$value->getValue(),"</pre>");
-				
 				$rec->setBYDAY($value->getValue());
 				break;						
 			}

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Calendar/classes/class.ilDateTime.php');
+include_once('Services/Calendar/classes/class.ilDate.php');
 
 
 /** 
@@ -128,7 +128,7 @@ class ilCalendarEntry
 	 */
 	public function getEnd()
 	{
-		return $this->end ? $this->end : new ilDataTime();
+		return $this->end ? $this->end : new ilDateTime();
 	}
 	
 	/**
@@ -319,8 +319,17 @@ class ilCalendarEntry
 			$this->setLocation($row->location);
 			$this->setFurtherInformations($row->informations);
 			$this->setFullday((bool) $row->fullday);
-			$this->start = new ilDateTime($row->start,ilDateTime::FORMAT_DATETIME,'UTC');
-			$this->end = new ilDateTime($row->end,ilDateTime::FORMAT_DATETIME,'UTC');
+			
+			if($this->isFullday())
+			{
+				$this->start = new ilDate($row->start,ilDateTime::FORMAT_DATETIME);
+				$this->end = new ilDate($row->end,ilDateTime::FORMAT_DATETIME);
+			}
+			else
+			{
+				$this->start = new ilDateTime($row->start,ilDateTime::FORMAT_DATETIME,'UTC');
+				$this->end = new ilDateTime($row->end,ilDateTime::FORMAT_DATETIME,'UTC');
+			}
 		}
 		
 	}
