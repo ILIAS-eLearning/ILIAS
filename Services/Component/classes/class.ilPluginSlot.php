@@ -201,6 +201,22 @@ class ilPluginSlot
 		
 		return false;
 	}
+	
+	/**
+	* Get slot prefix, used for lang vars and db tables. Needs
+	* plugin id appended.
+	*/
+	function getPrefix()
+	{
+		if ($this->prefix == "")
+		{
+			$this->prefix = 
+				ilComponent::lookupId($this->getComponentType(),
+				$this->getComponentName())."_".$this->getSlotId();
+		}
+			
+		return $this->prefix;
+	}
 
 	/**
 	* Get information an all plugins and their status.

@@ -81,7 +81,26 @@ class ilPluginsTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl;
+		
+		// language files
+		$langs = ilPlugin::getAvailableLangFiles($this->slot->getPluginsDirectory()."/".
+			$a_set["name"]."/lang");
 
+		if (count($langs) == 0)
+		{
+			$this->tpl->setCurrentBlock("lang");
+			$this->tpl->setVariable("VAL_LANG_FILE",
+				$lng->txt("cmps_no_language_file_available"));
+			$this->tpl->parseCurrentBlock();
+		}
+		foreach($langs as $lang)
+		{
+			$this->tpl->setCurrentBlock("lang");
+			$this->tpl->setVariable("VAL_LANG_FILE",
+				$lang["file"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$ilCtrl->setParameter($this->parent_obj, "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameter($this->parent_obj, "cname", $_GET["cname"]);
 		$ilCtrl->setParameter($this->parent_obj, "slot_id", $_GET["slot_id"]);
@@ -112,12 +131,25 @@ class ilPluginsTableGUI extends ilTable2GUI
 			{
 				if ($pl->isActive())					// ACTIVE
 				{
+					// deactivate button
 					$this->tpl->setCurrentBlock("deactivate");
 					$this->tpl->setVariable("HREF_DEACTIVATE",
 						$ilCtrl->getLinkTarget($this->parent_obj, "deactivatePlugin"));
 					$this->tpl->setVariable("TXT_DEACTIVATE",
 						$lng->txt("cmps_deactivate"));
 					$this->tpl->parseCurrentBlock();
+					
+					// refresh languages button
+					if (count($langs) > 0)
+					{
+						$this->tpl->setCurrentBlock("refresh_langs");
+						$this->tpl->setVariable("HREF_REFRESH_LANGS",
+							$ilCtrl->getLinkTarget($this->parent_obj, "refreshLanguages"));
+						$this->tpl->setVariable("TXT_REFRESH_LANGS",
+							$lng->txt("cmps_refresh"));
+						$this->tpl->parseCurrentBlock();
+					}
+					
 				}
 				$show_update_cmd = false;
 			}
