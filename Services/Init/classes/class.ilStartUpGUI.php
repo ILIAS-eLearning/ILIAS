@@ -504,7 +504,7 @@ class ilStartUpGUI
 	 	
 	 	$lng->loadLanguageModule('auth');
 	 	
-	 	if($_POST['account_migration'] == 1 and (!strlen($_POST['username']) or !strlen($_POST['password'])))
+	 	if($_POST['account_migration'] == 1 and (!strlen($_POST['mig_username']) or !strlen($_POST['mig_password'])))
 	 	{
 	 		$this->showAccountMigration($lng->txt('err_wrong_login'));
 	 		return false;
@@ -512,11 +512,13 @@ class ilStartUpGUI
 	 	
 	 	if($_POST['account_migration'] == 1)
 	 	{
-			if(!$user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST['username'])))
+			if(!$user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST['mig_username'])))
 			{
 		 		$this->showAccountMigration($lng->txt('err_wrong_login'));
 		 		return false;
 			}
+			$_POST['username'] = $_POST['mig_username'];
+			$_POST['password'] = $_POST['mig_password'];
 			$auth_params = array(
 				'dsn'		  => IL_DSN,
 				'table'       => $ilClientIniFile->readVariable("auth", "table"),
