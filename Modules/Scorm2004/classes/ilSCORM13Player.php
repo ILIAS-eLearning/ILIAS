@@ -749,32 +749,41 @@ class ilSCORM13Player
 							WHERE cmi_interaction_id IN (
 							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
 							INNER JOIN cmi_node ON cmi_node.cmi_node_id=cmi_interaction.cmi_node_id 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
+							' AND cmi_node.user_id='.$ilDB->quote($userId).
+							')';
 						break;
 						
 					case "interaction":
 						$q = 'DELETE FROM cmi_interaction 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
+							' AND cmi_node.user_id='.$ilDB->quote($userId).
+							')';
 						break;
 						
 					case "comment":
 					 	$q = 'DELETE FROM cmi_comment 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
+							' AND cmi_node.user_id='.$ilDB->quote($userId).
+							')';
 						break;
 
 					case "objective":
 					 	$q = 'DELETE FROM cmi_objective 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).')';
+							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
+							' AND cmi_node.user_id='.$ilDB->quote($userId).
+							')';
 						break;
 						
 					case "node":
-						$q = 'DELETE FROM cmi_node WHERE cp_node_id='.$ilDB->quote($cp_node_id).'';
+						$q = 'DELETE FROM cmi_node WHERE cp_node_id='.$ilDB->quote($cp_node_id).''.
+							' AND cmi_node.user_id='.$ilDB->quote($userId);
 						break;
 				}
 				
