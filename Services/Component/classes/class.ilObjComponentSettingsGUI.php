@@ -314,5 +314,24 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$this->showPluginSlot();
 	}
 
+	/**
+	* Refresh Languages
+	*/
+	function refreshLanguages()
+	{
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
+			
+		$result = $pl->updateLanguages();
+		
+		if ($result !== true)
+		{
+			ilUtil::sendInfo($result, true);
+		}
+			
+		$this->showPluginSlot();
+	}
+
 }
 ?>

@@ -363,11 +363,24 @@ class ilObjLanguage extends ilObject
 					 " ".$ilDB->quote($module).", " . 
 					 " ".$ilDB->quote(serialize($lang_arr)).") ";
 				$ilDB->query($query);
-
 			}
 		}
 
 		chdir($tmpPath);
+	}
+
+	/**
+	* Replace language module array
+	*/
+	static final function replaceLangModule($a_key, $a_module, $a_array)
+	{
+		global $ilDB;
+		
+		$query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
+			 "(".$ilDB->quote($a_key).", " .
+			 " ".$ilDB->quote($a_module).", " . 
+			 " ".$ilDB->quote(serialize($a_array)).") ";
+		$ilDB->query($query);
 	}
 
 	/**

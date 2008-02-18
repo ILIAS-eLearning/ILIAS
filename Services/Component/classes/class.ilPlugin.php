@@ -212,22 +212,175 @@ abstract class ilPlugin
 	{
 		return $this->active;
 	}
+	
+	/**
+	* Set Plugin Slot.
+	*
+	* @param	object	$a_slot	Plugin Slot
+	*/
+	protected final function setSlotObject($a_slot)
+	{
+		$this->slot = $a_slot;
+	}
+
+	/**
+	* Get Plugin Slot.
+	*
+	* @return	object	Plugin Slot
+	*/
+	protected final function getSlotObject()
+	{
+		return $this->slot;
+	}
+	
+	/**
+	* Get Plugin Directory
+	*
+	* @return	object	Plugin Slot
+	*/
+	protected final function getDirectory()
+	{
+		return $this->getSlotObject()->getPluginsDirectory()."/".$this->getPluginName();
+	}
+
+	/**
+	* Get Plugin's classes Directory
+	*
+	* @return	object	classes directory
+	*/
+	protected final function getClassesDirectory()
+	{
+		return $this->getDirectory()."/classes";
+	}
+	
+	/**
+	* Include (once) a class file
+	*/
+	public final function includeClass($a_class_file_name)
+	{
+		include_once($this->getClassesDirectory()."/".$a_class_file_name);
+	}
+
+	/**
+	* Get Plugin's language Directory
+	*
+	* @return	object	classes directory
+	*/
+	protected final function getLanguageDirectory()
+	{
+		return $this->getDirectory()."/lang";
+	}
+	
+	/**
+	* Get array of all language files in the plugin
+	*/
+	static final function getAvailableLangFiles($a_lang_directory)
+	{
+		$langs = array();
+
+		if (!@is_dir($a_lang_directory))
+		{
+			return array();
+		}
+
+		$dir = opendir($a_lang_directory);
+		while($file = readdir($dir))
+		{
+			if ($file != "." and
+				$file != "..")
+			{
+				// directories
+				if (@is_file($a_lang_directory."/".$file))
+				{
+					if (substr($file, 0, 6) == "ilias_" &&
+						substr($file, strlen($file) - 5) == ".lang")
+					{
+						$langs[] = array("key" => substr($file, 6, 2), "file" => $file,
+							"path" => $a_lang_directory."/".$file);
+					}
+				}
+			}
+		}
+
+		return $langs;
+	}
+	
+	/**
+	* Get plugin prefix, used for lang vars and db tables.
+	*/
+	final function getPrefix()
+	{
+		return $this->getSlotObject()->getPrefix()."_".$this->getId();
+	}
+	
+	/**
+	* Update all languages
+	*/
+	final public function updateLanguages()
+	{
+		include_once("./Services/Language/classes/class.ilObjLanguage.php");
+		
+		$langs = $this->getAvailableLangFiles($this->getLanguageDirectory());
+		
+		$prefix = $this->getPrefix();
+		
+		foreach($langs as $lang)
+		{
+			$txt = file($this->getLanguageDirectory()."/".$lang["file"]);
+			$lang_array = array();
+
+			// get language data
+			if (is_array($txt))
+			{
+				foreach ($txt as $row)
+				{
+					if ($row[0] != "#" && strpos($row, "#:#") > 0)
+					{
+						$a = explode("#:#",trim($row));
+						$lang_array[$prefix."_".trim($a[0])] = trim($a[1]);
+					}
+				}
+			}
+
+			ilObjLanguage::replaceLangModule($lang["key"], $prefix,
+				$lang_array);
+		}
+	}
+	
+	/**
+	* Load language module for plugin
+	*/
+	public final function loadLanguageModule()
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule($this->getPrefix());
+	}
+	
+	/**
+	* Get Language Variable (prefix will be prepended automatically)
+	*/
+	public final function txt($a_var)
+	{
+		global $lng;
+		
+		return $lng->txt($this->getPrefix()."_".$a_var);
+	}
 
 	/**
 	* Default initialization
 	*/
 	final private function __init()
 	{
-		global $ilDB;
+		global $ilDB, $lng;
 		
+		// read/set basic data
 		$q = "SELECT * FROM il_plugin".
 			" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
 			" AND component_name = ".$ilDB->quote($this->getComponentName()).
 			" AND slot_id = ".$ilDB->quote($this->getSlotId()).
 			" AND name = ".$ilDB->quote($this->getPluginName());
-
 		$set = $ilDB->query($q);
-		
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->setId($rec["id"]);
@@ -238,6 +391,14 @@ abstract class ilPlugin
 			$this->setActive($rec["active"]);
 		}
 		
+		// get slot object
+		$this->setSlotObject(new ilPluginSlot($this->getComponentType(),
+			$this->getComponentName(), $this->getSlotId()));
+		
+		// load language module
+		$lng->loadLanguageModule($this->getPrefix());
+			
+		// call slot and plugin init methods
 		$this->slotInit();
 		$this->init();
 	}
@@ -426,7 +587,7 @@ abstract class ilPlugin
 		global $lng, $ilDB;
 		
 		$result = true;
-		
+
 		// first: load xml information
 		if (!$this->loadPluginXmlInformation())
 		{
@@ -489,7 +650,8 @@ abstract class ilPlugin
 		
 		// DB update
 		
-		// Load language files
+		// load language files
+		$this->updateLanguages();
 		
 		// set last update version to current version
 		if ($result === true)
@@ -545,20 +707,6 @@ abstract class ilPlugin
 		return null;
 	}
 	
-	/**
-	* Get prefix for tables and language variables
-	*/
-	final function getPrefix()
-	{
-		if ($this->prefix == "")
-		{
-			$this->prefix = ilComponent::lookupId($this->getComponentType(),
-				$this->getComponentName())."_".
-				$this->getSlotId()."_".$this->getId();
-		}
-		
-		return $this->prefix;
-	}
 	
 	/**
 	* Reload all plugins' information from plugin.xml files into db

@@ -305,8 +305,10 @@ common#:#obj_cmps#:#Modules, Services and Plugins
 cmps#:#cmps_group#:#Group
 cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information
 cmps#:#cmps_module#:#Module
+cmps#:#cmps_no_language_file_available#:#No language file available.
 cmps#:#cmps_version#:#Version
 cmps#:#cmps_update#:#Update
+cmps#:#cmps_refresh#:#Refresh
 cmps#:#cmps_activate#:#Activate
 cmps#:#cmps_deactivate#:#Deactivate
 cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
