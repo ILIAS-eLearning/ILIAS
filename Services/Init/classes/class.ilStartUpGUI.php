@@ -472,6 +472,7 @@ class ilStartUpGUI
 	 	
 		$lng->loadLanguageModule('auth');
 	 	$tpl->addBlockFile("CONTENT", "content", "tpl.login_account_migration.html");
+	 	$tpl->addJavaScript('./Services/Authentication/js/account_migration.js');
 	 	
 	 	if(strlen($a_message))
 	 	{
@@ -489,7 +490,7 @@ class ilStartUpGUI
 		$tpl->setVariable('TXT_SUBMIT',$lng->txt('save'));
 		$tpl->setVariable('TXT_CANCEL',$lng->txt('cancel'));
 		
-		$tpl->show('DEFAULT',false);		
+		$tpl->show('DEFAULT');		
 	}
 	
 	/**
@@ -503,6 +504,12 @@ class ilStartUpGUI
 	 	global $lng,$ilClientIniFile,$ilLog,$rbacadmin;
 	 	
 	 	$lng->loadLanguageModule('auth');
+	 	
+	 	if(!isset($_POST['account_migration']))
+	 	{
+	 		$this->showAccountMigration($lng->txt('err_choose_migration_type'));
+	 		return false;
+	 	}
 	 	
 	 	if($_POST['account_migration'] == 1 and (!strlen($_POST['mig_username']) or !strlen($_POST['mig_password'])))
 	 	{
