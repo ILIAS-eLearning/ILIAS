@@ -9,20 +9,20 @@
 		<tr class="std">
 			<td class="std">
 				<div style="padding-left: 10px;">
-					<input type="radio" name="account_migration" checked="checked" value="1" id="1"/><label for="1">{INFO_MIGRATE}</label>
+					<input type="radio" name="account_migration" value="1" id="acc_migrate" onClick="ilToggleVisibleElements()"/><label for="acc_migrate">{INFO_MIGRATE}</label>
 					<div style="padding-left: 30px;">
 						<table class="fullwidth_invisible">
 							<tr>
 								<td>{TXT_USER}</td>
-								<td><input type="text" name="mig_username" value="{MIG_USER}" /></td>
+								<td><input type="text" name="mig_username" value="{MIG_USER}" onClick="ilCheckMigration()" id="acc_user_name"/></td>
 							</tr>
 							<tr>
 								<td>{TXT_PASS}</td>
-								<td><input type="password" name="mig_password" value="{MIG_USER}" /></td>
+								<td><input type="password" name="mig_password" value="{MIG_USER}" onClick="ilCheckMigration()" id="acc_user_pass" /></td>
 							</tr>
 						</table>
 					</div>
-					<input type="radio" name="account_migration" value="2" id="2"/><label for="2">{INFO_ADD}</label>
+					<input type="radio" name="account_migration" value="2" id="acc_new" onClick="ilToggleVisibleElements()"/><label for="acc_new">{INFO_ADD}</label>
 				</div>
 			</td>
 		</tr>
