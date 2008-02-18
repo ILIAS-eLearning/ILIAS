@@ -82,6 +82,58 @@ class ilPluginsTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
+		$ilCtrl->setParameter($this->parent_obj, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this->parent_obj, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this->parent_obj, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->setParameter($this->parent_obj, "pname", $a_set["name"]);
+		
+		// if activation flag is not set, we know, that plugin is definitely
+		// deactivated
+		$show_update_cmd = true;
+
+		if (!$a_set["active"])						// NOT ACTIVE
+		{
+			$this->tpl->setCurrentBlock("activate");
+			$this->tpl->setVariable("HREF_ACTIVATE",
+				$ilCtrl->getLinkTarget($this->parent_obj, "activatePlugin"));
+			$this->tpl->setVariable("TXT_ACTIVATE",
+				$lng->txt("cmps_activate"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else	// if activation flag is set we try to instantiate the plugin object
+				// this may fail; admin must unset deactivation flag in setup then
+		{
+			$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+				$_GET["slot_id"], $a_set["name"]);
+				
+//echo "-".$_GET["ctype"]."-".$_GET["cname"]."-".$_GET["slot_id"]."-".$_GET["pname"]."-";
+				
+			if (!$pl->needsUpdate())					// NO UPDATE NEEDED ?
+			{
+				if ($pl->isActive())					// ACTIVE
+				{
+					$this->tpl->setCurrentBlock("deactivate");
+					$this->tpl->setVariable("HREF_DEACTIVATE",
+						$ilCtrl->getLinkTarget($this->parent_obj, "deactivatePlugin"));
+					$this->tpl->setVariable("TXT_DEACTIVATE",
+						$lng->txt("cmps_deactivate"));
+					$this->tpl->parseCurrentBlock();
+				}
+				$show_update_cmd = false;
+			}
+		}
+
+		// update
+		if ($show_update_cmd)
+		{
+			$this->tpl->setCurrentBlock("update");
+			$this->tpl->setVariable("HREF_UPDATE",
+				$ilCtrl->getLinkTarget($this->parent_obj, "updatePlugin"));
+			$this->tpl->setVariable("TXT_UPDATE",
+				$lng->txt("cmps_update"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setVariable("VAL_PLUGIN_NAME", $a_set["name"]);
 		$this->tpl->setVariable("VAL_PLUGIN_ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_PLUGIN_NAME", $lng->txt("cmps_name"));

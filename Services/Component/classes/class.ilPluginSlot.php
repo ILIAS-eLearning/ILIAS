@@ -259,5 +259,20 @@ class ilPluginSlot
 		return $rec["id"];
 	}
 
+	/**
+	* Lookup slot name for component and slot id
+	*/
+	function lookupSlotName($a_ctype, $a_cname, $a_slot_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM il_pluginslot WHERE component = ".
+			$ilDB->quote($a_ctype."/".$a_cname).
+			" AND id = ".$ilDB->quote($a_slot_id);
+		$set = $ilDB->query($q);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $rec["name"];
+	}
+
 }
 ?>
