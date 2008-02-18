@@ -276,10 +276,43 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* Activate a plugin.
+	*/
 	function activatePlugin()
 	{
-		$pl = ilPlugin::getPluginObject($this->getComponentType(), $this->getComponentName(),
-			$this->getSlotName(), $plugin["name"]);
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
+			
+		$result = $pl->activate();
+		
+		if ($result !== true)
+		{
+			ilUtil::sendInfo($result, true);
+		}
+			
+		$this->showPluginSlot();
 	}
+	
+	/**
+	* Deactivate a plugin.
+	*/
+	function deactivatePlugin()
+	{
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
+			
+		$result = $pl->deactivate();
+		
+		if ($result !== true)
+		{
+			ilUtil::sendInfo($result, true);
+		}
+			
+		$this->showPluginSlot();
+	}
+
 }
 ?>

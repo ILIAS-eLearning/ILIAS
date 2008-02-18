@@ -33,6 +33,64 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 */
 abstract class ilEventHookPlugin extends ilPlugin
 {
+	/**
+	* Get Component Type
+	*
+	* @return	string	Component Type
+	*/
+	final function getComponentType()
+	{
+		return IL_COMP_SERVICE;
+	}
 	
+	/**
+	* Get Component Name.
+	*
+	* @return	string	Component Name
+	*/
+	final function getComponentName()
+	{
+		return "EventHandling";
+	}
+
+	/**
+	* Get Slot Name.
+	*
+	* @return	string	Slot Name
+	*/
+	final function getSlot()
+	{
+		return "EventHook";
+	}
+
+	/**
+	* Get Slot ID.
+	*
+	* Must be overwritten in plugin class of plugin slot.
+	* (and should be made final)
+	*
+	* @return	string	Slot Id
+	*/
+	final function getSlotId()
+	{
+		return "evhk";
+	}
+
+	/**
+	* Object initialization done by slot.
+	*/
+	protected final function slotInit()
+	{
+		// nothing to do here
+	}
+
+	/**
+	* Slot check of plugin activation
+	*/
+	protected final function isActivatableSlotCheck()
+	{
+		return true;
+	}
+
 }
 ?>
