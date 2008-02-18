@@ -487,7 +487,86 @@ class ilICalParser
 			$entry->setEnd($end);
 			$entry->setFullday($fullday);
 		}
+		// save calendar event
 		$entry->save();
+		
+		
+		// Recurrences
+		foreach($this->getContainer()->getItemsByName('RRULE') as $recurrence)
+		{
+			#var_dump("<pre>",$recurrence,"</pre>");
+			
+			
+			include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
+			$rec = new ilCalendarRecurrence();
+			$rec->setEntryId($entry->getEntryId());
+			
+			foreach($recurrence->getItemsByName('FREQ') as $freq)
+			{
+				switch($freq->getValue())
+				{
+					case 'DAILY':
+					case 'WEEKLY':
+					case 'MONTHLY':
+					case 'YEARLY':
+						$rec->setFrequenceType($freq->getValue());
+						break;
+						
+					default:
+						$this->log->write(__METHOD__.': Cannot handle recurring event of type: '.$freq->getValue());
+						break 3;
+				}
+			}
+			
+			foreach($recurrence->getItemsByName('COUNT') as $value)
+			{
+				$rec->setFrequenceUntilCount($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('INTERVAL') as $value)
+			{
+				$rec->setInterval($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('BYDAY') as $value)
+			{
+				var_dump("<pre>",$value->getValue(),"</pre>");
+				
+				$rec->setBYDAY($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('BYWEEKNO') as $value)
+			{
+				$rec->setBYWEEKNO($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('BYMONTH') as $value)
+			{
+				$rec->setBYMONTH($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('BYMONTHDAY') as $value)
+			{
+				$rec->setBYMONTHDAY($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('BYYEARDAY') as $value)
+			{
+				$rec->setBYYEARDAY($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('BYSETPOS') as $value)
+			{
+				$rec->setBYSETPOS($value->getValue());
+				break;						
+			}
+			foreach($recurrence->getItemsByName('WKST') as $value)
+			{
+				$rec->setWeekstart($value->getValue());
+				break;						
+			}
+			$rec->save();
+		}
 	}
 	
 	/**
