@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -233,6 +233,9 @@ class ilDBUpdate
 		return true;
 	}
 
+	/**
+	* Apply update
+	*/
 	function applyUpdate()
 	{
 		global $ilCtrlStructureReader;
@@ -278,6 +281,13 @@ class ilDBUpdate
 		}
 //global $ilDB; $ilDB->query("UPDATE settings SET value='1146' WHERE keyword='db_version'");
 
+		$this->loadXMLInfo();
+	}
+	
+	function loadXMLInfo()
+	{
+		global $ilCtrlStructureReader;
+		
 		// read module and service information into db
 		require_once "./classes/class.ilModuleReader.php";
 		require_once "./classes/class.ilServiceReader.php";

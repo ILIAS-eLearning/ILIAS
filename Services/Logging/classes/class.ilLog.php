@@ -253,6 +253,13 @@ class ilLog
 			{
 				die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
 			}
+			
+			// note: logStack() calls write() again, so do not make this call
+			// if no log level is given
+			if ($a_log_level == $this->FATAL)
+			{
+				$this->logStack();
+			}
 		}
 	}
 	
