@@ -128,10 +128,12 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
 		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
 		
+		/*
 		$tpl->setVariable("HREF_REFRESH_PLUGINS_INFORMATION",
 			$ilCtrl->getLinkTarget($this, "refreshPluginsInformation"));
 		$tpl->setVariable("TXT_REFRESH_PLUGINS_INFORMATION",
 			$lng->txt("cmps_refresh_plugins_inf"));
+		*/
 		
 		include_once("./Services/Component/classes/class.ilComponentsTableGUI.php");
 		$comp_table = new ilComponentsTableGUI($this, "listModules");
@@ -242,7 +244,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$ptpl->setVariable("TXT_PLUGIN_LANG_PREFIX", $lng->txt("cmps_plugin_lang_prefixes"));
 		$ptpl->setVariable("VAL_PLUGIN_LANG_PREFIX",
 			$comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
-		
+
+		$ptpl->setVariable("TXT_PLUGIN_DB_PREFIX", $lng->txt("cmps_plugin_db_prefixes"));
+		$ptpl->setVariable("VAL_PLUGIN_DB_PREFIX",
+			"il_".$comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
+
 		// plugins table
 		include_once("./Services/Component/classes/class.ilPluginsTableGUI.php");
 		$plugins_table = new ilPluginsTableGUI($this, "showPluginSlot",

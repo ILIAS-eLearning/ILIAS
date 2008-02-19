@@ -159,20 +159,20 @@ class ilPluginSlot
 	}
 	
 	/**
-	* Get XML File name for plugin
+	* Get File name for plugin.php
 	*/
-	function getPluginXMLFileName($a_plugin_name)
+	function getPluginPhpFileName($a_plugin_name)
 	{
 		return $this->getPluginsDirectory()."/".
-			$a_plugin_name."/plugin.xml";
+			$a_plugin_name."/plugin.php";
 	}
 	
 	/**
-	* Check whether plugin.xml file is available for plugin or not
+	* Check whether plugin.php file is available for plugin or not
 	*/
-	function checkXMLFileAvailability($a_plugin_name)
+	function checkPluginPhpFileAvailability($a_plugin_name)
 	{
-		if (@is_file($this->getPluginXMLFileName($a_plugin_name)))
+		if (@is_file($this->getPluginPhpFileName($a_plugin_name)))
 		{
 			return true;
 		}
@@ -223,6 +223,8 @@ class ilPluginSlot
 	*/
 	function getPluginsInformation()
 	{
+		global $ilPluginAdmin;
+		
 		// read plugins directory
 		$pl_dir = $this->getPluginsDirectory();
 
@@ -246,9 +248,17 @@ class ilPluginSlot
 					
 					$plugin = ilPlugin::lookupStoredData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
+						
+					$file_data = $ilPluginAdmin->getAllData($this->getComponentType(),
+						$this->getComponentName(), $this->getSlotId(), $file);
+
+					$plugin["version"] = $file_data["version"];
+					$plugin["id"] = $file_data["id"];
+					$plugin["ilias_min_version"] = $file_data["ilias_min_version"];
+					$plugin["ilias_max_version"] = $file_data["ilias_max_version"];
+						
 					$plugin["name"] = $file;
-					$plugin["xml_file_status"] = $this->checkXMLFileAvailability($file);
-					$plugin["xml_file_path"] = $this->getPluginXMLFileName($file);
+					$plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);
 					$plugin["class_file_status"] = $this->checkClassFileAvailability($file);
 					$plugin["class_file"] = "class.il".$plugin["name"]."Plugin.php";
 					

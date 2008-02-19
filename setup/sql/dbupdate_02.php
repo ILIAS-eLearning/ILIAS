@@ -3476,3 +3476,8 @@ ALTER TABLE `cal_recurrence_rules`
 <#1174>
 ALTER TABLE il_plugin ADD COLUMN db_version INT NOT NULL DEFAULT 0;
 
+<#1175>
+ALTER TABLE il_plugin DROP COLUMN id;
+ALTER TABLE il_plugin DROP COLUMN current_version;
+ALTER TABLE il_plugin DROP COLUMN ilias_min_version;
+ALTER TABLE il_plugin DROP COLUMN ilias_max_version;

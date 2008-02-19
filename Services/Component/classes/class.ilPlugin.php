@@ -134,23 +134,23 @@ abstract class ilPlugin
 	}
 
 	/**
-	* Set Current Version (from xml file).
+	* Set Current Version (from plugin.php file).
 	*
-	* @param	string	$a_currentversion	Current Version (from xml file)
+	* @param	string	$a_version	Current Version (from plugin.php file)
 	*/
-	private final function setCurrentVersion($a_currentversion)
+	private final function setVersion($a_version)
 	{
-		$this->currentversion = $a_currentversion;
+		$this->version = $a_version;
 	}
 
 	/**
-	* Get Current Version (from xml file).
+	* Get Current Version (from plugin.php file).
 	*
-	* @return	string	Current Version (from xml file)
+	* @return	string	Current Version (from plugin.php file)
 	*/
-	final function getCurrentVersion()
+	final function getVersion()
 	{
-		return $this->currentversion;
+		return $this->version;
 	}
 
 	/**
@@ -464,7 +464,7 @@ abstract class ilPlugin
 	*/
 	final private function __init()
 	{
-		global $ilDB, $lng;
+		global $ilDB, $lng, $ilPluginAdmin;
 		
 		// read/set basic data
 		$q = "SELECT * FROM il_plugin".
@@ -475,15 +475,44 @@ abstract class ilPlugin
 		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$this->setId($rec["id"]);
 			$this->setLastUpdateVersion($rec["last_update_version"]);
-			$this->setCurrentVersion($rec["current_version"]);
-			$this->setIliasMinVersion($rec["ilias_min_version"]);
-			$this->setIliasMaxVersion($rec["ilias_max_version"]);
 			$this->setDBVersion($rec["db_version"]);
 			$this->setActive($rec["active"]);
 		}
+		else		// no record? create one
+		{
+			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
+				" VALUES (".$ilDB->quote($this->getComponentType()).",".
+				$ilDB->quote($this->getComponentName()).",".
+				$ilDB->quote($this->getSlotId()).",".
+				$ilDB->quote($this->getPluginName()).")";
+			$ilDB->query($q);
+		}
 		
+		// get id
+		$this->setId($ilPluginAdmin->getId($this->getComponentType(),
+			$this->getComponentName(),
+			$this->getSlotId(),
+			$this->getPluginName()));
+		
+		// get version
+		$this->setVersion($ilPluginAdmin->getVersion($this->getComponentType(),
+			$this->getComponentName(),
+			$this->getSlotId(),
+			$this->getPluginName()));
+			
+		// get ilias min version
+		$this->setIliasMinVersion($ilPluginAdmin->getIliasMinVersion($this->getComponentType(),
+			$this->getComponentName(),
+			$this->getSlotId(),
+			$this->getPluginName()));
+
+		// get ilias max version
+		$this->setIliasMaxVersion($ilPluginAdmin->getIliasMaxVersion($this->getComponentType(),
+			$this->getComponentName(),
+			$this->getSlotId(),
+			$this->getPluginName()));
+
 		// get slot object
 		$this->setSlotObject(new ilPluginSlot($this->getComponentType(),
 			$this->getComponentName(), $this->getSlotId()));
@@ -543,7 +572,7 @@ abstract class ilPlugin
 		global $lng;
 		
 		// check whether current version has been successfully run its update
-		if ($this->getLastUpdateVersion() != $this->getCurrentVersion())
+		if ($this->getLastUpdateVersion() != $this->getVersion())
 		{
 			return $lng->txt("cmps_plugin_needs_update");
 		}
@@ -577,11 +606,12 @@ abstract class ilPlugin
 		$result = true;
 		
 		// check whether current version has been successfully run its update
-		if ($this->getLastUpdateVersion() != $this->getCurrentVersion() ||
-			$this->getCurrentVersion() != $this->getCodeVersion())
+		if ($this->getLastUpdateVersion() != $this->getVersion())
 		{
 			$result = $lng->txt("cmps_plugin_needs_update");
 		}
+		
+		// todo: check ilias version requirements
 
 		// check general activation
 		if ($result === true)
@@ -595,20 +625,12 @@ abstract class ilPlugin
 		return $result;
 	}
 	
-	
-	/**
-	* Get version of code. Must be overwritten by plugin
-	* and return the same value as in plugin.xml.
-	*/
-	abstract protected function getCodeVersion();
-	
 	/**
 	* Check whether update is needed.
 	*/
 	public final function needsUpdate()
 	{
-		if ($this->getLastUpdateVersion() != $this->getCurrentVersion() ||
-			$this->getCurrentVersion() != $this->getCodeVersion())
+		if ($this->getLastUpdateVersion() != $this->getVersion())
 		{
 			return true;
 		}
@@ -637,7 +659,7 @@ abstract class ilPlugin
 		global $lng;
 		
 		$l = $this->getLastUpdateVersion();
-		$c = $this->getCurrentVersion();
+		$c = $this->getVersion();
 		
 		$lver = ilComponent::checkVersionNumber($l);
 		if (!is_array($lver))
@@ -681,12 +703,6 @@ abstract class ilPlugin
 		
 		$result = true;
 
-		// first: load xml information
-		if (!$this->loadPluginXmlInformation())
-		{
-			return $lng->txt("cmps_could_not_load_plugin_xml_file");
-		}
-		
 		// check whether update is necessary
 		if ($this->needsUpdate())
 		{
@@ -750,7 +766,7 @@ abstract class ilPlugin
 		// set last update version to current version
 		if ($result === true)
 		{
-			$q = "UPDATE il_plugin SET last_update_version = current_version ".
+			$q = "UPDATE il_plugin SET last_update_version = ".$ilDB->quote($this->getVersion()).
 				" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
 				" AND component_name = ".$ilDB->quote($this->getComponentName()).
 				" AND slot_id = ".$ilDB->quote($this->getSlotId()).
@@ -806,6 +822,9 @@ abstract class ilPlugin
 	*/
 	static function refreshPluginXmlInformation()
 	{
+die("ilPlugin::refreshPluginXmlInformation Deprecated.");
+		
+		
 		include_once("./Services/Component/classes/class.ilPluginSlot.php");
 		include_once("./Services/Component/classes/class.ilPluginReader.php");
 		
