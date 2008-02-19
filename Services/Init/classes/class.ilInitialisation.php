@@ -886,6 +886,11 @@ class ilInitialisation
 		// $ilDB initialisation
 		$this->initDatabase();
 
+		// init plugin admin class
+		include_once("./Services/Component/classes/class.ilPluginAdmin.php");
+		$ilPluginAdmin = new ilPluginAdmin();
+		$GLOBALS['ilPluginAdmin'] = $ilPluginAdmin;
+
 		// set session handler
 		$this->setSessionHandler();
 
@@ -1250,6 +1255,11 @@ class ilInitialisation
 
 		// $ilDB initialisation
 		$this->initDatabase();
+		
+		// init plugin admin class
+		include_once("./Services/Component/classes/class.ilPluginAdmin.php");
+		$ilPluginAdmin = new ilPluginAdmin();
+		$GLOBALS['ilPluginAdmin'] = $ilPluginAdmin;
 
 		// $ilObjDataCache initialisation
 		$ilObjDataCache = new ilObjectDataCache();

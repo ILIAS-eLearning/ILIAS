@@ -322,6 +322,7 @@ cmps#:#cmps_show_details#:#Show Details
 cmps#:#cmps_plugin_slot#:#Plugin Slot
 cmps#:#cmps_component#:#Component
 cmps#:#cmps_lang_prefix#:#Language Variables Prefix
+cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes
 cmps#:#cmps_disable_creation#:#Disable Creation
 cmps#:#cmps_rep_object#:#Repository Object Type
 cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List

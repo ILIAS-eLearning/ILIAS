@@ -218,23 +218,23 @@ class ilPluginsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_PLUGIN_NAME", $lng->txt("cmps_name"));
 		$this->tpl->setVariable("TXT_PLUGIN_ID", $lng->txt("cmps_id"));
 		$this->tpl->setVariable("TXT_PLUGIN_VERSION", $lng->txt("cmps_version"));
-		$this->tpl->setVariable("TXT_XML_FILE", "plugin.xml");
+		$this->tpl->setVariable("TXT_PHP_FILE", "plugin.php");
 		$this->tpl->setVariable("TXT_CLASS_FILE", $lng->txt("cmps_class_file"));
 		$this->tpl->setVariable("VAL_CLASS_FILE", $a_set["class_file"]);
 		$this->tpl->setVariable("TXT_VERSION", $lng->txt("cmps_version"));
-		$this->tpl->setVariable("VAL_PLUGIN_VERSION", $a_set["current_version"]);
+		$this->tpl->setVariable("VAL_PLUGIN_VERSION", $a_set["version"]);
 		$this->tpl->setVariable("TXT_ILIAS_MIN", $lng->txt("cmps_ilias_min_version"));
 		$this->tpl->setVariable("VAL_ILIAS_MIN", $a_set["ilias_min_version"]);
 		$this->tpl->setVariable("TXT_ILIAS_MAX", $lng->txt("cmps_ilias_max_version"));
 		$this->tpl->setVariable("VAL_ILIAS_MAX", $a_set["ilias_max_version"]);
 		
-		if ($a_set["xml_file_status"])
+		if ($a_set["plugin_php_file_status"])
 		{
-			$this->tpl->setVariable("VAL_XML_FILE_STATUS", $lng->txt("cmps_available"));
+			$this->tpl->setVariable("VAL_PLUGIN_PHP_FILE_STATUS", $lng->txt("cmps_available"));
 		}
 		else
 		{
-			$this->tpl->setVariable("VAL_XML_FILE_STATUS", $lng->txt("cmps_missing"));
+			$this->tpl->setVariable("VAL_PLUGIN_PHP_FILE_STATUS", $lng->txt("cmps_missing"));
 		}
 		if ($a_set["class_file_status"])
 		{
