@@ -296,6 +296,29 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Activate a plugin.
+	*/
+	function updatePlugin()
+	{
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
+			
+		$result = $pl->update();
+		
+		if ($result !== true)
+		{
+			ilUtil::sendInfo($result);
+		}
+		else
+		{
+			ilUtil::sendInfo($pl->message);
+		}
+			
+		$this->showPluginSlot();
+	}
+
+	/**
 	* Deactivate a plugin.
 	*/
 	function deactivatePlugin()
@@ -332,6 +355,37 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			
 		$this->showPluginSlot();
 	}
+
+	/**
+	* Update plugin DB
+	*/
+	function updatePluginDB()
+	{
+		global $ilDB;
+		
+		include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
+		$dbupdate = new ilPluginDBUpdate($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"], $ilDB, true);
+			
+		$dbupdate->applyUpdate();
+		
+		if ($dbupdate->updateMsg == "no_changes")
+		{
+			$message = $this->lng->txt("no_changes").". ".$this->lng->txt("database_is_uptodate");
+		}
+		else
+		{
+			foreach ($dbupdate->updateMsg as $row)
+			{
+				$message .= $this->lng->txt($row["msg"]).": ".$row["nr"]."<br/>";
+			}
+		}
+
+		ilUtil::sendInfo($message);
+
+		$this->showPluginSlot();
+	}
+
 
 }
 ?>

@@ -80,7 +80,59 @@ class ilPluginsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilDB;
+		
+		$ilCtrl->setParameter($this->parent_obj, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this->parent_obj, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this->parent_obj, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->setParameter($this->parent_obj, "pname", $a_set["name"]);
+		
+		// dbupdate
+		$file = ilPlugin::getDBUpdateScriptName($_GET["ctype"], $_GET["cname"],
+			ilPluginSlot::lookupSlotName($_GET["ctype"], $_GET["cname"], $_GET["slot_id"]),
+			$a_set["name"]);
+
+		if (@is_file($file))
+		{
+			include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
+			$dbupdate = new ilPluginDBUpdate($_GET["ctype"], $_GET["cname"],
+				$_GET["slot_id"], $a_set["name"], $ilDB, true);
+
+			// update command
+			if ($dbupdate->getFileVersion() > $dbupdate->getCurrentVersion())
+			{
+				$this->tpl->setCurrentBlock("db_update_cmd");
+				$this->tpl->setVariable("TXT_UPDATE_DB",
+					$lng->txt("cmps_update_db"));
+				$this->tpl->setVariable("HREF_UPDATE_DB",
+					$ilCtrl->getLinkTarget($this->parent_obj, "updatePluginDB"));
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// db version
+			$this->tpl->setCurrentBlock("db_versions");
+			$this->tpl->setVariable("TXT_CURRENT_VERSION",
+				$lng->txt("cmps_current_version"));
+			$this->tpl->setVariable("VAL_CURRENT_VERSION",
+				$dbupdate->getCurrentVersion());
+			$this->tpl->setVariable("TXT_FILE_VERSION",
+				$lng->txt("cmps_file_version"));
+			$this->tpl->setVariable("VAL_FILE_VERSION",
+				$dbupdate->getFileVersion());
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("db_update");
+			$this->tpl->setVariable("DB_UPDATE_FILE",
+				"dbupdate.php");
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("db_update");
+			$this->tpl->setVariable("DB_UPDATE_FILE",
+				$lng->txt("cmps_no_db_update_file_available"));
+		}
+		$this->tpl->parseCurrentBlock();
+		
 		
 		// language files
 		$langs = ilPlugin::getAvailableLangFiles($this->slot->getPluginsDirectory()."/".
@@ -100,11 +152,6 @@ class ilPluginsTableGUI extends ilTable2GUI
 				$lang["file"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		$ilCtrl->setParameter($this->parent_obj, "ctype", $_GET["ctype"]);
-		$ilCtrl->setParameter($this->parent_obj, "cname", $_GET["cname"]);
-		$ilCtrl->setParameter($this->parent_obj, "slot_id", $_GET["slot_id"]);
-		$ilCtrl->setParameter($this->parent_obj, "pname", $a_set["name"]);
 		
 		// if activation flag is not set, we know, that plugin is definitely
 		// deactivated

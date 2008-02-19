@@ -60,6 +60,23 @@
 <!-- END refresh_langs -->
 </td>
 <td class="std" valign="top">
-<div class="small">{VAL_DB_UPDATE_STATUS}</div>
+<!-- BEGIN db_update -->
+<div class="small">{DB_UPDATE_FILE}</div>
+<!-- BEGIN db_versions -->
+<div style="margin-top:2px;" class="small">
+<b>{TXT_CURRENT_VERSION}</b><br />
+{VAL_CURRENT_VERSION}
+</div>
+<div style="margin-top:2px;" class="small">
+<b>{TXT_FILE_VERSION}</b><br />
+{VAL_FILE_VERSION}
+</div>
+<!-- END db_versions -->
+<!-- BEGIN db_update_cmd -->
+<div style="margin-top:2px;" class="small">
+<a href="{HREF_UPDATE_DB}">{TXT_UPDATE_DB}</a>
+</div>
+<!-- END db_update_cmd -->
+<!-- END db_update -->
 </td>
 </tr>

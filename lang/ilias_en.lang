@@ -303,11 +303,15 @@ assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
 common#:#obj_cmps#:#Modules, Services and Plugins
 cmps#:#cmps_group#:#Group
+cmps#:#cmps_current_version#:#Current Version
+cmps#:#cmps_file_version#:#Update File Version
 cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information
 cmps#:#cmps_module#:#Module
 cmps#:#cmps_no_language_file_available#:#No language file available.
+cmps#:#cmps_no_db_update_file_available#:#No DB update script available.
 cmps#:#cmps_version#:#Version
 cmps#:#cmps_update#:#Update
+cmps#:#cmps_update_db#:#Update DB
 cmps#:#cmps_refresh#:#Refresh
 cmps#:#cmps_activate#:#Activate
 cmps#:#cmps_deactivate#:#Deactivate
