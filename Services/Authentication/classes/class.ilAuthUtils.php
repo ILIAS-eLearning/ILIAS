@@ -103,7 +103,7 @@ class ilAuthUtils
 			if ($_POST['username'] != '' and $_POST['password'] != '')
 			{
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
-				
+
 				if ($user_auth_mode == AUTH_CAS && $ilSetting->get("cas_allow_local"))
 				{
 					$user_auth_mode = AUTH_LOCAL;
@@ -176,7 +176,7 @@ class ilAuthUtils
 			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
 		}
 		// check CAS authentication
-		else if ($ilSetting->get("cas_active"))
+		else if ($ilSetting->get("cas_active") && $_POST['username'] == '')
 		{
 			include_once("Services/CAS/classes/class.ilCASAuth.php");
 			
