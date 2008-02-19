@@ -83,7 +83,7 @@ class ilDBUpdate
 
 		$this->current_file = $updatefile;
 		$this->DB_UPDATE_FILE = $this->PATH."setup/sql/".$updatefile;
-
+		
 		//
 		// NOTE: IF YOU SET THIS TO THE NEWEST FILE, CHANGE ALSO getFileForStep()
 		//
@@ -91,7 +91,7 @@ class ilDBUpdate
    
 		$this->readDBUpdateFile();
 		$this->readLastUpdateFile();
-		$this->getFileVersion();
+		$this->readFileVersion();
 	}
 	
 	/**
@@ -140,7 +140,7 @@ class ilDBUpdate
 		if (!file_exists($this->LAST_UPDATE_FILE))
 		{
 			$this->error = "no_last_update_file";
-			$this->filecontent = array();
+			$this->lastfilecontent = array();
 			return false;
 		}
 		
@@ -175,7 +175,7 @@ class ilDBUpdate
 		return true;
 	}
 
-	function getFileVersion()
+	function readFileVersion()
 	{
 		//go through filecontent and search for last occurence of <#x>
 		reset($this->lastfilecontent);
@@ -190,6 +190,14 @@ class ilDBUpdate
 
 		$this->fileVersion = (integer) $version;
 		return $this->fileVersion; 
+	}
+	
+	/**
+	* Get Version of file
+	*/
+	function getFileVersion()
+	{
+		return $this->fileVersion;
 	}
 	
 	/**

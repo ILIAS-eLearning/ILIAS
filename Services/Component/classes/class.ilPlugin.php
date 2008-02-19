@@ -359,7 +359,7 @@ abstract class ilPlugin
 	*
 	* @return	string		DB Update script name
 	*/
-	static protected final function getDBUpdateScriptName($a_ctype, $a_cname, $a_slot_name, $a_pname)
+	static public final function getDBUpdateScriptName($a_ctype, $a_cname, $a_slot_name, $a_pname)
 	{
 		return "Customizing/global/plugins/".$a_ctype."/".$a_cname."/".
 			$a_slot_name."/".$a_pname."/sql/dbupdate.php";
@@ -412,7 +412,7 @@ abstract class ilPlugin
 	*/
 	function updateDatabase()
 	{
-		global $ilDB;
+		global $ilDB, $lng;
 		
 		include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
 		$dbupdate = new ilPluginDBUpdate($this->getComponentType(),
@@ -422,19 +422,21 @@ abstract class ilPlugin
 		//$dbupdate->getDBVersionStatus();
 		//$dbupdate->getCurrentVersion();
 		
-		//$dbupdate->applyUpdate();
+		$dbupdate->applyUpdate();
 		
 		if ($dbupdate->updateMsg == "no_changes")
 		{
-			$message = $this->lng->txt("no_changes").". ".$this->lng->txt("database_is_uptodate");
+			$message = $lng->txt("no_changes").". ".$lng->txt("database_is_uptodate");
 		}
 		else
 		{
 			foreach ($dbupdate->updateMsg as $row)
 			{
-				$message .= $this->lng->txt($row["msg"]).": ".$row["nr"]."<br/>";
+				$message .= $lng->txt($row["msg"]).": ".$row["nr"]."<br/>";
 			}
 		}
+		
+		$this->message.= $message;
 	}
 	
 	/**
@@ -775,7 +777,6 @@ abstract class ilPlugin
 		include_once("./Services/Component/classes/class.ilPluginSlot.php");
 		$slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 		
-//echo "1-$pname-";
 		// this check is done due to security reasons
 		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
 			$ilDB->quote($a_ctype)." AND name = ".$ilDB->quote($a_cname));
