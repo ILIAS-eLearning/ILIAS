@@ -3473,3 +3473,6 @@ CREATE TABLE IF NOT EXISTS `cal_recurrence_rules` (
 ALTER TABLE `cal_recurrence_rules`
   ADD CONSTRAINT `cal_recurrence_rules_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal_entries` (`cal_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+<#1174>
+ALTER TABLE il_plugin ADD COLUMN db_version INT NOT NULL DEFAULT 0;
+

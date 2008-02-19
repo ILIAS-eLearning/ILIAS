@@ -234,6 +234,47 @@ abstract class ilPlugin
 	}
 	
 	/**
+	* Set DB Version.
+	*
+	* @param	int	$a_dbversion	DB Version
+	*/
+	final function setDBVersion($a_dbversion)
+	{
+		$this->dbversion = $a_dbversion;
+	}
+
+	/**
+	* Get DB Version.
+	*
+	* @return	int	DB Version
+	*/
+	final function getDBVersion()
+	{
+		return $this->dbversion;
+	}
+
+	/**
+	* Write DB version to database 
+	*
+	* @param	int	$a_dbversion	DB Version
+	*/
+	final function writeDBVersion($a_dbversion)
+	{
+		global $ilDB;
+		
+		$this->setDBVersion($a_dbversion);
+		
+		$q = "UPDATE il_plugin SET db_version = ".$ilDB->quote($this->getDBVersion()).
+			" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
+			" AND component_name = ".$ilDB->quote($this->getComponentName()).
+			" AND slot_id = ".$ilDB->quote($this->getSlotId()).
+			" AND name = ".$ilDB->quote($this->getPluginName());
+
+		$ilDB->query($q);
+	}
+
+	
+	/**
 	* Get Plugin Directory
 	*
 	* @return	object	Plugin Slot
@@ -306,11 +347,30 @@ abstract class ilPlugin
 	}
 	
 	/**
-	* Get plugin prefix, used for lang vars and db tables.
+	* Get plugin prefix, used for lang vars
 	*/
 	final function getPrefix()
 	{
 		return $this->getSlotObject()->getPrefix()."_".$this->getId();
+	}
+
+	/**
+	* Get DB update script filename (full path)
+	*
+	* @return	string		DB Update script name
+	*/
+	static protected final function getDBUpdateScriptName($a_ctype, $a_cname, $a_slot_name, $a_pname)
+	{
+		return "Customizing/global/plugins/".$a_ctype."/".$a_cname."/".
+			$a_slot_name."/".$a_pname."/sql/dbupdate.php";
+	}
+
+	/**
+	* Get db table plugin prefix
+	*/
+	final function getTablePrefix()
+	{
+		return "il_".$this->getPrefix();
 	}
 	
 	/**
@@ -344,6 +404,36 @@ abstract class ilPlugin
 
 			ilObjLanguage::replaceLangModule($lang["key"], $prefix,
 				$lang_array);
+		}
+	}
+	
+	/**
+	* Update database
+	*/
+	function updateDatabase()
+	{
+		global $ilDB;
+		
+		include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
+		$dbupdate = new ilPluginDBUpdate($this->getComponentType(),
+			$this->getComponentName(), $this->getSlotId(),
+			$this->getPluginName(), $ilDB, true);
+		
+		//$dbupdate->getDBVersionStatus();
+		//$dbupdate->getCurrentVersion();
+		
+		//$dbupdate->applyUpdate();
+		
+		if ($dbupdate->updateMsg == "no_changes")
+		{
+			$message = $this->lng->txt("no_changes").". ".$this->lng->txt("database_is_uptodate");
+		}
+		else
+		{
+			foreach ($dbupdate->updateMsg as $row)
+			{
+				$message .= $this->lng->txt($row["msg"]).": ".$row["nr"]."<br/>";
+			}
 		}
 	}
 	
@@ -388,6 +478,7 @@ abstract class ilPlugin
 			$this->setCurrentVersion($rec["current_version"]);
 			$this->setIliasMinVersion($rec["ilias_min_version"]);
 			$this->setIliasMaxVersion($rec["ilias_max_version"]);
+			$this->setDBVersion($rec["db_version"]);
 			$this->setActive($rec["active"]);
 		}
 		
@@ -649,6 +740,7 @@ abstract class ilPlugin
 		$result = true;
 		
 		// DB update
+		$this->updateDatabase();
 		
 		// load language files
 		$this->updateLanguages();
