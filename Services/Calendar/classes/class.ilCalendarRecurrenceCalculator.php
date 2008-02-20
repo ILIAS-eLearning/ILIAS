@@ -63,13 +63,20 @@ class ilCalendarRecurrenceCalculator
 	 */
 	public function calculateDateList(ilDateTime $start,ilDateTime $end,$a_limit = -1)
 	{
-	 	$res = new ilDateList($this->event->isFullday() ? ilDateList::TYPE_DATE : ilDateList::TYPE_DATETIME);
+	 	$res = $this->initDateList();
 	 	
 	 	// optimize starting time if recurrence has no "count"
-	 	if($this->recurrence->getFrequenceUntilCount() > 1)
+	 	if($this->recurrence->getFrequenceUntilCount() < 1)
 	 	{
 	 		$start = $this->adjustStartingTime($start);
 	 	}
+	 	if(!ilDateTime::_before($start,$end))
+	 	{
+	 		return $res;
+	 	}
+	 	$res->add($start);
+	 	$res = $this->applyBYMONTHRules($res);
+	 	return $res;
 	}
 	
 	/**
@@ -103,6 +110,41 @@ class ilCalendarRecurrenceCalculator
 			}
 		}
 		return new ilDateTime($res_unix,ilDateTime::FORMAT_UNIX);
+	}
+	
+	/**
+	 * Apply BYMONTH rules
+	 *
+	 * @access protected
+	 */
+	protected function applyBYMONTHRules(ilDateList $list)
+	{
+		// return unmodified, if no bymonth rules are available
+		if(!$this->recurrence->getBYMONTHList())
+		{
+			return $list;
+		}
+		$month_list = $this->initDateList();
+		foreach($list->get() as $date)
+		{
+			foreach($this->recurrence->getBYMONTHList() as $month)
+			{
+				$month_date = new ilDateTime($date->get(ilDateTime::FORMAT_UNIX),ilDateTime::FORMAT_UNIX);
+				$month_date->increment(ilDateTime::MONTH,-($date->get(ilDateTime::FORMAT_FKT_DATE,'g') - $month));
+				$month_list->add($month_date);
+			}
+		}
+		return $month_list;
+	}
+	
+	/**
+	 * init date list
+	 *
+	 * @access protected
+	 */
+	protected function initDateList()
+	{
+	 	return new ilDateList($this->event->isFullday() ? ilDateList::TYPE_DATE : ilDateList::TYPE_DATETIME);
 	}
 }
 
