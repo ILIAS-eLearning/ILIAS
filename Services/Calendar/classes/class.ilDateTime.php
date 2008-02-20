@@ -35,6 +35,11 @@ include_once('Services/Calendar/classes/class.ilTimeZone.php');
 
 class ilDateTime
 {
+	const YEAR = 'year';
+	const MONTH = 'month';
+	const WEEK = 'week';
+	const DAY = 'day';
+	
 	const FORMAT_DATETIME = 1;
 	const FORMAT_DATE = 2;
 	const FORMAT_UNIX = 3;
@@ -86,6 +91,81 @@ class ilDateTime
 	}
 	
 	/**
+	 * compare two dates and check start is before end 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param object ilDateTime
+	 * @param object ilDateTime
+	 * @return bool 
+	 */
+	public static function _before(ilDateTime $start,ilDateTime $end)
+	{
+		return $start->get(self::FORMAT_UNIX) < $end->get(self::FORMAT_UNIX);
+	}
+	
+	/**
+	 * increment date
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int unix time
+	 * @param int type DATE,YEAR,MONTH or WEEK
+	 * @param int count
+	 */
+	public static function _increment($unix_start,$a_type,$a_count = 1)
+	{
+		$count_str = $a_count > 0 ? ('+'.$a_count.' ') : ('-'.$a_count.' ');
+
+		switch($a_type)
+		{
+			case self::YEAR:
+				return strtotime($count_str.'year',$unix_start);
+				
+			case self::MONTH:
+				return strtotime($count_str.'month',$unix_start);
+								
+			case self::WEEK:
+				return strtotime($count_str.'week',$unix_start);
+				
+			case self::DAY:
+				return strtotime($count_str.'day',$unix_start);
+		}
+	}
+	
+	/**
+	 * increment
+	 *
+	 * @access public
+	 * @param int type
+	 * @param int count
+	 * 
+	 */
+	public function increment($a_type,$a_count = 1)
+	{
+		$count_str = $a_count > 0 ? ('+'.$a_count.' ') : ('-'.$a_count.' ');
+
+		switch($a_type)
+		{
+			case self::YEAR:
+				return $this->unix = strtotime($count_str.'year',$this->unix);
+				
+			case self::MONTH:
+				return $this->unix = strtotime($count_str.'month',$this->unix);
+				
+			case self::WEEK:
+				return $this->unix = strtotime($count_str.'week',$this->unix);
+				
+			case self::DAY:
+				return $this->unix = strtotime($count_str.'day',$this->unix);
+				
+		}
+	 	
+	}
+	
+	/**
 	 * get unix time
 	 *
 	 * @access public
@@ -127,12 +207,12 @@ class ilDateTime
 				
 			case self::FORMAT_DATETIME:
 				
-				if(preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2}))$/i',$a_date,$d_parts) === false)
+				if(preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts) === false)
 				{
 					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
 					throw new ilDateTimeException('Cannot parse date.');
-					return false;
 				}
+				
 				$this->timezone->switchTZ();
 				$this->unix = mktime(
 					isset($d_parts[5]) ? $d_parts[5] : 0, 

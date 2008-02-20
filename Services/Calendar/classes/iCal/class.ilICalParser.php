@@ -194,7 +194,6 @@ class ilICalParser
 				if($tzid = $this->getContainer()->getItemsByName('TZID'))
 				{
 					$this->default_timezone = $this->getTZ($tzid[0]->getValue());
-					$this->switchTZ($this->default_timezone);
 				} 
 				$this->dropContainer();
 				break;
