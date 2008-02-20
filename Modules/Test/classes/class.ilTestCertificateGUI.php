@@ -480,6 +480,13 @@ class ilTestCertificateGUI
 		$this->tpl->setVariable("PH_RESULT_PASSED", $this->lng->txt("certificate_ph_passed"));
 		$this->tpl->setVariable("PH_RESULT_POINTS", $this->lng->txt("certificate_ph_resultpoints"));
 		$this->tpl->setVariable("PH_RESULT_PERCENT", $this->lng->txt("certificate_ph_resultpercent"));
+		$this->tpl->setVariable("PH_USER_TITLE", $this->lng->txt("certificate_ph_title"));
+		$this->tpl->setVariable("PH_USER_STREET", $this->lng->txt("certificate_ph_street"));
+		$this->tpl->setVariable("PH_USER_INSTITUTION", $this->lng->txt("certificate_ph_institution"));
+		$this->tpl->setVariable("PH_USER_DEPARTMENT", $this->lng->txt("certificate_ph_department"));
+		$this->tpl->setVariable("PH_USER_CITY", $this->lng->txt("certificate_ph_city"));
+		$this->tpl->setVariable("PH_USER_ZIPCODE", $this->lng->txt("certificate_ph_zipcode"));
+		$this->tpl->setVariable("PH_USER_COUNTRY", $this->lng->txt("certificate_ph_country"));
 		$this->tpl->setVariable("PH_MAX_POINTS", $this->lng->txt("certificate_ph_maxpoints"));
 		$this->tpl->setVariable("PH_RESULT_MARK_SHORT", $this->lng->txt("certificate_ph_markshort"));
 		$this->tpl->setVariable("PH_RESULT_MARK_LONG", $this->lng->txt("certificate_ph_marklong"));

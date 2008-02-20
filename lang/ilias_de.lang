@@ -264,6 +264,20 @@ assessment#:#certificate_var_result_points#:#38
 assessment#:#certificate_var_user_firstname#:#Erika
 assessment#:#certificate_var_user_fullname#:#Erika Mustermann
 assessment#:#certificate_var_user_lastname#:#Mustermann
+assessment#:#certificate_var_user_title#:#Dr.
+assessment#:#certificate_var_user_institution#:#ILIAS Open Source
+assessment#:#certificate_var_user_department#:#Benutzerbetreuung
+assessment#:#certificate_var_user_street#:#Heidestraße 17
+assessment#:#certificate_var_user_city#:#Köln
+assessment#:#certificate_var_user_zipcode#:#51147
+assessment#:#certificate_var_user_country#:#Deutschland
+assessment#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_institution#:#Institution des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_department#:#Abteilung des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
 assessment#:#certificate_visibility_always#:#Immer sichtbar
 assessment#:#certificate_visibility_introduction#:#Die Schaltfläche, die den Teilnehmern und Teilnehmerinnen in der Ergebnisansicht das Zertifikat anbietet ist
 assessment#:#certificate_visibility_never#:#Nicht sichtbar

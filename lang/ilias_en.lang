@@ -247,6 +247,13 @@ assessment#:#certificate_text#:#Certificate Text
 assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
 assessment#:#certificate_var_user_firstname#:#Jane
 assessment#:#certificate_var_user_lastname#:#Doe
+assessment#:#certificate_var_user_title#:#Dr.
+assessment#:#certificate_var_user_institution#:#ILIAS Open Source
+assessment#:#certificate_var_user_department#:#Customer Support
+assessment#:#certificate_var_user_street#:#100 Main Street
+assessment#:#certificate_var_user_city#:#Anytown, NY
+assessment#:#certificate_var_user_zipcode#:#12345
+assessment#:#certificate_var_user_country#:#USA
 assessment#:#certificate_var_result_passed#:#passed
 assessment#:#certificate_var_result_points#:#38
 assessment#:#certificate_var_result_percent#:#83%
@@ -273,6 +280,13 @@ assessment#:#certificate_ph_marklong#:#Users mark (official version)
 assessment#:#certificate_ph_testtitle#:#Title of the test
 assessment#:#certificate_ph_date#:#Actual date
 assessment#:#certificate_ph_datetime#:#Actual date and time
+assessment#:#certificate_ph_title#:#Title of the user
+assessment#:#certificate_ph_institution#:#Institution of the user
+assessment#:#certificate_ph_department#:#Department of the user
+assessment#:#certificate_ph_street#:#Street of the user's address
+assessment#:#certificate_ph_city#:#City of the user's address
+assessment#:#certificate_ph_zipcode#:#ZIP code of the user's address
+assessment#:#certificate_ph_country#:#Country of the user's address
 assessment#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 assessment#:#certificate_visibility#:#Visibility
 assessment#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
