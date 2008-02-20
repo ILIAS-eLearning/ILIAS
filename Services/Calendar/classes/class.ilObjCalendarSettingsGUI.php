@@ -104,8 +104,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		
-		
 		global $rbacsystem, $ilAccess;
 
 		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
@@ -128,36 +126,45 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 	*/
 	public function settings()
 	{
-		/*
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
-		$time = microtime(true);
-		try
-		{
-			for($i = 0;$i < 2;$i++)
-			{
-				#if($i % 2 or 1)
-				if($i %2)
-				{
-					$date = new ilDateTime('2007-02-29',ilDateTime::FORMAT_DATE,'Asia/Katmandu');
-					$unix = $date->getUnixTime();
-					echo 'Date: '.date('Y-m-d H:i:s',$unix).'<br />';
-				}
-				else
-				{
-					$date = new ilDateTime('2007-02-29 12:00:00',ilDateTime::FORMAT_DATETIME,'Europe/Berlin');
-					$unix = $date->getUnixTime();
-					echo 'DateTime: '.date('Y-m-d H:i:s',$unix).'<br />';
-				}
-			}
-			echo microtime(true) -$time;
-		}
-		catch(ilDateTimeException $e)
-		{
-			var_dump("<pre>",$e->getMessage(),"</pre>");
-		}
-		*/
+		include_once('./Services/Calendar/classes/iCal/class.ilICalParser.php');
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
+		
+		/*
+		$calc = new ilCalendarRecurrenceCalculator(
+			new ilCalendarEntry(1061),
+			new ilCalendarRecurrence(72));
 
+		$list = $calc->calculateDateList(
+				new ilDateTime('2030-10-10',ilDateTime::FORMAT_DATE),
+				new ilDateTime('2030-12-10',ilDateTime::FORMAT_DATE));
+			
+		echo (string) $list;
+		*/
+		/*
+		$parser = new ilICalParser('./data/Parser.ics',ilICalParser::INPUT_FILE);
+		#$parser = new ilICalParser('./Feiertage.ics',ilICalParser::INPUT_FILE);
+		$parser->parse();
+		$entry = new ilCalendarEntry(927);
+		
+		$timezone = "US/Alaska";
+		echo $entry->getTitle().'<br>';
+		echo $entry->getStart()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
+		echo $entry->getStart()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
+		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
+		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
+
+		$entry = new ilCalendarEntry(928);
+		echo $entry->getTitle().'<br>';
+		echo $entry->getStart()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
+		echo $entry->getStart()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
+		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
+		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
+		*/
 		$this->tabs_gui->setTabActive('settings');
 		$this->initFormSettings();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.settings.html','Services/Calendar');
