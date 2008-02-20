@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilDateTime.php');
+include_once('./Services/Calendar/classes/class.ilDate.php');
 
 /** 
 * Model of calendar entry recurrcences
@@ -81,6 +81,7 @@ class ilCalendarRecurrence
 	 		$this->read();
 	 	}
 	}
+	
 	
 	/**
 	 * set cal id
