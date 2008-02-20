@@ -145,7 +145,7 @@ class ilDateTime
 	 */
 	public function increment($a_type,$a_count = 1)
 	{
-		$count_str = $a_count > 0 ? ('+'.$a_count.' ') : ('-'.$a_count.' ');
+		$count_str = $a_count > 0 ? ('+'.$a_count.' ') : ($a_count.' ');
 
 		switch($a_type)
 		{
@@ -290,6 +290,18 @@ class ilDateTime
 				break;	
 	 	}
 		return $date;
+	}
+	
+	/**
+	 * to string
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function __toString()
+	{
+		return $this->get(self::FORMAT_DATETIME);
 	}
 }
 ?>

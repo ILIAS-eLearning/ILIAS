@@ -235,6 +235,24 @@ class ilCalendarRecurrence
 	}
 	
 	/**
+	 * get BYDAY list
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getBYDAYList()
+	{
+		if(!trim($this->getBYDAY()))
+		{
+			return array();
+		}
+		foreach(explode(',',$this->getBYDAY()) as $byday)
+		{
+			
+		}
+	}
+	
+	/**
 	 * set by day
 	 *
 	 * @access public
@@ -477,7 +495,7 @@ class ilCalendarRecurrence
 	 		$this->recurrence_type = $row->cal_recurrence;
 	 		$this->freq_type = $row->freq_type;
 	 		$this->freq_until_date = new ilDateTime($row->freq_until_date,ilDateTime::FORMAT_DATETIME,'UTC');
-	 		$this->freq_until_count = $row->freq_until_date;
+	 		$this->freq_until_count = $row->freq_until_count;
 	 		$this->interval = $row->intervall;
 	 		$this->byday = $row->byday;
 	 		$this->byweekno = $row->byweekno;
