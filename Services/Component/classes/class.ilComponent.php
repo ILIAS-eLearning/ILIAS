@@ -282,6 +282,20 @@ abstract class ilComponent
 		
 		return $parts;
 	}
+
+	static final function isVersionGreaterString($a_ver1, $a_ver2)
+	{
+		$a_arr1 = ilComponent::checkVersionNumber($a_ver1);
+		$a_arr2 = ilComponent::checkVersionNumber($a_ver2);
+		if (is_array($a_arr1) && is_array($a_arr2))
+		{
+			return ilComponent::isVersionGreater($a_arr1, $a_arr2);
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
 	/**
 	* Check whether version number is greater than another version number
@@ -313,7 +327,7 @@ abstract class ilComponent
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 

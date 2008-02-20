@@ -66,9 +66,6 @@ abstract class ilEventHookPlugin extends ilPlugin
 	/**
 	* Get Slot ID.
 	*
-	* Must be overwritten in plugin class of plugin slot.
-	* (and should be made final)
-	*
 	* @return	string	Slot Id
 	*/
 	final function getSlotId()
@@ -84,13 +81,6 @@ abstract class ilEventHookPlugin extends ilPlugin
 		// nothing to do here
 	}
 
-	/**
-	* Slot check of plugin activation
-	*/
-	protected final function isActivatableSlotCheck()
-	{
-		return true;
-	}
 
 }
 ?>

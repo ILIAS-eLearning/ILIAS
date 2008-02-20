@@ -144,6 +144,7 @@ class ilPluginDBUpdate extends ilDBUpdate
 	function loadXMLInfo()
 	{
 		// to do: reload control structure information for plugin
+		return true;
 	}
 
 } // END class.DBUdate

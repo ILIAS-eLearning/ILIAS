@@ -99,7 +99,7 @@ class ilPluginsTableGUI extends ilTable2GUI
 				$_GET["slot_id"], $a_set["name"], $ilDB, true);
 
 			// update command
-			if ($dbupdate->getFileVersion() > $dbupdate->getCurrentVersion())
+/*			if ($dbupdate->getFileVersion() > $dbupdate->getCurrentVersion())
 			{
 				$this->tpl->setCurrentBlock("db_update_cmd");
 				$this->tpl->setVariable("TXT_UPDATE_DB",
@@ -108,6 +108,7 @@ class ilPluginsTableGUI extends ilTable2GUI
 					$ilCtrl->getLinkTarget($this->parent_obj, "updatePluginDB"));
 				$this->tpl->parseCurrentBlock();
 			}
+*/
 			
 			// db version
 			$this->tpl->setCurrentBlock("db_versions");
@@ -137,7 +138,6 @@ class ilPluginsTableGUI extends ilTable2GUI
 		// language files
 		$langs = ilPlugin::getAvailableLangFiles($this->slot->getPluginsDirectory()."/".
 			$a_set["name"]."/lang");
-
 		if (count($langs) == 0)
 		{
 			$this->tpl->setCurrentBlock("lang");
@@ -152,12 +152,9 @@ class ilPluginsTableGUI extends ilTable2GUI
 				$lang["file"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		// if activation flag is not set, we know, that plugin is definitely
-		// deactivated
-		$show_update_cmd = true;
 
-		if (!$a_set["active"])						// NOT ACTIVE
+		// activation button
+		if ($a_set["activation_possible"])
 		{
 			$this->tpl->setCurrentBlock("activate");
 			$this->tpl->setVariable("HREF_ACTIVATE",
@@ -166,44 +163,33 @@ class ilPluginsTableGUI extends ilTable2GUI
 				$lng->txt("cmps_activate"));
 			$this->tpl->parseCurrentBlock();
 		}
-		else	// if activation flag is set we try to instantiate the plugin object
-				// this may fail; admin must unset deactivation flag in setup then
+		
+		// deactivation/refresh languages button
+		if ($a_set["is_active"])
 		{
-			$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
-				$_GET["slot_id"], $a_set["name"]);
-				
-//echo "-".$_GET["ctype"]."-".$_GET["cname"]."-".$_GET["slot_id"]."-".$_GET["pname"]."-";
-				
-			if (!$pl->needsUpdate())					// NO UPDATE NEEDED ?
+			// deactivate button
+			$this->tpl->setCurrentBlock("deactivate");
+			$this->tpl->setVariable("HREF_DEACTIVATE",
+				$ilCtrl->getLinkTarget($this->parent_obj, "deactivatePlugin"));
+			$this->tpl->setVariable("TXT_DEACTIVATE",
+				$lng->txt("cmps_deactivate"));
+			$this->tpl->parseCurrentBlock();
+			
+			// refresh languages button
+			if (count($langs) > 0)
 			{
-				if ($pl->isActive())					// ACTIVE
-				{
-					// deactivate button
-					$this->tpl->setCurrentBlock("deactivate");
-					$this->tpl->setVariable("HREF_DEACTIVATE",
-						$ilCtrl->getLinkTarget($this->parent_obj, "deactivatePlugin"));
-					$this->tpl->setVariable("TXT_DEACTIVATE",
-						$lng->txt("cmps_deactivate"));
-					$this->tpl->parseCurrentBlock();
-					
-					// refresh languages button
-					if (count($langs) > 0)
-					{
-						$this->tpl->setCurrentBlock("refresh_langs");
-						$this->tpl->setVariable("HREF_REFRESH_LANGS",
-							$ilCtrl->getLinkTarget($this->parent_obj, "refreshLanguages"));
-						$this->tpl->setVariable("TXT_REFRESH_LANGS",
-							$lng->txt("cmps_refresh"));
-						$this->tpl->parseCurrentBlock();
-					}
-					
-				}
-				$show_update_cmd = false;
+				$this->tpl->setCurrentBlock("refresh_langs");
+				$this->tpl->setVariable("HREF_REFRESH_LANGS",
+					$ilCtrl->getLinkTarget($this->parent_obj, "refreshLanguages"));
+				$this->tpl->setVariable("TXT_REFRESH_LANGS",
+					$lng->txt("cmps_refresh"));
+				$this->tpl->parseCurrentBlock();
 			}
+			
 		}
 
-		// update
-		if ($show_update_cmd)
+		// update button
+		if ($a_set["needs_update"])
 		{
 			$this->tpl->setCurrentBlock("update");
 			$this->tpl->setVariable("HREF_UPDATE",
@@ -227,7 +213,21 @@ class ilPluginsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_ILIAS_MIN", $a_set["ilias_min_version"]);
 		$this->tpl->setVariable("TXT_ILIAS_MAX", $lng->txt("cmps_ilias_max_version"));
 		$this->tpl->setVariable("VAL_ILIAS_MAX", $a_set["ilias_max_version"]);
+		$this->tpl->setVariable("TXT_STATUS", $lng->txt("cmps_status"));
 		
+		if ($a_set["is_active"])
+		{
+			$this->tpl->setVariable("VAL_STATUS", $lng->txt("cmps_active"));
+		}
+		else
+		{
+			$r = ($a_set["inactive_reason"] != "")
+				? " (".$a_set["inactive_reason"].")"
+				: "";
+				
+			$this->tpl->setVariable("VAL_STATUS", $lng->txt("cmps_inactive").$r);
+		}
+
 		if ($a_set["plugin_php_file_status"])
 		{
 			$this->tpl->setVariable("VAL_PLUGIN_PHP_FILE_STATUS", $lng->txt("cmps_available"));

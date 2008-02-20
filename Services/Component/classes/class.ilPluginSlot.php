@@ -249,13 +249,17 @@ class ilPluginSlot
 					$plugin = ilPlugin::lookupStoredData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
 						
-					$file_data = $ilPluginAdmin->getAllData($this->getComponentType(),
+					$pdata = $ilPluginAdmin->getAllData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
 
-					$plugin["version"] = $file_data["version"];
-					$plugin["id"] = $file_data["id"];
-					$plugin["ilias_min_version"] = $file_data["ilias_min_version"];
-					$plugin["ilias_max_version"] = $file_data["ilias_max_version"];
+					$plugin["version"] = $pdata["version"];
+					$plugin["id"] = $pdata["id"];
+					$plugin["is_active"] = $pdata["is_active"];
+					$plugin["inactive_reason"] = $pdata["inactive_reason"];
+					$plugin["needs_update"] = $pdata["needs_update"];
+					$plugin["ilias_min_version"] = $pdata["ilias_min_version"];
+					$plugin["ilias_max_version"] = $pdata["ilias_max_version"];
+					$plugin["activation_possible"] = $pdata["activation_possible"];
 						
 					$plugin["name"] = $file;
 					$plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);

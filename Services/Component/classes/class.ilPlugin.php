@@ -422,8 +422,8 @@ abstract class ilPlugin
 		//$dbupdate->getDBVersionStatus();
 		//$dbupdate->getCurrentVersion();
 		
-		$dbupdate->applyUpdate();
-		
+		$result = $dbupdate->applyUpdate();
+
 		if ($dbupdate->updateMsg == "no_changes")
 		{
 			$message = $lng->txt("no_changes").". ".$lng->txt("database_is_uptodate");
@@ -437,6 +437,8 @@ abstract class ilPlugin
 		}
 		
 		$this->message.= $message;
+		
+		return $result;
 	}
 	
 	/**
@@ -460,6 +462,42 @@ abstract class ilPlugin
 	}
 
 	/**
+	* Get record from il_plugin table
+	*/
+	static final public function getPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{
+		global $ilDB;
+		
+		// read/set basic data
+		$q = "SELECT * FROM il_plugin".
+			" WHERE component_type = ".$ilDB->quote($a_ctype).
+			" AND component_name = ".$ilDB->quote($a_cname).
+			" AND slot_id = ".$ilDB->quote($a_slot_id).
+			" AND name = ".$ilDB->quote($a_pname);
+		$set = $ilDB->query($q);
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec;
+		}
+		else		// no record? create one
+		{
+			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
+				" VALUES (".$ilDB->quote($a_ctype).",".
+				$ilDB->quote($a_cname).",".
+				$ilDB->quote($a_slot_id).",".
+				$ilDB->quote($a_pname).")";
+			$ilDB->query($q);
+			$q = "SELECT * FROM il_plugin".
+				" WHERE component_type = ".$ilDB->quote($a_ctype).
+				" AND component_name = ".$ilDB->quote($a_cname).
+				" AND slot_id = ".$ilDB->quote($a_slot_id).
+				" AND name = ".$ilDB->quote($a_pname);
+			$set = $ilDB->query($q);
+			return $set->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+	}
+	
+	/**
 	* Default initialization
 	*/
 	final private function __init()
@@ -467,27 +505,11 @@ abstract class ilPlugin
 		global $ilDB, $lng, $ilPluginAdmin;
 		
 		// read/set basic data
-		$q = "SELECT * FROM il_plugin".
-			" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
-			" AND component_name = ".$ilDB->quote($this->getComponentName()).
-			" AND slot_id = ".$ilDB->quote($this->getSlotId()).
-			" AND name = ".$ilDB->quote($this->getPluginName());
-		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$this->setLastUpdateVersion($rec["last_update_version"]);
-			$this->setDBVersion($rec["db_version"]);
-			$this->setActive($rec["active"]);
-		}
-		else		// no record? create one
-		{
-			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
-				" VALUES (".$ilDB->quote($this->getComponentType()).",".
-				$ilDB->quote($this->getComponentName()).",".
-				$ilDB->quote($this->getSlotId()).",".
-				$ilDB->quote($this->getPluginName()).")";
-			$ilDB->query($q);
-		}
+		$rec = ilPlugin::getPluginRecord($this->getComponentType(),
+			$this->getComponentName(), $this->getSlotId(), $this->getPluginName());
+		$this->setLastUpdateVersion($rec["last_update_version"]);
+		$this->setDBVersion($rec["db_version"]);
+		$this->setActive($rec["active"]);
 		
 		// get id
 		$this->setId($ilPluginAdmin->getId($this->getComponentType(),
@@ -542,87 +564,14 @@ abstract class ilPlugin
 	}
 
 	/**
-	* Check possible activation
-	*/
-	final public function isActivatable()
-	{
-		// standard check
-		$result = $this->__isActivatableCheck();
-		
-		// check done by slot
-		if ($result === true)
-		{
-			$result = $this->isActivatableSlotCheck();
-		}
-
-		// check done by plugin
-		if ($result === true)
-		{
-			return $this->isActivatableCheck();
-		}
-		
-		return $result;
-	}
-	
-	/**
-	* Check possible activation (internal default checks)
-	*/
-	final private function __isActivatableCheck()
-	{
-		global $lng;
-		
-		// check whether current version has been successfully run its update
-		if ($this->getLastUpdateVersion() != $this->getVersion())
-		{
-			return $lng->txt("cmps_plugin_needs_update");
-		}
-		
-		return true;
-	}
-	
-	/**
-	* Slot check of plugin activation
-	*
-	* Must be overwritten in plugin class of plugin slot.
-	* (and should be made protected final)
-	*/
-	abstract protected function isActivatableSlotCheck();
-	
-	/**
-	* Check whether activation is possible.
-	*
-	* This must be overwritten by plugins plugin class
-	* (and should be made protected final)
-	*/
-	abstract protected function isActivatableCheck();
-
-	/**
 	* Check whether plugin is active
 	*/
 	public final function isActive()
 	{
-		global $ilSetting;
+		global $ilPluginAdmin;
 		
-		$result = true;
-		
-		// check whether current version has been successfully run its update
-		if ($this->getLastUpdateVersion() != $this->getVersion())
-		{
-			$result = $lng->txt("cmps_plugin_needs_update");
-		}
-		
-		// todo: check ilias version requirements
-
-		// check general activation
-		if ($result === true)
-		{
-			if (!$this->getActive())
-			{
-				$result = $lng->txt("cmps_plugin_is_deactivated");
-			}
-		}
-		
-		return $result;
+		return $ilPluginAdmin->isActive($this->getComponentType(),
+			$this->getComponentName(), $this->getSlotId(), $this->getPluginName());
 	}
 	
 	/**
@@ -630,68 +579,10 @@ abstract class ilPlugin
 	*/
 	public final function needsUpdate()
 	{
-		if ($this->getLastUpdateVersion() != $this->getVersion())
-		{
-			return true;
-		}
+		global $ilPluginAdmin;
 		
-		return false;
-	}
-	
-	/**
-	* Check whether update is possible
-	*/
-	public final function isUpdatePossible()
-	{
-		if (!$this->__isUpdatePossible())
-		{
-			return $this->__isUpdatePossible();
-		}
-		
-		return $this->isUpdatePossibleCheck();
-	}
-	
-	/**
-	* Default check for possible update
-	*/
-	final private function __isUpdatePossible()
-	{
-		global $lng;
-		
-		$l = $this->getLastUpdateVersion();
-		$c = $this->getVersion();
-		
-		$lver = ilComponent::checkVersionNumber($l);
-		if (!is_array($lver))
-		{
-			return $lver;
-		}
-		$cver = ilComponent::checkVersionNumber($c);
-		if (!is_array($cver))
-		{
-			return $lver;
-		}
-		
-		if (!ilComponent::isVersionGreater($cver, $lver))
-		{
-			return $lng->txt("cmps_plugin_current_code_older_than_last_updated");
-		}
-		
-		$result = $this->isUpdatePossibleCheck();
-		
-		return $result;
-	}
-	
-	/**
-	* Check whether update is possible, may be overwritten by plugins plugin class.
-	*
-	* (Must not be overwritten by slot's plugin class).
-	*
-	* (and should be made protected final)
-	*/
-	protected function isUpdatePossibleCheck()
-	{
-		return true;
+		return $ilPluginAdmin->isActive($this->getComponentType(),
+			$this->getComponentName(), $this->getSlotId(), $this->getPluginName());
 	}
 	
 	/**
@@ -758,9 +649,12 @@ abstract class ilPlugin
 		$result = true;
 		
 		// DB update
-		$this->updateDatabase();
+		if ($result === true)
+		{
+			$result = $this->updateDatabase();
+		}
 		
-		// load language files
+		// Load language files
 		$this->updateLanguages();
 		
 		// set last update version to current version
@@ -818,88 +712,9 @@ abstract class ilPlugin
 	
 	
 	/**
-	* Reload all plugins' information from plugin.xml files into db
-	*/
-	static function refreshPluginXmlInformation()
-	{
-die("ilPlugin::refreshPluginXmlInformation Deprecated.");
-		
-		
-		include_once("./Services/Component/classes/class.ilPluginSlot.php");
-		include_once("./Services/Component/classes/class.ilPluginReader.php");
-		
-		// modules
-		include_once("./Services/Component/classes/class.ilModule.php");
-		$modules = ilModule::getAvailableCoreModules();
-		foreach ($modules as $module)
-		{
-			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE, $module["subdir"]);
-			foreach($plugin_slots as $slot)
-			{
-				$slot_obj = new ilPluginSlot(IL_COMP_MODULE, $module["subdir"], $slot["id"]);
-				$plugins = $slot_obj->getPluginsInformation();
-				foreach ($plugins as $plugin)
-				{
-					$reader = new ilPluginReader($plugin["xml_file_path"], IL_COMP_MODULE,
-						$module["subdir"], $slot["id"], $plugin["name"]);
-					$reader->startParsing();
-				}
-			}
-		}
-
-		// services
-		include_once("./Services/Component/classes/class.ilService.php");
-		$services = ilService::getAvailableCoreServices();
-		foreach ($services as $service)
-		{
-			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $service["subdir"]);
-			foreach($plugin_slots as $slot)
-			{
-				$slot_obj = new ilPluginSlot(IL_COMP_SERVICE, $service["subdir"], $slot["id"]);
-				$plugins = $slot_obj->getPluginsInformation();
-				foreach ($plugins as $plugin)
-				{
-					$reader = new ilPluginReader($plugin["xml_file_path"], IL_COMP_SERVICE,
-						$service["subdir"], $slot["id"], $plugin["name"]);
-					$reader->startParsing();
-				}
-			}
-		}
-	}
-	
-	/**
-	* Load plugin information for this plugin into db
-	*
-	* 
-	*/
-	function loadPluginXmlInformation()
-	{
-		include_once("./Services/Component/classes/class.ilPluginSlot.php");
-		include_once("./Services/Component/classes/class.ilPluginReader.php");
-		
-		$slot_obj = new ilPluginSlot($this->getComponentType(),
-			$this->getComponentName(), $this->getSlotId());
-		$plugins = $slot_obj->getPluginsInformation();
-		foreach ($plugins as $plugin)
-		{
-			if ($plugin["name"] == $this->getPluginName())
-			{
-				$reader = new ilPluginReader($plugin["xml_file_path"], IL_COMP_MODULE,
-					$module["subdir"], $slot["id"], $plugin["name"]);
-				$reader->startParsing();
-				
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
-	
-	/**
 	* Lookup information data in il_plugin
 	*/
-	static function lookupStoredData($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	final static function lookupStoredData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		global $ilDB;
 		

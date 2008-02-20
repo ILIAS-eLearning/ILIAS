@@ -289,7 +289,7 @@ class ilDBUpdate
 		}
 //global $ilDB; $ilDB->query("UPDATE settings SET value='1146' WHERE keyword='db_version'");
 
-		$this->loadXMLInfo();
+		return $this->loadXMLInfo();
 	}
 	
 	function loadXMLInfo()
@@ -327,7 +327,7 @@ class ilDBUpdate
 		}
 		
 		$ilCtrlStructureReader->readStructure();
-		
+
 		return true;
 	}
 
