@@ -53,6 +53,17 @@ class ilDateList
 	}
 	
 	/**
+	 * get
+	 *
+	 * @access public
+	 * 
+	 */
+	public function get()
+	{
+	 	return $this->list ? $this->list : array();
+	}
+	
+	/**
 	 * add a date to the date list
 	 *
 	 * @access public
@@ -78,6 +89,22 @@ class ilDateList
 			unset($this->list[$unix_remove]);
 		}
 		return true;
+	}
+	
+	/**
+	 * to string
+	 *
+	 * @access public
+	 * 
+	 */
+	public function __toString()
+	{
+	 	$out = '';
+	 	foreach($this->get() as $date)
+	 	{
+	 		$out .= $date->get(ilDateTime::FORMAT_DATE).'<br/>';
+	 	}
+	 	return $out;
 	}
 }
 
