@@ -66,16 +66,14 @@ class ilCalendarRecurrenceCalculator
 	 	$res = $this->initDateList();
 	 	
 	 	// optimize starting time if recurrence has no "count"
-	 	if($this->recurrence->getFrequenceUntilCount() < 1)
-	 	{
-	 		$start = $this->adjustStartingTime($start);
-	 	}
+	 	$start = $this->adjustStartingTime($start);
 	 	if(!ilDateTime::_before($start,$end))
 	 	{
 	 		return $res;
 	 	}
 	 	$res->add($start);
 	 	$res = $this->applyBYMONTHRules($res);
+	 	$res = $this->applyBYDAYRules($res);
 	 	return $res;
 	}
 	
@@ -86,6 +84,11 @@ class ilCalendarRecurrenceCalculator
 	 */
 	protected function adjustStartingTime($start)
 	{
+	 	if($this->recurrence->getFrequenceUntilCount() > 0)
+	 	{
+			return $this->event->getStart();
+	 	}
+
 		$res_unix = $base_unix = $this->event->getStart()->get(ilDateTime::FORMAT_UNIX);
 		while($base_unix < $start->get(ilDateTime::FORMAT_UNIX))
 		{
@@ -130,11 +133,29 @@ class ilCalendarRecurrenceCalculator
 			foreach($this->recurrence->getBYMONTHList() as $month)
 			{
 				$month_date = new ilDateTime($date->get(ilDateTime::FORMAT_UNIX),ilDateTime::FORMAT_UNIX);
-				$month_date->increment(ilDateTime::MONTH,-($date->get(ilDateTime::FORMAT_FKT_DATE,'g') - $month));
+				$month_date->increment(ilDateTime::MONTH,-($date->get(ilDateTime::FORMAT_FKT_DATE,'n') - $month));
 				$month_list->add($month_date);
 			}
 		}
 		return $month_list;
+	}
+	
+	/**
+	 * Apply BYDAY rules
+	 * 
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function applyBYDAYRules(ilDateList $list)
+	{
+		// return unmodified, if no byday rules are available
+		if(!$this->recurrence->getBYDAYList())
+		{
+			return $list;
+		}
+		return $list;
+	
 	}
 	
 	/**

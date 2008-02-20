@@ -135,22 +135,24 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		
 		/*
-		$calc = new ilCalendarRecurrenceCalculator(
-			new ilCalendarEntry(1061),
-			new ilCalendarRecurrence(72));
-
-		$list = $calc->calculateDateList(
-				new ilDateTime('2030-10-10',ilDateTime::FORMAT_DATE),
-				new ilDateTime('2030-12-10',ilDateTime::FORMAT_DATE));
+		for($i = 0;$i < 1;$i++)
+		{
+			$calc = new ilCalendarRecurrenceCalculator(
+				new ilCalendarEntry(1),
+				new ilCalendarRecurrence(1));
+	
+			$list = $calc->calculateDateList(
+					new ilDateTime('2020-04-01',ilDateTime::FORMAT_DATE),
+					new ilDateTime('2020-04-31',ilDateTime::FORMAT_DATE));
 			
+		}
 		echo (string) $list;
 		*/
-		/*
-		$parser = new ilICalParser('./data/Parser.ics',ilICalParser::INPUT_FILE);
+		#$parser = new ilICalParser('./extern/Parser.ics',ilICalParser::INPUT_FILE);
 		#$parser = new ilICalParser('./Feiertage.ics',ilICalParser::INPUT_FILE);
-		$parser->parse();
-		$entry = new ilCalendarEntry(927);
-		
+		#$parser->parse();
+		#$entry = new ilCalendarEntry(927);
+		/*
 		$timezone = "US/Alaska";
 		echo $entry->getTitle().'<br>';
 		echo $entry->getStart()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
