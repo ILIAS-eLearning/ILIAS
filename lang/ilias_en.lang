@@ -318,6 +318,13 @@ cmps#:#cmps_deactivate#:#Deactivate
 cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
 cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
 cmps#:#cmps_dir#:#Directory
+cmps#:#cmps_active#:#Active
+cmps#:#cmps_inactive#:#Inactive
+cmps#:#cmps_status#:#Status
+cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.
+cmps#:#cmps_needs_update#:#Needs update.
+cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
+cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
 cmps#:#cmps_show_details#:#Show Details
 cmps#:#cmps_plugin_slot#:#Plugin Slot
 cmps#:#cmps_component#:#Component

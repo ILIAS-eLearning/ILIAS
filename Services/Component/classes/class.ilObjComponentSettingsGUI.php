@@ -268,7 +268,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	function refreshPluginsInformation()
 	{
 		global $ilCtrl;
-		
+die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		ilPlugin::refreshPluginXmlInformation();
 		
@@ -287,6 +287,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	*/
 	function activatePlugin()
 	{
+		global $ilCtrl;
+
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
@@ -298,7 +300,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			ilUtil::sendInfo($result, true);
 		}
 			
-		$this->showPluginSlot();
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->redirect($this, "showPluginSlot");
 	}
 	
 	/**
@@ -306,6 +311,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	*/
 	function updatePlugin()
 	{
+		global $ilCtrl;
+
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
@@ -314,14 +321,17 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		
 		if ($result !== true)
 		{
-			ilUtil::sendInfo($result);
+			ilUtil::sendInfo($result, true);
 		}
 		else
 		{
-			ilUtil::sendInfo($pl->message);
+			ilUtil::sendInfo($pl->message, true);
 		}
 			
-		$this->showPluginSlot();
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->redirect($this, "showPluginSlot");
 	}
 
 	/**
@@ -329,6 +339,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	*/
 	function deactivatePlugin()
 	{
+		global $ilCtrl;
+
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
@@ -340,7 +352,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			ilUtil::sendInfo($result, true);
 		}
 			
-		$this->showPluginSlot();
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->redirect($this, "showPluginSlot");
 	}
 
 	/**
@@ -348,6 +363,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	*/
 	function refreshLanguages()
 	{
+		global $ilCtrl;
+
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
@@ -359,7 +376,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			ilUtil::sendInfo($result, true);
 		}
 			
-		$this->showPluginSlot();
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->redirect($this, "showPluginSlot");
 	}
 
 	/**
@@ -387,9 +407,12 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			}
 		}
 
-		ilUtil::sendInfo($message);
+		ilUtil::sendInfo($message, true);
 
-		$this->showPluginSlot();
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->redirect($this, "showPluginSlot");
 	}
 
 
