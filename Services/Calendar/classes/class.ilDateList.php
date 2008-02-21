@@ -102,7 +102,7 @@ class ilDateList
 	 	$out = '';
 	 	foreach($this->get() as $date)
 	 	{
-	 		$out .= $date->get(ilDateTime::FORMAT_DATE).'<br/>';
+	 		$out .= $date->get(ilDateTime::FORMAT_DATETIME).'<br/>';
 	 	}
 	 	return $out;
 	}
