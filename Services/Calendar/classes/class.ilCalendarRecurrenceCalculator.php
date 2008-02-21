@@ -22,6 +22,7 @@
 */
 
 include_once('./Services/Calendar/classes/class.ilDateList.php');
+include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 
 /** 
 * Calculates an <code>ilDateList</code> for a given calendar entry and recurrence rule.
@@ -36,6 +37,12 @@ include_once('./Services/Calendar/classes/class.ilDateList.php');
 
 class ilCalendarRecurrenceCalculator
 {
+	protected $timezone = null;
+	
+	protected $valid_dates = null;
+	protected $period_start = null;
+	protected $period_end = null;
+
 	protected $event = null;
 	protected $recurrence = null;
 
@@ -61,58 +68,83 @@ class ilCalendarRecurrenceCalculator
 	 * @param int limit number of returned dates
 	 * @return object ilDateList 
 	 */
-	public function calculateDateList(ilDateTime $start,ilDateTime $end,$a_limit = -1)
+	public function calculateDateList(ilDateTime $a_start,ilDateTime $a_end,$a_limit = -1)
 	{
-	 	$res = $this->initDateList();
+	 	$this->valid_dates = $this->initDateList();
+	 	$this->period_start = $a_start;
+	 	$this->period_end = $a_end;
 	 	
-	 	// optimize starting time if recurrence has no "count"
-	 	$start = $this->adjustStartingTime($start);
-	 	if(!ilDateTime::_before($start,$end))
+	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
+	 	// TODO: fix tz
+	 	$start = $this->optimizeStartingTime();
+	 	do
 	 	{
-	 		return $res;
+		 	$freq_res = $this->initDateList();
+		 	$freq_res->add($start);
+	 		$freq_res = $this->applyBYMONTHRules($freq_res);
+	 		$freq_res = $this->applyBYDAYRules($freq_res);
+
+			$start = $this->incrementByFrequency($start);
+			if(ilDateTime::_after($start,$this->period_end))
+			{
+				break;
+			}
+			echo $freq_res;
 	 	}
-	 	$res->add($start);
-	 	$res = $this->applyBYMONTHRules($res);
-	 	$res = $this->applyBYDAYRules($res);
-	 	return $res;
+	 	while(true);
+
+	 	return $freq_res;
 	}
 	
 	/**
-	 * adjust starting time
+	 * optimize starting time
 	 *
 	 * @access protected
 	 */
-	protected function adjustStartingTime($start)
+	protected function optimizeStartingTime()
 	{
+	 	// starting time cannot be optimzed if RRULE UNTIL is given.
+	 	// In that case we have to calculate all date until "UNTIL" is reached.
 	 	if($this->recurrence->getFrequenceUntilCount() > 0)
 	 	{
-			return $this->event->getStart();
+			return clone $this->event->getStart();
 	 	}
-
-		$res_unix = $base_unix = $this->event->getStart()->get(ilDateTime::FORMAT_UNIX);
-		while($base_unix < $start->get(ilDateTime::FORMAT_UNIX))
+	 	
+	 	$optimized = clone $start = clone $this->event->getStart();
+	 	while(ilDateTime::_before($start,$this->period_start))
+	 	{
+	 		$optimized = clone $start;
+	 		$start = $this->incrementByFrequency($start);
+	 	}
+	 	return $optimized;
+	}
+	
+	/**
+	 * increment starting time by frequency
+	 *
+	 * @access protected
+	 */
+	protected function incrementByFrequency($start)
+	{
+		switch($this->recurrence->getFrequenceType())
 		{
-			$res_unix = $base_unix;
-			switch($this->recurrence->getFrequenceType())
-			{
-				case ilCalendarRecurrence::FREQ_YEARLY:
-					$base_unix = ilDateTime::_increment($base_unix,ilDateTime::YEAR,$this->recurrence->getInterval());
-					break;
-				
-				case ilCalendarRecurrence::FREQ_MONTHLY:
-					$base_unix = ilDateTime::_increment($base_unix,ilDateTime::MONTH,$this->recurrence->getInterval());
-					break;
+			case ilCalendarRecurrence::FREQ_YEARLY:
+				$start->increment(ilDateTime::YEAR,$this->recurrence->getInterval());
+				break;
+			
+			case ilCalendarRecurrence::FREQ_MONTHLY:
+				$start->increment(ilDateTime::MONTH,$this->recurrence->getInterval());
+				break;
 
-				case ilCalendarRecurrence::FREQ_WEEKLY:
-					$base_unix = ilDateTime::_increment($base_unix,ilDateTime::WEEK,$this->recurrence->getInterval());
-					break;
-				
-				case ilCalendarRecurrence::FREQ_DAILY:
-					$base_unix = ilDateTime::_increment($base_unix,ilDateTime::DAY,$this->recurrence->getInterval());
-					break;
-			}
+			case ilCalendarRecurrence::FREQ_WEEKLY:
+				$start->increment(ilDateTime::WEEK,$this->recurrence->getInterval());
+				break;
+			
+			case ilCalendarRecurrence::FREQ_DAILY:
+				$start->increment(ilDateTime::DAY,$this->recurrence->getInterval());
+				break;
 		}
-		return new ilDateTime($res_unix,ilDateTime::FORMAT_UNIX);
+		return $start;
 	}
 	
 	/**
@@ -132,7 +164,7 @@ class ilCalendarRecurrenceCalculator
 		{
 			foreach($this->recurrence->getBYMONTHList() as $month)
 			{
-				$month_date = new ilDateTime($date->get(ilDateTime::FORMAT_UNIX),ilDateTime::FORMAT_UNIX);
+				$month_date = $this->createDate($date->get(ilDateTime::FORMAT_UNIX));
 				$month_date->increment(ilDateTime::MONTH,-($date->get(ilDateTime::FORMAT_FKT_DATE,'n') - $month));
 				$month_list->add($month_date);
 			}
@@ -166,6 +198,23 @@ class ilCalendarRecurrenceCalculator
 	protected function initDateList()
 	{
 	 	return new ilDateList($this->event->isFullday() ? ilDateList::TYPE_DATE : ilDateList::TYPE_DATETIME);
+	}
+	
+	/**
+	 * create date
+	 *
+	 * @access protected
+	 */
+	protected function createDate($a_date)
+	{
+		if($this->event->isFullday())
+		{
+			return new ilDate($a_date,ilDateTime::FORMAT_UNIX);
+		}
+		else
+		{
+			return new ilDateTime($a_date,ilDateTime::FORMAT_UNIX,'UTC');
+		}
 	}
 }
 

@@ -133,21 +133,20 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-		
-		/*
+/*
 		for($i = 0;$i < 1;$i++)
 		{
 			$calc = new ilCalendarRecurrenceCalculator(
-				new ilCalendarEntry(1),
-				new ilCalendarRecurrence(1));
+				new ilCalendarEntry(1061),
+				new ilCalendarRecurrence(72));
 	
 			$list = $calc->calculateDateList(
-					new ilDateTime('2020-04-01',ilDateTime::FORMAT_DATE),
-					new ilDateTime('2020-04-31',ilDateTime::FORMAT_DATE));
+					new ilDateTime('2008-03-15',ilDateTime::FORMAT_DATE),
+					new ilDateTime('2008-03-25',ilDateTime::FORMAT_DATE));
 			
 		}
 		echo (string) $list;
-		*/
+*/
 		#$parser = new ilICalParser('./extern/Parser.ics',ilICalParser::INPUT_FILE);
 		#$parser = new ilICalParser('./Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->parse();

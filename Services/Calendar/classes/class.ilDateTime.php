@@ -106,6 +106,19 @@ class ilDateTime
 	}
 	
 	/**
+	 * compare two dates and check start is after end 
+	 *
+	 * @access public
+	 * @param object ilDateTime
+	 * @param object ilDateTime 
+	 * 
+	 */
+	public function _after(ilDateTime $start,ilDateTime $end)
+	{
+		return $start->get(self::FORMAT_UNIX) > $end->get(self::FORMAT_UNIX);
+	}
+	
+	/**
 	 * increment date
 	 *
 	 * @access public
@@ -147,22 +160,27 @@ class ilDateTime
 	{
 		$count_str = $a_count > 0 ? ('+'.$a_count.' ') : ($a_count.' ');
 
+		$this->timezone->switchTZ();
 		switch($a_type)
 		{
 			case self::YEAR:
-				return $this->unix = strtotime($count_str.'year',$this->unix);
-				
+				$this->unix = strtotime($count_str.'year',$this->unix);
+				break;				
 			case self::MONTH:
-				return $this->unix = strtotime($count_str.'month',$this->unix);
+				$this->unix = strtotime($count_str.'month',$this->unix);
+				break;
 				
 			case self::WEEK:
-				return $this->unix = strtotime($count_str.'week',$this->unix);
+				$this->unix = strtotime($count_str.'week',$this->unix);
+				break;
 				
 			case self::DAY:
-				return $this->unix = strtotime($count_str.'day',$this->unix);
+				$this->unix = strtotime($count_str.'day',$this->unix);
+				break;
 				
 		}
-	 	
+		$this->timezone->restoreTZ();	 	
+		return $this->unix;
 	}
 	
 	/**
@@ -301,7 +319,7 @@ class ilDateTime
 	 */
 	public function __toString()
 	{
-		return $this->get(self::FORMAT_DATETIME);
+		return $this->get(self::FORMAT_DATETIME).'<br>';
 	}
 }
 ?>
