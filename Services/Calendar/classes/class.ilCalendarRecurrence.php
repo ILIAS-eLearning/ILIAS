@@ -385,6 +385,25 @@ class ilCalendarRecurrence
 	}
 	
 	/**
+	 * get BYYEARDAY list
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getBYYEARDAYList()
+	{
+	 	if(!trim($this->getBYYEARDAY()))
+	 	{
+	 		return array();
+	 	}
+	 	foreach(explode(',',$this->getBYYEARDAY()) as $year_day)
+	 	{
+	 		$days[] = (int) $year_day;
+	 	}
+	 	return $days ? $days : array();
+	}
+	
+	/**
 	 * set by day
 	 *
 	 * @access public

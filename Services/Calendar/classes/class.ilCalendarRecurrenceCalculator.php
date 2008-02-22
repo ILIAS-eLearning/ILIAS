@@ -98,6 +98,7 @@ class ilCalendarRecurrenceCalculator
 			$freq_res = $this->applyBYMONTHRules($freq_res);
 			$freq_res = $this->applyBYWEEKNORules($freq_res);
 	 		$freq_res = $this->applyBYDAYRules($freq_res);
+	 		$freq_res = $this->applyBYYEARDAYRules($freq_res);
 	 		$freq_res = $this->applyBYSETPOSRules($freq_res);
 			$this->valid_dates->merge($freq_res);
 	 		
@@ -254,7 +255,70 @@ class ilCalendarRecurrenceCalculator
 				}				
 			}
 		}
+		$this->frequence_context = ilCalendarRecurrence::FREQ_WEEKLY;
+		
 		return $weeks_list;	
+	}
+	
+	/**
+	 * Apply BYYEARDAY rules.
+	 *
+	 * @access protected
+	 */
+	protected function applyBYYEARDAYRules(ilDateList $list)
+	{
+		// return unmodified, if no byweekno rules are available
+		if(!$this->recurrence->getBYYEARDAYList())
+		{
+			return $list;
+		}
+		$days_list = $this->initDateList();
+		foreach($list->get() as $seed)
+		{
+			$num_days = date('z',mktime(0,0,0,12,31,$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y')));
+			$this->log->write(__METHOD__.': Year '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y').' has '.$num_days.' days.');
+			
+			foreach($this->recurrence->getBYYEARDAYList() as $day_no)
+			{
+				$day_no = $day_no < 0 ? ($num_days + $day_no + 1) : $day_no;
+				
+				$day_diff = $day_no - $seed->get(ilDateTime::FORMAT_FKT_DATE,'z');
+				$new_day = $this->createDate($seed->get(ilDateTime::FORMAT_UNIX));
+				$new_day->increment(ilDateTime::DAY,$day_diff);
+
+				switch($this->frequence_context)
+				{
+					case ilCalendarRecurrence::FREQ_DAILY:
+						// Check if day matches
+						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'z') == $day_no)
+						{
+							$days_list->add($new_day);
+						}
+						break;
+					case ilCalendarRecurrence::FREQ_WEEKLY:
+						// Check if week matches
+						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'W') == $new_day->get(ilDateTime::FORMAT_FKT_DATE,'W'))
+						{
+							$days_list->add($new_day);
+						}
+						break;
+					case ilCalendarRecurrence::FREQ_MONTHLY:
+						// Check if month matches
+						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'n') == $new_day->get(ilDateTime::FORMAT_FKT_DATE,'n'))
+						{
+							$days_list->add($new_day);
+						}
+						break;
+					case ilCalendarRecurrence::FREQ_YEARLY:
+						// Simply add
+						$day_list->add($new_day);
+						break;
+				}
+			}
+		}
+		
+		$this->frequence_context = ilCalendarRecurrence::FREQ_DAILY;
+		return $days_list;
 	}
 	
 	/**
