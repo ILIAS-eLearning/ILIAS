@@ -92,6 +92,8 @@ class ilDateTime
 	
 	/**
 	 * compare two dates and check start is before end 
+	 * This method does not consider tz offsets.
+	 * So you have to take care that both dates are defined in the the same timezone
 	 *
 	 * @access public
 	 * @static
@@ -107,6 +109,8 @@ class ilDateTime
 	
 	/**
 	 * compare two dates and check start is after end 
+	 * This method does not consider tz offsets.
+	 * So you have to take care that both dates are defined in the the same timezone
 	 *
 	 * @access public
 	 * @param object ilDateTime

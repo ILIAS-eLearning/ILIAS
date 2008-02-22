@@ -81,19 +81,22 @@ class ilCalendarRecurrenceCalculator
 	 	{
 		 	$freq_res = $this->initDateList();
 		 	$freq_res->add($start);
-	 		$freq_res = $this->applyBYMONTHRules($freq_res);
+			$freq_res = $this->applyBYMONTHRules($freq_res);
 	 		$freq_res = $this->applyBYDAYRules($freq_res);
-
+	 		$freq_res = $this->applyBYSETPOSRules($freq_res);
+			$this->valid_dates->merge($freq_res);
+	 		
 			$start = $this->incrementByFrequency($start);
 			if(ilDateTime::_after($start,$this->period_end))
 			{
 				break;
 			}
-			echo $freq_res;
+
 	 	}
 	 	while(true);
 
-	 	return $freq_res;
+		$this->valid_dates->sort();
+	 	return $this->valid_dates;
 	}
 	
 	/**
@@ -151,6 +154,7 @@ class ilCalendarRecurrenceCalculator
 	 * Apply BYMONTH rules
 	 *
 	 * @access protected
+	 * @return object ilDateList
 	 */
 	protected function applyBYMONTHRules(ilDateList $list)
 	{
@@ -164,9 +168,18 @@ class ilCalendarRecurrenceCalculator
 		{
 			foreach($this->recurrence->getBYMONTHList() as $month)
 			{
-				$month_date = $this->createDate($date->get(ilDateTime::FORMAT_UNIX));
-				$month_date->increment(ilDateTime::MONTH,-($date->get(ilDateTime::FORMAT_FKT_DATE,'n') - $month));
-				$month_list->add($month_date);
+				// YEARLY rules extend the seed to every month given in the BYMONTH rule
+				// Rules < YEARLY must match the month of the seed
+				if($this->recurrence->getFrequenceType() == ilCalendarRecurrence::FREQ_YEARLY)
+				{
+					$month_date = $this->createDate($date->get(ilDateTime::FORMAT_UNIX));
+					$month_date->increment(ilDateTime::MONTH,-($date->get(ilDateTime::FORMAT_FKT_DATE,'n') - $month));
+					$month_list->add($month_date);
+				}
+				elseif($date->get(ilDateTime::FORMAT_FKT_DATE,'n') == $month)
+				{
+					$month_list->add($date);
+				}
 			}
 		}
 		return $month_list;
@@ -175,11 +188,11 @@ class ilCalendarRecurrenceCalculator
 	/**
 	 * Apply BYDAY rules
 	 * 
-	 * @access public
-	 * @param
-	 * @return
+	 * @access protected
+	 * @param object ilDateList
+	 * @return object ilDateList
 	 */
-	public function applyBYDAYRules(ilDateList $list)
+	protected function applyBYDAYRules(ilDateList $list)
 	{
 		// return unmodified, if no byday rules are available
 		if(!$this->recurrence->getBYDAYList())
@@ -188,6 +201,39 @@ class ilCalendarRecurrenceCalculator
 		}
 		return $list;
 	
+	}
+	
+	
+	/**
+	 * Apply BYSETPOST rules
+	 * 
+	 * @access protected
+	 * @param object ilDateList
+	 * @return object ilDateList
+	 */
+	public function applyBYSETPOSRules(ilDateList $list)
+	{
+		// return unmodified, if no bysetpos rules are available
+		if(!$this->recurrence->getBYSETPOSList())
+		{
+			return $list;
+		}
+		$pos_list = $this->initDateList();
+		$list->sort();
+		$candidates = $list->get();
+		$candidates_count = count($candidates);
+		foreach($this->recurrence->getBYSETPOSList() as $position)
+		{
+			if($position > 0 and $date = $list->getAtPosition($position))
+			{
+				$pos_list->add($date);
+			}
+			if($position < 0 and $date = $list->getAtPosition($candidates_count + $position + 1))
+			{
+				$pos_list->add($date);
+			}
+		}
+		return $pos_list;
 	}
 	
 	/**

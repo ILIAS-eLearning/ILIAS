@@ -388,6 +388,26 @@ class ilCalendarRecurrence
 	}
 	
 	/**
+	 * get bysetpos list
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getBYSETPOSList()
+	{
+	 	if(!trim($this->getBYSETPOS()))
+	 	{
+	 		return array();
+	 	}
+	 	foreach(explode(',',$this->getBYSETPOS()) as $pos)
+	 	{
+	 		$positions[] = (int) $pos;
+	 	}
+	 	return $positions ? $positions : array();
+	}
+	
+	
+	/**
 	 * set weekstart
 	 *
 	 * @access public
