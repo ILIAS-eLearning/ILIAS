@@ -36,7 +36,7 @@ class ilDateList
 	const TYPE_DATE = 1;
 	const TYPE_DATETIME = 2;
 	
-	protected $list = array();
+	protected $list_item = array();
 
 	protected $type;
 
@@ -60,7 +60,27 @@ class ilDateList
 	 */
 	public function get()
 	{
-	 	return $this->list ? $this->list : array();
+	 	return $this->list_item ? $this->list_item : array();
+	}
+	
+	/**
+	 * get item at specific position
+	 *
+	 * @access public
+	 * @param int position (first position is 1)
+	 * 
+	 */
+	public function getAtPosition($a_pos)
+	{
+	 	$counter = 1;
+	 	foreach($this->get() as $item)
+	 	{
+	 		if($counter++ == $a_pos)
+	 		{
+	 			return $item;
+	 		}
+	 	}
+	 	return null;
 	}
 	
 	/**
@@ -69,9 +89,27 @@ class ilDateList
 	 * @access public
 	 * @param object ilDateTime
 	 */
-	public function add(ilDateTime $date)
+	public function add($date)
 	{
-	 	$this->list[$date->get(ilDateTime::FORMAT_UNIX)] = $date;
+	 	// the unix time is the key. 
+	 	// It's casted to string because array_merge overwrites only string keys
+	 	// @see merge
+	 	$this->list_item[(string) $date->get(ilDateTime::FORMAT_UNIX)] = clone $date;
+	}
+	
+	/**
+	 * Merge two lists
+	 *
+	 * @access public
+	 * @param object ilDateList
+	 * 
+	 */
+	public function merge(ilDateList $other_list)
+	{
+		foreach($other_list->get() as $new_date)
+		{
+			$this->add($new_date);
+		}
 	}
 	
 	/**
@@ -84,11 +122,22 @@ class ilDateList
 	public function remove(ilDateTime $remove)
 	{
 	 	$unix_remove = $remove->get(ilDateTime::FORMAT_UNIX);
-		if(isset($this->list[$unix_remove]))
+		if(isset($this->list_item[$unix_remove]))
 		{
-			unset($this->list[$unix_remove]);
+			unset($this->list_item[$unix_remove]);
 		}
 		return true;
+	}
+	
+	/**
+	 * Sort list
+	 *
+	 * @access public
+	 * 
+	 */
+	public function sort()
+	{
+	 	return ksort($this->list_item,SORT_NUMERIC);
 	}
 	
 	/**
@@ -99,7 +148,7 @@ class ilDateList
 	 */
 	public function __toString()
 	{
-	 	$out = '';
+	 	$out = '<br />';
 	 	foreach($this->get() as $date)
 	 	{
 	 		$out .= $date->get(ilDateTime::FORMAT_DATETIME).'<br/>';
