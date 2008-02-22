@@ -395,8 +395,10 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
 			if ($this->ctrl->getCmd() == "saveAndMeta")
 			{
-				ilUtil::redirect($this->getReturnLocation("save",
-					$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection")));
+				$target =
+					$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection");
+				$target = str_replace("new_type=", "nt=", $target);
+				ilUtil::redirect($this->getReturnLocation("save", $target));
 			}
 			else
 			{
