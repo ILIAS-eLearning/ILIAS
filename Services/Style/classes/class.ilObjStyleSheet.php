@@ -951,10 +951,10 @@ class ilObjStyleSheet extends ilObject
 			"padding-right" => array(),
 
 			"border-width" => array(),
-			"border-width-top" => array(),
-			"border-width-bottom" => array(),
-			"border-width-left" => array(),
-			"border-width-right" => array(),
+			"border-top-width" => array(),
+			"border-bottom-width" => array(),
+			"border-left-width" => array(),
+			"border-right-width" => array(),
 
 			"border-color" => array(),
 			"border-top-color" => array(),
