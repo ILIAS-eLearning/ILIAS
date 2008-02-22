@@ -38,6 +38,7 @@ include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 class ilCalendarRecurrenceCalculator
 {
 	protected $timezone = null;
+	protected $log = null;
 	
 	protected $valid_dates = null;
 	protected $period_start = null;
@@ -45,6 +46,8 @@ class ilCalendarRecurrenceCalculator
 
 	protected $event = null;
 	protected $recurrence = null;
+	
+	protected $frequence_context = 0;
 
 	/**
 	 * 
@@ -55,6 +58,9 @@ class ilCalendarRecurrenceCalculator
 	 */
 	public function __construct(ilCalendarEntry $entry,ilCalendarRecurrence $rec)
 	{
+	 	global $ilLog;
+	 	
+	 	$this->log = $ilLog;
 	 	$this->event = $entry;
 	 	$this->recurrence = $rec;
 	}
@@ -79,9 +85,18 @@ class ilCalendarRecurrenceCalculator
 	 	$start = $this->optimizeStartingTime();
 	 	do
 	 	{
+		 	// initialize context for applying rules
+		 	// E.g 
+		 	// RRULE:FREQ=YEARLY;BYMONTH=1;BYWEEKNO=1,50	=> context for BYWERKNO is monthly because it filter to the weeks in JAN
+		 	// RRULE:FREQ=YEARLY;BYWEEKNO=1,50				=> context for BYWERKNO is yearly because it adds all weeks.
+		 	$this->frequence_context = $this->recurrence->getFrequenceType();
+		 	
 		 	$freq_res = $this->initDateList();
 		 	$freq_res->add($start);
+		 	
+		 	// Fixed sequence of applying rules (RFC 2445 4.3.10)
 			$freq_res = $this->applyBYMONTHRules($freq_res);
+			$freq_res = $this->applyBYWEEKNORules($freq_res);
 	 		$freq_res = $this->applyBYDAYRules($freq_res);
 	 		$freq_res = $this->applyBYSETPOSRules($freq_res);
 			$this->valid_dates->merge($freq_res);
@@ -182,7 +197,64 @@ class ilCalendarRecurrenceCalculator
 				}
 			}
 		}
+		// decrease the frequence_context for YEARLY rules
+		if($this->recurrence->getFrequenceType() == ilCalendarRecurrence::FREQ_YEARLY)
+		{
+			$this->frequence_context = ilCalendarRecurrence::FREQ_MONTHLY;
+		}
 		return $month_list;
+	}
+	
+	/**
+	 * Apply BYWEEKNO rules (1 to 53 and -1 to -53).
+	 * This rule can only be applied to YEARLY rules (RFC 2445 4.3.10)
+	 *
+	 * @access protected
+	 */
+	protected function applyBYWEEKNORules(ilDateList $list)
+	{
+		if($this->recurrence->getFrequenceType() != ilCalendarRecurrence::FREQ_YEARLY)
+		{
+			return $list;
+		}
+		// return unmodified, if no byweekno rules are available
+		if(!$this->recurrence->getBYWEEKNOList())
+		{
+			return $list;
+		}
+		$weeks_list = $this->initDateList();
+		foreach($list->get() as $seed)
+		{
+			$weeks_in_year = date('W',mktime(0,0,0,12,28,$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y')));
+			$this->log->write(__METHOD__.': Year '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y').' has '.$weeks_in_year.' weeks');
+			foreach($this->recurrence->getBYWEEKNOList() as $week_no)
+			{
+				$week_no = $week_no < 0 ? ($weeks_in_year + $week_no + 1) : $week_no;
+				
+				switch($this->frequence_context)
+				{
+					case ilCalendarRecurrence::FREQ_MONTHLY:
+						$this->log->write(__METHOD__.': Handling BYWEEKNO in MONTHLY context');
+						// Check if week matches
+						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'W') == $week_no)
+						{
+							$weeks_list->add($seed);
+						}
+						break;
+						
+					case ilCalendarRecurrence::FREQ_YEARLY:
+						$this->log->write(__METHOD__.': Handling BYWEEKNO in YEARLY context');
+						$week_diff = $week_no - $seed->get(ilDateTime::FORMAT_FKT_DATE,'W');
+						
+						$new_week = $this->createDate($seed->get(ilDateTime::FORMAT_UNIX));
+						$new_week->increment(ilDateTime::WEEK,$week_diff);
+						$weeks_list->add($new_week);
+						break;
+						
+				}				
+			}
+		}
+		return $weeks_list;	
 	}
 	
 	/**

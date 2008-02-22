@@ -265,6 +265,26 @@ class ilCalendarRecurrence
 	}
 	
 	/**
+	 * get byweekno list
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getBYWEEKNOList()
+	{
+	 	if(!trim($this->getBYWEEKNO()))
+	 	{
+	 		return array();
+	 	}
+	 	foreach(explode(',',$this->getBYWEEKNO()) as $week_num)
+	 	{
+	 		$weeks[] = (int) $week_num;
+	 	}
+	 	return $weeks ? $weeks : array();
+	}
+	
+	
+	/**
 	 * get BYDAY
 	 *
 	 * @access public
