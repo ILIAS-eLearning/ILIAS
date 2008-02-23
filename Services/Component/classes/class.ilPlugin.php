@@ -417,7 +417,7 @@ abstract class ilPlugin
 		include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
 		$dbupdate = new ilPluginDBUpdate($this->getComponentType(),
 			$this->getComponentName(), $this->getSlotId(),
-			$this->getPluginName(), $ilDB, true);
+			$this->getPluginName(), $ilDB, true, $this->getTablePrefix());
 		
 		//$dbupdate->getDBVersionStatus();
 		//$dbupdate->getCurrentVersion();
@@ -437,7 +437,7 @@ abstract class ilPlugin
 		}
 		
 		$this->message.= $message;
-		
+
 		return $result;
 	}
 	
@@ -687,7 +687,7 @@ abstract class ilPlugin
 				
 			$ilDB->query($q);
 		}
-		
+
 		return $result;
 	}
 	

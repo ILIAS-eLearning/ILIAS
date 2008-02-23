@@ -35,8 +35,10 @@ class ilPluginDBUpdate extends ilDBUpdate
 	* constructor
 	*/
 	function ilPluginDBUpdate($a_ctype, $a_cname, $a_slot_id, $a_pname,
-		$a_db_handler = 0,$tmp_flag = false)
+		$a_db_handler, $tmp_flag, $a_db_prefix)
 	{
+		$this->db_prefix = $a_db_prefix;
+		
 		// workaround to allow setup migration
 		if ($a_db_handler)
 		{
@@ -146,6 +148,25 @@ class ilPluginDBUpdate extends ilDBUpdate
 		// to do: reload control structure information for plugin
 		return true;
 	}
+	
+	/**
+	* This is a very simple check. Could be done better.
+	*/
+	function checkQuery($q)
+	{
+		if ((is_int(stripos($q, "create table")) || is_int(stripos($q, "alter table")) ||
+			is_int(stripos($q, "drop table")))
+			&& !is_int(stripos($q, $this->db_prefix)))
+		{
+			return "Plugin may only create or alter tables that start with prefix ".
+				$this->db_prefix;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 
 } // END class.DBUdate
 ?>

@@ -96,7 +96,7 @@ class ilPluginsTableGUI extends ilTable2GUI
 		{
 			include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
 			$dbupdate = new ilPluginDBUpdate($_GET["ctype"], $_GET["cname"],
-				$_GET["slot_id"], $a_set["name"], $ilDB, true);
+				$_GET["slot_id"], $a_set["name"], $ilDB, true, "");
 
 			// update command
 /*			if ($dbupdate->getFileVersion() > $dbupdate->getCurrentVersion())

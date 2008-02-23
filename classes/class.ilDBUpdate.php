@@ -219,10 +219,19 @@ class ilDBUpdate
 				{
 					//query is complete
 					$q .= " ".substr($sql[$i],0,-1);
-					$r = $db->query($q);
-					if (MDB2::isError($r))
+					$check = $this->checkQuery($q);
+					if ($check === true)
 					{
-						$this->error = $r->getMessage();
+						$r = $db->query($q);
+						if (MDB2::isError($r))
+						{
+							$this->error = $r->getMessage();
+							return false;
+						}
+					}
+					else
+					{
+						$this->error = $check;
 						return false;
 					}
 					unset($q);
@@ -241,6 +250,14 @@ class ilDBUpdate
 		return true;
 	}
 
+	/**
+	* check query
+	*/
+	function checkQuery($q)
+	{
+		return true;
+	}
+	
 	/**
 	* Apply update
 	*/
@@ -383,7 +400,7 @@ class ilDBUpdate
 				{
 					if ($this->execQuery($this->db, implode("\n", $sql)) == false)
 					{
-						$this->error = "dump_error: ".$this->error;
+						$this->error = $this->error;
 						return false;
 					}
 					$sql = array();

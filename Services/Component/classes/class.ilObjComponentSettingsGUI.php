@@ -321,7 +321,7 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		
 		if ($result !== true)
 		{
-			ilUtil::sendInfo($result, true);
+			ilUtil::sendInfo($pl->message, true);
 		}
 		else
 		{
