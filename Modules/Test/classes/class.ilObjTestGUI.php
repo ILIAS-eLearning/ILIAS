@@ -4480,7 +4480,11 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$maxpass = $this->object->_getMaxPass($data->active_id) + 1;
+					$maxpass = $this->object->_getMaxPass($data->active_id);
+					if (!is_null($maxpass))
+					{
+						$maxpass += 1;
+					}
 					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
@@ -4553,7 +4557,11 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$maxpass = $this->object->_getMaxPass($data->active_id) + 1;
+					$maxpass = $this->object->_getMaxPass($data->active_id);
+					if (!is_null($maxpass))
+					{
+						$maxpass += 1;
+					}
 					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);

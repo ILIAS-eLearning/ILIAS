@@ -7550,7 +7550,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 			else
 			{
-				$max = 0;
+				$max = NULL;
 			}
 			return $max;
 		}
