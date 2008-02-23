@@ -4480,7 +4480,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$passes = ($data->tries) ? (($data->tries == 1) ? sprintf($this->lng->txt("pass_finished"), $data->tries) : sprintf($this->lng->txt("passes_finished"), $data->tries)) : "&nbsp;";
+					$maxpass = $this->object->_getMaxPass($data->active_id) + 1;
+					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->usr_id);
@@ -4552,7 +4553,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$passes = ($data->tries) ? (($data->tries == 1) ? sprintf($this->lng->txt("pass_finished"), $data->tries) : sprintf($this->lng->txt("passes_finished"), $data->tries)) : "&nbsp;";
+					$maxpass = $this->object->_getMaxPass($data->active_id) + 1;
+					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->active_id);
