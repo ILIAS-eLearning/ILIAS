@@ -4559,11 +4559,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$result = $ilDB->query($query);
 				if ($result->numRows())
 				{
+					$questionsbysequence = array();
 					while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 					{
-						$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-						$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["points"], $row["sequence"], $tpass);
-						$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
+						$questionsbysequence[$row["sequence"]] = $row;
+					}
+					$sequery = sprintf("SELECT * FROM tst_sequence WHERE active_fi = %s",
+						$ilDB->quote($active_id)
+					);
+					$seqresult = $ilDB->query($sequery);
+					while ($seqrow = $seqresult->fetchRow(MDB2_FETCHMODE_ASSOC))
+					{
+						$questionsequence = unserialize($seqrow["sequence"]);
+						foreach ($questionsequence as $sidx => $seq)
+						{
+							$qsid = $questionsbysequence[$seq]["original_id"] ? $questionsbysequence[$seq]["original_id"] : $questionsbysequence[$seq]["question_fi"];
+							$data->getParticipant($active_id)->addQuestion($qsid, $questionsbysequence[$seq]["points"], $sidx + 1, $seqrow["pass"]);
+							$data->addQuestionTitle($qsid, $questionsbysequence[$seq]["title"]);
+						}
 					}
 				}
 			}
@@ -4733,12 +4746,33 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$result = $ilDB->query($query);
 				if ($result->numRows())
 				{
+					$questionsbysequence = array();
+					while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+					{
+						$questionsbysequence[$row["sequence"]] = $row;
+					}
+					$sequery = sprintf("SELECT * FROM tst_sequence WHERE active_fi = %s",
+						$ilDB->quote($active_id)
+					);
+					$seqresult = $ilDB->query($sequery);
+					while ($seqrow = $seqresult->fetchRow(MDB2_FETCHMODE_ASSOC))
+					{
+						$questionsequence = unserialize($seqrow["sequence"]);
+						foreach ($questionsequence as $sidx => $seq)
+						{
+							$qsid = $questionsbysequence[$seq]["original_id"] ? $questionsbysequence[$seq]["original_id"] : $questionsbysequence[$seq]["question_fi"];
+							$data->getParticipant($active_id)->addQuestion($qsid, $questionsbysequence[$seq]["points"], $sidx + 1, $seqrow["pass"]);
+							$data->addQuestionTitle($qsid, $questionsbysequence[$seq]["title"]);
+						}
+					}
+/*
 					while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 					{
 						$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
 						$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["points"], $row["sequence"], $tpass);
 						$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
 					}
+*/
 				}
 			}
 		}

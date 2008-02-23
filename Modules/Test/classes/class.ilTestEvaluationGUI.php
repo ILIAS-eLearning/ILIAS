@@ -824,7 +824,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (!$remove)
 			{
 				$row++;
-				if ($this->object->isRandomTest())
+				if ($this->object->isRandomTest() || $this->object->getShuffleQuestions())
 				{
 					$row++;
 				}
@@ -906,7 +906,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						if ($pass > 0)
 						{
 							$row++;
-							if ($this->object->isRandomTest())
+							if ($this->object->isRandomTest() || $this->object->getShuffleQuestions())
 							{
 								$row++;
 							}
@@ -916,15 +916,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						{
 							$question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
 							$worksheet->write($row, $col, ilExcelUtils::_convert_text($question_data["reached"]));
-							if ($this->object->isRandomTest())
+							if ($this->object->isRandomTest() || $this->object->getShuffleQuestions())
 							{
-								$worksheet->write($row-1, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question_data["id"]))), $format_title);
+								$worksheet->write($row-1, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]))), $format_title);
 							}
 							else
 							{
 								if ($pass == 0)
 								{
-									$worksheet->write(0, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question_data["id"]))), $format_title);
+									$worksheet->write(0, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]))), $format_title);
 								}
 							}
 							$col++;
