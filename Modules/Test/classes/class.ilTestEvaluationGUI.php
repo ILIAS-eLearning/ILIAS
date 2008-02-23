@@ -952,37 +952,58 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		$rows = array();
 		$datarow = array();
+		$col = 1;
 		if ($this->object->getAnonymity())
 		{
 			array_push($datarow, $this->lng->txt("counter"));
+			$col++;
 		}
 		else
 		{
 			array_push($datarow, $this->lng->txt("name"));
+			$col++;
 			array_push($datarow, $this->lng->txt("login"));
+			$col++;
 		}
 		array_push($datarow, $this->lng->txt("tst_stat_result_resultspoints"));
+		$col++;
 		array_push($datarow, $this->lng->txt("maximum_points"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_resultsmarks"));
+		$col++;
 		if ($this->object->ects_output)
 		{
 			array_push($datarow, $this->lng->txt("ects_grade"));
+			$col++;
 		}
 		array_push($datarow, $this->lng->txt("tst_stat_result_qworkedthrough"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_qmax"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_pworkedthrough"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_timeofwork"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_atimeofwork"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_firstvisit"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_lastvisit"));
+		$col++;
 		
 		array_push($datarow, $this->lng->txt("tst_stat_result_mark_median"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_rank_participant"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_rank_median"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_total_participants"));
+		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_median"));
+		$col++;
 
 		array_push($datarow, $this->lng->txt("pass"));
+		$col++;
 
 		$data =& $this->object->getCompleteEvaluationData();
 		$headerrow = $datarow;
@@ -1009,12 +1030,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (!$remove)
 			{
 				$datarow2 = array();
-				$row++;
-				if ($this->object->isRandomTest())
-				{
-					$row++;
-				}
-				$col = 0;
 				if ($this->object->getAnonymity())
 				{
 					array_push($datarow2, $counter);
@@ -1082,29 +1097,27 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				array_push($datarow2, $data->getStatistics()->getStatistics()->rank_median());
 				array_push($datarow2, $data->getStatistics()->getStatistics()->count());
 				array_push($datarow2, $median);
-				$startcol = $col;
 				for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++)
 				{
-					$col = $startcol;
 					$finishdate = $this->object->getPassFinishDate($active_id, $pass);
 					if ($finishdate > 0)
 					{
 						if ($pass > 0)
 						{
-							$row++;
-							if ($this->object->isRandomTest())
+							for ($i = 1; $i < $col-1; $i++) 
 							{
-								$row++;
+								array_push($datarow2, "");
 							}
+							array_push($datarow, "");
 						}
 						array_push($datarow2, $pass+1);
-						foreach ($data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestions() as $question_data)
+						foreach ($data->getParticipant($active_id)->getQuestions($pass) as $question)
 						{
+							$question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
 							array_push($datarow2, $question_data["reached"]);
-							array_push($datarow, preg_replace("/<.*?>/", "", $data->getQuestionTitle($question_data["id"])));
-							$col++;
+							array_push($datarow, preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
 						}
-						if ($this->object->isRandomTest() || $counter == 1)
+						if ($this->object->isRandomTest() || $this->object->getShuffleQuestions() || ($counter == 1 && $pass == 0))
 						{
 							array_push($rows, $datarow);
 						}
