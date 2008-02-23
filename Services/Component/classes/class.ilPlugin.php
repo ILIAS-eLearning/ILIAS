@@ -460,6 +460,25 @@ abstract class ilPlugin
 		
 		return $lng->txt($this->getPrefix()."_".$a_var);
 	}
+	
+	/**
+	* Get template from plugin
+	*/
+	public final function getTemplate($a_template, $a_par1 = true, $a_par2 = true)
+	{
+		$tpl = new ilTemplate($this->getDirectory()."/templates/".$a_template, $a_par1, $a_par2);
+		
+		return $tpl;
+	}
+
+	/**
+	* Add template content to placeholder variable
+	*/
+	public final function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname)
+	{
+		$a_tpl->addBlockFile($a_var, $a_block,
+			$this->getDirectory()."/templates/".$a_tplname);
+	}
 
 	/**
 	* Get record from il_plugin table

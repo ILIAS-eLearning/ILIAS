@@ -64,7 +64,8 @@ class ilTemplate extends ilTemplateX
 	* @param	array	$vars 		variables to replace
 	* @access	public
 	*/
-	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT")
+	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
+		$plugin = false)
 	{
 		global $ilias;
 
@@ -91,7 +92,7 @@ class ilTemplate extends ilTemplateX
 		{
 			$fname = $file;
 		}*/
-		$fname = $this->getTemplatePath($file, $in_module);
+		$fname = $this->getTemplatePath($file, $in_module, $plugin);
 
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
@@ -862,7 +863,7 @@ class ilTemplate extends ilTemplateX
 	*
 	* @return	string		full template path
 	*/
-	function getTemplatePath($a_tplname, $a_in_module = false)
+	function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
 	{
 		global $ilias, $ilCtrl;
 		
