@@ -138,7 +138,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			$manifest_file_array = file($manifest_file);
 			foreach($manifest_file_array as $mfa)
 			{
-				if (!seems_not_utf8($mfa))
+				if (seems_not_utf8($mfa))
 				{
 					$needs_convert = true;
 					break;
