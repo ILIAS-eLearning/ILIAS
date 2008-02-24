@@ -378,6 +378,8 @@ abstract class ilPlugin
 	*/
 	final public function updateLanguages()
 	{
+		global $ilCtrl;
+		
 		include_once("./Services/Language/classes/class.ilObjLanguage.php");
 		
 		$langs = $this->getAvailableLangFiles($this->getLanguageDirectory());
@@ -663,7 +665,7 @@ abstract class ilPlugin
 	*/
 	final function update()
 	{
-		global $ilDB;
+		global $ilDB, $ilCtrl;
 		
 		$result = true;
 		
@@ -675,6 +677,14 @@ abstract class ilPlugin
 		
 		// Load language files
 		$this->updateLanguages();
+		
+		// load control structure
+		chdir("./setup");
+		include_once("./classes/class.ilCtrlStructureReader.php");
+		$structure_reader = new ilCtrlStructureReader();
+		$structure_reader->readStructure(true, "../".$this->getDirectory(), $this->getPrefix());
+		chdir("..");
+		$ilCtrl->storeCommonStructures();
 		
 		// set last update version to current version
 		if ($result === true)

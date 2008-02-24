@@ -3481,3 +3481,7 @@ ALTER TABLE il_plugin DROP COLUMN id;
 ALTER TABLE il_plugin DROP COLUMN current_version;
 ALTER TABLE il_plugin DROP COLUMN ilias_min_version;
 ALTER TABLE il_plugin DROP COLUMN ilias_max_version;
+
+<#1176>
+ALTER TABLE ctrl_classfile ADD COLUMN comp_prefix VARCHAR(50) NOT NULL DEFAULT '';
+ALTER TABLE ctrl_calls ADD COLUMN comp_prefix VARCHAR(50) NOT NULL DEFAULT '';
