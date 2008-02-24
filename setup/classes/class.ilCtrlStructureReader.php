@@ -56,18 +56,33 @@ class ilCtrlStructureReader
 		$this->get_structure = true;
 	}
 		
-	function readStructure($a_force = false)
+	/**
+	* read structure
+	*/
+	function readStructure($a_force = false, $a_dir = "", $a_comp_prefix = "")
 	{
 
 		if (!$this->get_structure && !$a_force)
 		{
 			return;
 		}
+		
+		// prefix for component
+		$this->comp_prefix = $a_comp_prefix;
 
 		// only run one time per db_update request
 		if (!$this->executed)
 		{
-			$this->read(ILIAS_ABSOLUTE_PATH);
+			if ($a_dir == "")
+			{
+				$this->start_dir = ILIAS_ABSOLUTE_PATH;
+				$this->read(ILIAS_ABSOLUTE_PATH);
+			}
+			else
+			{
+				$this->start_dir = $a_dir;
+				$this->read($a_dir);
+			}
 			$this->store();
 			$this->executed = true;
 		}
@@ -121,7 +136,7 @@ class ilCtrlStructureReader
 //echo "<br>".$a_cdir."/".$file;
 						while (!feof($handle)) {
 							$line = fgets($handle, 4096);
-							
+
 							// handle @ilctrl_calls
 							$pos = strpos(strtolower($line), "@ilctrl_calls");
 							if (is_int($pos))
@@ -138,11 +153,13 @@ class ilCtrlStructureReader
 										$this->class_script[$parent] != $a_cdir."/".$file)
 									{
 										// delete all class to file assignments
-										$q = "DELETE FROM ctrl_classfile";
+										$q = "DELETE FROM ctrl_classfile WHERE comp_prefix = ".
+											$ilDB->quote($this->comp_prefix);
 										$ilDB->query($q);
 								
 										// delete all call entries
-										$q = "DELETE FROM ctrl_calls";
+										$q = "DELETE FROM ctrl_calls WHERE comp_prefix = ".
+											$ilDB->quote($this->comp_prefix);
 										$ilDB->query($q);
 										
 										$this->err_object->raiseError(
@@ -165,7 +182,7 @@ class ilCtrlStructureReader
 									}
 								}
 							}
-							
+
 							// handle isCalledBy comments
 							$pos = strpos(strtolower($line), "@ilctrl_iscalledby");
 							if (is_int($pos))
@@ -175,6 +192,8 @@ class ilCtrlStructureReader
 								if (is_int($pos2))
 								{
 									$com_arr = explode(":", $com);
+									$child = trim($com_arr[0]);
+									$this->class_script[$child] = $a_cdir."/".$file;
 									$child = strtolower(trim($com_arr[0]));
 
 									$parents = explode(",", $com_arr[1]);
@@ -206,29 +225,35 @@ class ilCtrlStructureReader
 		global $ilDB;
 
 		// delete all class to file assignments
-		$q = "DELETE FROM ctrl_classfile";
+		$q = "DELETE FROM ctrl_classfile WHERE comp_prefix = ".
+			$ilDB->quote($this->comp_prefix);
 		$ilDB->query($q);
 
 		// delete all call entries
-		$q = "DELETE FROM ctrl_calls";
+		$q = "DELETE FROM ctrl_calls WHERE comp_prefix = ".
+			$ilDB->quote($this->comp_prefix);
 		$ilDB->query($q);
 
 		foreach($this->class_script as $class => $script)
 		{
-			$file = substr($script, strlen(ILIAS_ABSOLUTE_PATH) + 1);
-
+			$file = substr($script, strlen($this->start_dir) + 1);
 			// store class to file assignment
-			$q = "INSERT INTO ctrl_classfile (class, file) VALUES".
-				"(".$ilDB->quote($class).",".$ilDB->quote($file).")";
+			$q = "INSERT INTO ctrl_classfile (class, file, comp_prefix) VALUES".
+				"(".$ilDB->quote($class).",".$ilDB->quote($file).
+				",".$ilDB->quote($this->comp_prefix).")";
 			$ilDB->query($q);
-
-			if (is_array($this->class_childs[$class]))
+		}
+//$this->class_childs[$parent][] = $child;
+		foreach($this->class_childs as $parent => $v)
+		{
+			if (is_array($this->class_childs[$parent]))
 			{
-				foreach($this->class_childs[$class] as $child)
+				foreach($this->class_childs[$parent] as $child)
 				{
 					// store call entry
-					$q = "INSERT INTO ctrl_calls (parent, child) VALUES".
-						"(".$ilDB->quote($class).",".$ilDB->quote($child).")";
+					$q = "INSERT INTO ctrl_calls (parent, child, comp_prefix) VALUES".
+						"(".$ilDB->quote($parent).",".$ilDB->quote($child).
+						",".$ilDB->quote($this->comp_prefix).")";
 					$ilDB->query($q);
 				}
 			}
