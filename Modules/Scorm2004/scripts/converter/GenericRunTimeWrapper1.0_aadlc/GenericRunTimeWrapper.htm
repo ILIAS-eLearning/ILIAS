@@ -63,7 +63,9 @@
        var idx = strSearch.indexOf('?');
        if ( idx != -1 )
        {
-          var pairs = strSearch.substring(idx+1, strSearch.length).split('&');
+	
+	      var pairs = strSearch.substring(idx+1, strSearch.length).split('?').join('&').split('&');
+    
           for ( var i=0; i<pairs.length; i++ )
           {
              nameVal = pairs[i].split('=');
@@ -93,8 +95,10 @@
              }
           }
        }
-
-       sco = "../"  + mySCOName + "?" + appendURL;
+       var sco = "../" + mySCOName + "?" + appendURL;
+       if(mySCOName.indexOf("?") != -1){
+          sco = "../" + mySCOName + appendURL;
+       }
        SCOHolder.location=sco;
     }
 
