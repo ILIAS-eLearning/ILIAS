@@ -1,5 +1,4 @@
-// Build: 20071127015704 
-// Release: ILIAS 3.9 RELEASE
+// Build: 2008224021552 
 
 function ADLAuxiliaryResource()
 {}
@@ -2395,7 +2394,7 @@ return api;}
 var api={cmi:{},adl:{}};var data=activitiesByCAM[cp_node_id];getAPIWalk(Runtime.models.cmi.cmi,data,api.cmi);return api;}
 function setItemValue(key,dest,source,destkey)
 {if(source&&source.hasOwnProperty(key))
-{var d=source[key];if(!isNaN(parseFloat(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
+{var d=source[key];if(!isNaN(d)){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
 dest[destkey?destkey:key]=d;}}
 function setAPI(cp_node_id,api)
 {function setAPIWalk(model,data,api)

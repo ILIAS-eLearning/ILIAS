@@ -2541,7 +2541,7 @@ function setItemValue (key, dest, source, destkey)
 	if (source && source.hasOwnProperty(key)) 
 	{
 		var d = source[key];
-		if (!isNaN(parseFloat(d))) {
+		if (!isNaN(d)) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;
