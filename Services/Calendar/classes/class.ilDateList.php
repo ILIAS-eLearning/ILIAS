@@ -95,7 +95,7 @@ class ilDateList
 	 	// the unix time is the key. 
 	 	// It's casted to string because array_merge overwrites only string keys
 	 	// @see merge
-	 	$this->list_item[(string) $date->get(ilDateTime::FORMAT_UNIX)] = clone $date;
+	 	$this->list_item[(string) $date->get(ilDateTime::FORMAT_UNIX)] = $date;
 	}
 	
 	/**
