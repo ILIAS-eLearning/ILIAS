@@ -360,6 +360,25 @@ class ilCalendarRecurrence
 	 	return $this->bymonthday;
 	}
 	
+	/**
+	 * get BYMONTHDAY list
+	 *
+	 * @access public
+	 */
+	public function getBYMONTHDAYList()
+	{
+	 	if(!trim($this->getBYMONTHDAY()))
+	 	{
+	 		return array();
+	 	}
+	 	foreach(explode(',',$this->getBYMONTHDAY()) as $month_num)
+	 	{
+	 		$months[] = (int) $month_num;
+	 	}
+	 	return $months ? $months : array();
+	
+	}
+	
 	
 	/**
 	 * set by day

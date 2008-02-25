@@ -50,6 +50,7 @@ class ilDateList
 	public function __construct($a_type)
 	{
 	 	$this->type = $a_type;
+	 	$this->list_item = array();
 	}
 	
 	/**
@@ -151,7 +152,7 @@ class ilDateList
 	 	$out = '<br />';
 	 	foreach($this->get() as $date)
 	 	{
-	 		$out .= $date->get(ilDateTime::FORMAT_DATETIME).'<br/>';
+	 		$out .= $date->get(ilDateTime::FORMAT_DATETIME,'','Europe/Berlin').'<br/>';
 	 	}
 	 	return $out;
 	}
