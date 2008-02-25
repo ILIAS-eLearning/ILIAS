@@ -306,6 +306,15 @@ class ilObjectGUI
 			// set tabs
 			$this->setTabs();
 			$this->showUpperIcon();
+
+			// BEGIN WebDAV: Display Mount Webfolder icon.
+			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+			if (ilDAVServer::_isActive() && 
+				$this->ilias->account->getId() != ANONYMOUS_USER_ID)
+			{
+				$this->showMountWebfolderIcon();
+			}
+			// END WebDAV: Display Mount Webfolder icon.
 		}
 		
 		return true;
@@ -370,6 +379,19 @@ class ilObjectGUI
 			}
 		}
 	}
+	// BEGIN WebDAV: Show Mount Webfolder Icon.
+	function showMountWebfolderIcon()
+	{
+		global $tree, $tpl, $objDefinition;
+
+		if ($this->object->getRefId() == "")
+		{
+			return;
+		}
+
+		$tpl->showMountWebfolderIcon($this->object->getRefId());
+	}
+	// END WebDAV: Show Mount Webfolder Icon.
 
 
 	/**
@@ -605,6 +627,23 @@ class ilObjectGUI
 			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 			
+			// BEGIN ChangeEvent: Record undelete. 
+			require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				global $ilUser, $tree;
+
+				$node_data = $saved_tree->getNodeData($id);
+				$saved_tree->deleteTree($node_data);
+			
+				// Record undelete event
+				$node_data = $tree->getNodeData($id);
+				$parent_data = $tree->getParentNodeData($node_data['ref_id']);
+				ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'undelete', 
+					$parent_data['obj_id']);
+				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
+			}
+			// END PATCH ChangeEvent: Record undelete. 
 		}
 
 		//$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
@@ -665,6 +704,7 @@ class ilObjectGUI
 		include_once './payment/classes/class.ilPaymentObject.php';
 
 		global $rbacsystem, $rbacadmin, $log;
+		global $ilUser, $tree;
 	
 		// TODO: move checkings to deleteObject
 		// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
@@ -685,6 +725,18 @@ class ilObjectGUI
 				ilUtil::sendInfo('Object already deleted.',true);
 				$this->ctrl->returnToParent($this);
 			}
+
+			// BEGIN ChangeEvent: Record delete event.
+			if (ilPlugin::isPluginActive('ilChangeEventPlugin'))
+			{
+				require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+
+				$obj_data = $this->tree->getNodeData($id);
+				$parent_data = $tree->getParentNodeData($obj_data['ref_id']);
+				ilChangeEvent::_recordWriteEvent($obj_data['obj_id'], $ilUser->getId(), 'delete', 
+					$parent_data['obj_id']);
+			}
+			// END ChangeEvent: Record delete event.
 			
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $this->tree->getNodeData($id);
@@ -864,6 +916,18 @@ class ilObjectGUI
 			$saved_tree = new ilTree(-(int)$id);
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
+
+			// BEGIN ChangeEvent: Record remove from system.
+			require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				// Record write event
+				global $ilUser, $tree;
+				$parent_data = $tree->getParentNodeData($node_data['ref_id']);
+				ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'purge', 
+					$parent_data['obj_id']);
+			}
+			// END ChangeEvent: Record remove from system.
 
 			// remember already checked deleted node_ids
 			$checked[] = -(int) $id;
@@ -1328,6 +1392,49 @@ class ilObjectGUI
 		return true;
 	}
 
+	// BEGIN Security: Hide objects which aren't accessible by the user.
+	function isVisible($a_ref_id,$a_type)
+	{
+		global $rbacsystem, $ilBench;
+		
+		$ilBench->start("Explorer", "setOutput_isVisible");
+		$visible = $rbacsystem->checkAccess('visible,read',$a_ref_id);
+		
+		if ($visible && $a_type == 'crs') {
+			global $tree;
+			if($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
+			{
+				if(!$rbacsystem->checkAccess('write',$crs_id))
+				{
+					// Show only activated courses
+					$tmp_obj =& ilObjectFactory::getInstanceByRefId($crs_id,false);
+	
+					if(!$tmp_obj->isActivated())
+					{
+						unset($tmp_obj);
+						$visible = false;
+					}
+					if(($crs_id != $a_ref_id) and $tmp_obj->isArchived())
+					{
+						$visible = false;
+					}
+					// Show only activated course items
+					include_once "./course/classes/class.ilCourseItems.php";
+	
+					if(($crs_id != $a_ref_id) and (!ilCourseItems::_isActivated($a_ref_id)))
+					{
+						$visible = false;
+					}
+				}
+			}
+		}
+		
+		$ilBench->stop("Explorer", "setOutput_isVisible");
+
+		return $visible;
+	}
+	// END Security: Hide objects which aren't accessible by the user.
+
 	/**
 	* display object list
 	*
@@ -1385,14 +1492,28 @@ class ilObjectGUI
 
 		if (!empty($this->data["data"][0]))
 		{
+			// BEGIN Security: only show objects which are visible to the user
+			$count = 0;
+			// END Security: only show objects which are visible to the user
+
 			//table cell
 			for ($i=0; $i < count($this->data["data"]); $i++)
 			{
 				$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
 
+				// BEGIN Security: only show objects which are visible to the user
+				if (! $this->isVisible($ctrl['ref_id'], $data['type']))
+				{
+					continue;
+				}
+				// END Security: only show objects which are visible to the user
+
 				// color changing
-				$css_row = ilUtil::switchColor($i+1,"tblrow2","tblrow1");
+				// BEGIN Security only show objects which are visible to the user
+				$count++;
+				$css_row = ilUtil::switchColor($count,"tblrow2","tblrow1");
+				// END Security only show objects that are visible to the user
 
 				// surpress checkbox for particular object types AND the system role
 				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID or $ctrl["obj_id"] == SYSTEM_USER_ID or $ctrl["obj_id"] == ANONYMOUS_ROLE_ID)
@@ -1553,6 +1674,14 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+		// BEGIN ChangeEvent: record read event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			global $ilUser;
+			ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
+		}
+		// END ChangeEvent: record read event.
 
 		//prepare objectlist
 		$this->objectList = array();

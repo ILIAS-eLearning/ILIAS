@@ -1829,7 +1829,6 @@ common#:#defaults#:#Standardeinstellungen
 common#:#delete_all_rec#:#Lösche alle Einträge
 common#:#delete_all#:#Alle löschen
 common#:#delete_object#:#Lösche Objekte
-common#:#delete_selected_items#:#Ausgewählte Elemente löschen
 common#:#delete_selected#:#Auswahl löschen
 common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#delete#:#Löschen
@@ -2197,7 +2196,6 @@ common#:#group_memstat_member#:#Mitglied
 common#:#group_memstat#:#Mitgliederstatus
 common#:#group_name#:#Gruppenname
 common#:#group_new_registrations#:#Aufnahmeanträge
-common#:#group_no_registration_msg#:#Sie können direkt zu dieser Gruppe beitreten.
 common#:#group_no_registration#:#Zur Gruppe beitreten
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
@@ -2667,7 +2665,6 @@ common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
 common#:#link_check#:#Links überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
 common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-Id an den Web-Link anhängen.
-common#:#link_selected_items#:#Ausgewählte Elemente verknüpfen
 common#:#link#:#Verknüpfen
 common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
@@ -2868,7 +2865,6 @@ common#:#monthly#:#monatlich
 common#:#months#:#Monate
 common#:#move_blocks#:#Blöcke verschieben
 common#:#move_down#:#Nach unten
-common#:#move_selected_items#:#Ausgewählte Elemente verschieben
 common#:#move_to#:#Ablegen in
 common#:#move_up#:#Nach oben
 common#:#move_users_to_style#:#Benutzer Style zuordnen
@@ -3241,7 +3237,6 @@ common#:#passwd#:#Passwort
 common#:#password_assistance_disabled#:#Passwort-Unterstützung ist nur dann verfügbar, wenn die Authentisierung der Benutzer über die ILIAS-Datenbank erfolgt.
 common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmelde-Seite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
 common#:#password#:#Passwort
-common#:#paste_clipboard_items#:#Aus Zwischenablage einfügen
 common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
@@ -3730,7 +3725,6 @@ common#:#time#:#Zeit
 common#:#title_long#:#Langtitel
 common#:#title#:#Titel
 common#:#to_client_list#:#Zur Mandantenauswahl
-common#:#to_desktop#:#Auf den Schreibtisch
 common#:#to#:#Bis
 common#:#today#:#Heute
 common#:#toggleGlobalDefault#:#Standard-Style umschalten
@@ -4594,7 +4588,6 @@ crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren e
 crs#:#crs_info_download#:#Dateien zum Herunterladen
 crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie erhalten eine Nachricht, wenn ein Kurs-Administrator Ihren Antrag angenommen oder abgelehnt hat.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
-crs#:#crs_info_reg_direct#:#Sie können direkt diesem Kurs beitreten.
 crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_settings#:#Kursinfo
@@ -5312,7 +5305,6 @@ forum#:#frm_statistics_enabled#:#Statistiken anzeigen
 forum#:#frm_statistics_ranking#:#Anzahl Postings
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
-forum#:#is_read#:#gelesen
 forum#:#new_post#:#Neue Nachricht
 forum#:#activate_new_posts#:#Freischalten neuer Nachrichten
 forum#:#thread#:#Thema
@@ -6549,7 +6541,6 @@ pwassist#:#pwassist_invalid_auth_mode#:#Der angegebene Nutzer wird nicht direkt 
 pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefeld.\nDie E-Mail-Adresse, die Sie eingegeben haben, ist in der Datenbank nicht vorhanden.
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail-Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. 
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS Passwort-Unterstützung
 pwassist#:#pwassist_no_email_found#:#Leider kann die Passwortunterstützung nicht genutzt werden, da für das angegebene Benutzerkonto keine E-Mail Adresse hinterlegt ist.
@@ -7784,3 +7775,51 @@ payment#:#user_deleted#:#Benutzer gelöscht
 payment#:#statistics_filter_advice#:#Bitte tätigen Sie die gewünschten Filtereinstellungen und klicken Sie anschließend auf "Ansicht aktualisieren"
 mail#:#advice_mail_body_secured#:#Aus Ihrer Nachricht wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie die vom System bereinigte Nachricht und schicken Sie die Mail erneut ab.
 payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für diesen Kurs ist bereits erreicht. Deswegen können Sie diesen Kurs momentan leider nicht kaufen.
+common#:#webfolder#:#Webordner
+common#:#mount_webfolder#:#Als Webordner öffnen
+common#:#obj_file_inline#:#Lernmodul Datei
+common#:#yesterday#:#Gestern
+common#:#tomorrow#:#Morgen
+common#:#to_desktop#:#Auf Schreibtisch legen
+common#:#delete_selected_items#:#Löschen
+common#:#link_selected_items#:#Verknüpfen
+common#:#move_selected_items#:#Verschieben
+common#:#copy_selected_items#:#Kopieren
+common#:#paste_clipboard_items#:#Einfügen
+common#:#group_no_registration_msg#:#Sie können dieser Gruppe direkt beitreten.
+crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
+forum#:#is_read#:#Gelesen
+common#:#disk_space_used#:#Belegter Festplattenspeicher
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. 
+common#:#in_use_by#:#In Bearbeitung durch
+common#:#filename_interoperability#:#Interoperabilität
+common#:#filename_special_characters#:#/ ist in Dateinamen nicht erlaubt
+common#:#filename_windows_special_characters#:#\/:*?"<>| sind in Windows Dateinamen nicht erlaubt
+common#:#filename_visibility#:#Sichtbarkeit
+common#:#filename_hidden_unix_file#:#Versteckte Unix Datei
+common#:#filename_hidden_backup_file#:#Versteckte Backup Datei
+common#:#filename_windows_empty_extension#:#. ist am Ende eines Windows Dateinamens nicht erlaubt
+common#:#filename_windows_webdav_issue#:## wird von Windows Webordnern nicht unterstützt
+common#:#filename_special_filename#:#. und .. sind reservierte Dateinamen
+common#:#filename_extension_missing#:#Dateiendung fehlt
+common#:#readcount_anonymous_users#:#Anzahl anonyme Lesezugriffe
+common#:#readcount_users#:#Anzahl nicht-anonyme Lesezugriffe
+common#:#accesscount_registered_users#:#Gelesen durch Anzahl unterschiedliche ILIAS Benutzer
+common#:#state_changed#:#geändert
+common#:#state_changed_inside#:#Inhalt geändert
+common#:#state_new#:#neu
+common#:#state_unread#:#ungelesen
+common#:#filename_extension_short#:#Endung
+common#:#accept_date#:#Nutzungslizenz akzeptiert am
+common#:#obj_facs#:#Dateizugriff
+common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien.
+common#:#enable_webdav#:#WebDAV Zugriff aktivieren
+common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: %1s.
+common#:#webfolder_mount_instructions#:#Anleitung zum Öffnen eines Webordners.
+common#:#webfolder_use_default_mount_instructions#:#Standard-Anleitungstext verwenden.
+common#:#webfolder_use_customized_mount_instructions#:#Angepassten Anleitungstext verwenden:
+common#:#webfolder_mount_instructions_info#:#Diese Anleitung wird angezeigt, wenn ein Browser das Öffnen von Webordnern nicht unterstützt. Sie können HTML Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URL]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld, zum Zurücksetzen auf den Standard-Anleitungstext.
+common#:#inline_file_extensions#:#Endungen von webfähigen Dateien
+common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 mp4 m4a m4v pdf png swf</b><br/>. Alle übrigen Dateien werden zum Herunterladen angeboten. 
+common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1s">Anleitung zum Öffnen von Webordnern</a>.
+common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1s">Internet Explorer</a>, <a href="%2s">Konqueror</a>, <a href="%3s">anderem Browser</a>.
