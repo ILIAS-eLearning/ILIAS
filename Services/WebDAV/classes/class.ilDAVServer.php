@@ -275,7 +275,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				}
 				
 				// only add visible objects to the file list
-				if ($this->isVisibleChild($childDAV))
+				if ($this->isFileHidden($childDAV))
 				{
 					$this->writelog('PROPFIND() child ref_id='.$childDAV->getRefId());
 					$files['files'][] =& $this->fileinfo(
@@ -303,16 +303,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	}
         
 	/**
-     * Returns true, if the resource is a visible child of a collection.
-	 * Note, that resources which are not a visible child can still be a WebDAV client,
-	 * if the client knows the resource name.
+     * Returns true, if the resource has file name which is hidden from the user.
+	 * Note, that resources with a hidden file name can still be accessed by a 
+     * WebDAV client, if the client knows the resource name.
 	 *
 	 * - We hide all Null Resources who haven't got an active lock
 	 * - We hide all files with the prefix "." from Windows DAV Clients.
 	 * - We hide all files which contain characters that are not allowed on Windows from Windows DAV Clients.
 	 * - We hide the files with the prefix " ~$" or the name "Thumbs.db" from Unix DAV Clients.
 	 */	
-	private function isVisibleChild(&$objDAV)
+	private function isFileHidden(&$objDAV)
 	{
 		// Hide null resources which haven't got an active lock
 		if ($objDAV->isNullResource()) {
@@ -322,24 +322,24 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 	
 		$name = $objDAV->getResourceName();
-		$isVisibleChild = true;
+		$isFileHidden = true;
 		switch ($this->clientOS)
 		{
 		case 'unix' :
 			// Hide files which start with '~$'.
-			$isVisibleChild = 
+			$isFileHidden = 
 				$name != 'Thumbs.db'
 				&& substr($name, 0, 2) != '~$';
 			break;
 		case 'windows' :
 			// Hide files that start with '.'.
-			$isVisibleChild = substr($name, 0, 1) != '.';
+			$isFileHidden = substr($name, 0, 1) != '.';
 			// Hide files which contain \ / : * ? " < > |
-			$isVisibleChild &= !preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
+			$isFileHidden &= !preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
 			break;
 		}
-		$this->writelog($this->clientOS.' '.$name.' '.$isVisibleChild);
-		return $isVisibleChild;
+		$this->writelog($this->clientOS.' '.$name.' '.$isFileHidden);
+		return $isFileHidden;
 	}
 	
 	/**
@@ -510,7 +510,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		
 		// Record read event and catch up write events
-		if (ilChangeEvent::isActive())
+		if (ilChangeEvent::_isActive())
 		{
 			ilChangeEvent::_recordReadEvent($objDAV->getObjectId(), $ilUser->getId());
 		}
@@ -521,7 +521,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	/**
 	* Mount method handler for directories
 	*
-	* Mounting is done according to the internet draft "Mounting WebDAV servers"
+	* Mounting is done according to the internet draft RFC 4709 "Mounting WebDAV servers"
 	* "draft-reschke-webdav-mount-latest". 
 	* See
 	* http://greenbytes.de/tech/webdav/draft-reschke-webdav-mount-latest.html
@@ -531,21 +531,20 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	*/
 	private function mountDir(&$objDAV, &$options) 
 	{
-		// Always show instructions.
-		// Once there is a browser that supports this feature, add an if-statement
-		// here, that shows instructions or creates the XML reply as implemented below.
-		$this->showMountInstructions($objDav, $options);
-		exit;
-		/*
 		$path = $this->davDeslashify($options['path']);
 		
 		header('Content-Type: application/davmount+xml');
 		
 		echo "<dm:mount xmlns:dm=\"http://purl.org/NET/webdav/mount\">\n";
 		echo "  </dm:url>".$this->base_uri."</dm:url>\n";
-		echo "  </dm:open>$path</dm:open>\n";
+
+		$xmlPath = str_replace('&','&amp;',$path);
+		$xmlPath = str_replace('<','&lt;',$xmlPath);
+		$xmlPath = str_replace('>','&gt;',$xmlPath);
+
+		echo "  </dm:open>$xmlPath</dm:open>\n";
 		echo "</dm:mount>\n";
-		*/
+
 		exit;
 		
 	}
@@ -685,8 +684,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	*/
 	private function getDir(&$objDAV, &$options) 
 	{
-		global $ilias;
-		
+		global $ilias, $lng;
+
 		$path = $this->davDeslashify($options['path']);
 		
 		// The URL of a directory must end with a slash.
@@ -743,22 +742,13 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Display user id
 		if ($ilias->account->getLogin() == 'anonymous')
 		{
-			//echo "<p><font size=\"-1\">You are not logged in.</font><br>\n";
-			echo "<p><font size=\"-1\">Sie sind nicht angemeldet.</font><br>\n";
+			echo "<p><font size=\"-1\">".$lng->txt('not_logged_in')."</font><br>\n";
 		} else {
-			/*
-			echo "<p><font size=\"-1\">Logged in as "
+			echo "<p><font size=\"-1\">".$lng->txt('login_as')." "
 				.$ilias->account->getFirstname().' '
 				.$ilias->account->getLastname().' '
 				.'"'.$ilias->account->getLogin().'"'
-				.' at client "'.$ilias->getClientId().'".'
-				."</font><br>\n";
-			*/
-			echo "<p><font size=\"-1\">Angemeldet als "
-				.$ilias->account->getFirstname().' '
-				.$ilias->account->getLastname().' '
-				.'"'.$ilias->account->getLogin().'"'
-				.' auf Mandant "'.$ilias->getClientId().'".'
+				.', '.$lng->txt('client').' "'.$ilias->getClientId().'".'
 				."</font><p>\n";
 		}
 		
@@ -772,33 +762,24 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		} else {
 		 	$hrefIE = $href;
 		}
-		echo "<font size=\"-1\">Sie sind möglicherweise hierher gelangt, weil Ihr Browser Webordner ".
-			"nicht direkt öffnen kann. Lesen Sie die <a href=\"$href?mount-instructions\">Anleitung</a> ".
-			"zum Öffnen von Webordnern.".
-			"</font></p>\n";
-		echo "<font size=\"-1\">Diese Seite als Webordner öffnen mit \n"
-			."<a href=\"$hrefIE\" folder=\"$hrefIE\">Internet Explorer</a>, \n"
-			."<a href=\"webdav".substr($href,4)."\">Konqueror</a>, \n"
-			."<a href=\"$href?mount\">anderem Browser</a>. \n"
+		echo "<p><font size=\"-1\">".
+				sprintf($lng->txt('webfolder_dir_info'), "$href?mount-instructions").
+				"</font></p>\n";
+		echo "<p><font size=\"-1\">".
+				sprintf($lng->txt('webfolder_mount_dir_with'), 
+					"$hrefIE\" folder=\"$hrefIE", // Internet Explorer
+					'webdav'.substr($href,4), // Konqueror
+					$href.'?mount' // RFC 4709
+				)
 			."</font></p>\n";
-		/*
-		echo "<font size=\"-1\">Open this page as webfolder with \n"
-			."<a href=\"$hrefIE\" folder=\"$hrefIE\">Internet Explorer</a>, \n"
-			."<a href=\"webdav".substr($href,4)."\">Konqueror</a>, \n"
-			."<a href=\"$href?mount\">other</a> browser. \n"
-			."</font></p>\n";
-		echo "<font size=\"-1\">If opening a webfolder does not work, ".
-			"read the <a href=\"$href?mount-instructions\">mount instructions</a>. \n"
-			."</font></p>\n";
-		*/
 	    
 		echo "<pre>";
-		printf($format, "Size", "Last modified", "Filename");
+		printf($format, $lng->txt("size"), $lng->txt("last_change"), $lng->txt("filename"));
 		echo "<hr>";
 	
 		$children =& $objDAV->childrenWithPermission('visible');
 		foreach ($children as $childDAV) {
-			if ($childDAV->isCollection() && $this->isVisibleChild($childDAV))
+			if ($childDAV->isCollection() && $this->isFileHidden($childDAV))
 			{
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
@@ -808,7 +789,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 		}
 		foreach ($children as $childDAV) {
-			if ($childDAV->isFile() && $this->isVisibleChild($childDAV))
+			if ($childDAV->isFile() && $this->isFileHidden($childDAV))
 			{
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
@@ -818,7 +799,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 		}
 		foreach ($children as $childDAV) {
-			if ($childDAV->isNullResource() && $this->isVisibleChild($childDAV))
+			if ($childDAV->isNullResource() && $this->isFileHidden($childDAV))
 			{
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
@@ -831,7 +812,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		echo "</pre>";
 	
 		echo "</body></html>\n";
-	
+
 		exit;
 	}
 

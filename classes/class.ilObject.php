@@ -760,6 +760,14 @@ class ilObject
 
 		$md =& new ilMD($this->getId(), 0, $this->getType());
 		$md_gen =& $md->getGeneral();
+		// BEGIN WebDAV: meta data can be missing sometimes.
+		if ($md_gen == null)
+		{
+			$this->createMetaData();
+			$md =& new ilMD($this->getId(), 0, $this->getType());
+			$md_gen =& $md->getGeneral();
+		}
+		// END WebDAV: meta data can be missing sometimes.
 		$md_gen->setTitle($this->getTitle());
 
 		// sets first description (maybe not appropriate)

@@ -1787,7 +1787,6 @@ common#:#city#:#City, State
 common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
-common#:#clear_clipboard#:#Empty Clipboard
 common#:#client#:#Client
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
@@ -1958,7 +1957,6 @@ common#:#delete_all#:#Delete All
 common#:#delete_all_rec#:#Delete all records
 common#:#delete_object#:#Delete Object(s)
 common#:#delete_selected#:#Delete Selected
-common#:#delete_selected_items#:#Delete selected items
 common#:#delete_tr_data#:#Delete tracking data
 common#:#deleted#:#Deleted
 common#:#deleted_user#:#The user has been deleted
@@ -2748,7 +2746,6 @@ common#:#link_check_message_enabled#:#Messages enabled
 common#:#link_check_subject#:#[ILIAS 3] Link check
 common#:#link_checker_refreshed#:#Refreshed view
 common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
-common#:#link_selected_items#:#Link selected items
 common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#links_add_param#:#Add parameter:
@@ -2938,7 +2935,6 @@ common#:#move_up#:#Move Up
 common#:#move_down#:#Move Down
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
-common#:#move_selected_items#:#Move selected items
 common#:#move_to#:#Move to
 common#:#move_users_to_style#:#Move Users to Style
 common#:#msg_cancel#:#Action cancelled
@@ -3434,7 +3430,6 @@ common#:#password_assistance_info#:#If password assistance is enabled, a link wi
 common#:#paste#:#Paste
 common#:#pasteChapter#:#Paste
 common#:#pastePage#:#Paste
-common#:#paste_clipboard_items#:#Paste items from clipboard
 common#:#path#:#Path
 common#:#path_not_set#:#Path not set
 common#:#path_to_babylon#:#Path to Babylon
@@ -7877,3 +7872,50 @@ payment#:#user_deleted#:#User Deleted
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.
 mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
 payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.
+common#:#webfolder#:#Webfolder
+common#:#mount_webfolder#:#Open as webfolder
+common#:#obj_file_inline#:#Learning Module File
+common#:#yesterday#:#Yesterday
+common#:#tomorrow#:#Tomorrow
+common#:#show_profile#:#Show profile
+common#:#delete_selected_items#:#Delete
+common#:#link_selected_items#:#Link
+common#:#move_selected_items#:#Move
+common#:#copy_selected_items#:#Copy
+common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
+common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
+common#:#paste_clipboard_items#:#Paste
+common#:#clear_clipboard#:#Clear Clipboard
+common#:#disk_space_used#:#Disk space used
+common#:#in_use_by#:#In use by
+common#:#filename_extension_missing#:#Filename extension missing
+common#:#filename_special_characters#:#/ is not allowed in filenames
+common#:#filename_windows_special_characters#:#\/:*?"<>| are not allowed in Windows filenames
+common#:#filename_windows_empty_extension#:#. at the end of a filename is not allowed on Windows
+common#:#filename_windows_webdav_issue#:## is not supported in Windows webfolders
+common#:#filename_special_filename#:#. and .. are reserved filenames
+common#:#filename_visibility#:#Visibility
+common#:#filename_hidden_unix_file#:#Hidden Unix file
+common#:#filename_hidden_backup_file#:#Hidden backup file
+common#:#filename_interoperability#:#Interoperability
+common#:#readcount_anonymous_users#:#Number of anonymous read accesses
+common#:#readcount_users#:#Number of non-anonymous read accesses
+common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
+common#:#state_changed#:#changed
+common#:#state_changed_inside#:#changed inside
+common#:#state_new#:#new
+common#:#state_unread#:#unread
+common#:#filename_extension_short#:#Extension
+common#:#accept_date#:#User agreement accepted on
+common#:#obj_facs#:#File Access
+common#:#obj_facs_desc#:#Configure access to file objects.
+common#:#enable_webdav#:#Enable WebDAV access
+common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: %1s.
+common#:#webfolder_mount_instructions#:#Webfolder mount instructionss
+common#:#webfolder_use_default_mount_instructions#:#Use default mount instructions.
+common#:#webfolder_use_customized_mount_instructions#:#Use customized mount instructions:
+common#:#webfolder_mount_instructions_info#:#These instructions are shown for browsers, which can not open a webfolder directly. You can use HTML code. Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URL]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.  Clear this field, to get the default instructions.
+common#:#inline_file_extensions#:#Extensions of web-enabled files
+common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg jpeg mp3 mp4 m4a m4v pdf png swf<</b><br/>. All other files are offered for downloading.
+common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1s">instructions for opening webfolders</a>.
+common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1s">Internet Explorer</a>, <a href="%2s">Konqueror</a>, <a href="%3s">other Browser</a>.

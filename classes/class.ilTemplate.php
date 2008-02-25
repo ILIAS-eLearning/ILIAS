@@ -534,6 +534,14 @@ class ilTemplate extends ilTemplateX
 				$this->parseCurrentBlock();
 			}
 		}
+
+		// BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
+		// The corresponding $ilBench->start invocation is in inc.header.php
+		global $ilBench;
+		$ilBench->stop("Core", "ElapsedTimeUntilFooter");
+		$this->setVariable("ELAPSED_TIME",
+			", ".number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"),1).' seconds');
+		// END Usability: Non-Delos Skins can display the elapsed time in the footer
 	}
 
 
@@ -1052,6 +1060,29 @@ class ilTemplate extends ilTemplateX
 		$this->parseCurrentBlock();
 	}
 	
+	// BEGIN WebDAV: Mount webfolder icon.
+	/**
+	* shows icon for mounting a webfolder
+	*/
+	function showMountWebfolderIcon($a_ref_id)
+	{
+		global $lng;
+		
+		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+		$davServer = new ilDAVServer();
+		$a_link =  $davServer->getMountURI($a_ref_id);
+		$a_folder = $davServer->getFolderURI($a_ref_id);
+		
+		$this->setCurrentBlock("mount_webfolder");
+		$this->setVariable("LINK_MOUNT_WEBFOLDER", $a_link);
+		$this->setVariable("FOLDER_MOUNT_WEBFOLDER", $a_folder);
+		$this->setVariable("IMG_MOUNT_WEBFOLDER",ilUtil::getImagePath("ic_mount_webfolder.gif"));
+		$this->setVariable("ALT_MOUNT_WEBFOLDER",$lng->txt("mount_webfolder"));
+		$this->setVariable("TARGET_MOUNT_WEBFOLDER", '_blank');
+		$this->parseCurrentBlock();
+	}
+	// END WebDAV: Mount webfolder icon.
+
 	/**
 	* set tree/flat icon
 	* @param	string		link target
