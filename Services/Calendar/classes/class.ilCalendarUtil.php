@@ -196,5 +196,50 @@ class ilCalendarUtil
 				'Pacific/Auckland' => 'GMT+12:00: Auckland, Wellington', 
 				'Pacific/Fiji' => 'GMT+12:00: Fiji, Kamchatka, Marshall-Islands'); 
 	}
+	
+	
+	/**
+	 * check if a given year is a leap year
+	 *
+	 * @access public
+	 * @param int year 
+	 * @return bool 
+	 */
+	public static function _isLeapYear($a_year)
+	{
+		$is_leap = false;
+		
+		if($a_year % 4 == 0)
+		{
+			$is_leap = true;
+			if($a_year % 100 == 0)
+			{
+				$is_leap = false;
+				if($a_year % 400)
+				{
+					return true;
+				}
+			}
+		}
+		return $is_leap;
+	}
+	
+	/**
+	 * get max day of month
+	 * 2008,2 => 29
+	 *
+	 * @access public
+	 * @param int year
+	 * @param int month
+	 * @return
+	 */
+	public static function _getMaxDayOfMonth($a_year,$a_month)
+	{
+		
+		$months = array(0,31,
+				self::_isLeapYear($a_year) ? 29 : 28,
+				31,30,31,30,31,31,30,31,30,31);
+		return $months[$a_month];
+	}
 }
 ?>
