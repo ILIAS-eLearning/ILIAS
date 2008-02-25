@@ -62,6 +62,8 @@ class ilCalendarRecurrence
 	private $byyearday;
 	private $bysetpos;
 	private $weekstart;
+	
+	private $timezone = 'Europe/Berlin';
 
 	/**
 	 * Constructor
@@ -486,6 +488,29 @@ class ilCalendarRecurrence
 	public function getWeekstart()
 	{
 	 	return $this->weekstart;
+	}
+	
+	/**
+	 * get timezone
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getTimeZone()
+	{
+	 	return $this->timezone;
+	}
+	
+	/**
+	 * set timezone 
+	 *
+	 * @access public
+	 * @param string timezone
+	 * 
+	 */
+	public function setTimeZone($a_tz)
+	{
+	 	$this->timezone = $a_tz;
 	}
 	
 	/**
