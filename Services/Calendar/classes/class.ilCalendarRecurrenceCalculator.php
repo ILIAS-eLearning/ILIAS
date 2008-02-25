@@ -41,6 +41,7 @@ class ilCalendarRecurrenceCalculator
 	protected $timezone = null;
 	protected $log = null;
 	
+	protected $limit_reached = false;
 	protected $valid_dates = null;
 	protected $period_start = null;
 	protected $period_end = null;
@@ -85,9 +86,11 @@ class ilCalendarRecurrenceCalculator
 	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
 	 	$time = microtime(true);
 	 	$start = $this->optimizeStartingTime();
-	 	echo "ZEIT: ADJUST: ".(microtime(true) - $time).'<br>';
+	 	#echo "ZEIT: ADJUST: ".(microtime(true) - $time).'<br>';
+	 	$counter = 0;
 	 	do
 	 	{
+		 	++$counter;
 		 	// initialize context for applied rules
 		 	// E.g 
 		 	// RRULE:FREQ=YEARLY;BYMONTH=1;BYWEEKNO=1,50	=> context for BYWERKNO is monthly because it filters to the weeks in JAN
@@ -118,10 +121,10 @@ class ilCalendarRecurrenceCalculator
 	 		$freq_res = $this->applyBYSETPOSRules($freq_res);
 			#echo "BYSETPOS: ".$freq_res;
 			
-			$this->valid_dates->merge($freq_res);
-	 		
+			$freq_res = $this->applyLimits($freq_res);
+
 			$start = $this->incrementByFrequency($start);
-			if(ilDateTime::_after($start,$this->period_end))
+			if(ilDateTime::_after($start,$this->period_end) or $this->limit_reached)
 			{
 				break;
 			}
@@ -140,6 +143,8 @@ class ilCalendarRecurrenceCalculator
 	 */
 	protected function optimizeStartingTime()
 	{
+	 	$time = microtime(true);
+	 	
 	 	// starting time cannot be optimzed if RRULE UNTIL is given.
 	 	// In that case we have to calculate all dates until "UNTIL" is reached.
 	 	if($this->recurrence->getFrequenceUntilCount() > 0)
@@ -147,12 +152,14 @@ class ilCalendarRecurrenceCalculator
 			// Switch the date to the original defined timzone for this recurrence 
 			return $this->createDate($this->event->getStart()->get(ilDateTime::FORMAT_UNIX,$this->timezone));
 	 	}
-	 	$optimized = clone $start = $this->createDate($this->event->getStart()->get(ilDateTime::FORMAT_UNIX,$this->timezone));
+	 	$optimized = $start = $this->createDate($this->event->getStart()->get(ilDateTime::FORMAT_UNIX,$this->timezone));
 	 	while(ilDateTime::_before($start,$this->period_start))
 	 	{
 	 		$optimized = clone $start;
 	 		$start = $this->incrementByFrequency($start);
 	 	}
+	 	
+	 	echo "ADJUST: ".(microtime(true) - $time).'<br>';
 	 	return $optimized;
 	}
 	
@@ -381,7 +388,9 @@ class ilCalendarRecurrenceCalculator
 				{
 					case ilCalendarRecurrence::FREQ_DAILY:
 						// Check if day matches
-						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'z',$this->timezone) == $day_no)
+						#var_dump("<pre>",$seed->get(ilDateTime::FORMAT_FKT_DATE,'z',$this->timezone),$day_no,"</pre>");
+						
+						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'j',$this->timezone) == $day_no)
 						{
 							$days_list->add($new_day);
 						}
@@ -401,7 +410,6 @@ class ilCalendarRecurrenceCalculator
 						break;
 
 					case ilCalendarRecurrence::FREQ_YEARLY:
-	
 	
 						$h = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'H',$this->timezone);
 						$i = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'i',$this->timezone);
@@ -487,6 +495,53 @@ class ilCalendarRecurrenceCalculator
 			}
 		}
 		return $pos_list;
+	}
+	
+	/**
+	 * Apply limits (count or until)
+	 *
+	 * @access public
+	 * @param object ilDateList
+	 * 
+	 */
+	public function applyLimits(ilDateList $list)
+	{
+	 	// Check count if given
+	 	if($this->recurrence->getFrequenceUntilCount())
+	 	{
+	 		$list->sort();
+	 		foreach($list->get() as $res)
+	 		{
+	 			if(count($this->valid_dates->get()) < $this->recurrence->getFrequenceUntilCount())
+	 			{
+	 				$this->valid_dates->add($res);
+	 			}
+	 			else
+	 			{
+	 				$this->valid_dates->add($res);
+	 				$this->limit_reached = true;
+	 				return false;
+	 			}
+	 		}
+	 		return true;
+	 	}
+	 	elseif($this->recurrence->getFrequenceUntilDate())
+	 	{
+	 		$date = $this->recurrence->getFrequenceUntilDate();
+	 		$list->sort();
+	 		foreach($list->get() as $res)
+	 		{
+	 			if(ilDateTime::_after($res,$date))
+	 			{
+	 				$this->limit_reached = true;
+	 				return false;
+	 			}
+	 			$this->valid_dates->add($res);
+	 		}
+	 		return true;
+	 	}
+	 	$this->valid_dates->merge($list);
+	 	return true;
 	}
 	
 	/**
