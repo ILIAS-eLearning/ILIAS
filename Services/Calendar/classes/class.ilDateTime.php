@@ -43,7 +43,6 @@ class ilDateTime
 	const FORMAT_DATETIME = 1;
 	const FORMAT_DATE = 2;
 	const FORMAT_UNIX = 3;
-	
 	const FORMAT_FKT_DATE = 4;
 
 	protected $log;
@@ -91,6 +90,17 @@ class ilDateTime
 	}
 	
 	/**
+	 * get timezone identifier
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getTimeZoneIdentifier()
+	{
+	 	return $this->timezone->getIdentifier();
+	}
+	
+	/**
 	 * compare two dates and check start is before end 
 	 * This method does not consider tz offsets.
 	 * So you have to take care that both dates are defined in the the same timezone
@@ -104,7 +114,7 @@ class ilDateTime
 	 */
 	public static function _before(ilDateTime $start,ilDateTime $end)
 	{
-		return $start->get(self::FORMAT_UNIX) < $end->get(self::FORMAT_UNIX);
+		return $start->get(self::FORMAT_UNIX,'',ilTimeZone::UTC) < $end->get(self::FORMAT_UNIX,'',ilTimeZone::UTC);
 	}
 	
 	/**
@@ -119,37 +129,7 @@ class ilDateTime
 	 */
 	public function _after(ilDateTime $start,ilDateTime $end)
 	{
-		return $start->get(self::FORMAT_UNIX) > $end->get(self::FORMAT_UNIX);
-	}
-	
-	/**
-	 * increment date
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int unix time
-	 * @param int type DATE,YEAR,MONTH or WEEK
-	 * @param int count
-	 */
-	public static function _increment($unix_start,$a_type,$a_count = 1)
-	{
-		$count_str = $a_count > 0 ? ('+'.$a_count.' ') : ('-'.$a_count.' ');
-
-		switch($a_type)
-		{
-			case self::YEAR:
-				return strtotime($count_str.'year',$unix_start);
-				
-			case self::MONTH:
-				return strtotime($count_str.'month',$unix_start);
-								
-			case self::WEEK:
-				return strtotime($count_str.'week',$unix_start);
-				
-			case self::DAY:
-				return strtotime($count_str.'day',$unix_start);
-		}
+		return $start->get(self::FORMAT_UNIX,'',ilTimeZone::UTC) > $end->get(self::FORMAT_UNIX,'',ilTimeZone::UTC);
 	}
 	
 	/**
@@ -170,6 +150,7 @@ class ilDateTime
 			case self::YEAR:
 				$this->unix = strtotime($count_str.'year',$this->unix);
 				break;				
+
 			case self::MONTH:
 				$this->unix = strtotime($count_str.'month',$this->unix);
 				break;
@@ -259,7 +240,6 @@ class ilDateTime
 				}
 				$this->unix = $unix;
 				break;
-
 	 	}
 	 	return true;
 	}
@@ -323,7 +303,7 @@ class ilDateTime
 	 */
 	public function __toString()
 	{
-		return $this->get(self::FORMAT_DATETIME).'<br>';
+		return $this->get(self::FORMAT_DATETIME,'',$this->tz->getIdentifier()).'<br>';
 	}
 }
 ?>
