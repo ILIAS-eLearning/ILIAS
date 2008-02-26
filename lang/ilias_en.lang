@@ -7777,7 +7777,7 @@ ldap#:#ldap_btn_add_role_ass#:#Add New Rule
 ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule
 ldap#:#ldap_rule_type#:#Type of Assignment
 ldap#:#ldap_confirm_del_role_ass#:#Delete Role Assignment
-common#:#header_zip#:#Upload Zip-Archive
+common#:#header_zip#:#Upload Multiple Files as Zip-Archive
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#msg_wrong_filetype#:#File is no zip-archive
