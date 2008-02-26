@@ -216,6 +216,13 @@ class ilPluginAdmin
 		return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname];
 	}
 
+	/**
+	* Get all active plugins for a slot
+	*/
+	function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
+	{
+		return ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);
+	}
 }
 
 ?>

@@ -304,5 +304,16 @@ class ilPluginSlot
 		return $rec["name"];
 	}
 
+	/**
+	* Get active plugins of slot
+	*/
+	function getActivePlugins()
+	{
+		global $ilPluginAdmin;
+		
+		return $ilPluginAdmin->getActivePluginsForSlot($this->getComponentType(),
+			$this->getComponentName(), $this->getSlotId());
+	}
+	
 }
 ?>
