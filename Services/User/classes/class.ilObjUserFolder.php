@@ -614,6 +614,8 @@ class ilObjUserFolder extends ilObject
 		array_push($export_settings, "client_ip");
 		array_push($export_settings, "auth_mode");
 		array_push($export_settings, "ext_account");
+		array_push($export_settings, "feedhash");
+		
 		return $export_settings;
 	}
 
