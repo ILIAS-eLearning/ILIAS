@@ -759,5 +759,26 @@ abstract class ilPlugin
 		
 		return $rec;
 	}
+	
+	static final function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
+	{
+		global $ilDB, $ilPluginAdmin;
+		
+		$q = "SELECT * FROM il_plugin WHERE component_type = ".$ilDB->quote($a_ctype).
+			" AND component_name = ".$ilDB->quote($a_cname).
+			" AND slot_id = ".$ilDB->quote($a_slot_id).
+			" AND active = 1";
+		$set = $ilDB->query($q);
+		$plugins = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"]))
+			{
+				$plugins[] = $rec["name"];
+			}
+		}
+		
+		return $plugins;
+	}
 }
 ?>

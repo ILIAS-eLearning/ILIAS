@@ -121,7 +121,8 @@ class ilCtrlStructureReader
 				// directories
 				if (@is_dir($a_cdir."/".$file))
 				{
-					if ($a_cdir."/".$file != ILIAS_ABSOLUTE_PATH."/data")
+					if ($a_cdir."/".$file != ILIAS_ABSOLUTE_PATH."/data" &&
+						$a_cdir."/".$file != ILIAS_ABSOLUTE_PATH."/Customizing")
 					{
 						$this->read($a_cdir."/".$file);
 					}
@@ -192,9 +193,8 @@ class ilCtrlStructureReader
 								if (is_int($pos2))
 								{
 									$com_arr = explode(":", $com);
-									$child = trim($com_arr[0]);
-									$this->class_script[$child] = $a_cdir."/".$file;
 									$child = strtolower(trim($com_arr[0]));
+									$this->class_script[$child] = $a_cdir."/".$file;
 
 									$parents = explode(",", $com_arr[1]);
 									foreach($parents as $parent)
@@ -237,6 +237,7 @@ class ilCtrlStructureReader
 		foreach($this->class_script as $class => $script)
 		{
 			$file = substr($script, strlen($this->start_dir) + 1);
+			
 			// store class to file assignment
 			$q = "INSERT INTO ctrl_classfile (class, file, comp_prefix) VALUES".
 				"(".$ilDB->quote($class).",".$ilDB->quote($file).
