@@ -48,6 +48,7 @@ class ilTimeZone
 
 	protected static $default_timezone = '';
 	protected static $current_timezone = '';
+	protected static $server_timezone = '';
 	
 	protected $log;
 	protected $timezone = "UTC";
@@ -74,6 +75,12 @@ class ilTimeZone
 		{
 			$this->timezone = self::_getDefaultTimeZone();
 		}
+		
+		if(!self::$server_timezone)
+		{
+			self::$server_timezone = self::_getDefaultTimeZone();
+		}
+		
 		if(!self::$default_timezone)
 		{
 			self::_getDefaultTimeZone();
@@ -117,6 +124,7 @@ class ilTimeZone
 		{
 			$instance = self::$instances[$a_tz] = new ilTimeZone($a_tz);
 		}
+		
 		// now validate timezone setting
 		if(!$instance->validateTZ())
 		{
@@ -194,6 +202,7 @@ class ilTimeZone
 		
 		if(self::$current_timezone == $a_timezone)
 		{
+			#$ilLog->write(__METHOD__.': Do not switch to active timezone: '.$a_timezone);
 			return true;
 		}
 		
@@ -205,15 +214,51 @@ class ilTimeZone
 				$ilLog->write(__METHOD__.': Invalid timezone given. Timezone: '.$a_timezone);
 				throw new ilTimeZoneException('Invalid timezone given'); 
 			}
+			#$ilLog->write(__METHOD__.': Switched timezone to: '.$a_timezone);
+			self::$current_timezone = $a_timezone;
+			return true;
 		}
 		if(!putenv('TZ='.$a_timezone))
 		{
 			$ilLog->write(__METHOD__.': Cannot set TZ environment variable. Please register TZ in php.ini (safe_mode_allowed_env_vars). Timezone');
 			throw new ilTimeZoneException('Cannot set TZ environment variable.'); 
 		}
+		self::$current_timezone = $a_timezone;
 		return true;
 	}
 	
+	/**
+	 * set default timezone
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _setDefaultTimeZone($a_tz)
+	{
+		// Save the server timezone, since there is no way to read later.
+		if(!self::$server_timezone)
+		{
+			self::$server_timezone = self::_getDefaultTimeZone();
+		}
+		
+		self::$default_timezone = $a_tz;
+	}
+	
+	/**
+	 * restore default timezone to server timezone
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _restoreDefaultTimeZone()
+	{
+		self::$default_timezone = self::$server_timezone;
+		self::_switchTimeZone(self::$default_timezone);
+	}
 	
 	/**
 	 * Calculate and set default time zone

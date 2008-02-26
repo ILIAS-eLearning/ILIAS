@@ -45,6 +45,7 @@ class ilCalendarRecurrenceCalculator
 	protected $valid_dates = null;
 	protected $period_start = null;
 	protected $period_end = null;
+	protected $start = null;
 
 	protected $event = null;
 	protected $recurrence = null;
@@ -78,10 +79,12 @@ class ilCalendarRecurrenceCalculator
 	 */
 	public function calculateDateList(ilDateTime $a_start,ilDateTime $a_end,$a_limit = -1)
 	{
-	 	$this->timezone = $this->event->isFullday() ? ilTimeZone::UTC : $this->recurrence->getTimeZone();
+	 	// Performance fix: Switching timezone for many dates seems to be
+	 	// quite time consuming.
+	 	// Therfore we adjust the timezone of all input dates (start,end, event start)
+	 	// to the same tz (UTC for fullday events, Recurrence tz for all others). 
+	 	$this->adjustTimeZones($a_start,$a_end);
 	 	$this->valid_dates = $this->initDateList();
-	 	$this->period_start = $a_start;
-	 	$this->period_end = $a_end;
 	 	
 	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
 	 	$time = microtime(true);
@@ -133,7 +136,49 @@ class ilCalendarRecurrenceCalculator
 	 	while(true);
 
 		$this->valid_dates->sort();
+		
+		// Restore default timezone
+		ilTimeZone::_restoreDefaultTimeZone();
+		
 	 	return $this->valid_dates;
+	}
+	
+	/**
+	 * Adjust timezone
+	 *
+	 * @access protected
+	 */
+	protected function adjustTimeZones(ilDateTime $a_start,ilDateTime $a_end)
+	{
+	 	$this->timezone = $this->event->isFullday() ? ilTimeZone::UTC : $this->recurrence->getTimeZone();
+	 	ilTimeZone::_setDefaultTimeZone($this->timezone);
+	 	
+		$this->period_start = clone $a_start;
+		$this->period_end = clone $a_end;
+		$this->start = clone $this->event->getStart();
+		
+		try
+		{
+			if($this->event->isFullday())
+			{
+				$this->period_start->switchTimeZone(ilTimeZone::UTC);
+				$this->period_end->switchTimeZone(ilTimeZone::UTC);
+				$this->start->switchTimeZone(ilTimeZone::UTC);
+			}
+			else
+			{
+				echo $this->recurrence->getTimeZone();
+				$this->period_start->switchTimeZone($this->recurrence->getTimeZone());
+				$this->period_end->switchTimeZone($this->recurrence->getTimeZone());
+				$this->start->switchTimeZone($this->recurrence->getTimeZone());
+			}
+			return true;
+		}
+		catch(ilDateTimeException $e)
+		{
+			$this->log->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
 	}
 	
 	/**
@@ -150,9 +195,9 @@ class ilCalendarRecurrenceCalculator
 	 	if($this->recurrence->getFrequenceUntilCount() > 0)
 	 	{
 			// Switch the date to the original defined timzone for this recurrence 
-			return $this->createDate($this->event->getStart()->get(ilDateTime::FORMAT_UNIX,$this->timezone));
+			return $this->createDate($this->start->get(ilDateTime::FORMAT_UNIX,$this->timezone));
 	 	}
-	 	$optimized = $start = $this->createDate($this->event->getStart()->get(ilDateTime::FORMAT_UNIX,$this->timezone));
+	 	$optimized = $start = $this->createDate($this->start->get(ilDateTime::FORMAT_UNIX,$this->timezone));
 	 	while(ilDateTime::_before($start,$this->period_start))
 	 	{
 	 		$optimized = clone $start;
@@ -366,7 +411,7 @@ class ilCalendarRecurrenceCalculator
 			$num_days = ilCalendarUtil::_getMaxDayOfMonth(
 				$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone),
 				$seed->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone));
-			$this->log->write(__METHOD__.': Month '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'M',$this->timezone).' has '.$num_days.' days.');
+			#$this->log->write(__METHOD__.': Month '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'M',$this->timezone).' has '.$num_days.' days.');
 			
 			foreach($this->recurrence->getBYMONTHDAYList() as $bymonth_no)
 			{
@@ -389,7 +434,6 @@ class ilCalendarRecurrenceCalculator
 					case ilCalendarRecurrence::FREQ_DAILY:
 						// Check if day matches
 						#var_dump("<pre>",$seed->get(ilDateTime::FORMAT_FKT_DATE,'z',$this->timezone),$day_no,"</pre>");
-						
 						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'j',$this->timezone) == $day_no)
 						{
 							$days_list->add($new_day);
@@ -410,7 +454,6 @@ class ilCalendarRecurrenceCalculator
 						break;
 
 					case ilCalendarRecurrence::FREQ_YEARLY:
-	
 						$h = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'H',$this->timezone);
 						$i = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'i',$this->timezone);
 						$s = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'s',$this->timezone);
@@ -563,6 +606,7 @@ class ilCalendarRecurrenceCalculator
 	{
 		if($this->event->isFullday())
 		{
+			echo "hier";
 			return new ilDate($a_date,ilDateTime::FORMAT_UNIX);
 		}
 		else

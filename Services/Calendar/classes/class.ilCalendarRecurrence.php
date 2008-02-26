@@ -63,7 +63,7 @@ class ilCalendarRecurrence
 	private $bysetpos;
 	private $weekstart;
 	
-	private $timezone = 'UTC';
+	private $timezone = 'Europe/Berlin';
 
 	/**
 	 * Constructor
