@@ -114,7 +114,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_8.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_10.dtd\">");
 		$this->xmlSetGenCmt("User of ilias system");
 		$this->xmlHeader();
 
@@ -282,6 +282,7 @@ class ilUserXMLWriter extends ilXmlWriter
 			"latitude" => $row["latitude"],
 			"zoom" => $row["loc_zoom"]));
 
+		$this->__addElement("Feedhash", $row["feed_hash"]);
 
 		$this->xmlEndTag('User');
 	}

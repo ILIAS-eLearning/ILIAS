@@ -441,7 +441,35 @@ class ilSoapUtils extends ilSoapAdministration
 		
 		// Finally add new mapping entry
 		$cp_options->appendMapping($source_id,$new_ref_id);
-		return $new_ref_id;		
+		return $new_ref_id;
+	}
+
+	/**
+	 * validates an xml file, if dtd is attached
+	 *
+	 * @param $xml	current xml stream
+	 * @return true, if correct, or String with error messages
+	 */
+	static function validateXML ($xml) {
+		// validate to prevent wrong XMLs
+		$dom = @domxml_open_mem($xml, DOMXML_LOAD_VALIDATING, $error);
+   		if ($error)
+   		{
+		    $msg = array();
+		    if (is_array($error))
+		    {
+	        	foreach ($error as $err) {
+					$msg []= "(".$err["line"].",".$err["col"]."): ".$err["errormessage"];
+		    	}
+		    }
+		    else
+		    {
+		   		$msg[] = $error;
+		   	}
+		   	$msg = join("\n",$msg);
+		   	return $msg;
+   		}
+   		return true;
 	}
 }
 ?>

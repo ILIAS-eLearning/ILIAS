@@ -685,4 +685,18 @@
 
 		return $sua->getIMSManifestXML($sid,$ref_id);
 	}
+
+	/**
+	 * copy object in repository
+	 * $sid	session id
+	 * $settings_xml contains copy wizard settings following ilias_copy_wizard_settings.dtd
+	 */
+	function copyObject($sid, $copy_settings_xml) {
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+		$soa =& new ilSoapObjectAdministration();
+
+		return $soa->copyObject($sid, $copy_settings_xml);
+
+	}
 ?>

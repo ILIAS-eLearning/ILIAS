@@ -906,6 +906,124 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	}
 
+	/**
+	 * copy object in repository
+	 * $sid	session id
+	 * $settings_xml contains copy wizard settings following ilias_copy_wizard_settings.dtd
+	 */
+	function copyObject($sid, $copy_settings_xml) {
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		global $rbacreview, $objDefinition, $rbacsystem, $lng, $ilUser;
+
+		include_once './webservice/soap/classes/class.ilCopyWizardSettingsXMLParser.php';
+		$xml_parser = new ilCopyWizardSettingsXMLParser($copy_settings_xml);
+		try {
+			$xml_parser->startParsing();
+		} catch (ilSaxParserException $se){
+			return $this->__raiseError($se->getMessage(), "Client");
+		}
+
+		// checking copy permissions, objects and create permissions
+		if(!$rbacsystem->checkAccess('copy',$xml_parser->getSourceId()))
+		{
+			return $this->__raiseError("Missing copy permissions for object with reference id ".$xml_parser->getSourceId(), 'Client');
+		}
+
+		// checking copy permissions, objects and create permissions
+		$source_id = $xml_parser->getSourceId();
+		$target_id = $xml_parser->getTargetId();
+
+
+		// does source object exist
+		if(!$source_object_type = ilObjectFactory::getTypeByRefId($source_id, false))
+		{
+			return $this->__raiseError('No valid source given.', 'Client');
+		}
+
+		if(!$rbacsystem->checkAccess('write','', $source_id, $source_object_type))
+		{
+			return $this->__raiseError("Missing copy permissions for object with reference id ".$xml_parser->getSourceId(), 'Client');
+		}
+
+
+		// does target object exist
+		if(!$target_object_type = ilObjectFactory::getTypeByRefId($xml_parser->getTargetId(), false))
+		{
+			return $this->__raiseError('No valid target given.', 'Client');
+		}
+
+
+		// checking for target subtypes. Can we add source to target
+		$allowed_types = array('root','cat','grp','crs','fold');
+		if(!in_array($target_object_type, $allowed_types))
+		{
+			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
+									   'Client');
+		}
+
+		$allowed_subtypes = $objDefinition->getSubObjects($target_object_type);
+
+		foreach($allowed_subtypes as $row)
+		{
+			if($row['name'] != 'rolf')
+			{
+				$allowed[] = $row['name'];
+			}
+		}
+
+		if(!in_array($source_object_type,$allowed))
+		{
+			return $this->__raiseError('Objects of type: '.$source_object_type.' are not allowed to be subobjects of type '.$target_object_type.'!',
+										   'Client');
+		}
+		if(!$rbacsystem->checkAccess('create',$target_id, $source_object_type))
+		{
+			return $this->__raiseError('No permission to create objects of type '.$source_object_type.'!',
+									   'Client');
+		}
+
+		// if is container object than clone with sub items
+		$options = $xml_parser->getOptions();
+//		print_r($options);
+		$source_object = ilObjectFactory::getInstanceByRefId($source_id);
+		if ($source_object instanceof ilContainer) {
+			// get client id from sid
+			$clientid = substr($sid, strpos($sid, "::") + 2);
+			$sessionid = session_id();
+			// call container clone
+			return $source_object->cloneAllObject($sessionid, $clientid,
+				$source_object_type,
+				$target_id,
+				$source_id,
+				$options);
+		} else {
+			// create copy wizard settings
+			$copy_id = ilCopyWizardOptions::_allocateCopyId();
+			$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+			$wizard_options->saveOwner($ilUser->getId());
+			$wizard_options->saveRoot($source_id);
+
+			foreach($options as $source_id => $option)
+			{
+				$wizard_options->addEntry($source_id,$option);
+			}
+			$wizard_options->read();
+
+			// call object clone
+			$newObject = $source_object->cloneObject($xml_parser->getTargetId(), $copy_id);
+			return is_object($newObject) ? $newObject->getRefId() : -1;
+		}
+	}
+
+
 
 }
 ?>
