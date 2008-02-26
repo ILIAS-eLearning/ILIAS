@@ -90,6 +90,27 @@ class ilDateTime
 	}
 	
 	/**
+	 * Switch timezone
+	 *
+	 * @access public
+	 * @param string PHP timezone identifier
+	 * @throws ilDateTimeException
+	 */
+	public function switchTimeZone($a_timezone_identifier)
+	{
+	 	try
+	 	{
+	 		$this->timezone = ilTimeZone::_getInstance($a_timezone_identifier);
+	 		return true;
+	 	}
+	 	catch(ilTimeZoneException $e)
+	 	{
+	 		$this->log->write('Unsupported timezone given: '.$a_timezone_identifier);
+	 		throw new ilDateTimeException('Unsupported timezone given. Timezone: '.$a_timezone_identifier);
+	 	}
+	}
+	
+	/**
 	 * get timezone identifier
 	 *
 	 * @access public
@@ -114,7 +135,7 @@ class ilDateTime
 	 */
 	public static function _before(ilDateTime $start,ilDateTime $end)
 	{
-		return $start->get(self::FORMAT_UNIX,'',ilTimeZone::UTC) < $end->get(self::FORMAT_UNIX,'',ilTimeZone::UTC);
+		return $start->get(self::FORMAT_UNIX) < $end->get(self::FORMAT_UNIX);
 	}
 	
 	/**
@@ -129,7 +150,7 @@ class ilDateTime
 	 */
 	public function _after(ilDateTime $start,ilDateTime $end)
 	{
-		return $start->get(self::FORMAT_UNIX,'',ilTimeZone::UTC) > $end->get(self::FORMAT_UNIX,'',ilTimeZone::UTC);
+		return $start->get(self::FORMAT_UNIX) > $end->get(self::FORMAT_UNIX);
 	}
 	
 	/**
@@ -189,7 +210,9 @@ class ilDateTime
 	public function getUTCOffset()
 	{
 	 	$this->timezone->switchTZ();
-	 	return mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);
+	 	$offset = mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);
+	 	$this->timezone->restoreTZ();
+	 	return $offset; 	
 	}
 	
 	/**
@@ -303,7 +326,7 @@ class ilDateTime
 	 */
 	public function __toString()
 	{
-		return $this->get(self::FORMAT_DATETIME,'',$this->tz->getIdentifier()).'<br>';
+		return $this->get(self::FORMAT_DATETIME,'',$this->timezone->getIdentifier()).'<br>';
 	}
 }
 ?>
