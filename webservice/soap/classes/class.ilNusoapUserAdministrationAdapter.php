@@ -1004,7 +1004,15 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getIMSManifestXML(): returns xml of ims manifest file (scorm learning module) referred by refid');
 
-     						
+
+		$this->server->register('copyObject',
+								array('sid' => 'xsd:string', 'xml' => 'xsd:string'),
+								array('xml' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#copyObject',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS copyObject(): returns reference of copy, if copy is created directly, or the ref id of the target if copy is in progress.');
 		return true;
 
 	}
