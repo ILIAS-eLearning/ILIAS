@@ -75,7 +75,6 @@ class ilSoapAdministration
 	function __checkSession($sid)
 	{
 		list($sid,$client) = $this->__explodeSid($sid);
-
 		$this->sauth->setClient($client);
 		$this->sauth->setSid($sid);
 
@@ -165,8 +164,8 @@ class ilSoapAdministration
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
-
 		// Include main header
+
 		include_once './include/inc.header.php';
 		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin,$ilSetting, $ilClientIniFile;
 
@@ -227,5 +226,15 @@ class ilSoapAdministration
 		return $val;
 	}
 
+	public function isFault($object) {
+		switch($this->error_method)
+		{
+			case NUSOAP:
+				return $object instanceof soap_fault;
+			case PHP5:
+				return $object instanceof SoapFault;
+		}
+		return true;
+	}
 }
 ?>

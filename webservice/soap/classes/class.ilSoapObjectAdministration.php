@@ -903,7 +903,97 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return true;
 		}
 		return false;
+	}
+	
+	function moveObject ($sid, $ref_id, $target_id) 
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
 
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
+		global $rbacreview, $rbacadmin, $objDefinition, $rbacsystem, $lng, $ilUser, $tree;
+		
+		// does source object exist
+		if(!$source_object_type = ilObjectFactory::getTypeByRefId($ref_id, false))
+		{
+			return $this->__raiseError('No valid source given.', 'Client');
+		}
+
+		// does target object exist
+		if(!$target_object_type = ilObjectFactory::getTypeByRefId($target_id, false))
+		{
+			return $this->__raiseError('No valid target given.', 'Client');
+		}
+		
+		// check for trash
+		if(ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError('Object is trashed.', 'Client');
+		}
+		
+		if(ilObject::_isInTrash($target_id))
+		{
+			return $this->__raiseError('Object is trashed.', 'Client');
+		}
+		
+		$canAddType = $this->canAddType($source_object_type, $target_object_type, $target_id);
+		if ($this->isFault($canAddType)) 
+		{
+			return $canAddType; 			
+		}
+		
+		// check if object already linked to target
+		$possibleChilds = $tree->getChildsByType($target_id, $ref_id);
+		foreach ($possibleChilds as $child) 
+		{
+			if ($child["obj_id"] == $ref_id)
+				return $this->__raiseError("Object already exists in target.","Client");
+		}
+		
+		// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+		$node_data = $tree->getNodeData($ref_id);
+		$subtree_nodes = $tree->getSubTree($node_data);
+
+		$all_node_data[] = $node_data;
+		$all_subtree_nodes[] = $subtree_nodes;
+
+		// CHECK DELETE PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
+		foreach ($subtree_nodes as $node)
+		{
+			if($node['type'] == 'rolf')
+			{
+				continue;
+			}
+			
+			if (!$rbacsystem->checkAccess('delete',$node["ref_id"]))
+			{
+				$no_cut[] = $node["ref_id"];
+			}
+		}
+		
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
+		if (count($no_cut))
+		{
+			return $this->__raiseError("Object contains references which you are not allowed to delete.","Client");
+		}
+		
+		// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF		
+		if ($tree->isGrandChild($ref_id,$target_id))
+		{
+			return $this->__raiseError("Cannot move object into itself.","Client");		
+		}
+		
+		$old_parent = $tree->getParentId($ref_id);
+		$tree->moveTree($ref_id,$target_id);
+		$rbacadmin->adjustMovedObjectPermissions($ref_id,$old_parent);
+				
+		include_once('classes/class.ilConditionHandler.php');
+		ilConditionHandler::_adjustMovedObjectConditions($ref_id);
+		return true;
 	}
 
 	/**
@@ -948,12 +1038,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid source given.', 'Client');
 		}
 
-		if(!$rbacsystem->checkAccess('write','', $source_id, $source_object_type))
-		{
-			return $this->__raiseError("Missing copy permissions for object with reference id ".$xml_parser->getSourceId(), 'Client');
-		}
-
-
 		// does target object exist
 		if(!$target_object_type = ilObjectFactory::getTypeByRefId($xml_parser->getTargetId(), false))
 		{
@@ -961,33 +1045,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 
-		// checking for target subtypes. Can we add source to target
-		$allowed_types = array('root','cat','grp','crs','fold');
-		if(!in_array($target_object_type, $allowed_types))
+		$canAddType = $this->canAddType($source_object_type, $target_object_type, $target_id);
+		if ($this->isFault($canAddType)) 
 		{
-			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
-									   'Client');
-		}
-
-		$allowed_subtypes = $objDefinition->getSubObjects($target_object_type);
-
-		foreach($allowed_subtypes as $row)
-		{
-			if($row['name'] != 'rolf')
-			{
-				$allowed[] = $row['name'];
-			}
-		}
-
-		if(!in_array($source_object_type,$allowed))
-		{
-			return $this->__raiseError('Objects of type: '.$source_object_type.' are not allowed to be subobjects of type '.$target_object_type.'!',
-										   'Client');
-		}
-		if(!$rbacsystem->checkAccess('create',$target_id, $source_object_type))
-		{
-			return $this->__raiseError('No permission to create objects of type '.$source_object_type.'!',
-									   'Client');
+			return $canAddType; 			
 		}
 
 		// if is container object than clone with sub items
@@ -997,7 +1058,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		if ($source_object instanceof ilContainer) {
 			// get client id from sid
 			$clientid = substr($sid, strpos($sid, "::") + 2);
-			$sessionid = session_id();
+			$sessionid = str_replace("::".$clientid, "", $sid);
 			// call container clone
 			return $source_object->cloneAllObject($sessionid, $clientid,
 				$source_object_type,
@@ -1024,6 +1085,38 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	}
 
 
+	private function canAddType ($type, $target_type, $target_id) {
+		// checking for target subtypes. Can we add source to target
+		global $objDefinition, $rbacsystem;
+		
+		$allowed_types = array('root','cat','grp','crs','fold');
+		if(!in_array($target_type, $allowed_types))
+		{
+			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"', 'Client');
+		}
+
+		$allowed_subtypes = $objDefinition->getSubObjects($target_type);
+		$allowed = array();
+		
+		foreach($allowed_subtypes as $row)
+		{
+			if($row['name'] != 'rolf')
+			{
+				$allowed[] = $row['name'];
+			}
+		}
+
+		if(!in_array($type, $allowed))
+		{
+			return $this->__raiseError('Objects of type: '.$type.' are not allowed to be subobjects of type '.$target_type.'!','Client');
+		}
+		if(!$rbacsystem->checkAccess('create',$target_id, $type))
+		{
+			return $this->__raiseError('No permission to create objects of type '.$type.'!', 'Client');
+		}
+		
+		return true;		
+	}
 
 }
 ?>
