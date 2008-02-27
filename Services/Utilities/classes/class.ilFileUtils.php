@@ -64,8 +64,7 @@ class ilFileUtils
 		ilUtil::unzip($a_directory . "/" . $file);
 		unlink ($a_directory . "/" . $file);
 
-		// Stores filename and paths into $filearray to check for viruses 
-		// Checks if filenames can be read, else -> throw exception and leave
+		// Stores filename and paths into $filearray to check for viruses and 
 		ilFileUtils::recursive_dirscan($a_directory, $filearray);
 
 		// if there are no files unziped (->broken file!)
@@ -134,14 +133,9 @@ class ilFileUtils
 	 */	
 	function recursive_dirscan($dir, &$arr)
 	{
-		global $lng;
 		$dirlist = opendir($dir);
-	  	while (false !== ($file = readdir ($dirlist)))
+	  	while ($file = readdir ($dirlist))
 		{
-			if (!is_file($file)) 
-			{
-				throw new ilFileUtilsException($lng->txt("filenames_not_supported"), ilFileUtilsException::$BROKEN_FILE);
-			}
 			if ($file != '.' && $file != '..')
 			{
 	    			$newpath = $dir.'/'.$file;
@@ -157,7 +151,7 @@ class ilFileUtils
 	      			}
 			}
 		}
-		closedir($dirlist);
+		closedir($dirlist);		
 	}
 
 
@@ -177,13 +171,8 @@ class ilFileUtils
 	function createObjects($dir, $structure, $ref_id, $containerType)
 	{
 		$dirlist = opendir($dir);
-		
-	  	while (false !== ($file = readdir ($dirlist)))
+	  	while ($file = readdir ($dirlist))
 		{
-			if (!is_file($file)) 
-			{
-				throw new ilFileUtilsException($lng->txt("filenames_not_supported") , ilFileUtilsException::$BROKEN_FILE);
-			}		
 			if ($file != '.' && $file != '..')
 			{
 	    			$newpath = $dir.'/'.$file;
