@@ -1013,6 +1013,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS copyObject(): returns reference of copy, if copy is created directly, or the ref id of the target if copy is in progress.');
+		
+		$this->server->register('moveObject',
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'target_id' => 'xsd:int'),
+								array('result' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#moveObject',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS moveObject(): returns true, if object with refid could be successfully moved to target id, other it raises an error.');
+								
 		return true;
 
 	}

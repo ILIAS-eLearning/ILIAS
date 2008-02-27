@@ -699,4 +699,19 @@
 		return $soa->copyObject($sid, $copy_settings_xml);
 
 	}
+	
+ 	/** move object in repository
+	 * @param $sid	session id
+	 * @param $refid  source iod
+	 * @param $target target ref id
+	 * @return int refid of new location, -1 if not successful
+	 */
+	function moveObject($sid, $ref_id, $target_id) 
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+		$soa = new ilSoapObjectAdministration();
+
+		return $soa->moveObject($sid, $ref_id, $target_id);
+	}
 ?>
