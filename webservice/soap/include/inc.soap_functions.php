@@ -714,4 +714,23 @@
 
 		return $soa->moveObject($sid, $ref_id, $target_id);
 	}
-?>
+
+		
+	/**
+	 * get results of test
+	 *
+	 * @param string $sid
+	 * @param int $ref_id
+	 *
+	 * @return XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points
+	 */
+
+	function getTestResults ($sid, $ref_id) {
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$soa = new ilSoapTestAdministration();
+
+		return $soa->getTestResults($sid, $ref_id);
+		
+	}
+	?>
