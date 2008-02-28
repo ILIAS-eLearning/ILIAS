@@ -97,7 +97,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
     		// only list roles that are not set to status "deleted"
     		if (!$rbacreview->isDeleted($rolf))
 				{
-      		$continue = false;
+      				$continue = false;
 				}
 			}
 			if ($continue)

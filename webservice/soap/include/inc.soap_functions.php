@@ -733,4 +733,30 @@
 		return $soa->getTestResults($sid, $ref_id);
 		
 	}
+	
+	/**
+	 * return courses for users depending on the status
+	 *
+	 * @param string $sid
+	 * @param string $parameters xmlString following xmlResultSet
+	 * @return string xmlResultSet
+	 */
+	function getCoursesForUser($sid, $parameters) {
+		include_once 'webservice/soap/classes/class.ilSoapCourseAdministration.php';
+		$soc = new ilSoapCourseAdministration();
+		return $soc->getCoursesForUser($sid, $parameters);
+	}
+	
+/**
+	 * return courses for users depending on the status
+	 *
+	 * @param string $sid
+	 * @param string $parameters xmlString following xmlResultSet
+	 * @return string xmlResultSet
+	 */
+	function getGroupsForUser($sid, $parameters) {
+		include_once 'webservice/soap/classes/class.ilSoapGroupAdministration.php';
+		$soc = new ilSoapGroupAdministration();
+		return $soc->getGroupsForUser($sid, $parameters);
+	}
 	?>

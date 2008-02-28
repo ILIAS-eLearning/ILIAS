@@ -52,6 +52,11 @@ class ilXMLResultSetParser extends ilSaxParser
 		$this->setXMLContent($a_xml_data);
 	}
 
+	/**
+	 * parsed result
+	 *
+	 * @return ilXMLResultSet xmlResultSet
+	 */
 	function getXMLResultSet()
 	{
 		return $this->xmlResultSet;
@@ -90,15 +95,14 @@ class ilXMLResultSetParser extends ilSaxParser
 				break;
 
 			case 'colspec':
-				$this->xmlResultSet->addColumn ($a_attribs["idx"], $a_attribs["name"]);
+				$this->xmlResultSet->addColumn ($a_attribs["name"]);
 				break;
 			case 'row':
 				$this->currentRow = new ilXMLResultSetRow();
 				$this->xmlResultSet->addRow ($this->currentRow);
-				$this->colCounter = -1;
+				$this->currentColumnIndex = 0;
 				break;
 			case 'column':
-				$this->currentColumnIndex ++;
 				break;
 		}
 	}
@@ -115,8 +119,10 @@ class ilXMLResultSetParser extends ilSaxParser
 		{
 			case 'column':
 				$this->currentRow->setValue ($this->currentColumnIndex, $this->cdata);
+				$this->currentColumnIndex ++;				
 				break;
 		}
+		$this->cdata = '';
 	}
 
 	/**
@@ -132,7 +138,7 @@ class ilXMLResultSetParser extends ilSaxParser
 			// Replace multiple tabs with one space
 			$a_data = preg_replace("/\t+/"," ",$a_data);
 
-			$this->cdata .= $a_data;
+			$this->cdata .= trim($a_data);
 		}
 
 
