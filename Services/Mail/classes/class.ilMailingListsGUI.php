@@ -142,44 +142,38 @@ class ilMailingListsGUI
 	 		return true;
 	 	}
 	 	
-	 	$lists = array();
-
-		$data = $this->umail->getSavedData();		
-		if (!is_array($data))
+	 	
+	 	$mail_data = $this->umail->getSavedData();		
+		if(!is_array($mail_data))
 		{
-			$this->umail->savePostData(
-				$ilUser->getId(),
-				array(),
-				"",
-				"",
-				"",
-				"",
-				"",
-				"",
-				"",
-				""
-			);
+			$this->umail->savePostData($ilUser->getId(), array(), '', '', '', '', '', '', '', '');
+		}	
+	
+		$lists = array();
+		foreach($_POST['ml_id'] as $id)
+		{
+			if(!$this->umail->doesRecipientStillExists('#il_ml_'.$id, $mail_data['rcp_to']))
+			{
+				$lists[] = '#il_ml_'.$id;			
+			}
 		}
 		
-		foreach ($_POST['ml_id'] as $id)
+		if(count($lists))
 		{
-			if ($id) array_push($lists, '#il_ml_' . $id);
-		}		
-		
-		$mail_data = $this->umail->appendSearchResult($lists, 'to');
-
-		$this->umail->savePostData(
-			$mail_data['user_id'],
-			$mail_data['attachments'],
-			$mail_data['rcp_to'],
-			$mail_data['rcp_cc'],
-			$mail_data['rcp_bcc'],
-			$mail_data['m_type'],
-			$mail_data['m_email'],
-			$mail_data['m_subject'],
-			$mail_data['m_message'],
-			$mail_data['use_placeholders']
-		);	
+			$mail_data = $this->umail->appendSearchResult($lists, 'to');
+			$this->umail->savePostData(
+				$mail_data['user_id'],
+				$mail_data['attachments'],
+				$mail_data['rcp_to'],
+				$mail_data['rcp_cc'],
+				$mail_data['rcp_bcc'],
+				$mail_data['m_type'],
+				$mail_data['m_email'],
+				$mail_data['m_subject'],
+				$mail_data['m_message'],
+				$mail_data['use_placeholders']
+			);
+		}
 
 		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
 		
@@ -230,8 +224,8 @@ class ilMailingListsGUI
 				++$counter;
 			}
 			
-			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
 			$tbl->addMultiCommand('mailToList', $this->lng->txt('send_mail_to'));
+			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));			
 		}
 		else
 		{

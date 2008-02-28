@@ -148,7 +148,7 @@ class ilMailGUI
 		
 		$this->forwardClass = $this->ctrl->getNextClass($this);
 
-		if ($this->ctrl->getCmd() != "showMenu")
+		if ($this->ctrl->getCmd() != "showMenu" && $this->ctrl->getCmd() != "refresh")
 		{
 			$this->showHeader();
 		}
@@ -239,6 +239,11 @@ class ilMailGUI
 		{
 			$this->ctrl->redirectByClass($_GET["target"]);
 		}
+	}
+	
+	public function refresh()
+	{
+		$this->showMenu();
 	}
 	
 	private function showHeader()
@@ -351,9 +356,8 @@ class ilMailGUI
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("mail_folders"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$this->output);
-		$this->ctrl->setParameter($this, "cmd", "showMenu");
 		$this->ctrl->setParameter($this, "mexpand", $_GET["mexpand"]);
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'showMenu'));
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->show(false);

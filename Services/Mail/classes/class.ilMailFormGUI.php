@@ -111,6 +111,8 @@ class ilMailFormGUI
 
 	public function sendMessage()
 	{
+		global $ilUser;
+		
 		if($_POST['m_message'] != ilUtil::secureString($_POST['m_message'], true))
 		{				
 			ilUtil::sendInfo($this->lng->txt('advice_mail_body_secured'));			
@@ -132,6 +134,8 @@ class ilMailFormGUI
 		}
 		else
 		{
+			$this->umail->savePostData($ilUser->getId(), array(), "", "", "", "", "", "", "", "");
+			
 			ilUtil::sendInfo($this->lng->txt('mail_message_send', true));
 			#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
 			$this->ctrl->redirectByClass('ilmailfoldergui');
@@ -222,8 +226,7 @@ class ilMailFormGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_add_users.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 					 
-		$this->ctrl->setParameter($this, "cmd", "post");
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'search'));
 		$this->ctrl->clearParameters($this);		
 
 		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
@@ -582,8 +585,8 @@ class ilMailFormGUI
 				}
 				break;
 		}
-		$this->ctrl->setParameter($this, "cmd", "post");
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'sendMessage'));
 		$this->ctrl->clearParameters($this);
 
 		// RECIPIENT

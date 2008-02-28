@@ -144,8 +144,7 @@ class ilMailSearchGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 
-		$this->ctrl->setParameter($this, "cmd", "post");
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
 		
 		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));

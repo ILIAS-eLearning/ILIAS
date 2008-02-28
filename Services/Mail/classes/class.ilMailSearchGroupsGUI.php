@@ -270,11 +270,10 @@ class ilMailSearchGroupsGUI
 		
 		$_GET["view"] = "mygroups";
 
-		$this->ctrl->setParameter($this, "cmd", "post");
 		$this->ctrl->setParameter($this, "view", "mygroups");
 		if ($_GET["ref"] != "") $this->ctrl->setParameter($this, "ref", $_GET["ref"]);
 		if (is_array($_POST["search_grp"])) $this->ctrl->setParameter($this, "search_grp", implode(",", $_POST["search_grp"]));
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
 
 		$lng->loadLanguageModule('crs');
@@ -351,11 +350,10 @@ class ilMailSearchGroupsGUI
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html", "Services/Mail");
 			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		
-			$this->ctrl->setParameter($this, "cmd", "post");
 			$this->ctrl->setParameter($this, "view", "grp_members");
 			if ($_GET["ref"] != "") $this->ctrl->setParameter($this, "ref", $_GET["ref"]);
 			if (is_array($_POST["search_grp"])) $this->ctrl->setParameter($this, "search_grp", implode(",", $_POST["search_grp"]));
-			$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+			$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 			$this->ctrl->clearParameters($this);
 
 			$lng->loadLanguageModule('crs');
