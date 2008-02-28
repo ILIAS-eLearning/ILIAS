@@ -39,10 +39,12 @@ include_once "./classes/class.ilXmlWriter.php";
 
 class ilCourseXMLWriter extends ilXmlWriter
 {
-	var $ilias;
+	private  $ilias;
 
-	var $xml;
-	var $course_obj;
+	private  $xml;
+	private  $course_obj;
+	private $attach_users = true;
+	
 
 	/**
 	* constructor
@@ -68,9 +70,12 @@ class ilCourseXMLWriter extends ilXmlWriter
 		$this->__buildHeader();
 		$this->__buildMetaData();
 		$this->__buildAdvancedMetaData();
-		$this->__buildAdmin();
-		$this->__buildTutor();
-		$this->__buildMember();
+		if ($this->attach_users) 
+		{
+			$this->__buildAdmin();
+			$this->__buildTutor();
+			$this->__buildMember();
+		}
 		$this->__buildSubscriber();
 		$this->__buildWaitingList();
 		
@@ -382,6 +387,15 @@ class ilCourseXMLWriter extends ilXmlWriter
 	function __buildFooter()
 	{
 		$this->xmlEndTag('Course');
+	}
+
+	/**
+	 * write access to attach user property, if set to false no users will be attached.
+	 *
+	 * @param unknown_type $value
+	 */
+	function setAttachUser ($value) {
+		$this->attach_users = $value ? true : false;
 	}
 }
 

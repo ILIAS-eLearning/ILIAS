@@ -34,6 +34,11 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapCourseAdministration extends ilSoapAdministration
 {
+	const MEMBER = 1;
+	const TUTOR = 2;	
+	const ADMIN = 4;
+	const OWNER = 8; 
+
 	function ilSoapCourseAdministration()
 	{
 		parent::ilSoapAdministration();
@@ -113,8 +118,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 
 		// Include main header
-		include_once './include/inc.header.php';
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		include_once 'include/inc.header.php';
+		include_once "Services/Utilities/classes/class.ilUtil.php";
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
@@ -461,5 +466,104 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 	// PRIVATE
 
+	/**
+	 * get courses which belong to a specific user, fullilling the status
+	 *
+	 * @param string $sid
+	 * @param string $parameters following xmlresultset, columns (user_id, status with values  1 = "MEMBER", 2 = "TUTOR", 4 = "ADMIN", 8 = "OWNER" and any xor operation e.g.  1 + 4 = 5 = ADMIN and TUTOR, 7 = ADMIN and TUTOR and MEMBER)
+	 * @param string XMLResultSet, columns (courseXML) 
+	 */
+	function getCoursesForUser($sid, $parameters) {
+		
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		// Include main header
+		include_once './include/inc.header.php';
+		global $rbacreview;
+		
+		include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';
+		$parser = new ilXMLResultSetParser($parameters);
+		try {
+			$parser->startParsing();
+		} catch (ilSaxParserException $exception) {
+			return $this->__raiseError($exception->getMessage(), "Client");
+		}
+		$xmlResultSet = $parser->getXMLResultSet();
+
+		if (!$xmlResultSet->hasColumn ("user_id"))
+			return $this->__raiseError("parameter user_id is missing", "Client");
+			
+		if (!$xmlResultSet->hasColumn ("status"))
+			return $this->__raiseError("parameter status is missing", "Client");
+		
+		$user_id = (int) $xmlResultSet->getValue (0, "user_id");
+		$status = (int) $xmlResultSet->getValue (0, "status");
+		
+		$ref_ids = array();
+
+		// get roles
+#var_dump($xmlResultSet);
+#echo "uid:".$user_id;
+#echo "status:".$status;
+		foreach($rbacreview->assignedRoles($user_id) as $role_id)
+		{			
+			if($role = ilObjectFactory::getInstanceByObjId($role_id,false))
+			{
+				if ($role->getParent() == ROLE_FOLDER_ID)
+				{
+					 continue;
+				}
+				$role_title = $role->getTitle();
+
+				if ($ref_id = ilUtil::__extractRefId($role_title))
+				{
+					if (!ilObject::_exists($ref_id, true) || ilObject::_isInTrash($ref_id))
+						continue;
+						
+					#echo $role_title;
+					if (ilSoapCourseAdministration::MEMBER == ($status & ilSoapCourseAdministration::MEMBER) && strpos($role_title, "member") !== false) 
+					{
+						$ref_ids [] = $ref_id;										
+					} elseif (ilSoapCourseAdministration::TUTOR  == ($status & ilSoapCourseAdministration::TUTOR) && strpos($role_title, "tutor") !== false) 
+					{
+						$ref_ids [] = $ref_id;
+					} elseif (ilSoapCourseAdministration::ADMIN  == ($status & ilSoapCourseAdministration::ADMIN) && strpos($role_title, "admin") !== false) 
+					{
+						$ref_ids [] = $ref_id;
+					} elseif ($status & OWNER == OWNER && ilObjectDataCache::lookupOwner(ilObjectDataCache::lookupObjId($ref_id)) == $user_id) 
+					{
+						$ref_ids [] = $ref_id;
+					}
+				}
+			}
+		}
+
+#print_r($ref_ids);		
+		include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
+		include_once 'Modules/Course/classes/class.ilObjCourse.php';
+		include_once 'Modules/Course/classes/class.ilCourseXMLWriter.php';
+
+		$xmlResultSet = new ilXMLResultSet();
+		$xmlResultSet->addColumn("refid");
+		$xmlResultSet->addColumn("xml");
+		
+		foreach ($ref_ids as $course_id) {
+			$course_obj = $this->checkObjectAccess($course_id,"crs","write", true);
+			if ($course_obj instanceof ilObjCourse) {
+				$row = new ilXMLResultSetRow();				
+				$row->setValue("refid", $course_id);
+				$xmlWriter = new ilGroupXMLWriter($course_obj);
+				$xmlWriter->setAttachUsers(false);				
+				$xmlWriter->start();
+				$row->setValue("xml", $xmlWriter->getXML());
+				$xmlResultSet->addRow($row);
+			}
+		}
+		$xmlResultSetWriter = new ilXMLResultSetWriter($xmlResultSet);
+		$xmlResultSetWriter->start();
+		return $xmlResultSetWriter->getXML();
+	}
 }
 ?>

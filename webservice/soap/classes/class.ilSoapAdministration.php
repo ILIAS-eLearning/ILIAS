@@ -236,5 +236,39 @@ class ilSoapAdministration
 		}
 		return true;
 	}
+
+	public function checkObjectAccess($ref_id, $expected_type, $permission, $returnObject = false) {
+		global $rbacsystem;
+		if(!is_numeric($ref_id))
+		{
+			return $this->__raiseError('No valid id given.',
+									   'Client');
+		}
+		if (!ilObject::_exists($ref_id, true)) {
+			return $this->__raiseError('No object for id.',
+									   'Client');
+		}
+		
+		if (ilObject::_isInTrash($ref_id)) {
+			return $this->__raiseError('Client is in trash.',
+									   'Client');			
+		}
+		
+		if (ilObjectFactory::getTypeByRefId($ref_id) != $expected_type)
+		{
+			return $this->__raiseError('Wrong type for id.', 'Client');						
+		}
+		
+		if (!$rbacsystem->checkAccess($permission, $ref_id, $expected_type))
+		{
+			return $this->__raiseError('Missing permission $permission for type $expected_type.', 'Client');
+		}
+		
+		if ($returnObject) {
+			return ilObjectFactory::getInstanceByRefId($ref_id);
+		}
+		
+		return true;
+	}
 }
 ?>

@@ -34,7 +34,7 @@
    */
 
 class ilXMLResultSetRow {
-	var $columns = array();
+	private $columns = array();
 
 	/**
 	 * set column value
@@ -69,6 +69,18 @@ class ilXMLResultSetRow {
 	    foreach ($values as $value) {
             $this->setValue($i++, $value);
 		}
+	}
+
+	/**
+	 * return value for column with specified index
+	 *
+	 * @param int $idx
+	 * @return string
+	 */
+	function getValue ($idx) {
+		if ($idx < 0 || $idx >= count($this->columns))
+			throw new Exception ("Index too small or too large");
+		return $this->columns[$idx];
 	}
 }
 

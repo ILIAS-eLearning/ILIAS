@@ -35,10 +35,11 @@ include_once "./classes/class.ilXmlWriter.php";
 
 class ilGroupXMLWriter extends ilXmlWriter
 {
-	var $ilias;
+	private $ilias;
 
-	var $xml;
-	var $group_obj;
+	private $xml;
+	private $group_obj;
+	private $attach_users = true;
 
 	/**
 	* constructor
@@ -64,9 +65,13 @@ class ilGroupXMLWriter extends ilXmlWriter
 		$this->__buildHeader();
 		$this->__buildTitleDescription();
 		$this->__buildRegistration();
-		$this->__buildAdmin();
-		$this->__buildMember();
+		if ($this->attach_users) 
+		{
+			$this->__buildAdmin();
+			$this->__buildMember();
+		}
 		$this->__buildFooter();
+		
 	}
 
 	function getXML()
@@ -158,6 +163,11 @@ class ilGroupXMLWriter extends ilXmlWriter
 	{
 		$this->xmlEndTag('group');
 	}
+
+	function setAttachUsers ($value) {
+		$this->attach_users = $value ? true : false;
+	}
+
 }
 
 

@@ -1033,6 +1033,26 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getTestResults(): returns XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points');
 								
+
+		$this->server->register ('getCoursesForUser',
+								array('sid' => 'xsd:string', 'parameters' => 'xsd:int'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getCoursesForUser',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getTestResults(): returns XMLResultSet with columns ref_id, course xml. $parameters has to contain a column user_id and a column status. Status is a logical AND combined value of (MEMBER = 1, TUTOR = 2, ADMIN = 4, OWNER = 8) and determines which courses should be returned.');
+								
+		$this->server->register ('getGroupsForUser',
+								array('sid' => 'xsd:string', 'parameters' => 'xsd:int'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getGroupsForUser',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getTestResults(): returns XMLResultSet with columns ref_id, group xml. $parameters has to contain a column user_id and a column status. Status is a logical AND combined value of (MEMBER = 1, TUTOR = 2, OWNER = 4) and determines which groups should be returned.');
+								
+								
 		return true;
 
 	}

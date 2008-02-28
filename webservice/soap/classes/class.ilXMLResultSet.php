@@ -31,13 +31,13 @@
    * @package ilias
    */
 
-include_once './webservice/soap/classes/class.ilXMLResultSetColumn.php';
-include_once './webservice/soap/classes/class.ilXMLResultSetRow.php';
+include_once 'webservice/soap/classes/class.ilXMLResultSetColumn.php';
+include_once 'webservice/soap/classes/class.ilXMLResultSetRow.php';
 
 class ilXMLResultSet
 {
-		var $colspecs = array();
-		var $rows = array();
+		private $colspecs = array();
+		private $rows = array();
 
 
 		function ilXMLResultSet ()
@@ -57,9 +57,36 @@ class ilXMLResultSet
 		 *
 		 * @param String $columname
 		 */
-		function addColumn($columname)
+		function addColumn($columnname)
 		{
-			$this->colspecs [count($this->colspecs)] = new ilXMLResultSetColumn (count($this->colspecs), $columname);
+			$this->colspecs [count($this->colspecs)] = new ilXMLResultSetColumn (count($this->colspecs), $columnname);
+		}
+				
+		/**
+		 * return index for column name
+		 *
+		 * @param string $columnname
+		 * @return int
+		 */
+		function getIndexForColumn ($columnname) {
+			$idx = 0;
+			foreach ($this->colspecs as $colspec) {
+				if (strcasecmp($columnname, $colspec->getName()) == 0)
+					return $idx;
+				$idx++; 
+			}
+			return -1;
+		}
+		
+		
+		/**
+		 * has column name
+		 *
+		 * @param string $columnname
+		 * @return boolean
+		 */
+		function hasColumn ($columnname) {
+			return $this->getIndexForColumn($columnname) != -1;
 		}
 
 		/**
@@ -134,7 +161,7 @@ class ilXMLResultSet
 		            }
 		            $overwrite = false;
 		        }
-                $xmlRow = & new ilXMLResultSetRow();
+                $xmlRow = new ilXMLResultSetRow();
                 $xmlRow->setValues ($row);
                 $this->addRow($xmlRow);
 		    }
@@ -166,6 +193,32 @@ class ilXMLResultSet
 		function getRowCount () {
 		    return count($this->rows);
 		}
-
+		
+		/**
+		 * return row for index idx
+		 * @param $idx index
+		 * @return ilXMLResultSetRow
+		 */
+		function getRow ($idx) {
+			if ($idx < 0 || $idx >= $this->getRowCount())
+				throw new Exception ("Index too small or too big!");
+			return $this->rows[$idx];
+		}
+		
+		/**
+		 * return column value at colidx and rowidx
+		 *
+		 * @param int $rowIdx
+		 * @param mixed $colIdx
+		 * @return string
+		 */
+		function getValue ($rowIdx, $colIdx) {
+			$row = $this->getRow($rowIdx);
+			
+			if (!is_numeric($colIdx))
+				$colIdx = $this->getIndexForColumn($colIdx);
+				
+			return $row->getValue ($colIdx);
+		}
 }
 ?>
