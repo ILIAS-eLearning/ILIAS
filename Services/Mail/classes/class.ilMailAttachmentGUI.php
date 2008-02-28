@@ -161,9 +161,8 @@ class ilMailAttachmentGUI
 
 		$mailData = $this->umail->getSavedData();
 
-		$this->ctrl->setParameter($this, "cmd", "post");
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
-		$this->tpl->setVariable("UPLOAD", $this->ctrl->getLinkTarget($this));
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'saveAttachments'));
+		$this->tpl->setVariable("UPLOAD", $this->ctrl->getFormAction($this, 'uploadFile'));
 		$this->ctrl->clearParameters($this);
 
 		// BEGIN CONFIRM_DELETE

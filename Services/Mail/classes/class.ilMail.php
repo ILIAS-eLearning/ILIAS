@@ -260,6 +260,19 @@ class ilMail
 		$this->readMailObjectReferenceId();
 
 	}
+	
+	public function doesRecipientStillExists($a_recipient, $a_existing_recipients)
+	{
+		$regexp = "/(^".$a_recipient."$)|(^".$a_recipient."[^0-9])|(".$a_recipient."[^0-9])|(".$a_recipient."$)/i";
+		if(preg_match($regexp, trim($a_existing_recipients)) == 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 	/**
 	* Set option if external mails should be sent using soap client or not.

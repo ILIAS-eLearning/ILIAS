@@ -198,9 +198,8 @@ class ilMailFolderGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 
-		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-		$this->ctrl->setParameter($this, "cmd", "post");
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);;
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
 
 		$isTrashFolder = false;
@@ -292,7 +291,7 @@ class ilMailFolderGUI
 			$this->tpl->parseCurrentBlock();
 			
 			#$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-			$this->tpl->setVariable("ACTION_FLAT", $this->ctrl->getLinkTarget($this));
+			$this->tpl->setVariable("ACTION_FLAT", $this->ctrl->getFormAction($this, 'showFolder'));
 			#$this->ctrl->clearParameters($this);
 		}
 		// END SHOW_FOLDER		
@@ -306,8 +305,7 @@ class ilMailFolderGUI
 			if ($this->askForConfirmation == true)
 			{
 				$this->tpl->setCurrentBlock("CONFIRM_EMPTY_TRASH");
-				$this->ctrl->setParameter($this, "cmd", "post");
-				$this->tpl->setVariable("ACTION_EMPTY_TRASH_CONFIRMATION", $this->ctrl->getLinkTarget($this));
+				$this->tpl->setVariable("ACTION_EMPTY_TRASH_CONFIRMATION", $this->ctrl->getFormAction($this, 'performEmptyTrash'));
 				$this->tpl->setVariable("BUTTON_CONFIRM_EMPTY_TRASH", $this->lng->txt("confirm"));
 				$this->tpl->setVariable("BUTTON_CANCEL_EMPTY_TRASH", $this->lng->txt("cancel"));
 				$this->tpl->parseCurrentBlock();
@@ -681,7 +679,7 @@ class ilMailFolderGUI
 		{
 			$this->tpl->setCurrentBlock("confirm_delete");
 			$this->ctrl->setParameter($this, "cmd", "post");
-			$this->tpl->setVariable("ACTION_DELETE", $this->ctrl->getLinkTarget($this));
+			$this->tpl->setVariable("ACTION_DELETE", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("FRAME_DELETE", ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->ctrl->clearParameters($this);
 			$this->tpl->setVariable("TXT_DELETE_CONFIRM",$this->lng->txt("confirm"));
@@ -691,7 +689,7 @@ class ilMailFolderGUI
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");		
 						
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "saveFolderSettings"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("FRAME_ADD", ilFrameTargetInfo::_getFrame("MainContent"));
 				
 		if ($cmd == "saveFolderSettings")
@@ -915,9 +913,8 @@ class ilMailFolderGUI
 		$tplbtn->parseCurrentBlock();
 		
 		$this->tpl->setVariable("BUTTONS2",$tplbtn->get());
-		$this->ctrl->setParameter($this, "cmd", "post");
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
 		
 		if ($mailData["sender_id"] && $mailData["sender_id"] != $ilUser->getId())

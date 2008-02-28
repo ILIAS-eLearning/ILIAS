@@ -144,7 +144,7 @@ class ilMailOptionsGUI
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
 		$this->ctrl->setParameter($this, "cmd", "post");
-		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this));
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'saveOptions'));
 		$this->ctrl->clearParameters($this);
 
 		$this->tpl->parseCurrentBlock();
