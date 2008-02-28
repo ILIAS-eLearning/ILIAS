@@ -1023,6 +1023,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS moveObject(): returns true, if object with refid could be successfully moved to target id, other it raises an error.');
 								
+		
+		$this->server->register ('getTestResults',
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getTestResults',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getTestResults(): returns XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points');
+								
 		return true;
 
 	}

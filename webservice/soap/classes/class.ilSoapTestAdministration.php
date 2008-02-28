@@ -156,5 +156,92 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		return $solution;
 	}
+	
+	/**
+	 * get results of test
+	 *
+	 * @param string $sid
+	 * @param int $test_ref_id
+	 *
+	 * @return XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points
+	 */
+
+	function getTestResults ($sid, $test_ref_id) {
+	    if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if(!strlen($test_ref_id))
+		{
+			return $this->__raiseError('No test id given. Aborting!',
+									   'Client');
+		}
+		
+		if(ilObject::_isInTrash($test_ref_id))
+		{
+			return $this->__raiseError('Test is trashed. Aborting!',
+									   'Client');
+		}
+	    include_once './include/inc.header.php';
+		global $rbacsystem, $tree, $ilLog;
+
+		// get obj_id
+		if(!$obj_id = ilObject::_lookupObjectId($test_ref_id))
+		{
+			return $this->__raiseError('No test found for id: '.$test_ref_id,
+									   'Client');
+		}
+
+
+		// Check access
+		$permission_ok = false;
+		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
+		{
+			if($rbacsystem->checkAccess('edit',$ref_id))
+			{
+				$permission_ok = true;
+				break;
+			}
+		}
+		if(!$permission_ok)
+		{
+			return $this->__raiseError('No permission to edit the object with id: '.$test_ref_id,
+									   'Server');
+		}
+
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		$test_obj = new IlObjTest($obj_id, false);
+		$participants =  $test_obj->getTestParticipants();
+   	    $data =  $test_obj->getAllTestResults($participants, false);
+
+   	     // store into xml result set
+		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
+		include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
+   	    // create xml
+	    $xmlResultSet = new ilXMLResultSet();
+	    $xmlResultSet->addColumn("firstname");
+	    $xmlResultSet->addColumn("lastname");
+	    $xmlResultSet->addColumn("matriculation");
+	    $xmlResultSet->addColumn("maximum_points");
+	    $xmlResultSet->addColumn("received_points");
+
+	    // skip titles
+	    $titles = array_shift($data);
+	    foreach ($data as $row) {
+            $xmlRow = new ilXMLResultSetRow();
+            $xmlRow->setValue(0, $row["firstname"]);
+            $xmlRow->setValue(1, $row["lastname"]);
+            $xmlRow->setValue(2, $row["matriculation"]);
+            $xmlRow->setValue(3, $row["max_points"]);
+            $xmlRow->setValue(4, $row["reached_points"]);
+            $xmlResultSet->addRow($xmlRow);
+		}
+
+		// create writer
+		$xmlWriter = new ilXMLResultSetWriter($xmlResultSet);
+		$xmlWriter->start();
+
+		return $xmlWriter->getXML();
+	} 
 }
 ?>
