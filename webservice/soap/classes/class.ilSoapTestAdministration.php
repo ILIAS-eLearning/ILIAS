@@ -176,15 +176,15 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			return $this->__raiseError('No test id given. Aborting!',
 									   'Client');
 		}
-		
+	    include_once './include/inc.header.php';
+		global $rbacsystem, $tree, $ilLog;
+
 		if(ilObject::_isInTrash($test_ref_id))
 		{
 			return $this->__raiseError('Test is trashed. Aborting!',
 									   'Client');
 		}
-	    include_once './include/inc.header.php';
-		global $rbacsystem, $tree, $ilLog;
-
+		
 		// get obj_id
 		if(!$obj_id = ilObject::_lookupObjectId($test_ref_id))
 		{
@@ -210,9 +210,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 
 		include_once './Modules/Test/classes/class.ilObjTest.php';
-		$test_obj = new IlObjTest($obj_id, false);
+		$test_obj = new ilObjTest($obj_id, false);
 		$participants =  $test_obj->getTestParticipants();
-   	    $data =  $test_obj->getAllTestResults($participants, false);
+		$data =  $test_obj->getAllTestResults($participants, false);
 
    	     // store into xml result set
 		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
