@@ -36,6 +36,7 @@ define ("IL_SCREEN_FULL", "full");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_IsCalledBy ilColumnGUI: ilCalendarGUI 
 * @ilCtrl_Calls ilColumnGUI:
 */
 class ilColumnGUI
@@ -66,7 +67,9 @@ class ilColumnGUI
 		"ilExternalFeedBlockGUI" => "Services/Block/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		"ilHtmlBlockGUI" => "Services/Block/",
-		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
+		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
+		'ilCalendarCategoriesGUI' => 'Services/Calendar/',
+		'ilCalendarMonthBlockGUI'	=> 'Services/Calendar/');
 	
 	static protected $block_types = array(
 			"ilPDMailBlockGUI" => "pdmail",
@@ -80,9 +83,10 @@ class ilColumnGUI
 			"ilPDFeedbackBlockGUI" => "pdfeedb",
 			"ilPDSysMessageBlockGUI" => "pdsysmess",
 			"ilPDSelectedItemsBlockGUI" => "pditems",
-			"ilHtmlBlockGUI" => "html"
+			"ilHtmlBlockGUI" => "html",
+			'ilCalendarMonthBlockGUI' => 'cal'
 		);
-
+	
 		
 	protected $default_blocks = array(
 		"cat" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
@@ -100,8 +104,11 @@ class ilColumnGUI
 			"ilPDMailBlockGUI" => IL_COL_RIGHT,
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
 			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
-			"ilBookmarkBlockGUI" => IL_COL_RIGHT)
-		);
+			"ilBookmarkBlockGUI" => IL_COL_RIGHT),
+		'cal' => array(
+			'ilCalendarCategoriesGUI' => IL_COL_LEFT,
+			'ilCalendarMonthBlockGUI' => IL_COL_CENTER)
+			);
 
 	// these are only for pd blocks
 	// other blocks are rep objects now
@@ -112,6 +119,7 @@ class ilColumnGUI
 		"frm" => array(),
 		"root" => array(),
 		"info" => array(),
+		"cal" => array(),
 		"pd" => array("ilPDExternalFeedBlockGUI")
 		);
 		

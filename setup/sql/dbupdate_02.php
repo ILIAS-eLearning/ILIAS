@@ -3489,3 +3489,9 @@ ALTER TABLE ctrl_calls ADD COLUMN comp_prefix VARCHAR(50) NOT NULL DEFAULT '';
 <#1177>
 INSERT IGNORE INTO `settings` ( `module` , `keyword` , `value` )
 VALUES ('file_access', 'inline_file_extensions', 'gif jpg jpeg mp3 mp4 m4a m4v pdf png swf<');
+
+<#1178>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

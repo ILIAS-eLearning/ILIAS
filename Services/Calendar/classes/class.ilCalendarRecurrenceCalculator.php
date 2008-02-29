@@ -79,7 +79,7 @@ class ilCalendarRecurrenceCalculator
 	 */
 	public function calculateDateList(ilDateTime $a_start,ilDateTime $a_end,$a_limit = -1)
 	{
-	 	// Performance fix: Switching timezone for many dates seems to be
+	 	// Performance fix: Switching the timezone for many dates seems to be
 	 	// quite time consuming.
 	 	// Therfore we adjust the timezone of all input dates (start,end, event start)
 	 	// to the same tz (UTC for fullday events, Recurrence tz for all others). 
@@ -88,7 +88,19 @@ class ilCalendarRecurrenceCalculator
 	 	
 	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
 	 	$time = microtime(true);
+	 	
+		if($this->recurrence->getInterval() <= 1)
+		{
+	 		// I think there is no difference in calculating a daily rule as monthly rule
+	 		if($this->recurrence->getFrequenceType() == ilCalendarRecurrence::FREQ_DAILY)
+	 		{
+		 		$this->recurrence->setFrequenceType(ilCalendarRecurrence::FREQ_MONTHLY);
+		 	}
+		}
+
+
 	 	$start = $this->optimizeStartingTime();
+	 	
 	 	#echo "ZEIT: ADJUST: ".(microtime(true) - $time).'<br>';
 	 	$counter = 0;
 	 	do
@@ -408,9 +420,13 @@ class ilCalendarRecurrenceCalculator
 		$days_list = $this->initDateList();
 		foreach($list->get() as $seed)
 		{
-			$num_days = ilCalendarUtil::_getMaxDayOfMonth(
-				$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone),
-				$seed->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone));
+			#$num_days = ilCalendarUtil::_getMaxDayOfMonth(
+			#	$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone),
+			#	$seed->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone));
+			$num_days = cal_days_in_month(CAL_GREGORIAN,
+				$seed->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone),
+				$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone));
+				
 			#$this->log->write(__METHOD__.': Month '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'M',$this->timezone).' has '.$num_days.' days.');
 			
 			foreach($this->recurrence->getBYMONTHDAYList() as $bymonth_no)
@@ -462,9 +478,12 @@ class ilCalendarRecurrenceCalculator
 						// TODO: the chosen monthday has to added to all months
 						for($month = 1;$month <= 12;$month++)
 						{
-							$num_days = ilCalendarUtil::_getMaxDayOfMonth(
-								$y,
-								$month);
+							$num_days = cal_days_in_month(CAL_GREGORIAN,
+								$month,
+								$y);
+							#$num_days = ilCalendarUtil::_getMaxDayOfMonth(
+							#	$y,
+							#	$month);
 							$day_no = $bymonth_no < 0 ? ($num_days + $bymonth_no + 1) : $bymonth_no;
 							if($day_no < 1 or $day_no > $num_days)
 							{
@@ -503,7 +522,22 @@ class ilCalendarRecurrenceCalculator
 		{
 			return $list;
 		}
+		// generate a list of e.g all Sundays for the given year
+		if($this->frequence_context == ilCalendarRecurrence::FREQ_YEARLY)
+		{
+			$byday_list = $this->getYearWeekDays();	
+		}
 		return $list;
+	
+	}
+	
+	/**
+	 * get a list of year week days according to the BYMONTH rule
+	 *
+	 * @access protected
+	 */
+	protected function getYearWeekDays()
+	{
 	
 	}
 	

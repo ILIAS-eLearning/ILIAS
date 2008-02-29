@@ -1,0 +1,61 @@
+table.calstd {
+	color:#222222;
+	width:100%;
+	background-color:#bbbbbb;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:0px;
+	border-style:solid;
+	border-color:#9EADBA;
+	font-size: 100%;
+}
+
+.calheader {
+	color:#222222;
+	font-weight:bold;
+	background-color: #EDEDED;
+}
+
+
+th.calstd {
+	text-align: center;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+tr.calstd {
+	background-color: inherit;
+	height: 80px;
+}
+
+td.calstd {
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+
+p.il_calevent {
+	color:white;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size:80%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:2px;
+	border-style:outset;
+	border-color:grey;
+}
+
+p.il_monthday {
+	margin-top: 2px;
+	margin-left: 2px;
+	text-align:left;
+	font-weight: bold;
+	padding: 1px;
+	spacing: 1px;
+}

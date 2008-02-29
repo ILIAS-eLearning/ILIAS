@@ -250,8 +250,9 @@ class ilCalendarRecurrence
 		}
 		foreach(explode(',',$this->getBYDAY()) as $byday)
 		{
-			
+			$bydays[] = trim($byday);
 		}
+		return $bydays ? $bydays : array();
 	}
 	
 	/**

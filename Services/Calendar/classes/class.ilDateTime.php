@@ -139,6 +139,19 @@ class ilDateTime
 	}
 	
 	/**
+	 * 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _equals(ilDateTime $start,ilDateTime $end)
+	{
+		return $start->get(self::FORMAT_UNIX) == $end->get(self::FORMAT_UNIX);
+	}
+
+	/**
 	 * compare two dates and check start is after end 
 	 * This method does not consider tz offsets.
 	 * So you have to take care that both dates are defined in the the same timezone
