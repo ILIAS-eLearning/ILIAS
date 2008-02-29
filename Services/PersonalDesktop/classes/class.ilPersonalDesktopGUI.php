@@ -33,7 +33,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI, ilPaymentGUI, ilPaymentAdminGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -82,6 +82,9 @@ class ilPersonalDesktopGUI
 
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
+
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
+		
 		
 		// check whether personal profile of user is incomplete
 		if ($ilUser->getProfileIncomplete() && $next_class != "ilpersonalprofilegui")
@@ -146,6 +149,16 @@ class ilPersonalDesktopGUI
 				$ret =& $this->ctrl->forwardCommand($user_gui);
 				break;
 			
+			case 'ilcalendargui':
+				$this->getStandardTemplates();
+				$this->displayHeader();
+				$this->setTabs();
+				include_once('./Services/Calendar/classes/class.ilCalendarGUI.php');
+				$cal = new ilCalendarGUI();
+				$ret = $this->ctrl->forwardCommand($cal);
+				$this->tpl->show();
+				break;
+			
 				// pd notes
 			case "ilpdnotesgui":
 				if ($ilSetting->get('disable_notes'))
@@ -177,6 +190,7 @@ class ilPersonalDesktopGUI
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
 				$ret =& $this->ctrl->forwardCommand($new_gui);
+				
 				break;
 			
 				// payment
@@ -543,7 +557,20 @@ class ilPersonalDesktopGUI
 				: "tabinactive";
 				$inhalt1[] = array($inc_type,"dateplaner.php",$this->lng->txt("calendar"));
 			}
-						
+			// new calendar			
+			include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+			$settings = ilCalendarSettings::_getInstance();
+			if($settings->isEnabled())
+			{
+				$inc_type = ($ilCtrl->getNextClass() == "ilcalendargui")
+					? "tabactive"
+					: "tabinactive";
+					
+				$inhalt1[] = array($inc_type,
+					$this->ctrl->getLinkTargetByClass("ilcalendargui"),
+					$this->lng->txt("calendar"));
+			}
+
 			// private notes
 			if (!$this->ilias->getSetting("disable_notes"))
 			{
@@ -742,6 +769,17 @@ class ilPersonalDesktopGUI
 			$a_column_gui->setEnableMovement(true);
 		}
 	}
+	
+	/**
+	* display header and locator
+	*/
+	function displayHeader()
+	{
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+			$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+	}
+	
 
 }
 ?>

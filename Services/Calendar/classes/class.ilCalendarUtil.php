@@ -35,6 +35,103 @@ class ilCalendarUtil
 	static $init_done;
 	
 	/**
+	 * numeric month to string
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _numericMonthToString($a_month,$a_long = true)
+	{
+		global $lng;
+		
+		$month = $a_month < 10 ? '0'.$a_month : $a_month;
+		
+		return 	$a_long ? $lng->txt('month_'.$month.'_long') : $lng->txt('month_'.$month.'_short');
+	}
+	
+	/**
+	 * get 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _numericDayToString($a_day,$a_long = true)
+	{
+		global $lng;
+		
+		
+		$lng->loadLanguageModule('dateplaner');
+		static $days = array('Su','Mo','Tu','We','Th','Fr','Sa','Su');
+		
+		return 	$a_long ? $lng->txt($days[$a_day].'_long') : $lng->txt($days[$a_day].'_long');
+	}
+	
+	/**
+	 * Build a month day list
+	 *
+	 * @access public
+	 * @return ilDateList
+	 * 
+	 */
+	public static function _buildMonthDayList($a_month,$a_year)
+	{
+		include_once('Services/Calendar/classes/class.ilDateList.php');
+
+		$day_list = new ilDateList(ilDateList::TYPE_DATE);
+				
+		$prev_month = $a_month == 1 ? 1 : $a_month - 1;
+		$prev_year = $prev_month == 12 ? $a_year - 1 : $a_year; 
+		$next_month = $a_month == 12 ? 1 : $a_month + 1;
+		$next_year = $a_month == 12 ? $a_year + 1 : $a_year;
+		
+		
+		$days_in_month = cal_days_in_month(CAL_GREGORIAN,$a_month,$a_year);
+		$days_in_prev_month = cal_days_in_month(CAL_GREGORIAN,$prev_month,$a_year);
+		
+		$first_day_offset = ($o = date('w',gmmktime(0,0,0,$a_month,1,$a_year))) == 0 ? 6 : ($o - 1);
+		
+		for($i = 0;$i < 42;$i++)
+		{
+			if($i < $first_day_offset)
+			{
+				$day = $days_in_prev_month - $first_day_offset + $i + 1;
+				
+				$day_list->add(new ilDate(gmmktime(0,0,0,$prev_month,
+					$days_in_prev_month - $first_day_offset + $i + 1,
+					$prev_year),
+					ilDateTime::FORMAT_UNIX));
+			}
+			elseif($i < $days_in_month + $first_day_offset)
+			{
+				$day = $i - $first_day_offset + 1;
+
+				$day_list->add(new ilDate(gmmktime(0,0,0,$a_month,
+					$i - $first_day_offset + 1,
+					$a_year),
+					ilDateTime::FORMAT_UNIX));
+			}
+			else
+			{
+				$day = $i - $days_in_month - $first_day_offset + 1;
+				$day_list->add(new ilDate(gmmktime(0,0,0,$next_month,
+					$i - $days_in_month - $first_day_offset + 1,
+					$next_year),
+					ilDateTime::FORMAT_UNIX));
+			}
+			if($i == 34 and ($day < 15 or $day == $days_in_month))
+			{
+				break;
+			}
+		}
+		return $day_list;
+		 
+	}	
+	
+	/**
 	* Init Javascript Calendar.
 	*/
 	static function initJSCalendar()
