@@ -20,45 +20,105 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-include_once('./Services/Calendar/classes/class.ilDateTime.php');
-include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 
 /** 
-* Class for single dates.
-* ilDate('2008-03-15') is nothing else than ilDateTime('2008-03-15',IL_CAL_DATE,'UTC')
-*  
+* 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
+* 
+* @ilCtrl_IsCalledBy ilCalendarUserSettingsBlockGUI: ilColumnGUI
 * @ingroup ServicesCalendar 
 */
 
-class ilDate extends ilDateTime
+class ilCalendarUserSettingsBlockGUI extends ilBlockGUI
 {
+	public static $block_type = 'cal';
+
+	protected $tpl;
+	protected $lng;
 	
+
 	/**
-	 * Create new date object
+	 * Constructor
 	 *
 	 * @access public
-	 * @param mixed integer string following the format given as the second parameter
-	 * @param int format of date presentation
+	 * @param
 	 * 
 	 */
-	public function __construct($a_date = '',$a_format = 0)
+	public function __construct()
 	{
-	 	parent::__construct($a_date,$a_format,ilTimeZone::UTC);
+	 	global $ilUser,$tpl,$lng;
+
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		
+		parent::__construct();
 	}
 	
 	/**
-	 * get formatted date 
+	 * get block type
 	 *
 	 * @access public
-	 * @param int format type
-	 * @param string format string
+	 * @static
+	 *
+	 * @param
 	 */
-	public function get($a_format,$a_format_str = '')
+	public static function getBlockType()
 	{
-		return parent::get($a_format,$a_format_str);
+		return self::$block_type;
+	}
+	
+	/**
+	 * is repository object
+	 *
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function isRepositoryObject()
+	{
+		return false;
+	}
+	
+	/**
+	 * Execute command
+	 *
+	 * @access public
+	 * 
+	 */
+	public function executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		return $this->$cmd();
+	}
+	
+	/**
+	 * fill data section
+	 *
+	 * @access public
+	 * 
+	 */
+	public function fillDataSection()
+	{
+	 	$this->setDataSection('');
+	}
+	
+	/**
+	 * get HTML
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getHTML()
+	{
+	 	return '';
 	}
 }
+
 ?>

@@ -33,17 +33,22 @@ include_once('Services/Calendar/classes/class.ilTimeZone.php');
 * @ingroup ServicesCalendar 
 */
 
+define('IL_CAL_DATETIME',1);
+define('IL_CAL_DATE',2);
+define('IL_CAL_UNIX',3);
+define('IL_CAL_FKT_DATE',4);
+
+define('IL_CAL_YEAR','year');
+define('IL_CAL_MONTH','month');
+define('IL_CAL_WEEK','week');
+define('IL_CAL_DAY','day');
+
 class ilDateTime
 {
 	const YEAR = 'year';
 	const MONTH = 'month';
 	const WEEK = 'week';
 	const DAY = 'day';
-	
-	const FORMAT_DATETIME = 1;
-	const FORMAT_DATE = 2;
-	const FORMAT_UNIX = 3;
-	const FORMAT_FKT_DATE = 4;
 
 	protected $log;
 	
@@ -75,7 +80,7 @@ class ilDateTime
 		 	
 		 	if(!$a_date)
 		 	{
-		 		$this->setDate(0,self::FORMAT_UNIX);
+		 		$this->setDate(0,IL_CAL_UNIX);
 		 	}
 		 	else
 		 	{
@@ -135,7 +140,7 @@ class ilDateTime
 	 */
 	public static function _before(ilDateTime $start,ilDateTime $end)
 	{
-		return $start->get(self::FORMAT_UNIX) < $end->get(self::FORMAT_UNIX);
+		return $start->get(IL_CAL_UNIX) < $end->get(IL_CAL_UNIX);
 	}
 	
 	/**
@@ -148,7 +153,7 @@ class ilDateTime
 	 */
 	public static function _equals(ilDateTime $start,ilDateTime $end)
 	{
-		return $start->get(self::FORMAT_UNIX) == $end->get(self::FORMAT_UNIX);
+		return $start->get(IL_CAL_UNIX) == $end->get(IL_CAL_UNIX);
 	}
 
 	/**
@@ -163,7 +168,7 @@ class ilDateTime
 	 */
 	public function _after(ilDateTime $start,ilDateTime $end)
 	{
-		return $start->get(self::FORMAT_UNIX) > $end->get(self::FORMAT_UNIX);
+		return $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX);
 	}
 	
 	/**
@@ -240,11 +245,11 @@ class ilDateTime
 	{
 	 	switch($a_format)
 	 	{
-	 		case self::FORMAT_UNIX:
+	 		case IL_CAL_UNIX:
 				$this->unix = $a_date;
 				break;
 				
-			case self::FORMAT_DATETIME:
+			case IL_CAL_DATETIME:
 				
 				if(preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts) === false)
 				{
@@ -263,7 +268,7 @@ class ilDateTime
 				$this->timezone->restoreTZ();
 				break;
 
-			case self::FORMAT_DATE:
+			case IL_CAL_DATE:
 				// Pure dates are not timezone sensible.
 				$timezone = ilTimeZone::_getInstance('UTC');
 				$timezone->switchTZ();
@@ -308,20 +313,20 @@ class ilDateTime
 
 	 	switch($a_format)
 	 	{
-	 		case self::FORMAT_UNIX:
+	 		case IL_CAL_UNIX:
 	 			$date = $this->getUnixTime();
 	 			break;
-	 		case self::FORMAT_DATE:
+	 		case IL_CAL_DATE:
 			 	$timezone->switchTZ();
 				$date = date('Y-m-d',$this->getUnixTime());
 				$timezone->restoreTZ();
 				break;
-			case self::FORMAT_DATETIME:
+			case IL_CAL_DATETIME:
 			 	$timezone->switchTZ();
 				$date = date('Y-m-d H:i:s',$this->getUnixTime());
 				$timezone->restoreTZ();
 				break;
-			case self::FORMAT_FKT_DATE:
+			case IL_CAL_FKT_DATE:
 			 	$timezone->switchTZ();
 				$date = date($a_format_str,$this->getUnixTime());
 				$timezone->restoreTZ();
@@ -339,7 +344,7 @@ class ilDateTime
 	 */
 	public function __toString()
 	{
-		return $this->get(self::FORMAT_DATETIME,'',$this->timezone->getIdentifier()).'<br>';
+		return $this->get(IL_CAL_DATETIME,'',$this->timezone->getIdentifier()).'<br>';
 	}
 }
 ?>

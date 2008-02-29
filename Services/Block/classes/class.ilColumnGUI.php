@@ -69,7 +69,8 @@ class ilColumnGUI
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
 		'ilCalendarCategoriesGUI' => 'Services/Calendar/',
-		'ilCalendarMonthBlockGUI'	=> 'Services/Calendar/');
+		'ilCalendarMonthBlockGUI'	=> 'Services/Calendar/',
+		'ilCalendarUserSettingsBlockGUI' => 'Services/Calendar/');
 	
 	static protected $block_types = array(
 			"ilPDMailBlockGUI" => "pdmail",
@@ -107,8 +108,9 @@ class ilColumnGUI
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT),
 		'cal' => array(
 			'ilCalendarCategoriesGUI' => IL_COL_LEFT,
-			'ilCalendarMonthBlockGUI' => IL_COL_CENTER)
-			);
+			'ilCalendarMonthBlockGUI' => IL_COL_CENTER,
+			'ilCalendarUserSettingsBlockGUI' => IL_COL_CENTER
+			));
 
 	// these are only for pd blocks
 	// other blocks are rep objects now

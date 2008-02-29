@@ -27,7 +27,7 @@
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilCalendarGUI:  
+* @ilCtrl_Calls ilCalendarGUI: ilCalendarMonthBlockGUI, ilCalendarUserSettingsBlockGUI
 * @ingroup ServicesCalendar
 */
 
@@ -36,6 +36,7 @@ class ilCalendarGUI
 	protected $ctrl;
 	protected $lng;
 	protected $tpl;
+	protected $tabs_gui;
 	
 	/**
 	 * Constructor
@@ -46,11 +47,14 @@ class ilCalendarGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl,$lng,$tpl;
+		global $ilCtrl,$lng,$tpl,$ilTabs;
 	
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
+		$this->lng->loadLanguageModule('dateplaner');
+		
 		$this->tpl = $tpl; 	
+		$this->tabs_gui = $ilTabs;
 	}
 	
 	
@@ -65,11 +69,13 @@ class ilCalendarGUI
 	{
 		global $ilUser, $ilSetting;
 
+
+		$this->prepareOutput();
 		$next_class = $this->ctrl->getNextClass();
 
 		switch($next_class)
 		{
-				
+			
 			default:
 				$cmd = $this->ctrl->getCmd("show");
 				$this->$cmd();
@@ -77,6 +83,8 @@ class ilCalendarGUI
 		}
 		return true;
 	}
+	
+	
 	
 	/**
 	 * Show
@@ -134,6 +142,17 @@ class ilCalendarGUI
 			}
 		}
 		return $html;
+	}
+	
+	/**
+	 * get tabs
+	 *
+	 * @access public
+	 */
+	protected function prepareOutput()
+	{
+		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthBlockGUI',''));
+		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsBlockGUI',''));
 	}
 	
 }
