@@ -1059,7 +1059,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getPathForRefId',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getTestResults(): returns XMLResultSet with columns ref_id, type and title.');
+								'ILIAS getPathForRefId(): returns XMLResultSet with columns ref_id, type and title.');
 								
 								
 		return true;

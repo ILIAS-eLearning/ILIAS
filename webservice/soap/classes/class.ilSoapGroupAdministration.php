@@ -451,7 +451,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		include_once 'classes/class.ilGroupXMLWriter.php';	
 
 		$xmlResultSet = new ilXMLResultSet();
-		$xmlResultSet->addColumn("refid");
+		$xmlResultSet->addColumn("ref_id");
 		$xmlResultSet->addColumn("xml");
 		
 		foreach ($ref_ids as $course_id) {
