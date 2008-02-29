@@ -1025,13 +1025,15 @@ class ilNusoapUserAdministrationAdapter
 								
 		
 		$this->server->register ('getTestResults',
-								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int'),
+								array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'sum_only' => 'xsd:boolean'),
 								array('xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getTestResults',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getTestResults(): returns XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points');
+								'ILIAS getTestResults(): returns XMLResultSet with 
+									 sum only = true: user_id, login, firstname, lastname, matriculation, maximum points, received points
+	 								 sum only = false: user_id, login, firstname, lastname, matriculation, question id, question title, question points, received points');
 								
 
 		$this->server->register ('getCoursesForUser',

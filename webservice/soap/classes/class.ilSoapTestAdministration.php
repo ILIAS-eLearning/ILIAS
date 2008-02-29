@@ -162,11 +162,14 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 *
 	 * @param string $sid
 	 * @param int $test_ref_id
+	 * @param boolean $sum_only
 	 *
-	 * @return XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points
+	 * @return XMLResultSet with columns 
+	 * 	sum only = true: user_id, login, firstname, lastname, matriculation, maximum points, received points
+	 *  sum only = false: user_id, login, firstname, lastname, matriculation, question id, question title, question points, received points
 	 */
 
-	function getTestResults ($sid, $test_ref_id) {
+	function getTestResults ($sid, $test_ref_id, $sum_only) {
 	    if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -208,40 +211,72 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			return $this->__raiseError('No permission to edit the object with id: '.$test_ref_id,
 									   'Server');
 		}
-
-		include_once './Modules/Test/classes/class.ilObjTest.php';
-		$test_obj = new ilObjTest($obj_id, false);
-		$participants =  $test_obj->getTestParticipants();
-		$data =  $test_obj->getAllTestResults($participants, false);
-
    	     // store into xml result set
 		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
 		include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
-   	    // create xml
-	    $xmlResultSet = new ilXMLResultSet();
-	    $xmlResultSet->addColumn("firstname");
-	    $xmlResultSet->addColumn("lastname");
-	    $xmlResultSet->addColumn("matriculation");
-	    $xmlResultSet->addColumn("maximum_points");
-	    $xmlResultSet->addColumn("received_points");
+		
+		$xmlResultSet = new ilXMLResultSet();
+		$xmlResultSet->addColumn("user_id");
+		$xmlResultSet->addColumn("login");
+		$xmlResultSet->addColumn("firstname");
+		$xmlResultSet->addColumn("lastname");
+		$xmlResultSet->addColumn("matriculation");
+		
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		$test_obj = new ilObjTest($obj_id, false);
+		$participants =  $test_obj->getTestParticipants();
+		
 
-	    // skip titles
-	    $titles = array_shift($data);
-	    foreach ($data as $row) {
-            $xmlRow = new ilXMLResultSetRow();
-            $xmlRow->setValue(0, $row["firstname"]);
-            $xmlRow->setValue(1, $row["lastname"]);
-            $xmlRow->setValue(2, $row["matriculation"]);
-            $xmlRow->setValue(3, $row["max_points"]);
-            $xmlRow->setValue(4, $row["reached_points"]);
-            $xmlResultSet->addRow($xmlRow);
+		if ($sum_only)  
+		{
+			$data =  $test_obj->getAllTestResults($participants, false);
+#print_r($data);
+	   	    // create xml
+		    $xmlResultSet->addColumn("maximum_points");
+		    $xmlResultSet->addColumn("received_points");
+		   	// skip titles
+	    	$titles = array_shift($data);
+		    foreach ($data as $row) {
+	            $xmlRow = new ilXMLResultSetRow();
+	            $xmlRow->setValue(0, $row["user_id"]);
+	            $xmlRow->setValue(1, $row["login"]);	            
+	            $xmlRow->setValue(2, $row["firstname"]);
+	            $xmlRow->setValue(3, $row["lastname"]);
+	            $xmlRow->setValue(4, $row["matriculation"]);
+	            $xmlRow->setValue(5, $row["max_points"]);
+	            $xmlRow->setValue(6, $row["reached_points"]);
+	            $xmlResultSet->addRow($xmlRow);
+		    }
+		} else {
+			$data =  $test_obj->getDetailedTestResults($participants);
+	   	    // create xml
+		    $xmlResultSet->addColumn("question_id");
+		    $xmlResultSet->addColumn("question_title");			
+			$xmlResultSet->addColumn("maximum_points");
+		    $xmlResultSet->addColumn("received_points");
+		   	foreach ($data as $row) {
+	            $xmlRow = new ilXMLResultSetRow();
+	            $xmlRow->setValue(0, $row["user_id"]);
+	            $xmlRow->setValue(1, $row["login"]);	            
+	            $xmlRow->setValue(2, $row["firstname"]);
+	            $xmlRow->setValue(3, $row["lastname"]);
+	            $xmlRow->setValue(4, $row["matriculation"]);
+	            $xmlRow->setValue(5, $row["question_id"]);
+	            $xmlRow->setValue(6, $row["question_title"]);
+	            $xmlRow->setValue(7, $row["max_points"]);
+	            $xmlRow->setValue(8, $row["reached_points"]);
+	            $xmlResultSet->addRow($xmlRow);
+		    }
 		}
+
 
 		// create writer
 		$xmlWriter = new ilXMLResultSetWriter($xmlResultSet);
 		$xmlWriter->start();
 
 		return $xmlWriter->getXML();
-	} 
+	}
+
+	
 }
 ?>

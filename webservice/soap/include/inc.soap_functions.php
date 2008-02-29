@@ -721,16 +721,17 @@
 	 *
 	 * @param string $sid
 	 * @param int $ref_id
+	 * @param boolean $sum_only
 	 *
 	 * @return XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points
 	 */
 
-	function getTestResults ($sid, $ref_id) {
+	function getTestResults ($sid, $ref_id,$sum_only) {
 		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
 
 		$soa = new ilSoapTestAdministration();
 
-		return $soa->getTestResults($sid, $ref_id);
+		return $soa->getTestResults($sid, $ref_id,$sum_only);
 		
 	}
 	
