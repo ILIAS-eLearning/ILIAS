@@ -1105,10 +1105,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError("Object is in Trash", 'Client');			
 		}
-		$cont_loc = new ilLocatorGUI();
-		$cont_loc->addContextItems($ref_id, true);
-		$items = $cont_loc->getItems();
-		
+		global $tree, $lng;
+		$items = $tree->getPathFull($ref_id);
+				
 		include_once 'webservice/soap/classes/class.ilXMLResultSet.php';
 		include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
 		include_once 'Modules/Course/classes/class.ilCourseXMLWriter.php';
@@ -1120,11 +1119,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		
 		$writer = new ilXMLResultSetWriter($xmlResultSet);
 		foreach ($items as $item) {
+			if ($item["ref_id"] == $refid)
+				continue;
+			if ($item["title"] == "ILIAS" && $item["type"] == "root")
+			{
+				$item["title"] = $lng->txt("repository");
+			}						
+			
 			$row = new ilXMLResultSetRow();
 			$xmlResultSet->addRow($row);
 			$row->setValue("ref_id", $item["ref_id"]);	
-			$row->setValue("type", $item["type"]);
 			$row->setValue("title", $item["title"]);
+			$row->setValue("type", $item["type"]);
 		}		
 		$writer->start();
 		return $writer->getXML();
