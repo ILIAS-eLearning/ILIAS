@@ -1119,7 +1119,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		
 		$writer = new ilXMLResultSetWriter($xmlResultSet);
 		foreach ($items as $item) {
-			if ($item["ref_id"] == $refid)
+			if ($item["ref_id"] == $ref_id)
 				continue;
 			if ($item["title"] == "ILIAS" && $item["type"] == "root")
 			{
