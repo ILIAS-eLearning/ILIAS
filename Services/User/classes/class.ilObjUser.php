@@ -1027,6 +1027,26 @@ class ilObjUser extends ilObject
 			$this->ilias->db->query($q);
 		}
 	}
+	
+	/**
+	 * get timezone of user
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getUserTimeZone()
+	{
+	 	if($tz = $this->getPref('user_tz'))
+	 	{
+	 		return $tz; 
+	 	}
+	 	else
+	 	{
+	 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
+	 		$settings = ilCalendarSettings::_getInstance();
+	 		return $settings->getDefaultTimeZone();
+	 	}
+	}
 
 	/**
 	* set a user preference
