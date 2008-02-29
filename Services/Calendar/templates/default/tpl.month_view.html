@@ -12,8 +12,10 @@
 		<!-- BEGIN month_col -->
 		<td class="calstd">
 			<p class="il_monthday">{MONTH_DAY}</p>
-			<p class="il_calevent" style="background-color:orange">08:00 Fullday</p>
-			<img src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" />
+			<!-- BEGIN il_event -->
+			<p class="il_calevent" style="background-color:orange">{EVENT_TITLE}</p>
+			<!-- END il_event -->
+			<img style="vertical-align: bottom" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" />
 			<img src="{OPEN_SRC}" alt="{OPEN_ALT}" title="{OPEN_ALT}" />
 		</td>
 		<!-- END month_col -->
