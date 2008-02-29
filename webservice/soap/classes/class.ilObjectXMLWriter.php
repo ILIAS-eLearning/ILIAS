@@ -157,14 +157,15 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 		if($this->enabledOperations())
 		{
-		    $ops = $rbacreview->getOperationsOnTypeString($a_type);
+			$ops = $rbacreview->getOperationsOnTypeString($a_type);
 		    if (is_array($ops))
 		    {
-    			foreach($ops as $ops_id)
+    			
+		    	foreach($ops as $ops_id)
     			{
     				$operation = $rbacreview->getOperation($ops_id);
-
-    				if($ilAccess->checkAccessOfUser($this->getUserId(),$operation['operation'],'view',$a_ref_id))
+					
+    				if(count ($operation) && $ilAccess->checkAccessOfUser($this->getUserId(),$operation['operation'],'view',$a_ref_id))
     				{
     					$this->xmlElement('Operation',null,$operation['operation']);
     				}
@@ -211,13 +212,18 @@ class ilObjectXMLWriter extends ilXmlWriter
 		}
 	}
 
-
+	
 	static function appendPathToObject ($writer, $refid){
-		$cont_loc = new ilLocatorGUI();
-		$cont_loc->addContextItems($refid, true);
-		$items = $cont_loc->getItems();
+		global $tree, $lng;
+		$items = $tree->getPathFull($refid);
 		$writer->xmlStartTag("Path");
 		foreach ($items as $item) {
+			if ($item["ref_id"] == $refid)
+				continue;
+			if ($item["title"] == "ILIAS" && $item["type"] == "root")
+			{
+				$item["title"] = $lng->txt("repository");
+			}			
 			$writer->xmlElement("Element", array("ref_id" => $item["ref_id"], "type" => $item["type"]), $item["title"]);
 		}		
 		$writer->xmlEndTag("Path");						
