@@ -7423,9 +7423,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function getAllTestResults($participants, $prepareForCSV = true)
 	{
 		$results = array();
-		$row = array("matriculation" =>  $this->lng->txt("matriculation"),
+		$row = array(
+			"user_id" => $this->lng->txt("user_id"),
+			"matriculation" =>  $this->lng->txt("matriculation"),
 			"lastname" =>  $this->lng->txt("lastname"),
 			"firstname" => $this->lng->txt("firstname"),
+			"login" =>$this->lng->txt("login"),
 			"reached_points" => $this->lng->txt("tst_reached_points"),
 			"max_points" => $this->lng->txt("tst_maximum_points"),
 			"percent_value" => $this->lng->txt("tst_percent_solved"),
@@ -7433,6 +7436,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"ects" => $this->lng->txt("ects_grade")
 		);
 		$results[] = $row;
+		#print_r($participants);
 		if (count($participants))
 		{
 			foreach ($participants as $active_id => $user_rec)
@@ -7471,10 +7475,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 					$user_rec->lastname = $this->lng->txt("unknown");
 				}
 				$row = array(
-					"matriculation" =>  $user_rec->matriculation,
+"user_id"=>$user_rec->usr_id,
+				"matriculation" =>  $user_rec->matriculation,
 					"lastname" =>  $user_rec->lastname,
 					"firstname" => $user_rec->firstname,
-					"reached_points" => $reached_points,
+"login"=>$user_rec->login,
+				"reached_points" => $reached_points,
 					"max_points" => $max_points,
 					"percent_value" => $percentvalue,
 					"mark" => $mark,
@@ -9468,6 +9474,66 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->getTestSequence()->saveToDb();
 		}
 	}
+	
+	/**
+	 * returns all test results for all participants
+	 *
+	 * @param array $partipants array of user ids
+	 * @param boolean if true, the result will be prepared for csv output (see processCSVRow)
+	 *
+	 * @return array of fields, see code for column titles
+	 */
+	function getDetailedTestResults($participants)
+	{
+		$results = array();
+		if (count($participants))
+		{
+			foreach ($participants as $active_id => $user_rec)
+			{
+				$row = array();
+				$reached_points = 0;
+				$max_points = 0;
+				foreach ($this->questions as $value)
+				{
+					$question =& ilObjTest::_instanciateQuestion($value);
+					if (is_object($question))
+					{
+						$max_points += $question->getMaximumPoints();
+						$reached_points += $question->getReachedPoints($active_id);
+						if ($max_points > 0)
+						{
+							$percentvalue = $reached_points / $max_points;
+							if ($percentvalue < 0) $percentvalue = 0.0;
+						}
+						else
+						{
+							$percentvalue = 0;
+						}
+						if ($this->getAnonymity())
+						{
+							$user_rec->firstname = "";
+							$user_rec->lastname = $this->lng->txt("unknown");
+						}
+						$row = array(
+							"user_id"=>$user_rec->usr_id,
+							"matriculation" =>  $user_rec->matriculation,
+							"lastname" =>  $user_rec->lastname,
+							"firstname" => $user_rec->firstname,
+							"login"=>$user_rec->login,
+							"question_id" => $question->getId(),
+							"question_title" => $question->getTitle(),
+							"reached_points" => $reached_points,
+							"max_points" => $max_points
+						);
+						$results[] = $row;
+					}
+				}
+			}
+		}
+		return $results;
+	}
+	
+	
 } // END class.ilObjTest
 
 ?>
