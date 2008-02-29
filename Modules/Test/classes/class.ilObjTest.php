@@ -6633,7 +6633,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setPassword($this->getPassword());
 		$newObj->setProcessingTime($this->getProcessingTime());
 		$newObj->setRandomQuestionCount($this->getRandomQuestionCount());
-		$newObj->setRandomTest($this->getRandomTest());
+		$newObj->setRandomTest($this->isRandomTest());
 		$newObj->setReportingDate($this->getReportingDate());
 		$newObj->setResetProcessingTime($this->getResetProcessingTime());
 		$newObj->setResultsPresentation($this->getResultsPresentation());
