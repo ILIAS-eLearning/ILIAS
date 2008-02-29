@@ -13,10 +13,10 @@ include_once "./Services/CopyWizard/classes/class.ilCopyWizardOptions.php";
 class ilCopyWizardSettingsXMLParser extends ilSaxParser
 {
 
-  var $options;
-  var $source_id;
-  var $target_id;
-  var $default_action;
+  private $options;
+  private $source_id;
+  private $target_id;
+  private $default_action;
 
   /**
   * constructor
@@ -28,7 +28,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
   function ilCopyWizardSettingsXMLParser($xml)
   {
     parent::ilSaxParser('', true);
-    $this->setXMLContent($xml);
+    $this->setXMLContent($xml);    
   }
 
   /**
@@ -53,6 +53,8 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
   */
   function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
   {
+  	global $objDefinition, $ilAccess;
+  	
   	switch($a_name)
     {
       case 'Settings':
@@ -76,8 +78,34 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
 		{
 			throw new ilSaxParserException("Id $id is in trash");
 		}      	
-		$this->options [$id] = array("type" => ilCopyWizardSettingsXMLParser::getActionForString($a_attribs["action"]));
-        break;
+		$action = ilCopyWizardSettingsXMLParser::getActionForString($a_attribs["action"]);
+		$type = ilObjectFactory::getTypeByRefId($id);
+		
+		
+		switch ($action) {
+			case ilCopyWizardOptions::COPY_WIZARD_COPY:
+					$perm_copy = $ilAccess->checkAccess('copy','',$id);
+					$copy = $objDefinition->allowCopy($type);
+				
+					if ($perm_copy && $copy)
+						$this->options [$id] = array("type" => $action);
+					elseif ($copy && !$perm_copy)
+						throw new ilSaxParserException("Missing copy permission for object ".$id);
+					elseif (!$copy)
+						throw new ilSaxParserException("Copy for object ".$id." of type ".$type." is not supported");
+					break;
+			case ilCopyWizardOptions::COPY_WIZARD_LINK:
+					$perm_link = $ilAccess->checkAccess('write','',$id);
+					$link = $objDefinition->allowLink($type);
+				
+					if ($perm_link && $link)
+						$this->options [$id] = array("type" => $action);
+					elseif ($copy && !$perm_link)
+						throw new ilSaxParserException("Missing write permission for object ".$id);
+					elseif (!$link)
+						throw new ilSaxParserException("Link for object ".$id." of type ".$type." is not supported");				
+					break;					
+		}
     }
   }
 
