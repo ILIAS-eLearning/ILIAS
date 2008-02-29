@@ -640,7 +640,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
 		
 		// BEGIN ChangeEvent: Record save object.
-		require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		if (ilChangeEvent::_isActive())
 		{
 			global $ilUser;

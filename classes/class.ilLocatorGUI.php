@@ -216,7 +216,7 @@ class ilLocatorGUI
 					}
 					$this->addItem($row["title"],
 						"./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".$row["type"]."_".$row["child"],
-						"_top", $row["child"]);
+						"_top", $row["child"], $row["type"]);
 				}
 			}
 		}
@@ -229,10 +229,10 @@ class ilLocatorGUI
 	* @param	string	$a_link			item link
 	* @param	string	$a_frame		frame target
 	*/
-	function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0)
+	function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0, $type = null)
 	{
 		$this->entries[] = array("title" => $a_title,
-			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id); 
+			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type); 
 	}
 	
 	/**

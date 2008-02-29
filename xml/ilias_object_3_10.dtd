@@ -1,0 +1,26 @@
+<!-- ilias_obj.dtd -->
+<!ELEMENT Objects (Object*)>
+<!ELEMENT Object (Title, Description?, Owner, CreateDate?, LastUpdate?, ImportId?, References*)>
+<!ATTLIST Object
+    type CDATA #REQUIRED
+    obj_id CDATA #IMPLIED
+>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT Owner (#PCDATA)>
+<!ELEMENT CreateDate (#PCDATA)>
+<!ELEMENT LastUpdate (#PCDATA)>
+<!ELEMENT ImportId (#PCDATA)>
+<!ELEMENT References (Operation*, Path?)>
+<!-- accesInfo is 'granted','no_permission',missing_precondition','no_object_access','no_parent_access' or 'object_deleted' -->
+<!ATTLIST References
+    ref_id CDATA #REQUIRED
+    parent_id CDATA #IMPLIED 
+    accessInfo (granted|no_permission|missing_precondition|no_object_access|no_parent_access|object_deleted) #IMPLIED
+>
+<!ELEMENT Operation (#PCDATA)>
+<!ELEMENT Path (Element*)>
+<!ELEMENT Element (#PCDATA)>
+<!ATTLIST Element
+	ref_id CDATA #REQUIRED
+	type CDATA #REQUIRED>
