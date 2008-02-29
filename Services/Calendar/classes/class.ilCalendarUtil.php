@@ -103,7 +103,7 @@ class ilCalendarUtil
 				$day_list->add(new ilDate(gmmktime(0,0,0,$prev_month,
 					$days_in_prev_month - $first_day_offset + $i + 1,
 					$prev_year),
-					ilDateTime::FORMAT_UNIX));
+					IL_CAL_UNIX));
 			}
 			elseif($i < $days_in_month + $first_day_offset)
 			{
@@ -112,7 +112,7 @@ class ilCalendarUtil
 				$day_list->add(new ilDate(gmmktime(0,0,0,$a_month,
 					$i - $first_day_offset + 1,
 					$a_year),
-					ilDateTime::FORMAT_UNIX));
+					IL_CAL_UNIX));
 			}
 			else
 			{
@@ -120,7 +120,7 @@ class ilCalendarUtil
 				$day_list->add(new ilDate(gmmktime(0,0,0,$next_month,
 					$i - $days_in_month - $first_day_offset + 1,
 					$next_year),
-					ilDateTime::FORMAT_UNIX));
+					IL_CAL_UNIX));
 			}
 			if($i == 34 and ($day < 15 or $day == $days_in_month))
 			{

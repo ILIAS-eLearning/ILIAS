@@ -95,7 +95,7 @@ class ilDateList
 	 	// the unix time is the key. 
 	 	// It's casted to string because array_merge overwrites only string keys
 	 	// @see merge
-	 	$this->list_item[(string) $date->get(ilDateTime::FORMAT_UNIX)] = clone $date;
+	 	$this->list_item[(string) $date->get(IL_CAL_UNIX)] = clone $date;
 	}
 	
 	/**
@@ -122,7 +122,7 @@ class ilDateList
 	 */
 	public function remove(ilDateTime $remove)
 	{
-	 	$unix_remove = $remove->get(ilDateTime::FORMAT_UNIX);
+	 	$unix_remove = $remove->get(IL_CAL_UNIX);
 		if(isset($this->list_item[$unix_remove]))
 		{
 			unset($this->list_item[$unix_remove]);
@@ -152,7 +152,7 @@ class ilDateList
 	 	$out = '<br />';
 	 	foreach($this->get() as $date)
 	 	{
-	 		$out .= $date->get(ilDateTime::FORMAT_DATETIME,'','Europe/Berlin').'<br/>';
+	 		$out .= $date->get(IL_CAL_DATETIME,'','Europe/Berlin').'<br/>';
 	 	}
 	 	return $out;
 	}

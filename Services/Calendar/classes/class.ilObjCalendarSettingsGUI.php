@@ -133,7 +133,10 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-/*
+
+		/*
+		$zeit = microtime(true);
+		
 		for($i = 0;$i < 1;$i++)
 		{
 			$calc = new ilCalendarRecurrenceCalculator(
@@ -141,12 +144,15 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 				new ilCalendarRecurrence(72));
 	
 			$list = $calc->calculateDateList(
-					new ilDateTime('2008-03-15',ilDateTime::FORMAT_DATE),
-					new ilDateTime('2008-03-25',ilDateTime::FORMAT_DATE));
-			
+					new ilDateTime('2008-03-01',IL_CAL_DATE),
+					new ilDateTime('2008-03-31',IL_CAL_DATE));
+		}		
+		echo "NEEDS: ".(microtime(true) - $zeit).' seconds.<br>';
+		foreach($list->get() as $event)
+		{
+			echo $event->get(IL_CAL_DATETIME,'',$this->settings->getDefaultTimeZone()).'<br />';
 		}
-		echo (string) $list;
-*/
+		*/
 		#$parser = new ilICalParser('./extern/Parser.ics',ilICalParser::INPUT_FILE);
 		#$parser = new ilICalParser('./Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->parse();
@@ -154,17 +160,17 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		/*
 		$timezone = "US/Alaska";
 		echo $entry->getTitle().'<br>';
-		echo $entry->getStart()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
-		echo $entry->getStart()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
-		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
-		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
+		echo $entry->getStart()->get(IL_CAL_DATE,'',$timezone).'<br>';
+		echo $entry->getStart()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
+		echo $entry->getEnd()->get(IL_CAL_DATE,'',$timezone).'<br>';
+		echo $entry->getEnd()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
 
 		$entry = new ilCalendarEntry(928);
 		echo $entry->getTitle().'<br>';
-		echo $entry->getStart()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
-		echo $entry->getStart()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
-		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATE,'',$timezone).'<br>';
-		echo $entry->getEnd()->get(ilDateTime::FORMAT_DATETIME,'',$timezone).'<br>';		
+		echo $entry->getStart()->get(IL_CAL_DATE,'',$timezone).'<br>';
+		echo $entry->getStart()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
+		echo $entry->getEnd()->get(IL_CAL_DATE,'',$timezone).'<br>';
+		echo $entry->getEnd()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
 		*/
 		$this->tabs_gui->setTabActive('settings');
 		$this->initFormSettings();

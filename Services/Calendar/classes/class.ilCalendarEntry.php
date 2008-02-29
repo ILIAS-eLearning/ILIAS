@@ -267,8 +267,8 @@ class ilCalendarEntry
 	 		"description = ".$this->db->quote($this->getDescription()).", ".
 	 		"location = ".$this->db->quote($this->getLocation()).", ".
 	 		"fullday = ".($this->isFullday() ? 1 : 0).", ".
-	 		"start = ".$this->db->quote($this->getStart()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
-	 		"end = ".$this->db->quote($this->getEnd()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
+	 		"start = ".$this->db->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
+	 		"end = ".$this->db->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
 	 		"informations = ".$this->db->quote($this->getFurtherInformations()).", ".
 	 		"public = 0 ".
 	 		"WHERE cal_id = ".$this->db->quote($this->getEntryId())." ";
@@ -291,8 +291,8 @@ class ilCalendarEntry
 	 		"description = ".$this->db->quote($this->getDescription()).", ".
 	 		"location = ".$this->db->quote($this->getLocation()).", ".
 	 		"fullday = ".($this->isFullday() ? 1 : 0).", ".
-	 		"start = ".$this->db->quote($this->getStart()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
-	 		"end = ".$this->db->quote($this->getEnd()->get(ilDateTime::FORMAT_DATETIME,'','UTC')).", ".
+	 		"start = ".$this->db->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
+	 		"end = ".$this->db->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
 	 		"informations = ".$this->db->quote($this->getFurtherInformations()).", ".
 	 		"public = 0 ";
 	 		
@@ -322,13 +322,13 @@ class ilCalendarEntry
 			
 			if($this->isFullday())
 			{
-				$this->start = new ilDate($row->start,ilDateTime::FORMAT_DATETIME);
-				$this->end = new ilDate($row->end,ilDateTime::FORMAT_DATETIME);
+				$this->start = new ilDate($row->start,IL_CAL_DATETIME);
+				$this->end = new ilDate($row->end,IL_CAL_DATETIME);
 			}
 			else
 			{
-				$this->start = new ilDateTime($row->start,ilDateTime::FORMAT_DATETIME,'UTC');
-				$this->end = new ilDateTime($row->end,ilDateTime::FORMAT_DATETIME,'UTC');
+				$this->start = new ilDateTime($row->start,IL_CAL_DATETIME,'UTC');
+				$this->end = new ilDateTime($row->end,IL_CAL_DATETIME,'UTC');
 			}
 		}
 		

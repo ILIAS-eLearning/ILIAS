@@ -43,6 +43,7 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 	
 	protected $lng;
 	protected $ctrl;
+	protected $tabs_gui;
 
 	/**
 	 * Constructor
@@ -53,15 +54,17 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilUser,$ilTabs;
 		
 		parent::ilBlockGUI();
 		
-		$this->seed = new ilDate($_GET['seed'] ? $_GET['seed'] : date('Y-m-d',time()),ilDateTime::FORMAT_DATE);
+		$this->seed = new ilDate($_GET['seed'] ? $_GET['seed'] : date('Y-m-d',time()),IL_CAL_DATE);
 
 		$this->lng = $lng;
-		$this->lng->loadLanguageModule('dateplaner');
 		$this->ctrl = $ilCtrl;
+		$this->tabs_gui = $ilTabs;
+		$this->tabs_gui->setSubTabActive('app_month');
+		
 		
 		
 		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));
@@ -135,13 +138,13 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 		}
 		
 		$counter = 0;
-		foreach(ilCalendarUtil::_buildMonthDayList($this->seed->get(ilDateTime::FORMAT_FKT_DATE,'m'),$this->seed->get(ilDateTime::FORMAT_FKT_DATE,'Y'))->get() as $date)
+		foreach(ilCalendarUtil::_buildMonthDayList($this->seed->get(IL_CAL_FKT_DATE,'m'),$this->seed->get(IL_CAL_FKT_DATE,'Y'))->get() as $date)
 		{
 			$counter++;
 
 			$tpl->setCurrentBlock('month_col');
-			$day = $date->get(ilDateTime::FORMAT_FKT_DATE,'j');
-			$month = $date->get(ilDateTime::FORMAT_FKT_DATE,'n');
+			$day = $date->get(IL_CAL_FKT_DATE,'j');
+			$month = $date->get(IL_CAL_FKT_DATE,'n');
 			
 			if($day == 1)
 			{

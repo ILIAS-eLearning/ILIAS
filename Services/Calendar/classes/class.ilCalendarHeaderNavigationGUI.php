@@ -79,27 +79,27 @@ class ilCalendarHeaderNavigationGUI
 			switch($this->increment)
 			{
 				case ilDateTime::DAY:
-					$this->tpl->setVariable('NAV_NAME_'.++$num,ilCalendarUtil::_numericDayToString($this->seed->get(ilDateTime::FORMAT_FKT_DATE,'w')));
+					$this->tpl->setVariable('NAV_NAME_'.++$num,ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w')));
 					break;
 				
 				case ilDateTime::WEEK:
-					$this->tpl->setVariable('NAV_NAME_'.++$num,$this->lng->txt('week').' '.$this->seed->get(ilDateTime::FORMAT_FKT_DATE,'W'));
+					$this->tpl->setVariable('NAV_NAME_'.++$num,$this->lng->txt('week').' '.$this->seed->get(IL_CAL_FKT_DATE,'W'));
 					break;
 					
 				case ilDateTime::MONTH:
 					if($num == 2)
 					{
 						$this->tpl->setVariable('NAV_NAME_'.++$num,
-							$this->lng->txt('month_'.$this->seed->get(ilDateTime::FORMAT_FKT_DATE,'m').'_long').
-							' '.$this->seed->get(ilDateTime::FORMAT_FKT_DATE,'Y'));
+							$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
+							' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));
 					}
 					else
 					{
-						$this->tpl->setVariable('NAV_NAME_'.++$num,$this->lng->txt('month_'.$this->seed->get(ilDateTime::FORMAT_FKT_DATE,'m').'_long'));
+						$this->tpl->setVariable('NAV_NAME_'.++$num,$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long'));
 					}
 					break;
 			}
-			$this->ctrl->setParameter($this->cmdClass,'seed',$this->seed->get(ilDateTime::FORMAT_DATE));
+			$this->ctrl->setParameter($this->cmdClass,'seed',$this->seed->get(IL_CAL_DATE));
 			$this->tpl->setVariable('NAV_LINK_'.$num,$this->ctrl->getLinkTarget($this->cmdClass,''));
 			$this->seed->increment($this->increment,1);
 		} while($num < 6);

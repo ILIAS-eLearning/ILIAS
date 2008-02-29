@@ -207,9 +207,9 @@ class ilCalendarRecurrenceCalculator
 	 	if($this->recurrence->getFrequenceUntilCount() > 0)
 	 	{
 			// Switch the date to the original defined timzone for this recurrence 
-			return $this->createDate($this->start->get(ilDateTime::FORMAT_UNIX,$this->timezone));
+			return $this->createDate($this->start->get(IL_CAL_UNIX,$this->timezone));
 	 	}
-	 	$optimized = $start = $this->createDate($this->start->get(ilDateTime::FORMAT_UNIX,$this->timezone));
+	 	$optimized = $start = $this->createDate($this->start->get(IL_CAL_UNIX,$this->timezone));
 	 	while(ilDateTime::_before($start,$this->period_start))
 	 	{
 	 		$optimized = clone $start;
@@ -270,11 +270,11 @@ class ilCalendarRecurrenceCalculator
 				// Rules < YEARLY must match the month of the seed
 				if($this->recurrence->getFrequenceType() == ilCalendarRecurrence::FREQ_YEARLY)
 				{
-					$month_date = $this->createDate($date->get(ilDateTime::FORMAT_UNIX,'',$this->timezone));
-					$month_date->increment(ilDateTime::MONTH,-($date->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone) - $month));
+					$month_date = $this->createDate($date->get(IL_CAL_UNIX,'',$this->timezone));
+					$month_date->increment(ilDateTime::MONTH,-($date->get(IL_CAL_FKT_DATE,'n',$this->timezone) - $month));
 					$month_list->add($month_date);
 				}
-				elseif($date->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone) == $month)
+				elseif($date->get(IL_CAL_FKT_DATE,'n',$this->timezone) == $month)
 				{
 					$month_list->add($date);
 				}
@@ -308,8 +308,8 @@ class ilCalendarRecurrenceCalculator
 		$weeks_list = $this->initDateList();
 		foreach($list->get() as $seed)
 		{
-			$weeks_in_year = date('W',mktime(0,0,0,12,28,$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone)));
-			$this->log->write(__METHOD__.': Year '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone).' has '.$weeks_in_year.' weeks');
+			$weeks_in_year = date('W',mktime(0,0,0,12,28,$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone)));
+			$this->log->write(__METHOD__.': Year '.$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone).' has '.$weeks_in_year.' weeks');
 			foreach($this->recurrence->getBYWEEKNOList() as $week_no)
 			{
 				$week_no = $week_no < 0 ? ($weeks_in_year + $week_no + 1) : $week_no;
@@ -319,7 +319,7 @@ class ilCalendarRecurrenceCalculator
 					case ilCalendarRecurrence::FREQ_MONTHLY:
 						$this->log->write(__METHOD__.': Handling BYWEEKNO in MONTHLY context');
 						// Check if week matches
-						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'W',$this->timezone) == $week_no)
+						if($seed->get(IL_CAL_FKT_DATE,'W',$this->timezone) == $week_no)
 						{
 							$weeks_list->add($seed);
 						}
@@ -328,10 +328,10 @@ class ilCalendarRecurrenceCalculator
 					case ilCalendarRecurrence::FREQ_YEARLY:
 						
 						$this->log->write(__METHOD__.': Handling BYWEEKNO in YEARLY context');
-						$week_diff = $week_no - $seed->get(ilDateTime::FORMAT_FKT_DATE,'W',$this->timezone);
+						$week_diff = $week_no - $seed->get(IL_CAL_FKT_DATE,'W',$this->timezone);
 						
 						// TODO: think about tz here
-						$new_week = $this->createDate($seed->get(ilDateTime::FORMAT_UNIX,'',$this->timezone));
+						$new_week = $this->createDate($seed->get(IL_CAL_UNIX,'',$this->timezone));
 						$new_week->increment(ilDateTime::WEEK,$week_diff);
 						$weeks_list->add($new_week);
 						break;
@@ -359,36 +359,36 @@ class ilCalendarRecurrenceCalculator
 		$days_list = $this->initDateList();
 		foreach($list->get() as $seed)
 		{
-			$num_days = date('z',mktime(0,0,0,12,31,$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone)));
-			$this->log->write(__METHOD__.': Year '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone).' has '.$num_days.' days.');
+			$num_days = date('z',mktime(0,0,0,12,31,$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone)));
+			$this->log->write(__METHOD__.': Year '.$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone).' has '.$num_days.' days.');
 			
 			foreach($this->recurrence->getBYYEARDAYList() as $day_no)
 			{
 				$day_no = $day_no < 0 ? ($num_days + $day_no + 1) : $day_no;
 				
-				$day_diff = $day_no - $seed->get(ilDateTime::FORMAT_FKT_DATE,'z',$this->timezone);
-				$new_day = $this->createDate($seed->get(ilDateTime::FORMAT_UNIX,'',$this->timezone));
+				$day_diff = $day_no - $seed->get(IL_CAL_FKT_DATE,'z',$this->timezone);
+				$new_day = $this->createDate($seed->get(IL_CAL_UNIX,'',$this->timezone));
 				$new_day->increment(ilDateTime::DAY,$day_diff);
 
 				switch($this->frequence_context)
 				{
 					case ilCalendarRecurrence::FREQ_DAILY:
 						// Check if day matches
-						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'z',$this->timezone) == $day_no)
+						if($seed->get(IL_CAL_FKT_DATE,'z',$this->timezone) == $day_no)
 						{
 							$days_list->add($new_day);
 						}
 						break;
 					case ilCalendarRecurrence::FREQ_WEEKLY:
 						// Check if week matches
-						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'W',$this->timezone) == $new_day->get(ilDateTime::FORMAT_FKT_DATE,'W',$this->timezone))
+						if($seed->get(IL_CAL_FKT_DATE,'W',$this->timezone) == $new_day->get(IL_CAL_FKT_DATE,'W',$this->timezone))
 						{
 							$days_list->add($new_day);
 						}
 						break;
 					case ilCalendarRecurrence::FREQ_MONTHLY:
 						// Check if month matches
-						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone) == $new_day->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone))
+						if($seed->get(IL_CAL_FKT_DATE,'n',$this->timezone) == $new_day->get(IL_CAL_FKT_DATE,'n',$this->timezone))
 						{
 							$days_list->add($new_day);
 						}
@@ -421,13 +421,13 @@ class ilCalendarRecurrenceCalculator
 		foreach($list->get() as $seed)
 		{
 			#$num_days = ilCalendarUtil::_getMaxDayOfMonth(
-			#	$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone),
-			#	$seed->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone));
+			#	$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone),
+			#	$seed->get(IL_CAL_FKT_DATE,'n',$this->timezone));
 			$num_days = cal_days_in_month(CAL_GREGORIAN,
-				$seed->get(ilDateTime::FORMAT_FKT_DATE,'n',$this->timezone),
-				$seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone));
+				$seed->get(IL_CAL_FKT_DATE,'n',$this->timezone),
+				$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone));
 				
-			#$this->log->write(__METHOD__.': Month '.$seed->get(ilDateTime::FORMAT_FKT_DATE,'M',$this->timezone).' has '.$num_days.' days.');
+			#$this->log->write(__METHOD__.': Month '.$seed->get(IL_CAL_FKT_DATE,'M',$this->timezone).' has '.$num_days.' days.');
 			
 			foreach($this->recurrence->getBYMONTHDAYList() as $bymonth_no)
 			{
@@ -437,20 +437,20 @@ class ilCalendarRecurrenceCalculator
 					if($day_no < 1 or $day_no > $num_days)
 					{
 						$this->log->write(__METHOD__.': Ignoring BYMONTHDAY rule: '.$day_no.' for month '.
-							$seed->get(ilDateTime::FORMAT_FKT_DATE,'M',$this->timezone));
+							$seed->get(IL_CAL_FKT_DATE,'M',$this->timezone));
 						continue;
 					}
 				}
-				$day_diff = $day_no - $seed->get(ilDateTime::FORMAT_FKT_DATE,'j',$this->timezone);
-				$new_day = $this->createDate($seed->get(ilDateTime::FORMAT_UNIX,'',$this->timezone));
+				$day_diff = $day_no - $seed->get(IL_CAL_FKT_DATE,'j',$this->timezone);
+				$new_day = $this->createDate($seed->get(IL_CAL_UNIX,'',$this->timezone));
 				$new_day->increment(ilDateTime::DAY,$day_diff);
 				
 				switch($this->frequence_context)
 				{
 					case ilCalendarRecurrence::FREQ_DAILY:
 						// Check if day matches
-						#var_dump("<pre>",$seed->get(ilDateTime::FORMAT_FKT_DATE,'z',$this->timezone),$day_no,"</pre>");
-						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'j',$this->timezone) == $day_no)
+						#var_dump("<pre>",$seed->get(IL_CAL_FKT_DATE,'z',$this->timezone),$day_no,"</pre>");
+						if($seed->get(IL_CAL_FKT_DATE,'j',$this->timezone) == $day_no)
 						{
 							$days_list->add($new_day);
 						}
@@ -458,7 +458,7 @@ class ilCalendarRecurrenceCalculator
 
 					case ilCalendarRecurrence::FREQ_WEEKLY:
 						// Check if week matches
-						if($seed->get(ilDateTime::FORMAT_FKT_DATE,'W',$this->timezone) == $new_day->get(ilDateTime::FORMAT_FKT_DATE,'W',$this->timezone))
+						if($seed->get(IL_CAL_FKT_DATE,'W',$this->timezone) == $new_day->get(IL_CAL_FKT_DATE,'W',$this->timezone))
 						{
 							$days_list->add($new_day);
 						}
@@ -470,10 +470,10 @@ class ilCalendarRecurrenceCalculator
 						break;
 
 					case ilCalendarRecurrence::FREQ_YEARLY:
-						$h = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'H',$this->timezone);
-						$i = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'i',$this->timezone);
-						$s = $this->event->isFullday() ? 0 : $seed->get(ilDateTime::FORMAT_FKT_DATE,'s',$this->timezone);
-						$y = $seed->get(ilDateTime::FORMAT_FKT_DATE,'Y',$this->timezone);
+						$h = $this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE,'H',$this->timezone);
+						$i = $this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE,'i',$this->timezone);
+						$s = $this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE,'s',$this->timezone);
+						$y = $seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone);
 
 						// TODO: the chosen monthday has to added to all months
 						for($month = 1;$month <= 12;$month++)
@@ -641,12 +641,12 @@ class ilCalendarRecurrenceCalculator
 		if($this->event->isFullday())
 		{
 			echo "hier";
-			return new ilDate($a_date,ilDateTime::FORMAT_UNIX);
+			return new ilDate($a_date,IL_CAL_UNIX);
 		}
 		else
 		{
 			// TODO: the timezone for this recurrence must be stored in the db
-			return new ilDateTime($a_date,ilDateTime::FORMAT_UNIX,$this->timezone);
+			return new ilDateTime($a_date,IL_CAL_UNIX,$this->timezone);
 		}
 	}
 }

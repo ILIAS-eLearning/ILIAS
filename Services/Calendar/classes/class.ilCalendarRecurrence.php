@@ -524,7 +524,7 @@ class ilCalendarRecurrence
 	{
 	 	$until_date = is_null($this->getFrequenceUntilDate()) ? 
 	 		0 : 
-	 		$this->getFrequenceUntilDate()->get(ilDateTime::FORMAT_DATETIME,'','UTC');
+	 		$this->getFrequenceUntilDate()->get(IL_CAL_DATETIME,'','UTC');
 	 	
 	 	$query = "INSERT INTO cal_recurrence_rules ".
 	 		"SET cal_id = ".$this->db->quote($this->cal_id).", ".
@@ -555,7 +555,7 @@ class ilCalendarRecurrence
 	{
 	 	$until_date = is_null($this->getFrequenceUntilDate()) ? 
 	 		0 : 
-	 		$this->getFrequenceUntilDate()->get(ilDateTime::FORMAT_DATETIME,'','UTC');
+	 		$this->getFrequenceUntilDate()->get(IL_CAL_DATETIME,'','UTC');
 
 	 	$query = "UPDATE cal_recurrence_rules ".
 	 		"cal_id = ".$this->db->quote($this->cal_id).", ".
@@ -609,7 +609,7 @@ class ilCalendarRecurrence
 	 		
 	 		if($row->freq_until_date != '0000-00-00 00:00:00')
 	 		{
-		 		$this->freq_until_date = new ilDateTime($row->freq_until_date,ilDateTime::FORMAT_DATETIME,'UTC');
+		 		$this->freq_until_date = new ilDateTime($row->freq_until_date,IL_CAL_DATETIME,'UTC');
 	 		}
 	 		$this->freq_until_count = $row->freq_until_count;
 	 		$this->interval = $row->intervall;
