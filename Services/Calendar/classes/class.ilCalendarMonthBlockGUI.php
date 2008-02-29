@@ -44,6 +44,8 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 	protected $lng;
 	protected $ctrl;
 	protected $tabs_gui;
+	
+	protected $timezone = 'UTC';
 
 	/**
 	 * Constructor
@@ -65,7 +67,7 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 		$this->tabs_gui = $ilTabs;
 		$this->tabs_gui->setSubTabActive('app_month');
 		
-		
+		$this->timezone = $ilUser->getUserTimeZone();
 		
 		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));
 		$this->setTitle($lng->txt('app_month'));
@@ -137,11 +139,18 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 			$tpl->parseCurrentBlock();
 		}
 		
+		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
+		$this->scheduler = new ilCalendarSchedule(new ilDate('2008-02-15',IL_CAL_DATE),
+			new ilDate('2008-04-15',IL_CAL_DATE));
+		$this->scheduler->calculate();
+		
 		$counter = 0;
 		foreach(ilCalendarUtil::_buildMonthDayList($this->seed->get(IL_CAL_FKT_DATE,'m'),$this->seed->get(IL_CAL_FKT_DATE,'Y'))->get() as $date)
 		{
 			$counter++;
-
+			
+			$this->showEvents($tpl,$date);
+			
 			$tpl->setCurrentBlock('month_col');
 			$day = $date->get(IL_CAL_FKT_DATE,'j');
 			$month = $date->get(IL_CAL_FKT_DATE,'n');
@@ -168,6 +177,32 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 			}
 		}
 		$this->setDataSection($tpl->get());
+	}
+	
+	/**
+	 * 
+	 * Show events
+	 *
+	 * @access protected
+	 */
+	protected function showEvents($a_tpl,ilDate $date)
+	{
+		foreach($this->scheduler->getByDay($date) as $item)
+		{
+			$a_tpl->setCurrentBlock('il_event');
+			
+			if($item['event']->isFullDay())
+			{
+				$title = $event->getTitle();
+			}
+			else
+			{
+				$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+				$title .= (' '.$item['event']->getTitle());
+			}
+			$a_tpl->setVariable('EVENT_TITLE',$title);
+			$a_tpl->parseCurrentBlock();
+		}
 	}
 	
 }
