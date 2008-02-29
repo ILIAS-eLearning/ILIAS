@@ -31,6 +31,7 @@ tr.calstd {
 }
 
 td.calstd {
+	vertical-align: top;
 	background-color:#ffffff;
 	border-spacing:0px;
 	border-collapse:collapse;

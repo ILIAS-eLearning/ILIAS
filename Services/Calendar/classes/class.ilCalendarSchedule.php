@@ -75,10 +75,9 @@ class ilCalendarSchedule
 	 * @param ilDate start
 	 * 
 	 */
-	public function getByDay(ilDate $start)
+	public function getByDay(ilDateTime $a_start,$a_timezone)
 	{
-		$start = clone $start;
-		
+		$start = new ilDateTime($a_start->get(IL_CAL_DATETIME),IL_CAL_DATETIME,$this->timezone);
 		$unix_start = $start->get(IL_CAL_UNIX);
 		$start->increment(ilDateTime::DAY,1);
 		$unix_end = $start->get(IL_CAL_UNIX);
@@ -86,7 +85,9 @@ class ilCalendarSchedule
 		$counter = 0;
 	 	foreach($this->schedule as $schedule)
 	 	{
-	 		if(($unix_start <= $schedule['dstart']) and ($unix_end > $schedule['dend']))
+	 		if((($unix_start <= $schedule['dstart']) and ($unix_end > $schedule['dstart'])) or
+	 			(($unix_start <= $schedule['dend']) and ($unix_end > $schedule['dend'])) or
+	 			($unix_start >= $schedule['dstart'] and $unix_end < $schedule['dend']))
 	 		{
 	 			$tmp_schedule[] = $schedule;
 	 		}
@@ -121,7 +122,8 @@ class ilCalendarSchedule
 	{
 		$query = "SELECT cal_id FROM cal_entries ".
 			"WHERE start <= ".$this->db->quote($this->end->get(IL_CAL_DATE))." ".
-			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATE))." ";
+			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATE))." ".
+			"ORDER BY start";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

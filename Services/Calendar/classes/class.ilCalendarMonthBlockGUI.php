@@ -177,6 +177,7 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 			}
 		}
 		$this->setDataSection($tpl->get());
+		
 	}
 	
 	/**
@@ -187,13 +188,13 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 	 */
 	protected function showEvents($a_tpl,ilDate $date)
 	{
-		foreach($this->scheduler->getByDay($date) as $item)
+		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
 			$a_tpl->setCurrentBlock('il_event');
 			
 			if($item['event']->isFullDay())
 			{
-				$title = $event->getTitle();
+				$title = $item['event']->getTitle();
 			}
 			else
 			{
