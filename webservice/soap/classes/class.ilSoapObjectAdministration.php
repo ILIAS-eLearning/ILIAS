@@ -348,6 +348,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$xml_writer->setUserId($user_id);
 			$xml_writer->enableOperations(true);
 		}
+
 		$xml_writer->setObjects($objs);
 		if($xml_writer->start())
 		{
@@ -1084,7 +1085,52 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 	}
 
+	function getPathForRefId($sid, $ref_id) {
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
 
+
+		// Include main header
+		include_once './include/inc.header.php';
+		global $ilAccess, $objDefinition, $rbacsystem, $lng, $ilUser;
+		
+		if(!$rbacsystem->checkAccess('read', $ref_id))
+		{
+			return $this->__raiseError("Missing read permissions for object with reference id ".$ref_id, 'Client');
+		}
+		
+		if (ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError("Object is in Trash", 'Client');			
+		}
+		$cont_loc = new ilLocatorGUI();
+		$cont_loc->addContextItems($ref_id, true);
+		$items = $cont_loc->getItems();
+		
+		include_once 'webservice/soap/classes/class.ilXMLResultSet.php';
+		include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
+		include_once 'Modules/Course/classes/class.ilCourseXMLWriter.php';
+
+		$xmlResultSet = new ilXMLResultSet();
+		$xmlResultSet->addColumn("ref_id");
+		$xmlResultSet->addColumn("type");
+		$xmlResultSet->addColumn("title");
+		
+		$writer = new ilXMLResultSetWriter($xmlResultSet);
+		foreach ($items as $item) {
+			$row = new ilXMLResultSetRow();
+			$xmlResultSet->addRow($row);
+			$row->setValue("ref_id", $item["ref_id"]);	
+			$row->setValue("type", $item["type"]);
+			$row->setValue("title", $item["title"]);
+		}		
+		$writer->start();
+		return $writer->getXML();
+	}
+	
+	
 	private function canAddType ($type, $target_type, $target_id) {
 		// checking for target subtypes. Can we add source to target
 		global $objDefinition, $rbacsystem;

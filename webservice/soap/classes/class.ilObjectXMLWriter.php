@@ -145,6 +145,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 			$this->xmlStartTag('References',$attr);
 			$this->__appendOperations($ref_id,$object->getType());
+			$this->__appendPath ($ref_id);
 			$this->xmlEndTag('References');
 		}
 		$this->xmlEndTag('Object');
@@ -174,9 +175,13 @@ class ilObjectXMLWriter extends ilXmlWriter
 	}
 
 
+	function __appendPath ($refid){
+		ilObjectXMLWriter::appendPathToObject($this, $refid);
+	}
+	
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_10.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS objects");
 		$this->xmlHeader();
 		$this->xmlStartTag("Objects");
@@ -207,6 +212,17 @@ class ilObjectXMLWriter extends ilXmlWriter
 	}
 
 
+	static function appendPathToObject ($writer, $refid){
+		$cont_loc = new ilLocatorGUI();
+		$cont_loc->addContextItems($refid, true);
+		$items = $cont_loc->getItems();
+		$writer->xmlStartTag("Path");
+		foreach ($items as $item) {
+			$writer->xmlElement("Element", array("ref_id" => $item["ref_id"], "type" => $item["type"]), $item["title"]);
+		}		
+		$writer->xmlEndTag("Path");						
+	}
+	
 }
 
 

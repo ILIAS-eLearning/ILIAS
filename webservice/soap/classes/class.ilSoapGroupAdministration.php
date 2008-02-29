@@ -372,7 +372,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}			
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacreview;
+		global $rbacreview, $ilObjDataCache, $tree;
 		
 		include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';
 		$parser = new ilXMLResultSetParser($parameters);
@@ -420,14 +420,31 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 					} elseif (ilSoapGroupAdministration::ADMIN  == ($status & ilSoapGroupAdministration::ADMIN) && strpos($role_title, "admin") !== false) 
 					{
 						$ref_ids [] = $ref_id;
-					} elseif ($status & OWNER == OWNER && ilObjectDataCache::lookupOwner(ilObjectDataCache::lookupObjId($ref_id)) == $user_id) 
-					{
-						$ref_ids [] = $ref_id;
-					}
+					} 
 				}
 			}
 		}
-
+		
+		if (($status & ilSoapGroupAdministration::OWNER) == ilSoapGroupAdministration::OWNER) 
+		{
+			$owned_objects = ilObjectFactory::getObjectsForOwner("grp", $user_id);
+			foreach ($owned_objects as $obj_id) {
+				$allrefs = ilObject::_getAllReferences($obj_id);
+				$refs = array();
+				foreach($allrefs as $r)
+				{
+					if ($tree->isInTree($r))
+					{
+						$refs[] = $r;
+					}
+				}
+				if (count($refs) > 0)
+					$ref_ids[] = array_pop($refs);
+			}
+		}
+		$ref_ids = array_unique($ref_ids);
+		
+		
 #print_r($ref_ids);		
 		include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
 		include_once 'Modules/Group/classes/class.ilObjGroup.php';

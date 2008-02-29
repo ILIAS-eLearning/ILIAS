@@ -759,4 +759,10 @@
 		$soc = new ilSoapGroupAdministration();
 		return $soc->getGroupsForUser($sid, $parameters);
 	}
+	
+	function getPathForRefId($sid, $ref_id) {
+		include_once 'webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa = new ilSoapObjectAdministration();
+		return $soa->getPathForRefId($sid, $ref_id);
+	}
 	?>

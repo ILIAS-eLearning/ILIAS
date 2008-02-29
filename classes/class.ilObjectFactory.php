@@ -56,6 +56,33 @@ class ilObjectFactory
 		
 		return $res->numRows() ? true : false;
 	}
+	
+	/**
+	 * returns all objects of an owner, filtered by type, objects are not deleted!
+	 *
+	 * @param unknown_type $object_type
+	 * @param unknown_type $owner_id
+	 * @return unknown
+	 */
+	function getObjectsForOwner ($object_type, $owner_id)
+	{
+		global $ilias, $ilDB;
+
+		$query = "SELECT * FROM object_data,object_reference ".
+			"WHERE object_reference.obj_id = object_data.obj_id ".
+			" AND object_data.type=".$ilDB->quote($object_type).
+			" AND object_reference.deleted = '0000-00-00 00:00:00'".
+			" AND object_data.owner = ".$ilDB->quote($owner_id);
+				
+		$res = $ilias->db->query($query);
+		$obj_ids = array();
+		while($object_rec = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+			$obj_ids [] = $object_rec["obj_id"];
+		}
+		
+		return $obj_ids;
+		
+	}
 		
 	/**
 	* get an instance of an Ilias object by object id
