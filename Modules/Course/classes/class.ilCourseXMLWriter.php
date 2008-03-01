@@ -89,7 +89,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	function getXML()
 	{
 		#var_dump("<pre>", htmlentities($this->xmlDumpMem()),"<pre>");
-		return $this->xmlDumpMem();
+		return $this->xmlDumpMem(false);
 	}
 
 	// Called from nested class
@@ -394,7 +394,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	 *
 	 * @param unknown_type $value
 	 */
-	function setAttachUser ($value) {
+	function setAttachUsers ($value) {
 		$this->attach_users = $value ? true : false;
 	}
 }

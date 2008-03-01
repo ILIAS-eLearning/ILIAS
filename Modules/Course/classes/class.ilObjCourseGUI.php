@@ -1443,7 +1443,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 				$privacy = ilPrivacySettings::_getInstance();
-				if($privacy->enabledExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
+				if($this->object->members_obj->isAdmin($ilUser->getId()) and $privacy->enabledExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget('export_members',
 													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'));
