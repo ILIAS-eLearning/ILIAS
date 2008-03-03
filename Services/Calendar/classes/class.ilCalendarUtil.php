@@ -88,9 +88,11 @@ class ilCalendarUtil
 		$next_month = $a_month == 12 ? 1 : $a_month + 1;
 		$next_year = $a_month == 12 ? $a_year + 1 : $a_year;
 		
-		
-		$days_in_month = cal_days_in_month(CAL_GREGORIAN,$a_month,$a_year);
-		$days_in_prev_month = cal_days_in_month(CAL_GREGORIAN,$prev_month,$a_year);
+		$days_in_month = self::_getMaxDayOfMonth($a_year,$a_month);
+		$days_in_prev_month = self::_getMaxDayOfMonth($a_year,$prev_month);
+
+		#$days_in_month = cal_days_in_month(CAL_GREGORIAN,$a_month,$a_year);
+		#$days_in_prev_month = cal_days_in_month(CAL_GREGORIAN,$prev_month,$a_year);
 		
 		$first_day_offset = ($o = date('w',gmmktime(0,0,0,$a_month,1,$a_year))) == 0 ? 6 : ($o - 1);
 		
