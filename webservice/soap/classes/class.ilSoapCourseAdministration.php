@@ -118,8 +118,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 
 		// Include main header
-		include_once 'include/inc.header.php';
-		include_once "Services/Utilities/classes/class.ilUtil.php";
+		include_once './include/inc.header.php';
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
@@ -569,16 +569,18 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$xmlResultSet = new ilXMLResultSet();
 		$xmlResultSet->addColumn("ref_id");
 		$xmlResultSet->addColumn("xml");
+		$xmlResultSet->addColumn("parent_ref_id");
 		
 		foreach ($ref_ids as $course_id) {
 			$course_obj = $this->checkObjectAccess($course_id,"crs","write", true);
 			if ($course_obj instanceof ilObjCourse) {
 				$row = new ilXMLResultSetRow();				
-				$row->setValue("refid", $course_id);
-				$xmlWriter = new ilGroupXMLWriter($course_obj);
+				$row->setValue("ref_id", $course_id);
+				$xmlWriter = new ilCourseXMLWriter($course_obj);
 				$xmlWriter->setAttachUsers(false);				
 				$xmlWriter->start();
 				$row->setValue("xml", $xmlWriter->getXML());
+				$row->setValue("parent_ref_id", $tree->getParentId($course_id));
 				$xmlResultSet->addRow($row);
 			}
 		}

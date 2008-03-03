@@ -56,7 +56,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		if(!is_numeric($target_id))
 		{
-			return $this->__raiseError('No valid target id given. Please choose an existing reference id of an ILIAS category or course',
+			return $this->__raiseError('No valid target id given. Please choose an existing reference id of an ILIAS category or group',
 									   'Client');
 		}
 
@@ -97,7 +97,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		if(!is_numeric($ref_id))
 		{
-			return $this->__raiseError('No valid target id given. Please choose an existing reference id of an ILIAS category or course',
+			return $this->__raiseError('No valid target id given. Please choose an existing reference id of an ILIAS category or group',
 									   'Client');
 		}
 
@@ -362,7 +362,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	 *
 	 * @param string $sid
 	 * @param string $parameters following xmlresultset, columns (user_id, status with values  1 = "MEMBER", 2 = "TUTOR", 4 = "ADMIN", 8 = "OWNER" and any xor operation e.g.  1 + 4 = 5 = ADMIN and TUTOR, 7 = ADMIN and TUTOR and MEMBER)
-	 * @param string XMLResultSet, columns (courseXML) 
+	 * @param string XMLResultSet, columns (ref_id, xml, parent_ref_id) 
 	 */
 	function getGroupsForUser($sid, $parameters) {
 		
@@ -453,16 +453,18 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		$xmlResultSet = new ilXMLResultSet();
 		$xmlResultSet->addColumn("ref_id");
 		$xmlResultSet->addColumn("xml");
+		$xmlResultSet->addColumn("parent_ref_id");
 		
-		foreach ($ref_ids as $course_id) {
-			$course_obj = $this->checkObjectAccess($course_id,"grp","write", true);
-			if ($course_obj instanceof ilObjGroup) {
+		foreach ($ref_ids as $group_id) {
+			$group_obj = $this->checkObjectAccess($group_id,"grp","write", true);
+			if ($group_obj instanceof ilObjGroup) {
 				$row = new ilXMLResultSetRow();				
-				$row->setValue("refid", $course_id);
-				$xmlWriter = new ilGroupXMLWriter($course_obj);
+				$row->setValue("ref_id", $group_id);
+				$xmlWriter = new ilGroupXMLWriter($group_obj);
 				$xmlWriter->setAttachUsers(false);				
 				$xmlWriter->start();
 				$row->setValue("xml", $xmlWriter->getXML());
+				$row->setValue("parent_ref_id", $tree->getParentId($group_id));
 				$xmlResultSet->addRow($row);
 			}
 		}

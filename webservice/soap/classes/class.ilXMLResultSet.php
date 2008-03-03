@@ -31,8 +31,8 @@
    * @package ilias
    */
 
-include_once 'webservice/soap/classes/class.ilXMLResultSetColumn.php';
-include_once 'webservice/soap/classes/class.ilXMLResultSetRow.php';
+include_once './webservice/soap/classes/class.ilXMLResultSetColumn.php';
+include_once './webservice/soap/classes/class.ilXMLResultSetRow.php';
 
 class ilXMLResultSet
 {
