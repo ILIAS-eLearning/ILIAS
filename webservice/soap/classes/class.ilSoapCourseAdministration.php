@@ -507,10 +507,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 #var_dump($xmlResultSet);
 #echo "uid:".$user_id;
 #echo "status:".$status;
+	if (ilSoapCourseAdministration::MEMBER == ($status & ilSoapCourseAdministration::MEMBER) ||
+			ilSoapCourseAdministration::TUTOR == ($status & ilSoapCourseAdministration::TUTOR) ||
+			ilSoapCourseAdministration::ADMIN == ($status & ilSoapCourseAdministration::ADMIN))
 		foreach($rbacreview->assignedRoles($user_id) as $role_id)
 		{			
 			if($role = ilObjectFactory::getInstanceByObjId($role_id,false))
 			{
+				#echo $role->getType();
+				if ($role->getType() != "role")
+					continue;
 				if ($role->getParent() == ROLE_FOLDER_ID)
 				{
 					 continue;
