@@ -140,8 +140,8 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 		}
 		
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule(new ilDate('2008-02-15',IL_CAL_DATE),
-			new ilDate('2008-04-15',IL_CAL_DATE));
+		$this->scheduler = new ilCalendarSchedule(new ilDate('2008-02-22',IL_CAL_DATE),
+			new ilDate('2008-04-06',IL_CAL_DATE));
 		$this->scheduler->calculate();
 		
 		$counter = 0;

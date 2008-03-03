@@ -420,13 +420,14 @@ class ilCalendarRecurrenceCalculator
 		$days_list = $this->initDateList();
 		foreach($list->get() as $seed)
 		{
-			#$num_days = ilCalendarUtil::_getMaxDayOfMonth(
-			#	$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone),
-			#	$seed->get(IL_CAL_FKT_DATE,'n',$this->timezone));
+			$num_days = ilCalendarUtil::_getMaxDayOfMonth(
+				$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone),
+				$seed->get(IL_CAL_FKT_DATE,'n',$this->timezone));
+			/*
 			$num_days = cal_days_in_month(CAL_GREGORIAN,
 				$seed->get(IL_CAL_FKT_DATE,'n',$this->timezone),
 				$seed->get(IL_CAL_FKT_DATE,'Y',$this->timezone));
-				
+			*/	
 			#$this->log->write(__METHOD__.': Month '.$seed->get(IL_CAL_FKT_DATE,'M',$this->timezone).' has '.$num_days.' days.');
 			
 			foreach($this->recurrence->getBYMONTHDAYList() as $bymonth_no)
@@ -478,12 +479,12 @@ class ilCalendarRecurrenceCalculator
 						// TODO: the chosen monthday has to added to all months
 						for($month = 1;$month <= 12;$month++)
 						{
-							$num_days = cal_days_in_month(CAL_GREGORIAN,
-								$month,
-								$y);
-							#$num_days = ilCalendarUtil::_getMaxDayOfMonth(
-							#	$y,
-							#	$month);
+							#$num_days = cal_days_in_month(CAL_GREGORIAN,
+							#	$month,
+							#	$y);
+							$num_days = ilCalendarUtil::_getMaxDayOfMonth(
+								$y,
+								$month);
 							$day_no = $bymonth_no < 0 ? ($num_days + $bymonth_no + 1) : $bymonth_no;
 							if($day_no < 1 or $day_no > $num_days)
 							{
