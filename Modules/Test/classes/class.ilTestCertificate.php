@@ -619,7 +619,7 @@ class ilTestCertificate
 		$mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		include_once './Services/User/classes/class.ilObjUser.php';
-		$user_data = ilObjUser::_lookupName($user_id);
+		$user_data = ilObjUser::_lookupFields($user_id);
 		if (strlen($userfilter))
 		{
 			if (!@preg_match("/$userfilter/i", $user_data["lastname"] . ", " . $user_data["firstname"] . " " . $user_data["title"]))
