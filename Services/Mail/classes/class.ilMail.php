@@ -263,15 +263,58 @@ class ilMail
 	
 	public function doesRecipientStillExists($a_recipient, $a_existing_recipients)
 	{
-		$regexp = "/(^".$a_recipient."$)|(^".$a_recipient."[^0-9])|(".$a_recipient."[^0-9])|(".$a_recipient."$)/i";
-		if(preg_match($regexp, trim($a_existing_recipients)) == 0)
+		if(self::_usePearMail())
 		{
-			return false;
+			$recipients = $this->explodeRecipients($a_existing_recipients);
+			if(is_a($recipients, 'PEAR_Error'))
+			{
+				return false;				
+			}
+			else
+			{
+				foreach($recipients as $rcp)
+				{
+					if (substr($rcp->mailbox, 0, 1) != '#')
+					{
+						if(trim($rcp->mailbox) == trim($a_recipient) ||
+						   trim($rcp->mailbox.'@'.$rcp->host) == trim($a_recipient))
+						{
+							return true;
+						}
+					}
+					else if (substr($rcp->mailbox, 0, 7) == '#il_ml_')
+					{
+						if(trim($rcp->mailbox.'@'.$rcp->host) == trim($a_recipient))
+						{
+							return true;
+						}
+					}
+					else
+					{
+						if(trim($rcp->mailbox.'@'.$rcp->host) == trim($a_recipient))
+						{
+							return true;
+						}
+					}					
+				}
+			}
 		}
 		else
-		{
-			return true;
+		{		
+			$recipients = $this->explodeRecipients($a_existing_recipients);			
+			if(count($recipients))
+			{
+				foreach($recipients as $recipient)
+				{
+					if(trim($recipient) == trim($a_recipient))
+					{
+						return true;
+					}
+				}
+			}
 		}
+		
+		return false;
 	}
 
 	/**
