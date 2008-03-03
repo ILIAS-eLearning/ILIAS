@@ -646,9 +646,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		// get local roles for a specific repository object
 		// needs permission to read permissions of this object
 		{
-       		if(!$rbacsystem->checkAccess('permission',$id))
+       		if(!$rbacsystem->checkAccess('edit_permission',$id))
 	   	    {
-		  	   return $this->__raiseError('Check access failed.','Server');
+		  	   return $this->__raiseError('Check access for local roles failed.','Server');
 		    }
 
             if (!is_numeric($id)) {

@@ -1048,6 +1048,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 				return $this->__raiseError("Role access not permitted. ($role_id)","Server");
 			}
 		}
+		
+		
 
 		$data = ilObjUser::_getUsersForRole($role_id, $active);
 		include_once './Services/User/classes/class.ilUserXMLWriter.php';
