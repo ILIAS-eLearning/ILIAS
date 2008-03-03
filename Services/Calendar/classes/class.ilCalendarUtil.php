@@ -332,6 +332,11 @@ class ilCalendarUtil
 	 */
 	public static function _getMaxDayOfMonth($a_year,$a_month)
 	{
+		if(@function_exists('cal_days_in_month'))
+		{
+			return cal_days_in_month(CAL_GREGORIAN,$a_month,$a_year);
+		}
+		
 		
 		$months = array(0,31,
 				self::_isLeapYear($a_year) ? 29 : 28,
