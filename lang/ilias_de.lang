@@ -1648,7 +1648,7 @@ common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
-common#:#chown_warning#:#Achtung, dass Ändern des Besitzers eines Objektes, kann dazu führen, dass Sie alle Zugriffsrechte an dem Objekt verlieren.
+common#:#chown_warning#:#Achtung! Das Ändern des Besitzers eines Objektes kann dazu führen, dass diese Person alle Zugriffsrechte an dem Objekt verliert.
 common#:#city#:#Ort
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
@@ -5259,7 +5259,7 @@ forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_enable_notification#:#Benachrichtigung für diese Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
-forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll.
+forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
 forum#:#forums_new_entries#:#Neue Foren-Einträge
