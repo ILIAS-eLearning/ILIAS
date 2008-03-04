@@ -271,7 +271,8 @@ class ilAddressbook
 		if ($a_login != "")
 		{
 			$query = "SELECT addr_id FROM $this->table_addr ".
-				"WHERE login = ".$ilDB->quote($a_login)." ";
+					 "WHERE user_id = ".$ilDB->quote($this->user_id)." 
+                      AND login = ".$ilDB->quote($a_login)." ";
 			return $this->ilias->db->getOne($query);
 		}
 		
