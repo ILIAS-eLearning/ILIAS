@@ -420,11 +420,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($this->object->getContactEmail())
 		{
-			$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-			$etpl->setVariable("EMAIL_LINK","ilias.php?baseClass=ilmailgui&type=new&rcp_to=".$this->object->getContactEmail());
-			$etpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
-			$info->addProperty($this->lng->txt("crs_contact_email"),
-				$etpl->get());
+			$emails = split(",",$this->object->getContactEmail());
+			foreach ($emails as $email) {
+				$email = trim($email);
+				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
+				$etpl->setVariable("EMAIL_LINK","ilias.php?baseClass=ilmailgui&type=new&rcp_to=".$email);
+				$etpl->setVariable("CONTACT_EMAIL", $email);				
+				$mailString .= $etpl->get()."<br />";
+			}
+			$info->addProperty($this->lng->txt("crs_contact_email"), $mailString);
 		}
 		if(strlen($this->object->getContactConsultation()))
 		{

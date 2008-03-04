@@ -791,15 +791,20 @@ class ilObjCourse extends ilContainer
 	function validateInfoSettings()
 	{
 		global $ilErr;
-
-		if($this->getContactEmail() and 
-		   !(ilUtil::is_email($this->getContactEmail()) or 
-			 ilObjUser::getUserIdByLogin($this->getContactEmail())))
-		{
-			$ilErr->appendMessage($this->lng->txt('contact_email_not_valid'));
-			return false;
+		$error = false;
+		if($this->getContactEmail()) {
+  		$emails = split(",",$this->getContactEmail());
+			
+			foreach ($emails as $email) {
+				$email = trim($email);
+				if (!(ilUtil::is_email($email) or ilObjUser::getUserIdByLogin($email)))
+				{
+					$ilErr->appendMessage($this->lng->txt('contact_email_not_valid')." '".$email."'");
+					$error = true;
+				}
+			}			
 		}
-		return true;
+		return !$error;
 	}
 
 	function hasContactData()
