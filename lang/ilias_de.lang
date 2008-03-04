@@ -1903,7 +1903,7 @@ common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bi
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
 common#:#err_ldap_search_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie BaseDN und Search base
 common#:#err_ldap_user_not_found#:#Benutzer konnte nicht gefunden werden! Bitte überprüfen Sie das Attribut für den Benutzernamen und die Objektklasse
-common#:#err_no_cookies#:#Bitte aktivieren Session-Cookies in Ihrem Browser!
+common#:#err_no_cookies#:#Bitte aktivieren Sie Session-Cookies in Ihrem Browser!
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
