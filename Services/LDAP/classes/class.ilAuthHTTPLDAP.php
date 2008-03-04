@@ -26,8 +26,9 @@
 * Auth HTTP LDAP overwrites PEAR Auth_HTTP to perform LDAP authentication with
 * specific ILIAS options.
 * 
-* Important: All changes that are done here need to be done in class.ilAuthLDAP.php
-*            as well, and vice versa.
+* Important note to maintainers of this class: 
+*	All changes that are done here need to be done in class.ilAuthLDAP.php
+*   as well, and vice versa.
 *
 * @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
 * @version $Id: $
