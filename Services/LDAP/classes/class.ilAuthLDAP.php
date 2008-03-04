@@ -24,6 +24,10 @@
 /** 
 * Auth LDAP overwrites PEAR Auth to perform LDAP authentication with specific ILIAS options
 * 
+* Important note to maintainers of this class: 
+*	All changes that are done here need to be done in class.ilAuthHTTPLDAP.php
+*   as well, and vice versa.
+*
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
