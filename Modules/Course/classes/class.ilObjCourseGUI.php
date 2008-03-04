@@ -912,7 +912,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$text = new ilTextInputGUI($this->lng->txt('crs_contact_email'),'contact_email');
 		$text->setValue($this->object->getContactEmail());
 		$text->setSize(40);
-		$text->setMaxLength(70);
+		$text->setMaxLength(255);
 		$this->form->addItem($text);
 
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
