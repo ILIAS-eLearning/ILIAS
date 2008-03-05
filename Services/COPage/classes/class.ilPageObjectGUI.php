@@ -639,13 +639,27 @@ class ilPageObjectGUI
 				}
 
 
-				$tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
+/*				$tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
 				$tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
 				$tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
 				$tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
-				$tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/Services/COPage/js/wz_dragdrop.js");
+*/
+				$tpl->setVariable("WYSIWYG_ACTION",
+					$ilCtrl->getFormActionByClass("ilpageeditorgui", "", "", true));
+//echo "-".$ilCtrl->getFormActionByClass("ilpageeditorgui", "", "", true)."-";
+
+/*				$tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/Services/COPage/js/wz_dragdrop.js");
 				$tpl->setVariable("IMG_DRAGDROP",
 					ilUtil::getImagePath("icon_drag.gif"));
+*/
+				include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+				ilYuiUtil::initDragDrop();
+				ilYuiUtil::initConnection();
+				$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
+				//$GLOBALS["tpl"]->addJavaScript("./Services/RTE/tiny_mce/tiny_mce.js");
+				$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilpageedit.js");
+				//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/wz_dragdrop.js");
+				$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
 				if (!ilPageEditorGUI::_isBrowserJSEditCapable())
 				{
@@ -711,20 +725,22 @@ class ilPageObjectGUI
 					$sel_js_mode = (ilPageEditorGUI::_doJSEditing())
 						? "enable"
 						: "disable";
-					$this->tpl->setVariable("SEL_JAVA_SCRIPT",
+					$tpl->setVariable("SEL_JAVA_SCRIPT", 
 						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true,
 						0, "ilEditSelect"));
 				}
 
 				// multiple actions
-				if ($sel_js_mode == "disable")
+				$tpl->setCurrentBlock("multi_actions");
+				if ($sel_js_mode == "enable")
 				{
-					$tpl->setCurrentBlock("multi_actions");
-					$tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
-					$tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
-					$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-					$tpl->parseCurrentBlock();
+					$tpl->setVariable("ONCLICK_DE_ACTIVATE_SELECTED", 'onclick="return ilEditMultiAction(\'activateSelected\');"');
+					$tpl->setVariable("ONCLICK_DELETE_SELECTED", 'onclick="return ilEditMultiAction(\'deleteSelected\');"');
 				}
+				$tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
+				$tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
+				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+				$tpl->parseCurrentBlock();
 			}
 			else
 			{
@@ -1110,6 +1126,18 @@ class ilPageObjectGUI
 		}
 
 		// output
+		if ($ilCtrl->isAsynch())
+		{
+			$tpl->setVariable($this->getTemplateOutputVar(), $output);
+			echo $tpl->get();
+			exit;
+
+			$tpl->setVariable($this->getTemplateOutputVar(), $output);
+			$tpl->setCurrentBlock("adm_content");
+			$tpl->parseCurrentBlock();
+			echo $tpl->get("adm_content");
+			exit;
+		}
 		if($this->outputToTemplate())
 		{
 			$tpl->setVariable($this->getTemplateOutputVar(), $output);

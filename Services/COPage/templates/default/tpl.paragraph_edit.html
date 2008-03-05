@@ -1,247 +1,33 @@
-<!-- {{{ -->
+<!-- Init BB Code Editing -->
 <script language="JavaScript" type="text/javascript">
 <!--
-// original code:
-// bbCode control by
-// subBlue design
-// www.subBlue.com
-//
-// changes by alex killing for ILIAS open source alex.killing@gmx.de
 
-// Startup variables
-var imageTag = false;
-var theSelection = false;
-
-// Check for Browser & Platform for PC & IE specific bits
-// More details from: http://www.mozilla.org/docs/web-developer/sniffer/browser_type.html
-var clientPC = navigator.userAgent.toLowerCase(); // Get client info
-var clientVer = parseInt(navigator.appVersion); // Get browser version
-
-var is_ie = ((clientPC.indexOf("msie") != -1) && (clientPC.indexOf("opera") == -1));
-var is_nav = ((clientPC.indexOf('mozilla')!=-1) && (clientPC.indexOf('spoofer')==-1)
-                && (clientPC.indexOf('compatible') == -1) && (clientPC.indexOf('opera')==-1)
-                && (clientPC.indexOf('webtv')==-1) && (clientPC.indexOf('hotjava')==-1));
-var is_moz = 0;
-
-var is_win = ((clientPC.indexOf("win")!=-1) || (clientPC.indexOf("16bit") != -1));
-var is_mac = (clientPC.indexOf("mac")!=-1);
-
-// Helpline messages
-b_help = "{TXT_STR} [str]text[/str]  (alt+s)";
-e_help = "{TXT_EMP} [emp]text[/emp]  (alt+e)";
-u_help = "{TXT_COM} [com]text[/com]  (alt+c)";
-f_help = "{TXT_FN} [fn]text[/fn]  (alt+f)";
-q_help = "{TXT_QUOT} [quot]text[/quot]  (alt+q)";
-c_help = "{TXT_CODE} [code]code[/code]  (alt+c)";
-i_help = "{TXT_ILN} [iln page=\"page_id\"]text[/iln]";
-x_help = "{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)";
-t_help = "{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)";
-
-// old helpline messages of phpbb
-z_help = "List: [list]text[/list] (alt+l)";
-o_help = "Ordered list: [list=]text[/list]  (alt+o)";
-p_help = "Insert image: [img]http://image_url[/img]  (alt+p)";
-w_help = "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)";
-a_help = "Close all open bbCode tags";
-s_help = "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000";
-//f_help = "Font size: [size=x-small]small text[/size]";
+var help_line = {
+		s: '{TXT_STR}: [str]text[/str] (alt+s)',
+		e: '{TXT_EMP} [emp]text[/emp]  (alt+e)',
+		c: '{TXT_COM} [com]text[/com]  (alt+c)',
+		f: '{TXT_FN} [fn]text[/fn]  (alt+f)',
+		q: '{TXT_QUOT} [quot]text[/quot]  (alt+q)',
+		d: '{TXT_CODE} [code]code[/code]  (alt+d)',
+		i: '{TXT_ILN} [iln page=\"page_id\"]text[/iln]  (alt+i)',
+		x: '{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)',
+		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)'
+}
 
 // Define the bbCode tags
-bbcode = new Array();
-bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]');
+var bbcode = new Array();
+var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]');
 imageTag = false;
 
-// Shows the help messages in the helpline window
-function helpline(help) {
-	document.post.helpbox.value = eval(help + "_help");
-}
-
-
-// Replacement for arrayname.length property
-function getarraysize(thearray) {
-	for (i = 0; i < thearray.length; i++) {
-		if ((thearray[i] == "undefined") || (thearray[i] == "") || (thearray[i] == null))
-			return i;
-		}
-	return thearray.length;
-}
-
-// Replacement for arrayname.push(value) not implemented in IE until version 5.5
-// Appends element to the array
-function arraypush(thearray,value) {
-	thearray[ getarraysize(thearray) ] = value;
-}
-
-// Replacement for arrayname.pop() not implemented in IE until version 5.5
-// Removes and returns the last element of an array
-function arraypop(thearray) {
-	thearraysize = getarraysize(thearray);
-	retval = thearray[thearraysize - 1];
-	delete thearray[thearraysize - 1];
-	return retval;
-}
-
-
-function checkForm() {
-
-	formErrors = false;
-
-	if (document.post.{PAR_TA_NAME}.value.length < 2) {
-		formErrors = "You must enter a message when posting.";
-	}
-
-	if (formErrors) {
-		alert(formErrors);
-		return false;
-	} else {
-		bbstyle(-1);
-		//formObj.preview.disabled = true;
-		//formObj.submit.disabled = true;
-		return true;
-	}
-}
-
-function emoticon(text) {
-	var txtarea = document.post.{PAR_TA_NAME};
-	text = ' ' + text + ' ';
-	if (txtarea.createTextRange && txtarea.caretPos) {
-		var caretPos = txtarea.caretPos;
-		caretPos.text = caretPos.text.charAt(caretPos.text.length - 1) == ' ' ? text + ' ' : text;
-		txtarea.focus();
-	} else {
-		txtarea.value  += text;
-		txtarea.focus();
-	}
-}
-
-function bbfontstyle(bbopen, bbclose) {
-	var txtarea = document.post.{PAR_TA_NAME};
-
-	if ((clientVer >= 4) && is_ie && is_win) {
-		theSelection = document.selection.createRange().text;
-		if (!theSelection) {
-			txtarea.value += bbopen + bbclose;
-			txtarea.focus();
-			return;
-		}
-		document.selection.createRange().text = bbopen + theSelection + bbclose;
-		txtarea.focus();
-		return;
-	}
-	else if (txtarea.selectionEnd && (txtarea.selectionEnd - txtarea.selectionStart > 0))
-	{
-		mozWrap(txtarea, bbopen, bbclose);
-		return;
-	}
-	else
-	{
-		txtarea.value += bbopen + bbclose;
-		txtarea.focus();
-	}
-	storeCaret(txtarea);
-}
-
-
-function bbstyle(bbnumber) {
-	var txtarea = document.post.{PAR_TA_NAME};
-
-	donotinsert = false;
-	theSelection = false;
-	bblast = 0;
-
-	if (bbnumber == -1) { // Close all open tags & default button names
-		while (bbcode[0]) {
-			butnumber = arraypop(bbcode) - 1;
-			txtarea.value += bbtags[butnumber + 1];
-			buttext = eval('document.post.addbbcode' + butnumber + '.value');
-			eval('document.post.addbbcode' + butnumber + '.value ="' + buttext.substr(0,(buttext.length - 1)) + '"');
-		}
-		imageTag = false; // All tags are closed including image tags :D
-		txtarea.focus();
-		return;
-	}
-
-	if ((clientVer >= 4) && is_ie && is_win)
-	{
-		theSelection = document.selection.createRange().text; // Get text selection
-		if (theSelection) {
-			// Add tags around selection
-			document.selection.createRange().text = bbtags[bbnumber] + theSelection + bbtags[bbnumber+1];
-			txtarea.focus();
-			theSelection = '';
-			return;
-		}
-	}
-	else if (txtarea.selectionEnd && (txtarea.selectionEnd - txtarea.selectionStart > 0))
-	{
-		mozWrap(txtarea, bbtags[bbnumber], bbtags[bbnumber+1]);
-		return;
-	}
-
-	// Find last occurance of an open tag the same as the one just clicked
-	for (i = 0; i < bbcode.length; i++) {
-		if (bbcode[i] == bbnumber+1) {
-			bblast = i;
-			donotinsert = true;
-		}
-	}
-
-	if (donotinsert) {		// Close all open tags up to the one just clicked & default button names
-		while (bbcode[bblast]) {
-				butnumber = arraypop(bbcode) - 1;
-				txtarea.value += bbtags[butnumber + 1];
-				buttext = eval('document.post.addbbcode' + butnumber + '.value');
-				eval('document.post.addbbcode' + butnumber + '.value ="' + buttext.substr(0,(buttext.length - 1)) + '"');
-				imageTag = false;
-			}
-			txtarea.focus();
-			return;
-	} else { // Open tags
-
-		if (imageTag && (bbnumber != 14)) {		// Close image tag before adding another
-			txtarea.value += bbtags[15];
-			lastValue = arraypop(bbcode) - 1;	// Remove the close image tag from the list
-			document.post.addbbcode14.value = "Img";	// Return button back to normal state
-			imageTag = false;
-		}
-
-		// Open tag
-		txtarea.value += bbtags[bbnumber];
-		if ((bbnumber == 14) && (imageTag == false)) imageTag = 1; // Check to stop additional tags after an unclosed image tag
-		arraypush(bbcode,bbnumber+1);
-		eval('document.post.addbbcode'+bbnumber+'.value += "*"');
-		txtarea.focus();
-		return;
-	}
-	storeCaret(txtarea);
-}
-
-// From http://www.massless.org/mozedit/
-function mozWrap(txtarea, open, close)
-{
-	var selLength = txtarea.textLength;
-	var selStart = txtarea.selectionStart;
-	var selEnd = txtarea.selectionEnd;
-	if (selEnd == 1 || selEnd == 2)
-		selEnd = selLength;
-
-	var s1 = (txtarea.value).substring(0,selStart);
-	var s2 = (txtarea.value).substring(selStart, selEnd)
-	var s3 = (txtarea.value).substring(selEnd, selLength);
-	txtarea.value = s1 + open + s2 + close + s3;
-	return;
-}
-
-// Insert at Claret position. Code from
-// http://www.faqts.com/knowledge_base/view.phtml/aid/1052/fid/130
-function storeCaret(textEl) {
-	if (textEl.createTextRange) textEl.caretPos = document.selection.createRange().duplicate();
-}
+var form_name = 'post';
+var text_name = '{PAR_TA_NAME}';
+var load_draft = false;
+var upload = false;
 
 //-->
 </script>
-<!-- }}} -->
-<form action="{FORMACTION}" name="post" method="post">
+
+<form action="{FORMACTION}" id="post" name="post" method="post">
 
 <input type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0">
 
@@ -272,16 +58,16 @@ function storeCaret(textEl) {
     <div id="bbcodebuttons" style="position:relative;visibility:visible;">
 	<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="{TXT_BB_TIP}" />
 	<br />
-	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0)" onMouseOver="helpline('b')" />
+	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0)" onMouseOver="helpline('s')" />
 	<input type="button" class="ilEditSubmit" accesskey="e" name="addbbcode2" value=" emp " onClick="bbstyle(2)" onMouseOver="helpline('e')" />
-	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode4" value=" com " onClick="bbstyle(4)" onMouseOver="helpline('u')" />
+	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode4" value=" com " onClick="bbstyle(4)" onMouseOver="helpline('c')" />
 	<input type="button" class="ilEditSubmit" accesskey="q" name="addbbcode6" value=" quot " onClick="bbstyle(6)" onMouseOver="helpline('q')" />
-	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode8" value=" code " onClick="bbstyle(8)" onMouseOver="helpline('c')" />
-	<input type="button" class="ilEditSubmit" accesskey="x" name="addbbcode18" value=" tex " onClick="bbstyle(18)" onMouseOver="helpline('t')" />
+	<input type="button" class="ilEditSubmit" accesskey="d" name="addbbcode8" value=" code " onClick="bbstyle(8)" onMouseOver="helpline('d')" />
+	<input type="button" class="ilEditSubmit" accesskey="t" name="addbbcode18" value=" tex " onClick="bbstyle(18)" onMouseOver="helpline('t')" />
 	<input type="button" class="ilEditSubmit" accesskey="f" name="addbbcode10" value=" fn " onClick="bbstyle(10)" onMouseOver="helpline('f')" />
 	<input type="button" class="ilEditSubmit" accesskey="x" name="addbbcode14" value=" xln " onClick="bbstyle(14)" onMouseOver="helpline('x')" />
 	<!-- BEGIN bb_ilink_button -->
-	<a class="ilEditSubmit" href="{BB_LINK_ILINK}" target="tree" onMouseOver="helpline('i')">&nbsp;iln&nbsp;</a>
+	<a class="ilEditSubmit" href="{BB_LINK_ILINK}" accesskey="i" onClick="bbstyle(12)" target="tree" onMouseOver="helpline('i')">&nbsp;iln&nbsp;</a>
 	<!-- END bb_ilink_button -->
     </div>
 	</td>
@@ -290,7 +76,7 @@ function storeCaret(textEl) {
 
 <tr class="std">
 <td class="std" colspan="4">
-<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:95%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:95%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 </td>
 </tr>
 <!-- BEGIN commands -->

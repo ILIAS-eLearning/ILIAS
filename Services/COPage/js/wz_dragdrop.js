@@ -403,13 +403,13 @@ dd.initz = function()
 	if (!(dd && (dd.n4 || dd.n6 || dd.ie || dd.op || dd.w3c))) return;
 	if (dd.op6) WINSZ(2);
 	else if (dd.n6 || dd.ie || dd.op && !dd.op6 || dd.w3c) dd.recalc(1);
-	var d_drag = (document.onmousemove == DRAG),
-	d_resize = (document.onmousemove == RESIZE);
+//	var d_drag = (document.onmousemove == DRAG),
+//	d_resize = (document.onmousemove == RESIZE);
 	if (dd.loadFunc) dd.loadFunc();
-	if (d_drag && document.onmousemove != DRAG) dd.setEvtHdl(1, DRAG);
-	else if (d_resize && document.onmousemove != RESIZE) dd.setEvtHdl(1, RESIZE);
-	if ((d_drag || d_resize) && document.onmouseup != DROP) dd.setEvtHdl(2, DROP);
-	dd.setEvtHdl(0, PICK);
+//	if (d_drag && document.onmousemove != DRAG) dd.setEvtHdl(1, DRAG);
+//	else if (d_resize && document.onmousemove != RESIZE) dd.setEvtHdl(1, RESIZE);
+//	if ((d_drag || d_resize) && document.onmouseup != DROP) dd.setEvtHdl(2, DROP);
+//	dd.setEvtHdl(0, PICK);
 };
 
 dd.finlz = function()
@@ -1046,7 +1046,7 @@ dd.inWndH = function(d_x, d_y)
 };
 
 // These two funcs limit the size of element when mouseresized.
-// Implemented 22.5.2003 by Gregor Lütolf <gregor@milou.ch>, modified by Walter Zorn
+// Implemented 22.5.2003 by Gregor Lï¿½tolf <gregor@milou.ch>, modified by Walter Zorn
 dd.limW = function(d_w)
 {
 	return (
@@ -1064,41 +1064,6 @@ dd.limH = function(d_h)
 		: d_h
 	);
 };
-
-
-// Optional autoscroll-page functionality. Courtesy Cedric Savarese.
-// Implemented by Walter Zorn
-function DDScroll()
-{
-	if (!dd.obj || !dd.obj.scroll && !dd.scroll || dd.op || dd.ie4 || dd.whratio)
-	{
-		dd.scrx = dd.scry = 0;
-		return;
-	}
-	var d_bnd = 0x1c,
-	d_wx = dd.getScrollX(), d_wy = dd.getScrollY();
-	if (dd.msmoved)
-	{
-		var d_ww = dd.getWndW(), d_wh = dd.getWndH(), d_y;
-		dd.scrx = ((d_y = dd.e.x-d_ww-d_wx+d_bnd) > 0)? (d_y>>=2)*d_y
-			: ((d_y = d_wx+d_bnd-dd.e.x) > 0)? -(d_y>>=2)*d_y
-			: 0;
-		dd.scry = ((d_y = dd.e.y-d_wh-d_wy+d_bnd) > 0)? (d_y>>=2)*d_y
-			: ((d_y = d_wy+d_bnd-dd.e.y) > 0)? -(d_y>>=2)*d_y
-			: 0;
-	}
-	if (dd.scrx || dd.scry)
-	{
-		window.scrollTo(
-			d_wx + (dd.scrx = dd.obj.is_resized? dd.limW(dd.obj.w+dd.scrx)-dd.obj.w : dd.obj.vertical? 0 : (dd.maxOffX(dd.obj.x+dd.scrx)-dd.obj.x)),
-			d_wy + (dd.scry = dd.obj.is_resized? dd.limH(dd.obj.h+dd.scry)-dd.obj.h : dd.obj.horizontal? 0 : (dd.maxOffY(dd.obj.y+dd.scry)-dd.obj.y))
-		);
-		dd.obj.is_dragged? dd.obj.moveTo(dd.obj.x+dd.getScrollX()-d_wx, dd.obj.y+dd.getScrollY()-d_wy)
-			: dd.reszTo(dd.obj.w+dd.getScrollX()-d_wx, dd.obj.h+dd.getScrollY()-d_wy);
-	}
-	dd.msmoved = 0;
-	window.setTimeout('DDScroll()', 0x33);
-}
 
 
 
@@ -1183,91 +1148,6 @@ function PICK(d_ev)
 	return true;
 }
 
-function DRAG(d_ev)
-{
-	if (!dd.obj || !dd.obj.visible) return true;
-	if (dd.ie4 || dd.w3c || dd.n6 || dd.obj.children.length > 0xf)
-	{
-		if (dd.wait) return false;
-		dd.wait = 1;
-		setTimeout('dd.wait = 0;', 5);
-	}
-	dd.e = new dd.evt(d_ev);
-	if (dd.ie && !dd.e.but)
-	{
-		DROP(d_ev);
-		return true;
-	}
-	dd.msmoved = 1;
-	dd.obj.moveTo(
-		dd.obj.vertical? dd.obj.x : dd.maxOffX(dd.inWndW(dd.ofx+dd.e.x)-dd.obj.w),
-		dd.obj.horizontal? dd.obj.y : dd.maxOffY(dd.inWndH(dd.ofy+dd.e.y)-dd.obj.h)
-	);
-
-	if (window.my_DragFunc) my_DragFunc();
-	return false;
-}
-
-function RESIZE(d_ev)
-{
-	if (!dd.obj || !dd.obj.visible) return true;
-	if (dd.wait) return false;
-	dd.wait = 1;
-	setTimeout('dd.wait = 0;', 5);
-	dd.e = new dd.evt(d_ev);
-	if (dd.ie && !dd.e.but)
-	{
-		DROP(d_ev);
-		return true;
-	}
-	dd.msmoved = 1;
-	var d_w = dd.limW(dd.inWndW(dd.ofx+dd.e.x)-dd.obj.x);
-	if (!dd.whratio) var d_h = dd.limH(dd.inWndH(dd.ofy+dd.e.y)-dd.obj.y);
-	else
-	{
-		var d_h = dd.limH(dd.inWndH(Math.round(d_w/dd.whratio)+dd.obj.y)-dd.obj.y);
-		d_w = Math.round(d_h*dd.whratio);
-	}
-	dd.reszTo(d_w, d_h);
-	if (window.my_ResizeFunc) my_ResizeFunc();
-	return false;
-}
-
-function DROP(d_ev)
-{
-	if (dd.obj)
-	{
-		if (dd.obj.is_dragged)
-		{
-			if (!dd.obj.is_image) dd.getWH(dd.obj);
-		}
-		else if (dd.n4)
-		{
-			if (dd.obj.is_image)
-			{
-				dd.n4RectVis(0);
-				dd.obj.resizeTo(dd.obj.w, dd.obj.h);
-			}
-		}
-		if (!dd.n4 && !dd.op6 || !dd.obj.is_image) dd.recalc();
-		dd.setEvtHdl(1, dd.moveFunc);
-		dd.setEvtHdl(2, dd.upFunc);
-		if (dd.db) dd.db.onselectstart = null;
-		dd.obj._setCrs(dd.obj.cursor);
-		dd.embedVis('visible');
-		dd.obj._resetZ();
-		if (window.my_DropFunc)
-		{
-			dd.e = new dd.evt(d_ev);
-			my_DropFunc();
-		}
-		dd.msmoved = dd.obj.is_dragged = dd.obj.is_resized = dd.whratio = 0;
-		dd.obj = null;
-	}
-	dd.setEvtHdl(0, PICK);
-}
-
-
 
 function SET_DHTML()
 {
@@ -1343,108 +1223,4 @@ var RESET_ZINDEX = RESET_Z; // < 3.44
 var KEYDOWN_RESIZE = RESIZABLE; // < 4.43
 var CURSOR_POINTER = CURSOR_HAND; // < 4.44
 var NO_SCROLL = '';         // < v. 4.49
-
-
-
-
-////////////////////////////////////////////////////////////
-// FUNCTIONS FOR EXTENDED SCRIPTING
-// Use these for your own extensions,
-// or to call functions defined elsewhere
-
-
-
-/* my_PickFunc IS AUTOMATICALLY CALLED WHEN AN ITEM STARTS TO BE DRAGGED.
-The following objects/properties are accessible from here:
-
-- dd.e: current mouse event
-- dd.e.property: access to a property of the current mouse event.
-  Mostly requested properties:
-  - dd.e.x: document-related x co-ordinate
-  - dd.e.y: document-related y co-ord
-  - dd.e.src: target of mouse event (not identical with the drag drop object itself).
-  - dd.e.button: currently pressed mouse button. Left button: dd.e.button <= 1
-
-- dd.obj: reference to currently dragged item.
-- dd.obj.property: access to any property of that item.
-- dd.obj.method(): for example dd.obj.resizeTo() or dd.obj.swapImage() .
-  Mostly requested properties:
-	- dd.obj.name: image name or layer ID passed to SET_DHTML();
-	- dd.obj.x and dd.obj.y: co-ordinates;
-	- dd.obj.w and dd.obj.h: size;
-	- dd.obj.is_dragged: 1 while item is dragged, else 0;
-	- dd.obj.is_resized: 1 while item is resized, i.e. if <ctrl> or <shift> is pressed, else 0
-
-For more properties and details, visit the API documentation
-at http://www.walterzorn.com/dragdrop/api_e.htm (english) or
-http://www.walterzorn.de/dragdrop/api.htm (german)    */
-var startX = -1;
-var startY = -1;
-function my_PickFunc()
-{
-	startX = dd.obj.x;
-	startY = dd.obj.y;
-}
-
-
-
-
-/* my_DragFunc IS CALLED WHILE AN ITEM IS DRAGGED
-See the description of my_PickFunc above for what's accessible from here. */
-function my_DragFunc()
-{
-	//window.status = 'dd.elements.' + dd.obj.name + '.x  = ' + dd.obj.x + '     dd.elements.' + dd.obj.name + '.y = ' + dd.obj.y;
-}
-
-
-
-
-/* my_ResizeFunc IS CALLED WHILE AN ITEM IS RESIZED
-See the description of my_PickFunc above for what's accessible from here. */
-function my_ResizeFunc()
-{
-	//window.status = 'dd.elements.' + dd.obj.name + '.w  = ' + dd.obj.w + '     dd.elements.' + dd.obj.name + '.h = ' + dd.obj.h;
-}
-
-
-
-
-/* THIS ONE IS CALLED ONCE AN ITEM IS DROPPED
-See the description of my_PickFunc for what's accessible from here.
-Here may be investigated, for example, what's the name (dd.obj.name)
-of the dropped item, and where (dd.obj.x, dd.obj.y) it has been dropped... */
-function my_DropFunc()
-{
-	if (dragDropTree) 
-	{
-
-		sourceObj = dd.obj;
-		targetObj = "";
-		dy = 1000;
-		for (i=0;i<dd.elements.length;i++) 
-		{
-			dy2 = Math.abs(dd.obj.y - dd.elements[i].y);
-			dx2 = Math.abs(dd.obj.x - dd.elements[i].x);
-			if (dy2 < dy && dd.elements[i].name != dd.obj.name && dy2<8 && dx2<10) 
-			{
-				dy = dy2;
-				targetObj = dd.elements[i];
-			}
-			
-		}
-		if (targetObj!="") 
-		{
-			//alert(sourceObj.name+" - "+targetObj.name);
-			sourceId = sourceObj.name.substr(7,sourceObj.name.length);
-			targetId = targetObj.name.substr(7,targetObj.name.length);
-			openPopupQuestion();
-			dd.obj.moveTo(startX,startY);
-		} 
-		else 
-		{
-			dd.obj.moveTo(startX,startY);
-		}
-	}
-}
-
 

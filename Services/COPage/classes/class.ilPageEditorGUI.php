@@ -511,7 +511,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 	function _isBrowserJSEditCapable()
 	{
 		global $ilBrowser;
-
+return true;
 		$version = $ilBrowser->getVersion();
 
 		if ($ilBrowser->isFirefox() ||
@@ -560,7 +560,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 		if ($this->page->getParentType() == "lm" ||
 			$this->page->getParentType() == "dbk")
 		{
-			$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+			$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
 		}
 		else
 		{
