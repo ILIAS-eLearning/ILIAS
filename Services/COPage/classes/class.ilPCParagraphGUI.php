@@ -93,6 +93,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("POPUP_TARGET_XTL",
 			$this->ctrl->getLinkTarget($this, "popup"));
 			
+		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+			
 		$this->tpl->setVariable("TXT_STR", $this->lng->txt("cont_text_str"));
 		$this->tpl->setVariable("TXT_EMP", $this->lng->txt("cont_text_emp"));
 		$this->tpl->setVariable("TXT_COM", $this->lng->txt("cont_text_com"));
@@ -131,8 +133,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 					ilObjStyleSheet::getContentStylePath(0));
 			}
 
-			if (!ilPageEditorGUI::_doJSEditing())
-			{
+//			if (!ilPageEditorGUI::_doJSEditing())
+//			{
 				$this->tpl->setCurrentBlock("bb_ilink_button");
 				$this->tpl->setVariable("BB_LINK_ILINK",
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
@@ -140,13 +142,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				$this->tpl->setCurrentBlock("bb_buttons");
 				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 				$this->tpl->parseCurrentBlock();
-			}
+/*			}
 			else
 			{
 				$this->tpl->setVariable("LINK_ILINK",
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 			}
+*/
 			
 			$this->tpl->setVariable("REMOVELINK",$this->lng->txt("cont_removeiln"));
 						
@@ -159,12 +162,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				ilUtil::getStyleSheetLocation());
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(0));
-			if (!ilPageEditorGUI::_doJSEditing())
-			{
+//			if (!ilPageEditorGUI::_doJSEditing())
+//			{
 				$this->tpl->setCurrentBlock("bb_buttons");
 				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 				$this->tpl->parseCurrentBlock();
-			}
+//			}
 		}
 
 		$this->displayValidationError();
@@ -213,7 +216,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 
-		if (ilPageEditorGUI::_doJSEditing())
+/*		if (ilPageEditorGUI::_doJSEditing())
 		{
 			// this line is necessary to prevent unwanted converts
 			// e.g. an entered "&lt;" to a "<"
@@ -231,8 +234,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		else
 		{
+*/
 			$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
-		}
+//		}
 
 		$this->tpl->parseCurrentBlock();
 
@@ -280,6 +284,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
 		$this->tpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 
+		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		
 		if ($this->pg_obj->getParentType() == "gdf" ||
@@ -308,8 +314,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->tpl->setVariable("LOCATION_STYLESHEET_HTMLAREA",
 				ilUtil::getStyleSheetLocation());			
 
-			if (!ilPageEditorGUI::_doJSEditing())
-			{
+//			if (!ilPageEditorGUI::_doJSEditing())
+//			{
 				$this->tpl->setCurrentBlock("bb_ilink_button");
 				$this->tpl->setVariable("BB_LINK_ILINK",
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
@@ -318,13 +324,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				$this->tpl->setCurrentBlock("bb_buttons");
 				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 				$this->tpl->parseCurrentBlock();
-			}
+/*			}
 			else
 			{
 				$this->tpl->setVariable("LINK_ILINK",
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 			}
+*/
 			
 			$this->tpl->touchBlock("internal_link_active1");
 			$this->tpl->touchBlock("internal_link_active2");
@@ -335,12 +342,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				ilUtil::getStyleSheetLocation());
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(0));
-			if (!ilPageEditorGUI::_doJSEditing())
-			{
+//			if (!ilPageEditorGUI::_doJSEditing())
+//			{
 				$this->tpl->setCurrentBlock("bb_buttons");
 				$this->tpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 				$this->tpl->parseCurrentBlock();
-			}
+//			}
 		}
 		
 		$this->displayValidationError();
@@ -425,10 +432,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		if (ilPageEditorGUI::_doJSEditing()) 
+/*		if (ilPageEditorGUI::_doJSEditing()) 
 		{
 			$this->tpl->touchBlock("initwysiwygeditor");
 		}
+*/
 		
 		// operations
 		$this->tpl->setCurrentBlock("commands");

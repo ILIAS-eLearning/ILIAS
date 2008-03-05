@@ -229,5 +229,18 @@ abstract class ilPageContent
 		
 		return strcasecmp($compare,"true") == 0;
 	}
+	
+	/**
+	* Create page content node (always use this method first when adding a new element)
+	*/
+	function createPageContentNode($a_set_this_node = true)
+	{
+		$node = $this->dom->create_element("PageContent");
+		if ($a_set_this_node)
+		{
+			$this->node = $node;
+		}
+		return $node;
+	}
 }
 ?>

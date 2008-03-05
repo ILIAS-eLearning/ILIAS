@@ -952,10 +952,10 @@ class ilCtrl
 	*
 	* @param	object		$a_gui_obj		gui object
 	*/
-	function getFormAction(&$a_gui_obj, $a_fallback_cmd = "")
+	function getFormAction(&$a_gui_obj, $a_fallback_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
 		$script =  $this->getFormActionByClass(strtolower(get_class($a_gui_obj)),
-			$a_fallback_cmd);
+			$a_fallback_cmd, $a_anchor, $a_asynch);
 		return $script;
 	}
 
@@ -964,13 +964,13 @@ class ilCtrl
 	*
 	* @param	string		$a_class		gui class name
 	*/
-	function getFormActionByClass($a_class, $a_fallback_cmd = "")
+	function getFormActionByClass($a_class, $a_fallback_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
 		$a_class = strtolower($a_class);
 		
 		$this->getRequestToken();
 
-		$script = $this->getLinkTargetByClass($a_class, "post");
+		$script = $this->getLinkTargetByClass($a_class, "post", $a_anchor, $a_asynch);
 		if ($a_fallback_cmd != "")
 		{
 			$script = ilUtil::appendUrlParameterString($script, "fallbackCmd=".$a_fallback_cmd);
@@ -1183,9 +1183,11 @@ class ilCtrl
 
 		$script = ilUtil::appendUrlParameterString($script,
 			"redirectSource=".strtolower(get_class($a_gui_obj)));
+		$script = ilUtil::appendUrlParameterString($script,
+			"cmdMode=".$_GET["cmdMode"]);
 		if ($a_anchor != "")
 		{
-		 $script = $script."#".$a_anchor;
+			$script = $script."#".$a_anchor;
 		}
 		ilUtil::redirect($script);
 	}
