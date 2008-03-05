@@ -180,6 +180,29 @@ class ilSoapAdministration
 			$auth_mode_names[] = strtoupper(ilAuthUtils::_getAuthModeName($mode));
 		}
 
+		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
+		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php';
+		
+		// create advanced meta data record xml
+		$record_ids = array();
+		$record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
+		foreach($record_types as $type) {
+			$records = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type);
+			foreach ($records as $record){
+				$record_ids [] = $record->getRecordId();
+			}			
+		}
+		$record_ids = array_unique($record_ids);		
+		$advmwriter = new ilAdvancedMDRecordXMLWriter($record_ids);
+		$advmwriter->write();		
+		
+		// create user defined fields record xml, simulate empty user records
+		include_once ("./Services/User/classes/class.ilUserXMLWriter.php");
+		$udfWriter = new ilUserXMLWriter();
+		$users = array();
+		$udfWriter->setObjects($users);
+		$udfWriter->start();				
+		 
         // todo: get information from client id, read from ini file specificied
         $client_details[] = array ("installation_id" => IL_INST_ID,
                                    "installation_version" => ILIAS_VERSION,
@@ -189,7 +212,9 @@ class ilSoapAdministration
 									"installation_session_expire" => $ilClientIniFile->readVariable("session","expire"),
 									"installation_php_postmaxsize" => $this->return_bytes(ini_get("post_max_size")),
 									"authentication_methods" => join(",", $auth_mode_names),
-									"authentication_default_method" => $auth_mode_default
+									"authentication_default_method" => $auth_mode_default,
+        							"installation_udf_xml" => $udfWriter ->getXML(),
+        							"installation_advmd_xml" => $advmwriter->xmlDumpMem(false)
 
 																		);
 

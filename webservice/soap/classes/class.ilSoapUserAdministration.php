@@ -1047,9 +1047,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			{
 				return $this->__raiseError("Role access not permitted. ($role_id)","Server");
 			}
+			include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+			$privacy = ilPrivacySettings::_getInstance();
+			if(!$rbacsystem->checkAccess('read',SYSTEM_USER_ID) and
+			   !$rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId())) {
+					return $this->__raiseError("Export of local role members not permitted. ($role_id)","Server");
+			}
+			
+			
 		}
-		
-		
 
 		$data = ilObjUser::_getUsersForRole($role_id, $active);
 		include_once './Services/User/classes/class.ilUserXMLWriter.php';

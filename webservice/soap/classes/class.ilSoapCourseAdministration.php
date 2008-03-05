@@ -471,7 +471,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 	 *
 	 * @param string $sid
 	 * @param string $parameters following xmlresultset, columns (user_id, status with values  1 = "MEMBER", 2 = "TUTOR", 4 = "ADMIN", 8 = "OWNER" and any xor operation e.g.  1 + 4 = 5 = ADMIN and TUTOR, 7 = ADMIN and TUTOR and MEMBER)
-	 * @param string XMLResultSet, columns (courseXML) 
+	 * @param string XMLResultSet, columns (ref_id, xml, parent_ref_id) 
 	 */
 	function getCoursesForUser($sid, $parameters) {
 		
