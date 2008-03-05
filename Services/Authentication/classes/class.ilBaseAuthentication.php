@@ -291,11 +291,24 @@ class ilBaseAuthentication
 
 	function __buildAuth()
 	{
+		// BEGIN WebDAV
+		// The realm is needed to support a common session between Auth_HTTP and Auth.
+		// It also helps us to distinguish between parallel sessions run on different clients.
+		// Common session only works if we use a common session name starting with "_authhttp".
+		// We must use the "_authttp" prefix, because it is hardcoded in the session name of
+		// class Auth_HTTP.
+		// Note: The realm and sessionName used here, must be the same as in 
+		//       class ilAuthUtils. Otherwise, Soap clients won't be able to log
+		//       in to ILIAS.
+		$realm = $this->getClient();
+		// END WebDAV
+
 		$this->auth_params = array(
 			'dsn'		  => $this->dsn,
 			'table'       => $this->ini->readVariable("auth", "table"),
 			'usernamecol' => $this->ini->readVariable("auth", "usercol"),
-			'passwordcol' => $this->ini->readVariable("auth", "passcol")
+			'passwordcol' => $this->ini->readVariable("auth", "passcol"),
+			'sessionName' => "_authhttp".md5($realm)
 			);
 
 		if($this->getPasswordType() == IL_AUTH_MD5)
@@ -303,7 +316,9 @@ class ilBaseAuthentication
 			$this->auth_params['cryptType'] = 'none';
 		}
 
-		$this->auth = new Auth("DB", $this->auth_params,"",false);
+		require_once 'class.ilAuthContainerDB.php';
+		$authContainerDB = new ilAuthContainerDB($this->auth_params);
+		$this->auth = new Auth($authContainerDB, $this->auth_params,"",false);
 
 		return true;
 	}
