@@ -327,7 +327,7 @@ class ilContainer extends ilObject
 	 * @param array $options
 	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
 	 */
-	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options)
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $use_soap = true)
 	{
 		global $ilLog;
 		
@@ -351,10 +351,10 @@ class ilContainer extends ilObject
 		}
 		$wizard_options->read();
 		$wizard_options->storeTree($clone_source);
-		
+		#print_r($options);
 		// Duplicate session to avoid logout problems with backgrounded SOAP calls
 		$new_session_id = duplicate_session($session_id); 
-		
+		#die();
 		// Start cloning process using soap call
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
@@ -364,7 +364,7 @@ class ilContainer extends ilObject
 		$soap_client->enableWSDL(true);
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
-		if($soap_client->init())
+		if($soap_client->init() && $use_soap)
 		{
 			$ilLog->write(__METHOD__.': Calling soap clone method...');
 			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$client_id, $copy_id));
