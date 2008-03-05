@@ -131,6 +131,9 @@ class ilAuthUtils
 	// it interfers with the session mechanism of the other Auth modules. If we would
 	// keep this switched on, then users could steal each others session, which would cause
 	// a major security breach.
+	// Note: The realm and sessionName used here, must be the same as in 
+	//       class ilBaseAuthentication. Otherwise, Soap clients won't be able to log
+	//       in to ILIAS.
 	$realm = CLIENT_ID;
 	//$this->writelog('ilias.php realm='.$realm);
 	// END WebDAV: Share session between browser and WebDAV client.
@@ -342,6 +345,7 @@ class ilAuthUtils
 					require_once 'class.ilAuthContainerDB.php';
 					$authContainerDB = new ilAuthContainerDB($auth_params);
 					$ilAuth = new Auth($authContainerDB, $auth_params,"",false);
+error_log('ilAuthUtils using default auth params:'.var_export($auth_params,true));
 				}
 				// END WebDAV: Support HTTP Authentication for WebDAV clients.
 				break;
