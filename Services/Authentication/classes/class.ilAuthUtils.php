@@ -345,7 +345,6 @@ class ilAuthUtils
 					require_once 'class.ilAuthContainerDB.php';
 					$authContainerDB = new ilAuthContainerDB($auth_params);
 					$ilAuth = new Auth($authContainerDB, $auth_params,"",false);
-error_log('ilAuthUtils using default auth params:'.var_export($auth_params,true));
 				}
 				// END WebDAV: Support HTTP Authentication for WebDAV clients.
 				break;
