@@ -46,9 +46,15 @@ class ilObjFileAccessSettings extends ilObject
 	private $webdavEnabled;
 
 	/**
-	 * String property. Mount instructions for WebDAV access to files.
+	 * Boolean property. Set this to true, to use customized mount instructions.
+	 * If the value is false, the default mount instructions are used.
 	 */
-	private $webfolderMountInstructions;
+	private $customWefolderInstructionsEnabled;
+
+	/**
+	 * String property. Customized mount instructions for WebDAV access to files.
+	 */
+	private $customWebfolderInstructions;
 
 	/**
 	 * String property. Contains a list of file extensions separated by space.
@@ -90,38 +96,61 @@ class ilObjFileAccessSettings extends ilObject
 	}
 
 	/**
-	* Sets the webfolderMountInstructions property.
+	* Sets the customWebfolderInstructions property.
 	* 
-	* The mount instructions consist of HTML text, with placeholders.
-	* The following placeholders are currently supported:
-	*
-	* [WEBFOLDER_TITLE] - the title of the webfolder
-	* [WEBFOLDER_URL] - the URL for mounting the webfolder
-	* [IF_WINDOWS]...[/IF_WINDOWS] - conditional contents, with instructions for Windows
-	* [IF_MAC]...[/IF_MAC] - conditional contents, with instructions for Mac OS X
-	* [IF_LINUX]...[/IF_LINUX] - conditional contents, with instructions for Linux
-	* [ADMIN_MAIL] - the mailbox address of the system administrator
+	* The webfolder instructions consist of HTML text, with placeholders.
+	* See ilDAVServer::_getWebfolderInstructionsFor for a description of
+	* the supported placeholders.
 	* 
 	* @param	string	HTML text with placeholders.
 	* @return	void
 	*/
-	public function setWebfolderMountInstructions($newValue)
+	public function setCustomWebfolderInstructions($newValue)
 	{
-		$this->webfolderMountInstructions = $newValue;
+		$this->customWebfolderInstructions = $newValue;
 	}
 	/**
-	* Gets the webfolderMountInstructions property.
+	* Gets the customWebfolderInstructions property.
 	* 
 	* @return	boolean	value
 	*/
-	public function getWebfolderMountInstructions()
+	public function getCustomWebfolderInstructions()
 	{
-		if (strlen($this->webfolderMountInstructions) == 0) 
+		if (strlen($this->customWebfolderInstructions) == 0) 
 		{
 			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-			$this->webfolderMountInstructions = ilDAVServer::_getDefaultWebfolderMountInstructions();
+			$this->customWebfolderInstructions = ilDAVServer::_getDefaultWebfolderInstructions();
 		}
-		return $this->webfolderMountInstructions;
+		return $this->customWebfolderInstructions;
+	}
+	/**
+	* Gets the defaultWebfolderInstructions property.
+	* This is a read only property. The text is retrieved from $lng.
+	* 
+	* @return	String	value
+	*/
+	public function getDefaultWebfolderInstructions()
+	{
+		return ilDAVServer::_getDefaultWebfolderInstructions();
+	}
+	/**
+	* Gets the customWebfolderInstructionsEnabled property.
+	* 
+	* @return	boolean	value
+	*/
+	public function isCustomWebfolderInstructionsEnabled()
+	{
+		return $this->customWebfolderInstructionsEnabled;
+	}
+	/**
+	* Sets the customWebfolderInstructionsEnabled property.
+	* 
+	* @param	boolean new value.
+	* @return	void
+	*/
+	public function setCustomWebfolderInstructionsEnabled($newValue)
+	{
+		$this->customWebfolderInstructionsEnabled = $newValue;
 	}
 
 
@@ -185,7 +214,8 @@ class ilObjFileAccessSettings extends ilObject
 		require_once 'Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('file_access');
 		$settings->set('inline_file_extensions', $this->inlineFileExtensions);
-		$settings->set('webfolder_mount_instructions', $this->webfolderMountInstructions);
+		$settings->set('custom_webfolder_instructions_enabled', $this->isCustomWebfolderInstructionsEnabled ? '1' : '0');
+		$settings->set('custom_webfolder_instructions', $this->customWebfolderInstructions);
 	}
 	/**
 	* read object data from db into object
@@ -201,7 +231,8 @@ class ilObjFileAccessSettings extends ilObject
 		require_once 'Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('file_access');
 		$this->inlineFileExtensions = $settings->get('inline_file_extensions','');
-		$this->webfolderMountInstructions = $settings->get('webfolder_mount_instructions', '');
+		$this->customWebfolderInstructionsEnabled = $settings->get('custom_webfolder_instructions_enabled', '0') == '1';
+		$this->customWebfolderInstructions = $settings->get('custom_webfolder_instructions', '');
 	}
 
 

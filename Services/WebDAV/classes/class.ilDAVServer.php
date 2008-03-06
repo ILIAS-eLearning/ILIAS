@@ -556,6 +556,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	*/
 	private function showMountInstructions(&$objDAV, &$options) 
 	{
+		global $lng;
+
 		$path = $this->davDeslashify($options['path']);
 		
 		// The $path variable may contain a path
@@ -581,96 +583,32 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$shortenedPath = '/'.CLIENT_ID.$shortenedPath;
 		$fullPath = '/'.CLIENT_ID.$fullPath;
 
-		$konquerorUri = (@$_SERVER["HTTPS"] === "on" ? "webdavs" : "webdav").
-				substr($this->base_uri, strrpos($this->base_uri,':'));
+		$webfolderURI_Konqueror = (@$_SERVER["HTTPS"] === "on" ? "webdavs" : "webdav").
+				substr($this->base_uri, strrpos($this->base_uri,':')).
+				$fullPath;
 				;
-		$nautilusUri = (@$_SERVER["HTTPS"] === "on" ? "davs" : "dav").
-				substr($this->base_uri, strrpos($this->base_uri,':'));
+		$webfolderURI_Nautilus = (@$_SERVER["HTTPS"] === "on" ? "davs" : "dav").
+				substr($this->base_uri, strrpos($this->base_uri,':')).
+				$fullPath
 				;
 		header('Content-Type: text/html');
 		
+		$webfolderTitle = $objectPath[count($objectPath) - 1]->getResourceName();
+		$webfolderURI = $this->base_uri.$fullPath;
+		$webfolderURI_IE = $this->base_uri.$shortenedPath;
+
 		echo "<html>\n";
 		echo "  <head>\n";
-		echo "  <title>\"".$objectPath[count($objectPath) - 1]->getResourceName()."\" als Webordner öffnen</title>\n";
+		echo "  <title>".sprintf($lng->txt('webfolder_instructions_titletext'), $objectPath[count($objectPath) - 1]->getResourceName())."</title>\n";
 		echo "  </head>\n";
 		echo "  <body>\n";
-		echo "  <h2>\"".$objectPath[count($objectPath) - 1]->getResourceName()."\" als Webordner öffnen</h2>\n";
-		echo "  <p>Über einen Webordner können Sie ILIAS ähnlich benutzen, wie einen Ordner ".
-			"auf Ihrer Festplatte.<br>";
-		echo "  Mit folgenden Schritten können Sie den Webordner öffnen.</p>";
-		if ($this->clientOS == 'windows' ||
-			$this->clientOS == 'unknown' 
-		)
-		{
-			echo "  <h3>Windows XP mit Internet Explorer</h3>\n";
-			echo "  <font size=-1>(Microsoft Office muss auf Ihrem Computer installiert sein.)</font><p>";
-			echo "  <ol>";
-			echo "  <li>Starten Sie den Internet Explorer.</li>";
-			echo "  <li>Wählen Sie das Menü <b>&laquo;Datei &gt; Öffnen...&raquo;</b></li>";
-			echo "  <li>Geben Sie folgende Adresse in das Feld <b>&laquo;Öffnen&raquo;</b> ein:<br>";
-			echo "<b>".$this->base_uri.$shortenedPath."</b>";
-			echo "</li>";
-			echo "  <li>Kreuzen Sie die Option <b>&laquo;Als Webordner öffnen&raquo;</b> an.</li>";
-			echo "  <li>Klicken Sie auf <b>&laquo;OK&raquo;</b>.</li>";
-			echo "  </ol>";
-			echo "  <h3>Windows XP ohne Internet Explorer</h3>\n";
-			echo "  <font size=-1>(Microsoft Office muss auf Ihrem Computer installiert sein.)</font><p>";
-			echo "  <ol>";
-			echo "  <li>Starten Sie den Windows Explorer.</li>";
-			echo "  <li>Wählen Sie das Menü <b>&laquo;Extras &gt; Netzlaufwerk verbinden...&raquo;</b>.<br>Dies öffnet ein Dialogfenster.</li>";
-			echo "  <li>Klicken Sie im Dialogfenster auf den Link <b>&laquo;Onlinespeicherplatz anfordern oder mit einem Netzwerkserver verbinden&raquo;.</b><br>Dies öffnet einen Assistenten.</li>";
-			echo "  <li>Klicken Sie im Assistenten auf <b>&laquo;Weiter&raquo;</b>.</li>";
-			echo "  <li>Wählen Sie <b>&laquo;Eine andere Netzwerkressource auswählen&raquo;</b> und klicken Sie auf <b>&laquo;Weiter&raquo;</b>.</li>";
-			echo "  <li>Geben Sie im Feld <b>&laquo;Internet- oder Netzwerkadresse&raquo;</b> folgende Adresse ein:<br>";
-			echo "<b>".$this->base_uri.$shortenedPath."</b>";
-			echo "</li>";
-			echo "  <li>Klicken Sie auf <b>&laquo;Weiter&raquo;</b>.</li>";
-			echo "  <li>Geben Sie Ihren Benutzernamen und Ihr Passwort für ILIAS ein, und klicken Sie auf <b>&laquo;OK&raquo;</b>.</li>";
-			echo "  </ol>";
-		}
-		/*if ($this->clientOSFlavor == 'osx' ||
-			$this->clientOS == 'unknown' 
-		)*/
-		{
-			echo "  <h3>Mac OS X</h3>\n";
-			echo "  <font size=-1>(Mac OS X 10.4.3 oder höher muss auf Ihrem Computer installiert sein.)</font><p>";
-			echo "  <ol>";
-			echo "  <li>Starten Sie den Finder.</li>";
-			echo "  <li>Wählen Sie das Menü <b>&laquo;Gehe zu &gt; Mit Server verbinden...&raquo;</b>.</li>";
-			echo "  <li>Geben Sie folgende Adresse ein:<br>";
-			echo "<b>".$this->base_uri.$fullPath."</b>";
-			echo "</li>";
-			echo "  <li>Klicken Sie auf <b>&laquo;Verbinden&raquo;</b>.</li>";
-			echo "  <li>Geben Sie Ihren Benutzernamen und Ihr Kennwort für ILIAS ein.</li>";
-			echo "  <li>Klicken Sie auf <b>&laquo;OK&raquo;</b><br>Der ILIAS Ordner erscheint nun als Webordner im Finder.</li>";
-			echo "  </ol>";
-		}
-		/*if ($this->clientOS == 'unix' ||
-			$this->clientOS == 'unknown' 
-		)*/
-		{
-			echo "  <h3>Linux mit Konqueror Browser</h3>\n";
-			echo "  <ol>";
-			echo "  <li>Starten Sie den Konqueror Browser.</li>";
-			echo "  <li>Geben Sie folgende Adresse ein:<br>";
-			echo "<b>".$konquerorUri.$fullPath."</b>";
-			echo "</li>";
-			echo "  <li>Drücken Sie die Eingabetaste.</li>";
-			echo "  </ol>";
-			/*
-			echo "  <h3>Linux mit Nautilus Dateimanager</h3>\n";
-			echo "  <ol>";
-			echo "  <li>Starten Sie den Nautilus Dateimanager.</li>";
-			echo "  <li>Geben Sie folgende Adresse ein:<br>";
-			echo "<b>".$nautilusUri.$fullPath."</b>";
-			echo "</li>";
-			echo "  <li>Drücken Sie die Eingabetaste.</li>";
-			echo "  </ol>";
-			*/
-		}
+
+		echo ilDAVServer::_getWebfolderInstructionsFor($webfolderTitle, 
+			$webfolderURI, $webfolderURI_IE, $webfolderURI_Konqueror, $webfolderURI_Nautilus,
+			$this->clientOS);
+
 		echo "  </body>\n";
 		echo "</html>\n";
-		
 		exit;
 	}
 	/**
@@ -705,8 +643,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		
 		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		echo "<html><head>\n";
-		//echo "<title>Index of \"$path\"</title>\n";
-		echo "<title>Inhalt von \"$path\"</title>\n";
+		echo "<title>".sprintf($lng->txt('webfolder_index_of'), $path)."</title>\n";
 		
 		// Create "anchorClick" behaviour for for Internet Explorer
 		// This allows to create a link to a webfolder
@@ -719,9 +656,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		echo "</style>\n";
 		
 		echo "</head><body>\n";
-		
-		//echo "<h3>Index of \"";
-		echo "<h3>Inhalt von \"";
+
+		$hrefPath = '';
 		$pathComponents = explode('/',$path);
 		$uriComponents = array();
 		foreach ($pathComponents as $component)
@@ -732,23 +668,23 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$displayName = htmlspecialchars($pathComponents[$i]);
 			if ($i != 0) {
-				echo '/';
+				$hrefPath .= '/';
 			}
 			$uriPath = implode('/', array_slice($uriComponents,0,$i + 1));
-			echo '<a href="'.$this->base_uri.$uriPath.'/">'.$displayName.'</a>';
+			$hrefPath .= '<a href="'.$this->base_uri.$uriPath.'/">'.$displayName.'</a>';
 		}
-		echo "\"</h3>\n";
+		echo "<h3>".sprintf($lng->txt('webfolder_index_of'), $hrefPath)."</h3>\n";
 	    
 		// Display user id
 		if ($ilias->account->getLogin() == 'anonymous')
 		{
 			echo "<p><font size=\"-1\">".$lng->txt('not_logged_in')."</font><br>\n";
 		} else {
-			echo "<p><font size=\"-1\">".$lng->txt('login_as')." "
+			echo "<p><font size=\"-1\">".$lng->txt('login_as')." <i>"
 				.$ilias->account->getFirstname().' '
 				.$ilias->account->getLastname().' '
-				.'"'.$ilias->account->getLogin().'"'
-				.', '.$lng->txt('client').' "'.$ilias->getClientId().'".'
+				.' '.$ilias->account->getLogin().'</i> '
+				.', '.$lng->txt('client').' <i>'.$ilias->getClientId().'</i>.'
 				."</font><p>\n";
 		}
 		
@@ -1922,83 +1858,89 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	}
 
 	/**
-	* Gets the default WebDAV mount instructions.
+	* Gets instructions for the usage of webfolders.
+	*
+	* The instructions consist of HTML text with placeholders.
+	* See _getWebfolderInstructionsFor for a description of the supported
+	* placeholders.
 	*
 	* @return String HTML text with placeholders.
 	*/
-	public static function _getDefaultWebfolderMountInstructions() 
+	public static function _getDefaultWebfolderInstructions() 
 	{
-		$default_instructions =
-			"<p>Follow the instructions below, to open \"[WEBFOLDER_TITLE]\" as a webfolder:</p>\n"
-			."[IF_WINDOWS]\n"
-			."<h2>Instructions for Windows XP with Internet Explorer</h2>\n"
-			."<ol>\n"
-			."<li>Start Internet Explorer</li>\n"
-			."<li>Choose the menu 'File &gt; Open...'</li>\n"
-			."<li>In the 'Open' field enter the following address:<br/>\n"
-			."<b>[WEBFOLDER_URL]</b></li>\n"
-			."<li>Select the 'Open as web-folder' option, then select 'OK'.</li>\n"
-			."<li>Enter your login and password, and select 'OK'.</li>\n"
-			."</ol>\n"
-			."<h2>Instructions for Windows XP without Internet Explorer</h2>\n"
-			."<ol>\n"
-			."<li>Double-click the 'My Network Places' icon on the Desktop.</li>\n"
-			."<li>Click on Add Network Place from the Network Tasks menu on the left side of the window.</li>\n"
-			."<li>The Add a Network Place wizard will open, select Next.</li>\n"
-			."<li>Select the Choose Another Network Location option, and select Next.\n"
-			."<li>In the Internet or Network Address field enter<br/>
-					<b>[WEBFOLDER_URL]</b><br/>then select Next.</li>\n"
-			."<li>Enter your login and password, and select OK.</li>\n"
-			."</ol>\n"
-			."[/IF_WINDOWS]\n"
-			."[IF_MAC]\n"
-			."<h2>Instructions for Mac OS X</h2>\n"
-			."<ol>\n"
-			."<li>Open the Finder</li>\n"
-			."<li>Choose the menu Go &gt; Connect to server...</li>\n"
-			."<li>In the address field enter the following address:<br/>\n"
-			."<b>[WEBFOLDER_URL]</b></li>\n"
-			."<li>Select Connect.</li>\n"
-			."<li>Enter your login and password, and select OK.</li>\n"
-			."</ol>\n"
-			."[/IF_MAC]\n"
-			."[IF_LINUX]\n"
-			."<h2>Instructions for Linux</h2>\n"
-			."<ol>\n"
-			."<li>Start the Konqueror browser</li>\n"
-			."<li>In the address field enter the following address:<br/>\n"
-			."<b>[WEBFOLDER_URL]</b></li>\n"
-			."<li>Press the Enter key.</li>\n"
-			."<li>Enter your login and password, and select OK.</li>\n"
-			."</ol>\n"
-			."[/IF_LINUX]\n"
-			."<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>\n"
-			;
-		return $default_instructions;
+		global $lng;
+		return $lng->txt('webfolder_instructions_text');
 	}
 
 	/**
 	* Gets Webfolder mount instructions for the specified webfolder.
 	*
+	*
+	* The following placeholders are currently supported:
+	*
+	* [WEBFOLDER_TITLE] - the title of the webfolder
+	* [WEBFOLDER_URI] - the URL for mounting the webfolder with standard 
+	*                   compliant WebDAV clients
+	* [WEBFOLDER_URI_IE] - the URL for mounting the webfolder with Internet Explorer
+	* [WEBFOLDER_URI_KONQUEROR] - the URL for mounting the webfolder with Konqueror
+	* [WEBFOLDER_URI_NAUTILUS] - the URL for mounting the webfolder with Nautilus
+	* [IF_WINDOWS]...[/IF_WINDOWS] - conditional contents, with instructions for Windows
+	* [IF_MAC]...[/IF_MAC] - conditional contents, with instructions for Mac OS X
+	* [IF_LINUX]...[/IF_LINUX] - conditional contents, with instructions for Linux
+	* [ADMIN_MAIL] - the mailbox address of the system administrator
+
 	* @param String Title of the webfolder
-	* @param String Mount URL of the webfolder
-	* @param String Operating system: 'WINDOWS', 'MAC', 'LINUX' or 'UNKNOWN'.
+	* @param String Mount URI of the webfolder for standards compliant WebDAV clients
+	* @param String Mount URI of the webfolder for IE
+	* @param String Mount URI of the webfolder for Konqueror
+	* @param String Mount URI of the webfolder for Nautilus
+	* @param String Operating system: 'windows', 'unix' or 'unknown'.
+	* @param String Operating system flavor: 'xp', 'vista', 'osx', 'linux' or 'unknown'.
 	* @return String HTML text.
 	*/
-	public static function _getWebfolderMountInstructionsFor($webfolderTitle, $webfolderURL, $operatingSystem = 'UNKNOWN') 
+	public static function _getWebfolderInstructionsFor($webfolderTitle, 
+			$webfolderURI, $webfolderURI_IE, $webfolderURI_Konqueror, $webfolderURI_Nautilus,
+			$os = 'unknown', $osFlavor = 'unknown') 
 	{
 		global $ilSetting;
 
 		$settings = new ilSetting('file_access');
-		$str = $settings->get('webfolder_mount_instructions', '');
-		if (strlen($str) == 0)	
+		$str = $settings->get('custom_webfolder_instructions', '');
+		if (strlen($str) == 0 || ! $settings->get('custom_webfolder_instructions_enabled'))	
 		{
-			$str = ilObjFileAccessSettings::_getDefaultWebfolderMountInstructions();
+			$str = ilDAVServer::_getDefaultWebfolderInstructions();
 		}
 
 		$str = str_replace("[WEBFOLDER_TITLE]", $webfolderTitle, $str);
-		$str = str_replace("[WEBFOLDER_URL]", $webfolderURL, $str);
+		$str = str_replace("[WEBFOLDER_URI]", $webfolderURI, $str);
+		$str = str_replace("[WEBFOLDER_URI_IE]", $webfolderURI_IE, $str);
+		$str = str_replace("[WEBFOLDER_URI_KONQUEROR]", $webfolderURI_Konqueror, $str);
+		$str = str_replace("[WEBFOLDER_URI_NAUTILUS]", $webfolderURI_Nautilus, $str);
 		$str = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"), $str);
+
+		switch ($os)
+		{
+			case 'windows' :
+				$operatingSystem = 'WINDOWS';
+				break;
+			case 'unix' :
+				switch ($osFlavor)
+				{
+					case 'osx' :
+						$operatingSystem = 'MAC';
+						break;
+					case 'linux' :
+						$operatingSystem = 'LINUX';
+						break;
+					default :
+						$operatingSystem = 'LINUX';
+						break;
+				}
+				break;
+			default :
+				$operatingSystem = 'UNKNOWN';
+				break;
+		}
 
 		if ($operatingSystem != 'UNKNOWN')
 		{

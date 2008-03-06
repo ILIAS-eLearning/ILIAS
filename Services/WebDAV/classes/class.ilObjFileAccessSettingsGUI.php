@@ -126,41 +126,53 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
-		global $tpl, $ilCtrl, $lng;
-		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		global $tpl, $ilCtrl, $lng, $tree;
+
+		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+		require_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
+		require_once("./Services/Form/classes/class.ilRadioOption.php");
+		require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
+		require_once("./Services/WebDAV/classes/class.ilDAVServer.php");
+
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("settings"));
+
+		$ilDAVServer = new ilDAVServer();
 		
 		// Enable webdav
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
 		$cb_prop->setValue('1');
 		$cb_prop->setChecked($this->object->isWebdavEnabled());
-		$cb_prop->setInfo($lng->txt("enable_webdav_info"));
+		$cb_prop->setInfo(sprintf($lng->txt("enable_webdav_info"),$ilDAVServer->getMountURI($tree->getRootId())));
 		$form->addItem($cb_prop);
 
 		// Webdav help text
-		$tai_prop = new ilTextAreaInputGUI($lng->txt("webfolder_mount_instructions"), "webfolder_mount_instructions");
-		$tai_prop->setValue($this->object->getWebfolderMountInstructions());
-		$tai_prop->setInfo($lng->txt("webfolder_mount_instructions_info"));
-		//$tai_prop->setInfo(ilObjFileAccessSettings::_getWebfolderMountInstructionsFor("Baba","http:\\baba","WINDOWS"));
+		$rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
+		$rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
+		$rgi_prop->addOption(new ilRadioOption($lng->txt('use_customized_instructions'), 'custom'));
+		$rgi_prop->setValue($this->object->isCustomWebfolderInstructionsEnabled() ? 'custom':'default');
+		$form->addItem($rgi_prop);
+		$tai_prop = new ilTextAreaInputGUI('', 'custom_webfolder_instructions');
+		$tai_prop->setValue($this->object->getCustomWebfolderInstructions());
+		$tai_prop->setInfo($lng->txt("webfolder_instructions_info"));
 		$tai_prop->setCols(80);
 		$tai_prop->setRows(20);
 		$form->addItem($tai_prop);
 
 		// Inline file extensions
-		$tai_prop = new ilTextAreaInputGUI($lng->txt("inline_file_extensions"), "inline_file_extensions");
+		$tai_prop = new ilTextAreaInputGUI($lng->txt('inline_file_extensions'), 'inline_file_extensions');
 		$tai_prop->setValue($this->object->getInlineFileExtensions());
-		$tai_prop->setInfo($lng->txt("inline_file_extensions_info"));
+		$tai_prop->setInfo($lng->txt('inline_file_extensions_info'));
 		$tai_prop->setCols(80);
 		$tai_prop->setRows(5);
 		$form->addItem($tai_prop);
 
 
 		// command buttons
-		$form->addCommandButton("saveSettings", $lng->txt("save"));
-		$form->addCommandButton("view", $lng->txt("cancel"));
+		$form->addCommandButton('saveSettings', $lng->txt('save'));
+		$form->addCommandButton('view', $lng->txt('cancel'));
 
 		$tpl->setContent($form->getHTML());
 	}
@@ -178,12 +190,23 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 
 		$this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
-		$this->object->setWebfolderMountInstructions($_POST['webfolder_mount_instructions']);
+		$this->object->setCustomWebfolderInstructionsEnabled($_POST['custom_webfolder_instructions_choice']=='custom');
+		$this->object->setCustomWebfolderInstructions($_POST['custom_webfolder_instructions']);
 		$this->object->setInlineFileExtensions($_POST['inline_file_extensions']);
 		$this->object->update();
 
 		$this->editSettings();
 	}
+
+	/**
+	* called by prepare output
+	*/
+	function setTitleAndDescription()
+	{
+		parent::setTitleAndDescription();
+		$this->tpl->setDescription($this->object->getDescription());
+	}
+	
 } 
 // END WebDAV
 ?>
