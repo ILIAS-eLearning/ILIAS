@@ -7826,6 +7826,7 @@ common#:#inline_file_extensions#:#Im Browser anzeigbare Dateien
 common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 pdf png</b><br/> Alle übrigen Dateien werden zum Herunterladen angeboten. 
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">anderem Browser</a>.
+common#:#deleted_user_account#:#Gelöschtes Benutzerkonto
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_timezone#:#Zeitzone
 dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.

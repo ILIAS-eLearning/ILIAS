@@ -370,6 +370,18 @@ class ilObjFolderGUI extends ilContainerGUI
 				array("", "view", "cciMove", "enableAdministrationPanel", 
 					"disableAdministrationPanel", "render"), 
 				get_class($this));
+
+			//BEGIN ChangeEvent add info tab to category object
+			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTargetByClass(
+				 array("ilobjcategorygui", "ilinfoscreengui"), "showSummary"),
+				 array("showSummary","", "infoScreen"),
+				 "", "", $force_active);
+			//END ChangeEvent add info tab to category object
 		}
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))

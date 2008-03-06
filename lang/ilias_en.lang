@@ -7922,6 +7922,7 @@ common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.
+common#:#deleted_user_account#:#Deleted user account
 dateplaner#:#cal_user_settings#:#Calendar Settings
 dateplaner#:#cal_user_timezone#:#Timezone
 dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.
