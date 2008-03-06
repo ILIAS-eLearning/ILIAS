@@ -91,9 +91,6 @@ class ilCalendarUtil
 		$days_in_month = self::_getMaxDayOfMonth($a_year,$a_month);
 		$days_in_prev_month = self::_getMaxDayOfMonth($a_year,$prev_month);
 
-		#$days_in_month = cal_days_in_month(CAL_GREGORIAN,$a_month,$a_year);
-		#$days_in_prev_month = cal_days_in_month(CAL_GREGORIAN,$prev_month,$a_year);
-		
 		$first_day_offset = ($o = date('w',gmmktime(0,0,0,$a_month,1,$a_year))) == 0 ? 6 : ($o - 1);
 		
 		for($i = 0;$i < 42;$i++)

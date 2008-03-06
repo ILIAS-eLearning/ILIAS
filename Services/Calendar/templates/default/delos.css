@@ -40,11 +40,41 @@ td.calstd {
 	border-color:#9EADBA;
 }
 
+td.calnow {
+	vertical-align: top;
+	background-color:#FFE79C;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+
+td.calnext { 
+	vertical-align: top;
+	background-color:#EDEDED;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+
+td.calprev {
+	vertical-align: top;
+	background-color:#EDEDED;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+
 p.il_calevent {
 	color:white;
 	margin-left: 5px;
 	margin-right: 5px;
-	font-size:80%;
+	font-size:75%;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:2px;
@@ -52,11 +82,11 @@ p.il_calevent {
 	border-color:grey;
 }
 
-p.il_monthday {
-	margin-top: 2px;
-	margin-left: 2px;
-	text-align:left;
+p.il_cal_monthday {
+	margin-left: 4px;
 	font-weight: bold;
-	padding: 1px;
-	spacing: 1px;
+}
+
+p.il_cal_navigation {
+	margin-right: 4px;
 }

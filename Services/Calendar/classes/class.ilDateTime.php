@@ -136,24 +136,57 @@ class ilDateTime
 	 *
 	 * @param object ilDateTime
 	 * @param object ilDateTime
+	 * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is one or more years earlier than end 
 	 * @return bool 
 	 */
-	public static function _before(ilDateTime $start,ilDateTime $end)
+	public static function _before(ilDateTime $start,ilDateTime $end,$a_compare_field = '')
 	{
-		return $start->get(IL_CAL_UNIX) < $end->get(IL_CAL_UNIX);
+		switch($a_compare_field)
+		{
+			case IL_CAL_YEAR:
+				return $start->get(IL_CAL_FKT_DATE,'Y') < $end->get(IL_CAL_FKT_DATE,'Y');
+				
+			case IL_CAL_MONTH:
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym') < $end->get(IL_CAL_FKT_DATE,'Ym');
+			
+			case IL_CAL_DAY:
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd') < $end->get(IL_CAL_FKT_DATE,'Ymd');
+
+			case '':
+			default:
+				return $start->get(IL_CAL_UNIX) < $end->get(IL_CAL_UNIX);
+			
+		}
 	}
 	
 	/**
+	 * Check if two date are equal
 	 * 
-	 *
 	 * @access public
 	 * @static
 	 *
-	 * @param
+	 * @param object ilDateTime
+	 * @param object ilDateTime
+	 * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is the same years than end 
 	 */
-	public static function _equals(ilDateTime $start,ilDateTime $end)
+	public static function _equals(ilDateTime $start,ilDateTime $end,$a_compare_field = '')
 	{
-		return $start->get(IL_CAL_UNIX) == $end->get(IL_CAL_UNIX);
+		switch($a_compare_field)
+		{
+			case IL_CAL_YEAR:
+				return $start->get(IL_CAL_FKT_DATE,'Y') == $end->get(IL_CAL_FKT_DATE,'Y');
+
+			case IL_CAL_MONTH:
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym') == $end->get(IL_CAL_FKT_DATE,'Ym');
+
+			case IL_CAL_DAY:
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd') == $end->get(IL_CAL_FKT_DATE,'Ymd');
+
+			case '':
+			default:
+				return $start->get(IL_CAL_UNIX) == $end->get(IL_CAL_UNIX);
+			
+		}
 	}
 
 	/**
@@ -164,11 +197,27 @@ class ilDateTime
 	 * @access public
 	 * @param object ilDateTime
 	 * @param object ilDateTime 
-	 * 
+	 * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is one or more years after than end 
+	 * @static
 	 */
-	public function _after(ilDateTime $start,ilDateTime $end)
+	public static function _after(ilDateTime $start,ilDateTime $end,$a_compare_field = '')
 	{
-		return $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX);
+		switch($a_compare_field)
+		{
+			case IL_CAL_YEAR:
+				return $start->get(IL_CAL_FKT_DATE,'Y') > $end->get(IL_CAL_FKT_DATE,'Y');
+
+			case IL_CAL_MONTH:
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym') > $end->get(IL_CAL_FKT_DATE,'Ym');
+
+			case IL_CAL_DAY:
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd') > $end->get(IL_CAL_FKT_DATE,'Ymd');
+
+			case '':
+			default:
+				return $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX);
+			
+		}
 	}
 	
 	/**
