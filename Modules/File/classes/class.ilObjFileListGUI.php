@@ -149,7 +149,9 @@ class ilObjFileListGUI extends ilObjectListGUI
 	{
 		global $lng, $ilUser;
 
-		$props = array();
+		// BEGIN WebDAV: Get parent properties
+		$props = parent::getProperties();
+		// END WebDAV: Get parent properties
 
 		// to do: implement extra smaller file info object
 		include_once("./Modules/File/classes/class.ilObjFileAccess.php");

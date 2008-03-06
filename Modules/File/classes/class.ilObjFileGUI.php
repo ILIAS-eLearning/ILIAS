@@ -343,17 +343,17 @@ class ilObjFileGUI extends ilObjectGUI
 			{
 				// BEGIN WebDAV: Enforce filename extension in object title.
 				// If the file extension does not match the one in the title, append it to the title
-				$fileExtension = ilObjFileAccess::_getFileExtension($data["name"]["file"]);
-				$titleExtension = ilObjFileAccess::_getFileExtension($_POST['Fobject']['title']);
+				$fileExtension = ilObjFileAccess::_getFileExtension($upload_file["name"]);
+				$titleExtension = ilObjFileAccess::_getFileExtension($title);
 				if ($titleExtension != $fileExtension)
 				{
 					if (strlen($titleExtension) == 0)
 					{
-						$_POST['Fobject']['title'] .= (substr($_POST['Fobject']['title'], -1) == '.') ? $fileExtension : '.'.$fileExtension;
+						$title .= (substr($_POST['Fobject']['title'], -1) == '.') ? $fileExtension : '.'.$fileExtension;
 					}
 					else
 					{
-						$_POST['Fobject']['title'] = substr($_POST['Fobject']['title'], -strlen($titleExtension)).$fileExtension;
+						$title = substr($_POST['Fobject']['title'], -strlen($titleExtension)).'.'.$fileExtension;
 					}
 				}
 				// END WebDAV: Enforce filename extension in object title.

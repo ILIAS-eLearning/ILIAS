@@ -1443,7 +1443,9 @@ class ilContainerGUI extends ilObjectGUI
 
 		////////////////////////////
 		// process checking results
-		if (count($exists))
+		// BEGIN WebDAV: Copying an object into the same container is allowed
+		if (count($exists) && $_SESSION["clipboard"]["cmd"] != "copy")
+		// END WebDAV: Copying an object into the same container is allowed
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1476,7 +1478,7 @@ class ilContainerGUI extends ilObjectGUI
 		$ref_ids = $_SESSION["clipboard"]["ref_ids"];
 		unset($_SESSION["clipboard"]["ref_ids"]);
 
-		// BEGIN WebDAV: Support a Copy command in the repository
+		// BEGIN WebDAV: Support a copy command in the repository
 		// process COPY command
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
 		{
@@ -1666,7 +1668,7 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("msg_cut_copied"),true);
 		}
-		// BEGIN WebDAV: Support copy command in repository
+		// BEGIN WebDAV: Support a copy command in repository
 		else if ($last_cmd == "copy")
 		{
 			ilUtil::sendInfo($this->lng->txt("msg_copied"),true);
@@ -1681,7 +1683,7 @@ class ilContainerGUI extends ilObjectGUI
 
 	} // END PASTE
 
-	// BEGIN WebDAV: Support copy command in repository
+	// BEGIN WebDAV: Support a copy command in repository
 	/**
 	* copy object(s) out from a container and write the information to clipboard
 	*
@@ -1720,7 +1722,7 @@ class ilContainerGUI extends ilObjectGUI
 					continue;
 				}
 				
-				if (!$rbacsystem->checkAccess('view,read',$node["ref_id"]))
+				if (!$rbacsystem->checkAccess('visible,read,edit_permission',$node["ref_id"]))
 				{
 					$no_copy[] = $node["ref_id"];
 				}
