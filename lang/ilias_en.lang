@@ -7919,3 +7919,13 @@ common#:#inline_file_extensions#:#Extensions of web-enabled files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg jpeg mp3 mp4 m4a m4v pdf png swf<</b><br/>. All other files are offered for downloading.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1s">instructions for opening webfolders</a>.
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1s">Internet Explorer</a>, <a href="%2s">Konqueror</a>, <a href="%3s">other Browser</a>.
+dateplaner#:#cal_user_settings#:#Calendar Settings
+dateplaner#:#cal_user_timezone#:#Timezone
+dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.
+dateplaner#:#cal_week_start#:#Week Start
+dateplaner#:#cal_global_settings#:#Global Settings
+dateplaner#:#cal_server_tz#:#Server Timezone
+dateplaner#:#cal_def_timezone#:#Default Timezone
+dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
+dateplaner#:#cal_def_week_start#:#Week Start
+common#:#obj_cals#:#Calendar

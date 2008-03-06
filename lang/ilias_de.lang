@@ -7823,3 +7823,12 @@ common#:#inline_file_extensions#:#Endungen von webfähigen Dateien
 common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 mp4 m4a m4v pdf png swf</b><br/>. Alle übrigen Dateien werden zum Herunterladen angeboten. 
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1s">Anleitung zum Öffnen von Webordnern</a>.
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1s">Internet Explorer</a>, <a href="%2s">Konqueror</a>, <a href="%3s">anderem Browser</a>.
+dateplaner#:#cal_user_settings#:#Kalendereinstellungen
+dateplaner#:#cal_user_timezone#:#Zeitzone
+dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
+dateplaner#:#cal_week_start#:#Wochenbeginn
+dateplaner#:#cal_global_settings#:#Globale Einstellungen
+dateplaner#:#cal_server_tz#:#Server-Zeitzone
+dateplaner#:#cal_def_timezone#:#Default-Zeitzone
+dateplaner#:#cal_def_timezone_info#:#Bitte wählen Sie eine Zeitzone für die Anzeige von Terminen aus.
+dateplaner#:#cal_def_week_start#:#Wochenbeginn
