@@ -3495,3 +3495,7 @@ VALUES ('file_access', 'inline_file_extensions', 'gif jpg jpeg mp3 mp4 m4a m4v p
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1179>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

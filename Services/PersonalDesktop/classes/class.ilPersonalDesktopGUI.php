@@ -33,7 +33,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI, ilPaymentGUI, ilPaymentAdminGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -149,12 +149,12 @@ class ilPersonalDesktopGUI
 				$ret =& $this->ctrl->forwardCommand($user_gui);
 				break;
 			
-			case 'ilcalendargui':
+			case 'ilcalendarpresentationgui':
 				$this->getStandardTemplates();
 				$this->displayHeader();
 				$this->setTabs();
-				include_once('./Services/Calendar/classes/class.ilCalendarGUI.php');
-				$cal = new ilCalendarGUI();
+				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
+				$cal = new ilCalendarPresentationGUI();
 				$ret = $this->ctrl->forwardCommand($cal);
 				$this->tpl->show();
 				break;
@@ -562,12 +562,12 @@ class ilPersonalDesktopGUI
 			$settings = ilCalendarSettings::_getInstance();
 			if($settings->isEnabled())
 			{
-				$inc_type = ($ilCtrl->getNextClass() == "ilcalendargui")
+				$inc_type = ($ilCtrl->getNextClass() == "ilcalendarpresentationgui")
 					? "tabactive"
 					: "tabinactive";
 					
 				$inhalt1[] = array($inc_type,
-					$this->ctrl->getLinkTargetByClass("ilcalendargui"),
+					$this->ctrl->getLinkTargetByClass("ilcalendarpresentationgui"),
 					$this->lng->txt("calendar"));
 			}
 

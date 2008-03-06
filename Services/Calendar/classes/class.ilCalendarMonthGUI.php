@@ -31,19 +31,19 @@ include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php'
 * @version $Id$
 * 
 * 
-* @ilCtrl_IsCalledBy ilCalendarMonthBlockGUI: ilColumnGUI
+* @ilCtrl_IsCalledBy ilCalendarMonthGUI:
 * @ingroup ServicesCalendar 
 */
 
-include_once('Services/Block/classes/class.ilBlockGUI.php');
 
-class ilCalendarMonthBlockGUI extends ilBlockGUI
+class ilCalendarMonthGUI
 {
-	public static $block_type = 'cal';
-	
+	protected $seed = null;
+
 	protected $lng;
 	protected $ctrl;
 	protected $tabs_gui;
+	protected $tpl;
 	
 	protected $timezone = 'UTC';
 
@@ -54,53 +54,19 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 	 * @param
 	 * 
 	 */
-	public function __construct()
+	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs;
+		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
 		
-		parent::ilBlockGUI();
-		
-		$this->seed = new ilDate($_GET['seed'] ? $_GET['seed'] : date('Y-m-d',time()),IL_CAL_DATE);
+		$this->seed = $seed_date;
 
+		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->tabs_gui->setSubTabActive('app_month');
 		
 		$this->timezone = $ilUser->getUserTimeZone();
-		
-		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));
-		$this->setTitle($lng->txt('app_month'));
-		$this->setEnableNumInfo(false);
-		$this->setLimit(99999);
-		$this->setColSpan(10);
-		$this->setBigMode(true);
-		$this->allow_moving = false;
-	}
-	
-	/**
-	 * get block type
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param
-	 */
-	public static function getBlockType()
-	{
-		return self::$block_type;
-	}
-	
-	/**
-	 * is repository object
-	 *
-	 * @access public
-	 * @static
-	 *
-	 */
-	public static function isRepositoryObject()
-	{
-		return false;
 	}
 	
 	/**
@@ -114,9 +80,15 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass();
-		$cmd = $ilCtrl->getCmd("getHTML");
-
-		return $this->$cmd();
+		switch($next_class)
+		{
+			
+			default:
+				$cmd = $this->ctrl->getCmd("show");
+				$this->$cmd();
+				break;
+		}
+		return true;
 	}
 	
 	/**
@@ -125,18 +97,18 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 	 * @access public
 	 * 
 	 */
-	public function fillDataSection()
+	public function show()
 	{
-		$tpl = new ilTemplate('tpl.month_view.html',true,true,'Services/Calendar');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.month_view.html','Services/Calendar');
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::MONTH);
-		$tpl->setVariable('NAVIGATION',$navigation->getHTML());
+		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
 		
 		for($i = 1;$i < 8;$i++)
 		{
-			$tpl->setCurrentBlock('month_header_col');
-			$tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,true));
-			$tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock('month_header_col');
+			$this->tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,true));
+			$this->tpl->parseCurrentBlock();
 		}
 		
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
@@ -149,9 +121,27 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 		{
 			$counter++;
 			
-			$this->showEvents($tpl,$date);
+			$this->showEvents($date);
 			
-			$tpl->setCurrentBlock('month_col');
+			$this->tpl->setCurrentBlock('month_col');
+			
+			if(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
+			{
+				$this->tpl->setVariable('TD_CLASS','calnow');
+			}
+			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_MONTH))
+			{
+				$this->tpl->setVariable('TD_CLASS','calstd');
+			}
+			elseif(ilDateTime::_before($date,$this->seed,IL_CAL_MONTH))
+			{
+				$this->tpl->setVariable('TD_CLASS','calprev');
+			}
+			else
+			{
+				$this->tpl->setVariable('TD_CLASS','calnext');
+			}
+			
 			$day = $date->get(IL_CAL_FKT_DATE,'j');
 			$month = $date->get(IL_CAL_FKT_DATE,'n');
 			
@@ -164,20 +154,18 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 				$month_day = $day;
 			}
 			
-			$tpl->setVariable('MONTH_DAY',$month_day);
-			$tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
-			$tpl->setVariable('OPEN_SRC',ilUtil::getImagePath('open.gif','calendar'));
-			$tpl->parseCurrentBlock();
+			$this->tpl->setVariable('MONTH_DAY',$month_day);
+			$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
+			$this->tpl->setVariable('OPEN_SRC',ilUtil::getImagePath('open.gif','calendar'));
+			$this->tpl->parseCurrentBlock();
 			
 			
 			if($counter and !($counter % 7))
 			{
-				$tpl->setCurrentBlock('month_row');
-				$tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock('month_row');
+				$this->tpl->parseCurrentBlock();
 			}
 		}
-		$this->setDataSection($tpl->get());
-		
 	}
 	
 	/**
@@ -186,11 +174,11 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 	 *
 	 * @access protected
 	 */
-	protected function showEvents($a_tpl,ilDate $date)
+	protected function showEvents(ilDate $date)
 	{
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
-			$a_tpl->setCurrentBlock('il_event');
+			$this->tpl->setCurrentBlock('il_event');
 			
 			if($item['event']->isFullDay())
 			{
@@ -201,8 +189,8 @@ class ilCalendarMonthBlockGUI extends ilBlockGUI
 				$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 				$title .= (' '.$item['event']->getTitle());
 			}
-			$a_tpl->setVariable('EVENT_TITLE',$title);
-			$a_tpl->parseCurrentBlock();
+			$this->tpl->setVariable('EVENT_TITLE',$title);
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 	

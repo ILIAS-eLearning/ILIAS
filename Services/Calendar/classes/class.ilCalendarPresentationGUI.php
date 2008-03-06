@@ -27,11 +27,11 @@
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilCalendarGUI: ilCalendarMonthBlockGUI, ilCalendarUserSettingsBlockGUI
+* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI
 * @ingroup ServicesCalendar
 */
 
-class ilCalendarGUI
+class ilCalendarPresentationGUI
 {
 	protected $ctrl;
 	protected $lng;
@@ -70,11 +70,20 @@ class ilCalendarGUI
 		global $ilUser, $ilSetting;
 
 
+		$this->initSeed();
 		$this->prepareOutput();
-		$next_class = $this->ctrl->getNextClass();
+		$next_class = $this->getNextClass();
 
 		switch($next_class)
 		{
+			case 'ilcalendarmonthgui':
+				$this->tabs_gui->setSubTabActive('app_month');
+				$this->setCmdClass('ilcalendarmonthgui');
+					
+				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
+				$month_gui = new ilCalendarMonthGUI($this->seed);
+				$this->ctrl->forwardCommand($month_gui);
+				break;
 			
 			default:
 				$cmd = $this->ctrl->getCmd("show");
@@ -84,6 +93,27 @@ class ilCalendarGUI
 		return true;
 	}
 	
+	/**
+	 * get next class
+	 *
+	 * @access public
+	 */
+	public function getNextClass()
+	{
+		return 'ilcalendarmonthgui';
+	}
+	
+	public function setCmdClass($a_class)
+	{
+		// If cmd class == 'ilcalendarpresentationgui' the cmd class is set to the the new forwarded class
+		// otherwise e.g ilcalendarmonthgui tries to forward (back) to ilcalendargui.
+
+		if($this->ctrl->getCmdClass() == strtolower(get_class($this)))
+		{
+			$this->ctrl->setCmdClass(strtolower($a_class));
+		}
+		return true;
+	}
 	
 	
 	/**
@@ -96,53 +126,8 @@ class ilCalendarGUI
 	public function show()
 	{
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
-		$this->tpl->setContent($this->getCenterColumnHTML());
 	}
 	
-	/**
-	* Display center column
-	*/
-	function getCenterColumnHTML()
-	{
-		global $ilCtrl;
-		
-		include_once("Services/Block/classes/class.ilColumnGUI.php");
-		$column_gui = new ilColumnGUI("cal", IL_COL_CENTER);
-		$column_gui->setEnableMovement(false);
-		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
-			$column_gui->getCmdSide() == IL_COL_CENTER)
-		{
-			$html = $ilCtrl->forwardCommand($column_gui);
-		}
-		else
-		{
-			if (!$ilCtrl->isAsynch())
-			{
-				if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
-				{
-					// right column wants center
-					if ($column_gui->getCmdSide() == IL_COL_RIGHT)
-					{
-						$column_gui = new ilColumnGUI("cal", IL_COL_RIGHT);
-						$column_gui->setEnableMovement(false);
-						$html = $ilCtrl->forwardCommand($column_gui);
-					}
-					// left column wants center
-					if ($column_gui->getCmdSide() == IL_COL_LEFT)
-					{
-						$column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
-						$column_gui->setEnableMovement(false);
-						$html = $ilCtrl->forwardCommand($column_gui);
-					}
-				}
-				else
-				{
-					$html = $ilCtrl->getHTML($column_gui);
-				}
-			}
-		}
-		return $html;
-	}
 	
 	/**
 	 * get tabs
@@ -151,9 +136,20 @@ class ilCalendarGUI
 	 */
 	protected function prepareOutput()
 	{
-		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthBlockGUI',''));
+		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
 		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsBlockGUI',''));
 	}
+	
+	/**
+	 * init the seed date for presentations (month view, minicalendar)
+	 *
+	 * @access public
+	 */
+	public function initSeed()
+	{
+		include_once('Services/Calendar/classes/class.ilDate.php');
+		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(time(),IL_CAL_UNIX);
+ 	}
 	
 }
 ?>
