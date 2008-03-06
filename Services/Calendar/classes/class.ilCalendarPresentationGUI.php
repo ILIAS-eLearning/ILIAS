@@ -84,6 +84,15 @@ class ilCalendarPresentationGUI
 				$month_gui = new ilCalendarMonthGUI($this->seed);
 				$this->ctrl->forwardCommand($month_gui);
 				break;
+				
+			case 'ilcalendarusersettingsgui':
+				$this->tabs_gui->setSubTabActive('properties');
+				$this->setCmdClass('ilcalendarusersettingsgui');
+				
+				include_once('./Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php');
+				$user_settings = new ilCalendarUserSettingsGUI();
+				$this->ctrl->forwardCommand($user_settings);
+				break;
 			
 			default:
 				$cmd = $this->ctrl->getCmd("show");
@@ -100,6 +109,10 @@ class ilCalendarPresentationGUI
 	 */
 	public function getNextClass()
 	{
+		if(strlen($next_class = $this->ctrl->getNextClass()))
+		{
+			return $next_class;
+		}
 		return 'ilcalendarmonthgui';
 	}
 	
@@ -137,7 +150,7 @@ class ilCalendarPresentationGUI
 	protected function prepareOutput()
 	{
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
-		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsBlockGUI',''));
+		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}
 	
 	/**
