@@ -148,7 +148,7 @@ class ilCalendarRecurrenceCalculator
 	 	while(true);
 
 		$this->valid_dates->sort();
-		
+			
 		// Restore default timezone
 		ilTimeZone::_restoreDefaultTimeZone();
 		
@@ -179,7 +179,6 @@ class ilCalendarRecurrenceCalculator
 			}
 			else
 			{
-				echo $this->recurrence->getTimeZone();
 				$this->period_start->switchTimeZone($this->recurrence->getTimeZone());
 				$this->period_end->switchTimeZone($this->recurrence->getTimeZone());
 				$this->start->switchTimeZone($this->recurrence->getTimeZone());
@@ -216,7 +215,6 @@ class ilCalendarRecurrenceCalculator
 	 		$start = $this->incrementByFrequency($start);
 	 	}
 	 	
-	 	echo "ADJUST: ".(microtime(true) - $time).'<br>';
 	 	return $optimized;
 	}
 	
@@ -641,7 +639,6 @@ class ilCalendarRecurrenceCalculator
 	{
 		if($this->event->isFullday())
 		{
-			echo "hier";
 			return new ilDate($a_date,IL_CAL_UNIX);
 		}
 		else

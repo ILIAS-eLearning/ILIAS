@@ -84,8 +84,11 @@ class ilCalendarMonthGUI
 		{
 			
 			default:
+				$time = microtime(true);
 				$cmd = $this->ctrl->getCmd("show");
 				$this->$cmd();
+				
+				#echo "Zeit: ".(microtime(true) - $time);
 				break;
 		}
 		return true;
