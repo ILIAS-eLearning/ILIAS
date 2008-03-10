@@ -121,11 +121,31 @@ class ilCalendarSchedule
 		$counter = 0;
 		foreach($this->getEvents() as $event)
 		{
-			$this->schedule[$counter]['event'] = $event;
-			$this->schedule[$counter]['dstart'] = $event->getStart()->get(IL_CAL_UNIX);
-			$this->schedule[$counter]['dend'] = $event->getEnd()->get(IL_CAL_UNIX);
-			$this->schedule[$counter]['fullday'] = $event->isFullday();
-			$counter++;
+			// Calculdate recurring events
+			
+			include_once('Services/Calendar/classes/class.ilCalendarRecurrences.php');
+			if($recs = ilCalendarRecurrences::_getRecurrences($event->getEntryId()))
+			{
+				foreach($recs as $rec)
+				{
+					$calc = new ilCalendarRecurrenceCalculator($event,$rec);
+					foreach($calc->calculateDateList($this->start,$this->end)->get() as $rec_date)
+					{
+						$this->schedule[$counter]['event'] = $event;
+						$this->schedule[$counter]['dstart'] = $rec_date->get(IL_CAL_UNIX);
+						$this->schedule[$counter]['fullday'] = $event->isFullday();
+						$counter++;
+					}
+				}
+			}
+			else
+			{
+				$this->schedule[$counter]['event'] = $event;
+				$this->schedule[$counter]['dstart'] = $event->getStart()->get(IL_CAL_UNIX);
+				$this->schedule[$counter]['dend'] = $event->getEnd()->get(IL_CAL_UNIX);
+				$this->schedule[$counter]['fullday'] = $event->isFullday();
+				$counter++;
+			}
 		}
 	}
 	
