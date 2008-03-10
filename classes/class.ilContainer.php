@@ -327,7 +327,7 @@ class ilContainer extends ilObject
 	 * @param array $options
 	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
 	 */
-	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $use_soap = true)
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false)
 	{
 		global $ilLog;
 		
@@ -376,9 +376,8 @@ class ilContainer extends ilObject
 			include_once('./webservice/soap/include/inc.soap_functions.php');
 			$res = ilClone($new_session_id.'::'.$client_id, $copy_id);
 		}
-
 		// Check if copy is in progress or if this has been called by soap (don't wait for finishing)
-		if(ilCopyWizardOptions::_isFinished($copy_id) || $soap_call)
+		if($soap_call || ilCopyWizardOptions::_isFinished($copy_id))
 		{
 			return $res;
 		}
