@@ -1699,9 +1699,9 @@ div.il_editarea_active
 
 div.il_editarea_selected
 {
-	border-style: dashed;
+	border-style: solid;
 	border-width: 2px;
-	border-color: #909090;
+	border-color: #A0A0A0;
 }
 
 div.il_editarea_active_selected

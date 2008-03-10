@@ -1518,11 +1518,52 @@ class ilUtil
 	*/
 	function unzip($a_file, $overwrite = false)
 	{
-		//global $ilias;
-
 		$pathinfo = pathinfo($a_file);
 		$dir = $pathinfo["dirname"];
 		$file = $pathinfo["basename"];
+
+		// use php zip functions, if available
+		if (class_exists("ZipArchive") && version_compare(PHP_VERSION, "5.2.0", ">="))
+		{
+			$zip = zip_open($a_file);
+			while ($zip_entry = zip_read($zip))
+			{
+				$name = zip_entry_name($zip_entry);
+				$entry_pathinfo = pathinfo($name);
+				$entry_dir = $entry_pathinfo["dirname"];
+				$entry_base = $entry_pathinfo["basename"];
+				
+				// If the file is not in the root dir
+				$pos_last_slash = strrpos(zip_entry_name($zip_entry), "/");
+				if ($pos_last_slash !== false)
+				{
+					$directory_path = "";
+					$directories = explode("/",$entry_dir);
+					//array_pop($directories);
+					foreach($directories as $directory)
+					{
+						$directory_path .= $directory."/";
+						ilUtil::makeDir($dir."/".$directory_path);
+					}
+				}
+				zip_entry_open($zip, $zip_entry);
+				if (!file_exists($dir."/".$name) || $overwrite)
+				{
+					if (substr($name, strlen($name) - 1) != "/") // check if it is just an entry for a dir
+					{
+						$fopen = fopen($dir."/".$name, "w");
+						fwrite($fopen, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry)), zip_entry_filesize($zip_entry));
+					}
+				}
+
+				zip_entry_close($zip_entry);
+			}
+			zip_close($zip);
+			return true;
+		}
+		
+		//global $ilias;
+
 
 		// unzip
 		$cdir = getcwd();
@@ -2079,9 +2120,12 @@ class ilUtil
 			}
 			else
 			{
-				$size = filesize($a_dir."/".$entry);
-				$files[$entry] = array("type" => "file", "entry" => $entry,
-				"size" => $size);
+				if ($entry != "." && $entry != "..")
+				{
+					$size = filesize($a_dir."/".$entry);
+					$files[$entry] = array("type" => "file", "entry" => $entry,
+					"size" => $size);
+				}
 			}
 		}
 		ksort($dirs);

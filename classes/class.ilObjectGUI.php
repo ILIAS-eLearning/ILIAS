@@ -725,18 +725,6 @@ class ilObjectGUI
 				ilUtil::sendInfo('Object already deleted.',true);
 				$this->ctrl->returnToParent($this);
 			}
-
-			// BEGIN ChangeEvent: Record delete event.
-			if (ilPlugin::isPluginActive('ilChangeEventPlugin'))
-			{
-				require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
-
-				$obj_data = $this->tree->getNodeData($id);
-				$parent_data = $tree->getParentNodeData($obj_data['ref_id']);
-				ilChangeEvent::_recordWriteEvent($obj_data['obj_id'], $ilUser->getId(), 'delete', 
-					$parent_data['obj_id']);
-			}
-			// END ChangeEvent: Record delete event.
 			
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $this->tree->getNodeData($id);

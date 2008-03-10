@@ -472,7 +472,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		//		$_POST["usedwsiwygeditor"]));
 		$this->updated = $this->content_obj->setText(
 			$this->content_obj->input2xml($_POST["par_content"],
-				$_POST["usedwsiwygeditor"]));
+				$_POST["usedwsiwygeditor"]), true);
 //echo "<br>PARupdate2";
 		if ($this->updated !== true)
 		{
@@ -511,7 +511,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		$this->updated = $this->content_obj->setText(
 			$this->content_obj->input2xml($_POST["par_content"],
-				$_POST["usedwsiwygeditor"]));
+				$_POST["usedwsiwygeditor"]), true);
 
 		if ($this->updated !== true)
 		{
