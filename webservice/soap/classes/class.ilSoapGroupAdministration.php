@@ -77,8 +77,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 		// Start import
 		include_once("./Modules/Group/classes/class.ilObjGroup.php");
-		include_once 'classes/class.ilGroupImportParser.php';
-		$xml_parser = new ilGroupImportParser($grp_xml,$target_id);
+		include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
+		$xml_parser = new ilGroupXMLParser($grp_xml,$target_id);
 		$new_ref_id = $xml_parser->startParsing();
 
 		return $new_ref_id ? $new_ref_id : "0";
@@ -130,9 +130,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}
 
 
-		include_once 'classes/class.ilGroupImportParser.php';
-		$xml_parser = new ilGroupImportParser($grp_xml, -1);
-		$xml_parser->setMode(ilGroupImportParser::$UPDATE);
+		include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
+		$xml_parser = new ilGroupXMLParser($grp_xml, -1);
+		$xml_parser->setMode(ilGroupXMLParser::$UPDATE);
 		$xml_parser->setGroup($grp);
 		$new_ref_id = $xml_parser->startParsing();
 
@@ -182,7 +182,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}
 
 
-		include_once 'classes/class.ilGroupXMLWriter.php';
+		include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';
 
 		$xml_writer = new ilGroupXMLWriter($grp_obj);
 		$xml_writer->start();
@@ -454,7 +454,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 #print_r($ref_ids);		
 		include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
 		include_once 'Modules/Group/classes/class.ilObjGroup.php';
-		include_once 'classes/class.ilGroupXMLWriter.php';	
+		include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';	
 
 		$xmlResultSet = new ilXMLResultSet();
 		$xmlResultSet->addColumn("ref_id");
