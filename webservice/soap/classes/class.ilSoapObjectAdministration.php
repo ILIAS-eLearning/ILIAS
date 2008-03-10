@@ -1065,7 +1065,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$source_object_type,
 				$target_id,
 				$source_id,
-				$options, false);
+				$options, true);
+			
 		} else {
 			// create copy wizard settings
 			$copy_id = ilCopyWizardOptions::_allocateCopyId();
