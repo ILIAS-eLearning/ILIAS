@@ -20,6 +20,7 @@ class ilCalendarUserSettings
 	public function __construct($user)
 	{
 		$this->user = $user;
+		$this->read();
 	}
 	
 	/**
