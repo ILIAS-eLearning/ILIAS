@@ -1348,7 +1348,7 @@ class ilObjGroup extends ilContainer
 
 	function exportXML()
 	{
-		include_once 'classes/class.ilGroupXMLWriter.php';
+		include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';
 
 		$xml_writer = new ilGroupXMLWriter($this);
 		$xml_writer->start();
@@ -1401,9 +1401,9 @@ class ilObjGroup extends ilContainer
 
 	function _importFromXMLString($xml,$parent_id)
 	{
-		include_once 'classes/class.ilGroupImportParser.php';
+		include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
 
-		$import_parser = new ilGroupImportParser($xml,$parent_id);
+		$import_parser = new ilGroupXMLParser($xml,$parent_id);
 
 		return $import_parser->startParsing();
 	}
