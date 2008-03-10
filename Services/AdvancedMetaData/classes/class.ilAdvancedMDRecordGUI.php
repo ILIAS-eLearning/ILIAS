@@ -213,6 +213,7 @@ class ilAdvancedMDRecordGUI
 	 					$text->setSize(40);
 	 					$text->setMaxLength(512);
 	 					$text->setDisabled($value->isDisabled());
+	 					$text->setInfo($def->getDescription());
 	 					$this->form->addItem($text);
 	 					break;
 	 					
@@ -221,6 +222,8 @@ class ilAdvancedMDRecordGUI
 	 					$select->setOptions($def->getFieldValuesForSelect());
 	 					$select->setValue($value->getValue());
 	 					$select->setDisabled($value->isDisabled());
+	 					$select->setInfo($def->getDescription());
+
 	 					$this->form->addItem($select);
 	 					break;
 	 					
@@ -232,6 +235,7 @@ class ilAdvancedMDRecordGUI
 							'md_activated['.$def->getFieldId().']',
 							$value->getValue() ? true : false);
 						$time->setDisabled($value->isDisabled());
+						$time->setInfo($def->getDescription());
 	 					$this->form->addItem($time);
 	 					break;
 	 			}
