@@ -353,8 +353,7 @@ class ilContainer extends ilObject
 		$wizard_options->storeTree($clone_source);
 		#print_r($options);
 		// Duplicate session to avoid logout problems with backgrounded SOAP calls
-		$new_session_id = duplicate_session($session_id); 
-		#die();
+		$new_session_id = duplicate_session($session_id);
 		// Start cloning process using soap call
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
@@ -364,7 +363,7 @@ class ilContainer extends ilObject
 		$soap_client->enableWSDL(true);
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
-		if($soap_client->init() && $use_soap)
+		if($soap_client->init())
 		{
 			$ilLog->write(__METHOD__.': Calling soap clone method...');
 			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$client_id, $copy_id));
@@ -377,9 +376,9 @@ class ilContainer extends ilObject
 			include_once('./webservice/soap/include/inc.soap_functions.php');
 			$res = ilClone($new_session_id.'::'.$client_id, $copy_id);
 		}
-				
-		// Check if copy is in progress
-		if(ilCopyWizardOptions::_isFinished($copy_id))
+
+		// Check if copy is in progress or if this has been called by soap (don't wait for finishing)
+		if(ilCopyWizardOptions::_isFinished($copy_id) || $soap_call)
 		{
 			return $res;
 		}
