@@ -75,9 +75,16 @@ class ilCalendarSchedule
 	 * @param ilDate start
 	 * 
 	 */
-	public function getByDay(ilDateTime $a_start,$a_timezone)
+	public function getByDay(ilDate $a_start,$a_timezone)
 	{
 		$start = new ilDateTime($a_start->get(IL_CAL_DATETIME),IL_CAL_DATETIME,$this->timezone);
+		$fstart = new ilDate($a_start->get(IL_CAL_UNIX),IL_CAL_UNIX);
+		$fend = clone $fstart;
+		
+		$f_unix_start = $fstart->get(IL_CAL_UNIX);
+		$fend->increment(ilDateTime::DAY,1);
+		$f_unix_end = $fend->get(IL_CAL_UNIX);
+		
 		$unix_start = $start->get(IL_CAL_UNIX);
 		$start->increment(ilDateTime::DAY,1);
 		$unix_end = $start->get(IL_CAL_UNIX);
@@ -85,7 +92,15 @@ class ilCalendarSchedule
 		$counter = 0;
 	 	foreach($this->schedule as $schedule)
 	 	{
-	 		if((($unix_start <= $schedule['dstart']) and ($unix_end > $schedule['dstart'])) or
+	 		if($schedule['fullday'])
+	 		{
+		 		if(($f_unix_start == $schedule['dstart']) or
+		 			($f_unix_start > $schedule['dstart'] and $f_unix_end <= $schedule['dend']))
+	 			{
+		 			$tmp_schedule[] = $schedule;
+	 			}
+	 		}
+	 		elseif((($unix_start <= $schedule['dstart']) and ($unix_end > $schedule['dstart'])) or
 	 			(($unix_start <= $schedule['dend']) and ($unix_end > $schedule['dend'])) or
 	 			($unix_start >= $schedule['dstart'] and $unix_end < $schedule['dend']))
 	 		{
@@ -109,6 +124,7 @@ class ilCalendarSchedule
 			$this->schedule[$counter]['event'] = $event;
 			$this->schedule[$counter]['dstart'] = $event->getStart()->get(IL_CAL_UNIX);
 			$this->schedule[$counter]['dend'] = $event->getEnd()->get(IL_CAL_UNIX);
+			$this->schedule[$counter]['fullday'] = $event->isFullday();
 			$counter++;
 		}
 	}
