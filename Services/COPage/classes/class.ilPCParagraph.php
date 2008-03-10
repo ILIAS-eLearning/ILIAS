@@ -54,12 +54,34 @@ class ilPCParagraph extends ilPageContent
 	}
 
 
-	function createAtNode (&$node) {
+	function createAtNode(&$node)
+	{
 		$this->node = $this->createPageContentNode();
 		$this->par_node =& $this->dom->create_element("Paragraph");
 		$this->par_node =& $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
 		$node->append_child ($this->node);
+	}
+
+	/**
+	* Create paragraph node (incl. page content node)
+	* after given node.
+	*/
+	function createAfter($node)
+	{
+		$this->node = $this->createPageContentNode(false);
+		if($succ_node = $node->next_sibling())
+		{
+			$this->node = $succ_node->insert_before($this->node, $succ_node);
+		}
+		else
+		{
+			$parent_node = $node->parent_node();
+			$this->node = $parent_node->append_child($this->node);
+		}
+		$this->par_node = $this->dom->create_element("Paragraph");
+		$this->par_node = $this->node->append_child($this->par_node);
+		$this->par_node->set_attribute("Language", "");
 	}
 	
 	
@@ -73,13 +95,28 @@ class ilPCParagraph extends ilPageContent
 	}
 
 
+	
 	/**
 	* set (xml) content of text paragraph
 	*/
-	function setText($a_text)
+	function setText($a_text, $a_auto_split = false)
 	{
+		if (!is_array($a_text))
+		{
+			$text = array(array("level" => 0, "text" => $a_text));
+		}
+		else
+		{
+			$text = $a_text;
+		}
+		
+		if ($a_auto_split)
+		{
+			$text = $this->autoSplit($a_text);
+		}
+
 		// DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
-		$temp_dom = @domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$a_text.'</Paragraph>',
+		$temp_dom = @domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
 
 		//$this->text = $a_text;
@@ -93,7 +130,6 @@ class ilPCParagraph extends ilPageContent
 				$this->par_node->remove_child($children[$i]);
 			}
 
-
 			// copy new content children in paragraph node
 			$xpc = xpath_new_context($temp_dom);
 			$path = "//Paragraph";
@@ -104,10 +140,36 @@ class ilPCParagraph extends ilPageContent
 				$new_childs = $new_par_node->child_nodes();
 				for($i=0; $i<count($new_childs); $i++)
 				{
+
 					$cloned_child =& $new_childs[$i]->clone_node(true);
 					$this->par_node->append_child($cloned_child);
 				}
 			}
+			
+			$ok = true;
+			
+			$c_node = $this->node;
+			// add other chunks afterwards
+			for ($i=1; $i<count($text); $i++)
+			{
+				if ($ok)
+				{
+					$next_par = new ilPCParagraph($this->dom);
+					$next_par->createAfter($c_node);
+					$next_par->setLanguage($this->getLanguage());
+					if ($text[$i]["level"] > 0)
+					{
+						$next_par->setCharacteristic("Headline".$text[$i]["level"]);
+					}
+					else
+					{
+						$next_par->setCharacteristic($this->getCharacteristic());
+					}
+					$ok = $next_par->setText($text[$i]["text"], false);
+					$c_node = $next_par->node;
+				}
+			}
+			
 			return true;
 		}
 		else
@@ -139,7 +201,7 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
-	*
+	* Set Characteristic of paragraph
 	*/
 	function setCharacteristic($a_char)
 	{
@@ -617,9 +679,132 @@ echo htmlentities($a_text);*/
 	}
 
 	/**
+	* This function splits a paragraph text that has been already
+	* processed with input2xml at each header position =header1=,
+	* ==header2== or ===header3=== and returns an array that contains
+	* the single chunks.
+	*/
+	function autoSplit($a_text)
+	{
+		$chunks = array();
+		$c_text = $a_text;
+		while ($c_text != "")
+		{
+			$s1 = strpos($c_text, "<br />=");
+			if (is_int($s1))
+			{
+				$s2 = strpos($c_text, "<br />==");
+				if (is_int($s2) && $s2 <= $s1)
+				{
+					$s3 = strpos($c_text, "<br />===");
+					if (is_int($s3) && $s3 <= $s2)		// possible level three header
+					{
+						$n = strpos($c_text, "<br />", $s3 + 1);
+						if ($n > ($s3+9) && substr($c_text, $n-3, 9) == "===<br />")
+						{
+							// found level three header
+							if ($s3 > 0)
+							{
+								$chunks[] = array("level" => 0,
+									"text" => $this->removeTrailingBr($head.substr($c_text, 0, $s3)));
+								$head = "";
+							}
+							$chunks[] = array("level" => 3,
+								"text" => trim(substr($c_text, $s3+9, $n-$s3-12)));
+							$c_text = $this->removePrecedingBr(substr($c_text, $n+6));
+						}
+						else
+						{
+							$head = substr($c_text, 0, $n);
+							$c_text = substr($c_text, $n);
+						}
+					}
+					else	// possible level two header
+					{
+						$n = strpos($c_text, "<br />", $s2 + 1);
+						if ($n > ($s2+8) && substr($c_text, $n-2, 8) == "==<br />")
+						{
+							// found level two header
+							if ($s2 > 0)
+							{
+								$chunks[] = array("level" => 0,
+									"text" => $this->removeTrailingBr($head.substr($c_text, 0, $s2)));
+								$head = "";
+							}
+							$chunks[] = array("level" => 2, "text" => trim(substr($c_text, $s2+8, $n-$s2-10)));
+							$c_text = $this->removePrecedingBr(substr($c_text, $n+6));
+						}
+						else
+						{
+							$head = substr($c_text, 0, $n);
+							$c_text = substr($c_text, $n);
+						}
+					}
+				}
+				else	// possible level one header
+				{
+					$n = strpos($c_text, "<br />", $s1 + 1);
+					if ($n > ($s1+7) && substr($c_text, $n-1, 7) == "=<br />")
+					{
+						// found level one header
+						if ($s1 > 0)
+						{
+							$chunks[] = array("level" => 0,
+								"text" => $this->removeTrailingBr($head.substr($c_text, 0, $s1)));
+							$head = "";
+						}
+						$chunks[] = array("level" => 1, "text" => trim(substr($c_text, $s1+7, $n-$s1-8)));
+						$c_text = $this->removePrecedingBr(substr($c_text, $n+6));
+					}
+					else
+					{
+						$head = substr($c_text, 0, $n);
+						$c_text = substr($c_text, $n);
+					}
+				}
+			}
+			else
+			{
+				$chunks[] = array("level" => 0, "text" => $head.$c_text);
+				$head = "";
+				$c_text = "";
+			}
+		}
+		if (count($chunks) == 0)
+		{
+			$chunks[] = array("level" => 0, "text" => "");
+		}
+		
+		return $chunks;
+	}
+	
+	/**
+	* Remove preceding <br />
+	*/
+	function removePrecedingBr($a_str)
+	{
+		if (substr($a_str, 0, 6) == "<br />")
+		{
+			$a_str = substr($a_str, 6);
+		}
+		return $a_str;
+	}
+
+	/**
+	* Remove trailing <br />
+	*/
+	function removeTrailingBr($a_str)
+	{
+		if (substr($a_str, strlen($a_str) - 6) == "<br />")
+		{
+			$a_str = substr($a_str, 0, strlen($a_str) - 6);
+		}
+		return $a_str;
+	}
+	
+	/**
 	* need to override getType from ilPageContent to distinguish between Pararagraph and Source
 	*/
-
 	function getType()
 	{
 		return ($this->getCharacteristic() == "Code")?"src":parent::getType();

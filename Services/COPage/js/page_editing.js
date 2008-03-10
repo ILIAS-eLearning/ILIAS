@@ -3,6 +3,8 @@ var Mposx = 0;
 var Mposy = 0;
 var sel_edit_areas = Array();
 var edit_area_class = Array();
+var openedMenu="";					// menu currently opened
+var current_mouse_over_id;
 
 document.onmousemove=followmouse1;
 
@@ -127,6 +129,8 @@ function doMouseOver (id, mclass)
 	{
 		obj.className = mclass;
 	}
+	
+	current_mouse_over_id = id;
 }
 
 /**
@@ -209,16 +213,6 @@ function doMouseDown(id)
 	setTimeout("mouseDownBlocked = false;",200);
 	
 	obj = document.getElementById(id);
-	if (sel_edit_areas[id])
-	{
-		sel_edit_areas[id] = false;
-		obj.className = "il_editarea_active";
-	}
-	else
-	{
-		sel_edit_areas[id] = true;
-		obj.className = "il_editarea_active_selected";
-	}
 	
 	if (!mouseIsDown) {
 //		dragId = id;
@@ -312,10 +306,11 @@ function nextMenuClick() {
 	menuBlocked = false;
 }
 
-var openedMenu="";
+/**
+* Process Single Mouse Click
+*/
 function doMouseClick(e, id) 
 {
-//alert(id);
 	if(menuBlocked || mouseUpBlocked) return;
 	menuBlocked = true;
 	setTimeout("nextMenuClick()",100);
@@ -336,11 +331,9 @@ function doMouseClick(e, id)
 	
 	Mposx = ilGetMouseX(e);
 	Mposy = ilGetMouseY(e);
-//alert("1");
+
 	if (!dragDropShow) 
 	{
-		
-//alert("-" + openedMenu + "-" + nextMenu + "-");
 		if (openedMenu != "" || openedMenu == nextMenu) 
 		{
 			hideMenu(openedMenu);
@@ -359,6 +352,27 @@ function doMouseClick(e, id)
 			showMenu(openedMenu, Mposx, Mposy-10);
 		}
 		doCloseContextMenuCounter = 20;
+	}
+}
+
+/**
+* Process Double Mouse Click
+*/
+function doMouseDblClick(e, id) 
+{
+	if (current_mouse_over_id == id)
+	{
+		obj = document.getElementById(id);
+		if (sel_edit_areas[id])
+		{
+			sel_edit_areas[id] = false;
+			obj.className = "il_editarea_active";
+		}
+		else
+		{
+			sel_edit_areas[id] = true;
+			obj.className = "il_editarea_active_selected";
+		}
 	}
 }
 
