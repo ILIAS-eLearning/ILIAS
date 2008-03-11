@@ -1562,8 +1562,7 @@ class ilUtil
 			return true;
 		}
 		
-		//global $ilias;
-
+		// use unzip command line binary
 
 		// unzip
 		$cdir = getcwd();

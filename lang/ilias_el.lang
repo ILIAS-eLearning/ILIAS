@@ -196,8 +196,6 @@ assessment#:#direct_feedback#:#Επαλήθευση της λύσης σας
 assessment#:#duplicate#:#Αντίγραφο
 assessment#:#duplicate_matching_values_selected#:#Επιλέξατε διπλές τιμές ταιριάσματος!
 assessment#:#duplicate_order_values_entered#:#Εισάγατε διπλές τιμές σειράς!
-assessment#:#duplicate_qpl#:#Διπλή πηγή ερωτήσεων για το διαγώνισμα
-assessment#:#duplicate_tst#:#Διπλό τεστ
 assessment#:#ects_allow_ects_grades#:#Εμφάνιση βαθμού ECTS επιπλέον του τελικού βαθμού
 assessment#:#ects_fill_out_all_values#:#Παρακαλώ εισάγετε μια τιμή για κάθε βαθμό ECTS!
 assessment#:#ects_grade#:#Βαθμός ECTS
@@ -385,7 +383,6 @@ assessment#:#qpl_delete_no_deleteable_questions#:#Όλες οι ερωτήσει
 assessment#:#qpl_delete_rbac_error#:#Δεν έχετε δικαίωμα να διαγράψετε την ερώτηση!
 assessment#:#qpl_delete_select_none#:#Παρακαλώ επιλέξτε τουλάχιστο μια ερώτηση προς διαγραφή!
 assessment#:#qpl_display_fullsize_image#:#Κάντε κλικ εδώ για να εμφανίσετε την αρχική εικόνα!
-assessment#:#qpl_duplicate_select_none#:#Παρακαλώ επιλέξτε τουλάχιστο μια ερώτηση προς αναπαραγωγή!
 assessment#:#qpl_edit_rbac_error#:#Δεν έχετε δικαίωμα να επεξεργαστείτε την ερώτηση!
 assessment#:#qpl_edit_select_multiple#:#Παρακαλώ επιλέξτε μόνο μια ερώτηση για επεξεργασία
 assessment#:#qpl_edit_select_none#:#Παρακαλώ επιλέξτε μια ερώτηση για επεξεργασία
@@ -3473,7 +3470,6 @@ content#:#citate_from#:#Παραπομπή από ...
 content#:#citate_page#:#Παραπομπή σ' αυτή τη σελίδα
 content#:#citate_to#:#Παραπομπή σε ...
 content#:#cont_Additional#:#Επιπρόσθετα
-content#:#cont_Alphabetic#:#Αλφαβητικά Α, Β, ...
 content#:#cont_Circle#:#Κύκλος
 content#:#cont_Citation#:#Παραπομπή
 content#:#cont_Code#:#Κώδικας
@@ -3488,7 +3484,6 @@ content#:#cont_Number#:#Αριθμός
 content#:#cont_Poly#:#Πολύγωνο
 content#:#cont_Rect#:#Ορθογώνιο
 content#:#cont_Remark#:#Παρατήρηση
-content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_TableContent#:#Πίνακας Περιεχομένων 
 content#:#cont_Unordered#:#Μη ταξινομημένο
 content#:#cont_act_number#:#Αρίθμηση Κεφαλαίου
@@ -6092,7 +6087,6 @@ survey#:#qpl_define_questionblock_select_missing#:#Παρακαλώ επιλέξ
 survey#:#qpl_delete_phrase_select_none#:#Παρακαλώ επιλέξτε τουλάχιστον μία φράση για διαγραφή
 survey#:#qpl_delete_rbac_error#:#Δεν έχετε δικαιώματα να διαγράψετε την(τις) ερώτηση (ερωτήσεις)!
 survey#:#qpl_delete_select_none#:#Παρακαλώ επιλέξτε τουλάχιστον μία ερώτηση για διαγραφή!
-survey#:#qpl_duplicate_select_none#:#Παρακαλώ επιλέξτε τουλάχιστον μία ερώτηση για δημιουργία διπλότυπου!
 survey#:#qpl_export_select_none#:#Παρακαλώ επιλέξτε τουλάχιστον μία ερώτηση για εξαγωγή
 survey#:#qpl_past_questions_confirmation#:#Είστε σίγουροι ότι θέλετε να επικολλήσετε την ακόλουθη ερώτηση στη μνήμη ερωτήσεων;
 survey#:#qpl_phrases_deleted#:#Διαγραμμένες φράσεις
@@ -7751,3 +7745,193 @@ rbac#:#mds_edit_permission#:#Change permission settings###28 12 2007 new variabl
 rbac#:#mds_visible#:#Metadata settings are visible###28 12 2007 new variable
 rbac#:#mds_read#:#Read access to Metadata settings###28 12 2007 new variable
 rbac#:#mds_write#:#Edit Metadata setting###28 12 2007 new variable
+assessment#:#certificate_var_user_title#:#Dr.###11 03 2008 new variable
+assessment#:#certificate_var_user_institution#:#ILIAS Open Source###11 03 2008 new variable
+assessment#:#certificate_var_user_department#:#Customer Support###11 03 2008 new variable
+assessment#:#certificate_var_user_street#:#100 Main Street###11 03 2008 new variable
+assessment#:#certificate_var_user_city#:#Anytown, NY###11 03 2008 new variable
+assessment#:#certificate_var_user_zipcode#:#12345###11 03 2008 new variable
+assessment#:#certificate_var_user_country#:#USA###11 03 2008 new variable
+assessment#:#certificate_ph_title#:#Title of the user###11 03 2008 new variable
+assessment#:#certificate_ph_institution#:#Institution of the user###11 03 2008 new variable
+assessment#:#certificate_ph_department#:#Department of the user###11 03 2008 new variable
+assessment#:#certificate_ph_street#:#Street of the user's address###11 03 2008 new variable
+assessment#:#certificate_ph_city#:#City of the user's address###11 03 2008 new variable
+assessment#:#certificate_ph_zipcode#:#ZIP code of the user's address###11 03 2008 new variable
+assessment#:#certificate_ph_country#:#Country of the user's address###11 03 2008 new variable
+common#:#obj_cmps#:#Modules, Services and Plugins###11 03 2008 new variable
+cmps#:#cmps_group#:#Group###11 03 2008 new variable
+cmps#:#cmps_current_version#:#Current Version###11 03 2008 new variable
+cmps#:#cmps_file_version#:#Update File Version###11 03 2008 new variable
+cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information###11 03 2008 new variable
+cmps#:#cmps_module#:#Module###11 03 2008 new variable
+cmps#:#cmps_no_language_file_available#:#No language file available.###11 03 2008 new variable
+cmps#:#cmps_no_db_update_file_available#:#No DB update script available.###11 03 2008 new variable
+cmps#:#cmps_version#:#Version###11 03 2008 new variable
+cmps#:#cmps_update#:#Update###11 03 2008 new variable
+cmps#:#cmps_update_db#:#Update DB###11 03 2008 new variable
+cmps#:#cmps_refresh#:#Refresh###11 03 2008 new variable
+cmps#:#cmps_activate#:#Activate###11 03 2008 new variable
+cmps#:#cmps_deactivate#:#Deactivate###11 03 2008 new variable
+cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version###11 03 2008 new variable
+cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version###11 03 2008 new variable
+cmps#:#cmps_dir#:#Directory###11 03 2008 new variable
+cmps#:#cmps_active#:#Active###11 03 2008 new variable
+cmps#:#cmps_inactive#:#Inactive###11 03 2008 new variable
+cmps#:#cmps_status#:#Status###11 03 2008 new variable
+cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.###11 03 2008 new variable
+cmps#:#cmps_needs_update#:#Needs update.###11 03 2008 new variable
+cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.###11 03 2008 new variable
+cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.###11 03 2008 new variable
+cmps#:#cmps_show_details#:#Show Details###11 03 2008 new variable
+cmps#:#cmps_plugin_slot#:#Plugin Slot###11 03 2008 new variable
+cmps#:#cmps_component#:#Component###11 03 2008 new variable
+cmps#:#cmps_lang_prefix#:#Language Variables Prefix###11 03 2008 new variable
+cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes###11 03 2008 new variable
+cmps#:#cmps_disable_creation#:#Disable Creation###11 03 2008 new variable
+cmps#:#cmps_rep_object#:#Repository Object Type###11 03 2008 new variable
+cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List###11 03 2008 new variable
+cmps#:#cmps_plugin_dirs#:#Plugin Directories###11 03 2008 new variable
+cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes###11 03 2008 new variable
+common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.###11 03 2008 new variable
+cmps#:#cmps_edit_settings#:#Settings###11 03 2008 new variable
+cmps#:#cmps_modules#:#Modules###11 03 2008 new variable
+cmps#:#cmps_plugins#:#Plugins###11 03 2008 new variable
+cmps#:#cmps_plugin#:#Plugin###11 03 2008 new variable
+cmps#:#cmps_services#:#Services###11 03 2008 new variable
+cmps#:#cmps_service#:#Service###11 03 2008 new variable
+cmps#:#cmps_save_options#:#Save Options###11 03 2008 new variable
+cmps#:#cmps_main_dir#:#Main Directory###11 03 2008 new variable
+cmps#:#cmps_plugin_file#:#Plugin File###11 03 2008 new variable
+cmps#:#cmps_db_update#:#DB Update Script###11 03 2008 new variable
+cmps#:#cmps_available#:#Available###11 03 2008 new variable
+cmps#:#cmps_missing#:#Missing###11 03 2008 new variable
+cmps#:#cmps_class_file#:#Class File###11 03 2008 new variable
+cmps#:#cmps_lang_files#:#Language Files###11 03 2008 new variable
+cmps#:#cmps_database#:#Database###11 03 2008 new variable
+cmps#:#cmps_languages#:#Languages###11 03 2008 new variable
+cmps#:#cmps_basic_files#:#Basic Files###11 03 2008 new variable
+cmps#:#cmps_name#:#Name###11 03 2008 new variable
+cmps#:#cmps_id#:#ID###11 03 2008 new variable
+common#:#wiki#:#Wiki###11 03 2008 new variable
+common#:#obj_wiki#:#Wiki###11 03 2008 new variable
+common#:#objs_wiki#:#Wikis###11 03 2008 new variable
+common#:#objs_lres#:#Learning Resources###11 03 2008 new variable
+common#:#wiki_new#:#New Wiki###11 03 2008 new variable
+common#:#wiki_add#:#Add Wiki###11 03 2008 new variable
+wiki#:#wiki_settings#:#Wiki Settings###11 03 2008 new variable
+wiki#:#wiki_what_links_to_page#:#What links to page "%s"?###11 03 2008 new variable
+wiki#:#wiki_start_page#:#Start Page###11 03 2008 new variable
+wiki#:#wiki_start_page_title#:#Start Page Title###11 03 2008 new variable
+wiki#:#wiki_main_page#:#Main Page###11 03 2008 new variable
+wiki#:#wiki_short_title#:#Short Title###11 03 2008 new variable
+wiki#:#wiki_short_title_desc#:#This title will be used in permanent links to the Wiki.###11 03 2008 new variable
+wiki#:#wiki_article#:#Article###11 03 2008 new variable
+wiki#:#wiki_discussion#:#Discussion###11 03 2008 new variable
+wiki#:#wiki_edit#:#Edit###11 03 2008 new variable
+wiki#:#wiki_history#:#History###11 03 2008 new variable
+wiki#:#wiki_navigation#:#Navigation###11 03 2008 new variable
+wiki#:#wiki_recent_changes#:#Recent Changes###11 03 2008 new variable
+wiki#:#wiki_what_links_here#:#What Links Here?###11 03 2008 new variable
+wiki#:#wiki_print_view#:#Print View###11 03 2008 new variable
+wiki#:#wiki_random_page#:#Random Page###11 03 2008 new variable
+wiki#:#wiki_all_pages#:#All Pages###11 03 2008 new variable
+wiki#:#wiki_new_pages#:#New Pages###11 03 2008 new variable
+wiki#:#wiki_popular_pages#:#Popular Pages###11 03 2008 new variable
+wiki#:#wiki_media_list#:#Media List###11 03 2008 new variable
+content#:#cont_revision#:#Revision###11 03 2008 new variable
+content#:#cont_pc_new#:#New Content###11 03 2008 new variable
+content#:#cont_pc_modified#:#Modified Content###11 03 2008 new variable
+content#:#cont_pc_deleted#:#Deleted Content###11 03 2008 new variable
+content#:#cont_page_compare#:#Compare Selected Revisions###11 03 2008 new variable
+content#:#cont_previous_rev#:#Previous Revision###11 03 2008 new variable
+content#:#cont_next_rev#:#Next Revision###11 03 2008 new variable
+content#:#cont_latest_rev#:#Latest Revision###11 03 2008 new variable
+content#:#content_page_history#:#Page History###11 03 2008 new variable
+content#:#content_current#:#Current###11 03 2008 new variable
+content#:#content_last#:#Last###11 03 2008 new variable
+content#:#cont_alphabetic#:#Alphabetic A, B, ...###11 03 2008 new variable
+content#:#cont_alphabetic_s#:#Alphabetic a, b, ... ###11 03 2008 new variable
+content#:#cont_roman#:#Roman I, II, ...###11 03 2008 new variable
+content#:#cont_roman_s#:#Roman i, ii, ...  ###11 03 2008 new variable
+content#:#cont_ed_insert_section#:#Insert Section###11 03 2008 new variable
+survey#:#info_anonymize_with_code#:#Anonymized Survey with Survey Code Access###11 03 2008 new variable
+survey#:#info_anonymize_registered_user#:#Anonymized Survey###11 03 2008 new variable
+survey#:#info_anonymize_without_code#:#Anonymized Survey without Access Restrictions###11 03 2008 new variable
+common#:#obj_qpl_duplicate#:#Copy Question Pool Test###11 03 2008 new variable
+common#:#obj_spl_duplicate#:#Copy Question Pool Survey###11 03 2008 new variable
+common#:#obj_qpl_select#:#-- Please select one Question Pool Test --###11 03 2008 new variable
+common#:#obj_spl_select#:#-- Please select one Question Pool Survey --###11 03 2008 new variable
+common#:#obj_calendar#:#Calendar###11 03 2008 new variable
+common#:#obj_cals_desc#:#General Calendar settings.###11 03 2008 new variable
+rbac#:#cals_edit_permission#:#Change permission settings###11 03 2008 new variable
+rbac#:#cals_visible#:#Calendar settings are visible###11 03 2008 new variable
+rbac#:#cals_read#:#Read access to Calendar settings###11 03 2008 new variable
+rbac#:#cals_write#:#Edit Calendar settings###11 03 2008 new variable
+common#:#obj_cat_duplicate#:#Copy Category###11 03 2008 new variable
+common#:#obj_cat_select#:#-- Please select one Category --###11 03 2008 new variable
+common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
+survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
+survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
+payment#:#object_deleted#:#Object Deleted###11 03 2008 new variable
+payment#:#user_deleted#:#User Deleted###11 03 2008 new variable
+payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
+mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.###11 03 2008 new variable
+payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.###11 03 2008 new variable
+common#:#webfolder#:#Webfolder###11 03 2008 new variable
+common#:#mount_webfolder#:#Open as webfolder###11 03 2008 new variable
+common#:#obj_file_inline#:#Learning Module File###11 03 2008 new variable
+common#:#yesterday#:#Yesterday###11 03 2008 new variable
+common#:#tomorrow#:#Tomorrow###11 03 2008 new variable
+common#:#show_profile#:#Show profile###11 03 2008 new variable
+common#:#copy_selected_items#:#Copy###11 03 2008 new variable
+common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###11 03 2008 new variable
+common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###11 03 2008 new variable
+common#:#disk_space_used#:#Disk space used###11 03 2008 new variable
+common#:#in_use_by#:#In use by###11 03 2008 new variable
+common#:#filename_extension_missing#:#Filename extension missing###11 03 2008 new variable
+common#:#filename_special_characters#:#/ is not allowed in filenames###11 03 2008 new variable
+common#:#filename_windows_special_characters#:#\/:*?"<>| are not allowed in Windows filenames###11 03 2008 new variable
+common#:#filename_windows_empty_extension#:#. at the end of a filename is not allowed on Windows###11 03 2008 new variable
+common#:#filename_windows_webdav_issue#:## is not supported in Windows webfolders###11 03 2008 new variable
+common#:#filename_special_filename#:#. and .. are reserved filenames###11 03 2008 new variable
+common#:#filename_visibility#:#Visibility###11 03 2008 new variable
+common#:#filename_hidden_unix_file#:#Hidden Unix file###11 03 2008 new variable
+common#:#filename_hidden_backup_file#:#Hidden backup file###11 03 2008 new variable
+common#:#filename_interoperability#:#Interoperability###11 03 2008 new variable
+common#:#readcount_anonymous_users#:#Number of anonymous read accesses###11 03 2008 new variable
+common#:#readcount_users#:#Number of non-anonymous read accesses###11 03 2008 new variable
+common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users###11 03 2008 new variable
+common#:#state_changed#:#changed###11 03 2008 new variable
+common#:#state_changed_inside#:#changed inside###11 03 2008 new variable
+common#:#state_new#:#new###11 03 2008 new variable
+common#:#state_unread#:#unread###11 03 2008 new variable
+common#:#filename_extension_short#:#Extension###11 03 2008 new variable
+common#:#accept_date#:#User agreement accepted on###11 03 2008 new variable
+common#:#obj_facs#:#File Access###11 03 2008 new variable
+common#:#obj_facs_desc#:#Configure access to file objects.###11 03 2008 new variable
+common#:#enable_webdav#:#Enable WebDAV access###11 03 2008 new variable
+common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>###11 03 2008 new variable
+common#:#webfolder_index_of#:#Index of %1$s###11 03 2008 new variable
+common#:#webfolder_instructions#:#Webfolder instructions###11 03 2008 new variable
+common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.###11 03 2008 new variable
+common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder###11 03 2008 new variable
+common#:#webfolder_instructions_text#:#<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[IF_WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>###11 03 2008 new variable
+common#:#use_default_instructions#:#Use default instructions.###11 03 2008 new variable
+common#:#use_customized_instructions#:#Use customized instructions:###11 03 2008 new variable
+common#:#inline_file_extensions#:#Web-enabled files###11 03 2008 new variable
+common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.###11 03 2008 new variable
+common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.###11 03 2008 new variable
+common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.###11 03 2008 new variable
+common#:#deleted_user_account#:#Deleted user account###11 03 2008 new variable
+dateplaner#:#cal_user_settings#:#Calendar Settings###11 03 2008 new variable
+dateplaner#:#cal_user_timezone#:#Timezone###11 03 2008 new variable
+dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.###11 03 2008 new variable
+dateplaner#:#cal_week_start#:#Week Start###11 03 2008 new variable
+dateplaner#:#cal_global_settings#:#Global Settings###11 03 2008 new variable
+dateplaner#:#cal_server_tz#:#Server Timezone###11 03 2008 new variable
+dateplaner#:#cal_def_timezone#:#Default Timezone###11 03 2008 new variable
+dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.###11 03 2008 new variable
+dateplaner#:#cal_def_week_start#:#Week Start###11 03 2008 new variable
+common#:#obj_cals#:#Calendar###11 03 2008 new variable

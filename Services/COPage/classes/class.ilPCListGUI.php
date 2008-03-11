@@ -89,10 +89,10 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ORDER", $this->lng->txt("cont_order"));
 		$order = array("Unordered" => $this->lng->txt("cont_Unordered"),
 			"Number" => $this->lng->txt("cont_Number"),
-			"Roman" => $this->lng->txt("cont_Roman"),
-			"roman" => $this->lng->txt("cont_roman"),
-			"Alphabetic" => $this->lng->txt("cont_Alphabetic"),
-			"alphabetic" => $this->lng->txt("cont_alphabetic"));
+			"Roman" => $this->lng->txt("cont_roman"),
+			"roman" => $this->lng->txt("cont_roman_s"),
+			"Alphabetic" => $this->lng->txt("cont_alphabetic"),
+			"alphabetic" => $this->lng->txt("cont_alphabetic_s"));
 		$select_order = ilUtil::formSelect ("","list_order",$order,false,true);
 		$this->tpl->setVariable("SELECT_ORDER", $select_order);
 		$this->tpl->setVariable("TXT_NR_ITEMS", $this->lng->txt("cont_nr_items"));
@@ -153,10 +153,10 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ORDER", $this->lng->txt("cont_order"));
 		$order = array("Unordered" => $this->lng->txt("cont_Unordered"),
 			"Number" => $this->lng->txt("cont_Number"),
-			"Roman" => $this->lng->txt("cont_Roman"),
-			"roman" => $this->lng->txt("cont_roman"),
-			"Alphabetic" => $this->lng->txt("cont_Alphabetic"),
-			"alphabetic" => $this->lng->txt("cont_alphabetic"));
+			"Roman" => $this->lng->txt("cont_roman"),
+			"roman" => $this->lng->txt("cont_roman_s"),
+			"Alphabetic" => $this->lng->txt("cont_alphabetic"),
+			"alphabetic" => $this->lng->txt("cont_alphabetic_s"));
 		$select_order = ilUtil::formSelect ("","list_order",$order,false,true);
 		$this->tpl->setVariable("SELECT_ORDER", $select_order);
 
