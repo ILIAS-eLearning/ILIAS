@@ -130,7 +130,7 @@ administration#:#restoring_trash#:#Genskaber affald...
 administration#:#restoring_unbound_objs#:#Genskaber ikke bundne objekter og under objekter...
 administration#:#scan#:#Scan
 administration#:#scan_completed#:#Scan færdig
-administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###23 Dec 2005 new variable
+administration#:#scan_desc#:#Undersøg systemet for ødelagte/ugyldige/manglende objekter.
 administration#:#scan_details#:#Skan detaljer
 administration#:#scan_modes#:#Scantilstand anvendt
 administration#:#scanning_system#:#Skanner system...
@@ -147,7 +147,7 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Træ er korrupt! Se scanlog for detaljer
 administration#:#view_last_log#:#Se sidste scanlog
 administration#:#view_log#:#Se detaljer
-administration#:#course_export#:#Course Export###25 02 2007 new variable
+administration#:#course_export#:#Kursus eksport
 administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.###25 02 2007 new variable
 common#:#access_expired#:#expired###25 02 2007 new variable
 common#:#res_links#:#Repository Links###23 08 2007 new variable
@@ -165,11 +165,11 @@ common#:#apply#:#Godkend
 common#:#by#:#Af
 common#:#user_profile_instant_messengers#:#Contacts to Instant Messengers###25 02 2007 new variable
 common#:#instant_messengers#:#Instant Messengers###25 02 2007 new variable
-common#:#im_icq#:#ICQ###25 02 2007 new variable
-common#:#im_yahoo#:#Yahoo###25 02 2007 new variable
-common#:#im_msn#:#MSN###25 02 2007 new variable
-common#:#im_aim#:#AIM###25 02 2007 new variable
-common#:#im_skype#:#Skype###25 02 2007 new variable
+common#:#im_icq#:#ICQ
+common#:#im_yahoo#:#Yahoo
+common#:#im_msn#:#MSN
+common#:#im_aim#:#AIM
+common#:#im_skype#:#Skype
 common#:#im_icq_icon#:#ICQ Logo###25 02 2007 new variable
 common#:#im_yahoo_icon#:#Yahoo Logo###25 02 2007 new variable
 common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
@@ -185,8 +185,8 @@ common#:#edit_properties#:#Egenskaber
 common#:#export#:#Eksport
 common#:#filter#:#Filter:###21 Apr 2005 new variable
 common#:#last_update#:#Sidste opdatering
-common#:#legend#:#Legend###25 02 2007 new variable
-common#:#please_select#:#-- Please Select --
+common#:#legend#:#Legend
+common#:#please_select#:#-- Vælg --
 common#:#select_max_one_item#:#Please select one item only###21 Apr 2005 new variable
 common#:#set_edit_mode#:#Set Edit Mode###29 11 2006 new variable
 common#:#term#:#Term###21 Apr 2005 new variable
@@ -202,10 +202,10 @@ common#:#month#:#Måned
 common#:#months#:#Months
 common#:#note#:#Note
 common#:#save#:#Gem
-common#:#status#:#Status###21 Apr 2005 new variable
+common#:#status#:#Status
 common#:#time#:#Tid
 common#:#title#:#Titel
-common#:#type#:#Type###21 Apr 2005 new variable
+common#:#type#:#Type
 common#:#user#:#Bruger
 common#:#weeks#:#Uger
 common#:#year#:#Year
@@ -455,8 +455,8 @@ common#:#benchmark_settings#:#Benchmarkindstillinger
 common#:#benchmarks#:#Benchmarks###21 Apr 2005 new variable
 common#:#bib_data#:#Bibliografisk data
 common#:#big_icon#:#Stort ikon
-common#:#bkm_import#:#Import bookmarks
-common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.
+common#:#bkm_import#:#Importer foretrukne
+common#:#bkm_import_ok#:#Der blev importeret %d foretrukne og %d mapper.
 common#:#bkm_sendmail#:#Send som vedhæftet
 common#:#bm#:#Foretrukne
 common#:#bmf#:#Mappe til foretrukne
@@ -469,7 +469,7 @@ common#:#bookmarks#:#Foretrukne
 common#:#bookmarks_of#:#Til foretrukne
 common#:#bottom_frame#:#Hovedindhold
 common#:#btn_add#:#Tilføj
-common#:#btn_new_value#:#New value
+common#:#btn_new_value#:#Ny værdi
 common#:#btn_next#:#Continue
 common#:#btn_previous#:#Back
 common#:#btn_remove_system#:#Fjern fra system
@@ -489,7 +489,7 @@ common#:#mcst#:#MediaCast
 common#:#obj_mcst#:#MediaCast
 common#:#objs_mcst#:#MediaCasts
 common#:#mcst_new#:#Ny mediaCast
-common#:#mcst_add#:#Tilføj mediaCast###25 02 2007 new variable
+common#:#mcst_add#:#Tilføj mediaCast
 common#:#obj_pdts#:#Skrivebords indstillinger
 common#:#obj_pdts_desc#:#Configure the Personal Desktop###02 04 2007 new variable
 common#:#move_blocks#:#Flyt blokke
