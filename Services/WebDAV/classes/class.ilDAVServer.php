@@ -85,7 +85,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
      * The WebDAVServer prints lots of log messages to the ilias log, if this	
 	 * variable is set to true.
 	 */
-	private $isDebug = true;
+	private $isDebug = false;
 	
 	/** 
 	* Constructor

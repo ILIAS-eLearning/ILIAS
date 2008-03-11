@@ -60,7 +60,7 @@ class ilObjFolder extends ilContainer
 	 * @param int copy id
 	 * 
 	 */
-	public function cloneObject($a_target_id,$a_copy_id)
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		

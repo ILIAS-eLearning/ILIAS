@@ -74,7 +74,7 @@ class ilObjectDAV
 	 */
 	function getObjectId()
 	{
-		return $this->obj->getId();
+		return ($this->obj == null) ? null : $this->obj->getId();
 	}
 	
 	/**
@@ -338,7 +338,7 @@ class ilObjectDAV
 		global $tree;
 
 		// create and insert Folder in tree
-		require_once 'classes/class.ilObjFolder.php';
+		require_once 'Modules/Folder/classes/class.ilObjFolder.php';
 		$newObj = new ilObjFolder(0);
 		$newObj->setType($this->getILIASCollectionType());
 		$newObj->setTitle($name);
